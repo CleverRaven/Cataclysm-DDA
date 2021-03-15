@@ -383,7 +383,7 @@
     "fear_triggers": [ "FIRE" ],
     "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 21, "into": "mon_bee_mega" },
-    "flags": [ "SEES", "SMELLS", "FLIES", "STUMBLES", "SWARMS", "GROUP_MORALE", "CANPLAY", "PATH_AVOID_FIRE", "LOUDMOVES" ]
+    "flags": [ "SEES", "SMELLS", "FLIES", "STUMBLES", "SWARMS", "GROUP_MORALE", "CANPLAY", "PATH_AVOID_FIRE" ]
   },
   {
     "id": "mon_bee_mega",
@@ -649,7 +649,7 @@
     "fear_triggers": [ "HURT", "FIRE" ],
     "death_function": [ "NORMAL" ],
     "upgrades": { "age_grow": 40, "into": "mon_dragonfly_mega" },
-    "flags": [ "SWARMS", "HEARS", "SEES", "FLIES", "PATH_AVOID_FIRE", "LOUDMOVES" ]
+    "flags": [ "SWARMS", "HEARS", "SEES", "FLIES", "PATH_AVOID_FIRE" ]
   },
   {
     "id": "mon_dragonfly_mega",
@@ -751,7 +751,7 @@
     "fear_triggers": [ "PLAYER_CLOSE", "HURT", "FIRE" ],
     "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 21, "into": "mon_fly_mega" },
-    "flags": [ "SEES", "SMELLS", "FLIES", "STUMBLES", "HIT_AND_RUN", "CANPLAY", "PATH_AVOID_FIRE", "LOUDMOVES" ]
+    "flags": [ "SEES", "SMELLS", "FLIES", "STUMBLES", "HIT_AND_RUN", "CANPLAY", "PATH_AVOID_FIRE" ]
   },
   {
     "id": "mon_fly_mega",
@@ -808,7 +808,7 @@
     "fear_triggers": [ "HURT", "FIRE" ],
     "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 21, "into": "mon_mosquito_mega" },
-    "flags": [ "SEES", "SMELLS", "HEARS", "STUMBLES", "VENOM", "FLIES", "HIT_AND_RUN", "PATH_AVOID_FIRE", "LOUDMOVES" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "STUMBLES", "VENOM", "FLIES", "HIT_AND_RUN", "PATH_AVOID_FIRE" ]
   },
   {
     "id": "mon_mosquito_mega",
@@ -1319,7 +1319,7 @@
     "id": "mon_wasp_small",
     "type": "MONSTER",
     "name": { "str": "wasp" },
-    "description": "A huge wasp the size of a large cat with bright yellow markings on her jet-black carapace and a threatening stinger.  She flies around erratically, searching for smaller prey.",
+    "description": "A huge wasp the size of a large cat with bright yellow markings on her jet-black carapace and a threatening stinger.  It flies around erratically, searching for smaller prey.",
     "default_faction": "wasp",
     "bodytype": "flying insect",
     "species": [ "INSECT_FLYING" ],
@@ -1332,18 +1332,17 @@
     "material": [ "iflesh" ],
     "symbol": "a",
     "color": "dark_gray",
-    "aggression": -5,
-    "regen_morale": true,
+    "aggression": -10,
     "melee_skill": 5,
     "melee_dice": 2,
     "melee_dice_sides": 3,
     "special_attacks": [
       {
         "id": "sting",
-        "cooldown": 10,
-        "min_mul": 0.2,
-        "max_mul": 0.4,
-        "effects": [ { "id": "venom_weaken", "duration": 100, "chance": 66 } ]
+        "cooldown": 8,
+        "min_mul": 0.3,
+        "max_mul": 0.5,
+        "effects": [ { "id": "venom_weaken", "duration": 100, "chance": 50 } ]
       },
       {
         "type": "bite",
@@ -1354,8 +1353,8 @@
         "max_mul": 0.5
       }
     ],
-    "//": "sting 2-4 dmg, 40 hits to max intensity, 50 to max duration",
-    "dodge": 5,
+    "//": "sting 3-5 dmg, 40 hits to max intensity, 50 to max duration",
+    "dodge": 8,
     "armor_bash": 1,
     "armor_cut": 6,
     "armor_stab": 4,
@@ -1372,11 +1371,11 @@
     "id": "mon_wasp_small_guard",
     "type": "MONSTER",
     "name": { "str": "wasp guard" },
-    "description": "A mutated wasp worker, buzzing around their nest.  While her foraging sisters are relatively content to leave you be, this one won't hesitate to attack anything she considers a threat to her home.  Don't linger.",
+    "description": "A mutated wasp worker, buzzing around their nest.  While their foraging sisters are relatively content to leave you be, this one won't hesitate to attack anything it considers a threat to the nest.  Don't linger.",
     "copy-from": "mon_wasp_small",
     "aggression": 0,
     "morale": 100,
-    "melee_skill": 6,
+	  "melee_skill": 6,
     "extend": { "anger_triggers": [ "HURT", "FIRE", "STALK" ] },
     "delete": { "fear_triggers": [ "HURT", "FIRE" ] },
     "upgrades": { "half_life": 30, "into": "mon_wasp_guard" }
@@ -1385,7 +1384,7 @@
     "id": "mon_wasp_queen",
     "type": "MONSTER",
     "name": { "str": "wasp queen" },
-    "description": "A mutated wasp queen grown to the size of a person, laying a single white egg in each empty cell she comes across while scurrying around on the paper walls of her home.  She struggles to fit into some of them, but the newer cells seem to be getting larger…",
+    "description": "A mutated wasp queen grown to the size of a person, laying a single white egg in each empty cell it comes across while scurrying around on the paper walls of their home.  It struggles to fit into some of them, but the newer cells seem to be getting larger…",
     "copy-from": "mon_wasp_guard",
     "harvest": "arachnid_wasp_queen",
     "reproduction": { "baby_egg": "egg_wasp", "baby_count": 2, "baby_timer": 5 },
@@ -1395,28 +1394,28 @@
     "id": "mon_wasp",
     "type": "MONSTER",
     "name": { "str": "giant wasp" },
-    "description": "A gigantic wasp worker, scouring the landscape for an easy meal to feed the next generation.  Her abdomen glowers with ominous yellow stripes and ends in a half-hidden stinger the size of a kitchen knife.",
+    "description": "A gigantic wasp worker, scouring the landscape for an easy meal to feed the next generation.  Its abdomen glowers with ominous yellow stripes and ends in a half-hidden stinger the size of a kitchen knife.",
     "default_faction": "wasp",
     "bodytype": "flying insect",
     "species": [ "INSECT_FLYING" ],
     "volume": "62500 ml",
     "weight": "81500 g",
     "hp": 100,
-    "speed": 130,
-    "attack_cost": 130,
+    "speed": 150,
+    "attack_cost": 150,
     "material": [ "iflesh" ],
     "symbol": "a",
     "color": "dark_gray",
-    "aggression": 2,
-    "morale": 20,
-    "regen_morale": true,
+    "aggression": -5,
+    "morale": 15,
     "melee_skill": 7,
     "melee_dice": 2,
     "melee_dice_sides": 7,
     "special_attacks": [
       {
         "id": "sting",
-        "cooldown": 10,
+        "move_cost": 300,
+        "cooldown": 5,
         "damage_max_instance": [ { "damage_type": "stab", "amount": 10, "armor_penetration": 25 } ],
         "min_mul": 0.5,
         "max_mul": 2
@@ -1432,11 +1431,11 @@
       }
     ],
     "//": "sting 5-15 damage, 8 hits to max intensity, 9 to max duration",
-    "dodge": 6,
+    "dodge": 7,
     "armor_bash": 6,
     "armor_cut": 18,
-    "armor_stab": 10,
-    "armor_bullet": 15,
+    "armor_stab": 15,
+    "armor_bullet": 12,
     "vision_day": 17,
     "vision_night": 7,
     "harvest": "arachnid_wasp",
@@ -1449,33 +1448,33 @@
     "id": "mon_wasp_guard",
     "type": "MONSTER",
     "name": { "str": "giant wasp guard" },
-    "description": "A giant wasp worker, buzzing around their nest.  While her foraging sisters are relatively content to live and let live, this one won't hesitate to attack anything she considers a threat to her home.  Don't linger.",
+    "description": "A wasp worker grown to the size of a person, buzzing around their home.  While their foraging sisters are relatively content to live and let live, this one won't hesitate to attack anything it considers a threat to the nest.  Don't linger.",
     "copy-from": "mon_wasp",
-    "aggression": 4,
+	  "aggression": 4,
     "morale": 100,
-    "melee_skill": 9,
-    "extend": { "anger_triggers": [ "HURT", "FIRE" ] },
+	  "melee_skill": 9,
+    "extend": { "anger_triggers": [ "HURT", "FIRE" ], "flags":[ "BASHES" ] },
     "delete": { "fear_triggers": [ "HURT", "FIRE" ] }
   },
   {
     "id": "mon_wasp_mega",
     "type": "MONSTER",
     "name": { "str": "giant wasp queen" },
-    "description": "A yellowjacket queen grown to the size of a horse, towering over her daughters.  Her abdomen is swollen with eggs and her wings are frayed, but that won't prevent her from dealing with interlopers, should her children have failed their task.",
+    "description": "A yellowjacket queen grown to the size of a horse, towering over their daughters.  Even with their abdomen swollen with eggs and wings long unused it still poses a threat to interlopers, should their children have failed at subduing them.",
     "copy-from": "mon_wasp_guard",
-    "looks_like": "mon_wasp_mega",
-    "diff": 4,
+	  "looks_like": "mon_wasp_mega",
+	  "diff": 4,
     "proportional": { "hp": 4, "volume": 5, "weight": 5 },
     "speed": 100,
     "attack_cost": 100,
-    "melee_skill": 8,
+	  "melee_skill": 8,
     "melee_dice": 4,
     "melee_dice_sides": 5,
     "special_attacks": [
       {
         "id": "sting",
         "cooldown": 5,
-        "move_cost": 200,
+		    "move_cost": 200,
         "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_penetration": 60 } ],
         "min_mul": 1,
         "max_mul": 3,
@@ -1498,9 +1497,9 @@
     "armor_stab": 16,
     "armor_bullet": 18,
     "harvest": "arachnid_wasp_queen",
-    "reproduction": { "baby_egg": "egg_wasp", "baby_count": 5, "baby_timer": 5 },
+    "reproduction": { "baby_egg": "egg_wasp", "baby_count": 4, "baby_timer": 5 },
     "extend": { "flags": [ "PUSH_MON" ] },
-    "delete": { "flags": [ "HARDTOSHOOT" ] }
+	  "delete": { "flags": [ "HARDTOSHOOT" ] }
   },
   {
     "id": "mon_dermatik_larva",
@@ -1561,13 +1560,14 @@
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_WEAK" ],
     "fear_triggers": [ "HURT", "FIRE" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "FLIES", "PATH_AVOID_FIRE", "LOUDMOVES" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "FLIES", "PATH_AVOID_FIRE", "CANPLAY" ]
   },
   {
     "id": "mon_dermatik_midwife",
     "type": "MONSTER",
     "name": { "str": "dermatik midwife", "str_pl": "dermatik midwives" },
     "description": "A dermatik grown even larger, its wings and ovipositor chewed off by her sisters.  It now stands watch in the nest, tending to the unfortunate hosts dragged home and ensuring they don't perish before their purpose is fulfilled.",
+    "species":["INSECT"],
     "copy-from": "mon_dermatik",
     "volume": "17 L",
     "weight": "25 kg",
@@ -1575,7 +1575,7 @@
     "speed": 100,
     "melee_cut": 10,
     "vision_night": 8,
-    "delete": { "flags": [ "FLIES", "LOUDMOVES" ], "special_attacks": [ "DERMATIK" ] }
+    "delete": { "flags": [ "FLIES" ], "special_attacks": [ "DERMATIK" ] }
   },
   {
     "id": "mon_dermatik_incubator_deer",
