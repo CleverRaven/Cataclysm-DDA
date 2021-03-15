@@ -373,9 +373,17 @@
       { "x": -13, "y": 3, "parts": [ "hdframe_nw", "board_horizontal" ] },
       { "x": -13, "y": 4, "parts": [ "hdframe_se", "halfboard_se" ] },
       { "x": -14, "y": -1, "parts": [ "hdframe_sw", "halfboard_sw", "plating_steel" ] },
-      { "x": -14, "y": 0, "parts": [ "hdframe_horizontal_2", "halfboard_horizontal_2", "headlight", "plating_steel" ] },
+      {
+        "x": -14,
+        "y": 0,
+        "parts": [ "hdframe_horizontal_2", "halfboard_horizontal_2", "headlight", "plating_steel" ]
+      },
       { "x": -14, "y": 1, "parts": [ "hdframe_horizontal_2", "halfboard_horizontal_2", "plating_steel" ] },
-      { "x": -14, "y": 2, "parts": [ "hdframe_horizontal_2", "halfboard_horizontal_2", "headlight",  "plating_steel"] },
+      {
+        "x": -14,
+        "y": 2,
+        "parts": [ "hdframe_horizontal_2", "halfboard_horizontal_2", "headlight", "plating_steel" ]
+      },
       { "x": -14, "y": 3, "parts": [ "hdframe_se", "halfboard_se", "plating_steel" ] }
     ]
   }
