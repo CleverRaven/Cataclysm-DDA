@@ -203,14 +203,11 @@ else
     if [ "$TRAVIS_OS_NAME" == "osx" ]
     then
         run_tests ./tests/cata_test
+    elif [ -n "$MODS" ]
+    then
+        run_tests ./tests/cata_test --user-dir=modded $MODS
     else
-        run_tests ./tests/cata_test &
-        if [ -n "$MODS" ]
-        then
-            run_tests ./tests/cata_test --user-dir=modded $MODS &
-            wait -n
-        fi
-        wait -n
+        run_tests ./tests/cata_test
     fi
 
     if [ -n "$TEST_STAGE" ]
