@@ -138,9 +138,9 @@ static time_point &fields_test_time_before()
     return time_before;
 }
 
-static time_duration fields_test_duration()
+static int fields_test_turns()
 {
-    return calendar::turn - fields_test_time_before();
+    return to_turns<int>( calendar::turn - fields_test_time_before() );
 }
 
 static void fields_test_setup()
@@ -204,13 +204,15 @@ TEST_CASE( "fire spreading", "[field]" )
     m.add_field( p, fd_fire, 3 );
 
     const auto check_spreading = [&]( const time_duration time_limit ) {
-        while( !m.get_field( far_p, fd_fire ) && fields_test_duration() < time_limit ) {
+        const int time_limit_turns = to_turns<int>( time_limit );
+        while( !m.get_field( far_p, fd_fire ) && fields_test_turns() < time_limit_turns ) {
             calendar::turn += 1_turns;
             m.process_fields();
         }
         {
-            INFO( "Fire should've spread to the far point in " << to_string( time_limit ) );
-            CHECK( fields_test_duration() < time_limit );
+            INFO( string_format( "Fire should've spread to the far point in under %d turns",
+                                 time_limit_turns ) );
+            CHECK( fields_test_turns() < time_limit_turns );
         }
     };
 
@@ -218,23 +220,22 @@ TEST_CASE( "fire spreading", "[field]" )
         for( tripoint p0 = p; p0 != far_p + tripoint_east; p0 += tripoint_east ) {
             m.add_field( p0, fd_web, 1 );
         }
-        // note: time limit here was chosen arbitrary. It could be too low or too high.
+        // note: time limit here was chosen arbitrarily. It could be too low or too high.
         check_spreading( 5_minutes );
     }
     SECTION( "fire spreads on flammable items" ) {
         for( tripoint p0 = p; p0 != far_p + tripoint_east; p0 += tripoint_east ) {
             m.add_item( p0, item( "test_2x4" ) );
         }
-        // note: time limit here was chosen arbitrary. It could be too low or too high.
-        check_spreading( 5_minutes );
+        // note: time limit here was chosen arbitrarily. It could be too low or too high.
+        check_spreading( 30_minutes );
     }
     SECTION( "fire spreads on flammable terrain" ) {
         for( tripoint p0 = p; p0 != far_p + tripoint_east; p0 += tripoint_east ) {
             REQUIRE( ter_str_id( "t_tree_walnut" )->has_flag( TFLAG_FLAMMABLE_ASH ) );
             m.ter_set( p0, ter_str_id( "t_tree_walnut" ) );
         }
-        // note: time limit here was chosen arbitrary. It could be too low or too high.
-        // 5 minutes apparently is too low for terrain
+        // note: time limit here was chosen arbitrarily. It could be too low or too high.
         check_spreading( 30_minutes );
     }
 
@@ -253,16 +254,16 @@ TEST_CASE( "fd_fire and fd_fire_vent test", "[field]" )
     CHECK( m.get_field( p, fd_fire_vent ) );
     CHECK_FALSE( m.get_field( p, fd_flame_burst ) );
 
-    const time_duration time_limit = 2_minutes;
+    const int time_limit_turns = to_turns<int>( 2_minutes );
 
-    while( !m.get_field( p, fd_flame_burst ) && fields_test_duration() < time_limit ) {
+    while( !m.get_field( p, fd_flame_burst ) && fields_test_turns() < time_limit_turns ) {
         calendar::turn += 1_turns;
         m.process_fields();
     }
 
     {
-        INFO( "Should've converted to flame burst faster than " << to_string( time_limit ) );
-        CHECK( fields_test_duration() < time_limit );
+        INFO( string_format( "Should've converted to flame burst in under %d turns", time_limit_turns ) );
+        CHECK( fields_test_turns() < time_limit_turns );
     }
 
     {
@@ -347,14 +348,15 @@ TEST_CASE( "radioactive field", "[field]" )
 
     m.add_field( p, fd_nuke_gas, 1 );
 
-    const time_duration time_limit = 5_minutes;
-    while( m.get_radiation( p ) == 0 && fields_test_duration() < time_limit ) {
+    const int time_limit_turns = to_turns<int>( 5_minutes );
+
+    while( m.get_radiation( p ) == 0 && fields_test_turns() < time_limit_turns ) {
         calendar::turn += 1_turns;
         m.process_fields();
     }
     {
-        INFO( "Terrain should be irradiated under " << to_string( time_limit ) );
-        CHECK( fields_test_duration() < time_limit );
+        INFO( string_format( "Terrain should be irradiated under %d turns", time_limit_turns ) );
+        CHECK( fields_test_turns() < time_limit_turns );
     }
 
     // cleanup
@@ -372,8 +374,9 @@ TEST_CASE( "fungal haze test", "[field]" )
     m.add_field( p, fd_fungal_haze, 3 );
 
     // note: time limit was chosen arbitrary. It could be too low.
-    const time_duration time_limit = 1_hours;
-    while( !m.has_flag( "FUNGUS", p ) && fields_test_duration() < time_limit ) {
+    const int time_limit_turns = to_turns<int>( 1_hours );
+
+    while( !m.has_flag( "FUNGUS", p ) && fields_test_turns() < time_limit_turns ) {
         calendar::turn += 1_turns;
         m.process_fields();
 
@@ -383,8 +386,8 @@ TEST_CASE( "fungal haze test", "[field]" )
         }
     }
     {
-        INFO( "Terrain should be fungalized under " << to_string( time_limit ) );
-        CHECK( fields_test_duration() < time_limit );
+        INFO( string_format( "Terrain should be fungalized under %d turns", time_limit_turns ) );
+        CHECK( fields_test_turns() < time_limit_turns );
     }
 
     fields_test_cleanup();
@@ -410,17 +413,18 @@ TEST_CASE( "player_in_field test", "[field][player]" )
     m.add_field( p, fd_blood_veggy, 3 );
     m.add_field( p, fd_blood_invertebrate, 3 );
 
-    const time_duration time_limit = 5_minutes;
+    const int time_limit_turns = to_turns<int>( 5_minutes );
+
     bool is_field_alive = true;
-    while( is_field_alive && fields_test_duration() < time_limit ) {
+    while( is_field_alive && fields_test_turns() < time_limit_turns ) {
         calendar::turn += 1_turns;
         m.creature_in_field( dummy );
         const field_entry *sap_field = m.get_field( p, fd_sap );
         is_field_alive = sap_field && sap_field->is_field_alive();
     }
     {
-        INFO( "Sap should disappear in " << to_string( time_limit ) );
-        CHECK( fields_test_duration() < time_limit );
+        INFO( string_format( "Sap should disappear in under %d turns", time_limit_turns ) );
+        CHECK( fields_test_turns() < time_limit_turns );
     }
 
     clear_avatar();

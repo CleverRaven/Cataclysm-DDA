@@ -51,7 +51,7 @@
       },
       "furniture": { "!": "f_region_flower" },
       "set": [
-        { "point": "trap", "id": "tr_funnel", "x": [ 2, 9 ], "y": 19, "repeat": [ 1, 2 ] },
+        { "point": "trap", "id": "tr_funnel", "x": [ 3, 9 ], "y": 19, "repeat": [ 1, 2 ] },
         { "point": "trap", "id": "tr_cot", "x": [ 2, 9 ], "y": [ 15, 17 ], "repeat": [ 1, 2 ] }
       ],
       "place_loot": [

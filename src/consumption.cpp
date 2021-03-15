@@ -677,8 +677,8 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
                 ( consume_drug->get_actor_ptr() );
         for( auto &tool : consume_drug_use->tools_needed ) {
             const bool has = item::count_by_charges( tool.first )
-                             ? has_charges( tool.first, tool.second )
-                             : has_amount( tool.first, tool.second );
+                             ? has_charges( tool.first, ( tool.second == -1 ) ? 1 : tool.second )
+                             : has_amount( tool.first, 1 );
             if( !has ) {
                 return ret_val<edible_rating>::make_failure( NO_TOOL,
                         string_format( _( "You need a %s to consume that!" ),
@@ -686,6 +686,15 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
             }
         }
     }
+
+    const use_function *smoking = food.type->get_use( "SMOKING" );
+    if( smoking != nullptr ) {
+        cata::optional<std::string> litcig = iuse::can_smoke( *this->as_player() );
+        if( litcig.has_value() ) {
+            return ret_val<edible_rating>::make_failure( NO_TOOL, _( litcig.value_or( "" ) ) );
+        }
+    }
+
     if( !comest->tool.is_null() ) {
         const bool has = item::count_by_charges( comest->tool )
                          ? has_charges( comest->tool, 1 )
@@ -847,7 +856,7 @@ static bool eat( item &food, player &you, bool force )
             !food.type->can_use( "CATFOOD" ) &&
             !food.type->can_use( "BIRDFOOD" ) &&
             !food.type->can_use( "CATTLEFODDER" ) ) {
-            charges_used = food.type->invoke( you, food, you.pos() );
+            charges_used = food.type->invoke( you, food, you.pos() ).value_or( 0 );
             if( charges_used <= 0 ) {
                 return false;
             }
@@ -1521,7 +1530,7 @@ bool Character::can_consume( const item &it ) const
     if( can_consume_as_is( it ) ) {
         return true;
     }
-    return has_item_with( [&]( const item & consumable ) {
+    return it.has_item_with( [&]( const item & consumable ) {
         // Checking NO_RELOAD to prevent consumption of `battery` when contained in `battery_car` (#20012)
         return !consumable.has_flag( flag_NO_RELOAD ) && can_consume_as_is( consumable );
     } );
@@ -1654,7 +1663,7 @@ static bool consume_med( item &target, player &you )
 
     int amount_used = 1;
     if( target.type->has_use() ) {
-        amount_used = target.type->invoke( you, target, you.pos() );
+        amount_used = target.type->invoke( you, target, you.pos() ).value_or( 0 );
         if( amount_used <= 0 ) {
             return false;
         }

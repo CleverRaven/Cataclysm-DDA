@@ -5,6 +5,7 @@
     "name": "Nitro Boost",
     "description": "You overclock your flesh and bionics, charging so fast the friction can ignite the air, to wind up for a skull-cracking punch.",
     "valid_targets": [ "hostile", "ground" ],
+    "flags": [ "MUST_HAVE_CLASS_TO_LEARN" ],
     "effect": "dash",
     "effect_str": "downed",
     "shape": "cone",
@@ -45,7 +46,7 @@
     "energy_increment": -20,
     "final_energy_cost": 100,
     "components": "jury_rig",
-    "flags": [ "SOMATIC", "VERBAL", "NO_LEGS", "CONCENTRATE" ],
+    "flags": [ "SOMATIC", "VERBAL", "NO_LEGS", "CONCENTRATE", "MUST_HAVE_CLASS_TO_LEARN" ],
     "spell_class": "BIOTEK",
     "difficulty": 2,
     "energy_source": "BIONIC"

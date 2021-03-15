@@ -466,7 +466,13 @@
     "item": "laptop_boris",
     "origins": [ "ORIGIN_SECONDARY" ],
     "start": {
-      "assign_mission_target": { "om_terrain": "shelter_2_vandal", "reveal_radius": 1, "random": true, "search_range": 120 },
+      "assign_mission_target": {
+        "om_terrain": "shelter_2_vandal",
+        "om_special": "Evac Shelter Vandalized 3",
+        "reveal_radius": 1,
+        "random": true,
+        "search_range": 120
+      },
       "update_mapgen": {
         "om_terrain": "shelter_2_vandal",
         "place_item": [ { "item": "laptop_boris", "x": 15, "y": 12 }, { "item": "mbag", "x": 15, "y": 12 } ]

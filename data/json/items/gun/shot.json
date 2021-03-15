@@ -762,48 +762,6 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 5 } } ]
   },
   {
-    "id": "USAS_12",
-    "copy-from": "shotgun_base",
-    "type": "GUN",
-    "name": { "str": "USAS 12" },
-    "description": "The USAS 12 looks like a boxy upsized caricature of the M16A2.  Like its Auto Assault-12 predecessor, it is a select-fire shotgun fed from large box or drum magazines.  The in-line recoil system and sheer weight make for pleasant shooting.",
-    "weight": "5450 g",
-    "volume": "4695 ml",
-    "longest_side": "962 mm",
-    "looks_like": "saiga_12",
-    "price": 300000,
-    "price_postapoc": 5000,
-    "to_hit": -1,
-    "bashing": 12,
-    "material": [ "steel", "plastic" ],
-    "dispersion": 510,
-    "durability": 6,
-    "min_cycle_recoil": 1250,
-    "barrel_volume": "54 ml",
-    "valid_mod_locations": [
-      [ "accessories", 2 ],
-      [ "mechanism", 4 ],
-      [ "barrel", 1 ],
-      [ "sling", 1 ],
-      [ "muzzle", 1 ],
-      [ "grip", 1 ],
-      [ "brass catcher", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 5 ] ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "USAS10mag", "USAS20mag" ]
-      }
-    ]
-  },
-  {
     "id": "winchester_1887",
     "copy-from": "shotgun_base",
     "type": "GUN",

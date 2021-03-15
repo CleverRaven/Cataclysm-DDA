@@ -4614,16 +4614,16 @@ double vehicle::drain_energy( const itype_id &ftype, double energy_j )
     return drained;
 }
 
-void vehicle::consume_fuel( int load, const int t_seconds, bool skip_electric )
+void vehicle::consume_fuel( int load, bool idling )
 {
     double st = strain();
     for( const auto &fuel_pr : fuel_usage() ) {
         const itype_id &ft = fuel_pr.first;
-        if( skip_electric && ft == fuel_type_battery ) {
+        if( idling && ft == fuel_type_battery ) {
             continue;
         }
 
-        double amnt_precise_j = static_cast<double>( fuel_pr.second ) * t_seconds;
+        double amnt_precise_j = static_cast<double>( fuel_pr.second );
         amnt_precise_j *= load / 1000.0 * ( 1.0 + st * st * 100.0 );
         auto inserted = fuel_used_last_turn.insert( { ft, 0.0f } );
         inserted.first->second += amnt_precise_j;
@@ -4636,6 +4636,10 @@ void vehicle::consume_fuel( int load, const int t_seconds, bool skip_electric )
             fuel_remainder[ ft ] = -amnt_precise_j;
         }
     }
+    // Only process muscle power things when moving.
+    if( idling ) {
+        return;
+    }
     Character &player_character = get_player_character();
     if( load > 0 && fuel_left( fuel_type_muscle ) > 0 &&
         player_character.has_effect( effect_winded ) ) {
@@ -4644,7 +4648,7 @@ void vehicle::consume_fuel( int load, const int t_seconds, bool skip_electric )
             stop();
         }
     }
-    // we want this to update the activity level whenever the engine is running
+    // we want this to update the activity level whenever we're using muscle power to move
     if( load > 0 && fuel_left( fuel_type_muscle ) > 0 ) {
         player_character.increase_activity_level( ACTIVE_EXERCISE );
         //do this as a function of current load
@@ -5197,7 +5201,7 @@ void vehicle::idle( bool on_map )
             idle_rate = 1000;
         }
         if( has_engine_type_not( fuel_type_muscle, true ) ) {
-            consume_fuel( idle_rate, to_turns<int>( 1_turns ), true );
+            consume_fuel( idle_rate, true );
         }
 
         if( on_map ) {
