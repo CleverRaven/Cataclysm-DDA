@@ -8,6 +8,7 @@
 #include <tuple>
 #include <utility>
 
+#include "avatar.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -33,14 +34,17 @@
 #include "make_static.h"
 #include "magic_enchantment.h"
 #include "map.h"
+#include "map_iterator.h"
 #include "messages.h"
 #include "mongroup.h"
 #include "monster.h"
 #include "mtype.h"
 #include "mutation.h"
+#include "npc.h"
 #include "output.h"
 #include "pimpl.h"
 #include "point.h"
+#include "projectile.h"
 #include "requirements.h"
 #include "rng.h"
 #include "sounds.h"
@@ -149,7 +153,6 @@ std::string enum_to_string<magic_energy_type>( magic_energy_type data )
 {
     switch( data ) {
     case magic_energy_type::bionic: return "BIONIC";
-    case magic_energy_type::fatigue: return "FATIGUE";
     case magic_energy_type::hp: return "HP";
     case magic_energy_type::mana: return "MANA";
     case magic_energy_type::none: return "NONE";
@@ -565,6 +568,18 @@ int spell::min_leveled_damage() const
     return type->min_damage + std::round( get_level() * type->damage_increment );
 }
 
+float spell::dps( const Character &caster, const Creature & ) const
+{
+    if( type->effect_name != "attack" ) {
+        return 0.0f;
+    }
+    const float time_modifier = 100.0f / casting_time( caster );
+    const float failure_modifier = 1.0f - spell_fail( caster );
+    const float raw_dps = damage() + damage_dot() * duration_turns() / 1_turns;
+    // TODO: calculate true dps with armor and resistances and any caster bonuses
+    return raw_dps * time_modifier * failure_modifier;
+}
+
 int spell::damage() const
 {
     const int leveled_damage = min_leveled_damage();
@@ -677,6 +692,45 @@ int spell::range() const
     } else {
         return std::max( leveled_range, type->max_range );
     }
+}
+
+std::vector<tripoint> spell::targetable_locations( const Character &source ) const
+{
+
+    const tripoint char_pos = source.pos();
+    const bool select_ground = is_valid_target( spell_target::ground );
+    const bool ignore_walls = has_flag( spell_flag::NO_PROJECTILE );
+    map &here = get_map();
+
+    // TODO: put this in a namespace for reuse
+    const auto has_obstruction = [&]( const tripoint & at ) {
+        for( const tripoint &line_point : line_to( char_pos, at ) ) {
+            if( here.impassable( line_point ) ) {
+                return true;
+            }
+        }
+        return false;
+    };
+
+    std::vector<tripoint> selectable_targets;
+    for( const tripoint &query : here.points_in_radius( char_pos, range() ) ) {
+        if( !ignore_walls && has_obstruction( query ) ) {
+            // it's blocked somewhere!
+            continue;
+        }
+
+        if( !select_ground ) {
+            if( !source.sees( query ) ) {
+                // can't target a critter you can't see
+                continue;
+            }
+        }
+
+        if( is_valid_target( source, query ) ) {
+            selectable_targets.push_back( query );
+        }
+    }
+    return selectable_targets;
 }
 
 int spell::min_leveled_duration() const
@@ -792,14 +846,17 @@ bool spell::is_spell_class( const trait_id &mid ) const
     return mid == type->spell_class;
 }
 
-bool spell::can_cast( Character &guy ) const
+bool spell::can_cast( const Character &guy ) const
 {
     if( guy.has_trait_flag( STATIC( json_character_flag( "NO_SPELLCASTING" ) ) ) ) {
         return false;
     }
 
+    // only required because crafting_inventory always rebuilds the cache. maybe a const version doesn't write to cache.
+    Character &guy_inv = const_cast<Character &>( guy );
+
     if( !type->spell_components.is_empty() &&
-        !type->spell_components->can_make_with_inventory( guy.crafting_inventory( guy.pos(), 0 ),
+        !type->spell_components->can_make_with_inventory( guy_inv.crafting_inventory( guy.pos(), 0 ),
                 return_true<item> ) ) {
         return false;
     }
@@ -989,8 +1046,6 @@ std::string spell::energy_string() const
             return _( "stamina" );
         case magic_energy_type::bionic:
             return _( "bionic power" );
-        case magic_energy_type::fatigue:
-            return _( "fatigue" );
         default:
             return "";
     }
@@ -1011,9 +1066,6 @@ std::string spell::energy_cost_string( const Character &guy ) const
     if( energy_source() == magic_energy_type::stamina ) {
         auto pair = get_hp_bar( energy_cost( guy ), guy.get_stamina_max() );
         return colorize( pair.first, pair.second );
-    }
-    if( energy_source() == magic_energy_type::fatigue ) {
-        return colorize( std::to_string( energy_cost( guy ) ), c_cyan );
     }
     debugmsg( "ERROR: Spell %s has invalid energy source.", id().c_str() );
     return _( "error: energy_type" );
@@ -1036,10 +1088,6 @@ std::string spell::energy_cur_string( const Character &guy ) const
     }
     if( energy_source() == magic_energy_type::hp ) {
         return "";
-    }
-    if( energy_source() == magic_energy_type::fatigue ) {
-        const std::pair<std::string, nc_color> pair = guy.get_fatigue_description();
-        return colorize( pair.first, pair.second );
     }
     debugmsg( "ERROR: Spell %s has invalid energy source.", id().c_str() );
     return _( "error: energy_type" );
@@ -1076,13 +1124,22 @@ void spell::create_field( const tripoint &at ) const
     }
 }
 
-void spell::make_sound( const tripoint &target ) const
+int spell::sound_volume() const
 {
+    int loudness = 0;
     if( !has_flag( spell_flag::SILENT ) ) {
-        int loudness = std::abs( damage() ) / 3;
+        loudness = std::abs( damage() ) / 3;
         if( has_flag( spell_flag::LOUD ) ) {
             loudness += 1 + damage() / 3;
         }
+    }
+    return loudness;
+}
+
+void spell::make_sound( const tripoint &target ) const
+{
+    const int loudness = sound_volume();
+    if( loudness > 0 ) {
         make_sound( target, loudness );
     }
 }
@@ -1305,6 +1362,23 @@ dealt_damage_instance spell::get_dealt_damage_instance() const
     dealt_damage_instance dmg;
     dmg.set_damage( dmg_type(), damage() );
     return dmg;
+}
+
+dealt_projectile_attack spell::get_projectile_attack( const tripoint &target,
+        Creature &hit_critter ) const
+{
+    projectile bolt;
+    bolt.speed = 10000;
+    bolt.impact = get_damage_instance();
+    bolt.proj_effects.emplace( "magic" );
+
+    dealt_projectile_attack atk;
+    atk.end_point = target;
+    atk.hit_critter = &hit_critter;
+    atk.proj = bolt;
+    atk.missed_by = 0.0;
+
+    return atk;
 }
 
 std::string spell::effect_data() const
@@ -1645,8 +1719,6 @@ bool known_magic::has_enough_energy( const Character &guy, const spell &sp ) con
                 }
             }
             return false;
-        case magic_energy_type::fatigue:
-            return guy.get_fatigue() < fatigue_levels::EXHAUSTED;
         case magic_energy_type::none:
             return true;
         default:

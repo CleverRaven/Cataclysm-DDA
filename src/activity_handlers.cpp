@@ -2311,6 +2311,10 @@ void activity_handlers::oxytorch_finish( player_activity *act, player *p )
         here.ter_set( pos, t_mdoor_frame );
         here.spawn_item( pos, itype_steel_plate, rng( 0, 1 ) );
         here.spawn_item( pos, itype_steel_chunk, rng( 3, 8 ) );
+    } else if( ter == t_wall_metal ) {
+        here.ter_set( pos, t_scrap_wall_halfway );
+        here.spawn_item( pos, itype_steel_plate, rng( 2, 3 ) );
+        here.spawn_item( pos, itype_steel_chunk, rng( 12, 20 ) );
     } else if( ter == t_window_enhanced || ter == t_window_enhanced_noglass ) {
         here.ter_set( pos, t_window_empty );
         here.spawn_item( pos, itype_steel_plate, rng( 0, 1 ) );
@@ -4304,9 +4308,6 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
             case magic_energy_type::hp:
                 blood_magic( p, cost );
                 break;
-            case magic_energy_type::fatigue:
-                p->mod_fatigue( cost );
-                break;
             case magic_energy_type::none:
             default:
                 break;
@@ -4361,6 +4362,8 @@ void activity_handlers::study_spell_do_turn( player_activity *act, player *p )
         const int xp = roll_remainder( studying.exp_modifier( *p ) / to_turns<float>( 6_seconds ) );
         act->values[0] += xp;
         studying.gain_exp( xp );
+        p->practice( studying.skill(), xp, studying.get_difficulty() );
+
         // Notify player if the spell leveled up
         if( studying.get_level() > old_level ) {
             p->add_msg_if_player( m_good, _( "You gained a level in %s!" ), studying.name() );
@@ -4376,8 +4379,6 @@ void activity_handlers::study_spell_finish( player_activity *act, player *p )
     if( act->get_str_value( 1 ) == "study" ) {
         p->add_msg_if_player( m_good, _( "You gained %i experience from your study session." ),
                               total_exp_gained );
-        const spell &sp = p->magic->get_spell( spell_id( act->name ) );
-        p->practice( sp.skill(), total_exp_gained, sp.get_difficulty() );
     } else if( act->get_str_value( 1 ) == "learn" && act->values[2] == 0 ) {
         p->magic->learn_spell( act->name, *p );
     }

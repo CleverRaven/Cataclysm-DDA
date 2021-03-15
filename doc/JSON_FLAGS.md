@@ -206,6 +206,10 @@ These are handled through `ammo_types.json`.  You can tag a weapon with these to
 - ```WIDE``` Prevents `HARDTOSHOOT` monster flag from having any effect. Implied by ```SHOT``` or liquid ammo.
 - ```NON_FOULING``` This ammo does not cause dirtying or blackpowder fouling on the gun when fired.
 
+## Traps
+
+- ```SONAR_DETECTABLE``` This trap can be identified with ground-penetrating SONAR.
+- ```CONVECTS_TEMPERATURE``` This trap convects temperature, like lava.
 
 ## Armor
 
@@ -1538,3 +1542,5 @@ Gun fault flags:
 - ```ALARMCLOCK``` You always can set alarms.
 - ```PARAIMMUNE``` You are immune to parasites.
 - ```IMMUNE_SPOIL``` You are immune to negative outcomes from spoiled food.
+- ```CLIMATE_CONTROL``` You are resistant to extreme temperatures.
+- ```HEATSINK``` You are resistant to extreme heat.

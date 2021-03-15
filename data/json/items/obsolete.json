@@ -2823,7 +2823,17 @@
     "price": 38000,
     "material": [ "steel", "plastic", "wood" ],
     "//": "60in Fiberglass bow at 28in draw with 29in, 52J, 80 lbs draw, 0.6 slugs. bullshit stats, but this is a nonsense bow.",
-    "flags": [ "FIRE_TWOHAND", "STR_DRAW", "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON", "BELTED", "WATER_FRIENDLY" ],
+    "flags": [
+      "FIRE_TWOHAND",
+      "STR_DRAW",
+      "RELOAD_AND_SHOOT",
+      "PRIMITIVE_RANGED_WEAPON",
+      "BELTED",
+      "WATER_FRIENDLY",
+      "WATERPROOF_GUN",
+      "NEVER_JAMS"
+    ],
+    "ammo_effects": [ "NEVER_MISFIRES" ],
     "skill": "archery",
     "min_strength": 11,
     "ammo": [ "arrow" ],
