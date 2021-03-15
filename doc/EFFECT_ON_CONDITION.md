@@ -1,16 +1,16 @@
 ### effect_on_condition
-An effect_on_condition is an object allowing the combination of dialog conditions and effects and their usage outside of a dialog.  When invoked they will test their condition and on a pass then cause their effect. They can be activated automatically with any given frequency.  effect_on_conditions use the npc dialog conditions and effects syntax, which allows checking or effecting an npc, for example: `npc_has_trait`.  Using these commands in an effect_on_condition is not supported.
+An effect_on_condition is an object allowing the combination of dialog conditions and effects with their usage outside of a dialog.  When invoked, they will test their condition; on a pass, they will cause their effect. They can be activated automatically with any given frequency.  (Note: effect_on_conditions use the npc dialog conditions and effects syntax, which allows checking related to, or targeting an effect at, an npc (for example: `npc_has_trait`).  Using these commands in an effect_on_condition is not supported.)
 
 ## Fields
 
 |Identifier|Type|Description|
 |-|-|-|
-| `recurrence_min`| int | The effect_on_condition automatically activates with at least this many seconds in between.
-| `recurrence_max`| int | The effect_on_condition automatically activates at least once this many seconds.
-| `condition`| condition | The conditions to cause this to occur on activation.  See "Dialogue conditions" section of [NPCs](NPCs.md) for full syntax.
-| `deactivate_condition`| condition | *optional* When an effect_on_condition is automaticly activated and fails `deactivate_condition` will be tested if it exists and there is no `false_effect`.  If it exists and returns true this effect_on_condition will no longer be run automaticly every `once_every` seconds.  When ever the player gains/loses a trait or bionic all deactivated effect_on_conditions will have `deactivate_condition` run and on a return of false will reactivate.  This is to allow adding effect_on_conditions for specific traits or bionics that don't waste time running when you don't have the target bionic/trait. See "Dialogue conditions" section of [NPCs](NPCs.md) for full syntax.
-| `effect`| effect | The effects caused on conditon returning true upon activation.  See "Dialogue Effects" section of [NPCs](NPCs.md) for full syntax.
-| `false_effect`| effect | The effects caused on conditon returning false upon activation.  See "Dialogue Effects" section of [NPCs](NPCs.md) for full syntax.
+| `recurrence_min`| int | The effect_on_condition is automatically invoked (activated) with at least this many seconds in-between.
+| `recurrence_max`| int | The effect_on_condition is automatically invoked (activated) at least once this many seconds.
+| `condition`| condition | The condition(s) under which this effect_on_condition, upon activation, will cause its effect.  See the "Dialogue conditions" section of [NPCs](NPCs.md) for the full syntax.
+| `deactivate_condition`| condition | *optional* When an effect_on_condition is automatically activated (invoked) and fails its condition(s), `deactivate_condition` will be tested if it exists and there is no `false_effect` entry.  If it returns true, this effect_on_condition will no longer be invoked automatically every `recurrence_max` seconds.  Whenever the player gains/loses a trait or bionic all deactivated effect_on_conditions will have `deactivate_condition` run; on a return of false, the effect_on_condition will start being run again.  This is to allow adding effect_on_conditions for specific traits or bionics that don't waste time running when you don't have the target bionic/trait.  See the "Dialogue conditions" section of [NPCs](NPCs.md) for the full syntax.
+| `effect`| effect | The effect(s) caused if `condition` returns true upon activation.  See the "Dialogue Effects" section of [NPCs](NPCs.md) for the full syntax.
+| `false_effect`| effect | The effect(s) caused if `condition` returns false upon activation.  See the "Dialogue Effects" section of [NPCs](NPCs.md) for the full syntax.
 
 ## Examples:
 ```JSON

@@ -62,13 +62,13 @@ void reset();
 void load( const JsonObject &jo, const std::string &src );
 /** Checks all loaded from JSON are valid */
 void check_consistency();
-/** sets up the intial queue for a new character */
+/** Sets up the initial queue for a new character */
 void load_new_character();
 /** queue an eoc to happen in the future */
 void queue_effect_on_condition( time_duration duration, effect_on_condition_id eoc );
 /** called every turn to process the queued eocs */
 void process_effect_on_conditions();
-/** called after certain events to test reactivating eocs */
+/** called after certain events to test whether to reactivate eocs */
 void process_reactivate();
 /** clear all queued and inactive eocs */
 void clear();

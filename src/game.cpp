@@ -1614,6 +1614,7 @@ bool game::do_turn()
         refresh_display();
     }
     effect_on_conditions::process_effect_on_conditions();
+
     if( levz >= 0 && !u.is_underwater() ) {
         handle_weather_effects( weather.weather_id );
     }
