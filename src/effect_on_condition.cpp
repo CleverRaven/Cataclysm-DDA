@@ -138,10 +138,12 @@ bool effect_on_condition::activate( dialogue &d ) const
     if( !has_condition || condition( d ) ) {
         true_effect.apply( d );
         return true;
-    } else {
-        false_effect.apply( d );
-        return false;
     }
+
+    if( has_false_effect ) {
+        false_effect.apply( d );
+    }
+    return false;
 }
 
 bool effect_on_condition::check_deactivate() const

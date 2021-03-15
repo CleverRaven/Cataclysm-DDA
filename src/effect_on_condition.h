@@ -52,9 +52,9 @@ struct effect_on_condition {
 };
 namespace effect_on_conditions
 {
-/** Get all currently loaded generic_preconditions */
+/** Get all currently loaded effect_on_conditions */
 const std::vector<effect_on_condition> &get_all();
-/** Finalize all loaded generic_preconditions */
+/** Finalize all loaded effect_on_conditions */
 void finalize_all();
 /** Clear all loaded effects on condition (invalidating any pointers) */
 void reset();
