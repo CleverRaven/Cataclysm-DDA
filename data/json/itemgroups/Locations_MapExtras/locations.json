@@ -1100,8 +1100,7 @@
       [ "ceramic_cup", 90 ],
       { "group": "tinware", "prob": 50 },
       [ "crown_golden", 10 ],
-      [ "fluid_preserved_brain", 20 ],
-      [ "ki_strike_scroll", 3 ]
+      [ "fluid_preserved_brain", 20 ]
     ]
   },
   {
