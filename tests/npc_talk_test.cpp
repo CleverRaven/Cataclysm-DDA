@@ -2,7 +2,6 @@
 #include <memory>
 #include <string>
 #include <vector>
-#include <iostream>
 
 #include "avatar.h"
 #include "calendar.h"
@@ -28,6 +27,7 @@
 #include "player.h"
 #include "player_helpers.h"
 #include "point.h"
+#include "string_formatter.h"
 #include "string_id.h"
 #include "type_id.h"
 
@@ -68,9 +68,9 @@ static void gen_response_lines( dialogue &d, size_t expected_count )
         response.create_option_line( d, ' ' );
     }
     if( d.responses.size() != expected_count ) {
-        std::cout << "Test failure in " << d.topic_stack.back().id.c_str() << std::endl;
+        cata_printf( "Test failure in %s\n", d.topic_stack.back().id.c_str() );
         for( talk_response &response : d.responses ) {
-            std::cout << "response: " << response.text.c_str() << std::endl;
+            cata_printf( "response: %s\n", response.text.c_str() );
         }
     }
     CAPTURE( d.responses );

@@ -5,12 +5,12 @@
 #include <ctime>
 #include <memory>
 #include <vector>
-#include <iostream>
 
 #include "catch/catch.hpp"
 #include "line.h"
 #include "point.h"
 #include "rng.h"
+#include "string_formatter.h"
 
 #define SGN(a) (((a)<0) ? -1 : 1)
 // Compare all future line_to implementations to the canonical one.
@@ -379,10 +379,10 @@ static void line_to_comparison( const int iterations )
             const long long diff2 =
                 std::chrono::duration_cast<std::chrono::microseconds>( end2 - start2 ).count();
 
-            std::cout << "line_to() executed " << iterations << " times in " << diff1 << " microseconds." <<
-                      std::endl;
-            std::cout << "canonical_line_to() executed " << iterations << " times in " << diff2 <<
-                      " microseconds." << std::endl;
+            cata_printf( "line_to() executed %d times in %lld microseconds.\n",
+                         iterations, diff1 );
+            cata_printf( "canonical_line_to() executed %d times in %lld microseconds.\n",
+                         iterations, diff2 );
         }
     }
 }
