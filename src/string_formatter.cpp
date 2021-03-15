@@ -204,10 +204,10 @@ std::string to_string( const double n )
 
 void cata_print_stdout( const std::string &s )
 {
-    std::cout << s;
+    fputs( s.c_str(), stdout );
 }
 
 void cata_print_stderr( const std::string &s )
 {
-    std::cerr << s;
+    fputs( s.c_str(), stderr );
 }
