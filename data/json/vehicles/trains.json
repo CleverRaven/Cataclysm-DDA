@@ -361,8 +361,7 @@
       { "x": -12, "y": -2, "parts": [ "frame_vertical_2", "board_vertical_left" ] },
       { "x": -12, "y": -1, "parts": [ "frame_cross", "board_vertical_right", "dashboard", "roof" ] },
       { "x": -12, "y": 0, "parts": [ "frame_cross", "seat", "dashboard", "roof", "seatbelt" ] },
-      { "x": -12, "y": 1, "parts": [ "frame_cross", "aisle_vertical", "cam_control" ] },
-      { "x": -12, "y": 1, "parts": [ "dashboard", "roof" ] },
+      { "x": -12, "y": 1, "parts": [ "frame_cross", "aisle_vertical", "cam_control", "dashboard", "roof" ] },
       { "x": -12, "y": 2, "parts": [ "frame_cross", "seat", "seatbelt", "dashboard", "controls", "roof" ] },
       { "x": -12, "y": 3, "parts": [ "frame_cross", "board_vertical_left", "dashboard", "roof" ] },
       { "x": -12, "y": 4, "parts": [ "frame_vertical_2", "board_vertical_right" ] },
@@ -374,11 +373,9 @@
       { "x": -13, "y": 3, "parts": [ "frame_nw", "board_horizontal" ] },
       { "x": -13, "y": 4, "parts": [ "frame_se", "halfboard_se" ] },
       { "x": -14, "y": -1, "parts": [ "frame_sw", "halfboard_sw", "rebar_plate" ] },
-      { "x": -14, "y": 0, "parts": [ "frame_horizontal_2", "halfboard_horizontal_2" ] },
-      { "x": -14, "y": 0, "parts": [ "rebar_plate", "headlight" ] },
+      { "x": -14, "y": 0, "parts": [ "frame_horizontal_2", "halfboard_horizontal_2", "headlight", "rebar_plate" ] },
       { "x": -14, "y": 1, "parts": [ "frame_horizontal_2", "halfboard_horizontal_2", "rebar_plate" ] },
-      { "x": -14, "y": 2, "parts": [ "frame_horizontal_2", "halfboard_horizontal_2" ] },
-      { "x": -14, "y": 2, "parts": [ "rebar_plate", "headlight" ] },
+      { "x": -14, "y": 2, "parts": [ "frame_horizontal_2", "halfboard_horizontal_2", "headlight",  "rebar_plate"] },
       { "x": -14, "y": 3, "parts": [ "frame_se", "halfboard_se", "rebar_plate" ] }
     ]
   }
