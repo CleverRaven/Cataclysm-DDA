@@ -259,11 +259,6 @@ bool monexamine::pet_menu( monster &z )
                 play_with( z );
             }
             break;
-        case pheromone:
-            if( query_yn( _( "Really kill the zombie slave?" ) ) ) {
-                kill_zslave( z );
-            }
-            break;
         case rope:
             tie_or_untie( z );
             break;
