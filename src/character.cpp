@@ -5082,24 +5082,28 @@ void weariness_tracker::clear()
     tick_counter = 0;
 }
 
-void Character::mod_stored_kcal( int nkcal )
+void Character::mod_stored_kcal( int nkcal, const bool ignore_weariness )
 {
     const bool npc_no_food = is_npc() && get_option<bool>( "NO_NPC_FOOD" );
     if( !npc_no_food ) {
-        mod_stored_calories( nkcal * 1000 );
+        mod_stored_calories( nkcal * 1000, ignore_weariness );
     }
 }
 
-void Character::mod_stored_calories( int ncal )
+void Character::mod_stored_calories( int ncal, const bool ignore_weariness )
 {
     int nkcal = ncal / 1000;
     if( nkcal > 0 ) {
         add_gained_calories( nkcal );
-        weary.intake += nkcal;
+        if( !ignore_weariness ) {
+            weary.intake += nkcal;
+        }
     } else {
         add_spent_calories( -nkcal );
         // nkcal is negative, we need positive
-        weary.tracker -= nkcal;
+        if( !ignore_weariness ) {
+            weary.tracker -= nkcal;
+        }
     }
     set_stored_calories( stored_calories + ncal );
 }
