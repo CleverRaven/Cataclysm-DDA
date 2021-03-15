@@ -38,7 +38,7 @@
         "8": [ "t_floor_paper" ]
       },
       "monsters": { "8": { "monster": "GROUP_WASP_QUEEN", "density": 0.1 } },
-      "place_monsters": [ { "monster": "GROUP_WASP_GUARD", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 0, 3 ], "density": 0.2 } ]
+      "place_monsters": [ { "monster": "GROUP_WASP_NEST", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 0, 3 ], "density": 0.2 } ]
     }
   }
 ]
