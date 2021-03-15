@@ -276,11 +276,11 @@
       { "x": 2, "y": 2, "parts": [ "frame_cross", "windshield_horizontal_front_edge" ] },
       { "x": 2, "y": 3, "parts": [ "frame_sw", "board_horizontal" ] },
       { "x": 2, "y": 4, "parts": [ "frame_ne", "halfboard_ne" ] },
-      { "x": 3, "y": -1, "parts": [ "frame_nw", "halfboard_nw", "rebar_plate" ] },
-      { "x": 3, "y": 0, "parts": [ "frame_horizontal_2", "halfboard_horizontal_2", "headlight", "rebar_plate" ] },
-      { "x": 3, "y": 1, "parts": [ "frame_horizontal_2", "halfboard_horizontal_2", "rebar_plate" ] },
-      { "x": 3, "y": 2, "parts": [ "frame_horizontal_2", "halfboard_horizontal_2", "headlight", "rebar_plate" ] },
-      { "x": 3, "y": 3, "parts": [ "frame_ne", "halfboard_ne", "rebar_plate" ] },
+      { "x": 3, "y": -1, "parts": [ "frame_nw", "halfboard_nw", "steel_plate" ] },
+      { "x": 3, "y": 0, "parts": [ "frame_horizontal_2", "halfboard_horizontal_2", "headlight", "steel_plate" ] },
+      { "x": 3, "y": 1, "parts": [ "frame_horizontal_2", "halfboard_horizontal_2", "steel_plate" ] },
+      { "x": 3, "y": 2, "parts": [ "frame_horizontal_2", "halfboard_horizontal_2", "headlight", "steel_plate" ] },
+      { "x": 3, "y": 3, "parts": [ "frame_ne", "halfboard_ne", "steel_plate" ] },
       { "x": -1, "y": -2, "parts": [ "frame_vertical_2", "board_vertical_left" ] },
       { "x": -1, "y": -1, "parts": [ "frame_cross", "aisle_horizontal", "roof" ] },
       { "x": -1, "y": 0, "parts": [ "frame_cross", "aisle_horizontal", "roof" ] },
@@ -372,11 +372,11 @@
       { "x": -13, "y": 2, "parts": [ "frame_cross", "windshield_horizontal_front_edge" ] },
       { "x": -13, "y": 3, "parts": [ "frame_nw", "board_horizontal" ] },
       { "x": -13, "y": 4, "parts": [ "frame_se", "halfboard_se" ] },
-      { "x": -14, "y": -1, "parts": [ "frame_sw", "halfboard_sw", "rebar_plate" ] },
-      { "x": -14, "y": 0, "parts": [ "frame_horizontal_2", "halfboard_horizontal_2", "headlight", "rebar_plate" ] },
-      { "x": -14, "y": 1, "parts": [ "frame_horizontal_2", "halfboard_horizontal_2", "rebar_plate" ] },
-      { "x": -14, "y": 2, "parts": [ "frame_horizontal_2", "halfboard_horizontal_2", "headlight",  "rebar_plate"] },
-      { "x": -14, "y": 3, "parts": [ "frame_se", "halfboard_se", "rebar_plate" ] }
+      { "x": -14, "y": -1, "parts": [ "frame_sw", "halfboard_sw", "steel_plate" ] },
+      { "x": -14, "y": 0, "parts": [ "frame_horizontal_2", "halfboard_horizontal_2", "headlight", "steel_plate" ] },
+      { "x": -14, "y": 1, "parts": [ "frame_horizontal_2", "halfboard_horizontal_2", "steel_plate" ] },
+      { "x": -14, "y": 2, "parts": [ "frame_horizontal_2", "halfboard_horizontal_2", "headlight",  "steel_plate"] },
+      { "x": -14, "y": 3, "parts": [ "frame_se", "halfboard_se", "steel_plate" ] }
     ]
   }
 ]
