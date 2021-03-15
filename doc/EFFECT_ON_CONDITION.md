@@ -1,5 +1,5 @@
 ### effect_on_condition
-An effect_on_condition is an object allowing the combination of dialog conditions and effects and their usage outside of a dialog.  When invoked they will test their condition and on a pass then cause their effect. They can be activated automatically with any given frequency.  effect_on_conditions use the npc dialog conditions and effects syntax and those allow checking or effecting an npc, which an effect_on_condition does not have.  Doing so is nonsensical, unsupported, and should not be used in an effect_on_condition.
+An effect_on_condition is an object allowing the combination of dialog conditions and effects and their usage outside of a dialog.  When invoked they will test their condition and on a pass then cause their effect. They can be activated automatically with any given frequency.  effect_on_conditions use the npc dialog conditions and effects syntax, which allows checking or effecting an npc, for example: `npc_has_trait`.  Using these commands in an effect_on_condition is not supported.
 
 ## Fields
 
