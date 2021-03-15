@@ -310,18 +310,30 @@
       { "x": -4, "y": 3, "parts": [ "hdframe_cross", "board_horizontal", "roof" ] },
       { "x": -4, "y": 4, "parts": [ "hdframe_vertical_2", "board_vertical_T_right" ] },
       { "x": -5, "y": -2, "parts": [ "hdframe_vertical_2", "board_vertical_left" ] },
-      { "x": -5, "y": -1, "parts": [ "hdframe_cross", "engine_electric_train", "spring_plate", "roof" ] },
+      {
+        "x": -5,
+        "y": -1,
+        "parts": [ "hdframe_cross", "engine_electric_train", "large_storage_battery", "spring_plate", "roof" ]
+      },
       { "x": -5, "y": 0, "parts": [ "hdframe_cross", "board_vertical_right", "roof" ] },
       { "x": -5, "y": 1, "parts": [ "hdframe_cross", "aisle_vertical", "roof" ] },
       { "x": -5, "y": 2, "parts": [ "hdframe_cross", "board_vertical_left", "roof" ] },
       { "x": -5, "y": 3, "parts": [ "hdframe_cross", "large_storage_battery", "spring_plate", "roof" ] },
       { "x": -5, "y": 4, "parts": [ "hdframe_vertical_2", "board_vertical_right" ] },
       { "x": -6, "y": -2, "parts": [ "hdframe_vertical_2", "board_vertical_left" ] },
-      { "x": -6, "y": -1, "parts": [ "hdframe_cross", "large_storage_battery", "spring_plate", "roof" ] },
+      {
+        "x": -6,
+        "y": -1,
+        "parts": [ "hdframe_cross", "engine_electric_train", "large_storage_battery", "spring_plate", "roof" ]
+      },
       { "x": -6, "y": 0, "parts": [ "hdframe_cross", "board_vertical_right", "roof" ] },
       { "x": -6, "y": 1, "parts": [ "hdframe_cross", "aisle_vertical", "roof" ] },
       { "x": -6, "y": 2, "parts": [ "hdframe_cross", "board_vertical_left", "roof" ] },
-      { "x": -6, "y": 3, "parts": [ "hdframe_cross", "large_storage_battery", "spring_plate", "roof" ] },
+      {
+        "x": -6,
+        "y": 3,
+        "parts": [ "hdframe_cross", "engine_electric_train", "large_storage_battery", "spring_plate", "roof" ]
+      },
       { "x": -6, "y": 4, "parts": [ "hdframe_vertical_2", "board_vertical_right" ] },
       { "x": -7, "y": -2, "parts": [ "hdframe_vertical_2", "board_vertical_T_left" ] },
       { "x": -7, "y": -1, "parts": [ "hdframe_cross", "board_horizontal", "roof" ] },
