@@ -151,6 +151,7 @@ TEST_CASE( "check_npc_behavior_tree", "[npc][behavior]" )
     CHECK( npc_needs.tick( &oracle ) == "idle" );
     SECTION( "Freezing" ) {
         g->weather.temperature = -100;
+        get_weather().clear_temp_cache();
         test_npc.update_bodytemp();
         CHECK( npc_needs.tick( &oracle ) == "idle" );
         item &sweater = test_npc.i_add( item( itype_id( "sweater" ) ) );
