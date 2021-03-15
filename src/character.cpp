@@ -1449,11 +1449,6 @@ bool Character::uncanny_dodge()
     map &here = get_map();
     const optional_vpart_position veh_part = here.veh_at( position );
     if( in_vehicle && veh_part && veh_part.avail_part_with_feature( "SEATBELT" ) ) {
-        if( is_u ) {
-            add_msg( _( "You try to dodge, but the seatbelt is in the way!" ) );
-        } else if( seen ) {
-            add_msg( _( "%s tries to dodge, but the seatbelt is in the way!" ), this->disp_name() );
-        }
         return false;
     }
 
