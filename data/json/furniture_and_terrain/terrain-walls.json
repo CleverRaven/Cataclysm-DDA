@@ -1362,7 +1362,7 @@
     "color": "light_gray",
     "move_cost": 6,
     "coverage": 20,
-    "flags": [ "WALL", "PERMEABLE" ],
+    "flags": [ "TRANSPARENT", "WALL", "SHORT", "PERMEABLE" ],
     "bash": {
       "str_min": 350,
       "str_max": 650,
