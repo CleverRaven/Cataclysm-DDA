@@ -1445,9 +1445,26 @@ bool Character::uncanny_dodge()
     } else if( can_dodge_mut ) {
         mod_stamina( -300 );
     }
+
+    map &here = get_map();
+    const optional_vpart_position veh_part = here.veh_at( position );
+    if( in_vehicle && veh_part && veh_part.avail_part_with_feature( "SEATBELT" ) ) {
+        return false;
+    }
+
+    //uncanny dodge triggered in car and wasn't secured by seatbelt
+    if( in_vehicle && veh_part ) {
+        here.unboard_vehicle( pos() );
+    }
     if( adjacent.x != posx() || adjacent.y != posy() ) {
         position.x = adjacent.x;
         position.y = adjacent.y;
+
+        //landed in a vehicle tile
+        if( here.veh_at( position ) ) {
+            here.board_vehicle( pos(), this );
+        }
+
         if( is_u ) {
             add_msg( _( "Time seems to slow down, and you instinctively dodge!" ) );
         } else if( seen ) {
