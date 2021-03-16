@@ -75,6 +75,7 @@
       },
       "marloss": { "kill on sight": true }
     },
+    "epilogues": [ { "power_min": 0, "id": "epilogue_faction_robofac_0" }, { "power_max": 150, "id": "epilogue_faction_robofac_150" } ],
     "description": "The surviving staff of Hub 01, a pre-Cataclysm research lab.  They rarely leave their lab, if at all, and rely on their robots and advanced technology to survive."
   },
   {
