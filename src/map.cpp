@@ -322,6 +322,12 @@ std::unique_ptr<vehicle> map::detach_vehicle( vehicle *veh )
     level_cache &ch = get_cache( z );
     for( size_t i = 0; i < current_submap->vehicles.size(); i++ ) {
         if( current_submap->vehicles[i].get() == veh ) {
+            for( const tripoint &pt : veh->get_points() ) {
+                // FIXME: allow memorizing all objects in a tile and only clear
+                // vehicle memory here.
+                get_avatar().clear_memorized_tile( getabs( pt ) );
+                set_memory_seen_cache_dirty( pt );
+            }
             ch.vehicle_list.erase( veh );
             ch.zone_vehicles.erase( veh );
             std::unique_ptr<vehicle> result = std::move( current_submap->vehicles[i] );
@@ -2268,8 +2274,8 @@ void map::drop_vehicle( const tripoint &p )
     if( !vp ) {
         return;
     }
-
     vp->vehicle().is_falling = true;
+    set_seen_cache_dirty( p );
 }
 
 void map::drop_fields( const tripoint &p )
@@ -2810,7 +2816,7 @@ bool map::has_nearby_table( const tripoint &p, int radius )
         if( has_flag( "FLAT_SURF", pt ) ) {
             return true;
         }
-        const optional_vpart_position vp = veh_at( p );
+        const optional_vpart_position vp = veh_at( pt );
         if( vp && vp->part_with_feature( "FLAT_SURF", true ) ) {
             return true;
         }
@@ -4604,6 +4610,7 @@ static bool process_map_items( item_stack &items, safe_reference<item> &item_ref
         // Item is to be destroyed so erase it from the map stack
         // unless it was already destroyed by processing.
         if( item_ref ) {
+            items.get_iterator_from_pointer( item_ref.get() )->spill_contents( location );
             items.erase( items.get_iterator_from_pointer( item_ref.get() ) );
         }
         return true;
@@ -5232,7 +5239,7 @@ void map::trap_set( const tripoint &p, const trap_id &type )
     }
     const ter_t &ter = current_submap->get_ter( l ).obj();
     if( ter.trap != tr_null ) {
-        debugmsg( "set trap %s on top of terrain %s which already has a builit-in trap",
+        debugmsg( "set trap %s on top of terrain %s which already has a built-in trap",
                   type.obj().name(), ter.name() );
         return;
     }

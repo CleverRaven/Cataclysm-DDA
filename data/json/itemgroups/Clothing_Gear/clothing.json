@@ -3015,6 +3015,7 @@
       {
         "distribution": [
           { "item": "case_violin", "prob": 5 },
+          { "item": "bookstrap", "prob": 5 },
           { "item": "quiver", "prob": 20 },
           { "item": "quiver_large", "prob": 15 },
           { "item": "solarpack", "prob": 5 },

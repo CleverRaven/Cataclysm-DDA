@@ -761,7 +761,7 @@ static JsonIn submap_cosmetic( submap_cosmetic_ss );
 static void load_from_jsin( submap &sm, JsonIn &jsin )
 {
     // Ensure that the JSON is up to date for our savegame version
-    REQUIRE( savegame_version == 32 );
+    REQUIRE( savegame_version == 33 );
     jsin.start_object();
     int version = 0;
     while( !jsin.end_object() ) {

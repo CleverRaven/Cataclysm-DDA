@@ -780,7 +780,7 @@
     "type": "GENERIC",
     "name": { "str": "Technomancer toolbar" },
     "//": "Combat stats based off crowbar +1, techniques off Halligan bar(closest non-magical substitute), weight based on 75% of hammer & wrench(since their handles aren't included) + 100% crowbar with benefit from +1 enchantment",
-    "description": "This staff incorporates a sturdy cresent wrench on top of a prybar and a hammer on the other in a convienent package.  There is a Technomancer rune embedded in the hammerhead.",
+    "description": "This staff incorporates a sturdy cresent wrench on top of a prybar and a hammer on the other in a convenient package.  There is a Technomancer rune embedded in the hammerhead.",
     "weight": "995 g",
     "volume": "1750 ml",
     "longest_side": "65 cm",

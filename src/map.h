@@ -205,6 +205,14 @@ class map
         map &operator=( map && ) = default;
 
         /**
+         * Tinymaps will ocassionally need to skip npc rotation in map::rotate
+         * Here's a little trigger for them to opt out. We won't be doing that here, though
+         */
+        virtual bool skip_npc_rotation() const {
+            return false;
+        }
+
+        /**
          * Sets a dirty flag on the a given cache.
          *
          * If this isn't set, it's just assumed that
@@ -1636,7 +1644,6 @@ class map
         void draw_lab( mapgendata &dat );
         void draw_temple( const mapgendata &dat );
         void draw_mine( mapgendata &dat );
-        void draw_spiral( const mapgendata &dat );
         void draw_anthill( const mapgendata &dat );
         void draw_slimepit( const mapgendata &dat );
         void draw_spider_pit( const mapgendata &dat );
@@ -1957,6 +1964,12 @@ class tinymap : public map
     public:
         explicit tinymap( int mapsize = 2, bool zlevels = false );
         bool inbounds( const tripoint &p ) const override;
+
+        /** Sometimes you need to generate and rotate a tinymap without touching npcs */
+        bool skip_npc_rotation() const override {
+            return no_rotate_npcs;
+        }
+        bool no_rotate_npcs = false;
 };
 
 class fake_map : public tinymap

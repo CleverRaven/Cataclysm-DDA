@@ -34,6 +34,7 @@
 #include "visitable.h"
 
 class Character;
+class Creature;
 class JsonIn;
 class JsonObject;
 class JsonOut;
@@ -619,7 +620,7 @@ class item : public visitable
         * Calculate the item's effective damage per second past armor when wielded by a
          * character against a monster.
          */
-        double effective_dps( const Character &guy, monster &mon ) const;
+        double effective_dps( const Character &guy, Creature &mon ) const;
         /**
          * calculate effective dps against a stock set of monsters.  by default, assume g->u
          * is wielding
@@ -896,7 +897,7 @@ class item : public visitable
          * 1 for other comestibles,
          * 0 otherwise.
          */
-        int spoilage_sort_order();
+        int spoilage_sort_order() const;
 
         /** an item is fresh if it is capable of rotting but still has a long shelf life remaining */
         bool is_fresh() const {
@@ -1239,7 +1240,7 @@ class item : public visitable
         float get_specific_heat_liquid() const;
         float get_specific_heat_solid() const;
         float get_latent_heat() const;
-        float get_freeze_point() const; // Fahrenheit
+        float get_freeze_point() const; // Celsius
 
         // If this is food, returns itself.  If it contains food, return that
         // contents.  Otherwise, returns nullptr.

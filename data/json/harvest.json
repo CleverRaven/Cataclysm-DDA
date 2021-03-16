@@ -238,6 +238,11 @@
     "entries": [ { "drop": "cherries", "base_num": [ 6, 18 ], "scale_num": [ 0, 0.5 ] } ]
   },
   {
+    "id": "coffee_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "coffee_pod", "base_num": [ 4, 10 ], "scale_num": [ 0, 0.5 ] } ]
+  },
+  {
     "id": "pear_harv",
     "type": "harvest",
     "entries": [ { "drop": "pear", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ]

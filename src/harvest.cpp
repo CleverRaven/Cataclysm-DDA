@@ -154,6 +154,11 @@ void harvest_list::check_consistency()
     }
 }
 
+void harvest_list::reset()
+{
+    harvest_list_factory.reset();
+}
+
 std::list<harvest_entry>::const_iterator harvest_list::begin() const
 {
     return entries().begin();

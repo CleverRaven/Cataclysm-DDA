@@ -3018,7 +3018,7 @@ void iexamine::fireplace( player &p, const tripoint &examp )
                 p.add_msg_if_player( _( "You attempt to start a fire with your %s…" ), it->tname() );
                 const ret_val<bool> can_use = actor->can_use( p, *it, false, examp );
                 if( can_use.success() ) {
-                    const int charges = actor->use( p, *it, false, examp );
+                    const int charges = actor->use( p, *it, false, examp ).value_or( 0 );
                     p.use_charges( it->typeId(), charges );
                     return;
                 } else {
@@ -4125,7 +4125,11 @@ void iexamine::curtains( player &p, const tripoint &examp )
     } else if( choice == 1 ) {
         // Mr. Gorbachev, tear down those curtains!
         if( here.ter( examp )->has_curtains() ) {
+            bool is_open = here.ter( examp )->open.is_empty() || here.ter( examp )->open.is_null();
             here.ter_set( examp, here.ter( examp )->curtain_transform );
+            if( is_open ) {
+                here.ter_set( examp, here.ter( examp )->open );
+            }
         }
 
         here.spawn_item( p.pos(), itype_nail, 1, 4, calendar::turn );
@@ -4494,10 +4498,15 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
         amenu.selected = uistate.ags_pay_gas_selected_pump;
         amenu.text = str_to_illiterate_str( string_format( _( "Please choose %s pump:" ), fuelType ) );
 
+        std::vector<tripoint> pumps;
         for( int i = 0; i < pumpCount; i++ ) {
             amenu.addentry( i, true, -1,
                             str_to_illiterate_str( _( "Pump " ) ) + std::to_string( i + 1 ) );
+            pumps.emplace_back( getGasPumpByNumber( examp, i ).value_or( examp ) );
         }
+        pointmenu_cb callback( pumps );
+        amenu.callback = &callback;
+        amenu.w_y_setup = 0;
         amenu.query();
         choice = amenu.ret;
 
@@ -4635,7 +4644,7 @@ void iexamine::ledge( player &p, const tripoint &examp )
             } else {
                 add_msg( m_info, _( "You jump over an obstacle." ) );
                 p.increase_activity_level( LIGHT_EXERCISE );
-                p.setpos( dest );
+                g->place_player( dest );
             }
             break;
         }
@@ -5064,7 +5073,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         }
 
         case BONESETTING: {
-            if( !arm_splints.empty() && !leg_splints.empty() ) {
+            if( arm_splints.empty() && leg_splints.empty() ) {
                 popup( _( "Internal supply of splints exhausted.  Operation impossible.  Exiting." ) );
                 return;
             }
@@ -5085,7 +5094,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 // TODO: fail here if unable to perform the action, i.e. can't wear more, trait mismatch.
                 int quantity = 1;
                 if( part == bodypart_id( "arm_l" ) || part == bodypart_id( "arm_r" ) ) {
-                    if( arm_splints.empty() ) {
+                    if( !arm_splints.empty() ) {
                         for( const item &it : get_map().use_amount( examp, 1, itype_arm_splint, quantity ) ) {
                             patient.wear_item( it, false );
                         }
@@ -5094,7 +5103,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                         continue;
                     }
                 } else if( part == bodypart_id( "leg_l" ) || part == bodypart_id( "leg_r" ) ) {
-                    if( leg_splints.empty() ) {
+                    if( !leg_splints.empty() ) {
                         for( const item &it : get_map().use_amount( examp, 1, itype_leg_splint, quantity ) ) {
                             patient.wear_item( it, false );
                         }

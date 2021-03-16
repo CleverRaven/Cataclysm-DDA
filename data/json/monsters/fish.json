@@ -154,7 +154,7 @@
     "luminance": 0,
     "reproduction": { "baby_egg": "egg_fish", "baby_count": 2, "baby_timer": 17 },
     "baby_flags": [ "SPRING", "SUMMER" ],
-    "fear_triggers": [ "SOUND" ],
+    "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
     "harvest": "fish_large",
     "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC" ]
@@ -426,11 +426,6 @@
     "type": "MONSTER",
     "copy-from": "mon_fish_large",
     "name": { "ctxt": "fish", "str": "pike" },
-    "aggression": 0,
-    "melee_skill": 3,
-    "melee_dice_sides": 6,
-    "melee_cut": 4,
-    "anger_triggers": [ "PLAYER_CLOSE" ],
     "description": "A northern pike.  Pike can be a pretty aggressive fish, careful around those teeth."
   },
   {
@@ -445,12 +440,6 @@
     "type": "MONSTER",
     "copy-from": "mon_fish_large",
     "name": { "str": "muskellunge" },
-    "aggression": 0,
-    "morale": 0,
-    "melee_skill": 3,
-    "melee_dice_sides": 6,
-    "melee_cut": 3,
-    "anger_triggers": [ "PLAYER_CLOSE" ],
     "looks_like": "mon_fish_pike",
     "description": "A muskellunge.  Closely related to pike, it shares the same aggression and sharp teeth."
   },
