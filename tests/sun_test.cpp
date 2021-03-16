@@ -114,73 +114,29 @@ TEST_CASE( "daily solar cycle", "[sun][night][dawn][day][dusk]" )
 }
 
 // The calendar `sunlight` function returns light level for both sun and moon.
-TEST_CASE( "sunlight and moonlight", "[sun][sunlight][moonlight]" )
+TEST_CASE( "sunlight", "[sun][sunlight]" )
 {
-    // Use sunrise/sunset on the first day (spring equinox)
+    // Use sunrise/sunset on the first day
     static const time_point midnight = calendar::turn_zero;
     static const time_point today_sunrise = sunrise( midnight );
+	static const time_point today_midday = midnight + 12_hours;
     static const time_point today_sunset = sunset( midnight );
 
-    // Expected numbers below assume 100.0f maximum daylight level
-    // (maximum daylight is different at other times of year - see [daylight] tests)
     REQUIRE( 100.0f == default_daylight_level() );
 
     SECTION( "sunlight" ) {
         // Before dawn
         CHECK( 1.0f == sunlight( midnight ) );
-        CHECK( 1.0f == sunlight( today_sunrise ) );
-        // Dawn
-        CHECK( 1.0275f == sunlight( today_sunrise + 1_seconds ) );
-        CHECK( 2.65f == sunlight( today_sunrise + 1_minutes ) );
-        CHECK( 25.75f == sunlight( today_sunrise + 15_minutes ) );
-        CHECK( 50.50f == sunlight( today_sunrise + 30_minutes ) );
-        CHECK( 75.25f == sunlight( today_sunrise + 45_minutes ) );
-        // 1 second before full daylight
-        CHECK( 99.9725f == sunlight( today_sunrise + 1_hours - 1_seconds ) );
-        CHECK( 100.0f == sunlight( today_sunrise + 1_hours ) );
-        // End of dawn, full light all day
-        CHECK( 100.0f == sunlight( today_sunrise + 2_hours ) );
-        CHECK( 100.0f == sunlight( today_sunrise + 3_hours ) );
-        // Noon
-        CHECK( 100.0f == sunlight( midnight + 12_hours ) );
-        CHECK( 100.0f == sunlight( midnight + 13_hours ) );
-        CHECK( 100.0f == sunlight( midnight + 14_hours ) );
-        // Dusk begins
-        CHECK( 100.0f == sunlight( today_sunset ) );
-        // 1 second after dusk begins
-        CHECK( 99.9725f == sunlight( today_sunset + 1_seconds ) );
-        CHECK( 75.25f == sunlight( today_sunset + 15_minutes ) );
-        CHECK( 50.50f == sunlight( today_sunset + 30_minutes ) );
-        CHECK( 25.75f == sunlight( today_sunset + 45_minutes ) );
-        // 1 second before full night
-        CHECK( 1.0275f == sunlight( today_sunset + 1_hours - 1_seconds ) );
-        CHECK( 1.0f == sunlight( today_sunset + 1_hours ) );
-        // After dusk
-        CHECK( 1.0f == sunlight( today_sunset + 2_hours ) );
-        CHECK( 1.0f == sunlight( today_sunset + 3_hours ) );
-    }
-
-    // This moonlight test is intentionally simple, only checking new moon (minimal light) and full
-    // moon (maximum moonlight). More detailed tests of moon phase and light should be expressed in
-    // `moon_test.cpp`. Including here simply to check that `sunlight` also calculates moonlight.
-    SECTION( "moonlight" ) {
-        static const time_duration phase_time = calendar::season_length() / 6;
-        static const time_point new_moon = calendar::turn_zero;
-        static const time_point full_moon = new_moon + phase_time;
-
-        WHEN( "the moon is new" ) {
-            REQUIRE( get_moon_phase( new_moon ) == MOON_NEW );
-            THEN( "moonlight is 1.0" ) {
-                CHECK( 1.0f == sunlight( new_moon ) );
-            }
-        }
-
-        WHEN( "the moon is full" ) {
-            REQUIRE( get_moon_phase( full_moon ) == MOON_FULL );
-            THEN( "moonlight is 10.0" ) {
-                CHECK( 10.0f == sunlight( full_moon ) );
-            }
-        }
+		
+		// Dawn and sunset
+        CHECK( sunlight( today_sunrise ) == Approx( 75 ).margin( 2 ) );
+		CHECK( sunlight( today_sunset ) == Approx( 75 ).margin( 2 ) );
+		
+		CHECK( sunlight( today_sunrise - 1_hours ) == Approx( 35 ).margin( 1 ) );
+		CHECK( sunlight( today_sunset + 1_hours ) == Approx( 35 ).margin( 1 ) );
+		
+		// Midday
+		CHECK( sunlight( today_midday ) == Approx( 125 ).margin( 1 ) );
     }
 }
 

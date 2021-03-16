@@ -214,18 +214,14 @@ TEST_CASE( "moonlight at dawn and dusk", "[calendar][moon][moonlight][dawn][dusk
         time_point new_midnight = new_phase - time_past_midnight( new_phase );
         time_point new_sunrise = sunrise( new_midnight );
         time_point new_sunset = sunset( new_midnight );
-        time_point new_noon = new_midnight + 12_hours;
 
         // Daylight level should be 100 at first new moon
         float moonlight_level = 1.0f;
 
         THEN( "at night, light is only moonlight" ) {
-            CHECK( sunlight( new_sunset + 61_minutes ) == moonlight_level );
+            CHECK( sunlight( new_sunset + 2_hours ) == moonlight_level );
             CHECK( sunlight( new_midnight ) == moonlight_level );
-            CHECK( sunlight( new_sunrise - 1_minutes ) == moonlight_level );
-        }
-        THEN( "at dusk, light decreases from daylight to moonlight" ) {
-            CHECK( sunlight( new_sunset + 1_hours ) == moonlight_level );
+            CHECK( sunlight( new_sunrise - 2_hours ) == moonlight_level );
         }
     }
 
@@ -235,18 +231,14 @@ TEST_CASE( "moonlight at dawn and dusk", "[calendar][moon][moonlight][dawn][dusk
         time_point full_midnight = full_phase - time_past_midnight( full_phase );
         time_point full_sunrise = sunrise( full_midnight );
         time_point full_sunset = sunset( full_midnight );
-        time_point full_noon = full_midnight + 12_hours;
 
         // Daylight level is higher, later in the season (~104 at first full moon)
         float moonlight_level = 10.0f;
 
         THEN( "at night, light is only moonlight" ) {
-            CHECK( sunlight( full_sunset + 100_minutes ) == moonlight_level );
+            CHECK( sunlight( full_sunset + 2_hours ) == moonlight_level );
             CHECK( sunlight( full_midnight ) == moonlight_level );
-            CHECK( sunlight( full_sunrise - 1_minutes ) == moonlight_level );
-        }
-        THEN( "at dusk, light decreases from daylight to moonlight" ) {
-            CHECK( sunlight( full_sunset + 1_hours ) == moonlight_level );
+            CHECK( sunlight( full_sunrise - 2_hours ) == moonlight_level );
         }
     }
 }

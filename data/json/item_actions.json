@@ -956,6 +956,11 @@
   },
   {
     "type": "item_action",
+    "id": "SEXTANT",
+    "name": { "str": "Measure Sun angle" }
+  },
+  {
+    "type": "item_action",
     "id": "WEED_CAKE",
     "name": { "str": "Consume" }
   },

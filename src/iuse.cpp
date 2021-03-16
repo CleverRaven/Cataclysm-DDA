@@ -9221,6 +9221,15 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
     return 0;
 }
 
+int iuse::sextant( player *p, item *it, bool, const tripoint & )
+{
+	
+	p->add_msg_if_player( m_neutral, _( "Sun altitude: %.1f degrees." ), to_degrees( solar_altitude( calendar::turn ) ) );
+	p->add_msg_if_player( m_neutral, _( "Sun declination: %.1f degrees." ), to_degrees( solar_declination( calendar::turn ) ) );
+
+    return 0;
+}
+
 int iuse::directional_hologram( player *p, item *it, bool, const tripoint &pos )
 {
     if( it->is_armor() &&  !( p->is_worn( *it ) ) ) {
