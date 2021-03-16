@@ -124,8 +124,8 @@
     "name": "fish",
     "base_faction": "animal",
     "hate": [ "aquatic_predator", "zombie_aquatic" ],
-    "by_mood": "otter",
-    "neutral": [ "zombie", "bot", "animal", "small_animal", "exodii", "plant", "nether", "jabberwock" ]
+    "by_mood": [ "otter", "crayfish" ],
+    "neutral": [ "zombie", "bot", "animal", "small_animal", "exodii", "plant", "nether", "jabberwock", "insect" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -240,7 +240,7 @@
   {
     "type": "MONSTER_FACTION",
     "name": "insect",
-    "neutral": [ "bot", "zombie", "aquatic_predator" ],
+    "neutral": [ "bot", "zombie", "aquatic_predator", "fish" ],
     "by_mood": "insect"
   },
   {
