@@ -9282,7 +9282,7 @@ cata::optional<int> iuse::weather_tool( player *p, item *it, bool, const tripoin
 }
 
 
-cata::optional<int> iuse::sextant( player *p, item *it, bool, const tripoint & )
+cata::optional<int> iuse::sextant( player *p, item *, bool, const tripoint & )
 {
 
     p->add_msg_if_player( m_neutral, _( "Sun altitude: %.1f degrees." ),
