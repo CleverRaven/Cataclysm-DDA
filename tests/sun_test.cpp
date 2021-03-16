@@ -119,7 +119,7 @@ TEST_CASE( "sunlight", "[sun][sunlight]" )
     // Use sunrise/sunset on the first day
     static const time_point midnight = calendar::turn_zero;
     static const time_point today_sunrise = sunrise( midnight );
-	static const time_point today_midday = midnight + 12_hours;
+    static const time_point today_midday = midnight + 12_hours;
     static const time_point today_sunset = sunset( midnight );
 
     REQUIRE( 100.0f == default_daylight_level() );
@@ -127,16 +127,16 @@ TEST_CASE( "sunlight", "[sun][sunlight]" )
     SECTION( "sunlight" ) {
         // Before dawn
         CHECK( 1.0f == sunlight( midnight ) );
-		
-		// Dawn and sunset
+
+        // Dawn and sunset
         CHECK( sunlight( today_sunrise ) == Approx( 75 ).margin( 2 ) );
-		CHECK( sunlight( today_sunset ) == Approx( 75 ).margin( 2 ) );
-		
-		CHECK( sunlight( today_sunrise - 1_hours ) == Approx( 35 ).margin( 1 ) );
-		CHECK( sunlight( today_sunset + 1_hours ) == Approx( 35 ).margin( 1 ) );
-		
-		// Midday
-		CHECK( sunlight( today_midday ) == Approx( 125 ).margin( 1 ) );
+        CHECK( sunlight( today_sunset ) == Approx( 75 ).margin( 2 ) );
+
+        CHECK( sunlight( today_sunrise - 1_hours ) == Approx( 35 ).margin( 1 ) );
+        CHECK( sunlight( today_sunset + 1_hours ) == Approx( 35 ).margin( 1 ) );
+
+        // Midday
+        CHECK( sunlight( today_midday ) == Approx( 125 ).margin( 1 ) );
     }
 }
 

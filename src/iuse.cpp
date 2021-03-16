@@ -9284,9 +9284,11 @@ cata::optional<int> iuse::weather_tool( player *p, item *it, bool, const tripoin
 
 cata::optional<int> iuse::sextant( player *p, item *it, bool, const tripoint & )
 {
-	
-	p->add_msg_if_player( m_neutral, _( "Sun altitude: %.1f degrees." ), to_degrees( solar_altitude( calendar::turn ) ) );
-	p->add_msg_if_player( m_neutral, _( "Sun declination: %.1f degrees." ), to_degrees( solar_declination( calendar::turn ) ) );
+
+    p->add_msg_if_player( m_neutral, _( "Sun altitude: %.1f degrees." ),
+                          to_degrees( solar_altitude( calendar::turn ) ) );
+    p->add_msg_if_player( m_neutral, _( "Sun declination: %.1f degrees." ),
+                          to_degrees( solar_declination( calendar::turn ) ) );
 
     return 0;
 }
