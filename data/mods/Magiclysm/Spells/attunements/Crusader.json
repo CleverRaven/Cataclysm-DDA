@@ -1,0 +1,113 @@
+[
+  {
+    "id": "judgement_sword",
+    "type": "SPELL",
+    "name": "Sword of Judgement",
+    "description": "This blade of light will cut through any evil it makes contact with!",
+    "valid_targets": [ "self" ],
+    "flags": [ "VERBAL", "NO_LEGS", "CONCENTRATE", "MUST_HAVE_CLASS_TO_LEARN" ],
+    "min_range": 0,
+    "max_range": 0,
+    "min_damage": 1,
+    "max_damage": 1,
+    "effect": "spawn_item",
+    "effect_str": "longsword_judgement",
+    "shape": "blast",
+    "base_casting_time": 350,
+    "base_energy_cost": 500,
+    "min_duration": 360000,
+    "max_duration": 1440000,
+    "duration_increment": 40115,
+    "difficulty": 5,
+    "max_level": 35,
+    "spell_class": "CRUSADER",
+    "energy_source": "MANA"
+  },
+  {
+	"type": "technique",
+	"id": "RSTRIKE",
+	"name": "Radiant Strike",
+	"melee_allowed": true,
+	"crit_tec": true,
+	"messages": [ "Your sword bursts with radiant light, hitting everyone nearby.", "<npcname>'s sword bursts with radiant light, hitting everyone nearby." ],
+	"aoe": "spin",
+	"description": "Attack adjacent enemies, crit only"
+  },
+  {
+    "id": "holy_shield",
+    "type": "SPELL",
+    "name": "Holy Shield",
+    "description": "Summon a radiant shield to protect yourself from attacks. Affords protection from most energy based effects",
+    "valid_targets": [ "self" ],
+    "flags": [ "VERBAL", "CONCENTRATE", "MUST_HAVE_CLASS_TO_LEARN" ],
+    "effect": "spawn_item",
+    "effect_str": "holy_shield",
+    "shape": "blast",
+    "spell_class": "CRUSADER",
+    "energy_source": "MANA",
+    "base_casting_time": 350,
+    "base_energy_cost": 500,
+	"difficulty": 4,
+    "max_level": 35,
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_duration": 360000,
+    "max_duration": 1440000,
+    "duration_increment": 40115
+  },
+  {
+    "id": "holy_shield",
+    "type": "ARMOR",
+    "name": { "str_sp": "Holy Shield" },
+    "description": "A shield of radiant energy worn on your arm. Affords moderate protection from attacks and energy based effects.",
+    "weight": "5 g",
+    "volume": "1 ml",
+    "to_hit": -10,
+    "symbol": "[",
+    "color": "brown",
+    "covers": [ "arm_r", "arm_l" ],
+    "coverage": 100,
+    "encumbrance": 0,
+    "environmental_protection": 2,
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "values": [
+            { "value": "ARMOR_ACID", "multiply": -0.20 },
+            { "value": "ARMOR_ELEC", "multiply": -0.20 },
+            { "value": "ARMOR_BIO", "multiply": -0.20 },
+            { "value": "ARMOR_HEAT", "multiply": -0.20 },
+			{ "value": "ARMOR_COLD", "multiply": -0.20 }
+		  ]
+        }
+      ]
+    },
+    "flags": [ "WATERPROOF", "TRADER_AVOID", "SEMITANGIBLE", "ONLY_ONE", "OVERSIZE", "BELTED", "BLOCK_WHILE_WORN", "STURDY" ],
+	"techniques": [ "WBLOCK_3" ]
+  },
+  {
+    "id": "longsword_judgement",
+    "type": "GENERIC",
+    "name": { "str": "Sword of Judgement" },
+	"color": "light_gray",
+	"symbol": "/",
+	"price": 0,
+	"price_postapoc": 0,
+    "description": "A large sword made of glowing, radiant fire. It bathes the area in light and explodes with radiance when striking enemies.",
+    "material": [ "superalloy" ],
+    "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS", "LIGHT_80", "TRADER_AVOID" ],
+	"techniques": [ "RSTRIKE" ],
+	"qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
+	"weight": "1250 g",
+	"volume": "2750 ml",
+	"longest_side": "120cm",
+	"bashing": 0,
+    "cutting": 10,
+	"to_hit": 4,
+    "relic_data": {
+      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_PURE", "add": 45 } ] } ]
+    }
+  }
+]  
