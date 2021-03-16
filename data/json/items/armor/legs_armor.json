@@ -317,6 +317,7 @@
   {
     "id": "legguard_paper",
     "type": "ARMOR",
+    "category": "armor",
     "name": { "str": "pair of paper leg guards", "str_pl": "pairs of paper leg guards" },
     "description": "Leg guards made of stacked paper sheets held together with duct tape.",
     "weight": "370 g",

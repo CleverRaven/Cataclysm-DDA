@@ -1344,7 +1344,8 @@ void Character::dismount()
         remove_effect( effect_riding );
         monster *critter = mounted_creature.get();
         critter->mounted_player_id = character_id();
-        if( critter->has_flag( MF_RIDEABLE_MECH ) && !critter->type->mech_weapon.is_empty() ) {
+        if( critter->has_flag( MF_RIDEABLE_MECH ) && !critter->type->mech_weapon.is_empty() &&
+            weapon.typeId() == critter->type->mech_weapon ) {
             remove_item( weapon );
         }
         avatar &player_character = get_avatar();
@@ -1426,10 +1427,10 @@ bool Character::uncanny_dodge()
     bool seen = get_player_view().sees( *this );
 
     const bool can_dodge_bio = get_power_level() >= 75_kJ && has_active_bionic( bio_uncanny_dodge );
-    const bool can_dodge_mut = get_stamina() >= 2400 && has_trait_flag( json_flag_UNCANNY_DODGE );
+    const bool can_dodge_mut = get_stamina() >= 300 && has_trait_flag( json_flag_UNCANNY_DODGE );
     const bool can_dodge_both = get_power_level() >= 37500_J &&
                                 has_active_bionic( bio_uncanny_dodge ) &&
-                                get_stamina() >= 1200 && has_trait_flag( json_flag_UNCANNY_DODGE );
+                                get_stamina() >= 150 && has_trait_flag( json_flag_UNCANNY_DODGE );
 
     if( !( can_dodge_bio || can_dodge_mut || can_dodge_both ) ) {
         return false;
@@ -1438,15 +1439,32 @@ bool Character::uncanny_dodge()
 
     if( can_dodge_both ) {
         mod_power_level( -37500_J );
-        mod_stamina( -1200 );
+        mod_stamina( -150 );
     } else if( can_dodge_bio ) {
         mod_power_level( -75_kJ );
     } else if( can_dodge_mut ) {
-        mod_stamina( -2400 );
+        mod_stamina( -300 );
+    }
+
+    map &here = get_map();
+    const optional_vpart_position veh_part = here.veh_at( position );
+    if( in_vehicle && veh_part && veh_part.avail_part_with_feature( "SEATBELT" ) ) {
+        return false;
+    }
+
+    //uncanny dodge triggered in car and wasn't secured by seatbelt
+    if( in_vehicle && veh_part ) {
+        here.unboard_vehicle( pos() );
     }
     if( adjacent.x != posx() || adjacent.y != posy() ) {
         position.x = adjacent.x;
         position.y = adjacent.y;
+
+        //landed in a vehicle tile
+        if( here.veh_at( position ) ) {
+            here.board_vehicle( pos(), this );
+        }
+
         if( is_u ) {
             add_msg( _( "Time seems to slow down, and you instinctively dodge!" ) );
         } else if( seen ) {
@@ -2323,6 +2341,7 @@ bionic_id Character::get_most_efficient_bionic( const std::vector<bionic_id> &bi
 
 void Character::practice( const skill_id &id, int amount, int cap, bool suppress_warning )
 {
+    static const int INTMAX_SQRT = std::floor( std::sqrt( std::numeric_limits<int>::max() ) );
     SkillLevel &level = get_skill_level_object( id );
     const Skill &skill = id.obj();
     if( !level.can_train() && !in_sleep_state() ) {
@@ -2376,8 +2395,6 @@ void Character::practice( const skill_id &id, int amount, int cap, bool suppress
         }
     }
     if( amount > 0 && level.isTraining() ) {
-        int focus_drain_cap = std::sqrt( focus_pool * 1000 );
-        amount = std::min( amount, focus_drain_cap );
         int oldLevel = get_skill_level( id );
         get_skill_level_object( id ).train( amount );
         int newLevel = get_skill_level( id );
@@ -2401,6 +2418,9 @@ void Character::practice( const skill_id &id, int amount, int cap, bool suppress
             // The latter kicks in when long actions like crafting
             // apply many turns of gains at once.
             int focus_drain = std::max( focus_pool / 100, amount );
+            // For large values of amount, amount^2 can exceed INT_MAX.
+            // We're going to be draining all of the focus if it gets that large, so cap it at a safe value
+            focus_drain = std::min( focus_drain, INTMAX_SQRT );
             // The purpose of having this squared is that it makes focus drain dramatically slower
             // as it approaches zero.
             focus_pool -= ( focus_drain * focus_drain ) / 1000;
@@ -5079,24 +5099,28 @@ void weariness_tracker::clear()
     tick_counter = 0;
 }
 
-void Character::mod_stored_kcal( int nkcal )
+void Character::mod_stored_kcal( int nkcal, const bool ignore_weariness )
 {
     const bool npc_no_food = is_npc() && get_option<bool>( "NO_NPC_FOOD" );
     if( !npc_no_food ) {
-        mod_stored_calories( nkcal * 1000 );
+        mod_stored_calories( nkcal * 1000, ignore_weariness );
     }
 }
 
-void Character::mod_stored_calories( int ncal )
+void Character::mod_stored_calories( int ncal, const bool ignore_weariness )
 {
     int nkcal = ncal / 1000;
     if( nkcal > 0 ) {
         add_gained_calories( nkcal );
-        weary.intake += nkcal;
+        if( !ignore_weariness ) {
+            weary.intake += nkcal;
+        }
     } else {
         add_spent_calories( -nkcal );
         // nkcal is negative, we need positive
-        weary.tracker -= nkcal;
+        if( !ignore_weariness ) {
+            weary.tracker -= nkcal;
+        }
     }
     set_stored_calories( stored_calories + ncal );
 }
@@ -8784,7 +8808,7 @@ bool Character::invoke_item( item *used )
     return invoke_item( used, pos() );
 }
 
-bool Character::invoke_item( item *, const tripoint & )
+bool Character::invoke_item( item *, const tripoint &, int )
 {
     return false;
 }
@@ -8794,13 +8818,16 @@ bool Character::invoke_item( item *used, const std::string &method )
     return invoke_item( used, method, pos() );
 }
 
-bool Character::invoke_item( item *used, const std::string &method, const tripoint &pt )
+bool Character::invoke_item( item *used, const std::string &method, const tripoint &pt,
+                             int pre_obtain_moves )
 {
     if( !has_enough_charges( *used, true ) ) {
+        moves = pre_obtain_moves;
         return false;
     }
     if( used->is_medication() && !can_use_heal_item( *used ) ) {
         add_msg_if_player( m_bad, _( "Your biology is not compatible with that healing item." ) );
+        moves = pre_obtain_moves;
         return false;
     }
 
@@ -8808,22 +8835,28 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
     if( actually_used == nullptr ) {
         debugmsg( "Tried to invoke a method %s on item %s, which doesn't have this method",
                   method.c_str(), used->tname() );
+        moves = pre_obtain_moves;
         return false;
     }
 
-    int charges_used = actually_used->type->invoke( *this->as_player(), *actually_used, pt, method );
-    if( charges_used == 0 ) {
+    cata::optional<int> charges_used = actually_used->type->invoke( *this->as_player(), *actually_used,
+                                       pt, method );
+    if( !charges_used.has_value() ) {
+        moves = pre_obtain_moves;
+        return false;
+    }
+    if( charges_used.value() == 0 ) {
         return false;
     }
     // Prevent accessing the item as it may have been deleted by the invoked iuse function.
     if( used->is_tool() || actually_used->is_medication() ) {
-        return consume_charges( *actually_used, charges_used );
+        return consume_charges( *actually_used, charges_used.value() );
     } else if( used->is_bionic() || used->is_deployable() || method == "place_trap" ) {
         i_rem( used );
         return true;
     } else if( used->is_comestible() ) {
         const bool ret = consume_effects( *used );
-        consume_charges( *used, charges_used );
+        consume_charges( *used, charges_used.value() );
         return ret;
     }
 
@@ -9001,7 +9034,8 @@ bool Character::consume_charges( item &used, int qty )
     if( used.has_flag( flag_USE_UPS ) ) {
         // With the new UPS system, we'll want to use any charges built up in the tool before pulling from the UPS
         // The usage of the item was already approved, so drain item if possible, otherwise use UPS
-        if( used.charges >= qty ) {
+        if( used.charges >= qty || ( used.magazine_integral() &&
+                                     !used.has_flag( flag_id( "USES_BIONIC_POWER" ) ) && used.ammo_remaining() >= qty ) ) {
             used.ammo_consume( qty, pos() );
         } else {
             use_charges( itype_UPS, qty );
@@ -9835,8 +9869,10 @@ ret_val<bool> Character::can_wield( const item &it ) const
         return ret_val<bool>::make_failure( _( "The %s is preventing you from wielding the %s." ),
                                             weapname(), it.tname() );
     }
-
-    if( it.is_two_handed( *this ) && ( !has_two_arms() || worn_with_flag( flag_RESTRICT_HANDS ) ) ) {
+    monster *mount = mounted_creature.get();
+    if( it.is_two_handed( *this ) && ( !has_two_arms() || worn_with_flag( flag_RESTRICT_HANDS ) ) &&
+        !( is_mounted() && mount->has_flag( MF_RIDEABLE_MECH ) &&
+           mount->type->mech_weapon && it.typeId() == mount->type->mech_weapon ) ) {
         if( worn_with_flag( flag_RESTRICT_HANDS ) ) {
             return ret_val<bool>::make_failure(
                        _( "Something you are wearing hinders the use of both hands." ) );
@@ -9847,6 +9883,10 @@ ret_val<bool> Character::can_wield( const item &it ) const
             return ret_val<bool>::make_failure( _( "You are too weak to wield %s with only one arm." ),
                                                 it.tname() );
         }
+    }
+    if( is_mounted() && mount->has_flag( MF_RIDEABLE_MECH ) &&
+        mount->type->mech_weapon && it.typeId() != mount->type->mech_weapon ) {
+        return ret_val<bool>::make_failure( _( "You cannot wield anything while piloting a mech." ) );
     }
 
     return ret_val<bool>::make_success();
@@ -10446,19 +10486,26 @@ void Character::rooted_message() const
 }
 
 void Character::rooted()
-// Should average a point every two minutes or so; ground isn't uniformly fertile
+// This assumes that daily Iron, Calcium, and Thirst needs should be filled at the same rate.
+// Baseline humans need 96 Iron and Calcium, and 288 Thirst per day.
+// Thirst level -40 puts it right in the middle of the 'Hydrated' zone.
+// TODO: The rates for iron, calcium, and thirst should probably be pulled from the nutritional data rather than being hardcoded here, so that future balance changes don't break this.
 {
     double shoe_factor = footwear_factor();
     if( ( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) ) &&
         get_map().has_flag( flag_PLOWABLE, pos() ) && shoe_factor != 1.0 ) {
-        if( one_in( 96 ) ) {
+        int time_to_full = 43200; // 12 hours
+        if( has_trait( trait_ROOTS3 ) ) {
+            time_to_full += -14400;    // -4 hours
+        }
+        if( x_in_y( 96, time_to_full ) ) {
             vitamin_mod( vitamin_id( "iron" ), 1, true );
             vitamin_mod( vitamin_id( "calcium" ), 1, true );
+            mod_healthy_mod( 5, 50 );
         }
-        if( get_thirst() <= -2000 && x_in_y( 75, 425 ) ) {
+        if( get_thirst() > -40 && x_in_y( 288, time_to_full ) ) {
             mod_thirst( -1 );
         }
-        mod_healthy_mod( 5, 50 );
     }
 }
 

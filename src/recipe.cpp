@@ -502,6 +502,11 @@ std::string recipe::get_consistency_error() const
 item recipe::create_result() const
 {
     item newit( result_, calendar::turn, item::default_charges_tag{} );
+
+    if( newit.has_flag( flag_VARSIZE ) ) {
+        newit.set_flag( flag_FIT );
+    }
+
     if( charges ) {
         newit.charges = *charges;
     }

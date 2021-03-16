@@ -27,7 +27,6 @@
 #include "character.h"
 #include "colony.h"
 #include "color.h"
-#include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "construction.h"
 #include "construction_group.h"
 #include "coordinate_conversions.h"
@@ -131,6 +130,7 @@ static const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
 static const json_character_flag json_flag_ATTUNEMENT( "ATTUNEMENT" );
 
 static const itype_id itype_2x4( "2x4" );
+static const itype_id itype_arm_splint( "arm_splint" );
 static const itype_id itype_bot_broken_cyborg( "bot_broken_cyborg" );
 static const itype_id itype_bot_prototype_cyborg( "bot_prototype_cyborg" );
 static const itype_id itype_cash_card( "cash_card" );
@@ -149,6 +149,7 @@ static const itype_id itype_grapnel( "grapnel" );
 static const itype_id itype_id_industrial( "id_industrial" );
 static const itype_id itype_id_military( "id_military" );
 static const itype_id itype_id_science( "id_science" );
+static const itype_id itype_leg_splint( "leg_splint" );
 static const itype_id itype_maple_sap( "maple_sap" );
 static const itype_id itype_maple_syrup( "maple_syrup" );
 static const itype_id itype_marloss_berry( "marloss_berry" );
@@ -612,7 +613,7 @@ class atm_menu
             const int amount = string_input_popup()
                                .title( formatted )
                                .width( 20 )
-                               .text( to_string( max ) )
+                               .text( std::to_string( max ) )
                                .only_digits( true )
                                .query_int();
 
@@ -3017,7 +3018,7 @@ void iexamine::fireplace( player &p, const tripoint &examp )
                 p.add_msg_if_player( _( "You attempt to start a fire with your %s…" ), it->tname() );
                 const ret_val<bool> can_use = actor->can_use( p, *it, false, examp );
                 if( can_use.success() ) {
-                    const int charges = actor->use( p, *it, false, examp );
+                    const int charges = actor->use( p, *it, false, examp ).value_or( 0 );
                     p.use_charges( it->typeId(), charges );
                     return;
                 } else {
@@ -4067,7 +4068,7 @@ void iexamine::reload_furniture( player &p, const tripoint &examp )
     int amount = string_input_popup()
                  .title( popupmsg )
                  .width( 20 )
-                 .text( to_string( max_amount ) )
+                 .text( std::to_string( max_amount ) )
                  .only_digits( true )
                  .query_int();
     if( amount <= 0 || amount > max_amount ) {
@@ -4124,7 +4125,11 @@ void iexamine::curtains( player &p, const tripoint &examp )
     } else if( choice == 1 ) {
         // Mr. Gorbachev, tear down those curtains!
         if( here.ter( examp )->has_curtains() ) {
+            bool is_open = here.ter( examp )->open.is_empty() || here.ter( examp )->open.is_null();
             here.ter_set( examp, here.ter( examp )->curtain_transform );
+            if( is_open ) {
+                here.ter_set( examp, here.ter( examp )->open );
+            }
         }
 
         here.spawn_item( p.pos(), itype_nail, 1, 4, calendar::turn );
@@ -4470,8 +4475,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
     amenu.addentry( refund, true, 'r', str_to_illiterate_str( _( "Refund cash." ) ) );
 
     std::string gaspumpselected = str_to_illiterate_str( string_format( _( "Current %s pump: " ),
-                                  fuelType ) +
-                                  to_string( uistate.ags_pay_gas_selected_pump + 1 ) );
+                                  fuelType ) + std::to_string( uistate.ags_pay_gas_selected_pump + 1 ) );
     amenu.addentry( 0, false, -1, gaspumpselected );
     amenu.addentry( choose_pump, true, 'p',
                     str_to_illiterate_str( string_format( _( "Choose a %s pump." ), fuelType ) ) );
@@ -4494,10 +4498,15 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
         amenu.selected = uistate.ags_pay_gas_selected_pump;
         amenu.text = str_to_illiterate_str( string_format( _( "Please choose %s pump:" ), fuelType ) );
 
+        std::vector<tripoint> pumps;
         for( int i = 0; i < pumpCount; i++ ) {
             amenu.addentry( i, true, -1,
-                            str_to_illiterate_str( _( "Pump " ) ) + to_string( i + 1 ) );
+                            str_to_illiterate_str( _( "Pump " ) ) + std::to_string( i + 1 ) );
+            pumps.emplace_back( getGasPumpByNumber( examp, i ).value_or( examp ) );
         }
+        pointmenu_cb callback( pumps );
+        amenu.callback = &callback;
+        amenu.w_y_setup = 0;
         amenu.query();
         choice = amenu.ret;
 
@@ -4529,7 +4538,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
         int liters = string_input_popup()
                      .title( popupmsg )
                      .width( 20 )
-                     .text( to_string( maximum_liters ) )
+                     .text( std::to_string( maximum_liters ) )
                      .only_digits( true )
                      .query_int();
         if( liters <= 0 ) {
@@ -4635,7 +4644,7 @@ void iexamine::ledge( player &p, const tripoint &examp )
             } else {
                 add_msg( m_info, _( "You jump over an obstacle." ) );
                 p.increase_activity_level( LIGHT_EXERCISE );
-                p.setpos( dest );
+                g->place_player( dest );
             }
             break;
         }
@@ -4916,6 +4925,23 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         autodoc_header = warning +
                          _( "\n Using the Autodoc without an operator can lead to <color_light_cyan>serious injuries</color> or <color_light_cyan>death</color>.\n By continuing with the operation you accept the risks and acknowledge that you will not take any legal actions against this facility in case of an accident. " );
     }
+
+    std::vector<item> arm_splints;
+    std::vector<item> leg_splints;
+
+    for( const item &supplies : get_map().i_at( examp ) ) {
+        if( supplies.typeId() == itype_arm_splint ) {
+            arm_splints.push_back( supplies );
+        }
+        if( supplies.typeId() == itype_leg_splint ) {
+            leg_splints.push_back( supplies );
+        }
+    }
+
+    autodoc_header +=
+        string_format( "\n\n<color_white>Internal supplies:</color>\n Arm splints: %d\n Leg splints: %d",
+                       arm_splints.size(), leg_splints.size() );
+
     uilist amenu;
     amenu.text = autodoc_header;
     amenu.addentry( INSTALL_CBM, true, 'i', _( "Choose Compact Bionic Module to install" ) );
@@ -5047,6 +5073,11 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         }
 
         case BONESETTING: {
+            if( arm_splints.empty() && leg_splints.empty() ) {
+                popup( _( "Internal supply of splints exhausted.  Operation impossible.  Exiting." ) );
+                return;
+            }
+
             int broken_limbs_count = 0;
             for( const bodypart_id &part :
                  patient.get_all_body_parts( get_body_part_flags::only_main ) ) {
@@ -5060,22 +5091,36 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 }
                 broken_limbs_count++;
                 patient.moves -= 500;
-                patient.add_msg_player_or_npc( m_good, _( "The machine rapidly sets and splints your broken %s." ),
-                                               _( "The machine rapidly sets and splints <npcname>'s broken %s." ),
-                                               body_part_name( part ) );
                 // TODO: fail here if unable to perform the action, i.e. can't wear more, trait mismatch.
-                if( !patient.worn_with_flag( flag_SPLINT, part ) ) {
-                    item splint;
-                    if( part == bodypart_id( "arm_l" ) || part == bodypart_id( "arm_r" ) ) {
-                        splint = item( "arm_splint", calendar::turn_zero );
-                    } else if( part == bodypart_id( "leg_l" ) || part == bodypart_id( "leg_r" ) ) {
-                        splint = item( "leg_splint", calendar::turn_zero );
+                int quantity = 1;
+                if( part == bodypart_id( "arm_l" ) || part == bodypart_id( "arm_r" ) ) {
+                    if( !arm_splints.empty() ) {
+                        for( const item &it : get_map().use_amount( examp, 1, itype_arm_splint, quantity ) ) {
+                            patient.wear_item( it, false );
+                        }
+                    } else {
+                        popup( _( "Internal supply of arm splints exhausted.  Splinting broken arms impossible.  Exiting." ) );
+                        continue;
                     }
-                    patient.wear_item( splint, false );
+                } else if( part == bodypart_id( "leg_l" ) || part == bodypart_id( "leg_r" ) ) {
+                    if( !leg_splints.empty() ) {
+                        for( const item &it : get_map().use_amount( examp, 1, itype_leg_splint, quantity ) ) {
+                            patient.wear_item( it, false );
+                        }
+                    } else {
+                        popup( _( "Internal supply of leg splints exhausted.  Splinting broken legs impossible.  Exiting." ) );
+                        continue;
+                    }
                 }
-                patient.add_effect( effect_mending, 0_turns, part, true );
-                effect &mending_effect = patient.get_effect( effect_mending, part );
-                mending_effect.set_duration( mending_effect.get_max_duration() - 5_days );
+
+                if( patient.worn_with_flag( flag_SPLINT, part ) ) {
+                    patient.add_msg_player_or_npc( m_good, _( "The machine rapidly sets and splints your broken %s." ),
+                                                   _( "The machine rapidly sets and splints <npcname>'s broken %s." ),
+                                                   body_part_name( part ) );
+                    patient.add_effect( effect_mending, 0_turns, part, true );
+                    effect &mending_effect = patient.get_effect( effect_mending, part );
+                    mending_effect.set_duration( mending_effect.get_max_duration() - 5_days );
+                }
             }
             if( broken_limbs_count == 0 ) {
                 popup_player_or_npc( patient, _( "You have no limbs that require splinting." ),
@@ -5544,7 +5589,7 @@ static void smoker_load_food( player &p, const tripoint &examp,
     int amount = string_input_popup()
                  .title( popupmsg )
                  .width( 20 )
-                 .text( to_string( max_count ) )
+                 .text( std::to_string( max_count ) )
                  .only_digits( true )
                  .query_int();
 
@@ -5653,7 +5698,7 @@ static void mill_load_food( player &p, const tripoint &examp,
     int amount = string_input_popup()
                  .title( popupmsg )
                  .width( 20 )
-                 .text( to_string( max_count ) )
+                 .text( std::to_string( max_count ) )
                  .only_digits( true )
                  .query_int();
 

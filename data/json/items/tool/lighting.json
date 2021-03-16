@@ -190,12 +190,14 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "blue",
-    "weight": "200 g",
-    "volume": "200 ml",
+    "weight": "280 g",
+    "volume": "80 ml",
+    "longest_side": "14 cm",
     "price": 500,
     "price_postapoc": 100,
     "charges_per_use": 1,
     "ammo": [ "battery" ],
+    "flags": [ "BELT_CLIP" ],
     "use_action": {
       "type": "transform",
       "msg": "You turn the flashlight on.",
@@ -231,7 +233,7 @@
     "power_draw": 10000,
     "revert_to": "flashlight",
     "use_action": { "menu_text": "Turn off", "type": "transform", "msg": "You turn the flashlight off.", "target": "flashlight" },
-    "flags": [ "LIGHT_300", "CHARGEDIM", "TRADER_AVOID" ]
+    "flags": [ "LIGHT_300", "CHARGEDIM", "TRADER_AVOID", "BELT_CLIP" ]
   },
   {
     "id": "gasoline_lantern",
@@ -373,8 +375,9 @@
     "type": "TOOL",
     "name": { "str": "heavy duty flashlight (off)", "str_pl": "heavy duty flashlights (off)" },
     "description": "This is a heavy duty tubular aluminum LED flashlight as often used by security guards.  Makes for a passable melee weapon.  Using this flashlight will turn it on and provide light, assuming it is charged with batteries.",
-    "weight": "650 g",
-    "volume": "750 ml",
+    "weight": "450 g",
+    "volume": "470 ml",
+    "longest_side": "37 cm",
     "price": 950,
     "price_postapoc": 200,
     "bashing": 8,
@@ -383,6 +386,7 @@
     "color": "blue",
     "charges_per_use": 1,
     "ammo": [ "battery" ],
+    "flags": [ "BELT_CLIP" ],
     "use_action": {
       "type": "transform",
       "msg": "You turn the heavy duty flashlight on.",
@@ -423,7 +427,7 @@
       "msg": "You turn the heavy duty flashlight off.",
       "target": "heavy_flashlight"
     },
-    "flags": [ "LIGHT_500", "CHARGEDIM" ]
+    "flags": [ "LIGHT_500", "CHARGEDIM", "BELT_CLIP" ]
   },
   {
     "abstract": "lightstrip_base",

@@ -62,9 +62,11 @@
 #           include <backtrace.h>
 #       endif
 #   else
-#       include <cxxabi.h>
 #       include <execinfo.h>
 #       include <unistd.h>
+#   endif
+#   if defined(__GNUC__) || defined(__clang__)
+#       include <cxxabi.h>
 #   endif
 #endif
 
@@ -793,10 +795,44 @@ static constexpr int bt_cnt = 20;
 static void *bt[bt_cnt];
 #endif
 
+#if defined(__GNUC__) || defined(__clang__)
+#define MAYBE_UNUSED __attribute__((unused))
+#else
+#define MAYBE_UNUSED
+#endif
+static const char *demangle( const char *symbol ) MAYBE_UNUSED;
+static const char *demangle( const char *symbol )
+{
+#if defined(_MSC_VER)
+    // TODO: implement demangling on MSVC
+#elif defined(__GNUC__) || defined(__clang__)
+    int status = -1;
+    char *demangled = abi::__cxa_demangle( symbol, nullptr, nullptr, &status );
+    if( status == 0 ) {
+        return demangled;
+    }
+#endif // defined(_WIN32)
+    return symbol;
+}
+
 #if !defined(_WIN32)
 static void write_demangled_frame( std::ostream &out, const char *frame )
 {
-#if defined(MACOSX)
+#if defined(__linux__) && !defined(__ANDROID__)
+    // ./cataclysm(_ZN4game13handle_actionEv+0x47e8) [0xaaaae91e80fc]
+    static const std::regex symbol_regex( R"(^(.*)\((.*)\+(0x?[a-f0-9]*)\)\s\[(0x[a-f0-9]+)\]$)" );
+    std::cmatch match_result;
+    if( std::regex_search( frame, match_result, symbol_regex ) && match_result.size() == 5 ) {
+        std::csub_match file_name = match_result[1];
+        std::csub_match raw_symbol_name = match_result[2];
+        std::csub_match offset = match_result[3];
+        std::csub_match address = match_result[4];
+        out << "\n    " << file_name.str() << "(" << demangle( raw_symbol_name.str().c_str() ) << "+" <<
+            offset.str() << ") [" << address.str() << "]";
+    } else {
+        out << "\n    " << frame;
+    }
+#elif defined(MACOSX)
     //1   cataclysm-tiles                     0x0000000102ba2244 _ZL9log_crashPKcS0_ + 608
     static const std::regex symbol_regex( R"(^(.*)(0x[a-f0-9]{16})\s(.*)\s\+\s([0-9]+)$)" );
     std::cmatch match_result;
@@ -805,13 +841,8 @@ static void write_demangled_frame( std::ostream &out, const char *frame )
         std::csub_match address = match_result[2];
         std::csub_match raw_symbol_name = match_result[3];
         std::csub_match offset = match_result[4];
-        int status = -1;
-        char *demangled = abi::__cxa_demangle( raw_symbol_name.str().c_str(), nullptr, nullptr, &status );
-        if( status == 0 ) {
-            out << "\n    " << prefix.str() << address.str() << ' ' << demangled << " + " << offset.str();
-        } else {
-            out << "\n    " << frame;
-        }
+        out << "\n    " << prefix.str() << address.str() << ' ' << demangle( raw_symbol_name.str().c_str() )
+            << " + " << offset.str();
     } else {
         out << "\n    " << frame;
     }
@@ -837,7 +868,7 @@ void debug_write_backtrace( std::ostream &out )
         out << "\n  #" << i;
         out << "\n    (dbghelp: ";
         if( SymFromAddr( proc, reinterpret_cast<DWORD64>( bt[i] ), &off, &sym ) ) {
-            out << sym.Name << "+0x" << std::hex << off << std::dec;
+            out << demangle( sym.Name ) << "+0x" << std::hex << off << std::dec;
         }
         out << "@" << bt[i];
         const DWORD64 mod_base = SymGetModuleBase64( proc, reinterpret_cast<DWORD64>( bt[i] ) );
@@ -889,7 +920,7 @@ void debug_write_backtrace( std::ostream &out )
                         // syminfo callback
                         [&out]( const uintptr_t pc, const char *const symname,
             const uintptr_t symval, const uintptr_t ) {
-                out << "\n    (libbacktrace: " << ( symname ? symname : "[unknown symbol]" )
+                out << "\n    (libbacktrace: " << ( symname ? demangle( symname ) : "[unknown symbol]" )
                     << "+0x" << std::hex << pc - symval << std::dec
                     << "@0x" << std::hex << pc << std::dec
                     << "),";

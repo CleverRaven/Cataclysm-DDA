@@ -246,6 +246,24 @@
   },
   {
     "type": "effect_type",
+    "id": "venom_player1",
+    "name": [ "Weak Player Venom" ],
+    "desc": [ "Don't worry, you shouldn't get this." ],
+    "max_duration": 120,
+    "base_mods": { "hurt_amount": [ 10 ], "hurt_min": [ 1 ], "hurt_chance": [ 2 ] },
+    "//": "10+0,5/s dmg, from max duration avg 70 (range 10-130)"
+  },
+  {
+    "type": "effect_type",
+    "id": "venom_player2",
+    "name": [ "Strong Player Venom" ],
+    "desc": [ "Don't worry, you really shouldn't get this." ],
+    "max_duration": 120,
+    "base_mods": { "hurt_amount": [ 20 ], "hurt_min": [ 4 ], "hurt_chance": [ 2 ], "speed_mod": [ -50 ] },
+    "//": "20+2/s dmg, from max duration avg 260 (range 20-480)"
+  },
+  {
+    "type": "effect_type",
     "id": "dripping_mechanical_fluid",
     "name": [ "Mechanical fluid dripping" ],
     "desc": [ "AI tag used for robot monsters losing mechanical fluid.  This is a bug if you have it." ],

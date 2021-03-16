@@ -62,7 +62,6 @@ static const skill_id skill_survival( "survival" );
 static const mtype_id mon_player_blob( "mon_player_blob" );
 
 static const bionic_id bio_digestion( "bio_digestion" );
-static const bionic_id bio_syringe( "bio_syringe" );
 static const bionic_id bio_taste_blocker( "bio_taste_blocker" );
 
 static const efftype_id effect_bloodworms( "bloodworms" );
@@ -672,11 +671,35 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
         }
     }
 
+    const use_function *consume_drug = food.type->get_use( "consume_drug" );
+    if( consume_drug != nullptr ) { //its a drug)
+        const consume_drug_iuse *consume_drug_use = dynamic_cast<const consume_drug_iuse *>
+                ( consume_drug->get_actor_ptr() );
+        for( auto &tool : consume_drug_use->tools_needed ) {
+            const bool has = item::count_by_charges( tool.first )
+                             ? has_charges( tool.first, ( tool.second == -1 ) ? 1 : tool.second )
+                             : has_amount( tool.first, 1 );
+            if( !has ) {
+                return ret_val<edible_rating>::make_failure( NO_TOOL,
+                        string_format( _( "You need a %s to consume that!" ),
+                                       item::nname( tool.first ) ) );
+            }
+        }
+    }
+
+    const use_function *smoking = food.type->get_use( "SMOKING" );
+    if( smoking != nullptr ) {
+        cata::optional<std::string> litcig = iuse::can_smoke( *this->as_player() );
+        if( litcig.has_value() ) {
+            return ret_val<edible_rating>::make_failure( NO_TOOL, _( litcig.value_or( "" ) ) );
+        }
+    }
+
     if( !comest->tool.is_null() ) {
         const bool has = item::count_by_charges( comest->tool )
                          ? has_charges( comest->tool, 1 )
                          : has_amount( comest->tool, 1 );
-        if( !has && !( comest->tool == itype_syringe && has_bionic( bio_syringe ) ) ) {
+        if( !has ) {
             return ret_val<edible_rating>::make_failure( NO_TOOL,
                     string_format( _( "You need a %s to consume that!" ),
                                    item::nname( comest->tool ) ) );
@@ -833,7 +856,7 @@ static bool eat( item &food, player &you, bool force )
             !food.type->can_use( "CATFOOD" ) &&
             !food.type->can_use( "BIRDFOOD" ) &&
             !food.type->can_use( "CATTLEFODDER" ) ) {
-            charges_used = food.type->invoke( you, food, you.pos() );
+            charges_used = food.type->invoke( you, food, you.pos() ).value_or( 0 );
             if( charges_used <= 0 ) {
                 return false;
             }
@@ -1507,7 +1530,7 @@ bool Character::can_consume( const item &it ) const
     if( can_consume_as_is( it ) ) {
         return true;
     }
-    return has_item_with( [&]( const item & consumable ) {
+    return it.has_item_with( [&]( const item & consumable ) {
         // Checking NO_RELOAD to prevent consumption of `battery` when contained in `battery_car` (#20012)
         return !consumable.has_flag( flag_NO_RELOAD ) && can_consume_as_is( consumable );
     } );
@@ -1628,14 +1651,10 @@ static bool consume_med( item &target, player &you )
 
     const itype_id tool_type = target.get_comestible()->tool;
     const itype *req_tool = item::find_type( tool_type );
-    bool tool_override = false;
-    if( tool_type == itype_syringe && you.has_bionic( bio_syringe ) ) {
-        tool_override = true;
-    }
+
     if( req_tool->tool ) {
         if( !( you.has_amount( tool_type, 1 ) &&
-               you.has_charges( tool_type, req_tool->tool->charges_per_use ) ) &&
-            !tool_override ) {
+               you.has_charges( tool_type, req_tool->tool->charges_per_use ) ) ) {
             you.add_msg_if_player( m_info, _( "You need a %s to consume that!" ), req_tool->nname( 1 ) );
             return false;
         }
@@ -1644,7 +1663,7 @@ static bool consume_med( item &target, player &you )
 
     int amount_used = 1;
     if( target.type->has_use() ) {
-        amount_used = target.type->invoke( you, target, you.pos() );
+        amount_used = target.type->invoke( you, target, you.pos() ).value_or( 0 );
         if( amount_used <= 0 ) {
             return false;
         }

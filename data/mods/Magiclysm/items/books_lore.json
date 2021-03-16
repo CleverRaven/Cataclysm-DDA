@@ -5,7 +5,7 @@
     "type": "GENERIC",
     "category": "maps",
     "name": "vacation brochure",
-    "description": "This is a glossy brochure encouraging students to book vactaions at a lake retreat or remote cabin.  The brochure includes lush photographs of a tower on an island and a remote looking cabin in the woods.  It includes a map of the areas.",
+    "description": "This is a glossy brochure encouraging students to book vacations at a lake retreat or remote cabin.  The brochure includes lush photographs of a tower on an island and a remote looking cabin in the woods.  It includes a map of the areas.",
     "color": "white",
     "use_action": {
       "type": "reveal_map",

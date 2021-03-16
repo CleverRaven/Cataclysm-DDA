@@ -14,7 +14,6 @@
 #include <utility>
 #include <vector>
 
-#include "compatibility.h"
 #include "json.h"
 #include "math_defines.h"
 #include "translations.h"
@@ -619,14 +618,14 @@ inline std::string display( const units::energy v )
     const int j = units::to_joule( v );
     // at least 1 kJ and there is no fraction
     if( kj >= 1 && static_cast<float>( j ) / kj == 1000 ) {
-        return to_string( kj ) + ' ' + pgettext( "energy unit: kilojoule", "kJ" );
+        return std::to_string( kj ) + ' ' + pgettext( "energy unit: kilojoule", "kJ" );
     }
     const int mj = units::to_millijoule( v );
     // at least 1 J and there is no fraction
     if( j >= 1 && static_cast<float>( mj ) / j  == 1000 ) {
-        return to_string( j ) + ' ' + pgettext( "energy unit: joule", "J" );
+        return std::to_string( j ) + ' ' + pgettext( "energy unit: joule", "J" );
     }
-    return to_string( mj ) + ' ' + pgettext( "energy unit: millijoule", "mJ" );
+    return std::to_string( mj ) + ' ' + pgettext( "energy unit: millijoule", "mJ" );
 }
 
 } // namespace units

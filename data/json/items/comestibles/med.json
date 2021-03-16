@@ -1087,7 +1087,7 @@
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You shoot up.",
-      "tools_needed": { "syringe": 1 },
+      "tools_needed": { "syringe": -1 },
       "effects": [
         { "id": "pkill3", "duration": 480 },
         { "id": "pkill2", "duration": 1200 },
@@ -1224,7 +1224,7 @@
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You shoot up.",
-      "tools_needed": { "syringe": 1 },
+      "tools_needed": { "syringe": -1 },
       "effects": [ { "id": "pkill3", "duration": 120 }, { "id": "pkill2", "duration": 1200 } ]
     }
   },

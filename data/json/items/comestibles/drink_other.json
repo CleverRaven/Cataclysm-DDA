@@ -11,6 +11,7 @@
     "symbol": "%",
     "healthy": 1,
     "calories": 21,
+    "sealed": true,
     "description": "A minimally seasoned sauce of cooked tomatoes.",
     "price": 4,
     "price_postapoc": 50,

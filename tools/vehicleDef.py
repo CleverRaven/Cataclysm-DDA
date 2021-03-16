@@ -60,10 +60,14 @@ def buildVehicleDef(vehicle):
     partsDef = []
     itemsDef = []
     for part in vehicle["parts"]:
+        part_variant = ""
+        if "variant" in part:
+            part_variant = "_" + part["variant"]
+
         partsDef.append({
             "x": part["mount_dx"],
             "y": part["mount_dy"],
-            "part": part["id"]
+            "part": part["id"] + part_variant
         })
 
         for item in part["items"]:
