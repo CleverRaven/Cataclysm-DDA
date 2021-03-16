@@ -52,7 +52,7 @@
     "type": "MONSTER_FACTION",
     "name": "animal",
     "by_mood": [ "animal", "small_animal" ],
-    "neutral": [ "bot", "aquatic_predator", "robofac" ]
+    "neutral": [ "bot", "aquatic_predator", "robofac", "fish" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -77,7 +77,7 @@
     "name": "bear",
     "base_faction": "animal",
     "//": "Hunts small things, can't resist honey",
-    "hate": [ "small_animal", "bee", "fish" ]
+    "hate": [ "small_animal", "bee" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -89,7 +89,7 @@
     "type": "MONSTER_FACTION",
     "name": "big_cat",
     "base_faction": "animal",
-    "hate": [ "small_animal", "herbivore", "fish" ]
+    "hate": [ "small_animal", "herbivore" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -112,7 +112,7 @@
     "type": "MONSTER_FACTION",
     "name": "wolf",
     "base_faction": "animal",
-    "hate": [ "small_animal", "herbivore", "fish" ]
+    "hate": [ "small_animal", "herbivore" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -124,7 +124,8 @@
     "name": "fish",
     "base_faction": "animal",
     "hate": [ "aquatic_predator", "zombie_aquatic" ],
-    "neutral": [ "zombie", "bot", "small_animal", "herbivore", "exodii", "plant", "nether", "jabberwock" ]
+    "by_mood": "otter",
+    "neutral": [ "zombie", "bot", "animal", "small_animal", "exodii", "plant", "nether", "jabberwock" ]
   },
   {
     "type": "MONSTER_FACTION",
