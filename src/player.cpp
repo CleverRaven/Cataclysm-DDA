@@ -139,6 +139,8 @@ static const bionic_id bio_ground_sonar( "bio_ground_sonar" );
 static const bionic_id bio_soporific( "bio_soporific" );
 static const bionic_id bio_speed( "bio_speed" );
 
+static const json_character_flag json_flag_FEATHER_FALL( "FEATHER_FALL" );
+
 stat_mod player::get_pain_penalty() const
 {
     stat_mod ret;
@@ -833,7 +835,7 @@ int player::get_perceived_pain() const
 
 float player::fall_damage_mod() const
 {
-    if( has_effect_with_flag( flag_EFFECT_FEATHER_FALL ) ) {
+    if( has_flag( json_flag_FEATHER_FALL ) ) {
         return 0.0f;
     }
     float ret = 1.0f;
