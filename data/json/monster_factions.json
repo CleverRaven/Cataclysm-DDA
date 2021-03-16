@@ -123,9 +123,9 @@
     "type": "MONSTER_FACTION",
     "name": "fish",
     "base_faction": "animal",
-    "hate": [ "aquatic_predator", "zombie_aquatic" ],
-    "by_mood": [ "otter", "crayfish" ],
-    "neutral": [ "zombie", "bot", "animal", "small_animal", "exodii", "plant", "nether", "jabberwock", "insect" ]
+    "hate": [ "aquatic_predator", "zombie_aquatic", "gator", "crayfish" ],
+    "by_mood": [ "otter", "razorclaw" ],
+    "neutral": [ "zombie", "bot", "animal", "small_animal", "exodii", "plant", "nether", "jabberwock", "insect", "mutant", "fungus" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -156,15 +156,16 @@
     "type": "MONSTER_FACTION",
     "name": "mutant",
     "//": "Assorted mutated wildlife, more aggressive",
-    "by_mood": [ "mutant" ],
-    "hate": [ "insect", "animal" ]
+    "by_mood": "mutant",
+    "hate": [ "insect", "animal" ],
+    "neutral": "fish"
   },
   {
     "type": "MONSTER_FACTION",
     "name": "razorclaw",
     "base_faction": "mutant",
     "//": "Protect their nest, grumpy",
-    "by_mood": [ "small_animal" ]
+    "by_mood": [ "small_animal", "fish" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -354,7 +355,7 @@
   {
     "type": "MONSTER_FACTION",
     "name": "fungus",
-    "neutral": "bot"
+    "neutral": [ "bot", "fish" ]
   },
   {
     "type": "MONSTER_FACTION",
