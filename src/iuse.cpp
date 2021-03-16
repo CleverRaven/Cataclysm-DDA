@@ -9288,7 +9288,7 @@ cata::optional<int> iuse::sextant( player *p, item *, bool, const tripoint & )
 
     if( altitude > 0 ) {
         p->add_msg_if_player( m_neutral, _( "Sun altitude: %.1f°." ),
-                          to_degrees( solar_altitude( calendar::turn ) ) );
+                              to_degrees( solar_altitude( calendar::turn ) ) );
         p->add_msg_if_player( m_neutral, _( "Sun hour angle: %.1f°." ),
                               to_degrees( solar_hour_angle( calendar::turn ) ) );
     } else {
