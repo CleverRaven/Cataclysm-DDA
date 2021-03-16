@@ -137,7 +137,6 @@ class recipe_subset
             quality_result,
             description_result,
             proficiency,
-            difficulty,
         };
 
         /** Find marked favorite recipes */
