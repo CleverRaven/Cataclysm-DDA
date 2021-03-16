@@ -159,5 +159,30 @@
       { "item": "cable", "charges": [ 20, 30 ] }
     ],
     "damage_reduction": { "all": 60 }
+  },
+  {
+    "id": "engine_electric_train",
+    "copy-from": "engine_motor",
+    "type": "vehicle_part",
+    "name": { "str": "1300hp electric train engine" },
+    "item": "motor_train1300",
+    "durability": 500,
+    "power": 1000000,
+    "energy_consumption": 1050000,
+    "damage_modifier": 80,
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 8 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 4 ] ], "time": "45 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 10 ] ], "time": "60 m", "using": [ [ "welding_standard", 20 ] ] }
+    },
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 60, 80 ] },
+      { "item": "steel_chunk", "count": [ 24, 40 ] },
+      { "item": "scrap", "count": [ 24, 40 ] },
+      { "item": "e_scrap", "count": [ 20, 60 ] },
+      { "item": "bearing", "count": [ 100, 240 ] },
+      { "item": "cable", "charges": [ 80, 120 ] }
+    ],
+    "damage_reduction": { "all": 60 }
   }
 ]
