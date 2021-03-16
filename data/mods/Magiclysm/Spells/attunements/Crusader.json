@@ -42,7 +42,7 @@
     "name": "Holy Shield",
     "description": "Summon a radiant shield to protect yourself from attacks. Affords protection from most energy based effects",
     "valid_targets": [ "self" ],
-    "flags": [ "VERBAL", "CONCENTRATE", "MUST_HAVE_CLASS_TO_LEARN" ],
+    "flags": [ "VERBAL", "CONCENTRATE", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
     "effect": "spawn_item",
     "effect_str": "holy_shield",
     "shape": "blast",
