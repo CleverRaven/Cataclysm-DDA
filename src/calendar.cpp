@@ -212,9 +212,9 @@ float sunlight( const time_point &p, const bool vision )
         // From -18 to 4 degrees light increases from 0 to 75 brightness.
         float sunlight = 25.0 / 6 * to_degrees( solar_alt ) + sunrise_light;
         return moonlight + sunlight;
-    } else if( solar_alt < units::from_degrees( 20 ) ) {
-        // Linear increase from 0 to 20 degrees light increases from 75 to 125 brightness.
-        return  to_degrees( solar_alt ) * 2 + 75;
+    } else if( solar_alt < units::from_degrees( 50 ) ) {
+        // Linear increase from 0 to 50 degrees light increases from 75 to 125 brightness.
+        return  to_degrees( solar_alt ) + 75;
     } else {
         return max_light;
     }

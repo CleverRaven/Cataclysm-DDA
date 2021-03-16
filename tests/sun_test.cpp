@@ -136,7 +136,7 @@ TEST_CASE( "sunlight", "[sun][sunlight]" )
         CHECK( sunlight( today_sunset + 1_hours ) == Approx( 35 ).margin( 1 ) );
 
         // Midday
-        CHECK( sunlight( today_midday ) == Approx( 125 ).margin( 1 ) );
+        CHECK( sunlight( today_midday ) == Approx( 100 ).margin( 1 ) );
     }
 }
 

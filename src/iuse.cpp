@@ -9284,11 +9284,16 @@ cata::optional<int> iuse::weather_tool( player *p, item *it, bool, const tripoin
 
 cata::optional<int> iuse::sextant( player *p, item *, bool, const tripoint & )
 {
+    const float altitude = to_degrees( solar_altitude( calendar::turn ) );
 
-    p->add_msg_if_player( m_neutral, _( "Sun altitude: %.1f degrees." ),
+    if( altitude > 0 ) {
+        p->add_msg_if_player( m_neutral, _( "Sun altitude: %.1f°." ),
                           to_degrees( solar_altitude( calendar::turn ) ) );
-    p->add_msg_if_player( m_neutral, _( "Sun declination: %.1f degrees." ),
-                          to_degrees( solar_declination( calendar::turn ) ) );
+        p->add_msg_if_player( m_neutral, _( "Sun hour angle: %.1f°." ),
+                              to_degrees( solar_hour_angle( calendar::turn ) ) );
+    } else {
+        p->add_msg_if_player( m_neutral, _( "The Sun is below horizont." ) );
+    }
 
     return 0;
 }

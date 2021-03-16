@@ -573,17 +573,21 @@ double default_daylight_level();
 
 
 // Returns solar hour angle at time_point.
+// This is the anglee of sun relative to south
 // 0 degrees at noon (12:00)
 // negative before noon, positive after noon
+// +- 180 degrees at midnight (24:00, 00:00)
 units::angle solar_hour_angle( const time_point &p );
 
-// Returns latitude of sun on time_poit
+// Returns declination of sun at time_poit
+// This is the angle of sun relative to equator
 units::angle solar_declination( const time_point &p );
 
 // Returns sun altitude at time_point
+// This is the angle of sun relative to horizont
 units::angle solar_altitude( const time_point &p );
 
-// Returns true if sun reaches this angle during the day.
+// Returns true if sun reaches this altitude angle during the day.
 bool sun_reaches_angle( const units::angle &angle, const time_point &p );
 
 /** Returns the current sunlight or moonlight level through the preceding functions.
