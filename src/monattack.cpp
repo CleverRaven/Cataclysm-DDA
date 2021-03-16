@@ -2855,7 +2855,7 @@ bool mattack::stare( monster *z )
     if( z->sees( player_character ) ) {
         //dimensional effects don't take against dimensionally anchored foes.
         if( player_character.worn_with_flag( flag_DIMENSIONAL_ANCHOR ) ||
-            player_character.has_effect_with_flag( flag_DIMENSIONAL_ANCHOR ) ) {
+            player_character.has_flag( flag_DIMENSIONAL_ANCHOR ) ) {
             add_msg( m_warning, _( "You feel a strange reverberation across your body." ) );
             return true;
         }
