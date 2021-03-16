@@ -66,6 +66,7 @@ static const itype_id itype_processor( "processor" );
 
 static const species_id species_SLIME( "SLIME" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
+static const species_id species_FUNGUS( "FUNGUS" );
 
 static const mtype_id mon_blob( "mon_blob" );
 static const mtype_id mon_blob_brain( "mon_blob_brain" );
@@ -463,7 +464,7 @@ void mdeath::guilt( monster &z )
     int maxMalus = -250 * ( 1.0 - ( static_cast<float>( kill_count ) / maxKills ) );
     time_duration duration = 30_minutes * ( 1.0 - ( static_cast<float>( kill_count ) / maxKills ) );
     time_duration decayDelay = 3_minutes * ( 1.0 - ( static_cast<float>( kill_count ) / maxKills ) );
-    if( z.type->in_species( species_ZOMBIE ) ) {
+    if( z.type->in_species( species_ZOMBIE ) || z.type->in_species( species_FUNGUS ) ) {
         moraleMalus /= 10;
         if( player_character.has_trait( trait_PACIFIST ) ) {
             moraleMalus *= 5;
