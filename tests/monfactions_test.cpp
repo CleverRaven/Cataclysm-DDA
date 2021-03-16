@@ -85,9 +85,9 @@ TEST_CASE( "monfactions_attitude", "[monster][monfactions]" )
         INFO( "fish is inherited from animal and should be neutral toward small_animal" );
         CHECK( attitude( "fish", "small_animal" ) == MFA_NEUTRAL );
 
-        INFO( "bear is inherited from animal, but hates small animals, of which vermin is a child" );
-        CHECK( attitude( "bear", "vermin" ) == MFA_HATE );
-        CHECK( attitude( "bear", "fish" ) == MFA_NEUTRAL );
+        INFO( "dog is inherited from animal, but hates small animals, of which vermin is a child" );
+        CHECK( attitude( "dog", "vermin" ) == MFA_HATE );
+        CHECK( attitude( "dog", "fish" ) == MFA_NEUTRAL );
 
     }
 

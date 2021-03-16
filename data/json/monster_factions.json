@@ -78,7 +78,8 @@
     "name": "bear",
     "base_faction": "animal",
     "//": "Hunts small things, can't resist honey",
-    "hate": [ "small_animal", "bee", "fish" ]
+    "by_mood": "fish",
+    "hate": [ "small_animal", "bee" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -90,7 +91,8 @@
     "type": "MONSTER_FACTION",
     "name": "big_cat",
     "base_faction": "animal",
-    "hate": [ "small_animal", "herbivore", "fish" ]
+    "by_mood": "fish",
+    "hate": [ "small_animal", "herbivore" ]
   },
   {
     "type": "MONSTER_FACTION",
