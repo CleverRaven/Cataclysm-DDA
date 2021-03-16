@@ -9286,7 +9286,10 @@ cata::optional<int> iuse::sextant( player *p, item *, bool, const tripoint & )
 {
     const float altitude = to_degrees( solar_altitude( calendar::turn ) );
 
-    if( altitude > 0 ) {
+    if( debug_mode ) {
+        // Debug mode allows measuring sun angle below hirozon
+        p->add_msg_if_player( m_neutral, _( "The Sun is at altitude of %.1f°." ), altitude );
+    } else if( altitude > 0 ) {
         p->add_msg_if_player( m_neutral, _( "The Sun is at altitude of %.1f°." ), altitude );
     } else {
         p->add_msg_if_player( m_neutral, _( "The Sun is below horizon." ) );
