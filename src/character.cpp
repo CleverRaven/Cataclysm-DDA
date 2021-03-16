@@ -5696,7 +5696,7 @@ void Character::try_reduce_weariness( const float exertion )
         const int bmr = base_bmr();
         // 1/120 of whichever's bigger
         if( bmr > reduction ) {
-            reduction = std::floor( bmr * recovery_mult * weary.low_activity_ticks / 6 );
+            reduction = std::floor( bmr * recovery_mult * weary.low_activity_ticks / 6.0f );
         } else {
             reduction = std::ceil( reduction * recovery_mult * weary.low_activity_ticks / 6 );
         }
