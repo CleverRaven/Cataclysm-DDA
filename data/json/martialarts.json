@@ -1,4 +1,4 @@
-[
+https://www.youtube.com/watch?v=GHyqbPxQI_Y[
   {
     "type": "martial_art",
     "id": "style_none",
@@ -813,6 +813,7 @@
       "zweihander",
       "zweihander_inferior",
       "zweihander_fake"
+	  "longsword_judgement"
     ]
   },
   {
@@ -995,6 +996,7 @@
       "wakizashi",
       "wakizashi_inferior",
       "wakizashi_fake"
+	  "longsword_judgement"
     ]
   },
   {

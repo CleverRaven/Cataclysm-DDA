@@ -106,11 +106,11 @@
     "weight": "1250 g",
     "volume": "2750 ml",
     "longest_side": "120cm",
-    "bashing": 0,
-    "cutting": 10,
+    "bashing": 11,
+    "cutting": 45,
     "to_hit": 4,
     "relic_data": {
-      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_PURE", "add": 45 } ] } ]
+      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_PURE", "add": 10 } ] } ]
     }
   }
 ]
