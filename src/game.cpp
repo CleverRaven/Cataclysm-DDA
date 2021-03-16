@@ -10329,7 +10329,7 @@ bool game::phasing_move( const tripoint &dest_loc, const bool via_ramp )
         tunneldist += 1;
         //Being dimensionally anchored prevents quantum shenanigans.
         if( u.worn_with_flag( flag_DIMENSIONAL_ANCHOR ) ||
-            u.has_effect_with_flag( flag_DIMENSIONAL_ANCHOR ) ) {
+            u.has_flag( flag_DIMENSIONAL_ANCHOR ) ) {
             u.add_msg_if_player( m_info, _( "You are repelled by the barrier!" ) );
             u.mod_power_level( -250_kJ ); //cost of tunneling one tile.
             return false;
