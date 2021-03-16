@@ -14,7 +14,8 @@
   {
     "type": "MONSTER_FACTION",
     "name": "human",
-    "neutral": [ "mech_bot" ]
+    "neutral": [ "mech_bot" ],
+    "by_mood": "exodii"
   },
   {
     "type": "MONSTER_FACTION",
@@ -65,7 +66,7 @@
     "type": "MONSTER_FACTION",
     "name": "herbivore",
     "base_faction": "animal",
-    "neutral": [ "small_animal", "fish" ]
+    "neutral": [ "small_animal", "fish", "exodii" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -77,7 +78,7 @@
     "name": "bear",
     "base_faction": "animal",
     "//": "Hunts small things, can't resist honey",
-    "hate": [ "small_animal", "bee" ]
+    "hate": [ "small_animal", "bee", "fish" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -89,7 +90,7 @@
     "type": "MONSTER_FACTION",
     "name": "big_cat",
     "base_faction": "animal",
-    "hate": [ "small_animal", "herbivore" ]
+    "hate": [ "small_animal", "herbivore", "fish" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -124,7 +125,7 @@
     "name": "fish",
     "base_faction": "animal",
     "hate": [ "aquatic_predator", "zombie_aquatic", "gator", "crayfish" ],
-    "by_mood": [ "otter", "razorclaw" ],
+    "by_mood": [ "bear", "big_cat" ],
     "neutral": [ "zombie", "bot", "animal", "small_animal", "exodii", "plant", "nether", "jabberwock", "insect", "mutant", "fungus" ]
   },
   {
@@ -165,7 +166,7 @@
     "name": "razorclaw",
     "base_faction": "mutant",
     "//": "Protect their nest, grumpy",
-    "by_mood": [ "small_animal", "fish" ]
+    "by_mood": "small_animal"
   },
   {
     "type": "MONSTER_FACTION",
@@ -374,8 +375,8 @@
     "type": "MONSTER_FACTION",
     "name": "exodii",
     "base_faction": "human",
-    "neutral": [ "fish", "small_animal" ],
-    "by_mood": [ "animal", "nether" ],
+    "neutral": [ "fish", "small_animal", "herbivore" ],
+    "by_mood": [ "animal", "nether", "human" ],
     "hate": [ "zombie", "fungus", "triffid", "mi-go" ]
   },
   {

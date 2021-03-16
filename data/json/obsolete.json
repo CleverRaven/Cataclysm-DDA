@@ -28,8 +28,7 @@
   {
     "type": "MONSTER_FACTION",
     "name": "otter",
-    "base_faction": "animal",
-    "by_mood": "fish"
+    "base_faction": "animal"
   },
   {
     "result": "plastic_shopping_bag",
