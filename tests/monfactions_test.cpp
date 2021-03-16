@@ -32,7 +32,7 @@ TEST_CASE( "generate_monfactions_attitude_matrix", "[.]" )
                     outfile << "MFA_SIZE";
                     break;
             }
-            outfile << "\t(Rev: ";
+            outfile << " (Rev: ";
             switch( rev_att ) {
                 case MFA_BY_MOOD:
                     outfile << "MFA_BY_MOOD";
