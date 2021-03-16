@@ -76,5 +76,16 @@
     "category": "veh_parts",
     "price": 2000,
     "price_postapoc": 100
+  },
+  {
+    "type": "GENERIC",
+    "id": "motor_train1300",
+    "name": { "str": "1300hp electric train engine" },
+    "description": "A 1300hp extended-use electric engine.  Normally used in trains.",
+    "weight": "2000 kg",
+    "volume": "250 L",
+    "price": 120000,
+    "price_postapoc": 8000,
+    "copy-from": "motor"
   }
 ]
