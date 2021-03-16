@@ -251,7 +251,7 @@
     ]
   },
   {
-    "id": "train_electrical_loco1300 ",
+    "id": "train_electrical_loco1300",
     "type": "vehicle",
     "name": "Electrical Locomotive",
     "parts": [
