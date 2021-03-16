@@ -957,7 +957,7 @@
   {
     "type": "item_action",
     "id": "SEXTANT",
-    "name": { "str": "Measure Sun angle" }
+    "name": { "str": "Measure Sun altitude" }
   },
   {
     "type": "item_action",

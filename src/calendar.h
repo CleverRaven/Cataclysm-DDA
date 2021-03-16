@@ -573,11 +573,10 @@ double default_daylight_level();
 
 
 // Returns solar hour angle at time_point.
-// This is the angle of sun relative to south
 // 0 degrees at noon (12:00)
 // negative before noon, positive after noon
 // +- 180 degrees at midnight (24:00, 00:00)
-// This is approximately same as azimuth angle when you are far from equator
+// When far from equator this is almost same as azimuth (Sun south at 0 degrees in north)
 units::angle solar_hour_angle( const time_point &p );
 
 // Returns declination of sun at time_poit
