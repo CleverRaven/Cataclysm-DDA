@@ -117,7 +117,6 @@
       {
         "target": "dagger_judgement",
         "msg": "Concentrating, you change your sword into a much smaller, quicker blade.",
-        "active": false,
         "menu_text": "Transform sword to dagger.",
         "type": "transform"
       }
@@ -127,22 +126,21 @@
     "id": "dagger_judgement",
     "type": "GENERIC",
     "name": { "str": "Dagger of Judgement" },
-    "copy-from": "machete",
+    "copy-from": "kris",
     "description": "A short blade made of glowing, radiant fire. It explodes with radiance when striking enemies.",
     "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS", "TRADER_AVOID" ],
     "to_hit": 2,
-    "bashing": 8,
-    "cutting": 26,
+    "bashing": 10,
+    "cutting": 28,
     "material": "superalloy",
     "techniques": [ "RSTRIKE" ],
     "relic_data": {
-      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_PURE", "add": 10 } ] } ]
+      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_PURE", "add": 5 } ] } ]
     },
     "use_action": [
       {
         "target": "zwei_judgement",
         "msg": "Concentrating, you change your dagger into a much larger, more intimidating form.",
-        "active": false,
         "menu_text": "Transform dagger to zweihander.",
         "type": "transform"
       }
@@ -157,17 +155,16 @@
     "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS", "TRADER_AVOID" ],
     "to_hit": 3,
     "bashing": 18,
-    "cutting": 40,
+    "cutting": 51,
     "material": "superalloy",
     "techniques": [ "RSTRIKE" ],
     "relic_data": {
-      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_PURE", "add": 10 } ] } ]
+      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_PURE", "add": 15 } ] } ]
     },
     "use_action": [
       {
         "target": "rapier_judgement",
         "msg": "Concentrating, you change your dagger into a thinner, much more precise piercing form.",
-        "active": false,
         "menu_text": "Transform zweihander into rapier.",
         "type": "transform"
       }
@@ -181,18 +178,17 @@
     "description": "A very thin, nimble blade glowing with radiant fire. It explodes with radiance when striking enemies.",
     "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS", "TRADER_AVOID" ],
     "to_hit": 3,
-    "bashing": 8,
-    "cutting": 30,
+    "bashing": 10,
+    "cutting": 42,
     "material": "superalloy",
     "techniques": [ "RSTRIKE" ],
     "relic_data": {
-      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_PURE", "add": 10 } ] } ]
+      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_PURE", "add": 8 } ] } ]
     },
     "use_action": [
       {
         "target": "longsword_judgement",
         "msg": "Concentrating, you change your dagger into a longer, more robust blade.",
-        "active": false,
         "menu_text": "Transform rapier to longsword.",
         "type": "transform"
       }

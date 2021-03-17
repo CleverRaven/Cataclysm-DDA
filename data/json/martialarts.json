@@ -362,7 +362,8 @@
       "tonfa_wood",
       "umbrella",
       "wasp_sting",
-      "wrench"
+      "wrench",
+	  "dagger_judgement"
     ]
   },
   {
@@ -437,7 +438,8 @@
       "umbrella",
       "estoc",
       "estoc_inferior",
-      "estoc_fake"
+      "estoc_fake",
+	  "rapier_judgement"
     ]
   },
   {
@@ -691,7 +693,8 @@
       "scar_h",
       "sig552",
       "sks",
-      "steyr_aug"
+      "steyr_aug",
+	  "dagger_judgement"
     ]
   },
   {
@@ -813,7 +816,8 @@
       "zweihander",
       "zweihander_inferior",
       "zweihander_fake",
-	  "longsword_judgement"
+	  "longsword_judgement",
+	  "zwei_judgement"
     ]
   },
   {
@@ -995,7 +999,9 @@
       "tanto_fake",
       "wakizashi",
       "wakizashi_inferior",
-      "wakizashi_fake"
+      "wakizashi_fake",
+	  "dagger_judgement",
+	  "longsword_judgement"
     ]
   },
   {
@@ -1239,7 +1245,8 @@
       "l-stick_on",
       "wakizashi",
       "wakizashi_inferior",
-      "wakizashi_fake"
+      "wakizashi_fake",
+	  "dagger_judgement"
     ]
   },
   {
