@@ -33,7 +33,7 @@
         "                        "
       ],
       "terrain": {
-        " ": [ "t_dirt", "t_dirt", "t_grass" ],
+        " ": [ "t_region_groundcover" ],
         "#": "t_concrete_wall",
         "R": "t_radio_tower",
         "2": "t_chaingate_c",
@@ -42,7 +42,8 @@
         "6": "t_radio_controls",
         "_": "t_pavement",
         "<": "t_stairs_up"
-      }
+      },
+      "nested": { " ": { "chunks": ["wasp_gibs"] }, "_": {"chunks":["wasp_gibs"]} }
     }
   },
   {
@@ -79,7 +80,7 @@
         "                        "
       ],
       "terrain": {
-        " ": [ "t_dirt", "t_dirt", "t_grass" ],
+        " ": [ "t_region_groundcover" ],
         "#": "t_concrete_wall",
         "R": "t_radio_tower",
         "2": "t_chaingate_c",
@@ -87,17 +88,18 @@
         "|": "t_chainfence_v",
         "6": "t_radio_controls",
         "_": "t_pavement",
-        "+": "t_door_c",
+        "+": [ "t_door_c", ["t_door_b", 3 ], ["t_door_frame", 3] ],
         "4": "t_gutter_downspout",
         "<": "t_stairs_up",
-        "w": "t_window"
+        "w": [ "t_window", ["t_window_frame", 3 ], ["t_window_empty", 3] ]
       },
       "furniture": { "C": "f_counter", "r": "f_rack", "h": "f_chair", "l": "f_locker" },
       "items": {
         "C": { "item": "radio", "chance": 80, "repeat": [ 1, 2 ] },
         "r": { "item": "recycle_electronic", "chance": 80, "repeat": [ 1, 2 ] },
         "l": { "item": "clothing_work_set", "chance": 80 }
-      }
+      },
+      "nested": { " ": { "chunks": ["wasp_gibs"] }, "_": {"chunks":["wasp_gibs"]} }
     }
   },
   {
