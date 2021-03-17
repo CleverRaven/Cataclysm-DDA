@@ -106,7 +106,7 @@
     "copy-from": "scroll_martial_base",
     "type": "TOOL",
     "name": { "str": "dragon hand scroll" },
-    "description": "write something here",
+    "description": "Focus your ki into magical attacks.",
     "price_postapoc": 12000,
     "use_action": { "type": "countdown", "name": "Unroll", "message": "You unroll the dragon scroll…" },
     "countdown_interval": 1,
