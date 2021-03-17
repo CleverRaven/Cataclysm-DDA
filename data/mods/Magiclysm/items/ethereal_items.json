@@ -771,5 +771,63 @@
     "relic_data": {
       "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_PURE", "add": 10 } ] } ]
     }
+  },
+  {
+    "id": "aura_auroral_guard",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "auroral shell" },
+    "description": "Sturdy shell what wrap your body and gain almost perfect defence.",
+    "weight": "400 g",
+    "volume": "25 L",
+    "material": [ "concentrated_mana" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "covers": [ "head", "mouth", "eyes", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
+    "coverage": 100,
+    "encumbrance": 15,
+    "material_thickness": 1.7,
+    "environmental_protection": 8,
+    "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "STURDY" ]
+  },
+  {
+    "id": "pocket_sun",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str": "Pocket Sun" },
+    "description": "Small capsule-like field of solar energy.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "material": [ "sunlight" ],
+    "symbol": "*",
+    "color": "yellow",
+    "qualities": [ [ "BOIL", 2 ] ],
+    "use_action": {
+      "target": "pocket_sun_cover",
+      "msg": "You cover the stabilizing field, and now gap doesn't create light.",
+      "menu_text": "Cover",
+      "type": "transform"
+    },
+    "flags": [ "LIGHT_700", "TRADER_AVOID" ]
+  },
+  {
+    "id": "pocket_sun_cover",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "Covered Pocket Sun" },
+    "description": "Temporary covered capsule-like field of solar energy.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "material": [ "sunlight" ],
+    "symbol": "*",
+    "color": "yellow",
+    "qualities": [ [ "BOIL", 2 ] ],
+    "use_action": {
+      "target": "pocket_sun",
+      "msg": "You relieve the cover on stabilizing field, and gap start shining now.",
+      "menu_text": "Relieve",
+      "type": "transform"
+    },
+    "flags": [ "TRADER_AVOID" ]
   }
 ]
