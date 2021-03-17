@@ -23,7 +23,6 @@ enum class damage_type : int;
 class JsonObject;
 
 using mat_burn_products = std::vector<std::pair<itype_id, float>>;
-using mat_compacts_into = std::vector<itype_id>;
 using material_list = std::vector<material_type>;
 using material_id_list = std::vector<material_id>;
 
@@ -94,9 +93,6 @@ class material_type
         //Burn products defined in JSON as "burn_products": [ [ "X", float efficiency ], [ "Y", float efficiency ] ]
         mat_burn_products _burn_products;
 
-        material_id_list _compact_accepts;
-        mat_compacts_into _compacts_into;
-
     public:
         material_type();
 
@@ -143,8 +139,6 @@ class material_type
 
         const mat_burn_data &burn_data( size_t intensity ) const;
         const mat_burn_products &burn_products() const;
-        const material_id_list &compact_accepts() const;
-        const mat_compacts_into &compacts_into() const;
 };
 
 namespace materials
@@ -155,7 +149,6 @@ void check();
 void reset();
 
 material_list get_all();
-material_list get_compactable();
 std::set<material_id> get_rotting();
 
 } // namespace materials
