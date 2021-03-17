@@ -1780,7 +1780,7 @@
         { "id": "mon_shadow_snake", "fg": 1143, "rotates": false },
         { "id": "mon_sheep", "fg": 1144, "bg": [  ], "rotates": false },
         { "id": "mon_skeleton", "fg": 1145, "bg": [  ], "rotates": false },
-        { "id": "mon_skeleton_electric", "fg": 1250, "bg": [  ], "rotates": false },
+        { "id": "mon_skeleton_electric", "fg": 1251, "bg": [  ], "rotates": false },
         { "id": "mon_skitterbot", "fg": 1146, "bg": [  ], "rotates": false },
         { "id": "mon_sludge_crawler", "fg": 1147, "bg": [  ], "rotates": false },
         { "id": "mon_spider_cellar_giant", "fg": 1148, "bg": [  ], "rotates": false },
@@ -1831,7 +1831,7 @@
         { "id": "mon_zombie_bio_op", "fg": 1184, "bg": [  ], "rotates": false },
         { "id": "mon_zombie_biter", "fg": 1185, "bg": [  ], "rotates": false },
         { "id": "mon_zombie_blind", "fg": 1186, "rotates": false },
-        { "id": "mon_zombie_brainless", "fg": 1254, "bg": [  ], "rotates": false },
+        { "id": "mon_zombie_brainless", "fg": 1255, "bg": [  ], "rotates": false },
         { "id": "mon_zombie_brute", "fg": 1187, "bg": [  ], "rotates": false },
         { "id": "mon_zombie_brute_grappler", "fg": 1188, "bg": [  ], "rotates": false },
         { "id": "mon_zombie_brute_ninja", "fg": 1189, "bg": [  ] },
@@ -1844,7 +1844,7 @@
         { "id": "mon_zombie_creepy", "fg": 1195, "bg": [  ], "rotates": false },
         { "id": "mon_zombie_dancer", "fg": 1196, "bg": [  ], "rotates": false },
         { "id": "mon_zombie_dog", "fg": 1197, "bg": [  ], "rotates": false },
-        { "id": "mon_zombie_ear", "fg": 1255, "bg": [  ], "rotates": false },
+        { "id": "mon_zombie_ears", "fg": 1256 },
         { "id": "mon_zombie_electric", "fg": 1198, "bg": [  ], "rotates": false },
         { "id": "mon_zombie_fiend", "fg": 1257, "bg": [  ], "rotates": false },
         { "id": "mon_zombie_fireman", "fg": 1199, "bg": [  ], "rotates": false },
@@ -1883,9 +1883,9 @@
         { "id": "mon_zombie_wretched", "fg": 1267, "bg": [  ], "rotates": false },
         { "id": "mon_zoose", "fg": 1223, "bg": [  ], "rotates": false },
         { "id": "mon_zougar", "fg": 1224, "bg": [  ], "rotates": false },
-        { "id": "mon_triffid", "fg": 1251 },
-        { "id": "mon_triffid_sprig", "fg": 1252 },
-        { "id": "mon_triffid_young", "fg": 1253 },
+        { "id": "mon_triffid", "fg": 1252 },
+        { "id": "mon_triffid_sprig", "fg": 1253 },
+        { "id": "mon_triffid_young", "fg": 1254 },
         {
           "id": "mon_broken_cyborg",
           "fg": [
@@ -6492,15 +6492,15 @@
           "fg": [ { "weight": 1, "sprite": 4407 }, { "weight": 1, "sprite": 4408 }, { "weight": 1, "sprite": 4409 } ],
           "bg": 4480
         },
-        { "id": "mon_skeleton_brute", "fg": 4412, "bg": 4480 },
-        { "id": [ "corpse_mon_skeleton", "corpse_mon_skeleton_brute" ], "fg": 4434 },
-        { "id": "mon_turret_riot", "fg": 4414, "bg": 4480 },
-        { "id": [ "corpse_mon_zombie_necro", "corpse_mon_zombie_master" ], "fg": 4428 },
-        { "id": [ "mon_zombie_crawler_pupa", "mon_zombie_crawler_pupa_decoy" ], "fg": 4431, "bg": 4480 },
-        { "id": [ "mon_zombie_pupa", "mon_zombie_pupa_decoy" ], "fg": 4432, "bg": 4480 },
-        { "id": [ "mon_zombie_pupa_shady", "mon_zombie_pupa_decoy_shady" ], "fg": 4433, "bg": 4480 },
-        { "id": "corpse_mon_zombie_rot", "fg": 4434 },
-        { "id": [ "corpse_mon_zombie_soldier", "corpse_mon_zombie_military_pilot" ], "fg": 4436 },
+        { "id": "mon_skeleton_brute", "fg": 1250, "bg": 4480 },
+        { "id": [ "corpse_mon_skeleton", "corpse_mon_skeleton_brute" ], "fg": 4433 },
+        { "id": "mon_turret_riot", "fg": 4413, "bg": 4480 },
+        { "id": [ "corpse_mon_zombie_necro", "corpse_mon_zombie_master" ], "fg": 4427 },
+        { "id": [ "mon_zombie_crawler_pupa", "mon_zombie_crawler_pupa_decoy" ], "fg": 4430, "bg": 4480 },
+        { "id": [ "mon_zombie_pupa", "mon_zombie_pupa_decoy" ], "fg": 4431, "bg": 4480 },
+        { "id": [ "mon_zombie_pupa_shady", "mon_zombie_pupa_decoy_shady" ], "fg": 4432, "bg": 4480 },
+        { "id": "corpse_mon_zombie_rot", "fg": 4433 },
+        { "id": [ "corpse_mon_zombie_soldier", "corpse_mon_zombie_military_pilot" ], "fg": 4435 },
         {
           "id": [
             "corpse_mon_zombie",
@@ -6537,11 +6537,11 @@
             "corpse_mon_zombie_prisoner",
             "corpse_mon_zombie_winged"
           ],
-          "fg": 4442
+          "fg": 4441
         },
-        { "id": "corpse_mon_zombie_scientist", "fg": 4444 },
-        { "id": [ "corpse_mon_zombie_technician", "corpse_mon_zombie_hazmat" ], "fg": 4445 },
-        { "id": [ "corpse_mon_zombie_cop", "corpse_mon_zombie_labsecurity" ], "fg": 4443 },
+        { "id": "corpse_mon_zombie_scientist", "fg": 4443 },
+        { "id": [ "corpse_mon_zombie_technician", "corpse_mon_zombie_hazmat" ], "fg": 4444 },
+        { "id": [ "corpse_mon_zombie_cop", "corpse_mon_zombie_labsecurity" ], "fg": 4442 },
         {
           "id": [
             "corpse_mon_zombie_tough",
@@ -6557,13 +6557,13 @@
             "corpse_mon_zombie_soldier_blackops_2",
             "corpse_mon_zombie_soldier_blackops_1"
           ],
-          "fg": 4446
+          "fg": 4445
         },
-        { "id": "mon_zombie_winged", "fg": 4460, "bg": 4480 },
+        { "id": "mon_zombie_winged", "fg": 4459, "bg": 4480 },
         { "id": "mon_copbot", "fg": 1242, "bg": 4480 },
-        { "id": "mon_zombie_swat", "fg": 4465, "bg": 4480 },
-        { "id": "mon_zombie_flamer", "fg": 4470, "bg": 4480 },
-        { "id": "corpse_mon_zombie_brainless", "fg": 4420 }
+        { "id": "mon_zombie_swat", "fg": 4464, "bg": 4480 },
+        { "id": "mon_zombie_flamer", "fg": 4469, "bg": 4480 },
+        { "id": "corpse_mon_zombie_brainless", "fg": 4419 }
       ]
     },
     {
@@ -9292,7 +9292,6 @@
       "sprite_offset_y": -32,
       "tiles": [
         { "id": "mon_robofac_prototype", "fg": 5648, "bg": 4480 },
-        { "id": "mon_zombie_ears", "fg": 1256, "bg": 4480 },
         { "id": "overlay_female_worn_helmet_riot_raised", "fg": 5649 },
         { "id": "overlay_male_worn_helmet_riot_raised", "fg": 5650 },
         { "id": "f_street_light", "fg": 5651 },
