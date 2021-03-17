@@ -12,7 +12,7 @@
     "spells_learned": [ [ "spy_wasp", 5 ], [ "artificer_toolkit", 5 ] ],
     "crafting_speed_multiplier": 1.2,
     "cancels": [
-      "AURA_MAGE",
+      "ALCHEMIST",
       "BIOTEK",
       "BOREAL_MAGE",
       "CRUSADER",
@@ -41,15 +41,16 @@
     "flags": [ "ATTUNEMENT" ]
   },
   {
-    "id": "AURA_MAGE",
+    "id": "ALCHEMIST",
     "type": "mutation",
-    "name": { "str": "Aura Mage" },
+    "name": { "str": "Alchemist" },
     "points": 8,
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": "",
+    "description": "Mix of worlds life energy from animist and technomancer's slant of work create an alchemist.  It requires magical talent and lots of time, but is invaluable for creating powerful magical effects in a storable, accessible form.",
     "prereqs": [ "ANIMIST", "TECHNOMANCER" ],
+    "spells_learned": [ [ "alchemist_make_potion_bomb", 5 ], [ "alchemist_make_potion_trap", 5 ] ],
     "cancels": [
       "ARTIFICER",
       "BIOTEK",
@@ -92,7 +93,7 @@
     "bionic_slot_bonuses": { "torso": 20 },
     "cancels": [
       "ARTIFICER",
-      "AURA_MAGE",
+      "ALCHEMIST",
       "BIOTEK",
       "BLOOD_MAGE",
       "BOREAL_MAGE",
@@ -137,7 +138,7 @@
     "spells_learned": [ [ "banishment_greater", 5 ], [ "demonic_possession", 5 ] ],
     "bleed_resist": 200,
     "cancels": [
-      "AURA_MAGE",
+      "ALCHEMIST",
       "BIOTEK",
       "BLOOD_MAGE",
       "CRUSADER",
@@ -177,7 +178,7 @@
     "spells_learned": [ [ "auroral_wave", 5 ] ],
     "cancels": [
       "ARTIFICER",
-      "AURA_MAGE",
+      "ALCHEMIST",
       "BIOTEK",
       "BOREAL_MAGE",
       "CRUSADER",
@@ -260,7 +261,7 @@
     "hp_modifier": 1,
     "cancels": [
       "ARTIFICER",
-      "AURA_MAGE",
+      "ALCHEMIST",
       "BIOTEK",
       "BLOOD_MAGE",
       "BOREAL_MAGE",
@@ -303,7 +304,7 @@
     "passive_mods": { "str_mod": 5 },
     "cancels": [
       "ARTIFICER",
-      "AURA_MAGE",
+      "ALCHEMIST",
       "BIOTEK",
       "BLOOD_MAGE",
       "BOREAL_MAGE",
@@ -385,7 +386,7 @@
     "speed_modifier": 1.2,
     "cancels": [
       "ARTIFICER",
-      "AURA_MAGE",
+      "ALCHEMIST",
       "BLOOD_MAGE",
       "BOREAL_MAGE",
       "CLEANSING_FLAME",
@@ -426,7 +427,7 @@
     "prereqs": [ "DRUID", "EARTHSHAPER" ],
     "cancels": [
       "ARTIFICER",
-      "AURA_MAGE",
+      "ALCHEMIST",
       "BIOTEK",
       "BLOOD_MAGE",
       "BOREAL_MAGE",
@@ -465,7 +466,7 @@
     "spells_learned": [ [ "ice_clave", 5 ], [ "frozen_winds", 5 ] ],
     "cancels": [
       "ARTIFICER",
-      "AURA_MAGE",
+      "ALCHEMIST",
       "BIOTEK",
       "BOREAL_MAGE",
       "CRUSADER",
@@ -506,7 +507,7 @@
     "spells_learned": [ [ "golem_push", 5 ] ],
     "cancels": [
       "ARTIFICER",
-      "AURA_MAGE",
+      "ALCHEMIST",
       "BIOTEK",
       "BLOOD_MAGE",
       "BOREAL_MAGE",
@@ -546,7 +547,7 @@
     "weight_capacity_modifier": 2,
     "cancels": [
       "ARTIFICER",
-      "AURA_MAGE",
+      "ALCHEMIST",
       "BIOTEK",
       "BLOOD_MAGE",
       "BOREAL_MAGE",
@@ -587,7 +588,7 @@
     "spells_learned": [ [ "overaccelerate", 5 ] ],
     "cancels": [
       "ARTIFICER",
-      "AURA_MAGE",
+      "ALCHEMIST",
       "BIOTEK",
       "BOREAL_MAGE",
       "CRUSADER",
@@ -669,7 +670,7 @@
     "prereqs": [ "MAGUS", "TECHNOMANCER" ],
     "cancels": [
       "ARTIFICER",
-      "AURA_MAGE",
+      "ALCHEMIST",
       "BIOTEK",
       "BLOOD_MAGE",
       "BOREAL_MAGE",
@@ -708,7 +709,7 @@
     "spells_learned": [ [ "railgun", 5 ] ],
     "cancels": [
       "ARTIFICER",
-      "AURA_MAGE",
+      "ALCHEMIST",
       "BIOTEK",
       "BOREAL_MAGE",
       "CRUSADER",
@@ -748,7 +749,7 @@
     "prereqs": [ "KELVINIST", "MAGUS" ],
     "cancels": [
       "ARTIFICER",
-      "AURA_MAGE",
+      "ALCHEMIST",
       "BLOOD_MAGE",
       "BOREAL_MAGE",
       "CLEANSING_FLAME",
@@ -789,7 +790,7 @@
     "spells_learned": [ [ "shortwave", 5 ], [ "gamma_burst", 5 ] ],
     "cancels": [
       "ARTIFICER",
-      "AURA_MAGE",
+      "ALCHEMIST",
       "BLOOD_MAGE",
       "BOREAL_MAGE",
       "CLEANSING_FLAME",
@@ -828,7 +829,7 @@
     "description": "Deeply attuned to the spiritual fabric that shapes and nurtures the natural world.  Shamans call upon the primeval spirits of nature for aid and advice.  Be careful however, for ancient spirits are fickle and unknowable things.",
     "prereqs": [ "ANIMIST", "DRUID" ],
     "cancels": [
-      "AURA_MAGE",
+      "ALCHEMIST",
       "BIOTEK",
       "BLOOD_MAGE",
       "CRUSADER",
@@ -868,7 +869,7 @@
     "//": "Purposefully omits torso, head, etc.",
     "encumbrance_multiplier_always": { "arm_l": 0.4, "arm_r": 0.4, "hand_l": 0.4, "hand_r": 0.4, "leg_l": 0.4, "leg_r": 0.4, "mouth": 0.4 },
     "cancels": [
-      "AURA_MAGE",
+      "ALCHEMIST",
       "BIOTEK",
       "BLOOD_MAGE",
       "CRUSADER",
@@ -909,7 +910,7 @@
     "prereqs": [ "KELVINIST", "ANIMIST" ],
     "cancels": [
       "ARTIFICER",
-      "AURA_MAGE",
+      "ALCHEMIST",
       "BLOOD_MAGE",
       "BOREAL_MAGE",
       "CLEANSING_FLAME",
@@ -1033,7 +1034,7 @@
     "spells_learned": [ [ "solar_beam", 5 ] ],
     "cancels": [
       "ARTIFICER",
-      "AURA_MAGE",
+      "ALCHEMIST",
       "BLOOD_MAGE",
       "BOREAL_MAGE",
       "CLEANSING_FLAME",
@@ -1115,7 +1116,7 @@
     "enchantments": [ "VOID_MAGE" ],
     "cancels": [
       "ARTIFICER",
-      "AURA_MAGE",
+      "ALCHEMIST",
       "BLOOD_MAGE",
       "BOREAL_MAGE",
       "CLEANSING_FLAME",
@@ -1156,7 +1157,7 @@
     "prereqs": [ "EARTHSHAPER", "KELVINIST" ],
     "cancels": [
       "ARTIFICER",
-      "AURA_MAGE",
+      "ALCHEMIST",
       "BIOTEK",
       "BOREAL_MAGE",
       "CRUSADER",
@@ -1196,7 +1197,7 @@
     "prereqs": [ "DRUID", "MAGUS" ],
     "spells_learned": [ [ "assassin_strike", 5 ] ],
     "cancels": [
-      "AURA_MAGE",
+      "ALCHEMIST",
       "BIOTEK",
       "BLOOD_MAGE",
       "CRUSADER",
