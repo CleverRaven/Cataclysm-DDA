@@ -43,7 +43,7 @@
         "_": "t_pavement",
         "<": "t_stairs_up"
       },
-      "nested": { " ": { "chunks": ["wasp_gibs"] }, "_": {"chunks":["wasp_gibs"]} }
+      "nested": { " ": { "chunks": [ ["null", 50 ], ["wasp_gibs", 10 ] ] }, "_": { "chunks": [ ["null", 50 ], ["wasp_gibs", 10]] } }
     }
   },
   {
@@ -99,7 +99,7 @@
         "r": { "item": "recycle_electronic", "chance": 80, "repeat": [ 1, 2 ] },
         "l": { "item": "clothing_work_set", "chance": 80 }
       },
-      "nested": { " ": { "chunks": ["wasp_gibs"] }, "_": {"chunks":["wasp_gibs"]} }
+      "nested": { " ": { "chunks": [ ["null", 50 ], ["wasp_gibs", 10 ]] }, "_": { "chunks": [ ["null", 50 ], ["wasp_gibs", 10] ] } }
     }
   },
   {
@@ -170,7 +170,8 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "wasp_palette" ]
+      "palettes": [ "wasp_palette" ],
+      "nested": { "_": {"chunks": [ "null" , "wasp_gibs" ] }}
     }
   },
   {
@@ -240,7 +241,8 @@
         "         XXXXX          ",
         "                        "
       ],
-      "palettes": [ "wasp_palette" ]
+      "palettes": [ "wasp_palette" ],
+      "nested": { ".": {"chunks": [ "null" , "wasp_gibs" ] }}
     }
   },
   {
@@ -275,7 +277,8 @@
         "     XXXX     XXXX      ",
         "        XXXXXXX         "
       ],
-      "palettes": [ "wasp_palette" ]
+      "palettes": [ "wasp_palette" ],
+      "nested": { ".": {"chunks": [ "null" , "wasp_gibs" ] }}
     }
   },
   {
