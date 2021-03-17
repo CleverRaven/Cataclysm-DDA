@@ -210,7 +210,7 @@
     "material": [ "water" ],
     "volume": "250 ml",
     "phase": "liquid",
-    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
+    "flags": [ "EATEN_HOT" ],
     "fun": 6
   },
   {
