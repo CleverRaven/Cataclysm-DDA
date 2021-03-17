@@ -298,6 +298,8 @@
     "difficulty": 5,
     "base_casting_time": 400,
     "base_energy_cost": 35,
+    "final_energy_cost": 20,
+    "energy_increment": -1.5,
     "max_level": 10,
     "min_damage": -4,
     "max_damage": -12,
