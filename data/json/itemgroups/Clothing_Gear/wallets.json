@@ -41,7 +41,7 @@
       { "item": "coin_quarter", "prob": 10, "count": [ 1, 2 ] },
       { "item": "coin_nickel", "prob": 10, "count": [ 1, 2 ] },
       { "group": "discount_cards", "prob": 40, "count": [ 1, 3 ] },
-      { "item": "condom", "prob": 1 },
+      { "item": "condom", "prob": 10 },
       [ "scorecard", 20 ]
     ]
   },
@@ -57,7 +57,7 @@
       { "item": "coin_quarter", "prob": 10, "count": [ 1, 2 ] },
       { "item": "coin_nickel", "prob": 10, "count": [ 1, 2 ] },
       { "group": "discount_cards", "prob": 40, "count": [ 1, 3 ] },
-      { "item": "condom", "prob": 1 },
+      { "item": "condom", "prob": 10 },
       [ "scorecard", 20 ]
     ]
   },
@@ -73,7 +73,7 @@
       { "item": "coin_quarter", "prob": 10, "count": [ 1, 2 ] },
       { "item": "coin_nickel", "prob": 10, "count": [ 1, 2 ] },
       { "group": "discount_cards", "prob": 40, "count": [ 1, 3 ] },
-      { "item": "condom", "prob": 1 },
+      { "item": "condom", "prob": 10 },
       [ "scorecard", 20 ]
     ]
   },
@@ -88,7 +88,7 @@
       { "item": "coin_quarter", "prob": 50, "count": [ 2, 5 ] },
       { "item": "coin_nickel", "prob": 0, "count": [ 1, 6 ] },
       { "group": "discount_cards", "prob": 10 },
-      { "item": "condom", "prob": 1 },
+      { "item": "condom", "prob": 10 },
       [ "scorecard", 40 ]
     ]
   },
@@ -103,7 +103,7 @@
       { "item": "money_ten", "prob": 100, "count": [ 5, 10 ] },
       { "item": "money_twenty", "prob": 100, "count": [ 5, 10 ] },
       { "group": "discount_cards", "prob": 60, "count": [ 2, 5 ] },
-      { "item": "condom", "prob": 1 },
+      { "item": "condom", "prob": 10 },
       [ "scorecard", 5 ]
     ]
   },
@@ -120,7 +120,7 @@
       { "item": "coin_quarter", "prob": 10, "count": [ 1, 2 ] },
       { "item": "coin_nickel", "prob": 10, "count": [ 1, 2 ] },
       { "group": "discount_cards", "prob": 40, "count": [ 1, 3 ] },
-      { "item": "condom", "prob": 1 },
+      { "item": "condom", "prob": 10 },
       [ "scorecard", 20 ]
     ]
   },
@@ -137,7 +137,7 @@
       { "item": "coin_quarter", "prob": 10, "count": [ 1, 2 ] },
       { "item": "coin_nickel", "prob": 10, "count": [ 1, 2 ] },
       { "group": "discount_cards", "prob": 40, "count": [ 1, 3 ] },
-      { "item": "condom", "prob": 1 },
+      { "item": "condom", "prob": 10 },
       [ "scorecard", 20 ]
     ]
   },
@@ -154,7 +154,7 @@
       { "item": "coin_quarter", "prob": 10, "count": [ 1, 2 ] },
       { "item": "coin_nickel", "prob": 10, "count": [ 1, 2 ] },
       { "group": "discount_cards", "prob": 40, "count": [ 1, 3 ] },
-      { "item": "condom", "prob": 1 },
+      { "item": "condom", "prob": 10 },
       { "item": "labmap", "prob": 20 },
       [ "scorecard", 20 ]
     ]
@@ -172,7 +172,7 @@
       { "item": "coin_quarter", "prob": 10, "count": [ 1, 2 ] },
       { "item": "coin_nickel", "prob": 10, "count": [ 1, 2 ] },
       { "group": "discount_cards", "prob": 40, "count": [ 1, 3 ] },
-      { "item": "condom", "prob": 1 },
+      { "item": "condom", "prob": 10 },
       { "item": "labmap", "prob": 20 },
       [ "scorecard", 20 ]
     ]
@@ -190,7 +190,7 @@
       { "item": "money_ten", "prob": 100, "count": [ 5, 10 ] },
       { "item": "money_twenty", "prob": 100, "count": [ 5, 10 ] },
       { "group": "discount_cards", "prob": 60, "count": [ 2, 5 ] },
-      { "item": "condom", "prob": 1 },
+      { "item": "condom", "prob": 10 },
       { "item": "labmap", "prob": 20 },
       [ "scorecard", 5 ]
     ]
@@ -208,7 +208,7 @@
       { "item": "coin_quarter", "prob": 10, "count": [ 1, 2 ] },
       { "item": "coin_nickel", "prob": 10, "count": [ 1, 2 ] },
       { "group": "discount_cards", "prob": 40, "count": [ 1, 3 ] },
-      { "item": "condom", "prob": 1 },
+      { "item": "condom", "prob": 10 },
       [ "scorecard", 20 ]
     ]
   },
@@ -225,7 +225,7 @@
       { "item": "coin_quarter", "prob": 10, "count": [ 1, 2 ] },
       { "item": "coin_nickel", "prob": 10, "count": [ 1, 2 ] },
       { "group": "discount_cards", "prob": 40, "count": [ 1, 3 ] },
-      { "item": "condom", "prob": 1 },
+      { "item": "condom", "prob": 10 },
       [ "scorecard", 20 ]
     ]
   },
