@@ -453,17 +453,21 @@ void remove_radio_mod( item &it, Character &p )
     it.unset_flag( flag_RADIOCARITEM );
 }
 
-// Checks that the player does not have an active item with LITCIG flag.
-static bool check_litcig( player &u )
+// Checks that the player can smoke
+cata::optional<std::string> iuse::can_smoke( const player &u )
 {
     auto cigs = u.items_with( []( const item & it ) {
         return it.active && it.has_flag( flag_LITCIG );
     } );
-    if( cigs.empty() ) {
-        return true;
+
+    if( !cigs.empty() ) {
+        return string_format( _( "You're already smoking a %s!" ), cigs[0]->tname() );
     }
-    u.add_msg_if_player( m_info, _( "You're already smoking a %s!" ), cigs[0]->tname() );
-    return false;
+
+    if( !u.has_charges( itype_fire, 1 ) ) {
+        return _( "You don't have anything to light it with!" );
+    }
+    return cata::nullopt;
 }
 
 /* iuse methods return the number of charges expended or no value, which is usually it->charges_to_use().
@@ -550,15 +554,9 @@ cata::optional<int> iuse::alcohol_strong( player *p, item *it, bool, const tripo
  */
 cata::optional<int> iuse::smoking( player *p, item *it, bool, const tripoint & )
 {
-    bool hasFire = ( p->has_charges( itype_fire, 1 ) );
-
-    // make sure we're not already smoking something
-    if( !check_litcig( *p ) ) {
-        return cata::nullopt;
-    }
-
-    if( !hasFire ) {
-        p->add_msg_if_player( m_info, _( "You don't have anything to light it with!" ) );
+    cata::optional<std::string> litcig = can_smoke( *p );
+    if( litcig.has_value() ) {
+        p->add_msg_if_player( m_info, _( litcig.value_or( "" ) ) );
         return cata::nullopt;
     }
 
@@ -8482,9 +8480,19 @@ cata::optional<int> iuse::multicooker( player *p, item *it, bool t, const tripoi
 {
     static const std::set<std::string> multicooked_subcats = { "CSC_FOOD_MEAT", "CSC_FOOD_VEGGI", "CSC_FOOD_PASTA" };
     static const int charges_to_start = 50;
+    const int charge_buffer = 2;
+
     if( t ) {
-        if( !it->units_sufficient( *p ) ) {
+        //stop action before power runs out and iuse deletes the cooker
+        if( !( it->ammo_remaining() >= charge_buffer ) && !( it->has_flag( flag_USE_UPS ) &&
+                p->charges_of( itype_UPS ) >= charge_buffer ) ) {
             it->active = false;
+            it->erase_var( "RECIPE" );
+            it->convert( itype_multi_cooker );
+            //drain the buffer amount given at activation
+            it->ammo_consume( charge_buffer, pos );
+            p->add_msg_if_player( m_info,
+                                  _( "Batteries low, entering standby mode.  With a low buzzing sound the multi-cooker shuts down." ) );
             return 0;
         }
 
@@ -8513,7 +8521,13 @@ cata::optional<int> iuse::multicooker( player *p, item *it, bool t, const tripoi
             it->active = false;
             it->erase_var( "DISH" );
             it->erase_var( "COOKTIME" );
-            it->put_in( meal, item_pocket::pocket_type::CONTAINER );
+            if( it->can_contain( meal ) ) {
+                it->put_in( meal, item_pocket::pocket_type::CONTAINER );
+            } else {
+                add_msg( m_info,
+                         _( "Obstruction detected.  Please remove any items lodged in the multi-cooker." ) );
+                return 0;
+            }
 
             //~ sound of a multi-cooker finishing its cycle!
             sounds::sound( pos, 8, sounds::sound_t::alarm, _( "ding!" ), true, "misc", "ding" );
@@ -8565,7 +8579,8 @@ cata::optional<int> iuse::multicooker( player *p, item *it, bool t, const tripoi
             menu.addentry( mc_stop, true, 's', _( "Stop cooking" ) );
         } else {
             if( dish_it == nullptr ) {
-                if( it->ammo_remaining() < charges_to_start ) {
+                if( it->ammo_remaining() < charges_to_start && !( it->has_flag( flag_USE_UPS ) &&
+                        p->charges_of( itype_UPS ) >= charges_to_start ) ) {
                     p->add_msg_if_player( _( "Batteries are low." ) );
                     return 0;
                 }
@@ -8689,7 +8704,8 @@ cata::optional<int> iuse::multicooker( player *p, item *it, bool t, const tripoi
 
                 const int all_charges = charges_to_start + mealtime / ( it->type->tool->power_draw / 10000 );
 
-                if( it->ammo_remaining() < all_charges ) {
+                if( it->ammo_remaining() < all_charges && !( it->has_flag( flag_USE_UPS ) &&
+                        p->charges_of( itype_UPS ) >= all_charges ) ) {
 
                     p->add_msg_if_player( m_warning,
                                           _( "The multi-cooker needs %d charges to cook this dish." ),
@@ -8717,7 +8733,7 @@ cata::optional<int> iuse::multicooker( player *p, item *it, bool t, const tripoi
                                       _( "The screen flashes blue symbols and scales as the multi-cooker begins to shake." ) );
 
                 it->convert( itype_multi_cooker_filled ).active = true;
-                it->ammo_consume( charges_to_start, pos );
+                it->ammo_consume( charges_to_start - charge_buffer, pos );
 
                 p->practice( skill_cooking, meal->difficulty * 3 ); //little bonus
 

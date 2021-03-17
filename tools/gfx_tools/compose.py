@@ -132,7 +132,7 @@ class Tileset:
         self.palette = palette
         self.output_conf_file = None
 
-        self.pngnum = 1
+        self.pngnum = 0
         self.referenced_pngnames = []
 
         # bijectional dicts of pngnames to png numbers and vice versa
@@ -246,8 +246,7 @@ class Tileset:
 
             sheet_conf = {
                 'file': sheet.name,
-                'tiles': sheet_entries,
-                '//': f'range {sheet.first_index} to {sheet.max_index}'
+                '//': f'range {sheet.first_index} to {sheet.max_index}',
             }
 
             if not sheet.is_standard():
@@ -255,6 +254,8 @@ class Tileset:
                 sheet_conf['sprite_height'] = sheet.sprite_height
                 sheet_conf['sprite_offset_x'] = sheet.offset_x
                 sheet_conf['sprite_offset_y'] = sheet.offset_y
+
+            sheet_conf['tiles'] = sheet_entries
 
             tiles_new_dict[sheet.max_index] = sheet_conf
 
@@ -347,7 +348,7 @@ class Tilesheet:
             Vips.Image.grey(self.sprite_width, self.sprite_height)
         self.sprites = [self.null_image] if config_index == 1 else []
 
-        self.first_index = self.tileset.pngnum
+        self.first_index = self.tileset.pngnum + 1
         self.max_index = self.tileset.pngnum
 
     def is_standard(self) -> bool:
@@ -392,9 +393,9 @@ class Tilesheet:
             return
 
         self.sprites.append(self.load_image(filepath))
+        self.tileset.pngnum += 1
         self.tileset.pngname_to_pngnum[pngname] = self.tileset.pngnum
         self.tileset.pngnum_to_pngname[self.tileset.pngnum] = pngname
-        self.tileset.pngnum += 1
 
     def load_image(self, png_path: str) -> pyvips.Image:
         '''

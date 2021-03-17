@@ -538,7 +538,7 @@
     "description": "A galvanized bucket for peanuts, chilled wine, iced beer, lobster, crab legs, French fries, animal feed, farm use, tailgating, crafts, planting flowers, holding gift baskets, containing a fruit basket and herbs, loose item storage or as an ice bucket.",
     "ascii_picture": "bucket",
     "weight": "725 g",
-    "volume": "5 L",
+    "volume": "5500 ml",
     "price": 300,
     "price_postapoc": 10,
     "material": [ "steel" ],
@@ -550,7 +550,7 @@
         "rigid": true,
         "watertight": true,
         "open_container": true,
-        "max_contains_volume": "4990 ml",
+        "max_contains_volume": "5000 ml",
         "max_contains_weight": "20 kg"
       }
     ],
@@ -1717,7 +1717,7 @@
     "looks_like": "1st_aid",
     "description": "A plastic box that used to contain a first aid kit.",
     "weight": "50 g",
-    "volume": "2600 ml",
+    "volume": "2650 ml",
     "price": 0,
     "price_postapoc": 0,
     "to_hit": -2,
@@ -1725,7 +1725,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "2300 ml",
+        "max_contains_volume": "2450 ml",
         "max_contains_weight": "3 kg",
         "rigid": true,
         "moves": 400

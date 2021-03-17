@@ -3815,18 +3815,47 @@ bool npc::consume_food_from_camp()
     }
     faction *yours = player_character.get_faction();
 
-    int kcals_to_eat = std::min( std::max( 0, 19 * get_healthy_kcal() / 20 - get_stored_kcal() -
-                                           stomach.get_calories() ), yours->food_supply );
-    if( kcals_to_eat > 0 ) {
-        complain_about( "camp_food_thanks", 1_hours, "<camp_food_thanks>", false );
-        mod_hunger( -kcals_to_eat );
-        mod_stored_kcal( kcals_to_eat );
-        yours->food_supply -= kcals_to_eat;
-        return true;
+    int current_kcals = get_stored_kcal() + stomach.get_calories() + guts.get_calories();
+    int kcal_threshold = get_healthy_kcal() * 19 / 20;
+    if( get_hunger() > 0 && current_kcals < kcal_threshold ) {
+        // Try to eat a bit more than the bare minimum so that we're not eating every 5 minutes
+        // but also don't try to eat a week's worth of food in one sitting
+        int desired_kcals = std::min( 2500, std::max( 0, kcal_threshold + 100 - current_kcals ) );
+        int kcals_to_eat = std::min( desired_kcals, yours->food_supply );
+
+        if( kcals_to_eat > 0 ) {
+            // We need food and there's some available, so let's eat it
+            complain_about( "camp_food_thanks", 1_hours, "<camp_food_thanks>", false );
+
+            // Make a fake food object here to feed the NPC with, since camp calories are abstracted away
+
+            // Fill up the stomach to "full" (half of capacity) but no further, to avoid NPCs vomiting
+            // or becoming engorged
+            units::volume filling_vol = std::max( 0_ml, stomach.capacity( *this ) / 2 - stomach.contains() );
+
+            // TODO: At the moment, vitamins are not tracked by the faction camp, so this does *not* give
+            // the NPC any vitamins. That will need to be added once vitamin deficiencies start mattering
+            nutrients nutr{};
+            nutr.calories = kcals_to_eat * 1000;
+
+            stomach.ingest( food_summary{
+                0_ml,
+                filling_vol,
+                nutr
+            } );
+            // Ensure our hunger is satisfied so we don't try to eat again immediately.
+            // update_stomach() usually takes care of that but it's only called once every 10 seconds for NPCs
+            set_hunger( -1 );
+
+            yours->food_supply -= kcals_to_eat;
+            return true;
+        } else {
+            // We need food but there's none to eat :(
+            complain_about( "camp_larder_empty", 1_hours, "<camp_larder_empty>", false );
+            return false;
+        }
     }
-    if( yours->food_supply <= 0 ) {
-        complain_about( "camp_larder_empty", 1_hours, "<camp_larder_empty>", false );
-    }
+
     return false;
 }
 

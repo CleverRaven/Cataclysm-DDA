@@ -233,6 +233,8 @@ bool robotcontrol_can_target( player *, const monster & );
 cata::optional<int> handle_ground_graffiti( Character &p, item *it, const std::string &prefix,
         const tripoint &where );
 
+//helper for lit cigs
+cata::optional<std::string> can_smoke( const player &u );
 } // namespace iuse
 
 void remove_radio_mod( item &it, Character &p );

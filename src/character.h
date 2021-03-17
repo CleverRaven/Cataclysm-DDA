@@ -489,7 +489,7 @@ class Character : public Creature, public visitable
         std::pair<std::string, nc_color> get_pain_description() const override;
 
         /** Modifiers for need values exclusive to characters */
-        virtual void mod_stored_kcal( int nkcal );
+        virtual void mod_stored_kcal( int nkcal, bool ignore_weariness = false );
         virtual void mod_stored_nutr( int nnutr );
         virtual void mod_hunger( int nhunger );
         virtual void mod_thirst( int nthirst );
@@ -507,7 +507,7 @@ class Character : public Creature, public visitable
     protected:
 
         // These accept values in calories, 1/1000s of kcals (or Calories)
-        virtual void mod_stored_calories( int ncal );
+        virtual void mod_stored_calories( int ncal, bool ignore_weariness = false );
         virtual void set_stored_calories( int cal );
 
     public:
@@ -2593,10 +2593,10 @@ class Character : public Creature, public visitable
         /**
          * Handle skill gain for player and followers during crafting
          * @param craft the currently in progress craft
-         * @param multiplier what factor to multiply the base skill gain by.  This is used to apply
+         * @param num_practice_ticks to trigger.  This is used to apply
          * multiple steps of incremental skill gain simultaneously if needed.
          */
-        void craft_skill_gain( const item &craft, const int &multiplier );
+        void craft_skill_gain( const item &craft, const int &num_practice_ticks );
         /**
          * Handle proficiency practice for player and followers while crafting
          * @param craft - the in progress craft

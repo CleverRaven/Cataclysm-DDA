@@ -1142,6 +1142,7 @@ void player::on_worn_item_transform( const item &old_it, const item &new_it )
 void player::process_items()
 {
     if( weapon.needs_processing() && weapon.process( this, pos() ) ) {
+        weapon.spill_contents( pos() );
         remove_weapon();
     }
 
@@ -1152,6 +1153,7 @@ void player::process_items()
         }
         if( it->needs_processing() ) {
             if( it->process( this, pos() ) ) {
+                it->spill_contents( pos() );
                 removed_items.push_back( it );
             }
         }
@@ -2033,6 +2035,11 @@ void player::use( item_location loc, int pre_obtain_moves )
     } else if( !used.is_craft() && ( used.is_medication() || ( !used.type->has_use() &&
                                      used.is_food() ) ) ) {
         if( avatar *u = as_avatar() ) {
+            const ret_val<edible_rating> ret = u->will_eat( used, true );
+            if( !ret.success() ) {
+                moves = pre_obtain_moves;
+                return;
+            }
             u->assign_activity( player_activity( consume_activity_actor( item_location( *u, &used ) ) ) );
         } else  {
             const time_duration &consume_time = get_consume_time( used );
