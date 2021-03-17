@@ -3760,116 +3760,6 @@ void iexamine::shrub_wildveggies( player &p, const tripoint &examp )
     p.activity.auto_resume = true;
 }
 
-void iexamine::recycle_compactor( player &, const tripoint &examp )
-{
-    // choose what metal to recycle
-    auto metals = materials::get_compactable();
-    uilist choose_metal;
-    choose_metal.text = _( "Recycle what metal?" );
-    for( auto &m : metals ) {
-        choose_metal.addentry( m.name() );
-    }
-    choose_metal.query();
-    int m_idx = choose_metal.ret;
-    if( m_idx < 0 || m_idx >= static_cast<int>( metals.size() ) ) {
-        add_msg( _( "Never mind." ) );
-        return;
-    }
-    material_type m = metals.at( m_idx );
-
-    map &here = get_map();
-    // check inputs and tally total mass
-    map_stack inputs = here.i_at( examp );
-    units::mass sum_weight = 0_gram;
-    auto ca = m.compact_accepts();
-    std::set<material_id> accepts( ca.begin(), ca.end() );
-    accepts.insert( m.id );
-    for( auto &input : inputs ) {
-        if( !input.only_made_of( accepts ) ) {
-            //~ %1$s: an item in the compactor , %2$s: desired compactor output material
-            add_msg( _( "You realize this isn't going to work because %1$s is not made purely of %2$s." ),
-                     input.tname(), m.name() );
-            return;
-        }
-        if( input.is_container() && !input.is_container_empty() ) {
-            //~ %1$s: an item in the compactor
-            add_msg( _( "You realize this isn't going to work because %1$s has not been emptied of its contents." ),
-                     input.tname() );
-            return;
-        }
-        sum_weight += input.weight();
-    }
-    if( sum_weight <= 0_gram ) {
-        //~ %1$s: desired compactor output material
-        add_msg( _( "There is no %1$s in the compactor.  Drop some metal items onto it and try again." ),
-                 m.name() );
-        return;
-    }
-
-    // See below for recover_factor (rng(6,9)/10), this
-    // is the normal value of that recover factor.
-    static const double norm_recover_factor = 8.0 / 10.0;
-    const units::mass norm_recover_weight = sum_weight * norm_recover_factor;
-
-    // choose output
-    uilist choose_output;
-    //~ %1$.3f: total mass of material in compactor, %2$s: weight units , %3$s: compactor output material
-    choose_output.text = string_format( _( "Compact %1$.3f %2$s of %3$s into:" ),
-                                        convert_weight( sum_weight ), weight_units(), m.name() );
-    for( const itype_id &ci : m.compacts_into() ) {
-        item it = item( ci, calendar::turn_zero, item::solitary_tag{} );
-        const int amount = norm_recover_weight / it.weight();
-        //~ %1$d: number of, %2$s: output item
-        choose_output.addentry( string_format( _( "about %1$d %2$s" ), amount,
-                                               it.tname( amount ) ) );
-    }
-    choose_output.query();
-    int o_idx = choose_output.ret;
-    if( o_idx < 0 || o_idx >= static_cast<int>( m.compacts_into().size() ) ) {
-        add_msg( _( "Never mind." ) );
-        return;
-    }
-
-    // remove items
-    for( auto it = inputs.begin(); it != inputs.end(); ) {
-        it = inputs.erase( it );
-    }
-
-    // produce outputs
-    double recover_factor = rng( 6, 9 ) / 10.0;
-    sum_weight = sum_weight * recover_factor;
-    sounds::sound( examp, 80, sounds::sound_t::combat, _( "Ka-klunk!" ), true, "tool", "compactor" );
-    bool out_desired = false;
-    bool out_any = false;
-    for( auto it = m.compacts_into().begin() + o_idx; it != m.compacts_into().end(); ++it ) {
-        const units::mass ow = item( *it, calendar::turn_zero, item::solitary_tag{} ).weight();
-        int count = sum_weight / ow;
-        sum_weight -= count * ow;
-        if( count > 0 ) {
-            here.spawn_item( examp, *it, count, 1, calendar::turn );
-            if( !out_any ) {
-                out_any = true;
-                if( it == m.compacts_into().begin() + o_idx ) {
-                    out_desired = true;
-                }
-            }
-        }
-    }
-
-    // feedback to user
-    if( !out_any ) {
-        add_msg( _( "The compactor chews up all the items in its hopper." ) );
-        //~ %1$s: compactor output material
-        add_msg( _( "The compactor beeps: \"No %1$s to process!\"" ), m.name() );
-        return;
-    }
-    if( !out_desired ) {
-        //~ %1$s: compactor output material
-        add_msg( _( "The compactor beeps: \"Insufficient %1$s!\"" ), m.name() );
-        add_msg( _( "It spits out an assortment of smaller pieces instead." ) );
-    }
-}
-
 void trap::examine( const tripoint &examp ) const
 {
     avatar &player_character = get_avatar();
@@ -6363,7 +6253,6 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
             { "tree_maple", &iexamine::tree_maple },
             { "tree_maple_tapped", &iexamine::tree_maple_tapped },
             { "shrub_wildveggies", &iexamine::shrub_wildveggies },
-            { "recycle_compactor", &iexamine::recycle_compactor },
             { "water_source", &iexamine::water_source },
             { "clean_water_source", &iexamine::clean_water_source },
             { "reload_furniture", &iexamine::reload_furniture },
