@@ -86,8 +86,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
-    "burn_products": [ [ "scrap_bronze", 1 ] ],
-    "compacts_into": [ "orichalcum_lump", "orichalcum_sliver" ]
+    "burn_products": [ [ "scrap_bronze", 1 ] ]
   },
   {
     "type": "material",
@@ -107,8 +106,7 @@
     "repaired_with": "mithril_ingot",
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
-    "cut_dmg_verb": "scratched",
-    "compacts_into": [ "mithril_lump", "mithril_ingot" ]
+    "cut_dmg_verb": "scratched"
   },
   {
     "type": "material",
