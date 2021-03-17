@@ -812,7 +812,7 @@
       "sword_wood",
       "zweihander",
       "zweihander_inferior",
-      "zweihander_fake"
+      "zweihander_fake",
 	  "longsword_judgement"
     ]
   },
@@ -996,7 +996,6 @@
       "wakizashi",
       "wakizashi_inferior",
       "wakizashi_fake"
-	  "longsword_judgement"
     ]
   },
   {
@@ -1082,7 +1081,8 @@
       "sword_wood",
       "wakizashi",
       "wakizashi_inferior",
-      "wakizashi_fake"
+      "wakizashi_fake",
+	  "longsword_judgement"
     ]
   },
   {

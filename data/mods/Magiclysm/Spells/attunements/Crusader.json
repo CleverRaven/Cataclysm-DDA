@@ -40,7 +40,7 @@
     "id": "holy_shield",
     "type": "SPELL",
     "name": "Holy Shield",
-    "description": "Summon a radiant shield to protect yourself from attacks. Affords protection from most energy based effects",
+    "description": "Summon a radiant aura to protect yourself from attacks. Affords protection from most energy based effects.",
     "valid_targets": [ "self" ],
     "flags": [ "VERBAL", "CONCENTRATE", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
     "effect": "spawn_item",
@@ -61,17 +61,18 @@
   {
     "id": "holy_shield",
     "type": "ARMOR",
-    "name": { "str_sp": "Holy Shield" },
-    "description": "A shield of radiant energy worn on your arm. Affords moderate protection from attacks and energy based effects.",
-    "weight": "5 g",
+    "name": { "str_sp": "Holy Aura" },
+    "description": "A radiant aura that steels your resolve and provides protection from energy based attacks. It bathes the area in holy light.",
+    "weight": "1 g",
     "volume": "1 ml",
     "to_hit": -10,
     "symbol": "[",
     "color": "brown",
-    "covers": [ "arm_r", "arm_l" ],
+    "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ],
     "coverage": 100,
     "encumbrance": 0,
-    "environmental_protection": 2,
+    "environmental_protection": 5,
+    "base_mods": { "stamina_min": [ 40 ], "stamina_chance": [ 2 ], "hurt_amount": [ -5 ] },
     "relic_data": {
       "passive_effects": [
         {
@@ -87,21 +88,21 @@
         }
       ]
     },
-    "flags": [ "WATERPROOF", "TRADER_AVOID", "SEMITANGIBLE", "ONLY_ONE", "OVERSIZE", "BELTED", "BLOCK_WHILE_WORN", "STURDY" ],
-    "techniques": [ "WBLOCK_3" ]
+    "flags": [ "WATERPROOF", "TRADER_AVOID", "SEMITANGIBLE", "ONLY_ONE", "OVERSIZE", "AURA", "LIGHT_80" ]
   },
   {
     "id": "longsword_judgement",
     "type": "GENERIC",
     "name": { "str": "Sword of Judgement" },
-    "color": "light_gray",
+    "looks_like": "longsword",
     "symbol": "/",
+    "color": "light_gray",
     "price": 0,
     "price_postapoc": 0,
-    "description": "A large sword made of glowing, radiant fire. It bathes the area in light and explodes with radiance when striking enemies.",
+    "description": "A large sword made of glowing, radiant fire. It explodes with radiance when striking enemies.",
     "material": [ "superalloy" ],
-    "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS", "LIGHT_80", "TRADER_AVOID" ],
-    "techniques": [ "RSTRIKE" ],
+    "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS", "TRADER_AVOID" ],
+    "techniques": [ "RSTRIKE", "WBLOCK_2", "SWEEP" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
     "weight": "1250 g",
     "volume": "2750 ml",
@@ -111,6 +112,90 @@
     "to_hit": 4,
     "relic_data": {
       "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_PURE", "add": 10 } ] } ]
-    }
+    },
+    "use_action": [
+      {
+        "target": "dagger_judgement",
+        "msg": "Concentrating, you change your sword into a much smaller, quicker blade.",
+        "active": false,
+        "menu_text": "Transform sword to dagger.",
+        "type": "transform"
+      }
+    ]
+  },
+  {
+    "id": "dagger_judgement",
+    "type": "GENERIC",
+    "name": { "str": "Dagger of Judgement" },
+    "copy-from": "machete",
+    "description": "A short blade made of glowing, radiant fire. It explodes with radiance when striking enemies.",
+    "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS", "TRADER_AVOID" ],
+    "to_hit": 2,
+    "bashing": 8,
+    "cutting": 26,
+    "material": "superalloy",
+    "techniques": [ "RSTRIKE" ],
+    "relic_data": {
+      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_PURE", "add": 10 } ] } ]
+    },
+    "use_action": [
+      {
+        "target": "zwei_judgement",
+        "msg": "Concentrating, you change your dagger into a much larger, more intimidating form.",
+        "active": false,
+        "menu_text": "Transform dagger to zweihander.",
+        "type": "transform"
+      }
+    ]
+  },
+  {
+    "id": "zwei_judgement",
+    "type": "GENERIC",
+    "name": { "str": "Zweihänder of Judgement" },
+    "copy-from": "zweihander",
+    "description": "A very large sword glowing with radiant fire. It explodes with radiance when striking enemies.",
+    "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS", "TRADER_AVOID" ],
+    "to_hit": 3,
+    "bashing": 18,
+    "cutting": 40,
+    "material": "superalloy",
+    "techniques": [ "RSTRIKE" ],
+    "relic_data": {
+      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_PURE", "add": 10 } ] } ]
+    },
+    "use_action": [
+      {
+        "target": "rapier_judgement",
+        "msg": "Concentrating, you change your dagger into a thinner, much more precise piercing form.",
+        "active": false,
+        "menu_text": "Transform zweihander into rapier.",
+        "type": "transform"
+      }
+    ]
+  },
+  {
+    "id": "rapier_judgement",
+    "type": "GENERIC",
+    "name": { "str": "Rapier of Judgement" },
+    "copy-from": "rapier",
+    "description": "A very thin, nimble blade glowing with radiant fire. It explodes with radiance when striking enemies.",
+    "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS", "TRADER_AVOID" ],
+    "to_hit": 3,
+    "bashing": 8,
+    "cutting": 30,
+    "material": "superalloy",
+    "techniques": [ "RSTRIKE" ],
+    "relic_data": {
+      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_PURE", "add": 10 } ] } ]
+    },
+    "use_action": [
+      {
+        "target": "longsword_judgement",
+        "msg": "Concentrating, you change your dagger into a longer, more robust blade.",
+        "active": false,
+        "menu_text": "Transform rapier to longsword.",
+        "type": "transform"
+      }
+    ]
   }
 ]
