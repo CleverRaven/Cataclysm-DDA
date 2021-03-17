@@ -635,7 +635,6 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```pit_covered``` Uncover the pit.
 - ```pit``` Cover the pit if you have some planks of wood.
 - ```portable_structure``` Take down a tent or similar portable structure.
-- ```recycle_compactor``` Compress pure metal objects into basic shapes.
 - ```rubble``` Clear up the rubble if you have a shovel.
 - ```safe``` Attempt to crack the safe.
 - ```shelter``` Take down the shelter.
