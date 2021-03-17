@@ -12,8 +12,8 @@ Flyable Helicopters.
 Towing vehicles.
 User defined height and age.
 Adds support for json-defined achievements to provide more goals to strive for.
-Lock picking overhaul.
-Rot items away in reality bubble.
+Overhauls lock picking.
+Appropriate items can now rot away when in the reality bubble.
 Displays holidays on main menu screen based on system time.
 Separates bullet damage type from cut/stab.
 Makes consuming items take time.
@@ -25,12 +25,12 @@ Custom achievement/conduct requirement descriptions.
 Enables mouse input for inventory.
 Worn gloves count as unarmed weapons when no weapon is held.
 Any corpse can rise again as a zombie.
-Added ability to stop bleeding, disinfect wounds, and inject antibiotics in case of infected wounds or tetanus to an autodoc.
+Added to autodocs the ability to stop bleeding, disinfect wounds, and inject antibiotics in case of infected wounds or tetanus.
 Allow randomizing scenario and profession in new character menu.
 Workout and exercise.
 Vehicles: ground vehicle z-level transitions and z+1 bridges.
 Remove static/random NPC options, adjust random NPC rates.
-Blood and blood loss overhaul.
+Overhauls blood and blood loss.
 Artifact procgen - artifacts that spawn use the new relic data.
 Grappling hooks can be deployed for climbing, just like ladders.
 Adds proficiencies, representing specific knowledge in particular areas more precisely than by normal skills.
@@ -52,7 +52,7 @@ Gun volume and weight audit.
 Moves most urban development houses from a mod to vanilla.
 Adds Survivor RV and car.
 Populates appropriate rooftops with monsters.
-Large addition of chemicals, chemistry tools and recipes.
+Adds many chemicals, chemistry tools, and recipes.
 Mi-go, masters, and necromancers can open doors.
 Adds a bulk shipping crate possibility to the supplydrop map extra.
 New zombie: necro-boomer.
@@ -95,26 +95,26 @@ Allows attempting to disable robots by 'e'xamining them.
 Warns if a friendly creature or non-hostile NPC enters the line of fire.
 Replaces the CAL/kg column of the (E)at menu with a more meaningful Satiety column.
 Adds a Mod to use MSX characters and monsters with the Ultica tileset.
-Show missing proficiency failure rates for crafting.
-Display contained items like 'water (plastic bottle)' instead of 'plastic bottle of water'.
+Shows crafting failure rates due to missing proficiencies.
+Displays contained items like 'water (plastic bottle)' instead of as 'plastic bottle of water'.
 Keeps track of preferred aiming mode.
 Makes Chibi Ultica a stand-alone tileset.
 Brings back MSX+.
 Adds item length and pocket volume entries to menus.
 Adds fast scrolling to many menus with long lists.
-Adds responsive screen behavior to new character menu for small terminal sizes.
+Adds responsive screen behavior to the new character menu for small terminal sizes.
 
 ## Mods:
 [Magiclysm] Manatouched mutation tree.
 Overhauls Blazemod and splits it into separate mods.
 [MMA] Adds Ki Strike trait.
-Polymorph spells to transform your foes.
-Spells using components system.
+[Magiclysm] Adds polymorph spells so you can transform your foes.
+[Magiclysm] Adds a spell component system and more-powerful spells to use it.
 Aftershock: Adds autodoc tiers and augmentation clinics.
 [DinoMod] Adds location variants with dinosaurs.
-Aftershock: Megacity oriented overmap generation adjustments
+Aftershock: Megacity-oriented overmap generation adjustments
 Aftershock: Adds new Melee oriented bionics.
-Adds Acrocanthosaurus, dino baby overhaul.
+[DinoMod] Adds Acrocanthosaurus and overhauls dino baby code.
 Adds New Black Dragon Mutation Line.
 Adjusts fog frequency in black dragon lair plus other (minor) map adjustments.
 Adds monsters 'Scutellosaurus', 'Maiasaura', and 'Coelophysis'.
@@ -188,7 +188,7 @@ Fixes explosions not affecting terrain.
 Avoids processing held items twice.
 Fixes a crash when trying to reload an item inside of advanced inventory
 Renames (when appropriate) blobs as slimes.
-Fixes freezing to death when wet.
+Fixes massive, unrealistic temperature drops when wet.
 Fixes weapon techniques not triggering.
 Prevents some obscure crashes by adding nullptr checks to unsafe pointer accesses.
 Vehicles: make sure going in reverse isn't more efficient than going forward.
@@ -247,7 +247,7 @@ Improve performance of builds with enabled localization by ≈20% by caching tra
 Major optimization of field processing.
 Adds reachability cache/filter that can reject bresenham-based LOS checks in O(1) time.
 Uses field_cache in map::get_field to speedup fire check in npc::assess_danger.
-Speedup quicksave by limiting ui redraw rate
+Speeds up quicksave by limiting ui redraw rate.
 Prevents slow processing of NPC overmap travel when `goal` is unreachable.
 Fixes the performance bug caused by `verify_vehicle_cache` recalculation.
 Adds lightweight crafting inventory cache to improve NPC construction processing time.
@@ -266,7 +266,7 @@ Adds a guide to pricing items (see the doc folder).
 Adds enchantments to bionics.
 Adds test for health effect on healing rate.
 Adds tests for BMI effect on speed.
-Updates Catch2 (for running tests) to v2.12.0 (from 2.9.1).
+Updates Catch2 (for running tests) to v2.13.0 (from 2.9.1).
 Achievements have better up-front checking to detect definition errors.
 Tests use a different config directory by default.
 Migrates ACT_PICKUP to the activity actor system.
@@ -288,9 +288,8 @@ Adds a guide for intermediate mapgen help.
 Options: removes the option to not use z-levels at all (3d vision is still experimental)
 Provides point types with coordinate system type safety.
 Moves weather from being hardcoded into json.
-Update Catch2 to 2.13.0.
 Changes some awkward terrains into furnitures for better layering.
-Create a machine-readable memorial file at game over.
+Creates a machine-readable memorial file at game over.
 Dialogue: create an talker API for speakers in a dialogue.
 Make rectangle and cuboid generic with respect to point type.
 Configure GitHub build matrix to permit more C++ build testing to happen there.
@@ -305,7 +304,7 @@ Adds error-checking of recipe (sub)categories.
 Unblacklists most remaining blacklisted mods, enabling more automated consistency checking.
 Reports log messages for failed tests.
 Reinstates blueprint autocalc.
-Refactored vision_test. Introduced map_test_case framework to build similar tests easier.
+Refactored vision_test; introduces a map_test_case framework to make building similar tests easier.
 Adds tests for better_pocket and best_pocket.
 Renames skills in preparation for some future improvements; merges speech & barter.
 Merges trapping and lockpicking skills into a new 'devices' skill, and expands its scope somewhat.
