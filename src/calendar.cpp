@@ -208,12 +208,12 @@ float sunlight( const time_point &p, const bool vision )
     if( solar_alt < -18_degrees ) {
         return moonlight;
     } else if( solar_alt <= 0_degrees ) {
-        // Sunlight rises exponentially from 0 to 60 as sun rises from -18° to 0°
-        float sunlight = 60 * ( std::pow( 2, to_degrees( solar_alt ) / 18 + 1 ) - 1 );
+        // Sunlight rises exponentially from 0 to 70 as sun rises from -18° to 0°
+        float sunlight = 70 * ( std::pow( 2, to_degrees( solar_alt ) / 18 + 1 ) - 1 );
         return moonlight + sunlight;
-    } else if( solar_alt < 50_degrees ) {
-        // Linear increase from 0 to 50 degrees light increases from 60 to 125 brightness.
-        return to_degrees( solar_alt ) * 1.5 + 50;
+    } else if( solar_alt < 30_degrees ) {
+        // Linear increase from 0° to 30° degrees light increases from 70 to 125 brightness.
+        return to_degrees( solar_alt ) * 11.0/6.0 + 70;
     } else {
         return max_light;
     }
