@@ -127,15 +127,15 @@
       },
       "place_item": [ { "item": "rock", "repeat": 1, "x": 9, "y": 15 }, { "item": "pine_bough", "repeat": 1, "x": 9, "y": 21 } ],
       "place_items": [
-        { "chance": 55, "item": "toy_store", "x": 12, "y": [ 6, 7 ] },
+        { "chance": 55, "item": "toy_store", "x": 12, "y": [ 6, 7 ], "repeat": [ 1, 16 ] },
         { "chance": 75, "item": "vending_food", "x": 20, "y": 2 },
         { "chance": 55, "item": "trash", "x": 13, "y": 15 },
         { "chance": 55, "item": "trash", "x": 13, "y": 10 },
-        { "chance": 55, "item": "snacks", "x": 10, "y": 11 },
-        { "chance": 55, "item": "snacks", "x": [ 7, 8 ], "y": 4 },
-        { "chance": 55, "item": "candy_shop", "x": 10, "y": [ 6, 7 ] },
-        { "chance": 75, "item": "shirts", "x": 10, "y": 12 },
-        { "chance": 75, "item": "shirts", "x": 4, "y": 11 },
+        { "chance": 55, "item": "snacks", "x": 10, "y": 11, "repeat": [ 1, 16 ] },
+        { "chance": 55, "item": "snacks", "x": [ 7, 8 ], "y": 4, "repeat": [ 1, 16 ] },
+        { "chance": 55, "item": "candy_shop", "x": 10, "y": [ 6, 7 ], "repeat": [ 1, 16 ] },
+        { "chance": 75, "item": "shirts", "x": 10, "y": 12, "repeat": [ 1, 5 ] },
+        { "chance": 45, "item": "shirts", "x": 4, "y": 11, "repeat": [ 1, 3 ] },
         { "chance": 75, "item": "vending_drink", "x": 20, "y": 1 }
       ],
       "place_monster": [
@@ -211,15 +211,15 @@
         "{": "f_rack"
       },
       "place_items": [
-        { "chance": 55, "item": "toy_store", "x": 12, "y": [ 6, 7 ] },
+        { "chance": 55, "item": "toy_store", "x": 12, "y": [ 6, 7 ], "repeat": [ 1, 16 ] },
         { "chance": 75, "item": "vending_food", "x": 20, "y": 2 },
         { "chance": 55, "item": "trash", "x": 13, "y": 15 },
         { "chance": 55, "item": "trash", "x": 13, "y": 10 },
-        { "chance": 55, "item": "snacks", "x": 10, "y": 11 },
-        { "chance": 55, "item": "snacks", "x": [ 7, 8 ], "y": 4 },
-        { "chance": 55, "item": "candy_shop", "x": 10, "y": [ 6, 7 ] },
-        { "chance": 75, "item": "shirts", "x": 10, "y": 12 },
-        { "chance": 75, "item": "shirts", "x": 4, "y": 11 },
+        { "chance": 55, "item": "snacks", "x": 10, "y": 11, "repeat": [ 1, 16 ] },
+        { "chance": 55, "item": "snacks", "x": [ 7, 8 ], "y": 4, "repeat": [ 1, 16 ] },
+        { "chance": 55, "item": "candy_shop", "x": 10, "y": [ 6, 7 ], "repeat": [ 1, 16 ] },
+        { "chance": 75, "item": "shirts", "x": 10, "y": 12, "repeat": [ 1, 5 ] },
+        { "chance": 45, "item": "shirts", "x": 4, "y": 11, "repeat": [ 1, 3 ] },
         { "chance": 75, "item": "vending_drink", "x": 20, "y": 1 }
       ],
       "place_item": [
