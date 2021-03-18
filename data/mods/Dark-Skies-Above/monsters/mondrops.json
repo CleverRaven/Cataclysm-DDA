@@ -1,0 +1,123 @@
+[
+  {
+    "id": "dkz_mon_xenoid_ranger",
+    "type": "item_group",
+    "subtype": "collection",
+    "magazine": 100,
+    "ammo": 40,
+    "entries": [
+      { "item": "dkz_xenoid_light_armor_salvaged", "damage": [ 1, 3 ] },
+      { "item": "dkz_rangermachete_salvaged", "damage": [ 1, 2 ] },
+      { "item": "dkz_xenoid_mask_salvaged", "damage": [ 1, 2 ] },
+      { "item": "dkz_ranger_cloak_salvaged", "damage": [ 1, 2 ] },
+      { "item": "dkz_xenoid_armlet_salvaged", "damage": [ 1, 2 ] },
+      { "group": "dkz_scout_extras", "prob": 120, "count": [ 2, 6 ] },
+      { "group": "dkz_watch", "prob": 1 }
+    ]
+  },
+  {
+    "id": "dkz_mon_xenoid_enforcer",
+    "type": "item_group",
+    "subtype": "collection",
+    "magazine": 100,
+    "ammo": 40,
+    "entries": [
+      { "item": "dkz_xenoid_light_armor_salvaged", "damage": [ 1, 3 ] },
+      { "item": "dkz_enforcerbaton_salvaged", "damage": [ 1, 3 ] },
+      { "item": "dkz_xenoid_mask_salvaged", "damage": [ 1, 2 ] },
+      { "item": "dkz_riotshield_salvaged", "damage": [ 1, 2 ] },
+      { "item": "dkz_xenoid_armlet_salvaged", "damage": [ 1, 2 ] },
+      { "group": "dkz_scout_extras", "prob": 100, "count": [ 1, 3 ] },
+      { "group": "dkz_watch", "prob": 2 }
+    ]
+  },
+  {
+    "id": "dkz_mon_xenoid_pyro",
+    "type": "item_group",
+    "subtype": "collection",
+    "magazine": 100,
+    "ammo": 40,
+    "entries": [
+      { "item": "dkz_xenoid_heavy_armor_salvaged", "damage": [ 1, 3 ] },
+      { "item": "dkz_flamesword_salvaged", "damage": [ 1, 3 ] },
+      { "item": "dkz_xenoid_mask_salvaged", "damage": [ 1, 2 ] },
+      { "item": "dkz_xenoid_armlet_salvaged", "damage": [ 1, 2 ] },
+      { "group": "dkz_knight_extras", "prob": 80, "count": [ 1, 5 ] },
+      { "group": "dkz_watch", "prob": 11 }
+    ]
+  },
+  {
+    "id": "dkz_mon_xenoid_knight",
+    "type": "item_group",
+    "subtype": "collection",
+    "magazine": 100,
+    "ammo": 40,
+    "entries": [
+      { "item": "dkz_xenoid_heavy_armor_salvaged", "damage": [ 1, 3 ] },
+      { "item": "dkz_knightsword_salvaged", "damage": [ 1, 3 ] },
+      { "item": "dkz_xenoid_mask_salvaged", "damage": [ 1, 2 ] },
+      { "item": "dkz_battleshield_salvaged", "damage": [ 1, 3 ] },
+      { "item": "dkz_xenoid_armlet_salvaged", "damage": [ 1, 2 ] },
+      { "group": "dkz_knight_extras", "prob": 120, "count": [ 1, 4 ] },
+      { "group": "dkz_scout_extras", "prob": 20, "count": [ 1, 2 ] },
+      { "group": "dkz_watch", "prob": 7 }
+    ]
+  },
+  {
+    "id": "dkz_scout_extras",
+    "type": "item_group",
+    "items": [
+      { "item": "mobile_memory_card", "prob": 200, "count": [ 1, 3 ] },
+      { "item": "legrig", "prob": 10 },
+      { "item": "dump_pouch", "prob": 10 },
+      { "item": "book_fict_soft_scifi_roadp", "prob": 20 },
+      { "item": "novel_scifi", "prob": 70 },
+      { "item": "necropolis_leaflet", "prob": 5 },
+      { "item": "novel_scifi", "prob": 25 },
+      { "item": "many_years_old_newspaper", "prob": 5 },
+      { "item": "years_old_newspaper", "prob": 10 },
+      { "item": "one_year_old_newspaper", "prob": 15 },
+      { "item": "months_old_newspaper", "prob": 25 },
+      { "item": "polaroid_photo", "prob": 75 },
+      { "item": "coin_nickel", "prob": 30 },
+      { "item": "weeks_old_newspaper", "prob": 500 }
+    ]
+  },
+  {
+    "id": "dkz_knight_extras",
+    "type": "item_group",
+    "items": [
+      { "item": "mobile_memory_card", "prob": 300, "count": [ 2, 5 ] },
+      { "item": "legrig", "prob": 10 },
+      { "item": "book_fict_soft_scifi_roadp", "prob": 20 },
+      { "item": "book_fict_soft_scifi_brave", "prob": 70 },
+      { "item": "book_fict_soft_scifi_dune", "prob": 10 },
+      { "item": "book_fict_hard_scifi_dune", "prob": 5 },
+      { "item": "occult_glimpses", "prob": 40 },
+      { "item": "essay_book", "prob": 40 },
+      { "item": "classic_literature", "prob": 40 },
+      { "item": "novel_scifi", "prob": 100 },
+      { "item": "necropolis_leaflet", "prob": 2 },
+      { "item": "many_years_old_newspaper", "prob": 150 },
+      { "item": "years_old_newspaper", "prob": 200 },
+      { "item": "family_photo", "prob": 50 },
+      { "item": "polaroid_photo", "prob": 50 },
+      { "item": "coin_nickel", "prob": 30 },
+      { "item": "dump_pouch", "prob": 10 }
+    ]
+  },
+  {
+    "id": "dkz_watch",
+    "type": "item_group",
+    "items": [
+      { "item": "wristwatch", "prob": 95 },
+      { "item": "diving_watch", "prob": 45 },
+      { "item": "silver_watch", "prob": 25 },
+      { "item": "gold_watch", "prob": 15 },
+      { "item": "platinum_watch", "prob": 10 },
+      { "item": "sf_watch", "prob": 5 },
+      { "item": "dkz_zenture_industries_basic_zwatch", "prob": 2 },
+      { "item": "dkz_zenture_industries_premium_zwatch", "prob": 1 }
+    ]
+  }
+]
