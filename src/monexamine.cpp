@@ -80,7 +80,6 @@ bool monexamine::pet_menu( monster &z )
         mon_harness_remove,
         mon_armor_remove,
         play_with_pet,
-        pheromone,
         milk,
         shear,
         pay,
@@ -141,9 +140,6 @@ bool monexamine::pet_menu( monster &z )
             amenu.addentry( rope, false, 't', _( "You need any type of rope to tie %s in place" ),
                             pet_name );
         }
-    }
-    if( is_zombie ) {
-        amenu.addentry( pheromone, true, 'z', _( "Tear out pheromone ball" ) );
     }
 
     if( z.has_flag( MF_MILKABLE ) ) {
