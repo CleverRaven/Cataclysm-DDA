@@ -1,0 +1,19 @@
+[
+  {
+    "id": "TALK_EVAC_HUNTER",
+    "type": "talk_topic",
+    "responses": [ { "text": "What can you tell me about these 'Xenoids'?", "topic": "TALK_EVAC_HUNTER_XENOIDS" } ]
+  },
+  {
+    "id": "TALK_EVAC_HUNTER_XENOIDS",
+    "type": "talk_topic",
+    "dynamic_line": "I've encountered a few of the 'ranger' and 'enforcer' types, but I usually head in the other direction as soon as I hear them, since they can probably hear me too.  I've seen them more their hands around like they're doing some kind of magic and for all I know it could be magic.  I ain't sticking around to find out.",
+    "responses": [ { "text": "What about the 'Strays'?", "topic": "TALK_EVAC_HUNTER_STRAYS" } ]
+  },
+  {
+    "id": "TALK_EVAC_HUNTER_STRAYS",
+    "type": "talk_topic",
+    "dynamic_line": "Not much different than zombies, although they seem to see a little better at night than regular zombies.",
+    "responses": [ { "text": "Interesting.", "topic": "TALK_EVAC_HUNTER" } ]
+  }
+]
