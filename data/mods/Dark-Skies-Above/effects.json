@@ -1,0 +1,15 @@
+[
+  {
+    "type": "effect_type",
+    "id": "panic",
+    "name": [ "Panicking" ],
+    "desc": [ "You just can't stop shaking and are overwhelmed by existential fear!" ],
+    "apply_message": "An all consuming dread overwhelms your mind and you begin to shake uncontrollably!",
+    "rating": "bad",
+    "blood_analysis_description": "unidentified stress hormones",
+    "remove_message": "Your feel your heart-rate slow back to normal.",
+    "miss_messages": [ [ "You shake uncontrollably", 4 ] ],
+    "base_mods": { "dex_mod": [ -2 ], "int_mod": [ -1 ], "per_mod": [ -3 ], "fatigue_amount": [ 2 ], "vomit_chance": [ 25 ], "vomit_tick": [ 15 ], "pain_amount": [ 1 ]  },
+    "show_in_info": true
+  }
+]

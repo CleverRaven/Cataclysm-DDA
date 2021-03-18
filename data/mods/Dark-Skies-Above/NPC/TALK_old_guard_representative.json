@@ -1,0 +1,19 @@
+[
+  {
+    "id": "TALK_OLD_GUARD_REP",
+    "type": "talk_topic",
+    "responses": [ { "text": "What can you tell me about these 'Xenoids'?", "topic": "TALK_OLD_GUARD_REP_XENOIDS" } ]
+  },
+  {
+    "id": "TALK_OLD_GUARD_REP_XENOIDS",
+    "type": "talk_topic",
+    "dynamic_line": "I only know what I've heard on the radio. Thank god we haven't had them show up here they sound almost scarier than the walking dead. I've heard that those 'Xenoids' have also have some robotic drones and machines with them but I haven't seen anything yet. There was some jittery, pale looking guy that was pestering me about them, but one of the guards sent him back with the other refugees, might still be around.",
+    "responses": [ { "text": "What about the 'Strays'?", "topic": "TALK_OLD_GUARD_REP_STRAYS" } ]
+  },
+  {
+    "id": "TALK_OLD_GUARD_REP_STRAYS",
+    "type": "talk_topic",
+    "dynamic_line": "You mean those other zombies that have some strange kind of blue crystals on them? I don't know. I'm not sure but we've just been pulping them like the other zombies. As for the name I have no idea where I first heard them called that but it works well enough. Given how cataclysmic things have been lately, a zed is a zeke is a zombie.",
+    "responses": [ { "text": "A rose by any other name I guess.", "topic": "TALK_OLD_GUARD_REP" } ]
+  }
+]

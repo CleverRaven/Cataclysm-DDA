@@ -1,0 +1,12 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "darkskies",
+    "name": "<color_light_green>Dark Skies Above</color>",
+	"maintainers": [ "Zlorthishen" ],
+    "authors": [ "Zlorthishen", "ephemeral_storyteller", "Kenan"],
+    "description": "A supplement mod that increments the Cataclysm DDA experience by adding an inscrutable alien-humanoid paramilitary expeditionary force to your typical survival scenario. Complements to the vanilla adding the vile Xenoids, the murderous Strays, and terrifying [REDACTED], and more! <color_light_red>Prepare for a challenge.</color>",
+    "category": "content",
+    "dependencies": [ "crt_expansion", "dda" ]
+  }
+]

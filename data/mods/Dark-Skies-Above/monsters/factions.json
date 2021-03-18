@@ -1,0 +1,49 @@
+[
+  {
+    "type": "MONSTER_FACTION",
+    "name": "xenoid",
+    "neutral": [ "small_animal", "fish", "animal", "lurker", "packliz", "bileworm" ],
+    "friendly": [ "xenoid_bot", "alien_herbivore", "stray" ],
+	"hate": [ "zombie", "zombie_aquatic", "mi-go", "triffid", "fungus", "exodii" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "xenoid_bot",
+    "base_faction": "xenoid",
+    "neutral": [ "stray", "zombie", "zombie_aquatic" ],
+    "friendly": [ "xenoid" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "alien_herbivore",
+    "base_faction": "small_animal",
+    "friendly": [ "small_animal", "fish", "animal", "fox", "cat", "dog" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "stray",
+    "neutral": [ "small_animal", "fish", "animal", "fox", "cat", "dog" ],
+    "friendly": [ "xenoid", "xenoid_bot", "alien_herbivore", "stray" ],
+	"hate": [ "zombie", "zombie_aquatic", "mi-go", "triffid", "fungus", "exodii" ]	
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "lurker",
+	"friendly": [ "xenoid_bot", "xenoid" ],
+    "base_faction": "small_animal",
+	"hate": [ "packliz" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "packliz",
+	"friendly": [ "xenoid_bot", "xenoid" ],
+    "base_faction": "small_animal"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "bileworm",
+	"friendly": [ "xenoid_bot", "xenoid" ],
+    "base_faction": "worm",
+	"hate": [ "packliz", "alien_herbivore" ]
+  }
+]

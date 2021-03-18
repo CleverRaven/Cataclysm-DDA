@@ -1,0 +1,26 @@
+[
+
+  {
+    "id": "dkz_xenoid_mask_reclaimed_white",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "reclaimed xenoid face mask" },
+    "description": "After partially melting the xenoid face mask to remove the alien metal and replacing it with steel, applying an entire kevlar panel, and painting it white, the once unnerving alien face now more or less resembles an average hockey mask, while preserving the alien optics, the gas-proofing, and removing the radioactivity.",
+    "weight": "250 g",
+    "volume": "1250 ml",
+    "price": 1,
+    "price_postapoc": 70000,
+    "to_hit": -3,
+    "material": [ "kevlar_rigid", "steel" ],
+    "symbol": "[",
+    "looks_like": "mask_hockey",
+    "color": "white",
+    "covers": [ "eyes", "mouth" ],
+    "coverage": 100,
+    "encumbrance": 13,
+    "warmth": 7,
+    "material_thickness": 0.4,
+    "environmental_protection": 5,
+    "flags": [ "WATER_FRIENDLY", "WATERPROOF", "STURDY", "SUN_GLASSES", "VARSIZE", "GAS_PROOF", "ZOOM" ]
+  }  
+]
