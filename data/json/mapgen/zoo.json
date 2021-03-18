@@ -136,7 +136,8 @@
         { "chance": 55, "item": "candy_shop", "x": 10, "y": [ 6, 7 ], "repeat": [ 1, 16 ] },
         { "chance": 75, "item": "shirts", "x": 10, "y": 12, "repeat": [ 1, 5 ] },
         { "chance": 45, "item": "shirts", "x": 4, "y": 11, "repeat": [ 1, 3 ] },
-        { "chance": 75, "item": "vending_drink", "x": 20, "y": 1 }
+        { "chance": 75, "item": "vending_drink", "x": 20, "y": 1 },
+        { "chance": 25, "item": "waitingroom", "x": 18, "y": [ 16, 22 ], "repeat": [ 1, 3 ] }
       ],
       "place_monster": [
         { "monster": "mon_tiger", "x": 8, "y": 16 },
@@ -220,7 +221,8 @@
         { "chance": 55, "item": "candy_shop", "x": 10, "y": [ 6, 7 ], "repeat": [ 1, 16 ] },
         { "chance": 75, "item": "shirts", "x": 10, "y": 12, "repeat": [ 1, 5 ] },
         { "chance": 45, "item": "shirts", "x": 4, "y": 11, "repeat": [ 1, 3 ] },
-        { "chance": 75, "item": "vending_drink", "x": 20, "y": 1 }
+        { "chance": 75, "item": "vending_drink", "x": 20, "y": 1 },
+        { "chance": 25, "item": "waitingroom", "x": 18, "y": [ 16, 22 ], "repeat": [ 1, 3 ] }
       ],
       "place_item": [
         { "item": "rock", "repeat": 1, "x": 9, "y": 15 },
@@ -342,7 +344,8 @@
         { "chance": 45, "item": "trash", "x": 20, "y": 5 },
         { "chance": 65, "item": "vet_softdrug", "x": 10, "y": 18, "repeat": [ 2, 5 ] },
         { "chance": 45, "item": "vet_hardrug", "x": 9, "y": 18, "repeat": [ 2, 5 ]  },
-        { "chance": 95, "item": "SUS_janitors_closet", "x": 4, "y": 14 }
+        { "chance": 95, "item": "SUS_janitors_closet", "x": 4, "y": 14 },
+        { "chance": 25, "item": "waitingroom", "x": [ 16, 17 ], "y": 7, "repeat": [ 1, 3 ] }
       ],
       "place_monster": [
         { "monster": "mon_bobcat", "x": 8, "y": 5 },
@@ -520,7 +523,10 @@
         { "chance": 65, "item": "vending_food", "x": 12, "y": 1 },
         { "chance": 55, "item": "trash", "x": 8, "y": 19 },
         { "chance": 55, "item": "trash", "x": 12, "y": 6 },
-        { "chance": 55, "item": "trash", "x": 10, "y": 2 }
+        { "chance": 55, "item": "trash", "x": 10, "y": 2 },
+        { "chance": 15, "item": "waitingroom", "x": [ 5, 6 ], "y": 19 },
+        { "chance": 15, "item": "waitingroom", "x": [ 9, 10 ], "y": 19 },
+        { "chance": 15, "item": "waitingroom", "x": [ 15, 16 ], "y": 19 }
       ],
       "place_monster": [
         { "monster": "mon_deer", "x": 20, "y": 2 },
@@ -615,7 +621,10 @@
         { "chance": 65, "item": "vending_food", "x": 12, "y": 1 },
         { "chance": 55, "item": "trash", "x": 8, "y": 19 },
         { "chance": 55, "item": "trash", "x": 12, "y": 6 },
-        { "chance": 55, "item": "trash", "x": 10, "y": 2 }
+        { "chance": 55, "item": "trash", "x": 10, "y": 2 },
+        { "chance": 15, "item": "waitingroom", "x": [ 5, 6 ], "y": 19 },
+        { "chance": 15, "item": "waitingroom", "x": [ 9, 10 ], "y": 19 },
+        { "chance": 15, "item": "waitingroom", "x": [ 15, 16 ], "y": 19 }
       ],
       "place_item": [
         { "item": "stick", "repeat": 1, "x": 19, "y": 1 },
