@@ -38,7 +38,7 @@
 
 #include "cata_utility.h"
 
-std::string getOSXSystemLang();
+std::string getAppleSystemLang();
 #endif
 
 #if defined(__ANDROID__)
@@ -214,8 +214,8 @@ void set_language()
     std::string system_lang;
 #if defined(_WIN32)
     system_lang = getLangFromLCID( GetUserDefaultLCID() );
-#elif defined(MACOSX)
-    system_lang = getOSXSystemLang();
+#elif defined(__APPLE__)
+    system_lang = getAppleSystemLang(); // macOS and iOS
 #elif defined(__ANDROID__)
     system_lang = getAndroidSystemLang();
 #endif
@@ -288,8 +288,8 @@ void set_language()
     } while( current_language_version == INVALID_LANGUAGE_VERSION );
 }
 
-#if defined(MACOSX)
-std::string getOSXSystemLang()
+#if defined(__APPLE__)
+std::string getAppleSystemLang()
 {
     // Get the user's language list (in order of preference)
     CFArrayRef langs = CFLocaleCopyPreferredLanguages();
