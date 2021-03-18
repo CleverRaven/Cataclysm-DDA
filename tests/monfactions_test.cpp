@@ -32,6 +32,7 @@ TEST_CASE( "generate_monfactions_attitude_matrix", "[.]" )
                     outfile << "MFA_SIZE";
                     break;
             }
+            // NOLINTNEXTLINE(cata-text-style)
             outfile << "\t(Rev: ";
             switch( rev_att ) {
                 case MFA_BY_MOOD:
