@@ -1,0 +1,276 @@
+[
+  {
+    "result": "dkz_ranger_cloak_salvaged",
+    "activity_level": "LIGHT_EXERCISE",
+    "type": "uncraft",
+    "skill_used": "tailor",
+    "difficulty": 5,
+    "time": "15 m",
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "PRY", "level": 2 } ],
+    "components": [ [ [ "dkz_polymer_scrap", 1 ] ], [ [ "dkz_weave_scrap", 5 ] ] ]
+  },
+  {
+    "result": "dkz_xenoid_mask_salvaged",
+    "activity_level": "LIGHT_EXERCISE",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 5,
+    "time": "45 m",
+    "using": [ [ "soldering_standard", 10 ], [ "welding_standard", 5 ] ],
+    "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "PRY", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "dkz_polymer_scrap", 2 ] ],
+      [ [ "dkz_weave_scrap", 1 ] ],
+      [ [ "dkz_elecscrap", 1 ] ],
+      [ [ "dkz_biotech", 1 ] ],
+      [ [ "dkz_blend_scrap", 1 ] ],
+      [ [ "lens", 2 ] ]
+    ]
+  },
+  {
+    "result": "dkz_xenoid_armlet_salvaged",
+    "activity_level": "LIGHT_EXERCISE",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 3,
+    "time": "120 m",
+    "using": [ [ "soldering_standard", 25 ] ],
+    "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "PRY", "level": 2 } ],
+    "components": [ [ [ "dkz_elecscrap", 3 ] ], [ [ "dkz_biotech", 1 ] ], [ [ "dkz_polymer_scrap", 1 ] ] ]
+  },
+  {
+    "result": "broken_dkz_emissary_flame",
+    "activity_level": "LIGHT_EXERCISE",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 10,
+    "time": "720 m",
+    "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 240 ] ],
+    "qualities": [
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "CUT", "level": 1 },
+      { "id": "PRY", "level": 3 },
+      { "id": "SAW_M", "level": 2 }
+    ],
+    "components": [
+      [ [ "dkz_weave_scrap", 100 ] ],
+      [ [ "dkz_elecscrap", 100 ] ],
+      [ [ "dkz_biotech", 10 ] ],
+      [ [ "dkz_powercell", 10 ] ],
+      [ [ "dkz_blend_scrap", 300 ] ],
+      [ [ "dkz_biogel", 10 ] ],
+      [ [ "dkz_polymer_scrap", 100 ] ]
+    ]
+  },
+  {
+    "result": "broken_dkz_emissary_war",
+    "activity_level": "LIGHT_EXERCISE",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 10,
+    "time": "720 m",
+    "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 240 ] ],
+    "qualities": [
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "CUT", "level": 1 },
+      { "id": "PRY", "level": 3 },
+      { "id": "SAW_M", "level": 2 }
+    ],
+    "components": [
+      [ [ "dkz_weave_scrap", 100 ] ],
+      [ [ "dkz_elecscrap", 100 ] ],
+      [ [ "dkz_biotech", 10 ] ],
+      [ [ "dkz_powercell", 10 ] ],
+      [ [ "dkz_blend_scrap", 300 ] ],
+      [ [ "dkz_biogel", 10 ] ],
+      [ [ "dkz_polymer_scrap", 100 ] ]
+    ]
+  },
+  {
+    "result": "broken_dkz_emissary_plague",
+    "activity_level": "LIGHT_EXERCISE",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 10,
+    "time": "720 m",
+    "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 240 ] ],
+    "qualities": [
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "CUT", "level": 1 },
+      { "id": "PRY", "level": 3 },
+      { "id": "SAW_M", "level": 2 }
+    ],
+    "components": [
+      [ [ "dkz_weave_scrap", 100 ] ],
+      [ [ "dkz_elecscrap", 100 ] ],
+      [ [ "dkz_biotech", 10 ] ],
+      [ [ "dkz_powercell", 10 ] ],
+      [ [ "dkz_blend_scrap", 300 ] ],
+      [ [ "dkz_biogel", 10 ] ],
+      [ [ "dkz_polymer_scrap", 100 ] ]
+    ]
+  },
+  {
+    "result": "broken_dkz_emissary",
+    "activity_level": "LIGHT_EXERCISE",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 9,
+    "time": "720 m",
+    "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 240 ] ],
+    "qualities": [
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "CUT", "level": 1 },
+      { "id": "PRY", "level": 3 },
+      { "id": "SAW_M", "level": 2 }
+    ],
+    "components": [
+      [ [ "dkz_weave_scrap", 100 ] ],
+      [ [ "dkz_elecscrap", 100 ] ],
+      [ [ "dkz_biotech", 10 ] ],
+      [ [ "dkz_powercell", 10 ] ],
+      [ [ "dkz_blend_scrap", 300 ] ],
+      [ [ "dkz_biogel", 10 ] ],
+      [ [ "dkz_polymer_scrap", 100 ] ]
+    ]
+  },
+  {
+    "result": "dkz_rangermachete_salvaged",
+    "activity_level": "LIGHT_EXERCISE",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 5,
+    "time": "30 m",
+    "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 40 ] ],
+    "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "dkz_elecscrap", 1 ] ], [ [ "dkz_biotech", 1 ] ], [ [ "dkz_blend_scrap", 3 ] ], [ [ "dkz_polymer_scrap", 1 ] ] ]
+  },
+  {
+    "result": "dkz_knightsword_salvaged",
+    "activity_level": "LIGHT_EXERCISE",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 6,
+    "time": "60 m",
+    "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 100 ] ],
+    "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "dkz_elecscrap", 1 ] ], [ [ "dkz_biotech", 1 ] ], [ [ "dkz_blend_scrap", 5 ] ], [ [ "dkz_polymer_scrap", 1 ] ] ]
+  },
+  {
+    "result": "dkz_flamesword_salvaged",
+    "activity_level": "LIGHT_EXERCISE",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 8,
+    "time": "90 m",
+    "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 120 ] ],
+    "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [
+      [ [ "dkz_elecscrap", 2 ] ],
+      [ [ "dkz_biotech", 1 ] ],
+      [ [ "dkz_blend_scrap", 6 ] ],
+      [ [ "dkz_biogel", 2 ] ],
+      [ [ "dkz_polymer_scrap", 1 ] ]
+    ]
+  },
+  {
+    "result": "dkz_battleshield_salvaged",
+    "activity_level": "LIGHT_EXERCISE",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 5,
+    "time": "45 m",
+    "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 40 ] ],
+    "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [
+      [ [ "dkz_weave_scrap", 1 ] ],
+      [ [ "dkz_elecscrap", 1 ] ],
+      [ [ "dkz_biotech", 2 ] ],
+      [ [ "dkz_blend_scrap", 5 ] ],
+      [ [ "dkz_polymer_scrap", 2 ] ]
+    ]
+  },
+  {
+    "result": "dkz_riotshield_salvaged",
+    "activity_level": "LIGHT_EXERCISE",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 5,
+    "time": "30 m",
+    "using": [ [ "soldering_standard", 15 ], [ "welding_standard", 20 ] ],
+    "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "dkz_elecscrap", 1 ] ], [ [ "dkz_biotech", 1 ] ], [ [ "dkz_blend_scrap", 3 ] ], [ [ "dkz_polymer_scrap", 1 ] ] ]
+  },
+  {
+    "result": "dkz_xenoid_light_armor_salvaged",
+    "activity_level": "LIGHT_EXERCISE",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 6,
+    "time": "120 m",
+    "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 40 ] ],
+    "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "dkz_weave_scrap", 1 ] ],
+      [ [ "dkz_elecscrap", 2 ] ],
+      [ [ "dkz_biotech", 1 ] ],
+      [ [ "dkz_powercell", 1 ] ],
+      [ [ "dkz_blend_scrap", 2 ] ],
+      [ [ "dkz_polymer_scrap", 1 ] ]
+    ]
+  },
+  {
+    "result": "dkz_xenoid_heavy_armor_salvaged",
+    "activity_level": "LIGHT_EXERCISE",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 7,
+    "time": "135 m",
+    "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 50 ] ],
+    "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [
+      [ [ "dkz_weave_scrap", 3 ] ],
+      [ [ "dkz_elecscrap", 2 ] ],
+      [ [ "dkz_biotech", 1 ] ],
+      [ [ "dkz_powercell", 1 ] ],
+      [ [ "dkz_blend_scrap", 5 ] ],
+      [ [ "dkz_polymer_scrap", 2 ] ]
+    ]
+  },
+  {
+    "result": "broken_dkz_glowdrone",
+    "activity_level": "LIGHT_EXERCISE",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 8,
+    "time": "120 m",
+    "using": [ [ "soldering_standard", 30 ], [ "welding_standard", 10 ] ],
+    "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "dkz_elecscrap", 2 ] ],
+      [ [ "dkz_biotech", 2 ] ],
+      [ [ "dkz_powercell", 2 ] ],
+      [ [ "dkz_blend_scrap", 2 ] ],
+      [ [ "dkz_biogel", 1 ] ],
+      [ [ "lens", 1 ] ]
+    ]
+  },
+  {
+    "result": "broken_dkz_scidrone",
+    "activity_level": "LIGHT_EXERCISE",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 8,
+    "time": "120 m",
+    "using": [ [ "soldering_standard", 45 ], [ "welding_standard", 10 ] ],
+    "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "dkz_elecscrap", 3 ] ],
+      [ [ "dkz_biotech", 2 ] ],
+      [ [ "dkz_blend_scrap", 2 ] ],
+      [ [ "dkz_powercell", 2 ] ],
+      [ [ "dkz_biogel", 1 ] ],
+      [ [ "lens", 1 ] ]
+    ]
+  }
+]
