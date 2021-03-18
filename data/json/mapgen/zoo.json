@@ -710,7 +710,7 @@
         "|||...............-...^|",
         "-......|-------|..-..^^|",
         "-......-h....^.-..+...^|",
-        "-.####&-h..^#..+..|....|",
+        "-.####&-h..^#..+.L|....|",
         "||||||||||||||||||||||||",
         "|i.ctc..i|............&|",
         "+........C............C|",
@@ -744,7 +744,8 @@
         "o": "f_oven",
         "s": "f_sink",
         "t": "f_table",
-        "{": "f_fridge"
+        "{": "f_fridge",
+        "L": "f_locker"
       },
       "place_items": [
         { "chance": 25, "item": "restaur_table", "x": 4, "y": 14, "repeat": [ 1, 2 ] },
@@ -763,6 +764,12 @@
         { "chance": 50, "item": "behindcounter", "x": 17, "y": 21, "repeat": [ 1, 6 ] },
         { "chance": 80, "item": "restaur_fridge", "x": [ 15, 16 ], "y": 21, "repeat": [ 2, 8 ] },
         { "chance": 80, "item": "restaur_fridge", "x": [ 18, 19 ], "y": 21, "repeat": [ 2, 8 ] }
+      ],
+      "place_item": [
+        { "chance": 60, "item": "birdfood", "x": 12, "y": [ 3, 4 ], "repeat": [ 3, 6 ] },
+        { "chance": 60, "item": "birdfood", "x": [ 9, 11 ], "y": 11, "repeat": [ 3, 6 ] },
+        { "chance": 35, "item": "birdfood", "x": 20, "y": [ 3, 10 ], "repeat": [ 4, 8 ] },
+        { "chance": 90, "item": "birdfood", "x": 17, "y": 12, "repeat": [ 5, 10 ] }
       ],
       "sealed_item": { "^": { "item": { "item": "seed_sugar_beet" }, "furniture": "f_plant_seed" } },
       "place_monster": [
@@ -999,7 +1006,7 @@
       "fill_ter": "t_floor",
       "rows": [
         "___________________gggg-",
-        "___________________gggg-",
+        "___________________ggg}-",
         "____rrrrrrrrrrrrrr|||||-",
         "____r.......gggggg|###|-",
         "____r..gg.....ggg.|###|-",
@@ -1035,13 +1042,17 @@
         "r": "t_railing_v",
         "|": "t_brick_wall"
       },
-      "furniture": { "#": "f_hay", "&": "f_trashcan" },
+      "furniture": { "#": "f_hay", "&": "f_trashcan", "}": "f_locker" },
       "place_item": [
         { "item": "rock", "repeat": 1, "x": 8, "y": 9 },
         { "item": "rock", "repeat": 1, "x": 16, "y": 15 },
         { "item": "stick", "repeat": 1, "x": 8, "y": 17 },
         { "item": "stick", "repeat": 1, "x": 21, "y": 18 },
-        { "item": "stick", "repeat": 1, "x": 21, "y": 20 }
+        { "item": "stick", "repeat": 1, "x": 21, "y": 20 },
+        { "chance": 15, "item": "cattlefodder", "x": [ 9, 14 ], "y": [ 7, 17 ], "repeat": [ 8, 12 ] },
+        { "chance": 15, "item": "birdfood", "x": [ 9, 14 ], "y": [ 7, 17 ], "repeat": [ 8, 12 ] },
+        { "chance": 90, "item": "cattlefodder", "x": 22, "y": 1, "repeat": [ 5, 10 ] },
+        { "chance": 90, "item": "birdfood", "x": 22, "y": 1, "repeat": [ 4, 8 ] }
       ],
       "place_items": [
         { "chance": 55, "item": "trash", "x": 3, "y": 22 },
