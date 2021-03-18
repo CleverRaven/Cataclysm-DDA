@@ -1,0 +1,112 @@
+[
+  {
+    "type": "GENERIC",
+    "id": "test_relic_base",
+    "name": "TEST relic base",
+    "description": "A relic for test purposes",
+    "category": "spare_parts",
+    "weight": "1 kg",
+    "volume": "100 ml",
+    "material": [ "steel" ],
+    "color": "red",
+    "symbol": "*"
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_relic_gives_trait",
+    "copy-from": "test_relic_base",
+    "name": "TEST relic gives trait",
+    "relic_data": { "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "mutations": [ "CARNIVORE" ] } ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_relic_mods_stats",
+    "copy-from": "test_relic_base",
+    "name": "TEST relic mods stats",
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "HELD",
+          "condition": "ALWAYS",
+          "values": [
+            { "value": "STRENGTH", "add": 4, "multiply": 1 },
+            { "value": "DEXTERITY", "add": -2 },
+            { "value": "PERCEPTION", "add": 1, "multiply": -0.5 },
+            { "value": "INTELLIGENCE", "add": -11 }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_relic_mods_speed",
+    "copy-from": "test_relic_base",
+    "name": "TEST relic mods speed",
+    "relic_data": {
+      "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "SPEED", "add": 25, "multiply": -0.5 } ] } ]
+    }
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_relic_mods_atk_cost",
+    "copy-from": "test_relic_base",
+    "name": "TEST relic mods attack cost",
+    "relic_data": {
+      "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "ATTACK_COST", "multiply": -0.2 } ] } ]
+    }
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_relic_sword",
+    "name": "TEST relic sword",
+    "description": "A relic sword for test purposes",
+    "category": "spare_parts",
+    "weight": "1250 g",
+    "to_hit": 1,
+    "color": "dark_gray",
+    "symbol": "/",
+    "material": [ "steel" ],
+    "volume": "1 L",
+    "bashing": 32,
+    "cutting": 32,
+    "price": 7500,
+    "price_postapoc": 300,
+    "relic_data": {
+      "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_ATTACK_COST", "add": -15 } ] } ]
+    }
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_relic_mods_mv_cost",
+    "copy-from": "test_relic_base",
+    "name": "TEST relic mods movement cost",
+    "relic_data": {
+      "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "MOVE_COST", "multiply": -0.1 } ] } ]
+    }
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_relic_mods_metabolism",
+    "copy-from": "test_relic_base",
+    "name": "TEST relic mods metabolic rate",
+    "relic_data": {
+      "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "METABOLISM", "multiply": -0.1 } ] } ]
+    }
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_relic_mods_manapool",
+    "copy-from": "test_relic_base",
+    "name": "TEST relic mods mana pool",
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "HELD",
+          "condition": "ALWAYS",
+          "values": [ { "value": "MANA_CAP", "add": 100, "multiply": -0.3 }, { "value": "MANA_REGEN", "multiply": -0.3 } ]
+        }
+      ]
+    }
+  }
+]

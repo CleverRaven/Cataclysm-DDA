@@ -43,8 +43,6 @@ class relic
         void add_active_effect( const fake_spell &sp );
 
         std::vector<enchantment> get_enchantments() const;
-
-        int modify_value( enchant_vals::mod value_type, int value ) const;
 };
 
 #endif // CATA_SRC_RELIC_H

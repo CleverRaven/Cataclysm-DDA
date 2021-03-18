@@ -330,7 +330,7 @@ Syntax:
 ```
 
 ### values
-(array) List of miscellaneous values to modify.
+(array) List of miscellaneous character/item values to modify.
 
 Syntax for single entry:
 ```c++
@@ -338,22 +338,93 @@ Syntax for single entry:
   // (required) Value ID to modify, refer to list below.
   "value": "VALUE_ID_STRING"
   
-  // Additive bonus. Optional, default is 0.
-  "add": 13.37,
+  // Additive bonus. Optional integer number, default is 0.
+  // May be ignored for some values.
+  "add": 13,
   
   // Multiplicative bonus. Optional, default is 0.
   "multiply": -0.3,
 }
 ```
 
-Additive bonus is applied before multiplicative, like so:
+Additive bonus is applied separately from multiplicative, like so:
 ```c++
 bonus = add + base_value * multiply
 ```
 
 Thus, a `multiply` value of -0.8 is -80%, and a `multiply` of 2.5 is +250%.
+When modifying integer values, final bonus is rounded towards 0 (truncated).
+
+When multiple enchantments (e.g. one from an item and one from a bionic) modify the same value,
+their bonuses are added together without rounding, then the sum is rounded (if necessary)
+before being applied to the base value.
+
+Since there's no limit on number of enchantments the character can have at a time,
+the final calculated values have hardcoded bounds to prevent unintended behavior.
 
 #### IDs of modifiable values
+
+#### Character values
+
+##### STRENGTH
+Strength stat.
+`base_value` here is the base stat value.
+The final value cannot go below 0.
+
+##### DEXTERITY
+Dexterity stat.
+`base_value` here is the base stat value.
+The final value cannot go below 0.
+
+##### PERCEPTION
+Perception stat.
+`base_value` here is the base stat value.
+The final value cannot go below 0.
+
+##### INTELLIGENCE
+Intelligence stat.
+`base_value` here is the base stat value.
+The final value cannot go below 0.
+
+##### SPEED
+Character speed.
+`base_value` here is character speed including pain/hunger/weight penalties.
+Final speed value cannot go below 25% of base speed.
+
+##### ATTACK_COST
+Melee attack cost. The lower, the better.
+`base_value` here is attack cost for given weapon including modifiers from stats and skills.
+The final value cannot go below 25.
+
+##### MOVE_COST
+Movement cost.
+`base_value` here is tile movement cost including modifiers from clothing and traits.
+The final value cannot go below 20.
+
+##### METABOLISM
+Metabolic rate.
+This modifier ignores `add` field.
+`base_value` here is `PLAYER_HUNGER_RATE` modified by traits.
+The final value cannot go below 0.
+
+##### MANA_CAP
+Mana capacity.
+`base_value` here is character's base mana capacity modified by traits.
+The final value cannot go below 0.
+
+##### MANA_REGEN
+Mana regeneration rate.
+This modifier ignores `add` field.
+`base_value` here is character's base mana gain rate modified by traits.
+The final value cannot go below 0.
+
+#### Item values
+
+##### ITEM_ATTACK_COST
+Attack cost (melee or throwing) for this item.
+Ignores condition / location, and is always active.
+`base_value` here is base item attack cost.
+Note that the final value cannot go below 0.
 
 ##### TODO
 
@@ -361,17 +432,7 @@ TODO: docs for each
 
 TODO: some of these are broken/unimplemented
 
-* STRENGTH
-* DEXTERITY
-* PERCEPTION
-* INTELLIGENCE
-* SPEED
-* ATTACK_COST
-* ATTACK_SPEED
-* MOVE_COST
-* METABOLISM
-* MAX_MANA
-* REGEN_MANA
+
 * BIONIC_POWER
 * MAX_STAMINA
 * REGEN_STAMINA
@@ -424,7 +485,6 @@ Effects for the item that has the enchantment:
 * ITEM_ENCUMBRANCE
 * ITEM_VOLUME
 * ITEM_COVERAGE
-* ITEM_ATTACK_SPEED
 * ITEM_WET_PROTECTION
 
 ## Examples

@@ -76,11 +76,10 @@ namespace io
             case enchant_vals::mod::INTELLIGENCE: return "INTELLIGENCE";
             case enchant_vals::mod::SPEED: return "SPEED";
             case enchant_vals::mod::ATTACK_COST: return "ATTACK_COST";
-            case enchant_vals::mod::ATTACK_SPEED: return "ATTACK_SPEED";
             case enchant_vals::mod::MOVE_COST: return "MOVE_COST";
             case enchant_vals::mod::METABOLISM: return "METABOLISM";
-            case enchant_vals::mod::MAX_MANA: return "MAX_MANA";
-            case enchant_vals::mod::REGEN_MANA: return "REGEN_MANA";
+            case enchant_vals::mod::MANA_CAP: return "MANA_CAP";
+            case enchant_vals::mod::MANA_REGEN: return "MANA_REGEN";
             case enchant_vals::mod::BIONIC_POWER: return "BIONIC_POWER";
             case enchant_vals::mod::MAX_STAMINA: return "MAX_STAMINA";
             case enchant_vals::mod::REGEN_STAMINA: return "REGEN_STAMINA";
@@ -131,7 +130,7 @@ namespace io
             case enchant_vals::mod::ITEM_ENCUMBRANCE: return "ITEM_ENCUMBRANCE";
             case enchant_vals::mod::ITEM_VOLUME: return "ITEM_VOLUME";
             case enchant_vals::mod::ITEM_COVERAGE: return "ITEM_COVERAGE";
-            case enchant_vals::mod::ITEM_ATTACK_SPEED: return "ITEM_ATTACK_SPEED";
+            case enchant_vals::mod::ITEM_ATTACK_COST: return "ITEM_ATTACK_COST";
             case enchant_vals::mod::ITEM_WET_PROTECTION: return "ITEM_WET_PROTECTION";
             case enchant_vals::mod::NUM_MOD: break;
         }
@@ -140,6 +139,19 @@ namespace io
     }
     // *INDENT-ON*
 } // namespace io
+
+static void migrate_ench_vals_enums( std::string &s )
+{
+    if( s == "ITEM_ATTACK_SPEED" ) {
+        s = "ITEM_ATTACK_COST";
+    } else if( s == "ATTACK_SPEED" ) {
+        s = "ATTACK_COST";
+    } else if( s == "MAX_MANA" ) {
+        s = "MANA_CAP";
+    } else if( s == "REGEN_MANA" ) {
+        s = "MANA_REGEN";
+    }
+}
 
 namespace
 {
@@ -169,14 +181,11 @@ bool enchantment::is_active( const Character &guy, const item &parent ) const
         return false;
     }
 
-    if( active_conditions.first == has::HELD &&
-        active_conditions.second == condition::ALWAYS ) {
-        return true;
+    if( active_conditions.first == has::WIELD && !guy.is_wielding( parent ) ) {
+        return false;
     }
 
-    if( !( active_conditions.first == has::HELD ||
-           ( active_conditions.first == has::WIELD && guy.is_wielding( parent ) ) ||
-           ( active_conditions.first == has::WORN && guy.is_worn( parent ) ) ) ) {
+    if( active_conditions.first == has::WORN && !guy.is_worn( parent ) ) {
         return false;
     }
 
@@ -201,11 +210,6 @@ bool enchantment::is_active( const Character &guy, const bool active ) const
         return get_map().is_divable( guy.pos() );
     }
     return false;
-}
-
-bool enchantment::active_wield() const
-{
-    return active_conditions.first == has::HELD || active_conditions.first == has::WIELD;
 }
 
 void enchantment::add_activation( const time_duration &freq, const fake_spell &fake )
@@ -253,15 +257,19 @@ void enchantment::load( const JsonObject &jo, const std::string & )
 
     if( jo.has_array( "values" ) ) {
         for( const JsonObject value_obj : jo.get_array( "values" ) ) {
-            const enchant_vals::mod value = io::string_to_enum<enchant_vals::mod>
-                                            ( value_obj.get_string( "value" ) );
+            std::string value_raw = value_obj.get_string( "value" );
+            migrate_ench_vals_enums( value_raw );
+            const enchant_vals::mod value = io::string_to_enum<enchant_vals::mod>( value_raw );
+
             const int add = value_obj.get_int( "add", 0 );
             const double mult = value_obj.get_float( "multiply", 0.0 );
             if( add != 0 ) {
                 values_add.emplace( value, add );
             }
             if( mult != 0.0 ) {
-                values_multiply.emplace( value, mult );
+                // Limit precision to minimize inconsistencies between platforms / compilers
+                const double mul = static_cast<int>( std::round( mult * 100'000 ) ) / 100'000.0;
+                values_multiply.emplace( value, mul );
             }
         }
     }
@@ -414,6 +422,26 @@ double enchantment::get_value_multiply( const enchant_vals::mod value ) const
     return found->second;
 }
 
+double enchantment::calc_bonus( enchant_vals::mod value, double base, bool round ) const
+{
+    bool use_add = true;
+    switch( value ) {
+        case enchant_vals::mod::METABOLISM:
+        case enchant_vals::mod::MANA_REGEN:
+            use_add = false;
+            break;
+        default:
+            break;
+    }
+    double add = use_add ? get_value_add( value ) : 0.0;
+    double mul = get_value_multiply( value );
+    double ret = add + base * mul;
+    if( round ) {
+        ret = trunc( ret );
+    }
+    return ret;
+}
+
 int enchantment::mult_bonus( enchant_vals::mod value_type, int base_value ) const
 {
     return get_value_multiply( value_type ) * base_value;
@@ -421,23 +449,16 @@ int enchantment::mult_bonus( enchant_vals::mod value_type, int base_value ) cons
 
 void enchantment::activate_passive( Character &guy ) const
 {
-    guy.mod_str_bonus( get_value_add( enchant_vals::mod::STRENGTH ) );
-    guy.mod_str_bonus( mult_bonus( enchant_vals::mod::STRENGTH, guy.get_str_base() ) );
+    guy.mod_str_bonus( calc_bonus( enchant_vals::mod::STRENGTH, guy.get_str_base(), true ) );
+    guy.mod_dex_bonus( calc_bonus( enchant_vals::mod::DEXTERITY, guy.get_dex_base(), true ) );
+    guy.mod_per_bonus( calc_bonus( enchant_vals::mod::PERCEPTION, guy.get_per_base(), true ) );
+    guy.mod_int_bonus( calc_bonus( enchant_vals::mod::INTELLIGENCE, guy.get_int_base(), true ) );
 
-    guy.mod_dex_bonus( get_value_add( enchant_vals::mod::DEXTERITY ) );
-    guy.mod_dex_bonus( mult_bonus( enchant_vals::mod::DEXTERITY, guy.get_dex_base() ) );
-
-    guy.mod_per_bonus( get_value_add( enchant_vals::mod::PERCEPTION ) );
-    guy.mod_per_bonus( mult_bonus( enchant_vals::mod::PERCEPTION, guy.get_per_base() ) );
-
-    guy.mod_int_bonus( get_value_add( enchant_vals::mod::INTELLIGENCE ) );
-    guy.mod_int_bonus( mult_bonus( enchant_vals::mod::INTELLIGENCE, guy.get_int_base() ) );
-
-    guy.mod_speed_bonus( get_value_add( enchant_vals::mod::SPEED ) );
-    guy.mod_speed_bonus( mult_bonus( enchant_vals::mod::SPEED, guy.get_speed_base() ) );
-
-    guy.mod_num_dodges_bonus( get_value_add( enchant_vals::mod::BONUS_DODGE ) );
-    guy.mod_num_dodges_bonus( mult_bonus( enchant_vals::mod::BONUS_DODGE, guy.get_num_dodges_base() ) );
+    guy.mod_num_dodges_bonus( calc_bonus(
+                                  enchant_vals::mod::BONUS_DODGE,
+                                  guy.get_num_dodges_base(),
+                                  true
+                              ) );
 
     if( emitter ) {
         get_map().emit_field( guy.pos(), *emitter );

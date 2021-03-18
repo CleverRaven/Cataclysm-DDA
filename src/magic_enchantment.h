@@ -29,19 +29,18 @@ enum class mod : int {
     INTELLIGENCE,
     SPEED,
     ATTACK_COST,
-    ATTACK_SPEED, // affects attack speed of item even if it's not the one you're wielding
     MOVE_COST,
     METABOLISM,
-    MAX_MANA,
-    REGEN_MANA,
+    MANA_CAP,
+    MANA_REGEN,
     BIONIC_POWER,
     MAX_STAMINA,
     REGEN_STAMINA,
-    MAX_HP,        // for all limbs! use with caution
+    MAX_HP,
     REGEN_HP,
-    THIRST,        // cost or regen over time
-    FATIGUE,       // cost or regen over time
-    PAIN,          // cost or regen over time
+    THIRST,
+    FATIGUE,
+    PAIN,
     BONUS_DODGE,
     BONUS_BLOCK,
     BONUS_DAMAGE,
@@ -72,7 +71,7 @@ enum class mod : int {
     ITEM_DAMAGE_ELEC,
     ITEM_DAMAGE_ACID,
     ITEM_DAMAGE_BIO,
-    ITEM_DAMAGE_AP,      // armor piercing
+    ITEM_DAMAGE_AP,
     ITEM_ARMOR_BASH,
     ITEM_ARMOR_CUT,
     ITEM_ARMOR_STAB,
@@ -85,7 +84,7 @@ enum class mod : int {
     ITEM_ENCUMBRANCE,
     ITEM_VOLUME,
     ITEM_COVERAGE,
-    ITEM_ATTACK_SPEED,
+    ITEM_ATTACK_COST,
     ITEM_WET_PROTECTION,
     NUM_MOD
 };
@@ -125,15 +124,24 @@ class enchantment
         int get_value_add( enchant_vals::mod value ) const;
         double get_value_multiply( enchant_vals::mod value ) const;
 
+        /**
+         * Calculate bonus provided by this enchantment for given base value.
+         */
+        double calc_bonus( enchant_vals::mod value, double base, bool round = false ) const;
+
         // this enchantment has a valid condition and is in the right location
         bool is_active( const Character &guy, const item &parent ) const;
 
         // @active means the container for the enchantment is active, for comparison to active flag.
         bool is_active( const Character &guy, bool active ) const;
 
-        // this enchantment is active when wielded.
-        // shows total conditional values, so only use this when Character is not available
-        bool active_wield() const;
+        /**
+         * Whether this enchantment will be active if parent item is wielded.
+         * Assumes condition is satisfied.
+         */
+        inline bool is_active_when_wielded() const {
+            return has::WIELD == active_conditions.first || has::HELD == active_conditions.first;
+        }
 
         // modifies character stats, or does other passive effects
         void activate_passive( Character &guy ) const;

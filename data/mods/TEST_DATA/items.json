@@ -22,6 +22,18 @@
     "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
+    "type": "GENERIC",
+    "id": "test_1kg_cube",
+    "name": "TEST 1kg cube",
+    "description": "A tiny super-dense cube with nice round weight of 1 kg.",
+    "weight": "1 kg",
+    "color": "light_gray",
+    "symbol": "*",
+    "material": [ "steel" ],
+    "volume": "10 ml",
+    "category": "spare_parts"
+  },
+  {
     "id": "test_rag",
     "type": "TOOL",
     "category": "spare_parts",

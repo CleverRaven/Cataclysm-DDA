@@ -18,6 +18,7 @@
 #include "game.h"
 #include "item_contents.h"
 #include "itype.h"
+#include "magic_enchantment.h"
 #include "map.h"
 #include "material.h"
 #include "messages.h"
@@ -516,9 +517,14 @@ bool Character::vitamin_set( const vitamin_id &vit, int qty )
 float Character::metabolic_rate_base() const
 {
     static const std::string hunger_rate_string( "PLAYER_HUNGER_RATE" );
-    float hunger_rate = get_option< float >( hunger_rate_string );
     static const std::string metabolism_modifier( "metabolism_modifier" );
-    return hunger_rate * ( 1.0f + mutation_value( metabolism_modifier ) );
+
+    float hunger_rate = get_option< float >( hunger_rate_string );
+    float mut_bonus = 1.0f + mutation_value( metabolism_modifier );
+    float with_mut = hunger_rate * mut_bonus;
+    float ench_bonus = bonus_from_enchantments( with_mut, enchant_vals::mod::METABOLISM );
+
+    return std::max( 0.0f, with_mut + ench_bonus );
 }
 
 // TODO: Make this less chaotic to let NPC retroactive catch up work here

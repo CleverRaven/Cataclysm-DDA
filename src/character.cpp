@@ -4550,7 +4550,7 @@ void Character::update_body( const time_point &from, const time_point &to )
     update_stomach( from, to );
     recalculate_enchantment_cache();
     if( ticks_between( from, to, 3_minutes ) > 0 ) {
-        magic->update_mana( *this->as_player(), to_turns<float>( 3_minutes ) );
+        magic->update_mana( *this->as_player(), to_turns<double>( 3_minutes ) );
     }
     const int five_mins = ticks_between( from, to, 5_minutes );
     if( five_mins > 0 ) {
@@ -7701,15 +7701,9 @@ void Character::recalculate_enchantment_cache()
     }
 }
 
-double Character::calculate_by_enchantment( double modify, enchant_vals::mod value,
-        bool round_output ) const
+double Character::bonus_from_enchantments( double base, enchant_vals::mod value, bool round ) const
 {
-    modify += enchantment_cache->get_value_add( value );
-    modify *= 1.0 + enchantment_cache->get_value_multiply( value );
-    if( round_output ) {
-        modify = std::round( modify );
-    }
-    return modify;
+    return enchantment_cache->calc_bonus( value, base, round );
 }
 
 void Character::passive_absorb_hit( body_part bp, damage_unit &du ) const
@@ -7749,28 +7743,28 @@ static void item_armor_enchantment_adjust( Character &guy, damage_unit &du, item
 {
     switch( du.type ) {
         case DT_ACID:
-            du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_ACID );
+            du.amount += armor.bonus_from_enchantments( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_ACID );
             break;
         case DT_BASH:
-            du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_BASH );
+            du.amount += armor.bonus_from_enchantments( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_BASH );
             break;
         case DT_BIOLOGICAL:
-            du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_BIO );
+            du.amount += armor.bonus_from_enchantments( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_BIO );
             break;
         case DT_COLD:
-            du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_COLD );
+            du.amount += armor.bonus_from_enchantments( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_COLD );
             break;
         case DT_CUT:
-            du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_CUT );
+            du.amount += armor.bonus_from_enchantments( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_CUT );
             break;
         case DT_ELECTRIC:
-            du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_ELEC );
+            du.amount += armor.bonus_from_enchantments( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_ELEC );
             break;
         case DT_HEAT:
-            du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_HEAT );
+            du.amount += armor.bonus_from_enchantments( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_HEAT );
             break;
         case DT_STAB:
-            du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_STAB );
+            du.amount += armor.bonus_from_enchantments( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_STAB );
             break;
         default:
             return;
@@ -7784,28 +7778,28 @@ static void armor_enchantment_adjust( Character &guy, damage_unit &du )
 {
     switch( du.type ) {
         case DT_ACID:
-            du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_ACID );
+            du.amount += guy.bonus_from_enchantments( du.amount, enchant_vals::mod::ARMOR_ACID );
             break;
         case DT_BASH:
-            du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_BASH );
+            du.amount += guy.bonus_from_enchantments( du.amount, enchant_vals::mod::ARMOR_BASH );
             break;
         case DT_BIOLOGICAL:
-            du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_BIO );
+            du.amount += guy.bonus_from_enchantments( du.amount, enchant_vals::mod::ARMOR_BIO );
             break;
         case DT_COLD:
-            du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_COLD );
+            du.amount += guy.bonus_from_enchantments( du.amount, enchant_vals::mod::ARMOR_COLD );
             break;
         case DT_CUT:
-            du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_CUT );
+            du.amount += guy.bonus_from_enchantments( du.amount, enchant_vals::mod::ARMOR_CUT );
             break;
         case DT_ELECTRIC:
-            du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_ELEC );
+            du.amount += guy.bonus_from_enchantments( du.amount, enchant_vals::mod::ARMOR_ELEC );
             break;
         case DT_HEAT:
-            du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_HEAT );
+            du.amount += guy.bonus_from_enchantments( du.amount, enchant_vals::mod::ARMOR_HEAT );
             break;
         case DT_STAB:
-            du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_STAB );
+            du.amount += guy.bonus_from_enchantments( du.amount, enchant_vals::mod::ARMOR_STAB );
             break;
         default:
             return;
@@ -9735,8 +9729,12 @@ int Character::run_cost( int base_cost, bool diag ) const
             movecost += 10 * footwear_factor();
         }
 
-        movecost = calculate_by_enchantment( movecost, enchant_vals::mod::MOVE_COST );
+        movecost += bonus_from_enchantments( movecost, enchant_vals::mod::MOVE_COST );
         movecost /= stamina_move_cost_modifier();
+
+        if( movecost < 20.0 ) {
+            movecost = 20.0;
+        }
     }
 
     if( diag ) {

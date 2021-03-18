@@ -483,7 +483,9 @@ class known_magic
         int max_mana( const Character &guy ) const;
         void mod_mana( const Character &guy, int add_mana );
         void set_mana( int new_mana );
-        void update_mana( const Character &guy, float turns );
+        /** Mana regeneration rate (units per turn). */
+        double mana_regen_rate( const Character &guy ) const;
+        void update_mana( const Character &guy, double turns );
         // does the Character have enough energy to cast this spell?
         // not specific to mana
         bool has_enough_energy( const Character &guy, spell &sp ) const;

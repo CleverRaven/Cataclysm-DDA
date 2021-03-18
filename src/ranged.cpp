@@ -571,12 +571,12 @@ int player::fire_gun( const tripoint &target, const int max_shots, item &gun )
 int throw_cost( const player &c, const item &to_throw );
 int throw_cost( const player &c, const item &to_throw )
 {
-    // Very similar to player::attack_speed
+    // Very similar to player::attack_cost
     // TODO: Extract into a function?
     // Differences:
     // Dex is more (2x) important for throwing speed
     // At 10 skill, the cost is down to 0.75%, not 0.66%
-    const int base_move_cost = to_throw.attack_time() / 2;
+    const int base_move_cost = to_throw.attack_cost() / 2;
     const int throw_skill = std::min( MAX_SKILL, c.get_skill_level( skill_throw ) );
     ///\EFFECT_THROW increases throwing speed
     const int skill_cost = static_cast<int>( ( base_move_cost * ( 20 - throw_skill ) / 20 ) );

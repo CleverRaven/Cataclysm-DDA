@@ -41,6 +41,7 @@
 #include "itype.h"
 #include "lightmap.h"
 #include "line.h"
+#include "magic_enchantment.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -545,6 +546,9 @@ void player::recalc_speed_bonus()
     if( has_bionic( bio_speed ) ) { // multiply by 1.1
         set_speed_bonus( static_cast<int>( get_speed() * 1.1 ) - get_speed_base() );
     }
+
+    double ench_bonus = enchantment_cache->calc_bonus( enchant_vals::mod::SPEED, get_speed() );
+    set_speed_bonus( get_speed() + ench_bonus - get_speed_base() );
 
     // Speed cannot be less than 25% of base speed, so minimal speed bonus is -75% base speed.
     const int min_speed_bonus = static_cast<int>( -0.75 * get_speed_base() );
@@ -4399,6 +4403,7 @@ void player::environmental_revert_effect()
     set_pain( 0 );
     set_painkiller( 0 );
     set_rad( 0 );
+    set_sleep_deprivation( 0 );
 
     recalc_sight_limits();
     reset_encumbrance();

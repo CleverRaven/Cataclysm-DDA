@@ -635,7 +635,7 @@ static void smash()
             }
         }
     }
-    const int move_cost = !u.is_armed() ? 80 : u.weapon.attack_time() * 0.8;
+    const int move_cost = !u.is_armed() ? 80 : u.weapon.attack_cost() * 0.8;
     bool didit = false;
     bool mech_smash = false;
     int smashskill;

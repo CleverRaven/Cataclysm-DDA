@@ -698,7 +698,7 @@ class Character : public Creature, public visitable<Character>
         /** Returns true if the player scores a critical hit */
         bool scored_crit( float target_dodge, const item &weap ) const;
         /** Returns cost (in moves) of attacking with given item (no modifiers, like stuck) */
-        int attack_speed( const item &weap ) const;
+        int attack_cost( const item &weap ) const;
         /** Gets melee accuracy component from weapon+skills */
         float get_hit_weapon( const item &weap ) const;
 
@@ -930,9 +930,11 @@ class Character : public Creature, public visitable<Character>
     public:
         // recalculates enchantment cache by iterating through all held, worn, and wielded items
         void recalculate_enchantment_cache();
-        // gets add and mult value from enchantment cache
-        double calculate_by_enchantment( double modify, enchant_vals::mod value,
-                                         bool round_output = false ) const;
+
+        /**
+         * Calculate bonus from enchantments for given base value.
+         */
+        double bonus_from_enchantments( double base, enchant_vals::mod value, bool round = false ) const;
 
         /** Returns true if the player has any martial arts buffs attached */
         bool has_mabuff( const mabuff_id &buff_id ) const;
@@ -2256,9 +2258,6 @@ class Character : public Creature, public visitable<Character>
          */
         bool is_visible_in_range( const Creature &critter, int range ) const;
 
-        // a cache of all active enchantment values.
-        // is recalculated every turn in Character::recalculate_enchantment_cache
-        pimpl<enchantment> enchantment_cache;
         player_activity destination_activity;
         // A unique ID number, assigned by the game class. Values should never be reused.
         character_id id;
@@ -2293,6 +2292,10 @@ class Character : public Creature, public visitable<Character>
         inventory cached_crafting_inventory;
 
     protected:
+        // a cache of all active enchantment values.
+        // is recalculated every turn in Character::recalculate_enchantment_cache
+        pimpl<enchantment> enchantment_cache;
+
         /** Amount of time the player has spent in each overmap tile. */
         std::unordered_map<point, time_duration> overmap_time;
 

@@ -94,24 +94,6 @@ int relic::activate( Creature &caster, const tripoint &target ) const
     return charges_per_activation;
 }
 
-int relic::modify_value( const enchant_vals::mod value_type, const int value ) const
-{
-    int add_modifier = 0;
-    double multiply_modifier = 0.0;
-    for( const enchantment &ench : passive_effects ) {
-        add_modifier += ench.get_value_add( value_type );
-        multiply_modifier += ench.get_value_multiply( value_type );
-    }
-    multiply_modifier = std::max( multiply_modifier + 1.0, 0.0 );
-    int modified_value;
-    if( multiply_modifier < 1.0 ) {
-        modified_value = std::floor( multiply_modifier * value );
-    } else {
-        modified_value = std::ceil( multiply_modifier * value );
-    }
-    return modified_value + add_modifier;
-}
-
 bool relic::operator==( const relic &rhs ) const
 {
     return charges_per_activation == rhs.charges_per_activation &&

@@ -2370,7 +2370,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         }
     } else if( !no_bashing && smash_ability() > 0 && g->m.is_bashable( p ) &&
                g->m.bash_rating( smash_ability(), p ) > 0 ) {
-        moves -= !is_armed() ? 80 : weapon.attack_time() * 0.8;
+        moves -= !is_armed() ? 80 : weapon.attack_cost() * 0.8;
         g->m.bash( p, smash_ability() );
     } else {
         if( attitude == NPCATT_MUG ||

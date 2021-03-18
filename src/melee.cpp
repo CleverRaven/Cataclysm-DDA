@@ -419,12 +419,12 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
     }
     item &cur_weapon = allow_unarmed ? used_weapon() : weapon;
 
-    if( cur_weapon.attack_time() > attack_speed( cur_weapon ) * 20 ) {
+    if( cur_weapon.attack_cost() > attack_cost( cur_weapon ) * 20 ) {
         add_msg( m_bad, _( "This weapon is too unwieldy to attack with!" ) );
         return;
     }
 
-    int move_cost = attack_speed( cur_weapon );
+    int move_cost = attack_cost( cur_weapon );
 
     if( hit_spread < 0 ) {
         int stumble_pen = stumble( *this, cur_weapon );
@@ -634,7 +634,7 @@ void player::reach_attack( const tripoint &p )
     // Reset last target pos
     last_target_pos = cata::nullopt;
 
-    int move_cost = attack_speed( weapon );
+    int move_cost = attack_cost( weapon );
     int skill = std::min( 10, get_skill_level( skill_stabbing ) );
     int t = 0;
     std::vector<tripoint> path = line_to( pos(), p, t, 0 );
@@ -2161,9 +2161,9 @@ void player_hit_message( Character *attacker, const std::string &message,
     attacker->add_msg_player_or_npc( msgtype, msg, msg, t.disp_name() );
 }
 
-int Character::attack_speed( const item &weap ) const
+int Character::attack_cost( const item &weap ) const
 {
-    const int base_move_cost = weap.attack_time() / 2;
+    const int base_move_cost = weap.attack_cost() / 2;
     const int melee_skill = has_active_bionic( bionic_id( bio_cqb ) ) ? BIO_CQB_LEVEL : get_skill_level(
                                 skill_melee );
     /** @EFFECT_MELEE increases melee attack speed */
@@ -2186,7 +2186,8 @@ int Character::attack_speed( const item &weap ) const
     move_cost += skill_cost;
     move_cost -= dexbonus;
 
-    move_cost = calculate_by_enchantment( move_cost, enchant_vals::mod::ATTACK_SPEED, true );
+    move_cost += bonus_from_enchantments( move_cost, enchant_vals::mod::ATTACK_COST, true );
+
     // Martial arts last. Flat has to be after mult, because comments say so.
     move_cost *= ma_mult;
     move_cost += ma_move_cost;
@@ -2281,7 +2282,7 @@ void player::disarm( npc &target )
     int hitspread = target.deal_melee_attack( this, hit_roll() );
     if( hitspread < 0 ) {
         add_msg( _( "You lunge for the %s, but miss!" ), it.tname() );
-        mod_moves( -100 - stumble( *this, weapon ) - attack_speed( weapon ) );
+        mod_moves( -100 - stumble( *this, weapon ) - attack_cost( weapon ) );
         target.on_attacked( *this );
         return;
     }
@@ -2315,7 +2316,7 @@ void player::disarm( npc &target )
     }
 
     // Make their weapon fall on floor if we've rolled enough.
-    mod_moves( -100 - attack_speed( weapon ) );
+    mod_moves( -100 - attack_cost( weapon ) );
     if( my_roll >= their_roll ) {
         add_msg( _( "You smash %s with all your might forcing their %s to drop down nearby!" ),
                  target.name, it.tname() );

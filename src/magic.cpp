@@ -1408,20 +1408,33 @@ void known_magic::mod_mana( const Character &guy, int add_mana )
 
 int known_magic::max_mana( const Character &guy ) const
 {
-    const float int_bonus = ( ( 0.2f + guy.get_int() * 0.1f ) - 1.0f ) * mana_base;
-    const float unaugmented_mana = std::max( 0.0f,
-                                   ( ( mana_base + int_bonus ) * guy.mutation_value( "mana_multiplier" ) ) +
-                                   guy.mutation_value( "mana_modifier" ) - units::to_kilojoule( guy.get_power_level() ) );
-    return guy.calculate_by_enchantment( unaugmented_mana, enchant_vals::mod::MAX_MANA, true );
+    float int_bonus = ( ( 0.2f + guy.get_int() * 0.1f ) - 1.0f ) * mana_base;
+    float mut_mul = guy.mutation_value( "mana_multiplier" );
+    float mut_add = guy.mutation_value( "mana_modifier" );
+    int natural_cap = std::max( 0.0f, ( ( mana_base + int_bonus ) * mut_mul ) + mut_add );
+
+    int bp_penalty = units::to_kilojoule( guy.get_power_level() );
+    int ench_bonus = guy.bonus_from_enchantments( natural_cap, enchant_vals::mod::MANA_CAP, true );
+
+    return std::max( 0, natural_cap - bp_penalty + ench_bonus );
 }
 
-void known_magic::update_mana( const Character &guy, float turns )
+double known_magic::mana_regen_rate( const Character &guy ) const
 {
     // mana should replenish in 8 hours.
-    const float full_replenish = to_turns<float>( 8_hours );
-    const float ratio = turns / full_replenish;
-    mod_mana( guy, std::floor( ratio * guy.calculate_by_enchantment( max_mana( guy ) *
-                               guy.mutation_value( "mana_regen_multiplier" ), enchant_vals::mod::REGEN_MANA ) ) );
+    double full_replenish = to_turns<double>( 8_hours );
+    double capacity = max_mana( guy );
+    double mut_mul = guy.mutation_value( "mana_regen_multiplier" );
+    double natural_regen = std::max( 0.0, capacity * mut_mul / full_replenish );
+
+    double ench_bonus = guy.bonus_from_enchantments( natural_regen, enchant_vals::mod::MANA_REGEN );
+
+    return std::max( 0.0, natural_regen + ench_bonus );
+}
+
+void known_magic::update_mana( const Character &guy, double turns )
+{
+    mod_mana( guy, mana_regen_rate( guy ) * turns );
 }
 
 std::vector<spell_id> known_magic::spells() const
