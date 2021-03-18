@@ -290,7 +290,7 @@
         "-#_|..|...r...b..|||__ss",
         "-__|..a...r...b..r.|__ss",
         "-7_|..|...r......r.|__ss",
-        "-__|..|...r......|||__ss",
+        "-__|{.|...r......|||__ss",
         "-_#|c.|..h|rr|...r.|__ss",
         "B__|..|..h|..|...r.|__ss",
         "___|..|||||||||+||||____",
@@ -340,8 +340,9 @@
       ],
       "place_items": [
         { "chance": 45, "item": "trash", "x": 20, "y": 5 },
-        { "chance": 65, "item": "vet_softdrug", "x": 10, "y": 18 },
-        { "chance": 45, "item": "vet_hardrug", "x": 9, "y": 18 }
+        { "item": "vet_softdrug", "x": 10, "y": 18, "chance": 65, "repeat": [ 2, 5 ] },
+        { "item": "vet_hardrug", "x": 9, "y": 18, "chance": 45, "repeat": [ 2, 5 ] },
+        { "chance": 95, "item": "SUS_janitors_closet", "x": 4, "y": 14 }
       ],
       "place_monster": [
         { "monster": "mon_bobcat", "x": 8, "y": 5 },
