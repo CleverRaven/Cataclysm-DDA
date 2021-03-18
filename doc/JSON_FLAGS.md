@@ -858,16 +858,19 @@ Flags used to describe monsters and define their properties and abilities.
 
 ### Anger, Fear and Placation Triggers
 
-- ```FIRE``` There's a fire nearby.
-- ```FRIEND_ATTACKED``` A monster of the same type was attacked.
-- ```FRIEND_DIED``` A monster of the same type died.
-- ```HURT``` The monster is hurt.
+- ```FIRE``` Triggers if there's a fire within 3 tiles, the strength of the effect equals 5 * the field intensity of the fire.
+- ```FRIEND_ATTACKED``` Triggers if the monster sees another monster of the same type being attacked; strength = 15.
+- ```FRIEND_DIED``` Triggers if the monster sees another monster of the same type dying; strength = 15.
+- ```HURT``` Triggers when the monster is hurt, strength equals 1 + (damage / 3 ).
 - ```MEAT``` Meat or a corpse is nearby. - Currently nonfunctional!
 - ```NULL``` Source use only?
-- ```PLAYER_CLOSE``` The player gets within a few tiles distance.
-- ```PLAYER_WEAK``` The player is hurt.
-- ```SOUND``` Heard a sound.
-- ```STALK``` Increases if already angry at the player.
+- ```PLAYER_CLOSE``` Triggers when a potential enemy is within 5 tiles range - Anger/fear trigger only!
+- ```PLAYER_WEAK``` Raises monster aggression by  10 - (percent of hp remaining / 10) if a potential enemy has less than 70% hp remaining - Anger trigger only!
+- ```PLAYER_NEAR_BABY``` Increases monster aggression by 8 and morale by 4 if **the player** comes within 3 tiles of its offspring (defined by the baby_monster field in its reproduction data)- Anger trigger only!
+- ```SOUND``` Not an actual trigger, monsters above 10 aggression and 0 morale will wander towards, monsters below 0 morale will wander away from the source of the sound for 1 turn (6, if they have the GOODHEARING flag).
+- ```STALK``` Raises monster aggresssion by 1, triggers 20% of the time each turn if aggression > 5 - Anger trigger only!
+- ```HOSTILE_SEEN``` Increases aggression/ decreases morale by a random amount between 0-2 for every potential enemy it can see, up to 20 aggression - Anger/fear trigger only!
+- ```MATING_SEASON``` Increases aggression by 3 if a potential enemy is within 5 tiles range and the season is the same as the monster's mating season (defined by the baby_flags field in its reproduction data) - Anger trigger only!
 
 ### Categories
 
