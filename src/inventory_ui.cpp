@@ -95,7 +95,7 @@ struct container_data {
     units::mass total_capacity_weight;
     units::length max_containable_length;
 
-    const std::string to_formatted_string( const bool compact = true ) {
+    std::string to_formatted_string( const bool compact = true ) {
         std::string formatted_string;
         if( compact ) {
             formatted_string = string_format( "%s/%s : %s/%s : max %s", unit_to_string( actual_capacity, true,
