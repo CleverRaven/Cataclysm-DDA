@@ -738,17 +738,22 @@
         "{": "f_fridge"
       },
       "place_items": [
-        { "chance": 65, "item": "cannedfood", "x": 22, "y": 21 },
-        { "chance": 65, "item": "cannedfood", "x": 22, "y": 19 },
-        { "chance": 55, "item": "bowling_food", "x": 5, "y": 21 },
-        { "chance": 55, "item": "bowling_food", "x": 15, "y": 16 },
-        { "chance": 55, "item": "bowling_food", "x": 9, "y": 15 },
+        { "chance": 25, "item": "restaur_table", "x": 4, "y": 14, "repeat": [ 1, 2 ] },
+        { "chance": 25, "item": "restaur_table", "x": 5, "y": [ 20, 21 ], "repeat": [ 1, 2 ] },
+        { "chance": 25, "item": "restaur_table", "x": 9, "y": [ 20, 21 ], "repeat": [ 1, 2 ] },
+        { "chance": 25, "item": "restaur_table", "x": 13, "y": 21, "repeat": [ 1, 2 ] },
+        { "chance": 15, "item": "restaur_table", "x": 9, "y": [15, 16], "repeat": [ 1, 2 ] },
+        { "chance": 55, "item": "restaur_kitchen", "x": 22, "y": [ 15, 16], "repeat": [ 1, 8 ] },
+        { "chance": 55, "item": "restaur_kitchen", "x": 22, "y": [ 19, 21], "repeat": [ 1, 8 ] },
+        { "chance": 75, "item": "restaur_sink", "x": 22, "y": [ 17, 18 ], "repeat": [ 2, 3 ] },
+        { "chance": 55, "item": "SUS_oven", "x": [15, 17], "y": 16, "repeat": [ 2, 3 ]},
         { "chance": 55, "item": "trash", "x": 10, "y": 18 },
         { "chance": 55, "item": "trash", "x": 22, "y": 14 },
         { "chance": 55, "item": "trash", "x": 6, "y": 12 },
         { "chance": 55, "item": "trash", "x": 6, "y": 3 },
-        { "chance": 55, "item": "fridgesnacks", "x": [ 15, 16 ], "y": 21 },
-        { "chance": 35, "item": "fridge", "x": [ 18, 19 ], "y": 21 }
+        { "chance": 50, "item": "behindcounter", "x": 17, "y": 21, "repeat": [ 1, 6 ] },
+        { "chance": 80, "item": "restaur_fridge", "x": [ 15, 16 ], "y": 21, "repeat": [ 2, 8 ] },
+        { "chance": 80, "item": "restaur_fridge", "x": [ 18, 19 ], "y": 21, "repeat": [ 2, 8 ] }
       ],
       "sealed_item": { "^": { "item": { "item": "seed_sugar_beet" }, "furniture": "f_plant_seed" } },
       "place_monster": [
