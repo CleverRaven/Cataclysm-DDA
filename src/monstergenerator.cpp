@@ -527,6 +527,8 @@ void MonsterGenerator::init_death()
     death_map["BROKEN_AMMO"] = &mdeath::broken_ammo;
     // Explode like a huge smoke bomb.
     death_map["SMOKEBURST"] = &mdeath::smokeburst;
+    // Explode like a huge tear gas bomb.
+    death_map["TEARBURST"] = &mdeath::tearburst;
     // Explode with a cloud of fungal haze.
     death_map["FUNGALBURST"] = &mdeath::fungalburst;
     // Snicker-snack!
