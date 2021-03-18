@@ -213,7 +213,7 @@ float sunlight( const time_point &p, const bool vision )
         return moonlight + sunlight;
     } else if( solar_alt < 30_degrees ) {
         // Linear increase from 0° to 30° degrees light increases from 70 to 125 brightness.
-        return to_degrees( solar_alt ) * 11.0/6.0 + 70;
+        return to_degrees( solar_alt ) * 11.0 / 6.0 + 70;
     } else {
         return max_light;
     }
