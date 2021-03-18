@@ -840,7 +840,7 @@ bool item::is_worn_only_with( const item &it ) const
 }
 bool item::is_worn() const
 {
-    return get_player_character().is_worn(*this);
+    return get_player_character().is_worn( *this );
 }
 
 item item::in_its_container( int qty ) const
