@@ -18,7 +18,6 @@
 namespace
 {
 generic_factory<scenario> all_scenarios( "scenario" );
-const string_id<scenario> generic_scenario_id( "evacuee" );
 } // namespace
 
 /** @relates string_id */
@@ -125,6 +124,8 @@ void scenario::load( const JsonObject &jo, const std::string & )
 
 const scenario *scenario::generic()
 {
+    static const string_id<scenario> generic_scenario_id(
+        get_option<std::string>( "GENERIC_SCENARIO_ID" ) );
     return &generic_scenario_id.obj();
 }
 
