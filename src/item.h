@@ -722,6 +722,10 @@ class item : public visitable
         /** Whether this is container. Note that container does not necessarily means it's
          * suitable for liquids. */
         bool is_container() const;
+        /** Whether it is a container, and if it is has some restrictions */
+        bool is_container_with_restriction() const;
+        /** Whether it is a container with only one pocket, and if it is has some restrictions */
+        bool is_single_container_with_restriction() const;
 
         /**
          * Updates the pockets of this item to be correct based on the mods that are installed.
@@ -769,8 +773,14 @@ class item : public visitable
          * It returns the maximum volume of any contents, including liquids,
          * ammo, magazines, weapons, etc.
          */
-        units::volume get_total_capacity() const;
-        units::mass get_total_weight_capacity() const;
+        units::volume get_total_capacity( bool unrestricted_pockets_only = false ) const;
+        units::mass get_total_weight_capacity( bool unrestricted_pockets_only = false ) const;
+
+        units::volume get_remaining_capacity( bool unrestricted_pockets_only = false ) const;
+        units::mass get_remaining_weight_capacity( bool unrestricted_pockets_only = false ) const;
+
+        units::volume get_total_contained_volume( bool unrestricted_pockets_only = false ) const;
+        units::mass get_total_contained_weight( bool unrestricted_pockets_only = false ) const;
 
         // recursive function that checks pockets for remaining free space
         units::volume check_for_free_space() const;
@@ -780,6 +790,7 @@ class item : public visitable
             // what has it gots in them, precious
             return contents.has_pocket_type( item_pocket::pocket_type::CONTAINER );
         }
+        bool has_unrestricted_pockets() const;
         /**
          * Puts the given item into this one.
          */
@@ -1274,7 +1285,7 @@ class item : public visitable
         std::pair<item_location, item_pocket *> best_pocket( const item &it, item_location &parent,
                 bool allow_sealed = false );
 
-        units::length max_containable_length() const;
+        units::length max_containable_length( bool unrestricted_pockets_only = false ) const;
         units::volume max_containable_volume() const;
 
         /**
