@@ -230,7 +230,7 @@ TEST_CASE( "vehicle_drag", "[vehicle] [engine]" )
     clear_game_drag( ter_id( "t_pavement" ) );
 
     test_vehicle_drag( "bicycle", 0.609525, 0.008953, 22.535417, 1431, 1871 );
-    test_vehicle_drag( "bicycle_electric", 0.609525, 0.019330, 48.652083, 2314, 2519 );
+    test_vehicle_drag( "bicycle_electric", 0.609525, 0.018005, 45.318750, 2338, 2564 );
     test_vehicle_drag( "motorcycle", 0.609525, 0.569952, 254.820312, 7296, 8687 );
     test_vehicle_drag( "motorcycle_sidecart", 0.880425, 0.859065, 455.206250, 6423, 7657 );
     test_vehicle_drag( "quad_bike", 0.537285, 1.112797, 710.745536, 7457, 8918 );

@@ -42,7 +42,6 @@ static const std::string flag_DIGGABLE( "DIGGABLE" );
 static const std::string flag_FLAMMABLE( "FLAMMABLE" );
 static const std::string flag_FLAT( "FLAT" );
 static const std::string flag_FLOWER( "FLOWER" );
-static const std::string flag_FUNGUS( "FUNGUS" );
 static const std::string flag_ORGANIC( "ORGANIC" );
 static const std::string flag_PLANT( "PLANT" );
 static const std::string flag_SHRUB( "SHRUB" );
@@ -132,7 +131,7 @@ void fungal_effects::marlossify( const tripoint &p )
         return;
     }
     for( int i = 0; i < 25; i++ ) {
-        bool is_fungi = m.has_flag_ter( flag_FUNGUS, p );
+        bool is_fungi = m.has_flag_ter( TFLAG_FUNGUS, p );
         spread_fungus( p );
         if( is_fungi ) {
             return;
@@ -252,12 +251,12 @@ void fungal_effects::spread_fungus( const tripoint &p )
         if( tmp == p ) {
             continue;
         }
-        if( m.has_flag( flag_FUNGUS, tmp ) ) {
+        if( m.has_flag( TFLAG_FUNGUS, tmp ) ) {
             growth += 1;
         }
     }
 
-    if( !m.has_flag_ter( flag_FUNGUS, p ) ) {
+    if( !m.has_flag_ter( TFLAG_FUNGUS, p ) ) {
         spread_fungus_one_tile( p, growth );
     } else {
         // Everything is already fungus
@@ -266,7 +265,7 @@ void fungal_effects::spread_fungus( const tripoint &p )
         }
         for( const tripoint &dest : here.points_in_radius( p, 1 ) ) {
             // One spread on average
-            if( !m.has_flag( flag_FUNGUS, dest ) && one_in( 9 - growth ) ) {
+            if( !m.has_flag( TFLAG_FUNGUS, dest ) && one_in( 9 - growth ) ) {
                 //growth chance is 100 in X simplified
                 spread_fungus_one_tile( dest, 10 );
             }

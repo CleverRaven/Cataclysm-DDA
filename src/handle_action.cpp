@@ -1299,7 +1299,12 @@ static void read()
             spell_book.get_use( "learn_spell" )->call( player_character, spell_book,
                     spell_book.active, player_character.pos() );
         } else {
-            player_character.read( *loc.obtain( player_character ) );
+            item_location obtained = loc.obtain( player_character );
+            if( obtained ) {
+                player_character.read( *obtained );
+            } else {
+                add_msg( _( "You can't pick up the book!" ) );
+            }
         }
     } else {
         add_msg( _( "Never mind." ) );

@@ -23,7 +23,6 @@
 #include "character_martial_arts.h"
 #include "character_oracle.h"
 #include "color.h"
-#include "compatibility.h"
 #include "creature.h"
 #include "cursesdef.h"
 #include "debug.h"
@@ -123,7 +122,8 @@ static std::pair<nc_color, std::string> str_string( const avatar &p )
     } else if( p.get_str() < p.get_str_base() ) {
         clr = c_red;
     }
-    return std::make_pair( clr, _( "Str " ) + ( p.get_str() < 100 ? to_string( p.get_str() ) : "++" ) );
+    return std::make_pair( clr, _( "Str " ) + ( p.get_str() < 100 ? std::to_string(
+                               p.get_str() ) : "++" ) );
 }
 
 static std::pair<nc_color, std::string> dex_string( const avatar &p )
@@ -137,7 +137,8 @@ static std::pair<nc_color, std::string> dex_string( const avatar &p )
     } else if( p.get_dex() < p.get_dex_base() ) {
         clr = c_red;
     }
-    return std::make_pair( clr, _( "Dex " ) + ( p.get_dex() < 100 ? to_string( p.get_dex() ) : "++" ) );
+    return std::make_pair( clr, _( "Dex " ) + ( p.get_dex() < 100 ? std::to_string(
+                               p.get_dex() ) : "++" ) );
 }
 
 static std::pair<nc_color, std::string> int_string( const avatar &p )
@@ -151,7 +152,8 @@ static std::pair<nc_color, std::string> int_string( const avatar &p )
     } else if( p.get_int() < p.get_int_base() ) {
         clr = c_red;
     }
-    return std::make_pair( clr, _( "Int " ) + ( p.get_int() < 100 ? to_string( p.get_int() ) : "++" ) );
+    return std::make_pair( clr, _( "Int " ) + ( p.get_int() < 100 ? std::to_string(
+                               p.get_int() ) : "++" ) );
 }
 
 static std::pair<nc_color, std::string> per_string( const avatar &p )
@@ -165,7 +167,8 @@ static std::pair<nc_color, std::string> per_string( const avatar &p )
     } else if( p.get_per() < p.get_per_base() ) {
         clr = c_red;
     }
-    return std::make_pair( clr, _( "Per " ) + ( p.get_per() < 100 ? to_string( p.get_per() ) : "++" ) );
+    return std::make_pair( clr, _( "Per " ) + ( p.get_per() < 100 ? std::to_string(
+                               p.get_per() ) : "++" ) );
 }
 
 static nc_color focus_color( int focus )
@@ -832,13 +835,13 @@ static std::pair<nc_color, std::string> power_stat( const avatar &u )
         }
 
         if( u.get_power_level() < 1_J ) {
-            s_pwr = to_string( units::to_millijoule( u.get_power_level() ) ) +
+            s_pwr = std::to_string( units::to_millijoule( u.get_power_level() ) ) +
                     pgettext( "energy unit: millijoule", "mJ" );
         } else if( u.get_power_level() < 1_kJ ) {
-            s_pwr = to_string( units::to_joule( u.get_power_level() ) ) +
+            s_pwr = std::to_string( units::to_joule( u.get_power_level() ) ) +
                     pgettext( "energy unit: joule", "J" );
         } else {
-            s_pwr = to_string( units::to_kilojoule( u.get_power_level() ) ) +
+            s_pwr = std::to_string( units::to_kilojoule( u.get_power_level() ) ) +
                     pgettext( "energy unit: kilojoule", "kJ" );
         }
     }
@@ -858,7 +861,7 @@ static std::pair<nc_color, std::string> mana_stat( const player &u )
         } else if( u.magic->available_mana() >= u.magic->max_mana( u ) / 3 ) {
             c_mana = c_yellow;
         }
-        s_mana = to_string( u.magic->available_mana() );
+        s_mana = std::to_string( u.magic->available_mana() );
     }
     return std::make_pair( c_mana, s_mana );
 }
@@ -996,12 +999,12 @@ static void draw_limb2( avatar &u, const catacurses::window &w )
 static std::pair<translation, nc_color> weariness_description( size_t weariness )
 {
     static const std::array<std::pair<translation, nc_color>, 6> weary_descriptions { {
-            {to_translation( "Fresh" ), c_green},
-            {to_translation( "Light" ), c_yellow },
-            {to_translation( "Moderate" ), c_light_red},
-            {to_translation( "Weary" ), c_light_red },
-            {to_translation( "Very" ), c_red },
-            {to_translation( "Extreme" ), c_red }
+            {to_translation( "weariness description", "Fresh" ), c_green},
+            {to_translation( "weariness description", "Light" ), c_yellow },
+            {to_translation( "weariness description", "Moderate" ), c_light_red},
+            {to_translation( "weariness description", "Weary" ), c_light_red },
+            {to_translation( "weariness description", "Very" ), c_red },
+            {to_translation( "weariness description", "Extreme" ), c_red }
         } };
     // We can have more than level 5, but we don't really care about it
     if( weariness >= weary_descriptions.size() ) {
@@ -1013,12 +1016,12 @@ static std::pair<translation, nc_color> weariness_description( size_t weariness 
 static std::string activity_level_str( float level )
 {
     static const std::array<translation, 6> activity_descriptions { {
-            to_translation( "None" ),
-            to_translation( "Light" ),
-            to_translation( "Moderate" ),
-            to_translation( "Brisk" ),
-            to_translation( "Active" ),
-            to_translation( "Extreme" ),
+            to_translation( "activity description", "None" ),
+            to_translation( "activity description", "Light" ),
+            to_translation( "activity description", "Moderate" ),
+            to_translation( "activity description", "Brisk" ),
+            to_translation( "activity description", "Active" ),
+            to_translation( "activity description", "Extreme" ),
         } };
     // Activity levels are 1, 2, 4, 6, 8, 10
     // So we can easily cut them in half and round down for an index
@@ -1034,22 +1037,22 @@ static void draw_stats( avatar &u, const catacurses::window &w )
     mvwprintz( w, point_zero, c_light_gray, _( "STR" ) );
     int stat = u.get_str();
     mvwprintz( w, point( stat < 10 ? 5 : 4, 0 ), stat_clr,
-               stat < 100 ? to_string( stat ) : "99+" );
+               stat < 100 ? std::to_string( stat ) : "99+" );
     stat_clr = dex_string( u ).first;
     stat = u.get_dex();
     mvwprintz( w, point( 9, 0 ), c_light_gray, _( "DEX" ) );
     mvwprintz( w, point( stat < 10 ? 14 : 13, 0 ), stat_clr,
-               stat < 100 ? to_string( stat ) : "99+" );
+               stat < 100 ? std::to_string( stat ) : "99+" );
     stat_clr = int_string( u ).first;
     stat = u.get_int();
     mvwprintz( w, point( 17, 0 ), c_light_gray, _( "INT" ) );
     mvwprintz( w, point( stat < 10 ? 22 : 21, 0 ), stat_clr,
-               stat < 100 ? to_string( stat ) : "99+" );
+               stat < 100 ? std::to_string( stat ) : "99+" );
     stat_clr = per_string( u ).first;
     stat = u.get_per();
     mvwprintz( w, point( 25, 0 ), c_light_gray, _( "PER" ) );
     mvwprintz( w, point( stat < 10 ? 30 : 29, 0 ), stat_clr,
-               stat < 100 ? to_string( stat ) : "99+" );
+               stat < 100 ? std::to_string( stat ) : "99+" );
 
     int weariness = u.weariness_level();
     std::pair<translation, nc_color> weary = weariness_description( weariness );
@@ -1093,13 +1096,13 @@ static void draw_stealth( avatar &u, const catacurses::window &w )
     mvwprintz( w, point_zero, c_light_gray, _( "Speed" ) );
     mvwprintz( w, point( 7, 0 ), value_color( u.get_speed() ), "%s", u.get_speed() );
     nc_color move_color = move_mode_color( u );
-    std::string move_string = to_string( u.movecounter ) + move_mode_string( u );
+    std::string move_string = std::to_string( u.movecounter ) + move_mode_string( u );
     mvwprintz( w, point( 15 - utf8_width( move_string ), 0 ), move_color, move_string );
     if( u.is_deaf() ) {
         mvwprintz( w, point( 22, 0 ), c_red, _( "DEAF" ) );
     } else {
         mvwprintz( w, point( 20, 0 ), c_light_gray, _( "Sound:" ) );
-        const std::string snd = to_string( u.volume );
+        const std::string snd = std::to_string( u.volume );
         mvwprintz( w, point( 30 - utf8_width( snd ), 0 ), u.volume != 0 ? c_yellow : c_light_gray, snd );
     }
 
@@ -1155,7 +1158,7 @@ static void draw_time( const avatar &u, const catacurses::window &w )
     werase( w );
     // display date
     mvwprintz( w, point_zero, c_light_gray, calendar::name_season( season_of_year( calendar::turn ) ) );
-    std::string day = to_string( day_of_season<int>( calendar::turn ) + 1 );
+    std::string day = std::to_string( day_of_season<int>( calendar::turn ) + 1 );
     mvwprintz( w, point( 10 - utf8_width( day ), 0 ), c_light_gray, day );
     // display time
     if( u.has_watch() ) {
@@ -1195,7 +1198,7 @@ static void draw_needs_compact( const avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 17 + utf8_width( pair.second ), 1 ), arrow.first, arrow.second );
 
     mvwprintz( w, point( 17, 2 ), c_light_gray, _( "Focus" ) );
-    mvwprintz( w, point( 24, 2 ), focus_color( u.get_focus() ), to_string( u.get_focus() ) );
+    mvwprintz( w, point( 24, 2 ), focus_color( u.get_focus() ), std::to_string( u.get_focus() ) );
 
     wnoutrefresh( w );
 }
@@ -1618,7 +1621,7 @@ static void draw_sound_labels( const avatar &u, const catacurses::window &w )
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Sound:" ) );
     if( !u.is_deaf() ) {
-        mvwprintz( w, point( 8, 0 ), c_yellow, to_string( u.volume ) );
+        mvwprintz( w, point( 8, 0 ), c_yellow, std::to_string( u.volume ) );
     } else {
         mvwprintz( w, point( 8, 0 ), c_red, _( "Deaf!" ) );
     }
@@ -1631,7 +1634,7 @@ static void draw_sound_narrow( const avatar &u, const catacurses::window &w )
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Sound:" ) );
     if( !u.is_deaf() ) {
-        mvwprintz( w, point( 8, 0 ), c_yellow, to_string( u.volume ) );
+        mvwprintz( w, point( 8, 0 ), c_yellow, std::to_string( u.volume ) );
     } else {
         mvwprintz( w, point( 8, 0 ), c_red, _( "Deaf!" ) );
     }
@@ -1738,7 +1741,7 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
     needs_pair = u.get_thirst_description();
     mvwprintz( w, point( 21, 2 ), needs_pair.second, needs_pair.first );
     mvwprintz( w, point( 21, 4 ), c_white, _( "Focus" ) );
-    mvwprintz( w, point( 27, 4 ), c_white, to_string( u.get_focus() ) );
+    mvwprintz( w, point( 27, 4 ), c_white, std::to_string( u.get_focus() ) );
     needs_pair = u.get_fatigue_description();
     mvwprintz( w, point( 21, 3 ), needs_pair.second, needs_pair.first );
     auto pain_pair = u.get_pain_description();
@@ -1782,9 +1785,9 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
     // speed
     if( !veh ) {
         mvwprintz( w, point( 21, 5 ), u.get_speed() < 100 ? c_red : c_white,
-                   _( "Spd " ) + to_string( u.get_speed() ) );
+                   _( "Spd " ) + std::to_string( u.get_speed() ) );
         nc_color move_color = move_mode_color( u );
-        std::string move_string = to_string( u.movecounter ) + " " + move_mode_string( u );
+        std::string move_string = std::to_string( u.movecounter ) + " " + move_mode_string( u );
         mvwprintz( w, point( 29, 5 ), move_color, move_string );
     }
 
@@ -2010,7 +2013,7 @@ static void draw_lighting_classic( const avatar &u, const catacurses::window &w 
 
     if( !u.is_deaf() ) {
         mvwprintz( w, point( 31, 0 ), c_light_gray, _( "Sound:" ) );
-        mvwprintz( w, point( 38, 0 ), c_yellow, to_string( u.volume ) );
+        mvwprintz( w, point( 38, 0 ), c_yellow, std::to_string( u.volume ) );
     } else {
         mvwprintz( w, point( 31, 0 ), c_red, _( "Deaf!" ) );
     }
@@ -2043,7 +2046,7 @@ static void draw_time_classic( const avatar &u, const catacurses::window &w )
     // display date
     mvwprintz( w, point_zero, c_white,
                calendar::name_season( season_of_year( calendar::turn ) ) + "," );
-    std::string day = to_string( day_of_season<int>( calendar::turn ) + 1 );
+    std::string day = std::to_string( day_of_season<int>( calendar::turn ) + 1 );
     mvwprintz( w, point( 8, 0 ), c_white, _( "Day " ) + day );
     // display time
     if( u.has_watch() ) {
@@ -2240,7 +2243,7 @@ static void print_mana( const player &u, const catacurses::window &w, const std:
                                     colorize( utf8_justify( mana_pair.second, j2 ), mana_pair.first ),
                                     //~ translation should not exceed 9 console cells
                                     utf8_justify( _( "Max Mana" ), j3 ),
-                                    colorize( utf8_justify( to_string( u.magic->max_mana( u ) ), j4 ), c_light_blue ) );
+                                    colorize( utf8_justify( std::to_string( u.magic->max_mana( u ) ), j4 ), c_light_blue ) );
     nc_color gray = c_light_gray;
     print_colored_text( w, point_zero, gray, gray, mana_string );
 
@@ -2641,9 +2644,10 @@ void panel_manager::show_adm()
 
     catacurses::window w;
 
+    const int popup_height = 24;
     ui_adaptor ui;
     ui.on_screen_resize( [&]( ui_adaptor & ui ) {
-        w = catacurses::newwin( 21, 75,
+        w = catacurses::newwin( popup_height, 75,
                                 point( ( TERMX / 2 ) - 38, ( TERMY / 2 ) - 10 ) );
 
         ui.position_from_window( w );
@@ -2686,8 +2690,9 @@ void panel_manager::show_adm()
             col_offset += column_widths[i];
         }
         mvwprintz( w, point( 1 + ( col_offset ), current_row + 1 ), c_yellow, ">>" );
-        mvwvline( w, point( column_widths[0], 1 ), 0, 19 );
-        mvwvline( w, point( column_widths[0] + column_widths[1], 1 ), 0, 19 );
+        // Draw vertical separators
+        mvwvline( w, point( column_widths[0], 1 ), 0, popup_height - 2 );
+        mvwvline( w, point( column_widths[0] + column_widths[1], 1 ), 0, popup_height - 2 );
 
         col_offset = column_widths[0] + 2;
         int col_width = column_widths[1] - 4;

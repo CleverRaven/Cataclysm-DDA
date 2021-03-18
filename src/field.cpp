@@ -109,33 +109,29 @@ Function: find_field
 Returns a field entry corresponding to the field_type_id parameter passed in. If no fields are found then returns NULL.
 Good for checking for existence of a field: if(myfield.find_field(fd_fire)) would tell you if the field is on fire.
 */
-field_entry *field::find_field( const field_type_id &field_type_to_find )
+field_entry *field::find_field( const field_type_id &field_type_to_find, const bool alive_only )
 {
     if( !_displayed_field_type ) {
         return nullptr;
     }
     const auto it = _field_type_list.find( field_type_to_find );
-    if( it != _field_type_list.end() ) {
+    if( it != _field_type_list.end() && ( !alive_only || it->second.is_field_alive() ) ) {
         return &it->second;
     }
     return nullptr;
 }
 
-const field_entry *field::find_field_c( const field_type_id &field_type_to_find ) const
+const field_entry *field::find_field( const field_type_id &field_type_to_find,
+                                      const bool alive_only ) const
 {
     if( !_displayed_field_type ) {
         return nullptr;
     }
     const auto it = _field_type_list.find( field_type_to_find );
-    if( it != _field_type_list.end() ) {
+    if( it != _field_type_list.end() && ( !alive_only || it->second.is_field_alive() ) ) {
         return &it->second;
     }
     return nullptr;
-}
-
-const field_entry *field::find_field( const field_type_id &field_type_to_find ) const
-{
-    return find_field_c( field_type_to_find );
 }
 
 /*
@@ -156,7 +152,12 @@ bool field::add_field( const field_type_id &field_type_to_add, const int new_int
     auto it = _field_type_list.find( field_type_to_add );
     if( it != _field_type_list.end() ) {
         //Already exists, but lets update it. This is tentative.
-        it->second.set_field_intensity( it->second.get_field_intensity() + new_intensity );
+        int prev_intensity = it->second.get_field_intensity();
+        if( !it->second.is_field_alive() ) {
+            it->second.set_field_age( new_age );
+            prev_intensity = 0;
+        }
+        it->second.set_field_intensity( prev_intensity + new_intensity );
         return false;
     }
     if( !_displayed_field_type ||
@@ -188,6 +189,12 @@ void field::remove_field( std::map<field_type_id, field_entry>::iterator const i
             }
         }
     }
+}
+
+void field::clear()
+{
+    _field_type_list.clear();
+    _displayed_field_type = fd_null;
 }
 
 /*

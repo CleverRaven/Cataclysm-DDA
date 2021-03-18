@@ -6,6 +6,7 @@
 #include <iosfwd>
 #include <vector>
 
+#include "item_location.h"
 #include "point.h"
 #include "units.h" // IWYU pragma: keep
 
@@ -98,7 +99,7 @@ class advanced_inv_area
         // does _not_ check vehicle storage, do that with `can_store_in_vehicle()' below
         bool canputitems( const advanced_inv_listitem *advitem = nullptr );
         // if you want vehicle cargo, specify so via `in_vehicle'
-        item *get_container( bool in_vehicle = false );
+        item_location get_container( bool in_vehicle = false );
         void set_container( const advanced_inv_listitem *advitem );
         bool is_container_valid( const item *it ) const;
         void set_container_position();

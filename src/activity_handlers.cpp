@@ -107,7 +107,6 @@ static const efftype_id effect_sheared( "sheared" );
 static const activity_id ACT_ADV_INVENTORY( "ACT_ADV_INVENTORY" );
 static const activity_id ACT_ARMOR_LAYERS( "ACT_ARMOR_LAYERS" );
 static const activity_id ACT_ATM( "ACT_ATM" );
-static const activity_id ACT_AUTODRIVE( "ACT_AUTODRIVE" );
 static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_BLEED( "ACT_BLEED" );
 static const activity_id ACT_BUTCHER( "ACT_BUTCHER" );
@@ -204,6 +203,7 @@ static const itype_id itype_mind_scan_robofac( "mind_scan_robofac" );
 static const itype_id itype_muscle( "muscle" );
 static const itype_id itype_nail( "nail" );
 static const itype_id itype_pipe( "pipe" );
+static const itype_id itype_rebar( "rebar" );
 static const itype_id itype_scrap( "scrap" );
 static const itype_id itype_sheet_metal( "sheet_metal" );
 static const itype_id itype_spike( "spike" );
@@ -654,7 +654,7 @@ int butcher_time_to_cut( const player &u, const item &corpse_item, const butcher
     const mtype &corpse = *corpse_item.get_mtype();
     const int factor = u.max_quality( action == butcher_type::DISSECT ? qual_CUT_FINE : qual_BUTCHER );
 
-    int time_to_cut = 0;
+    int time_to_cut;
     switch( corpse.size ) {
         // Time (roughly) in turns to cut up the corpse
         case creature_size::tiny:
@@ -672,16 +672,14 @@ int butcher_time_to_cut( const player &u, const item &corpse_item, const butcher
         case creature_size::huge:
             time_to_cut = 1800;
             break;
-        case creature_size::num_sizes:
+        default:
             debugmsg( "ERROR: Invalid creature_size on %s", corpse.nname() );
+            time_to_cut = 450; // default to medium
             break;
     }
 
     // At factor 0, base 100 time_to_cut remains 100. At factor 50, it's 50 , at factor 75 it's 25
     time_to_cut *= std::max( 25, 100 - factor );
-    if( time_to_cut < 3000 ) {
-        time_to_cut = 3000;
-    }
 
     switch( action ) {
         case butcher_type::QUICK:
@@ -2313,6 +2311,10 @@ void activity_handlers::oxytorch_finish( player_activity *act, player *p )
         here.ter_set( pos, t_mdoor_frame );
         here.spawn_item( pos, itype_steel_plate, rng( 0, 1 ) );
         here.spawn_item( pos, itype_steel_chunk, rng( 3, 8 ) );
+    } else if( ter == t_wall_metal ) {
+        here.ter_set( pos, t_scrap_wall_halfway );
+        here.spawn_item( pos, itype_steel_plate, rng( 2, 3 ) );
+        here.spawn_item( pos, itype_steel_chunk, rng( 12, 20 ) );
     } else if( ter == t_window_enhanced || ter == t_window_enhanced_noglass ) {
         here.ter_set( pos, t_window_empty );
         here.spawn_item( pos, itype_steel_plate, rng( 0, 1 ) );
@@ -2334,10 +2336,13 @@ void activity_handlers::oxytorch_finish( player_activity *act, player *p )
         }
     } else if( ter == t_window_bars_alarm ) {
         here.ter_set( pos, t_window_alarm );
-        here.spawn_item( p->pos(), itype_pipe, rng( 1, 2 ) );
+        here.spawn_item( p->pos(), itype_rebar, rng( 1, 2 ) );
     } else if( ter == t_window_bars ) {
         here.ter_set( pos, t_window_empty );
-        here.spawn_item( p->pos(), itype_pipe, rng( 1, 2 ) );
+        here.spawn_item( p->pos(), itype_rebar, rng( 1, 2 ) );
+    } else if( ter == t_window_bars_curtains || ter == t_window_bars_domestic ) {
+        here.ter_set( pos, t_window_domestic );
+        here.spawn_item( p->pos(), itype_rebar, rng( 1, 2 ) );
     } else if( furn == f_safe_l || furn == f_gunsafe_ml || furn == f_gunsafe_mj ||
                furn == f_gun_safe_el ) {
         here.furn_set( pos, f_safe_o );
@@ -2345,6 +2350,17 @@ void activity_handlers::oxytorch_finish( player_activity *act, player *p )
         if( here.flammable_items_at( pos ) && rng( 1, 100 ) < 50 ) {
             here.add_field( pos, fd_fire, 1, 10_minutes );
         }
+    } else if( ter == t_metal_grate_window || ter == t_metal_grate_window_with_curtain ||
+               ter == t_metal_grate_window_with_curtain_open ) {
+        here.ter_set( pos, t_window_reinforced );
+        here.spawn_item( p->pos(), itype_pipe, rng( 1, 12 ) );
+        here.spawn_item( p->pos(), itype_sheet_metal, 4 );
+    } else if( ter == t_metal_grate_window_noglass ||
+               ter == t_metal_grate_window_with_curtain_noglass ||
+               ter == t_metal_grate_window_with_curtain_open_noglass ) {
+        here.ter_set( pos, t_window_reinforced_noglass );
+        here.spawn_item( p->pos(), itype_pipe, rng( 1, 12 ) );
+        here.spawn_item( p->pos(), itype_sheet_metal, 4 );
     }
 }
 
@@ -3576,10 +3592,13 @@ void activity_handlers::hacksaw_finish( player_activity *act, player *p )
         here.spawn_item( p->pos(), itype_pipe, 6 );
     } else if( ter == t_window_bars_alarm ) {
         here.ter_set( pos, t_window_alarm );
-        here.spawn_item( p->pos(), itype_pipe, 6 );
+        here.spawn_item( p->pos(), itype_rebar, rng( 1, 8 ) );
+    } else if( ter == t_window_bars_curtains || ter == t_window_bars_domestic ) {
+        here.ter_set( pos, t_window_domestic );
+        here.spawn_item( p->pos(), itype_rebar, rng( 1, 8 ) );
     } else if( ter == t_window_bars ) {
         here.ter_set( pos, t_window_empty );
-        here.spawn_item( p->pos(), itype_pipe, 6 );
+        here.spawn_item( p->pos(), itype_rebar, rng( 1, 8 ) );
     } else if( ter == t_window_enhanced ) {
         here.ter_set( pos, t_window_reinforced );
         here.spawn_item( p->pos(), itype_spike, rng( 1, 4 ) );
@@ -3604,6 +3623,17 @@ void activity_handlers::hacksaw_finish( player_activity *act, player *p )
     } else if( ter == t_door_bar_c || ter == t_door_bar_locked ) {
         here.ter_set( pos, t_mdoor_frame );
         here.spawn_item( p->pos(), itype_pipe, 12 );
+    } else if( ter == t_metal_grate_window || ter == t_metal_grate_window_with_curtain ||
+               ter == t_metal_grate_window_with_curtain_open ) {
+        here.ter_set( pos, t_window_reinforced );
+        here.spawn_item( p->pos(), itype_pipe, rng( 1, 12 ) );
+        here.spawn_item( p->pos(), itype_sheet_metal, 4 );
+    } else if( ter == t_metal_grate_window_noglass ||
+               ter == t_metal_grate_window_with_curtain_noglass ||
+               ter == t_metal_grate_window_with_curtain_open_noglass ) {
+        here.ter_set( pos, t_window_reinforced_noglass );
+        here.spawn_item( p->pos(), itype_pipe, rng( 1, 12 ) );
+        here.spawn_item( p->pos(), itype_sheet_metal, 4 );
     }
 
     p->mod_stored_nutr( 5 );
@@ -4278,9 +4308,6 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
             case magic_energy_type::hp:
                 blood_magic( p, cost );
                 break;
-            case magic_energy_type::fatigue:
-                p->mod_fatigue( cost );
-                break;
             case magic_energy_type::none:
             default:
                 break;
@@ -4302,8 +4329,6 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
                                       spell_being_cast.xp() );
             }
             if( spell_being_cast.get_level() != old_level ) {
-                get_event_bus().send<event_type::player_levels_spell>( p->getID(),
-                        spell_being_cast.id(), spell_being_cast.get_level() );
                 // Level 0-1 message is printed above - notify player when leveling up further
                 if( old_level > 0 ) {
                     p->add_msg_if_player( m_good, _( "You gained a level in %s!" ), spell_being_cast.name() );
@@ -4337,6 +4362,8 @@ void activity_handlers::study_spell_do_turn( player_activity *act, player *p )
         const int xp = roll_remainder( studying.exp_modifier( *p ) / to_turns<float>( 6_seconds ) );
         act->values[0] += xp;
         studying.gain_exp( xp );
+        p->practice( studying.skill(), xp, studying.get_difficulty() );
+
         // Notify player if the spell leveled up
         if( studying.get_level() > old_level ) {
             p->add_msg_if_player( m_good, _( "You gained a level in %s!" ), studying.name() );
@@ -4352,8 +4379,6 @@ void activity_handlers::study_spell_finish( player_activity *act, player *p )
     if( act->get_str_value( 1 ) == "study" ) {
         p->add_msg_if_player( m_good, _( "You gained %i experience from your study session." ),
                               total_exp_gained );
-        const spell &sp = p->magic->get_spell( spell_id( act->name ) );
-        p->practice( sp.skill(), total_exp_gained, sp.get_difficulty() );
     } else if( act->get_str_value( 1 ) == "learn" && act->values[2] == 0 ) {
         p->magic->learn_spell( act->name, *p );
     }

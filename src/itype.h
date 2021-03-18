@@ -161,8 +161,8 @@ struct islot_comestible {
         /**Amount of radiation you get from this comestible*/
         int radiation = 0;
 
-        /** freezing point in degrees Fahrenheit, below this temperature item can freeze */
-        int freeze_point = temperatures::freezing;
+        /** freezing point in degrees celsius, below this temperature item can freeze */
+        float freeze_point = 0;
 
         /**List of diseases carried by this comestible and their associated probability*/
         std::map<diseasetype_id, int> contamination;
@@ -1126,8 +1126,10 @@ struct itype {
         const use_function *get_use( const std::string &iuse_name ) const;
 
         // Here "invoke" means "actively use". "Tick" means "active item working"
-        int invoke( player &p, item &it, const tripoint &pos ) const; // Picks first method or returns 0
-        int invoke( player &p, item &it, const tripoint &pos, const std::string &iuse_name ) const;
+        cata::optional<int> invoke( player &p, item &it,
+                                    const tripoint &pos ) const; // Picks first method or returns 0
+        cata::optional<int> invoke( player &p, item &it, const tripoint &pos,
+                                    const std::string &iuse_name ) const;
         int tick( player &p, item &it, const tripoint &pos ) const;
 
         virtual ~itype() = default;

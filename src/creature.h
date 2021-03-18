@@ -44,6 +44,7 @@ class anatomy;
 class avatar;
 class field;
 class field_entry;
+class npc;
 class player;
 class time_duration;
 struct point;
@@ -261,6 +262,12 @@ class Creature : public location, public viewer
             return nullptr;
         }
         virtual const avatar *as_avatar() const {
+            return nullptr;
+        }
+        virtual const npc *as_npc() {
+            return nullptr;
+        }
+        virtual const npc *as_npc() const {
             return nullptr;
         }
         virtual monster *as_monster() {
@@ -1136,8 +1143,6 @@ class Creature : public location, public viewer
 
     private:
         int pain;
-
-
         // calculate how well the projectile hits
         double accuracy_projectile_attack( dealt_projectile_attack &attack ) const;
         // what bodypart does the projectile hit

@@ -95,6 +95,7 @@
       "sloc_horse_ranch",
       "sloc_lighthouse_ground",
       "sloc_cabin_lake",
+      "sloc_lodge_ground",
       "sloc_freshwater_research_station"
     ],
     "start_name": "Safe Building",
@@ -296,6 +297,7 @@
       "sloc_hermit_shack",
       "sloc_farm_survivalist",
       "sloc_campsite",
+      "sloc_lodge_ground",
       "sloc_campground"
     ],
     "start_name": "Outside Town",
@@ -314,6 +316,7 @@
       "sloc_field",
       "sloc_forest",
       "sloc_cabin",
+      "sloc_lodge_ground",
       "sloc_hermit_shack",
       "sloc_farm_survivalist",
       "sloc_campsite",

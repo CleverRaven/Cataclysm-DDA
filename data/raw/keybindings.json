@@ -631,10 +631,17 @@
   },
   {
     "type": "keybinding",
-    "id": "CYCLE_MODE",
+    "id": "SCROLL_RECIPE_INFO_UP",
     "category": "CRAFTING",
-    "name": "Cycle display mode",
-    "bindings": [ { "input_method": "keyboard_any", "key": "m" } ]
+    "name": "Scroll recipe info up",
+    "bindings": [ { "input_method": "keyboard_any", "key": "[" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "SCROLL_RECIPE_INFO_DOWN",
+    "category": "CRAFTING",
+    "name": "Scroll recipe info down",
+    "bindings": [ { "input_method": "keyboard_any", "key": "]" } ]
   },
   {
     "type": "keybinding",
@@ -2235,6 +2242,27 @@
     "name": "View Radiation Map",
     "category": "DEFAULTMODE",
     "id": "debug_radiation"
+  },
+  {
+    "type": "keybinding",
+    "category": "DEBUG_SPELLS",
+    "id": "TOGGLE_ALL_SPELL",
+    "name": "Toggle all spells",
+    "bindings": [ { "input_method": "keyboard_any", "key": "t" } ]
+  },
+  {
+    "type": "keybinding",
+    "category": "DEBUG_SPELLS",
+    "id": "UNLEARN_SPELL",
+    "name": "Unlearn a spell",
+    "bindings": [ { "input_method": "keyboard_any", "key": "u" } ]
+  },
+  {
+    "type": "keybinding",
+    "category": "DEBUG_SPELLS",
+    "id": "SHOW_ONLY_LEARNED",
+    "name": "Show only learned",
+    "bindings": [ { "input_method": "keyboard_any", "key": "a" } ]
   },
   {
     "type": "keybinding",

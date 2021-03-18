@@ -343,7 +343,7 @@
     "id": "magus_summon_impact_sling",
     "type": "SPELL",
     "name": { "str": "Impact Sling" },
-    "description": "This spell infuses a sling with tremendous force, delivering devasting pebble shots until the energy tears it apart.",
+    "description": "This spell infuses a sling with tremendous force, delivering devastating pebble shots until the energy tears it apart.",
     "effect": "spawn_item",
     "effect_str": "impactsling",
     "shape": "blast",

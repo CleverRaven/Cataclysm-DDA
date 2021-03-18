@@ -62,7 +62,7 @@ class harvest_list
             return entries().empty();
         }
 
-        bool has_entry_type( std::string type ) const;
+        bool has_entry_type( const std::string &type ) const;
 
         /**
          * Returns a set of cached, translated names of the items this harvest entry could produce.
@@ -88,6 +88,8 @@ class harvest_list
 
         /** Check consistency of all loaded harvest data */
         static void check_consistency();
+        /** Reset all loaded harvest data */
+        static void reset();
 
         bool was_loaded = false;
         void load( const JsonObject &obj, const std::string & );

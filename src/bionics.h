@@ -10,6 +10,7 @@
 #include <vector>
 
 #include "calendar.h"
+#include "enums.h"
 #include "flat_set.h"
 #include "magic.h"
 #include "optional.h"
@@ -82,6 +83,9 @@ struct bionic_data {
 
     float vitamin_absorb_mod = 1.0f;
 
+    // Bonus or penalty to social checks (additive).  50 adds 50% to success, -25 subtracts 25%
+    social_modifiers social_mods;
+
     /** bionic enchantments */
     std::vector<enchantment_id> enchantments;
 
@@ -109,6 +113,10 @@ struct bionic_data {
      * E.g. enhanced optic bionic may cancel HYPEROPIC trait.
      */
     std::vector<trait_id> canceled_mutations;
+    /**
+     * Mutations/traits that prevent installing this CBM
+     */
+    std::set<trait_id> mutation_conflicts;
 
     /**
      * The spells you learn when you install this bionic, and what level you learn them at.

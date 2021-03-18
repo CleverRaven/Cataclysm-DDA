@@ -67,7 +67,14 @@
     "floor_bedding_warmth": 500,
     "bonus_fire_warmth_feet": 1000,
     "required_str": 7,
-    "deconstruct": { "items": [ { "item": "pipe", "count": 10 }, { "item": "rag", "count": [ 30, 33 ] }, { "item": "rope_6" } ] },
+    "deconstruct": {
+      "items": [
+        { "item": "pipe", "count": 10 },
+        { "item": "rag", "count": [ 30, 33 ] },
+        { "item": "rope_6" },
+        { "item": "spring", "count": [ 2, 3 ] }
+      ]
+    },
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "CAN_SIT" ],
     "bash": {
       "str_min": 12,
@@ -118,7 +125,12 @@
     "floor_bedding_warmth": 500,
     "required_str": 10,
     "deconstruct": {
-      "items": [ { "item": "2x4", "count": 12 }, { "item": "rag", "count": [ 30, 33 ] }, { "item": "nail", "charges": [ 8, 10 ] } ]
+      "items": [
+        { "item": "2x4", "count": 12 },
+        { "item": "rag", "count": [ 30, 33 ] },
+        { "item": "nail", "charges": [ 8, 10 ] },
+        { "item": "spring", "charges": [ 2, 3 ] }
+      ]
     },
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "BLOCKSDOOR", "MOUNTABLE", "CAN_SIT" ],
     "bash": {
@@ -130,6 +142,7 @@
         { "item": "2x4", "count": [ 2, 5 ] },
         { "item": "nail", "charges": [ 3, 8 ] },
         { "item": "splinter", "count": [ 1, 2 ] },
+        { "item": "scrap", "count": [ 0, 5 ] },
         { "item": "rag", "count": [ 20, 30 ] }
       ]
     }

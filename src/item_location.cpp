@@ -222,12 +222,19 @@ class item_location::impl::item_on_map : public item_location::impl
 
             on_contents_changed();
             item obj = target()->split( qty );
+            const auto get_local_location = []( Character & ch, item * it ) {
+                if( ch.has_item( *it ) ) {
+                    return item_location( ch, it );
+                } else {
+                    return item_location{};
+                }
+            };
             if( !obj.is_null() ) {
-                return item_location( ch, &ch.i_add( obj, should_stack ) );
+                return get_local_location( ch, &ch.i_add( obj, should_stack ) );
             } else {
                 item *inv = &ch.i_add( *target(), should_stack );
                 remove_item();
-                return item_location( ch, inv );
+                return get_local_location( ch, inv );
             }
         }
 

@@ -13,5 +13,29 @@
       { "group": "supplies_electronics", "prob": 50 },
       { "item": "id_industrial", "prob": 20 }
     ]
+  },
+  {
+    "id": "mon_zombie_miner_death_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "group": "clothing_work_boots", "damage": [ 1, 4 ] },
+      { "group": "clothing_work_glasses", "prob": 60, "damage": [ 1, 4 ] },
+      { "group": "clothing_work_gloves", "prob": 75, "damage": [ 1, 4 ] },
+      { "group": "clothing_work_mask", "prob": 40, "damage": [ 1, 4 ] },
+      { "item": "ear_plugs", "prob": 15, "damage": [ 1, 4 ] },
+      { "item": "tool_belt", "prob": 25, "damage": [ 1, 4 ] },
+      {
+        "distribution": [
+          {
+            "collection": [ { "group": "clothing_work_pants", "damage": [ 1, 4 ] }, { "group": "clothing_work_torso", "damage": [ 1, 4 ] } ],
+            "prob": 75
+          },
+          { "item": "jumpsuit", "prob": 25, "damage": [ 1, 4 ] }
+        ]
+      },
+      { "group": "underwear", "damage": [ 1, 4 ] },
+      { "item": "miner_hat", "prob": 90, "damage": [ 1, 4 ] }
+    ]
   }
 ]

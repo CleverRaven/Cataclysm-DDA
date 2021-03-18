@@ -955,10 +955,16 @@ void move_items_activity_actor::do_turn( player_activity &act, Character &who )
 
         // Check that we can pick it up.
         if( !target->made_of_from_type( phase_id::LIQUID ) ) {
-            // Don't need to make a copy here since movement can't be canceled
             item &leftovers = *target;
             // Make a copy to be put in the destination location
             item newit = leftovers;
+
+            if( newit.is_owned_by( who, true ) ) {
+                newit.set_owner( who );
+            } else {
+                continue;
+            }
+
             // Handle charges, quantity == 0 means move all
             if( quantity != 0 && newit.count_by_charges() ) {
                 newit.charges = std::min( newit.charges, quantity );
@@ -969,11 +975,6 @@ void move_items_activity_actor::do_turn( player_activity &act, Character &who )
 
             // This is for hauling across zlevels, remove when going up and down stairs
             // is no longer teleportation
-            if( newit.is_owned_by( who, true ) ) {
-                newit.set_owner( who );
-            } else {
-                continue;
-            }
             const tripoint src = target.position();
             const int distance = src.z == dest.z ? std::max( rl_dist( src, dest ), 1 ) : 1;
             // Yuck, I'm sticking weariness scaling based on activity level here
@@ -1642,6 +1643,9 @@ void unload_activity_actor::unload( Character &who, item_location &target )
 
     std::vector<item *> remove_contained;
     for( item *contained : it.contents.all_items_top() ) {
+        if( contained->ammo_type() == ammotype( "plutonium" ) ) {
+            contained->charges /= PLUTONIUM_CHARGES;
+        }
         if( who.as_player()->add_or_drop_with_msg( *contained, true ) ) {
             qty += contained->charges;
             remove_contained.push_back( contained );
@@ -1784,10 +1788,20 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
     // This is to ensure we don't over count skill steps
     craft.item_counter = std::min( craft.item_counter, 10'000'000 );
 
-    // Skill and tools are gained/consumed after every 5% progress
+    // This nominal craft time is also how many practice ticks to perform
+    // spread out evenly across the actual duration.
+    const double total_practice_ticks = rec.time_to_craft_moves( crafter,
+                                        recipe_time_flag::ignore_proficiencies ) / 100.0;
+
+    const int ticks_per_practice = 10'000'000.0 / total_practice_ticks;
+    int num_practice_ticks = craft.item_counter / ticks_per_practice -
+                             old_counter / ticks_per_practice;
+    if( num_practice_ticks > 0 ) {
+        crafter.craft_skill_gain( craft, num_practice_ticks );
+    }
+    // Proficiencies and tools are gained/consumed after every 5% progress
     int five_percent_steps = craft.item_counter / 500'000 - old_counter / 500'000;
     if( five_percent_steps > 0 ) {
-        crafter.craft_skill_gain( craft, five_percent_steps );
         // Divide by 100 for seconds, 20 for 5%
         const time_duration pct_time = time_duration::from_seconds( base_total_moves / 2000 );
         crafter.craft_proficiency_gain( craft, pct_time * five_percent_steps );
@@ -2348,6 +2362,130 @@ std::unique_ptr<activity_actor> move_furniture_activity_actor::deserialize( Json
     return actor.clone();
 }
 
+static int item_move_cost( Character &who, item_location &item )
+{
+    // Cost to take an item from a container or map
+    const int obtain_cost = item.obtain_cost( who );
+    // Cost to move an item to a container, vehicle or the ground
+    const int move_cost = Pickup::cost_to_move_item( who, *item );
+    return obtain_cost + move_cost;
+}
+
+void insert_item_activity_actor::start( player_activity &act, Character &who )
+{
+    if( items.empty() ) {
+        debugmsg( "ACT_INSERT_ITEM was passed an empty list" );
+        act.set_to_null();
+    }
+
+    all_pockets_rigid = holster->contents.all_pockets_rigid();
+
+    const int total_moves = item_move_cost( who, items.front().first );
+    act.moves_left = total_moves;
+    act.moves_total = total_moves;
+}
+
+void insert_item_activity_actor::finish( player_activity &act, Character &who )
+{
+    bool success = false;
+    drop_location &holstered_item = items.front();
+    if( holstered_item.first ) {
+        item &it = *holstered_item.first;
+        if( !it.count_by_charges() ) {
+            if( holster->can_contain( it ) && ( all_pockets_rigid ||
+                                                holster.parents_can_contain_recursive( &it ) ) ) {
+
+                success = holster->put_in( it, item_pocket::pocket_type::CONTAINER,
+                                           /*unseal_pockets=*/true ).success();
+                if( success ) {
+                    //~ %1$s: item to put in the container, %2$s: container to put item in
+                    who.add_msg_if_player( string_format( _( "You put your %1$s into the %2$s." ),
+                                                          holstered_item.first->display_name(), holster->type->nname( 1 ) ) );
+                    handler.add_unsealed( holster );
+                    handler.unseal_pocket_containing( holstered_item.first );
+                    holstered_item.first.remove_item();
+                }
+
+            }
+        } else {
+            int charges = all_pockets_rigid ? holstered_item.second : std::min( holstered_item.second,
+                          holster.max_charges_by_parent_recursive( it ) );
+
+            if( charges > 0 && holster->can_contain_partial( it ) ) {
+                int result = holster->fill_with( it, charges,
+                                                 /*unseal_pockets=*/true,
+                                                 /*allow_sealed=*/true );
+                success = result > 0;
+
+                if( success ) {
+                    //~ %1$s: item to put in the container, %2$s: container to put item in
+                    who.add_msg_if_player( string_format( _( "You put your %1$s into the %2$s." ),
+                                                          holstered_item.first->display_name( result ), holster->type->nname( 1 ) ) );
+                    handler.add_unsealed( holster );
+                    handler.unseal_pocket_containing( holstered_item.first );
+                    it.charges -= result;
+                    if( it.charges == 0 ) {
+                        holstered_item.first.remove_item();
+                    }
+                }
+            }
+        }
+
+        if( !success ) {
+            who.add_msg_if_player(
+                string_format(
+                    _( "Could not put %1$s into %2$s, aborting." ),
+                    it.tname(), holster->tname() ) );
+        }
+    } else {
+        // item was lost, so just go to next item
+        success = true;
+    }
+
+    items.pop_front();
+    if( items.empty() || !success ) {
+        handler.handle_by( who );
+        act.set_to_null();
+        return;
+    }
+
+    // Restart the activity
+    const int total_moves = item_move_cost( who, items.front().first );
+    act.moves_left = total_moves;
+    act.moves_total = total_moves;
+}
+
+void insert_item_activity_actor::canceled( player_activity &/*act*/, Character &who )
+{
+    handler.handle_by( who );
+}
+
+void insert_item_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "holster", holster );
+    jsout.member( "items", items );
+    jsout.member( "handler", handler );
+    jsout.member( "all_pockets_rigid", all_pockets_rigid );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> insert_item_activity_actor::deserialize( JsonIn &jsin )
+{
+    insert_item_activity_actor actor;
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "holster", actor.holster );
+    data.read( "items", actor.items );
+    data.read( "handler", actor.handler );
+    data.read( "all_pockets_rigid", actor.all_pockets_rigid );
+
+    return actor.clone();
+}
+
 void burrow_activity_actor::start( player_activity &act, Character &who )
 {
     act.moves_total = moves_total;
@@ -2613,7 +2751,6 @@ std::unique_ptr<activity_actor> milk_activity_actor::deserialize( JsonIn &jsin )
     data.read( "monster_coords", actor.monster_coords );
     data.read( "string_values", actor.string_values );
 
-
     return actor.clone();
 }
 
@@ -2724,6 +2861,7 @@ deserialize_functions = {
     { activity_id( "ACT_GUNMOD_REMOVE" ), &gunmod_remove_activity_actor::deserialize },
     { activity_id( "ACT_HACKING" ), &hacking_activity_actor::deserialize },
     { activity_id( "ACT_HOTWIRE_CAR" ), &hotwire_car_activity_actor::deserialize },
+    { activity_id( "ACT_INSERT_ITEM" ), &insert_item_activity_actor::deserialize },
     { activity_id( "ACT_LOCKPICK" ), &lockpick_activity_actor::deserialize },
     { activity_id( "ACT_MIGRATION_CANCEL" ), &migration_cancel_activity_actor::deserialize },
     { activity_id( "ACT_MILK" ), &milk_activity_actor::deserialize },

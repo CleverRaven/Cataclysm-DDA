@@ -8,7 +8,7 @@
   {
     "type": "item_group",
     "id": "religious_books",
-    "items": [ [ "priest_beginner", 1 ], [ "priest_advanced", 1 ], [ "druid_spellbook", 1 ], [ "summon_undead_spellbook", 1 ] ]
+    "items": [ [ "priest_beginner", 1 ], [ "priest_advanced", 1 ], [ "druid_spellbook", 1 ] ]
   },
   {
     "type": "item_group",
@@ -136,6 +136,17 @@
   },
   {
     "type": "item_group",
+    "id": "magic_shop_beginner_books",
+    "subtype": "collection",
+    "items": [
+      { "group": "spellbook_tier_0", "prob": 100 },
+      { "group": "spellbook_tier_0", "prob": 80 },
+      { "group": "spellbook_tier_0", "prob": 60 },
+      { "group": "spellbook_tier_0", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "magic_shop_wands",
     "items": [
       { "item": "wand_magic_missile_minor", "prob": 35, "charges-min": 12, "charges-max": 34 },
@@ -226,7 +237,15 @@
   {
     "type": "item_group",
     "id": "magic_shop_clothes",
-    "items": [ [ "cloak", 3 ], [ "cloak_wool", 5 ], [ "jedi_cloak", 3 ], [ "robe", 5 ], [ "tophat", 5 ], [ "leathersandals", 6 ] ]
+    "items": [
+      [ "cloak", 3 ],
+      [ "cloak_wool", 5 ],
+      [ "jedi_cloak", 3 ],
+      [ "robe", 5 ],
+      [ "tophat", 5 ],
+      [ "leathersandals", 6 ],
+      [ "bookstrap", 2 ]
+    ]
   },
   {
     "type": "item_group",
@@ -822,7 +841,7 @@
           { "item": "wizard_advanced", "prob": 5 },
           { "item": "pyro", "prob": 5 },
           { "item": "spell_scroll_fireball", "prob": 10 },
-          { "item": "spell_scroll_recover_bionic_power", "prob": 50 },
+          { "item": "spell_scroll_nova_flare", "prob": 50 },
           { "item": "spell_scroll_cone_cold", "prob": 50 },
           { "item": "spell_scroll_hoary_blast", "prob": 50 }
         ],

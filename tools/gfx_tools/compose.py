@@ -30,6 +30,12 @@ except ImportError:
 
 PROPERTIES_FILENAME = 'tileset.txt'
 
+PNGSAVE_ARGS = {
+    'compression': 9,
+    'strip': True,
+    'filter': 8,
+}
+
 FALLBACK = {
     "file": "fallback.png",
     "tiles": [],
@@ -114,14 +120,19 @@ class Tileset:
             source_dir: str,
             output_dir: str,
             use_all: bool = False,
-            obsolete_fillers: bool = False) -> None:
+            obsolete_fillers: bool = False,
+            palette_copies: bool = False,
+            palette: bool = False)\
+            -> None:
         self.source_dir = source_dir
         self.output_dir = output_dir
         self.use_all = use_all
         self.obsolete_fillers = obsolete_fillers
+        self.palette_copies = palette_copies
+        self.palette = palette
         self.output_conf_file = None
 
-        self.pngnum = 1
+        self.pngnum = 0
         self.referenced_pngnames = []
 
         # bijectional dicts of pngnames to png numbers and vice versa
@@ -235,8 +246,7 @@ class Tileset:
 
             sheet_conf = {
                 'file': sheet.name,
-                'tiles': sheet_entries,
-                '//': f'range {sheet.first_index} to {sheet.max_index}'
+                '//': f'range {sheet.first_index} to {sheet.max_index}',
             }
 
             if not sheet.is_standard():
@@ -244,6 +254,8 @@ class Tileset:
                 sheet_conf['sprite_height'] = sheet.sprite_height
                 sheet_conf['sprite_offset_x'] = sheet.offset_x
                 sheet_conf['sprite_offset_y'] = sheet.offset_y
+
+            sheet_conf['tiles'] = sheet_entries
 
             tiles_new_dict[sheet.max_index] = sheet_conf
 
@@ -336,7 +348,7 @@ class Tilesheet:
             Vips.Image.grey(self.sprite_width, self.sprite_height)
         self.sprites = [self.null_image] if config_index == 1 else []
 
-        self.first_index = self.tileset.pngnum
+        self.first_index = self.tileset.pngnum + 1
         self.max_index = self.tileset.pngnum
 
     def is_standard(self) -> bool:
@@ -381,9 +393,9 @@ class Tilesheet:
             return
 
         self.sprites.append(self.load_image(filepath))
+        self.tileset.pngnum += 1
         self.tileset.pngname_to_pngnum[pngname] = self.tileset.pngnum
         self.tileset.pngnum_to_pngname[self.tileset.pngnum] = pngname
-        self.tileset.pngnum += 1
 
     def load_image(self, png_path: str) -> pyvips.Image:
         '''
@@ -394,7 +406,7 @@ class Tilesheet:
         except pyvips.error.Error as exception:
             raise ComposingException(
                 f'Cannot load {png_path}: {exception.message}') from None
-        except UnicodeDecodeError as exception:
+        except UnicodeDecodeError:
             raise ComposingException(
                 f'Cannot load {png_path} with UnicodeDecodeError, '
                 'please report your setup at '
@@ -454,7 +466,18 @@ class Tilesheet:
         if self.sprites:
             sheet_image = Vips.Image.arrayjoin(
                 self.sprites, across=self.sheet_width)
-            sheet_image.pngsave(self.output)
+
+            pngsave_args = PNGSAVE_ARGS
+
+            if self.tileset.palette:
+                pngsave_args['palette'] = True
+
+            sheet_image.pngsave(self.output, **pngsave_args)
+
+            if self.tileset.palette_copies and not self.tileset.palette:
+                sheet_image.pngsave(
+                    self.output + '8', palette=True, **pngsave_args)
+
             return True
         return False
 
@@ -610,6 +633,12 @@ if __name__ == '__main__':
     arg_parser.add_argument(
         '--obsolete-fillers', dest='obsolete_fillers', action='store_true',
         help='Warn about obsoleted fillers')
+    arg_parser.add_argument(
+        '--palette-copies', dest='palette_copies', action='store_true',
+        help='Produce copies of tilesheets quantized to 8bpp colormaps.')
+    arg_parser.add_argument(
+        '--palette', dest='palette', action='store_true',
+        help='Quantize all tilesheets to 8bpp colormaps.')
     args_dict = vars(arg_parser.parse_args())
 
     # compose the tileset
@@ -618,7 +647,9 @@ if __name__ == '__main__':
             args_dict.get('source_dir'),
             args_dict.get('output_dir') or args_dict.get('source_dir'),
             args_dict.get('use_all', False),
-            args_dict.get('obsolete_fillers', False)
+            args_dict.get('obsolete_fillers', False),
+            args_dict.get('palette_copies', False),
+            args_dict.get('palette', False)
         )
         tileset_worker.compose()
     except ComposingException as exception:

@@ -822,28 +822,34 @@ void player::sort_armor()
         } else if( action == "EQUIP_ARMOR" ) {
             // filter inventory for all items that are armor/clothing
             item_location loc = game_menus::inv::wear( *this );
-
             // only equip if something valid selected!
             if( loc ) {
-                // wear the item
-                cata::optional<std::list<item>::iterator> new_equip_it =
-                    wear( loc.obtain( *this ) );
-                if( new_equip_it ) {
-                    const bodypart_id &bp = armor_cat[ tabindex ];
-                    if( tabindex == num_of_parts || ( **new_equip_it ).covers( bp ) ) {
-                        // Set ourselves up to be pointing at the new item
-                        // TODO: This doesn't work yet because we don't save our
-                        // state through other activities, but that's a thing
-                        // that would be nice to do.
-                        leftListIndex =
-                            std::count_if( worn.begin(), *new_equip_it,
-                        [&]( const item & i ) {
-                            return tabindex == num_of_parts || i.covers( bp );
-                        } );
+                // store the item name just in case obtain() fails
+                const std::string item_name = loc->display_name();
+                item_location obtained = loc.obtain( *this );
+                if( obtained ) {
+                    // wear the item
+                    cata::optional<std::list<item>::iterator> new_equip_it =
+                        wear( obtained );
+                    if( new_equip_it ) {
+                        const bodypart_id &bp = armor_cat[tabindex];
+                        if( tabindex == num_of_parts || ( **new_equip_it ).covers( bp ) ) {
+                            // Set ourselves up to be pointing at the new item
+                            // TODO: This doesn't work yet because we don't save our
+                            // state through other activities, but that's a thing
+                            // that would be nice to do.
+                            leftListIndex =
+                                std::count_if( worn.begin(), *new_equip_it,
+                            [&]( const item & i ) {
+                                return tabindex == num_of_parts || i.covers( bp );
+                            } );
+                        }
+                    } else if( is_npc() ) {
+                        // TODO: Pass the reason here
+                        popup( _( "Can't put this on!" ) );
                     }
-                } else if( is_npc() ) {
-                    // TODO: Pass the reason here
-                    popup( _( "Can't put this on!" ) );
+                } else {
+                    add_msg_if_player( "You chose not to wear the %s.", item_name );
                 }
             }
         } else if( action == "EQUIP_ARMOR_HERE" ) {
