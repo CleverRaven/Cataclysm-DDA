@@ -99,6 +99,7 @@
 #include "ui.h"
 #include "ui_manager.h"
 #include "units.h"
+#include "units_utility.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vitamin.h"
@@ -191,6 +192,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::CHANGE_SPELLS: return "CHANGE_SPELLS";
         case debug_menu::debug_menu_index::TEST_MAP_EXTRA_DISTRIBUTION: return "TEST_MAP_EXTRA_DISTRIBUTION";
         case debug_menu::debug_menu_index::NESTED_MAPGEN: return "NESTED_MAPGEN";
+        case debug_menu::debug_menu_index::EDIT_CAMP_LARDER: return "EDIT_CAMP_LARDER";
         case debug_menu::debug_menu_index::VEHICLE_BATTERY_CHARGE: return "VEHICLE_BATTERY_CHARGE";
         case debug_menu::debug_menu_index::GENERATE_EFFECT_LIST: return "GENERATE_EFFECT_LIST";
         // *INDENT-ON*
@@ -344,6 +346,7 @@ static int map_uilist()
         { uilist_entry( debug_menu_index::OM_EDITOR, true, 'O', _( "Overmap editor" ) ) },
         { uilist_entry( debug_menu_index::MAP_EXTRA, true, 'm', _( "Spawn map extra" ) ) },
         { uilist_entry( debug_menu_index::NESTED_MAPGEN, true, 'n', _( "Spawn nested mapgen" ) ) },
+        { uilist_entry( debug_menu_index::EDIT_CAMP_LARDER, true, 'l', _( "Edit the faction camp larder" ) ) },
     };
 
     return uilist( _( "Map…" ), uilist_initializer );
@@ -1485,13 +1488,43 @@ void character_edit_menu()
         }
         break;
         case D_NEEDS: {
+            std::pair<std::string, nc_color> hunger_pair = p.get_hunger_description();
+            std::pair<std::string, nc_color> thirst_pair = p.get_thirst_description();
+            std::pair<std::string, nc_color> fatigue_pair = p.get_fatigue_description();
+
+            std::stringstream data;
+            data << string_format( _( "Hunger: %d  %s" ), p.get_hunger(), colorize( hunger_pair.first,
+                                   hunger_pair.second ) ) << std::endl;
+            data << string_format( _( "Thirst: %d  %s" ), p.get_thirst(), colorize( thirst_pair.first,
+                                   thirst_pair.second ) ) << std::endl;
+            data << string_format( _( "Fatigue: %d  %s" ), p.get_fatigue(), colorize( fatigue_pair.first,
+                                   fatigue_pair.second ) ) << std::endl;
+            data << std::endl;
+            data << _( "Stored kCal: " ) << p.get_stored_kcal() << std::endl;
+            data << _( "Total kCal: " ) << p.get_stored_kcal() + p.stomach.get_calories() +
+                 p.guts.get_calories() << std::endl;
+            data << std::endl;
+            data << _( "Stomach contents" ) << std::endl;
+            data << _( "  Total volume: " ) << vol_to_string( p.stomach.contains() ) << std::endl;
+            data << _( "  Water volume: " ) << vol_to_string( p.stomach.get_water() ) << std::endl;
+            data << string_format( _( "  kCal: %d" ), p.stomach.get_calories() ) << std::endl;
+            data << std::endl;
+            data << _( "Gut contents" ) << std::endl;
+            data << _( "  Total volume: " ) << vol_to_string( p.guts.contains() ) << std::endl;
+            data << _( "  Water volume: " ) << vol_to_string( p.guts.get_water() ) << std::endl;
+            data << string_format( _( "  kCal: %d" ), p.guts.get_calories() ) << std::endl;
+
             uilist smenu;
+            smenu.text = data.str();
             smenu.addentry( 0, true, 'h', "%s: %d", _( "Hunger" ), p.get_hunger() );
             smenu.addentry( 1, true, 's', "%s: %d", _( "Stored kCal" ), p.get_stored_kcal() );
-            smenu.addentry( 2, true, 't', "%s: %d", _( "Thirst" ), p.get_thirst() );
-            smenu.addentry( 3, true, 'f', "%s: %d", _( "Fatigue" ), p.get_fatigue() );
-            smenu.addentry( 4, true, 'd', "%s: %d", _( "Sleep Deprivation" ), p.get_sleep_deprivation() );
-            smenu.addentry( 5, true, 'a', _( "Reset all basic needs" ) );
+            smenu.addentry( 2, true, 'S', "%s: %d", _( "Stomach kCal" ), p.stomach.get_calories() );
+            smenu.addentry( 3, true, 'G', "%s: %d", _( "Gut kCal" ), p.guts.get_calories() );
+            smenu.addentry( 4, true, 't', "%s: %d", _( "Thirst" ), p.get_thirst() );
+            smenu.addentry( 5, true, 'f', "%s: %d", _( "Fatigue" ), p.get_fatigue() );
+            smenu.addentry( 6, true, 'd', "%s: %d", _( "Sleep Deprivation" ), p.get_sleep_deprivation() );
+            smenu.addentry( 7, true, 'a', _( "Reset all basic needs" ) );
+            smenu.addentry( 8, true, 'e', _( "Empty stomach and guts" ) );
 
             const auto &vits = vitamin::all();
             for( const auto &v : vits ) {
@@ -1514,24 +1547,36 @@ void character_edit_menu()
                     break;
 
                 case 2:
+                    if( query_int( value, _( "Set stomach kCal to?  Currently: %d" ), p.stomach.get_calories() ) ) {
+                        p.stomach.mod_calories( value - p.stomach.get_calories() );
+                    }
+                    break;
+
+                case 3:
+                    if( query_int( value, _( "Set gut kCal to?  Currently: %d" ), p.guts.get_calories() ) ) {
+                        p.guts.mod_calories( value - p.guts.get_calories() );
+                    }
+                    break;
+
+                case 4:
                     if( query_int( value, _( "Set thirst to?  Currently: %d" ), p.get_thirst() ) ) {
                         p.set_thirst( value );
                     }
                     break;
 
-                case 3:
+                case 5:
                     if( query_int( value, _( "Set fatigue to?  Currently: %d" ), p.get_fatigue() ) ) {
                         p.set_fatigue( value );
                     }
                     break;
 
-                case 4:
+                case 6:
                     if( query_int( value, _( "Set sleep deprivation to?  Currently: %d" ),
                                    p.get_sleep_deprivation() ) ) {
                         p.set_sleep_deprivation( value );
                     }
                     break;
-                case 5:
+                case 7:
                     p.initialize_stomach_contents();
                     p.set_hunger( 0 );
                     p.set_thirst( 0 );
@@ -1539,9 +1584,13 @@ void character_edit_menu()
                     p.set_sleep_deprivation( 0 );
                     p.set_stored_kcal( p.get_healthy_kcal() );
                     break;
+                case 8:
+                    p.stomach.empty();
+                    p.guts.empty();
+                    break;
                 default:
-                    if( smenu.ret >= 6 && smenu.ret < static_cast<int>( vits.size() + 6 ) ) {
-                        auto iter = std::next( vits.begin(), smenu.ret - 6 );
+                    if( smenu.ret >= 9 && smenu.ret < static_cast<int>( vits.size() + 9 ) ) {
+                        auto iter = std::next( vits.begin(), smenu.ret - 9 );
                         if( query_int( value, _( "Set %s to?  Currently: %d" ),
                                        iter->second.name(), p.vitamin_get( iter->first ) ) ) {
                             p.vitamin_set( iter->first, value );
@@ -2708,6 +2757,16 @@ void debug()
                 } else {
                     veh.discharge_battery( -amount, false );
                 }
+            }
+            break;
+        }
+
+        case debug_menu_index::EDIT_CAMP_LARDER: {
+            faction *your_faction = get_player_character().get_faction();
+            int larder;
+            if( query_int( larder, _( "Set camp larder kCals to?  Currently: %d" ),
+                           your_faction->food_supply ) ) {
+                your_faction->food_supply = larder;
             }
             break;
         }
