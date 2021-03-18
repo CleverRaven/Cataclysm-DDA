@@ -16,6 +16,7 @@ template<typename T>
 class optional;
 } // namespace cata
 
+class Character;
 class player;
 
 namespace debug_menu
@@ -80,14 +81,15 @@ enum class debug_menu_index : int {
     DISPLAY_REACHABILITY_ZONES,
     DISPLAY_RADIATION,
     HOUR_TIMER,
-    LEARN_SPELLS,
-    LEVEL_SPELLS,
+    CHANGE_SPELLS,
     TEST_MAP_EXTRA_DISTRIBUTION,
     NESTED_MAPGEN,
     VEHICLE_BATTERY_CHARGE,
     GENERATE_EFFECT_LIST,
     last
 };
+
+void change_spells( Character &character );
 
 void teleport_short();
 void teleport_long();
