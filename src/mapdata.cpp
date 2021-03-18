@@ -24,6 +24,7 @@
 #include "trap.h"
 
 static const std::string flag_DIGGABLE( "DIGGABLE" );
+static const std::string flag_LOCKED( "LOCKED" );
 static const std::string flag_TRANSPARENT( "TRANSPARENT" );
 
 namespace
@@ -1280,15 +1281,39 @@ void ter_t::check() const
     if( !transforms_into.is_valid() ) {
         debugmsg( "invalid transforms_into %s for %s", transforms_into.c_str(), id.c_str() );
     }
+
+    // Validate open/close transforms
     if( !open.is_valid() ) {
         debugmsg( "invalid terrain %s for opening %s", open.c_str(), id.c_str() );
     }
     if( !close.is_valid() ) {
         debugmsg( "invalid terrain %s for closing %s", close.c_str(), id.c_str() );
     }
+    // Check transition consistency for opening/closing terrain. Has an obvious
+    // exception for locked terrains - those aren't expected to be locked again
+    if( open && open->close && open->close != id && !has_flag( flag_LOCKED ) ) {
+        debugmsg( "opening terrain %s for %s doesn't reciprocate", open.c_str(), id.c_str() );
+    }
+    if( close && close->open && close->open != id && !has_flag( flag_LOCKED ) ) {
+        debugmsg( "closing terrain %s for %s doesn't reciprocate", close.c_str(), id.c_str() );
+    }
+
+    // Validate curtain transforms
+    if( has_examine( iexamine::curtains ) && !has_curtains() ) {
+        debugmsg( "%s is a curtain, but has no curtain_transform", id.c_str() );
+    }
+    if( !has_examine( iexamine::curtains ) && has_curtains() ) {
+        debugmsg( "%s is not a curtain, but has curtain_transform", id.c_str() );
+    }
+    if( !curtain_transform.is_empty() && !curtain_transform.is_valid() ) {
+        debugmsg( "%s has invalid curtain transform target %s", id.c_str(), curtain_transform.c_str() );
+    }
+
+    // Validate generic transforms
     if( transforms_into && transforms_into == id ) {
         debugmsg( "%s transforms_into itself", id.c_str() );
     }
+
     for( const emit_id &e : emissions ) {
         if( !e.is_valid() ) {
             debugmsg( "ter %s has invalid emission %s set", id.c_str(), e.str().c_str() );
