@@ -17,7 +17,7 @@
     "id": "ruined_candy",
     "//": "This item should not get any use whatsoever, it is merely conservation.",
     "symbol": "¨",
-    "name": { "str_sp": "peices of candy wrapper" },
+    "name": { "str_sp": "pieces of candy wrapper" },
     "charges": 10,
     "volume": "1000 ml",
     "weight": "100 g",
