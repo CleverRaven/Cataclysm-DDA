@@ -253,13 +253,14 @@
     "quench": 1,
     "healthy": -1,
     "addiction_potential": 1,
+    "calories": 116,
     "description": "A thick syrup made of water and sugar strained through coffee grounds.  Can be used to flavor many foods and beverages.",
     "price": 800,
     "price_postapoc": 100,
     "material": [ "junk" ],
     "volume": "250 ml",
     "phase": "liquid",
-    "charges": 8,
+    "charges": 3,
     "fun": 6
   }
 ]
