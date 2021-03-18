@@ -18,6 +18,15 @@
     ]
   },
   {
+    "name": "GROUP_PIGS",
+    "type": "monstergroup",
+    "default": "mon_pig",
+    "monsters": [
+      { "monster": "mon_pig", "freq": 50, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_pig", "freq": 50, "cost_multiplier": 1 }
+    ]
+  },
+  {
     "method": "json",
     "om_terrain": "zoo_0_0",
     "type": "mapgen",
@@ -1060,21 +1069,16 @@
         { "chance": 55, "item": "trash", "x": 0, "y": 6 }
       ],
       "place_monster": [
-        { "monster": "mon_zombie_pig", "x": 10, "y": 7 },
         { "monster": "mon_chicken", "x": 14, "y": 7 },
-        { "monster": "mon_zombie_pig", "x": 15, "y": 10 },
         { "monster": "mon_duck", "x": 11, "y": 11 },
-        { "monster": "mon_zombie_pig", "x": 15, "y": 12 },
-        { "monster": "mon_pig", "x": 20, "y": 12 },
         { "monster": "mon_sheep", "x": 10, "y": 17 },
         { "monster": "mon_rabbit", "x": 15, "y": 17 },
         { "monster": "mon_sheep", "x": 19, "y": 17 },
         { "monster": "mon_sheep", "x": 9, "y": 19 },
         { "monster": "mon_sheep", "x": 12, "y": 19 },
-        { "monster": "mon_rabbit", "x": 15, "y": 19 },
-        { "monster": "mon_pig", "x": 17, "y": 20 },
-        { "monster": "mon_pig", "x": 19, "y": 20 }
-      ]
+        { "monster": "mon_rabbit", "x": 18, "y": 19 }
+      ],
+      "place_monsters": [ { "monster": "GROUP_PIGS", "x": 18, "y": 11 } ]
     }
   },
   {
