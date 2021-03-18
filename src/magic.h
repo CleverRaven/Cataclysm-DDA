@@ -286,7 +286,7 @@ class spell_type
         // increment of energy cost per spell level
         float energy_increment = 0.0f;
         // max or min energy cost, based on sign of energy_increment
-        int final_energy_cost = 0.0f;
+        int final_energy_cost = 0;
 
         // spell is restricted to being cast by only this class
         // if spell_class is empty, spell is unrestricted
@@ -380,6 +380,14 @@ class spell_type
         static const float casting_time_increment_default;
 };
 
+// functions for spell description
+namespace spell_desc
+{
+bool casting_time_encumbered( const spell &sp, const Character &guy );
+bool energy_cost_encumbered( const spell &sp, const Character &guy );
+std::string enumerate_spell_data( const spell &sp );
+} // namespace spell_desc
+
 class spell
 {
     private:
@@ -410,6 +418,7 @@ class spell
         // sets the message to be different than the spell_type specifies
         void set_message( const translation &msg );
 
+        static int exp_for_level( int level );
         // how much exp you need for the spell to gain a level
         int exp_to_next_level() const;
         // progress to the next level, expressed as a percent
@@ -600,6 +609,10 @@ class known_magic
         int select_spell( Character &guy );
         // get all known spells
         std::vector<spell *> get_spells();
+        // directly get the character known spells
+        std::map<spell_id, spell> &get_spellbook() {
+            return spellbook;
+        }
         // how much mana is available to use to cast spells
         int available_mana() const;
         // max mana vailable

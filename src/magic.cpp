@@ -1260,7 +1260,7 @@ int spell::get_max_level() const
 // helper function to calculate xp needed to be at a certain level
 // pulled out as a helper function to make it easier to either be used in the future
 // or easier to tweak the formula
-static int exp_for_level( int level )
+int spell::exp_for_level( int level )
 {
     // level 0 never needs xp
     if( level == 0 ) {
@@ -1825,7 +1825,7 @@ class spellcasting_callback : public uilist_callback
         }
 };
 
-static bool casting_time_encumbered( const spell &sp, const Character &guy )
+bool spell_desc::casting_time_encumbered( const spell &sp, const Character &guy )
 {
     int encumb = 0;
     if( !sp.has_flag( spell_flag::NO_LEGS ) ) {
@@ -1841,7 +1841,7 @@ static bool casting_time_encumbered( const spell &sp, const Character &guy )
     return encumb > 0;
 }
 
-static bool energy_cost_encumbered( const spell &sp, const Character &guy )
+bool spell_desc::energy_cost_encumbered( const spell &sp, const Character &guy )
 {
     if( !sp.has_flag( spell_flag::NO_HANDS ) ) {
         return std::max( 0, guy.encumb( bodypart_id( "hand_l" ) ) + guy.encumb(
@@ -1853,7 +1853,7 @@ static bool energy_cost_encumbered( const spell &sp, const Character &guy )
 
 // this prints various things about the spell out in a list
 // including flags and things like "goes through walls"
-static std::string enumerate_spell_data( const spell &sp )
+std::string spell_desc::enumerate_spell_data( const spell &sp )
 {
     std::vector<std::string> spell_data;
     if( sp.has_flag( spell_flag::CONCENTRATE ) ) {
@@ -1904,7 +1904,7 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
     line++;
 
     line += fold_and_print( w_menu, point( h_col1, line ), info_width, gray,
-                            enumerate_spell_data( sp ) );
+                            spell_desc::enumerate_spell_data( sp ) );
     if( line <= win_height / 3 ) {
         line++;
     }
@@ -1930,7 +1930,7 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
         line++;
     }
 
-    const bool cost_encumb = energy_cost_encumbered( sp, player_character );
+    const bool cost_encumb = spell_desc::energy_cost_encumbered( sp, player_character );
     std::string cost_string = cost_encumb ? _( "Casting Cost (impeded)" ) : _( "Casting Cost" );
     std::string energy_cur = sp.energy_source() == magic_energy_type::hp ? "" :
                              string_format( _( " (%s current)" ), sp.energy_cur_string( player_character ) );
@@ -1941,7 +1941,7 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
     print_colored_text( w_menu, point( h_col1, line++ ), gray, gray,
                         string_format( "%s: %s %s%s", cost_string,
                                        sp.energy_cost_string( player_character ), sp.energy_string(), energy_cur ) );
-    const bool c_t_encumb = casting_time_encumbered( sp, player_character );
+    const bool c_t_encumb = spell_desc::casting_time_encumbered( sp, player_character );
     print_colored_text( w_menu, point( h_col1, line++ ), gray, gray, colorize(
                             string_format( "%s: %s", c_t_encumb ? _( "Casting Time (impeded)" ) : _( "Casting Time" ),
                                            moves_to_string( sp.casting_time( player_character ) ) ),

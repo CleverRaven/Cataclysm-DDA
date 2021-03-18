@@ -411,7 +411,7 @@ class border_helper
         };
 
         border_info &add_border();
-        void draw_border( const catacurses::window &win );
+        void draw_border( const catacurses::window &win, nc_color border_color = BORDER_COLOR );
 
         friend class border_info;
     private:
