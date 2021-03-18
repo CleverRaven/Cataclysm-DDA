@@ -207,7 +207,7 @@ float sunlight( const time_point &p, const bool vision )
 
     if( solar_alt < units::from_degrees( -18 ) ) {
         return moonlight;
-    } else if( solar_alt < units::from_degrees( 4 ) ) {
+    } else if( solar_alt <= units::from_degrees( 0 ) ) {
         // Sunlight rises exponentially from 0 to 60 as sun rises from -18° to 0°
         float sunlight = 60 * ( std::pow( 2, to_degrees( solar_alt ) / 18 + 1 ) - 1 );
         return moonlight + sunlight;
