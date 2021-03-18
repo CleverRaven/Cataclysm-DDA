@@ -14,7 +14,7 @@ TEST_CASE( "generate_monfactions_attitude_matrix", "[.]" )
         for( const auto &f1 : monfactions::get_all() ) {
             mf_attitude att = f.attitude( f1.id );
             mf_attitude rev_att = f1.attitude( f.id );
-	    // NOLINTNEXTLINE(cata-text-style)
+            // NOLINTNEXTLINE(cata-text-style)
             outfile << f.id.str() << "->" << f1.id.str() << ":\t";
             switch( att ) {
                 case MFA_BY_MOOD:
