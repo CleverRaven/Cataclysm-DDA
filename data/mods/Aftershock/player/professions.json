@@ -206,7 +206,6 @@
         "entries": [
           { "item": "cash_card", "charges": 200000000 },
           { "item": "cash_card", "charges": 200000000 },
-          { "group": "charged_smart_phone" },
           { "item": "afs_wraitheon_smartphone" }
         ]
       },
