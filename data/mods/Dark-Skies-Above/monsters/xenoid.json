@@ -516,20 +516,6 @@
       [ "LONGSWIPE", 20 ],
       {
         "type": "gun",
-        "cooldown": 1,
-        "move_cost": 200,
-        "gun_type": "dkz_mon_gasgun",
-        "ranges": [ [ 0, 30, "DEFAULT" ] ],
-        "require_targeting_npc": true,
-        "require_targeting_monster": true,
-        "laser_lock": false,
-        "targeting_cost": 500,
-        "targeting_sound": "the sound of pressurized gas hissing loudly.",
-        "targeting_volume": 40,
-        "description": "<color_light_green>The emissary emits a stream of sedative gas!</color>"
-      },
-      {
-        "type": "gun",
         "cooldown": 8,
         "move_cost": 700,
         "gun_type": "dkz_mon_radgun",
@@ -602,20 +588,6 @@
       [ "TAZER", 20 ],
       [ "SMASH", 30 ],
       [ "LONGSWIPE", 20 ],
-      {
-        "type": "gun",
-        "cooldown": 1,
-        "move_cost": 200,
-        "gun_type": "dkz_mon_gasgun",
-        "ranges": [ [ 0, 30, "DEFAULT" ] ],
-        "require_targeting_npc": true,
-        "require_targeting_monster": true,
-        "laser_lock": false,
-        "targeting_cost": 500,
-        "targeting_sound": "the sound of pressurized gas hissing loudly.",
-        "targeting_volume": 50,
-        "description": "<color_light_green>The emissary of war emits a stream of sedative gas!</color>"
-      },
       {
         "type": "gun",
         "cooldown": 8,
@@ -691,20 +663,6 @@
       [ "TAZER", 20 ],
       [ "SMASH", 30 ],
       [ "LONGSWIPE", 20 ],
-      {
-        "type": "gun",
-        "cooldown": 1,
-        "move_cost": 200,
-        "gun_type": "dkz_mon_gasgun",
-        "ranges": [ [ 0, 30, "DEFAULT" ] ],
-        "require_targeting_npc": true,
-        "require_targeting_monster": true,
-        "laser_lock": false,
-        "targeting_cost": 500,
-        "targeting_sound": "the sound of pressurized gas hissing loudly.",
-        "targeting_volume": 50,
-        "description": "<color_light_green>The emissary of flame emits a stream of sedative gas!</color>"
-      },
       {
         "type": "gun",
         "cooldown": 22,
