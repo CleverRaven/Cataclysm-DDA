@@ -141,7 +141,7 @@ class inventory_entry
 
     private:
         bool enabled = true;
-        const item_category* custom_category = nullptr;
+        const item_category *custom_category = nullptr;
     protected:
         // indents the entry if it is contained in an item
         bool _indent = true;
