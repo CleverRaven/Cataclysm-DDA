@@ -917,7 +917,7 @@ bool item_contents::has_unrestricted_pockets() const
             restricted_pockets_qty++;
         }
     }
-    return restricted_pockets_qty < get_all_contained_pockets().value().size();
+    return restricted_pockets_qty < static_cast <int>( get_all_contained_pockets().value().size() );
 }
 
 bool item_contents::has_any_with( const std::function<bool( const item &it )> &filter,
