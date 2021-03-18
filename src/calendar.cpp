@@ -198,9 +198,6 @@ float sunlight( const time_point &p, const bool vision )
 
     const double moonlight = vision ? 1. + moonlight_per_quarter * current_phase : 0.;
 
-    // sunlight at sunrise (sun at 0 degree)
-    const float sunrise_light = 75;
-
     const float max_light = default_daylight_level() * 1.25;
 
     const units::angle solar_alt = solar_altitude( p );
