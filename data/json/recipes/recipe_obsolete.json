@@ -2306,21 +2306,6 @@
   },
   {
     "type": "recipe",
-    "result": "helmet_survivor",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "helmet_hsurvivor",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "helmet_xlsurvivor",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "l_HFPack",
     "obsolete": true
   },

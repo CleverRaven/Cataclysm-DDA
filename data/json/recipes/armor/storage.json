@@ -665,6 +665,35 @@
     "components": [ [ [ "straw_pile", 5 ], [ "birchbark", 7 ] ] ]
   },
   {
+    "result": "survivor_hiking_backpack",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 7,
+    "skills_required": [ "fabrication", 6 ],
+    "time": "2 h 20 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 300 ] ],
+    "components": [
+      [ [ "rag", 30 ] ],
+      [ [ "leather", 36 ], [ "tanned_hide", 6 ] ],
+      [ [ "backpack_hiking", 2 ], [ "backpack_tactical_large", 1 ] ],
+      [
+        [ "tacvest", 1 ],
+        [ "legrig", 1 ],
+        [ "vest", 1 ],
+        [ "tool_belt", 1 ],
+        [ "ragpouch", 4 ],
+        [ "leather_pouch", 2 ],
+        [ "dump_pouch", 1 ],
+        [ "purse", 2 ],
+        [ "fanny", 2 ]
+      ],
+      [ [ "duct_tape", 300 ] ]
+    ]
+  },
+  {
     "result": "survivor_duffel_bag",
     "type": "recipe",
     "category": "CC_ARMOR",
