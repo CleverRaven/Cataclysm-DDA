@@ -95,7 +95,10 @@ static const efftype_id effect_stunned( "stunned" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_large_repairkit( "large_repairkit" );
 static const itype_id itype_small_repairkit( "small_repairkit" );
-
+static const itype_id itype_UPS( "UPS" );
+static const itype_id itype_UPS_off( "UPS_off" );
+static const itype_id itype_ar_glasses_t1( "ar_glasses_t1" );
+static const itype_id itype_ar_glasses_t1_on( "ar_glasses_t1_on" );
 static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
@@ -1943,6 +1946,13 @@ bool player::takeoff( item_location loc, std::list<item> *res )
         add_msg( m_info, "%s", ret.c_str() );
         return false;
     }
+
+	//stop music if AR glasses are no longer worn
+	if ( it.typeId() == itype_ar_glasses_t1_on )
+	{
+		get_player_character().add_msg_if_player( _( "The AR glasses turns off." ) );
+        it.convert( itype_ar_glasses_t1 ).active = false;	
+	}
 
     auto iter = std::find_if( worn.begin(), worn.end(), [ &it ]( const item & wit ) {
         return &it == &wit;

@@ -265,6 +265,12 @@ static const itype_id itype_mobile_memory_card( "mobile_memory_card" );
 static const itype_id itype_mobile_memory_card_used( "mobile_memory_card_used" );
 static const itype_id itype_mp3( "mp3" );
 static const itype_id itype_mp3_on( "mp3_on" );
+static const itype_id ar_glasses_t1( "ar_glasses_t1" );
+static const itype_id ar_glasses_t1_on( "ar_glasses_t1_on" );
+static const itype_id ar_glasses_t2( "ar_glasses_t2" );
+static const itype_id ar_glasses_t2_on( "ar_glasses_t2_on" );
+static const itype_id ar_glasses_t2_mil( "ar_glasses_t2_mil" );
+static const itype_id ar_glasses_t2_mil_on( "ar_glasses_t2_mil_on" );
 static const itype_id itype_multi_cooker( "multi_cooker" );
 static const itype_id itype_multi_cooker_filled( "multi_cooker_filled" );
 static const itype_id itype_nicotine_liquid( "nicotine_liquid" );
@@ -4166,9 +4172,14 @@ cata::optional<int> iuse::mp3( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_info, _( "The device's batteries are dead." ) );
     } else if( p->has_active_item( itype_mp3_on ) || p->has_active_item( itype_smartphone_music ) ||
                p->has_active_item( itype_afs_atomic_smartphone_music ) ||
-               p->has_active_item( itype_afs_atomic_wraitheon_music ) ) {
+               p->has_active_item( itype_afs_atomic_wraitheon_music ) ||
+               p->has_active_item( ar_glasses_t1_on ) ||
+               p->has_active_item( ar_glasses_t2_on ) ) {
         p->add_msg_if_player( m_info, _( "You are already listening to music!" ) );
-    } else {
+    } else if( ( it->typeId() == ar_glasses_t1 || it->typeId() == ar_glasses_t2 || it->typeId() == ar_glasses_t2_mil ) && !p->is_worn(*it) )
+	{
+        p->add_msg_if_player( m_info, _( "You have to wear the %s to start listening to music."), it->tname() );
+	} else {
         p->add_msg_if_player( m_info, _( "You put in the earbuds and start listening to music." ) );
         if( it->typeId() == itype_mp3 ) {
             it->convert( itype_mp3_on ).active = true;
@@ -4178,6 +4189,12 @@ cata::optional<int> iuse::mp3( player *p, item *it, bool, const tripoint & )
             it->convert( itype_afs_atomic_smartphone_music ).active = true;
         } else if( it->typeId() == itype_afs_wraitheon_smartphone ) {
             it->convert( itype_afs_atomic_wraitheon_music ).active = true;
+        } else if( it->typeId() == ar_glasses_t1 ) {
+            it->convert( ar_glasses_t1_on ).active = true;
+		} else if( it->typeId() == ar_glasses_t2 ) {
+            it->convert( ar_glasses_t2_on ).active = true;
+		} else if( it->typeId() == ar_glasses_t2_mil ) {
+            it->convert( ar_glasses_t2_mil_on ).active = true;
         }
         p->mod_moves( -200 );
     }
@@ -4266,6 +4283,15 @@ cata::optional<int> iuse::mp3_on( player *p, item *it, bool t, const tripoint &p
         } else if( it->typeId() == itype_afs_atomic_wraitheon_music ) {
             p->add_msg_if_player( _( "The phone turns off." ) );
             it->convert( itype_afs_wraitheon_smartphone ).active = false;
+        } else if( it->typeId() == ar_glasses_t1_on ) {
+            p->add_msg_if_player( _( "The AR glasses turns off." ) );
+            it->convert( ar_glasses_t1 ).active = false;
+		} else if( it->typeId() == ar_glasses_t2_on ) {
+            p->add_msg_if_player( _( "The AR glasses turns off." ) );
+            it->convert( ar_glasses_t2 ).active = false;
+		} else if( it->typeId() ==  ar_glasses_t2_mil_on ) {
+            p->add_msg_if_player( _( "The AR glasses turns off." ) );
+            it->convert( ar_glasses_t2_mil ).active = false;
         }
         p->mod_moves( -200 );
     }
