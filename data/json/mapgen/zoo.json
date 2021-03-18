@@ -340,8 +340,8 @@
       ],
       "place_items": [
         { "chance": 45, "item": "trash", "x": 20, "y": 5 },
-        { "item": "vet_softdrug", "x": 10, "y": 18, "chance": 65, "repeat": [ 2, 5 ] },
-        { "item": "vet_hardrug", "x": 9, "y": 18, "chance": 45, "repeat": [ 2, 5 ] },
+        { "chance": 65, "item": "vet_softdrug", "x": 10, "y": 18, "repeat": [ 2, 5 ] },
+        { "chance": 45, "item": "vet_hardrug", "x": 9, "y": 18, "repeat": [ 2, 5 ]  },
         { "chance": 95, "item": "SUS_janitors_closet", "x": 4, "y": 14 }
       ],
       "place_monster": [
