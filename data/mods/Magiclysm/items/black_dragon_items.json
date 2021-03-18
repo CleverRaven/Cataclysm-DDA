@@ -19,7 +19,7 @@
     "type": "GENERIC",
     "copy-from": "dragon_black_scale",
     "symbol": "=",
-    "name": { "bundle of black dragon scales", "str-pl": "bundles of black dragon scales" },
+    "name": { "str": "bundle of black dragon scales", "str-pl": "bundles of black dragon scales" },
     "proportianal": {
       "price": 10,
       "weight": 10,
