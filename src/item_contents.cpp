@@ -984,7 +984,7 @@ bool item_contents::is_restricted_container() const
 bool item_contents::is_single_restricted_container() const
 {
     std::vector<const item_pocket *> contained_pockets = get_all_contained_pockets().value();
-    return contained_pockets.size() == 1 && contained_pockets[0]->is_restricted() ? true : false;
+    return contained_pockets.size() == 1 && contained_pockets[0]->is_restricted();
 }
 
 item &item_contents::only_item()
