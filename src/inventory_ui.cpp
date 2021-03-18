@@ -88,6 +88,31 @@ struct inventory_input {
     inventory_entry *entry;
 };
 
+struct container_data {
+    units::volume actual_capacity;
+    units::volume total_capacity;
+    units::mass actual_capacity_weight;
+    units::mass total_capacity_weight;
+    units::length max_containable_length;
+
+    const std::string to_formatted_string( const bool compact = true ) {
+        std::string formatted_string;
+        if( compact ) {
+            formatted_string = string_format( "%s/%s : %s/%s : max %s", unit_to_string( actual_capacity, true,
+                                              true ),
+                                              unit_to_string( total_capacity, true, true ), unit_to_string( actual_capacity_weight, true, true ),
+                                              unit_to_string( total_capacity_weight, true, true ), unit_to_string( max_containable_length,
+                                                      true ) );
+        } else {
+            formatted_string = string_format( "(remains %s, %s) max length %s",
+                                              unit_to_string( total_capacity - actual_capacity, true, true ),
+                                              unit_to_string( total_capacity_weight - actual_capacity_weight, true, true ),
+                                              unit_to_string( max_containable_length, true ) );
+        }
+        return formatted_string;
+    }
+};
+
 bool inventory_entry::operator==( const inventory_entry &other ) const
 {
     return get_category_ptr() == other.get_category_ptr() && locations == other.locations;
@@ -284,6 +309,7 @@ std::string inventory_selector_preset::get_cell_text( const inventory_entry &ent
 {
     if( cell_index >= cells.size() ) {
         debugmsg( "Invalid cell index %d.", cell_index );
+        debugmsg( "Invalid cell index %d.", cell_index );
         return "it's a bug!";
     }
     if( !entry ) {
@@ -291,13 +317,25 @@ std::string inventory_selector_preset::get_cell_text( const inventory_entry &ent
     } else if( entry.is_item() ) {
         std::string text = cells[cell_index].get_text( entry );
         const item &actual_item = *entry.locations.front();
-        if( entry.get_category_ptr()->get_id() == item_category_id( "ITEMS_WORN" ) && actual_item.is_container() ) {
-            int max_storage = 0;
-            int actual_storage = 0;
-            int max_length = 0;
-            std::string container_stub = string_format( " > {%dL/%dL:%dm}", actual_storage, max_storage,
-                                         max_length );
-            text = text + container_stub;
+        if( entry.get_category_ptr()->get_id() == item_category_id( "ITEMS_WORN" ) &&
+            actual_item.is_container() && actual_item.has_unrestricted_pockets() ) {
+            const units::volume total_capacity = actual_item.get_total_capacity( true );
+            const units::mass total_capacity_weight = actual_item.get_total_weight_capacity( true );
+            const units::length max_containable_length = actual_item.max_containable_length( true );
+
+            const units::volume actual_capacity = actual_item.get_total_contained_volume( true );
+            const units::mass actual_capacity_weight = actual_item.get_total_contained_weight( true );
+
+            container_data container_data = {
+                actual_capacity,
+                total_capacity,
+                actual_capacity_weight,
+                total_capacity_weight,
+                max_containable_length
+            };
+            std::string formatted_string = container_data.to_formatted_string( false );
+
+            text = text + string_format( " %s", formatted_string );
         }
         return text;
     } else if( cell_index != 0 ) {
