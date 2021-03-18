@@ -80,6 +80,15 @@
     "to_hit": -1
   },
   {
+    "id": "bundle_black_hide",
+    "type": "GENERIC",
+    "copy-from": "black_dragon_tanned_hide",
+    "symbol": ",",
+    "name": { "str": "bundle of black dragon hides", "str_pl": "bundles of black dragon hides" },
+    "proportional": { "price": 10, "weight": 10, "volume": 10 },
+    "description": "Hides from a black dragon, bundled tightly together for storage.  Disassemble to unpack."
+  },
+  {
     "id": "boots_black_dragon_scale",
     "type": "ARMOR",
     "category": "armor",
