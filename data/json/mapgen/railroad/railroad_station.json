@@ -125,7 +125,11 @@
         "7": { "item_group": "vending_food" },
         "8": { "item_group": "vending_drink" },
         "9": { "item_group": "vending_food" }
-      }
+      },
+      "place_vehicles": [
+        { "vehicle": "train_electrical_loco1300", "x": 5, "y": 90, "chance": 5, "rotation": 90, "status": -1 },
+        { "vehicle": "train_electrical_loco1300", "x": 18, "y": 9, "chance": 12, "rotation": 270, "status": 1 }
+      ]
     }
   },
   {
