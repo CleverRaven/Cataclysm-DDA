@@ -1015,7 +1015,7 @@
       "fill_ter": "t_floor",
       "rows": [
         "___________________gggg-",
-        "___________________ggg}-",
+        "___________________gggg-",
         "____rrrrrrrrrrrrrr|||||-",
         "____r.......gggggg|###|-",
         "____r..gg.....ggg.|###|-",
@@ -1028,7 +1028,7 @@
         "____..+.g..........fff|-",
         "____..+.........g..fff|-",
         "____r.c...........|fff|-",
-        "____r.c.....gg....|#ff|-",
+        "____r.c.....gg....|#f}|-",
         "____r.c....gggg...|||||-",
         "____r.c.....gg........|-",
         "____r.c......g........|-",
@@ -1060,8 +1060,8 @@
         { "item": "stick", "repeat": 1, "x": 21, "y": 20 },
         { "chance": 15, "item": "cattlefodder", "x": [ 9, 14 ], "y": [ 7, 17 ], "repeat": [ 8, 12 ] },
         { "chance": 15, "item": "birdfood", "x": [ 9, 14 ], "y": [ 7, 17 ], "repeat": [ 8, 12 ] },
-        { "chance": 90, "item": "cattlefodder", "x": 22, "y": 1, "repeat": [ 5, 10 ] },
-        { "chance": 90, "item": "birdfood", "x": 22, "y": 1, "repeat": [ 4, 8 ] }
+        { "chance": 90, "item": "cattlefodder", "x": 21, "y": 14, "repeat": [ 5, 10 ] },
+        { "chance": 90, "item": "birdfood", "x": 21, "y": 14, "repeat": [ 4, 8 ] }
       ],
       "place_items": [
         { "chance": 55, "item": "trash", "x": 3, "y": 22 },
