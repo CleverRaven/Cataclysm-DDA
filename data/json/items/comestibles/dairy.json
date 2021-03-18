@@ -8,6 +8,7 @@
     "price": 19,
     "price_postapoc": 50,
     "contamination": [ { "disease": "bad_food", "probability": 5 } ],
+    "healthy": -1,
     "description": "This is raw, unhomogenized and unpasteurized milk from a cow.  It couldn't be any fresher unless you drank it straight from the cow, which might upset it.  Depending on your dietary sensibilities, you might want to pasteurize or even boil this before drinking."
   },
   {
