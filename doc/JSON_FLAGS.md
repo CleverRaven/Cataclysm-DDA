@@ -898,6 +898,7 @@ Multiple death functions can be used. Not all combinations make sense.
 - ```NORMAL``` Drop a body, leave gibs.
 - ```RATKING``` Cure verminitis.
 - ```SMOKEBURST``` Explode like a huge smoke bomb.
+- ```TEARBURST``` Explode like a huge tear gas bomb.
 - ```THING``` Turn into a full thing.
 - ```TRIFFID_HEART``` Destroys all roots.
 - ```VINE_CUT``` Kill adjacent vine if it's cut.
