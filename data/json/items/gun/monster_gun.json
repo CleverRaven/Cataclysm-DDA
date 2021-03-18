@@ -78,7 +78,6 @@
     "ammo": [ "rock" ],
     "ammo_effects": [ "NO_PENETRATE_OBSTACLES", "NEVER_MISFIRES" ],
     "clip_size": 1,
-    "ranged_damage": { "damage_type": "bash", "amount": 4 },
     "weight": "540 g",
     "volume": "210 ml",
     "longest_side": "75 mm",
