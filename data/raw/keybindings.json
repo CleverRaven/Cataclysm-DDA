@@ -2245,6 +2245,27 @@
   },
   {
     "type": "keybinding",
+    "category": "DEBUG_SPELLS",
+    "id": "TOGGLE_ALL_SPELL",
+    "name": "Toggle all spells",
+    "bindings": [ { "input_method": "keyboard_any", "key": "t" } ]
+  },
+  {
+    "type": "keybinding",
+    "category": "DEBUG_SPELLS",
+    "id": "UNLEARN_SPELL",
+    "name": "Unlearn a spell",
+    "bindings": [ { "input_method": "keyboard_any", "key": "u" } ]
+  },
+  {
+    "type": "keybinding",
+    "category": "DEBUG_SPELLS",
+    "id": "SHOW_ONLY_LEARNED",
+    "name": "Show only learned",
+    "bindings": [ { "input_method": "keyboard_any", "key": "a" } ]
+  },
+  {
+    "type": "keybinding",
     "name": "Switch Sidebar Style",
     "category": "DEFAULTMODE",
     "id": "toggle_sidebar_style"
