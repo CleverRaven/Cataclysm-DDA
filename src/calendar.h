@@ -607,8 +607,7 @@ enum class weekdays : int {
 };
 
 // Returns day of year normalized to 365 day year.
-// First day of year = 1
-// Last day of year = 365
+// Day 1 of year = Spring equinox (march 20, 79th day of year)
 int normalized_day_of_year( const time_point &p );
 
 weekdays day_of_week( const time_point &p );
