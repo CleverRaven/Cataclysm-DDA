@@ -398,5 +398,12 @@
       },
       { "x": -14, "y": 3, "parts": [ "hdframe_se", "halfboard_se", "plating_steel" ] }
     ]
+  },
+  {
+    "id": "trolley",
+    "type": "vehicle",
+    "name": "Trolley",
+    "blueprint": [ "O" ],
+    "parts": [ { "x": 0, "y": 0, "parts": [ "frame_vertical", "cargo_space", "rail_wheel_small_pair" ] } ]
   }
 ]

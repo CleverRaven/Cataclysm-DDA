@@ -489,7 +489,7 @@ class Character : public Creature, public visitable
         std::pair<std::string, nc_color> get_pain_description() const override;
 
         /** Modifiers for need values exclusive to characters */
-        virtual void mod_stored_kcal( int nkcal );
+        virtual void mod_stored_kcal( int nkcal, bool ignore_weariness = false );
         virtual void mod_stored_nutr( int nnutr );
         virtual void mod_hunger( int nhunger );
         virtual void mod_thirst( int nthirst );
@@ -507,14 +507,14 @@ class Character : public Creature, public visitable
     protected:
 
         // These accept values in calories, 1/1000s of kcals (or Calories)
-        virtual void mod_stored_calories( int ncal );
+        virtual void mod_stored_calories( int ncal, bool ignore_weariness = false );
         virtual void set_stored_calories( int cal );
 
     public:
 
         void mod_stat( const std::string &stat, float modifier ) override;
 
-        int get_standard_stamina_cost( item *thrown_item = nullptr );
+        int get_standard_stamina_cost( const item *thrown_item = nullptr ) const;
 
         /**Get bonus to max_hp from excess stored fat*/
         int get_fat_to_hp() const;
@@ -977,7 +977,7 @@ class Character : public Creature, public visitable
         bool has_bionic_with_flag( const json_character_flag &flag ) const;
         /** This is to prevent clang complaining about overloading a virtual function, the creature version uses monster flags so confusion is unlikely. */
         using Creature::has_flag;
-        /** Returns true if player has a trait or bionic with a flag */
+        /** Returns true if player has a trait, bionic or effect with a flag */
         bool has_flag( const json_character_flag &flag ) const;
         /** Returns the trait id with the given invlet, or an empty string if no trait has that invlet */
         trait_id trait_by_invlet( int ch ) const;
@@ -987,6 +987,13 @@ class Character : public Creature, public visitable
         /** Add or removes a mutation on the player, but does not trigger mutation loss/gain effects. */
         void set_mutations( const std::vector<trait_id> &traits );
         void set_mutation( const trait_id & );
+    protected:
+        // Set a mutation, but don't do any of the necessary updates
+        // Only call this from one of the above two functions
+        void set_mutation_unsafe( const trait_id & );
+    public:
+        // Do the mutation updates necessary when adding a mutation (nonspecific cache updates)
+        void do_mutation_updates();
         void unset_mutation( const trait_id & );
         /**Unset switched mutation and set target mutation instead*/
         void switch_mutations( const trait_id &switched, const trait_id &target, bool start_powered );
@@ -1316,6 +1323,9 @@ class Character : public Creature, public visitable
         /**Is the installation possible*/
         bool can_install_bionics( const itype &type, Character &installer, bool autodoc = false,
                                   int skill_level = -1 );
+        /** Is this bionic elligible to be installed in the player? */
+        // Should be ret_val<void>, but ret_val.h doesn't like it
+        ret_val<bool> is_installable( const item_location &loc, bool by_autodoc ) const;
         std::map<bodypart_id, int> bionic_installation_issues( const bionic_id &bioid );
         /** Initialize all the values needed to start the operation player_activity */
         bool install_bionics( const itype &type, player &installer, bool autodoc = false,
@@ -1648,6 +1658,10 @@ class Character : public Creature, public visitable
          */
         int item_reload_cost( const item &it, const item &ammo, int qty ) const;
 
+        projectile thrown_item_projectile( const item &thrown ) const;
+        int thrown_item_adjusted_damage( const item &thrown ) const;
+        // calculates the total damage possible from a thrown item, without resistances and such.
+        int thrown_item_total_damage_raw( const item &thrown ) const;
         /** Maximum thrown range with a given item, taking all active effects into account. */
         int throw_range( const item & ) const;
         /** Dispersion of a thrown item, against a given target, taking into account whether or not the throw was blind. */
@@ -1860,6 +1874,7 @@ class Character : public Creature, public visitable
         // gets all the spells known by this character that have this spell class
         // spells returned are a copy, do not try to edit them from here, instead use known_magic::get_spell
         std::vector<spell> spells_known_of_class( const trait_id &spell_class ) const;
+        bool cast_spell( spell &sp, bool fake_spell, cata::optional<tripoint> target );
 
         void make_bleed( const effect_source &source, const bodypart_id &bp, time_duration duration,
                          int intensity = 1, bool permanent = false, bool force = false, bool defferred = false );

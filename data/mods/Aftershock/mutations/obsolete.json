@@ -284,7 +284,7 @@
     "points": -2,
     "visibility": 4,
     "ugliness": 5,
-    "description": "You smell like exactly like a shaggy elephant would, assuming it sweated, which you do.  Monsters that track scent will find you very easily, and humans will react poorly.",
+    "description": "You smell exactly like a shaggy elephant would, assuming it sweated, which you do.  Monsters that track scent will find you very easily, and humans will react poorly.",
     "valid": false,
     "scent_intensity": 1200,
     "prereqs": [ "ELEPHANTINE_SMELL" ],

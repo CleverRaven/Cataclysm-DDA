@@ -275,12 +275,10 @@ static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
 
 static const bionic_id bio_ads( "bio_ads" );
 static const bionic_id bio_blaster( "bio_blaster" );
-static const bionic_id bio_climate( "bio_climate" );
 static const bionic_id bio_voice( "bio_voice" );
 static const bionic_id bio_flashlight( "bio_flashlight" );
 static const bionic_id bio_gills( "bio_gills" );
 static const bionic_id bio_ground_sonar( "bio_ground_sonar" );
-static const bionic_id bio_heatsink( "bio_heatsink" );
 static const bionic_id bio_hydraulics( "bio_hydraulics" );
 static const bionic_id bio_jointservo( "bio_jointservo" );
 static const bionic_id bio_laser( "bio_laser" );
@@ -386,6 +384,7 @@ static const json_character_flag json_flag_BLIND( "BLIND" );
 static const json_character_flag json_flag_BULLET_IMMUNE( "BULLET_IMMUNE" );
 static const json_character_flag json_flag_CLAIRVOYANCE( "CLAIRVOYANCE" );
 static const json_character_flag json_flag_CLAIRVOYANCE_PLUS( "CLAIRVOYANCE_PLUS" );
+static const json_character_flag json_flag_CLIMATE_CONTROL( "CLIMATE_CONTROL" );
 static const json_character_flag json_flag_COLD_IMMUNE( "COLD_IMMUNE" );
 static const json_character_flag json_flag_CUT_IMMUNE( "CUT_IMMUNE" );
 static const json_character_flag json_flag_DEAF( "DEAF" );
@@ -393,8 +392,10 @@ static const json_character_flag json_flag_ELECTRIC_IMMUNE( "ELECTRIC_IMMUNE" );
 static const json_character_flag json_flag_ENHANCED_VISION( "ENHANCED_VISION" );
 static const json_character_flag json_flag_EYE_MEMBRANE( "EYE_MEMBRANE" );
 static const json_character_flag json_flag_HEATPROOF( "HEATPROOF" );
+static const json_character_flag json_flag_HEATSINK( "HEATSINK" );
 static const json_character_flag json_flag_IMMUNE_HEARING_DAMAGE( "IMMUNE_HEARING_DAMAGE" );
 static const json_character_flag json_flag_INFRARED( "INFRARED" );
+static const json_character_flag json_flag_INVISIBLE( "INVISIBLE" );
 static const json_character_flag json_flag_NIGHT_VISION( "NIGHT_VISION" );
 static const json_character_flag json_flag_NO_DISEASE( "NO_DISEASE" );
 static const json_character_flag json_flag_NO_MINIMAL_HEALING( "NO_MINIMAL_HEALING" );
@@ -1445,9 +1446,26 @@ bool Character::uncanny_dodge()
     } else if( can_dodge_mut ) {
         mod_stamina( -300 );
     }
+
+    map &here = get_map();
+    const optional_vpart_position veh_part = here.veh_at( position );
+    if( in_vehicle && veh_part && veh_part.avail_part_with_feature( "SEATBELT" ) ) {
+        return false;
+    }
+
+    //uncanny dodge triggered in car and wasn't secured by seatbelt
+    if( in_vehicle && veh_part ) {
+        here.unboard_vehicle( pos() );
+    }
     if( adjacent.x != posx() || adjacent.y != posy() ) {
         position.x = adjacent.x;
         position.y = adjacent.y;
+
+        //landed in a vehicle tile
+        if( here.veh_at( position ) ) {
+            here.board_vehicle( pos(), this );
+        }
+
         if( is_u ) {
             add_msg( _( "Time seems to slow down, and you instinctively dodge!" ) );
         } else if( seen ) {
@@ -2324,6 +2342,7 @@ bionic_id Character::get_most_efficient_bionic( const std::vector<bionic_id> &bi
 
 void Character::practice( const skill_id &id, int amount, int cap, bool suppress_warning )
 {
+    static const int INTMAX_SQRT = std::floor( std::sqrt( std::numeric_limits<int>::max() ) );
     SkillLevel &level = get_skill_level_object( id );
     const Skill &skill = id.obj();
     if( !level.can_train() && !in_sleep_state() ) {
@@ -2400,6 +2419,9 @@ void Character::practice( const skill_id &id, int amount, int cap, bool suppress
             // The latter kicks in when long actions like crafting
             // apply many turns of gains at once.
             int focus_drain = std::max( focus_pool / 100, amount );
+            // For large values of amount, amount^2 can exceed INT_MAX.
+            // We're going to be draining all of the focus if it gets that large, so cap it at a safe value
+            focus_drain = std::min( focus_drain, INTMAX_SQRT );
             // The purpose of having this squared is that it makes focus drain dramatically slower
             // as it approaches zero.
             focus_pool -= ( focus_drain * focus_drain ) / 1000;
@@ -2654,7 +2676,7 @@ int Character::get_mod_stat_from_bionic( const character_stat &Stat ) const
     return ret;
 }
 
-int Character::get_standard_stamina_cost( item *thrown_item )
+int Character::get_standard_stamina_cost( const item *thrown_item ) const
 {
     // Previously calculated as 2_gram * std::max( 1, str_cur )
     // using 16_gram normalizes it to 8 str. Same effort expenditure
@@ -4367,8 +4389,7 @@ bool Character::has_nv()
     if( !nv_cached ) {
         nv_cached = true;
         nv = ( worn_with_flag( flag_GNV_EFFECT ) ||
-               has_flag( json_flag_NIGHT_VISION ) ||
-               has_effect_with_flag( flag_EFFECT_NIGHT_VISION ) );
+               has_flag( json_flag_NIGHT_VISION ) );
     }
 
     return nv;
@@ -4530,7 +4551,7 @@ bool Character::in_climate_control()
 {
     bool regulated_area = false;
     // Check
-    if( has_active_bionic( bio_climate ) ) {
+    if( has_flag( json_flag_CLIMATE_CONTROL ) ) {
         return true;
     }
     map &here = get_map();
@@ -5078,24 +5099,28 @@ void weariness_tracker::clear()
     tick_counter = 0;
 }
 
-void Character::mod_stored_kcal( int nkcal )
+void Character::mod_stored_kcal( int nkcal, const bool ignore_weariness )
 {
     const bool npc_no_food = is_npc() && get_option<bool>( "NO_NPC_FOOD" );
     if( !npc_no_food ) {
-        mod_stored_calories( nkcal * 1000 );
+        mod_stored_calories( nkcal * 1000, ignore_weariness );
     }
 }
 
-void Character::mod_stored_calories( int ncal )
+void Character::mod_stored_calories( int ncal, const bool ignore_weariness )
 {
     int nkcal = ncal / 1000;
     if( nkcal > 0 ) {
         add_gained_calories( nkcal );
-        weary.intake += nkcal;
+        if( !ignore_weariness ) {
+            weary.intake += nkcal;
+        }
     } else {
         add_spent_calories( -nkcal );
         // nkcal is negative, we need positive
-        weary.tracker -= nkcal;
+        if( !ignore_weariness ) {
+            weary.tracker -= nkcal;
+        }
     }
     set_stored_calories( stored_calories + ncal );
 }
@@ -6497,7 +6522,7 @@ void Character::update_bodytemp()
     const bool has_sleep = has_effect( effect_sleep );
     const bool has_sleep_state = has_sleep || in_sleep_state();
     const bool heat_immune = has_flag( json_flag_HEATPROOF );
-    const bool has_heatsink = has_bionic( bio_heatsink ) || is_wearing( itype_rm13_armor_on ) ||
+    const bool has_heatsink = has_flag( json_flag_HEATSINK ) || is_wearing( itype_rm13_armor_on ) ||
                               heat_immune;
     const bool has_common_cold = has_effect( effect_common_cold );
     const bool has_climate_control = in_climate_control();
@@ -7515,7 +7540,7 @@ bool Character::is_immune_field( const field_type_id &fid ) const
         return is_elec_immune();
     }
     if( ft.has_fire ) {
-        return has_active_bionic( bio_heatsink ) || is_wearing( itype_rm13_armor_on );
+        return has_flag( json_flag_HEATSINK ) || is_wearing( itype_rm13_armor_on );
     }
     if( ft.has_acid ) {
         return !is_on_ground() && get_env_resist( body_part_foot_l ) >= 15 &&
@@ -7567,40 +7592,31 @@ bool Character::is_immune_damage( const damage_type dt ) const
             return false;
         case damage_type::BIOLOGICAL:
             return has_flag( json_flag_BIO_IMMUNE ) ||
-                   has_effect_with_flag( flag_EFFECT_BIO_IMMUNE ) ||
                    worn_with_flag( flag_BIO_IMMUNE );
         case damage_type::BASH:
             return has_flag( json_flag_BASH_IMMUNE ) ||
-                   has_effect_with_flag( flag_EFFECT_BASH_IMMUNE ) ||
                    worn_with_flag( flag_BASH_IMMUNE );
         case damage_type::CUT:
             return has_flag( json_flag_CUT_IMMUNE ) ||
-                   has_effect_with_flag( flag_EFFECT_CUT_IMMUNE ) ||
                    worn_with_flag( flag_CUT_IMMUNE );
         case damage_type::ACID:
             return has_flag( json_flag_ACID_IMMUNE ) ||
-                   has_effect_with_flag( flag_EFFECT_ACID_IMMUNE ) ||
                    worn_with_flag( flag_ACID_IMMUNE );
         case damage_type::STAB:
             return has_flag( json_flag_STAB_IMMUNE ) ||
-                   has_effect_with_flag( flag_EFFECT_STAB_IMMUNE ) ||
                    worn_with_flag( flag_STAB_IMMUNE );
         case damage_type::BULLET:
             return has_flag( json_flag_BULLET_IMMUNE ) ||
-                   has_effect_with_flag( flag_EFFECT_BULLET_IMMUNE ) ||
                    worn_with_flag( flag_BULLET_IMMUNE );
         case damage_type::HEAT:
             return has_flag( json_flag_HEATPROOF ) ||
-                   has_effect_with_flag( flag_EFFECT_HEAT_IMMUNE ) ||
                    worn_with_flag( flag_HEAT_IMMUNE );
         case damage_type::COLD:
             return has_flag( json_flag_COLD_IMMUNE ) ||
-                   has_effect_with_flag( flag_EFFECT_COLD_IMMUNE ) ||
                    worn_with_flag( flag_COLD_IMMUNE );
         case damage_type::ELECTRIC:
             return has_flag( json_flag_ELECTRIC_IMMUNE ) ||
-                   worn_with_flag( flag_ELECTRIC_IMMUNE ) ||
-                   has_effect_with_flag( flag_EFFECT_ELECTRIC_IMMUNE );
+                   worn_with_flag( flag_ELECTRIC_IMMUNE );
         default:
             return true;
     }
@@ -7690,14 +7706,13 @@ tripoint_abs_omt Character::global_omt_location() const
 bool Character::is_blind() const
 {
     return ( worn_with_flag( flag_BLIND ) ||
-             has_effect( effect_blind ) ||
              has_flag( json_flag_BLIND ) );
 }
 
 bool Character::is_invisible() const
 {
     return (
-               has_effect_with_flag( flag_EFFECT_INVISIBLE ) ||
+               has_flag( json_flag_INVISIBLE ) ||
                is_wearing_active_optcloak() ||
                has_trait( trait_DEBUG_CLOAK )
            );
@@ -12477,22 +12492,9 @@ int Character::sleep_spot( const tripoint &p ) const
     if( has_addiction( add_type::SLEEP ) ) {
         sleepy -= 4;
     }
-    if( has_trait( trait_INSOMNIA ) ) {
-        // 12.5 points is the difference between "tired" and "dead tired"
-        sleepy -= 12;
-    }
-    if( has_trait( trait_EASYSLEEPER ) ) {
-        // Low fatigue (being rested) has a much stronger effect than high fatigue
-        // so it's OK for the value to be that much higher
-        sleepy += 24;
-    }
-    if( has_active_bionic( bio_soporific ) ) {
-        sleepy += 30;
-    }
-    if( has_trait( trait_EASYSLEEPER2 ) ) {
-        // Mousefolk can sleep just about anywhere.
-        sleepy += 40;
-    }
+
+    sleepy = enchantment_cache->modify_value( enchant_vals::mod::SLEEPY, sleepy );
+
     if( watersleep && get_map().has_flag_ter( "SWIMMABLE", pos() ) ) {
         sleepy += 10; //comfy water!
     }
@@ -13229,6 +13231,6 @@ bool Character::has_bionic_with_flag( const json_character_flag &flag ) const
 
 bool Character::has_flag( const json_character_flag &flag ) const
 {
-    // If this is a performance problem create a map of flags stored for a character and updated on trait, mutation, bionic add/remove, activate/deactivate
-    return has_trait_flag( flag ) || has_bionic_with_flag( flag );
+    // If this is a performance problem create a map of flags stored for a character and updated on trait, mutation, bionic add/remove, activate/deactivate, effect gain/loss
+    return has_trait_flag( flag ) || has_bionic_with_flag( flag ) || has_effect_with_flag( flag );
 }

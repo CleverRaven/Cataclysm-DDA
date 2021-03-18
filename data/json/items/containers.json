@@ -162,7 +162,7 @@
     "flags": [ "TRADER_AVOID" ]
   },
   {
-    "id": "bag_paper_powder_small",
+    "id": "bag_paper_powder",
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "small powder paper bag" },
@@ -177,7 +177,7 @@
       {
         "pocket_type": "CONTAINER",
         "watertight": false,
-        "max_contains_volume": "2 L",
+        "max_contains_volume": "2500 ml",
         "max_contains_weight": "2 kg",
         "moves": 200
       }
@@ -538,7 +538,7 @@
     "description": "A galvanized bucket for peanuts, chilled wine, iced beer, lobster, crab legs, French fries, animal feed, farm use, tailgating, crafts, planting flowers, holding gift baskets, containing a fruit basket and herbs, loose item storage or as an ice bucket.",
     "ascii_picture": "bucket",
     "weight": "725 g",
-    "volume": "5 L",
+    "volume": "5500 ml",
     "price": 300,
     "price_postapoc": 10,
     "material": [ "steel" ],
@@ -550,7 +550,7 @@
         "rigid": true,
         "watertight": true,
         "open_container": true,
-        "max_contains_volume": "4990 ml",
+        "max_contains_volume": "5000 ml",
         "max_contains_weight": "20 kg"
       }
     ],

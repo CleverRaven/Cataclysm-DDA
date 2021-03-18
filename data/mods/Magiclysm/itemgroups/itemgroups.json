@@ -237,7 +237,15 @@
   {
     "type": "item_group",
     "id": "magic_shop_clothes",
-    "items": [ [ "cloak", 3 ], [ "cloak_wool", 5 ], [ "jedi_cloak", 3 ], [ "robe", 5 ], [ "tophat", 5 ], [ "leathersandals", 6 ] ]
+    "items": [
+      [ "cloak", 3 ],
+      [ "cloak_wool", 5 ],
+      [ "jedi_cloak", 3 ],
+      [ "robe", 5 ],
+      [ "tophat", 5 ],
+      [ "leathersandals", 6 ],
+      [ "bookstrap", 2 ]
+    ]
   },
   {
     "type": "item_group",
@@ -833,7 +841,7 @@
           { "item": "wizard_advanced", "prob": 5 },
           { "item": "pyro", "prob": 5 },
           { "item": "spell_scroll_fireball", "prob": 10 },
-          { "item": "spell_scroll_recover_bionic_power", "prob": 50 },
+          { "item": "spell_scroll_nova_flare", "prob": 50 },
           { "item": "spell_scroll_cone_cold", "prob": 50 },
           { "item": "spell_scroll_hoary_blast", "prob": 50 }
         ],

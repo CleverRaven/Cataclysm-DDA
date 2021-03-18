@@ -183,15 +183,6 @@ then
     # fills the log with nonsense.
     TERM=dumb ./gradlew assembleExperimentalRelease -Pj=$num_jobs -Plocalize=false -Pabi_arm_32=false -Pabi_arm_64=true -Pdeps=/home/travis/build/CleverRaven/Cataclysm-DDA/android/app/deps.zip
 else
-    if [ "$OS" == "macos-10.15" ]
-    then
-        # if OSX_MIN we specify here is lower than 10.15 then linker is going
-        # to throw warnings because SDL and gettext libraries installed from 
-        # Homebrew are built with minimum target osx version 10.15
-        export OSX_MIN=10.15
-    else
-        export BACKTRACE=1
-    fi
     make -j "$num_jobs" RELEASE=1 CCACHE=1 CROSS="$CROSS_COMPILATION" LINTJSON=0
 
     export ASAN_OPTIONS=detect_odr_violation=1

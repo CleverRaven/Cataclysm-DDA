@@ -13,7 +13,7 @@
   - [Bionics](#bionics)
   - [Books](#books)
     - [Use actions](#use-actions)
-  - [Character - (Bionic/Mutation)](#character)
+  - [Character - (Bionic/Mutation/Effect)](#character)
   - [Comestibles](#comestibles)
     - [Comestible type](#comestible-type)
     - [Addiction type](#addiction-type)
@@ -206,6 +206,10 @@ These are handled through `ammo_types.json`.  You can tag a weapon with these to
 - ```WIDE``` Prevents `HARDTOSHOOT` monster flag from having any effect. Implied by ```SHOT``` or liquid ammo.
 - ```NON_FOULING``` This ammo does not cause dirtying or blackpowder fouling on the gun when fired.
 
+## Traps
+
+- ```SONAR_DETECTABLE``` This trap can be identified with ground-penetrating SONAR.
+- ```CONVECTS_TEMPERATURE``` This trap convects temperature, like lava.
 
 ## Armor
 
@@ -894,6 +898,7 @@ Multiple death functions can be used. Not all combinations make sense.
 - ```NORMAL``` Drop a body, leave gibs.
 - ```RATKING``` Cure verminitis.
 - ```SMOKEBURST``` Explode like a huge smoke bomb.
+- ```TEARBURST``` Explode like a huge tear gas bomb.
 - ```THING``` Turn into a full thing.
 - ```TRIFFID_HEART``` Destroys all roots.
 - ```VINE_CUT``` Kill adjacent vine if it's cut.
@@ -1433,6 +1438,7 @@ Those flags are added by the game code to specific items (for example, that spec
 - ```SOLAR_PANEL``` Recharges vehicle batteries when exposed to sunlight. Has a 1 in 4 chance of being broken on car generation.
 - ```SPACE_HEATER``` There is separate command to toggle this part.
 - ```STABLE``` Similar to `WHEEL`, but if the vehicle is only a 1x1 section, this single wheel counts as enough wheels.
+- ```UNSTABLE_WHEEL``` The opposite of `STABLE` - this will not provide for the wheeling needs of your vehicle if installed alone.
 - ```STEERABLE``` This wheel is steerable.
 - ```STEREO```
 - ```TRANSFORM_TERRAIN``` Transform terrain (using rules defined in ```transform_terrain```).
@@ -1538,3 +1544,8 @@ Gun fault flags:
 - ```ALARMCLOCK``` You always can set alarms.
 - ```PARAIMMUNE``` You are immune to parasites.
 - ```IMMUNE_SPOIL``` You are immune to negative outcomes from spoiled food.
+- ```FEATHER_FALL``` You are immune to fall damage.
+- ```INVISIBLE``` You can't be seen.
+- ```DIMENSIONAL_ANCHOR``` You can't be teleported.
+- ```CLIMATE_CONTROL``` You are resistant to extreme temperatures.
+- ```HEATSINK``` You are resistant to extreme heat.
