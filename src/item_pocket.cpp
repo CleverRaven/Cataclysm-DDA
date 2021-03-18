@@ -350,6 +350,11 @@ bool item_pocket::is_funnel_container( units::volume &bigger_than ) const
     return false;
 }
 
+bool item_pocket::is_restricted() const
+{
+    return data->get_flag_restrictions().size() > 0;
+}
+
 std::list<item *> item_pocket::all_items_top()
 {
     std::list<item *> items;
