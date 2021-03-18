@@ -205,7 +205,7 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
     if( random_scenario ) {
         std::vector<const scenario *> scenarios;
         for( const auto &scen : scenario::get_all() ) {
-            if( !scen.has_flag( flag_CHALLENGE ) &&
+            if( !scen.has_flag( flag_CHALLENGE ) && !scen.scen_is_blacklisted() &&
                 ( !scen.has_flag( flag_CITY_START ) || cities_enabled ) ) {
                 scenarios.emplace_back( &scen );
             }
