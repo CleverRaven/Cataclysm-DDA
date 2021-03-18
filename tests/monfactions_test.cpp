@@ -14,7 +14,8 @@ TEST_CASE( "generate_monfactions_attitude_matrix", "[.]" )
         for( const auto &f1 : monfactions::get_all() ) {
             mf_attitude att = f.attitude( f1.id );
             mf_attitude rev_att = f1.attitude( f.id );
-            outfile << f.id.str() << "->" << f1.id.str() << ": ";
+	    // NOLINTNEXTLINE(cata-text-style)
+            outfile << f.id.str() << "->" << f1.id.str() << ":\t";
             switch( att ) {
                 case MFA_BY_MOOD:
                     outfile << "MFA_BY_MOOD";
@@ -32,7 +33,8 @@ TEST_CASE( "generate_monfactions_attitude_matrix", "[.]" )
                     outfile << "MFA_SIZE";
                     break;
             }
-            outfile << " (Rev: ";
+            // NOLINTNEXTLINE(cata-text-style)
+            outfile << "\t(Rev: ";
             switch( rev_att ) {
                 case MFA_BY_MOOD:
                     outfile << "MFA_BY_MOOD";

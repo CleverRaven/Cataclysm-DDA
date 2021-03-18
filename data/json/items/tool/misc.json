@@ -505,24 +505,6 @@
     "flags": [ "WRITE_MESSAGE", "NO_RELOAD", "NO_UNLOAD" ]
   },
   {
-    "id": "pheromone",
-    "type": "TOOL",
-    "name": { "str": "zombie pheromone" },
-    "description": "This is a disgusting ball of rotting meat of zombie origin.  Squeezing this gland causes a small cloud of pheromones to spray into the air.  Apparently, the foul secretion can change zombies' attitude towards you, and they may ignore you for a short period of time.  Perhaps they briefly consider you as one of them.",
-    "weight": "238 g",
-    "volume": "250 ml",
-    "price": 4000,
-    "price_postapoc": 100,
-    "to_hit": -1,
-    "material": [ "flesh" ],
-    "symbol": "*",
-    "color": "red",
-    "initial_charges": 3,
-    "max_charges": 3,
-    "charges_per_use": 1,
-    "use_action": [ "PHEROMONE" ]
-  },
-  {
     "id": "pocketwatch",
     "type": "TOOL",
     "name": { "str": "pocket watch", "str_pl": "pocket watches" },

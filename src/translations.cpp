@@ -32,13 +32,13 @@
 #include "rng.h"
 #include "text_style_check.h"
 
-#if defined(MACOSX)
+#if defined(__APPLE__)
 #include <CoreFoundation/CFLocale.h>
 #include <CoreFoundation/CoreFoundation.h>
 
 #include "cata_utility.h"
 
-std::string getOSXSystemLang();
+std::string getAppleSystemLang();
 #endif
 
 #if defined(__ANDROID__)
@@ -214,8 +214,8 @@ void set_language()
     std::string system_lang;
 #if defined(_WIN32)
     system_lang = getLangFromLCID( GetUserDefaultLCID() );
-#elif defined(MACOSX)
-    system_lang = getOSXSystemLang();
+#elif defined(__APPLE__)
+    system_lang = getAppleSystemLang(); // macOS and iOS
 #elif defined(__ANDROID__)
     system_lang = getAndroidSystemLang();
 #endif
@@ -288,8 +288,8 @@ void set_language()
     } while( current_language_version == INVALID_LANGUAGE_VERSION );
 }
 
-#if defined(MACOSX)
-std::string getOSXSystemLang()
+#if defined(__APPLE__)
+std::string getAppleSystemLang()
 {
     // Get the user's language list (in order of preference)
     CFArrayRef langs = CFLocaleCopyPreferredLanguages();
@@ -824,7 +824,7 @@ bool localized_comparator::operator()( const std::string &l, const std::string &
     // expected on regular strings; no workarounds needed.
     // See https://github.com/CleverRaven/Cataclysm-DDA/pull/40041 for further
     // discussion.
-#if defined(MACOSX)
+#if defined(__APPLE__) // macOS and iOS
     CFStringRef lr = CFStringCreateWithCStringNoCopy( kCFAllocatorDefault, l.c_str(),
                      kCFStringEncodingUTF8, kCFAllocatorNull );
     CFStringRef rr = CFStringCreateWithCStringNoCopy( kCFAllocatorDefault, r.c_str(),
@@ -842,7 +842,7 @@ bool localized_comparator::operator()( const std::string &l, const std::string &
 
 bool localized_comparator::operator()( const std::wstring &l, const std::wstring &r ) const
 {
-#if defined(MACOSX)
+#if defined(__APPLE__) // macOS and iOS
     return ( *this )( wstr_to_utf8( l ), wstr_to_utf8( r ) );
 #else
     return std::locale()( l, r );

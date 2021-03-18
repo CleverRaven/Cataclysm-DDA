@@ -1,4 +1,4 @@
-# 0.F (2020-12-01)
+# 0.F (2021-01-01)
 
 ## Features:
 Adds option to randomize INITIAL_DAY.
@@ -11,46 +11,48 @@ Auto eat and drink from auto-zones during long activities/waiting.
 Flyable Helicopters.
 Towing vehicles.
 User defined height and age.
-Add support for json-defined achievements to provide more goals to strive for.
-Lock picking overhaul.
-Rot items away in reality bubble.
-Display holiday on main menu screen based on system time.
-Separate bullet damage type from cut/stab.
+Adds support for json-defined achievements to provide more goals to strive for.
+Overhauls lock picking.
+Appropriate items can now rot away when in the reality bubble.
+Displays holidays on main menu screen based on system time.
+Separates bullet damage type from cut/stab.
 Makes consuming items take time.
-Implement damage over time spell infrastructure.
-Nested Container system.
-Add support for conducts (self-imposed play constraints tracked by the game).
+Enables damage over time for spells.
+Enables nested containers.
+Adds support for conducts (self-imposed play constraints tracked by the game).
 Custom achievement/conduct requirement descriptions.
-[Magiclysm] Add spell level and number of spells known achievements.
-Allow event_statistic to be defined as first and last events in an event stream.
-Enable mouse input for inventory.
+[Magiclysm] Adds spell level and number of spells known achievements.
+Enables mouse input for inventory.
 Worn gloves count as unarmed weapons when no weapon is held.
 Any corpse can rise again as a zombie.
-Added ability to stop bleeding, disinfect wounds, and inject antibiotics in case of infected wounds or tetanus to an autodoc.
+Added to autodocs the ability to stop bleeding, disinfect wounds, and inject antibiotics in case of infected wounds or tetanus.
 Allow randomizing scenario and profession in new character menu.
 Workout and exercise.
 Vehicles: ground vehicle z-level transitions and z+1 bridges.
 Remove static/random NPC options, adjust random NPC rates.
-Blood and blood loss overhaul.
+Overhauls blood and blood loss.
 Artifact procgen - artifacts that spawn use the new relic data.
 Grappling hooks can be deployed for climbing, just like ladders.
-Add proficiencies, representing specific knowledge in a certain area not covered by normal skills.
-Add facing to vehicle parts and tiles for better vehicle rendering.
-Add activation abilities and charges to relics.
+Adds proficiencies, representing specific knowledge in particular areas more precisely than by normal skills.
+Adds facing to vehicle parts and tiles for better vehicle rendering.
+Adds activation abilities and charges to relics.
 Tiles: improve furniture rotation and connections.
-Show which achievements have been completed in past games.
-Artifacts regenerate ammo option.
+Shows which achievements have been completed in past games.
+Artifacts may now regenerate ammo.
 Adds ACTIVE enchantment condition.
 Allows recipes to specify individual activity levels.
 Adds weariness, a sort of long term stamina that limits characters' ability to be extremely active 24/7.
 Reports faction camp build sites and improves faction camp tutorial.
+Allows customizing initial date in scenarios.
+Allows nanofabricator templates to contain recipes from any item group.
+Adds different bleeding types for different species.
 
 ## Content:
 Gun volume and weight audit.
-Move most urban development houses to vanilla.
-Add Survivor RV and car.
-Populate rooftops with monsters.
-Large addition of chemicals, chemistry tools and recipes.
+Moves most urban development houses from a mod to vanilla.
+Adds Survivor RV and car.
+Populates appropriate rooftops with monsters.
+Adds many chemicals, chemistry tools, and recipes.
 Mi-go, masters, and necromancers can open doors.
 Adds a bulk shipping crate possibility to the supplydrop map extra.
 New zombie: necro-boomer.
@@ -77,40 +79,42 @@ Adds streetlights to sidewalks; also adds traffic lights, stop lines, and pedest
 Adds Rust Zombies.
 Diversifies venom sources and effects.
 Adds a star fort with working cannon and zombie reenactors.
+Adds Hot Springs location.
+Adds a terrain flag 'NO_SHOOT' to prevent projectiles from striking or going through that tile type.
+Enables using a rope to carry large items.
 
 ## Interface:
-Introduce and migrate most windows to ui_adaptor, which handles redrawing windows when others are closed and the game is resized.
-Crafting GUI - Highlight hidden recipe info.
-Overhaul target selection and aiming UI.
-Display missing and obsolete mods for current world.
-Require grenades and other explosives to be wielded before activation.
-Add bigger mini-maps to all sidebar layouts.
-Add keycode support to uilist.
-Allow disabling robots by 'e'xamining them.
-Warn if friendly creature or non-hostile NPC enters line of fire.
+Introduces, and migrates most windows to, ui_adaptor, which handles redrawing windows when others are closed and the game is resized.
+Highlights hidden recipe info in the crafting GUI.
+Overhauls target selection and aiming UI.
+Displays missing and obsolete mods for current world.
+Requires grenades and other explosives to be wielded before activation.
+Adds bigger mini-maps to all sidebar layouts.
+Adds keycode support to uilist.
+Allows attempting to disable robots by 'e'xamining them.
+Warns if a friendly creature or non-hostile NPC enters the line of fire.
 Replaces the CAL/kg column of the (E)at menu with a more meaningful Satiety column.
 Adds a Mod to use MSX characters and monsters with the Ultica tileset.
-Show missing proficiency failure rates for crafting.
-Display contained items like 'water (plastic bottle)' instead of 'plastic bottle of water'.
-Persist preferred aiming mode.
+Shows crafting failure rates due to missing proficiencies.
+Displays contained items like 'water (plastic bottle)' instead of as 'plastic bottle of water'.
+Keeps track of preferred aiming mode.
 Makes Chibi Ultica a stand-alone tileset.
 Brings back MSX+.
-Add item length and pocket volume entries to menus.
-Adds fast scroll to many menus with long lists.
-Adds responsive screen behavior to new character menu for small terminal sizes.
+Adds item length and pocket volume entries to menus.
+Adds fast scrolling to many menus with long lists.
+Adds responsive screen behavior to the new character menu for small terminal sizes.
 
 ## Mods:
 [Magiclysm] Manatouched mutation tree.
-Add Dark Skies Above, a partial conversion mod based around an alien invasion rather than a zombie apocalypse.
-Overhaul Blazemod and split into seperate mods.
-[MMA] Add Ki Strike trait.
-Polymorph spells to transform your foes.
-Spells using components system.
-Aftershock: Add autodoc tiers and augmentation clinics.
-Adds location variants with dinosaurs.
-Aftershock: Megacity oriented overmap generation adjustments
+Overhauls Blazemod and splits it into separate mods.
+[MMA] Adds Ki Strike trait.
+[Magiclysm] Adds polymorph spells so you can transform your foes.
+[Magiclysm] Adds a spell component system and more-powerful spells to use it.
+Aftershock: Adds autodoc tiers and augmentation clinics.
+[DinoMod] Adds location variants with dinosaurs.
+Aftershock: Megacity-oriented overmap generation adjustments
 Aftershock: Adds new Melee oriented bionics.
-Adds Acrocanthosaurus, dino baby overhaul.
+[DinoMod] Adds Acrocanthosaurus and overhauls dino baby code.
 Adds New Black Dragon Mutation Line.
 Adjusts fog frequency in black dragon lair plus other (minor) map adjustments.
 Adds monsters 'Scutellosaurus', 'Maiasaura', and 'Coelophysis'.
@@ -125,8 +129,10 @@ Aftershock: Replaces Vanilla autodocs with Aftershock Average Autodocs.
 DinoMod: Adds monsters 'Brontosaurus', 'Alamosaurus', and 'Brachiosaurus'.
 [Magiclysm] Rings of wizardry and mojocycle tweaks
 [Magiclysm] Adds bullet armor to magic rings and bracers of protection.
-DinoMod: Converts 'dinoexhibit' to use templates, adds a roof, and adds a baby dino variant.
-Ankylosaurs Abound: Dyoplosaurus Nodosaurus Edmontonia
+[DinoMod] Converts 'dinoexhibit' to use templates, adds a roof, and adds a baby dino variant.
+[DinoMod] Ankylosaurs Abound: Adds Dyoplosaurus, Nodosaurus, and Edmontonia.
+[Aftershock] Adds an astrobiology lab.
+[DinoMod] Adds Amargasaurus and Kosmoceratops as well as variants.
 
 ## Balance:
 Large item price audit.
@@ -145,69 +151,84 @@ Brings reloading components closer to reality, make brass casings spawn in packs
 Missed scenario starts without a random NPC.
 Monsters with larger eyes see farther than smaller variants.
 Ankle storage items don't affect feet-related mutations anymore.
-Give the default Survivor profession more weather-appropriate clothes for the default start.
-Rebalance anesthesia to be more realistic.
+Gives the default Survivor profession more weather-appropriate clothes for the default start.
+Rebalances anesthesia to be more realistic.
+Eating raw meat does not hurt your morale as much if you have traits like Hunter or Predator.
+Very-fast-moving zombie animals only attack once per turn.
 
 ## Bugfixes:
 Prevents possible negative damage from explosions.
 Removes scent diffusion over water by implementing NO_SCENT flag.
-Give electric motors equal power in both forward and reverse.
-Fix wield action costing double than it should.
-Fix spells not gaining levels on cast.
-Fix for light sources rendering player invisible at certain ranges.
-Fix crash when NPC gives player equipment.
-Fix "Unable to find and assign mission target" message when accepting mission.
+Gives electric motors equal power in forward and reverse.
+Fixes wield action costing double what it should have.
+Fixes spells not gaining levels on cast.
+Fixes light sources rendering the player invisible at certain ranges.
+Fixes a crash when an NPC gives the player equipment.
+Fixes "Unable to find and assign mission target" messages when accepting a mission.
 No more floor items when trading with follower NPCs.
-Fix crash by not accessing null basecamp.
-Helicopters: Allow descending into open air while moving, and disallow roof teleporting.
-Fix cold item rotting in freezer and add more rotting tests.
-Place cursor at highlighted item name in construction and crafting menus as expected by screen readers.
-Spawn regular ants under regular anthills.
-melee: Make sure that melee weapon accuracy improves hit rates.
-Reduce level of vehicle heater/cooler as its now too much after 1-second turns.
-Wake up player if too cold due to hypothermia.
+Fixes crashes from trying to access a nonexistant basecamp.
+Helicopters: Allows descending into open air while moving, and disallows roof teleporting.
+Fixes cold items rotting in a freezer and adds more rotting tests.
+Places cursor at highlighted item name in construction and crafting menus, as expected by screen readers.
+Spawns regular ants under regular anthills.
+Melee: Makes sure that melee weapon accuracy improves hit rates.
+Adjusts vehicle heater/cooler for 1-second turns.
+Wakes up the player if about to go into hypothermia.
 Fixes a segfault during initializing crafts.
-fixes segfault when attempting to siphon from vehicle with multiple tanks.
-Fix creatures blocking descend even if they can be displaced.
-Fix OnGetHit effects not triggering if player cannot block.
-Refactor monster spawning code to avoid crash.
-Reset game mode before loading normal saves.
-Minimize UI flickering on curses.
-Fix crash upon examining vehicles containing minireactor.
-Fix segfault on harvest.
-Fix loading of legacy characters without bodies.
-Fix explosions not affecting terrain.
-Do not process held item twice.
-Fix crash when trying to reloading item inside advanced inventory
-Blobs are slimes. name them such.
-Fix freezing to death when wet.
-Fix weapon techniques not triggering.
-Prevent some obscure crashes by adding nullptr checks to unsafe pointer accesses.
+Fixes a segfault from attempting to siphon from vehicle with multiple tanks.
+Fixes creatures blocking descent even if they can be displaced.
+Fixes OnGetHit effects not triggering if the player cannot block.
+Refactors the monster spawning code to avoid crashes.
+Resets the game mode before loading normal saves.
+Minimizes UI flickering in curses mode.
+Fixes crash upon examining vehicles containing minireactor.
+Fixes segfault on harvest.
+Fixes loading of legacy characters without bodies.
+Fixes explosions not affecting terrain.
+Avoids processing held items twice.
+Fixes a crash when trying to reload an item inside of advanced inventory
+Renames (when appropriate) blobs as slimes.
+Fixes massive, unrealistic temperature drops when wet.
+Fixes weapon techniques not triggering.
+Prevents some obscure crashes by adding nullptr checks to unsafe pointer accesses.
 Vehicles: make sure going in reverse isn't more efficient than going forward.
-Fix doubled artifact effects on stats.
-Containers can't hold too large items contained in other containers.
-Prevent temperature being 0 after loading a save.
-Consume components in nested containers when crafting.
-Fix stuck joystick on Android.
-Adjust sunlight casting to illuminate exterior walls.
-Fixed limb blocking not triggering.
-Vehicles: make shock absorbers actually absorb shock damage.
-Fix NPC dying immediately on accepting inhaler mission
-Fix crash when attempting to butcher a corpse.
-Fix gear getting damaged when weather has no damaging effects.
-Improve invalidation of max_populated_zlev cache, fixes lighting in some teleportation scenarios.
-Prevent dodging or blocking while insensible.
+Fixes doubled artifact effects on stats.
+Containers can't hold too-large items, even when contained in other containers.
+Prevents temperature being 0 after loading a save.
+Consumes components in nested containers when crafting.
+Fixes stuck joystick on Android.
+Adjusts sunlight casting to properly illuminate exterior walls.
+Fixes limb blocking not triggering.
+Vehicles: shock absorbers actually now absorb shock damage.
+Fixes NPC dying immediately on accepting inhaler mission
+Fixes crash when attempting to butcher a corpse.
+Fixes gear getting damaged by weather when weather has no damaging effects.
+Improves invalidation of max_populated_zlev cache, fixing lighting in some teleportation scenarios.
+Prevents dodging or blocking while insensible.
 Fixes apparent light asymmetry when the sun shines through a single-tile hole in the roof.
-Made installation time mandatory for gunmods.
+Makes installation time mandatory for gunmods.
 Makes tents and vehicles block sunlight.
-Fix scent map saved with invalid utf8 sequence.
+Prevents scent map from being saved with an invalid utf8 sequence.
 Monsters no longer bash obstacles based on sound. This prevents groups of monsters from getting stuck in a loop of bashing based on the sound of other monsters bashing.
 Picking up an item stack fills up your pockets if it doesn't fit into one pocket.
 Wielding combines item stacks if possible.
-Robots can no longer be disabled through melee hits.
+Robots can no longer be disabled by a single melee hit.
 Fixes auto-consume zones in vehicles.
 Fixes monster special attack range-limiting code.
 Falling vehicles: prevents bouncing after the first collision with the ground.
+Fixes issues with sound (walking on boats, sound triggering twice).
+Ensures that casings are stackable, fixing pickup performance issues.
+Allows quartering organ-less corpses without field dressing.
+Triggers explosions only after processing all items.
+Fixes scenarios having wildly different start dates and potentially crashing the game.
+Allows fire to spread to adjecent tiles with items.
+Prevents log spam from a broken bone.
+Makes reachability cache fully consistent with map::sees, fixing some problems with mirrors.
+Fixes NPC-assisted time-cost calculation.
+Killing a monster that fused with a mission kill target now successfully completes the mission.
+Bashes that do zero damage now can't stun.
+Fixes a crash due to dereferencing a null carrier pointer in item::process_tool.
+Prevents a seg fault in auto-consume.
 
 ## Performance:
 Adds an option to enable batching when it is available in SDL.
@@ -226,50 +247,49 @@ Improve performance of builds with enabled localization by ≈20% by caching tra
 Major optimization of field processing.
 Adds reachability cache/filter that can reject bresenham-based LOS checks in O(1) time.
 Uses field_cache in map::get_field to speedup fire check in npc::assess_danger.
-Speedup quicksave by limiting ui redraw rate
+Speeds up quicksave by limiting ui redraw rate.
+Prevents slow processing of NPC overmap travel when `goal` is unreachable.
+Fixes the performance bug caused by `verify_vehicle_cache` recalculation.
+Adds lightweight crafting inventory cache to improve NPC construction processing time.
 
 ## Infrastructure:
 Adds basic infrastructure for diseases.
-Allow for specialization of activity parameters.
-Improved event transformations and statistic tracking.
-Jsonize Autodoc quality.
-Add tests for character BMI / kcal / weight.
-Jsonize body parts.
-Jsonize mood modifier from bodyparts.
-Allow multiple overmap terrains in start location.
-Make test failures from other platforms more easily reproducible.
-Enforce a standard header guard format.
-Add clang-tidy check to catch incorrect use of RNGs.
-Adds guide to pricing items to doc folder.
-Add enchantments to bionics.
-Add test for health effect on healing rate.
-Add tests for BMI effect on speed.
-Update Catch2 to v2.12.0 (from 2.9.1).
+Allows for specialization of activity parameters.
+Jsonizes Autodoc quality.
+Adds tests for character BMI / kcal / weight.
+Jsonizes body parts.
+Jsonizes mood modifier from body part conditions (e.g., wet).
+Allows multiple different overmap terrains for start locations.
+Makes test failures from other platforms more easily reproducible.
+Adds clang-tidy check to catch incorrect use of RNGs.
+Adds a guide to pricing items (see the doc folder).
+Adds enchantments to bionics.
+Adds test for health effect on healing rate.
+Adds tests for BMI effect on speed.
+Updates Catch2 (for running tests) to v2.13.0 (from 2.9.1).
 Achievements have better up-front checking to detect definition errors.
 Tests use a different config directory by default.
-Migrate ACT_PICKUP to the activity actor system.
-Integrate behavior tree implementation into monster AI.
-Move ascii arts to their own file to avoid bloat.
-Enforce that functions should not have separate x, y parameters.
-Add tests for sun-related functions.
-Jsonize Anatomy: replace enum body_part with bodypart_id.
-Implement installation requirement for CBMs.
+Migrates ACT_PICKUP to the activity actor system.
+Integrates a behavior tree implementation into monster AI.
+Moves ascii art to its own file to avoid bloat.
+Enforces that functions should not have separate x, y parameters.
+Adds tests for sun-related functions.
+Implements installation requirements for CBMs.
 Fields can now override local light levels.
-Convert itype_id to string_id<itype>.
-Test and refactor item info display functions.
+Converted itype_id to string_id<itype> for better internal code consistency.
+Tests refactored item info display functions.
 Milling products can be defined in JSON.
-Add a Clang Build Analyzer build step to CI.
-Refactor rectangle and box types.
+Adds a Clang Build Analyzer build step to CI.
+Refactored rectangle and box types.
 Mutations can be reflexively triggered without player input.
-Enforce use of points as local variables.
-Add table.py to make tables of JSON data.
-Add a guide for intermediate mapgen help.
-Options: remove the option to not use z-levels.
-Provide point types with coordinate system type safety.
-Move weather from being hardcoded into json.
-Update Catch2 to 2.13.0.
+Enforces the use of points as local variables.
+Adds table.py to make tables of JSON data.
+Adds a guide for intermediate mapgen help.
+Options: removes the option to not use z-levels at all (3d vision is still experimental)
+Provides point types with coordinate system type safety.
+Moves weather from being hardcoded into json.
 Changes some awkward terrains into furnitures for better layering.
-Create a machine-readable memorial file at game over.
+Creates a machine-readable memorial file at game over.
 Dialogue: create an talker API for speakers in a dialogue.
 Make rectangle and cuboid generic with respect to point type.
 Configure GitHub build matrix to permit more C++ build testing to happen there.
@@ -277,49 +297,50 @@ Check for zero weight items.
 All .py scripts ported to Python 3 and checked with PEP8 on moderate settings.
 table.py partial object-oriented redesign.
 Script to list what IDs are present in a tileset.
-Revamp vehicle parts shapes to allow chirality - left/right/front/rear.
-Remove old artifact code.
-Script that generates a list of possible overlay ids.
-Add error-checking of recipe (sub)categories.
-Unblacklist most remaining blacklisted mods for automated consistency checking.
-Report log messages for failed tests.
-Reinstate blueprint autocalc.
-Refactored vision_test. Introduced map_test_case framework to build similar tests easier.
-Add tests for better_pocket and best_pocket.
+Revamps vehicle parts shapes to allow chirality - left/right/front/rear.
+Removes old artifact code.
+Adds a script that generates a list of possible overlay ids.
+Adds error-checking of recipe (sub)categories.
+Unblacklists most remaining blacklisted mods, enabling more automated consistency checking.
+Reports log messages for failed tests.
+Reinstates blueprint autocalc.
+Refactored vision_test; introduces a map_test_case framework to make building similar tests easier.
+Adds tests for better_pocket and best_pocket.
 Renames skills in preparation for some future improvements; merges speech & barter.
 Merges trapping and lockpicking skills into a new 'devices' skill, and expands its scope somewhat.
-Add default time and fail multipliers to proficiencies for easier JSON entry.
-Introduce STATIC( ) macro that can reduce the verbosity of the static constants definition.
-Add typesafe angle type.
-Add check that Generic Guns migrates all guns, magazines, and ammo.
+Adds default time and fail multipliers to proficiencies for easier JSON entry.
+Introduces a STATIC( ) macro that can make the definition of static constants easier to type and read.
+Adds typesafe angle type.
+Adds check that Generic Guns migrates all guns, magazines, and ammo.
+Enables JSON member visitation checks outside of tests (better consistency checking).
 
 ## Build:
-Create a GitHub workflow for running clang-tidy.
-Remove Travis clang-tidy job.
-Add -fsigned-char to CMakeLists.txt.
+Moves clang-tidy runs from Travis to GitHub.
+Adds -fsigned-char to CMakeLists.txt.
 Makes json linter feedback more readable.
-Fix clang-tidy header guard check on Windows.
-Progress feedback for JSON formatting script.
+Fixes clang-tidy header guard checks on Windows.
+Gives progress feedback while running the JSON formatting script.
 Set 'disable MS telemetry' flag in VCPKG setup guide.
 Automatic handling of vcpkg dependencies.
 Vehicles: Update doc/JSON_INFO.md for all fields in vehicle_part.
 Improve use of precompiled headers.
 compose.py: allow default sized tilesheets to specify offsets.
 Enable compiling an Android build under Windows.
-Tools: add a Python script to reformat vehicles to use parts arrays.
-Suppress Homebrew update for faster OSX builds.
+Tools: adds a Python script to reformat vehicles to use parts arrays.
+Suppresses Homebrew update for faster Mac OS builds.
 Adds problem matchers for json errors, compiler errors, DebugLog emissions, and Catch2 errors.
-Add check enforcing almost-never-auto convention.
+Adds check enforcing almost-never-auto convention.
 Adds a GitHub workflow running flake8 to check the Python scripts.
 
 ## I18N and A11Y:
-Fix translation of martial art initiate message and computer translation.
-Add support for specifying identical singular and plural forms using `str_sp`.
-Remove name_plural and replace it with str_pl.
-Add helper for localized sorting.
-Record locales in debug.log to assist with i18n debugging.
-Add translator glossary and explain etymology of Exodii.
-Use class translation in many more places.
+Fixes translations of martial art initiate and computer terminal messages.
+Adds support for specifying identical singular and plural forms using `str_sp`.
+Removes name_plural and replaces it with str_pl (matching `str_sp` and basic singular `str`).
+Adds a helper for localized sorting.
+Records locales in debug.log to assist i18n debugging.
+Adds the start of a translator glossary and explains the etymology of Exodii.
+Uses class translation in many more places for more flexible translation support.
+Infrastructure: Automates translation template push.
 
 # 0.E (Ellison)
 

@@ -721,11 +721,6 @@
   },
   {
     "type": "item_action",
-    "id": "PHEROMONE",
-    "name": { "str": "Squeeze" }
-  },
-  {
-    "type": "item_action",
     "id": "PLANTBLECH",
     "name": { "str": "Consume" }
   },
