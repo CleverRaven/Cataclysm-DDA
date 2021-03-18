@@ -309,7 +309,6 @@ std::string inventory_selector_preset::get_cell_text( const inventory_entry &ent
 {
     if( cell_index >= cells.size() ) {
         debugmsg( "Invalid cell index %d.", cell_index );
-        debugmsg( "Invalid cell index %d.", cell_index );
         return "it's a bug!";
     }
     if( !entry ) {
