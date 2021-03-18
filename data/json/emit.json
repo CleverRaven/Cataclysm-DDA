@@ -73,6 +73,14 @@
     "qty": 18
   },
   {
+    "id": "emit_tear_gas_blast",
+    "type": "emit",
+    "//": "Large blast of tear gas (example: tear gas canister)",
+    "field": "fd_tear_gas",
+    "intensity": 3,
+    "qty": 200
+  },
+  {
     "id": "emit_toxic_blast",
     "type": "emit",
     "//": "Large blast of toxic gas (example: bloated zombie explosion)",
