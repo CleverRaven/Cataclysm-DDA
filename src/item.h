@@ -1719,6 +1719,10 @@ class item : public visitable
          * Returns true whether this item can be worn only when @param it is worn.
          */
         bool is_worn_only_with( const item &it ) const;
+        /**
+        * Returns true wether this item is worn or not
+        */
+        bool is_worn() const;
 
         /**
          * @name Pet armor related functions.
