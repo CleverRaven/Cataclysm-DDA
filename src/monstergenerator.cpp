@@ -52,6 +52,7 @@ std::string enum_to_string<mon_trigger>( mon_trigger data )
         case mon_trigger::MEAT: return "MEAT";
         case mon_trigger::HOSTILE_WEAK: return "PLAYER_WEAK";
         case mon_trigger::HOSTILE_CLOSE: return "PLAYER_CLOSE";
+        case mon_trigger::HOSTILE_SEEN: return "HOSTILE_SEEN";
         case mon_trigger::HURT: return "HURT";
         case mon_trigger::FIRE: return "FIRE";
         case mon_trigger::FRIEND_DIED: return "FRIEND_DIED";
