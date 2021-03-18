@@ -260,7 +260,7 @@
     "material": [ "junk" ],
     "volume": "250 ml",
     "phase": "liquid",
-    "charges": 8,
+    "charges": 3,
     "fun": 6
   }
 ]
