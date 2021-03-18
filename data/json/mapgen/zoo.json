@@ -18,6 +18,15 @@
     ]
   },
   {
+    "name": "GROUP_PIGS",
+    "type": "monstergroup",
+    "default": "mon_pig",
+    "monsters": [
+      { "monster": "mon_pig", "freq": 50, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_pig", "freq": 50, "cost_multiplier": 1 }
+    ]
+  },
+  {
     "method": "json",
     "om_terrain": "zoo_0_0",
     "type": "mapgen",
@@ -127,16 +136,17 @@
       },
       "place_item": [ { "item": "rock", "repeat": 1, "x": 9, "y": 15 }, { "item": "pine_bough", "repeat": 1, "x": 9, "y": 21 } ],
       "place_items": [
-        { "chance": 55, "item": "toy_store", "x": 12, "y": [ 6, 7 ] },
+        { "chance": 55, "item": "toy_store", "x": 12, "y": [ 6, 7 ], "repeat": [ 1, 16 ] },
         { "chance": 75, "item": "vending_food", "x": 20, "y": 2 },
         { "chance": 55, "item": "trash", "x": 13, "y": 15 },
         { "chance": 55, "item": "trash", "x": 13, "y": 10 },
-        { "chance": 55, "item": "snacks", "x": 10, "y": 11 },
-        { "chance": 55, "item": "snacks", "x": [ 7, 8 ], "y": 4 },
-        { "chance": 55, "item": "candy_shop", "x": 10, "y": [ 6, 7 ] },
-        { "chance": 75, "item": "shirts", "x": 10, "y": 12 },
-        { "chance": 75, "item": "shirts", "x": 4, "y": 11 },
-        { "chance": 75, "item": "vending_drink", "x": 20, "y": 1 }
+        { "chance": 55, "item": "snacks", "x": 10, "y": 11, "repeat": [ 1, 16 ] },
+        { "chance": 55, "item": "snacks", "x": [ 7, 8 ], "y": 4, "repeat": [ 1, 16 ] },
+        { "chance": 55, "item": "candy_shop", "x": 10, "y": [ 6, 7 ], "repeat": [ 1, 16 ] },
+        { "chance": 75, "item": "shirts", "x": 10, "y": 12, "repeat": [ 1, 5 ] },
+        { "chance": 45, "item": "shirts", "x": 4, "y": 11, "repeat": [ 1, 3 ] },
+        { "chance": 75, "item": "vending_drink", "x": 20, "y": 1 },
+        { "chance": 25, "item": "waitingroom", "x": 18, "y": [ 16, 22 ], "repeat": [ 1, 3 ] }
       ],
       "place_monster": [
         { "monster": "mon_tiger", "x": 8, "y": 16 },
@@ -211,16 +221,17 @@
         "{": "f_rack"
       },
       "place_items": [
-        { "chance": 55, "item": "toy_store", "x": 12, "y": [ 6, 7 ] },
+        { "chance": 55, "item": "toy_store", "x": 12, "y": [ 6, 7 ], "repeat": [ 1, 16 ] },
         { "chance": 75, "item": "vending_food", "x": 20, "y": 2 },
         { "chance": 55, "item": "trash", "x": 13, "y": 15 },
         { "chance": 55, "item": "trash", "x": 13, "y": 10 },
-        { "chance": 55, "item": "snacks", "x": 10, "y": 11 },
-        { "chance": 55, "item": "snacks", "x": [ 7, 8 ], "y": 4 },
-        { "chance": 55, "item": "candy_shop", "x": 10, "y": [ 6, 7 ] },
-        { "chance": 75, "item": "shirts", "x": 10, "y": 12 },
-        { "chance": 75, "item": "shirts", "x": 4, "y": 11 },
-        { "chance": 75, "item": "vending_drink", "x": 20, "y": 1 }
+        { "chance": 55, "item": "snacks", "x": 10, "y": 11, "repeat": [ 1, 16 ] },
+        { "chance": 55, "item": "snacks", "x": [ 7, 8 ], "y": 4, "repeat": [ 1, 16 ] },
+        { "chance": 55, "item": "candy_shop", "x": 10, "y": [ 6, 7 ], "repeat": [ 1, 16 ] },
+        { "chance": 75, "item": "shirts", "x": 10, "y": 12, "repeat": [ 1, 5 ] },
+        { "chance": 45, "item": "shirts", "x": 4, "y": 11, "repeat": [ 1, 3 ] },
+        { "chance": 75, "item": "vending_drink", "x": 20, "y": 1 },
+        { "chance": 25, "item": "waitingroom", "x": 18, "y": [ 16, 22 ], "repeat": [ 1, 3 ] }
       ],
       "place_item": [
         { "item": "rock", "repeat": 1, "x": 9, "y": 15 },
@@ -229,7 +240,7 @@
         { "item": "glass_shard", "repeat": [ 42, 84 ], "x": 11, "y": [ 21, 23 ] }
       ],
       "place_monster": [ { "monster": "mon_coyote", "x": 8, "y": 16 }, { "monster": "mon_coyote", "x": 9, "y": 17 } ],
-      "place_monsters": [ { "monster": "GROUP_BEARS", "x": 8, "y": 20 } ]
+      "place_monsters": [ { "monster": "GROUP_BEARS", "x": 9, "y": 23 } ]
     }
   },
   {
@@ -290,7 +301,7 @@
         "-#_|..|...r...b..|||__ss",
         "-__|..a...r...b..r.|__ss",
         "-7_|..|...r......r.|__ss",
-        "-__|..|...r......|||__ss",
+        "-__|{.|...r......|||__ss",
         "-_#|c.|..h|rr|...r.|__ss",
         "B__|..|..h|..|...r.|__ss",
         "___|..|||||||||+||||____",
@@ -340,8 +351,10 @@
       ],
       "place_items": [
         { "chance": 45, "item": "trash", "x": 20, "y": 5 },
-        { "chance": 65, "item": "vet_softdrug", "x": 10, "y": 18 },
-        { "chance": 45, "item": "vet_hardrug", "x": 9, "y": 18 }
+        { "chance": 65, "item": "vet_softdrug", "x": 10, "y": 18, "repeat": [ 2, 5 ] },
+        { "chance": 45, "item": "vet_hardrug", "x": 9, "y": 18, "repeat": [ 2, 5 ] },
+        { "chance": 95, "item": "SUS_janitors_closet", "x": 4, "y": 14 },
+        { "chance": 25, "item": "waitingroom", "x": [ 16, 17 ], "y": 7, "repeat": [ 1, 3 ] }
       ],
       "place_monster": [
         { "monster": "mon_bobcat", "x": 8, "y": 5 },
@@ -519,7 +532,10 @@
         { "chance": 65, "item": "vending_food", "x": 12, "y": 1 },
         { "chance": 55, "item": "trash", "x": 8, "y": 19 },
         { "chance": 55, "item": "trash", "x": 12, "y": 6 },
-        { "chance": 55, "item": "trash", "x": 10, "y": 2 }
+        { "chance": 55, "item": "trash", "x": 10, "y": 2 },
+        { "chance": 15, "item": "waitingroom", "x": [ 5, 6 ], "y": 19 },
+        { "chance": 15, "item": "waitingroom", "x": [ 9, 10 ], "y": 19 },
+        { "chance": 15, "item": "waitingroom", "x": [ 15, 16 ], "y": 19 }
       ],
       "place_monster": [
         { "monster": "mon_deer", "x": 20, "y": 2 },
@@ -614,7 +630,10 @@
         { "chance": 65, "item": "vending_food", "x": 12, "y": 1 },
         { "chance": 55, "item": "trash", "x": 8, "y": 19 },
         { "chance": 55, "item": "trash", "x": 12, "y": 6 },
-        { "chance": 55, "item": "trash", "x": 10, "y": 2 }
+        { "chance": 55, "item": "trash", "x": 10, "y": 2 },
+        { "chance": 15, "item": "waitingroom", "x": [ 5, 6 ], "y": 19 },
+        { "chance": 15, "item": "waitingroom", "x": [ 9, 10 ], "y": 19 },
+        { "chance": 15, "item": "waitingroom", "x": [ 15, 16 ], "y": 19 }
       ],
       "place_item": [
         { "item": "stick", "repeat": 1, "x": 19, "y": 1 },
@@ -700,7 +719,7 @@
         "|||...............-...^|",
         "-......|-------|..-..^^|",
         "-......-h....^.-..+...^|",
-        "-.####&-h..^#..+..|....|",
+        "-.####&-h..^#..+.L|....|",
         "||||||||||||||||||||||||",
         "|i.ctc..i|............&|",
         "+........C............C|",
@@ -734,20 +753,32 @@
         "o": "f_oven",
         "s": "f_sink",
         "t": "f_table",
-        "{": "f_fridge"
+        "{": "f_fridge",
+        "L": "f_locker"
       },
       "place_items": [
-        { "chance": 65, "item": "cannedfood", "x": 22, "y": 21 },
-        { "chance": 65, "item": "cannedfood", "x": 22, "y": 19 },
-        { "chance": 55, "item": "bowling_food", "x": 5, "y": 21 },
-        { "chance": 55, "item": "bowling_food", "x": 15, "y": 16 },
-        { "chance": 55, "item": "bowling_food", "x": 9, "y": 15 },
+        { "chance": 25, "item": "restaur_table", "x": 4, "y": 14, "repeat": [ 1, 2 ] },
+        { "chance": 25, "item": "restaur_table", "x": 5, "y": [ 20, 21 ], "repeat": [ 1, 2 ] },
+        { "chance": 25, "item": "restaur_table", "x": 9, "y": [ 20, 21 ], "repeat": [ 1, 2 ] },
+        { "chance": 25, "item": "restaur_table", "x": 13, "y": 21, "repeat": [ 1, 2 ] },
+        { "chance": 15, "item": "restaur_table", "x": 9, "y": [ 15, 16 ], "repeat": [ 1, 2 ] },
+        { "chance": 55, "item": "restaur_kitchen", "x": 22, "y": [ 15, 16 ], "repeat": [ 1, 8 ] },
+        { "chance": 55, "item": "restaur_kitchen", "x": 22, "y": [ 19, 21 ], "repeat": [ 1, 8 ] },
+        { "chance": 75, "item": "restaur_sink", "x": 22, "y": [ 17, 18 ], "repeat": [ 2, 3 ] },
+        { "chance": 55, "item": "SUS_oven", "x": [ 15, 17 ], "y": 16, "repeat": [ 2, 3 ] },
         { "chance": 55, "item": "trash", "x": 10, "y": 18 },
         { "chance": 55, "item": "trash", "x": 22, "y": 14 },
         { "chance": 55, "item": "trash", "x": 6, "y": 12 },
         { "chance": 55, "item": "trash", "x": 6, "y": 3 },
-        { "chance": 55, "item": "fridgesnacks", "x": [ 15, 16 ], "y": 21 },
-        { "chance": 35, "item": "fridge", "x": [ 18, 19 ], "y": 21 }
+        { "chance": 50, "item": "behindcounter", "x": 17, "y": 21, "repeat": [ 1, 6 ] },
+        { "chance": 80, "item": "restaur_fridge", "x": [ 15, 16 ], "y": 21, "repeat": [ 2, 8 ] },
+        { "chance": 80, "item": "restaur_fridge", "x": [ 18, 19 ], "y": 21, "repeat": [ 2, 8 ] }
+      ],
+      "place_item": [
+        { "chance": 60, "item": "birdfood", "x": 12, "y": [ 3, 4 ], "repeat": [ 3, 6 ] },
+        { "chance": 60, "item": "birdfood", "x": [ 9, 11 ], "y": 11, "repeat": [ 3, 6 ] },
+        { "chance": 35, "item": "birdfood", "x": 20, "y": [ 3, 10 ], "repeat": [ 4, 8 ] },
+        { "chance": 90, "item": "birdfood", "x": 17, "y": 12, "repeat": [ 5, 10 ] }
       ],
       "sealed_item": { "^": { "item": { "item": "seed_sugar_beet" }, "furniture": "f_plant_seed" } },
       "place_monster": [
@@ -997,7 +1028,7 @@
         "____..+.g..........fff|-",
         "____..+.........g..fff|-",
         "____r.c...........|fff|-",
-        "____r.c.....gg....|#ff|-",
+        "____r.c.....gg....|#f}|-",
         "____r.c....gggg...|||||-",
         "____r.c.....gg........|-",
         "____r.c......g........|-",
@@ -1020,13 +1051,17 @@
         "r": "t_railing_v",
         "|": "t_brick_wall"
       },
-      "furniture": { "#": "f_hay", "&": "f_trashcan" },
+      "furniture": { "#": "f_hay", "&": "f_trashcan", "}": "f_locker" },
       "place_item": [
         { "item": "rock", "repeat": 1, "x": 8, "y": 9 },
         { "item": "rock", "repeat": 1, "x": 16, "y": 15 },
         { "item": "stick", "repeat": 1, "x": 8, "y": 17 },
         { "item": "stick", "repeat": 1, "x": 21, "y": 18 },
-        { "item": "stick", "repeat": 1, "x": 21, "y": 20 }
+        { "item": "stick", "repeat": 1, "x": 21, "y": 20 },
+        { "chance": 15, "item": "cattlefodder", "x": [ 9, 14 ], "y": [ 7, 17 ], "repeat": [ 8, 12 ] },
+        { "chance": 15, "item": "birdfood", "x": [ 9, 14 ], "y": [ 7, 17 ], "repeat": [ 8, 12 ] },
+        { "chance": 90, "item": "cattlefodder", "x": 21, "y": 14, "repeat": [ 5, 10 ] },
+        { "chance": 90, "item": "birdfood", "x": 21, "y": 14, "repeat": [ 4, 8 ] }
       ],
       "place_items": [
         { "chance": 55, "item": "trash", "x": 3, "y": 22 },
@@ -1034,21 +1069,16 @@
         { "chance": 55, "item": "trash", "x": 0, "y": 6 }
       ],
       "place_monster": [
-        { "monster": "mon_zombie_pig", "x": 10, "y": 7 },
         { "monster": "mon_chicken", "x": 14, "y": 7 },
-        { "monster": "mon_zombie_pig", "x": 15, "y": 10 },
         { "monster": "mon_duck", "x": 11, "y": 11 },
-        { "monster": "mon_zombie_pig", "x": 15, "y": 12 },
-        { "monster": "mon_pig", "x": 20, "y": 12 },
         { "monster": "mon_sheep", "x": 10, "y": 17 },
         { "monster": "mon_rabbit", "x": 15, "y": 17 },
         { "monster": "mon_sheep", "x": 19, "y": 17 },
         { "monster": "mon_sheep", "x": 9, "y": 19 },
         { "monster": "mon_sheep", "x": 12, "y": 19 },
-        { "monster": "mon_rabbit", "x": 15, "y": 19 },
-        { "monster": "mon_pig", "x": 17, "y": 20 },
-        { "monster": "mon_pig", "x": 19, "y": 20 }
-      ]
+        { "monster": "mon_rabbit", "x": 18, "y": 19 }
+      ],
+      "place_monsters": [ { "monster": "GROUP_PIGS", "x": 18, "y": 11 } ]
     }
   },
   {
