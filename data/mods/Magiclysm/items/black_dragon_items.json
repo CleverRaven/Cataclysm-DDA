@@ -20,11 +20,7 @@
     "copy-from": "dragon_black_scale",
     "symbol": "=",
     "name": { "str": "bundle of black dragon scales", "str-pl": "bundles of black dragon scales" },
-    "proportianal": {
-      "price": 10,
-      "weight": 10,
-      "volume": 10
-    },
+    "proportianal": { "price": 10, "weight": 10, "volume": 10 },
     "description": "Scales from a black dragon, bundled tightly together for storage.  Disassemble to unpack."
   },
   {
