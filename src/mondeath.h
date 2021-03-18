@@ -66,6 +66,8 @@ void gas( monster &z );
 void kill_breathers( monster &z );
 // Explode like a huge smoke bomb.
 void smokeburst( monster &z );
+// Explode like a huge tear gas bomb.
+void tearburst( monster &z );
 // Explode releasing fungal haze.
 void fungalburst( monster &z );
 // Snicker-snack!
