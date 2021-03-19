@@ -1403,7 +1403,7 @@
     "calories": 230,
     "healthy": -1,
     "parasites": 32,
-    "description": "A round, seasoned lump of meat, ready to fry",
+    "description": "A round, seasoned lump of meat, ready to fry.",
     "price": 800,
     "price_postapoc": 200,
     "material": [ "flesh" ],
@@ -1425,7 +1425,7 @@
     "healthy": 0,
     "spoils_in": "4 days",
     "price_postapoc": 300,
-    "description": "A seasoned, fried, round lump of meat. Just like mom used to make!",
+    "description": "A seasoned, fried, round lump of meat.  Just like mom used to make!",
     "flags": [ "EATEN_HOT" ],
     "fun": 6
   }
