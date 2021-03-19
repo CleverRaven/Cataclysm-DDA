@@ -594,7 +594,8 @@ Example:
 | repeat | (optional) Value: `[ n1, n2 ]`. Spawn item randomly between `n1` and `n2` times. Only makes sense if the coordinates are random. Example: `[ 1, 3 ]` - repeat 1-3 times.
 | custom-flags | (optional) Value: `[ "flag1", "flag2" ]`. Spawn item with specific flags.
 
-
+The special custom flag "ACTIVATE_ON_PLACE" causes the item to be activated as it placed.  This is useful to have noisemakers that are already turned on as the avatar approaches.  It can also be used with explosives with 1 second to have locations explode as the avatar approaches, creating uniquely ruined terrain.
+ 
 ## Extra map features with specials
 **optional** Special map features that do more than just placing furniture / terrain.
 
