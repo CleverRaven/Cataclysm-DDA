@@ -411,7 +411,7 @@
     "type": "speech",
     "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
     "sound": "\"Watch you bleed out!\"",
-    "volume": 20
+    "volume": 32
   },
   {
     "type": "speech",
