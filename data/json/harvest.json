@@ -1133,8 +1133,7 @@
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
       { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
-      { "drop": "raw_tainted_leather", "type": "skin", "mass_ratio": 0.02 },
-      { "drop": "pheromone", "type": "bionic", "max": 1 }
+      { "drop": "raw_tainted_leather", "type": "skin", "mass_ratio": 0.02 }
     ]
   },
   {
@@ -1146,8 +1145,7 @@
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
       { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
-      { "drop": "raw_tainted_fur", "type": "skin", "mass_ratio": 0.02 },
-      { "drop": "pheromone", "type": "bionic", "max": 1 }
+      { "drop": "raw_tainted_fur", "type": "skin", "mass_ratio": 0.02 }
     ]
   },
   {
@@ -1169,8 +1167,7 @@
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
-      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
-      { "drop": "pheromone", "type": "bionic", "max": 1 }
+      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 }
     ]
   },
   {
@@ -1195,8 +1192,7 @@
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
       { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "sheet_kevlar", "type": "skin", "mass_ratio": 0.04 },
-      { "drop": "raw_tainted_leather", "type": "skin", "mass_ratio": 0.04 },
-      { "drop": "pheromone", "type": "bionic", "max": 1 }
+      { "drop": "raw_tainted_leather", "type": "skin", "mass_ratio": 0.04 }
     ]
   },
   {

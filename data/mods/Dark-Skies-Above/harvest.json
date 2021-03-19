@@ -13,20 +13,6 @@
     ]
   },
   {
-    "id": "dks_alien_cyborg2",
-    "//": "zombleather sans pheromone",
-    "type": "harvest",
-    "entries": [
-      { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
-      { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
-      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
-      { "drop": "cable", "base_num": [ 1, 3 ], "scale_num": [ 0.2, 0.6 ], "max": 8, "type": "flesh" },
-      { "drop": "bone_human", "base_num": [ 1, 2 ], "scale_num": [ 0.4, 0.7 ], "max": 10, "type": "bone" },
-      { "drop": "scrap", "base_num": [ 1, 5 ], "scale_num": [ 0.3, 0.7 ], "max": 12, "type": "bone" },
-      { "drop": "raw_tainted_leather", "type": "skin", "mass_ratio": 0.02 }
-    ]
-  },
-  {
     "//": "e_scrap will be replaced with an alien mind control chip and some aftershock style crafting stuff since I like the tiered crafting idea",
     "id": "dks_mhuman_chipped",
     "message": "They may have been human, once… whatever the Order has done to them, now they are something else.",

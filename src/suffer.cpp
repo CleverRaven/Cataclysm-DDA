@@ -737,13 +737,6 @@ void Character::suffer_in_sunlight()
         vitamin_mod( vitamin_id( "vitC" ), 1, true );
     }
 
-    if( x_in_y( sunlight_nutrition, 12000 ) ) {
-        mod_hunger( -1 );
-        // photosynthesis absorbs kcal directly
-        mod_stored_nutr( -1 );
-        stomach.ate();
-    }
-
     if( !g->is_in_sunlight( pos() ) ) {
         return;
     }
