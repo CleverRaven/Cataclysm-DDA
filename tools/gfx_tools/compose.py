@@ -133,12 +133,9 @@ class Tileset:
         self.output_conf_file = None
 
         self.pngnum = 0
-        self.referenced_pngnames = []
+        self.unreferenced_pngnames = []
 
-        # bijectional dicts of pngnames to png numbers and vice versa
-        # used to control uniqueness
         self.pngname_to_pngnum = {'null_image': 0}
-        self.pngnum_to_pngname = {0: 'null_image'}
 
         if not os.access(self.source_dir, os.R_OK) \
                 or not os.path.isdir(self.source_dir):
@@ -259,10 +256,10 @@ class Tileset:
 
             tiles_new_dict[sheet.max_index] = sheet_conf
 
-        # find unused images
-        unused = self.find_unused()
+        # get sprites that need tile entries generated
+        unused = self.handle_unreferenced_sprites()
 
-        # unused list must be empty without use_all
+        # the list must be empty without use_all
         for unused_png in unused:
             unused_num = self.pngname_to_pngnum[unused_png]
             sheet_min_index = 0
@@ -290,24 +287,23 @@ class Tileset:
         # save the config
         write_to_json(tileset_confpath, output_conf)
 
-    def find_unused(self) -> dict:
+    def handle_unreferenced_sprites(self) -> list:
         '''
-        Find unused images and either warn about them or return the list
+        Either warn about unused sprites or return the list
         '''
-        unused = dict()
-        for pngname, pngnum in self.pngname_to_pngnum.items():
-            if pngnum and pngname not in self.referenced_pngnames:
-                if pngname in self.processed_ids:
-                    print(f'Error: {pngname}.png not used when {pngname} ID '
-                          'is mentioned in a tile entry')
-                    self.error_logged = True
-                if self.use_all:
-                    unused[pngname] = pngnum
-                else:
-                    print(
-                        f'Warning: image filename {pngname} index {pngnum} '
-                        f'was not used in any {self.output_conf_file} entries')
-        return unused
+        if self.use_all:
+            return self.unreferenced_pngnames
+
+        for pngname in self.unreferenced_pngnames:
+            if pngname in self.processed_ids:
+                print(f'Error: {pngname}.png not used when {pngname} ID '
+                      'is mentioned in a tile entry')
+                self.error_logged = True
+            else:
+                print(
+                    f'Warning: sprite filename {pngname} was not used '
+                    f'in any {self.output_conf_file} entries')
+        return []
 
 
 class Tilesheet:
@@ -395,7 +391,7 @@ class Tilesheet:
         self.sprites.append(self.load_image(filepath))
         self.tileset.pngnum += 1
         self.tileset.pngname_to_pngnum[pngname] = self.tileset.pngnum
-        self.tileset.pngnum_to_pngname[self.tileset.pngnum] = pngname
+        self.tileset.unreferenced_pngnames.append(pngname)
 
     def load_image(self, png_path: str) -> pyvips.Image:
         '''
@@ -605,8 +601,7 @@ class TileEntry:
             sprite_index = self.tileset.pngname_to_pngnum.get(sprite_name, 0)
             if sprite_index:
                 entry.append(sprite_index)
-                if sprite_name not in self.tileset.referenced_pngnames:
-                    self.tileset.referenced_pngnames.append(sprite_name)
+                self.tileset.unreferenced_pngnames.remove(sprite_name)
                 return True
 
             print(f'Error: sprite {sprite_name} has no matching PNG file.'
