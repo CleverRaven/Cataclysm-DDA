@@ -193,18 +193,14 @@
   {
     "id": "elderberry_harv",
     "type": "harvest",
-    "entries": [
-      { "drop": "elderberries", "base_num": [ 8, 20 ], "scale_num": [ 0, 0.5 ] },
-      { "drop": "seed_elderberries", "base_num": [ 3, 5 ], "scale_num": [ 0, 0.25 ] }
+    "entries": [ { "drop": "elderberries", "base_num": [ 8, 20 ], "scale_num": [ 0, 0.5 ] } }
     ]
   },
   {
     "id": "mulberry_harv",
     "type": "harvest",
     "entries": [
-      { "drop": "mulberries", "base_num": [ 8, 20 ], "scale_num": [ 0, 0.5 ] },
-      { "drop": "seed_mulberries", "base_num": [ 3, 5 ], "scale_num": [ 0, 0.25 ] }
-    ]
+      { "drop": "mulberries", "base_num": [ 8, 20 ], "scale_num": [ 0, 0.5 ] } ]
   },
   {
     "id": "plum_harv",
