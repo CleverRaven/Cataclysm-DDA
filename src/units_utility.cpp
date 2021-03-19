@@ -178,7 +178,8 @@ std::string weight_to_string( const units::mass &weight, const bool compact,
                               const bool remove_trailing_zeroes )
 {
     const int default_decimal_places = 2;
-    const double converted_weight = round( convert_weight( weight ), default_decimal_places );
+    const double converted_weight = round_with_places( convert_weight( weight ),
+                                    default_decimal_places );
     std::string string_to_format = remove_trailing_zeroes ? "%g%s%s" : string_format( "%." +
                                    std::to_string( default_decimal_places ) + "f%s%s" );
     return string_format( string_to_format, converted_weight, compact ? "" : " ", weight_units() );
@@ -216,8 +217,8 @@ std::string vol_to_string( const units::volume &vol, const bool compact,
     int converted_volume_scale = 0;
     const int default_decimal_places = 2;
     const double converted_volume =
-        round( convert_volume( vol.value(),
-                               &converted_volume_scale ), 3 );
+        round_with_places( convert_volume( vol.value(),
+                                           &converted_volume_scale ), 3 );
     std::string string_to_format = remove_trailing_zeroes ? "%g%s%s" : string_format( "%." +
                                    std::to_string( default_decimal_places ) + "f%s%s" );
     return string_format( string_to_format, converted_volume, compact ? "" : " ", volume_units_abbr() );
@@ -238,7 +239,10 @@ std::string unit_to_string( const units::length &unit, const bool compact )
     return length_to_string( unit, compact );
 }
 
-double round( double value, int decimal_places )
+/**
+ * round a float @value, with int @decimal_places limitation
+*/
+double round_with_places( double value, int decimal_places )
 {
     const double multiplier = std::pow( 10.0, decimal_places );
     return std::round( value * multiplier ) / multiplier;
