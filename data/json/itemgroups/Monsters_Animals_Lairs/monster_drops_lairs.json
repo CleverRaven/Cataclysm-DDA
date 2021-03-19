@@ -353,7 +353,7 @@
     "subtype": "distribution",
     "ammo": 10,
     "entries": [
-      { "group": "allclothes", "damage": [ 2, 4 ], "prob": 100  },
+      { "group": "allclothes", "damage": [ 2, 4 ], "prob": 150  },
       { "group": "clothing_outdoor_set", "damage": [ 2, 4 ], "prob": 10 },
       { "group": "clothing_hunting", "damage": [ 2, 4 ], "prob": 10 },
       { "group": "clothing_work_set", "damage": [ 2, 4 ], "prob": 10 },
@@ -364,9 +364,9 @@
       { "group": "default_zombie_clothes", "damage": [ 2, 4 ], "prob": 30 },
       { "group": "default_zombie_items_bags", "damage": [ 2, 4 ], "prob": 30 },
       { "group": "default_zombie_items_pockets", "damage": [ 2, 4 ], "prob": 30 },
-      { "group": "mon_zombie_scientist_death_drops", "damage": [ 2, 4 ], "prob": 1 },
-      { "group": "mon_zombie_labsecurity_death_drops", "damage": [ 2, 4 ], "prob": 1 },
-      { "group": "mon_zombie_kevlar_death_drops", "damage": [ 2, 4 ], "prob": 5 },
+      { "group": "mon_zombie_scientist_death_drops", "damage": [ 2, 4 ], "prob": 5 },
+      { "group": "mon_zombie_labsecurity_death_drops", "damage": [ 2, 4 ], "prob": 5 },
+      { "group": "mon_zombie_kevlar_death_drops", "damage": [ 2, 4 ], "prob": 15 },
       { "group": "mon_zombie_military_pilot_death_drops", "damage": [ 2, 4 ], "prob": 5 }
     ]
   },
