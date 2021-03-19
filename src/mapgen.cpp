@@ -1276,7 +1276,8 @@ class jmapgen_monster : public jmapgen_piece
             chance( jsi, "chance", 100, 100 )
             , pack_size( jsi, "pack_size", 1, 1 )
             , one_or_none( jsi.get_bool( "one_or_none",
-                                         !( jsi.has_member( "repeat" ) || jsi.has_member( "pack_size" ) ) ) )
+                                         !( jsi.has_member( "repeat" ) ||
+                                            jsi.has_member( "pack_size" ) ) ) )
             , friendly( jsi.get_bool( "friendly", false ) )
             , name( jsi.get_string( "name", "NONE" ) )
             , target( jsi.get_bool( "target", false ) ) {
@@ -1317,7 +1318,8 @@ class jmapgen_monster : public jmapgen_piece
                 if( sd.has_array( "ammo" ) ) {
                     const JsonArray &ammos = sd.get_array( "ammo" );
                     for( const JsonObject adata : ammos ) {
-                        data.ammo.emplace( itype_id( adata.get_string( "ammo_id" ) ), jmapgen_int( adata, "qty" ) );
+                        data.ammo.emplace( itype_id( adata.get_string( "ammo_id" ) ),
+                                           jmapgen_int( adata, "qty" ) );
                     }
                 }
             }
@@ -1327,7 +1329,8 @@ class jmapgen_monster : public jmapgen_piece
 
             int raw_odds = chance.get();
 
-            // Handle spawn density: Increase odds, but don't let the odds of absence go below half the odds at density 1.
+            // Handle spawn density: Increase odds, but don't let the odds of absence go below
+            // half the odds at density 1.
             // Instead, apply a multiplier to the number of monsters for really high densities.
             // For example, a 50% chance at spawn density 4 becomes a 75% chance of ~2.7 monsters.
             int odds_after_density = raw_odds * get_option<float>( "SPAWN_DENSITY" );
@@ -1345,10 +1348,12 @@ class jmapgen_monster : public jmapgen_piece
 
             int spawn_count = roll_remainder( density_multiplier );
 
-            if( one_or_none ) { // don't let high spawn density alone cause more than 1 to spawn.
+            // don't let high spawn density alone cause more than 1 to spawn.
+            if( one_or_none ) {
                 spawn_count = std::min( spawn_count, 1 );
             }
-            if( raw_odds == 100 ) { // don't spawn less than 1 if odds were 100%, even with low spawn density.
+            // don't spawn less than 1 if odds were 100%, even with low spawn density.
+            if( raw_odds == 100 ) {
                 spawn_count = std::max( spawn_count, 1 );
             } else {
                 if( !x_in_y( odds_after_density, 100 ) ) {
