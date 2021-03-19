@@ -1408,7 +1408,7 @@
     "price_postapoc": 200,
     "material": [ "flesh" ],
     "volume": "85 ml",
-    "vitamins": [[ "vitA", 2 ], [ "vitC", 2 ], [ "calcium", 8 ], [ "iron", 4 ]],
+    "vitamins": [ [ "vitA", 2 ], [ "vitC", 2 ], [ "calcium", 8 ], [ "iron", 4 ] ],
     "fun": -10
   },
   {
@@ -1426,7 +1426,7 @@
     "spoils_in": "4 days",
     "price_postapoc": 300,
     "description": "A seasoned, fried, round lump of meat. Just like mom used to make!",
-    "flags": [ "EATEN_HOT"],
+    "flags": [ "EATEN_HOT" ],
     "fun": 6
   }
 ]
