@@ -891,7 +891,7 @@
   {
     "type": "terrain",
     "id": "t_floor_paper_hard",
-    "name": "paper floor",
+    "name": "hard paper floor",
     "description": "Hardened cardboard floor made of chewed up trees and resin mixed with wasp saliva.",
     "symbol": ".",
     "looks_like": "t_floor_paper",
