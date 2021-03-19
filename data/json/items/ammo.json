@@ -306,6 +306,23 @@
   },
   {
     "type": "AMMO",
+    "id": "copper_wire",
+    "category": "spare_parts",
+    "price": 2000,
+    "price_postapoc": 100,
+    "name": { "str": "raw copper wire" },
+    "symbol": "=",
+    "color": "dark_gray",
+    "description": "Copper wire ready to be covered with plastic.",
+    "material": [ "copper" ],
+    "//": "Calculated off of 12 AWG, at 10cm length, using http://www.mtlexs.com/technical-specifications-details/40/weight-of-copper-wire.",
+    "volume": "110 ml",
+    "weight": "5 g",
+    "ammo_type": "components",
+    "count": 200
+  },
+  {
+    "type": "AMMO",
     "id": "plut_cell",
     "category": "spare_parts",
     "price": 150000,
@@ -795,7 +812,7 @@
     "description": "Copper bits.  Could be used to craft something, for example makeshift shotgun shells.",
     "material": [ "copper" ],
     "volume": "250 ml",
-    "weight": "2 g",
+    "weight": "10 g",
     "ammo_type": "components",
     "count": 200
   },

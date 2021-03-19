@@ -341,5 +341,23 @@
     "//": "Density ~ 8g/cm³ ~ 2000kg/250ml @ stack 1000 = 2g/unit",
     "ammo_type": "components",
     "count": 200
+  },
+  {
+    "type": "AMMO",
+    "id": "copper_rod",
+    "category": "spare_parts",
+    "price": 2000,
+    "price_postapoc": 20,
+    "name": { "str": "copper rod" },
+    "symbol": "=",
+    "color": "light_gray",
+    "description": "A thin copper rod, ready to be made into copper wire.",
+    "material": [ "copper" ],
+    "//": "9mm in diameter and 1.58m long. Used https://www.ormiston-wire.co.uk/products/wire-converter.php",
+    "volume": "100 ml",
+    "weight": "893 g",
+    "longest_side": "1580 cm",
+    "ammo_type": "components",
+    "count": 1
   }
 ]
