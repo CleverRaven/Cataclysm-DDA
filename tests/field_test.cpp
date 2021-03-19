@@ -262,7 +262,7 @@ TEST_CASE( "fd_fire and fd_fire_vent test", "[field]" )
     }
 
     {
-        INFO( string_format( "Should've converted to flame burst in below %d turns", time_limit_turns ) );
+        INFO( string_format( "Should've converted to flame burst in under %d turns", time_limit_turns ) );
         CHECK( fields_test_turns() < time_limit_turns );
     }
 
@@ -423,7 +423,7 @@ TEST_CASE( "player_in_field test", "[field][player]" )
         is_field_alive = sap_field && sap_field->is_field_alive();
     }
     {
-        INFO( string_format( "Sap should disappear in below %d turns", time_limit_turns ) );
+        INFO( string_format( "Sap should disappear in under %d turns", time_limit_turns ) );
         CHECK( fields_test_turns() < time_limit_turns );
     }
 
