@@ -110,5 +110,5 @@ std::string unit_to_string( const units::mass &unit, bool compact = false,
 std::string unit_to_string( const units::length &unit, bool compact = false );
 
 /** utility function to round with specified decimal places */
-double round( double value, int decimal_places );
+double round_with_places( double value, int decimal_places );
 #endif // CATA_SRC_UNITS_UTILITY_H
