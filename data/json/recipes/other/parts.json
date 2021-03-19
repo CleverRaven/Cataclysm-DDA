@@ -411,11 +411,7 @@
     "time": "5 m",
     "autolearn": true,
     "charges": 5,
-    "qualities": [
-      { "id": "ANVIL", "level": 1 },
-      { "id": "HAMMER", "level": 2 },
-      { "id": "CHISEL", "level": 3 }
-    ],
+    "qualities": [ { "id": "ANVIL", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "surface_heat", 2, "LIST" ], [ "forge", 2 ], [ "oxy_torch", 2 ] ] ],
     "components": [ [ [ "copper", 2 ] ] ]
   },
@@ -432,10 +428,7 @@
     "autolearn": true,
     "//2": "Dividing the diameter by about 3.46 extends it by the square, ~12 times.",
     "charges": 600,
-    "qualities": [
-      { "id": "ANVIL", "level": 1 },
-      { "id": "HAMMER", "level": 2 }
-    ],
+    "qualities": [ { "id": "ANVIL", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
     "//3": "Requires annealing 4 times from the copper rod.",
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "surface_heat", 8, "LIST" ], [ "forge", 8 ], [ "oxy_torch", 8 ] ] ],
     "components": [ [ [ "copper_rod", 5 ] ] ]
