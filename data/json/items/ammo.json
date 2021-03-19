@@ -299,8 +299,8 @@
     "description": "Plastic jacketed copper cable of the type used in small electronics.",
     "material": [ "plastic", "copper" ],
     "//": "Calculated off of 12 AWG, at 10cm length, using http://www.mtlexs.com/technical-specifications-details/40/weight-of-copper-wire.",
-    "volume": "437 ml",
-    "weight": "984 g",
+    "volume": "110 ml",
+    "weight": "5 g",
     "ammo_type": "components",
     "count": 200
   },
