@@ -429,7 +429,7 @@
     "type": "speech",
     "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi-go-surgeon" ],
     "sound": "\"Look, it's responding!\"",
-    "volume": 32
+    "volume": 26
   },
   {
     "type": "speech",
