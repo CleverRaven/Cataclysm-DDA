@@ -108,52 +108,46 @@
     "type": "harvest",
     "entries": [ { "drop": "rose_hips", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ]
   },
-  {
+   {
     "id": "shrub_grape_harv",
     "type": "harvest",
     "entries": [
-      { "drop": "grapes", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] },
-      { "drop": "seed_grapes", "base_num": [ 1, 2 ], "scale_num": [ 0, 0.25 ] }
+      { "drop": "grapes", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] }
     ]
   },
   {
     "id": "shrub_raspberry_harv",
     "type": "harvest",
     "entries": [
-      { "drop": "raspberries", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] },
-      { "drop": "seed_raspberries", "base_num": [ 1, 2 ], "scale_num": [ 0, 0.25 ] }
+      { "drop": "raspberries", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] }
     ]
   },
   {
     "id": "shrub_huckleberry_harv",
     "type": "harvest",
     "entries": [
-      { "drop": "huckleberries", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] },
-      { "drop": "seed_huckleberries", "base_num": [ 1, 2 ], "scale_num": [ 0, 0.25 ] }
+      { "drop": "huckleberries", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] }
     ]
   },
   {
     "id": "shrub_blackberry_harv",
     "type": "harvest",
     "entries": [
-      { "drop": "blackberries", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] },
-      { "drop": "seed_blackberries", "base_num": [ 1, 2 ], "scale_num": [ 0, 0.25 ] }
+      { "drop": "blackberries", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] }
     ]
   },
   {
     "id": "shrub_strawberry_harv",
     "type": "harvest",
     "entries": [
-      { "drop": "strawberries", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] },
-      { "drop": "seed_strawberries", "base_num": [ 1, 2 ], "scale_num": [ 0, 0.25 ] }
+      { "drop": "strawberries", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] }
     ]
   },
   {
     "id": "shrub_blueberry_harv",
     "type": "harvest",
     "entries": [
-      { "drop": "blueberries", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] },
-      { "drop": "seed_blueberries", "base_num": [ 1, 2 ], "scale_num": [ 0, 0.25 ] }
+      { "drop": "blueberries", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] }
     ]
   },
   {
