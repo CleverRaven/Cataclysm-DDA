@@ -9,6 +9,7 @@
 4. Missions, locations, and lore snippets.  We want this to feel like a world just as real as Cataclysm Prime.  Please feel free to reach out to us about ideas and implementations.
 5. Alien world basics would be especially desirable at this time.  Flora, fauna, terrain, and furniture that make it clear we are no longer on earth.
 
+# Size as of 0.F Stable :  31,084 Lines
 
 # Here be dragons!
 
