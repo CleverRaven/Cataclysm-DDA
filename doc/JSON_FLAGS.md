@@ -727,6 +727,7 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 - ```CONSUMABLE``` Makes a gunpart have a chance to get damaged depending on ammo fired, and definable fields 'consume_chance' and 'consume_divisor'.
 - ```DISABLE_SIGHTS``` Prevents use of the base weapon sights
 - ```FIRE_TWOHAND``` Gun can only be fired if player has two free hands.
+- ```FLASH_HIDER``` Gun or gunmod with this flag won't generate muzzle flash when firing.
 - ```IRREMOVABLE``` Makes so that the gunmod cannot be removed.
 - ```MECH_BAT```    This is an exotic battery designed to power military mechs.
 - ```MOUNTED_GUN``` Gun can only be used on terrain / furniture with the "MOUNTABLE" flag.
