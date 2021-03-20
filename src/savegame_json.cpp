@@ -2085,6 +2085,10 @@ void monster::load( const JsonObject &data )
     if( data.read( "wandz", wander_pos.z ) ) {
         wander_pos.z = position.z;
     }
+    if( data.has_int( "next_patrol_point" ) ) {
+        data.read( "next_patrol_point", next_patrol_point );
+        data.read( "patrol_route", patrol_route_abs_ms );
+    }
     if( data.has_object( "tied_item" ) ) {
         JsonIn *tied_item_json = data.get_raw( "tied_item" );
         item newitem;
@@ -2239,6 +2243,10 @@ void monster::store( JsonOut &json ) const
     json.member( "wandy", wander_pos.y );
     json.member( "wandz", wander_pos.z );
     json.member( "wandf", wandf );
+    if( !patrol_route_abs_ms.empty() ) {
+        json.member( "patrol_route", patrol_route_abs_ms );
+        json.member( "next_patrol_point", next_patrol_point );
+    }
     json.member( "hp", hp );
     json.member( "special_attacks", special_attacks );
     json.member( "friendly", friendly );

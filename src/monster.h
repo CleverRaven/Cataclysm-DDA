@@ -178,6 +178,7 @@ class monster : public Creature
         // Movement
         void shift( const point &sm_shift ); // Shifts the monster to the appropriate submap
         void set_goal( const tripoint &p );
+        void set_patrol_route( const std::vector<point> &patrol_pts_rel_ms );
         // Updates current pos AND our plans
         bool wander(); // Returns true if we have no plans
 
@@ -568,6 +569,10 @@ class monster : public Creature
         monster_horde_attraction horde_attraction = MHA_NULL;
         /** Found path. Note: Not used by monsters that don't pathfind! **/
         std::vector<tripoint> path;
+        /** patrol points for monsters that can pathfind and have a patrol route! **/
+        std::vector<tripoint> patrol_route_abs_ms;
+        int next_patrol_point = -1;
+
         std::bitset<NUM_MEFF> effect_cache;
         cata::optional<time_duration> summon_time_limit = cata::nullopt;
         int turns_since_target = 0;
