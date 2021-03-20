@@ -86,6 +86,13 @@ void field_entry::do_decay()
             }
             return;
         }
+
+        // Special case for fields that need to exist no more than one turn and thus have their half_life set to minimal value of 1 second, like muzzle flash:
+        if( type.obj().half_life == 1_seconds ) {
+            set_field_intensity( 0 );
+            return;
+        }
+
         if( decay_time == calendar::turn_zero ) {
             std::exponential_distribution<> d( 1.0f / ( M_LOG2E * to_turns<float>
                                                ( type.obj().half_life ) ) );
