@@ -50,7 +50,7 @@
     "dispersion_modifier": 40,
     "handling_modifier": 1,
     "loudness_modifier": -30,
-    "flags": [ "DISABLE_SIGHTS", "CONSUMABLE" ]
+    "flags": [ "DISABLE_SIGHTS", "CONSUMABLE", "FLASH_HIDER" ]
   },
   {
     "id": "filter_suppressor",
@@ -74,7 +74,7 @@
     "dispersion_modifier": 10,
     "handling_modifier": 1,
     "loudness_modifier": -20,
-    "flags": [ "DISABLE_SIGHTS", "CONSUMABLE" ]
+    "flags": [ "DISABLE_SIGHTS", "CONSUMABLE", "FLASH_HIDER" ]
   },
   {
     "id": "bottle_suppressor",
@@ -113,7 +113,7 @@
     "mod_targets": [ "rifle" ],
     "handling_modifier": 0,
     "proportional": { "loudness_modifier": 2 },
-    "flags": [ "IRREMOVABLE" ]
+    "flags": [ "IRREMOVABLE", "FLASH_HIDER" ]
   },
   {
     "id": "shot_suppressor",
@@ -138,7 +138,7 @@
     "consume_chance": 5000,
     "consume_divisor": 235,
     "loudness_modifier": -30,
-    "flags": [ "CONSUMABLE" ]
+    "flags": [ "CONSUMABLE", "FLASH_HIDER" ]
   },
   {
     "id": "suppressor",
@@ -161,7 +161,7 @@
     "handling_modifier": 2,
     "consume_divisor": 840,
     "loudness_modifier": -50,
-    "flags": [ "CONSUMABLE" ]
+    "flags": [ "CONSUMABLE", "FLASH_HIDER" ]
   },
   {
     "id": "mp5sd_suppressor",
@@ -178,7 +178,7 @@
     "range_modifier": -1,
     "dispersion_modifier": 0,
     "location": "barrel",
-    "flags": [ "IRREMOVABLE" ]
+    "flags": [ "IRREMOVABLE", "FLASH_HIDER" ]
   },
   {
     "id": "suppressor_compact",
@@ -200,6 +200,6 @@
     "consume_divisor": 85,
     "handling_modifier": 1,
     "loudness_modifier": -30,
-    "flags": [ "CONSUMABLE" ]
+    "flags": [ "CONSUMABLE", "FLASH_HIDER" ]
   }
 ]
