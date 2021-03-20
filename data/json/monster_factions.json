@@ -140,7 +140,8 @@
     "type": "MONSTER_FACTION",
     "name": "vortex",
     "base_faction": "nether",
-    "by_mood": [ "nether", "slime", "mi-go" ]
+    "by_mood": [ "nether", "slime", "mi-go" ],
+    "neutral": "mutant_with_vortex"
   },
   {
     "type": "MONSTER_FACTION",
@@ -202,6 +203,12 @@
     "type": "MONSTER_FACTION",
     "name": "amigara",
     "base_faction": "mutant"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "mutant_with_vortex",
+    "base_faction": "mutant",
+    "neutral": "vortex"
   },
   {
     "type": "MONSTER_FACTION",
