@@ -299,7 +299,7 @@
     "id": "draw_plate",
     "type": "TOOL",
     "name": { "str": "draw plate" },
-    "description": "A piece of metal with holes of varying size drilled into it. Used as part of wire drawing.",
+    "description": "A piece of metal with holes of varying size drilled into it.  Used as part of wire drawing.",
     "weight": "200 g",
     "volume": "250 ml",
     "price": 1000,
