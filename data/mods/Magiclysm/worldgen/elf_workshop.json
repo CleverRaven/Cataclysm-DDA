@@ -14,6 +14,13 @@
       "w": "f_workbench",
       "m": "f_workbench",
       "s": "f_stool"
+    },
+    "items": {
+      "a": [
+        { "item": "tools_anvil", "chance": 50, "repeat": [ 1, 2 ] },
+        { "item": "mithril_ingot", "chance": 10 },
+        { "item": "scrap_copper", "chance": 40 }
+      ]
     }
   },
   {
