@@ -157,16 +157,6 @@
   },
   {
     "type": "MONSTER_FACTION",
-    "name": "breather",
-    "base_faction": "nether"
-  },
-  {
-    "type": "MONSTER_FACTION",
-    "name": "shadow",
-    "base_faction": "nether"
-  },
-  {
-    "type": "MONSTER_FACTION",
     "name": "mutant",
     "//": "Assorted mutated wildlife, more aggressive",
     "by_mood": "mutant",
