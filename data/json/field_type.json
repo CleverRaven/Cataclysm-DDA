@@ -789,6 +789,12 @@
     "looks_like": "fd_laser"
   },
   {
+    "id": "fd_muzzle_flash",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "muzzle flash", "sym": "&", "light_emitted": 30 } ],
+    "half_life": "1 seconds"
+  },
+  {
     "id": "fd_dazzling",
     "type": "field_type",
     "legacy_enum_id": 27,
