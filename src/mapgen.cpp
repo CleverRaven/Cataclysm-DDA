@@ -1322,6 +1322,14 @@ class jmapgen_monster : public jmapgen_piece
                                            jmapgen_int( adata, "qty" ) );
                     }
                 }
+                if( sd.has_array( "patrol" ) ) {
+                    const JsonArray &patrol_pts = sd.get_array( "patrol" );
+                    for( const JsonObject p_pt : patrol_pts ) {
+                        jmapgen_int ptx = jmapgen_int( p_pt, "x" );
+                        jmapgen_int pty = jmapgen_int( p_pt, "y" );
+                        data.patrol_points_rel_ms.push_back( point( ptx.get(), pty.get() ) );
+                    }
+                }
             }
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
