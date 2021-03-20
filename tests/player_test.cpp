@@ -196,22 +196,22 @@ TEST_CASE( "Player body temperatures within expected bounds.", "[bodytemp][slow]
     guarantee_neutral_weather( dummy );
 
     SECTION( "Nude target temperatures." ) {
-        test_temperature_spread( dummy, {{-26_C, -11_C, 11_C, 26_C, 41_C, 56_C, 71_C,}} );
+        test_temperature_spread( dummy, {{-26_c, -11_c, 11_c, 26_c, 41_c, 56_c, 71_c,}} );
     }
 
     SECTION( "Lightly clothed target temperatures" ) {
         equip_clothing( dummy, light_clothing );
-        test_temperature_spread( dummy, {{-29_C, -14_C, 1_C, 24_C, 39_C, 54_C, 69_C,}} );
+        test_temperature_spread( dummy, {{-29_c, -14_c, 1_c, 24_c, 39_c, 54_c, 69_c,}} );
     }
 
     SECTION( "Heavily clothed target temperatures" ) {
         equip_clothing( dummy, heavy_clothing );
-        test_temperature_spread( dummy, {{-46_C, -30_C, -11_C, 8_C, 33_C, 48_C, 63_C,}} );
+        test_temperature_spread( dummy, {{-46_c, -30_c, -11_c, 8_c, 33_c, 48_c, 63_c,}} );
     }
 
     SECTION( "Arctic gear target temperatures" ) {
         equip_clothing( dummy, arctic_clothing );
-        test_temperature_spread( dummy, {{-83_C, -68_C, -50_C, -24_C, 3_C, 27_C, 43_C,}} );
+        test_temperature_spread( dummy, {{-83_c, -68_c, -50_c, -24_c, 3_c, 27_c, 43_c,}} );
     }
 }
 
@@ -258,7 +258,7 @@ static void print_temperatures( const std::array<units::temperature, bodytemps.s
 {
     std::string s = "{{";
     for( auto &t : temperatures ) {
-        s += to_string( units::to_celsius( t ) ) + "_C,";
+        s += to_string( units::to_celsius( t ) ) + "_c,";
     }
     s += "}}\n";
     cata_printf( s );

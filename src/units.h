@@ -748,19 +748,19 @@ inline constexpr units::quantity<double, units::money_in_cent_tag> operator"" _k
     return units::from_kusd( v );
 }
 
-inline constexpr units::temperature operator"" _mC( const unsigned long long v )
+inline constexpr units::temperature operator"" _mc( const unsigned long long v )
 {
     // Cast to int because fahrenheit conversion needs it
     // Rest gets it for consistency
     return units::from_millidegree_celsius<int>( v );
 }
 
-inline constexpr units::temperature operator"" _C( const unsigned long long v )
+inline constexpr units::temperature operator"" _c( const unsigned long long v )
 {
     return units::from_celsius<int>( v );
 }
 
-inline constexpr units::temperature operator"" _F( const unsigned long long v )
+inline constexpr units::temperature operator"" _f( const unsigned long long v )
 {
     return units::from_fahrenheit<int>( v );
 }
@@ -791,9 +791,9 @@ static const std::vector<std::pair<std::string, volume>> volume_units = { {
     }
 };
 static const std::vector<std::pair<std::string, temperature>> temperature_units = { {
-        { "mC", 1_mC },
-        { "C", 1_C },
-        { "F", 1_F }
+        { "mC", 1_mc },
+        { "C", 1_c },
+        { "F", 1_f }
     }
 };
 } // namespace units
