@@ -157,6 +157,16 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "breather",
+    "base_faction": "nether"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "shadow",
+    "base_faction": "nether"
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "mutant",
     "//": "Assorted mutated wildlife, more aggressive",
     "by_mood": "mutant",
@@ -196,6 +206,11 @@
   {
     "type": "MONSTER_FACTION",
     "name": "molerat",
+    "base_faction": "mutant"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "amigara",
     "base_faction": "mutant"
   },
   {
