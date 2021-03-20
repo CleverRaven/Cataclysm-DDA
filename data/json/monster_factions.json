@@ -53,7 +53,7 @@
     "type": "MONSTER_FACTION",
     "name": "animal",
     "by_mood": "animal",
-    "neutral": [ "bot", "aquatic_predator", "robofac", "fish", "small_animal" ]
+    "neutral": [ "small_animal", "fish", "bot", "aquatic_predator", "robofac" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -133,27 +133,27 @@
   {
     "type": "MONSTER_FACTION",
     "name": "nether",
-    "neutral": [ "cult", "small_animal", "fish" ],
-    "by_mood": [ "leech_plant", "vortex", "mi-go", "slime" ]
+    "neutral": [ "cult", "small_animal", "fish", "slime" ],
+    "by_mood": [ "leech_plant", "vortex", "mi-go" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "vortex",
     "base_faction": "nether",
-    "by_mood": "nether"
+    "by_mood": [ "nether", "slime" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "slime",
     "base_faction": "nether",
     "friendly": "zombie",
-    "by_mood": "nether"
+    "neutral": "nether"
   },
   {
     "type": "MONSTER_FACTION",
     "name": "leech_plant",
     "base_faction": "nether",
-    "by_mood": [ "cult", "nether" ]
+    "by_mood": [ "cult", "nether", "slime" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -391,7 +391,7 @@
     "name": "mi-go",
     "base_faction": "nether",
     "neutral": [ "fish", "small_animal" ],
-    "by_mood": "nether",
+    "by_mood": [ "nether", "slime" ],
     "hate": [ "zombie", "triffid", "fungus", "exodii" ]
   },
   {
