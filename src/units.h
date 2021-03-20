@@ -544,10 +544,12 @@ template<typename value_type>
 inline constexpr quantity<value_type, temperature_in_millidegree_celsius_tag> from_fahrenheit(
     const value_type v )
 {
-    const value_type max_temperature_fahrenheit = static_cast<value_type>( celsius_to_fahrenheit(
+    // Explicit casts to silence warnings about lossy conversions
+    constexpr value_type max_temperature_fahrenheit = static_cast<value_type>( celsius_to_fahrenheit(
                 static_cast<double>( std::numeric_limits<value_type>::max() / 1000 ) ) );
     const value_type temperature = v > max_temperature_fahrenheit ? max_temperature_fahrenheit : v;
-    return from_millidegree_celsius<value_type>( fahrenheit_to_celsius( temperature ) * 1000 );
+    return from_millidegree_celsius<value_type>(
+               static_cast<value_type>( fahrenheit_to_celsius( temperature ) * 1000 ) );
 }
 
 template<typename value_type>
@@ -748,17 +750,19 @@ inline constexpr units::quantity<double, units::money_in_cent_tag> operator"" _k
 
 inline constexpr units::temperature operator"" _mC( const unsigned long long v )
 {
-    return units::from_millidegree_celsius( v );
+    // Cast to int because fahrenheit conversion needs it
+    // Rest gets it for consistency
+    return units::from_millidegree_celsius<int>( v );
 }
 
 inline constexpr units::temperature operator"" _C( const unsigned long long v )
 {
-    return units::from_celsius( v );
+    return units::from_celsius<int>( v );
 }
 
 inline constexpr units::temperature operator"" _F( const unsigned long long v )
 {
-    return units::from_fahrenheit( v );
+    return units::from_fahrenheit<int>( v );
 }
 
 namespace units
