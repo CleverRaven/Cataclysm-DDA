@@ -722,7 +722,7 @@
     "proficiencies": [ { "proficiency": "prof_welding_basic" } ],
     "components": [
       [ [ "motor_small", 1 ] ],
-      [ [ "tank_small", 1 ] ],
+      [ [ "jerrycan", 1 ] ],
       [ [ "sheet_metal_small", 4 ] ],
       [ [ "scrap", 5 ] ],
       [ [ "draw_plate", 1 ] ],
