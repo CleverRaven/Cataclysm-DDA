@@ -1040,13 +1040,21 @@ bool item::stacks_with( const item &rhs, bool check_components, bool combine_liq
     } else if( item_tags != rhs.item_tags ) {
         return false;
     }
+    // Items with different faults do not stack (such as new vs. used guns)
     if( faults != rhs.faults ) {
         return false;
     }
     if( techniques != rhs.techniques ) {
         return false;
     }
-    if( item_vars != rhs.item_vars ) {
+    // Guns with enough fouling to change the indicator symbol don't stack
+    if( dirt_symbol() != rhs.dirt_symbol() ) {
+        return false;
+    }
+    // Guns that differ only by dirt/shot_counter can still stack,
+    // but other item_vars such as label/note will prevent stacking
+    const std::vector<std::string> ignore_keys = { "dirt", "shot_counter" };
+    if( map_without_keys( item_vars, ignore_keys ) != map_without_keys( rhs.item_vars, ignore_keys ) ) {
         return false;
     }
     if( goes_bad() && rhs.goes_bad() ) {
