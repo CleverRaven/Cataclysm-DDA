@@ -1,7 +1,7 @@
 [
   {
     "id": "dks_alien_hcyborg",
-    "//": "a humanoid alien cyborg.  metal and scrap simualtes augmentation.  canidate to recieve future bionics",
+    "//": "a humanoid alien cyborg.  metal and scrap simulate augmentation.  candidate to receive future bionics",
     "type": "harvest",
     "entries": [
       { "drop": "mutant_human_flesh", "type": "flesh", "mass_ratio": 0.25 },
