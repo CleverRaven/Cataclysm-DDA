@@ -99,7 +99,7 @@ bool string_id<quality>::is_valid() const
 std::string quality_requirement::to_string( const int, const int ) const
 {
     //~ %1$d: tool count, %2$s: quality requirement name, %3$d: quality level requirement
-    return string_format( ngettext( "%1$d tool with %2$s of %3$d or more.",
+    return string_format( vgettext( "%1$d tool with %2$s of %3$d or more.",
                                     "%1$d tools with %2$s of %3$d or more.", count ),
                           count, type.obj().name, level );
 }
@@ -113,7 +113,7 @@ std::string tool_comp::to_string( const int batch, const int ) const
 {
     if( by_charges() ) {
         //~ %1$s: tool name, %2$d: charge requirement
-        return string_format( npgettext( "requirement", "%1$s (%2$d charge)", "%1$s (%2$d charges)",
+        return string_format( vpgettext( "requirement", "%1$s (%2$d charge)", "%1$s (%2$d charges)",
                                          count * batch ),
                               item::nname( type ), count * batch );
     } else {
@@ -128,32 +128,32 @@ std::string item_comp::to_string( const int batch, const int avail ) const
     if( type_ptr->count_by_charges() ) {
         if( avail == item::INFINITE_CHARGES ) {
             //~ %1$s: item name, %2$d: charge requirement
-            return string_format( npgettext( "requirement", "%1$s (%2$d of infinite)",
+            return string_format( vpgettext( "requirement", "%1$s (%2$d of infinite)",
                                              "%1$s (%2$d of infinite)",
                                              c ),
                                   type_ptr->nname( 1 ), c );
         } else if( avail > 0 ) {
             //~ %1$s: item name, %2$d: charge requirement, %3%d: available charges
-            return string_format( npgettext( "requirement", "%1$s (%2$d of %3$d)", "%1$s (%2$d of %3$d)", c ),
+            return string_format( vpgettext( "requirement", "%1$s (%2$d of %3$d)", "%1$s (%2$d of %3$d)", c ),
                                   type_ptr->nname( 1 ), c, avail );
         } else {
             //~ %1$s: item name, %2$d: charge requirement
-            return string_format( npgettext( "requirement", "%1$s (%2$d)", "%1$s (%2$d)", c ),
+            return string_format( vpgettext( "requirement", "%1$s (%2$d)", "%1$s (%2$d)", c ),
                                   type_ptr->nname( 1 ), c );
         }
     } else {
         if( avail == item::INFINITE_CHARGES ) {
             //~ %1$s: item name, %2$d: required count
-            return string_format( npgettext( "requirement", "%2$d %1$s of infinite", "%2$d %1$s of infinite",
+            return string_format( vpgettext( "requirement", "%2$d %1$s of infinite", "%2$d %1$s of infinite",
                                              c ),
                                   type_ptr->nname( c ), c );
         } else if( avail > 0 ) {
             //~ %1$s: item name, %2$d: required count, %3%d: available count
-            return string_format( npgettext( "requirement", "%2$d %1$s of %3$d", "%2$d %1$s of %3$d", c ),
+            return string_format( vpgettext( "requirement", "%2$d %1$s of %3$d", "%2$d %1$s of %3$d", c ),
                                   type_ptr->nname( c ), c, avail );
         } else {
             //~ %1$s: item name, %2$d: required count
-            return string_format( npgettext( "requirement", "%2$d %1$s", "%2$d %1$s", c ),
+            return string_format( vpgettext( "requirement", "%2$d %1$s", "%2$d %1$s", c ),
                                   type_ptr->nname( c ), c );
         }
     }

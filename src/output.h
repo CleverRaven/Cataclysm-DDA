@@ -9,7 +9,6 @@
 #include <forward_list>
 #include <functional>
 #include <iterator>
-#include <locale>
 #include <string>
 #include <type_traits>
 #include <utility>
@@ -943,8 +942,7 @@ extern scrollingcombattext SCT;
 std::string wildcard_trim_rule( const std::string &pattern_in );
 bool wildcard_match( const std::string &text_in, const std::string &pattern_in );
 std::vector<std::string> string_split( const std::string &text_in, char delim );
-int ci_find_substr( const std::string &str1, const std::string &str2,
-                    const std::locale &loc = std::locale() );
+int ci_find_substr( const std::string &str1, const std::string &str2 );
 
 std::string format_volume( const units::volume &volume );
 std::string format_volume( const units::volume &volume, int width, bool *out_truncated,

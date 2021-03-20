@@ -1031,7 +1031,7 @@ void defense_game::caravan()
                 popup( _( "You can't afford those items!" ) );
             } else if( ( items[0].empty() && query_yn( _( "Really buy nothing?" ) ) ) ||
                        ( !items[0].empty() &&
-                         query_yn( ngettext( "Buy %d item, leaving you with %s?",
+                         query_yn( vgettext( "Buy %d item, leaving you with %s?",
                                              "Buy %d items, leaving you with %s?",
                                              items[0].size() ),
                                    items[0].size(),

@@ -412,7 +412,7 @@ bool monexamine::pay_bot( monster &z )
     switch( bot_menu.ret ) {
         case 1:
             amount = prompt_for_amount(
-                         ngettext( "How much friendship do you get?  Max: %d minute.  (0 to cancel)",
+                         vgettext( "How much friendship do you get?  Max: %d minute.  (0 to cancel)",
                                    "How much friendship do you get?  Max: %d minutes.", charge_count / 10 ), charge_count / 10 );
             if( amount > 0 ) {
                 time_duration time_bought = time_duration::from_minutes( amount );

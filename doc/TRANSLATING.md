@@ -191,19 +191,27 @@ This function's first parameter is the context, the second is the string to be
 translated:
 
 ```c++
-const char *translated = pgettext("The color", "blue")
+const char *translated = pgettext( "The color", "blue" );
 ```
 
-#### `ngettext()`
+#### `vgettext()`
 
-Some languages have complex rules for plural forms. `ngettext` can be used to
+Some languages have complex rules for plural forms. `vgettext` can be used to
 translate these plurals correctly. Its first parameter is the untranslated
 string in singular form, the second parameter is the untranslated string in
 plural form and the third one is used to determine which one of the first two
 should be used at run time:
 
 ```c++
-const char *translated = ngettext("one zombie", "many zombies", num_of_zombies)
+const char *translated = vgettext( "%d zombie", "%d zombies", num_of_zombies );
+```
+
+#### `vpgettext()`
+
+Same as `vgettext`, but allows to specify translation context.
+
+```c++
+const char *translated = vpgettext( "water source, not time of year", "%d spring", "%d springs", num_of_springs );
 ```
 
 ### `translation`

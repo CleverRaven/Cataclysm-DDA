@@ -1157,7 +1157,7 @@ tab_direction set_traits( avatar &u, points_left &points )
                         points *= -1;
                     }
                     mvwprintz( w, point( full_string_length + 3, 3 ), col_tr,
-                               ngettext( "%s %s %d point", "%s %s %d points", points ),
+                               vgettext( "%s %s %d point", "%s %s %d points", points ),
                                mdata.name(),
                                negativeTrait ? _( "earns" ) : _( "costs" ),
                                points );
@@ -1264,13 +1264,13 @@ tab_direction set_traits( avatar &u, points_left &points )
                        enumerate_as_string( conflict_names ) );
             } else if( iCurWorkingPage == 0 && num_good + mdata.points >
                        max_trait_points && !points.is_freeform() ) {
-                popup( ngettext( "Sorry, but you can only take %d point of advantages.",
+                popup( vgettext( "Sorry, but you can only take %d point of advantages.",
                                  "Sorry, but you can only take %d points of advantages.", max_trait_points ),
                        max_trait_points );
 
             } else if( iCurWorkingPage != 0 && num_bad + mdata.points <
                        -max_trait_points && !points.is_freeform() ) {
-                popup( ngettext( "Sorry, but you can only take %d point of disadvantages.",
+                popup( vgettext( "Sorry, but you can only take %d point of disadvantages.",
                                  "Sorry, but you can only take %d points of disadvantages.", max_trait_points ),
                        max_trait_points );
 
@@ -1405,12 +1405,12 @@ tab_direction set_profession( avatar &u, points_left &points,
             std::string prof_msg_temp;
             if( negativeProf ) {
                 //~ 1s - profession name, 2d - current character points.
-                prof_msg_temp = ngettext( "Profession %1$s earns %2$d point",
+                prof_msg_temp = vgettext( "Profession %1$s earns %2$d point",
                                           "Profession %1$s earns %2$d points",
                                           pointsForProf );
             } else {
                 //~ 1s - profession name, 2d - current character points.
-                prof_msg_temp = ngettext( "Profession %1$s costs %2$d point",
+                prof_msg_temp = vgettext( "Profession %1$s costs %2$d point",
                                           "Profession %1$s costs %2$d points",
                                           pointsForProf );
             }
@@ -1757,11 +1757,11 @@ tab_direction set_skills( avatar &u, points_left &points )
         // translation calls.
         const std::string upgrade_levels_s = string_format(
                 //~ levels here are skill levels at character creation time
-                ngettext( "%d level", "%d levels", upgrade_levels ), upgrade_levels );
+                vgettext( "%d level", "%d levels", upgrade_levels ), upgrade_levels );
         const nc_color color = points.skill_points_left() >= cost ? COL_SKILL_USED : c_light_red;
         mvwprintz( w, point( remaining_points_length + 9, 3 ), color,
                    //~ Second string is e.g. "1 level" or "2 levels"
-                   ngettext( "Upgrading %s by %s costs %d point",
+                   vgettext( "Upgrading %s by %s costs %d point",
                              "Upgrading %s by %s costs %d points", cost ),
                    currentSkill->name(), upgrade_levels_s, cost );
 
@@ -2026,12 +2026,12 @@ tab_direction set_scenario( avatar &u, points_left &points,
             std::string scen_msg_temp;
             if( negativeScen ) {
                 //~ 1s - scenario name, 2d - current character points.
-                scen_msg_temp = ngettext( "Scenario %1$s earns %2$d point",
+                scen_msg_temp = vgettext( "Scenario %1$s earns %2$d point",
                                           "Scenario %1$s earns %2$d points",
                                           pointsForScen );
             } else {
                 //~ 1s - scenario name, 2d - current character points.
-                scen_msg_temp = ngettext( "Scenario %1$s costs %2$d point",
+                scen_msg_temp = vgettext( "Scenario %1$s costs %2$d point",
                                           "Scenario %1$s cost %2$d points",
                                           pointsForScen );
             }

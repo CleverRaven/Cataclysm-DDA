@@ -536,7 +536,7 @@ def extract_dynamic_line_optional(line, member, outfile):
     if member in line:
         extract_dynamic_line(line[member], outfile)
 
-dynamic_line_string_keys = {
+dynamic_line_string_keys = [
 # from `simple_string_conds` in `condition.h`
     "u_male", "u_female", "npc_male", "npc_female",
     "has_no_assigned_mission", "has_assigned_mission", "has_many_assigned_missions",
@@ -550,7 +550,7 @@ dynamic_line_string_keys = {
     "has_pickup_list", "is_by_radio", "has_reason",
 # yes/no strings for complex conditions, 'and' list
     "yes", "no", "and"
-}
+]
 
 def extract_dynamic_line(line, outfile):
     if type(line) == list:
@@ -862,12 +862,12 @@ def gettextify(string, context=None, plural=None):
     "Put the string in a fake gettext call, and add a newline."
     if context:
         if plural:
-            return "npgettext(%r, %r, %r, n)\n" % (context, string, plural)
+            return "vpgettext(%r, %r, %r, n)\n" % (context, string, plural)
         else:
             return "pgettext(%r, %r)\n" % (context, string)
     else:
         if plural:
-            return "ngettext(%r, %r, n)\n" % (string, plural)
+            return "vgettext(%r, %r, n)\n" % (string, plural)
         else:
             return "_(%r)\n" % string
 

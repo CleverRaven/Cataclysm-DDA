@@ -1002,7 +1002,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
             }
             response = string_format( _( "%d.%d miles." ), fullmiles, miles );
         } else {
-            response = string_format( ngettext( "%d foot.", "%d feet.", dist ), dist );
+            response = string_format( vgettext( "%d foot.", "%d feet.", dist ), dist );
         }
         return response;
     } else if( topic == "TALK_DESCRIBE_MISSION" ) {

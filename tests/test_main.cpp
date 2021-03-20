@@ -296,6 +296,7 @@ int main( int argc, const char *argv[] )
     if( seed ) {
         rng_set_engine_seed( seed );
     }
+    DebugLog( D_INFO, DC_ALL ) << "Randomness seeded to: " << seed;
 
     try {
         // TODO: Only init game if we're running tests that need it.

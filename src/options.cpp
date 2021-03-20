@@ -2673,7 +2673,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
             new_window_width = projected_window_width();
 
             fold_and_print( w_options_tooltip, point_zero, iMinScreenWidth - 2, c_white,
-                            ngettext( "%s #%s -- The window will be %d pixel wide with the selected value.",
+                            vgettext( "%s #%s -- The window will be %d pixel wide with the selected value.",
                                       "%s #%s -- The window will be %d pixels wide with the selected value.",
                                       new_window_width ),
                             current_opt.getTooltip(),
@@ -2688,7 +2688,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
             new_window_height = projected_window_height();
 
             fold_and_print( w_options_tooltip, point_zero, iMinScreenWidth - 2, c_white,
-                            ngettext( "%s #%s -- The window will be %d pixel tall with the selected value.",
+                            vgettext( "%s #%s -- The window will be %d pixel tall with the selected value.",
                                       "%s #%s -- The window will be %d pixels tall with the selected value.",
                                       new_window_height ),
                             current_opt.getTooltip(),

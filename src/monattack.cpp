@@ -3603,7 +3603,7 @@ bool mattack::flamethrower( monster *z )
         if( target == nullptr ) {
             // Because that stupid oaf was in the way!
             if( boo_hoo > 0 && g->u.sees( *z ) ) {
-                add_msg( m_warning, ngettext( "Pointed in your direction, the %s emits an IFF warning beep.",
+                add_msg( m_warning, vgettext( "Pointed in your direction, the %s emits an IFF warning beep.",
                                               "Pointed in your direction, the %s emits %d annoyed sounding beeps.",
                                               boo_hoo ),
                          z->name(), boo_hoo );
@@ -3741,7 +3741,7 @@ bool mattack::chickenbot( monster *z )
         target = z->auto_find_hostile_target( 38, boo_hoo );
         if( target == nullptr ) {
             if( boo_hoo > 0 && g->u.sees( *z ) ) { // because that stupid oaf was in the way!
-                add_msg( m_warning, ngettext( "Pointed in your direction, the %s emits an IFF warning beep.",
+                add_msg( m_warning, vgettext( "Pointed in your direction, the %s emits an IFF warning beep.",
                                               "Pointed in your direction, the %s emits %d annoyed sounding beeps.",
                                               boo_hoo ),
                          z->name(), boo_hoo );
@@ -3823,7 +3823,7 @@ bool mattack::multi_robot( monster *z )
         target = z->auto_find_hostile_target( 48, boo_hoo );
         if( target == nullptr ) {
             if( boo_hoo > 0 && g->u.sees( *z ) ) { // because that stupid oaf was in the way!
-                add_msg( m_warning, ngettext( "Pointed in your direction, the %s emits an IFF warning beep.",
+                add_msg( m_warning, vgettext( "Pointed in your direction, the %s emits an IFF warning beep.",
                                               "Pointed in your direction, the %s emits %d annoyed sounding beeps.",
                                               boo_hoo ),
                          z->name(), boo_hoo );

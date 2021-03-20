@@ -17,6 +17,8 @@
 #    include <CoreFoundation/CFLocale.h>
 #    include <CoreFoundation/CoreFoundation.h>
 #  endif
+#
+#  include <libintl.h>
 #endif // LOCALIZE
 
 #include "cached_options.h"
@@ -74,6 +76,17 @@ static void reload_names()
     Name::clear();
     Name::load_from_file( PATH_INFO::names() );
 }
+
+
+// A tiny hack to make debug output look nice when running unit tests
+// (DebugLog does not append newlines, so we have to do it ourselves).
+#define dbg(lvl, ...) \
+    if (!test_mode || lvl & D_ERROR ) { \
+        DebugLog(lvl, D_MAIN) << string_format(__VA_ARGS__); \
+    } else { \
+        cata_printf(__VA_ARGS__); \
+        cata_printf("\n"); \
+    }
 
 #if defined(LOCALIZE)
 #if defined(MACOSX)
@@ -207,14 +220,13 @@ void set_language()
     // Since locale for desired language may be missing from user system,
     // we need to explicitly specify it.
     if( !cata_setenv( "LANGUAGE", lang_opt ) ) {
-        DebugLog( D_WARNING, D_MAIN ) << "Can't set 'LANGUAGE' environment variable";
+        dbg( D_WARNING, "Can't set 'LANGUAGE' environment variable" );
     } else {
         const auto env = getenv( "LANGUAGE" );
         if( env != nullptr ) {
-            DebugLog( D_INFO, D_MAIN ) << "[lang] Language is set to: '" <<
-                                       lang_opt << "'/'" << env << '\'';
+            dbg( D_INFO, "[lang] Language is set to: '%s'/'%s'", lang_opt, env );
         } else {
-            DebugLog( D_WARNING, D_MAIN ) << "Can't get 'LANGUAGE' environment variable";
+            dbg( D_WARNING, "Can't get 'LANGUAGE' environment variable" );
         }
     }
     update_global_locale();
@@ -329,8 +341,8 @@ bool init_language_system()
 
     sys_c_locale = setlocale( LC_ALL, nullptr );
     sys_cpp_locale = std::locale().name();
-    DebugLog( D_INFO, DC_ALL ) << "[lang] C locale on startup: " << sys_c_locale;
-    DebugLog( D_INFO, DC_ALL ) << "[lang] C++ locale on startup: " << sys_cpp_locale;
+    DebugLog( D_INFO, D_MAIN ) << "[lang] C locale on startup: " << sys_c_locale;
+    DebugLog( D_INFO, D_MAIN ) << "[lang] C++ locale on startup: " << sys_cpp_locale;
 
 #if defined(LOCALIZE)
     lang_options = load_languages( PATH_INFO::language_defs_file() );
@@ -341,10 +353,10 @@ bool init_language_system()
     std::string lang = getSystemUILang();
     if( lang.empty() ) {
         system_language = nullptr;
-        DebugLog( D_WARNING, DC_ALL ) << "[lang] Failed to detect system UI language.";
+        DebugLog( D_WARNING, D_MAIN ) << "[lang] Failed to detect system UI language.";
     } else {
         system_language = get_lang_info( lang );
-        DebugLog( D_INFO, DC_ALL ) << "[lang] Detected system UI language as '" << lang << "'";
+        DebugLog( D_INFO, D_MAIN ) << "[lang] Detected system UI language as '" << lang << "'";
     }
 #else // LOCALIZE
     system_language = &fallback_language;
@@ -397,7 +409,7 @@ void update_global_locale()
 #if defined(_WIN32)
     // Use the ANSI code page 1252 to work around some language output bugs.
     if( setlocale( LC_ALL, ".1252" ) == nullptr ) {
-        DebugLog( D_WARNING, D_MAIN ) << "[lang] Error while setlocale(LC_ALL, '.1252').";
+        dbg( D_WARNING, "[lang] Error while setlocale(LC_ALL, '.1252')." );
     }
 #else // _WIN32
     std::string lang = ::get_option<std::string>( "USE_LANG" );
@@ -431,8 +443,8 @@ void update_global_locale()
 
 #endif // _WIN32
 
-    DebugLog( D_INFO, DC_ALL ) << "[lang] C locale set to " << setlocale( LC_ALL, nullptr );
-    DebugLog( D_INFO, DC_ALL ) << "[lang] C++ locale set to " << std::locale().name();
+    dbg( D_INFO, "[lang] C locale set to '%s'", setlocale( LC_ALL, nullptr ) );
+    dbg( D_INFO, "[lang] C++ locale set to '%s'", std::locale().name() );
 }
 
 bool localized_comparator::operator()( const std::string &l, const std::string &r ) const

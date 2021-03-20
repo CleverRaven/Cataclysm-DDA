@@ -503,7 +503,7 @@ class atm_menu
                 return false;
             }
 
-            const int amount = prompt_for_amount( ngettext(
+            const int amount = prompt_for_amount( vgettext(
                     "Deposit how much?  Max: %d cent.  (0 to cancel) ",
                     "Deposit how much?  Max: %d cents.  (0 to cancel) ", money ), money );
 
@@ -538,7 +538,7 @@ class atm_menu
                 return false;
             }
 
-            const int amount = prompt_for_amount( ngettext(
+            const int amount = prompt_for_amount( vgettext(
                     "Withdraw how much?  Max: %d cent.  (0 to cancel) ",
                     "Withdraw how much?  Max: %d cents.  (0 to cancel) ", u.cash ), u.cash );
 
@@ -2447,7 +2447,7 @@ void iexamine::kiln_full( player &, const tripoint &examp )
         int hours = to_hours<int>( time_left );
         int minutes = to_minutes<int>( time_left ) + 1;
         if( minutes > 60 ) {
-            add_msg( ngettext( "It will finish burning in about %d hour.",
+            add_msg( vgettext( "It will finish burning in about %d hour.",
                                "It will finish burning in about %d hours.",
                                hours ), hours );
         } else if( minutes > 30 ) {
@@ -2574,7 +2574,7 @@ void iexamine::arcfurnace_full( player &, const tripoint &examp )
         int hours = to_hours<int>( time_left );
         int minutes = to_minutes<int>( time_left ) + 1;
         if( minutes > 60 ) {
-            add_msg( ngettext( "It will finish burning in about %d hour.",
+            add_msg( vgettext( "It will finish burning in about %d hour.",
                                "It will finish burning in about %d hours.",
                                hours ), hours );
         } else if( minutes > 30 ) {
@@ -2978,7 +2978,7 @@ void iexamine::fvat_full( player &p, const tripoint &examp )
             if( hours < 1 ) {
                 add_msg( _( "It will finish brewing in less than an hour." ) );
             } else {
-                add_msg( ngettext( "It will finish brewing in about %d hour.",
+                add_msg( vgettext( "It will finish brewing in about %d hour.",
                                    "It will finish brewing in about %d hours.",
                                    hours ), hours );
             }
@@ -4285,7 +4285,7 @@ void iexamine::ledge( player &p, const tripoint &examp )
 
             const int climb_cost = p.climbing_cost( where, examp );
             const auto fall_mod = p.fall_damage_mod();
-            std::string query_str = ngettext( "Looks like %d story.  Jump down?",
+            std::string query_str = vgettext( "Looks like %d story.  Jump down?",
                                               "Looks like %d stories.  Jump down?",
                                               height );
             if( height > 1 && !query_yn( query_str.c_str(), height ) ) {
@@ -5290,7 +5290,7 @@ void iexamine::quern_examine( player &p, const tripoint &examp )
                 pop = colorize( _( "There's a mill here.  It is turning and milling." ), c_green ) + "\n";
                 if( time_left > 0_turns ) {
                     if( minutes_left > 60 ) {
-                        pop += string_format( ngettext( "It will finish milling in about %d hour.",
+                        pop += string_format( vgettext( "It will finish milling in about %d hour.",
                                                         "It will finish milling in about %d hours.",
                                                         hours_left ), hours_left ) + "\n\n";
                     } else if( minutes_left > 30 ) {
@@ -5494,7 +5494,7 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
                 pop += colorize( _( "There's a smoking rack here.  It is lit and smoking." ), c_green ) + "\n";
                 if( time_left > 0_turns ) {
                     if( minutes_left > 60 ) {
-                        pop += string_format( ngettext( "It will finish smoking in about %d hour.",
+                        pop += string_format( vgettext( "It will finish smoking in about %d hour.",
                                                         "It will finish smoking in about %d hours.",
                                                         hours_left ), hours_left ) + "\n\n";
                     } else if( minutes_left > 30 ) {

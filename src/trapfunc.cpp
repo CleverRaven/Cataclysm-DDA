@@ -1198,7 +1198,7 @@ bool trapfunc::ledge( const tripoint &p, Creature *c, item * )
     }
 
     if( pl->is_player() ) {
-        add_msg( m_bad, ngettext( "You fall down %d story!", "You fall down %d stories!", height ),
+        add_msg( m_bad, vgettext( "You fall down %d story!", "You fall down %d stories!", height ),
                  height );
         g->vertical_move( -height, true );
     } else {

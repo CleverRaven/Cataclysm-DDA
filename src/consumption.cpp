@@ -1277,22 +1277,22 @@ bool Character::feed_furnace_with( item &it )
                                                 units::to_kilojoule( get_max_power_level() - get_power_level() ) );
         if( it.count_by_charges() ) {
             add_msg_player_or_npc( m_info,
-                                   ngettext( "You digest %d %s and recharge %d point of energy.",
+                                   vgettext( "You digest %d %s and recharge %d point of energy.",
                                              "You digest %d %s and recharge %d points of energy.",
                                              profitable_energy
                                            ),
-                                   ngettext( "<npcname> digests %d %s and recharges %d point of energy.",
+                                   vgettext( "<npcname> digests %d %s and recharges %d point of energy.",
                                              "<npcname> digests %d %s and recharges %d points of energy.",
                                              profitable_energy
                                            ), consumed_charges, it.tname(), profitable_energy
                                  );
         } else {
             add_msg_player_or_npc( m_info,
-                                   ngettext( "You digest your %s and recharge %d point of energy.",
+                                   vgettext( "You digest your %s and recharge %d point of energy.",
                                              "You digest your %s and recharge %d points of energy.",
                                              profitable_energy
                                            ),
-                                   ngettext( "<npcname> digests a %s and recharges %d point of energy.",
+                                   vgettext( "<npcname> digests a %s and recharges %d point of energy.",
                                              "<npcname> digests a %s and recharges %d points of energy.",
                                              profitable_energy
                                            ), it.tname(), profitable_energy
@@ -1330,10 +1330,10 @@ bool Character::fuel_bionic_with( item &it )
     update_fuel_storage( it.typeId() );
     add_msg_player_or_npc( m_info,
                            //~ %1$i: charge number, %2$s: item name, %3$s: bionics name
-                           ngettext( "You load %1$i charge of %2$s in your %3$s.",
+                           vgettext( "You load %1$i charge of %2$s in your %3$s.",
                                      "You load %1$i charges of %2$s in your %3$s.", loadable ),
                            //~ %1$i: charge number, %2$s: item name, %3$s: bionics name
-                           ngettext( "<npcname> load %1$i charge of %2$s in their %3$s.",
+                           vgettext( "<npcname> load %1$i charge of %2$s in their %3$s.",
                                      "<npcname> load %1$i charges of %2$s in their %3$s.", loadable ), loadable, it.tname(), bio->name );
     mod_moves( -250 );
     return true;

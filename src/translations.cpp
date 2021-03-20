@@ -30,6 +30,19 @@ void invalidate_translations()
 
 #if defined(LOCALIZE)
 
+#include <libintl.h>
+
+const char *detail::_translate_internal( const char *msg )
+{
+    // translated empty string in MO files contains metadata we don't want to return here
+    return msg[0] == '\0' ? msg : gettext( msg );
+}
+
+const char *vgettext( const char *msgid, const char *msgid_plural, unsigned long n )
+{
+    return ngettext( msgid, msgid_plural, n );
+}
+
 const char *pgettext( const char *context, const char *msgid )
 {
     // need to construct the string manually,
@@ -52,7 +65,7 @@ const char *pgettext( const char *context, const char *msgid )
     }
 }
 
-const char *npgettext( const char *const context, const char *const msgid,
+const char *vpgettext( const char *const context, const char *const msgid,
                        const char *const msgid_plural, const unsigned long long n )
 {
     const std::string context_id = std::string( context ) + '\004' + msgid;
@@ -332,14 +345,14 @@ std::string translation::translated( const int num ) const
                 cached_translation = cata::make_value<std::string>( detail::_translate_internal( raw ) );
             } else {
                 cached_translation = cata::make_value<std::string>(
-                                         ngettext( raw.c_str(), raw_pl->c_str(), num ) );
+                                         vgettext( raw.c_str(), raw_pl->c_str(), num ) );
             }
         } else {
             if( !raw_pl ) {
                 cached_translation = cata::make_value<std::string>( pgettext( ctxt->c_str(), raw.c_str() ) );
             } else {
                 cached_translation = cata::make_value<std::string>(
-                                         npgettext( ctxt->c_str(), raw.c_str(), raw_pl->c_str(), num ) );
+                                         vpgettext( ctxt->c_str(), raw.c_str(), raw_pl->c_str(), num ) );
             }
         }
     }

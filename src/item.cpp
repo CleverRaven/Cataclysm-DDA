@@ -1761,7 +1761,7 @@ void item::magazine_info( std::vector<iteminfo> &info, const iteminfo_query *par
 
     if( parts->test( iteminfo_parts::MAGAZINE_CAPACITY ) ) {
         for( const ammotype &at : ammo_types() ) {
-            const std::string fmt = string_format( ngettext( "<num> round of %s",
+            const std::string fmt = string_format( vgettext( "<num> round of %s",
                                                    "<num> rounds of %s", ammo_capacity() ),
                                                    at->name() );
             info.emplace_back( "MAGAZINE", _( "Capacity: " ), fmt, iteminfo::no_flags,
@@ -2087,7 +2087,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
         }
         if( mod->ammo_capacity() && parts->test( iteminfo_parts::GUN_CAPACITY ) ) {
             for( const ammotype &at : mod->ammo_types() ) {
-                const std::string fmt = string_format( ngettext( "<num> round of %s",
+                const std::string fmt = string_format( vgettext( "<num> round of %s",
                                                        "<num> rounds of %s",
                                                        mod->ammo_capacity() ), at->name() );
                 info.emplace_back( "GUN", _( "Capacity: " ), fmt, iteminfo::no_flags,
@@ -2108,7 +2108,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
 
     if( mod->get_gun_ups_drain() && parts->test( iteminfo_parts::AMMO_UPSCOST ) ) {
         info.emplace_back( "AMMO",
-                           string_format( ngettext( "Uses <stat>%i</stat> charge of UPS per shot",
+                           string_format( vgettext( "Uses <stat>%i</stat> charge of UPS per shot",
                                           "Uses <stat>%i</stat> charges of UPS per shot",
                                           mod->get_gun_ups_drain() ),
                                           mod->get_gun_ups_drain() ) );
@@ -2195,7 +2195,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
 
     if( mod->casings_count() && parts->test( iteminfo_parts::DESCRIPTION_GUN_CASINGS ) ) {
         insert_separation_line( info );
-        std::string tmp = ngettext( "Contains <stat>%i</stat> casing",
+        std::string tmp = vgettext( "Contains <stat>%i</stat> casing",
                                     "Contains <stat>%i</stat> casings", mod->casings_count() );
         info.emplace_back( "DESCRIPTION", string_format( tmp, mod->casings_count() ) );
     }
@@ -2789,13 +2789,13 @@ void item::book_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                                   iteminfo::show_plus, g->u.book_fun_for( *this, g->u ) ) );
     }
     if( parts->test( iteminfo_parts::BOOK_TIMEPERCHAPTER ) ) {
-        std::string fmt = ngettext(
+        std::string fmt = vgettext(
                               "A chapter of this book takes <num> <info>minute to "
                               "read</info>.",
                               "A chapter of this book takes <num> <info>minutes to "
                               "read</info>.", book.time );
         if( type->use_methods.count( "MA_MANUAL" ) ) {
-            fmt = ngettext(
+            fmt = vgettext(
                       "<info>A training session</info> with this book takes "
                       "<num> <info>minute</info>.",
                       "<info>A training session</info> with this book takes "
@@ -2807,7 +2807,7 @@ void item::book_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
 
     if( book.chapters > 0 && parts->test( iteminfo_parts::BOOK_NUMUNREADCHAPTERS ) ) {
         const int unread = get_remaining_chapters( g->u );
-        std::string fmt = ngettext( "This book has <num> <info>unread chapter</info>.",
+        std::string fmt = vgettext( "This book has <num> <info>unread chapter</info>.",
                                     "This book has <num> <info>unread chapters</info>.",
                                     unread );
         info.push_back( iteminfo( "BOOK", "", fmt, iteminfo::no_flags, unread ) );
@@ -2835,7 +2835,7 @@ void item::book_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
 
     if( !recipe_list.empty() && parts->test( iteminfo_parts::DESCRIPTION_BOOK_RECIPES ) ) {
         std::string recipe_line =
-            string_format( ngettext( "This book contains %1$d crafting recipe: %2$s",
+            string_format( vgettext( "This book contains %1$d crafting recipe: %2$s",
                                      "This book contains %1$d crafting recipes: %2$s",
                                      recipe_list.size() ),
                            recipe_list.size(), enumerate_as_string( recipe_list ) );
@@ -2933,7 +2933,7 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
         bool bionic_tool = has_flag( flag_USES_BIONIC_POWER );
         if( !ammo_types().empty() ) {
             //~ "%s" is ammunition type. This types can't be plural.
-            tmp = ngettext( "Maximum <num> charge of %s.", "Maximum <num> charges of %s.",
+            tmp = vgettext( "Maximum <num> charge of %s.", "Maximum <num> charges of %s.",
                             ammo_capacity() );
             tmp = string_format( tmp, enumerate_as_string( ammo_types().begin(),
             ammo_types().end(), []( const ammotype & at ) {
@@ -2942,7 +2942,7 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
 
             // No need to display max charges, since charges are always equal to bionic power
         } else if( !bionic_tool ) {
-            tmp = ngettext( "Maximum <num> charge.", "Maximum <num> charges.", ammo_capacity() );
+            tmp = vgettext( "Maximum <num> charge.", "Maximum <num> charges.", ammo_capacity() );
         }
         if( !bionic_tool ) {
             info.emplace_back( "TOOL", "", tmp, iteminfo::no_flags, ammo_capacity() );
@@ -3088,7 +3088,7 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         const int &fuel_numb = fuels.size();
 
         info.push_back( iteminfo( "DESCRIPTION",
-                                  ngettext( "* This bionic can produce power from the following fuel: ",
+                                  vgettext( "* This bionic can produce power from the following fuel: ",
                                             "* This bionic can produce power from the following fuels: ",
                                             fuel_numb ) + enumerate_as_string( fuels.begin(),
                                                     fuels.end(), []( const itype_id & id ) -> std::string { return "<info>" + item_controller->find_template( id )->nname( 1 ) + "</info>"; } ) ) );
@@ -3546,13 +3546,13 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             if( btime <= 2_days ) {
                 btime_i = to_hours<int>( btime );
                 info.push_back( iteminfo( "DESCRIPTION",
-                                          string_format( ngettext( "* Once set in a vat, this "
+                                          string_format( vgettext( "* Once set in a vat, this "
                                                   "will ferment in around %d hour.",
                                                   "* Once set in a vat, this will ferment in "
                                                   "around %d hours.", btime_i ), btime_i ) ) );
             } else {
                 info.push_back( iteminfo( "DESCRIPTION",
-                                          string_format( ngettext( "* Once set in a vat, this "
+                                          string_format( vgettext( "* Once set in a vat, this "
                                                   "will ferment in around %d day.",
                                                   "* Once set in a vat, this will ferment in "
                                                   "around %d days.", btime_i ), btime_i ) ) );
@@ -4303,7 +4303,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         maintext = string_format( pgettext( "item name", "%2$s (%1$s)" ), label( quantity ),
                                   contents_item.tname( contents_count, with_prefix ) );
     } else if( !contents.empty() ) {
-        maintext = string_format( npgettext( "item name",
+        maintext = string_format( vpgettext( "item name",
                                              //~ %1$s: item name, %2$zd: content size
                                              "%1$s with %2$zd item",
                                              "%1$s with %2$zd items", contents.num_item_stacks() ),
@@ -9267,9 +9267,9 @@ std::string item::type_name( unsigned int quantity ) const
     std::string ret_name;
     if( typeId() == "blood" ) {
         if( corpse == nullptr || corpse->id.is_null() ) {
-            return npgettext( "item name", "human blood", "human blood", quantity );
+            return vpgettext( "item name", "human blood", "human blood", quantity );
         } else {
-            return string_format( npgettext( "item name", "%s blood",
+            return string_format( vpgettext( "item name", "%s blood",
                                              "%s blood",  quantity ),
                                   corpse->nname() );
         }

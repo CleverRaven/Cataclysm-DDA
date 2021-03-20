@@ -6152,7 +6152,7 @@ static bool einkpc_download_memory_card( player &p, item &eink, item &mc )
         int new_photos = mc.get_var( "MC_PHOTOS", 0 );
         mc.erase_var( "MC_PHOTOS" );
 
-        p.add_msg_if_player( m_good, ngettext( "You download %d new photo into internal memory.",
+        p.add_msg_if_player( m_good, vgettext( "You download %d new photo into internal memory.",
                                                "You download %d new photos into internal memory.", new_photos ), new_photos );
 
         const int old_photos = eink.get_var( "EIPC_PHOTOS", 0 );
@@ -6165,7 +6165,7 @@ static bool einkpc_download_memory_card( player &p, item &eink, item &mc )
         int new_songs = mc.get_var( "MC_MUSIC", 0 );
         mc.erase_var( "MC_MUSIC" );
 
-        p.add_msg_if_player( m_good, ngettext( "You download %d new song into internal memory.",
+        p.add_msg_if_player( m_good, vgettext( "You download %d new song into internal memory.",
                                                "You download %d new songs into internal memory.", new_songs ), new_songs );
 
         const int old_songs = eink.get_var( "EIPC_MUSIC", 0 );
@@ -7027,7 +7027,7 @@ static object_names_collection enumerate_objects_around_point( const tripoint &p
         if( !objects_combined_desc.empty() ) {
             // store objects to description_figures_status
             std::string objects_text = enumerate_as_string( objects_combined_desc );
-            ret_obj.obj_nearby_text = string_format( ngettext( "Nearby is %s.", "Nearby are %s.",
+            ret_obj.obj_nearby_text = string_format( vgettext( "Nearby is %s.", "Nearby are %s.",
                                       objects_combined_num ), objects_text );
         }
     }
@@ -7227,28 +7227,28 @@ static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
     if( !obj_coll.items.empty() ) {
         std::string obj_list = enumerate_as_string( obj_coll.items.begin(), obj_coll.items.end(),
                                format_object_pair_article );
-        photo_text += "\n\n" + string_format( ngettext( "There is something lying on the ground: %s.",
+        photo_text += "\n\n" + string_format( vgettext( "There is something lying on the ground: %s.",
                                               "There are some things lying on the ground: %s.", num_of( obj_coll.items ) ),
                                               obj_list );
     }
     if( !obj_coll.furniture.empty() ) {
         std::string obj_list = enumerate_as_string( obj_coll.furniture.begin(), obj_coll.furniture.end(),
                                format_object_pair_article );
-        photo_text += "\n\n" + string_format( ngettext( "Something is visible in the background: %s.",
+        photo_text += "\n\n" + string_format( vgettext( "Something is visible in the background: %s.",
                                               "Some objects are visible in the background: %s.", num_of( obj_coll.furniture ) ),
                                               obj_list );
     }
     if( !obj_coll.vehicles.empty() ) {
         std::string obj_list = enumerate_as_string( obj_coll.vehicles.begin(), obj_coll.vehicles.end(),
                                format_object_pair_no_article );
-        photo_text += "\n\n" + string_format( ngettext( "There is %s parked in the background.",
+        photo_text += "\n\n" + string_format( vgettext( "There is %s parked in the background.",
                                               "There are %s parked in the background.", num_of( obj_coll.vehicles ) ),
                                               obj_list );
     }
     if( !obj_coll.terrain.empty() ) {
         std::string obj_list = enumerate_as_string( obj_coll.terrain.begin(), obj_coll.terrain.end(),
                                format_object_pair_article );
-        photo_text += "\n\n" + string_format( ngettext( "There is %s in the background.",
+        photo_text += "\n\n" + string_format( vgettext( "There is %s in the background.",
                                               "There are %s in the background.", num_of( obj_coll.terrain ) ),
                                               obj_list );
     }

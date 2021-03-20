@@ -40,18 +40,6 @@ void invalidate_translations();
 
 #if defined(LOCALIZE)
 
-// MingW flips out if you don't define this before you try to statically link libintl.
-// This should prevent 'undefined reference to `_imp__libintl_gettext`' errors.
-#if (defined(_WIN32) || defined(__CYGWIN__)) && !defined(_MSC_VER)
-#   if !defined(LIBINTL_STATIC)
-#       define LIBINTL_STATIC
-#   endif
-#endif
-
-// IWYU pragma: begin_exports
-#include <libintl.h>
-// IWYU pragma: end_exports
-
 #if defined(__GNUC__)
 #  define ATTRIBUTE_FORMAT_ARG(a) __attribute__((format_arg(a)))
 #else
@@ -62,11 +50,6 @@ namespace detail
 {
 // same as _(), but without local cache
 const char *_translate_internal( const char *msg ) ATTRIBUTE_FORMAT_ARG( 1 );
-
-inline const char *_translate_internal( const char *msg )
-{
-    return msg[0] == '\0' ? msg : gettext( msg );
-}
 
 // same as _(), but without local cache
 inline std::string _translate_internal( const std::string &msg )
@@ -138,30 +121,29 @@ static inline local_translation_cache<std::string> get_local_translation_cache(
         return cache( arg ); \
     } )( msg ) )
 
-// ngettext overload taking an unsigned long long so that people don't need
+const char *vgettext( const char *msgid, const char *msgid_plural,
+                      unsigned long n ) ATTRIBUTE_FORMAT_ARG( 1 );
+
+// vgettext overload taking an unsigned long long so that people don't need
 // to cast at call sites.  This is particularly relevant on 64-bit Windows where
 // size_t is bigger than unsigned long, so MSVC will try to encourage you to
 // add a cast.
 template<typename T, typename = std::enable_if_t<std::is_same<T, unsigned long long>::value>>
 ATTRIBUTE_FORMAT_ARG( 1 )
-inline const char *ngettext( const char *msgid, const char *msgid_plural, T n )
+inline const char *vgettext( const char *msgid, const char *msgid_plural, T n )
 {
     // Leaving this long because it matches the underlying API.
     // NOLINTNEXTLINE(cata-no-long)
-    return ngettext( msgid, msgid_plural, static_cast<unsigned long>( n ) );
+    return vgettext( msgid, msgid_plural, static_cast<unsigned long>( n ) );
 }
 
 const char *pgettext( const char *context, const char *msgid ) ATTRIBUTE_FORMAT_ARG( 2 );
 
-// same as pgettext, but supports plural forms like ngettext
-const char *npgettext( const char *context, const char *msgid, const char *msgid_plural,
+// same as pgettext, but supports plural forms like vgettext
+const char *vpgettext( const char *context, const char *msgid, const char *msgid_plural,
                        unsigned long long n ) ATTRIBUTE_FORMAT_ARG( 2 );
 
 #else // !LOCALIZE
-
-// on some systems <locale> pulls in libintl.h anyway,
-// so preemptively include it before the gettext overrides.
-#include <locale>
 
 #define _(STRING) (STRING)
 
@@ -178,9 +160,9 @@ inline std::string _translate_internal( const std::string &msg )
 }
 } // namespace detail
 
-#define ngettext(STRING1, STRING2, COUNT) (COUNT == 1 ? _(STRING1) : _(STRING2))
+#define vgettext(STRING1, STRING2, COUNT) (COUNT == 1 ? _(STRING1) : _(STRING2))
 #define pgettext(STRING1, STRING2) _(STRING2)
-#define npgettext(STRING0, STRING1, STRING2, COUNT) ngettext(STRING1, STRING2, COUNT)
+#define vpgettext(STRING0, STRING1, STRING2, COUNT) vgettext(STRING1, STRING2, COUNT)
 
 #endif // LOCALIZE
 
@@ -235,7 +217,7 @@ class translation
          * Can be used to ensure a translation object has plural form enabled
          * before loading into it from JSON. If plural form has not been enabled
          * yet, the plural string will be set to the original singular string.
-         * `ngettext` will ignore the new plural string and correctly retrieve
+         * `vgettext` will ignore the new plural string and correctly retrieve
          * the original translation.
          *     Note that a `make_singular()` function is not provided due to the
          * potential loss of information.

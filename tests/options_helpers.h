@@ -18,4 +18,7 @@ class override_option
         std::string old_value_;
 };
 
+/** Try to set UTF-8 English locale. */
+bool try_set_utf8_locale();
+
 #endif // CATA_TESTS_OPTIONS_HELPERS_H

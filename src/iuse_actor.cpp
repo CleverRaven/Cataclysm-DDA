@@ -304,7 +304,7 @@ ret_val<bool> iuse_transform::can_use( const Character &p, const item &, bool,
     [&]( const std::pair<quality_id, int> &unmet_req ) {
         return string_format( "%s %d", unmet_req.first.obj().name, unmet_req.second );
     } );
-    return ret_val<bool>::make_failure( ngettext( "You need a tool with %s.", "You need tools with %s.",
+    return ret_val<bool>::make_failure( vgettext( "You need a tool with %s.", "You need tools with %s.",
                                         unmet_reqs.size() ), unmet_reqs_string );
 }
 
@@ -906,7 +906,7 @@ int place_monster_iuse::use( player &p, item &it, bool, const tripoint & ) const
             ammo_item.charges = std::min( available, amdef.second );
             p.use_charges( amdef.first, ammo_item.charges );
             //~ First %s is the ammo item (with plural form and count included), second is the monster name
-            p.add_msg_if_player( ngettext( "You load %1$d x %2$s round into the %3$s.",
+            p.add_msg_if_player( vgettext( "You load %1$d x %2$s round into the %3$s.",
                                            "You load %1$d x %2$s rounds into the %3$s.", ammo_item.charges ),
                                  ammo_item.charges, ammo_item.type_name( ammo_item.charges ),
                                  newmon.name() );
@@ -1617,7 +1617,7 @@ int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
         int amount = salvaged.second;
         item result( mat_name, calendar::turn );
         if( amount > 0 ) {
-            add_msg( m_good, ngettext( "Salvaged %1$i %2$s.", "Salvaged %1$i %2$s.", amount ),
+            add_msg( m_good, vgettext( "Salvaged %1$i %2$s.", "Salvaged %1$i %2$s.", amount ),
                      amount, result.display_name( amount ) );
             if( filthy ) {
                 result.item_tags.insert( "FILTHY" );
@@ -2682,7 +2682,7 @@ int holster_actor::use( player &p, item &it, bool, const tripoint & ) const
 
 void holster_actor::info( const item &, std::vector<iteminfo> &dump ) const
 {
-    std::string message = ngettext( "Can be activated to store a suitable item.",
+    std::string message = vgettext( "Can be activated to store a suitable item.",
                                     "Can be activated to store suitable items.", multi );
     dump.emplace_back( "DESCRIPTION", message );
     dump.emplace_back( "TOOL", _( "Num items: " ), "<num>", iteminfo::no_flags, multi );
@@ -2733,7 +2733,7 @@ void bandolier_actor::info( const item &, std::vector<iteminfo> &dump ) const
         }, enumeration_conjunction::or_ );
 
         dump.emplace_back( "TOOL", string_format(
-                               ngettext( "Can be activated to store a single round of ",
+                               vgettext( "Can be activated to store a single round of ",
                                          "Can be activated to store up to <stat>%i</stat> rounds of ", capacity ),
                                capacity ),
                            str );

@@ -705,7 +705,7 @@ static void skim_book_msg( const item &book, avatar &u )
         add_msg( m_info, _( "A training session with this book takes %s" ),
                  to_string( time_duration::from_minutes( reading->time ) ) );
     } else {
-        add_msg( m_info, ngettext( "A chapter of this book takes %d minute to read.",
+        add_msg( m_info, vgettext( "A chapter of this book takes %d minute to read.",
                                    "A chapter of this book takes %d minutes to read.", reading->time ),
                  reading->time );
     }
@@ -720,7 +720,7 @@ static void skim_book_msg( const item &book, avatar &u )
     }
     if( !recipe_list.empty() ) {
         std::string recipe_line =
-            string_format( ngettext( "This book contains %1$zu crafting recipe: %2$s",
+            string_format( vgettext( "This book contains %1$zu crafting recipe: %2$s",
                                      "This book contains %1$zu crafting recipes: %2$s",
                                      recipe_list.size() ),
                            recipe_list.size(),

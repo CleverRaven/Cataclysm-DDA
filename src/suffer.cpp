@@ -675,7 +675,7 @@ void Character::suffer_from_asthma( const int current_stim )
             if( charges == 0 ) {
                 add_msg_if_player( m_bad, _( "You use your last inhaler charge." ) );
             } else {
-                add_msg_if_player( m_info, ngettext( "You use your inhaler, "
+                add_msg_if_player( m_info, vgettext( "You use your inhaler, "
                                                      "only %d charge left.",
                                                      "You use your inhaler, "
                                                      "only %d charges left.", charges ),
@@ -689,7 +689,7 @@ void Character::suffer_from_asthma( const int current_stim )
                 add_msg_if_player( m_bad, _( "You breathe in last bit of oxygen "
                                              "from the tank." ) );
             } else {
-                add_msg_if_player( m_info, ngettext( "You take a deep breath from your oxygen "
+                add_msg_if_player( m_info, vgettext( "You take a deep breath from your oxygen "
                                                      "tank, only %d charge left.",
                                                      "You take a deep breath from your oxygen "
                                                      "tank, only %d charges left.", charges ),

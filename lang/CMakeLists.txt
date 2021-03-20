@@ -31,7 +31,14 @@ add_custom_target (
                      --output="${CMAKE_SOURCE_DIR}/lang/po/cataclysm-bn.pot"
                      --keyword="_"
                      --keyword="pgettext:1c,2"
-                     --keyword="ngettext:1,2"
+                     --keyword="vgettext:1,2"
+                     --keyword="vpgettext:1c,2,3"
+                     --keyword="translate_marker"
+                     --keyword="translate_marker_context:1c,2"
+                     --keyword="to_translation:1,1t"
+                     --keyword="to_translation:1c,2,2t"
+                     --keyword="pl_translation:1,2,2t"
+                     --keyword="pl_translation:1c,2,3,3t"
                      --from-code="UTF-8"
                      ${CMAKE_SOURCE_DIR}/src/*.cpp
                      ${CMAKE_SOURCE_DIR}/src/*.h

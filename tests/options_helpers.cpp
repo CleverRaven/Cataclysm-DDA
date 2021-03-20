@@ -14,3 +14,13 @@ override_option::~override_option()
 {
     get_options().get_option( option_ ).setValue( old_value_ );
 }
+
+bool try_set_utf8_locale()
+{
+    try {
+        std::locale::global( std::locale( "en_US.UTF-8" ) );
+    } catch( std::runtime_error & ) {
+        return false;
+    }
+    return true;
+}

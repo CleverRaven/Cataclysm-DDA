@@ -468,7 +468,7 @@ bool gun_actor::call( monster &z ) const
         target = z.auto_find_hostile_target( max_range, hostiles );
         if( !target ) {
             if( hostiles > 0 && g->u.sees( z ) ) {
-                add_msg( m_warning, ngettext( "Pointed in your direction, the %s emits an IFF warning beep.",
+                add_msg( m_warning, vgettext( "Pointed in your direction, the %s emits an IFF warning beep.",
                                               "Pointed in your direction, the %s emits %d annoyed sounding beeps.",
                                               hostiles ),
                          z.name(), hostiles );

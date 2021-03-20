@@ -1295,7 +1295,7 @@ void debug()
 
             std::string s = _( "Location %d:%d in %d:%d, %s\n" );
             s += _( "Current turn: %d.\n%s\n" );
-            s += ngettext( "%d creature exists.\n", "%d creatures exist.\n", g->num_creatures() );
+            s += vgettext( "%d creature exists.\n", "%d creatures exist.\n", g->num_creatures() );
             popup_top(
                 s.c_str(),
                 u.posx(), g->u.posy(), g->get_levx(), g->get_levy(),
