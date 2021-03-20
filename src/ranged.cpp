@@ -99,6 +99,8 @@ static const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
 static const fault_id fault_gun_chamber_spent( "fault_gun_chamber_spent" );
 static const fault_id fault_gun_dirt( "fault_gun_dirt" );
 
+const flag_id flag_FLASH_HIDER( "FLASH_HIDER" );
+
 static const skill_id skill_dodge( "dodge" );
 static const skill_id skill_driving( "driving" );
 static const skill_id skill_gun( "gun" );
@@ -859,6 +861,11 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
         }
         // Cap
         recoil = std::min( MAX_RECOIL, recoil );
+    }
+
+    // Generate a muzzle flash from a shot unless gun has a flash hider or suppressor installed
+    if( gun.gunmod_find_by_flag( flag_FLASH_HIDER ) == nullptr ) {
+        here.add_field( pos(), field_type_id( "fd_muzzle_flash" ), 1 );
     }
 
     // Use different amounts of time depending on the type of gun and our skill
