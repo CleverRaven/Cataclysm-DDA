@@ -238,9 +238,11 @@ class Tileset:
                 sheet_min_index = 0
                 for sheet_max_index in tiles_new_dict:
                     if sheet_min_index < unused_num <= sheet_max_index:
+                        full_id = unused_png.split('.png')[0]
                         tiles_new_dict[sheet_max_index]['tiles'].append(
-                            {'id': unused_png.split('.png')[0],
+                            {'id': full_id,
                              'fg': unused_num})
+                        self.processed_ids.append(full_id)
                         break
                     sheet_min_index = sheet_max_index
 
