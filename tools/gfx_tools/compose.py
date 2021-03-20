@@ -279,7 +279,6 @@ class Tileset:
 
             tiles_new_dict[sheet.max_index] = sheet_conf
 
-        # get sprites that need tile entries generated
         create_tile_entries_for_unused(
             self.handle_unreferenced_sprites('filler'))
 
