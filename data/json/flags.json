@@ -1821,6 +1821,12 @@
     "context": [ "AMMO", "CONSUMABLE" ]
   },
   {
+    "id": "ACTIVATE_ON_PLACE",
+    "type": "json_flag",
+    "context": [  ],
+    "info": "This item will be activated when it is placed in mapgen."
+  },
+  {
     "id": "ACT_IN_FIRE",
     "type": "json_flag",
     "context": [  ]
