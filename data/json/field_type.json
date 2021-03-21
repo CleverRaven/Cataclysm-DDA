@@ -791,7 +791,7 @@
   {
     "id": "fd_muzzle_flash",
     "type": "field_type",
-    "intensity_levels": [ { "name": "muzzle flash", "sym": "&", "light_emitted": 30 } ],
+    "intensity_levels": [ { "name": "muzzle flash", "sym": "&", "light_emitted": 15 } ],
     "half_life": "1 seconds"
   },
   {
