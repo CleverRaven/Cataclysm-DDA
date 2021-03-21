@@ -160,8 +160,8 @@
     "type": "MONSTER_FACTION",
     "name": "mutant",
     "//": "Assorted mutated wildlife, more aggressive",
-    "neutral": "fish",
-    "by_mood": "mutant",
+    "neutral": [ "fish" ],
+    "by_mood": [ "mutant" ],
     "hate": [ "insect", "animal" ]
   },
   {
@@ -169,7 +169,7 @@
     "name": "razorclaw",
     "base_faction": "mutant",
     "//": "Protect their nest, grumpy",
-    "by_mood": "small_animal"
+    "by_mood": [ "small_animal" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -257,7 +257,7 @@
     "type": "MONSTER_FACTION",
     "name": "insect",
     "neutral": [ "fish", "bot", "zombie", "aquatic_predator" ],
-    "by_mood": "insect"
+    "by_mood": [ "insect" ]
   },
   {
     "type": "MONSTER_FACTION",
