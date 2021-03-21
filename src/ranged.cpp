@@ -99,7 +99,7 @@ static const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
 static const fault_id fault_gun_chamber_spent( "fault_gun_chamber_spent" );
 static const fault_id fault_gun_dirt( "fault_gun_dirt" );
 
-const flag_id flag_FLASH_HIDER( "FLASH_HIDER" );
+static const flag_id json_flag_FLASH_HIDER( "FLASH_HIDER" );
 
 static const skill_id skill_dodge( "dodge" );
 static const skill_id skill_driving( "driving" );
