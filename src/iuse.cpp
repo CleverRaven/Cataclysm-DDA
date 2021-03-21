@@ -2225,7 +2225,12 @@ cata::optional<int> iuse::radio_off( player *p, item *it, bool, const tripoint &
 {
     if( !it->units_sufficient( *p ) ) {
         p->add_msg_if_player( _( "It's dead." ) );
-    } else {
+    }
+	else if (it->typeId() == itype_ar_glasses_t2_mil) {
+		p->add_msg_if_player( _( "You turn the radio on." ) );
+        it->convert( itype_ar_glasses_t2_mil_radio ).active = true;
+	}
+	else {
         p->add_msg_if_player( _( "You turn the radio on." ) );
         it->convert( itype_radio_on ).active = true;
     }
@@ -2343,7 +2348,10 @@ cata::optional<int> iuse::radio_on( player *p, item *it, bool t, const tripoint 
             break;
             case 1:
                 p->add_msg_if_player( _( "The radio dies." ) );
-                it->convert( itype_radio ).active = false;
+				
+				if (it->typeId() == itype_ar_glasses_t2_mil_radio) { it->convert( itype_ar_glasses_t2_mil ).active = false; }
+                else { it->convert( itype_radio ).active = false; }
+				
                 sfx::fade_audio_channel( sfx::channel::radio, 300 );
                 break;
             default:
@@ -4176,10 +4184,10 @@ cata::optional<int> iuse::mp3( player *p, item *it, bool, const tripoint & )
     } else if( p->has_active_item( itype_mp3_on ) || p->has_active_item( itype_smartphone_music ) ||
                p->has_active_item( itype_afs_atomic_smartphone_music ) ||
                p->has_active_item( itype_afs_atomic_wraitheon_music ) ||
-               p->has_active_item( ar_glasses_t1_on ) ||
-               p->has_active_item( ar_glasses_t2_on ) ) {
+               p->has_active_item( itype_ar_glasses_t1_on ) ||
+               p->has_active_item( itype_ar_glasses_t2_on ) ) {
         p->add_msg_if_player( m_info, _( "You are already listening to music!" ) );
-    } else if( ( it->typeId() == ar_glasses_t1 || it->typeId() == ar_glasses_t2 || it->typeId() == ar_glasses_t2_mil ) && !p->is_worn(*it) )
+    } else if( ( it->typeId() == itype_ar_glasses_t1 || it->typeId() == itype_ar_glasses_t2 || it->typeId() == itype_ar_glasses_t2_mil ) && !p->is_worn(*it) )
 	{
         p->add_msg_if_player( m_info, _( "You have to wear the %s to start listening to music."), it->tname() );
 	} else {
@@ -4192,12 +4200,12 @@ cata::optional<int> iuse::mp3( player *p, item *it, bool, const tripoint & )
             it->convert( itype_afs_atomic_smartphone_music ).active = true;
         } else if( it->typeId() == itype_afs_wraitheon_smartphone ) {
             it->convert( itype_afs_atomic_wraitheon_music ).active = true;
-        } else if( it->typeId() == ar_glasses_t1 ) {
-            it->convert( ar_glasses_t1_on ).active = true;
-		} else if( it->typeId() == ar_glasses_t2 ) {
-            it->convert( ar_glasses_t2_on ).active = true;
-		} else if( it->typeId() == ar_glasses_t2_mil ) {
-            it->convert( ar_glasses_t2_mil_on ).active = true;
+        } else if( it->typeId() == itype_ar_glasses_t1 ) {
+            it->convert( itype_ar_glasses_t1_on ).active = true;
+		} else if( it->typeId() == itype_ar_glasses_t2 ) {
+            it->convert( itype_ar_glasses_t2_on ).active = true;
+		} else if( it->typeId() == itype_ar_glasses_t2_mil ) {
+            it->convert( itype_ar_glasses_t2_mil_on ).active = true;
         }
         p->mod_moves( -200 );
     }
@@ -4286,15 +4294,15 @@ cata::optional<int> iuse::mp3_on( player *p, item *it, bool t, const tripoint &p
         } else if( it->typeId() == itype_afs_atomic_wraitheon_music ) {
             p->add_msg_if_player( _( "The phone turns off." ) );
             it->convert( itype_afs_wraitheon_smartphone ).active = false;
-        } else if( it->typeId() == ar_glasses_t1_on ) {
+        } else if( it->typeId() == itype_ar_glasses_t1_on ) {
             p->add_msg_if_player( _( "The AR glasses turns off." ) );
-            it->convert( ar_glasses_t1 ).active = false;
-		} else if( it->typeId() == ar_glasses_t2_on ) {
+            it->convert( itype_ar_glasses_t1 ).active = false;
+		} else if( it->typeId() == itype_ar_glasses_t2_on ) {
             p->add_msg_if_player( _( "The AR glasses turns off." ) );
-            it->convert( ar_glasses_t2 ).active = false;
-		} else if( it->typeId() ==  ar_glasses_t2_mil_on ) {
+            it->convert( itype_ar_glasses_t2 ).active = false;
+		} else if( it->typeId() ==  itype_ar_glasses_t2_mil_on ) {
             p->add_msg_if_player( _( "The AR glasses turns off." ) );
-            it->convert( ar_glasses_t2_mil ).active = false;
+            it->convert( itype_ar_glasses_t2_mil ).active = false;
         }
         p->mod_moves( -200 );
     }

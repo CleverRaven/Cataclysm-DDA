@@ -571,7 +571,8 @@
 			"need_charges": 1,
 			"need_charges_msg": "The %s's batteries are dead."
 		},
-		"CAMERA"
+		"CAMERA",
+		"RADIO_OFF"
 		],
     "material_thickness": 1,
     "environmental_protection": 1,
@@ -587,7 +588,18 @@
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Deactivating the AR glasses night vision.", "target": "ar_glasses_t2_mil" },
 
     "revert_to": "ar_glasses_t2_mil",
-     "flags": [ "USE_UPS", "NO_UNLOAD", "NO_RELOAD" , "ONLY_ONE","TWO_WAY_RADIO", "ZOOM", "SUN_GLASSES", "RAINPROOF", "WATCH", "ALARMCLOCK", "OUTER", "SUN_GLASSES", "THERMOMETER", "HYGROMETER", "FRAGILE", "TRADER_AVOID", "GNV_EFFECT"  ]
+    "flags": [ "USE_UPS", "NO_UNLOAD", "NO_RELOAD" , "ONLY_ONE","TWO_WAY_RADIO", "ZOOM", "SUN_GLASSES", "RAINPROOF", "WATCH", "ALARMCLOCK", "OUTER", "SUN_GLASSES", "THERMOMETER", "HYGROMETER", "FRAGILE", "TRADER_AVOID", "GNV_EFFECT"  ]
+  },
+  {
+    "id": "ar_glasses_t2_mil_radio",
+    "copy-from": "ar_glasses_t2_mil",
+    "type": "TOOL",
+    "name": { "str": "ar_glasses_t2_mil (on)", "str_pl": "ar_glasses_t2_mil (on)" },
+    "description": "This ar_glasses_t2_mil radio is turned on, and continually draining its batteries.  It is playing the broadcast being sent from any nearby radio towers.",
+    "power_draw": 500,
+    "revert_to": "ar_glasses_t2_mil",
+    "use_action": [ "RADIO_ON" ],
+    "flags": [ "USE_UPS", "NO_UNLOAD", "NO_RELOAD" , "ONLY_ONE","TWO_WAY_RADIO", "ZOOM", "SUN_GLASSES", "RAINPROOF", "WATCH", "ALARMCLOCK", "OUTER", "SUN_GLASSES", "THERMOMETER", "HYGROMETER", "FRAGILE", "TRADER_AVOID" ]
   },
   {
     "type": "TOOL_ARMOR",
