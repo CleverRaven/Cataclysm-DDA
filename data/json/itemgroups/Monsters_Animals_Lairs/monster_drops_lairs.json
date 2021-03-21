@@ -337,13 +337,13 @@
     "entries": [
       { "item": "bone_human", "prob": 80 },
       { "item": "raw_hleather", "prob": 30 },
-      { "item": "raw_demihumanleather", "prob": 30 },
+      { "item": "raw_demihumanleather", "prob": 5 },
       { "item": "raw_hfur", "prob": 1 },
       { "item": "sinew", "prob": 5 },
       { "item": "hstomach", "prob": 5 },
-      { "item": "demihuman_stomach", "prob": 5 },
+      { "item": "demihuman_stomach", "prob": 1 },
       { "item": "hstomach_large", "prob": 5 },
-      { "item": "demihuman_stomach_large", "prob": 5 }
+      { "item": "demihuman_stomach_large", "prob": 1 }
     ]
   },
   {
