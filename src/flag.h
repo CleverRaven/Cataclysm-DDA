@@ -16,6 +16,7 @@ template <typename T> class generic_factory;
 extern const flag_id flag_NULL;
 extern const flag_id flag_ACID;
 extern const flag_id flag_ACID_IMMUNE;
+extern const flag_id flag_ACTIVATE_ON_PLACE;
 extern const flag_id flag_ACTIVE_CLOAKING;
 extern const flag_id flag_ACT_IN_FIRE;
 extern const flag_id flag_ACT_ON_RANGED_HIT;
