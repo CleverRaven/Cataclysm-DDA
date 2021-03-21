@@ -8,6 +8,7 @@
       "_": "t_floor_paper_hard",
       "*": "t_roof_paper_hard",
       ".": "t_floor_paper_noroof",
+      "8": "t_floor_paper_noroof",
       "R": "t_radio_tower",
       "a": "t_railing",
       ",": "t_metal_floor_no_roof",
@@ -16,6 +17,7 @@
       ":": "t_null",
       "#": "t_metal_floor_no_roof"
     },
+    "monster": { "8": { "group": "GROUP_WASP_QUEEN" } },
     "furniture": { ":": "f_cellphone_booster", "#": "f_small_satelitte_dish" },
     "nested": { "O": { "chunks": [ "wasp_brood" ] } }
   },
