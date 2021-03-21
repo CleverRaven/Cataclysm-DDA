@@ -101,6 +101,8 @@ static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_UPS_off( "UPS_off" );
 static const itype_id itype_ar_glasses_t1( "ar_glasses_t1" );
 static const itype_id itype_ar_glasses_t1_on( "ar_glasses_t1_on" );
+static const itype_id itype_ar_glasses_t2( "ar_glasses_t2" );
+static const itype_id itype_ar_glasses_t2_on( "ar_glasses_t2_on" );
 
 static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
@@ -1978,7 +1980,12 @@ bool player::takeoff( item_location loc, std::list<item> *res )
     }
 
 	//stop music if AR glasses are no longer worn
-	if ( it.typeId() == itype_ar_glasses_t1_on )
+	if ( it.typeId() == itype_ar_glasses_t1_on  )
+	{
+		get_player_character().add_msg_if_player( _( "The AR glasses turns off." ) );
+        it.convert( itype_ar_glasses_t1 ).active = false;	
+	}
+	else if ( it.typeId() == itype_ar_glasses_t2_on )
 	{
 		get_player_character().add_msg_if_player( _( "The AR glasses turns off." ) );
         it.convert( itype_ar_glasses_t1 ).active = false;	
