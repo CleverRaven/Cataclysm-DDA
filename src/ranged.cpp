@@ -864,7 +864,7 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
     }
 
     // Generate a muzzle flash from a shot unless gun has a flash hider or suppressor installed
-    if( gun.gunmod_find_by_flag( flag_FLASH_HIDER ) == nullptr && gun.is_firearm() ) {
+    if( gun.gunmod_find_by_flag( json_flag_FLASH_HIDER ) == nullptr && gun.is_firearm() ) {
         here.add_field( pos(), field_type_id( "fd_muzzle_flash" ), 1 );
     }
 
