@@ -9,6 +9,7 @@ const flag_id flag_NULL = flag_id( "null" ); // intentionally invalid flag
 
 const flag_id flag_ACID( "ACID" );
 const flag_id flag_ACID_IMMUNE( "ACID_IMMUNE" );
+const flag_id flag_ACTIVATE_ON_PLACE( "ACTIVATE_ON_PLACE" );
 const flag_id flag_ACTIVE_CLOAKING( "ACTIVE_CLOAKING" );
 const flag_id flag_ACT_IN_FIRE( "ACT_IN_FIRE" );
 const flag_id flag_ACT_ON_RANGED_HIT( "ACT_ON_RANGED_HIT" );
