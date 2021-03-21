@@ -119,7 +119,7 @@
     "id": "cleansingflame_hermes_split",
     "type": "SPELL",
     "name": "Hermes Reborn Pain Split",
-    "description": "Same as Biomancer's Pain Split. Subspell; you aren't allowed to see it except in debug mode.",
+    "description": "Same as Biomancer's Pain Split.  Subspell; you aren't allowed to see it except in debug mode.",
     "valid_targets": [ "self" ],
     "effect": "pain_split",
     "shape": "blast",
