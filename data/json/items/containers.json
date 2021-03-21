@@ -670,7 +670,7 @@
     "category": "container",
     "name": { "str": "vacuum-packed bag" },
     "looks_like": "bag_plastic",
-    "description": "This is a bag of vacuum-packed food.",
+    "description": "A bag of vacuum-packed food.",
     "weight": "2 g",
     "volume": "10 ml",
     "price": 0,
