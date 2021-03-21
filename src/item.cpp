@@ -4335,7 +4335,6 @@ nc_color item::color_in_inventory() const
         // Only reviving corpses are yellow
         ret = c_yellow;
     } else if( const item *food = get_food() ) {
-
         // Give color priority to allergy (allergy > inedible by freeze or other conditions)
         // TODO: refactor u.will_eat to let this section handle coloring priority without duplicating code.
         if( player_character.allergy_type( *food ) != morale_type( "morale_null" ) ) {
