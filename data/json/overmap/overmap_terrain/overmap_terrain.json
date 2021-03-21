@@ -260,17 +260,31 @@
       "radio_tower_odd",
       "radio_tower_top",
       "radio_tower_1",
-      "radio_tower_roof_1",
-	  "wasp_tower_odd_1",
-	  "wasp_tower_odd_2",
-	  "wasp_tower_even_1",
-	  "wasp_tower_even_2",
-	  "wasp_tower_top"
+      "radio_tower_roof_1"
     ],
     "name": "radio tower",
     "sym": "X",
     "color": "light_gray",
     "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "wasp_tower",
+      "wasp_tower_1",
+      "wasp_tower_roof_1",
+	    "wasp_tower_odd_1",
+	    "wasp_tower_odd_2",
+	    "wasp_tower_even_1",
+	    "wasp_tower_even_2",
+	    "wasp_tower_top"
+    ],
+    "name": "radio tower",
+    "sym": "X",
+    "color": "light_gray",
+    "see_cost": 2,
+    "mondensity": 2,
+	  "spawns": { "group": "GROUP_WASP_GUARD", "population": [ 5, 10 ] }
   },
   {
     "type": "overmap_terrain",
