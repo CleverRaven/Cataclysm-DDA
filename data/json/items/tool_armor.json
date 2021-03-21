@@ -412,7 +412,7 @@
     "type": "TOOL_ARMOR",
 	"category": "clothing",
     "name": { "str": "cheap pair of AR glasses", "str_pl": "cheap pairs of AR glasses" },
-    "description": "A pair of cheap augmented reality glasses.",
+    "description": "A pair of cheap augmented reality glasses.  Now without a network to work with, only the camera and the alarm feature can be of use.",
     "weight": "100 g",
     "volume": "250 ml",
     "price": 1000,
@@ -450,7 +450,7 @@
     "type": "TOOL_ARMOR",
 	"category": "clothing",
     "name": { "str": "pair of AR glasses", "str_pl": "pairs of AR glasses" },
-    "description": "A pair of augmented reality glasses.",
+    "description": "A pair of augmented reality glasses.  Now without a network to work with, only the camera and the alarm feature can be of use. There also are plugs in the earpieces.",
     "weight": "100 g",
     "volume": "250 ml",
     "price": 20000,
@@ -490,7 +490,7 @@
     "power_draw": 1000,
     "revert_to": "ar_glasses_t1",
     "use_action": ["MP3_ON" ],
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "ONLY_ONE", "WATCH", "ALARMCLOCK", "OUTER", "FRAGILE", "TRADER_AVOID" ]
   },
   {
     "id": "ar_glasses_t2",
@@ -547,7 +547,7 @@
     "type": "TOOL_ARMOR",
 	"category": "clothing",
     "name": { "str": "pair of military AR glasses", "str_pl": "pairs of military AR glasses" },
-    "description": "A pair of military augmented reality glasses.",
+    "description": "A pair of military augmented reality glasses. It don't have a music player but come with an integrated night vision system.",
     "weight": "500 g",
     "volume": "500 ml",
     "price": 90000,
