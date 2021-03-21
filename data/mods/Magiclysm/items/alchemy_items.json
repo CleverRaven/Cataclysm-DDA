@@ -297,7 +297,7 @@
     "type": "TOOL",
     "category": "weapons",
     "name": { "str": "Мana bomb" },
-    "description": "Mana bombs are powerful explosive devices developed by a little-known alchemist group for use against enemy spellcasters. These bombs are fueled by pure arcane energy and can kill instantly. The exact workings are unclear, but they appear to use some kind of massive mana burn.",
+    "description": "Mana bombs are powerful explosive devices developed by a little-known alchemist group for use against enemy spellcasters.  These bombs are fueled by pure arcane energy and can kill instantly.  The exact workings are unclear, but they appear to use some kind of massive mana burn.",
     "weight": "430 g",
     "volume": "200 ml",
     "price": 0,
