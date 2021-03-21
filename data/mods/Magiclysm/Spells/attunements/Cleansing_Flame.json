@@ -100,7 +100,7 @@
     "id": "cleansingflame_hermes_burn",
     "type": "SPELL",
     "name": "Hermes Reborn fire",
-    "description": "Give some frost damage for Hermes Reborn spell. Subspell; you aren't allowed to see it except in debug mode.",
+    "description": "Give some frost damage for Hermes Reborn spell.  Subspell; you aren't allowed to see it except in debug mode.",
     "valid_targets": [ "self" ],
     "effect": "attack",
     "shape": "blast",
