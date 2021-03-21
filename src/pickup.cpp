@@ -711,7 +711,15 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                 if( cur_it < static_cast<int>( matches.size() ) ) {
                     int true_it = matches[cur_it];
                     const item &this_item = *stacked_here[true_it].front();
-                    nc_color icolor = this_item.color_in_inventory();
+
+                    nc_color icolor;
+                    if( this_item.is_food_container() && !this_item.is_craft() &&
+                        this_item.contents.num_item_stacks() == 1 ) {
+                        icolor = this_item.contents.all_items_top().front()->color_in_inventory();
+                    } else {
+                        icolor = this_item.color_in_inventory();
+                    }
+
                     if( cur_it == selected ) {
                         icolor = hilite( c_white );
                     }
