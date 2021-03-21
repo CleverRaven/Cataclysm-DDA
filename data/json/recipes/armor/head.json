@@ -1239,6 +1239,54 @@
     "components": [ [ [ "mask_gas", 1 ] ], [ [ "mask_filter", 1 ] ] ]
   },
   {
+    "result": "mask_gas_xs",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "skills_required": [ "fabrication", 1 ],
+    "time": "1 h",
+    "decomp_learn": 3,
+    "book_learn": [
+      [ "textbook_fireman", 3 ],
+      [ "atomic_survival", 3 ],
+      [ "adv_chemistry", 4 ],
+      [ "textbook_chemistry", 4 ],
+      [ "emergency_book", 3 ],
+      [ "textbook_gaswarfare", 3 ]
+    ],
+    "qualities": [ { "id": "WRENCH", "level": 1 } ],
+    "components": [ [ [ "goggles_ski", 1 ], [ "goggles_swim", 2 ] ], [ [ "mask_filter", 3 ] ], [ [ "hose", 1 ] ], [ [ "charcoal", 20 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_closures_waterproofing" }, { "proficiency": "prof_polymerworking" } ]
+  },
+  {
+    "result": "mask_gas_xs",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "id_suffix": "shrink-existing",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "skills_required": [ "fabrication", 1 ],
+    "time": "1 h",
+    "book_learn": [
+      [ "textbook_fireman", 3 ],
+      [ "atomic_survival", 3 ],
+      [ "adv_chemistry", 4 ],
+      [ "textbook_chemistry", 4 ],
+      [ "emergency_book", 3 ],
+      [ "textbook_gaswarfare", 3 ]
+    ],
+    "qualities": [ { "id": "WRENCH", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_closures_waterproofing" }, { "proficiency": "prof_plasticworking" } ],
+    "using": [ [ "plastic_molding", 3 ] ],
+    "tools": [ [ [ "welder", 28 ], [ "welder_crude", 42 ], [ "soldering_iron", 42 ], [ "toolset", 42 ] ] ],
+    "components": [ [ [ "mask_gas", 1 ] ], [ [ "mask_filter", 1 ] ] ]
+  },
+  {
     "result": "mask_h20survivor",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -1575,6 +1623,53 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_closures_waterproofing" }, { "proficiency": "prof_plasticworking" } ],
     "using": [ [ "plastic_molding", 4 ] ],
+    "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
+    "components": [
+      [ [ "rebreather", 1 ] ],
+      [ [ "mask_filter", 1 ], [ "mask_gas", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "e_scrap", 4 ] ]
+    ]
+  },
+  {
+    "result": "rebreather_xs",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "electronics",
+    "difficulty": 9,
+    "skills_required": [ "tailor", 3 ],
+    "time": "1 h 10 m",
+    "book_learn": [ [ "manual_swimming", 3 ], [ "atomic_survival", 3 ], [ "adv_chemistry", 4 ], [ "textbook_chemistry", 4 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_closures_waterproofing" }, { "proficiency": "prof_plasticworking" } ],
+    "using": [ [ "plastic_molding", 2 ] ],
+    "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
+    "components": [
+      [ [ "mask_filter", 1 ] ],
+      [ [ "power_supply", 2 ] ],
+      [ [ "amplifier", 2 ] ],
+      [ [ "circuit", 2 ] ],
+      [ [ "e_scrap", 8 ] ],
+      [ [ "cable", 2 ] ]
+    ]
+  },
+  {
+    "result": "rebreather_xs",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "id_suffix": "mod_existing",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "skills_required": [ "electronics", 4 ],
+    "time": "20 m",
+    "autolearn": true,
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_closures_waterproofing" }, { "proficiency": "prof_plasticworking" } ],
+    "using": [ [ "plastic_molding", 2 ] ],
     "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
     "components": [
       [ [ "rebreather", 1 ] ],
