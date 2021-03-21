@@ -565,8 +565,9 @@
     "charges_per_use": 1,
     "use_action": [{
 			"type": "transform",
-			"msg": "You activate your %s.",
+			"msg": "You activate your %s night vision system.",
 			"target": "ar_glasses_t2_mil_on",
+			"menu_text": "Turn NV on",
 			"active": true,
 			"need_charges": 1,
 			"need_charges_msg": "The %s's batteries are dead."
