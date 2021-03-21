@@ -234,17 +234,19 @@ class Tileset:
         def create_tile_entries_for_unused(unused: list) -> None:
             # the list must be empty without use_all
             for unused_png in unused:
-                full_id = unused_png.split('.png')[0]
-                if full_id in self.processed_ids:
+                if unused_png in self.processed_ids:
+                    print(f'Warning: {unused_png} sprite was not mentioned in '
+                          'any tile entry but there is a tile entry for the '
+                          f'{unused_png} ID')
                     continue
                 unused_num = self.pngname_to_pngnum[unused_png]
                 sheet_min_index = 0
                 for sheet_max_index in tiles_new_dict:
                     if sheet_min_index < unused_num <= sheet_max_index:
                         tiles_new_dict[sheet_max_index]['tiles'].append(
-                            {'id': full_id,
+                            {'id': unused_png,
                              'fg': unused_num})
-                        self.processed_ids.append(full_id)
+                        self.processed_ids.append(unused_png)
                         break
                     sheet_min_index = sheet_max_index
 
