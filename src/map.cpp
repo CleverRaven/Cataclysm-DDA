@@ -4484,6 +4484,10 @@ item &map::add_item( const tripoint &p, item new_item )
         new_item.set_var( "reveal_map_center_omt", ms_to_omt_copy( getabs( p ) ) );
     }
 
+    if( new_item.has_flag( flag_ACTIVATE_ON_PLACE ) ) {
+        new_item.activate();
+    }
+
     current_submap->is_uniform = false;
     invalidate_max_populated_zlev( p.z );
 
