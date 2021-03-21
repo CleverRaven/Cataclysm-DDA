@@ -160,9 +160,9 @@
     "type": "MONSTER_FACTION",
     "name": "mutant",
     "//": "Assorted mutated wildlife, more aggressive",
+    "neutral": "fish",
     "by_mood": "mutant",
-    "hate": [ "insect", "animal" ],
-    "neutral": "fish"
+    "hate": [ "insect", "animal" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -256,7 +256,7 @@
   {
     "type": "MONSTER_FACTION",
     "name": "insect",
-    "neutral": [ "bot", "zombie", "aquatic_predator", "fish" ],
+    "neutral": [ "fish", "bot", "zombie", "aquatic_predator" ],
     "by_mood": "insect"
   },
   {
