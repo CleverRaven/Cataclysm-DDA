@@ -3,7 +3,7 @@
     "type": "SPELL",
     "id": "voidmage_final_grasp",
     "name": "Final Grasp",
-    "description": "In the end, everything succumbs to the grasp of nonexistence and stasis. This spell gives the target a foretaste of that.",
+    "description": "In the end, everything succumbs to the grasp of nonexistence and stasis.  This spell gives the target a foretaste of that.",
     "effect": "attack",
     "shape": "blast",
     "valid_targets": [ "hostile" ],
