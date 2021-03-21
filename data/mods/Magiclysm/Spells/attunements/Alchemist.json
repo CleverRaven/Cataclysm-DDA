@@ -30,7 +30,7 @@
     "id": "alchemist_make_potion_bomb_create",
     "type": "SPELL",
     "name": "Manafusion bomb create",
-    "description": "Gives you a manafusion bomb. Subspell; you aren't allowed to see it except in debug mode.",
+    "description": "Gives you a manafusion bomb.  Subspell; you aren't allowed to see it except in debug mode.",
     "valid_targets": [ "none" ],
     "flags": [ "PERMANENT" ],
     "effect": "spawn_item",
