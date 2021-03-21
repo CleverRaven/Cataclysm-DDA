@@ -45,8 +45,8 @@ struct enum_traits<achievement_comparison> {
 };
 
 enum class achievement_completion : int {
-    pending,
     completed,
+    pending,
     failed,
     last
 };
