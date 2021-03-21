@@ -3,7 +3,7 @@
     "id": "mon_dks_glowdrone",
     "type": "MONSTER",
     "name": { "str": "alien surveillance drone" },
-    "description": "A small, sleek, white-plated robot bearing a golden insignia.  Capable of limited flight, it hovers about the ruins of the former world, onboard cameras and spotlights impartial witness to the chaos around it.  Who knows might be watching on the other side…",
+    "description": "A small, sleek, white-plated robot bearing a golden insignia.  Capable of limited flight, it hovers about the ruins of the former world, on-board cameras and spotlights impartial witness to the chaos around it.  Who knows what might be watching on the other side…",
     "default_faction": "invader_alien",
     "looks_like": "mon_eyebot",
     "categories": [ "ALIEN" ],
