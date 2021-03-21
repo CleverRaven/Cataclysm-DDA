@@ -213,7 +213,7 @@ void set_language()
 {
     std::string system_lang;
 #if defined(_WIN32)
-    system_lang = getLangFromLCID( GetUserDefaultLCID() );
+    system_lang = getLangFromLCID( GetUserDefaultUILanguage() );
 #elif defined(__APPLE__)
     system_lang = getAppleSystemLang(); // macOS and iOS
 #elif defined(__ANDROID__)
