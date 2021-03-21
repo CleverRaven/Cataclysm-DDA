@@ -153,7 +153,7 @@
     "symbol": "[",
     "color": "blue",
     "name": { "str": "drinking hat" },
-    "description": "This is an improvised harness that can be worn over other headgear or bare head, made from two small liquid containers, a rubber hose, a bundle of steel wire, and some cordage.  A convenient and simple device for hands-free drinking, though the liquid inside would spill if you put it into your backpack.",
+    "description": "An improvised harness that can be worn over other headgear or bare head, made from two small liquid containers, a rubber hose, a bundle of steel wire, and some cordage.  A convenient and simple device for hands-free drinking, though the liquid inside would spill if you put it into your backpack.",
     "price": 1000,
     "price_postapoc": 50,
     "material": [ "cotton", "plastic" ],
