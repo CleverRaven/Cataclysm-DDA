@@ -265,12 +265,14 @@ static const itype_id itype_mobile_memory_card( "mobile_memory_card" );
 static const itype_id itype_mobile_memory_card_used( "mobile_memory_card_used" );
 static const itype_id itype_mp3( "mp3" );
 static const itype_id itype_mp3_on( "mp3_on" );
-static const itype_id ar_glasses_t1( "ar_glasses_t1" );
-static const itype_id ar_glasses_t1_on( "ar_glasses_t1_on" );
-static const itype_id ar_glasses_t2( "ar_glasses_t2" );
-static const itype_id ar_glasses_t2_on( "ar_glasses_t2_on" );
-static const itype_id ar_glasses_t2_mil( "ar_glasses_t2_mil" );
-static const itype_id ar_glasses_t2_mil_on( "ar_glasses_t2_mil_on" );
+static const itype_id itype_ar_glasses_t0( "ar_glasses_t0" );
+static const itype_id itype_ar_glasses_t1( "ar_glasses_t1" );
+static const itype_id itype_ar_glasses_t1_on( "ar_glasses_t1_on" );
+static const itype_id itype_ar_glasses_t2( "ar_glasses_t2" );
+static const itype_id itype_ar_glasses_t2_on( "ar_glasses_t2_on" );
+static const itype_id itype_ar_glasses_t2_mil( "ar_glasses_t2_mil" );
+static const itype_id itype_ar_glasses_t2_mil_on( "ar_glasses_t2_mil_on" );
+static const itype_id itype_ar_glasses_t2_mil_radio( "ar_glasses_t2_mil_radio" );
 static const itype_id itype_multi_cooker( "multi_cooker" );
 static const itype_id itype_multi_cooker_filled( "multi_cooker_filled" );
 static const itype_id itype_nicotine_liquid( "nicotine_liquid" );
@@ -300,6 +302,7 @@ static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
 static const itype_id itype_wax( "wax" );
 static const itype_id itype_weather_reader( "weather_reader" );
+
 static const skill_id skill_computer( "computer" );
 static const skill_id skill_cooking( "cooking" );
 static const skill_id skill_electronics( "electronics" );
@@ -7454,6 +7457,13 @@ static bool show_photo_selection( player &p, item &it, const std::string &var_na
 cata::optional<int> iuse::camera( player *p, item *it, bool, const tripoint & )
 {
     enum {c_shot, c_photos, c_monsters, c_upload};
+
+	//can't use AR glasses camera without wearing them
+	if ( ( it->typeId() == itype_ar_glasses_t0 || it->typeId() == itype_ar_glasses_t1 || it->typeId() == itype_ar_glasses_t2 || it->typeId() == itype_ar_glasses_t2_mil  ) && !p->is_worn(*it) )
+	{
+        p->add_msg_if_player( m_info, _( "You have to wear the %s to use its camera."), it->tname() );
+        return cata::nullopt;
+	}
 
     // CAMERA_NPC_PHOTOS is old save variable
     bool found_extended_photos = !it->get_var( "CAMERA_NPC_PHOTOS" ).empty() ||
