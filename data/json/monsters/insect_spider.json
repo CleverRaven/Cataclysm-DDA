@@ -1276,7 +1276,8 @@
   },
   {
     "id": "mon_wasp_small",
-    "type": "MONSTER","name": { "str": "huge wasp" },
+    "type": "MONSTER",
+    "name": { "str": "huge wasp" },
     "description": "A huge black and yellow mutant yellowjacket wasp the size of a ferret with a long, evil-looking stinger.",
     "default_faction": "wasp",
     "bodytype": "flying insect",
@@ -1312,7 +1313,7 @@
     "id": "mon_wasp",
     "type": "MONSTER",
     "name": { "str": "giant wasp" },
-    "description": "A gigantic slender-bodied wasp with an evil-looking stinger protruding from its abdomen.  Its exoskeleton glowers with ominous red markings.",black-and-white stripes.",
+    "description": "A gigantic slender-bodied wasp with an evil-looking stinger protruding from its abdomen.  Its exoskeleton glowers with ominous red markings.",
     "default_faction": "wasp",
     "bodytype": "flying insect",
     "species": [ "INSECT_FLYING" ],
