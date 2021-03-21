@@ -13,7 +13,7 @@
       { "id": "dks_general_graffiti_7", "text": "MOM" },
       { "id": "dks_general_graffiti_8", "text": "FUCK YOU" },
       { "id": "dks_general_graffiti_9", "text": "This is a cartoon rendition of an alien." },
-      { "id": "dks_general_graffiti_10", "text": "This is a crudely spraypainted tag adorned with skulls." },
+      { "id": "dks_general_graffiti_10", "text": "This is a crudely spray-painted tag adorned with skulls." },
       {
         "id": "dks_general_graffiti_11",
         "text": "I have a secure and loving relationship with your mom and you're going to need to come to terms with that.\n\nDo you want to talk about it?  You know where to find me.  Love you sweety."
@@ -23,7 +23,7 @@
       { "id": "dks_general_graffiti_14", "text": "<given_name> fucked <full_name>." },
       {
         "id": "dks_general_graffiti_15",
-        "text": "This is a spraypainted drawing of an angel with wings made of vines."
+        "text": "This is a spray-painted drawing of an angel with wings made of vines."
       },
       { "id": "dks_general_graffiti_16", "text": "Mr. <family_name> is a vampire!" },
       { "id": "dks_general_graffiti_17", "text": "Their hiding the truth" },
@@ -39,10 +39,10 @@
         "id": "dks_general_graffiti_23",
         "text": "And they walked upon His Earth, and there was a RECKONING, and only the worthy survived"
       },
-      { "id": "dks_general_graffiti_24", "text": "This is a drawing of a zombie with a bullethole in its head." },
+      { "id": "dks_general_graffiti_24", "text": "This is a drawing of a zombie with a bullet hole in its head." },
       { "id": "dks_general_graffiti_25", "text": "This is a surprisingly artistic drawing of a penis." },
-      { "id": "dks_general_graffiti_26", "text": "This is a simple spraypainted graphic of a forest made of bones." },
-      { "id": "dks_general_graffiti_27", "text": "This is a drawing of an alien with a bullethole in its head." },
+      { "id": "dks_general_graffiti_26", "text": "This is a simple spray-painted graphic of a forest made of bones." },
+      { "id": "dks_general_graffiti_27", "text": "This is a drawing of an alien with a bullet hole in its head." },
       { "id": "dks_general_graffiti_28", "text": "we can never go back" },
       { "id": "dks_general_graffiti_29", "text": "dont by meth from <given_name>" },
       { "id": "dks_general_graffiti_30", "text": "<full_name> you owe me fifty bucks" },
@@ -50,7 +50,7 @@
       { "id": "dks_general_graffiti_32", "text": "eyes to the skies" },
       {
         "id": "dks_general_graffiti_33",
-        "text": "This is a spraypainting of an anatomically unlikely woman wearing very little."
+        "text": "This is a spray-painting of an anatomically unlikely woman wearing very little."
       }
     ]
   },
