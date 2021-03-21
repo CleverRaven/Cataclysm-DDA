@@ -568,7 +568,7 @@
     "category": "other",
     "id": "peeler",
     "name": { "str": "vegetable peeler" },
-    "description": "This is a simple tool for peeling the outer skin off fruit and veggies without stabbing yourself.",
+    "description": "A simple tool for peeling the outer skin off fruit and veggies without stabbing yourself.",
     "flags": [ "SHEATH_KNIFE" ],
     "looks_like": "knife_butter",
     "copy-from": "base_silverware"

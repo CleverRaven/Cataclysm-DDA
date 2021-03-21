@@ -1385,7 +1385,7 @@
     "quench": 5,
     "addiction_potential": 4,
     "calories": 104,
-    "description": "This is a popular cocktail made with gin and dry vermouth, dating from the Prohibition era.",
+    "description": "A popular cocktail made with gin and dry vermouth, dating from the Prohibition era.",
     "price": 850,
     "price_postapoc": 250,
     "material": [ "alcohol", "water" ],

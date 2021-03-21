@@ -1282,7 +1282,7 @@
     "symbol": "%",
     "quench": 1,
     "calories": 879,
-    "description": "This is a rehydrated meal meant for camping or hiking.",
+    "description": "A rehydrated meal meant for camping or hiking.",
     "price": 1200,
     "price_postapoc": 1400,
     "material": [ "flesh", "egg", "junk" ],
