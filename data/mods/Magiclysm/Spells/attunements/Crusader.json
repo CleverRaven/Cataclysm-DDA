@@ -62,7 +62,7 @@
     "id": "holy_shield",
     "type": "ARMOR",
     "name": { "str_sp": "Holy Aura" },
-    "description": "A radiant aura that steels your resolve and provides protection from energy based attacks. It bathes the area in holy light.",
+    "description": "A radiant aura that steels your resolve and provides protection from energy based attacks.  It bathes the area in holy light.",
     "weight": "1 g",
     "volume": "1 ml",
     "to_hit": -10,
