@@ -151,7 +151,7 @@
     "type": "GENERIC",
     "name": { "str": "Zweihänder of Judgement" },
     "copy-from": "zweihander",
-    "description": "A very large sword glowing with radiant fire. It explodes with radiance when striking enemies.",
+    "description": "A very large sword glowing with radiant fire.  It explodes with radiance when striking enemies.",
     "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS", "TRADER_AVOID" ],
     "to_hit": 3,
     "bashing": 18,
