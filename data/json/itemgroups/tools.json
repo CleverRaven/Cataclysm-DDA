@@ -182,7 +182,8 @@
       [ "lifestraw", 4 ],
       [ "chem_hexamine", 10 ],
       { "item": "esbit_stove", "prob": 15, "charges": [ 0, 50 ] },
-      [ "mess_tin", 10 ]
+      [ "mess_tin", 10 ],
+      { "item": "ar_glasses_t2", "prob": 5, "charges": [ 0, 100 ] }
     ]
   },
   {

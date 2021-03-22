@@ -163,7 +163,10 @@
       [ "transition_glasses_eye", 20 ],
       [ "fancy_transition_glasses_bifocal", 2 ],
       [ "fancy_transition_glasses_reading", 5 ],
-      [ "fancy_transition_glasses_eye", 10 ]
+      [ "fancy_transition_glasses_eye", 10 ],
+      { "item": "ar_glasses_t0", "prob": 10, "charges-max":50 },
+      { "item": "ar_glasses_t1", "prob": 10, "charges-max":50 },
+      { "item": "ar_glasses_t2", "prob": 5, "charges-max":100 }
     ]
   },
   {

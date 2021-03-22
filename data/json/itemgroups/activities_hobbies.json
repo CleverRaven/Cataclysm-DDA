@@ -341,7 +341,9 @@
       [ "bottle_folding", 10 ],
       { "item": "mess_tin", "prob": 10, "charges": [ 0, 500 ] },
       { "distribution": [ { "group": "full_survival_kit" }, { "group": "used_survival_kit" } ], "prob": 30 },
-      { "group": "premium_contents", "prob": 3 }
+      { "group": "premium_contents", "prob": 3 },
+      { "item": "ar_glasses_t2", "prob": 5, "charges-max":100 }
+
     ]
   },
   {
