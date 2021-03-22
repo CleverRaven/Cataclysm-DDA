@@ -34,7 +34,7 @@
     "id": "sunmage_pocket_sun",
     "type": "SPELL",
     "name": "Pocket Sun",
-    "description": "You create a stable gap on the fabric of reality near the sun, and can use his light and temperature for own purposes.",
+    "description": "You create a stable gap in the fabric of reality near the sun, through which you can draw on its light and temperature.",
     "valid_targets": [ "self", "ally", "ground" ],
     "flags": [ "NO_LEGS", "CONCENTRATE", "VERBAL", "NO_PROJECTILE" ],
     "min_damage": 1,
