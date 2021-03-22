@@ -184,7 +184,8 @@
       [ "joint", 10 ],
       { "item": "smart_phone", "prob": 20, "charges-min": 0 },
       { "item": "camera", "prob": 20, "charges": [ 0, 150 ] },
-      [ "chem_hexamine", 5 ]
+      [ "chem_hexamine", 5 ],
+      { "item": "ar_glasses_t2", "prob": 10, "charges-min":90 }
     ]
   },
   {

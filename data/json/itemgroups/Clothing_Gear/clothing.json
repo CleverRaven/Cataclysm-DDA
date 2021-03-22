@@ -70,6 +70,20 @@
             ],
             "prob": 50
           },
+          {
+            "collection": [
+              {
+                "distribution": [
+                  { "item": "ar_glasses_t0", "prob": 80, "charges-max":50 },
+                  { "item": "ar_glasses_t1", "prob": 20, "charges-max":50 }
+                ],
+                "prob": 10
+              }
+            ],
+            "prob": 10
+          },
+		  
+		  
           { "item": "glasses_monocle", "prob": 2 }
         ]
       }
@@ -138,7 +152,8 @@
           { "collection": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] },
           { "distribution": [ { "item": "briefs" }, { "item": "boxer_briefs" }, { "item": "boxer_shorts" } ] }
         ]
-      }
+      },
+      { "item": "ar_glasses_t2_mil", "prob": 5}
     ]
   },
   {
@@ -162,7 +177,8 @@
           { "collection": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] },
           { "distribution": [ { "item": "briefs" }, { "item": "boxer_briefs" }, { "item": "boxer_shorts" } ] }
         ]
-      }
+      },
+	  { "item": "ar_glasses_t2_mil", "prob": 5}
     ]
   },
   {

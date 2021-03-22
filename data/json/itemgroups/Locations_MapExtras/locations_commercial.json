@@ -1560,7 +1560,12 @@
     "id": "elecsto_cameras",
     "type": "item_group",
     "//": "For s_electronics shops",
-    "items": [ { "item": "camera", "prob": 75, "charges": 150 }, { "item": "camera_pro", "prob": 25, "charges": 150 } ]
+    "items": [ 
+	  { "item": "camera", "prob": 60, "charges": 150 },
+	  { "item": "camera_pro", "prob": 20, "charges": 150 },
+	  { "item": "ar_glasses_t0", "prob": 10, "charges": 50 },
+	  { "item": "ar_glasses_t1", "prob": 10, "charges": 50 }
+	]
   },
   {
     "id": "elecsto_lights",
@@ -1603,7 +1608,8 @@
       { "item": "smart_phone", "prob": 65, "charges": 120 },
       { "item": "mp3", "prob": 65, "charges": 100 },
       { "group": "toy_radio_car", "prob": 35 },
-      { "item": "vibrator", "prob": 1, "charges": 100 }
+      { "item": "vibrator", "prob": 1, "charges": 100 },
+      { "item": "ar_glasses_t1", "prob": 20, "charges": 100 }
     ]
   },
   {
