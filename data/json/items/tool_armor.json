@@ -450,7 +450,7 @@
     "type": "TOOL_ARMOR",
 	"category": "clothing",
     "name": { "str": "pair of AR glasses", "str_pl": "pairs of AR glasses" },
-    "description": "A pair of augmented reality glasses.  Now without a network to work with, only the camera and the alarm feature can be of use. There also are plugs in the earpieces.",
+    "description": "A pair of augmented reality glasses.  Now without a network to work with, only the camera and the alarm feature can be of use. There are plugs in the earpieces.",
     "weight": "100 g",
     "volume": "250 ml",
     "price": 20000,
@@ -497,7 +497,7 @@
     "type": "TOOL_ARMOR",
 	"category": "clothing",
     "name": { "str": "pair of camping AR glasses", "str_pl": "pairs of camping AR glasses" },
-    "description": "A pair of camping augmented reality glasses with adaptive sunglass correction.",
+    "description": "A pair of camping augmented reality glasses with adaptive sunglass correction and some gadgets.  An augmented reality overlay allow the user to zoom, and it display handy informations about local topology.",
     "weight": "150 g",
     "volume": "300 ml",
     "price": 60000,
@@ -529,7 +529,7 @@
     ],
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "ONLY_ONE", "WATCH", "ALARMCLOCK", "OUTER", "FRAGILE", "SUN_GLASSES", "THERMOMETER", "HYGROMETER" ]
+    "flags": [ "ONLY_ONE", "ZOOM", "WATCH", "ALARMCLOCK", "OUTER", "FRAGILE", "SUN_GLASSES", "THERMOMETER", "HYGROMETER" ]
   },
   {
     "id": "ar_glasses_t2_on",
@@ -540,14 +540,14 @@
     "power_draw": 1000,
     "revert_to": "ar_glasses_t2",
     "use_action": ["MP3_ON" ],
-    "flags": [ "ONLY_ONE", "WATCH", "ALARMCLOCK", "OUTER", "FRAGILE", "SUN_GLASSES", "THERMOMETER", "HYGROMETER", "TRADER_AVOID"  ]
+    "flags": [ "ONLY_ONE", "ZOOM", "WATCH", "ALARMCLOCK", "OUTER", "FRAGILE", "SUN_GLASSES", "THERMOMETER", "HYGROMETER", "TRADER_AVOID"  ]
   },
   {
     "id": "ar_glasses_t2_mil",
     "type": "TOOL_ARMOR",
 	"category": "clothing",
     "name": { "str": "pair of military AR glasses", "str_pl": "pairs of military AR glasses" },
-    "description": "A pair of military augmented reality glasses. It don't have a music player but come with an integrated night vision system.",
+    "description": "A pair of military grade augmented reality glasses. It don't have a music player but come with an integrated night vision system.",
     "weight": "500 g",
     "volume": "500 ml",
     "price": 90000,
