@@ -795,7 +795,7 @@
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "Pocket Sun" },
-    "description": "Small capsule-like field of solar energy.",
+    "description": "A small, capsule-shaped field containing a gap in reality that lets through solar energy.",
     "weight": "1 g",
     "volume": "1 ml",
     "material": [ "sunlight" ],
