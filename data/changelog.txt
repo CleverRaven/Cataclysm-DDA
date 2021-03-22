@@ -46,11 +46,7 @@ Reports faction camp build sites and improves faction camp tutorial.
 Allows customizing initial date in scenarios.
 Allows nanofabricator templates to contain recipes from any item group.
 Adds different bleeding types for different species.
-Bleeding type for species.
-Friendly creatures can now be attacked
-Add bleeding butchery action
-Random blood type follows real world distribution
-Cloning vats now stop spoiling
+Adds bleeding butchery action.
 
 ## Content:
 Gun volume and weight audit.
@@ -87,36 +83,7 @@ Adds a star fort with working cannon and zombie reenactors.
 Adds Hot Springs location.
 Adds a terrain flag 'NO_SHOOT' to prevent projectiles from striking or going through that tile type.
 Enables using a rope to carry large items.
-Add Baseball Player profession
-Adjusts polearm recipes and descriptions. Removes cloth/leather grips. Removes pool cue as component option.
-Adjust floor terrains in lab nested chunks.
-Mission leading to Hub 01 from the Evac Center
-Military professions
-Move more of the Nanofabricator functionality to json
-Added bundles of rebars item
-added chitin leg guards
-Made the recipe for 'mp3' obsolete.
-New unique story: Lighthouse family
-NPC Recipes for Saltworks
-Robots could 'bleed' grease when hit.
-Allow Great Pyrenees and rottweiler to wear dog armor
-Correct spelling in Foie Gras description.
-Added regional foods from the New England area
-Nailboard/caltrops bandits ambush variant.
-Quest to find Isherwood Farms
-Add large dermatik nest, tweak dermatiks
-Introduce tire iron and wheel fastening quality
-Rework tail hook, add butt hook
-Explosives additions
-Added new recipe to steel awl
-Adds higher capacity magazines to the American 180.
-Adds a kitchen towel item to homes across New England
-Adds roasted carrots and makes raw carrots tastier
-Adds a new spell called Nova Flare a better Point Flare spell.
-Add vehicle back seats
-New side story: Pizzaiolo
-Added egg cartons for fridge egg spawns
-Add a food truck and item groups.
+Adds large dermatik nest, tweak dermatiks.
 
 ## Interface:
 Introduces, and migrates most windows to, ui_adaptor, which handles redrawing windows when others are closed and the game is resized.
@@ -138,50 +105,6 @@ Brings back MSX+.
 Adds item length and pocket volume entries to menus.
 Adds fast scrolling to many menus with long lists.
 Adds responsive screen behavior to the new character menu for small terminal sizes.
-Show presence of monsters when examining
-Improve messaging when opening and closing doors/windows/curtains
-Show the name of all NPCs who assisted in digging, clearing rubbles and chopping
-Show remaining XP to next level in Stats Through Kills
-MSX Update 21-01-02: Hundreds of items
-Add Worn Overlays to NeoDays
-Flip all monsters to look in the right direction
-More compact consume time column in 'E'at menu
-Improve terrain display in look around menu
-Display power unit for bionic power and batteries
-Warn player about 'X is dangerously close' only if X is able to reach to the player.
-color-code Proficiencies that cannot be learned in the recipe screen
-Noise made by controlled vehicle added to sound indicator
-Ultica Update 21-01-07
-Allows the [e] Examine function to be used in the various inventory interfaces.
-Update MSXotto+ 21-01-11
-Notify player when spell levels up by casting or studying
-Ultica Update 21-01-11
-Sorts base camp and expansion construction recipes alphabetically
-Added health indicator in eat menu
-Fix above/below sound messages and punctuation
-Remove extra empty line between pocket items
-Chibi Ultica Update 2021-01-12
-add a way to quickly check NPC's stats when assign workers to a camp or update workers jobs.
-Pocket settings can now mix and match item and category black/whitelists more intuitively
-Add a Y/N prompt to picking locks on `e`xamine
-Add success message when lockpicking a chainlink gate
-Added a warning message blurt to inform the player whenever further repair jobs will only result in more damage to the item.
-Update Chibi Ultica 2021-01-20
-Update MSXotto+ 21-01-20
-Update Ultica 21-01-20
-Update string in crafting GUI
-Reformat presentation of the bandage usage window.
-Containers held in arms are added to AIM
-Exit from batch selection when filtering in crafting ui
-Increase message log width with small screen size
-First-aid menu now shows health bars and max HP in addition to current HP when self-aware
-Do not mix items around the player with inventory items under detailed categories
-Allow for excluding words in recipes filter
-Align NPC skills display in faction UI
-protection values in item display are now shown as decimals
-Updates Ultica 21-01-31
-MshockXotto+ Update 2021-01-31
-Update BrownLikeBears 2021-01-31
 
 ## Mods:
 [Magiclysm] Manatouched mutation tree.
@@ -194,51 +117,26 @@ Aftershock: Adds autodoc tiers and augmentation clinics.
 Aftershock: Megacity-oriented overmap generation adjustments
 Aftershock: Adds new Melee oriented bionics.
 [DinoMod] Adds Acrocanthosaurus and overhauls dino baby code.
-Adds New Black Dragon Mutation Line.
+[Magiclysm] Adds New Black Dragon Mutation Line.
 Adjusts fog frequency in black dragon lair plus other (minor) map adjustments.
 Adds monsters 'Scutellosaurus', 'Maiasaura', and 'Coelophysis'.
 [Magiclysm] Attunements - Special abilities gained by mastering two schools of magic.
 Adds monsters 'Pachyrhinosaurus', 'Pentaceratops', and 'Torosaurus'.
-Organizes dinos into three main factions with defined inter-faction behavior.
-Rebalance Jurassic spawns and monsters for realism, fix predator in-fighting.
+[DinoMod] Organizes dinos into three main factions with defined inter-faction behavior.
+[DinoMod] Rebalance Jurassic spawns and monsters for realism, fix predator in-fighting.
 Cap monsters at 1000 kg so butchering kind of works.
 [Magiclysm] implement summonable motorcycle
 [Magiclysm] Adds a new house with technomancer-themed loot.
-Aftershock: Replaces Vanilla autodocs with Aftershock Average Autodocs.
-DinoMod: Adds monsters 'Brontosaurus', 'Alamosaurus', and 'Brachiosaurus'.
+[Aftershock] Replaces Vanilla autodocs with Aftershock Average Autodocs.
+[DinoMod] Adds monsters 'Brontosaurus', 'Alamosaurus', and 'Brachiosaurus'.
 [Magiclysm] Rings of wizardry and mojocycle tweaks
 [Magiclysm] Adds bullet armor to magic rings and bracers of protection.
 [DinoMod] Converts 'dinoexhibit' to use templates, adds a roof, and adds a baby dino variant.
 [DinoMod] Ankylosaurs Abound: Adds Dyoplosaurus, Nodosaurus, and Edmontonia.
 [Aftershock] Adds an astrobiology lab.
 [DinoMod] Adds Amargasaurus and Kosmoceratops as well as variants.
-Add variety to CRIT
-Adds orcs and ogres
-Fix manatouched threshold
-Add more magical focus
-Aftershock: Shoddy laser rifle crafting requires custom scrap. Improvements in the spawning of custom scrap.
-Re-working hard-light bow and energy saber, and adding new items
-Aftershock: Remove mox* enemies from city zombie groups
-Enables dino bleeding
-Aftershock: Fix invalid faction in mon_advbot_base
-Adds new variations to the portal lab finale
-Aftershock: Remove several non sci-fi items
-Adding robot uncrafts
-Documentation for dino spawning for new DinoMod contributors
-removes Classic category from some non classic zed aftershock mobs
-Spinosaurus lake spawns. Changed Spino stats and Spino/Ceratosaurus spawn weights. Added NPC Hint.
-Adds laser bio operator dinosaurs to some lab spawns in DinoMod.
-Magiclysm: Fix Lighting Blast's range progression
-[Magiclysm] Add longest-side to Staff of the Magi
-[Magiclym] Fix Summon Floating Disk duration increment on lvl-up
-Forge of Wonders Gygaxian Update
-Cap zombie dino hulk weight bugfix
-[Magiclyms] Buff Holy Blade and Spiritual Armor spells
-Aftershock Design Doc
-Aftershock: Fix invalid itemgroup spawn in astrobiology lab
-Aftershock: Update Aftershock's Codeowners
-DinoMod Mutation Trees
-Aftershock: New Laser and Plasma pistols.
+[Magiclysm] Adds Orcs and Ogres.
+[Aftershock] Adds a design document.
 
 ## Balance:
 Large item price audit.
@@ -258,30 +156,13 @@ Missed scenario starts without a random NPC.
 Monsters with larger eyes see farther than smaller variants.
 Ankle storage items don't affect feet-related mutations anymore.
 Gives the default Survivor profession more weather-appropriate clothes for the default start.
-Rebalances anesthesia to be more realistic.
 Eating raw meat does not hurt your morale as much if you have traits like Hunter or Predator.
 Very-fast-moving zombie animals only attack once per turn.
-Change volume of items to more realistic values
-lower occurrences of railroad stations.
-Adjust item spawns in houses.
-Added batch time savings for scrambled eggs
-Update material, weight, volume of folding bicycle to match a real-world example
-Add the FRAGILE flag to all variants of the chainsaw to better balance them.
-cooked burdock and dandilion greens give same batch time saving like cooked wild veggies
-Audit .223 STANAG magazines, add max_item_length to ammo pouches
 Spawn anesthesia in autodocs.
-Introduces several recipes to solve issue #46519
-Remove Lab Technician from Lab Patient scenario
-Reduce too high encumbrance on clothing with pockets covering multiple body parts
-Amorphous trait characters can pass through barred window frames
-Rebalance overmap special spawn rates
-Mycus Fireproofing now also gives heat immunity
-Infection tweaks
-Added the ability to sheath throwing knifes
-Add component vacuum-packed bag to all 4 t:vacuum sealer recipes.
-Changes Crazy Party start to give 2 points.
-Ensure Historical Reenactors have proper proficiencies
-Ordinary clothing does not meaningfully contribute to protection values.
+Rebalance overmap special spawn rates.
+Mycus Fireproofing now also gives heat immunity.
+Tweak Infection impact by lowering fatigue drain and removing pain.
+Adjust ordinary clothing to not meaningfully contribute to protection values.
 
 ## Bugfixes:
 Prevents possible negative damage from explosions.
@@ -356,146 +237,18 @@ Killing a monster that fused with a mission kill target now successfully complet
 Bashes that do zero damage now can't stun.
 Fixes a crash due to dereferencing a null carrier pointer in item::process_tool.
 Prevents a seg fault in auto-consume.
-fixed erroneous 'completely refilled' message
-Prevent segfault while reading
-Remove obselete crashing chop shop
-Fix beggars taking all food
-Fix AIM using items from stack
-Default profession cleanly when loading old profession
-Prevent unnamed camps.
-Zero damage bash no longer stuns
-Fix crash due to dereferencing null carrier pointer in item::process_tool
-Fix npc crossbow wielding
-Prevent seg fault in auto consume
-stats_through_kills str_upgrade boost hp_max
-Fix lab sign overlapping with other fields in look around menu
-Remove duplicated tool display when crafting
-Assorted inventory menu fixes
-Getting some spells to actually do the max damage listed
-Fix text mis-wrapping in disassembly menu for contained items
-Fix error message on using jackhammer on wall
-silence warning and identification of the magic basement trap door trigger
-Fix liquid dropped to the ground when activated
-Added a check to see if the player is deaf or blind in order to print the correct warning message when the player is standing between mounted turret and its target
-some cars were too long for some garages and add more bike racks.
-Monster resilience setting will have no effect on ranged critical hit chance
-Fix dirty gasoline obtained from gas pumps in lumber mills
-vehicles: towed vehicles don't set their parking brakes
-Fix sarcophagus elevator reactivation
+Vehicles: Fixes towed vehicle drag by unsetting their parking brakes.
+Fixes sarcophagus elevator reactivation.
 Fixes doors that NPC's could not pass without intervention.
-Only inform about enemies regenerating if the player can see it
-Fix various text overflows in look around menu
-Fix dirty diesel spawned in military bases
-melee weapons: fix makeshift war scythe damage and add to tests
-Prevent work bench disassembly vanishing
+Prevents work bench disassembly from vanishing.
 Fix error message on towed vehicle crashed with towing vehicle
-Fix text overflow in NPC dialogue window
-Fix multi tile door closing
-Base returned materials from salvaging on mass instead of volume.
-NPC's are friends with their factions monster faction
-The rebar vehicle armor had two almost identical descriptions (one from the item and another one from having the armor flag)
-Spurge tea antiasthmatic effect no longer permanent
-Trade for container without getting traded items back
-Convert crafting time calculations from 32 to 64 bit integer
-Added missing checks for NOPAIN in suffer.cpp
-Makes the tourist table and workbench grabbable and movable
-Fix NPC HP bar display in look around menu
-Fix unable to run message, allow mount to run when your legs are broken.
-Corrects skill rust inversion due to reversed subtraction
-Fix NPC stops reading when the player changes z-level
-Preserve 'shape' when repairing broken vehicle part
-Fix identical products not stacking in disassembly menu
-Add types flag to photosphore mutations to prevent more than one mutation of the type
-Fix foldable poncho and blanket in the inventory couldn't be packed back
-Fix achivements UI display in curses mode
-Unseal source container when filling vehicle tank
-Unseal source and target containers when inserting contents
-NPC followers had no response/check for the player trying to feed them rotten food.
-Disallow inserting spilt liquid
-Interrupts hauling when items get picked up to prevent hauling action to continue without any items present.
-Fix rounding error when filling container
-Crafted clean water is just clean water
-Fix container handling when unloading, and other fixes
-Fix skill names in achievements
-Stop brick kilns changing volume when they are filled
-Prevent fatigue below -20 affecting weariness threshold
-Storm Elemental change Burnback  to ZAPBACK
-Fix bug with disassemblies
-Interrupted batch jobs were showing the internal energy calculation, instead of the actuall number of tool-charges needed.
-Add a prompt to the low stamina interrupt and toggle auto resume/ignores on activity change
-Stop a recipe from showing up blank
-Fix playing generic game not spending battery charges
-fixed abandon faction camp error
-Winter wolf killing each other
-gamma burst missing max level
-Fix segfault from checking npc ranged attacker
-Prevent unneeded stop hauling message
-Amorphous Bars interaction correctly checks all body parts are unencumbered
-Randomize cosmetic traits when creating random characters
-Prevent debug message when filling vehicle tank
-Fix disassemble
-Prevent debug message when modifying overmap note containing color tags
-Faster tool selection dialog with lots of items nearby
-Correctly align proficiency percentage in player display menu
-Increased amount of plastic buttons required to create a plastic chunk
-Reset mapgen palettes when unloading
-Removed containlvl1 from kiddie spoon
-Fix oxyacetylene being impossible to craft
-Prevent fire source usage from bailing when a firestarter is found but has no charges
-Show capacity only once for tools with magazine pockets
-Fix unwielding charged items does nothing
-Properly add context to vehicle part category names
-Correct effect.cpp so X_chance_bot works right
-Fix items losing attributes on reload
-Fixed display issues with/caused by bike racked vehicles
-Fix monster hp bar turning empty before becoming ':'
-Do not show damage info for non-combat AMMO items
-Fix minesweeper game revealing wrong blocks
-Fix crash when playing board games
-Add missing flags to RM13 combat armor
-Fix NPC dropping laser finger pseudo item
-Fix trap's trigger_weight being ignored if less than 500g
-fixed npc will run into nearby shelter after being assigned to a camp
-Skillgain from reading books got adjusted to the new bigger base values used
-Fix cursor movement of string input popup
-Fix the case when the name of an item is not a dict
-Fix temperature for items carried by player
-Missing damage type
-Changed the description to no longer indicate that a sharp rock is sufficient for butchering.
-fix satiety info for stack of drinks
-Added pocket size check to sheaths/holsters-
-fiix magic casting XP
-prevent certain comestible items/powders from freezing
-Only stop hauling when all hauled items are picked up
-added a check for parent items in the insertion menu
-Fix Prison Visionary mission unable to complete
-Select the first sorted entry when opening inventory ui
-Fix division by zero error when examining racked vehicle with fuel tanks
-fix XL winter survivor boots
-The Find Antibiotics mission should also accept broad-spectrum antibiotics
-Restored the soiled towel functionality via the filthy tag
-NPC fight back while guarding or patrolling
-Fix use-after-free error in sounds::process_sound_markers(player)
-Correct gunmod location of ported barrel
-Moves check for npc_no_needs mod into food related methods
-added permeable flag to t_gas_pump_a
-first link on the page was broken.
-Ensure Tourist camera has a battery
-Fixed problem with item identification when throwing
-Fix colorization in tailor kit UI
-Fix feeding fires from a firewood source
-Make all gibs fields liquid as solid leftovers are already covered by the butchery refuse item
-Zombie technician pull metal weapon attack tweak.
-Fix duplicate crafting menu tab entries
-Fix message overlap in vehicle interact menu
-Took out the messages about wield times.
-Fix bad memory access in drop_activity_actor::do_turn()
-Vehicle construction ui informs about adjusted strength  due to strong, bad back
-Fix unit test randomly fails to launch on Mac CI check
-Avoid invalid access to empty vector
-Resolves a partial item spawn issue
-Fix slime mutagen recipe
-Fix empty pixel minimap
+Bases returned materials from salvaging on mass instead of volume.
+Fixes unable to run message, allow mount to run when your legs are broken.
+Fixes abandon faction camp error.
+Makes NPC fight back while guarding or patrolling.
+Fixes use-after-free error in sounds::process_sound_markers(player).
+Makes Zombie technician pull metal weapon attack drop items at technician's feet.
+Fix bad memory access in drop_activity_actor::do_turn().
 
 ## Performance:
 Adds an option to enable batching when it is available in SDL.
@@ -518,11 +271,9 @@ Speeds up quicksave by limiting ui redraw rate.
 Prevents slow processing of NPC overmap travel when `goal` is unreachable.
 Fixes the performance bug caused by `verify_vehicle_cache` recalculation.
 Adds lightweight crafting inventory cache to improve NPC construction processing time.
-Add lightweight crafting inventory to improve NPC construction time
-Do not redraw if there is no SCT text
-Reduce save size by skipping serialization of some item pockets and relic_data
-Add RLE compression for json ser/deser of items colony. Reduces savefile size.
-Improve performance of initializing achievements_tracker
+Reduces save size by skipping serialization of some item pockets and relic_data.
+Adds RLE compression for json ser/deser of items colony. This reduces savefile size.
+Improves performance of initializing achievements_tracker.
 
 ## Infrastructure:
 Adds basic infrastructure for diseases.
@@ -585,22 +336,10 @@ Introduces a STATIC( ) macro that can make the definition of static constants ea
 Adds typesafe angle type.
 Adds check that Generic Guns migrates all guns, magazines, and ammo.
 Enables JSON member visitation checks outside of tests (better consistency checking).
-Skip SFX calls during test to improve performance
-Display multi-line json error messages with github action
-Close #46539: Segmentation error in vehicle_level_test
-Python tool to easily translate map coordinates
-Enable json check for mods in github matrix
-Have and check correct season length for tests
-Add clear_map to more tests
-Restore old trigdist setting after tests
-Expand weary-related debugging info
-Refactor Creature::deal_projectile_attack into smaller parts
-Remove randomness from metabolism
-turn all the remaining bare name strings into name objects
-Do not require repetition of the SUMMARY word in the PR template
-compose.py now detects unused PNG names that match referenced IDs
-Add macOS 10.15 target to GitHub Action build matrix
-Enable clang-tidy check google-explicit-constructor
+Display multi-line json error messages with github action.
+Python tool to easily translate map coordinates.
+Enable json check for mods in github matrix.
+Have and check correct season length for tests.
 
 ## Build:
 Moves clang-tidy runs from Travis to GitHub.
@@ -619,12 +358,8 @@ Suppresses Homebrew update for faster Mac OS builds.
 Adds problem matchers for json errors, compiler errors, DebugLog emissions, and Catch2 errors.
 Adds check enforcing almost-never-auto convention.
 Adds a GitHub workflow running flake8 to check the Python scripts.
-Change variable type to allow MSVC to compile
-Unify code style in CMakeLists.txt files
-Add CMake linting
-Allow clang 10 to compile
-Fix ODR violation in event unit test
-Workaround for linking error with clang and glibc 2.31+
+Unify code style in CMakeLists.txt files.
+Adds CMake linting.
 
 ## I18N and A11Y:
 Fixes translations of martial art initiate and computer terminal messages.
@@ -635,12 +370,7 @@ Records locales in debug.log to assist i18n debugging.
 Adds the start of a translator glossary and explains the etymology of Exodii.
 Uses class translation in many more places for more flexible translation support.
 Infrastructure: Automates translation template push.
-Routine i18n updates on 2 Jan 2021
-Routine i18n updates on 8 Jan 2021
-Routine i18n updates on 18 Jan 2021
-Allow selection of Arabic, Czech, Danish, Greek, Indonesian, Icelandic, Italian, Norwegian, Dutch, Serbia, Turkish, Ukrainian languages in game
-Routine i18n updates on 23 Jan 2021
-Improve item name presentation in comments for translators
+Allows selection of Arabic, Czech, Danish, Greek, Indonesian, Icelandic, Italian, Norwegian, Dutch, Serbia, Turkish, Ukrainian languages in game.
 
 # 0.E (Ellison)
 
