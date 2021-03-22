@@ -43,7 +43,6 @@
 #include "mtype.h"
 #include "npc.h"
 #include "optional.h"
-#include "options.h"
 #include "output.h"
 #include "point.h"
 #include "projectile.h"
@@ -808,18 +807,17 @@ projectile_attack_results Creature::select_body_part_projectile_attack(
     }
 
     const float crit_multiplier = proj.critical_multiplier;
-    float world_multiplier = get_option<int>( "MONSTER_RESILIENCE" ) / 100.0f;
     if( magic ) {
         ret.damage_mult *= rng_float( 0.9, 1.1 );
     } else if( goodhit < accuracy_headshot &&
-               ret.max_damage * crit_multiplier > get_hp_max( bodypart_id( "head" ) ) / world_multiplier ) {
+               ret.max_damage * crit_multiplier > get_hp_max( bodypart_id( "head" ) ) ) {
         ret.message = _( "Headshot!" );
         ret.gmtSCTcolor = m_headshot;
         ret.damage_mult *= rng_float( 0.95, 1.05 );
         ret.damage_mult *= crit_multiplier;
         ret.bp_hit = bodypart_id( "head" ); // headshot hits the head, of course
     } else if( goodhit < accuracy_critical &&
-               ret.max_damage * crit_multiplier > get_hp_max( bodypart_id( "torso" ) ) / world_multiplier ) {
+               ret.max_damage * crit_multiplier > get_hp_max( bodypart_id( "torso" ) ) ) {
         ret.message = _( "Critical!" );
         ret.gmtSCTcolor = m_critical;
         ret.damage_mult *= rng_float( 0.75, 1.0 );
