@@ -815,7 +815,7 @@
     "type": "TOOL",
     "category": "weapons",
     "name": { "str": "Covered Pocket Sun" },
-    "description": "Temporary covered capsule-like field of solar energy.",
+    "description": "A small, capsule-shaped field containing a gap in reality that lets through solar energy; it is currently covered.",
     "weight": "1 g",
     "volume": "1 ml",
     "material": [ "sunlight" ],
