@@ -578,19 +578,18 @@
 		],
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "USE_UPS", "NO_UNLOAD", "NO_RELOAD" , "ONLY_ONE","TWO_WAY_RADIO", "ZOOM", "SUN_GLASSES", "RAINPROOF", "WATCH", "ALARMCLOCK", "OUTER", "SUN_GLASSES", "THERMOMETER", "HYGROMETER" ]
+    "flags": [ "USE_UPS", "NO_UNLOAD", "NO_RELOAD" , "ONLY_ONE","TWO_WAY_RADIO", "ZOOM", "SUN_GLASSES", "RAINPROOF", "WATCH", "ALARMCLOCK", "SUN_GLASSES", "THERMOMETER", "HYGROMETER", "PARTIAL_DEAF", "HELMET_COMPAT", "FLASH_PROTECTION" ]
   },
   {
     "id": "ar_glasses_t2_mil_on",
     "copy-from": "ar_glasses_t2_mil",
     "type": "TOOL_ARMOR",
-    "name": { "str": "military AR headset ( NV on)", "str_pl": "military AR headsets (NV on)" },
+    "name": { "str": "military AR headset (NV on)", "str_pl": "military AR headsets (NV on)" },
     "description": "This military AR headset night vision system is turned on.",
     "power_draw": 375,
-    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Deactivating the AR glasses night vision.", "target": "ar_glasses_t2_mil" },
-
+	"use_action": { "type": "transform", "menu_text": "Turn off NVG", "msg": "Deactivating the AR glasses night vision.", "target": "ar_glasses_t2_mil" },
     "revert_to": "ar_glasses_t2_mil",
-    "flags": [ "USE_UPS", "NO_UNLOAD", "NO_RELOAD" , "ONLY_ONE","TWO_WAY_RADIO", "ZOOM", "SUN_GLASSES", "RAINPROOF", "WATCH", "ALARMCLOCK", "OUTER", "SUN_GLASSES", "THERMOMETER", "HYGROMETER", "FRAGILE", "TRADER_AVOID", "GNV_EFFECT"  ]
+    "flags": [ "USE_UPS", "NO_UNLOAD", "NO_RELOAD" , "ONLY_ONE","TWO_WAY_RADIO", "ZOOM", "SUN_GLASSES", "RAINPROOF", "WATCH", "ALARMCLOCK", "SUN_GLASSES", "THERMOMETER", "HYGROMETER", "PARTIAL_DEAF", "HELMET_COMPAT", "FLASH_PROTECTION", "TRADER_AVOID", "GNV_EFFECT"  ]
   },
   {
     "id": "ar_glasses_t2_mil_radio",
@@ -601,7 +600,7 @@
     "power_draw": 500,
     "revert_to": "ar_glasses_t2_mil",
     "use_action": [ "RADIO_ON" ],
-    "flags": [ "USE_UPS", "NO_UNLOAD", "NO_RELOAD" , "ONLY_ONE","TWO_WAY_RADIO", "ZOOM", "SUN_GLASSES", "RAINPROOF", "WATCH", "ALARMCLOCK", "OUTER", "SUN_GLASSES", "THERMOMETER", "HYGROMETER", "FRAGILE", "TRADER_AVOID" ]
+    "flags": [ "USE_UPS", "NO_UNLOAD", "NO_RELOAD" , "ONLY_ONE","TWO_WAY_RADIO", "ZOOM", "SUN_GLASSES", "RAINPROOF", "WATCH", "ALARMCLOCK", "SUN_GLASSES", "THERMOMETER", "HYGROMETER", "PARTIAL_DEAF", "HELMET_COMPAT", "FLASH_PROTECTION", "TRADER_AVOID" ]
   },
   {
     "type": "TOOL_ARMOR",
