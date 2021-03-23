@@ -817,7 +817,7 @@
     "type": "GENERIC",
     "name": { "str": "Magus battle staff", "str_pl": "Magus battle staves" },
     "//": "It will be based on the Q2 weapon but sightly worse, sightly better than the magus staff, but it's greatest strength will be it's regen mana capabilities, better than magi staff minor but worse than the lesser one.",
-    "description": "A quarterstaff with runes carved into it and two mana pearls at the tip, enchanted with mana for durability. It fills you with an invigorating sensation. there are two Magus runes carved into the wood.",
+    "description": "A quarterstaff with runes carved into it and two mana pearls at the tip, enchanted with mana for durability.  It fills you with an invigorating sensation.  There are two Magus runes carved into the wood.",
     "weight": "1600 g",
     "volume": "3500 ml",
     "longest_side": "185 cm",
