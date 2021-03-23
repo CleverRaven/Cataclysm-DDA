@@ -347,13 +347,13 @@
     ]
   },
   {
-    "type":"item_group",
+    "type": "item_group",
     "id": "wasp_lair",
     "//": "Damaged generic/military/science drops, nothing fancy",
     "subtype": "distribution",
     "ammo": 10,
     "entries": [
-      { "group": "allclothes", "damage": [ 2, 4 ], "prob": 150  },
+      { "group": "allclothes", "damage": [ 2, 4 ], "prob": 150 },
       { "group": "clothing_outdoor_set", "damage": [ 2, 4 ], "prob": 10 },
       { "group": "clothing_hunting", "damage": [ 2, 4 ], "prob": 10 },
       { "group": "clothing_work_set", "damage": [ 2, 4 ], "prob": 10 },

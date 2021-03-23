@@ -43,7 +43,10 @@
         "_": "t_pavement",
         "<": "t_stairs_up"
       },
-      "nested": { " ": { "chunks": [ ["null", 50 ], ["wasp_gibs", 10 ] ] }, "_": { "chunks": [ ["null", 50 ], ["wasp_gibs", 10]] } }
+      "nested": {
+        " ": { "chunks": [ [ "null", 50 ], [ "wasp_gibs", 10 ] ] },
+        "_": { "chunks": [ [ "null", 50 ], [ "wasp_gibs", 10 ] ] }
+      }
     }
   },
   {
@@ -88,10 +91,10 @@
         "|": "t_chainfence_v",
         "6": "t_radio_controls",
         "_": "t_pavement",
-        "+": [ "t_door_c", ["t_door_b", 3 ], ["t_door_frame", 3] ],
+        "+": [ "t_door_c", [ "t_door_b", 3 ], [ "t_door_frame", 3 ] ],
         "4": "t_gutter_downspout",
         "<": "t_stairs_up",
-        "w": [ "t_window", ["t_window_frame", 3 ], ["t_window_empty", 3] ]
+        "w": [ "t_window", [ "t_window_frame", 3 ], [ "t_window_empty", 3 ] ]
       },
       "furniture": { "C": "f_counter", "r": "f_rack", "h": "f_chair", "l": "f_locker" },
       "items": {
@@ -99,7 +102,10 @@
         "r": { "item": "recycle_electronic", "chance": 80, "repeat": [ 1, 2 ] },
         "l": { "item": "clothing_work_set", "chance": 80 }
       },
-      "nested": { " ": { "chunks": [ ["null", 50 ], ["wasp_gibs", 10 ]] }, "_": { "chunks": [ ["null", 50 ], ["wasp_gibs", 10] ] } }
+      "nested": {
+        " ": { "chunks": [ [ "null", 50 ], [ "wasp_gibs", 10 ] ] },
+        "_": { "chunks": [ [ "null", 50 ], [ "wasp_gibs", 10 ] ] }
+      }
     }
   },
   {
@@ -171,7 +177,7 @@
         "                        "
       ],
       "palettes": [ "wasp_palette" ],
-      "nested": { "_": {"chunks": [ "null" , "wasp_gibs" ] }}
+      "nested": { "_": { "chunks": [ "null", "wasp_gibs" ] } }
     }
   },
   {
@@ -242,7 +248,7 @@
         "                        "
       ],
       "palettes": [ "wasp_palette" ],
-      "nested": { ".": {"chunks": [ "null" , "wasp_gibs" ] }}
+      "nested": { ".": { "chunks": [ "null", "wasp_gibs" ] } }
     }
   },
   {
@@ -278,7 +284,7 @@
         "        XXXXXXX         "
       ],
       "palettes": [ "wasp_palette" ],
-      "nested": { ".": {"chunks": [ "null" , "wasp_gibs" ] }}
+      "nested": { ".": { "chunks": [ "null", "wasp_gibs" ] } }
     }
   },
   {

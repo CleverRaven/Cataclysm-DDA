@@ -280,7 +280,13 @@
       "terrain": { "R": "t_radio_tower", "a": "t_railing", ",": "t_metal_floor_no_roof", ">": "t_stairs_down" },
       "place_nested": [
         {
-          "chunks": [ [ "0radio_tower_2x2_wasp", 40 ], [ "radio_tower_2x2_map", 1 ], [ "radio_tower_2x2_holdout", 1 ], [ "radio_tower_2x2_sniper", 1 ] ],
+          "chunks": [
+            [ "null", 40 ],
+            [ "radio_tower_2x2_map", 40 ],
+            [ "radio_tower_2x2_holdout", 10 ],
+            [ "radio_tower_2x2_sniper", 10 ],
+            [ "radio_tower_wasp", 5 ]
+          ],
           "x": 10,
           "y": 5
         }
@@ -324,16 +330,13 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "0radio_tower_2x2_wasp",
+    "nested_mapgen_id": "radio_tower_wasp",
     "object": {
-      "mapgensize": [ 2, 2 ],
+      "mapgensize": [ 5, 5 ],
       "place_furniture": [ { "furn": "f_camp_chair", "x": 1, "y": 0 }, { "furn": "f_makeshift_bed", "x": 1, "y": 1 } ],
-      "place_loot": [
-        { "group": "wasp_lair", "x": 1, "y": 1, "repeat": [ 0, 2 ] },
-        { "group": "human_parts", "x": 1, "y": 1 }
-      ],
-      "place_monster": [ { "group": "GROUP_WASP_QUEEN", "x": [ 0, 1 ], "y": [ 0, 1 ] } ],
-      "place_nested": [{"chunks": ["wasp_gibs"], "x": [0,1], "y": [0,1], "repeat":[ 3, 5 ] } ]
+      "place_loot": [ { "group": "wasp_lair", "x": 1, "y": 1, "repeat": [ 0, 2 ] }, { "group": "human_parts", "x": 1, "y": 1 } ],
+      "place_monster": [ { "group": "GROUP_WASP_QUEEN", "x": [ 0, 5 ], "y": [ 0, 5 ] } ],
+      "place_nested": [ { "chunks": [ "wasp_gibs" ], "x": [ 0, 2 ], "y": [ 0, 2 ], "repeat": [ 5, 7 ] } ]
     }
   },
   {

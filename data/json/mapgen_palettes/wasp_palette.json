@@ -84,37 +84,48 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id":"wasp_gibs",
+    "nested_mapgen_id": "wasp_gibs",
     "weight": 100,
-    "object":{
-      "mapgensize": [1,1],
-      "place_fields": [ 
-        {"field": "fd_blood", "x": 0, "y": 0, "intensity":  1, "repeat": [0,3] }
-       ]
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_fields": [ { "field": "fd_blood", "x": 0, "y": 0, "intensity": 1, "repeat": [ 0, 3 ] } ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id":"wasp_gibs",
+    "nested_mapgen_id": "wasp_gibs",
     "weight": 100,
-    "object":{
-      "mapgensize": [1,1],
-      "place_fields": [ 
-        {"field": "fd_blood_insect", "x": 0, "y": 0, "intensity":  1, "repeat": [0,3] }
-       ]
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_fields": [ { "field": "fd_blood_insect", "x": 0, "y": 0, "intensity": 1, "repeat": [ 0, 3 ] } ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id":"wasp_gibs",
+    "nested_mapgen_id": "wasp_gibs",
     "weight": 100,
-    "object":{
-      "mapgensize": [1,1],
-      "place_fields": [ 
-        {"field": "fd_blood_invertebrate", "x": 0, "y": 0, "intensity":  1, "repeat": [0,3] }
-       ]
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_fields": [ { "field": "fd_blood_invertebrate", "x": 0, "y": 0, "intensity": 1, "repeat": [ 0, 3 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "wasp_gibs",
+    "weight": 80,
+    "object": { "mapgensize": [ 1, 1 ], "place_loot": [ { "group": "bug_parts", "x": 0, "y": 0, "repeat": [ 0, 3 ], "chance": 50 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "wasp_gibs",
+    "weight": 80,
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_loot": [ { "group": "vertebrate_parts", "x": 0, "y": 0, "repeat": [ 0, 3 ], "chance": 50 } ]
     }
   },
   {
@@ -124,29 +135,9 @@
     "weight": 80,
     "object": {
       "mapgensize": [ 1, 1 ],
-      "place_loot": [ {"group": "bug_parts", "x": 0, "y": 0, "repeat":[ 0, 3 ], "chance": 50 } ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "wasp_gibs",
-    "weight": 80,
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "place_loot": [ {"group": "vertebrate_parts", "x": 0, "y": 0, "repeat":[ 0, 3 ], "chance": 50 } ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "wasp_gibs",
-    "weight": 80,
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "place_loot": [ 
-        {"group": "human_parts", "x": 0, "y": 0, "repeat":[ 0, 3 ], "chance": 50 },
-        {"group": "wasp_lair", "x": 0, "y":0, "repeat": [ 0, 1 ], "chance": 25 }
+      "place_loot": [
+        { "group": "human_parts", "x": 0, "y": 0, "repeat": [ 0, 3 ], "chance": 50 },
+        { "group": "wasp_lair", "x": 0, "y": 0, "repeat": [ 0, 1 ], "chance": 25 }
       ]
     }
   }
