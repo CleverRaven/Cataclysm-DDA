@@ -224,7 +224,7 @@
     "description": "A sheet of synthetic fabric blended with stretchy Lycra fibers, suitable for making flexible yet strong clothing.",
     "weight": "3 g",
     "volume": "2 ml",
-	"//": "Density of 1.21-1.35 grams per mL",
+	"//": "Density of 1.21-1.35 grams per mL, using 1.28",
     "price": 5000,
     "price_postapoc": 100,
     "material": [ "lycra" ],
@@ -271,7 +271,7 @@
     "description": "A selection of various clothing parts, sewn together from Lycra patches in a patchwork fashion.  Suitable for making most clothing, though it's much less time-efficient than if using proper material sheets.",
     "weight": "60 g",
     "volume": "45 ml",
-	"//": "Density of 1.21-1.35 grams per mL",
+	"//": "Density of 1.21-1.35 grams per mL, using 1.28",
     "price": 1000,
     "price_postapoc": 50,
     "count": 1
