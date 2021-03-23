@@ -813,6 +813,27 @@
     "flags": [ "DURABLE_MELEE", "SHEATH_SPEAR", "TRADER_AVOID", "MAGIC_FOCUS" ]
   },
   {
+    "id": "rune_magus_weapon_adept",
+    "type": "GENERIC",
+    "name": { "str": "Magus battle staff", "str_pl": "Magus battle staves" },
+    "//": "It will be based on the Q2 weapon but sightly worse, sightly better than the magus staff, but it's greatest strength will be it's regen mana capabilities, better than magi staff minor but worse than the lesser one.",
+    "description": "A quarterstaff with runes carved into it and two mana pearls at the tip, enchanted with mana for durability. It fills you with an invigorating sensation. there are two Magus runes carved into the wood.",
+    "weight": "1600 g",
+    "volume": "3500 ml",
+    "longest_side": "185 cm",
+    "price": 15000,
+    "to_hit": 4,
+    "bashing": 34,
+    "material": [ "wood", "diamond" ],
+    "symbol": "/",
+    "relic_data": {
+      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "REGEN_MANA", "multiply": 0.75 } ] } ]
+    },
+    "color": "brown",
+    "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_SPEAR", "TRADER_AVOID", "MAGIC_FOCUS" ]
+  },
+  {
     "id": "rune_kelvinist_weapon",
     "type": "GENERIC",
     "name": { "str": "Kelvinist flamberge" },

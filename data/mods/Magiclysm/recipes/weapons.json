@@ -25,6 +25,31 @@
   {
     "type": "recipe",
     "activity_level": "fake",
+    "result": "rune_magus_weapon_adept",
+    "//": "This recipes uses cut to represent the carving, alchemy for the infusion of the mana and to make life difficult",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_WEAPONS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "spellcraft", 6 ], [ "bashing", 4 ] ],
+    "difficulty": 6,
+    "time": "660 m",
+    "autolearn": true,
+    "using": [ [ "forging_standard", 2 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 2 }, { "id": "MANA_INFUSE", "level": 2 }, {"id": "CUT", "level": 2} ],
+    "tools": [ [ [ "water", -1 ] ], [ [ "tongs", -1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_carving" }, 
+      { "proficiency": "prof_alchemy", "required": false, "time_multiplier": 3 } ],
+    "components": [
+      [ [ "enchanted_wood", 1 ] ],
+      [ [ "mana_pearl", 2 ] ],
+      [ [ "leather", 4 ] ],
+      [ [ "rune_magus", 2 ] ],
+      [ [ "tallow", 2 ], [ "tallow_tainted", 2 ], [ "cooking_oil", 16 ], [ "cooking_oil2", 16 ], [ "lamp_oil", 250 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "fake",
     "result": "rune_biomancer_weapon",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_WEAPONS",
