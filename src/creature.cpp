@@ -251,7 +251,7 @@ bool Creature::sees( const Creature &critter ) const
         return is_player();
     }
 
-    if( !fov_3d && !debug_mode && posz() != critter.posz() ) {
+    if( !fov_3d && posz() != critter.posz() ) {
         return false;
     }
 

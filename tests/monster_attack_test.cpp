@@ -25,7 +25,6 @@ static void test_monster_attack( const tripoint &target_offset, bool expected )
     CAPTURE( attacker_location );
     CAPTURE( target_location );
     CAPTURE( fov_3d );
-    CAPTURE( debug_mode );
     CHECK( test_monster.attack_at( target_location ) == expected );
     // Then test the reverse.
     clear_creatures();
