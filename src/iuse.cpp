@@ -2226,9 +2226,17 @@ cata::optional<int> iuse::radio_off( player *p, item *it, bool, const tripoint &
     if( !it->units_sufficient( *p ) ) {
         p->add_msg_if_player( _( "It's dead." ) );
     }
+	//AR glasses need to be worn to use their radio.
 	else if (it->typeId() == itype_ar_glasses_t2_mil) {
-		p->add_msg_if_player( _( "You turn the radio on." ) );
-        it->convert( itype_ar_glasses_t2_mil_radio ).active = true;
+		if ( p->is_worn( *it ) ) {
+			p->add_msg_if_player( _( "You turn the radio on." ) );
+			it->convert( itype_ar_glasses_t2_mil_radio ).active = true;
+		}
+		else {
+			p->add_msg_if_player( m_neutral, _( "You need to wear the %1$s to hear the radio." ),
+								it->tname() );
+			return cata::nullopt;
+		}
 	}
 	else {
         p->add_msg_if_player( _( "You turn the radio on." ) );
