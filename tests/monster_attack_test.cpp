@@ -7,6 +7,7 @@
 #include "map.h"
 #include "map_helpers.h"
 #include "monster.h"
+#include "options_helpers.h"
 #include "point.h"
 #include "type_id.h"
 
