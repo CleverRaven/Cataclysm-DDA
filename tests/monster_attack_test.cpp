@@ -40,7 +40,15 @@ static void monster_attack_zlevel( const std::string &title, const tripoint &off
                                    bool expected )
 {
     map &here = get_map();
-    SECTION( title ) {
+    restore_on_out_of_scope<bool> restore_fov_3d( fov_3d );
+    fov_3d = GENERATE( false, true );
+    override_option opt( "FOV_3D", fov_3d );
+    
+    std::stringstream section_name;
+    section_name << title;
+    section_name << " " << ( fov_3d ? "3d" : "2d" );
+    
+    SECTION( section_name.str() ) {
         here.ter_set( attacker_location, ter_id( monster_ter ) );
         here.ter_set( attacker_location + offset, ter_id( target_ter ) );
         test_monster_attack( offset, expected );
