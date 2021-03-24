@@ -193,6 +193,8 @@
     "name": { "str": "Aura of Protection" },
     "description": "Encases your whole body in a magical aura that protects you from the environment.",
     "valid_targets": [ "self" ],
+    "min_damage": 1,
+    "max_damage": 1,
     "effect": "spawn_item",
     "effect_str": "protect_env",
     "shape": "blast",

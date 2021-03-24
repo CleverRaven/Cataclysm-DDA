@@ -846,6 +846,19 @@ static void write_demangled_frame( std::ostream &out, const char *frame )
     } else {
         out << "\n    " << frame;
     }
+#elif defined(BSD)
+    static const std::regex symbol_regex( R"(^(0x[a-f0-9]+)\s<(.*)\+(0?x?[a-f0-9]*)>\sat\s(.*)$)" );
+    std::cmatch match_result;
+    if( std::regex_search( frame, match_result, symbol_regex ) && match_result.size() == 5 ) {
+        std::csub_match address = match_result[1];
+        std::csub_match raw_symbol_name = match_result[2];
+        std::csub_match offset = match_result[3];
+        std::csub_match file_name = match_result[4];
+        out << "\n    " << address.str() << " <" << demangle( raw_symbol_name.str().c_str() ) << "+" <<
+            offset.str() << "> at " << file_name.str();
+    } else {
+        out << "\n    " << frame;
+    }
 #else
     out << "\n    " << frame;
 #endif
