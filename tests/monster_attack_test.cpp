@@ -13,7 +13,8 @@
 
 static constexpr tripoint attacker_location{ 65, 65, 0 };
 
-static void test_monster_attack( const tripoint &target_offset, bool expect_attack, bool expect_vision )
+static void test_monster_attack( const tripoint &target_offset, bool expect_attack,
+                                 bool expect_vision )
 {
     clear_creatures();
     // Monster adjacent to target.
@@ -44,11 +45,11 @@ static void monster_attack_zlevel( const std::string &title, const tripoint &off
     restore_on_out_of_scope<bool> restore_fov_3d( fov_3d );
     fov_3d = GENERATE( false, true );
     override_option opt( "FOV_3D", fov_3d ? "true" : "false" );
-    
+
     std::stringstream section_name;
     section_name << title;
     section_name << " " << ( fov_3d ? "3d" : "2d" );
-    
+
     SECTION( section_name.str() ) {
         here.ter_set( attacker_location, ter_id( monster_ter ) );
         here.ter_set( attacker_location + offset, ter_id( target_ter ) );
@@ -66,7 +67,7 @@ TEST_CASE( "monster_attack" )
     SECTION( "attacking on open ground" ) {
         // Adjacent can attack of course.
         for( const tripoint &offset : eight_horizontal_neighbors ) {
-	  test_monster_attack( offset, true, true );
+            test_monster_attack( offset, true, true );
         }
         // Too far away cannot.
         test_monster_attack( { 2, 2, 0 }, false, true );
