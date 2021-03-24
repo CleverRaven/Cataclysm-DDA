@@ -1,4 +1,4 @@
-# 0.F (2021-01-01)
+# 0.F (2021-02-01)
 
 ## Features:
 Adds option to randomize INITIAL_DAY.
@@ -46,6 +46,7 @@ Reports faction camp build sites and improves faction camp tutorial.
 Allows customizing initial date in scenarios.
 Allows nanofabricator templates to contain recipes from any item group.
 Adds different bleeding types for different species.
+Adds bleeding butchery action.
 
 ## Content:
 Gun volume and weight audit.
@@ -82,6 +83,7 @@ Adds a star fort with working cannon and zombie reenactors.
 Adds Hot Springs location.
 Adds a terrain flag 'NO_SHOOT' to prevent projectiles from striking or going through that tile type.
 Enables using a rope to carry large items.
+Adds large dermatik nest and tweaks dermatiks.
 
 ## Interface:
 Introduces, and migrates most windows to, ui_adaptor, which handles redrawing windows when others are closed and the game is resized.
@@ -115,24 +117,26 @@ Aftershock: Adds autodoc tiers and augmentation clinics.
 Aftershock: Megacity-oriented overmap generation adjustments
 Aftershock: Adds new Melee oriented bionics.
 [DinoMod] Adds Acrocanthosaurus and overhauls dino baby code.
-Adds New Black Dragon Mutation Line.
+[Magiclysm] Adds a new mutation line: Black Dragon.
 Adjusts fog frequency in black dragon lair plus other (minor) map adjustments.
 Adds monsters 'Scutellosaurus', 'Maiasaura', and 'Coelophysis'.
 [Magiclysm] Attunements - Special abilities gained by mastering two schools of magic.
 Adds monsters 'Pachyrhinosaurus', 'Pentaceratops', and 'Torosaurus'.
-Organizes dinos into three main factions with defined inter-faction behavior.
-Rebalance Jurassic spawns and monsters for realism, fix predator in-fighting.
+[DinoMod] Organizes dinos into three main factions with defined inter-faction behavior.
+[DinoMod] Rebalances Jurassic spawns and monsters for realism and fixes predator in-fighting.
 Cap monsters at 1000 kg so butchering kind of works.
 [Magiclysm] implement summonable motorcycle
 [Magiclysm] Adds a new house with technomancer-themed loot.
-Aftershock: Replaces Vanilla autodocs with Aftershock Average Autodocs.
-DinoMod: Adds monsters 'Brontosaurus', 'Alamosaurus', and 'Brachiosaurus'.
+[Aftershock] Replaces Vanilla autodocs with Aftershock Average Autodocs.
+[DinoMod] Adds monsters 'Brontosaurus', 'Alamosaurus', and 'Brachiosaurus'.
 [Magiclysm] Rings of wizardry and mojocycle tweaks
 [Magiclysm] Adds bullet armor to magic rings and bracers of protection.
 [DinoMod] Converts 'dinoexhibit' to use templates, adds a roof, and adds a baby dino variant.
 [DinoMod] Ankylosaurs Abound: Adds Dyoplosaurus, Nodosaurus, and Edmontonia.
 [Aftershock] Adds an astrobiology lab.
 [DinoMod] Adds Amargasaurus and Kosmoceratops as well as variants.
+[Magiclysm] Adds Orcs and Ogres.
+[Aftershock] Adds a design document.
 
 ## Balance:
 Large item price audit.
@@ -152,9 +156,13 @@ Missed scenario starts without a random NPC.
 Monsters with larger eyes see farther than smaller variants.
 Ankle storage items don't affect feet-related mutations anymore.
 Gives the default Survivor profession more weather-appropriate clothes for the default start.
-Rebalances anesthesia to be more realistic.
 Eating raw meat does not hurt your morale as much if you have traits like Hunter or Predator.
 Very-fast-moving zombie animals only attack once per turn.
+Spawns anesthesia supplies in autodocs.
+Rebalances spawn rates for overmap specials.
+Mycus Fireproofing now also gives heat immunity.
+Tweaks Infection impact by lowering fatigue drain and removing pain.
+Adjusts ordinary clothing to not meaningfully contribute to protection values.
 
 ## Bugfixes:
 Prevents possible negative damage from explosions.
@@ -229,6 +237,18 @@ Killing a monster that fused with a mission kill target now successfully complet
 Bashes that do zero damage now can't stun.
 Fixes a crash due to dereferencing a null carrier pointer in item::process_tool.
 Prevents a seg fault in auto-consume.
+Vehicles: Fixes towed vehicle drag by unsetting their parking brakes.
+Fixes sarcophagus elevator reactivation.
+Fixes doors that NPCs could not pass without intervention.
+Prevents disassemblies on a workbench from vanishing.
+Fixes errors from crashes between a towed vehicle and its towing vehicle.
+Bases returned materials from salvaging on mass instead of volume.
+Fixes unable to run message when mounted - allows a mount to run when your legs are broken.
+Fixes errors from abandoning a faction camp.
+Makes NPCs able to fight back while guarding or patrolling.
+Fixes use-after-free error in sounds::process_sound_markers(player).
+Makes the Zombie technician's pull metal weapon attack drop items at the technician's feet.
+Fixes errors due to a bad memory access in drop_activity_actor::do_turn().
 
 ## Performance:
 Adds an option to enable batching when it is available in SDL.
@@ -251,6 +271,9 @@ Speeds up quicksave by limiting ui redraw rate.
 Prevents slow processing of NPC overmap travel when `goal` is unreachable.
 Fixes the performance bug caused by `verify_vehicle_cache` recalculation.
 Adds lightweight crafting inventory cache to improve NPC construction processing time.
+Reduces save size by skipping serialization of some item pockets and relic data.
+Adds RLE compression for JSON serialization/deserializations of data on items, reducing savefile size.
+Improves performance of initializing the achievements tracker.
 
 ## Infrastructure:
 Adds basic infrastructure for diseases.
@@ -313,6 +336,10 @@ Introduces a STATIC( ) macro that can make the definition of static constants ea
 Adds typesafe angle type.
 Adds check that Generic Guns migrates all guns, magazines, and ammo.
 Enables JSON member visitation checks outside of tests (better consistency checking).
+Displays multi-line JSON error messages correctly when building on Github.
+Python tool added to easily translate map coordinates.
+Enables a JSON check for mods in the Github build matrix.
+Uses (and checks for using) the correct season length for tests.
 
 ## Build:
 Moves clang-tidy runs from Travis to GitHub.
@@ -331,6 +358,8 @@ Suppresses Homebrew update for faster Mac OS builds.
 Adds problem matchers for json errors, compiler errors, DebugLog emissions, and Catch2 errors.
 Adds check enforcing almost-never-auto convention.
 Adds a GitHub workflow running flake8 to check the Python scripts.
+Consistently styles code in CMakeLists.txt files.
+Adds CMake linting.
 
 ## I18N and A11Y:
 Fixes translations of martial art initiate and computer terminal messages.
@@ -341,6 +370,7 @@ Records locales in debug.log to assist i18n debugging.
 Adds the start of a translator glossary and explains the etymology of Exodii.
 Uses class translation in many more places for more flexible translation support.
 Infrastructure: Automates translation template push.
+Enables using additional languages (Arabic, Czech, Danish, Dutch, Greek, Indonesian, Icelandic, Italian, Norwegian, Serbian, Turkish, and Ukrainian) with the game.
 
 # 0.E (Ellison)
 
