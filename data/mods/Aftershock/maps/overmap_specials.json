@@ -7,8 +7,7 @@
     "locations": [ "land" ],
     "city_distance": [ 5, -1 ],
     "city_sizes": [ 2, -1 ],
-    "occurrences": [ 0, 1 ],
-    "flags": [ "CLASSIC" ]
+    "occurrences": [ 0, 1 ]
   },
   {
     "type": "overmap_special",
@@ -91,8 +90,7 @@
     "locations": [ "land" ],
     "city_distance": [ 5, -1 ],
     "city_sizes": [ 2, -1 ],
-    "occurrences": [ 0, 1 ],
-    "flags": [ "CLASSIC" ]
+    "occurrences": [ 0, 1 ]
   },
   {
     "type": "overmap_special",
