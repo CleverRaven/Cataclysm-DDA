@@ -422,7 +422,8 @@
       {
         "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
         "cut": 1,
-        "bash": 1
+        "bash": 1,
+        "bullet": 1
       }
     ]
   },
@@ -1086,7 +1087,8 @@
       {
         "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
         "cut": -1,
-        "bash": -1
+        "bash": -1,
+        "bullet": -2
       }
     ]
   },
@@ -1874,8 +1876,9 @@
     "armor": [
       {
         "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
-        "cut": 1,
-        "bash": 2
+        "bash": 4,
+        "cut": 2,
+        "bullet": 2
       }
     ]
   },
@@ -1910,8 +1913,9 @@
     "armor": [
       {
         "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
-        "cut": 2,
-        "bash": 3
+        "bash": 6,
+        "cut": 4,
+        "bullet": 4
       }
     ],
     "speed_modifier": 0.8
@@ -1945,8 +1949,9 @@
     "armor": [
       {
         "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
-        "cut": 3,
-        "bash": 5
+        "bash": 6,
+        "cut": 4,
+        "bullet": 4
       }
     ],
     "speed_modifier": 0.8
@@ -1979,7 +1984,9 @@
     "armor": [
       {
         "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
-        "cut": 2
+        "bash": 2,
+        "cut": 2,
+        "bullet": 2
       }
     ]
   },
@@ -2011,7 +2018,9 @@
     "armor": [
       {
         "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
-        "cut": 4
+        "bash": 4,
+        "cut": 4,
+        "bullet": 4
       }
     ],
     "passive_mods": { "dex_mod": -2 }
@@ -2043,7 +2052,9 @@
     "armor": [
       {
         "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
-        "cut": 1
+        "bash": 2,
+        "cut": 2,
+        "bullet": 2
       }
     ]
   },
@@ -2126,7 +2137,9 @@
     "armor": [
       {
         "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
-        "bash": 1
+        "bash": 2,
+        "cut": 2,
+        "bullet": 2
       }
     ]
   },
@@ -2147,7 +2160,9 @@
     "armor": [
       {
         "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
-        "bash": 1
+        "bash": 4,
+        "cut": 4,
+        "bullet": 4
       }
     ]
   },
@@ -2167,7 +2182,9 @@
     "armor": [
       {
         "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
-        "bash": 1
+        "bash": 4,
+        "cut": 4,
+        "bullet": 4
       }
     ]
   },
@@ -2184,7 +2201,15 @@
     "types": [ "SKIN" ],
     "prereqs": [ "LIGHTFUR" ],
     "leads_to": [ "LYNX_FUR" ],
-    "category": [ "BEAST", "FELINE", "MOUSE" ]
+    "category": [ "BEAST", "FELINE", "MOUSE" ],
+    "armor": [
+      {
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
+        "bash": 2,
+        "cut": 2,
+        "bullet": 2
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -2197,7 +2222,12 @@
     "types": [ "SKIN" ],
     "prereqs": [ "FELINE_FUR" ],
     "category": [ "FELINE" ],
-    "armor": [ { "parts": [ "head", "mouth" ], "bash": 1 } ]
+    "armor": [ { "parts": [ "head", "mouth" ], 
+        "bash": 2,
+        "cut": 2,
+        "bullet": 2
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -2226,8 +2256,8 @@
     "armor": [
       {
         "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
-        "bash": 2,
-        "cut": 2
+        "bash": 4,
+        "cut": 6
       }
     ]
   },
@@ -2260,8 +2290,9 @@
     "armor": [
       {
         "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
-        "bash": 4,
-        "cut": 4
+        "bash": 7,
+        "cut": 10,
+        "bullet": 1
       }
     ],
     "passive_mods": { "dex_mod": -1 }
@@ -2307,9 +2338,9 @@
     "armor": [
       {
         "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
-        "bash": 8,
-        "cut": 8,
-        "bullet": 1
+        "bash": 10,
+        "cut": 14,
+        "bullet": 2
       }
     ],
     "passive_mods": { "dex_mod": -1 }
@@ -2331,8 +2362,8 @@
     "armor": [
       {
         "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
-        "bash": 2,
-        "cut": 2
+        "bash": 4,
+        "cut": 6
       }
     ]
   },
@@ -2354,7 +2385,7 @@
       {
         "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
         "bash": 4,
-        "cut": 4
+        "cut": 6
       }
     ]
   },
@@ -2388,9 +2419,9 @@
     "armor": [
       {
         "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
-        "bash": 8,
-        "cut": 8,
-        "bullet": 1
+        "bash": 10,
+        "cut": 14,
+        "bullet": 2
       }
     ],
     "passive_mods": { "dex_mod": -1 }
@@ -2468,7 +2499,9 @@
     "armor": [
       {
         "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
-        "cut": 1
+        "bash": 4,
+        "cut": 2,
+        "bullet": 2
       }
     ],
     "thirst_modifier": -0.2
@@ -2499,7 +2532,9 @@
     "armor": [
       {
         "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
-        "cut": 2
+        "bash": 6,
+        "cut": 4,
+        "bullet": 4
       }
     ]
   },
