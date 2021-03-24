@@ -16,6 +16,11 @@
   },
   {
     "type": "recipe",
+    "result": "pheromone",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "four_winds_shotgun",
     "obsolete": true
   },

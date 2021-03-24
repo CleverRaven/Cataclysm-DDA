@@ -4073,7 +4073,7 @@
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "40 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ] ],
-    "components": [ [ [ "rigid_plastic_sheet", 2 ] ], [ [ "nail", 16 ] ], [ [ "2x4", 4 ] ] ],
+    "components": [ [ [ "rigid_plastic_sheet", 1 ] ], [ [ "nail", 16 ] ], [ [ "2x4", 4 ] ] ],
     "pre_terrain": "t_window_empty",
     "post_terrain": "t_plastic_window"
   },
@@ -4099,7 +4099,7 @@
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "40 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ] ],
-    "components": [ [ [ "rigid_plastic_sheet", 1 ] ], [ [ "nail", 16 ] ], [ [ "2x4", 4 ] ] ],
+    "components": [ [ [ "rigid_plastic_sheet", 3 ] ], [ [ "nail", 16 ] ], [ [ "2x4", 4 ] ] ],
     "pre_terrain": "t_window_empty",
     "post_terrain": "t_reinforced_plastic_window"
   },

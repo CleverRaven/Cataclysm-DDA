@@ -4058,51 +4058,6 @@ cata::optional<int> iuse::mininuke( player *p, item *it, bool, const tripoint & 
     return it->type->charges_to_use();
 }
 
-cata::optional<int> iuse::pheromone( player *p, item *it, bool, const tripoint &pos )
-{
-    if( !it->ammo_sufficient() ) {
-        return cata::nullopt;
-    }
-    if( p->is_underwater() ) {
-        p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
-        return cata::nullopt;
-    }
-
-    if( pos.x == -999 || pos.y == -999 ) {
-        return cata::nullopt;
-    }
-
-    p->add_msg_player_or_npc( _( "You squeeze the pheromone ball…" ),
-                              _( "<npcname> squeezes the pheromone ball…" ) );
-
-    p->moves -= 15;
-
-    int converts = 0;
-    for( const tripoint &dest : get_map().points_in_radius( pos, 4 ) ) {
-        monster *const mon_ptr = g->critter_at<monster>( dest, true );
-        if( !mon_ptr ) {
-            continue;
-        }
-        monster &critter = *mon_ptr;
-        if( critter.type->in_species( species_ZOMBIE ) && critter.friendly == 0 &&
-            rng( 0, 500 ) > critter.get_hp() ) {
-            converts++;
-            critter.anger = 0;
-        }
-    }
-
-    if( get_player_view().sees( *p ) ) {
-        if( converts == 0 ) {
-            add_msg( _( "…but nothing happens." ) );
-        } else if( converts == 1 ) {
-            add_msg( m_good, _( "…and a nearby zombie becomes passive!" ) );
-        } else {
-            add_msg( m_good, _( "…and several nearby zombies become passive!" ) );
-        }
-    }
-    return it->type->charges_to_use();
-}
-
 cata::optional<int> iuse::portal( player *p, item *it, bool, const tripoint & )
 {
     if( !it->ammo_sufficient() ) {

@@ -202,7 +202,7 @@
     "skills": [ { "level": 6, "name": "speech" }, { "level": 6, "name": "computer" } ],
     "items": {
       "both": {
-        "items": [ "tux", "dress_shoes", "socks", "gold_watch", "undershirt", "smart_phone", "gasdiscount_platinum" ],
+        "items": [ "tux", "dress_shoes", "socks", "gold_watch", "undershirt", "gasdiscount_platinum" ],
         "entries": [
           { "item": "cash_card", "charges": 200000000 },
           { "item": "cash_card", "charges": 200000000 },
@@ -264,8 +264,8 @@
     "points": 2,
     "items": {
       "both": {
-        "items": [ "tux", "dress_shoes", "socks", "gold_watch", "undershirt", "smart_phone", "gasdiscount_platinum" ],
-        "entries": [ { "item": "cash_card", "charges": 200000000 } ]
+        "items": [ "tux", "dress_shoes", "socks", "gold_watch", "undershirt", "gasdiscount_platinum" ],
+        "entries": [ { "item": "cash_card", "charges": 200000000 }, { "group": "charged_smart_phone" } ]
       },
       "male": [ "briefs", "collarpin", "diamond_ring" ],
       "female": [ "panties", "hairpin", "pearl_collar" ]
