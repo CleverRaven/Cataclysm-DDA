@@ -13,7 +13,7 @@
 
 static constexpr tripoint attacker_location{ 65, 65, 0 };
 
-static void test_monster_attack( const tripoint &target_offset, bool expected )
+static void test_monster_attack( const tripoint &target_offset, bool expect_attack, bool expect_vision )
 {
     clear_creatures();
     // Monster adjacent to target.
@@ -26,14 +26,14 @@ static void test_monster_attack( const tripoint &target_offset, bool expected )
     CAPTURE( attacker_location );
     CAPTURE( target_location );
     CAPTURE( fov_3d );
-    CHECK( test_monster.sees( target_location ) == expected );
-    CHECK( test_monster.attack_at( target_location ) == expected );
+    CHECK( test_monster.sees( target_location ) == expect_vision );
+    CHECK( test_monster.attack_at( target_location ) == expect_attack );
     // Then test the reverse.
     clear_creatures();
     you.setpos( attacker_location );
     monster &target_monster = spawn_test_monster( monster_type, target_location );
-    CHECK( you.sees( target_monster ) == expected );
-    CHECK( you.melee_attack( target_monster, false ) == expected );
+    CHECK( you.sees( target_monster ) == expect_vision );
+    CHECK( you.melee_attack( target_monster, false ) == expect_attack );
 }
 
 static void monster_attack_zlevel( const std::string &title, const tripoint &offset,
@@ -43,7 +43,7 @@ static void monster_attack_zlevel( const std::string &title, const tripoint &off
     map &here = get_map();
     restore_on_out_of_scope<bool> restore_fov_3d( fov_3d );
     fov_3d = GENERATE( false, true );
-    override_option opt( "FOV_3D", fov_3d );
+    override_option opt( "FOV_3D", fov_3d ? "true" : "false" );
     
     std::stringstream section_name;
     section_name << title;
@@ -52,10 +52,10 @@ static void monster_attack_zlevel( const std::string &title, const tripoint &off
     SECTION( section_name.str() ) {
         here.ter_set( attacker_location, ter_id( monster_ter ) );
         here.ter_set( attacker_location + offset, ter_id( target_ter ) );
-        test_monster_attack( offset, expected );
+        test_monster_attack( offset, expected && fov_3d, fov_3d );
         for( const tripoint &more_offset : eight_horizontal_neighbors ) {
             here.ter_set( attacker_location + offset + more_offset, ter_id( "t_floor" ) );
-            test_monster_attack( offset + more_offset, false );
+            test_monster_attack( offset + more_offset, false, expected && fov_3d );
         }
     }
 }
@@ -66,25 +66,25 @@ TEST_CASE( "monster_attack" )
     SECTION( "attacking on open ground" ) {
         // Adjacent can attack of course.
         for( const tripoint &offset : eight_horizontal_neighbors ) {
-            test_monster_attack( offset, true );
+	  test_monster_attack( offset, true, true );
         }
         // Too far away cannot.
-        test_monster_attack( { 2, 2, 0 }, false );
-        test_monster_attack( { 2, 1, 0 }, false );
-        test_monster_attack( { 2, 0, 0 }, false );
-        test_monster_attack( { 2, -1, 0 }, false );
-        test_monster_attack( { 2, -2, 0 }, false );
-        test_monster_attack( { 1, 2, 0 }, false );
-        test_monster_attack( { 1, -2, 0 }, false );
-        test_monster_attack( { 0, 2, 0 }, false );
-        test_monster_attack( { 0, -2, 0 }, false );
-        test_monster_attack( { -1, 2, 0 }, false );
-        test_monster_attack( { -1, -2, 0 }, false );
-        test_monster_attack( { -2, 2, 0 }, false );
-        test_monster_attack( { -2, 1, 0 }, false );
-        test_monster_attack( { -2, 0, 0 }, false );
-        test_monster_attack( { -2, -1, 0 }, false );
-        test_monster_attack( { -2, -2, 0 }, false );
+        test_monster_attack( { 2, 2, 0 }, false, true );
+        test_monster_attack( { 2, 1, 0 }, false, true );
+        test_monster_attack( { 2, 0, 0 }, false, true );
+        test_monster_attack( { 2, -1, 0 }, false, true );
+        test_monster_attack( { 2, -2, 0 }, false, true );
+        test_monster_attack( { 1, 2, 0 }, false, true );
+        test_monster_attack( { 1, -2, 0 }, false, true );
+        test_monster_attack( { 0, 2, 0 }, false, true );
+        test_monster_attack( { 0, -2, 0 }, false, true );
+        test_monster_attack( { -1, 2, 0 }, false, true );
+        test_monster_attack( { -1, -2, 0 }, false, true );
+        test_monster_attack( { -2, 2, 0 }, false, true );
+        test_monster_attack( { -2, 1, 0 }, false, true );
+        test_monster_attack( { -2, 0, 0 }, false, true );
+        test_monster_attack( { -2, -1, 0 }, false, true );
+        test_monster_attack( { -2, -2, 0 }, false, true );
     }
 
     monster_attack_zlevel( "attack_up_stairs", tripoint_above, "t_stairs_up", "t_stairs_down", true );
@@ -92,6 +92,6 @@ TEST_CASE( "monster_attack" )
     monster_attack_zlevel( "attack through ceiling", tripoint_above, "t_floor", "t_floor", false );
     monster_attack_zlevel( "attack through floor", tripoint_below, "t_floor", "t_floor", false );
 
-    monster_attack_zlevel( "attack up legde", tripoint_above, "t_floor", "t_floor", false );
-    monster_attack_zlevel( "attack down legde", tripoint_below, "t_floor", "t_floor", false );
+    monster_attack_zlevel( "attack up ledge", tripoint_above, "t_floor", "t_floor", false );
+    monster_attack_zlevel( "attack down ledge", tripoint_below, "t_floor", "t_floor", false );
 }
