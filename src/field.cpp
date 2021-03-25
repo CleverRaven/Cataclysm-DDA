@@ -88,7 +88,7 @@ void field_entry::do_decay()
         }
 
         // Special case for fields that need to exist no more than one turn and thus have their half_life set to minimal value of 1 second, like muzzle flash:
-        if( type.obj().half_life == 1_seconds ) {
+        if( type->half_life == 1_seconds ) {
             set_field_intensity( 0 );
             return;
         }
