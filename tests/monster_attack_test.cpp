@@ -19,6 +19,7 @@ static void test_monster_attack( const tripoint &target_offset, bool expect_atta
                                  bool expect_vision )
 {
     clear_creatures();
+    CAPTURE( hour_of_day( calendar::turn ) );
     REQUIRE( is_day( calendar::turn ) );
     // Monster adjacent to target.
     const std::string monster_type = "mon_zombie";
