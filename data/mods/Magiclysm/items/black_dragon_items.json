@@ -159,7 +159,7 @@
     "name": "black dragonhide helmet",
     "description": "A helmet made from very durable black dragonhide.  It protects your head well, but doesn't cover your face.",
     "weight": "585 g",
-    "volume": "2000 ml",
+    "volume": "2 L",
     "price": 58000,
     "to_hit": -1,
     "bashing": 10,
