@@ -4288,7 +4288,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
 
     p->add_msg_if_player( spell_being_cast.message(), spell_being_cast.name() );
 
-    // this is here now so that the spell first consume it's components then cast's it's effects, necessary to cast
+    // this is here now so that the spell first consume its components then casts its effects, necessary to cast
     // spells with the components in hand.
     spell_being_cast.use_components( *p );
 
