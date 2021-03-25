@@ -777,7 +777,11 @@
     "id": "newspaper",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "group": "newspaper_recent", "prob": 80 }, { "group": "newspaper_old", "prob": 20 } ]
+    "entries": [
+      { "group": "newspaper_recent", "prob": 79 },
+      { "group": "newspaper_old", "prob": 20 },
+      { "item": "valentine_card", "prob": 1 }
+    ]
   },
   {
     "id": "newspaper_recent",
