@@ -39,13 +39,11 @@
 
 static const itype_id itype_apparatus( "apparatus" );
 static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
-static const itype_id itype_toolset( "toolset" );
 static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_UPS_off( "UPS_off" );
 
 static const quality_id qual_BUTCHER( "BUTCHER" );
 
-static const bionic_id bio_tools( "bio_tools" );
 static const bionic_id bio_ups( "bio_ups" );
 
 static const json_character_flag json_flag_BIONIC_TOGGLED( "BIONIC_TOGGLED" );
@@ -828,11 +826,10 @@ int Character::charges_of( const itype_id &what, int limit,
 {
     const player *p = dynamic_cast<const player *>( this );
 
-    if( what == itype_toolset ) {
-        if( p && p->has_active_bionic( bio_tools ) ) {
+    for( const auto &bio : *this->my_bionics ) {
+        const bionic_data &bid = bio.info();
+        if( bid.fake_item == what && ( !bid.activated || bio.powered ) ) {
             return std::min( units::to_kilojoule( p->get_power_level() ), limit );
-        } else {
-            return 0;
         }
     }
 
