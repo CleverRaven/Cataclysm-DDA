@@ -1,0 +1,44 @@
+place_player_can_safely_move_multiple_submaps
+map_test_case_common
+map_test_case_transform_consistency
+map_test_case_transform_non_square
+connects_to
+fast_floor
+monster::get_hit_base
+Character::get_hit_base
+monster::get_dodge_base
+Character::get_dodge_base
+monster::get_dodge with effects
+player::get_dodge
+player::get_dodge with effects
+player::get_dodge while grabbed
+player::get_dodge stamina effects
+Charcter can dodge
+Incapacited character can't dodge
+memorials
+convert_legacy_memorial_log
+memorial_log_dumping
+food enjoyability
+dining with table and chair
+eating hot food
+drugs
+cannibalism
+sweet junk food
+junk food that is not ingested
+food allergies and intolerances
+saprophage character
+ursine honey
+zapback_npc_unarmed
+zapback_npc_nonconductive_weapon
+zapback_npc_nonconductive_unarmed_weapon
+zapback_npc_reach_weapon
+zapback_npc_ranged_weapon
+zapback_npc_thrown_weapon
+zapback_npc_firing_ranged_reach_weapon
+zapback_npc_meleeattack_ranged_reach_weapon
+zapback_npc_electricity_immune
+zapback_monster
+monfactions_attitude
+monster_attack
+light and fine_detail_vision_mod
+reachability_vertical
