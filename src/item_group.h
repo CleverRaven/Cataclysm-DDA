@@ -5,6 +5,8 @@
 #include <iosfwd>
 #include <memory>
 #include <set>
+#include <string>
+#include <unordered_map>
 #include <utility>
 #include <vector>
 
@@ -162,7 +164,7 @@ class Item_spawn_data
          * all linked groups.
          */
         virtual bool remove_item( const itype_id &itemid ) = 0;
-        virtual void replace_item( const itype_id &itemid, const itype_id &replacementid ) = 0;
+        virtual void replace_items( const std::unordered_map<itype_id, itype_id> &replacements ) = 0;
         virtual bool has_item( const itype_id &itemid ) const = 0;
         void set_container_item( const itype_id &container );
 
@@ -249,6 +251,11 @@ class Item_modifier
         std::vector<flag_id> custom_flags;
 
         /**
+         * gun variant id, for guns with variants
+         */
+        std::string variant;
+
+        /**
          * Custom sub set of snippets to be randomly chosen from and then applied to the item.
          */
         std::vector<snippet_id> snippets;
@@ -259,7 +266,7 @@ class Item_modifier
         void modify( item &new_item, const std::string &context ) const;
         void check_consistency( const std::string &context ) const;
         bool remove_item( const itype_id &itemid );
-        void replace_item( const itype_id &itemid, const itype_id &replacementid );
+        void replace_items( const std::unordered_map<itype_id, itype_id> &replacements );
 
         // Currently these always have the same chance as the item group it's part of, but
         // theoretically it could be defined per-item / per-group.
@@ -308,7 +315,7 @@ class Single_item_creator : public Item_spawn_data
         item create_single( const time_point &birthday, RecursionList &rec ) const override;
         void check_consistency() const override;
         bool remove_item( const itype_id &itemid ) override;
-        void replace_item( const itype_id &itemid, const itype_id &replacementid ) override;
+        void replace_items( const std::unordered_map<itype_id, itype_id> &replacements ) override;
 
         bool has_item( const itype_id &itemid ) const override;
         std::set<const itype *> every_item() const override;
@@ -342,7 +349,8 @@ class Item_group : public Item_spawn_data
          */
         using prop_list = std::vector<std::unique_ptr<Item_spawn_data> >;
 
-        void add_item_entry( const itype_id &itemid, int probability );
+        void add_item_entry( const itype_id &itemid, int probability,
+                             const std::string &variant = "" );
         void add_group_entry( const item_group_id &groupid, int probability );
         /**
          * Once the relevant data has been read from JSON, this function is always called (either from
@@ -355,7 +363,7 @@ class Item_group : public Item_spawn_data
         item create_single( const time_point &birthday, RecursionList &rec ) const override;
         void check_consistency() const override;
         bool remove_item( const itype_id &itemid ) override;
-        void replace_item( const itype_id &itemid, const itype_id &replacementid ) override;
+        void replace_items( const std::unordered_map<itype_id, itype_id> &replacements ) override;
         bool has_item( const itype_id &itemid ) const override;
         std::set<const itype *> every_item() const override;
 

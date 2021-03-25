@@ -6,10 +6,10 @@
 #include <set>
 #include <string>
 #include <type_traits>
+#include <unordered_map>
 
 #include "calendar.h"
 #include "cata_assert.h"
-#include "compatibility.h"
 #include "debug.h"
 #include "enum_traits.h"
 #include "enums.h"
@@ -104,7 +104,7 @@ static item_pocket::pocket_type guess_pocket_for( const item &container, const i
 }
 
 static void put_into_container(
-    Item_spawn_data::ItemList &items, const cata::optional<itype_id> container_type,
+    Item_spawn_data::ItemList &items, const cata::optional<itype_id> &container_type,
     time_point birthday, Item_spawn_data::overflow_behaviour on_overflow,
     const std::string &context )
 {
@@ -303,19 +303,21 @@ bool Single_item_creator::remove_item( const itype_id &itemid )
     return type == S_NONE;
 }
 
-void Single_item_creator::replace_item( const itype_id &itemid, const itype_id &replacementid )
+void Single_item_creator::replace_items( const std::unordered_map<itype_id, itype_id>
+        &replacements )
 {
     if( modifier ) {
-        modifier->replace_item( itemid, replacementid );
+        modifier->replace_items( replacements );
     }
     if( type == S_ITEM ) {
-        if( itemid.str() == id ) {
-            id = replacementid.str();
+        auto it = replacements.find( itype_id( id ) );
+        if( it != replacements.end() ) {
+            id = it->second.str();
         }
     } else if( type == S_ITEM_GROUP ) {
         Item_spawn_data *isd = item_controller->get_group( item_group_id( id ) );
         if( isd != nullptr ) {
-            isd->replace_item( itemid, replacementid );
+            isd->replace_items( replacements );
         }
     }
 }
@@ -388,6 +390,8 @@ void Item_modifier::modify( item &new_item, const std::string &context ) const
             new_item.faults.emplace( "fault_gun_unlubricated" );
         }
     }
+
+    new_item.set_gun_variant( variant );
 
     // create container here from modifier or from default to get max charges later
     item cont;
@@ -576,16 +580,16 @@ bool Item_modifier::remove_item( const itype_id &itemid )
     return false;
 }
 
-void Item_modifier::replace_item( const itype_id &itemid, const itype_id &replacementid )
+void Item_modifier::replace_items( const std::unordered_map<itype_id, itype_id> &replacements )
 {
     if( ammo ) {
-        ammo->replace_item( itemid, replacementid );
+        ammo->replace_items( replacements );
     }
     if( container ) {
-        container->replace_item( itemid, replacementid );
+        container->replace_items( replacements );
     }
     if( contents ) {
-        contents->replace_item( itemid, replacementid );
+        contents->replace_items( replacements );
     }
 }
 
@@ -608,11 +612,17 @@ Item_group::Item_group( Type t, int probability, int ammo_chance, int magazine_c
     }
 }
 
-void Item_group::add_item_entry( const itype_id &itemid, int probability )
+void Item_group::add_item_entry( const itype_id &itemid, int probability,
+                                 const std::string &variant )
 {
     std::string entry_context = "item " + itemid.str() + " within " + context();
-    add_entry( std::make_unique<Single_item_creator>(
-                   itemid.str(), Single_item_creator::S_ITEM, probability, entry_context ) );
+    std::unique_ptr<Single_item_creator> added = std::make_unique<Single_item_creator>(
+                itemid.str(), Single_item_creator::S_ITEM, probability, entry_context );
+    if( !variant.empty() ) {
+        added->modifier.emplace();
+        added->modifier->variant = variant;
+    }
+    add_entry( std::move( added ) );
 }
 
 void Item_group::add_group_entry( const item_group_id &groupid, int probability )
@@ -719,10 +729,10 @@ bool Item_group::remove_item( const itype_id &itemid )
     return items.empty();
 }
 
-void Item_group::replace_item( const itype_id &itemid, const itype_id &replacementid )
+void Item_group::replace_items( const std::unordered_map<itype_id, itype_id> &replacements )
 {
     for( const std::unique_ptr<Item_spawn_data> &elem : items ) {
-        ( elem )->replace_item( itemid, replacementid );
+        ( elem )->replace_items( replacements );
     }
 }
 
@@ -814,7 +824,7 @@ static item_group_id get_unique_group_id()
     // names should not be seen anywhere.
     static const std::string unique_prefix = "\u01F7 ";
     while( true ) {
-        const item_group_id new_group( unique_prefix + to_string( next_id++ ) );
+        const item_group_id new_group( unique_prefix + std::to_string( next_id++ ) );
         if( !item_group::group_is_defined( new_group ) ) {
             return new_group;
         }

@@ -7,11 +7,19 @@ on:
 name: TOC Generator
 jobs:
   generateTOC:
-    name: TOC Generator
+    if: github.repository == 'CleverRaven/Cataclysm-DDA'
+    name: Update the table of contents
     runs-on: ubuntu-latest
     steps:
-      - uses: technote-space/toc-generator@v2.6.1
+      - uses: actions/checkout@v2
+      - run: npx doctoc doc/JSON_INFO.md --github
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3
         with:
-          TARGET_PATHS: "doc/JSON_INFO.md"
-          COMMIT_NAME: "TOC Generator"
-          COMMIT_EMAIL: "noreply@example.invalid"
+          commit-message: Update the table of contents
+          branch: update-toc
+          title: Update the table of contents in doc/JSON_INFO.md
+          body: |
+            ```sh
+            npx doctoc doc/JSON_INFO.md --github
+            ```

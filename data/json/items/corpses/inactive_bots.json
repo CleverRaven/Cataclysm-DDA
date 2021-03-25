@@ -740,5 +740,31 @@
       "moves": 150,
       "skills": [ "electronics", "computer" ]
     }
+  },
+  {
+    "id": "bot_tazer_hack",
+    "type": "TOOL",
+    "name": { "str": "inactive tazer hack" },
+    "description": "This is an inactive tazer hack.  Hacks are fist-sized robots that fly through the air.  This one has a tazer and attacks by flying at its target and delivering an electric shock.  Use this item to reprogram and release the tazer hack.  Electronics and computer skills determine if the targeting matrix is reprogrammed successfully.",
+    "weight": "4700 g",
+    "volume": "750 ml",
+    "price": 64500,
+    "price_postapoc": 3000,
+    "to_hit": -3,
+    "bashing": 6,
+    "cutting": 6,
+    "material": [ "aluminum", "plastic" ],
+    "symbol": ",",
+    "color": "cyan",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_tazer_hack",
+      "friendly_msg": "The tazer hack flies from your hand and surveys the area!",
+      "hostile_msg": "You misprogram the tazer hack; run!",
+      "difficulty": 3,
+      "moves": 60,
+      "place_randomly": true,
+      "skills": [ "electronics", "computer" ]
+    }
   }
 ]

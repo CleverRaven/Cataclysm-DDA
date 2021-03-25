@@ -7,7 +7,6 @@
 #include "catacharset.h"
 #include "character.h"
 #include "colony.h"
-#include "compatibility.h"
 #include "cuboid_rectangle.h"
 #include "debug.h"
 #include "enums.h"
@@ -353,9 +352,14 @@ bool inventory_holster_preset::is_shown( const item_location &contained ) const
     if( !holster->contents.can_contain( item_copy ).success() ) {
         return false;
     }
-    if( holster->has_item( *contained ) ) {
-        return false;
+
+    //only hide if it is in the toplevel of holster (to allow shuffling of items inside a bag)
+    for( const item *it : holster->contents.all_items_top() ) {
+        if( it == contained.get_item() ) {
+            return false;
+        }
     }
+
     if( contained->is_bucket_nonempty() ) {
         return false;
     }
@@ -1726,7 +1730,7 @@ inventory_selector::stats inventory_selector::get_weight_and_volume_stats(
     // This is a bit of a hack, we're prepending two entries to the weight and length stat blocks.
     std::string length_weight_caption = string_format( _( "Longest Length (%s): %s Weight (%s):" ),
                                         length_units( longest_length ),
-                                        colorize( to_string( convert_length( longest_length ) ), c_light_gray ), weight_units() );
+                                        colorize( std::to_string( convert_length( longest_length ) ), c_light_gray ), weight_units() );
     std::string volume_caption = string_format( _( "Free Volume (%s): %s Volume (%s):" ),
                                  volume_units_abbr(),
                                  colorize( format_volume( largest_free_volume ), c_light_gray ),

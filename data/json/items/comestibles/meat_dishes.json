@@ -356,6 +356,7 @@
     "description": "Low-sodium preserved fish.  It was boiled and canned.  Contains most of the nutrition, but little of the savor of cooked fish.",
     "price": 250,
     "price_postapoc": 250,
+    "sealed": true,
     "fun": 2
   },
   {
@@ -950,7 +951,11 @@
     "type": "COMESTIBLE",
     "id": "deluxe_eggs",
     "name": { "str_sp": "deluxe scrambled eggs" },
-    "conditional_names": [ { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "\"deluxe\" scrambled eggs" } } ],
+    "conditional_names": [
+      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "deluxe scrambled eggheads" } },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "birdman's scrambled eggs" } },
+      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "\"deluxe\" scrambled eggs" } }
+    ],
     "weight": "198 g",
     "color": "yellow",
     "spoils_in": "2 days",
@@ -985,6 +990,7 @@
     "price": 250,
     "price_postapoc": 250,
     "flags": [ "EATEN_HOT" ],
+    "sealed": true,
     "fun": 2
   },
   {

@@ -276,7 +276,7 @@
     "id": "spell_scroll_recover_fatigue",
     "//": "Druid spell",
     "name": { "str": "Scroll of Nature's Trance", "str_pl": "Scrolls of Nature's Trance" },
-    "description": "Your connection to living things allows you to go into a magical trance.  This allows you to recover fatige quickly in exchange for mana.",
+    "description": "Your connection to living things allows you to go into a magical trance.  This allows you to recover fatigue quickly in exchange for mana.",
     "use_action": { "type": "learn_spell", "spells": [ "recover_fatigue" ] }
   },
   {
@@ -795,6 +795,24 @@
   {
     "type": "BOOK",
     "copy-from": "spell_scroll",
+    "id": "spell_scroll_bleed",
+    "//": "Animist spell",
+    "name": { "str": "Scroll of Bleed", "str_pl": "Scrolls of Bleed" },
+    "description": "With a shout and a gesture, the target starts bleeding from old wounds.",
+    "use_action": { "type": "learn_spell", "spells": [ "bleed" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_banishment_lesser",
+    "//": "Animist spell",
+    "name": { "str": "Scroll of Lesser Banishment", "str_pl": "Scrolls of Lesser Banishment" },
+    "description": "Banish a monster to the lesser-known nether dimension.  If a monster is more powerful than you can handle, the spell drains your life force to make up the difference.",
+    "use_action": { "type": "learn_spell", "spells": [ "banishment_lesser" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
     "id": "spell_scroll_acid_resistance",
     "//": "Classless spell, black dragon books",
     "name": { "str": "Scroll of Acid Resistance", "str_pl": "Scrolls of Acid Resistance" },
@@ -981,7 +999,7 @@
     "copy-from": "spell_scroll",
     "id": "spell_scroll_impactsling",
     "name": { "str": "Scroll of Impact Sling", "str_pl": "Scrolls of Impact Sling" },
-    "description": "Infuse a sling with excess energy, delivering devasting throws before it tears itself apart.",
+    "description": "Infuse a sling with excess energy, delivering devastating throws before it tears itself apart.",
     "use_action": { "type": "learn_spell", "spells": [ "magus_summon_impact_sling" ] }
   },
   {
@@ -1017,5 +1035,14 @@
     "name": { "str": "Scroll of freezing touch", "str_pl": "Scrolls of freezing touch" },
     "description": "Your hands freeze anything they touch at temperatures so cold it slows down your foes.",
     "use_action": { "type": "learn_spell", "spells": [ "freezing_touch" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_seed_of_growth",
+    "//": "Druid spell",
+    "name": { "str": "Scroll of seed of growth", "str_pl": "Scrolls of seed of growth" },
+    "description": "Offer some of your life in a ritual to get tokens of growth in return.",
+    "use_action": { "type": "learn_spell", "spells": [ "druid_growth" ] }
   }
 ]

@@ -424,14 +424,6 @@ void Item_factory::finalize_pre( itype &obj )
                 obj.gun->handling = 10;
             }
         }
-
-        // TODO: Move to jsons?
-        if( obj.gun->skill_used == skill_id( "archery" ) ||
-            obj.gun->skill_used == skill_id( "throw" ) ) {
-            obj.item_tags.insert( flag_WATERPROOF_GUN );
-            obj.item_tags.insert( flag_NEVER_JAMS );
-            obj.gun->ammo_effects.insert( "NEVER_MISFIRES" );
-        }
     }
 
     set_allergy_flags( obj );
@@ -701,20 +693,28 @@ void Item_factory::finalize_item_blacklist()
         }
     }
 
+    // Construct a map for batch item replace
+    std::unordered_map<itype_id, itype_id> replacements;
     for( const std::pair<const itype_id, migration> &migrate : migrations ) {
-        if( m_templates.find( migrate.second.replace ) == m_templates.end() ) {
-            debugmsg( "Replacement item for migration %s does not exist", migrate.first.c_str() );
+        if( m_templates.count( migrate.second.replace ) == 0 ) {
+            // Errors for missing item templates will be reported below
             continue;
         }
+        replacements[migrate.first] = migrate.second.replace;
+    }
+    // Replace items in item template groups
+    for( std::pair<const item_group_id, std::unique_ptr<Item_spawn_data>> &g : m_template_groups ) {
+        g.second->replace_items( replacements );
+    }
+    // Replace templates in recipe/part/etc. requirements
+    for( const std::pair<const requirement_id, requirement_data> &r : requirement_data::all() ) {
+        const_cast<requirement_data &>( r.second ).replace_items( replacements );
+    }
 
-        for( std::pair<const item_group_id, std::unique_ptr<Item_spawn_data>> &g : m_template_groups ) {
-            g.second->replace_item( migrate.first, migrate.second.replace );
-        }
-
-        // replace migrated items in requirements
-        for( const std::pair<const requirement_id, requirement_data> &r : requirement_data::all() ) {
-            const_cast<requirement_data &>( r.second ).replace_item( migrate.first,
-                    migrate.second.replace );
+    for( const std::pair<const itype_id, migration> &migrate : migrations ) {
+        if( m_templates.count( migrate.second.replace ) == 0 ) {
+            debugmsg( "Replacement item for migration %s does not exist", migrate.first.c_str() );
+            continue;
         }
 
         // remove any recipes used to craft the migrated item
@@ -788,7 +788,7 @@ class iuse_function_wrapper : public iuse_actor
             : iuse_actor( type ), cpp_function( f ) { }
 
         ~iuse_function_wrapper() override = default;
-        int use( player &p, item &it, bool a, const tripoint &pos ) const override {
+        cata::optional<int> use( player &p, item &it, bool a, const tripoint &pos ) const override {
             return cpp_function( &p, &it, a, pos );
         }
         std::unique_ptr<iuse_actor> clone() const override {
@@ -980,7 +980,6 @@ void Item_factory::init()
     add_iuse( "OXYTORCH", &iuse::oxytorch );
     add_iuse( "PACK_CBM", &iuse::pack_cbm );
     add_iuse( "PACK_ITEM", &iuse::pack_item );
-    add_iuse( "PHEROMONE", &iuse::pheromone );
     add_iuse( "PICK_LOCK", &iuse::pick_lock );
     add_iuse( "PICKAXE", &iuse::pickaxe );
     add_iuse( "PLANTBLECH", &iuse::plantblech );
@@ -1663,20 +1662,22 @@ void islot_milling::deserialize( JsonIn &jsin )
 
 void islot_ammo::load( const JsonObject &jo )
 {
+    bool strict = false;
+
     mandatory( jo, was_loaded, "ammo_type", type );
     optional( jo, was_loaded, "casing", casing, cata::nullopt );
     optional( jo, was_loaded, "drop", drop, itype_id::NULL_ID() );
-    optional( jo, was_loaded, "drop_chance", drop_chance, 1.0f );
+    assign( jo, "drop_chance", drop_chance, strict, 0.0f, 1.0f );
     optional( jo, was_loaded, "drop_active", drop_active, true );
     // Damage instance assign reader handles pierce and prop_damage
-    assign( jo, "damage", damage );
-    optional( jo, was_loaded, "range", range, 0 );
-    optional( jo, was_loaded, "dispersion", dispersion, 0 );
-    optional( jo, was_loaded, "recoil", recoil, 0 );
-    optional( jo, was_loaded, "count", def_charges, 1 );
-    optional( jo, was_loaded, "loudness", loudness, -1 );
-    assign( jo, "effects", ammo_effects );
-    optional( jo, was_loaded, "critical_multiplier", critical_multiplier, 2.0 );
+    assign( jo, "damage", damage, strict );
+    assign( jo, "range", range, strict, 0 );
+    assign( jo, "dispersion", dispersion, strict, 0 );
+    assign( jo, "recoil", recoil, strict, 0 );
+    assign( jo, "count", def_charges, strict, 1 );
+    assign( jo, "loudness", loudness, strict, 0 );
+    assign( jo, "effects", ammo_effects, strict );
+    assign( jo, "critical_multiplier", critical_multiplier, strict, 1.0f );
     optional( jo, was_loaded, "show_stats", force_stat_display, false );
 }
 
@@ -1767,6 +1768,20 @@ void Item_factory::load_wheel( const JsonObject &jo, const std::string &src )
     }
 }
 
+void gun_variant_data::deserialize( JsonIn &jsin )
+{
+    load( jsin.get_object() );
+}
+
+void gun_variant_data::load( const JsonObject &jo )
+{
+    mandatory( jo, false, "id", id );
+    mandatory( jo, false, "name", brand_name );
+    mandatory( jo, false, "description", alt_description );
+    optional( jo, false, "ascii_picture", art );
+    optional( jo, false, "weight", weight );
+}
+
 void Item_factory::load( islot_gun &slot, const JsonObject &jo, const std::string &src )
 {
     bool strict = src == "dda";
@@ -1800,6 +1815,8 @@ void Item_factory::load( islot_gun &slot, const JsonObject &jo, const std::strin
     assign( jo, "min_cycle_recoil", slot.min_cycle_recoil, strict, 0 );
     assign( jo, "ammo_effects", slot.ammo_effects, strict );
     assign( jo, "ammo_to_fire", slot.ammo_to_fire, strict, 1 );
+
+    optional( jo, false, "variants", slot.variants );
 
     if( jo.has_array( "valid_mod_locations" ) ) {
         slot.valid_mod_locations.clear();
@@ -2420,6 +2437,8 @@ void Item_factory::load( islot_magazine &slot, const JsonObject &jo, const std::
     assign( jo, "default_ammo", slot.default_ammo, strict );
     assign( jo, "reload_time", slot.reload_time, strict, 0 );
     assign( jo, "linkage", slot.linkage, strict );
+
+    optional( jo, false, "variants", slot.variants );
 }
 
 void Item_factory::load_magazine( const JsonObject &jo, const std::string &src )
@@ -3137,6 +3156,7 @@ void Item_factory::load_migration( const JsonObject &jo )
 {
     migration m;
     assign( jo, "replace", m.replace );
+    assign( jo, "variant", m.variant );
     assign( jo, "flags", m.flags );
     assign( jo, "charges", m.charges );
     assign( jo, "contents", m.contents );
@@ -3185,6 +3205,8 @@ void Item_factory::migrate_item( const itype_id &id, item &obj )
         if( iter->second.charges > 0 ) {
             obj.charges = iter->second.charges;
         }
+
+        obj.set_gun_variant( iter->second.variant );
 
         for( const migration::content &it : iter->second.contents ) {
             int count = it.count;
@@ -3486,6 +3508,10 @@ void Item_factory::add_entry( Item_group &ig, const JsonObject &obj, const std::
     modifier.custom_flags.clear();
     for( const auto &cf : custom_flags ) {
         modifier.custom_flags.emplace_back( cf );
+    }
+    if( obj.has_member( "variant" ) ) {
+        modifier.variant = obj.get_string( "variant" );
+        use_modifier = true;
     }
 
     if( use_modifier ) {

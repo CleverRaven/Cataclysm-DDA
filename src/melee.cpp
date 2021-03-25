@@ -98,6 +98,10 @@ static const efftype_id effect_lightsnare( "lightsnare" );
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_poison( "poison" );
 static const efftype_id effect_stunned( "stunned" );
+static const efftype_id effect_venom_dmg( "venom_dmg" );
+static const efftype_id effect_venom_weaken( "venom_weaken" );
+static const efftype_id effect_venom_player1( "venom_player1" );
+static const efftype_id effect_venom_player2( "venom_player2" );
 
 static const json_character_flag json_flag_NEED_ACTIVE_TO_MELEE( "NEED_ACTIVE_TO_MELEE" );
 static const json_character_flag json_flag_UNARMED_BONUS( "UNARMED_BONUS" );
@@ -668,19 +672,40 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
                 ( cur_weapon && cur_weapon->is_null() && ( dealt_dam.type_damage( damage_type::CUT ) > 0 ||
                         dealt_dam.type_damage( damage_type::STAB ) > 0 ) ) ) {
                 if( has_trait( trait_POISONOUS ) ) {
-                    add_msg_if_player( m_good, _( "You poison %s!" ), t.disp_name() );
-                    t.add_effect( effect_poison, 6_turns );
+                    if( t.is_monster() ) {
+                        t.add_effect( effect_venom_player1, 1_minutes );
+                    } else {
+                        t.add_effect( effect_venom_dmg, 10_minutes );
+                    }
+                    if( t.is_immune_effect( effect_venom_player1 ) ) {
+                        add_msg_if_player( m_bad, _( "The %s is not affected by your venom" ), t.disp_name() );
+                    } else {
+                        add_msg_if_player( m_good, _( "You poison %s!" ), t.disp_name() );
+                        if( x_in_y( 1, 10 ) ) {
+                            t.add_effect( effect_stunned, 1_turns );
+                        }
+                    }
                 } else if( has_trait( trait_POISONOUS2 ) ) {
-                    add_msg_if_player( m_good, _( "You inject your venom into %s!" ),
-                                       t.disp_name() );
-                    t.add_effect( effect_badpoison, 6_turns );
+                    if( t.is_monster() ) {
+                        t.add_effect( effect_venom_player2, 1_minutes );
+                    } else {
+                        t.add_effect( effect_venom_dmg, 15_minutes );
+                        t.add_effect( effect_venom_weaken, 5_minutes );
+                    }
+                    if( t.is_immune_effect( effect_venom_player2 ) ) {
+                        add_msg_if_player( m_bad, _( "The %s is not affected by your venom" ), t.disp_name() );
+                    } else {
+                        add_msg_if_player( m_good, _( "You inject your venom into %s!" ), t.disp_name() );
+                        if( x_in_y( 1, 4 ) ) {
+                            t.add_effect( effect_stunned, 1_turns );
+                        }
+                    }
                 }
             }
-
             // Make a rather quiet sound, to alert any nearby monsters
             if( !is_quiet() ) { // check martial arts silence
                 //sound generated later
-                sounds::sound( pos(), 8, sounds::sound_t::combat, "whack!" );
+                sounds::sound( pos(), 8, sounds::sound_t::combat, _( "whack!" ) );
             }
             std::string material = "flesh";
             if( t.is_monster() ) {
@@ -741,7 +766,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
     const int deft_bonus = !hits && has_trait( trait_DEFT ) ? 50 : 0;
 
     mod_stamina( std::min( -50, mod_sta + melee + deft_bonus ) );
-    add_msg_debug( "Stamina burn: %d", std::min( -50, mod_sta ) );
+    add_msg_debug( debugmode::DF_MELEE, "Stamina burn: %d", std::min( -50, mod_sta ) );
     // Weariness handling - 1 / the value, because it returns what % of the normal speed
     const float weary_mult = exertion_adjusted_move_multiplier( EXTRA_EXERCISE );
     mod_moves( -move_cost * ( 1 / weary_mult ) );
@@ -1534,13 +1559,13 @@ static void print_damage_info( const damage_instance &di )
         ss += name_by_dt( du.type ) + ":" + std::to_string( amount ) + ",";
     }
 
-    add_msg_debug( "%stotal: %d", ss, total );
+    add_msg_debug( debugmode::DF_MELEE, "%stotal: %d", ss, total );
 }
 
 void Character::perform_technique( const ma_technique &technique, Creature &t, damage_instance &di,
                                    int &move_cost )
 {
-    add_msg_debug( "dmg before tec:" );
+    add_msg_debug( debugmode::DF_MELEE, "dmg before tec:" );
     print_damage_info( di );
 
     for( damage_unit &du : di.damage_units ) {
@@ -1554,7 +1579,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
         du.res_pen += technique.armor_penetration( *this, du.type );
     }
 
-    add_msg_debug( "dmg after tec:" );
+    add_msg_debug( debugmode::DF_MELEE, "dmg after tec:" );
     print_damage_info( di );
 
     move_cost *= technique.move_cost_multiplier( *this );
@@ -2125,7 +2150,8 @@ std::vector<special_attack> Character::mutation_attacks( Creature &t ) const
 
             // Calculate actor ability value to be compared against mutation attack difficulty and add debug message
             const int proc_value = get_dex() + unarmed;
-            add_msg_debug( "%s proc chance: %d in %d", pr.c_str(), proc_value, mut_atk.chance );
+            add_msg_debug( debugmode::DF_MELEE, "%s proc chance: %d in %d", pr.c_str(), proc_value,
+                           mut_atk.chance );
             // If the mutation attack fails to proc, bail out
             if( !x_in_y( proc_value, mut_atk.chance ) ) {
                 continue;
@@ -2136,7 +2162,7 @@ std::vector<special_attack> Character::mutation_attacks( Creature &t ) const
             [this]( const trait_id & blocker ) {
             return has_trait( blocker );
             } ) ) {
-                add_msg_debug( "%s not procing: blocked", pr.c_str() );
+                add_msg_debug( debugmode::DF_MELEE, "%s not procing: blocked", pr.c_str() );
                 continue;
             }
 
@@ -2145,7 +2171,7 @@ std::vector<special_attack> Character::mutation_attacks( Creature &t ) const
             [this]( const trait_id & need ) {
             return has_trait( need );
             } ) ) {
-                add_msg_debug( "%s not procing: unmet req", pr.c_str() );
+                add_msg_debug( debugmode::DF_MELEE, "%s not procing: unmet req", pr.c_str() );
                 continue;
             }
 
@@ -2174,7 +2200,7 @@ std::vector<special_attack> Character::mutation_attacks( Creature &t ) const
             if( tmp.damage.total_damage() > 0.0f ) {
                 ret.emplace_back( tmp );
             } else {
-                add_msg_debug( "%s not procing: zero damage", pr.c_str() );
+                add_msg_debug( debugmode::DF_MELEE, "%s not procing: zero damage", pr.c_str() );
             }
         }
     }
@@ -2417,7 +2443,8 @@ double Character::weapon_value( const item &weap, int ammo ) const
 
     // A small bonus for guns you can also use to hit stuff with (bayonets etc.)
     const double my_val = more + ( less / 2.0 );
-    add_msg_debug( "%s (%ld ammo) sum value: %.1f", weap.type->get_id().str(), ammo, my_val );
+    add_msg_debug( debugmode::DF_MELEE, "%s (%ld ammo) sum value: %.1f", weap.type->get_id().str(),
+                   ammo, my_val );
     if( is_wielding( weap ) ) {
         cached_info.emplace( "weapon_value", my_val );
     }
@@ -2444,7 +2471,7 @@ double Character::melee_value( const item &weap ) const
         my_value *= 1.5;
     }
 
-    add_msg_debug( "%s as melee: %.1f", weap.type->get_id().str(), my_value );
+    add_msg_debug( debugmode::DF_MELEE, "%s as melee: %.1f", weap.type->get_id().str(), my_value );
 
     return std::max( 0.0, my_value );
 }

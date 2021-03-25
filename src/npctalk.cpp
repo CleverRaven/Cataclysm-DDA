@@ -22,10 +22,8 @@
 #include "catacharset.h"
 #include "character.h"
 #include "character_id.h"
-// needed for the workaround for the std::to_string bug in some compilers
 #include "clzones.h"
 #include "color.h"
-#include "compatibility.h" // IWYU pragma: keep
 #include "condition.h"
 #include "coordinates.h"
 #include "debug.h"
@@ -633,7 +631,8 @@ void npc::handle_sound( const sounds::sound_t spriority, const std::string &desc
     const tripoint s_abs_pos = here.getabs( spos );
     const tripoint my_abs_pos = here.getabs( pos() );
 
-    add_msg_debug( "%s heard '%s', priority %d at volume %d from %d:%d, my pos %d:%d",
+    add_msg_debug( debugmode::DF_NPC,
+                   "%s heard '%s', priority %d at volume %d from %d:%d, my pos %d:%d",
                    disp_name(), description, static_cast<int>( spriority ), heard_volume,
                    s_abs_pos.x, s_abs_pos.y, my_abs_pos.x, my_abs_pos.y );
 
@@ -654,11 +653,11 @@ void npc::handle_sound( const sounds::sound_t spriority, const std::string &desc
     // but only for bantering purposes, not for investigating.
     if( spriority < sounds::sound_t::alarm ) {
         if( player_ally ) {
-            add_msg_debug( "Allied NPC ignored same faction %s", name );
+            add_msg_debug( debugmode::DF_NPC, "Allied NPC ignored same faction %s", name );
             return;
         }
         if( npc_ally ) {
-            add_msg_debug( "NPC ignored same faction %s", name );
+            add_msg_debug( debugmode::DF_NPC, "NPC ignored same faction %s", name );
             return;
         }
     }
@@ -666,7 +665,7 @@ void npc::handle_sound( const sounds::sound_t spriority, const std::string &desc
     // and listener is friendly and sound source is combat or alert only.
     if( spriority < sounds::sound_t::alarm && player_character.sees( spos ) ) {
         if( is_player_ally() ) {
-            add_msg_debug( "NPC %s ignored low priority noise that player can see", name );
+            add_msg_debug( debugmode::DF_NPC, "NPC %s ignored low priority noise that player can see", name );
             return;
             // discount if sound source is player, or seen by player,
             // listener is neutral and sound type is worth investigating.
@@ -705,7 +704,7 @@ void npc::handle_sound( const sounds::sound_t spriority, const std::string &desc
                 }
             }
             if( should_check ) {
-                add_msg_debug( "%s added noise at pos %d:%d", name, s_abs_pos.x, s_abs_pos.y );
+                add_msg_debug( debugmode::DF_NPC, "%s added noise at pos %d:%d", name, s_abs_pos.x, s_abs_pos.y );
                 dangerous_sound temp_sound;
                 temp_sound.abs_pos = s_abs_pos;
                 temp_sound.volume = heard_volume;
@@ -1097,7 +1096,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         }
         for( const skill_id &trained : trainable ) {
             const std::string &text = beta->skill_training_text( *alpha, trained );
-            if( !text.empty() ) {
+            if( !text.empty() && !trained->obsolete() ) {
                 add_response( text, "TALK_TRAIN_START", trained );
             }
         }
@@ -2135,9 +2134,9 @@ talk_topic talk_effect_t::apply( dialogue &d ) const
     return next_topic;
 }
 
-talk_effect_t::talk_effect_t( const JsonObject &jo )
+talk_effect_t::talk_effect_t( const JsonObject &jo, const std::string &member_name )
 {
-    load_effect( jo );
+    load_effect( jo, member_name );
     if( jo.has_object( "topic" ) ) {
         next_topic = load_inline_topic( jo.get_object( "topic" ) );
     } else if( jo.has_string( "topic" ) ) {
@@ -2415,7 +2414,7 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
     jo.throw_error( "unknown effect string", effect_id );
 }
 
-void talk_effect_t::load_effect( const JsonObject &jo )
+void talk_effect_t::load_effect( const JsonObject &jo, const std::string &member_name )
 {
     if( jo.has_member( "opinion" ) ) {
         JsonIn *ji = jo.get_raw( "opinion" );
@@ -2427,7 +2426,6 @@ void talk_effect_t::load_effect( const JsonObject &jo )
         // Same format as when saving a game (-:
         mission_opinion.deserialize( *ji );
     }
-    static const std::string member_name( "effect" );
     if( !jo.has_member( member_name ) ) {
         return;
     } else if( jo.has_string( member_name ) ) {
@@ -2488,11 +2486,11 @@ talk_response::talk_response( const JsonObject &jo )
     }
     if( jo.has_member( "success" ) ) {
         JsonObject success_obj = jo.get_object( "success" );
-        success = talk_effect_t( success_obj );
+        success = talk_effect_t( success_obj, "effect" );
     } else if( jo.has_string( "topic" ) ) {
         // This is for simple topic switching without a possible failure
         success.next_topic = talk_topic( jo.get_string( "topic" ) );
-        success.load_effect( jo );
+        success.load_effect( jo, "effect" );
     } else if( jo.has_object( "topic" ) ) {
         success.next_topic = load_inline_topic( jo.get_object( "topic" ) );
     }
@@ -2501,7 +2499,7 @@ talk_response::talk_response( const JsonObject &jo )
     }
     if( jo.has_member( "failure" ) ) {
         JsonObject failure_obj = jo.get_object( "failure" );
-        failure = talk_effect_t( failure_obj );
+        failure = talk_effect_t( failure_obj, "effect" );
     }
 
     // TODO: mission_selected
@@ -2762,7 +2760,7 @@ json_dynamic_line_effect::json_dynamic_line_effect( const JsonObject &jo,
 {
     std::function<bool( const dialogue & )> tmp_condition;
     read_condition<dialogue>( jo, "condition", tmp_condition, true );
-    talk_effect_t tmp_effect = talk_effect_t( jo );
+    talk_effect_t tmp_effect = talk_effect_t( jo, "effect" );
     // if the topic has a sentinel, it means implicitly add a check for the sentinel value
     // and do not run the effects if it is set.  if it is not set, run the effects and
     // set the sentinel

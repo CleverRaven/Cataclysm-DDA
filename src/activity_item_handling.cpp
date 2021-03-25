@@ -204,6 +204,12 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
         if( handle_spillable_contents( c, it, here ) ) {
             continue;
         }
+
+        if( it.made_of( phase_id::LIQUID ) ) {
+            here.add_item_or_charges( c.pos(), it );
+            it.charges = 0;
+        }
+
         if( veh.add_item( part, it ) ) {
             into_vehicle_count += it.count();
         } else {
@@ -1607,7 +1613,7 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
         }
     }
     for( const std::tuple<tripoint, itype_id, int> &elem : final_map ) {
-        add_msg_debug( "%s is fetching %s from x: %d y: %d ", p.disp_name(),
+        add_msg_debug( debugmode::DF_REQUIREMENTS_MAP, "%s is fetching %s from x: %d y: %d ", p.disp_name(),
                        std::get<1>( elem ).str(), std::get<0>( elem ).x, std::get<0>( elem ).y );
     }
     return final_map;

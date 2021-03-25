@@ -110,7 +110,8 @@ int vehicle::slowdown( int at_velocity ) const
     if( slowdown < 0 ) {
         debugmsg( "vehicle %s has negative drag slowdown %d\n", name, slowdown );
     }
-    add_msg_debug( "%s at %d vimph, f_drag %3.2f, drag accel %d vmiph - extra drag %d",
+    add_msg_debug( debugmode::DF_VEHICLE_MOVE,
+                   "%s at %d vimph, f_drag %3.2f, drag accel %d vmiph - extra drag %d",
                    name, at_velocity, f_total_drag, slowdown, static_drag() );
     // plows slow rolling vehicles, but not falling or floating vehicles
     if( !( is_falling || is_floating || is_flying ) ) {
@@ -120,7 +121,7 @@ int vehicle::slowdown( int at_velocity ) const
     return std::max( 1, slowdown );
 }
 
-void vehicle:: smart_controller_handle_turn( bool thrusting,
+void vehicle::smart_controller_handle_turn( bool thrusting,
         const cata::optional<float> &k_traction_cache )
 {
 
@@ -374,7 +375,7 @@ void vehicle:: smart_controller_handle_turn( bool thrusting,
             smart_controller_state = cur_state;
 
             if( player_in_control( player_character ) ) {
-                add_msg_debug( _( "Smart controller optimizes engine state." ) );
+                add_msg_debug( debugmode::DF_VEHICLE_MOVE, _( "Smart controller optimizes engine state." ) );
             }
         }
     } else {
@@ -516,7 +517,7 @@ void vehicle::thrust( int thd, int z )
         }
         //make noise and consume fuel
         noise_and_smoke( load );
-        consume_fuel( load, 1 );
+        consume_fuel( load, false );
         if( z != 0 && is_rotorcraft() ) {
             requested_z_change = z;
         }
@@ -744,7 +745,7 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
         colls.push_back( fake_coll );
         velocity = 0;
         vertical_velocity = 0;
-        add_msg_debug( "Collision check on a dirty vehicle %s", name );
+        add_msg_debug( debugmode::DF_VEHICLE_MOVE, "Collision check on a dirty vehicle %s", name );
         return true;
     }
 
@@ -971,7 +972,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
             continue;
         }
 
-        add_msg_debug( "Deformation energy: %.2f", d_E );
+        add_msg_debug( debugmode::DF_VEHICLE_MOVE, "Deformation energy: %.2f", d_E );
         // Damage calculation
         // Damage dealt overall
         dmg += d_E / 400;
@@ -979,7 +980,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
         // Always if no critters, otherwise if critter is real
         if( critter == nullptr || !critter->is_hallucination() ) {
             part_dmg = dmg * k / 100.0f;
-            add_msg_debug( "Part collision damage: %.2f", part_dmg );
+            add_msg_debug( debugmode::DF_VEHICLE_MOVE, "Part collision damage: %.2f", part_dmg );
         }
         // Damage for object
         const float obj_dmg = dmg * ( 100.0f - k ) / 100.0f;
@@ -1038,7 +1039,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
                                   critter->get_armor_bash( bodypart_id( "torso" ) );
                 dam = std::max( 0, dam - armor );
                 critter->apply_damage( driver, bodypart_id( "torso" ), dam );
-                add_msg_debug( "Critter collision damage: %d", dam );
+                add_msg_debug( debugmode::DF_VEHICLE_MOVE, "Critter collision damage: %d", dam );
             }
 
             // Don't fling if vertical - critter got smashed into the ground
@@ -2058,7 +2059,7 @@ float map::vehicle_wheel_traction( const vehicle &veh,
 }
 
 units::angle map::shake_vehicle( vehicle &veh, const int velocity_before,
-                                 const units::angle direction )
+                                 const units::angle &direction )
 {
     const int d_vel = std::abs( veh.velocity - velocity_before ) / 100;
 

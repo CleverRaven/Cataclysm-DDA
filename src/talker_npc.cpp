@@ -461,7 +461,7 @@ static consumption_result try_consume( npc &p, item &it, std::string &reason )
             reason = _( "Thanks, I feel better already." );
         }
         if( to_eat.type->has_use() ) {
-            amount_used = to_eat.type->invoke( p, to_eat, p.pos() );
+            amount_used = to_eat.type->invoke( p, to_eat, p.pos() ).value_or( 0 );
             if( amount_used <= 0 ) {
                 reason = _( "It doesn't look like a good idea to consume this…" );
                 return REFUSED;
@@ -515,9 +515,9 @@ std::string talker_npc::give_item_to( const bool to_use )
     int new_ammo = me_npc->ammo_count_for( given );
     const double new_weapon_value = me_npc->weapon_value( given, new_ammo );
     const double cur_weapon_value = me_npc->weapon_value( me_npc->weapon, our_ammo );
-    add_msg_debug( "NPC evaluates own %s (%d ammo): %0.1f",
+    add_msg_debug( debugmode::DF_TALKER, "NPC evaluates own %s (%d ammo): %0.1f",
                    me_npc->weapon.typeId().str(), our_ammo, cur_weapon_value );
-    add_msg_debug( "NPC evaluates your %s (%d ammo): %0.1f",
+    add_msg_debug( debugmode::DF_TALKER, "NPC evaluates your %s (%d ammo): %0.1f",
                    given.typeId().str(), new_ammo, new_weapon_value );
     if( to_use ) {
         // Eating first, to avoid evaluating bread as a weapon

@@ -27,7 +27,7 @@ os: linux
 branches:
   only:
   - master
-  - development
+  - 0.F-dev
 
 # Overall strategy for what sorts of builds to include:
 # We want a build for each compiler and each platform.
@@ -118,7 +118,7 @@ jobs:
         directories:
           - $HOME/.ccache
 
-    - env: CLANG=clang++ NATIVE=osx OSX_MIN=10.13 TILES=1 SOUND=1 BREWGETTEXT=1
+    - env: CLANG=clang++ OSX_MIN=10.13 TILES=1 SOUND=1
       name: "Xcode 10.2 Make build with Tiles and sound (macOS)"
       os: osx
       osx_image: xcode10.2

@@ -1,0 +1,98 @@
+[
+  {
+    "id": "afs_landfall_gun",
+    "type": "GUN",
+    "copy-from": "rifle_22",
+    "name": { "str": "landfall survival gun" },
+    "description": "A lightweight, bolt-action gun that is barely more than a 6.55mm barrel mounted within a flimsy metal assembly.  Cheaply made and outdated in all respects, it's only useful in the most extenuating of circumstances.",
+    "price": 5000,
+    "material": [ "steel", "plastic" ],
+    "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ],
+    "dispersion": 250,
+    "longest_side": "60 cm",
+    "reload": 100,
+    "durability": 5,
+    "blackpowder_tolerance": 60,
+    "ammo": [ "afs_7.50mm" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "afs_7.50mm": 1 } } ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ]
+  },
+  {
+    "id": "afs_Accipitermg",
+    "copy-from": "rifle_auto",
+    "looks_like": "ar15",
+    "type": "GUN",
+    "name": { "str": "Accipiter Hawk-00" },
+    "description": "A light machine gun manufactured by Accipiter Firearms and distributed by Wraitheon.  The Hawk-00's high rate of fire makes it ideally suited to lay down suppressive fire; but also makes it exceedingly hard to control while unmounted.",
+    "weight": "7500 g",
+    "volume": "10610 ml",
+    "longest_side": "1035 mm",
+    "price": 750000,
+    "to_hit": -1,
+    "bashing": 12,
+    "material": [ "superalloy", "plastic" ],
+    "symbol": "(",
+    "color": "dark_gray",
+    "ammo": [ "afs_7.50mm" ],
+    "dispersion": 200,
+    "durability": 7,
+    "min_cycle_recoil": 1350,
+    "reload": 400,
+    "modes": [ [ "DEFAULT", "burst", 4 ] ],
+    "built_in_mods": [ "bipod" ],
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ]
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "afs_UICASTA30", "afs_UICASTA100drum" ]
+      }
+    ]
+  },
+  {
+    "id": "afs_gibrifle",
+    "copy-from": "rifle_semi",
+    "looks_like": "ar15",
+    "type": "GUN",
+    "name": { "str": "G&W SR-P9" },
+    "description": "An eminently sturdy and reliable bullpup rifle issued by UICA's military during early reclamation expeditions.  Although its been out of service for nearly two decades, many a private military and contractor has found a use for the SR-P9, and it remains common long past its initial introduction into service.",
+    "weight": "3170 g",
+    "volume": "3100 ml",
+    "longest_side": "630 mm",
+    "price": 125000,
+    "to_hit": -1,
+    "bashing": 12,
+    "material": [ "superalloy", "plastic" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": -7 },
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "burst", 2 ] ],
+    "symbol": "(",
+    "color": "dark_gray",
+    "ammo": [ "afs_7.50mm" ],
+    "dispersion": 150,
+    "durability": 10,
+    "min_cycle_recoil": 1350,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "afs_UICASTA30" ]
+      }
+    ]
+  }
+]

@@ -24,7 +24,6 @@
 #include "character_martial_arts.h"
 #include "clzones.h"
 #include "color.h"
-#include "compatibility.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "effect.h"
@@ -421,7 +420,7 @@ bool avatar::read( item &it, const bool continuous )
 
     const int time_taken = time_to_read( it, *reader );
 
-    add_msg_debug( "avatar::read: time_taken = %d", time_taken );
+    add_msg_debug( debugmode::DF_AVATAR, "avatar::read: time_taken = %d", time_taken );
     player_activity act( ACT_READ, time_taken, continuous ? activity.index : 0,
                          reader->getID().get_value() );
     act.targets.emplace_back( item_location( *this, &it ) );
@@ -478,7 +477,7 @@ bool avatar::read( item &it, const bool continuous )
             learners.insert( {elem, elem == reader ? _( " (reading aloud to you)" ) : ""} );
             const double penalty = static_cast<double>( time_taken ) / time_to_read( it, *reader, elem );
             act.values.push_back( elem->getID().get_value() );
-            act.str_values.push_back( to_string( penalty ) );
+            act.str_values.push_back( std::to_string( penalty ) );
         } else {
             std::string reason = _( " (uninterested)" );
             if( !morale_req ) {
@@ -873,7 +872,7 @@ void avatar::do_read( item &book )
         skill_id skill_used = style_to_learn->primary_skill;
         int difficulty = std::max( 1, style_to_learn->learn_difficulty );
         difficulty = std::max( 1, 20 + difficulty * 2 - get_skill_level( skill_used ) * 2 );
-        add_msg_debug( _( "Chance to learn one in: %d" ), difficulty );
+        add_msg_debug( debugmode::DF_AVATAR, _( "Chance to learn one in: %d" ), difficulty );
 
         if( one_in( difficulty ) ) {
             m->second.call( *this, book, false, pos() );
@@ -1527,6 +1526,13 @@ void avatar::toggle_crouch_mode()
     }
 }
 
+void avatar::activate_crouch_mode()
+{
+    if( !is_crouching() ) {
+        set_movement_mode( move_mode_id( "crouch" ) );
+    }
+}
+
 void avatar::reset_move_mode()
 {
     if( !is_walking() ) {
@@ -1594,7 +1600,7 @@ bool avatar::wield( item &target, const int obtain_cost )
         target.on_takeoff( *this );
     }
 
-    add_msg_debug( "wielding took %d moves", mv );
+    add_msg_debug( debugmode::DF_AVATAR, "wielding took %d moves", mv );
     moves -= mv;
 
     if( has_item( target ) ) {
@@ -1625,7 +1631,7 @@ bool avatar::wield( item &target, const int obtain_cost )
     return true;
 }
 
-bool avatar::invoke_item( item *used, const tripoint &pt )
+bool avatar::invoke_item( item *used, const tripoint &pt, int pre_obtain_moves )
 {
     const std::map<std::string, use_function> &use_methods = used->type->use_methods;
     const int num_methods = use_methods.size();
@@ -1634,7 +1640,7 @@ bool avatar::invoke_item( item *used, const tripoint &pt )
     if( use_methods.empty() && !has_relic ) {
         return false;
     } else if( num_methods == 1 && !has_relic ) {
-        return invoke_item( used, use_methods.begin()->first, pt );
+        return invoke_item( used, use_methods.begin()->first, pt, pre_obtain_moves );
     } else if( num_methods == 0 && has_relic ) {
         return used->use_relic( *this, pt );
     }
@@ -1672,7 +1678,7 @@ bool avatar::invoke_item( item *used, const tripoint &pt )
 
     const std::string &method = std::next( use_methods.begin(), choice )->first;
 
-    return invoke_item( used, method, pt );
+    return invoke_item( used, method, pt, pre_obtain_moves );
 }
 
 bool avatar::invoke_item( item *used )
@@ -1680,9 +1686,13 @@ bool avatar::invoke_item( item *used )
     return Character::invoke_item( used );
 }
 
-bool avatar::invoke_item( item *used, const std::string &method, const tripoint &pt )
+bool avatar::invoke_item( item *used, const std::string &method, const tripoint &pt,
+                          int pre_obtain_moves )
 {
-    return Character::invoke_item( used, method, pt );
+    if( pre_obtain_moves == -1 ) {
+        pre_obtain_moves = moves;
+    }
+    return Character::invoke_item( used, method, pt, pre_obtain_moves );
 }
 
 bool avatar::invoke_item( item *used, const std::string &method )

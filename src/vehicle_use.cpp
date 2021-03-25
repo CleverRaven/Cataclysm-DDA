@@ -1940,10 +1940,14 @@ void vehicle::use_bike_rack( int part )
         full_rack &= carry_size == rack_parts.size();
     }
     int unload_carried = full_rack ? 0 : -1;
-    bool success = false;
+    bool found_rackable_vehicle = try_to_rack_nearby_vehicle( racks_parts, true );
+    validate_carried_vehicles( carried_vehicles );
+    validate_carried_vehicles( carrying_racks );
     if( found_vehicle && !full_rack ) {
         uilist rack_menu;
-        rack_menu.addentry( 0, true, '0', _( "Load a vehicle on the rack" ) );
+        if( found_rackable_vehicle ) {
+            rack_menu.addentry( 0, true, '0', _( "Load a vehicle on the rack" ) );
+        }
         for( size_t i = 0; i < carried_vehicles.size(); i++ ) {
             rack_menu.addentry( i + 1, true, '1' + i,
                                 string_format( _( "Remove the %s from the rack" ),
@@ -1952,23 +1956,50 @@ void vehicle::use_bike_rack( int part )
         rack_menu.query();
         unload_carried = rack_menu.ret - 1;
     }
+
+    player_activity new_act;
     if( unload_carried > -1 ) {
-        success = remove_carried_vehicle( carried_vehicles[unload_carried] );
-        if( success ) {
-            for( const int &rack_part : carrying_racks[unload_carried] ) {
-                parts[ rack_part ].remove_flag( vehicle_part::carrying_flag );
-                parts[rack_part].remove_flag( vehicle_part::tracked_flag );
-            }
-        }
-    } else {
-        success = try_to_rack_nearby_vehicle( racks_parts );
-    }
-    if( success ) {
-        map &here = get_map();
-        here.invalidate_map_cache( here.get_abs_sub().z );
-        here.rebuild_vehicle_level_caches();
+        new_act = player_activity( bikerack_unracking_activity_actor( to_moves<int>( 5_minutes ), *this,
+                                   carried_vehicles[unload_carried], carrying_racks[unload_carried] ) );
+        get_player_character().assign_activity( new_act, false );
+    } else if( found_rackable_vehicle ) {
+        new_act = player_activity( bikerack_racking_activity_actor( to_moves<int>( 5_minutes ), *this,
+                                   racks_parts ) );
+        get_player_character().assign_activity( new_act, false );
     }
 }
+
+void vehicle::clear_bike_racks( std::vector<int> &racks )
+{
+    for( const int &rack_part : racks ) {
+        parts[rack_part].remove_flag( vehicle_part::carrying_flag );
+        parts[rack_part].remove_flag( vehicle_part::tracked_flag );
+    }
+}
+
+/*
+* Todo: find a way to split and rewrite use_bikerack so that this check is no longer necessary
+*/
+void vehicle::validate_carried_vehicles( std::vector<std::vector<int>>
+        &carried_vehicles )
+{
+    std::sort( carried_vehicles.begin(), carried_vehicles.end(), []( const std::vector<int> &a,
+    const std::vector<int> &b ) {
+        return a.size() < b.size();
+    } );
+
+    std::vector<std::vector<int>>::iterator it = carried_vehicles.begin();
+    while( it != carried_vehicles.end() ) {
+        for( std::vector<std::vector<int>>::iterator it2 = it + 1; it2 < carried_vehicles.end(); it2++ ) {
+            if( std::search( ( *it2 ).begin(), ( *it2 ).end(), ( *it ).begin(),
+                             ( *it ).end() ) != ( *it2 ).end() ) {
+                it = carried_vehicles.erase( it-- );
+            }
+        }
+        it++;
+    }
+}
+
 
 void vpart_position::form_inventory( inventory &inv )
 {

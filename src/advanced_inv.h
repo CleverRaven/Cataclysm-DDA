@@ -124,14 +124,18 @@ class advanced_inventory
         // store/load settings (such as index, filter, etc)
         void save_settings( bool only_panes );
         void load_settings();
-        // used to return back to AIM when other activities queued are finished
+        // Adds an auto-resumed activity that reopens AIM. If this is called
+        // before assigning an item-moving activity, AIM is reopened when the
+        // item-moving activity finishes. This function should only be called
+        // when AIM is going to be automatically closed due to pending item-moving
+        // activity, otherwise the player will need to close AIM multiple times.
         void do_return_entry();
         // returns true if currently processing a routine
         // (such as `MOVE_ALL_ITEMS' with `AIM_ALL' source)
         bool is_processing() const;
 
         static std::string get_sortname( advanced_inv_sortby sortby );
-        bool move_all_items( bool nested_call = false );
+        bool move_all_items();
         void print_items( const advanced_inventory_pane &pane, bool active );
         void recalc_pane( side p );
         void redraw_pane( side p );

@@ -12,7 +12,6 @@
 #include "cata_utility.h"
 #include "character.h"
 #include "color.h"
-#include "compatibility.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "filesystem.h"
@@ -241,7 +240,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
                 draw_column( COLUMN_ATTITUDE, ( rule.category == Categories::HOSTILE_SPOTTED ) ?
                              Creature::get_attitude_ui_data( rule.attitude ).first.translated() : "---" );
                 draw_column( COLUMN_PROXIMITY, ( ( rule.category == Categories::SOUND ) ||
-                                                 !rule.whitelist ) ? to_string( rule.proximity ) : "---" );
+                                                 !rule.whitelist ) ? std::to_string( rule.proximity ) : "---" );
                 draw_column( COLUMN_WHITE_BLACKLIST, rule.whitelist ? _( "Whitelist" ) : _( "Blacklist" ) );
                 draw_column( COLUMN_CATEGORY, ( rule.category == Categories::SOUND ) ? _( "Sound" ) :
                              _( "Hostile" ) );
@@ -428,8 +427,8 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
                 const auto text = string_input_popup()
                                   .title( _( "Proximity Distance (0=max view distance)" ) )
                                   .width( 4 )
-                                  .text( to_string( current_tab[line].proximity ) )
-                                  .description( _( "Option: " ) + to_string( get_option<int>( "SAFEMODEPROXIMITY" ) ) +
+                                  .text( std::to_string( current_tab[line].proximity ) )
+                                  .description( _( "Option: " ) + std::to_string( get_option<int>( "SAFEMODEPROXIMITY" ) ) +
                                                 " " + get_options().get_option( "SAFEMODEPROXIMITY" ).getDefaultText() )
                                   .max_length( 3 )
                                   .only_digits( true )

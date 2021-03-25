@@ -1399,6 +1399,16 @@ void options_manager::add_options_interface()
 
     add_empty_line();
 
+    add( "SHOW_GUN_VARIANTS", "interface", to_translation( "Show gun brand names" ),
+         to_translation( "Show brand names for guns, intead of generic functional names - 'm4a1' or 'h&k416a5' instead of 'NATO assault rifle'." ),
+         false );
+    add( "AMMO_IN_NAMES", "interface", to_translation( "Add ammo to weapon/magazine names" ),
+         to_translation( "If true, the default ammo is added to weapon and magazine names.  For example \"Mosin-Nagant M44 (4/5)\" becomes \"Mosin-Nagant M44 (4/5 7.62x54mm)\"." ),
+         true
+       );
+
+    add_empty_line();
+
     add( "SDL_KEYBOARD_MODE", "interface", to_translation( "Use key code input mode" ),
          to_translation( "Use key code or symbol input on SDL.  "
                          "Symbol is recommended for non-qwerty layouts since currently "
@@ -1650,10 +1660,6 @@ void options_manager::add_options_interface()
     add( "ITEM_SYMBOLS", "interface", to_translation( "Show item symbols" ),
          to_translation( "If true, show item symbols in inventory and pick up menu." ),
          false
-       );
-    add( "AMMO_IN_NAMES", "interface", to_translation( "Add ammo to weapon/magazine names" ),
-         to_translation( "If true, the default ammo is added to weapon and magazine names.  For example \"Mosin-Nagant M44 (4/5)\" becomes \"Mosin-Nagant M44 (4/5 7.62x54mm)\"." ),
-         true
        );
 
     add_empty_line();
@@ -1970,7 +1976,12 @@ void options_manager::add_options_graphics()
     add( "FULLSCREEN", "graphics", to_translation( "Fullscreen" ),
          to_translation( "Starts Cataclysm in one of the fullscreen modes.  Requires restart." ),
     { { "no", to_translation( "No" ) }, { "maximized", to_translation( "Maximized" ) }, { "fullscreen", to_translation( "Fullscreen" ) }, { "windowedbl", to_translation( "Windowed borderless" ) } },
+    // Borderless window is bad for debugging in Visual Studio
+#if defined(_MSC_VER)
+    "maximized", COPT_CURSES_HIDE
+#else
     "windowedbl", COPT_CURSES_HIDE
+#endif
        );
 #endif
 

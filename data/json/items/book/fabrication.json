@@ -155,6 +155,7 @@
     "skill": "fabrication",
     "required_level": 3,
     "max_level": 6,
+    "proficiencies": [ { "proficiency": "prof_handloading", "time_factor": 0.8, "fail_factor": 0.5 } ],
     "intelligence": 9,
     "time": "30 m"
   },

@@ -6,6 +6,7 @@
 #include <cstddef>
 #include <functional>
 #include <iosfwd>
+#include <map>
 #include <string> // IWYU pragma: keep
 #include <type_traits>
 #include <utility>
@@ -197,6 +198,13 @@ double temp_to_celsius( double fahrenheit );
  * @return Temperature in degrees K.
  */
 double temp_to_kelvin( double fahrenheit );
+
+/**
+ * Convert a temperature from degrees Celsius to Kelvin.
+ *
+ * @return Temperature in degrees K.
+ */
+double celsius_to_kelvin( double celsius );
 
 /**
  * Convert a temperature from Kelvin to degrees Fahrenheit.
@@ -503,6 +511,19 @@ bool equal_ignoring_elements( const Set &set, const Set &set2, const Set &ignore
                                           set2.upper_bound( *prev ), set2.end() ) );
 }
 
+/**
+ * Return a copy of a std::map with some keys removed.
+ */
+template<typename K, typename V>
+std::map<K, V> map_without_keys( const std::map<K, V> &original, const std::vector<K> &remove_keys )
+{
+    std::map<K, V> filtered( original );
+    for( const K &key : remove_keys ) {
+        filtered.erase( key );
+    }
+    return filtered;
+}
+
 int modulo( int v, int m );
 
 class on_out_of_scope
@@ -512,6 +533,11 @@ class on_out_of_scope
     public:
         explicit on_out_of_scope( const std::function<void()> &func ) : func( func ) {
         }
+
+        on_out_of_scope( const on_out_of_scope & ) = delete;
+        on_out_of_scope( on_out_of_scope && ) = delete;
+        on_out_of_scope &operator=( const on_out_of_scope & ) = delete;
+        on_out_of_scope &operator=( on_out_of_scope && ) = delete;
 
         ~on_out_of_scope() {
             if( func ) {
@@ -541,6 +567,11 @@ class restore_on_out_of_scope
             impl( [this]() { t = std::move( orig_t ); } ) {
         }
         // *INDENT-ON*
+
+        restore_on_out_of_scope( const restore_on_out_of_scope<T> & ) = delete;
+        restore_on_out_of_scope( restore_on_out_of_scope<T> && ) = delete;
+        restore_on_out_of_scope &operator=( const restore_on_out_of_scope<T> & ) = delete;
+        restore_on_out_of_scope &operator=( restore_on_out_of_scope<T> && ) = delete;
 };
 
 #endif // CATA_SRC_CATA_UTILITY_H
