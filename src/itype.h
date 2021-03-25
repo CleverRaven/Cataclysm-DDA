@@ -458,8 +458,21 @@ struct islot_wheel {
         void deserialize( JsonIn &jsin );
 };
 
+struct gun_variant_data {
+    std::string id;
+    translation brand_name;
+    translation alt_description;
+    ascii_art_id art;
+
+    int weight = 0;
+
+    void deserialize( JsonIn &jsin );
+    void load( const JsonObject &jo );
+};
+
 // TODO: this shares a lot with the ammo item type, merge into a separate slot type?
 struct islot_gun : common_ranged_data {
+    std::vector<gun_variant_data> variants;
     /**
      * What skill this gun uses.
      */
@@ -646,6 +659,7 @@ struct islot_gunmod : common_ranged_data {
 };
 
 struct islot_magazine {
+    std::vector<gun_variant_data> variants;
     /** What type of ammo this magazine can be loaded with */
     std::set<ammotype> type;
 

@@ -1198,7 +1198,11 @@ class jmapgen_loot : public jmapgen_piece
             if( group.is_empty() ) {
                 // Migrations are applied to item *groups* on load, but single item spawns must be
                 // migrated individually
-                result_group.add_item_entry( item_controller->migrate_id( ity ), 100 );
+                std::string variant;
+                if( jsi.has_string( "variant" ) ) {
+                    variant = jsi.get_string( "variant" );
+                }
+                result_group.add_item_entry( item_controller->migrate_id( ity ), 100, variant );
             } else {
                 result_group.add_group_entry( group, 100 );
             }
@@ -1424,6 +1428,7 @@ class jmapgen_spawn_item : public jmapgen_piece
 {
     public:
         itype_id type;
+        std::string variant;
         jmapgen_int amount;
         jmapgen_int chance;
         std::set<flag_id> flags;
@@ -1432,6 +1437,9 @@ class jmapgen_spawn_item : public jmapgen_piece
             , amount( jsi, "amount", 1, 1 )
             , chance( jsi, "chance", 100, 100 )
             , flags( jsi.get_tags<flag_id>( "custom-flags" ) ) {
+            if( jsi.has_string( "variant" ) ) {
+                variant = jsi.get_string( "variant" );
+            }
             // Itemgroups apply migrations when being loaded, but we need to migrate
             // individual items here.
             type = item_controller->migrate_id( type );
@@ -1449,7 +1457,7 @@ class jmapgen_spawn_item : public jmapgen_piece
             int spawn_count = ( c == 100 ) ? 1 : roll_remainder( c * spawn_rate / 100.0f );
             for( int i = 0; i < spawn_count; i++ ) {
                 dat.m.spawn_item( point( x.get(), y.get() ), type, amount.get(),
-                                  0, calendar::start_of_cataclysm, 0, flags );
+                                  0, calendar::start_of_cataclysm, 0, flags, variant );
             }
         }
 };
