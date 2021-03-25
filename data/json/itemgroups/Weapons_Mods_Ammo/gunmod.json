@@ -125,6 +125,13 @@
   },
   {
     "type": "item_group",
+    "id": "m38dmr_mods",
+    "//": "Default mods for the m38dmr variant of the NATO assault rifle",
+    "subtype": "collection",
+    "entries": [ { "item": "suppressor" }, { "item": "rifle_scope" }, { "item": "bipod" } ]
+  },
+  {
+    "type": "item_group",
     "id": "sights_shotgun_readied",
     "subtype": "distribution",
     "//": "For non-static shotguns (not in stores, closets ).",
@@ -136,6 +143,13 @@
     "subtype": "distribution",
     "//": "For shotguns that haven't been 'made ready', e.g sitting in a store or garage.",
     "entries": [ { "group": "sights_shotgun", "prob": 20 }, { "group": "EMPTY_GROUP", "prob": 80 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "mk23_mods",
+    "//": "Default mods for the mk23 variant of the USP .45 pistol",
+    "subtype": "collection",
+    "entries": [ { "item": "suppressor" }, { "item": "laser_sight" } ]
   },
   {
     "type": "item_group",
