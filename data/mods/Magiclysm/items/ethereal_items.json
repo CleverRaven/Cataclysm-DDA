@@ -777,6 +777,38 @@
     }
   },
   {
+    "id": "jar_3l_force",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "jar of force", "str_pl": "jars of force" },
+    "looks_like": "jar_glass_sealed",
+    "description": "A three-liter container made out of transparent force.  Can be used to store liquids.",
+    "weight": "1 g",
+    "volume": "3050 ml",
+    "longest_side": "298 mm",
+    "price": 0,
+    "price_postapoc": 0,
+    "to_hit": -1,
+    "bashing": 1,
+    "material": [  ],
+    "symbol": ")",
+    "color": "light_cyan",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "6 kg"
+      }
+    ],
+    "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS", "TRADER_AVOID" ],
+    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 1 ] ],
+    "relic_data": {
+      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_PURE", "add": 3 } ] } ]
+    }
+  },
+  {
     "id": "longsword_holy",
     "type": "GENERIC",
     "copy-from": "longsword",
