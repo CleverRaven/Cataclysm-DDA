@@ -2250,6 +2250,8 @@ class item : public visitable
         /** Helper for checking reloadability. **/
         bool is_reloadable_helper( const itype_id &ammo, bool now ) const;
 
+        void armor_encumbrance_info( std::vector<iteminfo> &info, int reduce_encumbrance_by = 0 ) const;
+
     public:
         enum class sizing : int {
             human_sized_human_char = 0,
