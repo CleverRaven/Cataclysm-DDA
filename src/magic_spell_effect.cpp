@@ -186,7 +186,7 @@ void spell_effect::pain_split( const spell &sp, Creature &caster, const tripoint
 }
 
 static bool in_spell_aoe( const tripoint &start, const tripoint &end, const int &radius,
-    const bool ignore_walls )
+                          const bool ignore_walls )
 {
     if( rl_dist( start, end ) > radius ) {
         return false;
