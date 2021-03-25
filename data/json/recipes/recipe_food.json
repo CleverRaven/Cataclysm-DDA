@@ -3708,6 +3708,8 @@
       [
         [ "bacon", 2 ],
         [ "meat_cooked", 1 ],
+        [ "human_cooked", 1 ],
+        [ "demihuman_cooked", 1 ],
         [ "mutant_meat_cooked", 1 ],
         [ "meat_smoked", 1 ],
         [ "dry_meat", 1 ],
@@ -3750,6 +3752,8 @@
       [
         [ "bacon", 2 ],
         [ "meat_cooked", 1 ],
+        [ "human_cooked", 1 ],
+        [ "demihuman_cooked", 1 ],
         [ "mutant_meat_cooked", 1 ],
         [ "meat_smoked", 1 ],
         [ "dry_meat", 1 ],
