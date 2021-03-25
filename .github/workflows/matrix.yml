@@ -34,6 +34,7 @@ on:
 jobs:
   varied_builds:
     strategy:
+      fail-fast: false
       matrix:
         include:
           - compiler: g++-9

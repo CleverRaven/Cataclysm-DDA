@@ -55,7 +55,7 @@ branches:
 jobs:
   include:
     # Initial test stage, if this fails everything else is canceled.
-    - stage: Test
+    - stage: Test plus platforms
       # Clang is consistently the fastest to build, so use it for the initial test.
       env: CLANG=clang++-3.8 TEST_STAGE=1 CXXFLAGS="-Wno-error=unused-command-line-argument -D__extern_always_inline='extern __always_inline'"
       name: "Clang 3.8 Make build with curses and style check"
@@ -64,6 +64,20 @@ jobs:
         apt:
           packages: ["clang-3.8"]
           sources: [*apt_sources]
+
+    # MXE variant using alternate repository http://mirror.mxe.cc/repos/apt
+    - env: COMPILER=g++ LDFLAGS="-static-libgcc -static-libstdc++" MXE_TARGET="i686-w64-mingw32.static" WINE="wine" TILES=1 SOUND=1
+      name: "Mingw-w64 Make cross-compile to Windows with Tiles and Sound"
+      compiler: gcc
+      addons: &gcc
+        apt:
+          packages: ["wine"]
+
+    - env: CLANG=clang++ OSX_MIN=10.13 TILES=1 SOUND=1
+      name: "Xcode 10.2 Make build with Tiles and sound (macOS)"
+      os: osx
+      osx_image: xcode10.2
+      compiler: clang
 
     # Then build different configurations and targets in parallel.
     - stage: "Main Compilers"
@@ -97,13 +111,7 @@ jobs:
               key_url: "https://apt.llvm.org/llvm-snapshot.gpg.key"
 
     - stage: "Platforms and Tidy"
-    # MXE variant using alternate repository http://mirror.mxe.cc/repos/apt
-      env: COMPILER=g++ LDFLAGS="-static-libgcc -static-libstdc++" MXE_TARGET="i686-w64-mingw32.static" WINE="wine" TILES=1 SOUND=1
-      name: "Mingw-w64 Make cross-compile to Windows with Tiles and Sound"
-      compiler: gcc
-      addons: &gcc
-        apt:
-          packages: ["wine"]
+
 
     - env: NATIVE=android COMPILER=gcc
       name: "Android build"
@@ -117,12 +125,6 @@ jobs:
         # do it ourselves.
         directories:
           - $HOME/.ccache
-
-    - env: CLANG=clang++ OSX_MIN=10.13 TILES=1 SOUND=1
-      name: "Xcode 10.2 Make build with Tiles and sound (macOS)"
-      os: osx
-      osx_image: xcode10.2
-      compiler: clang
 
     # Finally check the compiler variants
     - stage: compilers
