@@ -1654,7 +1654,8 @@ int vehicle::install_part( const point &dp, const vehicle_part &new_part )
     return parts.size() - 1;
 }
 
-bool vehicle::try_to_rack_nearby_vehicle( std::vector<std::vector<int>> &list_of_racks )
+bool vehicle::try_to_rack_nearby_vehicle( std::vector<std::vector<int>> &list_of_racks,
+        bool do_not_rack )
 {
     map &here = get_map();
     for( std::vector<int> &this_bike_rack : list_of_racks ) {
@@ -1685,7 +1686,11 @@ bool vehicle::try_to_rack_nearby_vehicle( std::vector<std::vector<int>> &list_of
                 }
                 partial_matches[ i ].insert( search_pos );
                 if( partial_matches[ i ] == test_veh->get_points() ) {
-                    return merge_rackable_vehicle( test_veh, this_bike_rack );
+                    if( do_not_rack ) {
+                        return true;
+                    } else {
+                        return merge_rackable_vehicle( test_veh, this_bike_rack );
+                    }
                 }
                 ++i;
             }
