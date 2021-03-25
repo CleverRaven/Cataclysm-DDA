@@ -70,6 +70,8 @@ static void monster_attack_zlevel( const std::string &title, const tripoint &off
 TEST_CASE( "monster_attack" )
 {
     clear_map();
+    restore_on_out_of_scope<time_point> restore_calendar_turn( calendar::turn );
+    calendar::turn = daylight_time( calendar::turn );
     SECTION( "attacking on open ground" ) {
         // Adjacent can attack of course.
         for( const tripoint &offset : eight_horizontal_neighbors ) {
