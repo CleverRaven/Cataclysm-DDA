@@ -198,7 +198,7 @@
     "description": "This spell manipulates some quantum something or other to tunnel you through a short distance of space, and even matter, unfortunately there's that whole uncertainty thing as to where you come out.  It leaves you a little dazed on the other side as you reorient yourself.",
     "valid_targets": [ "none" ],
     "flags": [ "NO_LEGS", "NO_HANDS", "SILENT" ],
-    "effect": "teleport_random",
+    "effect": "short_range_teleport",
     "effect_str": "dazed",
     "shape": "blast",
     "spell_class": "TECHNOMANCER",
