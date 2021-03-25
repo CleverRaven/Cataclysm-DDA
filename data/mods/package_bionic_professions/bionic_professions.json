@@ -483,7 +483,8 @@
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "sheath", "contents-item": "knife_combat" },
           {
-            "item": "h&k416a5",
+            "item": "nato_assault_rifle",
+            "variant": "h&k416a5",
             "ammo-item": "556",
             "charges": 30,
             "contents-item": [ "shoulder_strap", "acog_scope" ]
