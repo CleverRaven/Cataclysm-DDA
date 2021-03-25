@@ -344,6 +344,7 @@
     "type": "item_group",
     "//": "all enchanted miscellanious items",
     "items": [
+      { "item": "golemcore", "prob": 10 },
       { "item": "heat_cube", "prob": 100 },
       { "item": "mkey_opening", "prob": 100 },
       { "item": "mtorch_everburning", "prob": 100 },
@@ -818,6 +819,7 @@
       },
       {
         "distribution": [
+          { "item": "golemcore", "prob": 20 },
           { "item": "animist_doll_skeleton", "prob": 10 },
           { "item": "animist_doll_zombie", "prob": 20 },
           { "item": "animist_doll_decayed_pouncer", "prob": 3 }
@@ -936,6 +938,7 @@
       },
       {
         "distribution": [
+          { "item": "golemcore", "prob": 10 },
           { "item": "recovery_spellbook", "prob": 5 },
           { "item": "eshaper_spellbook", "prob": 10 },
           { "item": "spell_scroll_recover_stamina", "prob": 50 },
@@ -1058,6 +1061,7 @@
       },
       {
         "distribution": [
+          { "item": "golemcore", "prob": 3 },
           { "item": "light_manipulation_spellbook", "prob": 5 },
           { "item": "translocate_spellbook", "prob": 2 },
           { "item": "spell_scroll_obfuscated_body", "prob": 50 }
