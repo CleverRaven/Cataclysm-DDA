@@ -938,6 +938,89 @@ std::unique_ptr<activity_actor> hotwire_car_activity_actor::deserialize( JsonIn 
     return actor.clone();
 }
 
+void bikerack_racking_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = moves_total;
+    act.moves_left = moves_total;
+}
+
+void bikerack_racking_activity_actor::finish( player_activity &act, Character & )
+{
+    if( parent_vehicle.try_to_rack_nearby_vehicle( parts ) ) {
+        map &here = get_map();
+        here.invalidate_map_cache( here.get_abs_sub().z );
+        here.rebuild_vehicle_level_caches();
+    } else {
+        debugmsg( "Racking task failed.  Parent-Vehicle:" + parent_vehicle.name +
+                  "; Found parts size:" + std::to_string( parts[0].size() ) );
+    }
+    act.set_to_null();
+}
+
+void bikerack_racking_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "moves_total", moves_total );
+    jsout.member( "parent_vehicle", parent_vehicle );
+    jsout.member( "parts", parts );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> bikerack_racking_activity_actor::deserialize( JsonIn &jsin )
+{
+    vehicle veh;
+    bikerack_racking_activity_actor actor( 0, veh, std::vector<std::vector<int>>() );
+    JsonObject data = jsin.get_object();
+    data.read( "moves_total", actor.moves_total );
+    data.read( "parent_vehicle", actor.parent_vehicle );
+    data.read( "parts", actor.parts );
+
+    return actor.clone();
+}
+
+void bikerack_unracking_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = moves_total;
+    act.moves_left = moves_total;
+}
+
+void bikerack_unracking_activity_actor::finish( player_activity &act, Character & )
+{
+    if( parent_vehicle.remove_carried_vehicle( parts ) ) {
+        parent_vehicle.clear_bike_racks( racks );
+        map &here = get_map();
+        here.invalidate_map_cache( here.get_abs_sub().z );
+        here.rebuild_vehicle_level_caches();
+    } else {
+        debugmsg( "Unracking task failed.  Parent-Vehicle:" + parent_vehicle.name +
+                  "; Found parts size:" + std::to_string( parts.size() ) );
+    }
+    act.set_to_null();
+}
+
+void bikerack_unracking_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "moves_total", moves_total );
+    jsout.member( "parent_vehicle", parent_vehicle );
+    jsout.member( "parts", parts );
+    jsout.member( "racks", racks );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> bikerack_unracking_activity_actor::deserialize( JsonIn &jsin )
+{
+    vehicle veh;
+    bikerack_unracking_activity_actor actor( 0, veh, std::vector<int>(), std::vector<int>() );
+    JsonObject data = jsin.get_object();
+    data.read( "moves_total", actor.moves_total );
+    data.read( "parent_vehicle", actor.parent_vehicle );
+    data.read( "parts", actor.parts );
+    data.read( "racks", actor.racks );
+
+    return actor.clone();
+}
+
 void move_items_activity_actor::do_turn( player_activity &act, Character &who )
 {
     const tripoint dest = relative_destination + who.pos();
@@ -2804,6 +2887,8 @@ const std::unordered_map<activity_id, std::unique_ptr<activity_actor>( * )( Json
 deserialize_functions = {
     { activity_id( "ACT_AIM" ), &aim_activity_actor::deserialize },
     { activity_id( "ACT_AUTODRIVE" ), &autodrive_activity_actor::deserialize },
+    { activity_id( "ACT_BIKERACK_RACKING" ), &bikerack_racking_activity_actor::deserialize },
+    { activity_id( "ACT_BIKERACK_UNRACKING" ), &bikerack_unracking_activity_actor::deserialize },
     { activity_id( "ACT_CONSUME" ), &consume_activity_actor::deserialize },
     { activity_id( "ACT_CRAFT" ), &craft_activity_actor::deserialize },
     { activity_id( "ACT_DIG" ), &dig_activity_actor::deserialize },
