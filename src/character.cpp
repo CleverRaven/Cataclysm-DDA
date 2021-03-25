@@ -83,6 +83,7 @@
 #include "overmapbuffer.h"
 #include "pathfinding.h"
 #include "player.h"
+#include "profession.h"
 #include "proficiency.h"
 #include "recipe_dictionary.h"
 #include "ret_val.h"
@@ -11049,8 +11050,13 @@ void Character::migrate_items_to_storage( bool disintegrate )
     inv->visit_items( [&]( const item * it, item * ) {
         if( disintegrate ) {
             if( try_add( *it ) == nullptr ) {
-                debugmsg( "ERROR: Could not put %s into inventory.  Check if the profession has enough space.",
-                          it->tname() );
+                std::string profession_id = "<none>";
+                if( const player *me = as_player() ) {
+                    profession_id = me->prof->ident().str();
+                }
+                debugmsg( "ERROR: Could not put %s (%s) into inventory.  Check if the "
+                          "profession (%s) has enough space.",
+                          it->tname(), it->typeId().str(), profession_id );
                 return VisitResponse::ABORT;
             }
         } else {
