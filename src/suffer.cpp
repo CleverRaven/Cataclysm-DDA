@@ -1702,7 +1702,7 @@ void Character::mend( int rate_multiplier )
         needs_splint = false;
     }
 
-    add_msg_debug( "Limb mend healing factor: %.2f", healing_factor );
+    add_msg_debug( debugmode::DF_CHAR_HEALTH, "Limb mend healing factor: %.2f", healing_factor );
     if( healing_factor <= 0.0f ) {
         // The section below assumes positive healing rate
         return;
@@ -1951,7 +1951,7 @@ void Character::add_addiction( add_type type, int strength )
             i.intensity++;
         }
 
-        add_msg_debug( "Updating addiction: %d intensity, %d sated",
+        add_msg_debug( debugmode::DF_CHAR_HEALTH, "Updating addiction: %d intensity, %d sated",
                        i.intensity, to_turns<int>( i.sated ) );
 
         return;
@@ -1959,10 +1959,10 @@ void Character::add_addiction( add_type type, int strength )
 
     // Add a new addiction
     const int roll = rng( 0, 100 );
-    add_msg_debug( "Addiction: roll %d vs strength %d", roll, strength );
+    add_msg_debug( debugmode::DF_CHAR_HEALTH, "Addiction: roll %d vs strength %d", roll, strength );
     if( roll < strength ) {
         const std::string &type_name = addiction_type_name( type );
-        add_msg_debug( "%s got addicted to %s", disp_name(), type_name );
+        add_msg_debug( debugmode::DF_CHAR_HEALTH, "%s got addicted to %s", disp_name(), type_name );
         addictions.emplace_back( type, 1 );
         get_event_bus().send<event_type::gains_addiction>( getID(), type );
     }

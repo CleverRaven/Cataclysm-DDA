@@ -418,8 +418,9 @@ static bool check_butcher_cbm( const int roll )
     // 90% at roll 0, 72% at roll 1, 60% at roll 2, 51% @ 3, 45% @ 4, 40% @ 5, ... , 25% @ 10
     // Roll is roughly a rng(0, -3 + 1st_aid + fine_cut_quality + 1/2 electronics + small_dex_bonus)
     // Roll is reduced by corpse damage level, but to no less then 0
-    add_msg_debug( _( "Roll = %i" ), roll );
-    add_msg_debug( _( "Failure chance = %f%%" ), ( 9.0f / ( 10.0f + roll * 2.5f ) ) * 100.0f );
+    add_msg_debug( debugmode::DF_ACT_BUTCHER, _( "Roll = %i" ), roll );
+    add_msg_debug( debugmode::DF_ACT_BUTCHER, _( "Failure chance = %f%%" ),
+                   ( 9.0f / ( 10.0f + roll * 2.5f ) ) * 100.0f );
     const bool failed = x_in_y( 9, ( 10 + roll * 2.5 ) );
     return !failed;
 }
@@ -877,7 +878,8 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
             int roll = roll_butchery() - corpse_item->damage_level();
             roll = roll < 0 ? 0 : roll;
             roll = std::min( entry.max, roll );
-            add_msg_debug( _( "Roll penalty for corpse damage = %s" ), 0 - corpse_item->damage_level() );
+            add_msg_debug( debugmode::DF_ACT_BUTCHER, _( "Roll penalty for corpse damage = %s" ),
+                           0 - corpse_item->damage_level() );
             if( entry.type == "bionic" ) {
                 butcher_cbm_item( drop_id, p.pos(), calendar::turn, roll, entry.flags, entry.faults );
             } else if( entry.type == "bionic_group" ) {
@@ -1185,7 +1187,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         skill_level = p->get_skill_level( skill_firstaid );
         skill_level += p->max_quality( qual_CUT_FINE );
         skill_level += p->get_skill_level( skill_electronics ) / 2;
-        add_msg_debug( _( "Skill: %s" ), skill_level );
+        add_msg_debug( debugmode::DF_ACT_BUTCHER, _( "Skill: %s" ), skill_level );
     }
 
     const auto roll_butchery = [&]() {

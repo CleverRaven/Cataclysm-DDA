@@ -3840,7 +3840,8 @@ void trap::examine( const tripoint &examp ) const
 
         int roll = std::round( normal_roll( mean_roll, 3 ) );
 
-        add_msg( m_debug, _( "Rolled %i, mean_roll %g. difficulty %i." ), roll, mean_roll, difficulty );
+        add_msg_debug( debugmode::DF_IEXAMINE, _( "Rolled %i, mean_roll %g. difficulty %i." ), roll,
+                       mean_roll, difficulty );
 
         //Difficulty 0 traps should succeed regardless of proficiencies. (i.e caltrops and nailboards)
         if( roll >= difficulty || difficulty == 0 ) {
