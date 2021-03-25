@@ -1563,6 +1563,122 @@ void game::open_consume_item_menu()
     }
 }
 
+static void handle_debug_mode()
+{
+    auto debug_mode_setup = []( uilist_entry & entry ) -> void {
+        entry.txt = string_format( _( "Debug Mode (%1$s)" ), debug_mode ? _( "ON" ) : _( "OFF" ) );
+        entry.text_color = debug_mode ? c_green : c_light_gray;
+    };
+
+    // returns if entry became active
+    auto debugmode_entry_setup = []( uilist_entry & entry, bool active ) -> void {
+        if( active )
+        {
+            entry.extratxt.txt = _( "A" );
+            entry.extratxt.color = c_white_green;
+            entry.text_color = c_green;
+        } else
+        {
+            entry.extratxt.txt = " ";
+            entry.extratxt.color = c_unset;
+            entry.text_color = c_light_gray;
+        }
+    };
+
+    static bool first_time = true;
+    if( first_time ) {
+        first_time = false;
+        debugmode::enabled_filters.clear();
+        for( int i = 0; i < debugmode::DF_LAST; ++i ) {
+            debugmode::enabled_filters.emplace_back( static_cast<debugmode::debug_filter>( i ) );
+        }
+    }
+
+    input_context ctxt( "DEFAULTMODE" );
+    ctxt.register_action( "debug_mode" );
+
+    uilist dbmenu;
+    dbmenu.allow_anykey = true;
+    dbmenu.title = _( "Debug Mode Filters" );
+    dbmenu.text = string_format( _( "Press [%1$s] to quickly toggle debug mode." ),
+                                 ctxt.get_desc( "debug_mode" ) );
+
+    dbmenu.entries.reserve( 1 + debugmode::DF_LAST );
+
+    dbmenu.addentry( 0, true, 'd', " " );
+    debug_mode_setup( dbmenu.entries[0] );
+
+    dbmenu.addentry( 1, true, 't', _( "Toggle all filters" ) );
+    bool toggle_value = true;
+
+    for( int i = 0; i < debugmode::DF_LAST; ++i ) {
+        uilist_entry entry( i + 2, true, 0,
+                            debugmode::filter_name( static_cast<debugmode::debug_filter>( i ) ) );
+
+        entry.extratxt.left = 1;
+
+        const bool active = std::find(
+                                debugmode::enabled_filters.begin(), debugmode::enabled_filters.end(),
+                                static_cast<debugmode::debug_filter>( i ) ) != debugmode::enabled_filters.end();
+
+        if( toggle_value && active ) {
+            toggle_value = false;
+        }
+
+        debugmode_entry_setup( entry, active );
+        dbmenu.entries.push_back( entry );
+    }
+
+    do {
+        dbmenu.query();
+        if( ctxt.input_to_action( dbmenu.ret_evt ) == "debug_mode" ) {
+            debug_mode = !debug_mode;
+            if( debug_mode ) {
+                add_msg( m_info, _( "Debug mode ON!" ) );
+            } else {
+                add_msg( m_info, _( "Debug mode OFF!" ) );
+            }
+            break;
+        }
+
+        if( dbmenu.ret == 0 ) {
+            debug_mode = !debug_mode;
+            debug_mode_setup( dbmenu.entries[0] );
+
+        } else if( dbmenu.ret == 1 ) {
+            debugmode::enabled_filters.clear();
+
+            for( int i = 0; i < debugmode::DF_LAST; ++i ) {
+                debugmode_entry_setup( dbmenu.entries[i + 2], toggle_value );
+
+                if( toggle_value ) {
+                    debugmode::enabled_filters.emplace_back( static_cast<debugmode::debug_filter>( i ) );
+                }
+            }
+
+            toggle_value = !toggle_value;
+
+        } else if( dbmenu.ret > 1 ) {
+            uilist_entry &entry = dbmenu.entries[dbmenu.ret];
+
+            const auto filter_iter = std::find(
+                                         debugmode::enabled_filters.begin(), debugmode::enabled_filters.end(),
+                                         static_cast<debugmode::debug_filter>( dbmenu.ret - 2 ) );
+
+            const bool active = filter_iter != debugmode::enabled_filters.end();
+
+            debugmode_entry_setup( entry, !active );
+
+            if( active ) {
+                debugmode::enabled_filters.erase( filter_iter );
+            } else {
+                debugmode::enabled_filters.push_back(
+                    static_cast<debugmode::debug_filter>( dbmenu.ret - 2 ) );
+            }
+        }
+    } while( dbmenu.ret != UILIST_CANCEL );
+}
+
 bool game::handle_action()
 {
     std::string action;
@@ -2586,12 +2702,7 @@ bool game::handle_action()
                 if( MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger() ) {
                     break;    //don't do anything when sharing and not debugger
                 }
-                debug_mode = !debug_mode;
-                if( debug_mode ) {
-                    add_msg( m_info, _( "Debug mode ON!" ) );
-                } else {
-                    add_msg( m_info, _( "Debug mode OFF!" ) );
-                }
+                handle_debug_mode();
                 break;
 
             case ACTION_ZOOM_IN:

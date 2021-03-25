@@ -1215,7 +1215,9 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
     // In the meantime, let's roll 3d5-3, giving us a range of 0-12.
     int lock_roll = rng( 0, 4 ) + rng( 0, 4 ) + rng( 0, 4 );
 
-    add_msg( m_debug, _( "Rolled %i. Mean_roll %g. Difficulty %i." ), pick_roll, mean_roll, lock_roll );
+    add_msg_debug( debugmode::DF_ACT_LOCKPICK, _( "Rolled %i. Mean_roll %g. Difficulty %i." ),
+                   pick_roll,
+                   mean_roll, lock_roll );
 
     // Your base skill XP gain is derived from the lock difficulty (which is currently random but shouldn't be).
     int xp_gain = 3 * lock_roll;
@@ -2042,8 +2044,8 @@ void workout_activity_actor::do_turn( player_activity &act, Character &who )
             who.add_morale( MORALE_FEELING_GOOD, intensity_modifier, 20, 6_hours, 30_minutes );
         }
         if( calendar::once_every( 2_minutes ) ) {
-            who.add_msg_if_player( m_debug, who.activity_level_str() );
-            who.add_msg_if_player( m_debug, act.id().c_str() );
+            who.add_msg_debug_if_player( debugmode::DF_ACT_WORKOUT, who.activity_level_str() );
+            who.add_msg_debug_if_player( debugmode::DF_ACT_WORKOUT, act.id().c_str() );
         }
     } else if( !rest_mode ) {
         rest_mode = true;
