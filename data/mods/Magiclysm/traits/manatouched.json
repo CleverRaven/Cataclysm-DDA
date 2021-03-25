@@ -262,8 +262,8 @@
   },
   {
     "type": "mutation",
-    "id": "PER_UP",
-    "copy-from": "PER_UP",
+    "id": "LIGHT_BONES",
+    "copy-from": "LIGHT_BONES",
     "extend": { "category": [ "MANATOUCHED" ] }
   }
 ]
