@@ -166,9 +166,9 @@ struct enum_traits<iteminfo::flags> {
 };
 
 iteminfo vol_to_info( const std::string &type, const std::string &left,
-                      const units::volume &vol, int decimal_places = 2 );
+                      const units::volume &vol, int decimal_places = 2, bool lower_is_better = true );
 iteminfo weight_to_info( const std::string &type, const std::string &left,
-                         const units::mass &weight, int decimal_places = 2 );
+                         const units::mass &weight, int decimal_places = 2, bool lower_is_better = true );
 
 inline bool is_crafting_component( const item &component );
 
