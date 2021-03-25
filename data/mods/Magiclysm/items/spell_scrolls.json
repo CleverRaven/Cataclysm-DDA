@@ -1035,5 +1035,14 @@
     "name": { "str": "Scroll of freezing touch", "str_pl": "Scrolls of freezing touch" },
     "description": "Your hands freeze anything they touch at temperatures so cold it slows down your foes.",
     "use_action": { "type": "learn_spell", "spells": [ "freezing_touch" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_seed_of_growth",
+    "//": "Druid spell",
+    "name": { "str": "Scroll of seed of growth", "str_pl": "Scrolls of seed of growth" },
+    "description": "Offer some of your life in a ritual to get tokens of growth in return.",
+    "use_action": { "type": "learn_spell", "spells": [ "druid_growth" ] }
   }
 ]
