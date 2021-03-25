@@ -721,7 +721,7 @@ static int hack_level( const Character &who )
     return who.get_skill_level( skill_computer ) + who.int_cur / 2 - 8;
 }
 
-static hack_result hack_attempt( Character &who, const bool using_bionic )
+static hack_result hack_attempt( Character &who )
 {
     // TODO: Remove this once player -> Character migration is complete
     {
@@ -735,21 +735,10 @@ static hack_result hack_attempt( Character &who, const bool using_bionic )
     int success = std::ceil( normal_roll( hack_level( who ), hack_stddev ) );
     if( success < 0 ) {
         who.add_msg_if_player( _( "You cause a short circuit!" ) );
-        if( using_bionic ) {
-            who.mod_power_level( -25_kJ );
-        } else {
-            who.use_charges( itype_electrohack, 25 );
-        }
+        who.use_charges( itype_electrohack, 25 );
 
         if( success <= -5 ) {
-            if( !using_bionic ) {
-                who.add_msg_if_player( m_bad, _( "Your electrohack is ruined!" ) );
-                who.use_amount( itype_electrohack, 1 );
-            } else {
-                who.add_msg_if_player( m_bad, _( "Your power is drained!" ) );
-                who.mod_power_level( units::from_kilojoule( -rng( 25,
-                                     units::to_kilojoule( who.get_power_level() ) ) ) );
-            }
+            who.use_charges( itype_electrohack, 50 );
         }
         return hack_result::FAIL;
     } else if( success < 6 ) {
@@ -777,16 +766,11 @@ static hack_type get_hack_type( const tripoint &examp )
     return type;
 }
 
-hacking_activity_actor::hacking_activity_actor( use_bionic )
-    : using_bionic( true )
-{
-}
-
 void hacking_activity_actor::finish( player_activity &act, Character &who )
 {
     tripoint examp = act.placement;
     hack_type type = get_hack_type( examp );
-    switch( hack_attempt( who, using_bionic ) ) {
+    switch( hack_attempt( who ) ) {
         case hack_result::UNABLE:
             who.add_msg_if_player( _( "You cannot hack this." ) );
             break;
@@ -842,25 +826,11 @@ void hacking_activity_actor::finish( player_activity &act, Character &who )
     act.set_to_null();
 }
 
-void hacking_activity_actor::serialize( JsonOut &jsout ) const
-{
-    jsout.start_object();
-    jsout.member( "using_bionic", using_bionic );
-    jsout.end_object();
-}
+void hacking_activity_actor::serialize( JsonOut & ) const {}
 
-std::unique_ptr<activity_actor> hacking_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> hacking_activity_actor::deserialize( JsonIn & )
 {
     hacking_activity_actor actor;
-    if( jsin.test_null() ) {
-        // Old saves might contain a null instead of an object.
-        // Since we do not know whether a bionic or an item was chosen we assume
-        // it was an item.
-        actor.using_bionic = false;
-    } else {
-        JsonObject jsobj = jsin.get_object();
-        jsobj.read( "using_bionic", actor.using_bionic );
-    }
     return actor.clone();
 }
 
