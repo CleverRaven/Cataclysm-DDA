@@ -104,6 +104,7 @@ TEST_CASE( "starting_items", "[slow]" )
 {
     // Every starting trait that interferes with food/clothing
     const std::vector<trait_id> mutations = {
+        trait_id( "ALBINO" ),
         trait_id( "ANTIFRUIT" ),
         trait_id( "ANTIJUNK" ),
         trait_id( "ANTIWHEAT" ),
