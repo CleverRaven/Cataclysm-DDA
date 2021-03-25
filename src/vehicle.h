@@ -910,7 +910,8 @@ class vehicle
                           const std::string &variant = "", bool force = false );
 
         // find a single tile wide vehicle adjacent to a list of part indices
-        bool try_to_rack_nearby_vehicle( std::vector<std::vector<int>> &list_of_racks );
+        bool try_to_rack_nearby_vehicle( std::vector<std::vector<int>> &list_of_racks,
+                                         bool do_not_rack = false );
         // merge a previously found single tile vehicle into this vehicle
         bool merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int> &rack_parts );
 
@@ -1783,6 +1784,7 @@ class vehicle
         void use_dishwasher( int p );
         void use_monster_capture( int part, const tripoint &pos );
         void use_bike_rack( int part );
+        void clear_bike_racks( std::vector<int> &racks );
         void use_harness( int part, const tripoint &pos );
 
         void interact_with( const vpart_position &vp );
