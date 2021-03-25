@@ -327,7 +327,7 @@ class target_ui
         void apply_aim_turning_penalty();
 
         // Switch firing mode.
-        void action_switch_mode();
+        bool action_switch_mode();
 
         // Switch ammo. Returns 'false' if requires a reloading UI.
         bool action_switch_ammo();
@@ -2064,7 +2064,10 @@ target_handler::trajectory target_ui::run()
             loop_exit_code = ExitCode::Abort;
             break;
         } else if( action == "SWITCH_MODE" ) {
-            action_switch_mode();
+            if( action_switch_mode() ) {
+                loop_exit_code = ExitCode::Abort;
+                break;
+            }
         } else if( action == "SWITCH_AMMO" ) {
             if( !action_switch_ammo() ) {
                 loop_exit_code = ExitCode::Reload;
@@ -2118,7 +2121,7 @@ target_handler::trajectory target_ui::run()
     switch( loop_exit_code ) {
         case ExitCode::Abort: {
             traj.clear();
-            if( mode == TargetMode::Fire ) {
+            if( mode == TargetMode::Fire || ( mode == TargetMode::Reach && activity ) ) {
                 activity->aborted = true;
             }
             break;
@@ -2202,9 +2205,12 @@ void target_ui::init_window_and_input()
         ctxt.register_action( "LEVEL_UP" );
         ctxt.register_action( "LEVEL_DOWN" );
     }
-    if( mode == TargetMode::Fire || mode == TargetMode::TurretManual ) {
+    if( mode == TargetMode::Fire || mode == TargetMode::TurretManual || ( mode == TargetMode::Reach &&
+            relevant->is_gun() && you->get_aim_types( *relevant ).size() > 1 ) ) {
         ctxt.register_action( "SWITCH_MODE" );
-        ctxt.register_action( "SWITCH_AMMO" );
+        if( mode == TargetMode::Fire || mode == TargetMode::TurretManual ) {
+            ctxt.register_action( "SWITCH_AMMO" );
+        }
     }
     if( mode == TargetMode::Fire ) {
         ctxt.register_action( "AIM" );
@@ -2716,7 +2722,7 @@ void target_ui::apply_aim_turning_penalty()
     you->recoil = predicted_recoil;
 }
 
-void target_ui::action_switch_mode()
+bool target_ui::action_switch_mode()
 {
     uilist menu;
     menu.settext( _( "Select preferences" ) );
@@ -2747,9 +2753,6 @@ void target_ui::action_switch_mode()
         menu.entries.back().text_color = c_cyan;
 
         for( auto it = gun_modes.begin(); it != gun_modes.end(); ++it ) {
-            if( it->second.flags.count( "REACH_ATTACK" ) ) {
-                continue;
-            }
             const bool active_gun_mode = relevant->gun_get_mode_id() == it->first;
 
             // If gun mode is from a gunmod use gunmod's name, pay attention to the "->" on tname
@@ -2771,15 +2774,16 @@ void target_ui::action_switch_mode()
     }
 
     menu.query();
+    bool refresh = false;
     if( menu.ret >= firing_modes_range.first && menu.ret < firing_modes_range.second ) {
         // gun mode select
         const std::map<gun_mode_id, gun_mode> all_gun_modes = relevant->gun_all_modes();
         int skip = menu.ret - firing_modes_range.first;
         for( std::pair<gun_mode_id, gun_mode> it : all_gun_modes ) {
-            if( it.second.flags.count( "REACH_ATTACK" ) ) {
-                continue;
-            }
             if( skip-- == 0 ) {
+                if( relevant->gun_current_mode().melee() ) {
+                    refresh = true;
+                }
                 relevant->gun_set_mode( it.first );
                 break;
             }
@@ -2801,10 +2805,17 @@ void target_ui::action_switch_mode()
             range = turret->range();
         }
     } else {
-        ammo = relevant->gun_current_mode().target->ammo_data();
-        range = relevant->gun_current_mode().target->gun_range( you );
+        if( relevant->gun_current_mode().melee() ) {
+            refresh = true;
+            range = relevant->current_reach_range( *you );
+        } else {
+            range = relevant->gun_current_mode().target->gun_range( you );
+            ammo = relevant->gun_current_mode().target->ammo_data();
+        }
     }
+
     on_range_ammo_changed();
+    return refresh;
 }
 
 bool target_ui::action_switch_ammo()
@@ -3114,13 +3125,16 @@ void target_ui::draw_controls_list( int text_y )
         lines.push_back( {2, colored( col_fire, aim )} );
         lines.push_back( {4, colored( col_fire, aim_and_fire )} );
     }
-    if( mode == TargetMode::Fire || mode == TargetMode::TurretManual ) {
+    if( mode == TargetMode::Fire || mode == TargetMode::TurretManual || ( mode == TargetMode::Reach &&
+            relevant->is_gun() && you->get_aim_types( *relevant ).size() > 1 ) ) {
         lines.push_back( {5, colored( col_enabled, string_format( _( "[%s] to switch firing modes." ),
                                       bound_key( "SWITCH_MODE" ).short_description() ) )
                          } );
-        lines.push_back( {6, colored( col_enabled, string_format( _( "[%s] to reload/switch ammo." ),
-                                      bound_key( "SWITCH_AMMO" ).short_description() ) )
-                         } );
+        if( mode == TargetMode::Fire || mode == TargetMode::TurretManual ) {
+            lines.push_back( { 6, colored( col_enabled, string_format( _( "[%s] to reload/switch ammo." ),
+                                           bound_key( "SWITCH_AMMO" ).short_description() ) )
+                             } );
+        }
     }
     if( mode == TargetMode::Turrets ) {
         const std::string label = draw_turret_lines

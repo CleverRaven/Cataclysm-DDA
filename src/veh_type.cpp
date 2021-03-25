@@ -19,6 +19,7 @@
 #include "game_constants.h"
 #include "init.h"
 #include "item.h"
+#include "item_factory.h"
 #include "item_group.h"
 #include "item_pocket.h"
 #include "itype.h"
@@ -1232,6 +1233,20 @@ void vehicle_prototype::finalize()
                         pt.ammo_types.insert( ammotype( *base->gun->ammo.begin() )->default_ammotype() );
                     }
                 }
+            }
+
+            std::vector<itype_id> migrated;
+            for( auto it = pt.ammo_types.begin(); it != pt.ammo_types.end(); ) {
+                if( item_controller->migrate_id( *it ) != *it ) {
+                    migrated.push_back( item_controller->migrate_id( *it ) );
+                    it = pt.ammo_types.erase( it );
+                } else {
+                    ++it;
+                }
+            }
+
+            for( const itype_id &migrant : migrated ) {
+                pt.ammo_types.insert( migrant );
             }
 
             if( type_can_contain( *base, pt.fuel ) || base->magazine ) {

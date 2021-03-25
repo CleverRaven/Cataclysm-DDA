@@ -155,8 +155,22 @@
         "conditions": [ "DAWN", "DUSK", "DAY" ]
       },
       { "monster": "mon_deer", "freq": 4, "cost_multiplier": 2, "pack_size": [ 1, 5 ] },
-      { "monster": "mon_reindeer", "freq": 3, "cost_multiplier": 3, "pack_size": [ 2, 6 ] },
-      { "monster": "mon_zeindeer", "freq": 4, "cost_multiplier": 10, "pack_size": [ 3, 5 ], "starts": 73 },
+      {
+        "monster": "mon_reindeer",
+        "freq": 3,
+        "cost_multiplier": 3,
+        "pack_size": [ 2, 6 ],
+        "conditions": [ "AUTUMN", "WINTER" ]
+      },
+      { "monster": "mon_zeindeer", "freq": 1, "cost_multiplier": 15, "pack_size": [ 2, 5 ], "starts": 180 },
+      {
+        "monster": "mon_zeindeer",
+        "freq": 4,
+        "cost_multiplier": 10,
+        "pack_size": [ 3, 5 ],
+        "starts": 180,
+        "conditions": [ "AUTUMN", "WINTER" ]
+      },
       { "monster": "mon_deer", "freq": 16, "cost_multiplier": 2, "pack_size": [ 1, 5 ], "conditions": [ "DAY" ] },
       { "monster": "mon_zeer", "freq": 4, "cost_multiplier": 10, "pack_size": [ 1, 5 ], "starts": 72 },
       { "monster": "mon_zeer", "freq": 4, "cost_multiplier": 10, "pack_size": [ 1, 5 ], "starts": 168 },

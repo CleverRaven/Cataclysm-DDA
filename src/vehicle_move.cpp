@@ -120,7 +120,7 @@ int vehicle::slowdown( int at_velocity ) const
     return std::max( 1, slowdown );
 }
 
-void vehicle:: smart_controller_handle_turn( bool thrusting,
+void vehicle::smart_controller_handle_turn( bool thrusting,
         const cata::optional<float> &k_traction_cache )
 {
 
@@ -516,7 +516,7 @@ void vehicle::thrust( int thd, int z )
         }
         //make noise and consume fuel
         noise_and_smoke( load );
-        consume_fuel( load, 1 );
+        consume_fuel( load, false );
         if( z != 0 && is_rotorcraft() ) {
             requested_z_change = z;
         }
@@ -2058,7 +2058,7 @@ float map::vehicle_wheel_traction( const vehicle &veh,
 }
 
 units::angle map::shake_vehicle( vehicle &veh, const int velocity_before,
-                                 const units::angle direction )
+                                 const units::angle &direction )
 {
     const int d_vel = std::abs( veh.velocity - velocity_before ) / 100;
 

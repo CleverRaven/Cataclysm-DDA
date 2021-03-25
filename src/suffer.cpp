@@ -737,13 +737,6 @@ void Character::suffer_in_sunlight()
         vitamin_mod( vitamin_id( "vitC" ), 1, true );
     }
 
-    if( x_in_y( sunlight_nutrition, 12000 ) ) {
-        mod_hunger( -1 );
-        // photosynthesis absorbs kcal directly
-        mod_stored_nutr( -1 );
-        stomach.ate();
-    }
-
     if( !g->is_in_sunlight( pos() ) ) {
         return;
     }
@@ -966,29 +959,6 @@ void Character::suffer_from_other_mutations()
         //~Sound of buzzing Insect Wings
         sounds::sound( pos(), 10, sounds::sound_t::movement, _( "BZZZZZ" ), false, "misc",
                        "insect_wings" );
-    }
-
-    bool wearing_shoes = footwear_factor() == 1.0;
-    int root_vitamins = 0;
-    int root_water = 0;
-    if( has_trait( trait_ROOTS3 ) && here.has_flag( flag_PLOWABLE, pos() ) && !wearing_shoes ) {
-        root_vitamins += 1;
-        if( get_thirst() <= -2000 ) {
-            root_water += 51;
-        }
-    }
-
-    if( x_in_y( root_vitamins, 576 ) ) {
-        vitamin_mod( vitamin_id( "iron" ), 1, true );
-        vitamin_mod( vitamin_id( "calcium" ), 1, true );
-        mod_healthy_mod( 5, 50 );
-    }
-
-    if( x_in_y( root_water, 2550 ) ) {
-        // Plants draw some crazy amounts of water from the ground in real life,
-        // so these numbers try to reflect that uncertain but large amount
-        // this should take 12 hours to meet your daily needs with ROOTS2, and 8 with ROOTS3
-        mod_thirst( -1 );
     }
 
     if( has_trait( trait_SORES ) ) {
@@ -1415,7 +1385,7 @@ void Character::suffer_from_exertion()
     }
 
     // Significantly slow the rate of messaging when in an activity
-    int chance = activity ? 2000 : 60;
+    const int chance = activity ? to_turns<int>( 48_minutes ) : to_turns<int>( 5_minutes );
     if( attempted_activity_level > max_activity && one_in( chance ) && !in_sleep_state() ) {
         add_msg_if_player( m_bad,
                            _( "You're tiring out; continuing to work at this rate will be slower." ) );

@@ -1120,7 +1120,7 @@ std::vector<overmap *> overmapbuffer::get_overmaps_near( const tripoint_abs_sm &
     const point_rel_om offset = end - start;
 
     std::vector<overmap *> result;
-    result.reserve( ( offset.x() + 1 ) * ( offset.y() + 1 ) );
+    result.reserve( static_cast<size_t>( offset.x() + 1 ) * static_cast<size_t>( offset.y() + 1 ) );
 
     for( int x = start.x(); x <= end.x(); ++x ) {
         for( int y = start.y(); y <= end.y(); ++y ) {

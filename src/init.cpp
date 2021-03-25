@@ -531,6 +531,7 @@ void DynamicDataLoader::unload_data()
     fault::reset();
     field_types::reset();
     gates::reset();
+    harvest_list::reset();
     item_controller->reset();
     json_flag::reset();
     mapgen_palette::reset();

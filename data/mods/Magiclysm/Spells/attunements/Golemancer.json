@@ -7,7 +7,7 @@
     "effect": "directed_push",
     "shape": "blast",
     "valid_targets": [ "hostile" ],
-    "flags": [ "LOUD", "VERBAL", "SOMATIC" ],
+    "flags": [ "LOUD", "VERBAL", "SOMATIC", "MUST_HAVE_CLASS_TO_LEARN" ],
     "spell_class": "GOLEMANCER",
     "min_damage": 5,
     "max_damage": 16,

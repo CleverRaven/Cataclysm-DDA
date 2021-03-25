@@ -204,6 +204,12 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
         if( handle_spillable_contents( c, it, here ) ) {
             continue;
         }
+
+        if( it.made_of( phase_id::LIQUID ) ) {
+            here.add_item_or_charges( c.pos(), it );
+            it.charges = 0;
+        }
+
         if( veh.add_item( part, it ) ) {
             into_vehicle_count += it.count();
         } else {
@@ -478,7 +484,7 @@ void activity_handlers::washing_finish( player_activity *act, player *p )
     units::volume total_volume = 0_ml;
 
     for( const act_item &filthy_item : items ) {
-        total_volume += filthy_item.loc->volume();
+        total_volume += filthy_item.loc->volume( false, true );
     }
     washing_requirements required = washing_requirements_for_volume( total_volume );
 

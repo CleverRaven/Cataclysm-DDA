@@ -60,7 +60,8 @@
       { "group": "enchanted_wands_lesser", "count": [ 5, 8 ], "prob": 20 },
       { "group": "lair_black_dragon_treasure", "count": [ 1, 3 ], "prob": 5 },
       { "group": "enchanted_melee_weapons_plus2", "prob": 20 },
-      { "group": "demon_spider_lair_treasure", "prob": 10 }
+      { "group": "demon_spider_lair_treasure", "prob": 10 },
+      { "group": "organic_materials", "count": [ 1, 3 ], "prob": 30 }
     ]
   },
   {

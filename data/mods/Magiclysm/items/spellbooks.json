@@ -42,6 +42,20 @@
     "use_action": { "type": "learn_spell", "spells": [ "magic_missile", "phase_door", "create_atomic_light" ] }
   },
   {
+    "id": "novice_stormshaper_book",
+    "type": "BOOK",
+    "name": { "str": "An Introduction to Applied Meteorology", "str_pl": "copies of An Introduction to Applied Meteorology" },
+    "//": "2 stormshaper",
+    "description": "A professional-looking book on stormshaping, structured after many college textbooks.  It has less to apply than one might expect from its size.",
+    "weight": "900 g",
+    "volume": "1200 ml",
+    "price": 5000,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "light_gray",
+    "use_action": { "type": "learn_spell", "spells": [ "shocking_lash", "windrun" ] }
+  },
+  {
     "id": "wizard_utility",
     "type": "BOOK",
     "name": { "str": "Wizarding Guide to Backpacking", "str_pl": "copies of Wizarding Guide to Backpacking" },

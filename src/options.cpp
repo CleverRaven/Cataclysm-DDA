@@ -1970,7 +1970,12 @@ void options_manager::add_options_graphics()
     add( "FULLSCREEN", "graphics", to_translation( "Fullscreen" ),
          to_translation( "Starts Cataclysm in one of the fullscreen modes.  Requires restart." ),
     { { "no", to_translation( "No" ) }, { "maximized", to_translation( "Maximized" ) }, { "fullscreen", to_translation( "Fullscreen" ) }, { "windowedbl", to_translation( "Windowed borderless" ) } },
+    // Borderless window is bad for debugging in Visual Studio
+#if defined(_MSC_VER)
+    "maximized", COPT_CURSES_HIDE
+#else
     "windowedbl", COPT_CURSES_HIDE
+#endif
        );
 #endif
 
@@ -2606,7 +2611,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
 
     const int iWorldOffset = world_options_only ? 2 : 0;
     int iMinScreenWidth = 0;
-    const int iTooltipHeight = 5;
+    const int iTooltipHeight = 6;
     int iContentHeight = 0;
 
     catacurses::window w_options_border;
@@ -2800,7 +2805,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
         }
 
         if( ingame && iCurrentPage == iWorldOptPage ) {
-            mvwprintz( w_options_tooltip, point( 3, 3 ), c_light_red, "%s", _( "Note: " ) );
+            mvwprintz( w_options_tooltip, point( 3, 5 ), c_light_red, "%s", _( "Note: " ) );
             wprintz( w_options_tooltip, c_white, "%s",
                      _( "Some of these options may produce unexpected results if changed." ) );
         }

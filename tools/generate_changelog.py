@@ -1028,7 +1028,7 @@ def main_entry(argv):
         if x == '-':
             return sys.stdout
         else:
-            pathlib.Path(x).expanduser().resolve()
+            return pathlib.Path(x).expanduser().resolve()
 
     parser.add_argument(
         '-D', '--by-date',

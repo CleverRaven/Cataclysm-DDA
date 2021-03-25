@@ -205,6 +205,14 @@ class map
         map &operator=( map && ) = default;
 
         /**
+         * Tinymaps will ocassionally need to skip npc rotation in map::rotate
+         * Here's a little trigger for them to opt out. We won't be doing that here, though
+         */
+        virtual bool skip_npc_rotation() const {
+            return false;
+        }
+
+        /**
          * Sets a dirty flag on the a given cache.
          *
          * If this isn't set, it's just assumed that
@@ -658,7 +666,7 @@ class map
                                          const std::vector<veh_collision> &collisions );
         // Throws vehicle passengers about the vehicle, possibly out of it
         // Returns change in vehicle orientation due to lost control
-        units::angle shake_vehicle( vehicle &veh, int velocity_before, units::angle direction );
+        units::angle shake_vehicle( vehicle &veh, int velocity_before, const units::angle &direction );
 
         // Actually moves the vehicle
         // Unlike displace_vehicle, this one handles collisions
@@ -688,7 +696,11 @@ class map
         furn_id furn( const point &p ) const {
             return furn( tripoint( p, abs_sub.z ) );
         }
-        void furn_set( const tripoint &p, const furn_id &new_furniture );
+        /**
+        * furn_reset should be true if new_furniture is being set to f_null
+        * when the player is grab-moving furniture
+        */
+        void furn_set( const tripoint &p, const furn_id &new_furniture, bool furn_reset = false );
         void furn_set( const point &p, const furn_id &new_furniture ) {
             furn_set( tripoint( p, abs_sub.z ), new_furniture );
         }
@@ -1953,6 +1965,12 @@ class tinymap : public map
     public:
         explicit tinymap( int mapsize = 2, bool zlevels = false );
         bool inbounds( const tripoint &p ) const override;
+
+        /** Sometimes you need to generate and rotate a tinymap without touching npcs */
+        bool skip_npc_rotation() const override {
+            return no_rotate_npcs;
+        }
+        bool no_rotate_npcs = false;
 };
 
 class fake_map : public tinymap

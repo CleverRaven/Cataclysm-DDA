@@ -37,7 +37,6 @@
 #include "character_martial_arts.h"
 #include "clzones.h"
 #include "color.h"
-#include "compatibility.h"
 #include "coordinates.h"
 #include "creature.h"
 #include "debug.h"
@@ -1837,7 +1836,7 @@ void debug()
                 const auto text = string_input_popup()
                                   .title( msg )
                                   .width( 20 )
-                                  .text( to_string( initial ) )
+                                  .text( std::to_string( initial ) )
                                   .only_digits( true )
                                   .query_string();
                 if( text.empty() ) {
@@ -1955,12 +1954,10 @@ void debug()
             raise( SIGSEGV );
             break;
         case debug_menu_index::MAP_EXTRA: {
-            std::unordered_map<std::string, map_extra_pointer> FM = MapExtras::all_functions();
+            const std::vector<std::string> &mx_str = MapExtras::get_all_function_names();
             uilist mx_menu;
-            std::vector<std::string> mx_str;
-            for( auto &extra : FM ) {
-                mx_menu.addentry( -1, true, -1, extra.first );
-                mx_str.push_back( extra.first );
+            for( const std::string &extra : mx_str ) {
+                mx_menu.addentry( -1, true, -1, extra );
             }
             mx_menu.query();
             int mx_choice = mx_menu.ret;

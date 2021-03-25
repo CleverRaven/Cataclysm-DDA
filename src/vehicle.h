@@ -363,6 +363,9 @@ struct vehicle_part {
         /** Can this part contain liquid fuels? */
         bool is_tank() const;
 
+        /** Does this part currently contain some liquid? */
+        bool contains_liquid() const;
+
         /** Can this part store electrical charge? */
         bool is_battery() const;
 
@@ -1183,7 +1186,7 @@ class vehicle
         int basic_consumption( const itype_id &ftype ) const;
         int consumption_per_hour( const itype_id &ftype, int fuel_rate ) const;
 
-        void consume_fuel( int load, int t_seconds = 6, bool skip_electric = false );
+        void consume_fuel( int load, bool idling );
 
         /**
          * Maps used fuel to its basic (unscaled by load/strain) consumption.
@@ -1814,6 +1817,13 @@ class vehicle
         mutable std::set<tripoint> occupied_points;
 
         std::vector<vehicle_part> parts;   // Parts which occupy different tiles
+        /**
+        * checks carried_vehicles param for duplicate entries of bike racks/vehicle parts
+        * this eliminates edge cases caused by overlapping bike_rack lanes
+        * @param carried_vehicles is a set of either vehicle_parts or bike_racks that need duplicate entries accross the vector<vector>s rows removed
+        */
+        void validate_carried_vehicles( std::vector<std::vector<int>>
+                                        &carried_vehicles );
     public:
         // Number of parts contained in this vehicle
         int part_count() const;

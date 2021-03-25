@@ -738,6 +738,7 @@
     "difficulty": 3,
     "time": "45 m",
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_basketweaving" } ],
     "components": [ [ [ "straw_pile", 3 ], [ "birchbark", 5 ] ] ]
   },
   {

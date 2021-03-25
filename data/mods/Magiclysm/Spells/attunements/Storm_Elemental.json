@@ -18,7 +18,7 @@
     "base_energy_cost": 500,
     "base_casting_time": 100,
     "difficulty": 4,
-    "flags": [ "LOUD", "SOMATIC", "NO_LEGS" ],
+    "flags": [ "LOUD", "SOMATIC", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
     "sound_description": "a crackle",
     "valid_targets": [ "hostile" ],
     "extra_effects": [ { "id": "storm_chain_1" }, { "id": "storm_chain_1" } ]

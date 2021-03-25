@@ -2,8 +2,6 @@
 
 Use the `Home` key to return to the top.
 
-<!-- XXX: REMOVE ME. Touch JSON_INFO.md to see if it triggers the bot -->
-
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**
@@ -68,7 +66,7 @@ Use the `Home` key to return to the top.
       - [`score`](#score)
       - [`achievement`](#achievement)
       - [`conduct`](#conduct)
-    - [Skills](#skills-1)
+    - [Skills](#skills)
     - [Traits/Mutations](#traitsmutations)
     - [Traps](#traps)
     - [Vehicle Groups](#vehicle-groups)
@@ -96,7 +94,7 @@ Use the `Home` key to return to the top.
     - [Books](#books)
       - [Conditional Naming](#conditional-naming)
       - [Color Key](#color-key)
-      - [CBMs](#cbms-1)
+      - [CBMs](#cbms)
     - [Comestibles](#comestibles)
     - [Containers](#containers)
     - [Melee](#melee)
@@ -178,17 +176,17 @@ Use the `Home` key to return to the top.
   - [`points`](#points-1)
   - [`items`](#items-3)
   - [`flags`](#flags-2)
-  - [`cbms`](#cbms-2)
+  - [`cbms`](#cbms-1)
   - [`traits", "forced_traits", "forbidden_traits`](#traits-forced_traits-forbidden_traits)
   - [`allowed_locs`](#allowed_locs)
   - [`start_name`](#start_name)
-  - [`professions`](#professions-1)
+  - [`professions`](#professions)
   - [`map_special`](#map_special)
   - [`missions`](#missions)
   - [`custom_start_date`](#custom_start_date)
 - [Starting locations](#starting-locations)
   - [`name`](#name-3)
-  - [`terrain`](#terrain-1)
+  - [`terrain`](#terrain)
   - [`flags`](#flags-3)
 - [Mutation overlay ordering](#mutation-overlay-ordering)
   - [`id`](#id-2)
@@ -826,7 +824,7 @@ When you sort your inventory by category, these are the categories that are disp
 | `cut_dmg_verb`   | Verb used when material takes cutting damage.
 | `dmg_adj`        | Description added to damaged item in ascending severity.
 | `dmg_adj`        | Adjectives used to describe damage states of a material.
-| `density`        | Density of a material.
+| `density`        | Affects vehicle collision damage, with denser parts having the advantage over less-dense parts.
 | `vitamins`       | Vitamins in a material. Usually overridden by item specific values.  An integer percentage of ideal daily value.
 | `specific_heat_liquid` | Specific heat of a material when not frozen (J/(g K)). Default 4.186.
 | `specific_heat_solid`  | Specific heat of a material when frozen (J/(g K)). Default 2.108.
@@ -1487,9 +1485,22 @@ request](https://github.com/CleverRaven/Cataclysm-DDA/pull/36657) and the
 "required_skills": [ [ "survival", 1 ] ],                           // Skill levels required to undertake construction
 "time": "30 m",                                                     // Time required to complete construction. Integers will be read as minutes or a time string can be used.
 "components": [ [ [ "spear_wood", 4 ], [ "pointy_stick", 4 ] ] ],   // Items used in construction
-"pre_terrain": "t_pit",                                             // Required terrain to build on
+"pre_special": "check_empty",                                       // Required something that isn't terrain
+"pre_terrain": "t_pit",                                             // Alternative to pre_special; Required terrain to build on
 "post_terrain": "t_pit_spiked"                                      // Terrain type after construction is complete
 ```
+
+| pre_special            | Description
+|---                     |---
+| `check_empty`          | Tile is empty
+| `check_support`        | Must have at least two solid walls/obstructions nearby on orthogonals (non-diagonal directions only) to support the tile
+| `check_deconstruction` | The furniture (or tile, if no furniture) in the target tile must have a "deconstruct" entry
+| `check_empty_up_OK`    | Tile is empty and is below the maximum possible elevation (can build up here)
+| `check_up_OK`          | Tile is below the maximum possible elevation (can build up here)
+| `check_down_OK`        | Tile is above the lowest possible elevation (can dig down here)
+| `check_no_trap`        | There is no trap object in this tile
+| `check_ramp_low`       | Both this and the next level above can be built up one additional Z level
+| `check_ramp_high`      | There is a complete downramp on the next higher level, and both this and next level above can be built up one additional Z level
 
 ### Scent_types
 
