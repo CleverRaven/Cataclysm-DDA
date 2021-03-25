@@ -5,11 +5,14 @@
 #include "calendar.h"
 #include "catch/catch.hpp"
 #include "character.h"
+#include "game.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "monster.h"
 #include "point.h"
 #include "type_id.h"
+#include "weather.h"
+#include "weather_type.h"
 
 static constexpr tripoint attacker_location{ 65, 65, 0 };
 
@@ -24,6 +27,7 @@ static void test_monster_attack( const tripoint &target_offset, bool expected )
     const tripoint target_location = attacker_location + target_offset;
     Character &you = get_player_character();
     you.setpos( target_location );
+    you.recalc_sight_limits();
     monster &test_monster = spawn_test_monster( monster_type, attacker_location );
     // Trigger basic attack.
     CAPTURE( attacker_location );
@@ -34,6 +38,7 @@ static void test_monster_attack( const tripoint &target_offset, bool expected )
     // Then test the reverse.
     clear_creatures();
     you.setpos( attacker_location );
+    you.recalc_sight_limits();
     monster &target_monster = spawn_test_monster( monster_type, target_location );
     CHECK( you.melee_attack( target_monster, false ) == expected );
 }
@@ -59,6 +64,7 @@ TEST_CASE( "monster_attack" )
     clear_map();
     restore_on_out_of_scope<time_point> restore_calendar_turn( calendar::turn );
     calendar::turn = daylight_time( calendar::turn ) + 2_hours;
+    get_weather().weather_override = WEATHER_CLEAR; // Do I need to put this back?
     SECTION( "attacking on open ground" ) {
         // Adjacent can attack of course.
         for( const tripoint &offset : eight_horizontal_neighbors ) {
