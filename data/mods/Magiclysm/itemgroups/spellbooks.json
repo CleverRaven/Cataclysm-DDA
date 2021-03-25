@@ -80,6 +80,7 @@
       [ "spell_scroll_impactsling", 20 ],
       [ "spell_scroll_boneclub", 20 ],
       [ "spell_scroll_flamesword", 35 ],
+      [ "spell_scroll_force_jar", 30 ],
       [ "spell_scroll_flamebreath", 30 ]
     ]
   },
