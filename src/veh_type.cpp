@@ -1173,7 +1173,7 @@ void vehicle_prototype::load( const JsonObject &jo )
                 const std::string variant = spawn_info.get_string( "variant" );
                 next_spawn.variant_ids.emplace_back( itype_id( spawn_info.get_string( "items" ) ), variant );
             } else {
-                next_spawn.item_ids.emplace_back( spawn_info.get_string( "items" ) );
+                next_spawn.item_ids.push_back( itype_id( spawn_info.get_string( "items" ) ) );
             }
         }
         if( spawn_info.has_array( "item_groups" ) ) {
