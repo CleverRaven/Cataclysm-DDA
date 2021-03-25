@@ -136,12 +136,10 @@ static const activity_id ACT_GAME( "ACT_GAME" );
 static const activity_id ACT_GENERIC_GAME( "ACT_GENERIC_GAME" );
 static const activity_id ACT_GUNMOD_ADD( "ACT_GUNMOD_ADD" );
 static const activity_id ACT_HACKSAW( "ACT_HACKSAW" );
-static const activity_id ACT_HAIRCUT( "ACT_HAIRCUT" );
 static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
 static const activity_id ACT_HEATING( "ACT_HEATING" );
 static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
 static const activity_id ACT_LONGSALVAGE( "ACT_LONGSALVAGE" );
-static const activity_id ACT_MEDITATE( "ACT_MEDITATE" );
 static const activity_id ACT_MEND_ITEM( "ACT_MEND_ITEM" );
 static const activity_id ACT_MIND_SPLICER( "ACT_MIND_SPLICER" );
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
@@ -156,14 +154,12 @@ static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_OXYTORCH( "ACT_OXYTORCH" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
 static const activity_id ACT_PLANT_SEED( "ACT_PLANT_SEED" );
-static const activity_id ACT_PLAY_WITH_PET( "ACT_PLAY_WITH_PET" );
 static const activity_id ACT_PRY_NAILS( "ACT_PRY_NAILS" );
 static const activity_id ACT_PULP( "ACT_PULP" );
 static const activity_id ACT_QUARTER( "ACT_QUARTER" );
 static const activity_id ACT_READ( "ACT_READ" );
 static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
 static const activity_id ACT_ROBOT_CONTROL( "ACT_ROBOT_CONTROL" );
-static const activity_id ACT_SHAVE( "ACT_SHAVE" );
 static const activity_id ACT_SKIN( "ACT_SKIN" );
 static const activity_id ACT_SOCIALIZE( "ACT_SOCIALIZE" );
 static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
@@ -343,7 +339,6 @@ activity_handlers::finish_functions = {
     { ACT_GUNMOD_ADD, gunmod_add_finish },
     { ACT_TOOLMOD_ADD, toolmod_add_finish },
     { ACT_CLEAR_RUBBLE, clear_rubble_finish },
-    { ACT_MEDITATE, meditate_finish },
     { ACT_READ, read_finish },
     { ACT_WAIT, wait_finish },
     { ACT_WAIT_WEATHER, wait_weather_finish },
@@ -366,9 +361,6 @@ activity_handlers::finish_functions = {
     { ACT_CHOP_PLANKS, chop_planks_finish },
     { ACT_JACKHAMMER, jackhammer_finish },
     { ACT_FILL_PIT, fill_pit_finish },
-    { ACT_PLAY_WITH_PET, play_with_pet_finish },
-    { ACT_SHAVE, shaving_finish },
-    { ACT_HAIRCUT, haircut_finish },
     { ACT_ROBOT_CONTROL, robot_control_finish },
     { ACT_MIND_SPLICER, mind_splicer_finish },
     { ACT_SPELLCASTING, spellcasting_finish },
@@ -2853,13 +2845,6 @@ void activity_handlers::clear_rubble_finish( player_activity *act, player *p )
     here.maybe_trigger_trap( pos, *p, true );
 }
 
-void activity_handlers::meditate_finish( player_activity *act, player *p )
-{
-    p->add_msg_if_player( m_good, _( "You pause to engage in spiritual contemplation." ) );
-    p->add_morale( MORALE_FEELING_GOOD, 5, 10 );
-    act->set_to_null();
-}
-
 void activity_handlers::wear_do_turn( player_activity *act, player *p )
 {
     activity_on_turn_wear( *act, *p );
@@ -3888,28 +3873,6 @@ void activity_handlers::fill_pit_finish( player_activity *act, player *p )
     }
     p->add_msg_if_player( m_good, _( "You finish filling up %s." ), old_ter.obj().name() );
 
-    act->set_to_null();
-}
-
-void activity_handlers::play_with_pet_finish( player_activity *act, player *p )
-{
-    p->add_morale( MORALE_PLAY_WITH_PET, rng( 3, 10 ), 10, 5_hours, 25_minutes );
-    p->add_msg_if_player( m_good, _( "Playing with your %s has lifted your spirits a bit." ),
-                          act->str_values[0] );
-    act->set_to_null();
-}
-
-void activity_handlers::shaving_finish( player_activity *act, player *p )
-{
-    p->add_msg_if_player( _( "You open up your kit and shave." ) );
-    p->add_morale( MORALE_SHAVE, 8, 8, 240_minutes, 3_minutes );
-    act->set_to_null();
-}
-
-void activity_handlers::haircut_finish( player_activity *act, player *p )
-{
-    p->add_msg_if_player( _( "You give your hair a trim." ) );
-    p->add_morale( MORALE_HAIRCUT, 3, 3, 480_minutes, 3_minutes );
     act->set_to_null();
 }
 

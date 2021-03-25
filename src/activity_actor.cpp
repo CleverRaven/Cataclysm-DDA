@@ -2849,6 +2849,109 @@ std::unique_ptr<activity_actor> disassemble_activity_actor::deserialize( JsonIn 
     return actor.clone();
 }
 
+void meditate_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = to_moves<int>( 20_minutes );
+    act.moves_left = act.moves_total;
+}
+
+void meditate_activity_actor::finish( player_activity &act, Character &who )
+{
+    who.add_msg_if_player( m_good, _( "You pause to engage in spiritual contemplation." ) );
+    who.add_morale( MORALE_FEELING_GOOD, 5, 10 );
+    act.set_to_null();
+}
+
+void meditate_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.write_null();
+}
+
+std::unique_ptr<activity_actor> meditate_activity_actor::deserialize( JsonIn & )
+{
+    return meditate_activity_actor().clone();
+}
+
+void play_with_pet_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = rng( 50, 125 ) * 100;
+    act.moves_left = act.moves_total;
+}
+
+void play_with_pet_activity_actor::finish( player_activity &act, Character &who )
+{
+    who.add_morale( MORALE_PLAY_WITH_PET, rng( 3, 10 ), 10, 5_hours, 25_minutes );
+    who.add_msg_if_player( m_good, _( "Playing with your %s has lifted your spirits a bit." ),
+                           pet_name );
+    act.set_to_null();
+}
+
+void play_with_pet_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "pet_name", pet_name );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> play_with_pet_activity_actor::deserialize( JsonIn &jsin )
+{
+    play_with_pet_activity_actor actor = play_with_pet_activity_actor();
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "pet_name", actor.pet_name );
+
+    return actor.clone();
+}
+
+void shave_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = to_moves<int>( 5_minutes );
+    act.moves_left = act.moves_total;
+}
+
+void shave_activity_actor::finish( player_activity &act, Character &who )
+{
+    who.add_msg_if_player( _( "You open up your kit and shave." ) );
+    who.add_morale( MORALE_SHAVE, 8, 8, 240_minutes, 3_minutes );
+    act.set_to_null();
+}
+
+void shave_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.write_null();
+}
+
+std::unique_ptr<activity_actor> shave_activity_actor::deserialize( JsonIn & )
+{
+    return shave_activity_actor().clone();
+}
+
+void haircut_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = to_moves<int>( 30_minutes );
+    act.moves_left = act.moves_total;
+}
+
+void haircut_activity_actor::finish( player_activity &act, Character &who )
+{
+    who.add_msg_if_player( _( "You give your hair a trim." ) );
+    who.add_morale( MORALE_HAIRCUT, 3, 3, 480_minutes, 3_minutes );
+    act.set_to_null();
+}
+
+void haircut_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.write_null();
+}
+
+std::unique_ptr<activity_actor> haircut_activity_actor::deserialize( JsonIn & )
+{
+    return haircut_activity_actor().clone();
+}
+
 namespace activity_actors
 {
 
@@ -2867,15 +2970,19 @@ deserialize_functions = {
     { activity_id( "ACT_DROP" ), &drop_activity_actor::deserialize },
     { activity_id( "ACT_GUNMOD_REMOVE" ), &gunmod_remove_activity_actor::deserialize },
     { activity_id( "ACT_HACKING" ), &hacking_activity_actor::deserialize },
+    { activity_id( "ACT_HAIRCUT" ), &haircut_activity_actor::deserialize },
     { activity_id( "ACT_HOTWIRE_CAR" ), &hotwire_car_activity_actor::deserialize },
     { activity_id( "ACT_INSERT_ITEM" ), &insert_item_activity_actor::deserialize },
     { activity_id( "ACT_LOCKPICK" ), &lockpick_activity_actor::deserialize },
+    { activity_id( "ACT_MEDITATE" ), &meditate_activity_actor::deserialize },
     { activity_id( "ACT_MIGRATION_CANCEL" ), &migration_cancel_activity_actor::deserialize },
     { activity_id( "ACT_MILK" ), &milk_activity_actor::deserialize },
     { activity_id( "ACT_MOVE_ITEMS" ), &move_items_activity_actor::deserialize },
     { activity_id( "ACT_OPEN_GATE" ), &open_gate_activity_actor::deserialize },
     { activity_id( "ACT_PICKUP" ), &pickup_activity_actor::deserialize },
+    { activity_id( "ACT_PLAY_WITH_PET" ), &play_with_pet_activity_actor::deserialize },
     { activity_id( "ACT_RELOAD" ), &reload_activity_actor::deserialize },
+    { activity_id( "ACT_SHAVE" ), &shave_activity_actor::deserialize },
     { activity_id( "ACT_STASH" ), &stash_activity_actor::deserialize },
     { activity_id( "ACT_TRY_SLEEP" ), &try_sleep_activity_actor::deserialize },
     { activity_id( "ACT_UNLOAD" ), &unload_activity_actor::deserialize },

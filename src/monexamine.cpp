@@ -44,8 +44,6 @@ static const quality_id qual_SHEAR( "SHEAR" );
 
 static const efftype_id effect_sheared( "sheared" );
 
-static const activity_id ACT_PLAY_WITH_PET( "ACT_PLAY_WITH_PET" );
-
 static const efftype_id effect_controlled( "controlled" );
 static const efftype_id effect_harnessed( "harnessed" );
 static const efftype_id effect_has_bag( "has_bag" );
@@ -747,8 +745,7 @@ void monexamine::play_with( monster &z )
 {
     std::string pet_name = z.get_name();
     Character &player_character = get_player_character();
-    player_character.assign_activity( ACT_PLAY_WITH_PET, rng( 50, 125 ) * 100 );
-    player_character.activity.str_values.push_back( pet_name );
+    player_character.assign_activity( player_activity( play_with_pet_activity_actor( pet_name ) ) );
 }
 
 void monexamine::tie_or_untie( monster &z )
