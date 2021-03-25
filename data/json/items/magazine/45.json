@@ -38,8 +38,16 @@
     "id": "tdi_mag",
     "looks_like": "mp5mag",
     "type": "MAGAZINE",
-    "name": { "str": "Vector SMG 30-round magazine" },
-    "description": "A 30-round polymer and steel box magazine for use with the KRISS Vector.",
+    "name": { "str": "Glock SMG 30-round magazine" },
+    "description": "A 30-round polymer and steel box magazine for use with the Glock submachine gun.",
+    "variants": [
+      {
+        "id": "tdi_mag",
+        "name": { "str": "Vector SMG 30-round magazine" },
+        "description": "A 30-round polymer and steel box magazine for use with the KRISS Vector.",
+        "weight": 1
+      }
+    ],
     "weight": "210 g",
     "volume": "500 ml",
     "price": 1800,
@@ -141,8 +149,16 @@
     "id": "usp45mag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "USP .45 12-round magazine" },
-    "description": "A standard capacity magazine for use with the H&K USP handgun.",
+    "name": { "str": "USP .45 pistol 12-round magazine" },
+    "description": "A 12 round magazine for use with the USP pistol",
+    "variants": [
+      {
+        "id": "usp45mag",
+        "name": { "str": "USP .45 12-round magazine" },
+        "description": "A standard capacity magazine for use with the H&K USP handgun.",
+        "weight": 1
+      }
+    ],
     "weight": "60 g",
     "volume": "250 ml",
     "price": 5900,
@@ -158,8 +174,16 @@
     "id": "ppq45mag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "PPQ .45 ACP 12-round magazine" },
-    "description": "A 12 round steel box magazine for the Walther PPQ .45 ACP.",
+    "name": { "str": "PPQ .45 12-round amgazine" },
+    "description": "A 12 round steel box magazine for the PPQ pistol",
+    "variants": [
+      {
+        "id": "ppq45mag",
+        "name": { "str": "PPQ .45 ACP 12-round magazine" },
+        "description": "A 12 round steel box magazine for the Walther PPQ .45 ACP.",
+        "weight": 1
+      }
+    ],
     "weight": "80 g",
     "volume": "240 ml",
     "price": 5000,
@@ -192,8 +216,16 @@
     "id": "glock_21mag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "Glock 21 13-round magazine" },
-    "description": "A standard capacity magazine for use with the Glock 21.",
+    "name": { "str": "Glock .45 13-round magazine" },
+    "description": "A 13 round magazine for use with Glock firearms chambered in .45 ACP.",
+    "variants": [
+      {
+        "id": "glock_21mag",
+        "name": { "str": "Glock 21 13-round magazine" },
+        "description": "A standard capacity magazine for use with the Glock 21.",
+        "weight": 1
+      }
+    ],
     "weight": "85 g",
     "volume": "105 ml",
     "price": 4000,
@@ -209,8 +241,16 @@
     "id": "glock_21mag26",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "Glock 21 26-round magazine" },
-    "description": "A double capacity magazine for use with the Glock 21.",
+    "name": { "str": "Glock .45 26-round magazine" },
+    "description": "A 26 round magazine for use with Glock firearms chambered in .45 ACP.",
+    "variants": [
+      {
+        "id": "glock_21mag26",
+        "name": { "str": "Glock 21 26-round magazine" },
+        "description": "A double capacity magazine for use with the Glock 21.",
+        "weight": 1
+      }
+    ],
     "weight": "85 g",
     "volume": "205 ml",
     "price": 4000,
