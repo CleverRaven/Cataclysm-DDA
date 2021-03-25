@@ -9150,9 +9150,12 @@ iteminfo::iteminfo( const std::string &Type, const std::string &Name, double Val
 }
 
 iteminfo vol_to_info( const std::string &type, const std::string &left,
-                      const units::volume &vol, int decimal_places )
+                      const units::volume &vol, int decimal_places, bool lower_is_better )
 {
-    iteminfo::flags f = iteminfo::lower_is_better | iteminfo::no_newline;
+    iteminfo::flags f = iteminfo::no_newline;
+    if( lower_is_better ) {
+        f |= iteminfo::lower_is_better;
+    }
     int converted_volume_scale = 0;
     const double converted_volume =
         round_up( convert_volume( vol.value(), &converted_volume_scale ), decimal_places );
@@ -9164,9 +9167,12 @@ iteminfo vol_to_info( const std::string &type, const std::string &left,
 }
 
 iteminfo weight_to_info( const std::string &type, const std::string &left,
-                         const units::mass &weight, int /* decimal_places */ )
+                         const units::mass &weight, int /* decimal_places */, bool lower_is_better )
 {
-    iteminfo::flags f = iteminfo::lower_is_better | iteminfo::no_newline;
+    iteminfo::flags f = iteminfo::no_newline;
+    if( lower_is_better ) {
+        f |= iteminfo::lower_is_better;
+    }
     const double converted_weight = convert_weight( weight );
     f |= iteminfo::is_decimal;
     return iteminfo( type, left, string_format( "<num> %s", weight_units() ), f,

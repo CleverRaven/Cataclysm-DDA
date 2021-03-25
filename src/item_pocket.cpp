@@ -836,8 +836,8 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
 
     // Show volume/weight for normal containers, or ammo capacity if ammo_restriction is defined
     if( data->ammo_restriction.empty() ) {
-        info.push_back( vol_to_info( "CONTAINER", _( "Volume: " ), volume_capacity() ) );
-        info.push_back( weight_to_info( "CONTAINER", _( "  Weight: " ), weight_capacity() ) );
+        info.push_back( vol_to_info( "CONTAINER", _( "Volume: " ), volume_capacity(), 2, false ) );
+        info.push_back( weight_to_info( "CONTAINER", _( "  Weight: " ), weight_capacity(), 2, false ) );
         info.back().bNewLine = true;
     } else {
         for( const ammotype &at : ammo_types() ) {
@@ -853,7 +853,7 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
         info.back().bNewLine = true;
         info.push_back( iteminfo( "BASE", _( "Maximum item length: " ),
                                   string_format( "<num> %s", length_units( data->max_item_length ) ),
-                                  iteminfo::lower_is_better,
+                                  iteminfo::no_flags,
                                   convert_length( data->max_item_length ) ) );
     }
 
