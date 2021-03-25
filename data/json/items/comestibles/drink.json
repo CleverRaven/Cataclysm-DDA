@@ -949,14 +949,14 @@
     "symbol": "~",
     "quench": 60,
     "calories": 66,
-    "description": "Consisting of a special blend of electrolytes and simple sugars, this beverage tastes like bottled sweat but rehydrates the body faster than water.",
+    "description": "A flavoured drink consisting of a special blend of electrolytes and simple sugars.  It tastes vaguely like fruit with a slight chemical aftertaste.",
     "price": 55,
     "price_postapoc": 50,
-    "material": [ "water" ],
+    "material": [ "water", "junk" ],
     "volume": "250 ml",
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "fun": -1,
+    "fun": 1,
     "vitamins": [ [ "vitC", 1 ] ]
   },
   {
@@ -991,14 +991,15 @@
     "symbol": "~",
     "quench": 60,
     "calories": 12,
-    "description": "A basic oral rehydration therapy drink.  It will rehydrate you faster than water, but it tastes kind of strange.",
+    "description": "A basic oral rehydration therapy drink.  It will rehydrate you faster than water, but tastes like bottled sweat.",
     "price": 55,
     "price_postapoc": 50,
     "material": [ "water" ],
+    "flags": [ "EATEN_COLD" ],
     "volume": "250 ml",
     "looks_like": "sports_drink",
     "phase": "liquid",
-    "fun": -2
+    "fun": -1
   },
   {
     "type": "COMESTIBLE",
