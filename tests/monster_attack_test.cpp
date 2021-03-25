@@ -2,6 +2,7 @@
 #include <iosfwd>
 
 #include "cached_options.h"
+#include "calendar.h"
 #include "catch/catch.hpp"
 #include "character.h"
 #include "map.h"
@@ -15,6 +16,7 @@ static constexpr tripoint attacker_location{ 65, 65, 0 };
 static void test_monster_attack( const tripoint &target_offset, bool expected )
 {
     clear_creatures();
+    REQUIRE( is_day( calendar::turn ) );
     // Monster adjacent to target.
     const std::string monster_type = "mon_zombie";
     const tripoint target_location = attacker_location + target_offset;
