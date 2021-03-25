@@ -98,6 +98,10 @@ void TestsMustRestoreGlobalStateCheck::check( const MatchFinder::MatchResult &Re
 
 void TestsMustRestoreGlobalStateCheck::onEndOfTranslationUnit()
 {
+    if( !is_test_file_ ) {
+        return;
+    }
+
     for( const AssignmentToGlobal &a : suspicious_assignments_ ) {
         if( restored_decls_.count( a.lhsDecl ) ) {
             continue;
