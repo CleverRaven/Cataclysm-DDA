@@ -481,7 +481,9 @@
     "type": "bionic",
     "name": { "str": "Fingerhack" },
     "description": "One of your fingers has an electrohack surgically embedded in it; an all-purpose hacking unit used to override control panels and the like (but not computers).  Skill in computers is important, and a failed use may damage your circuits.",
-    "occupied_bodyparts": [ [ "hand_r", 2 ] ]
+    "occupied_bodyparts": [ [ "hand_r", 2 ] ],
+    "fake_item": "electrohack",
+    "flags": [ "BIONIC_TOGGLED" ]
   },
   {
     "id": "bio_flashbang",
@@ -664,7 +666,7 @@
     "description": "The index fingers of both hands have powerful fire starters which extend from the tip.",
     "occupied_bodyparts": [ [ "hand_l", 1 ], [ "hand_r", 1 ] ],
     "fake_item": "fake_firestarter",
-    "act_cost": "3 kJ"
+    "act_cost": "5 kJ"
   },
   {
     "id": "bio_lockpick",
