@@ -1167,7 +1167,13 @@ void vehicle_prototype::load( const JsonObject &jo )
             spawn_info.read( "items", next_spawn.item_ids, true );
         } else if( spawn_info.has_string( "items" ) ) {
             //Treat single item as array
-            next_spawn.item_ids.push_back( itype_id( spawn_info.get_string( "items" ) ) );
+            // And read the gun variant (if it exists)
+            if( spawn_info.has_string( "variant" ) ) {
+                const std::string variant = spawn_info.get_string( "variant" );
+                next_spawn.variant_ids.emplace_back( itype_id( spawn_info.get_string( "items" ) ), variant );
+            } else {
+                next_spawn.item_ids.push_back( itype_id( spawn_info.get_string( "items" ) ) );
+            }
         }
         if( spawn_info.has_array( "item_groups" ) ) {
             //Pick from a group of items, just like map::place_items

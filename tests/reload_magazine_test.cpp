@@ -19,7 +19,7 @@ struct itype;
 
 TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" )
 {
-    const itype_id gun_id( "m4a1" );
+    const itype_id gun_id( "nato_assault_rifle" );
     const ammotype gun_ammo( "223" );
     const itype_id ammo_id( "556" ); // any type of compatible ammo
     const itype_id alt_ammo( "223" ); // any alternative type of compatible ammo
