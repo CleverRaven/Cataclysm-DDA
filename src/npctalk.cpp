@@ -2420,7 +2420,6 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_add_wet( jo, "u_add_wet", false );
     } else if( jo.has_int( "npc_add_wet" ) ) {
         subeffect_fun.set_add_wet( jo, "npc_add_wet", true );
-    } else if( jo.has_int( "u_mod_fatigue" ) ) {
     } else {
         jo.throw_error( "invalid sub effect syntax: " + jo.str() );
     }
