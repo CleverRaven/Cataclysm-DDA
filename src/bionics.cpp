@@ -2759,6 +2759,7 @@ void Character::add_bionic( const bionic_id &b )
     if( !b->enchantments.empty() ) {
         recalculate_enchantment_cache();
     }
+    effect_on_conditions::process_reactivate();
 }
 
 void Character::remove_bionic( const bionic_id &b )
@@ -2800,6 +2801,7 @@ void Character::remove_bionic( const bionic_id &b )
     if( !b->enchantments.empty() ) {
         recalculate_enchantment_cache();
     }
+    effect_on_conditions::process_reactivate();
 }
 
 int Character::num_bionics() const
