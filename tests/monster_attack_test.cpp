@@ -8,6 +8,7 @@
 #include "map_helpers.h"
 #include "monster.h"
 #include "options_helpers.h"
+#include "player_helpers.h"
 #include "point.h"
 #include "type_id.h"
 
@@ -21,6 +22,7 @@ static void test_monster_attack( const tripoint &target_offset, bool expect_atta
     const std::string monster_type = "mon_zombie";
     const tripoint target_location = attacker_location + target_offset;
     Character &you = get_player_character();
+    clear_avatar();
     you.setpos( target_location );
     monster &test_monster = spawn_test_monster( monster_type, attacker_location );
     // Trigger basic attack.
@@ -31,6 +33,7 @@ static void test_monster_attack( const tripoint &target_offset, bool expect_atta
     CHECK( test_monster.attack_at( target_location ) == expect_attack );
     // Then test the reverse.
     clear_creatures();
+    clear_avatar();
     you.setpos( attacker_location );
     monster &target_monster = spawn_test_monster( monster_type, target_location );
     CHECK( you.sees( target_monster ) == expect_vision );
@@ -41,6 +44,7 @@ static void monster_attack_zlevel( const std::string &title, const tripoint &off
                                    const std::string &monster_ter, const std::string &target_ter,
                                    bool expected )
 {
+    clear_map();
     map &here = get_map();
     restore_on_out_of_scope<bool> restore_fov_3d( fov_3d );
     fov_3d = GENERATE( false, true );
