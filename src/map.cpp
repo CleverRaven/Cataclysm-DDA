@@ -4283,9 +4283,9 @@ void map::spawn_artifact( const tripoint &p, const relic_procgen_id &id )
     add_item_or_charges( p, id->create_item( rules ) );
 }
 
-void map::spawn_item( const tripoint &p, const itype_id &type_id,
-                      const unsigned quantity, const int charges,
-                      const time_point &birthday, const int damlevel, const std::set<flag_id> &flags )
+void map::spawn_item( const tripoint &p, const itype_id &type_id, const unsigned quantity,
+                      const int charges, const time_point &birthday, const int damlevel, const std::set<flag_id> &flags,
+                      const std::string &variant )
 {
     if( type_id.is_null() ) {
         return;
@@ -4300,6 +4300,7 @@ void map::spawn_item( const tripoint &p, const itype_id &type_id,
     }
     // spawn the item
     item new_item( type_id, birthday );
+    new_item.set_gun_variant( variant );
     if( one_in( 3 ) && new_item.has_flag( flag_VARSIZE ) ) {
         new_item.set_flag( flag_FIT );
     }

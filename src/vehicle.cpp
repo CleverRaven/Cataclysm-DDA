@@ -5470,7 +5470,7 @@ void vehicle::place_spawn_items()
     }
 
     const float spawn_rate = get_option<float>( "ITEM_SPAWNRATE" );
-    for( const vehicle_item_spawn &spawn : type.obj().item_spawns ) {
+    for( const vehicle_item_spawn &spawn : type->item_spawns ) {
         int part = part_with_feature( spawn.pos, "CARGO", false );
         if( part < 0 ) {
             debugmsg( "No CARGO parts at (%d, %d) of %s!", spawn.pos.x, spawn.pos.y, name );
@@ -5488,6 +5488,13 @@ void vehicle::place_spawn_items()
                 for( const itype_id &e : spawn.item_ids ) {
                     if( rng_float( 0, 1 ) < spawn_rate ) {
                         created.emplace_back( item( e ).in_its_container() );
+                    }
+                }
+                for( const std::pair<itype_id, std::string> &e : spawn.variant_ids ) {
+                    if( rng_float( 0, 1 ) < spawn_rate ) {
+                        item added = item( e.first ).in_its_container();
+                        added.set_gun_variant( e.second );
+                        created.push_back( added );
                     }
                 }
                 for( const item_group_id &e : spawn.item_groups ) {

@@ -265,6 +265,7 @@ item::item() : bday( calendar::start_of_cataclysm )
     type = nullitem();
     charges = 0;
     contents = item_contents( type->pockets );
+    select_gun_variant();
 }
 
 item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( turn )
@@ -290,6 +291,7 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
         set_var( "NANOFAB_ITEM_ID", nanofab_recipe.str() );
     }
 
+    select_gun_variant();
     if( type->gun ) {
         for( const itype_id &mod : type->gun->built_in_mods ) {
             item it( mod, turn, qty );
@@ -1014,6 +1016,11 @@ bool item::stacks_with( const item &rhs, bool check_components, bool combine_liq
     if( is_relic() && rhs.is_relic() && !( *relic_data == *rhs.relic_data ) ) {
         return false;
     }
+    if( has_gun_variant() != rhs.has_gun_variant() ||
+        ( has_gun_variant() && rhs.has_gun_variant() &&
+          gun_variant().id != rhs.gun_variant().id ) ) {
+        return false;
+    }
     if( charges != 0 && rhs.charges != 0 && is_money() ) {
         // Dealing with nonempty cash cards
         return true;
@@ -1679,6 +1686,8 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             info.push_back( iteminfo( "DESCRIPTION", snippet.value().translated() ) );
         } else if( idescription != item_vars.end() ) {
             info.push_back( iteminfo( "DESCRIPTION", idescription->second ) );
+        } else if( has_gun_variant() ) {
+            info.push_back( iteminfo( "DESCRIPTION", gun_variant().alt_description.translated() ) );
         } else {
             if( has_flag( flag_MAGIC_FOCUS ) ) {
                 info.push_back( iteminfo( "DESCRIPTION",
@@ -4191,7 +4200,10 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     contents_info( info, parts, batch, debug );
 
     if( get_option<bool>( "ENABLE_ASCII_ART" ) ) {
-        const ascii_art_id art = type->picture_id;
+        ascii_art_id art = type->picture_id;
+        if( has_gun_variant() && gun_variant().art.is_valid() ) {
+            art = gun_variant().art;
+        }
         if( art.is_valid() ) {
             for( const std::string &line : art->picture ) {
                 info.push_back( iteminfo( "DESCRIPTION", line ) );
@@ -6783,6 +6795,74 @@ bool item::destroyed_at_zero_charges() const
 bool item::is_gun() const
 {
     return !!type->gun;
+}
+
+void item::select_gun_variant()
+{
+    weighted_int_list<std::string> variants;
+    if( is_gun() ) {
+        for( const gun_variant_data &gv : type->gun->variants ) {
+            variants.add( gv.id, gv.weight );
+        }
+    } else if( !!type->magazine ) {
+        for( const gun_variant_data &gv : type->magazine->variants ) {
+            variants.add( gv.id, gv.weight );
+        }
+    } else {
+        return;
+    }
+
+    const std::string *selected = variants.pick();
+    if( !selected ) {
+        // No variants exist
+        return;
+    }
+
+    set_gun_variant( *selected );
+}
+
+bool item::has_gun_variant( bool check_option ) const
+{
+    return  _gun_variant != nullptr &&
+            ( !check_option || get_option<bool>( "SHOW_GUN_VARIANTS" ) );
+}
+
+const gun_variant_data &item::gun_variant() const
+{
+    return *_gun_variant;
+}
+
+void item::set_gun_variant( const std::string &variant )
+{
+    if( variant.empty() || ( is_gun() && type->gun->variants.empty() ) || ( !!type->magazine &&
+            type->magazine->variants.empty() ) ) {
+        return;
+    }
+
+    if( is_gun() ) {
+        for( const gun_variant_data &option : type->gun->variants ) {
+            if( option.id == variant ) {
+                _gun_variant = &option;
+                return;
+            }
+        }
+    } else if( !!type->magazine ) {
+        for( const gun_variant_data &option : type->magazine->variants ) {
+            if( option.id == variant ) {
+                _gun_variant = &option;
+                return;
+            }
+        }
+    } else {
+        return;
+    }
+
+    debugmsg( "Gun %s has no variant %s!", typeId().str(), variant );
+}
+
+void item::clear_gun_variant()
+{
+    _gun_variant = nullptr;
 }
 
 bool item::is_firearm() const
@@ -10463,6 +10543,8 @@ std::string item::type_name( unsigned int quantity ) const
         }
     } else if( iter != item_vars.end() ) {
         return iter->second;
+    } else if( has_gun_variant() ) {
+        ret_name = gun_variant().brand_name.translated();
     } else {
         ret_name = type->nname( quantity );
     }
