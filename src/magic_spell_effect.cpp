@@ -159,12 +159,7 @@ void spell_effect::short_range_teleport( const spell &sp, Creature &caster, cons
             return;
         }
 
-        std::list<tripoint> potential_targets;
-        for( const tripoint &potential_target : get_map().points_in_radius( target, sp.aoe() ) ) {
-            if( in_spell_aoe( target, potential_target, sp.aoe(), sp.has_flag( spell_flag::IGNORE_WALLS ) ) ) {
-                potential_targets.push_back( potential_target );
-            }
-        }
+        std::set<tripoint> potential_targets = calculate_spell_effect_area( sp, target, caster );
         tripoint where = random_entry( potential_targets );
         teleport::teleport_to_point( caster, where, safe, false );
         return;
