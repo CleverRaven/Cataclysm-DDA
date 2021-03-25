@@ -130,25 +130,6 @@ static void build_line( spell_detail::line_iterable line, const tripoint &source
 }
 } // namespace spell_detail
 
-static bool in_spell_aoe( const tripoint &start, const tripoint &end, const int &radius,
-                          const bool ignore_walls )
-{
-    if( rl_dist( start, end ) > radius ) {
-        return false;
-    }
-    if( ignore_walls ) {
-        return true;
-    }
-    map &here = get_map();
-    const std::vector<tripoint> trajectory = line_to( start, end );
-    for( const tripoint &pt : trajectory ) {
-        if( here.impassable( pt ) ) {
-            return false;
-        }
-    }
-    return true;
-}
-
 void spell_effect::short_range_teleport( const spell &sp, Creature &caster, const tripoint &target )
 {
     const bool safe = !sp.has_flag( spell_flag::UNSAFE_TELEPORT );
@@ -202,6 +183,25 @@ void spell_effect::pain_split( const spell &sp, Creature &caster, const tripoint
     }
     const int hp_each = total_hp / num_limbs;
     p->set_all_parts_hp_cur( hp_each );
+}
+
+static bool in_spell_aoe( const tripoint &start, const tripoint &end, const int &radius,
+    const bool ignore_walls )
+{
+    if( rl_dist( start, end ) > radius ) {
+        return false;
+    }
+    if( ignore_walls ) {
+        return true;
+    }
+    map &here = get_map();
+    const std::vector<tripoint> trajectory = line_to( start, end );
+    for( const tripoint &pt : trajectory ) {
+        if( here.impassable( pt ) ) {
+            return false;
+        }
+    }
+    return true;
 }
 
 std::set<tripoint> spell_effect::spell_effect_blast( const override_parameters &params,
