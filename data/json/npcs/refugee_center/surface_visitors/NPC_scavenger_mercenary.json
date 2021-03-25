@@ -73,7 +73,13 @@
     "id": "NC_SCAVENGER_MERC_wield",
     "subtype": "collection",
     "items": [
-      { "item": "m4a1", "ammo-item": "556", "charges": 30, "contents-item": [ "shoulder_strap", "holo_sight", "suppressor" ] }
+      {
+        "item": "nato_assault_rifle",
+        "variant": "m4a1",
+        "ammo-item": "556",
+        "charges": 30,
+        "contents-item": [ "shoulder_strap", "holo_sight", "suppressor" ]
+      }
     ]
   },
   {
