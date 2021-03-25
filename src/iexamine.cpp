@@ -207,7 +207,6 @@ static const mtype_id mon_spider_cellar_giant_s( "mon_spider_cellar_giant_s" );
 static const mtype_id mon_spider_web_s( "mon_spider_web_s" );
 static const mtype_id mon_spider_widow_giant_s( "mon_spider_widow_giant_s" );
 
-static const bionic_id bio_fingerhack( "bio_fingerhack" );
 static const bionic_id bio_lighter( "bio_lighter" );
 static const bionic_id bio_lockpick( "bio_lockpick" );
 static const bionic_id bio_painkiller( "bio_painkiller" );
@@ -1057,37 +1056,12 @@ static bool try_start_hacking( player &p, const tripoint &examp )
         return false;
     }
     const bool has_item = p.has_charges( itype_electrohack, 25 );
-    const bool has_bionic = p.has_bionic( bio_fingerhack ) && p.get_power_level() >= 25_kJ;
-    if( !has_item && !has_bionic ) {
+    if( !has_item ) {
         add_msg( _( "You don't have a hacking tool with enough charges!" ) );
         return false;
     }
-    bool use_bionic = has_bionic;
-    if( has_item && has_bionic ) {
-        uilist menu;
-        menu.settext( _( "Use which hacking tool?" ) );
-        menu.addentry( 0, true, MENU_AUTOASSIGN, "%s", itype_electrohack->nname( 1 ) );
-        menu.addentry( 1, true, MENU_AUTOASSIGN, "%s", bio_fingerhack->name );
-        menu.query();
-        switch( menu.ret ) {
-            case 0:
-                use_bionic = false;
-                break;
-            case 1:
-                use_bionic = true;
-                break;
-            default:
-                return false;
-        }
-    }
-    if( use_bionic ) {
-        p.mod_power_level( -25_kJ );
-        p.assign_activity( player_activity( hacking_activity_actor(
-                                                hacking_activity_actor::use_bionic {} ) ) );
-    } else {
-        p.use_charges( itype_electrohack, 25 );
-        p.assign_activity( player_activity( hacking_activity_actor() ) );
-    }
+    p.use_charges( itype_electrohack, 25 );
+    p.assign_activity( player_activity( hacking_activity_actor() ) );
     p.activity.placement = examp;
     return true;
 }
@@ -4353,9 +4327,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
 
     int pricePerUnit = getGasPricePerLiter( discount );
 
-    bool can_hack = ( !p.has_trait( trait_ILLITERATE ) &&
-                      ( ( p.has_charges( itype_electrohack, 25 ) ) ||
-                        ( p.has_bionic( bio_fingerhack ) && p.get_power_level() > 24_kJ ) ) );
+    bool can_hack = ( !p.has_trait( trait_ILLITERATE ) && p.has_charges( itype_electrohack, 25 ) );
 
     uilist amenu;
     amenu.selected = 1;
