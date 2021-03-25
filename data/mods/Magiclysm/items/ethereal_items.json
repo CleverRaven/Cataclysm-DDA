@@ -379,6 +379,24 @@
     "use_action": [ "WATER_PURIFIER" ]
   },
   {
+    "type": "COMESTIBLE",
+    "id": "druid_fertilizer",
+    "name": { "str": "seed of growth", "str_pl": "seeds of growth" },
+    "weight": "27 g",
+    "color": "white",
+    "flags": [ "TRADER_AVOID", "FERTILIZER" ],
+    "comestible_type": "FOOD",
+    "symbol": "°",
+    "quench": -10,
+    "healthy": -2,
+    "description": "A magical powder that can be scattered on growing crops and make them grow faster.",
+    "material": [ "powder" ],
+    "volume": "2 L",
+    "charges": 60,
+    "category": "chems",
+    "fun": -15
+  },
+  {
     "id": "obfuscating_aura",
     "type": "ARMOR",
     "name": "obfuscating aura",
