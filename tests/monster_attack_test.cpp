@@ -15,8 +15,9 @@ static constexpr tripoint attacker_location{ 65, 65, 0 };
 
 static void test_monster_attack( const tripoint &target_offset, bool expected )
 {
+    int day_hour = hour_of_day( calendar::turn ) );
     clear_creatures();
-    CAPTURE( hour_of_day( calendar::turn ) );
+    CAPTURE( day_hour );
     REQUIRE( is_day( calendar::turn ) );
     // Monster adjacent to target.
     const std::string monster_type = "mon_zombie";
