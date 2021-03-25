@@ -62,7 +62,15 @@ void TestsMustRestoreGlobalStateCheck::registerMatchers( MatchFinder *Finder )
 
     Finder->addMatcher(
         binaryOperator(
-            hasLHS( declRefExpr( hasDeclaration( namedDecl().bind( "lhsDecl" ) ) ) ),
+            hasLHS(
+                declRefExpr(
+                    hasDeclaration(
+                        namedDecl(
+                            hasDeclContext( anyOf( namespaceDecl(), translationUnitDecl() ) )
+                        ).bind( "lhsDecl" )
+                    )
+                )
+            ),
             isAssignmentOperator()
         ).bind( "assign" ),
         this
