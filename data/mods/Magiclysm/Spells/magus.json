@@ -340,6 +340,28 @@
     "effect_str": "foxs_cunning"
   },
   {
+    "id": "magus_force_jar",
+    "type": "SPELL",
+    "name": { "str": "Jar of Force" },
+    "description": "Summon a jar of force in which you can store liquids.",
+    "effect": "spawn_item",
+    "effect_str": "jar_3l_force",
+    "shape": "blast",
+    "valid_targets": [ "self" ],
+    "flags": [ "SOMATIC", "CONCENTRATE", "VERBAL" ],
+    "max_level": 15,
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_duration": 8640000,
+    "max_duration": 129600000,
+    "duration_increment": 8640000,
+    "spell_class": "MAGUS",
+    "base_casting_time": 400,
+    "base_energy_cost": 350,
+    "energy_source": "MANA",
+    "difficulty": 3
+  },
+  {
     "id": "magus_summon_impact_sling",
     "type": "SPELL",
     "name": { "str": "Impact Sling" },
