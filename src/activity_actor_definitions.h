@@ -22,6 +22,7 @@
 #include "type_id.h"
 #include "units.h"
 #include "units_fwd.h"
+#include "vehicle.h"
 
 #include "activity_actor.h"
 
@@ -335,6 +336,62 @@ class hotwire_car_activity_actor : public activity_actor
 
         std::unique_ptr<activity_actor> clone() const override {
             return std::make_unique<hotwire_car_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+};
+
+class bikerack_racking_activity_actor : public activity_actor
+{
+    private:
+        int moves_total;
+        vehicle &parent_vehicle;
+        std::vector<std::vector<int>> parts;
+    public:
+        bikerack_racking_activity_actor( int moves_total, vehicle &parent_vehicle,
+                                         std::vector<std::vector<int>> parts ): moves_total( moves_total ),
+            parent_vehicle( parent_vehicle ), parts( parts ) {}
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_BIKERACK_RACKING" );
+        }
+
+        void start( player_activity &act, Character & ) override;
+        void do_turn( player_activity &, Character & ) override {}
+        void finish( player_activity &act, Character & ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<bikerack_racking_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+};
+
+class bikerack_unracking_activity_actor : public activity_actor
+{
+    private:
+        int moves_total;
+        vehicle &parent_vehicle;
+        std::vector<int> parts;
+        std::vector<int> racks;
+
+    public:
+        bikerack_unracking_activity_actor( int moves_total, vehicle &parent_vehicle,
+                                           std::vector<int> parts, std::vector<int> racks ) : moves_total( moves_total ),
+            parent_vehicle( parent_vehicle ), parts( parts ), racks( racks ) {}
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_BIKERACK_UNRACKING" );
+        }
+
+        void start( player_activity &act, Character & ) override;
+        void do_turn( player_activity &, Character & ) override {}
+        void finish( player_activity &act, Character & ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<bikerack_unracking_activity_actor>( *this );
         }
 
         void serialize( JsonOut &jsout ) const override;
