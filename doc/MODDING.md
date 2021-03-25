@@ -135,7 +135,7 @@ Items are where you really want to read the [JSON_INFO.md](JSON_INFO.md) file, j
 ````
 
 ### Preventing monsters from spawning
-This kind of mod is relatively simple, but very useful. If you don't want to deal with certain types of monsters in your world, this is how you do it. There are two ways to go about this, and both will be detailed below. You can blacklist entire monster groups, or you can blacklist certain monsters. In order to do either of those things, you need that monster's ID. These can be found in the relevant data files. For the core game, these are in the `data/json/monsters` directory.
+This kind of mod is relatively simple, but very useful. If you don't want to deal with certain types of monsters in your world, this is how you do it. There are two ways to go about this, and both will be detailed below. You can blacklist entire monster groups, blacklist monsters by their specified species, or you can blacklist individual monsters. In order to do any of those things, you need that monster's ID or SPECIES data. These can be found in the relevant data files. For the core game, these are in the `data/json/monsters` directory.
 The example below is from the `No Ants` mod, and will stop any kind of ant from spawning in-game.
 ````json
 [
@@ -155,6 +155,15 @@ The example below is from the `No Ants` mod, and will stop any kind of ant from 
       "mon_ant_acid",
       "mon_ant"
     ]
+  }
+]
+````
+The following is an example of how to blacklist monsters by species. In this case, it would remove all fungaloids from the game.
+````json
+[
+  {
+    "type": "MONSTER_BLACKLIST",
+    "species": [ "FUNGUS" ]
   }
 ]
 ````
