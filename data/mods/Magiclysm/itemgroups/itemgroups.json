@@ -32,7 +32,8 @@
       { "group": "spellbook_loot_1", "prob": 3 },
       { "group": "magic_recipe_basic", "prob": 3 },
       { "group": "magic_recipe_advanced", "prob": 1 },
-      { "group": "dragon_books", "prob": 3 }
+      { "group": "dragon_books", "prob": 3 },
+      { "item": "spellcraft_theory", "prob": 2 }
     ]
   },
   {
@@ -42,13 +43,23 @@
       { "group": "spellbook_loot_0", "prob": 6 },
       { "group": "magic_recipe_basic", "prob": 6 },
       { "group": "magic_recipe_advanced", "prob": 2 },
-      { "group": "dragon_books", "prob": 5 }
+      { "group": "dragon_books", "prob": 5 },
+      { "group": "spellcraft_books", "prob": 4 }
     ]
   },
   {
     "type": "item_group",
     "id": "exotic_books",
-    "items": [ { "group": "spellbook_loot_1", "prob": 3 }, { "group": "dragon_books", "prob": 2 } ]
+    "items": [
+      { "group": "spellbook_loot_1", "prob": 3 },
+      { "group": "dragon_books", "prob": 2 },
+      { "group": "spellcraft_books", "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "spellcraft_books",
+    "items": [ { "item": "spellcraft_theory_basic", "prob": 70 }, { "item": "spellcraft_theory", "prob": 30 } ]
   },
   {
     "type": "item_group",
@@ -131,7 +142,8 @@
       { "group": "spell_scroll_tier_1", "prob": 60 },
       { "group": "spell_scroll_tier_2", "prob": 30 },
       { "group": "magic_recipe_basic", "prob": 50 },
-      { "group": "magic_recipe_advanced", "prob": 16 }
+      { "group": "magic_recipe_advanced", "prob": 16 },
+      { "group": "spellcraft_books", "prob": 40 }
     ]
   },
   {
@@ -142,7 +154,8 @@
       { "group": "spellbook_tier_0", "prob": 100 },
       { "group": "spellbook_tier_0", "prob": 80 },
       { "group": "spellbook_tier_0", "prob": 60 },
-      { "group": "spellbook_tier_0", "prob": 20 }
+      { "group": "spellbook_tier_0", "prob": 20 },
+      { "item": "spellcraft_theory_basic", "prob": 10 }
     ]
   },
   {
@@ -1014,6 +1027,7 @@
       { "group": "enchanted_tokens_tool", "prob": 15 },
       { "group": "enchanted_tokens_weapon", "prob": 5 },
       { "group": "potions_common", "prob": 35 },
+      { "group": "spellcraft_books", "prob": 10 },
       {
         "distribution": [
           { "group": "enchanted_wands_lesser", "prob": 15 },
