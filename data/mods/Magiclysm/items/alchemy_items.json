@@ -210,6 +210,15 @@
     "to_hit": -2
   },
   {
+    "id": "bundle_demon_chitin_piece",
+    "type": "GENERIC",
+    "copy-from": "demon_chitin_piece",
+    "symbol": "=",
+    "name": { "str": "bundle of demon chitin chunks", "str_pl": "bundles of demon chitin chunks" },
+    "proportional": { "price": 10, "weight": 10, "volume": 10 },
+    "description": "Pieces of demon spider exoskeleton, bundled tightly together for storage.  Disassemble to unpack."
+  },
+  {
     "type": "GENERIC",
     "id": "demon_chitin_plate",
     "category": "spare_parts",
