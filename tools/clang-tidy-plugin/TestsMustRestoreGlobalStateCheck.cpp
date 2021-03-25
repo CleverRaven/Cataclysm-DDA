@@ -29,7 +29,7 @@ namespace cata
 class TestsMustRestoreGlobalStateCallbacks : public PPCallbacks
 {
     public:
-        TestsMustRestoreGlobalStateCallbacks( TestsMustRestoreGlobalStateCheck *Check ) :
+        explicit TestsMustRestoreGlobalStateCallbacks( TestsMustRestoreGlobalStateCheck *Check ) :
             Check( Check ) {}
 
         void MacroDefined( const Token &MacroNameTok,
