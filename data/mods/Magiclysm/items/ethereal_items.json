@@ -133,7 +133,7 @@
     "material_thickness": 3,
     "environmental_protection": 2,
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MOVE_COST", "add": -5 } ] } ] },
-    "flags": [ "WATERPROOF", "ROLLER_QUAD", "BELTED" ]
+    "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "ROLLER_QUAD", "BELTED" ]
   },
   {
     "type": "GENERIC",
