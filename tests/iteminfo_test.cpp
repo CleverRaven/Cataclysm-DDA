@@ -1041,9 +1041,8 @@ TEST_CASE( "armor fit and sizing", "[iteminfo][armor][fit]" )
            "* This item can be worn on <color_c_cyan>either side</color> of the body.\n" );
 
     item power_armor( "test_power_armor" );
-    CHECK( item_info_str( power_armor, powerarmor ) ==
-           "--\n"
-           "* This gear is a part of power armor.\n" );
+    CHECK_THAT( item_info_str( power_armor, powerarmor ),
+                Catch::EndsWith( "* This gear is a part of power armor.\n" ) );
 }
 
 static void expected_armor_values( const item &armor, float bash, float cut, float stab,
