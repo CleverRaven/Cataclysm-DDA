@@ -880,7 +880,6 @@
     ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "TRADER_AVOID", "THERMOMETER", "MAGIC_FOCUS", "NO_UNLOAD", "NO_RELOAD" ],
     "charges_per_use": 1,
-    "ammo": [ "crystallized_mana" ],
     "relic_data": {
       "charge_info": { "recharge_type": "periodic", "time": "24 h", "regenerate_ammo": true },
       "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "hit_you_effect": [ { "id": "chilling_touch" } ] } ]
