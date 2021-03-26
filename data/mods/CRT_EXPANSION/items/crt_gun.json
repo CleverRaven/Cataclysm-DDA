@@ -202,7 +202,7 @@
     "price": 9900,
     "//": "You can get a decent Ruger .177 at walmart for $99",
     "material": [ "steel", "plastic" ],
-    "flags": [ "STR_RELOAD", "NON_FOULING", "NON_FOULING" ],
+    "flags": [ "STR_RELOAD", "NON_FOULING" ],
     "skill": "rifle",
     "ammo": [ "pellets" ],
     "weight": "5023 g",
