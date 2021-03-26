@@ -637,8 +637,7 @@
       "TRADER_AVOID",
       "NO_UNLOAD",
       "NO_REPAIR",
-      "WATERPROOF_GUN",
-      "NEVER_JAMS"
+      "WATERPROOF_GUN"
     ],
     "ammo_effects": [ "NEVER_MISFIRES" ],
     "weight": "86 g",
