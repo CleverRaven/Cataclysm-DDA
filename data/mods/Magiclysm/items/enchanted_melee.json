@@ -861,7 +861,7 @@
     "color": "light_gray",
     "name": { "str": "Kelvinist Frostbind" },
     "//": "Stats based on scimitar +2, a weapon that will cast freezing touch when it hits, has wide strike",
-    "description": "This curved sword reminiscent of a scimitar has a handle with a crystal attracted to it, you feel a cold wind emanating from it.  There are kelvinist runes engraved in the blade.",
+    "description": "This curved sword, reminiscent of a scimitar, has a handle with an embedded crystal from which a cold wind emanates.  There are Kelvinist runes embedded in the blade.",
     "price": 558000,
     "price_postapoc": 21000,
     "material": [ "steel" ],
