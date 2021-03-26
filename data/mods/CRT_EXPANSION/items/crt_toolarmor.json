@@ -213,7 +213,6 @@
       "OUTER",
       "LIGHT_35",
       "CHARGEDIM",
-      "NO_UNLOAD",
       "TRADER_AVOID"
     ],
     "material_thickness": 3,
