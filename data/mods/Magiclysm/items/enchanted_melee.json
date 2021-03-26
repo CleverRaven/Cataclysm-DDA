@@ -813,6 +813,27 @@
     "flags": [ "DURABLE_MELEE", "SHEATH_SPEAR", "TRADER_AVOID", "MAGIC_FOCUS" ]
   },
   {
+    "id": "rune_magus_weapon_adept",
+    "type": "GENERIC",
+    "name": { "str": "Magus battle staff", "str_pl": "Magus battle staves" },
+    "//": "It will be based on the Q +2 weapon but sightly worse, sightly better than the magus staff, but it's greatest strength will be it's regen mana capabilities, better than magi staff minor but worse than the lesser one.",
+    "description": "A quarterstaff with runes carved into it and two mana pearls at the tip, enchanted with mana for durability.  It fills you with an invigorating sensation.  There are two Magus runes carved into the wood.",
+    "weight": "1600 g",
+    "volume": "3500 ml",
+    "longest_side": "185 cm",
+    "price": 15000,
+    "to_hit": 4,
+    "bashing": 34,
+    "material": [ "wood", "diamond" ],
+    "symbol": "/",
+    "relic_data": {
+      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "REGEN_MANA", "multiply": 0.75 } ] } ]
+    },
+    "color": "brown",
+    "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_SPEAR", "TRADER_AVOID", "MAGIC_FOCUS" ]
+  },
+  {
     "id": "rune_kelvinist_weapon",
     "type": "GENERIC",
     "name": { "str": "Kelvinist flamberge" },
@@ -832,6 +853,38 @@
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
     "use_action": [ "WEATHER_TOOL" ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "TRADER_AVOID", "MAGIC_FOCUS", "THERMOMETER" ]
+  },
+  {
+    "id": "rune_kelvinist_ice_adept_weapon",
+    "type": "GENERIC",
+    "symbol": "/",
+    "color": "light_gray",
+    "name": { "str": "Kelvinist Frostbind" },
+    "//": "Stats based on scimitar +2, a weapon that will cast freezing touch when it hits, has wide strike",
+    "description": "This curved sword reminiscent of a scimitar has a handle with a crystal attracted to it, you feel a cold wind emanating from it.  There are kelvinist runes engraved in the blade.",
+    "price": 558000,
+    "price_postapoc": 21000,
+    "material": [ "steel" ],
+    "techniques": [ "WBLOCK_2", "WIDE" ],
+    "weight": "960 g",
+    "volume": "2 L",
+    "longest_side": "90 cm",
+    "bashing": 8,
+    "cutting": 36,
+    "to_hit": 3,
+    "category": "weapons",
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
+    "use_action": [
+      { "type": "cast_spell", "spell_id": "frost_spray", "no_fail": true, "level": 10, "need_wielding": true },
+      "WEATHER_TOOL"
+    ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "TRADER_AVOID", "THERMOMETER", "MAGIC_FOCUS", "NO_UNLOAD", "NO_RELOAD" ],
+    "charges_per_use": 1,
+    "relic_data": {
+      "charge_info": { "recharge_type": "periodic", "time": "24 h", "regenerate_ammo": true },
+      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "hit_you_effect": [ { "id": "chilling_touch" } ] } ]
+    },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "crystallized_mana": 3 } } ]
   },
   {
     "id": "rune_stormshaper_weapon",
