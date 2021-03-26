@@ -146,6 +146,7 @@ struct vision_test_case {
         }
 
         // test both 2d and 3d cases
+        restore_on_out_of_scope<bool> restore_fov_3d( fov_3d );
         fov_3d = GENERATE( false, true );
 
         std::stringstream section_name;

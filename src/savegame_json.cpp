@@ -908,10 +908,12 @@ void Character::load( const JsonObject &data )
     }
 
     // remove after 0.F
-    visit_items( []( item * it, item * ) {
-        migrate_item_charges( *it );
-        return VisitResponse::NEXT;
-    } );
+    if( savegame_loading_version < 33 ) {
+        visit_items( []( item * it, item * ) {
+            migrate_item_charges( *it );
+            return VisitResponse::NEXT;
+        } );
+    }
 }
 
 /**
@@ -2970,7 +2972,9 @@ void vehicle::deserialize( JsonIn &jsin )
                 active_items.add( *it, vp.mount() );
             }
             // remove after 0.F
-            migrate_item_charges( *it );
+            if( savegame_loading_version < 33 ) {
+                migrate_item_charges( *it );
+            }
         }
     }
 

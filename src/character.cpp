@@ -83,6 +83,7 @@
 #include "overmapbuffer.h"
 #include "pathfinding.h"
 #include "player.h"
+#include "profession.h"
 #include "proficiency.h"
 #include "recipe_dictionary.h"
 #include "ret_val.h"
@@ -11049,8 +11050,13 @@ void Character::migrate_items_to_storage( bool disintegrate )
     inv->visit_items( [&]( const item * it, item * ) {
         if( disintegrate ) {
             if( try_add( *it ) == nullptr ) {
-                debugmsg( "ERROR: Could not put %s into inventory.  Check if the profession has enough space.",
-                          it->tname() );
+                std::string profession_id = "<none>";
+                if( const player *me = as_player() ) {
+                    profession_id = me->prof->ident().str();
+                }
+                debugmsg( "ERROR: Could not put %s (%s) into inventory.  Check if the "
+                          "profession (%s) has enough space.",
+                          it->tname(), it->typeId().str(), profession_id );
                 return VisitResponse::ABORT;
             }
         } else {
@@ -11315,9 +11321,10 @@ bool Character::in_sleep_state() const
 
 bool Character::has_item_with_flag( const flag_id &flag, bool need_charges ) const
 {
-    return has_item_with( [&flag, &need_charges]( const item & it ) {
+    return has_item_with( [&flag, &need_charges, this]( const item & it ) {
         if( it.is_tool() && need_charges ) {
-            return it.has_flag( flag ) && it.type->tool->max_charges ? it.charges > 0 : it.has_flag( flag );
+            return it.has_flag( flag ) && ( it.type->tool->max_charges == 0 ||
+                                            it.units_remaining( *this ) > 0 );
         }
         return it.has_flag( flag );
     } );
