@@ -6,6 +6,7 @@
 #include "catch/catch.hpp"
 #include "character.h"
 #include "game.h"
+#include "line.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "monster.h"
@@ -19,28 +20,63 @@ static constexpr tripoint attacker_location{ 65, 65, 0 };
 static void test_monster_attack( const tripoint &target_offset, bool expected )
 {
     int day_hour = hour_of_day<int>( calendar::turn );
-    clear_creatures();
     CAPTURE( day_hour );
     REQUIRE( is_day( calendar::turn ) );
+    clear_creatures();
     // Monster adjacent to target.
     const std::string monster_type = "mon_zombie";
     const tripoint target_location = attacker_location + target_offset;
+    int distance = rl_dist( attacker_location, target_location );
+    CAPTURE( distance );
+    int a_zlev = attacker_location.z;
+    int t_zlev = target_location.z;
     Character &you = get_player_character();
     you.setpos( target_location );
-    you.recalc_sight_limits();
     monster &test_monster = spawn_test_monster( monster_type, attacker_location );
+    map &here = get_map();
+    // Why twice? See vision_test.cpp
+    here.update_visibility_cache( a_zlev );
+    here.invalidate_map_cache( a_zlev );
+    here.build_map_cache( a_zlev );
+    here.update_visibility_cache( a_zlev );
+    here.invalidate_map_cache( a_zlev );
+    here.build_map_cache( a_zlev );
+    if( a_zlev != t_zlev ) {
+        here.update_visibility_cache( t_zlev );
+        here.invalidate_map_cache( t_zlev );
+        here.build_map_cache( t_zlev );
+        here.update_visibility_cache( t_zlev );
+        here.invalidate_map_cache( t_zlev );
+        here.build_map_cache( t_zlev );
+    }
+    you.recalc_sight_limits();
     // Trigger basic attack.
     CAPTURE( attacker_location );
     CAPTURE( target_location );
     CAPTURE( fov_3d );
-    CAPTURE( debug_mode );
+    CHECK( test_monster.sees( target_location ) == expect_vision );
     CHECK( test_monster.attack_at( target_location ) == expected );
     // Then test the reverse.
     clear_creatures();
     you.setpos( attacker_location );
-    you.recalc_sight_limits();
     monster &target_monster = spawn_test_monster( monster_type, target_location );
-    CHECK( you.melee_attack( target_monster, false ) == expected );
+    here.update_visibility_cache( a_zlev );
+    here.invalidate_map_cache( a_zlev );
+    here.build_map_cache( a_zlev );
+    here.update_visibility_cache( a_zlev );
+    here.invalidate_map_cache( a_zlev );
+    here.build_map_cache( a_zlev );
+    if( a_zlev != t_zlev ) {
+        here.update_visibility_cache( t_zlev );
+        here.invalidate_map_cache( t_zlev );
+        here.build_map_cache( t_zlev );
+        here.update_visibility_cache( t_zlev );
+        here.invalidate_map_cache( t_zlev );
+        here.build_map_cache( t_zlev );
+    }
+    you.recalc_sight_limits();
+    CHECK( you.sees( target_monster ) == expect_vision );
+    CHECK( you.melee_attack( target_monster, false ) == expect_attack );
 }
 
 static void monster_attack_zlevel( const std::string &title, const tripoint &offset,
@@ -64,12 +100,13 @@ TEST_CASE( "monster_attack" )
     clear_map();
     restore_on_out_of_scope<time_point> restore_calendar_turn( calendar::turn );
     calendar::turn = daylight_time( calendar::turn ) + 2_hours;
-    get_weather().weather_override = WEATHER_CLEAR; // Do I need to put this back?
+    get_weather().weather_override = WEATHER_CLEAR; // Restore?
     SECTION( "attacking on open ground" ) {
         // Adjacent can attack of course.
         for( const tripoint &offset : eight_horizontal_neighbors ) {
             test_monster_attack( offset, true );
         }
+        clear_map();
         // Too far away cannot.
         test_monster_attack( { 2, 2, 0 }, false );
         test_monster_attack( { 2, 1, 0 }, false );
