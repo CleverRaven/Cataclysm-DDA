@@ -466,7 +466,11 @@ class JsonIn
                 while( !end_array() ) {
                     typename T::value_type element;
                     if( read( element, throw_on_error ) ) {
-                        v.insert( std::move( element ) );
+                        if( !v.insert( std::move( element ) ).second ) {
+                            return error_or_false(
+                                       throw_on_error,
+                                       "Duplicate entry in set defined by json array" );
+                        }
                     } else {
                         skip_value();
                     }
