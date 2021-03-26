@@ -10,7 +10,7 @@
     "price": 150,
     "//": "It's little more than a piece of slightly shaped leather",
     "material": [ "leather" ],
-    "flags": [ "RELOAD_AND_SHOOT", "NEVER_JAMS", "PRIMITIVE_RANGED_WEAPON", "BELT_CLIP", "WATERPROOF_GUN", "NEVER_JAMS" ],
+    "flags": [ "RELOAD_AND_SHOOT", "NEVER_JAMS", "PRIMITIVE_RANGED_WEAPON", "BELT_CLIP", "WATERPROOF_GUN" ],
     "ammo_effects": [ "NEVER_MISFIRES", "NO_PENETRATE_OBSTACLES" ],
     "skill": "throw",
     "ammo": [ "rock" ],
@@ -35,15 +35,7 @@
     "description": "A forked piece of wood with an elastic band stretched between two of its tips.  Can launch tiny pebbles and similar things at high speeds.",
     "price": 500,
     "material": [ "wood" ],
-    "flags": [
-      "FIRE_TWOHAND",
-      "RELOAD_AND_SHOOT",
-      "NEVER_JAMS",
-      "PRIMITIVE_RANGED_WEAPON",
-      "BELT_CLIP",
-      "WATERPROOF_GUN",
-      "NEVER_JAMS"
-    ],
+    "flags": [ "FIRE_TWOHAND", "RELOAD_AND_SHOOT", "NEVER_JAMS", "PRIMITIVE_RANGED_WEAPON", "BELT_CLIP", "WATERPROOF_GUN" ],
     "ammo_effects": [ "NEVER_MISFIRES", "NO_PENETRATE_OBSTACLES" ],
     "skill": "archery",
     "ammo": [ "pebble" ],
@@ -79,8 +71,7 @@
       "NONCONDUCTIVE",
       "SHEATH_SPEAR",
       "ALWAYS_TWOHAND",
-      "WATERPROOF_GUN",
-      "NEVER_JAMS"
+      "WATERPROOF_GUN"
     ],
     "ammo_effects": [ "NEVER_MISFIRES", "NO_PENETRATE_OBSTACLES" ],
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
@@ -109,15 +100,7 @@
     "description": "A modern slingshot with a wrist brace, allowing it to fire tiny objects slightly more forcefully than a simple wooden slingshot.",
     "price": 3000,
     "material": [ "steel", "plastic" ],
-    "flags": [
-      "FIRE_TWOHAND",
-      "RELOAD_AND_SHOOT",
-      "NEVER_JAMS",
-      "PRIMITIVE_RANGED_WEAPON",
-      "BELT_CLIP",
-      "WATERPROOF_GUN",
-      "NEVER_JAMS"
-    ],
+    "flags": [ "FIRE_TWOHAND", "RELOAD_AND_SHOOT", "NEVER_JAMS", "PRIMITIVE_RANGED_WEAPON", "BELT_CLIP", "WATERPROOF_GUN" ],
     "ammo_effects": [ "NEVER_MISFIRES", "NO_PENETRATE_OBSTACLES" ],
     "skill": "archery",
     "ammo": [ "pebble" ],
