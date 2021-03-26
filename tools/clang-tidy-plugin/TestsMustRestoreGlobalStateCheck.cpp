@@ -75,10 +75,25 @@ void TestsMustRestoreGlobalStateCheck::registerMatchers( MatchFinder *Finder )
         ).bind( "assign" ),
         this
     );
+
+    Finder->addMatcher(
+        cxxOperatorCallExpr(
+            hasArgument(
+                0,
+                memberExpr( member( namedDecl( hasName( "weather_override" ) ) ) )
+            ),
+            isAssignmentOperator()
+        ).bind( "assignToWeatherOverride" ),
+        this
+    );
 }
 
 void TestsMustRestoreGlobalStateCheck::check( const MatchFinder::MatchResult &Result )
 {
+    if( !is_test_file_ ) {
+        return;
+    }
+
     const BinaryOperator *Assignment = Result.Nodes.getNodeAs<BinaryOperator>( "assign" );
     const NamedDecl *LHSDecl = Result.Nodes.getNodeAs<NamedDecl>( "lhsDecl" );
 
@@ -93,6 +108,13 @@ void TestsMustRestoreGlobalStateCheck::check( const MatchFinder::MatchResult &Re
 
     if( ConstructExpr && RestoredDecl ) {
         restored_decls_.insert( RestoredDecl );
+    }
+
+    const CXXOperatorCallExpr *AssignmentToWeather =
+        Result.Nodes.getNodeAs<CXXOperatorCallExpr>( "assignToWeatherOverride" );
+    if( AssignmentToWeather ) {
+        diag( AssignmentToWeather->getBeginLoc(),
+              "Test assigns to weather_override.  It should instead use scoped_weather_override." );
     }
 }
 
