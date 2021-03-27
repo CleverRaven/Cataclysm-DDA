@@ -1,0 +1,78 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "thunder",
+    "recurrence_min": 1,
+    "recurrence_max": 1,
+    "condition": {
+      "and": [
+        { "or": [ { "is_weather": "thunder" }, { "is_weather": "lightning" } ] },
+        { "one_in_chance": 50 },
+        { "u_is_height": 0 }
+      ]
+    },
+    "deactivate_condition": { "not": { "or": [ { "is_weather": "thunder" }, { "is_weather": "lightning" } ] } },
+    "effect": [
+      { "message": "You hear a distant rumble of thunder.", "sound": true },
+      { "sound_effect": "thunder_far", "outdoor_event": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "lightning",
+    "recurrence_min": 1,
+    "recurrence_max": 1,
+    "condition": { "and": [ { "is_weather": "lightning" }, { "one_in_chance": 600 }, { "u_is_height": 0 } ] },
+    "deactivate_condition": { "not": { "is_weather": "lightning" } },
+    "effect": [
+      { "message": "A flash of lightning illuminates your surroundings!" },
+      { "sound_effect": "thunder_near" },
+      "lightning"
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "acid_drizzle",
+    "recurrence_min": 1,
+    "recurrence_max": 1,
+    "condition": { "and": [ { "is_weather": "acid_drizzle" }, "u_is_outside", { "not": { "u_has_pain": 30 } } ] },
+    "deactivate_condition": { "not": { "is_weather": "acid_drizzle" } },
+    "effect": [ { "message": "The acid rain stings, but is mostly harmless for now…" }, { "u_mod_pain": 1 } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "acid_rain",
+    "recurrence_min": 1,
+    "recurrence_max": 1,
+    "condition": {
+      "and": [
+        { "is_weather": "acid_rain" },
+        "u_is_outside",
+        { "not": { "u_has_pain": 100 } },
+        {
+          "not": { "or": [ { "u_has_wielded_with_flag": "RAIN_PROTECT" }, { "u_has_worn_with_flag": "RAINPROOF" } ] }
+        }
+      ]
+    },
+    "deactivate_condition": { "not": { "is_weather": "acid_rain" } },
+    "effect": [ { "message": "The acid rain burns!" }, { "u_mod_pain": 3 } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "snow",
+    "recurrence_min": 6,
+    "recurrence_max": 6,
+    "condition": { "and": [ { "is_weather": "snowing" }, "u_is_outside" ] },
+    "deactivate_condition": { "not": { "is_weather": "snowing" } },
+    "effect": [ { "u_add_wet": 10 } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "snowstorm",
+    "recurrence_min": 6,
+    "recurrence_max": 6,
+    "condition": { "and": [ { "is_weather": "snowstorm" }, "u_is_outside" ] },
+    "deactivate_condition": { "not": { "is_weather": "snowstorm" } },
+    "effect": [ { "u_add_wet": 40 } ]
+  }
+]

@@ -292,3 +292,23 @@ void talker_character::shout( const std::string &speech, bool order )
 {
     me_chr->shout( speech, order );
 }
+\
+int talker_character::pain_cur() const
+{
+    return me_chr->get_pain();
+}
+
+void talker_character::mod_pain( int amount )
+{
+    me_chr->mod_pain( amount );
+}
+
+bool talker_character::worn_with_flag( const flag_id &flag ) const
+{
+    return me_chr->worn_with_flag( flag );
+}
+
+bool talker_character::wielded_with_flag( const flag_id &flag ) const
+{
+    return me_chr->weapon.has_flag( flag );
+}
