@@ -411,7 +411,7 @@
     "id": "ar_glasses_t0",
     "type": "TOOL_ARMOR",
     "category": "clothing",
-    "name": { "str": "cheap pair of AR glasses", "str_pl": "cheap pairs of AR glasses" },
+    "name": { "str": "pair of cheap AR glasses", "str_pl": "pairs of cheap AR glasses" },
     "description": "A pair of cheap augmented reality glasses.  There is a camera at the rim, and it also has an alarm feature.",
     "weight": "100 g",
     "volume": "200 ml",
