@@ -495,7 +495,7 @@
     "type": "TOOL_ARMOR",
     "category": "clothing",
     "name": { "str": "pair of camping AR glasses", "str_pl": "pairs of camping AR glasses" },
-    "description": "A model of augmented reality glasses adapted for camping, with adaptive sunglass correction and some gadgets.  An augmented reality overlay allow the user to zoom, and it display handy informations about local topology.",
+    "description": "A model of augmented reality glasses adapted for camping, with adaptive light correction and some gadgets.  An augmented reality overlay allow the user to zoom, and it displays handy information about local topology.",
     "weight": "150 g",
     "volume": "300 ml",
     "price": 60000,
