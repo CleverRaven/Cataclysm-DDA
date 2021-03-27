@@ -396,5 +396,11 @@
     "name": "aquatic_predator",
     "neutral": [ "bot", "insect", "animal", "zombie" ],
     "hate": [ "fish", "zombie_aquatic" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "amigara",
+    "base_faction": "mutant",
+    "neutral": "amigara"
   }
 ]
