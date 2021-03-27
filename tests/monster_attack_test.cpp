@@ -10,6 +10,8 @@
 #include "map.h"
 #include "map_helpers.h"
 #include "monster.h"
+#include "options_helpers.h"
+#include "player_helpers.h"
 #include "point.h"
 #include "type_id.h"
 #include "weather.h"
@@ -31,6 +33,7 @@ static void test_monster_attack( const tripoint &target_offset, bool expected )
     int a_zlev = attacker_location.z;
     int t_zlev = target_location.z;
     Character &you = get_player_character();
+    clear_avatar();
     you.setpos( target_location );
     monster &test_monster = spawn_test_monster( monster_type, attacker_location );
     map &here = get_map();
@@ -58,6 +61,7 @@ static void test_monster_attack( const tripoint &target_offset, bool expected )
     CHECK( test_monster.attack_at( target_location ) == expected );
     // Then test the reverse.
     clear_creatures();
+    clear_avatar();
     you.setpos( attacker_location );
     monster &target_monster = spawn_test_monster( monster_type, target_location );
     here.update_visibility_cache( a_zlev );
@@ -83,19 +87,28 @@ static void monster_attack_zlevel( const std::string &title, const tripoint &off
                                    const std::string &monster_ter, const std::string &target_ter,
                                    bool expected )
 {
+    clear_map();
     map &here = get_map();
-    SECTION( title ) {
+    restore_on_out_of_scope<bool> restore_fov_3d( fov_3d );
+    fov_3d = GENERATE( false, true );
+    override_option opt( "FOV_3D", fov_3d ? "true" : "false" );
+
+    std::stringstream section_name;
+    section_name << title;
+    section_name << " " << ( fov_3d ? "3d" : "2d" );
+
+    SECTION( section_name.str() ) {
         here.ter_set( attacker_location, ter_id( monster_ter ) );
         here.ter_set( attacker_location + offset, ter_id( target_ter ) );
-        test_monster_attack( offset, expected );
+        test_monster_attack( offset, expected && fov_3d, fov_3d );
         for( const tripoint &more_offset : eight_horizontal_neighbors ) {
             here.ter_set( attacker_location + offset + more_offset, ter_id( "t_floor" ) );
-            test_monster_attack( offset + more_offset, false );
+            test_monster_attack( offset + more_offset, false, expected && fov_3d );
         }
     }
 }
 
-TEST_CASE( "monster_attack" )
+TEST_CASE( "monster_attack", "[vision][reachability]" )
 {
     clear_map();
     restore_on_out_of_scope<time_point> restore_calendar_turn( calendar::turn );
