@@ -355,8 +355,8 @@ TEST_CASE( "radioactive field", "[field]" )
         m.process_fields();
     }
     {
-        INFO( string_format( "Terrain should be irradiated under %d turns", time_limit_turns ) );
-        CHECK( fields_test_turns() < time_limit_turns );
+        INFO( string_format( "Terrain should be irradiated in no more than %d turns", time_limit_turns ) );
+        CHECK( fields_test_turns() <= time_limit_turns );
     }
 
     // cleanup
@@ -386,7 +386,7 @@ TEST_CASE( "fungal haze test", "[field]" )
         }
     }
     {
-        INFO( string_format( "Terrain should be fungalized under %d turns", time_limit_turns ) );
+        INFO( string_format( "Terrain should be fungalized in below %d turns", time_limit_turns ) );
         CHECK( fields_test_turns() < time_limit_turns );
     }
 

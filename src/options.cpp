@@ -1970,7 +1970,12 @@ void options_manager::add_options_graphics()
     add( "FULLSCREEN", "graphics", to_translation( "Fullscreen" ),
          to_translation( "Starts Cataclysm in one of the fullscreen modes.  Requires restart." ),
     { { "no", to_translation( "No" ) }, { "maximized", to_translation( "Maximized" ) }, { "fullscreen", to_translation( "Fullscreen" ) }, { "windowedbl", to_translation( "Windowed borderless" ) } },
+    // Borderless window is bad for debugging in Visual Studio
+#if defined(_MSC_VER)
+    "maximized", COPT_CURSES_HIDE
+#else
     "windowedbl", COPT_CURSES_HIDE
+#endif
        );
 #endif
 

@@ -19,7 +19,8 @@
 
 static constexpr tripoint attacker_location{ 65, 65, 0 };
 
-static void test_monster_attack( const tripoint &target_offset, bool expected )
+static void test_monster_attack( const tripoint &target_offset, bool expect_attack,
+                                 bool expect_vision )
 {
     int day_hour = hour_of_day<int>( calendar::turn );
     CAPTURE( day_hour );
@@ -58,7 +59,7 @@ static void test_monster_attack( const tripoint &target_offset, bool expected )
     CAPTURE( target_location );
     CAPTURE( fov_3d );
     CHECK( test_monster.sees( target_location ) == expect_vision );
-    CHECK( test_monster.attack_at( target_location ) == expected );
+    CHECK( test_monster.attack_at( target_location ) == expect_attack );
     // Then test the reverse.
     clear_creatures();
     clear_avatar();
@@ -117,26 +118,26 @@ TEST_CASE( "monster_attack", "[vision][reachability]" )
     SECTION( "attacking on open ground" ) {
         // Adjacent can attack of course.
         for( const tripoint &offset : eight_horizontal_neighbors ) {
-            test_monster_attack( offset, true );
+            test_monster_attack( offset, true, true );
         }
         clear_map();
         // Too far away cannot.
-        test_monster_attack( { 2, 2, 0 }, false );
-        test_monster_attack( { 2, 1, 0 }, false );
-        test_monster_attack( { 2, 0, 0 }, false );
-        test_monster_attack( { 2, -1, 0 }, false );
-        test_monster_attack( { 2, -2, 0 }, false );
-        test_monster_attack( { 1, 2, 0 }, false );
-        test_monster_attack( { 1, -2, 0 }, false );
-        test_monster_attack( { 0, 2, 0 }, false );
-        test_monster_attack( { 0, -2, 0 }, false );
-        test_monster_attack( { -1, 2, 0 }, false );
-        test_monster_attack( { -1, -2, 0 }, false );
-        test_monster_attack( { -2, 2, 0 }, false );
-        test_monster_attack( { -2, 1, 0 }, false );
-        test_monster_attack( { -2, 0, 0 }, false );
-        test_monster_attack( { -2, -1, 0 }, false );
-        test_monster_attack( { -2, -2, 0 }, false );
+        test_monster_attack( { 2, 2, 0 }, false, true );
+        test_monster_attack( { 2, 1, 0 }, false, true );
+        test_monster_attack( { 2, 0, 0 }, false, true );
+        test_monster_attack( { 2, -1, 0 }, false, true );
+        test_monster_attack( { 2, -2, 0 }, false, true );
+        test_monster_attack( { 1, 2, 0 }, false, true );
+        test_monster_attack( { 1, -2, 0 }, false, true );
+        test_monster_attack( { 0, 2, 0 }, false, true );
+        test_monster_attack( { 0, -2, 0 }, false, true );
+        test_monster_attack( { -1, 2, 0 }, false, true );
+        test_monster_attack( { -1, -2, 0 }, false, true );
+        test_monster_attack( { -2, 2, 0 }, false, true );
+        test_monster_attack( { -2, 1, 0 }, false, true );
+        test_monster_attack( { -2, 0, 0 }, false, true );
+        test_monster_attack( { -2, -1, 0 }, false, true );
+        test_monster_attack( { -2, -2, 0 }, false, true );
     }
 
     monster_attack_zlevel( "attack_up_stairs", tripoint_above, "t_stairs_up", "t_stairs_down", true );
