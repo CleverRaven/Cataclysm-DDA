@@ -31,6 +31,12 @@ void f1()
     fov_3d_z_range = 1;
 }
 
+void f1b()
+{
+    fov_3d_z_range = 1;
+    // CHECK-MESSAGES: warning: Test alters global variable 'fov_3d_z_range'. You must ensure it is restored using 'restore_on_out_of_scope'. [cata-tests-must-restore-global-state]
+}
+
 void f2()
 {
     int local_var;
@@ -41,4 +47,18 @@ void f3()
 {
     N::another_option = true;
     // CHECK-MESSAGES: warning: Test alters global variable 'another_option'. You must ensure it is restored using 'restore_on_out_of_scope'. [cata-tests-must-restore-global-state]
+}
+
+struct weather_type_id {};
+
+struct weather_manager {
+    weather_type_id weather_override;
+};
+
+weather_manager &get_weather();
+
+void f4()
+{
+    get_weather().weather_override = {};
+    // CHECK-MESSAGES: warning: Test assigns to weather_override.  It should instead use scoped_weather_override. [cata-tests-must-restore-global-state]
 }

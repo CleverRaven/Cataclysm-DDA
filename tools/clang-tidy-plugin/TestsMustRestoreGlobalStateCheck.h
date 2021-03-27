@@ -18,11 +18,45 @@ class ClangTidyContext;
 namespace cata
 {
 
+struct RestoredDecl {
+    const FunctionDecl *function;
+    const NamedDecl *variable;
+
+    bool operator==( const RestoredDecl &other ) const {
+        return function == other.function && variable == other.variable;
+    }
+};
+
+} // namespace cata
+} // namespace tidy
+} // namespace clang
+
+namespace std
+{
+template<>
+struct hash<clang::tidy::cata::RestoredDecl> {
+    std::size_t operator()( const clang::tidy::cata::RestoredDecl &r ) const noexcept {
+        hash<const clang::FunctionDecl *> function_hash;
+        hash<const clang::NamedDecl *> decl_hash;
+        size_t result = function_hash( r.function );
+        result ^= 0x9e3779b9 + ( result << 6 ) + ( result >> 2 );
+        result ^= decl_hash( r.variable );
+        return result;
+    }
+};
+} // namespace std
+
+namespace clang
+{
+namespace tidy
+{
+namespace cata
+{
+
 class TestsMustRestoreGlobalStateCheck : public ClangTidyCheck
 {
     public:
-        TestsMustRestoreGlobalStateCheck( StringRef Name, ClangTidyContext *Context )
-            : ClangTidyCheck( Name, Context ) {}
+        TestsMustRestoreGlobalStateCheck( StringRef Name, ClangTidyContext *Context );
 
         void registerPPCallbacks( CompilerInstance &Compiler ) override;
         void registerMatchers( ast_matchers::MatchFinder *Finder ) override;
@@ -34,11 +68,12 @@ class TestsMustRestoreGlobalStateCheck : public ClangTidyCheck
         }
     private:
         bool is_test_file_ = false;
-        std::unordered_set<const NamedDecl *> restored_decls_;
+
+        std::unordered_set<RestoredDecl> restored_decls_;
 
         struct AssignmentToGlobal {
             const BinaryOperator *assignment;
-            const NamedDecl *lhsDecl;
+            RestoredDecl lhsDecl;
         };
 
         std::vector<AssignmentToGlobal> suspicious_assignments_;

@@ -10,6 +10,7 @@
 #include <llvm/ADT/STLExtras.h>
 
 #include "clang/Frontend/CompilerInstance.h"
+#include "Utils.h"
 
 namespace clang
 {
@@ -25,6 +26,10 @@ namespace tidy
 {
 namespace cata
 {
+
+TestsMustRestoreGlobalStateCheck::TestsMustRestoreGlobalStateCheck(
+    StringRef Name, ClangTidyContext *Context )
+    : ClangTidyCheck( Name, Context ) {}
 
 class TestsMustRestoreGlobalStateCallbacks : public PPCallbacks
 {
@@ -75,24 +80,49 @@ void TestsMustRestoreGlobalStateCheck::registerMatchers( MatchFinder *Finder )
         ).bind( "assign" ),
         this
     );
+
+    Finder->addMatcher(
+        cxxOperatorCallExpr(
+            hasArgument(
+                0,
+                memberExpr( member( namedDecl( hasName( "weather_override" ) ) ) )
+            ),
+            isAssignmentOperator()
+        ).bind( "assignToWeatherOverride" ),
+        this
+    );
 }
 
 void TestsMustRestoreGlobalStateCheck::check( const MatchFinder::MatchResult &Result )
 {
+    if( !is_test_file_ ) {
+        return;
+    }
+
     const BinaryOperator *Assignment = Result.Nodes.getNodeAs<BinaryOperator>( "assign" );
     const NamedDecl *LHSDecl = Result.Nodes.getNodeAs<NamedDecl>( "lhsDecl" );
 
     if( Assignment && LHSDecl ) {
-        suspicious_assignments_.push_back( {Assignment, LHSDecl} );
+        const FunctionDecl *FuncDecl = getContainingFunction( Result, Assignment );
+        suspicious_assignments_.push_back( {Assignment, {FuncDecl, LHSDecl}} );
         return;
     }
 
     const CXXConstructExpr *ConstructExpr =
         Result.Nodes.getNodeAs<CXXConstructExpr>( "construction" );
-    const NamedDecl *RestoredDecl = Result.Nodes.getNodeAs<NamedDecl>( "restoredDecl" );
+    const NamedDecl *VarDecl = Result.Nodes.getNodeAs<NamedDecl>( "restoredDecl" );
 
-    if( ConstructExpr && RestoredDecl ) {
-        restored_decls_.insert( RestoredDecl );
+    if( ConstructExpr && VarDecl ) {
+        const FunctionDecl *FuncDecl = getContainingFunction( Result, ConstructExpr );
+        restored_decls_.insert( {FuncDecl, VarDecl} );
+        return;
+    }
+
+    const CXXOperatorCallExpr *AssignmentToWeather =
+        Result.Nodes.getNodeAs<CXXOperatorCallExpr>( "assignToWeatherOverride" );
+    if( AssignmentToWeather ) {
+        diag( AssignmentToWeather->getBeginLoc(),
+              "Test assigns to weather_override.  It should instead use scoped_weather_override." );
     }
 }
 
@@ -108,7 +138,7 @@ void TestsMustRestoreGlobalStateCheck::onEndOfTranslationUnit()
         }
         diag( a.assignment->getBeginLoc(),
               "Test alters global variable %0. You must ensure it is restored using "
-              "'restore_on_out_of_scope'." ) << a.lhsDecl;
+              "'restore_on_out_of_scope'." ) << a.lhsDecl.variable;
     }
 }
 
