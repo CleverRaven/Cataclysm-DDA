@@ -278,7 +278,7 @@
     "coverage": 80,
     "required_str": -1,
     "looks_like": "t_column",
-    "flags": [ "TRANSPARENT"],
+    "flags": [ "TRANSPARENT" ],
     "bash": {
       "str_min": 18,
       "str_max": 40,
