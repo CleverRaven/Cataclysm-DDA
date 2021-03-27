@@ -80,6 +80,7 @@ static const activity_id ACT_WAIT_NPC( "ACT_WAIT_NPC" );
 
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_riding( "riding" );
+static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_under_operation( "under_operation" );
 
 static const itype_id fuel_type_animal( "animal" );
@@ -2061,6 +2062,116 @@ void talk_effect_fun_t::set_npc_first_topic( const std::string &chat_topic )
     };
 }
 
+void talk_effect_fun_t::set_message( const JsonObject &jo, const std::string &member )
+{
+    std::string message = jo.get_string( member );
+    const bool snippet = jo.get_bool( "snippet", false );
+    const bool outdoor_only = jo.get_bool( "outdoor_only", false );
+    const bool sound = jo.get_bool( "sound", false );
+    const bool popup_msg = jo.get_bool( "popup", false );
+    game_message_type type = m_neutral;
+    std::string type_string = jo.get_string( "type", "neutral" );
+    if( type_string == "good" ) {
+        type = m_good;
+    } else if( type_string == "neutral" ) {
+        type = m_neutral;
+    } else if( type_string == "bad" ) {
+        type = m_bad;
+    } else if( type_string == "mixed" ) {
+        type = m_mixed;
+    } else if( type_string == "warning" ) {
+        type = m_warning;
+    } else if( type_string == "info" ) {
+        type = m_info;
+    } else if( type_string == "debug" ) {
+        type = m_debug;
+    } else if( type_string == "headshot" ) {
+        type = m_headshot;
+    } else if( type_string == "critical" ) {
+        type = m_critical;
+    } else if( type_string == "grazing" ) {
+        type = m_grazing;
+    } else {
+        jo.throw_error( "Invalid message type." );
+    }
+
+    function = [message, outdoor_only, sound, snippet, type, popup_msg]( const dialogue & d ) {
+        std::string translated_message;
+        if( snippet ) {
+            translated_message = SNIPPET.random_from_category( message ).value_or( translation() ).translated();
+        } else {
+            translated_message = _( message );
+        }
+        Character *target = d.alpha->get_character();
+        if( !target ) {
+            return;
+        }
+        if( sound ) {
+            bool display = false;
+            map &here = get_map();
+            if( !target->has_effect( effect_sleep ) && !target->is_deaf() ) {
+                if( !outdoor_only || here.get_abs_sub().z >= 0 ) {
+                    display = true;
+                } else if( one_in( std::max( roll_remainder( 2.0f * here.get_abs_sub().z /
+                                             target->mutation_value( "hearing_modifier" ) ), 1 ) ) ) {
+                    display = true;
+                }
+            }
+            if( !display ) {
+                return;
+            }
+        }
+        if( popup_msg ) {
+            popup( translated_message, PF_NONE );
+        } else {
+            target->add_msg_if_player( type, translated_message );
+        }
+
+    };
+}
+
+
+void talk_effect_fun_t::set_mod_pain( const JsonObject &jo, const std::string &member,
+                                      bool is_npc )
+{
+    int amount = jo.get_int( member );
+    function = [is_npc, amount]( const dialogue & d ) {
+        d.actor( is_npc )->mod_pain( amount );
+    };
+}
+
+void talk_effect_fun_t::set_add_wet( const JsonObject &jo, const std::string &member,
+                                     bool is_npc )
+{
+    int amount = jo.get_int( member );
+    function = [is_npc, amount]( const dialogue & d ) {
+        Character *target = d.actor( is_npc )->get_character();
+        if( target ) {
+            wet_character( *target, amount );
+        }
+    };
+}
+
+void talk_effect_fun_t::set_sound_effect( const JsonObject &jo, const std::string &member )
+{
+    std::string sound_effect = jo.get_string( member );
+    const bool outdoor_event = jo.get_bool( "outdoor_event", false );
+    function = [sound_effect, outdoor_event]( const dialogue & d ) {
+        map &here = get_map();
+
+        Character *target = d.alpha->get_character();
+        if( target && !target->has_effect( effect_sleep ) && !target->is_deaf() ) {
+            if( !outdoor_event || here.get_abs_sub().z >= 0 ) {
+                sfx::play_variant_sound( "environment", sound_effect, 80, random_direction() );
+            } else if( one_in( std::max( roll_remainder( 2.0f * here.get_abs_sub().z /
+                                         target->mutation_value( "hearing_modifier" ) ), 1 ) ) ) {
+                sfx::play_variant_sound( "environment", sound_effect,
+                                         ( 80 * target->mutation_value( "hearing_modifier" ) ), random_direction() );
+            }
+        }
+    };
+}
+
 void talk_effect_t::set_effect_consequence( const talk_effect_fun_t &fun,
         dialogue_consequence con )
 {
@@ -2298,6 +2409,18 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
     } else if( jo.has_string( "npc_first_topic" ) ) {
         const std::string chat_topic = jo.get_string( "npc_first_topic" );
         subeffect_fun.set_npc_first_topic( chat_topic );
+    } else if( jo.has_string( "sound_effect" ) ) {
+        subeffect_fun.set_sound_effect( jo, "sound_effect" );
+    } else if( jo.has_string( "message" ) ) {
+        subeffect_fun.set_message( jo, "message" );
+    } else if( jo.has_int( "u_mod_pain" ) ) {
+        subeffect_fun.set_mod_pain( jo, "u_mod_pain", false );
+    } else if( jo.has_int( "npc_mod_pain" ) ) {
+        subeffect_fun.set_mod_pain( jo, "npc_mod_pain", false );
+    } else if( jo.has_int( "u_add_wet" ) ) {
+        subeffect_fun.set_add_wet( jo, "u_add_wet", false );
+    } else if( jo.has_int( "npc_add_wet" ) ) {
+        subeffect_fun.set_add_wet( jo, "npc_add_wet", true );
     } else {
         jo.throw_error( "invalid sub effect syntax: " + jo.str() );
     }
@@ -2384,6 +2507,7 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
             WRAP( npc_die ),
             WRAP( npc_thankful ),
             WRAP( clear_overrides ),
+            WRAP( lightning ),
             WRAP( nothing )
 #undef WRAP
         }
