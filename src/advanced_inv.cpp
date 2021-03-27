@@ -336,7 +336,14 @@ void advanced_inventory::print_items( const advanced_inventory_pane &pane, bool 
         const item &it = *sitem.items.front();
         const bool selected = active && index == static_cast<int>( i );
 
-        nc_color thiscolor = active ? it.color_in_inventory() : norm;
+        nc_color thiscolor;
+        if( !active ) {
+            thiscolor = norm;
+        } else if( it.is_food_container() && !it.is_craft() && it.contents.num_item_stacks() == 1 ) {
+            thiscolor = it.contents.all_items_top().front()->color_in_inventory();
+        } else {
+            thiscolor = it.color_in_inventory();
+        }
         nc_color thiscolordark = c_dark_gray;
         nc_color print_color;
 
@@ -479,11 +486,14 @@ struct advanced_inv_sorter {
                     return d1.cat < d2.cat;
                 }
                 break;
-            case SORTBY_DAMAGE:
-                if( d1.items.front()->damage() != d2.items.front()->damage() ) {
-                    return d1.items.front()->damage() < d2.items.front()->damage();
+            case SORTBY_DAMAGE: {
+                const double dam1 = d1.items.front()->average_dps( get_player_character() );
+                const double dam2 = d2.items.front()->average_dps( get_player_character() );
+                if( dam1 != dam2 ) {
+                    return dam1 > dam2;
                 }
                 break;
+            }
             case SORTBY_AMMO: {
                 const std::string a1 = d1.items.front()->ammo_sort_name();
                 const std::string a2 = d2.items.front()->ammo_sort_name();

@@ -31,6 +31,7 @@
 #include "dialogue.h"
 #include "disease.h"
 #include "effect.h"
+#include "effect_on_condition.h"
 #include "emit.h"
 #include "event_statistics.h"
 #include "faction.h"
@@ -239,6 +240,7 @@ void DynamicDataLoader::initialize()
     add( "json_flag", &json_flag::load_all );
     add( "fault", &fault::load_fault );
     add( "relic_procgen_data", &relic_procgen_data::load_relic_procgen_data );
+    add( "effect_on_condition", &effect_on_conditions::load );
     add( "field_type", &field_types::load );
     add( "weather_type", &weather_types::load );
     add( "ammo_effect", &ammo_effects::load );
@@ -526,6 +528,7 @@ void DynamicDataLoader::unload_data()
     dreams.clear();
     emit::reset();
     event_statistic::reset();
+    effect_on_conditions::reset();
     event_transformation::reset();
     faction_template::reset();
     fault::reset();
@@ -616,6 +619,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Flags" ), &json_flag::finalize_all },
             { _( "Body parts" ), &body_part_type::finalize_all },
             { _( "Weather types" ), &weather_types::finalize_all },
+            { _( "Effect on conditions" ), &effect_on_conditions::finalize_all },
             { _( "Field types" ), &field_types::finalize_all },
             { _( "Ammo effects" ), &ammo_effects::finalize_all },
             { _( "Emissions" ), &emit::finalize },
@@ -700,6 +704,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             },
             { _( "Vitamins" ), &vitamin::check_consistency },
             { _( "Weather types" ), &weather_types::check_consistency },
+            { _( "Effect on conditions" ), &effect_on_conditions::check_consistency },
             { _( "Field types" ), &field_types::check_consistency },
             { _( "Ammo effects" ), &ammo_effects::check_consistency },
             { _( "Emissions" ), &emit::check_consistency },

@@ -94,6 +94,41 @@
     "upgrades": { "half_life": 12, "into": "mon_skeleton_hulk" }
   },
   {
+    "id": "mon_zpig_brute",
+    "type": "MONSTER",
+    "name": { "str": "skull pig" },
+    "copy-from": "mon_zombie_pig",
+    "description": "This former wild boar appears to have been a truly massive specimen in life.  Stretching eight to nine feet in length, the most arresting feature of this animal is that the enamel of its tusks has spread across its face leaving a skull-like appearance with deep-set eyeholes.",
+    "diff": 2,
+    "color": "red",
+    "proportional": { "hp": 1.5, "speed": 1.5, "attack_cost": 1.5 },
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_cut": 2,
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "armor_bullet": 5,
+      "vision_night": 1
+    },
+    "special_attacks": [ [ "SMASH", 30 ], { "id": "impale" } ],
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_VEH", "HIT_AND_RUN" ] }
+  },
+  {
+    "id": "mon_zombie_pig_gas",
+    "type": "MONSTER",
+    "name": { "str": "trench pig" },
+    "copy-from": "mon_zombie_pig",
+    "description": "Billowing clouds of yellow-streaked gas precede boar-shaped shadows.  Glimpses of a zombie boar are quickly obscured by the gases leaving its body through open wounds.",
+    "diff": 5,
+    "color": "red",
+    "harvest": "exempt",
+    "emit_fields": [ { "emit_id": "emit_tear_gas_stream", "delay": "1 s" } ],
+    "death_function": [ "TEARBURST" ],
+    "special_attacks": [ { "id": "impale" } ],
+    "extend": { "flags": [ "HIT_AND_RUN" ] }
+  },
+  {
     "id": "mon_wolf_skeleton",
     "type": "MONSTER",
     "name": { "str": "skeletal wolf", "str_pl": "skeletal wolves" },

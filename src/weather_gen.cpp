@@ -8,7 +8,11 @@
 #include <string>
 #include <utility>
 
+#include "avatar.h"
 #include "cata_utility.h"
+#include "condition.h"
+#include "dialogue.h"
+#include "game.h"
 #include "game_constants.h"
 #include "json.h"
 #include "math_defines.h"
@@ -168,70 +172,37 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
 }
 
 weather_type_id weather_generator::get_weather_conditions( const tripoint &location,
-        const time_point &t, unsigned seed,
-        std::map<weather_type_id, time_point> &next_instance_allowed ) const
+        const time_point &t, unsigned seed ) const
 {
     w_point w( get_weather( location, t, seed ) );
-    weather_type_id wt = get_weather_conditions( w, next_instance_allowed );
+    weather_type_id wt = get_weather_conditions( w );
     return wt;
 }
 
-weather_type_id weather_generator::get_weather_conditions( const w_point &w,
-        std::map<weather_type_id, time_point> &next_instance_allowed ) const
+weather_type_id weather_generator::get_weather_conditions( const w_point & ) const
 {
     weather_type_id current_conditions = WEATHER_CLEAR;
+    dialogue d;
+    standard_npc default_npc( "Default" );
+    d.alpha = get_talker_for( get_avatar() );
+    d.beta = get_talker_for( default_npc );
     for( const std::string &weather_type : weather_types ) {
         weather_type_id type = weather_type_id( weather_type );
 
-        const weather_requirements &requires = type->requirements;
-        if( ( w.time < ( calendar::start_of_cataclysm + requires.time_passed_min ) ) ||
-            ( requires.time_passed_max != 0_seconds &&
-              ( w.time > ( calendar::start_of_cataclysm + requires.time_passed_max ) ) ) ) {
-            continue;
-        }
-        std::map<weather_type_id, time_point>::iterator instance = next_instance_allowed.find( type );
-        if( instance != next_instance_allowed.end() && instance->second > calendar::turn ) {
-            continue;
-        }
-
-        bool test_pressure =
-            requires.pressure_max > w.pressure &&
-            requires.pressure_min < w.pressure;
-        bool test_humidity =
-            requires.humidity_max > w.humidity &&
-            requires.humidity_min < w.humidity;
-        if( ( requires.humidity_and_pressure && !( test_pressure && test_humidity ) ) ||
-            ( !requires.humidity_and_pressure && !( test_pressure || test_humidity ) ) ) {
-            continue;
-        }
-
-        bool test_temperature =
-            requires.temperature_max > w.temperature &&
-            requires.temperature_min < w.temperature;
-        bool test_windspeed =
-            requires.windpower_max > w.windpower &&
-            requires.windpower_min < w.windpower;
-        if( !( test_temperature && test_windspeed ) ) {
-            continue;
-        }
-
-        if( !requires.required_weathers.empty() ) {
-            if( std::find( requires.required_weathers.begin(), requires.required_weathers.end(),
-                           current_conditions ) == requires.required_weathers.end() ) {
-                continue;
+        bool required_weather = type->required_weathers.empty();
+        if( !required_weather ) {
+            for( const weather_type_id &weather : type->required_weathers ) {
+                if( weather == current_conditions ) {
+                    required_weather = true;
+                    break;
+                }
             }
         }
 
-        if( !( requires.time == weather_time_requirement_type::both ||
-               ( requires.time == weather_time_requirement_type::day && is_day( calendar::turn ) ) ||
-               ( requires.time == weather_time_requirement_type::night && !is_day( calendar::turn ) ) ) ) {
+        if( required_weather && type->condition( d ) ) {
+            current_conditions = type;
             continue;
         }
-        if( requires.one_in_chance != 0 && !one_in( requires.one_in_chance ) ) {
-            continue;
-        }
-
-        current_conditions = type;
     }
     return current_conditions;
 }
@@ -293,13 +264,13 @@ int weather_generator::get_water_temperature() const
     return water_temperature;
 }
 
-void weather_generator::test_weather( unsigned seed,
-                                      std::map<weather_type_id, time_point> &next_instance_allowed ) const
+void weather_generator::test_weather( unsigned seed ) const
 {
     // Outputs a Cata year's worth of weather data to a CSV file.
     // Usage:
     // weather_generator WEATHERGEN; // Instantiate the class.
     // WEATHERGEN.test_weather(); // Runs this test.
+    w_point weatherPoint = *g->weather.weather_precise;
     write_to_file( "weather.output", [&]( std::ostream & testfile ) {
         testfile <<
                  "|;year;season;day;hour;minute;temperature(F);humidity(%);pressure(mB);weatherdesc;windspeed(mph);winddirection"
@@ -309,7 +280,8 @@ void weather_generator::test_weather( unsigned seed,
         const time_point end = begin + 2 * calendar::year_length();
         for( time_point i = begin; i < end; i += 20_minutes ) {
             w_point w = get_weather( tripoint_zero, i, seed );
-            weather_type_id conditions = get_weather_conditions( w, next_instance_allowed );
+            weather_type_id conditions = get_weather_conditions( w );
+            *g->weather.weather_precise = w;
 
             int year = to_turns<int>( i - calendar::turn_zero ) / to_turns<int>
                        ( calendar::year_length() ) + 1;
@@ -328,6 +300,7 @@ void weather_generator::test_weather( unsigned seed,
         }
 
     }, "weather test file" );
+    *g->weather.weather_precise = weatherPoint;
 }
 
 weather_generator weather_generator::load( const JsonObject &jo )

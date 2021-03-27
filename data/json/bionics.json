@@ -258,7 +258,8 @@
     "act_cost": "100 J",
     "react_cost": "100 J",
     "time": 1,
-    "flags": [ "BIONIC_TOGGLED" ]
+    "flags": [ "BIONIC_TOGGLED" ],
+    "active_flags": [ "CLIMATE_CONTROL" ]
   },
   {
     "id": "bio_cloak",
@@ -479,7 +480,9 @@
     "type": "bionic",
     "name": { "str": "Fingerhack" },
     "description": "One of your fingers has an electrohack surgically embedded in it; an all-purpose hacking unit used to override control panels and the like (but not computers).  Skill in computers is important, and a failed use may damage your circuits.",
-    "occupied_bodyparts": [ [ "hand_r", 2 ] ]
+    "occupied_bodyparts": [ [ "hand_r", 2 ] ],
+    "fake_item": "electrohack",
+    "flags": [ "BIONIC_TOGGLED" ]
   },
   {
     "id": "bio_flashbang",
@@ -581,6 +584,7 @@
       [ "foot_r", 1 ]
     ],
     "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
+    "active_flags": [ "HEATSINK" ],
     "act_cost": "1 kJ",
     "react_cost": "1 kJ",
     "time": 1
@@ -661,7 +665,7 @@
     "description": "The index fingers of both hands have powerful fire starters which extend from the tip.",
     "occupied_bodyparts": [ [ "hand_l", 1 ], [ "hand_r", 1 ] ],
     "fake_item": "fake_firestarter",
-    "act_cost": "3 kJ"
+    "act_cost": "5 kJ"
   },
   {
     "id": "bio_lockpick",
@@ -1209,14 +1213,6 @@
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   },
   {
-    "id": "bio_shock_absorber",
-    "type": "bionic",
-    "name": { "str": "Kinetic Shock Absorbers" },
-    "description": "Most of the flesh in your arms, legs, and upper torso has been replaced with industrial-strength springs and protective padding.  Clenching your fist allows you to fold and unfold this padding; while active, the hydraulic absorbers will prevent damage to your body from severe impacts, at the cost of impaired movement.",
-    "occupied_bodyparts": [ [ "torso", 1 ], [ "arm_l", 1 ], [ "arm_r", 1 ], [ "leg_l", 1 ], [ "leg_r", 1 ] ],
-    "flags": [ "BIONIC_TOGGLED" ]
-  },
-  {
     "id": "bio_taste_blocker",
     "type": "bionic",
     "name": { "str": "Taste Modifier" },
@@ -1230,6 +1226,7 @@
     "name": { "str": "Soporific Induction" },
     "description": "An electrode has been implanted into your brain's ventrolateral preoptic nucleus.  It turns on whenever you're trying to fall asleep, creating an artificial but effective sensation of fatigue.",
     "occupied_bodyparts": [ [ "head", 1 ] ],
-    "flags": [ "BIONIC_TOGGLED" ]
+    "flags": [ "BIONIC_TOGGLED" ],
+    "enchantments": [ "ENCH_BIO_SOPORIFIC" ]
   }
 ]

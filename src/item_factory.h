@@ -44,6 +44,7 @@ class migration
 {
     public:
         itype_id id;
+        std::string variant;
         itype_id replace;
         std::set<std::string> flags;
         int charges = 0;

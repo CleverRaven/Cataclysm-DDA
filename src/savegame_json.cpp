@@ -908,10 +908,12 @@ void Character::load( const JsonObject &data )
     }
 
     // remove after 0.F
-    visit_items( []( item * it, item * ) {
-        migrate_item_charges( *it );
-        return VisitResponse::NEXT;
-    } );
+    if( savegame_loading_version < 33 ) {
+        visit_items( []( item * it, item * ) {
+            migrate_item_charges( *it );
+            return VisitResponse::NEXT;
+        } );
+    }
 }
 
 /**
@@ -2459,6 +2461,13 @@ void item::io( Archive &archive )
         return i.id.str();
     } );
     archive.io( "craft_data", craft_data_, decltype( craft_data_ )() );
+    const auto gvload = [this]( const std::string & variant ) {
+        set_gun_variant( variant );
+    };
+    const auto gvsave = []( const gun_variant_data * gv ) {
+        return gv->id;
+    };
+    archive.io( "variant", _gun_variant, gvload, gvsave, false );
     archive.io( "light", light.luminance, nolight.luminance );
     archive.io( "light_width", light.width, nolight.width );
     archive.io( "light_dir", light.direction, nolight.direction );
@@ -2970,7 +2979,9 @@ void vehicle::deserialize( JsonIn &jsin )
                 active_items.add( *it, vp.mount() );
             }
             // remove after 0.F
-            migrate_item_charges( *it );
+            if( savegame_loading_version < 33 ) {
+                migrate_item_charges( *it );
+            }
         }
     }
 
