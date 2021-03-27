@@ -1957,7 +1957,7 @@ bool player::takeoff( item_location loc, std::list<item> *res )
         it.convert( itype_ar_glasses_t1 ).active = false;
     } else if( it.typeId() == itype_ar_glasses_t2_on ) {
         get_player_character().add_msg_if_player( _( "The AR glasses turns off." ) );
-        it.convert( itype_ar_glasses_t1 ).active = false;
+        it.convert( itype_ar_glasses_t2 ).active = false;
     }
 
     auto iter = std::find_if( worn.begin(), worn.end(), [ &it ]( const item & wit ) {
