@@ -1,0 +1,21 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "arcology_8x8_tbd",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rows": [
+        "//    ..",
+        "/..   ..",
+        "/..     ",
+        "/ /   ..",
+        "  .   ..",
+        "  /   ..",
+        "///   / ",
+        "/..   .."
+      ],
+      "palettes": [ "afs_arcology_tbd" ]
+    }
+  }
+]
