@@ -887,7 +887,7 @@
     "locations": [ "land" ],
     "city_distance": [ 5, 25 ],
     "occurrences": [ 80, 100 ],
-    "spawns": { "group": "GROUP_WASP_FORAGER", "population": [ 50, 100 ], "radius": [ 6, 20 ] },
+    "spawns": { "group": "GROUP_WASP_FORAGER", "population": [ 50, 80 ], "radius": [ 6, 20 ] },
     "flags": [ "WILDERNESS", "UNIQUE" ]
   },
   {
