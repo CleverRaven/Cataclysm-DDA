@@ -423,7 +423,7 @@
     "looks_like": "glasses_safety",
     "color": "light_gray",
     "covers": [ "eyes" ],
-    "coverage": 40,
+    "coverage": 95,
     "encumbrance": 4,
     "warmth": 6,
     "ammo": "battery",
