@@ -3,7 +3,7 @@
     "type": "item_group",
     "id": "dragon_books",
     "//": "puts all the dragon books in one group, so it's easy to add more later",
-    "items": [ [ "black_dragons", 10 ] ]
+    "items": [ [ "black_dragons", 10 ], [ "black_dragons_historical", 10 ] ]
   },
   {
     "type": "item_group",
