@@ -114,7 +114,7 @@ TEST_CASE( "monster_attack" )
     clear_map();
     restore_on_out_of_scope<time_point> restore_calendar_turn( calendar::turn );
     calendar::turn = daylight_time( calendar::turn ) + 2_hours;
-    scoped_weather_override( WEATHER_CLEAR );
+    scoped_weather_override weather_clear( WEATHER_CLEAR );
     SECTION( "attacking on open ground" ) {
         // Adjacent can attack of course.
         for( const tripoint &offset : eight_horizontal_neighbors ) {
