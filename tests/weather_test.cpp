@@ -50,6 +50,7 @@ TEST_CASE( "weather realism" )
     // Try a few randomly selected seeds.
     const std::vector<unsigned> seeds = {317'024'741, 870'078'684, 1'192'447'748};
 
+    get_weather().weather_override = WEATHER_NULL;
     const weather_generator &wgen = get_weather().get_cur_weather_gen();
     const time_point begin = calendar::turn_zero;
     const time_point end = begin + calendar::year_length();

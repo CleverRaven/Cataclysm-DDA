@@ -114,7 +114,7 @@ TEST_CASE( "monster_attack" )
     clear_map();
     restore_on_out_of_scope<time_point> restore_calendar_turn( calendar::turn );
     calendar::turn = daylight_time( calendar::turn ) + 2_hours;
-    get_weather().weather_override = WEATHER_CLEAR; // Restore?
+    get_weather().weather_override = WEATHER_CLEAR; // replace with scoped_weather_override
     SECTION( "attacking on open ground" ) {
         // Adjacent can attack of course.
         for( const tripoint &offset : eight_horizontal_neighbors ) {
@@ -147,4 +147,5 @@ TEST_CASE( "monster_attack" )
 
     monster_attack_zlevel( "attack up ledge", tripoint_above, "t_floor", "t_floor", false );
     monster_attack_zlevel( "attack down ledge", tripoint_below, "t_floor", "t_floor", false );
+    get_weather().weather_override = WEATHER_NULL; // Remove when put in scoped_weather_override
 }
