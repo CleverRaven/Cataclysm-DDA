@@ -1076,7 +1076,8 @@ bool item::stacks_with( const item &rhs, bool check_components, bool combine_liq
         ( corpse != nullptr && rhs.corpse == nullptr ) ) {
         return false;
     }
-    if( corpse != nullptr && rhs.corpse != nullptr && corpse->id != rhs.corpse->id ) {
+    if( corpse != nullptr && rhs.corpse != nullptr &&
+        ( corpse->id != rhs.corpse->id || corpse_name != rhs.corpse_name ) ) {
         return false;
     }
     if( craft_data_ || rhs.craft_data_ ) {
