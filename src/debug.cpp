@@ -795,13 +795,7 @@ static constexpr int bt_cnt = 20;
 static void *bt[bt_cnt];
 #endif
 
-#if defined(__GNUC__) || defined(__clang__)
-#define MAYBE_UNUSED __attribute__((unused))
-#else
-#define MAYBE_UNUSED
-#endif
-static const char *demangle( const char *symbol ) MAYBE_UNUSED;
-static const char *demangle( const char *symbol )
+static std::string demangle( const char *symbol )
 {
 #if defined(_MSC_VER)
     // TODO: implement demangling on MSVC
@@ -809,7 +803,9 @@ static const char *demangle( const char *symbol )
     int status = -1;
     char *demangled = abi::__cxa_demangle( symbol, nullptr, nullptr, &status );
     if( status == 0 ) {
-        return demangled;
+        std::string demangled_str( demangled );
+        free( demangled );
+        return demangled_str;
     }
 #if defined(_WIN32)
     // https://stackoverflow.com/questions/54333608/boost-stacktrace-not-demangling-names-when-cross-compiled
@@ -819,11 +815,13 @@ static const char *demangle( const char *symbol )
     prepend_underscore = prepend_underscore + symbol;
     demangled = abi::__cxa_demangle( prepend_underscore.c_str(), nullptr, nullptr, &status );
     if( status == 0 ) {
-        return demangled;
+        std::string demangled_str( demangled );
+        free( demangled );
+        return demangled_str;
     }
 #endif // defined(_WIN32)
 #endif // compiler macros
-    return symbol;
+    return std::string( symbol );
 }
 
 #if !defined(_WIN32)
