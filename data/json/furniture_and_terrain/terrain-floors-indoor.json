@@ -57,7 +57,6 @@
     "move_cost": 2,
     "roof": "t_flat_roof",
     "copy-from": "t_thconc_floor"
-    }
   },
   {
     "type": "terrain",
