@@ -609,7 +609,7 @@
     "//": "cant copy from t2mil because different encumbrance",
     "type": "TOOL_ARMOR",
     "name": { "str": "military AR headset (NV on)", "str_pl": "military AR headsets (NV on)" },
-    "description": "This military AR headset night vision system is turned on.",
+    "description": "This military AR headset night vision system is turned on, and continually draining its batteries.",
     "power_draw": 375,
     "weight": "500 g",
     "volume": "500 ml",
