@@ -154,6 +154,7 @@ struct conditional_t {
         void set_has_skill( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_u_know_recipe( const JsonObject &jo, const std::string &member );
         void set_mission_has_generic_rewards();
+        void set_can_see( bool is_npc = false );
 
         bool operator()( const T &d ) const {
             if( !condition ) {
