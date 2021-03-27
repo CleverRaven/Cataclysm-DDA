@@ -553,7 +553,7 @@
     "type": "TOOL_ARMOR",
     "category": "clothing",
     "name": { "str": "military AR headset", "str_pl": "military AR headsets" },
-    "description": "A pair of military grade augmented reality headset.  It come with an integrated night vision system that can't compare to a proper NVG, a two-way radio and a few gadgets.",
+    "description": "A pair of military grade augmented reality headset.  It comes with an integrated night vision system that can't compare to a proper NVG, a two-way radio and a few gadgets.",
     "weight": "500 g",
     "volume": "500 ml",
     "price": 90000,
