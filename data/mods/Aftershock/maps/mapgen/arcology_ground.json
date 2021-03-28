@@ -34,14 +34,7 @@
         ",,,,,,óó________________"
       ],
       "palettes": [ "arcology_exterior" ],
-      "nested": {
-        "1": {
-          "chunks": [
-            [ "arcology_8x8_tbd", 20 ],
-            [ "arcology_8x8_tbd", 20 ]
-          ]
-        }
-      },
+      "nested": { "1": { "chunks": [ [ "arcology_8x8_tbd", 20 ], [ "arcology_8x8_tbd", 20 ] ] } },
       "place_loot": [ { "group": "TBD", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
       "place_monsters": [ { "monster": "AFS_GROUP_ARCOLOGY_EXTERIOR", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
     }
@@ -79,14 +72,7 @@
         ",,,,,,óó________________"
       ],
       "palettes": [ "arcology_exterior" ],
-      "nested": {
-        "1": {
-          "chunks": [
-            [ "arcology_10x10_tbd", 20 ],
-            [ "arcology_10x10_tbd", 20 ]
-          ]
-        }
-      },
+      "nested": { "1": { "chunks": [ [ "arcology_10x10_tbd", 20 ], [ "arcology_10x10_tbd", 20 ] ] } },
       "place_loot": [ { "group": "TBD", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
       "place_monsters": [ { "monster": "AFS_GROUP_ARCOLOGY_EXTERIOR", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
     }
@@ -96,7 +82,7 @@
     "method": "json",
     "om_terrain": [ "arcology_exterior_w_side_entrance" ],
     "weight": 100,
-    "//": "Turn gate into a nested chunk that can be a closed gate working console, closed gate broken console, broken gate working console, broken gate broken console, open gate working console, open gate broken console.",
+    "//": "Turn gate into a 8x8 nested chunk that can be a closed gate working console, closed gate broken console, broken gate working console, broken gate broken console, open gate working console, open gate broken console.",
     "object": {
       "rows": [
         ",,,,,,||________________",
@@ -106,14 +92,14 @@
         ",,,,,,||________________",
         ",,,,,,||________________",
         ",,,,,,||________________",
+        "3,,,,,||________________",
+        ",,,,,,OO________________",
+        ",,,,,,OO________________",
+        ",,,,,,OO________________",
+        ",,,,,,OO________________",
+        ",,,,,,OO________________",
+        ",,,,,,OO________________",
         ",,,,,,||________________",
-        ",,,,,,..________________",
-        ",,,,,,..________________",
-        ",,,,,,..________________",
-        ",,,,,,..________________",
-        ",,,,,,..________________",
-        ",,,,,,..________________",
-        ",,,,5,||________________",
         ",,,,,,||2_______________",
         ",,,,,,||________________",
         ",,,,,,||________________",
@@ -127,19 +113,24 @@
       "palettes": [ "arcology_exterior" ],
       "nested": {
         "1": {
-          "chunks": [
-            [ "arcology_6x6_tbd", 20 ],
-            [ "arcology_6x6_tbd", 20 ]
-          ],
+          "chunks": [ [ "arcology_6x6_tbd", 20 ], [ "arcology_6x6_tbd", 20 ] ],
           "2": {
-            "chunks": [
-              [ "arcology_6x6_tbd", 20 ],
-              [ "arcology_10x10_tbd", 20 ]
-            ],
+            "chunks": [ [ "arcology_6x6_tbd", 20 ], [ "arcology_10x10_tbd", 20 ] ],
+            "3": {
+              "chunks": [
+                [ "arcology_8x8_gate_w_1", 10 ],
+                [ "arcology_8x8_gate_w_2", 20 ],
+                [ "arcology_8x8_gate_w_3", 20 ],
+                [ "arcology_8x8_gate_w_4", 10 ],
+                [ "arcology_8x8_gate_w_5", 20 ],
+                [ "arcology_8x8_gate_w_6", 10 ]
+              ]
+            }
+          },
+          "place_loot": [ { "group": "TBD", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
+          "place_monsters": [ { "monster": "AFS_GROUP_ARCOLOGY_EXTERIOR", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
         }
-      },
-      "place_loot": [ { "group": "TBD", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
-      "place_monsters": [ { "monster": "AFS_GROUP_ARCOLOGY_EXTERIOR", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
+      }
     }
   },
   {
@@ -168,21 +159,14 @@
         ",,,,,,||________________",
         ",,,,,,||________________",
         ",,,,,,||________________",
-        ",,,,,,||||||||||||||||||",
-        ",,,,,,||||||||||||||||||",
+        ",,,,,,||||((||||||||||||",
+        ",,,,,,||||((||||||||||||",
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
       "palettes": [ "arcology_exterior" ],
-      "nested": {
-        "1": {
-          "chunks": [
-            [ "arcology_8x8_tbd", 20 ],
-            [ "arcology_8x8_tbd", 20 ]
-          ]
-        }
-      },
+      "nested": { "1": { "chunks": [ [ "arcology_8x8_tbd", 20 ], [ "arcology_8x8_tbd", 20 ] ] } },
       "place_loot": [ { "group": "TBD", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
       "place_monsters": [ { "monster": "AFS_GROUP_ARCOLOGY_EXTERIOR", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
     }
@@ -213,14 +197,69 @@
         "________________________",
         "________________________",
         "________________________",
-        "________________________",
+        "||||||||||||||||||||||||",
         "||||||||||||||||||||||||",
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
+      "palettes": [ "arcology_exterior" ],
+      "nested": { "1": { "chunks": [ [ "arcology_8x8_tbd", 20 ], [ "arcology_8x8_tbd", 20 ] ] } },
       "place_loot": [ { "group": "TBD", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
       "place_monsters": [ { "monster": "AFS_GROUP_ARCOLOGY_EXTERIOR", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "arcology_exterior_s_side_entrance" ],
+    "weight": 100,
+    "object": {
+      "rows": [
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________3_______________",
+        "________________________",
+        "________________________",
+        "|||||||||OOOOOO|||||||||",
+        "|||||||||OOOOOO|||||||||",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,"
+      ],
+      "palettes": [ "arcology_exterior" ],
+      "nested": {
+        "1": { "chunks": [ [ "arcology_8x8_tbd", 20 ], [ "arcology_8x8_tbd", 20 ] ] },
+        "2": {
+          "chunks": [ [ "arcology_6x6_tbd", 20 ], [ "arcology_10x10_tbd", 20 ] ],
+          "3": {
+            "chunks": [
+              [ "arcology_8x8_gate_w_1", 10 ],
+              [ "arcology_8x8_gate_w_2", 20 ],
+              [ "arcology_8x8_gate_w_3", 20 ],
+              [ "arcology_8x8_gate_w_4", 10 ],
+              [ "arcology_8x8_gate_w_5", 20 ],
+              [ "arcology_8x8_gate_w_6", 10 ]
+            ]
+          },
+          "place_loot": [ { "group": "TBD", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
+          "place_monsters": [ { "monster": "AFS_GROUP_ARCOLOGY_EXTERIOR", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
+        }
+      }
     }
   },
   {
