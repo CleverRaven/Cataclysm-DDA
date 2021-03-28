@@ -7,6 +7,7 @@
       "-": [ "t_thconc_floor", "t_thconc_r", "t_thconc_y" ],
       ",": [ "t_pavement", "t_region_groundcover_urban", "t_railroad_rubble" ],
       "!": "t_door_locked_interior",
+      "O": "t_metal_floor",
       ".": "t_wall_metal",
       "|": "t_strconc_wall",
       "/": "t_wall_prefab_metal",
