@@ -22,7 +22,7 @@
         { "item": "mithril_ingot", "chance": 10 },
         { "item": "scrap_copper", "chance": 40 }
       ],
-      "f": [ { "item": "alementum" } ]
+      "f": [ { "item": "alumentum" } ]
     }
   },
   {
