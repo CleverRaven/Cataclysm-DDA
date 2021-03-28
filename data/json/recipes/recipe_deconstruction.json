@@ -119,7 +119,7 @@
     "difficulty": 1,
     "time": "2 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "scrap_copper", 10 ] ], [ [ "scrap", 3 ] ] ]
+    "components": [ [ [ "scrap_copper", 12 ] ], [ [ "scrap", 3 ] ] ]
   },
   {
     "result": "copper_ring",
@@ -3068,7 +3068,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "5 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "copper_scrap_equivalent", 16, "LIST" ] ] ]
+    "components": [ [ [ "copper_scrap_equivalent", 20, "LIST" ] ] ]
   },
   {
     "result": "potato_masher",
@@ -3122,7 +3122,7 @@
     "difficulty": 1,
     "time": "3 m",
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "scrap_copper", 5 ] ], [ [ "scrap", 1 ] ] ]
+    "components": [ [ [ "scrap_copper", 6 ] ], [ [ "scrap", 1 ] ] ]
   },
   {
     "result": "power_armor_basic",

@@ -10,7 +10,7 @@
       [ "frame", 20 ],
       [ "hdframe", 20 ],
       [ "cu_pipe", 25 ],
-      [ "scrap_copper", 50 ],
+      [ "scrap_copper", 62 ],
       [ "rock", 40 ],
       [ "survnote", 1 ]
     ]

@@ -298,9 +298,9 @@
     "color": "dark_gray",
     "description": "Plastic jacketed copper cable of the type used in small electronics.",
     "material": [ "plastic", "copper" ],
-    "//": "Calculated off of copper wire with an extra 0.5ml of diameter and 2g.",
+    "//": "Calculated off of copper wire with an extra 0.5mm of diameter and 0.66g.",
     "volume": "155 ml",
-    "weight": "7 g",
+    "weight": "5413 mg",
     "ammo_type": "components",
     "count": 200
   },
@@ -317,7 +317,7 @@
     "material": [ "copper" ],
     "//": "Calculated off of 12 AWG, at 10cm length, using http://www.mtlexs.com/technical-specifications-details/40/weight-of-copper-wire.",
     "volume": "110 ml",
-    "weight": "5 g",
+    "weight": "4747 mg",
     "ammo_type": "components",
     "count": 200
   },
@@ -811,8 +811,9 @@
     "color": "yellow",
     "description": "Copper bits.  Could be used to craft something, for example makeshift shotgun shells.",
     "material": [ "copper" ],
+    "//": "80% of 8.63g/ml is 6.904g/ml.",
     "volume": "250 ml",
-    "weight": "10 g",
+    "weight": "8630 mg",
     "ammo_type": "components",
     "count": 200
   },

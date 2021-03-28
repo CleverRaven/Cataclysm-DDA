@@ -410,11 +410,11 @@
     "difficulty": 4,
     "time": "10 m",
     "autolearn": true,
-    "charges": 2,
+    "charges": 1,
     "qualities": [ { "id": "ANVIL", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "CHISEL", "level": 3 } ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_redsmithing" } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 10 ], [ "oxy_torch", 10 ] ] ],
-    "components": [ [ [ "scrap_copper", 3 ], [ "copper", 80 ] ] ]
+    "components": [ [ [ "copper_scrap_equivalent", "LIST", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -426,7 +426,7 @@
     "difficulty": 3,
     "time": "32 m",
     "autolearn": true,
-    "charges": 200,
+    "charges": 182,
     "qualities": [ { "id": "ANVIL", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_wiremaking" } ],
     "//": "Requires annealing 4 times from the copper rod.",
@@ -443,7 +443,7 @@
     "difficulty": 3,
     "time": "20 m",
     "autolearn": true,
-    "charges": 200,
+    "charges": 182,
     "qualities": [ { "id": "ANVIL", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
     "//": "Requires annealing 4 times from the copper rod.",
@@ -459,11 +459,11 @@
     "skill_used": "fabrication",
     "skills_required": [ "electronics", 2 ],
     "difficulty": 2,
-    "time": "20 s",
+    "time": "1 m",
     "autolearn": true,
-    "charges": 2,
+    "charges": 6,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "copper_wire", 2 ] ], [ [ "duct_tape", 1 ] ] ]
+    "components": [ [ [ "copper_wire", 6 ] ], [ [ "duct_tape", 1 ] ] ]
   },
   {
     "type": "recipe",
