@@ -414,7 +414,7 @@
     "qualities": [ { "id": "ANVIL", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "CHISEL", "level": 3 } ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_redsmithing" } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 10 ], [ "oxy_torch", 10 ] ] ],
-    "components": [ [ [ "copper_scrap_equivalent", "LIST", 2 ] ] ]
+    "components": [ [ [ "copper_scrap_equivalent", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
