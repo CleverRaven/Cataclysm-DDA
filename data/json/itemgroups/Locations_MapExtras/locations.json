@@ -1259,7 +1259,6 @@
       [ "bio_resonator", 10 ],
       [ "bio_hydraulics", 10 ],
       [ "bio_weight", 12 ],
-      [ "bio_shock_absorber", 10 ],
       [ "jerrycan", 10 ],
       [ "jerrycan_big", 10 ],
       [ "gasoline_lantern", 5 ],

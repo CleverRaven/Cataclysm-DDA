@@ -734,7 +734,7 @@
   },
   {
     "id": "teleumbrella",
-    "type": "GENERIC",
+    "type": "ARMOR",
     "category": "tools",
     "name": { "str": "telescoping umbrella" },
     "description": "A telescoping umbrella which collapses down for easy storage, useful for keeping dry when wielded.",
@@ -747,8 +747,14 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ",",
     "color": "dark_gray",
+    "covers": [ "hand_l", "hand_r" ],
+    "sided": true,
+    "coverage": 5,
+    "encumbrance": 40,
+    "warmth": 0,
+    "material_thickness": 1,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "RAIN_PROTECT" ]
+    "flags": [ "ALLOWS_NATURAL_ATTACKS", "BELT_CLIP", "BELTED", "FRAGILE", "OVERSIZE", "RAIN_PROTECT" ]
   },
   {
     "id": "testflames",

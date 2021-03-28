@@ -675,7 +675,7 @@ int main( int argc, const char *argv[] )
 #if defined(LOCALIZE)
     std::string lang;
 #if defined(_WIN32)
-    lang = getLangFromLCID( GetUserDefaultLCID() );
+    lang = getLangFromLCID( GetUserDefaultUILanguage() );
 #else
     const char *v = setlocale( LC_ALL, nullptr );
     if( v != nullptr ) {

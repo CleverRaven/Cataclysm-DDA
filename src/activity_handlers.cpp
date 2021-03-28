@@ -1820,23 +1820,13 @@ void activity_handlers::pickaxe_finish( player_activity *act, player *p )
         const int helpersize = get_player_character().get_num_crafting_helpers( 3 );
         if( here.is_bashable( pos ) && here.has_flag( flag_SUPPORTS_ROOF, pos ) &&
             here.ter( pos ) != t_tree ) {
-            // Tunneling through solid rock is hungry, sweaty, tiring, backbreaking work
-            // Betcha wish you'd opted for the J-Hammer ;P
-            p->mod_stored_nutr( 15 - ( helpersize * 3 ) );
-            p->mod_thirst( 15 - ( helpersize * 3 ) );
+            // Tunneling through solid rock is sweaty, backbreaking work
+            // Betcha wish you'd opted for the J-Hammer
             if( p->has_trait( trait_STOCKY_TROGLO ) ) {
-                // Yep, dwarves can dig longer before tiring
-                p->mod_fatigue( 20 - ( helpersize  * 3 ) );
+                p->mod_pain( std::max( 0, ( 1 * static_cast<int>( rng( 0, 3 ) ) ) - helpersize ) );
             } else {
-                p->mod_fatigue( 30 - ( helpersize  * 3 ) );
+                p->mod_pain( std::max( 0, ( 2 * static_cast<int>( rng( 1, 3 ) ) ) - helpersize ) );
             }
-            p->mod_pain( std::max( 0, ( 2 * static_cast<int>( rng( 1, 3 ) ) ) - helpersize ) );
-        } else if( here.move_cost( pos ) == 2 && here.get_abs_sub().z == 0 &&
-                   here.ter( pos ) != t_dirt && here.ter( pos ) != t_grass ) {
-            //Breaking up concrete on the surface? not nearly as bad
-            p->mod_stored_nutr( 5 - ( helpersize ) );
-            p->mod_thirst( 5 - ( helpersize ) );
-            p->mod_fatigue( 10 - ( helpersize  * 2 ) );
         }
     }
     p->add_msg_player_or_npc( m_good,
@@ -2144,7 +2134,6 @@ void activity_handlers::hand_crank_do_turn( player_activity *act, player *p )
     // Modify for weariness
     time_to_crank /= p->exertion_adjusted_move_multiplier( act->exertion_level() );
     if( calendar::once_every( time_duration::from_seconds( time_to_crank ) ) ) {
-        p->mod_fatigue( 1 );
         if( hand_crank_item.ammo_capacity( ammotype( "battery" ) ) > hand_crank_item.ammo_remaining() ) {
             hand_crank_item.ammo_set( itype_id( "battery" ), hand_crank_item.ammo_remaining() + 1 );
         } else {
@@ -2172,7 +2161,6 @@ void activity_handlers::vibe_do_turn( player_activity *act, player *p )
     }
 
     if( calendar::once_every( 1_minutes ) ) {
-        p->mod_fatigue( 1 );
         if( vibrator_item.ammo_remaining() > 0 ) {
             vibrator_item.ammo_consume( 1, p->pos() );
             p->add_morale( MORALE_FEELING_GOOD, 3, 40 );
@@ -3632,9 +3620,6 @@ void activity_handlers::hacksaw_finish( player_activity *act, player *p )
         here.spawn_item( p->pos(), itype_sheet_metal, 4 );
     }
 
-    p->mod_stored_nutr( 5 );
-    p->mod_thirst( 5 );
-    p->mod_fatigue( 10 );
     p->add_msg_if_player( m_good, _( "You finish cutting the metal." ) );
 
     act->set_to_null();
@@ -3749,10 +3734,6 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
     }
 
     here.ter_set( pos, t_stump );
-    const int helpersize = p->get_num_crafting_helpers( 3 );
-    p->mod_stored_nutr( 5 - helpersize );
-    p->mod_thirst( 5 - helpersize );
-    p->mod_fatigue( 10 - ( helpersize * 2 ) );
     p->add_msg_if_player( m_good, _( "You finish chopping down a tree." ) );
     // sound of falling tree
     sfx::play_variant_sound( "misc", "timber",
@@ -3798,10 +3779,6 @@ void activity_handlers::chop_logs_finish( player_activity *act, player *p )
         here.add_item_or_charges( pos, obj );
     }
     here.ter_set( pos, t_dirt );
-    const int helpersize = p->get_num_crafting_helpers( 3 );
-    p->mod_stored_nutr( 5 - helpersize );
-    p->mod_thirst( 5 - helpersize );
-    p->mod_fatigue( 10 - ( helpersize * 2 ) );
     p->add_msg_if_player( m_good, _( "You finish chopping wood." ) );
 
     act->set_to_null();
@@ -3852,12 +3829,6 @@ void activity_handlers::jackhammer_finish( player_activity *act, player *p )
 
     here.destroy( pos, true );
 
-    if( p->is_avatar() ) {
-        const int helpersize = get_player_character().get_num_crafting_helpers( 3 );
-        p->mod_stored_nutr( 5 - helpersize );
-        p->mod_thirst( 5 - helpersize );
-        p->mod_fatigue( 10 - ( helpersize * 2 ) );
-    }
     p->add_msg_player_or_npc( m_good,
                               _( "You finish drilling." ),
                               _( "<npcname> finishes drilling." ) );
@@ -3897,10 +3868,6 @@ void activity_handlers::fill_pit_finish( player_activity *act, player *p )
     } else {
         here.ter_set( pos, t_dirt );
     }
-    const int helpersize = get_player_character().get_num_crafting_helpers( 3 );
-    p->mod_stored_nutr( 5 - helpersize );
-    p->mod_thirst( 5 - helpersize );
-    p->mod_fatigue( 10 - ( helpersize * 2 ) );
     p->add_msg_if_player( m_good, _( "You finish filling up %s." ), old_ter.obj().name() );
 
     act->set_to_null();
