@@ -7131,7 +7131,7 @@ bool item::is_reloadable_helper( const itype_id &ammo, bool now ) const
         return true;
     }
 
-    if( is_watertight_container() && !contents.empty() ) {
+    if( is_watertight_container() && !contents.empty_container() ) {
         if( contents.num_item_stacks() != 1 ) {
             return false;
         } else if( contents.only_item().typeId() == ammo ) {
@@ -7139,7 +7139,7 @@ bool item::is_reloadable_helper( const itype_id &ammo, bool now ) const
         }
     }
 
-    if( is_watertight_container() && contents.empty() &&
+    if( is_watertight_container() && contents.empty_container() &&
         ammo.obj().phase == phase_id::LIQUID ) {
         return true;
     }
@@ -8390,7 +8390,7 @@ bool item::reload( Character &u, item_location ammo, int qty )
 
     // limit quantity of ammo loaded to remaining capacity
     int limit = 0;
-    if( is_watertight_container() ) {
+    if( is_watertight_container() && ammo->made_of_from_type( phase_id::LIQUID ) ) {
         limit = get_remaining_capacity_for_liquid( *ammo );
     } else if( ammo->ammo_data() && ammo->ammo_data()->ammo ) {
         limit = ammo_capacity( ammo->ammo_data()->ammo->type ) - ammo_remaining();
@@ -8439,11 +8439,7 @@ bool item::reload( Character &u, item_location ammo, int qty )
             item_copy.charges = qty;
             put_in( item_copy, item_pocket::pocket_type::MAGAZINE );
         }
-    } else if( is_watertight_container() ) {
-        if( !ammo->made_of_from_type( phase_id::LIQUID ) ) {
-            debugmsg( "Tried to reload liquid container with non-liquid." );
-            return false;
-        }
+    } else if( is_watertight_container() && ammo->made_of_from_type( phase_id::LIQUID ) ) {
         if( container ) {
             container->on_contents_changed();
         }

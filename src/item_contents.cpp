@@ -623,8 +623,9 @@ size_t item_contents::num_item_stacks() const
 {
     size_t num = 0;
     for( const item_pocket &pocket : contents ) {
-        if( pocket.is_type( item_pocket::pocket_type::MOD ) ) {
-            // mods aren't really a contained item, which this function gets
+        if( pocket.is_type( item_pocket::pocket_type::MOD ) ||
+            pocket.is_type( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
+            // mods and magazine wells aren't really a contained item, which this function gets
             continue;
         }
         num += pocket.size();

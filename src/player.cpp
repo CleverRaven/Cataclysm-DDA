@@ -1524,7 +1524,9 @@ bool player::list_ammo( const item &base, std::vector<item::reload_option> &ammo
             if( can_reload( *e, id ) &&
                 ( speedloader || e->ammo_remaining() == 0 ||
                   e->ammo_remaining() < ammo->ammo_remaining() ||
-                  e->loaded_ammo().stacks_with( *ammo ) ) ) {
+                  e->loaded_ammo().stacks_with( *ammo ) ||
+                  ( ammo->made_of_from_type( phase_id::LIQUID ) &&
+                    e->contents.remaining_capacity_for_liquid( *ammo ) > 0 ) ) ) {
                 ammo_list.emplace_back( this, e, &base, std::move( ammo ) );
             }
         }
