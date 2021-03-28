@@ -101,8 +101,7 @@ void mingw_test( const char *const old_pattern, const char *const new_pattern, c
     CHECK( original_result == new_result );
 }
 
-// Appveyor and Vistual Studio runtime fixed.
-// MXE's MinGW on Travis on Ubuntu Xenial fails.
+// Marking mayfail due to failure in MXE's MinGW on Travis on Ubuntu Xenial.
 TEST_CASE( "string_formatter", "[!mayfail]" )
 {
     test_typed_printf<signed char>( "%hhi", "%i" );
