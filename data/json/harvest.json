@@ -138,8 +138,6 @@
     "id": "shrub_strawberry_harv",
     "type": "harvest",
     "entries": [
-      { "drop": "strawberries", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] }
-    ]
   },
   {
     "id": "shrub_blueberry_harv",
