@@ -192,7 +192,7 @@
   {
     "id": "mulberry_harv",
     "type": "harvest",
-    "entries": [
+    "entries": [ { "drop": "mulberries", "base_num": [ 8, 20 ], "scale_num": [ 0, 0.5 ] } ]
   },
   {
     "id": "plum_harv",
