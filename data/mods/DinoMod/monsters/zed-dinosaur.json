@@ -441,6 +441,7 @@
     "melee_dice": 5,
     "armor_bash": 15,
     "armor_cut": 19,
+    "armor_bullet": 10,
     "hp": 1500,
     "description": "Gigantic, long-necked, four-legged dinosaur corpse with a long neck and spiked tail protected by natural bone armor.",
     "upgrades": { "half_life": 14, "into_group": "GROUP_zalamosaurus_UPGRADE" }
@@ -503,6 +504,7 @@
     "melee_cut": 1,
     "armor_bash": 16,
     "armor_cut": 21,
+    "armor_bullet": 10,
     "hp": 1000,
     "death_function": [ "NORMAL" ],
     "special_attacks": [
@@ -527,6 +529,7 @@
     "hp": 600,
     "armor_bash": 21,
     "armor_cut": 23,
+    "armor_bullet": 10,
     "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
     "description": "This heavily armored dinosaur corpse looks like a giant prehistoric armadillo.",
     "upgrades": { "half_life": 14, "into_group": "GROUP_zodosaurus_UPGRADE" }
@@ -541,6 +544,7 @@
     "melee_cut": 10,
     "armor_bash": 21,
     "armor_cut": 23,
+    "armor_bullet": 10,
     "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
     "description": "This heavily armored dinosaur corpse looks like a giant prehistoric armadillo with long bony spikes.",
     "upgrades": { "half_life": 14, "into_group": "GROUP_zedmontonia_UPGRADE" }
