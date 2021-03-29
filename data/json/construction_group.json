@@ -261,6 +261,11 @@
   },
   {
     "type": "construction_group",
+    "id": "build_exercise_machine",
+    "name": "Build Exercise Machine"
+  },
+  {
+    "type": "construction_group",
     "id": "build_fence",
     "name": "Build Fence"
   },
