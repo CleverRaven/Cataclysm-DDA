@@ -4,7 +4,7 @@
     "id": "arcology_exterior",
     "terrain": {
       " ": "t_region_groundcover_urban",
-      "-": [ "t_thconc_floor", "t_thconc_r", "t_thconc_y" ],
+      "_": [ "t_thconc_floor", "t_thconc_r", "t_thconc_y" ],
       ",": [ "t_pavement", "t_region_groundcover_urban", "t_railroad_rubble" ],
       "!": "t_door_locked_interior",
       "O": "t_metal_floor",
@@ -22,6 +22,8 @@
       "4": "t_door_metal_pickable",
       "ó": "t_metal_ventilation_shutter",
       "R": "t_railing",
+      "U": "t_ladder_up",
+      "D": "t_ladder_down",
       ">": "t_stairs_down",
       "<": "t_stairs_up"
     },
@@ -32,7 +34,7 @@
       "&": "f_toilet",
       "%": "f_console_broken",
       "5": "f_console",
-      "B": "f_bed",
+      "B": "blank",
       "?": "f_sofa",
       "S": "f_sink",
       "b": "f_bench",
@@ -43,10 +45,10 @@
       "l": "f_locker",
       "k": "f_bookcase",
       "r": "f_trashcan",
-      "s": "f_sink",
-      "t": "f_table",
-      "f": "f_filing_cabinet",
-      "^": "f_indoor_plant"
+      "s": "blank",
+      "t": "blank",
+      "f": "blank",
+      "^": "blank"
     },
     "toilets": { "&": {  } }
   }
