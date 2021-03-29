@@ -121,7 +121,7 @@
   {
     "id": "shrub_huckleberry_harv",
     "type": "harvest",
-    "entries": [
+    "entries": [ { "drop": "huckleberries", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ]
       { "drop": "huckleberries", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] }
     ]
   },
