@@ -5984,6 +5984,37 @@ int get_hourly_rotpoints_at_temp( const int temp )
     return rot_chart[temp];
 }
 
+/**
+ * Food decay calculation.
+ * Calculate how much food rots per hour, based on 1 rot/second at 65 F.
+ * Rate of rot doubles every 16 F increase in temperature
+ * Rate of rot halves every 16 F decrease in temperature
+ * Rot maxes out at 105 F
+ */
+float get_hourly_rotpoints_at_temp2( const int temp )
+{
+    const float dropoff = 38;
+    const float max_rot_temp = 105; // Maximum rotting rate is at this temperature
+
+    // This multiplier makes sure the rot at 65 F (18 C) is 3600 rot/hour (1 rot/second).
+    // This is approximately 215.46
+    const float multiplier = 3600 / std::pow( 2.0, 65.0 / 16.0 );
+
+    if( temp <= temperatures::freezing ) {
+        return 0;
+    } else if( temp > max_rot_temp ) {
+        // stop torturing the player at 105 F (41 C). No higher rot at higher temp.
+        // This is approx 20364 rot/hour
+        return multiplier * std::pow( 2.0, max_rot_temp / 10.0 );
+    } else if( temp < dropoff ) {
+        // Linear progress from 32 F (0 C) to 38 F (3 C)
+        const float d = multiplier * std::pow( 2.0, 38.0 / 16.0 );
+        return temp * d / 6 + d * 16 / 6;
+    } else {
+        return multiplier * std::pow( 2.0, static_cast<float>( temp ) / 16.0 );
+    }
+}
+
 void item::calc_rot( int temp, const float spoil_modifier,
                      const time_duration &time_delta )
 {
@@ -6021,7 +6052,7 @@ void item::calc_rot( int temp, const float spoil_modifier,
         rot += rng( -spoil_variation, spoil_variation );
     }
 
-    rot += factor * time_delta / 1_hours * get_hourly_rotpoints_at_temp( temp ) * 1_turns;
+    rot += factor * time_delta / 1_hours * get_hourly_rotpoints_at_temp2( temp ) * 1_turns;
 }
 
 void item::calc_rot_while_processing( time_duration processing_duration )
