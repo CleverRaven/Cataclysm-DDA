@@ -47,7 +47,7 @@ Allows customizing initial date in scenarios.
 Allows nanofabricator templates to contain recipes from any item group.
 Adds different bleeding types for different species.
 Adds bleeding butchery action.
-Autodoc installation programs which almost guarantees flawless installation of supported bionics.
+Autodoc installation programs added that almost guarantee flawless installation of supported bionics.
 
 ## Content:
 Gun volume and weight audit.
@@ -85,8 +85,8 @@ Adds Hot Springs location.
 Adds a terrain flag 'NO_SHOOT' to prevent projectiles from striking or going through that tile type.
 Enables using a rope to carry large items.
 Adds large dermatik nest and tweaks dermatiks.
-New island prison layout.
-Adds the tazer drone.
+Adds a new layout for the island prison challenge scenario.
+Adds tazer drones.
 
 ## Interface:
 Introduces, and migrates most windows to, ui_adaptor, which handles redrawing windows when others are closed and the game is resized.
@@ -108,7 +108,7 @@ Brings back MSX+.
 Adds item length and pocket volume entries to menus.
 Adds fast scrolling to many menus with long lists.
 Adds responsive screen behavior to the new character menu for small terminal sizes.
-Show weariness and activity level in sidebar panels.
+Shows weariness and activity levels in sidebar panels.
 
 ## Mods:
 [Magiclysm] Manatouched mutation tree.
@@ -141,9 +141,9 @@ Cap monsters at 1000 kg so butchering kind of works.
 [DinoMod] Adds Amargasaurus and Kosmoceratops as well as variants.
 [Magiclysm] Adds Orcs and Ogres.
 [Aftershock] Adds a design document.
-[DinoMod] Adds mutation Trees.
-[Aftershock] Adds new Laser and Plasma pistols.
-[Magiclysm] Adds three new Attunement spells (frozen winds, auroral wave, immolate)
+[DinoMod] Adds mod-specific mutation trees Stego and Tyrant.
+[Aftershock] Adds new laser and plasma pistols.
+[Magiclysm] Adds three new Attunement spells (Frozen Winds, Auroral wave, and Immolate).
 [Magiclysm] Adds Workshop Elves, Yule Cats, and Leprechauns.
 
 ## Balance:
@@ -171,7 +171,7 @@ Rebalances spawn rates for overmap specials.
 Mycus Fireproofing now also gives heat immunity.
 Tweaks Infection impact by lowering fatigue drain and removing pain.
 Adjusts ordinary clothing to not meaningfully contribute to protection values.
-Capped warmth loss from fatigue.
+Caps warmth loss from fatigue.
 
 ## Bugfixes:
 Prevents possible negative damage from explosions.
@@ -186,7 +186,6 @@ No more floor items when trading with follower NPCs.
 Fixes crashes from trying to access a nonexistant basecamp.
 Helicopters: Allows descending into open air while moving, and disallows roof teleporting.
 Fixes cold items rotting in a freezer and adds more rotting tests.
-Places cursor at highlighted item name in construction and crafting menus, as expected by screen readers.
 Spawns regular ants under regular anthills.
 Melee: Makes sure that melee weapon accuracy improves hit rates.
 Adjusts vehicle heater/cooler for 1-second turns.
@@ -260,19 +259,19 @@ Makes the Zombie technician's pull metal weapon attack drop items at the technic
 Fixes errors due to a bad memory access in drop_activity_actor::do_turn().
 Resolves a partial item spawn issue
 Prevents xp 'underflow' due to negative focus.
-Dragged vehicle/furniture no longer leaves a trail of memorized tiles in darkness.
+Dragged vehicles and furniture no longer leave a trail of memorized tiles in darkness.
 Prevents a crash by disallowing turning vehicles on ramps.
-Fixes crash when towing over a bridge.
-Fixes game freeze when player cannot carry a mission reward.
-Fixes crash in  `map::player_in_field` caused by iterator invalidation.
+Fixes crashes from towing cables snapping or trying to stretch between z-levels.
+Fixes a game freeze from happening when the player cannot carry a mission reward.
+Fixes crashes in `map::player_in_field` caused by iterator invalidation.
 Fixes a division by zero error when drinking water.
 Fixes NPC followers being blind after waking up.
 Fixes looks_like for vehicle parts.
-Fixed metabolic rehydration.
-Fixes L10N not working when env var LANG is unset.
-Avoids starvation when creating characters from older templates.
-Fixes moving furniture being 'destroyed' when grab-moving.
-Fixes crash when reloading container on the ground and canceling equipment.
+Fixes Roots and Metabolic rehydration mutations so they actually relieve/eliminate the need for water.
+Fixes localization not working if the LANG environmental variable is not set.
+Avoids creating starving characters from older templates.
+Fixes furniture being 'destroyed' when grab-moving.
+Fixes crashes from canceling reloading a container that is on the ground.
 
 ## Performance:
 Adds an option to enable batching when it is available in SDL.
@@ -298,8 +297,8 @@ Adds lightweight crafting inventory cache to improve NPC construction processing
 Reduces save size by skipping serialization of some item pockets and relic data.
 Adds RLE compression for JSON serialization/deserializations of data on items, reducing savefile size.
 Improves performance of initializing the achievements tracker.
-Only considers tiles with floor when NPC avoids explosives.
-Speeds up fungus processing by 30%+
+When NPCs are fleeing from explosions, skips considering routing through tiles without a floor.
+Speeds up fungus-related code processing by 30%+.
 Optimizes item migrations to decrease load times.
 
 ## Infrastructure:
@@ -367,10 +366,10 @@ Displays multi-line JSON error messages correctly when building on Github.
 Python tool added to easily translate map coordinates.
 Enables a JSON check for mods in the Github build matrix.
 Uses (and checks for using) the correct season length for tests.
-Use GNU Parallel to run tests concurrently on Mac.
-Adds scooter vehicle parts and make scooters spawn with them for spriting purposes.
-compose.py: reduce composed tilesheet file size.
-Implements C++ symbol demangling in crash reports on MacOS, MinGW and Linux.
+Uses GNU Parallel to run tests concurrently, enabling concurrent tests in MacOS builds.
+Improves scooter tile representation by adding scooter vehicle parts, which scooters spawn with.
+Reduces file size of composed tilesheets from compose.py.
+Implements C++ symbol demangling in crash reports on MacOS, MinGW, and Linux.
 
 ## Build:
 Moves clang-tidy runs from Travis to GitHub.
@@ -391,7 +390,7 @@ Adds check enforcing almost-never-auto convention.
 Adds a GitHub workflow running flake8 to check the Python scripts.
 Consistently styles code in CMakeLists.txt files.
 Adds CMake linting.
-Captures ODR violations using GOLD linker, ASAN or LTO.
+Captures ODR violations using GOLD linker, ASAN, or LTO.
 
 ## I18N and A11Y:
 Fixes translations of martial art initiate and computer terminal messages.
@@ -403,6 +402,7 @@ Adds the start of a translator glossary and explains the etymology of Exodii.
 Uses class translation in many more places for more flexible translation support.
 Infrastructure: Automates translation template push.
 Enables using additional languages (Arabic, Czech, Danish, Dutch, Greek, Indonesian, Icelandic, Italian, Norwegian, Serbian, Turkish, and Ukrainian) with the game.
+Places cursor at highlighted item name in construction and crafting menus, as expected by screen readers.
 
 # 0.E (Ellison)
 
