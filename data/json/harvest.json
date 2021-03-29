@@ -117,8 +117,6 @@
     "id": "shrub_raspberry_harv",
     "type": "harvest",
     "entries": [ { "drop": "raspberries", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ]
-      { "drop": "raspberries", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] }
-    ]
   },
   {
     "id": "shrub_huckleberry_harv",
