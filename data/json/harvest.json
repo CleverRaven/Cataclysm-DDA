@@ -142,7 +142,7 @@
   {
     "id": "shrub_blueberry_harv",
     "type": "harvest",
-    "entries": [
+    "entries": [ { "drop": "blueberries", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ]
   },
   {
     "id": "shrub_peanut_harv",
