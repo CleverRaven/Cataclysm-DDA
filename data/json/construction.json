@@ -4286,8 +4286,8 @@
   },
   {
     "type": "construction",
-    "id": "constr_makeshift_ergometer_mechanical",
-    "group": "build_makeshift_ergometer_mechanical",
+    "id": "constr_ergometer_mechanical",
+    "group": "build_ergometer_mechanical",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "240 m",

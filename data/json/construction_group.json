@@ -361,8 +361,8 @@
   },
   {
     "type": "construction_group",
-    "id": "build_makeshift_ergometer_mechanical",
-    "name": "Build Makeshift Mechanical Ergometer"
+    "id": "build_ergometer_mechanical",
+    "name": "Build Mechanical Ergometer"
   },
   {
     "type": "construction_group",
