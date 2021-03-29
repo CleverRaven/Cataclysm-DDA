@@ -5934,7 +5934,7 @@ float get_hourly_rotpoints_at_temp( const int temp )
 
     // This multiplier makes sure the rot at 65 F (18 C) is 3600 rot/hour (1 rot/second).
     // the multiplier is calculated from: 3600 / std::pow( 2.0, 65.0 / 16.0 );
-    const float multiplier = 215.4607
+    const float multiplier = 215.4607;
 
     if( temp <= temperatures::freezing ) {
         return 0;
