@@ -291,6 +291,11 @@
   },
   {
     "type": "construction_group",
+    "id": "build_treadmill_mechanical",
+    "name": "Build Gravity Treadmill"
+  },
+  {
+    "type": "construction_group",
     "id": "build_high_end_of_a_concrete_ramp",
     "name": "Build High End of a Concrete Ramp"
   },

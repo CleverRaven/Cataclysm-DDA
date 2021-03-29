@@ -4304,5 +4304,22 @@
      ],
     "pre_special": "check_empty",
     "post_terrain": "f_ergometer_mechanical"
+  },
+  {
+    "type": "construction",
+    "id": "constr_treadmill_mechanical",
+    "group": "build_treadmill_mechanical",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 4 ] ],
+    "time": "240 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SCREW", "level": 1 } ], [ { "id": "WRENCH", "level": 1 } ] ],
+    "components": [
+       [ [ "plastic_chunk", 14 ] ],
+       [ [ "scrap", 10 ] ],
+       [ [ "pipe", 6 ] ],
+       [ [ "nail", 8 ] ]
+     ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_treadmill_mechanical"
   }
 ]
