@@ -356,6 +356,11 @@
   },
   {
     "type": "construction_group",
+    "id": "build_makeshift_ergometer_mechanical",
+    "name": "Build Makeshift Mechanical Ergometer"
+  },
+  {
+    "type": "construction_group",
     "id": "build_metal_bars",
     "name": "Build Metal Bars"
   },
