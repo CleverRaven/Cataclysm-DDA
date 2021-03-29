@@ -4293,15 +4293,15 @@
     "time": "240 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SCREW", "level": 1 } ], [ { "id": "WRENCH", "level": 1 } ] ],
     "components": [
-       [ [ "foot_crank", 1 ] ],
-       [ [ "plastic_chunk", 10 ] ],
-       [ [ "scrap", 4 ] ],
-       [ [ "chain", 1 ] ],
-       [ [ "pipe", 5 ] ],
-       [ [ "saddle", 1 ] ],
-       [ [ "wheel_small", 1 ] ],
-       [ [ "nail", 8 ] ]
-     ],
+      [ [ "foot_crank", 1 ] ],
+      [ [ "plastic_chunk", 10 ] ],
+      [ [ "scrap", 4 ] ],
+      [ [ "chain", 1 ] ],
+      [ [ "pipe", 5 ] ],
+      [ [ "saddle", 1 ] ],
+      [ [ "wheel_small", 1 ] ],
+      [ [ "nail", 8 ] ]
+    ],
     "pre_special": "check_empty",
     "post_terrain": "f_ergometer_mechanical"
   },
@@ -4313,12 +4313,7 @@
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "240 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SCREW", "level": 1 } ], [ { "id": "WRENCH", "level": 1 } ] ],
-    "components": [
-       [ [ "plastic_chunk", 14 ] ],
-       [ [ "scrap", 10 ] ],
-       [ [ "pipe", 6 ] ],
-       [ [ "nail", 8 ] ]
-     ],
+    "components": [ [ [ "plastic_chunk", 14 ] ], [ [ "scrap", 10 ] ], [ [ "pipe", 6 ] ], [ [ "nail", 8 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_treadmill_mechanical"
   }
