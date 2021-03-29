@@ -108,7 +108,7 @@
     "type": "harvest",
     "entries": [ { "drop": "rose_hips", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ]
   },
-   {
+  {
     "id": "shrub_grape_harv",
     "type": "harvest",
     "entries": [
