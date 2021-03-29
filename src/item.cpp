@@ -5922,76 +5922,12 @@ int item::spoilage_sort_order() const
 
 /**
  * Food decay calculation.
- * Calculate how much food rots per hour, based on 10 = 1 minute of decay @ 65 F.
- * IRL this tends to double every 10c a few degrees above freezing, but past a certain
- * point the rate decreases until even extremophiles find it too hot. Here we just stop
- * further acceleration at 105 F. This should only need to run once when the game starts.
- * @see calc_rot_array
- * @see rot_chart
- */
-static int calc_hourly_rotpoints_at_temp( const int temp )
-{
-    // default temp = 65, so generic->rotten() assumes 600 decay points per hour
-    const int dropoff = 38;     // ditch our fancy equation and do a linear approach to 0 rot at 31f
-    const int cutoff = 105;     // stop torturing the player at this temperature, which is
-    const int cutoffrot = 21240; // ..almost 6 times the base rate. bacteria hate the heat too
-
-    const int dsteps = dropoff - temperatures::freezing;
-    const int dstep = ( 215.46 * std::pow( 2.0, static_cast<float>( dropoff ) / 16.0 ) / dsteps );
-
-    if( temp < temperatures::freezing ) {
-        return 0;
-    } else if( temp > cutoff ) {
-        return cutoffrot;
-    } else if( temp < dropoff ) {
-        return ( temp - temperatures::freezing ) * dstep;
-    } else {
-        return std::lround( 215.46 * std::pow( 2.0, static_cast<float>( temp ) / 16.0 ) );
-    }
-}
-
-/**
- * Initialize the rot table.
- * @see rot_chart
- */
-static std::vector<int> calc_rot_array( const size_t cap )
-{
-    std::vector<int> ret;
-    ret.reserve( cap );
-    for( size_t i = 0; i < cap; ++i ) {
-        ret.push_back( calc_hourly_rotpoints_at_temp( static_cast<int>( i ) ) );
-    }
-    return ret;
-}
-
-/**
- * Get the hourly rot for a given temperature from the precomputed table.
- * @see rot_chart
- */
-int get_hourly_rotpoints_at_temp( const int temp )
-{
-    /**
-     * Precomputed rot lookup table.
-     */
-    static const std::vector<int> rot_chart = calc_rot_array( 200 );
-
-    if( temp < 0 ) {
-        return 0;
-    }
-    if( temp > 150 ) {
-        return 21240;
-    }
-    return rot_chart[temp];
-}
-
-/**
- * Food decay calculation.
  * Calculate how much food rots per hour, based on 1 rot/second at 65 F.
  * Rate of rot doubles every 16 F increase in temperature
  * Rate of rot halves every 16 F decrease in temperature
  * Rot maxes out at 105 F
  */
-float get_hourly_rotpoints_at_temp2( const int temp )
+float get_hourly_rotpoints_at_temp( const int temp )
 {
     const float dropoff = 38;
     const float max_rot_temp = 105; // Maximum rotting rate is at this temperature
@@ -6052,7 +5988,7 @@ void item::calc_rot( int temp, const float spoil_modifier,
         rot += rng( -spoil_variation, spoil_variation );
     }
 
-    rot += factor * time_delta / 1_hours * get_hourly_rotpoints_at_temp2( temp ) * 1_turns;
+    rot += factor * time_delta / 1_hours * get_hourly_rotpoints_at_temp( temp ) * 1_turns;
 }
 
 void item::calc_rot_while_processing( time_duration processing_duration )
