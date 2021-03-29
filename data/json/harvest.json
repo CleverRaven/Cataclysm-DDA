@@ -126,7 +126,7 @@
   {
     "id": "shrub_blackberry_harv",
     "type": "harvest",
-    "entries": [
+    "entries": [ { "drop": "blackberries", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ]
       { "drop": "blackberries", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] }
     ]
   },
