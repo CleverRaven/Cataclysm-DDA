@@ -68,6 +68,11 @@ std::function<bool( const item & )> basic_item_filter( std::string filter )
                 const std::string note = i.get_var( "item_note" );
                 return !note.empty() && lcmatch( note, filter );
             };
+        // by book skill
+        case 's':
+            return [filter]( const item & i ) {
+                return lcmatch( i.get_book_skill(), filter );
+            };
         // by name
         default:
             return [filter]( const item & a ) {
