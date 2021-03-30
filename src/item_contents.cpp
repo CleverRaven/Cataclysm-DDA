@@ -532,9 +532,9 @@ units::length item_contents::max_containable_length( const bool unrestricted_poc
 {
     units::length ret = 0_mm;
     for( const item_pocket &pocket : contents ) {
-        bool restriction_condition = pocket.is_type( item_pocket::pocket_type::CONTAINER );
+        bool restriction_condition = !pocket.is_type( item_pocket::pocket_type::CONTAINER );
         if( unrestricted_pockets_only ) {
-            restriction_condition = restriction_condition && !pocket.is_restricted();
+            restriction_condition = restriction_condition && pocket.is_restricted();
         }
         if( restriction_condition ) {
             continue;
@@ -551,9 +551,9 @@ units::volume item_contents::max_containable_volume( const bool unrestricted_poc
 {
     units::volume ret = 0_ml;
     for( const item_pocket &pocket : contents ) {
-        bool restriction_condition = pocket.is_type( item_pocket::pocket_type::CONTAINER );
+        bool restriction_condition = !pocket.is_type( item_pocket::pocket_type::CONTAINER );
         if( unrestricted_pockets_only ) {
-            restriction_condition = restriction_condition && !pocket.is_restricted();
+            restriction_condition = restriction_condition && pocket.is_restricted();
         }
         if( restriction_condition ) {
             continue;
