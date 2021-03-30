@@ -1954,12 +1954,10 @@ void debug()
             raise( SIGSEGV );
             break;
         case debug_menu_index::MAP_EXTRA: {
-            std::unordered_map<std::string, map_extra_pointer> FM = MapExtras::all_functions();
+            const std::vector<std::string> &mx_str = MapExtras::get_all_function_names();
             uilist mx_menu;
-            std::vector<std::string> mx_str;
-            for( auto &extra : FM ) {
-                mx_menu.addentry( -1, true, -1, extra.first );
-                mx_str.push_back( extra.first );
+            for( const std::string &extra : mx_str ) {
+                mx_menu.addentry( -1, true, -1, extra );
             }
             mx_menu.query();
             int mx_choice = mx_menu.ret;

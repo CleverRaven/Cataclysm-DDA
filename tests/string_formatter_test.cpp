@@ -101,9 +101,7 @@ void mingw_test( const char *const old_pattern, const char *const new_pattern, c
     CHECK( original_result == new_result );
 }
 
-// Marking mayfail due to failure in Appveyor.  Looks like a bug in the Visual
-// Studio runtime libraries.  Once that failure stops showing up on Appveyor,
-// this can cease to be marked thus.
+// Marking mayfail due to failure in MXE's MinGW on Travis on Ubuntu Xenial.
 TEST_CASE( "string_formatter", "[!mayfail]" )
 {
     test_typed_printf<signed char>( "%hhi", "%i" );

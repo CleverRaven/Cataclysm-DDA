@@ -335,6 +335,11 @@ class item : public visitable
         bool is_software_storage() const;
 
         /**
+         * Returns a symbol for indicating the current dirt or fouling level for a gun.
+         */
+        std::string dirt_symbol() const;
+
+        /**
          * Returns the default color of the item (e.g. @ref itype::color).
          */
         nc_color color() const;

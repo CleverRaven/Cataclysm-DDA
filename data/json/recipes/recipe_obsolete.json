@@ -2766,5 +2766,10 @@
     "type": "recipe",
     "result": "ecs_lajatang_off",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "rifle_223",
+    "obsolete": true
   }
 ]
