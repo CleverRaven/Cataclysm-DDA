@@ -180,8 +180,8 @@ std::string weight_to_string( const units::mass &weight, const bool compact,
     const int default_decimal_places = 2;
     const double converted_weight = round_with_places( convert_weight( weight ),
                                     default_decimal_places );
-    std::string string_to_format = remove_trailing_zeroes ? "%g%s%s" : string_format( "%." +
-                                   std::to_string( default_decimal_places ) + "f%s%s" );
+    std::string string_to_format = remove_trailing_zeroes ? "%g%s%s" : "%." +
+                                   std::to_string( default_decimal_places ) + "f%s%s";
     return string_format( string_to_format, converted_weight, compact ? "" : " ", weight_units() );
 }
 
