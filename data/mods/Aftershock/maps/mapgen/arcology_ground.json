@@ -113,25 +113,21 @@
       ],
       "palettes": [ "arcology_exterior" ],
       "nested": {
-        "1": {
-          "chunks": [ [ "arcology_6x6_tbd", 20 ], [ "arcology_6x6_tbd", 20 ] ],
-          "2": {
-            "chunks": [ [ "arcology_6x6_tbd", 20 ], [ "arcology_10x10_tbd", 20 ] ],
-            "3": {
-              "chunks": [
-                [ "arcology_8x8_gate_w_1", 10 ],
-                [ "arcology_8x8_gate_w_2", 20 ],
-                [ "arcology_8x8_gate_w_3", 20 ],
-                [ "arcology_8x8_gate_w_4", 10 ],
-                [ "arcology_8x8_gate_w_5", 20 ],
-                [ "arcology_8x8_gate_w_6", 10 ]
-              ]
-            }
-          },
-          "place_loot": [ { "group": "TBD", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
-          "place_monsters": [ { "monster": "AFS_GROUP_ARCOLOGY_EXTERIOR", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
+        "1": { "chunks": [ [ "arcology_6x6_tbd", 20 ], [ "arcology_6x6_tbd", 20 ] ] },
+        "2": { "chunks": [ [ "arcology_6x6_tbd", 20 ], [ "arcology_10x10_tbd", 20 ] ] },
+        "3": {
+          "chunks": [
+            [ "arcology_8x8_gate_w_1", 10 ],
+            [ "arcology_8x8_gate_w_2", 20 ],
+            [ "arcology_8x8_gate_w_3", 20 ],
+            [ "arcology_8x8_gate_w_4", 10 ],
+            [ "arcology_8x8_gate_w_5", 20 ],
+            [ "arcology_8x8_gate_w_6", 10 ]
+          ]
         }
-      }
+      },
+      "place_loot": [ { "group": "TBD", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
+      "place_monsters": [ { "monster": "AFS_GROUP_ARCOLOGY_EXTERIOR", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
     }
   },
   {
@@ -248,22 +244,20 @@
       "palettes": [ "arcology_exterior" ],
       "nested": {
         "1": { "chunks": [ [ "arcology_8x8_tbd", 20 ], [ "arcology_8x8_tbd", 20 ] ] },
-        "2": {
-          "chunks": [ [ "arcology_10x10_tbd", 20 ], [ "arcology_10x10_tbd", 20 ] ],
-          "3": {
-            "chunks": [
-              [ "arcology_8x8_gate_s_1", 10 ],
-              [ "arcology_8x8_gate_s_2", 20 ],
-              [ "arcology_8x8_gate_s_3", 20 ],
-              [ "arcology_8x8_gate_s_4", 10 ],
-              [ "arcology_8x8_gate_s_5", 20 ],
-              [ "arcology_8x8_gate_s_6", 10 ]
-            ]
-          },
-          "place_loot": [ { "group": "TBD", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
-          "place_monsters": [ { "monster": "AFS_GROUP_ARCOLOGY_EXTERIOR", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
+        "2": { "chunks": [ [ "arcology_10x10_tbd", 20 ], [ "arcology_10x10_tbd", 20 ] ] },
+        "3": {
+          "chunks": [
+            [ "arcology_8x8_gate_s_1", 10 ],
+            [ "arcology_8x8_gate_s_2", 20 ],
+            [ "arcology_8x8_gate_s_3", 20 ],
+            [ "arcology_8x8_gate_s_4", 10 ],
+            [ "arcology_8x8_gate_s_5", 20 ],
+            [ "arcology_8x8_gate_s_6", 10 ]
+          ]
         }
-      }
+      },
+      "place_loot": [ { "group": "TBD", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
+      "place_monsters": [ { "monster": "AFS_GROUP_ARCOLOGY_EXTERIOR", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
     }
   },
   {
@@ -299,12 +293,14 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
       "palettes": [ "arcology_exterior" ],
-      "nested": { "1": { "chunks": [ [ "arcology_8x8_tbd", 20 ], [ "arcology_8x8_tbd", 20 ] ] } },
-      "2": { "chunks": [ [ "arcology_9x9_tbd", 20 ], [ "arcology_9x9_tbd", 20 ] ] },
-      "3": { "chunks": [ [ "arcology_7x7_tbd", 20 ], [ "arcology_7x7_tbd", 20 ] ] }
-    },
-    "place_loot": [ { "group": "TBD", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
-    "place_monsters": [ { "monster": "AFS_GROUP_ARCOLOGY_EXTERIOR", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
+      "nested": {
+        "1": { "chunks": [ [ "arcology_8x8_tbd", 20 ], [ "arcology_8x8_tbd", 20 ] ] },
+        "2": { "chunks": [ [ "arcology_9x9_tbd", 20 ], [ "arcology_9x9_tbd", 20 ] ] },
+        "3": { "chunks": [ [ "arcology_7x7_tbd", 20 ], [ "arcology_7x7_tbd", 20 ] ] }
+      },
+      "place_loot": [ { "group": "TBD", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
+      "place_monsters": [ { "monster": "AFS_GROUP_ARCOLOGY_EXTERIOR", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
+    }
   },
   {
     "type": "mapgen",
@@ -338,6 +334,7 @@
         "________________||,,,,,,",
         "________________óó,,,,,,"
       ],
+      "palettes": [ "arcology_exterior" ],
       "nested": { "1": { "chunks": [ [ "arcology_12x12_tbd", 20 ], [ "arcology_12x12_tbd", 20 ] ] } },
       "place_loot": [ { "group": "TBD", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
       "place_monsters": [ { "monster": "AFS_GROUP_ARCOLOGY_EXTERIOR", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
@@ -375,6 +372,7 @@
         "________________||,,,,,,",
         "________________óó,,,,,,"
       ],
+      "palettes": [ "arcology_exterior" ],
       "nested": { "1": { "chunks": [ [ "arcology_7x7_tbd", 20 ], [ "arcology_7x7_tbd", 20 ] ] } },
       "place_loot": [ { "group": "TBD", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
       "place_monsters": [ { "monster": "AFS_GROUP_ARCOLOGY_EXTERIOR", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
@@ -391,6 +389,7 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         "||||||||||||||||||,,,,,,",
+        "1_______1_______||,,,,,,",
         "________________||,,,,,,",
         "________________||,,,,,,",
         "________________||,,,,,,",
@@ -400,6 +399,7 @@
         "________________||,,,,,,",
         "________________||,,,,,,",
         "________________||,,,,,,",
+        "______2_________||,,,,,,",
         "________________||,,,,,,",
         "________________||,,,,,,",
         "________________||,,,,,,",
@@ -408,11 +408,64 @@
         "________________||,,,,,,",
         "________________||,,,,,,",
         "________________||,,,,,,",
-        "________________||,,,,,,",
-        "________________||,,,,,,",
-        "________________||,,,,,,"
+        "________________óó,,,,,,"
       ],
-      "nested": { "1": { "chunks": [ [ "arcology_7x7_tbd", 20 ], [ "arcology_7x7_tbd", 20 ] ] } },
+      "palettes": [ "arcology_exterior" ],
+      "nested": {
+        "1": { "chunks": [ [ "arcology_8x8_tbd", 20 ], [ "arcology_8x8_tbd", 20 ] ] },
+        "2": { "chunks": [ [ "arcology_10x10_tbd", 20 ], [ "arcology_10x10_tbd", 20 ] ] }
+      },
+      "place_loot": [ { "group": "TBD", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
+      "place_monsters": [ { "monster": "AFS_GROUP_ARCOLOGY_EXTERIOR", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "arcology_exterior_n_entrance" ],
+    "weight": 100,
+    "object": {
+      "rows": [
+        ",,,,,,,,3,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        "|||||||||OOOOOO|||||||||",
+        "1_______________1_______",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "2___________2___________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________"
+      ],
+      "palettes": [ "arcology_exterior" ],
+      "nested": {
+        "1": { "chunks": [ [ "arcology_8x8_tbd", 20 ], [ "arcology_8x8_tbd", 20 ] ] },
+        "2": { "chunks": [ [ "arcology_12x12_tbd", 20 ], [ "arcology_12x12_tbd", 20 ] ] },
+        "3": {
+          "chunks": [
+            [ "arcology_8x8_gate_w_1", 10 ],
+            [ "arcology_8x8_gate_w_2", 20 ],
+            [ "arcology_8x8_gate_w_3", 20 ],
+            [ "arcology_8x8_gate_w_4", 10 ],
+            [ "arcology_8x8_gate_w_5", 20 ],
+            [ "arcology_8x8_gate_w_6", 10 ]
+          ]
+        }
+      },
       "place_loot": [ { "group": "TBD", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
       "place_monsters": [ { "monster": "AFS_GROUP_ARCOLOGY_EXTERIOR", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
     }
