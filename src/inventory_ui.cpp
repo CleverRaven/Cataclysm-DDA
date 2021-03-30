@@ -96,20 +96,16 @@ struct container_data {
     units::length max_containable_length;
 
     std::string to_formatted_string( const bool compact = true ) {
-        std::string formatted_string;
+        std::string string_to_format;
         if( compact ) {
-            formatted_string = string_format( "%s/%s : %s/%s : max %s", unit_to_string( actual_capacity, true,
-                                              true ),
-                                              unit_to_string( total_capacity, true, true ), unit_to_string( actual_capacity_weight, true, true ),
-                                              unit_to_string( total_capacity_weight, true, true ), unit_to_string( max_containable_length,
-                                                      true ) );
+            string_to_format = "%s/%s : %s/%s : max %s";
         } else {
-            formatted_string = string_format( "(remains %s, %s) max length %s",
-                                              unit_to_string( total_capacity - actual_capacity, true, true ),
-                                              unit_to_string( total_capacity_weight - actual_capacity_weight, true, true ),
-                                              unit_to_string( max_containable_length, true ) );
+            string_to_format = "(remains %s, %s) max length %s";
         }
-        return formatted_string;
+        return string_format( string_to_format,
+                              unit_to_string( total_capacity - actual_capacity, true, true ),
+                              unit_to_string( total_capacity_weight - actual_capacity_weight, true, true ),
+                              unit_to_string( max_containable_length, true ) );
     }
 };
 

@@ -219,8 +219,8 @@ std::string vol_to_string( const units::volume &vol, const bool compact,
     const double converted_volume =
         round_with_places( convert_volume( vol.value(),
                                            &converted_volume_scale ), default_decimal_places );
-    std::string string_to_format = remove_trailing_zeroes ? "%g%s%s" : string_format( "%." +
-                                   std::to_string( default_decimal_places ) + "f%s%s" );
+    std::string string_to_format = remove_trailing_zeroes ? "%g%s%s" : "%." +
+                                   std::to_string( default_decimal_places ) + "f%s%s";
     return string_format( string_to_format, converted_volume, compact ? "" : " ", volume_units_abbr() );
 }
 
