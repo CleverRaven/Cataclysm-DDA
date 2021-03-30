@@ -257,7 +257,7 @@ Makes NPCs able to fight back while guarding or patrolling.
 Fixes use-after-free error in sounds::process_sound_markers(player).
 Makes the Zombie technician's pull metal weapon attack drop items at the technician's feet.
 Fixes errors due to a bad memory access in drop_activity_actor::do_turn().
-Resolves a partial item spawn issue
+Resolves a partial item spawn issue.
 Prevents xp 'underflow' due to negative focus.
 Dragged vehicles and furniture no longer leave a trail of memorized tiles in darkness.
 Prevents a crash by disallowing turning vehicles on ramps.
