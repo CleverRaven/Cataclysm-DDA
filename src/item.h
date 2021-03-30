@@ -1727,7 +1727,7 @@ class item : public visitable
         /**
         * Returns true wether this item is worn or not
         */
-        bool is_worn() const;
+        bool is_worn_by_player() const;
 
         /**
          * @name Pet armor related functions.

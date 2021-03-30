@@ -838,7 +838,7 @@ bool item::is_worn_only_with( const item &it ) const
 {
     return is_power_armor() && it.is_power_armor() && it.covers( bodypart_id( "torso" ) );
 }
-bool item::is_worn() const
+bool item::is_worn_by_player() const
 {
     return get_player_character().is_worn( *this );
 }

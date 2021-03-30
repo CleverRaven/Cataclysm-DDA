@@ -44,7 +44,7 @@ class item_contents
                 bool nested, bool allow_sealed = false );
 
         units::length max_containable_length( bool unrestricted_pockets_only = false ) const;
-        units::volume max_containable_volume() const;
+        units::volume max_containable_volume( const bool unrestricted_pockets_only = false ) const;
         /**
          * returns whether an item can be physically stored within these item contents.
          * Fails if all pockets are MOD, CORPSE, SOFTWARE, or MIGRATION type, as they are not
