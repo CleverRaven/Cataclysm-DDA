@@ -2056,8 +2056,8 @@
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
     "components": [
-      [ [ "coffee_raw", 4 ] ],
-      [ [ "sugar", 10 ], [ "honeycomb", 1 ], [ "honey_bottled", 1 ], [ "honey_glassed", 1 ], [ "syrup", 1 ] ],
+      [ [ "coffee_raw", 3 ] ],
+      [ [ "sugar", 20 ], [ "honeycomb", 2 ], [ "honey_bottled", 6 ], [ "honey_glassed", 2 ], [ "syrup", 6 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]
   },
@@ -7493,8 +7493,9 @@
     "batch_time_factors": [ 50, 3 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 1 } ],
     "components": [
-      [ [ "meat_red", 2],
-      [ [ "bread", 1, ] ],
+      [ [ "meat_red", 2 ] ],
+      [ [ "bread", 1 ] ],
+      [
         [ "salt", 2 ],
         [ "soysauce", 2 ],
         [ "seasoning_italian", 2 ],
