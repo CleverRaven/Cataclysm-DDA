@@ -2775,6 +2775,11 @@
   },
   {
     "type": "recipe",
+    "result": "rifle_223",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "bodypillow",
     "obsolete": true
   }
