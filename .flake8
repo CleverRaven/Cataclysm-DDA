@@ -1,7 +1,7 @@
 [flake8]
 exclude = .git,__pycache__,lang/json
 ignore =
-    # E265 forces commants to have a space after the '#'.  We have a bunch of
+    # E265 forces comments to have a space after the '#'.  We have a bunch of
     # optional debugging code commented out this way, and not having a space is
     # a convenient way to distinguish it from proper comments.  Maybe we should
     # delete that code, but unless that happens leaving E265 disabled.
