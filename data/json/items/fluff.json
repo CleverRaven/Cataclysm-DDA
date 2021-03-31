@@ -62,6 +62,68 @@
     "use_action": [ "COIN_FLIP" ]
   },
   {
+    "type": "GENERIC",
+    "id": "money_one",
+    "name": { "str": "one dollar bill" },
+    "description": "A one dollar bill, pretty useless now though.",
+    "weight": "1 g",
+    "to_hit": -3,
+    "color": "green",
+    "symbol": ",",
+    "material": [ "paper" ],
+    "volume": "1 ml",
+    "price": 0
+  },
+    {
+    "type": "GENERIC",
+    "id": "money_five",
+    "name": { "str": "five dollar bill" },
+    "description": "A five dollar bill, pretty useless now though.",
+    "weight": "1 g",
+    "to_hit": -3,
+    "color": "green",
+    "symbol": ",",
+    "material": [ "paper" ],
+    "volume": "1 ml",
+    "price": 0
+  },
+  {
+    "type": "GENERIC",
+    "id": "money_ten",
+    "name": { "str": "ten dollar bill" },
+    "description": "A ten dollar bill, pretty useless now though.",
+    "copy-from": "money_one",
+    "color": "green",
+    "symbol": ","
+  },
+  {
+    "type": "GENERIC",
+    "id": "money_twenty",
+    "name": { "str": "twenty dollar bill" },
+    "description": "A twenty dollar bill, pretty useless now though.",
+    "copy-from": "money_one",
+    "color": "green",
+    "symbol": ","
+  },
+   {
+    "type": "GENERIC",
+    "id": "money_fifty",
+    "name": { "str": "fifty dollar bill" },
+    "description": "A fifty dollar bill, pretty useless now though.",
+    "copy-from": "money_one",
+    "color": "green",
+    "symbol": ","
+  },
+   {
+    "type": "GENERIC",
+    "id": "money_hundred",
+    "name": { "str": "hundred dollar bill" },
+    "description": "A hundred dollar bill, pretty useless now though.",
+    "copy-from": "money_one",
+    "color": "green",
+    "symbol": ","
+  },
+  {
     "id": "family_photo",
     "type": "GENERIC",
     "//": "Unique mission item for the CITY_COP.",
