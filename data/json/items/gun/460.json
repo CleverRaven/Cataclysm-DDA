@@ -18,7 +18,7 @@
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "m1911mag", "m1911bigmag", "m1911mag", "m1911bigmag" ]
+        "item_restriction": [ "m1911mag", "m1911bigmag" ]
       }
     ]
   }

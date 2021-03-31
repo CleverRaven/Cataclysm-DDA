@@ -13,7 +13,7 @@
     "id": "meat_tainted",
     "copy-from": "meat_tainted",
     "name": { "str": "chunk of alien meat", "str_pl": "chunks of alien meat" },
-    "description": "This dense, stringy substance smells strongly like burnt oil, or some sort of industrial chemical.  For all intents and purposes, it seems like the 'meat' of the creature, but its bizarre texture and faintly red-purple tint is unlike anything you've ever experienced before.  You could eat it, but no doubt it would not only taste henious but also make you sick, being made of material your body was never supposed to injest."
+    "description": "This dense, stringy substance smells strongly like burnt oil, or some sort of industrial chemical.  For all intents and purposes, it seems like the 'meat' of the creature, but its bizarre texture and faintly red-purple tint is unlike anything you've ever experienced before.  You could eat it, but no doubt it would not only taste heinous but also make you sick, being made of material your body was never supposed to ingest."
   },
   {
     "type": "COMESTIBLE",
@@ -36,7 +36,7 @@
     "category": "other",
     "copy-from": "fat_tainted",
     "name": "alien fat",
-    "description": "A chunk of dense fat that is tough and rubbery.  It smells simply henious, like open sewer and pungent chemicals, and is doubtless full of strange material that your body was never supposed to injest.  It might at least be able to be used for something, if not quite as well as its earthly variant due to its relative impurities."
+    "description": "A chunk of dense fat that is tough and rubbery.  It smells simply heinous, like open sewer and pungent chemicals, and is doubtless full of strange material that your body was never supposed to injest.  It might at least be able to be used for something, if not quite as well as its earthly variant due to its relative impurities."
   },
   {
     "type": "COMESTIBLE",
@@ -51,7 +51,7 @@
     "copy-from": "mutant_meat",
     "type": "COMESTIBLE",
     "name": { "str": "chunk of unusual meat", "str_pl": "chunks of unusual meat" },
-    "description": "Meat from the aliens is typically quite foul, full of toxins and substances not meant to be digested by humans, however this piece almost looks edible - if not for a few sections that still have strange hues and disgusting, spongey texture.  Still, with a bit of preperation, it might even be somewhat palatable."
+    "description": "Meat from the aliens is typically quite foul, full of toxins and substances not meant to be digested by humans.  However, this piece almost looks edible - if not for a few sections that still have strange hues and disgusting, spongy texture.  Still, with a bit of preparation, it might even be somewhat palatable."
   },
   {
     "id": "mutant_meat_scrap",

@@ -21,6 +21,11 @@
     ]
   },
   {
+    "id": "museum_misc",
+    "type": "item_group",
+    "items": [ [ "ki_strike_scroll", 3 ] ]
+  },
+  {
     "type": "item_group",
     "id": "book_military",
     "items": [ [ "manual_mma_panzer", 10 ] ]

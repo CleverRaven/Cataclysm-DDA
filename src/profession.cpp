@@ -7,6 +7,7 @@
 #include <map>
 #include <memory>
 
+#include "game.h"
 #include "addiction.h"
 #include "avatar.h"
 #include "calendar.h"
@@ -30,7 +31,6 @@
 namespace
 {
 generic_factory<profession> all_profs( "profession" );
-const string_id<profession> generic_profession_id( "unemployed" );
 } // namespace
 
 static class json_item_substitution
@@ -238,6 +238,8 @@ void profession::load( const JsonObject &jo, const std::string & )
 
 const profession *profession::generic()
 {
+    const string_id<profession> generic_profession_id(
+        get_option<std::string>( "GENERIC_PROFESSION_ID" ) );
     return &generic_profession_id.obj();
 }
 
@@ -333,6 +335,11 @@ void profession::check_definition() const
 
 bool profession::has_initialized()
 {
+    if( !g || g->new_game ) {
+        return false;
+    }
+    const string_id<profession> generic_profession_id(
+        get_option<std::string>( "GENERIC_PROFESSION_ID" ) );
     return generic_profession_id.is_valid();
 }
 

@@ -134,5 +134,15 @@
     "default_fail_multiplier": 2,
     "time_to_learn": "10 h",
     "required_proficiencies": [ "prof_fine_metalsmithing", "prof_redsmithing" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_handloading",
+    "name": { "str": "Handloading" },
+    "description": "You know how to accurately measure powder and projectile weights for reloading firearm cartridges.",
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_fail_multiplier": 5,
+    "time_to_learn": "8 h"
   }
 ]
