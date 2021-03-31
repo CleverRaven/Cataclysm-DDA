@@ -261,6 +261,11 @@
   },
   {
     "type": "construction_group",
+    "id": "build_exercise_machine",
+    "name": "Build Exercise Machine"
+  },
+  {
+    "type": "construction_group",
     "id": "build_fence",
     "name": "Build Fence"
   },
@@ -283,6 +288,11 @@
     "type": "construction_group",
     "id": "build_fire_ring",
     "name": "Build Fire Ring"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_treadmill_mechanical",
+    "name": "Build Gravity Treadmill"
   },
   {
     "type": "construction_group",
@@ -358,6 +368,11 @@
     "type": "construction_group",
     "id": "build_makeshift_door",
     "name": "Build Makeshift Door"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_ergometer_mechanical",
+    "name": "Build Mechanical Ergometer"
   },
   {
     "type": "construction_group",
