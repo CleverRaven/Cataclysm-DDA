@@ -1949,6 +1949,205 @@ void draw_benchmark( const int max_difference )
              difference / 1000.0, 1000.0 * draw_counter / static_cast<double>( difference ) );
 }
 
+static void debug_menu_game_state()
+{
+    avatar &player_character = get_avatar();
+    map &here = get_map();
+    tripoint abs_sub = here.get_abs_sub();
+    std::string mfus;
+    std::vector<std::pair<m_flag, int>> sorted;
+    for( int f = 0; f < m_flag::MF_MAX; f++ ) {
+        sorted.push_back( {static_cast<m_flag>( f ), MonsterGenerator::generator().m_flag_usage_stats[f]} );
+    }
+    std::sort( sorted.begin(), sorted.end(), []( std::pair<m_flag, int> a, std::pair<m_flag, int> b ) {
+        return a.second != b.second ? a.second > b.second : a.first < b.first;
+    } );
+    popup( player_character.total_daily_calories_string() );
+    for( auto &m_flag_stat : sorted ) {
+        mfus += string_format( "%s;%d\n", io::enum_to_string<m_flag>( m_flag_stat.first ),
+                               m_flag_stat.second );
+    }
+    DebugLog( D_INFO, DC_ALL ) << "Monster flag usage statistics:\nFLAG;COUNT\n" << mfus;
+    std::fill( MonsterGenerator::generator().m_flag_usage_stats.begin(),
+               MonsterGenerator::generator().m_flag_usage_stats.end(), 0 );
+    popup_top( "Monster flag usage statistics were dumped to debug.log and cleared." );
+
+    std::string s = _( "Location %d:%d in %d:%d, %s\n" );
+    s += _( "Current turn: %d.\n" );
+    s += ngettext( "%d creature exists.\n", "%d creatures exist.\n", g->num_creatures() );
+
+    std::unordered_map<std::string, int> creature_counts;
+    for( Creature &critter : g->all_creatures() ) {
+        std::string this_name = critter.get_name();
+        creature_counts[this_name]++;
+    }
+
+    if( !creature_counts.empty() ) {
+        std::vector<std::pair<std::string, int>> creature_names_sorted;
+        for( const std::pair<const std::string, int> &it : creature_counts ) {
+            creature_names_sorted.emplace_back( it );
+        }
+
+        std::stable_sort( creature_names_sorted.begin(), creature_names_sorted.end(), []( auto a, auto b ) {
+            return a.second > b.second;
+        } );
+
+        s += _( "\nSpecific creature type list:\n" );
+        for( const std::pair<std::string, int> &crit_name : creature_names_sorted ) {
+            s += string_format( "%i %s\n", crit_name.second, crit_name.first );
+        }
+    }
+
+    popup_top(
+        s.c_str(),
+        player_character.posx(), player_character.posy(), abs_sub.x, abs_sub.y,
+        overmap_buffer.ter( player_character.global_omt_location() )->get_name(),
+        to_turns<int>( calendar::turn - calendar::turn_zero ),
+        g->num_creatures() );
+    for( const npc &guy : g->all_npcs() ) {
+        tripoint t = guy.global_sm_location();
+        add_msg( m_info, _( "%s: map ( %d:%d ) pos ( %d:%d )" ), guy.name, t.x,
+                 t.y, guy.posx(), guy.posy() );
+    }
+
+    add_msg( m_info, _( "(you: %d:%d)" ), player_character.posx(), player_character.posy() );
+    std::string stom =
+        _( "Stomach Contents: %d ml / %d ml kCal: %d, Water: %d ml" );
+    add_msg( m_info, stom.c_str(), units::to_milliliter( player_character.stomach.contains() ),
+             units::to_milliliter( player_character.stomach.capacity( player_character ) ),
+             player_character.stomach.get_calories(),
+             units::to_milliliter( player_character.stomach.get_water() ), player_character.get_hunger() );
+    stom = _( "Guts Contents: %d ml / %d ml kCal: %d, Water: %d ml\nHunger: %d, Thirst: %d, kCal: %d / %d" );
+    add_msg( m_info, stom.c_str(), units::to_milliliter( player_character.guts.contains() ),
+             units::to_milliliter( player_character.guts.capacity( player_character ) ),
+             player_character.guts.get_calories(), units::to_milliliter( player_character.guts.get_water() ),
+             player_character.get_hunger(), player_character.get_thirst(), player_character.get_stored_kcal(),
+             player_character.get_healthy_kcal() );
+    add_msg( m_info, _( "Body Mass Index: %.0f\nBasal Metabolic Rate: %i" ), player_character.get_bmi(),
+             player_character.get_bmr() );
+    add_msg( m_info, _( "Player activity level: %s" ), player_character.activity_level_str() );
+    if( get_option<bool>( "STATS_THROUGH_KILLS" ) ) {
+        add_msg( m_info, _( "Kill xp: %d" ), player_character.kill_xp() );
+    }
+    g->invalidate_main_ui_adaptor();
+    g->disp_NPCs();
+}
+
+static void debug_menu_spawn_vehicle()
+{
+    avatar &player_character = get_avatar();
+    map &here = get_map();
+    if( here.veh_at( player_character.pos() ) ) {
+        dbg( D_ERROR ) << "game:load: There's already vehicle here";
+        debugmsg( "There's already vehicle here" );
+    } else {
+        // Vector of name, id so that we can sort by name
+        std::vector<std::pair<std::string, vproto_id>> veh_strings;
+        for( auto &elem : vehicle_prototype::get_all() ) {
+            if( elem == vproto_id( "custom" ) ) {
+                continue;
+            }
+            veh_strings.emplace_back( elem->name.translated(), elem );
+        }
+        std::sort( veh_strings.begin(), veh_strings.end(), localized_compare );
+        uilist veh_menu;
+        veh_menu.text = _( "Choose vehicle to spawn" );
+        int menu_ind = 0;
+        for( auto &elem : veh_strings ) {
+            //~ Menu entry in vehicle wish menu: 1st string: displayed name, 2nd string: internal name of vehicle
+            veh_menu.addentry( menu_ind, true, MENU_AUTOASSIGN, _( "%1$s (%2$s)" ),
+                               elem.first, elem.second.c_str() );
+            ++menu_ind;
+        }
+        veh_menu.query();
+        if( veh_menu.ret >= 0 && veh_menu.ret < static_cast<int>( veh_strings.size() ) ) {
+            // Didn't cancel
+            const vproto_id &selected_opt = veh_strings[veh_menu.ret].second;
+            tripoint dest = player_character.pos();
+            uilist veh_cond_menu;
+            veh_cond_menu.text = _( "Vehicle condition" );
+            veh_cond_menu.addentry( 0, true, MENU_AUTOASSIGN, _( "Light damage" ) );
+            veh_cond_menu.addentry( 1, true, MENU_AUTOASSIGN, _( "Undamaged" ) );
+            veh_cond_menu.addentry( 2, true, MENU_AUTOASSIGN, _( "Disabled (tires or engine)" ) );
+            veh_cond_menu.query();
+
+            if( veh_cond_menu.ret >= 0 && veh_cond_menu.ret < 3 ) {
+                // TODO: Allow picking this when add_vehicle has 3d argument
+                vehicle *veh = here.add_vehicle(
+                                   selected_opt, dest, -90_degrees, 100, veh_cond_menu.ret - 1 );
+                if( veh != nullptr ) {
+                    here.board_vehicle( dest, &player_character );
+                }
+            }
+        }
+    }
+}
+
+static void debug_menu_change_time()
+{
+    auto set_turn = [&]( const int initial, const time_duration & factor, const char *const msg ) {
+        const auto text = string_input_popup()
+                          .title( msg )
+                          .width( 20 )
+                          .text( std::to_string( initial ) )
+                          .only_digits( true )
+                          .query_string();
+        if( text.empty() ) {
+            return;
+        }
+        const int new_value = std::atoi( text.c_str() );
+        const time_duration offset = ( new_value - initial ) * factor;
+        // Arbitrary maximal value.
+        const time_point max = calendar::turn_zero + time_duration::from_turns(
+                                   std::numeric_limits<int>::max() / 2 );
+        calendar::turn = std::max( std::min( max, calendar::turn + offset ), calendar::turn_zero );
+    };
+
+    uilist smenu;
+    static const auto years = []( const time_point & p ) {
+        return static_cast<int>( ( p - calendar::turn_zero ) / calendar::year_length() );
+    };
+    do {
+        const int iSel = smenu.ret;
+        smenu.reset();
+        smenu.addentry( 0, true, 'y', "%s: %d", _( "year" ), years( calendar::turn ) );
+        smenu.addentry( 1, !calendar::eternal_season(), 's', "%s: %d",
+                        _( "season" ), static_cast<int>( season_of_year( calendar::turn ) ) );
+        smenu.addentry( 2, true, 'd', "%s: %d", _( "day" ), day_of_season<int>( calendar::turn ) );
+        smenu.addentry( 3, true, 'h', "%s: %d", _( "hour" ), hour_of_day<int>( calendar::turn ) );
+        smenu.addentry( 4, true, 'm', "%s: %d", _( "minute" ), minute_of_hour<int>( calendar::turn ) );
+        smenu.addentry( 5, true, 't', "%s: %d", _( "turn" ),
+                        to_turns<int>( calendar::turn - calendar::turn_zero ) );
+        smenu.selected = iSel;
+        smenu.query();
+
+        switch( smenu.ret ) {
+            case 0:
+                set_turn( years( calendar::turn ), calendar::year_length(), _( "Set year to?" ) );
+                break;
+            case 1:
+                set_turn( static_cast<int>( season_of_year( calendar::turn ) ), calendar::season_length(),
+                          _( "Set season to?  (0 = spring)" ) );
+                break;
+            case 2:
+                set_turn( day_of_season<int>( calendar::turn ), 1_days, _( "Set days to?" ) );
+                break;
+            case 3:
+                set_turn( hour_of_day<int>( calendar::turn ), 1_hours, _( "Set hour to?" ) );
+                break;
+            case 4:
+                set_turn( minute_of_hour<int>( calendar::turn ), 1_minutes, _( "Set minute to?" ) );
+                break;
+            case 5:
+                set_turn( to_turns<int>( calendar::turn - calendar::turn_zero ), 1_turns,
+                          string_format( _( "Set turn to?  (One day is %i turns)" ), to_turns<int>( 1_days ) ).c_str() );
+                break;
+            default:
+                break;
+        }
+    } while( smenu.ret != UILIST_CANCEL );
+}
+
 void debug()
 {
     bool debug_menu_has_hotkey = hotkey_for_action( ACTION_DEBUG,
@@ -2036,86 +2235,10 @@ void debug()
             debug_menu::wishmonster( cata::nullopt );
             break;
 
-        case debug_menu_index::GAME_STATE: {
-            std::string mfus;
-            std::vector<std::pair<m_flag, int>> sorted;
-            for( int f = 0; f < m_flag::MF_MAX; f++ ) {
-                sorted.push_back( {static_cast<m_flag>( f ), MonsterGenerator::generator().m_flag_usage_stats[f]} );
-            }
-            std::sort( sorted.begin(), sorted.end(), []( std::pair<m_flag, int> a, std::pair<m_flag, int> b ) {
-                return a.second != b.second ? a.second > b.second : a.first < b.first;
-            } );
-            popup( player_character.total_daily_calories_string() );
-            for( auto &m_flag_stat : sorted ) {
-                mfus += string_format( "%s;%d\n", io::enum_to_string<m_flag>( m_flag_stat.first ),
-                                       m_flag_stat.second );
-            }
-            DebugLog( D_INFO, DC_ALL ) << "Monster flag usage statistics:\nFLAG;COUNT\n" << mfus;
-            std::fill( MonsterGenerator::generator().m_flag_usage_stats.begin(),
-                       MonsterGenerator::generator().m_flag_usage_stats.end(), 0 );
-            popup_top( "Monster flag usage statistics were dumped to debug.log and cleared." );
-
-            std::string s = _( "Location %d:%d in %d:%d, %s\n" );
-            s += _( "Current turn: %d.\n" );
-            s += ngettext( "%d creature exists.\n", "%d creatures exist.\n", g->num_creatures() );
-
-            std::unordered_map<std::string, int> creature_counts;
-            for( Creature &critter : g->all_creatures() ) {
-                std::string this_name = critter.get_name();
-                creature_counts[this_name]++;
-            }
-
-            if( !creature_counts.empty() ) {
-                std::vector<std::pair<std::string, int>> creature_names_sorted;
-                for( const std::pair<const std::string, int> &it : creature_counts ) {
-                    creature_names_sorted.emplace_back( it );
-                }
-
-                std::stable_sort( creature_names_sorted.begin(), creature_names_sorted.end(), []( auto a, auto b ) {
-                    return a.second > b.second;
-                } );
-
-                s += _( "\nSpecific creature type list:\n" );
-                for( const std::pair<std::string, int> &crit_name : creature_names_sorted ) {
-                    s += string_format( "%i %s\n", crit_name.second, crit_name.first );
-                }
-            }
-
-            popup_top(
-                s.c_str(),
-                player_character.posx(), player_character.posy(), abs_sub.x, abs_sub.y,
-                overmap_buffer.ter( player_character.global_omt_location() )->get_name(),
-                to_turns<int>( calendar::turn - calendar::turn_zero ),
-                g->num_creatures() );
-            for( const npc &guy : g->all_npcs() ) {
-                tripoint t = guy.global_sm_location();
-                add_msg( m_info, _( "%s: map ( %d:%d ) pos ( %d:%d )" ), guy.name, t.x,
-                         t.y, guy.posx(), guy.posy() );
-            }
-
-            add_msg( m_info, _( "(you: %d:%d)" ), player_character.posx(), player_character.posy() );
-            std::string stom =
-                _( "Stomach Contents: %d ml / %d ml kCal: %d, Water: %d ml" );
-            add_msg( m_info, stom.c_str(), units::to_milliliter( player_character.stomach.contains() ),
-                     units::to_milliliter( player_character.stomach.capacity( player_character ) ),
-                     player_character.stomach.get_calories(),
-                     units::to_milliliter( player_character.stomach.get_water() ), player_character.get_hunger() );
-            stom = _( "Guts Contents: %d ml / %d ml kCal: %d, Water: %d ml\nHunger: %d, Thirst: %d, kCal: %d / %d" );
-            add_msg( m_info, stom.c_str(), units::to_milliliter( player_character.guts.contains() ),
-                     units::to_milliliter( player_character.guts.capacity( player_character ) ),
-                     player_character.guts.get_calories(), units::to_milliliter( player_character.guts.get_water() ),
-                     player_character.get_hunger(), player_character.get_thirst(), player_character.get_stored_kcal(),
-                     player_character.get_healthy_kcal() );
-            add_msg( m_info, _( "Body Mass Index: %.0f\nBasal Metabolic Rate: %i" ), player_character.get_bmi(),
-                     player_character.get_bmr() );
-            add_msg( m_info, _( "Player activity level: %s" ), player_character.activity_level_str() );
-            if( get_option<bool>( "STATS_THROUGH_KILLS" ) ) {
-                add_msg( m_info, _( "Kill xp: %d" ), player_character.kill_xp() );
-            }
-            g->invalidate_main_ui_adaptor();
-            g->disp_NPCs();
+        case debug_menu_index::GAME_STATE:
+            debug_menu_game_state();
             break;
-        }
+
         case debug_menu_index::KILL_NPCS:
             for( npc &guy : g->all_npcs() ) {
                 add_msg( _( "%s's head implodes!" ), guy.name );
@@ -2128,50 +2251,7 @@ void debug()
             break;
 
         case debug_menu_index::SPAWN_VEHICLE:
-            if( here.veh_at( player_character.pos() ) ) {
-                dbg( D_ERROR ) << "game:load: There's already vehicle here";
-                debugmsg( "There's already vehicle here" );
-            } else {
-                // Vector of name, id so that we can sort by name
-                std::vector<std::pair<std::string, vproto_id>> veh_strings;
-                for( auto &elem : vehicle_prototype::get_all() ) {
-                    if( elem == vproto_id( "custom" ) ) {
-                        continue;
-                    }
-                    veh_strings.emplace_back( elem->name.translated(), elem );
-                }
-                std::sort( veh_strings.begin(), veh_strings.end(), localized_compare );
-                uilist veh_menu;
-                veh_menu.text = _( "Choose vehicle to spawn" );
-                int menu_ind = 0;
-                for( auto &elem : veh_strings ) {
-                    //~ Menu entry in vehicle wish menu: 1st string: displayed name, 2nd string: internal name of vehicle
-                    veh_menu.addentry( menu_ind, true, MENU_AUTOASSIGN, _( "%1$s (%2$s)" ),
-                                       elem.first, elem.second.c_str() );
-                    ++menu_ind;
-                }
-                veh_menu.query();
-                if( veh_menu.ret >= 0 && veh_menu.ret < static_cast<int>( veh_strings.size() ) ) {
-                    // Didn't cancel
-                    const vproto_id &selected_opt = veh_strings[veh_menu.ret].second;
-                    tripoint dest = player_character.pos();
-                    uilist veh_cond_menu;
-                    veh_cond_menu.text = _( "Vehicle condition" );
-                    veh_cond_menu.addentry( 0, true, MENU_AUTOASSIGN, _( "Light damage" ) );
-                    veh_cond_menu.addentry( 1, true, MENU_AUTOASSIGN, _( "Undamaged" ) );
-                    veh_cond_menu.addentry( 2, true, MENU_AUTOASSIGN, _( "Disabled (tires or engine)" ) );
-                    veh_cond_menu.query();
-
-                    if( veh_cond_menu.ret >= 0 && veh_cond_menu.ret < 3 ) {
-                        // TODO: Allow picking this when add_vehicle has 3d argument
-                        vehicle *veh = here.add_vehicle(
-                                           selected_opt, dest, -90_degrees, 100, veh_cond_menu.ret - 1 );
-                        if( veh != nullptr ) {
-                            here.board_vehicle( dest, &player_character );
-                        }
-                    }
-                }
-            }
+            debug_menu_spawn_vehicle();
             break;
 
         case debug_menu_index::CHANGE_SKILLS: {
@@ -2471,70 +2551,9 @@ void debug()
         case debug_menu_index::HOUR_TIMER:
             g->toggle_debug_hour_timer();
             break;
-        case debug_menu_index::CHANGE_TIME: {
-            auto set_turn = [&]( const int initial, const time_duration & factor, const char *const msg ) {
-                const auto text = string_input_popup()
-                                  .title( msg )
-                                  .width( 20 )
-                                  .text( std::to_string( initial ) )
-                                  .only_digits( true )
-                                  .query_string();
-                if( text.empty() ) {
-                    return;
-                }
-                const int new_value = std::atoi( text.c_str() );
-                const time_duration offset = ( new_value - initial ) * factor;
-                // Arbitrary maximal value.
-                const time_point max = calendar::turn_zero + time_duration::from_turns(
-                                           std::numeric_limits<int>::max() / 2 );
-                calendar::turn = std::max( std::min( max, calendar::turn + offset ), calendar::turn_zero );
-            };
-
-            uilist smenu;
-            static const auto years = []( const time_point & p ) {
-                return static_cast<int>( ( p - calendar::turn_zero ) / calendar::year_length() );
-            };
-            do {
-                const int iSel = smenu.ret;
-                smenu.reset();
-                smenu.addentry( 0, true, 'y', "%s: %d", _( "year" ), years( calendar::turn ) );
-                smenu.addentry( 1, !calendar::eternal_season(), 's', "%s: %d",
-                                _( "season" ), static_cast<int>( season_of_year( calendar::turn ) ) );
-                smenu.addentry( 2, true, 'd', "%s: %d", _( "day" ), day_of_season<int>( calendar::turn ) );
-                smenu.addentry( 3, true, 'h', "%s: %d", _( "hour" ), hour_of_day<int>( calendar::turn ) );
-                smenu.addentry( 4, true, 'm', "%s: %d", _( "minute" ), minute_of_hour<int>( calendar::turn ) );
-                smenu.addentry( 5, true, 't', "%s: %d", _( "turn" ),
-                                to_turns<int>( calendar::turn - calendar::turn_zero ) );
-                smenu.selected = iSel;
-                smenu.query();
-
-                switch( smenu.ret ) {
-                    case 0:
-                        set_turn( years( calendar::turn ), calendar::year_length(), _( "Set year to?" ) );
-                        break;
-                    case 1:
-                        set_turn( static_cast<int>( season_of_year( calendar::turn ) ), calendar::season_length(),
-                                  _( "Set season to?  (0 = spring)" ) );
-                        break;
-                    case 2:
-                        set_turn( day_of_season<int>( calendar::turn ), 1_days, _( "Set days to?" ) );
-                        break;
-                    case 3:
-                        set_turn( hour_of_day<int>( calendar::turn ), 1_hours, _( "Set hour to?" ) );
-                        break;
-                    case 4:
-                        set_turn( minute_of_hour<int>( calendar::turn ), 1_minutes, _( "Set minute to?" ) );
-                        break;
-                    case 5:
-                        set_turn( to_turns<int>( calendar::turn - calendar::turn_zero ), 1_turns,
-                                  string_format( _( "Set turn to?  (One day is %i turns)" ), to_turns<int>( 1_days ) ).c_str() );
-                        break;
-                    default:
-                        break;
-                }
-            } while( smenu.ret != UILIST_CANCEL );
-        }
-        break;
+        case debug_menu_index::CHANGE_TIME:
+            debug_menu_change_time();
+            break;
         case debug_menu_index::SET_AUTOMOVE: {
             const cata::optional<tripoint> dest = g->look_around();
             if( !dest || *dest == player_character.pos() ) {
