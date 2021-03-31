@@ -543,6 +543,7 @@ Value: `[ array of {objects} ]: [ { "monster": ... } ]`
 | friendly    | Set true to make the monster friendly. Default false.
 | name        | Extra name to display on the monster.
 | target      | Set to true to make this into mission target. Only works when the monster is spawned from a mission.
+| spawn_data  | An optional object that contains additional details for spawning the monster.
 
 Note that high spawn density game setting can cause extra monsters to spawn when `monster` is used. When `group` is used
 only one monster will spawn.
@@ -572,6 +573,31 @@ Example:
 This places "mon_secubot" at random coordinate (7-18, 7-18). The monster is placed with 30% probability. The placement is
 repeated by random number of times `[1-3]`. The monster will spawn with 20-30 5.56x45mm rounds.
 
+### "spawn_data" for monsters
+This optional object can have two fields:
+| Field       | Description
+| ---         | ---
+| ammo        | A list of objects, each of which has an `"ammo_id"` field and a `"qty"` list of two integers. The monster will spawn with items of "ammo_id", with at least the first number in the "qty" and no more than the second.
+| patrol      | A list of objects, each of which has an `"x"` field and a `"y"` field. Either value can be a range or a single number. The x,y co-ordinates define a patrol point as an relative mapsquare point offset from the (0, 0) local mapsquare of the overmap terrain tile that the monster spawns in. Patrol points are converted to absolute mapqaure tripoints inside the monster generator.
+
+Monsters with a patrol point list will move to each patrol point, in order, whenever they have no more pressing action to take on their turn. Upon reaching the last point in the patrol point list, the monster will continue on to the first point in the list.
+
+Example:
+```json
+"place_monster": [
+    { "monster": "mon_zombie", "x": 12, "y": 12, "spawn_data": { "patrol": [ { "x": 12, "y": 12 } ] } }
+]
+```
+
+This places a "mon_zombie" at (12, 12). The zombie can move freely to chase after enemies, but will always return to the (12, 12) position if it has nothing else to do.
+
+Example 2:
+```json
+"place_monster": [
+    { "monster": "mon_secubot", "x": 12, "y": 12, "spawn_data": { "ammo": [ { "ammo_id": "556", "qty": [ 20, 30 ] } ], "patrol": [ { "x": -23, "y": -23 }, { "x": 47, "y": -23 }, { "x": 47, "y": 47 },  { "x": 47, "y": -23 } ] } }
+]
+```
+This places a "mon_secubot" at (12,12). It will patrol the four outmost concerns of the diagonally adjacent overmap terrain tiles in a box pattern.
 
 ## Spawn specific items with a "place_item" array
 **optional** A list of *specific* things to add. WIP: Monsters and vehicles will be here too
