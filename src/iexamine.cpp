@@ -4639,7 +4639,7 @@ void iexamine::ledge( player &p, const tripoint &examp )
                 add_msg( m_warning, _( "You are not going to jump over an obstacle only to fall down." ) );
             } else {
                 add_msg( m_info, _( "You jump over an obstacle." ) );
-                p.increase_activity_level( LIGHT_EXERCISE );
+                p.set_activity_level( LIGHT_EXERCISE );
                 g->place_player( dest );
             }
             break;
@@ -4680,7 +4680,7 @@ void iexamine::ledge( player &p, const tripoint &examp )
                 return;
             } else if( height == 1 ) {
                 const char *query;
-                p.increase_activity_level( MODERATE_EXERCISE );
+                p.set_activity_level( MODERATE_EXERCISE );
                 weary_mult = 1.0f / p.exertion_adjusted_move_multiplier( MODERATE_EXERCISE );
 
                 if( !has_grapnel ) {
