@@ -5635,7 +5635,7 @@ std::pair<int, int> Character::weariness_transition_progress() const
 
 int Character::weariness_level() const
 {
-    int amount = activity_history.weariness();
+    int amount = weariness();
     int threshold = weary_threshold();
     int level = 0;
     amount -= threshold * get_option<float>( "WEARY_INITIAL_STEP" );
