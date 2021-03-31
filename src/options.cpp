@@ -2083,11 +2083,6 @@ void options_manager::add_options_world_default()
          0.0, 50.0, 1.0, 0.1
        );
 
-    add( "CARRION_SPAWNRATE", "world_default", to_translation( "Carrion spawn rate scaling factor" ),
-         to_translation( "A scaling factor that determines how often creatures spawn from rotting material.  A higher number means more carrion spawned." ),
-         0.0, 10.0, 1.0, 0.01, COPT_NO_HIDE
-       );
-
     add( "ITEM_SPAWNRATE", "world_default", to_translation( "Item spawn scaling factor" ),
          to_translation( "A scaling factor that determines density of item spawns.  A higher number means more items." ),
          0.01, 10.0, 1.0, 0.01

@@ -108,6 +108,7 @@
 #include "veh_type.h"
 #include "vehicle.h"
 #include "viewer.h"
+#include "vitamin.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "weather.h"
@@ -353,6 +354,9 @@ static const species_id species_HALLUCINATION( "HALLUCINATION" );
 static const species_id species_INSECT( "INSECT" );
 static const species_id species_ROBOT( "ROBOT" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
+
+static const vitamin_id vitamin_blood( "blood" );
+static const vitamin_id vitamin_redcells( "redcells" );
 
 static const mongroup_id GROUP_FISH( "GROUP_FISH" );
 
@@ -4791,8 +4795,12 @@ cata::optional<int> iuse::blood_draw( player *p, item *it, bool, const tripoint 
         if( p->has_trait( trait_ACIDBLOOD ) ) {
             acid_blood = true;
         }
-        p->mod_stored_nutr( 10 );
-        p->mod_thirst( 10 );
+        // From wikipedia,
+        // "To compare, this (volume of blood loss that causes death) is five to eight times
+        // as much blood as people usually give in a blood donation.[2]"
+        // This is half a TU, hence I'm setting it to 1/10th of a lethal exsanguination.
+        p->vitamin_mod( vitamin_redcells, vitamin_redcells->min() / 10 );
+        p->vitamin_mod( vitamin_blood, vitamin_blood->min() / 10 );
         p->mod_pain( 3 );
     }
 

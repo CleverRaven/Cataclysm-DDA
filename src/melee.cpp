@@ -515,7 +515,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
     }
 
     // Fighting is hard work
-    increase_activity_level( EXTRA_EXERCISE );
+    set_activity_level( EXTRA_EXERCISE );
 
     item *cur_weapon = allow_unarmed ? &used_weapon() : &weapon;
 
@@ -792,7 +792,7 @@ void Character::reach_attack( const tripoint &p )
     }
 
     // Fighting is hard work
-    increase_activity_level( EXTRA_EXERCISE );
+    set_activity_level( EXTRA_EXERCISE );
 
     Creature *critter = g->critter_at( p );
     // Original target size, used when there are monsters in front of our target
