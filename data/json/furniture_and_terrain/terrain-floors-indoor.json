@@ -48,6 +48,18 @@
   },
   {
     "type": "terrain",
+    "id": "t_thconc_r",
+    "name": "concrete floor",
+    "description": "A bare and cold concrete floor with a streak of red paint, could still insulate from the outdoors but roof collapse is possible if supporting walls are broken down.",
+    "symbol": ".",
+    "color": "red",
+    "looks_like": "t_floor_red",
+    "move_cost": 2,
+    "roof": "t_flat_roof",
+    "copy-from": "t_thconc_floor"
+  },
+  {
+    "type": "terrain",
     "id": "t_thconc_floor_olight",
     "name": "concrete floor, overhead light",
     "description": "A bare and cold concrete floor with a still-functioning light attached to the ceiling above.",
