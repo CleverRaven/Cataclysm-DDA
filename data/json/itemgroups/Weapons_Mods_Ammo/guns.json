@@ -287,7 +287,11 @@
     "type": "item_group",
     "id": "guns_smg_improvised",
     "//": "Makeshift or otherwise poor quality SMGs.",
-    "items": [ [ "smg_40", 40 ], [ "smg_45", 40 ], [ "smg_9mm", 100 ] ]
+    "items": [
+      { "item": "smg_40", "prob": 40, "charges": [ 0, 20 ] },
+      { "item": "smg_45", "prob": 40, "charges": [ 0, 20 ] },
+      { "item": "smg_9mm", "prob": 100, "charges": [ 0, 20 ] }
+    ]
   },
   {
     "type": "item_group",
@@ -433,7 +437,7 @@
       { "item": "laser_rifle", "prob": 30 },
       { "item": "emp_gun", "prob": 10 },
       { "item": "v29", "prob": 70 },
-      { "item": "plasma_gun", "prob": 10 }
+      { "item": "plasma_gun", "prob": 10, "charges": [ 0, 25 ] }
     ]
   },
   {
