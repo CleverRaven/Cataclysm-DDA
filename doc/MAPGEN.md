@@ -578,7 +578,7 @@ This optional object can have two fields:
 | Field       | Description
 | ---         | ---
 | ammo        | A list of objects, each of which has an `"ammo_id"` field and a `"qty"` list of two integers. The monster will spawn with items of "ammo_id", with at least the first number in the "qty" and no more than the second.
-| patrol      | A list of objects, each of which has an `"x"` field and a `"y"` field. Either value can be a range or a single number. The x,y co-ordinates define a patrol point as an relative mapsquare point offset from the (0, 0) local mapsquare of the overmap terrain tile that the monster spawns in. Patrol points are converted to absolute mapqaure tripoints inside the monster generator.
+| patrol      | A list of objects, each of which has an `"x"` field and a `"y"` field. Either value can be a range or a single number. The x,y co-ordinates define a patrol point as an relative mapsquare point offset from the (0, 0) local mapsquare of the overmap terrain tile that the monster spawns in. Patrol points are converted to absolute mapsquare tripoints inside the monster generator.
 
 Monsters with a patrol point list will move to each patrol point, in order, whenever they have no more pressing action to take on their turn. Upon reaching the last point in the patrol point list, the monster will continue on to the first point in the list.
 
