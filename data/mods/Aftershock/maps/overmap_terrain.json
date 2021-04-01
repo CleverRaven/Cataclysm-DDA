@@ -85,6 +85,16 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "afs_formless_ruins_dynamic" ],
+    "name": "formless ruins",
+    "spawns": { "group": "GROUP_ZOMBIE", "population": [ 1, 4 ], "chance": 50 },
+    "sym": "r",
+    "color": "light_gray",
+    "flags": [ "SIDEWALK" ],
+    "see_cost": 3
+  },
+  {
+    "type": "overmap_terrain",
     "id": [
       "afs_augmentation_clinic_n1",
       "afs_augmentation_clinic_n2",

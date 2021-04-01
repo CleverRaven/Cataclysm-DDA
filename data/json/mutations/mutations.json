@@ -2052,6 +2052,7 @@
     "id": "LIGHT_BONES",
     "name": { "str": "Light Bones" },
     "points": 2,
+    "mixed_effect": true,
     "description": "Your bones are very light.  This enables you to move and attack 10% faster, but also reduces your carrying weight by 20% and makes bashing attacks hurt a little more.",
     "category": [ "MOUSE" ],
     "changes_to": [ "HOLLOW_BONES" ],

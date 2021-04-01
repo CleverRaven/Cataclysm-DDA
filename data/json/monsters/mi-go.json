@@ -30,7 +30,7 @@
     "path_settings": { "max_dist": 50 },
     "scents_ignored": [ "sc_fetid" ],
     "special_attacks": [
-      [ "PARROT", 0 ],
+      [ "PARROT", 800 ],
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] }
     ],
     "death_function": [ "NORMAL" ],
@@ -80,7 +80,7 @@
     "path_settings": { "max_dist": 50 },
     "scents_ignored": [ "sc_fetid" ],
     "special_attacks": [
-      [ "PARROT", 0 ],
+      [ "PARROT", 800 ],
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] },
       { "type": "spell", "spell_data": { "id": "mi-go_slaver_beam", "min_level": 3 }, "cooldown": 100 }
     ],
@@ -131,7 +131,7 @@
     "path_settings": { "max_dist": 50 },
     "scents_ignored": [ "sc_fetid" ],
     "special_attacks": [
-      [ "PARROT", 2 ],
+      [ "PARROT", 800 ],
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 12, "armor_multiplier": 0.4 } ] }
     ],
     "death_function": [ "NORMAL" ],
@@ -181,7 +181,7 @@
     "path_settings": { "max_dist": 50 },
     "scents_ignored": [ "sc_fetid" ],
     "special_attacks": [
-      [ "PARROT", 5 ],
+      [ "PARROT", 800 ],
       [ "SHRIEK_ALERT", 5 ],
       [ "SHRIEK_STUN", 4 ],
       [ "TAZER", 5 ],
@@ -235,7 +235,7 @@
     "path_settings": { "max_dist": 50 },
     "scents_ignored": [ "sc_fetid" ],
     "special_attacks": [
-      [ "PARROT", 5 ],
+      [ "PARROT", 800 ],
       [ "LONGSWIPE", 12 ],
       [ "STRETCH_ATTACK", 20 ],
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 30, "armor_multiplier": 0.7 } ] },

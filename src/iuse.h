@@ -159,7 +159,6 @@ cata::optional<int> oxygen_bottle( player *, item *, bool, const tripoint & );
 cata::optional<int> oxytorch( player *, item *, bool, const tripoint & );
 cata::optional<int> pack_cbm( player *p, item *it, bool, const tripoint & );
 cata::optional<int> pack_item( player *, item *, bool, const tripoint & );
-cata::optional<int> pheromone( player *, item *, bool, const tripoint & );
 cata::optional<int> pick_lock( player *p, item *it, bool, const tripoint &pos );
 cata::optional<int> pickaxe( player *, item *, bool, const tripoint & );
 cata::optional<int> play_game( player *, item *, bool, const tripoint & );

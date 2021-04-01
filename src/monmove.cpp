@@ -1482,7 +1482,10 @@ bool monster::attack_at( const tripoint &p )
     }
 
     Character &player_character = get_player_character();
-    if( p == player_character.pos() ) {
+    map &here = get_map();
+    if( p == player_character.pos() && ( sees( player_character ) ||
+                                         here.has_flag( TFLAG_RAMP_UP, p ) || here.has_flag( TFLAG_RAMP_DOWN, p ) ||
+                                         here.has_flag( TFLAG_GOES_UP, p ) || here.has_flag( TFLAG_GOES_DOWN, p ) ) ) {
         return melee_attack( player_character );
     }
 
