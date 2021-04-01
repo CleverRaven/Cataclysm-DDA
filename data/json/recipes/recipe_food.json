@@ -7493,7 +7493,7 @@
     "batch_time_factors": [ 50, 3 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 1 } ],
     "components": [
-      [ [ "meat_red", 2 ] ],
+      [ [ "meat_red", 2, "LIST" ] ],
       [ [ "bread", 1 ] ],
       [
         [ "salt", 2 ],
