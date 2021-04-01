@@ -4,6 +4,7 @@
 #include "options.h"
 #include "string_formatter.h"
 
+#include <cmath>
 #include <limits>
 
 int activity_tracker::weariness() const
