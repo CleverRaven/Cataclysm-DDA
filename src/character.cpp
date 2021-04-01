@@ -5713,52 +5713,8 @@ float Character::exertion_adjusted_move_multiplier( float level ) const
     return max / level;
 }
 
-<<< <<< < HEAD
-// Called every 5 minutes, when activity level is logged
-void Character::try_reduce_weariness( const float exertion )
-{
-    weary.tick_counter++;
-    if( exertion == NO_EXERCISE ) {
-        weary.low_activity_ticks++;
-        // Recover twice as fast if asleep/similar
-        if( in_sleep_state() ) {
-            weary.low_activity_ticks++;
-        }
-    }
 
-    const float recovery_mult = get_option<float>( "WEARY_RECOVERY_MULT" );
-
-    if( weary.low_activity_ticks >= 1 ) {
-        int reduction = weary.tracker;
-        const int bmr = base_bmr();
-        // 1/120 of whichever's bigger
-        if( bmr > reduction ) {
-            reduction = std::floor( bmr * recovery_mult * weary.low_activity_ticks / 6.0f );
-        } else {
-            reduction = std::ceil( reduction * recovery_mult * weary.low_activity_ticks / 6.0f );
-        }
-        weary.low_activity_ticks = 0;
-
-        weary.tracker -= std::max( reduction, 1 );
-    }
-
-    // If happens to be no reduction, character is not (as) hypoglycemic
-    if( weary.tick_counter >= 3 ) {
-        weary.intake *= std::pow( 1 - recovery_mult, 0.25f );
-        weary.tick_counter -= 3;
-    }
-
-    // Normalize values, make sure we stay above 0
-    weary.intake = std::max( weary.intake, 0 );
-    weary.tracker = std::max( weary.tracker, 0 );
-    weary.tick_counter = std::max( weary.tick_counter, 0 );
-    weary.low_activity_ticks = std::max( weary.low_activity_ticks, 0 );
-}
-
-// Remove all this instantaneous stuff when activity tracking moves to per turn
-== == == =
-    >>> >>> > weariness_fluctuations_1
-    float Character::instantaneous_activity_level() const
+float Character::instantaneous_activity_level() const
 {
     return activity_history.instantaneous_activity_level();
 }
