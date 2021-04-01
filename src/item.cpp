@@ -7099,6 +7099,16 @@ bool item::is_book() const
     return !!type->book;
 }
 
+std::string item::get_book_skill() const
+{
+    if( is_book() ) {
+        if( type->book->skill->ident() != skill_id::NULL_ID() ) {
+            return type->book->skill->name();
+        }
+    }
+    return "";
+}
+
 bool item::is_map() const
 {
     return get_category_shallow().get_id() == item_category_maps;
