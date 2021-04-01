@@ -4658,7 +4658,7 @@
     "ugliness": 6,
     "description": "Skin tabs and odd flaps of skin surround your mouth.  They don't affect your eating, but are unpleasant to look at.",
     "category": [ "CHIMERA" ],
-    "leads_to": [ "MOUTH_TENTACLES", "MANDIBLES" ]
+    "changes_to": [ "MOUTH_TENTACLES", "MANDIBLES" ]
   },
   {
     "type": "mutation",
@@ -5834,7 +5834,6 @@
     "types": [ "HANDS" ],
     "changes_to": [ "INSECT_ARMS_OK", "ARACHNID_ARMS" ],
     "prereqs": [ "CHITIN", "CHITIN2", "CHITIN3", "CHITIN_FUR2", "CHITIN_FUR3" ],
-    "prereqs2": [ "ANTENNAE" ],
     "threshreq": [ "THRESH_INSECT", "THRESH_SPIDER" ],
     "category": [ "INSECT", "SPIDER" ],
     "restricts_gear": [ "torso" ],
