@@ -2946,6 +2946,7 @@ class Character : public Creature, public visitable
         };
         mutable crafting_cache_type crafting_cache;
 
+        time_point melee_warning_turn = calendar::turn_zero;
     protected:
         /** Subset of learned recipes. Needs to be mutable for lazy initialization. */
         mutable pimpl<recipe_subset> learned_recipes;
