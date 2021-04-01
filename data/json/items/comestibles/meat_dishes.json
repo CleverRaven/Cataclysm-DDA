@@ -1389,5 +1389,48 @@
     "flags": [ "EATEN_HOT" ],
     "fun": 7,
     "vitamins": [ [ "vitC", 3 ], [ "calcium", 19 ], [ "iron", 12 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "meatball_raw",
+    "name": { "str": "raw meatball" },
+    "conditional_names": [
+      { "type": "FLAG", "condition": "CANNIBALISM", "name": "raw manball" },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": "raw murderball" },
+      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "sinister %s" } }
+    ],
+    "weight": "85g",
+    "color": "pink",
+    "spoils_in": "1 day",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "calories": 230,
+    "healthy": -1,
+    "parasites": 32,
+    "description": "A round, seasoned lump of meat, ready to fry.",
+    "price": 800,
+    "price_postapoc": 200,
+    "material": [ "flesh" ],
+    "volume": "85 ml",
+    "vitamins": [ [ "vitA", 2 ], [ "vitC", 2 ], [ "calcium", 8 ], [ "iron", 4 ] ],
+    "fun": -10
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "meatball",
+    "name": { "str": "meatball" },
+    "conditional_names": [
+      { "type": "FLAG", "condition": "CANNIBALISM", "name": "manball" },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": "murderball" },
+      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "sinister %s" } }
+    ],
+    "copy-from": "meatball_raw",
+    "parasites": 0,
+    "healthy": 0,
+    "spoils_in": "4 days",
+    "price_postapoc": 300,
+    "description": "A seasoned, fried, round lump of meat.  Just like mom used to make!",
+    "flags": [ "EATEN_HOT" ],
+    "fun": 6
   }
 ]
