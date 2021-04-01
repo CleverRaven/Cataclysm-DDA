@@ -34,8 +34,7 @@ on:
 jobs:
   varied_builds:
     strategy:
-      fail-fast: false
-      max-parallel: 2
+      max-parallel: 3
       matrix:
         include:
           - compiler: clang++
