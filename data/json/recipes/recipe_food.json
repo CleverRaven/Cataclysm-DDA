@@ -2056,8 +2056,8 @@
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
     "components": [
-      [ [ "coffee_raw", 4 ] ],
-      [ [ "sugar", 10 ], [ "honeycomb", 1 ], [ "honey_bottled", 1 ], [ "honey_glassed", 1 ], [ "syrup", 1 ] ],
+      [ [ "coffee_raw", 3 ] ],
+      [ [ "sugar", 20 ], [ "honeycomb", 2 ], [ "honey_bottled", 6 ], [ "honey_glassed", 2 ], [ "syrup", 6 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]
   },

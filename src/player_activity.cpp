@@ -240,7 +240,7 @@ void player_activity::do_turn( player &p )
             }
         }
     }
-    const float activity_mult = p.exertion_adjusted_move_multiplier();
+    const float activity_mult = p.exertion_adjusted_move_multiplier( exertion_level() );
     if( type->based_on() == based_on_type::TIME ) {
         if( moves_left >= 100 ) {
             moves_left -= 100 * activity_mult;
@@ -268,7 +268,7 @@ void player_activity::do_turn( player &p )
         return;
     }
     const bool travel_activity = id() == ACT_TRAVELLING;
-    p.increase_activity_level( exertion_level() );
+    p.set_activity_level( exertion_level() );
     // This might finish the activity (set it to null)
     if( actor ) {
         actor->do_turn( *this, p );

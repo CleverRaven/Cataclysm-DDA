@@ -204,6 +204,8 @@ cata::optional<int> iuse_transform::use( player &p, item &it, bool t, const trip
         return cata::nullopt; // invoked from active item processing, do nothing.
     }
 
+    int result = 0;
+
     const bool possess = p.has_item( it ) ||
                          ( it.has_flag( flag_ALLOWS_REMOTE_USE ) && square_dist( p.pos(), pos ) == 1 );
 
@@ -245,6 +247,9 @@ cata::optional<int> iuse_transform::use( player &p, item &it, bool t, const trip
     item *obj;
     // defined here to allow making a new item assigned to the pointer
     item obj_it;
+    if( it.is_tool() ) {
+        result = it.type->charges_to_use();
+    }
     if( container.is_empty() ) {
         obj = &it.convert( target );
         if( ammo_qty >= 0 || !random_ammo_qty.empty() ) {
@@ -282,7 +287,7 @@ cata::optional<int> iuse_transform::use( player &p, item &it, bool t, const trip
     obj->item_counter = countdown > 0 ? countdown : obj->type->countdown_interval;
     obj->active = active || obj->item_counter;
 
-    return 0;
+    return result;
 }
 
 ret_val<bool> iuse_transform::can_use( const Character &p, const item &, bool,

@@ -737,13 +737,6 @@ void Character::suffer_in_sunlight()
         vitamin_mod( vitamin_id( "vitC" ), 1, true );
     }
 
-    if( x_in_y( sunlight_nutrition, 12000 ) ) {
-        mod_hunger( -1 );
-        // photosynthesis absorbs kcal directly
-        mod_stored_nutr( -1 );
-        stomach.ate();
-    }
-
     if( !g->is_in_sunlight( pos() ) ) {
         return;
     }
@@ -1393,7 +1386,7 @@ void Character::suffer_from_exertion()
 
     // Significantly slow the rate of messaging when in an activity
     const int chance = activity ? to_turns<int>( 48_minutes ) : to_turns<int>( 5_minutes );
-    if( attempted_activity_level > max_activity && one_in( chance ) && !in_sleep_state() ) {
+    if( activity_history.activity() > max_activity && one_in( chance ) && !in_sleep_state() ) {
         add_msg_if_player( m_bad,
                            _( "You're tiring out; continuing to work at this rate will be slower." ) );
     }

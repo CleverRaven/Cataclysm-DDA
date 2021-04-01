@@ -1970,7 +1970,12 @@ void options_manager::add_options_graphics()
     add( "FULLSCREEN", "graphics", to_translation( "Fullscreen" ),
          to_translation( "Starts Cataclysm in one of the fullscreen modes.  Requires restart." ),
     { { "no", to_translation( "No" ) }, { "maximized", to_translation( "Maximized" ) }, { "fullscreen", to_translation( "Fullscreen" ) }, { "windowedbl", to_translation( "Windowed borderless" ) } },
+    // Borderless window is bad for debugging in Visual Studio
+#if defined(_MSC_VER)
+    "maximized", COPT_CURSES_HIDE
+#else
     "windowedbl", COPT_CURSES_HIDE
+#endif
        );
 #endif
 
@@ -2076,11 +2081,6 @@ void options_manager::add_options_world_default()
     add( "SPAWN_DENSITY", "world_default", to_translation( "Spawn rate scaling factor" ),
          to_translation( "A scaling factor that determines density of monster spawns.  A higher number means more monsters." ),
          0.0, 50.0, 1.0, 0.1
-       );
-
-    add( "CARRION_SPAWNRATE", "world_default", to_translation( "Carrion spawn rate scaling factor" ),
-         to_translation( "A scaling factor that determines how often creatures spawn from rotting material.  A higher number means more carrion spawned." ),
-         0.0, 10.0, 1.0, 0.01, COPT_NO_HIDE
        );
 
     add( "ITEM_SPAWNRATE", "world_default", to_translation( "Item spawn scaling factor" ),
