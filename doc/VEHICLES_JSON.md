@@ -30,7 +30,7 @@ Vehicle prototypes do not currently accept copy-from
 "items": [                                 // Item spawn list
     { "x": 0, "y": 0, "items": "helmet_army" },   // individual item
     { "x": 0, "y": 0, "item_groups": "army_uniform" }, // item or items from an item_group
-    { "x": 0, "y": 1, "items": [ "matchbook", "two_by_four" ] }, // all items in the list spawn
+    { "x": 0, "y": 1, "items": [ "matchbook", "2x4" ] }, // all items in the list spawn
     { "x": 0, "y": 0, "item_groups": [ "army_uniform", "rare_guns" ] } all item_groups are processed
 ]
 ```
