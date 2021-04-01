@@ -5090,7 +5090,7 @@ std::string Character::debug_weary_info() const
 
     return string_format(
                "Weariness: %s Max Full Exert: %s Mult: %g\n"
-               "BMR: %d Intake: %d Tracker: %d Thresh: %d At: %d\n"
+               "BMR: %d %s Thresh: %d At: %d\n"
                "Cal: %d/%d Fatigue: %d Morale: %d Wgt: %d (BMI %.1f)\n"
                "Stom Cal: %d Gut Cal: %d Hngr %d Thrst %d Stam %d/%d",
                amt, max_act, move_mult, bmr, weary_internals, thresh, current, get_stored_kcal(),
