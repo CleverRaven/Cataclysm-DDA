@@ -7097,7 +7097,7 @@ bool item::is_book() const
 std::string item::get_book_skill() const
 {
     if( is_book() ) {
-        if( type->book->skill->name() != "nothing" ) {
+        if( type->book->skill->ident() != skill_id::NULL_ID() ) {
             return type->book->skill->name();
         }
     }
