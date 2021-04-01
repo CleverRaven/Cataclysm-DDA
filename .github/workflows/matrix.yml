@@ -56,18 +56,6 @@ jobs:
             test-stage: 1
             native: linux64
             title: GCC 9, Ubuntu, Curses
-          - compiler: clang++-9
-            os: ubuntu-latest
-            cmake: 0
-            tiles: 0
-            native: linux64
-            title: Clang 9, Ubuntu, Curses
-          - compiler: g++-8
-            os: ubuntu-latest
-            cmake: 0
-            tiles: 0
-            native: linux64
-            title: GCC 8, Ubuntu, Curses
     name: ${{ matrix.title }}
     runs-on: ${{ matrix.os }}
     env:
