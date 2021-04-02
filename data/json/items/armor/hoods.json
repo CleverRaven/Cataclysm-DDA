@@ -126,6 +126,7 @@
     "copy-from": "hood_wsurvivor",
     "material": [ "kevlar_layered", "faux_fur" ],
     "symbol": "[",
+    "warmth": 65,
     "looks_like": "hood_survivor",
     "color": "pink"
   },
@@ -135,6 +136,7 @@
     "copy-from": "hood_wsurvivor",
     "material": [ "kevlar_layered", "faux_fur" ],
     "color": "pink",
+    "warmth": 65,
     "name": { "str": "XL faux fur winter survivor hood" },
     "description": "A customized and oversized armored faux fur and Kevlar hood, warm and durable.  If not quite as warm as real fur.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },

@@ -1552,6 +1552,7 @@
     "copy-from": "mask_wsurvivor",
     "material": [ "kevlar_layered", "faux_fur" ],
     "symbol": "[",
+    "warmth": 65,
     "looks_like": "mask_wsurvivor",
     "color": "pink"
   },
@@ -1563,6 +1564,7 @@
     "copy-from": "mask_wsurvivorxl",
     "material": [ "kevlar_layered", "faux_fur" ],
     "symbol": "[",
+    "warmth": 65,
     "looks_like": "mask_wsurvivorxl",
     "color": "pink"
   },

@@ -355,13 +355,14 @@
     "material": [ "kevlar_layered", "faux_fur" ],
     "symbol": "[",
     "looks_like": "gloves_winter",
-    "color": "pink"
+    "color": "pink",
+    "warmth": 60
   },
   {
     "id": "xl_gloves_wsurvivor_nofur",
     "type": "ARMOR",
     "name": { "str": "pair of XL faux fur winter survivor gloves", "str_pl": "pairs of XL faux fur winter survivor gloves" },
-    "copy-from": "gloves_wsurvivor",
+    "copy-from": "gloves_wsurvivor_nofur",
     "material": [ "kevlar_layered", "faux_fur" ],
     "description": "A pair of customized and oversized Kevlar armored faux fur gloves, modified to be easy to wear while providing maximum protection under extreme conditions.  While not quite as warm as real fur it's pretty good.",
     "color": "pink",

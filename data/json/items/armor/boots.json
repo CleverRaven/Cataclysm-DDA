@@ -282,6 +282,7 @@
     "copy-from": "boots_wsurvivor",
     "material": [ "kevlar", "faux_fur" ],
     "symbol": "[",
+    "warmth": 50,
     "looks_like": "boots_fur",
     "color": "pink"
   },
@@ -293,6 +294,7 @@
     "material": [ "kevlar", "faux_fur" ],
     "description": "A pair of customized and oversized, Kevlar armored faux fur boots, modified to provide maximum protection from harm and the elements, even when knee-deep in the dead.  While not quite as warm as real fur it's pretty good.",
     "color": "pink",
+    "warmth": 50,
     "proportional": { "weight": 1.3, "volume": 1.3 },
     "flags": [ "VARSIZE", "WATERPROOF", "OVERSIZE", "STURDY" ]
   },

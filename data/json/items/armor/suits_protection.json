@@ -702,6 +702,7 @@
     "copy-from": "wsurvivor_suit",
     "material": [ "kevlar_layered", "faux_fur" ],
     "symbol": "[",
+    "warmth": 65,
     "looks_like": "survivor_suit",
     "color": "pink"
   },
@@ -713,6 +714,7 @@
     "material": [ "kevlar_layered", "faux_fur" ],
     "description": "A warm, heavy and oversized hand-built combination armor made from a reinforced bulletproof vest and a faux fur insulated leather jumpsuit.  Protects from the elements as well as from harm.",
     "color": "pink",
+    "warmth": 65,
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "OVERSIZE" ]
   },
