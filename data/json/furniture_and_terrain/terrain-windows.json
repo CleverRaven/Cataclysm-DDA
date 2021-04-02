@@ -9,15 +9,7 @@
     "move_cost": 0,
     "coverage": 60,
     "roof": "t_flat_roof",
-    "flags": [
-      "TRANSPARENT",
-      "FLAMMABLE",
-      "NOITEM",
-      "BARRICADABLE_WINDOW",
-      "CONNECT_TO_WALL",
-      "BLOCK_WIND",
-      "WINDOW"
-    ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "BARRICADABLE_WINDOW", "CONNECT_TO_WALL", "BLOCK_WIND", "WINDOW" ],
     "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "glass_sheet", "count": 1 } ] },
     "bash": {
       "str_min": 3,
@@ -917,14 +909,7 @@
     "color": "light_gray",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [
-      "TRANSPARENT",
-      "NOITEM",
-      "CONNECT_TO_WALL",
-      "BARRICADABLE_WINDOW_CURTAINS",
-      "THIN_OBSTACLE",
-      "WINDOW"
-    ],
+    "flags": [ "TRANSPARENT", "NOITEM", "CONNECT_TO_WALL", "BARRICADABLE_WINDOW_CURTAINS", "THIN_OBSTACLE", "WINDOW" ],
     "curtain_transform": "t_metal_grate_window_noglass",
     "examine_action": "curtains",
     "close": "t_metal_grate_window_with_curtain",
@@ -1036,15 +1021,7 @@
     "move_cost": 0,
     "coverage": 60,
     "roof": "t_flat_roof",
-    "flags": [
-      "FLAMMABLE",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "BARRICADABLE_WINDOW_CURTAINS",
-      "CONNECT_TO_WALL",
-      "BLOCK_WIND",
-      "WINDOW"
-    ],
+    "flags": [ "FLAMMABLE", "NOITEM", "OPENCLOSE_INSIDE", "BARRICADABLE_WINDOW_CURTAINS", "CONNECT_TO_WALL", "BLOCK_WIND", "WINDOW" ],
     "curtain_transform": "t_single_pane_glass",
     "examine_action": "curtains",
     "open": "t_single_pane_glass_with_curtain_open_window_closed",
@@ -2780,15 +2757,7 @@
     "move_cost": 0,
     "coverage": 60,
     "roof": "t_flat_roof",
-    "flags": [
-      "FLAMMABLE",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "BARRICADABLE_WINDOW_CURTAINS",
-      "CONNECT_TO_WALL",
-      "BLOCK_WIND",
-      "WINDOW"
-    ],
+    "flags": [ "FLAMMABLE", "NOITEM", "OPENCLOSE_INSIDE", "BARRICADABLE_WINDOW_CURTAINS", "CONNECT_TO_WALL", "BLOCK_WIND", "WINDOW" ],
     "curtain_transform": "t_plastic_window",
     "examine_action": "curtains",
     "open": "t_plastic_window_with_curtain_open_window_closed",
