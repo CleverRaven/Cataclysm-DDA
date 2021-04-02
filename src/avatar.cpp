@@ -1716,31 +1716,35 @@ void avatar::log_activity_level( float level )
     calorie_diary.front().activity_levels[level]++;
 }
 
-static const std::map<float, std::string> activity_levels_str = {
-    { NO_EXERCISE, "NO_EXERCISE" },
-    { LIGHT_EXERCISE, "LIGHT_EXERCISE" },
-    { MODERATE_EXERCISE, "MODERATE_EXERCISE" },
-    { BRISK_EXERCISE, "BRISK_EXERCISE" },
-    { ACTIVE_EXERCISE, "ACTIVE_EXERCISE" },
-    { EXTRA_EXERCISE, "EXTRA_EXERCISE" }
-};
 void avatar::daily_calories::save_activity( JsonOut &json ) const
 {
     json.member( "activity" );
-    json.start_object();
+    json.start_array();
     for( const std::pair<const float, int> &level : activity_levels ) {
-        json.member( activity_levels_str.at( level.first ), level.second );
+        if( level.second > 0 ) {
+            json.start_array();
+            json.write( level.first );
+            json.write( level.second );
+            json.end_array();
+        }
     }
-    json.end_object();
+    json.end_array();
 }
 
 void avatar::daily_calories::read_activity( JsonObject &data )
 {
+    if( data.has_array( "activity" ) ) {
+        for( JsonArray ja : data.get_array( "activity" ) ) {
+            activity_levels[ ja.next_float() ] = ja.next_int();
+        }
+        return;
+    }
+    // Fallback to legacy format for backward compatibility
     JsonObject jo = data.get_object( "activity" );
-    for( const std::pair<const float, std::string> &member : activity_levels_str ) {
+    for( const std::pair<const std::string, float> &member : activity_levels_map ) {
         int times;
-        jo.read( member.second, times );
-        activity_levels.at( member.first ) = times;
+        jo.read( member.first, times );
+        activity_levels.at( member.second ) = times;
     }
 }
 
