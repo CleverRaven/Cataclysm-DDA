@@ -1026,5 +1026,13 @@
     "name": { "str": "Scroll of freezing touch", "str_pl": "Scrolls of freezing touch" },
     "description": "Your hands freeze anything they touch at temperatures so cold it slows down your foes.",
     "use_action": { "type": "learn_spell", "spells": [ "freezing_touch" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_natures_commune",
+    "name": { "str": "Scroll of Nature's Commune", "str_pl": "Scrolls of Nature's Commune" },
+    "description": "Your connection with nature allows you to become one with it, revitalize your body while you enter in communion with all that surrounds you.",
+    "use_action": { "type": "learn_spell", "spells": [ "druid_natures_commune" ] }
   }
 ]

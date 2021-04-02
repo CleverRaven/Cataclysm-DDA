@@ -616,7 +616,8 @@
     "spells": [
       { "id": "druidic_regrowth", "level": 3 },
       { "id": "druid_feralform", "level": 2 },
-      { "id": "druid_veggrasp", "level": 2 }
+      { "id": "druid_veggrasp", "level": 2 },
+      { "id": "druid_natures_commune", "level": 2 }
     ],
     "skills": [
       { "level": 3, "name": "spellcraft" },
