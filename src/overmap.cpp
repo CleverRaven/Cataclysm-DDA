@@ -2746,7 +2746,7 @@ void overmap::place_roads( const overmap *north, const overmap *east, const over
     std::vector<tripoint_om_omt> &roads_out = connections_out[local_road];
 
     // Ideally we should have at least two exit points for roads, on different sides
-    if( roads_out.size() < 2 ) {
+    if( roads_out.size() < 3 ) {
         std::vector<tripoint_om_omt> viable_roads;
         tripoint_om_omt tmp;
         // Populate viable_roads with one point for each neighborless side.
@@ -2801,7 +2801,7 @@ void overmap::place_roads( const overmap *north, const overmap *east, const over
                 }
             }
         }
-        while( roads_out.size() < 2 && !viable_roads.empty() ) {
+        while( roads_out.size() < 3 && !viable_roads.empty() ) {
             roads_out.push_back( random_entry_removed( viable_roads ) );
         }
     }
