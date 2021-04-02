@@ -216,5 +216,37 @@
     "color": "i_pink",
     "see_cost": 2,
     "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "arcology_interior_center",
+      "arcology_interior_w_side",
+      "arcology_interior_e_side",
+      "arcology_interior_n_side",
+      "arcology_interior_s_side",
+      "arcology_interior_ne_corner",
+      "arcology_interior_nw_corner",
+      "arcology_interior_se_corner",
+      "arcology_interior_sw_corner",
+      "arcology_exterior_e_side",
+      "arcology_exterior_n_side",
+      "arcology_exterior_s_side",
+      "arcology_exterior_w_side",
+      "arcology_exterior_ne_corner",
+      "arcology_exterior_nw_corner",
+      "arcology_exterior_se_corner",
+      "arcology_exterior_sw_corner",
+      "arcology_exterior_n_entrance",
+      "arcology_exterior_s_entrance",
+      "arcology_exterior_e_entrance",
+      "arcology_exterior_w_entrance"
+    ],
+    "name": "Arcology Ground Level",
+    "sym": "A",
+    "color": "light_blue",
+    "see_cost": 2,
+    "mondensity": 2,
+    "flags": [ "RISK_HIGH" ]
   }
 ]
