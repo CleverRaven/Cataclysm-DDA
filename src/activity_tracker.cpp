@@ -141,17 +141,10 @@ void activity_tracker::reset_activity_level()
 
 std::string activity_tracker::activity_level_str() const
 {
-    if( current_activity <= NO_EXERCISE ) {
-        return _( "NO_EXERCISE" );
-    } else if( current_activity <= LIGHT_EXERCISE ) {
-        return _( "LIGHT_EXERCISE" );
-    } else if( current_activity <= MODERATE_EXERCISE ) {
-        return _( "MODERATE_EXERCISE" );
-    } else if( current_activity <= BRISK_EXERCISE ) {
-        return _( "BRISK_EXERCISE" );
-    } else if( current_activity <= ACTIVE_EXERCISE ) {
-        return _( "ACTIVE_EXERCISE" );
-    } else {
-        return _( "EXTRA_EXERCISE" );
+    for( const std::pair<const std::string, float> &member : activity_levels_map ) {
+        if( current_activity <= member.second ) {
+            return member.first;
+        }
     }
+    return ( --activity_levels_map.end() )->first;
 }
