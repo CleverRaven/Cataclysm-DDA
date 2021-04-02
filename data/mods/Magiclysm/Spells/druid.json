@@ -401,7 +401,7 @@
     "id": "druid_natures_commune",
     "type": "SPELL",
     "name": "Nature's Commune",
-    "description": "Concentrate in the nature around you and commune with it, improving your health and calming the nearby wildlife.",
+    "description": "You concentrate on the nature around you and commune with it, improving your health and calming the nearby wildlife.",
     "valid_targets": [ "self" ],
     "effect": "attack",
     "effect_str": "natures_commune",

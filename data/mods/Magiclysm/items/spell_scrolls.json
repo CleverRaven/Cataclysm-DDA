@@ -1032,7 +1032,7 @@
     "copy-from": "spell_scroll",
     "id": "spell_scroll_natures_commune",
     "name": { "str": "Scroll of Nature's Commune", "str_pl": "Scrolls of Nature's Commune" },
-    "description": "Your connection with nature allows you to become one with it, revitalize your body while you enter in communion with all that surrounds you.",
+    "description": "Your connection with nature allows you to become one with it; you revitalize your body while in communion with the flora and fauna around you.",
     "use_action": { "type": "learn_spell", "spells": [ "druid_natures_commune" ] }
   }
 ]
