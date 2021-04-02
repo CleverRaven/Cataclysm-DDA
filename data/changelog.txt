@@ -1,4 +1,4 @@
-# 0.F (2021-03-01)
+# 0.F (2021-04-01)
 
 ## Features:
 Adds option to randomize INITIAL_DAY.
@@ -48,6 +48,13 @@ Allows nanofabricator templates to contain recipes from any item group.
 Adds different bleeding types for different species.
 Adds bleeding butchery action.
 Autodoc installation programs added that almost guarantee flawless installation of supported bionics.
+New demo of the Cuteclysm tileset. A visual set loosely inspired by the aesthetics of 16-bit era JRPGs
+Unhardcode default Scenario/Profession & Make random starts respect Scenario Blacklists
+Removed plant mutant calorie generation
+mapgen: allow placing active bomb items for better craters in Dark Skies Above
+Allow Blacklisting/Whitelisting monsters by their species.
+monsters: Monsters on patrol
+Remove the 'carrion spawn rate scaling factor' world config option
 
 ## Content:
 Gun volume and weight audit.
@@ -87,6 +94,34 @@ Enables using a rope to carry large items.
 Adds large dermatik nest and tweaks dermatiks.
 Adds a new layout for the island prison challenge scenario.
 Adds tazer drones.
+added hot sauce as a seasoning and as ingredient of a broth
+Fried eggs deluxe, sandwiches, and condiment list
+Homemade Toastems, buttercream frosting and recipes
+Hunting Lodge Location
+Fungaloid shambler evolution
+Add book strap carrier
+Partial mine jsonify; new zombie miner.
+Mine entrance expand
+added springs as component to more stuff
+body pillow recipe makes makeshift body pillow now
+Allow constructing makeshift beds out of quilts and sleeping bags, not just sheets and blankets
+Traffic Bollards and an example placement at Forge of Wonders
+Spiral mine jsonify
+Add faction endings to Hub 01
+added 1300hp electric train engine
+Zombie Pig Upgrades
+adds an electrical train locomotive
+Obsolete zombie pheromone
+Add more swear words to the npcs' talking options
+add MRE chocolate to the game
+Added a .22 LR Hornet's Nest round and a .410 Hornet's Nest round
+Add a new monster morale trigger
+hatches are windows now
+Lets you make deluxe scrambled eggs from human meats
+light bones as a mixed mutation
+Adds Jar of Force, a magus spell that summons a jar of force that acts as a 3l jar.
+Make gym furniture constructible
+Add meatballs to the game
 
 ## Interface:
 Introduces, and migrates most windows to, ui_adaptor, which handles redrawing windows when others are closed and the game is resized.
@@ -109,6 +144,23 @@ Adds item length and pocket volume entries to menus.
 Adds fast scrolling to many menus with long lists.
 Adds responsive screen behavior to the new character menu for small terminal sizes.
 Shows weariness and activity levels in sidebar panels.
+Allow insert action between a single containers layers
+Fix disassembly component display
+Warn before crafting an item you won't be able to wear
+Chibi-Ultica Update 2021-03-07
+Show when a wheel cannot support a 1x1 vehicle in vpart info.
+AIM&Pickup UI: Food containers are colored in the same color as the food they contain.
+Update ChibiUltica 2021-03-21
+MSxotto+ update 2021-03-21
+Allow filtering of debug message by type
+NPC Interaction tweak
+Added warning when taking off gunmods without the skill to reattach them
+Added vehicle racking activity
+Update MSXotto+ 21-03-28
+Update Chibi Ultica, 2021-03-28
+Update Ultica 2021-03-28
+Filter items by book skill ( V, e, / )
+Added warning to excessive long attack times
 
 ## Mods:
 [Magiclysm] Manatouched mutation tree.
@@ -145,6 +197,25 @@ Cap monsters at 1000 kg so butchering kind of works.
 [Aftershock] Adds new laser and plasma pistols.
 [Magiclysm] Adds three new Attunement spells (Frozen Winds, Auroral wave, and Immolate).
 [Magiclysm] Adds Workshop Elves, Yule Cats, and Leprechauns.
+Fix Cryo Grenade
+[Magiclysm] add lesser banishment spell, buff greater banishment
+Fungal dino overhaul
+Enchanted tailor's kit can now fix items made of Lycra
+Fix issues with skill gain and focus loss on long spell study sessions in Magiclysm
+Remove Manatricity from Kelvinist itemgroup
+Less consumption of HP the better you are at Sacrificial Healing
+Ki Strike Scroll for MMA
+Aftershock: Formless Ruins are a new, low-risk, above ground dungeon
+Dark Skies Above reborn!
+Fixes emissaries of pestilence not dropping the right body on death. Cleans up harvest.json
+Dark Skies Above: spellcheck the descriptions
+forge trader can sell more monster stuff
+bundles of black dragon scales/hides and demon chitin chunks
+Obsolete Turbine CBM
+[Magiclysm] Add spellcraft skillbook
+added summon clay golem spell to golemancer attunement
+new druid spell: seed of growth
+[Magiclysm] Overhaul and balance dragon items
 
 ## Balance:
 Large item price audit.
@@ -172,6 +243,18 @@ Mycus Fireproofing now also gives heat immunity.
 Tweaks Infection impact by lowering fatigue drain and removing pain.
 Adjusts ordinary clothing to not meaningfully contribute to protection values.
 Caps warmth loss from fatigue.
+Some tweaks for black tea leaves, calories and hot enjoyable changes for most teas.
+Volume and weight tweaks for Halligen bar and NY hook
+Max lengh and volume tweaks for pipes
+Added plastic mold to more recipe books
+Get random number of rebars instead of pipes after cutting up metal from windows with bars with hacksaw and oxytorch.
+Remove downed effect form stepping on mechanical_fluid field
+Luxury RV spawn in campgrounds nerfed
+Filled the Zoo to have more items and other minor changes
+Tweaking of values of crowbar and makeshift crowbar
+Cap pain gain from hauling heavy furniture
+Give the sports drink positive joy
+Make m38DMR usable with krav maga
 
 ## Bugfixes:
 Prevents possible negative damage from explosions.
@@ -272,6 +355,90 @@ Fixes localization not working if the LANG environmental variable is not set.
 Avoids creating starving characters from older templates.
 Fixes furniture being 'destroyed' when grab-moving.
 Fixes crashes from canceling reloading a container that is on the ground.
+Fix compound bow category in defense mode
+Avoid error when siphoning from vehicle with an empty tank
+Fix Not Enough Energy indicator in spell info
+Fix fuel bunker coal usage
+Red Sauce all goes bad within first week
+Fix open windows remain open after tearing down curtains
+Disallow selecting companions for a mission if they're already on one.
+Worker Elf Spawn turns Forge Hostile
+Fix ups converted tactical tonfas
+Prevent tailors kit modify action for gunmods
+Fix crash when attempting to move stolen items
+Fix tailors kit modify action no longer accepts filthy components
+Fix electric jackhammer charge usage without ups
+Fix missing components msg for repair clothing action
+Fix gun condition penalty now is shown in overview
+Fix autoclave ups usage
+Stop offering non-comestible liquids for consumption
+Chocolate Cows produce candy feces instead of regular ones
+Bring paper arm guard recipe to be in line with the paper leg guards
+Prevent items taking time when canceled.
+change category of balloons to containers
+Fixes vehicle racking menu. No more duplicates&phantom names
+NPCs now eat from faction camps using their stomachs, eliminating phantom hunger pangs
+Fix pushing furniture over ledge
+Fix multi-cooker
+Makes flesh pouch spill its content on the ground instead of deleting it when it disappears.
+Add scissors to the First Aid Kit
+Reset harvests to avoid otherworldly errors
+Alter brown_bread recipe to match canned version
+Fix crash in Disassemble Everything Once
+AIM item duplication
+Halligan fits again on/in fire axe
+Fix restore targeted bayonet usage for guns
+Makes hide bag and ethereal items not delete their content when they decay on the ground outside of any inventory.
+fixes a typo in has_nearby_table map
+Fix don't drop liquids in vehicle cargo spaces
+Fix sex with Alonso causing instant death
+Fix paper shotgun ammo no longer leaves casings
+Make rubber gloves more realistic in stats
+Fix plutonium duplication when unloading minireactor
+Fix middle front seat of fire engine
+Fix prevent bell spam
+Changes staff sling length from 5 in. to 180 cm like the quarterstaff.
+Fix Rock and BB Damage Types
+Fixed faux fur sleeveless duster recipe not requiring fasteners
+added an example for vehicle spawning and a note of caution about overmap boundaries
+Fix uncanny dodge inside vehicles
+Put back fov_3d after reachability cache tests; check on it for monster attack test
+reinforced/default plastic window construction balance
+Ignore weariness for calorie fueled bionics
+Added `raw_leather` to sewer gator
+Add calories to coffee syrup.
+Feral Human Damage/Description Tweak
+Fix stretch attack uncanny dodge check
+Fix chitin and biosil chitin armor kit install/uninstall requirements
+Prevents phantom roofs on lighthouse island during save/load
+Fixes weird graphical bug with auras of protection.
+Fix mutant bug lungs not inheriting toxins.
+fix a typo
+Reduce Parrot spam and standardize volume
+Fix translations not working on Windows for some Windows languages
+Allow roasted cattail rhizome to be millable in a wind/water mill
+Avoid migrating saves when not needed
+Allow stacking guns with different shot counters or dirt levels
+Remove different behavior for debug_mode in Creature::sees()
+Unexpected behaviour while tearing the curtains off an open window
+Advanced inventory's 'sort by damage' now sorts by DPS instead of alphabetically
+removed mod_fatigue(), mod_stored_nutr(), mod_thirst() calls from various activities
+Fix Siphon action can transfer contents of tanks in same vehicle
+Fix color coding of container stat totals
+Fix power armor information shown in examine ui
+Make items you can activate properly consume charges
+switch skeletal brute and zombie bullet armor
+Make telescoping umbrella wearable so it can always fit in starting inventory
+Fix t_rock's floating roof
+Fix use-after-free related to pitched sounds in SDL sound code
+Various materials shrunk down in volume based on weight and real-world density.
+Reload fix for tools that can hold ammo as well as contain liquid, such as a multi cooker
+adjust lab doors
+Remove seeds from berry foraging
+Fix Refugee Center Hub 01 Delivery Quest
+Add charges_per_use to powered_earmuffs_on
+Added sees check to monster::attack_at
+Fix dogs evolving into Skeletal Juggernauts
 
 ## Performance:
 Adds an option to enable batching when it is available in SDL.
@@ -300,6 +467,8 @@ Improves performance of initializing the achievements tracker.
 When NPCs are fleeing from explosions, skips considering routing through tiles without a floor.
 Speeds up fungus-related code processing by 30%+.
 Optimizes item migrations to decrease load times.
+Speed up navigation in traits menu
+Fixed bad performance on large screens with lots of text (especially overmap).
 
 ## Infrastructure:
 Adds basic infrastructure for diseases.
@@ -370,6 +539,24 @@ Uses GNU Parallel to run tests concurrently, enabling concurrent tests in MacOS 
 Improves scooter tile representation by adding scooter vehicle parts, which scooters spawn with.
 Reduces file size of composed tilesheets from compose.py.
 Implements C++ symbol demangling in crash reports on MacOS, MinGW, and Linux.
+Have travis run for 0.F-dev
+MSXotto+ Update 2021-03-07
+compose.py: fix sheet ranges calculation
+Setup tests of the various type of automatic trigger for mutations
+JSONize more trap features, add trap flags
+Allow CBMs to specify mutations that prevent installation
+Make JSON loading and assignment errors clearer
+Also output reverse attitudes for monfactions_test matrix
+debug menu: put all map extra in the debug menu
+compose.py --use-all now works with filler sheets separately
+Add gun variants
+Migrate some activities to activity actor system
+Add effect_on_conditions allowing use of dialog conditions/effects outside of dialog
+Add clang-tidy check to look for tests which alter global variables and ensure they restore them
+Weather override helper for tests
+Detect duplicate values in json definitions of sets
+Change weather to use effect_on_conditions
+Uses Microsoft's suggested stdio float rounding object file to pass string_formatter in modern MSVC.
 
 ## Build:
 Moves clang-tidy runs from Travis to GitHub.
@@ -403,6 +590,11 @@ Uses class translation in many more places for more flexible translation support
 Infrastructure: Automates translation template push.
 Enables using additional languages (Arabic, Czech, Danish, Dutch, Greek, Indonesian, Icelandic, Italian, Norwegian, Serbian, Turkish, and Ukrainian) with the game.
 Places cursor at highlighted item name in construction and crafting menus, as expected by screen readers.
+Routine i18n updates on 7 Mar 2021
+Routine i18n updates on 12 Mar 2021
+Retrieve system language on Android
+Rephrase comment in en.credits file
+Translate Android installation UI
 
 # 0.E (Ellison)
 
