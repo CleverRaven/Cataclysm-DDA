@@ -5058,13 +5058,14 @@ int Character::get_stored_kcal() const
 
 std::string Character::activity_level_str( float level ) const
 {
-    for( const std::pair<const std::string, float> &member : activity_levels_map ) {
-        if( level <= member.second ) {
-            return member.first;
+    for( const std::pair<const float, std::string> &member : activity_levels_str_map ) {
+        if( level <= member.first ) {
+            return member.second;
         }
     }
-    return ( --activity_levels_map.end() )->first;
+    return ( --activity_levels_str_map.end() )->second;
 }
+
 std::string Character::debug_weary_info() const
 {
     int amt = activity_history.weariness();

@@ -178,6 +178,15 @@ const std::map<std::string, float> activity_levels_map = {
     { "EXTRA_EXERCISE", EXTRA_EXERCISE }
 };
 
+const std::map<float, std::string> activity_levels_str_map = {
+    { NO_EXERCISE, "NO_EXERCISE" },
+    { LIGHT_EXERCISE, "LIGHT_EXERCISE" },
+    { MODERATE_EXERCISE, "MODERATE_EXERCISE" },
+    { BRISK_EXERCISE, "BRISK_EXERCISE" },
+    { ACTIVE_EXERCISE, "ACTIVE_EXERCISE" },
+    { EXTRA_EXERCISE, "EXTRA_EXERCISE" }
+};
+
 // these are the lower bounds of each of the weight classes.
 namespace character_weight_category
 {

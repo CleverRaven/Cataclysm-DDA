@@ -141,10 +141,10 @@ void activity_tracker::reset_activity_level()
 
 std::string activity_tracker::activity_level_str() const
 {
-    for( const std::pair<const std::string, float> &member : activity_levels_map ) {
-        if( current_activity <= member.second ) {
-            return member.first;
+    for( const std::pair<const float, std::string> &member : activity_levels_str_map ) {
+        if( current_activity <= member.first ) {
+            return member.second;
         }
     }
-    return ( --activity_levels_map.end() )->first;
+    return ( --activity_levels_str_map.end() )->second;
 }
