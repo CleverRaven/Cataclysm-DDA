@@ -2222,12 +2222,7 @@
     "types": [ "SKIN" ],
     "prereqs": [ "FELINE_FUR" ],
     "category": [ "FELINE" ],
-    "armor": [ { "parts": [ "head", "mouth" ], 
-        "bash": 2,
-        "cut": 2,
-        "bullet": 2
-      }
-    ]
+    "armor": [ { "parts": [ "head", "mouth" ], "bash": 2, "cut": 2, "bullet": 2 } ]
   },
   {
     "type": "mutation",
