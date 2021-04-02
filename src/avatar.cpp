@@ -1727,15 +1727,27 @@ static const std::map<float, std::string> activity_levels_str = {
 void avatar::daily_calories::save_activity( JsonOut &json ) const
 {
     json.member( "activity" );
-    json.start_object();
+    json.start_array();
     for( const std::pair<const float, int> &level : activity_levels ) {
-        json.member( activity_levels_str.at( level.first ), level.second );
+        if( level.second > 0 ) {
+            json.start_array();
+            json.write( level.first );
+            json.write( level.second );
+            json.end_array();
+        }
     }
-    json.end_object();
+    json.end_array();
 }
 
 void avatar::daily_calories::read_activity( JsonObject &data )
 {
+    if( data.has_array( "activity" ) ) {
+        for( JsonArray ja : data.get_array( "activity" ) ) {
+            activity_levels[ ja.next_float() ] = ja.next_int();
+        }
+        return;
+    }
+    // Fallback to legacy format for backward compatibility
     JsonObject jo = data.get_object( "activity" );
     for( const std::pair<const float, std::string> &member : activity_levels_str ) {
         int times;
