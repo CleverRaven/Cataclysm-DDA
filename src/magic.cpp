@@ -2317,11 +2317,6 @@ spell fake_spell::get_spell( int min_level_override ) const
         return sp;
     }
     sp.set_exp( exp_for_level( level_of_spell ) );
-    if( sp.get_level() != level_of_spell ) {
-        debugmsg( "AUGH ITS WRONG" );
-    } else {
-        debugmsg( "OKAY GOOD ITS GOOD" );
-    }
 
     return sp;
 }
