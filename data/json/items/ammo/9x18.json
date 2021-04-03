@@ -6,6 +6,7 @@
     "description": "9x18mm Makarov ammunition with 93gr steel core FMJ bullets.  The 9x18mm round was very common in the Eastern Bloc during the 20th century and remained in Russian military service into the 21st century.",
     "weight": "8 g",
     "volume": "97 ml",
+    "longest_side": "25 mm",
     "price": 100,
     "price_postapoc": 1000,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
