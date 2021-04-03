@@ -742,7 +742,7 @@
     "armor_cut": 7,
     "armor_bullet": 4,
     "hp": 630,
-    "description": "An undead Kosmoceratops, it seems to have forgotten it's herbivore diet, and seems hungry for your flesh.",
+    "description": "An undead Kosmoceratops, it seems to have forgotten its herbivore diet, and seems hungry for your flesh.",
     "upgrades": { "half_life": 14, "into_group": "GROUP_zosmoceratops_UPGRADE" },
     "flags": [ "SEES", "SMELLS", "HEARS", "BASHES", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ]
   },
