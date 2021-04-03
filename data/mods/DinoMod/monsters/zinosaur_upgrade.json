@@ -561,7 +561,7 @@
     "id": "mon_zedmontonia_brute",
     "name": { "str": "Edmontonia Elbow" },
     "copy-from": "mon_zedmontonia",
-    "description": "Heavily armored zombie dinosaur with long bony spikes.  Its entire body bulges with distended muscles and swollen, festering wounds.",
+    "description": "Heavily-armored zombie dinosaur with long, bony spikes.  Its entire body bulges with distended muscles and swollen, festering wounds.",
     "diff": 2,
     "color": "red",
     "proportional": { "hp": 1.5, "speed": 1.5 },
