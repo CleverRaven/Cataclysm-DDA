@@ -238,7 +238,7 @@ static const skill_id skill_smg( "smg" );
 static const skill_id skill_swimming( "swimming" );
 static const skill_id skill_throw( "throw" );
 
-static const proficiency_id proficiency_prof_spotting("prof_spotting");
+static const proficiency_id proficiency_prof_spotting( "prof_spotting" );
 
 static const species_id species_HUMAN( "HUMAN" );
 static const species_id species_ROBOT( "ROBOT" );
@@ -4885,7 +4885,8 @@ int Character::get_speed() const
 
 int Character::get_eff_per() const
 {
-    return Character::get_per() + int(Character::has_proficiency(proficiency_prof_spotting)) * Character::get_per_base();
+    return Character::get_per() + int( Character::has_proficiency( proficiency_prof_spotting ) ) *
+           Character::get_per_base();
 }
 
 int Character::ranged_dex_mod() const
