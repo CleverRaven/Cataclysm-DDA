@@ -275,7 +275,7 @@
         "________________||,,,,,,",
         "________________||,,,,,,",
         "________________||,,,,,,",
-        "________________||,,,,,,",
+        "______________..||,,,,,,",
         "________________óó,,,,,,",
         "________________óó,,,,,,",
         "_______2________||,,,,,,",
@@ -295,7 +295,7 @@
       "palettes": [ "arcology_exterior" ],
       "nested": {
         "1": { "chunks": [ [ "arcology_8x8_tbd", 20 ], [ "arcology_8x8_tbd", 20 ] ] },
-        "2": { "chunks": [ [ "arcology_9x9_tbd", 20 ], [ "arcology_9x9_tbd", 20 ] ] },
+        "2": { "chunks": [ [ "arcology_9x9_candy_shop", 20 ], [ "city_block_9x9_beauty_shop", 20 ], [ "arcology_9x9_vitamin_shop", 20 ] ] },
         "3": { "chunks": [ [ "arcology_7x7_tbd", 20 ], [ "arcology_7x7_tbd", 20 ] ] }
       },
       "place_loot": [ { "group": "TBD", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
