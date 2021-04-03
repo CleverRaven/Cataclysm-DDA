@@ -515,7 +515,7 @@
     "id": "mon_zankylosaurus_brute",
     "name": { "str": "Dino Tank" },
     "copy-from": "mon_zankylosaurus",
-    "description": "Heavily armored zombie dinosaur with a massive spiked tail of bone.  Its entire body bulges with distended muscles and swollen, festering wounds.",
+    "description": "Heavily-armored zombie dinosaur with a massive spiked tail of bone.  Its entire body bulges with distended muscles and swollen, festering wounds.",
     "diff": 2,
     "color": "red",
     "proportional": { "hp": 1.5, "speed": 1.5 },
