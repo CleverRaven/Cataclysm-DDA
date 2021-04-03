@@ -4,10 +4,6 @@ include $(CLEAR_VARS)
 
 LOCAL_MODULE := main
 
-SDL_PATH := ../SDL2
-
-LOCAL_C_INCLUDES := $(SDL_PATH)/include
-
 LOCAL_CPP_FEATURES := exceptions rtti
 
 # Add your application source files here...
