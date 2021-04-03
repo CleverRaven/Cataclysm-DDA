@@ -284,7 +284,7 @@
     "id": "mon_zutahraptor_brute",
     "name": { "str": "Utah Hoodoo" },
     "copy-from": "mon_zutahraptor",
-    "description": "The swaying, hopping corpse of a large bipedal dinosaur with feathered arms, a long tail, and long sharp scythe-like claws.  Its entire body bulges with distended muscles and swollen, festering wounds.",
+    "description": "The swaying, hopping corpse of a large bipedal dinosaur with feathered arms, a long tail, and long, sharp, scythe-shaped claws.  Its entire body bulges with distended muscles and swollen, festering wounds.",
     "diff": 2,
     "color": "red",
     "proportional": { "hp": 1.5 },
