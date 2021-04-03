@@ -215,7 +215,7 @@
     "id": "mon_zallimimus_brute",
     "name": { "str_sp": "Gruesome Gallimimus" },
     "copy-from": "mon_zallimimus",
-    "description": "The shuffling corpse of a medium-sized bipedal dinosaur covered with tattered feathers and black putrid liquid.  Its entire body bulges with distended muscles and swollen, festering wounds.",
+    "description": "The shuffling corpse of a medium-sized bipedal dinosaur covered with tattered feathers and black, putrid liquid.  Its entire body bulges with distended muscles and swollen, festering wounds.",
     "diff": 2,
     "color": "red",
     "proportional": { "hp": 1.5, "speed": 1.5 },
