@@ -97,7 +97,7 @@
     "id": "mon_zacrocanthosaurus_brute",
     "name": { "str": "Acrocanthosaurus Avenger" },
     "copy-from": "mon_zacrocanthosaurus",
-    "description": "The shambling corpse of a large predatory bipedal dinosaur with curved teeth like sawblades.  Its entire body bulges with distended muscles and swollen, festering wounds.",
+    "description": "The shambling corpse of a large predatory bipedal dinosaur with curved, sawblade-like teeth.  Its entire body bulges with distended muscles and swollen, festering wounds.",
     "diff": 2,
     "color": "red",
     "proportional": { "hp": 1.5, "speed": 1.5 },
