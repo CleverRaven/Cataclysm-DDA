@@ -679,21 +679,7 @@ int main( int argc, const char *argv[] )
 #endif
 
 #if defined(LOCALIZE)
-    std::string lang;
-#if defined(_WIN32)
-    lang = getLangFromLCID( GetUserDefaultUILanguage() );
-#else
-    const char *v = setlocale( LC_ALL, nullptr );
-    if( v != nullptr ) {
-        lang = v;
-
-        if( lang == "C" ) {
-            lang = "en";
-        }
-    }
-#endif
-    if( get_option<std::string>( "USE_LANG" ).empty() && ( lang.empty() ||
-            !isValidLanguage( lang ) ) ) {
+    if( get_option<std::string>( "USE_LANG" ).empty() && getSystemLanguage().empty() ) {
         select_language();
         set_language();
     }
