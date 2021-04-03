@@ -4,7 +4,7 @@
     "id": "mon_zilophosaurus_brute",
     "name": { "str": "Crested Crusher" },
     "copy-from": "mon_zilophosaurus",
-    "description": "The shuffling corpse of a medium dinosaur with sharp teeth and two prominent bony crests on its head with ragged strips of ripped flesh hanging down like a frill.  Its entire body bulges with distended muscles and swollen, festering wounds.",
+    "description": "The shuffling corpse of a medium-sized dinosaur with sharp teeth and two prominent bony crests on its head, with ragged strips of ripped flesh hanging down like a frill.  Its entire body bulges with distended muscles and swollen, festering wounds.",
     "diff": 2,
     "color": "red",
     "proportional": { "hp": 1.5, "speed": 1.5 },
