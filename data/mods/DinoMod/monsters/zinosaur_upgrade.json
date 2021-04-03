@@ -538,7 +538,7 @@
     "id": "mon_zodosaurus_brute",
     "name": { "str": "Nodosaurus Neutralizer" },
     "copy-from": "mon_zodosaurus",
-    "description": "Heavily armored zombie dinosaur.  Its entire body bulges with distended muscles and swollen, festering wounds.",
+    "description": "Heavily-armored zombie dinosaur.  Its entire body bulges with distended muscles and swollen, festering wounds.",
     "diff": 2,
     "color": "red",
     "proportional": { "hp": 1.5, "speed": 1.5 },
