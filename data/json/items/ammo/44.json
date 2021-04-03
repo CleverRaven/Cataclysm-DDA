@@ -14,6 +14,7 @@
     "description": ".44 magnum ammunition with 240gr JHP bullets.  The .44 magnum round is one of the most powerful handgun cartridges available.  It has excellent stopping power but suffers from extremely high recoil for a handgun round.",
     "weight": "13 g",
     "volume": "87 ml",
+    "longest_side": "41 mm",
     "price": 175,
     "price_postapoc": 600,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
