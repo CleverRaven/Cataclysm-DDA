@@ -168,7 +168,7 @@
     "name": { "str": "Qianzhousaurus chéngqiáng" },
     "copy-from": "mon_zianzhousaurus",
     "looks_like": "mon_zyrannosaurus",
-    "description": "Massive jaws on a long snout lifted by a body bulging with distended muscles and swollen, festering wounds.",
+    "description": "Massive jaws on a long snout lifted by an undead body bulging with distended muscles and swollen, festering wounds.",
     "diff": 2,
     "color": "red",
     "proportional": { "hp": 1.5, "speed": 1.5 },
