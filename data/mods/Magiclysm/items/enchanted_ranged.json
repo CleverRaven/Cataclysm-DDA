@@ -131,7 +131,7 @@
     "symbol": "%",
     "color": "red",
     "name": { "str": "Bone Laucher" },
-    "description": "Once a flesh spear, now a grotesque pipe like object with an barrel made from bone and coated in flesh. There is an biomancer rune embbed in the tooth like trigger.",
+    "description": "Once a flesh spear, now a grotesque pipe like object with an barrel made from bone and coated in flesh.  There is an biomancer rune embbed in the tooth like trigger.",
     "material": [ "hflesh", "bone" ],
     "flags": [
       "PRIMITIVE_RANGED_WEAPON",

@@ -780,7 +780,7 @@
     "type": "GENERIC",
     "name": { "str": "Biomancer shifting spear" },
     "//": "Effectively a durable knife spear +2 and a barb laucher that shoots sharpened bone, will have less dps because it has reach and is capable of morphing into a gun",
-    "description": "A grotesque bone spearhead on a hardened flesh pole.  There is a Biomancer rune embedded in the middle. You feel this spear squirming in your hand as if alive.",
+    "description": "A grotesque bone spearhead on a hardened flesh pole.  There is a Biomancer rune embedded in the middle.  You feel this spear squirming in your hand as if alive.",
     "weight": "1422 g",
     "volume": "1350 ml",
     "longest_side": "130 cm",
