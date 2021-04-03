@@ -4,8 +4,10 @@
     "id": "NC_ARSONIST_STOCK",
     "subtype": "collection",
     "items": [
-      { "item": "molotov", "count": 10 },
-      { "item": "improvised_pipebomb", "count": 5 },
+      { "item": "molotov", "count": 5 },
+      { "item": "rag", "count": 25 },
+      { "item": "gasoline", "count": 1 },
+      { "item": "improvised_pipebomb", "count": 25 },
       { "item": "fuse", "count": 5 },
       { "item": "FMCNote", "count": 3 },
       { "item": "nail", "count": 5 },
