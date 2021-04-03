@@ -6,6 +6,7 @@
     "description": "A heavy plastic cartridge made for use in flare guns.  It appears to be a modified 12 gauge shotgun shell.",
     "weight": "32 g",
     "volume": "377 ml",
+    "longest_side": "9 cm",
     "price": 500,
     "price_postapoc": 500,
     "material": [ "plastic", "powder" ],
