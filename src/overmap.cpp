@@ -2745,7 +2745,7 @@ void overmap::place_roads( const overmap *north, const overmap *east, const over
     const string_id<overmap_connection> local_road( "local_road" );
     std::vector<tripoint_om_omt> &roads_out = connections_out[local_road];
 
-    // Ideally we should have at least two exit points for roads, on different sides
+    // At least 3 exit points, to guarantee road continuity across overmaps
     if( roads_out.size() < 3 ) {
         std::vector<tripoint_om_omt> viable_roads;
         tripoint_om_omt tmp;
