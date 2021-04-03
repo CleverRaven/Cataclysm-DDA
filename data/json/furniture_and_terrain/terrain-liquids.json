@@ -377,7 +377,7 @@
     "id": "t_lake_bed_concrete_yellow",
     "//": "for eventual use with water z levels.  Currently non-functional.  Cement on the lake floor.",
     "name": "submerged concrete",
-    "description": "You are standing at the bottom of a body of fresh water on a pad of concrete with yellow paint.  With a watertight container, you could gather fresh water from here.  Not safe to drink as is.",
+    "description": "You are standing at the bottom of a body of fresh water on a pad of yellow-painted concrete.  With a watertight container, you could gather fresh water from here.  Not safe to drink as is.",
     "symbol": "#",
     "looks_like": "t_pavement_y",
     "color": "yellow",
