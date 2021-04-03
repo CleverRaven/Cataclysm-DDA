@@ -229,6 +229,7 @@ static const efftype_id effect_tetanus( "tetanus" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_winded( "winded" );
 static const efftype_id effect_fungus( "fungus" );
+static const efftype_id effect_virtual_monsters( "virtual_reality_monsters" );
 
 static const bionic_id bio_remote( "bio_remote" );
 
@@ -1694,6 +1695,18 @@ bool game::do_turn()
     // reset player noise
     u.volume = 0;
 
+    if( u.worn_with_flag( flag_VIRTUAL_MONSTERS ) ) {
+        if( !u.has_effect( effect_virtual_monsters ) ) {
+            u.add_effect( effect_virtual_monsters, calendar::INDEFINITELY_LONG_DURATION, true, 0, true, false );
+        }
+    } else if( u.has_effect( effect_virtual_monsters ) ) {
+        u.remove_effect( effect_virtual_monsters );
+        for( monster &critter : all_monsters() ) {
+            if( critter.is_hallucination() ) {
+                critter.die( nullptr );
+            }
+        }
+    }
     return false;
 }
 

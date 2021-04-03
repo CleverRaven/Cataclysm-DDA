@@ -687,6 +687,86 @@
     ]
   },
   {
+    "id": "ar_glasses_gaming",
+    "type": "TOOL_ARMOR",
+    "category": "clothing",
+    "name": { "str": "gaming AR headset" },
+    "description": "An augmented reality headset of good quality.  It comes with a zombie FPS augmented reality program, and a few other games running either with vocal commands or eye tracking.",
+    "weight": "500 g",
+    "volume": "500 ml",
+    "price": 70000,
+    "price_postapoc": 200,
+    "to_hit": -2,
+    "material": [ "glass", "plastic" ],
+    "symbol": "[",
+    "looks_like": "glasses_safety",
+    "color": "light_gray",
+    "armor_portion_data": [
+      { "covers": [ "eyes" ], "coverage": 95, "encumbrance": 6 },
+      { "covers": [ "head" ], "coverage": 15, "encumbrance": 2 }
+    ],
+    "warmth": 8,
+    "ammo": "battery",
+    "charges_per_use": 1,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "rigid": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "light_battery_cell", "light_atomic_battery_cell", "light_disposable_cell" ]
+      }
+    ],
+    "use_action": [
+      {
+        "type": "transform",
+        "msg": "You activate your %s training program, virtual ennemies will appears.",
+        "target": "ar_glasses_gaming_train",
+        "menu_text": "Turn training On",
+        "active": true,
+        "need_worn": true,
+        "need_charges": 1,
+        "need_charges_msg": "The %s's batteries are dead."
+      },
+      "CAMERA",
+      "MP3",
+      "PORTABLE_GAME"
+    ],
+    "material_thickness": 1,
+    "environmental_protection": 1,
+    "flags": [ "ONLY_ONE", "WATERPROOF", "WATCH", "ALARMCLOCK", "HELMET_COMPAT" ]
+  },
+  {
+    "id": "ar_glasses_gaming_train",
+    "copy-from": "ar_glasses_gaming",
+    "type": "TOOL",
+    "name": { "str": "gaming AR headset (training on)", "str_pl": "gaming AR headsets (training on)" },
+    "description": "This gaming AR headset training program is running, and continually draining its batteries.  Virtual ennemies are surimpressed on top of the real world, to train your fighting skills.",
+    "power_draw": 20000,
+    "revert_to": "ar_glasses_gaming",
+    "use_action": [
+      {
+        "type": "transform",
+        "menu_text": "Turn off AR training",
+        "msg": "Deactivating the AR headset training program.",
+        "target": "ar_glasses_gaming"
+      }
+    ],
+    "flags": [ "ONLY_ONE", "WATERPROOF", "WATCH", "ALARMCLOCK", "HELMET_COMPAT", "TRADER_AVOID", "VIRTUAL_MONSTERS" ]
+  },
+  {
+    "id": "ar_glasses_gaming_on",
+    "copy-from": "ar_glasses_gaming",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "gaming AR headset (on)", "str_pl": "gaming AR headsets (on)" },
+    "description": "This gaming AR headset is turned on and playing some great tunes, raising your morale steadily while on your person.  It runs through batteries quickly; you can turn it off by using it.  It also obscures your hearing.",
+    "power_draw": 1000,
+    "revert_to": "ar_glasses_gaming",
+    "use_action": [ "MP3_ON" ],
+    "flags": [ "ONLY_ONE", "WATERPROOF", "WATCH", "ALARMCLOCK", "HELMET_COMPAT", "TRADER_AVOID" ]
+  },
+  {
     "type": "TOOL_ARMOR",
     "id": "fitness_band",
     "name": { "str": "fitness band" },

@@ -226,6 +226,8 @@ static const efftype_id effect_webbed( "webbed" );
 static const efftype_id effect_weed_high( "weed_high" );
 
 static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
+static const itype_id itype_ar_glasses_gaming( "ar_glasses_gaming" );
+static const itype_id itype_ar_glasses_gaming_on( "ar_glasses_gaming_on" );
 static const itype_id itype_ar_glasses_t0( "ar_glasses_t0" );
 static const itype_id itype_ar_glasses_t1( "ar_glasses_t1" );
 static const itype_id itype_ar_glasses_t1_on( "ar_glasses_t1_on" );
@@ -4195,10 +4197,12 @@ cata::optional<int> iuse::mp3( player *p, item *it, bool, const tripoint & )
     } else if( p->has_active_item( itype_mp3_on ) || p->has_active_item( itype_smartphone_music ) ||
                p->has_active_item( itype_afs_atomic_smartphone_music ) ||
                p->has_active_item( itype_afs_atomic_wraitheon_music ) ||
+               p->has_active_item( itype_ar_glasses_gaming_on ) ||
                p->has_active_item( itype_ar_glasses_t1_on ) ||
                p->has_active_item( itype_ar_glasses_t2_on ) ) {
         p->add_msg_if_player( m_info, _( "You are already listening to music!" ) );
     } else if( ( it->typeId() == itype_ar_glasses_t1 || it->typeId() == itype_ar_glasses_t2 ||
+                 it->typeId() == itype_ar_glasses_gaming ||
                  it->typeId() == itype_ar_glasses_t2_mil ) && !p->is_worn( *it ) ) {
         p->add_msg_if_player( m_info, _( "You have to wear the %s to start listening to music." ),
                               it->tname() );
@@ -4218,6 +4222,8 @@ cata::optional<int> iuse::mp3( player *p, item *it, bool, const tripoint & )
             it->convert( itype_ar_glasses_t2_on ).active = true;
         } else if( it->typeId() == itype_ar_glasses_t2_mil ) {
             it->convert( itype_ar_glasses_t2_mil_on ).active = true;
+        } else if( it->typeId() == itype_ar_glasses_gaming ) {
+            it->convert( itype_ar_glasses_gaming_on ).active = true;
         }
         p->mod_moves( -200 );
     }
@@ -4315,6 +4321,9 @@ cata::optional<int> iuse::mp3_on( player *p, item *it, bool t, const tripoint &p
         } else if( it->typeId() ==  itype_ar_glasses_t2_mil_on ) {
             p->add_msg_if_player( _( "The AR glasses turns off." ) );
             it->convert( itype_ar_glasses_t2_mil ).active = false;
+        } else if( it->typeId() ==  itype_ar_glasses_gaming_on ) {
+            p->add_msg_if_player( _( "The AR headset music stops." ) );
+            it->convert( itype_ar_glasses_gaming ).active = false;
         }
         p->mod_moves( -200 );
     }
@@ -7480,7 +7489,8 @@ cata::optional<int> iuse::camera( player *p, item *it, bool, const tripoint & )
 
     //can't use AR glasses camera without wearing them
     if( ( it->typeId() == itype_ar_glasses_t0 || it->typeId() == itype_ar_glasses_t1 ||
-          it->typeId() == itype_ar_glasses_t2 || it->typeId() == itype_ar_glasses_t2_mil ) &&
+          it->typeId() == itype_ar_glasses_t2 || it->typeId() == itype_ar_glasses_t2_mil ||
+          it->typeId() == itype_ar_glasses_gaming ) &&
         !p->is_worn( *it ) ) {
         p->add_msg_if_player( m_info, _( "You have to wear the %s to use its camera." ), it->tname() );
         return cata::nullopt;

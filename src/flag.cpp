@@ -296,6 +296,7 @@ const flag_id flag_USE_PLAYER_ENERGY( "USE_PLAYER_ENERGY" );
 const flag_id flag_USE_UPS( "USE_UPS" );
 const flag_id flag_VARSIZE( "VARSIZE" );
 const flag_id flag_VEHICLE( "VEHICLE" );
+const flag_id flag_VIRTUAL_MONSTERS( "VIRTUAL_MONSTERS" );
 const flag_id flag_WAIST( "WAIST" );
 const flag_id flag_WATCH( "WATCH" );
 const flag_id flag_WATERPROOF( "WATERPROOF" );

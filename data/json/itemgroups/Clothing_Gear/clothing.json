@@ -73,7 +73,8 @@
           {
             "distribution": [
               { "item": "ar_glasses_t0", "prob": 80, "charges-max": 50 },
-              { "item": "ar_glasses_t1", "prob": 20, "charges-max": 50 }
+              { "item": "ar_glasses_t1", "prob": 15, "charges-max": 50 },
+              { "item": "ar_glasses_gaming", "prob": 5, "charges-max": 50 }
             ],
             "prob": 5
           },

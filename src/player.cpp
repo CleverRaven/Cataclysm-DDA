@@ -93,6 +93,8 @@ static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_stunned( "stunned" );
 
 static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
+static const itype_id itype_ar_glasses_gaming( "ar_glasses_gaming" );
+static const itype_id itype_ar_glasses_gaming_on( "ar_glasses_gaming_on" );
 static const itype_id itype_ar_glasses_t1( "ar_glasses_t1" );
 static const itype_id itype_ar_glasses_t1_on( "ar_glasses_t1_on" );
 static const itype_id itype_ar_glasses_t2( "ar_glasses_t2" );
@@ -1958,6 +1960,9 @@ bool player::takeoff( item_location loc, std::list<item> *res )
     } else if( it.typeId() == itype_ar_glasses_t2_on ) {
         get_player_character().add_msg_if_player( _( "The AR glasses turns off." ) );
         it.convert( itype_ar_glasses_t2 ).active = false;
+    } else if( it.typeId() == itype_ar_glasses_gaming_on ) {
+        get_player_character().add_msg_if_player( _( "The AR headset music turns off." ) );
+        it.convert( itype_ar_glasses_gaming ).active = false;
     }
 
     auto iter = std::find_if( worn.begin(), worn.end(), [ &it ]( const item & wit ) {

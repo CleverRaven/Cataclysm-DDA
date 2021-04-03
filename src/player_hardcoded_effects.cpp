@@ -102,6 +102,7 @@ static const efftype_id effect_tindrift( "tindrift" );
 static const efftype_id effect_tetanus( "tetanus" );
 static const efftype_id effect_toxin_buildup( "toxin_buildup" );
 static const efftype_id effect_valium( "valium" );
+static const efftype_id effect_virtual_reality_monsters( "virtual_reality_monsters" );
 static const efftype_id effect_visuals( "visuals" );
 static const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
 static const efftype_id effect_winded( "winded" );
@@ -284,6 +285,33 @@ static void eff_fun_bleed( Character &u, effect &it )
             u.add_msg_player_or_npc( m_bad, _( "You lose some blood." ),
                                      _( "<npcname> loses some blood." ) );
         }
+    }
+}
+static void eff_fun_virtual_monsters( Character &u, effect & )
+{
+    if( u.is_player() && one_in( 10 ) ) {
+        if( one_in( 2 ) ) {
+            u.add_msg_if_player( m_warning, _( "The world takes on a dreamlike quality." ) );
+        } else if( one_in( 5 ) ) {
+            u.add_msg_if_player( m_warning, _( "A wild virtual ennemy appears!" ) );
+        } else {
+            u.add_msg_if_player( m_warning, _( "A computer generated opponent is simulated." ) );
+        }
+        g->spawn_hallucination( u.pos() + tripoint( rng( -10, 10 ), rng( -10, 10 ), 0 ) );
+    } else if( u.is_npc() && one_in( 1200 ) ) {
+        static const std::array<std::string, 3> npc_hallu = {{
+                translate_marker( "\"Wow, this one looks real!\"" ),
+                translate_marker( "\"Just come a little closer\u2026\"" ),
+                translate_marker( "\"This is fun.\"" ),
+            }
+        };
+
+        int loudness = 20 + u.str_cur - u.int_cur;
+        loudness = ( loudness > 5 ? loudness : 5 );
+        loudness = ( loudness < 30 ? loudness : 30 );
+        sounds::sound( u.pos(), loudness, sounds::sound_t::speech, _( random_entry_ref( npc_hallu ) ),
+                       false, "speech",
+                       loudness < 15 ? ( u.male ? "NPC_m" : "NPC_f" ) : ( u.male ? "NPC_m_loud" : "NPC_f_loud" ) );
     }
 }
 static void eff_fun_hallu( Character &u, effect &it )
@@ -1155,6 +1183,7 @@ void Character::hardcoded_effects( effect &it )
             { effect_hypovolemia, eff_fun_hypovolemia },
             { effect_redcells_anemia, eff_fun_redcells_anemia },
             { effect_sleep, eff_fun_sleep },
+            { effect_virtual_reality_monsters, eff_fun_virtual_monsters }
         }
     };
     const efftype_id &id = it.get_id();

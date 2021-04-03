@@ -2066,5 +2066,11 @@
     "type": "json_flag",
     "context": [ "GENERIC" ],
     "info": "You could probably use this to access a secure zone of a facility."
+  },
+  {
+    "id": "VIRTUAL_MONSTERS",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This item makes you <bad>see ennemies that are not real</bad>."
   }
 ]
