@@ -6,6 +6,7 @@
     "description": "A bundle of wadding, black gunpowder, and cannonball, ready to be loaded into a cannon.",
     "weight": "2350 g",
     "volume": "1000 ml",
+    "longest_side": "12 cm",
     "price": 1100,
     "price_postapoc": 1200,
     "material": [ "steel", "powder" ],
