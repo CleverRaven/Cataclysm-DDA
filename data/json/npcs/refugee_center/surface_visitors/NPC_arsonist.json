@@ -3,9 +3,7 @@
     "type": "item_group",
     "id": "NC_ARSONIST_storage",
     "subtype": "distribution",
-    "entries": [
-      { "item": "golf_bag", "prob": 100 }
-    ]
+    "entries": [ { "item": "golf_bag", "prob": 100 } ]
   },
   {
     "type": "npc",
