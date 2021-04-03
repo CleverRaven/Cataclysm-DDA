@@ -1734,8 +1734,10 @@ void avatar::daily_calories::save_activity( JsonOut &json ) const
 void avatar::daily_calories::read_activity( JsonObject &data )
 {
     if( data.has_array( "activity" ) ) {
+        double act_level;
         for( JsonArray ja : data.get_array( "activity" ) ) {
-            activity_levels[ ja.next_float() ] = ja.next_int();
+            act_level = ja.next_float();
+            activity_levels[ act_level ] = ja.next_int();
         }
         return;
     }
