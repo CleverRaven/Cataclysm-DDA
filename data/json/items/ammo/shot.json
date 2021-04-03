@@ -96,6 +96,7 @@
     "description": "A shell filled with metal pellets.  Extremely damaging, plus the spread makes it very accurate at short range.  Favored by SWAT forces.",
     "weight": "32 g",
     "volume": "439 ml",
+    "longest_side": "9 cm",
     "price": 500,
     "price_postapoc": 800,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
