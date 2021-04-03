@@ -446,7 +446,7 @@
     "id": "mon_zalamosaurus_brute",
     "name": { "str": "Anabolic Alamosaurus" },
     "copy-from": "mon_zalamosaurus",
-    "description": "Gigantic four-legged dinosaur corpse with a long neck and a spiked whip-like tail.  Its entire body bulges with distended muscles and swollen, festering wounds.",
+    "description": "Gigantic, four-legged dinosaur corpse with a long neck and a spiked whip-like tail.  Its entire body bulges with distended muscles and swollen, festering wounds.",
     "diff": 2,
     "color": "red",
     "proportional": { "hp": 1.5, "speed": 1.5 },
