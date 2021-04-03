@@ -261,7 +261,7 @@
     "id": "mon_zeinonychus_brute",
     "name": { "str": "Deino Destroyer" },
     "copy-from": "mon_zeinonychus",
-    "description": "The shuffling corpse of a medium-sized bipedal dinosaur covered with tattered feathers and black putrid liquid.  Both feet brandish a large sickle-like claw.  Its entire body bulges with distended muscles and swollen, festering wounds.",
+    "description": "The shuffling corpse of a medium-sized bipedal dinosaur covered with tattered feathers and black, putrid liquid.  Both feet brandish a large sickle-shaped claw.  Its entire body bulges with distended muscles and swollen, festering wounds.",
     "diff": 2,
     "color": "red",
     "proportional": { "hp": 1.5, "speed": 1.5 },
