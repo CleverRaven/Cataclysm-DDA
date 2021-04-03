@@ -885,6 +885,8 @@ class game
         void process_activity(); // Processes and enacts the player's activity
         void handle_key_blocking_activity(); // Abort reading etc.
         void open_consume_item_menu(); // Custom menu for consuming specific group of items
+        bool do_regular_action( action_id &act, avatar &player_character,
+                                const cata::optional<tripoint> &mouse_target );
         bool handle_action();
         bool try_get_right_click_action( action_id &act, const tripoint &mouse_target );
         bool try_get_left_click_action( action_id &act, const tripoint &mouse_target );
