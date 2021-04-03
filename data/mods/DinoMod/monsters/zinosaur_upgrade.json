@@ -400,7 +400,7 @@
     "id": "mon_zamarasaurus_brute",
     "name": { "str": "Zombie Freight Train" },
     "copy-from": "mon_zamarasaurus",
-    "description": "Massive four-legged dinosaur corpse with a square head and even bulkier frame.  Its entire body bulges with distended muscles and swollen, festering wounds.",
+    "description": "Massive, four-legged dinosaur corpse with a square head and even bulkier frame.  Its entire body bulges with distended muscles and swollen, festering wounds.",
     "diff": 2,
     "color": "red",
     "proportional": { "hp": 1.5, "speed": 1.5 },
