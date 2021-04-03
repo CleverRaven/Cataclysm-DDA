@@ -11,6 +11,7 @@
     "material": [ "plastic" ],
     "volume": "250 ml",
     "weight": "1 g",
+    "longest_side": "18 mm",
     "ammo_type": "paintball",
     "damage": { "damage_type": "stab", "amount": 2 },
     "dispersion": 100,
