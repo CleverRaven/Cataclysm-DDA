@@ -6,6 +6,7 @@
     "description": "The .32 ACP was a popular handgun cartridge in the 20th century.  Not so powerful as the .38 or the 9x19mm though.",
     "weight": "5 g",
     "volume": "116 ml",
+    "longest_side": "25 mm",
     "price": 160,
     "price_postapoc": 1600,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
