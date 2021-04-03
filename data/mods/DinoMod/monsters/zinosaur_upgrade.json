@@ -377,7 +377,7 @@
     "id": "mon_ziplodocus_brute",
     "name": { "str": "Flail Fiend" },
     "copy-from": "mon_ziplodocus",
-    "description": "Huge, long-necked, four-legged dinosaur with a long, whip-like tail and a tiny head with vacant white eyes.  Sways and staggers.  Its entire body bulges with distended muscles and swollen, festering wounds.",
+    "description": "Huge, long-necked, four-legged dinosaur corpse with a long, whip-like tail and a tiny head with vacant white eyes.  Sways and staggers.  Its entire body bulges with distended muscles and swollen, festering wounds.",
     "diff": 2,
     "color": "red",
     "proportional": { "hp": 1.5, "speed": 1.5 },
