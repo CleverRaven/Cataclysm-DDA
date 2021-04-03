@@ -6,6 +6,7 @@
     "description": "A commercial version of the 7.62x25mm cartridge created for the armed forces of Soviet Russia.  It was derived from the 7.63x25mm cartridge used by the C96 pistol.",
     "weight": "10 g",
     "volume": "107 ml",
+    "longest_side": "35 mm",
     "price": 100,
     "price_postapoc": 800,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
