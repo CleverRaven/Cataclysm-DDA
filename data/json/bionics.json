@@ -1448,7 +1448,8 @@
     "description": "You will likely spend the rest of your days serving as a walking testament to why you don't opt for the Autodoc's 'Cyborg Identity Package'.  A remodulator unit jammed down your throat has given you a creepy robot voice.",
     "occupied_bodyparts": [ [ "torso", 2 ], [ "mouth", 1 ] ],
     "flags": [ "BIONIC_FAULTY" ],
-    "social_modifiers": { "persuade": -20, "lie": 10, "intimidate": 20 }
+    "social_modifiers": { "persuade": -20, "lie": 10, "intimidate": 20 },
+    "canceled_mutations": [ "GROWL", "SNARL", "HISS" ]
   },
   {
     "id": "bio_watch",
