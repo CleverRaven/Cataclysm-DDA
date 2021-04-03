@@ -61,7 +61,7 @@ endif ()
 if (${CMAKE_SYSTEM_NAME} MATCHES Darwin)
     set(_OS_DARWIN_ 1)
     set(LOCALIZE OFF)
-    message(STATUS "Disable internationalization on Darwin as it is not supported")
+    message(STATUS "Internationalization on Darwin is not supported")
 endif ()
 
 include(CheckCXXCompilerFlag)
@@ -237,7 +237,7 @@ set(CMAKE_CXX_STANDARD 14)
 if (${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
     message(FATAL_ERROR
             "This project requires an out of source build. \
-             Remove the file 'CMakeCache.txt' found in this directory before continuing, \
+             Remove the file 'CMakeCache.txt' found in this directory before continuing; \
              create a separate build directory and run 'cmake [options] <srcs>' from there. \
              See doc/COMPILING/COMPILING-CMAKE.md for details and more info.")
 endif ()
@@ -255,7 +255,7 @@ if (TILES)
         message(FATAL_ERROR
                 "This project requires SDL2 to be installed to compile in graphical mode.  \
                  Please install the SDL2 development libraries, \
-                 or try compiling without the -DTILES=1 for a text only compilation. \
+                 or try compiling without -DTILES=1 for a text-only compilation. \
                  See doc/COMPILING/COMPILING-CMAKE.md for details and more info.")
     endif ()
 
@@ -275,7 +275,7 @@ if (TILES)
         message(FATAL_ERROR
                 "This project requires SDL2_ttf to be installed to compile in graphical mode. \
                  Please install the SDL2_ttf development libraries, \
-                 or try compiling without the -DTILES=1 for a text only compilation. \
+                 or try compiling without -DTILES=1 for a text-only compilation. \
                  See doc/COMPILING/COMPILING-CMAKE.md for details and more info.")
     endif ()
 
@@ -285,7 +285,7 @@ if (TILES)
         message(FATAL_ERROR
                 "This project requires SDL2_image to be installed to compile in graphical mode. \
                  Please install the SDL2_image development libraries, \
-                 or try compiling without the -DTILES=1 for a text only compilation. \
+                 or try compiling without -DTILES=1 for a text-only compilation. \
                  See doc/COMPILING/COMPILING-CMAKE.md for details and more info.")
     endif ()
     add_definitions(-DTILES)
@@ -299,9 +299,9 @@ if (CURSES)
     find_package(Curses)
     if (NOT CURSES_FOUND)
         message(FATAL_ERROR
-                "This project requires ncurses to be installed to be compiled in text only mode. \
+                "This project requires ncurses to be installed to be compiled in text-only mode. \
                  Please install the ncurses development libraries, \
-                 or try compiling with the -DTILES=1 for a graphical compilation. \
+                 or try compiling with -DTILES=1 for a graphical compilation. \
                  See doc/COMPILING/COMPILING-CMAKE.md for details and more info")
     endif ()
 endif ()
@@ -340,14 +340,14 @@ if (LOCALIZE)
         if (NOT LIBINTL_FOUND)
             message(FATAL_ERROR
                     "You need the libintl development library \
-                     to be able to compile with Localize support. \
+                     to be able to compile with LOCALIZE support. \
                      See doc/COMPILING/COMPILING-CMAKE.md for details and more info.")
         endif ()
         find_package(Iconv)
         if (NOT ICONV_FOUND)
             message(FATAL_ERROR
                     "You need the iconv development library \
-                     to be able to compile with Localize support. \
+                     to be able to compile with LOCALIZE support. \
                      See doc/COMPILING/COMPILING-CMAKE.md for details and more info.")
         endif ()
     endif ()
