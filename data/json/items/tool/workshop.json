@@ -122,7 +122,7 @@
     "description": "A pair of toothy wooden paddles used to clean fibers for use in textile production.",
     "weight": "360 g",
     "volume": "500 ml",
-    "longest_side": "26.5 cm",
+    "longest_side": "265 mm",
     "price": 3000,
     "price_postapoc": 250,
     "to_hit": 1,
