@@ -1292,6 +1292,11 @@ int monster::hp_percentage() const
     return get_hp( bodypart_id( "torso" ) ) * 100 / get_hp_max();
 }
 
+int monster::get_eff_per() const
+{
+    return type->vision_night;
+}
+
 void monster::process_triggers()
 {
     process_trigger( mon_trigger::STALK, [this]() {

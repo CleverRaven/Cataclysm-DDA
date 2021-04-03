@@ -264,14 +264,13 @@ bool Creature::sees( const Creature &critter ) const
 
     const Character *ch = critter.as_character();
     const int wanted_range = rl_dist( pos(), critter.pos() );
-    const int eff_per = ( ch->has_proficiency( proficiency_prof_spotting ) ? 2 * ch->get_per_base() : ch->get_per() );
 
     // Can always see adjacent monsters on the same level.
     // We also bypass lighting for vertically adjacent monsters, but still check for floors.
     if( wanted_range <= 1 && ( posz() == critter.posz() || here.sees( pos(), critter.pos(), 1 ) ) ) {
         return visible( ch );
     } else if( ( wanted_range > 1 && critter.digging() ) ||
-               ( wanted_range > eff_per && critter.has_flag( MF_CAMOUFLAGE ) ) ||
+               (critter.has_flag(MF_CAMOUFLAGE)) && wanted_range > this->get_eff_per() ||
                ( critter.has_flag( MF_NIGHT_INVISIBILITY ) && here.light_at( critter.pos() ) <= lit_level::LOW ) ||
                ( critter.is_underwater() && !is_underwater() && here.is_divable( critter.pos() ) ) ||
                ( here.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, critter.pos() ) &&
@@ -1639,6 +1638,12 @@ int Creature::get_speed() const
 {
     return get_speed_base() + get_speed_bonus();
 }
+
+int Creature::get_eff_per() const
+{
+    return 0;
+}
+
 float Creature::get_dodge() const
 {
     return get_dodge_base() + get_dodge_bonus();
