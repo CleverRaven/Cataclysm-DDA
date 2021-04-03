@@ -18,14 +18,24 @@
     },
     "items": {
       "a": [
-        { "item": "tools_anvil", "chance": 50, "repeat": [ 1, 2 ] },
+        { "item": "tools_anvil", "chance": 75, "repeat": [ 1, 2 ] },
         { "item": "mithril_ingot", "chance": 10 },
         { "item": "scrap_copper", "chance": 40 }
       ],
       "m": [
-        { "item": "tools_anvil", "chance": 10 },
+        { "item": "tools_anvil", "chance": 25 },
+        { "item": "clamp", "chance": 50, "repeat": [ 1, 3 ] },
+        { "item": "metal_file", "chance": 50 },
+        { "item": "pin_reamer", "chance": 25 },
         { "item": "mithril_ingot", "chance": 10 },
         { "item": "scrap_copper", "chance": 80, "repeat": [ 1, 3 ] }
+      ],
+      "w": [
+        { "item": "misc_repairkit", "chance": 25 },
+        { "item": "hammer", "chance": 90 },
+        { "item": "sandpaper", "chance": 90 },
+        { "item": "clamp", "chance": 90, "repeat": [ 2, 4 ] },
+        { "item": "xacto", "chance": 10 }
       ],
       "f": [ { "item": "alumentum" } ]
     }
