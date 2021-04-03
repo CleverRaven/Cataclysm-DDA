@@ -10,6 +10,7 @@
     "material": [ "bone" ],
     "volume": "250ml",
     "weight": "37 g",
+    "longest_side": "7 cm",
     "bashing": 6,
     "cutting": 2,
     "ammo_type": "barb",
