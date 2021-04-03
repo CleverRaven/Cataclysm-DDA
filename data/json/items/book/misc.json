@@ -66,6 +66,9 @@
     "symbol": "?",
     "looks_like": "record_patient",
     "color": "light_green",
+    "skill": "mechanics",
+    "required_level": 1,
+    "max_level": 1,
     "intelligence": 8,
     "time": "45 m",
     "fun": -2
