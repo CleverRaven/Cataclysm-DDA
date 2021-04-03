@@ -1294,7 +1294,7 @@ int monster::hp_percentage() const
 
 int monster::get_eff_per() const
 {
-    return type->vision_night;
+    return std::min( type->vision_night, type->vision_day );
 }
 
 void monster::process_triggers()
