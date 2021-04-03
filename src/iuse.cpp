@@ -4202,8 +4202,7 @@ cata::optional<int> iuse::mp3( player *p, item *it, bool, const tripoint & )
                p->has_active_item( itype_ar_glasses_t2_on ) ) {
         p->add_msg_if_player( m_info, _( "You are already listening to music!" ) );
     } else if( ( it->typeId() == itype_ar_glasses_t1 || it->typeId() == itype_ar_glasses_t2 ||
-                 it->typeId() == itype_ar_glasses_gaming ||
-                 it->typeId() == itype_ar_glasses_t2_mil ) && !p->is_worn( *it ) ) {
+                 it->typeId() == itype_ar_glasses_gaming ) && !p->is_worn( *it ) ) {
         p->add_msg_if_player( m_info, _( "You have to wear the %s to start listening to music." ),
                               it->tname() );
     } else {
@@ -4220,8 +4219,6 @@ cata::optional<int> iuse::mp3( player *p, item *it, bool, const tripoint & )
             it->convert( itype_ar_glasses_t1_on ).active = true;
         } else if( it->typeId() == itype_ar_glasses_t2 ) {
             it->convert( itype_ar_glasses_t2_on ).active = true;
-        } else if( it->typeId() == itype_ar_glasses_t2_mil ) {
-            it->convert( itype_ar_glasses_t2_mil_on ).active = true;
         } else if( it->typeId() == itype_ar_glasses_gaming ) {
             it->convert( itype_ar_glasses_gaming_on ).active = true;
         }
@@ -4318,9 +4315,6 @@ cata::optional<int> iuse::mp3_on( player *p, item *it, bool t, const tripoint &p
         } else if( it->typeId() == itype_ar_glasses_t2_on ) {
             p->add_msg_if_player( _( "The AR glasses turns off." ) );
             it->convert( itype_ar_glasses_t2 ).active = false;
-        } else if( it->typeId() ==  itype_ar_glasses_t2_mil_on ) {
-            p->add_msg_if_player( _( "The AR glasses turns off." ) );
-            it->convert( itype_ar_glasses_t2_mil ).active = false;
         } else if( it->typeId() ==  itype_ar_glasses_gaming_on ) {
             p->add_msg_if_player( _( "The AR headset music stops." ) );
             it->convert( itype_ar_glasses_gaming ).active = false;
