@@ -793,7 +793,7 @@
     "color": "light_gray",
     "techniques": [ "WBLOCK_1", "IMPALE" ],
     "qualities": [ [ "COOK", 1 ] ],
-    "use_action":{
+    "use_action": {
       "type": "transform",
       "target": "rune_biomancer_gun_adept_trans",
       "msg": "You feel the spear rapidly contracting and squirming for ranged combat",
