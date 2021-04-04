@@ -768,7 +768,7 @@
     "id": "mon_zosmoceratops_brute",
     "name": { "str": "Kosmic Horror" },
     "copy-from": "mon_zosmoceratops",
-    "description": "A massive shambling rhino-like dinosaur corpse with a bony crest and two wavy side horns.  Its entire body bulges with distended muscles and swollen, festering wounds.",
+    "description": "A massive, shambling, rhino-like dinosaur corpse with a bony crest and two wavy side horns.  Its entire body bulges with distended muscles and swollen, festering wounds.",
     "diff": 2,
     "color": "red",
     "proportional": { "hp": 1.5, "speed": 1.5 },
