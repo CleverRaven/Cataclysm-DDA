@@ -386,7 +386,7 @@
       { "id": "slam", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
       [ "SMASH", 30 ]
     ],
-    "description": "Massive, long-necked, four-legged dinosaur corpse with a long, whip-like tail.  The head is upright and the neck looks like it would still make a good strong club.",
+    "description": "A massive, long-necked, four-legged dinosaur corpse with a long, whip-like tail.  The head is still upright and the neck looks like it would still make a good, strong club.",
     "upgrades": { "half_life": 14, "into_group": "GROUP_zapatosaurus_UPGRADE" }
   },
   {
