@@ -1312,7 +1312,7 @@
     "color": "white",
     "material": [ "bone" ],
     "armor_bash": 0,
-    "description": "Already heavily protected, this zombified Amargasaurus has grown even denser bone armor and spikes, completely covering the massive four legged body.",
+    "description": "Already heavily protected, this zombified Amargasaurus has grown even more spikes and denser bone armor, completely covering the massive, four-legged body.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
