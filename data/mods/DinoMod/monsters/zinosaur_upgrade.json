@@ -983,7 +983,7 @@
     "color": "white",
     "material": [ "bone" ],
     "armor_bash": 0,
-    "description": "Monstrous columns of dense bone lifting sharp pointed teeth dripping with black goo.  Two especially bony crests on the top of the head complete the effect.",
+    "description": "Monstrous columns of dense bone lifting sharp, pointed teeth dripping with black goo.  Two especially bony crests on the top of the head complete the effect.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
