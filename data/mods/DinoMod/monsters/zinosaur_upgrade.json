@@ -967,7 +967,7 @@
     "name": { "str_sp": "shady Ceratosaurus" },
     "copy-from": "mon_zeratosaurus",
     "color": "light_gray",
-    "description": "An uncanny shadow envelops this dinosaur.  You can make out the outline of an enormous bipedal dinosaur with horns, spikes, and large sharp teeth.",
+    "description": "An uncanny shadow envelops this creature.  You can make out the outline of an enormous, bipedal dinosaur with horns, spikes, and big sharp teeth.",
     "upgrades": {  },
     "extend": { "flags": [ "NIGHT_INVISIBILITY" ] },
     "vision_day": 3,
