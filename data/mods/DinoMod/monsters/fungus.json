@@ -406,7 +406,7 @@
     "id": "mon_zorythosaurus_fungus",
     "type": "MONSTER",
     "name": { "str": "fungal Corythosaurus zombie" },
-    "description": "Once a huge four legged plant eating dinosaur with a short beak and a tall head crest, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh and bone.",
+    "description": "Once a huge, four-legged dinosaur herbivore with a short beak and a tall head crest, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh and bone.",
     "copy-from": "mon_zamptosaurus_fungus",
     "proportional": { "hp": 4 },
     "special_attacks": [ [ "FUNGUS", 200 ], [ "scratch", 10 ], { "type": "bite", "cooldown": 5 }, [ "SHRIEK", 5 ] ],
