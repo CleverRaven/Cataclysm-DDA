@@ -861,7 +861,7 @@
     "name": { "str": "Spinosaurus shady zombie" },
     "copy-from": "mon_zpinosaurus",
     "color": "light_gray",
-    "description": "An uncanny shadow envelops this dinosaur.  You can make out the outline of a huge bipedal dinosaur with a tattered sail.  The head is long and narrow with a V-shaped snout.",
+    "description": "An uncanny shadow envelops this creature.  You can make out the outline of a huge, bipedal dinosaur with a tattered sail.  The head is long and narrow, with a V-shaped snout.",
     "upgrades": {  },
     "extend": { "flags": [ "NIGHT_INVISIBILITY" ] },
     "vision_day": 3,
