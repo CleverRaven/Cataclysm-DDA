@@ -745,7 +745,7 @@
     "id": "mon_zentaceratops_brute",
     "name": { "str": "Five Horn Death Punch" },
     "copy-from": "mon_zentaceratops",
-    "description": "A massive shambling rhino-like dinosaur corpse with a tall bony crest from which four long horns and a short nose horn emerge.  Its entire body bulges with distended muscles and swollen, festering wounds.",
+    "description": "A massive, shambling, rhino-like dinosaur corpse with a tall bony crest from which four long horns and a short nose horn emerge.  Its entire body bulges with distended muscles and swollen, festering wounds.",
     "diff": 2,
     "color": "red",
     "proportional": { "hp": 1.5, "speed": 1.5 },
