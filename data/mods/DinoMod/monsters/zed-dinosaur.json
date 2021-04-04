@@ -806,7 +806,7 @@
     "hp": 70,
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
-    "description": "The raggedly flying corpse of a large feathered reptile with a long pointed toothless beak and a long pointy head crest.",
+    "description": "The ragged but flying corpse of a large, feathered reptile with a long, pointy, toothless beak and a long, pointy head crest.",
     "upgrades": { "half_life": 14, "into": "mon_zteranodon_brute" },
     "flags": [
       "SEES",
