@@ -754,7 +754,7 @@
     "armor_cut": 9,
     "armor_bash": 8,
     "hp": 500,
-    "description": "A massive shambling rhino-like dinosaur corpse with a tall bony crest from which two wicked looking horns emerge.  Its black eyes ooze like tears.",
+    "description": "A massive, shambling, rhino-like dinosaur corpse with a tall, bony crest from which two wicked-looking horns emerge.  Its eyes ooze black, putrid tears.",
     "upgrades": { "half_life": 14, "into_group": "GROUP_zorosaurus_UPGRADE" },
     "special_attacks": [ { "id": "impale" }, [ "STRETCH_ATTACK", 5 ] ]
   },
