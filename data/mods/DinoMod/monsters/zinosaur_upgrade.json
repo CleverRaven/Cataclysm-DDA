@@ -1436,7 +1436,7 @@
     "color": "white",
     "material": [ "bone" ],
     "armor_bash": 0,
-    "description": "Already heavily protected, this zombified Stegosaurus has grown thick bone armor below its back plates and a larger and spikier bony tail.",
+    "description": "Already heavily protected, this zombified Stegosaurus has grown thick bone armor below its back plates as well as a larger and spikier bony tail.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
