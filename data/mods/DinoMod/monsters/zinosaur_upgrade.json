@@ -1411,7 +1411,7 @@
     "color": "white",
     "material": [ "bone" ],
     "armor_bash": 0,
-    "description": "This zombified Alamosaurus has grown denser bone armor, completely covering the gigantic four legged body and spiked tail.",
+    "description": "This zombified Alamosaurus has grown denser bone armor, completely covering the gigantic, four-legged body and spiked tail.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
