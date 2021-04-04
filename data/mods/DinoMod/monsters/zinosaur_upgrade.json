@@ -1512,7 +1512,7 @@
     "color": "white",
     "material": [ "bone" ],
     "armor_bash": 0,
-    "description": "Already heavily protected, this zombified Nodosaurus has grown even denser bone armor and it must be even slower if possible",
+    "description": "Already heavily protected, this zombified Nodosaurus has grown even denser bone armor; it must also be even slower, which is hard to imagine.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
