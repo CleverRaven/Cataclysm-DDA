@@ -837,7 +837,7 @@
     "id": "mon_zteranodon_brute",
     "name": { "str": "Winged Horror" },
     "copy-from": "mon_zteranodon",
-    "description": "The raggedly flying corpse of a large feathered reptile with a long, pointed, toothless beak and a long pointy head crest.  Its entire body bulges with distended muscles and swollen, festering wounds.",
+    "description": "The ragged but flying corpse of a large feathered reptile with a long, pointed, toothless beak and a long, pointy head crest.  Its entire body bulges with distended muscles and swollen, festering wounds.",
     "diff": 2,
     "color": "red",
     "proportional": { "hp": 1.5, "speed": 1.5 },
