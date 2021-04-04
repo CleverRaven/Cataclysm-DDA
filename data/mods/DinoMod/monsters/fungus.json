@@ -76,7 +76,7 @@
     "id": "mon_zacrocanthosaurus_fungus",
     "type": "MONSTER",
     "name": { "str": "fungal Acrocanthosaurus zombie" },
-    "description": "Once a huge predatory bipedal dinosaur, with a tall ridge running down the length of its back covered with heavy muscles and showing teeth curved and serrated like sawblades, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh.",
+    "description": "This was once a huge, bipedal dinosaur predator, covered with heavy muscles, showing teeth curved and serrated like sawblades, and a tall ridge running down the length of its back.  Fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh.",
     "copy-from": "mon_zacrocanthosaurus",
     "default_faction": "fungus",
     "species": [ "FUNGUS" ],
