@@ -1562,7 +1562,7 @@
     "color": "white",
     "material": [ "bone" ],
     "armor_bash": 0,
-    "description": "This large bipedal dinosaur with strong legs, broad shoulders and a pointed beak has grown dense bone armor.",
+    "description": "This large, bipedal dinosaur corpse with strong legs, broad shoulders, and a pointed beak has grown dense bone armor.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
