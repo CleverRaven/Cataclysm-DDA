@@ -4528,12 +4528,16 @@ void effect_on_conditons_actor::info( const item &, std::vector<iteminfo> &dump 
     dump.emplace_back( "DESCRIPTION", description );
 }
 
-cata::optional<int> effect_on_conditons_actor::use( player &, item &it, bool,
+cata::optional<int> effect_on_conditons_actor::use( player &p, item &it, bool,
         const tripoint & ) const
 {
     dialogue d;
     standard_npc default_npc( "Default" );
-    d.alpha = get_talker_for( get_avatar() );
+    if( avatar *u = p.as_avatar() ) {
+        d.alpha = get_talker_for( u );
+    } else if ( npc *n = p.as_npc()  ) {
+        d.alpha = get_talker_for( n );
+    }
     ///TODO make this talker item
     d.beta = get_talker_for( default_npc );
 

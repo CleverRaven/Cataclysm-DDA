@@ -1123,7 +1123,7 @@ class effect_on_conditons_actor : public iuse_actor
     public:
         std::vector<effect_on_condition_id> eocs;
         std::string description;
-        effect_on_conditons_actor( const std::string &type = "effect_on_conditions" ) : iuse_actor(
+        explicit effect_on_conditons_actor( const std::string &type = "effect_on_conditions" ) : iuse_actor(
                 type ) {}
 
         ~effect_on_conditons_actor() override = default;
