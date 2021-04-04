@@ -814,7 +814,7 @@
     "id": "mon_zriceratops_brute",
     "name": { "str": "Triceratruck" },
     "copy-from": "mon_zriceratops",
-    "description": "A massive shambling rhino-like dinosaur corpse with a bony crest from which three wicked looking horns emerge.  Its black eyes ooze like tears.  Its entire body bulges with distended muscles and swollen, festering wounds.",
+    "description": "A massive, shambling, rhino-like dinosaur corpse with a bony crest from which three wicked-looking horns emerge.  Its eyes ooze black, putrid tears.  Its entire body bulges with distended muscles and swollen, festering wounds.",
     "diff": 2,
     "color": "red",
     "proportional": { "hp": 1.5, "speed": 1.5 },
