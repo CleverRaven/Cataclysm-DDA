@@ -148,7 +148,7 @@
     "id": "mon_zallimimus_fungus",
     "type": "MONSTER",
     "name": { "str": "fungal Gallimimus zombie" },
-    "description": "Once a featherd bipedal plant eating dinosaur, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together an enormous shambling mass of mold-covered feathers.",
+    "description": "Once a feathered, plant-eating, bipedal dinosaur, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together an enormous shambling mass of mold-covered feathers.",
     "copy-from": "mon_zallimimus",
     "default_faction": "fungus",
     "species": [ "FUNGUS" ],
