@@ -443,7 +443,7 @@
     "id": "mon_zachyrhinosaurus_fungus",
     "type": "MONSTER",
     "name": { "str": "fungal Pachyrhinosaurus zombie" },
-    "description": "Once a massive four legged plant eating dinosaur with a tall bony crest from which four long horns and a short nose horn emerge, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh.",
+    "description": "This was once a massive, four-legged dinosaur herbivore, with a tall bony crest from which four long horns and a short nose horn emerged.  Fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh.",
     "copy-from": "mon_zriceratops_fungus",
     "proportional": { "hp": 0.65 },
     "special_attacks": [
