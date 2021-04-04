@@ -954,7 +954,7 @@
     "name": { "str_sp": "shady Utahraptor" },
     "copy-from": "mon_zutahraptor",
     "color": "light_gray",
-    "description": "An uncanny shadow envelops this dinosaur.  You can make out the outline of a large bipedal dinosaur with feathery edges.  Both feet brandish a large sickle-like claw.",
+    "description": "An uncanny shadow envelops this creature.  You can make out the outline of a big, bipedal dinosaur with feathery edges.  Both feet brandish a large, sickle-shaped claw.",
     "upgrades": {  },
     "extend": { "flags": [ "NIGHT_INVISIBILITY" ] },
     "vision_day": 3,
