@@ -207,7 +207,7 @@
     "id": "mon_zutahraptor_fungus",
     "type": "MONSTER",
     "name": { "str": "fungal Utahraptor zombie" },
-    "description": "Once a large feathered meat eating dinosaur with a sickle-shaped talon on each foot, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together an enormous shambling mass of mold-covered flesh.",
+    "description": "Once a large, feathered, meat-eating dinosaur with a sickle-shaped talon on each foot, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together an enormous shambling mass of mold-covered flesh.",
     "copy-from": "mon_zutahraptor",
     "default_faction": "fungus",
     "species": [ "FUNGUS" ],
