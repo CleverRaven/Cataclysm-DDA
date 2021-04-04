@@ -17,7 +17,7 @@
     "armor_cut": 4,
     "armor_bullet": 2,
     "hp": 200,
-    "description": "The shuffling corpse of a medium dinosaur with sharp teeth and two prominent bony crests on its head with ragged strips of ripped flesh hanging down like a frill.",
+    "description": "The shuffling corpse of a medium-sized dinosaur with sharp teeth and two prominent bony crests on its head, with ragged strips of ripped flesh hanging down like a frill.",
     "upgrades": { "half_life": 14, "into_group": "GROUP_zilophosaurus_UPGRADE" }
   },
   {
