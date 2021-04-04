@@ -1487,7 +1487,7 @@
     "color": "white",
     "material": [ "bone" ],
     "armor_bash": 0,
-    "description": "Already heavily protected, this zombified Ankylosaurus has grown even denser bone armor and a larger and spikier bony tail and it must be even slower if possible",
+    "description": "Already heavily protected, this zombified Ankylosaurus has grown even denser bone armor as well as a larger and spikier bony tail.  It must be even slower, which is difficult to imagine.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
