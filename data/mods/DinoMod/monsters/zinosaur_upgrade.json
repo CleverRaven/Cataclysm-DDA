@@ -607,7 +607,7 @@
     "id": "mon_zaiasaura_brute",
     "name": { "str": "Mother Crusher" },
     "copy-from": "mon_zaiasaura",
-    "description": "A huge mottled dinosaur with hooves and heavy tail, dead and walking, eyes vacant and swollen.  Its entire body bulges with distended muscles and swollen, festering wounds.",
+    "description": "A huge, mottled dinosaur with hooves and a heavy tail, dead but walking, eyes vacant and swollen.  Its entire body bulges with distended muscles and swollen, festering wounds.",
     "diff": 2,
     "color": "red",
     "proportional": { "hp": 1.5, "speed": 1.5 },
