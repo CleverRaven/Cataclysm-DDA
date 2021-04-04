@@ -459,7 +459,7 @@
     "armor_cut": 19,
     "armor_bullet": 3,
     "hp": 1500,
-    "description": "Gigantic, long-necked, four-legged dinosaur corpse with a long neck and spiked tail protected by natural bone armor.",
+    "description": "Gigantic, long-necked, four-legged dinosaur corpse, protected by natural bone armor and a spiked tail.",
     "upgrades": { "half_life": 14, "into_group": "GROUP_zalamosaurus_UPGRADE" }
   },
   {
