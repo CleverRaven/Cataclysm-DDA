@@ -148,7 +148,7 @@
     "armor_bullet": 2,
     "hp": 1000,
     "special_attacks": [ [ "BIO_OP_TAKEDOWN", 20 ], [ "RANGED_PULL", 20 ], [ "GRAB_DRAG", 10 ] ],
-    "description": "The shambling corpse of a huge predatory bipedal dinosaur with long claws and strong arms for grappling.",
+    "description": "The shambling corpse of a huge, bipedal dinosaur predator with long claws and strong arms for grappling.",
     "upgrades": { "half_life": 14, "into_group": "GROUP_ziats_UPGRADE" },
     "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "BASHES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ]
   },
