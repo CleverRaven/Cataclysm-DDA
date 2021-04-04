@@ -694,7 +694,7 @@
     "hp": 70,
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
-    "description": "The shuffling corpse of a medium-sized bipedal dinosaur covered with tattered feathers and black putrid liquid.  It looks like a reptilian ostrich with a round hard-looking domed head.",
+    "description": "The shuffling corpse of a medium-sized bipedal dinosaur covered with tattered feathers and black, putrid liquid.  It resembles a reptilian ostrich with a hard-looking domed head.",
     "upgrades": { "half_life": 14, "into_group": "GROUP_zachycephalosaurus_UPGRADE" },
     "flags": [ "SEES", "SMELLS", "HEARS", "PET_MOUNTABLE", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ],
     "vision_night": 3,
