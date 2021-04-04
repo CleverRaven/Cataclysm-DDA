@@ -285,7 +285,7 @@
     "id": "mon_zalamosaurus_fungus",
     "type": "MONSTER",
     "name": { "str": "fungal Alamosaurus zombie" },
-    "description": "Once a gigantic, long-necked, four-legged plant eating dinosaur with longer forelegs and spiked tail protected by natural bone armor, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together an enormous shambling mass of mold-covered flesh.",
+    "description": "This was once a gigantic, long-necked, four-legged dinosaur herbivore with longer forelegs and a spiked tail protected by natural bony armor.  Fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together an enormous shambling mass of mold-covered flesh.",
     "copy-from": "mon_zapatosaurus_fungus",
     "proportional": { "hp": 1.5, "speed": 0.8, "armor_bash": 2, "armor_cut": 2 },
     "upgrades": {  }
