@@ -325,7 +325,7 @@
     "id": "mon_zankylosaurus_fungus",
     "type": "MONSTER",
     "name": { "str": "fungal Ankylosaurus zombie" },
-    "description": "Once something like a giant armadillo dinosaur hybrid with a spiked tail, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together an enormous shambling mass of mold-covered flesh and bone.",
+    "description": "Once something like a gigantic armadillo-dinosaur hybrid with a spiked tail, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together an enormous shambling mass of mold-covered flesh and bone.",
     "copy-from": "mon_zankylosaurus",
     "default_faction": "fungus",
     "species": [ "FUNGUS" ],
