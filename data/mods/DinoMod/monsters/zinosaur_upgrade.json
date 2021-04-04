@@ -1360,7 +1360,7 @@
     "name": { "str": "armored Brontosaurus" },
     "copy-from": "mon_sapatosaurus",
     "proportional": { "hp": 0.8 },
-    "description": "This zombified Brontosaurus has grown dense bone armor, completely covering the massive four legged body and long, whip-like tail."
+    "description": "This zombified Brontosaurus has grown dense bone armor, completely covering the massive, four-legged body and long, whip-like tail."
   },
   {
     "type": "MONSTER",
