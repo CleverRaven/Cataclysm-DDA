@@ -126,7 +126,7 @@
     "armor_bullet": 2,
     "hp": 1200,
     "special_attacks": [ [ "GRAB", 10 ], [ "LUNGE", 20 ] ],
-    "description": "The shambling corpse of a huge predatory bipedal dinosaur, with a tall ridge running down the length of its back covered with heavy muscles.  Its teeth are curved and serrated like sawblades.",
+    "description": "The shambling corpse of a huge, bipedal dinosaur predator, with a tall ridge running down the length of its back covered with heavy muscles.  Its teeth are curved and serrated like sawblades.",
     "upgrades": { "half_life": 14, "into_group": "GROUP_zacrocanthosaurus_UPGRADE" },
     "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "BASHES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ]
   },
