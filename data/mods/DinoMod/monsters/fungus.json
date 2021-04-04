@@ -3,7 +3,7 @@
     "id": "mon_zilophosaurus_fungus",
     "type": "MONSTER",
     "name": { "str": "fungal Dilophosaurus zombie" },
-    "description": "Once a predator dinosaur with sharp teeth and two prominent bony crests on its head, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh with a colorful frill of interwoven mushrooms.",
+    "description": "Once a predatory dinosaur with sharp teeth and two prominent bony crests on its head, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh with a colorful frill of interwoven mushrooms.",
     "copy-from": "mon_zilophosaurus",
     "default_faction": "fungus",
     "species": [ "FUNGUS" ],
