@@ -1687,7 +1687,7 @@
     "color": "white",
     "material": [ "bone" ],
     "armor_bash": 0,
-    "description": "This bipedal dinosaur with a round hard-looking domed head has grown dense bone armor.",
+    "description": "This bipedal dinosaur corpse with a round, hard-looking, domed head has grown dense bone armor.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
