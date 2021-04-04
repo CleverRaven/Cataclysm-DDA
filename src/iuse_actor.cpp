@@ -4528,7 +4528,8 @@ void effect_on_conditons_actor::info( const item &, std::vector<iteminfo> &dump 
     dump.emplace_back( "DESCRIPTION", description );
 }
 
-cata::optional<int> effect_on_conditons_actor::use( player &, item &it, bool, const tripoint & ) const
+cata::optional<int> effect_on_conditons_actor::use( player &, item &it, bool,
+        const tripoint & ) const
 {
     dialogue d;
     standard_npc default_npc( "Default" );

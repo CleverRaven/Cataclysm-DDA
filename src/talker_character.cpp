@@ -318,3 +318,7 @@ units::energy talker_character::power_cur() const
     return me_chr->get_power_level();
 }
 
+void talker_character::mod_fatigue( int amount )
+{
+    me_chr->mod_fatigue( amount );
+}
