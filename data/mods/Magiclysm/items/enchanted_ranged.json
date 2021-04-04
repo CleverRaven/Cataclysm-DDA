@@ -172,7 +172,7 @@
     "id": "sharped_bone",
     "category": "spare_parts",
     "price": 1000,
-    "name": { "str": "Sharpened bone" },
+    "name": { "str": "sharpened bone" },
     "symbol": "=",
     "color": "dark_gray",
     "description": "A sharp bone, you wonder why someone had the trouble to make this.",
