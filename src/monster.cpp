@@ -1526,6 +1526,7 @@ bool monster::melee_attack( Creature &target, float accuracy )
     }
 
     const bool u_see_me = player_character.sees( *this );
+    const bool u_see_target = player_character.sees( target );
 
     damage_instance damage = !is_hallucination() ? type->melee_damage : damage_instance();
     if( !is_hallucination() && type->melee_dice > 0 ) {
@@ -1587,6 +1588,9 @@ bool monster::melee_attack( Creature &target, float accuracy )
                     //~ %1$s: name of your mount, %2$s: target creature name, %3$d: damage value
                     add_msg( m_good, _( "Your %1$s hits %2$s for %3$d damage!" ), get_name(), target.disp_name(),
                              total_dealt );
+                }
+                if( !u_see_target ) {
+                    add_msg( _( "The %1$s hits an unseen target!" ), name() );
                 } else {
                     //~ %1$s: attacker name, %2$s: target creature name
                     add_msg( _( "The %1$s hits %2$s!" ), name(), target.disp_name() );
