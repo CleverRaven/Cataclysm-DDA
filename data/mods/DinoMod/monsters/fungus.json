@@ -466,7 +466,7 @@
     "id": "mon_zosmoceratops_fungus",
     "type": "MONSTER",
     "name": { "str": "fungal Kosmoceratops zombie" },
-    "description": "Once a massive four legged plant eating dinosaur with a tall bony crest from which fifteen horns and spikes emerge, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh.",
+    "description": "This was once a massive, four-legged dinosaur herbivore, with a tall bony crest from which fifteen horns and spikes emerged.  Fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh.",
     "copy-from": "mon_zriceratops_fungus",
     "proportional": { "melee_dice": 2, "melee_cut": 0.65 },
     "upgrades": {  }
