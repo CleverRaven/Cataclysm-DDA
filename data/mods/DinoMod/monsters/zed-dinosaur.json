@@ -625,7 +625,7 @@
     "armor_cut": 7,
     "armor_bullet": 4,
     "hp": 500,
-    "description": "A huge mottled dinosaur with a blunt head crest, dead and walking, eyes vacant and swollen.",
+    "description": "A huge, mottled dinosaur with a blunt head crest, dead but walking, eyes vacant and swollen.",
     "upgrades": { "half_life": 14, "into_group": "GROUP_zarasaurolophus_UPGRADE" }
   },
   {
