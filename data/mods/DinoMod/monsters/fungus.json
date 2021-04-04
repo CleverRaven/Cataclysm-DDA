@@ -349,7 +349,7 @@
     "id": "mon_zodosaurus_fungus",
     "type": "MONSTER",
     "name": { "str": "fungal Nodosaurus zombie" },
-    "description": "Once something like a giant armadillo dinosaur hybrid, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh and bone.",
+    "description": "Once something like a gigantic armadillo-dinosaur hybrid, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh and bone.",
     "copy-from": "mon_zankylosaurus_fungus",
     "proportional": { "hp": 0.6 },
     "special_attacks": [ [ "FUNGUS", 200 ], [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
