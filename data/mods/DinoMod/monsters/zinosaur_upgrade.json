@@ -1187,7 +1187,7 @@
     "color": "white",
     "material": [ "bone" ],
     "armor_bash": 0,
-    "description": "Monstrous columns of dense bone lifting enormous sharp pointed teeth dripping with black goo.",
+    "description": "Monstrous columns of dense bone lifting enormous, sharp, pointed teeth dripping with black goo.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
