@@ -1287,7 +1287,7 @@
     "color": "white",
     "material": [ "bone" ],
     "armor_bash": 0,
-    "description": "Monstrous columns of dense bone lifting sharp pointed teeth dripping with black goo.  There is a long tail and long, sharp, scythe-shaped claws",
+    "description": "Monstrous columns of dense bone lifting sharp, pointed teeth dripping with black goo.  There is a long tail and long, sharp, scythe-shaped claws",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
