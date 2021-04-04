@@ -1899,7 +1899,7 @@
     "type": "profession",
     "id": "student",
     "name": "Student",
-    "description": "Just an average high school student, you find yourself facing a test you never studied for, and the stakes are a bit higher than geometry.  Maybe there'll be something useful in one of these books you've been lugging around all year.",
+    "description": "Just an average student, you find yourself facing a test you never studied for, and the stakes are a bit higher than geometry.  Maybe there'll be something useful in one of these books you've been lugging around all year.",
     "points": 1,
     "items": {
       "both": {
@@ -1913,8 +1913,7 @@
           "wristwatch",
           "textbook_speech",
           "story_book",
-          "howto_computer",
-          "novel_coa"
+          "howto_computer"
         ],
         "entries": [ { "group": "charged_cell_phone" } ]
       },
