@@ -274,6 +274,7 @@
         "pocket_type": "CONTAINER",
         "max_contains_volume": "750 ml",
         "max_contains_weight": "2 kg",
+        "max_item_length": "150 mm",
         "moves": 30,
         "flag_restriction": [ "GRENADE" ]
       },
@@ -281,6 +282,7 @@
         "pocket_type": "CONTAINER",
         "max_contains_volume": "750 ml",
         "max_contains_weight": "2 kg",
+        "max_item_length": "150 mm",
         "moves": 30,
         "flag_restriction": [ "GRENADE" ]
       },
@@ -288,6 +290,7 @@
         "pocket_type": "CONTAINER",
         "max_contains_volume": "750 ml",
         "max_contains_weight": "2 kg",
+        "max_item_length": "150 mm",
         "moves": 30,
         "flag_restriction": [ "GRENADE" ]
       },
@@ -295,6 +298,7 @@
         "pocket_type": "CONTAINER",
         "max_contains_volume": "750 ml",
         "max_contains_weight": "2 kg",
+        "max_item_length": "150 mm",
         "moves": 30,
         "flag_restriction": [ "GRENADE" ]
       }
