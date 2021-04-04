@@ -548,7 +548,7 @@
     "armor_cut": 23,
     "armor_bullet": 11,
     "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
-    "description": "This heavily armored dinosaur corpse looks like a giant prehistoric armadillo.",
+    "description": "This heavily-armored dinosaur corpse looks like a giant prehistoric armadillo.",
     "upgrades": { "half_life": 14, "into_group": "GROUP_zodosaurus_UPGRADE" }
   },
   {
