@@ -304,6 +304,7 @@
     "ascii_picture": "hammer",
     "weight": "566 g",
     "volume": "320 ml",
+    "longest_side": "33 cm",
     "price": 700,
     "price_postapoc": 100,
     "to_hit": -1,
@@ -497,6 +498,7 @@
     "description": "This is a crude hammer made from a piece of metal affixed to a stick.  It functions adequately as a hammer, but really can't compare to a proper one.",
     "weight": "1020 g",
     "volume": "320 ml",
+    "longest_side": "30 cm",
     "price": 0,
     "price_postapoc": 10,
     "bashing": 9,
@@ -1126,9 +1128,8 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "techniques": [ "PRECISE" ],
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 2 ], [ "BUTCHER", 7 ] ],
-    "flags": [ "SPEAR" ]
+    "flags": [ "FRAGILE_MELEE" ]
   },
   {
     "id": "wrench",
@@ -1137,6 +1138,7 @@
     "description": "This is an adjustable crescent wrench.  It could be a decent melee weapon, and is used in many mechanics crafting recipes.",
     "weight": "907 g",
     "volume": "450 ml",
+    "longest_side": "20 cm",
     "price": 1200,
     "price_postapoc": 100,
     "bashing": 9,
