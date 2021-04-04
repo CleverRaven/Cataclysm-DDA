@@ -666,7 +666,7 @@
     "armor_cut": 6,
     "armor_bullet": 4,
     "hp": 600,
-    "description": "A huge scaly dinosaur with a broad toothless beak, dead and walking, eyes vacant and swollen.",
+    "description": "A huge, scaly dinosaur with a broad, toothless beak, dead but walking, eyes vacant and swollen.",
     "upgrades": { "half_life": 14, "into_group": "GROUP_zedmontosaurus_UPGRADE" }
   },
   {
