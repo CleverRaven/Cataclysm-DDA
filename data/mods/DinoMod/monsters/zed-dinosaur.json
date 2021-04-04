@@ -707,7 +707,7 @@
     "name": { "str": "Pachyrhinosaurus zombie" },
     "copy-from": "mon_zriceratops",
     "hp": 400,
-    "description": "A massive shambling rhino-like dinosaur corpse with a tall bony crest from which four long horns and a short nose horn emerge.  Its black eyes ooze like tears.",
+    "description": "A massive, shambling, rhino-like dinosaur corpse with a tall, bony crest from which four long horns and a short nose horn emerge.  Its eyes ooze black, putrid tears.",
     "upgrades": { "half_life": 14, "into_group": "GROUP_zachyrhinosaurus_UPGRADE" },
     "special_attacks": [
       { "id": "slam", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
