@@ -954,7 +954,7 @@
     "armor_bash": 7,
     "armor_cut": 9,
     "armor_bullet": 1,
-    "description": "A small four-legged plant-eating dinosaur juvenile corpse with natural bone armor plates.",
+    "description": "The corpse of a small, four-legged, herbivorous dinosaur juvenile, with natural bone armor plates.",
     "upgrades": { "half_life": 14, "into": "mon_zalamosaurus" }
   }
 ]
