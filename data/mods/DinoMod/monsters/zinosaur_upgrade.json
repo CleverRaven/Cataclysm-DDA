@@ -1587,7 +1587,7 @@
     "color": "white",
     "material": [ "bone" ],
     "armor_bash": 0,
-    "description": "This large bipedal dinosaur with a flat beak, thick nose, and a small spiky head crest has grown dense bone armor.",
+    "description": "This large, bipedal dinosaur corpse with a flat beak, thick nose, and small, spiky head crest has grown dense bone armor.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
