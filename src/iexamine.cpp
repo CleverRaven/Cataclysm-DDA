@@ -1110,18 +1110,19 @@ void iexamine::cardreader( player &p, const tripoint &examp )
                 open = true;
             }
         }
-        for( monster &critter : g->all_monsters() ) {
-            // Check 1) same overmap coords, 2) turret, 3) hostile
-            if( ms_to_omt_copy( here.getabs( critter.pos() ) ) == ms_to_omt_copy( here.getabs( examp ) ) &&
-                critter.has_flag( MF_ID_CARD_DESPAWN ) &&
-                critter.attitude_to( p ) == Creature::Attitude::HOSTILE ) {
-                g->remove_zombie( critter );
-            }
-        }
         if( open ) {
             add_msg( _( "You insert your ID card." ) );
             add_msg( m_good, _( "The nearby doors unlock." ) );
             p.use_amount( card_type, 1 );
+
+            for( monster &critter : g->all_monsters() ) {
+                // Check 1) same overmap coords, 2) turret, 3) hostile
+                if( ms_to_omt_copy( here.getabs( critter.pos() ) ) == ms_to_omt_copy( here.getabs( examp ) ) &&
+                    critter.has_flag( MF_ID_CARD_DESPAWN ) &&
+                    critter.attitude_to( p ) == Creature::Attitude::HOSTILE ) {
+                    g->remove_zombie( critter );
+                }
+            }
         } else {
             add_msg( _( "The nearby doors are already opened." ) );
         }
