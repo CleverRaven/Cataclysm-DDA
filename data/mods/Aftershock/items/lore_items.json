@@ -6,7 +6,7 @@
     "symbol": ",",
     "color": "red",
     "name": { "str": "personal message card" },
-    "snippet_category": "afs_valentine",
+    "snippet_category": "afs_personal_card",
     "description": "A creased card with images and a personal message.",
     "price": 0,
     "price_postapoc": 0,
