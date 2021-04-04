@@ -1009,7 +1009,7 @@
     "color": "white",
     "material": [ "bone" ],
     "armor_bash": 0,
-    "description": "Monstrous columns of dense bone lifting sharp pointed teeth dripping with black goo.  Spikes and colorful horns jut out to complete the effect.",
+    "description": "Monstrous columns of dense bone lifting sharp, pointed teeth dripping with black goo.  Spikes and colorful horns jut out to complete the effect.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
