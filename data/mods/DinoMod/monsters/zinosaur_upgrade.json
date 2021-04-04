@@ -1737,7 +1737,7 @@
     "color": "white",
     "material": [ "bone" ],
     "armor_bash": 0,
-    "description": "This large four legged dinosaur with a tall bony crest, four long horns, and a short nose horn has grown dense bone armor.",
+    "description": "This large, four-legged dinosaur corpse with a tall bony crest, four long horns, and a short nose horn has grown dense bone armor.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
