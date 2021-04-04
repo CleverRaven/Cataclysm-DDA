@@ -653,7 +653,7 @@
     "id": "mon_zorythosaurus_brute",
     "name": { "str": "Cory Crusher" },
     "copy-from": "mon_zorythosaurus",
-    "description": "A huge scaly dinosaur with a short beak and a tall head crest, dead and walking, eyes vacant and swollen.  Its entire body bulges with distended muscles and swollen, festering wounds.",
+    "description": "A huge, scaly dinosaur with a short beak and a tall head crest, dead but walking, eyes vacant and swollen.  Its entire body bulges with distended muscles and swollen, festering wounds.",
     "diff": 2,
     "color": "red",
     "proportional": { "hp": 1.5, "speed": 1.5 },
