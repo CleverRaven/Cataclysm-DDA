@@ -630,7 +630,7 @@
     "id": "mon_zarasaurolophus_brute",
     "name": { "str": "Parasaur Punch", "str_pl": "Parasaur Punches" },
     "copy-from": "mon_zarasaurolophus",
-    "description": "A huge mottled dinosaur with a blunt head crest, dead and walking, eyes vacant and swollen.  Its entire body bulges with distended muscles and swollen, festering wounds.",
+    "description": "A huge, mottled dinosaur with a blunt head crest, dead but walking, eyes vacant and swollen.  Its entire body bulges with distended muscles and swollen, festering wounds.",
     "diff": 2,
     "color": "red",
     "proportional": { "hp": 1.5, "speed": 1.5 },
