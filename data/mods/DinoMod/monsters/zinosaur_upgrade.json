@@ -1537,7 +1537,7 @@
     "color": "white",
     "material": [ "bone" ],
     "armor_bash": 0,
-    "description": "Already heavily protected, this zombified Nodosaurus has grown even denser bone armor, keeping the long bony spikes.",
+    "description": "Already heavily protected, this zombified Nodosaurus has grown even denser bone armor, while keeping the long, bony spikes.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
