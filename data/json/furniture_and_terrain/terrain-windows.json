@@ -784,7 +784,7 @@
     "move_cost": 0,
     "roof": "t_flat_roof",
     "flags": [ "NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE", "BARRICADABLE_WINDOW_CURTAINS", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW" ],
-    "curtain_transform": "t_window_bars",
+    "curtain_transform": "t_metal_grate_window",
     "examine_action": "curtains",
     "open": "t_metal_grate_window_with_curtain_open",
     "deconstruct": {
@@ -816,7 +816,7 @@
     "move_cost": 0,
     "roof": "t_flat_roof",
     "flags": [ "NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE", "BARRICADABLE_WINDOW_CURTAINS", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW" ],
-    "curtain_transform": "t_window_bars",
+    "curtain_transform": "t_metal_grate_window",
     "examine_action": "curtains",
     "close": "t_metal_grate_window_with_curtain",
     "deconstruct": {
@@ -880,7 +880,7 @@
     "flags": [ "NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE", "BARRICADABLE_WINDOW_CURTAINS", "WINDOW" ],
     "curtain_transform": "t_metal_grate_window_noglass",
     "examine_action": "curtains",
-    "open": "t_metal_grate_window_with_curtain_open",
+    "open": "t_metal_grate_window_with_curtain_open_noglass",
     "deconstruct": {
       "ter_set": "t_window_reinforced",
       "items": [ { "item": "pipe", "count": 12 }, { "item": "sheet_metal_small", "count": 40 } ]
@@ -912,7 +912,7 @@
     "flags": [ "TRANSPARENT", "NOITEM", "CONNECT_TO_WALL", "BARRICADABLE_WINDOW_CURTAINS", "THIN_OBSTACLE", "WINDOW" ],
     "curtain_transform": "t_metal_grate_window_noglass",
     "examine_action": "curtains",
-    "close": "t_metal_grate_window_with_curtain",
+    "close": "t_metal_grate_window_with_curtain_noglass",
     "deconstruct": {
       "ter_set": "t_window_reinforced",
       "items": [ { "item": "pipe", "count": 12 }, { "item": "sheet_metal_small", "count": 40 } ]
@@ -1640,7 +1640,6 @@
       "SMALL_PASSAGE",
       "WINDOW"
     ],
-    "curtain_transform": "t_reinforced_double_pane_glass",
     "close": "t_reinforced_double_pane_glass",
     "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "reinforced_glass_sheet", "count": 2 } ] },
     "bash": {
@@ -3080,7 +3079,7 @@
     ],
     "curtain_transform": "t_reinforced_plastic_window",
     "examine_action": "curtains",
-    "close": "t_reinforced_plastic_window_with_curtain",
+    "close": "t_reinforced_plastic_window_with_curtain_open_window_closed",
     "deconstruct": {
       "ter_set": "t_window_empty",
       "items": [
