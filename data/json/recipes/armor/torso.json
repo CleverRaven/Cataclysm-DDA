@@ -928,7 +928,7 @@
     "time": "10 h 20 m",
     "reversible": true,
     "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ], [ "recipe_fauxfur", 2 ] ],
-    "using": [ [ "sewing_standard", 50, [ "fastener_large", 1 ] ] ],
+    "using": [ [ "sewing_standard", 50 ], [ "fastener_large", 1 ] ],
     "components": [ [ [ "rag", 20 ] ], [ [ "faux_fur", 12 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },

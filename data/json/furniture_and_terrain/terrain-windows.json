@@ -235,7 +235,7 @@
       "SMALL_PASSAGE",
       "WINDOW"
     ],
-    "curtain_transform": "t_window_no_curtains",
+    "curtain_transform": "t_window_no_curtains_open",
     "examine_action": "curtains",
     "close": "t_window_domestic",
     "bash": {
@@ -1115,7 +1115,7 @@
       "SMALL_PASSAGE",
       "WINDOW"
     ],
-    "curtain_transform": "t_single_pane_glass",
+    "curtain_transform": "t_single_pane_glass_open",
     "examine_action": "curtains",
     "close": "t_single_pane_glass_with_curtain_open_window_closed",
     "deconstruct": {
@@ -1334,7 +1334,7 @@
       "SMALL_PASSAGE",
       "WINDOW"
     ],
-    "curtain_transform": "t_reinforced_single_pane_glass",
+    "curtain_transform": "t_reinforced_single_pane_glass_open",
     "examine_action": "curtains",
     "close": "t_reinforced_single_pane_glass_with_curtain_open_window_closed",
     "deconstruct": {
@@ -1553,7 +1553,7 @@
       "SMALL_PASSAGE",
       "WINDOW"
     ],
-    "curtain_transform": "t_double_pane_glass",
+    "curtain_transform": "t_double_pane_glass_open",
     "examine_action": "curtains",
     "close": "t_double_pane_glass_with_curtain_open_window_closed",
     "deconstruct": {
@@ -1773,7 +1773,7 @@
       "SMALL_PASSAGE",
       "WINDOW"
     ],
-    "curtain_transform": "t_reinforced_double_pane_glass",
+    "curtain_transform": "t_reinforced_double_pane_glass_open",
     "examine_action": "curtains",
     "close": "t_reinforced_double_pane_glass_with_curtain_open_window_closed",
     "deconstruct": {
@@ -1992,7 +1992,7 @@
       "SMALL_PASSAGE",
       "WINDOW"
     ],
-    "curtain_transform": "t_triple_pane_glass",
+    "curtain_transform": "t_triple_pane_glass_open",
     "examine_action": "curtains",
     "close": "t_triple_pane_glass_with_curtain_open_window_closed",
     "deconstruct": {
@@ -2157,11 +2157,10 @@
       "FLAMMABLE",
       "NOITEM",
       "OPENCLOSE_INSIDE",
-      "MOUNTABLE",
       "BARRICADABLE_WINDOW_CURTAINS",
+      "REDUCE_SCENT",
       "CONNECT_TO_WALL",
-      "THIN_OBSTACLE",
-      "SMALL_PASSAGE",
+      "BLOCK_WIND",
       "WINDOW"
     ],
     "curtain_transform": "t_reinforced_triple_pane_glass",
@@ -2212,7 +2211,7 @@
       "SMALL_PASSAGE",
       "WINDOW"
     ],
-    "curtain_transform": "t_reinforced_triple_pane_glass",
+    "curtain_transform": "t_reinforced_triple_pane_glass_open",
     "examine_action": "curtains",
     "close": "t_reinforced_triple_pane_glass_with_curtain_open_window_closed",
     "deconstruct": {
@@ -2430,7 +2429,7 @@
       "SMALL_PASSAGE",
       "WINDOW"
     ],
-    "curtain_transform": "t_quadruple_pane_glass",
+    "curtain_transform": "t_quadruple_pane_glass_open",
     "examine_action": "curtains",
     "close": "t_quadruple_pane_glass_with_curtain_open_window_closed",
     "deconstruct": {
@@ -2595,11 +2594,10 @@
       "FLAMMABLE",
       "NOITEM",
       "OPENCLOSE_INSIDE",
-      "MOUNTABLE",
       "BARRICADABLE_WINDOW_CURTAINS",
+      "REDUCE_SCENT",
       "CONNECT_TO_WALL",
-      "THIN_OBSTACLE",
-      "SMALL_PASSAGE",
+      "BLOCK_WIND",
       "WINDOW"
     ],
     "curtain_transform": "t_reinforced_quadruple_pane_glass",
@@ -2650,7 +2648,7 @@
       "SMALL_PASSAGE",
       "WINDOW"
     ],
-    "curtain_transform": "t_reinforced_quadruple_pane_glass",
+    "curtain_transform": "t_reinforced_quadruple_pane_glass_open",
     "examine_action": "curtains",
     "close": "t_reinforced_quadruple_double_pane_glass_with_curtain_open_window_closed",
     "deconstruct": {
@@ -2850,7 +2848,7 @@
       "SMALL_PASSAGE",
       "WINDOW"
     ],
-    "curtain_transform": "t_plastic_window",
+    "curtain_transform": "t_plastic_window_open",
     "examine_action": "curtains",
     "close": "t_plastic_window_with_curtain_open_window_closed",
     "deconstruct": {
@@ -3077,9 +3075,10 @@
       "SMALL_PASSAGE",
       "WINDOW"
     ],
-    "curtain_transform": "t_reinforced_plastic_window",
+    "curtain_transform": "t_reinforced_plastic_window_open",
     "examine_action": "curtains",
     "close": "t_reinforced_plastic_window_with_curtain_open_window_closed",
+    "open": "t_reinforced_plastic_window_with_curtain",
     "deconstruct": {
       "ter_set": "t_window_empty",
       "items": [
@@ -3319,7 +3318,7 @@
       "SMALL_PASSAGE",
       "WINDOW"
     ],
-    "curtain_transform": "t_tempered_glass_window",
+    "curtain_transform": "t_tempered_glass_open",
     "examine_action": "curtains",
     "close": "t_tempered_glass_with_curtain_open_window_closed",
     "deconstruct": {

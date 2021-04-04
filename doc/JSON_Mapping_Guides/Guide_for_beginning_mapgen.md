@@ -372,7 +372,7 @@ sample roof:
   3. There is no `"weight"` entry because this will only spawn with its building (once linked).  
   4. My palette uses "t_flat_roof" as its default roof.  For houses, I wanted shingles. So, I added the "t_shingle_flat_roof" in this mapgen which will override the palettes entry for `".": "t_flat_roof"`.  (more on this in advanced mapgen).
 
-I have a separate roof document at: [doc/JSON Mapping Guides/JSON_ROOF_MAPGEN.md](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/JSON%20Mapping%20Guides/JSON_ROOF_MAPGEN.md).
+I have a separate roof document at: [doc/JSON_Mapping_Guides/JSON_ROOF_MAPGEN.md](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/JSON_Mapping_Guides/JSON_ROOF_MAPGEN.md).
 
 #### Linking various mapgen maps using multitile_city_buildings.json
 

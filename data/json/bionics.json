@@ -1209,14 +1209,6 @@
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   },
   {
-    "id": "bio_shock_absorber",
-    "type": "bionic",
-    "name": { "str": "Kinetic Shock Absorbers" },
-    "description": "Most of the flesh in your arms, legs, and upper torso has been replaced with industrial-strength springs and protective padding.  Clenching your fist allows you to fold and unfold this padding; while active, the hydraulic absorbers will prevent damage to your body from severe impacts, at the cost of impaired movement.",
-    "occupied_bodyparts": [ [ "torso", 1 ], [ "arm_l", 1 ], [ "arm_r", 1 ], [ "leg_l", 1 ], [ "leg_r", 1 ] ],
-    "flags": [ "BIONIC_TOGGLED" ]
-  },
-  {
     "id": "bio_taste_blocker",
     "type": "bionic",
     "name": { "str": "Taste Modifier" },

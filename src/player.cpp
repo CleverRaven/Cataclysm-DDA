@@ -1524,7 +1524,9 @@ bool player::list_ammo( const item &base, std::vector<item::reload_option> &ammo
             if( can_reload( *e, id ) &&
                 ( speedloader || e->ammo_remaining() == 0 ||
                   e->ammo_remaining() < ammo->ammo_remaining() ||
-                  e->loaded_ammo().stacks_with( *ammo ) ) ) {
+                  e->loaded_ammo().stacks_with( *ammo ) ||
+                  ( ammo->made_of_from_type( phase_id::LIQUID ) &&
+                    e->contents.remaining_capacity_for_liquid( *ammo ) > 0 ) ) ) {
                 ammo_list.emplace_back( this, e, &base, std::move( ammo ) );
             }
         }
@@ -2035,6 +2037,11 @@ void player::use( item_location loc, int pre_obtain_moves )
     } else if( !used.is_craft() && ( used.is_medication() || ( !used.type->has_use() &&
                                      used.is_food() ) ) ) {
         if( avatar *u = as_avatar() ) {
+            const ret_val<edible_rating> ret = u->will_eat( used, true );
+            if( !ret.success() ) {
+                moves = pre_obtain_moves;
+                return;
+            }
             u->assign_activity( player_activity( consume_activity_actor( item_location( *u, &used ) ) ) );
         } else  {
             const time_duration &consume_time = get_consume_time( used );

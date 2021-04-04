@@ -2490,8 +2490,8 @@
     "item": "chitin_plate",
     "location": "armor",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "10 m", "using": [ [ "rope_natural", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "10 m" },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m" },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "using": [ [ "adhesive", 1 ] ] }
     },
     "flags": [ "ARMOR" ],

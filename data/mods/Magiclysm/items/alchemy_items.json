@@ -6,7 +6,7 @@
     "description": "This strangely shaped rock was once a part of an owlbear's complex digestive system, creating a link between owl throat and bear stomach.  It is possible that it could serve a similar purpose in alchemy, helping to bind together two disparate halves.",
     "weight": "2 kg",
     "volume": "750 ml",
-    "price": 0,
+    "price": 3100,
     "bashing": 9,
     "to_hit": -1,
     "material": [ "stone" ],
@@ -99,6 +99,7 @@
     "color": "yellow",
     "name": "glow dust",
     "description": "The powdered remains of a will-o-wisps's physical form.  It seems to still possess an otherworldly glow.",
+    "price": 3800,
     "material": [ "powder" ],
     "weight": "5 g",
     "volume": "250 ml"
@@ -145,6 +146,7 @@
     "color": "light_gray",
     "name": "bulette plate",
     "description": "The great plates from behind a bulette's head have always been prized for use in shield and armor making.",
+    "price": 48000,
     "material": [ "arcane_skin" ],
     "weight": "30 kg",
     "volume": "3 L"
@@ -156,6 +158,7 @@
     "color": "red",
     "name": "bulette pearl",
     "description": "As a bulette burrows through the earth its gills collect minute amounts of precious metals and gems which slowly aggregate into lustrous gemstones prized for their beauty and power.",
+    "price": 10000,
     "material": [ "gemstone" ],
     "weight": "120 g",
     "volume": "250 ml"
@@ -198,7 +201,7 @@
     "color": "red",
     "name": { "str": "chunk of demon chitin", "str_pl": "chunks of demon chitin" },
     "description": "A piece of demon spider exoskeleton.  It is light and very durable, and probably has some magical properties.",
-    "price": 0,
+    "price": 1000,
     "material": [ "demon_chitin" ],
     "weight": "89 g",
     "volume": "250 ml",

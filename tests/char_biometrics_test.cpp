@@ -86,7 +86,8 @@ static float metabolic_rate_with_mutation( player &dummy, const std::string &tra
 static int bmr_at_act_level( player &dummy, float activity_level )
 {
     dummy.reset_activity_level();
-    dummy.increase_activity_level( activity_level );
+    dummy.update_body( calendar::turn, calendar::turn );
+    dummy.set_activity_level( activity_level );
 
     return dummy.get_bmr();
 }
@@ -415,89 +416,6 @@ TEST_CASE( "size and height determine body weight", "[biometrics][bodyweight]" )
 
 }
 
-TEST_CASE( "activity level reset, increase and decrease", "[biometrics][activity]" )
-{
-    // Activity level is a floating-point number, but only set to discrete values:
-    //
-    // NO_EXERCISE = 1.2f;
-    // LIGHT_EXERCISE = 2.0f;
-    // MODERATE_EXERCISE = 4.5f;
-    // ACTIVE_EXERCISE = 8.0f;
-    // EXTRA_EXERCISE = 10.0f;
-
-    // Functions tested:
-    // activity_level_str (return string constant for each range)
-    // reset_activity_level (to NO_EXERCISE)
-    // increase_activity_level (only if greater than current)
-    // decrease_activity_level (only if less than current)
-
-    avatar dummy;
-
-    SECTION( "reset activity level to NO_EXERCISE" ) {
-        // Start at no exercise
-        dummy.reset_activity_level();
-        CHECK( dummy.activity_level_str() == "NO_EXERCISE" );
-        // Increase and confirm
-        dummy.increase_activity_level( MODERATE_EXERCISE );
-        CHECK( dummy.activity_level_str() == "MODERATE_EXERCISE" );
-        // Reset back and ensure it worked
-        dummy.reset_activity_level();
-        CHECK( dummy.activity_level_str() == "NO_EXERCISE" );
-    }
-
-    SECTION( "increase_activity_level" ) {
-        // Start at the lowest level
-        dummy.reset_activity_level();
-        REQUIRE( dummy.activity_level_str() == "NO_EXERCISE" );
-
-        // Increase level a couple times
-        dummy.increase_activity_level( LIGHT_EXERCISE );
-        CHECK( dummy.activity_level_str() == "LIGHT_EXERCISE" );
-        dummy.increase_activity_level( MODERATE_EXERCISE );
-        CHECK( dummy.activity_level_str() == "MODERATE_EXERCISE" );
-        // Cannot 'increase' to lower level
-        dummy.increase_activity_level( LIGHT_EXERCISE );
-        CHECK( dummy.activity_level_str() == "MODERATE_EXERCISE" );
-        dummy.increase_activity_level( NO_EXERCISE );
-        CHECK( dummy.activity_level_str() == "MODERATE_EXERCISE" );
-        // Increase to highest level
-        dummy.increase_activity_level( ACTIVE_EXERCISE );
-        CHECK( dummy.activity_level_str() == "ACTIVE_EXERCISE" );
-        dummy.increase_activity_level( EXTRA_EXERCISE );
-        CHECK( dummy.activity_level_str() == "EXTRA_EXERCISE" );
-        // Cannot increase beyond the highest
-        dummy.increase_activity_level( EXTRA_EXERCISE );
-        CHECK( dummy.activity_level_str() == "EXTRA_EXERCISE" );
-
-    }
-
-    SECTION( "decrease_activity_level" ) {
-        // Start at the highest level
-        dummy.reset_activity_level();
-        dummy.increase_activity_level( EXTRA_EXERCISE );
-        REQUIRE( dummy.activity_level_str() == "EXTRA_EXERCISE" );
-
-        // Decrease level a couple times
-        dummy.decrease_activity_level( ACTIVE_EXERCISE );
-        CHECK( dummy.activity_level_str() == "ACTIVE_EXERCISE" );
-        dummy.decrease_activity_level( MODERATE_EXERCISE );
-        CHECK( dummy.activity_level_str() == "MODERATE_EXERCISE" );
-        // Cannot 'decrease' to higher level
-        dummy.decrease_activity_level( EXTRA_EXERCISE );
-        CHECK( dummy.activity_level_str() == "MODERATE_EXERCISE" );
-        dummy.decrease_activity_level( ACTIVE_EXERCISE );
-        CHECK( dummy.activity_level_str() == "MODERATE_EXERCISE" );
-        // Decrease to lowest level
-        dummy.decrease_activity_level( LIGHT_EXERCISE );
-        CHECK( dummy.activity_level_str() == "LIGHT_EXERCISE" );
-        dummy.decrease_activity_level( NO_EXERCISE );
-        CHECK( dummy.activity_level_str() == "NO_EXERCISE" );
-        // Cannot decrease below lowest
-        dummy.decrease_activity_level( NO_EXERCISE );
-        CHECK( dummy.activity_level_str() == "NO_EXERCISE" );
-    }
-}
-
 // Return a string with multiple consecutive spaces replaced with a single space
 static std::string condensed_spaces( const std::string &text )
 {
@@ -512,12 +430,10 @@ static void test_activity_duration( avatar &dummy, const float at_level,
     // Pass time at this level, updating body each turn
     for( int turn = 0; turn < to_turns<int>( how_long ); ++turn ) {
         // Make sure activity level persists (otherwise may be reset after 5 minutes)
-        dummy.increase_activity_level( at_level );
+        dummy.set_activity_level( at_level );
         calendar::turn += 1_turns;
         dummy.update_body();
     }
-    // Stop exercising
-    dummy.decrease_activity_level( NO_EXERCISE );
 }
 
 TEST_CASE( "activity levels and calories in daily diary", "[avatar][biometrics][activity][diary]" )

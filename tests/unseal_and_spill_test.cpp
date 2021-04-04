@@ -457,6 +457,8 @@ void test_scenario::run()
     }
 
     std::string player_action_str;
+    restore_on_out_of_scope<test_mode_spilling_action_t> restore_test_mode_spilling(
+        test_mode_spilling_action );
     switch( cur_player_action ) {
         case player_action::spill_all: {
             player_action_str = "player_action::spill_all";
@@ -906,6 +908,4 @@ TEST_CASE( "unseal_and_spill" )
         current.run();
         ++current;
     }
-    // Restore options
-    test_mode_spilling_action = test_mode_spilling_action_t::spill_all;
 }

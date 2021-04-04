@@ -104,8 +104,6 @@ void game::list_missions()
             }
 
             int y = 3;
-            y += fold_and_print( w_missions, point( 31, y ), getmaxx( w_missions ) - 33, col,
-                                 miss->name() + for_npc );
 
             auto format_tokenized_description = []( const std::string & description,
             const std::vector<std::pair<int, itype_id>> &rewards ) {
@@ -117,7 +115,8 @@ void game::list_missions()
                 }
                 return formatted_description;
             };
-
+            y += fold_and_print( w_missions, point( 31, y ), getmaxx( w_missions ) - 33, col,
+                                 format_tokenized_description( miss->name(), miss->get_likely_rewards() ) + for_npc );
             y++;
             if( !miss->get_description().empty() ) {
                 y += fold_and_print( w_missions, point( 31, y ), getmaxx( w_missions ) - 33, c_white,
