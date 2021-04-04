@@ -430,7 +430,7 @@
     "copy-from": "mon_zapatosaurus",
     "looks_like": "mon_apatosaurus",
     "speed": 50,
-    "description": "Massive, long-necked, four-legged dinosaur corpse with a long, whip-like tail.  The head is upright and the neck looks like it would still make a good strong club.",
+    "description": "Massive, long-necked, four-legged dinosaur corpse with a long, whip-like tail.  The head is still upright and the neck looks like it would still make a good, strong club.",
     "upgrades": { "half_life": 14, "into_group": "GROUP_zamarasaurus_UPGRADE" }
   },
   {
