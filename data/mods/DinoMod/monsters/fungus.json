@@ -94,7 +94,7 @@
     "id": "mon_ziats_fungus",
     "type": "MONSTER",
     "name": { "str": "fungal Siats zombie" },
-    "description": "Once a huge predatory bipedal dinosaur with long claws and strong arms for grappling, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh.",
+    "description": "Once a huge, bipedal dinosaur predator with long claws and strong arms for grappling, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh.",
     "copy-from": "mon_ziats",
     "default_faction": "fungus",
     "species": [ "FUNGUS" ],
