@@ -645,7 +645,7 @@
     "armor_cut": 6,
     "armor_bullet": 4,
     "hp": 500,
-    "description": "A huge scaly dinosaur with a short beak and a tall head crest, dead and walking, eyes vacant and swollen.",
+    "description": "A huge, scaly dinosaur with a short beak and a tall head crest, dead but walking, eyes vacant and swollen.",
     "upgrades": { "half_life": 14, "into_group": "GROUP_zorythosaurus_UPGRADE" },
     "special_attacks": [ [ "SHRIEK", 5 ] ]
   },
