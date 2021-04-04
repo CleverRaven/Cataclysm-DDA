@@ -480,7 +480,7 @@
     "armor_cut": 4,
     "armor_bullet": 2,
     "hp": 250,
-    "description": "A large shambling quadruped dinosaur corpse dragging with the weight of the plates on its back, waving a much livelier looking spiked tail.",
+    "description": "A large, shambling quadruped dinosaur corpse, dragging with the weight of the plates on its back - waving a much livelier-looking spiked tail.",
     "upgrades": { "half_life": 14, "into_group": "GROUP_ztegosaurus_UPGRADE" }
   },
   {
