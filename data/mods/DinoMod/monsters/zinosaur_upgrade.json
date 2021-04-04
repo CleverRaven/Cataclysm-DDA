@@ -1812,7 +1812,7 @@
     "color": "white",
     "material": [ "bone" ],
     "armor_bash": 0,
-    "description": "This massive four legged dinosaur with a tall bony crest and three wicked looking horns has grown dense bone armor.",
+    "description": "This massive, four-legged dinosaur corpse with a tall bony crest and three wicked-looking horns has grown dense bone armor.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
