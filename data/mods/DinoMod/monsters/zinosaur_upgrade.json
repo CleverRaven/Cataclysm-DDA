@@ -699,7 +699,7 @@
     "id": "mon_zachycephalosaurus_brute",
     "name": { "str": "Skull Breaker" },
     "copy-from": "mon_zachycephalosaurus",
-    "description": "The shuffling corpse of a medium-sized bipedal dinosaur, covered with tattered feathers and black, putrid liquid.  Its round, hard-looking domed head sits on a body bulging with distended muscles and swollen, festering wounds.",
+    "description": "The shuffling corpse of a medium-sized bipedal dinosaur, covered with tattered feathers and black, putrid liquid.  Its hard-looking domed head sits on a body bulging with distended muscles and swollen, festering wounds.",
     "diff": 2,
     "color": "red",
     "proportional": { "hp": 1.5, "speed": 1.5 },
