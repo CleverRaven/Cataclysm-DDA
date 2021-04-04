@@ -605,7 +605,7 @@
     "name": { "str": "Maiasaura zombie" },
     "copy-from": "mon_zarasaurolophus",
     "hp": 400,
-    "description": "A huge mottled dinosaur with hooves and heavy tail, dead and walking, eyes vacant and swollen.  Has a flat beak, thick nose, and small spiky head crest.",
+    "description": "A huge, mottled dinosaur with hooves and a heavy tail, dead but walking, eyes vacant and swollen.  Has a flat beak, thick nose, and a small but spiky head crest.",
     "upgrades": { "half_life": 14, "into_group": "GROUP_zaiasaura_UPGRADE" }
   },
   {
