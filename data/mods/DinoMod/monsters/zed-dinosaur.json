@@ -901,7 +901,7 @@
       { "id": "slam", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
       [ "SMASH", 30 ]
     ],
-    "description": "A small four-legged plant-eating dinosaur juvenile corpse, it could be from a number of different species.",
+    "description": "A small, four-legged, herbivorous dinosaur juvenile's corpse that could be from a number of different species.",
     "upgrades": { "half_life": 14, "into": "mon_zapatosaurus" },
     "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM", "BASHES" ],
     "vision_night": 3,
