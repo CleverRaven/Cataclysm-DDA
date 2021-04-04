@@ -1370,7 +1370,7 @@
     "color": "white",
     "material": [ "bone" ],
     "armor_bash": 0,
-    "description": "This zombified Diplodocus has grown dense bone armor, completely covering the massive four legged body and tiny head.",
+    "description": "This zombified Diplodocus has grown dense bone armor, completely covering the massive, four-legged body and tiny head.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
