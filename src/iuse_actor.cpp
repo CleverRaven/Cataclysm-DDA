@@ -4535,7 +4535,7 @@ cata::optional<int> effect_on_conditons_actor::use( player &p, item &it, bool,
     standard_npc default_npc( "Default" );
     if( avatar *u = p.as_avatar() ) {
         d.alpha = get_talker_for( u );
-    } else if ( npc *n = p.as_npc()  ) {
+    } else if( npc *n = p.as_npc() ) {
         d.alpha = get_talker_for( n );
     }
     ///TODO make this talker item
