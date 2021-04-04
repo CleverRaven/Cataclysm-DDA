@@ -166,7 +166,7 @@
     "id": "mon_zothronychus_fungus",
     "type": "MONSTER",
     "name": { "str": "fungal Nothronychus zombie" },
-    "description": "Once a large feathered bipedal plant eating dinosaur with sharp curved claws, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered feathers.",
+    "description": "This was once a large, feathered, plant-eating bipedal dinosaur with sharp, curved claws.  Fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered feathers.",
     "copy-from": "mon_zothronychus",
     "default_faction": "fungus",
     "species": [ "FUNGUS" ],
