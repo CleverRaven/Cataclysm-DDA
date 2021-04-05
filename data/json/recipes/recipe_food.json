@@ -2390,13 +2390,7 @@
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [
       [ [ "edible_tallow_lard", 2, "LIST" ] ],
-      [
-        [ "jerky", 2 ],
-        [ "dry_meat", 2 ],
-        [ "meat_smoked", 2 ],
-        [ "dry_fish", 2 ],
-        [ "fish_smoked", 2 ]
-      ],
+      [ [ "jerky", 2 ], [ "dry_meat", 2 ], [ "meat_smoked", 2 ], [ "dry_fish", 2 ], [ "fish_smoked", 2 ] ],
       [
         [ "dry_veggy", 2 ],
         [ "dry_fruit", 2 ],
@@ -4068,7 +4062,7 @@
         [ "dry_fish", 1 ],
         [ "salted_fish", 1 ],
         [ "meat_salted", 1 ],
-	[ "fish_canned", 1 ],
+        [ "fish_canned", 1 ],
         [ "can_tuna", 1 ]
       ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
