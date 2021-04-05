@@ -179,6 +179,10 @@ extern "C" {
 
 void init_crash_handlers()
 {
+#if defined(__ANDROID__)
+    // Clean dummy file crash.log.prompt
+    remove( ( PATH_INFO::crash() + ".prompt" ).c_str() );
+#endif
     for( int sig : {
              SIGSEGV, SIGILL, SIGABRT, SIGFPE
          } ) {
