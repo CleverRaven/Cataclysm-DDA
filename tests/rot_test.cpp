@@ -111,6 +111,9 @@ TEST_CASE( "Hourly rotpoints", "[rot]" )
 
     // Doubles after +16F
     CHECK( normal_item.get_hourly_rotpoints_at_temp( 65 + 16 ) == Approx( 3600 * 2 ).margin( 0.1 ) );
+	
+	// Halves after -16F
+    CHECK( normal_item.get_hourly_rotpoints_at_temp( 65 - 16 ) == Approx( 3600 / 2 ).margin( 0.1 ) );
 
     // Test the linear area. Halfway between 32F/9C (0 point/hour) and 38F/3C (1117.672 point/hour)
     CHECK( normal_item.get_hourly_rotpoints_at_temp( 35 ) == Approx( 1117.672 / 2 ).margin( 0.1 ) );
