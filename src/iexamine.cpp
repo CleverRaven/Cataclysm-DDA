@@ -1104,27 +1104,31 @@ void iexamine::cardreader( player &p, const tripoint &examp )
                            itype_id_industrial );
     if( p.has_amount( card_type, 1 ) && query_yn( _( "Swipe your ID card?" ) ) ) {
         p.mod_moves( -to_moves<int>( 1_seconds ) );
+
         for( const tripoint &tmp : here.points_in_radius( examp, 3 ) ) {
             if( here.ter( tmp ) == t_door_metal_locked ) {
                 here.ter_set( tmp, t_door_metal_c );
                 open = true;
             }
         }
-        if( open ) {
-            add_msg( _( "You insert your ID card." ) );
-            add_msg( m_good, _( "The nearby doors unlock." ) );
-            p.use_amount( card_type, 1 );
 
-            for( monster &critter : g->all_monsters() ) {
-                // Check 1) same overmap coords, 2) turret, 3) hostile
-                if( ms_to_omt_copy( here.getabs( critter.pos() ) ) == ms_to_omt_copy( here.getabs( examp ) ) &&
-                    critter.has_flag( MF_ID_CARD_DESPAWN ) &&
-                    critter.attitude_to( p ) == Creature::Attitude::HOSTILE ) {
-                    g->remove_zombie( critter );
-                }
-            }
+        add_msg( m_info, _( "You insert your ID card." ) );
+
+        if( open ) {
+            add_msg( m_good, _( "The nearby doors unlock." ) );
         } else {
-            add_msg( _( "The nearby doors are already opened." ) );
+            add_msg( m_info, _( "The nearby doors are already opened." ) );
+        }
+
+        p.use_amount( card_type, 1 );
+
+        for( monster &critter : g->all_monsters() ) {
+            // Check 1) same overmap coords, 2) turret, 3) hostile
+            if( ms_to_omt_copy( here.getabs( critter.pos() ) ) == ms_to_omt_copy( here.getabs( examp ) ) &&
+                critter.has_flag( MF_ID_CARD_DESPAWN ) &&
+                critter.attitude_to( p ) == Creature::Attitude::HOSTILE ) {
+                g->remove_zombie( critter );
+            }
         }
     } else if( query_yn( _( "Attempt to hack this card-reader?" ) ) ) {
         try_start_hacking( p, examp );
