@@ -5926,6 +5926,7 @@ int item::spoilage_sort_order() const
  * Rate of rot doubles every 16 F increase in temperature
  * Rate of rot halves every 16 F decrease in temperature
  * Rot maxes out at 105 F
+ * Rot stops below 32 F (0C) and above 145 F (63 C)
  */
 float item::get_hourly_rotpoints_at_temp( const int temp )
 {
