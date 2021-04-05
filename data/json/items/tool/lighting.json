@@ -354,7 +354,7 @@
     "color": "light_red",
     "weight": "128 g",
     "volume": "250 ml",
-    "longest_side": "25 cm",
+    "longest_side": "22 cm",
     "price": 400,
     "price_postapoc": 100,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "flare_nitrate": 300 }, "rigid": true } ],
