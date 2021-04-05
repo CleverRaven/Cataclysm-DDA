@@ -2583,7 +2583,7 @@
         [ "meat_smoked", 1 ],
         [ "dry_meat", 1 ],
         [ "rehydrated_meat", 1 ],
-        [ "meat_salted", 2 ],
+        [ "meat_salted", 1 ],
         [ "sausage", 1 ],
         [ "sausage_cooked", 1 ],
         [ "bratwurst_sausage", 2 ],
