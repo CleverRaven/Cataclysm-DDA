@@ -5938,7 +5938,7 @@ float item::get_hourly_rotpoints_at_temp( const int temp )
         // Linear progress from 32 F (0 C) to 38 F (3 C)
         // The constand d is calculated from: multiplier * std::pow( 2.0, 38.0 / 16.0 );
         const float d = 1117.672;
-        return temp * d / 6 + d * 16 / 6;
+        return d / 6 * ( temp - temperatures::freezing );
     } else if( temp < max_rot_temp ) {
         // This multiplier makes sure the rot at 65 F (18 C) is 3600 rot/hour (1 rot/second).
         // the multiplier is calculated from: 3600 / std::pow( 2.0, 65.0 / 16.0 );
