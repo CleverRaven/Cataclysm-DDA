@@ -5922,7 +5922,7 @@ int item::spoilage_sort_order() const
 
 /**
  * Food decay calculation.
- * Calculate how much food rots per hour, based on 3600 rot/hour at 65 F.
+ * Calculate how much food rots per hour, based on 3600 rot/hour at 65 F (18.3 C).
  * Rate of rot doubles every 16 F increase in temperature
  * Rate of rot halves every 16 F decrease in temperature
  * Rot maxes out at 105 F
