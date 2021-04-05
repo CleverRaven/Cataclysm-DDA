@@ -57,7 +57,7 @@
     "ascii_picture": "scissors",
     "weight": "113 g",
     "volume": "145 ml",
-    "longest_side": "20 cm",
+    "longest_side": "125 mm",
     "price": 400,
     "price_postapoc": 10,
     "to_hit": -1,
