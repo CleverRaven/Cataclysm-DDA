@@ -4670,7 +4670,7 @@ double vehicle::drain_energy( const itype_id &ftype, double energy_j )
 
 void vehicle::consume_fuel( int load, bool idling, bool for_generators )
 {
-    double st = strain();
+    double st = for_generators ? 0 : strain();
     std::map<itype_id, int> fuel_use = fuel_usage( for_generators );
 
     for( const auto &fuel_pr : fuel_use ) {
@@ -4967,7 +4967,6 @@ int vehicle::get_alternator_load( const bool for_generators ) const
 {
     const std::vector<int> motors = for_generators ? generators : engines;
 
-    // Update alternator load
     if( ( engine_on && !for_generators ) || ( generator_on && for_generators ) ) {
         int engine_vpower = 0;
         for( size_t e = 0; e < motors.size(); ++e ) {
@@ -4982,7 +4981,8 @@ int vehicle::get_alternator_load( const bool for_generators ) const
             }
         }
         return engine_vpower
-               ? 1000 * ( std::abs( alternators_power ) + std::abs( extra_drag ) ) / engine_vpower
+               ? 1000 * ( std::abs( alternators_power ) + ( for_generators ? 0 : std::abs(
+                              extra_drag ) ) ) / engine_vpower
                : 0;
     } else {
         return 0;
