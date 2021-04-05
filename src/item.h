@@ -841,6 +841,12 @@ class item : public visitable
          */
         void mod_charges( int mod );
 
+
+        /**
+        * Calculates rot per hour at given temperature.
+        */
+        float get_hourly_rotpoints_at_temp( int temp );
+
         /**
          * Accumulate rot of the item since last rot calculation.
          * This function should not be called directly. since it does not have all the needed checks or temperature calculations.
