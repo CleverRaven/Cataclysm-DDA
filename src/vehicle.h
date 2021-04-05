@@ -730,6 +730,8 @@ class vehicle
         struct fuel_consumption_data {
             std::list<int> fuel_per_sec;
             unsigned int total_fuel = 0;
+            //"dirty bit" for counting fuel consumption of both generators and engines
+            bool fuel_consumption_dirty = false;
         };
         std::map<itype_id, fuel_consumption_data> fuel_used;
 

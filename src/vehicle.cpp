@@ -4684,7 +4684,19 @@ void vehicle::consume_fuel( int load, bool idling, bool for_generators )
         double amnt_precise_j = static_cast<double>( fuel_pr.second );
         amnt_precise_j *= load / 1000.0 * ( 1.0 + st * st * 100.0 );
 
-        fcd.fuel_per_sec.push_front( amnt_precise_j );
+        //This function is called for engines first, then for generators
+        //Dirty flag is used for situation when both engine and generator are running as to avoid adding multiple values per turn
+        if( !for_generators ){
+            fcd.fuel_per_sec.push_front( amnt_precise_j );
+            fcd.fuel_consumption_dirty = !fcd.fuel_consumption_dirty;
+        }else{
+            if( fcd.fuel_consumption_dirty ){
+                fcd.fuel_per_sec.front() = fcd.fuel_per_sec.front() + amnt_precise_j;
+                fcd.fuel_consumption_dirty = false;
+            }else{
+                fcd.fuel_per_sec.push_front( amnt_precise_j );
+            }
+        }
         fcd.total_fuel += amnt_precise_j;
 
         if( fcd.fuel_per_sec.size() > 60 ) {
