@@ -357,7 +357,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "ants_larvae",
+    "id": [ "ants_larvae", "ants_larvae_acid" ],
     "name": "ant larva chamber",
     "sym": "O",
     "color": "white",
@@ -366,7 +366,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "ants_queen",
+    "id": [ "ants_queen", "ants_queen_acid" ],
     "name": "ant queen chamber",
     "sym": "O",
     "color": "red",
