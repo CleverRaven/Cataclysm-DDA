@@ -3,7 +3,7 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "quiver_orc_archer",
-    "entries": [ { "item": "arrow_wood_heavy", "charges": 60 } ]
+    "entries": [ { "item": "arrow_wood_heavy", "count": [ 1, 6 ], "charges": [ 1, 10 ] } ]
   },
   {
     "id": "mon_orc_warrior",
