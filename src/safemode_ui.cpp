@@ -439,7 +439,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
                     //Let the options class handle the validity of the new value
                     options_manager::cOpt temp_option = get_options().get_option( "SAFEMODEPROXIMITY" );
                     temp_option.setValue( text );
-                    current_tab[line].proximity = atoi( temp_option.getValue().c_str() );
+                    current_tab[line].proximity = temp_option.value_as<int>();
                 }
             }
         } else if( action == "ENABLE_RULE" && !current_tab.empty() ) {
