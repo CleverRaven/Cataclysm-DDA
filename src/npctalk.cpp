@@ -2154,20 +2154,40 @@ void talk_effect_fun_t::set_add_wet( const JsonObject &jo, const std::string &me
 
 void talk_effect_fun_t::set_sound_effect( const JsonObject &jo, const std::string &member )
 {
-    std::string sound_effect = jo.get_string( member );
+    std::string variant = jo.get_string( member );
+    std::string id = jo.get_string( "id" );
     const bool outdoor_event = jo.get_bool( "outdoor_event", false );
-    function = [sound_effect, outdoor_event]( const dialogue & d ) {
+    const int volume = jo.get_int( "volume", -1 );
+    function = [variant, id, outdoor_event, volume]( const dialogue & d ) {
         map &here = get_map();
-
+        int local_volume = volume;
         Character *target = d.alpha->get_character();
         if( target && !target->has_effect( effect_sleep ) && !target->is_deaf() ) {
             if( !outdoor_event || here.get_abs_sub().z >= 0 ) {
-                sfx::play_variant_sound( "environment", sound_effect, 80, random_direction() );
+                if( local_volume == -1 ) {
+                    local_volume = 80;
+                }
+                sfx::play_variant_sound( id, variant, local_volume, random_direction() );
             } else if( one_in( std::max( roll_remainder( 2.0f * here.get_abs_sub().z /
                                          target->mutation_value( "hearing_modifier" ) ), 1 ) ) ) {
-                sfx::play_variant_sound( "environment", sound_effect,
-                                         ( 80 * target->mutation_value( "hearing_modifier" ) ), random_direction() );
+                if( local_volume == -1 ) {
+                    local_volume = 80 * target->mutation_value( "hearing_modifier" );
+                }
+                sfx::play_variant_sound( id, variant, local_volume, random_direction() );
             }
+        }
+    };
+}
+
+void talk_effect_fun_t::set_add_power( const JsonObject &jo, const std::string &member,
+                                       bool is_npc )
+{
+    units::energy amount;
+    assign( jo, member, amount, false );
+    function = [is_npc, amount]( const dialogue & d ) {
+        Character *target = d.actor( is_npc )->get_character();
+        if( target ) {
+            target->mod_power_level( amount );
         }
     };
 }
@@ -2421,6 +2441,10 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_add_wet( jo, "u_add_wet", false );
     } else if( jo.has_int( "npc_add_wet" ) ) {
         subeffect_fun.set_add_wet( jo, "npc_add_wet", true );
+    } else if( jo.has_member( "u_add_power" ) ) {
+        subeffect_fun.set_add_power( jo, "u_add_power", false );
+    } else if( jo.has_member( "npc_add_power" ) ) {
+        subeffect_fun.set_add_power( jo, "npc_add_power", true );
     } else {
         jo.throw_error( "invalid sub effect syntax: " + jo.str() );
     }

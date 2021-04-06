@@ -14,7 +14,7 @@
     "deactivate_condition": { "not": { "or": [ { "is_weather": "thunder" }, { "is_weather": "lightning" } ] } },
     "effect": [
       { "message": "You hear a distant rumble of thunder.", "sound": true },
-      { "sound_effect": "thunder_far", "outdoor_event": true }
+      { "sound_effect": "thunder_far", "outdoor_event": true, "id": "environment" }
     ]
   },
   {
@@ -26,7 +26,7 @@
     "deactivate_condition": { "not": { "is_weather": "lightning" } },
     "effect": [
       { "message": "A flash of lightning illuminates your surroundings!" },
-      { "sound_effect": "thunder_near" },
+      { "sound_effect": "thunder_near", "id": "environment" },
       "lightning"
     ]
   },
@@ -74,5 +74,18 @@
     "condition": { "and": [ { "is_weather": "snowstorm" }, "u_is_outside" ] },
     "deactivate_condition": { "not": { "is_weather": "snowstorm" } },
     "effect": [ { "u_add_wet": 40 } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "bio_drain",
+    "recurrence_min": "30 minutes",
+    "recurrence_max": "1 hours 30 minutes",
+    "condition": { "and": [ { "u_has_bionics": "bio_drain" }, { "u_has_power": "24 kJ" } ] },
+    "deactivate_condition": { "not": { "u_has_bionics": "bio_drain" } },
+    "effect": [
+      { "message": "Your batteries discharge slightly.", "type": "bad" },
+      { "sound_effect": "elec_crackle_low", "id": "bionics", "volume": 100 },
+      { "u_add_power": "-25kJ" }
+    ]
   }
 ]
