@@ -66,6 +66,7 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "trap.h"
+#include "try_parse_integer.h"
 #include "type_id.h"
 #include "ui.h"
 #include "ui_manager.h"
@@ -1593,8 +1594,15 @@ static projectile make_gun_projectile( const item &gun )
     if( gun.ammo_data() ) {
         // Some projectiles have a chance of being recoverable
         bool recover = std::any_of( fx.begin(), fx.end(), []( const std::string & e ) {
-            int n;
-            return sscanf( e.c_str(), "RECOVER_%i", &n ) == 1 && !one_in( n );
+            if( !string_starts_with( e, "RECOVER_" ) ) {
+                return false;
+            }
+            ret_val<int> n = try_parse_integer<int>( e.substr( 8 ), false );
+            if( !n.success() ) {
+                debugmsg( "Error parsing ammo RECOVER_ denominator: %s", n.str() );
+                return false;
+            }
+            return !one_in( n.value() );
         } );
 
         if( recover && !fx.count( "IGNITE" ) && !fx.count( "EXPLOSIVE" ) ) {
