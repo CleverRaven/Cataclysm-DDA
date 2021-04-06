@@ -305,7 +305,7 @@
     "valid": false,
     "cancels": [ "INSOMNIA" ],
     "category": [ "MOUSE", "INSECT" ],
-    "enchantments": [ "ENCH_TRAIT_EASYSLEEPER" ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SLEEPY", "add": 24 } ] } ]
   },
   {
     "type": "mutation",
@@ -317,7 +317,7 @@
     "cancels": [ "INSOMNIA" ],
     "threshreq": [ "THRESH_MOUSE" ],
     "category": [ "MOUSE" ],
-    "enchantments": [ "ENCH_TRAIT_EASYSLEEPER2" ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SLEEPY", "add": 40 } ] } ]
   },
   {
     "type": "mutation",
@@ -1062,7 +1062,7 @@
     "starting_trait": true,
     "valid": false,
     "category": [ "MEDICAL" ],
-    "enchantments": [ "ENCH_TRAIT_INSOMNIA" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SLEEPY", "add": -12 } ] } ],
     "cancels": [ "EASYSLEEPER" ]
   },
   {
@@ -2815,7 +2815,19 @@
     "visibility": 1,
     "ugliness": 1,
     "description": "Several ink glands have grown onto your torso.  They can be used to spray defensive ink and blind an attacker in an emergency, as long as the torso isn't covered.",
-    "enchantments": [ "MEP_INK_GLAND_SPRAY" ],
+    "enchantments": [
+      {
+        "hit_me_effect": [
+          {
+            "id": "generic_blinding_spray_1",
+            "hit_self": false,
+            "once_in": 15,
+            "message": "Your ink glands spray some ink into %2$s's eyes.",
+            "npc_message": "%1$s's ink glands spray some ink into %2$s's eyes."
+          }
+        ]
+      }
+    ],
     "category": [ "CEPHALOPOD" ]
   },
   {

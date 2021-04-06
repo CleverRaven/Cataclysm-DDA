@@ -306,7 +306,6 @@ void bionic_data::load( const JsonObject &jsobj, const std::string & )
 
     optional( jsobj, was_loaded, "fake_item", fake_item, itype_id() );
 
-    optional( jsobj, was_loaded, "enchantments", enchantments );
     optional( jsobj, was_loaded, "spell_on_activation", spell_on_activate );
 
     optional( jsobj, was_loaded, "weight_capacity_modifier", weight_capacity_modifier, 1.0f );
@@ -330,6 +329,12 @@ void bionic_data::load( const JsonObject &jsobj, const std::string & )
     optional( jsobj, was_loaded, "installation_requirement", installation_requirement );
 
     optional( jsobj, was_loaded, "vitamin_absorb_mod", vitamin_absorb_mod, 1.0f );
+
+    int enchant_num = 0;
+    for( JsonValue jv : jsobj.get_array( "enchantments" ) ) {
+        std::string enchant_name = "INLINE_ENCH_" + name + "_" + std::to_string( enchant_num++ );
+        enchantments.push_back( enchantment::load_inline_enchantment( jv, "", enchant_name ) );
+    }
 
     if( jsobj.has_array( "stat_bonus" ) ) {
         // clear data first so that copy-from can override it
