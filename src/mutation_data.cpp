@@ -504,7 +504,12 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "active_flags", active_flags, flag_reader{} );
     optional( jo, was_loaded, "inactive_flags", inactive_flags, flag_reader{} );
     optional( jo, was_loaded, "types", types, string_reader{} );
-    optional( jo, was_loaded, "enchantments", enchantments );
+
+    int enchant_num = 0;
+    for( JsonValue jv : jo.get_array( "enchantments" ) ) {
+        std::string enchant_name = "INLINE_ENCH_" + raw_name + "_" + std::to_string( enchant_num++ );
+        enchantments.push_back( enchantment::load_inline_enchantment( jv, "", enchant_name ) );
+    }
 
     for( const std::string s : jo.get_array( "no_cbm_on_bp" ) ) {
         no_cbm_on_bp.emplace( bodypart_str_id( s ) );
