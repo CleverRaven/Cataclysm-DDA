@@ -95,6 +95,7 @@
 #include "string_input_popup.h"
 #include "trait_group.h"
 #include "translations.h"
+#include "try_parse_integer.h"
 #include "type_id.h"
 #include "ui.h"
 #include "ui_manager.h"
@@ -1040,17 +1041,33 @@ void teleport_overmap( bool specific_coordinates )
     tripoint_abs_omt where;
     if( specific_coordinates ) {
         const std::string text = string_input_popup()
-                                 .title( "Teleport where?" )
+                                 .title( _( "Teleport where?" ) )
                                  .width( 20 )
                                  .query_string();
         if( text.empty() ) {
             return;
         }
         const std::vector<std::string> coord_strings = string_split( text, ',' );
+        if( coord_strings.size() < 2 || coord_strings.size() > 3 ) {
+            popup( _( "Error interpreting teleport target: "
+                      "expected two or three comma-separated values; got %zu" ),
+                   coord_strings.size() );
+            return;
+        }
+        std::vector<int> coord_ints;
+        for( const std::string &coord_string : coord_strings ) {
+            ret_val<int> parsed_coord = try_parse_integer<int>( coord_string, true );
+            if( !parsed_coord.success() ) {
+                popup( _( "Error interpreting teleport target: %s" ), parsed_coord.str() );
+                return;
+            }
+            coord_ints.push_back( parsed_coord.value() );
+        }
+        cata_assert( coord_ints.size() >= 2 );
         tripoint coord;
-        coord.x = !coord_strings.empty() ? std::atoi( coord_strings[0].c_str() ) : 0;
-        coord.y = coord_strings.size() >= 2 ? std::atoi( coord_strings[1].c_str() ) : 0;
-        coord.z = coord_strings.size() >= 3 ? std::atoi( coord_strings[2].c_str() ) : 0;
+        coord.x = coord_ints[0];
+        coord.y = coord_ints[1];
+        coord.z = coord_ints.size() >= 3 ? coord_ints[2] : 0;
         where = tripoint_abs_omt( OMAPX * coord.x, OMAPY * coord.y, coord.z );
     } else {
         const cata::optional<tripoint> dir_ = choose_direction( _( "Where is the desired overmap?" ) );
@@ -2088,16 +2105,16 @@ static void debug_menu_spawn_vehicle()
 static void debug_menu_change_time()
 {
     auto set_turn = [&]( const int initial, const time_duration & factor, const char *const msg ) {
-        const auto text = string_input_popup()
-                          .title( msg )
-                          .width( 20 )
-                          .text( std::to_string( initial ) )
-                          .only_digits( true )
-                          .query_string();
-        if( text.empty() ) {
+        string_input_popup pop;
+        const int new_value = pop
+                              .title( msg )
+                              .width( 20 )
+                              .text( std::to_string( initial ) )
+                              .only_digits( true )
+                              .query_int();
+        if( pop.canceled() ) {
             return;
         }
-        const int new_value = std::atoi( text.c_str() );
         const time_duration offset = ( new_value - initial ) * factor;
         // Arbitrary maximal value.
         const time_point max = calendar::turn_zero + time_duration::from_turns(
