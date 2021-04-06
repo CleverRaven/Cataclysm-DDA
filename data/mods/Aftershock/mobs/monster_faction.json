@@ -52,7 +52,7 @@
     "name": "cryo",
     "base_faction": "mutant",
     "by_mood": [ "mutant", "animal" ],
-    "hate": [ "moxie", "small_animal", "herbivore", "insect", "human", "WraitheonRobotics" ]
+    "hate": [ "moxie", "insect", "human", "WraitheonRobotics" ]
   },
   {
     "type": "MONSTER_FACTION",
