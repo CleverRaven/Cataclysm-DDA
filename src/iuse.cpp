@@ -99,6 +99,7 @@
 #include "timed_event.h"
 #include "translations.h"
 #include "trap.h"
+#include "try_parse_integer.h"
 #include "type_id.h"
 #include "ui.h"
 #include "units.h"
@@ -6137,6 +6138,17 @@ static void init_memory_card_with_random_stuff( item &it )
     }
 }
 
+static int get_quality_from_string( const std::string &s )
+{
+    const ret_val<int> try_quality = try_parse_integer<int>( s, false );
+    if( try_quality.success() ) {
+        return try_quality.value();
+    } else {
+        debugmsg( "Error parsing photo quality: %s", try_quality.str() );
+        return 0;
+    }
+}
+
 static bool einkpc_download_memory_card( player &p, item &eink, item &mc )
 {
     bool something_downloaded = false;
@@ -6253,22 +6265,22 @@ static bool einkpc_download_memory_card( player &p, item &eink, item &mc )
 
                 const std::string mtype = s;
                 getline( f, s, ',' );
-                char *chq = &s[0];
-                const int quality = atoi( chq );
+                const int quality = get_quality_from_string( s );
 
                 const size_t eink_strpos = photos.find( "," + mtype + "," );
 
                 if( eink_strpos == std::string::npos ) {
                     photos += mtype + "," + string_format( "%d", quality ) + ",";
                 } else {
-
                     const size_t strqpos = eink_strpos + mtype.size() + 2;
-                    char *chq = &photos[strqpos];
-                    const int old_quality = atoi( chq );
+                    const size_t next_comma = photos.find( ',', strqpos );
+                    const int old_quality =
+                        get_quality_from_string( photos.substr( strqpos, next_comma ) );
 
                     if( quality > old_quality ) {
-                        chq = &string_format( "%d", quality )[0];
-                        photos[strqpos] = *chq;
+                        const std::string quality_s = string_format( "%d", quality );
+                        cata_assert( quality_s.size() == 1 );
+                        photos[strqpos] = quality_s.front();
                     }
                 }
 
@@ -6522,8 +6534,7 @@ cata::optional<int> iuse::einktabletpc( player *p, item *it, bool t, const tripo
                 const monster dummy( monster_photos.back() );
                 menu_str = dummy.name();
                 getline( f, s, ',' );
-                char *chq = &s[0];
-                const int quality = atoi( chq );
+                const int quality = get_quality_from_string( s );
                 menu_str += " [" + photo_quality_name( quality ) + "]";
                 pmenu.addentry( k++, true, -1, menu_str.c_str() );
             }
@@ -7334,11 +7345,14 @@ static void item_save_monsters( player &p, item &it, const std::vector<monster *
             monster_photos += string_format( "%s,%d,", mtype, photo_quality );
         } else { // replace quality character, if new photo is better
             const size_t quality_num_pos = mon_str_pos + mtype.size() + 2;
-            char *quality_char = &monster_photos[ quality_num_pos ];
-            const int old_quality = atoi( quality_char ); // get qual number from char
+            const size_t next_comma = monster_photos.find( ',', quality_num_pos );
+            const int old_quality =
+                get_quality_from_string( monster_photos.substr( quality_num_pos, next_comma ) );
 
             if( photo_quality > old_quality ) {
-                monster_photos[ quality_num_pos ] = string_format( "%d", photo_quality )[ 0 ];
+                const std::string quality_s = string_format( "%d", photo_quality );
+                cata_assert( quality_s.size() == 1 );
+                monster_photos[quality_num_pos] = quality_s.front();
             }
             if( !p.is_blind() ) {
                 if( photo_quality > old_quality ) {
@@ -7652,8 +7666,7 @@ cata::optional<int> iuse::camera( player *p, item *it, bool, const tripoint & )
             descriptions.push_back( dummy.type->get_description() );
 
             getline( f_mon, s, ',' );
-            char *chq = &s[0];
-            const int quality = atoi( chq );
+            const int quality = get_quality_from_string( s );
 
             menu_str += " [" + photo_quality_name( quality ) + "]";
 
