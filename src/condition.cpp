@@ -919,6 +919,17 @@ void conditional_t<T>::set_has_pain( const JsonObject &jo, const std::string &me
 }
 
 template<class T>
+void conditional_t<T>::set_has_power( const JsonObject &jo, const std::string &member,
+                                      bool is_npc )
+{
+    units::energy min_power;
+    assign( jo, member, min_power, false, 0_kJ );
+    condition = [min_power, is_npc]( const T & d ) {
+        return d.actor( is_npc )->power_cur() >= min_power;
+    };
+}
+
+template<class T>
 conditional_t<T>::conditional_t( const JsonObject &jo )
 {
     // improve the clarity of NPC setter functions
@@ -1120,8 +1131,12 @@ conditional_t<T>::conditional_t( const JsonObject &jo )
         set_has_wielded_with_flag( jo, "npc_has_wielded_with_flag", is_npc );
     } else if( jo.has_member( "u_has_pain" ) ) {
         set_has_pain( jo, "u_has_pain" );
-    } else if( jo.has_int( "npc_has_pain" ) ) {
+    } else if( jo.has_member( "npc_has_pain" ) ) {
         set_has_pain( jo, "npc_has_pain", is_npc );
+    } else if( jo.has_member( "u_has_power" ) ) {
+        set_has_power( jo, "u_has_power" );
+    } else if( jo.has_member( "npc_has_power" ) ) {
+        set_has_power( jo, "npc_has_power", is_npc );
     } else if( jo.has_string( "is_weather" ) ) {
         set_is_weather( jo );
     } else {
