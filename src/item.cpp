@@ -95,6 +95,7 @@
 #include "string_id_utils.h"
 #include "text_snippets.h"
 #include "translations.h"
+#include "try_parse_integer.h"
 #include "units.h"
 #include "units_fwd.h"
 #include "units_utility.h"
@@ -1185,7 +1186,19 @@ double item::get_var( const std::string &name, const double default_value ) cons
     if( it == item_vars.end() ) {
         return default_value;
     }
-    return atof( it->second.c_str() );
+    const std::string &val = it->second;
+    char *end;
+    errno = 0;
+    double result = strtod( &val[0], &end );
+    if( errno != 0 ) {
+        debugmsg( "Error parsing floating point value from %s in item::get_var: %s",
+                  val, strerror( errno ) );
+        return default_value;
+    }
+    if( end != &val[0] + val.size() ) {
+        debugmsg( "Stray characters at end of floating point value %s in item::get_var", val );
+    }
+    return result;
 }
 
 void item::set_var( const std::string &name, const tripoint &value )
@@ -1200,9 +1213,19 @@ tripoint item::get_var( const std::string &name, const tripoint &default_value )
         return default_value;
     }
     std::vector<std::string> values = string_split( it->second, ',' );
-    return tripoint( atoi( values[0].c_str() ),
-                     atoi( values[1].c_str() ),
-                     atoi( values[2].c_str() ) );
+    cata_assert( values.size() == 3 );
+    auto convert_or_error = []( const std::string & s ) {
+        ret_val<int> result = try_parse_integer<int>( s, false );
+        if( result.success() ) {
+            return result.value();
+        } else {
+            debugmsg( "Error parsing tripoint coordinate in item::get_var: %s", result.str() );
+            return 0;
+        }
+    };
+    return tripoint( convert_or_error( values[0] ),
+                     convert_or_error( values[1] ),
+                     convert_or_error( values[2] ) );
 }
 
 void item::set_var( const std::string &name, const std::string &value )
@@ -2148,9 +2171,15 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
     }
     if( parts->test( iteminfo_parts::AMMO_FX_RECOVER ) ) {
         for( const std::string &effect : ammo.ammo_effects ) {
-            if( effect.compare( 0, 8, "RECOVER_" ) == 0 ) {
-                int recover_chance;
-                sscanf( effect.c_str(), "RECOVER_%i", &recover_chance );
+            if( string_starts_with( effect, "RECOVER_" ) ) {
+                ret_val<int> try_recover_chance =
+                    try_parse_integer<int>( effect.substr( 8 ), false );
+                if( !try_recover_chance.success() ) {
+                    debugmsg( "Error parsing ammo RECOVER_ denominator: %s",
+                              try_recover_chance.str() );
+                    break;
+                }
+                int recover_chance = try_recover_chance.value();
                 if( recover_chance <= 5 ) {
                     fx.emplace_back( _( "Stands a <bad>very low</bad> chance of remaining intact once fired." ) );
                 } else if( recover_chance <= 10 ) {
