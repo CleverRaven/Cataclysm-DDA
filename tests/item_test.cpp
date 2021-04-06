@@ -286,3 +286,14 @@ TEST_CASE( "items spawn in their default containers", "[item]" )
     check_spawning_in_container( "chem_black_powder" );
     check_spawning_in_container( "software_useless" );
 }
+
+TEST_CASE( "item variables round-trip accurately", "[item]" )
+{
+    item i( "water" );
+    i.set_var( "A", 17 );
+    CHECK( i.get_var( "A", 0 ) == 17 );
+    i.set_var( "B", 0.125 );
+    CHECK( i.get_var( "B", 0.0 ) == 0.125 );
+    i.set_var( "C", tripoint( 2, 3, 4 ) );
+    CHECK( i.get_var( "C", tripoint() ) == tripoint( 2, 3, 4 ) );
+}
