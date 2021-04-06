@@ -90,6 +90,7 @@
 #include "timed_event.h"
 #include "translations.h"
 #include "trap.h"
+#include "try_parse_integer.h"
 #include "ui.h"
 #include "ui_manager.h"
 #include "uistate.h"
@@ -4127,9 +4128,14 @@ cata::optional<tripoint> iexamine::getNearFilledGasTank( const tripoint &center,
 static int getGasDiscountCardQuality( const item &it )
 {
     for( const flag_id &tag : it.type->get_flags() ) {
-        int discount_value;
-        if( sscanf( tag->id.c_str(), "DISCOUNT_VALUE_%i", &discount_value ) == 1 ) {
-            return discount_value;
+        if( string_starts_with( tag->id.str(), "DISCOUNT_VALUE_" ) ) {
+            ret_val<int> discount_value =
+                try_parse_integer<int>( tag->id.str().substr( 15 ), false );
+            if( discount_value.success() ) {
+                return discount_value.value();
+            } else {
+                debugmsg( "Error parsing ammo DISCOUNT_VALUE_ suffix: %s", discount_value.str() );
+            }
         }
     }
     return 0;
