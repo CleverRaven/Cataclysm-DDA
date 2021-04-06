@@ -61,6 +61,18 @@
   },
   {
     "type": "construction",
+    "id": "constr_pit_underground",
+    "group": "underground_pit",
+    "category": "DIG",
+    "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
+    "required_skills": [ [ "survival", 3 ] ],
+    "time": "300 m",
+    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 7000 ] ] ],
+    "pre_terrain": "t_rock_floor",
+    "post_terrain": "t_pit"
+  },
+  {
+    "type": "construction",
     "id": "constr_chop_trunk",
     "group": "chop_tree_trunk_into_planks",
     "category": "FARM_WOOD",
