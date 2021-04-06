@@ -81,7 +81,7 @@
           "require_targeting_player": false,
           "description": "The orc shoots you with laser accuracy",
           "ranges": [ [ 3, 13, "DEFAULT" ] ],
-          "no_ammo_sound": "grunting."
+          "no_ammo_sound": "grunting"
         }
       ],
       "flags": [ "DROPS_AMMO" ]
