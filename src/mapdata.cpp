@@ -300,7 +300,7 @@ bool map_deconstruct_info::load( const JsonObject &jsobj, const std::string &mem
     return true;
 }
 
-ter_shoot_info::ter_shoot_info() : chance_to_hit( 0.0f ), chance_to_pass_through( 0.0f ),
+ter_shoot_info::ter_shoot_info() : chance_to_hit( 0.0f ),
     reduce_dmg_min( 0 ), reduce_dmg_max( 0 ),
     reduce_dmg_min_laser( 0 ), reduce_dmg_max_laser( 0 ),
     destroy_dmg_min( 0 ), destroy_dmg_max( 0 ),
