@@ -31,6 +31,7 @@
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
+#include "try_parse_integer.h"
 #include "ui_manager.h"
 
 using namespace std::placeholders;
@@ -1549,7 +1550,13 @@ void WORLD::load_options( JsonIn &jsin )
                                   jo.get_string( "value" ) );
 
         if( name == "CORE_VERSION" ) {
-            version = std::max( std::atoi( value.c_str() ), 0 );
+            ret_val<int> value_parsed = try_parse_integer<int>( value, false );
+            if( value_parsed.success() ) {
+                version = std::max( value_parsed.value(), 0 );
+            } else {
+                version = 0;
+                debugmsg( "Error parsing CORE_VERSION: %s", value_parsed.str() );
+            }
             continue;
         }
 
