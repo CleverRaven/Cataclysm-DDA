@@ -2446,7 +2446,7 @@ void iexamine::harvest_plant( player &p, const tripoint &examp, bool from_activi
             if( from_activity ) {
                 i.set_var( "activity_var", p.name );
             }
-            here.add_item_or_charges( examp, i );
+            here.add_item_or_charges( p.pos(), i );
         }
         here.furn_set( examp, furn_str_id( here.furn( examp )->plant->transform ) );
         p.moves -= to_moves<int>( 10_seconds );
