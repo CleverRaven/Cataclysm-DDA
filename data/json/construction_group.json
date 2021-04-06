@@ -846,6 +846,11 @@
   },
   {
     "type": "construction_group",
+    "id": "underground_pit",
+    "name": "Dig a Deep Pit Underground"
+  },
+  {
+    "type": "construction_group",
     "id": "dig_a_shallow_pit",
     "name": "Dig a Shallow Pit"
   },
