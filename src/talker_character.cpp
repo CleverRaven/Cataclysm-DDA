@@ -292,7 +292,7 @@ void talker_character::shout( const std::string &speech, bool order )
 {
     me_chr->shout( speech, order );
 }
-\
+
 int talker_character::pain_cur() const
 {
     return me_chr->get_pain();
@@ -312,3 +312,9 @@ bool talker_character::wielded_with_flag( const flag_id &flag ) const
 {
     return me_chr->weapon.has_flag( flag );
 }
+
+units::energy talker_character::power_cur() const
+{
+    return me_chr->get_power_level();
+}
+

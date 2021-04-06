@@ -62,7 +62,6 @@
 
 static const bionic_id bio_dis_acid( "bio_dis_acid" );
 static const bionic_id bio_dis_shock( "bio_dis_shock" );
-static const bionic_id bio_drain( "bio_drain" );
 static const bionic_id bio_geiger( "bio_geiger" );
 static const bionic_id bio_gills( "bio_gills" );
 static const bionic_id bio_glowy( "bio_glowy" );
@@ -1182,11 +1181,6 @@ void Character::suffer_from_bad_bionics()
         hurtall( 1, nullptr );
         sfx::play_variant_sound( "bionics", "acid_discharge", 100 );
         sfx::do_player_death_hurt( get_player_character(), false );
-    }
-    if( has_bionic( bio_drain ) && get_power_level() > 24_kJ && one_turn_in( 1_hours ) ) {
-        add_msg_if_player( m_bad, _( "Your batteries discharge slightly." ) );
-        mod_power_level( -25_kJ );
-        sfx::play_variant_sound( "bionics", "elec_crackle_low", 100 );
     }
     if( has_bionic( bio_noise ) && one_turn_in( 50_minutes ) &&
         !has_effect( effect_narcosis ) ) {
