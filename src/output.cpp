@@ -719,11 +719,11 @@ bool query_int( int &result, const std::string &text )
     string_input_popup popup;
     popup.title( text );
     popup.text( "" ).only_digits( true );
-    popup.query();
+    int temp = popup.query_int();
     if( popup.canceled() ) {
         return false;
     }
-    result = atoi( popup.text().c_str() );
+    result = temp;
     return true;
 }
 
