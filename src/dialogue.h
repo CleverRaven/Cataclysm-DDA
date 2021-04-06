@@ -102,6 +102,7 @@ struct talk_effect_fun_t {
         void set_message( const JsonObject &jo, const std::string &member );
         void set_mod_pain( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_add_wet( const JsonObject &jo, const std::string &member, bool is_npc );
+        void set_add_power( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_sound_effect( const JsonObject &jo, const std::string &member );
         void set_add_var( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_remove_var( const JsonObject &jo, const std::string &member, bool is_npc = false );
