@@ -281,7 +281,7 @@
     "act_cost": "30 kJ",
     "react_cost": "30 kJ",
     "time": 1,
-    "enchantments": [ "ENCH_INVISIBILITY" ],
+    "enchantments": [ { "condition": "ACTIVE", "ench_effects": [ { "effect": "invisibility", "intensity": 1 } ] } ],
     "flags": [ "BIONIC_TOGGLED" ]
   },
   {
@@ -740,7 +740,13 @@
     "description": "When active, this bionic eliminates all light within a 2 tile radius through destructive interference.",
     "occupied_bodyparts": [ [ "torso", 16 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
-    "enchantments": [ "ENCH_SHADOW_CLOUD" ],
+    "enchantments": [
+      {
+        "condition": "ACTIVE",
+        "ench_effects": [ { "effect": "invisibility", "intensity": 1 } ],
+        "emitter": "emit_shadow_field"
+      }
+    ],
     "act_cost": "9 kJ",
     "react_cost": "9 kJ",
     "time": 1
@@ -1228,6 +1234,6 @@
     "description": "An electrode has been implanted into your brain's ventrolateral preoptic nucleus.  It turns on whenever you're trying to fall asleep, creating an artificial but effective sensation of fatigue.",
     "occupied_bodyparts": [ [ "head", 1 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
-    "enchantments": [ "ENCH_BIO_SOPORIFIC" ]
+    "enchantments": [ { "condition": "ACTIVE", "values": [ { "value": "SLEEPY", "add": 30 } ] } ]
   }
 ]
