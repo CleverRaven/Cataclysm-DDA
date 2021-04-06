@@ -75,7 +75,7 @@
           "move_cost": 93,
           "gun_type": "longbow",
           "ammo_type": "arrow_wood_heavy",
-          "fake_skills": [ [ "gun", 6 ], [ "rifle", 7 ] ],
+          "fake_skills": [ [ "gun", 6 ], [ "archery", 7 ] ],
           "fake_dex": 9,
           "fake_per": 5,
           "require_targeting_player": false,
