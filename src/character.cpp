@@ -5511,10 +5511,15 @@ static inline int ticks_between( const time_point &from, const time_point &to,
 void Character::update_body()
 {
     update_body( calendar::turn - 1_turns, calendar::turn );
+    last_updated = calendar::turn;
 }
 
 void Character::update_body( const time_point &from, const time_point &to )
 {
+    // Early return if we already did update previously on the same turn (e.g. when loading savegame).
+    if( to <= last_updated ) {
+        return;
+    }
     if( !is_npc() ) {
         update_stamina( to_turns<int>( to - from ) );
     }
