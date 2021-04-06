@@ -300,6 +300,32 @@ bool map_deconstruct_info::load( const JsonObject &jsobj, const std::string &mem
     return true;
 }
 
+ter_shoot_info::ter_shoot_info() : chance_to_hit( 0.0f ), chance_to_pass_through( 0.0f ),
+    reduce_dmg_min( 0 ), reduce_dmg_max( 0 ),
+    reduce_dmg_min_laser( 0 ), reduce_dmg_max_laser( 0 ),
+    destroy_dmg_min( 0 ), destroy_dmg_max( 0 ),
+    laser_can_destroy( false ) {}
+
+bool ter_shoot_info::load( const JsonObject &jsobj, const std::string &member )
+{
+    JsonObject j = jsobj.get_object( member );
+
+    assign( j, "chance_to_hit", chance_to_hit );
+
+    assign( j, "reduce_dmg_min", reduce_dmg_min );
+    assign( j, "reduce_dmg_max", reduce_dmg_max );
+
+    assign( j, "reduce_dmg_min_laser", reduce_dmg_min_laser );
+    assign( j, "reduce_dmg_max_laser", reduce_dmg_max_laser );
+
+    assign( j, "destroy_dmg_min", destroy_dmg_min );
+    assign( j, "destroy_dmg_max", destroy_dmg_max );
+
+    assign( j, "laser_can_destroy", laser_can_destroy );
+
+    return true;
+}
+
 furn_workbench_info::furn_workbench_info() : multiplier( 1.0f ), allowed_mass( units::mass_max ),
     allowed_volume( units::volume_max ) {}
 
@@ -1230,6 +1256,11 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
 
     bash.load( jo, "bash", map_bash_info::terrain, "terrain " + id.str() );
     deconstruct.load( jo, "deconstruct", false, "terrain " + id.str() );
+
+    if( jo.has_object( "shoot" ) ) {
+        shoot = cata::make_value<ter_shoot_info>();
+        shoot->load( jo, "shoot" );
+    }
 }
 
 static void check_bash_items( const map_bash_info &mbi, const std::string &id, bool is_terrain )

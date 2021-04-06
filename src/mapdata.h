@@ -75,6 +75,26 @@ struct map_deconstruct_info {
     bool load( const JsonObject &jsobj, const std::string &member, bool is_furniture,
                const std::string &context );
 };
+struct ter_shoot_info {
+    // Base chance to hit the terrain at all
+    int chance_to_hit;
+    // Minimum damage reduction to apply to shot when hit
+    int reduce_dmg_min;
+    // Maximum damage reduction to apply to shot when hit
+    int reduce_dmg_max;
+    // Minimum damage reduction to apply to laser shots when hit
+    int reduce_dmg_min_laser;
+    // Maximum damage reduction to apply to laser shots when hit
+    int reduce_dmg_max_laser;
+    // Damage required to have a chance to destroy
+    int destroy_dmg_min;
+    // Damage required to guarentee destruction
+    int destroy_dmg_max;
+    // Can the terrain be destroyed by lasers
+    bool laser_can_destroy;
+    ter_shoot_info();
+    bool load( const JsonObject &jsobj, const std::string &member );
+};
 struct furn_workbench_info {
     // Base multiplier applied for crafting here
     float multiplier;
@@ -372,6 +392,8 @@ struct ter_t : map_data_common_t {
 
     std::set<emit_id> emissions;
     std::set<itype_id> allowed_template_id;
+
+    cata::value_ptr<ter_shoot_info> shoot;
 
     ter_t();
 

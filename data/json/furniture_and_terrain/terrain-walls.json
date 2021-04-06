@@ -973,6 +973,16 @@
       "sound_fail_vol": 10,
       "ter_set": "t_floor",
       "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
+    },
+    "shoot": {
+      "chance_to_hit": 100,
+      "reduce_dmg_min": 1,
+      "reduce_dmg_max": 8,
+      "reduce_dmg_min_laser": 0,
+      "reduce_dmg_max_laser": 5,
+      "destroy_dmg_min": 2,
+      "destroy_dmg_max": 8,
+      "laser_can_destroy": false
     }
   },
   {
@@ -1019,6 +1029,16 @@
       "sound_fail_vol": 14,
       "ter_set": "t_floor",
       "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
+    },
+    "shoot": {
+      "chance_to_hit": 100,
+      "reduce_dmg_min": 2,
+      "reduce_dmg_max": 12,
+      "reduce_dmg_min_laser": 0,
+      "reduce_dmg_max_laser": 7,
+      "destroy_dmg_min": 40,
+      "destroy_dmg_max": 100,
+      "laser_can_destroy": false
     }
   },
   {
@@ -1042,6 +1062,16 @@
       "sound_fail_vol": 14,
       "ter_set": "t_floor",
       "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
+    },
+    "shoot": {
+      "chance_to_hit": 100,
+      "reduce_dmg_min": 30,
+      "reduce_dmg_max": 60,
+      "reduce_dmg_min_laser": 0,
+      "reduce_dmg_max_laser": 10,
+      "destroy_dmg_min": 80,
+      "destroy_dmg_max": 200,
+      "laser_can_destroy": false
     }
   },
   {
@@ -1064,6 +1094,16 @@
       "sound_fail_vol": 14,
       "ter_set": "t_floor",
       "items": [ { "item": "glass_shard", "count": [ 42, 84 ] }, { "item": "wire", "prob": 20 } ]
+    },
+    "shoot": {
+      "chance_to_hit": 100,
+      "reduce_dmg_min": 15,
+      "reduce_dmg_max": 30,
+      "reduce_dmg_min_laser": 0,
+      "reduce_dmg_max_laser": 10,
+      "destroy_dmg_min": 60,
+      "destroy_dmg_max": 150,
+      "laser_can_destroy": false
     }
   },
   {

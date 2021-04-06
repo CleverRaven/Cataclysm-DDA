@@ -3656,7 +3656,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
     if( terrain->has_flag( TFLAG_NO_SHOOT ) ) {
         dam = 0.0f;
         add_msg( _( "The shot is stopped by the %s" ), terrain->name() );
-    } else if( terrain == t_wall_wood_broken ||
+    } /*else if( terrain == t_wall_wood_broken ||
                terrain == t_wall_log_broken ||
                terrain == t_door_b ) {
         if( hit_items || one_in( 8 ) ) { // 1 in 8 chance of hitting the door
@@ -3778,7 +3778,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
                 ter_set( p, t_floor );
             }
         }
-    } else if( terrain == t_paper ) {
+    }*/ else if( terrain == t_paper ) {
         dam -= rng( 4, 16 );
         if( dam > 0 ) {
             sounds::sound( p, 8, sounds::sound_t::combat, _( "rrrrip!" ), true, "smash", "paper_torn" );
@@ -3821,6 +3821,29 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
             ter_set( p, t_thconc_floor );
             spawn_item( p, itype_glass_shard, rng( 8, 16 ) );
             dam = 0; //Prevent damaging additional items, since we shot at the ceiling.
+        }
+    } else if( terrain->shoot ) {
+        if( x_in_y( terrain->shoot->chance_to_hit, 100 ) ) {
+            const bool laser = ammo_effects.count( "LASER" ) != 0;
+            if( laser ) {
+                dam -= rng( terrain->shoot->reduce_dmg_min_laser, terrain->shoot->reduce_dmg_max_laser );
+            } else {
+                dam -= rng( terrain->shoot->reduce_dmg_min, terrain->shoot->reduce_dmg_max );
+            }
+            // lasers can't destroy most walls you can shoot through
+            if( !laser || terrain->shoot->laser_can_destroy ) {
+                // important to use initial damage, energy from reduction has gone into the terrain
+                const int x = int(initial_damage) - terrain->shoot->destroy_dmg_min;
+                const int y = terrain->shoot->destroy_dmg_max - terrain->shoot->destroy_dmg_min;
+                if( x_in_y( x, y ) ) {
+                    // don't need to duplicate all the destruction logic here
+                    bash_params bsh{ 0, false, true, false, 0.0, false, false, false, false };
+                    bash_ter_furn( p, bsh );
+                }
+            }
+            if( dam <= 0 && get_player_view().sees( p ) ) {
+                add_msg( _( "The shot is stopped by the %s!" ), terrain->name() );
+            }
         }
     } else if( impassable( p ) && !is_transparent( p ) ) {
         bash( p, dam, false );
