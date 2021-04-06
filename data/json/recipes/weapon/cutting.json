@@ -155,7 +155,12 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "DRILL", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.5, "fail_multiplier": 1.5 } ],
-    "components": [ [ [ "duct_tape", 100 ] ], [ [ "blade", 1 ] ], [ [ "stick_long", 1 ] ], [ [ "cordage", 2, "LIST" ] ] ]
+    "components": [
+      [ [ "duct_tape", 100 ] ],
+      [ [ "blade", 1 ], [ "knife_meat_cleaver", 1 ], [ "knife_vegetable_cleaver", 1 ] ],
+      [ [ "stick_long", 1 ] ],
+      [ [ "cordage", 2, "LIST" ] ]
+    ]
   },
   {
     "type": "recipe",
