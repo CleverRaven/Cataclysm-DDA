@@ -165,8 +165,8 @@ then
         make -j$num_jobs
         cd ..
         # Run regular tests
-        [ -f "${bin_path}cata_test" ] && parallel --verbose --linebuffer "run_test $(printf %q "${bin_path}")'/cata_test' {} '('{}')=> '" ::: "crafting_skill_gain" "[slow] ~crafting_skill_gain" "~[slow] ~[.]"
-        [ -f "${bin_path}cata_test-tiles" ] && parallel --verbose --linebuffer "run_test $(printf %q "${bin_path}")'/cata_test-tiles' {} '('{}')=> '" ::: "crafting_skill_gain" "[slow] ~crafting_skill_gain" "~[slow] ~[.]"
+        [ -f "${bin_path}cata_test" ] && parallel --verbose --linebuffer --link "run_test $(printf %q "${bin_path}")'/cata_test' {2} {1} '('{1}')=> '" ::: "crafting_skill_gain" "[slow] ~crafting_skill_gain" "~[slow] ~[.]" ::: "--user-dir=process1" "--user-dir=process2" "--user-dir=process3"
+        [ -f "${bin_path}cata_test-tiles" ] && parallel --verbose --linebuffer --link "run_test $(printf %q "${bin_path}")'/cata_test-tiles' {2} {1} '('{1}')=> '" ::: "crafting_skill_gain" "[slow] ~crafting_skill_gain" "~[slow] ~[.]" ::: "--user-dir=process1" "--user-dir=process2" "--user-dir=process3"
     fi
 elif [ "$NATIVE" == "android" ]
 then
@@ -187,10 +187,10 @@ else
 
     export ASAN_OPTIONS=detect_odr_violation=1
     export UBSAN_OPTIONS=print_stacktrace=1
-    parallel --verbose --linebuffer "run_test './tests/cata_test' {} '('{}')=> '" ::: "crafting_skill_gain" "[slow] ~crafting_skill_gain" "~[slow] ~[.]"
+    parallel --verbose --linebuffer --link "run_test './tests/cata_test' {2} {1} '('{1}')=> '" ::: "crafting_skill_gain" "[slow] ~crafting_skill_gain" "~[slow] ~[.]" ::: "--user-dir=process1" "--user-dir=process2" "--user-dir=process3"
     if [ -n "$MODS" ]
     then
-        parallel --verbose --linebuffer "run_test './tests/cata_test --user-dir=modded '$(printf %q "${MODS}") {} 'Mods-('{}')=> '" ::: "crafting_skill_gain" "[slow] ~crafting_skill_gain" "~[slow] ~[.]"
+        parallel --verbose --linebuffer --link "run_test './tests/cata_test {2} '$(printf %q "${MODS}") {1} 'Mods-('{1}')=> '" ::: "crafting_skill_gain" "[slow] ~crafting_skill_gain" "~[slow] ~[.]" ::: "--user-dir=modded-process1" "--user-dir=modded-process2" "--user-dir=modded-process3"
     fi
 
     if [ -n "$TEST_STAGE" ]
