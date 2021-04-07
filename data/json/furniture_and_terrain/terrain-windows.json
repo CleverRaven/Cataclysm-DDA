@@ -9,16 +9,7 @@
     "move_cost": 0,
     "coverage": 60,
     "roof": "t_flat_roof",
-    "flags": [
-      "TRANSPARENT",
-      "FLAMMABLE",
-      "NOITEM",
-      "REDUCE_SCENT",
-      "BARRICADABLE_WINDOW",
-      "CONNECT_TO_WALL",
-      "BLOCK_WIND",
-      "WINDOW"
-    ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "BARRICADABLE_WINDOW", "CONNECT_TO_WALL", "BLOCK_WIND", "WINDOW" ],
     "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "glass_sheet", "count": 1 } ] },
     "bash": {
       "str_min": 3,
@@ -41,7 +32,53 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "WALL", "CONNECT_TO_WALL", "BLOCK_WIND", "WINDOW" ],
+    "flags": [ "FLAMMABLE", "NOITEM", "WALL", "CONNECT_TO_WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW" ],
+    "bash": {
+      "str_min": 6,
+      "str_max": 12,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 10,
+      "ter_set": "t_window_frame",
+      "items": [ { "item": "glass_shard", "count": [ 34, 50 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_window_plastic_taped",
+    "name": "taped window",
+    "looks_like": "t_window_taped",
+    "description": "Duct tape covers this plastic window, blocking sunlight and visibility.  You could remove the duct tape by cutting it off.",
+    "symbol": "\"",
+    "color": "dark_gray",
+    "move_cost": 0,
+    "coverage": 95,
+    "roof": "t_flat_roof",
+    "flags": [ "FLAMMABLE", "NOITEM", "WALL", "CONNECT_TO_WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW" ],
+    "bash": {
+      "str_min": 6,
+      "str_max": 12,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 10,
+      "ter_set": "t_window_empty",
+      "items": [ { "item": "plastic_chunk", "count": [ 25, 50 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_window_tempered_taped",
+    "name": "taped window",
+    "looks_like": "t_window_taped",
+    "description": "Duct tape covers this tempered window, blocking sunlight and visibility.  You could remove the duct tape by cutting it off.",
+    "symbol": "\"",
+    "color": "dark_gray",
+    "move_cost": 0,
+    "coverage": 95,
+    "roof": "t_flat_roof",
+    "flags": [ "FLAMMABLE", "NOITEM", "WALL", "CONNECT_TO_WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW" ],
     "bash": {
       "str_min": 6,
       "str_max": 12,
@@ -69,7 +106,6 @@
       "NOITEM",
       "OPENCLOSE_INSIDE",
       "BARRICADABLE_WINDOW_CURTAINS",
-      "REDUCE_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
       "WINDOW"
@@ -83,7 +119,7 @@
       "items": [
         { "item": "stick", "count": 1 },
         { "item": "sheet", "count": 2 },
-        { "item": "glass_sheet", "count": 1 },
+        { "item": "glass_sheet", "count": 2 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "string_36", "count": 1 }
       ]
@@ -120,14 +156,13 @@
       "NOITEM",
       "OPENCLOSE_INSIDE",
       "BARRICADABLE_WINDOW",
-      "REDUCE_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
       "WINDOW"
     ],
     "examine_action": "locked_object",
     "open": "t_window_no_curtains_open",
-    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "glass_sheet", "count": 1 } ] },
+    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "glass_sheet", "count": 2 } ] },
     "bash": {
       "str_min": 3,
       "str_max": 6,
@@ -183,7 +218,7 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "WINDOW" ],
+    "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW" ],
     "bash": {
       "str_min": 6,
       "str_max": 12,
@@ -206,7 +241,7 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "WINDOW" ],
+    "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW" ],
     "curtain_transform": "t_window_no_curtains_taped",
     "examine_action": "curtains",
     "bash": {
@@ -275,16 +310,7 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
-    "flags": [
-      "FLAMMABLE",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "REDUCE_SCENT",
-      "BARRICADABLE_WINDOW_CURTAINS",
-      "CONNECT_TO_WALL",
-      "BLOCK_WIND",
-      "WINDOW"
-    ],
+    "flags": [ "FLAMMABLE", "NOITEM", "OPENCLOSE_INSIDE", "BARRICADABLE_WINDOW_CURTAINS", "CONNECT_TO_WALL", "BLOCK_WIND", "WINDOW" ],
     "curtain_transform": "t_window_no_curtains",
     "open": "t_window_domestic",
     "examine_action": "curtains",
@@ -293,7 +319,7 @@
       "items": [
         { "item": "stick", "count": 1 },
         { "item": "sheet", "count": 2 },
-        { "item": "glass_sheet", "count": 1 },
+        { "item": "glass_sheet", "count": 2 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "string_36", "count": 1 }
       ]
@@ -323,17 +349,7 @@
     "color": "light_cyan",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [
-      "TRANSPARENT",
-      "FLAMMABLE",
-      "ALARMED",
-      "NOITEM",
-      "REDUCE_SCENT",
-      "BARRICADABLE_WINDOW",
-      "CONNECT_TO_WALL",
-      "BLOCK_WIND",
-      "WINDOW"
-    ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "ALARMED", "NOITEM", "BARRICADABLE_WINDOW", "CONNECT_TO_WALL", "BLOCK_WIND", "WINDOW" ],
     "bash": {
       "str_min": 3,
       "str_max": 6,
@@ -354,7 +370,7 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "ALARMED", "WALL", "BARRICADABLE_WINDOW", "BLOCK_WIND", "WINDOW" ],
+    "flags": [ "FLAMMABLE", "NOITEM", "ALARMED", "WALL", "BARRICADABLE_WINDOW", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW" ],
     "bash": {
       "str_min": 6,
       "str_max": 12,
@@ -446,6 +462,56 @@
   },
   {
     "type": "terrain",
+    "id": "t_window_tempered_boarded",
+    "name": "boarded up window",
+    "looks_like": "t_window_boarded",
+    "description": "A tempered glass window that has been covered with nailed down planks, blocking sunlight and visibility.  It's not much stronger, but it could be further reinforced with strategically placed two by fours.",
+    "symbol": "#",
+    "color": "brown",
+    "move_cost": 0,
+    "coverage": 95,
+    "roof": "t_flat_roof",
+    "flags": [ "FLAMMABLE", "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND", "WINDOW" ],
+    "bash": {
+      "str_min": 3,
+      "str_max": 30,
+      "sound": "crash!",
+      "sound_fail": "wham!",
+      "sound_vol": 16,
+      "sound_fail_vol": 10,
+      "ter_set": "t_window_frame",
+      "items": [ { "item": "splinter", "count": [ 0, 2 ] }, { "item": "glass_shard", "count": [ 25, 42 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_window_plastic_boarded",
+    "name": "boarded up window",
+    "looks_like": "t_window_boarded",
+    "description": "A plastic window that has been covered with nailed down planks, blocking sunlight and visibility.  It's not much stronger, but it could be further reinforced with strategically placed two by fours.",
+    "symbol": "#",
+    "color": "brown",
+    "move_cost": 0,
+    "coverage": 95,
+    "roof": "t_flat_roof",
+    "flags": [ "FLAMMABLE", "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND", "WINDOW" ],
+    "bash": {
+      "str_min": 3,
+      "str_max": 30,
+      "sound": "crash!",
+      "sound_fail": "wham!",
+      "sound_vol": 16,
+      "sound_fail_vol": 10,
+      "ter_set": "t_window_empty",
+      "items": [
+        { "item": "splinter", "count": [ 0, 2 ] },
+        { "item": "plastic_chunk", "count": [ 25, 50 ] },
+        { "item": "rigid_plastic_sheet", "count": [ 0, 1 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_window_boarded_noglass",
     "name": "boarded up window",
     "looks_like": "t_window_boarded",
@@ -455,7 +521,7 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND", "WINDOW" ],
+    "flags": [ "FLAMMABLE", "NOITEM", "CONNECT_TO_WALL", "BLOCK_WIND", "WINDOW" ],
     "bash": {
       "str_min": 3,
       "str_max": 30,
@@ -471,7 +537,6 @@
     "type": "terrain",
     "id": "t_window_reinforced",
     "name": "reinforced boarded up window",
-    "looks_like": "t_window_boarded",
     "description": "A heavily fortified glass window with carefully placed planks across the glass to block vision.  Adding a few spikes and metal plating would further increase its durability.",
     "symbol": "#",
     "color": "red",
@@ -490,10 +555,52 @@
   },
   {
     "type": "terrain",
+    "id": "t_window_tempered_reinforced",
+    "name": "reinforced boarded up window",
+    "looks_like": "t_window_reinforced",
+    "description": "A heavily fortified tempered glass window with carefully placed planks across the glass to block vision.  Adding a few spikes and metal plating would further increase its durability.",
+    "symbol": "#",
+    "color": "red",
+    "move_cost": 0,
+    "coverage": 95,
+    "roof": "t_flat_roof",
+    "flags": [ "FLAMMABLE", "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND", "WINDOW" ],
+    "bash": {
+      "str_min": 12,
+      "str_max": 30,
+      "sound": "crash!",
+      "sound_fail": "wham!",
+      "ter_set": "t_window_tempered_boarded",
+      "items": [ { "item": "splinter", "count": [ 0, 8 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_window_plastic_reinforced",
+    "name": "reinforced boarded up window",
+    "looks_like": "t_window_reinforced",
+    "description": "A heavily fortified plastic window with carefully placed planks across the glass to block vision.  Adding a few spikes and metal plating would further increase its durability.",
+    "symbol": "#",
+    "color": "red",
+    "move_cost": 0,
+    "coverage": 95,
+    "roof": "t_flat_roof",
+    "flags": [ "FLAMMABLE", "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND", "WINDOW" ],
+    "bash": {
+      "str_min": 12,
+      "str_max": 30,
+      "sound": "crash!",
+      "sound_fail": "wham!",
+      "ter_set": "t_window_plastic_boarded",
+      "items": [ { "item": "splinter", "count": [ 0, 8 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_window_reinforced_noglass",
     "name": "reinforced boarded up window",
     "looks_like": "t_window_reinforced",
-    "description": "A heavily fortified window with carefully placed planks across the open frame to block vision.  Adding a few spikes and metal plating would further increase its durability.",
+    "description": "A heavily fortified window with carefully placed planks across the open frame to block vision and air flow.  Adding a few spikes and metal plating would further increase its durability.",
     "symbol": "#",
     "color": "red",
     "move_cost": 0,
@@ -513,7 +620,6 @@
     "type": "terrain",
     "id": "t_window_enhanced",
     "name": "armored boarded up window",
-    "looks_like": "t_window_reinforced",
     "description": "This once normal glass window now menaces with spikes along the edges, with laboriously placed metal sheeting to further strengthen the wooden reinforcements underneath.",
     "symbol": "#",
     "color": "cyan",
@@ -527,6 +633,48 @@
       "sound": "crash!",
       "sound_fail": "wham!",
       "ter_set": "t_window_reinforced",
+      "items": [ { "item": "spike", "count": [ 0, 2 ] }, { "item": "sheet_metal", "count": [ 1, 3 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_window_tempered_enhanced",
+    "name": "armored boarded up window",
+    "looks_like": "t_window_enhanced",
+    "description": "This once normal tempered glass window now menaces with spikes along the edges, with laboriously placed metal sheeting to further strengthen the wooden reinforcements underneath.",
+    "symbol": "#",
+    "color": "cyan",
+    "move_cost": 0,
+    "coverage": 95,
+    "roof": "t_flat_roof",
+    "flags": [ "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND", "WINDOW" ],
+    "bash": {
+      "str_min": 18,
+      "str_max": 40,
+      "sound": "crash!",
+      "sound_fail": "wham!",
+      "ter_set": "t_window_tempered_reinforced",
+      "items": [ { "item": "spike", "count": [ 0, 2 ] }, { "item": "sheet_metal", "count": [ 1, 3 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_window_plastic_enhanced",
+    "name": "armored boarded up window",
+    "looks_like": "t_window_enhanced",
+    "description": "This once normal plastic window now menaces with spikes along the edges, with laboriously placed metal sheeting to further strengthen the wooden reinforcements underneath.",
+    "symbol": "#",
+    "color": "cyan",
+    "move_cost": 0,
+    "coverage": 95,
+    "roof": "t_flat_roof",
+    "flags": [ "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND", "WINDOW" ],
+    "bash": {
+      "str_min": 18,
+      "str_max": 40,
+      "sound": "crash!",
+      "sound_fail": "wham!",
+      "ter_set": "t_window_plastic_reinforced",
       "items": [ { "item": "spike", "count": [ 0, 2 ] }, { "item": "sheet_metal", "count": [ 1, 3 ] } ]
     }
   },
@@ -554,7 +702,7 @@
   {
     "type": "terrain",
     "id": "t_window_bars",
-    "name": "window frame with metal bars",
+    "name": "window with metal bars",
     "looks_like": "t_bars",
     "description": "A giant sheet of glass inserted into a window with thick security grilles, making it impossible to crawl through.  Typically installed for high-value stores, or at least stores in bad neighborhoods.",
     "examine_action": "bars",
@@ -587,7 +735,7 @@
     "color": "light_gray",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "NOITEM", "REDUCE_SCENT", "ALARMED", "CONNECT_TO_WALL", "WINDOW" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "REDUCE_SCENT", "BLOCK_WIND", "ALARMED", "CONNECT_TO_WALL", "WINDOW" ],
     "bash": {
       "str_min": 3,
       "str_max": 6,
@@ -654,6 +802,7 @@
       "OPENCLOSE_INSIDE",
       "BARRICADABLE_WINDOW_CURTAINS",
       "REDUCE_SCENT",
+      "BLOCK_WIND",
       "CONNECT_TO_WALL",
       "WINDOW"
     ],
@@ -680,12 +829,22 @@
     "type": "terrain",
     "id": "t_window_stained_green",
     "name": "high stained glass window",
-    "description": "Breathtaking craftsmanship of stained glass featuring an elegant emerald landscape.",
+    "description": "Breathtaking stained glass featuring an elegant emerald scene.",
     "symbol": "\"",
     "color": "light_green",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "BARRICADABLE_WINDOW", "CONNECT_TO_WALL", "MINEABLE", "BLOCK_WIND", "WINDOW" ],
+    "flags": [
+      "NOITEM",
+      "SUPPORTS_ROOF",
+      "WALL",
+      "BARRICADABLE_WINDOW",
+      "CONNECT_TO_WALL",
+      "MINEABLE",
+      "BLOCK_WIND",
+      "REDUCE_SCENT",
+      "WINDOW"
+    ],
     "bash": {
       "str_min": 100,
       "str_max": 400,
@@ -699,12 +858,22 @@
     "type": "terrain",
     "id": "t_window_stained_red",
     "name": "high stained glass window",
-    "description": "Breathtaking craftsmanship of stained glass featuring an otherworldly radiant ruby flower blooming.",
+    "description": "Breathtaking stained glass featuring a scene worked in radiant red.",
     "symbol": "\"",
     "color": "light_red",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "BARRICADABLE_WINDOW", "CONNECT_TO_WALL", "MINEABLE", "BLOCK_WIND", "WINDOW" ],
+    "flags": [
+      "NOITEM",
+      "SUPPORTS_ROOF",
+      "WALL",
+      "BARRICADABLE_WINDOW",
+      "CONNECT_TO_WALL",
+      "MINEABLE",
+      "BLOCK_WIND",
+      "REDUCE_SCENT",
+      "WINDOW"
+    ],
     "bash": {
       "str_min": 100,
       "str_max": 400,
@@ -718,12 +887,22 @@
     "type": "terrain",
     "id": "t_window_stained_blue",
     "name": "high stained glass window",
-    "description": "Breathtaking craftsmanship of stained glass featuring an alluring azure oceanic abyss.",
+    "description": "Breathtaking stained glass featuring an alluring scene in blue.",
     "symbol": "\"",
     "color": "light_blue",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "BARRICADABLE_WINDOW", "CONNECT_TO_WALL", "MINEABLE", "BLOCK_WIND", "WINDOW" ],
+    "flags": [
+      "NOITEM",
+      "SUPPORTS_ROOF",
+      "WALL",
+      "BARRICADABLE_WINDOW",
+      "CONNECT_TO_WALL",
+      "MINEABLE",
+      "BLOCK_WIND",
+      "REDUCE_SCENT",
+      "WINDOW"
+    ],
     "bash": {
       "str_min": 100,
       "str_max": 400,
@@ -736,24 +915,14 @@
   {
     "type": "terrain",
     "id": "t_metal_grate_window",
-    "name": "Window with metal grate",
-    "description": "Metal bars made into a grate for a window, Highly durability and will stand against any foe",
+    "name": "Barred reinforced boarded window",
+    "description": "A reinforced boarded up window that has been further bolstered with durable metal bars.",
     "examine_action": "bars",
-    "looks_like": "t_window_bars",
     "symbol": "#",
     "color": "light_gray",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [
-      "TRANSPARENT",
-      "NOITEM",
-      "CONNECT_TO_WALL",
-      "BARRICADABLE_WINDOW",
-      "THIN_OBSTACLE",
-      "BLOCK_WIND",
-      "REDUCE_SCENT",
-      "WINDOW"
-    ],
+    "flags": [ "NOITEM", "CONNECT_TO_WALL", "BARRICADABLE_WINDOW", "THIN_OBSTACLE", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW" ],
     "deconstruct": {
       "ter_set": "t_window_reinforced",
       "items": [ { "item": "pipe", "count": 12 }, { "item": "sheet_metal_small", "count": 40 } ]
@@ -763,91 +932,26 @@
       "str_max": 75,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "ter_set": "t_window_empty",
-      "items": [
-        { "item": "steel_lump", "prob": 25 },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
-        { "item": "scrap", "count": [ 1, 5 ] },
-        { "item": "glass_shard", "count": [ 75, 125 ] }
-      ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_metal_grate_window_with_curtain",
-    "name": "Window with metal grate",
-    "description": "Metal bars made into a grate for a window with a closed curtain, Highly durability and will stand against any foe",
-    "looks_like": "t_window_bars_curtains",
-    "symbol": "#",
-    "color": "light_gray",
-    "move_cost": 0,
-    "roof": "t_flat_roof",
-    "flags": [ "NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE", "BARRICADABLE_WINDOW_CURTAINS", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW" ],
-    "curtain_transform": "t_window_bars",
-    "examine_action": "curtains",
-    "open": "t_metal_grate_window_with_curtain_open",
-    "deconstruct": {
       "ter_set": "t_window_reinforced",
-      "items": [ { "item": "pipe", "count": 12 }, { "item": "sheet_metal_small", "count": 40 } ]
-    },
-    "bash": {
-      "str_min": 50,
-      "str_max": 75,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "ter_set": "t_window_empty",
       "items": [
         { "item": "steel_lump", "prob": 25 },
         { "item": "steel_chunk", "count": [ 1, 4 ] },
-        { "item": "scrap", "count": [ 1, 5 ] },
-        { "item": "glass_shard", "count": [ 75, 125 ] }
-      ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_metal_grate_window_with_curtain_open",
-    "name": "Window with metal grate",
-    "description": "Metal bars made into a grate for a window with a opened curtain, Highly durability and will stand against any foe",
-    "looks_like": "t_window_bars_domestic",
-    "symbol": "#",
-    "color": "light_gray",
-    "move_cost": 0,
-    "roof": "t_flat_roof",
-    "flags": [ "NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE", "BARRICADABLE_WINDOW_CURTAINS", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW" ],
-    "curtain_transform": "t_window_bars",
-    "examine_action": "curtains",
-    "close": "t_metal_grate_window_with_curtain",
-    "deconstruct": {
-      "ter_set": "t_window_reinforced",
-      "items": [ { "item": "pipe", "count": 12 }, { "item": "sheet_metal_small", "count": 40 } ]
-    },
-    "bash": {
-      "str_min": 50,
-      "str_max": 75,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "ter_set": "t_window_empty",
-      "items": [
-        { "item": "steel_lump", "prob": 25 },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
-        { "item": "scrap", "count": [ 1, 5 ] },
-        { "item": "glass_shard", "count": [ 75, 125 ] }
+        { "item": "scrap", "count": [ 1, 5 ] }
       ]
     }
   },
   {
     "type": "terrain",
     "id": "t_metal_grate_window_noglass",
-    "name": "Window with metal grate",
-    "description": "Metal bars made into a grate for a window, Highly durability and will stand against any foe",
+    "name": "Barred reinforced boarded window",
+    "description": "A reinforced boarded up window frame that has been further bolstered with durable metal bars.",
     "examine_action": "bars",
-    "looks_like": "t_window_bars",
+    "looks_like": "t_metal_grate_window",
     "symbol": "#",
     "color": "light_gray",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "NOITEM", "CONNECT_TO_WALL", "BARRICADABLE_WINDOW", "THIN_OBSTACLE", "WINDOW" ],
+    "flags": [ "NOITEM", "CONNECT_TO_WALL", "BARRICADABLE_WINDOW", "THIN_OBSTACLE", "WINDOW" ],
     "deconstruct": {
       "ter_set": "t_window_reinforced",
       "items": [ { "item": "pipe", "count": 12 }, { "item": "sheet_metal_small", "count": 40 } ]
@@ -857,7 +961,65 @@
       "str_max": 75,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "ter_set": "t_window_empty",
+      "ter_set": "t_window_reinforced",
+      "items": [
+        { "item": "steel_lump", "prob": 25 },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 1, 5 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_metal_grate_window_plastic",
+    "name": "Barred reinforced boarded window",
+    "description": "A reinforced boarded up plastic window that has been further bolstered with durable metal bars.",
+    "examine_action": "bars",
+    "looks_like": "t_metal_grate_window",
+    "symbol": "#",
+    "color": "light_gray",
+    "move_cost": 0,
+    "roof": "t_flat_roof",
+    "flags": [ "NOITEM", "CONNECT_TO_WALL", "BARRICADABLE_WINDOW", "THIN_OBSTACLE", "WINDOW" ],
+    "deconstruct": {
+      "ter_set": "t_window_plastic_reinforced",
+      "items": [ { "item": "pipe", "count": 12 }, { "item": "sheet_metal_small", "count": 40 } ]
+    },
+    "bash": {
+      "str_min": 50,
+      "str_max": 75,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_window_plastic_reinforced",
+      "items": [
+        { "item": "steel_lump", "prob": 25 },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 1, 5 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_metal_grate_window_tempered",
+    "name": "Barred reinforced boarded window",
+    "description": "A reinforced boarded up tempered glass window that has been further bolstered with durable metal bars.",
+    "examine_action": "bars",
+    "looks_like": "t_metal_grate_window",
+    "symbol": "#",
+    "color": "light_gray",
+    "move_cost": 0,
+    "roof": "t_flat_roof",
+    "flags": [ "NOITEM", "CONNECT_TO_WALL", "BARRICADABLE_WINDOW", "THIN_OBSTACLE", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW" ],
+    "deconstruct": {
+      "ter_set": "t_window_tempered_reinforced",
+      "items": [ { "item": "pipe", "count": 12 }, { "item": "sheet_metal_small", "count": 40 } ]
+    },
+    "bash": {
+      "str_min": 50,
+      "str_max": 75,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_window_tempered_reinforced",
       "items": [
         { "item": "steel_lump", "prob": 25 },
         { "item": "steel_chunk", "count": [ 1, 4 ] },
@@ -868,1857 +1030,19 @@
   },
   {
     "type": "terrain",
-    "id": "t_metal_grate_window_with_curtain_noglass",
-    "name": "Window with metal grate",
-    "description": "Metal bars made into a grate for a window with a closed curtain, Highly durability and will stand against any foe",
-    "looks_like": "t_window_bars_curtains",
-    "symbol": "#",
-    "color": "light_gray",
-    "move_cost": 0,
-    "roof": "t_flat_roof",
-    "flags": [ "NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE", "BARRICADABLE_WINDOW_CURTAINS", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW" ],
-    "curtain_transform": "t_metal_grate_window_noglass",
-    "examine_action": "curtains",
-    "open": "t_metal_grate_window_with_curtain_open",
-    "deconstruct": {
-      "ter_set": "t_window_reinforced",
-      "items": [ { "item": "pipe", "count": 12 }, { "item": "sheet_metal_small", "count": 40 } ]
-    },
-    "bash": {
-      "str_min": 50,
-      "str_max": 75,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "ter_set": "t_window_empty",
-      "items": [
-        { "item": "steel_lump", "prob": 25 },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
-        { "item": "scrap", "count": [ 1, 5 ] },
-        { "item": "glass_shard", "count": [ 75, 125 ] }
-      ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_metal_grate_window_with_curtain_open_noglass",
-    "name": "Window with metal grate",
-    "description": "Metal bars made into a grate for a window with a opened curtain, Highly durability and will stand against any foe",
-    "looks_like": "t_window_bars_domestic",
-    "symbol": "#",
-    "color": "light_gray",
-    "move_cost": 0,
-    "roof": "t_flat_roof",
-    "flags": [
-      "TRANSPARENT",
-      "NOITEM",
-      "CONNECT_TO_WALL",
-      "BARRICADABLE_WINDOW_CURTAINS",
-      "THIN_OBSTACLE",
-      "BLOCK_WIND",
-      "REDUCE_SCENT",
-      "WINDOW"
-    ],
-    "curtain_transform": "t_metal_grate_window_noglass",
-    "examine_action": "curtains",
-    "close": "t_metal_grate_window_with_curtain",
-    "deconstruct": {
-      "ter_set": "t_window_reinforced",
-      "items": [ { "item": "pipe", "count": 12 }, { "item": "sheet_metal_small", "count": 40 } ]
-    },
-    "bash": {
-      "str_min": 50,
-      "str_max": 75,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "ter_set": "t_window_empty",
-      "items": [
-        { "item": "steel_lump", "prob": 25 },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
-        { "item": "scrap", "count": [ 1, 5 ] },
-        { "item": "glass_shard", "count": [ 75, 125 ] }
-      ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_single_pane_glass",
-    "name": "Single glazed glass window",
-    "description": "A giant sheet of glass inserted into a window frame.",
-    "looks_like": "t_window_no_curtains",
-    "symbol": "\"",
-    "color": "light_cyan",
-    "move_cost": 0,
-    "coverage": 60,
-    "roof": "t_flat_roof",
-    "flags": [
-      "TRANSPARENT",
-      "FLAMMABLE",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "BARRICADABLE_WINDOW",
-      "REDUCE_SCENT",
-      "CONNECT_TO_WALL",
-      "BLOCK_WIND",
-      "WINDOW"
-    ],
-    "examine_action": "locked_object",
-    "open": "t_single_pane_glass_open",
-    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "glass_sheet", "count": 1 } ] },
-    "bash": {
-      "str_min": 2,
-      "str_max": 4,
-      "sound": "glass breaking!",
-      "sound_fail": "whack!",
-      "sound_vol": 16,
-      "sound_fail_vol": 10,
-      "ter_set": "t_window_empty",
-      "items": [
-        { "item": "stick", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "glass_shard", "count": [ 68, 100 ] }
-      ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_single_pane_glass_open",
-    "name": "Single glazed glass window open",
-    "description": "A giant sheet of glass inserted into a window frame.",
-    "looks_like": "t_window_no_curtains_open",
-    "symbol": "\"",
-    "color": "light_cyan",
-    "move_cost": 4,
-    "coverage": 60,
-    "roof": "t_flat_roof",
-    "flags": [
-      "TRANSPARENT",
-      "FLAMMABLE",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "MOUNTABLE",
-      "BARRICADABLE_WINDOW",
-      "CONNECT_TO_WALL",
-      "THIN_OBSTACLE",
-      "SMALL_PASSAGE",
-      "WINDOW"
-    ],
-    "close": "t_single_pane_glass",
-    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "glass_sheet", "count": 1 } ] },
-    "bash": {
-      "str_min": 2,
-      "str_max": 4,
-      "sound": "glass breaking!",
-      "sound_fail": "whack!",
-      "sound_vol": 16,
-      "sound_fail_vol": 10,
-      "ter_set": "t_window_empty",
-      "items": [
-        { "item": "stick", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "glass_shard", "count": [ 68, 100 ] }
-      ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_single_pane_glass_with_curtain",
-    "name": "Single glazed glass window with a curtain",
-    "description": "A glazed window with fancy curtains on the inside that is closed to block visibility and shut out any light.",
-    "looks_like": "t_curtains",
-    "symbol": "|",
-    "color": "light_cyan",
-    "move_cost": 0,
-    "coverage": 60,
-    "roof": "t_flat_roof",
-    "flags": [
-      "FLAMMABLE",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "BARRICADABLE_WINDOW_CURTAINS",
-      "REDUCE_SCENT",
-      "CONNECT_TO_WALL",
-      "BLOCK_WIND",
-      "WINDOW"
-    ],
-    "curtain_transform": "t_single_pane_glass",
-    "examine_action": "curtains",
-    "open": "t_single_pane_glass_with_curtain_open_window_closed",
-    "deconstruct": {
-      "ter_set": "t_window_empty",
-      "items": [
-        { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
-        { "item": "glass_sheet", "count": 3 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "string_36", "count": 1 }
-      ]
-    },
-    "bash": {
-      "str_min": 2,
-      "str_max": 4,
-      "sound": "glass breaking!",
-      "sound_fail": "whack!",
-      "sound_vol": 16,
-      "sound_fail_vol": 10,
-      "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 68, 100 ] } ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_single_pane_glass_with_curtain_open_window_closed",
-    "name": "Single glazed glass window with a curtain",
-    "description": "A glazed window with fancy curtains on the inside that can be drawn closed to block visibility and shut out any light.",
-    "looks_like": "t_window_domestic",
-    "symbol": "|",
-    "color": "light_cyan",
-    "move_cost": 0,
-    "coverage": 60,
-    "roof": "t_flat_roof",
-    "flags": [
-      "TRANSPARENT",
-      "FLAMMABLE",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "BARRICADABLE_WINDOW_CURTAINS",
-      "REDUCE_SCENT",
-      "CONNECT_TO_WALL",
-      "BLOCK_WIND",
-      "WINDOW"
-    ],
-    "curtain_transform": "t_single_pane_glass",
-    "examine_action": "curtains",
-    "close": "t_single_pane_glass_with_curtain",
-    "open": "t_single_pane_glass_with_curtain_open",
-    "deconstruct": {
-      "ter_set": "t_window_empty",
-      "items": [
-        { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
-        { "item": "reinforced_glass_sheet", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "string_36", "count": 1 }
-      ]
-    },
-    "bash": {
-      "str_min": 2,
-      "str_max": 4,
-      "sound": "glass breaking!",
-      "sound_fail": "whack!",
-      "sound_vol": 16,
-      "sound_fail_vol": 10,
-      "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 68, 100 ] } ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_single_pane_glass_with_curtain_open",
-    "name": "Single glazed glass window with a curtain",
-    "description": "A glazed window with fancy curtains on the inside that can be drawn closed to block visibility and shut out any light.",
-    "looks_like": "t_window_open",
-    "symbol": "|",
-    "color": "light_cyan",
-    "move_cost": 4,
-    "coverage": 60,
-    "roof": "t_flat_roof",
-    "flags": [
-      "TRANSPARENT",
-      "FLAMMABLE",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "MOUNTABLE",
-      "BARRICADABLE_WINDOW_CURTAINS",
-      "CONNECT_TO_WALL",
-      "THIN_OBSTACLE",
-      "SMALL_PASSAGE",
-      "WINDOW"
-    ],
-    "curtain_transform": "t_single_pane_glass",
-    "examine_action": "curtains",
-    "close": "t_single_pane_glass_with_curtain_open_window_closed",
-    "deconstruct": {
-      "ter_set": "t_window_empty",
-      "items": [
-        { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
-        { "item": "glass_sheet", "count": 3 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "string_36", "count": 1 }
-      ]
-    },
-    "bash": {
-      "str_min": 2,
-      "str_max": 4,
-      "sound": "glass breaking!",
-      "sound_fail": "whack!",
-      "sound_vol": 16,
-      "sound_fail_vol": 10,
-      "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 68, 100 ] } ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_reinforced_single_pane_glass",
-    "name": "Reinforced single glazed glass window",
-    "description": "A giant sheet of reinforced glass inserted into a glazed window frame.",
-    "looks_like": "t_window_no_curtains",
-    "symbol": "\"",
-    "color": "light_cyan",
-    "move_cost": 0,
-    "coverage": 60,
-    "roof": "t_flat_roof",
-    "flags": [
-      "TRANSPARENT",
-      "FLAMMABLE",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "BARRICADABLE_WINDOW",
-      "REDUCE_SCENT",
-      "CONNECT_TO_WALL",
-      "BLOCK_WIND",
-      "WINDOW"
-    ],
-    "examine_action": "locked_object",
-    "open": "t_reinforced_single_pane_glass_open",
-    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "reinforced_glass_sheet", "count": 2 } ] },
-    "bash": {
-      "str_min": 12,
-      "str_max": 30,
-      "sound": "glass breaking!",
-      "sound_fail": "whack!",
-      "sound_vol": 16,
-      "sound_fail_vol": 10,
-      "ter_set": "t_window_empty",
-      "items": [
-        { "item": "stick", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "glass_shard", "count": [ 68, 100 ] }
-      ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_reinforced_single_pane_glass_open",
-    "name": "Reinforced single glazed glass window open",
-    "description": "A giant sheet of glass inserted into a window frame.",
-    "looks_like": "t_window_no_curtains_open",
-    "symbol": "\"",
-    "color": "light_cyan",
-    "move_cost": 4,
-    "coverage": 60,
-    "roof": "t_flat_roof",
-    "flags": [
-      "TRANSPARENT",
-      "FLAMMABLE",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "MOUNTABLE",
-      "BARRICADABLE_WINDOW",
-      "CONNECT_TO_WALL",
-      "THIN_OBSTACLE",
-      "SMALL_PASSAGE",
-      "WINDOW"
-    ],
-    "close": "t_reinforced_single_pane_glass",
-    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "reinforced_glass_sheet", "count": 2 } ] },
-    "bash": {
-      "str_min": 12,
-      "str_max": 30,
-      "sound": "glass breaking!",
-      "sound_fail": "whack!",
-      "sound_vol": 16,
-      "sound_fail_vol": 10,
-      "ter_set": "t_window_empty",
-      "items": [
-        { "item": "stick", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "glass_shard", "count": [ 68, 100 ] }
-      ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_reinforced_single_pane_glass_with_curtain",
-    "name": "Reinforced single glazed glass window with a curtain",
-    "description": "A window with fancy curtains on the inside that is drawn closed to block visibility and shut out any light.",
-    "looks_like": "t_curtains",
-    "symbol": "|",
-    "color": "light_cyan",
-    "move_cost": 0,
-    "coverage": 60,
-    "roof": "t_flat_roof",
-    "flags": [
-      "FLAMMABLE",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "BARRICADABLE_WINDOW_CURTAINS",
-      "REDUCE_SCENT",
-      "CONNECT_TO_WALL",
-      "BLOCK_WIND",
-      "WINDOW"
-    ],
-    "curtain_transform": "t_reinforced_single_pane_glass",
-    "examine_action": "curtains",
-    "open": "t_reinforced_single_pane_glass_with_curtain_open_window_closed",
-    "deconstruct": {
-      "ter_set": "t_window_empty",
-      "items": [
-        { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
-        { "item": "reinforced_glass_sheet", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "string_36", "count": 1 }
-      ]
-    },
-    "bash": {
-      "str_min": 12,
-      "str_max": 30,
-      "sound": "glass breaking!",
-      "sound_fail": "whack!",
-      "sound_vol": 16,
-      "sound_fail_vol": 10,
-      "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 68, 100 ] } ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_reinforced_single_pane_glass_with_curtain_open_window_closed",
-    "name": "reinforced single glazed glass window with a curtain",
-    "description": "A reinforced window with fancy curtains on the inside that can be drawn closed to block visibility and shut out any light.",
-    "looks_like": "t_window_domestic",
-    "symbol": "|",
-    "color": "light_cyan",
-    "move_cost": 0,
-    "coverage": 60,
-    "roof": "t_flat_roof",
-    "flags": [
-      "TRANSPARENT",
-      "FLAMMABLE",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "BARRICADABLE_WINDOW_CURTAINS",
-      "REDUCE_SCENT",
-      "CONNECT_TO_WALL",
-      "BLOCK_WIND",
-      "WINDOW"
-    ],
-    "curtain_transform": "t_reinforced_single_pane_glass",
-    "examine_action": "curtains",
-    "close": "t_reinforced_single_pane_glass_with_curtain",
-    "open": "t_reinforced_single_pane_glass_with_curtain_open",
-    "deconstruct": {
-      "ter_set": "t_window_empty",
-      "items": [
-        { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
-        { "item": "reinforced_glass_sheet", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "string_36", "count": 1 }
-      ]
-    },
-    "bash": {
-      "str_min": 12,
-      "str_max": 30,
-      "sound": "glass breaking!",
-      "sound_fail": "whack!",
-      "sound_vol": 16,
-      "sound_fail_vol": 10,
-      "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 68, 100 ] } ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_reinforced_single_pane_glass_with_curtain_open",
-    "name": "Reinforced single glazed glass window with a curtain",
-    "description": "A reinforced window with fancy curtains on the inside that can be drawn closed to block visibility and shut out any light.",
-    "looks_like": "t_window_open",
-    "symbol": "|",
-    "color": "light_cyan",
-    "move_cost": 4,
-    "coverage": 60,
-    "roof": "t_flat_roof",
-    "flags": [
-      "TRANSPARENT",
-      "FLAMMABLE",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "MOUNTABLE",
-      "BARRICADABLE_WINDOW_CURTAINS",
-      "CONNECT_TO_WALL",
-      "THIN_OBSTACLE",
-      "SMALL_PASSAGE",
-      "WINDOW"
-    ],
-    "curtain_transform": "t_reinforced_single_pane_glass",
-    "examine_action": "curtains",
-    "close": "t_reinforced_single_pane_glass_with_curtain_open_window_closed",
-    "deconstruct": {
-      "ter_set": "t_window_empty",
-      "items": [
-        { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
-        { "item": "reinforced_glass_sheet", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "string_36", "count": 1 }
-      ]
-    },
-    "bash": {
-      "str_min": 12,
-      "str_max": 30,
-      "sound": "glass breaking!",
-      "sound_fail": "whack!",
-      "sound_vol": 16,
-      "sound_fail_vol": 10,
-      "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 68, 100 ] } ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_double_pane_glass",
-    "name": "Double glazed glass window",
-    "description": "Two giant sheet of glass inserted into a window frame.",
-    "looks_like": "t_window_no_curtains",
-    "symbol": "\"",
-    "color": "light_cyan",
-    "move_cost": 0,
-    "coverage": 60,
-    "roof": "t_flat_roof",
-    "flags": [
-      "TRANSPARENT",
-      "FLAMMABLE",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "BARRICADABLE_WINDOW",
-      "REDUCE_SCENT",
-      "CONNECT_TO_WALL",
-      "BLOCK_WIND",
-      "WINDOW"
-    ],
-    "examine_action": "locked_object",
-    "open": "t_double_pane_glass_open",
-    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "glass_sheet", "count": 1 } ] },
-    "bash": {
-      "str_min": 3,
-      "str_max": 6,
-      "sound": "glass breaking!",
-      "sound_fail": "whack!",
-      "sound_vol": 16,
-      "sound_fail_vol": 10,
-      "ter_set": "t_window_empty",
-      "items": [
-        { "item": "stick", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "glass_shard", "count": [ 68, 100 ] }
-      ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_double_pane_glass_open",
-    "name": "Double glazed glass window open",
-    "description": "Two giant sheet of glass inserted into a window frame.",
-    "looks_like": "t_window_no_curtains_open",
-    "symbol": "\"",
-    "color": "light_cyan",
-    "move_cost": 4,
-    "coverage": 60,
-    "roof": "t_flat_roof",
-    "flags": [
-      "TRANSPARENT",
-      "FLAMMABLE",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "MOUNTABLE",
-      "BARRICADABLE_WINDOW",
-      "CONNECT_TO_WALL",
-      "THIN_OBSTACLE",
-      "SMALL_PASSAGE",
-      "WINDOW"
-    ],
-    "close": "t_double_pane_glass",
-    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "glass_sheet", "count": 1 } ] },
-    "bash": {
-      "str_min": 3,
-      "str_max": 6,
-      "sound": "glass breaking!",
-      "sound_fail": "whack!",
-      "sound_vol": 16,
-      "sound_fail_vol": 10,
-      "ter_set": "t_window_empty",
-      "items": [
-        { "item": "stick", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "glass_shard", "count": [ 68, 100 ] }
-      ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_double_pane_glass_with_curtain",
-    "name": "Double glazed glass window with a curtain",
-    "description": "A double glazed window with fancy curtains on the inside that is closed to block visibility and shut out any light.",
-    "looks_like": "t_curtains",
-    "symbol": "|",
-    "color": "light_cyan",
-    "move_cost": 0,
-    "coverage": 60,
-    "roof": "t_flat_roof",
-    "flags": [
-      "FLAMMABLE",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "BARRICADABLE_WINDOW_CURTAINS",
-      "REDUCE_SCENT",
-      "CONNECT_TO_WALL",
-      "BLOCK_WIND",
-      "WINDOW"
-    ],
-    "curtain_transform": "t_double_pane_glass",
-    "examine_action": "curtains",
-    "open": "t_double_pane_glass_with_curtain_open_window_closed",
-    "deconstruct": {
-      "ter_set": "t_window_empty",
-      "items": [
-        { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
-        { "item": "glass_sheet", "count": 3 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "string_36", "count": 1 }
-      ]
-    },
-    "bash": {
-      "str_min": 3,
-      "str_max": 6,
-      "sound": "glass breaking!",
-      "sound_fail": "whack!",
-      "sound_vol": 16,
-      "sound_fail_vol": 10,
-      "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 68, 100 ] } ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_double_pane_glass_with_curtain_open_window_closed",
-    "name": "Double glazed glass window with a curtain",
-    "description": "A double glazed window with fancy curtains on the inside that can be drawn closed to block visibility and shut out any light.",
-    "looks_like": "t_window_domestic",
-    "symbol": "|",
-    "color": "light_cyan",
-    "move_cost": 0,
-    "coverage": 60,
-    "roof": "t_flat_roof",
-    "flags": [
-      "TRANSPARENT",
-      "FLAMMABLE",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "BARRICADABLE_WINDOW_CURTAINS",
-      "REDUCE_SCENT",
-      "CONNECT_TO_WALL",
-      "BLOCK_WIND",
-      "WINDOW"
-    ],
-    "curtain_transform": "t_double_pane_glass",
-    "examine_action": "curtains",
-    "close": "t_double_pane_glass_with_curtain",
-    "open": "t_double_pane_glass_with_curtain_open",
-    "deconstruct": {
-      "ter_set": "t_window_empty",
-      "items": [
-        { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
-        { "item": "glass_sheet", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "string_36", "count": 1 }
-      ]
-    },
-    "bash": {
-      "str_min": 3,
-      "str_max": 6,
-      "sound": "glass breaking!",
-      "sound_fail": "whack!",
-      "sound_vol": 16,
-      "sound_fail_vol": 10,
-      "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 68, 100 ] } ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_double_pane_glass_with_curtain_open",
-    "name": "Double glazed glass window with a curtain",
-    "description": "A double glazed window with fancy curtains on the inside that can be drawn closed to block visibility and shut out any light.",
-    "looks_like": "t_window_open",
-    "symbol": "|",
-    "color": "light_cyan",
-    "move_cost": 4,
-    "coverage": 60,
-    "roof": "t_flat_roof",
-    "flags": [
-      "TRANSPARENT",
-      "FLAMMABLE",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "MOUNTABLE",
-      "BARRICADABLE_WINDOW_CURTAINS",
-      "CONNECT_TO_WALL",
-      "THIN_OBSTACLE",
-      "SMALL_PASSAGE",
-      "WINDOW"
-    ],
-    "curtain_transform": "t_double_pane_glass",
-    "examine_action": "curtains",
-    "close": "t_double_pane_glass_with_curtain_open_window_closed",
-    "deconstruct": {
-      "ter_set": "t_window_empty",
-      "items": [
-        { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
-        { "item": "glass_sheet", "count": 3 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "string_36", "count": 1 }
-      ]
-    },
-    "bash": {
-      "str_min": 3,
-      "str_max": 6,
-      "sound": "glass breaking!",
-      "sound_fail": "whack!",
-      "sound_vol": 16,
-      "sound_fail_vol": 10,
-      "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 68, 100 ] } ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_reinforced_double_pane_glass",
-    "name": "Reinforced double glazed glass window",
-    "description": "A reinfoced double glazed window inserted into a frame.  The outer layer comprises a pane of reinforced glass for extra security.",
-    "looks_like": "t_window_no_curtains",
-    "symbol": "\"",
-    "color": "light_cyan",
-    "move_cost": 0,
-    "coverage": 60,
-    "roof": "t_flat_roof",
-    "flags": [
-      "TRANSPARENT",
-      "FLAMMABLE",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "BARRICADABLE_WINDOW",
-      "REDUCE_SCENT",
-      "CONNECT_TO_WALL",
-      "BLOCK_WIND",
-      "WINDOW"
-    ],
-    "examine_action": "locked_object",
-    "open": "t_reinforced_double_pane_glass_open",
-    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "reinforced_glass_sheet", "count": 2 } ] },
-    "bash": {
-      "str_min": 12,
-      "str_max": 30,
-      "sound": "glass breaking!",
-      "sound_fail": "whack!",
-      "sound_vol": 16,
-      "sound_fail_vol": 10,
-      "ter_set": "t_window_empty",
-      "items": [
-        { "item": "stick", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "glass_shard", "count": [ 68, 100 ] }
-      ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_reinforced_double_pane_glass_open",
-    "name": "Reinforced double glazed glass window open",
-    "description": "A double glazed window with a giant sheet of reinforced glass inserted into a window frame.",
-    "looks_like": "t_window_no_curtains_open",
-    "symbol": "\"",
-    "color": "light_cyan",
-    "move_cost": 4,
-    "coverage": 60,
-    "roof": "t_flat_roof",
-    "flags": [
-      "TRANSPARENT",
-      "FLAMMABLE",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "MOUNTABLE",
-      "BARRICADABLE_WINDOW",
-      "CONNECT_TO_WALL",
-      "THIN_OBSTACLE",
-      "SMALL_PASSAGE",
-      "WINDOW"
-    ],
-    "curtain_transform": "t_reinforced_double_pane_glass",
-    "close": "t_reinforced_double_pane_glass",
-    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "reinforced_glass_sheet", "count": 2 } ] },
-    "bash": {
-      "str_min": 12,
-      "str_max": 30,
-      "sound": "glass breaking!",
-      "sound_fail": "whack!",
-      "sound_vol": 16,
-      "sound_fail_vol": 10,
-      "ter_set": "t_window_empty",
-      "items": [
-        { "item": "stick", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "glass_shard", "count": [ 68, 100 ] }
-      ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_reinforced_double_pane_glass_with_curtain",
-    "name": "Reinforced double glazed glass window with a curtain",
-    "description": "A double glazed window with fancy curtains on the inside that is closed to block visibility and shut out any light.",
-    "looks_like": "t_curtains",
-    "symbol": "|",
-    "color": "light_cyan",
-    "move_cost": 0,
-    "coverage": 60,
-    "roof": "t_flat_roof",
-    "flags": [
-      "FLAMMABLE",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "BARRICADABLE_WINDOW_CURTAINS",
-      "REDUCE_SCENT",
-      "CONNECT_TO_WALL",
-      "BLOCK_WIND",
-      "WINDOW"
-    ],
-    "curtain_transform": "t_reinforced_double_pane_glass",
-    "examine_action": "curtains",
-    "open": "t_reinforced_double_pane_glass_with_curtain_open_window_closed",
-    "deconstruct": {
-      "ter_set": "t_window_empty",
-      "items": [
-        { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
-        { "item": "reinforced_glass_sheet", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "string_36", "count": 1 }
-      ]
-    },
-    "bash": {
-      "str_min": 12,
-      "str_max": 30,
-      "sound": "glass breaking!",
-      "sound_fail": "whack!",
-      "sound_vol": 16,
-      "sound_fail_vol": 10,
-      "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 68, 100 ] } ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_reinforced_double_pane_glass_with_curtain_open_window_closed",
-    "name": "Reinforced double glazed glass window with a curtain",
-    "description": "A double glazed window with fancy curtains on the inside that can be drawn closed to block visibility and shut out any light.",
-    "looks_like": "t_window_domestic",
-    "symbol": "|",
-    "color": "light_cyan",
-    "move_cost": 4,
-    "coverage": 60,
-    "roof": "t_flat_roof",
-    "flags": [
-      "TRANSPARENT",
-      "FLAMMABLE",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "MOUNTABLE",
-      "BARRICADABLE_WINDOW_CURTAINS",
-      "CONNECT_TO_WALL",
-      "THIN_OBSTACLE",
-      "SMALL_PASSAGE",
-      "WINDOW"
-    ],
-    "curtain_transform": "t_reinforced_double_pane_glass",
-    "examine_action": "curtains",
-    "close": "t_reinforced_double_pane_glass_with_curtain",
-    "open": "t_reinforced_double_pane_glass_with_curtain_open",
-    "deconstruct": {
-      "ter_set": "t_window_empty",
-      "items": [
-        { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
-        { "item": "glass_sheet", "count": 2 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "string_36", "count": 1 }
-      ]
-    },
-    "bash": {
-      "str_min": 12,
-      "str_max": 30,
-      "sound": "glass breaking!",
-      "sound_fail": "whack!",
-      "sound_vol": 16,
-      "sound_fail_vol": 10,
-      "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 68, 100 ] } ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_reinforced_double_pane_glass_with_curtain_open",
-    "name": "Reinforced double glazed glass window with a curtain",
-    "description": "A double glazed window with fancy curtains on the inside that can be drawn closed to block visibility and shut out any light.",
-    "looks_like": "t_window_open",
-    "symbol": "|",
-    "color": "light_cyan",
-    "move_cost": 4,
-    "coverage": 60,
-    "roof": "t_flat_roof",
-    "flags": [
-      "TRANSPARENT",
-      "FLAMMABLE",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "MOUNTABLE",
-      "BARRICADABLE_WINDOW_CURTAINS",
-      "CONNECT_TO_WALL",
-      "THIN_OBSTACLE",
-      "SMALL_PASSAGE",
-      "WINDOW"
-    ],
-    "curtain_transform": "t_reinforced_double_pane_glass",
-    "examine_action": "curtains",
-    "close": "t_reinforced_double_pane_glass_with_curtain_open_window_closed",
-    "deconstruct": {
-      "ter_set": "t_window_empty",
-      "items": [
-        { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
-        { "item": "reinforced_glass_sheet", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "string_36", "count": 1 }
-      ]
-    },
-    "bash": {
-      "str_min": 12,
-      "str_max": 30,
-      "sound": "glass breaking!",
-      "sound_fail": "whack!",
-      "sound_vol": 16,
-      "sound_fail_vol": 10,
-      "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 68, 100 ] } ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_triple_pane_glass",
-    "name": "Triple glazed glass window",
-    "description": "Three giant sheet of glass inserted into a window frame.",
-    "looks_like": "t_window_no_curtains",
-    "symbol": "|",
-    "color": "light_cyan",
-    "move_cost": 0,
-    "coverage": 60,
-    "roof": "t_flat_roof",
-    "flags": [
-      "TRANSPARENT",
-      "FLAMMABLE",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "BARRICADABLE_WINDOW",
-      "REDUCE_SCENT",
-      "CONNECT_TO_WALL",
-      "BLOCK_WIND",
-      "WINDOW"
-    ],
-    "examine_action": "locked_object",
-    "open": "t_triple_pane_glass_open",
-    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "glass_sheet", "count": 3 } ] },
-    "bash": {
-      "str_min": 4,
-      "str_max": 8,
-      "sound": "glass breaking!",
-      "sound_fail": "whack!",
-      "sound_vol": 16,
-      "sound_fail_vol": 10,
-      "ter_set": "t_window_frame",
-      "items": [
-        { "item": "stick", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "glass_shard", "count": [ 80, 120 ] }
-      ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_triple_pane_glass_open",
-    "name": "Triple glazed glass window",
-    "description": "A triple glazed giant sheet of glass inserted into a window frame.",
-    "looks_like": "t_window_no_curtains_open",
-    "symbol": "|",
-    "color": "light_cyan",
-    "move_cost": 4,
-    "coverage": 60,
-    "roof": "t_flat_roof",
-    "flags": [
-      "TRANSPARENT",
-      "FLAMMABLE",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "MOUNTABLE",
-      "BARRICADABLE_WINDOW",
-      "CONNECT_TO_WALL",
-      "THIN_OBSTACLE",
-      "SMALL_PASSAGE",
-      "WINDOW"
-    ],
-    "close": "t_triple_pane_glass",
-    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "glass_sheet", "count": 3 } ] },
-    "bash": {
-      "str_min": 4,
-      "str_max": 8,
-      "sound": "glass breaking!",
-      "sound_fail": "whack!",
-      "sound_vol": 16,
-      "sound_fail_vol": 10,
-      "ter_set": "t_window_frame",
-      "items": [
-        { "item": "stick", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "glass_shard", "count": [ 80, 120 ] }
-      ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_triple_pane_glass_with_curtain",
-    "name": "Triple glazed glass window with a curtain",
-    "description": "A triple glazed window with fancy curtains on the inside that is closed to block visibility and shut out any light.",
-    "looks_like": "t_curtains",
-    "symbol": "|",
-    "color": "light_cyan",
-    "move_cost": 0,
-    "coverage": 60,
-    "roof": "t_flat_roof",
-    "flags": [
-      "FLAMMABLE",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "BARRICADABLE_WINDOW_CURTAINS",
-      "REDUCE_SCENT",
-      "CONNECT_TO_WALL",
-      "BLOCK_WIND",
-      "WINDOW"
-    ],
-    "curtain_transform": "t_triple_pane_glass",
-    "examine_action": "curtains",
-    "open": "t_triple_pane_glass_with_curtain_open_window_closed",
-    "deconstruct": {
-      "ter_set": "t_window_empty",
-      "items": [
-        { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
-        { "item": "glass_sheet", "count": 3 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "string_36", "count": 1 }
-      ]
-    },
-    "bash": {
-      "str_min": 4,
-      "str_max": 8,
-      "sound": "glass breaking!",
-      "sound_fail": "whack!",
-      "sound_vol": 16,
-      "sound_fail_vol": 10,
-      "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 80, 120 ] } ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_triple_pane_glass_with_curtain_open_window_closed",
-    "name": "Triple glazed glass window with a curtain",
-    "description": "A triple glazed window with fancy curtains on the inside that can be drawn closed to block visibility and shut out any light.",
-    "looks_like": "t_window_domestic",
-    "symbol": "|",
-    "color": "light_cyan",
-    "move_cost": 0,
-    "coverage": 60,
-    "roof": "t_flat_roof",
-    "flags": [
-      "TRANSPARENT",
-      "FLAMMABLE",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "BARRICADABLE_WINDOW_CURTAINS",
-      "REDUCE_SCENT",
-      "CONNECT_TO_WALL",
-      "BLOCK_WIND",
-      "WINDOW"
-    ],
-    "curtain_transform": "t_triple_pane_glass",
-    "examine_action": "curtains",
-    "close": "t_triple_pane_glass_with_curtain",
-    "open": "t_triple_pane_glass_with_curtain_open",
-    "deconstruct": {
-      "ter_set": "t_window_empty",
-      "items": [
-        { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
-        { "item": "reinforced_glass_sheet", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "string_36", "count": 1 }
-      ]
-    },
-    "bash": {
-      "str_min": 4,
-      "str_max": 8,
-      "sound": "glass breaking!",
-      "sound_fail": "whack!",
-      "sound_vol": 16,
-      "sound_fail_vol": 10,
-      "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 68, 100 ] } ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_triple_pane_glass_with_curtain_open",
-    "name": "Triple-pane glass window With a curtain",
-    "description": "A triple glazed window with fancy curtains on the inside that can be drawn closed to block visibility and shut out any light.",
-    "looks_like": "t_window_open",
-    "symbol": "|",
-    "color": "light_cyan",
-    "move_cost": 4,
-    "coverage": 60,
-    "roof": "t_flat_roof",
-    "flags": [
-      "TRANSPARENT",
-      "FLAMMABLE",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "MOUNTABLE",
-      "BARRICADABLE_WINDOW_CURTAINS",
-      "CONNECT_TO_WALL",
-      "THIN_OBSTACLE",
-      "SMALL_PASSAGE",
-      "WINDOW"
-    ],
-    "curtain_transform": "t_triple_pane_glass",
-    "examine_action": "curtains",
-    "close": "t_triple_pane_glass_with_curtain_open_window_closed",
-    "deconstruct": {
-      "ter_set": "t_window_empty",
-      "items": [
-        { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
-        { "item": "glass_sheet", "count": 3 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "string_36", "count": 1 }
-      ]
-    },
-    "bash": {
-      "str_min": 4,
-      "str_max": 8,
-      "sound": "glass breaking!",
-      "sound_fail": "whack!",
-      "sound_vol": 16,
-      "sound_fail_vol": 10,
-      "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 80, 120 ] } ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_reinforced_triple_pane_glass",
-    "name": "Reinforced-triple pane glass window",
-    "description": "Three glass sheets inserted as well as one reinforced glass sheet inserted into a window frame.",
-    "looks_like": "t_window_no_curtains",
-    "symbol": "|",
-    "color": "light_cyan",
-    "move_cost": 0,
-    "coverage": 60,
-    "roof": "t_flat_roof",
-    "flags": [
-      "TRANSPARENT",
-      "FLAMMABLE",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "BARRICADABLE_WINDOW",
-      "REDUCE_SCENT",
-      "CONNECT_TO_WALL",
-      "BLOCK_WIND",
-      "WINDOW"
-    ],
-    "examine_action": "locked_object",
-    "open": "t_reinforced_triple_pane_glass_open",
-    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "reinforced_glass_sheet", "count": 3 } ] },
-    "bash": {
-      "str_min": 12,
-      "str_max": 30,
-      "sound": "glass breaking!",
-      "sound_fail": "whack!",
-      "sound_vol": 16,
-      "sound_fail_vol": 10,
-      "ter_set": "t_window_frame",
-      "items": [
-        { "item": "stick", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "glass_shard", "count": [ 80, 120 ] }
-      ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_reinforced_triple_pane_glass_open",
-    "name": "Reinforced-triple pane glass window",
-    "description": "Three glass sheets inserted as well as one giant sheet of reinforced glass sheet inserted into a window frame.",
-    "looks_like": "t_window_no_curtains_open",
-    "symbol": "|",
-    "color": "light_cyan",
-    "move_cost": 4,
-    "coverage": 60,
-    "roof": "t_flat_roof",
-    "flags": [
-      "TRANSPARENT",
-      "FLAMMABLE",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "MOUNTABLE",
-      "BARRICADABLE_WINDOW",
-      "CONNECT_TO_WALL",
-      "THIN_OBSTACLE",
-      "SMALL_PASSAGE",
-      "WINDOW"
-    ],
-    "close": "t_reinforced_triple_pane_glass",
-    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "reinforced_glass_sheet", "count": 3 } ] },
-    "bash": {
-      "str_min": 12,
-      "str_max": 30,
-      "sound": "glass breaking!",
-      "sound_fail": "whack!",
-      "sound_vol": 16,
-      "sound_fail_vol": 10,
-      "ter_set": "t_window_frame",
-      "items": [
-        { "item": "stick", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "glass_shard", "count": [ 80, 120 ] }
-      ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_reinforced_triple_pane_glass_with_curtain",
-    "name": "Reinforced triple glazed glass window with a curtain",
-    "description": "A triple glazed window with fancy curtains on the inside that is closed to block visibility and shut out any light.",
-    "looks_like": "t_curtains",
-    "symbol": "|",
-    "color": "light_cyan",
-    "move_cost": 0,
-    "coverage": 60,
-    "roof": "t_flat_roof",
-    "flags": [
-      "FLAMMABLE",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "BARRICADABLE_WINDOW_CURTAINS",
-      "REDUCE_SCENT",
-      "CONNECT_TO_WALL",
-      "BLOCK_WIND",
-      "WINDOW"
-    ],
-    "curtain_transform": "t_reinforced_triple_pane_glass",
-    "examine_action": "curtains",
-    "open": "t_reinforced_triple_pane_glass_with_curtain_open_window_closed",
-    "deconstruct": {
-      "ter_set": "t_window_empty",
-      "items": [
-        { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
-        { "item": "reinforced_glass_sheet", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "string_36", "count": 1 }
-      ]
-    },
-    "bash": {
-      "str_min": 12,
-      "str_max": 30,
-      "sound": "glass breaking!",
-      "sound_fail": "whack!",
-      "sound_vol": 16,
-      "sound_fail_vol": 10,
-      "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 80, 120 ] } ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_reinforced_triple_pane_glass_with_curtain_open_window_closed",
-    "name": "Reinforced triple-pane glass window with a curtain",
-    "description": "A triple glazed window with fancy curtains on the inside that can be drawn closed to block visibility and shut out any light.",
-    "looks_like": "t_window_domestic",
-    "symbol": "|",
-    "color": "light_cyan",
-    "move_cost": 4,
-    "coverage": 60,
-    "roof": "t_flat_roof",
-    "flags": [
-      "TRANSPARENT",
-      "FLAMMABLE",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "MOUNTABLE",
-      "BARRICADABLE_WINDOW_CURTAINS",
-      "CONNECT_TO_WALL",
-      "THIN_OBSTACLE",
-      "SMALL_PASSAGE",
-      "WINDOW"
-    ],
-    "curtain_transform": "t_reinforced_triple_pane_glass",
-    "examine_action": "curtains",
-    "close": "t_reinforced_triple_pane_glass_with_curtain",
-    "open": "t_reinforced_triple_pane_glass_with_curtain_open",
-    "deconstruct": {
-      "ter_set": "t_window_empty",
-      "items": [
-        { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
-        { "item": "reinforced_glass_sheet", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "string_36", "count": 1 }
-      ]
-    },
-    "bash": {
-      "str_min": 12,
-      "str_max": 30,
-      "sound": "glass breaking!",
-      "sound_fail": "whack!",
-      "sound_vol": 16,
-      "sound_fail_vol": 10,
-      "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 68, 100 ] } ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_reinforced_triple_pane_glass_with_curtain_open",
-    "name": "Reinforced triple glazed glass window With a curtain",
-    "description": "A triple glazed window with fancy curtains on the inside that can be drawn closed to block visibility and shut out any light.",
-    "looks_like": "t_window_open",
-    "symbol": "|",
-    "color": "light_cyan",
-    "move_cost": 4,
-    "coverage": 60,
-    "roof": "t_flat_roof",
-    "flags": [
-      "TRANSPARENT",
-      "FLAMMABLE",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "MOUNTABLE",
-      "BARRICADABLE_WINDOW_CURTAINS",
-      "CONNECT_TO_WALL",
-      "THIN_OBSTACLE",
-      "SMALL_PASSAGE",
-      "WINDOW"
-    ],
-    "curtain_transform": "t_reinforced_triple_pane_glass",
-    "examine_action": "curtains",
-    "close": "t_reinforced_triple_pane_glass_with_curtain_open_window_closed",
-    "deconstruct": {
-      "ter_set": "t_window_empty",
-      "items": [
-        { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
-        { "item": "reinforced_glass_sheet", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "string_36", "count": 1 }
-      ]
-    },
-    "bash": {
-      "str_min": 12,
-      "str_max": 30,
-      "sound": "glass breaking!",
-      "sound_fail": "whack!",
-      "sound_vol": 16,
-      "sound_fail_vol": 10,
-      "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 80, 120 ] } ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_quadruple_pane_glass",
-    "name": "Quadruple glazed glass window",
-    "description": "Four giant sheet of glass inserted into a window frame.",
-    "looks_like": "t_window_no_curtains",
-    "symbol": "|",
-    "color": "light_cyan",
-    "move_cost": 0,
-    "coverage": 60,
-    "roof": "t_flat_roof",
-    "flags": [
-      "TRANSPARENT",
-      "FLAMMABLE",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "BARRICADABLE_WINDOW",
-      "REDUCE_SCENT",
-      "CONNECT_TO_WALL",
-      "BLOCK_WIND",
-      "WINDOW"
-    ],
-    "examine_action": "locked_object",
-    "open": "t_quadruple_pane_glass_open",
-    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "glass_sheet", "count": 4 } ] },
-    "bash": {
-      "str_min": 5,
-      "str_max": 10,
-      "sound": "glass breaking!",
-      "sound_fail": "whack!",
-      "sound_vol": 16,
-      "sound_fail_vol": 10,
-      "ter_set": "t_window_frame",
-      "items": [
-        { "item": "stick", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "glass_shard", "count": [ 100, 200 ] }
-      ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_quadruple_pane_glass_open",
-    "name": "Quadruple glazed glass window",
-    "description": "An open quadruple glazed window.",
-    "looks_like": "t_window_no_curtains_open",
-    "symbol": "|",
-    "color": "light_cyan",
-    "move_cost": 4,
-    "coverage": 60,
-    "roof": "t_flat_roof",
-    "flags": [
-      "TRANSPARENT",
-      "FLAMMABLE",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "BARRICADABLE_WINDOW",
-      "REDUCE_SCENT",
-      "CONNECT_TO_WALL",
-      "BLOCK_WIND",
-      "WINDOW"
-    ],
-    "close": "t_quadruple_pane_glass",
-    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "glass_sheet", "count": 4 } ] },
-    "bash": {
-      "str_min": 5,
-      "str_max": 10,
-      "sound": "glass breaking!",
-      "sound_fail": "whack!",
-      "sound_vol": 16,
-      "sound_fail_vol": 10,
-      "ter_set": "t_window_frame",
-      "items": [
-        { "item": "stick", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "glass_shard", "count": [ 100, 200 ] }
-      ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_quadruple_pane_glass_with_curtain",
-    "name": "Quadruple glazed glass window with a curtain",
-    "description": "A quadruple glazed window with fancy curtains on the inside that is closed to block visibility and shut out any light.",
-    "looks_like": "t_curtains",
-    "symbol": "|",
-    "color": "light_cyan",
-    "move_cost": 0,
-    "coverage": 60,
-    "roof": "t_flat_roof",
-    "flags": [
-      "FLAMMABLE",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "BARRICADABLE_WINDOW_CURTAINS",
-      "REDUCE_SCENT",
-      "CONNECT_TO_WALL",
-      "BLOCK_WIND",
-      "WINDOW"
-    ],
-    "curtain_transform": "t_quadruple_pane_glass",
-    "examine_action": "curtains",
-    "open": "t_quadruple_pane_glass_with_curtain_open_window_closed",
-    "deconstruct": {
-      "ter_set": "t_window_empty",
-      "items": [
-        { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
-        { "item": "glass_sheet", "count": 4 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "string_36", "count": 1 }
-      ]
-    },
-    "bash": {
-      "str_min": 5,
-      "str_max": 10,
-      "sound": "glass breaking!",
-      "sound_fail": "whack!",
-      "sound_vol": 16,
-      "sound_fail_vol": 10,
-      "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 100, 200 ] } ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_quadruple_pane_glass_with_curtain_open_window_closed",
-    "name": "Quadruple glazed glass window with a curtain",
-    "description": "A quadruple glazed window with fancy curtains on the inside that can be drawn closed to block visibility and shut out any light.",
-    "looks_like": "t_window_domestic",
-    "symbol": "|",
-    "color": "light_cyan",
-    "move_cost": 0,
-    "coverage": 60,
-    "roof": "t_flat_roof",
-    "flags": [
-      "TRANSPARENT",
-      "FLAMMABLE",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "BARRICADABLE_WINDOW_CURTAINS",
-      "REDUCE_SCENT",
-      "CONNECT_TO_WALL",
-      "BLOCK_WIND",
-      "WINDOW"
-    ],
-    "curtain_transform": "t_quadruple_pane_glass",
-    "examine_action": "curtains",
-    "close": "t_quadruple_pane_glass_with_curtain",
-    "open": "t_quadruple_pane_glass_with_curtain_open",
-    "deconstruct": {
-      "ter_set": "t_window_empty",
-      "items": [
-        { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
-        { "item": "glass_sheet", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "string_36", "count": 1 }
-      ]
-    },
-    "bash": {
-      "str_min": 5,
-      "str_max": 10,
-      "sound": "glass breaking!",
-      "sound_fail": "whack!",
-      "sound_vol": 16,
-      "sound_fail_vol": 10,
-      "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 68, 100 ] } ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_quadruple_pane_glass_with_curtain_open",
-    "name": "Quadruple glazed glass window With a curtain",
-    "description": "A quadruple glazed window with fancy curtains on the inside that can be drawn closed to block visibility and shut out any light.",
-    "looks_like": "t_window_open",
-    "symbol": "|",
-    "color": "light_cyan",
-    "move_cost": 4,
-    "coverage": 60,
-    "roof": "t_flat_roof",
-    "flags": [
-      "TRANSPARENT",
-      "FLAMMABLE",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "MOUNTABLE",
-      "BARRICADABLE_WINDOW_CURTAINS",
-      "CONNECT_TO_WALL",
-      "THIN_OBSTACLE",
-      "SMALL_PASSAGE",
-      "WINDOW"
-    ],
-    "curtain_transform": "t_quadruple_pane_glass",
-    "examine_action": "curtains",
-    "close": "t_quadruple_pane_glass_with_curtain_open_window_closed",
-    "deconstruct": {
-      "ter_set": "t_window_empty",
-      "items": [
-        { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
-        { "item": "glass_sheet", "count": 4 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "string_36", "count": 1 }
-      ]
-    },
-    "bash": {
-      "str_min": 5,
-      "str_max": 10,
-      "sound": "glass breaking!",
-      "sound_fail": "whack!",
-      "sound_vol": 16,
-      "sound_fail_vol": 10,
-      "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 100, 200 ] } ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_reinforced_quadruple_pane_glass",
-    "name": "Reinforced quadruple glazed glass window",
-    "description": "Three large sheets of glass and 1 reinforced sheet of glass inserted into a window frame.",
-    "looks_like": "t_window_no_curtains",
-    "symbol": "|",
-    "color": "light_cyan",
-    "move_cost": 0,
-    "coverage": 60,
-    "roof": "t_flat_roof",
-    "flags": [
-      "TRANSPARENT",
-      "FLAMMABLE",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "BARRICADABLE_WINDOW",
-      "REDUCE_SCENT",
-      "CONNECT_TO_WALL",
-      "BLOCK_WIND",
-      "WINDOW"
-    ],
-    "examine_action": "locked_object",
-    "open": "t_reinforced_quadruple_pane_glass_open",
-    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "reinforced_glass_sheet", "count": 4 } ] },
-    "bash": {
-      "str_min": 12,
-      "str_max": 30,
-      "sound": "glass breaking!",
-      "sound_fail": "whack!",
-      "sound_vol": 16,
-      "sound_fail_vol": 10,
-      "ter_set": "t_window_frame",
-      "items": [
-        { "item": "stick", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "glass_shard", "count": [ 100, 200 ] }
-      ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_reinforced_quadruple_pane_glass_open",
-    "name": "Reinforced quadruple glazed glass window",
-    "description": "Three giant sheet of glass inserted into a window frame.",
-    "looks_like": "t_window_no_curtains_open",
-    "symbol": "|",
-    "color": "light_cyan",
-    "move_cost": 4,
-    "coverage": 60,
-    "roof": "t_flat_roof",
-    "flags": [
-      "TRANSPARENT",
-      "FLAMMABLE",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "MOUNTABLE",
-      "BARRICADABLE_WINDOW",
-      "CONNECT_TO_WALL",
-      "THIN_OBSTACLE",
-      "SMALL_PASSAGE",
-      "WINDOW"
-    ],
-    "close": "t_reinforced_quadruple_pane_glass",
-    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "reinforced_glass_sheet", "count": 4 } ] },
-    "bash": {
-      "str_min": 12,
-      "str_max": 30,
-      "sound": "glass breaking!",
-      "sound_fail": "whack!",
-      "sound_vol": 16,
-      "sound_fail_vol": 10,
-      "ter_set": "t_window_frame",
-      "items": [
-        { "item": "stick", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "glass_shard", "count": [ 100, 200 ] }
-      ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_reinforced_quadruple_pane_glass_with_curtain",
-    "name": "reinforced quadruple glazed glass window with a curtain",
-    "description": "A reinforced quadruple glazed window with fancy curtains on the inside that is closed to block visibility and shut out any light.",
-    "looks_like": "t_curtains",
-    "symbol": "|",
-    "color": "light_cyan",
-    "move_cost": 0,
-    "coverage": 60,
-    "roof": "t_flat_roof",
-    "flags": [
-      "FLAMMABLE",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "BARRICADABLE_WINDOW_CURTAINS",
-      "REDUCE_SCENT",
-      "CONNECT_TO_WALL",
-      "BLOCK_WIND",
-      "WINDOW"
-    ],
-    "curtain_transform": "t_reinforced_quadruple_pane_glass",
-    "examine_action": "curtains",
-    "open": "t_reinforced_quadruple_double_pane_glass_with_curtain_open_window_closed",
-    "deconstruct": {
-      "ter_set": "t_window_empty",
-      "items": [
-        { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
-        { "item": "reinforced_glass_sheet", "count": 4 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "string_36", "count": 1 }
-      ]
-    },
-    "bash": {
-      "str_min": 12,
-      "str_max": 30,
-      "sound": "glass breaking!",
-      "sound_fail": "whack!",
-      "sound_vol": 16,
-      "sound_fail_vol": 10,
-      "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 100, 200 ] } ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_reinforced_quadruple_double_pane_glass_with_curtain_open_window_closed",
-    "name": "Reinforced quadruple glazed glass window with a curtain",
-    "description": "A reinforced quadruple glazed window with fancy curtains on the inside that can be drawn closed to block visibility and shut out any light.",
-    "looks_like": "t_window_domestic",
-    "symbol": "|",
-    "color": "light_cyan",
-    "move_cost": 4,
-    "coverage": 60,
-    "roof": "t_flat_roof",
-    "flags": [
-      "TRANSPARENT",
-      "FLAMMABLE",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "MOUNTABLE",
-      "BARRICADABLE_WINDOW_CURTAINS",
-      "CONNECT_TO_WALL",
-      "THIN_OBSTACLE",
-      "SMALL_PASSAGE",
-      "WINDOW"
-    ],
-    "curtain_transform": "t_reinforced_quadruple_pane_glass",
-    "examine_action": "curtains",
-    "close": "t_reinforced_quadruple_pane_glass_with_curtain",
-    "open": "t_reinforced_quadruple_pane_glass_with_curtain_open",
-    "deconstruct": {
-      "ter_set": "t_window_empty",
-      "items": [
-        { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
-        { "item": "glass_sheet", "count": 2 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "string_36", "count": 1 }
-      ]
-    },
-    "bash": {
-      "str_min": 12,
-      "str_max": 30,
-      "sound": "glass breaking!",
-      "sound_fail": "whack!",
-      "sound_vol": 16,
-      "sound_fail_vol": 10,
-      "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 68, 100 ] } ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_reinforced_quadruple_pane_glass_with_curtain_open",
-    "name": "Reinforced quadruple glazed glass window With a curtain",
-    "description": "A reinforced quadruple glazed window with fancy curtains on the inside that can be drawn closed to block visibility and shut out any light.",
-    "looks_like": "t_window_open",
-    "symbol": "|",
-    "color": "light_cyan",
-    "move_cost": 4,
-    "coverage": 60,
-    "roof": "t_flat_roof",
-    "flags": [
-      "TRANSPARENT",
-      "FLAMMABLE",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "MOUNTABLE",
-      "BARRICADABLE_WINDOW_CURTAINS",
-      "CONNECT_TO_WALL",
-      "THIN_OBSTACLE",
-      "SMALL_PASSAGE",
-      "WINDOW"
-    ],
-    "curtain_transform": "t_reinforced_quadruple_pane_glass",
-    "examine_action": "curtains",
-    "close": "t_reinforced_quadruple_double_pane_glass_with_curtain_open_window_closed",
-    "deconstruct": {
-      "ter_set": "t_window_empty",
-      "items": [
-        { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
-        { "item": "glass_sheet", "count": 4 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "string_36", "count": 1 }
-      ]
-    },
-    "bash": {
-      "str_min": 25,
-      "str_max": 40,
-      "sound": "glass breaking!",
-      "sound_fail": "whack!",
-      "sound_vol": 16,
-      "sound_fail_vol": 10,
-      "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 100, 200 ] } ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_plastic_window",
-    "name": "Plastic window",
-    "description": "A makeshift window comprising a sheet of translucent, rigid plastic secured in a wooden frame.  It'll do in a pinch.",
+    "id": "t_window_plastic",
+    "name": "plastic window",
+    "description": "A makeshift window consisting of transparent plastic in a wooden frame.  It'll do in a pinch.",
     "looks_like": "t_window_no_curtains",
     "symbol": "|",
     "color": "light_blue",
     "move_cost": 0,
     "coverage": 60,
     "roof": "t_flat_roof",
-    "flags": [
-      "TRANSPARENT",
-      "FLAMMABLE",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "BARRICADABLE_WINDOW",
-      "REDUCE_SCENT",
-      "CONNECT_TO_WALL",
-      "BLOCK_WIND",
-      "WINDOW"
-    ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "OPENCLOSE_INSIDE", "CONNECT_TO_WALL", "BLOCK_WIND", "WINDOW" ],
     "examine_action": "locked_object",
-    "open": "t_plastic_window_open",
-    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "plastic_sheet", "count": 1 } ] },
+    "open": "t_window_plastic_open",
+    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "rigid_plastic_sheet", "count": 2 } ] },
     "bash": {
       "str_min": 3,
       "str_max": 5,
@@ -2726,15 +1050,20 @@
       "sound_fail": "whack!",
       "sound_vol": 16,
       "sound_fail_vol": 10,
-      "ter_set": "t_window_frame",
-      "items": [ { "item": "stick", "count": 1 }, { "item": "nail", "charges": [ 3, 4 ] }, { "item": "plastic_sheet", "count": 1 } ]
+      "ter_set": "t_window_empty",
+      "items": [
+        { "item": "stick", "count": 1 },
+        { "item": "nail", "charges": [ 3, 4 ] },
+        { "item": "rigid_plastic_sheet", "count": [ 0, 1 ] },
+        { "item": "plastic_chunk", "count": [ 25, 50 ] }
+      ]
     }
   },
   {
     "type": "terrain",
-    "id": "t_plastic_window_open",
-    "name": "Plastic window",
-    "description": "An opened makeshift window comprising a sheet of translucent, rigid plastic secured in a wooden frame.  It'll do in a pinch.",
+    "id": "t_window_plastic_open",
+    "name": "plastic window",
+    "description": "An opened makeshift window consisting of transparent plastic in a wooden frame.  It'll do in a pinch.",
     "looks_like": "t_window_no_curtains_open",
     "symbol": "|",
     "color": "light_blue",
@@ -2747,14 +1076,13 @@
       "NOITEM",
       "OPENCLOSE_INSIDE",
       "MOUNTABLE",
-      "BARRICADABLE_WINDOW",
       "CONNECT_TO_WALL",
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
       "WINDOW"
     ],
-    "close": "t_plastic_window",
-    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "plastic_sheet", "count": 1 } ] },
+    "close": "t_window_plastic",
+    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "rigid_plastic_sheet", "count": 2 } ] },
     "bash": {
       "str_min": 3,
       "str_max": 5,
@@ -2762,40 +1090,36 @@
       "sound_fail": "whack!",
       "sound_vol": 16,
       "sound_fail_vol": 10,
-      "ter_set": "t_window_frame",
-      "items": [ { "item": "stick", "count": 1 }, { "item": "nail", "charges": [ 3, 4 ] }, { "item": "plastic_sheet", "count": 1 } ]
+      "ter_set": "t_window_empty",
+      "items": [
+        { "item": "stick", "count": 1 },
+        { "item": "nail", "charges": [ 3, 4 ] },
+        { "item": "rigid_plastic_sheet", "count": [ 0, 1 ] },
+        { "item": "plastic_chunk", "count": [ 25, 50 ] }
+      ]
     }
   },
   {
     "type": "terrain",
-    "id": "t_plastic_window_with_curtain",
-    "name": "Plastic window with a curtain",
-    "description": "A makeshift window with a closed curtain.  comprising a sheet of translucent, rigid plastic secured in a wooden frame.  There are sheets drawn across it to block the light.  It'll do in a pinch.",
+    "id": "t_window_plastic_with_curtain",
+    "name": "plastic window with a curtain",
+    "description": "A makeshift window consisting of a single pane of transparent plastic in a wooden frame hung with a curtain to block the light.  It'll do in a pinch.",
     "looks_like": "t_curtains",
     "symbol": "|",
     "color": "light_blue",
     "move_cost": 0,
     "coverage": 60,
     "roof": "t_flat_roof",
-    "flags": [
-      "FLAMMABLE",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "BARRICADABLE_WINDOW_CURTAINS",
-      "REDUCE_SCENT",
-      "CONNECT_TO_WALL",
-      "BLOCK_WIND",
-      "WINDOW"
-    ],
-    "curtain_transform": "t_plastic_window",
+    "flags": [ "FLAMMABLE", "NOITEM", "OPENCLOSE_INSIDE", "BARRICADABLE_WINDOW_CURTAINS", "CONNECT_TO_WALL", "BLOCK_WIND", "WINDOW" ],
+    "curtain_transform": "t_window_plastic",
     "examine_action": "curtains",
-    "open": "t_plastic_window_with_curtain_open_window_closed",
+    "open": "t_window_plastic_with_curtain_open_window_closed",
     "deconstruct": {
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
         { "item": "sheet", "count": 2 },
-        { "item": "plastic_sheet", "count": 1 },
+        { "item": "rigid_plastic_sheet", "count": 2 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "string_36", "count": 1 }
       ]
@@ -2807,42 +1131,39 @@
       "sound_fail": "whack!",
       "sound_vol": 16,
       "sound_fail_vol": 10,
-      "ter_set": "t_window_frame",
-      "items": [ { "item": "stick", "count": 1 }, { "item": "nail", "charges": [ 3, 4 ] }, { "item": "plastic_sheet", "count": 1 } ]
+      "ter_set": "t_window_empty",
+      "items": [
+        { "item": "stick", "count": 1 },
+        { "item": "sheet", "count": 2 },
+        { "item": "string_36", "count": 1 },
+        { "item": "nail", "charges": [ 3, 4 ] },
+        { "item": "rigid_plastic_sheet", "count": [ 0, 1 ] },
+        { "item": "plastic_chunk", "count": [ 25, 50 ] }
+      ]
     }
   },
   {
     "type": "terrain",
-    "id": "t_plastic_window_with_curtain_open_window_closed",
-    "name": "Plastic window with a curtain",
-    "description": "A makeshift window with a opened curtain.  comprising a sheet of translucent, rigid plastic secured in a wooden frame, with sheets strung about it to block the light as required.  It'll do in a pinch.",
+    "id": "t_window_plastic_with_curtain_open_window_closed",
+    "name": "plastic window with a curtain",
+    "description": "A makeshift window consisting of a single pane of transparent plastic in a wooden frame hung with an open curtain.  It'll do in a pinch.",
     "looks_like": "t_window_domestic",
     "symbol": "|",
     "color": "light_blue",
     "move_cost": 0,
     "coverage": 60,
     "roof": "t_flat_roof",
-    "flags": [
-      "TRANSPARENT",
-      "FLAMMABLE",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "BARRICADABLE_WINDOW_CURTAINS",
-      "REDUCE_SCENT",
-      "CONNECT_TO_WALL",
-      "BLOCK_WIND",
-      "WINDOW"
-    ],
-    "curtain_transform": "t_plastic_window",
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "OPENCLOSE_INSIDE", "CONNECT_TO_WALL", "BLOCK_WIND", "WINDOW" ],
+    "curtain_transform": "t_window_plastic",
     "examine_action": "curtains",
-    "close": "t_plastic_window_with_curtain",
-    "open": "t_plastic_window_with_curtain_open",
+    "close": "t_window_plastic_with_curtain",
+    "open": "t_window_plastic_with_curtain_open",
     "deconstruct": {
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
         { "item": "sheet", "count": 2 },
-        { "item": "plastic_sheet", "count": 1 },
+        { "item": "rigid_plastic_sheet", "count": 2 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "string_36", "count": 1 }
       ]
@@ -2854,15 +1175,22 @@
       "sound_fail": "whack!",
       "sound_vol": 16,
       "sound_fail_vol": 10,
-      "ter_set": "t_window_frame",
-      "items": [ { "item": "stick", "count": 1 }, { "item": "nail", "charges": [ 3, 4 ] }, { "item": "plastic_sheet", "count": 1 } ]
+      "ter_set": "t_window_empty",
+      "items": [
+        { "item": "stick", "count": 1 },
+        { "item": "sheet", "count": 2 },
+        { "item": "string_36", "count": 1 },
+        { "item": "nail", "charges": [ 3, 4 ] },
+        { "item": "rigid_plastic_sheet", "count": [ 0, 1 ] },
+        { "item": "plastic_chunk", "count": [ 25, 50 ] }
+      ]
     }
   },
   {
     "type": "terrain",
-    "id": "t_plastic_window_with_curtain_open",
-    "name": "Plastic window With a curtain",
-    "description": "An opened makeshift window with a opened curtain.  comprising a sheet of translucent, rigid plastic secured in a wooden frame, with sheets strung about it to block the light as required.  It'll do in a pinch.",
+    "id": "t_window_plastic_with_curtain_open",
+    "name": "plastic window with a curtain",
+    "description": "An open makeshift window consisting of transparent plastic in a wooden frame.  It'll do in a pinch.",
     "looks_like": "t_window_open",
     "symbol": "|",
     "color": "light_blue",
@@ -2875,21 +1203,20 @@
       "NOITEM",
       "OPENCLOSE_INSIDE",
       "MOUNTABLE",
-      "BARRICADABLE_WINDOW_CURTAINS",
       "CONNECT_TO_WALL",
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
       "WINDOW"
     ],
-    "curtain_transform": "t_plastic_window",
+    "curtain_transform": "t_window_plastic",
     "examine_action": "curtains",
-    "close": "t_plastic_window_with_curtain_open_window_closed",
+    "close": "t_window_plastic_with_curtain_open_window_closed",
     "deconstruct": {
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
         { "item": "sheet", "count": 2 },
-        { "item": "plastic_sheet", "count": 1 },
+        { "item": "rigid_plastic_sheet", "count": 2 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "string_36", "count": 1 }
       ]
@@ -2901,235 +1228,15 @@
       "sound_fail": "whack!",
       "sound_vol": 16,
       "sound_fail_vol": 10,
-      "ter_set": "t_window_frame",
-      "items": [ { "item": "stick", "count": 1 }, { "item": "nail", "charges": [ 3, 4 ] }, { "item": "plastic_sheet", "count": 1 } ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_reinforced_plastic_window",
-    "name": "Reinforced plastic window",
-    "description": "A makeshift window comprising three sheets of translucent, rigid plastic secured in a wooden frame.  It'll do in a pinch.",
-    "looks_like": "t_window_no_curtains",
-    "symbol": "|",
-    "color": "light_blue",
-    "move_cost": 0,
-    "coverage": 60,
-    "roof": "t_flat_roof",
-    "flags": [
-      "TRANSPARENT",
-      "FLAMMABLE",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "BARRICADABLE_WINDOW",
-      "REDUCE_SCENT",
-      "CONNECT_TO_WALL",
-      "BLOCK_WIND",
-      "WINDOW"
-    ],
-    "examine_action": "locked_object",
-    "open": "t_reinforced_plastic_window_open",
-    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "plastic_sheet", "count": 2 } ] },
-    "bash": {
-      "str_min": 10,
-      "str_max": 15,
-      "sound": "whump!",
-      "sound_fail": "whack!",
-      "sound_vol": 16,
-      "sound_fail_vol": 10,
-      "ter_set": "t_window_frame",
-      "items": [
-        { "item": "stick", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "plastic_sheet", "count": [ 1, 2 ] }
-      ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_reinforced_plastic_window_open",
-    "name": "Reinforced Plastic window",
-    "description": "An open makeshift window comprising three sheets of translucent, rigid plastic secured in a wooden frame.  It'll do in a pinch.",
-    "looks_like": "t_window_no_curtains_open",
-    "symbol": "|",
-    "color": "light_blue",
-    "move_cost": 4,
-    "coverage": 60,
-    "roof": "t_flat_roof",
-    "flags": [
-      "TRANSPARENT",
-      "FLAMMABLE",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "MOUNTABLE",
-      "BARRICADABLE_WINDOW",
-      "CONNECT_TO_WALL",
-      "THIN_OBSTACLE",
-      "SMALL_PASSAGE",
-      "WINDOW"
-    ],
-    "close": "t_reinforced_plastic_window",
-    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "plastic_sheet", "count": 2 } ] },
-    "bash": {
-      "str_min": 10,
-      "str_max": 15,
-      "sound": "whump!",
-      "sound_fail": "whack!",
-      "sound_vol": 16,
-      "sound_fail_vol": 10,
-      "ter_set": "t_window_frame",
-      "items": [
-        { "item": "stick", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "plastic_sheet", "count": [ 1, 2 ] }
-      ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_reinforced_plastic_window_with_curtain",
-    "name": "Reinforced plastic window with a curtain",
-    "description": "A makeshift window with a closed curtain.  comprising three sheets of translucent, rigid plastic secured in a wooden frame.  It'll do in a pinch.",
-    "looks_like": "t_curtains",
-    "symbol": "|",
-    "color": "light_blue",
-    "move_cost": 0,
-    "coverage": 60,
-    "roof": "t_flat_roof",
-    "flags": [
-      "FLAMMABLE",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "BARRICADABLE_WINDOW_CURTAINS",
-      "REDUCE_SCENT",
-      "CONNECT_TO_WALL",
-      "BLOCK_WIND",
-      "WINDOW"
-    ],
-    "curtain_transform": "t_reinforced_plastic_window",
-    "examine_action": "curtains",
-    "open": "t_reinforced_plastic_window_with_curtain_open_window_closed",
-    "deconstruct": {
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
         { "item": "sheet", "count": 2 },
-        { "item": "plastic_sheet", "count": 3 },
+        { "item": "string_36", "count": 1 },
         { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "string_36", "count": 1 }
+        { "item": "rigid_plastic_sheet", "count": [ 0, 1 ] },
+        { "item": "plastic_chunk", "count": [ 25, 50 ] }
       ]
-    },
-    "bash": {
-      "str_min": 10,
-      "str_max": 15,
-      "sound": "whump!",
-      "sound_fail": "whack!",
-      "sound_vol": 16,
-      "sound_fail_vol": 10,
-      "ter_set": "t_window_frame",
-      "items": [
-        { "item": "stick", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "plastic_sheet", "count": [ 1, 2 ] }
-      ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_reinforced_plastic_window_with_curtain_open_window_closed",
-    "name": "Reinforced plastic window with a curtain",
-    "description": "A makeshift window with a opened curtain.  comprising three sheets of translucent, rigid plastic secured in a wooden frame.  It'll do in a pinch.",
-    "looks_like": "t_window_domestic",
-    "symbol": "|",
-    "color": "light_blue",
-    "move_cost": 0,
-    "coverage": 60,
-    "roof": "t_flat_roof",
-    "flags": [
-      "TRANSPARENT",
-      "FLAMMABLE",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "BARRICADABLE_WINDOW_CURTAINS",
-      "REDUCE_SCENT",
-      "CONNECT_TO_WALL",
-      "BLOCK_WIND",
-      "WINDOW"
-    ],
-    "curtain_transform": "t_reinforced_plastic_window",
-    "examine_action": "curtains",
-    "open": "t_reinforced_plastic_window_with_curtain_open",
-    "close": "t_reinforced_plastic_window_with_curtain",
-    "deconstruct": {
-      "ter_set": "t_window_empty",
-      "items": [
-        { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
-        { "item": "plastic_sheet", "count": 3 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "string_36", "count": 1 }
-      ]
-    },
-    "bash": {
-      "str_min": 10,
-      "str_max": 15,
-      "sound": "whump!",
-      "sound_fail": "whack!",
-      "sound_vol": 16,
-      "sound_fail_vol": 10,
-      "ter_set": "t_window_frame",
-      "items": [
-        { "item": "stick", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "plastic_sheet", "count": [ 1, 2 ] }
-      ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_reinforced_plastic_window_with_curtain_open",
-    "name": "Reinforced plastic window With a curtain",
-    "description": "An open makeshift window with a opened curtain.  comprising three sheets of translucent, rigid plastic secured in a wooden frame.  It'll do in a pinch.",
-    "looks_like": "t_window_open",
-    "symbol": "|",
-    "color": "light_blue",
-    "move_cost": 4,
-    "coverage": 60,
-    "roof": "t_flat_roof",
-    "flags": [
-      "TRANSPARENT",
-      "FLAMMABLE",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "MOUNTABLE",
-      "BARRICADABLE_WINDOW_CURTAINS",
-      "CONNECT_TO_WALL",
-      "THIN_OBSTACLE",
-      "SMALL_PASSAGE",
-      "WINDOW"
-    ],
-    "curtain_transform": "t_reinforced_plastic_window",
-    "examine_action": "curtains",
-    "close": "t_reinforced_plastic_window_with_curtain",
-    "deconstruct": {
-      "ter_set": "t_window_empty",
-      "items": [
-        { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
-        { "item": "plastic_sheet", "count": 2 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "string_36", "count": 1 }
-      ]
-    },
-    "bash": {
-      "str_min": 10,
-      "str_max": 15,
-      "sound": "whump!",
-      "sound_fail": "whack!",
-      "sound_vol": 16,
-      "sound_fail_vol": 10,
-      "ter_set": "t_window_frame",
-      "items": [ { "item": "stick", "count": 1 }, { "item": "nail", "charges": [ 3, 4 ] }, { "item": "plastic_sheet", "count": 1 } ]
     }
   },
   {
@@ -3158,9 +1265,9 @@
   },
   {
     "type": "terrain",
-    "id": "t_tempered_glass_window",
-    "name": "Tempered glass window",
-    "description": "A giant sheet of tempered glass inserted into a window frame.",
+    "id": "t_window_tempered",
+    "name": "tempered glass window",
+    "description": "A window made of tempered glass.",
     "looks_like": "t_window_no_curtains",
     "symbol": "\"",
     "color": "light_cyan",
@@ -3179,8 +1286,8 @@
       "WINDOW"
     ],
     "examine_action": "locked_object",
-    "open": "t_tempered_glass_open",
-    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "glass_sheet", "count": 1 } ] },
+    "open": "t_window_tempered_open",
+    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "tempered_glass_sheet", "count": 2 } ] },
     "bash": {
       "str_min": 15,
       "str_max": 30,
@@ -3198,9 +1305,9 @@
   },
   {
     "type": "terrain",
-    "id": "t_tempered_glass_open",
-    "name": "Tempered glass window open",
-    "description": "A giant sheet of tempered glass inserted into a window frame.",
+    "id": "t_window_tempered_open",
+    "name": "tempered glass window open",
+    "description": "A window made of tempered glass.",
     "looks_like": "t_window_no_curtains_open",
     "symbol": "\"",
     "color": "light_cyan",
@@ -3218,8 +1325,8 @@
       "SMALL_PASSAGE",
       "WINDOW"
     ],
-    "close": "t_tempered_glass_window",
-    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "glass_sheet", "count": 1 } ] },
+    "close": "t_window_tempered",
+    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "tempered_glass_sheet", "count": 2 } ] },
     "bash": {
       "str_min": 15,
       "str_max": 30,
@@ -3237,7 +1344,7 @@
   },
   {
     "type": "terrain",
-    "id": "t_tempered_glass_with_curtain",
+    "id": "t_window_tempered_with_curtain",
     "name": "tempered glass window with a curtain",
     "description": "A tempered window with fancy curtains on the inside that are closed to block visibility and shut out any light.",
     "looks_like": "t_curtains",
@@ -3256,15 +1363,15 @@
       "BLOCK_WIND",
       "WINDOW"
     ],
-    "curtain_transform": "t_tempered_glass_window",
+    "curtain_transform": "t_window_tempered",
     "examine_action": "curtains",
-    "open": "t_tempered_glass_with_curtain_open_window_closed",
+    "open": "t_window_tempered_with_curtain_open_window_closed",
     "deconstruct": {
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
         { "item": "sheet", "count": 2 },
-        { "item": "glass_sheet", "count": 3 },
+        { "item": "tempered_glass_sheet", "count": 2 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "string_36", "count": 1 }
       ]
@@ -3282,8 +1389,8 @@
   },
   {
     "type": "terrain",
-    "id": "t_tempered_glass_with_curtain_open_window_closed",
-    "name": "Tempered glass window with a curtain",
+    "id": "t_window_tempered_with_curtain_open_window_closed",
+    "name": "tempered glass window with a curtain",
     "description": "A tempered window with fancy curtains on the inside that can be drawn closed to block visibility and shut out any light.",
     "looks_like": "t_window_domestic",
     "symbol": "|",
@@ -3302,16 +1409,16 @@
       "BLOCK_WIND",
       "WINDOW"
     ],
-    "curtain_transform": "t_tempered_glass_window",
+    "curtain_transform": "t_window_tempered",
     "examine_action": "curtains",
-    "close": "t_tempered_glass_with_curtain",
-    "open": "t_tempered_glass_with_curtain_open",
+    "close": "t_window_tempered_with_curtain",
+    "open": "t_window_tempered_with_curtain_open",
     "deconstruct": {
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
         { "item": "sheet", "count": 2 },
-        { "item": "reinforced_glass_sheet", "count": 1 },
+        { "item": "tempered_glass_sheet", "count": 2 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "string_36", "count": 1 }
       ]
@@ -3329,8 +1436,8 @@
   },
   {
     "type": "terrain",
-    "id": "t_tempered_glass_with_curtain_open",
-    "name": "Tempered glass window with a curtain",
+    "id": "t_window_tempered_with_curtain_open",
+    "name": "tempered glass window with a curtain",
     "description": "A tempered window with fancy curtains on the inside that can be drawn closed to block visibility and shut out any light.",
     "looks_like": "t_window_open",
     "symbol": "|",
@@ -3350,15 +1457,15 @@
       "SMALL_PASSAGE",
       "WINDOW"
     ],
-    "curtain_transform": "t_tempered_glass_window",
+    "curtain_transform": "t_window_tempered",
     "examine_action": "curtains",
-    "close": "t_tempered_glass_with_curtain_open_window_closed",
+    "close": "t_window_tempered_with_curtain_open_window_closed",
     "deconstruct": {
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
         { "item": "sheet", "count": 2 },
-        { "item": "glass_sheet", "count": 3 },
+        { "item": "tempered_glass_sheet", "count": 2 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "string_36", "count": 1 }
       ]
