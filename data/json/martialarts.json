@@ -519,6 +519,7 @@
       "lucern_hammer",
       "lucern_hammerfake",
       "makeshift_halberd",
+      "makeshift_glaive",
       "pickaxe",
       "poleaxe",
       "primitive_axe"
@@ -1190,6 +1191,7 @@
       "machete",
       "machete_gimmick",
       "makeshift_halberd",
+      "makeshift_glaive",
       "makeshift_knife",
       "makeshift_machete",
       "naginata",
@@ -1321,6 +1323,7 @@
       "naginata_fake",
       "long_pole",
       "makeshift_halberd",
+      "makeshift_glaive",
       "pike",
       "pike_inferior",
       "pike_fake",
