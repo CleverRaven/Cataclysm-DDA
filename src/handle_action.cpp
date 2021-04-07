@@ -324,6 +324,10 @@ input_context game::get_player_input( std::string &action )
                 }
             }
 
+            if( pixel_minimap_option ) {
+                invalidate_main_ui_adaptor();
+            }
+
             std::unique_ptr<static_popup> deathcam_msg_popup;
             if( uquit == QUIT_WATCH ) {
                 deathcam_msg_popup = std::make_unique<static_popup>();
