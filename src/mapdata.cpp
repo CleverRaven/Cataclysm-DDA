@@ -304,18 +304,24 @@ bool ter_shoot_info::load( const JsonObject &jsobj, const std::string &member, b
 {
     JsonObject j = jsobj.get_object( member );
 
-    mandatory( j, was_loaded, "chance_to_hit", chance_to_hit );
+    optional( j, was_loaded, "chance_to_hit", chance_to_hit, 100 );
 
-    mandatory( j, was_loaded, "reduce_dmg_min", reduce_dmg_min );
-    mandatory( j, was_loaded, "reduce_dmg_max", reduce_dmg_max );
+    std::pair<int, int> reduce_damage;
+    std::pair<int, int> reduce_damage_laser;
+    std::pair<int, int> destroy_damage;
 
-    mandatory( j, was_loaded, "reduce_dmg_min_laser", reduce_dmg_min_laser );
-    mandatory( j, was_loaded, "reduce_dmg_max_laser", reduce_dmg_max_laser );
+    mandatory( j, was_loaded, "reduce_damage", reduce_damage );
+    mandatory( j, was_loaded, "reduce_damage_laser", reduce_damage_laser );    
+    mandatory( j, was_loaded, "destroy_damage", destroy_damage );
 
-    mandatory( j, was_loaded, "destroy_dmg_min", destroy_dmg_min );
-    mandatory( j, was_loaded, "destroy_dmg_max", destroy_dmg_max );
+    reduce_dmg_min = reduce_damage.first;
+    reduce_dmg_max = reduce_damage.second;
+    reduce_dmg_min_laser = reduce_damage_laser.first;
+    reduce_dmg_max_laser = reduce_damage_laser.second;
+    destroy_dmg_min = destroy_damage.first;
+    destroy_dmg_max = destroy_damage.second;
 
-    mandatory( j, was_loaded, "laser_can_destroy", laser_can_destroy );
+    optional( j, was_loaded, "no_laser_destroy", no_laser_destroy, false );
 
     return true;
 }

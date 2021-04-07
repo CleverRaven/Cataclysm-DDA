@@ -76,7 +76,7 @@ struct map_deconstruct_info {
                const std::string &context );
 };
 struct ter_shoot_info {
-    // Base chance to hit the terrain at all
+    // Base chance to hit the terrain at all (defaults to 100%)
     int chance_to_hit = 0;
     // Minimum damage reduction to apply to shot when hit
     int reduce_dmg_min = 0;
@@ -90,8 +90,8 @@ struct ter_shoot_info {
     int destroy_dmg_min = 0;
     // Damage required to guarentee destruction
     int destroy_dmg_max = 0;
-    // Can the terrain be destroyed by lasers
-    bool laser_can_destroy = false;
+    // Are lasers incapable of destroying the terrain (defaults to false)
+    bool no_laser_destroy = false;
     bool load( const JsonObject &jsobj, const std::string &member, bool was_loaded );
 };
 struct furn_workbench_info {

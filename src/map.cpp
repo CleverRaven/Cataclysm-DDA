@@ -3830,8 +3830,8 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
             } else {
                 dam -= rng( terrain->shoot->reduce_dmg_min, terrain->shoot->reduce_dmg_max );
             }
-            // lasers can't destroy most walls you can shoot through
-            if( !laser || terrain->shoot->laser_can_destroy ) {
+            // lasers can't destroy some types of terrain you can shoot through
+            if( !laser || !terrain->shoot->no_laser_destroy ) {
                 // important to use initial damage, energy from reduction has gone into the terrain
                 const int x = int( initial_damage ) - terrain->shoot->destroy_dmg_min;
                 const int y = terrain->shoot->destroy_dmg_max - terrain->shoot->destroy_dmg_min;
