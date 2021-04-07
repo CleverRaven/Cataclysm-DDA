@@ -3,7 +3,7 @@
     "id": "mon_fleshy_shambler",
     "type": "MONSTER",
     "name": { "str": "fleshy shambler" },
-    "description": "An amalgamation of throbbing organs from various creatures have fused together into this lurching, vaguely humanoid shape.  Its myriad roughly formed mouths sussurate in a chorus of sibilant groans and whispers.",
+    "description": "An amalgamation of throbbing organs from various creatures have fused together into this lurching, vaguely-humanoid shape.  Its myriad roughly-formed mouths susurrate in a chorus of sibilant groans and whispers.",
     "default_faction": "jabberwock",
     "species": [ "ABERRATION" ],
     "volume": "80000 ml",

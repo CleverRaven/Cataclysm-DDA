@@ -118,7 +118,7 @@
     "copy-from": "rifle_flintlock",
     "type": "GUN",
     "name": { "str": "flintlock rifle" },
-    "description": "Also called a Pennsylvania rifle, this long barreled rifled flintlock gun has signficantly increased accuracy at the cost of taking even longer to reload.",
+    "description": "Also called a Pennsylvania rifle, this long-barreled rifled flintlock gun has significantly increased accuracy at the cost of taking even longer to reload.",
     "weight": "3700 g",
     "volume": "1700 ml",
     "longest_side": "1278 mm",

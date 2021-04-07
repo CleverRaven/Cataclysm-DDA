@@ -123,7 +123,7 @@
     "type": "furniture",
     "id": "f_roof_turbine_vent",
     "name": "roof turbine vent",
-    "description": "A rotary wind turbine that will catch the wind and pull out air from inside.  It is most commonly used for improving air cicrulation, particularly in poorly-ventilated areas like attics.",
+    "description": "A rotary wind turbine that will catch the wind and pull out air from inside.  It is most commonly used for improving air circulation, particularly in poorly-ventilated areas like attics.",
     "symbol": "&",
     "color": "light_gray",
     "move_cost_mod": 2,
