@@ -1,0 +1,6 @@
+activity levels and calories in daily diary
+basal metabolic rate with various size and metabolism
+hunger
+weary_assorted_tasks
+weary_recovery
+weary_24h_tasks

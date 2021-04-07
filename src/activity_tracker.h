@@ -18,6 +18,7 @@ class activity_tracker
         bool activity_reset = true;
         int num_events = 1;
 
+    public:
         // Weariness metadata.
         int tracker = 0;
         int intake = 0;
@@ -25,7 +26,6 @@ class activity_tracker
         int low_activity_ticks = 0;
         // How many ticks since we've decreased intake.
         int tick_counter = 0;
-    public:
         // Logs activity level. If called multiple times in one turn, will preserve the highest.
         void log_activity( float new_level );
         // Informs the tracker that a new turn has started.

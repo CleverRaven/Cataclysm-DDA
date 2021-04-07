@@ -77,7 +77,7 @@ then
 
     if [ "$COMPILER" = "clang++-8" -a -n "$GITHUB_WORKFLOW" -a -n "$CATA_CLANG_TIDY" ]
     then
-        # This is a hacky workaround for the fact that the custom clang-tidy we are
+        # This is a hacky workaround for that the custom clang-tidy we are
         # using is built for Travis CI, so it's not using the correct include directories
         # for GitHub workflows.
         cmake_extra_opts+=("-DCMAKE_CXX_FLAGS=-isystem /usr/include/clang/8.0.0/include")
@@ -132,7 +132,7 @@ then
         set +x
         all_cpp_files="$( \
             grep '"file": "' build/compile_commands.json | \
-            sed "s+.*$PWD/++;s+\"$++")"
+            sed "s+.*$PWD/++;s+\"$++")" # ' (This is for editor formatting)
         changed_cpp_files="$( \
             ./build-scripts/files_changed | grep -F "$all_cpp_files" || true )"
         if [ -n "$changed_cpp_files" ]
@@ -165,8 +165,9 @@ then
         make -j$num_jobs
         cd ..
         # Run regular tests
-        [ -f "${bin_path}cata_test" ] && parallel --verbose --linebuffer "run_test $(printf %q "${bin_path}")'/cata_test' {} '('{}')=> '" ::: "crafting_skill_gain" "[slow] ~crafting_skill_gain" "~[slow] ~[.]"
-        [ -f "${bin_path}cata_test-tiles" ] && parallel --verbose --linebuffer "run_test $(printf %q "${bin_path}")'/cata_test-tiles' {} '('{}')=> '" ::: "crafting_skill_gain" "[slow] ~crafting_skill_gain" "~[slow] ~[.]"
+	seed="$(shuf -i 0-1000000000 -n 1)"
+        [ -f "${bin_path}cata_test" ] && parallel --verbose --tagstring "({1} {2})=>" --linebuffer $WINE ${bin_path}/cata_test --durations yes --use-colour yes --rng-seed $seed $EXTRA_TEST_OPTS {1} {2} ::: "--order decl" "--order rand" ::: "--success [weary]" "-f weary_nutrition_tests.txt"
+        [ -f "${bin_path}cata_test-tiles" ] && parallel --verbose --tagstring "({})=>" --linebuffer $WINE ${bin_path}/cata_test-tiles --durations yes --use-colour yes --rng-seed $seed $EXTRA_TEST_OPTS {1} {2} ::: "--order decl" "--order rand" ::: "--success [weary]" "-f weary_nutrition_tests.txt"
     fi
 elif [ "$NATIVE" == "android" ]
 then
@@ -187,10 +188,11 @@ else
 
     export ASAN_OPTIONS=detect_odr_violation=1
     export UBSAN_OPTIONS=print_stacktrace=1
-    parallel --verbose --linebuffer "run_test './tests/cata_test' {} '('{}')=> '" ::: "crafting_skill_gain" "[slow] ~crafting_skill_gain" "~[slow] ~[.]"
+    seed="$(shuf -i 0-1000000000 -n 1)"
+    parallel --verbose --tagstring "({1} {2})=>" --linebuffer $WINE ./tests/cata_test --durations yes --use-colour yes --rng-seed $seed $EXTRA_TEST_OPTS {1} {2} ::: "--order decl" "--order rand" ::: "--success [weary]" "-f weary_nutrition_tests.txt"
     if [ -n "$MODS" ]
     then
-        parallel --verbose --linebuffer "run_test './tests/cata_test --user-dir=modded '$(printf %q "${MODS}") {} 'Mods-('{}')=> '" ::: "crafting_skill_gain" "[slow] ~crafting_skill_gain" "~[slow] ~[.]"
+        parallel --verbose --tagstring "(Mods {1} {2})=>" --linebuffer $WINE ./tests/cata_test --user-dir=modded $MODS --durations yes --use-colour yes --rng-seed $seed $EXTRA_TEST_OPTS {1} {2} ::: "--order decl" "--order rand" ::: "--success [weary]" "-f weary_nutrition_tests.txt"
     fi
 
     if [ -n "$TEST_STAGE" ]

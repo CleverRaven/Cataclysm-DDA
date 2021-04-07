@@ -5079,10 +5079,38 @@ std::string Character::debug_weary_info() const
     int morale = get_morale_level();
     int weight = units::to_gram<int>( bodyweight() );
     float bmi = get_bmi();
+    int stomach_cal = stomach.get_calories();
+    int gut_cal = guts.get_calories();
 
-    return string_format( "Weariness: %s Max Full Exert: %s Mult: %g\nBMR: %d %s Thresh: %d At: %d\nCal: %d/%d Fatigue: %d Morale: %d Wgt: %d (BMI %.1f)",
-                          amt, max_act, move_mult, bmr, weary_internals, thresh, current, get_stored_kcal(),
-                          get_healthy_kcal(), fatigue, morale, weight, bmi );
+    return string_format(
+               "Weariness: %s Max Full Exert: %s Mult: %g\n"
+               "BMR: %d %s Thresh: %d At: %d\n"
+               "Cal: %d/%d Fatigue: %d Morale: %d Wgt: %d (BMI %.1f)\n"
+               "Stom Cal: %d Gut Cal: %d Hngr %d Thrst %d Stam %d/%d",
+               amt, max_act, move_mult, bmr, weary_internals, thresh, current, get_stored_kcal(),
+               get_healthy_kcal(), fatigue, morale, weight, bmi,
+               stomach_cal, gut_cal, get_hunger(), get_thirst(), get_stamina(), get_stamina_max()
+           );
+}
+
+int Character::weary_tracker() const
+{
+    return activity_history.tracker;
+}
+
+int Character::weary_intake() const
+{
+    return activity_history.intake;
+}
+
+int Character::weary_low_activity_ticks() const
+{
+    return activity_history.low_activity_ticks;
+}
+
+int Character::weary_tick_counter() const
+{
+    return activity_history.tick_counter;
 }
 
 void Character::mod_stored_kcal( int nkcal, const bool ignore_weariness )
@@ -5683,6 +5711,7 @@ float Character::exertion_adjusted_move_multiplier( float level ) const
     }
     return max / level;
 }
+
 
 float Character::instantaneous_activity_level() const
 {

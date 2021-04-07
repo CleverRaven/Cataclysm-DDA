@@ -118,12 +118,18 @@ weariness_events do_activity( tasklist tasks )
         int new_weariness = guy.weariness_level();
         spent += task.interval;
         tasks.advance( task.interval );
-        // If we're more weary than we were when we started, report it
+        // If we're more or less weary than we were when we started, report it
         if( new_weariness != weariness_lvl ) {
             int new_weary = guy.weariness();
             int new_thresh = guy.weary_threshold();
+            int new_tracker = guy.weary_tracker();
+            int new_intake = guy.weary_intake();
+            int new_stomach_kcal = guy.stomach.get_calories();
+            int new_guts_kcal = guy.guts.get_calories();
+            int new_tick_counter = guy.weary_tick_counter();
             activity_log.log( weariness_lvl, new_weariness, spent,
-                              new_weary, new_thresh );
+                              new_weary, new_thresh, new_tracker, new_intake,
+                              new_stomach_kcal, new_guts_kcal, new_tick_counter );
             weariness_lvl = new_weariness;
         }
     }
@@ -181,7 +187,10 @@ time_duration tasklist::duration()
 }
 
 void weariness_events::log( const int old_level, const int new_level, const time_duration &when,
-                            const int new_weariness, const int new_threshold )
+                            const int new_weariness, const int new_threshold,
+                            const int new_tracker, const int new_intake,
+                            const int new_stomach_kcal, const int new_guts_kcal,
+                            const int new_tick_counter )
 {
     weary_transition added;
     added.from = old_level;
@@ -189,6 +198,11 @@ void weariness_events::log( const int old_level, const int new_level, const time
     added.minutes = to_minutes<int>( when );
     added.new_weariness = new_weariness;
     added.new_threshold = new_threshold;
+    added.new_tracker = new_tracker;
+    added.new_intake = new_intake;
+    added.new_stomach_kcal = new_stomach_kcal;
+    added.new_guts_kcal = new_guts_kcal;
+    added.new_tick_counter = new_tick_counter;
 
     transitions.insert( transitions.end(), added );
 }
@@ -208,13 +222,38 @@ int weariness_events::transition_minutes( const int from, const int to,
     return ret.first;
 }
 
+bool weariness_events::have_weary_increase() const
+{
+    for( const weary_transition &change : transitions ) {
+        if( change.from < change.to ) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool weariness_events::have_weary_decrease() const
+{
+    for( const weary_transition &change : transitions ) {
+        if( change.from > change.to ) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 std::string weariness_events::summarize() const
 {
     std::string buffer;
     for( const weary_transition &change : transitions ) {
-        buffer += string_format( "Transition: Weariness lvl from %d to %d at %d min (W %d Th %d)\n",
+        buffer += string_format( "Chng: Wl %d-%d @ %d min (W %d Th %d Tr %d In %d Sk %d Gk %d Tk %d)\n",
                                  change.from, change.to, change.minutes,
-                                 change.new_weariness, change.new_threshold );
+                                 change.new_weariness, change.new_threshold,
+                                 change.new_tracker, change.new_intake,
+                                 change.new_stomach_kcal, change.new_guts_kcal,
+                                 change.new_tick_counter );
     }
     return buffer;
 }

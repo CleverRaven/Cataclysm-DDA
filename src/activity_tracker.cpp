@@ -4,6 +4,7 @@
 #include "options.h"
 #include "string_formatter.h"
 
+#include <cmath>
 #include <limits>
 
 int activity_tracker::weariness() const
@@ -28,22 +29,23 @@ void activity_tracker::try_reduce_weariness( int bmr, bool sleeping )
 
     const float recovery_mult = get_option<float>( "WEARY_RECOVERY_MULT" );
 
-    if( low_activity_ticks >= 6 ) {
+    if( low_activity_ticks >= 1 ) {
         int reduction = tracker;
-        // 1/20 of whichever's bigger
+        // 1/120 of whichever's bigger
         if( bmr > reduction ) {
-            reduction = bmr * recovery_mult;
+            reduction = std::floor( bmr * recovery_mult * low_activity_ticks / 6.0f );
         } else {
-            reduction *= recovery_mult;
+            reduction = std::ceil( reduction * recovery_mult * low_activity_ticks / 6.0f );
         }
-        low_activity_ticks -= 6;
+        low_activity_ticks = 0;
 
-        tracker -= reduction;
+        tracker -= std::max( reduction, 1 );
     }
 
-    if( tick_counter >= 12 ) {
-        intake *= 1 - recovery_mult;
-        tick_counter -= 12;
+    // If happens to be no reduction, character is not (as) hypoglycemic
+    if( tick_counter >= 3 ) {
+        intake *= std::pow( 1 - recovery_mult, 0.25f );
+        tick_counter -= 3;
     }
 
     // Normalize values, make sure we stay above 0
