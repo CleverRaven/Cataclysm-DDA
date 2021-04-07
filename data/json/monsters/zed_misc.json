@@ -1130,7 +1130,7 @@
     "id": "mon_smoker_brute",
     "type": "MONSTER",
     "name": { "str": "ashen brawler" },
-    "description": "A gigantic, twisted human frame with a menancing stance and rapid movements.  Thick clouds of smoke pour from violent-looking eviscerations spread across its muscular-looking body, and its arms appear to have elongated massively.",
+    "description": "A gigantic, twisted human frame with a menacing stance and rapid movements.  Thick clouds of smoke pour from violent-looking eviscerations spread across its muscular-looking body, and its arms appear to have elongated massively.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
