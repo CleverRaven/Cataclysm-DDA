@@ -121,6 +121,12 @@ void exit_handler( int s )
 
         catacurses::endwin();
 
+#if defined(__ANDROID__)
+        // Avoid capturing SIGABRT on exit on Android in crash report
+        // Can be removed once the SIGABRT on exit problem is fixed
+        signal( SIGABRT, SIG_DFL );
+#endif
+
         exit( exit_status );
     }
     inp_mngr.set_timeout( old_timeout );
