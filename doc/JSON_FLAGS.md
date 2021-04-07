@@ -1035,7 +1035,7 @@ Also see `monster_attacks.json` for more special attacks, for example, impale an
 - ```BIO_OP_TAKEDOWN``` Takedown attack, bashes either the target's head or torso and inflicts `downed`.
 - ```BIO_OP_DISARM``` Disarming attack, does no damage.
 - ```BIO_OP_IMPALE``` Stabbing attack, deals heavy damage and has a chance to cause bleeding .
-- ```BITE``` Bite attack that can cause deep infected wounds.
+- ```BITE``` Bite attack that can cause deep infected wounds if the target is `grabbed` at the same time.
 - ```BMG_TUR``` Barrett .50BMG rifle fires.
 - ```BOOMER_GLOW``` Spit glowing bile.
 - ```BOOMER``` Spit bile.
