@@ -827,10 +827,10 @@ static std::string demangle( const char *symbol )
     return std::string( symbol );
 }
 
-#if !defined(_WIN32)
+#if !defined(_WIN32) && !defined(__ANDROID__)
 static void write_demangled_frame( std::ostream &out, const char *frame )
 {
-#if defined(__linux__) && !defined(__ANDROID__)
+#if defined(__linux__)
     // ./cataclysm(_ZN4game13handle_actionEv+0x47e8) [0xaaaae91e80fc]
     static const std::regex symbol_regex( R"(^(.*)\((.*)\+(0x?[a-f0-9]*)\)\s\[(0x[a-f0-9]+)\]$)" );
     std::cmatch match_result;
@@ -875,7 +875,7 @@ static void write_demangled_frame( std::ostream &out, const char *frame )
     out << "\n    " << frame;
 #endif
 }
-#endif // !defined(_WIN32)
+#endif // !defined(_WIN32) && !defined(__ANDROID__)
 
 #if !defined(__ANDROID__)
 void debug_write_backtrace( std::ostream &out )
