@@ -31,7 +31,7 @@
     "repairs_like": "apron_leather",
     "type": "ARMOR",
     "name": { "str": "cut-resistant apron" },
-    "description": "An apron made of kevlar fabric which provides excellent protection from cuts.",
+    "description": "An apron made of Kevlar fabric which provides excellent protection from cuts.",
     "copy-from": "apron_leather",
     "price": 3800,
     "material": [ "kevlar" ]
