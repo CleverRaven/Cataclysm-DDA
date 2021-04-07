@@ -1049,9 +1049,12 @@ Also see `monster_attacks.json` for more special attacks, for example, impale an
 - ```DERMATIK``` Attempts to lay dermatik eggs in the player.
 - ```DISAPPEAR``` Hallucination (or other unusual monster) disappears.
 - ```DOGTHING``` The dog _thing_ spawns into a tentacle dog.
+- ```EAT_CROP``` The monster eats an adjacent planted crop.
+- ```EAT_FOOD``` The monster eats an adjacent non-seed food item (apart from their own eggs and food with fun < -20).
+- ```EVOLVE_KILL_STRIKE``` Damages the target's torso, if it succeeds in killing the target the monster will upgrade to its next evolution.
 - ```FEAR_PARALYZE``` Paralyze the player with fear.
 - ```FLAMETHROWER``` Shoots a stream of fire.
-- ```FLESH_GOLEM``` Attack the player with claw, and inflict disease `downed` if the attack connects.
+- ```FLESH_GOLEM``` Attack the player with claw, and inflict effect `downed` if the attack connects.
 - ```FORMBLOB``` Spawns blobs?
 - ```FRAG_TUR``` MGL fires frag rounds.
 - ```FUNGUS_BIG_BLOSSOM``` Spreads fire suppressing fungal haze.
@@ -1067,7 +1070,7 @@ Also see `monster_attacks.json` for more special attacks, for example, impale an
 - ```GENE_STING``` Shoot a dart at the player that causes a mutation if it connects.
 - ```GRAB_DRAG``` GRAB the target, and drag it around.
 - ```GRAB``` Grabs the player, slowing on hit, making movement and dodging impossible and blocking harder.
-- ```GROWPLANTS``` Spawns underbrush, or promotes it to `> young tree > tree`.
+- ```GROWPLANTS``` Spawns underbrush, or promotes it to `> young tree > tree`. Can destroy bashable terrain or do damage if it hits something.
 - ```GROW_VINE``` Grows creeper vines.
 - ```HOWL``` "an ear-piercing howl!"
 - ```JACKSON``` Converts zombies into zombie dancers (until its death).
@@ -1100,7 +1103,7 @@ Also see `monster_attacks.json` for more special attacks, for example, impale an
 - ```SLIMESPRING``` Can provide a morale boost to the player, and cure bite and bleed effects.
 - ```SMASH``` Smashes the target for massive damage, sending it flying for a number of tiles equal to `("melee_dice" * "melee_dice_sides" * 3) / 10`.
 - ```SMG``` SMG turret fires.
-- ```SPIT_SAP``` Spit sap.
+- ```SPIT_SAP``` Spit sap ( acid damage, 12 range).
 - ```STARE``` Stare at the player and inflict teleglow.
 - ```STRETCH_ATTACK``` Long-ranged piercing attack.
 - ```STRETCH_BITE``` Long-ranged bite attack.
