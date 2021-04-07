@@ -300,28 +300,22 @@ bool map_deconstruct_info::load( const JsonObject &jsobj, const std::string &mem
     return true;
 }
 
-ter_shoot_info::ter_shoot_info() : chance_to_hit( 0.0f ),
-    reduce_dmg_min( 0 ), reduce_dmg_max( 0 ),
-    reduce_dmg_min_laser( 0 ), reduce_dmg_max_laser( 0 ),
-    destroy_dmg_min( 0 ), destroy_dmg_max( 0 ),
-    laser_can_destroy( false ) {}
-
-bool ter_shoot_info::load( const JsonObject &jsobj, const std::string &member )
+bool ter_shoot_info::load( const JsonObject &jsobj, const std::string &member, bool was_loaded )
 {
     JsonObject j = jsobj.get_object( member );
 
-    assign( j, "chance_to_hit", chance_to_hit );
+    mandatory( j, was_loaded, "chance_to_hit", chance_to_hit );
 
-    assign( j, "reduce_dmg_min", reduce_dmg_min );
-    assign( j, "reduce_dmg_max", reduce_dmg_max );
+    mandatory( j, was_loaded, "reduce_dmg_min", reduce_dmg_min );
+    mandatory( j, was_loaded, "reduce_dmg_max", reduce_dmg_max );
 
-    assign( j, "reduce_dmg_min_laser", reduce_dmg_min_laser );
-    assign( j, "reduce_dmg_max_laser", reduce_dmg_max_laser );
+    mandatory( j, was_loaded, "reduce_dmg_min_laser", reduce_dmg_min_laser );
+    mandatory( j, was_loaded, "reduce_dmg_max_laser", reduce_dmg_max_laser );
 
-    assign( j, "destroy_dmg_min", destroy_dmg_min );
-    assign( j, "destroy_dmg_max", destroy_dmg_max );
+    mandatory( j, was_loaded, "destroy_dmg_min", destroy_dmg_min );
+    mandatory( j, was_loaded, "destroy_dmg_max", destroy_dmg_max );
 
-    assign( j, "laser_can_destroy", laser_can_destroy );
+    mandatory( j, was_loaded, "laser_can_destroy", laser_can_destroy );
 
     return true;
 }
@@ -1259,7 +1253,7 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
 
     if( jo.has_object( "shoot" ) ) {
         shoot = cata::make_value<ter_shoot_info>();
-        shoot->load( jo, "shoot" );
+        shoot->load( jo, "shoot", was_loaded );
     }
 }
 

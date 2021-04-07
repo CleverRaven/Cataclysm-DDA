@@ -77,23 +77,22 @@ struct map_deconstruct_info {
 };
 struct ter_shoot_info {
     // Base chance to hit the terrain at all
-    int chance_to_hit;
+    int chance_to_hit = 0;
     // Minimum damage reduction to apply to shot when hit
-    int reduce_dmg_min;
+    int reduce_dmg_min = 0;
     // Maximum damage reduction to apply to shot when hit
-    int reduce_dmg_max;
+    int reduce_dmg_max = 0;
     // Minimum damage reduction to apply to laser shots when hit
-    int reduce_dmg_min_laser;
+    int reduce_dmg_min_laser = 0;
     // Maximum damage reduction to apply to laser shots when hit
-    int reduce_dmg_max_laser;
+    int reduce_dmg_max_laser = 0;
     // Damage required to have a chance to destroy
-    int destroy_dmg_min;
+    int destroy_dmg_min = 0;
     // Damage required to guarentee destruction
-    int destroy_dmg_max;
+    int destroy_dmg_max = 0;
     // Can the terrain be destroyed by lasers
-    bool laser_can_destroy;
-    ter_shoot_info();
-    bool load( const JsonObject &jsobj, const std::string &member );
+    bool laser_can_destroy = false;
+    bool load( const JsonObject &jsobj, const std::string &member, bool was_loaded );
 };
 struct furn_workbench_info {
     // Base multiplier applied for crafting here
