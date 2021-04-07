@@ -349,7 +349,7 @@
     "description": "Your system is rather tolerant of poisons and toxins, and most will affect you less.",
     "starting_trait": true,
     "leads_to": [ "EATPOISON" ],
-    "category": [ "INSECT", "SLIME", "SPIDER", "MEDICAL" ]
+    "category": [ "INSECT", "SLIME", "SPIDER", "MEDICAL", "CEPHALOPOD" ]
   },
   {
     "type": "mutation",
@@ -2974,7 +2974,7 @@
     "prereqs": [ "POISRESIST" ],
     "leads_to": [ "EATPOISON" ],
     "changes_to": [ "POISONOUS2" ],
-    "category": [ "SLIME", "TROGLOBITE", "SPIDER" ]
+    "category": [ "SLIME", "TROGLOBITE", "SPIDER", "CEPHALOPOD" ]
   },
   {
     "type": "mutation",
@@ -4659,7 +4659,7 @@
     "ugliness": 6,
     "description": "Skin tabs and odd flaps of skin surround your mouth.  They don't affect your eating, but are unpleasant to look at.",
     "category": [ "CHIMERA" ],
-    "leads_to": [ "MOUTH_TENTACLES", "MANDIBLES" ]
+    "changes_to": [ "MOUTH_TENTACLES", "MANDIBLES" ]
   },
   {
     "type": "mutation",
@@ -5835,7 +5835,6 @@
     "types": [ "HANDS" ],
     "changes_to": [ "INSECT_ARMS_OK", "ARACHNID_ARMS" ],
     "prereqs": [ "CHITIN", "CHITIN2", "CHITIN3", "CHITIN_FUR2", "CHITIN_FUR3" ],
-    "prereqs2": [ "ANTENNAE" ],
     "threshreq": [ "THRESH_INSECT", "THRESH_SPIDER" ],
     "category": [ "INSECT", "SPIDER" ],
     "restricts_gear": [ "torso" ],

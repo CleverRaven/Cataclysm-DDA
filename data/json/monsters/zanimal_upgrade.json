@@ -90,8 +90,7 @@
     "special_attacks": [
       [ "SMASH", 45 ],
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
-    ],
-    "upgrades": { "half_life": 12, "into": "mon_skeleton_hulk" }
+    ]
   },
   {
     "id": "mon_wolf_skeleton",

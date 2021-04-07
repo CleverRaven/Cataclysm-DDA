@@ -2743,6 +2743,7 @@
     "//": "3M Peltors claim to go 100 hours on 2 AAs",
     "power_draw": 60,
     "ammo": "battery",
+    "charges_per_use": 1,
     "revert_to": "powered_earmuffs",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s flicks off.", "target": "powered_earmuffs" },
     "covers": [ "head" ],
