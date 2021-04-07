@@ -20,6 +20,16 @@
       "sound_fail_vol": 14,
       "ter_set": "t_mdoor_frame",
       "items": [ { "item": "glass_shard", "count": [ 42, 84 ] }, { "item": "scrap", "count": [ 3, 5 ] } ]
+    },
+    "shoot": {
+      "chance_to_hit": 100,
+      "reduce_dmg_min": 2,
+      "reduce_dmg_max": 12,
+      "reduce_dmg_min_laser": 0,
+      "reduce_dmg_max_laser": 7,
+      "destroy_dmg_min": 40,
+      "destroy_dmg_max": 120,
+      "laser_can_destroy": false
     }
   },
   {
@@ -66,6 +76,16 @@
       "sound_fail_vol": 14,
       "ter_set": "t_mdoor_frame",
       "items": [ { "item": "glass_shard", "count": [ 42, 84 ] }, { "item": "scrap", "count": [ 3, 5 ] } ]
+    },
+    "shoot": {
+      "chance_to_hit": 100,
+      "reduce_dmg_min": 30,
+      "reduce_dmg_max": 60,
+      "reduce_dmg_min_laser": 0,
+      "reduce_dmg_max_laser": 10,
+      "destroy_dmg_min": 80,
+      "destroy_dmg_max": 200,
+      "laser_can_destroy": false
     }
   },
   {
@@ -116,6 +136,16 @@
         { "item": "wire", "prob": 20 },
         { "item": "scrap", "count": [ 3, 5 ] }
       ]
+    },
+    "shoot": {
+      "chance_to_hit": 100,
+      "reduce_dmg_min": 15,
+      "reduce_dmg_max": 30,
+      "reduce_dmg_min_laser": 0,
+      "reduce_dmg_max_laser": 10,
+      "destroy_dmg_min": 60,
+      "destroy_dmg_max": 160,
+      "laser_can_destroy": false
     }
   },
   {
@@ -143,6 +173,16 @@
         { "item": "wire", "prob": 20 },
         { "item": "scrap", "count": [ 3, 5 ] }
       ]
+    },
+    "shoot": {
+      "chance_to_hit": 100,
+      "reduce_dmg_min": 15,
+      "reduce_dmg_max": 30,
+      "reduce_dmg_min_laser": 0,
+      "reduce_dmg_max_laser": 10,
+      "destroy_dmg_min": 60,
+      "destroy_dmg_max": 160,
+      "laser_can_destroy": false
     }
   },
   {
@@ -234,6 +274,16 @@
         { "item": "splinter", "count": [ 1, 2 ] },
         { "item": "nail", "charges": [ 0, 2 ] }
       ]
+    },
+    "shoot": {
+      "chance_to_hit": 100,
+      "reduce_dmg_min": 15,
+      "reduce_dmg_max": 30,
+      "reduce_dmg_min_laser": 5,
+      "reduce_dmg_max_laser": 20,
+      "destroy_dmg_min": 20,
+      "destroy_dmg_max": 90,
+      "laser_can_destroy": true
     }
   },
   {
@@ -272,6 +322,16 @@
         { "item": "splinter", "count": [ 1, 2 ] },
         { "item": "nail", "charges": [ 0, 2 ] }
       ]
+    },
+    "shoot": {
+      "chance_to_hit": 100,
+      "reduce_dmg_min": 15,
+      "reduce_dmg_max": 30,
+      "reduce_dmg_min_laser": 5,
+      "reduce_dmg_max_laser": 20,
+      "destroy_dmg_min": 20,
+      "destroy_dmg_max": 90,
+      "laser_can_destroy": true
     }
   },
   {
@@ -310,6 +370,16 @@
         { "item": "splinter", "count": [ 1, 2 ] },
         { "item": "nail", "charges": [ 0, 2 ] }
       ]
+    },
+    "shoot": {
+      "chance_to_hit": 100,
+      "reduce_dmg_min": 15,
+      "reduce_dmg_max": 30,
+      "reduce_dmg_min_laser": 5,
+      "reduce_dmg_max_laser": 20,
+      "destroy_dmg_min": 20,
+      "destroy_dmg_max": 90,
+      "laser_can_destroy": true
     }
   },
   {
@@ -348,6 +418,16 @@
         { "item": "splinter", "count": [ 1, 2 ] },
         { "item": "nail", "charges": [ 0, 2 ] }
       ]
+    },
+    "shoot": {
+      "chance_to_hit": 100,
+      "reduce_dmg_min": 15,
+      "reduce_dmg_max": 30,
+      "reduce_dmg_min_laser": 5,
+      "reduce_dmg_max_laser": 20,
+      "destroy_dmg_min": 20,
+      "destroy_dmg_max": 90,
+      "laser_can_destroy": true
     }
   },
   {
@@ -386,6 +466,16 @@
         { "item": "splinter", "count": [ 1, 2 ] },
         { "item": "nail", "charges": [ 0, 2 ] }
       ]
+    },
+    "shoot": {
+      "chance_to_hit": 100,
+      "reduce_dmg_min": 15,
+      "reduce_dmg_max": 30,
+      "reduce_dmg_min_laser": 5,
+      "reduce_dmg_max_laser": 20,
+      "destroy_dmg_min": 20,
+      "destroy_dmg_max": 90,
+      "laser_can_destroy": true
     }
   },
   {
@@ -424,6 +514,16 @@
         { "item": "splinter", "count": [ 1, 2 ] },
         { "item": "nail", "charges": [ 0, 2 ] }
       ]
+    },
+    "shoot": {
+      "chance_to_hit": 100,
+      "reduce_dmg_min": 15,
+      "reduce_dmg_max": 30,
+      "reduce_dmg_min_laser": 5,
+      "reduce_dmg_max_laser": 20,
+      "destroy_dmg_min": 20,
+      "destroy_dmg_max": 90,
+      "laser_can_destroy": true
     }
   },
   {
@@ -608,6 +708,16 @@
         { "item": "splinter", "count": [ 1, 4 ] },
         { "item": "hinge", "count": [ 1, 2 ] }
       ]
+    },
+    "shoot": {
+      "chance_to_hit": 20,
+      "reduce_dmg_min": 10,
+      "reduce_dmg_max": 25,
+      "reduce_dmg_min_laser": 5,
+      "reduce_dmg_max_laser": 20,
+      "destroy_dmg_min": 20,
+      "destroy_dmg_max": 70,
+      "laser_can_destroy": true
     }
   },
   {
@@ -644,6 +754,16 @@
         { "item": "splinter", "count": [ 1, 4 ] },
         { "item": "hinge", "count": [ 1, 2 ] }
       ]
+    },
+    "shoot": {
+      "chance_to_hit": 20,
+      "reduce_dmg_min": 10,
+      "reduce_dmg_max": 25,
+      "reduce_dmg_min_laser": 5,
+      "reduce_dmg_max_laser": 20,
+      "destroy_dmg_min": 20,
+      "destroy_dmg_max": 70,
+      "laser_can_destroy": true
     }
   },
   {
@@ -680,6 +800,16 @@
         { "item": "splinter", "count": [ 1, 4 ] },
         { "item": "hinge", "count": [ 1, 2 ] }
       ]
+    },
+    "shoot": {
+      "chance_to_hit": 20,
+      "reduce_dmg_min": 10,
+      "reduce_dmg_max": 25,
+      "reduce_dmg_min_laser": 5,
+      "reduce_dmg_max_laser": 20,
+      "destroy_dmg_min": 20,
+      "destroy_dmg_max": 70,
+      "laser_can_destroy": true
     }
   },
   {
@@ -716,6 +846,16 @@
         { "item": "splinter", "count": [ 1, 4 ] },
         { "item": "hinge", "count": [ 1, 2 ] }
       ]
+    },
+    "shoot": {
+      "chance_to_hit": 20,
+      "reduce_dmg_min": 10,
+      "reduce_dmg_max": 25,
+      "reduce_dmg_min_laser": 5,
+      "reduce_dmg_max_laser": 20,
+      "destroy_dmg_min": 20,
+      "destroy_dmg_max": 70,
+      "laser_can_destroy": true
     }
   },
   {
@@ -840,6 +980,16 @@
       "sound_fail_vol": 10,
       "ter_set": "t_door_red_frame",
       "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
+    },
+    "shoot": {
+      "chance_to_hit": 100,
+      "reduce_dmg_min": 1,
+      "reduce_dmg_max": 8,
+      "reduce_dmg_min_laser": 0,
+      "reduce_dmg_max_laser": 5,
+      "destroy_dmg_min": 4,
+      "destroy_dmg_max": 16,
+      "laser_can_destroy": false
     }
   },
   {
@@ -864,6 +1014,16 @@
       "sound_fail_vol": 10,
       "ter_set": "t_door_green_frame",
       "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
+    },
+    "shoot": {
+      "chance_to_hit": 100,
+      "reduce_dmg_min": 1,
+      "reduce_dmg_max": 8,
+      "reduce_dmg_min_laser": 0,
+      "reduce_dmg_max_laser": 5,
+      "destroy_dmg_min": 4,
+      "destroy_dmg_max": 16,
+      "laser_can_destroy": false
     }
   },
   {
@@ -888,6 +1048,16 @@
       "sound_fail_vol": 10,
       "ter_set": "t_door_white_frame",
       "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
+    },
+    "shoot": {
+      "chance_to_hit": 100,
+      "reduce_dmg_min": 1,
+      "reduce_dmg_max": 8,
+      "reduce_dmg_min_laser": 0,
+      "reduce_dmg_max_laser": 5,
+      "destroy_dmg_min": 4,
+      "destroy_dmg_max": 16,
+      "laser_can_destroy": false
     }
   },
   {
@@ -912,6 +1082,16 @@
       "sound_fail_vol": 10,
       "ter_set": "t_door_gray_frame",
       "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
+    },
+    "shoot": {
+      "chance_to_hit": 100,
+      "reduce_dmg_min": 1,
+      "reduce_dmg_max": 8,
+      "reduce_dmg_min_laser": 0,
+      "reduce_dmg_max_laser": 5,
+      "destroy_dmg_min": 4,
+      "destroy_dmg_max": 16,
+      "laser_can_destroy": false
     }
   },
   {
@@ -936,6 +1116,16 @@
       "sound_fail_vol": 10,
       "ter_set": "t_door_red_frame",
       "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
+    },
+    "shoot": {
+      "chance_to_hit": 100,
+      "reduce_dmg_min": 1,
+      "reduce_dmg_max": 8,
+      "reduce_dmg_min_laser": 0,
+      "reduce_dmg_max_laser": 5,
+      "destroy_dmg_min": 4,
+      "destroy_dmg_max": 16,
+      "laser_can_destroy": false
     }
   },
   {
@@ -1047,6 +1237,16 @@
         { "item": "splinter", "count": [ 1, 2 ] },
         { "item": "nail", "charges": [ 0, 2 ] }
       ]
+    },
+    "shoot": {
+      "chance_to_hit": 100,
+      "reduce_dmg_min": 15,
+      "reduce_dmg_max": 30,
+      "reduce_dmg_min_laser": 5,
+      "reduce_dmg_max_laser": 20,
+      "destroy_dmg_min": 20,
+      "destroy_dmg_max": 90,
+      "laser_can_destroy": true
     }
   },
   {
@@ -1083,6 +1283,16 @@
         { "item": "splinter", "count": [ 1, 4 ] },
         { "item": "hinge", "count": [ 1, 2 ] }
       ]
+    },
+    "shoot": {
+      "chance_to_hit": 20,
+      "reduce_dmg_min": 10,
+      "reduce_dmg_max": 25,
+      "reduce_dmg_min_laser": 5,
+      "reduce_dmg_max_laser": 20,
+      "destroy_dmg_min": 20,
+      "destroy_dmg_max": 70,
+      "laser_can_destroy": true
     }
   },
   {
@@ -1119,6 +1329,16 @@
         { "item": "splinter", "count": [ 1, 4 ] },
         { "item": "hinge", "count": [ 1, 2 ] }
       ]
+    },
+    "shoot": {
+      "chance_to_hit": 20,
+      "reduce_dmg_min": 10,
+      "reduce_dmg_max": 25,
+      "reduce_dmg_min_laser": 5,
+      "reduce_dmg_max_laser": 20,
+      "destroy_dmg_min": 20,
+      "destroy_dmg_max": 70,
+      "laser_can_destroy": true
     }
   },
   {
@@ -1157,6 +1377,16 @@
         { "item": "splinter", "count": [ 1, 4 ] },
         { "item": "hinge", "count": [ 1, 2 ] }
       ]
+    },
+    "shoot": {
+      "chance_to_hit": 20,
+      "reduce_dmg_min": 10,
+      "reduce_dmg_max": 25,
+      "reduce_dmg_min_laser": 5,
+      "reduce_dmg_max_laser": 20,
+      "destroy_dmg_min": 20,
+      "destroy_dmg_max": 70,
+      "laser_can_destroy": true
     }
   },
   {
@@ -1305,6 +1535,16 @@
         { "item": "splinter", "count": [ 2, 4 ] },
         { "item": "nail", "charges": [ 4, 12 ] }
       ]
+    },
+    "shoot": {
+      "chance_to_hit": 100,
+      "reduce_dmg_min": 20,
+      "reduce_dmg_max": 40,
+      "reduce_dmg_min_laser": 10,
+      "reduce_dmg_max_laser": 30,
+      "destroy_dmg_min": 30,
+      "destroy_dmg_max": 100,
+      "laser_can_destroy": true
     }
   },
   {
@@ -1341,6 +1581,16 @@
         { "item": "splinter", "count": [ 2, 4 ] },
         { "item": "hinge", "count": [ 0, 1 ] }
       ]
+    },
+    "shoot": {
+      "chance_to_hit": 20,
+      "reduce_dmg_min": 15,
+      "reduce_dmg_max": 35,
+      "reduce_dmg_min_laser": 10,
+      "reduce_dmg_max_laser": 30,
+      "destroy_dmg_min": 30,
+      "destroy_dmg_max": 80,
+      "laser_can_destroy": true
     }
   },
   {
@@ -1416,6 +1666,16 @@
         { "item": "splinter", "count": [ 1, 2 ] },
         { "item": "nail", "charges": [ 0, 2 ] }
       ]
+    },
+    "shoot": {
+      "chance_to_hit": 100,
+      "reduce_dmg_min": 15,
+      "reduce_dmg_max": 30,
+      "reduce_dmg_min_laser": 5,
+      "reduce_dmg_max_laser": 20,
+      "destroy_dmg_min": 20,
+      "destroy_dmg_max": 90,
+      "laser_can_destroy": true
     }
   },
   {
@@ -1456,6 +1716,16 @@
         { "item": "splinter", "count": [ 1, 2 ] },
         { "item": "nail", "charges": [ 0, 2 ] }
       ]
+    },
+    "shoot": {
+      "chance_to_hit": 100,
+      "reduce_dmg_min": 15,
+      "reduce_dmg_max": 30,
+      "reduce_dmg_min_laser": 5,
+      "reduce_dmg_max_laser": 20,
+      "destroy_dmg_min": 20,
+      "destroy_dmg_max": 90,
+      "laser_can_destroy": true
     }
   },
   {
@@ -1496,6 +1766,16 @@
         { "item": "splinter", "count": [ 1, 2 ] },
         { "item": "nail", "charges": [ 0, 2 ] }
       ]
+    },
+    "shoot": {
+      "chance_to_hit": 100,
+      "reduce_dmg_min": 15,
+      "reduce_dmg_max": 30,
+      "reduce_dmg_min_laser": 5,
+      "reduce_dmg_max_laser": 20,
+      "destroy_dmg_min": 20,
+      "destroy_dmg_max": 90,
+      "laser_can_destroy": true
     }
   },
   {
@@ -1535,6 +1815,16 @@
         { "item": "splinter", "count": [ 1, 2 ] },
         { "item": "nail", "charges": [ 0, 2 ] }
       ]
+    },
+    "shoot": {
+      "chance_to_hit": 100,
+      "reduce_dmg_min": 15,
+      "reduce_dmg_max": 30,
+      "reduce_dmg_min_laser": 5,
+      "reduce_dmg_max_laser": 20,
+      "destroy_dmg_min": 20,
+      "destroy_dmg_max": 90,
+      "laser_can_destroy": true
     }
   },
   {
