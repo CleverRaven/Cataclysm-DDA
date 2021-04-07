@@ -100,26 +100,14 @@
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -42 ] ],
     "flags": [ "REACH_ATTACK", "POLEARM", "NONCONDUCTIVE", "SHEATH_SPEAR", "FRAGILE_MELEE" ]
   },
-  {
+{
     "id": "makeshift_glaive",
     "type": "GENERIC",
+	"copy-from": "makeshift_halberd",
     "name": { "str": "makeshift glaive" },
     "description": "A stout tree branch that has been carefully split and reinforced.  At the split point, a sharp blade has been bolted into place and reinforced with layers of sturdy wrapped bindings.",
-    "weight": "1800 g",
-    "volume": "3 L",
-    "longest_side": "180 cm",
-    "price": 5000,
     "price_postapoc": 400,
-    "to_hit": -1,
-    "bashing": 13,
-    "cutting": 31,
-    "material": [ "steel", "wood" ],
-    "symbol": "/",
-    "color": "light_gray",
-    "looks_like": "makeshift_halberd",
-    "techniques": [ "WBLOCK_1" ],
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -42 ] ],
-    "flags": [ "REACH_ATTACK", "POLEARM", "NONCONDUCTIVE", "SHEATH_SPEAR" ]
+    "delete": { "flags": [ "FRAGILE_MELEE" ] }
   },
   {
     "id": "spear_spike",
