@@ -948,7 +948,7 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "red",
-    "pocket_data": [ { "max_contains_volume": "2400 ml", "max_contains_weight": "10 kg", "rigid": true } ]
+    "pocket_data": [ { "max_contains_volume": "2400 ml", "max_contains_weight": "10 kg", "max_item_length": "40 cm", "rigid": true } ]
   },
   {
     "id": "toolbox_workshop_empty",
@@ -967,7 +967,7 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "red",
-    "pocket_data": [ { "max_contains_volume": "3000 ml", "max_contains_weight": "15 kg", "rigid": true } ]
+    "pocket_data": [ { "max_contains_volume": "3000 ml", "max_contains_weight": "15 kg", "max_item_length": "63 cm", "rigid": true } ]
   },
   {
     "id": "toolset_extended",
