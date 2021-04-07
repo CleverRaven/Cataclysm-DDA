@@ -205,17 +205,26 @@ static std::set<tripoint> spell_effect_cone_range_override( const spell_effect::
     const units::angle end_angle = initial_angle + half_width;
     std::set<tripoint> end_points;
     for( units::angle angle = start_angle; angle <= end_angle; angle += 1_degrees ) {
-        tripoint potential;
-        calc_ray_end( angle, params.range, source, potential );
-        end_points.emplace( potential );
-    }
-    for( const tripoint &ep : end_points ) {
-        std::vector<tripoint> trajectory = line_to( source, ep );
-        for( const tripoint &tp : trajectory ) {
-            if( params.ignore_walls || get_map().passable( tp ) ) {
-                targets.emplace( tp );
+        for( int range = 1; range <= params.range; range++ ) {
+            tripoint potential;
+            calc_ray_end( angle, range, source, potential );
+            if( params.ignore_walls ) {
+                targets.emplace( potential );
             } else {
-                break;
+                end_points.emplace( potential );
+            }
+        }
+    }
+    if( !params.ignore_walls ) {
+        map &here = get_map();
+        for( const tripoint &ep : end_points ) {
+            std::vector<tripoint> trajectory = line_to( source, ep );
+            for( const tripoint &tp : trajectory ) {
+                if( here.passable( tp ) ) {
+                    targets.emplace( tp );
+                } else {
+                    break;
+                }
             }
         }
     }
