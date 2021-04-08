@@ -21,12 +21,7 @@
       "ter_set": "t_mdoor_frame",
       "items": [ { "item": "glass_shard", "count": [ 42, 84 ] }, { "item": "scrap", "count": [ 3, 5 ] } ]
     },
-    "shoot": {
-      "reduce_damage": [ 2, 12 ],
-      "reduce_damage_laser": [ 0, 7 ],
-      "destroy_damage": [ 40, 120 ],
-      "no_laser_destroy": true
-    }
+    "shoot": { "reduce_damage": [ 2, 12 ], "reduce_damage_laser": [ 0, 7 ], "destroy_damage": [ 40, 120 ], "no_laser_destroy": true }
   },
   {
     "type": "terrain",
@@ -259,11 +254,7 @@
         { "item": "nail", "charges": [ 0, 2 ] }
       ]
     },
-    "shoot": {
-      "reduce_damage": [ 15, 30 ],
-      "reduce_damage_laser": [ 5, 20 ],
-      "destroy_damage": [ 20, 90 ]
-    }
+    "shoot": { "reduce_damage": [ 15, 30 ], "reduce_damage_laser": [ 5, 20 ], "destroy_damage": [ 20, 90 ] }
   },
   {
     "type": "terrain",
@@ -302,11 +293,7 @@
         { "item": "nail", "charges": [ 0, 2 ] }
       ]
     },
-    "shoot": {
-      "reduce_damage": [ 15, 30 ],
-      "reduce_damage_laser": [ 5, 20 ],
-      "destroy_damage": [ 20, 90 ]
-    }
+    "shoot": { "reduce_damage": [ 15, 30 ], "reduce_damage_laser": [ 5, 20 ], "destroy_damage": [ 20, 90 ] }
   },
   {
     "type": "terrain",
@@ -345,11 +332,7 @@
         { "item": "nail", "charges": [ 0, 2 ] }
       ]
     },
-    "shoot": {
-      "reduce_damage": [ 15, 30 ],
-      "reduce_damage_laser": [ 5, 20 ],
-      "destroy_damage": [ 20, 90 ]
-    }
+    "shoot": { "reduce_damage": [ 15, 30 ], "reduce_damage_laser": [ 5, 20 ], "destroy_damage": [ 20, 90 ] }
   },
   {
     "type": "terrain",
@@ -388,11 +371,7 @@
         { "item": "nail", "charges": [ 0, 2 ] }
       ]
     },
-    "shoot": {
-      "reduce_damage": [ 15, 30 ],
-      "reduce_damage_laser": [ 5, 20 ],
-      "destroy_damage": [ 20, 90 ]
-    }
+    "shoot": { "reduce_damage": [ 15, 30 ], "reduce_damage_laser": [ 5, 20 ], "destroy_damage": [ 20, 90 ] }
   },
   {
     "type": "terrain",
@@ -431,11 +410,7 @@
         { "item": "nail", "charges": [ 0, 2 ] }
       ]
     },
-    "shoot": {
-      "reduce_damage": [ 15, 30 ],
-      "reduce_damage_laser": [ 5, 20 ],
-      "destroy_damage": [ 20, 90 ]
-    }
+    "shoot": { "reduce_damage": [ 15, 30 ], "reduce_damage_laser": [ 5, 20 ], "destroy_damage": [ 20, 90 ] }
   },
   {
     "type": "terrain",
@@ -474,11 +449,7 @@
         { "item": "nail", "charges": [ 0, 2 ] }
       ]
     },
-    "shoot": {
-      "reduce_damage": [ 15, 30 ],
-      "reduce_damage_laser": [ 5, 20 ],
-      "destroy_damage": [ 20, 90 ]
-    }
+    "shoot": { "reduce_damage": [ 15, 30 ], "reduce_damage_laser": [ 5, 20 ], "destroy_damage": [ 20, 90 ] }
   },
   {
     "type": "terrain",
@@ -663,12 +634,7 @@
         { "item": "hinge", "count": [ 1, 2 ] }
       ]
     },
-    "shoot": {
-      "chance_to_hit": 20,
-      "reduce_damage": [ 10, 25 ],
-      "reduce_damage_laser": [ 5, 20 ],
-      "destroy_damage": [ 20, 70 ]
-    }
+    "shoot": { "chance_to_hit": 20, "reduce_damage": [ 10, 25 ], "reduce_damage_laser": [ 5, 20 ], "destroy_damage": [ 20, 70 ] }
   },
   {
     "type": "terrain",
@@ -705,12 +671,7 @@
         { "item": "hinge", "count": [ 1, 2 ] }
       ]
     },
-    "shoot": {
-      "chance_to_hit": 20,
-      "reduce_damage": [ 10, 25 ],
-      "reduce_damage_laser": [ 5, 20 ],
-      "destroy_damage": [ 20, 70 ]
-    }
+    "shoot": { "chance_to_hit": 20, "reduce_damage": [ 10, 25 ], "reduce_damage_laser": [ 5, 20 ], "destroy_damage": [ 20, 70 ] }
   },
   {
     "type": "terrain",
@@ -747,12 +708,7 @@
         { "item": "hinge", "count": [ 1, 2 ] }
       ]
     },
-    "shoot": {
-      "chance_to_hit": 20,
-      "reduce_damage": [ 10, 25 ],
-      "reduce_damage_laser": [ 5, 20 ],
-      "destroy_damage": [ 20, 70 ]
-    }
+    "shoot": { "chance_to_hit": 20, "reduce_damage": [ 10, 25 ], "reduce_damage_laser": [ 5, 20 ], "destroy_damage": [ 20, 70 ] }
   },
   {
     "type": "terrain",
@@ -789,12 +745,7 @@
         { "item": "hinge", "count": [ 1, 2 ] }
       ]
     },
-    "shoot": {
-      "chance_to_hit": 20,
-      "reduce_damage": [ 10, 25 ],
-      "reduce_damage_laser": [ 5, 20 ],
-      "destroy_damage": [ 20, 70 ]
-    }
+    "shoot": { "chance_to_hit": 20, "reduce_damage": [ 10, 25 ], "reduce_damage_laser": [ 5, 20 ], "destroy_damage": [ 20, 70 ] }
   },
   {
     "type": "terrain",
@@ -919,12 +870,7 @@
       "ter_set": "t_door_red_frame",
       "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
     },
-    "shoot": {
-      "reduce_damage": [ 1, 8 ],
-      "reduce_damage_laser": [ 0, 5 ],
-      "destroy_damage": [ 4, 16 ],
-      "no_laser_destroy": true
-    }
+    "shoot": { "reduce_damage": [ 1, 8 ], "reduce_damage_laser": [ 0, 5 ], "destroy_damage": [ 4, 16 ], "no_laser_destroy": true }
   },
   {
     "type": "terrain",
@@ -949,12 +895,7 @@
       "ter_set": "t_door_green_frame",
       "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
     },
-    "shoot": {
-      "reduce_damage": [ 1, 8 ],
-      "reduce_damage_laser": [ 0, 5 ],
-      "destroy_damage": [ 4, 16 ],
-      "no_laser_destroy": true
-    }
+    "shoot": { "reduce_damage": [ 1, 8 ], "reduce_damage_laser": [ 0, 5 ], "destroy_damage": [ 4, 16 ], "no_laser_destroy": true }
   },
   {
     "type": "terrain",
@@ -979,12 +920,7 @@
       "ter_set": "t_door_white_frame",
       "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
     },
-    "shoot": {
-      "reduce_damage": [ 1, 8 ],
-      "reduce_damage_laser": [ 0, 5 ],
-      "destroy_damage": [ 4, 16 ],
-      "no_laser_destroy": true
-    }
+    "shoot": { "reduce_damage": [ 1, 8 ], "reduce_damage_laser": [ 0, 5 ], "destroy_damage": [ 4, 16 ], "no_laser_destroy": true }
   },
   {
     "type": "terrain",
@@ -1009,12 +945,7 @@
       "ter_set": "t_door_gray_frame",
       "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
     },
-    "shoot": {
-      "reduce_damage": [ 1, 8 ],
-      "reduce_damage_laser": [ 0, 5 ],
-      "destroy_damage": [ 4, 16 ],
-      "no_laser_destroy": true
-    }
+    "shoot": { "reduce_damage": [ 1, 8 ], "reduce_damage_laser": [ 0, 5 ], "destroy_damage": [ 4, 16 ], "no_laser_destroy": true }
   },
   {
     "type": "terrain",
@@ -1039,12 +970,7 @@
       "ter_set": "t_door_red_frame",
       "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
     },
-    "shoot": {
-      "reduce_damage": [ 1, 8 ],
-      "reduce_damage_laser": [ 0, 5 ],
-      "destroy_damage": [ 4, 16 ],
-      "no_laser_destroy": true
-    }
+    "shoot": { "reduce_damage": [ 1, 8 ], "reduce_damage_laser": [ 0, 5 ], "destroy_damage": [ 4, 16 ], "no_laser_destroy": true }
   },
   {
     "type": "terrain",
@@ -1156,11 +1082,7 @@
         { "item": "nail", "charges": [ 0, 2 ] }
       ]
     },
-    "shoot": {
-      "reduce_damage": [ 15, 30 ],
-      "reduce_damage_laser": [ 5, 20 ],
-      "destroy_damage": [ 20, 90 ]
-    }
+    "shoot": { "reduce_damage": [ 15, 30 ], "reduce_damage_laser": [ 5, 20 ], "destroy_damage": [ 20, 90 ] }
   },
   {
     "type": "terrain",
@@ -1197,12 +1119,7 @@
         { "item": "hinge", "count": [ 1, 2 ] }
       ]
     },
-    "shoot": {
-      "chance_to_hit": 20,
-      "reduce_damage": [ 10, 25 ],
-      "reduce_damage_laser": [ 5, 20 ],
-      "destroy_damage": [ 20, 70 ]
-    }
+    "shoot": { "chance_to_hit": 20, "reduce_damage": [ 10, 25 ], "reduce_damage_laser": [ 5, 20 ], "destroy_damage": [ 20, 70 ] }
   },
   {
     "type": "terrain",
@@ -1239,12 +1156,7 @@
         { "item": "hinge", "count": [ 1, 2 ] }
       ]
     },
-    "shoot": {
-      "chance_to_hit": 20,
-      "reduce_damage": [ 10, 25 ],
-      "reduce_damage_laser": [ 5, 20 ],
-      "destroy_damage": [ 20, 70 ]
-    }
+    "shoot": { "chance_to_hit": 20, "reduce_damage": [ 10, 25 ], "reduce_damage_laser": [ 5, 20 ], "destroy_damage": [ 20, 70 ] }
   },
   {
     "type": "terrain",
@@ -1283,12 +1195,7 @@
         { "item": "hinge", "count": [ 1, 2 ] }
       ]
     },
-    "shoot": {
-      "chance_to_hit": 20,
-      "reduce_damage": [ 10, 25 ],
-      "reduce_damage_laser": [ 5, 20 ],
-      "destroy_damage": [ 20, 70 ]
-    }
+    "shoot": { "chance_to_hit": 20, "reduce_damage": [ 10, 25 ], "reduce_damage_laser": [ 5, 20 ], "destroy_damage": [ 20, 70 ] }
   },
   {
     "type": "terrain",
@@ -1437,11 +1344,7 @@
         { "item": "nail", "charges": [ 4, 12 ] }
       ]
     },
-    "shoot": {
-      "reduce_damage": [ 20, 40 ],
-      "reduce_damage_laser": [ 10, 30 ],
-      "destroy_damage": [ 30, 100 ]
-    }
+    "shoot": { "reduce_damage": [ 20, 40 ], "reduce_damage_laser": [ 10, 30 ], "destroy_damage": [ 30, 100 ] }
   },
   {
     "type": "terrain",
@@ -1478,12 +1381,7 @@
         { "item": "hinge", "count": [ 0, 1 ] }
       ]
     },
-    "shoot": {
-      "chance_to_hit": 20,
-      "reduce_damage": [ 15, 35 ],
-      "reduce_damage_laser": [ 10, 30 ],
-      "destroy_damage": [ 30, 80 ]
-    }
+    "shoot": { "chance_to_hit": 20, "reduce_damage": [ 15, 35 ], "reduce_damage_laser": [ 10, 30 ], "destroy_damage": [ 30, 80 ] }
   },
   {
     "type": "terrain",
@@ -1559,11 +1457,7 @@
         { "item": "nail", "charges": [ 0, 2 ] }
       ]
     },
-    "shoot": {
-      "reduce_damage": [ 15, 30 ],
-      "reduce_damage_laser": [ 5, 20 ],
-      "destroy_damage": [ 20, 90 ]
-    }
+    "shoot": { "reduce_damage": [ 15, 30 ], "reduce_damage_laser": [ 5, 20 ], "destroy_damage": [ 20, 90 ] }
   },
   {
     "type": "terrain",
@@ -1604,11 +1498,7 @@
         { "item": "nail", "charges": [ 0, 2 ] }
       ]
     },
-    "shoot": {
-      "reduce_damage": [ 15, 30 ],
-      "reduce_damage_laser": [ 5, 20 ],
-      "destroy_damage": [ 20, 90 ]
-    }
+    "shoot": { "reduce_damage": [ 15, 30 ], "reduce_damage_laser": [ 5, 20 ], "destroy_damage": [ 20, 90 ] }
   },
   {
     "type": "terrain",
@@ -1649,11 +1539,7 @@
         { "item": "nail", "charges": [ 0, 2 ] }
       ]
     },
-    "shoot": {
-      "reduce_damage": [ 15, 30 ],
-      "reduce_damage_laser": [ 5, 20 ],
-      "destroy_damage": [ 20, 90 ]
-    }
+    "shoot": { "reduce_damage": [ 15, 30 ], "reduce_damage_laser": [ 5, 20 ], "destroy_damage": [ 20, 90 ] }
   },
   {
     "type": "terrain",
@@ -1693,11 +1579,7 @@
         { "item": "nail", "charges": [ 0, 2 ] }
       ]
     },
-    "shoot": {
-      "reduce_damage": [ 15, 30 ],
-      "reduce_damage_laser": [ 5, 20 ],
-      "destroy_damage": [ 20, 90 ]
-    }
+    "shoot": { "reduce_damage": [ 15, 30 ], "reduce_damage_laser": [ 5, 20 ], "destroy_damage": [ 20, 90 ] }
   },
   {
     "type": "terrain",
