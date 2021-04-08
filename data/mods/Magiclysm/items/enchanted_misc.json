@@ -147,6 +147,7 @@
         "materials": [
           "cotton",
           "leather",
+          "lycra",
           "wool",
           "fur",
           "faux_fur",
@@ -165,7 +166,20 @@
       },
       {
         "type": "sew_advanced",
-        "materials": [ "cotton", "leather", "wool", "fur", "faux_fur", "nomex", "kevlar", "neoprene", "gutskin", "plastic", "kevlar_rigid" ],
+        "materials": [
+          "cotton",
+          "leather",
+          "lycra",
+          "wool",
+          "fur",
+          "faux_fur",
+          "nomex",
+          "kevlar",
+          "neoprene",
+          "gutskin",
+          "plastic",
+          "kevlar_rigid"
+        ],
         "skill": "tailor",
         "clothing_mods": [ "leather_padded", "steel_padded", "kevlar_padded", "furred", "wooled" ]
       }

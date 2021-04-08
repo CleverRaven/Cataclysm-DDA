@@ -139,8 +139,8 @@
       "place_nested": [
         {
           "chunks": [ [ "null", 5 ], [ "roof_2x2_utilities_d", 30 ], [ "roof_2x2_utilities", 50 ], [ "roof_6x6_survivor", 5 ] ],
-          "x": [ 3, 20 ],
-          "y": [ 10, 17 ]
+          "x": [ 3, 15 ],
+          "y": [ 10, 13 ]
         }
       ]
     }

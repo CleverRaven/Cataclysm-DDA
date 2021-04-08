@@ -40,7 +40,9 @@ static const itype_id itype_jackhammer( "jackhammer" );
 static const itype_id itype_mask_dust( "mask_dust" );
 
 static const mtype_id mon_ant_larva( "mon_ant_larva" );
+static const mtype_id mon_ant_acid_larva( "mon_ant_acid_larva" );
 static const mtype_id mon_ant_queen( "mon_ant_queen" );
+static const mtype_id mon_ant_acid_queen( "mon_ant_acid_queen" );
 static const mtype_id mon_bee( "mon_bee" );
 static const mtype_id mon_beekeeper( "mon_beekeeper" );
 static const mtype_id mon_zombie_jackson( "mon_zombie_jackson" );
@@ -145,7 +147,9 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
             { "ants_four_way",    &mapgen_ants_four_way },
             { "ants_food", &mapgen_ants_food },
             { "ants_larvae", &mapgen_ants_larvae },
+            { "ants_larvae_acid", &mapgen_ants_larvae_acid },
             { "ants_queen", &mapgen_ants_queen },
+            { "ants_queen_acid", &mapgen_ants_queen_acid },
             { "tutorial", &mapgen_tutorial },
             { "lake_shore", &mapgen_lake_shore },
             { "ravine_edge", &mapgen_ravine_edge },
@@ -2486,19 +2490,6 @@ static void mapgen_ants_generic( mapgendata &dat )
             }
         }
     }
-    if( dat.terrain_type() == "ants_food" ) {
-        m->place_items( item_group_id( "ant_food" ), 92, point_zero,
-                        point( SEEX * 2 - 1, SEEY * 2 - 1 ), true, dat.when() );
-    } else {
-        m->place_items( item_group_id( "ant_egg" ),  98, point_zero,
-                        point( SEEX * 2 - 1, SEEY * 2 - 1 ), true, dat.when() );
-    }
-    if( dat.terrain_type() == "ants_queen" ) {
-        m->add_spawn( mon_ant_queen, 1, { SEEX, SEEY, m->get_abs_sub().z } );
-    } else if( dat.terrain_type() == "ants_larvae" ) {
-        m->add_spawn( mon_ant_larva, 10, { SEEX, SEEY, m->get_abs_sub().z } );
-    }
-
 }
 
 void mapgen_ants_food( mapgendata &dat )
@@ -2511,17 +2502,33 @@ void mapgen_ants_food( mapgendata &dat )
 void mapgen_ants_larvae( mapgendata &dat )
 {
     mapgen_ants_generic( dat );
-    dat.m.place_items( item_group_id( "ant_egg" ),  98, point_zero,
+    dat.m.place_items( item_group_id( "ant_egg" ), 98, point_zero,
                        point( SEEX * 2 - 1, SEEY * 2 - 1 ), true, dat.when() );
     dat.m.add_spawn( mon_ant_larva, 10, { SEEX, SEEY, dat.m.get_abs_sub().z } );
+}
+
+void mapgen_ants_larvae_acid( mapgendata &dat )
+{
+    mapgen_ants_generic( dat );
+    dat.m.place_items( item_group_id( "ant_egg" ), 98, point_zero,
+                       point( SEEX * 2 - 1, SEEY * 2 - 1 ), true, dat.when() );
+    dat.m.add_spawn( mon_ant_acid_larva, 10, { SEEX, SEEY, dat.m.get_abs_sub().z } );
 }
 
 void mapgen_ants_queen( mapgendata &dat )
 {
     mapgen_ants_generic( dat );
-    dat.m.place_items( item_group_id( "ant_egg" ),  98, point_zero,
+    dat.m.place_items( item_group_id( "ant_egg" ), 98, point_zero,
                        point( SEEX * 2 - 1, SEEY * 2 - 1 ), true, dat.when() );
     dat.m.add_spawn( mon_ant_queen, 1, { SEEX, SEEY, dat.m.get_abs_sub().z } );
+}
+
+void mapgen_ants_queen_acid( mapgendata &dat )
+{
+    mapgen_ants_generic( dat );
+    dat.m.place_items( item_group_id( "ant_egg" ), 98, point_zero,
+                       point( SEEX * 2 - 1, SEEY * 2 - 1 ), true, dat.when() );
+    dat.m.add_spawn( mon_ant_acid_queen, 1, { SEEX, SEEY, dat.m.get_abs_sub().z } );
 }
 
 void mapgen_tutorial( mapgendata &dat )

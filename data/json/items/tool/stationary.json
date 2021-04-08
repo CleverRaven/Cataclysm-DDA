@@ -54,7 +54,7 @@
     "description": "These are a long pair of heavy-duty scissors.  Use scissors to cut items made from cotton (like clothing) into rags.",
     "ascii_picture": "scissors",
     "weight": "113 g",
-    "volume": "250 ml",
+    "volume": "145 ml",
     "price": 400,
     "price_postapoc": 10,
     "to_hit": -1,

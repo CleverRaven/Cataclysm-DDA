@@ -522,8 +522,8 @@
     "price_postapoc": 500,
     "material": [ "powder" ],
     "volume": "250 ml",
-    "flags": [ "EDIBLE_FROZEN", "RAW", "IRREPLACEABLE_CONSUMABLE" ],
-    "calories": 23,
+    "flags": [ "EDIBLE_FROZEN", "RAW", "IRREPLACEABLE_CONSUMABLE", "NUTRIENT_OVERRIDE" ],
+    "calories": 2,
     "charges": 20,
     "fun": -5,
     "freezing_point": -459

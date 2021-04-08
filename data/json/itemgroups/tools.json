@@ -347,7 +347,8 @@
       { "item": "adhesive_bandages", "charges": 6 },
       { "item": "bandages", "charges": 3 },
       { "item": "medical_gauze", "count": 6 },
-      { "item": "booklet_firstaid" }
+      { "item": "booklet_firstaid" },
+      { "item": "scissors" }
     ]
   },
   {
@@ -363,7 +364,8 @@
       { "item": "adhesive_bandages", "charges": [ 0, 6 ] },
       { "item": "bandages", "charges": [ 0, 3 ] },
       { "item": "medical_gauze", "count": [ 0, 6 ] },
-      { "item": "booklet_firstaid", "prob": 50 }
+      { "item": "booklet_firstaid", "prob": 50 },
+      { "item": "scissors", "prob": 50 }
     ]
   },
   {

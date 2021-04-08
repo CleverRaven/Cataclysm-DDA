@@ -502,10 +502,20 @@ endif
 # OSX
 ifeq ($(NATIVE), osx)
   ifeq ($(OSX_MIN),)
-    ifneq ($(CLANG), 0)
-      OSX_MIN = 10.7
+    ifneq ($(findstring Darwin,$(OS)),)
+      OSX_MIN = $(shell sw_vers -productVersion | awk -F '.' '{print $$1 "." $$2}')
     else
-      OSX_MIN = 10.5
+      ifneq ($(CLANG), 0)
+        ifneq ($(SANITIZE),)
+          # sanitizers does not function properly (e.g. false positive errors) if OSX_MIN < 10.9
+          # https://github.com/llvm/llvm-project/blob/release/11.x/compiler-rt/CMakeLists.txt#L183
+          OSX_MIN = 10.9
+        else
+          OSX_MIN = 10.7
+        endif
+      else
+        OSX_MIN = 10.5
+      endif
     endif
   endif
   DEFINES += -DMACOSX
@@ -1186,7 +1196,7 @@ endif
 
 style-json: json_blacklist $(JSON_FORMATTER_BIN)
 ifndef CROSS
-	find data -name "*.json" -print0 | grep -v -z -F -f json_blacklist | \
+	find data gfx -name "*.json" -print0 | grep -v -z -F -f json_blacklist | \
 	  xargs -0 -L 1 $(JSON_FORMATTER_BIN)
 else
 	@echo Cannot run json formatter in cross compiles.

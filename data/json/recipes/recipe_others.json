@@ -1468,7 +1468,11 @@
     "time": "40 m",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "chitin_piece", 20 ] ], [ [ "rope_natural_short", 2, "LIST" ], [ "adhesive", 4, "LIST" ] ] ]
+    "components": [
+      [ [ "chitin_piece", 20 ] ],
+      [ [ "rope_natural", 1, "LIST" ] ],
+      [ [ "rope_natural_short", 2, "LIST" ], [ "adhesive", 4, "LIST" ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -1481,7 +1485,11 @@
     "time": "55 m",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "acidchitin_piece", 25 ] ], [ [ "rope_natural_short", 2, "LIST" ], [ "adhesive", 4, "LIST" ] ] ]
+    "components": [
+      [ [ "acidchitin_piece", 25 ] ],
+      [ [ "rope_natural", 1, "LIST" ] ],
+      [ [ "rope_natural_short", 2, "LIST" ], [ "adhesive", 4, "LIST" ] ]
+    ]
   },
   {
     "type": "recipe",

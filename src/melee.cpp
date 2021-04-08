@@ -17,6 +17,7 @@
 
 #include "avatar.h"
 #include "bodypart.h"
+#include "cached_options.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
@@ -476,7 +477,7 @@ bool Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
         add_msg_if_player( m_info, _( "You lack the substance to affect anything." ) );
         return false;
     }
-    if( !is_adjacent( &t, true ) ) {
+    if( !is_adjacent( &t, fov_3d ) ) {
         return false;
     }
     return melee_attack_abstract( t, allow_special, force_technique, allow_unarmed );
@@ -514,7 +515,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
     }
 
     // Fighting is hard work
-    increase_activity_level( EXTRA_EXERCISE );
+    set_activity_level( EXTRA_EXERCISE );
 
     item *cur_weapon = allow_unarmed ? &used_weapon() : &weapon;
 
@@ -791,7 +792,7 @@ void Character::reach_attack( const tripoint &p )
     }
 
     // Fighting is hard work
-    increase_activity_level( EXTRA_EXERCISE );
+    set_activity_level( EXTRA_EXERCISE );
 
     Creature *critter = g->critter_at( p );
     // Original target size, used when there are monsters in front of our target
