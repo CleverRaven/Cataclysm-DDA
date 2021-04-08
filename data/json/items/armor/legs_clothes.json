@@ -17,7 +17,15 @@
     "coverage": 90,
     "encumbrance": 7,
     "max_encumbrance": 11,
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 400 } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "165 mm",
+        "moves": 400
+      }
+    ],
     "warmth": 8,
     "material_thickness": 0.3,
     "flags": [ "VARSIZE", "POCKETS", "FANCY" ]
