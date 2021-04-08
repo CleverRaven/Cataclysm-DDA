@@ -914,7 +914,7 @@
   },
   {
     "type": "terrain",
-    "id": "t_metal_grate_window",
+    "id": "t_window_reinforced_barred",
     "name": "barred reinforced boarded window",
     "description": "A reinforced boarded up window that has been further bolstered with durable metal bars.",
     "examine_action": "bars",
@@ -942,7 +942,7 @@
   },
   {
     "type": "terrain",
-    "id": "t_metal_grate_window_noglass",
+    "id": "t_window_reinforced_barred_noglass",
     "name": "barred reinforced boarded window",
     "description": "A reinforced boarded up window frame that has been further bolstered with durable metal bars.",
     "examine_action": "bars",
@@ -971,7 +971,7 @@
   },
   {
     "type": "terrain",
-    "id": "t_metal_grate_window_plastic",
+    "id": "t_window_plastic_reinforced_barred",
     "name": "barred reinforced boarded window",
     "description": "A reinforced boarded up plastic window that has been further bolstered with durable metal bars.",
     "examine_action": "bars",
@@ -1000,7 +1000,7 @@
   },
   {
     "type": "terrain",
-    "id": "t_metal_grate_window_tempered",
+    "id": "t_window_tempered_reinforced_barred",
     "name": "barred reinforced boarded window",
     "description": "A reinforced boarded up tempered glass window that has been further bolstered with durable metal bars.",
     "examine_action": "bars",
