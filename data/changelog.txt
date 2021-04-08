@@ -48,7 +48,6 @@ Allows nanofabricator templates to contain recipes from any item group.
 Adds different bleeding types for different species.
 Adds bleeding butchery action.
 Autodoc installation programs added that almost guarantee flawless installation of supported bionics.
-Makes plant mutants' photosynthesis more realistic.
 Removes the obsolete 'carrion spawn rate scaling factor' world configuration option.
 
 ## Content:
@@ -278,6 +277,7 @@ Avoids creating starving characters from older templates.
 Fixes furniture being 'destroyed' when grab-moving.
 Fixes crashes from canceling reloading a container that is on the ground.
 Fixes NPCs still being hungry - and unhappy about it - after eating from faction camp stores.
+Reigned in plant mutation photosynthesis ability to be more representative of real photosynthesis.
 
 ## Performance:
 Adds an option to enable batching when it is available in SDL.
