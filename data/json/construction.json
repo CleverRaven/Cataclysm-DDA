@@ -4000,7 +4000,7 @@
   },
   {
     "type": "construction",
-    "id": "constr_metal_grate_window",
+    "id": "constr_window_reinforced_barred",
     "group": "install_bars_onto_window",
     "//": "Step 1: Install bars over a reinforced boarded window.",
     "category": "REINFORCE",
@@ -4010,11 +4010,11 @@
     "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "GLARE", "level": 2 } ] ],
     "components": [ [ [ "pipe", 12 ] ], [ [ "sheet_metal", 4 ] ] ],
     "pre_terrain": "t_window_reinforced",
-    "post_terrain": "t_metal_grate_window"
+    "post_terrain": "t_window_reinforced_barred"
   },
   {
     "type": "construction",
-    "id": "constr_metal_grate_window_tempered",
+    "id": "constr_window_tempered_reinforced_barred",
     "group": "install_bars_onto_window",
     "//": "Step 1: Install bars over a reinforced boarded tempered window.",
     "category": "REINFORCE",
@@ -4024,11 +4024,11 @@
     "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "GLARE", "level": 2 } ] ],
     "components": [ [ [ "pipe", 12 ] ], [ [ "sheet_metal", 4 ] ] ],
     "pre_terrain": "t_window_tempered_reinforced",
-    "post_terrain": "t_metal_grate_window_tempered"
+    "post_terrain": "t_window_tempered_reinforced_barred"
   },
   {
     "type": "construction",
-    "id": "constr_metal_grate_window_no_glass",
+    "id": "constr_window_reinforced_barred_noglass",
     "group": "install_bars_onto_window",
     "//": "Step 2: Install bars over a reinforced boarded window with no glass",
     "category": "REINFORCE",
@@ -4038,11 +4038,11 @@
     "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "GLARE", "level": 2 } ] ],
     "components": [ [ [ "pipe", 12 ] ], [ [ "sheet_metal", 4 ] ] ],
     "pre_terrain": "t_window_reinforced_noglass",
-    "post_terrain": "t_metal_grate_window_noglass"
+    "post_terrain": "t_window_reinforced_barred_noglass"
   },
   {
     "type": "construction",
-    "id": "constr_metal_grate_window_plastic",
+    "id": "constr_window_plastic_reinforced_barred",
     "group": "install_bars_onto_window",
     "//": "Step 2: Install bars over a reinforced boarded plastic window",
     "category": "REINFORCE",
@@ -4052,24 +4052,24 @@
     "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "GLARE", "level": 2 } ] ],
     "components": [ [ [ "pipe", 12 ] ], [ [ "sheet_metal", 4 ] ] ],
     "pre_terrain": "t_window_plastic_reinforced",
-    "post_terrain": "t_metal_grate_window_plastic"
+    "post_terrain": "t_window_plastic_reinforced_barred"
   },
   {
     "type": "construction",
-    "id": "constr_plastic_window",
+    "id": "constr_window_plastic",
     "group": "build_plastic_window",
     "//": "Step 1: Build plastic window",
     "category": "WINDOWS",
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "40 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ] ],
-    "components": [ [ [ "rigid_plastic_sheet", 1 ] ], [ [ "nail", 16 ] ], [ [ "2x4", 4 ] ] ],
+    "components": [ [ [ "rigid_plastic_sheet", 2 ] ], [ [ "nail", 16 ] ], [ [ "2x4", 4 ] ] ],
     "pre_terrain": "t_window_empty",
     "post_terrain": "t_window_plastic"
   },
   {
     "type": "construction",
-    "id": "constr_plastic_window_curtain",
+    "id": "constr_window_plastic_curtain",
     "group": "build_plastic_window",
     "//": "Step 2: Build curtain for plastic window",
     "category": "WINDOWS",
