@@ -2388,7 +2388,7 @@ spell fake_spell::get_spell( int min_level_override ) const
         debugmsg( "ERROR: fake spell %s has higher min_level than max_level", id.c_str() );
         return sp;
     }
-    sp.set_exp( exp_for_level( level_of_spell ) );
+    sp.set_exp( sp.exp_for_level( level_of_spell ) );
 
     return sp;
 }
