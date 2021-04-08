@@ -871,7 +871,7 @@
     "covers": [ "hand_l", "hand_r" ],
     "sided": true,
     "coverage": 5,
-    "flags": [ "WATCH", "FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ]
+    "flags": [ "WATCH", "ALARMCLOCK", "FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ]
   },
   {
     "id": "tieclip",
@@ -902,7 +902,7 @@
     "covers": [ "hand_l", "hand_r" ],
     "sided": true,
     "coverage": 10,
-    "flags": [ "WATCH", "FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE" ]
+    "flags": [ "WATCH", "ALARMCLOCK", "FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE" ]
   },
   {
     "id": "silver_bracelet",
@@ -949,7 +949,7 @@
     "covers": [ "hand_l", "hand_r" ],
     "sided": true,
     "coverage": 10,
-    "flags": [ "WATCH", "SUPER_FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE" ]
+    "flags": [ "WATCH", "ALARMCLOCK", "SUPER_FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE" ]
   },
   {
     "id": "small_relic",
@@ -1040,7 +1040,7 @@
     "covers": [ "hand_l", "hand_r" ],
     "sided": true,
     "coverage": 5,
-    "flags": [ "WATCH", "SUPER_FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ]
+    "flags": [ "WATCH", "ALARMCLOCK", "SUPER_FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ]
   },
   {
     "id": "platinum_bracelet",
