@@ -3622,63 +3622,78 @@ void map::crush( const tripoint &p )
 
 void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
 {
-    // TODO: Make bashing count fully, but other types much less
-    float initial_damage = 0.0f;
+    // TODO: make bashing better a destroying, worse at penetrating
+    std::array<float, static_cast<int>( damage_type::NUM )> dmg_by_type {};
     for( const damage_unit &dam : proj.impact ) {
-        initial_damage += dam.amount;
-        initial_damage += dam.res_pen;
+        dmg_by_type[static_cast<int>( dam.type )] +=
+            dam.amount * dam.damage_multiplier * dam.unconditional_damage_mult +
+            dam.res_pen * dam.res_mult * dam.unconditional_res_mult;
     }
+    const float initial_damage = std::accumulate( dmg_by_type.begin(), dmg_by_type.end(), 0.0f );
     if( initial_damage < 0 ) {
         return;
     }
+    // TODO: use this for more than just vehicle parts
+    const damage_type main_damage_type = static_cast<damage_type>(
+            std::max_element( dmg_by_type.begin(), dmg_by_type.end() ) - dmg_by_type.begin() );
 
+    // damage value that may be reduced by vehicles, furniture, terrain or fields
     float dam = initial_damage;
+
     const auto &ammo_effects = proj.proj_effects;
+    const bool incendiary = ammo_effects.count( "INCENDIARY" );
+    const bool laser = ammo_effects.count( "LASER" );
 
-    if( has_flag( "ALARMED", p ) && !get_timed_events().queued( timed_event_type::WANTED ) ) {
-        sounds::sound( p, 30, sounds::sound_t::alarm, _( "an alarm sound!" ), true, "environment",
-                       "alarm" );
-        const tripoint abs = ms_to_sm_copy( getabs( p ) );
-        get_timed_events().add( timed_event_type::WANTED, calendar::turn + 30_minutes, 0, abs );
-    }
-
-    const bool inc = ammo_effects.count( "INCENDIARY" );
     if( const optional_vpart_position vp = veh_at( p ) ) {
-        dam = vp->vehicle().damage( vp->part_index(), dam, inc ? damage_type::HEAT : damage_type::STAB,
-                                    hit_items );
+        dam = vp->vehicle().damage( vp->part_index(), dam, main_damage_type, hit_items );
     }
-    const auto break_glass = []( const tripoint & p, int vol ) {
-        sounds::sound( p, vol, sounds::sound_t::combat, _( "glass breaking!" ), false,
-                       "smash", "glass" );
+
+    const auto shoot_furn_ter = [&]( const map_data_common_t &data ) {
+        const map_shoot_info &shoot = *data.shoot;
+        bool destroyed = false;
+
+        // if you are aiming at this tile, you can never miss
+        if( hit_items || x_in_y( shoot.chance_to_hit, 100 ) ) {
+            if( laser ) {
+                dam -= rng( shoot.reduce_dmg_min_laser, shoot.reduce_dmg_max_laser );
+            } else {
+                dam -= rng( shoot.reduce_dmg_min, shoot.reduce_dmg_max );
+            }
+            // lasers can't destroy some types of furn/ter you can shoot through
+            if( !laser || !shoot.no_laser_destroy ) {
+                // important to use initial damage, energy from reduction has gone into the furn/ter
+                const int x = int( initial_damage ) - shoot.destroy_dmg_min;
+                const int y = shoot.destroy_dmg_max - shoot.destroy_dmg_min;
+                if( x_in_y( x, y ) ) {
+                    // don't need to duplicate all the destruction logic here
+                    bash_params bsh{ 0, false, true, false, 0.0, false, false, false, false };
+                    bash_ter_furn( p, bsh );
+                    destroyed = true;
+                }
+            }
+            if( dam <= 0 && get_player_view().sees( p ) ) {
+                // TODO: add exclamation mark once out of string freeze
+                add_msg( _( "The shot is stopped by the %s" ), data.name() );
+            }
+            // only very flammable furn/ter can be set alight with incendiary rounds
+            if( incendiary && data.has_flag( TFLAG_FLAMMABLE_ASH ) ) {
+                add_field( p, fd_fire, 1 );
+            }
+            // bash_ter_furn already triggers the alarm
+            // TODO: fix alarm event weirdness (not just here, also in bash, hack, etc)
+            if( !destroyed && data.has_flag( "ALARMED" ) &&
+                !get_timed_events().queued( timed_event_type::WANTED ) ) {
+                sounds::sound( p, 40, sounds::sound_t::alarm, _( "an alarm go off!" ),
+                               false, "environment", "alarm" );
+                const tripoint abs = ms_to_sm_copy( getabs( p ) );
+                get_timed_events().add( timed_event_type::WANTED, calendar::turn + 30_minutes, 0, abs );
+            }
+            return true;
+        }
+        return false;
     };
 
-    ter_id terrain = ter( p );
-    if( terrain->has_flag( TFLAG_NO_SHOOT ) ) {
-        dam = 0.0f;
-        add_msg( _( "The shot is stopped by the %s" ), terrain->name() );
-    } /*else if( terrain == t_wall_wood_broken ||
-               terrain == t_wall_log_broken ||
-               terrain == t_door_b ) {
-        if( hit_items || one_in( 8 ) ) { // 1 in 8 chance of hitting the door
-            dam -= rng( 20, 40 );
-            if( dam > 0 ) {
-                sounds::sound( p, 10, sounds::sound_t::combat, _( "crash!" ), false,
-                               "smash", "wall" );
-                ter_set( p, t_dirt );
-            }
-        } else {
-            dam -= rng( 0, 1 );
-        }
-    } else if( terrain == t_door_c ||
-               terrain == t_door_locked ||
-               terrain == t_door_locked_peep ||
-               terrain == t_door_locked_alarm ) {
-        dam -= rng( 15, 30 );
-        if( dam > 0 ) {
-            sounds::sound( p, 10, sounds::sound_t::combat, _( "smash!" ), false, "smash", "door" );
-            ter_set( p, t_door_b );
-        }
-    } else if( terrain == t_door_boarded ||
+    /*if( terrain == t_door_boarded ||
                terrain == t_door_boarded_damaged ||
                terrain == t_rdoor_boarded ||
                terrain == t_rdoor_boarded_damaged ) {
@@ -3740,116 +3755,23 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
             break_glass( p, 16 );
             ter_set( p, t_window_frame );
         }
-    } else if( terrain == t_wall_glass  ||
-               terrain == t_wall_glass_alarm ||
-               terrain == t_door_glass_c ||
-               terrain == t_laminated_glass ) {
-        if( ammo_effects.count( "LASER" ) ) {
-            dam -= rng( 0, 5 );
-        } else {
-            dam -= rng( 1, 8 );
-            if( dam > 0 ) {
-                if( terrain != t_laminated_glass || one_in( 40 ) ) {
-                    break_glass( p, 16 );
-                    ter_set( p, t_floor );
-                }
-            }
-        }
-    } else if( terrain == t_ballistic_glass || terrain == t_reinforced_glass ||
-               terrain == t_reinforced_door_glass_c
-               || terrain == t_reinforced_glass_shutter || terrain ==  t_reinforced_glass_shutter_open ) {
-        // reinforced glass stops most bullets
-        // laser beams are attenuated
-        if( ammo_effects.count( "LASER" ) ) {
-            dam -= rng( 0, 8 );
-        } else {
-            //Greatly weakens power of bullets
-            dam -= 40;
-            if( dam <= 0 && get_player_view().sees( p ) ) {
-                if( terrain == t_reinforced_door_glass_c ) {
-                    add_msg( _( "The shot is stopped by the reinforced glass door!" ) );
-                } else {
-                    add_msg( _( "The shot is stopped by the reinforced glass wall!" ) );
-                }
-            } else if( dam >= 40 ) {
-                //high powered bullets penetrate the glass, but only extremely strong
-                // ones (80 before reduction) actually destroy the glass itself.
-                break_glass( p, 16 );
-                ter_set( p, t_floor );
-            }
-        }
-    }*/ else if( terrain == t_paper ) {
-        dam -= rng( 4, 16 );
-        if( dam > 0 ) {
-            sounds::sound( p, 8, sounds::sound_t::combat, _( "rrrrip!" ), true, "smash", "paper_torn" );
-            ter_set( p, t_dirt );
-        }
-        if( inc ) {
-            add_field( p, fd_fire, 1 );
-        }
-    } else if( terrain == t_gas_pump ) {
-        if( hit_items || one_in( 3 ) ) {
-            if( dam > 15 ) {
-                if( inc ) {
-                    explosion_handler::explosion( p, 40, 0.8, true );
-                } else {
-                    for( const tripoint &pt : points_in_radius( p, 2 ) ) {
-                        if( one_in( 3 ) && passable( pt ) ) {
-                            int gas_amount = rng( 10, 100 );
-                            item gas_spill( "gasoline", calendar::turn );
-                            gas_spill.charges = gas_amount;
-                            add_item_or_charges( pt, gas_spill );
-                        }
-                    }
+    }*/
 
-                    sounds::sound( p, 10, sounds::sound_t::combat, _( "smash!" ), true, "bullet_hit", "hit_metal" );
-                }
-                ter_set( p, t_gas_pump_smashed );
-            }
-            dam -= 60;
-        }
-    } else if( terrain == t_vat ) {
-        if( dam >= 10 ) {
-            sounds::sound( p, 20, sounds::sound_t::combat, _( "ke-rash!" ), true, "bullet_hit", "hit_metal" );
-            ter_set( p, t_floor );
-        } else {
-            dam = 0;
-        }
-    } else if( terrain == t_thconc_floor_olight ) {
-        if( one_in( 3 ) ) {
-            break_glass( p, 16 );
-            ter_set( p, t_thconc_floor );
-            spawn_item( p, itype_glass_shard, rng( 8, 16 ) );
-            dam = 0; //Prevent damaging additional items, since we shot at the ceiling.
-        }
+    furn_id furniture = furn( p );
+    ter_id terrain = ter( p );
+    bool hit_something = false;
+
+    // shoot through furniture or terrain and see if we hit something
+    if( furniture->shoot ) {
+        hit_something |= shoot_furn_ter( furniture.obj() );
     } else if( terrain->shoot ) {
-        if( x_in_y( terrain->shoot->chance_to_hit, 100 ) ) {
-            const bool laser = ammo_effects.count( "LASER" ) != 0;
-            if( laser ) {
-                dam -= rng( terrain->shoot->reduce_dmg_min_laser, terrain->shoot->reduce_dmg_max_laser );
-            } else {
-                dam -= rng( terrain->shoot->reduce_dmg_min, terrain->shoot->reduce_dmg_max );
-            }
-            // lasers can't destroy some types of terrain you can shoot through
-            if( !laser || !terrain->shoot->no_laser_destroy ) {
-                // important to use initial damage, energy from reduction has gone into the terrain
-                const int x = int( initial_damage ) - terrain->shoot->destroy_dmg_min;
-                const int y = terrain->shoot->destroy_dmg_max - terrain->shoot->destroy_dmg_min;
-                if( x_in_y( x, y ) ) {
-                    // don't need to duplicate all the destruction logic here
-                    bash_params bsh{ 0, false, true, false, 0.0, false, false, false, false };
-                    bash_ter_furn( p, bsh );
-                }
-            }
-            if( dam <= 0 && get_player_view().sees( p ) ) {
-                add_msg( _( "The shot is stopped by the %s!" ), terrain->name() );
-            }
-        }
+        hit_something |= shoot_furn_ter( terrain.obj() );
+        // fall back to just bashing when shoot data is not defined
     } else if( impassable( p ) && !is_transparent( p ) ) {
         bash( p, dam, false );
-        // TODO: Preserve some residual damage when it makes sense.
         dam = 0;
     }
+    dam = std::max( 0.0f, dam );
 
     for( const ammo_effect &ae : ammo_effects::get_all() ) {
         if( ammo_effects.count( ae.id.str() ) > 0 ) {
@@ -3859,8 +3781,6 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
         }
     }
 
-    dam = std::max( 0.0f, dam );
-
     // Check fields?
     field &fields_there = field_at( p );
     if( fields_there.field_count() > 0 ) {
@@ -3868,7 +3788,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
         field fields_copy = fields_there;
         for( const std::pair<const field_type_id, field_entry> &fd : fields_copy ) {
             if( fd.first->bash_info.str_min > 0 ) {
-                if( inc ) {
+                if( incendiary ) {
                     add_field( p, fd_fire, fd.second.get_field_intensity() - 1 );
                 } else if( dam > 5 + fd.second.get_field_intensity() * 5 &&
                            one_in( 5 - fd.second.get_field_intensity() ) ) {
@@ -3887,8 +3807,8 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
         proj.impact.mult_damage( dam / static_cast<double>( initial_damage ) );
     }
 
-    //Projectiles with NO_ITEM_DAMAGE flag won't damage items at all
-    if( !hit_items || !inbounds( p ) ) {
+    // for now, shooting furniture or terrain protects any items
+    if( !hit_items || hit_something ) {
         return;
     }
 

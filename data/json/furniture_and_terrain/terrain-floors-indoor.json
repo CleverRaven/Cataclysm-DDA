@@ -66,6 +66,12 @@
       "sound_fail_vol": 10,
       "ter_set": "t_thconc_floor",
       "items": [ { "item": "glass_shard", "count": [ 8, 16 ] } ]
+    },
+    "shoot": {
+      "chance_to_hit": 0,
+      "reduce_damage": [ 0, 0 ],
+      "reduce_damage_laser": [ 0, 0 ],
+      "destroy_damage": [ 2, 8 ]
     }
   },
   {

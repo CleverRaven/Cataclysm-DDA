@@ -1221,6 +1221,11 @@
       "sound_vol": 8,
       "sound_fail_vol": 4,
       "ter_set": "t_null"
+    },
+    "shoot": {
+      "reduce_damage": [ 2, 12 ],
+      "reduce_damage_laser": [ 4, 16 ],
+      "destroy_damage": [ 10, 40 ]
     }
   },
   {

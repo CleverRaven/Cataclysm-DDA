@@ -72,7 +72,7 @@
     "color": "light_cyan",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "ALARMED", "NOITEM", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND", "NO_SHOOT" ],
+    "flags": [ "TRANSPARENT", "ALARMED", "NOITEM", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
     "bash": {
       "str_min": 200,
       "str_max": 600,
@@ -82,6 +82,12 @@
       "sound_fail_vol": 10,
       "ter_set": "t_floor",
       "items": [ { "item": "glassteel_shard", "count": [ 42, 84 ] } ]
+    },
+    "shoot": {
+      "reduce_damage": [ 300, 400 ],
+      "reduce_damage_laser": [ 200, 300 ],
+      "destroy_damage": [ 400, 500 ],
+      "no_laser_destroy": true
     }
   },
   {

@@ -75,8 +75,8 @@ struct map_deconstruct_info {
     bool load( const JsonObject &jsobj, const std::string &member, bool is_furniture,
                const std::string &context );
 };
-struct ter_shoot_info {
-    // Base chance to hit the terrain at all (defaults to 100%)
+struct map_shoot_info {
+    // Base chance to hit the object at all (defaults to 100%)
     int chance_to_hit = 0;
     // Minimum damage reduction to apply to shot when hit
     int reduce_dmg_min = 0;
@@ -90,7 +90,7 @@ struct ter_shoot_info {
     int destroy_dmg_min = 0;
     // Damage required to guarentee destruction
     int destroy_dmg_max = 0;
-    // Are lasers incapable of destroying the terrain (defaults to false)
+    // Are lasers incapable of destroying the object (defaults to false)
     bool no_laser_destroy = false;
     bool load( const JsonObject &jsobj, const std::string &member, bool was_loaded );
 };
@@ -259,6 +259,7 @@ enum ter_connects : int {
 struct map_data_common_t {
         map_bash_info        bash;
         map_deconstruct_info deconstruct;
+        cata::value_ptr<map_shoot_info> shoot;
 
     public:
         virtual ~map_data_common_t() = default;
@@ -391,8 +392,6 @@ struct ter_t : map_data_common_t {
 
     std::set<emit_id> emissions;
     std::set<itype_id> allowed_template_id;
-
-    cata::value_ptr<ter_shoot_info> shoot;
 
     ter_t();
 

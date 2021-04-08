@@ -300,7 +300,7 @@ bool map_deconstruct_info::load( const JsonObject &jsobj, const std::string &mem
     return true;
 }
 
-bool ter_shoot_info::load( const JsonObject &jsobj, const std::string &member, bool was_loaded )
+bool map_shoot_info::load( const JsonObject &jsobj, const std::string &member, bool was_loaded )
 {
     JsonObject j = jsobj.get_object( member );
 
@@ -311,7 +311,7 @@ bool ter_shoot_info::load( const JsonObject &jsobj, const std::string &member, b
     std::pair<int, int> destroy_damage;
 
     mandatory( j, was_loaded, "reduce_damage", reduce_damage );
-    mandatory( j, was_loaded, "reduce_damage_laser", reduce_damage_laser );    
+    mandatory( j, was_loaded, "reduce_damage_laser", reduce_damage_laser );
     mandatory( j, was_loaded, "destroy_damage", destroy_damage );
 
     reduce_dmg_min = reduce_damage.first;
@@ -1215,6 +1215,11 @@ void map_data_common_t::load( const JsonObject &jo, const std::string & )
 
     mandatory( jo, was_loaded, "description", description );
     optional( jo, was_loaded, "curtain_transform", curtain_transform );
+
+    if( jo.has_object( "shoot" ) ) {
+        shoot = cata::make_value<map_shoot_info>();
+        shoot->load( jo, "shoot", was_loaded );
+    }
 }
 
 void ter_t::load( const JsonObject &jo, const std::string &src )
@@ -1256,11 +1261,6 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
 
     bash.load( jo, "bash", map_bash_info::terrain, "terrain " + id.str() );
     deconstruct.load( jo, "deconstruct", false, "terrain " + id.str() );
-
-    if( jo.has_object( "shoot" ) ) {
-        shoot = cata::make_value<ter_shoot_info>();
-        shoot->load( jo, "shoot", was_loaded );
-    }
 }
 
 static void check_bash_items( const map_bash_info &mbi, const std::string &id, bool is_terrain )
