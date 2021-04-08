@@ -1026,7 +1026,7 @@ Some special attacks are also valid use actions for tools and weapons.
 See `monsters.json` for examples on how to use these attacks.
 Also see `monster_attacks.json` for more special attacks, for example, impale and scratch.
 
-- ```ABSORB_MEAT``` Absorbs adjacent meat items (with a monster volume dependent max volume), regenerating health in the process.
+- ```ABSORB_MEAT``` Absorbs adjacent meat items (maximal absorbable item volume depends on the monster's volume), regenerating health in the process.
 - ```ACID_ACCURATE``` Shoots acid that is accurate at long ranges, but less so up close.
 - ```ACID_BARF``` Barfs corroding, blinding acid.
 - ```ACID``` Spits acid.
