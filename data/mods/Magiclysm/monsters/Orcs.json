@@ -66,14 +66,14 @@
           "type": "gun",
           "cooldown": 10,
           "move_cost": 93,
-          "gun_type": "bow",
-          "ammo_type": "arrow",
+          "gun_type": "longbow",
+          "ammo_type": "arrow_wood_heavy",
           "fake_skills": [ [ "gun", 6 ], [ "rifle", 7 ] ],
           "fake_dex": 9,
           "fake_per": 5,
           "require_targeting_player": false,
           "description": "The orc shoots you with laser accuracy",
-          "ranges": [ [ 12, 13, "DEFAULT" ] ],
+          "ranges": [ [ 3, 13, "DEFAULT" ] ],
           "no_ammo_sound": "grunting"
         }
       ]
