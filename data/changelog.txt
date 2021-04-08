@@ -277,7 +277,7 @@ Avoids creating starving characters from older templates.
 Fixes furniture being 'destroyed' when grab-moving.
 Fixes crashes from canceling reloading a container that is on the ground.
 Fixes NPCs still being hungry - and unhappy about it - after eating from faction camp stores.
-Reigned in plant mutation photosynthesis ability to be more representative of real photosynthesis.
+Reined in plant mutation photosynthesis ability to be more representative of real photosynthesis.
 
 ## Performance:
 Adds an option to enable batching when it is available in SDL.
