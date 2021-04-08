@@ -1,3 +1,4 @@
+  
 [
   {
     "id": "antarvasa",
@@ -15,19 +16,12 @@
     "color": "brown",
     "covers": [ "leg_l", "leg_r" ],
     "coverage": 90,
-       "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "500 ml",
-        "max_contains_weight": "2 kg",
-        "max_item_length": "17 cm",
-        "moves": 300
-      }
     "encumbrance": 7,
     "max_encumbrance": 11,
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 400 } ],
     "warmth": 8,
     "material_thickness": 0.3,
-    "flags": [ "VARSIZE", "FANCY" ]
+    "flags": [ "VARSIZE", "POCKETS", "FANCY" ]
   },
   {
     "id": "b_shorts",
