@@ -3693,17 +3693,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
         return false;
     };
 
-    /*if( terrain == t_door_boarded ||
-               terrain == t_door_boarded_damaged ||
-               terrain == t_rdoor_boarded ||
-               terrain == t_rdoor_boarded_damaged ) {
-        dam -= rng( 15, 35 );
-        if( dam > 0 ) {
-            sounds::sound( p, 10, sounds::sound_t::combat, _( "crash!" ), false,
-                           "smash", "door_boarded" );
-            ter_set( p, t_door_b );
-        }
-    } else if( terrain == t_window_domestic_taped ||
+    /*if( terrain == t_window_domestic_taped ||
                terrain == t_curtains ||
                terrain == t_window_domestic ) {
         if( ammo_effects.count( "LASER" ) ) {

@@ -1344,7 +1344,7 @@
         { "item": "nail", "charges": [ 4, 12 ] }
       ]
     },
-    "shoot": { "reduce_damage": [ 20, 40 ], "reduce_damage_laser": [ 10, 30 ], "destroy_damage": [ 30, 100 ] }
+    "shoot": { "reduce_damage": [ 20, 35 ], "reduce_damage_laser": [ 10, 30 ], "destroy_damage": [ 30, 100 ] }
   },
   {
     "type": "terrain",
@@ -1381,7 +1381,7 @@
         { "item": "hinge", "count": [ 0, 1 ] }
       ]
     },
-    "shoot": { "chance_to_hit": 20, "reduce_damage": [ 15, 35 ], "reduce_damage_laser": [ 10, 30 ], "destroy_damage": [ 30, 80 ] }
+    "shoot": { "chance_to_hit": 20, "reduce_damage": [ 15, 30 ], "reduce_damage_laser": [ 10, 30 ], "destroy_damage": [ 30, 80 ] }
   },
   {
     "type": "terrain",
@@ -1841,7 +1841,8 @@
         { "item": "nail", "charges": [ 2, 10 ] },
         { "item": "splinter", "count": [ 1, 2 ] }
       ]
-    }
+    },
+    "shoot": { "reduce_damage": [ 20, 35 ], "reduce_damage_laser": [ 10, 30 ], "destroy_damage": [ 30, 90 ] }
   },
   {
     "type": "terrain",
@@ -1869,7 +1870,8 @@
         { "item": "splinter", "count": 1 },
         { "item": "hinge", "count": [ 1, 2 ] }
       ]
-    }
+    },
+    "shoot": { "reduce_damage": [ 15, 30 ], "reduce_damage_laser": [ 10, 30 ], "destroy_damage": [ 30, 70 ] }
   },
   {
     "type": "terrain",
@@ -1897,7 +1899,8 @@
         { "item": "nail", "charges": [ 2, 10 ] },
         { "item": "splinter", "count": [ 1, 2 ] }
       ]
-    }
+    },
+    "shoot": { "reduce_damage": [ 20, 35 ], "reduce_damage_laser": [ 10, 30 ], "destroy_damage": [ 30, 90 ] }
   },
   {
     "type": "terrain",
@@ -1925,7 +1928,8 @@
         { "item": "nail", "charges": [ 1, 8 ] },
         { "item": "splinter", "count": 1 }
       ]
-    }
+    },
+    "shoot": { "reduce_damage": [ 25, 40 ], "reduce_damage_laser": [ 15, 40 ], "destroy_damage": [ 40, 100 ] }
   },
   {
     "type": "terrain",
@@ -1953,7 +1957,8 @@
         { "item": "splinter", "count": 1 },
         { "item": "hinge", "count": [ 0, 1 ] }
       ]
-    }
+    },
+    "shoot": { "reduce_damage": [ 20, 35 ], "reduce_damage_laser": [ 10, 30 ], "destroy_damage": [ 30, 90 ] }
   },
   {
     "type": "terrain",
@@ -1983,7 +1988,8 @@
         { "item": "splinter", "count": 1 },
         { "item": "hinge", "count": [ 1, 2 ] }
       ]
-    }
+    },
+    "shoot": { "reduce_damage": [ 15, 30 ], "reduce_damage_laser": [ 10, 30 ], "destroy_damage": [ 30, 70 ] }
   },
   {
     "type": "terrain",
