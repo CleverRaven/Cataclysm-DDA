@@ -1,10 +1,10 @@
 # Powered Armor Balance
 
-This balance document should be used as a balance guideline when designing all sorts of Aftershock power armor.
+These are guidelines for designing all sorts of Aftershock power armor.
 
 ## Operating time 
 
-We define operating time as the amount of time the suit/gear-piece  takes before consuming 1000 charges of batteries. Use the following factors to determine how long the suit should work between a battery swap. All bonuses are cumulative.
+We define `operating time` as the amount of time the suit/gear-piece takes to consume 1000 charges of batteries. The following factors, totaled, determine how long the suit should work between battery swaps.
 
 
 #### Additional factors
@@ -17,24 +17,24 @@ We define operating time as the amount of time the suit/gear-piece  takes before
  |        1 hours        | Less than 20 armor against all hazards                                  |
  |        6 hours        | Less than 10 armor against all hazards                                  |
  |        2 hours        | Has the fragile tag or is made from a very fragile material (ex: glass) |
- |        4 hours        | Less than 90% coverage in the most encumbered part                      |
+ |        4 hours        | Less than 90% coverage of the most encumbered part                      |
  |        4 hours        | No protection against gases                                             |
  |        12 hours       | No protection against the cold                                          |
  |        2 hours        | No protection against other environmental factors (ex: acid, electricity, radiation)  |
- |        4 hours        | Gear doesn't give passive bonuses to physical attributes(ex:dex or str), skills (ex:athletics) or wont grant physical based proficiencies|
+ |        4 hours        | Gear doesn't give passive bonuses to physical attributes (ex: dex or str) or skills (ex: athletics) and won't grant physical-based proficiencies|
  |        4 hours        | Doesn't grant any combat/movement related spells or enchantments         |
- |        4 hours        | Gear doesn't give passive bonuses to mental attributes (per or int), skills (ex: applied science) or wont grant knowledge based proficiencies |
+ |        4 hours        | Gear doesn't give passive bonuses to mental attributes (per or int) or skills (ex: applied science) and won't grant knowledge based proficiencies |
  |        1 hours        | Doesn't grant any mental/knowledge related spells or enchantments        |
- |        2 hours        | Has a non swappable integral battery.                                   |
- |        2 hours        | Wont grant night/heat-vision or clairvoyance effects.                   |
+ |        2 hours        | Has a non-swappable integral battery.                                   |
+ |        2 hours        | Won't grant night/heat-vision or clairvoyance effects.                   |
 
 Once you have determined the operating time using the table above, simply divide the number 277777.78 by the indicated number of hours to obtain your new suit's `power_draw` json value.
 
-For player convenience, the power draw and battery capacity of all clothing pieces that complete a single matching outfit (for example: The magellan exosuit and its helmet) should be the same. 
+For player convenience, the power draw and battery capacity of all clothing pieces that comprise a single matching outfit (e.g., the Magellan exosuit and its helmet) should be the same. 
 
 #### Example Calculation
 
-Consider the Magellan Exosuit, which has the following definitions:
+Consider the Magellan exosuit, which has the following definition:
 ```
   {
     "id": "afs_magellan_suit",
@@ -77,7 +77,7 @@ Consider the Magellan Exosuit, which has the following definitions:
   },
 
 ```
-And whose active version provides no bonus except for cold protection.
+The active version provides no additional bonuses except for cold protection.
 
 Evaluating the performance time using the table above, the result should be:
 
