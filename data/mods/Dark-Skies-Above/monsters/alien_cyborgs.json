@@ -271,7 +271,7 @@
     "melee_dice_sides": 6,
     "armor_bash": 8,
     "armor_cut": 4,
-    "armor_bullet": 5,
+    "armor_bullet": 6,
     "vision_night": 15,
     "harvest": "mutant_meatslug",
     "special_attacks": [
