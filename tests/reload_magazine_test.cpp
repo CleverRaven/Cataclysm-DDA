@@ -17,6 +17,7 @@
 
 struct itype;
 
+// NOLINTNEXTLINE(readability-function-size)
 TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" )
 {
     const itype_id gun_id( "nato_assault_rifle" );
