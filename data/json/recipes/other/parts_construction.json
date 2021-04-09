@@ -25,7 +25,7 @@
     "time": "1 h",
     "autolearn": true,
     "byproducts": [ [ "splinter", 20 ] ],
-    "qualities": [ { "id": "AXE", "level": 1 } ],
+    "qualities": [ { "id": "AXE", "level": 2 } ],
     "//": "Eventually, smoothing tools should also be required, or we should distinguish between rough-hewn and finished beams",
     "components": [ [ [ "log", 6 ] ] ],
     "//2": "This is a terrible stand-in for the fact that logs are only 10kg chunks and not big enough to hew into an 8' or longer wooden beam."
