@@ -41,7 +41,7 @@ Consider the Magellan exosuit, which has the following definition:
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str": "Magellan exosuit" },
-    "description": "A high-quality, civilian grade EVA suit often employed by well-established frontier research and exploration associations.  Designed to support the exploration of challenging terrain, it offers respectable protection against common environmental hazards like extreme temperatures, inhospitable atmospheres, and  light radiation.  It leaves arms and hands relatively unencumbered to facilitate the manipulation of scientific instruments.\n\nAn integral battery allows the suit to operate for up to 36 hours, but complicates on the field recharging",
+    "description": "A high-quality, civilian grade EVA suit often employed by well-established frontier research and exploration associations.  Designed to support the exploration of challenging terrain, it offers respectable protection against common environmental hazards like extreme temperatures, inhospitable atmospheres, and light radiation.  It leaves arms and hands relatively unencumbered to aid the manipulation of scientific instruments.\n\nAn integral battery allows the suit to operate for up to 34 hours, but complicates field recharging.",
     "weight": "7800 g",
     "volume": "14 L",
     "price": "4 kUSD",
@@ -90,17 +90,17 @@ Evaluating the performance time using the table above, the result should be:
 |      yes       |        1 hours        | Less than 20 armor against all hazards                                  |
 |      yes       |        6 hours        | Less than 10 armor against all hazards                                  |
 |      no        |        2 hours        | Has the fragile tag or is made from a very fragile material (ex: glass) |
-|      no        |        4 hours        | Less than 90% coverage in the most encumbered part                      |
+|      no        |        4 hours        | Less than 90% coverage of the most encumbered part                      |
 |      no        |        4 hours        | No protection against gases                                             |
 |      no        |        12 hours       | No protection against the cold                                          |
 |      no        |        2 hours        | No protection against other environmental factors (ex: acid, electricity, radiation)  |
-|      yes       |        4 hours        | Gear doesn't give passive bonuses to physical attributes(ex:dex or str), skills (ex:athletics) or wont grant physical based proficiencies|
+|      yes       |        4 hours        |Gear doesn't give passive bonuses to physical attributes (ex: dex or str) or skills (ex: athletics) and won't grant physical-based proficiencies|
 |      yes       |        4 hours        | Doesn't grant any combat/movement related spells or enchantments         |
-|      yes       |        4 hours        | Gear doesn't give passive bonuses to mental attributes (per or int), skills (ex: applied science) or wont grant knowledge based proficiencies |
+|      yes       |        4 hours        | Gear doesn't give passive bonuses to mental attributes (per or int) or skills (ex: applied science) and won't grant knowledge based proficiencies  |
 |      yes       |        1 hours        | Doesn't grant any mental/knowledge related spells or enchantments        |
-|      yes       |        2 hours        | Has a non swappable integral battery.                                   |
-|      yes       |        2 hours        | Wont grant night/heat-vision or clairvoyance effects.                   |
+|      yes       |        2 hours        | Has a non-swappable integral battery.                                   |
+|      yes       |        2 hours        | Won't grant night/heat-vision or clairvoyance effects,                  |
 |----------------|-----------------------|-------------------------------------------------------------------------|
 | Total hours    |       34 hours        |                                                                         |
 
-Due to the fulfilled conditions, the suit should operate for 34 hours when connected to a 1000 charge battery. To calculate its final power draw value, we divide 277777.78 by 34 to obtain a `power_draw` value of `8170`
+Due to the fulfilled conditions, the suit should operate for 34 hours when connected to a 1000 charge battery. To calculate its final `power_draw` value, we divide 277777.78 by 34 to obtain a `power_draw` of 8170.
