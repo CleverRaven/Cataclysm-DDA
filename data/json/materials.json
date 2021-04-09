@@ -621,7 +621,7 @@
     "latent_heat": 100,
     "bash_resist": 5,
     "cut_resist": 10,
-    "bullet_resist": 7,
+    "bullet_resist": 9,
     "acid_resist": 10,
     "fire_resist": 3,
     "elec_resist": 4,
