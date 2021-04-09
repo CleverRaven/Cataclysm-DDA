@@ -431,9 +431,10 @@ TEST_CASE( "make_vehicle_efficiency_case", "[.]" )
 // Amount of fuel needed to reach safe speed.
 // Amount of cruising range for a fixed amount of fuel.
 // Fix test for electric vehicles
+// 
 TEST_CASE( "vehicle_efficiency", "[vehicle] [engine]" )
 {
-    test_vehicle( "beetle", 816469, 431300, 338700, 95610, 68060 );
+    test_vehicle( "beetle", 717777, 444089, 386787, 95610, 91577);
     test_vehicle( "car", 1120618, 617500, 388600, 52730, 25170 );
     test_vehicle( "car_sports", 1155014, 352600, 267600, 36820, 22360 );
     test_vehicle( "electric_car", 1047135, 355300, 201600, 22400, 10780 );
