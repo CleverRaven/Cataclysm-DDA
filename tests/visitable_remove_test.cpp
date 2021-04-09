@@ -37,6 +37,7 @@ static int count_items( const T &src, const itype_id &id )
     return n;
 }
 
+// NOLINTNEXTLINE(readability-function-size)
 TEST_CASE( "visitable_remove", "[visitable]" )
 {
     const itype_id liquid_id( "water" );

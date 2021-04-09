@@ -44,7 +44,6 @@ readability-*,\
 -performance-unnecessary-value-param,\
 -readability-braces-around-statements,\
 -readability-else-after-return,\
--readability-function-size,\
 -readability-implicit-bool-conversion,\
 -readability-isolate-declaration,\
 -readability-magic-numbers,\
