@@ -34,11 +34,9 @@
     "warmth": 10,
     "material_thickness": 6,
     "environmental_protection": 1,
-    "techniques": [ "WBLOCK_1" ],
     "flags": [
       "VARSIZE",
       "WATERPROOF",
-      "GAS_PROOF",
       "RAINPROOF",
       "STURDY",
       "SUN_GLASSES",
@@ -62,7 +60,9 @@
     "warmth": 150,
     "revert_to": "afs_magellan_suit_helmet",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "afs_magellan_suit_helmet" },
-    "extend": { "flags": [ "CLIMATE_CONTROL", "WATCH", "ALARMCLOCK", "THERMOMETER", "HYGROMETER", "PARTIAL_DEAF", "TRADER_AVOID" ] },
+    "extend": {
+      "flags": [ "CLIMATE_CONTROL", "GAS_PROOF", "WATCH", "ALARMCLOCK", "THERMOMETER", "HYGROMETER", "PARTIAL_DEAF", "TRADER_AVOID" ]
+    },
     "environmental_protection": 15
   },
   {
@@ -108,7 +108,6 @@
     "warmth": 5,
     "material_thickness": 2,
     "environmental_protection": 2,
-    "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY", "SUN_GLASSES", "OUTER" ]
   },
   {
