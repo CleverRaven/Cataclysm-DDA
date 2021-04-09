@@ -449,7 +449,7 @@ TEST_CASE( "vehicle_efficiency", "[vehicle] [engine]" )
     test_vehicle( "tractor_plow", 723658, 681200, 681200, 132700, 132700 );
     test_vehicle( "apc", 5802483, 1626000, 1119000, 130800, 85590 );
     test_vehicle( "humvee", 5503345, 767900, 306900, 25620, 9171 );
-    test_vehicle( "road_roller", 8831620, 602500, 147100, 22760, 6925 );
+    test_vehicle( "road_roller", 8658909, 602500, 147100, 22760, 6925 );
     test_vehicle( "golf_cart", 444630, 96000, 69390, 35490, 14200 );
     // in reverse
     test_vehicle( "beetle", 816469, 58970, 58870, 44560, 43060, 0, 0, true );
@@ -468,6 +468,6 @@ TEST_CASE( "vehicle_efficiency", "[vehicle] [engine]" )
     test_vehicle( "tractor_plow", 723658, 72490, 72490, 53700, 53700, 0, 0, true );
     test_vehicle( "apc", 5802483, 381500, 382100, 123600, 82000, 0, 0, true );
     test_vehicle( "humvee", 5503345, 89940, 89940, 25780, 9086, 0, 0, true );
-    test_vehicle( "road_roller", 8831620, 97490, 97690, 22880, 6606, 0, 0, true );
+    test_vehicle( "road_roller", 8658909, 97490, 97690, 22880, 6606, 0, 0, true );
     test_vehicle( "golf_cart", 444630, 96150, 28800, 35560, 11150, 0, 0, true );
 }
