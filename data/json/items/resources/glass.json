@@ -27,7 +27,7 @@
     "symbol": "]",
     "color": "light_cyan",
     "name": { "str": "sheet of glass", "str_pl": "sheets of glass" },
-    "description": "A large sheet of glass around three by four feet.  Easily shattered.  Useful for repairing windows.",
+    "description": "A large sheet of glass, around three by four feet.  Easily shattered.  Useful for repairing windows.",
     "category": "spare_parts",
     "price": 5000,
     "price_postapoc": 100,
