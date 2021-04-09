@@ -228,14 +228,14 @@
     "id": "mili_burner",
     "copy-from": "mili_burner",
     "name": "Military Flamethrower Operator",
-    "description": "In response to the outbreak, you were dispatched to contain alien invasive species through judicious use of fire.  After getting seperated from your squad, your priorities have shifted to basic survival."
+    "description": "In response to the outbreak, you were dispatched to contain alien invasive species through judicious use of fire.  After getting separated from your squad, your priorities have shifted to basic survival."
   },
   {
     "type": "profession",
     "id": "nco",
     "copy-from": "nco",
-    "name": "Non Comissioned Officer",
-    "description": "You're a veteran of several peace keeping missions.  You lead your squad as a sort of parental figure, offering helpful advice on how not to die.  Now they've been blasted to pieces by the aliens. You're on your own."
+    "name": "Non Commissioned Officer",
+    "description": "You're a veteran of several peace keeping missions.  You lead your squad as a sort of parental figure, offering helpful advice on how not to die.  Now they've been blasted to pieces by the alien and you're on your own."
   },
   {
     "type": "profession",
