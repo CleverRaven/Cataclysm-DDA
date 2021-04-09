@@ -160,6 +160,8 @@
     "type": "MONSTER_FACTION",
     "name": "mutant",
     "//": "Assorted mutated wildlife, more aggressive",
+    "//2": "Primarily meant as a base_faction;",
+    "//3": "if used as a faction, they may attack each other.",
     "neutral": [ "fish" ],
     "by_mood": [ "mutant" ],
     "hate": [ "insect", "animal" ]

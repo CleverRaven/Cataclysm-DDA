@@ -141,7 +141,7 @@
   {
     "id": "mon_tyrannosaurus_juvenile",
     "type": "MONSTER",
-    "default_faction": "tyrannosaurus",
+    "default_faction": "tyrannosaurus_juvenile",
     "copy-from": "mon_gallimimus_juvenile",
     "color": "red_white",
     "upgrades": { "age_grow": 365, "into": "mon_tyrannosaurus" },
