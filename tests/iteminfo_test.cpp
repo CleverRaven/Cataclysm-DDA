@@ -2695,7 +2695,7 @@ TEST_CASE( "item debug info", "[iteminfo][debug][!mayfail][.]" )
         nuts.debug_info( info_vec, &debug_query, 1, true );
 
         // FIXME: "last rot" and "last temp" are expected to be 0, but may have values (ex. 43200)
-        // Neex to figure out what processing to do before this check to make them predictable
+        // Need to figure out what processing to do before this check to make them predictable
         CHECK( format_item_info( info_vec, {} ) ==
                "age (hours): <color_c_yellow>8</color>\n"
                "charges: <color_c_yellow>4</color>\n"

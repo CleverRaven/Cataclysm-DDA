@@ -3016,6 +3016,7 @@ void map::draw_map( mapgendata &dat )
 static const int SOUTH_EDGE = 2 * SEEY - 1;
 static const int EAST_EDGE = 2 * SEEX  - 1;
 
+// NOLINTNEXTLINE(readability-function-size)
 void map::draw_lab( mapgendata &dat )
 {
     const oter_id &terrain_type = dat.terrain_type();
