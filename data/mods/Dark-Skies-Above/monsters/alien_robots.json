@@ -30,7 +30,7 @@
     "id": "mon_dks_scidrone",
     "type": "MONSTER",
     "name": { "str": "alien seeker drone" },
-    "description": "A small, sleek, white-plated robot bearing a golden insignia that is capable of limited flight. It hovers about the ruins of the former world, using a suite of sharp retractable tools, a bright camera flash, and integrated 'arms' to manipulate the world around it.  It seems to watch its subjects closely…",
+    "description": "A small, sleek, white-plated robot bearing a golden insignia that is capable of limited flight.  It hovers about the ruins of the former world, using a suite of sharp retractable tools, a bright camera flash, and integrated 'arms' to manipulate the world around it.  It seems to watch its subjects closely…",
     "default_faction": "invader_alien",
     "looks_like": "mon_eyebot",
     "categories": [ "ALIEN" ],
