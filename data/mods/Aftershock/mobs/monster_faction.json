@@ -69,13 +69,13 @@
   {
     "type": "MONSTER_FACTION",
     "name": "herbivore",
-    "base_faction": "animal",
+    "copy-from": "herbivore",
     "neutral": [ "PrepNet", "whately", "UPLIFT", "bio_machine", "small_animal", "fish", "exodii", "hevel" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "human",
-    "neutral": [ "mech_bot", "bio_machine" ],
-    "by_mood": "exodii"
+    "copy-from": "human",
+    "neutral": [ "mech_bot", "bio_machine" ]
   }
 ]
