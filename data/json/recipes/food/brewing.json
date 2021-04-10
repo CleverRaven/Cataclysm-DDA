@@ -28,7 +28,7 @@
     "time": "30 m",
     "batch_time_factors": [ 50, 4 ],
     "book_learn": [ [ "survival_book", 3 ], [ "textbook_survival", 3 ], [ "manual_survival", 3 ], [ "dairy_book", 3 ] ],
-    "using": [ [ "milk_standard", 15 ] ],
+    "using": [ [ "milk_standard_raw_fresh", 15 ] ],
     "components": [ [ [ "vinegar", 3 ] ], [ [ "wild_herbs", 40 ], [ "meat_stomach", 1, "LIST" ] ] ]
   },
   {
