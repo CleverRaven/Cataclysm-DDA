@@ -18,8 +18,20 @@
       { "covers": [ "leg_l", "leg_r" ], "coverage": 70, "encumbrance": [ 2, 2 ] }
     ],
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "21 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "21 cm",
+        "moves": 80
+      }
     ],
     "warmth": 15,
     "material_thickness": 2,
@@ -54,10 +66,27 @@
       { "covers": [ "arm_l", "arm_r" ], "coverage": 85, "encumbrance": [ 16, 16 ] }
     ],
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "2 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "2 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "2 kg", "moves": 120 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "2 kg", "moves": 120 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "11 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "11 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "350 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "9 cm",
+        "moves": 100
+      }
     ],
     "warmth": 20,
     "material_thickness": 1.5,
@@ -104,7 +133,15 @@
       { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 4, 5 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 4, 4 ] }
     ],
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 80 } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "350 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "9 cm",
+        "moves": 80
+      }
+    ],
     "warmth": 10,
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "FANCY" ]
@@ -256,9 +293,13 @@
       { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 6, 6 ] }
     ],
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "4 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 80 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "36 cm",
+        "moves": 80
+      }
     ],
     "warmth": 30,
     "material_thickness": 1,
@@ -445,8 +486,13 @@
       { "covers": [ "arm_l", "arm_r" ], "coverage": 75, "encumbrance": [ 5, 5 ] }
     ],
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "10 cm",
+        "moves": 80
+      }
     ],
     "warmth": 5,
     "material_thickness": 0.1,
@@ -490,8 +536,20 @@
     "covers": [ "torso" ],
     "coverage": 90,
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 80 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "15 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "15 cm",
+        "moves": 80
+      }
     ],
     "warmth": 5,
     "material_thickness": 0.1,
@@ -515,7 +573,15 @@
       { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 3, 5 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 3, 3 ] }
     ],
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 80 } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "650 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "15 cm",
+        "moves": 80
+      }
+    ],
     "warmth": 15,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE" ]
@@ -642,7 +708,15 @@
     "coverage": 40,
     "encumbrance": 4,
     "max_encumbrance": 5,
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 80 } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "650 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "15 cm",
+        "moves": 80
+      }
+    ],
     "warmth": 8,
     "material_thickness": 0.2,
     "snippet_category": [
@@ -761,7 +835,7 @@
     "coverage": 50,
     "encumbrance": 4,
     "max_encumbrance": 5,
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 80 } ],
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 400 } ],
     "warmth": 5,
     "material_thickness": 0.4,
     "flags": [ "VARSIZE" ]
@@ -785,10 +859,27 @@
     "encumbrance": 4,
     "max_encumbrance": 8,
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "650 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "15 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "15 cm",
+        "moves": 120
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "15 cm",
+        "moves": 120
+      }
     ],
     "warmth": 20,
     "material_thickness": 1.5,
@@ -814,9 +905,13 @@
       { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 6, 6 ] }
     ],
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "4 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 80 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "36 cm",
+        "moves": 80
+      }
     ],
     "warmth": 45,
     "material_thickness": 1,
