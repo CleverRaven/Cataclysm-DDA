@@ -30,7 +30,7 @@
     "name": "UPLIFT",
     "base_faction": "bear",
     "neutral": [ "herbivore", "robofac" ],
-    "by_mood": [ "insect", "small_animal", "human" ],
+    "by_mood": [ "insect", "small_animal", "human", "bee" ],
     "hate": "zombie"
   },
   {
@@ -64,18 +64,24 @@
     "type": "MONSTER_FACTION",
     "name": "venandi",
     "base_faction": "wolf",
-    "//": "TODO assign attitudes"
+    "by_mood": "wolf"
   },
   {
     "type": "MONSTER_FACTION",
     "name": "herbivore",
     "copy-from": "herbivore",
-    "neutral": [ "PrepNet", "whately", "UPLIFT", "bio_machine", "small_animal", "fish", "exodii", "hevel" ]
+    "neutral": [ "PrepNet", "whately", "UPLIFT", "bio_machine", "hevel" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "human",
     "copy-from": "human",
-    "neutral": [ "mech_bot", "bio_machine" ]
+    "neutral": "bio_machine"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "wolf",
+    "copy-from": "wolf",
+    "by_mood": "venandi"
   }
 ]
