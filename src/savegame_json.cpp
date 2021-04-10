@@ -1918,9 +1918,6 @@ void npc::load( const JsonObject &data )
     cbm_weapon_index = -1;
     data.read( "cbm_weapon_index", cbm_weapon_index );
 
-    if( !data.read( "last_updated", last_updated ) ) {
-        last_updated = calendar::turn;
-    }
     complaints.clear();
     for( const JsonMember member : data.get_object( "complaints" ) ) {
         // TODO: time_point does not have a default constructor, need to read in the map manually
@@ -2000,7 +1997,6 @@ void npc::store( JsonOut &json ) const
     companion_mission_inv.json_save_items( json );
     json.member( "restock", restock );
 
-    json.member( "last_updated", last_updated );
     json.member( "complaints", complaints );
 }
 
@@ -2231,9 +2227,6 @@ void monster::load( const JsonObject &data )
     // TODO: Remove blob migration after 0.F
     const std::string faction_string = data.get_string( "faction", "" );
     faction = mfaction_str_id( faction_string == "blob" ? "slime" : faction_string );
-    if( !data.read( "last_updated", last_updated ) ) {
-        last_updated = calendar::turn;
-    }
     data.read( "mounted_player_id", mounted_player_id );
     data.read( "path", path );
 }
@@ -2300,7 +2293,6 @@ void monster::store( JsonOut &json ) const
     json.member( "underwater", underwater );
     json.member( "upgrades", upgrades );
     json.member( "upgrade_time", upgrade_time );
-    json.member( "last_updated", last_updated );
     json.member( "reproduces", reproduces );
     json.member( "baby_timer", baby_timer );
     json.member( "biosignatures", biosignatures );
@@ -2486,6 +2478,13 @@ void item::io( Archive &archive )
         return i.id.str();
     } );
     archive.io( "craft_data", craft_data_, decltype( craft_data_ )() );
+    const auto gvload = [this]( const std::string & variant ) {
+        set_gun_variant( variant );
+    };
+    const auto gvsave = []( const gun_variant_data * gv ) {
+        return gv->id;
+    };
+    archive.io( "variant", _gun_variant, gvload, gvsave, false );
     archive.io( "light", light.luminance, nolight.luminance );
     archive.io( "light_width", light.width, nolight.width );
     archive.io( "light_dir", light.direction, nolight.direction );
@@ -3334,6 +3333,8 @@ void Creature::store( JsonOut &jsout ) const
 
     jsout.member( "throw_resist", throw_resist );
 
+    jsout.member( "last_updated", last_updated );
+
     jsout.member( "body", body );
 
     // fake is not stored, it's temporary anyway, only used to fire with a gun.
@@ -3402,6 +3403,10 @@ void Creature::load( const JsonObject &jsin )
     jsin.read( "melee_quiet", melee_quiet );
 
     jsin.read( "throw_resist", throw_resist );
+
+    if( !jsin.read( "last_updated", last_updated ) ) {
+        last_updated = calendar::turn;
+    }
 
     jsin.read( "underwater", underwater );
 

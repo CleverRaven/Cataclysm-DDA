@@ -1,0 +1,15 @@
+[
+  {
+    "id": "afs_25_casing",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "25mm casing" },
+    "description": "A large casing from a spent 25mm cartridge.",
+    "weight": "50 g",
+    "volume": "45ml",
+    "material": [ "superalloy" ],
+    "symbol": "=",
+    "stackable": true,
+    "color": "dark_gray"
+  }
+]

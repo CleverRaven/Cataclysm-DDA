@@ -4,6 +4,7 @@
 #include "options.h"
 #include "string_formatter.h"
 
+#include <cmath>
 #include <limits>
 
 int activity_tracker::weariness() const
@@ -28,22 +29,23 @@ void activity_tracker::try_reduce_weariness( int bmr, bool sleeping )
 
     const float recovery_mult = get_option<float>( "WEARY_RECOVERY_MULT" );
 
-    if( low_activity_ticks >= 6 ) {
+    if( low_activity_ticks >= 1 ) {
         int reduction = tracker;
-        // 1/20 of whichever's bigger
+        // 1/120 of whichever's bigger
         if( bmr > reduction ) {
-            reduction = bmr * recovery_mult;
+            reduction = std::floor( bmr * recovery_mult * low_activity_ticks / 6.0f );
         } else {
-            reduction *= recovery_mult;
+            reduction = std::ceil( reduction * recovery_mult * low_activity_ticks / 6.0f );
         }
-        low_activity_ticks -= 6;
+        low_activity_ticks = 0;
 
-        tracker -= reduction;
+        tracker -= std::max( reduction, 1 );
     }
 
-    if( tick_counter >= 12 ) {
-        intake *= 1 - recovery_mult;
-        tick_counter -= 12;
+    // If happens to be no reduction, character is not (as) hypoglycemic
+    if( tick_counter >= 3 ) {
+        intake *= std::pow( 1 - recovery_mult, 0.25f );
+        tick_counter -= 3;
     }
 
     // Normalize values, make sure we stay above 0
@@ -141,17 +143,10 @@ void activity_tracker::reset_activity_level()
 
 std::string activity_tracker::activity_level_str() const
 {
-    if( current_activity <= NO_EXERCISE ) {
-        return _( "NO_EXERCISE" );
-    } else if( current_activity <= LIGHT_EXERCISE ) {
-        return _( "LIGHT_EXERCISE" );
-    } else if( current_activity <= MODERATE_EXERCISE ) {
-        return _( "MODERATE_EXERCISE" );
-    } else if( current_activity <= BRISK_EXERCISE ) {
-        return _( "BRISK_EXERCISE" );
-    } else if( current_activity <= ACTIVE_EXERCISE ) {
-        return _( "ACTIVE_EXERCISE" );
-    } else {
-        return _( "EXTRA_EXERCISE" );
+    for( const std::pair<const float, std::string> &member : activity_levels_str_map ) {
+        if( current_activity <= member.first ) {
+            return member.second;
+        }
     }
+    return ( --activity_levels_str_map.end() )->second;
 }

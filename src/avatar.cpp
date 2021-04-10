@@ -420,7 +420,7 @@ bool avatar::read( item &it, const bool continuous )
 
     const int time_taken = time_to_read( it, *reader );
 
-    add_msg_debug( "avatar::read: time_taken = %d", time_taken );
+    add_msg_debug( debugmode::DF_AVATAR, "avatar::read: time_taken = %d", time_taken );
     player_activity act( ACT_READ, time_taken, continuous ? activity.index : 0,
                          reader->getID().get_value() );
     act.targets.emplace_back( item_location( *this, &it ) );
@@ -872,7 +872,7 @@ void avatar::do_read( item &book )
         skill_id skill_used = style_to_learn->primary_skill;
         int difficulty = std::max( 1, style_to_learn->learn_difficulty );
         difficulty = std::max( 1, 20 + difficulty * 2 - get_skill_level( skill_used ) * 2 );
-        add_msg_debug( _( "Chance to learn one in: %d" ), difficulty );
+        add_msg_debug( debugmode::DF_AVATAR, _( "Chance to learn one in: %d" ), difficulty );
 
         if( one_in( difficulty ) ) {
             m->second.call( *this, book, false, pos() );
@@ -1526,6 +1526,13 @@ void avatar::toggle_crouch_mode()
     }
 }
 
+void avatar::activate_crouch_mode()
+{
+    if( !is_crouching() ) {
+        set_movement_mode( move_mode_id( "crouch" ) );
+    }
+}
+
 void avatar::reset_move_mode()
 {
     if( !is_walking() ) {
@@ -1593,7 +1600,7 @@ bool avatar::wield( item &target, const int obtain_cost )
         target.on_takeoff( *this );
     }
 
-    add_msg_debug( "wielding took %d moves", mv );
+    add_msg_debug( debugmode::DF_AVATAR, "wielding took %d moves", mv );
     moves -= mv;
 
     if( has_item( target ) ) {
@@ -1716,31 +1723,37 @@ void avatar::log_activity_level( float level )
     calorie_diary.front().activity_levels[level]++;
 }
 
-static const std::map<float, std::string> activity_levels_str = {
-    { NO_EXERCISE, "NO_EXERCISE" },
-    { LIGHT_EXERCISE, "LIGHT_EXERCISE" },
-    { MODERATE_EXERCISE, "MODERATE_EXERCISE" },
-    { BRISK_EXERCISE, "BRISK_EXERCISE" },
-    { ACTIVE_EXERCISE, "ACTIVE_EXERCISE" },
-    { EXTRA_EXERCISE, "EXTRA_EXERCISE" }
-};
 void avatar::daily_calories::save_activity( JsonOut &json ) const
 {
     json.member( "activity" );
-    json.start_object();
+    json.start_array();
     for( const std::pair<const float, int> &level : activity_levels ) {
-        json.member( activity_levels_str.at( level.first ), level.second );
+        if( level.second > 0 ) {
+            json.start_array();
+            json.write( level.first );
+            json.write( level.second );
+            json.end_array();
+        }
     }
-    json.end_object();
+    json.end_array();
 }
 
 void avatar::daily_calories::read_activity( JsonObject &data )
 {
+    if( data.has_array( "activity" ) ) {
+        double act_level;
+        for( JsonArray ja : data.get_array( "activity" ) ) {
+            act_level = ja.next_float();
+            activity_levels[ act_level ] = ja.next_int();
+        }
+        return;
+    }
+    // Fallback to legacy format for backward compatibility
     JsonObject jo = data.get_object( "activity" );
-    for( const std::pair<const float, std::string> &member : activity_levels_str ) {
+    for( const std::pair<const std::string, float> &member : activity_levels_map ) {
         int times;
-        jo.read( member.second, times );
-        activity_levels.at( member.first ) = times;
+        jo.read( member.first, times );
+        activity_levels.at( member.second ) = times;
     }
 }
 

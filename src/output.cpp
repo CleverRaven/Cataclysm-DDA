@@ -616,7 +616,7 @@ border_helper::border_info &border_helper::add_border()
     return border_info_list.front();
 }
 
-void border_helper::draw_border( const catacurses::window &win )
+void border_helper::draw_border( const catacurses::window &win, nc_color border_color )
 {
     if( !border_connection_map.has_value() ) {
         border_connection_map.emplace();
@@ -654,7 +654,7 @@ void border_helper::draw_border( const catacurses::window &win )
     for( const std::pair<const point, border_connection> &conn : border_connection_map.value() ) {
         if( conn.first.x >= win_beg.x && conn.first.x < win_end.x &&
             conn.first.y >= win_beg.y && conn.first.y < win_end.y ) {
-            mvwputch( win, conn.first - win_beg, BORDER_COLOR, conn.second.as_curses_line() );
+            mvwputch( win, conn.first - win_beg, border_color, conn.second.as_curses_line() );
         }
     }
 }
@@ -870,11 +870,12 @@ void draw_item_filter_rules( const catacurses::window &win, int starty, int heig
 
     starty += fold_and_print( win, point( 1, starty ), len, c_white,
                               _( "Search [<color_yellow>c</color>]ategory, [<color_yellow>m</color>]aterial, "
-                                 "[<color_yellow>q</color>]uality, [<color_yellow>n</color>]otes or "
+                                 "[<color_yellow>q</color>]uality, [<color_yellow>n</color>]otes, "
+                                 "[<color_yellow>s</color>]skill taught by books or "
                                  "[<color_yellow>d</color>]isassembled components." ) );
     fold_and_print( win, point( 1, starty ), len, c_white,
                     //~ An example of how to filter items based on category or material.
-                    _( "Examples: c:food,m:iron,q:hammering,n:toolshelf,d:pipe" ) );
+                    _( "Examples: c:food,m:iron,q:hammering,n:toolshelf,d:pipe,s:devices" ) );
     wnoutrefresh( win );
 }
 

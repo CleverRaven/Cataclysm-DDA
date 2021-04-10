@@ -578,7 +578,7 @@ This optional object can have two fields:
 | Field       | Description
 | ---         | ---
 | ammo        | A list of objects, each of which has an `"ammo_id"` field and a `"qty"` list of two integers. The monster will spawn with items of "ammo_id", with at least the first number in the "qty" and no more than the second.
-| patrol      | A list of objects, each of which has an `"x"` field and a `"y"` field. Either value can be a range or a single number. The x,y co-ordinates define a patrol point as an relative mapsquare point offset from the (0, 0) local mapsquare of the overmap terrain tile that the monster spawns in. Patrol points are converted to absolute mapqaure tripoints inside the monster generator.
+| patrol      | A list of objects, each of which has an `"x"` field and a `"y"` field. Either value can be a range or a single number. The x,y co-ordinates define a patrol point as an relative mapsquare point offset from the (0, 0) local mapsquare of the overmap terrain tile that the monster spawns in. Patrol points are converted to absolute mapsquare tripoints inside the monster generator.
 
 Monsters with a patrol point list will move to each patrol point, in order, whenever they have no more pressing action to take on their turn. Upon reaching the last point in the patrol point list, the monster will continue on to the first point in the list.
 
@@ -620,7 +620,8 @@ Example:
 | repeat | (optional) Value: `[ n1, n2 ]`. Spawn item randomly between `n1` and `n2` times. Only makes sense if the coordinates are random. Example: `[ 1, 3 ]` - repeat 1-3 times.
 | custom-flags | (optional) Value: `[ "flag1", "flag2" ]`. Spawn item with specific flags.
 
-
+The special custom flag "ACTIVATE_ON_PLACE" causes the item to be activated as it is placed.  This is useful to have noisemakers that are already turned on as the avatar approaches.  It can also be used with explosives with a 1 second countdown to have locations explode as the avatar approaches, creating uniquely ruined terrain.
+ 
 ## Extra map features with specials
 **optional** Special map features that do more than just placing furniture / terrain.
 
@@ -953,6 +954,7 @@ matching magazine and ammo for guns.
 | chance   | (optional, integer) x in 100 chance of item(s) spawning. Defaults to 100.
 | ammo     | (optional, integer) x in 100 chance of item(s) spawning with the default amount of ammo. Defaults to 0.
 | magazine | (optional, integer) x in 100 chance of item(s) spawning with the default magazine. Defaults to 0.
+| variant  | (optional, string), gun variant id for the spawned item
 
 
 ### Plant seeds in a planter with "sealed_item"
@@ -1098,4 +1100,3 @@ update_mapgen adds new optional keywords to a few mapgen JSON items.
 place_npc, place_monster, and place_computer can take an optional target boolean. If they have `"target": true` and are
 invoked by update_mapgen with a valid mission, then the NPC, monster, or computer will be marked as the target of the
 mission.
-

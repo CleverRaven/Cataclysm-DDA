@@ -62,7 +62,6 @@
 
 static const bionic_id bio_dis_acid( "bio_dis_acid" );
 static const bionic_id bio_dis_shock( "bio_dis_shock" );
-static const bionic_id bio_drain( "bio_drain" );
 static const bionic_id bio_geiger( "bio_geiger" );
 static const bionic_id bio_gills( "bio_gills" );
 static const bionic_id bio_glowy( "bio_glowy" );
@@ -610,7 +609,9 @@ void Character::suffer_from_asthma( const int current_stim )
         has_effect( effect_took_antiasthmatic ) ) {
         return;
     }
-    if( !one_in( ( to_turns<int>( 6_hours ) - current_stim * 300 ) *
+    //cap asthma attacks to 1 per minute (or risk instantly killing players that rely on oxygen tanks)
+    if( !one_in( std::max( to_turns<int>( 1_minutes ),
+                           ( to_turns<int>( 6_hours ) - current_stim * 300 ) ) *
                  ( has_effect( effect_sleep ) ? 10 : 1 ) ) ) {
         return;
     }
@@ -642,6 +643,7 @@ void Character::suffer_from_asthma( const int current_stim )
         } else if( auto_use ) {
             if( use_charges_if_avail( itype_inhaler, 1 ) ) {
                 add_msg_if_player( m_info, _( "You use your inhaler and go back to sleep." ) );
+                add_effect( effect_took_antiasthmatic, rng( 6_hours, 12_hours ) );
             } else if( use_charges_if_avail( itype_oxygen_tank, 1 ) ||
                        use_charges_if_avail( itype_smoxygen_tank, 1 ) ) {
                 add_msg_if_player( m_info, _( "You take a deep breath from your oxygen tank "
@@ -652,6 +654,7 @@ void Character::suffer_from_asthma( const int current_stim )
             int amount = 1;
             if( !here.use_charges( player_character.pos(), 2, itype_inhaler, amount ).empty() ) {
                 add_msg_if_player( m_info, _( "You use your inhaler and go back to sleep." ) );
+                add_effect( effect_took_antiasthmatic, rng( 6_hours, 12_hours ) );
             } else if( !here.use_charges( player_character.pos(), 2, itype_oxygen_tank, amount ).empty() ||
                        !here.use_charges( player_character.pos(), 2, itype_smoxygen_tank, amount ).empty() ) {
                 add_msg_if_player( m_info, _( "You take a deep breath from your oxygen tank "
@@ -682,6 +685,7 @@ void Character::suffer_from_asthma( const int current_stim )
                                                      "only %d charges left.", charges ),
                                    charges );
             }
+            add_effect( effect_took_antiasthmatic, rng( 6_hours, 12_hours ) );
         } else if( use_charges_if_avail( itype_oxygen_tank, 1 ) ||
                    use_charges_if_avail( itype_smoxygen_tank, 1 ) ) {
             moves -= 500; // synched with use action
@@ -1177,11 +1181,6 @@ void Character::suffer_from_bad_bionics()
         hurtall( 1, nullptr );
         sfx::play_variant_sound( "bionics", "acid_discharge", 100 );
         sfx::do_player_death_hurt( get_player_character(), false );
-    }
-    if( has_bionic( bio_drain ) && get_power_level() > 24_kJ && one_turn_in( 1_hours ) ) {
-        add_msg_if_player( m_bad, _( "Your batteries discharge slightly." ) );
-        mod_power_level( -25_kJ );
-        sfx::play_variant_sound( "bionics", "elec_crackle_low", 100 );
     }
     if( has_bionic( bio_noise ) && one_turn_in( 50_minutes ) &&
         !has_effect( effect_narcosis ) ) {
@@ -1697,7 +1696,7 @@ void Character::mend( int rate_multiplier )
         needs_splint = false;
     }
 
-    add_msg_debug( "Limb mend healing factor: %.2f", healing_factor );
+    add_msg_debug( debugmode::DF_CHAR_HEALTH, "Limb mend healing factor: %.2f", healing_factor );
     if( healing_factor <= 0.0f ) {
         // The section below assumes positive healing rate
         return;
@@ -1946,7 +1945,7 @@ void Character::add_addiction( add_type type, int strength )
             i.intensity++;
         }
 
-        add_msg_debug( "Updating addiction: %d intensity, %d sated",
+        add_msg_debug( debugmode::DF_CHAR_HEALTH, "Updating addiction: %d intensity, %d sated",
                        i.intensity, to_turns<int>( i.sated ) );
 
         return;
@@ -1954,10 +1953,10 @@ void Character::add_addiction( add_type type, int strength )
 
     // Add a new addiction
     const int roll = rng( 0, 100 );
-    add_msg_debug( "Addiction: roll %d vs strength %d", roll, strength );
+    add_msg_debug( debugmode::DF_CHAR_HEALTH, "Addiction: roll %d vs strength %d", roll, strength );
     if( roll < strength ) {
         const std::string &type_name = addiction_type_name( type );
-        add_msg_debug( "%s got addicted to %s", disp_name(), type_name );
+        add_msg_debug( debugmode::DF_CHAR_HEALTH, "%s got addicted to %s", disp_name(), type_name );
         addictions.emplace_back( type, 1 );
         get_event_bus().send<event_type::gains_addiction>( getID(), type );
     }

@@ -58,32 +58,38 @@ TEST_CASE( "weary_assorted_tasks", "[weary][activities]" )
         INFO( guy.debug_weary_info() );
         REQUIRE( !info.empty() );
         CHECK( info.transition_minutes( 0, 1, 370_minutes ) == Approx( 370 ).margin( 5 ) );
+        CHECK( !info.have_weary_decrease() );
         CHECK( guy.weariness_level() == 1 );
     }
 
-    SECTION( "Heavy tasks" ) {
-        INFO( "\nDigging Pits 8 hours:" );
+    SECTION( "Heavy tasks - Digging Pits 8 hours" ) {
+        clear_avatar();
         INFO( guy.debug_weary_info() );
         weariness_events info = do_activity( soldier_8h );
         INFO( info.summarize() );
         INFO( guy.debug_weary_info() );
         REQUIRE( !info.empty() );
         CHECK( info.transition_minutes( 0, 1, 120_minutes ) == Approx( 120 ).margin( 5 ) );
-        CHECK( info.transition_minutes( 1, 2, 255_minutes ) == Approx( 255 ).margin( 5 ) );
+        CHECK( info.transition_minutes( 1, 2, 250_minutes ) == Approx( 250 ).margin( 5 ) );
         CHECK( info.transition_minutes( 2, 3, 360_minutes ) == Approx( 360 ).margin( 5 ) );
-        CHECK( info.transition_minutes( 3, 4, 470_minutes ) == Approx( 470 ).margin( 5 ) );
+        CHECK( info.transition_minutes( 3, 4, 465_minutes ) == Approx( 465 ).margin( 5 ) );
+        // CHECK( !info.have_weary_decrease() );
         CHECK( guy.weariness_level() == 4 );
+    }
 
-        INFO( "\nDigging Pits 12 hours:" );
-        info = do_activity( soldier_12h );
+    SECTION( "Heavy tasks - Digging Pits 12 hours" ) {
+        clear_avatar();
+        INFO( guy.debug_weary_info() );
+        weariness_events info = do_activity( soldier_12h );
         INFO( info.summarize() );
         INFO( guy.debug_weary_info() );
         REQUIRE( !info.empty() );
         CHECK( info.transition_minutes( 0, 1, 120_minutes ) == Approx( 120 ).margin( 5 ) );
-        CHECK( info.transition_minutes( 1, 2, 245_minutes ) == Approx( 245 ).margin( 5 ) );
-        CHECK( info.transition_minutes( 2, 3, 355_minutes ) == Approx( 355 ).margin( 5 ) );
+        CHECK( info.transition_minutes( 1, 2, 250_minutes ) == Approx( 250 ).margin( 5 ) );
+        CHECK( info.transition_minutes( 2, 3, 360_minutes ) == Approx( 360 ).margin( 5 ) );
         CHECK( info.transition_minutes( 3, 4, 465_minutes ) == Approx( 465 ).margin( 5 ) );
-        CHECK( info.transition_minutes( 4, 5, 595_minutes ) == Approx( 595 ).margin( 5 ) );
+        CHECK( info.transition_minutes( 4, 5, 600_minutes ) == Approx( 600 ).margin( 5 ) );
+        // CHECK( !info.have_weary_decrease() );
         CHECK( guy.weariness_level() == 5 );
     }
 }
@@ -126,8 +132,13 @@ TEST_CASE( "weary_recovery", "[weary][activities]" )
         INFO( info.summarize() );
         INFO( guy.debug_weary_info() );
         REQUIRE( !info.empty() );
-        CHECK( info.transition_minutes( 4, 3, 520_minutes ) == Approx( 520 ).margin( 5 ) );
-        CHECK( info.transition_minutes( 3, 2, 670_minutes ) == Approx( 670 ).margin( 5 ) );
+        CHECK( info.transition_minutes( 4, 3, 505_minutes ) == Approx( 505 ).margin( 5 ) );
+        CHECK( info.transition_minutes( 3, 2, 630_minutes ) == Approx( 630 ).margin( 5 ) );
+        CHECK( info.transition_minutes( 1, 0, 0_minutes ) > ( 8 * 60 ) ); // should be INT_MAX
+        CHECK( info.transition_minutes( 2, 1, 0_minutes ) > ( 8 * 60 ) );
+        CHECK( info.transition_minutes( 1, 2, 16_hours ) <= ( 8 * 60 ) );
+        CHECK( info.transition_minutes( 2, 3, 16_hours ) <= ( 8 * 60 ) );
+        CHECK( info.transition_minutes( 3, 4, 16_hours ) <= ( 8 * 60 ) );
         CHECK( guy.weariness_level() == 1 );
     }
 
@@ -140,8 +151,8 @@ TEST_CASE( "weary_recovery", "[weary][activities]" )
         REQUIRE( !info.empty() );
         CHECK( info.transition_minutes( 0, 1, 325_minutes ) == Approx( 325 ).margin( 5 ) );
         CHECK( info.transition_minutes( 1, 2, 625_minutes ) == Approx( 625 ).margin( 5 ) );
-        CHECK( info.transition_minutes( 2, 1, 740_minutes ) == Approx( 740 ).margin( 5 ) );
-        CHECK( info.transition_minutes( 1, 0, 995_minutes ) == Approx( 995 ).margin( 5 ) );
+        CHECK( info.transition_minutes( 2, 1, 735_minutes ) == Approx( 735 ).margin( 5 ) );
+        CHECK( info.transition_minutes( 1, 0, 985_minutes ) == Approx( 985 ).margin( 5 ) );
     }
 }
 
@@ -166,6 +177,7 @@ TEST_CASE( "weary_24h_tasks", "[weary][activities]" )
     }
 
     SECTION( "Digging 24 hours" ) {
+        clear_avatar();
         INFO( guy.debug_weary_info() );
         weariness_events info = do_activity( digging_24h );
         INFO( info.summarize() );
@@ -174,11 +186,12 @@ TEST_CASE( "weary_24h_tasks", "[weary][activities]" )
         CHECK( info.transition_minutes( 0, 1, 120_minutes ) == Approx( 120 ).margin( 5 ) );
         CHECK( info.transition_minutes( 1, 2, 250_minutes ) == Approx( 250 ).margin( 5 ) );
         CHECK( info.transition_minutes( 2, 3, 360_minutes ) == Approx( 360 ).margin( 5 ) );
-        CHECK( info.transition_minutes( 3, 4, 470_minutes ) == Approx( 470 ).margin( 5 ) );
-        CHECK( info.transition_minutes( 4, 5, 595_minutes ) == Approx( 595 ).margin( 5 ) );
-        CHECK( info.transition_minutes( 5, 6, 730_minutes ) == Approx( 730 ).margin( 5 ) );
-        CHECK( info.transition_minutes( 6, 7, 835_minutes ) == Approx( 835 ).margin( 5 ) );
-        CHECK( info.transition_minutes( 7, 8, 915_minutes ) == Approx( 915 ).margin( 10 ) );
+        CHECK( info.transition_minutes( 3, 4, 465_minutes ) == Approx( 465 ).margin( 5 ) );
+        CHECK( info.transition_minutes( 4, 5, 600_minutes ) == Approx( 600 ).margin( 5 ) );
+        CHECK( info.transition_minutes( 5, 6, 740_minutes ) == Approx( 740 ).margin( 5 ) );
+        CHECK( info.transition_minutes( 6, 7, 845_minutes ) == Approx( 845 ).margin( 5 ) );
+        CHECK( info.transition_minutes( 7, 8, 925_minutes ) == Approx( 925 ).margin( 10 ) );
+        CHECK( !info.have_weary_decrease() );
         // TODO: You should collapse from this - currently we
         // just get really high levels of weariness
         CHECK( guy.weariness_level() > 8 );
