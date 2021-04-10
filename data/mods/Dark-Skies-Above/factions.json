@@ -17,7 +17,7 @@
     "type": "MONSTER_FACTION",
     "name": "alien_carnivore",
     "base_faction": "mutant",
-    "neutral": [ "invader_alien", "stray", "aquatic_predator" ],
+    "neutral": [ "invader_alien", "stray" ],
     "by_mood": "alien_carnivore",
     "hate": [ "alien_herbivore" ]
   },
