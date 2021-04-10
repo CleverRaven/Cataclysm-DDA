@@ -5832,3 +5832,92 @@ bool mattack::speaker( monster *z )
                    SNIPPET.random_from_category( "speaker_warning" ).value_or( translation() ) );
     return true;
 }
+
+bool mattack::dsa_drone_scan( monster *z )
+{
+    z->moves -= 100;
+    constexpr int scan_range = 30;
+    // Select a target: the avatar or a nearby NPC.  Must be visible and within scan range
+    Character *target = &get_player_character();
+    Character &you = get_player_character();
+    bool avatar_in_range = z->posz() == target->posz() && z->sees( target->pos() ) &&
+                           rl_dist( z->pos(), target->pos() ) <= scan_range;
+    const std::vector<npc *> available = g->get_npcs_if( [&]( const npc & guy ) {
+        // TODO: Get rid of the z-level check when z-level vision gets "better"
+        return z->posz() == guy.posz() && z->sees( guy.pos() ) &&
+               rl_dist( z->pos(), guy.pos() ) <= scan_range;
+    } );
+    if( !avatar_in_range && available.empty() ) {
+        return true;
+    }
+    if( !available.empty() ) {
+        if( !avatar_in_range ||
+            ( avatar_in_range && x_in_y( available.size(), available.size() + 1 ) ) ) {
+            target = random_entry( available );
+        }
+    }
+    const std::string timestamp_str = "dsa_drone_scan_timestamp";
+    const std::string weapons_str = "dsa_drone_scan_weapons_count";
+
+    // only check for weapons once every 10 seconds by timestap variable
+    int weapons_count = 0;
+    bool summon_reinforcements = false;
+    if( !target->get_value( weapons_str ).empty() ) {
+        weapons_count = std::stoi( target->get_value( weapons_str ) );
+    }
+
+    if( !target->get_value( timestamp_str ).empty() ) {
+        time_point last_check( std::stoi( target->get_value( timestamp_str ) ) );
+        if( ( last_check + 10_seconds ) > calendar::turn ) {
+            return true;
+        }
+        // reset the weapons count if it has been more than an hour
+        if( ( last_check + 1_hours ) < calendar::turn ) {
+            weapons_count = 0;
+        }
+    }
+    target->set_value( timestamp_str, string_format( "%d", to_turn<int>( calendar::turn ) ) );
+    if( weapons_count < 3 ) {
+        if( target->weapon.is_gun() ) {
+            const gun_type_type &guntype = target->weapon.gun_type();
+            if( guntype == gun_type_type( "rifle" ) ||
+                guntype == gun_type_type( "shotgun" ) ||
+                guntype == gun_type_type( "launcher" ) ) {
+                weapons_count += 2;
+            } else {
+                weapons_count += 1;
+            }
+        } else {
+            for( const item &worn_item : target->worn ) {
+                if( worn_item.is_gun() ) {
+                    weapons_count += 1;
+                    break;
+                }
+            }
+        }
+        summon_reinforcements = weapons_count >= 3;
+    }
+    target->set_value( weapons_str, string_format( "%d", weapons_count ) );
+
+    if( you.sees( z->pos() ) ) {
+        target->add_msg_player_or_npc( _( "The %s shines its light at you." ),
+                                       _( "The %s shines its light at <npcname>." ),
+                                       z->name() );
+    }
+    std::string warning_signal = _( "a dull beep" );
+    if( weapons_count == 1 ) {
+        warning_signal = _( "an ominous hum" );
+    } else if( weapons_count == 2 ) {
+        warning_signal = _( "a threatening whirr" );
+    } else if( weapons_count >= 3 ) {
+        warning_signal = _( "a high-pitched shriek" );
+    }
+    warning_signal = string_format( _( "%s from the %s." ), warning_signal, z->name() );
+    sounds::sound( z->pos(), 15 + 10 * weapons_count, sounds::sound_t::alarm, warning_signal );
+    if( summon_reinforcements ) {
+        get_timed_events().add( timed_event_type::DSA_ALRP_SUMMON,
+                                calendar::turn + rng( 5_turns, 10_turns ),
+                                0, target->global_sm_location() );
+    }
+    return true;
+}

@@ -14,5 +14,20 @@
     "min_duration": 425,
     "max_duration": 425,
     "flags": [ "SILENT", "NO_PROJECTILE" ]
+  },
+  {
+    "type": "SPELL",
+    "id": "dks_summon_alrp",
+    "name": { "str": "Spawn ALRP" },
+    "description": "Summons a squad of 3-4 skirmishers.",
+    "flags": [ "HOSTILE_SUMMON", "RANDOM_DAMAGE", "PERMANENT" ],
+    "valid_targets": [ "ground", "self" ],
+    "min_damage": 3,
+    "max_damage": 4,
+    "min_aoe": 2,
+    "max_aoe": 2,
+    "shape": "blast",
+    "effect": "summon",
+    "effect_str": "dks_mon_skirmsoldier"
   }
 ]
