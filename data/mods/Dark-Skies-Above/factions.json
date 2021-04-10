@@ -36,7 +36,7 @@
   {
     "type": "MONSTER_FACTION",
     "name": "lurker",
-    "base_faction": "alien_carnivore",
+    "base_faction": "gator",
     "hate": [ "fish", "aquatic_predator" ]
   },
   {
@@ -50,5 +50,11 @@
     "name": "dog",
     "copy-from": "dog",
     "by_mood": "bileworm"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "gator",
+    "copy-from": "gator",
+    "by_mood": "lurker"
   }
 ]
