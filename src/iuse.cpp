@@ -5045,22 +5045,25 @@ cata::optional<int> iuse::oxytorch( player *p, item *it, bool, const tripoint & 
         t_chaingate_c,
         t_chaingate_l,
         t_bars,
-        t_window_bars_alarm,
-        t_window_bars,
-        t_window_bars_curtains,
-        t_window_bars_domestic,
         t_reb_cage,
         t_door_metal_locked,
         t_door_metal_c,
         t_door_bar_c,
         t_door_bar_locked,
         t_door_metal_pickable,
-        t_metal_grate_window,
-        t_metal_grate_window_with_curtain,
-        t_metal_grate_window_with_curtain_open,
-        t_metal_grate_window_noglass,
-        t_metal_grate_window_with_curtain_noglass,
-        t_metal_grate_window_with_curtain_open_noglass
+        t_window_bars_alarm,
+        t_window_bars_curtains,
+        t_window_bars,
+        t_window_bars_noglass,
+        t_window_bars_domestic,
+        t_window_enhanced,
+        t_window_enhanced_noglass,
+        t_window_tempered_enhanced,
+        t_window_plastic_enhanced,
+        t_window_reinforced_barred,
+        t_window_reinforced_barred_noglass,
+        t_window_tempered_reinforced_barred,
+        t_window_plastic_reinforced_barred
     };
     const std::set<furn_id> allowed_furn_id {
         f_rack,
@@ -5104,15 +5107,9 @@ cata::optional<int> iuse::oxytorch( player *p, item *it, bool, const tripoint & 
     int turns = 0;
     if( furn == f_rack || ter == t_chainfence_posts ) {
         turns = to_turns<int>( 2_seconds );
-    } else if( ter == t_window_enhanced || ter == t_window_enhanced_noglass ) {
+    } else if( ter == t_window_enhanced || ter == t_window_enhanced_noglass || ter == t_window_plastic_enhanced || ter == t_window_tempered_enhanced ) {
         turns = to_turns<int>( 5_seconds );
-    } else if( ter == t_chainfence || ter == t_chaingate_c ||
-               ter == t_chaingate_l  || ter == t_bars || ter == t_window_bars_alarm ||
-               ter == t_window_bars || ter == t_window_bars_curtains || ter == t_window_domestic ||
-               ter == t_reb_cage || ter == t_metal_grate_window || ter == t_metal_grate_window_with_curtain ||
-               ter == t_metal_grate_window_with_curtain_open || ter == t_metal_grate_window_noglass ||
-               ter == t_metal_grate_window_with_curtain_noglass ||
-               ter == t_metal_grate_window_with_curtain_open_noglass ) {
+    } else if( ter == t_chainfence || ter == t_chaingate_c || ter == t_chaingate_l  || ter == t_bars || ter == t_reb_cage || ter == t_window_bars_alarm || ter == t_window_bars || ter == t_window_bars_curtains || ter == t_window_bars_domestic || ter == t_reb_cage || ter == t_window_reinforced_barred || ter == t_window_plastic_reinforced_barred || ter == t_window_tempered_reinforced_barred || ter == t_window_reinforced_barred_noglass || ter == t_window_bars_noglass) {
         turns = to_turns<int>( 10_seconds );
     } else if( ter == t_door_metal_locked || ter == t_door_metal_c || ter == t_door_bar_c ||
                ter == t_door_bar_locked || ter == t_door_metal_pickable || furn == f_safe_l ||
@@ -5151,25 +5148,26 @@ cata::optional<int> iuse::hacksaw( player *p, item *it, bool t, const tripoint &
     }
     const std::set<ter_id> allowed_ter_id {
         t_chainfence_posts,
-        t_window_enhanced,
-        t_window_enhanced_noglass,
         t_chainfence,
         t_chaingate_c,
         t_chaingate_l,
-        t_window_bars_alarm,
-        t_window_bars,
-        t_window_bars_curtains,
-        t_window_bars_domestic,
         t_reb_cage,
         t_door_bar_c,
         t_door_bar_locked,
         t_bars,
-        t_metal_grate_window,
-        t_metal_grate_window_with_curtain,
-        t_metal_grate_window_with_curtain_open,
-        t_metal_grate_window_noglass,
-        t_metal_grate_window_with_curtain_noglass,
-        t_metal_grate_window_with_curtain_open_noglass
+        t_window_bars_alarm,
+        t_window_bars_curtains,
+        t_window_bars,
+        t_window_bars_noglass,
+        t_window_bars_domestic,
+        t_window_enhanced,
+        t_window_enhanced_noglass,
+        t_window_tempered_enhanced,
+        t_window_plastic_enhanced,
+        t_window_reinforced_barred,
+        t_window_reinforced_barred_noglass,
+        t_window_tempered_reinforced_barred,
+        t_window_plastic_reinforced_barred
     };
     const std::set<furn_id> allowed_furn_id {
         f_rack
@@ -5208,14 +5206,9 @@ cata::optional<int> iuse::hacksaw( player *p, item *it, bool t, const tripoint &
     int moves;
     if( ter == t_chainfence_posts || here.furn( pnt ) == f_rack ) {
         moves = to_moves<int>( 2_minutes );
-    } else if( ter == t_window_enhanced || ter == t_window_enhanced_noglass ) {
+    } else if( ter == t_window_enhanced || ter == t_window_enhanced_noglass || ter == t_window_plastic_enhanced || ter == t_window_tempered_enhanced ) {
         moves = to_moves<int>( 5_minutes );
-    } else if( ter == t_chainfence || ter == t_chaingate_c || ter == t_chaingate_l ||
-               ter == t_window_bars_alarm || ter == t_window_bars || ter == t_window_bars_curtains ||
-               ter == t_window_bars_domestic || ter == t_reb_cage || ter == t_metal_grate_window ||
-               ter == t_metal_grate_window_with_curtain || ter == t_metal_grate_window_with_curtain_open ||
-               ter == t_metal_grate_window_noglass || ter == t_metal_grate_window_with_curtain_noglass ||
-               ter == t_metal_grate_window_with_curtain_open_noglass ) {
+    } else if( ter == t_chainfence || ter == t_chaingate_c || ter == t_chaingate_l || ter == t_window_bars_alarm || ter == t_window_bars || ter == t_window_bars_curtains || ter == t_window_bars_domestic || ter == t_reb_cage || ter == t_window_reinforced_barred || ter == t_window_plastic_reinforced_barred || ter == t_window_tempered_reinforced_barred || ter == t_window_reinforced_barred_noglass || ter == t_window_bars_noglass ) {
         moves = to_moves<int>( 10_minutes );
     } else if( ter == t_door_bar_c || ter == t_door_bar_locked || ter == t_bars ) {
         moves = to_moves<int>( 15_minutes );

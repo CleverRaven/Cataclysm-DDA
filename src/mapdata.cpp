@@ -568,16 +568,8 @@ ter_id t_null,
        t_door_bar_c, t_door_bar_o, t_door_bar_locked,
        t_door_glass_c, t_door_glass_o, t_door_glass_frosted_c, t_door_glass_frosted_o,
        t_portcullis,
-       t_recycler, t_window, t_window_taped, t_window_domestic, t_window_domestic_taped, t_window_open,
-       t_curtains, t_window_bars_curtains, t_window_bars_domestic,
-       t_window_alarm, t_window_alarm_taped, t_window_empty, t_window_frame, t_window_boarded,
-       t_window_boarded_noglass, t_window_reinforced, t_window_reinforced_noglass, t_window_enhanced,
-       t_window_enhanced_noglass, t_window_bars_alarm, t_window_bars,
-       t_metal_grate_window, t_metal_grate_window_with_curtain, t_metal_grate_window_with_curtain_open,
-       t_metal_grate_window_noglass, t_metal_grate_window_with_curtain_noglass,
-       t_metal_grate_window_with_curtain_open_noglass,
-       t_window_stained_green, t_window_stained_red, t_window_stained_blue,
-       t_window_no_curtains, t_window_no_curtains_open, t_window_no_curtains_taped,
+       t_recycler, 
+       t_window, t_window_taped, t_window_plastic_taped, t_window_tempered_taped, t_window_domestic, t_window_no_curtains, t_window_no_curtains_open, t_window_no_curtains_taped, t_window_domestic_taped, t_window_open, t_curtains, t_window_alarm, t_window_alarm_taped, t_window_empty, t_window_frame, t_window_boarded, t_window_tempered_boarded, t_window_plastic_boarded, t_window_boarded_noglass, t_window_reinforced, t_window_tempered_reinforced, t_window_plastic_reinforced, t_window_reinforced_noglass, t_window_enhanced, t_window_tempered_enhanced, t_window_plastic_enhanced, t_window_enhanced_noglass, t_window_bars, t_window_bars_noglass, t_window_bars_alarm, t_window_bars_curtains, t_window_bars_domestic, t_window_stained_green, t_window_stained_red, t_window_stained_blue, t_window_reinforced_barred, t_window_reinforced_barred_noglass, t_window_plastic_reinforced_barred, t_window_tempered_reinforced_barred, t_window_plastic, t_window_plastic_open, t_window_plastic_with_curtain, t_window_plastic_with_curtain_open_window_closed, t_window_plastic_with_curtain_open, t_window_tempered, t_window_tempered_open, t_window_tempered_with_curtain, t_window_tempered_with_curtain_open_window_closed, t_window_tempered_with_curtain_open, t_m_frame,
        t_rock, t_fault,
        t_paper,
        t_rock_wall, t_rock_wall_half,
@@ -764,30 +756,54 @@ void set_ter_ids()
     t_recycler = ter_id( "t_recycler" );
     t_window = ter_id( "t_window" );
     t_window_taped = ter_id( "t_window_taped" );
+    t_window_plastic_taped = ter_id( "t_window_plastic_taped" );
+    t_window_tempered_taped = ter_id( "t_window_tempered_taped" );
     t_window_domestic = ter_id( "t_window_domestic" );
+    t_window_no_curtains = ter_id( "t_window_no_curtains" );
+    t_window_no_curtains_open = ter_id( "t_window_no_curtains_open" );
+    t_window_no_curtains_taped = ter_id( "t_window_no_curtains_taped" );
     t_window_domestic_taped = ter_id( "t_window_domestic_taped" );
-    t_window_bars_domestic = ter_id( "t_window_bars_domestic" );
     t_window_open = ter_id( "t_window_open" );
     t_curtains = ter_id( "t_curtains" );
-    t_window_bars_curtains = ter_id( "t_window_bars_curtains" );
     t_window_alarm = ter_id( "t_window_alarm" );
     t_window_alarm_taped = ter_id( "t_window_alarm_taped" );
     t_window_empty = ter_id( "t_window_empty" );
     t_window_frame = ter_id( "t_window_frame" );
     t_window_boarded = ter_id( "t_window_boarded" );
+    t_window_tempered_boarded = ter_id( "t_window_tempered_boarded" );
+    t_window_plastic_boarded = ter_id( "t_window_plastic_boarded" );
     t_window_boarded_noglass = ter_id( "t_window_boarded_noglass" );
     t_window_reinforced = ter_id( "t_window_reinforced" );
+    t_window_tempered_reinforced = ter_id( "t_window_tempered_reinforced" );
+    t_window_plastic_reinforced = ter_id( "t_window_plastic_reinforced" );
     t_window_reinforced_noglass = ter_id( "t_window_reinforced_noglass" );
     t_window_enhanced = ter_id( "t_window_enhanced" );
+    t_window_tempered_enhanced = ter_id( "t_window_tempered_enhanced" );
+    t_window_plastic_enhanced = ter_id( "t_window_plastic_enhanced" );
     t_window_enhanced_noglass = ter_id( "t_window_enhanced_noglass" );
-    t_window_bars_alarm = ter_id( "t_window_bars_alarm" );
     t_window_bars = ter_id( "t_window_bars" );
+    t_window_bars_noglass = ter_id( "t_window_bars_noglass" );
+    t_window_bars_alarm = ter_id( "t_window_bars_alarm" );
+    t_window_bars_curtains = ter_id( "t_window_bars_curtains" );
+    t_window_bars_domestic = ter_id( "t_window_bars_domestic" );
     t_window_stained_green = ter_id( "t_window_stained_green" );
     t_window_stained_red = ter_id( "t_window_stained_red" );
     t_window_stained_blue = ter_id( "t_window_stained_blue" );
-    t_window_no_curtains = ter_id( "t_window_no_curtains" );
-    t_window_no_curtains_open = ter_id( "t_window_no_curtains_open" );
-    t_window_no_curtains_taped = ter_id( "t_window_no_curtains_taped" );
+    t_window_reinforced_barred = ter_id( "t_window_reinforced_barred" );
+    t_window_reinforced_barred_noglass = ter_id( "t_window_reinforced_barred_noglass" );
+    t_window_plastic_reinforced_barred = ter_id( "t_window_plastic_reinforced_barred" );
+    t_window_tempered_reinforced_barred = ter_id( "t_window_tempered_reinforced_barred" );
+    t_window_plastic = ter_id( "t_window_plastic" );
+    t_window_plastic_open = ter_id( "t_window_plastic_open" );
+    t_window_plastic_with_curtain = ter_id( "t_window_plastic_with_curtain" );
+    t_window_plastic_with_curtain_open_window_closed = ter_id( "t_window_plastic_with_curtain_open_window_closed" );
+    t_window_plastic_with_curtain_open = ter_id( "t_window_plastic_with_curtain_open" );
+    t_window_tempered = ter_id( "t_window_tempered" );
+    t_window_tempered_open = ter_id( "t_window_tempered_open" );
+    t_window_tempered_with_curtain = ter_id( "t_window_tempered_with_curtain" );
+    t_window_tempered_with_curtain_open_window_closed = ter_id( "t_window_tempered_with_curtain_open_window_closed" );
+    t_window_tempered_with_curtain_open = ter_id( " t_window_tempered_with_curtain_open" );
+    t_m_frame = ter_id( "t_m_frame" );
     t_rock = ter_id( "t_rock" );
     t_fault = ter_id( "t_fault" );
     t_paper = ter_id( "t_paper" );

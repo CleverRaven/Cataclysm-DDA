@@ -4008,7 +4008,7 @@
     "time": "90 m",
     "tools": [ [ [ "oxy_torch", 4 ], [ "welder", 20 ], [ "welder_crude", 30 ], [ "toolset", 30 ] ] ],
     "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "GLARE", "level": 2 } ] ],
-    "components": [ [ [ "pipe", 12 ] ], [ [ "sheet_metal", 4 ] ] ],
+    "components":  [ [ [ "rebar", 8 ] ], [ [ "sheet_metal_small", 6 ] ] ],
     "pre_terrain": "t_window_reinforced",
     "post_terrain": "t_window_reinforced_barred"
   },
@@ -4022,7 +4022,7 @@
     "time": "90 m",
     "tools": [ [ [ "oxy_torch", 4 ], [ "welder", 20 ], [ "welder_crude", 30 ], [ "toolset", 30 ] ] ],
     "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "GLARE", "level": 2 } ] ],
-    "components": [ [ [ "pipe", 12 ] ], [ [ "sheet_metal", 4 ] ] ],
+    "components": [ [ [ "rebar", 8 ] ], [ [ "sheet_metal_small", 6 ] ] ],
     "pre_terrain": "t_window_tempered_reinforced",
     "post_terrain": "t_window_tempered_reinforced_barred"
   },
@@ -4036,7 +4036,7 @@
     "time": "90 m",
     "tools": [ [ [ "oxy_torch", 4 ], [ "welder", 20 ], [ "welder_crude", 30 ], [ "toolset", 30 ] ] ],
     "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "GLARE", "level": 2 } ] ],
-    "components": [ [ [ "pipe", 12 ] ], [ [ "sheet_metal", 4 ] ] ],
+    "components": [ [ [ "rebar", 8 ] ], [ [ "sheet_metal_small", 6 ] ] ],
     "pre_terrain": "t_window_reinforced_noglass",
     "post_terrain": "t_window_reinforced_barred_noglass"
   },
@@ -4050,7 +4050,7 @@
     "time": "90 m",
     "tools": [ [ [ "oxy_torch", 4 ], [ "welder", 20 ], [ "welder_crude", 30 ], [ "toolset", 30 ] ] ],
     "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "GLARE", "level": 2 } ] ],
-    "components": [ [ [ "pipe", 12 ] ], [ [ "sheet_metal", 4 ] ] ],
+    "components": [ [ [ "rebar", 8 ] ], [ [ "sheet_metal_small", 6 ] ] ],
     "pre_terrain": "t_window_plastic_reinforced",
     "post_terrain": "t_window_plastic_reinforced_barred"
   },
