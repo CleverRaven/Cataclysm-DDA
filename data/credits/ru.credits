@@ -1,28 +1,27 @@
-# Lines longer than 78 characters will be wrapped automatically
-# The following line is for reference
+# Максимальная длина строки - 78 символов; следующая строка для справки
+# Длинные строки будут автоматически перенесены
 ##############################################################################
-<color_white>Оригинальный автор:</color>    <color_white>Менеджер проекта:</color>
-<color_yellow>Whales</color> (<color_dark_gray>не активен</color>)    <color_yellow>KevinGranade</color>
+<color_white>Автор идеи:</color>   <color_white>Руководитель проекта:</color>
+<color_yellow>Whales</color>(<color_dark_gray>отошел от разработки</color>)   <color_yellow>KevinGranade</color>
 
-<color_white>Текущие основные разработчики:</color>
-<color_yellow>mlangsdorf</color> - Машины, лодки, лагеря и гайды по моддингу.
-<color_yellow>I-am-Erk</color> - Ultica, диалоги, NPC и хлам в шкафах.
-<color_yellow>KorGgenT</color> - Колдоклизм и кишечные колики.
+<color_white>Главные разработчики:</color>
+<color_yellow>mlangsdorf</color> - транспорт, лодки, лагеря и руководства по созданию модификаций.
+<color_yellow>I-am-Erk</color> - Наследие Ultica живёт.
+<color_yellow>KorGgenT</color> - Не даёт подсказок, куда класть доски.
 
 <color_white>Особая благодарность:</color>
-<color_yellow>Narc</color> - За поддержку автоматической системы сборки Jenkins.
-<color_yellow>Rivet-the-Zombie</color> - За PR в день (и как ей не лень?).
-<color_yellow>BevapDin</color> - За обзоры и рефакторинг кода.
-<color_yellow>BrettDong</color> - За переводы.
-<color_yellow>curstwist</color> - За крышевание зданий, NPC и чейнжлоги.
-<color_yellow>davidpwbrown</color> - За авто-перемещения и авто-езду.  Ну и за коневодство тоже.
-<color_yellow>jbytheway</color> - За работу над CI и умение отстаивать свою точку зрения.
-<color_yellow>Hymore246</color> - За переработку боевых искусств.
-<color_yellow>Qrox</color> - За читабельную трассировку в Windows-билдах.
-<color_yellow>ZhilkinSerg</color> - За тестирование и слияние изменений.
+<color_yellow>Aivean</color> - За выдающуюся производительность.
+<color_yellow>anothersimulacrum </color> - За приятную усталость.
+<color_yellow>jbytheway</color> - За разбор проблем Python, сопоставление проблем и консолидацию требований к чертежам.
+<color_yellow>BrettDong</color> - За переводы и многое другое.
+<color_yellow>Qrox</color> - За показ места, вызывающего сообщения об ошибках.
+<color_yellow>LyleSY</color> - За динозаврррров.
 
-<color_white>Полный список участников находится здесь:</color>
+<color_white>Особая благодарность за художественный вклад:</color>
+<color_yellow>acepleiades</color>, <color_yellow>barsoosayque</color>, <color_yellow>Fris0uman</color>, <color_yellow>int-ua</color>, и многим другим.
+
+<color_white>Полный список участников разработки доступен здесь:</color>
 <color_cyan>https://github.com/CleverRaven/Cataclysm-DDA/contributors</color>
 
-<color_light_cyan>Катаклизм</color>: <color_light_blue>Тёмные дни впереди</color> выпущен под лицензией <color_white>CC-BY-SA 3.0</color>:
+<color_light_cyan>Cataclysm</color>: <color_light_blue>Dark Days Ahead</color> выпускается по лицензии <color_white>CC-BY-SA 3.0</color>:
 <color_cyan>https://creativecommons.org/licenses/by-sa/3.0/</color>

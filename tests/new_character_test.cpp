@@ -17,6 +17,7 @@
 #include "profession.h"
 #include "scenario.h"
 #include "string_formatter.h"
+#include "stringmaker.h" // IWYU pragma: keep
 #include "type_id.h"
 #include "visitable.h"
 
@@ -104,6 +105,7 @@ TEST_CASE( "starting_items", "[slow]" )
 {
     // Every starting trait that interferes with food/clothing
     const std::vector<trait_id> mutations = {
+        trait_id( "ALBINO" ),
         trait_id( "ANTIFRUIT" ),
         trait_id( "ANTIJUNK" ),
         trait_id( "ANTIWHEAT" ),
@@ -137,9 +139,12 @@ TEST_CASE( "starting_items", "[slow]" )
 
     std::vector<trait_id> traits = next_subset( mutations );
     for( ; !traits.empty(); traits = next_subset( mutations ) ) {
+        CAPTURE( traits );
         for( const auto &pair : scen_prof_combos ) {
             set_scenario( pair.first );
+            INFO( "Scenario = " + pair.first->ident().str() );
             for( const string_id<profession> &prof : pair.second ) {
+                CAPTURE( prof );
                 player_character.prof = &prof.obj();
                 if( !try_set_traits( traits ) ) {
                     continue; // Trait conflict: this prof/scen/trait combo is impossible to attain
