@@ -735,9 +735,7 @@
       "sound": "glass breaking!",
       "sound_fail": "whack!",
       "ter_set": "t_window_bars_noglass",
-      "items": [
-        { "item": "glass_shard", "count": [ 34, 50 ] }
-      ]
+      "items": [ { "item": "glass_shard", "count": [ 34, 50 ] } ]
     }
   },
   {
