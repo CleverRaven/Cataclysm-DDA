@@ -140,6 +140,67 @@ static const ter_str_id ter_t_pwr_sb_support_l( "t_pwr_sb_support_l" );
 static const ter_str_id ter_t_pwr_sb_switchgear_l( "t_pwr_sb_switchgear_l" );
 static const ter_str_id ter_t_pwr_sb_switchgear_s( "t_pwr_sb_switchgear_s" );
 static const ter_str_id ter_t_wreckage( "t_wreckage" );
+static const ter_str_id ter_t_plastic_window( "t_plastic_window" );
+static const ter_str_id ter_t_plastic_window_open( "t_plastic_window_open" );
+static const ter_str_id ter_t_plastic_window_with_curtain( "t_plastic_window_with_curtain" );
+static const ter_str_id ter_t_plastic_window_with_curtain_open_window_closed( "t_plastic_window_with_curtain_open_window_closed" );
+static const ter_str_id ter_t_plastic_window_with_curtain_open( "t_plastic_window_with_curtain_open" );
+static const ter_str_id ter_t_reinforced_plastic_window( "t_reinforced_plastic_window " );
+static const ter_str_id ter_t_reinforced_plastic_window_open( "t_reinforced_plastic_window_open" );
+static const ter_str_id ter_t_reinforced_plastic_window_with_curtain( "t_reinforced_plastic_window_with_curtain" );
+static const ter_str_id ter_t_reinforced_plastic_window_with_curtain_open_window_closed( "t_reinforced_plastic_window_with_curtain_open_window_closed" );
+static const ter_str_id ter_t_reinforced_plastic_window_with_curtain_open( "t_reinforced_plastic_window_with_curtain_open" );
+static const ter_str_id ter_t_tempered_glass_window( "t_tempered_glass_window" );
+static const ter_str_id ter_t_tempered_glass_open( "t_tempered_glass_open" );
+static const ter_str_id ter_t_tempered_glass_with_curtain( "t_tempered_glass_with_curtain" );
+static const ter_str_id ter_t_tempered_glass_with_curtain_open_window_closed( "t_tempered_glass_with_curtain_open_window_closed" );
+static const ter_str_id ter_t_tempered_glass_with_curtain_open( "t_tempered_glass_with_curtain_open" );
+static const ter_str_id ter_t_single_pane_glass( "t_single_pane_glass" );
+static const ter_str_id ter_t_single_pane_glass_open( "t_single_pane_glass_open" );
+static const ter_str_id ter_t_single_pane_glass_with_curtain( "t_single_pane_glass_with_curtain" );
+static const ter_str_id ter_t_single_pane_glass_with_curtain_open_window_closed( "t_single_pane_glass_with_curtain_open_window_closed" );
+static const ter_str_id ter_t_single_pane_glass_with_curtain_open( "t_single_pane_glass_with_curtain_open" );
+static const ter_str_id ter_t_reinforced_single_pane_glass( "t_reinforced_single_pane_glass" );
+static const ter_str_id ter_t_reinforced_single_pane_glass_open( "t_reinforced_single_pane_glass_open" );
+static const ter_str_id ter_t_reinforced_single_pane_glass_with_curtain( "t_reinforced_single_pane_glass_with_curtain" );
+static const ter_str_id ter_t_reinforced_single_pane_glass_with_curtain_open_window_closed( "t_reinforced_single_pane_glass_with_curtain_open_window_closed" );
+static const ter_str_id ter_t_reinforced_single_pane_glass_with_curtain_open( "t_reinforced_single_pane_glass_with_curtain_open" );
+static const ter_str_id ter_t_double_pane_glass( "t_double_pane_glass" );
+static const ter_str_id ter_t_double_pane_glass_open( "t_double_pane_glass_open" );
+static const ter_str_id ter_t_double_pane_glass_with_curtain( "t_double_pane_glass_with_curtain" );
+static const ter_str_id ter_t_double_pane_glass_with_curtain_open_window_closed( "t_double_pane_glass_with_curtain_open_window_closed" );
+static const ter_str_id ter_t_double_pane_glass_with_curtain_open( "t_double_pane_glass_with_curtain_open" );
+static const ter_str_id ter_t_reinforced_double_pane_glass( "t_reinforced_double_pane_glass" );
+static const ter_str_id ter_t_reinforced_double_pane_glass_open( "t_reinforced_double_pane_glass_open" );
+static const ter_str_id ter_t_reinforced_double_pane_glass_with_curtain( "t_reinforced_double_pane_glass_with_curtain" );
+static const ter_str_id ter_t_reinforced_double_pane_glass_with_curtain_open_window_closed( "t_reinforced_double_pane_glass_with_curtain_open_window_closed" );
+static const ter_str_id ter_t_reinforced_double_pane_glass_with_curtain_open( "t_reinforced_double_pane_glass_with_curtain_open" );
+static const ter_str_id ter_t_triple_pane_glass( "t_triple_pane_glass" );
+static const ter_str_id ter_t_triple_pane_glass_open( "t_triple_pane_glass_open" );
+static const ter_str_id ter_t_triple_pane_glass_with_curtain( "t_triple_pane_glass_with_curtain" );
+static const ter_str_id ter_t_triple_pane_glass_with_curtain_open_window_closed( "t_triple_pane_glass_with_curtain_open_window_closed" );
+static const ter_str_id ter_t_triple_pane_glass_with_curtain_open( "t_triple_pane_glass_with_curtain_open" );
+static const ter_str_id ter_t_reinforced_triple_pane_glass( "t_reinforced_triple_pane_glass" );
+static const ter_str_id ter_t_reinforced_triple_pane_glass_open( "t_reinforced_triple_pane_glass_open" );
+static const ter_str_id ter_t_reinforced_triple_pane_glass_with_curtain( "t_reinforced_triple_pane_glass_with_curtain" );
+static const ter_str_id ter_t_reinforced_triple_pane_glass_with_curtain_open_window_closed( "t_reinforced_triple_pane_glass_with_curtain_open_window_closed" );
+static const ter_str_id ter_t_reinforced_triple_pane_glass_with_curtain_open( "t_reinforced_triple_pane_glass_with_curtain_open" );
+static const ter_str_id ter_t_quadruple_pane_glass( "t_quadruple_pane_glass" );
+static const ter_str_id ter_t_quadruple_pane_glass_open( "t_quadruple_pane_glass_open" );
+static const ter_str_id ter_t_quadruple_pane_glass_with_curtain( "t_quadruple_pane_glass_with_curtain" );
+static const ter_str_id ter_t_quadruple_pane_glass_with_curtain_open_window_closed( "t_quadruple_pane_glass_with_curtain_open_window_closed" );
+static const ter_str_id ter_t_quadruple_pane_glass_with_curtain_open( "t_quadruple_pane_glass_with_curtain_open" );
+static const ter_str_id ter_t_reinforced_quadruple_pane_glass( "t_reinforced_quadruple_pane_glass" );
+static const ter_str_id ter_t_reinforced_quadruple_pane_glass_open( "t_reinforced_quadruple_pane_glass_open" );
+static const ter_str_id ter_t_reinforced_quadruple_pane_glass_with_curtain( "t_reinforced_quadruple_pane_glass_with_curtain" );
+static const ter_str_id ter_t_reinforced_quadruple_pane_glass_with_curtain_open_window_closed( "t_reinforced_quadruple_pane_glass_with_curtain_open_window_closed" );
+static const ter_str_id ter_t_reinforced_quadruple_pane_glass_with_curtain_open( "t_reinforced_quadruple_pane_glass_with_curtain_open" );
+static const ter_str_id ter_t_metal_grate_window( "t_metal_grate_window" );
+static const ter_str_id ter_t_metal_grate_window_with_curtain( "t_metal_grate_window_with_curtain" );
+static const ter_str_id ter_t_metal_grate_window_with_curtain_open( "t_metal_grate_window_with_curtain_open" );
+static const ter_str_id ter_t_metal_grate_window_noglass( "t_metal_grate_window_noglass" );
+static const ter_str_id ter_t_metal_grate_window_with_curtain_noglass( "t_metal_grate_window_with_curtain_noglass" );
+static const ter_str_id ter_t_metal_grate_window_with_curtain_open_noglass( "t_metal_grate_window_with_curtain_open_noglass" );
 
 static const std::array<std::string, static_cast<size_t>( object_type::NUM_OBJECT_TYPES )>
 obj_type_name = { { "OBJECT_NONE", "OBJECT_ITEM", "OBJECT_ACTOR", "OBJECT_PLAYER",
@@ -4133,6 +4194,128 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
                         ter[i][j] = ter_id( "t_switchgear_l" );
                     } else if( tid == ter_t_pwr_sb_switchgear_s ) {
                         ter[i][j] = ter_id( "t_switchgear_s" );
+                    } else if( tid == ter_t_plastic_window ) {
+                        ter[i][j] = ter_id( "t_window_plastic" );
+                    } else if( tid == ter_t_plastic_window_open ) {
+                        ter[i][j] = ter_id( "t_window_plastic_open" );
+                    } else if( tid == ter_t_plastic_window_with_curtain ) {
+                        ter[i][j] = ter_id( "t_window_plastic_with_curtain" );
+                    } else if( tid == ter_t_plastic_window_with_curtain_open_window_closed ) {
+                        ter[i][j] = ter_id( "t_window_plastic_with_curtain_open_window_closed" );
+                    } else if( tid == ter_t_plastic_window_with_curtain_open ) {
+                        ter[i][j] = ter_id( "t_window_plastic_with_curtain_open" );
+                    } else if( tid == ter_t_reinforced_plastic_window ) {
+                        ter[i][j] = ter_id( "t_window_plastic" );
+                    } else if( tid == ter_t_reinforced_plastic_window_open ) {
+                        ter[i][j] = ter_id( "t_window_plastic_open" );
+                    } else if( tid == ter_t_reinforced_plastic_window_with_curtain ) {
+                        ter[i][j] = ter_id( "t_window_plastic_with_curtain" );
+                    } else if( tid == ter_t_reinforced_plastic_window_with_curtain_open_window_closed ) {
+                        ter[i][j] = ter_id( "t_window_plastic_with_curtain_open_window_closed" );
+                    } else if( tid == ter_t_reinforced_plastic_window_with_curtain_open ) {
+                        ter[i][j] = ter_id( "t_window_plastic_with_curtain_open" );
+                    } else if( tid == ter_t_tempered_glass_window ) {
+                        ter[i][j] = ter_id( "t_window_tempered" );
+                    } else if( tid == ter_t_tempered_glass_open ) {
+                        ter[i][j] = ter_id( "t_window_tempered_open" );
+                    } else if( tid == ter_t_tempered_glass_with_curtain ) {
+                        ter[i][j] = ter_id( "t_window_tempered_with_curtain" );
+                    } else if( tid == ter_t_tempered_glass_with_curtain_open_window_closed ) {
+                        ter[i][j] = ter_id( "t_window_tempered_with_curtain_open_window_closed" );
+                    } else if( tid == ter_t_tempered_glass_with_curtain_open ) {
+                        ter[i][j] = ter_id( "t_window_tempered_with_curtain_open" );
+                    } else if( tid == ter_t_single_pane_glass ) {
+                        ter[i][j] = ter_id( "t_window_no_curtains" );
+                    } else if( tid == ter_t_single_pane_glass_open ) {
+                        ter[i][j] = ter_id( "t_window_no_curtains_open" );
+                    } else if( tid == ter_t_single_pane_glass_with_curtain ) {
+                        ter[i][j] = ter_id( "t_curtains" );
+                    } else if( tid == ter_t_single_pane_glass_with_curtain_open_window_closed ) {
+                        ter[i][j] = ter_id( "t_window_domestic" );
+                    } else if( tid == ter_t_single_pane_glass_with_curtain_open ) {
+                        ter[i][j] = ter_id( "t_window_open" );
+                    } else if( tid == ter_t_reinforced_single_pane_glass ) {
+                        ter[i][j] = ter_id( "t_window_no_curtains" );
+                    } else if( tid == ter_t_reinforced_single_pane_glass_open ) {
+                        ter[i][j] = ter_id( "t_window_no_curtains_open" );
+                    } else if( tid == ter_t_reinforced_single_pane_glass_with_curtain ) {
+                        ter[i][j] = ter_id( "t_curtains" );
+                    } else if( tid == ter_t_reinforced_single_pane_glass_with_curtain_open_window_closed ) {
+                        ter[i][j] = ter_id( "t_window_domestic" );
+                    } else if( tid == ter_t_reinforced_single_pane_glass_with_curtain_open ) {
+                        ter[i][j] = ter_id( "t_window_open" );
+                    } else if( tid == ter_t_double_pane_glass ) {
+                        ter[i][j] = ter_id( "t_window_no_curtains" );
+                    } else if( tid == ter_t_double_pane_glass_open ) {
+                        ter[i][j] = ter_id( "t_window_no_curtains_open" );
+                    } else if( tid == ter_t_double_pane_glass_with_curtain ) {
+                        ter[i][j] = ter_id( "t_curtains" );
+                    } else if( tid == ter_t_double_pane_glass_with_curtain_open_window_closed ) {
+                        ter[i][j] = ter_id( "t_window_domestic" );
+                    } else if( tid == ter_t_double_pane_glass_with_curtain_open ) {
+                        ter[i][j] = ter_id( "t_window_open" );
+                    } else if( tid == ter_t_reinforced_double_pane_glass ) {
+                        ter[i][j] = ter_id( "t_window_no_curtains" );
+                    } else if( tid == ter_t_reinforced_double_pane_glass_open ) {
+                        ter[i][j] = ter_id( "t_window_no_curtains_open" );
+                    } else if( tid == ter_t_reinforced_double_pane_glass_with_curtain ) {
+                        ter[i][j] = ter_id( "t_curtains" );
+                    } else if( tid == ter_t_reinforced_double_pane_glass_with_curtain_open_window_closed ) {
+                        ter[i][j] = ter_id( "t_window_domestic" );
+                    } else if( tid == ter_t_reinforced_double_pane_glass_with_curtain_open ) {
+                        ter[i][j] = ter_id( "t_window_open" );
+                    } else if( tid == ter_t_triple_pane_glass ) {
+                        ter[i][j] = ter_id( "t_window_no_curtains" );
+                    } else if( tid == ter_t_triple_pane_glass_open ) {
+                        ter[i][j] = ter_id( "t_window_no_curtains_open" );
+                    } else if( tid == ter_t_triple_pane_glass_with_curtain ) {
+                        ter[i][j] = ter_id( "t_curtains" );
+                    } else if( tid == ter_t_triple_pane_glass_with_curtain_open_window_closed ) {
+                        ter[i][j] = ter_id( "t_window_domestic" );
+                    } else if( tid == ter_t_triple_pane_glass_with_curtain_open ) {
+                        ter[i][j] = ter_id( "t_window_open" );
+                    } else if( tid == ter_t_reinforced_triple_pane_glass ) {
+                        ter[i][j] = ter_id( "t_window_no_curtains" );
+                    } else if( tid == ter_t_reinforced_triple_pane_glass_open ) {
+                        ter[i][j] = ter_id( "t_window_no_curtains_open" );
+                    } else if( tid == ter_t_reinforced_triple_pane_glass_with_curtain ) {
+                        ter[i][j] = ter_id( "t_curtains" );
+                    } else if( tid == ter_t_reinforced_single_pane_glass_with_curtain_open_window_closed ) {
+                        ter[i][j] = ter_id( "t_window_domestic" );
+                    } else if( tid == ter_t_reinforced_triple_pane_glass_with_curtain_open ) {
+                        ter[i][j] = ter_id( "t_window_open" );
+                    } else if( tid == ter_t_quadruple_pane_glass ) {
+                        ter[i][j] = ter_id( "t_window_no_curtains" );
+                    } else if( tid == ter_t_quadruple_pane_glass_open ) {
+                        ter[i][j] = ter_id( "t_window_no_curtains_open" );
+                    } else if( tid == ter_t_quadruple_pane_glass_with_curtain ) {
+                        ter[i][j] = ter_id( "t_curtains" );
+                    } else if( tid == ter_t_quadruple_pane_glass_with_curtain_open_window_closed ) {
+                        ter[i][j] = ter_id( "t_window_domestic" );
+                    } else if( tid == ter_t_quadruple_pane_glass_with_curtain_open ) {
+                        ter[i][j] = ter_id( "t_window_open" );
+                    } else if( tid == ter_t_reinforced_quadruple_pane_glass ) {
+                        ter[i][j] = ter_id( "t_window_no_curtains" );
+                    } else if( tid == ter_t_reinforced_quadruple_pane_glass_open ) {
+                        ter[i][j] = ter_id( "t_window_no_curtains_open" );
+                    } else if( tid == ter_t_reinforced_quadruple_pane_glass_with_curtain ) {
+                        ter[i][j] = ter_id( "t_curtains" );
+                    } else if( tid == ter_t_reinforced_quadruple_pane_glass_with_curtain_open_window_closed ) {
+                        ter[i][j] = ter_id( "t_window_domestic" );
+                    } else if( tid == ter_t_reinforced_quadruple_pane_glass_with_curtain_open ) {
+                        ter[i][j] = ter_id( "t_window_open" );
+                    } else if( tid == ter_t_metal_grate_window ) {
+                        ter[i][j] = ter_id( "t_window_reinforced_barred" );
+                    } else if( tid == ter_t_metal_grate_window_with_curtain ) {
+                        ter[i][j] = ter_id( "t_window_reinforced_barred" );
+                    } else if( tid == ter_t_metal_grate_window_with_curtain_open ) {
+                        ter[i][j] = ter_id( "t_window_reinforced_barred" );
+                    } else if( tid == ter_t_metal_grate_window_noglass ) {
+                        ter[i][j] = ter_id( "t_window_reinforced_barred_noglass" );
+                    } else if( tid == ter_t_metal_grate_window_with_curtain_noglass ) {
+                        ter[i][j] = ter_id( "t_window_reinforced_barred_noglass" );
+                    } else if( tid == ter_t_metal_grate_window_with_curtain_open_noglass ) {
+                        ter[i][j] = ter_id( "t_window_reinforced_barred_noglass" );
                     } else {
                         ter[i][j] = tid.id();
                     }
