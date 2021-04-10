@@ -42,7 +42,8 @@
   {
     "type": "MONSTER_FACTION",
     "name": "bileworm",
-    "base_faction": "animal",
-    "by_mood": "small_animal"
+    "name": "bileworm",
+    "base_faction": "dog",
+    "by_mood": [ "small_animal", "dog" ]
   }
 ]
