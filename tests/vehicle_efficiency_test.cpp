@@ -451,7 +451,7 @@ TEST_CASE( "vehicle_efficiency", "[vehicle] [engine]" )
     test_vehicle( "humvee", 5991280, 739500, 296600, 23790, 7337 );
     test_vehicle( "road_roller", 8658909, 584800, 156400, 22760, 6925 );
     test_vehicle( "golf_cart", 444630, 96000, 69390, 35490, 14200 );
-// in reverse
+    // in reverse
     test_vehicle( "beetle", 717777, 58800, 58800, 45900, 44560, 0, 0, true );
     test_vehicle( "car", 1021926, 76390, 76260, 48330, 30270, 0, 0, true );
     test_vehicle( "car_sports", 1056322, 355300, 288600, 38670, 24580, 0, 0, true );
