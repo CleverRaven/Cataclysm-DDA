@@ -83,7 +83,7 @@
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
         "components": [
           [ [ "2x4", 39 ] ],
-          [ [ "glass_sheet", 1 ] ],
+          [ [ "glass_sheet", 2 ] ],
           [ [ "mortar_build", 8 ] ],
           [ [ "nail", 190 ] ],
           [ [ "pebble", 200 ] ],
@@ -115,7 +115,7 @@
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
         "components": [
           [ [ "2x4", 39 ] ],
-          [ [ "glass_sheet", 1 ] ],
+          [ [ "glass_sheet", 2 ] ],
           [ [ "mortar_build", 8 ] ],
           [ [ "nail", 190 ] ],
           [ [ "pebble", 200 ] ],
@@ -147,7 +147,7 @@
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
         "components": [
           [ [ "2x4", 39 ] ],
-          [ [ "glass_sheet", 1 ] ],
+          [ [ "glass_sheet", 2 ] ],
           [ [ "mortar_build", 8 ] ],
           [ [ "nail", 190 ] ],
           [ [ "pebble", 200 ] ],
@@ -179,7 +179,7 @@
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
         "components": [
           [ [ "2x4", 39 ] ],
-          [ [ "glass_sheet", 1 ] ],
+          [ [ "glass_sheet", 2 ] ],
           [ [ "mortar_build", 8 ] ],
           [ [ "nail", 190 ] ],
           [ [ "pebble", 200 ] ],
@@ -214,7 +214,7 @@
           [ [ "nail", 1092 ] ],
           [ [ "wood_panel", 50 ] ],
           [ [ "hinge", 4 ] ],
-          [ [ "glass_sheet", 2 ] ],
+          [ [ "glass_sheet", 4 ] ],
           [ [ "rock", 96 ] ],
           [ [ "pebble", 200 ] ],
           [ [ "mortar_build", 8 ] ]
@@ -247,7 +247,7 @@
           [ [ "nail", 1092 ] ],
           [ [ "wood_panel", 50 ] ],
           [ [ "hinge", 4 ] ],
-          [ [ "glass_sheet", 2 ] ],
+          [ [ "glass_sheet", 4 ] ],
           [ [ "rock", 96 ] ],
           [ [ "pebble", 200 ] ],
           [ [ "mortar_build", 8 ] ]

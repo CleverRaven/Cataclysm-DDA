@@ -35,7 +35,7 @@
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 320 ] ], [ [ "glass_sheet", 2 ] ], [ [ "nail", 920 ] ], [ [ "wood_panel", 43 ] ] ]
+        "components": [ [ [ "2x4", 320 ] ], [ [ "glass_sheet", 4 ] ], [ [ "nail", 920 ] ], [ [ "wood_panel", 43 ] ] ]
       }
     }
   },
@@ -59,7 +59,7 @@
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 191 ] ], [ [ "nail", 634 ] ], [ [ "wood_panel", 35 ] ], [ [ "hinge", 2 ] ], [ [ "glass_sheet", 1 ] ] ]
+        "components": [ [ [ "2x4", 191 ] ], [ [ "nail", 634 ] ], [ [ "wood_panel", 35 ] ], [ [ "hinge", 2 ] ], [ [ "glass_sheet", 2 ] ] ]
       }
     }
   },
@@ -85,7 +85,7 @@
         "qualities": [ [ { "id": "DIG" } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
         "components": [
           [ [ "2x4", 321 ] ],
-          [ [ "glass_sheet", 1 ] ],
+          [ [ "glass_sheet", 2 ] ],
           [ [ "hinge", 2 ] ],
           [ [ "nail", 906 ] ],
           [ [ "rock", 40 ] ],
@@ -117,7 +117,7 @@
         "components": [
           [ [ "2x4", 192 ] ],
           [ [ "blanket", 1 ], [ "down_blanket", 1 ], [ "fur_blanket", 1 ] ],
-          [ [ "glass_sheet", 2 ] ],
+          [ [ "glass_sheet", 4 ] ],
           [ [ "nail", 532 ] ],
           [ [ "wood_panel", 27 ] ]
         ]
@@ -180,7 +180,7 @@
       "inline": {
         "tools": [ [ [ "machete", -1 ], [ "makeshift_machete", -1 ], [ "scythe", -1 ], [ "sickle", -1 ], [ "survivor_machete", -1 ] ] ],
         "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 276 ] ], [ [ "nail", 966 ] ], [ [ "wood_panel", 53 ] ], [ [ "hinge", 2 ] ], [ [ "glass_sheet", 2 ] ] ]
+        "components": [ [ [ "2x4", 276 ] ], [ [ "nail", 966 ] ], [ [ "wood_panel", 53 ] ], [ [ "hinge", 2 ] ], [ [ "glass_sheet", 4 ] ] ]
       }
     }
   },

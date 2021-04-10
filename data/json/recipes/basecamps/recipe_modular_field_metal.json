@@ -43,7 +43,7 @@
       "inline": {
         "tools": [ [ [ "oxy_torch", 110 ], [ "welder", 550 ], [ "welder_crude", 825 ], [ "toolset", 825 ] ] ],
         "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 15 ], [ "log", 2 ] ], [ [ "nail", 30 ] ], [ [ "glass_sheet", 1 ] ], [ [ "steel_plate", 22 ] ] ]
+        "components": [ [ [ "2x4", 15 ], [ "log", 2 ] ], [ [ "nail", 30 ] ], [ [ "glass_sheet", 2 ] ], [ [ "steel_plate", 22 ] ] ]
       }
     }
   },
@@ -93,7 +93,7 @@
         "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M" } ], [ { "id": "WRENCH" } ] ],
         "components": [
           [ [ "2x4", 15 ], [ "log", 2 ] ],
-          [ [ "glass_sheet", 1 ] ],
+          [ [ "glass_sheet", 2 ] ],
           [ [ "hinge", 6 ] ],
           [ [ "nail", 30 ] ],
           [ [ "scrap", 96 ], [ "steel_chunk", 32 ] ],
@@ -125,7 +125,7 @@
         "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M" } ], [ { "id": "WRENCH" } ] ],
         "components": [
           [ [ "2x4", 15 ], [ "log", 2 ] ],
-          [ [ "glass_sheet", 1 ] ],
+          [ [ "glass_sheet", 2 ] ],
           [ [ "hinge", 6 ] ],
           [ [ "nail", 30 ] ],
           [ [ "scrap", 96 ], [ "steel_chunk", 32 ] ],
@@ -157,7 +157,7 @@
         "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M" } ], [ { "id": "WRENCH" } ] ],
         "components": [
           [ [ "2x4", 15 ], [ "log", 2 ] ],
-          [ [ "glass_sheet", 1 ] ],
+          [ [ "glass_sheet", 2 ] ],
           [ [ "hinge", 6 ] ],
           [ [ "nail", 30 ] ],
           [ [ "scrap", 96 ], [ "steel_chunk", 32 ] ],
@@ -189,7 +189,7 @@
         "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M" } ], [ { "id": "WRENCH" } ] ],
         "components": [
           [ [ "2x4", 15 ], [ "log", 2 ] ],
-          [ [ "glass_sheet", 1 ] ],
+          [ [ "glass_sheet", 2 ] ],
           [ [ "hinge", 6 ] ],
           [ [ "nail", 30 ] ],
           [ [ "scrap", 96 ], [ "steel_chunk", 32 ] ],
@@ -221,7 +221,7 @@
         "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M" } ], [ { "id": "WRENCH" } ] ],
         "components": [
           [ [ "2x4", 15 ], [ "log", 2 ] ],
-          [ [ "glass_sheet", 1 ] ],
+          [ [ "glass_sheet", 2 ] ],
           [ [ "hinge", 3 ] ],
           [ [ "nail", 30 ] ],
           [ [ "scrap", 48 ], [ "steel_chunk", 16 ] ],
@@ -253,7 +253,7 @@
         "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M" } ], [ { "id": "WRENCH" } ] ],
         "components": [
           [ [ "2x4", 15 ], [ "log", 2 ] ],
-          [ [ "glass_sheet", 1 ] ],
+          [ [ "glass_sheet", 2 ] ],
           [ [ "hinge", 6 ] ],
           [ [ "nail", 30 ] ],
           [ [ "scrap", 96 ], [ "steel_chunk", 32 ] ],
@@ -285,7 +285,7 @@
         "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M" } ], [ { "id": "WRENCH" } ] ],
         "components": [
           [ [ "2x4", 15 ], [ "log", 2 ] ],
-          [ [ "glass_sheet", 1 ] ],
+          [ [ "glass_sheet", 2 ] ],
           [ [ "hinge", 6 ] ],
           [ [ "nail", 30 ] ],
           [ [ "scrap", 96 ], [ "steel_chunk", 32 ] ],
@@ -317,7 +317,7 @@
         "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M" } ], [ { "id": "WRENCH" } ] ],
         "components": [
           [ [ "2x4", 15 ], [ "log", 2 ] ],
-          [ [ "glass_sheet", 1 ] ],
+          [ [ "glass_sheet", 2 ] ],
           [ [ "hinge", 6 ] ],
           [ [ "nail", 30 ] ],
           [ [ "scrap", 96 ], [ "steel_chunk", 32 ] ],
@@ -349,7 +349,7 @@
         "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M" } ], [ { "id": "WRENCH" } ] ],
         "components": [
           [ [ "2x4", 15 ], [ "log", 2 ] ],
-          [ [ "glass_sheet", 1 ] ],
+          [ [ "glass_sheet", 2 ] ],
           [ [ "hinge", 6 ] ],
           [ [ "nail", 30 ] ],
           [ [ "scrap", 96 ], [ "steel_chunk", 32 ] ],

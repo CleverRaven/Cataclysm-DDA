@@ -586,7 +586,7 @@
     "blueprint_provides": [ { "id": "reseeding" }, { "id": "farm_recipes_1" } ],
     "blueprint_requires": [ { "id": "faction_base_farm_3" } ],
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "log", 96 ] ], [ [ "stick", 158 ] ], [ [ "2x4", 336 ] ], [ [ "nail", 176 ] ], [ [ "glass_sheet", 2 ] ] ],
+    "components": [ [ [ "log", 96 ] ], [ [ "stick", 158 ] ], [ [ "2x4", 336 ] ], [ [ "nail", 176 ] ], [ [ "glass_sheet", 4 ] ] ],
     "check_blueprint_needs": false
   },
   {
@@ -819,7 +819,7 @@
       [ [ "stick", 84 ] ],
       [ [ "2x4", 67 ] ],
       [ [ "nail", 114 ] ],
-      [ [ "glass_sheet", 1 ] ]
+      [ [ "glass_sheet", 2 ] ]
     ],
     "check_blueprint_needs": false
   },
@@ -852,7 +852,7 @@
       [ [ "2x4", 165 ] ],
       [ [ "nail", 70 ] ],
       [ [ "rock", 8 ] ],
-      [ [ "glass_sheet", 1 ] ]
+      [ [ "glass_sheet", 2 ] ]
     ],
     "check_blueprint_needs": false
   },
@@ -879,7 +879,7 @@
       [ [ "stick", 108 ] ],
       [ [ "2x4", 239 ] ],
       [ [ "nail", 102 ] ],
-      [ [ "glass_sheet", 1 ] ]
+      [ [ "glass_sheet", 2 ] ]
     ],
     "check_blueprint_needs": false
   },
@@ -973,7 +973,7 @@
     "blueprint_name": "Kitchen expanded pantry",
     "blueprint_requires": [ { "id": "faction_base_kitchen_7" } ],
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "log", 40 ] ], [ [ "stick", 30 ] ], [ [ "2x4", 135 ] ], [ [ "nail", 150 ] ], [ [ "glass_sheet", 1 ] ] ],
+    "components": [ [ [ "log", 40 ] ], [ [ "stick", 30 ] ], [ [ "2x4", 135 ] ], [ [ "nail", 150 ] ], [ [ "glass_sheet", 2 ] ] ],
     "check_blueprint_needs": false
   },
   {
@@ -1221,7 +1221,7 @@
       [ [ "stick", 114 ] ],
       [ [ "2x4", 264 ] ],
       [ [ "nail", 192 ] ],
-      [ [ "glass_sheet", 4 ] ]
+      [ [ "glass_sheet", 6 ] ]
     ],
     "check_blueprint_needs": false
   },

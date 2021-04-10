@@ -24,7 +24,7 @@
           [ [ "nail", 158 ] ],
           [ [ "wood_panel", 6 ] ],
           [ [ "hinge", 2 ] ],
-          [ [ "glass_sheet", 3 ] ],
+          [ [ "glass_sheet", 6 ] ],
           [ [ "rock", 480 ] ],
           [ [ "pebble", 1000 ] ],
           [ [ "mortar_build", 40 ] ]
@@ -64,7 +64,7 @@
           [ [ "hinge", 2 ] ],
           [ [ "pipe", 60 ] ],
           [ [ "sheet_metal", 10 ] ],
-          [ [ "glass_sheet", 4 ] ],
+          [ [ "glass_sheet", 8 ] ],
           [ [ "rock", 264 ] ],
           [ [ "pebble", 550 ] ],
           [ [ "mortar_build", 22 ] ]
@@ -107,7 +107,7 @@
           [ [ "sheet_metal", 7 ] ],
           [ [ "sheet_metal_small", 12 ] ],
           [ [ "water_faucet", 2 ] ],
-          [ [ "glass_sheet", 2 ] ],
+          [ [ "glass_sheet", 4 ] ],
           [ [ "rock", 504 ] ],
           [ [ "pebble", 1050 ] ],
           [ [ "mortar_build", 42 ] ]

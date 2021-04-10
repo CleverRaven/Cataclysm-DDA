@@ -24,7 +24,7 @@
           [ [ "nail", 158 ] ],
           [ [ "wood_panel", 6 ] ],
           [ [ "hinge", 2 ] ],
-          [ [ "glass_sheet", 3 ] ],
+          [ [ "glass_sheet", 6 ] ],
           [ [ "steel_plate", 80 ] ]
         ]
       }
@@ -62,7 +62,7 @@
           [ [ "hinge", 2 ] ],
           [ [ "pipe", 60 ] ],
           [ [ "sheet_metal", 10 ] ],
-          [ [ "glass_sheet", 4 ] ],
+          [ [ "glass_sheet", 8 ] ],
           [ [ "steel_plate", 44 ] ]
         ]
       }
@@ -103,7 +103,7 @@
           [ [ "sheet_metal", 7 ] ],
           [ [ "sheet_metal_small", 12 ] ],
           [ [ "water_faucet", 2 ] ],
-          [ [ "glass_sheet", 2 ] ],
+          [ [ "glass_sheet", 4 ] ],
           [ [ "steel_plate", 84 ] ]
         ]
       }

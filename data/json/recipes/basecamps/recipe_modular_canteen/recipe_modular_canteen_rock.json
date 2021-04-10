@@ -24,7 +24,7 @@
           [ [ "nail", 566 ] ],
           [ [ "wood_panel", 23 ] ],
           [ [ "hinge", 2 ] ],
-          [ [ "glass_sheet", 3 ] ],
+          [ [ "glass_sheet", 6 ] ],
           [ [ "rock", 144 ] ],
           [ [ "pebble", 300 ] ],
           [ [ "mortar_build", 12 ] ]
@@ -57,7 +57,7 @@
           [ [ "nail", 742 ] ],
           [ [ "wood_panel", 34 ] ],
           [ [ "hinge", 4 ] ],
-          [ [ "glass_sheet", 1 ] ],
+          [ [ "glass_sheet", 2 ] ],
           [ [ "rock", 216 ] ],
           [ [ "pebble", 450 ] ],
           [ [ "mortar_build", 18 ] ]
@@ -118,7 +118,7 @@
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
         "components": [
           [ [ "2x4", 180 ] ],
-          [ [ "glass_sheet", 2 ] ],
+          [ [ "glass_sheet", 4 ] ],
           [ [ "mortar_build", 30 ] ],
           [ [ "nail", 1060 ] ],
           [ [ "pebble", 750 ] ],
@@ -153,7 +153,7 @@
           [ [ "nail", 566 ] ],
           [ [ "wood_panel", 23 ] ],
           [ [ "hinge", 2 ] ],
-          [ [ "glass_sheet", 2 ] ],
+          [ [ "glass_sheet", 4 ] ],
           [ [ "rock", 144 ] ],
           [ [ "pebble", 300 ] ],
           [ [ "mortar_build", 12 ] ]
@@ -184,7 +184,7 @@
         "components": [
           [ [ "2x4", 159 ] ],
           [ [ "nail", 800 ] ],
-          [ [ "glass_sheet", 3 ] ],
+          [ [ "glass_sheet", 6 ] ],
           [ [ "rock", 168 ] ],
           [ [ "pebble", 350 ] ],
           [ [ "mortar_build", 14 ] ],
@@ -218,7 +218,7 @@
           [ [ "nail", 1026 ] ],
           [ [ "wood_panel", 49 ] ],
           [ [ "hinge", 2 ] ],
-          [ [ "glass_sheet", 1 ] ],
+          [ [ "glass_sheet", 2 ] ],
           [ [ "rock", 48 ] ],
           [ [ "pebble", 100 ] ],
           [ [ "mortar_build", 4 ] ]

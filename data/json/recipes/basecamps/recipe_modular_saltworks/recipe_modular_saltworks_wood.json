@@ -19,7 +19,7 @@
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 385 ] ], [ [ "nail", 1718 ] ], [ [ "wood_panel", 84 ] ], [ [ "hinge", 2 ] ], [ [ "glass_sheet", 3 ] ] ]
+        "components": [ [ [ "2x4", 385 ] ], [ [ "nail", 1718 ] ], [ [ "wood_panel", 84 ] ], [ [ "hinge", 2 ] ], [ [ "glass_sheet", 6 ] ] ]
       }
     }
   },
@@ -50,7 +50,7 @@
           [ [ "hinge", 2 ] ],
           [ [ "pipe", 60 ] ],
           [ [ "sheet_metal", 10 ] ],
-          [ [ "glass_sheet", 4 ] ]
+          [ [ "glass_sheet", 8 ] ]
         ]
       }
     }
@@ -89,7 +89,7 @@
           [ [ "sheet_metal", 7 ] ],
           [ [ "sheet_metal_small", 12 ] ],
           [ [ "water_faucet", 2 ] ],
-          [ [ "glass_sheet", 2 ] ]
+          [ [ "glass_sheet", 4 ] ]
         ]
       }
     }

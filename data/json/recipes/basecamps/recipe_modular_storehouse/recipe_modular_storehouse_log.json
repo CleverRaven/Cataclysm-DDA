@@ -69,7 +69,7 @@
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
         "components": [
           [ [ "2x4", 87 ] ],
-          [ [ "glass_sheet", 1 ] ],
+          [ [ "glass_sheet", 2 ] ],
           [ [ "log", 16 ] ],
           [ [ "nail", 190 ] ],
           [ [ "wood_panel", 8 ], [ "wood_sheet", 4 ] ]
@@ -99,7 +99,7 @@
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
         "components": [
           [ [ "2x4", 87 ] ],
-          [ [ "glass_sheet", 1 ] ],
+          [ [ "glass_sheet", 2 ] ],
           [ [ "log", 16 ] ],
           [ [ "nail", 190 ] ],
           [ [ "wood_panel", 8 ], [ "wood_sheet", 4 ] ]
@@ -129,7 +129,7 @@
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
         "components": [
           [ [ "2x4", 87 ] ],
-          [ [ "glass_sheet", 1 ] ],
+          [ [ "glass_sheet", 2 ] ],
           [ [ "log", 16 ] ],
           [ [ "nail", 190 ] ],
           [ [ "wood_panel", 8 ], [ "wood_sheet", 4 ] ]
@@ -159,7 +159,7 @@
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
         "components": [
           [ [ "2x4", 87 ] ],
-          [ [ "glass_sheet", 1 ] ],
+          [ [ "glass_sheet", 2 ] ],
           [ [ "log", 16 ] ],
           [ [ "nail", 190 ] ],
           [ [ "wood_panel", 8 ], [ "wood_sheet", 4 ] ]
@@ -192,7 +192,7 @@
           [ [ "nail", 1092 ] ],
           [ [ "wood_panel", 50 ] ],
           [ [ "hinge", 4 ] ],
-          [ [ "glass_sheet", 2 ] ],
+          [ [ "glass_sheet", 4 ] ],
           [ [ "log", 16 ] ]
         ]
       }
@@ -223,7 +223,7 @@
           [ [ "nail", 1092 ] ],
           [ [ "wood_panel", 50 ] ],
           [ [ "hinge", 4 ] ],
-          [ [ "glass_sheet", 2 ] ],
+          [ [ "glass_sheet", 4 ] ],
           [ [ "log", 16 ] ]
         ]
       }

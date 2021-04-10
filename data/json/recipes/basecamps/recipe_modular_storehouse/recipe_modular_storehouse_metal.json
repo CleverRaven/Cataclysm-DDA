@@ -67,7 +67,7 @@
       "inline": {
         "tools": [ [ [ "oxy_torch", 120 ], [ "welder", 600 ], [ "welder_crude", 900 ], [ "toolset", 900 ] ] ],
         "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 15 ], [ "log", 2 ] ], [ [ "nail", 30 ] ], [ [ "glass_sheet", 1 ] ], [ [ "steel_plate", 24 ] ] ]
+        "components": [ [ [ "2x4", 15 ], [ "log", 2 ] ], [ [ "nail", 30 ] ], [ [ "glass_sheet", 2 ] ], [ [ "steel_plate", 24 ] ] ]
       }
     }
   },
@@ -91,7 +91,7 @@
       "inline": {
         "tools": [ [ [ "oxy_torch", 120 ], [ "welder", 600 ], [ "welder_crude", 900 ], [ "toolset", 900 ] ] ],
         "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 15 ], [ "log", 2 ] ], [ [ "nail", 30 ] ], [ [ "glass_sheet", 1 ] ], [ [ "steel_plate", 24 ] ] ]
+        "components": [ [ [ "2x4", 15 ], [ "log", 2 ] ], [ [ "nail", 30 ] ], [ [ "glass_sheet", 2 ] ], [ [ "steel_plate", 24 ] ] ]
       }
     }
   },
@@ -115,7 +115,7 @@
       "inline": {
         "tools": [ [ [ "oxy_torch", 120 ], [ "welder", 600 ], [ "welder_crude", 900 ], [ "toolset", 900 ] ] ],
         "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 15 ], [ "log", 2 ] ], [ [ "nail", 30 ] ], [ [ "glass_sheet", 1 ] ], [ [ "steel_plate", 24 ] ] ]
+        "components": [ [ [ "2x4", 15 ], [ "log", 2 ] ], [ [ "nail", 30 ] ], [ [ "glass_sheet", 2 ] ], [ [ "steel_plate", 24 ] ] ]
       }
     }
   },
@@ -139,7 +139,7 @@
       "inline": {
         "tools": [ [ [ "oxy_torch", 120 ], [ "welder", 600 ], [ "welder_crude", 900 ], [ "toolset", 900 ] ] ],
         "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 15 ], [ "log", 2 ] ], [ [ "nail", 30 ] ], [ [ "glass_sheet", 1 ] ], [ [ "steel_plate", 24 ] ] ]
+        "components": [ [ [ "2x4", 15 ], [ "log", 2 ] ], [ [ "nail", 30 ] ], [ [ "glass_sheet", 2 ] ], [ [ "steel_plate", 24 ] ] ]
       }
     }
   },
@@ -165,7 +165,7 @@
         "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M" } ], [ { "id": "WRENCH" } ] ],
         "components": [
           [ [ "2x4", 30 ], [ "log", 4 ] ],
-          [ [ "glass_sheet", 2 ] ],
+          [ [ "glass_sheet", 4 ] ],
           [ [ "hinge", 6 ] ],
           [ [ "nail", 60 ] ],
           [ [ "scrap", 96 ], [ "steel_chunk", 32 ] ],
@@ -197,7 +197,7 @@
         "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M" } ], [ { "id": "WRENCH" } ] ],
         "components": [
           [ [ "2x4", 30 ], [ "log", 4 ] ],
-          [ [ "glass_sheet", 2 ] ],
+          [ [ "glass_sheet", 4 ] ],
           [ [ "hinge", 6 ] ],
           [ [ "nail", 60 ] ],
           [ [ "scrap", 96 ], [ "steel_chunk", 32 ] ],

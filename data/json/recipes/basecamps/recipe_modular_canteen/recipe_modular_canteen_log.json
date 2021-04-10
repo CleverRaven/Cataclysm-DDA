@@ -24,7 +24,7 @@
           [ [ "nail", 566 ] ],
           [ [ "wood_panel", 23 ] ],
           [ [ "hinge", 2 ] ],
-          [ [ "glass_sheet", 3 ] ],
+          [ [ "glass_sheet", 6 ] ],
           [ [ "log", 24 ] ]
         ]
       }
@@ -55,7 +55,7 @@
           [ [ "nail", 742 ] ],
           [ [ "wood_panel", 34 ] ],
           [ [ "hinge", 4 ] ],
-          [ [ "glass_sheet", 1 ] ],
+          [ [ "glass_sheet", 2 ] ],
           [ [ "log", 36 ] ]
         ]
       }
@@ -107,7 +107,7 @@
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
         "components": [
           [ [ "2x4", 360 ] ],
-          [ [ "glass_sheet", 2 ] ],
+          [ [ "glass_sheet", 4 ] ],
           [ [ "log", 60 ] ],
           [ [ "nail", 1060 ] ],
           [ [ "wood_panel", 50 ], [ "wood_sheet", 25 ] ]
@@ -140,7 +140,7 @@
           [ [ "nail", 566 ] ],
           [ [ "wood_panel", 23 ] ],
           [ [ "hinge", 2 ] ],
-          [ [ "glass_sheet", 2 ] ],
+          [ [ "glass_sheet", 4 ] ],
           [ [ "log", 24 ] ]
         ]
       }
@@ -169,7 +169,7 @@
         "components": [
           [ [ "2x4", 243 ] ],
           [ [ "nail", 800 ] ],
-          [ [ "glass_sheet", 3 ] ],
+          [ [ "glass_sheet", 6 ] ],
           [ [ "log", 28 ] ],
           [ [ "wood_sheet", 17 ], [ "wood_panel", 34 ] ]
         ]
@@ -201,7 +201,7 @@
           [ [ "nail", 1026 ] ],
           [ [ "wood_panel", 49 ] ],
           [ [ "hinge", 2 ] ],
-          [ [ "glass_sheet", 1 ] ],
+          [ [ "glass_sheet", 2 ] ],
           [ [ "log", 8 ] ]
         ]
       }

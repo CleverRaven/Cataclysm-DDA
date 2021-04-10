@@ -21,7 +21,7 @@
         "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
         "components": [
           [ [ "2x4", 230 ] ],
-          [ [ "glass_sheet", 2 ] ],
+          [ [ "glass_sheet", 4 ] ],
           [ [ "nail", 560 ] ],
           [ [ "steel_plate", 36 ] ],
           [ [ "wood_panel", 25 ] ]
@@ -61,7 +61,7 @@
           [ [ "hinge", 2 ] ],
           [ [ "pipe", 36 ] ],
           [ [ "sheet_metal", 6 ] ],
-          [ [ "glass_sheet", 1 ] ],
+          [ [ "glass_sheet", 2 ] ],
           [ [ "steel_plate", 24 ] ]
         ]
       }
@@ -95,7 +95,7 @@
         ],
         "components": [
           [ [ "2x4", 269 ] ],
-          [ [ "glass_sheet", 1 ] ],
+          [ [ "glass_sheet", 2 ] ],
           [ [ "hinge", 2 ] ],
           [ [ "nail", 666 ] ],
           [ [ "pipe", 24 ] ],
@@ -135,7 +135,7 @@
         "components": [
           [ [ "2x4", 146 ] ],
           [ [ "blanket", 1 ], [ "down_blanket", 1 ], [ "fur_blanket", 1 ] ],
-          [ [ "glass_sheet", 2 ] ],
+          [ [ "glass_sheet", 4 ] ],
           [ [ "nail", 332 ] ],
           [ [ "pipe", 12 ] ],
           [ [ "sheet_metal", 2 ] ],
@@ -222,7 +222,7 @@
           [ [ "hinge", 2 ] ],
           [ [ "pipe", 60 ] ],
           [ [ "sheet_metal", 10 ] ],
-          [ [ "glass_sheet", 2 ] ],
+          [ [ "glass_sheet", 4 ] ],
           [ [ "steel_plate", 44 ] ]
         ]
       }

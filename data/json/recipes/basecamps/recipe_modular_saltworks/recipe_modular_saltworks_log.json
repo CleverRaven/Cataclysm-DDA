@@ -24,7 +24,7 @@
           [ [ "nail", 158 ] ],
           [ [ "wood_panel", 6 ] ],
           [ [ "hinge", 2 ] ],
-          [ [ "glass_sheet", 3 ] ],
+          [ [ "glass_sheet", 6 ] ],
           [ [ "log", 118 ] ],
           [ [ "material_soil", 760 ] ],
           [ [ "birchbark", 228 ], [ "pine_bough", 228 ] ]
@@ -64,7 +64,7 @@
           [ [ "hinge", 2 ] ],
           [ [ "pipe", 60 ] ],
           [ [ "sheet_metal", 10 ] ],
-          [ [ "glass_sheet", 4 ] ],
+          [ [ "glass_sheet", 8 ] ],
           [ [ "log", 60 ] ],
           [ [ "material_soil", 320 ] ],
           [ [ "birchbark", 96 ], [ "pine_bough", 96 ] ]
@@ -107,7 +107,7 @@
           [ [ "sheet_metal", 7 ] ],
           [ [ "sheet_metal_small", 12 ] ],
           [ [ "water_faucet", 2 ] ],
-          [ [ "glass_sheet", 2 ] ],
+          [ [ "glass_sheet", 4 ] ],
           [ [ "log", 132 ] ],
           [ [ "material_soil", 960 ] ],
           [ [ "birchbark", 288 ], [ "pine_bough", 288 ] ]

@@ -29,7 +29,7 @@
         "components": [
           [ [ "2x4", 111 ] ],
           [ [ "frame", 18 ], [ "pipe", 108 ], [ "xlframe", 30 ] ],
-          [ [ "glass_sheet", 3 ] ],
+          [ [ "glass_sheet", 6 ] ],
           [ [ "hinge", 3 ] ],
           [ [ "nail", 818 ] ],
           [ [ "scrap", 480 ], [ "sheet_metal_small", 240 ] ],
@@ -71,7 +71,7 @@
         "components": [
           [ [ "2x4", 111 ] ],
           [ [ "frame", 27 ], [ "pipe", 162 ], [ "xlframe", 45 ] ],
-          [ [ "glass_sheet", 1 ] ],
+          [ [ "glass_sheet", 2 ] ],
           [ [ "hinge", 6 ] ],
           [ [ "nail", 1102 ] ],
           [ [ "scrap", 720 ], [ "sheet_metal_small", 360 ] ],
@@ -150,7 +150,7 @@
         "components": [
           [ [ "2x4", 180 ] ],
           [ [ "frame", 45 ], [ "pipe", 270 ], [ "xlframe", 75 ] ],
-          [ [ "glass_sheet", 2 ] ],
+          [ [ "glass_sheet", 4 ] ],
           [ [ "nail", 1780 ] ],
           [ [ "scrap", 1200 ], [ "sheet_metal_small", 600 ] ],
           [ [ "wood_panel", 50 ], [ "wood_sheet", 25 ] ]
@@ -188,7 +188,7 @@
         "components": [
           [ [ "2x4", 108 ] ],
           [ [ "frame", 18 ], [ "pipe", 108 ], [ "xlframe", 30 ] ],
-          [ [ "glass_sheet", 2 ] ],
+          [ [ "glass_sheet", 4 ] ],
           [ [ "hinge", 3 ] ],
           [ [ "nail", 818 ] ],
           [ [ "scrap", 480 ], [ "sheet_metal_small", 240 ] ],
@@ -230,7 +230,7 @@
         "components": [
           [ [ "2x4", 159 ] ],
           [ [ "frame", 21 ], [ "pipe", 126 ], [ "xlframe", 35 ] ],
-          [ [ "glass_sheet", 3 ] ],
+          [ [ "glass_sheet", 6 ] ],
           [ [ "nail", 1136 ] ],
           [ [ "scrap", 560 ], [ "sheet_metal_small", 280 ] ],
           [ [ "wood_panel", 34 ], [ "wood_sheet", 17 ] ]
@@ -268,7 +268,7 @@
         "components": [
           [ [ "2x4", 159 ] ],
           [ [ "frame", 6 ], [ "pipe", 36 ], [ "xlframe", 10 ] ],
-          [ [ "glass_sheet", 1 ] ],
+          [ [ "glass_sheet", 2 ] ],
           [ [ "hinge", 3 ] ],
           [ [ "nail", 1086 ] ],
           [ [ "scrap", 160 ], [ "sheet_metal_small", 80 ] ],
