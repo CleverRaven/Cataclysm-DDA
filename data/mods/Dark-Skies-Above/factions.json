@@ -18,6 +18,7 @@
     "name": "alien_carnivore",
     "base_faction": "mutant",
     "neutral": [ "invader_alien", "stray", "aquatic_predator" ],
+    "by_mood": "alien_carnivore",
     "hate": [ "alien_herbivore" ]
   },
   {
