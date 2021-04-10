@@ -4008,7 +4008,7 @@
     "time": "90 m",
     "tools": [ [ [ "oxy_torch", 4 ], [ "welder", 20 ], [ "welder_crude", 30 ], [ "toolset", 30 ] ] ],
     "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "GLARE", "level": 2 } ] ],
-    "components":  [ [ [ "rebar", 8 ] ], [ [ "sheet_metal_small", 6 ] ] ],
+    "components": [ [ [ "rebar", 8 ] ], [ [ "sheet_metal_small", 6 ] ] ],
     "pre_terrain": "t_window_reinforced",
     "post_terrain": "t_window_reinforced_barred"
   },
