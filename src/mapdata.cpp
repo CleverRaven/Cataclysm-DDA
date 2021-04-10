@@ -802,7 +802,7 @@ void set_ter_ids()
     t_window_tempered_open = ter_id( "t_window_tempered_open" );
     t_window_tempered_with_curtain = ter_id( "t_window_tempered_with_curtain" );
     t_window_tempered_with_curtain_open_window_closed = ter_id( "t_window_tempered_with_curtain_open_window_closed" );
-    t_window_tempered_with_curtain_open = ter_id( " t_window_tempered_with_curtain_open" );
+    t_window_tempered_with_curtain_open = ter_id( "t_window_tempered_with_curtain_open" );
     t_m_frame = ter_id( "t_m_frame" );
     t_rock = ter_id( "t_rock" );
     t_fault = ter_id( "t_fault" );
