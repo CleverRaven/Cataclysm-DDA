@@ -1,5 +1,30 @@
 [
   {
+    "id": "mon_dsa_alien_dispatch",
+    "type": "MONSTER",
+    "name": { "str": "alien dispatch system" },
+    "description": "A monstrous intelligence, capable of teleporting drones and skirmishers to the planet, or dispatching larger aliens in drop pods.",
+    "default_faction": "invader_alien",
+    "looks_like": "mon_eyebot",
+    "categories": [ "ALIEN" ],
+    "species": [ "ROBOT" ],
+    "volume": "30000 ml",
+    "weight": "40750 g",
+    "hp": 400,
+    "speed": 100,
+    "material": [ "steel" ],
+    "symbol": "D",
+    "color": "red",
+    "dodge": 3,
+    "armor_bash": 8,
+    "armor_cut": 10,
+    "luminance": 5,
+    "path_settings": { "max_dist": 5 },
+    "death_drops": { "groups": [ [ "robots", 4 ] ] },
+    "death_function": [ "MELT" ],
+    "flags": [ "SEES", "FLIES", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "NOHEAD", "PRIORITIZE_TARGETS" ]
+  },
+  {
     "id": "mon_dks_glowdrone",
     "type": "MONSTER",
     "name": { "str": "alien surveillance drone" },
@@ -20,7 +45,7 @@
     "armor_cut": 10,
     "armor_bullet": 6,
     "luminance": 5,
-    "special_attacks": [ [ "SEARCHLIGHT", 1 ] ],
+    "special_attacks": [ [ "SEARCHLIGHT", 1 ], [ "DSA_DRONE_SCAN", 2 ] ],
     "path_settings": { "max_dist": 5 },
     "death_drops": { "groups": [ [ "robots", 4 ], [ "eyebot", 1 ], [ "turret_searchlight", 1 ] ] },
     "death_function": [ "BROKEN" ],
@@ -52,6 +77,7 @@
     "vision_night": 5,
     "special_attacks": [
       [ "TAZER", 12 ],
+      [ "DSA_DRONE_SCAN", 5 ],
       { "id": "tool_slash" },
       {
         "type": "spell",
