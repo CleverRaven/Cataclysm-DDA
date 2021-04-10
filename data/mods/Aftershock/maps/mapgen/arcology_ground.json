@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "arcology_exterior_nw_corner" ],
+    "om_terrain": [ "arcology_exterior_nw_corner_uplifts", "arcology_exterior_nw_corner_robots" ],
     "weight": 100,
     "//": "Arcology general principles.  Ground floor will be mostly shops and the like.  Living quarters and administration/white collar goes up.  Manufacturing and secure locations go down. Mostly filled with nested chunks respecting hallways. Stairs and elevators are in center generally.  Make separate specials that have unique locations inside of them.",
     "//2": "There 19 rows vertically and 16 horizontally inside the walls this tile. This will house 2 8x8 nested chunks.",
@@ -43,7 +43,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "arcology_exterior_w_side" ],
+    "om_terrain": [ "arcology_exterior_w_side_robots", "arcology_exterior_w_side_uplifts" ],
     "weight": 100,
     "object": {
       "rows": [
@@ -81,7 +81,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "arcology_exterior_w_side_entrance" ],
+    "om_terrain": [ "arcology_exterior_w_side_entrance_robots", "arcology_exterior_w_side_entrance_uplifts" ],
     "weight": 100,
     "//": "Turn gate into a 8x8 nested chunk that can be a closed gate working console, closed gate broken console, broken gate working console, broken gate broken console, open gate working console, open gate broken console.",
     "object": {
@@ -133,7 +133,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "arcology_exterior_sw_corner" ],
+    "om_terrain": [ "arcology_exterior_sw_corner_robots", "arcology_exterior_sw_corner_uplifts" ],
     "weight": 100,
     "object": {
       "rows": [
@@ -174,7 +174,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "arcology_exterior_s_side" ],
+    "om_terrain": [ "arcology_exterior_s_side_robots", "arcology_exterior_s_side_uplifts" ],
     "weight": 100,
     "object": {
       "rows": [
@@ -212,7 +212,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "arcology_exterior_s_side_entrance" ],
+    "om_terrain": [ "arcology_exterior_s_side_entrance_robots", "arcology_exterior_s_side_entrance_uplifts" ],
     "weight": 100,
     "object": {
       "rows": [
@@ -263,7 +263,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "arcology_exterior_se_corner" ],
+    "om_terrain": [ "arcology_exterior_se_corner_robots", "arcology_exterior_se_corner_uplifts" ],
     "weight": 100,
     "object": {
       "rows": [
@@ -305,7 +305,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "arcology_exterior_e_side" ],
+    "om_terrain": [ "arcology_exterior_e_side_robots", "arcology_exterior_e_side_uplifts" ],
     "weight": 100,
     "object": {
       "rows": [
@@ -343,7 +343,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "arcology_exterior_e_side_entrance" ],
+    "om_terrain": [ "arcology_exterior_e_side_entrance_robots", "arcology_exterior_e_side_entrance_uplifts" ],
     "weight": 100,
     "object": {
       "rows": [
@@ -381,7 +381,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "arcology_exterior_ne_corner" ],
+    "om_terrain": [ "arcology_exterior_ne_corner_robots", "arcology_exterior_ne_corner_uplifts" ],
     "weight": 100,
     "object": {
       "rows": [
@@ -422,7 +422,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "arcology_exterior_n_entrance" ],
+    "om_terrain": [ "arcology_exterior_n_entrance_robots", "arcology_exterior_n_entrance_uplifts" ],
     "weight": 100,
     "object": {
       "rows": [
@@ -473,7 +473,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "arcology_exterior_n_side" ],
+    "om_terrain": [ "arcology_exterior_n_side_robots", "arcology_exterior_n_side_uplifts" ],
     "weight": 100,
     "object": {
       "rows": [
@@ -511,7 +511,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "arcology_interior_ne_corner" ],
+    "om_terrain": [ "arcology_interior_ne_corner_robots", "arcology_interior_ne_corner_uplifts" ],
     "weight": 100,
     "object": {
       "rows": [
@@ -547,7 +547,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "arcology_interior_n_side" ],
+    "om_terrain": [ "arcology_interior_n_side_robots", "arcology_interior_n_side_uplifts" ],
     "weight": 100,
     "object": {
       "rows": [
@@ -583,7 +583,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "arcology_interior_nw_corner" ],
+    "om_terrain": [ "arcology_interior_nw_corner_robots", "arcology_interior_nw_corner_uplifts" ],
     "weight": 100,
     "object": {
       "rows": [
@@ -619,7 +619,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "arcology_interior_w_side" ],
+    "om_terrain": [ "arcology_interior_w_side_robots", "arcology_interior_w_side_uplifts" ],
     "weight": 100,
     "object": {
       "rows": [
@@ -655,7 +655,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "arcology_interior_sw_corner" ],
+    "om_terrain": [ "arcology_interior_sw_corner_robots", "arcology_interior_sw_corner_uplifts" ],
     "weight": 100,
     "object": {
       "rows": [
@@ -691,7 +691,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "arcology_interior_s_side" ],
+    "om_terrain": [ "arcology_interior_s_side_robots", "arcology_interior_s_side_uplifts" ],
     "weight": 100,
     "object": {
       "rows": [
@@ -727,7 +727,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "arcology_interior_se_corner" ],
+    "om_terrain": [ "arcology_interior_se_corner_robots", "arcology_interior_se_corner_uplifts" ],
     "weight": 100,
     "object": {
       "rows": [
@@ -763,7 +763,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "arcology_interior_e_side" ],
+    "om_terrain": [ "arcology_interior_e_side_robots", "arcology_interior_e_side_uplifts" ],
     "weight": 100,
     "object": {
       "rows": [
@@ -799,7 +799,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "arcology_interior_center" ],
+    "om_terrain": [ "arcology_interior_center_robots", "arcology_interior_center_uplifts" ],
     "weight": 100,
     "object": {
       "rows": [
