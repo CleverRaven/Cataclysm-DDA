@@ -609,6 +609,32 @@
   },
   {
     "type": "material",
+    "id": "lvl4ballisticglass",
+    "name": "Ballistic Glass",
+    "//": "Values are based on thickness being a quarter of an inch.",
+    "density": 30,
+    "specific_heat_liquid": 0.2,
+    "specific_heat_solid": 0.2,
+    "latent_heat": 100,
+    "bash_resist": 5,
+    "cut_resist": 10,
+    "bullet_resist": 9,
+    "acid_resist": 10,
+    "fire_resist": 3,
+    "elec_resist": 4,
+    "chip_resist": 0,
+    "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
+    "bash_dmg_verb": "cracked",
+    "cut_dmg_verb": "scratched",
+    "burn_data": [
+      { "fuel": 0, "smoke": 0, "burn": 0 },
+      { "fuel": 0, "smoke": 0, "burn": 0 },
+      { "fuel": 0, "smoke": 0, "burn": 1000, "volume_per_turn": "5000 ml", "//": "More like shattering than melting" }
+    ],
+    "burn_products": [ [ "glass_shard", 1 ] ]
+  },
+  {
+    "type": "material",
     "id": "glass",
     "name": "Glass",
     "density": 14,
