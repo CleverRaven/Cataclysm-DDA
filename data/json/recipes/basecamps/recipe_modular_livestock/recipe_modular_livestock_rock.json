@@ -64,7 +64,7 @@
           [ [ "hinge", 2 ] ],
           [ [ "pipe", 60 ] ],
           [ [ "sheet_metal", 10 ] ],
-          [ [ "glass_sheet", 4 ] ],
+          [ [ "glass_sheet", 8 ] ],
           [ [ "rock", 264 ] ],
           [ [ "pebble", 550 ] ],
           [ [ "mortar_build", 22 ] ]
