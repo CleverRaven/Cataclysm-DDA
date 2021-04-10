@@ -1321,7 +1321,7 @@
         "4": "t_brick_wall",
         "|": [ "t_gutter_north" ],
         "-": [ "t_gutter_west" ],
-        "w": [ "t_metal_grate_window_noglass" ],
+        "w": [ "t_window_bars_noglass" ],
         "Ю": [ "t_gutter_drop" ]
       },
       "item": { ".": { "item": "feces_bird", "chance": 2 } }
