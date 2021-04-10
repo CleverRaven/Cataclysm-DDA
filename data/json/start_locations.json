@@ -459,6 +459,12 @@
   },
   {
     "type": "start_location",
+    "id": "sloc_lodge_ground",
+    "name": "Hunting Lodge",
+    "terrain": [ "lodge_ground" ]
+  },
+  {
+    "type": "start_location",
     "id": "sloc_gas_station",
     "name": "Gas Station",
     "terrain": [ "s_gas_rural" ]

@@ -10,7 +10,7 @@
         "id": "generic_blinding_spray_1",
         "hit_self": false,
         "message": "Your ink glands spray some ink into %2$s's eyes.",
-        "npc_message": "%1$s's ink glands spay some ink into %2$s's eyes."
+        "npc_message": "%1$s's ink glands spray some ink into %2$s's eyes."
       }
     ],
     "ench_effects": [ { "effect": "invisibility", "intensity": 1 } ]

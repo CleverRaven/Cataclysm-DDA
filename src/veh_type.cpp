@@ -753,6 +753,15 @@ void vpart_info::check()
             debugmsg( "vehicle part %s has the WHEEL flag, but base item %s is not a wheel.  "
                       "THIS WILL CRASH!", part.id.str(), part.base_item.str() );
         }
+
+        if( part.has_flag( "WHEEL" ) && !part.has_flag( "UNSTABLE_WHEEL" ) && !part.has_flag( "STABLE" ) ) {
+            debugmsg( "Wheel '%s' lacks either 'UNSTABLE_WHEEL' or 'STABLE' flag.", vp.first.str() );
+        }
+
+        if( part.has_flag( "UNSTABLE_WHEEL" ) && part.has_flag( "STABLE" ) ) {
+            debugmsg( "Wheel '%s' cannot be both an 'UNSTABLE_WHEEL' and 'STABLE'.", vp.first.str() );
+        }
+
         for( auto &q : part.qualities ) {
             if( !q.first.is_valid() ) {
                 debugmsg( "vehicle part %s has undefined tool quality %s", part.id.c_str(), q.first.c_str() );
@@ -1153,7 +1162,13 @@ void vehicle_prototype::load( const JsonObject &jo )
             spawn_info.read( "items", next_spawn.item_ids, true );
         } else if( spawn_info.has_string( "items" ) ) {
             //Treat single item as array
-            next_spawn.item_ids.push_back( itype_id( spawn_info.get_string( "items" ) ) );
+            // And read the gun variant (if it exists)
+            if( spawn_info.has_string( "variant" ) ) {
+                const std::string variant = spawn_info.get_string( "variant" );
+                next_spawn.variant_ids.emplace_back( itype_id( spawn_info.get_string( "items" ) ), variant );
+            } else {
+                next_spawn.item_ids.push_back( itype_id( spawn_info.get_string( "items" ) ) );
+            }
         }
         if( spawn_info.has_array( "item_groups" ) ) {
             //Pick from a group of items, just like map::place_items

@@ -130,6 +130,7 @@ struct jmapgen_setmap {
 
 struct spawn_data {
     std::map<itype_id, jmapgen_int> ammo;
+    std::vector<point> patrol_points_rel_ms;
 };
 
 /**
@@ -458,11 +459,6 @@ enum room_type {
     room_bedroom,
     room_backyard,
     room_study,
-    room_mine_shaft,
-    room_mine_office,
-    room_mine_storage,
-    room_mine_fuel,
-    room_mine_housing,
     room_split
 };
 
