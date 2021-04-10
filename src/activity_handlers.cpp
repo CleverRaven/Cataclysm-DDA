@@ -2357,7 +2357,7 @@ void activity_handlers::oxytorch_finish( player_activity *act, player *p )
     } else if( ter == t_window_plastic_reinforced_barred ) {
         here.ter_set( pos, t_window_plastic_reinforced );
         here.spawn_item( p->pos(), itype_rebar, rng( 1, 8 ) );
-   }
+    }
 }
 
 void activity_handlers::cracking_finish( player_activity *act, player *guy )
