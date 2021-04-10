@@ -639,7 +639,7 @@
     "type": "MONSTER",
     "name": "mosasaurus juvenile",
     "description": "A juvenile mosasaurus with huge shiny eyes.",
-    "default_faction": "mosasaurus",
+    "default_faction": "mosasaurus_young",
     "copy-from": "mon_gallimimus_juvenile",
     "color": "red_white",
     "upgrades": { "age_grow": 365, "into": "mon_mosasaurus" },

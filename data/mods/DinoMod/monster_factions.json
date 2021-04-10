@@ -155,8 +155,15 @@
     "type": "MONSTER_FACTION",
     "name": "mosasaurus",
     "base_faction": "gator",
-    "by_mood": "gator",
-    "hate": [ "herbivore", "zombie", "human", "aquatic_predator" ]
+    "by_mood": [ "gator", "mosasaurus", "small_animal" ],
+    "hate": [ "herbivore", "zombie", "human", "aquatic_predator" ],
+    "friendly": "mosasaurus_young"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "mosasaurus_young",
+    "base_faction": "fishing_dino",
+    "friendly": "mosasaurus"
   },
   {
     "type": "MONSTER_FACTION",

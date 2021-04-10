@@ -187,7 +187,7 @@
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
     "name": "red and white hatchling",
-    "default_faction": "mosasaurus",
+    "default_faction": "mosasaurus_young",
     "upgrades": { "age_grow": 30, "into": "mon_mosasaurus_juvenile" },
     "flags": [
       "SEES",
