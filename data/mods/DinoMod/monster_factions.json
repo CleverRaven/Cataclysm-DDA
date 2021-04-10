@@ -167,47 +167,6 @@
   },
   {
     "type": "MONSTER_FACTION",
-    "name": "small_animal",
-    "base_faction": "animal",
-    "neutral": [ "zombie", "fish", "exodii", "nether", "animal", "predator_dino" ],
-    "by_mood": [ "cat", "bear", "fox", "big_cat", "dog", "wolf" ]
-  },
-  {
-    "type": "MONSTER_FACTION",
-    "name": "herbivore",
-    "base_faction": "animal",
-    "neutral": [ "small_animal", "fish", "exodii", "aquatic_predator", "herbivore_dino" ]
-  },
-  {
-    "type": "MONSTER_FACTION",
-    "name": "cat",
-    "base_faction": "small_animal",
-    "hate": [ "small_animal", "very_small_predator" ],
-    "by_mood": "small_predator"
-  },
-  {
-    "type": "MONSTER_FACTION",
-    "name": "wolf",
-    "base_faction": "animal",
-    "by_mood": "medium_predator",
-    "hate": [ "small_animal", "herbivore" ]
-  },
-  {
-    "type": "MONSTER_FACTION",
-    "name": "gator",
-    "base_faction": "mutant",
-    "by_mood": "mosasaurus",
-    "hate": "fish"
-  },
-  {
-    "type": "MONSTER_FACTION",
-    "name": "aquatic_predator",
-    "base_faction": "insect",
-    "neutral": [ "bot", "insect", "animal", "zombie", "fishing_dino" ],
-    "hate": [ "fish", "zombie_aquatic" ]
-  },
-  {
-    "type": "MONSTER_FACTION",
     "name": "ceratosaurus",
     "base_faction": "predator_dino"
   },
@@ -215,5 +174,42 @@
     "type": "MONSTER_FACTION",
     "name": "qianzhousaurus",
     "base_faction": "predator_dino"
+  }
+  {
+    "type": "MONSTER_FACTION",
+    "name": "small_animal",
+    "copy-from": "small_animal",
+    "neutral": [ "zombie", "fish", "exodii", "nether", "animal", "predator_dino" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "herbivore",
+    "copy-from": "herbivore",
+    "neutral": [ "small_animal", "fish", "exodii", "aquatic_predator", "herbivore_dino" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "cat",
+    "copy-from": "cat",
+    "hate": [ "small_animal", "very_small_predator" ],
+    "by_mood": "small_predator"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "wolf",
+    "copy-from": "wolf",
+    "by_mood": "medium_predator"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "gator",
+    "copy-from": "gator",
+    "by_mood": "mosasaurus"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "aquatic_predator",
+    "copy-from": "aquatic_predator",
+    "neutral": [ "bot", "insect", "animal", "zombie", "fishing_dino" ]
   }
 ]
