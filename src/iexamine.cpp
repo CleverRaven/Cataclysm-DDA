@@ -4760,8 +4760,9 @@ void iexamine::autodoc( player &p, const tripoint &examp )
     }
 
     autodoc_header +=
-        string_format( "\n\n<color_white>Internal supplies:</color>\n Arm splints: %d\n Leg splints: %d",
-                       arm_splints.size(), leg_splints.size() );
+        string_format(
+            _( "\n\n<color_white>Internal supplies:</color>\n Arm splints: %d\n Leg splints: %d" ),
+            arm_splints.size(), leg_splints.size() );
 
     uilist amenu;
     amenu.text = autodoc_header;
