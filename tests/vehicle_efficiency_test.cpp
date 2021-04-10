@@ -431,10 +431,9 @@ TEST_CASE( "make_vehicle_efficiency_case", "[.]" )
 // Amount of fuel needed to reach safe speed.
 // Amount of cruising range for a fixed amount of fuel.
 // Fix test for electric vehicles
-// 
 TEST_CASE( "vehicle_efficiency", "[vehicle] [engine]" )
 {
-    test_vehicle( "beetle", 717777, 444089, 386787, 95610, 91577 );
+    test_vehicle( "beetle", 816469, 431300, 338700, 95610, 68060 );
     test_vehicle( "car", 1120618, 617500, 388600, 52730, 25170 );
     test_vehicle( "car_sports", 1155014, 352600, 267600, 36820, 22360 );
     test_vehicle( "electric_car", 1047135, 355300, 201600, 22400, 10780 );
@@ -450,7 +449,7 @@ TEST_CASE( "vehicle_efficiency", "[vehicle] [engine]" )
     test_vehicle( "tractor_plow", 723658, 681200, 681200, 132700, 132700 );
     test_vehicle( "apc", 5802483, 1626000, 1119000, 130800, 85590 );
     test_vehicle( "humvee", 5503345, 767900, 306900, 25620, 9171 );
-    test_vehicle( "road_roller", 8658909, 602500, 147100, 22760, 6925 );
+    test_vehicle( "road_roller", 8831620, 602500, 147100, 22760, 6925 );
     test_vehicle( "golf_cart", 444630, 96000, 69390, 35490, 14200 );
     // in reverse
     test_vehicle( "beetle", 816469, 58970, 58870, 44560, 43060, 0, 0, true );
@@ -469,6 +468,6 @@ TEST_CASE( "vehicle_efficiency", "[vehicle] [engine]" )
     test_vehicle( "tractor_plow", 723658, 72490, 72490, 53700, 53700, 0, 0, true );
     test_vehicle( "apc", 5802483, 381500, 382100, 123600, 82000, 0, 0, true );
     test_vehicle( "humvee", 5503345, 89940, 89940, 25780, 9086, 0, 0, true );
-    test_vehicle( "road_roller", 8658909, 97490, 97690, 22880, 6606, 0, 0, true );
+    test_vehicle( "road_roller", 8831620, 97490, 97690, 22880, 6606, 0, 0, true );
     test_vehicle( "golf_cart", 444630, 96150, 28800, 35560, 11150, 0, 0, true );
 }
