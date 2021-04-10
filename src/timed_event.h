@@ -20,6 +20,7 @@ enum class timed_event_type : int {
     TEMPLE_SPAWN,
     DIM,
     ARTIFACT_LIGHT,
+    DSA_ALRP_SUMMON,
     NUM_TIMED_EVENT_TYPES
 };
 
