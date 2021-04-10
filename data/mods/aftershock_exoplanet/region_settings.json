@@ -243,7 +243,6 @@
       "subway": {
         "chance": 6,
         "extras": {
-
           "mx_corpses": 10,
           "mx_casings": 20
         }
