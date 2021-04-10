@@ -132,7 +132,7 @@
     "type": "terrain",
     "id": "t_retractable_gate_l",
     "name": "locked retractable gate",
-    "description": "A retractable security gate.  This one has a locked padlock on the latch system.  With the right tools, you could cut the metal fence or pick the lock.",
+    "description": "A retractable security gate.  This one the latch is locked closed.  With the right tools, you could cut the metal fence or disable the lock.",
     "symbol": "+",
     "color": "cyan",
     "move_cost": 0,
