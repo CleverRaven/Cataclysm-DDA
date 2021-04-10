@@ -3598,7 +3598,7 @@ void activity_handlers::hacksaw_finish( player_activity *act, player *p )
         here.ter_set( pos, t_pit );
         here.spawn_item( p->pos(), itype_spike, 19 );
         here.spawn_item( p->pos(), itype_scrap, 8 );
-    } else if(  ter == t_retractable_gate_c || ter == t_retractable_gate_l ) {
+    } else if( ter == t_retractable_gate_c || ter == t_retractable_gate_l ) {
         here.ter_set( pos, t_strconc_floor );
         here.spawn_item( pos, itype_chain, rng( 1, 2 ) );
         here.spawn_item( pos, itype_wire, rng( 8, 22 ) );
