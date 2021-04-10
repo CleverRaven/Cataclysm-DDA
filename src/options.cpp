@@ -2138,7 +2138,7 @@ void options_manager::add_options_world_default()
 
     add( "SPAWN_DELAY", "world_default", to_translation( "Spawn delay" ),
          to_translation( "How many days after the cataclysm the player spawns.  Day 0 is the day of the cataclysm.  Can be overridden by scenarios.  Increasing this will cause food rot and monster evolution to advance." ),
-         0, 9999, 0
+         0, 9999, 15
        );
 
     add( "SEASON_LENGTH", "world_default", to_translation( "Season length" ),
