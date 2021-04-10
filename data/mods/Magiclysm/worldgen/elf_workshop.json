@@ -97,6 +97,6 @@
     "sym": "W",
     "color": "red",
     "see_cost": 6,
-    "flags": [ "RISK_LOW" ]
+    "flags": [ "RISK_HIGH" ]
   }
 ]
