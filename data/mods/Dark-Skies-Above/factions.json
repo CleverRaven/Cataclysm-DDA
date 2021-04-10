@@ -3,7 +3,7 @@
     "type": "MONSTER_FACTION",
     "name": "invader_alien",
     "base_faction": "nether",
-    "neutral": [ "alien_carnivore", "alien_herbivore", "stray", "aquatic_predator" ],
+    "neutral": [ "alien_carnivore", "alien_herbivore", "stray" ],
     "by_mood": "animal"
   },
   {
@@ -17,7 +17,7 @@
     "type": "MONSTER_FACTION",
     "name": "alien_carnivore",
     "base_faction": "mutant",
-    "neutral": [ "invader_alien", "stray", "aquatic_predator" ],
+    "neutral": [ "invader_alien", "stray" ],
     "by_mood": "alien_carnivore",
     "hate": [ "alien_herbivore" ]
   },
