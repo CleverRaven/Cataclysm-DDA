@@ -226,8 +226,8 @@ player::player()
 }
 
 player::~player() = default;
-player::player( player && ) = default;
-player &player::operator=( player && ) = default;
+player::player( player && ) noexcept = default;
+player &player::operator=( player && ) noexcept = default;
 
 void player::normalize()
 {
