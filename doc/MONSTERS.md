@@ -87,6 +87,8 @@ Monsters may also have any of these optional properties:
 | `path_settings`          | (object) How monster may find a path, open doors, avoid traps, or bash obstacles
 | `biosignature`           | (object) Droppings or feces left by the animal or monster
 | `harvest`                | (string) ID of a "harvest" type describing what can be harvested from the corpse
+| `zombify_into`           | (string) mtype_id this monster zombifies into after it's death
+| `fungalize_into`         | (string) mtype_id this monster turns into when fungalized by spores
 
 Properties in the above tables are explained in more detail in the sections below.
 
