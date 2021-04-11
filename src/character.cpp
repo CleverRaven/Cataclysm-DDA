@@ -2482,17 +2482,14 @@ void Character::set_max_power_level( const units::energy &npower_max )
 
 void Character::mod_power_level( const units::energy &npower )
 {
-    // units::energy is an int, so avoid overflow by converting it to a int64_t, then adding them
-    // If the result is greater than the max power level, set power to max
-    int64_t power = static_cast<int64_t>( units::to_millijoule( get_power_level() ) ) +
-                    static_cast<int64_t>( units::to_millijoule( npower ) );
-    units::energy new_power;
-    if( power > units::to_millijoule( get_max_power_level() ) ) {
-        new_power = get_max_power_level();
-    } else {
-        new_power = get_power_level() + npower;
-    }
-    set_power_level( clamp( new_power, 0_kJ, get_max_power_level() ) );
+    // Remaining capacity between current and maximum power levels we can make use of.
+    const units::energy remaining_capacity = get_max_power_level() - get_power_level();
+    // We can't add more than remaining capacity, so get the minimum of the two
+    const units::energy minned_npower = std::min( npower, remaining_capacity );
+    // new candidate power level
+    const units::energy new_power = get_power_level() + minned_npower;
+    // set new power level while prevending it from going negative
+    set_power_level( std::max( 0_kJ, new_power ) );
 }
 
 void Character::mod_max_power_level( const units::energy &npower_max )
