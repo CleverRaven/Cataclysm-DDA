@@ -322,7 +322,7 @@
     "special_attacks": [ { "type": "leap", "cooldown": 10, "max_range": 5 }, { "id": "melee_shock" } ],
     "path_settings": { "max_dist": 5 },
     "death_function": [ "NORMAL" ],
-    "harvest": "dks_alien_cyborg",
+    "harvest": "dks_alien_hcyborg",
     "flags": [ "SEES", "HEARS", "SMELLS", "SWARMS", "WARM", "BASHES", "GROUP_BASH", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_2" ]
   }
 ]
