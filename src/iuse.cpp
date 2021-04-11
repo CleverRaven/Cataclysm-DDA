@@ -5001,6 +5001,8 @@ cata::optional<int> iuse::oxytorch( player *p, item *it, bool, const tripoint & 
         t_chainfence,
         t_chaingate_c,
         t_chaingate_l,
+        t_retractable_gate_l,
+        t_retractable_gate_c,
         t_bars,
         t_window_bars_alarm,
         t_window_bars,
@@ -5065,6 +5067,7 @@ cata::optional<int> iuse::oxytorch( player *p, item *it, bool, const tripoint & 
     } else if( ter == t_window_enhanced || ter == t_window_enhanced_noglass ) {
         turns = to_turns<int>( 5_seconds );
     } else if( ter == t_chainfence || ter == t_chaingate_c ||
+               ter == t_retractable_gate_c || ter == t_retractable_gate_l ||
                ter == t_chaingate_l  || ter == t_bars || ter == t_window_bars_alarm ||
                ter == t_window_bars || ter == t_window_bars_curtains || ter == t_window_domestic ||
                ter == t_reb_cage || ter == t_metal_grate_window || ter == t_metal_grate_window_with_curtain ||
@@ -5115,6 +5118,8 @@ cata::optional<int> iuse::hacksaw( player *p, item *it, bool t, const tripoint &
         t_chainfence,
         t_chaingate_c,
         t_chaingate_l,
+        t_retractable_gate_l,
+        t_retractable_gate_c,
         t_window_bars_alarm,
         t_window_bars,
         t_window_bars_curtains,
@@ -5170,6 +5175,7 @@ cata::optional<int> iuse::hacksaw( player *p, item *it, bool t, const tripoint &
     } else if( ter == t_window_enhanced || ter == t_window_enhanced_noglass ) {
         moves = to_moves<int>( 5_minutes );
     } else if( ter == t_chainfence || ter == t_chaingate_c || ter == t_chaingate_l ||
+               ter == t_retractable_gate_c || ter == t_retractable_gate_l ||
                ter == t_window_bars_alarm || ter == t_window_bars || ter == t_window_bars_curtains ||
                ter == t_window_bars_domestic || ter == t_reb_cage || ter == t_metal_grate_window ||
                ter == t_metal_grate_window_with_curtain || ter == t_metal_grate_window_with_curtain_open ||

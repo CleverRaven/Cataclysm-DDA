@@ -564,6 +564,7 @@ ter_id t_null,
        t_rdoor_o, t_door_locked_interior, t_door_locked, t_door_locked_peep, t_door_locked_alarm,
        t_door_frame,
        t_chaingate_l, t_fencegate_c, t_fencegate_o, t_chaingate_c, t_chaingate_o,
+       t_retractable_gate_c, t_retractable_gate_l, t_retractable_gate_o,
        t_door_boarded, t_door_boarded_damaged, t_door_boarded_peep, t_rdoor_boarded,
        t_rdoor_boarded_damaged, t_door_boarded_damaged_peep,
        t_door_metal_c, t_door_metal_o, t_door_metal_locked, t_door_metal_pickable, t_mdoor_frame,
@@ -747,6 +748,9 @@ void set_ter_ids()
     t_fencegate_o = ter_id( "t_fencegate_o" );
     t_chaingate_c = ter_id( "t_chaingate_c" );
     t_chaingate_o = ter_id( "t_chaingate_o" );
+    t_retractable_gate_l = ter_id( "t_retractable_gate_l" );
+    t_retractable_gate_c = ter_id( "t_retractable_gate_c" );
+    t_retractable_gate_o = ter_id( "t_retractable_gate_o" );
     t_door_boarded = ter_id( "t_door_boarded" );
     t_door_boarded_damaged = ter_id( "t_door_boarded_damaged" );
     t_door_boarded_peep = ter_id( "t_door_boarded_peep" );
