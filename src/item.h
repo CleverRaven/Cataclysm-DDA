@@ -180,9 +180,9 @@ class item : public visitable
 
         item();
 
-        item( item && );
+        item( item && ) noexcept;
         item( const item & );
-        item &operator=( item && );
+        item &operator=( item && ) noexcept;
         item &operator=( const item & );
 
         explicit item( const itype_id &id, time_point turn = calendar::turn, int qty = -1 );
