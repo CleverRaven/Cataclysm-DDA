@@ -65,10 +65,10 @@ class submap : maptile_soa<SEEX, SEEY>
 {
     public:
         submap();
-        submap( submap && );
+        submap( submap && ) noexcept;
         ~submap();
 
-        submap &operator=( submap && );
+        submap &operator=( submap && ) noexcept;
 
         trap_id get_trap( const point &p ) const {
             return trp[p.x][p.y];
