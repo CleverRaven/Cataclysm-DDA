@@ -2651,12 +2651,8 @@ bool monster::make_fungus()
     if( is_hallucination() ) {
         return true;
     }
-
     if( type->in_species( species_FUNGUS ) ) { // No friendly-fungalizing ;-)
         return true;
-    }
-    if( type->fungalize_into.is_empty() ) {
-        return false;
     }
     if( !made_of( material_id( "flesh" ) ) && !made_of( material_id( "hflesh" ) ) &&
         !made_of( material_id( "veggy" ) ) && !made_of( material_id( "iflesh" ) ) &&
@@ -2664,12 +2660,11 @@ bool monster::make_fungus()
         // No fungalizing robots or weird stuff (mi-gos are technically fungi, blobs are goo)
         return true;
     }
-    const mtype_id &tid = type->id;
-    if( tid == mon_zombie_necro || tid == mon_zombie_master || tid == mon_zombie_fireman ||
-        tid == mon_zombie_hazmat || tid == mon_beekeeper ) {
-        // Necro and Master have enough Goo to resist conversion.
-        // Firefighter, hazmat, and scarred/beekeeper have the PPG on.
-        return true;
+    if( type->has_flag( MF_NO_FUNG_DMG ) ) {
+        return true; // Retrun true when monster is immune to fungal damage.
+    }
+    if( type->fungalize_into.is_empty() ) {
+        return false;
     }
 
     const std::string old_name = name();

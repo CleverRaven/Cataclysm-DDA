@@ -43,6 +43,7 @@
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
+      "NO_FUNG_DMG",
       "FILTHY"
     ]
   },
@@ -298,6 +299,7 @@
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
+      "NO_FUNG_DMG",
       "FILTHY"
     ]
   },
@@ -344,6 +346,7 @@
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
+      "NO_FUNG_DMG",
       "FILTHY"
     ]
   },
