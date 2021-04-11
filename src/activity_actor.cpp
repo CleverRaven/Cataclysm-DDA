@@ -1217,6 +1217,9 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
     } else if( ter_type == t_door_locked_peep ) {
         new_ter_type = t_door_c_peep;
         open_message = _( "With a satisfying click, the lock on the door opens." );
+    } else if( ter_type == t_retractable_gate_l ) {
+        new_ter_type = t_retractable_gate_c;
+        open_message = _( "With a satisfying click, the lock on the gate opens." );
     } else if( ter_type == t_door_metal_pickable ) {
         new_ter_type = t_door_metal_c;
         open_message = _( "With a satisfying click, the lock on the door opens." );
