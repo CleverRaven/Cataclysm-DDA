@@ -785,6 +785,8 @@ void mtype::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "zombify_into", zombify_into, auto_flags_reader<mtype_id> {},
               mtype_id() );
+    optional( jo, was_loaded, "fungalize_into", fungalize_into, auto_flags_reader<mtype_id> {},
+              mtype_id() );
 
     // TODO: make this work with `was_loaded`
     if( jo.has_array( "melee_damage" ) ) {
@@ -1216,6 +1218,10 @@ void MonsterGenerator::check_monster_definitions() const
         if( !mon.zombify_into.is_empty() && !mon.zombify_into.is_valid() ) {
             debugmsg( "monster %s has unknown zombify_into: %s", mon.id.c_str(),
                       mon.zombify_into.c_str() );
+        }
+        if( !mon.fungalize_into.is_empty() && !mon.fungalize_into.is_valid() ) {
+            debugmsg( "monster %s has unknown fungalize_into: %s", mon.id.c_str(),
+                      mon.fungalize_into.c_str() );
         }
         if( !mon.picture_id.is_empty() && !mon.picture_id.is_valid() ) {
             debugmsg( "monster %s has unknown ascii_picture: %s", mon.id.c_str(),
