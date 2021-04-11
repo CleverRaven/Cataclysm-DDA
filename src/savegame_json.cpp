@@ -186,57 +186,57 @@ ter_t_double_pane_glass_with_curtain_open_window_closed( "t_double_pane_glass_wi
 static const ter_str_id
 ter_t_double_pane_glass_with_curtain_open( "t_double_pane_glass_with_curtain_open" );
 static const ter_str_id ter_t_reinforced_double_pane_glass( "t_reinforced_double_pane_glass" );
-static const ter_str_id 
+static const ter_str_id
 ter_t_reinforced_double_pane_glass_open( "t_reinforced_double_pane_glass_open" );
-static const ter_str_id 
+static const ter_str_id
 ter_t_reinforced_double_pane_glass_with_curtain( "t_reinforced_double_pane_glass_with_curtain" );
-static const ter_str_id 
+static const ter_str_id
 ter_t_reinforced_double_pane_glass_with_curtain_open_window_closed( "t_reinforced_double_pane_glass_with_curtain_open_window_closed" );
-static const ter_str_id 
+static const ter_str_id
 ter_t_reinforced_double_pane_glass_with_curtain_open( "t_reinforced_double_pane_glass_with_curtain_open" );
 static const ter_str_id ter_t_triple_pane_glass( "t_triple_pane_glass" );
 static const ter_str_id ter_t_triple_pane_glass_open( "t_triple_pane_glass_open" );
 static const ter_str_id ter_t_triple_pane_glass_with_curtain( "t_triple_pane_glass_with_curtain" );
-static const ter_str_id 
+static const ter_str_id
 ter_t_triple_pane_glass_with_curtain_open_window_closed( "t_triple_pane_glass_with_curtain_open_window_closed" );
-static const ter_str_id 
+static const ter_str_id
 ter_t_triple_pane_glass_with_curtain_open( "t_triple_pane_glass_with_curtain_open" );
 static const ter_str_id ter_t_reinforced_triple_pane_glass( "t_reinforced_triple_pane_glass" );
-static const ter_str_id 
+static const ter_str_id
 ter_t_reinforced_triple_pane_glass_open( "t_reinforced_triple_pane_glass_open" );
-static const ter_str_id 
+static const ter_str_id
 ter_t_reinforced_triple_pane_glass_with_curtain( "t_reinforced_triple_pane_glass_with_curtain" );
-static const ter_str_id 
+static const ter_str_id
 ter_t_reinforced_triple_pane_glass_with_curtain_open_window_closed( "t_reinforced_triple_pane_glass_with_curtain_open_window_closed" );
-static const ter_str_id 
+static const ter_str_id
 ter_t_reinforced_triple_pane_glass_with_curtain_open( "t_reinforced_triple_pane_glass_with_curtain_open" );
 static const ter_str_id ter_t_quadruple_pane_glass( "t_quadruple_pane_glass" );
 static const ter_str_id ter_t_quadruple_pane_glass_open( "t_quadruple_pane_glass_open" );
-static const ter_str_id 
+static const ter_str_id
 ter_t_quadruple_pane_glass_with_curtain( "t_quadruple_pane_glass_with_curtain" );
-static const ter_str_id 
+static const ter_str_id
 ter_t_quadruple_pane_glass_with_curtain_open_window_closed( "t_quadruple_pane_glass_with_curtain_open_window_closed" );
-static const ter_str_id 
+static const ter_str_id
 ter_t_quadruple_pane_glass_with_curtain_open( "t_quadruple_pane_glass_with_curtain_open" );
-static const ter_str_id 
+static const ter_str_id
 ter_t_reinforced_quadruple_pane_glass( "t_reinforced_quadruple_pane_glass" );
-static const ter_str_id 
+static const ter_str_id
 ter_t_reinforced_quadruple_pane_glass_open( "t_reinforced_quadruple_pane_glass_open" );
-static const ter_str_id 
+static const ter_str_id
 ter_t_reinforced_quadruple_pane_glass_with_curtain( "t_reinforced_quadruple_pane_glass_with_curtain" );
-static const ter_str_id 
+static const ter_str_id
 ter_t_reinforced_quadruple_pane_glass_with_curtain_open_window_closed( "t_reinforced_quadruple_pane_glass_with_curtain_open_window_closed" );
-static const ter_str_id 
+static const ter_str_id
 ter_t_reinforced_quadruple_pane_glass_with_curtain_open( "t_reinforced_quadruple_pane_glass_with_curtain_open" );
 static const ter_str_id ter_t_metal_grate_window( "t_metal_grate_window" );
-static const ter_str_id 
+static const ter_str_id
 ter_t_metal_grate_window_with_curtain( "t_metal_grate_window_with_curtain" );
-static const ter_str_id 
+static const ter_str_id
 ter_t_metal_grate_window_with_curtain_open( "t_metal_grate_window_with_curtain_open" );
 static const ter_str_id ter_t_metal_grate_window_noglass( "t_metal_grate_window_noglass" );
-static const ter_str_id 
+static const ter_str_id
 ter_t_metal_grate_window_with_curtain_noglass( "t_metal_grate_window_with_curtain_noglass" );
-static const ter_str_id 
+static const ter_str_id
 ter_t_metal_grate_window_with_curtain_open_noglass( "t_metal_grate_window_with_curtain_open_noglass" );
 
 static const std::array<std::string, static_cast<size_t>( object_type::NUM_OBJECT_TYPES )>

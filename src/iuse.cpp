@@ -5216,7 +5216,7 @@ cata::optional<int> iuse::hacksaw( player *p, item *it, bool t, const tripoint &
     } else if( ter == t_window_enhanced || ter == t_window_enhanced_noglass ||
                ter == t_window_plastic_enhanced || ter == t_window_tempered_enhanced ) {
         moves = to_moves<int>( 5_minutes );
-   
+
     } else if( ter == t_chainfence || ter == t_chaingate_c || ter == t_chaingate_l ||
                ter == t_window_bars_alarm || ter == t_window_bars || ter == t_window_bars_curtains ||
                ter == t_window_bars_domestic || ter == t_reb_cage || ter == t_window_reinforced_barred ||
