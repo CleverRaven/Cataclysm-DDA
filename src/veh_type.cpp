@@ -1074,10 +1074,10 @@ bool string_id<vehicle_prototype>::is_valid() const
 }
 
 vehicle_prototype::vehicle_prototype() = default;
-vehicle_prototype::vehicle_prototype( vehicle_prototype && ) = default;
+vehicle_prototype::vehicle_prototype( vehicle_prototype && ) noexcept = default;
 vehicle_prototype::~vehicle_prototype() = default;
 
-vehicle_prototype &vehicle_prototype::operator=( vehicle_prototype && ) = default;
+vehicle_prototype &vehicle_prototype::operator=( vehicle_prototype && ) noexcept = default;
 
 /**
  *Caches a vehicle definition from a JsonObject to be loaded after itypes is initialized.
