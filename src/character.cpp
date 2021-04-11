@@ -488,8 +488,8 @@ Character::Character() :
 // *INDENT-ON*
 
 Character::~Character() = default;
-Character::Character( Character && ) = default;
-Character &Character::operator=( Character && ) = default;
+Character::Character( Character && ) noexcept = default;
+Character &Character::operator=( Character && ) noexcept = default;
 
 void Character::setID( character_id i, bool force )
 {

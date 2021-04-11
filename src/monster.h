@@ -90,10 +90,10 @@ class monster : public Creature
         explicit monster( const mtype_id &id );
         monster( const mtype_id &id, const tripoint &pos );
         monster( const monster & );
-        monster( monster && );
+        monster( monster && ) noexcept;
         ~monster() override;
         monster &operator=( const monster & );
-        monster &operator=( monster && );
+        monster &operator=( monster && ) noexcept;
 
         bool is_monster() const override {
             return true;

@@ -114,6 +114,11 @@ Creature::Creature()
     fake = false;
 }
 
+Creature::Creature( const Creature & ) = default;
+Creature::Creature( Creature && ) noexcept = default;
+Creature &Creature::operator=( const Creature & ) = default;
+Creature &Creature::operator=( Creature && ) noexcept = default;
+
 Creature::~Creature() = default;
 
 std::vector<std::string> Creature::get_grammatical_genders() const
