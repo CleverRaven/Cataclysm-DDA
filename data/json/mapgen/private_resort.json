@@ -1613,7 +1613,7 @@
             [ "roof_6x6_survivor", 5 ]
           ],
           "x": [ 2, 10 ],
-          "y": [ 2, 6 ]
+          "y": 1
         }
       ],
       "place_items": [ { "chance": 10, "item": "roof_trash", "x": [ 0, 18 ], "y": [ 0, 7 ], "repeat": [ 3, 10 ] } ]

@@ -625,6 +625,11 @@ item &item::ammo_set( const itype_id &ammo, int qty )
                         opts.emplace_back( mag_type );
                     }
                 }
+                if( opts.empty() ) {
+                    debugmsg( "Cannot find magazine with enough %s ammo capacity for %s", ammo.c_str(),
+                              typeId().c_str() );
+                    return *this;
+                }
                 std::sort( opts.begin(), opts.end(), [&ammo_type]( const item & lhs, const item & rhs ) {
                     return lhs.ammo_capacity( ammo_type ) < rhs.ammo_capacity( ammo_type );
                 } );

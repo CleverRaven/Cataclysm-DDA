@@ -5056,26 +5056,20 @@ int Character::get_stored_kcal() const
     return stored_calories / 1000;
 }
 
-static std::string exert_lvl_to_str( float level )
+std::string Character::activity_level_str( float level ) const
 {
-    if( level <= NO_EXERCISE ) {
-        return _( "NO_EXERCISE" );
-    } else if( level <= LIGHT_EXERCISE ) {
-        return _( "LIGHT_EXERCISE" );
-    } else if( level <= MODERATE_EXERCISE ) {
-        return _( "MODERATE_EXERCISE" );
-    } else if( level <= BRISK_EXERCISE ) {
-        return _( "BRISK_EXERCISE" );
-    } else if( level <= ACTIVE_EXERCISE ) {
-        return _( "ACTIVE_EXERCISE" );
-    } else {
-        return _( "EXTRA_EXERCISE" );
+    for( const std::pair<const float, std::string> &member : activity_levels_str_map ) {
+        if( level <= member.first ) {
+            return member.second;
+        }
     }
+    return ( --activity_levels_str_map.end() )->second;
 }
+
 std::string Character::debug_weary_info() const
 {
     int amt = activity_history.weariness();
-    std::string max_act = exert_lvl_to_str( maximum_exertion_level() );
+    std::string max_act = activity_level_str( maximum_exertion_level() );
     float move_mult = exertion_adjusted_move_multiplier( EXTRA_EXERCISE );
 
     int bmr = base_bmr();
@@ -5517,10 +5511,15 @@ static inline int ticks_between( const time_point &from, const time_point &to,
 void Character::update_body()
 {
     update_body( calendar::turn - 1_turns, calendar::turn );
+    last_updated = calendar::turn;
 }
 
 void Character::update_body( const time_point &from, const time_point &to )
 {
+    // Early return if we already did update previously on the same turn (e.g. when loading savegame).
+    if( to <= last_updated ) {
+        return;
+    }
     if( !is_npc() ) {
         update_stamina( to_turns<int>( to - from ) );
     }

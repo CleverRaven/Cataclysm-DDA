@@ -1,4 +1,4 @@
-# 0.F (2021-03-01)
+# 0.F (2021-04-01)
 
 ## Features:
 Adds option to randomize INITIAL_DAY.
@@ -48,6 +48,7 @@ Allows nanofabricator templates to contain recipes from any item group.
 Adds different bleeding types for different species.
 Adds bleeding butchery action.
 Autodoc installation programs added that almost guarantee flawless installation of supported bionics.
+Removes the obsolete 'carrion spawn rate scaling factor' world configuration option.
 
 ## Content:
 Gun volume and weight audit.
@@ -87,6 +88,7 @@ Enables using a rope to carry large items.
 Adds large dermatik nest and tweaks dermatiks.
 Adds a new layout for the island prison challenge scenario.
 Adds tazer drones.
+Adds a demo of the Cuteclysm tileset, which is loosely inspired by the aesthetics of 16-bit Japanese RPGs.
 
 ## Interface:
 Introduces, and migrates most windows to, ui_adaptor, which handles redrawing windows when others are closed and the game is resized.
@@ -109,6 +111,7 @@ Adds item length and pocket volume entries to menus.
 Adds fast scrolling to many menus with long lists.
 Adds responsive screen behavior to the new character menu for small terminal sizes.
 Shows weariness and activity levels in sidebar panels.
+Warns before crafting armor or clothing you won't be able to wear.
 
 ## Mods:
 [Magiclysm] Manatouched mutation tree.
@@ -145,6 +148,8 @@ Cap monsters at 1000 kg so butchering kind of works.
 [Aftershock] Adds new laser and plasma pistols.
 [Magiclysm] Adds three new Attunement spells (Frozen Winds, Auroral wave, and Immolate).
 [Magiclysm] Adds Workshop Elves, Yule Cats, and Leprechauns.
+[Aftershock] Adds Formless Ruins - a new aboveground, low-risk dungeon type.
+[Dark Skies Above] DSA is reborn as an actively-developed, total-conversion mod.
 
 ## Balance:
 Large item price audit.
@@ -171,7 +176,6 @@ Rebalances spawn rates for overmap specials.
 Mycus Fireproofing now also gives heat immunity.
 Tweaks Infection impact by lowering fatigue drain and removing pain.
 Adjusts ordinary clothing to not meaningfully contribute to protection values.
-Caps warmth loss from fatigue.
 
 ## Bugfixes:
 Prevents possible negative damage from explosions.
@@ -272,6 +276,8 @@ Fixes localization not working if the LANG environmental variable is not set.
 Avoids creating starving characters from older templates.
 Fixes furniture being 'destroyed' when grab-moving.
 Fixes crashes from canceling reloading a container that is on the ground.
+Fixes NPCs still being hungry - and unhappy about it - after eating from faction camp stores.
+Reined in plant mutation photosynthesis ability to be more representative of real photosynthesis.
 
 ## Performance:
 Adds an option to enable batching when it is available in SDL.
@@ -300,6 +306,7 @@ Improves performance of initializing the achievements tracker.
 When NPCs are fleeing from explosions, skips considering routing through tiles without a floor.
 Speeds up fungus-related code processing by 30%+.
 Optimizes item migrations to decrease load times.
+Restores graphics speed for large screens with lots of text.
 
 ## Infrastructure:
 Adds basic infrastructure for diseases.
@@ -370,6 +377,7 @@ Uses GNU Parallel to run tests concurrently, enabling concurrent tests in MacOS 
 Improves scooter tile representation by adding scooter vehicle parts, which scooters spawn with.
 Reduces file size of composed tilesheets from compose.py.
 Implements C++ symbol demangling in crash reports on MacOS, MinGW, and Linux.
+Adds tests of automatic triggers for mutations.
 
 ## Build:
 Moves clang-tidy runs from Travis to GitHub.
@@ -403,6 +411,7 @@ Uses class translation in many more places for more flexible translation support
 Infrastructure: Automates translation template push.
 Enables using additional languages (Arabic, Czech, Danish, Dutch, Greek, Indonesian, Icelandic, Italian, Norwegian, Serbian, Turkish, and Ukrainian) with the game.
 Places cursor at highlighted item name in construction and crafting menus, as expected by screen readers.
+Adds translations of the Android installation interface.
 
 # 0.E (Ellison)
 
