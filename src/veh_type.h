@@ -495,10 +495,10 @@ struct vehicle_prototype {
     };
 
     vehicle_prototype();
-    vehicle_prototype( vehicle_prototype && );
+    vehicle_prototype( vehicle_prototype && ) noexcept;
     ~vehicle_prototype();
 
-    vehicle_prototype &operator=( vehicle_prototype && );
+    vehicle_prototype &operator=( vehicle_prototype && ) noexcept;
 
     translation name;
     std::vector<part_def> parts;
