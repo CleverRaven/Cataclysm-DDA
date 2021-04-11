@@ -5110,7 +5110,7 @@ cata::optional<int> iuse::oxytorch( player *p, item *it, bool, const tripoint & 
     } else if( ter == t_window_enhanced || ter == t_window_enhanced_noglass ||
                ter == t_window_plastic_enhanced || ter == t_window_tempered_enhanced ) {
         turns = to_turns<int>( 5_seconds );
-    
+
     } else if( ter == t_chainfence || ter == t_chaingate_c || ter == t_chaingate_l  || ter == t_bars ||
                ter == t_reb_cage || ter == t_window_bars_alarm || ter == t_window_bars ||
                ter == t_window_bars_curtains || ter == t_window_bars_domestic || ter == t_reb_cage ||
