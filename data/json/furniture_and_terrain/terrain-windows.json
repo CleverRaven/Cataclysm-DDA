@@ -64,7 +64,10 @@
       "sound_vol": 14,
       "sound_fail_vol": 10,
       "ter_set": "t_window_empty",
-      "items": [ { "item": "plastic_chunk", "count": [ 8, 17 ] } ]
+      "items": [
+        { "item": "plastic_chunk", "count": [ 8, 17 ] },
+        { "item": "rigid_plastic_sheet", "count": [ 0, 1 ] }
+      ]
     }
   },
   {
@@ -720,7 +723,7 @@
     "type": "terrain",
     "id": "t_window_bars",
     "name": "window with metal bars",
-    "description": "A glass window covered by security bars, making it impossible to crawl through.",
+    "description": "A framed sheet of glass covered by security bars, making it impossible to crawl through.",
     "examine_action": "bars",
     "symbol": "#",
     "color": "light_gray",
@@ -769,7 +772,7 @@
     "id": "t_window_bars_alarm",
     "name": "window with metal bars",
     "looks_like": "t_window_bars",
-    "description": "A glass window covered by security bars, making it impossible to crawl through.  This one has a small sticker in a corner stating, 'Protected by AtmoWeb, leading AI in terminating crime'.",
+    "description": "A framed sheet of tempered glass covered by security bars, making it impossible to crawl through.  This one has a small sticker in a corner stating, 'Protected by AtmoWeb, leading AI in terminating crime'.",
     "symbol": "#",
     "color": "light_gray",
     "move_cost": 0,
@@ -783,14 +786,14 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_bars_noglass",
-      "items": [ { "item": "glass_shard", "count": [ 34, 50 ] } ]
+      "items": [ { "item": "pebble_glass", "count": [ 34, 50 ] } ]
     }
   },
   {
     "type": "terrain",
     "id": "t_window_bars_curtains",
     "name": "window with metal bars and curtains",
-    "description": "A barred window with curtains that have been drawn shut, blocking sunlight and visibility.  The curtains can only be opened from the inside.  If you examined the curtains more closely, you could peek through the drapes or tear down everything.",
+    "description": "A framed sheet of glass covered by security bars.  The curtains are closed.",
     "symbol": "\"",
     "looks_like": "t_curtains",
     "color": "light_gray",
@@ -808,7 +811,47 @@
     ],
     "curtain_transform": "t_window_bars",
     "examine_action": "curtains",
-    "open": "t_window_bars_domestic",
+    "open": "t_window_bars_curtain_open",
+    "bash": {
+      "str_min": 3,
+      "str_max": 6,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 10,
+      "ter_set": "t_window_bars_noglass",
+      "items": [
+        { "item": "glass_shard", "count": [ 34, 50 ] },
+        { "item": "sheet", "count": 2 },
+        { "item": "stick", "count": 1 },
+        { "item": "string_36", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_window_bars_curtain_open",
+    "name": "window with metal bars and curtains",
+    "description": "A framed sheet of glass covered by security bars and hung with curtains.",
+    "symbol": "\"",
+    "looks_like": "t_curtains",
+    "color": "light_gray",
+    "move_cost": 0,
+    "coverage": 95,
+    "roof": "t_flat_roof",
+    "flags": [
+      "TRANSPARENT",
+      "NOITEM",
+      "OPENCLOSE_INSIDE",
+      "BARRICADABLE_WINDOW_CURTAINS",
+      "REDUCE_SCENT",
+      "CONNECT_TO_WALL",
+      "BLOCK_WIND",
+      "WINDOW"
+    ],
+    "curtain_transform": "t_window_bars",
+    "examine_action": "curtains",
+    "close": "t_window_bars_curtains",
     "bash": {
       "str_min": 3,
       "str_max": 6,
@@ -828,10 +871,74 @@
   {
     "type": "terrain",
     "id": "t_window_bars_domestic",
-    "name": "window with metal bars and curtains",
-    "description": "A glass window covered by security bars, making it impossible to crawl through.  This one has been fitted with curtains.",
+    "name": "barred window",
+    "description": "A glass window.  It could be opened, but it's covered by security bars, making it impossible to crawl through.",
     "symbol": "#",
-    "looks_like": "t_window_bars",
+    "color": "light_gray",
+    "looks_like": "t_window_no_curtain",
+    "move_cost": 0,
+    "roof": "t_flat_roof",
+    "flags": [
+      "TRANSPARENT",
+      "NOITEM",
+      "OPENCLOSE_INSIDE",
+      "BARRICADABLE_WINDOW_CURTAINS",
+      "REDUCE_SCENT",
+      "BLOCK_WIND",
+      "CONNECT_TO_WALL",
+      "WINDOW"
+    ],
+    "open": "t_window_bars_domestic_open",
+    "bash": {
+      "str_min": 3,
+      "str_max": 6,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 10,
+      "ter_set": "t_window_bars_noglass",
+      "items": [
+        { "item": "glass_shard", "count": [ 21, 29 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_window_bars_domestic_open",
+    "name": "barred window",
+    "description": "An open glass window.  It's covered by security bars, making it impossible to crawl through.",
+    "symbol": "#",
+    "color": "light_gray",
+    "move_cost": 0,
+    "roof": "t_flat_roof",
+    "flags": [
+      "TRANSPARENT",
+      "NOITEM",
+      "OPENCLOSE_INSIDE",
+      "BARRICADABLE_WINDOW_CURTAINS",
+      "CONNECT_TO_WALL",
+      "WINDOW"
+    ],
+    "close": "t_window_bars_domestic",
+    "bash": {
+      "str_min": 3,
+      "str_max": 6,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 10,
+      "ter_set": "t_window_bars_noglass",
+      "items": [
+        { "item": "glass_shard", "count": [ 21, 29 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_window_bars_domestic_with_curtain_open",
+    "name": "barred window with curtains",
+    "description": "A glass window hung with curtains.  It could be opened but it's covered with bars, making it impossible to crawl through.",
+    "symbol": "#",
     "color": "light_gray",
     "move_cost": 0,
     "roof": "t_flat_roof",
@@ -845,9 +952,10 @@
       "CONNECT_TO_WALL",
       "WINDOW"
     ],
-    "curtain_transform": "t_window_bars",
+    "curtain_transform": "t_window_bars_domestic",
     "examine_action": "curtains",
-    "close": "t_window_bars_curtains",
+    "close": "t_window_bars_domestic_with_curtain",
+    "open": "t_window_bars_domestic_with_curtain_open_window_open",
     "bash": {
       "str_min": 3,
       "str_max": 6,
@@ -858,6 +966,437 @@
       "ter_set": "t_window_bars_noglass",
       "items": [
         { "item": "glass_shard", "count": [ 21, 29 ] },
+        { "item": "sheet", "count": 2 },
+        { "item": "stick", "count": 1 },
+        { "item": "string_36", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_window_bars_domestic_with_curtain",
+    "name": "barred window with curtains",
+    "description": "A glass window covered by security bars, making it impossible to crawl through.  This one is closed and covered by curtains.",
+    "symbol": "#",
+    "color": "light_gray",
+    "move_cost": 0,
+    "roof": "t_flat_roof",
+    "looks_like": "t_curtains",
+    "flags": [
+      "NOITEM",
+      "OPENCLOSE_INSIDE",
+      "BARRICADABLE_WINDOW_CURTAINS",
+      "REDUCE_SCENT",
+      "BLOCK_WIND",
+      "CONNECT_TO_WALL",
+      "WINDOW"
+    ],
+    "curtain_transform": "t_window_bars_domestic",
+    "examine_action": "curtains",
+    "open": "t_window_bars_domestic_with_curtain_open",
+    "bash": {
+      "str_min": 3,
+      "str_max": 6,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 10,
+      "ter_set": "t_window_bars_noglass",
+      "items": [
+        { "item": "glass_shard", "count": [ 21, 29 ] },
+        { "item": "sheet", "count": 2 },
+        { "item": "stick", "count": 1 },
+        { "item": "string_36", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_window_bars_domestic_with_curtain_open_window_open",
+    "name": "barred window with curtains",
+    "description": "A glass window covered by security bars, making it impossible to crawl through.  The window and the curtains are open, though it's still impassible.",
+    "symbol": "#",
+    "color": "light_gray",
+    "move_cost": 0,
+    "roof": "t_flat_roof",
+    "flags": [
+      "TRANSPARENT",
+      "NOITEM",
+      "OPENCLOSE_INSIDE",
+      "BARRICADABLE_WINDOW_CURTAINS",
+      "CONNECT_TO_WALL",
+      "WINDOW"
+    ],
+    "curtain_transform": "t_window_bars_domestic_open",
+    "examine_action": "curtains",
+    "close": "t_window_bars_domestic_with_curtain_open",
+    "bash": {
+      "str_min": 3,
+      "str_max": 6,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 10,
+      "ter_set": "t_window_bars_noglass",
+      "items": [
+        { "item": "glass_shard", "count": [ 21, 29 ] },
+        { "item": "sheet", "count": 2 },
+        { "item": "stick", "count": 1 },
+        { "item": "string_36", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_window_plastic_bars",
+    "name": "barred plastic window",
+    "description": "A plastic window.  It could be opened, but it's covered by security bars, making it impossible to crawl through.",
+    "symbol": "#",
+    "color": "light_gray",
+    "move_cost": 0,
+    "roof": "t_flat_roof",
+    "flags": [
+      "TRANSPARENT",
+      "NOITEM",
+      "OPENCLOSE_INSIDE",
+      "BARRICADABLE_WINDOW_CURTAINS",
+      "REDUCE_SCENT",
+      "BLOCK_WIND",
+      "CONNECT_TO_WALL",
+      "WINDOW"
+    ],
+    "open": "t_window_plastic_bars_open",
+    "bash": {
+      "str_min": 3,
+      "str_max": 6,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 10,
+      "ter_set": "t_window_bars_noglass",
+      "items": [
+        { "item": "plastic_chunk", "count": [ 8, 17 ] },
+        { "item": "rigid_plastic_sheet", "count": [ 0, 1 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_window_plastic_bars_open",
+    "name": "barred plastic window",
+    "description": "An open plastic window.  It's covered by security bars, making it impossible to crawl through.",
+    "symbol": "#",
+    "color": "light_gray",
+    "move_cost": 0,
+    "roof": "t_flat_roof",
+    "flags": [
+      "TRANSPARENT",
+      "NOITEM",
+      "OPENCLOSE_INSIDE",
+      "BARRICADABLE_WINDOW_CURTAINS",
+      "CONNECT_TO_WALL",
+      "WINDOW"
+    ],
+    "close": "t_window_plastic_bars",
+    "bash": {
+      "str_min": 3,
+      "str_max": 6,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 10,
+      "ter_set": "t_window_bars_noglass",
+      "items": [
+        { "item": "plastic_chunk", "count": [ 8, 17 ] },
+        { "item": "rigid_plastic_sheet", "count": [ 0, 1 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_window_plastic_bars_with_curtain_open",
+    "name": "barred plastic window with curtains",
+    "description": "A plastic window hung with curtains.  It could be opened but it's covered with bars, making it impossible to crawl through.",
+    "symbol": "#",
+    "color": "light_gray",
+    "move_cost": 0,
+    "roof": "t_flat_roof",
+    "flags": [
+      "TRANSPARENT",
+      "NOITEM",
+      "OPENCLOSE_INSIDE",
+      "BARRICADABLE_WINDOW_CURTAINS",
+      "REDUCE_SCENT",
+      "BLOCK_WIND",
+      "CONNECT_TO_WALL",
+      "WINDOW"
+    ],
+    "curtain_transform": "t_window_plastic_bars",
+    "examine_action": "curtains",
+    "close": "t_window_plastic_bars_with_curtain",
+    "open": "t_window_plastic_bars_with_curtain_open_window_open",
+    "bash": {
+      "str_min": 3,
+      "str_max": 6,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 10,
+      "ter_set": "t_window_bars_noglass",
+      "items": [
+        { "item": "plastic_chunk", "count": [ 8, 17 ] },
+        { "item": "rigid_plastic_sheet", "count": [ 0, 1 ] },
+        { "item": "sheet", "count": 2 },
+        { "item": "stick", "count": 1 },
+        { "item": "string_36", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_window_plastic_bars_with_curtain",
+    "name": "barred plastic window with curtains",
+    "description": "A plastic window covered by security bars, making it impossible to crawl through.  This one is closed and covered by curtains.",
+    "symbol": "#",
+    "color": "light_gray",
+    "move_cost": 0,
+    "roof": "t_flat_roof",
+    "flags": [
+      "NOITEM",
+      "OPENCLOSE_INSIDE",
+      "BARRICADABLE_WINDOW_CURTAINS",
+      "REDUCE_SCENT",
+      "BLOCK_WIND",
+      "CONNECT_TO_WALL",
+      "WINDOW"
+    ],
+    "curtain_transform": "t_window_plastic_bars",
+    "examine_action": "curtains",
+    "open": "t_window_plastic_bars_with_curtain_open",
+    "bash": {
+      "str_min": 3,
+      "str_max": 6,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 10,
+      "ter_set": "t_window_bars_noglass",
+      "items": [
+        { "item": "plastic_chunk", "count": [ 8, 17 ] },
+        { "item": "rigid_plastic_sheet", "count": [ 0, 1 ] },
+        { "item": "sheet", "count": 2 },
+        { "item": "stick", "count": 1 },
+        { "item": "string_36", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_window_plastic_bars_with_curtain_open_window_open",
+    "name": "barred plastic window with curtains",
+    "description": "A plastic window covered by security bars, making it impossible to crawl through.  The window and the curtains are open, though it's still impassible.",
+    "symbol": "#",
+    "color": "light_gray",
+    "move_cost": 0,
+    "roof": "t_flat_roof",
+    "flags": [
+      "TRANSPARENT",
+      "NOITEM",
+      "OPENCLOSE_INSIDE",
+      "BARRICADABLE_WINDOW_CURTAINS",
+      "CONNECT_TO_WALL",
+      "WINDOW"
+    ],
+    "curtain_transform": "t_window_plastic_bars_open",
+    "examine_action": "curtains",
+    "close": "t_window_plastic_bars_with_curtain_open",
+    "bash": {
+      "str_min": 3,
+      "str_max": 6,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 10,
+      "ter_set": "t_window_bars_noglass",
+      "items": [
+        { "item": "plastic_chunk", "count": [ 8, 17 ] },
+        { "item": "rigid_plastic_sheet", "count": [ 0, 1 ] },
+        { "item": "sheet", "count": 2 },
+        { "item": "stick", "count": 1 },
+        { "item": "string_36", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_window_tempered_bars",
+    "name": "barred tempered glass window",
+    "description": "A tempered glass window.  It could be opened, but it's covered by security bars, making it impossible to crawl through.",
+    "symbol": "#",
+    "color": "light_gray",
+    "move_cost": 0,
+    "roof": "t_flat_roof",
+    "flags": [
+      "TRANSPARENT",
+      "NOITEM",
+      "OPENCLOSE_INSIDE",
+      "BARRICADABLE_WINDOW_CURTAINS",
+      "REDUCE_SCENT",
+      "BLOCK_WIND",
+      "CONNECT_TO_WALL",
+      "WINDOW"
+    ],
+    "open": "t_window_tempered_bars_open",
+    "bash": {
+      "str_min": 3,
+      "str_max": 6,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 10,
+      "ter_set": "t_window_bars_noglass",
+      "items": [
+        { "item": "pebble_glass", "count": [ 34, 50 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_window_tempered_bars_open",
+    "name": "barred tempered glass window",
+    "description": "An open tempered glass window.  It's covered by security bars, making it impossible to crawl through.",
+    "symbol": "#",
+    "color": "light_gray",
+    "move_cost": 0,
+    "roof": "t_flat_roof",
+    "flags": [
+      "TRANSPARENT",
+      "NOITEM",
+      "OPENCLOSE_INSIDE",
+      "BARRICADABLE_WINDOW_CURTAINS",
+      "CONNECT_TO_WALL",
+      "WINDOW"
+    ],
+    "close": "t_window_tempered_bars",
+    "bash": {
+      "str_min": 3,
+      "str_max": 6,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 10,
+      "ter_set": "t_window_bars_noglass",
+      "items": [
+        { "item": "pebble_glass", "count": [ 34, 50 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_window_tempered_bars_with_curtain_open",
+    "name": "barred tempered glass window with curtains",
+    "description": "A tempered glass window hung with curtains.  It could be opened but it's covered with bars, making it impossible to crawl through.",
+    "symbol": "#",
+    "color": "light_gray",
+    "move_cost": 0,
+    "roof": "t_flat_roof",
+    "flags": [
+      "TRANSPARENT",
+      "NOITEM",
+      "OPENCLOSE_INSIDE",
+      "BARRICADABLE_WINDOW_CURTAINS",
+      "REDUCE_SCENT",
+      "BLOCK_WIND",
+      "CONNECT_TO_WALL",
+      "WINDOW"
+    ],
+    "curtain_transform": "t_window_tempered_bars",
+    "examine_action": "curtains",
+    "close": "t_window_tempered_bars_with_curtain",
+    "open": "t_window_tempered_bars_with_curtain_open_window_open",
+    "bash": {
+      "str_min": 3,
+      "str_max": 6,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 10,
+      "ter_set": "t_window_bars_noglass",
+      "items": [
+        { "item": "pebble_glass", "count": [ 34, 50 ] },
+        { "item": "sheet", "count": 2 },
+        { "item": "stick", "count": 1 },
+        { "item": "string_36", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_window_tempered_bars_with_curtain",
+    "name": "barred tempered glass window with curtains",
+    "description": "A tempered glass window covered by security bars, making it impossible to crawl through.  This one is closed and covered by curtains.",
+    "symbol": "#",
+    "color": "light_gray",
+    "move_cost": 0,
+    "roof": "t_flat_roof",
+    "flags": [
+      "NOITEM",
+      "OPENCLOSE_INSIDE",
+      "BARRICADABLE_WINDOW_CURTAINS",
+      "REDUCE_SCENT",
+      "BLOCK_WIND",
+      "CONNECT_TO_WALL",
+      "WINDOW"
+    ],
+    "curtain_transform": "t_window_tempered_bars",
+    "examine_action": "curtains",
+    "open": "t_window_tempered_bars_with_curtain_open",
+    "bash": {
+      "str_min": 3,
+      "str_max": 6,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 10,
+      "ter_set": "t_window_bars_noglass",
+      "items": [
+        { "item": "pebble_glass", "count": [ 34, 50 ] },
+        { "item": "sheet", "count": 2 },
+        { "item": "stick", "count": 1 },
+        { "item": "string_36", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_window_tempered_bars_with_curtain_open_window_open",
+    "name": "barred tempered glass window with curtains",
+    "description": "A tempered glass window covered by security bars, making it impossible to crawl through.  The window and the curtains are open, though it's still impassible.",
+    "symbol": "#",
+    "color": "light_gray",
+    "move_cost": 0,
+    "roof": "t_flat_roof",
+    "flags": [
+      "TRANSPARENT",
+      "NOITEM",
+      "OPENCLOSE_INSIDE",
+      "BARRICADABLE_WINDOW_CURTAINS",
+      "CONNECT_TO_WALL",
+      "WINDOW"
+    ],
+    "curtain_transform": "t_window_tempered_bars_open",
+    "examine_action": "curtains",
+    "close": "t_window_tempered_bars_with_curtain_open",
+    "bash": {
+      "str_min": 3,
+      "str_max": 6,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 10,
+      "ter_set": "t_window_bars_noglass",
+      "items": [
+        { "item": "pebble_glass", "count": [ 34, 50 ] },
         { "item": "sheet", "count": 2 },
         { "item": "stick", "count": 1 },
         { "item": "string_36", "count": 1 }
