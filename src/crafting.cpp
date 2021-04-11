@@ -1479,6 +1479,7 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
         int batch, read_only_visitable &map_inv, bool can_cancel,
         const std::function<bool( const item & )> &filter, bool player_inv )
 {
+    Character &player_character = get_player_character();
     std::vector<item_comp> player_has;
     std::vector<item_comp> map_has;
     std::vector<item_comp> mixed;
@@ -1573,21 +1574,34 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
         uilist cmenu;
         // Populate options with the names of the items
         for( auto &map_ha : map_has ) { // Index 0-(map_has.size()-1)
-            std::string tmpStr = string_format( _( "%s (%d/%d nearby)" ),
+            const std::string for_food = _( "%s (%d/%d nearby) %d kcal" );
+            const std::string not_food = _( "%s (%d/%d nearby)" );
+            const item ingredient = item( map_ha.type );
+            std::string tmpStr = string_format( ingredient.is_comestible() ? for_food : not_food,
                                                 item::nname( map_ha.type ),
                                                 ( map_ha.count * batch ),
                                                 item::count_by_charges( map_ha.type ) ?
                                                 map_inv.charges_of( map_ha.type, INT_MAX, filter ) :
-                                                map_inv.amount_of( map_ha.type, false, INT_MAX, filter ) );
+                                                map_inv.amount_of( map_ha.type, false, INT_MAX, filter ),
+                                                ingredient.is_comestible() ? player_character.compute_effective_nutrients(
+                                                    ingredient ).kcal() * map_ha.count *batch : 0
+                                              );
             cmenu.addentry( tmpStr );
         }
         for( auto &player_ha : player_has ) { // Index map_has.size()-(map_has.size()+player_has.size()-1)
-            std::string tmpStr = string_format( _( "%s (%d/%d on person)" ),
+            const std::string for_food = _( "%s (%d/%d on person) %d kcal" );
+            const std::string not_food = _( "%s (%d/%d on person)" );
+            const item ingredient = item( player_ha.type );
+            std::string tmpStr = string_format( ingredient.is_comestible() ? for_food : not_food,
                                                 item::nname( player_ha.type ),
                                                 ( player_ha.count * batch ),
                                                 item::count_by_charges( player_ha.type ) ?
                                                 charges_of( player_ha.type, INT_MAX, filter ) :
-                                                amount_of( player_ha.type, false, INT_MAX, filter ) );
+                                                amount_of( player_ha.type, false, INT_MAX, filter ),
+                                                ingredient.is_comestible() ? player_character.compute_effective_nutrients(
+                                                    ingredient ).kcal() * player_ha.count *
+                                                batch : 0
+                                              );
             cmenu.addentry( tmpStr );
         }
         for( auto &component : mixed ) {
@@ -1597,10 +1611,17 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
                             charges_of( component.type, INT_MAX, filter ) :
                             map_inv.amount_of( component.type, false, INT_MAX, filter ) +
                             amount_of( component.type, false, INT_MAX, filter );
-            std::string tmpStr = string_format( _( "%s (%d/%d nearby & on person)" ),
+            const std::string for_food = _( "%s (%d/%d nearby & on person) %d kcal" );
+            const std::string not_food = _( "%s (%d/%d nearby & on person)" );
+            const item ingredient = item( component.type );
+            std::string tmpStr = string_format( ingredient.is_comestible() ? for_food : not_food,
                                                 item::nname( component.type ),
                                                 component.count * batch,
-                                                available );
+                                                available,
+                                                ingredient.is_comestible() ? player_character.compute_effective_nutrients(
+                                                    ingredient ).kcal() * component.count *
+                                                batch : 0
+                                              );
             cmenu.addentry( tmpStr );
         }
 
