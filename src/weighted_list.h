@@ -19,6 +19,10 @@ template <typename W, typename T> struct weighted_object {
 template <typename W, typename T> struct weighted_list {
         weighted_list() : total_weight( 0 ) { }
 
+        weighted_list( const weighted_list & ) = default;
+        weighted_list( weighted_list && ) noexcept = default;
+        weighted_list &operator=( const weighted_list & ) = default;
+        weighted_list &operator=( weighted_list && ) noexcept = default;
         virtual ~weighted_list() = default;
 
         /**
@@ -223,6 +227,8 @@ template <typename T> struct weighted_int_list : public weighted_list<int, T> {
 
         std::vector<int> precalc_array;
 };
+
+static_assert( std::is_nothrow_move_constructible<weighted_int_list<int>>::value, "" );
 
 template <typename T> struct weighted_float_list : public weighted_list<double, T> {
 

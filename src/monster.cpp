@@ -269,10 +269,10 @@ monster::monster( const mtype_id &id, const tripoint &p ) : monster( id )
 }
 
 monster::monster( const monster & ) = default;
-monster::monster( monster && ) = default;
+monster::monster( monster && ) noexcept = default;
 monster::~monster() = default;
 monster &monster::operator=( const monster & ) = default;
-monster &monster::operator=( monster && ) = default;
+monster &monster::operator=( monster && ) noexcept = default;
 
 void monster::setpos( const tripoint &p )
 {

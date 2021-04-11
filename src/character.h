@@ -2740,8 +2740,8 @@ class Character : public Creature, public visitable
 
     protected:
         Character();
-        Character( Character && );
-        Character &operator=( Character && );
+        Character( Character && ) noexcept;
+        Character &operator=( Character && ) noexcept;
         struct trait_data {
             /** Whether the mutation is activated. */
             bool powered = false;
