@@ -719,6 +719,8 @@
     "id": "mon_scutellosaurus",
     "name": { "str_sp": "Scutellosaurus" },
     "copy-from": "mon_stegosaurus",
+    "default_faction": "small_animal",
+    "volume": "10 L",
     "weight": "10 kg",
     "bodytype": "bear",
     "morale": -10,

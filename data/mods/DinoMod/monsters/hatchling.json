@@ -90,7 +90,7 @@
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
     "name": "red and white hatchling",
-    "default_faction": "spinosaurus",
+    "default_faction": "spinosaurus_hatchling",
     "upgrades": { "age_grow": 30, "into": "mon_spinosaurus_juvenile" },
     "extend": { "flags": [ "SWIMS" ] }
   },
@@ -107,7 +107,7 @@
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
     "name": "brown and white hatchling",
-    "default_faction": "acrocanthosaurus",
+    "default_faction": "acrocanthosaurus_hatchling",
     "upgrades": { "age_grow": 30, "into": "mon_acrocanthosaurus_juvenile" }
   },
   {
@@ -115,7 +115,7 @@
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
     "name": "brown and white hatchling",
-    "default_faction": "siats",
+    "default_faction": "siats_hatchling",
     "upgrades": { "age_grow": 30, "into": "mon_siats_juvenile" }
   },
   {
@@ -131,7 +131,7 @@
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
     "name": "light red and white hatchling",
-    "default_faction": "albertosaurus",
+    "default_faction": "albertosaurus_hatchling",
     "upgrades": { "age_grow": 30, "into": "mon_albertosaurus_juvenile" }
   },
   {
@@ -187,7 +187,7 @@
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
     "name": "red and white hatchling",
-    "default_faction": "mosasaurus_young",
+    "default_faction": "mosasaurus_hatchling",
     "upgrades": { "age_grow": 30, "into": "mon_mosasaurus_juvenile" },
     "flags": [
       "SEES",
