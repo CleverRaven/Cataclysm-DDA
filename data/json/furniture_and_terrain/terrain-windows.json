@@ -1047,9 +1047,9 @@
     "bash": {
       "str_min": 3,
       "str_max": 6,
-      "sound": "glass breaking!",
-      "sound_fail": "whack!",
-      "sound_vol": 16,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "sound_vol": 14,
       "sound_fail_vol": 10,
       "ter_set": "t_window_bars_noglass",
       "items": [ { "item": "plastic_chunk", "count": [ 8, 17 ] }, { "item": "rigid_plastic_sheet", "count": [ 0, 1 ] } ]
@@ -1069,9 +1069,9 @@
     "bash": {
       "str_min": 3,
       "str_max": 6,
-      "sound": "glass breaking!",
-      "sound_fail": "whack!",
-      "sound_vol": 16,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "sound_vol": 14,
       "sound_fail_vol": 10,
       "ter_set": "t_window_bars_noglass",
       "items": [ { "item": "plastic_chunk", "count": [ 8, 17 ] }, { "item": "rigid_plastic_sheet", "count": [ 0, 1 ] } ]
@@ -1103,9 +1103,9 @@
     "bash": {
       "str_min": 3,
       "str_max": 6,
-      "sound": "glass breaking!",
-      "sound_fail": "whack!",
-      "sound_vol": 16,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "sound_vol": 14,
       "sound_fail_vol": 10,
       "ter_set": "t_window_bars_noglass",
       "items": [
@@ -1141,9 +1141,9 @@
     "bash": {
       "str_min": 3,
       "str_max": 6,
-      "sound": "glass breaking!",
-      "sound_fail": "whack!",
-      "sound_vol": 16,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "sound_vol": 14,
       "sound_fail_vol": 10,
       "ter_set": "t_window_bars_noglass",
       "items": [
@@ -1171,9 +1171,9 @@
     "bash": {
       "str_min": 3,
       "str_max": 6,
-      "sound": "glass breaking!",
-      "sound_fail": "whack!",
-      "sound_vol": 16,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "sound_vol": 14,
       "sound_fail_vol": 10,
       "ter_set": "t_window_bars_noglass",
       "items": [
