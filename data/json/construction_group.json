@@ -7,7 +7,7 @@
   {
     "type": "construction_group",
     "id": "armor_reinforced_window",
-    "name": "Armor Reinforced Window"
+    "name": "Armor Fortified Window"
   },
   {
     "type": "construction_group",
@@ -231,11 +231,6 @@
   },
   {
     "type": "construction_group",
-    "id": "build_double_glazed_glass_window",
-    "name": "Build Double Glazed Glass Window"
-  },
-  {
-    "type": "construction_group",
     "id": "build_dresser",
     "name": "Build Dresser"
   },
@@ -366,16 +361,6 @@
   },
   {
     "type": "construction_group",
-    "id": "build_metal_grate_over_a_window",
-    "name": "Build Metal Grate Over a Window"
-  },
-  {
-    "type": "construction_group",
-    "id": "build_metal_grate_over_a_window_without_glass",
-    "name": "Build Metal Grate Over a Window Without Glass"
-  },
-  {
-    "type": "construction_group",
     "id": "build_metal_rack",
     "name": "Build Metal Rack"
   },
@@ -421,11 +406,6 @@
   },
   {
     "type": "construction_group",
-    "id": "build_plastic_window",
-    "name": "Build Plastic Window"
-  },
-  {
-    "type": "construction_group",
     "id": "build_pontoon_bridge",
     "name": "Build Pontoon Bridge"
   },
@@ -446,11 +426,6 @@
   },
   {
     "type": "construction_group",
-    "id": "build_quadruple_glazed_glass_window",
-    "name": "Build Quadruple Glazed Glass Window"
-  },
-  {
-    "type": "construction_group",
     "id": "build_rammed_earth_wall",
     "name": "Build Rammed Earth Wall"
   },
@@ -466,33 +441,8 @@
   },
   {
     "type": "construction_group",
-    "id": "build_reinforced_double_glazed_glass_window",
-    "name": "Build Reinforced Double Glazed Glass Window"
-  },
-  {
-    "type": "construction_group",
     "id": "build_reinforced_glass_window",
     "name": "Build Reinforced Glass Window"
-  },
-  {
-    "type": "construction_group",
-    "id": "build_reinforced_plastic_window",
-    "name": "Build Reinforced Plastic Window"
-  },
-  {
-    "type": "construction_group",
-    "id": "build_reinforced_quadruple_glazed_glass_window",
-    "name": "Build Reinforced Quadruple Glazed Glass Window"
-  },
-  {
-    "type": "construction_group",
-    "id": "build_reinforced_single_glazed_glass_window",
-    "name": "Build Reinforced Single Glazed Glass Window"
-  },
-  {
-    "type": "construction_group",
-    "id": "build_reinforced_triple_glazed_glass_window",
-    "name": "Build Reinforced Triple Glazed Glass Window"
   },
   {
     "type": "construction_group",
@@ -601,11 +551,6 @@
   },
   {
     "type": "construction_group",
-    "id": "build_single_glazed_glass_window",
-    "name": "Build Single Glazed Glass Window"
-  },
-  {
-    "type": "construction_group",
     "id": "build_sky_light",
     "name": "Build Sky Light"
   },
@@ -686,11 +631,6 @@
   },
   {
     "type": "construction_group",
-    "id": "build_triple_glazed_glass_window",
-    "name": "Build Triple Glazed Glass Window"
-  },
-  {
-    "type": "construction_group",
     "id": "build_wardrobe",
     "name": "Build Wardrobe"
   },
@@ -713,6 +653,11 @@
     "type": "construction_group",
     "id": "build_window",
     "name": "Build Window"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_plastic_window",
+    "name": "Build Plastic Window"
   },
   {
     "type": "construction_group",
@@ -1012,7 +957,7 @@
   {
     "type": "construction_group",
     "id": "reinforce_boarded_window",
-    "name": "Reinforce Boarded Window"
+    "name": "Fortify Boarded Window"
   },
   {
     "type": "construction_group",

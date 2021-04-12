@@ -5053,6 +5053,7 @@ cata::optional<int> iuse::oxytorch( player *p, item *it, bool, const tripoint & 
         t_door_metal_pickable,
         t_window_bars_alarm,
         t_window_bars_curtains,
+        t_window_bars_curtain_open,
         t_window_bars,
         t_window_bars_noglass,
         t_window_bars_domestic,
@@ -5063,7 +5064,21 @@ cata::optional<int> iuse::oxytorch( player *p, item *it, bool, const tripoint & 
         t_window_reinforced_barred,
         t_window_reinforced_barred_noglass,
         t_window_tempered_reinforced_barred,
-        t_window_plastic_reinforced_barred
+        t_window_plastic_reinforced_barred,
+        t_window_bars_domestic_open,
+        t_window_bars_domestic_with_curtain_open,
+        t_window_bars_domestic_with_curtain,
+        t_window_bars_domestic_with_curtain_open_window_open,
+        t_window_plastic_bars,
+        t_window_plastic_bars_open,
+        t_window_plastic_bars_with_curtain_open,
+        t_window_plastic_bars_with_curtain,
+        t_window_plastic_bars_with_curtain_open_window_open,
+        t_window_tempered_bars,
+        t_window_tempered_bars_open,
+        t_window_tempered_bars_with_curtain_open,
+        t_window_tempered_bars_with_curtain,
+        t_window_tempered_bars_with_curtain_open_window_open
     };
     const std::set<furn_id> allowed_furn_id {
         f_rack,
@@ -5110,13 +5125,8 @@ cata::optional<int> iuse::oxytorch( player *p, item *it, bool, const tripoint & 
     } else if( ter == t_window_enhanced || ter == t_window_enhanced_noglass ||
                ter == t_window_plastic_enhanced || ter == t_window_tempered_enhanced ) {
         turns = to_turns<int>( 5_seconds );
-
-    } else if( ter == t_chainfence || ter == t_chaingate_c || ter == t_chaingate_l  || ter == t_bars ||
-               ter == t_reb_cage || ter == t_window_bars_alarm || ter == t_window_bars ||
-               ter == t_window_bars_curtains || ter == t_window_bars_domestic || ter == t_reb_cage ||
-               ter == t_window_reinforced_barred || ter == t_window_plastic_reinforced_barred ||
-               ter == t_window_tempered_reinforced_barred || ter == t_window_reinforced_barred_noglass ||
-               ter == t_window_bars_noglass ) {
+    
+    } else if( ter == t_chainfence || ter == t_chaingate_c || ter == t_chaingate_l  || ter == t_bars || ter == t_reb_cage || ter == t_window_bars_alarm || ter == t_window_bars || ter == t_window_bars_curtains || ter == t_window_bars_curtain_open || ter == t_window_bars_domestic || ter == t_reb_cage || ter == t_window_reinforced_barred || ter == t_window_plastic_reinforced_barred || ter == t_window_tempered_reinforced_barred || ter == t_window_reinforced_barred_noglass || ter == t_window_bars_noglass || ter == t_window_bars_domestic_open || ter == t_window_bars_domestic_with_curtain_open || ter ==t_window_bars_domestic_with_curtain || ter == t_window_bars_domestic_with_curtain_open_window_open || ter == t_window_plastic_bars || ter == t_window_plastic_bars_open|| ter == t_window_plastic_bars_with_curtain_open || ter == t_window_plastic_bars_with_curtain || ter == t_window_plastic_bars_with_curtain_open_window_open || ter == t_window_tempered_bars || ter == t_window_tempered_bars_open || ter == t_window_tempered_bars_with_curtain_open || ter == t_window_tempered_bars_with_curtain || ter == t_window_tempered_bars_with_curtain_open_window_open ) {
         turns = to_turns<int>( 10_seconds );
     } else if( ter == t_door_metal_locked || ter == t_door_metal_c || ter == t_door_bar_c ||
                ter == t_door_bar_locked || ter == t_door_metal_pickable || furn == f_safe_l ||
@@ -5164,6 +5174,7 @@ cata::optional<int> iuse::hacksaw( player *p, item *it, bool t, const tripoint &
         t_bars,
         t_window_bars_alarm,
         t_window_bars_curtains,
+        t_window_bars_curtain_open,
         t_window_bars,
         t_window_bars_noglass,
         t_window_bars_domestic,
@@ -5174,7 +5185,21 @@ cata::optional<int> iuse::hacksaw( player *p, item *it, bool t, const tripoint &
         t_window_reinforced_barred,
         t_window_reinforced_barred_noglass,
         t_window_tempered_reinforced_barred,
-        t_window_plastic_reinforced_barred
+        t_window_plastic_reinforced_barred,
+        t_window_bars_domestic_open,
+        t_window_bars_domestic_with_curtain_open,
+        t_window_bars_domestic_with_curtain,
+        t_window_bars_domestic_with_curtain_open_window_open,
+        t_window_plastic_bars,
+        t_window_plastic_bars_open,
+        t_window_plastic_bars_with_curtain_open,
+        t_window_plastic_bars_with_curtain,
+        t_window_plastic_bars_with_curtain_open_window_open,
+        t_window_tempered_bars,
+        t_window_tempered_bars_open,
+        t_window_tempered_bars_with_curtain_open,
+        t_window_tempered_bars_with_curtain,
+        t_window_tempered_bars_with_curtain_open_window_open
     };
     const std::set<furn_id> allowed_furn_id {
         f_rack
@@ -5217,11 +5242,7 @@ cata::optional<int> iuse::hacksaw( player *p, item *it, bool t, const tripoint &
                ter == t_window_plastic_enhanced || ter == t_window_tempered_enhanced ) {
         moves = to_moves<int>( 5_minutes );
 
-    } else if( ter == t_chainfence || ter == t_chaingate_c || ter == t_chaingate_l ||
-               ter == t_window_bars_alarm || ter == t_window_bars || ter == t_window_bars_curtains ||
-               ter == t_window_bars_domestic || ter == t_reb_cage || ter == t_window_reinforced_barred ||
-               ter == t_window_plastic_reinforced_barred || ter == t_window_tempered_reinforced_barred ||
-               ter == t_window_reinforced_barred_noglass || ter == t_window_bars_noglass ) {
+    } else if( ter == t_chainfence || ter == t_chaingate_c || ter == t_chaingate_l || ter == t_reb_cage || ter == t_window_bars_alarm || ter == t_window_bars || ter == t_window_bars_curtains || ter == t_window_bars_curtain_open ||  ter == t_window_bars_domestic || ter == t_reb_cage || ter == t_window_reinforced_barred || ter == t_window_plastic_reinforced_barred || ter == t_window_tempered_reinforced_barred || ter == t_window_reinforced_barred_noglass || ter == t_window_bars_noglass || ter == t_window_bars_domestic_open || ter == t_window_bars_domestic_with_curtain_open || ter ==t_window_bars_domestic_with_curtain || ter == t_window_bars_domestic_with_curtain_open_window_open || ter == t_window_plastic_bars || ter == t_window_plastic_bars_open|| ter == t_window_plastic_bars_with_curtain_open || ter == t_window_plastic_bars_with_curtain || ter == t_window_plastic_bars_with_curtain_open_window_open || ter == t_window_tempered_bars || ter == t_window_tempered_bars_open || ter == t_window_tempered_bars_with_curtain_open || ter == t_window_tempered_bars_with_curtain || ter == t_window_tempered_bars_with_curtain_open_window_open ) {
         moves = to_moves<int>( 10_minutes );
     } else if( ter == t_door_bar_c || ter == t_door_bar_locked || ter == t_bars ) {
         moves = to_moves<int>( 15_minutes );
