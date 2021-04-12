@@ -64,10 +64,7 @@
       "sound_vol": 14,
       "sound_fail_vol": 10,
       "ter_set": "t_window_empty",
-      "items": [
-        { "item": "plastic_chunk", "count": [ 8, 17 ] },
-        { "item": "rigid_plastic_sheet", "count": [ 0, 1 ] }
-      ]
+      "items": [ { "item": "plastic_chunk", "count": [ 8, 17 ] }, { "item": "rigid_plastic_sheet", "count": [ 0, 1 ] } ]
     }
   },
   {
@@ -896,9 +893,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_bars_noglass",
-      "items": [
-        { "item": "glass_shard", "count": [ 21, 29 ] }
-      ]
+      "items": [ { "item": "glass_shard", "count": [ 21, 29 ] } ]
     }
   },
   {
@@ -910,14 +905,7 @@
     "color": "light_gray",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [
-      "TRANSPARENT",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "BARRICADABLE_WINDOW_CURTAINS",
-      "CONNECT_TO_WALL",
-      "WINDOW"
-    ],
+    "flags": [ "TRANSPARENT", "NOITEM", "OPENCLOSE_INSIDE", "BARRICADABLE_WINDOW_CURTAINS", "CONNECT_TO_WALL", "WINDOW" ],
     "close": "t_window_bars_domestic",
     "bash": {
       "str_min": 3,
@@ -927,9 +915,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_bars_noglass",
-      "items": [
-        { "item": "glass_shard", "count": [ 21, 29 ] }
-      ]
+      "items": [ { "item": "glass_shard", "count": [ 21, 29 ] } ]
     }
   },
   {
@@ -1018,14 +1004,7 @@
     "color": "light_gray",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [
-      "TRANSPARENT",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "BARRICADABLE_WINDOW_CURTAINS",
-      "CONNECT_TO_WALL",
-      "WINDOW"
-    ],
+    "flags": [ "TRANSPARENT", "NOITEM", "OPENCLOSE_INSIDE", "BARRICADABLE_WINDOW_CURTAINS", "CONNECT_TO_WALL", "WINDOW" ],
     "curtain_transform": "t_window_bars_domestic_open",
     "examine_action": "curtains",
     "close": "t_window_bars_domestic_with_curtain_open",
@@ -1073,10 +1052,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_bars_noglass",
-      "items": [
-        { "item": "plastic_chunk", "count": [ 8, 17 ] },
-        { "item": "rigid_plastic_sheet", "count": [ 0, 1 ] }
-      ]
+      "items": [ { "item": "plastic_chunk", "count": [ 8, 17 ] }, { "item": "rigid_plastic_sheet", "count": [ 0, 1 ] } ]
     }
   },
   {
@@ -1088,14 +1064,7 @@
     "color": "light_gray",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [
-      "TRANSPARENT",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "BARRICADABLE_WINDOW_CURTAINS",
-      "CONNECT_TO_WALL",
-      "WINDOW"
-    ],
+    "flags": [ "TRANSPARENT", "NOITEM", "OPENCLOSE_INSIDE", "BARRICADABLE_WINDOW_CURTAINS", "CONNECT_TO_WALL", "WINDOW" ],
     "close": "t_window_plastic_bars",
     "bash": {
       "str_min": 3,
@@ -1105,10 +1074,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_bars_noglass",
-      "items": [
-        { "item": "plastic_chunk", "count": [ 8, 17 ] },
-        { "item": "rigid_plastic_sheet", "count": [ 0, 1 ] }
-      ]
+      "items": [ { "item": "plastic_chunk", "count": [ 8, 17 ] }, { "item": "rigid_plastic_sheet", "count": [ 0, 1 ] } ]
     }
   },
   {
@@ -1198,14 +1164,7 @@
     "color": "light_gray",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [
-      "TRANSPARENT",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "BARRICADABLE_WINDOW_CURTAINS",
-      "CONNECT_TO_WALL",
-      "WINDOW"
-    ],
+    "flags": [ "TRANSPARENT", "NOITEM", "OPENCLOSE_INSIDE", "BARRICADABLE_WINDOW_CURTAINS", "CONNECT_TO_WALL", "WINDOW" ],
     "curtain_transform": "t_window_plastic_bars_open",
     "examine_action": "curtains",
     "close": "t_window_plastic_bars_with_curtain_open",
@@ -1254,9 +1213,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_bars_noglass",
-      "items": [
-        { "item": "pebble_glass", "count": [ 34, 50 ] }
-      ]
+      "items": [ { "item": "pebble_glass", "count": [ 34, 50 ] } ]
     }
   },
   {
@@ -1268,14 +1225,7 @@
     "color": "light_gray",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [
-      "TRANSPARENT",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "BARRICADABLE_WINDOW_CURTAINS",
-      "CONNECT_TO_WALL",
-      "WINDOW"
-    ],
+    "flags": [ "TRANSPARENT", "NOITEM", "OPENCLOSE_INSIDE", "BARRICADABLE_WINDOW_CURTAINS", "CONNECT_TO_WALL", "WINDOW" ],
     "close": "t_window_tempered_bars",
     "bash": {
       "str_min": 3,
@@ -1285,9 +1235,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_bars_noglass",
-      "items": [
-        { "item": "pebble_glass", "count": [ 34, 50 ] }
-      ]
+      "items": [ { "item": "pebble_glass", "count": [ 34, 50 ] } ]
     }
   },
   {
@@ -1375,14 +1323,7 @@
     "color": "light_gray",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [
-      "TRANSPARENT",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "BARRICADABLE_WINDOW_CURTAINS",
-      "CONNECT_TO_WALL",
-      "WINDOW"
-    ],
+    "flags": [ "TRANSPARENT", "NOITEM", "OPENCLOSE_INSIDE", "BARRICADABLE_WINDOW_CURTAINS", "CONNECT_TO_WALL", "WINDOW" ],
     "curtain_transform": "t_window_tempered_bars_open",
     "examine_action": "curtains",
     "close": "t_window_tempered_bars_with_curtain_open",
