@@ -443,10 +443,7 @@
         [ "can_tuna", 1 ],
         [ "sausage", 1 ],
         [ "sausage_cooked", 1 ],
-        [ "bratwurst_sausage", 1 ],
-        [ "powder_eggs", 2 ],
-        [ "eggs_bird", 2, "LIST" ],
-        [ "egg_reptile", 2 ]
+        [ "bratwurst_sausage", 1 ]
       ],
       [
         [ "veggy_wild", 2 ],
@@ -456,6 +453,34 @@
         [ "rehydrated_corn_kernels", 2 ],
         [ "dry_veggy", 2 ],
         [ "dry_corn", 2 ],
+        [ "dry_beans", 2 ],
+        [ "can_beans", 2 ],
+        [ "raw_beans", 2 ],
+        [ "beans_cooked", 2 ],
+        [ "dry_lentils", 2 ],
+        [ "raw_lentils", 2 ],
+        [ "dry_rice", 2 ],
+        [ "dandelion_cooked", 2 ],
+        [ "burdock_cooked", 2 ],
+        [ "mushroom", 2 ],
+        [ "dry_mushroom", 2 ],
+        [ "mushroom_cooked", 2 ],
+        [ "morel_cooked", 2 ],
+        [ "acorns_cooked", 2 ]
+      ]
+    ]
+  },
+  {
+    "id": "woods_soup_ingredients_veggy",
+    "type": "requirement",
+    "components": [
+      [ [ "broth", 2 ], [ "broth_bone", 2 ], [ "pine_tea", 2 ] ],
+      [ [ "powder_eggs", 2 ], [ "eggs_bird", 2, "LIST" ], [ "egg_reptile", 2 ] ],
+      [
+        [ "veggy_wild", 2 ],
+        [ "veggy", 2 ],
+        [ "rehydrated_veggy", 2 ],
+        [ "dry_veggy", 2 ],
         [ "dry_beans", 2 ],
         [ "can_beans", 2 ],
         [ "raw_beans", 2 ],
