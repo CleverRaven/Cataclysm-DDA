@@ -17,6 +17,7 @@
 
 #include "calendar.h"
 #include "cata_utility.h"
+#include "compatibility.h"
 #include "craft_command.h"
 #include "enums.h"
 #include "gun_mode.h"
@@ -182,7 +183,7 @@ class item : public visitable
 
         item( item && ) noexcept;
         item( const item & );
-        item &operator=( item && ) noexcept;
+        item &operator=( item && ) noexcept( list_is_noexcept );
         item &operator=( const item & );
 
         explicit item( const itype_id &id, time_point turn = calendar::turn, int qty = -1 );

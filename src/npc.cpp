@@ -205,7 +205,7 @@ standard_npc::standard_npc( const std::string &name, const tripoint &pos,
 }
 
 npc::npc( npc && ) noexcept = default;
-npc &npc::operator=( npc && ) noexcept = default;
+npc &npc::operator=( npc && ) noexcept( list_is_noexcept ) = default;
 
 static std::map<string_id<npc_template>, npc_template> npc_templates;
 
