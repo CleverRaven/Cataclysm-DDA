@@ -1125,7 +1125,10 @@
     "occupied_bodyparts": [ [ "leg_l", 12 ], [ "leg_r", 12 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
     "mutation_conflicts": [ "LEG_TENTACLES", "LEG_TENT_BRACE" ],
-    "enchantments": [ "ENCH_JOINT_SERVOS_ACTIVE", "ENCH_JOINT_SERVOS_INACTIVE" ]
+    "enchantments": [
+      { "condition": "ACTIVE", "values": [ { "value": "MOVE_COST", "multiply": -0.1 } ] },
+      { "condition": "INACTIVE", "values": [ { "value": "MOVE_COST", "multiply": 0.1 } ] }
+    ]
   },
   {
     "id": "bio_trip",
