@@ -206,6 +206,17 @@ class NameConvention
         bool valid = true;
 };
 
+template<typename T, typename U>
+inline size_t HashCombine( const T &t, const U &u )
+{
+    std::hash<T> t_hash;
+    std::hash<U> u_hash;
+    size_t result = t_hash( t );
+    result ^= 0x9e3779b9 + ( result << 6 ) + ( result >> 2 );
+    result ^= u_hash( u );
+    return result;
+}
+
 } // namespace cata
 } // namespace tidy
 } // namespace clang
