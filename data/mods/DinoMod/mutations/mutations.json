@@ -127,7 +127,7 @@
         "bullet": 6
       }
     ],
-    "enchantments": [ "ENCH_TRAIT_THICKSKIN3" ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SPEED", "multiply": -0.05 } ] } ]
   },
   {
     "type": "mutation",
