@@ -272,7 +272,7 @@ monster::monster( const monster & ) = default;
 monster::monster( monster && ) noexcept = default;
 monster::~monster() = default;
 monster &monster::operator=( const monster & ) = default;
-monster &monster::operator=( monster && ) noexcept = default;
+monster &monster::operator=( monster && ) noexcept( string_is_noexcept ) = default;
 
 void monster::setpos( const tripoint &p )
 {
