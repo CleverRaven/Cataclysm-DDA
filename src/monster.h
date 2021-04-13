@@ -16,6 +16,7 @@
 #include "calendar.h"
 #include "character_id.h"
 #include "color.h"
+#include "compatibility.h"
 #include "creature.h"
 #include "damage.h"
 #include "enums.h"
@@ -93,7 +94,7 @@ class monster : public Creature
         monster( monster && ) noexcept;
         ~monster() override;
         monster &operator=( const monster & );
-        monster &operator=( monster && ) noexcept;
+        monster &operator=( monster && ) noexcept( string_is_noexcept );
 
         bool is_monster() const override {
             return true;
