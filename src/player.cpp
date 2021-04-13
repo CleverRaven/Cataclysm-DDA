@@ -227,7 +227,7 @@ player::player()
 
 player::~player() = default;
 player::player( player && ) noexcept = default;
-player &player::operator=( player && ) noexcept = default;
+player &player::operator=( player && ) noexcept( list_is_noexcept ) = default;
 
 void player::normalize()
 {
