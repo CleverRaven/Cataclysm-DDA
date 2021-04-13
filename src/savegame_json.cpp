@@ -147,7 +147,7 @@ static const ter_str_id
 ter_t_plastic_window_with_curtain_open_window_closed( "t_plastic_window_with_curtain_open_window_closed" );
 static const ter_str_id
 ter_t_plastic_window_with_curtain_open( "t_plastic_window_with_curtain_open" );
-static const ter_str_id ter_t_reinforced_plastic_window( "t_reinforced_plastic_window " );
+static const ter_str_id ter_t_reinforced_plastic_window( "t_reinforced_plastic_window" );
 static const ter_str_id ter_t_reinforced_plastic_window_open( "t_reinforced_plastic_window_open" );
 static const ter_str_id
 ter_t_reinforced_plastic_window_with_curtain( "t_reinforced_plastic_window_with_curtain" );
