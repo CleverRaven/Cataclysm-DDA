@@ -8569,7 +8569,8 @@ cata::optional<int> iuse::multicooker( player *p, item *it, bool t, const tripoi
                 if( dish_it->typeId().str() == it->get_var( "DISH" ) ) {
                     menu.addentry( mc_take, true, 't', _( "Take out dish" ) );
                 } else {
-                    menu.addentry( mc_empty, true, 't', _( "Empty the container" ) );
+                    menu.addentry( mc_empty, true, 't',
+                                   _( "Obstruction detected.  Please remove any items lodged in the multi-cooker." ) );
                 }
             }
         }
