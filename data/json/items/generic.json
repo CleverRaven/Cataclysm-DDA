@@ -1334,6 +1334,7 @@
     "category": "books",
     "use_action": "BINDER_ADD_RECIPE",
     "symbol": "/",
+    "looks_like": "story_book",
     "color": "light_gray",
     "name": { "str": "book binder" },
     "description": "A book binder.  With a pen and some paper you could copy some recipes from books.",
