@@ -177,6 +177,7 @@ class job_data
             const std::pair<activity_id, int> &b ) {
                 return a.second > b.second;
             } );
+            ret.reserve( pairs.size() );
             for( const std::pair<activity_id, int> &elem : pairs ) {
                 ret.push_back( elem.first );
             }
