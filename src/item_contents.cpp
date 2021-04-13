@@ -156,6 +156,8 @@ bool pocket_favorite_callback::key( const input_context &, const input_event &ev
 
         std::vector<std::pair<itype_id, std::string>> listed_names;
         std::vector<std::pair<itype_id, std::string>> nearby_names;
+        listed_names.reserve( listed_itypes.size() );
+        nearby_names.reserve( nearby_itypes.size() );
         for( const itype_id &id : listed_itypes ) {
             listed_names.emplace_back( id, id->nname( 1 ) );
         }

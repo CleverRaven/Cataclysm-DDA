@@ -1956,6 +1956,7 @@ static void debug_menu_game_state()
     tripoint abs_sub = here.get_abs_sub();
     std::string mfus;
     std::vector<std::pair<m_flag, int>> sorted;
+    sorted.reserve( m_flag::MF_MAX );
     for( int f = 0; f < m_flag::MF_MAX; f++ ) {
         sorted.push_back( {static_cast<m_flag>( f ), MonsterGenerator::generator().m_flag_usage_stats[f]} );
     }
@@ -1984,6 +1985,7 @@ static void debug_menu_game_state()
 
     if( !creature_counts.empty() ) {
         std::vector<std::pair<std::string, int>> creature_names_sorted;
+        creature_names_sorted.reserve( creature_counts.size() );
         for( const std::pair<const std::string, int> &it : creature_counts ) {
             creature_names_sorted.emplace_back( it );
         }

@@ -532,6 +532,7 @@ recipe_id base_camps::select_camp_option( const std::map<recipe_id, translation>
     std::vector<std::string> pos_names;
     int choice = 0;
 
+    pos_names.reserve( pos_options.size() );
     for( const auto &it : pos_options ) {
         pos_names.push_back( it.second.translated() );
     }
