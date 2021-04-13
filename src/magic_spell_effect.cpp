@@ -1229,6 +1229,7 @@ void spell_effect::dash( const spell &sp, Creature &caster, const tripoint &targ
     ::map &here = get_map();
     // uses abs() coordinates
     std::vector<tripoint> trajectory;
+    trajectory.reserve( trajectory_local.size() );
     for( const tripoint &local_point : trajectory_local ) {
         trajectory.push_back( here.getabs( local_point ) );
     }

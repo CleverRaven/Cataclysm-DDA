@@ -2054,6 +2054,7 @@ npc_ptr talk_function::companion_choose_return( const tripoint_abs_omt &omt_pos,
     }
 
     std::vector<std::string> npcs;
+    npcs.reserve( available.size() );
     for( auto &elem : available ) {
         npcs.push_back( ( elem )->name );
     }
