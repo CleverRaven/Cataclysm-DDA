@@ -937,6 +937,17 @@ void conditional_t<T>::set_can_see( bool is_npc )
 }
 
 template<class T>
+void conditional_t<T>::set_has_power( const JsonObject &jo, const std::string &member,
+                                      bool is_npc )
+{
+    units::energy min_power;
+    assign( jo, member, min_power, false, 0_kJ );
+    condition = [min_power, is_npc]( const T & d ) {
+        return d.actor( is_npc )->power_cur() >= min_power;
+    };
+}
+
+template<class T>
 conditional_t<T>::conditional_t( const JsonObject &jo )
 {
     // improve the clarity of NPC setter functions
