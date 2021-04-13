@@ -273,11 +273,11 @@ TEST_CASE( "suffering from sunburn", "[char][suffer][sunburn]" )
 
         }
 
-        WHEN( "torso and arms are 90%% covered" ) {
+        WHEN( "torso and arms are 90% covered" ) {
             dummy.worn.clear();
             dummy.wear_item( longshirt, false );
 
-            THEN( "damage to torso is 90%% less than other parts" ) {
+            THEN( "damage to torso is 90% less than other parts" ) {
                 bp_hp_lost = test_suffer_bodypart_hp_lost( dummy, 10_minutes );
                 for( const bodypart_id &bp : body_parts_with_hp ) {
                     CAPTURE( bp.id().str() );
