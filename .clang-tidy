@@ -36,7 +36,6 @@ readability-*,\
 -modernize-return-braced-init-list,\
 -modernize-use-default-member-init,\
 -modernize-use-emplace,\
--performance-inefficient-vector-operation,\
 -performance-implicit-conversion-in-loop,\
 -performance-inefficient-string-concatenation,\
 -performance-type-promotion-in-math-fn,\
