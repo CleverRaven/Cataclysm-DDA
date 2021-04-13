@@ -82,7 +82,7 @@ class player : public Character
         player( player && ) noexcept;
         ~player() override;
         player &operator=( const player & ) = delete;
-        player &operator=( player && ) noexcept;
+        player &operator=( player && ) noexcept( list_is_noexcept );
 
         /** Calls Character::normalize()
          *  normalizes HP and body temperature

@@ -16,6 +16,7 @@
 
 #include "calendar.h"
 #include "color.h"
+#include "compatibility.h"
 #include "damage.h"
 #include "optional.h"
 #include "point.h"
@@ -498,7 +499,7 @@ struct vehicle_prototype {
     vehicle_prototype( vehicle_prototype && ) noexcept;
     ~vehicle_prototype();
 
-    vehicle_prototype &operator=( vehicle_prototype && ) noexcept;
+    vehicle_prototype &operator=( vehicle_prototype && ) noexcept( string_is_noexcept );
 
     translation name;
     std::vector<part_def> parts;
