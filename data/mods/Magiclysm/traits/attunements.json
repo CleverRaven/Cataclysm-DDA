@@ -411,7 +411,7 @@
       "WITHER_MAGE"
     ],
     "flags": [ "ATTUNEMENT" ],
-    "enchantments": [ "ENCH_TRAIT_FORCE_MAGE" ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SPEED", "multiply": 0.2 } ] } ]
   },
   {
     "id": "GAIAS_CHOSEN",
