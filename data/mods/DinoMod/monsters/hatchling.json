@@ -66,7 +66,7 @@
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
     "name": "magenta and green hatchling",
-    "default_faction": "coelophysis",
+    "default_faction": "coelophysis_hatchling",
     "upgrades": { "age_grow": 30, "into": "mon_coelophysis" }
   },
   {
@@ -82,7 +82,7 @@
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
     "name": "brown and white hatchling",
-    "default_faction": "ceratosaurus",
+    "default_faction": "ceratosaurus_hatchling",
     "upgrades": { "age_grow": 30, "into": "mon_ceratosaurus_juvenile" }
   },
   {
@@ -99,7 +99,7 @@
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
     "name": "brown and white hatchling",
-    "default_faction": "allosaurus",
+    "default_faction": "allosaurus_hatchling",
     "upgrades": { "age_grow": 30, "into": "mon_allosaurus_juvenile" }
   },
   {
@@ -139,7 +139,7 @@
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
     "name": "dark gray and yellow hatchling",
-    "default_faction": "velociraptor",
+    "default_faction": "velociraptor_hatchling",
     "upgrades": { "age_grow": 20, "into": "mon_velociraptor" }
   },
   {
@@ -147,7 +147,7 @@
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
     "name": "red and green hatchling",
-    "default_faction": "deinonychus",
+    "default_faction": "deinonychus_hatchling",
     "upgrades": { "age_grow": 20, "into": "mon_deinonychus_juvenile" }
   },
   {
@@ -155,7 +155,7 @@
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
     "name": "dark gray and white hatchling",
-    "default_faction": "utahraptor",
+    "default_faction": "utahraptor_hatchling",
     "upgrades": { "age_grow": 20, "into": "mon_utahraptor_juvenile" }
   },
   {
@@ -171,7 +171,7 @@
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
     "name": "light gray and yellow hatchling",
-    "default_faction": "pteranodon",
+    "default_faction": "pteranodon_young",
     "upgrades": { "age_grow": 30, "into": "mon_pteranodon_juvenile" }
   },
   {
@@ -179,7 +179,7 @@
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
     "name": "light gray and yellow hatchling",
-    "default_faction": "quetzalcoatlus",
+    "default_faction": "quetzalcoatlus_young",
     "upgrades": { "age_grow": 40, "into": "mon_quetzalcoatlus_juvenile" }
   },
   {
@@ -210,7 +210,7 @@
     "type": "MONSTER",
     "name": { "str_sp": "baby Qianzhousaurus" },
     "copy-from": "mon_compsognathus_hatchling",
-    "default_faction": "qianzhousaurus",
+    "default_faction": "qianzhousaurus_hatchling",
     "upgrades": { "age_grow": 40, "into": "mon_qianzhousaurus_juvenile" }
   },
   {

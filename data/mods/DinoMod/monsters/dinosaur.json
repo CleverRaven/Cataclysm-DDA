@@ -75,7 +75,7 @@
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
     "special_attacks": [ [ "GRAB", 10 ], { "type": "bite", "cooldown": 10 } ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "KEENNOSE", "WARM", "ATTACKMON" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "KEENNOSE", "WARM", "ATTACKMON", "SWIMS" ],
     "harvest": "dino_large_feather_pred",
     "anger_triggers": [ "PLAYER_WEAK", "HURT" ],
     "placate_triggers": [ "MEAT" ],
