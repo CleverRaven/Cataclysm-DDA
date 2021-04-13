@@ -4,6 +4,8 @@ struct A {
     // Define a const and a non-const member function
     int const_mf() const;
     int nonconst_mf();
+    int begin();
+    int end();
 };
 
 void g( int, int );
@@ -13,7 +15,11 @@ void f0()
     A a;
     // Two calls to const functions are fine
     g( a.const_mf(), a.const_mf() );
-    // But if at least one is non-const, raise a warning
+    // Calls to begin/end are also fine
+    g( a.begin(), a.end() );
+    // Calls in a ternary expression are fine
+    int n = a.nonconst_mf() ? a.nonconst_mf() : a.const_mf();
+    // But otherwise, if at least one is non-const, raise a warning
     g( a.nonconst_mf(), a.const_mf() );
     // CHECK-MESSAGES: [[@LINE-1]]:5: warning: Unsequenced calls to member functions of 'a', at least one of which is non-const. [cata-unsequenced-calls]
     g( a.const_mf(), a.nonconst_mf() );
