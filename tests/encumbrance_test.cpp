@@ -61,6 +61,7 @@ static void test_encumbrance(
 {
     CAPTURE( clothing_types );
     std::vector<item> clothing;
+    clothing.reserve( clothing_types.size() );
     for( const std::string &type : clothing_types ) {
         clothing.push_back( item( type ) );
     }
