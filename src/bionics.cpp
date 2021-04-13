@@ -334,7 +334,6 @@ void bionic_data::load( const JsonObject &jsobj, const std::string & )
         std::string enchant_name = "INLINE_ENCH_" + name + "_" + std::to_string( enchant_num++ );
         enchantments.push_back( enchantment::load_inline_enchantment( jv, "", enchant_name ) );
     }
-    optional( jsobj, was_loaded, "dispersion", dispersion_mod );
 
     if( jsobj.has_array( "stat_bonus" ) ) {
         // clear data first so that copy-from can override it
