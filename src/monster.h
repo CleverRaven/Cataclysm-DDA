@@ -173,7 +173,7 @@ class monster : public Creature
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
 
-        tripoint move_target(); // Returns point at the end of the monster's current plans
+        tripoint move_target() const; // Returns point at the end of the monster's current plans
         Creature *attack_target(); // Returns the creature at the end of plans (if hostile)
 
         // Movement
@@ -467,8 +467,8 @@ class monster : public Creature
         cata::value_ptr<item> armor_item; // item of armor the monster may be wearing
         cata::value_ptr<item> storage_item; // storage item for monster carrying items
         cata::value_ptr<item> battery_item; // item to power mechs
-        units::mass get_carried_weight();
-        units::volume get_carried_volume();
+        units::mass get_carried_weight() const;
+        units::volume get_carried_volume() const;
         void move_special_item_to_inv( cata::value_ptr<item> &it );
 
         // DEFINING VALUES
