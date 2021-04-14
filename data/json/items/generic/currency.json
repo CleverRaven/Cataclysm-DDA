@@ -1,7 +1,8 @@
 [
   {
-    "type": "GENERIC",
+    "type": "AMMO",
     "id": "FMCNote",
+	"category": "other",
     "name": { "str": "Merch" },
     "description": "The Free Merchant Certified Note, also known by names such as a 'c-note' or 'merch', is a currency based on old American bills.  Fifty dollar bills and larger are printed with a promissory note signed by the treasurer of the Free Merchants, along with a complex design.  The note explains that this can be exchanged for food, water, and other services through the Free Merchants in the Refugee Center.",
     "price": 5000,
@@ -11,12 +12,14 @@
     "volume": "1 ml",
     "to_hit": -3,
     "color": "white",
+	"ammo_type": "scrip",
     "symbol": "$",
     "material": [ "paper" ]
   },
   {
-    "type": "GENERIC",
+    "type": "AMMO",
     "id": "RobofacCoin",
+	"category": "other",
     "name": { "str": "Hub 01 Gold Coin" },
     "description": "This is a small but surprisingly heavy gold coin.  One side is etched with circuitry and the other side reads 'Hub 01 exchange currency'.",
     "price": 90000,
@@ -25,13 +28,15 @@
     "weight": "28 g",
     "to_hit": -3,
     "color": "brown",
+	"ammo_type": "scrip",
     "symbol": "$",
     "material": [ "gold" ],
     "volume": "2ml"
   },
   {
-    "type": "GENERIC",
+    "type": "AMMO",
     "id": "FlatCoin",
+	"category": "other",
     "name": { "str": "FlatCoin" },
     "description": "This is a coin that has been flattened in a novelty coin flattening machine.  The machine has been somewhat crudely altered so that the design - which appears to once have been Mickey Mouse - is overlaid with a handwritten emblem of a book.  There is some text that faintly reads 'Campus Exchange Token'.",
     "price": 5,
@@ -40,12 +45,14 @@
     "volume": "1 ml",
     "to_hit": -3,
     "color": "brown",
+	"ammo_type": "scrip",
     "symbol": "$",
     "material": [ "copper" ]
   },
   {
-    "type": "GENERIC",
+    "type": "AMMO",
     "id": "signed_chit",
+	"category": "other",
     "name": { "str": "chit" },
     "description": "This is a slip of paper signed by the issuer.",
     "price": 5,
@@ -54,12 +61,14 @@
     "volume": "1 ml",
     "to_hit": -3,
     "color": "white",
+	"ammo_type": "scrip",
     "symbol": "$",
     "material": [ "paper" ]
   },
   {
-    "type": "GENERIC",
+    "type": "AMMO",
     "id": "icon",
+	"category": "other",
     "name": { "str": "icon" },
     "description": "This is a small picture, about the same size as an ID card, symbolizing a religious figure.  On the back, there is a text that faintly reads 'New England Church Community'.",
     "price": 200,
@@ -68,7 +77,9 @@
     "volume": "2 ml",
     "to_hit": -3,
     "color": "white",
+	"ammo_type": "scrip",
     "symbol": "$",
     "material": [ "paper" ]
   }
 ]
+

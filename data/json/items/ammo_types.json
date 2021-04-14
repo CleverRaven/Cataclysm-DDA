@@ -725,4 +725,10 @@
     "name": "green pen ink",
     "default": "green_pen_ink"
   }
+    {
+    "type": "ammunition_type",
+    "id": "scrip",
+    "name": "scrip",
+    "default": "scrip"
+  }
 ]
