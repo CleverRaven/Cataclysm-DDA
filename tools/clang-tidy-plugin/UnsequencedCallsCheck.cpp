@@ -107,9 +107,14 @@ static bool IsEffectivelyConstCall( const CXXMemberCallExpr *Call )
     if( method->isConst() ) {
         return true;
     }
-    StringRef Name = method->getName();
-    if( Name == "begin" || Name == "end" || Name == "find" ) {
-        return true;
+    DeclarationName name = method->getDeclName();
+    DeclContextLookupResult similar_functions = method->getParent()->lookup( name );
+    for( const NamedDecl *similar : similar_functions ) {
+        if( const CXXMethodDecl *similar_function = dyn_cast<CXXMethodDecl>( similar ) ) {
+            if( similar_function->isConst() ) {
+                return true;
+            }
+        }
     }
     return false;
 }

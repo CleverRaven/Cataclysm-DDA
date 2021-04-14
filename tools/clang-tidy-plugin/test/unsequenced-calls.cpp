@@ -6,6 +6,8 @@ struct A {
     int nonconst_mf( int = 0 );
     int begin();
     int end();
+    int begin() const;
+    int end() const;
 };
 
 void g( int, int );
