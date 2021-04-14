@@ -26,6 +26,21 @@ struct CallContext {
     }
 };
 
+struct CallWithASTContext {
+    const CXXMemberCallExpr *call;
+    ASTContext *context;
+
+    bool operator==( const CallWithASTContext &other ) const {
+        return call == other.call;
+    }
+    bool operator==( const Expr *other ) const {
+        return call == other;
+    }
+    bool operator<( const CallWithASTContext &other ) const {
+        return std::less<> {}( call, other.call );
+    }
+};
+
 } // namespace cata
 } // namespace tidy
 } // namespace clang
@@ -57,7 +72,7 @@ class UnsequencedCallsCheck : public ClangTidyCheck
         void onEndOfTranslationUnit() override;
     private:
         void CheckCall( const ast_matchers::MatchFinder::MatchResult & );
-        std::unordered_map<CallContext, std::vector<const CXXMemberCallExpr *>> calls_;
+        std::unordered_map<CallContext, std::vector<CallWithASTContext>> calls_;
 };
 
 } // namespace cata
