@@ -29,18 +29,48 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "herbivore_young",
+    "base_faction": "small_animal",
+    "neutral": "small_animal",
+    "friendly": "herbivore_dino"
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "herbivore_dino",
     "base_faction": "herbivore",
     "neutral": "herbivore",
-    "hate": "plant"
+    "hate": "plant",
+    "friendly": "herbivore_young"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "very_small_mixed",
+    "base_faction": "very_small_predator",
+    "neutral": [ "fishing_dino", "zombie_aquatic", "mixed_dino" ],
+    "by_mood": [ "very_small_mixed", "small_fisher" ],
+    "hate": [ "fish", "vermin" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "small_fisher",
-    "//": "Not AQUATIC, unlike mosasaurus_hatchling",
-    "base_faction": "very_small_predator",
-    "neutral": [ "fishing_dino", "zombie_aquatic", "mosasaurus" ],
-    "by_mood": [ "small_fisher", "medium_fisher", "vermin", "mosasaurus_hatchling" ],
+    "base_faction": "fish",
+    "neutral": [ "fishing_dino", "zombie_aquatic", "mixed_dino" ],
+    "by_mood": [ "small_fisher", "very_small_mixed" ],
+    "hate": "fish"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "small_mixed",
+    "base_faction": "small_predator",
+    "neutral": [ "fishing_dino", "zombie_aquatic", "mixed_dino" ],
+    "by_mood": [ "small_mixed", "small_fisher" ],
+    "hate": [ "fish", "vermin" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "medium_mixed",
+    "base_faction": "big_cat",
+    "by_mood": [ "big_cat", "medium_mixed", "vermin" ],
     "hate": "fish"
   },
   {
@@ -51,10 +81,18 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "mixed_dino",
+    "base_faction": "gator",
+    "neutral": [ "small_animal", "small_fisher" ],
+    "hate": [ "herbivore", "zombie", "human", "gator" ],
+    "by_mood": [ "mixed_dino", "predator_dino", "herbivore_dino", "fishing_dino" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "fishing_dino",
     "base_faction": "aquatic_predator",
-    "by_mood": [ "fishing_dino", "mosasaurus", "aquatic_predator" ],
-    "neutral": [ "small_animal", "mosasaurus_hatchling" ],
+    "by_mood": [ "fishing_dino", "mixed_dino", "aquatic_predator" ],
+    "neutral": [ "small_animal", "small_fisher" ],
     "hate": "gator"
   },
   {
@@ -252,14 +290,20 @@
   {
     "type": "MONSTER_FACTION",
     "name": "quetzalcoatlus",
-    "base_faction": "fishing_dino",
-    "friendly": "quetzalcoatlus_young"
+    "base_faction": "medium_mixed",
+    "friendly": [ "quetzalcoatlus_hatchling", "quetzalcoatlus_juvenile" ]
   },
   {
     "type": "MONSTER_FACTION",
-    "name": "quetzalcoatlus_young",
-    "base_faction": "small_fisher",
-    "friendly": "quetzalcoatlus"
+    "name": "quetzalcoatlus_juvenile",
+    "base_faction": "small_mixed",
+    "friendly": [ "quetzalcoatlus", "quetzalcoatlus_hatchling" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "quetzalcoatlus_hatchling",
+    "base_faction": "very_small_mixed",
+    "friendly": [ "quetzalcoatlus", "quetzalcoatlus_juvenile" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -282,14 +326,25 @@
   {
     "type": "MONSTER_FACTION",
     "name": "dilophosaurus",
-    "base_faction": "fishing_dino"
+    "base_faction": "mixed_dino",
+    "friendly": [ "dilophosaurus_juvenile", "dilophosaurus_hatchling" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "dilophosaurus_juvenile",
+    "base_faction": "small_mixed",
+    "friendly": [ "dilophosaurus", "dilophosaurus_hatchling" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "dilophosaurus_hatchling",
+    "base_faction": "very_small_mixed",
+    "friendly": [ "dilophosaurus", "dilophosaurus_juvenile" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "mosasaurus",
-    "base_faction": "gator",
-    "neutral": "small_animal",
-    "hate": [ "herbivore", "zombie", "human", "gator", "fishing_dino" ],
+    "base_faction": "mixed_dino",
     "by_mood": [ "mosasaurus", "predator_dino", "herbivore_dino" ],
     "friendly": [ "mosasaurus_juvenile", "mosasaurus_hatchling" ]
   },
@@ -302,15 +357,13 @@
   {
     "type": "MONSTER_FACTION",
     "name": "mosasaurus_hatchling",
-    "base_faction": "fish",
-    "neutral": [ "fishing_dino", "zombie_aquatic" ],
-    "hate": "fish",
+    "base_faction": "very_small_fisher",
     "friendly": [ "mosasaurus", "mosasaurus_juvenile" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "ceratosaurus",
-    "base_faction": "predator_dino",
+    "base_faction": "mixed_dino",
     "by_mood": "fish",
     "friendly": [ "ceratosaurus_juvenile", "ceratosaurus_hatchling" ]
   },
@@ -348,7 +401,7 @@
     "type": "MONSTER_FACTION",
     "name": "small_animal",
     "copy-from": "small_animal",
-    "neutral": [ "predator_dino", "mosasaurus", "fishing_dino" ]
+    "neutral": [ "predator_dino", "mixed_dino", "fishing_dino" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -372,27 +425,27 @@
     "type": "MONSTER_FACTION",
     "name": "big_cat",
     "copy-from": "big_cat",
-    "by_mood": "herbivore_dino"
+    "by_mood": [ "herbivore_dino", "medium_mixed" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "zombie_aquatic",
     "copy-from": "zombie_aquatic",
-    "neutral": "mosasaurus_hatchling",
-    "hate": "mosasaurus"
+    "neutral": "small_fisher",
+    "hate": "mixed_dino"
   },
   {
     "type": "MONSTER_FACTION",
     "name": "gator",
     "copy-from": "gator",
-    "by_mood": [ "mosasaurus", "fishing_dino" ]
+    "by_mood": [ "mixed_dino", "fishing_dino" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "fish",
     "copy-from": "fish",
-    "by_mood": [ "ceratosaurus", "fishing_dino", "mosasaurus" ],
-    "hate": [ "small_fisher", "mosasaurus_hatchling" ]
+    "by_mood": [ "mixed_dino", "fishing_dino", "small_mixed" ],
+    "hate": [ "very_small_mixed", "small_fisher" ]
   },
   {
     "type": "MONSTER_FACTION",
