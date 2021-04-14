@@ -733,7 +733,7 @@ character_id mission::get_assigned_player_id() const
     return player_id;
 }
 
-std::string mission::name()
+std::string mission::name() const
 {
     if( type == nullptr ) {
         return "NULL";
@@ -741,7 +741,7 @@ std::string mission::name()
     return type->tname();
 }
 
-mission_type_id mission::mission_id()
+mission_type_id mission::mission_id() const
 {
     if( type == nullptr ) {
         return mission_type_id( "NULL" );
