@@ -168,10 +168,13 @@ void UnsequencedCallsCheck::onEndOfTranslationUnit()
             continue;
         }
 
+        const CXXRecordDecl *class_type = calls[0].call->getRecordDecl();
+
         diag(
             context.stmt->getBeginLoc(),
-            "Unsequenced calls to member functions of %0, at least one of which is non-const."
-        ) << context.on;
+            "Unsequenced calls to member functions of %0 (of type %1), at least one of which is "
+            "non-const."
+        ) << context.on << class_type;
 
         for( const CallWithASTContext &member_call : calls ) {
             const CXXMethodDecl *method = member_call.call->getMethodDecl();
