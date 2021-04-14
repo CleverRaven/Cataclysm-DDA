@@ -18,7 +18,10 @@ void f0()
     // Calls to begin/end are also fine
     g( a.begin(), a.end() );
     // Calls in a ternary expression are fine
-    int n = a.nonconst_mf() ? a.nonconst_mf() : a.const_mf();
+    int n0 = a.nonconst_mf() ? a.nonconst_mf() : a.const_mf();
+    // Or by short-circuiting boolean expressions
+    int n1 = a.nonconst_mf() && a.nonconst_mf();
+    int n2 = a.nonconst_mf() || a.nonconst_mf();
     // Nested calls are OK
     a.nonconst_mf( a.const_mf() );
     // But otherwise, if at least one is non-const, raise a warning
@@ -28,4 +31,6 @@ void f0()
     // CHECK-MESSAGES: [[@LINE-1]]:5: warning: Unsequenced calls to member functions of 'a', at least one of which is non-const. [cata-unsequenced-calls]
     g( a.nonconst_mf(), a.nonconst_mf() );
     // CHECK-MESSAGES: [[@LINE-1]]:5: warning: Unsequenced calls to member functions of 'a', at least one of which is non-const. [cata-unsequenced-calls]
+    int n3 = a.nonconst_mf() | a.nonconst_mf();
+    // CHECK-MESSAGES: [[@LINE-1]]:14: warning: Unsequenced calls to member functions of 'a', at least one of which is non-const. [cata-unsequenced-calls]
 }
