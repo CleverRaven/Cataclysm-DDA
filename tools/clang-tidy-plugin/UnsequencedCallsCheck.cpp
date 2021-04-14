@@ -46,6 +46,11 @@ static const Expr *GetContainingSequenceStatement( ASTContext *Context, const Ex
         if( parent.get<ConditionalOperator>() ) {
             return Node;
         }
+        if( const BinaryOperator *op = parent.get<BinaryOperator>() ) {
+            if( op->isLogicalOp() ) {
+                return Node;
+            }
+        }
         if( const Expr *Candidate = parent.get<Expr>() ) {
             return GetContainingSequenceStatement( Context, Candidate );
         }
@@ -73,6 +78,7 @@ static std::vector<const Expr *> GetAncestorExpressions( ASTContext *Context, co
         }
         if( next ) {
             result.push_back( next );
+            Node = next;
         }
     } while( next && next != stop );
 
