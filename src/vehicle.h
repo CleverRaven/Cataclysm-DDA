@@ -1834,8 +1834,7 @@ class vehicle
         int part_count() const;
         // Returns the vehicle_part with the given part number
         vehicle_part &part( int part_num );
-        // Same as vehicle::part() except with const binding
-        const vehicle_part &cpart( int part_num ) const;
+        const vehicle_part &part( int part_num ) const;
         // Determines whether the given part_num is valid for this vehicle
         bool valid_part( int part_num ) const;
         // Forcibly removes a part from this vehicle. Only exists to support faction_camp.cpp

@@ -1224,7 +1224,7 @@ void construct::done_grave( const tripoint &p )
     Character &player_character = get_player_character();
     map &here = get_map();
     map_stack its = here.i_at( p );
-    for( item it : its ) {
+    for( const item &it : its ) {
         if( it.is_corpse() ) {
             if( it.get_corpse_name().empty() ) {
                 if( it.get_mtype()->has_flag( MF_HUMAN ) ) {

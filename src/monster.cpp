@@ -1103,7 +1103,7 @@ void monster::shift( const point &sm_shift )
     }
 }
 
-tripoint monster::move_target()
+tripoint monster::move_target() const
 {
     return goal;
 }
@@ -2853,7 +2853,7 @@ void monster::add_msg_debug_player_or_npc( debugmode::debug_filter type,
     add_msg_debug_if_player_sees( *this, type, replace_with_npc_name( npc_msg ) );
 }
 
-units::mass monster::get_carried_weight()
+units::mass monster::get_carried_weight() const
 {
     units::mass total_weight = 0_gram;
     if( tack_item ) {
@@ -2871,7 +2871,7 @@ units::mass monster::get_carried_weight()
     return total_weight;
 }
 
-units::volume monster::get_carried_volume()
+units::volume monster::get_carried_volume() const
 {
     units::volume total_volume = 0_ml;
     for( const item &it : inv ) {
