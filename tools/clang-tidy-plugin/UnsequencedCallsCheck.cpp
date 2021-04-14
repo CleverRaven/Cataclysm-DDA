@@ -37,7 +37,8 @@ void UnsequencedCallsCheck::registerMatchers( MatchFinder *Finder )
 }
 
 // Keep walking up the AST so long as the nodes are expressions.  When we reach
-// a non-expression, return the previous expression.
+// a non-expression or an expressions whose subexpressions we know to be
+// sequenced (like a short-circuiting logical operator), return the previous expression.
 // This is a vague approximation to finding the AST node which represents
 // everything between two sequence points.
 static const Expr *GetContainingSequenceStatement( ASTContext *Context, const Expr *Node )
@@ -48,6 +49,11 @@ static const Expr *GetContainingSequenceStatement( ASTContext *Context, const Ex
         }
         if( const BinaryOperator *op = parent.get<BinaryOperator>() ) {
             if( op->isLogicalOp() ) {
+                return Node;
+            }
+        }
+        if( const CXXConstructExpr *construct = parent.get<CXXConstructExpr>() ) {
+            if( construct->isListInitialization() ) {
                 return Node;
             }
         }
