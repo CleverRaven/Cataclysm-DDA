@@ -12,6 +12,10 @@ struct A {
 
 void g( int, int );
 
+struct B {
+    B( int, int );
+};
+
 void f0()
 {
     A a;
@@ -35,4 +39,17 @@ void f0()
     // CHECK-MESSAGES: [[@LINE-1]]:5: warning: Unsequenced calls to member functions of 'a' (of type 'A'), at least one of which is non-const. [cata-unsequenced-calls]
     int n3 = a.nonconst_mf() | a.nonconst_mf();
     // CHECK-MESSAGES: [[@LINE-1]]:14: warning: Unsequenced calls to member functions of 'a' (of type 'A'), at least one of which is non-const. [cata-unsequenced-calls]
+}
+
+void f1()
+{
+    A a;
+    // Calls in args to a 'regular' constructor are dangerous
+    B b0( a.nonconst_mf(), a.nonconst_mf() );
+    // CHECK-MESSAGES: [[@LINE-1]]:7: warning: Unsequenced calls to member functions of 'a' (of type 'A'), at least one of which is non-const. [cata-unsequenced-calls]
+
+    // ...but using an initializer-list style is OK, because those are
+    // sequenced.
+    B b1{ a.nonconst_mf(), a.nonconst_mf() };
+    B b2 = { a.nonconst_mf(), a.nonconst_mf() };
 }
