@@ -7209,7 +7209,7 @@ vehicle_part &vehicle::part( int part_num )
     return parts[part_num];
 }
 
-const vehicle_part &vehicle::cpart( int part_num ) const
+const vehicle_part &vehicle::part( int part_num ) const
 {
     return const_cast<vehicle_part &>( parts[part_num] );
 }

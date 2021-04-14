@@ -1698,7 +1698,8 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
     }
 
     if( technique.disarms && p != nullptr && p->is_armed() ) {
-        here.add_item_or_charges( p->pos(), p->remove_weapon() );
+        item weap = p->remove_weapon();
+        here.add_item_or_charges( p->pos(), weap );
         if( p->is_player() ) {
             add_msg_if_npc( _( "<npcname> disarms you!" ) );
         } else {
