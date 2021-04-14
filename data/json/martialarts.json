@@ -408,6 +408,7 @@
     "techniques": [ "tec_fencing_feint", "tec_fencing_lunge", "tec_fencing_riposte", "tec_fencing_compound" ],
     "weapons": [
       "baton-extended",
+      "bio_blade_weapon",
       "broadsword",
       "broadsword_inferior",
       "broadsword_fake",
@@ -799,6 +800,7 @@
       "arming_sword",
       "arming_sword_inferior",
       "arming_sword_fake",
+      "bio_blade_weapon",
       "broadsword",
       "broadsword_inferior",
       "broadsword_fake",
@@ -1067,6 +1069,7 @@
     ],
     "techniques": [ "niten_water_cut", "niten_red_leaf", "niten_stone_cut", "niten_timing_attack", "niten_feint" ],
     "weapons": [
+      "bio_blade_weapon",
       "bokken",
       "bokken_inferior",
       "bokken_fake",
