@@ -13,6 +13,7 @@
 #include <clang/Lex/Lexer.h>
 #include <string>
 #include <tuple>
+#include <unordered_set>
 
 #include "Utils.h"
 
@@ -39,19 +40,43 @@ void UnsequencedCallsCheck::registerMatchers( MatchFinder *Finder )
 // a non-expression, return the previous expression.
 // This is a vague approximation to finding the AST node which represents
 // everything between two sequence points.
-static const Expr *getContainingSequenceStatement(
-    const ast_matchers::MatchFinder::MatchResult &Result, const Expr *Node )
+static const Expr *GetContainingSequenceStatement( ASTContext *Context, const Expr *Node )
 {
-    for( const ast_type_traits::DynTypedNode &parent : Result.Context->getParents( *Node ) ) {
+    for( const ast_type_traits::DynTypedNode &parent : Context->getParents( *Node ) ) {
         if( parent.get<ConditionalOperator>() ) {
             return Node;
         }
         if( const Expr *Candidate = parent.get<Expr>() ) {
-            return getContainingSequenceStatement( Result, Candidate );
+            return GetContainingSequenceStatement( Context, Candidate );
         }
     }
 
     return Node;
+}
+
+// Keep walking up the AST so long as the nodes are expressions.  When we reach
+// a non-expression, return the previous expression.
+// This is a vague approximation to finding the AST node which represents
+// everything between two sequence points.
+static std::vector<const Expr *> GetAncestorExpressions( ASTContext *Context, const Expr *Node )
+{
+    const Expr *stop = GetContainingSequenceStatement( Context, Node );
+    std::vector<const Expr *> result;
+    const Expr *next;
+    do {
+        next = nullptr;
+        for( const ast_type_traits::DynTypedNode &parent : Context->getParents( *Node ) ) {
+            if( const Expr *candidate = parent.get<Expr>() ) {
+                next = candidate;
+                break;
+            }
+        }
+        if( next ) {
+            result.push_back( next );
+        }
+    } while( next && next != stop );
+
+    return result;
 }
 
 void UnsequencedCallsCheck::CheckCall( const MatchFinder::MatchResult &Result )
@@ -64,10 +89,10 @@ void UnsequencedCallsCheck::CheckCall( const MatchFinder::MatchResult &Result )
         return;
     }
 
-    const Expr *ContainingStatement = getContainingSequenceStatement( Result, MemberCall );
+    const Expr *ContainingStatement = GetContainingSequenceStatement( Result.Context, MemberCall );
 
     CallContext context{ ContainingStatement, On };
-    calls_[context].push_back( MemberCall );
+    calls_[context].push_back( { MemberCall, Result.Context } );
 }
 
 static bool IsEffectivelyConstCall( const CXXMemberCallExpr *Call )
@@ -85,38 +110,66 @@ static bool IsEffectivelyConstCall( const CXXMemberCallExpr *Call )
 
 void UnsequencedCallsCheck::onEndOfTranslationUnit()
 {
-    for( std::pair<const CallContext, std::vector<const CXXMemberCallExpr *>> &p : calls_ ) {
+    for( std::pair<const CallContext, std::vector<CallWithASTContext>> &p : calls_ ) {
         const CallContext &context = p.first;
-        std::vector<const CXXMemberCallExpr *> &calls = p.second;
+        std::vector<CallWithASTContext> &calls = p.second;
         std::sort( calls.begin(), calls.end() );
         calls.erase( std::unique( calls.begin(), calls.end() ), calls.end() );
 
         if( calls.size() < 2 ) {
             continue;
         }
-        bool any_non_const = false;
-        for( const CXXMemberCallExpr *member_call : calls ) {
-            if( !IsEffectivelyConstCall( member_call ) ) {
-                any_non_const = true;
-                break;
+        std::unordered_set<const CXXMemberCallExpr *> non_const_calls;
+        for( const CallWithASTContext &member_call : calls ) {
+            if( !IsEffectivelyConstCall( member_call.call ) ) {
+                non_const_calls.insert( member_call.call );
             }
         }
 
-        if( any_non_const ) {
-            diag(
-                context.stmt->getBeginLoc(),
-                "Unsequenced calls to member functions of %0, at least one of which is non-const."
-            ) << context.on;
+        if( non_const_calls.empty() ) {
+            continue;
+        }
 
-            for( const CXXMemberCallExpr *member_call : calls ) {
-                const CXXMethodDecl *method = member_call->getMethodDecl();
-                if( IsEffectivelyConstCall( member_call ) ) {
-                    diag( member_call->getBeginLoc(), "Call to const member function %0",
-                          DiagnosticIDs::Note ) << method;
-                } else {
-                    diag( member_call->getBeginLoc(), "Call to non-const member function %0",
-                          DiagnosticIDs::Note ) << method;
+        // If some of the calls are an ancestor of other of the calls then we
+        // might not need to report it.
+        std::vector<CallWithASTContext> to_delete;
+        for( const CallWithASTContext &member_call : calls ) {
+            for( const Expr *ancestor :
+                 GetAncestorExpressions( member_call.context, member_call.call ) ) {
+                auto in_set = std::find( calls.begin(), calls.end(), ancestor );
+                if( in_set == calls.end() ) {
+                    continue;
                 }
+                // We have found a pair with an ancestor relationship.  Delete
+                // the most const one.
+                if( non_const_calls.count( in_set->call ) ) {
+                    to_delete.push_back( member_call );
+                } else {
+                    to_delete.push_back( *in_set );
+                }
+            }
+        }
+        std::sort( to_delete.begin(), to_delete.end() );
+        auto new_end = std::set_difference(
+                           calls.begin(), calls.end(), to_delete.begin(), to_delete.end(), calls.begin() );
+        calls.erase( new_end, calls.end() );
+        if( calls.size() < 2 ) {
+            continue;
+        }
+
+        diag(
+            context.stmt->getBeginLoc(),
+            "Unsequenced calls to member functions of %0, at least one of which is non-const."
+        ) << context.on;
+
+        for( const CallWithASTContext &member_call : calls ) {
+            const CXXMethodDecl *method = member_call.call->getMethodDecl();
+            if( IsEffectivelyConstCall( member_call.call ) ) {
+                diag( member_call.call->getBeginLoc(), "Call to const member function %0",
+                      DiagnosticIDs::Note ) << method;
+            } else {
+                diag( member_call.call->getBeginLoc(), "Call to non-const member function %0",
+                      DiagnosticIDs::Note ) << method;
             }
         }
     }
