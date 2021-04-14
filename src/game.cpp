@@ -819,8 +819,11 @@ bool game::start_game()
     }
     if( scen->has_flag( "BORDERED" ) ) {
         overmap &starting_om = get_cur_om();
-        starting_om.place_special_forced( overmap_special_id( "world" ), { 0, 0, 0 },
-                                          om_direction::type::north );
+        for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
+            starting_om.place_special_forced( overmap_special_id( "world" ), { 0, 0, z },
+                                              om_direction::type::north );
+        }
+
     }
     for( auto &e : u.inv_dump() ) {
         e->set_owner( get_player_character() );
