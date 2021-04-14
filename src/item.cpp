@@ -10604,11 +10604,8 @@ std::string item::type_name( unsigned int quantity ) const
     return ret_name;
 }
 
-std::string item::get_corpse_name()
+std::string item::get_corpse_name() const
 {
-    if( corpse_name.empty() ) {
-        return std::string();
-    }
     return corpse_name;
 }
 
