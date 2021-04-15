@@ -4004,7 +4004,7 @@
     "name": { "str": "Gastropod Foot" },
     "points": 1,
     "mixed_effect": true,
-    "description": "In place of legs, your lower body extends into a muscular sluglike belly-foot.  Your movement speed is reduced by 25%, but you can't easily be knocked down.  Additionally, you can squidge your way through sludge-covered surfaces with ease.",
+    "description": "In place of legs, your lower body extends into a muscular sluglike belly-foot.  Your movement speed is reduced by 25%, but you're much quieter and can't easily be knocked down.  Additionally, you can squidge your way through sludge-covered surfaces with ease.",
     "category": [ "GASTROPOD" ],
     "prereqs": [ "SLIMY" ],
     "threshreq": [ "THRESH_GASTROPOD" ],
@@ -4019,6 +4019,7 @@
     ],
     "movecost_flatground_modifier": 1.25,
     "restricts_gear": [ "leg_l", "leg_r", "foot_l", "foot_r" ],
+    "noise_modifier": 0.25,
     "destroys_gear": false
   },
   {
