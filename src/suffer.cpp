@@ -807,30 +807,23 @@ void Character::suffer_from_sunburn()
         return;
     }
 
-    std::string sunlight_effect;
     if( has_trait( trait_ALBINO ) || has_effect( effect_datura ) ) {
         // Albinism and datura have the same effects, once per minute on average
         if( !one_turn_in( 1_minutes ) ) {
             return;
         }
-        //~ Will be used as the start of a sentence, followed by a list of body
-        //~ parts.
-        sunlight_effect = _( "The sunlight is really irritating" );
     } else if( has_trait( trait_SUNBURN ) ) {
         // Sunburn effects occur about 3 times per minute
         if( !one_turn_in( 20_seconds ) ) {
             return;
         }
-        //~ Will be used as the start of a sentence, followed by a list of body
-        //~ parts.
-        sunlight_effect = _( "The sunlight burns" );
     }
 
     // Sunglasses can keep the sun off the eyes.
     if( !has_flag( json_flag_GLARE_RESIST ) &&
         !( wearing_something_on( bodypart_id( "eyes" ) ) &&
            ( worn_with_flag( flag_SUN_GLASSES ) || worn_with_flag( flag_BLIND ) ) ) ) {
-        add_msg_if_player( m_bad, _( "%s your eyes." ), sunlight_effect );
+        add_msg_if_player( m_bad, _( "The sunlight is really irritating your eyes." ) );
         // Pain (1/60) or loss of focus (59/60)
         if( one_turn_in( 1_minutes ) ) {
             mod_pain( 1 );
@@ -895,7 +888,21 @@ void Character::suffer_from_sunburn()
 
     std::string all_parts_list = enumerate_as_string( affected_part_names );
 
-    add_msg_if_player( m_bad, _( "%s your %s." ), sunlight_effect, all_parts_list );
+    std::string message;
+    if( has_trait( trait_ALBINO ) || has_effect( effect_datura ) ) {
+        //~ %s is a list of body parts.  The plurality integer is the total
+        //~ number of body parts
+        message = ngettext( "The sunlight is really irritating your %s.",
+                            "The sunlight is really irritating your %s.",
+                            affected_bodyparts.size() );
+    } else if( has_trait( trait_SUNBURN ) ) {
+        //~ %s is a list of body parts.  The plurality integer is the total
+        //~ number of body parts
+        message = ngettext( "The sunlight burns your %s.",
+                            "The sunlight burns your %s.",
+                            affected_bodyparts.size() );
+    }
+    add_msg_if_player( m_bad, message, all_parts_list );
 
     // Wake up from skin irritation/burning
     if( has_effect( effect_sleep ) ) {
