@@ -3001,6 +3001,18 @@
   },
   {
     "type": "mutation",
+    "id": "REFLEXIVE_SECRETION",
+    "name": "Reflexive Secretion",
+    "points": 2,
+    "visibility": 1,
+    "ugliness": 1,
+    "description": "Your slimy body secretes a sticky goo that can briefly trap melee attackers.",
+    "enchantments": [ "enchantment_reflexive_secretion" ],
+    "prereqs": [ "VISCOUS", "AMORPHOUS" ],
+    "category": [ "GASTROPOD", "SLIME" ]
+  },
+  {
+    "type": "mutation",
     "id": "BENDY1",
     "name": { "str": "Stretchy Limbs" },
     "points": 1,

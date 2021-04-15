@@ -19,5 +19,22 @@
     "flags": [ "SILENT", "NO_LEGS", "NO_HANDS", "RANDOM_DAMAGE", "RANDOM_DURATION", "RANDOM_TARGET", "NO_PROJECTILE" ],
     "energy_source": "NONE",
     "damage_type": "biological"
+  },
+  {
+    "id": "spell_reflexive_secretion",
+    "type": "SPELL",
+    "name": { "str": "Reflexive Secretion" },
+    "description": "Secrete slime onto a melee attacker to slow them down.",
+    "shape": "blast",
+    "effect": "mod_moves",
+    "valid_targets": [ "hostile" ],
+    "min_damage": -50,
+    "max_damage": -350,
+    "min_range": 1,
+    "max_range": 1,
+    "spell_class": "NONE",
+    "flags": [ "SILENT", "NO_LEGS", "NO_HANDS", "RANDOM_DAMAGE", "RANDOM_DURATION", "RANDOM_TARGET", "NO_PROJECTILE" ],
+    "energy_source": "NONE",
+    "damage_type": "biological"
   }
 ]

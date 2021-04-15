@@ -11,5 +11,18 @@
         "npc_message": "%1$s's ink glands spay some ink into %2$s's eyes."
       }
     ]
+  },
+  {
+    "type": "enchantment",
+    "id": "enchantment_reflexive_secretion",
+    "hit_me_effect": [
+      {
+        "id": "spell_reflexive_secretion",
+        "hit_self": false,
+        "once_in": 12,
+        "message": "You cover %2$s in sticky slime.",
+        "npc_message": "%1$s covers %2$s in sticky slime."
+      }
+    ]
   }
 ]
