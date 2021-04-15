@@ -323,7 +323,6 @@
     "weight": "250 kg",
     "hp": 200,
     "speed": 100,
-    "attack_cost": 100,
     "aggression": 10,
     "morale": 20,
     "melee_skill": 12,
