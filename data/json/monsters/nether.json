@@ -310,17 +310,17 @@
   },
   {
     "id": "mon_unseen_hunter",
-    "type":"MONSTER",
+    "type": "MONSTER",
     "name": { "str": "unseen hunter" },
     "//": "Where you saw nothing a moment ago there's now the faintest outline of an otherworldly creature rushing towards you on dozens of pointed limbs.  Despite its size you find it hard to follow its jittery movements, and looking at it directly makes your eyes burn.",
     "description": "There was nothing here a moment ago, but now you see the faintest outline of an otherworldly creature approaching you with jittery leaps.  Trying to focus on it reveals a pointed beak dripping translucent fluid and rows upon rows of bladed legs grasping the floor, before your eyes begin to burn and your head starts to spin.",
     "symbol": " ",
-    "color":"light_blue",
-    "default_faction":"nether",
+    "color": "light_blue",
+    "default_faction": "nether",
     "bodytype": "insect",
     "diff": 15,
     "volume": "230 L",
-    "weight":"250 kg",
+    "weight": "250 kg",
     "hp": 200,
     "speed": 100,
     "attack_cost": 100,
@@ -329,17 +329,21 @@
     "melee_skill": 12,
     "melee_dice": 4,
     "melee_dice_sides": 5,
-    "melee_damage":[ {"damage_type": "cut", "amount": 5, "armor_penetration": 30 } ],
+    "melee_damage": [ { "damage_type": "cut", "amount": 5, "armor_penetration": 30 } ],
     "dodge": 11,
     "vision_day": 20,
     "vision_night": 20,
-    "special_attacks": [ [ "RANGED_PULL", 5 ], { "type": "leap", "cooldown": 25, "max_range": 8, "allow_no_target": true }, {"id": "hunter_peck", "min_mul": 0.5, "max_mul": 1 } ],
+    "special_attacks": [
+      [ "RANGED_PULL", 5 ],
+      { "type": "leap", "cooldown": 25, "max_range": 8, "allow_no_target": true },
+      { "id": "hunter_peck", "min_mul": 0.5, "max_mul": 1 }
+    ],
     "armor_bash": 30,
     "armor_cut": 15,
     "armor_stab": 10,
     "armor_bullet": 20,
-    "death_function":["MELT"],
-    "flags":[
+    "death_function": [ "MELT" ],
+    "flags": [
       "SEES",
       "HEARS",
       "GOODHEARING",
@@ -351,7 +355,7 @@
       "NIGHT_INVISIBILITY",
       "HARDTOSHOOT",
       "HIT_AND_RUN"
-     ] 
+    ]
   },
   {
     "id": "mon_gozu",
