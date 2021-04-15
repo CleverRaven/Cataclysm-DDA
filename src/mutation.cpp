@@ -77,6 +77,7 @@ static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 static const trait_id trait_TREE_COMMUNION( "TREE_COMMUNION" );
 static const trait_id trait_VOMITOUS( "VOMITOUS" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
+static const trait_id trait_SNAIL_TRAIL( "SNAIL_TRAIL" );
 
 namespace io
 {
@@ -689,6 +690,9 @@ void Character::activate_mutation( const trait_id &mut )
     if( mut == trait_WEB_WEAVER ) {
         get_map().add_field( pos(), fd_web, 1 );
         add_msg_if_player( _( "You start spinning web with your spinnerets!" ) );
+    } else if( mut == trait_SNAIL_TRAIL ) {
+        get_map().add_field( pos(), fd_sludge, 1 );
+        add_msg_if_player( _( "You start leaving a trail of sludge as you go." ) );
     } else if( mut == trait_BURROW ) {
         tdata.powered = false;
         item burrowing_item( itype_id( "fake_burrowing" ) );

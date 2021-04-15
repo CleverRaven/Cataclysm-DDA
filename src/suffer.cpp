@@ -155,6 +155,8 @@ static const trait_id trait_VOMITOUS( "VOMITOUS" );
 static const trait_id trait_WEB_SPINNER( "WEB_SPINNER" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 static const trait_id trait_WINGS_INSECT( "WINGS_INSECT" );
+static const trait_id trait_MUCUS_SECRETION( "MUCUS_SECRETION" );
+static const trait_id trait_SNAIL_TRAIL( "SNAIL_TRAIL" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
 static const mtype_id mon_zombie_cop( "mon_zombie_cop" );
@@ -986,6 +988,11 @@ void Character::suffer_from_other_mutations()
 
     }
 
+    if( has_active_mutation( trait_SNAIL_TRAIL ) && !in_vehicle ) {
+        here.add_field( pos(), fd_sludge, 1 );
+
+    }
+
     // Blind/Deaf for brief periods about once an hour,
     // and visuals about once every 30 min.
     if( has_trait( trait_PER_SLIME ) ) {
@@ -1008,6 +1015,10 @@ void Character::suffer_from_other_mutations()
     if( has_trait( trait_WEB_SPINNER ) && !in_vehicle && one_in( 3 ) ) {
         // this adds intensity to if its not already there.
         here.add_field( pos(), fd_web, 1 );
+    }
+
+    if( has_trait( trait_MUCUS_SECRETION ) && !in_vehicle && one_in( 2033 ) ) {
+        here.add_field( pos(), fd_sludge, 1 );
     }
 
     bool should_mutate = has_trait( trait_UNSTABLE ) && !has_trait( trait_CHAOTIC_BAD ) &&

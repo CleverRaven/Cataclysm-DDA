@@ -236,6 +236,7 @@
       }
     ],
     "description_affix": "covered_in",
+    "immunity_data": { "traits": [ "GASTROPOD_FOOT" ] },
     "is_splattering": true,
     "priority": 2,
     "half_life": "6 hours",

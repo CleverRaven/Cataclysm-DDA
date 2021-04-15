@@ -68,6 +68,15 @@
   },
   {
     "type": "mutation_category",
+    "id": "GASTROPOD",
+    "name": "Gastropod",
+    "threshold_mut": "THRESH_GASTROPOD",
+    "mutagen_message": "You feel briefly paranoid, like you're being watched.",
+    "iv_message": "Something twists inside you.",
+    "memorial_message": "Decided to take it slow."
+  },
+  {
+    "type": "mutation_category",
     "id": "RAT",
     "name": "Rat",
     "threshold_mut": "THRESH_RAT",

@@ -50,6 +50,19 @@
   },
   {
     "type": "GENERIC",
+    "id": "shell_snail",
+    "symbol": "*",
+    "color": "brown",
+    "name": { "str": "snail shell" },
+    "description": "The empty shell of a common snail.",
+    "material": [ "flesh" ],
+    "flags": [ "TRADER_AVOID" ],
+    "longest_side": "2 cm",
+    "weight": "10 g",
+    "volume": "20 ml"
+  },
+  {
+    "type": "GENERIC",
     "id": "fighter_sting",
     "name": { "str": "fungal fighter sting" },
     "description": "A short dart from a fungal fighter.  Makes a poor melee weapon.",

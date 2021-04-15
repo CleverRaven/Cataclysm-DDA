@@ -275,6 +275,7 @@
     "id": "downed",
     "name": [ "Downed" ],
     "desc": [ "You're knocked to the ground.  You have to get up before you can move." ],
+    "resist_traits": [ "GASTROPOD_FOOT" ],
     "apply_message": "You're knocked to the floor!",
     "rating": "bad",
     "show_in_info": true

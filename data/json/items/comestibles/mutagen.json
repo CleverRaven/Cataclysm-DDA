@@ -101,6 +101,15 @@
     "use_action": { "type": "mutagen_iv", "mutation_category": "CEPHALOPOD" }
   },
   {
+    "id": "iv_mutagen_gastropod",
+    "copy-from": "iv_mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": { "str": "gastropod serum" },
+    "description": "A super-concentrated mutagen with an oddly viscous texture.",
+    "color": "dark_gray",
+    "use_action": { "type": "mutagen_iv", "mutation_category": "GASTROPOD" }
+  },
+  {
     "id": "iv_mutagen_chimera",
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
@@ -271,6 +280,14 @@
     "charges": 5,
     "fun": -10,
     "use_action": { "type": "mutagen", "mutation_category": "BEAST" }
+  },
+  {
+    "id": "mutagen_gastropod",
+    "copy-from": "mutagen_flavor",
+    "type": "COMESTIBLE",
+    "description": "An unpleasantly slimy fluid.",
+    "name": { "str": "gastropod mutagen" },
+    "use_action": { "type": "mutagen", "mutation_category": "GASTROPOD" }
   },
   {
     "id": "mutagen_alpha",
