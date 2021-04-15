@@ -38,7 +38,6 @@
       "PATH_AVOID_DANGER_1",
       "WARM",
       "CLIMBS",
-      "ATTACKMON",
       "SWARMS",
       "GROUP_MORALE"
     ],
@@ -75,7 +74,7 @@
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
     "special_attacks": [ [ "GRAB", 10 ], { "type": "bite", "cooldown": 10 } ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "KEENNOSE", "WARM", "ATTACKMON", "SWIMS" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "KEENNOSE", "WARM", "SWIMS" ],
     "harvest": "dino_large_feather_pred",
     "anger_triggers": [ "PLAYER_WEAK", "HURT" ],
     "placate_triggers": [ "MEAT" ],
@@ -113,9 +112,9 @@
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
     "special_attacks": [ [ "GRAB", 10 ], { "type": "bite", "cooldown": 10 } ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "ATTACKMON", "WARM", "SWIMS" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "WARM", "SWIMS" ],
     "harvest": "dino_large_pred",
-    "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT" ],
+    "anger_triggers": [ "PLAYER_WEAK", "HURT" ],
     "placate_triggers": [ "MEAT" ],
     "categories": [ "DINOSAUR" ]
   },
@@ -149,9 +148,9 @@
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
     "special_attacks": [ { "type": "bite", "cooldown": 3 }, [ "LUNGE", 5 ] ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "DESTROYS", "WARM", "SWIMS", "ATTACKMON" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "DESTROYS", "WARM", "SWIMS", "PUSH_MON" ],
     "harvest": "dino_large_pred",
-    "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT" ],
+    "anger_triggers": [ "PLAYER_WEAK", "HURT" ],
     "placate_triggers": [ "MEAT" ],
     "categories": [ "DINOSAUR" ]
   },
@@ -186,9 +185,9 @@
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
     "special_attacks": [ [ "GRAB", 10 ], { "type": "bite", "cooldown": 10 } ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "ATTACKMON", "WARM" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "WARM" ],
     "harvest": "dino_large_pred",
-    "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT" ],
+    "anger_triggers": [ "PLAYER_WEAK", "HURT" ],
     "placate_triggers": [ "MEAT" ],
     "categories": [ "DINOSAUR" ]
   },
@@ -206,7 +205,7 @@
     "special_attacks": [ [ "GRAB", 10 ], [ "LUNGE", 20 ] ],
     "description": "Huge predatory bipedal dinosaur with a tall ridge running the length of its back covered with heavy muscles.  Its teeth are curved and serrated like sawblades.",
     "reproduction": { "baby_egg": "egg_acrocanthosaurus", "baby_count": 3, "baby_timer": 24 },
-    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "ATTACKMON", "WARM", "KEENNOSE" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "WARM", "KEENNOSE" ]
   },
   {
     "type": "MONSTER",
@@ -220,7 +219,7 @@
     "special_attacks": [ [ "BIO_OP_TAKEDOWN", 20 ], [ "RANGED_PULL", 20 ], [ "GRAB_DRAG", 10 ], { "type": "bite", "cooldown": 10 } ],
     "description": "Huge predatory bipedal dinosaur with long claws and strong arms for grappling.",
     "reproduction": { "baby_egg": "egg_siats", "baby_count": 3, "baby_timer": 24 },
-    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "ATTACKMON", "WARM", "KEENNOSE" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "WARM", "KEENNOSE" ]
   },
   {
     "type": "MONSTER",
@@ -252,7 +251,7 @@
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
     "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "LUNGE", 10 ], [ "BIO_OP_TAKEDOWN", 20 ] ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "DESTROYS", "WARM", "ATTACKMON" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "DESTROYS", "WARM", "PUSH_MON" ],
     "harvest": "dino_large_feather_pred",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT" ],
     "placate_triggers": [ "MEAT" ],
@@ -288,7 +287,7 @@
     "reproduction": { "baby_egg": "egg_albertosaurus", "baby_count": 3, "baby_timer": 24 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
-    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "WARM", "ATTACKMON" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "WARM" ],
     "special_attacks": [ [ "GRAB", 7 ], { "type": "bite", "cooldown": 5 }, [ "LUNGE", 10 ] ],
     "harvest": "dino_large_feather_pred",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT" ],
@@ -335,8 +334,7 @@
       "SWIMS",
       "CATFOOD",
       "SWARMS",
-      "GROUP_MORALE",
-      "ATTACKMON"
+      "GROUP_MORALE"
     ],
     "harvest": "mammal_leather",
     "anger_triggers": [ "PLAYER_WEAK", "HURT" ],
@@ -385,8 +383,8 @@
       "PET_MOUNTABLE",
       "CATTLEFODDER",
       "PET_WONT_FOLLOW",
-      "WARM",
-      "ATTACKMON"
+      "HIT_AND_RUN",
+      "WARM"
     ],
     "harvest": "dino_feather_leather",
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "HURT", "FIRE" ],
@@ -422,9 +420,9 @@
     "reproduction": { "baby_egg": "egg_velociraptor", "baby_count": 3, "baby_timer": 18 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
-    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "KEENNOSE", "WARM", "CLIMBS", "ATTACKMON" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "KEENNOSE", "WARM", "CLIMBS" ],
     "harvest": "dino_feather_leather",
-    "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK", "HURT" ],
+    "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK", "HURT" ],
     "placate_triggers": [ "MEAT" ],
     "categories": [ "DINOSAUR" ]
   },
@@ -512,16 +510,15 @@
       "SMELLS",
       "HEARS",
       "ANIMAL",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER_2",
       "KEENNOSE",
-      "ATTACKMON",
       "WARM",
       "CLIMBS",
       "CAN_OPEN_DOORS",
       "PRIORITIZE_TARGETS"
     ],
     "harvest": "dino_feather_leather",
-    "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK", "HURT" ],
+    "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK", "HURT" ],
     "placate_triggers": [ "MEAT" ],
     "categories": [ "DINOSAUR" ]
   },
@@ -557,9 +554,9 @@
     "reproduction": { "baby_egg": "egg_utahraptor", "baby_count": 3, "baby_timer": 18 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
-    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "KEENNOSE", "ATTACKMON", "WARM", "CLIMBS" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "KEENNOSE", "WARM", "CLIMBS" ],
     "harvest": "dino_large_feather_pred",
-    "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK", "HURT" ],
+    "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK", "HURT" ],
     "placate_triggers": [ "MEAT" ],
     "categories": [ "DINOSAUR" ]
   },
@@ -601,8 +598,7 @@
       "ANIMAL",
       "PATH_AVOID_DANGER_1",
       "WARM",
-      "CLIMBS",
-      "ATTACKMON"
+      "CLIMBS"
     ],
     "harvest": "mammal_tiny",
     "vision_night": 5,
@@ -643,7 +639,7 @@
     "reproduction": { "baby_egg": "egg_apatosaurus", "baby_count": 3, "baby_timer": 24 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
-    "flags": [ "SEES", "SMELLS", "HEARS", "GOODHEARING", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "DESTROYS", "WARM", "ATTACKMON" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "GOODHEARING", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "DESTROYS", "WARM", "PUSH_MON" ],
     "harvest": "mammal_large_leather",
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED" ],
     "fear_triggers": [ "FIRE" ],
@@ -671,7 +667,7 @@
     "zombify_into": "mon_ziplodocus",
     "description": "Huge, long-necked, four-legged dinosaur with a long, whip-like tail.",
     "reproduction": { "baby_egg": "egg_diplodocus", "baby_count": 3, "baby_timer": 24 },
-    "flags": [ "SEES", "SMELLS", "HEARS", "GOODHEARING", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "WARM", "ATTACKMON" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "GOODHEARING", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "WARM" ]
   },
   {
     "type": "MONSTER",
@@ -733,7 +729,7 @@
     "special_attacks": [ [ "EAT_CROP", 20 ] ],
     "description": "Small, four-legged dinosaur with five rows of protective plates running down its back.",
     "reproduction": { "baby_egg": "egg_scutellosaurus", "baby_count": 3, "baby_timer": 24 },
-    "flags": [ "SEES", "SMELLS", "HEARS", "GOODHEARING", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "ATTACKMON", "CATTLEFODDER" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "GOODHEARING", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CATTLEFODDER" ]
   },
   {
     "type": "MONSTER",
@@ -779,7 +775,6 @@
       "PATH_AVOID_DANGER_1",
       "BASHES",
       "WARM",
-      "ATTACKMON",
       "CATTLEFODDER"
     ],
     "harvest": "mammal_large_leather",
@@ -808,7 +803,6 @@
       "ANIMAL",
       "PATH_AVOID_DANGER_1",
       "WARM",
-      "ATTACKMON",
       "PET_MOUNTABLE",
       "CATTLEFODDER"
     ]
@@ -857,7 +851,6 @@
       "PATH_AVOID_DANGER_1",
       "BASHES",
       "WARM",
-      "ATTACKMON",
       "PET_MOUNTABLE",
       "CATTLEFODDER"
     ],
@@ -886,7 +879,6 @@
       "ANIMAL",
       "PATH_AVOID_DANGER_1",
       "WARM",
-      "ATTACKMON",
       "PET_MOUNTABLE",
       "CATTLEFODDER"
     ]
@@ -913,7 +905,6 @@
       "ANIMAL",
       "PATH_AVOID_DANGER_1",
       "WARM",
-      "ATTACKMON",
       "PET_MOUNTABLE",
       "CATTLEFODDER"
     ]
@@ -962,8 +953,8 @@
       "PET_WONT_FOLLOW",
       "BASHES",
       "DESTROYS",
-      "WARM",
-      "ATTACKMON"
+      "PUSH_MON",
+      "WARM"
     ],
     "harvest": "mammal_large_leather",
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "HURT", "FIRE" ],
@@ -999,7 +990,7 @@
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
     "special_attacks": [ [ "EAT_CROP", 10 ] ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "GOODHEARING", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "DESTROYS", "WARM", "ATTACKMON" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "GOODHEARING", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "DESTROYS", "WARM", "PUSH_MON" ],
     "harvest": "mammal_large_leather",
     "categories": [ "DINOSAUR" ]
   },
@@ -1079,7 +1070,6 @@
       "CATTLEFODDER",
       "PET_WONT_FOLLOW",
       "WARM",
-      "ATTACKMON",
       "HIT_AND_RUN"
     ],
     "harvest": "dino_feather_leather",
@@ -1172,9 +1162,7 @@
       "PET_MOUNTABLE",
       "CATTLEFODDER",
       "BASHES",
-      "WARM",
-      "ATTACKMON",
-      "HIT_AND_RUN"
+      "WARM"
     ],
     "harvest": "mammal_large_leather",
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED" ],
@@ -1209,7 +1197,7 @@
     "reproduction": { "baby_egg": "egg_dimorphodon", "baby_count": 3, "baby_timer": 24 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
-    "flags": [ "SEES", "SMELLS", "HEARS", "FLIES", "HIT_AND_RUN", "ANIMAL", "PATH_AVOID_DANGER_1", "CATFOOD", "ATTACKMON" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "FLIES", "HIT_AND_RUN", "ANIMAL", "PATH_AVOID_DANGER_1", "CATFOOD" ],
     "harvest": "bird_small",
     "fear_triggers": [ "PLAYER_CLOSE", "FIRE", "FRIEND_DIED" ],
     "placate_triggers": [ "MEAT" ],
@@ -1259,7 +1247,6 @@
       "ANIMAL",
       "PATH_AVOID_DANGER_1",
       "CATFOOD",
-      "ATTACKMON",
       "PET_MOUNTABLE"
     ],
     "fear_triggers": [ "FIRE", "FRIEND_DIED" ],
@@ -1295,9 +1282,9 @@
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
     "special_attacks": [ [ "LUNGE", 10 ], { "type": "bite", "cooldown": 10 } ],
-    "flags": [ "SEES", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "DESTROYS", "WARM", "SWIMS", "AQUATIC", "ATTACKMON", "HIT_AND_RUN" ],
+    "flags": [ "SEES", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "DESTROYS", "WARM", "SWIMS", "AQUATIC", "PUSH_MON" ],
     "harvest": "dino_large_pred",
-    "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT" ],
+    "anger_triggers": [ "PLAYER_WEAK", "HURT" ],
     "placate_triggers": [ "MEAT" ],
     "categories": [ "DINOSAUR" ]
   },
@@ -1333,7 +1320,7 @@
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
     "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "LUNGE", 10 ], [ "BIO_OP_TAKEDOWN", 20 ] ],
-    "flags": [ "SEES", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "DESTROYS", "WARM", "SWARMS", "ATTACKMON", "HIT_AND_RUN" ],
+    "flags": [ "SEES", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "DESTROYS", "WARM", "SWARMS", "PUSH_MON" ],
     "harvest": "dino_large_pred",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT" ],
     "placate_triggers": [ "MEAT" ],
