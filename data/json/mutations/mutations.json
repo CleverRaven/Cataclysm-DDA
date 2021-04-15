@@ -4007,6 +4007,7 @@
     "description": "In place of legs, your lower body extends into a muscular sluglike belly-foot.  Your movement speed is reduced by 25%, but you're much quieter and can't easily be knocked down.  Additionally, you can squidge your way through sludge-covered surfaces with ease.",
     "category": [ "GASTROPOD" ],
     "prereqs": [ "SLIMY" ],
+    "types": [ "LEGS" ],
     "threshreq": [ "THRESH_GASTROPOD" ],
     "types": [ "RUNNING" ],
     "visibility": 8,
