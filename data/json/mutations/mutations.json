@@ -1486,7 +1486,7 @@
     "ugliness": 1,
     "description": "Your skin is slightly rough.  This has no gameplay effect.",
     "types": [ "SKIN" ],
-    "changes_to": [ "SCALES", "FEATHERS", "LIGHTFUR", "CHITIN", "PLANTSKIN" ],
+    "changes_to": [ "SCALES", "FEATHERS", "LIGHTFUR", "CHITIN", "PLANTSKIN", "PATCHSKIN1" ],
     "category": [ "LIZARD" ]
   },
   {
@@ -3383,7 +3383,6 @@
     "name": { "str": "Hyper-Metabolism: burning" },
     "description": "You're burning calories like crazy to heal your wounds.",
     "copy-from": "EATHEALTH",
-    "valid": false,
     "cost": 1,
     "time": 1,
     "hunger": true,
