@@ -2,9 +2,9 @@
   {
     "type": "MOD_INFO",
     "id": "package_bionic_professions",
-    "name": "More Professions and Scenarios",
+    "name": "Bionic Professions",
     "authors": [ "Erk/Everyone" ],
-    "description": "Numerous professions and scenarios.  Disable for a more real-world experience.",
+    "description": "Numerous bionic starting professions.  Disable for a more real-world experience.",
     "category": "content",
     "dependencies": [ "dda" ]
   }
