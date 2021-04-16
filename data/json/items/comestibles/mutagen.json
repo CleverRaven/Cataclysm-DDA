@@ -431,7 +431,7 @@
     "use_action": { "type": "mutagen", "mutation_category": "MOUSE" }
   },
   {
-    "id": "iv_mutagen_bunny",
+    "id": "iv_mutagen_rabbit",
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
     "name": { "str": "rabbit serum" },
