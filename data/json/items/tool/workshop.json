@@ -491,7 +491,7 @@
       [ "SCREW_FINE", 1 ],
       [ "SCREW", 1 ],
       [ "CHISEL", 3 ],
-      [ "CHISEL_WOOD", 1 ]
+      [ "CHISEL_WOOD", 3 ]
     ],
     "use_action": [ "GUN_REPAIR", "CROWBAR", "HAMMER" ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
@@ -852,7 +852,7 @@
       [ "SCREW_FINE", 1 ],
       [ "SCREW", 1 ],
       [ "CHISEL", 3 ],
-      [ "CHISEL_WOOD", 1 ]
+      [ "CHISEL_WOOD", 3 ]
     ],
     "use_action": [ "GUN_REPAIR", "CROWBAR", "HAMMER" ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
