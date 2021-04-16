@@ -388,3 +388,29 @@ diff <(ls src/*.h | sed 's!.*/!!') <(for i in src/*.cpp; do echo $i; sed -n '/^#
 * IWYU seems to have particular trouble with types used in maps and
   `cata::optional`.  Have not looked into this in detail, but again worked
   around it with pragmas.
+
+## Python and pyvips on Windows
+
+They are needed to work with `compose.py` and some other tileset infrastructure scripts.
+
+#### pyvips
+ * Install the Python with the latest Python installer https://www.python.org/downloads/windows/
+ * Open Console (Window key + `R` key, type `cmd` and hit `Enter`)
+ * Install pyvips with these commands:
+```
+py -m pip install -U pip
+py -m pip install --user pyvips
+```
+
+#### libvips
+ * Extract the latest libvips distribution to a folder (get the vips-dev-w64-web-x.y.z.zip NOT the vips-dev-w64-all-8.10.6.zip) https://libvips.github.io/libvips/install.html
+ * Press start menu and search for "`environment variables`".
+ * Alternatively go to `Control Panel > System > Advanced System Settings > Environment Variables`
+ * On the user variables tab, select `Path` and click `Edit`.
+ * Select an empty line and press `New`
+ * Copy and paste the path to `vips\bin` folder, it should look something like `C:\Users\username\AppData\Roaming\Python\Python39\site-packages\pyvips\vips-dev-8.10\bin`
+ * If you have the Console open, close it so the changes take effect.
+
+#### Launching scripts
+Navigate on Console to a directory with the script you want to launch.
+Prefix the script filename with `py `, like this: `py compose.py --use-all --obsolete-fillers pathToYourTileset`
