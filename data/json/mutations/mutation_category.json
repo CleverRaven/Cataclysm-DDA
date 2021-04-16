@@ -270,7 +270,7 @@
     "id": "RABBIT",
     "name": "Rabbit",
     "threshold_mut": "THRESH_RABBIT",
-    "mutagen_message": "Walking is overrated. It's time to start hopping.",
+    "mutagen_message": "Walking is overrated.  It's time to start hopping.",
     "iv_message": "You are craving beta carotene.",
     "memorial_message": "Acquired a taste for carrots."
   }
