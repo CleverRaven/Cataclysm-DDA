@@ -1036,7 +1036,6 @@ Also see `monster_attacks.json` for more special attacks, for example, impale an
 - ```BIO_OP_DISARM``` Disarming attack, does no damage.
 - ```BIO_OP_IMPALE``` Stabbing attack, deals heavy damage and has a chance to cause bleeding .
 - ```BITE``` Bite attack that can cause deep infected wounds if the target is `grabbed` at the same time.
-- ```BMG_TUR``` Barrett .50BMG rifle fires.
 - ```BOOMER_GLOW``` Spit glowing bile.
 - ```BOOMER``` Spit bile.
 - ```BRANDISH``` Brandish a knife at the player.
@@ -1111,7 +1110,6 @@ Also see `monster_attacks.json` for more special attacks, for example, impale an
 - ```SHRIEK``` "a terrible shriek!"
 - ```SLIMESPRING``` Can provide a morale boost to the player, and cure bite and bleed effects.
 - ```SMASH``` Smashes the target for massive damage, sending it flying for a number of tiles equal to `("melee_dice" * "melee_dice_sides" * 3) / 10`.
-- ```SMG``` SMG turret fires.
 - ```SPIT_SAP``` Spit sap (acid damage, 12 range).
 - ```STARE``` Stare at the player and inflict ramping debuffs (`taint>tindrift`).
 - ```STRETCH_ATTACK``` Ranged (3 tiles) piercing attack, doing 5-10 damage.
