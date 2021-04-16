@@ -592,17 +592,7 @@
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
     "special_attacks": [ [ "EAT_FOOD", 20 ], { "type": "bite", "cooldown": 10 } ],
-    "flags": [
-      "SEES",
-      "SMELLS",
-      "HEARS",
-      "GOODHEARING",
-      "HIT_AND_RUN",
-      "ANIMAL",
-      "PATH_AVOID_DANGER_1",
-      "WARM",
-      "CLIMBS"
-    ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "GOODHEARING", "HIT_AND_RUN", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CLIMBS" ],
     "harvest": "mammal_tiny",
     "vision_night": 5,
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FIRE" ],
@@ -769,17 +759,7 @@
     "reproduction": { "baby_egg": "egg_stegosaurus", "baby_count": 3, "baby_timer": 24 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
-    "flags": [
-      "SEES",
-      "SMELLS",
-      "HEARS",
-      "GOODHEARING",
-      "ANIMAL",
-      "PATH_AVOID_DANGER_1",
-      "BASHES",
-      "WARM",
-      "CATTLEFODDER"
-    ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "GOODHEARING", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "WARM", "CATTLEFODDER" ],
     "harvest": "mammal_large_leather",
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED" ],
     "categories": [ "DINOSAUR" ]
@@ -798,17 +778,7 @@
     ],
     "description": "This armored dinosaur looks like a giant prehistoric armadillo.  Its tail ends in a spiked club of bone.",
     "reproduction": { "baby_egg": "egg_dyoplosaurus", "baby_count": 3, "baby_timer": 24 },
-    "flags": [
-      "SEES",
-      "SMELLS",
-      "HEARS",
-      "GOODHEARING",
-      "ANIMAL",
-      "PATH_AVOID_DANGER_1",
-      "WARM",
-      "PET_MOUNTABLE",
-      "CATTLEFODDER"
-    ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "GOODHEARING", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_MOUNTABLE", "CATTLEFODDER" ]
   },
   {
     "type": "MONSTER",
@@ -874,17 +844,7 @@
     "special_attacks": [ [ "EAT_CROP", 40 ] ],
     "description": "This heavily armored dinosaur looks like a giant prehistoric armadillo.",
     "reproduction": { "baby_egg": "egg_nodosaurus", "baby_count": 3, "baby_timer": 24 },
-    "flags": [
-      "SEES",
-      "SMELLS",
-      "HEARS",
-      "GOODHEARING",
-      "ANIMAL",
-      "PATH_AVOID_DANGER_1",
-      "WARM",
-      "PET_MOUNTABLE",
-      "CATTLEFODDER"
-    ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "GOODHEARING", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_MOUNTABLE", "CATTLEFODDER" ]
   },
   {
     "type": "MONSTER",
@@ -900,17 +860,7 @@
     "special_attacks": [ [ "EAT_CROP", 40 ] ],
     "description": "This heavily armored dinosaur looks like a giant prehistoric armadillo with long bony spikes.",
     "reproduction": { "baby_egg": "egg_edmontonia", "baby_count": 3, "baby_timer": 24 },
-    "flags": [
-      "SEES",
-      "SMELLS",
-      "HEARS",
-      "GOODHEARING",
-      "ANIMAL",
-      "PATH_AVOID_DANGER_1",
-      "WARM",
-      "PET_MOUNTABLE",
-      "CATTLEFODDER"
-    ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "GOODHEARING", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_MOUNTABLE", "CATTLEFODDER" ]
   },
   {
     "type": "MONSTER",
@@ -1241,17 +1191,7 @@
     "description": "A huge feathered flying reptile, with a long pointed toothless beak and a long stiff neck.",
     "reproduction": { "baby_egg": "egg_quetzalcoatlus", "baby_count": 3, "baby_timer": 24 },
     "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 10 } ],
-    "flags": [
-      "SEES",
-      "SMELLS",
-      "HEARS",
-      "FLIES",
-      "HIT_AND_RUN",
-      "ANIMAL",
-      "PATH_AVOID_DANGER_1",
-      "CATFOOD",
-      "PET_MOUNTABLE"
-    ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "FLIES", "HIT_AND_RUN", "ANIMAL", "PATH_AVOID_DANGER_1", "CATFOOD", "PET_MOUNTABLE" ],
     "fear_triggers": [ "FIRE", "FRIEND_DIED" ],
     "harvest": "dino_feather_leather"
   },
