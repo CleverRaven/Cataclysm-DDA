@@ -2108,7 +2108,7 @@
     "category": [ "CHIMERA", "SPIDER", "MOUSE", "RABBIT" ],
     "types": [ "SKIN" ],
     "prereqs": [ "SKIN_ROUGH" ],
-    "changes_to": [ "FUR", "FELINE_FUR", "LUPINE_FUR", "URSINE_FUR", "CHITIN_FUR" ]
+    "changes_to": [ "FUR", "FELINE_FUR", "LUPINE_FUR", "URSINE_FUR", "CHITIN_FUR", "RABBIT_FUR" ]
   },
   {
     "type": "mutation",
@@ -2185,7 +2185,7 @@
     "types": [ "SKIN" ],
     "prereqs": [ "LIGHTFUR" ],
     "leads_to": [ "LYNX_FUR" ],
-    "category": [ "BEAST", "FELINE", "MOUSE", "RABBIT" ]
+    "category": [ "BEAST", "FELINE", "MOUSE" ]
   },
   {
     "type": "mutation",
@@ -4787,7 +4787,7 @@
     "description": "You're a real head-turner.  Some people will react well to your appearance, and most people have an easier time trusting you.",
     "cancels": [ "UGLY", "DEFORMED", "DEFORMED2", "DEFORMED3" ],
     "prereqs": [ "PRETTY" ],
-	"category": [ "RABBIT" ],
+    "category": [ "RABBIT" ],
     "changes_to": [ "BEAUTIFUL2" ]
   },
   {
@@ -6973,13 +6973,25 @@
   },
   {
     "type": "mutation",
-    "id": "RABBIT_ADAPTATION",
-    "name": { "str": "Lagomorph Adaptation" },
+    "id": "RABBIT_FUR",
+    "name": { "str": "Rabbit Fur" },
+    "points": 2,
+    "visibility": 10,
+    "ugliness": 3,
+    "bodytemp_modifiers": [ 750, 1500 ],
+    "bodytemp_sleep": 500,
     "description": "Your fur keeps you covered in winter, maintaining heat and allowing you to better tolerate cold temperatures.",
-    "bodytemp_modifiers": [ -500, 500 ],
-    "points": 0
-  },
-  {
+    "types": [ "SKIN" ],
+    "prereqs": [ "LIGHTFUR" ],
+    "category": [ "RABBIT" ],
+    "armor": [
+      {
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
+        "bash": 1   
+		}
+      ]
+	},
+   {
     "type": "mutation",
     "id": "RABBIT_FEET",
     "name": { "str": "Rabbit Feet" },
