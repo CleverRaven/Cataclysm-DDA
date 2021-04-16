@@ -143,8 +143,9 @@
     "id": "mon_tyrannosaurus_juvenile",
     "type": "MONSTER",
     "default_faction": "tyrannosaurus_juvenile",
-    "copy-from": "mon_gallimimus_juvenile",
+    "copy-from": "mon_albertosaurus_juvenile",
     "color": "red_white",
+    "dodge": 3,
     "upgrades": { "age_grow": 365, "into": "mon_tyrannosaurus" },
     "flags": [
       "SEES",
@@ -168,6 +169,7 @@
     "default_faction": "albertosaurus_juvenile",
     "copy-from": "mon_gallimimus_juvenile",
     "color": "light_red_white",
+    "dodge": 3,
     "upgrades": { "age_grow": 365, "into": "mon_albertosaurus" },
     "flags": [
       "SEES",
@@ -304,7 +306,8 @@
       "GUILT",
       "STUMBLES",
       "NO_BREED",
-      "CANPLAY"
+      "CANPLAY",
+      "GROUP_MORALE"
     ]
   },
   {
@@ -332,7 +335,8 @@
       "GUILT",
       "STUMBLES",
       "NO_BREED",
-      "CANPLAY"
+      "CANPLAY",
+      "GROUP_MORALE"
     ]
   },
   {
@@ -360,7 +364,8 @@
       "GUILT",
       "STUMBLES",
       "NO_BREED",
-      "CANPLAY"
+      "CANPLAY",
+      "GROUP_MORALE"
     ]
   },
   {
@@ -388,7 +393,8 @@
       "GUILT",
       "STUMBLES",
       "NO_BREED",
-      "CANPLAY"
+      "CANPLAY",
+      "GROUP_MORALE"
     ]
   },
   {
@@ -416,7 +422,8 @@
       "GUILT",
       "STUMBLES",
       "NO_BREED",
-      "CANPLAY"
+      "CANPLAY",
+      "GROUP_MORALE"
     ]
   },
   {
@@ -447,7 +454,8 @@
       "GUILT",
       "STUMBLES",
       "NO_BREED",
-      "CANPLAY"
+      "CANPLAY",
+      "GROUP_MORALE"
     ]
   },
   {
@@ -603,7 +611,8 @@
       "GUILT",
       "STUMBLES",
       "NO_BREED",
-      "CANPLAY"
+      "CANPLAY",
+      "HIT_AND_RUN"
     ]
   },
   {
@@ -627,7 +636,8 @@
       "GUILT",
       "STUMBLES",
       "NO_BREED",
-      "CANPLAY"
+      "CANPLAY",
+      "HIT_AND_RUN"
     ]
   },
   {
@@ -662,6 +672,7 @@
     "description": "A juvenile Pinnochio Rex, It looks at you with fear and hatred at the same time.",
     "default_faction": "qianzhousaurus_juvenile",
     "color": "green",
+    "dodge": 3,
     "upgrades": { "age_grow": 100, "into": "mon_qianzhousaurus" },
     "flags": [
       "SEES",
