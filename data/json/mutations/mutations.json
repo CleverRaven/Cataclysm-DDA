@@ -6941,7 +6941,7 @@
     "id": "THRESH_RABBIT",
     "name": { "str": "Lagomorph" },
     "points": 1,
-    "description": "You really want to eat some carrots. Welcome to the Lagomorpha family.",
+    "description": "You really want to eat some carrots.  Welcome to the Lagomorpha family.",
     "valid": false,
     "purifiable": false,
     "threshold": true
