@@ -6951,7 +6951,7 @@
     "id": "RABBIT_EARS",
     "name": { "str": "Rabbit Ears" },
     "points": 1,
-    "visibility": 8,
+    "visibility": 9,
     "ugliness": -1,
     "description": "Your ears have grown into tall, flexible and pretty rabbit ears.  They're are slender and enhance your hearing beyond the normal range.",
     "valid": false,
