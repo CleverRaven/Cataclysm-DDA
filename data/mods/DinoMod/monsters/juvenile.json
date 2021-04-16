@@ -17,7 +17,6 @@
       "WARM",
       "CATFOOD",
       "GUILT",
-      "STUMBLES",
       "NO_BREED",
       "CANPLAY",
       "SWIMS"
@@ -145,7 +144,7 @@
     "default_faction": "tyrannosaurus_juvenile",
     "copy-from": "mon_albertosaurus_juvenile",
     "color": "red_white",
-    "dodge": 3,
+    "dodge": 5,
     "upgrades": { "age_grow": 365, "into": "mon_tyrannosaurus" },
     "flags": [
       "SEES",
@@ -169,7 +168,7 @@
     "default_faction": "albertosaurus_juvenile",
     "copy-from": "mon_gallimimus_juvenile",
     "color": "light_red_white",
-    "dodge": 3,
+    "dodge": 5,
     "upgrades": { "age_grow": 365, "into": "mon_albertosaurus" },
     "flags": [
       "SEES",
@@ -360,7 +359,6 @@
       "WARM",
       "CATTLEFODDER",
       "GUILT",
-      "STUMBLES",
       "NO_BREED",
       "CANPLAY",
       "GROUP_MORALE"
@@ -389,7 +387,6 @@
       "WARM",
       "CATTLEFODDER",
       "GUILT",
-      "STUMBLES",
       "NO_BREED",
       "CANPLAY",
       "GROUP_MORALE"
@@ -418,7 +415,6 @@
       "WARM",
       "CATTLEFODDER",
       "GUILT",
-      "STUMBLES",
       "NO_BREED",
       "CANPLAY",
       "GROUP_MORALE"
@@ -450,7 +446,6 @@
       "WARM",
       "CATTLEFODDER",
       "GUILT",
-      "STUMBLES",
       "NO_BREED",
       "CANPLAY",
       "GROUP_MORALE"
@@ -607,7 +602,6 @@
       "WARM",
       "CATFOOD",
       "GUILT",
-      "STUMBLES",
       "NO_BREED",
       "CANPLAY",
       "HIT_AND_RUN"
@@ -632,7 +626,6 @@
       "WARM",
       "CATFOOD",
       "GUILT",
-      "STUMBLES",
       "NO_BREED",
       "CANPLAY",
       "HIT_AND_RUN"
@@ -655,7 +648,6 @@
       "PATH_AVOID_DANGER_1",
       "CATFOOD",
       "GUILT",
-      "STUMBLES",
       "NO_BREED",
       "CANPLAY",
       "SWIMS",
@@ -670,7 +662,7 @@
     "description": "A juvenile Pinnochio Rex, It looks at you with fear and hatred at the same time.",
     "default_faction": "qianzhousaurus_juvenile",
     "color": "green",
-    "dodge": 3,
+    "dodge": 6,
     "upgrades": { "age_grow": 100, "into": "mon_qianzhousaurus" },
     "flags": [
       "SEES",
@@ -703,7 +695,6 @@
       "WARM",
       "CATTLEFODDER",
       "GUILT",
-      "STUMBLES",
       "NO_BREED",
       "CANPLAY"
     ]
@@ -725,7 +716,6 @@
       "WARM",
       "CATTLEFODDER",
       "GUILT",
-      "STUMBLES",
       "NO_BREED",
       "CANPLAY"
     ]
