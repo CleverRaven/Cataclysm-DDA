@@ -182,17 +182,7 @@ A tilesheet can be an expansion from a mod.  Each expansion tilesheet is a singl
 
 `--palette-copies`: Output copies of tilesheet files quantized to 8bpp palette with `.png8` extension. Intended for external detection if conversion was lossless.
 
-Requires `pyvips` module.
-
-### Installing pyvips on Windows
-
-- Download Python https://www.python.org/downloads/
-- Download `libvips` https://libvips.github.io/libvips/install.html
-- Make sure  directories with `python`, `pip`, and `libvips` are in your `PATH` [environment variable](https://en.wikipedia.org/wiki/Environment_variable#Windows)
-- Press `Windows key + r` to open the "Run" dialog box
-- run `cmd`; it should open the console
-- run `py -m pip install --upgrade pip` to get the latest version of `pip`
-- run `pip install --user pyvips` to install `pyvips`
+Requires `pyvips` module, see [DEVELOPER_TOOLING.md](/doc/DEVELOPER_TOOLING.md#python-and-pyvips-on-windows)
 
 ## Legacy tilesets
 
