@@ -173,7 +173,7 @@
     "description": "Your hearing is better than average, and you can hear distant sounds more easily.",
     "starting_trait": true,
     "category": [ "ALPHA", "MOUSE", "ELFA" ],
-    "cancels": [ "BADHEARING" ],
+    "cancels": [ "BADHEARING", "DEAF" ],
     "hearing_modifier": 1.25
   },
   {
@@ -186,7 +186,7 @@
     "prereqs2": [ "ELFA_EARS" ],
     "threshreq": [ "THRESH_ELFA" ],
     "category": [ "ELFA" ],
-    "cancels": [ "BADHEARING" ],
+    "cancels": [ "BADHEARING", "DEAF" ],
     "hearing_modifier": 1.75
   },
   {
