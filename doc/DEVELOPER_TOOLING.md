@@ -394,7 +394,7 @@ diff <(ls src/*.h | sed 's!.*/!!') <(for i in src/*.cpp; do echo $i; sed -n '/^#
 They are needed to work with `compose.py` and some other tileset infrastructure scripts.
 
 #### pyvips
- * Install the Python with the latest Python installer https://www.python.org/downloads/windows/
+ * Install Python with the latest installer https://www.python.org/downloads/windows/
  * Open Console (Window key + `R` key, type `cmd` and hit `Enter`)
  * Install pyvips with these commands:
 ```
@@ -403,7 +403,7 @@ py -m pip install --user pyvips
 ```
 
 #### libvips
- * Extract the latest libvips distribution to a folder (get the vips-dev-w64-web-x.y.z.zip NOT the vips-dev-w64-all-8.10.6.zip) https://libvips.github.io/libvips/install.html
+ * Extract the latest libvips distribution to a folder (get the `vips-dev-w64-web-#.#.#.zip` NOT the `vips-dev-w64-all-#.#.#.zip`) https://libvips.github.io/libvips/install.html
  * Press start menu and search for "`environment variables`".
  * Alternatively go to `Control Panel > System > Advanced System Settings > Environment Variables`
  * On the user variables tab, select `Path` and click `Edit`.
@@ -413,4 +413,4 @@ py -m pip install --user pyvips
 
 #### Launching scripts
 Navigate on Console to a directory with the script you want to launch.
-Prefix the script filename with `py `, like this: `py compose.py --use-all --obsolete-fillers pathToYourTileset`
+Prefix the script filename with `py `, like this: `py compose.py --use-all --obsolete-fillers pathToYourTileset pathToYourOutputFolder`
