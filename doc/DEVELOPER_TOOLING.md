@@ -406,7 +406,7 @@ py -m pip install --user pyvips
  * Extract the latest libvips distribution to a folder (get the `vips-dev-w64-web-#.#.#.zip` NOT the `vips-dev-w64-all-#.#.#.zip`) https://libvips.github.io/libvips/install.html
  * Press start menu and search for "`environment variables`".
  * Alternatively go to `Control Panel > System > Advanced System Settings > Environment Variables`
- * On the user variables tab, select `Path` and click `Edit`.
+ * In the `User variables` section, select `Path` and click `Edit`.
  * Select an empty line and press `New`
  * Copy and paste the path to `vips\bin` folder, it should look something like `C:\Users\username\AppData\Roaming\Python\Python39\site-packages\pyvips\vips-dev-8.10\bin`
  * If you have the Console open, close it so the changes take effect.
