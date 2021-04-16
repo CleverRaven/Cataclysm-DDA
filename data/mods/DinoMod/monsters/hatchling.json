@@ -223,7 +223,6 @@
     "copy-from": "mon_compsognathus_hatchling",
     "name": "dark gray and yellow hatchling",
     "default_faction": "eoraptor",
-    "//": "Remove CATFOOD? But would probably be tamed by it also!",
     "extend": { "flags": [ "DOGFOOD" ] },
     "upgrades": { "age_grow": 14, "into": "mon_eoraptor" }
   },
