@@ -30,7 +30,6 @@ readability-*,\
 -modernize-return-braced-init-list,\
 -modernize-use-default-member-init,\
 -modernize-use-emplace,\
--performance-inefficient-string-concatenation,\
 -performance-type-promotion-in-math-fn,\
 -performance-unnecessary-value-param,\
 -readability-braces-around-statements,\
