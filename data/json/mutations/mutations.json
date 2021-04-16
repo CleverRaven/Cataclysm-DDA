@@ -6987,11 +6987,11 @@
     "armor": [
       {
         "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
-        "bash": 1   
-		}
-      ]
-	},
-   {
+        "bash": 1
+      }
+    ]
+  },
+  {
     "type": "mutation",
     "id": "RABBIT_FEET",
     "name": { "str": "Rabbit Feet" },
