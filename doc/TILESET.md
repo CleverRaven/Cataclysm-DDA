@@ -211,10 +211,10 @@ Navigate on Console to a directory with the script you want to launch.
 Prefix the script filename with `py `, like this: `py compose.py --use-all --obsolete-fillers pathToYourTileset pathToYourOutputFolder`
 
 ### Linux
-TODO
+_TODO, please ask if you need it or send suggestions if you want to help_
 
 ### MacOS
-TODO
+_TODO, please ask if you need it or send suggestions if you want to help_
 
 ## Legacy tilesets
 
