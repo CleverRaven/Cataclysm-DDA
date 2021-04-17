@@ -2229,10 +2229,10 @@
         "cut": 1
       }
     ],
-    "category": [ "CHIMERA"],
+    "category": [ "CHIMERA" ],
     "types": [ "SKIN" ],
     "prereqs": [ "SKIN_ROUGH" ],
-    "changes_to": [ "PATCHSKIN2"]
+    "changes_to": [ "PATCHSKIN2" ]
   },
   {
     "type": "mutation",
@@ -2263,7 +2263,7 @@
         "cut": 2
       }
     ],
-    "category": [ "CHIMERA"],
+    "category": [ "CHIMERA" ],
     "types": [ "SKIN" ],
     "prereqs": [ "PATCHSKIN1" ]
   },
