@@ -529,9 +529,7 @@
     "material": [ "plastic", "nomex" ],
     "symbol": "[",
     "color": "dark_gray",
-    "armor_portion_data": [
-      { "covers": [ "head" ], "coverage": 100, "encumbrance": 25 }
-    ],
+    "armor_portion_data": [ { "covers": [ "head" ], "coverage": 100, "encumbrance": 25 } ],
     "use_action": { "type": "transform", "target": "helmet_motor", "msg": "You put down your visor." },
     "warmth": 30,
     "material_thickness": 6,
