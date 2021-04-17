@@ -53,3 +53,17 @@ void f1()
     B b1{ a.nonconst_mf(), a.nonconst_mf() };
     B b2 = { a.nonconst_mf(), a.nonconst_mf() };
 }
+
+struct B2 {
+    int a;
+    int b;
+};
+
+void f2()
+{
+    A a;
+    // Aggregate initialization is also OK.
+    B2 b1{ a.nonconst_mf(), a.nonconst_mf() };
+    B2 b2 = { a.nonconst_mf(), a.nonconst_mf() };
+    B2{ a.nonconst_mf(), a.nonconst_mf() };
+}
