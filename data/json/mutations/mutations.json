@@ -4128,9 +4128,9 @@
     "points": 1,
     "visibility": 3,
     "ugliness": 1,
-    "description": "You have a handsome set of feline whiskers around your mouth.  These make you more aware of vibrations in the air, and improve your ability to dodge very slightly.",
+    "description": "You have a handsome set of whiskers around your mouth.  These make you more aware of vibrations in the air, and improve your ability to dodge very slightly.",
     "types": [ "WHISKERS" ],
-    "category": [ "FELINE" ]
+    "category": [ "FELINE", "RABBIT" ]
   },
   {
     "type": "mutation",
