@@ -3260,10 +3260,10 @@
     "valid": false,
     "purifiable": false,
     "description": "Between your claws and teeth, you can tunnel through just about anything.",
-    "prereqs": [ "CLAWS_ST" ],
+    "prereqs": [ "CLAWS_ST", "PAWS", "PAWS_LARGE" ],
     "prereqs2": [ "INCISORS" ],
-    "threshreq": [ "THRESH_RAT", "THRESH_RABBIT" ],
-    "category": [ "RAT", "RABBIT" ],
+    "threshreq": [ "THRESH_RAT", "THRESH_LUPINE", "THRESH_URSINE", "THRESH_RABBIT" ],
+    "category": [ "RAT", "LUPINE", "URSINE", "RABBIT" ],
     "active": true
   },
   {

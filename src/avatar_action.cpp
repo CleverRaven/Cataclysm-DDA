@@ -73,7 +73,6 @@ static const itype_id itype_swim_fins( "swim_fins" );
 
 static const skill_id skill_swimming( "swimming" );
 
-static const trait_id trait_BURROW( "BURROW" );
 static const trait_id trait_GRAZER( "GRAZER" );
 static const trait_id trait_RUMINANT( "RUMINANT" );
 static const trait_id trait_SHELL2( "SHELL2" );
@@ -132,13 +131,6 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
                 you.defer_move( dest_loc );
                 return true;
             }
-        }
-        if( you.has_trait( trait_BURROW ) ) {
-            item burrowing_item( itype_id( "fake_burrowing" ) );
-            you.invoke_item( &burrowing_item, "BURROW", dest_loc );
-            // don't move into the tile until done mining
-            you.defer_move( dest_loc );
-            return true;
         }
     }
 
