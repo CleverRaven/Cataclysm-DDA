@@ -1412,7 +1412,7 @@
     "starting_trait": true,
     "cancels": [ "PRETTY", "BEAUTIFUL", "BEAUTIFUL2", "BEAUTIFUL3" ],
     "changes_to": [ "DEFORMED" ],
-    "category": [ "RAPTOR", "FELINE", "LUPINE", "RABBIT" ]
+    "category": [ "RAPTOR", "FELINE", "LUPINE" ]
   },
   {
     "type": "mutation",
@@ -7020,8 +7020,8 @@
     "name": { "str": "Rabbit Nose" },
     "points": 2,
     "visibility": 6,
-    "ugliness": -2,
-    "description": "Your nose has morphed into a cute bunny nose, along with the muzzle.  It's extremely twitchy too.",
+    "ugliness": 1,
+    "description": "Your nose has morphed into a cute bunny nose, along with the snout.  It's extremely twitchy too.",
     "types": [ "MUZZLE" ],
     "prereqs": [ "SNOUT" ],
     "category": [ "RABBIT" ]
