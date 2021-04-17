@@ -300,13 +300,6 @@
     "based_on": "speed"
   },
   {
-    "id": "ACT_BURROW",
-    "type": "activity_type",
-    "activity_level": "EXTRA_EXERCISE",
-    "verb": "burrowing",
-    "based_on": "speed"
-  },
-  {
     "id": "ACT_PULP",
     "type": "activity_type",
     "activity_level": "EXTRA_EXERCISE",

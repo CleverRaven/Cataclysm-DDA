@@ -115,7 +115,6 @@
 #include "weather_gen.h"
 #include "weather_type.h"
 
-static const activity_id ACT_BURROW( "ACT_BURROW" );
 static const activity_id ACT_CHOP_LOGS( "ACT_CHOP_LOGS" );
 static const activity_id ACT_CHOP_PLANKS( "ACT_CHOP_PLANKS" );
 static const activity_id ACT_CHOP_TREE( "ACT_CHOP_TREE" );
@@ -3511,50 +3510,6 @@ cata::optional<int> iuse::pickaxe( player *p, item *it, bool, const tripoint &po
     p->add_msg_if_player( _( "You strike the %1$s with your %2$s." ),
                           mining_what, it->tname() );
 
-    return 0; // handled when the activity finishes
-}
-
-cata::optional<int> iuse::burrow( player *p, item *it, bool, const tripoint &pos )
-{
-    if( p->is_npc() ) {
-        // Long action
-        return cata::nullopt;
-    }
-    if( p->is_mounted() ) {
-        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
-        return cata::nullopt;
-    }
-    if( p->is_underwater() ) {
-        p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
-        return cata::nullopt;
-    }
-
-    tripoint pnt = pos;
-    if( pos == p->pos() ) {
-        const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Burrow where?" ) );
-        if( !pnt_ ) {
-            return cata::nullopt;
-        }
-        pnt = *pnt_;
-    }
-
-    map &here = get_map();
-    if( !here.has_flag( "MINEABLE", pnt ) ) {
-        p->add_msg_if_player( m_info, _( "You can't burrow there." ) );
-        return cata::nullopt;
-    }
-    if( here.veh_at( pnt ) ) {
-        p->add_msg_if_player( _( "There's a vehicle in the way!" ) );
-        return cata::nullopt;
-    }
-
-    int moves = to_moves<int>( 5_minutes );
-    moves += ( ( MAX_STAT + 3 ) - std::min( p->str_cur, MAX_STAT ) ) * to_moves<int>( 2_minutes );
-    if( here.move_cost( pnt ) == 2 ) {
-        // We're breaking up some flat surface like pavement, which is much easier
-        moves /= 2;
-    }
-    p->assign_activity( player_activity( burrow_activity_actor( moves, pnt,  it->tname() ) ) );
     return 0; // handled when the activity finishes
 }
 
