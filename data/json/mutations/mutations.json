@@ -231,7 +231,7 @@
     "valid": false,
     "cancels": [ "BADCARDIO" ],
     "changes_to": [ "GOODCARDIO2" ],
-    "category": [ "FISH", "LUPINE", "MOUSE", "INSECT", "RABBIT" ],
+    "category": [ "FISH", "LUPINE", "MOUSE", "INSECT" ],
     "max_stamina_modifier": 1.25
   },
   {
@@ -244,7 +244,7 @@
     "prereqs": [ "GOODCARDIO" ],
     "cancels": [ "BADCARDIO" ],
     "threshreq": [ "THRESH_MOUSE", "THRESH_RABBIT" ],
-    "category": [ "MOUSE" ],
+    "category": [ "MOUSE", "RABBIT" ],
     "max_stamina_modifier": 1.4
   },
   {
@@ -304,7 +304,7 @@
     "starting_trait": true,
     "valid": false,
     "cancels": [ "INSOMNIA" ],
-    "category": [ "MOUSE", "INSECT", "RABBIT" ]
+    "category": [ "MOUSE", "INSECT" ]
   },
   {
     "type": "mutation",
@@ -315,7 +315,7 @@
     "prereqs": [ "MET_RAT" ],
     "cancels": [ "INSOMNIA" ],
     "threshreq": [ "THRESH_MOUSE", "THRESH_RABBIT" ],
-    "category": [ "MOUSE" ]
+    "category": [ "MOUSE", "RABBIT" ]
   },
   {
     "type": "mutation",
@@ -529,7 +529,7 @@
     "consume_time_modifier": 1.25,
     "description": "You eat faster, and can eat and drink more, than anyone else!  You also enjoy food more; delicious food is better for your morale, and you don't mind unsavory meals as much.  Activate to skip prompt for overeating.",
     "starting_trait": true,
-    "category": [ "MOUSE", "LUPINE", "RABBIT" ],
+    "category": [ "MOUSE", "LUPINE" ],
     "valid": false,
     "active": true,
     "stomach_size_multiplier": 2.0
@@ -2105,7 +2105,7 @@
     "bodytemp_modifiers": [ 250, 500 ],
     "bodytemp_sleep": 100,
     "description": "Light fur has grown to cover your entire body, providing slight protection from cold.",
-    "category": [ "CHIMERA", "SPIDER", "MOUSE", "RABBIT" ],
+    "category": [ "CHIMERA", "SPIDER", "MOUSE" ],
     "types": [ "SKIN" ],
     "prereqs": [ "SKIN_ROUGH" ],
     "changes_to": [ "FUR", "FELINE_FUR", "LUPINE_FUR", "URSINE_FUR", "CHITIN_FUR", "RABBIT_FUR" ]
@@ -7033,7 +7033,7 @@
     "points": -1,
     "visibility": 2,
     "ugliness": 1,
-    "description": "Your hands have elongated and look a bit more like paws. It makes fine manipulation a little more difficult, but you can still probably manage.",
+    "description": "Your hands have elongated and look a bit more like paws.  It makes fine manipulation a little more difficult, but you can still probably manage.",
     "encumbrance_always": [ [ "hand_l", 5 ], [ "hand_r", 5 ] ],
     "craft_skill_bonus": [ [ "electronics", -1 ], [ "tailor", -1 ], [ "mechanics", -1 ] ],
     "types": [ "HANDS" ],
