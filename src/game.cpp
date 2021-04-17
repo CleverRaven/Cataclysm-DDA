@@ -12254,6 +12254,8 @@ void game::start_calendar()
     }
     calendar::start_of_game += 1_days * get_option<int>( "SPAWN_DELAY" );
     calendar::turn = calendar::start_of_game;
+    calendar::initial_season = static_cast<season_type>( ( to_days<int>( calendar::start_of_game -
+                               calendar::turn_zero ) / get_option<int>( "SEASON_LENGTH" ) ) % 4 );
 }
 
 overmap &game::get_cur_om() const
