@@ -47,6 +47,9 @@ static const Expr *GetContainingSequenceStatement( ASTContext *Context, const Ex
         if( parent.get<ConditionalOperator>() ) {
             return Node;
         }
+        if( parent.get<InitListExpr>() ) {
+            return Node;
+        }
         if( const BinaryOperator *op = parent.get<BinaryOperator>() ) {
             if( op->isLogicalOp() ) {
                 return Node;
