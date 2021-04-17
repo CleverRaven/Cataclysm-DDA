@@ -3260,7 +3260,7 @@
     "valid": false,
     "purifiable": false,
     "description": "Between your claws and teeth, you can tunnel through just about anything.",
-    "prereqs": [ "CLAWS_ST" ],
+    "prereqs": [ "CLAWS_ST", "PAWS_LITTLE" ],
     "prereqs2": [ "INCISORS" ],
     "threshreq": [ "THRESH_RAT", "THRESH_RABBIT" ],
     "category": [ "RAT", "RABBIT" ],
@@ -7025,5 +7025,20 @@
     "types": [ "MUZZLE" ],
     "prereqs": [ "SNOUT" ],
     "category": [ "RABBIT" ]
+  },
+{
+    "type": "mutation",
+    "id": "PAWS_LITTLE",
+    "name": { "str": "Little Paws" },
+    "points": -1,
+    "visibility": 2,
+    "ugliness": 1,
+    "description": "Your hands have elongated and look a bit more like paws. It makes fine manipulation a little more difficult, but you can still probably manage.",
+    "encumbrance_always": [ [ "hand_l", 5 ], [ "hand_r", 5 ] ],
+    "craft_skill_bonus": [ [ "electronics", -1 ], [ "tailor", -1 ], [ "mechanics", -1 ] ],
+    "types": [ "HANDS" ],
+    "prereqs": [ "NAILS" ],
+    "cancels": [ "TALONS" ],
+    "category": [ "RABBIT" ]
   }
-]
+ ]
