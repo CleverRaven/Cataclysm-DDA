@@ -7026,7 +7026,7 @@
     "prereqs": [ "SNOUT" ],
     "category": [ "RABBIT" ]
   },
-{
+  {
     "type": "mutation",
     "id": "PAWS_LITTLE",
     "name": { "str": "Little Paws" },
@@ -7041,4 +7041,4 @@
     "cancels": [ "TALONS" ],
     "category": [ "RABBIT" ]
   }
- ]
+]
