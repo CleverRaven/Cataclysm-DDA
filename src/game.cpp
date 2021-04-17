@@ -12254,6 +12254,18 @@ void game::start_calendar()
     }
     calendar::start_of_game += 1_days * get_option<int>( "SPAWN_DELAY" );
     calendar::turn = calendar::start_of_game;
+
+    const int season_number = ( to_days<int>( calendar::start_of_game - calendar::turn_zero ) /
+                                get_option<int>( "SEASON_LENGTH" ) ) % 4;
+    if( season_number == 0 ) {
+        calendar::initial_season = SPRING;
+    } else if( season_number == 1 ) {
+        calendar::initial_season = SUMMER;
+    } else if( season_number == 2 ) {
+        calendar::initial_season = AUTUMN;
+    } else {
+        calendar::initial_season = WINTER;
+    }
 }
 
 overmap &game::get_cur_om() const
