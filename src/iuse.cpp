@@ -8432,7 +8432,7 @@ cata::optional<int> iuse::multicooker( player *p, item *it, bool t, const tripoi
         }
 
         if( cooktime <= 0 ) {
-            item meal( it->get_var( "DISH" ) );
+            item meal( it->get_var( "DISH" ), time_point( calendar::turn ), 1 );
             if( ( *recipe_id( it->get_var( "RECIPE" ) ) ).hot_result() ) {
                 meal.heat_up();
             } else {
@@ -8441,8 +8441,8 @@ cata::optional<int> iuse::multicooker( player *p, item *it, bool t, const tripoi
             }
 
             it->active = false;
-            it->erase_var( "DISH" );
             it->erase_var( "COOKTIME" );
+            it->convert( itype_multi_cooker );
             if( it->can_contain( meal ) ) {
                 it->put_in( meal, item_pocket::pocket_type::CONTAINER );
             } else {
@@ -8462,7 +8462,7 @@ cata::optional<int> iuse::multicooker( player *p, item *it, bool t, const tripoi
 
     } else {
         enum {
-            mc_start, mc_stop, mc_take, mc_upgrade
+            mc_start, mc_stop, mc_take, mc_upgrade, mc_empty
         };
 
         if( p->is_underwater() ) {
@@ -8524,7 +8524,13 @@ cata::optional<int> iuse::multicooker( player *p, item *it, bool t, const tripoi
                     }
                 }
             } else {
-                menu.addentry( mc_take, true, 't', _( "Take out dish" ) );
+                // Something other than a recipe item might be stored in the pocket.
+                if( dish_it->typeId().str() == it->get_var( "DISH" ) ) {
+                    menu.addentry( mc_take, true, 't', _( "Take out dish" ) );
+                } else {
+                    menu.addentry( mc_empty, true, 't',
+                                   _( "Obstruction detected.  Please remove any items lodged in the multi-cooker." ) );
+                }
             }
         }
 
@@ -8541,6 +8547,7 @@ cata::optional<int> iuse::multicooker( player *p, item *it, bool t, const tripoi
                 it->erase_var( "DISH" );
                 it->erase_var( "COOKTIME" );
                 it->erase_var( "RECIPE" );
+                it->convert( itype_multi_cooker );
             }
             return 0;
         }
@@ -8566,7 +8573,6 @@ cata::optional<int> iuse::multicooker( player *p, item *it, bool t, const tripoi
 
             it->remove_item( *dish_it );
             it->erase_var( "RECIPE" );
-            it->convert( itype_multi_cooker );
             if( is_delicious ) {
                 p->add_msg_if_player( m_good,
                                       _( "You got the dish from the multi-cooker.  The %s smells delicious." ),
@@ -8577,6 +8583,11 @@ cata::optional<int> iuse::multicooker( player *p, item *it, bool t, const tripoi
             }
 
             return 0;
+        }
+
+        // Empty the cooker before it can be activated.
+        if( mc_empty == choice ) {
+            it->contents.handle_liquid_or_spill( *p );
         }
 
         if( mc_start == choice ) {
@@ -8624,7 +8635,8 @@ cata::optional<int> iuse::multicooker( player *p, item *it, bool t, const tripoi
                     mealtime = meal->time_to_craft_moves( *p ) * 2;
                 }
 
-                const int all_charges = charges_to_start + mealtime / ( it->type->tool->power_draw / 10000 );
+                const int all_charges = charges_to_start + ( ( mealtime / 100 ) * ( it->type->tool->power_draw /
+                                        1000 ) ) / 1000;
 
                 if( it->ammo_remaining() < all_charges && !( it->has_flag( flag_USE_UPS ) &&
                         p->charges_of( itype_UPS ) >= all_charges ) ) {
@@ -8638,7 +8650,7 @@ cata::optional<int> iuse::multicooker( player *p, item *it, bool t, const tripoi
 
                 const auto filter = is_crafting_component;
                 const requirement_data *reqs =
-                    meal->deduped_requirements().select_alternative( *p, filter );
+                    meal->deduped_requirements().select_alternative( *p, crafting_inv, filter );
                 if( !reqs ) {
                     return cata::nullopt;
                 }
