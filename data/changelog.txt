@@ -49,9 +49,6 @@ Adds different bleeding types for different species.
 Adds bleeding butchery action.
 Autodoc installation programs added that almost guarantee flawless installation of supported bionics.
 Removes the obsolete 'carrion spawn rate scaling factor' world configuration option.
-Add Underground Pit Digging
-Reword Student description for more generalized roleplay
-Dark Skies Above: Surveillance drone scan and reinforcements
 
 ## Content:
 Gun volume and weight audit.
@@ -92,15 +89,9 @@ Adds large dermatik nest and tweaks dermatiks.
 Adds a new layout for the island prison challenge scenario.
 Adds tazer drones.
 Adds a demo of the Cuteclysm tileset, which is loosely inspired by the aesthetics of 16-bit Japanese RPGs.
-Add meatballs to the game
-Jsonify drug dealer map extra.
-Amigara mine jsonify
 Make toilet paper spawn in a small plastic bag instead of a huge box
 Reduce arsonist NPC stock to what they can carry
-Add feral scientist and lab security
 Allow raw milk cheeses by adding raw milk to curdled milk ingredients
-Adds simple makeshift glaive
-Retractable Security Gates
 
 ## Interface:
 Introduces, and migrates most windows to, ui_adaptor, which handles redrawing windows when others are closed and the game is resized.
@@ -124,8 +115,6 @@ Adds fast scrolling to many menus with long lists.
 Adds responsive screen behavior to the new character menu for small terminal sizes.
 Shows weariness and activity levels in sidebar panels.
 Warns before crafting armor or clothing you won't be able to wear.
-Filter items by book skill ( V, e, / )
-Added warning to excessive long attack times
 Link to the git repo for a list of contributors
 Update tilesets 2021-04-11
 Add a sprite for ferns to RetroDays
@@ -168,8 +157,6 @@ Cap monsters at 1000 kg so butchering kind of works.
 [Aftershock] Adds Formless Ruins - a new aboveground, low-risk dungeon type.
 [Dark Skies Above] DSA is reborn as an actively-developed, total-conversion mod.
 [CRIT] Fix helmet disappearing on deactivation
-Aftershock: New suits to survive the freezing cold
-Alien have ballistic armor, cleans monster descriptions
 makes the other book about black dragons spawnable
 
 ## Balance:
@@ -200,7 +187,6 @@ Adjusts ordinary clothing to not meaningfully contribute to protection values.
 Adjusted Oxygen Containers
 Remove salted fish from pemmican recipe, add salted meat to a number of recipes and salted fish to a few recipes, remove duplicate salted fish entries from deluxe scrambled eggs.
 Audit electric lighting crafting times
-Add more exclusivities between bionics and mutations
 
 ## Bugfixes:
 Prevents possible negative damage from explosions.
@@ -336,8 +322,6 @@ Cap stim induced asthma attacks & add antiasthmatic effect to inhaler
 Make UNMOUNT_ON_DAMAGE drop damaged items
 Improve Road system across Overmaps
 Jenny Forcette and Boris Borichenko quickfixes
-Add Pocket Lengths to Various Clothing Pockets
-Volume, Length and Weight of glass Corrected
 Remove Unarmed Weapon flags from bladed weapons
 
 ## Performance:
@@ -441,8 +425,6 @@ Implements C++ symbol demangling in crash reports on MacOS, MinGW, and Linux.
 Adds tests of automatic triggers for mutations.
 Generate crash report on Android
 pixelscale support in compose.py
-Stop special-casing terrain and furniture in mapgen
-New clang-tidy check for unsequenced calls to member functions
 
 ## Build:
 Moves clang-tidy runs from Travis to GitHub.
