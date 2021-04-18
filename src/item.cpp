@@ -2762,6 +2762,8 @@ void item::armor_encumbrance_info( std::vector<iteminfo> &info, int reduce_encum
                     }
                 }
             }
+            const std::string when_full_message = space + _( "When full:" ) + space;
+            const std::string coverage_message = space + _( "Coverage:" ) + space;
             for( auto &piece : to_display_data ) {
                 if( t->sided ) {
                     const bodypart_str_id &covering_id = piece.first;
@@ -2776,12 +2778,12 @@ void item::armor_encumbrance_info( std::vector<iteminfo> &info, int reduce_encum
                                               piece.second.portion.encumber ) );
 
                     if( piece.second.portion.encumber != piece.second.portion.max_encumber ) {
-                        info.push_back( iteminfo( "ARMOR", space + _( "When full:" ) + space, "",
+                        info.push_back( iteminfo( "ARMOR", when_full_message, "",
                                                   iteminfo::no_newline | iteminfo::lower_is_better,
                                                   piece.second.portion.max_encumber ) );
                     }
 
-                    info.push_back( iteminfo( "ARMOR", space + _( "Coverage:" ) + space, "",
+                    info.push_back( iteminfo( "ARMOR", coverage_message, "",
                                               iteminfo::no_flags,
                                               piece.second.portion.coverage ) );
                 }
