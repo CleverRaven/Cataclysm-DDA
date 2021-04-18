@@ -685,11 +685,12 @@ static std::string debug_resolve_binary( const std::string &binary, std::ostream
         return binary;
     }
 
+    std::string suffix = "/" + binary;
     for( const std::string &path_elem : string_split( path, ':' ) ) {
         if( path_elem.empty() ) {
             continue;
         }
-        std::string candidate = path_elem + "/" + binary;
+        std::string candidate = path_elem + suffix;
         if( 0 == access( candidate.c_str(), X_OK ) ) {
             return candidate;
         }
