@@ -89,9 +89,6 @@ Adds large dermatik nest and tweaks dermatiks.
 Adds a new layout for the island prison challenge scenario.
 Adds tazer drones.
 Adds a demo of the Cuteclysm tileset, which is loosely inspired by the aesthetics of 16-bit Japanese RPGs.
-Make toilet paper spawn in a small plastic bag instead of a huge box
-Reduce arsonist NPC stock to what they can carry
-Allow raw milk cheeses by adding raw milk to curdled milk ingredients
 
 ## Interface:
 Introduces, and migrates most windows to, ui_adaptor, which handles redrawing windows when others are closed and the game is resized.
@@ -115,9 +112,6 @@ Adds fast scrolling to many menus with long lists.
 Adds responsive screen behavior to the new character menu for small terminal sizes.
 Shows weariness and activity levels in sidebar panels.
 Warns before crafting armor or clothing you won't be able to wear.
-Link to the git repo for a list of contributors
-Update tilesets 2021-04-11
-Add a sprite for ferns to RetroDays
 
 ## Mods:
 [Magiclysm] Manatouched mutation tree.
@@ -156,8 +150,6 @@ Cap monsters at 1000 kg so butchering kind of works.
 [Magiclysm] Adds Workshop Elves, Yule Cats, and Leprechauns.
 [Aftershock] Adds Formless Ruins - a new aboveground, low-risk dungeon type.
 [Dark Skies Above] DSA is reborn as an actively-developed, total-conversion mod.
-[CRIT] Fix helmet disappearing on deactivation
-makes the other book about black dragons spawnable
 
 ## Balance:
 Large item price audit.
@@ -184,9 +176,6 @@ Rebalances spawn rates for overmap specials.
 Mycus Fireproofing now also gives heat immunity.
 Tweaks Infection impact by lowering fatigue drain and removing pain.
 Adjusts ordinary clothing to not meaningfully contribute to protection values.
-Adjusted Oxygen Containers
-Remove salted fish from pemmican recipe, add salted meat to a number of recipes and salted fish to a few recipes, remove duplicate salted fish entries from deluxe scrambled eggs.
-Audit electric lighting crafting times
 
 ## Bugfixes:
 Prevents possible negative damage from explosions.
@@ -289,40 +278,10 @@ Fixes furniture being 'destroyed' when grab-moving.
 Fixes crashes from canceling reloading a container that is on the ground.
 Fixes NPCs still being hungry - and unhappy about it - after eating from faction camp stores.
 Reined in plant mutation photosynthesis ability to be more representative of real photosynthesis.
-Fix dogs evolving into Skeletal Juggernauts
-Fixed mass grave map extra not spawning.
-Fix Spider Antennae and Persistent Mouth Flaps
-Reduce Sludge Trail Spam
-Add Venomous to Cephalopod Mutations
-Fix saving of player data
-Fixed cot spawning on open air.
-Avoid error and crash when loading activity data
-Fix hammer length and scalpel weapon stats
-Fixed emp blast not working on unseen targets.
-Fix circular saw disappearing on activation
-After eating marloss berry, don't spawn fungal terrain in the air.
-Fix binary compatibility issue on Android
-Fix for acidic ant queens and acidic ant larvae spawning in ordinary ant tunnels
-Makes diggers on undiggable terrain visible
-Turrets will be removed only if player actually uses his id card on cardreader.
-Prevent cross-z-level melee attacks when attacker or target is not actually visible, and test for problem being solved
-Do not do character body  updates more than once per turn
-Window Scent Block Review
-Fix Double Teleglow on Teleport CBM
-Fix wheat cereals
-When harvesting crops, drop the result on player's square
-Move recipes for Blaze vehicle crafting rigs from Aftershock to Blaze.
-Partially fix cone-shaped AoE for spells
-Alter weary.tracker, weary.intake changes to be smoother; add tests for illogical fluctuations in weary level
-Fake spells should not trigger 'gained spell level' achievement
-Adds Longest_Side values to Workshop.json
-Makes toolboxes hold what they should
-Added disassembly recipes for generic guns ammunition fixes #47693
-Cap stim induced asthma attacks & add antiasthmatic effect to inhaler
-Make UNMOUNT_ON_DAMAGE drop damaged items
-Improve Road system across Overmaps
-Jenny Forcette and Boris Borichenko quickfixes
-Remove Unarmed Weapon flags from bladed weapons
+Prevents cross-z-level melee attacks when attacker or target is not actually visible.
+Do not do character body updates more than once per turn
+When harvesting crops, drop the result on player's square.
+Improves road system connectivity across Overmaps.
 
 ## Performance:
 Adds an option to enable batching when it is available in SDL.
@@ -423,8 +382,7 @@ Improves scooter tile representation by adding scooter vehicle parts, which scoo
 Reduces file size of composed tilesheets from compose.py.
 Implements C++ symbol demangling in crash reports on MacOS, MinGW, and Linux.
 Adds tests of automatic triggers for mutations.
-Generate crash report on Android
-pixelscale support in compose.py
+Generates a crash report on Android.
 
 ## Build:
 Moves clang-tidy runs from Travis to GitHub.
