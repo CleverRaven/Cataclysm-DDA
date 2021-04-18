@@ -246,6 +246,8 @@ class recipe
 
         bool hot_result() const;
 
+        bool removes_raw() const;
+
         // Returns the amount or charges recipe will produce.
         int makes_amount() const;
 
