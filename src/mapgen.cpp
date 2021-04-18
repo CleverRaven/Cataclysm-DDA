@@ -2197,8 +2197,8 @@ void mapgen_palette::load_place_mapings( const JsonObject &jo, const std::string
                 continue;
             }
             auto &vect = format_placings[ key ];
-            ::load_place_mapings<PieceType>( sub.get_member( member_name ), vect,
-                                             member_name + " in mapping in " + context );
+            std::string this_context = string_format( "%s in mapping in %s", member_name, context );
+            ::load_place_mapings<PieceType>( sub.get_member( member_name ), vect, this_context );
         }
     }
     if( !jo.has_object( member_name ) ) {
@@ -2207,8 +2207,9 @@ void mapgen_palette::load_place_mapings( const JsonObject &jo, const std::string
     for( const JsonMember member : jo.get_object( member_name ) ) {
         const map_key key( member );
         auto &vect = format_placings[ key ];
-        ::load_place_mapings<PieceType>(
-            member, vect, member_name + " " + member.name() + " in " + context );
+        std::string this_context =
+            string_format( "%s %s in %s", member_name, member.name(), context );
+        ::load_place_mapings<PieceType>( member, vect, this_context );
     }
 }
 

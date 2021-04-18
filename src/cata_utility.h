@@ -443,6 +443,36 @@ bool return_true( const T & )
 std::string join( const std::vector<std::string> &strings, const std::string &joiner );
 
 /**
+ * Append all arguments after the first to the first.
+ *
+ * This provides a way to append several strings to a single root string
+ * in a single line without an expression like 'a += b + c' which can cause an
+ * unnecessary allocation in the 'b + c' expression.
+ */
+template<typename... T>
+std::string &str_append( std::string &root, T &&...a )
+{
+    // Using initializer list as a poor man's fold expression until C++17.
+    static_cast<void>(
+    std::array<bool, sizeof...( T )> { {
+            ( root.append( std::forward<T>( a ) ), false )...
+        }
+    } );
+    return root;
+}
+
+/**
+ * Concatenates a bunch of strings with append, to minimze unnecessary
+ * allocations
+ */
+template<typename T0, typename... T>
+std::string str_cat( T0 &&a0, T &&...a )
+{
+    std::string result( std::forward<T0>( a0 ) );
+    return str_append( result, std::forward<T>( a )... );
+}
+
+/**
  * Erases elements from a set that match given predicate function.
  * Will work on vector, albeit not optimally performance-wise.
  * @return true if set was changed
