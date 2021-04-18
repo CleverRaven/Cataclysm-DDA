@@ -477,16 +477,16 @@ static bool update_time_left( std::string &entry, const comp_list &npc_list )
     Character &player_character = get_player_character();
     for( const auto &comp : npc_list ) {
         if( comp->companion_mission_time_ret < calendar::turn ) {
-            entry = entry +  _( " [DONE]\n" );
+            entry += _( " [DONE]\n" );
             avail = true;
         } else {
-            entry = entry + " [" +
-                    to_string( comp->companion_mission_time_ret - calendar::turn ) +
-                    _( " left]\n" );
+            entry += " [" +
+                     to_string( comp->companion_mission_time_ret - calendar::turn ) +
+                     _( " left]\n" );
             avail = player_character.has_trait( trait_DEBUG_HS );
         }
     }
-    entry = entry + _( "\n\nDo you wish to bring your allies back into your party?" );
+    entry += _( "\n\nDo you wish to bring your allies back into your party?" );
     return avail;
 }
 
@@ -496,11 +496,11 @@ static bool update_time_fixed( std::string &entry, const comp_list &npc_list,
     bool avail = false;
     for( const auto &comp : npc_list ) {
         time_duration elapsed = calendar::turn - comp->companion_mission_time;
-        entry = entry + " " +  comp->name + " [" + to_string( elapsed ) + "/" +
-                to_string( duration ) + "]\n";
+        entry += " " +  comp->name + " [" + to_string( elapsed ) + "/" +
+                 to_string( duration ) + "]\n";
         avail |= elapsed >= duration;
     }
-    entry = entry + _( "\n\nDo you wish to bring your allies back into your party?" );
+    entry += _( "\n\nDo you wish to bring your allies back into your party?" );
     return avail;
 }
 
@@ -3599,7 +3599,7 @@ std::string basecamp::craft_description( const recipe_id &itm )
 
     std::string comp;
     for( auto &elem : component_print_buffer ) {
-        comp = comp + elem + "\n";
+        str_append( comp, elem, "\n" );
     }
     comp = string_format( _( "Skill used: %s\nDifficulty: %d\n%s\nTime: %s\n" ),
                           making.skill_used.obj().name(), making.difficulty, comp,
@@ -3709,7 +3709,7 @@ std::string basecamp::gathering_description( const std::string &bldg )
         itemnames2.insert( std::pair<int, std::string>( e.second, e.first ) );
     }
     for( const auto &e : itemnames2 ) {
-        output = output + "> " + e.second + "\n";
+        str_append( output, "> ", e.second, "\n" );
     }
     return output;
 }

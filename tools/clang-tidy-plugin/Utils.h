@@ -217,6 +217,16 @@ inline size_t HashCombine( const T &t, const U &u )
     return result;
 }
 
+template<typename T0, typename... T>
+std::string StrCat( T0 &&a0, T &&...a )
+{
+    std::string result( std::forward<T0>( a0 ) );
+    // Using initializer list as a poor man's fold expression until C++17.
+    static_cast<void>(
+        std::array<bool, sizeof...( T )> { ( result.append( std::forward<T>( a ) ), false )... } );
+    return result;
+}
+
 } // namespace cata
 } // namespace tidy
 } // namespace clang
