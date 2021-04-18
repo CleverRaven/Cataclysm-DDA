@@ -6958,8 +6958,12 @@ static object_names_collection enumerate_objects_around_point( const tripoint &p
         const std::string trap_name = colorized_trap_name_at( point_around_figure );
         const std::string field_desc = colorized_field_description_at( point_around_figure );
 
+        auto augment_description = [&]( std::string & desc ) {
+            desc = str_cat( trap_name, desc, field_desc );
+        };
+
         if( !furn_desc.empty() ) {
-            furn_desc = trap_name + furn_desc + field_desc;
+            augment_description( furn_desc );
             if( point == point_around_figure && create_figure_desc ) {
                 description_furniture_on_figure = furn_desc;
             } else {
@@ -6992,7 +6996,7 @@ static object_names_collection enumerate_objects_around_point( const tripoint &p
             local_vehicles_recorded.insert( veh_hash );
         } else if( !item.is_null() ) {
             std::string item_name = colorized_item_name( item );
-            item_name = trap_name + item_name + field_desc;
+            augment_description( item_name );
             if( point == point_around_figure && create_figure_desc ) {
                 //~ %1$s: terrain description, %2$s: item name
                 description_terrain_on_figure = string_format( pgettext( "terrain and item", "%1$s with a %2$s" ),
@@ -7001,21 +7005,21 @@ static object_names_collection enumerate_objects_around_point( const tripoint &p
                 ret_obj.items[ item_name ] ++;
             }
         } else if( !unusual_ter_desc.empty() ) {
-            unusual_ter_desc = trap_name + unusual_ter_desc + field_desc;
+            augment_description( unusual_ter_desc );
             if( point == point_around_figure && create_figure_desc ) {
                 description_furniture_on_figure = unusual_ter_desc;
             } else {
                 ret_obj.furniture[ unusual_ter_desc ] ++;
             }
         } else if( !ter_desc.empty() && ( !field_desc.empty() || !trap_name.empty() ) ) {
-            ter_desc = trap_name + ter_desc + field_desc;
+            augment_description( ter_desc );
             if( point == point_around_figure && create_figure_desc ) {
                 description_terrain_on_figure = ter_desc;
             } else {
                 ret_obj.terrain[ ter_desc ] ++;
             }
         } else {
-            ter_desc = trap_name + ter_desc + field_desc;
+            augment_description( ter_desc );
             if( point == point_around_figure && create_figure_desc ) {
                 description_terrain_on_figure = ter_desc;
             }

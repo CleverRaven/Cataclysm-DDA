@@ -2082,7 +2082,7 @@ tab_direction set_skills( avatar &u, points_left &points )
             } );
 
             if( elem.first == currentSkill->name() ) {
-                rec_disp = "\n\n" + colorize( rec_temp, c_brown ) + rec_disp;
+                rec_disp = "\n\n" + colorize( rec_temp, c_brown ) + std::move( rec_disp );
             } else {
                 rec_disp += "\n\n" + colorize( "[" + elem.first + "]\n" + rec_temp, c_light_gray );
             }

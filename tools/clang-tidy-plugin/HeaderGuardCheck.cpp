@@ -9,6 +9,8 @@
 #include <unistd.h>
 #endif
 
+#include "Utils.h"
+
 namespace clang
 {
 namespace tidy
@@ -360,12 +362,13 @@ class HeaderGuardPPCallbacks : public PPCallbacks
                     Newlines = "\n";
                 }
 
+                std::string ToInsertHeader = StrCat(
+                                                 "#ifndef ", CPPVar, "\n#define ", CPPVar, Newlines );
                 Check->diag( InsertLoc, "Header is missing header guard." )
-                        << FixItHint::CreateInsertion(
-                            InsertLoc, "#ifndef " + CPPVar + "\n#define " + CPPVar + Newlines )
+                        << FixItHint::CreateInsertion( InsertLoc, ToInsertHeader )
                         << FixItHint::CreateInsertion(
                             SM.getLocForEndOfFile( FID ),
-                            "\n#" + formatEndIf( CPPVar ) + "\n" );
+                            StrCat( "\n#", formatEndIf( CPPVar ), "\n" ) );
             }
         }
     private:

@@ -3337,8 +3337,8 @@ void game::display_faction_epilogues()
                 };
                 scrollable_text( new_win, elem.second.name,
                                  std::accumulate( epilogue.begin() + 1, epilogue.end(), epilogue.front(),
-                []( const std::string & lhs, const std::string & rhs ) -> std::string {
-                    return lhs + "\n" + rhs;
+                []( std::string lhs, const std::string & rhs ) -> std::string {
+                    return std::move( lhs ) + "\n" + rhs;
                 } ) );
             }
         }

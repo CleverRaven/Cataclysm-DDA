@@ -1459,7 +1459,7 @@ void veh_interact::calc_overview()
                     int offset = 1;
                     std::string fmtstring = "%s %s  %5.1fL";
                     if( pt.is_leaking() ) {
-                        fmtstring = "%s %s " + leak_marker + "%5.1fL" + leak_marker;
+                        fmtstring = str_cat( "%s %s ", leak_marker, "%5.1fL", leak_marker );
                         offset = 0;
                     }
                     right_print( w, y, offset, pt_ammo_cur->color,
@@ -1467,7 +1467,7 @@ void veh_interact::calc_overview()
                                                 round_up( units::to_liter( it.volume() ), 1 ) ) );
                 } else {
                     if( pt.is_leaking() ) {
-                        std::string outputstr = leak_marker + "      " + leak_marker;
+                        std::string outputstr = str_cat( leak_marker, "      ", leak_marker );
                         right_print( w, y, 0, c_light_gray, outputstr );
                     }
                 }
@@ -1480,7 +1480,7 @@ void veh_interact::calc_overview()
                     int offset = 1;
                     std::string fmtstring = "%s  %5.1fL";
                     if( pt.is_leaking() ) {
-                        fmtstring = "%s  " + leak_marker + "%5.1fL" + leak_marker;
+                        fmtstring = str_cat( "%s  ", leak_marker, "%5.1fL", leak_marker );
                         offset = 0;
                     }
                     right_print( w, y, offset, pt_ammo_cur->color,
@@ -1507,7 +1507,7 @@ void veh_interact::calc_overview()
                 int offset = 1;
                 std::string fmtstring = "%i    %3i%%";
                 if( pt.is_leaking() ) {
-                    fmtstring = "%i   " + leak_marker + "%3i%%" + leak_marker;
+                    fmtstring = str_cat( "%i   ", leak_marker, "%3i%%", leak_marker );
                     offset = 0;
                 }
                 right_print( w, y, offset, item::find_type( pt.ammo_current() )->color,
@@ -1522,7 +1522,7 @@ void veh_interact::calc_overview()
                     int offset = 1;
                     std::string fmtstring = "%s   %5i";
                     if( pt.is_leaking() ) {
-                        fmtstring = "%s  " + leak_marker + "%5i" + leak_marker;
+                        fmtstring = str_cat( "%s  ", leak_marker, "%5i", leak_marker );
                         offset = 0;
                     }
                     right_print( w, y, offset, item::find_type( pt.ammo_current() )->color,

@@ -913,9 +913,10 @@ static std::vector<options_manager::id_and_option> build_resource_list(
 
     resource_option.clear();
     const auto resource_dirs = get_directories_with( filename, dirname, true );
+    const std::string slash_filename = "/" + filename;
 
     for( const std::string &resource_dir : resource_dirs ) {
-        read_from_file( resource_dir + "/" + filename, [&]( std::istream & fin ) {
+        read_from_file( resource_dir + slash_filename, [&]( std::istream & fin ) {
             std::string resource_name;
             std::string view_name;
             // should only have 2 values inside it, otherwise is going to only load the last 2 values
