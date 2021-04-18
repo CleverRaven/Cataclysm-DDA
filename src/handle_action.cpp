@@ -325,6 +325,7 @@ input_context game::get_player_input( std::string &action )
             }
 
             if( pixel_minimap_option ) {
+                // TODO: more granular control to only redraw pixel minimap
                 invalidate_main_ui_adaptor();
             }
 
