@@ -68,7 +68,7 @@ if [ -n "${MXE_TARGET}" ]; then
   export MXE_DIR=/usr/lib/mxe/usr/bin
   $travis_retry sudo apt-get --yes install mxe-${MXE2_TARGET}-gcc mxe-${MXE2_TARGET}-gettext mxe-${MXE2_TARGET}-glib mxe-${MXE2_TARGET}-sdl2 mxe-${MXE2_TARGET}-sdl2-ttf mxe-${MXE2_TARGET}-sdl2-image mxe-${MXE2_TARGET}-sdl2-mixer
   export PLATFORM='i686-w64-mingw32.static'
-  export CROSS_COMPILATION='${MXE_DIR}/${PLATFORM}-'
+  export CROSS_COMPILATION="${MXE_DIR}/${PLATFORM}-"
   # Need to overwrite CXX to make the Makefile $CROSS logic work right.
   export CXX="$COMPILER"
   export CCACHE=1
@@ -95,6 +95,19 @@ fi
 
 if [[ "$NATIVE" == "android" ]]; then
   yes | sdkmanager "ndk-bundle"
+fi
+
+# On GitHub actions environment variables are not saved between steps by
+# default, so we need to explicitly save the ones that we care about
+if [ -n "$GITHUB_ENV" ]
+then
+    for v in CROSS_COMPILATION CXX
+    do
+        if [ -n "${!v}" ]
+        then
+            printf "%s='%s'\n" "$v" "${!v}" >> "$GITHUB_ENV"
+        fi
+    done
 fi
 
 set +x
