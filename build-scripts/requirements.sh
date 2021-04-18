@@ -107,6 +107,15 @@ if [[ "$NATIVE" == "android" ]]; then
   yes | sdkmanager "ndk-bundle"
 fi
 
+if [ -n "$WINE" ]
+then
+    # The build script will try to run things under wine in parallel, and I
+    # think there are race conditions that can cause that to break.  So, run
+    # something benign under wine in advance to trigger it to configure all the
+    # one-time init stuff
+    wine hostname
+fi
+
 # On GitHub actions environment variables are not saved between steps by
 # default, so we need to explicitly save the ones that we care about
 if [ -n "$GITHUB_ENV" ]
