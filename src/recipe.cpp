@@ -1014,6 +1014,11 @@ void recipe::check_blueprint_requirements()
     }
 }
 
+bool recipe::removes_raw() const
+{
+    return create_result().is_comestible() && !create_result().has_flag( flag_RAW );
+}
+
 bool recipe::hot_result() const
 {
     // Check if the recipe tools make this food item hot upon making it.

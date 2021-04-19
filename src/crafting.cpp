@@ -1169,7 +1169,7 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
     // Set up the new item, and assign an inventory letter if available
     std::vector<item> newits = making.create_results( batch_size );
 
-    const bool should_heat = making.hot_result();
+    const bool should_heat = making.hot_result() || making.removes_raw();
 
     bool first = true;
     size_t newit_counter = 0;
