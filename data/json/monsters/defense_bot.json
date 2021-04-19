@@ -215,7 +215,7 @@
     "vision_night": 10,
     "revert_to_itype": "bot_science_bot",
     "starting_ammo": { "bot_manhack": 5 },
-    "path_settings": { "max_dist": 5 },
+    "path_settings": { "max_dist": 5, "avoid_traps": true, "avoid_sharp": true },
     "special_attacks": [ [ "SCIENCE", 16 ], [ "TAZER", 10 ] ],
     "death_drops": { "groups": [ [ "robots", 4 ], [ "skitterbot", 1 ] ] },
     "death_function": [ "BROKEN" ],
@@ -228,7 +228,7 @@
       "COLDPROOF",
       "NO_BREATHE",
       "PRIORITIZE_TARGETS",
-      "PATH_AVOID_DANGER_2",
+      "PATH_AVOID_DANGER_1",
       "DROPS_AMMO"
     ]
   },
@@ -256,7 +256,7 @@
     "armor_cut": 50,
     "armor_bullet": 40,
     "vision_night": 5,
-    "path_settings": { "max_dist": 5 },
+    "path_settings": { "max_dist": 5, "avoid_traps": true, "avoid_sharp": true },
     "special_attacks": [ [ "SMASH", 20 ], [ "BIO_OP_TAKEDOWN", 20 ] ],
     "death_drops": "mon_robofac_prototype_drops",
     "death_function": [ "BROKEN" ],
@@ -269,7 +269,7 @@
       "GOODHEARING",
       "NO_BREATHE",
       "PRIORITIZE_TARGETS",
-      "PATH_AVOID_DANGER_2",
+      "PATH_AVOID_DANGER_1",
       "LOUDMOVES"
     ]
   },
@@ -300,6 +300,7 @@
     "armor_bullet": 6,
     "vision_day": 30,
     "vision_night": 10,
+    "path_settings": { "avoid_traps": true, "avoid_sharp": true },
     "revert_to_itype": "bot_dispatch",
     "starting_ammo": { "bot_c4_hack": 2, "bot_flashbang_hack": 3, "bot_gasbomb_hack": 3, "bot_grenade_hack": 10 },
     "special_attacks": [ [ "GRENADIER", 10 ] ],
@@ -312,7 +313,7 @@
       "COLDPROOF",
       "NO_BREATHE",
       "PRIORITIZE_TARGETS",
-      "PATH_AVOID_DANGER_2",
+      "PATH_AVOID_DANGER_1",
       "LOUDMOVES",
       "DROPS_AMMO"
     ]
@@ -344,6 +345,7 @@
     "armor_bullet": 10,
     "vision_day": 30,
     "vision_night": 10,
+    "path_settings": { "avoid_traps": true, "avoid_sharp": true },
     "revert_to_itype": "bot_dispatch_military",
     "starting_ammo": { "bot_c4_hack": 10, "bot_flashbang_hack": 10, "bot_gasbomb_hack": 10, "bot_grenade_hack": 20, "bot_mininuke_hack": 1 },
     "special_attacks": [ [ "GRENADIER_ELITE", 10 ] ],
@@ -356,7 +358,7 @@
       "COLDPROOF",
       "NO_BREATHE",
       "PRIORITIZE_TARGETS",
-      "PATH_AVOID_DANGER_2",
+      "PATH_AVOID_DANGER_1",
       "LOUDMOVES",
       "DROPS_AMMO"
     ]
