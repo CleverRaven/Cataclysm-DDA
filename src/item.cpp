@@ -8098,6 +8098,15 @@ int item::electr_available( player *carrier )
     return res;
 }
 
+bool item::has_enough_electr( player *carrier )
+{
+	if( !it.is_tool() || !it.ammo_required() ) {
+        return true;
+    }
+	
+	return electr_available( carrier ) >= ammo_required();
+}
+
 bool item::electr_consume( int qty, player *carrier )
 {
     if( electr_available( carrier ) < qty ) {
