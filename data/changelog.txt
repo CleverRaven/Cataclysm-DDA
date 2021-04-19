@@ -277,11 +277,11 @@ Avoids creating starving characters from older templates.
 Fixes furniture being 'destroyed' when grab-moving.
 Fixes crashes from canceling reloading a container that is on the ground.
 Fixes NPCs still being hungry - and unhappy about it - after eating from faction camp stores.
-Reined in plant mutation photosynthesis ability to be more representative of real photosynthesis.
-Prevents cross-z-level melee attacks when attacker or target is not actually visible.
-Do not do character body updates more than once per turn
-When harvesting crops, drop the result on player's square.
-Improves road system connectivity across Overmaps.
+Reins in the plant mutation category's photosynthesis ability to be more representative of real photosynthesis.
+Prevents cross-z-level melee attacks when the target is not actually visible.
+Avoids doing character body updates more than once per turn
+When harvesting crops, drops the result on the player's square.
+Improves road system connectivity across overmaps.
 
 ## Performance:
 Adds an option to enable batching when it is available in SDL.
