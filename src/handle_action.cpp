@@ -424,7 +424,7 @@ static void pldrive( const tripoint &p )
         player_character.in_vehicle = false;
         return;
     }
-    if( veh->is_on_ramp && p.y != 0 ) {
+    if( veh->is_on_ramp && p.x != 0 ) {
         add_msg( m_bad, _( "You can't turn the vehicle while on a ramp." ) );
         return;
     }
