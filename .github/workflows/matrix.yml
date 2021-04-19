@@ -73,16 +73,27 @@ jobs:
             tiles: 1
             native: osx
             title: Clang 12, macOS 10.15, Tiles
+          - compiler: g++
+            os: ubuntu-latest
+            cmake: 0
+            tiles: 1
+            title: GCC, Ubuntu cross-compile to MinGW-Win64, Tiles
+            ldflags: -static-libgcc -static-libstdc++
+            mxe_target: i686-w64-mingw32.static
+            wine: wine
     name: ${{ matrix.title }}
     runs-on: ${{ matrix.os }}
     env:
         CMAKE: ${{ matrix.cmake }}
         COMPILER: ${{ matrix.compiler }}
+        MXE_TARGET: ${{ matrix.mxe_target }}
+        WINE: ${{ matrix.wine }}
         OS: ${{ matrix.os }}
         TILES: ${{ matrix.tiles }}
         SOUND: ${{ matrix.tiles }}
         SANITIZE: ${{ matrix.sanitize }}
         TEST_STAGE: ${{ matrix.test-stage }}
+        LDFLAGS: ${{ matrix.ldflags }}
         EXTRA_TEST_OPTS: --error-format=github-action
         NATIVE: ${{ matrix.native }}
         GOLD: ${{ matrix.gold }}
