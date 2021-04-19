@@ -84,7 +84,7 @@
     "subcategory": "CSC_FOOD_BREAD",
     "skill_used": "cooking",
     "difficulty": 2,
-    "charges": 16,
+    "charges": 8,
     "time": "45 m",
     "batch_time_factors": [ 50, 5 ],
     "book_learn": [ [ "baking_book", 2 ], [ "cookbook", 2 ] ],
