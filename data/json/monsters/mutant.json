@@ -113,17 +113,7 @@
     "death_drops": "mon_mutant_evolved_death_drops",
     "regenerates": 1,
     "regen_morale": true,
-    "flags": [
-      "SEES",
-      "HEARS",
-      "GOODHEARING",
-      "SMELLS",
-      "KEENNOSE",
-      "WARM",
-      "BASHES",
-      "PUSH_MON",
-      "PUSH_VEH"
-    ]
+    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "KEENNOSE", "WARM", "BASHES", "PUSH_MON", "PUSH_VEH" ]
   },
   {
     "id": "mon_one_eye",

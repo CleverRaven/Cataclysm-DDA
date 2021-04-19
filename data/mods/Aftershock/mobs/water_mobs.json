@@ -27,7 +27,7 @@
     "vision_day": 40,
     "vision_night": 15,
     "harvest": "zombie_meatslug",
-    "path_settings": { "max_dist": 50, "avoid_traps": true, "avoid_sharp": true  },
+    "path_settings": { "max_dist": 50, "avoid_traps": true, "avoid_sharp": true },
     "scents_ignored": [ "sc_fetid" ],
     "special_attacks": [
       [ "PARROT", 0 ],
@@ -78,7 +78,7 @@
     "vision_day": 40,
     "vision_night": 15,
     "harvest": "zombie_meatslug",
-    "path_settings": { "max_dist": 50, "avoid_traps": true, "avoid_sharp": true  },
+    "path_settings": { "max_dist": 50, "avoid_traps": true, "avoid_sharp": true },
     "scents_ignored": [ "sc_fetid" ],
     "special_attacks": [
       [ "PARROT", 0 ],

@@ -335,17 +335,7 @@
     "harvest": "gozu",
     "special_attacks": [ [ "FEAR_PARALYZE", 20 ] ],
     "death_function": [ "NORMAL" ],
-    "flags": [
-      "SEES",
-      "SMELLS",
-      "HEARS",
-      "WARM",
-      "BASHES",
-      "GROUP_BASH",
-      "ANIMAL",
-      "NO_BREATHE",
-      "PATH_AVOID_DANGER_1"
-    ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "BASHES", "GROUP_BASH", "ANIMAL", "NO_BREATHE", "PATH_AVOID_DANGER_1" ]
   },
   {
     "id": "mon_gracke",
