@@ -1893,7 +1893,7 @@ class item : public visitable
          * @param carrier The current carrier
          * @return amount of power (kJ)
          */
-        int electr_available( player *carrier = nullptr );
+        int electr_available( player *carrier );
 		
 		/**
          * Check if the item has enough power available to be activated
@@ -1901,7 +1901,7 @@ class item : public visitable
          * @param carrier The current carrier
          * @return true if there is enough power
          */
-		bool has_enough_electr( player *carrier = nullptr )
+		bool has_enough_electr( const player &carrier );
 
         /**
          * Consume electric power (if available). If there is not enough power then none is drained and false is returned
@@ -1910,7 +1910,7 @@ class item : public visitable
          * @param carrier The current carrier
          * @return false if there was not enough powr
          */
-        bool electr_consume( int qty, player *carrier = nullptr );
+        bool electr_consume( int qty, player *carrier );
 
         /** Specific ammo data, returns nullptr if item is neither ammo nor loaded with any */
         const itype *ammo_data() const;

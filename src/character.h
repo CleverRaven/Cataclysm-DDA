@@ -2061,6 +2061,7 @@ class Character : public Creature, public visitable
         /**
         * Consume UPS charges.
         * Consume order: mech, Bionic UPS, adv UPS, UPS.
+		* Does not check if there is enough power so check available_ups() first
         * @param qty Number of charges (kJ)
         */
         void consume_ups( int qty );

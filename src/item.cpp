@@ -8098,9 +8098,9 @@ int item::electr_available( player *carrier )
     return res;
 }
 
-bool item::has_enough_electr( player *carrier )
+bool item::has_enough_electr( const player &carrier )
 {
-	if( !it.is_tool() || !it.ammo_required() ) {
+	if( !is_tool() || !ammo_required() ) {
         return true;
     }
 	
