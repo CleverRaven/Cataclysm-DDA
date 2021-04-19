@@ -38,7 +38,8 @@
     "name": "moxie",
     "base_faction": "mutant",
     "neutral": "bio_machine",
-    "hate": [ "small_animal", "herbivore", "insect", "human", "mutant", "WraitheonRobotics", "bot" ]
+    "by_mood": [ "small_animal", "herbivore" ],
+    "hate": [ "insect", "human", "mutant", "WraitheonRobotics", "bot" ]
   },
   {
     "type": "MONSTER_FACTION",
