@@ -1884,6 +1884,26 @@ class item : public visitable
          */
         int ammo_consume( int qty, const tripoint &pos );
 
+        /**
+         * How much electric energy is available.
+         * If the item has flag_USES_BIONIC_POWER then return only bionic power
+         * If the tool has battery loaded then that is included
+         * The check is dumb so don't call it on items that don't load batteries
+         * If the tool has flag_USE_UPS then UPS sources are included
+         * @param carrier The current carrier
+         * @return amount of power (kJ)
+         */
+        int electr_available( player *carrier = nullptr );
+
+        /**
+         * Consume electric power (if available). If there is not enough power then none is drained and false is returned
+         * Consume order: Battery, UPS
+         * @param qty maximum amount of electric power (kJ) that should be consumed
+         * @param carrier The current carrier
+         * @return false if there was not enough powr
+         */
+        bool electr_consume( int qty, player *carrier = nullptr );
+
         /** Specific ammo data, returns nullptr if item is neither ammo nor loaded with any */
         const itype *ammo_data() const;
         /** Specific ammo type, returns "null" if item is neither ammo nor loaded with any */

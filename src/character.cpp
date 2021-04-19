@@ -11314,6 +11314,50 @@ bool Character::use_charges_if_avail( const itype_id &it, int quantity )
     return false;
 }
 
+int Character::available_ups()
+{
+    int available_charges = 0;
+    if( is_mounted() && mounted_creature.get()->has_flag( MF_RIDEABLE_MECH ) ) {
+        auto *mons = mounted_creature.get();
+        available_charges += mons->battery_item->ammo_remaining();
+    }
+    if( has_power() && has_active_bionic( bio_ups ) ) {
+        available_charges += units::to_kilojoule( get_power_level() );
+    }
+    available_charges += charges_of( itype_UPS );
+
+    return available_charges;
+}
+
+void Character::consume_ups( int qty )
+{
+    if( qty != 0 && is_mounted() && mounted_creature.get()->has_flag( MF_RIDEABLE_MECH ) &&
+        mounted_creature.get()->battery_item ) {
+        auto *mons = mounted_creature.get();
+        int power_drain = std::min( mons->battery_item->ammo_remaining(), qty );
+        mons->use_mech_power( -power_drain );
+        qty -= std::min( qty, power_drain );
+    }
+
+    if( qty != 0 && has_power() && has_active_bionic( bio_ups ) ) {
+        int bio = std::min( units::to_kilojoule( get_power_level() ), qty );
+        mod_power_level( units::from_kilojoule( -bio ) );
+        qty -= std::min( qty, bio );
+    }
+
+    inventory inv = crafting_inventory( tripoint_zero, -1 );
+
+    int adv = inv.charges_of( itype_adv_UPS_off, static_cast<int>( std::ceil( qty * 0.6 ) ) );
+    if( qty != 0 && adv > 0 ) {
+        qty -= std::min( qty, static_cast<int>( adv / 0.6 ) );
+    }
+
+    int ups = inv.charges_of( itype_UPS_off, qty );
+    if( qty != 0 && ups > 0 ) {
+        qty -= std::min( qty, ups );
+    }
+}
+
 std::list<item> Character::use_charges( const itype_id &what, int qty, const int radius,
                                         const std::function<bool( const item & )> &filter )
 {

@@ -8073,6 +8073,39 @@ int item::ammo_consume( int qty, const tripoint &pos )
     return 0;
 }
 
+int item::electr_available( player *carrier )
+{
+    if( has_flag( flag_USES_BIONIC_POWER ) ) {
+        int power = units::to_kilojoule( get_player_character().get_power_level() );
+        return power;
+    }
+
+    int res = 0;
+    for( const item *e : contents.all_items_top( item_pocket::pocket_type::MAGAZINE ) ) {
+        res += e->charges;
+    }
+    if( carrier != nullptr && has_flag( flag_USE_UPS ) ) {
+        res += carrier->available_ups();
+    }
+    return res;
+}
+
+bool item::electr_consume( int qty, player *carrier )
+{
+    if( electr_available( carrier ) < qty ) {
+        return false;
+    }
+
+    // The tripoint in this call is used only for ejecting casings
+    // It should be safe to pass whatever to it.
+    qty -= ammo_consume( qty, tripoint_zero );
+
+    if( carrier != nullptr && has_flag( flag_USE_UPS ) ) {
+        carrier->consume_ups( qty );
+    }
+    return true;
+}
+
 const itype *item::ammo_data() const
 {
     const item *mag = magazine_current();
