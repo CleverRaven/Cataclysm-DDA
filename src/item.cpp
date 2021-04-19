@@ -8081,9 +8081,17 @@ int item::electr_available( player *carrier )
     }
 
     int res = 0;
-    for( const item *e : contents.all_items_top( item_pocket::pocket_type::MAGAZINE ) ) {
-        res += e->charges;
+    const item *mag = magazine_current();
+    if( mag ) {
+        res += mag->ammo_remaining();
     }
+
+    if( !ammo_types().empty() ) {
+        for( const item *e : contents.all_items_top( item_pocket::pocket_type::MAGAZINE ) ) {
+            res += e->charges;
+        }
+    }
+
     if( carrier != nullptr && has_flag( flag_USE_UPS ) ) {
         res += carrier->available_ups();
     }

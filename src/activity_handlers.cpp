@@ -3817,8 +3817,7 @@ void activity_handlers::jackhammer_finish( player_activity *act, player *p )
     act->set_to_null();
     if( !act->targets.empty() ) {
         item &it = *act->targets.front();
-        p->consume_charges( it, it.ammo_required() );
-        //it.electr_consume( it.ammo_required(), p );
+        it.electr_consume( it.ammo_required(), p );
     } else {
         debugmsg( "jackhammer activity targets empty" );
     }
