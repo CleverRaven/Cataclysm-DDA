@@ -16,6 +16,7 @@ on:
   pull_request:
     branches:
     - master
+    - 0.F-dev
     paths:
     - '**.cpp'
     - '**.h'
