@@ -205,7 +205,6 @@ static const itype_id itype_splinter( "splinter" );
 static const itype_id itype_stick_long( "stick_long" );
 static const itype_id itype_steel_chunk( "steel_chunk" );
 static const itype_id itype_steel_plate( "steel_plate" );
-static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_wire( "wire" );
 static const itype_id itype_chain( "chain" );
 
@@ -1700,7 +1699,8 @@ void activity_handlers::generic_game_turn_handler( player_activity *act, player 
             const int ammo_required = game_item.ammo_required();
             bool fail = false;
             if( game_item.has_flag( flag_USE_UPS ) ) {
-                fail = !p->use_charges_if_avail( itype_UPS, ammo_required );
+				electr_consume( ammo_required, &p )
+                //fail = !p->use_charges_if_avail( itype_UPS, ammo_required );
             } else {
                 fail = game_item.ammo_consume( ammo_required, p->pos() ) == 0;
             }
@@ -2571,7 +2571,7 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
 
         int ammo_remaining = used_tool->ammo_remaining();
         if( used_tool->has_flag( flag_USE_UPS ) ) {
-            ammo_remaining = p->charges_of( itype_UPS );
+            ammo_remaining = p->available_ups();
         }
 
         std::set<itype_id> valid_entries = actor->get_valid_repair_materials( fix );
