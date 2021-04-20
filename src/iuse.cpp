@@ -4096,8 +4096,7 @@ cata::optional<int> iuse::tazer( player *p, item *it, bool, const tripoint &pos 
 
 cata::optional<int> iuse::tazer2( player *p, item *it, bool b, const tripoint &pos )
 {
-    if( it->ammo_remaining() >= 100 || ( it->has_flag( flag_USE_UPS ) &&
-                                         p->available_ups() >= 100 ) ) {
+    if( it->ammo_remaining( p ) >= 100 ) {
         // Instead of having a ctrl+c+v of the function above, spawn a fake tazer and use it
         // Ugly, but less so than copied blocks
         item fake( "tazer", calendar::turn_zero );
@@ -8375,8 +8374,7 @@ cata::optional<int> iuse::autoclave( player *p, item *it, bool t, const tripoint
         //Using power_draw seem to consume random amount of battery so +100 to be safe
         static const int power_need = ( ( it->type->tool->power_draw / 1000 ) * to_seconds<int>
                                         ( 90_minutes ) ) / 1000 + 100;
-        if( power_need > it->ammo_remaining() && !( it->has_flag( flag_USE_UPS ) &&
-                p->available_ups() >= power_need ) ) {
+        if( power_need > it->ammo_remaining( p ) ) {
             popup( _( "The autoclave doesn't have enough battery for one cycle.  You need at least %s charges." ),
                    power_need );
             return cata::nullopt;
@@ -8428,8 +8426,7 @@ cata::optional<int> iuse::multicooker( player *p, item *it, bool t, const tripoi
 
     if( t ) {
         //stop action before power runs out and iuse deletes the cooker
-        if( !( it->ammo_remaining() >= charge_buffer ) && !( it->has_flag( flag_USE_UPS ) &&
-                p->available_ups() >= charge_buffer ) ) {
+        if( it->ammo_remaining( p ) < charge_buffer ) {
             it->active = false;
             it->erase_var( "RECIPE" );
             it->convert( itype_multi_cooker );
@@ -8523,8 +8520,7 @@ cata::optional<int> iuse::multicooker( player *p, item *it, bool t, const tripoi
             menu.addentry( mc_stop, true, 's', _( "Stop cooking" ) );
         } else {
             if( dish_it == nullptr ) {
-                if( it->ammo_remaining() < charges_to_start && !( it->has_flag( flag_USE_UPS ) &&
-                        p->available_ups() >= charges_to_start ) ) {
+                if( it->ammo_remaining( p ) < charges_to_start ) {
                     p->add_msg_if_player( _( "Batteries are low." ) );
                     return 0;
                 }
@@ -8660,8 +8656,7 @@ cata::optional<int> iuse::multicooker( player *p, item *it, bool t, const tripoi
                 const int all_charges = charges_to_start + ( ( mealtime / 100 ) * ( it->type->tool->power_draw /
                                         1000 ) ) / 1000;
 
-                if( it->ammo_remaining() < all_charges && !( it->has_flag( flag_USE_UPS ) &&
-                        p->available_ups() >= all_charges ) ) {
+                if( it->ammo_remaining( p ) < all_charges ) {
 
                     p->add_msg_if_player( m_warning,
                                           _( "The multi-cooker needs %d charges to cook this dish." ),

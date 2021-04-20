@@ -1433,8 +1433,8 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
                         if( comp_elem.by_charges() ) {
                             // we don't care if there are 10 welders with 5 charges each
                             // we only want the one welder that has the required charge.
-                            if( stack_elem.ammo_remaining() >= comp_elem.count ) {
-                                temp_map[stack_elem.typeId()] += stack_elem.ammo_remaining();
+                            if( stack_elem.ammo_remaining( &p ) >= comp_elem.count ) {
+                                temp_map[stack_elem.typeId()] += stack_elem.ammo_remaining( &p );
                             }
                         } else {
                             temp_map[stack_elem.typeId()] += stack_elem.count();

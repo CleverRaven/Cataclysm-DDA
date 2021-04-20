@@ -8035,10 +8035,12 @@ int item::ammo_required() const
 
 bool item::ammo_sufficient( const player *carrier, int qty ) const
 {
-    if( !ammo_required() ) {
-        return true;
+    if( ammo_required() ) {
+        return ammo_remaining( carrier ) >= ammo_required() * qty;
+    } else if( get_gun_ups_drain() ) {
+        return ammo_remaining( carrier ) >= get_gun_ups_drain();
     }
-    return ammo_remaining( carrier ) >= ammo_required() * qty;
+
 }
 
 int item::ammo_consume( int qty, const tripoint &pos, player *carrier )

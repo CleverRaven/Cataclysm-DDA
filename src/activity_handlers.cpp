@@ -2127,10 +2127,10 @@ void activity_handlers::vibe_do_turn( player_activity *act, player *p )
     }
 
     if( calendar::once_every( 1_minutes ) ) {
-        if( vibrator_item.ammo_remaining() > 0 ) {
+        if( vibrator_item.ammo_remaining( p ) > 0 ) {
             vibrator_item.ammo_consume( 1, p->pos(), p );
             p->add_morale( MORALE_FEELING_GOOD, 3, 40 );
-            if( vibrator_item.ammo_remaining() == 0 ) {
+            if( vibrator_item.ammo_remaining( p ) == 0 ) {
                 add_msg( m_info, _( "The %s runs out of batteries." ), vibrator_item.tname() );
             }
         } else {
@@ -2564,10 +2564,7 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
             ammo_name = item::nname( used_tool->ammo_current() );
         }
 
-        int ammo_remaining = used_tool->ammo_remaining();
-        if( used_tool->has_flag( flag_USE_UPS ) ) {
-            ammo_remaining = p->available_ups();
-        }
+        int ammo_remaining = used_tool->ammo_remaining( p );
 
         std::set<itype_id> valid_entries = actor->get_valid_repair_materials( fix );
         const inventory &crafting_inv = p->crafting_inventory();

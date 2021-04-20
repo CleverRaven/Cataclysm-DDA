@@ -164,7 +164,7 @@ void aim_activity_actor::do_turn( player_activity &act, Character &who )
     }
 
     gun_mode gun = weapon->gun_current_mode();
-    if( first_turn && gun->has_flag( flag_RELOAD_AND_SHOOT ) && !gun->ammo_remaining() ) {
+    if( first_turn && gun->has_flag( flag_RELOAD_AND_SHOOT ) && !gun->ammo_remaining( nullptr ) ) {
         if( !load_RAS_weapon() ) {
             aborted = true;
             act.moves_left = 0;
@@ -632,7 +632,7 @@ bool gunmod_remove_activity_actor::gunmod_unload( Character &who, item &gunmod )
     }
     // TODO: unloading gunmods happens instantaneously in some cases, but should take time
     item_location loc = item_location( who, &gunmod );
-    return !( gunmod.ammo_remaining() && !who.as_player()->unload( loc, true ) );
+    return !( gunmod.ammo_remaining( nullptr ) && !who.as_player()->unload( loc, true ) );
 }
 
 void gunmod_remove_activity_actor::gunmod_remove( Character &who, item &gun, item &mod )
@@ -1745,7 +1745,7 @@ void unload_activity_actor::unload( Character &who, item_location &target )
         who.add_msg_if_player( _( "You unload your %s." ), it.tname() );
     }
 
-    if( it.has_flag( flag_MAG_DESTROY ) && it.ammo_remaining() == 0 ) {
+    if( it.has_flag( flag_MAG_DESTROY ) && it.ammo_remaining( nullptr ) == 0 ) {
         target.remove_item();
     }
 }

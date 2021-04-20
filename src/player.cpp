@@ -1164,7 +1164,6 @@ void player::process_items()
     }
 
     // Active item processing done, now we're recharging.
-    int ch_UPS = available_ups();
 
     bool update_required = get_check_encumbrance();
     for( item &w : worn ) {
@@ -1177,6 +1176,7 @@ void player::process_items()
         calc_encumbrance();
         set_check_encumbrance( false );
     }
+    int ch_UPS = available_ups();
     int ch_UPS_used = 0;
 
     // Load all items that use the UPS to their minimal functional charge,
@@ -1190,18 +1190,13 @@ void player::process_items()
             // Bionic power costs are handled elsewhere
             continue;
             //this is for UPS-modded items with no battery well
-        } else if( it->active && !it->ammo_sufficient() &&
-                   ( ch_UPS_used >= ch_UPS ||
-                     it->ammo_required() > ch_UPS - ch_UPS_used ) ) {
+        } else if( it->active && !it->ammo_sufficient( this ) ) {
             it->deactivate();
-        } else if( ch_UPS_used < ch_UPS &&
+        } else if( available_ups() > 0 &&
                    it->ammo_remaining() < it->ammo_capacity( ammotype( "battery" ) ) ) {
-            ch_UPS_used++;
+            consume_ups( 1 );
             it->ammo_set( itype_battery, it->ammo_remaining() + 1 );
         }
-    }
-    if( ch_UPS_used > 0 ) {
-        consume_ups( ch_UPS_used );
     }
 }
 
