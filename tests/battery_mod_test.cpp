@@ -183,7 +183,6 @@ TEST_CASE( "battery tool mod test", "[battery][mod]" )
 //
 // - Batteries are "magazines"
 //   - Have "ammo types" compatible with them
-//   - Can be reloaded with "ammo" (battery charges)
 //   - Charge left in the battery is "ammo remaining"
 //
 // - Tools have a "magazine well" (battery compartment)
