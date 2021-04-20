@@ -338,15 +338,13 @@
     "color": "light_gray",
     "ammo": [ "battery" ],
     "charges_per_use": 3500,
-	"pocket_data": [
+    "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "40 kg",
-        "item_restriction": [
-          "medium_storage_battery"
-        ]
+        "item_restriction": [ "medium_storage_battery" ]
       }
     ],
     "use_action": [ "JACKHAMMER" ],
