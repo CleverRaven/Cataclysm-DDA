@@ -701,7 +701,7 @@ void npc::pretend_fire( npc *source, int shots, item &gun )
     }
     while( curshot != shots ) {
         const int required = gun.ammo_required();
-        if( gun.ammo_consume( required, pos() ) != required ) {
+        if( gun.ammo_consume( required, pos(), this ) != required ) {
             debugmsg( "Unexpected shortage of ammo whilst firing %s", gun.tname().c_str() );
             break;
         }
@@ -808,7 +808,7 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
         }
 
         const int required = gun.ammo_required();
-        if( gun.ammo_consume( required, pos() ) != required ) {
+        if( gun.ammo_consume( required, pos(), this ) != required ) {
             debugmsg( "Unexpected shortage of ammo whilst firing %s", gun.tname() );
             break;
         }

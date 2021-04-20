@@ -3627,7 +3627,7 @@ void npc::heal_self()
         }
         if( treatment != nullptr ) {
             treatment->get_use( iusage )->call( *this, *treatment, treatment->active, pos() );
-            treatment->ammo_consume( treatment->ammo_required(), pos() );
+            treatment->ammo_consume( treatment->ammo_required(), pos(), this );
             return;
         }
     }

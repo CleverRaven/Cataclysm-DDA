@@ -8966,19 +8966,7 @@ bool Character::consume_charges( item &used, int qty )
         return true;
     }
 
-    // USE_UPS never occurs on base items but is instead added by the UPS tool mod
-    if( used.has_flag( flag_USE_UPS ) ) {
-        // With the new UPS system, we'll want to use any charges built up in the tool before pulling from the UPS
-        // The usage of the item was already approved, so drain item if possible, otherwise use UPS
-        if( used.charges >= qty || ( used.magazine_integral() &&
-                                     !used.has_flag( flag_id( "USES_BIONIC_POWER" ) ) && used.ammo_remaining() >= qty ) ) {
-            used.ammo_consume( qty, pos() );
-        } else {
-            use_charges( itype_UPS, qty );
-        }
-    } else {
-        used.ammo_consume( std::min( qty, used.ammo_remaining() ), pos() );
-    }
+    used.ammo_consume( std::min( qty, used.ammo_remaining() ), pos(), &dynamic_cast<player &>( *this ) );
     return false;
 }
 

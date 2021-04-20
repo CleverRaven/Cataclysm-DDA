@@ -1889,7 +1889,7 @@ class item : public visitable
          * @param carrier holder of the item, used for getting UPS and bionic power
          * @return amount of ammo consumed which will be between 0 and qty
          */
-        int ammo_consume( int qty, const tripoint &pos, player *carrier = nullptr );
+        int ammo_consume( int qty, const tripoint &pos, player *carrier );
 
         /** Specific ammo data, returns nullptr if item is neither ammo nor loaded with any */
         const itype *ammo_data() const;

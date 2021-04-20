@@ -1940,7 +1940,7 @@ cata::optional<int> iuse::fish_trap( player *p, item *it, bool t, const tripoint
             }
 
             if( fishes == 0 ) {
-                it->ammo_consume( it->ammo_remaining(), pos );
+                it->ammo_consume( it->ammo_remaining(), pos, p );
                 p->practice( skill_survival, rng( 5, 15 ) );
 
                 return 0;
@@ -1981,7 +1981,7 @@ cata::optional<int> iuse::fish_trap( player *p, item *it, bool t, const tripoint
                     }
                 }
             }
-            it->ammo_consume( bait_consumed, pos );
+            it->ammo_consume( bait_consumed, pos, p );
         }
         return 0;
     }
@@ -3235,7 +3235,7 @@ static int toolweapon_on( player &p, item &it, const bool t,
         "_off";
     if( t ) { // Effects while simply on
         if( double_charge_cost && it.units_sufficient( p ) ) {
-            it.ammo_consume( 1, p.pos() );
+            it.ammo_consume( 1, p.pos(), &p );
         }
         if( !works_underwater && p.is_underwater() ) {
             p.add_msg_if_player( _( "Your %s gurgles in the water and stops." ), tname );
@@ -4400,7 +4400,7 @@ cata::optional<int> iuse::gasmask( player *p, item *it, bool t, const tripoint &
                 }
             }
             if( it->get_var( "gas_absorbed", 0 ) >= 100 ) {
-                it->ammo_consume( 1, p->pos() );
+                it->ammo_consume( 1, p->pos(), p );
                 it->set_var( "gas_absorbed", 0 );
             }
             if( it->ammo_remaining() == 0 ) {
@@ -6313,8 +6313,7 @@ cata::optional<int> iuse::einktabletpc( player *p, item *it, bool t, const tripo
             ( it->ammo_remaining() > 0  || ( it->has_flag( flag_USE_UPS ) &&
                                              p->has_enough_charges( *it, false ) ) ) ) {
             if( calendar::once_every( 5_minutes ) ) {
-                //it->ammo_consume( 1, p->pos() );
-                p->consume_charges( *it, 1 );
+                it->ammo_consume( 1, p->pos(), p );
             }
 
             //the more varied music, the better max mood.
@@ -8435,7 +8434,7 @@ cata::optional<int> iuse::multicooker( player *p, item *it, bool t, const tripoi
             it->erase_var( "RECIPE" );
             it->convert( itype_multi_cooker );
             //drain the buffer amount given at activation
-            it->ammo_consume( charge_buffer, pos );
+            it->ammo_consume( charge_buffer, pos, p );
             p->add_msg_if_player( m_info,
                                   _( "Batteries low, entering standby mode.  With a low buzzing sound the multi-cooker shuts down." ) );
             return 0;
@@ -8690,7 +8689,7 @@ cata::optional<int> iuse::multicooker( player *p, item *it, bool t, const tripoi
                                       _( "The screen flashes blue symbols and scales as the multi-cooker begins to shake." ) );
 
                 it->convert( itype_multi_cooker_filled ).active = true;
-                it->ammo_consume( charges_to_start - charge_buffer, pos );
+                it->ammo_consume( charges_to_start - charge_buffer, pos, p );
 
                 p->practice( skill_cooking, meal->difficulty * 3 ); //little bonus
 

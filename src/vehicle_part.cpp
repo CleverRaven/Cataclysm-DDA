@@ -312,7 +312,7 @@ int vehicle_part::ammo_consume( int qty, const tripoint &pos )
         }
         return res;
     }
-    return base.ammo_consume( qty, pos );
+    return base.ammo_consume( qty, pos, nullptr );
 }
 
 double vehicle_part::consume_energy( const itype_id &ftype, double energy_j )

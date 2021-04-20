@@ -2231,7 +2231,7 @@ void activity_handlers::oxytorch_do_turn( player_activity *act, player *p )
     // act->values[0] is the number of charges yet to be consumed
     const int charges_used = std::min( act->values[0], it.ammo_required() );
 
-    it.ammo_consume( charges_used, p->pos() );
+    it.ammo_consume( charges_used, p->pos(), p );
     act->values[0] -= static_cast<int>( charges_used );
 
     sfx::play_activity_sound( "tool", "oxytorch", sfx::get_heard_volume( act->placement ) );
@@ -2248,7 +2248,7 @@ void activity_handlers::oxytorch_finish( player_activity *act, player *p )
     const ter_id ter = here.ter( pos );
     const furn_id furn = here.furn( pos );
     // fast players might still have some charges left to be consumed
-    act->targets.front()->ammo_consume( act->values[0], p->pos() );
+    act->targets.front()->ammo_consume( act->values[0], p->pos(), p );
 
     if( furn == f_rack ) {
         here.furn_set( pos, f_null );
@@ -2475,7 +2475,7 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
         const repair_item_actor::attempt_hint attempt = actor->repair( *p, *used_tool, fix_location );
         if( attempt != repair_item_actor::AS_CANT ) {
             if( ploc && ploc->where() == item_location::type::map ) {
-                used_tool->ammo_consume( used_tool->ammo_required(), ploc->position() );
+                used_tool->ammo_consume( used_tool->ammo_required(), ploc->position(), p );
             } else {
                 p->consume_charges( *used_tool, used_tool->ammo_required() );
             }

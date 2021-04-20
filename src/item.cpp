@@ -8689,7 +8689,7 @@ bool item::reload( Character &u, item_location ammo, int qty )
             item ammo_copy( ammo->contents.first_ammo() );
             ammo_copy.charges = qty;
             put_in( ammo_copy, item_pocket::pocket_type::MAGAZINE );
-            ammo->ammo_consume( qty, tripoint_zero );
+            ammo->ammo_consume( qty, tripoint_zero, &dynamic_cast<player&>(u));
         } else if( ammo->ammo_type() == ammo_plutonium ) {
             curammo = ammo->type;
             ammo->charges -= qty;
@@ -9305,7 +9305,7 @@ bool item::use_charges( const itype_id &what, int &qty, std::list<item> &used,
                     item temp( *e );
                     temp.ammo_set( e->ammo_current(), n );
                     used.push_back( temp );
-                    e->ammo_consume( n, pos );
+                    e->ammo_consume( n, pos, nullptr );
                 }
             }
             return VisitResponse::SKIP;
@@ -10413,7 +10413,7 @@ bool item::process_tool( player *carrier, const tripoint &pos )
         energy += x_in_y( type->tool->power_draw % 1000000, 1000000 ) ? 1 : 0;
     }
 
-    energy -= ammo_consume( energy, pos );
+    energy -= ammo_consume( energy, pos, carrier );
 
     avatar &player_character = get_avatar();
     // if insufficient available charges shutdown the tool
