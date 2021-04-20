@@ -1048,10 +1048,10 @@ bool recipe::hot_result() const
 
 int recipe::makes_amount() const
 {
-    int makes;
+    int makes = 0;
     if( charges.has_value() ) {
         makes = charges.value();
-    } else {
+    } else if( item::count_by_charges( result_ ) ) {
         makes = item::find_type( result_ )->charges_default();
     }
     // return either charges * mult or 1
