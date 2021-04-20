@@ -1697,7 +1697,7 @@ void activity_handlers::generic_game_turn_handler( player_activity *act, player 
         if( !act->targets.empty() ) {
             item &game_item = *act->targets.front();
             const int ammo_required = game_item.ammo_required();
-			// I am fairly sure this item is always battery operated
+            // I am fairly sure this item is always battery operated
             bool success = game_item.electr_consume( ammo_required, p );
             if( !success ) {
                 act->moves_left = 0;
