@@ -177,24 +177,22 @@ input_context game::get_player_input( std::string &action )
         ctxt.set_iso( true );
         // The list of allowed actions in death-cam mode in game::handle_action
         // *INDENT-OFF*
-        for( const action_id id :
-     {
-         ACTION_TOGGLE_MAP_MEMORY,
-         ACTION_CENTER,
-         ACTION_SHIFT_N,
-         ACTION_SHIFT_NE,
-         ACTION_SHIFT_E,
-         ACTION_SHIFT_SE,
-         ACTION_SHIFT_S,
-         ACTION_SHIFT_SW,
-         ACTION_SHIFT_W,
-         ACTION_SHIFT_NW,
-         ACTION_LOOK,
-         ACTION_KEYBINDINGS,
-     } )
-{
-    ctxt.register_action( action_ident( id ) );
-}
+        for( const action_id id : {
+            ACTION_TOGGLE_MAP_MEMORY,
+            ACTION_CENTER,
+            ACTION_SHIFT_N,
+            ACTION_SHIFT_NE,
+            ACTION_SHIFT_E,
+            ACTION_SHIFT_SE,
+            ACTION_SHIFT_S,
+            ACTION_SHIFT_SW,
+            ACTION_SHIFT_W,
+            ACTION_SHIFT_NW,
+            ACTION_LOOK,
+            ACTION_KEYBINDINGS,
+        } ) {
+            ctxt.register_action( action_ident( id ) );
+        }
         // *INDENT-ON*
         ctxt.register_action( "QUIT", to_translation( "Accept your fate" ) );
     } else {
@@ -767,7 +765,7 @@ static void smash()
                 }
             }
             if( tmp_bash_armor > best_part_to_smash.second ) {
-                best_part_to_smash = { bp, tmp_bash_armor };
+                best_part_to_smash = {bp, tmp_bash_armor};
             }
         }
         if( best_part_to_smash.first != bp_null && here.is_bashable( smashp ) ) {
@@ -941,7 +939,7 @@ static void wait()
         add_menu_item( 9,  'k',
                        setting_alarm ? _( "Set alarm for dusk" ) : _( "Wait till night" ),
                        diurnal_time_before( night_time( calendar::turn ) ) );
-        add_menu_item( 10,  'm',
+        add_menu_item( 10, 'm',
                        setting_alarm ? _( "Set alarm for midnight" ) : _( "Wait till midnight" ),
                        diurnal_time_before( last_midnight ) );
         if( setting_alarm ) {
