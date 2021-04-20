@@ -177,22 +177,24 @@ input_context game::get_player_input( std::string &action )
         ctxt.set_iso( true );
         // The list of allowed actions in death-cam mode in game::handle_action
         // *INDENT-OFF*
-        for (const action_id id : {
-            ACTION_TOGGLE_MAP_MEMORY,
-                ACTION_CENTER,
-                ACTION_SHIFT_N,
-                ACTION_SHIFT_NE,
-                ACTION_SHIFT_E,
-                ACTION_SHIFT_SE,
-                ACTION_SHIFT_S,
-                ACTION_SHIFT_SW,
-                ACTION_SHIFT_W,
-                ACTION_SHIFT_NW,
-                ACTION_LOOK,
-                ACTION_KEYBINDINGS,
-        }) {
-            ctxt.register_action(action_ident(id));
-        }
+        for( const action_id id :
+     {
+         ACTION_TOGGLE_MAP_MEMORY,
+         ACTION_CENTER,
+         ACTION_SHIFT_N,
+         ACTION_SHIFT_NE,
+         ACTION_SHIFT_E,
+         ACTION_SHIFT_SE,
+         ACTION_SHIFT_S,
+         ACTION_SHIFT_SW,
+         ACTION_SHIFT_W,
+         ACTION_SHIFT_NW,
+         ACTION_LOOK,
+         ACTION_KEYBINDINGS,
+     } )
+{
+    ctxt.register_action( action_ident( id ) );
+}
         // *INDENT-ON*
         ctxt.register_action( "QUIT", to_translation( "Accept your fate" ) );
     } else {
@@ -709,7 +711,7 @@ static void smash()
                            "field" );
             here.remove_field( smashp, fd_to_smsh.first );
             here.spawn_items( smashp, item_group::items_from( bash_info.drop_group, calendar::turn ) );
-            player_character.mod_moves( -bash_info.fd_bash_move_cost );
+            player_character.mod_moves( - bash_info.fd_bash_move_cost );
             add_msg( m_info, bash_info.field_bash_msg_success.translated() );
             return;
         } else {
@@ -749,7 +751,7 @@ static void smash()
 
     if( !player_character.has_weapon() ) {
         const bodypart_id bp_null( "bp_null" );
-        std::pair<bodypart_id, int> best_part_to_smash = { bp_null, 0 };
+        std::pair<bodypart_id, int> best_part_to_smash = {bp_null, 0};
         int tmp_bash_armor = 0;
         for( const bodypart_id &bp : player_character.get_all_body_parts() ) {
             for( const item &i : player_character.worn ) {
@@ -882,7 +884,7 @@ static void wait()
 
     const bool has_watch = player_character.has_watch() || setting_alarm;
 
-    const auto add_menu_item = [&as_m, &durations, has_watch]
+    const auto add_menu_item = [ &as_m, &durations, has_watch ]
                                ( int retval, int hotkey, const std::string &caption = "",
     const time_duration &duration = time_duration::from_turns( calendar::INDEFINITELY_LONG ) ) {
 
@@ -930,16 +932,16 @@ static void wait()
             return target_time - calendar::turn;
         };
 
-        add_menu_item( 7, 'd',
+        add_menu_item( 7,  'd',
                        setting_alarm ? _( "Set alarm for dawn" ) : _( "Wait till daylight" ),
                        diurnal_time_before( daylight_time( calendar::turn ) ) );
-        add_menu_item( 8, 'n',
+        add_menu_item( 8,  'n',
                        setting_alarm ? _( "Set alarm for noon" ) : _( "Wait till noon" ),
                        diurnal_time_before( last_midnight + 12_hours ) );
-        add_menu_item( 9, 'k',
+        add_menu_item( 9,  'k',
                        setting_alarm ? _( "Set alarm for dusk" ) : _( "Wait till night" ),
                        diurnal_time_before( night_time( calendar::turn ) ) );
-        add_menu_item( 10, 'm',
+        add_menu_item( 10,  'm',
                        setting_alarm ? _( "Set alarm for midnight" ) : _( "Wait till midnight" ),
                        diurnal_time_before( last_midnight ) );
         if( setting_alarm ) {
