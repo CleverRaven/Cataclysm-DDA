@@ -1191,7 +1191,17 @@
     "name": { "str": "Recycler Unit" },
     "description": "Your digestive system has been outfitted with a series of filters and processors, allowing you to reclaim waste liquid and, to a lesser degree, nutrients.  The net effect is a greatly reduced need to eat and drink.",
     "occupied_bodyparts": [ [ "torso", 15 ] ],
-    "flags": [ "BIONIC_NPC_USABLE" ]
+    "flags": [ "BIONIC_NPC_USABLE" ],
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [
+          { "value": "HUNGER", "multiply": -0.5 },
+          { "value": "THIRST", "multiply": -0.5 },
+          { "value": "METABOLISM", "multiply": -0.5 }
+        ]
+      }
+    ]
   },
   {
     "id": "bio_remote",

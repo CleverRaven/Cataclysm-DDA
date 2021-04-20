@@ -477,6 +477,7 @@ Effects for the character that has the enchantment:
 * REGEN_STAMINA
 * MAX_HP
 * REGEN_HP
+* HUNGER
 * THIRST
 * FATIGUE
 * PAIN
