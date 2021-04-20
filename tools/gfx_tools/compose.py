@@ -285,6 +285,10 @@ class Tileset:
 
             tiles_new_dict[sheet.max_index] = sheet_conf
 
+        if not main_finished:
+            create_tile_entries_for_unused(
+                self.handle_unreferenced_sprites('main'))
+
         create_tile_entries_for_unused(
             self.handle_unreferenced_sprites('filler'))
 
