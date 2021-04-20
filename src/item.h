@@ -1849,7 +1849,11 @@ class item : public visitable
         units::energy energy_remaining() const;
 
         /** Quantity of ammunition currently loaded in tool, gun or auxiliary gunmod */
-        int ammo_remaining() const;
+		/**
+         *  Quantity of ammunition currently loaded in tool, gun or auxiliary gunmod. Can include UPS and bionic
+         *  @param carrier is used for UPS and bionic power
+         */
+        int ammo_remaining( const player *carrier = nullptr ) const;
         /**
          * ammo capacity for a specific ammo
          */
@@ -1864,55 +1868,28 @@ class item : public visitable
 
         /**
          * Check if sufficient ammo is loaded for given number of uses.
-         *
+         * Also checks UPS and bionic if usable
          * Check if there is enough ammo loaded in a tool for the given number of uses
          * or given number of gun shots.  Using this function for this check is preferred
          * because we expect to add support for items consuming multiple ammo types in
          * the future.  Users of this function will not need to be refactored when this
          * happens.
          *
-         * @param[in] qty Number of uses
+		 * @param carrier who holds the item. Needed for UPS/bionic only
+         * @param qty Number of uses
          * @returns true if ammo sufficient for number of uses is loaded, false otherwise
          */
-        bool ammo_sufficient( int qty = 1 ) const;
+        bool ammo_sufficient( const player *carrier = nullptr, int qty = 1 ) const;
 
         /**
          * Consume ammo (if available) and return the amount of ammo that was consumed
+		 * Consume order: Item, UPS, bionic
          * @param qty maximum amount of ammo that should be consumed
          * @param pos current location of item, used for ejecting magazines and similar effects
+		 * @param carrier holder of the item, used for getting UPS and bionic power
          * @return amount of ammo consumed which will be between 0 and qty
          */
-        int ammo_consume( int qty, const tripoint &pos );
-
-        /**
-         * How much electric energy is available.
-         * If the item has flag_USES_BIONIC_POWER then return only bionic power
-         * If the tool has battery loaded then that is included
-         * The check is dumb so don't call it on items that use other ammo
-         * If the tool has flag_USE_UPS then UPS sources are included
-         * @param carrier The current carrier
-         * @return amount of power (kJ)
-         */
-        int electr_available( const player *carrier ) const;
-
-        /**
-         * Check if the item has enough power available to be activated
-         * Checks all the appropriate power sources: battery, bionic, UPS
-         * The check is dumb so don't call it on items that use other ammo
-         * @param carrier The current carrier
-         * @return true if there is enough power
-         */
-        bool has_enough_electr( const player *carrier ) const;
-
-        /**
-         * Consume electric power (if available). If there is not enough power then none is drained and false is returned
-         * Consume order: Battery, UPS
-         * The code is dumb so don't call it on items that use other ammo
-         * @param qty maximum amount of electric power (kJ) that should be consumed
-         * @param carrier The current carrier
-         * @return false if there was not enough powr
-         */
-        bool electr_consume( int qty, player *carrier );
+        int ammo_consume( int qty, const tripoint &pos, player *carrier = nullptr );
 
         /** Specific ammo data, returns nullptr if item is neither ammo nor loaded with any */
         const itype *ammo_data() const;

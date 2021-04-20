@@ -1698,8 +1698,8 @@ void activity_handlers::generic_game_turn_handler( player_activity *act, player 
             item &game_item = *act->targets.front();
             const int ammo_required = game_item.ammo_required();
             // I am fairly sure this item is always battery operated
-            bool success = game_item.electr_consume( ammo_required, p );
-            if( !success ) {
+            bool fail = game_item.ammo_consume( ammo_required, tripoint_zero, p ) == 0;
+            if( fail ) {
                 act->moves_left = 0;
                 add_msg( m_info, _( "The %s runs out of batteries." ), game_item.tname() );
                 return;
@@ -2128,7 +2128,7 @@ void activity_handlers::vibe_do_turn( player_activity *act, player *p )
 
     if( calendar::once_every( 1_minutes ) ) {
         if( vibrator_item.ammo_remaining() > 0 ) {
-            vibrator_item.ammo_consume( 1, p->pos() );
+            vibrator_item.ammo_consume( 1, p->pos(), p );
             p->add_morale( MORALE_FEELING_GOOD, 3, 40 );
             if( vibrator_item.ammo_remaining() == 0 ) {
                 add_msg( m_info, _( "The %s runs out of batteries." ), vibrator_item.tname() );
@@ -3812,7 +3812,7 @@ void activity_handlers::jackhammer_finish( player_activity *act, player *p )
     act->set_to_null();
     if( !act->targets.empty() ) {
         item &it = *act->targets.front();
-        it.electr_consume( it.ammo_required(), p );
+        it.ammo_consume( it.ammo_required(), tripoint_zero, p );
     } else {
         debugmsg( "jackhammer activity targets empty" );
     }
