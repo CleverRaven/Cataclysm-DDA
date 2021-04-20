@@ -440,7 +440,7 @@ bool avatar::read( item &it, const bool continuous )
         // special guidebook effect: print a misc. hint when read
         if( reader != this ) {
             add_msg( m_info, fail_messages[0] );
-            dynamic_cast<const npc *>( reader )->say( get_hint() );
+            dynamic_cast<const npc &>( *reader ).say( get_hint() );
         } else {
             add_msg( m_info, get_hint() );
         }
