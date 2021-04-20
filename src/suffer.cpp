@@ -43,6 +43,7 @@
 #include "npc.h"
 #include "optional.h"
 #include "options.h"
+#include "output.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
 #include "player_activity.h"
@@ -806,26 +807,23 @@ void Character::suffer_from_sunburn()
         return;
     }
 
-    std::string sunlight_effect;
     if( has_trait( trait_ALBINO ) || has_effect( effect_datura ) ) {
         // Albinism and datura have the same effects, once per minute on average
         if( !one_turn_in( 1_minutes ) ) {
             return;
         }
-        sunlight_effect = _( "The sunlight is really irritating." );
     } else if( has_trait( trait_SUNBURN ) ) {
         // Sunburn effects occur about 3 times per minute
         if( !one_turn_in( 20_seconds ) ) {
             return;
         }
-        sunlight_effect = _( "The sunlight burns!" );
     }
 
     // Sunglasses can keep the sun off the eyes.
     if( !has_flag( json_flag_GLARE_RESIST ) &&
         !( wearing_something_on( bodypart_id( "eyes" ) ) &&
            ( worn_with_flag( flag_SUN_GLASSES ) || worn_with_flag( flag_BLIND ) ) ) ) {
-        add_msg_if_player( m_bad, _( "%s your eyes." ), sunlight_effect );
+        add_msg_if_player( m_bad, _( "The sunlight is really irritating your eyes." ) );
         // Pain (1/60) or loss of focus (59/60)
         if( one_turn_in( 1_minutes ) ) {
             mod_pain( 1 );
@@ -842,12 +840,8 @@ void Character::suffer_from_sunburn()
 
     // Minimum exposure threshold for pain
     const float MIN_EXPOSURE = 0.01f;
-    // Count how many body parts are above the threshold
-    int count_affected_bp = 0;
-    // Get the most exposed body part, and how exposed it is.  This is to tell the player what body
-    // part is most irritated by sun, so they know what needs to be covered up better.
-    bodypart_id most_exposed_bp;
-    float max_exposure = 0.0f;
+    // Track body parts above the threshold
+    std::vector<std::pair<float, bodypart_id>> affected_bodyparts;
     // Check each bodypart with exposure above the minimum
     for( const std::pair<const bodypart_id, float> &bp_exp : bp_exposure ) {
         const float exposure = bp_exp.second;
@@ -855,40 +849,60 @@ void Character::suffer_from_sunburn()
         if( exposure <= MIN_EXPOSURE || bp_exp.first == bodypart_id( "eyes" ) ) {
             continue;
         }
-        ++count_affected_bp;
-        if( exposure > max_exposure ) {
-            max_exposure = exposure;
-            most_exposed_bp = bp_exp.first;
-        }
+        affected_bodyparts.emplace_back( exposure, bp_exp.first );
     }
 
     // If all body parts are protected, there is no suffering
-    if( count_affected_bp == 0 || most_exposed_bp == bodypart_str_id::NULL_ID() ) {
+    if( affected_bodyparts.empty() ) {
         return;
     }
 
-    // Check if both arms/legs are affected
-    int count_limbs = 1;
-    const bodypart_id &other_bp = most_exposed_bp->opposite_part;
-    const bodypart_id &other_bp_rev = other_bp->opposite_part;
-    // If these are different, we have a left/right part like a leg or arm.
-    // If same, it's a central body part with no opposite, like head or torso.
-    // Only used to generate a simpler message when both arms or both legs are affected.
-    if( other_bp != other_bp_rev ) {
-        const auto found = bp_exposure.find( other_bp );
-        // Is opposite part exposed?
-        if( found != bp_exposure.end() && found->second > MIN_EXPOSURE ) {
-            ++count_limbs;
+    // Sort most affected bodyparts to the front
+    std::sort( affected_bodyparts.begin(), affected_bodyparts.end(), std::greater<> {} );
+
+    std::vector<std::string> affected_part_names;
+    std::unordered_set<bodypart_id> excluded_other_parts;
+
+    for( const std::pair<float, bodypart_id> &exp_bp : affected_bodyparts ) {
+        const bodypart_id &bp = exp_bp.second;
+        if( excluded_other_parts.count( bp ) ) {
+            continue;
         }
+        const bodypart_id &opposite_bp = bp->opposite_part;
+        // If these are different, we have a left/right part like a leg or arm.
+        // If same, it's a central body part with no opposite, like head or torso.
+        // Used to generate a simpler message when both arms or both legs are affected.
+        int count_limbs = 1;
+        if( bp != opposite_bp ) {
+            const auto found = bp_exposure.find( opposite_bp );
+            // Is opposite part exposed?
+            if( found != bp_exposure.end() && found->second > MIN_EXPOSURE ) {
+                ++count_limbs;
+                excluded_other_parts.insert( opposite_bp );
+            }
+        }
+        // Get singular or plural body part name; append "and other body parts" if appropriate
+        std::string bp_name = body_part_name( bp, count_limbs );
+        affected_part_names.push_back( bp_name );
     }
-    // Get singular or plural body part name; append "and other body parts" if appropriate
-    std::string bp_name = body_part_name( most_exposed_bp, count_limbs );
-    if( count_affected_bp == count_limbs ) {
-        add_msg_if_player( m_bad, _( "%s your %s." ), sunlight_effect, bp_name );
-    } else {
-        add_msg_if_player( m_bad, _( "%s your %s and other body parts." ), sunlight_effect,
-                           bp_name );
+
+    std::string all_parts_list = enumerate_as_string( affected_part_names );
+
+    std::string message;
+    if( has_trait( trait_ALBINO ) || has_effect( effect_datura ) ) {
+        //~ %s is a list of body parts.  The plurality integer is the total
+        //~ number of body parts
+        message = ngettext( "The sunlight is really irritating your %s.",
+                            "The sunlight is really irritating your %s.",
+                            affected_bodyparts.size() );
+    } else if( has_trait( trait_SUNBURN ) ) {
+        //~ %s is a list of body parts.  The plurality integer is the total
+        //~ number of body parts
+        message = ngettext( "The sunlight burns your %s.",
+                            "The sunlight burns your %s.",
+                            affected_bodyparts.size() );
     }
+    add_msg_if_player( m_bad, message, all_parts_list );
 
     // Wake up from skin irritation/burning
     if( has_effect( effect_sleep ) ) {
