@@ -598,7 +598,7 @@ void avatar_action::autoattack( avatar &you, map &m )
         if( !c->is_npc() ) {
             return false;
         }
-        return !dynamic_cast<const npc *>( c )->is_enemy();
+        return !dynamic_cast<const npc &>( *c ).is_enemy();
     } ), critters.end() );
     if( critters.empty() ) {
         add_msg( m_info, _( "No hostile creature in reach.  Waiting a turn." ) );
