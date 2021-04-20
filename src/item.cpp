@@ -7946,19 +7946,18 @@ int item::ammo_remaining( const player *carrier ) const
         ret += units::to_kilojoule( carrier->get_power_level() );
     }
 
-    // Charges contained in the tool itself with "max_charges"
-    // Remove once no tool does this anymore
+    // This may not apply to anything (?)
     if( is_tool() && !ammo_types().empty() ) {
         ret += charges;
     }
 
-    if( carrier != nullptr && has_flag( flag_USE_UPS ) ) {
+    if( carrier != nullptr && ( has_flag( flag_USE_UPS ) || get_gun_ups_drain() ) ) {
         ret += carrier->available_ups();
     }
 
 
     if( is_gun() && magazine_integral() && !contents.empty() ) {
-        return contents.first_ammo().charges;
+        ret +=  contents.first_ammo().charges;
     }
 
     if( is_magazine() ) {
@@ -7973,9 +7972,7 @@ int item::ammo_remaining( const player *carrier ) const
             ret += e->charges;
         }
     }
-
     return ret;
-
 }
 
 int item::remaining_ammo_capacity() const
@@ -8040,6 +8037,7 @@ bool item::ammo_sufficient( const player *carrier, int qty ) const
     } else if( get_gun_ups_drain() ) {
         return ammo_remaining( carrier ) >= get_gun_ups_drain();
     }
+    return true;
 
 }
 
