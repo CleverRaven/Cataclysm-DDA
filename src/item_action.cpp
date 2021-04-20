@@ -40,8 +40,6 @@ class Character;
 
 static const std::string errstring( "ERROR" );
 
-static const itype_id itype_UPS( "UPS" );
-
 struct tripoint;
 
 static item_action nullaction;

@@ -1699,7 +1699,7 @@ void activity_handlers::generic_game_turn_handler( player_activity *act, player 
             const int ammo_required = game_item.ammo_required();
             bool fail = false;
             if( game_item.has_flag( flag_USE_UPS ) ) {
-				electr_consume( ammo_required, &p )
+                game_item.electr_consume( ammo_required, p );
                 //fail = !p->use_charges_if_avail( itype_UPS, ammo_required );
             } else {
                 fail = game_item.ammo_consume( ammo_required, p->pos() ) == 0;

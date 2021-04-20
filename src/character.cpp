@@ -11325,7 +11325,7 @@ int Character::available_ups() const
         available_charges += units::to_kilojoule( get_power_level() );
     }
     available_charges += charges_of( itype_UPS_off );
-	available_charges += charges_of( itype_adv_UPS_off );
+    available_charges += charges_of( itype_adv_UPS_off );
 
     return available_charges;
 }

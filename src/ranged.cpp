@@ -91,7 +91,6 @@ static const itype_id itype_bolt( "bolt" );
 static const itype_id itype_flammable( "flammable" );
 static const itype_id itype_m235( "m235" );
 static const itype_id itype_metal_rail( "metal_rail" );
-static const itype_id itype_UPS( "UPS" );
 
 static const trap_str_id tr_practice_target( "tr_practice_target" );
 
@@ -819,7 +818,7 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
         }
 
         if( !gun.has_flag( flag_VEHICLE ) ) {
-            use_charges( itype_UPS, gun.get_gun_ups_drain() );
+            consume_ups( gun.get_gun_ups_drain() );
         }
 
         if( shot.missed_by <= .1 ) {
@@ -3523,7 +3522,7 @@ bool gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::string> 
                 result = false;
             }
         } else {
-            if( !you.has_charges( itype_UPS, ups_drain ) ) {
+            if( you.available_ups() < ups_drain ) {
                 messages.push_back( string_format( _( "Your mech has an empty battery, its %s will not fire." ),
                                                    gmode->tname() ) );
                 result = false;
