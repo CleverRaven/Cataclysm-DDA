@@ -1849,7 +1849,7 @@ class item : public visitable
         units::energy energy_remaining() const;
 
         /** Quantity of ammunition currently loaded in tool, gun or auxiliary gunmod */
-		/**
+        /**
          *  Quantity of ammunition currently loaded in tool, gun or auxiliary gunmod. Can include UPS and bionic
          *  @param carrier is used for UPS and bionic power
          */
@@ -1875,7 +1875,7 @@ class item : public visitable
          * the future.  Users of this function will not need to be refactored when this
          * happens.
          *
-		 * @param carrier who holds the item. Needed for UPS/bionic only
+         * @param carrier who holds the item. Needed for UPS/bionic only
          * @param qty Number of uses
          * @returns true if ammo sufficient for number of uses is loaded, false otherwise
          */
@@ -1883,10 +1883,10 @@ class item : public visitable
 
         /**
          * Consume ammo (if available) and return the amount of ammo that was consumed
-		 * Consume order: Item, UPS, bionic
+         * Consume order: Item, UPS, bionic
          * @param qty maximum amount of ammo that should be consumed
          * @param pos current location of item, used for ejecting magazines and similar effects
-		 * @param carrier holder of the item, used for getting UPS and bionic power
+         * @param carrier holder of the item, used for getting UPS and bionic power
          * @return amount of ammo consumed which will be between 0 and qty
          */
         int ammo_consume( int qty, const tripoint &pos, player *carrier = nullptr );

@@ -1136,7 +1136,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
         }
         std::vector<item *> mining_inv = p.items_with( [&p]( const item & itm ) {
             return ( itm.has_flag( flag_DIG_TOOL ) && !itm.type->can_use( "JACKHAMMER" ) ) ||
-                   ( itm.type->can_use( "JACKHAMMER" ) && itm.ammo_sufficient(&p) );
+                   ( itm.type->can_use( "JACKHAMMER" ) && itm.ammo_sufficient( &p ) );
         } );
         if( mining_inv.empty() ) {
             return activity_reason_info::fail( do_activity_reason::NEEDS_MINING );

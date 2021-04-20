@@ -7934,46 +7934,46 @@ units::energy item::energy_remaining() const
     return 0_J;
 }
 
-int item::ammo_remaining( const player *carrier) const
+int item::ammo_remaining( const player *carrier ) const
 {
-	int ret = 0;
+    int ret = 0;
     const item *mag = magazine_current();
     if( mag ) {
         ret += mag->ammo_remaining();
     }
-	
-	if(carrier != nullptr && has_flag( flag_USES_BIONIC_POWER ) ) {
-         ret += units::to_kilojoule( carrier->get_power_level() );
+
+    if( carrier != nullptr && has_flag( flag_USES_BIONIC_POWER ) ) {
+        ret += units::to_kilojoule( carrier->get_power_level() );
     }
-	
-	// Charges contained in the tool itself with "max_charges"
-	// Remove once no tool does this anymore
+
+    // Charges contained in the tool itself with "max_charges"
+    // Remove once no tool does this anymore
     if( is_tool() && !ammo_types().empty() ) {
-        ret += charges;	
+        ret += charges;
     }
 
     if( carrier != nullptr && has_flag( flag_USE_UPS ) ) {
         ret += carrier->available_ups();
     }
 
-	
+
     if( is_gun() && magazine_integral() && !contents.empty() ) {
         return contents.first_ammo().charges;
     }
 
-	if( is_magazine() ) {
+    if( is_magazine() ) {
         for( const item *e : contents.all_items_top( item_pocket::pocket_type::MAGAZINE ) ) {
             ret += e->charges;
         }
     }
-	
-	// Handle non-magazines with ammo_restriction in a CONTAINER type pocket (like quivers)
+
+    // Handle non-magazines with ammo_restriction in a CONTAINER type pocket (like quivers)
     if( !ammo_types().empty() ) {
         for( const item *e : contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
             ret += e->charges;
         }
     }
-	
+
     return ret;
 
 }
@@ -8033,9 +8033,9 @@ int item::ammo_required() const
     return 0;
 }
 
-bool item::ammo_sufficient(const player* carrier, int qty ) const
+bool item::ammo_sufficient( const player *carrier, int qty ) const
 {
-	if( !ammo_required() ) {
+    if( !ammo_required() ) {
         return true;
     }
     return ammo_remaining( carrier ) >= ammo_required() * qty;
@@ -8047,33 +8047,33 @@ int item::ammo_consume( int qty, const tripoint &pos, player *carrier )
         debugmsg( "Cannot consume negative quantity of ammo for %s", tname() );
         return 0;
     }
-	
-	int consumed = 0;
+
+    int consumed = 0;
     int temp_cons;
-	
-	// Consume charges loaded in the item or its magazines
+
+    // Consume charges loaded in the item or its magazines
     if( is_magazine() || contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
         temp_cons = contents.ammo_consume( qty, pos );
-		consumed += temp_cons;
-		qty -= temp_cons;
-	}
-	
-	// Consume UPS power from various sources
-	if( carrier != nullptr && has_flag( flag_USE_UPS ) ) {
-        int ups_used = std::min( carrier->available_ups(), qty );
-		carrier->consume_ups( ups_used );
-		consumed += ups_used;
-		qty -= ups_used;
+        consumed += temp_cons;
+        qty -= temp_cons;
     }
-	
-	// Consume bio pwr directly
-	if( carrier != nullptr && has_flag( flag_USES_BIONIC_POWER ) ){
-        int bio_used = std::min(units::to_kilojoule(carrier->get_power_level()), qty);
-		carrier->mod_power_level( units::from_kilojoule( bio_used ) );
-		consumed += bio_used;
-		qty -= bio_used;
-	}
-	
+
+    // Consume UPS power from various sources
+    if( carrier != nullptr && has_flag( flag_USE_UPS ) ) {
+        int ups_used = std::min( carrier->available_ups(), qty );
+        carrier->consume_ups( ups_used );
+        consumed += ups_used;
+        qty -= ups_used;
+    }
+
+    // Consume bio pwr directly
+    if( carrier != nullptr && has_flag( flag_USES_BIONIC_POWER ) ) {
+        int bio_used = std::min( units::to_kilojoule( carrier->get_power_level() ), qty );
+        carrier->mod_power_level( units::from_kilojoule( bio_used ) );
+        consumed += bio_used;
+        qty -= bio_used;
+    }
+
     return consumed;
 }
 
