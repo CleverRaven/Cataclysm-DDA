@@ -8689,7 +8689,7 @@ bool item::reload( Character &u, item_location ammo, int qty )
             item ammo_copy( ammo->contents.first_ammo() );
             ammo_copy.charges = qty;
             put_in( ammo_copy, item_pocket::pocket_type::MAGAZINE );
-            ammo->ammo_consume( qty, tripoint_zero, &dynamic_cast<player&>(u));
+            ammo->ammo_consume( qty, tripoint_zero, &dynamic_cast<player &>( u ) );
         } else if( ammo->ammo_type() == ammo_plutonium ) {
             curammo = ammo->type;
             ammo->charges -= qty;
