@@ -1,4 +1,4 @@
-# 0.F (2021-04-01)
+# 0.F (2021-04-15)
 
 ## Features:
 Adds option to randomize INITIAL_DAY.
@@ -277,7 +277,11 @@ Avoids creating starving characters from older templates.
 Fixes furniture being 'destroyed' when grab-moving.
 Fixes crashes from canceling reloading a container that is on the ground.
 Fixes NPCs still being hungry - and unhappy about it - after eating from faction camp stores.
-Reined in plant mutation photosynthesis ability to be more representative of real photosynthesis.
+Reins in the plant mutation category's photosynthesis ability to be more representative of real photosynthesis.
+Prevents cross-z-level melee attacks when the target is not actually visible.
+Avoids doing character body updates more than once per turn
+When harvesting crops, drops the result on the player's square.
+Improves road system connectivity across overmaps.
 
 ## Performance:
 Adds an option to enable batching when it is available in SDL.
@@ -378,6 +382,7 @@ Improves scooter tile representation by adding scooter vehicle parts, which scoo
 Reduces file size of composed tilesheets from compose.py.
 Implements C++ symbol demangling in crash reports on MacOS, MinGW, and Linux.
 Adds tests of automatic triggers for mutations.
+Generates a crash report on Android.
 
 ## Build:
 Moves clang-tidy runs from Travis to GitHub.
