@@ -23,7 +23,6 @@ performance-*,\
 readability-*,\
 -bugprone-misplaced-widening-cast,\
 -bugprone-narrowing-conversions,\
--bugprone-unused-return-value,\
 -cert-flp30-c,\
 -misc-non-private-member-variables-in-classes,\
 -modernize-avoid-c-arrays,\

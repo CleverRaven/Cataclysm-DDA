@@ -415,7 +415,7 @@ bool game::check_mod_data( const std::vector<mod_id> &opts, loading_ui &ui )
         std::string world_name = world_generator->active_world->world_name;
         world_generator->delete_world( world_name, true );
 
-        MAPBUFFER.reset();
+        MAPBUFFER.clear();
         overmap_buffer.clear();
     }
 
@@ -459,7 +459,7 @@ bool game::check_mod_data( const std::vector<mod_id> &opts, loading_ui &ui )
         std::string world_name = world_generator->active_world->world_name;
         world_generator->delete_world( world_name, true );
 
-        MAPBUFFER.reset();
+        MAPBUFFER.clear();
         overmap_buffer.clear();
     }
     return true;
@@ -1290,7 +1290,7 @@ bool game::cleanup_at_end()
 
     zone_manager::get_manager().clear();
 
-    MAPBUFFER.reset();
+    MAPBUFFER.clear();
     overmap_buffer.clear();
 
 #if defined(__ANDROID__)
@@ -12258,7 +12258,7 @@ void game::quickload()
 
     if( active_world->save_exists( save_t::from_player_name( u.name ) ) ) {
         if( moves_since_last_save != 0 ) { // See if we need to reload anything
-            MAPBUFFER.reset();
+            MAPBUFFER.clear();
             overmap_buffer.clear();
             try {
                 setup();

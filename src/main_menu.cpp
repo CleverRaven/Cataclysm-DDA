@@ -882,7 +882,7 @@ bool main_menu::new_character_tab()
                     }
                     if( !player_character.create( play_type ) ) {
                         load_char_templates();
-                        MAPBUFFER.reset();
+                        MAPBUFFER.clear();
                         overmap_buffer.clear();
                         continue;
                     }
@@ -954,7 +954,7 @@ bool main_menu::new_character_tab()
                 }
                 if( !player_character.create( character_type::TEMPLATE, templates[sel3] ) ) {
                     load_char_templates();
-                    MAPBUFFER.reset();
+                    MAPBUFFER.clear();
                     overmap_buffer.clear();
                     continue;
                 }
@@ -1247,7 +1247,7 @@ void main_menu::world_tab()
                 player_character.save_template( player_character.name, points );
 
                 player_character = avatar();
-                MAPBUFFER.reset();
+                MAPBUFFER.clear();
                 overmap_buffer.clear();
 
                 load_char_templates();
@@ -1323,7 +1323,7 @@ void main_menu::world_tab()
                         world_generator->delete_world( all_worldnames[sel2 - 1], do_delete );
 
                         savegames.clear();
-                        MAPBUFFER.reset();
+                        MAPBUFFER.clear();
                         overmap_buffer.clear();
 
                         if( do_delete ) {
