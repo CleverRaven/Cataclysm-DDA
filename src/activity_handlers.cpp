@@ -1697,14 +1697,8 @@ void activity_handlers::generic_game_turn_handler( player_activity *act, player 
         if( !act->targets.empty() ) {
             item &game_item = *act->targets.front();
             const int ammo_required = game_item.ammo_required();
-            bool fail = false;
-            if( game_item.has_flag( flag_USE_UPS ) ) {
-                game_item.electr_consume( ammo_required, p );
-                //fail = !p->use_charges_if_avail( itype_UPS, ammo_required );
-            } else {
-                fail = game_item.ammo_consume( ammo_required, p->pos() ) == 0;
-            }
-            if( fail ) {
+            bool success = game_item.electr_consume( ammo_required, p );
+            if( !success ) {
                 act->moves_left = 0;
                 add_msg( m_info, _( "The %s runs out of batteries." ), game_item.tname() );
                 return;

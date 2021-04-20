@@ -536,7 +536,7 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
             return;
         }
 
-        const int ups_charges = charges_of( itype_UPS );
+        const int ups_charges = available_ups();
         int ammo_count = weapon.ammo_remaining();
         const int ups_drain = weapon.get_gun_ups_drain();
         if( ups_drain > 0 ) {
