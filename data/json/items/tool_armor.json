@@ -439,8 +439,6 @@
       }
     ],
     "ammo": "battery",
-    "max_charges": 500,
-    "initial_charges": 500,
     "charges_per_use": 25,
     "warmth": 10,
     "material_thickness": 0.5,
@@ -1033,8 +1031,6 @@
       }
     ],
     "ammo": "battery",
-    "max_charges": 1000,
-    "initial_charges": 1000,
     "use_action": {
       "type": "transform",
       "msg": "A LED light in the %s flickers on.",
@@ -1109,8 +1105,6 @@
       }
     ],
     "ammo": "battery",
-    "max_charges": 1000,
-    "initial_charges": 1000,
     "use_action": {
       "type": "transform",
       "msg": "Initiating\nRunning suit integrity diagnostics…\nAll systems operational.",
