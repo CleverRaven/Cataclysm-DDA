@@ -380,6 +380,7 @@ TEST_CASE( "string_and_int_ids_benchmark", "[.][generic_factory][int_id][string_
     }
     const int test_flags_size = test_flags.size();
     std::vector<dyn_str_id > test_dyn_str_ids;
+    test_dyn_str_ids.reserve( test_flags.size() );
     for( const auto &f : test_flags ) {
         test_dyn_str_ids.push_back( dyn_str_id( f.str() ) );
     }

@@ -59,7 +59,7 @@
     "id": "wizard_utility",
     "type": "BOOK",
     "name": { "str": "Wizarding Guide to Backpacking", "str_pl": "copies of Wizarding Guide to Backpacking" },
-    "//": "1 Magus, 1 Biomancer, 1, Kelvinist, 1 classless spell",
+    "//": "2 Magus, 1 Biomancer, 1, Kelvinist, 1 classless spell",
     "description": "This appears to be the spell version of a guide for what things to take with you when backpacking.  It's a little bulky, but will certainly prove useful.",
     "weight": "1 kg",
     "volume": "1250 ml",
@@ -67,7 +67,10 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "red",
-    "use_action": { "type": "learn_spell", "spells": [ "phase_door", "create_lighter", "pain_split", "protection_aura" ] }
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [ "phase_door", "create_lighter", "pain_split", "protection_aura", "magus_force_jar" ]
+    }
   },
   {
     "id": "pyro",

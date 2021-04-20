@@ -99,6 +99,7 @@
 #include "timed_event.h"
 #include "translations.h"
 #include "trap.h"
+#include "try_parse_integer.h"
 #include "type_id.h"
 #include "ui.h"
 #include "units.h"
@@ -126,17 +127,14 @@ static const activity_id ACT_FISH( "ACT_FISH" );
 static const activity_id ACT_GAME( "ACT_GAME" );
 static const activity_id ACT_GENERIC_GAME( "ACT_GENERIC_GAME" );
 static const activity_id ACT_HACKSAW( "ACT_HACKSAW" );
-static const activity_id ACT_HAIRCUT( "ACT_HAIRCUT" );
 static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
 static const activity_id ACT_HEATING( "ACT_HEATING" );
 static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
-static const activity_id ACT_MEDITATE( "ACT_MEDITATE" );
 static const activity_id ACT_MIND_SPLICER( "ACT_MIND_SPLICER" );
 static const activity_id ACT_OXYTORCH( "ACT_OXYTORCH" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
 static const activity_id ACT_PRY_NAILS( "ACT_PRY_NAILS" );
 static const activity_id ACT_ROBOT_CONTROL( "ACT_ROBOT_CONTROL" );
-static const activity_id ACT_SHAVE( "ACT_SHAVE" );
 static const activity_id ACT_VIBE( "ACT_VIBE" );
 static const activity_id ACT_WASH( "ACT_WASH" );
 
@@ -960,8 +958,7 @@ cata::optional<int> iuse::meditate( player *p, item *it, bool t, const tripoint 
         return cata::nullopt;
     }
     if( p->has_trait( trait_SPIRITUAL ) ) {
-        const int moves = to_moves<int>( 20_minutes );
-        p->assign_activity( ACT_MEDITATE, moves );
+        p->assign_activity( player_activity( meditate_activity_actor() ) );
     } else {
         p->add_msg_if_player( _( "This %s probably meant a lot to someone at one time." ),
                               it->tname() );
@@ -4999,6 +4996,8 @@ cata::optional<int> iuse::oxytorch( player *p, item *it, bool, const tripoint & 
         t_chainfence,
         t_chaingate_c,
         t_chaingate_l,
+        t_retractable_gate_l,
+        t_retractable_gate_c,
         t_bars,
         t_window_bars_alarm,
         t_window_bars,
@@ -5015,7 +5014,8 @@ cata::optional<int> iuse::oxytorch( player *p, item *it, bool, const tripoint & 
         t_metal_grate_window_with_curtain_open,
         t_metal_grate_window_noglass,
         t_metal_grate_window_with_curtain_noglass,
-        t_metal_grate_window_with_curtain_open_noglass
+        t_metal_grate_window_with_curtain_open_noglass,
+        t_wall_metal
     };
     const std::set<furn_id> allowed_furn_id {
         f_rack,
@@ -5062,6 +5062,7 @@ cata::optional<int> iuse::oxytorch( player *p, item *it, bool, const tripoint & 
     } else if( ter == t_window_enhanced || ter == t_window_enhanced_noglass ) {
         turns = to_turns<int>( 5_seconds );
     } else if( ter == t_chainfence || ter == t_chaingate_c ||
+               ter == t_retractable_gate_c || ter == t_retractable_gate_l ||
                ter == t_chaingate_l  || ter == t_bars || ter == t_window_bars_alarm ||
                ter == t_window_bars || ter == t_window_bars_curtains || ter == t_window_domestic ||
                ter == t_reb_cage || ter == t_metal_grate_window || ter == t_metal_grate_window_with_curtain ||
@@ -5070,8 +5071,9 @@ cata::optional<int> iuse::oxytorch( player *p, item *it, bool, const tripoint & 
                ter == t_metal_grate_window_with_curtain_open_noglass ) {
         turns = to_turns<int>( 10_seconds );
     } else if( ter == t_door_metal_locked || ter == t_door_metal_c || ter == t_door_bar_c ||
-               ter == t_door_bar_locked || ter == t_door_metal_pickable || furn == f_safe_l ||
-               furn == f_gunsafe_ml || furn == f_gunsafe_mj || furn == f_gun_safe_el ) {
+               ter == t_door_bar_locked || ter == t_door_metal_pickable || ter == t_wall_metal ||
+               furn == f_safe_l || furn == f_gunsafe_ml || furn == f_gunsafe_mj ||
+               furn == f_gun_safe_el ) {
         turns = to_turns<int>( 15_seconds );
     } else {
         return cata::nullopt;
@@ -5111,6 +5113,8 @@ cata::optional<int> iuse::hacksaw( player *p, item *it, bool t, const tripoint &
         t_chainfence,
         t_chaingate_c,
         t_chaingate_l,
+        t_retractable_gate_l,
+        t_retractable_gate_c,
         t_window_bars_alarm,
         t_window_bars,
         t_window_bars_curtains,
@@ -5166,6 +5170,7 @@ cata::optional<int> iuse::hacksaw( player *p, item *it, bool t, const tripoint &
     } else if( ter == t_window_enhanced || ter == t_window_enhanced_noglass ) {
         moves = to_moves<int>( 5_minutes );
     } else if( ter == t_chainfence || ter == t_chaingate_c || ter == t_chaingate_l ||
+               ter == t_retractable_gate_c || ter == t_retractable_gate_l ||
                ter == t_window_bars_alarm || ter == t_window_bars || ter == t_window_bars_curtains ||
                ter == t_window_bars_domestic || ter == t_reb_cage || ter == t_metal_grate_window ||
                ter == t_metal_grate_window_with_curtain || ter == t_metal_grate_window_with_curtain_open ||
@@ -6127,6 +6132,17 @@ static void init_memory_card_with_random_stuff( item &it )
     }
 }
 
+static int get_quality_from_string( const std::string &s )
+{
+    const ret_val<int> try_quality = try_parse_integer<int>( s, false );
+    if( try_quality.success() ) {
+        return try_quality.value();
+    } else {
+        debugmsg( "Error parsing photo quality: %s", try_quality.str() );
+        return 0;
+    }
+}
+
 static bool einkpc_download_memory_card( player &p, item &eink, item &mc )
 {
     bool something_downloaded = false;
@@ -6243,22 +6259,22 @@ static bool einkpc_download_memory_card( player &p, item &eink, item &mc )
 
                 const std::string mtype = s;
                 getline( f, s, ',' );
-                char *chq = &s[0];
-                const int quality = atoi( chq );
+                const int quality = get_quality_from_string( s );
 
                 const size_t eink_strpos = photos.find( "," + mtype + "," );
 
                 if( eink_strpos == std::string::npos ) {
                     photos += mtype + "," + string_format( "%d", quality ) + ",";
                 } else {
-
                     const size_t strqpos = eink_strpos + mtype.size() + 2;
-                    char *chq = &photos[strqpos];
-                    const int old_quality = atoi( chq );
+                    const size_t next_comma = photos.find( ',', strqpos );
+                    const int old_quality =
+                        get_quality_from_string( photos.substr( strqpos, next_comma ) );
 
                     if( quality > old_quality ) {
-                        chq = &string_format( "%d", quality )[0];
-                        photos[strqpos] = *chq;
+                        const std::string quality_s = string_format( "%d", quality );
+                        cata_assert( quality_s.size() == 1 );
+                        photos[strqpos] = quality_s.front();
                     }
                 }
 
@@ -6512,8 +6528,7 @@ cata::optional<int> iuse::einktabletpc( player *p, item *it, bool t, const tripo
                 const monster dummy( monster_photos.back() );
                 menu_str = dummy.name();
                 getline( f, s, ',' );
-                char *chq = &s[0];
-                const int quality = atoi( chq );
+                const int quality = get_quality_from_string( s );
                 menu_str += " [" + photo_quality_name( quality ) + "]";
                 pmenu.addentry( k++, true, -1, menu_str.c_str() );
             }
@@ -7324,11 +7339,14 @@ static void item_save_monsters( player &p, item &it, const std::vector<monster *
             monster_photos += string_format( "%s,%d,", mtype, photo_quality );
         } else { // replace quality character, if new photo is better
             const size_t quality_num_pos = mon_str_pos + mtype.size() + 2;
-            char *quality_char = &monster_photos[ quality_num_pos ];
-            const int old_quality = atoi( quality_char ); // get qual number from char
+            const size_t next_comma = monster_photos.find( ',', quality_num_pos );
+            const int old_quality =
+                get_quality_from_string( monster_photos.substr( quality_num_pos, next_comma ) );
 
             if( photo_quality > old_quality ) {
-                monster_photos[ quality_num_pos ] = string_format( "%d", photo_quality )[ 0 ];
+                const std::string quality_s = string_format( "%d", photo_quality );
+                cata_assert( quality_s.size() == 1 );
+                monster_photos[quality_num_pos] = quality_s.front();
             }
             if( !p.is_blind() ) {
                 if( photo_quality > old_quality ) {
@@ -7641,8 +7659,7 @@ cata::optional<int> iuse::camera( player *p, item *it, bool, const tripoint & )
             descriptions.push_back( dummy.type->get_description() );
 
             getline( f_mon, s, ',' );
-            char *chq = &s[0];
-            const int quality = atoi( chq );
+            const int quality = get_quality_from_string( s );
 
             menu_str += " [" + photo_quality_name( quality ) + "]";
 
@@ -9129,8 +9146,7 @@ cata::optional<int> iuse::shavekit( player *p, item *it, bool, const tripoint & 
     if( !it->ammo_sufficient() ) {
         p->add_msg_if_player( _( "You need soap to use this." ) );
     } else {
-        const int moves = to_moves<int>( 5_minutes );
-        p->assign_activity( ACT_SHAVE, moves );
+        p->assign_activity( player_activity( shave_activity_actor() ) );
     }
     return it->type->charges_to_use();
 }
@@ -9141,8 +9157,7 @@ cata::optional<int> iuse::hairkit( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return cata::nullopt;
     }
-    const int moves = to_moves<int>( 30_minutes );
-    p->assign_activity( ACT_HAIRCUT, moves );
+    p->assign_activity( player_activity( haircut_activity_actor() ) );
     return it->type->charges_to_use();
 }
 
@@ -9669,7 +9684,8 @@ cata::optional<int> iuse::craft( player *p, item *it, bool, const tripoint & )
         return cata::nullopt;
     }
     const recipe &rec = it->get_making();
-    if( p->has_recipe( &rec, p->crafting_inventory(), p->get_crafting_helpers() ) == -1 ) {
+    const inventory &inv = p->crafting_inventory();
+    if( p->has_recipe( &rec, inv, p->get_crafting_helpers() ) == -1 ) {
         p->add_msg_player_or_npc(
             _( "You don't know the recipe for the %s and can't continue crafting." ),
             _( "<npcname> doesn't know the recipe for the %s and can't continue crafting." ),

@@ -90,6 +90,7 @@
 #include "timed_event.h"
 #include "translations.h"
 #include "trap.h"
+#include "try_parse_integer.h"
 #include "ui.h"
 #include "ui_manager.h"
 #include "uistate.h"
@@ -207,7 +208,6 @@ static const mtype_id mon_spider_cellar_giant_s( "mon_spider_cellar_giant_s" );
 static const mtype_id mon_spider_web_s( "mon_spider_web_s" );
 static const mtype_id mon_spider_widow_giant_s( "mon_spider_widow_giant_s" );
 
-static const bionic_id bio_fingerhack( "bio_fingerhack" );
 static const bionic_id bio_lighter( "bio_lighter" );
 static const bionic_id bio_lockpick( "bio_lockpick" );
 static const bionic_id bio_painkiller( "bio_painkiller" );
@@ -1057,37 +1057,12 @@ static bool try_start_hacking( player &p, const tripoint &examp )
         return false;
     }
     const bool has_item = p.has_charges( itype_electrohack, 25 );
-    const bool has_bionic = p.has_bionic( bio_fingerhack ) && p.get_power_level() >= 25_kJ;
-    if( !has_item && !has_bionic ) {
+    if( !has_item ) {
         add_msg( _( "You don't have a hacking tool with enough charges!" ) );
         return false;
     }
-    bool use_bionic = has_bionic;
-    if( has_item && has_bionic ) {
-        uilist menu;
-        menu.settext( _( "Use which hacking tool?" ) );
-        menu.addentry( 0, true, MENU_AUTOASSIGN, "%s", itype_electrohack->nname( 1 ) );
-        menu.addentry( 1, true, MENU_AUTOASSIGN, "%s", bio_fingerhack->name );
-        menu.query();
-        switch( menu.ret ) {
-            case 0:
-                use_bionic = false;
-                break;
-            case 1:
-                use_bionic = true;
-                break;
-            default:
-                return false;
-        }
-    }
-    if( use_bionic ) {
-        p.mod_power_level( -25_kJ );
-        p.assign_activity( player_activity( hacking_activity_actor(
-                                                hacking_activity_actor::use_bionic {} ) ) );
-    } else {
-        p.use_charges( itype_electrohack, 25 );
-        p.assign_activity( player_activity( hacking_activity_actor() ) );
-    }
+    p.use_charges( itype_electrohack, 25 );
+    p.assign_activity( player_activity( hacking_activity_actor() ) );
     p.activity.placement = examp;
     return true;
 }
@@ -3765,116 +3740,6 @@ void iexamine::shrub_wildveggies( player &p, const tripoint &examp )
     p.activity.auto_resume = true;
 }
 
-void iexamine::recycle_compactor( player &, const tripoint &examp )
-{
-    // choose what metal to recycle
-    auto metals = materials::get_compactable();
-    uilist choose_metal;
-    choose_metal.text = _( "Recycle what metal?" );
-    for( auto &m : metals ) {
-        choose_metal.addentry( m.name() );
-    }
-    choose_metal.query();
-    int m_idx = choose_metal.ret;
-    if( m_idx < 0 || m_idx >= static_cast<int>( metals.size() ) ) {
-        add_msg( _( "Never mind." ) );
-        return;
-    }
-    material_type m = metals.at( m_idx );
-
-    map &here = get_map();
-    // check inputs and tally total mass
-    map_stack inputs = here.i_at( examp );
-    units::mass sum_weight = 0_gram;
-    auto ca = m.compact_accepts();
-    std::set<material_id> accepts( ca.begin(), ca.end() );
-    accepts.insert( m.id );
-    for( auto &input : inputs ) {
-        if( !input.only_made_of( accepts ) ) {
-            //~ %1$s: an item in the compactor , %2$s: desired compactor output material
-            add_msg( _( "You realize this isn't going to work because %1$s is not made purely of %2$s." ),
-                     input.tname(), m.name() );
-            return;
-        }
-        if( input.is_container() && !input.is_container_empty() ) {
-            //~ %1$s: an item in the compactor
-            add_msg( _( "You realize this isn't going to work because %1$s has not been emptied of its contents." ),
-                     input.tname() );
-            return;
-        }
-        sum_weight += input.weight();
-    }
-    if( sum_weight <= 0_gram ) {
-        //~ %1$s: desired compactor output material
-        add_msg( _( "There is no %1$s in the compactor.  Drop some metal items onto it and try again." ),
-                 m.name() );
-        return;
-    }
-
-    // See below for recover_factor (rng(6,9)/10), this
-    // is the normal value of that recover factor.
-    static const double norm_recover_factor = 8.0 / 10.0;
-    const units::mass norm_recover_weight = sum_weight * norm_recover_factor;
-
-    // choose output
-    uilist choose_output;
-    //~ %1$.3f: total mass of material in compactor, %2$s: weight units , %3$s: compactor output material
-    choose_output.text = string_format( _( "Compact %1$.3f %2$s of %3$s into:" ),
-                                        convert_weight( sum_weight ), weight_units(), m.name() );
-    for( const itype_id &ci : m.compacts_into() ) {
-        item it = item( ci, calendar::turn_zero, item::solitary_tag{} );
-        const int amount = norm_recover_weight / it.weight();
-        //~ %1$d: number of, %2$s: output item
-        choose_output.addentry( string_format( _( "about %1$d %2$s" ), amount,
-                                               it.tname( amount ) ) );
-    }
-    choose_output.query();
-    int o_idx = choose_output.ret;
-    if( o_idx < 0 || o_idx >= static_cast<int>( m.compacts_into().size() ) ) {
-        add_msg( _( "Never mind." ) );
-        return;
-    }
-
-    // remove items
-    for( auto it = inputs.begin(); it != inputs.end(); ) {
-        it = inputs.erase( it );
-    }
-
-    // produce outputs
-    double recover_factor = rng( 6, 9 ) / 10.0;
-    sum_weight = sum_weight * recover_factor;
-    sounds::sound( examp, 80, sounds::sound_t::combat, _( "Ka-klunk!" ), true, "tool", "compactor" );
-    bool out_desired = false;
-    bool out_any = false;
-    for( auto it = m.compacts_into().begin() + o_idx; it != m.compacts_into().end(); ++it ) {
-        const units::mass ow = item( *it, calendar::turn_zero, item::solitary_tag{} ).weight();
-        int count = sum_weight / ow;
-        sum_weight -= count * ow;
-        if( count > 0 ) {
-            here.spawn_item( examp, *it, count, 1, calendar::turn );
-            if( !out_any ) {
-                out_any = true;
-                if( it == m.compacts_into().begin() + o_idx ) {
-                    out_desired = true;
-                }
-            }
-        }
-    }
-
-    // feedback to user
-    if( !out_any ) {
-        add_msg( _( "The compactor chews up all the items in its hopper." ) );
-        //~ %1$s: compactor output material
-        add_msg( _( "The compactor beeps: \"No %1$s to process!\"" ), m.name() );
-        return;
-    }
-    if( !out_desired ) {
-        //~ %1$s: compactor output material
-        add_msg( _( "The compactor beeps: \"Insufficient %1$s!\"" ), m.name() );
-        add_msg( _( "It spits out an assortment of smaller pieces instead." ) );
-    }
-}
-
 void trap::examine( const tripoint &examp ) const
 {
     avatar &player_character = get_avatar();
@@ -3950,7 +3815,8 @@ void trap::examine( const tripoint &examp ) const
 
         int roll = std::round( normal_roll( mean_roll, 3 ) );
 
-        add_msg( m_debug, _( "Rolled %i, mean_roll %g. difficulty %i." ), roll, mean_roll, difficulty );
+        add_msg_debug( debugmode::DF_IEXAMINE, _( "Rolled %i, mean_roll %g. difficulty %i." ), roll,
+                       mean_roll, difficulty );
 
         //Difficulty 0 traps should succeed regardless of proficiencies. (i.e caltrops and nailboards)
         if( roll >= difficulty || difficulty == 0 ) {
@@ -4262,9 +4128,14 @@ cata::optional<tripoint> iexamine::getNearFilledGasTank( const tripoint &center,
 static int getGasDiscountCardQuality( const item &it )
 {
     for( const flag_id &tag : it.type->get_flags() ) {
-        int discount_value;
-        if( sscanf( tag->id.c_str(), "DISCOUNT_VALUE_%i", &discount_value ) == 1 ) {
-            return discount_value;
+        if( string_starts_with( tag->id.str(), "DISCOUNT_VALUE_" ) ) {
+            ret_val<int> discount_value =
+                try_parse_integer<int>( tag->id.str().substr( 15 ), false );
+            if( discount_value.success() ) {
+                return discount_value.value();
+            } else {
+                debugmsg( "Error parsing ammo DISCOUNT_VALUE_ suffix: %s", discount_value.str() );
+            }
         }
     }
     return 0;
@@ -4462,9 +4333,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
 
     int pricePerUnit = getGasPricePerLiter( discount );
 
-    bool can_hack = ( !p.has_trait( trait_ILLITERATE ) &&
-                      ( ( p.has_charges( itype_electrohack, 25 ) ) ||
-                        ( p.has_bionic( bio_fingerhack ) && p.get_power_level() > 24_kJ ) ) );
+    bool can_hack = ( !p.has_trait( trait_ILLITERATE ) && p.has_charges( itype_electrohack, 25 ) );
 
     uilist amenu;
     amenu.selected = 1;
@@ -4940,8 +4809,9 @@ void iexamine::autodoc( player &p, const tripoint &examp )
     }
 
     autodoc_header +=
-        string_format( "\n\n<color_white>Internal supplies:</color>\n Arm splints: %d\n Leg splints: %d",
-                       arm_splints.size(), leg_splints.size() );
+        string_format(
+            _( "\n\n<color_white>Internal supplies:</color>\n Arm splints: %d\n Leg splints: %d" ),
+            arm_splints.size(), leg_splints.size() );
 
     uilist amenu;
     amenu.text = autodoc_header;
@@ -6266,7 +6136,8 @@ void iexamine::workbench_internal( player &p, const tripoint &examp,
                 break;
             }
             const recipe &rec = selected_craft->get_making();
-            if( p.has_recipe( &rec, p.crafting_inventory(), p.get_crafting_helpers() ) == -1 ) {
+            const inventory &inv = p.crafting_inventory();
+            if( p.has_recipe( &rec, inv, p.get_crafting_helpers() ) == -1 ) {
                 p.add_msg_player_or_npc(
                     _( "You don't know the recipe for the %s and can't continue crafting." ),
                     _( "<npcname> doesn't know the recipe for the %s and can't continue crafting." ),
@@ -6364,7 +6235,6 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
             { "tree_maple", &iexamine::tree_maple },
             { "tree_maple_tapped", &iexamine::tree_maple_tapped },
             { "shrub_wildveggies", &iexamine::shrub_wildveggies },
-            { "recycle_compactor", &iexamine::recycle_compactor },
             { "water_source", &iexamine::water_source },
             { "clean_water_source", &iexamine::clean_water_source },
             { "reload_furniture", &iexamine::reload_furniture },

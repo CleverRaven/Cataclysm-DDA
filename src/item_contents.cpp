@@ -149,6 +149,7 @@ bool pocket_favorite_callback::key( const input_context &, const input_event &ev
         }
 
         std::vector<std::string> itype_initializer;
+        itype_initializer.reserve( nearby_itypes.size() );
         for( const std::pair<const std::string, const itype *> &name : nearby_itypes ) {
             itype_initializer.emplace_back( name.first );
         }
@@ -1581,9 +1582,9 @@ void item_contents::info( std::vector<iteminfo> &info, const iteminfo_query *par
         if( found_pockets.size() > 1 || pocket_num[0] > 1 ) {
             insert_separation_line( info );
             info.emplace_back( "CONTAINER", _( "<bold>Total capacity</bold>:" ) );
-            info.push_back( vol_to_info( "CONTAINER", _( "Volume: " ), total_container_capacity() ) );
-            info.push_back( weight_to_info( "CONTAINER", _( "  Weight: " ),
-                                            total_container_weight_capacity() ) );
+            info.push_back( vol_to_info( "CONTAINER", _( "Volume: " ), total_container_capacity(), 2, false ) );
+            info.push_back( weight_to_info( "CONTAINER", _( "  Weight: " ), total_container_weight_capacity(),
+                                            2, false ) );
             info.back().bNewLine = true;
         }
 

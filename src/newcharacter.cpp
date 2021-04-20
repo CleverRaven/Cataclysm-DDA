@@ -205,7 +205,7 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
     if( random_scenario ) {
         std::vector<const scenario *> scenarios;
         for( const auto &scen : scenario::get_all() ) {
-            if( !scen.has_flag( flag_CHALLENGE ) &&
+            if( !scen.has_flag( flag_CHALLENGE ) && !scen.scen_is_blacklisted() &&
                 ( !scen.has_flag( flag_CITY_START ) || cities_enabled ) ) {
                 scenarios.emplace_back( &scen );
             }
@@ -1447,6 +1447,7 @@ tab_direction set_traits( avatar &u, points_left &points )
                 // Grab a list of the names of the bionics that block this trait
                 // So that the player know what is preventing them from taking it
                 std::vector<std::string> conflict_names;
+                conflict_names.reserve( cbms_blocking_trait.size() );
                 for( const bionic_id &conflict : cbms_blocking_trait ) {
                     conflict_names.emplace_back( conflict->name.translated() );
                 }

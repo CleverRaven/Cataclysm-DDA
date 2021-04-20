@@ -33,6 +33,7 @@
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
+#include "try_parse_integer.h"
 #include "ui_manager.h"
 #include "worldfactory.h"
 
@@ -852,17 +853,36 @@ void options_manager::cOpt::setValue( const std::string &sSetIn )
         bSet = sSetIn == "True" || sSetIn == "true" || sSetIn == "T" || sSetIn == "t";
 
     } else if( sType == "int" ) {
-        iSet = atoi( sSetIn.c_str() );
+        // Some integer values are stored with a '%', e.g. "100%".
+        std::string without_percent = sSetIn;
+        if( string_ends_with( without_percent, "%" ) ) {
+            without_percent.erase( without_percent.end() - 1 );
+        }
+        ret_val<int> val = try_parse_integer<int>( without_percent, false );
 
-        if( iSet < iMin || iSet > iMax ) {
+        if( val.success() ) {
+            iSet = val.value();
+
+            if( iSet < iMin || iSet > iMax ) {
+                iSet = iDefault;
+            }
+        } else {
+            debugmsg( "Error parsing option as integer: %s", val.str() );
             iSet = iDefault;
         }
 
     } else if( sType == "int_map" ) {
-        iSet = atoi( sSetIn.c_str() );
+        ret_val<int> val = try_parse_integer<int>( sSetIn, false );
 
-        auto item = findInt( iSet );
-        if( !item ) {
+        if( val.success() ) {
+            iSet = val.value();
+
+            auto item = findInt( iSet );
+            if( !item ) {
+                iSet = iDefault;
+            }
+        } else {
+            debugmsg( "Error parsing option as integer: %s", val.str() );
             iSet = iDefault;
         }
 
@@ -1399,6 +1419,16 @@ void options_manager::add_options_interface()
 
     add_empty_line();
 
+    add( "SHOW_GUN_VARIANTS", "interface", to_translation( "Show gun brand names" ),
+         to_translation( "Show brand names for guns, intead of generic functional names - 'm4a1' or 'h&k416a5' instead of 'NATO assault rifle'." ),
+         false );
+    add( "AMMO_IN_NAMES", "interface", to_translation( "Add ammo to weapon/magazine names" ),
+         to_translation( "If true, the default ammo is added to weapon and magazine names.  For example \"Mosin-Nagant M44 (4/5)\" becomes \"Mosin-Nagant M44 (4/5 7.62x54mm)\"." ),
+         true
+       );
+
+    add_empty_line();
+
     add( "SDL_KEYBOARD_MODE", "interface", to_translation( "Use key code input mode" ),
          to_translation( "Use key code or symbol input on SDL.  "
                          "Symbol is recommended for non-qwerty layouts since currently "
@@ -1650,10 +1680,6 @@ void options_manager::add_options_interface()
     add( "ITEM_SYMBOLS", "interface", to_translation( "Show item symbols" ),
          to_translation( "If true, show item symbols in inventory and pick up menu." ),
          false
-       );
-    add( "AMMO_IN_NAMES", "interface", to_translation( "Add ammo to weapon/magazine names" ),
-         to_translation( "If true, the default ammo is added to weapon and magazine names.  For example \"Mosin-Nagant M44 (4/5)\" becomes \"Mosin-Nagant M44 (4/5 7.62x54mm)\"." ),
-         true
        );
 
     add_empty_line();

@@ -1,0 +1,37 @@
+[
+  {
+    "id": "afs_UICASTA30",
+    "looks_like": "stanag30",
+    "type": "MAGAZINE",
+    "name": { "str": "UICASTA 30-round magazine" },
+    "description": "A standardized 30-round magazine compatible with most UICA issue rifles.",
+    "weight": "265 g",
+    "volume": "290 ml",
+    "longest_side": "190 mm",
+    "price": 8000,
+    "material": [ "superalloy" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "afs_7.50mm" ],
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "afs_7.50mm": 30 } } ]
+  },
+  {
+    "id": "afs_UICASTA100drum",
+    "looks_like": "stanag30",
+    "type": "MAGAZINE",
+    "name": { "str": "UICASTA 100-round double drum magazine" },
+    "description": "A standardized 100-round double drum magazine compatible with most UICA issue rifles.",
+    "weight": "1700 g",
+    "volume": "1200 ml",
+    "longest_side": "300 mm",
+    "price": 14000,
+    "material": [ "plastic", "superalloy" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "afs_7.50mm" ],
+    "reload_time": 200,
+    "flags": [ "MAG_BULKY" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "afs_7.50mm": 100 } } ]
+  }
+]

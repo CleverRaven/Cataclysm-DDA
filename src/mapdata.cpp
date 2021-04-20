@@ -551,6 +551,8 @@ ter_id t_null,
        t_wall_half, t_wall_wood, t_wall_wood_chipped, t_wall_wood_broken,
        t_wall, t_concrete_wall, t_brick_wall,
        t_wall_metal,
+       t_scrap_wall,
+       t_scrap_wall_halfway,
        t_wall_glass,
        t_wall_glass_alarm,
        t_reinforced_glass, t_reinforced_glass_shutter, t_reinforced_glass_shutter_open,
@@ -562,6 +564,7 @@ ter_id t_null,
        t_rdoor_o, t_door_locked_interior, t_door_locked, t_door_locked_peep, t_door_locked_alarm,
        t_door_frame,
        t_chaingate_l, t_fencegate_c, t_fencegate_o, t_chaingate_c, t_chaingate_o,
+       t_retractable_gate_c, t_retractable_gate_l, t_retractable_gate_o,
        t_door_boarded, t_door_boarded_damaged, t_door_boarded_peep, t_rdoor_boarded,
        t_rdoor_boarded_damaged, t_door_boarded_damaged_peep,
        t_door_metal_c, t_door_metal_o, t_door_metal_locked, t_door_metal_pickable, t_mdoor_frame,
@@ -707,6 +710,8 @@ void set_ter_ids()
     t_concrete_wall = ter_id( "t_concrete_wall" );
     t_brick_wall = ter_id( "t_brick_wall" );
     t_wall_metal = ter_id( "t_wall_metal" );
+    t_scrap_wall = ter_id( "t_scrap_wall" );
+    t_scrap_wall_halfway = ter_id( "t_scrap_wall_halfway" );
     t_wall_glass = ter_id( "t_wall_glass" );
     t_wall_glass_alarm = ter_id( "t_wall_glass_alarm" );
     t_reinforced_glass = ter_id( "t_reinforced_glass" );
@@ -743,6 +748,9 @@ void set_ter_ids()
     t_fencegate_o = ter_id( "t_fencegate_o" );
     t_chaingate_c = ter_id( "t_chaingate_c" );
     t_chaingate_o = ter_id( "t_chaingate_o" );
+    t_retractable_gate_l = ter_id( "t_retractable_gate_l" );
+    t_retractable_gate_c = ter_id( "t_retractable_gate_c" );
+    t_retractable_gate_o = ter_id( "t_retractable_gate_o" );
     t_door_boarded = ter_id( "t_door_boarded" );
     t_door_boarded_damaged = ter_id( "t_door_boarded_damaged" );
     t_door_boarded_peep = ter_id( "t_door_boarded_peep" );

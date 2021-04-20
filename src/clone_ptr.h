@@ -14,12 +14,12 @@ class clone_ptr
         // NOLINTNEXTLINE(google-explicit-constructor)
         clone_ptr( std::nullptr_t ) {}
         clone_ptr( const clone_ptr &other ) : p_( other.p_ ? other.p_->clone() : nullptr ) {}
-        clone_ptr( clone_ptr && ) = default;
+        clone_ptr( clone_ptr && ) noexcept = default;
         clone_ptr &operator=( const clone_ptr &other ) {
             p_ = other.p_ ? other.p_->clone() : nullptr;
             return *this;
         }
-        clone_ptr &operator=( clone_ptr && ) = default;
+        clone_ptr &operator=( clone_ptr && ) noexcept = default;
 
         // implicit conversion from unique_ptr
         template<typename U>

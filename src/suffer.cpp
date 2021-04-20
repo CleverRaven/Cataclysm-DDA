@@ -62,7 +62,6 @@
 
 static const bionic_id bio_dis_acid( "bio_dis_acid" );
 static const bionic_id bio_dis_shock( "bio_dis_shock" );
-static const bionic_id bio_drain( "bio_drain" );
 static const bionic_id bio_geiger( "bio_geiger" );
 static const bionic_id bio_gills( "bio_gills" );
 static const bionic_id bio_glowy( "bio_glowy" );
@@ -1183,11 +1182,6 @@ void Character::suffer_from_bad_bionics()
         sfx::play_variant_sound( "bionics", "acid_discharge", 100 );
         sfx::do_player_death_hurt( get_player_character(), false );
     }
-    if( has_bionic( bio_drain ) && get_power_level() > 24_kJ && one_turn_in( 1_hours ) ) {
-        add_msg_if_player( m_bad, _( "Your batteries discharge slightly." ) );
-        mod_power_level( -25_kJ );
-        sfx::play_variant_sound( "bionics", "elec_crackle_low", 100 );
-    }
     if( has_bionic( bio_noise ) && one_turn_in( 50_minutes ) &&
         !has_effect( effect_narcosis ) ) {
         // TODO: NPCs with said bionic
@@ -1702,7 +1696,7 @@ void Character::mend( int rate_multiplier )
         needs_splint = false;
     }
 
-    add_msg_debug( "Limb mend healing factor: %.2f", healing_factor );
+    add_msg_debug( debugmode::DF_CHAR_HEALTH, "Limb mend healing factor: %.2f", healing_factor );
     if( healing_factor <= 0.0f ) {
         // The section below assumes positive healing rate
         return;
@@ -1951,7 +1945,7 @@ void Character::add_addiction( add_type type, int strength )
             i.intensity++;
         }
 
-        add_msg_debug( "Updating addiction: %d intensity, %d sated",
+        add_msg_debug( debugmode::DF_CHAR_HEALTH, "Updating addiction: %d intensity, %d sated",
                        i.intensity, to_turns<int>( i.sated ) );
 
         return;
@@ -1959,10 +1953,10 @@ void Character::add_addiction( add_type type, int strength )
 
     // Add a new addiction
     const int roll = rng( 0, 100 );
-    add_msg_debug( "Addiction: roll %d vs strength %d", roll, strength );
+    add_msg_debug( debugmode::DF_CHAR_HEALTH, "Addiction: roll %d vs strength %d", roll, strength );
     if( roll < strength ) {
         const std::string &type_name = addiction_type_name( type );
-        add_msg_debug( "%s got addicted to %s", disp_name(), type_name );
+        add_msg_debug( debugmode::DF_CHAR_HEALTH, "%s got addicted to %s", disp_name(), type_name );
         addictions.emplace_back( type, 1 );
         get_event_bus().send<event_type::gains_addiction>( getID(), type );
     }

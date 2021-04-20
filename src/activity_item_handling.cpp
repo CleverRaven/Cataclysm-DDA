@@ -1613,7 +1613,7 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
         }
     }
     for( const std::tuple<tripoint, itype_id, int> &elem : final_map ) {
-        add_msg_debug( "%s is fetching %s from x: %d y: %d ", p.disp_name(),
+        add_msg_debug( debugmode::DF_REQUIREMENTS_MAP, "%s is fetching %s from x: %d y: %d ", p.disp_name(),
                        std::get<1>( elem ).str(), std::get<0>( elem ).x, std::get<0>( elem ).y );
     }
     return final_map;
@@ -2526,6 +2526,7 @@ static requirement_check_result generic_multi_activity_check_requirement( player
                 // come back here after successfully fetching your stuff
                 if( act_prev.coords.empty() ) {
                     std::vector<tripoint> local_src_set;
+                    local_src_set.reserve( src_set.size() );
                     for( const tripoint &elem : src_set ) {
                         local_src_set.push_back( here.getlocal( elem ) );
                     }

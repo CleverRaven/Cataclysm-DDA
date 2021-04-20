@@ -20,7 +20,7 @@
     "charges": 2,
     "use_action": { "type": "mutagen_iv", "mutation_category": "MANATOUCHED" },
     "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE" ],
-    "freezing_point": -22,
+    "freezing_point": -30,
     "fun": -15
   },
   {
