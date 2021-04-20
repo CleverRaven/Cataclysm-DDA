@@ -141,7 +141,6 @@ static const itype_id itype_hand_crossbow( "hand_crossbow" );
 static const itype_id itype_joint_roach( "joint_roach" );
 static const itype_id itype_rad_badge( "rad_badge" );
 static const itype_id itype_tuned_mechanism( "tuned_mechanism" );
-static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_waterproof_gunmod( "waterproof_gunmod" );
 
 static const skill_id skill_cooking( "cooking" );
@@ -8570,7 +8569,7 @@ int item::units_remaining( const Character &ch, int limit ) const
 
     int res = ammo_remaining();
     if( res < limit && has_flag( flag_USE_UPS ) ) {
-        res += ch.charges_of( itype_UPS, limit - res );
+		res += std::min( ch.available_ups(), limit - res );
     }
 
     return std::min( static_cast<int>( res ), limit );
