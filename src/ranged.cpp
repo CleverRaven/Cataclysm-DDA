@@ -92,7 +92,6 @@ static const itype_id itype_flammable( "flammable" );
 static const itype_id itype_m235( "m235" );
 static const itype_id itype_metal_rail( "metal_rail" );
 static const itype_id itype_UPS( "UPS" );
-static const itype_id itype_UPS_off( "UPS_off" );
 
 static const trap_str_id tr_practice_target( "tr_practice_target" );
 
@@ -3517,10 +3516,7 @@ bool gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::string> 
             }
         }
         if( !is_mech_weapon ) {
-            if( !( you.has_charges( itype_UPS_off, ups_drain ) ||
-                   you.has_charges( itype_adv_UPS_off, adv_ups_drain ) ||
-                   ( you.has_active_bionic( bio_ups ) &&
-                     you.get_power_level() >= units::from_kilojoule( ups_drain ) ) ) ) {
+            if( you.available_ups() < ups_drain ) {
                 messages.push_back( string_format(
                                         _( "You need a UPS with at least %2$d charges or an advanced UPS with at least %3$d charges to fire the %1$s!" ),
                                         gmode->tname(), ups_drain, adv_ups_drain ) );
