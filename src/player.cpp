@@ -97,7 +97,6 @@ static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_large_repairkit( "large_repairkit" );
 static const itype_id itype_small_repairkit( "small_repairkit" );
-static const itype_id itype_UPS_off( "UPS_off" );
 
 static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
@@ -1165,18 +1164,8 @@ void player::process_items()
     }
 
     // Active item processing done, now we're recharging.
-    int ch_UPS = 0;
-    const auto inv_is_ups = items_with( []( const item & itm ) {
-        return itm.has_flag( flag_IS_UPS );
-    } );
-    for( const auto &it : inv_is_ups ) {
-        itype_id identifier = it->type->get_id();
-        if( identifier == itype_UPS_off ) {
-            ch_UPS += it->ammo_remaining();
-        } else if( identifier == itype_adv_UPS_off ) {
-            ch_UPS += it->ammo_remaining() / 0.6;
-        }
-    }
+    int ch_UPS = available_ups();
+
     bool update_required = get_check_encumbrance();
     for( item &w : worn ) {
         if( !update_required && w.encumbrance_update_ ) {
@@ -1187,9 +1176,6 @@ void player::process_items()
     if( update_required ) {
         calc_encumbrance();
         set_check_encumbrance( false );
-    }
-    if( has_active_bionic( bionic_id( "bio_ups" ) ) ) {
-        ch_UPS += units::to_kilojoule( get_power_level() );
     }
     int ch_UPS_used = 0;
 
