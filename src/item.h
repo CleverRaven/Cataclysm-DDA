@@ -1898,7 +1898,7 @@ class item : public visitable
         /**
          * Check if the item has enough power available to be activated
          * Checks all the appropriate power sources: battery, bionic, UPS
-		 * The check is dumb so don't call it on items that use other ammo
+         * The check is dumb so don't call it on items that use other ammo
          * @param carrier The current carrier
          * @return true if there is enough power
          */
@@ -1907,7 +1907,7 @@ class item : public visitable
         /**
          * Consume electric power (if available). If there is not enough power then none is drained and false is returned
          * Consume order: Battery, UPS
-		 * The code is dumb so don't call it on items that use other ammo
+         * The code is dumb so don't call it on items that use other ammo
          * @param qty maximum amount of electric power (kJ) that should be consumed
          * @param carrier The current carrier
          * @return false if there was not enough powr

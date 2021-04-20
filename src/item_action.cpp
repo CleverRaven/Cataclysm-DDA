@@ -155,7 +155,7 @@ item_action_map item_action_generator::map_actions_to_items( player &p,
             }
             if( !actual_item->ammo_sufficient() &&
                 ( !actual_item->has_flag( STATIC( flag_id( "USE_UPS" ) ) ) ||
-                  p.charges_of( itype_UPS ) < actual_item->ammo_required() ) ) {
+                  p.available_ups() < actual_item->ammo_required() ) ) {
                 continue;
             }
 

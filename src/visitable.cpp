@@ -838,12 +838,6 @@ int Character::charges_of( const itype_id &what, int limit,
         if( p && p->has_active_bionic( bio_ups ) ) {
             qty = sum_no_wrap( qty, units::to_kilojoule( p->get_power_level() ) );
         }
-        if( p && p->is_mounted() ) {
-            const auto *mons = p->mounted_creature.get();
-            if( mons->has_flag( MF_RIDEABLE_MECH ) && mons->battery_item ) {
-                qty = sum_no_wrap( qty, mons->battery_item->ammo_remaining() );
-            }
-        }
         return std::min( qty, limit );
     }
 

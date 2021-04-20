@@ -11349,13 +11349,13 @@ void Character::consume_ups( int qty )
 
     int adv = inv.charges_of( itype_adv_UPS_off, static_cast<int>( std::ceil( qty * 0.6 ) ) );
     if( qty != 0 && adv > 0 ) {
-		use_charges( itype_adv_UPS_off, adv );
+        use_charges( itype_adv_UPS_off, adv );
         qty -= std::min( qty, static_cast<int>( adv / 0.6 ) );
     }
 
     int ups = inv.charges_of( itype_UPS_off, qty );
     if( qty != 0 && ups > 0 ) {
-		use_charges( itype_UPS_off, ups );
+        use_charges( itype_UPS_off, ups );
         qty -= std::min( qty, ups );
     }
 }

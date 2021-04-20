@@ -740,7 +740,7 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
 
     // cap our maximum burst size by the amount of UPS power left
     if( !gun.has_flag( flag_VEHICLE ) && gun.get_gun_ups_drain() > 0 ) {
-        shots = std::min( shots, static_cast<int>( charges_of( itype_UPS ) / gun.get_gun_ups_drain() ) );
+        shots = std::min( shots, static_cast<int>( available_ups() / gun.get_gun_ups_drain() ) );
     }
 
     if( shots <= 0 ) {

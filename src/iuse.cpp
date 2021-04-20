@@ -4097,7 +4097,7 @@ cata::optional<int> iuse::tazer( player *p, item *it, bool, const tripoint &pos 
 cata::optional<int> iuse::tazer2( player *p, item *it, bool b, const tripoint &pos )
 {
     if( it->ammo_remaining() >= 100 || ( it->has_flag( flag_USE_UPS ) &&
-                                         p->charges_of( itype_UPS ) >= 100 ) ) {
+                                         p->available_ups() >= 100 ) ) {
         // Instead of having a ctrl+c+v of the function above, spawn a fake tazer and use it
         // Ugly, but less so than copied blocks
         item fake( "tazer", calendar::turn_zero );
