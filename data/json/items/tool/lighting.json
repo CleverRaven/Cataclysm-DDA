@@ -688,7 +688,6 @@
     "techniques": [ "WBLOCK_1" ],
     "initial_charges": 20,
     "max_charges": 20,
-    "charges_per_use": 1,
     "use_action": {
       "target": "torch_lit",
       "msg": "You light the torch.",
