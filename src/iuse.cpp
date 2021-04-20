@@ -8377,7 +8377,7 @@ cata::optional<int> iuse::autoclave( player *p, item *it, bool t, const tripoint
         static const int power_need = ( ( it->type->tool->power_draw / 1000 ) * to_seconds<int>
                                         ( 90_minutes ) ) / 1000 + 100;
         if( power_need > it->ammo_remaining() && !( it->has_flag( flag_USE_UPS ) &&
-                p->charges_of( itype_UPS ) >= power_need ) ) {
+                p->available_ups() >= power_need ) ) {
             popup( _( "The autoclave doesn't have enough battery for one cycle.  You need at least %s charges." ),
                    power_need );
             return cata::nullopt;
@@ -8430,7 +8430,7 @@ cata::optional<int> iuse::multicooker( player *p, item *it, bool t, const tripoi
     if( t ) {
         //stop action before power runs out and iuse deletes the cooker
         if( !( it->ammo_remaining() >= charge_buffer ) && !( it->has_flag( flag_USE_UPS ) &&
-                p->charges_of( itype_UPS ) >= charge_buffer ) ) {
+                p->available_ups() >= charge_buffer ) ) {
             it->active = false;
             it->erase_var( "RECIPE" );
             it->convert( itype_multi_cooker );
@@ -8525,7 +8525,7 @@ cata::optional<int> iuse::multicooker( player *p, item *it, bool t, const tripoi
         } else {
             if( dish_it == nullptr ) {
                 if( it->ammo_remaining() < charges_to_start && !( it->has_flag( flag_USE_UPS ) &&
-                        p->charges_of( itype_UPS ) >= charges_to_start ) ) {
+                        p->available_ups() >= charges_to_start ) ) {
                     p->add_msg_if_player( _( "Batteries are low." ) );
                     return 0;
                 }
@@ -8662,7 +8662,7 @@ cata::optional<int> iuse::multicooker( player *p, item *it, bool t, const tripoi
                                         1000 ) ) / 1000;
 
                 if( it->ammo_remaining() < all_charges && !( it->has_flag( flag_USE_UPS ) &&
-                        p->charges_of( itype_UPS ) >= all_charges ) ) {
+                        p->available_ups() >= all_charges ) ) {
 
                     p->add_msg_if_player( m_warning,
                                           _( "The multi-cooker needs %d charges to cook this dish." ),

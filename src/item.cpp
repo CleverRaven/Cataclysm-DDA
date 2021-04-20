@@ -10458,13 +10458,17 @@ bool item::process_tool( player *carrier, const tripoint &pos )
         energy += x_in_y( type->tool->power_draw % 1000000, 1000000 ) ? 1 : 0;
     }
 
-    int energy_available = electr_available( carrier );
-    electr_consume( std::min( energy_available, energy ), carrier );
-
+    if( ammo_types().count( ammo_battery ) ) {
+        int energy_consume = std::min( electr_available( carrier ), energy );
+        energy -= energy_consume;
+        electr_consume( energy_consume, carrier );
+    } else {
+        energy -= ammo_consume( energy, pos );
+    }
 
     avatar &player_character = get_avatar();
     // if insufficient available charges shutdown the tool
-    if( energy_available < energy ) {
+    if( energy > 0 ) {
         if( carrier && has_flag( flag_USE_UPS ) ) {
             carrier->add_msg_if_player( m_info, _( "You need an UPS to run the %s!" ), tname() );
         }
