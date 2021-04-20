@@ -2057,11 +2057,11 @@ class Character : public Creature, public visitable
         // Returns the amount of UPS charges available
         // Sum of mech, bionic UPS, adv UPS and UPS
         // Adv UPS includes efficiency bonus
-        int available_ups();
+        int available_ups() const;
         /**
         * Consume UPS charges.
         * Consume order: mech, Bionic UPS, adv UPS, UPS.
-		* Does not check if there is enough power so check available_ups() first
+        * Does not check if there is enough power so check available_ups() first
         * @param qty Number of charges (kJ)
         */
         void consume_ups( int qty );

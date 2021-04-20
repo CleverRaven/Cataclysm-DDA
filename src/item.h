@@ -1893,15 +1893,15 @@ class item : public visitable
          * @param carrier The current carrier
          * @return amount of power (kJ)
          */
-        int electr_available( player *carrier );
-		
-		/**
+        int electr_available( const player *carrier ) const;
+
+        /**
          * Check if the item has enough power available to be activated
-		 * Checks all the appropriate power sources: battery, bionic, UPS
+         * Checks all the appropriate power sources: battery, bionic, UPS
          * @param carrier The current carrier
          * @return true if there is enough power
          */
-		bool has_enough_electr( const player &carrier );
+        bool has_enough_electr( const player *carrier ) const;
 
         /**
          * Consume electric power (if available). If there is not enough power then none is drained and false is returned

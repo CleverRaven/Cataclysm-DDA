@@ -8073,7 +8073,7 @@ int item::ammo_consume( int qty, const tripoint &pos )
     return 0;
 }
 
-int item::electr_available( player *carrier )
+int item::electr_available( const player *carrier ) const
 {
     if( has_flag( flag_USES_BIONIC_POWER ) ) {
         int power = units::to_kilojoule( get_player_character().get_power_level() );
@@ -8098,13 +8098,13 @@ int item::electr_available( player *carrier )
     return res;
 }
 
-bool item::has_enough_electr( const player &carrier )
+bool item::has_enough_electr( const player *carrier ) const
 {
-	if( !is_tool() || !ammo_required() ) {
+    if( !is_tool() || !ammo_required() ) {
         return true;
     }
-	
-	return electr_available( carrier ) >= ammo_required();
+
+    return electr_available( carrier ) >= ammo_required();
 }
 
 bool item::electr_consume( int qty, player *carrier )

@@ -11314,7 +11314,7 @@ bool Character::use_charges_if_avail( const itype_id &it, int quantity )
     return false;
 }
 
-int Character::available_ups()
+int Character::available_ups() const
 {
     int available_charges = 0;
     if( is_mounted() && mounted_creature.get()->has_flag( MF_RIDEABLE_MECH ) ) {
