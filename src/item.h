@@ -1888,7 +1888,7 @@ class item : public visitable
          * How much electric energy is available.
          * If the item has flag_USES_BIONIC_POWER then return only bionic power
          * If the tool has battery loaded then that is included
-         * The check is dumb so don't call it on items that don't load batteries
+         * The check is dumb so don't call it on items that use other ammo
          * If the tool has flag_USE_UPS then UPS sources are included
          * @param carrier The current carrier
          * @return amount of power (kJ)
@@ -1898,6 +1898,7 @@ class item : public visitable
         /**
          * Check if the item has enough power available to be activated
          * Checks all the appropriate power sources: battery, bionic, UPS
+		 * The check is dumb so don't call it on items that use other ammo
          * @param carrier The current carrier
          * @return true if there is enough power
          */
@@ -1906,6 +1907,7 @@ class item : public visitable
         /**
          * Consume electric power (if available). If there is not enough power then none is drained and false is returned
          * Consume order: Battery, UPS
+		 * The code is dumb so don't call it on items that use other ammo
          * @param qty maximum amount of electric power (kJ) that should be consumed
          * @param carrier The current carrier
          * @return false if there was not enough powr
