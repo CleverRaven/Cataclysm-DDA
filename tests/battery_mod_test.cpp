@@ -228,11 +228,6 @@ TEST_CASE( "battery and tool properties", "[battery][tool][properties]" )
             CHECK( bat_cell.ammo_default() == bat_ammo );
         }
 
-        SECTION( "is reloadable with battery ammo" ) {
-            CHECK( bat_cell.is_reloadable() );
-            CHECK( bat_cell.is_reloadable_with( bat_ammo ) );
-        }
-
         SECTION( "is not counted by charges" ) {
             CHECK_FALSE( bat_cell.count_by_charges() );
         }
