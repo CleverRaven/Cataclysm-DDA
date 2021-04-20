@@ -223,7 +223,7 @@ class BinomialMatcher : public Catch::MatcherBase<int>
 // distribution.  Uses a normal approximation to the binomial, and permits a
 // deviation up to max_deviation (measured in standard deviations).
 inline BinomialMatcher IsBinomialObservation(
-    const int num_samples, const double p, const double max_deviation = Z99_99 )
+    const int num_samples, const double p, const double max_deviation = Z99_999 )
 {
     return BinomialMatcher( num_samples, p, max_deviation );
 }
