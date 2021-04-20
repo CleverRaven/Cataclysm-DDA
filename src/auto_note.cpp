@@ -250,7 +250,7 @@ void auto_note_manager_gui::set_cached_custom_symbol( const string_id<map_extra>
 
 void auto_note_manager_gui::show()
 {
-    const int iHeaderHeight = 3;
+    const int iHeaderHeight = 4;
     int iContentHeight = 0;
     catacurses::window w_border;
     catacurses::window w_header;
@@ -306,8 +306,9 @@ void auto_note_manager_gui::show()
     ui.on_redraw( [&]( const ui_adaptor & ) {
         // == Draw border
         draw_border( w_border, BORDER_COLOR, _( " AUTO NOTES MANAGER " ) );
-        mvwputch( w_border, point( 0, 2 ), c_light_gray, LINE_XXXO );
-        mvwputch( w_border, point( 79, 2 ), c_light_gray, LINE_XOXX );
+        mvwputch( w_border, point( 0, iHeaderHeight - 1 ), c_light_gray, LINE_XXXO );
+        mvwputch( w_border, point( 79, iHeaderHeight - 1 ), c_light_gray, LINE_XOXX );
+        mvwputch( w_border, point( 52, FULL_SCREEN_HEIGHT - 1 ), c_light_gray, LINE_XXOX );
         mvwputch( w_border, point( 61, FULL_SCREEN_HEIGHT - 1 ), c_light_gray, LINE_XXOX );
         wnoutrefresh( w_border );
 
@@ -320,28 +321,37 @@ void auto_note_manager_gui::show()
         // Draw horizontal line and corner pieces of the table
         for( int x = 0; x < 78; x++ ) {
             if( x == 51 || x == 60 ) {
-                mvwputch( w_header, point( x, 1 ), c_light_gray, LINE_OXXX );
-                mvwputch( w_header, point( x, 2 ), c_light_gray, LINE_XOXO );
+                mvwputch( w_header, point( x, iHeaderHeight - 2 ), c_light_gray, LINE_OXXX );
+                mvwputch( w_header, point( x, iHeaderHeight - 1 ), c_light_gray, LINE_XOXO );
             } else {
-                mvwputch( w_header, point( x, 1 ), c_light_gray, LINE_OXOX );
+                mvwputch( w_header, point( x, iHeaderHeight - 2 ), c_light_gray, LINE_OXOX );
             }
         }
 
-        mvwprintz( w_header, point( 1, 2 ), c_white, _( "Map Extra" ) );
-        mvwprintz( w_header, point( 53, 2 ), c_white, _( "Symbol" ) );
-        mvwprintz( w_header, point( 62, 2 ), c_white, _( "Enabled" ) );
+        mvwprintz( w_header, point( 1, iHeaderHeight - 1 ), c_white, _( "Map Extra" ) );
+        mvwprintz( w_header, point( 53, iHeaderHeight - 1 ), c_white, _( "Symbol" ) );
+        mvwprintz( w_header, point( 62, iHeaderHeight - 1 ), c_white, _( "Enabled" ) );
 
         wnoutrefresh( w_header );
 
-        mvwprintz( w_header, point( 39, 0 ), c_white, _( "Auto notes enabled:" ) );
+        // TODO: Show info about custom symbols (hotkey, hint, state)
+        std::string header_info_custom_symbols = string_format( _( "<color_light_green>%1$s</color> %2$s" ),
+                ctx.get_desc( "CHANGE_MAPEXTRA_CHARACTER" ), _( "Change a symbol for map extra" ) );
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        fold_and_print( w_header, point( 0, 1 ), FULL_SCREEN_WIDTH - 2, c_white,
+                        header_info_custom_symbols );
+
+        mvwprintz( w_header, point( 39, 1 ), c_white, _( "Auto notes enabled:" ) );
 
         int currentX = 60;
-        currentX += shortcut_print( w_header, point( currentX, 0 ),
+        mvwprintz( w_header, point( currentX, 1 ), c_white,
+                   std::string( FULL_SCREEN_WIDTH - 2 - currentX, ' ' ) );
+        currentX += shortcut_print( w_header, point( currentX, 1 ),
                                     get_option<bool>( "AUTO_NOTES" ) ? c_light_green : c_light_red, c_white,
                                     get_option<bool>( "AUTO_NOTES" ) ? _( "True" ) : _( "False" ) );
 
-        currentX += shortcut_print( w_header, point( currentX, 0 ), c_white, c_light_green, "  " );
-        shortcut_print( w_header, point( currentX, 0 ), c_white, c_light_green, _( "<S>witch " ) );
+        currentX += shortcut_print( w_header, point( currentX, 1 ), c_white, c_light_green, "  " );
+        shortcut_print( w_header, point( currentX, 1 ), c_white, c_light_green, _( "<S>witch " ) );
 
         // Clear table
         for( int y = 0; y < iContentHeight; y++ ) {
@@ -355,7 +365,7 @@ void auto_note_manager_gui::show()
             }
         }
 
-        draw_scrollbar( w_border, currentLine, iContentHeight, cacheSize, point( 0, 4 ) );
+        draw_scrollbar( w_border, currentLine, iContentHeight, cacheSize, point( 0, iHeaderHeight + 1 ) );
 
         if( emptyMode ) {
             // NOLINTNEXTLINE(cata-use-named-point-constants)
@@ -374,9 +384,10 @@ void auto_note_manager_gui::show()
                 const std::string statusString = cacheEntry.second ? _( "yes" ) : _( "no" );
                 auto found_custom_symbol = custom_symbol_cache.find( displayCacheEntry );
                 const bool has_custom_symbol = ( found_custom_symbol != custom_symbol_cache.end() );
-                const nc_color charColor = has_custom_symbol ? found_custom_symbol->second.get_color():
+                const nc_color charColor = has_custom_symbol ? found_custom_symbol->second.get_color() :
                                            cacheEntry.first.color;
-                const std::string displayChar = has_custom_symbol ? found_custom_symbol->second.get_symbol_string() :
+                const std::string displayChar = has_custom_symbol ? found_custom_symbol->second.get_symbol_string()
+                                                :
                                                 cacheEntry.first.get_symbol();
 
                 mvwprintz( w, point( 1, i - startPosition ), lineColor, "" );
@@ -496,7 +507,7 @@ void auto_note_manager_gui::show()
                     const std::string color_default_name = colors.get_name( color_default );
                     const translation color_yellow = to_translation( "color", "yellow" );
                     ui_colors.addentry( string_format( _( "Default: %s" ),
-                                                        colorize( color_yellow.translated(), color_default ) ) );
+                                                       colorize( color_yellow.translated(), color_default ) ) );
 
                     ui_colors.query();
                     std::string custom_symbol_color;
