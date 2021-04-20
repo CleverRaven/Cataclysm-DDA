@@ -650,6 +650,7 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "GRAB_DRAG", mattack::grab_drag );
     add_hardcoded_attack( "DOOT", mattack::doot );
     add_hardcoded_attack( "ZOMBIE_FUSE", mattack::zombie_fuse );
+    add_hardcoded_attack( "THROW_ROCK", mattack::throw_rock );
 }
 
 void MonsterGenerator::init_defense()
