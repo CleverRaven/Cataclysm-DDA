@@ -1045,22 +1045,22 @@ A *mapgen value* can be used in various places where a specific id is expected.
 For example, the default value of a parameter, or a terrain id in the
 `"terrain"` object.  A mapgen value can take one of three forms:
 
-* A simple string, which will be a literal id.  For example `"t_flat_roof"`.
+* A simple string, which should be a literal id.  For example, `"t_flat_roof"`.
 * A JSON object containing the key `"distribution"`, whose corresponding value
-  is a list of lists, each a pair of string id and integer weight.  For
+  is a list of lists, each a pair of a string id and an integer weight.  For
   example:
 ```
 { "distribution": [ [ "t_flat_roof", 2 ], [ "t_tar_flat_roof", 1 ], [ "t_shingle_flat_roof", 1 ] ] }
 ```
 * A JSON object containing the key `"param"`, whose corresponding value is the
   string name of a parameter as discussed in [Mapgen
-  parameters](#mapgen-parameters).  For example `{ "param": "roof_type" }`.
+  parameters](#mapgen-parameters).  For example, `{ "param": "roof_type" }`.
 
 
 ## Mapgen parameters
 
-(Note that this feature is under development and functionality may not line up
-with the documentation exactly).
+(Note that this feature is under development and functionality may not line up exactly
+with the documentation.)
 
 Another entry within a mapgen definition can be a `"parameters"` key.  For
 example:
@@ -1087,7 +1087,7 @@ mapgen value to select a value at random, and then apply that value to every
 use of that parameter.  In the above example, a random roof terrain is picked.
 By using the parameter with some `"terrain"` key, via a `"param"` mapgen value,
 you can use a random but consistent choice of roof terrain across your map.
-Whereas, placing the `"distribution"` directly in the `"terrain"` object would
+In contrast, placing the `"distribution"` directly in the `"terrain"` object would
 cause mapgen to choose a terrain at random for each roof tile, leading to a
 mishmash of roof terrains.
 
