@@ -8966,7 +8966,7 @@ bool Character::consume_charges( item &used, int qty )
         return true;
     }
 
-    used.ammo_consume( std::min( qty, used.ammo_remaining() ), pos(), nullptr );
+    used.ammo_consume( qty, pos(), nullptr );
     return false;
 }
 

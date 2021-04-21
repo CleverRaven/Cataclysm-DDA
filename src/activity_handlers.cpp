@@ -1696,9 +1696,7 @@ void activity_handlers::generic_game_turn_handler( player_activity *act, player 
     if( calendar::once_every( 1_minutes ) ) {
         if( !act->targets.empty() ) {
             item &game_item = *act->targets.front();
-            const int ammo_required = game_item.ammo_required();
-            // I am fairly sure this item is always battery operated
-            bool fail = game_item.ammo_consume( ammo_required, tripoint_zero, p ) == 0;
+            bool fail = game_item.ammo_consume( game_item.ammo_required(), tripoint_zero, p ) == 0;
             if( fail ) {
                 act->moves_left = 0;
                 add_msg( m_info, _( "The %s runs out of batteries." ), game_item.tname() );
