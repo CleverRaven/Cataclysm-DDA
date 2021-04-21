@@ -7934,7 +7934,7 @@ units::energy item::energy_remaining() const
     return 0_J;
 }
 
-int item::ammo_remaining( const player *carrier ) const
+int item::ammo_remaining( const Character *carrier ) const
 {
     int ret = 0;
 
@@ -8030,7 +8030,7 @@ int item::ammo_required() const
     return 0;
 }
 
-bool item::ammo_sufficient( const player *carrier, int qty ) const
+bool item::ammo_sufficient( const Character *carrier, int qty ) const
 {
     if( ammo_required() ) {
         return ammo_remaining( carrier ) >= ammo_required() * qty;
@@ -8041,7 +8041,7 @@ bool item::ammo_sufficient( const player *carrier, int qty ) const
 
 }
 
-int item::ammo_consume( int qty, const tripoint &pos, player *carrier )
+int item::ammo_consume( int qty, const tripoint &pos, Character *carrier )
 {
     if( qty < 0 ) {
         debugmsg( "Cannot consume negative quantity of ammo for %s", tname() );
@@ -8688,7 +8688,7 @@ bool item::reload( Character &u, item_location ammo, int qty )
             item ammo_copy( ammo->contents.first_ammo() );
             ammo_copy.charges = qty;
             put_in( ammo_copy, item_pocket::pocket_type::MAGAZINE );
-            ammo->ammo_consume( qty, tripoint_zero, &dynamic_cast<player &>( u ) );
+            ammo->ammo_consume( qty, tripoint_zero, &u );
         } else if( ammo->ammo_type() == ammo_plutonium ) {
             curammo = ammo->type;
             ammo->charges -= qty;

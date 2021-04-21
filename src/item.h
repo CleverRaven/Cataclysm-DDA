@@ -1854,7 +1854,7 @@ class item : public visitable
          * If UPS/bionic power does not matter then the carrier can be nullptr
          * @param carrier is used for UPS and bionic power
          */
-        int ammo_remaining( const player *carrier = nullptr ) const;
+        int ammo_remaining( const Character *carrier = nullptr ) const;
         /**
          * ammo capacity for a specific ammo
          */
@@ -1881,7 +1881,7 @@ class item : public visitable
          * @param qty Number of uses
          * @returns true if ammo sufficient for number of uses is loaded, false otherwise
          */
-        bool ammo_sufficient( const player *carrier = nullptr, int qty = 1 ) const;
+        bool ammo_sufficient( const Character *carrier = nullptr, int qty = 1 ) const;
 
         /**
          * Consume ammo (if available) and return the amount of ammo that was consumed
@@ -1891,7 +1891,7 @@ class item : public visitable
          * @param carrier holder of the item, used for getting UPS and bionic power
          * @return amount of ammo consumed which will be between 0 and qty
          */
-        int ammo_consume( int qty, const tripoint &pos, player *carrier );
+        int ammo_consume( int qty, const tripoint &pos, Character *carrier );
 
         /** Specific ammo data, returns nullptr if item is neither ammo nor loaded with any */
         const itype *ammo_data() const;
