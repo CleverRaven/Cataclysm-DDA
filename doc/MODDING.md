@@ -4,6 +4,11 @@ Certain features of the game can be modified without rebuilding the game from so
 
 The majority of modding is done by editing JSON files. An in-depth review of all json files and their appropriate fields is available in [JSON_INFO.md](JSON_INFO.md).
 
+## Other guides
+
+You might want to read the [Guide to adding new content to CDDA for first time
+contributors](https://github.com/CleverRaven/Cataclysm-DDA/wiki/Guide-to-adding-new-content-to-CDDA-for-first-time-contributors) on the CDDA wiki.
+
 ## The basics
 
 ### Creating a barebones mod
