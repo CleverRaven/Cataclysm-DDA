@@ -1915,7 +1915,7 @@ void activity_handlers::start_fire_finish( player_activity *act, player *p )
         return;
     }
 
-	it.ammo_consume( it.type->charges_to_use(), tripoint_zero, p );
+    it.ammo_consume( it.type->charges_to_use(), tripoint_zero, p );
 
     p->practice( skill_survival, act->index, 5 );
 
