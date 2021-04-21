@@ -11309,7 +11309,7 @@ int Character::available_ups() const
         auto *mons = mounted_creature.get();
         available_charges += mons->battery_item->ammo_remaining();
     }
-    if( has_power() && has_active_bionic( bio_ups ) ) {
+    if( has_active_bionic( bio_ups ) ) {
         available_charges += units::to_kilojoule( get_power_level() );
     }
     available_charges += charges_of( itype_UPS_off );
@@ -11318,8 +11318,10 @@ int Character::available_ups() const
     return available_charges;
 }
 
-void Character::consume_ups( int qty )
+int Character::consume_ups( int qty )
 {
+    const int wanted_qty = qty;
+
     if( qty != 0 && is_mounted() && mounted_creature.get()->has_flag( MF_RIDEABLE_MECH ) &&
         mounted_creature.get()->battery_item ) {
         auto *mons = mounted_creature.get();
@@ -11345,7 +11347,9 @@ void Character::consume_ups( int qty )
     int ups = inv.charges_of( itype_UPS_off, qty );
     if( qty != 0 && ups > 0 ) {
         use_charges( itype_UPS_off, ups );
+        qty -= ups;
     }
+    return wanted_qty - qty;
 }
 
 std::list<item> Character::use_charges( const itype_id &what, int qty, const int radius,

@@ -2054,17 +2054,21 @@ class Character : public Creature, public visitable
         // Uses up charges
         bool use_charges_if_avail( const itype_id &it, int quantity );
 
-        // Returns the amount of UPS charges available
-        // Sum of mech, bionic UPS, adv UPS and UPS
-        // Adv UPS includes efficiency bonus
+        /**
+        * Available ups from all sources
+        * Sum of mech, bionic UPS, adv UPS and UPS
+        * Adv UPS includes efficiency bonus
+        * @return amount of UPS available
+        */
         int available_ups() const;
+
         /**
         * Consume UPS charges.
         * Consume order: mech, Bionic UPS, adv UPS, UPS.
-        * Does not check if there is enough power so check available_ups() first
         * @param qty Number of charges (kJ)
+        * @return amount of UPS consumed which will be between 0 and qty
         */
-        void consume_ups( int qty );
+        int consume_ups( int qty );
 
         /**
         * Use charges in character inventory.

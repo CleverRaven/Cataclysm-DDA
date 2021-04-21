@@ -8047,41 +8047,32 @@ int item::ammo_consume( int qty, const tripoint &pos, player *carrier )
         debugmsg( "Cannot consume negative quantity of ammo for %s", tname() );
         return 0;
     }
-
-    int consumed = 0;
-    int temp_cons;
+    const int wanted_qty = qty;
 
     // Consume charges loaded in the item or its magazines
     if( is_magazine() || contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
-        temp_cons = contents.ammo_consume( qty, pos );
-        consumed += temp_cons;
-        qty -= temp_cons;
-    }
-
-    // Consume UPS power from various sources
-    if( carrier != nullptr && has_flag( flag_USE_UPS ) ) {
-        int ups_used = std::min( carrier->available_ups(), qty );
-        carrier->consume_ups( ups_used );
-        consumed += ups_used;
-        qty -= ups_used;
-    }
-
-    // Consume bio pwr directly
-    if( carrier != nullptr && has_flag( flag_USES_BIONIC_POWER ) ) {
-        int bio_used = std::min( units::to_kilojoule( carrier->get_power_level() ), qty );
-        carrier->mod_power_level( units::from_kilojoule( bio_used ) );
-        consumed += bio_used;
-        qty -= bio_used;
+        qty -= contents.ammo_consume( qty, pos );
     }
 
     // Some weird internal non-item charges (used by grenades)
     if( is_tool() && type->tool->ammo_id.empty() ) {
         int charg_used = std::min( charges, qty );
         charges -= charg_used;
-        consumed += charg_used;
     }
 
-    return consumed;
+    // Consume UPS power from various sources
+    if( carrier != nullptr && has_flag( flag_USE_UPS ) ) {
+        qty -= carrier->consume_ups( qty );
+    }
+
+    // Consume bio pwr directly
+    if( carrier != nullptr && has_flag( flag_USES_BIONIC_POWER ) ) {
+        int bio_used = std::min( units::to_kilojoule( carrier->get_power_level() ), qty );
+        carrier->mod_power_level( units::from_kilojoule( bio_used ) );
+        qty -= bio_used;
+    }
+
+    return wanted_qty - qty;
 }
 
 const itype *item::ammo_data() const

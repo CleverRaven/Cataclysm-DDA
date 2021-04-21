@@ -1850,8 +1850,9 @@ class item : public visitable
 
         /** Quantity of ammunition currently loaded in tool, gun or auxiliary gunmod */
         /**
-         *  Quantity of ammunition currently loaded in tool, gun or auxiliary gunmod. Can include UPS and bionic
-         *  @param carrier is used for UPS and bionic power
+         * Quantity of ammunition currently loaded in tool, gun or auxiliary gunmod. Can include UPS and bionic
+         * If UPS/bionic power does not matter then the carrier can be nullptr
+         * @param carrier is used for UPS and bionic power
          */
         int ammo_remaining( const player *carrier = nullptr ) const;
         /**
@@ -1868,9 +1869,10 @@ class item : public visitable
 
         /**
          * Check if sufficient ammo is loaded for given number of uses.
-         * Also checks UPS and bionic if usable
          * Check if there is enough ammo loaded in a tool for the given number of uses
-         * or given number of gun shots.  Using this function for this check is preferred
+         * or given number of gun shots.
+         * If carrier is provides then UPS and bionic may be also used as ammo
+         * Using this function for this check is preferred
          * because we expect to add support for items consuming multiple ammo types in
          * the future.  Users of this function will not need to be refactored when this
          * happens.
@@ -1883,7 +1885,7 @@ class item : public visitable
 
         /**
          * Consume ammo (if available) and return the amount of ammo that was consumed
-         * Consume order: Item, UPS, bionic
+         * Consume order: loaded items, UPS, bionic
          * @param qty maximum amount of ammo that should be consumed
          * @param pos current location of item, used for ejecting magazines and similar effects
          * @param carrier holder of the item, used for getting UPS and bionic power
