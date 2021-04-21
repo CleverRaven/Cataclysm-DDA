@@ -4122,7 +4122,6 @@ void overmap::place_special(
         }
     }
     // Make connections.
-    if( cit ) {
         for( const auto &elem : special.connections ) {
             if( elem.connection ) {
                 const tripoint_om_omt rp = p + om_direction::rotate( elem.p, dir );
@@ -4131,12 +4130,20 @@ void overmap::place_special(
                 if( initial_dir != om_direction::type::invalid ) {
                     initial_dir = om_direction::add( initial_dir, dir );
                 }
-
+				if ( cit ) {
                 build_connection( cit.pos, rp.xy(), elem.p.z, *elem.connection, must_be_unexplored,
                                   initial_dir );
+	            }
+	// if no city present, search for nearby road within 50 tiles and make connection to it instead
+                else {
+                    for( const tripoint_om_omt &nearby_point : closest_points_first(rp, 50) ) {
+                        if( check_ot( "road", ot_match_type::contains, nearby_point ) ) {
+                                build_connection(nearby_point.xy(), rp.xy(), elem.p.z, *elem.connection, must_be_unexplored, initial_dir );
+                        }
+                    }
+                }
             }
         }
-    }
     // Place spawns.
     if( special.spawns.group ) {
         const overmap_special_spawns &spawns = special.spawns;
