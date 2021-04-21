@@ -7937,29 +7937,29 @@ units::energy item::energy_remaining() const
 int item::ammo_remaining( const player *carrier ) const
 {
     int ret = 0;
+
+    // Magagzine in the item
     const item *mag = magazine_current();
     if( mag ) {
         ret += mag->ammo_remaining();
     }
 
+    // Power from bionic
     if( carrier != nullptr && has_flag( flag_USES_BIONIC_POWER ) ) {
         ret += units::to_kilojoule( carrier->get_power_level() );
     }
 
-    // Weird non-item charges. Not sure if used by anything
+    // Weird non-item charges. Not sure if used by anything in this context
     if( is_tool() && ammo_types().empty() ) {
         ret += charges;
     }
 
+    // Extra power from UPS
     if( carrier != nullptr && ( has_flag( flag_USE_UPS ) || get_gun_ups_drain() ) ) {
         ret += carrier->available_ups();
     }
 
-
-    if( is_gun() && magazine_integral() && !contents.empty() ) {
-        ret +=  contents.first_ammo().charges;
-    }
-
+    // Magazines and integral magazines on their own
     if( is_magazine() ) {
         for( const item *e : contents.all_items_top( item_pocket::pocket_type::MAGAZINE ) ) {
             ret += e->charges;
