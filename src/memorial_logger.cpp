@@ -140,7 +140,7 @@ void memorial_logger::add( const std::string &male_msg,
  * In new format the entries are stored as json.
  * @param fin The stream to read the memorial entries from.
  */
-void memorial_logger::load( std::istream &fin )
+void memorial_logger::load( std::istream &fin, const std::string &path )
 {
     log.clear();
     if( fin.peek() == '|' ) {
@@ -155,7 +155,7 @@ void memorial_logger::load( std::istream &fin )
             log.emplace_back( entry );
         }
     } else {
-        JsonIn jsin( fin );
+        JsonIn jsin( fin, path );
         if( !jsin.read( log ) ) {
             debugmsg( "Error reading JSON memorial log" );
         }
