@@ -1176,8 +1176,6 @@ void player::process_items()
         calc_encumbrance();
         set_check_encumbrance( false );
     }
-    int ch_UPS = available_ups();
-    int ch_UPS_used = 0;
 
     // Load all items that use the UPS to their minimal functional charge,
     // The tool is not really useful if its charges are below charges_to_use
