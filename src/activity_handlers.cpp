@@ -1915,9 +1915,8 @@ void activity_handlers::start_fire_finish( player_activity *act, player *p )
         return;
     }
 
-    if( it.type->can_have_charges() ) {
-        p->consume_charges( it, it.type->charges_to_use() );
-    }
+	it.ammo_consume( it.type->charges_to_use(), tripoint_zero, p );
+
     p->practice( skill_survival, act->index, 5 );
 
     firestarter_actor::resolve_firestarter_use( *p, act->placement );
