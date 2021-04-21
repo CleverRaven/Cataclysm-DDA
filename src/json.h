@@ -189,18 +189,15 @@ class JsonIn
         shared_ptr_fast<std::string> path;
         bool ate_separator = false;
 
+        void sanity_check_stream();
         void skip_separator();
         void skip_pair_separator();
         void end_value();
 
     public:
-        explicit JsonIn( std::istream &s ) : stream( &s ) {}
-        JsonIn( std::istream &s, const std::string &path )
-            : stream( &s ), path( make_shared_fast<std::string>( path ) ) {}
-        JsonIn( std::istream &s, const json_source_location &loc )
-            : stream( &s ), path( loc.path ) {
-            seek( loc.offset );
-        }
+        explicit JsonIn( std::istream &s );
+        JsonIn( std::istream &s, const std::string &path );
+        JsonIn( std::istream &s, const json_source_location &loc );
         JsonIn( const JsonIn & ) = delete;
         JsonIn &operator=( const JsonIn & ) = delete;
 
