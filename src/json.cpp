@@ -770,7 +770,7 @@ void JsonIn::sanity_check_stream()
 {
     char c = stream->peek();
     if( c == '\xef' ) {
-        error( "This JSON file looks like it starts with a Byte Order Mark (BOM) or is otherwise corrupted.  This can happen if you edit files in Windows Notepad.  See doc/CONTRIBUTING.md for more advice." );
+        error( _( "This JSON file looks like it starts with a Byte Order Mark (BOM) or is otherwise corrupted.  This can happen if you edit files in Windows Notepad.  See doc/CONTRIBUTING.md for more advice." ) );
     }
 }
 
