@@ -2937,7 +2937,8 @@ bool game::load( const save_t &name )
     u.name = name.player_name();
     // This should be initialized more globally (in player/Character constructor)
     u.weapon = item();
-    if( !read_from_file( playerpath + SAVE_EXTENSION, std::bind( &game::unserialize, this, _1 ) ) ) {
+    const std::string save_filename = playerpath + SAVE_EXTENSION;
+    if( !read_from_file( save_filename, std::bind( &game::unserialize, this, _1, save_filename ) ) ) {
         return false;
     }
 
@@ -2945,12 +2946,14 @@ bool game::load( const save_t &name )
         u.deserialize_map_memory( jsin );
     } );
 
-    read_from_file_optional( worldpath + name.base_path() + SAVE_EXTENSION_LOG,
-                             std::bind( &memorial_logger::load, &memorial(), _1 ) );
+    const std::string log_filename = worldpath + name.base_path() + SAVE_EXTENSION_LOG;
+    read_from_file_optional( log_filename,
+                             std::bind( &memorial_logger::load, &memorial(), _1, log_filename ) );
 
 #if defined(__ANDROID__)
-    read_from_file_optional( worldpath + name.base_path() + SAVE_EXTENSION_SHORTCUTS,
-                             std::bind( &game::load_shortcuts, this, _1 ) );
+    const std::string shortcuts_filename = worldpath + name.base_path() + SAVE_EXTENSION_SHORTCUTS;
+    read_from_file_optional( shortcuts_filename,
+                             std::bind( &game::load_shortcuts, this, _1, shortcuts_filename ) );
 #endif
 
     // Now that the player's worn items are updated, their sight limits need to be
