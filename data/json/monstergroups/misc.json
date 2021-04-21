@@ -19,9 +19,7 @@
     "name": "GROUP_SUBWAY",
     "//": "Work very much in progress",
     "default": "mon_null",
-    "monsters": [
-      { "monster": "mon_unseen_hunter", "freq": 100, "cost_multiplier": 1, "starts": 168 }
-    ]
+    "monsters": [ { "monster": "mon_unseen_hunter", "freq": 100, "cost_multiplier": 1, "starts": 168 } ]
   },
   {
     "type": "monstergroup",
