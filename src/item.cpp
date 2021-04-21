@@ -8058,6 +8058,7 @@ int item::ammo_consume( int qty, const tripoint &pos, player *carrier )
     if( is_tool() && type->tool->ammo_id.empty() ) {
         int charg_used = std::min( charges, qty );
         charges -= charg_used;
+        qty -= charg_used;
     }
 
     // Consume UPS power from various sources
