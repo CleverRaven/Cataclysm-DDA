@@ -175,7 +175,7 @@ static void chkversion( std::istream &fin )
 /*
  * Parse an open .sav file.
  */
-void game::unserialize( std::istream &fin )
+void game::unserialize( std::istream &fin, const std::string &path )
 {
     chkversion( fin );
     int tmpturn = 0;
@@ -183,7 +183,7 @@ void game::unserialize( std::istream &fin )
     int tmprun = 0;
     tripoint_om_sm lev;
     point_abs_om com;
-    JsonIn jsin( fin );
+    JsonIn jsin( fin, path );
     try {
         JsonObject data = jsin.get_object();
 
@@ -303,9 +303,9 @@ void scent_map::deserialize( const std::string &data, bool is_type )
 
 #if defined(__ANDROID__)
 ///// quick shortcuts
-void game::load_shortcuts( std::istream &fin )
+void game::load_shortcuts( std::istream &fin, const std::string &path )
 {
-    JsonIn jsin( fin );
+    JsonIn jsin( fin, path );
     try {
         JsonObject data = jsin.get_object();
 
