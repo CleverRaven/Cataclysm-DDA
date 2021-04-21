@@ -7946,8 +7946,8 @@ int item::ammo_remaining( const player *carrier ) const
         ret += units::to_kilojoule( carrier->get_power_level() );
     }
 
-    // This may not apply to anything (?)
-    if( is_tool() && !ammo_types().empty() ) {
+    // Weird non-item charges. Not sure if used by anything
+    if( is_tool() && ammo_types().empty() ) {
         ret += charges;
     }
 
@@ -8079,8 +8079,8 @@ int item::ammo_consume( int qty, const tripoint &pos, player *carrier )
         int charg_used = std::min( charges, qty );
         charges -= charg_used;
         consumed += charg_used;
-
     }
+
     return consumed;
 }
 
