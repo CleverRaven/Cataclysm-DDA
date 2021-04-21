@@ -2583,22 +2583,19 @@ void inventory_drop_selector::deselect_contained_items()
         item_location loc_front = drop.first;
         inventory_items.push_back( loc_front );
     }
-    for( item_location loc_contained : inventory_items ) {
-        for( item_location loc_container : inventory_items ) {
-            if( loc_container == loc_contained ) {
-                continue;
-            }
-            if( loc_container->has_item( *loc_contained ) ) {
-                for( inventory_column *col : get_all_columns() ) {
-                    for( inventory_entry *selected : col->get_entries( []( const inventory_entry &
-                    entry ) {
-                    return entry.chosen_count > 0;
-                } ) ) {
-                        if( !selected->is_item() ) {
-                            continue;
-                        }
+    for( item_location loc_container : inventory_items ) {
+        if( !loc_container->contents.empty() ) {
+            for( inventory_column *col : get_all_columns() ) {
+                for( inventory_entry *selected : col->get_entries( []( const inventory_entry &
+                entry ) {
+                return entry.chosen_count > 0;
+            } ) ) {
+                    if( !selected->is_item() ) {
+                        continue;
+                    }
+                    for( item *item_contained : loc_container->contents.all_items_top() ) {
                         for( const item_location &selected_loc : selected->locations ) {
-                            if( selected_loc == loc_contained ) {
+                            if( selected_loc.get_item() == item_contained ) {
                                 set_chosen_count( *selected, 0 );
                             }
                         }
@@ -2682,6 +2679,7 @@ drop_locations inventory_drop_selector::execute()
                 for( const auto &elem : selected ) {
                     set_chosen_count( *elem, count );
                 }
+                deselect_contained_items();
             }
 
             count = 0;
