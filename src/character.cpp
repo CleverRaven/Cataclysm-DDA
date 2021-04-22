@@ -11344,11 +11344,6 @@ int Character::consume_ups( int qty, const int radius )
         qty -= ups;
     }
 
-    if( radius > 0 ) {
-        get_map().use_charges( pos(), radius, itype_adv_UPS_off, qty, return_true<item> );
-        get_map().use_charges( pos(), radius, itype_UPS_off, qty, return_true<item> );
-    }
-
     return wanted_qty - qty;
 }
 
