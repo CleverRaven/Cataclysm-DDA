@@ -1374,7 +1374,7 @@ bool Character::can_continue_craft( item &craft, const requirement_data &continu
 
         std::vector<comp_selection<item_comp>> item_selections;
         for( const auto &it : continue_reqs.get_components() ) {
-            comp_selection<item_comp> is = select_item_component( it, batch_size, map_inv, true, filter );
+            comp_selection<item_comp> is = select_item_component( it, batch_size, map_inv, true, filter, &rec );
             if( is.use_from == usage_from::cancel ) {
                 cancel_activity();
                 add_msg( _( "You stop crafting." ) );
@@ -1477,7 +1477,7 @@ const requirement_data *Character::select_requirements(
 comp_selection<item_comp> Character::select_item_component( const std::vector<item_comp>
         &components,
         int batch, read_only_visitable &map_inv, bool can_cancel,
-        const std::function<bool( const item & )> &filter, bool player_inv )
+        const std::function<bool( const item & )> &filter, bool player_inv, const recipe *rec )
 {
     Character &player_character = get_player_character();
     std::vector<item_comp> player_has;
@@ -1572,35 +1572,53 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
         }
     } else { // Let the player pick which component they want to use
         uilist cmenu;
+        bool is_food = false;
+        bool remove_raw = false;
+        if( rec ) {
+            is_food = rec->create_result().is_comestible();
+            remove_raw = rec->hot_result() || rec->removes_raw();
+        }
         // Populate options with the names of the items
         for( auto &map_ha : map_has ) { // Index 0-(map_has.size()-1)
-            const std::string for_food = _( "%s (%d/%d nearby) %d kcal" );
-            const std::string not_food = _( "%s (%d/%d nearby)" );
+            //TODO append, only display single value if possible
+            const std::string for_food = _( "%s (%d/%d nearby) %d-%d kcal" );
+            const std::string for_not_food = _( "%s (%d/%d nearby)" );
             const item ingredient = item( map_ha.type );
-            std::string tmpStr = string_format( ingredient.is_comestible() ? for_food : not_food,
+            bool display_kcal = is_food && ingredient.is_comestible();
+            std::pair<int, int> kcal_range( 0, 0 );
+            if( display_kcal ) {
+                kcal_range = map_inv.kcal_range( map_ha.type, filter,
+                                                 player_character );
+            }
+            std::string tmpStr = string_format( display_kcal ? for_food : for_not_food,
                                                 item::nname( map_ha.type ),
                                                 ( map_ha.count * batch ),
                                                 item::count_by_charges( map_ha.type ) ?
                                                 map_inv.charges_of( map_ha.type, INT_MAX, filter ) :
                                                 map_inv.amount_of( map_ha.type, false, INT_MAX, filter ),
-                                                ingredient.is_comestible() ? player_character.compute_effective_nutrients(
-                                                    ingredient ).kcal() * map_ha.count *batch : 0
+                                                kcal_range.first * map_ha.count * batch,
+                                                kcal_range.second * map_ha.count * batch
                                               );
             cmenu.addentry( tmpStr );
         }
         for( auto &player_ha : player_has ) { // Index map_has.size()-(map_has.size()+player_has.size()-1)
-            const std::string for_food = _( "%s (%d/%d on person) %d kcal" );
-            const std::string not_food = _( "%s (%d/%d on person)" );
+            const std::string for_food = _( "%s (%d/%d on person) %d-%d kcal" );
+            const std::string for_not_food = _( "%s (%d/%d on person)" );
             const item ingredient = item( player_ha.type );
-            std::string tmpStr = string_format( ingredient.is_comestible() ? for_food : not_food,
+            bool display_kcal = is_food && ingredient.is_comestible();
+            std::pair<int, int> kcal_range( 0, 0 );
+            if( display_kcal ) {
+                kcal_range = map_inv.kcal_range( player_ha.type, filter,
+                                                 player_character );
+            }
+            std::string tmpStr = string_format( display_kcal ? for_food : for_not_food,
                                                 item::nname( player_ha.type ),
                                                 ( player_ha.count * batch ),
                                                 item::count_by_charges( player_ha.type ) ?
                                                 charges_of( player_ha.type, INT_MAX, filter ) :
                                                 amount_of( player_ha.type, false, INT_MAX, filter ),
-                                                ingredient.is_comestible() ? player_character.compute_effective_nutrients(
-                                                    ingredient ).kcal() * player_ha.count *
-                                                batch : 0
+                                                kcal_range.first * player_ha.count * batch,
+                                                kcal_range.second * player_ha.count * batch
                                               );
             cmenu.addentry( tmpStr );
         }
@@ -1611,16 +1629,21 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
                             charges_of( component.type, INT_MAX, filter ) :
                             map_inv.amount_of( component.type, false, INT_MAX, filter ) +
                             amount_of( component.type, false, INT_MAX, filter );
-            const std::string for_food = _( "%s (%d/%d nearby & on person) %d kcal" );
-            const std::string not_food = _( "%s (%d/%d nearby & on person)" );
+            const std::string for_food = _( "%s (%d/%d nearby & on person) %d-%d kcal" );
+            const std::string for_not_food = _( "%s (%d/%d nearby & on person)" );
             const item ingredient = item( component.type );
-            std::string tmpStr = string_format( ingredient.is_comestible() ? for_food : not_food,
+            bool display_kcal = is_food && ingredient.is_comestible();
+            std::pair<int, int> kcal_range( 0, 0 );
+            if( display_kcal ) {
+                kcal_range = map_inv.kcal_range( component.type, filter,
+                                                 player_character );
+            }
+            std::string tmpStr = string_format( display_kcal ? for_food : for_not_food,
                                                 item::nname( component.type ),
                                                 component.count * batch,
                                                 available,
-                                                ingredient.is_comestible() ? player_character.compute_effective_nutrients(
-                                                    ingredient ).kcal() * component.count *
-                                                batch : 0
+                                                kcal_range.first * component.count * batch,
+                                                kcal_range.second * component.count * batch
                                               );
             cmenu.addentry( tmpStr );
         }
