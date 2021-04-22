@@ -176,7 +176,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         !is_riding && !you.has_effect( effect_incorporeal ) ) {
         if( you.weapon.has_flag( flag_DIG_TOOL ) ) {
             if( you.weapon.type->can_use( "JACKHAMMER" ) &&
-                you.weapon.ammo_sufficient( &dynamic_cast<player &>( you ) ) ) {
+                you.weapon.ammo_sufficient( &you ) ) {
                 you.invoke_item( &you.weapon, "JACKHAMMER", dest_loc );
                 // don't move into the tile until done mining
                 you.defer_move( dest_loc );

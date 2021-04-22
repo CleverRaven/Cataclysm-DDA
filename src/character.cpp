@@ -216,7 +216,6 @@ static const efftype_id effect_winded( "winded" );
 
 static const field_type_str_id field_fd_clairvoyant( "fd_clairvoyant" );
 
-static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
 static const itype_id itype_apparatus( "apparatus" );
 static const itype_id itype_beartrap( "beartrap" );
 static const itype_id itype_e_handcuffs( "e_handcuffs" );
@@ -226,8 +225,9 @@ static const itype_id itype_rope_6( "rope_6" );
 static const itype_id itype_snare_trigger( "snare_trigger" );
 static const itype_id itype_string_36( "string_36" );
 static const itype_id itype_toolset( "toolset" );
-static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_UPS_off( "UPS_off" );
+static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
+static const itype_id itype_UPS( "UPS" );
 
 static const skill_id skill_archery( "archery" );
 static const skill_id skill_dodge( "dodge" );
@@ -11369,6 +11369,7 @@ std::list<item> Character::use_charges( const itype_id &what, int qty, const int
         return res;
 
     } else if( what == itype_UPS ) {
+        // Fairly sure that nothing comes here. But handle it anyways.
         debugmsg( _( "This UPS use needs updating. Create issue on github." ) );
         consume_ups( qty, radius );
         return res;

@@ -796,6 +796,7 @@ int inventory::charges_of( const itype_id &what, int limit,
                            const std::function<void( int )> &visitor ) const
 {
     if( what == itype_UPS ) {
+        // Nothing should come here. But until all the charges_of and charges_of_internal no longer use itype_UPS I don't feel safe removing this
         int qty = 0;
         qty = sum_no_wrap( qty, charges_of( itype_UPS_off ) );
         qty = sum_no_wrap( qty, static_cast<int>( charges_of( itype_adv_UPS_off ) / 0.6 ) );
@@ -832,6 +833,7 @@ int Character::charges_of( const itype_id &what, int limit,
     }
 
     if( what == itype_UPS ) {
+        // Nothing should come here. But until all the charges_of and charges_of_internal no longer use itype_UPS I don't feel safe removing this
         int qty = 0;
         qty = sum_no_wrap( qty, charges_of( itype_UPS_off ) );
         qty = sum_no_wrap( qty, static_cast<int>( charges_of( itype_adv_UPS_off ) / 0.6 ) );
