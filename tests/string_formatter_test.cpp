@@ -101,8 +101,7 @@ void mingw_test( const char *const old_pattern, const char *const new_pattern, c
     CHECK( original_result == new_result );
 }
 
-// Marking mayfail due to failure in MXE's MinGW on Travis on Ubuntu Xenial.
-TEST_CASE( "string_formatter", "[!mayfail]" )
+TEST_CASE( "string_formatter" )
 {
     test_typed_printf<signed char>( "%hhi", "%i" );
     test_typed_printf<unsigned char>( "%hhu", "%u" );

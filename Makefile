@@ -614,6 +614,7 @@ ifeq ($(TARGETSYSTEM),WINDOWS)
   ifeq ($(LOCALIZE), 1)
     LDFLAGS += -lintl -liconv
   endif
+  DEFINES += -D__USE_MINGW_ANSI_STDIO=1
   W32FLAGS += -Wl,-stack,12000000,-subsystem,windows
   RFLAGS = -J rc -O coff
   ifeq ($(NATIVE), win64)
