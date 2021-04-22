@@ -8900,20 +8900,17 @@ bool Character::has_enough_charges( const item &it, bool show_msg ) const
     if( !it.is_tool() || !it.ammo_required() ) {
         return true;
     }
-    if( it.has_flag( flag_USE_UPS ) ) {
-        if( it.ammo_sufficient() ) {
-            return true;
-        }
-        if( show_msg ) {
+
+    if( it.ammo_sufficient( this ) ) {
+        return true;
+    } else {
+        if( show_msg && it.has_flag( flag_USE_UPS ) ) {
             add_msg_if_player( m_info,
                                ngettext( "Your %s needs %d charge from some UPS.",
                                          "Your %s needs %d charges from some UPS.",
                                          it.ammo_required() ),
                                it.tname(), it.ammo_required() );
-        }
-        return false;
-    } else if( !it.ammo_sufficient() ) {
-        if( show_msg ) {
+        } else {
             add_msg_if_player( m_info,
                                ngettext( "Your %s has %d charge, but needs %d.",
                                          "Your %s has %d charges, but needs %d.",
@@ -8922,6 +8919,7 @@ bool Character::has_enough_charges( const item &it, bool show_msg ) const
         }
         return false;
     }
+
     return true;
 }
 
