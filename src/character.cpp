@@ -11372,36 +11372,6 @@ std::list<item> Character::use_charges( const itype_id &what, int qty, const int
     if( what == itype_fire ) {
         use_fire( qty );
         return res;
-
-    } else if( what == itype_UPS ) {
-        if( is_mounted() && mounted_creature.get()->has_flag( MF_RIDEABLE_MECH ) &&
-            mounted_creature.get()->battery_item ) {
-            auto *mons = mounted_creature.get();
-            int power_drain = std::min( mons->battery_item->ammo_remaining(), qty );
-            mons->use_mech_power( -power_drain );
-            qty -= std::min( qty, power_drain );
-            return res;
-        }
-        if( has_power() && has_active_bionic( bio_ups ) ) {
-            int bio = std::min( units::to_kilojoule( get_power_level() ), qty );
-            mod_power_level( units::from_kilojoule( -bio ) );
-            qty -= std::min( qty, bio );
-        }
-
-        int adv = inv.charges_of( itype_adv_UPS_off, static_cast<int>( std::ceil( qty * 0.6 ) ) );
-        if( adv > 0 ) {
-            std::list<item> found = use_charges( itype_adv_UPS_off, adv, radius );
-            res.splice( res.end(), found );
-            qty -= std::min( qty, static_cast<int>( adv / 0.6 ) );
-        }
-
-        int ups = inv.charges_of( itype_UPS_off, qty );
-        if( ups > 0 ) {
-            std::list<item> found = use_charges( itype_UPS_off, ups, radius );
-            res.splice( res.end(), found );
-            qty -= std::min( qty, ups );
-        }
-        return res;
     }
 
     std::vector<item *> del;
