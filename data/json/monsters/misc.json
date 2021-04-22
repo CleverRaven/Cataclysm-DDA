@@ -20,7 +20,7 @@
     "harvest": "exempt",
     "death_function": [ "MELT" ],
     "regenerates": 50,
-    "flags": [ "IMMOBILE", "NOT_HALLUCINATION", "FILTHY", "CAMOUFLAGE" ]
+    "flags": [ "IMMOBILE", "NOT_HALLUCINATION", "FILTHY" ]
   },
   {
     "id": "mon_dragon_dummy",
