@@ -11406,16 +11406,6 @@ std::list<item> Character::use_charges( const itype_id &what, int qty, const int
 
     std::vector<item *> del;
 
-    bool has_tool_with_UPS = false;
-    // Detection of UPS tool
-    inv.visit_items( [ &what, &qty, &has_tool_with_UPS, &filter]( item * e, item * ) {
-        if( filter( *e ) && e->typeId() == what && e->has_flag( flag_USE_UPS ) ) {
-            has_tool_with_UPS = true;
-            return VisitResponse::ABORT;
-        }
-        return qty > 0 ? VisitResponse::NEXT : VisitResponse::ABORT;
-    } );
-
     if( radius >= 0 ) {
         get_map().use_charges( pos(), radius, what, qty, return_true<item> );
     }
@@ -11430,10 +11420,6 @@ std::list<item> Character::use_charges( const itype_id &what, int qty, const int
 
     for( item *e : del ) {
         remove_item( *e );
-    }
-
-    if( has_tool_with_UPS ) {
-        use_charges( itype_UPS, qty, radius );
     }
 
     return res;
