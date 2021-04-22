@@ -1179,6 +1179,7 @@ void player::process_items()
 
     // Load all items that use the UPS to their minimal functional charge,
     // The tool is not really useful if its charges are below charges_to_use
+    int ups_used = 0;
     const auto inv_use_ups = items_with( []( const item & itm ) {
         return itm.has_flag( flag_USE_UPS );
     } );
@@ -1192,9 +1193,12 @@ void player::process_items()
             it->deactivate();
         } else if( available_ups() > 0 &&
                    it->ammo_remaining() < it->ammo_capacity( ammotype( "battery" ) ) ) {
-            consume_ups( 1 );
+            ups_used++;
             it->ammo_set( itype_battery, it->ammo_remaining() + 1 );
         }
+    }
+    if( ups_used > 0 ) {
+        consume_ups( ups_used );
     }
 }
 
