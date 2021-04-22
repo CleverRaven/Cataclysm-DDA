@@ -225,6 +225,7 @@ static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 static const itype_id itype_rope_6( "rope_6" );
 static const itype_id itype_snare_trigger( "snare_trigger" );
 static const itype_id itype_string_36( "string_36" );
+static const itype_id itype_toolset( "toolset" );
 static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_UPS_off( "UPS_off" );
 
@@ -8900,7 +8901,7 @@ bool Character::has_enough_charges( const item &it, bool show_msg ) const
         return true;
     }
     if( it.has_flag( flag_USE_UPS ) ) {
-        if( has_charges( itype_UPS, it.ammo_required() ) || it.ammo_sufficient() ) {
+        if( it.ammo_sufficient() ) {
             return true;
         }
         if( show_msg ) {
@@ -11261,11 +11262,6 @@ bool Character::has_charges( const itype_id &it, int quantity,
 {
     if( it == itype_fire || it == itype_apparatus ) {
         return has_fire( quantity );
-    }
-    if( it == itype_UPS && is_mounted() &&
-        mounted_creature.get()->has_flag( MF_RIDEABLE_MECH ) ) {
-        auto *mons = mounted_creature.get();
-        return quantity <= mons->battery_item->ammo_remaining();
     }
     return charges_of( it, quantity, filter ) == quantity;
 }
