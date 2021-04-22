@@ -8910,7 +8910,7 @@ bool Character::has_enough_charges( const item &it, bool show_msg ) const
                                          "Your %s needs %d charges from some UPS.",
                                          it.ammo_required() ),
                                it.tname(), it.ammo_required() );
-        } else {
+        } else if( show_msg ) {
             add_msg_if_player( m_info,
                                ngettext( "Your %s has %d charge, but needs %d.",
                                          "Your %s has %d charges, but needs %d.",
