@@ -367,7 +367,7 @@
     "material": [ "silver", "gold" ],
     "symbol": "[",
     "color": "light_gray",
-	"flags": [ "FANCY" ]
+    "flags": [ "FANCY" ]
   },
   {
     "id": "garnet_gold_cufflinks",
