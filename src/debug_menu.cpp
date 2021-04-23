@@ -1022,7 +1022,7 @@ void teleport_short()
     }
     g->place_player( *where );
     const tripoint new_pos( player_location.pos() );
-    add_msg( _( "You teleport to point (%d,%d,%d)." ), new_pos.x, new_pos.y, new_pos.z );
+    add_msg( _( "You teleport to point %s." ), new_pos.to_string() );
 }
 
 void teleport_long()
@@ -1032,7 +1032,7 @@ void teleport_long()
         return;
     }
     g->place_player_overmap( where );
-    add_msg( _( "You teleport to submap (%s)." ), where.to_string() );
+    add_msg( _( "You teleport to submap %s." ), where.to_string() );
 }
 
 void teleport_overmap( bool specific_coordinates )
