@@ -11370,7 +11370,7 @@ std::list<item> Character::use_charges( const itype_id &what, int qty, const int
 
     } else if( what == itype_UPS ) {
         // Fairly sure that nothing comes here. But handle it anyways.
-        debugmsg( _( "This UPS use needs updating. Create issue on github." ) );
+        debugmsg( _( "This UPS use needs updating.  Create issue on github." ) );
         consume_ups( qty, radius );
         return res;
     }
