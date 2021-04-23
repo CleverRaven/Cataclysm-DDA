@@ -2163,11 +2163,20 @@ TEST_CASE( "bionic info", "[iteminfo][bionic]" )
            "* This bionic can produce power from the following fuel:"
            " <color_c_cyan>Alcohol</color>\n" );
 
-    // NOTE: No trailing newline
-    CHECK( item_info_str( power, {} ) ==
-           "--\n"
-           "<color_c_white>Power Capacity</color>:"
-           " <color_c_yellow>100000000</color> mJ" );
+    std::string power_info = item_info_str( power, {} );
+    {
+        CAPTURE( power_info );
+        // NOTE: No trailing newline
+        // Multiple alternatives due to potential localizations
+        CHECK( ( power_info ==
+                 "--\n"
+                 "<color_c_white>Power Capacity</color>:"
+                 " <color_c_yellow>100000000</color> mJ" ||
+                 power_info ==
+                 "--\n"
+                 "<color_c_white>Power Capacity</color>:"
+                 " <color_c_yellow>100,000,000</color> mJ" ) );
+    }
 
     // NOTE: Funky trailing space
     CHECK( item_info_str( nostril, {} ) ==
