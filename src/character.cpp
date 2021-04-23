@@ -83,6 +83,7 @@
 #include "overmapbuffer.h"
 #include "pathfinding.h"
 #include "player.h"
+#include "profession.h"
 #include "proficiency.h"
 #include "recipe_dictionary.h"
 #include "ret_val.h"
@@ -2481,17 +2482,14 @@ void Character::set_max_power_level( const units::energy &npower_max )
 
 void Character::mod_power_level( const units::energy &npower )
 {
-    // units::energy is an int, so avoid overflow by converting it to a int64_t, then adding them
-    // If the result is greater than the max power level, set power to max
-    int64_t power = static_cast<int64_t>( units::to_millijoule( get_power_level() ) ) +
-                    static_cast<int64_t>( units::to_millijoule( npower ) );
-    units::energy new_power;
-    if( power > units::to_millijoule( get_max_power_level() ) ) {
-        new_power = get_max_power_level();
-    } else {
-        new_power = get_power_level() + npower;
-    }
-    set_power_level( clamp( new_power, 0_kJ, get_max_power_level() ) );
+    // Remaining capacity between current and maximum power levels we can make use of.
+    const units::energy remaining_capacity = get_max_power_level() - get_power_level();
+    // We can't add more than remaining capacity, so get the minimum of the two
+    const units::energy minned_npower = std::min( npower, remaining_capacity );
+    // new candidate power level
+    const units::energy new_power = get_power_level() + minned_npower;
+    // set new power level while prevending it from going negative
+    set_power_level( std::max( 0_kJ, new_power ) );
 }
 
 void Character::mod_max_power_level( const units::energy &npower_max )
@@ -4237,7 +4235,7 @@ void Character::normalize()
 {
     Creature::normalize();
 
-    weary.clear();
+    activity_history.weary_clear();
     martial_arts_data->reset_style();
     weapon = item( "null", calendar::turn_zero );
 
@@ -5055,48 +5053,33 @@ int Character::get_stored_kcal() const
     return stored_calories / 1000;
 }
 
-static std::string exert_lvl_to_str( float level )
+std::string Character::activity_level_str( float level ) const
 {
-    if( level <= NO_EXERCISE ) {
-        return _( "NO_EXERCISE" );
-    } else if( level <= LIGHT_EXERCISE ) {
-        return _( "LIGHT_EXERCISE" );
-    } else if( level <= MODERATE_EXERCISE ) {
-        return _( "MODERATE_EXERCISE" );
-    } else if( level <= BRISK_EXERCISE ) {
-        return _( "BRISK_EXERCISE" );
-    } else if( level <= ACTIVE_EXERCISE ) {
-        return _( "ACTIVE_EXERCISE" );
-    } else {
-        return _( "EXTRA_EXERCISE" );
+    for( const std::pair<const float, std::string> &member : activity_levels_str_map ) {
+        if( level <= member.first ) {
+            return member.second;
+        }
     }
+    return ( --activity_levels_str_map.end() )->second;
 }
+
 std::string Character::debug_weary_info() const
 {
-    int amt = weariness();
-    std::string max_act = exert_lvl_to_str( maximum_exertion_level() );
+    int amt = activity_history.weariness();
+    std::string max_act = activity_level_str( maximum_exertion_level() );
     float move_mult = exertion_adjusted_move_multiplier( EXTRA_EXERCISE );
 
     int bmr = base_bmr();
-    int intake = weary.intake;
-    int input = weary.tracker;
+    std::string weary_internals = activity_history.debug_weary_info();
     int thresh = weary_threshold();
     int current = weariness_level();
     int morale = get_morale_level();
     int weight = units::to_gram<int>( bodyweight() );
     float bmi = get_bmi();
 
-    return string_format( "Weariness: %s Max Full Exert: %s Mult: %g\nBMR: %d Intake: %d Tracker: %d Thresh: %d At: %d\nCal: %d/%d Fatigue: %d Morale: %d Wgt: %d (BMI %.1f)",
-                          amt, max_act, move_mult, bmr, intake, input, thresh, current, get_stored_kcal(),
+    return string_format( "Weariness: %s Max Full Exert: %s Mult: %g\nBMR: %d %s Thresh: %d At: %d\nCal: %d/%d Fatigue: %d Morale: %d Wgt: %d (BMI %.1f)",
+                          amt, max_act, move_mult, bmr, weary_internals, thresh, current, get_stored_kcal(),
                           get_healthy_kcal(), fatigue, morale, weight, bmi );
-}
-
-void weariness_tracker::clear()
-{
-    tracker = 0;
-    intake = 0;
-    low_activity_ticks = 0;
-    tick_counter = 0;
 }
 
 void Character::mod_stored_kcal( int nkcal, const bool ignore_weariness )
@@ -5112,15 +5095,12 @@ void Character::mod_stored_calories( int ncal, const bool ignore_weariness )
     int nkcal = ncal / 1000;
     if( nkcal > 0 ) {
         add_gained_calories( nkcal );
-        if( !ignore_weariness ) {
-            weary.intake += nkcal;
-        }
     } else {
         add_spent_calories( -nkcal );
-        // nkcal is negative, we need positive
-        if( !ignore_weariness ) {
-            weary.tracker -= nkcal;
-        }
+    }
+
+    if( !ignore_weariness ) {
+        activity_history.calorie_adjust( nkcal );
     }
     set_stored_calories( stored_calories + ncal );
 }
@@ -5528,10 +5508,15 @@ static inline int ticks_between( const time_point &from, const time_point &to,
 void Character::update_body()
 {
     update_body( calendar::turn - 1_turns, calendar::turn );
+    last_updated = calendar::turn;
 }
 
 void Character::update_body( const time_point &from, const time_point &to )
 {
+    // Early return if we already did update previously on the same turn (e.g. when loading savegame).
+    if( to <= last_updated ) {
+        return;
+    }
     if( !is_npc() ) {
         update_stamina( to_turns<int>( to - from ) );
     }
@@ -5542,19 +5527,17 @@ void Character::update_body( const time_point &from, const time_point &to )
     }
     const int five_mins = ticks_between( from, to, 5_minutes );
     if( five_mins > 0 ) {
-        try_reduce_weariness( attempted_activity_level );
-        if( !activity.is_null() ) {
-            decrease_activity_level( activity.exertion_level() );
-        } else {
-            reset_activity_level();
-        }
+        activity_history.try_reduce_weariness( base_bmr(), in_sleep_state() );
         check_needs_extremes();
         update_needs( five_mins );
         regen( five_mins );
         // Note: mend ticks once per 5 minutes, but wants rate in TURNS, not 5 minute intervals
         // TODO: change @ref med to take time_duration
         mend( five_mins * to_turns<int>( 5_minutes ) );
+        activity_history.reset_activity_level();
     }
+
+    activity_history.new_turn();
     if( ticks_between( from, to, 24_hours ) > 0 && !has_flag( json_flag_NO_MINIMAL_HEALING ) ) {
         enforce_minimum_healing();
     }
@@ -5610,6 +5593,11 @@ item *Character::best_quality_item( const quality_id &qual )
     return best_qual;
 }
 
+int Character::weariness() const
+{
+    return activity_history.weariness();
+}
+
 int Character::weary_threshold() const
 {
     const int bmr = base_bmr();
@@ -5623,13 +5611,6 @@ int Character::weary_threshold() const
     return std::max( threshold, bmr / 10 );
 }
 
-int Character::weariness() const
-{
-    if( weary.intake > weary.tracker ) {
-        return weary.tracker * 0.5;
-    }
-    return weary.tracker - weary.intake * 0.5;
-}
 
 std::pair<int, int> Character::weariness_transition_progress() const
 {
@@ -5691,7 +5672,7 @@ float Character::exertion_adjusted_move_multiplier( float level ) const
     // And any values we get that are negative or 0
     // will cause incorrect behavior
     if( level <= 0 ) {
-        level = attempted_activity_level;
+        level = activity_history.activity();
     }
     const float max = maximum_exertion_level();
     if( level < max ) {
@@ -5700,88 +5681,16 @@ float Character::exertion_adjusted_move_multiplier( float level ) const
     return max / level;
 }
 
-// Called every 5 minutes, when activity level is logged
-void Character::try_reduce_weariness( const float exertion )
-{
-    weary.tick_counter++;
-    if( exertion == NO_EXERCISE ) {
-        weary.low_activity_ticks++;
-        // Recover twice as fast at rest
-        if( in_sleep_state() ) {
-            weary.low_activity_ticks++;
-        }
-    }
-
-    const float recovery_mult = get_option<float>( "WEARY_RECOVERY_MULT" );
-
-    if( weary.low_activity_ticks >= 6 ) {
-        int reduction = weary.tracker;
-        const int bmr = base_bmr();
-        // 1/20 of whichever's bigger
-        if( bmr > reduction ) {
-            reduction = bmr * recovery_mult;
-        } else {
-            reduction *= recovery_mult;
-        }
-        weary.low_activity_ticks = 0;
-
-        weary.tracker -= reduction;
-    }
-
-    if( weary.tick_counter >= 12 ) {
-        weary.intake *= 1 - recovery_mult;
-        weary.tick_counter = 0;
-    }
-
-    // Normalize values, make sure we stay above 0
-    weary.intake = std::max( weary.intake, 0 );
-    weary.tracker = std::max( weary.tracker, 0 );
-    weary.tick_counter = std::max( weary.tick_counter, 0 );
-    weary.low_activity_ticks = std::max( weary.low_activity_ticks, 0 );
-}
-
-// Remove all this instantaneous stuff when activity tracking moves to per turn
 float Character::instantaneous_activity_level() const
 {
-    // As this is for display purposes, we want to show last turn's activity.
-    if( calendar::turn > act_turn ) {
-        return act_cursor;
-    } else {
-        return last_act;
-    }
-}
-
-// Basically, advance one turn
-void Character::reset_activity_cursor()
-{
-
-    if( calendar::turn > act_turn ) {
-        last_act = act_cursor;
-        act_cursor = NO_EXERCISE;
-        act_turn = calendar::turn;
-    } else {
-        act_cursor = NO_EXERCISE;
-    }
-}
-
-// Log the highest activity level for this turn, and advance one turn if needed
-void Character::log_instant_activity( float level )
-{
-    if( calendar::turn > act_turn ) {
-        reset_activity_cursor();
-        act_cursor = level;
-    } else if( level > act_cursor ) {
-        act_cursor = level;
-    }
+    return activity_history.instantaneous_activity_level();
 }
 
 float Character::activity_level() const
 {
     float max = maximum_exertion_level();
-    if( attempted_activity_level > max ) {
-        return max;
-    }
-    return attempted_activity_level;
+    float attempted_level = activity_history.activity();
+    return std::min( max, attempted_level );
 }
 
 void Character::update_stomach( const time_point &from, const time_point &to )
@@ -5810,7 +5719,7 @@ void Character::update_stomach( const time_point &from, const time_point &to )
 
         mod_stored_kcal( digested_to_body.nutr.kcal() );
         vitamins_mod( digested_to_body.nutr.vitamins, false );
-        log_activity_level( activity_level() );
+        log_activity_level( activity_history.average_activity() );
 
         if( !foodless && rates.hunger > 0.0f ) {
             mod_hunger( roll_remainder( rates.hunger * five_mins ) );
@@ -8463,46 +8372,23 @@ int Character::base_bmr() const
 int Character::get_bmr() const
 {
     int base_bmr_calc = base_bmr();
-    base_bmr_calc *= activity_level();
+    base_bmr_calc *= std::min( activity_history.average_activity(), maximum_exertion_level() );
     return std::ceil( enchantment_cache->modify_value( enchant_vals::mod::METABOLISM, base_bmr_calc ) );
 }
 
-void Character::increase_activity_level( float new_level )
+void Character::set_activity_level( float new_level )
 {
-    if( attempted_activity_level < new_level ) {
-        attempted_activity_level = new_level;
-    }
-    log_instant_activity( new_level );
+    activity_history.log_activity( new_level );
 }
 
-void Character::decrease_activity_level( float new_level )
-{
-    if( attempted_activity_level > new_level ) {
-        attempted_activity_level = new_level;
-    }
-    log_instant_activity( new_level );
-}
 void Character::reset_activity_level()
 {
-    attempted_activity_level = NO_EXERCISE;
-    reset_activity_cursor();
+    activity_history.reset_activity_level();
 }
 
 std::string Character::activity_level_str() const
 {
-    if( attempted_activity_level <= NO_EXERCISE ) {
-        return _( "NO_EXERCISE" );
-    } else if( attempted_activity_level <= LIGHT_EXERCISE ) {
-        return _( "LIGHT_EXERCISE" );
-    } else if( attempted_activity_level <= MODERATE_EXERCISE ) {
-        return _( "MODERATE_EXERCISE" );
-    } else if( attempted_activity_level <= BRISK_EXERCISE ) {
-        return _( "BRISK_EXERCISE" );
-    } else if( attempted_activity_level <= ACTIVE_EXERCISE ) {
-        return _( "ACTIVE_EXERCISE" );
-    } else {
-        return _( "EXTRA_EXERCISE" );
-    }
+    return activity_history.activity_level_str();
 }
 
 int Character::get_armor_bash( bodypart_id bp ) const
@@ -11049,8 +10935,13 @@ void Character::migrate_items_to_storage( bool disintegrate )
     inv->visit_items( [&]( const item * it, item * ) {
         if( disintegrate ) {
             if( try_add( *it ) == nullptr ) {
-                debugmsg( "ERROR: Could not put %s into inventory.  Check if the profession has enough space.",
-                          it->tname() );
+                std::string profession_id = "<none>";
+                if( const player *me = as_player() ) {
+                    profession_id = me->prof->ident().str();
+                }
+                debugmsg( "ERROR: Could not put %s (%s) into inventory.  Check if the "
+                          "profession (%s) has enough space.",
+                          it->tname(), it->typeId().str(), profession_id );
                 return VisitResponse::ABORT;
             }
         } else {
@@ -11315,9 +11206,10 @@ bool Character::in_sleep_state() const
 
 bool Character::has_item_with_flag( const flag_id &flag, bool need_charges ) const
 {
-    return has_item_with( [&flag, &need_charges]( const item & it ) {
+    return has_item_with( [&flag, &need_charges, this]( const item & it ) {
         if( it.is_tool() && need_charges ) {
-            return it.has_flag( flag ) && it.type->tool->max_charges ? it.charges > 0 : it.has_flag( flag );
+            return it.has_flag( flag ) && ( it.type->tool->max_charges == 0 ||
+                                            it.units_remaining( *this ) > 0 );
         }
         return it.has_flag( flag );
     } );

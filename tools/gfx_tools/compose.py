@@ -149,6 +149,7 @@ class Tileset:
         info_path = os.path.join(self.source_dir, 'tile_info.json')
         self.sprite_width = 16
         self.sprite_height = 16
+        self.pixelscale = 1
         self.info = [{}]
 
         if not os.access(info_path, os.R_OK):
@@ -158,6 +159,7 @@ class Tileset:
             self.info = json.load(file)
             self.sprite_width = self.info[0].get('width')
             self.sprite_height = self.info[0].get('height')
+            self.pixelscale = self.info[0].get('pixelscale')
 
         # TODO: self.errors
         self.error_logged = False
@@ -283,6 +285,10 @@ class Tileset:
 
             tiles_new_dict[sheet.max_index] = sheet_conf
 
+        if not main_finished:
+            create_tile_entries_for_unused(
+                self.handle_unreferenced_sprites('main'))
+
         create_tile_entries_for_unused(
             self.handle_unreferenced_sprites('filler'))
 
@@ -293,8 +299,9 @@ class Tileset:
         tiles_new.append(FALLBACK)
         output_conf = {
             'tile_info': [{
+                'pixelscale': self.pixelscale,
                 'width': self.sprite_width,
-                'height': self.sprite_height
+                'height': self.sprite_height,
             }],
             'tiles-new': tiles_new
         }

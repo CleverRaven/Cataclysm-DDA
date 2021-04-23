@@ -2223,7 +2223,9 @@
     "name": [ "Took weak antibiotic" ],
     "desc": [
       "You consumed mild antibiotic some time ago to fight off infection.\nIf you don't recover you may want to take another dose, but beware overdosage."
-    ]
+    ],
+    "max_duration": 54000,
+    "dur_add_perc": 35
   },
   {
     "type": "effect_type",
@@ -2231,7 +2233,9 @@
     "name": [ "Took antibiotic" ],
     "desc": [
       "You consumed antibiotic some time ago to fight off infection.\nIf you don't recover you may want to take another dose, but beware overdosage."
-    ]
+    ],
+    "max_duration": 54000,
+    "dur_add_perc": 25
   },
   {
     "type": "effect_type",
@@ -2239,25 +2243,33 @@
     "name": [ "Took strong antibiotic" ],
     "desc": [
       "You consumed prescription-grade antibiotic some time ago to fight off infection.\nIf you don't recover you may want to take another dose, but beware overdosage."
-    ]
+    ],
+    "max_duration": 54000,
+    "dur_add_perc": 25
   },
   {
     "type": "effect_type",
     "id": "weak_antibiotic",
     "rating": "good",
-    "blood_analysis_description": "Antibiotics"
+    "blood_analysis_description": "Antibiotics",
+    "max_duration": 43200,
+    "dur_add_perc": 25
   },
   {
     "type": "effect_type",
     "id": "antibiotic",
     "rating": "good",
-    "blood_analysis_description": "Antibiotics"
+    "blood_analysis_description": "Antibiotics",
+    "max_duration": 43200,
+    "dur_add_perc": 25
   },
   {
     "type": "effect_type",
     "id": "strong_antibiotic",
     "rating": "good",
-    "blood_analysis_description": "Antibiotics"
+    "blood_analysis_description": "Antibiotics",
+    "max_duration": 43200,
+    "dur_add_perc": 25
   },
   {
     "type": "effect_type",
@@ -2275,7 +2287,9 @@
     "int_add_val": 1,
     "max_intensity": 3,
     "base_mods": { "vomit_tick": [ 60 ], "health_chance": [ 1500 ], "health_min": [ 1 ] },
-    "scaling_mods": { "health_min": [ -1.5 ], "health_min_val": [ -2 ], "vomit_tick": [ 120 ] }
+    "scaling_mods": { "health_min": [ -1.5 ], "health_min_val": [ -2 ], "vomit_tick": [ 120 ] },
+    "max_duration": 14400,
+    "dur_add_perc": 70
   },
   {
     "type": "effect_type",
@@ -2283,7 +2297,9 @@
     "name": [ "Antifungals" ],
     "desc": [ "You are under the effects of an antifungal medicine or chemicals." ],
     "rating": "good",
-    "blood_analysis_description": "Antifungals"
+    "blood_analysis_description": "Antifungals",
+    "max_duration": 28800,
+    "dur_add_perc": 50
   },
   {
     "//": "This effect is a dummy effect for disabling certain things for a few turns after an electromagnetic pulse and does nothing on its own",

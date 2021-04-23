@@ -21,8 +21,8 @@
     "type": "TOOL",
     "name": { "str_sp": "teeth and claws" },
     "flags": [ "TRADER_AVOID" ],
-    "use_action": [ "BURROW" ],
-    "qualities": [ [ "DIG", 3 ] ]
+    "use_action": [ "DIG" ],
+    "qualities": [ [ "DIG", 2 ] ]
   },
   {
     "id": "toolset",

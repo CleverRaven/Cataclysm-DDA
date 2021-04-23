@@ -1081,6 +1081,8 @@ class Creature : public location, public viewer
 
         int throw_resist = 0;
 
+        time_point last_updated;
+
         bool fake = false;
         Creature();
         Creature( const Creature & ) = default;

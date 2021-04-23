@@ -1214,7 +1214,7 @@
     "move_cost": 0,
     "coverage": 100,
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "MINEABLE", "BLOCK_WIND" ],
-    "roof": "t_rock_floor",
+    "roof": "t_rock_floor_no_roof",
     "bash": {
       "str_min": 100,
       "str_max": 400,

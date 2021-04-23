@@ -132,8 +132,8 @@ npc::npc()
     : restock( calendar::turn_zero )
     , companion_mission_time( calendar::before_time_starts )
     , companion_mission_time_ret( calendar::before_time_starts )
-    , last_updated( calendar::turn )
 {
+    last_updated = calendar::turn;
     submap_coords = point_zero;
     position.x = -1;
     position.y = -1;

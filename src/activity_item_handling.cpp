@@ -823,7 +823,7 @@ static activity_reason_info find_base_construction(
 
     //we can't immediately build it, looking for pre-req
     used.insert( idx );
-    cata::optional<do_activity_reason> reason;
+    cata::optional<do_activity_reason> reason = { };
     construction_id pre_req_idx( -1 );
     //first step: try only constructions with the same group
     //second step: try all constructions
