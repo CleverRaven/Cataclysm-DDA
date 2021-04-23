@@ -6,9 +6,9 @@
     "terrain": [ "robot_dispatch_second" ]
   },
   {
-      "type": "start_location",
-      "id": "sloc_afs_augmentation_clinic_n3",
-      "name": "Augclinic",
-  	"terrain": [ "afs_augmentation_clinic_n3" ]
+    "type": "start_location",
+    "id": "sloc_afs_augmentation_clinic_n3",
+    "name": "Augclinic",
+    "terrain": [ "afs_augmentation_clinic_n3" ]
   }
 ]
