@@ -1663,8 +1663,11 @@ void talk_effect_fun_t::set_add_effect( const JsonObject &jo, const std::string 
     if( jo.has_bool( "force" ) ) {
         force = jo.get_bool( "force" );
     }
-    function = [is_npc, new_effect, duration, permanent, force, intensity]( const dialogue & d ) {
-        d.actor( is_npc )->add_effect( efftype_id( new_effect ), duration, permanent, force, intensity );
+    std::string target = jo.get_string( "target_part", "bp_null" );
+    function = [is_npc, new_effect, duration, target, permanent, force,
+            intensity]( const dialogue & d ) {
+        d.actor( is_npc )->add_effect( efftype_id( new_effect ), duration, target, permanent, force,
+                                       intensity );
     };
 }
 

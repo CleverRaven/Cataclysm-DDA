@@ -225,5 +225,17 @@
     "condition": { "and": [ { "u_has_bionics": "bio_sleepy" }, { "not": { "u_has_effect": "sleep" } } ] },
     "deactivate_condition": { "not": { "u_has_bionics": "bio_sleepy" } },
     "effect": [ { "u_mod_fatigue": 1 } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "bio_itchy",
+    "recurrence_min": "25 minutes",
+    "recurrence_max": "1 hours 15 minutes",
+    "condition": { "and": [ { "u_has_bionics": "bio_itchy" }, { "not": { "u_has_effect": "formication" } } ] },
+    "deactivate_condition": { "not": { "u_has_bionics": "bio_itchy" } },
+    "effect": [
+      { "message": "Your malfunctioning bionic itches!", "type": "bad" },
+      { "u_add_effect": "formication", "duration": "10 minutes", "target_part": "RANDOM" }
+    ]
   }
 ]
