@@ -1223,12 +1223,6 @@ void Character::suffer_from_bad_bionics()
         const bodypart_id &bp = random_body_part( true );
         add_effect( effect_formication, 10_minutes, bp );
     }
-    if( has_bionic( bio_glowy ) && !has_effect( effect_glowy_led ) && one_turn_in( 50_minutes ) &&
-        get_power_level() > bio_glowy->power_trigger ) {
-        add_msg_if_player( m_bad, _( "Your malfunctioning bionic starts to glow!" ) );
-        add_effect( effect_glowy_led, 5_minutes );
-        mod_power_level( -bio_glowy->power_trigger );
-    }
 }
 
 void Character::suffer_from_stimulants( const int current_stim )

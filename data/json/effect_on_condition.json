@@ -203,5 +203,18 @@
       { "u_add_effect": "shakes", "duration": "5 minutes" },
       { "u_add_power": "-25kJ" }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "bio_glowy",
+    "recurrence_min": "25 minutes",
+    "recurrence_max": "1 hours 15 minutes",
+    "condition": { "and": [ { "u_has_bionics": "bio_glowy" }, { "not": { "u_has_effect": "glowy_led" } }, { "u_has_power": "1 kJ" } ] },
+    "deactivate_condition": { "not": { "u_has_bionics": "bio_glowy" } },
+    "effect": [
+      { "message": "Your malfunctioning bionic starts to glow!", "type": "bad" },
+      { "u_add_effect": "glowy_led", "duration": "5 minutes" },
+      { "u_add_power": "-1kJ" }
+    ]
   }
 ]
