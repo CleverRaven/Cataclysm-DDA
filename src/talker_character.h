@@ -57,6 +57,7 @@ class talker_character: public talker
         int per_cur() const override;
         int pain_cur() const override;
         units::energy power_cur() const override;
+        void mod_fatigue( int amount ) override;
         bool has_trait( const trait_id &trait_to_check ) const override;
         void set_mutation( const trait_id &new_trait ) override;
         void unset_mutation( const trait_id &old_trait ) override;

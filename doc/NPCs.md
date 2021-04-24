@@ -489,6 +489,7 @@ Effect | Description
 `u_mod_pain: pain_int`<br/>`npc_mod_pain: pain_int` | Your character or the NPC will have `pain_int` added or subtracted from its pain.
 `u_add_wet: wet_int`<br/>`npc_add_wet: wet_int` | Your character or the NPC will be wet `wet_int` as if they were in the rain.
 `u_add_power: power_energy`<br/>`npc_add_power: power_energy` | Your character or the NPC will have `power_energy` added or subtracted from its bionic power.
+`u_mod_fatigue: fatigue_int`<br/>`npc_mod_fatigue: fatigue_int` | Your character or the NPC will have `fatigue_int` added or subtracted from its fatigue.
 
 #### Trade / Items
 

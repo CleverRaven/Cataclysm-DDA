@@ -1214,9 +1214,6 @@ void Character::suffer_from_bad_bionics()
     if( has_bionic( bio_leaky ) && one_turn_in( 6_minutes ) ) {
         mod_healthy_mod( -1, -200 );
     }
-    if( has_bionic( bio_sleepy ) && one_turn_in( 50_minutes ) && !in_sleep_state() ) {
-        mod_fatigue( 1 );
-    }
     if( has_bionic( bio_itchy ) && one_turn_in( 50_minutes ) && !has_effect( effect_formication ) &&
         !has_effect( effect_narcosis ) ) {
         add_msg_if_player( m_bad, _( "Your malfunctioning bionic itches!" ) );
