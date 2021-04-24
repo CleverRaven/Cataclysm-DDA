@@ -1646,8 +1646,11 @@ void talk_effect_fun_t::set_add_effect( const JsonObject &jo, const std::string 
         const std::string dur_string = jo.get_string( "duration" );
         if( dur_string == "PERMANENT" ) {
             permanent = true;
-        } else if( !dur_string.empty() && std::stoi( dur_string ) > 0 ) {
+        } else if( !dur_string.empty() && std::stoi( dur_string ) > 0 &&
+                   dur_string.find_first_not_of( "0123456789" ) == std::string::npos ) {
             duration = time_duration::from_turns( std::stoi( dur_string ) );
+        } else {
+            mandatory( jo, false, "duration", duration );
         }
     } else {
         duration = time_duration::from_turns( jo.get_int( "duration" ) );

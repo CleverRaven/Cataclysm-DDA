@@ -1211,13 +1211,6 @@ void Character::suffer_from_bad_bionics()
         get_power_level() >= get_max_power_level() * .75 ) {
         mod_str_bonus( -3 );
     }
-    if( has_bionic( bio_trip ) && one_turn_in( 50_minutes ) &&
-        !has_effect( effect_visuals ) &&
-        !has_effect( effect_narcosis ) && !in_sleep_state() ) {
-        add_msg_if_player( m_bad, _( "Your vision pixelates!" ) );
-        add_effect( effect_visuals, 10_minutes );
-        sfx::play_variant_sound( "bionics", "pixelated", 100 );
-    }
     if( has_bionic( bio_spasm ) && one_turn_in( 5_hours ) && !has_effect( effect_downed ) &&
         !has_effect( effect_narcosis ) ) {
         add_msg_if_player( m_bad,

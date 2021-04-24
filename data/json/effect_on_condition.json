@@ -151,5 +151,23 @@
       ]
     },
     "effect": [ { "message": "NIGHT_MESSAGES_3", "snippet": true } ]
+  },
+  {
+  "type": "effect_on_condition",
+    "id": "bio_trip",
+    "recurrence_min": "25 minutes",
+    "recurrence_max": "1 hours 15 minutes",
+    "condition": {
+      "and": [
+        { "u_has_bionics": "bio_trip" },
+        { "not": { "or": [ { "u_has_effect": "visuals" }, { "u_has_effect": "narcosis" } ] } }
+      ]
+    },
+    "deactivate_condition": { "not": { "u_has_bionics": "bio_trip" } },
+    "effect": [
+      { "message": "Your vision pixelates!", "type": "bad" },
+      { "sound_effect": "pixelated", "id": "bionics", "volume": 100 },
+      { "u_add_effect": "visuals", "duration": "10 minutes" }
+    ]
   }
 ]
