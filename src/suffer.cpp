@@ -1211,12 +1211,6 @@ void Character::suffer_from_bad_bionics()
         get_power_level() >= get_max_power_level() * .75 ) {
         mod_str_bonus( -3 );
     }
-    if( has_bionic( bio_shakes ) && get_power_level() > 24_kJ && one_turn_in( 2_hours ) ) {
-        add_msg_if_player( m_bad, _( "Your bionics short-circuit, causing you to tremble and shiver." ) );
-        mod_power_level( -bio_shakes->power_trigger );
-        add_effect( effect_shakes, 5_minutes );
-        sfx::play_variant_sound( "bionics", "elec_crackle_med", 100 );
-    }
     if( has_bionic( bio_leaky ) && one_turn_in( 6_minutes ) ) {
         mod_healthy_mod( -1, -200 );
     }
