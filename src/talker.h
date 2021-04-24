@@ -323,7 +323,7 @@ class talker
         virtual int pain_cur() const {
             return 0;
         }
-        virtual void mod_fatigue( int amount ) {};
+        virtual void mod_fatigue( int ) {};
         virtual bool worn_with_flag( const flag_id & ) const {
             return false;
         }
