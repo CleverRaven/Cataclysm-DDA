@@ -475,7 +475,7 @@ Effect | Description
 
 Effect | Description
 ---|---
-`u_add_effect: effect_string`, (*one of* `duration: duration_string`, `duration: duration_int`)<br/>`npc_add_effect: effect_string`, (*one of* `duration: duration_string`, `duration: duration_int`) | Your character or the NPC will gain the effect for `duration_string` or `duration_int` turns.  If `duration_string` is `"PERMANENT"`, the effect will be added permanently.
+`u_add_effect: effect_string`, (*one of* `duration: duration_string`, `duration: duration_int`),(*optional* `target_part: target_part_string`, `intensity: intensity_int`)<br/>`npc_add_effect: effect_string`, (*one of* `duration: duration_string`, `duration: duration_int`), (*optional* `force: force_bool`, `intensity: intensity_int`) | Your character or the NPC will gain the effect for `duration_string` or `duration_int` turns at intensity `intensity_int` or 0 if it was not supplied. If `force_bool` is true(defaults false) immunity will be ignored. If `duration_string` is `"PERMANENT"`, the effect will be added permanently.
 `u_add_trait: trait_string`<br/>`npc_add_trait: trait_string` | Your character or the NPC will gain the trait.
 `u_lose_effect: effect_string`<br/>`npc_lose_effect: effect_string` | Your character or the NPC will lose the effect if they have it.
 `u_lose_trait: trait_string`<br/>`npc_lose_trait: trait_string` | Your character or the NPC will lose the trait.

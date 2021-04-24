@@ -1211,17 +1211,7 @@ void Character::suffer_from_bad_bionics()
         get_power_level() >= get_max_power_level() * .75 ) {
         mod_str_bonus( -3 );
     }
-    if( has_bionic( bio_spasm ) && one_turn_in( 5_hours ) && !has_effect( effect_downed ) &&
-        !has_effect( effect_narcosis ) ) {
-        add_msg_if_player( m_bad,
-                           _( "Your malfunctioning bionic causes you to spasm and fall to the floor!" ) );
-        mod_pain( 1 );
-        add_effect( effect_stunned, 1_turns );
-        add_effect( effect_downed, 1_turns, false, 0, true );
-        sfx::play_variant_sound( "bionics", "elec_crackle_high", 100 );
-    }
-    if( has_bionic( bio_shakes ) && get_power_level() > bio_shakes->power_trigger &&
-        one_turn_in( 2_hours ) ) {
+    if( has_bionic( bio_shakes ) && get_power_level() > 24_kJ && one_turn_in( 2_hours ) ) {
         add_msg_if_player( m_bad, _( "Your bionics short-circuit, causing you to tremble and shiver." ) );
         mod_power_level( -bio_shakes->power_trigger );
         add_effect( effect_shakes, 5_minutes );
