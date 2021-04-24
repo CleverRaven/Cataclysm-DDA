@@ -535,7 +535,8 @@ const recipe *select_crafting_recipe( int &batch_size_out )
 
         const int max_recipe_name_width = 27;
         cata::optional<point> cursor_pos;
-        int recmin = 0, recmax = current.size();
+        int recmin = 0;
+        int recmax = current.size();
         if( recmax > dataLines ) {
             if( line <= recmin + dataHalfLines ) {
                 for( int i = recmin; i < recmin + dataLines; ++i ) {

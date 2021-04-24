@@ -3029,7 +3029,8 @@ class colony : private element_allocator_type
             using diff_type = typename iterator_type::difference_type;
             diff_type distance = 0;
 
-            iterator_type iterator1 = first, iterator2 = last;
+            iterator_type iterator1 = first;
+            iterator_type iterator2 = last;
             const bool swap = first > last;
 
             if( swap ) { // Less common case

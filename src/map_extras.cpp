@@ -1054,7 +1054,6 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
 
     const int num_mines = rng( 6, 20 );
     const std::string text = _( "DANGER!  MINEFIELD!" );
-    int x, y, x1, y1 = 0;
 
     bool did_something = false;
 
@@ -1127,7 +1126,8 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         //Spawn 6-20 mines in the lower submap.
         //Spawn ordinary mine on asphalt, otherwise spawn buried mine
         for( int i = 0; i < num_mines; i++ ) {
-            const int x = rng( 3, SEEX * 2 - 4 ), y = rng( SEEY, SEEY * 2 - 2 );
+            const int x = rng( 3, SEEX * 2 - 4 );
+            const int y = rng( SEEY, SEEY * 2 - 2 );
             if( m.has_flag( flag_DIGGABLE, point( x, y ) ) ) {
                 place_trap_if_clear( m, point( x, y ), tr_landmine_buried );
             } else {
@@ -1137,7 +1137,8 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
 
         //Spawn 6-20 puddles of blood on tiles without mines
         for( int i = 0; i < num_mines; i++ ) {
-            const int x = rng( 3, SEEX * 2 - 4 ), y = rng( SEEY, SEEY * 2 - 2 );
+            const int x = rng( 3, SEEX * 2 - 4 );
+            const int y = rng( SEEY, SEEY * 2 - 2 );
             if( m.tr_at( { x, y, abs_sub.z } ).is_null() ) {
                 m.add_field( { x, y, abs_sub.z }, fd_blood, rng( 1, 3 ) );
                 //10% chance to spawn a corpse of dead people/zombie on a tile with blood
@@ -1154,8 +1155,8 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         }
 
         //Set two warning signs on the last horizontal line of the submap
-        x = rng( 3, SEEX );
-        x1 = rng( SEEX + 1, SEEX * 2 - 4 );
+        const int x = rng( 3, SEEX );
+        const int x1 = rng( SEEX + 1, SEEX * 2 - 4 );
         m.furn_set( point( x, SEEY * 2 - 1 ), furn_str_id( "f_sign_warning" ) );
         m.set_signage( tripoint( x, SEEY * 2 - 1, abs_sub.z ), text );
         m.furn_set( point( x1, SEEY * 2 - 1 ), furn_str_id( "f_sign_warning" ) );
@@ -1230,7 +1231,8 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         //Spawn 6-20 mines in the upper submap.
         //Spawn ordinary mine on asphalt, otherwise spawn buried mine
         for( int i = 0; i < num_mines; i++ ) {
-            const int x = rng( 3, SEEX * 2 - 4 ), y = rng( 1, SEEY );
+            const int x = rng( 3, SEEX * 2 - 4 );
+            const int y = rng( 1, SEEY );
             if( m.has_flag( flag_DIGGABLE, point( x, y ) ) ) {
                 place_trap_if_clear( m, point( x, y ), tr_landmine_buried );
             } else {
@@ -1240,7 +1242,8 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
 
         //Spawn 6-20 puddles of blood on tiles without mines
         for( int i = 0; i < num_mines; i++ ) {
-            const int x = rng( 3, SEEX * 2 - 4 ), y = rng( 1, SEEY );
+            const int x = rng( 3, SEEX * 2 - 4 );
+            const int y = rng( 1, SEEY );
             if( m.tr_at( { x, y, abs_sub.z } ).is_null() ) {
                 m.add_field( { x, y, abs_sub.z }, fd_blood, rng( 1, 3 ) );
                 //10% chance to spawn a corpse of dead people/zombie on a tile with blood
@@ -1257,8 +1260,8 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         }
 
         //Set two warning signs on the first horizontal line of the submap
-        x = rng( 3, SEEX );
-        x1 = rng( SEEX + 1, SEEX * 2 - 4 );
+        const int x = rng( 3, SEEX );
+        const int x1 = rng( SEEX + 1, SEEX * 2 - 4 );
         m.furn_set( point( x, 0 ), furn_str_id( "f_sign_warning" ) );
         m.set_signage( tripoint( x, 0, abs_sub.z ), text );
         m.furn_set( point( x1, 0 ), furn_str_id( "f_sign_warning" ) );
@@ -1377,7 +1380,8 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         //Spawn 6-20 mines in the rightmost submap.
         //Spawn ordinary mine on asphalt, otherwise spawn buried mine
         for( int i = 0; i < num_mines; i++ ) {
-            const int x = rng( SEEX + 1, SEEX * 2 - 2 ), y = rng( 3, SEEY * 2 - 4 );
+            const int x = rng( SEEX + 1, SEEX * 2 - 2 );
+            const int y = rng( 3, SEEY * 2 - 4 );
             if( m.has_flag( flag_DIGGABLE, point( x, y ) ) ) {
                 place_trap_if_clear( m, point( x, y ), tr_landmine_buried );
             } else {
@@ -1387,7 +1391,8 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
 
         //Spawn 6-20 puddles of blood on tiles without mines
         for( int i = 0; i < num_mines; i++ ) {
-            const int x = rng( SEEX + 1, SEEX * 2 - 2 ), y = rng( 3, SEEY * 2 - 4 );
+            const int x = rng( SEEX + 1, SEEX * 2 - 2 );
+            const int y = rng( 3, SEEY * 2 - 4 );
             if( m.tr_at( { x, y, abs_sub.z } ).is_null() ) {
                 m.add_field( { x, y, abs_sub.z }, fd_blood, rng( 1, 3 ) );
                 //10% chance to spawn a corpse of dead people/zombie on a tile with blood
@@ -1404,8 +1409,8 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         }
 
         //Set two warning signs on the last vertical line of the submap
-        y = rng( 3, SEEY );
-        y1 = rng( SEEY + 1, SEEY * 2 - 4 );
+        const int y = rng( 3, SEEY );
+        const int y1 = rng( SEEY + 1, SEEY * 2 - 4 );
         m.furn_set( point( SEEX * 2 - 1, y ), furn_str_id( "f_sign_warning" ) );
         m.set_signage( tripoint( SEEX * 2 - 1, y, abs_sub.z ), text );
         m.furn_set( point( SEEX * 2 - 1, y1 ), furn_str_id( "f_sign_warning" ) );
@@ -1516,7 +1521,8 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         //Spawn 6-20 mines in the leftmost submap.
         //Spawn ordinary mine on asphalt, otherwise spawn buried mine
         for( int i = 0; i < num_mines; i++ ) {
-            const int x = rng( 1, SEEX ), y = rng( 3, SEEY * 2 - 4 );
+            const int x = rng( 1, SEEX );
+            const int y = rng( 3, SEEY * 2 - 4 );
             if( m.has_flag( flag_DIGGABLE, point( x, y ) ) ) {
                 place_trap_if_clear( m, point( x, y ), tr_landmine_buried );
             } else {
@@ -1526,7 +1532,8 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
 
         //Spawn 6-20 puddles of blood on tiles without mines
         for( int i = 0; i < num_mines; i++ ) {
-            const int x = rng( 1, SEEX ), y = rng( 3, SEEY * 2 - 4 );
+            const int x = rng( 1, SEEX );
+            const int y = rng( 3, SEEY * 2 - 4 );
             if( m.tr_at( { x, y, abs_sub.z } ).is_null() ) {
                 m.add_field( { x, y, abs_sub.z }, fd_blood, rng( 1, 3 ) );
                 //10% chance to spawn a corpse of dead people/zombie on a tile with blood
@@ -1543,8 +1550,8 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         }
 
         //Set two warning signs on the first vertical line of the submap
-        y = rng( 3, SEEY );
-        y1 = rng( SEEY + 1, SEEY * 2 - 4 );
+        const int y = rng( 3, SEEY );
+        const int y1 = rng( SEEY + 1, SEEY * 2 - 4 );
         m.furn_set( point( 0, y ), furn_str_id( "f_sign_warning" ) );
         m.set_signage( tripoint( 0, y, abs_sub.z ), text );
         m.furn_set( point( 0, y1 ), furn_str_id( "f_sign_warning" ) );
