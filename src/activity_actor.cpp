@@ -2418,9 +2418,11 @@ void insert_item_activity_actor::finish( player_activity &act, Character &who )
                 success = result > 0;
 
                 if( success ) {
+                    item copy( it );
+                    copy.charges = result;
                     //~ %1$s: item to put in the container, %2$s: container to put item in
                     who.add_msg_if_player( string_format( _( "You put your %1$s into the %2$s." ),
-                                                          holstered_item.first->display_name( result ), holster->type->nname( 1 ) ) );
+                                                          copy.display_name(), holster->type->nname( 1 ) ) );
                     handler.add_unsealed( holster );
                     handler.unseal_pocket_containing( holstered_item.first );
                     it.charges -= result;
