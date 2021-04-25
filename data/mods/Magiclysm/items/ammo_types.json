@@ -19,6 +19,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "whiskey",
+    "name": "whiskey",
+    "default": "whiskey"
+  },
+  {
+    "type": "ammunition_type",
     "id": "mana_infused_blood",
     "name": "mana infused blood",
     "default": "mana_infused_blood"

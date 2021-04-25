@@ -45,6 +45,16 @@
     "ammo_type": "blood"
   },
   {
+    "type": "AMMO",
+    "id": "whiskey",
+    "copy-from": "whiskey",
+    "name": { "str_sp": "whiskey" },
+    "color": "red",
+    "symbol": "~",
+    "category": "fuel",
+    "ammo_type": "whiskey"
+  },
+  {
     "id": "mana_infused_blood",
     "type": "COMESTIBLE",
     "comestible_type": "MED",
