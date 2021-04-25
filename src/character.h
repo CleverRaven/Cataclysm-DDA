@@ -2518,12 +2518,12 @@ class Character : public Creature, public visitable
         /**
          * Time to craft not including speed multiplier
          */
-        int64_t base_time_to_craft( const recipe &rec, int batch_size = 1 ) const;
+        int64_t base_time_to_craft( const recipe &rec, int batch_size = 1 );
         /**
          * Expected time to craft a recipe, with assumption that multipliers stay constant.
          */
         int64_t expected_time_to_craft( const recipe &rec, int batch_size = 1,
-                                        bool in_progress = false ) const;
+                                        bool in_progress = false );
         std::vector<const item *> get_eligible_containers_for_crafting() const;
         bool check_eligible_containers_for_crafting( const recipe &rec, int batch_size = 1 ) const;
         bool can_make( const recipe *r, int batch_size = 1 );  // have components?

@@ -2211,7 +2211,7 @@ class item : public visitable
          * @param guy The character performing the disassembly
          * @return The number of moves to recursively disassemble this item
          */
-        int get_recursive_disassemble_moves( const Character &guy ) const;
+        int get_recursive_disassemble_moves( Character &guy ) const;
 
         // inherited from visitable
         VisitResponse visit_items( const std::function<VisitResponse( item *, item * )> &func ) const

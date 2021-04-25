@@ -208,13 +208,13 @@ class recipe
 
         bool has_byproducts() const;
 
-        int64_t batch_time( const Character &guy, int batch, float multiplier, size_t assistants ) const;
-        time_duration batch_duration( const Character &guy, int batch = 1, float multiplier = 1.0,
+        int64_t batch_time( Character &guy, int batch, float multiplier, size_t assistants ) const;
+        time_duration batch_duration( Character &guy, int batch = 1, float multiplier = 1.0,
                                       size_t assistants = 0 ) const;
 
-        time_duration time_to_craft( const Character &guy,
+        time_duration time_to_craft( Character &guy,
                                      recipe_time_flag flags = recipe_time_flag::none ) const;
-        int64_t time_to_craft_moves( const Character &guy,
+        int64_t time_to_craft_moves( Character &guy,
                                      recipe_time_flag flags = recipe_time_flag::none ) const;
 
         bool has_flag( const std::string &flag_name ) const;
