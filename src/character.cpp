@@ -11306,8 +11306,14 @@ int Character::available_ups() const
     if( has_active_bionic( bio_ups ) ) {
         available_charges += units::to_kilojoule( get_power_level() );
     }
-    available_charges += charges_of( itype_UPS_off );
-    available_charges += charges_of( itype_adv_UPS_off );
+
+    for( const item *i : all_items_with_flag( flag_IS_UPS ) ) {
+        if( i->typeId() == itype_adv_UPS_off ) {
+            available_charges += i->ammo_remaining() / 0.6;
+        } else {
+            available_charges += i->ammo_remaining();
+        }
+    }
 
     return available_charges;
 }

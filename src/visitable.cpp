@@ -834,7 +834,6 @@ int Character::charges_of( const itype_id &what, int limit,
     }
 
     if( what == itype_UPS ) {
-        // Crafting still uses this part
         int qty = 0;
         qty = sum_no_wrap( qty, charges_of( itype_UPS_off ) );
         qty = sum_no_wrap( qty, static_cast<int>( charges_of( itype_adv_UPS_off ) / 0.6 ) );
