@@ -1487,7 +1487,7 @@ static bool assign_spellcasting( Character &you, spell &sp, bool fake_spell )
         return false;
     }
 
-    if( you.has_effect( effect_stunned ) ) {
+    if( !sp.has_flag( spell_flag::NO_HANDS ) && you.has_effect( effect_stunned ) ) {
         add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
                  _( "You can't focus enough to cast spell." ) );
         return false;
