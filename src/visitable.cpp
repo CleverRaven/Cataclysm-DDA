@@ -171,6 +171,10 @@ bool inventory::has_quality( const quality_id &qual, int level, int qty ) const
 bool vehicle_selector::has_quality( const quality_id &qual, int level, int qty ) const
 {
     for( const auto &cursor : *this ) {
+        if( cursor.ignore_vpart ) {
+            continue;
+        }
+
         qty -= has_quality_from_vpart( cursor.veh, cursor.part, qual, level, qty );
         if( qty <= 0 ) {
             return true;
@@ -182,7 +186,9 @@ bool vehicle_selector::has_quality( const quality_id &qual, int level, int qty )
 /** @relates visitable */
 bool vehicle_cursor::has_quality( const quality_id &qual, int level, int qty ) const
 {
-    qty -= has_quality_from_vpart( veh, part, qual, level, qty );
+    if( !ignore_vpart ) {
+        qty -= has_quality_from_vpart( veh, part, qual, level, qty );
+    }
     return qty <= 0 ? true : has_quality_internal( *this, qual, level, qty ) == qty;
 }
 
@@ -278,8 +284,8 @@ int Character::max_quality( const quality_id &qual ) const
 /** @relates visitable */
 int vehicle_cursor::max_quality( const quality_id &qual ) const
 {
-    return std::max( max_quality_from_vpart( veh, part, qual ),
-                     max_quality_internal( *this, qual ) );
+    int vpart = ignore_vpart ? 0 : max_quality_from_vpart( veh, part, qual );
+    return std::max( vpart, max_quality_internal( *this, qual ) );
 }
 
 /** @relates visitable */
