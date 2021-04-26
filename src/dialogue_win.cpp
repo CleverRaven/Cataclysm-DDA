@@ -71,7 +71,7 @@ size_t dialogue_window::add_to_history( const std::string &text )
 // Empty line between lines of dialogue
 void dialogue_window::add_history_separator()
 {
-    history.push_back( "" );
+    history.emplace_back( "" );
 }
 
 void dialogue_window::print_history( const size_t hilight_lines )

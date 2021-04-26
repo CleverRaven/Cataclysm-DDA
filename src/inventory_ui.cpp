@@ -1044,8 +1044,8 @@ void inventory_column::draw( const catacurses::window &win, const point &p,
         const int hx_max = p.x + get_width() + contained_offset;
         inclusive_rectangle<point> rect = inclusive_rectangle<point>( point( x1, yy ),
                                           point( hx_max - 1, yy ) );
-        rect_entry_map.push_back( std::pair<inclusive_rectangle<point>, inventory_entry *>( rect,
-                                  &entry ) );
+        rect_entry_map.emplace_back( rect,
+                                     &entry );
 
         if( selected && visible_cells() > 1 ) {
             for( int hx = x1; hx < hx_max; ++hx ) {

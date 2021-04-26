@@ -979,7 +979,7 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
                 const std::list<item *> content_list = fuel->contents.all_items_top();
                 for( item *it : content_list ) {
                     if( !it->is_irremovable() ) {
-                        new_content.push_back( item( *it ) );
+                        new_content.emplace_back( *it );
                     }
                 }
                 fuel = items_here.erase( fuel );
@@ -1516,19 +1516,19 @@ void map::player_in_field( player &u )
                     if( !u.is_on_ground() ) {
                         switch( adjusted_intensity ) {
                             case 3:
-                                parts_burned.push_back( bodypart_id( "hand_l" ) );
-                                parts_burned.push_back( bodypart_id( "hand_r" ) );
-                                parts_burned.push_back( bodypart_id( "arm_l" ) );
-                                parts_burned.push_back( bodypart_id( "arm_r" ) );
+                                parts_burned.emplace_back( "hand_l" );
+                                parts_burned.emplace_back( "hand_r" );
+                                parts_burned.emplace_back( "arm_l" );
+                                parts_burned.emplace_back( "arm_r" );
                             /* fallthrough */
                             case 2:
-                                parts_burned.push_back( bodypart_id( "torso" ) );
+                                parts_burned.emplace_back( "torso" );
                             /* fallthrough */
                             case 1:
-                                parts_burned.push_back( bodypart_id( "foot_l" ) );
-                                parts_burned.push_back( bodypart_id( "foot_r" ) );
-                                parts_burned.push_back( bodypart_id( "leg_l" ) );
-                                parts_burned.push_back( bodypart_id( "leg_r" ) );
+                                parts_burned.emplace_back( "foot_l" );
+                                parts_burned.emplace_back( "foot_r" );
+                                parts_burned.emplace_back( "leg_l" );
+                                parts_burned.emplace_back( "leg_r" );
                         }
                     } else {
                         // Lying in the fire is BAAAD news, hits every body part.

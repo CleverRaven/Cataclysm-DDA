@@ -912,15 +912,15 @@ void veh_interact::do_install()
     for( const vpart_category &cat : vpart_category::all() ) {
         tab_list.push_back( cat );
         if( cat.get_id() == "_all" ) {
-            tab_filters.push_back( []( const vpart_info * ) {
+            tab_filters.emplace_back( []( const vpart_info * ) {
                 return true;
             } );
         } else if( cat.get_id() == "_filter" ) {
-            tab_filters.push_back( [&filter]( const vpart_info * p ) {
+            tab_filters.emplace_back( [&filter]( const vpart_info * p ) {
                 return lcmatch( p->name(), filter );
             } );
         } else {
-            tab_filters.push_back( [ &, cat = cat.get_id()]( const vpart_info * p ) {
+            tab_filters.emplace_back( [ &, cat = cat.get_id()]( const vpart_info * p ) {
                 return p->has_category( cat );
             } );
         }
