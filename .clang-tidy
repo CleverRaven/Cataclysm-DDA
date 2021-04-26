@@ -22,7 +22,7 @@
 # We prefer an almost-never-auto style.
 #
 # * modernize-use-trailing-return-type
-# An arbitrary style conventiojn we haven't adopted.
+# An arbitrary style convention we haven't adopted.
 #
 # * readability-braces-around-statements
 # Covered by astyle and buggy in clang-tidy 8.  Can enable once we have a newer
