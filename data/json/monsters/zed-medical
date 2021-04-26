@@ -16,7 +16,6 @@
     "description": "This bulging corpse is dressed like a medical professional. Its entire body bulges with distended muscles and swollen, festering wounds.",
     "copy-from": "mon_zombie_brute",
     "death_drops": "mon_zombie_medical_death_drops",
-    "color": "blue",
-    "upgrades": {  }
+    "color": "blue"
   }
 ]
