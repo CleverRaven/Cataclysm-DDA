@@ -1,6 +1,11 @@
 [
   {
     "type": "recipe",
+    "result": "folding_bicycle",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "cooked_burrito",
     "obsolete": true
   },
