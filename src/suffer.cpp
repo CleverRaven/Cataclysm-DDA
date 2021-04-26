@@ -331,7 +331,7 @@ void Character::suffer_while_awake( const int current_stim )
             add_morale( MORALE_MOODSWING, -20, -100 );
         } else {
             // 45% chance
-            add_morale( MORALE_MOODSWING, 10, 100 );
+            add_morale( MORALE_MOODSWING, 20, 100 );
         }
     }
 
