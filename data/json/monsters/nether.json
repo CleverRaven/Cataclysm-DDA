@@ -335,18 +335,7 @@
     "harvest": "gozu",
     "special_attacks": [ [ "FEAR_PARALYZE", 20 ] ],
     "death_function": [ "NORMAL" ],
-    "flags": [
-      "SEES",
-      "SMELLS",
-      "HEARS",
-      "WARM",
-      "BASHES",
-      "GROUP_BASH",
-      "ANIMAL",
-      "PATH_AVOID_DANGER_1",
-      "NO_BREATHE",
-      "PATH_AVOID_DANGER_1"
-    ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "BASHES", "GROUP_BASH", "ANIMAL", "NO_BREATHE", "PATH_AVOID_DANGER_1" ]
   },
   {
     "id": "mon_gracke",
@@ -370,9 +359,10 @@
     "melee_dice_sides": 4,
     "melee_cut": 0,
     "dodge": 4,
+    "path_settings": { "avoid_traps": true, "avoid_sharp": true },
     "harvest": "demihuman",
     "death_function": [ "NORMAL" ],
-    "flags": [ "SMELLS", "HEARS", "WARM", "NO_BREATHE", "GRABS", "PATH_AVOID_DANGER_2", "PRIORITIZE_TARGETS" ]
+    "flags": [ "SMELLS", "HEARS", "WARM", "NO_BREATHE", "GRABS", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_1" ]
   },
   {
     "id": "mon_headless_dog_thing",
@@ -614,9 +604,10 @@
     "dodge": 6,
     "vision_day": 50,
     "vision_night": 15,
+    "path_settings": { "avoid_traps": true, "avoid_sharp": true },
     "harvest": "mammal_small_fur",
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_2", "WARM", "HARDTOSHOOT" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "HARDTOSHOOT", "PATH_AVOID_DANGER_1" ]
   },
   {
     "id": "mon_shadow",
