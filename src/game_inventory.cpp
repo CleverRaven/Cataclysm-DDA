@@ -634,18 +634,14 @@ class comestible_inventory_preset : public inventory_selector_preset
             }, _( "CONSUME TIME" ) );
 
             append_cell( [this, &player_character]( const item_location & loc ) {
-                std::string sealed;
-                if( loc.has_parent() ) {
-                    item_pocket *pocket = loc.parent_item()->contained_where( * loc.get_item() );
-                    sealed = pocket->sealed() ? _( "sealed" ) : std::string();
-                }
+                std::string result = sealed( loc ) ? _( "sealed" ) : "";
                 if( player_character.can_estimate_rot() ) {
                     if( loc->is_comestible() && loc->get_comestible()->spoils > 0_turns ) {
-                        return sealed + ( sealed.empty() ? "" : " " ) + get_freshness( loc );
+                        return result + ( result.empty() ? "" : " " ) + get_freshness( loc );
                     }
                     return std::string( "---" );
                 }
-                return sealed;
+                return result;
             }, _( "FRESHNESS" ) );
 
             append_cell( [ this, &player_character ]( const item_location & loc ) {
@@ -724,9 +720,11 @@ class comestible_inventory_preset : public inventory_selector_preset
                 if( p.has_trait( trait_SAPROPHAGE ) || p.has_trait( trait_SAPROVORE ) ) {
                     return 1;
                 } else {
-                    return 4;
+                    return 5;
                 }
             } else if( time == 0_turns ) {
+                return 4;
+            } else if( sealed( loc ) ) {
                 return 3;
             } else {
                 return 2;
@@ -789,6 +787,14 @@ class comestible_inventory_preset : public inventory_selector_preset
             } else {
                 return _( "rotten" );
             }
+        }
+
+        bool sealed( const item_location &loc ) const {
+            if( loc.has_parent() ) {
+                item_pocket *pocket = loc.parent_item()->contained_where( * loc.get_item() );
+                return pocket->sealed();
+            }
+            return false;
         }
 
     private:
