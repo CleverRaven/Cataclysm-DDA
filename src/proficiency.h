@@ -137,8 +137,6 @@ struct book_proficiency_bonus {
         bool was_loaded = false;
         void deserialize( JsonIn &jsin );
 
-        book_proficiency_bonus &operator+=( const book_proficiency_bonus &rhs );
-
     private:
         static const float default_time_factor;
         static const float default_fail_factor;
