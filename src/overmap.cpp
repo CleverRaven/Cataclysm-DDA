@@ -2960,7 +2960,7 @@ void overmap::place_cities()
         // randomly make some cities smaller or larger
         int size = rng( op_city_size - 1, op_city_size + 1 );
         if( one_in( 3 ) ) {      // 33% tiny
-            size = 1;
+            size = size * 1 / 3;
         } else if( one_in( 2 ) ) { // 33% small
             size = size * 2 / 3;
         } else if( one_in( 2 ) ) { // 17% large
