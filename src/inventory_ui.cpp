@@ -2447,6 +2447,18 @@ drop_locations inventory_iuse_selector::execute()
 {
     shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
 
+    auto is_entry = []( const inventory_entry & elem ) {
+        return elem.is_selectable();
+    };
+    for( inventory_column *col : get_all_columns() ) {
+        if( col->allows_selecting() ) {
+            for( inventory_entry *ie : col->get_entries( is_entry ) ) {
+                for( item_location x : ie->locations ) {
+                    usable_locs.push_back( x );
+                }
+            }
+        }
+    }
     int count = 0;
     while( true ) {
         ui_manager::redraw();
@@ -2510,6 +2522,7 @@ drop_locations inventory_iuse_selector::execute()
 void inventory_iuse_selector::set_chosen_count( inventory_entry &entry, size_t count )
 {
     const item_location &it = entry.any_item();
+    std::map<const item_location *, int> temp_use;
 
     if( count == 0 ) {
         entry.chosen_count = 0;
@@ -2519,14 +2532,22 @@ void inventory_iuse_selector::set_chosen_count( inventory_entry &entry, size_t c
     } else {
         entry.chosen_count = std::min( std::min( count, max_chosen_count ), entry.get_available_count() );
         if( it->count_by_charges() ) {
-            to_use[&it] = entry.chosen_count;
+            temp_use[&it] = entry.chosen_count;
         } else {
             for( const item_location &loc : entry.locations ) {
                 if( count == 0 ) {
                     break;
                 }
-                to_use[&loc] = 1;
+                temp_use[&loc] = 1;
                 count--;
+            }
+        }
+    }
+    // Optimisation to reduce the scale of looping if otherwise done in the preceeding code.
+    for( auto iter : temp_use ) {
+        for( item_location &x : usable_locs ) {
+            if( x == *iter.first ) {
+                to_use[&x] = iter.second;
             }
         }
     }
