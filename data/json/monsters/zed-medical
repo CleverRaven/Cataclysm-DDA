@@ -1,0 +1,22 @@
+[
+  {
+    "id": "mon_zombie_medical",
+    "type": "MONSTER",
+    "name": { "str": "zombie medic" },
+    "description": "This shambling corpse is dressed like a medical professional.  Either it was a doctor or only played one on TV.",
+    "copy-from": "mon_zombie",
+    "death_drops": "mon_zombie_medical_death_drops",
+    "color": "blue",
+    "upgrades": { "half_life": 14, "into": "mon_zombie_medical_brute" }
+  },
+  {
+    "id": "mon_zombie_medical_brute",
+    "type": "MONSTER",
+    "name": { "str": "medical horror" },
+    "description": "This bulging corpse is dressed like a medical professional. Its entire body bulges with distended muscles and swollen, festering wounds.",
+    "copy-from": "mon_zombie_brute",
+    "death_drops": "mon_zombie_medical_death_drops",
+    "color": "blue",
+    "upgrades": {  }
+  }
+]
