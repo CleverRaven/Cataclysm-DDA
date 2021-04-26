@@ -2624,11 +2624,15 @@ const player *player::get_book_reader( const item &book, std::vector<std::string
         return this;
     }
 
+    if( ! is_player() ) {
+        // NPCs are too proud to ask for help, perhaps someday they will not be
+        return nullptr;
+    }
+
     //Check for NPCs to read for you, negates Illiterate and Far Sighted
     //The fastest-reading NPC is chosen
     if( is_deaf() ) {
-        reasons.emplace_back( is_player() ? _( "Maybe someone could read that to you, but you're deaf!" )
-                              : string_format( _( "Maybe someone could read that to %s, but they're deaf!" ), disp_name() ) );
+        reasons.emplace_back( _( "Maybe someone could read that to you, but you're deaf!" ) );
         return nullptr;
     }
 
