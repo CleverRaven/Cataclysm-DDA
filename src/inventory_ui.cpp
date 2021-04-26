@@ -2453,7 +2453,7 @@ drop_locations inventory_iuse_selector::execute()
     for( inventory_column *col : get_all_columns() ) {
         if( col->allows_selecting() ) {
             for( inventory_entry *ie : col->get_entries( is_entry ) ) {
-                for( item_location x : ie->locations ) {
+                for( item_location const &x : ie->locations ) {
                     usable_locs.push_back( x );
                 }
             }
