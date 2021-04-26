@@ -114,7 +114,7 @@
     "copy-from": "flask_hip",
     "price_postapoc": "850 USD",
     "category": "clothing",
-    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "24 h", "regenerate_ammo": true } },
+    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "4 h", "regenerate_ammo": true } },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "watertight": true, "ammo_restriction": { "whiskey": 7 } } ]
   },
   {
