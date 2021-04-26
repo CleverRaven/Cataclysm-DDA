@@ -328,7 +328,7 @@ void Character::suffer_while_awake( const int current_stim )
     if( has_trait( trait_MOODSWINGS ) && one_turn_in( 6_hours ) ) {
         if( rng( 1, 20 ) > 9 ) {
             // 55% chance
-            add_morale( MORALE_MOODSWING, -10, -100 );
+            add_morale( MORALE_MOODSWING, -20, -100 );
         } else {
             // 45% chance
             add_morale( MORALE_MOODSWING, 10, 100 );
