@@ -7,7 +7,7 @@
     "copy-from": "mon_zombie",
     "death_drops": "mon_zombie_medical_death_drops",
     "color": "blue",
-    "upgrades": { "half_life": 14, "into": "mon_zombie_medical_brute" }
+    "upgrades": { "half_life": 14, "into_group": "GROUP_MEDICAL_UPGRADE" }
   },
   {
     "id": "mon_zombie_medical_brute",
