@@ -78,7 +78,7 @@ effect_on_condition_id effect_on_conditions::load_inline_eoc( const JsonValue &j
         effect_on_condition_factory.insert( inline_eoc );
         return effect_on_condition_id( inline_id );
     } else {
-        jv.throw_error( "effect_on_condition needs to be either string or effect_on_condition object." );
+        jv.throw_error( "effect_on_condition needs to be either a string or an effect_on_condition object." );
     }
 }
 

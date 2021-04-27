@@ -253,7 +253,7 @@
           {
             "condition": { "not": "u_is_deaf" },
             "effect": [
-              { "message": "A bionic emits a crackle of noise!", "type": "bad" },
+              { "message": "Your faulty bionic emits a crackle of noise!", "type": "bad" },
               { "sound_effect": "elec_blast", "id": "bionics", "volume": 100 }
             ]
           },
