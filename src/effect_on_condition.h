@@ -8,6 +8,7 @@
 #include "calendar.h"
 #include "dialogue.h"
 #include "json.h"
+#include "optional.h"
 #include "type_id.h"
 
 template<typename T>
@@ -45,13 +46,15 @@ struct effect_on_condition {
         time_duration recurrence_max = 1_seconds;
         bool activate( dialogue &d ) const;
         bool check_deactivate() const;
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, const std::string &src,
+                   const cata::optional<std::string> &inline_id = cata::nullopt );
         void finalize();
         void check() const;
         effect_on_condition() = default;
 };
 namespace effect_on_conditions
 {
+static int inline_count = 0;
 /** Get all currently loaded effect_on_conditions */
 const std::vector<effect_on_condition> &get_all();
 /** Finalize all loaded effect_on_conditions */
@@ -64,6 +67,8 @@ void load( const JsonObject &jo, const std::string &src );
 void check_consistency();
 /** Sets up the initial queue for a new character */
 void load_new_character();
+/** Loads an inline eoc */
+effect_on_condition_id load_inline_eoc( const JsonValue &jv, const std::string &src );
 /** queue an eoc to happen in the future */
 void queue_effect_on_condition( time_duration duration, effect_on_condition_id eoc );
 /** called every turn to process the queued eocs */

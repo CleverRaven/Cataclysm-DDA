@@ -1187,18 +1187,6 @@ void Character::suffer_from_bad_bionics()
         sfx::play_variant_sound( "bionics", "acid_discharge", 100 );
         sfx::do_player_death_hurt( get_player_character(), false );
     }
-    if( has_bionic( bio_noise ) && one_turn_in( 50_minutes ) &&
-        !has_effect( effect_narcosis ) ) {
-        // TODO: NPCs with said bionic
-        if( !is_deaf() ) {
-            add_msg( m_bad, _( "A bionic emits a crackle of noise!" ) );
-            sfx::play_variant_sound( "bionics", "elec_blast", 100 );
-        } else {
-            add_msg_if_player( m_bad, _( "You feel your faulty bionic shuddering." ) );
-            sfx::play_variant_sound( "bionics", "elec_blast_muffled", 100 );
-        }
-        sounds::sound( pos(), 60, sounds::sound_t::movement, _( "Crackle!" ) ); //sfx above
-    }
     if( has_bionic( bio_power_weakness ) && has_max_power() &&
         get_power_level() >= get_max_power_level() * .75 ) {
         mod_str_bonus( -3 );
