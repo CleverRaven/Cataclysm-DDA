@@ -40,7 +40,7 @@ static const itype_id itype_hotplate( "hotplate" );
 
 recipe::recipe() : skill_used( skill_id::NULL_ID() ) {}
 
-time_duration recipe::batch_duration( Character &guy, int batch, float multiplier,
+time_duration recipe::batch_duration( const Character &guy, int batch, float multiplier,
                                       size_t assistants ) const
 {
     return time_duration::from_turns( batch_time( guy, batch, multiplier, assistants ) / 100 );
@@ -57,12 +57,12 @@ static bool helpers_have_proficiencies( const Character &guy, const proficiency_
     return false;
 }
 
-time_duration recipe::time_to_craft( Character &guy, recipe_time_flag flags ) const
+time_duration recipe::time_to_craft( const Character &guy, recipe_time_flag flags ) const
 {
     return time_duration::from_moves( time_to_craft_moves( guy, flags ) );
 }
 
-int64_t recipe::time_to_craft_moves( Character &guy, recipe_time_flag flags ) const
+int64_t recipe::time_to_craft_moves( const Character &guy, recipe_time_flag flags ) const
 {
     if( flags == recipe_time_flag::ignore_proficiencies ) {
         return time;
@@ -70,7 +70,7 @@ int64_t recipe::time_to_craft_moves( Character &guy, recipe_time_flag flags ) co
     return time * proficiency_time_maluses( guy );
 }
 
-int64_t recipe::batch_time( Character &guy, int batch, float multiplier,
+int64_t recipe::batch_time( const Character &guy, int batch, float multiplier,
                             size_t assistants ) const
 {
     // 1.0f is full speed
@@ -649,7 +649,7 @@ std::string recipe::used_proficiencies_string( const Character *c ) const
     return used;
 }
 
-std::string recipe::missing_proficiencies_string( Character *c ) const
+std::string recipe::missing_proficiencies_string( const Character *c ) const
 {
     if( c == nullptr ) {
         return { };
@@ -729,7 +729,7 @@ std::set<proficiency_id> recipe::assist_proficiencies() const
     return ret;
 }
 
-float recipe::proficiency_time_maluses( Character &guy ) const
+float recipe::proficiency_time_maluses( const Character &guy ) const
 {
     float total_malus = 1.0f;
     for( const recipe_proficiency &prof : proficiencies ) {
@@ -743,7 +743,7 @@ float recipe::proficiency_time_maluses( Character &guy ) const
     return total_malus;
 }
 
-float recipe::proficiency_failure_maluses( Character &guy ) const
+float recipe::proficiency_failure_maluses( const Character &guy ) const
 {
     float total_malus = 1.0f;
     for( const recipe_proficiency &prof : proficiencies ) {

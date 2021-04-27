@@ -1703,6 +1703,10 @@ std::unique_ptr<activity_actor> unload_activity_actor::deserialize( JsonIn &jsin
 craft_activity_actor::craft_activity_actor( item_location &it, const bool is_long ) :
     craft_item( it ), is_long( is_long )
 {
+    cached_crafting_speed = 0;
+    cached_assistants = 0;
+    cached_base_total_moves = 1;
+    cached_cur_total_moves = 1;
 }
 
 bool craft_activity_actor::check_if_craft_okay( item_location &craft_item, Character &crafter )
@@ -1739,9 +1743,6 @@ void craft_activity_actor::start( player_activity &act, Character &crafter )
     act.moves_left = calendar::INDEFINITELY_LONG;
     activity_override = craft_item.get_item()->get_making().exertion_level();
     cached_crafting_speed = 0;
-    cached_assistants = 0;
-    cached_base_total_moves = 1;
-    cached_cur_total_moves = 1;
 }
 
 void craft_activity_actor::do_turn( player_activity &act, Character &crafter )

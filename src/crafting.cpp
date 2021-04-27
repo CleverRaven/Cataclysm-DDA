@@ -375,17 +375,10 @@ int Character::available_assistant_count( const recipe &rec ) const
     } );
 }
 
-int64_t Character::base_time_to_craft( const recipe &rec, int batch_size )
+int64_t Character::expected_time_to_craft( const recipe &rec, int batch_size ) const
 {
     const size_t assistants = available_assistant_count( rec );
-    return rec.batch_time( *this, batch_size, 1.0f, assistants );
-}
-
-int64_t Character::expected_time_to_craft( const recipe &rec, int batch_size,
-        bool in_progress )
-{
-    const size_t assistants = available_assistant_count( rec );
-    float modifier = crafting_speed_multiplier( rec, in_progress );
+    float modifier = crafting_speed_multiplier( rec );
     return rec.batch_time( *this, batch_size, modifier, assistants );
 }
 
@@ -536,13 +529,13 @@ bool Character::can_start_craft( const recipe *rec, recipe_filter_flags flags, i
                inv, rec->get_component_filter( flags ), batch_size, craft_flags::start_only );
 }
 
-const inventory &Character::crafting_inventory( bool clear_path )
+const inventory &Character::crafting_inventory( bool clear_path ) const
 {
     return crafting_inventory( tripoint_zero, PICKUP_RANGE, clear_path );
 }
 
 const inventory &Character::crafting_inventory( const tripoint &src_pos, int radius,
-        bool clear_path )
+        bool clear_path ) const
 {
     tripoint inv_pos = src_pos;
     if( src_pos == tripoint_zero ) {
@@ -561,7 +554,7 @@ const inventory &Character::crafting_inventory( const tripoint &src_pos, int rad
         cached_crafting_inventory->form_from_map( inv_pos, radius, this, false, clear_path );
     }
 
-    for( const item_location &it : all_items_loc() ) {
+    for( const item_location &it : const_cast<Character *>( this )->all_items_loc() ) {
         // can't craft with containers that have items in them
         if( !it->contents.empty_container() ) {
             continue;
@@ -1020,14 +1013,7 @@ double Character::crafting_success_roll( const recipe &making ) const
         return 2;
     }
 
-    float prof_multiplier = 1.0f;
-    for( const recipe_proficiency &recip : making.proficiencies ) {
-        if( !recip.required && !has_proficiency( recip.id ) ) {
-            prof_multiplier *= recip.fail_multiplier;
-        }
-    }
-
-    return ( skill_roll / diff_roll ) / prof_multiplier;
+    return ( skill_roll / diff_roll ) / making.proficiency_failure_maluses( *this );
 }
 
 int item::get_next_failure_point() const
