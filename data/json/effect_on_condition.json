@@ -80,7 +80,7 @@
     "id": "bio_drain",
     "recurrence_min": "30 minutes",
     "recurrence_max": "1 hours 30 minutes",
-    "condition": { "and": [ { "u_has_bionics": "bio_drain" }, { "u_has_power": "24 kJ" } ] },
+    "condition": { "and": [ { "u_has_bionics": "bio_drain" }, { "u_has_power": "25 kJ" } ] },
     "deactivate_condition": { "not": { "u_has_bionics": "bio_drain" } },
     "effect": [
       { "message": "Your batteries discharge slightly.", "type": "bad" },
@@ -195,7 +195,7 @@
     "id": "bio_shakes",
     "recurrence_min": "1 hours",
     "recurrence_max": "3 hours",
-    "condition": { "and": [ { "u_has_bionics": "bio_shakes" }, { "u_has_power": "24 kJ" } ] },
+    "condition": { "and": [ { "u_has_bionics": "bio_shakes" }, { "u_has_power": "25 kJ" } ] },
     "deactivate_condition": { "not": { "u_has_bionics": "bio_shakes" } },
     "effect": [
       { "message": "Your bionics short-circuit, causing you to tremble and shiver.", "type": "bad" },
