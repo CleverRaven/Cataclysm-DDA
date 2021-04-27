@@ -68,6 +68,21 @@
   },
   {
     "type": "monstergroup",
+    "name": "GROUP_MEDICAL_UPGRADE",
+    "default": "mon_zombie_medical_brute",
+    "//": "Masters pick from here when upgrading.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
+    "monsters": [
+      { "monster": "mon_zombie_medical_brute", "freq": 300, "cost_multiplier": 2 },
+      { "monster": "mon_boomer", "freq": 200, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_hollow", "freq": 100, "cost_multiplier": 1 },
+      { "monster": "mon_skeleton_medical", "freq": 200, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_medical_acidic", "freq": 100, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_medical_pupa", "freq": 50, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_pupa_medical_decoy", "freq": 50, "cost_multiplier": 2 }
+    ]
+  },
+  {
+    "type": "monstergroup",
     "name": "GROUP_ZOMBIE_BRUTE",
     "default": "mon_zombie_brute",
     "//": "Brute upgrades.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
