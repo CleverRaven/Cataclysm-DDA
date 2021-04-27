@@ -19,7 +19,7 @@
 # that's fine.
 #
 # * modernize-use-auto
-# We prefer an almost-never-auto style.
+# We prefer an almost-always-avoid-auto style.
 #
 # * modernize-use-trailing-return-type
 # An arbitrary style convention we haven't adopted.
