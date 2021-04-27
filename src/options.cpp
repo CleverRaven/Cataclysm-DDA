@@ -2114,22 +2114,22 @@ void options_manager::add_options_world_default()
     add( "MONSTER_VISION", "world_default", to_translation( "Monster vision" ),
          to_translation( "Determines how far monsters can see.  A higher value makes monsters see from further away and a lower makes them less perceptive.  Requires world reset." ),
          1, 1000, 100, COPT_NO_HIDE, "%i%%"
-    );
+       );
 
     add( "MONSTER_ATTACK", "world_default", to_translation( "Monster attack" ),
          to_translation( "Determines how much damage monsters deal.  A higher value makes monsters more dangerous and a lower makes them less dangerous.  Requires world reset." ),
          1, 1000, 100, COPT_NO_HIDE, "%i%%"
-    );
+       );
 
     add( "MONSTER_ARMOR", "world_default", to_translation( "Monster armor" ),
          to_translation( "Determines how much damage monsters can ignore.  A higher value makes monsters more resistant and a lower makes them easier to harm.  Requires world reset." ),
          1, 1000, 100, COPT_NO_HIDE, "%i%%"
-    );
+       );
 
     add( "MONSTER_SPECIAL_CHANCE", "world_default", to_translation( "Monster special attack chance" ),
          to_translation( "Determines how often monsters use their special attacks.  A higher value makes monsters use them more often and a lower makes them rarer.  Requires world reset." ),
          1, 1000, 100, COPT_NO_HIDE, "%i%%"
-    );
+       );
 
     add_empty_line();
 
