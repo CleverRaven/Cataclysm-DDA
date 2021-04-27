@@ -54,7 +54,6 @@ struct effect_on_condition {
 };
 namespace effect_on_conditions
 {
-static int inline_count = 0;
 /** Get all currently loaded effect_on_conditions */
 const std::vector<effect_on_condition> &get_all();
 /** Finalize all loaded effect_on_conditions */

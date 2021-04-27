@@ -9,6 +9,8 @@
 #include "talker.h"
 #include "type_id.h"
 
+static int inline_count = 0;
+
 namespace
 {
 generic_factory<effect_on_condition>
