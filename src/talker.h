@@ -332,5 +332,7 @@ class talker
         virtual units::energy power_cur() const {
             return 0_kJ;
         }
+        virtual void mod_power_level( units::energy ) {};
+        virtual void mod_healthy_mod( int, int ) {};
 };
 #endif // CATA_SRC_TALKER_H

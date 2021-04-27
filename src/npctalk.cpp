@@ -2199,10 +2199,20 @@ void talk_effect_fun_t::set_add_power( const JsonObject &jo, const std::string &
     units::energy amount;
     assign( jo, member, amount, false );
     function = [is_npc, amount]( const dialogue & d ) {
-        Character *target = d.actor( is_npc )->get_character();
-        if( target ) {
-            target->mod_power_level( amount );
-        }
+        d.actor( is_npc )->mod_power_level( amount );
+    };
+}
+
+void talk_effect_fun_t::set_mod_healthy( const JsonObject &jo, const std::string &member,
+        bool is_npc )
+{
+    int amount;
+    int cap;
+    mandatory( jo, false, member, amount );
+    mandatory( jo, false, "cap", cap );
+
+    function = [is_npc, amount, cap]( const dialogue & d ) {
+        d.actor( is_npc )->mod_healthy_mod( amount, cap );
     };
 }
 
@@ -2569,6 +2579,10 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_make_sound( jo, "npc_make_sound", true );
     } else if( jo.has_array( "set_queue_effect_on_condition" ) ) {
         subeffect_fun.set_queue_effect_on_condition( jo, "set_queue_effect_on_condition" );
+    } else if( jo.has_member( "u_mod_healthy" ) ) {
+        subeffect_fun.set_mod_healthy( jo, "u_mod_healthy", false );
+    } else if( jo.has_member( "npc_mod_healthy" ) ) {
+        subeffect_fun.set_mod_healthy( jo, "npc_mod_healthy", true );
     } else {
         jo.throw_error( "invalid sub effect syntax: " + jo.str() );
     }

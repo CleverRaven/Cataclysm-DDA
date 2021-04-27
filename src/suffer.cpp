@@ -1190,8 +1190,43 @@ void Character::suffer_from_bad_bionics()
         get_power_level() >= get_max_power_level() * .75 ) {
         mod_str_bonus( -3 );
     }
-    if( has_bionic( bio_leaky ) && one_turn_in( 6_minutes ) ) {
-        mod_healthy_mod( -1, -200 );
+    if( has_bionic( bio_trip ) && one_turn_in( 50_minutes ) &&
+        !has_effect( effect_visuals ) &&
+        !has_effect( effect_narcosis ) && !in_sleep_state() ) {
+        add_msg_if_player( m_bad, _( "Your vision pixelates!" ) );
+        add_effect( effect_visuals, 10_minutes );
+        sfx::play_variant_sound( "bionics", "pixelated", 100 );
+    }
+    if( has_bionic( bio_spasm ) && one_turn_in( 5_hours ) && !has_effect( effect_downed ) &&
+        !has_effect( effect_narcosis ) ) {
+        add_msg_if_player( m_bad,
+                           _( "Your malfunctioning bionic causes you to spasm and fall to the floor!" ) );
+        mod_pain( 1 );
+        add_effect( effect_stunned, 1_turns );
+        add_effect( effect_downed, 1_turns, false, 0, true );
+        sfx::play_variant_sound( "bionics", "elec_crackle_high", 100 );
+    }
+    if( has_bionic( bio_shakes ) && get_power_level() > bio_shakes->power_trigger &&
+        one_turn_in( 2_hours ) ) {
+        add_msg_if_player( m_bad, _( "Your bionics short-circuit, causing you to tremble and shiver." ) );
+        mod_power_level( -bio_shakes->power_trigger );
+        add_effect( effect_shakes, 5_minutes );
+        sfx::play_variant_sound( "bionics", "elec_crackle_med", 100 );
+    }
+    if( has_bionic( bio_sleepy ) && one_turn_in( 50_minutes ) && !in_sleep_state() ) {
+        mod_fatigue( 1 );
+    }
+    if( has_bionic( bio_itchy ) && one_turn_in( 50_minutes ) && !has_effect( effect_formication ) &&
+        !has_effect( effect_narcosis ) ) {
+        add_msg_if_player( m_bad, _( "Your malfunctioning bionic itches!" ) );
+        const bodypart_id &bp = random_body_part( true );
+        add_effect( effect_formication, 10_minutes, bp );
+    }
+    if( has_bionic( bio_glowy ) && !has_effect( effect_glowy_led ) && one_turn_in( 50_minutes ) &&
+        get_power_level() > bio_glowy->power_trigger ) {
+        add_msg_if_player( m_bad, _( "Your malfunctioning bionic starts to glow!" ) );
+        add_effect( effect_glowy_led, 5_minutes );
+        mod_power_level( -bio_glowy->power_trigger );
     }
 }
 
