@@ -199,7 +199,7 @@
     "type": "MONSTER",
     "id": "mon_zyrannosaurus_chain",
     "//": "Special monster for Old Guard questline",
-    "name": { "str": "chained Pachycephalosaurus zombie" },
+    "name": { "str": "chained Tyrannosaurus zombie" },
     "copy-from": "mon_zyrannosaurus",
     "description": "A massive dinosaur corpse with enormous teeth wrapped with heavy chains to allow some control.",
     "upgrades": {  },
