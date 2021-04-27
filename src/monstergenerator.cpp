@@ -380,8 +380,25 @@ void MonsterGenerator::finalize_mtypes()
         mon.size = volume_to_size( mon.volume );
 
         // adjust for worldgen difficulty parameters
-        mon.speed *= get_option<int>( "MONSTER_SPEED" )      / 100.0;
-        mon.hp    *= get_option<int>( "MONSTER_RESILIENCE" ) / 100.0;
+        mon.speed           *= get_option<int>( "MONSTER_SPEED" )      / 100.0;
+        mon.hp              *= get_option<int>( "MONSTER_RESILIENCE" ) / 100.0;
+        mon.vision_day      *= get_option<int>( "MONSTER_VISION" ) / 100.0;
+        mon.vision_night    *= get_option<int>( "MONSTER_VISION" ) / 100.0;
+        mon.melee_sides     *= get_option<int>( "MONSTER_ATTACK" ) / 100.0;
+        for( auto damage = mon.melee_damage.begin(); damage != mon.melee_damage.end(); damage++ ) {
+            damage->damage_multiplier *= get_option<int>( "MONSTER_ATTACK" ) / 100.0;
+        }
+        mon.armor_bash      *= get_option<int>( "MONSTER_ARMOR" ) / 100.0;
+        mon.armor_cut       *= get_option<int>( "MONSTER_ARMOR" ) / 100.0;
+        mon.armor_bullet    *= get_option<int>( "MONSTER_ARMOR" ) / 100.0;
+        mon.armor_acid      *= get_option<int>( "MONSTER_ARMOR" ) / 100.0;
+        mon.armor_fire      *= get_option<int>( "MONSTER_ARMOR" ) / 100.0;
+        mon.armor_stab      *= get_option<int>( "MONSTER_ARMOR" ) / 100.0;
+        mon.def_chance      *= get_option<int>( "MONSTER_SPECIAL_CHANCE" ) / 100.0;
+
+        //for( auto atac = mon.special_attacks.begin(); atac != mon.special_attacks.end(); atac++ ) {
+        //    atac->second->cooldown *= get_option<int>( "MONSTER_SPECIAL_CHANCE" ) / 100.0;
+        //}
 
         for( monster_adjustment adj : adjustments ) {
             adj.apply( mon );
@@ -808,6 +825,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     int bonus_cut = 0;
     if( jo.has_int( "melee_cut" ) ) {
         bonus_cut = jo.get_int( "melee_cut" );
+        bonus_cut    *= get_option<int>( "MONSTER_ATTACK" ) / 100.0;
         melee_damage.add_damage( damage_type::CUT, bonus_cut );
     }
 
