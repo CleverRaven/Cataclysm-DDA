@@ -385,8 +385,8 @@ void MonsterGenerator::finalize_mtypes()
         mon.vision_day      *= get_option<int>( "MONSTER_VISION" ) / 100.0;
         mon.vision_night    *= get_option<int>( "MONSTER_VISION" ) / 100.0;
         mon.melee_sides     *= get_option<int>( "MONSTER_ATTACK" ) / 100.0;
-        for( auto damage = mon.melee_damage.begin(); damage != mon.melee_damage.end(); damage++ ) {
-            damage->damage_multiplier *= get_option<int>( "MONSTER_ATTACK" ) / 100.0;
+        for( auto &damage : mon.melee_damage ) {
+            damage.damage_multiplier *= get_option<int>( "MONSTER_ATTACK" ) / 100.0;
         }
         mon.armor_bash      *= get_option<int>( "MONSTER_ARMOR" ) / 100.0;
         mon.armor_cut       *= get_option<int>( "MONSTER_ARMOR" ) / 100.0;
