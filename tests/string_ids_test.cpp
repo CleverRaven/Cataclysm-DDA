@@ -6,7 +6,7 @@
 #include <utility>
 #include <vector>
 
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "field_type.h"
 #include "string_id_utils.h"
 #include "type_id.h"

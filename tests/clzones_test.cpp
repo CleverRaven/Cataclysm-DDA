@@ -1,7 +1,7 @@
 #include <iosfwd>
 #include <vector>
 
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "clzones.h"
 #include "item.h"
 #include "item_category.h"
