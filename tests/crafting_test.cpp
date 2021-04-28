@@ -14,7 +14,7 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_utility.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "character.h"
 #include "game.h"
 #include "inventory.h"

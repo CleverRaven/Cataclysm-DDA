@@ -10,7 +10,7 @@
 
 #include "activity_actor_definitions.h"
 #include "avatar.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"

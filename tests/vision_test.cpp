@@ -8,7 +8,7 @@
 
 #include "cached_options.h"
 #include "calendar.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "character.h"
 #include "game.h"
 #include "item.h"

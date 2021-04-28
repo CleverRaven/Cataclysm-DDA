@@ -2,7 +2,7 @@
 #include <memory>
 
 #include "calendar.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "character.h"
 #include "flag.h"
 #include "game.h"

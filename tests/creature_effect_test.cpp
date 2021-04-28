@@ -1,6 +1,6 @@
 #include "avatar.h"
 #include "calendar.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "monster.h"
 #include "mtype.h"
 #include "type_id.h"

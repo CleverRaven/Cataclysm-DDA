@@ -6,7 +6,7 @@
 
 #include "behavior.h"
 #include "behavior_strategy.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "character_oracle.h"
 #include "item.h"
 #include "item_location.h"

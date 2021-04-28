@@ -7,7 +7,7 @@
 
 #include "calendar.h"
 #include "cata_utility.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "character.h"
 #include "inventory.h"
 #include "item.h"
