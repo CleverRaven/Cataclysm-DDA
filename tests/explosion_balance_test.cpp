@@ -5,7 +5,7 @@
 #include <vector>
 
 #include "avatar.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "creature.h"
 #include "explosion.h"
 #include "game.h"

@@ -4,7 +4,7 @@
 #include <utility>
 #include <vector>
 
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "character.h"
 #include "mutation.h"
 #include "npc.h"
