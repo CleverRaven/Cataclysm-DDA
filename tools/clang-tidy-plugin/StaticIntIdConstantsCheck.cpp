@@ -43,6 +43,12 @@ static void CheckConstructor( StaticIntIdConstantsCheck &Check,
         return;
     }
 
+    StringRef VarName = IntIdVarDecl->getName();
+    if( VarName.endswith( "null" ) || VarName.endswith( "NULL" ) ) {
+        // Null constants are OK because they probably don't vary
+        return;
+    }
+
     const VarDecl *PreviousDecl = dyn_cast_or_null<VarDecl>( IntIdVarDecl->getPreviousDecl() );
 
     if( PreviousDecl ) {
