@@ -8,7 +8,7 @@
 
 #include "avatar.h"
 #include "calendar.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "character.h"
 #include "character_id.h"
 #include "coordinate_conversions.h"

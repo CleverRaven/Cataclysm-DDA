@@ -3,7 +3,7 @@
 #define CATA_TESTS_STRINGMAKER_H
 
 #include "cuboid_rectangle.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "cata_variant.h"
 #include "dialogue.h"
 #include "item.h"
