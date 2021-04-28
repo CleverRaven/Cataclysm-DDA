@@ -6,7 +6,7 @@
 #include <vector>
 
 #include "avatar.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "flag.h"
 #include "item.h"
 #include "item_contents.h"
