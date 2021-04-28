@@ -1027,7 +1027,7 @@ double Character::crafting_success_roll( const recipe &making ) const
         }
     }
 
-    return ( skill_roll / diff_roll ) * prof_multiplier;
+    return ( skill_roll / diff_roll ) / prof_multiplier;
 }
 
 int item::get_next_failure_point() const
