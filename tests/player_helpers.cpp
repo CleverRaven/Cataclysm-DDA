@@ -7,7 +7,7 @@
 
 #include "avatar.h"
 #include "bionics.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "character.h"
 #include "character_id.h"
 #include "character_martial_arts.h"

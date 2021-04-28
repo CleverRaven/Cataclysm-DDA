@@ -6,7 +6,7 @@
 #include <unordered_set>
 #include <vector>
 
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "colony_list_test_helpers.h"
 #include "flat_set.h"
 #include "generic_factory.h"
