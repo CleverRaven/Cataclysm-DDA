@@ -2126,11 +2126,6 @@ void options_manager::add_options_world_default()
          1, 1000, 100, COPT_NO_HIDE, "%i%%"
        );
 
-    add( "MONSTER_SPECIAL_CHANCE", "world_default", to_translation( "Monster special attack chance" ),
-         to_translation( "Determines how often monsters use their special attacks.  A higher value makes monsters use them more often and a lower makes them rarer.  Requires world reset." ),
-         1, 1000, 100, COPT_NO_HIDE, "%i%%"
-       );
-
     add_empty_line();
 
     add( "DEFAULT_REGION", "world_default", to_translation( "Default region type" ),
