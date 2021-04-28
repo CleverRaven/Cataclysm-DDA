@@ -1,7 +1,7 @@
 #include <functional>
 #include <vector>
 
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "optional.h"
 #include "rng.h"
 #include "test_statistics.h"
