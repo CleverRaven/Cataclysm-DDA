@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "translations.h"
 
 // wrapping in another macro to prevent collection of the test string for translation

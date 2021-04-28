@@ -6,7 +6,7 @@
 
 #include "avatar.h"
 #include "calendar.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "game.h"
 #include "item.h"
 #include "item_contents.h"
