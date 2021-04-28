@@ -212,7 +212,7 @@
         "using": [ [ "vehicle_screw", 1 ], [ "solar_panel", 3 ], [ "soldering_standard", 8 ] ]
       }
     },
-    "flags": [ "SOLAR_PANEL", "OBSTACLE", "INITIAL_PART", "PROTRUSION", "FOLDABLE", "EXTRA_DRAG" ]
+    "flags": [ "SOLAR_PANEL", "OBSTACLE", "INITIAL_PART", "FOLDABLE", "EXTRA_DRAG" ]
   },
   {
     "id": "reinforced_solar_array_part",
@@ -242,7 +242,7 @@
         "using": [ [ "vehicle_screw", 1 ], [ "solar_panel", 3 ], [ "soldering_standard", 8 ] ]
       }
     },
-    "flags": [ "SOLAR_PANEL", "OBSTACLE", "INITIAL_PART", "PROTRUSION", "FOLDABLE", "EXTRA_DRAG" ]
+    "flags": [ "SOLAR_PANEL", "OBSTACLE", "INITIAL_PART", "FOLDABLE", "EXTRA_DRAG" ]
   },
   {
     "id": "solar_array_v2_part",
@@ -267,7 +267,7 @@
         "using": [ [ "vehicle_screw", 1 ], [ "solar_panel_v2", 3 ], [ "soldering_standard", 8 ] ]
       }
     },
-    "flags": [ "SOLAR_PANEL", "OBSTACLE", "INITIAL_PART", "PROTRUSION", "FOLDABLE", "EXTRA_DRAG" ]
+    "flags": [ "SOLAR_PANEL", "OBSTACLE", "INITIAL_PART", "FOLDABLE", "EXTRA_DRAG" ]
   },
   {
     "id": "reinforced_solar_array_v2_part",
@@ -295,7 +295,7 @@
         "using": [ [ "vehicle_screw", 1 ], [ "solar_panel_v2", 3 ], [ "soldering_standard", 8 ] ]
       }
     },
-    "flags": [ "SOLAR_PANEL", "OBSTACLE", "INITIAL_PART", "PROTRUSION", "FOLDABLE", "EXTRA_DRAG" ]
+    "flags": [ "SOLAR_PANEL", "OBSTACLE", "INITIAL_PART", "FOLDABLE", "EXTRA_DRAG" ]
   },
   {
     "id": "wiring",
