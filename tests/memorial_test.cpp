@@ -9,7 +9,7 @@
 #include "achievement.h"
 #include "avatar.h"
 #include "bodypart.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "character_id.h"
 #include "debug_menu.h"
 #include "event.h"

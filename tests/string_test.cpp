@@ -1,7 +1,7 @@
 #include <iosfwd>
 #include <string>
 
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "output.h"
 
 static void test_remove_color_tags( const std::string &original, const std::string &expected )

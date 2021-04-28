@@ -7,7 +7,7 @@
 #include <vector>
 
 #include "calendar.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "colony.h"
 #include "construction.h"
 #include "field.h"

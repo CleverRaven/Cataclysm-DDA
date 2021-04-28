@@ -5,7 +5,7 @@
 #include <vector>
 
 #include "bodypart.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "character.h"
 #include "item.h"
 #include "npc.h"

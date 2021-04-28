@@ -8,7 +8,7 @@
 #include <vector>
 
 #include "calendar.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "debug.h"
 #include "enums.h"
 #include "flag.h"

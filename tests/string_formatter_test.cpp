@@ -4,7 +4,7 @@
 #include <string>
 #include <type_traits>
 
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "string_formatter.h"
 
 // Same as @ref string_format, but does not swallow errors and throws them instead.

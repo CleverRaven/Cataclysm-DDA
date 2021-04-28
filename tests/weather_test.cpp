@@ -4,7 +4,7 @@
 #include <vector>
 
 #include "calendar.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "options_helpers.h"
 #include "point.h"
 #include "type_id.h"
