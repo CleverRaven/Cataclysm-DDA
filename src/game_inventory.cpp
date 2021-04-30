@@ -63,8 +63,6 @@ static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
 static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
 static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
 
-static const fault_id fault_bionic_salvaged( "fault_bionic_salvaged" );
-
 static const quality_id qual_ANESTHESIA( "ANESTHESIA" );
 
 static const bionic_id bio_painkiller( "bio_painkiller" );

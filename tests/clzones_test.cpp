@@ -12,7 +12,6 @@
 #include "ret_val.h"
 #include "type_id.h"
 
-static const zone_type_id zone_type_LOOT_UNSORTED( "LOOT_UNSORTED" );
 static const zone_type_id zone_type_LOOT_FOOD( "LOOT_FOOD" );
 static const zone_type_id zone_type_LOOT_PFOOD( "LOOT_PFOOD" );
 static const zone_type_id zone_type_LOOT_DRINK( "LOOT_DRINK" );
