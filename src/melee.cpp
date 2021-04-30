@@ -85,7 +85,6 @@ static const skill_id skill_unarmed( "unarmed" );
 static const skill_id skill_bashing( "bashing" );
 static const skill_id skill_melee( "melee" );
 
-static const efftype_id effect_badpoison( "badpoison" );
 static const efftype_id effect_beartrap( "beartrap" );
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_contacts( "contacts" );
@@ -98,7 +97,6 @@ static const efftype_id effect_hit_by_player( "hit_by_player" );
 static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_lightsnare( "lightsnare" );
 static const efftype_id effect_narcosis( "narcosis" );
-static const efftype_id effect_poison( "poison" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_venom_dmg( "venom_dmg" );
 static const efftype_id effect_venom_weaken( "venom_weaken" );
