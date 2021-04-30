@@ -111,7 +111,6 @@
 #include "weighted_list.h"
 
 static const efftype_id effect_asthma( "asthma" );
-static const efftype_id effect_flu( "flu" );
 
 static const mtype_id mon_generator( "mon_generator" );
 
