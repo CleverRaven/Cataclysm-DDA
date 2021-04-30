@@ -24,6 +24,7 @@ add_library(CataAnalyzerPlugin MODULE
         TextStyleCheck.cpp
         TranslatorCommentsCheck.cpp
         UnsequencedCallsCheck.cpp
+        UnusedStaticsCheck.cpp
         UseLocalizedSortingCheck.cpp
         UseNamedPointConstantsCheck.cpp
         UsePointApisCheck.cpp
