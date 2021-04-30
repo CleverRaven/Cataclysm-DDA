@@ -6798,6 +6798,8 @@
         { "id": "t_wood_stairs_up_broken", "fg": 2884, "rotates": false },
         { "id": "t_wood_stairs_up_half", "fg": 2885, "rotates": false },
         { "id": [ "caltrops", "tr_caltrops" ], "fg": 2090, "rotates": false },
+        { "id": "t_fern", "fg": 3617, "rotates": false },
+        { "id": "t_fern_harvested", "fg": 3618, "rotates": false },
         { "id": "tr_beartrap", "fg": 3304, "rotates": false },
         { "id": "tr_blade", "fg": 3499, "rotates": true },
         { "id": "tr_boobytrap", "fg": 3301, "rotates": false },
