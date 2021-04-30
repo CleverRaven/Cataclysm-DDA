@@ -31,8 +31,8 @@
 #include "vpart_position.h"
 #include "vpart_range.h"
 
-static time_point midnight = calendar::turn_zero + 0_hours;
-static time_point midday = calendar::turn_zero + 12_hours;
+static time_point midnight = calendar::turn_zero;
+static time_point midday = midnight + 12_hours;
 
 static void set_time( const time_point &time )
 {
