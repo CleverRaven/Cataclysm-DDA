@@ -46,8 +46,6 @@ static const quality_id qual_BUTCHER( "BUTCHER" );
 
 static const bionic_id bio_ups( "bio_ups" );
 
-static const json_character_flag json_flag_BIONIC_TOGGLED( "BIONIC_TOGGLED" );
-
 /** @relates visitable */
 item *read_only_visitable::find_parent( const item &it ) const
 {
