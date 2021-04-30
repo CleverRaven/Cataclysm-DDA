@@ -19,6 +19,7 @@
 #include "TextStyleCheck.h"
 #include "TranslatorCommentsCheck.h"
 #include "UnsequencedCallsCheck.h"
+#include "UnusedStaticsCheck.h"
 #include "UseLocalizedSortingCheck.h"
 #include "UseNamedPointConstantsCheck.h"
 #include "UsePointApisCheck.h"
@@ -57,6 +58,7 @@ class CataModule : public ClangTidyModule
             CheckFactories.registerCheck<TextStyleCheck>( "cata-text-style" );
             CheckFactories.registerCheck<TranslatorCommentsCheck>( "cata-translator-comments" );
             CheckFactories.registerCheck<UnsequencedCallsCheck>( "cata-unsequenced-calls" );
+            CheckFactories.registerCheck<UnusedStaticsCheck>( "cata-unused-statics" );
             CheckFactories.registerCheck<UseLocalizedSortingCheck>( "cata-use-localized-sorting" );
             CheckFactories.registerCheck<UseNamedPointConstantsCheck>(
                 "cata-use-named-point-constants" );
