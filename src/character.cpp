@@ -8919,7 +8919,6 @@ bool Character::has_enough_charges( const item &it, bool show_msg ) const
         }
         return false;
     }
-
     return true;
 }
 

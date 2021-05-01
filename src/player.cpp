@@ -1179,26 +1179,29 @@ void player::process_items()
 
     // Load all items that use the UPS to their minimal functional charge,
     // The tool is not really useful if its charges are below charges_to_use
-    int ups_used = 0;
     const auto inv_use_ups = items_with( []( const item & itm ) {
         return itm.has_flag( flag_USE_UPS );
     } );
-    for( const auto &it : inv_use_ups ) {
-        // For powered armor, an armor-powering bionic should always be preferred over UPS usage.
-        if( it->is_power_armor() && can_interface_armor() && has_power() ) {
-            // Bionic power costs are handled elsewhere
-            continue;
-            //this is for UPS-modded items with no battery well
-        } else if( it->active && !it->ammo_sufficient( this ) ) {
-            it->deactivate();
-        } else if( available_ups() > 0 &&
-                   it->ammo_remaining() < it->ammo_capacity( ammotype( "battery" ) ) ) {
-            ups_used++;
-            it->ammo_set( itype_battery, it->ammo_remaining() + 1 );
+    if( !inv_use_ups.empty() ) {
+        const int available_charges = available_ups();
+        int ups_used = 0;
+        for( const auto &it : inv_use_ups ) {
+            // For powered armor, an armor-powering bionic should always be preferred over UPS usage.
+            if( it->is_power_armor() && can_interface_armor() && has_power() ) {
+                // Bionic power costs are handled elsewhere
+                continue;
+            } else if( it->active && !it->ammo_sufficient( this ) ) {
+                it->deactivate();
+            } else if( ups_used < available_charges &&
+                       it->ammo_remaining() < it->ammo_capacity( ammotype( "battery" ) ) ) {
+                // Charge the battery in the UPS modded tool
+                ups_used++;
+                it->ammo_set( itype_battery, it->ammo_remaining() + 1 );
+            }
         }
-    }
-    if( ups_used > 0 ) {
-        consume_ups( ups_used );
+        if( ups_used > 0 ) {
+            consume_ups( ups_used );
+        }
     }
 }
 
