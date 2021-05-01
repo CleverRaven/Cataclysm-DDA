@@ -2771,6 +2771,9 @@ class Character : public Creature, public visitable
                        int limit = INT_MAX,
                        const std::function<bool( const item & )> &filter = return_true<item> ) const override;
 
+        std::pair<int, int> kcal_range( const itype_id &id,
+                                        const std::function<bool( const item & )> &filter, Character &player_character );
+
     protected:
         Character();
         Character( Character && ) noexcept( map_is_noexcept );

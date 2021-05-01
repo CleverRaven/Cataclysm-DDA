@@ -1583,21 +1583,18 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
         for( auto &map_ha : map_has ) { // Index 0-(map_has.size()-1)
             std::string text = _( "%s (%d/%d nearby)" );
             const item ingredient = item( map_ha.type );
-            bool display_kcal = is_food && ingredient.is_comestible();
-            std::pair<int, int> kcal_range( 0, 0 );
+            bool display_kcal = is_food && ingredient.is_food();
+            std::pair<int, int> kcal_values( 0, 0 );
             if( display_kcal ) {
-                kcal_range = map_inv.kcal_range( map_ha.type, filter,
-                                                 player_character );
+                kcal_values = map_inv.kcal_range( map_ha.type, filter,
+                                                  player_character );
                 text += _( " %d" );
                 text += kcal_values.first == kcal_values.second ? _( " kcal" ) : _( "-%d kcal" );
-                if( ingredient.has_flag( flag_RAW ) ) {
-                    if( remove_raw ) {
-                        //Multiplier for RAW food digestion
-                        kcal_values.first /= 0.75f;
-                        kcal_values.second /= 0.75f;
-                    } else {
-                        text += string_format( _( " <color_red>RAW</color>" ) );
-                    }
+                if( ingredient.has_flag( flag_RAW ) && remove_raw ) {
+                    //Multiplier for RAW food digestion
+                    kcal_values.first /= 0.75f;
+                    kcal_values.second /= 0.75f;
+                    text += string_format( _( " <color_brown> (will be processed)</color>" ) );
                 }
             }
             std::string tmpStr = string_format( text,
@@ -1606,19 +1603,19 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
                                                 item::count_by_charges( map_ha.type ) ?
                                                 map_inv.charges_of( map_ha.type, INT_MAX, filter ) :
                                                 map_inv.amount_of( map_ha.type, false, INT_MAX, filter ),
-                                                kcal_range.first * map_ha.count * batch,
-                                                kcal_range.second * map_ha.count * batch
+                                                kcal_values.first * map_ha.count * batch,
+                                                kcal_values.second * map_ha.count * batch
                                               );
             cmenu.addentry( tmpStr );
         }
         for( auto &player_ha : player_has ) { // Index map_has.size()-(map_has.size()+player_has.size()-1)
             std::string text = _( "%s (%d/%d on person)" );
             const item ingredient = item( player_ha.type );
-            bool display_kcal = is_food && ingredient.is_comestible();
-            std::pair<int, int> kcal_range( 0, 0 );
+            bool display_kcal = is_food && ingredient.is_food();
+            std::pair<int, int> kcal_values( 0, 0 );
             if( display_kcal ) {
-                kcal_range = map_inv.kcal_range( player_ha.type, filter,
-                                                 player_character );
+                kcal_values = kcal_range( player_ha.type, filter,
+                                          player_character );
                 text += _( " %d" );
                 text += kcal_values.first == kcal_values.second ? _( " kcal" ) : _( "-%d kcal" );
                 if( ingredient.has_flag( flag_RAW ) && remove_raw ) {
@@ -1634,8 +1631,8 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
                                                 item::count_by_charges( player_ha.type ) ?
                                                 charges_of( player_ha.type, INT_MAX, filter ) :
                                                 amount_of( player_ha.type, false, INT_MAX, filter ),
-                                                kcal_range.first * player_ha.count * batch,
-                                                kcal_range.second * player_ha.count * batch
+                                                kcal_values.first * player_ha.count * batch,
+                                                kcal_values.second * player_ha.count * batch
                                               );
             cmenu.addentry( tmpStr );
         }
@@ -1648,11 +1645,15 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
                             amount_of( component.type, false, INT_MAX, filter );
             std::string text = _( "%s (%d/%d nearby & on person)" );
             const item ingredient = item( component.type );
-            bool display_kcal = is_food && ingredient.is_comestible();
-            std::pair<int, int> kcal_range( 0, 0 );
+            bool display_kcal = is_food && ingredient.is_food();
+            std::pair<int, int> kcal_values( 0, 0 );
             if( display_kcal ) {
-                kcal_range = map_inv.kcal_range( component.type, filter,
-                                                 player_character );
+                kcal_values = map_inv.kcal_range( component.type, filter,
+                                                  player_character );
+                std::pair<int, int> kcal_values_tmp = kcal_range( component.type, filter,
+                                                      player_character );
+                kcal_values.first = std::min( kcal_values.first, kcal_values_tmp.first );
+                kcal_values.second = std::max( kcal_values.second, kcal_values_tmp.second );
 
                 text += _( " %d" );
                 text += kcal_values.first == kcal_values.second ? _( " kcal" ) : _( "-%d kcal" );
@@ -1667,8 +1668,8 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
                                                 item::nname( component.type ),
                                                 component.count * batch,
                                                 available,
-                                                kcal_range.first * component.count * batch,
-                                                kcal_range.second * component.count * batch
+                                                kcal_values.first * component.count * batch,
+                                                kcal_values.second * component.count * batch
                                               );
             cmenu.addentry( tmpStr );
         }

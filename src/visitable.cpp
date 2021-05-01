@@ -817,6 +817,18 @@ std::pair<int, int> read_only_visitable::kcal_range( const itype_id &id,
     return kcal_range_of_internal( *this, id, filter, player_character );
 }
 
+std::pair<int, int> inventory::kcal_range( const itype_id &id,
+        const std::function<bool( const item & )> &filter, Character &player_character )
+{
+    return kcal_range_of_internal( *this, id, filter, player_character );
+}
+
+std::pair<int, int> Character::kcal_range( const itype_id &id,
+        const std::function<bool( const item & )> &filter, Character &player_character )
+{
+    return kcal_range_of_internal( *this, id, filter, player_character );
+}
+
 /** @relates visitable */
 int read_only_visitable::charges_of( const itype_id &what, int limit,
                                      const std::function<bool( const item & )> &filter,
