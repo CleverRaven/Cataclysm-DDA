@@ -483,6 +483,7 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "2 m",
     "qualities": [ [ { "id": "CUT", "level": 1 } ] ],
+    "byproducts": [ { "item": "duct_tape", "charges": [ 15, 25 ] } ],
     "pre_terrain": "t_window_taped",
     "post_terrain": "t_window"
   },
@@ -495,6 +496,7 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "2 m",
     "qualities": [ [ { "id": "CUT", "level": 1 } ] ],
+    "byproducts": [ { "item": "duct_tape", "charges": [ 15, 25 ] } ],
     "pre_terrain": "t_window_domestic_taped",
     "post_terrain": "t_window_domestic"
   },
@@ -507,6 +509,7 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "2 m",
     "qualities": [ [ { "id": "CUT", "level": 1 } ] ],
+    "byproducts": [ { "item": "duct_tape", "charges": [ 15, 25 ] } ],
     "pre_terrain": "t_window_alarm_taped",
     "post_terrain": "t_window_alarm"
   },
@@ -519,6 +522,7 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "2 m",
     "qualities": [ [ { "id": "CUT", "level": 1 } ] ],
+    "byproducts": [ { "item": "duct_tape", "charges": [ 15, 25 ] } ],
     "pre_terrain": "t_window_no_curtains_taped",
     "post_terrain": "t_window_no_curtains"
   },
