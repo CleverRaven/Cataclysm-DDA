@@ -22,3 +22,5 @@ diff -U 10000 json_mod_types_0.E json_mod_types_0.F | grep "\(^.  \"type\"\)\|\(
 Run this goofy script to just list the type headers and append the count of added entities after each line.
 paste <(cut json_types_diff_0.E_to_0.F -d : -f 3) <(cut -d : -f 1 json_types_diff_0.E_to_0.F | awk 'NR == 1{old = $1; next} {print $1 - old - 1; old = $1}') > json_types_diff_0.E_to_0.F_with_counts
 paste <(cut json_mod_types_diff_0.E_to_0.F -d : -f 3) <(cut -d : -f 1 json_mod_types_diff_0.E_to_0.F | awk 'NR == 1{old = $1; next} {print $1 - old - 1; old = $1}') > json_mod_types_diff_0.E_to_0.F_with_counts
+
+Then reformat into a human-readable summary.
