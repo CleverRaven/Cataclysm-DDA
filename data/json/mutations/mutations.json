@@ -6496,7 +6496,7 @@
     "id": "PROF_HUB01_ANCILLIARY",
     "name": { "str": "Hub 01 Ancilliary" },
     "points": 0,
-    "description": "You are known to be a capable and resourcefull mercenary at the employ of Hub 01.",
+    "description": "You are known to be a capable and resourceful mercenary at the employ of Hub 01.",
     "cancels": [ "PROF_FED" ],
     "valid": false,
     "purifiable": false,
