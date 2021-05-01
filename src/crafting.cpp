@@ -1374,7 +1374,8 @@ bool Character::can_continue_craft( item &craft, const requirement_data &continu
 
         std::vector<comp_selection<item_comp>> item_selections;
         for( const auto &it : continue_reqs.get_components() ) {
-            comp_selection<item_comp> is = select_item_component( it, batch_size, map_inv, true, filter, &rec );
+            comp_selection<item_comp> is = select_item_component( it, batch_size, map_inv, true, filter, true,
+                                           &rec );
             if( is.use_from == usage_from::cancel ) {
                 cancel_activity();
                 add_msg( _( "You stop crafting." ) );
@@ -1580,17 +1581,26 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
         }
         // Populate options with the names of the items
         for( auto &map_ha : map_has ) { // Index 0-(map_has.size()-1)
-            //TODO append, only display single value if possible
-            const std::string for_food = _( "%s (%d/%d nearby) %d-%d kcal" );
-            const std::string for_not_food = _( "%s (%d/%d nearby)" );
+            std::string text = _( "%s (%d/%d nearby)" );
             const item ingredient = item( map_ha.type );
             bool display_kcal = is_food && ingredient.is_comestible();
             std::pair<int, int> kcal_range( 0, 0 );
             if( display_kcal ) {
                 kcal_range = map_inv.kcal_range( map_ha.type, filter,
                                                  player_character );
+                text += _( " %d" );
+                text += kcal_values.first == kcal_values.second ? _( " kcal" ) : _( "-%d kcal" );
+                if( ingredient.has_flag( flag_RAW ) ) {
+                    if( remove_raw ) {
+                        //Multiplier for RAW food digestion
+                        kcal_values.first /= 0.75f;
+                        kcal_values.second /= 0.75f;
+                    } else {
+                        text += string_format( _( " <color_red>RAW</color>" ) );
+                    }
+                }
             }
-            std::string tmpStr = string_format( display_kcal ? for_food : for_not_food,
+            std::string tmpStr = string_format( text,
                                                 item::nname( map_ha.type ),
                                                 ( map_ha.count * batch ),
                                                 item::count_by_charges( map_ha.type ) ?
@@ -1602,16 +1612,23 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
             cmenu.addentry( tmpStr );
         }
         for( auto &player_ha : player_has ) { // Index map_has.size()-(map_has.size()+player_has.size()-1)
-            const std::string for_food = _( "%s (%d/%d on person) %d-%d kcal" );
-            const std::string for_not_food = _( "%s (%d/%d on person)" );
+            std::string text = _( "%s (%d/%d on person)" );
             const item ingredient = item( player_ha.type );
             bool display_kcal = is_food && ingredient.is_comestible();
             std::pair<int, int> kcal_range( 0, 0 );
             if( display_kcal ) {
                 kcal_range = map_inv.kcal_range( player_ha.type, filter,
                                                  player_character );
+                text += _( " %d" );
+                text += kcal_values.first == kcal_values.second ? _( " kcal" ) : _( "-%d kcal" );
+                if( ingredient.has_flag( flag_RAW ) && remove_raw ) {
+                    //Multiplier for RAW food digestion
+                    kcal_values.first /= 0.75f;
+                    kcal_values.second /= 0.75f;
+                    text += string_format( _( " <color_brown> (will be processed)</color>" ) );
+                }
             }
-            std::string tmpStr = string_format( display_kcal ? for_food : for_not_food,
+            std::string tmpStr = string_format( text,
                                                 item::nname( player_ha.type ),
                                                 ( player_ha.count * batch ),
                                                 item::count_by_charges( player_ha.type ) ?
@@ -1629,16 +1646,24 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
                             charges_of( component.type, INT_MAX, filter ) :
                             map_inv.amount_of( component.type, false, INT_MAX, filter ) +
                             amount_of( component.type, false, INT_MAX, filter );
-            const std::string for_food = _( "%s (%d/%d nearby & on person) %d-%d kcal" );
-            const std::string for_not_food = _( "%s (%d/%d nearby & on person)" );
+            std::string text = _( "%s (%d/%d nearby & on person)" );
             const item ingredient = item( component.type );
             bool display_kcal = is_food && ingredient.is_comestible();
             std::pair<int, int> kcal_range( 0, 0 );
             if( display_kcal ) {
                 kcal_range = map_inv.kcal_range( component.type, filter,
                                                  player_character );
+
+                text += _( " %d" );
+                text += kcal_values.first == kcal_values.second ? _( " kcal" ) : _( "-%d kcal" );
+                if( ingredient.has_flag( flag_RAW ) && remove_raw ) {
+                    //Multiplier for RAW food digestion
+                    kcal_values.first /= 0.75f;
+                    kcal_values.second /= 0.75f;
+                    text += string_format( _( " <color_brown> (will be processed)</color>" ) );
+                }
             }
-            std::string tmpStr = string_format( display_kcal ? for_food : for_not_food,
+            std::string tmpStr = string_format( text,
                                                 item::nname( component.type ),
                                                 component.count * batch,
                                                 available,
