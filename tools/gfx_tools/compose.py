@@ -233,13 +233,22 @@ class Tileset:
         # prepare "tiles-new", but remember max index of each sheet in keys
         tiles_new_dict = dict()
 
-        def create_tile_entries_for_unused(unused: list) -> None:
+        def create_tile_entries_for_unused(
+                unused: list,
+                fillers: bool)\
+                -> None:
             # the list must be empty without use_all
             for unused_png in unused:
                 if unused_png in self.processed_ids:
-                    print(f'Warning: {unused_png} sprite was not mentioned in '
-                          'any tile entry but there is a tile entry for the '
-                          f'{unused_png} ID')
+                    if not fillers:
+                        print(
+                            f'Warning: {unused_png} sprite was not mentioned '
+                            'in any tile entry but there is a tile entry '
+                            f'for the {unused_png} ID')
+                    if fillers and self.obsolete_fillers:
+                        print(
+                            'Warning: there is a tile entry for '
+                            f'{unused_png} in a non-filler sheet')
                     continue
                 unused_num = self.pngname_to_pngnum[unused_png]
                 sheet_min_index = 0
@@ -260,7 +269,9 @@ class Tileset:
                 continue
             if sheet.is_filler and not main_finished:
                 create_tile_entries_for_unused(
-                    self.handle_unreferenced_sprites('main'))
+                    self.handle_unreferenced_sprites('main'),
+                    fillers=False
+                )
                 main_finished = True
             sheet_entries = []
 
@@ -287,10 +298,14 @@ class Tileset:
 
         if not main_finished:
             create_tile_entries_for_unused(
-                self.handle_unreferenced_sprites('main'))
+                self.handle_unreferenced_sprites('main'),
+                fillers=False,
+            )
 
         create_tile_entries_for_unused(
-            self.handle_unreferenced_sprites('filler'))
+            self.handle_unreferenced_sprites('filler'),
+            fillers=True,
+        )
 
         # finalize "tiles-new" config
         tiles_new = list(tiles_new_dict.values())
