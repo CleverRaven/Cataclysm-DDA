@@ -163,7 +163,7 @@
       [
         [ "largebroketent", 2 ],
         [ "broketent", 4 ],
-        [ [ "tarp", 2 ], [ "tent_pole", 2 ], [ "plastic_sheet", 1 ], [ "bag_plastic", 1 ] ]
+        [ [ "tarp", 6 ], [ "tent_pole", 6 ], [ "plastic_sheet", 3 ], [ "bag_plastic", 3 ] ]
       ],
       [ [ "adhesive", 3 ] ]
     ]
