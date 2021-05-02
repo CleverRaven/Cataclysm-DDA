@@ -69,8 +69,8 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
         //between half and max_nb_of_shards-1 will be usable
         const int nb_of_dropped_shard = std::max( 0, rng( max_nb_of_shards / 2, max_nb_of_shards - 1 ) );
         //feel free to remove this msg_debug
-        add_msg_debug( "Shattered %s dropped %i shards out of a max of %i, based on mass %i g",
-                       drop_item.tname(), nb_of_dropped_shard, max_nb_of_shards - 1, to_gram( drop_item.type->weight ) );
+        /*add_msg_debug( "Shattered %s dropped %i shards out of a max of %i, based on mass %i g",
+                       drop_item.tname(), nb_of_dropped_shard, max_nb_of_shards - 1, to_gram( drop_item.type->weight ) );*/
 
         for( int i = 0; i < nb_of_dropped_shard; ++i ) {
             item shard( "glass_shard" );
