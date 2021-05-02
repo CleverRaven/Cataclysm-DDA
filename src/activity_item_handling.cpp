@@ -2928,6 +2928,12 @@ int get_auto_consume_moves( player &p, const bool food )
                 // its frozen
                 continue;
             }
+            const use_function *usef = comest.type->get_use( "BLECH_BECAUSE_UNCLEAN" );
+            if( usef ) {
+                // it's unclean
+                continue;
+            }
+
             int consume_moves = -Pickup::cost_to_move_item( p, *it ) * std::max( rl_dist( p.pos(),
                                 here.getlocal( loc ) ), 1 );
             consume_moves += to_moves<int>( p.get_consume_time( comest ) );
