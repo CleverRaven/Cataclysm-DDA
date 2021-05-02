@@ -46,7 +46,7 @@ inline StringRef getText( const ast_matchers::MatchFinder::MatchResult &Result, 
 template<typename T, typename U>
 static const T *getParent( const ast_matchers::MatchFinder::MatchResult &Result, const U *Node )
 {
-    for( const ast_type_traits::DynTypedNode &parent : Result.Context->getParents( *Node ) ) {
+    for( const DynTypedNode &parent : Result.Context->getParents( *Node ) ) {
         if( const T *Candidate = parent.get<T>() ) {
             return Candidate;
         }
@@ -59,7 +59,7 @@ template<typename T>
 static const FunctionDecl *getContainingFunction(
     const ast_matchers::MatchFinder::MatchResult &Result, const T *Node )
 {
-    for( const ast_type_traits::DynTypedNode &parent : Result.Context->getParents( *Node ) ) {
+    for( const DynTypedNode &parent : Result.Context->getParents( *Node ) ) {
         if( const Decl *Candidate = parent.get<Decl>() ) {
             if( const FunctionDecl *ContainingFunction = dyn_cast<FunctionDecl>( Candidate ) ) {
                 return ContainingFunction;

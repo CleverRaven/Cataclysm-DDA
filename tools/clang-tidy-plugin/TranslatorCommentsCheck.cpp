@@ -199,13 +199,15 @@ class TranslatorCommentsCheck::TranslationMacroCallback : public PPCallbacks
 TranslatorCommentsCheck::TranslatorCommentsCheck( StringRef Name, ClangTidyContext *Context )
     : ClangTidyCheck( Name, Context ),
       MatchingStarted( false ),
-      Handler( llvm::make_unique<TranslatorCommentsHandler>( *this ) ) {}
+      Handler( std::make_unique<TranslatorCommentsHandler>( *this ) ) {}
 
-void TranslatorCommentsCheck::registerPPCallbacks( CompilerInstance &Compiler )
+TranslatorCommentsCheck::~TranslatorCommentsCheck() = default;
+
+void TranslatorCommentsCheck::registerPPCallbacks(
+    const SourceManager &SM, Preprocessor *PP, Preprocessor * )
 {
-    Compiler.getPreprocessor().addCommentHandler( Handler.get() );
-    Compiler.getPreprocessor().addPPCallbacks(
-        llvm::make_unique<TranslationMacroCallback>( *this, Compiler.getSourceManager() ) );
+    PP->addCommentHandler( Handler.get() );
+    PP->addPPCallbacks( std::make_unique<TranslationMacroCallback>( *this, SM ) );
 }
 
 void TranslatorCommentsCheck::registerMatchers( MatchFinder *Finder )
