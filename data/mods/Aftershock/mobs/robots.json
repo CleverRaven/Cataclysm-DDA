@@ -681,6 +681,50 @@
     ]
   },
   {
+    "id": "mon_wraitheon_isohypsa",
+    "type": "MONSTER",
+    "copy-from": "mon_advbot_base",
+    "name": "Wraitheon Isohypsa",
+    "description": "A bulky if not particularily large aerial drone, with a bulbous caparace mostly dedicated to mounting high resolution sensors and an advanced AI overwatch unit.  As an autonomous drone control plataform the Isohypsa is principally meant to coordinate and enhance the combat capabilities of simpler Wraitheon ronots in lieu of human operators.",
+    "default_faction": "WraitheonRobotics",
+    "symbol": "y",
+    "diff": 20,
+    "speed": 100,
+    "color": "light_red",
+    "armor_bash": 20,
+    "armor_cut": 30,
+    "armor_fire": 15,
+    "armor_bullet": 35,
+    "morale": 20,
+    "luminance": 20,
+    "tracking_distance": 20,
+    "extend": { "flags": [ "FIREPROOF", "PACIFIST", "KEEP_DISTANCE", "FLIES" ] },
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "isohypsa_buff", "hit_self": true },
+        "cooldown": 5,
+        "monster_message": "The Isohypsa emits a rapid sequence of sibilant tones!"
+      }
+    ]
+  },
+  {
+    "id": "mon_wraitheon_kaburaya",
+    "copy-from": "base_drone",
+    "type": "MONSTER",
+    "name": "Wraitheon Kabura-ya",
+    "description": "A microplane drone designed to seek enemy personnel before detonating at close range.",
+    "default_faction": "WraitheonRobotics",
+    "diff": 10,
+    "speed": 250,
+    "color": "green",
+    "armor_cut": 4,
+    "armor_bullet": 3,
+    "revert_to_itype": "bot_wraitheon_kaburaya",
+    "starting_ammo": { "afs_kaburaya_bomb": 1 },
+    "special_attacks": [ [ "KAMIKAZE", 0 ] ]
+  },
+  {
     "id": "mon_advbot_emp",
     "type": "MONSTER",
     "copy-from": "mon_advbot_base",
