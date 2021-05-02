@@ -1,0 +1,12 @@
+[
+  {
+    "type": "palette",
+    "id": "afs_droneswarm",
+    "terrain": { ".": "t_region_groundcover_urban" },
+    "monster": {
+      "I": { "monster": "mon_wraitheon_isohypsa" },
+      "A": { "monster": "mon_defbot_shot" },
+      "k": { "monster": "mon_wraitheon_kaburaya" }
+    }
+  }
+]
