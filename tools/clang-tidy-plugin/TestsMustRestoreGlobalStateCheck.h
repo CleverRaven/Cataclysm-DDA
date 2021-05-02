@@ -6,6 +6,7 @@
 #include <llvm/ADT/StringRef.h>
 
 #include "ClangTidy.h"
+#include "ClangTidyCheck.h"
 #include "Utils.h"
 
 namespace clang
@@ -54,7 +55,7 @@ class TestsMustRestoreGlobalStateCheck : public ClangTidyCheck
     public:
         TestsMustRestoreGlobalStateCheck( StringRef Name, ClangTidyContext *Context );
 
-        void registerPPCallbacks( CompilerInstance &Compiler ) override;
+        void registerPPCallbacks( const SourceManager &, Preprocessor *, Preprocessor * ) override;
         void registerMatchers( ast_matchers::MatchFinder *Finder ) override;
         void check( const ast_matchers::MatchFinder::MatchResult &Result ) override;
         void onEndOfTranslationUnit() override;

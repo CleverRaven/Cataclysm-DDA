@@ -43,7 +43,7 @@ void UnsequencedCallsCheck::registerMatchers( MatchFinder *Finder )
 // everything between two sequence points.
 static const Expr *GetContainingSequenceStatement( ASTContext *Context, const Expr *Node )
 {
-    for( const ast_type_traits::DynTypedNode &parent : Context->getParents( *Node ) ) {
+    for( const DynTypedNode &parent : Context->getParents( *Node ) ) {
         if( parent.get<ConditionalOperator>() ) {
             return Node;
         }
@@ -79,7 +79,7 @@ static std::vector<const Expr *> GetAncestorExpressions( ASTContext *Context, co
     const Expr *next;
     do {
         next = nullptr;
-        for( const ast_type_traits::DynTypedNode &parent : Context->getParents( *Node ) ) {
+        for( const DynTypedNode &parent : Context->getParents( *Node ) ) {
             if( const Expr *candidate = parent.get<Expr>() ) {
                 next = candidate;
                 break;

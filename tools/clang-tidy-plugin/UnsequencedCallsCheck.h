@@ -3,8 +3,10 @@
 
 #include <clang/ASTMatchers/ASTMatchFinder.h>
 #include <llvm/ADT/StringRef.h>
+#include <unordered_map>
 
 #include "ClangTidy.h"
+#include "ClangTidyCheck.h"
 #include "Utils.h"
 
 namespace clang

@@ -5,6 +5,7 @@
 #include <unordered_set>
 
 #include "ClangTidy.h"
+#include "ClangTidyCheck.h"
 
 namespace clang
 {
