@@ -55,10 +55,9 @@ class NoLongMacrosCallbacks : public PPCallbacks
         NoLongCheck *Check;
 };
 
-void NoLongCheck::registerPPCallbacks( CompilerInstance &Compiler )
+void NoLongCheck::registerPPCallbacks( const SourceManager &, Preprocessor *PP, Preprocessor * )
 {
-    Compiler.getPreprocessor().addPPCallbacks(
-        llvm::make_unique<NoLongMacrosCallbacks>( this ) );
+    PP->addPPCallbacks( std::make_unique<NoLongMacrosCallbacks>( this ) );
 }
 
 void NoLongCheck::registerMatchers( MatchFinder *Finder )

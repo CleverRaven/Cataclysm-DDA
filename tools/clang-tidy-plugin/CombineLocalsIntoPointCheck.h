@@ -7,6 +7,7 @@
 #include <unordered_set>
 
 #include "ClangTidy.h"
+#include "ClangTidyCheck.h"
 
 namespace clang
 {
@@ -18,6 +19,20 @@ class ClangTidyContext;
 namespace cata
 {
 
+struct DeclRefReplacementData {
+    const DeclRefExpr *DeclRef;
+    const VarDecl *Decl;
+    std::string NewName;
+};
+
+struct FunctionReplacementData {
+    const VarDecl *XDecl;
+    const VarDecl *YDecl;
+    const VarDecl *ZDecl;
+    std::vector<DeclRefReplacementData> RefReplacements;
+    std::vector<FixItHint> Fixits;
+};
+
 class CombineLocalsIntoPointCheck : public ClangTidyCheck
 {
     public:
@@ -25,10 +40,11 @@ class CombineLocalsIntoPointCheck : public ClangTidyCheck
             : ClangTidyCheck( Name, Context ) {}
         void registerMatchers( ast_matchers::MatchFinder *Finder ) override;
         void check( const ast_matchers::MatchFinder::MatchResult &Result ) override;
+        void onEndOfTranslationUnit() override;
         using ClangTidyCheck::getLangOpts;
 
         std::unordered_map<const VarDecl *, std::string> usageReplacements;
-        std::unordered_set<const FunctionDecl *> alteredFunctions;
+        std::unordered_map<const FunctionDecl *, FunctionReplacementData> alteredFunctions;
 };
 
 } // namespace cata
