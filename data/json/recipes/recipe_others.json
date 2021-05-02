@@ -136,35 +136,7 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "time": "28 m",
     "autolearn": true,
-    "components": [
-      [
-        [ "largebroketent", 1 ],
-        [ "broketent", 2 ],
-        [ [ "tarp", 2 ], [ "tent_pole", 2 ], [ "plastic_sheet", 1 ], [ "bag_plastic", 1 ] ]
-      ],
-      [ [ "superglue", 2 ], [ "duct_tape", 20 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "tent_kit",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "fabrication",
-    "skills_required": [ "survival", 2 ],
-    "difficulty": 2,
-    "book_learn": [ [ "fun_survival", 1 ], [ "manual_survival", 1 ], [ "textbook_survival", 1 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW", "level": 1 } ],
-    "time": "28 m",
-    "autolearn": true,
-    "components": [
-      [ "tarp", 2 ],
-      [ "tent_pole", 2 ],
-      [ "plastic_sheet", 1 ],
-      [ "bag_plastic", 1 ],
-      [ [ "superglue", 2 ], [ "duct_tape", 20 ] ]
-    ]
+    "components": [ [ [ "largebroketent", 1 ], [ "broketent", 2 ], [ "tent_parts", 1 ] ], [ [ "adhesive", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -180,16 +152,7 @@
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ],
     "time": "32 m",
     "autolearn": true,
-    "components": [
-      [
-        [
-          [ "largebroketent", 2 ],
-          [ "broketent", 4 ],
-          [ [ "tent_kit", 3 ], [ [ "tarp", 6 ], [ "tent_pole", 6 ], [ "plastic_sheet", 3 ], [ "bag_plastic", 1 ] ] ]
-        ],
-        [ [ "superglue", 3 ], [ "duct_tape", 40 ] ]
-      ]
-    ]
+    "components": [ [ [ [ "largebroketent", 2 ], [ "broketent", 4 ], [ "tent_parts", 3 ] ], [ [ "adhesive", 3 ] ] ] ]
   },
   {
     "type": "recipe",
