@@ -2925,7 +2925,7 @@ int get_auto_consume_moves( player &p, const bool food )
                 continue;
             }
             if( !food && it->is_watertight_container() && comest.made_of( phase_id::SOLID ) ) {
-                // its frozen
+                // it's frozen
                 continue;
             }
             const use_function *usef = comest.type->get_use( "BLECH_BECAUSE_UNCLEAN" );
