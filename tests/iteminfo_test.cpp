@@ -2194,10 +2194,7 @@ TEST_CASE( "bionic info", "[iteminfo][bionic]" )
     CHECK( item_info_str( burner, {} ) ==
            "--\n"
            "* This bionic can produce power from the following fuel:"
-           " <color_c_cyan>Alcohol</color>"
-           "--\n"
-           "<color_c_white>Encumbrance</color>: "
-           "Torso <color_c_yellow>2</color>" );
+           " <color_c_cyan>Alcohol</color>\n" );
 
     std::string power_info = item_info_str( power, {} );
     {

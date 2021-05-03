@@ -463,7 +463,9 @@
       [ "leg_l", 3 ],
       [ "leg_r", 3 ],
       [ "foot_l", 1 ],
-      [ "foot_r", 1 ]
+      [ "foot_r", 1 ],
+      [ "hand_l", 1 ],
+      [ "hand_r", 1 ]
     ],
     "bash_protec": [
       [ "torso", 2 ],
@@ -473,7 +475,9 @@
       [ "leg_l", 2 ],
       [ "leg_r", 2 ],
       [ "foot_l", 2 ],
-      [ "foot_r", 2 ]
+      [ "foot_r", 2 ],
+      [ "hand_l", 2 ],
+      [ "hand_r", 2 ]
     ],
     "cut_protec": [
       [ "torso", 4 ],
@@ -483,7 +487,9 @@
       [ "leg_l", 4 ],
       [ "leg_r", 4 ],
       [ "foot_l", 4 ],
-      [ "foot_r", 4 ]
+      [ "foot_r", 4 ],
+      [ "hand_l", 4 ],
+      [ "hand_r", 4 ]
     ],
     "bullet_protec": [
       [ "torso", 4 ],
@@ -493,7 +499,9 @@
       [ "leg_l", 4 ],
       [ "leg_r", 4 ],
       [ "foot_l", 4 ],
-      [ "foot_r", 4 ]
+      [ "foot_r", 4 ],
+      [ "hand_l", 4 ],
+      [ "hand_r", 4 ]
     ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   },
@@ -589,7 +597,7 @@
     "type": "bionic",
     "name": { "str": "Wired Reflexes" },
     "description": "Your reaction time has been greatly enhanced with bionic nerve stimulators, giving you a +2 bonus to dexterity.",
-    "occupied_bodyparts": [ [ "head", 3 ], [ "torso", 6 ], [ "arm_l", 4 ], [ "arm_r", 4 ], [ "leg_l", 8 ], [ "leg_r", 8 ] ],
+    "occupied_bodyparts": [ [ "head", 3 ], [ "torso", 6 ], [ "arm_l", 3 ], [ "arm_r", 3 ], [ "leg_l", 7 ], [ "leg_r", 7 ] ],
     "stat_bonus": [ [ "DEX", 2 ] ],
     "flags": [ "BIONIC_NPC_USABLE" ]
   },
@@ -979,8 +987,7 @@
     "name": { "str": "Electromagnetic Unit" },
     "description": "Surgically embedded in your left arm is a powerful electromagnet, allowing you to use your own strength to pull all nearby magnetic objects towards you.  Unlucky bystanders might be injured or killed by flying objects.",
     "occupied_bodyparts": [ [ "arm_l", 9 ] ],
-    "encumbrance": [ [ "arm_l", 3 ] ],
-    "act_cost": "10 kJ"
+    "act_cost": "15 kJ"
   },
   {
     "id": "bio_membrane",
@@ -1434,7 +1441,7 @@
     "type": "bionic",
     "name": { "str": "Integrated Toolset" },
     "description": "Surgically implanted in your hands and forearms is a set of tools - screwdriver, hammer, wrench, hacksaw, drill, heating elements, and others.  You can use this in place of many tools when crafting.",
-    "occupied_bodyparts": [ [ "hand_l", 3 ], [ "hand_r", 1 ], [ "arm_l", 2 ], [ "arm_r", 2 ] ],
+    "occupied_bodyparts": [ [ "hand_l", 1 ], [ "hand_r", 1 ], [ "arm_l", 3 ], [ "arm_r", 3 ] ],
     "fake_item": "toolset",
     "included_bionics": [ "bio_tools_extend" ],
     "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ]
