@@ -1,6 +1,6 @@
 #include <functional>
 
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "item.h"
 #include "item_contents.h"
 #include "item_pocket.h"

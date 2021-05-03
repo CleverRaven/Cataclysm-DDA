@@ -9,7 +9,7 @@
 #include <type_traits>
 #include <vector>
 
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 
 // Z-value for confidence interval
 constexpr double Z95 = 1.96;
