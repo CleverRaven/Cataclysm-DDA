@@ -4091,7 +4091,8 @@ void map::draw_temple( const mapgendata &dat )
                     square( this, t_rock, point( SEEX + 2, 0 ), point( EAST_EDGE, 1 ) );
                     square( this, t_rock, point( SEEX + 2, SEEY * 2 - 2 ), point( EAST_EDGE, SOUTH_EDGE ) );
                     square( this, t_rock, point( SEEX + 5, 2 ), point( EAST_EDGE, SEEY * 2 - 3 ) );
-                    int x = rng( SEEX - 1, SEEX + 2 ), y = 2;
+                    int x = rng( SEEX - 1, SEEX + 2 );
+                    int y = 2;
                     std::vector<point> path; // Path, from end to start
                     while( x < SEEX - 1 || x > SEEX + 2 || y < SEEY * 2 - 2 ) {
                         static const std::vector<ter_id> terrains = {
@@ -4239,8 +4240,10 @@ void map::draw_mine( mapgendata &dat )
                 point end_location( rng( SEEX + 1, SEEX * 2 - 7 ), rng( SEEY + 1, SEEY * 2 - 7 ) );
                 const int num = rng( 2, 4 );
                 for( int i = 0; i < num; i++ ) {
-                    int lx1 = start_location.x + rng( -1, 1 ), lx2 = end_location.x + rng( -1, 1 ),
-                        ly1 = start_location.y + rng( -1, 1 ), ly2 = end_location.y + rng( -1, 1 );
+                    int lx1 = start_location.x + rng( -1, 1 );
+                    int lx2 = end_location.x + rng( -1, 1 );
+                    int ly1 = start_location.y + rng( -1, 1 );
+                    int ly2 = end_location.y + rng( -1, 1 );
                     line( this, t_lava, point( lx1, ly1 ), point( lx2, ly2 ) );
                 }
             }
@@ -4490,7 +4493,8 @@ void map::draw_mine( mapgendata &dat )
         computer *tmpcomp = nullptr;
         switch( rn ) {
             case 1: { // Wyrms
-                const int x = rng( SEEX, SEEX + 1 ), y = rng( SEEY, SEEY + 1 );
+                const int x = rng( SEEX, SEEX + 1 );
+                const int y = rng( SEEY, SEEY + 1 );
                 ter_set( point( x, y ), t_pedestal_wyrm );
                 spawn_item( point( x, y ), "petrified_eye" );
             }
