@@ -1853,18 +1853,17 @@ class item : public visitable
          * If UPS/bionic power does not matter then the carrier can be nullptr
          * @param carrier is used for UPS and bionic power
          */
-
         int ammo_remaining( const Character *carrier = nullptr ) const;
+		
         /**
          * ammo capacity for a specific ammo
          */
-
         int ammo_capacity( const ammotype &ammo ) const;
+		
         /**
          * how much more ammo can fit into this item
          * if this item is not loaded, gives remaining capacity of its default ammo
          */
-
         int remaining_ammo_capacity() const;
 
         /** Quantity of ammunition consumed per usage of tool or with each shot of gun */

@@ -2056,15 +2056,14 @@ class Character : public Creature, public visitable
 
         /**
         * Available ups from all sources
-        * Sum of mech, bionic UPS, adv UPS and UPS
-        * Adv UPS includes efficiency bonus
+        * Sum of mech, bionic UPS and UPS
         * @return amount of UPS available
         */
         int available_ups() const;
 
         /**
         * Consume UPS charges.
-        * Consume order: mech, Bionic UPS, adv UPS, UPS.
+        * Consume order: mech, Bionic UPS, UPS.
         * @param qty Number of charges (kJ)
         * @return amount of UPS consumed which will be between 0 and qty
         */
