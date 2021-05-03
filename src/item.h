@@ -1854,12 +1854,12 @@ class item : public visitable
          * @param carrier is used for UPS and bionic power
          */
         int ammo_remaining( const Character *carrier = nullptr ) const;
-		
+
         /**
          * ammo capacity for a specific ammo
          */
         int ammo_capacity( const ammotype &ammo ) const;
-		
+
         /**
          * how much more ammo can fit into this item
          * if this item is not loaded, gives remaining capacity of its default ammo
