@@ -646,8 +646,6 @@ ter_id t_null,
        t_railroad_track_on_tie, t_railroad_track_h_on_tie, t_railroad_track_v_on_tie,
        t_railroad_track_d_on_tie;
 
-static ter_id t_nanofab, t_nanofab_body, t_wall_b, t_wall_g, t_wall_p, t_wall_r, t_wall_w;
-
 // TODO: Put this crap into an inclusion, which should be generated automatically using JSON data
 
 void set_ter_ids()
@@ -723,11 +721,6 @@ void set_ter_ids()
     t_reinforced_door_glass_o = ter_id( "t_reinforced_door_glass_o" );
     t_bars = ter_id( "t_bars" );
     t_reb_cage = ter_id( "t_reb_cage" );
-    t_wall_b = ter_id( "t_wall_b" );
-    t_wall_g = ter_id( "t_wall_g" );
-    t_wall_p = ter_id( "t_wall_p" );
-    t_wall_r = ter_id( "t_wall_r" );
-    t_wall_w = ter_id( "t_wall_w" );
     t_door_c = ter_id( "t_door_c" );
     t_door_c_peep = ter_id( "t_door_c_peep" );
     t_door_b = ter_id( "t_door_b" );
@@ -894,8 +887,6 @@ void set_ter_ids()
     t_rootcellar = ter_id( "t_rootcellar" );
     t_cvdbody = ter_id( "t_cvdbody" );
     t_cvdmachine = ter_id( "t_cvdmachine" );
-    t_nanofab = ter_id( "t_nanofab" );
-    t_nanofab_body = ter_id( "t_nanofab_body" );
     t_stairs_down = ter_id( "t_stairs_down" );
     t_stairs_up = ter_id( "t_stairs_up" );
     t_manhole = ter_id( "t_manhole" );
@@ -1021,9 +1012,6 @@ furn_id f_null,
         f_street_light, f_traffic_light,
         f_console, f_console_broken;
 
-static furn_id f_ball_mach, f_bluebell, f_dahlia, f_dandelion, f_datura, f_floor_canvas,
-       f_indoor_plant_y, f_lane, f_statue;
-
 void set_furn_ids()
 {
     f_null = furn_id( "f_null" );
@@ -1037,7 +1025,6 @@ void set_furn_ids()
     f_sandbag_wall = furn_id( "f_sandbag_wall" );
     f_bulletin = furn_id( "f_bulletin" );
     f_indoor_plant = furn_id( "f_indoor_plant" );
-    f_indoor_plant_y = furn_id( "f_indoor_plant_y" );
     f_bed = furn_id( "f_bed" );
     f_toilet = furn_id( "f_toilet" );
     f_makeshift_bed = furn_id( "f_makeshift_bed" );
@@ -1054,9 +1041,7 @@ void set_furn_ids()
     f_trashcan = furn_id( "f_trashcan" );
     f_desk = furn_id( "f_desk" );
     f_exercise = furn_id( "f_exercise" );
-    f_ball_mach = furn_id( "f_ball_mach" );
     f_bench = furn_id( "f_bench" );
-    f_lane = furn_id( "f_lane" );
     f_table = furn_id( "f_table" );
     f_pool_table = furn_id( "f_pool_table" );
     f_counter = furn_id( "f_counter" );
@@ -1095,10 +1080,6 @@ void set_furn_ids()
     f_fungal_mass = furn_id( "f_fungal_mass" );
     f_fungal_clump = furn_id( "f_fungal_clump" );
     f_flower_fungal = furn_id( "f_flower_fungal" );
-    f_bluebell = furn_id( "f_bluebell" );
-    f_dahlia = furn_id( "f_dahlia" );
-    f_datura = furn_id( "f_datura" );
-    f_dandelion = furn_id( "f_dandelion" );
     f_cattails = furn_id( "f_cattails" );
     f_lilypad = furn_id( "f_lilypad" );
     f_lotus = furn_id( "f_lotus" );
@@ -1113,13 +1094,11 @@ void set_furn_ids()
     f_fvat_full = furn_id( "f_fvat_full" );
     f_wood_keg = furn_id( "f_wood_keg" );
     f_standing_tank = furn_id( "f_standing_tank" );
-    f_statue = furn_id( "f_statue" );
     f_egg_sackbw = furn_id( "f_egg_sackbw" );
     f_egg_sackcs = furn_id( "f_egg_sackcs" );
     f_egg_sackws = furn_id( "f_egg_sackws" );
     f_egg_sacke = furn_id( "f_egg_sacke" );
     f_flower_marloss = furn_id( "f_flower_marloss" );
-    f_floor_canvas = furn_id( "f_floor_canvas" );
     f_kiln_empty = furn_id( "f_kiln_empty" );
     f_kiln_full = furn_id( "f_kiln_full" );
     f_kiln_metal_empty = furn_id( "f_kiln_metal_empty" );
