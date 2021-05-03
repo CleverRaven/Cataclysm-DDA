@@ -3123,7 +3123,9 @@ void npc::drop_items( const units::mass &drop_weight, const units::volume &drop_
 
     units::mass weight_dropped = units::from_gram( 0 );
     units::volume volume_dropped = units::from_liter( 0 );
-    std::vector<ratio_index> rWgt, rVol; // Weight/Volume to value ratios
+    // Weight/Volume to value ratios
+    std::vector<ratio_index> rWgt;
+    std::vector<ratio_index> rVol;
 
     // First fill our ratio vectors, so we know which things to drop first
     invslice slice = inv->slice();

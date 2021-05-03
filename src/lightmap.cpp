@@ -155,7 +155,8 @@ bool map::build_transparency_cache( const int zlev )
             };
 
             if( cur_submap->is_uniform ) {
-                float value, dummy;
+                float value;
+                float dummy;
                 std::tie( value, dummy ) = calc_transp( sm_offset );
                 // if rebuild_all==true all values were already set to LIGHT_TRANSPARENCY_OPEN_AIR
                 if( !rebuild_all || value != LIGHT_TRANSPARENCY_OPEN_AIR ) {
