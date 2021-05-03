@@ -169,7 +169,8 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
         return;
     }
 
-    int cur_battery_level, max_battery_level;
+    int cur_battery_level;
+    int max_battery_level;
     std::tie( cur_battery_level, max_battery_level ) = battery_power_level();
     int battery_level_percent = max_battery_level == 0 ? 0 : cur_battery_level * 100 /
                                 max_battery_level;
@@ -1640,7 +1641,8 @@ bool vehicle::allow_manual_turn_on_rails( units::angle &corrected_turn_dir ) con
     if( turn_dir != face.dir() ) {
         corrected_turn_dir = get_corrected_turn_dir( turn_dir, face.dir() );
 
-        int wheels_on_rail, turning_wheels_that_are_one_axis;
+        int wheels_on_rail;
+        int turning_wheels_that_are_one_axis;
         precalculate_vehicle_turning( corrected_turn_dir, true, TFLAG_RAIL, wheels_on_rail,
                                       turning_wheels_that_are_one_axis );
         if( is_wheel_state_correct_to_turn_on_rails( wheels_on_rail, rail_wheelcache.size(),
@@ -1657,19 +1659,22 @@ bool vehicle::allow_auto_turn_on_rails( units::angle &corrected_turn_dir ) const
     // check if autoturn is possible
     if( turn_dir == face.dir() ) {
         // precalculate wheels for every direction
-        int straight_wheels_on_rail, straight_turning_wheels_that_are_one_axis;
+        int straight_wheels_on_rail;
+        int straight_turning_wheels_that_are_one_axis;
         precalculate_vehicle_turning( face.dir(), true, TFLAG_RAIL, straight_wheels_on_rail,
                                       straight_turning_wheels_that_are_one_axis );
 
         units::angle left_turn_dir =
             get_corrected_turn_dir( face.dir() - 45_degrees, face.dir() );
-        int leftturn_wheels_on_rail, leftturn_turning_wheels_that_are_one_axis;
+        int leftturn_wheels_on_rail;
+        int leftturn_turning_wheels_that_are_one_axis;
         precalculate_vehicle_turning( left_turn_dir, true, TFLAG_RAIL, leftturn_wheels_on_rail,
                                       leftturn_turning_wheels_that_are_one_axis );
 
         units::angle right_turn_dir =
             get_corrected_turn_dir( face.dir() + 45_degrees, face.dir() );
-        int rightturn_wheels_on_rail, rightturn_turning_wheels_that_are_one_axis;
+        int rightturn_wheels_on_rail;
+        int rightturn_turning_wheels_that_are_one_axis;
         precalculate_vehicle_turning( right_turn_dir, true, TFLAG_RAIL, rightturn_wheels_on_rail,
                                       rightturn_turning_wheels_that_are_one_axis );
 

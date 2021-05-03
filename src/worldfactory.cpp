@@ -415,7 +415,8 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
     mapLines[3] = true;
 
     std::map<int, std::vector<std::string> > world_pages;
-    size_t sel = 0, selpage = 0;
+    size_t sel = 0;
+    size_t selpage = 0;
 
     catacurses::window w_worlds_border;
     catacurses::window w_worlds_tooltip;

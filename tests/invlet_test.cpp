@@ -513,8 +513,8 @@ static void invlet_test( player &dummy, const inventory_location from, const inv
                 break;
         }
 
-        invlet_state final_first_invlet_state = check_invlet( dummy, *final_first, invlet ),
-                     final_second_invlet_state = check_invlet( dummy, *final_second, invlet );
+        invlet_state final_first_invlet_state = check_invlet( dummy, *final_first, invlet );
+        invlet_state final_second_invlet_state = check_invlet( dummy, *final_second, invlet );
 
         INFO( test_action_desc( action, from, to, first_invlet_state, second_invlet_state,
                                 expected_first_invlet_state, expected_second_invlet_state, final_first_invlet_state,

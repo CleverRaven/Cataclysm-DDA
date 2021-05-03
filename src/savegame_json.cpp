@@ -4301,7 +4301,8 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
             int i = jsin.get_int();
             int j = jsin.get_int();
             const point p( i, j );
-            std::string type, str;
+            std::string type;
+            std::string str;
             // Try to read as current format
             if( jsin.test_string() ) {
                 type = jsin.get_string();

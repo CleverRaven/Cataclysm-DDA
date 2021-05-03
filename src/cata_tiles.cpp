@@ -2018,7 +2018,9 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
         };
         // use a fair mix function to turn the "random" seed into a random int
         // taken from public domain code at http://burtleburtle.net/bob/c/lookup3.c 2015/12/11
-        unsigned int a = seed, b = -seed, c = seed * seed;
+        unsigned int a = seed;
+        unsigned int b = -seed;
+        unsigned int c = seed * seed;
         c ^= b;
         c -= rot32( b, 14 );
         a ^= c;

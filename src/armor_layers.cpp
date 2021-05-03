@@ -667,7 +667,8 @@ void player::sort_armor()
         } else if( rightListOffset + rightListLines > rightListSize ) {
             rightListOffset = rightListSize - rightListLines;
         }
-        int pos = 1, curr = 0;
+        int pos = 1;
+        int curr = 0;
         for( const bodypart_id &cover : rl ) {
             if( cover == bodypart_id( "bp_null" ) ) {
                 continue;
