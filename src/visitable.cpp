@@ -38,7 +38,7 @@
 #include "vehicle_selector.h"
 
 static const itype_id itype_apparatus( "apparatus" );
-static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
+static const itype_id itype_toolset( "toolset" );
 static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_UPS_off( "UPS_off" );
 
@@ -748,6 +748,9 @@ static int charges_of_internal( const T &self, const M &main, const itype_id &id
                     if( e->has_flag( STATIC( flag_id( "USE_UPS" ) ) ) ) {
                         found_tool_with_UPS = true;
                     }
+                    if( e->has_flag( flag_id( "USES_BIONIC_POWER" ) ) ) {
+                        qty = sum_no_wrap( qty, units::to_kilojoule( get_player_character().get_power_level() ) );
+                    }
                 }
                 if( !e->is_container() ) {
                     return qty < limit ? VisitResponse::SKIP : VisitResponse::ABORT;
@@ -765,8 +768,22 @@ static int charges_of_internal( const T &self, const M &main, const itype_id &id
         return qty < limit ? VisitResponse::NEXT : VisitResponse::ABORT;
     } );
 
-    if( qty < limit && found_tool_with_UPS ) {
-        qty += main.charges_of( itype_UPS, limit - qty );
+    if( qty < limit && ( found_tool_with_UPS || id == itype_UPS) ) {
+        self.visit_items( [&]( const item * e, item * ) {
+            if( filter( *e ) ) {
+                if( e->has_flag( flag_id( "IS_UPS" ) ) ) {
+                    qty = sum_no_wrap( qty, e->ammo_remaining() );
+
+                    if( !e->has_pockets() ) {
+                        return qty < limit ? VisitResponse::SKIP : VisitResponse::ABORT;
+                    }
+
+                }
+            }
+            // recurse through any nested containers
+            return qty < limit ? VisitResponse::NEXT : VisitResponse::ABORT;
+        } );
+
         if( visitor ) {
             visitor( qty );
         }
@@ -780,14 +797,6 @@ int read_only_visitable::charges_of( const itype_id &what, int limit,
                                      const std::function<bool( const item & )> &filter,
                                      const std::function<void( int )> &visitor ) const
 {
-    // Crafting still uses this part.
-    if( what == itype_UPS ) {
-        int qty = 0;
-        qty = sum_no_wrap( qty, charges_of( itype_UPS_off ) );
-        qty = sum_no_wrap( qty, static_cast<int>( charges_of( itype_adv_UPS_off ) / 0.6 ) );
-        return std::min( qty, limit );
-    }
-
     return charges_of_internal( *this, *this, what, limit, filter, visitor );
 }
 
@@ -796,13 +805,6 @@ int inventory::charges_of( const itype_id &what, int limit,
                            const std::function<bool( const item & )> &filter,
                            const std::function<void( int )> &visitor ) const
 {
-    if( what == itype_UPS ) {
-        // Crafting still uses this part.
-        int qty = 0;
-        qty = sum_no_wrap( qty, charges_of( itype_UPS_off ) );
-        qty = sum_no_wrap( qty, static_cast<int>( charges_of( itype_adv_UPS_off ) / 0.6 ) );
-        return std::min( qty, limit );
-    }
     const auto &binned = get_binned_items();
     const auto iter = binned.find( what );
     if( iter == binned.end() ) {
@@ -834,7 +836,7 @@ int Character::charges_of( const itype_id &what, int limit,
     }
 
     if( what == itype_UPS ) {
-        return std::min( available_ups(), limit );
+        return available_ups();
     }
 
     return charges_of_internal( *this, *this, what, limit, filter, visitor );

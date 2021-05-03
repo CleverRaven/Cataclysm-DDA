@@ -11307,11 +11307,7 @@ int Character::available_ups() const
     }
 
     for( const item *i : all_items_with_flag( flag_IS_UPS ) ) {
-        if( i->typeId() == itype_adv_UPS_off ) {
-            available_charges += i->ammo_remaining() / 0.6;
-        } else {
-            available_charges += i->ammo_remaining();
-        }
+        available_charges += i->ammo_remaining();
     }
 
     return available_charges;
@@ -11339,27 +11335,17 @@ int Character::consume_ups( int qty, const int radius )
         // Faster method that only cares about carried items
         std::vector<const item *> ups_items = all_items_with_flag( flag_IS_UPS );
 
-        // Consume adv UPS first
         for( const item *i : ups_items ) {
-            if( i->typeId() == itype_adv_UPS_off ) {
-                qty -= const_cast<item *>( i )->ammo_consume( qty * 0.6, tripoint_zero, nullptr ) / 0.6;
-
-            }
-        }
-        // Consume normal UPS
-        for( const item *i : ups_items ) {
-            if( i->typeId() != itype_adv_UPS_off ) {
-                qty -= const_cast<item *>( i )->ammo_consume( qty, tripoint_zero, nullptr );
-            }
+            qty -= const_cast<item *>( i )->ammo_consume( qty, tripoint_zero, nullptr );
         }
     } else {
         // Slower method for all nearby items (used while crafting)
         inventory inv = crafting_inventory( pos(), radius, true );
 
-        int adv = inv.charges_of( itype_adv_UPS_off, static_cast<int>( std::ceil( qty * 0.6 ) ) );
+        int adv = inv.charges_of( itype_adv_UPS_off, qty );
         if( qty != 0 && adv > 0 ) {
             use_charges( itype_adv_UPS_off, adv, radius );
-            qty -= std::min( qty, static_cast<int>( adv / 0.6 ) );
+            qty -= std::min( qty, adv );
         }
 
         int ups = inv.charges_of( itype_UPS_off, qty );

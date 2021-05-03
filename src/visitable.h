@@ -10,6 +10,7 @@
 #include "cata_utility.h"
 #include "type_id.h"
 
+class Character;
 class item;
 
 enum class VisitResponse : int {

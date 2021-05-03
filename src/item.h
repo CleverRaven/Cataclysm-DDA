@@ -1848,22 +1848,25 @@ class item : public visitable
         /** Quantity of energy currently loaded in tool or battery */
         units::energy energy_remaining() const;
 
-        /** Quantity of ammunition currently loaded in tool, gun or auxiliary gunmod */
         /**
          * Quantity of ammunition currently loaded in tool, gun or auxiliary gunmod. Can include UPS and bionic
          * If UPS/bionic power does not matter then the carrier can be nullptr
          * @param carrier is used for UPS and bionic power
          */
+
         int ammo_remaining( const Character *carrier = nullptr ) const;
         /**
          * ammo capacity for a specific ammo
          */
+
         int ammo_capacity( const ammotype &ammo ) const;
         /**
          * how much more ammo can fit into this item
          * if this item is not loaded, gives remaining capacity of its default ammo
          */
+
         int remaining_ammo_capacity() const;
+
         /** Quantity of ammunition consumed per usage of tool or with each shot of gun */
         int ammo_required() const;
 
