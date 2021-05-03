@@ -769,6 +769,10 @@ static int charges_of_internal( const T &self, const M &main, const itype_id &id
         return qty < limit ? VisitResponse::NEXT : VisitResponse::ABORT;
     } );
 
+    if( id == itype_UPS_off && qty < limit && get_player_character().has_active_bionic( bio_ups ) ) {
+        qty = sum_no_wrap( qty, units::to_kilojoule( get_player_character().get_power_level() ) );
+    }
+
     if( qty < limit && found_tool_with_UPS ) {
         qty += main.charges_of( itype_UPS, limit - qty );
         if( visitor ) {
