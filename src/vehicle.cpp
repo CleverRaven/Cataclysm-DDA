@@ -4908,7 +4908,8 @@ void vehicle::power_parts()
     int epower = engine_epower + total_accessory_epower_w() + total_alternator_epower_w();
 
     int delta_energy_bat = power_to_energy_bat( epower, 1_turns );
-    int battery_left, battery_capacity;
+    int battery_left;
+    int battery_capacity;
     std::tie( battery_left, battery_capacity ) = battery_power_level();
     int storage_deficit_bat = std::max( 0, battery_capacity - battery_left - delta_energy_bat );
     Character &player_character = get_player_character();
@@ -6849,7 +6850,8 @@ std::list<item> vehicle::use_charges( const vpart_position &vp, const itype_id &
     const cata::optional<vpart_reference> cargo_vp = vp.part_with_feature( "CARGO", true );
 
     const auto tool_wants_battery = []( const itype_id & type ) {
-        item tool( type, calendar::turn_zero ), mag( tool.magazine_default() );
+        item tool( type, calendar::turn_zero );
+        item mag( tool.magazine_default() );
         mag.contents.clear_items();
 
         return tool.contents.insert_item( mag, item_pocket::pocket_type::MAGAZINE_WELL ).success() &&
