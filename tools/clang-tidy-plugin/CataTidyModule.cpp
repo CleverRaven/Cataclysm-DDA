@@ -13,6 +13,7 @@
 #include "PointInitializationCheck.h"
 #include "SimplifyPointConstructorsCheck.h"
 #include "StaticDeclarationsCheck.h"
+#include "StaticIntIdConstantsCheck.h"
 #include "StaticStringIdConstantsCheck.h"
 #include "TestFilenameCheck.h"
 #include "TestsMustRestoreGlobalStateCheck.h"
@@ -50,6 +51,8 @@ class CataModule : public ClangTidyModule
             CheckFactories.registerCheck<SimplifyPointConstructorsCheck>(
                 "cata-simplify-point-constructors" );
             CheckFactories.registerCheck<StaticDeclarationsCheck>( "cata-static-declarations" );
+            CheckFactories.registerCheck<StaticIntIdConstantsCheck>(
+                "cata-static-int_id-constants" );
             CheckFactories.registerCheck<StaticStringIdConstantsCheck>(
                 "cata-static-string_id-constants" );
             CheckFactories.registerCheck<TestFilenameCheck>( "cata-test-filename" );
