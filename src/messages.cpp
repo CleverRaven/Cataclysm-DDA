@@ -572,7 +572,8 @@ void Messages::dialog::show()
     .apply( w );
 
     // Range of window lines to print
-    size_t line_from = 0, line_to;
+    size_t line_from = 0;
+    size_t line_to;
     if( offset < folded_filtered.size() ) {
         line_to = std::min( max_lines, folded_filtered.size() - offset );
     } else {
