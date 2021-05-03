@@ -6884,8 +6884,8 @@ static void generate_uniform( const tripoint &p, const ter_id &terrain_type )
 void map::loadn( const tripoint &grid, const bool update_vehicles, bool _actualize )
 {
     // Cache empty overmap types
-    static const oter_id rock( "empty_rock" );
-    static const oter_id air( "open_air" );
+    static const oter_str_id rock( "empty_rock" );
+    static const oter_str_id air( "open_air" );
 
     dbg( D_INFO ) << "map::loadn(game[" << g.get() << "], worldx[" << abs_sub.x
                   << "], worldy[" << abs_sub.y << "], grid " << grid << ")";
