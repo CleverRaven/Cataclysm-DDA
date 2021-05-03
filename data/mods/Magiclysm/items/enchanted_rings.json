@@ -418,10 +418,12 @@
         "max_contains_weight": "1 kg",
         "max_item_length": "35 cm",
         "moves": 1,
-        "weight_multiplier": 0,
-        "volume_multiplier": 0
+        "holster": true,
+        "weight_multiplier": 0.0,
+        "volume_multiplier": 0.0
       }
-    ]
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Stick what into your ring", "holster_msg": "You tuck your %s into your %s" }
   },
   {
     "type": "TOOL_ARMOR",
@@ -439,9 +441,11 @@
         "max_contains_weight": "2500 g",
         "max_item_length": "100 cm",
         "moves": 1,
-        "weight_multiplier": 0,
-        "volume_multiplier": 0
+        "holster": true,
+        "weight_multiplier": 0.0,
+        "volume_multiplier": 0.0
       }
-    ]
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Stick what into your ring", "holster_msg": "You tuck your %s into your %s" }
   }
 ]
