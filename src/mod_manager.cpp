@@ -440,7 +440,8 @@ static inline bool compare_mod_by_name_and_category( const MOD_INFORMATION *cons
 
 void mod_manager::set_usable_mods()
 {
-    std::vector<mod_id> available_cores, available_supplementals;
+    std::vector<mod_id> available_cores;
+    std::vector<mod_id> available_supplementals;
     std::vector<mod_id> ordered_mods;
 
     std::vector<const MOD_INFORMATION *> mods;

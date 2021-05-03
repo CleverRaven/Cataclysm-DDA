@@ -328,7 +328,8 @@ class map
                 return cache.r_hor_cache->has_potential_los( from.xy(), to.xy(), cache ) &&
                        cache.r_hor_cache->has_potential_los( to.xy(), from.xy(), cache ) ;
             }
-            tripoint upper, lower;
+            tripoint upper;
+            tripoint lower;
             std::tie( upper, lower ) = from.z > to.z ? std::make_pair( from, to ) : std::make_pair( to, from );
             // z-bounds depend on the invariant that both points are inbounds and their z are different
             return get_cache( lower.z ).r_up_cache->has_potential_los(

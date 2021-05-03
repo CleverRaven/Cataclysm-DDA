@@ -1989,8 +1989,10 @@ void activity_on_turn_move_loot( player_activity &act, player &p )
 
         // the boolean in this pair being true indicates the item is from a vehicle storage space
         auto items = std::vector<std::pair<item *, bool>>();
-        vehicle *src_veh, *dest_veh;
-        int src_part, dest_part;
+        vehicle *src_veh;
+        vehicle *dest_veh;
+        int src_part;
+        int dest_part;
 
         //Check source for cargo part
         //map_stack and vehicle_stack are different types but inherit from item_stack

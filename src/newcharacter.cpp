@@ -1231,7 +1231,11 @@ tab_direction set_traits( avatar &u, points_left &points )
         }
 
         for( int iCurrentPage = 0; iCurrentPage < 3; iCurrentPage++ ) {
-            nc_color col_on_act, col_off_act, col_on_pas, col_off_pas, hi_on, hi_off, col_tr;
+            nc_color col_on_act;
+            nc_color col_off_act;
+            nc_color col_on_pas;
+            nc_color col_off_pas;
+            nc_color col_tr;
             switch( iCurrentPage ) {
                 case 0:
                     col_on_act = COL_TR_GOOD_ON_ACT;
@@ -1239,8 +1243,6 @@ tab_direction set_traits( avatar &u, points_left &points )
                     col_on_pas = COL_TR_GOOD_ON_PAS;
                     col_off_pas = COL_TR_GOOD_OFF_PAS;
                     col_tr = COL_TR_GOOD;
-                    hi_on = hilite( col_on_act );
-                    hi_off = hilite( col_off_act );
                     break;
                 case 1:
                     col_on_act = COL_TR_BAD_ON_ACT;
@@ -1248,8 +1250,6 @@ tab_direction set_traits( avatar &u, points_left &points )
                     col_on_pas = COL_TR_BAD_ON_PAS;
                     col_off_pas = COL_TR_BAD_OFF_PAS;
                     col_tr = COL_TR_BAD;
-                    hi_on = hilite( col_on_act );
-                    hi_off = hilite( col_off_act );
                     break;
                 default:
                     col_on_act = COL_TR_NEUT_ON_ACT;
@@ -1257,10 +1257,10 @@ tab_direction set_traits( avatar &u, points_left &points )
                     col_on_pas = COL_TR_NEUT_ON_PAS;
                     col_off_pas = COL_TR_NEUT_OFF_PAS;
                     col_tr = COL_TR_NEUT;
-                    hi_on = hilite( col_on_act );
-                    hi_off = hilite( col_off_act );
                     break;
             }
+            nc_color hi_on = hilite( col_on_act );
+            nc_color hi_off = hilite( col_off_act );
 
             int &start = iStartPos[iCurrentPage];
             int current = iCurrentLine[iCurrentPage];

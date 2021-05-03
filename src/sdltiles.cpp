@@ -2904,7 +2904,8 @@ static void init_term_size_and_scaling_factor()
 
     if( scaling_factor > 1 ) {
 
-        int max_width, max_height;
+        int max_width;
+        int max_height;
 
         int current_display_id = std::stoi( get_option<std::string>( "DISPLAY" ) );
         SDL_DisplayMode current_display;

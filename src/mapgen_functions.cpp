@@ -802,7 +802,8 @@ void mapgen_road( mapgendata &dat )
                 if( curvedir_nesw[dir] != 0 ) {
                     for( int x = 1; x < 4; x++ ) {
                         for( int y = 0; y < x; y++ ) {
-                            int ty = y, tx = ( curvedir_nesw[dir] == -1 ? x : SEEX * 2 - 1 - x );
+                            int ty = y;
+                            int tx = ( curvedir_nesw[dir] == -1 ? x : SEEX * 2 - 1 - x );
                             coord_rotate_cw( tx, ty, dir );
                             m->ter_set( point( tx, ty ), t_pavement );
                         }

@@ -10656,7 +10656,8 @@ void Character::apply_persistent_morale()
         }
         // Characters with higher tiers of Nomad suffer worse morale penalties, faster.
         int max_unhappiness;
-        float min_time, max_time;
+        float min_time;
+        float max_time;
         if( has_trait( trait_NOMAD ) ) {
             max_unhappiness = 20;
             min_time = to_moves<float>( 12_hours );

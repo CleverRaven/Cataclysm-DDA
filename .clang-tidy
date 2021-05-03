@@ -57,7 +57,6 @@ readability-*,\
 -performance-unnecessary-value-param,\
 -readability-else-after-return,\
 -readability-implicit-bool-conversion,\
--readability-isolate-declaration,\
 -readability-magic-numbers,\
 -readability-named-parameter,\
 "
