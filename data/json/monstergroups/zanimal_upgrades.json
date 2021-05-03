@@ -44,8 +44,8 @@
     "name": "GROUP_ZOUGAR_UPGRADE",
     "default": "mon_zougar_hunter",
     "monsters": [
-      { "monster": "mon_zougar_hunter", "freq": 500, "cost_multiplier": 5 },
-      { "monster": "mon_zougar_shady", "freq": 500, "cost_multiplier": 5 }
+      { "monster": "mon_zougar_hunter", "freq": 600, "cost_multiplier": 4 },
+      { "monster": "mon_zougar_shady", "freq": 400, "cost_multiplier": 6 }
     ]
   }
 ]
