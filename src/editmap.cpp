@@ -62,6 +62,7 @@ static constexpr tripoint editmap_boundary_max( MAPSIZE_X, MAPSIZE_Y, OVERMAP_HE
 static constexpr half_open_cuboid<tripoint> editmap_boundaries(
     editmap_boundary_min, editmap_boundary_max );
 
+// NOLINTNEXTLINE(cata-static-int_id-constants)
 static const ter_id undefined_ter_id( -1 );
 
 static std::vector<std::string> fld_string( const std::string &str, int width )

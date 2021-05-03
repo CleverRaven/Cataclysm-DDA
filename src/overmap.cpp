@@ -77,13 +77,11 @@ using oter_type_id = int_id<oter_type_t>;
 using oter_type_str_id = string_id<oter_type_t>;
 
 ////////////////
-static oter_id  ot_null,
-       ot_crater,
-       ot_field,
-       ot_forest,
-       ot_forest_thick,
-       ot_forest_water,
-       ot_river_center;
+static oter_id ot_null;
+static const oter_str_id ot_forest( "ot_forest" );
+static const oter_str_id ot_forest_thick( "ot_forest_thick" );
+static const oter_str_id ot_forest_water( "ot_forest_water" );
+static const oter_str_id ot_river_center( "ot_river_center" );
 
 const oter_type_t oter_type_t::null_type{};
 
@@ -327,13 +325,6 @@ bool operator!=( const int_id<oter_t> &lhs, const char *rhs )
 static void set_oter_ids()   // FIXME: constify
 {
     ot_null         = oter_str_id::NULL_ID();
-    // NOT required.
-    ot_crater       = oter_id( "crater" );
-    ot_field        = oter_id( "field" );
-    ot_forest       = oter_id( "forest" );
-    ot_forest_thick = oter_id( "forest_thick" );
-    ot_forest_water = oter_id( "forest_water" );
-    ot_river_center = oter_id( "river_center" );
 }
 
 std::string overmap_land_use_code::get_symbol() const
