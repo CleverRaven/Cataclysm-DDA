@@ -740,9 +740,9 @@ static int charges_of_internal( const T &self, const M &main, const itype_id &id
 
     bool found_tool_with_UPS = false;
     self.visit_items( [&]( const item * e, item * ) {
-        if( !e->is_broken() && filter( *e ) ) {
-            if( e->is_tool() ) {
-                if( e->typeId() == id && id != itype_UPS_off ) {
+        if( filter( *e ) && !e->is_broken()  ) {
+            if( e->is_tool() && id != itype_UPS_off ) {
+                if( e->typeId() == id ) {
                     // includes charges from any included magazine.
                     qty = sum_no_wrap( qty, e->ammo_remaining() );
                     if( e->has_flag( STATIC( flag_id( "USE_UPS" ) ) ) ) {
@@ -751,13 +751,12 @@ static int charges_of_internal( const T &self, const M &main, const itype_id &id
                     if( e->has_flag( flag_id( "USES_BIONIC_POWER" ) ) ) {
                         qty = sum_no_wrap( qty, units::to_kilojoule( get_player_character().get_power_level() ) );
                     }
-                } else if( id == itype_UPS_off && e->has_flag( STATIC( flag_id( "IS_UPS" ) ) ) ) {
-                    qty = sum_no_wrap( qty, e->ammo_remaining() );
                 }
                 if( !e->is_container() ) {
                     return qty < limit ? VisitResponse::SKIP : VisitResponse::ABORT;
                 }
-
+            } else if( id == itype_UPS_off && e->has_flag( STATIC( flag_id( "IS_UPS" ) ) ) ) {
+                qty = sum_no_wrap( qty, e->ammo_remaining() );
             } else if( e->count_by_charges() ) {
                 if( e->typeId() == id ) {
                     qty = sum_no_wrap( qty, e->charges );

@@ -225,8 +225,6 @@ static const itype_id itype_rope_6( "rope_6" );
 static const itype_id itype_snare_trigger( "snare_trigger" );
 static const itype_id itype_string_36( "string_36" );
 static const itype_id itype_toolset( "toolset" );
-static const itype_id itype_UPS_off( "UPS_off" );
-static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
 static const itype_id itype_UPS( "UPS" );
 
 static const skill_id skill_archery( "archery" );
@@ -11342,16 +11340,9 @@ int Character::consume_ups( int qty, const int radius )
         // Slower method for all nearby items (used while crafting)
         inventory inv = crafting_inventory( pos(), radius, true );
 
-        int adv = inv.charges_of( itype_adv_UPS_off, qty );
-        if( qty != 0 && adv > 0 ) {
-            use_charges( itype_adv_UPS_off, adv, radius );
-            qty -= std::min( qty, adv );
-        }
-
-        int ups = inv.charges_of( itype_UPS_off, qty );
+        int ups = inv.charges_of( itype_UPS, qty );
         if( qty != 0 && ups > 0 ) {
-            use_charges( itype_UPS_off, ups, radius );
-            qty -= ups;
+            qty -= get_map().consume_ups( pos(), radius, ups );
         }
     }
 

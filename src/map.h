@@ -1283,6 +1283,15 @@ class map
         std::list<item> use_charges( const tripoint &origin, int range, const itype_id &type,
                                      int &quantity, const std::function<bool( const item & )> &filter = return_true<item>,
                                      basecamp *bcp = nullptr );
+
+        /**
+        * Consume UPS from UPS sources from area centered at origin.
+        * @param origin the position of player
+        * @param range how far the UPS can be used from
+        * @return Amount of UPS used which will be between 0 and qty
+        */
+        int consume_ups( const tripoint &origin, const int range, int qty );
+
         /*@}*/
         std::list<std::pair<tripoint, item *> > get_rc_items( const tripoint &p = { -1, -1, -1 } );
 
