@@ -570,6 +570,22 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "lye",
+    "id_suffix": "from_lye_powder",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_CHEMICALS",
+    "skill_used": "chemistry",
+    "difficulty": 1,
+    "time": "1 m",
+    "autolearn": true,
+    "batch_time_factors": [ 90, 4 ],
+    "//": "reversal of the recipe above",
+    "components": [ [ [ "water", 3 ] ], [ [ "lye_powder", 100 ] ] ],
+    "charges": 3
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "heatpack",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_OTHER",
