@@ -912,7 +912,7 @@ cata::optional<int> iuse::vaccine( player *p, item *it, bool, const tripoint & )
 cata::optional<int> iuse::flu_vaccine( player *p, item *it, bool, const tripoint & )
 {
     p->add_msg_if_player( _( "You inject the vaccine." ) );
-    time_point expiration_date = calendar::start_of_cataclysm + 24_weeks;
+    time_point expiration_date = it->birthday() + 24_weeks;
     time_duration remaining_time = expiration_date - calendar::turn;
     // FIXME Removing feedback and visible status would be more realistic
     if( remaining_time > 0_turns ) {
