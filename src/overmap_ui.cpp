@@ -191,17 +191,16 @@ static void update_note_preview( const std::string &note,
     mvwputch( *w_preview_title, point( note_text_width, 1 ), c_white, LINE_XOOX );
     wnoutrefresh( *w_preview_title );
 
-    const int npm_offset_x = 1;
-    const int npm_offset_y = 1;
+    const point npm_offset( point_south_east );
     werase( *w_preview_map );
     draw_border( *w_preview_map, c_yellow );
     for( int i = 0; i < npm_height; i++ ) {
         for( int j = 0; j < npm_width; j++ ) {
             const auto &ter = map_around[i * npm_width + j];
-            mvwputch( *w_preview_map, point( j + npm_offset_x, i + npm_offset_y ), ter.first, ter.second );
+            mvwputch( *w_preview_map, npm_offset + point( j, i ), ter.first, ter.second );
         }
     }
-    mvwputch( *w_preview_map, point( npm_width / 2 + npm_offset_x, npm_height / 2 + npm_offset_y ),
+    mvwputch( *w_preview_map, npm_offset + point( npm_width / 2, npm_height / 2 ),
               note_color, symbol );
     wnoutrefresh( *w_preview_map );
 }
