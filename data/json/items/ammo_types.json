@@ -724,5 +724,17 @@
     "id": "green_pen_ink",
     "name": "green pen ink",
     "default": "green_pen_ink"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "toothpaste",
+    "name": "toothpaste",
+    "default": "toothpaste"
+  },
+  {
+  	"type": "ammunition_type",
+  	"id": "deodorizer",
+  	"name": "deodorizer",
+  	"default": "deodorant_aerosol"
   }
 ]
