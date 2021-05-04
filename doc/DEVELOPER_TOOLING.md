@@ -66,7 +66,7 @@ In addition to the usual means of creating a `tags` file via e.g. [`ctags`](http
 
 Cataclysm has a [clang-tidy configuration file](../.clang-tidy) and if you have
 `clang-tidy` available you can run it to perform static analysis of the
-codebase.  We test with `clang-tidy` from LLVM 8.0.1 on Travis, so for the most
+codebase.  We test with `clang-tidy` from LLVM 12.0.0 on CI, so for the most
 consistent results, you might want to use that version.
 
 To run it you have a few options.
@@ -92,12 +92,12 @@ We have written our own clang-tidy checks in a custom plugin.  Unfortunately,
 `clang-tidy` as distributed by LLVM doesn't support plugins, so making this
 work requires some extra steps.
 
-#### Ubuntu Xenial
+#### Ubuntu Focal
 
-If you are on Ubuntu Xenial then you might be able to get it working the same
-way Travis does.  Add the LLVM 8 Xenial source [listed
-here](https://apt.llvm.org/) to your `sources.list`, install the `clang-8
-libclang-8-dev llvm-8-dev llvm-8-tools` packages, and build Cataclysm with CMake,
+If you are on Ubuntu Focal then you might be able to get it working the same
+way CI does.  Add the LLVM 12 Focal source [listed
+here](https://apt.llvm.org/) to your `sources.list`, install the `clang-12
+libclang-12-dev llvm-12-dev llvm-12-tools` packages, and build Cataclysm with CMake,
 adding `-DCATA_CLANG_TIDY_PLUGIN=ON`.
 
 On other distributions you will probably need to build `clang-tidy` yourself.
@@ -154,7 +154,7 @@ First, clone the llvm repo from for example [the official github repo](https://g
 Checkout the `release/8.x` branch, since that's where our patch was based on.
 
 On Windows, instead of applying the patch mentioned in the previous section, you
-shoud apply `plugin-support.patch` from [this PR](https://github.com/jbytheway/clang-tidy-plugin-support/pull/1)
+should apply `plugin-support.patch` from [this PR](https://github.com/jbytheway/clang-tidy-plugin-support/pull/1)
 instead, if it's not merged yet. This is because the `-rdynamic` option is not
 supported on Windows, so clang-tidy needs to be built as a static library instead.
 (If you cloned the repo from the official github repo, replace `tools/extra` with
@@ -185,7 +185,7 @@ cmake \
 The next step is to call `make` to actually build clang-tidy as a library.
 When using MinGW-w64 to build, you should call `mingw32-make` instead.
 Also, because `FileCheck` is not shipped with Windows, you'll also need to build
-it youself using llvm sources by adding the `FileCheck` target to the make command.
+it yourself using llvm sources by adding the `FileCheck` target to the make command.
 
 ```sh
 mkdir -p build
