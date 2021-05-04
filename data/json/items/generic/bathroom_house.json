@@ -39,10 +39,14 @@
   {
     "id": "toothbrush_plain",
     "name": { "str": "toothbrush", "str_pl": "toothbrushes" },
-    "type": "GENERIC",
+    "type": "TOOL",
     "description": "A plastic brush with soft bristles for cleaning your teeth.",
     "symbol": "/",
     "copy-from": "base_toiletries",
+    "use_action": "reduce_odor",
+    "charges_per_use": 1,
+    "ammo": [ "toothpaste" ],
+    "max_charges": 1,
     "snippet_category": [
       {
         "id": "tbrush1",
@@ -64,7 +68,46 @@
         "id": "tbrush5",
         "text": "A short toothbrush designed for children.  It has a grinning red racecar on the handle."
       }
-    ]
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "holster": false,
+        "watertight": true,
+        "max_contains_volume": "30 ml",
+        "max_contains_weight": "20 kg",
+        "ammo_restriction": { "toothpaste": 1 }
+      }
+    ],
+    "qualities": [ [ "HYGIENE", 1 ] ]
+  },
+  {
+    "type": "TOOL",
+    "id": "deodorant_can",
+    "name": { "str": "can of deodorant", "str_pl": "cans of deodorant" },
+    "description": "A can of compressed aerosol deodorant.",
+    "symbol": "!",
+    "use_action": "reduce_odor",
+    "color": "blue",
+    "looks_like": "spray_can",
+    "weight": "420 g",
+    "volume": "500 ml",
+    "price": 500,
+    "price_postapoc": 100,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "deodorizer": 30 }, "watertight": true, "airtight": true, "rigid": true } ],
+    "initial_charges": 30,
+    "max_charges": 30,
+    "charges_per_use": 1,
+    "material": [ "steel" ],
+    "flags": [  ],
+    "explosion": {
+      "power": 1000,
+      "distance_factor": 0.1,
+      "fire": true,
+      "shrapnel": { "casing_mass": 50, "fragment_mass": 0.05, "recovery": 0 }
+    },
+    "explode_in_fire": true,
+    "qualities": [ [ "HYGIENE", 1 ] ]
   },
   {
     "id": "toothbrush_dirty",
