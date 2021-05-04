@@ -873,6 +873,15 @@
     "no_resume": true
   },
   {
+    "id": "ACT_CONSUME_FUEL_MENU",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "consuming fuel",
+    "suspendable": false,
+    "based_on": "neither",
+    "no_resume": true
+  },
+  {
     "id": "ACT_MIND_SPLICER",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",

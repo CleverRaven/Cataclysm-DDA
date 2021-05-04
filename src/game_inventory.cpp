@@ -62,6 +62,7 @@ static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
 static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
 static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
 static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
+static const activity_id ACT_CONSUME_FUEL_MENU( "ACT_CONSUME_FUEL_MENU" );
 
 static const quality_id qual_ANESTHESIA( "ANESTHESIA" );
 
@@ -131,7 +132,8 @@ static item_location inv_internal( Character &u, const inventory_selector_preset
         ACT_EAT_MENU,
         ACT_CONSUME_FOOD_MENU,
         ACT_CONSUME_DRINK_MENU,
-        ACT_CONSUME_MEDS_MENU };
+        ACT_CONSUME_MEDS_MENU,
+        ACT_CONSUME_FUEL_MENU };
 
     u.inv->restack( u );
 
@@ -887,6 +889,21 @@ item_location game_menus::inv::consume_meds( player &p )
     _( "Consume medication" ), 1,
     none_message,
     get_consume_needs_hint( p ) );
+}
+
+item_location game_menus::inv::consume_fuel( player &p )
+{
+    Character &player_character = get_player_character();
+    if( !player_character.has_activity( ACT_CONSUME_FUEL_MENU ) ) {
+        player_character.assign_activity( ACT_CONSUME_FUEL_MENU );
+    }
+    std::string none_message = player_character.activity.str_values.size() == 2 ?
+                               _( "You have no more fuel to consume." ) : _( "You have no fuel to consume." );
+    return inv_internal( p, comestible_filtered_inventory_preset( p, []( const item & it ) {
+        return it.is_fuel();
+    } ),
+    _( "Consume fuel" ), 1,
+    none_message );
 }
 
 class activatable_inventory_preset : public pickup_inventory_preset
