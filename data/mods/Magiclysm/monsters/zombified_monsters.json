@@ -136,5 +136,31 @@
     },
     "delete": { "flags": [ "PATH_AVOID_DANGER_1" ] },
     "extend": { "special_attacks": [ [ "SMASH", 20 ] ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_troll_zombie",
+    "copy-from": "mon_troll",
+    "name": "Undying",
+    "description": "An enourmous humanoid monster with a yellowish-green skin.  Trolls are renowned for their thick hides and natural regenerative ability.  After death, its pus filled body seems to have much grown stronger, it looks at you ferociously with hunger in its eyes.",
+    "default_faction": "zombie",
+    "harvest": "zombie",
+    "relative": {
+      "hp": 40,
+      "speed": -25,
+      "melee_skill": -2,
+      "melee_dice": 2,
+      "melee_dice_sides": -1,
+      "melee_cut": -2,
+      "armor_bash": 2,
+      "armor_cut": 2,
+      "armor_bullet": 1,
+      "vision_day": -13,
+      "vision_night": 3,
+      "regenerates": 3
+    },
+    "proportional": { "volume": 1.05, "weight": 1.07 },
+    "extend": { "species": [ "ZOMBIE" ], "flags": [ "BASHES", "POISON", "NO_BREATHE", "REVIVES" ] },
+    "delete": { "flags": [ "PATH_AVOID_DANGER_1" ] }
   }
 ]
