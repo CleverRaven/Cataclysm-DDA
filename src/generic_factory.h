@@ -1178,7 +1178,7 @@ class volume_reader : public generic_typed_reader<units::volume>
             if( !jo.has_member( member_name ) ) {
                 return false;
             }
-            member = read_from_json_string<units::volume>( *jo.get_raw( member_name ), units::volume_units );
+            member = read_from_json_string<units::volume>( jo.get_member( member_name ), units::volume_units );
             return true;
         }
         units::volume get_next( JsonIn &jin ) const {
@@ -1194,7 +1194,7 @@ class mass_reader : public generic_typed_reader<units::mass>
             if( !jo.has_member( member_name ) ) {
                 return false;
             }
-            member = read_from_json_string<units::mass>( *jo.get_raw( member_name ), units::mass_units );
+            member = read_from_json_string<units::mass>( jo.get_member( member_name ), units::mass_units );
             return true;
         }
         units::mass get_next( JsonIn &jin ) const {

@@ -2161,7 +2161,7 @@ void islot_book::load( const JsonObject &jo )
     if( jo.has_int( "time" ) ) {
         time = jo.get_int( "time" );
     } else if( jo.has_string( "time" ) ) {
-        time = to_minutes<int>( read_from_json_string<time_duration>( *jo.get_raw( "time" ),
+        time = to_minutes<int>( read_from_json_string<time_duration>( jo.get_member( "time" ),
                                 time_duration::units ) );
     }
 
@@ -2385,7 +2385,7 @@ void Item_factory::load( islot_gunmod &slot, const JsonObject &jo, const std::st
         slot.install_time = jo.get_int( "install_time" );
     } else if( jo.has_string( "install_time" ) ) {
         slot.install_time = to_moves<int>( read_from_json_string<time_duration>
-                                           ( *jo.get_raw( "install_time" ),
+                                           ( jo.get_member( "install_time" ),
                                              time_duration::units ) );
     }
 
