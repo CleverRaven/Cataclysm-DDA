@@ -1,5 +1,70 @@
 # 0.F (2021-04-15)
 
+3974 files changed, 5440251 insertions(+), 3904330 deletions(-)
+10,463 commits
+~454 contributors
+
+New game entities (core): 4510
+Items: 987
+    228 misc items, 199 books, 196 articles of clothing, 161 guns and gun related items,
+    151 comestibles, 99 tools, 53 ammunition types
+Mapgen: 778
+    424 overmap terrains, 198 palettes, 62 start locations, 41 city buildings, 25 map extras,
+    20 overmap specials, 5 overmap locations, 3 region setting
+Crafting: 562
+    223 construction groups, 201 requirements, 60 proficiencies, 50 constructions,
+    17 recipe groups, 10 recipe categories, 1 construction category
+Achievements: 363
+    115 achievements, 107 event statistics, 100 event transformations, 26 score entries, 15 conducts
+Item Traits: 325
+    171 item groups, 97 materials, 20 ammunition types, 18 ammo effects, 13 tool qualities,
+    2 vitamins, 3 item actions, 1 fault
+Player Traits: 263
+    144 professions, 41 effect types, 28 skills, 17 mutations, 14 activity types,
+    4 skill display types, 3 behaviors, 3 movement modes, 3 scent types, 2 morale types,
+    1 butchery requirement, 1 disease type, 1 mutation types, 1 trait group
+NPCs and NPC interactions: 237
+    255 talk topics, 29 missions, 29 scenarios, 15 npcs, 6 npc classes, 3 factions
+Map Traits: 234
+    149 terrains, 12 weather types, 64 furnitures, 5 gates, 3 field types, 1 terrain transformation
+Monsters: 228
+    151 monster types, 72 harvest entries, 4 species, 1 anatomy entry
+Vehicles: 140
+    80 vehicle parts, 41 vehicles, 12 vehicle part categories, 7 vehicle groups
+Magic: 40
+    23 spells, 7 enchantments, 6 emit definitions, 4 relic definitions
+Misc: 363
+    258 json flags, 104 ascii art, 1 loot zone
+
+New game entities (mods): 3231
+Items: 773
+    179 misc items, 172 books, 161 comestibles, 85 tools, 83 articles of clothing,
+    65 guns and gun-related items, 21 ammunition types, 7 compact bionic modules
+Player traits: 749
+    273 mutations, 214 trait groups, 96 professions, 64 techniques, 47 scenarios, 21 effect types,
+    9 martial arts, 8 bionics, 8 start locations, 6 mutation categories, 2 proficiencies, 1 skill
+Mapgen: 430
+    154 item groups, 202 overmap terrains, 39 palettes, 30 overmap specials,
+    5 city buildings, 2 map extras
+Monsters: 406
+    360 monster types, 32 harvest entries, 11 species, 3 monster attacks
+NPCs and NPC interactions: 234
+    144 talk topics, 59 npc classes, 15 mission definitions, 13 npcs, 3 factions
+Map traits: 190
+    103 terrains, 56 furnitures, 10 terrain transformations,
+    9 gates, 6 field types, 4 traps, 2 emit definitions
+Vehicles: 185
+    141 vehicle parts, 27 vehicle groups, 17 vehicles
+Magic: 155
+    132 spells, 23 enchantments
+Crafting: 48
+    32 requirements, 7 tool qualities, 5 construction groups, 2 constructions,
+    1 recipe category, 1 recipe group
+Item Traits: 39
+    20 materials, 11 ammunition types, 8 ammo effects
+Achievements: 22
+    14 achievements, 3 event statistics, 3 event transformations, 2 score entries
+
 ## Features:
 Adds option to randomize INITIAL_DAY.
 Allow vehicles with autopilot to follow you.
