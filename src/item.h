@@ -566,6 +566,11 @@ class item : public visitable
          */
         bool merge_charges( const item &rhs );
 
+        /**
+        * Total weight of an item accounting for all contained/integrated items
+        * @param include_contents if true include weight of contained items
+        * @param integral if true return effective weight if this item was integrated into another
+        */
         units::mass weight( bool include_contents = true, bool integral = false ) const;
 
         /**

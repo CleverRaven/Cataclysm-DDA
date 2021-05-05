@@ -5097,7 +5097,7 @@ int item::price( bool practical ) const
 }
 
 // TODO: MATERIALS add a density field to materials.json
-units::mass item::weight( bool, bool integral ) const
+units::mass item::weight( bool include_contents, bool integral ) const
 {
     if( is_null() ) {
         return 0_gram;
@@ -5129,6 +5129,10 @@ units::mass item::weight( bool, bool integral ) const
 
     if( has_flag( flag_REDUCED_WEIGHT ) ) {
         ret *= 0.75;
+    }
+
+    if (include_contents) {
+        ret += contents.item_weight_modifier();
     }
 
     // if this is a gun apply all of its gunmods' weight multipliers
@@ -5189,8 +5193,6 @@ units::mass item::weight( bool, bool integral ) const
         if( magazine_current() ) {
             ret += magazine_current()->weight();
         }
-    } else {
-        ret += contents.item_weight_modifier();
     }
 
     return ret;
