@@ -245,6 +245,7 @@
   {
     "type": "GENERIC",
     "id": "trident",
+    "looks_like": "pitchfork",
     "name": { "str": "trident" },
     "category": "tools",
     "description": "A three pronged spear that is surface treated to be used confidently above and below water.",
