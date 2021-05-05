@@ -536,11 +536,11 @@ void overmap::unserialize( std::istream &fin )
         } else if( name == "region_id" ) {
             std::string new_region_id;
             jsin.read( new_region_id );
-            if( settings.id != new_region_id ) {
+            if( settings->id != new_region_id ) {
                 t_regional_settings_map_citr rit = region_settings_map.find( new_region_id );
                 if( rit != region_settings_map.end() ) {
                     // TODO: optimize
-                    settings = rit->second;
+                    settings = pimpl<regional_settings>( rit->second );
                 }
             }
         } else if( name == "mongroups" ) {
@@ -1001,7 +1001,7 @@ void overmap::serialize( std::ostream &fout ) const
     json.end_array();
 
     // temporary, to allow user to manually switch regions during play until regionmap is done.
-    json.member( "region_id", settings.id );
+    json.member( "region_id", settings->id );
     fout << std::endl;
 
     save_monster_groups( json );
