@@ -267,6 +267,13 @@ def extract_construction(item):
         writestr(outfile, item["pre_note"])
 
 
+def extract_effect_on_condition(item):
+    outfile = get_outfile("effect_on_condition")
+    extract_talk_effects(item["effect"], outfile)
+    if "false_effect" in item:
+        extract_talk_effects(item["false_effect"], outfile)
+
+
 def extract_harvest(item):
     outfile = get_outfile("harvest")
     if "message" in item:
@@ -716,6 +723,8 @@ def extract_talk_effects(effects, outfile):
                 comment = "Nickname for creature '{}'".format(
                     eff["u_buy_monster"])
                 writestr(outfile, eff["name"], comment=comment)
+            if "message" in eff:
+                writestr(outfile, eff["message"])
 
 
 def extract_talk_response(response, outfile):
@@ -995,6 +1004,7 @@ extract_specials = {
     "clothing_mod": extract_clothing_mod,
     "conduct": extract_achievement,
     "construction": extract_construction,
+    "effect_on_condition": extract_effect_on_condition,
     "effect_type": extract_effect_type,
     "fault": extract_fault,
     "GUN": extract_gun,
