@@ -18,7 +18,6 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "compatibility.h"
-#include "craft_command.h"
 #include "enums.h"
 #include "gun_mode.h"
 #include "io_tags.h"
@@ -55,6 +54,10 @@ struct armor_portion_data;
 struct gun_variant_data;
 struct islot_comestible;
 struct itype;
+struct item_comp;
+template<typename CompType>
+struct comp_selection;
+struct tool_comp;
 struct mtype;
 struct tripoint;
 template<typename T>
