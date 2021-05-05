@@ -82,7 +82,7 @@
     "volume": "46 L",
     "weight": "60 kg",
     "hp": 70,
-    "relative": { "melee_dice": -1, "melee_dice_sides": 2, "melee_cut": 6 },
+    "relative": { "melee_dice": 1, "melee_dice_sides": 2, "melee_cut": 6 },
     "armor_cut": 30,
     "armor_bullet": 24,
     "armor_bash": 12,
