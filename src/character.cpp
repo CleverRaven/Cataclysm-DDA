@@ -11315,6 +11315,7 @@ int Character::consume_ups( int qty, const int radius )
 {
     const int wanted_qty = qty;
 
+    // UPS from mounted mech
     if( qty != 0 && is_mounted() && mounted_creature.get()->has_flag( MF_RIDEABLE_MECH ) &&
         mounted_creature.get()->battery_item ) {
         auto *mons = mounted_creature.get();
@@ -11323,21 +11324,23 @@ int Character::consume_ups( int qty, const int radius )
         qty -= std::min( qty, power_drain );
     }
 
+    // UPS from bionic
     if( qty != 0 && has_power() && has_active_bionic( bio_ups ) ) {
         int bio = std::min( units::to_kilojoule( get_power_level() ), qty );
         mod_power_level( units::from_kilojoule( -bio ) );
         qty -= std::min( qty, bio );
     }
 
-    if( radius <= 0 ) {
-        // Faster method that only cares about carried items
+    // UPS from inventory
+    if( qty != 0 ) {
         std::vector<const item *> ups_items = all_items_with_flag( flag_IS_UPS );
-
         for( const item *i : ups_items ) {
             qty -= const_cast<item *>( i )->ammo_consume( qty, tripoint_zero, nullptr );
         }
-    } else {
-        // Slower method for all nearby items (used while crafting)
+    }
+
+    // UPS from nearby map
+    if( qty != 0 && radius > 0 ) {
         inventory inv = crafting_inventory( pos(), radius, true );
 
         int ups = inv.charges_of( itype_UPS, qty );
