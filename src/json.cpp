@@ -33,48 +33,6 @@ static bool is_whitespace( char ch )
     return ( ch == ' ' || ch == '\n' || ch == '\t' || ch == '\r' );
 }
 
-// for parsing \uxxxx escapes
-static std::string utf16_to_utf8( uint32_t ch )
-{
-    char out[5];
-    char *buf = out;
-    static const unsigned char utf8FirstByte[7] = { 0x00, 0x00, 0xC0, 0xE0, 0xF0, 0xF8, 0xFC };
-    int utf8Bytes;
-    if( ch < 0x80 ) {
-        utf8Bytes = 1;
-    } else if( ch < 0x800 ) {
-        utf8Bytes = 2;
-    } else if( ch < 0x10000 ) {
-        utf8Bytes = 3;
-    } else if( ch <= 0x10FFFF ) {
-        utf8Bytes = 4;
-    } else {
-        std::stringstream err;
-        err << "unknown unicode: " << ch;
-        throw std::runtime_error( err.str() );
-    }
-
-    buf += utf8Bytes;
-    switch( utf8Bytes ) {
-        case 4:
-            *--buf = ( ch | 0x80 ) & 0xBF;
-            ch >>= 6;
-        /* fallthrough */
-        case 3:
-            *--buf = ( ch | 0x80 ) & 0xBF;
-            ch >>= 6;
-        /* fallthrough */
-        case 2:
-            *--buf = ( ch | 0x80 ) & 0xBF;
-            ch >>= 6;
-        /* fallthrough */
-        case 1:
-            *--buf = ch | utf8FirstByte[utf8Bytes];
-    }
-    out[utf8Bytes] = '\0';
-    return out;
-}
-
 /* class JsonObject
  * represents a JSON object,
  * providing access to the underlying data.
@@ -1072,7 +1030,7 @@ static bool get_escaped_or_unicode( std::istream &stream, std::string &s, std::s
                         }
                     }
                     try {
-                        s += utf16_to_utf8( u );
+                        s += utf32_to_utf8( u );
                     } catch( const std::exception &e ) {
                         err = e.what();
                         return false;
@@ -1356,9 +1314,7 @@ number_sci_notation JsonIn::get_any_number()
     if( ch == 'e' || ch == 'E' ) {
         stream->get( ch );
         bool neg;
-        if( ( neg = ch == '-' ) ) {
-            stream->get( ch );
-        } else if( ch == '+' ) {
+        if( ( neg = ch == '-' ) || ch == '+' ) {
             stream->get( ch );
         }
         while( ch >= '0' && ch <= '9' ) {

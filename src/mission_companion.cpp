@@ -1791,7 +1791,7 @@ std::vector<npc_ptr> talk_function::companion_list( const npc &p, const std::str
     for( const auto &elem : overmap_buffer.get_companion_mission_npcs() ) {
         npc_companion_mission c_mission = elem->get_companion_mission();
         if( c_mission.position == omt_pos && c_mission.mission_id == mission_id &&
-            c_mission.role_id == p.companion_mission_role_id ) {
+            c_mission.role_id == p.companion_mission_role_id ) { // NOLINT(bugprone-branch-clone)
             available.push_back( elem );
         } else if( contains && c_mission.mission_id.find( mission_id ) != std::string::npos ) {
             available.push_back( elem );
@@ -2033,13 +2033,10 @@ npc_ptr talk_function::companion_choose_return( const tripoint_abs_omt &omt_pos,
             ( by_mission && c_mission.mission_id != mission_id ) || c_mission.role_id != role_id ) {
             continue;
         }
-        if( player_character.has_trait( trait_DEBUG_HS ) ) {
-            available.push_back( guy );
-        } else if( deadline == calendar::before_time_starts ) {
-            if( guy->companion_mission_time_ret <= calendar::turn ) {
-                available.push_back( guy );
-            }
-        } else if( guy->companion_mission_time <= deadline ) {
+        if( player_character.has_trait( trait_DEBUG_HS ) ||
+            guy->companion_mission_time <= deadline ||
+            ( deadline == calendar::before_time_starts &&
+              guy->companion_mission_time_ret <= calendar::turn ) ) {
             available.push_back( guy );
         }
     }

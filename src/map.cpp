@@ -3189,7 +3189,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
     // Only allow bashing floors when we want to bash floors and we're in z-level mode
     // Unless we're destroying, then it gets a little weird
     if( smash_ter && bash->bash_below && ( !zlevels || !params.bash_floor ) ) {
-        if( !params.destroy ) {
+        if( !params.destroy ) { // NOLINT(bugprone-branch-clone)
             smash_ter = false;
             bash = nullptr;
         } else if( !bash->ter_set && zlevels ) {
@@ -6050,9 +6050,7 @@ bool map::draw_maptile( const catacurses::window &w, const player &u, const trip
         tercol = c_magenta;
     } else if( u_vision[NV_GOGGLES] ) {
         tercol = ( bright_light ) ? c_white : c_light_green;
-    } else if( low_light ) {
-        tercol = c_dark_gray;
-    } else if( u_vision[DARKNESS] ) {
+    } else if( low_light || u_vision[DARKNESS] ) {
         tercol = c_dark_gray;
     }
 
@@ -6149,9 +6147,7 @@ void map::draw_from_above( const catacurses::window &w, const player &u, const t
         tercol = c_magenta;
     } else if( u_vision[NV_GOGGLES] ) {
         tercol = ( bright_light ) ? c_white : c_light_green;
-    } else if( low_light ) {
-        tercol = c_dark_gray;
-    } else if( u_vision[DARKNESS] ) {
+    } else if( low_light || u_vision[DARKNESS] ) {
         tercol = c_dark_gray;
     }
 
@@ -7805,7 +7801,7 @@ int map::determine_wall_corner( const tripoint &p ) const
             return LINE_XXXO;
         case 0 | 2 | 1 | 0:
             return LINE_OXXO;
-        case 8 | 0 | 1 | 0:
+        case 8 | 0 | 1 | 0: // NOLINT(bugprone-branch-clone)
             return LINE_XOXO;
         case 0 | 0 | 1 | 0:
             return LINE_XOXO; // LINE_OOXO would be better

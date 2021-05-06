@@ -4426,17 +4426,15 @@ bool vehicle::handle_potential_theft( player &p, bool check_only, bool prompt )
         }
     }
     // the vehicle is yours, that's fine.
-    if( is_owned_by_player ) {
+    if( is_owned_by_player ) { // NOLINT(bugprone-branch-clone)
         return true;
         // if There is no owner
         // handle transfer of ownership
-    } else if( !has_owner() ) {
-        set_owner( p.get_faction()->id );
-        remove_old_owner();
-        return true;
-        // if there is a marker for having been stolen, but 15 minutes have passed, then officially transfer ownership
-    } else if( witnesses.empty() && has_old_owner() && !is_old_owner( p ) && theft_time &&
-               calendar::turn - *theft_time > 15_minutes ) {
+    } else if( !has_owner() ||
+               // if there is a marker for having been stolen, but 15 minutes have passed, then
+               // officially transfer ownership
+               ( witnesses.empty() && has_old_owner() && !is_old_owner( p ) && theft_time &&
+                 calendar::turn - *theft_time > 15_minutes ) ) {
         set_owner( p.get_faction()->id );
         remove_old_owner();
         return true;

@@ -567,8 +567,6 @@ class comestible_inventory_preset : public inventory_selector_preset
                     return "<bad>!!!</bad>";
                 } else if( health < 0 ) {
                     return "<bad>-</bad>";
-                } else if( loc->is_medication() ) {
-                    return "";
                 } else {
                     return "";
                 }

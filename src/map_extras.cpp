@@ -487,7 +487,6 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
             case 7:
             // Empty clown car
             case 8:
-                break;
             default:
                 break;
         }
