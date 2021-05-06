@@ -167,7 +167,7 @@
     "type": "MONSTER",
     "id": "mon_yulecat_zombie",
     "name": "Zombified Yule Cat",
-    "description": "A magical beast from Icelandic folklore, known for their catlike appearance and their hobby of eating Workshop Elves. It creeply stumbles on its 4 legs with its squirming uneven body after meeting demise and being reborn just to eat you.",
+    "description": "A magical beast from Icelandic folklore, known for their catlike appearance and their hobby of eating Workshop Elves.  It creeply stumbles on its 4 legs with its squirming uneven body after meeting demise and being reborn just to eat you.",
     "looks_like": "mon_yulecat",
     "default_faction": "zombie",
     "species": [ "MAGICAL_BEAST", "ZOMBIE" ],
