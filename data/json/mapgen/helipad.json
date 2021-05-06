@@ -71,7 +71,7 @@
           "item": {
             "subtype": "distribution",
             "entries": [
-              { "group": "military_patrol_food", "prob": 50, "count": [ 3, 5 ] },
+              { "group": "MRE", "prob": 50, "count": [ 3, 5 ] },
               { "group": "infantry_common_gear", "prob": 5, "count": [ 1, 2 ] },
               { "group": "mil_food", "prob": 40, "count": [ 1, 5 ] },
               { "group": "infantry_medical_gear", "prob": 5, "count": [ 1, 2 ] },

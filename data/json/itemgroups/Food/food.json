@@ -582,34 +582,13 @@
   {
     "type": "item_group",
     "id": "MRE",
+    "items": [ { "group": "mre_full_pack" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "any_MRE",
     "subtype": "distribution",
-    "entries": [
-      { "item": "mre_chilibeans_box" },
-      { "item": "mre_bbqbeef_box" },
-      { "item": "mre_chickennoodle_box" },
-      { "item": "mre_spaghetti_box" },
-      { "item": "mre_chicken_box" },
-      { "item": "mre_beeftaco_box" },
-      { "item": "mre_beef_box" },
-      { "item": "mre_meatball_box" },
-      { "item": "mre_beefstew_box" },
-      { "item": "mre_chilimac_box" },
-      { "item": "mre_veggy_box" },
-      { "item": "mre_macaronimarinara_box" },
-      { "item": "mre_sfettuccine_box" },
-      { "item": "mre_ratatouille_box" },
-      { "item": "mre_cheesetort_box" },
-      { "item": "mre_mushroomfettuccine_box" },
-      { "item": "mre_mexicanchickenstew_box" },
-      { "item": "mre_maplesausage_box" },
-      { "item": "mre_ravioli_box" },
-      { "item": "mre_hashbrownbacon_box" },
-      { "item": "mre_lemontuna_box" },
-      { "item": "mre_asianbeef_box" },
-      { "item": "mre_chickenpesto_box" },
-      { "item": "mre_southwestbeef_box" },
-      { "item": "mre_hotdog_box" }
-    ]
+    "entries": [ { "group": "mre_full_pack" }, { "group": "mre_used_pack" } ]
   },
   {
     "type": "item_group",
@@ -792,6 +771,164 @@
       { "item": "tomato", "count": [ 0, 3 ] },
       { "item": "cheese", "count": [ 0, 3 ], "charges": [ 4, 8 ] }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "mre_entrees",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "mre_asianbeef" },
+      { "item": "mre_bbqbeef" },
+      { "item": "mre_beef" },
+      { "item": "mre_beefstew" },
+      { "item": "mre_beeftaco" },
+      { "item": "mre_cheesetort" },
+      { "item": "mre_chicken" },
+      { "item": "mre_chickenburritobowl" },
+      { "item": "mre_chickennoodle" },
+      { "item": "mre_chickenpesto" },
+      { "item": "mre_chilibeans" },
+      { "item": "mre_chilimac" },
+      { "item": "mre_hashbrownbacon" },
+      { "item": "mre_hotdog" },
+      { "item": "mre_lemontuna" },
+      { "item": "mre_macaronimarinara" },
+      { "item": "mre_maplesausage" },
+      { "item": "mre_meatball" },
+      { "item": "mre_mexicanchickenstew" },
+      { "item": "mre_mushroomfettuccine" },
+      { "item": "mre_pepperjackbeef" },
+      { "item": "mre_ratatouille" },
+      { "item": "mre_ravioli" },
+      { "item": "mre_sfettuccine" },
+      { "item": "mre_southwestbeef" },
+      { "item": "mre_spaghetti" },
+      { "item": "mre_veggy" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "mre_dessert_pack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "candy2", "container-item": "wrapper" },
+      { "item": "chocolate" },
+      { "item": "cookies", "container-item": "wrapper" },
+      { "item": "dry_fruit", "container-item": "wrapper" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "mre_accessory_pack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "gummy_vitamins", "charges": 1 },
+      { "item": "matches", "charges": 20 },
+      { "item": "paper", "charges": 8 },
+      { "item": "gum", "charges": 2 },
+      { "item": "pur_tablets", "charges": 6, "container-item": "beverage_bag" },
+      { "item": "spork" },
+      {
+        "distribution": [
+          { "item": "instant_coffee", "count": 2, "container-item": "beverage_bag" },
+          { "item": "lemonade_powder", "charges": 2, "container-item": "beverage_bag" },
+          { "item": "protein_shake", "container-item": "bottle_plastic" },
+          { "item": "herbal_tea_bag", "count": 2, "container-item": "beverage_bag" },
+          { "item": "tea_bag", "count": 2, "container-item": "beverage_bag" },
+          { "item": "tea_bag_chamomile", "count": 2, "container-item": "beverage_bag" },
+          { "item": "tea_bag_dandelion", "count": 2, "container-item": "beverage_bag" },
+          { "item": "tea_fruit_bag", "count": 2, "container-item": "beverage_bag" },
+          { "item": "tea_green_bag", "count": 2, "container-item": "beverage_bag" }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "mre_contents",
+    "//": "What an MRE in pristine condition should contain.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "mre_bag_small", "contents-group": "mre_entrees", "sealed": true },
+      { "item": "heatpack" },
+      {
+        "distribution": [
+          { "item": "can_cheese", "container-item": "mre_bag_small", "sealed": true },
+          { "item": "spread_peanutbutter", "container-item": "mre_bag_small", "sealed": true }
+        ]
+      },
+      { "item": "crackers", "charges": 4, "container-item": "mre_bag_small", "sealed": true },
+      { "item": "mre_bag", "contents-group": "mre_accessory_pack", "sealed": true },
+      { "item": "mre_bag_small", "contents-group": "mre_dessert_pack", "sealed": true }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "mre_full_pack",
+    "//": "An MRE in pristine condition.",
+    "subtype": "collection",
+    "entries": [ { "item": "mre_package", "contents-group": "mre_contents", "sealed": true } ]
+  },
+  {
+    "type": "item_group",
+    "id": "mre_used_dessert_pack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "candy2", "charges": [ 0, 3 ], "container-item": "wrapper" },
+      { "item": "chocolate", "charges": [ 0, 3 ] },
+      { "item": "cookies", "charges": [ 0, 4 ], "container-item": "wrapper" },
+      { "item": "dry_fruit", "container-item": "wrapper" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "mre_used_accessory_pack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "gummy_vitamins", "charges": 1 },
+      { "item": "matches", "charges": [ 0, 20 ] },
+      { "item": "paper", "charges": [ 0, 8 ] },
+      { "item": "gum", "charges": [ 0, 2 ] },
+      { "item": "pur_tablets", "charges": [ 0, 6 ], "container-item": "beverage_bag" },
+      { "item": "spork" },
+      {
+        "distribution": [
+          { "item": "instant_coffee", "count": [ 0, 2 ], "container-item": "beverage_bag" },
+          { "item": "lemonade_powder", "charges": [ 0, 2 ], "container-item": "beverage_bag" },
+          { "item": "protein_shake", "charges": [ 0, 2 ], "container-item": "bottle_plastic" },
+          { "item": "herbal_tea_bag", "count": [ 0, 2 ], "container-item": "beverage_bag" },
+          { "item": "tea_bag", "count": [ 0, 2 ], "container-item": "beverage_bag" },
+          { "item": "tea_bag_chamomile", "count": [ 0, 2 ], "container-item": "beverage_bag" },
+          { "item": "tea_bag_dandelion", "count": [ 0, 2 ], "container-item": "beverage_bag" },
+          { "item": "tea_fruit_bag", "count": [ 0, 2 ], "container-item": "beverage_bag" },
+          { "item": "tea_green_bag", "count": [ 0, 2 ], "container-item": "beverage_bag" }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "mre_used_contents",
+    "subtype": "collection",
+    "entries": [
+      { "group": "mre_entrees", "container-item": "mre_bag_small", "prob": 40 },
+      { "item": "heatpack", "prob": 40 },
+      {
+        "distribution": [
+          { "item": "can_cheese", "charges": [ 0, 8 ], "container-item": "mre_bag_small", "sealed": false },
+          { "item": "spread_peanutbutter", "container-item": "mre_bag_small", "sealed": false, "prob": 60 }
+        ]
+      },
+      { "item": "crackers", "charges": [ 0, 4 ], "container-item": "mre_bag_small", "sealed": false },
+      { "item": "mre_bag", "contents-group": "mre_used_accessory_pack", "sealed": false, "prob": 50 },
+      { "item": "mre_bag_small", "contents-group": "mre_used_dessert_pack", "sealed": false, "prob": 40 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "mre_used_pack",
+    "subtype": "collection",
+    "entries": [ { "item": "mre_package", "contents-group": "mre_used_contents", "sealed": false } ]
   },
   {
     "type": "item_group",

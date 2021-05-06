@@ -1784,6 +1784,93 @@
     "color": "red"
   },
   {
+    "id": "mre_bag_small",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "small MRE bag" },
+    "looks_like": "mre_beef_box",
+    "description": "A small sturdy plastic container of multi-layered construction, with detailed information about its contents nutritional information.",
+    "weight": "70 g",
+    "volume": "100 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "to_hit": -1,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "airtight": true,
+        "moves": 200,
+        "open_container": true,
+        "sealed_data": { "spoil_multiplier": 0.0 },
+        "watertight": true
+      }
+    ],
+    "material": [ "plastic", "aluminum" ],
+    "symbol": ")",
+    "color": "light_gray",
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "id": "mre_bag",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "MRE bag" },
+    "looks_like": "mre_beef_box",
+    "description": "A sturdy plastic container of multi-layered construction, with detailed information about its contents nutritional information.",
+    "weight": "180 g",
+    "volume": "250 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "to_hit": -1,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "3 kg",
+        "airtight": true,
+        "moves": 200,
+        "open_container": true,
+        "sealed_data": { "spoil_multiplier": 0.0 },
+        "watertight": true
+      }
+    ],
+    "material": [ "plastic", "aluminum" ],
+    "symbol": ")",
+    "color": "light_gray",
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "id": "mre_package",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "MRE package" },
+    "looks_like": "mre_beef_box",
+    "description": "The Meal, Ready-to-Eat - also known as the MRE - is a self-contained, individual field ration in lightweight yet sturdy multi-layered plastic and aluminum construction.  Essentially a flexible can.",
+    "weight": "320 g",
+    "volume": "450 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "to_hit": -1,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "3800 ml",
+        "max_contains_weight": "4 kg",
+        "airtight": true,
+        "moves": 200,
+        "open_container": true,
+        "sealed_data": { "spoil_multiplier": 0.0 },
+        "watertight": true
+      }
+    ],
+    "material": [ "plastic", "aluminum" ],
+    "symbol": ")",
+    "color": "light_gray",
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
     "id": "beverage_bag",
     "type": "GENERIC",
     "category": "container",
