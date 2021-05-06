@@ -839,11 +839,7 @@ int Character::charges_of( const itype_id &what, int limit,
     }
 
     if( what == itype_UPS ) {
-        int qty = std::min( available_ups(), limit );
-        if( visitor ) {
-            visitor( qty );
-        }
-        return qty;
+        return std::min( available_ups(), limit );
     }
 
     return charges_of_internal( *this, *this, what, limit, filter, visitor );
