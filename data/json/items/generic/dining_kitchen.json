@@ -396,7 +396,7 @@
   {
     "id": "bowl_plastic",
     "type": "GENERIC",
-    "category": "other",
+    "category": "container",
     "name": { "str": "plastic tupperware" },
     "symbol": "u",
     "description": "A piece of plastic tupperware with a tupperware lid.  Holds 750 ml of liquid.",
