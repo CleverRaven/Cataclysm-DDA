@@ -30,7 +30,7 @@ jobs:
             These are the outputs for the experimental build of commit [${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }})
           draft: false
           prerelease: true
-  windows:
+  builds:
     needs: release
     strategy:
       matrix:
@@ -38,24 +38,66 @@ jobs:
           - name: Windows Tiles x64
             mxe: x86_64
             artifact: windows-tiles-x64
+            os: windows
+            ext: zip
+            content: application/zip
           - name: Windows Tiles x32
             mxe: i686
             artifact: windows-tiles-x32
+            os: windows
+            ext: zip
+            content: application/zip
+          - name: Linux Tiles x64
+            os: linux
+            mxe: none
+            tiles: 1
+            artifact: linux-tiles-x64
+            ext: tar.gz
+            content: application/gzip
+          - name: linux-curses-x64
+            os: linux
+            mxe: none
+            tiles: 0
+            artifact: linux-curses-x64
+            ext: tar.gz
+            content: application/gzip
     name: ${{ matrix.name }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Install dependencies
+      - name: Install dependencies (windows)
+        if: matrix.os == 'windows'
         run: |
-          sudo apt install astyle autoconf automake autopoint bash bison bzip2 cmake flex gettext git g++ gperf intltool libffi-dev libgdk-pixbuf2.0-dev libtool libltdl-dev libssl-dev libxml-parser-perl lzip make mingw-w64 openssl p7zip-full patch perl pkg-config python ruby scons sed unzip wget xz-utils g++-multilib libc6-dev-i386 libtool-bin
+          sudo apt install astyle autoconf automake autopoint bash bison bzip2 cmake flex gettext git g++ gperf intltool \
+            libffi-dev libgdk-pixbuf2.0-dev libtool libltdl-dev libssl-dev libxml-parser-perl lzip make mingw-w64 openssl \
+            p7zip-full patch perl pkg-config python ruby scons sed unzip wget xz-utils g++-multilib libc6-dev-i386 libtool-bin
       - name: Install MXE
+        if: matrix.mxe != 'none'
         run: |
           sudo apt install software-properties-common lsb-release
           sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 86B72ED9
           sudo add-apt-repository "deb [arch=amd64] https://pkg.mxe.cc/repos/apt `lsb_release -sc` main"
           sudo apt update
           sudo apt install mxe-{i686,x86-64}-w64-mingw32.static-{sdl2,sdl2-ttf,sdl2-image,sdl2-mixer,gettext}
-      - name: Build CDDA
+      - name: Install dependencies (Linux)
+        if: matrix.os == 'linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install libncursesw5-dev libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev \
+            libsdl2-mixer-dev libpulse-dev ccache gettext parallel
+      - name: Build CDDA (linux)
+        if: matrix.os == 'linux'
+        run: |
+          cat >VERSION.txt <<EOL
+          build type: ${{ matrix.artifact }}
+          build number: ${{ github.run_number }}
+          commit sha: ${{ github.sha }}
+          commit url: https://github.com/${{ github.repository }}/commit/${{ github.sha }}
+          EOL
+          make -j$((`nproc`+0)) TILES=${{ matrix.tiles }} SOUND=${{ matrix.tiles }} RELEASE=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=0 PCH=0 bindist
+          mv cataclysmdda-0.E.tar.gz cdda-${{ matrix.artifact }}-b${{ github.run_number }}.tar.gz
+      - name: Build CDDA (windows)
+        if: matrix.os == 'windows'
         env:
           PLATFORM: /usr/lib/mxe/usr/bin/${{ matrix.mxe }}-w64-mingw32.static-
         run: |
@@ -65,7 +107,6 @@ jobs:
           commit sha: ${{ github.sha }}
           commit url: https://github.com/${{ github.repository }}/commit/${{ github.sha }}
           EOL
-
           make -j$((`nproc`+0)) CROSS="${PLATFORM}" TILES=1 SOUND=1 RELEASE=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=0 PCH=0 bindist
           mv cataclysmdda-0.E.zip cdda-${{ matrix.artifact }}-b${{ github.run_number }}.zip
       - name: Upload release asset
@@ -75,6 +116,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.release.outputs.upload_url }} 
-          asset_path: cdda-${{ matrix.artifact }}-b${{ github.run_number }}.zip
-          asset_name: cdda-${{ matrix.artifact }}-b${{ github.run_number }}.zip
-          asset_content_type: application/zip
+          asset_path: cdda-${{ matrix.artifact }}-b${{ github.run_number }}.${{ matrix.ext }}
+          asset_name: cdda-${{ matrix.artifact }}-b${{ github.run_number }}.${{ matrix.ext }}
+          asset_content_type: ${{ matrix.content }}
