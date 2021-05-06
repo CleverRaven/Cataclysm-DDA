@@ -5131,9 +5131,6 @@ units::mass item::weight( bool include_contents, bool integral ) const
         ret *= 0.75;
     }
 
-    if (include_contents) {
-        ret += contents.item_weight_modifier();
-    }
 
     // if this is a gun apply all of its gunmods' weight multipliers
     if( type->gun ) {
@@ -5170,6 +5167,10 @@ units::mass item::weight( bool include_contents, bool integral ) const
         }
     }
 
+    if( include_contents ) {
+        ret += contents.item_weight_modifier();
+    }
+
     // if this is an ammo belt add the weight of any implicitly contained linkages
     if( type->magazine && type->magazine->linkage ) {
         item links( *type->magazine->linkage );
@@ -5184,15 +5185,6 @@ units::mass item::weight( bool include_contents, bool integral ) const
         const units::mass barrel_weight = units::from_gram( b.value() * type->weight.value() /
                                           type->volume.value() );
         ret -= std::min( max_barrel_weight, barrel_weight );
-    }
-
-    if( is_gun() ) {
-        for( const item *elem : gunmods() ) {
-            ret += elem->weight( true, true );
-        }
-        if( magazine_current() ) {
-            ret += magazine_current()->weight();
-        }
     }
 
     return ret;
