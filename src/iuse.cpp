@@ -1986,7 +1986,7 @@ cata::optional<int> iuse::fish_trap( player *p, item *it, bool t, const tripoint
 
 cata::optional<int> iuse::extinguisher( player *p, item *it, bool, const tripoint & )
 {
-    if( !it->ammo_sufficient() ) {
+    if( !it->ammo_sufficient( p ) ) {
         return cata::nullopt;
     }
     // If anyone other than the player wants to use one of these,
@@ -2042,7 +2042,7 @@ cata::optional<int> iuse::extinguisher( player *p, item *it, bool, const tripoin
 cata::optional<int> iuse::rm13armor_off( player *p, item *it, bool, const tripoint & )
 {
     // This allows it to turn on for a turn, because ammo_sufficient assumes non-tool non-weapons need zero ammo, for some reason.
-    if( !it->ammo_sufficient() ) {
+    if( !it->ammo_sufficient( p ) ) {
         p->add_msg_if_player( m_info, _( "The RM13 combat armor's fuel cells are dead." ) );
         return cata::nullopt;
     } else {
@@ -3593,7 +3593,7 @@ cata::optional<int> iuse::teleport( player *p, item *it, bool, const tripoint & 
         p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return cata::nullopt;
     }
-    if( !it->ammo_sufficient() ) {
+    if( !it->ammo_sufficient( p ) ) {
         return cata::nullopt;
     }
     p->moves -= to_moves<int>( 1_seconds );
@@ -4009,7 +4009,7 @@ cata::optional<int> iuse::mininuke( player *p, item *it, bool, const tripoint & 
 
 cata::optional<int> iuse::portal( player *p, item *it, bool, const tripoint & )
 {
-    if( !it->ammo_sufficient() ) {
+    if( !it->ammo_sufficient( p ) ) {
         return cata::nullopt;
     }
     if( p->is_mounted() ) {
@@ -5612,7 +5612,7 @@ cata::optional<int> iuse::adrenaline_injector( player *p, item *it, bool, const 
 
 cata::optional<int> iuse::jet_injector( player *p, item *it, bool, const tripoint & )
 {
-    if( !it->ammo_sufficient() ) {
+    if( !it->ammo_sufficient( p ) ) {
         p->add_msg_if_player( m_info, _( "The jet injector is empty." ) );
         return cata::nullopt;
     } else {
@@ -5640,7 +5640,7 @@ cata::optional<int> iuse::stimpack( player *p, item *it, bool, const tripoint & 
         return cata::nullopt;
     }
 
-    if( !it->ammo_sufficient() ) {
+    if( !it->ammo_sufficient( p ) ) {
         p->add_msg_if_player( m_info, _( "The stimulant delivery system is empty." ) );
         return cata::nullopt;
     } else {
@@ -7878,7 +7878,7 @@ cata::optional<int> iuse::radiocar( player *p, item *it, bool, const tripoint & 
     }
 
     if( choice == 0 ) { //Turn car ON
-        if( !it->ammo_sufficient() ) {
+        if( !it->ammo_sufficient( p ) ) {
             p->add_msg_if_player( _( "The RC car's batteries seem to be dead." ) );
             return cata::nullopt;
         }
@@ -7942,7 +7942,7 @@ cata::optional<int> iuse::radiocaron( player *p, item *it, bool t, const tripoin
         sounds::sound( pos, 6, sounds::sound_t::movement, _( "buzzz…" ), true, "misc", "rc_car_drives" );
 
         return it->type->charges_to_use();
-    } else if( !it->ammo_sufficient() ) {
+    } else if( !it->ammo_sufficient( p ) ) {
         // Deactivate since other mode has an iuse too.
         it->active = false;
         return 0;
@@ -9139,7 +9139,7 @@ cata::optional<int> iuse::shavekit( player *p, item *it, bool, const tripoint & 
         p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return cata::nullopt;
     }
-    if( !it->ammo_sufficient() ) {
+    if( !it->ammo_sufficient( p ) ) {
         p->add_msg_if_player( _( "You need soap to use this." ) );
     } else {
         p->assign_activity( player_activity( shave_activity_actor() ) );

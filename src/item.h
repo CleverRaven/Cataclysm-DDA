@@ -1879,11 +1879,11 @@ class item : public visitable
          * the future.  Users of this function will not need to be refactored when this
          * happens.
          *
-         * @param carrier who holds the item. Needed for UPS/bionic only
+         * @param carrier who holds the item. Needed for UPS/bionic
          * @param qty Number of uses
          * @returns true if ammo sufficient for number of uses is loaded, false otherwise
          */
-        bool ammo_sufficient( const Character *carrier = nullptr, int qty = 1 ) const;
+        bool ammo_sufficient( const Character *carrier, int qty = 1 ) const;
 
         /**
          * Consume ammo (if available) and return the amount of ammo that was consumed

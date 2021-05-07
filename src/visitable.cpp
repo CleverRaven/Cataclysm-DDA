@@ -748,7 +748,7 @@ static int charges_of_internal( const T &self, const M &main, const itype_id &id
                     if( e->has_flag( STATIC( flag_id( "USE_UPS" ) ) ) ) {
                         found_tool_with_UPS = true;
                     }
-                    if( e->has_flag( flag_id( "USES_BIONIC_POWER" ) ) ) {
+                    if( e->has_flag( STATIC( flag_id( "USES_BIONIC_POWER" ) ) ) ) {
                         qty = sum_no_wrap( qty, units::to_kilojoule( get_player_character().get_power_level() ) );
                     }
                 }
