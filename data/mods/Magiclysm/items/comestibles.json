@@ -27,7 +27,7 @@
     "type": "COMESTIBLE",
     "id": "magic_whiskey",
     "name": { "str_sp": "whiskey" },
-    "copy_from": "whiskey",
+    "copy-from": "whiskey",
     "price": 0,
     "price_postapoc": 0
   },
