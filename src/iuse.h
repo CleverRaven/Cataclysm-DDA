@@ -174,6 +174,7 @@ cata::optional<int> robotcontrol( player *, item *, bool active, const tripoint 
 cata::optional<int> rpgdie( player *, item *, bool, const tripoint & );
 cata::optional<int> seed( player *, item *, bool, const tripoint & );
 cata::optional<int> shavekit( player *, item *, bool, const tripoint & );
+cata::optional<int> dentalhygiene( player *, item *, bool, const tripoint &);
 cata::optional<int> shocktonfa_off( player *, item *, bool, const tripoint & );
 cata::optional<int> shocktonfa_on( player *, item *, bool, const tripoint & );
 cata::optional<int> siphon( player *, item *, bool, const tripoint & );
