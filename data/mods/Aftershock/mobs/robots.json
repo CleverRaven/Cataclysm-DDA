@@ -740,5 +740,46 @@
     "death_drops": { "groups": [ [ "broken_robots", 1 ] ] },
     "death_function": [ "BROKEN" ],
     "flags": [ "SEES", "HEARS", "BASHES", "ELECTRONIC", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_1" ]
+  },
+  {
+    "id": "mon_cybermoose",
+    "type": "MONSTER",
+    "name": { "str": "Cybermoose" },
+    "description": "The Cybermoose was a classified effort to fortify the most feared of North America's predators, the Alces Alces, with a bionic fortification of unprecedented versatility. It now sports a 40 mm shoulder cannon, a laser cannon on its right arm, and a particularly scary-looking bayonet on its left. Pulsating glowing orange tubes feed it with a steady supply of adrenaline, creatine, steroids, and a carefully classified stream of specialized \"low-grade\" methamphetamines directly into its blood stream. A cold glowing red eye gives it equal visual acuity in the daylight and the dark. It... it might be better to just leave this one alone and sneak the other way, man.",
+    "default_faction": "military",
+    "species": [ "MAMMAL", "ROBOT" ],
+    "diff": 20,
+    "volume": "800000 ml",
+    "weight": "800 kg",
+    "hp": 160,
+    "speed": 148,
+    "material": [ "flesh", "steel" ],
+    "symbol": "R",
+    "color": "light_gray",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 7,
+    "melee_dice": 4,
+    "melee_dice_sides": 3,
+    "melee_cut": 8,
+    "armor_bash": 21,
+    "armor_cut": 16,
+    "armor_bullet": 14,
+    "vision_day": 50,
+    "vision_night": 50,
+    "starting_ammo": { "40x46mm_m433": 100, "556": 1000 },
+    "path_settings": { "max_dist": 10 },
+    "special_attacks": [
+    	[ "CHICKENBOT", 4 ],
+        {
+		    "type": "gun",
+		    "cooldown": 8,
+		    "gun_type": "v29_turret",
+	        "fake_skills": [ [ "gun", 4 ], [ "pistol", 4 ] ],
+	        "ranges": [ [ 0, 30, "DEFAULT" ] ]
+		 }
+	 ],
+    "death_function": [ "BROKEN" ],
+    "flags": [ "SEES", "HEARS", "BASHES", "ELECTRONIC", "PRIORITIZE_TARGETS", "DROPS_AMMO" ]
   }
 ]
