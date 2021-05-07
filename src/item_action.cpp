@@ -151,9 +151,7 @@ item_action_map item_action_generator::map_actions_to_items( player &p,
                    func->get_actor_ptr()->can_use( p, *actual_item, false, p.pos() ).success() ) ) {
                 continue;
             }
-            if( !actual_item->ammo_sufficient( &p ) &&
-                ( !actual_item->has_flag( STATIC( flag_id( "USE_UPS" ) ) ) ||
-                  p.available_ups() < actual_item->ammo_required() ) ) {
+            if( !actual_item->ammo_sufficient( &p ) ) {
                 continue;
             }
 
