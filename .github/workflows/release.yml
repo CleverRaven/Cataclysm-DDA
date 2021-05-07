@@ -38,35 +38,49 @@ jobs:
           - name: Windows Tiles x64
             mxe: x86_64
             artifact: windows-tiles-x64
-            os: windows
+            os: ubuntu-latest
             ext: zip
             content: application/zip
           - name: Windows Tiles x32
             mxe: i686
             artifact: windows-tiles-x32
-            os: windows
+            os: ubuntu-latest
             ext: zip
             content: application/zip
           - name: Linux Tiles x64
-            os: linux
+            os: ubuntu-latest
             mxe: none
             tiles: 1
             artifact: linux-tiles-x64
             ext: tar.gz
             content: application/gzip
           - name: linux-curses-x64
-            os: linux
+            os: ubuntu-latest
             mxe: none
             tiles: 0
             artifact: linux-curses-x64
             ext: tar.gz
             content: application/gzip
+          - name: osx-curses-x64
+            os: macos-10.15
+            mxe: none
+            tiles: 0
+            artifact: osx-curses-x64
+            ext: dmg
+            content: application/x-apple-diskimage
+          - name: osx-tiles-x64
+            os: macos-10.15
+            mxe: none
+            tiles: 1
+            artifact: osx-tiles-x64
+            ext: dmg
+            content: application/x-apple-diskimage
     name: ${{ matrix.name }}
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
       - name: Install dependencies (windows)
-        if: matrix.os == 'windows'
+        if: matrix.mxe != 'none'
         run: |
           sudo apt install astyle autoconf automake autopoint bash bison bzip2 cmake flex gettext git g++ gperf intltool \
             libffi-dev libgdk-pixbuf2.0-dev libtool libltdl-dev libssl-dev libxml-parser-perl lzip make mingw-w64 openssl \
@@ -80,13 +94,18 @@ jobs:
           sudo apt update
           sudo apt install mxe-{i686,x86-64}-w64-mingw32.static-{sdl2,sdl2-ttf,sdl2-image,sdl2-mixer,gettext}
       - name: Install dependencies (Linux)
-        if: matrix.os == 'linux'
+        if: runner.os == 'Linux' && matrix.mxe == 'none'
         run: |
           sudo apt-get update
           sudo apt-get install libncursesw5-dev libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev \
             libsdl2-mixer-dev libpulse-dev ccache gettext parallel
+      - name: Install dependencies (mac)
+        if: runner.os == 'macOS'
+        run: |
+          HOMEBREW_NO_AUTO_UPDATE=yes HOMEBREW_NO_INSTALL_CLEANUP=yes brew install sdl2 sdl2_image sdl2_ttf sdl2_mixer gettext ccache parallel
+          pip3 install dmgbuild biplist
       - name: Build CDDA (linux)
-        if: matrix.os == 'linux'
+        if: runner.os == 'Linux' && matrix.mxe == 'none'
         run: |
           cat >VERSION.txt <<EOL
           build type: ${{ matrix.artifact }}
@@ -97,7 +116,7 @@ jobs:
           make -j$((`nproc`+0)) TILES=${{ matrix.tiles }} SOUND=${{ matrix.tiles }} RELEASE=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=0 PCH=0 bindist
           mv cataclysmdda-0.E.tar.gz cdda-${{ matrix.artifact }}-b${{ github.run_number }}.tar.gz
       - name: Build CDDA (windows)
-        if: matrix.os == 'windows'
+        if: matrix.mxe != 'none'
         env:
           PLATFORM: /usr/lib/mxe/usr/bin/${{ matrix.mxe }}-w64-mingw32.static-
         run: |
@@ -109,6 +128,17 @@ jobs:
           EOL
           make -j$((`nproc`+0)) CROSS="${PLATFORM}" TILES=1 SOUND=1 RELEASE=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=0 PCH=0 bindist
           mv cataclysmdda-0.E.zip cdda-${{ matrix.artifact }}-b${{ github.run_number }}.zip
+      - name: Build CDDA (osx)
+        if: runner.os == 'macOS'
+        run: |
+          cat >VERSION.txt <<EOL
+          build type: ${{ matrix.artifact }}
+          build number: ${{ github.run_number }}
+          commit sha: ${{ github.sha }}
+          commit url: https://github.com/${{ github.repository }}/commit/${{ github.sha }}
+          EOL
+          make -j3 TILES=${{ matrix.tiles }} SOUND=${{ matrix.tiles }} RELEASE=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=0 PCH=0 dmgdist
+          mv Cataclysm.dmg cdda-${{ matrix.artifact }}-b${{ github.run_number }}.dmg
       - name: Upload release asset
         id: upload-release-asset 
         uses: actions/upload-release-asset@v1
