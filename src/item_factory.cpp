@@ -903,6 +903,7 @@ void Item_factory::init()
     add_iuse( "ECS_LAJATANG_OFF", &iuse::ecs_lajatang_off );
     add_iuse( "ECS_LAJATANG_ON", &iuse::ecs_lajatang_on );
     add_iuse( "DATURA", &iuse::datura );
+    add_iuse( "DENTALHYGIENE", &iuse::dentalhygiene );
     add_iuse( "DIG", &iuse::dig );
     add_iuse( "DIVE_TANK", &iuse::dive_tank );
     add_iuse( "DIRECTIONAL_ANTENNA", &iuse::directional_antenna );
