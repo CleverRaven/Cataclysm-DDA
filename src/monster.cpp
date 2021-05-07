@@ -1256,7 +1256,7 @@ monster_attitude monster::attitude( const Character *u ) const
         return MATT_FOLLOW;
     }
 
-    if( has_flag( MF_KEEP_DISTANCE ) &&  rl_dist( pos(), goal ) < type->tracking_distance ) {
+    if( has_flag( MF_KEEP_DISTANCE ) && rl_dist( pos(), goal ) < type->tracking_distance ) {
         return MATT_FLEE;
     }
 

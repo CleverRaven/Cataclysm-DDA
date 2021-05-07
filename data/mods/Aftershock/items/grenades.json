@@ -6,7 +6,7 @@
     "category": "weapons",
     "looks_like": "c4",
     "name": "Kabura-ya antipersonnel device",
-    "description": "A tiny plastic explosive meant to be installed within a Kabura-ya drone. Explodes in 3 turns after activation",
+    "description": "A tiny plastic explosive meant to be installed in a Kabura-ya drone.  Explodes 3 turns after activation.",
     "use_action": {
       "need_wielding": true,
       "target": "afs_kaburaya_bomb_act",
@@ -24,7 +24,7 @@
     "copy-from": "grenade_canister",
     "looks_like": "c4",
     "name": "Armed Kabura-ya antipersonnel device",
-    "description": "A tiny plastic explosive meant to be installed within a Kabura-ya drone.  Is on the verge of exploding",
+    "description": "A tiny plastic explosive meant to be installed within a Kabura-ya drone.  It is on the verge of exploding.",
     "initial_charges": 3,
     "max_charges": 3,
     "turns_per_charge": 2,
