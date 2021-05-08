@@ -22,8 +22,8 @@
     },
     "weather": {
       "base_temperature": -50.0,
-      "base_humidity": 100.0,
-      "base_pressure": 1000.0,
+      "base_humidity": 80.0,
+      "base_pressure": 1015.0,
       "base_wind": 9.0,
       "base_wind_distrib_peaks": 80,
       "base_wind_season_variation": 50,
@@ -31,22 +31,19 @@
         "clear",
         "sunny",
         "cloudy",
-        "light_drizzle",
-        "drizzle",
-        "rain",
-        "thunder",
-        "lightning",
-        "flurries",
-        "snowing",
-        "snowstorm"
+        "afs_whiteout",
+        "afs_thunder",
+        "afs_lightning",
+        "afs_flurries",
+        "afs_snowing"
       ]
     },
     "region_terrain_and_furniture": {
       "terrain": {
         "t_region_groundcover": { "t_snow": 32, "t_ice": 2, "t_deaddirt": 5 },
         "t_region_groundcover_urban": { "t_snow": 20, "t_ice": 3 },
-        "t_region_groundcover_forest": { "t_snow": 63, "t_lichen": 35, "t_lichendirt": 35, "t_fuma_ice": 1 },
-        "t_region_groundcover_swamp": { "t_snow": 63, "t_lichen": 35, "t_lichendirt": 35, "t_fuma_ice": 1 },
+        "t_region_groundcover_forest": { "t_snow": 410, "t_lichen": 300, "t_lichendirt": 300, "t_fuma_ice": 1 },
+        "t_region_groundcover_swamp": { "t_snow": 410, "t_lichen": 300, "t_lichendirt": 300, "t_fuma_ice": 1 },
         "t_region_groundcover_barren": { "t_snow": 20, "t_ice": 3 },
         "t_region_grass": { "t_lichen": 1 },
         "t_region_soil": { "t_deaddirt": 1 },
@@ -75,7 +72,7 @@
       }
     },
     "field_coverage": {
-      "percent_coverage": 0.2,
+      "percent_coverage": 0.02,
       "default_ter": "t_lichen",
       "other": {
         "t_region_tree": 1,
@@ -218,35 +215,6 @@
       "trailheads": { "trailhead_basic": 1, "trailhead_outhouse": 1, "trailhead_shack": 1 }
     },
     "map_extras": {
-      "forest": { "chance": 0, "extras": { "mx_portal": 0, "mx_portal_in": 0, "mx_spider": 0 } },
-      "forest_thick": { "chance": 0, "extras": { "mx_portal": 0, "mx_portal_in": 0, "mx_shia": 0, "mx_spider": 0, "mx_jabberwock": 0 } },
-      "forest_water": { "chance": 0, "extras": { "mx_portal": 0, "mx_portal_in": 0, "mx_spider": 0, "mx_nest_dermatik": 0 } },
-      "field": {
-        "chance": 6,
-        "extras": {
-          "mx_crater": 1
-        }
-      },
-      "road": {
-        "chance": 6,
-        "extras": {
-          "mx_crater": 1
-        }
-      },
-      "build": {
-        "chance": 2,
-        "extras": {
-          "mx_crater": 1
-        }
-      },
-      "marloss": { "chance": 0, "extras": { "mx_marloss_pilgrimage": 0 } },
-      "subway": {
-        "chance": 6,
-        "extras": {
-          "mx_corpses": 10,
-          "mx_casings": 20
-        }
-      }
     }
   }
 ]
