@@ -25,8 +25,20 @@
   },
   {
     "type": "enchantment",
-    "id": "protect_cold",
+    "id": "forcefield_bash_cut_weak",
     "condition": "ACTIVE",
-    "values": [ { "value": "ARMOR_COLD", "add": -15 } ]
+    "values": [ { "value": "ARMOR_BASH", "add": -5 }, { "value": "ARMOR_CUT", "add": -5 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "forcefield_bash_cut_medium",
+    "condition": "ACTIVE",
+    "values": [ { "value": "ARMOR_BASH", "add": -10 }, { "value": "ARMOR_CUT", "add": -10 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "forcefield_bash_cut_heavy",
+    "condition": "ACTIVE",
+    "values": [ { "value": "ARMOR_BASH", "add": -15 }, { "value": "ARMOR_CUT", "add": -15 } ]
   }
 ]
