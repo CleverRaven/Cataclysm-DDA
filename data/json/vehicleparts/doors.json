@@ -33,6 +33,7 @@
   {
     "copy-from": "door_abstract",
     "id": "door_full",
+    "looks_like": "door",
     "type": "vehicle_part"
   },
   {
@@ -69,6 +70,7 @@
   {
     "copy-from": "door_opaque_abstract",
     "id": "door_opaque_full",
+    "looks_like": "door_opaque",
     "type": "vehicle_part"
   },
   {
@@ -105,6 +107,7 @@
   {
     "copy-from": "hddoor_abstract",
     "id": "hddoor_full",
+    "looks_like": "hddoor",
     "type": "vehicle_part"
   },
   {
@@ -141,6 +144,7 @@
   {
     "copy-from": "hddoor_opaque_abstract",
     "id": "hddoor_opaque_full",
+    "looks_like": "hddoor_opaque",
     "type": "vehicle_part"
   },
   {
