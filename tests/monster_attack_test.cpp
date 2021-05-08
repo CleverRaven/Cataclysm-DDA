@@ -19,6 +19,28 @@
 
 static constexpr tripoint attacker_location{ 65, 65, 0 };
 
+static void reset_caches( int a_zlev, int t_zlev )
+{
+    Character &you = get_player_character();
+    map &here = get_map();
+    // Why twice? See vision_test.cpp
+    here.update_visibility_cache( a_zlev );
+    here.invalidate_map_cache( a_zlev );
+    here.build_map_cache( a_zlev );
+    here.update_visibility_cache( a_zlev );
+    here.invalidate_map_cache( a_zlev );
+    here.build_map_cache( a_zlev );
+    if( a_zlev != t_zlev ) {
+        here.update_visibility_cache( t_zlev );
+        here.invalidate_map_cache( t_zlev );
+        here.build_map_cache( t_zlev );
+        here.update_visibility_cache( t_zlev );
+        here.invalidate_map_cache( t_zlev );
+        here.build_map_cache( t_zlev );
+    }
+    you.recalc_sight_limits();
+}
+
 static void test_monster_attack( const tripoint &target_offset, bool expect_attack,
                                  bool expect_vision )
 {
@@ -37,23 +59,7 @@ static void test_monster_attack( const tripoint &target_offset, bool expect_atta
     clear_avatar();
     you.setpos( target_location );
     monster &test_monster = spawn_test_monster( monster_type, attacker_location );
-    map &here = get_map();
-    // Why twice? See vision_test.cpp
-    here.update_visibility_cache( a_zlev );
-    here.invalidate_map_cache( a_zlev );
-    here.build_map_cache( a_zlev );
-    here.update_visibility_cache( a_zlev );
-    here.invalidate_map_cache( a_zlev );
-    here.build_map_cache( a_zlev );
-    if( a_zlev != t_zlev ) {
-        here.update_visibility_cache( t_zlev );
-        here.invalidate_map_cache( t_zlev );
-        here.build_map_cache( t_zlev );
-        here.update_visibility_cache( t_zlev );
-        here.invalidate_map_cache( t_zlev );
-        here.build_map_cache( t_zlev );
-    }
-    you.recalc_sight_limits();
+    reset_caches( a_zlev, t_zlev );
     // Trigger basic attack.
     CAPTURE( attacker_location );
     CAPTURE( target_location );
@@ -65,21 +71,7 @@ static void test_monster_attack( const tripoint &target_offset, bool expect_atta
     clear_avatar();
     you.setpos( attacker_location );
     monster &target_monster = spawn_test_monster( monster_type, target_location );
-    here.update_visibility_cache( a_zlev );
-    here.invalidate_map_cache( a_zlev );
-    here.build_map_cache( a_zlev );
-    here.update_visibility_cache( a_zlev );
-    here.invalidate_map_cache( a_zlev );
-    here.build_map_cache( a_zlev );
-    if( a_zlev != t_zlev ) {
-        here.update_visibility_cache( t_zlev );
-        here.invalidate_map_cache( t_zlev );
-        here.build_map_cache( t_zlev );
-        here.update_visibility_cache( t_zlev );
-        here.invalidate_map_cache( t_zlev );
-        here.build_map_cache( t_zlev );
-    }
-    you.recalc_sight_limits();
+    reset_caches( a_zlev, t_zlev );
     CHECK( you.sees( target_monster ) == expect_vision );
     CHECK( you.melee_attack( target_monster, false ) == expect_attack );
 }
