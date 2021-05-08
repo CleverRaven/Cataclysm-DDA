@@ -27,16 +27,7 @@
       "base_wind": 9.0,
       "base_wind_distrib_peaks": 80,
       "base_wind_season_variation": 50,
-      "weather_types": [
-        "clear",
-        "sunny",
-        "cloudy",
-        "afs_whiteout",
-        "afs_thunder",
-        "afs_lightning",
-        "afs_flurries",
-        "afs_snowing"
-      ]
+      "weather_types": [ "clear", "sunny", "cloudy", "afs_whiteout", "afs_thunder", "afs_lightning", "afs_flurries", "afs_snowing" ]
     },
     "region_terrain_and_furniture": {
       "terrain": {
@@ -85,10 +76,7 @@
       },
       "boost_chance": 0.03,
       "boosted_percent_coverage": 2.5,
-      "boosted_other": {
-        "t_lichen": 0.2,
-        "t_lichendirt": 0.1
-      },
+      "boosted_other": { "t_lichen": 0.2, "t_lichendirt": 0.1 },
       "boosted_other_percent": 50.0
     },
     "overmap_lake_settings": {
@@ -214,7 +202,6 @@
       "trail_terrain": { "t_deaddirt": 1 },
       "trailheads": { "trailhead_basic": 1, "trailhead_outhouse": 1, "trailhead_shack": 1 }
     },
-    "map_extras": {
-    }
+    "map_extras": {  }
   }
 ]
