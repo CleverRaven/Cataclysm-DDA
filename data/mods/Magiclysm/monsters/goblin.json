@@ -36,7 +36,8 @@
       ]
     },
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "FILTHY", "PATH_AVOID_DANGER_1" ]
+    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "FILTHY", "PATH_AVOID_DANGER_1" ],
+    "zombify_into": "mon_goblin_warrior_zombie"
   },
   {
     "type": "MONSTER",
@@ -74,7 +75,8 @@
           "no_ammo_sound": "grunting"
         }
       ]
-    }
+    },
+    "zombify_into": "mon_goblin_slinger_zombie"
   },
   {
     "id": "mon_goblin_chieftain",
@@ -96,7 +98,8 @@
         { "item": "cuirass_scrap", "prob": 40 },
         { "group": "enchanted_melee_weapons_plus1", "prob": 100 }
       ]
-    }
+    },
+    "zombify_into": "mon_goblin_chieftain_zombie"
   },
   {
     "id": "mon_troll_goblin_tamed",

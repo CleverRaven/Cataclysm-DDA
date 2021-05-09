@@ -221,5 +221,107 @@
     },
     "proportional": { "volume": 1.01, "weight": 0.95 },
     "extend": { "flags": [ "PATH_AVOID_DANGER_1" ], "special_attacks": [ { "type": "leap", "cooldown": 7, "max_range": 2 } ] }
+  },
+  {
+    "id": "mon_goblin_warrior_zombie",
+    "type": "MONSTER",
+    "name": { "str": "zoblin warrior" },
+    "description": "This short decaying humanoid is covered in filth.  Even after death, it brandishes a well-worn bloody cudgel.",
+    "default_faction": "zombie",
+    "bodytype": "human",
+    "species": [ "GOBLIN", "ZOMBIE" ],
+    "volume": "32 L",
+    "weight": "42 kg",
+    "hp": 31,
+    "speed": 91,
+    "material": [ "flesh" ],
+    "symbol": "g",
+    "color": "brown",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 3,
+    "melee_dice": 2,
+    "melee_dice_sides": 3,
+    "dodge": 3,
+    "harvest": "zombie",
+    "vision_day": 17,
+    "vision_night": 4,
+    "death_drops": {
+      "subtype": "collection",
+      "items": [
+        { "item": "helmet_scrap", "prob": 20 },
+        { "item": "legguard_scrap", "prob": 20 },
+        { "item": "boots_scrap", "prob": 20 },
+        { "item": "armguard_scrap", "prob": 20 },
+        { "item": "cuirass_scrap", "prob": 20 },
+        { "item": "cudgel", "prob": 95 }
+      ]
+    },
+    "death_function": [ "NORMAL" ],
+    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "FILTHY", "STUMBLES", "BASHES", "POISON", "NO_BREATHE", "REVIVES" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_goblin_slinger_zombie",
+    "copy-from": "mon_goblin_warrior_zombie",
+    "name": { "str": "zoblin slinger" },
+    "description": "A short, zombified ugly creature that shabbily slings rocks at enemies.",
+    "melee_skill": 1,
+    "death_drops": {
+      "subtype": "collection",
+      "items": [
+        { "item": "helmet_scrap", "prob": 40 },
+        { "item": "legguard_scrap", "prob": 40 },
+        { "item": "boots_scrap", "prob": 40 },
+        { "item": "armguard_scrap", "prob": 40 },
+        { "item": "cuirass_scrap", "prob": 40 },
+        { "item": "sling", "prob": 95 }
+      ]
+    },
+    "starting_ammo": { "rock": 7 },
+    "extend": {
+      "special_attacks": [
+        {
+          "type": "gun",
+          "cooldown": 15,
+          "move_cost": 110,
+          "gun_type": "sling",
+          "ammo_type": "rock",
+          "fake_skills": [ [ "gun", 3 ], [ "rifle", 2 ] ],
+          "fake_dex": 7,
+          "fake_per": 7,
+          "require_targeting_player": false,
+          "description": "The zombified goblin slings a rock at you!",
+          "ranges": [ [ 2, 12, "DEFAULT" ] ],
+          "no_ammo_sound": "grunting"
+        }
+      ]
+    }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_goblin_chieftain_zombie",
+    "copy-from": "mon_goblin_warrior_zombie",
+    "name": { "str": "zoblin chieftain" },
+    "description": "An ugly, pale-greenish creature.  It's able to wield weapons with increased dexterity…  for a goblin that is.",
+    "hp": 127,
+    "speed": 95,
+    "melee_skill": 3,
+    "melee_dice_sides": 6,
+    "dodge": 4,
+    "vision_day": 20,
+    "vision_night": 5,
+    "death_drops": {
+      "subtype": "collection",
+      "items": [
+        { "item": "helmet_scrap", "prob": 27 },
+        { "item": "legguard_scrap", "prob": 27 },
+        { "item": "boots_scrap", "prob": 27 },
+        { "item": "armguard_scrap", "prob": 27 },
+        { "item": "cuirass_scrap", "prob": 27 },
+        { "group": "enchanted_melee_weapons_plus1", "prob": 100 }
+      ]
+    },
+    "proportional": { "volume": 1.01, "weight": 1.01 }
   }
 ]
