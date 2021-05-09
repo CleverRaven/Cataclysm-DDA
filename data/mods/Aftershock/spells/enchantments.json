@@ -40,5 +40,40 @@
     "id": "forcefield_bash_cut_heavy",
     "condition": "ACTIVE",
     "values": [ { "value": "ARMOR_BASH", "add": -15 }, { "value": "ARMOR_CUT", "add": -15 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "forcefield_ballistic_piercing_weak",
+    "condition": "ACTIVE",
+    "hit_me_effect": [
+      {
+        "id": "flashbang",
+        "hit_self": true,
+        "message": "Your shield reacts with a flash of light and sound.",
+        "npc_message": "%1$s's shield goes off with a flash of light and sound."
+      }
+    ],
+    "values": [ { "value": "ARMOR_BULLET", "add": -10 }, { "value": "ARMOR_STAB", "add": -10 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "forcefield_ballistic_piercing_medium",
+    "condition": "ACTIVE",
+    "hit_me_effect": [
+      {
+        "id": "static_field",
+        "hit_self": true,
+        "message": "Your shield reacts with an arc of electricity.",
+        "npc_message": "%1$s's shield goes off with an arc of electricity."
+      }
+    ],
+    "values": [ { "value": "ARMOR_BULLET", "add": -15 }, { "value": "ARMOR_STAB", "add": -15 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "forcefield_ballistic_piercing_medium",
+    "condition": "ACTIVE",
+    "intermittent_activation": { "effects": [ { "frequency": "2 hours", "spell_effects": [ { "id": "irradiate" } ] } ] }
+    "values": [ { "value": "ARMOR_BULLET", "add": -40 }, { "value": "ARMOR_STAB", "add": -40 } ]
   }
 ]
