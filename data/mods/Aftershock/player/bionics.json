@@ -80,6 +80,7 @@
       [ "foot_l", 1 ],
       [ "foot_r", 1 ]
     ],
+    "available_upgrades": { "bio_forcefield_bash_cut_medium", "bio_forcefield_bash_cut_heavy" },
     "act_cost": "1 kJ",
     "react_cost": "1 kJ",
     "time": 1,
@@ -103,6 +104,8 @@
       [ "foot_l", 1 ],
       [ "foot_r", 1 ]
     ],
+    "upgraded_bionic": "bio_forcefield_bash_cut_weak",
+    "available_upgrades": "bio_forcefield_bash_cut_heavy",
     "act_cost": "5 kJ",
     "react_cost": "5 kJ",
     "time": 1,
@@ -126,6 +129,7 @@
       [ "foot_l", 1 ],
       [ "foot_r", 1 ]
     ],
+    "upgraded_bionic": "bio_forcefield_bash_cut_medium",
     "act_cost": "10 kJ",
     "react_cost": "10 kJ",
     "time": 1,
@@ -149,6 +153,7 @@
       [ "foot_l", 1 ],
       [ "foot_r", 1 ]
     ],
+    "available_upgrades": { "bio_forcefield_ballistic_medium", "bio_forcefield_ballistic_heavy" },
     "act_cost": "1 kJ",
     "react_cost": "1 kJ",
     "time": 1,
@@ -172,6 +177,8 @@
       [ "foot_l", 1 ],
       [ "foot_r", 1 ]
     ],
+    "upgraded_bionic": "bio_forcefield_ballistic_weak",
+    "available_upgrades": "bio_forcefield_ballistic_heavy",
     "act_cost": "5 kJ",
     "react_cost": "5 kJ",
     "time": 1,
@@ -195,6 +202,7 @@
       [ "foot_l", 1 ],
       [ "foot_r", 1 ]
     ],
+    "upgraded_bionic": "bio_forcefield_ballistic_medium",
     "act_cost": "10 kJ",
     "react_cost": "10 kJ",
     "time": 1,
