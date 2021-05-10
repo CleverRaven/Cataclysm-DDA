@@ -73,7 +73,7 @@
     "type": "enchantment",
     "id": "forcefield_ballistic_piercing_heavy",
     "condition": "ACTIVE",
-    "intermittent_activation": { "effects": [ { "frequency": "1 hour", "spell_effects": [ { "id": "radiation_field" } ] } ] }
+    "intermittent_activation": { "effects": [ { "frequency": "1 hour", "spell_effects": [ { "id": "radiation_field" } ] } ] },
     "values": [ { "value": "ARMOR_BULLET", "add": -40 }, { "value": "ARMOR_STAB", "add": -40 } ]
   }
 ]
