@@ -74,6 +74,9 @@ static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
 static const trait_id trait_SAPROVORE( "SAPROVORE" );
 
+// terrain-furniture flags
+static const std::string flag_LIQUIDCONT( "LIQUIDCONT" );
+
 static const json_character_flag json_flag_BIONIC_NPC_USABLE( "BIONIC_NPC_USABLE" );
 
 using item_filter = std::function<bool ( const item & )>;
@@ -688,7 +691,10 @@ class comestible_inventory_preset : public inventory_selector_preset
         std::string get_denial( const item_location &loc ) const override {
             const item &med = *loc;
 
-            if( loc->made_of_from_type( phase_id::LIQUID ) && loc.where() != item_location::type::container ) {
+            if(
+                ( loc->made_of_from_type( phase_id::LIQUID ) &&
+                  loc.where() != item_location::type::container ) &&
+                !get_map().has_flag_furn( flag_LIQUIDCONT, loc.position() ) ) {
                 return _( "Can't drink spilt liquids." );
             }
 
