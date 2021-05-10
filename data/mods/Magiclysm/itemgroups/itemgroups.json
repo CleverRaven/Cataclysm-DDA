@@ -620,7 +620,7 @@
     ]
   },
   {
-    "id": "enchanted_tools_plus2",
+    "id": "enchanted_tools_plus1",
     "type": "item_group",
     "//": "Plus 1 enchanted tools. Relatively common drops in magical cabins, technomancer houses, and other locations where a mage would be doing some physical labor",
     "items": [
@@ -635,7 +635,7 @@
   {
     "id": "enchanted_tools_plus2",
     "type": "item_group",
-    "//": "Plus 2 enchanted tools. Rare drops in magical cabins, technomancer houses, and other locations where a mage would be doing some physical labor",
+    "//": "Plus 2 enchanted tools.",
     "items": [
       { "item": "knife_hunting_plus_two", "prob": 5 },
       { "item": "crowbar_plus_two", "prob": 5 },
