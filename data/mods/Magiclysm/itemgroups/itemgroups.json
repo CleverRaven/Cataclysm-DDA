@@ -204,6 +204,7 @@
     "subtype": "collection",
     "items": [
       { "group": "tools_common", "prob": 60 },
+      { "group": "enchanted_tools_plus1", "prob": 10 },
       { "group": "jewelry_safe", "prob": 10 },
       { "group": "jewelry_front", "prob": 8 },
       { "group": "potions_common", "prob": 15 },
@@ -1184,6 +1185,7 @@
       { "group": "enchanted_wands_lesser", "prob": 20 },
       { "group": "lair_black_dragon_treasure", "prob": 5 },
       { "group": "enchanted_melee_weapons_plus2", "prob": 20 },
+      { "group": "enchanted_tools_plus2", "prob": 10 },
       { "group": "demon_spider_lair_treasure", "prob": 10 },
       { "group": "enchanted_cloaks_rare", "prob": 10 }
     ]
