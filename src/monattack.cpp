@@ -4094,7 +4094,12 @@ bool mattack::stretch_bite( monster *z )
     // Let it be used on non-player creatures
     // can be used at close range too!
     Creature *target = z->attack_target();
-    if( target == nullptr || rl_dist( z->pos(), target->pos() ) > 3 || !z->sees( *target ) ) {
+    int distance = rl_dist( z->pos(), target->pos() );
+    // Hack, only allow attacking above or below if the target is adjacent.
+    if( z->pos().z != target->pos().z ) {
+        distance += 2;
+    }
+    if( target == nullptr || distance > 3 || !z->sees( *target ) ) {
         return false;
     }
 
@@ -4380,7 +4385,12 @@ bool mattack::longswipe( monster *z )
         return false;
     }
     // Out of range
-    if( rl_dist( z->pos(), target->pos() ) > 3 || !z->sees( *target ) ) {
+    int distance = rl_dist( z->pos(), target->pos() );
+    // Hack, only allow attacking above or below if the target is adjacent.
+    if( z->pos().z != target->pos().z ) {
+        distance += 2;
+    }
+    if( distance > 3 || !z->sees( *target ) ) {
         return false;
     }
     map &here = get_map();
@@ -5684,6 +5694,10 @@ bool mattack::stretch_attack( monster *z )
     }
 
     int distance = rl_dist( z->pos(), target->pos() );
+    // Hack, only allow attacking above or below if the target is adjacent.
+    if( z->pos().z != target->pos().z ) {
+        distance += 2;
+    }
     if( distance < 2 || distance > 3 || !z->sees( *target ) ) {
         return false;
     }
