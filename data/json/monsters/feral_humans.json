@@ -63,7 +63,7 @@
     "id": "mon_chud",
     "type": "MONSTER",
     "name": { "str": "feral troglobite" },
-    "description": "One of the still-living crazed humans, changed by something they are exposed to down here.  Their face is dominated by unnaturally large, faintly glowing eyes and needle-sharp teeth poking through their lips.  They remind you of something out of a campy monster movie - and of the good times when underground cannibals were less of a concern.",
+    "description": "One of the still-living crazed humans, changed by something they are exposed to down here.  Their face is dominated by unnaturally large, faintly glowing eyes and needle-sharp teeth poking through their lips.  They remind you of something out of a campy monster movie - and of the good times when underground cannibals were less of a real concern.",
     "copy-from": "mon_feral_human_pipe",
     "looks_like": "mon_zombie_runner",
     "symbol": "@",
