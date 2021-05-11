@@ -16,7 +16,7 @@
     "covers": [ "torso" ],
     "coverage": 5,
     "encumbrance": 2,
-    "max_encumbrance": 4,
+    "max_encumbrance": 5,
     "pocket_data": [
       { "max_contains_volume": "1 L", "max_contains_weight": "1500 g", "moves": 100 },
       {
@@ -165,9 +165,9 @@
     "covers": [ "torso" ],
     "coverage": 5,
     "encumbrance": 2,
-    "max_encumbrance": 4,
+    "max_encumbrance": 5,
     "pocket_data": [
-      { "max_contains_volume": "500 ml", "max_contains_weight": "1500 g", "moves": 100 },
+      { "max_contains_volume": "500 ml", "max_item_volume": "125 ml", "max_contains_weight": "1500 g", "moves": 100 },
       {
         "holster": true,
         "max_contains_volume": "2250 ml",
@@ -195,8 +195,8 @@
     "color": "brown",
     "covers": [ "torso" ],
     "coverage": 15,
-    "encumbrance": 3,
-    "max_encumbrance": 8,
+    "encumbrance": 2,
+    "max_encumbrance": 12,
     "material_thickness": 2,
     "pocket_data": [
       {
