@@ -622,8 +622,10 @@ bool throw_actor::call( monster &z ) const
 
         if( mattack::dodge_check( &z, target ) || target->uncanny_dodge() ) {
             game_message_type msg_type = target->is_avatar() ? m_good : m_info;
-            target->add_msg_player_or_npc( msg_type, _( "You dodge the thrown %1$s!" ), throwable_type.str(),
-                                           _( "<npcname> dodges the thrown %1$s!" ), throwable_type.str() );
+            target->add_msg_player_or_npc( msg_type,
+                                           _( "You dodge the thrown %1$s!" ),
+                                           _( "<npcname> dodges the thrown %1$s!" ),
+                                           throwable_type.str() );
             if( !target->uncanny_dodge() ) {
                 target->on_dodge( &z, z.type->melee_skill * 2 );
             }
@@ -652,4 +654,6 @@ bool throw_actor::call( monster &z ) const
                                         &z );
         return true;
     }
+
+    return false;
 }
