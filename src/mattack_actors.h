@@ -189,4 +189,26 @@ class gun_actor : public mattack_actor
         std::unique_ptr<mattack_actor> clone() const override;
 };
 
+class throw_actor : public mattack_actor
+{
+public:
+    // Maximum range at which attacker will throw its projectile
+    float range = 5.0f;
+    // Cost in moves (for attacker)
+    int move_cost = 150;
+    // Speed at which projectile is fired
+    int speed = 30;
+    // Maximum damage from the attack
+    damage_instance damage_max_instance = damage_instance::physical( 4, 0, 0, 0 );
+    // Description of the attack
+    translation description;
+    
+    throw_actor() = default;
+    ~throw_actor() override = default;
+
+    void load_internal( const JsonObject &obj, const std::string &src ) override;
+    bool call( monster & ) const override;
+    std::unique_ptr<mattack_actor> clone() const override;
+};
+
 #endif // CATA_SRC_MATTACK_ACTORS_H
