@@ -2566,7 +2566,7 @@ void item::gunmod_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     }
     if( mod.aim_speed >= 0 && parts->test( iteminfo_parts::GUNMOD_AIMSPEED ) ) {
         info.push_back( iteminfo( "GUNMOD", _( "Aim speed: " ), "",
-                                  iteminfo::lower_is_better, mod.aim_speed ) );
+                                  iteminfo::no_flags, mod.aim_speed ) );
     }
     int total_damage = static_cast<int>( mod.damage.total_damage() );
     if( total_damage != 0 && parts->test( iteminfo_parts::GUNMOD_DAMAGE ) ) {
