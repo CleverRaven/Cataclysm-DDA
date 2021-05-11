@@ -583,3 +583,16 @@ Fires a gun at a target. If friendly, will avoid harming the player.
 | `targeting_sound`           | Description of the sound made when targeting.
 | `targeting_volume`          | Volume of the sound made when targeting.
 | `no_ammo_sound`             | Description of the sound made when out of ammo.
+
+
+## "throw"
+
+Monster throws a projectile at its target, if it has at least one ammo at its disposal. Type and amount of projectile is determined by its `starting_ammo` field. If projectile weights more than 500 grams, this special attack has a 10% chance to stun the target on succesful hit.
+
+| field                 | description
+| ---                   | ---
+| `range`               | Maximum range at which attacker will throw its projectile.
+| `move_cost`           | Turns needed to complete special attack. 100 move_cost with 100 speed is equal to 1 second/turn.
+| `damage_max_instance` | Array of objects, see ## "melee_damage". This damage types will be dealt to the target on succesful hit.
+| `speed`               | Speed at which attacker will throw its projectile. It directly affects target's chance to dodge the attack.
+| `description`         | Description of the attack being executed if seen by the player.
