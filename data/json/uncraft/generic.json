@@ -1,12 +1,5 @@
 [
   {
-    "result": "basket_laundry",
-    "type": "uncraft",
-    "activity_level": "MODERATE_EXERCISE",
-    "time": "30 s",
-    "components": [ [ [ "plastic_chunk", 10 ] ] ]
-  },
-  {
     "result": "blade_scythe",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
@@ -70,7 +63,7 @@
     "difficulty": 1,
     "time": "22 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "rag", 60 ] ], [ [ "sheet", 4 ] ], [ [ "scrap", 20 ] ], [ [ "wire", 20 ] ] ]
+    "components": [ [ [ "rag", 60 ] ], [ [ "sheet", 4 ] ], [ [ "spring", 4 ] ], [ [ "wire", 20 ] ] ]
   },
   {
     "result": "character_sheet",

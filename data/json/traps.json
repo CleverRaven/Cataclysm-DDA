@@ -407,7 +407,7 @@
   {
     "type": "trap",
     "id": "tr_dissector",
-    "name": "dissector",
+    "name": "exposed high-energy conduit",
     "color": "cyan",
     "symbol": "7",
     "visibility": 2,

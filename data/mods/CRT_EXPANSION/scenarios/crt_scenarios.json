@@ -4,5 +4,52 @@
     "id": "lab_chal",
     "copy-from": "lab_chal",
     "extend": { "professions": [ "crt", "crt_engineer", "crt_employee", "crt_vamp" ] }
+  },
+  {
+    "type": "scenario",
+    "id": "lab_staff",
+    "copy-from": "lab_staff",
+    "extend": { "professions": [ "crt", "crt_engineer", "crt_dude", "crt_guard", "crt_employee", "crt_vamp" ] }
+  },
+  {
+    "copy-from": "heli_crash",
+    "type": "scenario",
+    "extend": {
+      "map_special": "mx_helicopter",
+      "professions": [
+        "crt_rotc",
+        "crt_nco",
+        "crt_rifleman",
+        "crt_medic",
+        "crt_saw",
+        "crt_officer",
+        "crt_guard",
+        "crt_juggernaught",
+        "crt",
+        "crt_exile",
+        "crt_engineer"
+      ]
+    },
+    "id": "heli_crash"
+  },
+  {
+    "copy-from": "overrun",
+    "type": "scenario",
+    "extend": {
+      "professions": [
+        "crt_rotc",
+        "crt_nco",
+        "crt_rifleman",
+        "crt_medic",
+        "crt_saw",
+        "crt_officer",
+        "crt_guard",
+        "crt_juggernaught",
+        "crt",
+        "crt_exile",
+        "crt_engineer"
+      ]
+    },
+    "id": "overrun"
   }
 ]

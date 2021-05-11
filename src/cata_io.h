@@ -21,7 +21,7 @@
  * and @ref JsonArrayOutputArchive) have (nearly) the same interface (mostly the `io` function),
  * they only differ in what the functions do. This is an important design decision, it allows
  * the archive type to be a template parameter. The `io` functions in both archive classes should
- * therefor have a compatible signature.
+ * therefore have a compatible signature.
  *
  * Archive classes also have a `is_input` member type, which is either @ref std::true_type or
  * if(the class is an input archive) or @ref std::false_type (it's an output archive). This can be
@@ -128,7 +128,7 @@ struct enable_if_type {
 /**
  * Implementation for classes that don't have an archive_type_tag defined. They use the
  * normal JsonSerializer / JsonDeserializer interface, which is handled directly by the Json
- * classes. Therefor the functions here simply forward to those.
+ * classes. Therefore the functions here simply forward to those.
  */
 template<class T, class E = void>
 struct has_archive_tag : std::false_type {
@@ -186,11 +186,11 @@ class JsonObjectInputArchive : public JsonObject
     public:
         using is_input = std::true_type;
 
-        JsonObjectInputArchive( const JsonObject &jo )
+        explicit JsonObjectInputArchive( const JsonObject &jo )
             : JsonObject( jo ) {
         }
         /** Create archive from next object in the given Json array. */
-        JsonObjectInputArchive( JsonArray & );
+        explicit JsonObjectInputArchive( JsonArray & );
         /** Create archive from named member object in the given Json object. */
         JsonObjectInputArchive( const JsonObject &, const std::string &key );
 
@@ -314,11 +314,11 @@ class JsonArrayInputArchive : public JsonArray
     public:
         using is_input = std::true_type;
 
-        JsonArrayInputArchive( const JsonArray &jo )
+        explicit JsonArrayInputArchive( const JsonArray &jo )
             : JsonArray( jo ) {
         }
-        /** Create archive from next object in the given Json array. */
-        JsonArrayInputArchive( JsonArray & );
+        /** Create archive from next object in the giexplicit ven Json array. */
+        explicit JsonArrayInputArchive( JsonArray & );
         /** Create archive from named member object in the given Json object. */
         JsonArrayInputArchive( const JsonObject &, const std::string &key );
 
@@ -354,7 +354,7 @@ class JsonObjectOutputArchive
 
         JsonOut &stream;
 
-        JsonObjectOutputArchive( JsonOut &stream )
+        explicit JsonObjectOutputArchive( JsonOut &stream )
             : stream( stream ) {
             stream.start_object();
         }
@@ -451,7 +451,7 @@ class JsonArrayOutputArchive
 
         JsonOut &stream;
 
-        JsonArrayOutputArchive( JsonOut &stream )
+        explicit JsonArrayOutputArchive( JsonOut &stream )
             : stream( stream ) {
             stream.start_array();
         }

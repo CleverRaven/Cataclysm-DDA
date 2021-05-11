@@ -2,11 +2,11 @@
 
 #include <algorithm>
 #include <array>
-#include <cmath>
 #include <cstdlib>
 #include <initializer_list>
 #include <iterator>
 #include <map>
+#include <string>
 #include <unordered_set>
 #include <utility>
 #include <vector>
@@ -19,7 +19,6 @@
 #include "field_type.h"
 #include "flood_fill.h"
 #include "game_constants.h"
-#include "int_id.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -32,7 +31,6 @@
 #include "point.h"
 #include "regional_settings.h"
 #include "rng.h"
-#include "string_id.h"
 #include "trap.h"
 #include "vehicle_group.h"
 #include "weighted_list.h"
@@ -42,7 +40,9 @@ static const itype_id itype_jackhammer( "jackhammer" );
 static const itype_id itype_mask_dust( "mask_dust" );
 
 static const mtype_id mon_ant_larva( "mon_ant_larva" );
+static const mtype_id mon_ant_acid_larva( "mon_ant_acid_larva" );
 static const mtype_id mon_ant_queen( "mon_ant_queen" );
+static const mtype_id mon_ant_acid_queen( "mon_ant_acid_queen" );
 static const mtype_id mon_bee( "mon_bee" );
 static const mtype_id mon_beekeeper( "mon_beekeeper" );
 static const mtype_id mon_zombie_jackson( "mon_zombie_jackson" );
@@ -147,7 +147,9 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
             { "ants_four_way",    &mapgen_ants_four_way },
             { "ants_food", &mapgen_ants_food },
             { "ants_larvae", &mapgen_ants_larvae },
+            { "ants_larvae_acid", &mapgen_ants_larvae_acid },
             { "ants_queen", &mapgen_ants_queen },
+            { "ants_queen_acid", &mapgen_ants_queen_acid },
             { "tutorial", &mapgen_tutorial },
             { "lake_shore", &mapgen_lake_shore },
             { "ravine_edge", &mapgen_ravine_edge },
@@ -898,6 +900,7 @@ void mapgen_road( mapgendata &dat )
         if( num_dirs == 4 ) {
             if( one_in( 2 ) &&
                 m->ter( point( 3, 1 ) ) == t_sidewalk && m->ter( point( 20, 2 ) ) == t_sidewalk ) {
+                square( m, t_pavement, point( 11, 1 ), point( 12, 3 ) );
                 for( int i = 4; i < 20; i += 2 ) {
                     m->ter_set( point( i, 1 ), t_zebra );
                     m->ter_set( point( i, 2 ), t_zebra );
@@ -905,6 +908,7 @@ void mapgen_road( mapgendata &dat )
             }
             if( one_in( 2 ) &&
                 m->ter( point( 21, 3 ) ) == t_sidewalk && m->ter( point( 22, 20 ) ) == t_sidewalk ) {
+                square( m, t_pavement, point( 20, 11 ), point( 23, 12 ) );
                 for( int i = 4; i < 20; i += 2 ) {
                     m->ter_set( point( 21, i ), t_zebra );
                     m->ter_set( point( 22, i ), t_zebra );
@@ -912,6 +916,7 @@ void mapgen_road( mapgendata &dat )
             }
             if( one_in( 2 ) &&
                 m->ter( point( 3, 21 ) ) == t_sidewalk && m->ter( point( 20, 22 ) ) == t_sidewalk ) {
+                square( m, t_pavement, point( 11, 21 ), point( 12, 22 ) );
                 for( int i = 4; i < 20; i += 2 ) {
                     m->ter_set( point( i, 21 ), t_zebra );
                     m->ter_set( point( i, 22 ), t_zebra );
@@ -919,6 +924,7 @@ void mapgen_road( mapgendata &dat )
             }
             if( one_in( 2 ) &&
                 m->ter( point( 1, 3 ) ) == t_sidewalk && m->ter( point( 2, 20 ) ) == t_sidewalk ) {
+                square( m, t_pavement, point( 1, 11 ), point( 2, 12 ) );
                 for( int i = 4; i < 20; i += 2 ) {
                     m->ter_set( point( 1, i ), t_zebra );
                     m->ter_set( point( 2, i ), t_zebra );
@@ -943,6 +949,7 @@ void mapgen_road( mapgendata &dat )
         if( num_dirs == 3 ) {
             if( one_in( 2 ) &&
                 m->ter( point( 3, 1 ) ) == t_sidewalk && m->ter( point( 20, 2 ) ) == t_sidewalk ) {
+                square( m, t_pavement, point( 11, 1 ), point( 12, 3 ) );
                 for( int i = 4; i < 20; i += 2 ) {
                     m->ter_set( point( i, 1 ), t_zebra );
                     m->ter_set( point( i, 2 ), t_zebra );
@@ -950,6 +957,7 @@ void mapgen_road( mapgendata &dat )
             }
             if( one_in( 2 ) &&
                 m->ter( point( 21, 3 ) ) == t_sidewalk && m->ter( point( 22, 20 ) ) == t_sidewalk ) {
+                square( m, t_pavement, point( 20, 11 ), point( 23, 13 ) );
                 for( int i = 4; i < 20; i += 2 ) {
                     m->ter_set( point( 21, i ), t_zebra );
                     m->ter_set( point( 22, i ), t_zebra );
@@ -957,6 +965,7 @@ void mapgen_road( mapgendata &dat )
             }
             if( one_in( 2 ) &&
                 m->ter( point( 1, 3 ) ) == t_sidewalk && m->ter( point( 2, 20 ) ) == t_sidewalk ) {
+                square( m, t_pavement, point( 1, 11 ), point( 2, 13 ) );
                 for( int i = 4; i < 20; i += 2 ) {
                     m->ter_set( point( 1, i ), t_zebra );
                     m->ter_set( point( 2, i ), t_zebra );
@@ -976,6 +985,7 @@ void mapgen_road( mapgendata &dat )
 
         // ordinary straight roads
         if( num_dirs == 2 && !diag && one_in( 10 ) ) {
+            square( m, t_pavement, point( 4, 12 ), point( 19, 15 ) );
             for( int i = 4; i < 20; i += 2 ) {
                 m->ter_set( point( i, 13 ), t_zebra );
                 m->ter_set( point( i, 14 ), t_zebra );
@@ -2480,19 +2490,6 @@ static void mapgen_ants_generic( mapgendata &dat )
             }
         }
     }
-    if( dat.terrain_type() == "ants_food" ) {
-        m->place_items( item_group_id( "ant_food" ), 92, point_zero,
-                        point( SEEX * 2 - 1, SEEY * 2 - 1 ), true, dat.when() );
-    } else {
-        m->place_items( item_group_id( "ant_egg" ),  98, point_zero,
-                        point( SEEX * 2 - 1, SEEY * 2 - 1 ), true, dat.when() );
-    }
-    if( dat.terrain_type() == "ants_queen" ) {
-        m->add_spawn( mon_ant_queen, 1, { SEEX, SEEY, m->get_abs_sub().z } );
-    } else if( dat.terrain_type() == "ants_larvae" ) {
-        m->add_spawn( mon_ant_larva, 10, { SEEX, SEEY, m->get_abs_sub().z } );
-    }
-
 }
 
 void mapgen_ants_food( mapgendata &dat )
@@ -2505,17 +2502,33 @@ void mapgen_ants_food( mapgendata &dat )
 void mapgen_ants_larvae( mapgendata &dat )
 {
     mapgen_ants_generic( dat );
-    dat.m.place_items( item_group_id( "ant_egg" ),  98, point_zero,
+    dat.m.place_items( item_group_id( "ant_egg" ), 98, point_zero,
                        point( SEEX * 2 - 1, SEEY * 2 - 1 ), true, dat.when() );
     dat.m.add_spawn( mon_ant_larva, 10, { SEEX, SEEY, dat.m.get_abs_sub().z } );
+}
+
+void mapgen_ants_larvae_acid( mapgendata &dat )
+{
+    mapgen_ants_generic( dat );
+    dat.m.place_items( item_group_id( "ant_egg" ), 98, point_zero,
+                       point( SEEX * 2 - 1, SEEY * 2 - 1 ), true, dat.when() );
+    dat.m.add_spawn( mon_ant_acid_larva, 10, { SEEX, SEEY, dat.m.get_abs_sub().z } );
 }
 
 void mapgen_ants_queen( mapgendata &dat )
 {
     mapgen_ants_generic( dat );
-    dat.m.place_items( item_group_id( "ant_egg" ),  98, point_zero,
+    dat.m.place_items( item_group_id( "ant_egg" ), 98, point_zero,
                        point( SEEX * 2 - 1, SEEY * 2 - 1 ), true, dat.when() );
     dat.m.add_spawn( mon_ant_queen, 1, { SEEX, SEEY, dat.m.get_abs_sub().z } );
+}
+
+void mapgen_ants_queen_acid( mapgendata &dat )
+{
+    mapgen_ants_generic( dat );
+    dat.m.place_items( item_group_id( "ant_egg" ), 98, point_zero,
+                       point( SEEX * 2 - 1, SEEY * 2 - 1 ), true, dat.when() );
+    dat.m.add_spawn( mon_ant_acid_queen, 1, { SEEX, SEEY, dat.m.get_abs_sub().z } );
 }
 
 void mapgen_tutorial( mapgendata &dat )
@@ -2586,7 +2599,7 @@ void mapgen_forest( mapgendata &dat )
             // to specify biomes in the forest regional settings that are not
             // rendered by this forest map gen method, in order to control
             // how terrains are blended together (e.g. specify roads with an equal
-            // sparsness adjacency factor to forests so that forests don't fade out
+            // sparseness adjacency factor to forests so that forests don't fade out
             // as they transition to roads.
             return 0;
         }
@@ -2630,7 +2643,7 @@ void mapgen_forest( mapgendata &dat )
         return *max_element( std::begin( factors ), std::end( factors ) );
     };
 
-    // Get the sparesness factor for this terrain, and fill it.
+    // Get the sparseness factor for this terrain, and fill it.
     const int factor = get_sparseness_adjacency_factor( dat.terrain_type() );
     fill_adjacency_factor( factor );
 

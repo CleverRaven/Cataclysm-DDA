@@ -3,19 +3,18 @@
 #define CATA_SRC_TALKER_CHARACTER_H
 
 #include <functional>
+#include <iosfwd>
 #include <list>
-#include <string>
 #include <vector>
 
 #include "coordinates.h"
+#include "npc.h"
 #include "talker.h"
 #include "type_id.h"
 
 class character_id;
 class faction;
 class item;
-class mission;
-class npc;
 class player;
 class time_duration;
 class vehicle;
@@ -29,7 +28,7 @@ struct tripoint;
 class talker_character: public talker
 {
     public:
-        talker_character( player *new_me ): me_chr( new_me ) {
+        explicit talker_character( player *new_me ): me_chr( new_me ) {
         }
         ~talker_character() override = default;
 
@@ -59,7 +58,7 @@ class talker_character: public talker
         bool has_trait( const trait_id &trait_to_check ) const override;
         void set_mutation( const trait_id &new_trait ) override;
         void unset_mutation( const trait_id &old_trait ) override;
-        bool has_trait_flag( const std::string &trait_flag_to_check ) const override;
+        bool has_trait_flag( const json_character_flag &trait_flag_to_check ) const override;
         bool crossed_threshold() const override;
         int num_bionics() const override;
         bool has_max_power() const override;

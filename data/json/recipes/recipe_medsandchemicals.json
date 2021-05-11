@@ -570,6 +570,22 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "lye",
+    "id_suffix": "from_lye_powder",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_CHEMICALS",
+    "skill_used": "chemistry",
+    "difficulty": 1,
+    "time": "1 m",
+    "autolearn": true,
+    "batch_time_factors": [ 90, 4 ],
+    "//": "reversal of the recipe above",
+    "components": [ [ [ "water", 3 ] ], [ [ "lye_powder", 100 ] ] ],
+    "charges": 3
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "heatpack",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_OTHER",
@@ -581,20 +597,6 @@
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
     "components": [ [ [ "rag", 1 ], [ "bag_plastic", 1 ], [ "heatpack_used", 1 ] ], [ [ "oxy_powder", 5 ] ], [ [ "scrap", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "pheromone",
-    "category": "CC_CHEM",
-    "subcategory": "CSC_CHEM_CHEMICALS",
-    "skill_used": "chemistry",
-    "skills_required": [ "survival", 1 ],
-    "difficulty": 4,
-    "time": "1 m 12 s",
-    "book_learn": [ [ "adv_chemistry", 5 ], [ "textbook_chemistry", 5 ], [ "recipe_labchem", 3 ] ],
-    "tools": [ [ [ "surface_heat", 18, "LIST" ] ] ],
-    "components": [ [ [ "meat_tainted", 1 ], [ "dry_meat_tainted", 1 ] ], [ [ "ammonia", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -665,7 +667,7 @@
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "flask_glass", 1 ] ],
+      [ [ "flask_glass", 1 ], [ "jar_glass_sealed", 1 ] ],
       [ [ "yeast", 1 ] ],
       [ [ "sugar", 10 ], [ "honey_bottled", 1 ] ]
     ]
@@ -805,6 +807,22 @@
     "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [ [ [ "chem_hydrogen_peroxide_conc", 1 ] ], [ [ "chem_sulphur", 375 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "chem_sulphuric_acid",
+    "id_suffix": "with platinum",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_CHEMICALS",
+    "skill_used": "chemistry",
+    "difficulty": 5,
+    "time": "15 m",
+    "autolearn": true,
+    "//": "burning sulfur with platinum catalyst to create SO3, dissolving in water to create H2SO4",
+    "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "CHEM", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "platinum_small", -1 ] ] ],
+    "components": [ [ [ "water_clean", 1 ] ], [ [ "chem_sulphur", 375 ] ] ]
   },
   {
     "type": "recipe",
@@ -1134,6 +1152,33 @@
     "book_learn": [ [ "recipe_labchem", 8 ] ],
     "qualities": [ { "id": "BOIL", "level": 2 } ],
     "components": [ [ [ "chem_hexamine", 25 ] ], [ [ "chem_hydrogen_peroxide_conc", 5 ] ], [ [ "chem_acetic_acid", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "chem_hmtd",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_CHEMICALS",
+    "skill_used": "chemistry",
+    "difficulty": 5,
+    "time": "55 m",
+    "charges": 2,
+    "book_learn": [ [ "recipe_labchem", 8 ] ],
+    "qualities": [ { "id": "BOIL", "level": 2 } ],
+    "components": [ [ [ "chem_hexamine", 25 ] ], [ [ "chem_hydrogen_peroxide_conc", 5 ] ], [ [ "chem_citric_acid", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "chem_apex",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_CHEMICALS",
+    "skill_used": "chemistry",
+    "difficulty": 4,
+    "time": "75 m",
+    "book_learn": [ [ "recipe_labchem", 8 ] ],
+    "qualities": [ { "id": "BOIL", "level": 2 } ],
+    "components": [ [ [ "chem_acetone", 5 ] ], [ [ "chem_hydrogen_peroxide_conc", 5 ] ], [ [ "chem_muriatic_acid", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -1599,7 +1644,7 @@
     "difficulty": 3,
     "time": "30 m",
     "//": "This is not actually accurate; producing rubber from formic acid and latex generally takes around 12 hours. However, it will be better if we simply create some kind of curing rubber, and let it naturally evolve into rubber chunks from there. Nobody has twelve hours to watch rubber form in a zombie apocalypse.",
-    "components": [ [ [ "latex", 5 ], [ "formic_acid", 2 ] ] ]
+    "components": [ [ [ "latex", 5 ] ], [ [ "formic_acid", 2 ] ] ]
   },
   {
     "type": "recipe",

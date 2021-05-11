@@ -1,5 +1,4 @@
 #MSHOCKXOTTO+ TILESET
-#Generated from project in Cataclysm DDA Tileset Studio
 
 #Name of the tileset
 NAME: MshockXottoplus
@@ -12,3 +11,8 @@ JSON: tile_config.json
 
 #Tileset Path - Default of tinytile.png
 TILESET: tiles.png
+
+
+#Visit https://discord.gg/kAXNZuy to discuss and contribute to this community-driven tileset!
+#Development ongoing constantly!
+#Find source github at https://github.com/I-am-Erk/CDDA-Tilesets/tree/master/gfx/MShockXotto%2B

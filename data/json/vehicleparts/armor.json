@@ -12,7 +12,6 @@
     "broken_color": "light_gray",
     "durability": 150,
     "folded_volume": "1 L",
-    "description": "Improvised armor plate.  Will partially protect other components on the same frame from damage.",
     "breaks_into": [ { "item": "rebar", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 4, 8 ] } ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },

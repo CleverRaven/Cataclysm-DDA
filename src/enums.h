@@ -350,6 +350,7 @@ enum game_message_flags {
 /** Structure allowing a combination of `game_message_type` and `game_message_flags`.
  */
 struct game_message_params {
+    // NOLINTNEXTLINE(google-explicit-constructor)
     game_message_params( const game_message_type message_type ) : type( message_type ),
         flags( gmf_none ) {}
     game_message_params( const game_message_type message_type,
@@ -359,6 +360,22 @@ struct game_message_params {
     game_message_type type;
     /* Flags pertaining to the message */
     game_message_flags flags;
+};
+
+struct social_modifiers {
+    int lie = 0;
+    int persuade = 0;
+    int intimidate = 0;
+
+    social_modifiers &operator+=( const social_modifiers &other ) {
+        this->lie += other.lie;
+        this->persuade += other.persuade;
+        this->intimidate += other.intimidate;
+        return *this;
+    }
+    bool empty() const {
+        return this->lie != 0 || this->persuade != 0 || this->intimidate != 0;
+    }
 };
 
 enum class reachability_cache_quadrant : int {

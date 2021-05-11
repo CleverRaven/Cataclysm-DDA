@@ -48,7 +48,7 @@
     "color": "dark_gray",
     "move_cost": 1,
     "roof": "t_resin_roof",
-    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD", "NONFLAMMABLE" ],
+    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD", "NONFLAMMABLE", "NOCOLLIDE" ],
     "bash": {
       "str_min": 250,
       "str_max": 700,

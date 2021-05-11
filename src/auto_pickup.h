@@ -2,7 +2,6 @@
 #ifndef CATA_SRC_AUTO_PICKUP_H
 #define CATA_SRC_AUTO_PICKUP_H
 
-#include <algorithm>
 #include <functional>
 #include <iosfwd>
 #include <string>

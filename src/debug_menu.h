@@ -2,11 +2,10 @@
 #ifndef CATA_SRC_DEBUG_MENU_H
 #define CATA_SRC_DEBUG_MENU_H
 
+#include <cstddef>
 #include <functional>
 #include <iosfwd>
-#include <string>
-
-#include "enum_traits.h"
+#include <string> // IWYU pragma: keep
 
 struct tripoint;
 template <typename E> struct enum_traits;
@@ -43,6 +42,7 @@ enum class debug_menu_index : int {
     CHANGE_WEATHER,
     WIND_DIRECTION,
     WIND_SPEED,
+    GEN_SOUND,
     KILL_MONS,
     DISPLAY_HORDES,
     TEST_IT_GROUP,
@@ -85,6 +85,7 @@ enum class debug_menu_index : int {
     TEST_MAP_EXTRA_DISTRIBUTION,
     NESTED_MAPGEN,
     VEHICLE_BATTERY_CHARGE,
+    GENERATE_EFFECT_LIST,
     last
 };
 

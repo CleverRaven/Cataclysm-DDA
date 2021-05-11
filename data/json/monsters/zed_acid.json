@@ -43,7 +43,8 @@
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
-      "FILTHY"
+      "FILTHY",
+      "RANGED_ATTACKER"
     ]
   },
   {
@@ -155,7 +156,8 @@
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
-      "FILTHY"
+      "FILTHY",
+      "RANGED_ATTACKER"
     ]
   },
   {
@@ -203,7 +205,8 @@
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
-      "FILTHY"
+      "FILTHY",
+      "RANGED_ATTACKER"
     ]
   },
   {
@@ -217,6 +220,7 @@
     "bodytype": "dog",
     "symbol": "d",
     "color": "light_gray_yellow",
+    "species": [ "ZOMBIE" ],
     "material": [ "flesh" ],
     "volume": "30000 ml",
     "weight": "40750 g",
@@ -228,6 +232,7 @@
     "melee_dice_sides": 4,
     "melee_cut": 2,
     "dodge": 1,
+    "harvest": "zombie",
     "melee_damage": [ { "damage_type": "acid", "amount": 4 } ],
     "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "ACID_BARF", 10 ] ],
     "death_function": [ "NORMAL", "ACID" ],
@@ -246,7 +251,8 @@
       "REVIVES",
       "FILTHY",
       "ACIDPROOF",
-      "ACID_BLOOD"
+      "ACID_BLOOD",
+      "RANGED_ATTACKER"
     ]
   },
   {

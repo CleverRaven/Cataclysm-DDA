@@ -1,12 +1,17 @@
-#include "catch/catch.hpp"
-#include "mutation.h"
+#include <list>
+#include <memory>
 
+#include "calendar.h"
+#include "catch/catch.hpp"
+#include "character.h"
 #include "flag.h"
 #include "game.h"
+#include "item.h"
+#include "lightmap.h"
 #include "map.h"
 #include "map_helpers.h"
-#include "player.h"
 #include "player_helpers.h"
+#include "type_id.h"
 
 // Tests of Character vision and sight
 //

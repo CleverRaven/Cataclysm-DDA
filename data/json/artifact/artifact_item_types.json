@@ -68,7 +68,7 @@
   {
     "id": "art_beads",
     "type": "GENERIC",
-    "name": { "str": "string of beads" },
+    "name": { "str": "string of beads", "str_pl": "strings of beads" },
     "description": "It is the only one of its kind.\nIt may have unknown powers; try activating them.",
     "symbol": "O",
     "volume": "76 ml",

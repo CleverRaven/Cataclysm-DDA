@@ -72,6 +72,16 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "frozen_lemonade",
+    "name": { "str": "frozen lemonade" },
+    "copy-from": "milkshake",
+    "description": "An all-natural cold beverage made with lemonade and sweeteners.  Tastes great when frozen.",
+    "color": "white",
+    "calories": 220,
+    "vitamins": [ [ "vitA", 1 ], [ "vitC", 6 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "icecream",
     "name": { "str": "ice cream", "str_pl": "ice cream scoops" },
     "description": "A sweet, frozen food made of milk with liberal amounts of sugar.",
@@ -115,6 +125,20 @@
     "description": "A sweet, frozen food made of chocolate milk with liberal amounts of sugar.",
     "color": "brown",
     "calories": 345
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "sundae_cup",
+    "//": "based on hoodsie cups, a popular brand in new england",
+    "name": { "str": "sundae cup" },
+    "copy-from": "icecream_artificial",
+    "description": "A small cup of frozen dairy dessert that is half chocolate, half vanilla, and all delicious.",
+    "container": "cup_plastic",
+    "weight": "25 g",
+    "volume": "88 ml",
+    "color": "brown",
+    "healthy": -1,
+    "calories": 121
   },
   {
     "type": "COMESTIBLE",

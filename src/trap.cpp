@@ -1,5 +1,7 @@
 #include "trap.h"
 
+#include <algorithm>
+#include <cmath>
 #include <set>
 #include <vector>
 
@@ -10,7 +12,6 @@
 #include "event.h"
 #include "event_bus.h"
 #include "generic_factory.h"
-#include "int_id.h"
 #include "item.h"
 #include "json.h"
 #include "line.h"
@@ -19,7 +20,6 @@
 #include "point.h"
 #include "rng.h"
 #include "string_formatter.h"
-#include "string_id.h"
 
 static const skill_id skill_traps( "traps" );
 
@@ -219,7 +219,7 @@ bool trap::detect_trap( const tripoint &pos, const Character &p ) const
     const float encumbrance_penalty = p.encumb( bodypart_id( "eyes" ) ) / 10.0f;
 
     // Your current focus strongly affects your ability to spot things.
-    const float focus_effect = ( p.focus_pool / 25.0f ) - 2.0f;
+    const float focus_effect = ( p.get_focus() / 25.0f ) - 2.0f;
 
     // The further away the trap is, the harder it is to spot.
     // Subtract 1 so that we don't get an unfair penalty when not quite on top of the trap.

@@ -202,7 +202,7 @@
   {
     "id": "mx_shrubbery",
     "type": "map_extra",
-    "name": { "str": "Shrubberry" },
+    "name": { "str": "Shrubbery" },
     "description": "This area is covered with a single type of shrubs.",
     "generator": { "generator_method": "map_extra_function", "generator_id": "mx_shrubbery" },
     "sym": "s",

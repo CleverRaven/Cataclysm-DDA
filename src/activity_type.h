@@ -2,14 +2,14 @@
 #ifndef CATA_SRC_ACTIVITY_TYPE_H
 #define CATA_SRC_ACTIVITY_TYPE_H
 
-#include <string>
+#include <iosfwd>
 
 #include "game_constants.h"
 #include "string_id.h"
 #include "translations.h"
 
-class activity_type;
 class JsonObject;
+class activity_type;
 class player;
 class player_activity;
 

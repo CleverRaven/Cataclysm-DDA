@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <functional>
 #include <ostream>
 #include <random>
 #include <string>
@@ -14,7 +15,7 @@
 #include "point.h"
 #include "rng.h"
 #include "simplexnoise.h"
-#include "string_id.h"
+#include "translations.h"
 #include "weather.h"
 #include "weather_type.h"
 
@@ -285,9 +286,9 @@ int weather_generator::get_water_temperature() const
     int annual_mean_water_temperature = 54.5 + 20.7 * std::sin( tau * ( day - season_length * 0.5 ) /
                                         ( season_length * 4.0 ) );
     // Temperature varies between +2F and -2F depending on the time of day. Hour = 0 corresponds to midnight.
-    int daily_water_temperature_varaition = 2.0 + 2.0 * std::sin( tau * ( hour - 6.0 ) / 24.0 );
+    int daily_water_temperature_variation = 2.0 + 2.0 * std::sin( tau * ( hour - 6.0 ) / 24.0 );
 
-    water_temperature = annual_mean_water_temperature + daily_water_temperature_varaition;
+    water_temperature = annual_mean_water_temperature + daily_water_temperature_variation;
 
     return water_temperature;
 }

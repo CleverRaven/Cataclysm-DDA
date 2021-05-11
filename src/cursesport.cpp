@@ -91,9 +91,9 @@ catacurses::window catacurses::newwin( int nlines, int ncols, const point &begin
         newwindow->line[j].chars.resize( ncols );
         newwindow->line[j].touched = true; //Touch them all !?
     }
-    return std::shared_ptr<void>( newwindow, []( void *const w ) {
+    return catacurses::window( std::shared_ptr<void>( newwindow, []( void *const w ) {
         delete static_cast<cata_cursesport::WINDOW *>( w );
-    } );
+    } ) );
 }
 
 static inline int newline( cata_cursesport::WINDOW *win )
@@ -507,7 +507,7 @@ void catacurses::wattron( const window &win_, const nc_color &attrs )
     }
 }
 
-void catacurses::wattroff( const window &win_, int )
+void catacurses::wattroff( const window &win_, nc_color )
 {
     cata_cursesport::WINDOW *const win = win_.get<cata_cursesport::WINDOW>();
     if( win == nullptr ) {

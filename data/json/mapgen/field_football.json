@@ -9,7 +9,6 @@
       [ "sports_drink", 60 ],
       [ "bottle_plastic", 80 ],
       [ "towel", 80 ],
-      [ "towel_soiled", 20 ],
       [ "heatpack", 40 ],
       [ "heatpack_used", 60 ],
       [ "bandages", 20 ],

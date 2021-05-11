@@ -2,10 +2,11 @@
 #ifndef CATA_SRC_SAFEMODE_UI_H
 #define CATA_SRC_SAFEMODE_UI_H
 
+#include <array>
+#include <iosfwd>
 #include <string>
 #include <unordered_map>
 #include <vector>
-#include <array>
 
 #include "creature.h"
 #include "enums.h"

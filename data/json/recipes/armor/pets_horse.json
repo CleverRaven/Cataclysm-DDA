@@ -100,7 +100,7 @@
     "skills_required": [ "tailor", 6 ],
     "time": "10 h 30 m",
     "reversible": true,
-    "using": [ [ "sewing_standard", 190 ], [ "surface_heat", 60, "LIST" ], [ "clasps", 4 ] ],
+    "using": [ [ "sewing_standard", 190 ], [ "surface_heat", 60 ], [ "clasps", 4 ] ],
     "components": [
       [ [ "water", 30 ], [ "water_clean", 30 ] ],
       [

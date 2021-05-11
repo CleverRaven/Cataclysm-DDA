@@ -367,7 +367,7 @@ class cata_tiles
 
         /* Tile Picking */
         void get_tile_values( int t, const int *tn, int &subtile, int &rotation );
-        // as get_tile_values, but for unconnected tiles, infer rotation from surrouding walls
+        // as get_tile_values, but for unconnected tiles, infer rotation from surrounding walls
         void get_tile_values_with_ter( const tripoint &p, int t, const int *tn, int &subtile,
                                        int &rotation );
         void get_connect_values( const tripoint &p, int &subtile, int &rotation, int connect_group,
@@ -492,7 +492,7 @@ class cata_tiles
         void void_item_override();
 
         void init_draw_vpart_override( const tripoint &p, const vpart_id &id, int part_mod,
-                                       units::angle veh_dir, bool hilite, const point &mount );
+                                       const units::angle &veh_dir, bool hilite, const point &mount );
         void void_vpart_override();
 
         void init_draw_below_override( const tripoint &p, bool draw );

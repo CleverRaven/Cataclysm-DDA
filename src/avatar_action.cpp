@@ -2,8 +2,8 @@
 
 #include <algorithm>
 #include <climits>
-#include <cmath>
 #include <cstdlib>
+#include <functional>
 #include <map>
 #include <memory>
 #include <ostream>
@@ -13,7 +13,7 @@
 #include <vector>
 
 #include "action.h"
-#include "activity_actor.h"
+#include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "bodypart.h"
 #include "cached_options.h"
@@ -26,8 +26,6 @@
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
-#include "gun_mode.h"
-#include "int_id.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
@@ -36,6 +34,8 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
+#include "math_defines.h"
+#include "memory_fast.h"
 #include "messages.h"
 #include "monster.h"
 #include "move_mode.h"
@@ -49,16 +49,14 @@
 #include "ranged.h"
 #include "ret_val.h"
 #include "rng.h"
-#include "string_formatter.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
-#include "units.h"
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 
+class gun_mode;
 class player;
 
 static const efftype_id effect_amigara( "amigara" );
@@ -75,7 +73,6 @@ static const itype_id itype_swim_fins( "swim_fins" );
 
 static const skill_id skill_swimming( "swimming" );
 
-static const trait_id trait_BURROW( "BURROW" );
 static const trait_id trait_GRAZER( "GRAZER" );
 static const trait_id trait_RUMINANT( "RUMINANT" );
 static const trait_id trait_SHELL2( "SHELL2" );
@@ -135,18 +132,11 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
                 return true;
             }
         }
-        if( you.has_trait( trait_BURROW ) ) {
-            item burrowing_item( itype_id( "fake_burrowing" ) );
-            you.invoke_item( &burrowing_item, "BURROW", dest_loc );
-            // don't move into the tile until done mining
-            you.defer_move( dest_loc );
-            return true;
-        }
     }
 
     // by this point we're either walking, running, crouching, or attacking, so update the activity level to match
     if( !is_riding ) {
-        you.increase_activity_level( you.current_movement_mode()->exertion_level() );
+        you.set_activity_level( you.current_movement_mode()->exertion_level() );
     }
 
     // If the player is *attempting to* move on the X axis, update facing direction of their sprite to match.
@@ -339,8 +329,8 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     bool toDeepWater = m.has_flag( TFLAG_DEEP_WATER, dest_loc );
     bool fromSwimmable = m.has_flag( flag_SWIMMABLE, you.pos() );
     bool fromDeepWater = m.has_flag( TFLAG_DEEP_WATER, you.pos() );
-    bool fromBoat = veh0 != nullptr && veh0->is_in_water();
-    bool toBoat = veh1 != nullptr && veh1->is_in_water();
+    bool fromBoat = veh0 != nullptr && veh0->is_in_water( fromDeepWater );
+    bool toBoat = veh1 != nullptr && veh1->is_in_water( toDeepWater );
     if( is_riding ) {
         if( !you.check_mount_will_move( dest_loc ) ) {
             if( you.is_auto_moving() ) {
@@ -376,10 +366,13 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     //Wooden Fence Gate (or equivalently walkable doors):
     // open it if we are walking
     // vault over it if we are running
+    std::string door_name = m.obstacle_name( dest_loc );
     if( m.passable_ter_furn( dest_loc )
         && you.is_walking()
+        && !veh_closed_door
         && m.open_door( dest_loc, !m.is_outside( you.pos() ) ) ) {
         you.moves -= 100;
+        you.add_msg_if_player( _( "You open the %s." ), door_name );
         // if auto-move is on, continue moving next turn
         if( you.is_auto_moving() ) {
             you.defer_move( dest_loc );
@@ -396,13 +389,14 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         if( !veh1->handle_potential_theft( dynamic_cast<player &>( you ) ) ) {
             return true;
         } else {
+            door_name = veh1->part( dpart ).name();
             if( outside_vehicle ) {
                 veh1->open_all_at( dpart );
             } else {
                 veh1->open( dpart );
-                add_msg( _( "You open the %1$s's %2$s." ), veh1->name,
-                         veh1->part_info( dpart ).name() );
             }
+            //~ %1$s - vehicle name, %2$s - part name
+            you.add_msg_if_player( _( "You open the %1$s's %2$s." ), veh1->name, door_name );
         }
         you.moves -= 100;
         // if auto-move is on, continue moving next turn
@@ -414,6 +408,12 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
 
     if( m.furn( dest_loc ) != f_safe_c && m.open_door( dest_loc, !m.is_outside( you.pos() ) ) ) {
         you.moves -= 100;
+        if( veh1 != nullptr ) {
+            //~ %1$s - vehicle name, %2$s - part name
+            you.add_msg_if_player( _( "You open the %1$s's %2$s." ), veh1->name, door_name );
+        } else {
+            you.add_msg_if_player( _( "You open the %s." ), door_name );
+        }
         // if auto-move is on, continue moving next turn
         if( you.is_auto_moving() ) {
             you.defer_move( dest_loc );
@@ -590,11 +590,15 @@ void avatar_action::autoattack( avatar &you, map &m )
 {
     int reach = you.weapon.reach_range( you );
     std::vector<Creature *> critters = you.get_targetable_creatures( reach, true );
-    critters.erase( std::remove_if( critters.begin(), critters.end(), []( const Creature * c ) {
+    critters.erase( std::remove_if( critters.begin(), critters.end(), [&you,
+    reach]( const Creature * c ) {
+        if( reach == 1 && !you.is_adjacent( c, true ) ) {
+            return true;
+        }
         if( !c->is_npc() ) {
             return false;
         }
-        return !dynamic_cast<const npc *>( c )->is_enemy();
+        return !dynamic_cast<const npc &>( *c ).is_enemy();
     } ), critters.end() );
     if( critters.empty() ) {
         add_msg( m_info, _( "No hostile creature in reach.  Waiting a turn." ) );
@@ -718,25 +722,25 @@ void avatar_action::fire_wielded_weapon( avatar &you )
         return;
     } else if( !weapon.is_gun() ) {
         return;
-    } else if( weapon.ammo_data() && weapon.type->gun &&
-               !weapon.type->gun->ammo.count( weapon.ammo_data()->ammo->type ) ) {
+    } else if( weapon.ammo_data() && !weapon.ammo_types().count( weapon.loaded_ammo().ammo_type() ) ) {
         add_msg( m_info, _( "The %s can't be fired while loaded with incompatible ammunition %s" ),
                  weapon.tname(), weapon.ammo_current()->nname( 1 ) );
         return;
     }
 
-    you.assign_activity( aim_activity_actor::use_wielded(), false );
+    you.assign_activity( player_activity( aim_activity_actor::use_wielded() ), false );
 }
 
 void avatar_action::fire_ranged_mutation( Character &you, const item &fake_gun )
 {
-    you.assign_activity( aim_activity_actor::use_mutation( fake_gun ), false );
+    you.assign_activity( player_activity( aim_activity_actor::use_mutation( fake_gun ) ), false );
 }
 
 void avatar_action::fire_ranged_bionic( avatar &you, const item &fake_gun,
                                         const units::energy &cost_per_shot )
 {
-    you.assign_activity( aim_activity_actor::use_bionic( fake_gun, cost_per_shot ), false );
+    you.assign_activity(
+        player_activity( aim_activity_actor::use_bionic( fake_gun, cost_per_shot ) ), false );
 }
 
 void avatar_action::fire_turret_manual( avatar &you, map &m, turret_data &turret )
@@ -889,7 +893,7 @@ void avatar_action::plthrow( avatar &you, item_location loc,
     }
 
     // make a copy and get the original.
-    // the copy is thrown and has its and the originals charges set appropiately
+    // the copy is thrown and has its and the originals charges set appropriately
     // or deleted from inventory if its charges(1) or not stackable.
     item *orig = loc.get_item();
     item thrown = *orig;
@@ -918,7 +922,7 @@ void avatar_action::plthrow( avatar &you, item_location loc,
         }
     }
     // if you're wearing the item you need to be able to take it off
-    if( you.is_wearing( orig->typeId() ) ) {
+    if( you.is_worn( *orig ) ) {
         ret_val<bool> ret = you.can_takeoff( *orig );
         if( !ret.success() ) {
             add_msg( m_info, "%s", ret.c_str() );
@@ -1009,7 +1013,7 @@ void avatar_action::use_item( avatar &you, item_location &loc )
             return;
         }
     }
-
+    int pre_obtain_moves = you.moves;
     if( loc->has_flag( flag_ALLOWS_REMOTE_USE ) ) {
         use_in_place = true;
         // Activate holster on map only if hands are free.
@@ -1018,7 +1022,16 @@ void avatar_action::use_item( avatar &you, item_location &loc )
         // Adjustment because in player::wield_contents this amount is refunded.
         you.mod_moves( -loc.obtain_cost( you ) );
     } else {
-        loc = loc.obtain( you );
+        item_location::type loc_where = loc.where_recursive();
+        if( loc_where != item_location::type::character ) {
+            you.add_msg_if_player( _( "You pick up the %s." ), loc.get_item()->display_name() );
+            pre_obtain_moves = -1;
+
+        }
+        loc = loc.obtain( you, 1 );
+        if( pre_obtain_moves == -1 ) {
+            pre_obtain_moves = you.moves;
+        }
         if( !loc ) {
             debugmsg( "Failed to obtain target item" );
             return;
@@ -1027,12 +1040,12 @@ void avatar_action::use_item( avatar &you, item_location &loc )
 
     if( use_in_place ) {
         update_lum( loc, false );
-        you.use( loc );
+        you.use( loc, pre_obtain_moves );
         update_lum( loc, true );
 
         make_active( loc );
     } else {
-        you.use( loc );
+        you.use( loc, pre_obtain_moves );
     }
 
     you.invalidate_crafting_inventory();

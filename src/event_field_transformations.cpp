@@ -1,13 +1,12 @@
 #include "event_field_transformations.h"
 
 #include <set>
+#include <string>
 
-#include "int_id.h"
 #include "itype.h"
 #include "mapdata.h"
 #include "mtype.h"
 #include "omdata.h"
-#include "string_id.h"
 #include "type_id.h"
 
 static std::vector<cata_variant> flags_of_itype( const cata_variant &v )

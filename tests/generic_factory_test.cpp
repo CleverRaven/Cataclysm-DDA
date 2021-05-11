@@ -1,17 +1,27 @@
+#include <algorithm>
+#include <bitset>
+#include <set>
+#include <sstream>
+#include <string>
 #include <unordered_set>
-#include "catch/catch.hpp"
+#include <vector>
 
+#include "catch/catch.hpp"
 #include "colony_list_test_helpers.h"
+#include "flat_set.h"
 #include "generic_factory.h"
+#include "type_id.h"
 
 #ifdef _MSC_VER
 #  include <intrin.h>
+
 #  define __builtin_popcount __popcnt
 #endif
 
 namespace
 {
 struct test_obj;
+
 using test_obj_id = string_id<test_obj>;
 
 struct test_obj {

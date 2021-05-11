@@ -1,20 +1,25 @@
 #include "overmap_ui.h"
 
+#include <functional>
 #include <algorithm>
 #include <array>
 #include <chrono>
 #include <cstddef>
+#include <functional>
+#include <iosfwd>
 #include <list>
 #include <map>
 #include <memory>
+#include <new>
+#include <ratio>
 #include <set>
 #include <string>
 #include <tuple>
-#include <type_traits>
 #include <unordered_map>
 #include <utility>
 #include <vector>
 
+#include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "basecamp.h"
 #include "calendar.h"
@@ -23,7 +28,6 @@
 #include "character.h"
 #include "clzones.h"
 #include "color.h"
-#include "compatibility.h"
 #include "coordinates.h"
 #include "cuboid_rectangle.h"
 #include "cursesdef.h"
@@ -32,11 +36,11 @@
 #include "game_constants.h"
 #include "game_ui.h"
 #include "input.h"
-#include "int_id.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapbuffer.h"
+#include "memory_fast.h"
 #include "mission.h"
 #include "mongroup.h"
 #include "npc.h"
@@ -47,12 +51,12 @@
 #include "overmap.h"
 #include "overmap_types.h"
 #include "overmapbuffer.h"
+#include "player_activity.h"
 #include "point.h"
 #include "regional_settings.h"
 #include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "string_input_popup.h"
 #include "translations.h"
 #include "type_id.h"
@@ -68,7 +72,6 @@
 
 class character_id;
 
-static const activity_id ACT_AUTODRIVE( "ACT_AUTODRIVE" );
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
 
 static const mongroup_id GROUP_FOREST( "GROUP_FOREST" );
@@ -178,7 +181,8 @@ static void update_note_preview( const std::string &note,
 
     werase( *w_preview_title );
     nc_color default_color = c_unset;
-    print_colored_text( *w_preview_title, point_zero, default_color, note_color, note_text );
+    print_colored_text( *w_preview_title, point_zero, default_color, note_color, note_text,
+                        report_color_error::no );
     int note_text_width = utf8_width( note_text );
     mvwputch( *w_preview_title, point( note_text_width, 0 ), c_white, LINE_XOXO );
     for( int i = 0; i < note_text_width; i++ ) {
@@ -398,7 +402,7 @@ class map_notes_callback : public uilist_callback
                         int amount = string_input_popup()
                                      .title( popupmsg )
                                      .width( 20 )
-                                     .text( to_string( 0 ) )
+                                     .text( "0" )
                                      .only_digits( true )
                                      .query_int();
                         if( amount > -1 && amount <= max_amount ) {
@@ -428,6 +432,7 @@ static point_abs_omt draw_notes( const tripoint_abs_omt &origin )
     uilist nmenu;
     while( refresh ) {
         refresh = false;
+        nmenu.color_error( false );
         nmenu.init();
         nmenu.desc_enabled = true;
         nmenu.input_category = "OVERMAP_NOTES";
@@ -922,7 +927,8 @@ void draw(
             mvwputch( w, point( 1, i + 2 ), c_white, LINE_XOXO );
             mvwprintz( w, point( 2, i + 2 ), c_yellow, spacer );
             nc_color default_color = c_unset;
-            print_colored_text( w, point( 2, i + 2 ), default_color, pr.first, pr.second );
+            print_colored_text( w, point( 2, i + 2 ), default_color, pr.first, pr.second,
+                                report_color_error::no );
             mvwputch( w, point( maxlen + 2, i + 2 ), c_white, LINE_XOXO );
         }
         mvwputch( w, point( maxlen + 2, 1 ), c_white, LINE_OOXX );
@@ -994,7 +1000,7 @@ void draw(
         if( weather_is_visible ) {
             // NOLINTNEXTLINE(cata-use-named-point-constants)
             mvwprintz( wbar, point( 1, 1 ), get_weather_at_point( center )->color,
-                       get_weather_at_point( center )->name );
+                       get_weather_at_point( center )->name.translated() );
         } else {
             // NOLINTNEXTLINE(cata-use-named-point-constants)
             mvwprintz( wbar, point( 1, 1 ), c_dark_gray, _( "# Unexplored" ) );
@@ -1115,7 +1121,7 @@ void create_note( const tripoint_abs_omt &curs )
     std::string helper_text = string_format( ".\n\n%s\n%s\n%s\n\n",
                               _( "Type GLYPH<color_yellow>:</color>TEXT to set a custom glyph." ),
                               _( "Type COLOR<color_yellow>;</color>TEXT to set a custom color." ),
-                              // NOLINTNEXTLINE(cata-text-style): literal exclaimation mark
+                              // NOLINTNEXTLINE(cata-text-style): literal exclamation mark
                               _( "Examples: B:Base | g;Loot | !:R;Minefield" ) );
     color_notes = color_notes.replace( color_notes.end() - 2, color_notes.end(),
                                        helper_text );
@@ -1170,6 +1176,7 @@ void create_note( const tripoint_abs_omt &curs )
         } else if( input_popup.confirmed() ) {
             break;
         }
+        ui.invalidate_ui();
     } while( true );
 
     if( !esc_pressed && new_note.empty() && !old_note.empty() ) {
@@ -1623,7 +1630,7 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
                         vehicle *player_veh = veh_pointer_or_null( here.veh_at( player_character.pos() ) );
                         player_veh->omt_path = player_character.omt_path;
                         player_veh->is_autodriving = true;
-                        player_character.assign_activity( ACT_AUTODRIVE );
+                        player_character.assign_activity( player_activity( autodrive_activity_actor() ) );
                     } else {
                         player_character.reset_move_mode();
                         player_character.assign_activity( ACT_TRAVELLING );

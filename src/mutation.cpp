@@ -2,9 +2,11 @@
 
 #include <algorithm>
 #include <cstdlib>
+#include <functional>
 #include <memory>
 #include <unordered_set>
 
+#include "activity_type.h"
 #include "avatar_action.h"
 #include "bionics.h"
 #include "character.h"
@@ -16,10 +18,10 @@
 #include "event_bus.h"
 #include "field_type.h"
 #include "game.h"
-#include "int_id.h"
 #include "item.h"
 #include "item_contents.h"
 #include "itype.h"
+#include "magic_enchantment.h"
 #include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -29,9 +31,9 @@
 #include "omdata.h"
 #include "output.h"
 #include "overmapbuffer.h"
+#include "pimpl.h"
 #include "player_activity.h"
 #include "rng.h"
-#include "string_id.h"
 #include "translations.h"
 #include "units.h"
 
@@ -104,13 +106,19 @@ bool Character::has_trait( const trait_id &b ) const
     return my_mutations.count( b ) || enchantment_cache->get_mutations().count( b );
 }
 
-bool Character::has_trait_flag( const std::string &b ) const
+bool Character::has_trait_flag( const json_character_flag &b ) const
 {
     // UGLY, SLOW, should be cached as my_mutation_flags or something
     for( const trait_id &mut : get_mutations() ) {
         const mutation_branch &mut_data = mut.obj();
         if( mut_data.flags.count( b ) > 0 ) {
             return true;
+        } else if( mut_data.activated ) {
+            Character &player = get_player_character();
+            if( ( mut_data.active_flags.count( b ) > 0 && player.has_active_mutation( mut ) ) ||
+                ( mut_data.inactive_flags.count( b ) > 0 && !player.has_active_mutation( mut ) ) ) {
+                return true;
+            }
         }
     }
 
@@ -227,7 +235,7 @@ bool Character::can_power_mutation( const trait_id &mut )
 
 void Character::mutation_reflex_trigger( const trait_id &mut )
 {
-    if( mut->triger_list.empty() || !can_power_mutation( mut ) ) {
+    if( mut->trigger_list.empty() || !can_power_mutation( mut ) ) {
         return;
     }
 
@@ -236,7 +244,7 @@ void Character::mutation_reflex_trigger( const trait_id &mut )
     std::pair<translation, game_message_type> msg_on;
     std::pair<translation, game_message_type> msg_off;
 
-    for( const std::vector<reflex_activation_data> &vect_rdata : mut->triger_list ) {
+    for( const std::vector<reflex_activation_data> &vect_rdata : mut->trigger_list ) {
         activate = false;
         // OR conditions: if any trigger is true then this condition is true
         for( const reflex_activation_data &rdata : vect_rdata ) {
@@ -341,6 +349,12 @@ bool mutation_branch::conflicts_with_item( const item &it ) const
 {
     if( allow_soft_gear && it.is_soft() ) {
         return false;
+    }
+
+    for( const flag_id &allowed : allowed_items ) {
+        if( it.has_flag( allowed ) ) {
+            return false;
+        }
     }
 
     for( const bodypart_str_id &bp : restricts_gear ) {
@@ -497,6 +511,32 @@ bool Character::has_active_mutation( const trait_id &b ) const
 {
     const auto iter = my_mutations.find( b );
     return iter != my_mutations.end() && iter->second.powered;
+}
+
+int Character::get_cost_timer( const trait_id &mut ) const
+{
+    const auto iter = my_mutations.find( mut );
+    if( iter != my_mutations.end() ) {
+        return iter->second.charge;
+    } else {
+        debugmsg( "Tried to get cost timer of %s but doesn't have this mutation.", mut.c_str() );
+    }
+    return 0;
+}
+
+void Character::set_cost_timer( const trait_id &mut, int set )
+{
+    const auto iter = my_mutations.find( mut );
+    if( iter != my_mutations.end() ) {
+        iter->second.charge = set;
+    } else {
+        debugmsg( "Tried to set cost timer of %s but doesn't have this mutation.", mut.c_str() );
+    }
+}
+
+void Character::mod_cost_timer( const trait_id &mut, int mod )
+{
+    set_cost_timer( mut, get_cost_timer( mut ) + mod );
 }
 
 bool Character::is_category_allowed( const std::vector<mutation_category_id> &category ) const

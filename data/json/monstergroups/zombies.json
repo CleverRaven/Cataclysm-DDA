@@ -363,8 +363,10 @@
     "name": "GROUP_ZOMBIE_PRISON",
     "default": "mon_zombie_prisoner",
     "monsters": [
-      { "monster": "mon_zombie_prisoner", "freq": 350, "cost_multiplier": 0 },
-      { "monster": "mon_zombie_static", "freq": 10, "cost_multiplier": 0 }
+      { "monster": "mon_zombie_prisoner", "freq": 350, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_prisoner_fat", "freq": 350, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_prisoner_tough", "freq": 350, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_static", "freq": 10, "cost_multiplier": 3 }
     ]
   },
   {
@@ -538,10 +540,10 @@
   {
     "name": "GROUP_HOTEL_POOL",
     "type": "monstergroup",
-    "default": "mon_zombie_swimmer",
+    "default": "mon_zombie_swimmer_base",
     "monsters": [
       { "monster": "mon_zombie_swimmer", "freq": 100, "cost_multiplier": 2 },
-      { "monster": "mon_zombie_swimmer", "freq": 50, "cost_multiplier": 10, "pack_size": [ 3, 8 ] },
+      { "monster": "mon_zombie_swimmer_base", "freq": 50, "cost_multiplier": 10, "pack_size": [ 3, 8 ] },
       { "monster": "mon_zombie_child", "freq": 35, "cost_multiplier": 1 }
     ]
   },
@@ -558,9 +560,9 @@
   {
     "name": "GROUP_POOL_NOKIDS",
     "type": "monstergroup",
-    "default": "mon_zombie_swimmer",
+    "default": "mon_zombie_swimmer_base",
     "monsters": [
-      { "monster": "mon_zombie_swimmer", "freq": 100, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_swimmer_base", "freq": 100, "cost_multiplier": 2 },
       { "monster": "mon_zombie_swimmer", "freq": 50, "cost_multiplier": 10, "pack_size": [ 3, 8 ] }
     ]
   },

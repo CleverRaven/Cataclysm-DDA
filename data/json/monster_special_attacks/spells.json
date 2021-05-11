@@ -236,6 +236,24 @@
   },
   {
     "type": "SPELL",
+    "id": "centipede_mom_summon",
+    "name": { "str": "Summon Centipede" },
+    "description": "Summons a small, pissed off centipede.",
+    "flags": [ "HOSTILE_SUMMON", "PERMANENT", "RANDOM_TARGET", "NO_PROJECTILE" ],
+    "valid_targets": [ "ground" ],
+    "base_casting_time": 200,
+    "min_range": 1,
+    "max_range": 3,
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_aoe": 1,
+    "max_aoe": 1,
+    "shape": "line",
+    "effect": "summon",
+    "effect_str": "mon_centipede_small"
+  },
+  {
+    "type": "SPELL",
     "id": "phase_shrike_teleport",
     "name": { "str": "Phase Skulker Teleport" },
     "description": "Electric explosion followed by a teleport.",
@@ -256,5 +274,25 @@
     "field_chance": 3,
     "min_field_intensity": 1,
     "max_field_intensity": 3
+  },
+  {
+    "type": "SPELL",
+    "id": "dermatik_emergence",
+    "name": { "str": "Dermatik Emergence" },
+    "description": "The incubating dermatik larvae flee their host.",
+    "flags": [ "HOSTILE_SUMMON", "PERMANENT", "RANDOM_DAMAGE" ],
+    "valid_targets": [ "ground", "self" ],
+    "base_casting_time": 20,
+    "min_range": 1,
+    "max_range": 5,
+    "min_damage": 1,
+    "max_damage": 3,
+    "damage_type": "stab",
+    "min_aoe": 2,
+    "max_aoe": 3,
+    "shape": "blast",
+    "effect": "summon",
+    "effect_str": "mon_dermatik_larva",
+    "extra_effects": [ { "id": "frog_mother_hurt_self", "hit_self": true } ]
   }
 ]

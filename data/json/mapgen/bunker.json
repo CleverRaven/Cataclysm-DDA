@@ -174,7 +174,8 @@
         "{": { "item": "bunker_basement_books", "chance": 70 },
         "T": { "item": "trash_cart", "chance": 50 },
         "l": { "item": "bunker_basement_clothing", "chance": 50 },
-        "t": { "item": "dining", "chance": 45 }
+        "t": { "item": "dining", "chance": 45 },
+        "A": { "item": "autodoc_supplies", "chance": 100 }
       },
       "place_fields": [ { "field": "fd_blood", "x": 2, "y": 3 }, { "field": "fd_blood", "x": 3, "y": 3 } ],
       "place_loot": [
@@ -272,7 +273,8 @@
         "{": { "item": "bunker_basement_books", "chance": 80 },
         "T": { "item": "trash_cart", "chance": 50 },
         "l": { "item": "bunker_basement_clothing", "chance": 50 },
-        "t": { "item": "dining", "chance": 45 }
+        "t": { "item": "dining", "chance": 45 },
+        "A": { "item": "autodoc_supplies", "chance": 100 }
       },
       "place_loot": [
         { "group": "surgery", "x": [ 14, 16 ], "y": 4, "chance": 70, "repeat": [ 1, 3 ] },

@@ -1,6 +1,8 @@
 #include <algorithm>
 #include <functional>
+#include <iosfwd>
 #include <memory>
+#include <new>
 #include <string>
 #include <utility>
 #include <vector>
@@ -24,6 +26,7 @@
 #include "optional.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
+#include "point.h"
 #include "rng.h"
 #include "talker.h"
 #include "translations.h"

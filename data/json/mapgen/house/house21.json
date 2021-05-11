@@ -112,7 +112,6 @@
       },
       "furniture": { "D": "f_dumpster", "P": "f_mailbox", "{": "f_dumpster" },
       "place_item": [
-        { "chance": 20, "item": "toolbox", "x": 14, "y": 10 },
         { "chance": 30, "item": "glass_sheet", "x": 5, "y": 18 },
         { "chance": 30, "item": "glass_sheet", "x": 6, "y": 18 },
         { "chance": 30, "item": "101_carpentry", "x": 8, "y": 7 },
@@ -122,6 +121,7 @@
         { "chance": 30, "item": "glass_sheet", "x": 7, "y": 19 }
       ],
       "place_items": [
+        { "chance": 20, "item": "tools_toolbox", "x": 14, "y": 10 },
         { "chance": 30, "item": "building_rubble", "x": 4, "y": 10 },
         { "chance": 30, "item": "building_rubble", "x": [ 13, 14 ], "y": 4 },
         { "chance": 30, "item": "building_rubble", "x": [ 12, 13 ], "y": 3 },

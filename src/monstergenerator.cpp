@@ -1,6 +1,12 @@
+#include "mattack_common.h" // IWYU pragma: associated
+#include "monstergenerator.h" // IWYU pragma: associated
+
 #include <algorithm>
 #include <cstdlib>
+#include <limits>
+#include <new>
 #include <set>
+#include <string>
 #include <utility>
 
 #include "assign.h"
@@ -12,27 +18,22 @@
 #include "damage.h"
 #include "debug.h"
 #include "enum_conversions.h"
-#include "game.h"
+#include "field_type.h"
 #include "generic_factory.h"
 #include "item.h"
 #include "item_group.h"
 #include "json.h"
 #include "mattack_actors.h"
-#include "mattack_common.h" // IWYU pragma: associated
 #include "monattack.h"
 #include "mondeath.h"
 #include "mondefense.h"
-#include "monfaction.h"
 #include "mongroup.h"
-#include "monstergenerator.h" // IWYU pragma: associated
 #include "optional.h"
 #include "options.h"
 #include "pathfinding.h"
 #include "rng.h"
-#include "string_id.h"
 #include "translations.h"
 #include "units.h"
-#include "units_fwd.h"
 
 namespace behavior
 {
@@ -116,7 +117,6 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_FUR: return "FUR";
         case MF_LEATHER: return "LEATHER";
         case MF_WOOL: return "WOOL";
-        case MF_FEATHER: return "FEATHER";
         case MF_CBM_CIV: return "CBM_CIV";
         case MF_BONES: return "BONES";
         case MF_FAT: return "FAT";
@@ -182,6 +182,8 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_STUN_IMMUNE: return "STUN_IMMUNE";
         case MF_LOUDMOVES: return "LOUDMOVES";
         case MF_DROPS_AMMO: return "DROPS_AMMO";
+        case MF_INSECTICIDEPROOF: return "INSECTICIDEPROOF";
+        case MF_RANGED_ATTACKER: return "RANGED_ATTACKER";
         // *INDENT-ON*
         case m_flag::MF_MAX:
             break;
@@ -974,6 +976,8 @@ void species_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "anger_triggers", anger, trigger_reader );
     optional( jo, was_loaded, "placate_triggers", placate, trigger_reader );
     optional( jo, was_loaded, "fear_triggers", fear, trigger_reader );
+
+    optional( jo, was_loaded, "bleeds", bleeds, auto_flags_reader<field_type_str_id> {}, fd_null );
 }
 
 const std::vector<mtype> &MonsterGenerator::get_all_mtypes() const

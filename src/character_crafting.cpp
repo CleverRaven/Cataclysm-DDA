@@ -15,7 +15,6 @@
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "skill.h"
-#include "string_id.h"
 #include "type_id.h"
 #include "value_ptr.h"
 

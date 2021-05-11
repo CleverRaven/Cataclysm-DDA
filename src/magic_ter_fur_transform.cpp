@@ -1,5 +1,6 @@
-#include <algorithm>
+#include <iosfwd>
 #include <map>
+#include <new>
 #include <set>
 #include <string>
 #include <utility>
@@ -13,7 +14,6 @@
 #include "map.h"
 #include "mapdata.h"
 #include "optional.h"
-#include "string_id.h"
 #include "type_id.h"
 
 struct tripoint;

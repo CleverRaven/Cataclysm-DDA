@@ -1,4 +1,6 @@
+#include <functional>
 #include <memory>
+#include <vector>
 
 #include "behavior.h"
 #include "character.h"
@@ -6,7 +8,9 @@
 #include "item.h"
 #include "itype.h"
 #include "make_static.h"
+#include "ret_val.h"
 #include "type_id.h"
+#include "value_ptr.h"
 #include "weather.h"
 
 namespace behavior

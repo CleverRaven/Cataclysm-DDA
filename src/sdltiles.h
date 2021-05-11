@@ -2,11 +2,7 @@
 #ifndef CATA_SRC_SDLTILES_H
 #define CATA_SRC_SDLTILES_H
 
-#include <array>
-
-#include "point.h"
-
-struct point;
+#include "point.h" // IWYU pragma: keep
 
 namespace catacurses
 {
@@ -20,6 +16,11 @@ class window;
 
 #include "color_loader.h"
 #include "sdl_wrappers.h"
+
+#if defined(__APPLE__)
+// For TARGET_OS_IPHONE macro to test if is on iOS
+#include <TargetConditionals.h>
+#endif
 
 class cata_tiles;
 

@@ -2,22 +2,19 @@
 #ifndef CATA_SRC_TRAP_H
 #define CATA_SRC_TRAP_H
 
-#include <algorithm>
 #include <cstddef>
 #include <functional>
+#include <iosfwd>
 #include <string>
 #include <tuple>
 #include <utility>
 #include <vector>
 
 #include "color.h"
-#include "int_id.h"
 #include "magic.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
-#include "units_fwd.h"
 
 class Character;
 class Creature;
@@ -143,7 +140,7 @@ struct trap {
         /**
          * If an item with this weight or more is thrown onto the trap, it triggers.
          */
-        units::mass trigger_weight = units::mass( -1, units::mass::unit_type{} );
+        units::mass trigger_weight = 500_gram;
         int funnel_radius_mm = 0;
         // For disassembly?
         std::vector<std::tuple<itype_id, int, int>> components;
@@ -204,7 +201,7 @@ struct trap {
         bool is_trivial_to_spot() const;
 
         /**
-         * Some traps are part of the terrain (e.g. pits) and can therefor not be disarmed
+         * Some traps are part of the terrain (e.g. pits) and can therefore not be disarmed
          * via the usual mechanics. They can be "disarmed" by changing the terrain they are part of.
          */
         bool can_not_be_disarmed() const;

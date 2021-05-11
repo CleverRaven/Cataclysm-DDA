@@ -1,10 +1,10 @@
-#include "catch/catch.hpp"
-
 #include <cstddef>
+#include <iosfwd>
 #include <limits>
 #include <string>
-#include <utility>
+#include <type_traits>
 
+#include "catch/catch.hpp"
 #include "string_formatter.h"
 
 // Same as @ref string_format, but does not swallow errors and throws them instead.
@@ -101,9 +101,7 @@ void mingw_test( const char *const old_pattern, const char *const new_pattern, c
     CHECK( original_result == new_result );
 }
 
-// Marking mayfail due to failure in Appveyor.  Looks like a bug in the Visual
-// Studio runtime libraries.  Once that failure stops showing up on Appveyor,
-// this can cease to be marked thus.
+// Marking mayfail due to failure in MXE's MinGW on Travis on Ubuntu Xenial.
 TEST_CASE( "string_formatter", "[!mayfail]" )
 {
     test_typed_printf<signed char>( "%hhi", "%i" );

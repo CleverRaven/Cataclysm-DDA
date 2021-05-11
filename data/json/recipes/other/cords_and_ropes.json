@@ -37,7 +37,7 @@
     "reversible": true,
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_fibers" }, { "proficiency": "prof_fibers_rope" } ],
-    "components": [ [ [ "string_36", 6 ], [ "string_6", 36 ], [ "filament", 1800, "LIST" ] ] ]
+    "components": [ [ [ "string_36", 6 ], [ "string_6", 36 ] ] ]
   },
   {
     "type": "recipe",

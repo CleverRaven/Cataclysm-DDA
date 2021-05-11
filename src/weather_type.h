@@ -2,17 +2,18 @@
 #ifndef CATA_SRC_WEATHER_TYPE_H
 #define CATA_SRC_WEATHER_TYPE_H
 
-#include <algorithm>
 #include <climits>
+#include <cstdint>
+#include <iosfwd>
+#include <new>
 #include <string>
 #include <vector>
 
-#include "bodypart.h"
 #include "calendar.h"
+#include "catacharset.h"
 #include "color.h"
 #include "damage.h"
-#include "field.h"
-#include "string_id.h"
+#include "optional.h"
 #include "translations.h"
 #include "type_id.h"
 
@@ -151,7 +152,7 @@ struct weather_type {
         bool was_loaded = false;
         weather_type_id id;
         // UI name of weather type.
-        std::string name;
+        translation name;
         // UI color of weather type.
         nc_color color = c_white;
         // Map color of weather type.

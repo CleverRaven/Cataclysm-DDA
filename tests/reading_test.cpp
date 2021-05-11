@@ -1,5 +1,4 @@
-#include "catch/catch.hpp"
-
+#include <iosfwd>
 #include <list>
 #include <memory>
 #include <string>
@@ -7,6 +6,8 @@
 
 #include "avatar.h"
 #include "calendar.h"
+#include "catch/catch.hpp"
+#include "character.h"
 #include "item.h"
 #include "itype.h"
 #include "morale_types.h"
@@ -14,11 +15,30 @@
 #include "type_id.h"
 #include "value_ptr.h"
 
+class player;
+
 static const trait_id trait_HATES_BOOKS( "HATES_BOOKS" );
 static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_LOVES_BOOKS( "LOVES_BOOKS" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
+
+TEST_CASE( "clearing identified books", "[reading][book][identify][clear]" )
+{
+    item book( "child_book" );
+    SECTION( "using local avatar" ) {
+        avatar dummy;
+        dummy.identify( book );
+        dummy.clear_identified();
+        REQUIRE_FALSE( dummy.has_identified( book.typeId() ) );
+    }
+    SECTION( "test helper clear_avatar() also clears items identified" ) {
+        avatar &dummy = get_avatar();
+        dummy.identify( book );
+        clear_avatar();
+        REQUIRE_FALSE( dummy.has_identified( book.typeId() ) );
+    }
+}
 
 TEST_CASE( "identifying unread books", "[reading][book][identify]" )
 {

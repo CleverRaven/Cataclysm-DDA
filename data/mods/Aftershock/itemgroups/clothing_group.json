@@ -1,0 +1,176 @@
+[
+  {
+    "id": "coats_unisex_afs",
+    "type": "item_group",
+    "//": "unisex coats, jackets, cloaks, etc.",
+    "subtype": "distribution",
+    "items": [
+      {
+        "distribution": [
+          { "item": "cloak", "prob": 80 },
+          { "item": "cloak_wool", "prob": 40 },
+          { "item": "cloak_leather", "prob": 20 },
+          { "item": "cloak_fur", "prob": 10 },
+          { "item": "jedi_cloak", "prob": 5 }
+        ],
+        "prob": 20
+      },
+      {
+        "distribution": [
+          { "item": "trenchcoat", "prob": 80 },
+          { "item": "trenchcoat_leather", "prob": 60 },
+          { "item": "trenchcoat_faux_fur", "prob": 30 },
+          { "item": "trenchcoat_fur", "prob": 5 }
+        ],
+        "prob": 40
+      },
+      {
+        "distribution": [
+          { "item": "coat_winter", "prob": 50 },
+          { "item": "peacoat", "prob": 50 },
+          { "item": "greatcoat", "prob": 35 },
+          { "item": "coat_faux_fur", "prob": 20 },
+          { "item": "coat_fur", "prob": 10 },
+          { "item": "coat_fur_sf", "prob": 5 }
+        ],
+        "prob": 80
+      },
+      {
+        "distribution": [
+          { "item": "jacket_leather", "prob": 50 },
+          { "item": "jacket_leather_red", "prob": 25 },
+          { "item": "poncho", "prob": 30 },
+          { "item": "ski_jacket", "prob": 25 }
+        ],
+        "prob": 60
+      },
+      { "distribution": [ { "item": "army_top", "prob": 40 }, { "item": "blazer", "prob": 70 } ], "prob": 40 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "common_gloves_afs",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "gloves_light", "prob": 15 },
+      { "item": "gloves_leather", "prob": 15 },
+      { "item": "gloves_wool", "prob": 15 },
+      { "item": "gloves_winter", "prob": 10 },
+      { "item": "gloves_liner", "prob": 15 },
+      { "item": "mittens", "prob": 5 },
+      { "item": "thermal_gloves", "prob": 2 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "hatstore_hats_afs",
+    "items": [ [ "hat_cotton", 30 ], [ "hat_knit", 40 ], [ "hat_faux_fur", 30 ], [ "hat_fur", 20 ], [ "balclava", 20 ] ]
+  },
+  {
+    "id": "scarfs_unisex_afs",
+    "type": "item_group",
+    "//": "unisex scarfs and fabric coverings",
+    "subtype": "distribution",
+    "items": [
+      { "item": "bandana", "prob": 90 },
+      { "item": "balclava", "prob": 50 },
+      { "item": "headscarf", "prob": 50 },
+      { "item": "scarf_fur_long", "prob": 10 },
+      { "item": "scarf_fur", "prob": 20 },
+      { "item": "scarf", "prob": 80 },
+      { "item": "scarf_long", "prob": 40 },
+      { "item": "long_knit_scarf", "prob": 40 },
+      { "item": "knit_scarf", "prob": 80 },
+      { "item": "keffiyeh", "prob": 30 },
+      { "item": "mask_ski", "prob": 30 },
+      { "item": "thermal_mask", "prob": 5 }
+    ]
+  },
+  {
+    "id": "accesories_personal_unisex_afs",
+    "type": "item_group",
+    "//": "unisex personal accessories",
+    "subtype": "collection",
+    "items": [
+      { "group": "clothing_glasses", "prob": 50 },
+      { "group": "clothing_watch", "prob": 15 },
+      { "group": "accessory_ring", "prob": 15 },
+      { "group": "accessory_earring", "prob": 15 },
+      { "group": "accessory_bracelet", "prob": 15 },
+      { "group": "accessory_teeth", "prob": 5 },
+      { "group": "accessory_necklace", "prob": 15 },
+      { "group": "accessory_cat", "prob": 5 },
+      { "group": "accessory_weaponcarry", "prob": 15 },
+      { "group": "accessory_sportsgear", "prob": 15 },
+      { "item": "tool_belt", "prob": 10 },
+      { "item": "leather_belt", "prob": 60 },
+      { "item": "wearable_light", "prob": 30, "charges": [ 0, 100 ] },
+      { "item": "binoculars", "prob": 10 },
+      { "item": "whistle", "prob": 30 },
+      { "item": "harmonica_holder", "prob": 10 },
+      { "group": "flask_liquor", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "pants_unisex_afs",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "jeans", "prob": 90 },
+      { "item": "jeans_red", "prob": 50 },
+      { "item": "pants", "prob": 75 },
+      { "item": "pants_leather", "prob": 60 },
+      { "item": "pants_cargo", "prob": 70 },
+      { "item": "pants_ski", "prob": 45 },
+      { "item": "pants_fur", "prob": 5 },
+      { "item": "pants_faux_fur", "prob": 15 },
+      { "item": "breeches", "prob": 25 }
+    ]
+  },
+  {
+    "id": "shirts_unisex_afs",
+    "type": "item_group",
+    "//": "unisex shirts",
+    "subtype": "distribution",
+    "items": [
+      { "item": "longshirt", "prob": 70 },
+      { "item": "arm_warmers", "prob": 20 },
+      { "item": "armguard_soft", "prob": 10 },
+      { "item": "dress_shirt", "prob": 50 },
+      { "item": "flag_shirt", "prob": 15 },
+      { "item": "linuxtshirt", "prob": 10 },
+      { "item": "polo_shirt", "prob": 30 },
+      { "item": "sweater", "prob": 40 },
+      { "item": "turtleneck", "prob": 15 },
+      { "item": "turtleneck_shirt", "prob": 15 },
+      { "item": "sweatshirt", "prob": 50 },
+      { "item": "tank_top", "prob": 30 },
+      { "item": "tshirt", "prob": 80 },
+      { "item": "tshirt_text", "prob": 50 },
+      { "item": "waistcoat", "prob": 10 },
+      { "item": "wool_hoodie", "prob": 10 },
+      { "item": "hoodie", "prob": 40 }
+    ]
+  },
+  {
+    "id": "shoes_unisex_afs",
+    "type": "item_group",
+    "//": "unisex shoes (there are no men's only shoes)",
+    "subtype": "distribution",
+    "items": [
+      {
+        "distribution": [
+          { "item": "boots", "prob": 80 },
+          { "item": "boots_hiking", "prob": 50 },
+          { "item": "boots_steel", "prob": 50 },
+          { "item": "boots_combat", "prob": 45 },
+          { "item": "boots_fur", "prob": 10 },
+          { "item": "boots_winter", "prob": 30 },
+          { "item": "knee_high_boots", "prob": 15 },
+          { "item": "motorbike_boots", "prob": 35 }
+        ],
+        "prob": 60
+      }
+    ]
+  }
+]

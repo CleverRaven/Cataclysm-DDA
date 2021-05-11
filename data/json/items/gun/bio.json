@@ -64,7 +64,7 @@
     "durability": 10,
     "loudness": 7,
     "ammo_effects": [ "LASER", "INCENDIARY" ],
-    "flags": [ "NEVER_JAMS", "TRADER_AVOID", "FIRESTARTER", "USES_BIONIC_POWER", "ZERO_WEIGHT" ]
+    "flags": [ "NEVER_JAMS", "TRADER_AVOID", "NO_UNWIELD", "FIRESTARTER", "USES_BIONIC_POWER", "ZERO_WEIGHT" ]
   },
   {
     "id": "bio_lightning",

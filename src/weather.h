@@ -3,6 +3,7 @@
 #define CATA_SRC_WEATHER_H
 
 #include "calendar.h"
+#include "catacharset.h"
 #include "color.h"
 #include "coordinates.h"
 #include "optional.h"
@@ -41,8 +42,9 @@ static constexpr int BODYTEMP_VERY_HOT = 8000;
 static constexpr int BODYTEMP_SCORCHING = 9500;
 ///@}
 
+#include <cstdint>
+#include <iosfwd>
 #include <map>
-#include <string>
 #include <unordered_map>
 #include <utility>
 #include <vector>

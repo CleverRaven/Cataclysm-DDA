@@ -1,11 +1,12 @@
-#include "catch/catch.hpp"
-#include "behavior.h"
-
+#include <functional>
+#include <iosfwd>
 #include <list>
 #include <string>
 #include <vector>
 
+#include "behavior.h"
 #include "behavior_strategy.h"
+#include "catch/catch.hpp"
 #include "character_oracle.h"
 #include "item.h"
 #include "item_location.h"

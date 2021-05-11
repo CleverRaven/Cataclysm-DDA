@@ -1,31 +1,35 @@
+#include "player.h" // IWYU pragma: associated
+
 #include <algorithm> //std::min
 #include <cstddef>
+#include <functional>
 #include <memory>
+#include <string>
 
 #include "avatar.h"
 #include "bionics.h"
 #include "bodypart.h"
+#include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "color.h"
-#include "compatibility.h"
+#include "cursesdef.h"
 #include "enums.h"
 #include "flat_set.h"
 #include "game.h"
 #include "input.h"
 #include "inventory.h"
+#include "material.h"
 #include "options.h"
 #include "output.h"
+#include "make_static.h"
 #include "pimpl.h"
-#include "player.h" // IWYU pragma: associated
 #include "string_formatter.h"
-#include "string_id.h"
 #include "translations.h"
 #include "ui.h"
 #include "ui_manager.h"
 #include "uistate.h"
 #include "units.h"
-#include "units_fwd.h"
 
 // '!', '-' and '=' are uses as default bindings in the menu
 static const invlet_wrapper
@@ -231,19 +235,19 @@ static void draw_bionics_titlebar( const catacurses::window &window, avatar *p,
     const int joule = ( curr_power % units::to_millijoule( 1_kJ ) ) / units::to_millijoule( 1_J );
     const int milli = curr_power % units::to_millijoule( 1_J );
     if( kilo > 0 ) {
-        power_string = to_string( kilo );
+        power_string = std::to_string( kilo );
         if( joule > 0 ) {
-            power_string += pgettext( "decimal separator", "." ) + to_string( joule );
+            power_string += pgettext( "decimal separator", "." ) + std::to_string( joule );
         }
         power_string += pgettext( "energy unit: kilojoule", "kJ" );
     } else if( joule > 0 ) {
-        power_string = to_string( joule );
+        power_string = std::to_string( joule );
         if( milli > 0 ) {
-            power_string += pgettext( "decimal separator", "." ) + to_string( milli );
+            power_string += pgettext( "decimal separator", "." ) + std::to_string( milli );
         }
         power_string += pgettext( "energy unit: joule", "J" );
     } else {
-        power_string = to_string( milli ) + pgettext( "energy unit: millijoule", "mJ" );
+        power_string = std::to_string( milli ) + pgettext( "energy unit: millijoule", "mJ" );
     }
 
     const int pwr_str_pos = right_print( window, 1, 1, c_white,
@@ -309,7 +313,7 @@ static std::string build_bionic_poweronly_string( const bionic &bio )
                               : string_format( _( "%s/%d turns" ), units::display( bio_data.power_over_time ),
                                                bio_data.charge_time ) );
     }
-    if( bio_data.has_flag( "BIONIC_TOGGLED" ) ) {
+    if( bio_data.has_flag( STATIC( json_character_flag( "BIONIC_TOGGLED" ) ) ) ) {
         properties.push_back( bio.powered ? _( "ON" ) : _( "OFF" ) );
     }
     if( bio.incapacitated_time > 0_turns ) {
@@ -495,7 +499,7 @@ static void draw_connectors( const catacurses::window &win, const point &start,
 static nc_color get_bionic_text_color( const bionic &bio, const bool isHighlightedBionic )
 {
     nc_color type = c_white;
-    bool is_power_source = bio.id->has_flag( "BIONIC_POWER_SOURCE" );
+    bool is_power_source = bio.id->has_flag( STATIC( json_character_flag( "BIONIC_POWER_SOURCE" ) ) );
     if( bio.id->activated ) {
         if( isHighlightedBionic ) {
             if( bio.powered && !is_power_source ) {

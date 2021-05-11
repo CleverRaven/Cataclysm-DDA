@@ -177,6 +177,7 @@
     "volume": "4495 ml",
     "longest_side": "971 mm",
     "price": 140000,
+    "price_postapoc": 4000,
     "to_hit": -1,
     "bashing": 9,
     "material": [ "steel", "plastic" ],
@@ -289,6 +290,7 @@
     "looks_like": "mossberg_500",
     "default_mods": [ "sights_mount", "underbarrel_mount" ],
     "price": 70000,
+    "price_postapoc": 2400,
     "barrel_volume": "0 ml",
     "clip_size": 9,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 9 } } ]
@@ -466,13 +468,14 @@
     "clip_size": 7,
     "barrel_volume": "20 ml",
     "price": 33800,
+    "price_postapoc": 2750,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 7 } } ]
   },
   {
     "id": "remington_1100",
     "copy-from": "shotgun_base",
     "type": "GUN",
-    "name": { "str": "Remington 1100 competiton" },
+    "name": { "str": "Remington 1100 competition" },
     "description": "This semi-automatic shotgun features a self compensating gas system that will feed a wide array of shells while also reducing recoil.  Introduced in 1963, it is favored by law enforcement, hunters and competition shooters, and has been the best-selling autoloading shotgun in U.S. history.  This is the nickel finished, teflon coated competition model, with a full length magazine tube and 30 inch barrel.",
     "ascii_picture": "remington1100",
     "weight": "3742 g",
@@ -759,48 +762,6 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 5 } } ]
   },
   {
-    "id": "USAS_12",
-    "copy-from": "shotgun_base",
-    "type": "GUN",
-    "name": { "str": "USAS 12" },
-    "description": "The USAS 12 looks like a boxy upsized caricature of the M16A2.  Like its Auto Assault-12 predecessor, it is a select-fire shotgun fed from large box or drum magazines.  The in-line recoil system and sheer weight make for pleasant shooting.",
-    "weight": "5450 g",
-    "volume": "4695 ml",
-    "longest_side": "962 mm",
-    "looks_like": "saiga_12",
-    "price": 300000,
-    "price_postapoc": 5000,
-    "to_hit": -1,
-    "bashing": 12,
-    "material": [ "steel", "plastic" ],
-    "dispersion": 510,
-    "durability": 6,
-    "min_cycle_recoil": 1250,
-    "barrel_volume": "54 ml",
-    "valid_mod_locations": [
-      [ "accessories", 2 ],
-      [ "mechanism", 4 ],
-      [ "barrel", 1 ],
-      [ "sling", 1 ],
-      [ "muzzle", 1 ],
-      [ "grip", 1 ],
-      [ "brass catcher", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 5 ] ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "USAS10mag", "USAS20mag" ]
-      }
-    ]
-  },
-  {
     "id": "winchester_1887",
     "copy-from": "shotgun_base",
     "type": "GUN",
@@ -854,7 +815,6 @@
     "dispersion": 360,
     "durability": 8,
     "clip_size": 6,
-    "modes": [ [ "DEFAULT", "single", 1 ], [ "AUTO", "2 rd.", 2 ] ],
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "stock mount", 1 ],

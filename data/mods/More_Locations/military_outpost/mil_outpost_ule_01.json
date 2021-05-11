@@ -33,7 +33,8 @@
         "######|C.....|  |.......",
         "######|C.....|  |...TT.."
       ],
-      "palettes": [ "mil_outpost_underground" ]
+      "palettes": [ "mil_outpost_underground" ],
+      "furniture": { "8": "f_sandbag_half" }
     }
   }
 ]

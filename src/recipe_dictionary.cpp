@@ -3,6 +3,8 @@
 #include <algorithm>
 #include <iterator>
 #include <memory>
+#include <new>
+#include <type_traits>
 #include <unordered_map>
 #include <utility>
 
@@ -17,15 +19,12 @@
 #include "json.h"
 #include "make_static.h"
 #include "mapgen.h"
-#include "optional.h"
 #include "output.h"
 #include "requirements.h"
 #include "skill.h"
-#include "string_id.h"
 #include "translations.h"
 #include "uistate.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "value_ptr.h"
 
 recipe_dictionary recipe_dict;
@@ -156,6 +155,9 @@ std::vector<const recipe *> recipe_subset::search(
         switch( key ) {
             case search_type::name:
                 return lcmatch( r->result_name(), txt );
+
+            case search_type::exclude_name:
+                return !lcmatch( r->result_name(), txt );
 
             case search_type::skill:
                 return lcmatch( r->required_skills_string( nullptr, true, false ), txt );
@@ -324,7 +326,8 @@ recipe &recipe_dictionary::load( const JsonObject &jo, const std::string &src,
     if( jo.has_string( "copy-from" ) ) {
         auto base = recipe_id( jo.get_string( "copy-from" ) );
         if( !out.count( base ) ) {
-            deferred.emplace_back( jo.str(), src );
+            deferred.emplace_back( jo.get_source_location(), src );
+            jo.allow_omitted_members();
             return null_recipe;
         }
         r = out[ base ];

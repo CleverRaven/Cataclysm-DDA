@@ -1,22 +1,24 @@
-#include "catch/catch.hpp"
-
 #include <cstddef>
+#include <functional>
 #include <memory>
 #include <sstream>
-#include <string>
 #include <vector>
 
 #include "avatar.h"
+#include "catch/catch.hpp"
 #include "creature.h"
+#include "explosion.h"
 #include "game.h"
 #include "item.h"
 #include "itype.h"
 #include "line.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "monster.h"
 #include "point.h"
 #include "test_statistics.h"
 #include "type_id.h"
+#include "units.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
@@ -60,6 +62,7 @@ static void check_lethality( const std::string &explosive_id, const int range, f
         item grenade( explosive_id );
         grenade.charges = 0;
         grenade.type->invoke( get_avatar(), grenade, origin );
+        explosion_handler::process_explosions();
         // see how many monsters survive
         std::vector<Creature *> survivors = g->get_creatures_if( []( const Creature & critter ) {
             return critter.is_monster();
@@ -124,6 +127,7 @@ static void check_vehicle_damage( const std::string &explosive_id, const std::st
     item grenade( explosive_id );
     grenade.charges = 0;
     grenade.type->invoke( get_avatar(), grenade, origin );
+    explosion_handler::process_explosions();
 
     std::vector<int> after_hp = get_part_hp( target_vehicle );
 

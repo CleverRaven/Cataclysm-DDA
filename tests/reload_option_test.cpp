@@ -1,9 +1,9 @@
-#include "catch/catch.hpp"
-
 #include <list>
 #include <memory>
 
 #include "avatar.h"
+#include "calendar.h"
+#include "catch/catch.hpp"
 #include "item.h"
 #include "item_location.h"
 #include "item_pocket.h"

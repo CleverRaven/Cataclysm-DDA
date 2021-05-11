@@ -1,5 +1,5 @@
 #include <cstddef>
-#include <string>
+#include <iosfwd>
 #include <utility>
 #include <vector>
 
