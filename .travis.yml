@@ -217,7 +217,7 @@ jobs:
               key_url: "https://apt.llvm.org/llvm-snapshot.gpg.key"
 
 before_install:
-  - if [ "${NATIVE}" == "android] ]; then yes | sdkmanager "platforms;android-28"; done
+  - if [ "${NATIVE}" == "android" ]; then yes | sdkmanager "platforms;android-28"; done
 
 before_script:
   - if [ -n "${CLANG}" ]; then COMPILER="$CLANG"; fi
