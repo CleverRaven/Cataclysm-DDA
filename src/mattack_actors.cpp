@@ -7,10 +7,12 @@
 #include <string>
 
 #include "avatar.h"
+#include "ballistics.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
 #include "creature.h"
+#include "dispersion.h"
 #include "enums.h"
 #include "game.h"
 #include "generic_factory.h"
@@ -22,10 +24,12 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "messages.h"
+#include "monattack.h"
 #include "monster.h"
 #include "npc.h"
 #include "player.h"
 #include "point.h"
+#include "projectile.h"
 #include "ret_val.h"
 #include "rng.h"
 #include "sounds.h"
@@ -571,5 +575,81 @@ void gun_actor::shoot( monster &z, Creature &target, const gun_mode_id &mode ) c
     if( laser_lock ) {
         // To prevent spamming laser locks when the player can tank that stuff somehow
         target.add_effect( effect_was_laserlocked, 5_turns );
+    }
+}
+
+void throw_actor::load_internal( const JsonObject &obj, const std::string & )
+{
+    if( obj.has_array( "damage_max_instance" ) ) {
+        damage_max_instance = load_damage_instance( obj.get_array( "damage_max_instance" ) );
+    } else if( obj.has_object( "damage_max_instance" ) ) {
+        damage_max_instance = load_damage_instance( obj );
+    }
+
+    range = obj.get_float( "range", 5.0f );
+    speed = obj.get_int( "speed", 5 );
+    move_cost = obj.get_int( "move_cost", 150 );
+
+    obj.read( "description", description );
+}
+
+std::unique_ptr<mattack_actor> throw_actor::clone() const
+{
+    return std::make_unique<throw_actor>( *this );
+}
+
+bool throw_actor::call( monster &z ) const
+{
+    if( !z.can_act() || !z.move_effects( false ) ) {
+        return false;
+    }
+
+    Creature *target = z.attack_target();
+    if( target == nullptr ) {
+        return false;
+    }
+
+    if( rl_dist( z.pos(), target->pos() ) > range || !z.sees( *target ) ) {
+        return false;
+    }
+
+    const itype_id throwable_type = z.type->starting_ammo.begin()->first;
+
+    if( z.ammo[throwable_type] > 0 ) {
+        z.moves -= move_cost;
+        add_msg_if_player_sees( z, m_bad, description.translated() );
+        z.ammo[throwable_type] -= 1;
+
+        if( mattack::dodge_check( &z, target ) || target->uncanny_dodge() ) {
+            game_message_type msg_type = target->is_avatar() ? m_good : m_info;
+            target->add_msg_player_or_npc( msg_type, _( "You dodge the thrown %1$s!", throwable_type.str() ),
+                                           _( "<npcname> dodges the thrown %1$s!", throwable_type.str() ) );
+            if( !target->uncanny_dodge() ) {
+                target->on_dodge( &z, z.type->melee_skill * 2 );
+            }
+            return true;
+        }
+
+        projectile proj;
+
+        proj.speed  = speed;
+        proj.impact = damage_max_instance;
+        proj.range  = range;
+        proj.proj_effects = { { "NOGIB", "NO_PENETRATE_OBSTACLES", "NO_ITEM_DAMAGE" } };
+
+        item to_throw( throwable_type, calendar::turn, 1 );
+        if( to_throw.weight() > 500_gram ) {
+            proj.proj_effects.insert( "HEAVY_HIT" );
+            if( one_in( 10 ) ) {
+                proj.proj_effects.insert( "BEANBAG" );
+            }
+        }
+
+        proj.set_drop( to_throw );
+
+        dealt_projectile_attack dealt = projectile_attack( proj, z.pos(), target->pos(),
+                                        dispersion_sources { 150 },
+                                        &z );
+        return true;
     }
 }

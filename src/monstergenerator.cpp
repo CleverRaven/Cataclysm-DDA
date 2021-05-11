@@ -650,7 +650,6 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "GRAB_DRAG", mattack::grab_drag );
     add_hardcoded_attack( "DOOT", mattack::doot );
     add_hardcoded_attack( "ZOMBIE_FUSE", mattack::zombie_fuse );
-    add_hardcoded_attack( "THROW_ROCK", mattack::throw_rock );
 }
 
 void MonsterGenerator::init_defense()
@@ -1069,6 +1068,8 @@ mtype_special_attack MonsterGenerator::create_actor( const JsonObject &obj,
         new_attack = std::make_unique<gun_actor>();
     } else if( attack_type == "spell" ) {
         new_attack = std::make_unique<mon_spellcasting_actor>();
+    } else if( attack_type == "throw" ) {
+        new_attack = std::make_unique<throw_actor>();
     } else {
         obj.throw_error( "unknown monster attack", "attack_type" );
     }

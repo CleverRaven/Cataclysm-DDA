@@ -148,7 +148,6 @@ static const itype_id itype_c4armed( "c4armed" );
 static const itype_id itype_e_handcuffs( "e_handcuffs" );
 static const itype_id itype_mininuke( "mininuke" );
 static const itype_id itype_mininuke_act( "mininuke_act" );
-static const itype_id itype_rock( "rock" );
 
 static const skill_id skill_gun( "gun" );
 static const skill_id skill_launcher( "launcher" );
@@ -2834,56 +2833,6 @@ bool mattack::para_sting( monster *z )
     }
 
     return true;
-}
-
-bool mattack::throw_rock( monster *z )
-{
-    if( !z || !z->can_act() ) {
-        return false;
-    }
-
-    Creature *target = z->attack_target();
-    if( target == nullptr ) {
-        return false;
-    }
-
-    const float range = 5.0f;
-    if( !within_target_range( z, target, range ) ) {
-        return false;
-    }
-
-    if( z->ammo[itype_rock] > 0 ) {
-        z->moves -= 150;
-        add_msg_if_player_sees( *z, _( "The %1$s throws a rock!" ), z->name() );
-        z->ammo[itype_rock] -= 1;
-
-        if( dodge_check( z, target ) || target->uncanny_dodge() ) {
-            game_message_type msg_type = target->is_avatar() ? m_good : m_info;
-            target->add_msg_player_or_npc( msg_type, _( "You dodge the thrown rock!" ),
-                                           _( "<npcname> dodges the thrown rock!" ) );
-            if( !target->uncanny_dodge() ) {
-                target->on_dodge( z, z->type->melee_skill * 2 );
-            }
-            return true;
-        }
-
-        projectile proj;
-        proj.speed  = 30;
-        proj.impact = damage_instance::physical( 4, 0, 0, 0 );
-        proj.range = range;
-        proj.proj_effects = { { "NOGIB", "NO_PENETRATE_OBSTACLES" } };
-        if( one_in( 10 ) ) {
-            proj.proj_effects.insert( "BEANBAG" );
-        }
-        proj.set_drop( item( itype_rock, calendar::turn, 1 ) );
-
-        dealt_projectile_attack dealt = projectile_attack( proj, z->pos(), target->pos(),
-                                        dispersion_sources { 150 },
-                                        z );
-        return true;
-    }
-
-    return false;
 }
 
 bool mattack::triffid_growth( monster *z )
