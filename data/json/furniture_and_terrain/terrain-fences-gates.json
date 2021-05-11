@@ -64,6 +64,8 @@
     "symbol": "+",
     "color": "cyan",
     "move_cost": 0,
+    "lockpick_result": "t_chaingate_c",
+    "lockpick_message": "With a satisfying click, the lock on the gate opens.",
     "flags": [ "TRANSPARENT", "PERMEABLE", "LOCKED", "PICKABLE", "THIN_OBSTACLE", "BURROWABLE" ],
     "connects_to": "CHAINFENCE",
     "examine_action": "locked_object_pickable",
