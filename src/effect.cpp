@@ -581,6 +581,17 @@ struct desc_freq {
 std::string effect::disp_desc( bool reduced ) const
 {
     std::string ret;
+
+    std::string timestr;
+    time_duration effect_dur_elapsed = (calendar::turn - start_time);
+    if (to_turns<int>(effect_dur_elapsed) == 0) {
+        timestr = _("just now");
+    }
+    else {
+        timestr = string_format(_("%s ago"), to_string_clipped(effect_dur_elapsed));
+    }
+    ret += string_format(_("Effect started: <color_white>%s</color>\n"), timestr);
+
     // First print stat changes, adding + if value is positive
     int tmp = get_avg_mod( "STR", reduced );
     if( tmp > 0 ) {
