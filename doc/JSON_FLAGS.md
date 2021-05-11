@@ -1118,7 +1118,6 @@ Also see `monster_attacks.json` for more special attacks, for example, impale an
 - ```TAZER``` Shock the player.
 - ```TENTACLE``` Lashes a tentacle at an enemy, doing bash damage at 3 tiles range.
 - ```TINDALOS_TELEPORT``` Spawns afterimages, teleports to corners nearer to its target.
-- ```THROW_ROCK``` Throws a rock (4 bash damage, 5 tiles range) with a 10% chance to stun the target.
 - ```TRIFFID_GROWTH``` Young triffid grows into an adult.
 - ```TRIFFID_HEARTBEAT``` Grows and crumbles root walls around the player, and spawns more monsters.
 - ```UPGRADE``` Upgrades one of the non-hostile surrounding monsters, gets angry if it finds no targets to upgrade.

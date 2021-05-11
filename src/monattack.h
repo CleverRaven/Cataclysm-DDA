@@ -107,7 +107,6 @@ bool grenadier( monster *z );
 bool grenadier_elite( monster *z );
 bool doot( monster *z );
 bool zombie_fuse( monster *z );
-bool throw_rock( monster *z );
 
 void taze( monster *z, Creature *target );
 void rifle( monster *z, Creature *target );             // Automated M4
