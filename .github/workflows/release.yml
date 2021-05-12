@@ -18,7 +18,7 @@ jobs:
       - name: Generate environmental variables
         id: generate_env_vars
         run: |
-          echo versioCode: $VERSION_CODE
+          echo versionCode: $VERSION_CODE
           echo tagName: $TAG_NAME
           echo releaseName: $RELEASE_NAME
         env:
@@ -29,7 +29,7 @@ jobs:
         id: tag_check
         uses: mukunku/tag-exists-action@v1.0.0
         with:
-          tag: ${{ env.TAG_NAME }}  
+          tag: ${{ steps.generate_env_vars.env.TAG_NAME }}  
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/checkout@v2
@@ -38,15 +38,15 @@ jobs:
         uses: mathieudutour/github-tag-action@v5.5
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          custom_tag: ${{ env.TAG_NAME }}
+          custom_tag: ${{ steps.generate_env_vars.env.TAG_NAME }}
       - name: Create release
         id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ env.TAG_NAME }}
-          release_name: ${{ env.RELEASE_NAME }}
+          tag_name: ${{ steps.generate_env_vars.env.TAG_NAME }}
+          release_name: ${{ steps.generate_env_vars.env.RELEASE_NAME }}
           body: |
             These are the outputs for the experimental build of commit [${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }})
           draft: false
