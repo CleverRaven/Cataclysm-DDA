@@ -12,47 +12,39 @@ jobs:
     outputs:
       upload_url: ${{ steps.create_release.outputs.upload_url }}
     steps:
-      - name: Get current date
-        id: date
+      - name: Get current UTC date in ISO format
+        id: get-iso-utc-date
         run: echo "::set-output name=date::$(date -I -u)"
-      - name: Test with environment variables
-        run: echo $TAG_NAME - $RELEASE_NAME
-        env:
-          TAG_NAME: nightly-tag-${{ steps.date.outputs.date }}
-          RELEASE_NAME: nightly-release-${{ steps.date.outputs.date }}
-      - name: Generate versionCode
-        id: version_code_generate
-        run: echo $VERSION_CODE
+      - name: Generate environmental variables
+        id: generate_env_vars
+        run: |
+          echo $VERSION_CODE
+          echo $TAG_NAME
+          echo $RELEASE_NAME
         env:
           VERSION_CODE: ${{ github.run_number }}
-      - name: Generate tag
-        id: tag_generate
-        run: |
-          date -I -u
-          set TAG_DAILY = $(date -I -u)
-          echo "::set-output name=tag_daily::$TAG_DAILY"
-          echo $TAG_DAILY
+          TAG_NAME: cdda-experimental-b${{ steps.get-iso-utc-date.outputs.date }}
+          RELEASE_NAME: "Cataclysm-DDA experimental build #${{ steps.get-iso-utc-date.outputs.date }}"
       - name: Check if there is existing git tag
         id: tag_check
         uses: mukunku/tag-exists-action@v1.0.0
         with:
-          tag: ${{ steps.tag_generate.outputs.tag_daily }}
+          tag: ${{ env.TAG_NAME }}
       - uses: actions/checkout@v2
       - name: Push tag
         id: tag_version
         uses: mathieudutour/github-tag-action@v5.5
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          custom_tag: ${{ steps.tag_generate.outputs.tag_daily }}
-          tag_prefix: cdda-experimental-b
+          custom_tag: ${{ env.TAG_NAME }}
       - name: Create release
         id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ steps.tag_version.outputs.new_tag }}
-          release_name: "Cataclysm-DDA experimental build #${{ steps.tag_generate.DAILY_TAG }}"
+          tag_name: ${{ env.TAG_NAME }}
+          release_name: ${{ env.RELEASE_NAME }}
           body: |
             These are the outputs for the experimental build of commit [${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }})
           draft: false
