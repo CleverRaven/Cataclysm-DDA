@@ -14,6 +14,7 @@ jobs:
     steps:
       - name: Generate tag
         id: tag_generate
+        run: echo $(DAILY_TAG)
         env:
           DAILY_TAG: cdda-experimental-b${{ github.run_number }}
       - name: Check if there is existing git tag
