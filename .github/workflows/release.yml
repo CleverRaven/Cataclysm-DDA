@@ -50,6 +50,7 @@ jobs:
           prerelease: true
   builds:
     needs: release
+    if: ${{ steps.tag_check.outputs.exists == 'false' }}
     strategy:
       matrix:
         include:
