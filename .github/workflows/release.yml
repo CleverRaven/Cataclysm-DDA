@@ -20,7 +20,7 @@ jobs:
       - name: Generate tag
         id: tag_generate
         run: |
-          TAG_DAILY = $(date -I -u)
+          set TAG_DAILY = $(date -I -u)
           echo "::set-output name=tag_daily::$TAG_DAILY"
           echo $TAG_DAILY
       - name: Check if there is existing git tag
