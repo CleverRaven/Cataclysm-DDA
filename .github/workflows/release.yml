@@ -12,11 +12,16 @@ jobs:
     outputs:
       upload_url: ${{ steps.create_release.outputs.upload_url }}
     steps:
+      - name: Generate versionCode
+        id: version_code_generate
+        run: echo $VERSION_CODE
+        env:
+          VERSION_CODE: ${{ github.run_number }}
       - name: Generate tag
         id: tag_generate
-        run: echo $(DAILY_TAG)
+        run: echo $DAILY_TAG
         env:
-          DAILY_TAG: cdda-experimental-b${{ github.run_number }}
+          DAILY_TAG: cdda-experimental-b$(date -u -I)
       - name: Check if there is existing git tag
         id: tag_check
         uses: mukunku/tag-exists-action@v1.0.0
