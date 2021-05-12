@@ -21,14 +21,14 @@ jobs:
         id: tag_check
         uses: mukunku/tag-exists-action@v1.0.0
         with:
-          tag: ${{ tag_generate.DAILY_TAG }}
+          tag: ${{ steps.tag_generate.DAILY_TAG }}
       - uses: actions/checkout@v2
       - name: Push tag
         id: tag_version
         uses: mathieudutour/github-tag-action@v5.5
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          custom_tag: ${{ tag_generate.DAILY_TAG }}
+          custom_tag: ${{ steps.tag_generate.DAILY_TAG }}
           tag_prefix: cdda-experimental-b
       - name: Create release
         id: create_release
@@ -37,7 +37,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ steps.tag_version.outputs.new_tag }}
-          release_name: "Cataclysm-DDA experimental build #${{ github.run_number }}"
+          release_name: "Cataclysm-DDA experimental build #${{ steps.tag_generate.DAILY_TAG }}"
           body: |
             These are the outputs for the experimental build of commit [${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }})
           draft: false
