@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - gha-date-based-tags
 jobs:
   release:
     name: Create Release
@@ -11,14 +12,23 @@ jobs:
     outputs:
       upload_url: ${{ steps.create_release.outputs.upload_url }}
     steps:
+      - name: Generate tag
+        id: tag_generate
+        env:
+          DAILY_TAG: cdda-experimental-b${{ github.run_number }}
+      - name: Check if there is existing git tag
+        id: tag_check
+        uses: mukunku/tag-exists-action@v1.0.0
+        with:
+          tag: ${{ tag_generate.DAILY_TAG }}
       - uses: actions/checkout@v2
       - name: Push tag
         id: tag_version
         uses: mathieudutour/github-tag-action@v5.5
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          custom_tag: ${{ github.run_number }}
-          tag_prefix: experimental-
+          custom_tag: ${{ tag_generate.DAILY_TAG }}
+          tag_prefix: cdda-experimental-b
       - name: Create release
         id: create_release
         uses: actions/create-release@v1
@@ -26,7 +36,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ steps.tag_version.outputs.new_tag }}
-          release_name: "Experimental Build #${{ github.run_number }}"
+          release_name: "Cataclysm-DDA experimental build #${{ github.run_number }}"
           body: |
             These are the outputs for the experimental build of commit [${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }})
           draft: false
