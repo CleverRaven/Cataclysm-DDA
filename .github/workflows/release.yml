@@ -18,17 +18,18 @@ jobs:
       - name: Generate environmental variables
         id: generate_env_vars
         run: |
-          echo $VERSION_CODE
-          echo $TAG_NAME
-          echo $RELEASE_NAME
+          echo versioCode: $VERSION_CODE
+          echo tagName: $TAG_NAME
+          echo releaseName: $RELEASE_NAME
         env:
           VERSION_CODE: ${{ github.run_number }}
-          TAG_NAME: cdda-experimental-b${{ steps.get-iso-utc-date.outputs.date }}
-          RELEASE_NAME: "Cataclysm-DDA experimental build #${{ steps.get-iso-utc-date.outputs.date }}"
+          TAG_NAME: cdda-experimental-${{ steps.get-iso-utc-date.outputs.date }}
+          RELEASE_NAME: "Cataclysm-DDA experimental build ${{ steps.get-iso-utc-date.outputs.date }}"
       - name: Check if there is existing git tag
         id: tag_check
         uses: mukunku/tag-exists-action@v1.0.0
         with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ env.TAG_NAME }}
       - uses: actions/checkout@v2
       - name: Push tag
