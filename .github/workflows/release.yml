@@ -19,21 +19,19 @@ jobs:
           VERSION_CODE: ${{ github.run_number }}
       - name: Generate tag
         id: tag_generate
-        run:
-          date -u -I >> $DAILY_TAG
-          echo cdda-experimental-b-$DAILY_TAG
+        run: echo "::set-output tag_daily=date::$(date -I -u)"
       - name: Check if there is existing git tag
         id: tag_check
         uses: mukunku/tag-exists-action@v1.0.0
         with:
-          tag: ${{ steps.tag_generate.DAILY_TAG }}
+          tag: ${{ steps.tag_generate.outputs.tag_daily }}
       - uses: actions/checkout@v2
       - name: Push tag
         id: tag_version
         uses: mathieudutour/github-tag-action@v5.5
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          custom_tag: ${{ steps.tag_generate.DAILY_TAG }}
+          custom_tag: ${{ steps.tag_generate.outputs.tag_daily }}
           tag_prefix: cdda-experimental-b
       - name: Create release
         id: create_release
