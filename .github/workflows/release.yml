@@ -1,4 +1,5 @@
 name: "Experimental Release"
+concurrency: release
 on:
   push:
     branches:
