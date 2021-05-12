@@ -29,8 +29,9 @@ jobs:
         id: tag_check
         uses: mukunku/tag-exists-action@v1.0.0
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{ env.TAG_NAME }}
+          tag: ${{ env.TAG_NAME }}  
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/checkout@v2
       - name: Push tag
         id: tag_version
