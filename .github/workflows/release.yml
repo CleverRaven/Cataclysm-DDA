@@ -19,7 +19,7 @@ jobs:
           VERSION_CODE: ${{ github.run_number }}
       - name: Generate tag
         id: tag_generate
-        run: echo "::set-output tag_daily=date::$(date -I -u)"
+        run: echo "::set-output name=tag_daily::$(date -I -u)"
       - name: Check if there is existing git tag
         id: tag_check
         uses: mukunku/tag-exists-action@v1.0.0
