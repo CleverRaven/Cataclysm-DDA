@@ -26,6 +26,7 @@ jobs:
           tag: ${{ steps.generate_env_vars.outputs.tag_name }}  
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SKIP_MATRIX: ${{ steps.tag_check.outputs.exists }}
       - uses: actions/checkout@v2
       - name: Push tag
         id: tag_version
@@ -50,7 +51,7 @@ jobs:
           prerelease: true
   builds:
     needs: release
-    if: ${{ jobs.steps.tag_check.outputs.exists == 'false' }}
+    if: ${{ env.SKIP_MATRIX == 'false' }}
     strategy:
       matrix:
         include:
