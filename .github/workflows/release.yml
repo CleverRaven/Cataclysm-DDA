@@ -31,12 +31,14 @@ jobs:
       - name: Push tag
         id: tag_version
         uses: mathieudutour/github-tag-action@v5.5
+        if: ${{ steps.tag_check.outputs.exists == 'false' }}
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           custom_tag: ${{ steps.generate_env_vars.outputs.tag_name }}
       - name: Create release
         id: create_release
         uses: actions/create-release@v1
+        if: ${{ steps.tag_check.outputs.exists == 'false' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
