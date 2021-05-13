@@ -10,6 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       upload_url: ${{ steps.create_release.outputs.upload_url }}
+      tag_name: ${{ steps.generate_env_vars.outputs.tag_name }}
+      release_name: ${{ steps.generate_env_vars.outputs.release_name }}
     steps:
       - name: Get current UTC date in ISO format
         id: get-iso-utc-date
