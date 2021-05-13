@@ -54,7 +54,7 @@
       "special_attacks": [
         {
           "type": "spell",
-          "spell_dat.a": { "id": "small_raptor_spawn", "hit_self": true },
+          "spell_data": { "id": "small_raptor_spawn", "hit_self": true },
           "cooldown": 50,
           "monster_message": "The pupating zombie bursts, and gore-smeared winged beasts climb out of the corpse!"
         }
