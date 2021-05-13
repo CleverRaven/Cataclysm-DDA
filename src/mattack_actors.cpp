@@ -587,7 +587,7 @@ void throw_actor::load_internal( const JsonObject &obj, const std::string & )
     }
 
     range = obj.get_float( "range", 5.0f );
-    speed = obj.get_int( "speed", 5 );
+    speed = obj.get_int( "speed", 30 );
     move_cost = obj.get_int( "move_cost", 150 );
 
     obj.read( "description", description );
