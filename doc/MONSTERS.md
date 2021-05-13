@@ -591,8 +591,8 @@ Monster throws a projectile at its target, if it has at least one ammo at its di
 
 | field                 | description
 | ---                   | ---
-| `range`               | Maximum range at which attacker will throw its projectile.
-| `move_cost`           | Turns needed to complete special attack. 100 move_cost with 100 speed is equal to 1 second/turn.
-| `damage_max_instance` | Array of objects, see ## "melee_damage". This damage types will be dealt to the target on succesful hit.
-| `speed`               | Speed at which attacker will throw its projectile. It directly affects target's chance to dodge the attack.
+| `range`               | Maximum range at which attacker will throw its projectile. Defaults to 5.
+| `move_cost`           | Turns needed to complete special attack. 100 move_cost with 100 speed is equal to 1 second/turn. Defaults to 150.
+| `damage_max_instance` | Array of objects, see ## "melee_damage". This damage types will be dealt to the target on succesful hit. Defaults to 4 bash damage.
+| `speed`               | Speed at which attacker will throw its projectile. It directly affects target's chance to dodge the attack. Defaults to 30.
 | `description`         | Description of the attack being executed if seen by the player.
