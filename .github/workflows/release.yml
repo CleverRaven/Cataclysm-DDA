@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - gha-date-based-tags
 jobs:
   release:
     name: Create Release
