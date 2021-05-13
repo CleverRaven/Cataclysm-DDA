@@ -17,7 +17,7 @@
     "encumbrance": 10,
     "warmth": 10,
     "material_thickness": 5,
-    "flags": [ "BELTED", "STURDY", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "STURDY", "BLOCK_WHILE_WORN", "WATER_FRIENDLY", "OVERSIZE" ]
   },
   {
     "copy-from": "mbracer_steel_pair",
