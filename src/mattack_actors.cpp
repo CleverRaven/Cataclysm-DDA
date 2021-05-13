@@ -605,7 +605,7 @@ bool throw_actor::call( monster &z ) const
     }
 
     Creature *target = z.attack_target();
-    if( target == nullptr ) {
+    if( !target ) {
         return false;
     }
 
@@ -615,45 +615,53 @@ bool throw_actor::call( monster &z ) const
 
     const itype_id throwable_type = z.type->starting_ammo.begin()->first;
 
-    if( z.ammo[throwable_type] > 0 ) {
-        z.moves -= move_cost;
-        add_msg_if_player_sees( z, m_bad, description.translated() );
-        z.ammo[throwable_type] -= 1;
+    if( z.ammo[throwable_type] == 0 ) {
+        return false;
+    }
 
-        if( mattack::dodge_check( &z, target ) || target->uncanny_dodge() ) {
-            game_message_type msg_type = target->is_avatar() ? m_good : m_info;
-            target->add_msg_player_or_npc( msg_type,
-                                           _( "You dodge the thrown %1$s!" ),
-                                           _( "<npcname> dodges the thrown %1$s!" ),
-                                           throwable_type.str() );
-            if( !target->uncanny_dodge() ) {
-                target->on_dodge( &z, z.type->melee_skill * 2 );
-            }
-            return true;
+    z.moves -= move_cost;
+    add_msg_if_player_sees( z, m_bad, description.translated() );
+    z.ammo[throwable_type] -= 1;
+
+    item to_throw( throwable_type, calendar::turn, 1 );
+
+    if( mattack::dodge_check( &z, target ) || target->uncanny_dodge() ) {
+        game_message_type msg_type = target->is_avatar() ? m_good : m_info;
+        target->add_msg_player_or_npc( msg_type,
+                                       _( "You dodge the thrown %1$s!" ),
+                                       _( "<npcname> dodges the thrown %1$s!" ),
+                                       throwable_type.str() );
+        if( !target->uncanny_dodge() ) {
+            target->on_dodge( &z, z.type->melee_skill * 2 );
         }
-
-        projectile proj;
-
-        proj.speed  = speed;
-        proj.impact = damage_max_instance;
-        proj.range  = range;
-        proj.proj_effects = { { "NOGIB", "NO_PENETRATE_OBSTACLES", "NO_ITEM_DAMAGE" } };
-
-        item to_throw( throwable_type, calendar::turn, 1 );
-        if( to_throw.weight() > 500_gram ) {
-            proj.proj_effects.insert( "HEAVY_HIT" );
-            if( one_in( 10 ) ) {
-                proj.proj_effects.insert( "BEANBAG" );
-            }
-        }
-
-        proj.set_drop( to_throw );
-
-        dealt_projectile_attack dealt = projectile_attack( proj, z.pos(), target->pos(),
-                                        dispersion_sources { 150 },
-                                        &z );
+        /* Target dodged the attack, so skip actual throwing altogether, instead simply place projectile at target's location
+           TODO: make monster actually throw the projectile, and make target actually dodge it
+           Probably rework the 'projectile' class to include dodging check
+        */
+        get_map().add_item( target->pos(), to_throw );
         return true;
     }
 
-    return false;
+    projectile proj;
+
+    proj.speed  = speed;
+    proj.impact = damage_max_instance;
+    proj.range  = range;
+    proj.proj_effects = { { "NOGIB", "NO_PENETRATE_OBSTACLES", "NO_ITEM_DAMAGE" } };
+
+    if( to_throw.weight() > 500_gram ) {
+        proj.proj_effects.insert( "HEAVY_HIT" );
+
+        // 10% chance for heavy (more than 500 grams) projectiles to stun the target on successful hit
+        if( one_in( 10 ) ) {
+            proj.proj_effects.insert( "BEANBAG" );
+        }
+    }
+
+    proj.set_drop( to_throw );
+
+    dealt_projectile_attack dealt = projectile_attack( proj, z.pos(), target->pos(),
+                                    dispersion_sources { 150 },
+                                    &z );
+    return true;
 }
