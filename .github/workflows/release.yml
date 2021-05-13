@@ -10,8 +10,10 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       upload_url: ${{ steps.create_release.outputs.upload_url }}
+      date: ${{ steps.get-iso-utc-date.outputs.date }}
       tag_name: ${{ steps.generate_env_vars.outputs.tag_name }}
       release_name: ${{ steps.generate_env_vars.outputs.release_name }}
+      release_already_exists: ${{ steps.tag_check.outputs.exists }}
     steps:
       - name: Get current UTC date in ISO format
         id: get-iso-utc-date
@@ -28,11 +30,11 @@ jobs:
           tag: ${{ steps.generate_env_vars.outputs.tag_name }}  
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SKIP_MATRIX: ${{ steps.tag_check.outputs.exists }}
-      - name: Skip Existing Release
-        id: skip_existing_release
-        run: exit 1
-        if: ${{ steps.tag_check.outputs.exists == 'true' }}
+#          SKIP_MATRIX: ${{ steps.tag_check.outputs.exists }}
+#      - name: Skip Existing Release
+#        id: skip_existing_release
+#        run: exit 1
+#        if: ${{ steps.tag_check.outputs.exists == 'true' }}
       - uses: actions/checkout@v2
       - name: Push tag
         id: tag_version
@@ -57,6 +59,7 @@ jobs:
           prerelease: true
   builds:
     needs: release
+    if: ${{ needs.release.outputs.release_already_exists == 'false' }}
     strategy:
       matrix:
         include:
