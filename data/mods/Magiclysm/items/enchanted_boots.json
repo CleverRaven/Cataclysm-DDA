@@ -12,7 +12,7 @@
     "warmth": 30,
     "material_thickness": 3,
     "environmental_protection": 3,
-    "flags": [ "WATERPROOF", "STURDY" ]
+    "flags": [ "WATERPROOF", "STURDY", "OVERSIZE" ]
   },
   {
     "id": "mboots_haste",
@@ -32,7 +32,7 @@
     "warmth": 30,
     "material_thickness": 3,
     "environmental_protection": 3,
-    "flags": [ "WATERPROOF", "STURDY" ]
+    "flags": [ "WATERPROOF", "STURDY", "OVERSIZE" ]
   },
   {
     "id": "mboots_escape",
@@ -50,7 +50,7 @@
     "warmth": 30,
     "material_thickness": 3,
     "environmental_protection": 3,
-    "flags": [ "WATERPROOF", "STURDY", "NO_UNLOAD", "NO_RELOAD" ]
+    "flags": [ "WATERPROOF", "STURDY", "NO_UNLOAD", "NO_RELOAD", "OVERSIZE" ]
   },
   {
     "id": "mboots_freerunner",
@@ -69,7 +69,7 @@
     "warmth": 15,
     "material_thickness": 3,
     "environmental_protection": 3,
-    "flags": [ "WATERPROOF", "STURDY" ]
+    "flags": [ "WATERPROOF", "STURDY", "OVERSIZE" ]
   },
   {
     "id": "mboots_grounding",
@@ -83,7 +83,7 @@
     "warmth": 30,
     "material_thickness": 3,
     "environmental_protection": 3,
-    "flags": [ "WATERPROOF", "STURDY" ],
+    "flags": [ "WATERPROOF", "STURDY", "OVERSIZE" ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ARMOR_ELEC", "add": -20 } ] } ] }
   }
 ]
