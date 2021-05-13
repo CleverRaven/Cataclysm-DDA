@@ -18,7 +18,7 @@
     "warmth": 10,
     "material_thickness": 2,
     "environmental_protection": 1,
-    "flags": [ "WATER_FRIENDLY", "STURDY" ]
+    "flags": [ "WATER_FRIENDLY", "STURDY", "OVERSIZE" ]
   },
   {
     "type": "TOOL_ARMOR",
