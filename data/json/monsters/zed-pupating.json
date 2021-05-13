@@ -124,7 +124,7 @@
           "type": "spell",
           "spell_data": { "id": "hive_raptor_spawn", "hit_self": true },
           "cooldown": 30,
-          "monster_message": "The pupating hulk opens its mouth, and a gore-smeared winged beast climb out of the zombie!"
+          "monster_message": "The pupating hulk opens its mouth, and a gore-smeared winged beast climbs out of it!"
         }
       ]
     }
