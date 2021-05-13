@@ -9825,7 +9825,7 @@ std::string Character::weapname() const
                 const item *mag = weapon.magazine_current();
                 mag_ammo = string_format( " (0/%d)",
                                           mag->ammo_capacity( item( mag->ammo_default() ).ammo_type() ) );
-            } else {
+            } else if( weapon.magazine_default() != itype_id::NULL_ID() ) {
                 mag_ammo = _( " (empty)" );
             }
         }
