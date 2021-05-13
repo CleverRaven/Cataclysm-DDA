@@ -39,6 +39,7 @@ static const itype_id itype_money_bundle( "money_bundle" );
 
 static const trait_id trait_LACTOSE( "LACTOSE" );
 static const trait_id trait_VEGETARIAN( "VEGETARIAN" );
+static const trait_id trait_SELFAWARE("SELFAWARE");
 
 namespace
 {
@@ -590,7 +591,17 @@ std::string effect::disp_desc( bool reduced ) const
     else {
         timestr = string_format(_("%s ago"), to_string_clipped(effect_dur_elapsed));
     }
-    ret += string_format(_("Effect started: <color_white>%s</color>\n"), timestr);
+    ret += string_format(_("Effect started: <color_white>%s</color>"), timestr);
+    // Don't display time remaining for effects that are continuously applied, have no definite length, or are permanent. A bit of a hack.
+    if ( !permanent || !(eff_type->max_duration <= time_duration::from_turns(2) && eff_type->max_duration == time_duration::from_turns(0)))) {
+        if (get_player_character().has_trait(trait_SELFAWARE)) {
+            ret += string_format(_("    Effect ends in: <color_white>%s</color>"), to_string_clipped(duration));
+        }
+    }
+    //Newline if necessary 
+    if (!ret.empty() && ret.back() != '\n') {
+        ret += "\n";
+    }
 
     // First print stat changes, adding + if value is positive
     int tmp = get_avg_mod( "STR", reduced );
