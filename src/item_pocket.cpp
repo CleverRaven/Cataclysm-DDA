@@ -822,7 +822,7 @@ void item_pocket::set_item_defaults()
 static void insert_separation_line( std::vector<iteminfo> &info )
 {
     if( info.empty() || info.back().sName != "--" ) {
-        info.push_back( iteminfo( "DESCRIPTION", "--" ) );
+        info.emplace_back( "DESCRIPTION", "--" );
     }
 }
 
@@ -851,10 +851,10 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
 
     if( data->max_item_length != 0_mm ) {
         info.back().bNewLine = true;
-        info.push_back( iteminfo( "BASE", _( "Maximum item length: " ),
-                                  string_format( "<num> %s", length_units( data->max_item_length ) ),
-                                  iteminfo::no_flags,
-                                  convert_length( data->max_item_length ) ) );
+        info.emplace_back( "BASE", _( "Maximum item length: " ),
+                           string_format( "<num> %s", length_units( data->max_item_length ) ),
+                           iteminfo::no_flags,
+                           convert_length( data->max_item_length ) );
     }
 
     if( data->min_item_volume > 0_ml ) {
@@ -1699,19 +1699,19 @@ std::string enumerate( cata::flat_set<T> container )
 
 void item_pocket::favorite_settings::info( std::vector<iteminfo> &info ) const
 {
-    info.push_back( iteminfo( "BASE", string_format( "%s %d", _( "Priority:" ), priority_rating ) ) );
-    info.push_back( iteminfo( "BASE", string_format( _( "Item Whitelist: %s" ),
-                              item_whitelist.empty() ? _( "(empty)" ) :
+    info.emplace_back( "BASE", string_format( "%s %d", _( "Priority:" ), priority_rating ) );
+    info.emplace_back( "BASE", string_format( _( "Item Whitelist: %s" ),
+                       item_whitelist.empty() ? _( "(empty)" ) :
     enumerate_as_string( item_whitelist.begin(), item_whitelist.end(), []( const itype_id & id ) {
         return id->nname( 1 );
-    } ) ) ) );
-    info.push_back( iteminfo( "BASE", string_format( _( "Item Blacklist: %s" ),
-                              item_blacklist.empty() ? _( "(empty)" ) :
+    } ) ) );
+    info.emplace_back( "BASE", string_format( _( "Item Blacklist: %s" ),
+                       item_blacklist.empty() ? _( "(empty)" ) :
     enumerate_as_string( item_blacklist.begin(), item_blacklist.end(), []( const itype_id & id ) {
         return id->nname( 1 );
-    } ) ) ) );
-    info.push_back( iteminfo( "BASE", string_format( _( "Category Whitelist: %s" ),
-                              category_whitelist.empty() ? _( "(empty)" ) : enumerate( category_whitelist ) ) ) );
-    info.push_back( iteminfo( "BASE", string_format( _( "Category Blacklist: %s" ),
-                              category_blacklist.empty() ? _( "(empty)" ) : enumerate( category_blacklist ) ) ) );
+    } ) ) );
+    info.emplace_back( "BASE", string_format( _( "Category Whitelist: %s" ),
+                       category_whitelist.empty() ? _( "(empty)" ) : enumerate( category_whitelist ) ) );
+    info.emplace_back( "BASE", string_format( _( "Category Blacklist: %s" ),
+                       category_blacklist.empty() ? _( "(empty)" ) : enumerate( category_blacklist ) ) );
 }

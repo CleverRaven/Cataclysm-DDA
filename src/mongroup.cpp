@@ -128,13 +128,13 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
             //Collect valid time of day ranges
             if( elem == "DAY" || elem == "NIGHT" || elem == "DUSK" || elem == "DAWN" ) {
                 if( elem == "DAY" ) {
-                    valid_times_of_day.push_back( std::make_pair( sunrise, sunset ) );
+                    valid_times_of_day.emplace_back( sunrise, sunset );
                 } else if( elem == "NIGHT" ) {
-                    valid_times_of_day.push_back( std::make_pair( sunset, sunrise ) );
+                    valid_times_of_day.emplace_back( sunset, sunrise );
                 } else if( elem == "DUSK" ) {
-                    valid_times_of_day.push_back( std::make_pair( sunset - 1_hours, sunset + 1_hours ) );
+                    valid_times_of_day.emplace_back( sunset - 1_hours, sunset + 1_hours );
                 } else if( elem == "DAWN" ) {
-                    valid_times_of_day.push_back( std::make_pair( sunrise - 1_hours, sunrise + 1_hours ) );
+                    valid_times_of_day.emplace_back( sunrise - 1_hours, sunrise + 1_hours );
                 }
             }
 

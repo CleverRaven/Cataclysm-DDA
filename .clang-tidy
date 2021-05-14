@@ -53,7 +53,6 @@ readability-*,\
 -modernize-pass-by-value,\
 -modernize-return-braced-init-list,\
 -modernize-use-default-member-init,\
--modernize-use-emplace,\
 -performance-unnecessary-value-param,\
 -readability-else-after-return,\
 -readability-implicit-bool-conversion,\

@@ -351,15 +351,15 @@ void main_menu::init_strings()
 
     // fill menu with translated menu items
     vMenuItems.clear();
-    vMenuItems.push_back( pgettext( "Main Menu", "<M|m>OTD" ) );
-    vMenuItems.push_back( pgettext( "Main Menu", "<N|n>ew Game" ) );
-    vMenuItems.push_back( pgettext( "Main Menu", "Lo<a|A>d" ) );
-    vMenuItems.push_back( pgettext( "Main Menu", "<W|w>orld" ) );
-    vMenuItems.push_back( pgettext( "Main Menu", "<S|s>pecial" ) );
-    vMenuItems.push_back( pgettext( "Main Menu", "Se<t|T>tings" ) );
-    vMenuItems.push_back( pgettext( "Main Menu", "H<e|E|?>lp" ) );
-    vMenuItems.push_back( pgettext( "Main Menu", "<C|c>redits" ) );
-    vMenuItems.push_back( pgettext( "Main Menu", "<Q|q>uit" ) );
+    vMenuItems.emplace_back( pgettext( "Main Menu", "<M|m>OTD" ) );
+    vMenuItems.emplace_back( pgettext( "Main Menu", "<N|n>ew Game" ) );
+    vMenuItems.emplace_back( pgettext( "Main Menu", "Lo<a|A>d" ) );
+    vMenuItems.emplace_back( pgettext( "Main Menu", "<W|w>orld" ) );
+    vMenuItems.emplace_back( pgettext( "Main Menu", "<S|s>pecial" ) );
+    vMenuItems.emplace_back( pgettext( "Main Menu", "Se<t|T>tings" ) );
+    vMenuItems.emplace_back( pgettext( "Main Menu", "H<e|E|?>lp" ) );
+    vMenuItems.emplace_back( pgettext( "Main Menu", "<C|c>redits" ) );
+    vMenuItems.emplace_back( pgettext( "Main Menu", "<Q|q>uit" ) );
 
     // determine hotkeys from translated menu item text
     vMenuHotkeys.clear();
@@ -368,11 +368,11 @@ void main_menu::init_strings()
     }
 
     vWorldSubItems.clear();
-    vWorldSubItems.push_back( pgettext( "Main Menu|World", "<D|d>elete World" ) );
-    vWorldSubItems.push_back( pgettext( "Main Menu|World", "<R|r>eset World" ) );
-    vWorldSubItems.push_back( pgettext( "Main Menu|World", "<S|s>how World Mods" ) );
-    vWorldSubItems.push_back( pgettext( "Main Menu|World", "<C|c>opy World Settings" ) );
-    vWorldSubItems.push_back( pgettext( "Main Menu|World", "Character to <T|t>emplate" ) );
+    vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "<D|d>elete World" ) );
+    vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "<R|r>eset World" ) );
+    vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "<S|s>how World Mods" ) );
+    vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "<C|c>opy World Settings" ) );
+    vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "Character to <T|t>emplate" ) );
 
     vWorldHotkeys.clear();
     for( const std::string &item : vWorldSubItems ) {
@@ -380,11 +380,11 @@ void main_menu::init_strings()
     }
 
     vSettingsSubItems.clear();
-    vSettingsSubItems.push_back( pgettext( "Main Menu|Settings", "<O|o>ptions" ) );
-    vSettingsSubItems.push_back( pgettext( "Main Menu|Settings", "K<e|E>ybindings" ) );
-    vSettingsSubItems.push_back( pgettext( "Main Menu|Settings", "<A|a>utopickup" ) );
-    vSettingsSubItems.push_back( pgettext( "Main Menu|Settings", "<S|s>afemode" ) );
-    vSettingsSubItems.push_back( pgettext( "Main Menu|Settings", "<C|c>olors" ) );
+    vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "<O|o>ptions" ) );
+    vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "K<e|E>ybindings" ) );
+    vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "<A|a>utopickup" ) );
+    vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "<S|s>afemode" ) );
+    vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "<C|c>olors" ) );
 
     vSettingsHotkeys.clear();
     for( const std::string &item : vSettingsSubItems ) {
@@ -747,23 +747,22 @@ bool main_menu::opening_screen()
 bool main_menu::new_character_tab()
 {
     std::vector<std::string> vSubItems;
-    vSubItems.push_back( pgettext( "Main Menu|New Game", "<C|c>ustom Character" ) );
-    vSubItems.push_back( pgettext( "Main Menu|New Game", "<P|p>reset Character" ) );
-    vSubItems.push_back( pgettext( "Main Menu|New Game", "<R|r>andom Character" ) );
+    vSubItems.emplace_back( pgettext( "Main Menu|New Game", "<C|c>ustom Character" ) );
+    vSubItems.emplace_back( pgettext( "Main Menu|New Game", "<P|p>reset Character" ) );
+    vSubItems.emplace_back( pgettext( "Main Menu|New Game", "<R|r>andom Character" ) );
     if( !MAP_SHARING::isSharing() ) { // "Play Now" function doesn't play well together with shared maps
-        vSubItems.push_back( pgettext( "Main Menu|New Game", "Play Now!  (<F|f>ixed Scenario)" ) );
-        vSubItems.push_back( pgettext( "Main Menu|New Game", "Play <N|n>ow!" ) );
+        vSubItems.emplace_back( pgettext( "Main Menu|New Game", "Play Now!  (<F|f>ixed Scenario)" ) );
+        vSubItems.emplace_back( pgettext( "Main Menu|New Game", "Play <N|n>ow!" ) );
     }
     std::vector<std::string> hints;
-    hints.push_back(
+    hints.emplace_back(
         _( "Allows you to fully customize points pool, scenario, and character's profession, stats, traits, skills and other parameters." ) );
-    hints.push_back(
-        _( "Select from one of previously created character templates." ) );
-    hints.push_back(
+    hints.emplace_back( _( "Select from one of previously created character templates." ) );
+    hints.emplace_back(
         _( "Creates random character, but lets you preview the generated character and the scenario and change character and/or scenario if needed." ) );
-    hints.push_back(
+    hints.emplace_back(
         _( "Puts you right in the game, randomly choosing character's traits, profession, skills and other parameters.  Scenario is fixed to Evacuee." ) );
-    hints.push_back(
+    hints.emplace_back(
         _( "Puts you right in the game, randomly choosing scenario and character's traits, profession, skills and other parameters." ) );
 
     std::vector<std::vector<std::string>> vNewGameHotkeys;

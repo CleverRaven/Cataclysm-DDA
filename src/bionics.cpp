@@ -2199,13 +2199,13 @@ bool Character::uninstall_bionic( const bionic_id &b_id, player &installer, bool
     activity.values.push_back( success );
     activity.values.push_back( units::to_kilojoule( b_id->capacity ) );
     activity.values.push_back( pl_skill );
-    activity.str_values.push_back( "uninstall" );
+    activity.str_values.emplace_back( "uninstall" );
     activity.str_values.push_back( b_id.str() );
-    activity.str_values.push_back( "" ); // installer_name is unused for uninstall
+    activity.str_values.emplace_back( "" ); // installer_name is unused for uninstall
     if( autodoc ) {
-        activity.str_values.push_back( "true" );
+        activity.str_values.emplace_back( "true" );
     } else {
-        activity.str_values.push_back( "false" );
+        activity.str_values.emplace_back( "false" );
     }
     for( const std::pair<const bodypart_str_id, size_t> &elem : b_id->occupied_bodyparts ) {
         add_effect( effect_under_operation, difficulty * 20_minutes, elem.first.id(), true, difficulty );
@@ -2486,18 +2486,18 @@ bool Character::install_bionics( const itype &type, player &installer, bool auto
     activity.values.push_back( success );
     activity.values.push_back( units::to_millijoule( bioid->capacity ) );
     activity.values.push_back( pl_skill );
-    activity.str_values.push_back( "install" );
+    activity.str_values.emplace_back( "install" );
     activity.str_values.push_back( bioid.str() );
 
     if( installer.has_trait( trait_PROF_MED ) || installer.has_trait( trait_PROF_AUTODOC ) ) {
         activity.str_values.push_back( installer.disp_name( true ) );
     } else {
-        activity.str_values.push_back( "NOT_MED" );
+        activity.str_values.emplace_back( "NOT_MED" );
     }
     if( autodoc ) {
-        activity.str_values.push_back( "true" );
+        activity.str_values.emplace_back( "true" );
     } else {
-        activity.str_values.push_back( "false" );
+        activity.str_values.emplace_back( "false" );
     }
     for( const std::pair<const bodypart_str_id, size_t> &elem : bioid->occupied_bodyparts ) {
         add_effect( effect_under_operation, difficulty * 20_minutes, elem.first.id(), true, difficulty );

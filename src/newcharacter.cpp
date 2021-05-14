@@ -2863,10 +2863,10 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
 
         std::vector<std::string> vStatNames;
         mvwprintz( w_stats, point_zero, COL_HEADER, _( "Stats:" ) );
-        vStatNames.push_back( _( "Strength:" ) );
-        vStatNames.push_back( _( "Dexterity:" ) );
-        vStatNames.push_back( _( "Intelligence:" ) );
-        vStatNames.push_back( _( "Perception:" ) );
+        vStatNames.emplace_back( _( "Strength:" ) );
+        vStatNames.emplace_back( _( "Dexterity:" ) );
+        vStatNames.emplace_back( _( "Intelligence:" ) );
+        vStatNames.emplace_back( _( "Perception:" ) );
         int pos = 0;
         for( size_t i = 0; i < vStatNames.size(); i++ ) {
             pos = ( utf8_width( vStatNames[i] ) > pos ?

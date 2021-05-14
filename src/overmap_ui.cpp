@@ -654,7 +654,7 @@ void draw(
             npc *npc_to_add = elem.get();
             if( npc_to_add->mission == NPC_MISSION_TRAVELLING && !npc_to_add->omt_path.empty() ) {
                 for( auto &elem : npc_to_add->omt_path ) {
-                    path_route.push_back( tripoint_abs_omt( elem.xy(), npc_to_add->posz() ) );
+                    path_route.emplace_back( elem.xy(), npc_to_add->posz() );
                 }
             }
         }

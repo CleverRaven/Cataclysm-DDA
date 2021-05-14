@@ -845,7 +845,7 @@ void debug_menu::wishproficiency( player *p )
             know_all = player_know;
         }
 
-        sorted_profs.push_back( { cur.prof_id(), player_know } );
+        sorted_profs.emplace_back( cur.prof_id(), player_know );
     }
 
     std::sort( sorted_profs.begin(), sorted_profs.end(), localized_compare );

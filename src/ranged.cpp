@@ -2670,7 +2670,7 @@ std::vector<weak_ptr_fast<Creature>> target_ui::list_friendlies_in_lof()
                     ( cr->is_npc() && a != Creature::Attitude::HOSTILE ) ||
                     ( !cr->is_npc() && a == Creature::Attitude::FRIENDLY )
                 ) {
-                    ret.push_back( g->shared_from( *cr ) );
+                    ret.emplace_back( g->shared_from( *cr ) );
                 }
             }
         }

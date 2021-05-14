@@ -985,7 +985,7 @@ bool mattack::resurrect( monster *z )
             int raise_score = ( i.damage_level() + 1 ) * mt->hp + i.burnt;
             lowest_raise_score = std::min( lowest_raise_score, raise_score );
             if( raise_score <= raising_level ) {
-                corpses.push_back( std::make_pair( p, &i ) );
+                corpses.emplace_back( p, &i );
             }
         }
     }

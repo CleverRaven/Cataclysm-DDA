@@ -165,7 +165,7 @@ TEST_CASE( "available_recipes", "[recipes]" )
     }
 
     GIVEN( "an appropriate book" ) {
-        dummy.worn.push_back( item( "backpack" ) );
+        dummy.worn.emplace_back( "backpack" );
         item &craftbook = dummy.i_add( item( "manual_electronics" ) );
         REQUIRE( craftbook.is_book() );
         REQUIRE_FALSE( craftbook.type->book->recipes.empty() );
@@ -209,7 +209,7 @@ TEST_CASE( "available_recipes", "[recipes]" )
 
     GIVEN( "an eink pc with a sushi recipe" ) {
         const recipe *r2 = &recipe_id( "sushi_rice" ).obj();
-        dummy.worn.push_back( item( "backpack" ) );
+        dummy.worn.emplace_back( "backpack" );
         item &eink = dummy.i_add( item( "eink_tablet_pc" ) );
         eink.set_var( "EIPC_RECIPES", ",sushi_rice," );
         REQUIRE_FALSE( dummy.knows_recipe( r2 ) );
@@ -403,7 +403,7 @@ TEST_CASE( "UPS shows as a crafting component", "[crafting][ups]" )
 {
     avatar dummy;
     clear_character( dummy );
-    dummy.worn.push_back( item( "backpack" ) );
+    dummy.worn.emplace_back( "backpack" );
     item &ups = dummy.i_add( item( "UPS_off", calendar::turn_zero, 500 ) );
     REQUIRE( dummy.has_item( ups ) );
     REQUIRE( ups.charges == 500 );

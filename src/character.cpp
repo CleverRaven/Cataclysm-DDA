@@ -3502,7 +3502,7 @@ std::vector<item_location> Character::find_reloadables()
                          node->remaining_ammo_capacity() > 0;
         }
         if( reloadable ) {
-            reloadables.push_back( item_location( *this, node ) );
+            reloadables.emplace_back( *this, node );
         }
         return VisitResponse::NEXT;
     } );
