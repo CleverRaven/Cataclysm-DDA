@@ -1328,7 +1328,7 @@ class jmapgen_monster : public jmapgen_piece
                     for( const JsonObject p_pt : patrol_pts ) {
                         jmapgen_int ptx = jmapgen_int( p_pt, "x" );
                         jmapgen_int pty = jmapgen_int( p_pt, "y" );
-                        data.patrol_points_rel_ms.push_back( point( ptx.get(), pty.get() ) );
+                        data.patrol_points_rel_ms.emplace_back( ptx.get(), pty.get() );
                     }
                 }
             }
@@ -3224,37 +3224,37 @@ void map::draw_lab( mapgendata &dat )
                             if( is_ot_match( "stairs", terrain_type, ot_match_type::contains ) ) { // Stairs going down
                                 std::vector<point> stair_points;
                                 if( tw != 0 ) {
-                                    stair_points.push_back( point( SEEX - 1, 2 ) );
-                                    stair_points.push_back( point( SEEX - 1, 2 ) );
-                                    stair_points.push_back( point( SEEX, 2 ) );
-                                    stair_points.push_back( point( SEEX, 2 ) );
+                                    stair_points.emplace_back( SEEX - 1, 2 );
+                                    stair_points.emplace_back( SEEX - 1, 2 );
+                                    stair_points.emplace_back( SEEX, 2 );
+                                    stair_points.emplace_back( SEEX, 2 );
                                 }
                                 if( rw != 1 ) {
-                                    stair_points.push_back( point( SEEX * 2 - 3, SEEY - 1 ) );
-                                    stair_points.push_back( point( SEEX * 2 - 3, SEEY - 1 ) );
-                                    stair_points.push_back( point( SEEX * 2 - 3, SEEY ) );
-                                    stair_points.push_back( point( SEEX * 2 - 3, SEEY ) );
+                                    stair_points.emplace_back( SEEX * 2 - 3, SEEY - 1 );
+                                    stair_points.emplace_back( SEEX * 2 - 3, SEEY - 1 );
+                                    stair_points.emplace_back( SEEX * 2 - 3, SEEY );
+                                    stair_points.emplace_back( SEEX * 2 - 3, SEEY );
                                 }
                                 if( bw != 1 ) {
-                                    stair_points.push_back( point( SEEX - 1, SEEY * 2 - 3 ) );
-                                    stair_points.push_back( point( SEEX - 1, SEEY * 2 - 3 ) );
-                                    stair_points.push_back( point( SEEX, SEEY * 2 - 3 ) );
-                                    stair_points.push_back( point( SEEX, SEEY * 2 - 3 ) );
+                                    stair_points.emplace_back( SEEX - 1, SEEY * 2 - 3 );
+                                    stair_points.emplace_back( SEEX - 1, SEEY * 2 - 3 );
+                                    stair_points.emplace_back( SEEX, SEEY * 2 - 3 );
+                                    stair_points.emplace_back( SEEX, SEEY * 2 - 3 );
                                 }
                                 if( lw != 0 ) {
-                                    stair_points.push_back( point( 2, SEEY - 1 ) );
-                                    stair_points.push_back( point( 2, SEEY - 1 ) );
-                                    stair_points.push_back( point( 2, SEEY ) );
-                                    stair_points.push_back( point( 2, SEEY ) );
+                                    stair_points.emplace_back( 2, SEEY - 1 );
+                                    stair_points.emplace_back( 2, SEEY - 1 );
+                                    stair_points.emplace_back( 2, SEEY );
+                                    stair_points.emplace_back( 2, SEEY );
                                 }
-                                stair_points.push_back( point( static_cast<int>( SEEX / 2 ), SEEY ) );
-                                stair_points.push_back( point( static_cast<int>( SEEX / 2 ), SEEY - 1 ) );
-                                stair_points.push_back( point( static_cast<int>( SEEX / 2 ) + SEEX, SEEY ) );
-                                stair_points.push_back( point( static_cast<int>( SEEX / 2 ) + SEEX, SEEY - 1 ) );
-                                stair_points.push_back( point( SEEX, static_cast<int>( SEEY / 2 ) ) );
-                                stair_points.push_back( point( SEEX + 2, static_cast<int>( SEEY / 2 ) ) );
-                                stair_points.push_back( point( SEEX, static_cast<int>( SEEY / 2 ) + SEEY ) );
-                                stair_points.push_back( point( SEEX + 2, static_cast<int>( SEEY / 2 ) + SEEY ) );
+                                stair_points.emplace_back( static_cast<int>( SEEX / 2 ), SEEY );
+                                stair_points.emplace_back( static_cast<int>( SEEX / 2 ), SEEY - 1 );
+                                stair_points.emplace_back( static_cast<int>( SEEX / 2 ) + SEEX, SEEY );
+                                stair_points.emplace_back( static_cast<int>( SEEX / 2 ) + SEEX, SEEY - 1 );
+                                stair_points.emplace_back( SEEX, static_cast<int>( SEEY / 2 ) );
+                                stair_points.emplace_back( SEEX + 2, static_cast<int>( SEEY / 2 ) );
+                                stair_points.emplace_back( SEEX, static_cast<int>( SEEY / 2 ) + SEEY );
+                                stair_points.emplace_back( SEEX + 2, static_cast<int>( SEEY / 2 ) + SEEY );
                                 const point p = random_entry( stair_points );
                                 ter_set( p, t_stairs_down );
                             }
@@ -4098,7 +4098,7 @@ void map::draw_temple( const mapgendata &dat )
                         static const std::vector<ter_id> terrains = {
                             t_floor_red, t_floor_green, t_floor_blue,
                         };
-                        path.push_back( point( x, y ) );
+                        path.emplace_back( x, y );
                         ter_set( point( x, y ), random_entry( terrains ) );
                         if( y == SEEY * 2 - 2 ) {
                             if( x < SEEX - 1 ) {
@@ -4111,7 +4111,7 @@ void map::draw_temple( const mapgendata &dat )
                             for( int nx = x - 1; nx <= x + 1; nx++ ) {
                                 for( int ny = y; ny <= y + 1; ny++ ) {
                                     if( ter( point( nx, ny ) ) == t_rock_floor ) {
-                                        next.push_back( point( nx, ny ) );
+                                        next.emplace_back( nx, ny );
                                     }
                                 }
                             }

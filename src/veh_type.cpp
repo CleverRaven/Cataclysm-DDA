@@ -267,7 +267,7 @@ void vpart_info::load_engine( cata::optional<vpslot_engine> &eptr, const JsonObj
     if( !fuel_opts.empty() ) {
         e_info.fuel_opts.clear();
         for( const std::string line : fuel_opts ) {
-            e_info.fuel_opts.push_back( itype_id( line ) );
+            e_info.fuel_opts.emplace_back( line );
         }
     } else if( e_info.fuel_opts.empty() && fuel_type != itype_id( "null" ) ) {
         e_info.fuel_opts.push_back( fuel_type );
@@ -1173,17 +1173,16 @@ void vehicle_prototype::load( const JsonObject &jo )
                 const std::string variant = spawn_info.get_string( "variant" );
                 next_spawn.variant_ids.emplace_back( itype_id( spawn_info.get_string( "items" ) ), variant );
             } else {
-                next_spawn.item_ids.push_back( itype_id( spawn_info.get_string( "items" ) ) );
+                next_spawn.item_ids.emplace_back( spawn_info.get_string( "items" ) );
             }
         }
         if( spawn_info.has_array( "item_groups" ) ) {
             //Pick from a group of items, just like map::place_items
             for( const std::string line : spawn_info.get_array( "item_groups" ) ) {
-                next_spawn.item_groups.push_back( item_group_id( line ) );
+                next_spawn.item_groups.emplace_back( line );
             }
         } else if( spawn_info.has_string( "item_groups" ) ) {
-            next_spawn.item_groups.push_back(
-                item_group_id( spawn_info.get_string( "item_groups" ) ) );
+            next_spawn.item_groups.emplace_back( spawn_info.get_string( "item_groups" ) );
         }
         vproto.item_spawns.push_back( std::move( next_spawn ) );
     }

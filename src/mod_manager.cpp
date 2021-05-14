@@ -290,7 +290,7 @@ bool mod_manager::copy_mod_contents( const t_mod_list &mods_to_copy,
         return true;
     }
     std::vector<std::string> search_extensions;
-    search_extensions.push_back( ".json" );
+    search_extensions.emplace_back( ".json" );
 
     DebugLog( D_INFO, DC_ALL ) << "Copying mod contents into directory: " << output_base_path;
 

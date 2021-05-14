@@ -745,11 +745,11 @@ void avatar::do_read( item &book )
         player *n = g->find_npc( character_id( activity.values[i] ) );
         if( n != nullptr ) {
             const std::string &s = activity.get_str_value( i, "1" );
-            learners.push_back( { n, strtod( s.c_str(), nullptr ) } );
+            learners.emplace_back( n, strtod( s.c_str(), nullptr ) );
         }
         // Otherwise they must have died/teleported or something
     }
-    learners.push_back( { this, 1.0 } );
+    learners.emplace_back( this, 1.0 );
     //whether to continue reading or not
     bool continuous = false;
     // NPCs who learned a little about the skill

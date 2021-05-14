@@ -523,7 +523,7 @@ construction_id construction_menu( const bool blueprint )
                 }
                 current_buffer_location += construct_buffers[i].size();
                 if( i < construct_buffers.size() - 1 ) {
-                    full_construct_buffer.push_back( std::string() );
+                    full_construct_buffer.emplace_back( );
                     current_buffer_location++;
                 }
             }
@@ -1813,7 +1813,7 @@ void finalize_constructions()
         if( !vp.has_flag( flag_INITIAL_PART ) ) {
             continue;
         }
-        frame_items.push_back( item_comp( vp.base_item, 1 ) );
+        frame_items.emplace_back( vp.base_item, 1 );
     }
 
     if( frame_items.empty() ) {

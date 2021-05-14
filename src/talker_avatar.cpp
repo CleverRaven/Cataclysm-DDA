@@ -31,7 +31,7 @@ std::vector<std::string> talker_avatar::get_topics( bool )
     std::vector<std::string> add_topics;
     if( has_trait( trait_PROF_FOODP ) && !( is_wearing( itype_id( "foodperson_mask" ) ) ||
                                             is_wearing( itype_id( "foodperson_mask_on" ) ) ) ) {
-        add_topics.push_back( "TALK_NOFACE" );
+        add_topics.emplace_back( "TALK_NOFACE" );
     }
     return add_topics;
 }
