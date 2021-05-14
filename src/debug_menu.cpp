@@ -1974,7 +1974,8 @@ static void debug_menu_game_state()
     std::vector<std::pair<m_flag, int>> sorted;
     sorted.reserve( m_flag::MF_MAX );
     for( int f = 0; f < m_flag::MF_MAX; f++ ) {
-        sorted.push_back( {static_cast<m_flag>( f ), MonsterGenerator::generator().m_flag_usage_stats[f]} );
+        sorted.emplace_back( static_cast<m_flag>( f ),
+                             MonsterGenerator::generator().m_flag_usage_stats[f] );
     }
     std::sort( sorted.begin(), sorted.end(), []( std::pair<m_flag, int> a, std::pair<m_flag, int> b ) {
         return a.second != b.second ? a.second > b.second : a.first < b.first;

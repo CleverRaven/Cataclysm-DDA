@@ -302,10 +302,10 @@ void monexamine::shear_animal( monster &z )
     // pin the sheep in place if it isn't already
     if( !z.has_effect( effect_tied ) ) {
         z.add_effect( effect_tied, 1_turns, true );
-        player_character.activity.str_values.push_back( "temp_tie" );
+        player_character.activity.str_values.emplace_back( "temp_tie" );
     }
-    player_character.activity.targets.push_back( item_location( player_character,
-            player_character.best_quality_item( qual_SHEAR ) ) );
+    player_character.activity.targets.emplace_back( player_character,
+            player_character.best_quality_item( qual_SHEAR ) );
     add_msg( _( "You start shearing the %s." ), z.get_name() );
 }
 
@@ -805,7 +805,7 @@ void monexamine::milk_source( monster &source_mon )
         bool temp_tie = !source_mon.has_effect( effect_tied );
         if( temp_tie ) {
             source_mon.add_effect( effect_tied, 1_turns, true );
-            str_values.push_back( "temp_tie" );
+            str_values.emplace_back( "temp_tie" );
         }
         player_character.assign_activity( player_activity( milk_activity_actor( moves, coords,
                                           str_values ) ) );

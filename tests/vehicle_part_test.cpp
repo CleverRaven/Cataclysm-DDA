@@ -196,19 +196,19 @@ TEST_CASE( "craft_available_via_vehicle_rig", "[vehicle][vehicle_craft]" )
     }
     SECTION( "cook oatmeal without battery" ) {
         std::vector<item> items;
-        items.push_back( item( itype_id( "oatmeal" ) ) );
+        items.emplace_back( itype_id( "oatmeal" ) );
 
         test_craft_via_rig( items, 0, 0, 1, 1, recipe_id( "oatmeal_cooked" ).obj(), false );
     }
     SECTION( "cook oatmeal without water" ) {
         std::vector<item> items;
-        items.push_back( item( itype_id( "oatmeal" ) ) );
+        items.emplace_back( itype_id( "oatmeal" ) );
 
         test_craft_via_rig( items, 2, 2, 0, 0, recipe_id( "oatmeal_cooked" ).obj(), false );
     }
     SECTION( "cook oatmeal successfully" ) {
         std::vector<item> items;
-        items.push_back( item( itype_id( "oatmeal" ) ) );
+        items.emplace_back( itype_id( "oatmeal" ) );
 
         test_craft_via_rig( items, 2, 0, 1, 0, recipe_id( "oatmeal_cooked" ).obj(), true );
     }

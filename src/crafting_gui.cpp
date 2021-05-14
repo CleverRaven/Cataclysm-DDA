@@ -680,7 +680,7 @@ const recipe *select_crafting_recipe( int &batch_size_out )
                 current.clear();
                 for( int i = 1; i <= 50; i++ ) {
                     current.push_back( chosen );
-                    available.push_back( availability( chosen, i ) );
+                    available.emplace_back( chosen, i );
                 }
             } else {
                 static_popup popup;
@@ -1091,7 +1091,7 @@ std::string peek_related_recipe( const recipe *current, const recipe_subset &ava
     const requirement_data &req = current->simple_requirements();
     for( const std::vector<item_comp> &comp_list : req.get_components() ) {
         for( const item_comp &a : comp_list ) {
-            related_components.push_back( { a.type, item::nname( a.type, 1 ) } );
+            related_components.emplace_back( a.type, item::nname( a.type, 1 ) );
         }
     }
     std::sort( related_components.begin(), related_components.end(), compare_second );
@@ -1104,7 +1104,7 @@ std::string peek_related_recipe( const recipe *current, const recipe_subset &ava
         get_player_character().get_learned_recipes().of_component( tid );
     for( const auto &b : known_recipes ) {
         if( available.contains( b ) ) {
-            related_results.push_back( { b->result(), b->result_name() } );
+            related_results.emplace_back( b->result(), b->result_name() );
         }
     }
     std::stable_sort( related_results.begin(), related_results.end(), compare_second );

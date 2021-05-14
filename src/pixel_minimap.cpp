@@ -334,7 +334,7 @@ void pixel_minimap::update_cache_at( const tripoint &sm_pos )
 
             if( current_color != color ) {
                 current_color = color;
-                cache_item.update_list.push_back( { x, y } );
+                cache_item.update_list.emplace_back( x, y );
             }
         }
     }

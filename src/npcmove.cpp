@@ -1267,7 +1267,7 @@ void npc::execute_action( npc_action action )
                     my_spot = priority;
                 }
 
-                seats.push_back( std::make_pair( priority, static_cast<int>( vp.part_index() ) ) );
+                seats.emplace_back( priority, static_cast<int>( vp.part_index() ) );
             }
 
             if( my_spot >= 3 ) {
@@ -1406,7 +1406,7 @@ npc_action npc::method_of_attack()
     std::vector<std::pair<gun_mode_id, gun_mode>> modes;
     if( rules.has_flag( ally_rule::use_guns ) || !is_player_ally() ) {
         for( const auto &e : weapon.gun_all_modes() ) {
-            modes.push_back( e );
+            modes.emplace_back( e );
         }
 
         modes.erase( std::remove_if( modes.begin(), modes.end(),
@@ -3149,7 +3149,7 @@ void npc::drop_items( const units::mass &drop_weight, const units::volume &drop_
             }
         }
         if( !added_wgt ) {
-            rWgt.push_back( ratio_index( wgt_ratio, i ) );
+            rWgt.emplace_back( wgt_ratio, i );
         }
         for( size_t j = 0; j < rVol.size() && !added_vol; j++ ) {
             if( vol_ratio > rVol[j].ratio ) {
@@ -3158,7 +3158,7 @@ void npc::drop_items( const units::mass &drop_weight, const units::volume &drop_
             }
         }
         if( !added_vol ) {
-            rVol.push_back( ratio_index( vol_ratio, i ) );
+            rVol.emplace_back( vol_ratio, i );
         }
     }
 
