@@ -10,29 +10,52 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       upload_url: ${{ steps.create_release.outputs.upload_url }}
+      timestamp: ${{ steps.get-timestamp.outputs.time }}
+      release_already_exists: ${{ steps.tag_check.outputs.exists }}
     steps:
+      - name: Get build timestamp
+        id: get-timestamp
+        uses: nanzm/get-time-action@v1.1
+        with:
+          timeZone: 0
+          format: 'YYYY-MM-DD-HHmm'
+      - name: Generate environmental variables
+        id: generate_env_vars
+        run: |
+          echo "::set-output name=tag_name::cdda-experimental-${{ steps.get-timestamp.outputs.time }}"
+          echo "::set-output name=release_name::Cataclysm-DDA experimental build ${{ steps.get-timestamp.outputs.time }}"
+      - name: Check if there is existing git tag
+        id: tag_check
+        uses: mukunku/tag-exists-action@v1.0.0
+        with:
+          tag: ${{ steps.generate_env_vars.outputs.tag_name }}  
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/checkout@v2
       - name: Push tag
         id: tag_version
         uses: mathieudutour/github-tag-action@v5.5
+        if: ${{ steps.tag_check.outputs.exists == 'false' }}
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          custom_tag: ${{ github.run_number }}
-          tag_prefix: experimental-
+          custom_tag: ${{ steps.generate_env_vars.outputs.tag_name }}
+          tag_prefix: ""
       - name: Create release
         id: create_release
         uses: actions/create-release@v1
+        if: ${{ steps.tag_check.outputs.exists == 'false' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ steps.tag_version.outputs.new_tag }}
-          release_name: "Experimental Build #${{ github.run_number }}"
+          tag_name: ${{ steps.generate_env_vars.outputs.tag_name }}
+          release_name: ${{ steps.generate_env_vars.outputs.release_name }}
           body: |
             These are the outputs for the experimental build of commit [${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }})
           draft: false
           prerelease: true
   builds:
     needs: release
+    if: ${{ needs.release.outputs.release_already_exists == 'false' }}
     strategy:
       matrix:
         include:
@@ -110,12 +133,12 @@ jobs:
         run: |
           cat >VERSION.txt <<EOL
           build type: ${{ matrix.artifact }}
-          build number: ${{ github.run_number }}
+          build number: ${{ needs.release.outputs.timestamp }}
           commit sha: ${{ github.sha }}
           commit url: https://github.com/${{ github.repository }}/commit/${{ github.sha }}
           EOL
           make -j$((`nproc`+0)) TILES=${{ matrix.tiles }} SOUND=${{ matrix.tiles }} RELEASE=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=0 PCH=0 bindist
-          mv cataclysmdda-0.E.tar.gz cdda-${{ matrix.artifact }}-b${{ github.run_number }}.tar.gz
+          mv cataclysmdda-0.E.tar.gz cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.tar.gz
       - name: Build CDDA (windows)
         if: matrix.mxe != 'none'
         env:
@@ -123,23 +146,23 @@ jobs:
         run: |
           cat >VERSION.txt <<EOL
           build type: ${{ matrix.artifact }}
-          build number: ${{ github.run_number }}
+          build number: ${{ needs.release.outputs.timestamp }}
           commit sha: ${{ github.sha }}
           commit url: https://github.com/${{ github.repository }}/commit/${{ github.sha }}
           EOL
           make -j$((`nproc`+0)) CROSS="${PLATFORM}" TILES=1 SOUND=1 RELEASE=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=0 PCH=0 bindist
-          mv cataclysmdda-0.E.zip cdda-${{ matrix.artifact }}-b${{ github.run_number }}.zip
+          mv cataclysmdda-0.E.zip cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.zip
       - name: Build CDDA (osx)
         if: runner.os == 'macOS'
         run: |
           cat >VERSION.txt <<EOL
           build type: ${{ matrix.artifact }}
-          build number: ${{ github.run_number }}
+          build number: ${{ needs.release.outputs.timestamp }}
           commit sha: ${{ github.sha }}
           commit url: https://github.com/${{ github.repository }}/commit/${{ github.sha }}
           EOL
           make -j3 TILES=${{ matrix.tiles }} SOUND=${{ matrix.tiles }} RELEASE=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=0 PCH=0 dmgdist
-          mv Cataclysm.dmg cdda-${{ matrix.artifact }}-b${{ github.run_number }}.dmg
+          mv Cataclysm.dmg cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.dmg
       - name: Upload release asset
         id: upload-release-asset 
         uses: actions/upload-release-asset@v1
@@ -147,6 +170,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.release.outputs.upload_url }} 
-          asset_path: cdda-${{ matrix.artifact }}-b${{ github.run_number }}.${{ matrix.ext }}
-          asset_name: cdda-${{ matrix.artifact }}-b${{ github.run_number }}.${{ matrix.ext }}
+          asset_path: cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.${{ matrix.ext }}
+          asset_name: cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.${{ matrix.ext }}
           asset_content_type: ${{ matrix.content }}
