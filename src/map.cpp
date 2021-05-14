@@ -3078,7 +3078,7 @@ void map::smash_items( const tripoint &p, const int power, const std::string &ca
             // But save the contents, except for irremovable gunmods
             for( item *elem : i->contents.all_items_top() ) {
                 if( !elem->is_irremovable() ) {
-                    contents.push_back( item( *elem ) );
+                    contents.emplace_back( *elem );
                 }
             }
 
@@ -3491,7 +3491,7 @@ void map::bash_items( const tripoint &p, bash_params &params )
             params.did_bash = true;
             smashed_glass = true;
             for( const item *bashed_content : bashed_item->contents.all_items_top() ) {
-                smashed_contents.push_back( item( *bashed_content ) );
+                smashed_contents.emplace_back( *bashed_content );
             }
             bashed_item = bashed_items.erase( bashed_item );
         } else {
@@ -5149,7 +5149,7 @@ std::list<std::pair<tripoint, item *> > map::get_rc_items( const tripoint &p )
             map_stack items = i_at( pos );
             for( auto &elem : items ) {
                 if( elem.has_flag( flag_RADIO_ACTIVATION ) || elem.has_flag( flag_RADIO_CONTAINER ) ) {
-                    rc_pairs.push_back( std::make_pair( pos, &elem ) );
+                    rc_pairs.emplace_back( pos, &elem );
                 }
             }
         }

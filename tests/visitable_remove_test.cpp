@@ -50,7 +50,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
 
     Character &p = get_player_character();
     p.worn.clear();
-    p.worn.push_back( item( "backpack" ) );
+    p.worn.emplace_back( "backpack" );
     p.inv->clear();
     p.remove_weapon();
     p.wear_item( item( "backpack" ) ); // so we don't drop anything

@@ -748,7 +748,7 @@ class atm_menu
                     // the next turn. Putting this here makes sure there will be something to be
                     // done next turn.
                     u.assign_activity( ACT_ATM, 0, transfer_all_money );
-                    u.activity.targets.push_back( item_location( u, dst ) );
+                    u.activity.targets.emplace_back( u, dst );
                     break;
                 }
                 // should we check for max capacity here?
@@ -1341,7 +1341,7 @@ void iexamine::pit( player &p, const tripoint &examp )
         return;
     }
     std::vector<item_comp> planks;
-    planks.push_back( item_comp( itype_2x4, 1 ) );
+    planks.emplace_back( itype_2x4, 1 );
 
     map &here = get_map();
     if( query_yn( _( "Place a plank over the pit?" ) ) ) {
@@ -3522,7 +3522,7 @@ void iexamine::tree_maple( player &p, const tripoint &examp )
     }
 
     std::vector<item_comp> comps;
-    comps.push_back( item_comp( itype_tree_spile, 1 ) );
+    comps.emplace_back( itype_tree_spile, 1 );
     p.consume_items( comps, 1, is_crafting_component );
 
     p.mod_moves( -to_moves<int>( 20_seconds ) );
@@ -3989,7 +3989,7 @@ void iexamine::sign( player &p, const tripoint &examp )
     } );
     tools.reserve( filter.size() );
     for( const item *writing_item : filter ) {
-        tools.push_back( tool_comp( writing_item->typeId(), 1 ) );
+        tools.emplace_back( writing_item->typeId(), 1 );
     }
 
     if( !tools.empty() ) {
@@ -4714,9 +4714,9 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 }
                 case 2: {
                     std::vector<std::string> choice_names;
-                    choice_names.push_back( _( "Personality_Override" ) );
+                    choice_names.emplace_back( _( "Personality_Override" ) );
                     for( size_t i = 0; i < 6; i++ ) {
-                        choice_names.push_back( _( "C0RR#PTED?D#TA" ) );
+                        choice_names.emplace_back( _( "C0RR#PTED?D#TA" ) );
                     }
                     int choice_index = uilist( _( "Choose bionic to uninstall" ), choice_names );
                     if( choice_index == 0 ) {
@@ -4795,7 +4795,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         } );
         for( const item *anesthesia_item : a_filter ) {
             if( anesthesia_item->ammo_remaining() >= 1 ) {
-                anesth_kit.push_back( tool_comp( anesthesia_item->typeId(), 1 ) );
+                anesth_kit.emplace_back( anesthesia_item->typeId(), 1 );
                 drug_count += anesthesia_item->ammo_remaining();
             }
         }
@@ -4825,7 +4825,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
 
             if( !install_programs.empty() ) {
                 has_install_program = true;
-                progs.push_back( item_comp( install_programs[0]->typeId(), 1 ) );
+                progs.emplace_back( install_programs[0]->typeId(), 1 );
             }
 
             const int weight = units::to_kilogram( patient.bodyweight() ) / 10;
@@ -5385,7 +5385,7 @@ static void smoker_load_food( player &p, const tripoint &examp,
                 entries.push_back( smokable_item );
             }
             names.push_back( item::nname( smokable_item->typeId(), 1 ) );
-            comps.push_back( item_comp( smokable_item->typeId(), count ) );
+            comps.emplace_back( smokable_item->typeId(), count );
         }
     }
 
@@ -5434,7 +5434,7 @@ static void smoker_load_food( player &p, const tripoint &examp,
 
     // reload comps with chosen items and quantity
     comps.clear();
-    comps.push_back( item_comp( what->typeId(), amount ) );
+    comps.emplace_back( what->typeId(), amount );
 
     Character &player_character = get_player_character();
     // select from where to get the items from and place them
@@ -5494,7 +5494,7 @@ static void mill_load_food( player &p, const tripoint &examp,
                 entries.push_back( millable_item );
             }
             names.push_back( item::nname( millable_item->typeId(), 1 ) );
-            comps.push_back( item_comp( millable_item->typeId(), count ) );
+            comps.emplace_back( millable_item->typeId(), count );
         }
     }
 
@@ -5543,7 +5543,7 @@ static void mill_load_food( player &p, const tripoint &examp,
 
     // reload comps with chosen items and quantity
     comps.clear();
-    comps.push_back( item_comp( what->typeId(), amount ) );
+    comps.emplace_back( what->typeId(), amount );
 
     Character &player_character = get_player_character();
     // select from where to get the items from and place them
