@@ -1555,7 +1555,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
                         act_ref.set_to_null();
                     } else {
                         if( act_ref.str_values.empty() ) {
-                            act_ref.str_values.push_back( std::string() );
+                            act_ref.str_values.emplace_back( );
                         }
                         act_ref.str_values.at( 0 ) = serialize( liquid );
                     }
@@ -3963,7 +3963,7 @@ void activity_handlers::fertilize_plot_do_turn( player_activity *act, player *p 
     auto check_fertilizer = [&]( bool ask_user = true ) -> void {
         if( act->str_values.empty() )
         {
-            act->str_values.push_back( "" );
+            act->str_values.emplace_back( "" );
         }
         fertilizer = itype_id( act->str_values[0] );
 

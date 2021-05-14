@@ -1427,7 +1427,7 @@ void Creature::process_effects()
             // Add any effects that others remove to the removal list
             for( const auto &removed_effect : _it.second.get_removes_effects() ) {
                 rem_ids.push_back( removed_effect );
-                rem_bps.push_back( bodypart_str_id::NULL_ID() );
+                rem_bps.emplace_back( bodypart_str_id::NULL_ID() );
             }
             effect &e = _it.second;
             const int prev_int = e.get_intensity();
@@ -2115,7 +2115,7 @@ std::vector<bodypart_id> Creature::get_all_body_parts( get_body_part_flags flags
         if( only_main && elem.first->main_part != elem.first ) {
             continue;
         }
-        all_bps.push_back( elem.first );
+        all_bps.emplace_back( elem.first );
     }
 
     if( flags & get_body_part_flags::sorted ) {
@@ -2596,11 +2596,11 @@ void Creature::describe_infrared( std::vector<std::string> &buf ) const
             size_str = "invalid";
             break;
     }
-    buf.push_back( _( "You see a figure radiating heat." ) );
+    buf.emplace_back( _( "You see a figure radiating heat." ) );
     buf.push_back( string_format( _( "It is %s in size." ), size_str ) );
 }
 
 void Creature::describe_specials( std::vector<std::string> &buf ) const
 {
-    buf.push_back( _( "You sense a creature here." ) );
+    buf.emplace_back( _( "You sense a creature here." ) );
 }

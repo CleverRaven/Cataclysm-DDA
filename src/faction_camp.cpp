@@ -2786,10 +2786,10 @@ void basecamp::recruit_return( const std::string &task, int score )
         description += _( "Select an option:" );
 
         std::vector<std::string> rec_options;
-        rec_options.push_back( _( "Increase Food" ) );
-        rec_options.push_back( _( "Decrease Food" ) );
-        rec_options.push_back( _( "Make Offer" ) );
-        rec_options.push_back( _( "Not Interested" ) );
+        rec_options.emplace_back( _( "Increase Food" ) );
+        rec_options.emplace_back( _( "Decrease Food" ) );
+        rec_options.emplace_back( _( "Make Offer" ) );
+        rec_options.emplace_back( _( "Not Interested" ) );
 
         rec_m = uilist( description, rec_options );
         if( rec_m < 0 || rec_m == 3 || static_cast<size_t>( rec_m ) >= rec_options.size() ) {
@@ -3300,19 +3300,19 @@ void om_range_mark( const tripoint_abs_omt &origin, int range, bool add_notes,
     std::vector<tripoint_abs_omt> note_pts;
     //North Limit
     for( int x = origin.x() - range; x < origin.x() + range + 1; x++ ) {
-        note_pts.push_back( tripoint_abs_omt( x, origin.y() - range, origin.z() ) );
+        note_pts.emplace_back( x, origin.y() - range, origin.z() );
     }
     //South
     for( int x = origin.x() - range; x < origin.x() + range + 1; x++ ) {
-        note_pts.push_back( tripoint_abs_omt( x, origin.y() + range, origin.z() ) );
+        note_pts.emplace_back( x, origin.y() + range, origin.z() );
     }
     //West
     for( int y = origin.y() - range; y < origin.y() + range + 1; y++ ) {
-        note_pts.push_back( tripoint_abs_omt( origin.x() - range, y, origin.z() ) );
+        note_pts.emplace_back( origin.x() - range, y, origin.z() );
     }
     //East
     for( int y = origin.y() - range; y < origin.y() + range + 1; y++ ) {
-        note_pts.push_back( tripoint_abs_omt( origin.x() + range, y, origin.z() ) );
+        note_pts.emplace_back( origin.x() + range, y, origin.z() );
     }
 
     for( auto pt : note_pts ) {
@@ -3544,7 +3544,7 @@ std::vector<std::pair<std::string, tripoint_abs_omt>> talk_function::om_building
         std::string om_rnear_id = omt_rnear.id().c_str();
         if( !purge || ( om_rnear_id.find( "faction_base_" ) != std::string::npos &&
                         om_rnear_id.find( "faction_base_camp" ) == std::string::npos ) ) {
-            om_camp_region.push_back( std::make_pair( om_rnear_id, omt_near_pos ) );
+            om_camp_region.emplace_back( om_rnear_id, omt_near_pos );
         }
     }
     return om_camp_region;
