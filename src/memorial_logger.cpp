@@ -130,7 +130,7 @@ void memorial_logger::add( const std::string &male_msg,
     const oter_type_str_id cur_oter_type = cur_ter->get_type_id();
     const std::string &oter_name = cur_ter->get_name();
 
-    log.push_back( { calendar::turn, cur_oter_type, oter_name, msg } );
+    log.emplace_back( calendar::turn, cur_oter_type, oter_name, msg );
 }
 
 /**

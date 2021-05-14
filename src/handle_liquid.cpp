@@ -86,7 +86,7 @@ static void serialize_liquid_target( player_activity &act, const item_location &
     act.values.push_back( static_cast<int>( liquid_target_type::CONTAINER ) );
     act.values.push_back( 0 ); // dummy
     act.targets.push_back( container_item );
-    act.coords.push_back( tripoint() ); // dummy
+    act.coords.emplace_back( ); // dummy
 }
 
 static void serialize_liquid_target( player_activity &act, const tripoint &pos )
