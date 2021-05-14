@@ -820,6 +820,7 @@
   {
     "type": "item_group",
     "id": "mre_accessory_pack",
+    "container-item": "bag_plastic",
     "subtype": "collection",
     "entries": [
       { "item": "gummy_vitamins", "charges": 1 },
@@ -831,8 +832,6 @@
       {
         "distribution": [
           { "item": "instant_coffee", "count": 2, "container-item": "beverage_bag" },
-          { "item": "lemonade_powder", "charges": 2, "container-item": "beverage_bag" },
-          { "item": "protein_shake", "container-item": "bottle_plastic" },
           { "item": "herbal_tea_bag", "count": 2, "container-item": "beverage_bag" },
           { "item": "tea_bag", "count": 2, "container-item": "beverage_bag" },
           { "item": "tea_bag_chamomile", "count": 2, "container-item": "beverage_bag" },
@@ -849,7 +848,7 @@
     "//": "What an MRE in pristine condition should contain.",
     "subtype": "collection",
     "entries": [
-      { "item": "mre_bag_small", "contents-group": "mre_entrees", "sealed": true },
+      { "group": "mre_entrees", "container-item": "mre_bag_small" },
       { "item": "heatpack" },
       {
         "distribution": [
@@ -857,15 +856,14 @@
           { "item": "spread_peanutbutter", "container-item": "mre_bag_small", "sealed": true }
         ]
       },
-      { "item": "crackers", "charges": 4, "container-item": "mre_bag_small", "sealed": true },
-      { "item": "mre_bag", "contents-group": "mre_accessory_pack", "sealed": true },
-      { "item": "mre_bag_small", "contents-group": "mre_dessert_pack", "sealed": true }
+      { "item": "crackers", "charges": 2, "container-item": "mre_bag_small", "sealed": true },
+      { "group": "mre_accessory_pack" },
+      { "item": "mre_bag", "contents-group": "mre_dessert_pack", "sealed": true }
     ]
   },
   {
     "type": "item_group",
     "id": "mre_full_pack",
-    "//": "An MRE in pristine condition.",
     "subtype": "collection",
     "entries": [ { "item": "mre_package", "contents-group": "mre_contents", "sealed": true } ]
   },
@@ -883,6 +881,7 @@
   {
     "type": "item_group",
     "id": "mre_used_accessory_pack",
+    "container-item": "bag_plastic",
     "subtype": "collection",
     "entries": [
       { "item": "gummy_vitamins", "charges": 1 },
@@ -894,8 +893,6 @@
       {
         "distribution": [
           { "item": "instant_coffee", "count": [ 0, 2 ], "container-item": "beverage_bag" },
-          { "item": "lemonade_powder", "charges": [ 0, 2 ], "container-item": "beverage_bag" },
-          { "item": "protein_shake", "charges": [ 0, 2 ], "container-item": "bottle_plastic" },
           { "item": "herbal_tea_bag", "count": [ 0, 2 ], "container-item": "beverage_bag" },
           { "item": "tea_bag", "count": [ 0, 2 ], "container-item": "beverage_bag" },
           { "item": "tea_bag_chamomile", "count": [ 0, 2 ], "container-item": "beverage_bag" },
@@ -911,17 +908,17 @@
     "id": "mre_used_contents",
     "subtype": "collection",
     "entries": [
-      { "group": "mre_entrees", "container-item": "mre_bag_small", "prob": 40 },
+      { "group": "mre_entrees", "container-item": "mre_bag_small", "sealed": false, "prob": 40 },
       { "item": "heatpack", "prob": 40 },
       {
         "distribution": [
-          { "item": "can_cheese", "charges": [ 0, 8 ], "container-item": "mre_bag_small", "sealed": false },
-          { "item": "spread_peanutbutter", "container-item": "mre_bag_small", "sealed": false, "prob": 60 }
+          { "item": "can_cheese", "container-item": "mre_bag_small", "prob": 40, "sealed": true },
+          { "item": "spread_peanutbutter", "container-item": "mre_bag_small", "prob": 40, "sealed": true }
         ]
       },
-      { "item": "crackers", "charges": [ 0, 4 ], "container-item": "mre_bag_small", "sealed": false },
-      { "item": "mre_bag", "contents-group": "mre_used_accessory_pack", "sealed": false, "prob": 50 },
-      { "item": "mre_bag_small", "contents-group": "mre_used_dessert_pack", "sealed": false, "prob": 40 }
+      { "item": "crackers", "charges": [ 0, 2 ], "container-item": "mre_bag_small", "sealed": false },
+      { "group": "mre_accessory_pack", "prob": 50 },
+      { "item": "mre_bag", "contents-group": "mre_used_dessert_pack", "sealed": false }
     ]
   },
   {
