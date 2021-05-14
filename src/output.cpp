@@ -2116,7 +2116,7 @@ void scrollingcombattext::add( const point &pos, direction p_oDir,
                     iter->advanceStepOffset();
                 }
             }
-            vSCT.push_back( cSCT( pos, p_oDir, p_sText, p_gmt, p_sText2, p_gmt2, p_sType ) );
+            vSCT.emplace_back( pos, p_oDir, p_sText, p_gmt, p_sText2, p_gmt2, p_sType );
         }
 
     }
@@ -2354,7 +2354,7 @@ std::vector<std::string> string_split( const std::string &text_in, char delim_in
     }
 
     if( text_in.back() == delim_in ) {
-        elems.push_back( "" );
+        elems.emplace_back( "" );
     }
 
     return elems;
