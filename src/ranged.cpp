@@ -3516,7 +3516,7 @@ bool gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::string> 
         if( !is_mech_weapon ) {
             if( you.available_ups() < ups_drain ) {
                 messages.push_back( string_format(
-                                        _( "You need a UPS with at least %2$d charges or an advanced UPS with at least %3$d charges to fire the %1$s!" ),
+                                        _( "You need a UPS with at least %2$d charges to fire the %1$s!" ),
                                         gmode->tname(), ups_drain, adv_ups_drain ) );
                 result = false;
             }
