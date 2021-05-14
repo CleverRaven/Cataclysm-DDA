@@ -806,7 +806,7 @@ std::string recipe::primary_skill_string( const Character *c, bool print_skill_l
     std::vector< std::pair<skill_id, int> > skillList;
 
     if( !skill_used.is_null() ) {
-        skillList.push_back( std::pair<skill_id, int>( skill_used, difficulty ) );
+        skillList.emplace_back( skill_used, difficulty );
     }
 
     return required_skills_as_string( skillList.begin(), skillList.end(), c, print_skill_level );
