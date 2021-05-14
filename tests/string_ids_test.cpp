@@ -39,7 +39,7 @@ TEST_CASE( "string_ids_intern_test", "[string_id]" )
     // lots of ids to make sure that "interning" map gets expanded
     ids.reserve( num_ids );
     for( int i = 0; i < num_ids; ++i ) {
-        ids.push_back( string_id<test_obj>( "test_id" + std::to_string( i ) ) );
+        ids.emplace_back( "test_id" + std::to_string( i ) );
     }
 
     // check that interning works
@@ -107,7 +107,7 @@ TEST_CASE( "string_id_sorting_test", "[string_id]" )
     SECTION( "vector of pairs sorting" ) {
         std::vector<std::pair<id, int>> vec;
         for( int i = 9; i >= 0; i-- ) {
-            vec.push_back( {id( "id" + std::to_string( i ) ), i} );
+            vec.emplace_back( id( "id" + std::to_string( i ) ), i );
         }
 
         int i = 0;
@@ -122,7 +122,7 @@ TEST_CASE( "string_id_sorting_test", "[string_id]" )
         std::vector<id> vec;
         vec.reserve( 10 );
         for( int i = 0; i < 10; ++i ) {
-            vec.push_back( id( "id" + std::to_string( i ) ) );
+            vec.emplace_back( "id" + std::to_string( i ) );
         }
 
         int i = 0;

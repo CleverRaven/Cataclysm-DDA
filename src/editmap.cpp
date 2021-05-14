@@ -2095,7 +2095,7 @@ void editmap::mapgen_retarget()
                     for( int y = target.y - SEEY + 1; y < target.y + SEEY + 1; y++ ) {
                         if( x == target.x - SEEX + 1 || x == target.x + SEEX ||
                             y == target.y - SEEY + 1 || y == target.y + SEEY ) {
-                            target_list.push_back( tripoint( x, y, target.z ) );
+                            target_list.emplace_back( x, y, target.z );
                         }
                     }
                 }
@@ -2161,7 +2161,7 @@ void editmap::edit_mapgen()
             for( int y = target.y - SEEY + 1; y < target.y + SEEY + 1; y++ ) {
                 if( x == target.x - SEEX + 1 || x == target.x + SEEX ||
                     y == target.y - SEEY + 1 || y == target.y + SEEY ) {
-                    target_list.push_back( tripoint( x, y, target.z ) );
+                    target_list.emplace_back( x, y, target.z );
                 }
             }
         }

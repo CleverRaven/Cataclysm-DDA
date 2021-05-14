@@ -63,7 +63,7 @@ static void test_encumbrance(
     std::vector<item> clothing;
     clothing.reserve( clothing_types.size() );
     for( const std::string &type : clothing_types ) {
-        clothing.push_back( item( type ) );
+        clothing.emplace_back( type );
     }
     test_encumbrance_items( clothing, body_part, expected_encumbrance );
 }

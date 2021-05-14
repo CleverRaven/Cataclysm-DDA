@@ -1545,35 +1545,35 @@ bool overmap::generate_sub( const int z )
                 sewer_points.emplace_back( i, j );
             } else if( oter_above == "anthill" || oter_above == "acid_anthill" ) {
                 const int size = rng( MIN_ANT_SIZE, MAX_ANT_SIZE );
-                ant_points.push_back( city( p.xy(), size ) );
+                ant_points.emplace_back( p.xy(), size );
             } else if( oter_above == "slimepit_down" ) {
                 const int size = rng( MIN_GOO_SIZE, MAX_GOO_SIZE );
-                goo_points.push_back( city( p.xy(), size ) );
+                goo_points.emplace_back( p.xy(), size );
             } else if( oter_above == "forest_water" ) {
                 ter_set( p, oter_id( "cavern" ) );
                 chip_rock( p );
             } else if( oter_above == "lab_core" ||
                        ( z == -1 && oter_above == "lab_stairs" ) ) {
-                lab_points.push_back( city( p.xy(), rng( 1, 5 + z ) ) );
+                lab_points.emplace_back( p.xy(), rng( 1, 5 + z ) );
             } else if( oter_above == "lab_stairs" ) {
                 ter_set( p, oter_id( "lab" ) );
             } else if( oter_above == "ice_lab_core" ||
                        ( z == -1 && oter_above == "ice_lab_stairs" ) ) {
-                ice_lab_points.push_back( city( p.xy(), rng( 1, 5 + z ) ) );
+                ice_lab_points.emplace_back( p.xy(), rng( 1, 5 + z ) );
             } else if( oter_above == "ice_lab_stairs" ) {
                 ter_set( p, oter_id( "ice_lab" ) );
             } else if( oter_above == "central_lab_core" ) {
-                central_lab_points.push_back( city( p.xy(), rng( std::max( 1, 7 + z ), 9 + z ) ) );
+                central_lab_points.emplace_back( p.xy(), rng( std::max( 1, 7 + z ), 9 + z ) );
             } else if( oter_above == "central_lab_stairs" ) {
                 ter_set( p, oter_id( "central_lab" ) );
             } else if( is_ot_match( "hidden_lab_stairs", oter_above, ot_match_type::contains ) ) {
-                lab_points.push_back( city( p.xy(), rng( 1, 5 + z ) ) );
+                lab_points.emplace_back( p.xy(), rng( 1, 5 + z ) );
             } else if( is_ot_match( "mine_entrance", oter_ground, ot_match_type::prefix ) && z == -2 ) {
-                mine_points.push_back( city( ( p + tripoint_west ).xy(), rng( 6 + z, 10 + z ) ) );
+                mine_points.emplace_back( ( p + tripoint_west ).xy(), rng( 6 + z, 10 + z ) );
                 requires_sub = true;
             } else if( oter_above == "mine_down" ) {
                 ter_set( p, oter_id( "mine" ) );
-                mine_points.push_back( city( p.xy(), rng( 6 + z, 10 + z ) ) );
+                mine_points.emplace_back( p.xy(), rng( 6 + z, 10 + z ) );
                 // technically not all finales need a sub level,
                 // but at this point we don't know
                 requires_sub = true;
@@ -2604,10 +2604,10 @@ void overmap::place_rivers( const overmap *north, const overmap *east, const ove
         while( river_start.empty() || river_start.size() + 1 < river_end.size() ) {
             new_rivers.clear();
             if( north == nullptr && one_in( river_chance ) ) {
-                new_rivers.push_back( point_om_omt( rng( 10, OMAPX - 11 ), 0 ) );
+                new_rivers.emplace_back( rng( 10, OMAPX - 11 ), 0 );
             }
             if( west == nullptr && one_in( river_chance ) ) {
-                new_rivers.push_back( point_om_omt( 0, rng( 10, OMAPY - 11 ) ) );
+                new_rivers.emplace_back( 0, rng( 10, OMAPY - 11 ) );
             }
             river_start.push_back( random_entry( new_rivers ) );
         }
@@ -2616,10 +2616,10 @@ void overmap::place_rivers( const overmap *north, const overmap *east, const ove
         while( river_end.empty() || river_end.size() + 1 < river_start.size() ) {
             new_rivers.clear();
             if( south == nullptr && one_in( river_chance ) ) {
-                new_rivers.push_back( point_om_omt( rng( 10, OMAPX - 11 ), OMAPY - 1 ) );
+                new_rivers.emplace_back( rng( 10, OMAPX - 11 ), OMAPY - 1 );
             }
             if( east == nullptr && one_in( river_chance ) ) {
-                new_rivers.push_back( point_om_omt( OMAPX - 1, rng( 10, OMAPY - 11 ) ) );
+                new_rivers.emplace_back( OMAPX - 1, rng( 10, OMAPY - 11 ) );
             }
             river_end.push_back( random_entry( new_rivers ) );
         }
@@ -2650,8 +2650,8 @@ void overmap::place_rivers( const overmap *north, const overmap *east, const ove
         }
     } else if( !river_end.empty() ) {
         if( river_start.size() != river_end.size() ) {
-            river_start.push_back( point_om_omt( rng( OMAPX / 4, ( OMAPX * 3 ) / 4 ),
-                                                 rng( OMAPY / 4, ( OMAPY * 3 ) / 4 ) ) );
+            river_start.emplace_back( rng( OMAPX / 4, ( OMAPX * 3 ) / 4 ),
+                                      rng( OMAPY / 4, ( OMAPY * 3 ) / 4 ) );
         }
         for( size_t i = 0; i < river_start.size(); i++ ) {
             place_river( river_start[i], river_end[i] );
@@ -4421,21 +4421,21 @@ void overmap::place_radios()
             // Since location have id such as "radio_tower_1_north", we must check the beginning of the id
             if( is_ot_match( "radio_tower", ter( pos_omt ), ot_match_type::prefix ) ) {
                 if( one_in( 3 ) ) {
-                    radios.push_back( radio_tower( pos_sm, strength(), "", radio_type::WEATHER_RADIO ) );
+                    radios.emplace_back( pos_sm, strength(), "", radio_type::WEATHER_RADIO );
                 } else {
                     message = SNIPPET.expand( SNIPPET.random_from_category( "radio_archive" ).value_or(
                                                   translation() ).translated() );
-                    radios.push_back( radio_tower( pos_sm, strength(), message ) );
+                    radios.emplace_back( pos_sm, strength(), message );
                 }
             } else if( is_ot_match( "lmoe", ter( pos_omt ), ot_match_type::prefix ) ) {
                 message = string_format( _( "This is automated emergency shelter beacon %d%d."
                                             "  Supplies, amenities and shelter are stocked." ), i, j );
-                radios.push_back( radio_tower( pos_sm, strength() / 2, message ) );
+                radios.emplace_back( pos_sm, strength() / 2, message );
             } else if( is_ot_match( "fema_entrance", ter( pos_omt ), ot_match_type::prefix ) ) {
                 message = string_format( _( "This is FEMA camp %d%d."
                                             "  Supplies are limited, please bring supplemental food, water, and bedding."
                                             "  This is FEMA camp %d%d.  A designated long-term emergency shelter." ), i, j, i, j );
-                radios.push_back( radio_tower( pos_sm, strength(), message ) );
+                radios.emplace_back( pos_sm, strength(), message );
             }
         }
     }
