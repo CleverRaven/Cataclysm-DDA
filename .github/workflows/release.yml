@@ -198,7 +198,7 @@ jobs:
         run: |
           cat >VERSION.txt <<EOL
           build type: ${{ matrix.artifact }}
-          build number: ${{ github.run_number }}
+          build number: ${{ needs.release.outputs.timestamp }}
           commit sha: ${{ github.sha }}
           commit url: https://github.com/${{ github.repository }}/commit/${{ github.sha }}
           EOL
@@ -215,16 +215,16 @@ jobs:
           chmod +x gradlew
           if [ ${{ matrix.android }} = arm64 ]
           then
-               ./gradlew -Pj=$((`nproc`+0)) -Pabi_arm_32=false assembleExperimentalRelease
-               mv ./app/build/outputs/apk/experimental/release/*.apk ../cdda-${{ matrix.artifact }}-b${{ github.run_number }}.apk
+               ./gradlew -Pj=$((`nproc`+0)) -Pabi_arm_32=false -Poverride_version=$((11581 + ${{ github.run_number }})) assembleExperimentalRelease
+               mv ./app/build/outputs/apk/experimental/release/*.apk ../cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.apk
           elif [ ${{ matrix.android }} = arm32 ]
           then
-               ./gradlew -Pj=$((`nproc`+0)) -Pabi_arm_64=false assembleExperimentalRelease
-               mv ./app/build/outputs/apk/experimental/release/*.apk ../cdda-${{ matrix.artifact }}-b${{ github.run_number }}.apk 
+               ./gradlew -Pj=$((`nproc`+0)) -Pabi_arm_64=false -Poverride_version=$((11581 + ${{ github.run_number }})) assembleExperimentalRelease
+               mv ./app/build/outputs/apk/experimental/release/*.apk ../cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.apk 
           elif [ ${{ matrix.android }} = bundle ]
           then
-               ./gradlew -Pj=$((`nproc`+0)) bundleExperimentalRelease
-               mv ./app/build/outputs/bundle/experimentalRelease/*.aab ../cdda-${{ matrix.artifact }}-b${{ github.run_number }}.aab     
+               ./gradlew -Pj=$((`nproc`+0)) -Poverride_version=$((11581 + ${{ github.run_number }})) bundleExperimentalRelease
+               mv ./app/build/outputs/bundle/experimentalRelease/*.aab ../cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.aab     
           fi
       - name: Upload release asset
         id: upload-release-asset 
