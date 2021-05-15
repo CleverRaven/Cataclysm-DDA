@@ -93,7 +93,7 @@
     "flags": [ "WATER_FRIENDLY", "OUTER", "TOURNIQUET", "OVERSIZE" ]
   },
   {
-    "id": "makeshift blindfold",
+    "id": "makeshift_blindfold",
     "type": "ARMOR",
     "name": { "str": "makeshift blindfold" },
     "description": "A crude eye covering woven from blades of grass with string attached to fasten it.  Useful for sleeping in bright areas.",

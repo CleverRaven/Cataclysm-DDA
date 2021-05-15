@@ -42,7 +42,7 @@
     "components": [ [ [ "felt_patch", 4 ] ] ]
   },
   {
-    "result": "makeshift blindfold",
+    "result": "makeshift_blindfold",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
