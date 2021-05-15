@@ -24,7 +24,7 @@
     "id": "engine_vtwin_magic",
     "copy-from": "mana_engine",
     "type": "vehicle_part",
-    "item": "v2_combustion",
+    "item": "v2_combustion_magic",
     "durability": 200,
     "epower": -50,
     "power": 37300,
