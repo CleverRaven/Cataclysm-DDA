@@ -171,10 +171,15 @@
     "vision_day": 83,
     "vision_night": 4,
     "harvest": "zombie",
-      "special_attacks": [
-        [ "SMASH", 30 ],
-        { "type": "spell", "spell_data": { "id": "hive_raptor_spawn", "hit_self": true }, "cooldown": 30, "monster_message": "The hive hulk opens its mouth, and a gore-smeared winged beast flies out of it!" }
-      ],
+    "special_attacks": [
+      [ "SMASH", 30 ],
+      {
+        "type": "spell",
+        "spell_data": { "id": "hive_raptor_spawn", "hit_self": true },
+        "cooldown": 30,
+        "monster_message": "The hive hulk opens its mouth, and a gore-smeared winged beast flies out of it!"
+      }
+    ],
     "death_drops": "mon_zombie_hulk_death_drops",
     "death_function": [ "NORMAL" ],
     "regenerates": 10,
