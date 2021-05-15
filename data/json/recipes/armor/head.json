@@ -42,6 +42,23 @@
     "components": [ [ [ "felt_patch", 4 ] ] ]
   },
   {
+    "result": "makeshift blindfold",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "survival",
+    "difficulty": 2,
+	"skills_required": [ [ "tailor", 1 ] ],
+    "time": "20 m",
+    "autolearn": true,
+    "components": [ 
+	  [ [ "withered", 10 ] ],
+	  [ [ "string_6", 2 ], [ "cordage_6", 2 ] ] 
+	],
+    "proficiencies": [{ "proficiency": "prof_basketweaving" }]
+  },
+  {
     "result": "blindfold",
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
