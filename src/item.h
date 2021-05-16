@@ -1319,6 +1319,7 @@ class item : public visitable
 
         /**
          * Can this item have given item/itype as content?
+         * Will also check wether any of the top level contained item with CONTAINER type pocket can contain the given item
          *
          * For example, airtight for gas, acidproof for acid etc.
          */
@@ -1983,17 +1984,19 @@ class item : public visitable
         /** Does item have an integral magazine (as opposed to allowing detachable magazines) */
         bool magazine_integral() const;
 
+        /** Does item have magazine well */
+        bool uses_magazine() const;
+
         /** Get the default magazine type (if any) for the current effective ammo type
          *  @param conversion whether to include the effect of any flags or mods which convert item's ammo type
          *  @return magazine type or "null" if item has integral magazine or no magazines for current ammo type */
         itype_id magazine_default( bool conversion = true ) const;
 
         /** Get compatible magazines (if any) for this item
-         *  @param conversion whether to include the effect of any flags or mods which convert item's ammo type
          *  @return magazine compatibility which is always empty if item has integral magazine
          *  @see item::magazine_integral
          */
-        std::set<itype_id> magazine_compatible( bool conversion = true ) const;
+        std::set<itype_id> magazine_compatible() const;
 
         /** Currently loaded magazine (if any)
          *  @return current magazine or nullptr if either no magazine loaded or item has integral magazine
