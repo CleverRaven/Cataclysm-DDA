@@ -60,6 +60,7 @@
         "x": "t_linoleum_white",
         "i": "t_ladder_up",
         "I": "t_column",
+        "P": "t_concrete",
         "f": "t_chainfence"
       },
       "furniture": {
