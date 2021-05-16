@@ -22,7 +22,7 @@
     },
     "size": 10,
     "symbol": "+",
-    "symbols": { "ne": "u", "nw": "y", "se": "b", "sw": "n", "vertical_left": "L", "vertical_right": "n", "front": "T", "rear": "B" },
+    "symbols": { "ne": "+", "nw": "+", "se": "+", "sw": "+", "vertical_left": "+", "vertical_right": "+", "front": "+", "rear": "+" },
     "type": "vehicle_part"
   },
   {
