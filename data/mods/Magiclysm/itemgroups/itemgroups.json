@@ -624,12 +624,12 @@
     "type": "item_group",
     "//": "Plus 1 enchanted tools. Relatively common drops in magical cabins, technomancer houses, and other locations where a mage would be doing some physical labor",
     "items": [
-      { "item": "knife_hunting_plus_one", "prob": 5 },
-      { "item": "crowbar_plus_one", "prob": 5 },
-      { "item": "jack_plus_one", "prob": 2 },
-      { "item": "knife_butcher_plus_one", "prob": 2 },
-      { "item": "knife_meat_cleaver_plus_one", "prob": 2 },
-      { "item": "knife_carving_plus_one", "prob": 2 }
+      { "item": "knife_hunting_plus_one", "prob": 20 },
+      { "item": "crowbar_plus_one", "prob": 20 },
+      { "item": "jack_plus_one", "prob": 10 },
+      { "item": "knife_butcher_plus_one", "prob": 10 },
+      { "item": "knife_meat_cleaver_plus_one", "prob": 10 },
+      { "item": "knife_carving_plus_one", "prob": 10 }
     ]
   },
   {
@@ -637,12 +637,12 @@
     "type": "item_group",
     "//": "Plus 2 enchanted tools.",
     "items": [
-      { "item": "knife_hunting_plus_two", "prob": 5 },
-      { "item": "crowbar_plus_two", "prob": 5 },
-      { "item": "jack_plus_two", "prob": 5 },
-      { "item": "knife_butcher_plus_two", "prob": 2 },
-      { "item": "knife_meat_cleaver_plus_two", "prob": 2 },
-      { "item": "knife_carving_plus_two", "prob": 2 }
+      { "item": "knife_hunting_plus_two", "prob": 20 },
+      { "item": "crowbar_plus_two", "prob": 20 },
+      { "item": "jack_plus_two", "prob": 10 },
+      { "item": "knife_butcher_plus_two", "prob": 10 },
+      { "item": "knife_meat_cleaver_plus_two", "prob": 10 },
+      { "item": "knife_carving_plus_two", "prob": 10 }
     ]
   },
   {
@@ -1185,7 +1185,7 @@
       { "group": "enchanted_wands_lesser", "prob": 20 },
       { "group": "lair_black_dragon_treasure", "prob": 5 },
       { "group": "enchanted_melee_weapons_plus2", "prob": 20 },
-      { "group": "enchanted_tools_plus2", "prob": 10 },
+      { "group": "enchanted_tools_plus2", "prob": 20 },
       { "group": "demon_spider_lair_treasure", "prob": 10 },
       { "group": "enchanted_cloaks_rare", "prob": 10 }
     ]
