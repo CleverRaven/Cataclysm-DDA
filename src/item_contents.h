@@ -44,7 +44,6 @@ class item_contents
 
         units::length max_containable_length() const;
         units::volume max_containable_volume() const;
-        /**
 
         /**
          * returns whether an item can be physically stored within these item contents.
