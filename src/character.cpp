@@ -13150,16 +13150,16 @@ bool Character::has_flag( const json_character_flag &flag ) const
     return has_trait_flag( flag ) || has_bionic_with_flag( flag );
 }
 
-time_duration Character::estimate_effect_dur(const skill_id& relevant_skill,
-    const efftype_id& target_effect, const time_duration& error_magnitude,
-    int threshold, const Creature& target) const
+time_duration Character::estimate_effect_dur( const skill_id &relevant_skill,
+        const efftype_id &target_effect, const time_duration &error_magnitude,
+        int threshold, const Creature &target ) const
 {
     const time_duration zero_duration = 0_turns;
 
-    int skill_lvl = get_skill_level(relevant_skill);
+    int skill_lvl = get_skill_level( relevant_skill );
 
-    time_duration estimate = std::max(zero_duration, target.get_effect_dur(target_effect) +
-        rng_float(-1, 1) * error_magnitude *
-        std::max(0.0, static_cast<double>(threshold - skill_lvl)/threshold));
+    time_duration estimate = std::max( zero_duration, target.get_effect_dur( target_effect ) +
+                                       rng_float( -1, 1 ) * error_magnitude *
+                                       std::max( 0.0, static_cast<double>( threshold - skill_lvl ) / threshold ) );
     return estimate;
 }
