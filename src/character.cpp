@@ -3886,7 +3886,6 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
         } );
     } else {
         // find compatible magazines excluding those already loaded in tools/guns
-
 		src.visit_items( [&src, &nested, &out, &obj, empty]( item * node, item * parent ) {
             // magazine is inside some sort of a container
             if( node->is_magazine() && ( parent != nullptr && node != parent->magazine_current() && parent->is_container() ) ) {

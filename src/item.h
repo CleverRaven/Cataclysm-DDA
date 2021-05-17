@@ -1318,14 +1318,13 @@ class item : public visitable
         fuel_explosion_data get_explosion_data();
 
         /**
-         * Can this item have given item/itype as content?
-         * Will also check wether any of the top level contained item with CONTAINER type pocket can contain the given item
-         *
-         * For example, airtight for gas, acidproof for acid etc.
+         * Can the pocket contain the specified item?
+         * @param it the item being put in
+         * @param ignore_fullness ignore already contained items from blocking the new item. Also ignores the count of new items being too high
          */
         /*@{*/
-        ret_val<bool> can_contain( const item &it ) const;
-        bool can_contain( const itype &tp ) const;
+        ret_val<bool> can_contain( const item &it, const bool ignore_fullness = false ) const;
+        bool can_contain( const itype &tp, const bool ignore_fullness = false ) const;
         bool can_contain_partial( const item &it ) const;
         /*@}*/
         std::pair<item_location, item_pocket *> best_pocket( const item &it, item_location &parent,

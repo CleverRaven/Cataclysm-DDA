@@ -7709,7 +7709,7 @@ units::volume item::max_containable_volume() const
     return contents.max_containable_volume();
 }
 
-ret_val<bool> item::can_contain( const item &it ) const
+bool item::can_contain( const item &it, const bool ignore_fullness ) const
 {
     if( this == &it ) {
         // does the set of all sets contain itself?
@@ -7726,12 +7726,12 @@ ret_val<bool> item::can_contain( const item &it ) const
         }
     }
 
-    return contents.can_contain( it );
+    return contents.can_contain( it, ignore_fullness );
 }
 
-bool item::can_contain( const itype &tp ) const
+bool item::can_contain( const itype &tp, const bool ignore_fullness ) const
 {
-    return can_contain( item( &tp ) ).success();
+    return can_contain( item( &tp ), ignore_fullness ).success();
 }
 
 bool item::can_contain_partial( const item &it ) const

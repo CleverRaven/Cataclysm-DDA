@@ -149,7 +149,12 @@ class item_pocket
         size_t size() const;
         void pop_back();
 
-        ret_val<contain_code> can_contain( const item &it ) const;
+        /**
+         * Can the pocket contain the specified item?
+         * @param it the item being put in
+         * @param ignore_fullness ignore already contained items from blocking the new item. Also ignores the count of new items being too high
+         */
+        ret_val<contain_code> can_contain( const item &it, const bool ignore_fullness = false ) const;
         bool can_contain_liquid( bool held_or_ground ) const;
         bool contains_phase( phase_id phase ) const;
 
