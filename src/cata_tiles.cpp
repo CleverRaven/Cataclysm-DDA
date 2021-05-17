@@ -256,7 +256,11 @@ tileset::find_tile_type_by_season( const std::string &id, season_type season ) c
 
 tile_type &tileset::create_tile_type( const std::string &id, tile_type &&new_tile_type )
 {
-    auto inserted = tile_ids.insert( std::make_pair( id, new_tile_type ) ).first;
+    // Must overwrite existing tile
+    // TODO: c++17 - replace [] + find() with insert_or_assign()
+    tile_ids[id] = std::move( new_tile_type );
+    auto inserted = tile_ids.find( id );
+
     const std::string &inserted_id = inserted->first;
     tile_type &inserted_tile = inserted->second;
 
