@@ -3935,11 +3935,12 @@ std::vector<item_location> Character::find_reloadables()
             return VisitResponse::NEXT;
         }
         bool reloadable = false;
-        if( node->uses_magazine() ) {
+        if( node->is_gun() && node->uses_magazine() ) {
             reloadable = node->magazine_current() == nullptr ||
                          node->remaining_ammo_capacity() > 0;
         } else {
-            reloadable = ( node->is_gun() && node->magazine_integral() ) &&
+            reloadable = ( node->is_magazine() ||
+                           ( node->is_gun() && node->magazine_integral() ) ) &&
                          node->remaining_ammo_capacity() > 0;
         }
         if( reloadable ) {
