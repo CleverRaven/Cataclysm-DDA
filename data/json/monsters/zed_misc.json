@@ -242,7 +242,7 @@
     "id": "mon_zombie_brute_grappler",
     "type": "MONSTER",
     "name": { "str": "zombie wrestler" },
-    "description": "A slab of festering muscle the size of a well-toned bodybuilder.  Seems eager to strangle the life from you.",
+    "description": "A slab of festering muscle the size of a well-toned bodybuilder.  Its bulky arms are compressed like some sort of accordion.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
@@ -1111,6 +1111,7 @@
     "emit_fields": [ { "emit_id": "emit_smoke_stream", "delay": "1 s" } ],
     "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "scratch", 15 ] ],
     "death_function": [ "SMOKEBURST" ],
+    "burn_into": "mon_zombie_scorched",
     "upgrades": { "half_life": 28, "into": "mon_smoker_brute" },
     "flags": [
       "SEES",
@@ -1160,6 +1161,7 @@
     "emit_fields": [ { "emit_id": "emit_smoke_stream", "delay": "1 s" } ],
     "special_attacks": [ [ "SMASH", 30 ], { "type": "bite", "cooldown": 5 }, [ "scratch", 15 ], [ "RANGED_PULL", 20 ], [ "GRAB_DRAG", 10 ] ],
     "death_function": [ "SMOKEBURST" ],
+    "burn_into": "mon_zombie_fiend",
     "flags": [
       "SEES",
       "HEARS",

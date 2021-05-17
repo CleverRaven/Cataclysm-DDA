@@ -2,7 +2,7 @@
   {
     "id": "mon_charred_nightmare",
     "type": "MONSTER",
-    "name": { "str": "charred nightmare" },
+    "name": { "str": "atomic nightmare" },
     "description": "Intense radiation has spurred a unique form of necrosis and regeneration, it is impossible to tell if this creature was ever human.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -13,7 +13,7 @@
     "speed": 95,
     "material": [ "flesh" ],
     "symbol": "N",
-    "color": "dark_gray_red",
+    "color": "light_green",
     "aggression": 100,
     "morale": 100,
     "melee_skill": 5,
