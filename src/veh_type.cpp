@@ -110,6 +110,7 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "RAIL", VPFLAG_RAIL },
     { "TURRET_CONTROLS", VPFLAG_TURRET_CONTROLS },
     { "ROOF", VPFLAG_ROOF },
+    { "PROTRUSION", VPFLAG_PROTRUSION }
 };
 
 static const std::vector<std::pair<std::string, veh_ter_mod>> standard_terrain_mod = {{
@@ -734,6 +735,11 @@ void vpart_info::check()
         }
         if( part.has_flag( "TURRET" ) && !base_item_type.gun ) {
             debugmsg( "vehicle part %s has the TURRET flag, but is not made from a gun item", part.id.c_str() );
+        }
+
+        if( part.has_flag( VPFLAG_PROTRUSION ) && part.has_flag( VPFLAG_OBSTACLE ) ) {
+            debugmsg( "%s has both PROTRUSION and OBSTACLE flags which causes it to behave improperly during collision",
+                      part.id.c_str() );
         }
 
         for( const emit_id &e : part.emissions ) {
