@@ -2716,6 +2716,11 @@ class Character : public Creature, public visitable
         /** Handles the still hard-coded effects. */
         void hardcoded_effects( effect &it );
 
+        /**Estimate effect duration based on player relevant skill*/
+        time_duration estimate_effect_dur(const skill_id& relevant_skill, const efftype_id& effect,
+            const time_duration& error_magnitude,
+            int threshold, const Creature& target) const;
+
         // inherited from visitable
         bool has_quality( const quality_id &qual, int level = 1, int qty = 1 ) const override;
         int max_quality( const quality_id &qual ) const override;

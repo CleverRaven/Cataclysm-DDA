@@ -591,11 +591,20 @@ std::string effect::disp_desc( bool reduced ) const
     else {
         timestr = string_format(_("%s ago"), to_string_clipped(effect_dur_elapsed));
     }
-    ret += string_format(_("Effect started: <color_white>%s</color>"), timestr);
+    ret += string_format(_("Effect started: <color_white>%s</color>    "), timestr);
     // Don't display time remaining for effects that are continuously applied, have no definite length, or are permanent. A bit of a hack.
-    if ( !permanent || !(eff_type->max_duration <= time_duration::from_turns(2) && eff_type->max_duration == time_duration::from_turns(0)))) {
+    if ( !permanent || !(eff_type->max_duration <= time_duration::from_turns(2) && eff_type->max_duration == time_duration::from_turns(0))) {
         if (get_player_character().has_trait(trait_SELFAWARE)) {
-            ret += string_format(_("    Effect ends in: <color_white>%s</color>"), to_string_clipped(duration));
+            ret += string_format(_("Effect ends in: <color_white>%s</color>"), to_string_clipped(duration));
+        }
+        else {
+            time_duration remaining_est = get_player_character().estimate_effect_dur(skill_id("firstaid"), eff_type->id, (effect_dur_elapsed+duration) / 2, 6, get_player_character());
+            if (to_turns<int>(remaining_est) == 0) {
+                ret += _("Effect ends <color_white>any second now...</color>");
+            }
+            else {
+                ret += string_format(_("Effect ends in <color_white>%s</color>"), to_string_approx(remaining_est));
+            }
         }
     }
     //Newline if necessary 
