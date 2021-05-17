@@ -2292,9 +2292,9 @@ See also VEHICLE_JSON.md
 "rigid": false,                              // For non-rigid items volume (and for worn items encumbrance) increases proportional to contents
 "insulation": 1,                             // (Optional, default = 1) If container or vehicle part, how much insulation should it provide to the contents
 "price": 100,                                // Used when bartering with NPCs. For stackable items (ammo, comestibles) this is the price for stack_size charges. Can use string "cent" "USD" or "kUSD".
-"price_postapoc": "1 USD",                       // Same as price but represent value post cataclysm. Can use string "cent" "USD" or "kUSD".
-"material": ["COTTON"],                      // Material types, can be as many as you want.  See materials.json for possible options
-"martials_like": ["weaponid1"]               // (Optional) This weapon can be used in martial arts that use the weapons in the list. Not recursive, the weapons specified must be explicitly listed in martial art.
+"price_postapoc": "1 USD",                       // Same as price but represents value post cataclysm. Can use string "cent" "USD" or "kUSD".
+"material": ["COTTON"],                      // Material types, can be as many as you want.  See materials.json for possible options.
+"martials_like": ["weaponid1"]               // (Optional) This weapon can be used in martial arts that use the (other) weapons in the list. Not recursive; the weapons specified must be explicitly listed by the martial art.
 "cutting": 0,                                // (Optional, default = 0) Cutting damage caused by using it as a melee weapon.  This value cannot be negative.
 "bashing": 0,                                // (Optional, default = 0) Bashing damage caused by using it as a melee weapon.  This value cannot be negative.
 "to_hit": 0,                                 // (Optional, deprecated, default = 0) To-hit bonus if using it as a melee weapon (whatever for?).  The object version is preferred
@@ -2662,7 +2662,7 @@ Any Item can be a container. To add the ability to contain things to an item, yo
 "material": ["iron", "wood"], // Material types.  See materials.json for possible options
 "weight": 907,         // Weight, measured in grams
 "volume": "1500 ml",   // Volume, volume in ml and L can be used - "50 ml" or "2 L"
-"martials_like": ["weaponid1"] // This weapon can be used in martial arts that use the weapons in the list.  Not recursive, the weapons specified must be explicitly listed in martial art.
+"martials_like": ["weaponid1"] // This weapon can be used in martial arts that use the (other) weapons in the list.  Not recursive; the weapons specified must be explicitly listed by the martial art.
 "bashing": 12,         // Bashing damage caused by using it as a melee weapon
 "cutting": 12,         // Cutting damage caused by using it as a melee weapon
 "flags" : ["CHOP"],    // Indicates special effects
