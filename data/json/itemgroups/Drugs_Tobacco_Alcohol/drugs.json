@@ -201,6 +201,24 @@
   },
   {
     "type": "item_group",
+    "id": "mobile_meth_lab",
+    "subtype": "collection",
+    "entries": [
+      {
+        "distribution": [
+          { "item": "adderall", "count": [ 0, 2 ], "charges": [ 1, 10 ] },
+          { "item": "energy_drink", "count": [ 0, 2 ] },
+          { "item": "caffeine", "count": [ 0, 2 ], "charges": [ 1, 10 ] }
+        ]
+      },
+      { "item": "dayquil", "count": [ 0, 2 ], "charges": [ 1, 5 ] },
+      { "item": "aspirin", "count": [ 0, 5 ], "charges": [ 1, 20 ] },
+      { "item": "cola", "count": [ 0, 2 ] },
+      { "item": "meth", "count": [ 0, 2 ], "charges": [ 1, 6 ] }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "meth_ingredients",
     "items": [
       { "item": "dayquil", "prob": 2, "charges": [ 1, 5 ] },
