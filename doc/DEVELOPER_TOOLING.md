@@ -66,10 +66,10 @@ In addition to the usual means of creating a `tags` file via e.g. [`ctags`](http
 
 Cataclysm has a [clang-tidy configuration file](../.clang-tidy) and if you have
 `clang-tidy` available you can run it to perform static analysis of the
-codebase.  We test with `clang-tidy` from LLVM 12.0.0 on CI, so for the most
+codebase.  We test with `clang-tidy` from LLVM 12.0.0 with CI, so for the most
 consistent results, you might want to use that version.
 
-To run it you have a few options.
+To run it, you have a few options.
 
 * `clang-tidy` ships with a wrapper script `run-clang-tidy.py`.
 
@@ -95,9 +95,9 @@ work requires some extra steps.
 #### Ubuntu Focal
 
 If you are on Ubuntu Focal then you might be able to get it working the same
-way CI does.  Add the LLVM 12 Focal source [listed
-here](https://apt.llvm.org/) to your `sources.list`, install the `clang-12
-libclang-12-dev llvm-12-dev llvm-12-tools` packages, and build Cataclysm with CMake,
+way our CI does.  Add the LLVM 12 Focal source [listed
+here](https://apt.llvm.org/) to your `sources.list`, install the needed packages (`clang-12
+libclang-12-dev llvm-12-dev llvm-12-tools`), and build Cataclysm with CMake,
 adding `-DCATA_CLANG_TIDY_PLUGIN=ON`.
 
 On other distributions you will probably need to build `clang-tidy` yourself.
@@ -149,8 +149,8 @@ building llvm on Windows correctly.)
 After the tools are installed, a patch still needs to be applied before building
 llvm, since `clang-tidy` as distributed by LLVM doesn't support plugins.
 
-First, clone the llvm repo from for example [the official github repo](https://github.com/llvm/llvm-project.git).
-Checkout the `release/12.x` branch, since that's where our patch was based on.
+First, clone the llvm repo from, for example, [the official github repo](https://github.com/llvm/llvm-project.git).
+Checkout the `release/12.x` branch, since that's what our patch was based on.
 
 On Windows, in addition to applying `plugin-support.patch` mentioned in the previous section, you
 should also apply
