@@ -38,12 +38,12 @@ target_include_directories(CataAnalyzerPlugin SYSTEM PRIVATE
 
 if ("${CATA_CLANG_TIDY_INCLUDE_DIR}" STREQUAL "")
     set(CTPS_RELEASES https://github.com/jbytheway/clang-tidy-plugin-support/releases/download)
-    set(CTPS_VERSION llvm-12.0.0-r1)
+    set(CTPS_VERSION llvm-12.0.0-r3)
     set(CTPS_SRC ${CMAKE_CURRENT_BINARY_DIR}/clang-tidy-plugin-support)
 
     ExternalProject_Add(clang-tidy-plugin-support
             URL ${CTPS_RELEASES}/${CTPS_VERSION}/clang-tidy-plugin-support-${CTPS_VERSION}.tar.xz
-            URL_HASH SHA256=40626a0cb132b6eb137c4c7b5b1a04a0c96623c076790b848cc577b95a8889c5
+            URL_HASH SHA256=c84aaf35b4d5bb9130b1cc309a92146ae5c62fd69db30a6254725beac9d60990
             SOURCE_DIR ${CTPS_SRC}
             CONFIGURE_COMMAND ""
             BUILD_COMMAND ""
