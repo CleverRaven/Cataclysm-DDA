@@ -420,7 +420,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
-    "flags": [ "SHARP", "FOLDABLE" ],
+    "flags": [ "SHARP", "PROTRUSION", "FOLDABLE" ],
     "breaks_into": [ { "item": "steel_chunk", "prob": 50 } ]
   },
   {
@@ -443,7 +443,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
-    "flags": [ "SHARP", "FOLDABLE" ],
+    "flags": [ "SHARP", "PROTRUSION", "FOLDABLE" ],
     "breaks_into": [ { "item": "steel_chunk", "count": [ 1, 2 ] } ],
     "damage_reduction": { "all": 12 }
   },
@@ -2404,7 +2404,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
     },
-    "flags": [ "SHARP", "FOLDABLE" ],
+    "flags": [ "SHARP", "PROTRUSION", "FOLDABLE" ],
     "breaks_into": [ { "item": "splinter", "count": [ 3, 7 ] } ]
   },
   {
