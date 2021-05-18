@@ -115,11 +115,15 @@ void pocket_data::load( const JsonObject &jo )
 {
     optional( jo, was_loaded, "pocket_type", type, item_pocket::pocket_type::CONTAINER );
     optional( jo, was_loaded, "ammo_restriction", ammo_restriction );
+    optional( jo, was_loaded, "flag_restriction", flag_restrictions );
     optional( jo, was_loaded, "item_restriction", item_id_restriction );
     optional( jo, was_loaded, "allowed_speedloaders", allowed_speedloaders );
     optional( jo, was_loaded, "default_magazine", default_magazine );
     if( jo.has_member( "ammo_restriction" ) && ammo_restriction.empty() ) {
         jo.throw_error( "pocket defines empty ammo_restriction" );
+    }
+    if( jo.has_member( "flag_restrictions" ) && flag_restrictions.empty() ) {
+        jo.throw_error( "pocket defines empty flag_restrictions" );
     }
     if( jo.has_member( "item_restriction" ) && item_id_restriction.empty() ) {
         jo.throw_error( "pocket defines empty item_restriction" );
@@ -138,8 +142,8 @@ void pocket_data::load( const JsonObject &jo )
         if( temp != -1_ml ) {
             max_item_volume = temp;
         }
-        mandatory( jo, was_loaded, "max_contains_volume", volume_capacity, volume_reader() );
-        mandatory( jo, was_loaded, "max_contains_weight", max_contains_weight, mass_reader() );
+        optional( jo, was_loaded, "max_contains_volume", volume_capacity, volume_reader(), 200000_ml );
+        optional( jo, was_loaded, "max_contains_weight", max_contains_weight, mass_reader(), 200000_gram );
         optional( jo, was_loaded, "max_item_length", max_item_length,
                   units::default_length_from_volume( volume_capacity ) * M_SQRT2 );
     }
@@ -152,7 +156,6 @@ void pocket_data::load( const JsonObject &jo )
     optional( jo, was_loaded, "watertight", watertight, false );
     optional( jo, was_loaded, "airtight", airtight, false );
     optional( jo, was_loaded, "open_container", open_container, false );
-    optional( jo, was_loaded, "flag_restriction", flag_restrictions );
     optional( jo, was_loaded, "rigid", rigid, false );
     optional( jo, was_loaded, "holster", holster );
     optional( jo, was_loaded, "sealed_data", sealed_data );

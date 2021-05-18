@@ -1703,5 +1703,22 @@
     "id": "SCIENCE_CARD_MEDICAL_RED",
     "type": "json_flag",
     "info": "You could probably use this to access a secure zone of a facility."
+  },
+    "id": "BATTERY_LIGHT",
+    "type": "json_flag",
+    "context": [  ],
+    "info": "Light battery"
+  },
+  {
+    "id": "BATTERY_MEDIUM",
+    "type": "json_flag",
+    "context": [  ],
+    "info": "Light battery"
+  },
+  {
+    "id": "BATTERY_HEAVY",
+    "type": "json_flag",
+    "context": [  ],
+    "info": "Light battery"
   }
 ]

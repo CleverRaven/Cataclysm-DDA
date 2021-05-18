@@ -45,6 +45,8 @@ class item_contents
         units::length max_containable_length() const;
         units::volume max_containable_volume() const;
 
+        std::set<flag_id> magazine_flag_restrictions() const;
+
         /**
          * returns whether an item can be physically stored within these item contents.
          * Fails if all pockets are MOD, CORPSE, SOFTWARE, or MIGRATION type, as they are not

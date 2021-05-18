@@ -1880,11 +1880,17 @@ void item::debug_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                active );
             info.emplace_back( "BASE", _( "burn: " ), "", iteminfo::lower_is_better,
                                burnt );
+							   
             const std::string tags_listed = enumerate_as_string( item_tags, []( const flag_id & f ) {
                 return f.str();
             }, enumeration_conjunction::none );
-
             info.emplace_back( "BASE", string_format( _( "tags: %s" ), tags_listed ) );
+			
+			const std::string flags_listed = enumerate_as_string( type->get_flags(), []( const flag_id & f ) {
+                return f.str();
+            }, enumeration_conjunction::none );
+
+            info.emplace_back( "BASE", string_format( _( "flags: %s" ), flags_listed ) );
             for( auto const &imap : item_vars ) {
                 info.emplace_back( "BASE",
                                    string_format( _( "item var: %s, %s" ), imap.first,
@@ -2620,13 +2626,31 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
 
     if( !magazine_integral() && parts->test( iteminfo_parts::GUN_ALLOWED_MAGAZINES ) ) {
         insert_separation_line( info );
-        const std::set<itype_id> compat = magazine_compatible();
-        if( !compat.empty() ) {
-            const std::vector<itype_id> compat_sorted = sorted_lex( compat );
-            info.emplace_back( "DESCRIPTION", _( "<bold>Compatible magazines</bold>: " ) +
-            enumerate_as_string( compat_sorted.begin(), compat_sorted.end(), []( const itype_id & id ) {
+        if( uses_magazine() ) {
+            // Keep this identical with tool magazines in item::tool_info
+            const std::vector<itype_id> compat_sorted = sorted_lex( magazine_compatible() );
+            const std::string mag_names = enumerate_as_string( compat_sorted.begin(),
+            compat_sorted.end(), []( const itype_id & id ) {
                 return item::nname( id );
-            } ) );
+            } );
+
+            const std::set<flag_id> flag_restrictions = contents.magazine_flag_restrictions();
+            const std::string flag_desc = enumerate_as_string( flag_restrictions.begin(),
+            flag_restrictions.end(), []( const flag_id & e ) {
+                const json_flag &f = e.obj();
+                std::string info = f.info();
+                return info;
+            } );
+
+            std::string display =  _( "<bold>Compatible magazines</bold>:" );
+            if( !compat_sorted.empty() ) {
+                display += _( "\n<bold>Types</bold>: " ) + mag_names;
+            }
+            if( !flag_restrictions.empty() ) {
+                display += _( "\n<bold>Flags</bold>: " ) + flag_desc;
+            }
+
+            info.emplace_back( "DESCRIPTION", display );
         }
     }
 
@@ -3544,13 +3568,31 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
         }
 
         if( parts->test( iteminfo_parts::TOOL_MAGAZINE_COMPATIBLE ) ) {
-            const std::set<itype_id> compat = magazine_compatible();
-            if( !compat.empty() ) {
-                const std::vector<itype_id> compat_sorted = sorted_lex( compat );
-                info.emplace_back( "TOOL", _( "Compatible magazines: " ),
-                enumerate_as_string( compat_sorted.begin(), compat_sorted.end(), []( const itype_id & id ) {
+            if( uses_magazine() ) {
+                // Keep this identical with gun magazines in item::gun_info
+                const std::vector<itype_id> compat_sorted = sorted_lex( magazine_compatible() );
+                const std::string mag_names = enumerate_as_string( compat_sorted.begin(),
+                compat_sorted.end(), []( const itype_id & id ) {
                     return item::nname( id );
-                } ) );
+                } );
+
+                const std::set<flag_id> flag_restrictions = contents.magazine_flag_restrictions();
+                const std::string flag_desc = enumerate_as_string( flag_restrictions.begin(),
+                flag_restrictions.end(), []( const flag_id & e ) {
+                    const json_flag &f = e.obj();
+                    std::string info = f.info();
+                    return info;
+                } );
+
+                std::string display =  _( "<bold>Compatible magazines</bold>:" );
+                if( !compat_sorted.empty() ) {
+                    display += _( "\n<bold>Types</bold>: " ) + mag_names;
+                }
+                if( !flag_restrictions.empty() ) {
+                    display += _( "\n<bold>Flags</bold>: " ) + flag_desc;
+                }
+
+                info.emplace_back( "DESCRIPTION", display );
             }
         }
     } else if( !ammo_types().empty() && parts->test( iteminfo_parts::TOOL_CAPACITY ) ) {
@@ -7570,7 +7612,7 @@ bool item::is_reloadable_helper( const itype_id &ammo, bool now ) const
             }
         } else {
             if( ( !ammo->ammo || !ammo_types().count( ammo->ammo->type ) ) &&
-                !magazine_compatible().count( ammo ) ) {
+                !can_contain( *ammo, true ) ) {
                 return false;
             }
         }
@@ -7578,12 +7620,12 @@ bool item::is_reloadable_helper( const itype_id &ammo, bool now ) const
         //If ammo is not an ammo it may be dangerous to use parameters like ammo->ammo->type
         //It is complicated: normal magazine in addition to speedloader? Magazines of mods?
         if( now && !ammo->ammo ) {
-            return magazine_compatible().count( ammo );
+            return can_contain( *ammo, true );
         }
 
         return now ? ammo_remaining() < ammo_capacity( ammo->ammo->type ) : true;
     }
-    return magazine_compatible().count( ammo );
+    return can_contain( *ammo, true );
 }
 
 bool item::is_salvageable() const
