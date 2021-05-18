@@ -50,7 +50,7 @@
     "id": "mon_zombie_fiend",
     "type": "MONSTER",
     "name": { "str": "fiend" },
-    "description": "A charred zombie with bony plates, spikes and protrusions.  Its newly found armor dosen't seem to be slowing it down.",
+    "description": "A charred zombie with bony plates, spikes, and protrusions.  Its newly found armor doesn't seem to be slowing it down.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
