@@ -153,7 +153,10 @@ First, clone the llvm repo from for example [the official github repo](https://g
 Checkout the `release/12.x` branch, since that's where our patch was based on.
 
 On Windows, in addition to applying `plugin-support.patch` mentioned in the previous section, you
-should also apply `clang-tidy-scripts.patch` (from [this PR](https://github.com/jbytheway/clang-tidy-plugin-support/pull/3), if it is not merged yet) so you can run the lit test with the custom clang-tidy executable and let clang-tidy apply suggestions automatically.
+should also apply
+[`clang-tidy-scripts.patch`](https://github.com/jbytheway/clang-tidy-plugin-support/blob/master/clang-tidy-scripts.patch)
+so you can run the lit test with the custom clang-tidy executable and let
+clang-tidy apply suggestions automatically.
 
 After the patch is applied, you can then build the llvm code. Unfortunately, it
 seems that clang itself cannot correctly compile the llvm code on Windows (gives
