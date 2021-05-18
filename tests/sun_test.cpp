@@ -15,32 +15,19 @@
 
 // SUN TESTS
 
-// The 24-hour solar cycle is divided into four parts, as returned by four calendar.cpp functions:
+// The 24-hour solar cycle has four overlapping parts, as defined by four calendar.cpp functions:
 //
-// is_night : from the end of dusk, until the following sunrise (start of dawn)
-// is_dawn  : begins at sunrise, lasts twilight_duration (1 hour)
-// is_day   : from the end of dawn, until sunset (start of dusk)
-// is_dusk  : begins at sunset, lasts twilight_duration (1 hour)
+// is_night : While the Sun is below the horizon
+// is_day   : While the Sun is above -12° altitude
+// is_dawn, is_dusk : While the Sun is near the horizon at the appropriate end
+//                    of the day
 //
-// These are inclusive at their endpoints; in other words, each overlaps with the next like so:
-//
-// 00:00 is_night
-//   :   is_night
-// 06:00 is_night && is_dawn ( sunrise )
-//   :   is_dawn ( sunrise + twilight )
-// 07:00 is_dawn && is_day
-//   :   is_day
-// 19:00 is_day && is_dusk ( sunset )
-//   :   is_dusk ( sunset + twilight )
-// 20:00 is_dusk && is_night
-//   :   is_night
-// 23:59 is_night
+// Day and night overlap, and dawn and dusk both overlap with both day and
+// night.
 //
 // The times of sunrise and sunset will naturally depend on the current time of year; this aspect is
 // covered by the "sunrise and sunset" and solstice/equinox tests later in this file. Here we simply
 // use the first day of spring as a baseline.
-//
-// This test covers is_night, is_dawn, is_day, is_dusk, and their behavior in relation to time of day.
 TEST_CASE( "daily solar cycle", "[sun][night][dawn][day][dusk]" )
 {
     // Use sunrise/sunset on the first day (spring equinox)
