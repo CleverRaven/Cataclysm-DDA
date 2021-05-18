@@ -4157,7 +4157,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     contents_info( info, parts, batch, debug );
 
     if( get_option<bool>( "ENABLE_ASCII_ART" ) ) {
-        const ascii_art_id art = type->picture_id;
+        const ascii_art_id art( type->get_id().c_str() );
         if( art.is_valid() ) {
             for( const std::string &line : art->picture ) {
                 info.push_back( iteminfo( "DESCRIPTION", line ) );
