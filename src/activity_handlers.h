@@ -97,7 +97,7 @@ struct activity_reason_info {
     }
 };
 
-int butcher_time_to_cut( const player &u, const item &corpse_item, butcher_type action );
+int butcher_time_to_cut( player &u, const item &corpse_item, butcher_type action );
 
 // activity_item_handling.cpp
 void activity_on_turn_drop();
