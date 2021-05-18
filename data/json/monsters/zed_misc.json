@@ -242,7 +242,7 @@
     "id": "mon_zombie_brute_grappler",
     "type": "MONSTER",
     "name": { "str": "zombie wrestler" },
-    "description": "A slab of festering muscle the size of a well-toned bodybuilder.  Its bulky arms are compressed like some sort of accordion.",
+    "description": "A slab of festering muscle the size of a well-toned bodybuilder.  Seems eager to strangle the life from you.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
