@@ -7,6 +7,7 @@
 
 #include "hash_utils.h"
 #include "line.h"
+#include "options_helpers.h"
 #include "optional.h"
 #include "output.h"
 #include "stringmaker.h"
@@ -382,8 +383,39 @@ TEST_CASE( "noon_sun_doesn't_move_much", "[sun]" )
     }
 }
 
+TEST_CASE( "dawn_dusk_fixed_during_eternal_season", "[sun]" )
+{
+    on_out_of_scope restore_eternal_season( []() {
+        calendar::set_eternal_season( false );
+    } );
+    calendar::set_eternal_season( true );
+    override_option override_eternal_season( "ETERNAL_SEASON", "true" );
+
+    const time_point first_sunrise = sunrise( first_noon );
+    const time_point first_sunset = sunset( first_noon );
+
+    for( int i = 1; i < 1000; ++i ) {
+        CAPTURE( i );
+        const time_point this_noon = first_noon + i * 1_days;
+        const time_point this_sunrise = sunrise( this_noon );
+        const time_point this_sunset = sunset( this_noon );
+
+        CHECK( this_sunrise < this_noon );
+        CHECK( this_sunset > this_noon );
+
+        CHECK( time_past_midnight( this_sunrise ) == time_past_midnight( first_sunrise ) );
+        CHECK( time_past_midnight( this_sunset ) == time_past_midnight( first_sunset ) );
+    }
+}
+
 TEST_CASE( "sunrise_sunset_consistency", "[sun]" )
 {
+    bool set_eternal = GENERATE( false, true );
+    on_out_of_scope restore_eternal_season( []() {
+        calendar::set_eternal_season( false );
+    } );
+    calendar::set_eternal_season( set_eternal );
+
     for( int i = 1; i < 1000; ++i ) {
         CAPTURE( i );
         const time_point this_noon = first_noon + i * 1_days;
