@@ -311,10 +311,10 @@
     "effect": "attack",
     "shape": "cone",
     "field_id": "fd_sludge",
-    "field_chance": 2,   
+    "field_chance": 2,
     "min_field_intensity": 3,
     "max_field_intensity": 3,
     "min_duration": 750,
     "max_duration": 1500
-   }
+  }
 ]

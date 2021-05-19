@@ -191,11 +191,11 @@
     "vision_night": 5,
     "harvest": "zombie_meatslug",
     "emit_fields": [ { "emit_id": "emit_sludge_puddle", "delay": "1 s" } ],
-    "special_attacks": [ 
+    "special_attacks": [
       [ "BOOMER", 21 ],
       [ "ABSORB_MEAT", 2 ],
-      { 
-        "type": "bite", 
+      {
+        "type": "bite",
         "cooldown": 1,
         "no_infection_chance": 3,
         "min_mul": 0.75,
@@ -203,10 +203,10 @@
         "damage_max_instance": [ { "damage_type": "stab", "amount": 10, "armor_multiplier": 0.5 } ]
       },
       {
-       "type": "spell",
-       "spell_data": { "id": "spread_sludge", "min_level": 1 },
-       "cooldown": 28,
-       "monster_message": "the glutton vomits sludge!"
+        "type": "spell",
+        "spell_data": { "id": "spread_sludge", "min_level": 1 },
+        "cooldown": 28,
+        "monster_message": "the glutton vomits sludge!"
       }
     ],
     "death_drops": "default_zombie_items",
