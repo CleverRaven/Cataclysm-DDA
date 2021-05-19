@@ -727,10 +727,14 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
                         // and then select the entire container.
                         // The state that the container is deselected, but some ( not all! ) of it's contents remain selected shouldn't happen
                         else if( ip.selected && content->selected ) {
+                            // deselect current charge / count
                             content->selected = false;
+                            content->marked = false;
                             int change_amount = get_change_amount( *content, false );
-                            adjust_balance( *content, np, change_amount * -1 );
-
+                            adjust_balance( *content, np, change_amount );
+                            // select full charge coutn
+                            content->marked = true;
+                            get_change_amount( *content, false );
                         }
                     }
                 }
