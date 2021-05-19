@@ -240,7 +240,7 @@
     "color": "dark_gray",
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
-    "flags": [ "DURABLE_MELEE", "STAB", "SHEATH_KNIFE", "UNARMED_WEAPON" ]
+    "flags": [ "DURABLE_MELEE", "STAB", "SHEATH_KNIFE" ]
   },
   {
     "id": "makeshift_knife",
@@ -1372,7 +1372,6 @@
     "bashing": 5,
     "cutting": 31,
     "material": [ "steel" ],
-    "ascii_picture": "katana",
     "symbol": "/",
     "color": "light_gray",
     "techniques": [ "RAPID", "WBLOCK_2" ],
@@ -1389,7 +1388,6 @@
     "price": 5000,
     "price_postapoc": 50,
     "material": [ "aluminum" ],
-    "ascii_picture": "katana",
     "techniques": [ "RAPID", "WBLOCK_2" ],
     "flags": [ "SHEATH_SWORD", "FRAGILE_MELEE" ],
     "weight": "753 g",
@@ -1410,7 +1408,6 @@
     "price": 98000,
     "price_postapoc": 250,
     "material": [ "budget_steel" ],
-    "ascii_picture": "katana",
     "techniques": [ "RAPID", "WBLOCK_2" ],
     "flags": [ "SHEATH_SWORD" ],
     "weight": "1133 g",
@@ -1635,7 +1632,6 @@
     "price": 12000,
     "price_postapoc": 1250,
     "material": [ "wood", "iron" ],
-    "ascii_picture": "lajatang",
     "techniques": [ "WBLOCK_1", "SPIN" ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ],
     "weight": "2500 g",
