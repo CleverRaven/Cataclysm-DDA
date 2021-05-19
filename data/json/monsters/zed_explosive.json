@@ -206,7 +206,7 @@
         "type": "spell",
         "spell_data": { "id": "spread_sludge", "min_level": 1 },
         "cooldown": 28,
-        "monster_message": "the glutton vomits sludge!"
+        "monster_message": "The glutton vomits sludge!"
       }
     ],
     "death_drops": "default_zombie_items",
