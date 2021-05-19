@@ -411,7 +411,6 @@ Here's a quick summary of what each of the JSON files contain, broken down by fo
 |---                            |---
 | `achievements.json`           | achievements
 | `anatomy.json`                | a listing of player body parts - do not edit
-| `ascii_arts.json`             | ascii arts for item descriptions
 | `bionics.json`                | bionics, does NOT include bionic effects
 | `body_parts.json`             | an expansion of anatomy.json - do not edit
 | `clothing_mods.json`          | definition of clothing mods
@@ -548,13 +547,13 @@ Groups of vehicle definitions with self-explanatory names of files:
 This section describes each json file and their contents. Each json has their own unique properties that are not shared with other Json files (for example 'chapters' property used in books does not apply to armor). This will make sure properties are only described and used within the context of the appropriate JSON file.
 
 
-## `data/json/` JSONs
-
 ### Ascii_arts
+
+All ascii_art files are contained within the 'data/json/ascii_art/' folder.  Both item ascii art and monster art are contained therein.  Each file is modular, so adding or removing json files will add or remove the art from the game.
 
 | Identifier        | Description
 |---                |---
-| id                | ID string that matches the ID of the item json the ascii art is displayed for.
+| id                | ID string that matches the ID of the item or monster the ascii art is displayed for.
 | picture           | Array of string, each entry is a line of an ascii picture and must be at most 41 columns long. \ have to be replaced by \\\ in order to be visible.
 
 ```C++
@@ -580,6 +579,10 @@ This section describes each json file and their contents. Each json has their ow
   }
 ```
 For information about tools with option to export ASCII art in format ready to be pasted into `data/json/ascii_art/`, see `ASCII_ARTS.md`.
+
+For information about allowed character types and color types, see `unicode_chars_palette.txt` and `COLOR.md`.
+
+## `data/json/` JSONs
 
 ### Body_parts
 
