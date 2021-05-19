@@ -364,10 +364,9 @@
   {
     "id": "emit_sludge_puddle",
     "type": "emit",
-    "//": "infrequent emission of sludge along the ground, made because sludge trail is too frequent",
+    "//": "Infrequent emission of sludge along the ground, made because sludge trail is too frequent",
     "field": "fd_sludge",
     "intensity": 3,
     "chance": 20
   }
 ]
-
