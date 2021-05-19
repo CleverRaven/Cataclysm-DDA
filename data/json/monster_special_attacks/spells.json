@@ -299,7 +299,7 @@
     "type": "SPELL",
     "id": "spread_sludge",
     "name": { "str": "Spread Sludge" },
-    "description": "sludge splatters along the ground.",
+    "description": "Sludge splatters along the ground.",
     "valid_targets": [ "hostile", "ground" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_PROJECTILE" ],
