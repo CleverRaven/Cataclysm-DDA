@@ -26,7 +26,7 @@
     "special_attacks": [ [ "BOOMER", 20 ], [ "scratch", 20 ] ],
     "death_drops": "default_zombie_items",
     "death_function": [ "BOOMER" ],
-    "upgrades": { "half_life": 14, "into": "mon_boomer_huge" },
+    "upgrades": { "half_life": 14, "into_group": "GROUP_ZOMBIE_BOOMER_UPGRADE" },
     "flags": [
       "SEES",
       "HEARS",
@@ -163,5 +163,69 @@
     "death_drops": "default_zombie_items",
     "death_function": [ "GAS" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
+  },
+  {
+    "id": "mon_boomer_glutton",
+    "type": "MONSTER",
+    "name": "boomer glutton",
+    "description": "A grotesque ball of flesh and fat. Seemingly vestigial limbs flop around haphazardly as it rolls across the ground. You occasionally catch a glimpse of bulging eyes and a distended gaping maw oozing some sort of black sludge.",
+    "default_faction": "zombie",
+    "bodytype": "blob",
+    "species": [ "ZOMBIE", "HUMAN" ],
+    "diff": 8,
+    "volume": "102500ml",
+    "weight": "180kg",
+    "hp": 150,
+    "speed": 75,
+    "material": [ "flesh" ],
+    "symbol": "Z",
+    "color": "i_light_red",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 4,
+    "melee_dice": 3,
+    "melee_dice_sides": 4,
+    "armor_bash": 10,
+    "armor_cut": 4,
+    "armor_bullet": 4,
+    "vision_night": 5,
+    "harvest": "zombie_meatslug",
+    "emit_fields": [ { "emit_id": "emit_sludge_puddle", "delay": "1 s" } ],
+    "special_attacks": [ 
+      [ "BOOMER", 21 ],
+      [ "ABSORB_MEAT", 2 ],
+      { 
+        "type": "bite", 
+        "cooldown": 1,
+        "no_infection_chance": 3,
+        "min_mul": 0.75,
+        "max_mul": 1.25,
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 10, "armor_multiplier": 0.5 } ]
+      },
+      {
+       "type": "spell",
+       "spell_data": { "id": "spread_sludge", "min_level": 1 },
+       "cooldown": 28,
+       "monster_message": "the glutton vomits sludge!"
+      }
+    ],
+    "death_drops": "default_zombie_items",
+    "death_function": [ "BOOMER", "NORMAL" ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "WARM",
+      "POISON",
+      "NO_BREATHE",
+      "REVIVES",
+      "FILTHY",
+      "FAT",
+      "BASHES",
+      "BILE_BLOOD",
+      "PUSH_MON",
+      "PACIFIST",
+      "SLUDGEPROOF"
+    ]
   }
 ]

@@ -294,5 +294,27 @@
     "effect": "summon",
     "effect_str": "mon_dermatik_larva",
     "extra_effects": [ { "id": "frog_mother_hurt_self", "hit_self": true } ]
-  }
+  },
+  {
+    "type": "SPELL",
+    "id": "spread_sludge",
+    "name": { "str": "Spread Sludge" },
+    "description": "sludge splatters along the ground.",
+    "valid_targets": [ "hostile", "ground" ],
+    "max_level": 1,
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_PROJECTILE" ],
+    "min_aoe": 45,
+    "max_aoe": 45,
+    "base_casting_time": 75,
+    "min_range": 5,
+    "max_range": 5,
+    "effect": "attack",
+    "shape": "cone",
+    "field_id": "fd_sludge",
+    "field_chance": 2,   
+    "min_field_intensity": 3,
+    "max_field_intensity": 3,
+    "min_duration": 750,
+    "max_duration": 1500
+   }
 ]
