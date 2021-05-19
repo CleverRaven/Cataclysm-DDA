@@ -256,14 +256,15 @@ void item_pricing::adjust_values( const double adjust, const faction *fac )
     }
 }
 
-std::vector<item_pricing*> item_pricing::get_contents_rec(){
-	std::vector<item_pricing *> tmp;
+std::vector<item_pricing *> item_pricing::get_contents_rec()
+{
+    std::vector<item_pricing *> tmp;
 
-    if ( this->is_container && this->contents.size() ) {
-        for ( item_pricing *ip : this->contents ) {
-            tmp.push_back(ip);
+    if( this->is_container && this->contents.size() ) {
+        for( item_pricing *ip : this->contents ) {
+            tmp.push_back( ip );
 
-            if ( ip->is_container && ip->contents.size() ) {
+            if( ip->is_container && ip->contents.size() ) {
                 std::vector<item_pricing *> v_ip = ip->get_contents_rec();
                 tmp.insert( tmp.end(), v_ip.begin(), v_ip.end() );
             }
@@ -273,25 +274,26 @@ std::vector<item_pricing*> item_pricing::get_contents_rec(){
     return tmp;
 }
 
-void item_pricing::populate_container_pointers( std::vector<item_pricing> &trading ) {
+void item_pricing::populate_container_pointers( std::vector<item_pricing> &trading )
+{
 
-    for ( item_pricing &ip : trading) {
+    for( item_pricing &ip : trading ) {
         // set parent container
-        ip.parent = 0;
-        if ( ip.loc.has_parent() ) {
-            for ( item_pricing &ip2 : trading ) {
-                if ( ip2.loc.get_item() == ip.loc.parent_item().get_item() ) {
+        ip.parent = nullptr;
+        if( ip.loc.has_parent() ) {
+            for( item_pricing &ip2 : trading ) {
+                if( ip2.loc.get_item() == ip.loc.parent_item().get_item() ) {
                     ip.parent = &ip2;
                     break;
                 }
             }
         }
-        
+
         // get contained items
-        if ( ip.is_container ) {
-            for ( item_pricing &ip2 : trading ) {
-                for ( item *contained : ip.loc.get_item()->contents.all_items_top() ) {
-                    if ( contained == ip2.loc.get_item() ) {
+        if( ip.is_container ) {
+            for( item_pricing &ip2 : trading ) {
+                for( item *contained : ip.loc.get_item()->contents.all_items_top() ) {
+                    if( contained == ip2.loc.get_item() ) {
                         ip.contents.push_back( &ip2 );
                     }
                 }
@@ -667,37 +669,40 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
 
                 // We make the assumption that reaching SELECTED=1 and MARKED=0 is impossible.
                 // see npctrade.h for difference between variables.
-                if ( !ip.selected && ip.marked ) {
+                if( !ip.selected && ip.marked )
+                {
                     ip.marked = false;
-                }
-                else {
+                } else
+                {
                     ip.selected = !ip.selected;
                     ip.marked = !ip.marked;
                 }
 
                 // get_change_amount() depends on ip.selected and ip.marked, so it needs to be executed
-                // after the selection has been changed. 
+                // after the selection has been changed.
                 int change_amount = get_change_amount( ip, true );
-                if ( change_amount < 1 ) {
+                if( change_amount < 1 )
+                {
                     ip.marked = old_is_marked;
                     ip.selected = old_is_selected;
-                    continue; 
+                    continue;
                 }
 
                 // Don't trade items in sealed containers without their container.
-                if ( ip.selected && ip.loc.has_parent() ) {
-                    item_contents::sealed_summary sealed_container = ip.loc.parent_item()->contents.get_sealed_summary();
+                if( ip.selected && ip.loc.has_parent() )
+                {
+                    item_contents::sealed_summary sealed_container =
+                        ip.loc.parent_item()->contents.get_sealed_summary();
 
-                    if ( sealed_container == item_contents::sealed_summary::all_sealed ) {
-                        popup("Cannot trade contents of sealed containers!");
+                    if( sealed_container == item_contents::sealed_summary::all_sealed ) {
+                        popup( "Cannot trade contents of sealed containers!" );
                         ip.selected = false;
                         ip.marked = false;
                         continue;
-                    }
-                    else if ( sealed_container == item_contents::sealed_summary::part_sealed ) {
-                        const item_pocket* pocket = ip.loc.parent_item()->contents.contained_where( *ip.loc.get_item() );
-                        if ( pocket->sealed() ) {
-                            popup("Cannot trade contents of sealed containers!");
+                    } else if( sealed_container == item_contents::sealed_summary::part_sealed ) {
+                        const item_pocket *pocket = ip.loc.parent_item()->contents.contained_where( *ip.loc.get_item() );
+                        if( pocket->sealed() ) {
+                            popup( "Cannot trade contents of sealed containers!" );
                             ip.selected = false;
                             ip.marked = false;
                             continue;
@@ -706,55 +711,54 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
                 }
 
                 // If current item is a container, SELECT and MARK the container. Only MARK all of the contents.
-                if ( ip.is_container ) {
+                if( ip.is_container )
+                {
                     std::vector<item_pricing *> contents = ip.get_contents_rec();
 
-					for ( item_pricing* content : contents ) {
-						// Only toggle whether item is selected, if its state is different from the container's 
-						// Otherwise deselecting the container, selects the item inside, which makes no sense from UX standpoint
-						if ( content->marked != ip.marked ) {
-							content->marked = !content->marked;
-							// make sure we are trading the whole stack
-							get_change_amount( *content, false );
-						}
-						// Handles price calculation, when you've selected few individual items from a container
-						// and then select the entire container. 
-						// The state that the container is deselected, but some ( not all! ) of it's contents remain selected shouldn't happen
-						else if ( ip.selected && content->selected ) {
+                    for( item_pricing *content : contents ) {
+                        // Only toggle whether item is selected, if its state is different from the container's
+                        // Otherwise deselecting the container, selects the item inside, which makes no sense from UX standpoint
+                        if( content->marked != ip.marked ) {
+                            content->marked = !content->marked;
+                            // make sure we are trading the whole stack
+                            get_change_amount( *content, false );
+                        }
+                        // Handles price calculation, when you've selected few individual items from a container
+                        // and then select the entire container.
+                        // The state that the container is deselected, but some ( not all! ) of it's contents remain selected shouldn't happen
+                        else if( ip.selected && content->selected ) {
                             content->selected = false;
                             int change_amount = get_change_amount( *content, false );
                             adjust_balance( *content, np, change_amount * -1 );
 
-						}
-					}
+                        }
+                    }
                 }
-
 
                 // If we deselected an item inside a container, we also want to deselect the container itself,
                 // cause it would be difficult to handle selling a whole container without one item inside.
-                if ( !ip.selected && !ip.marked && ip.parent && ip.parent->marked ) {
+                if( !ip.selected && !ip.marked && ip.parent && ip.parent->marked )
+                {
 
                     item_pricing *ip_container = &ip;
 
-                    while ( ip_container->parent ) {
+                    while( ip_container->parent ) {
                         // Found the top-most selected container
-                        if ( ip_container->parent->selected ) {
+                        if( ip_container->parent->selected ) {
                             ip_container = ip_container->parent;
                             ip_container->selected = false;
                             ip_container->marked = false;
 
                             adjust_balance( *ip_container, np, 1 );
                             break;
-                        }
-                        else if ( !ip_container->parent->selected && ip_container->parent->marked ) {
+                        } else if( !ip_container->parent->selected && ip_container->parent->marked ) {
                             ip_container = ip_container->parent;
                             ip_container->marked = false;
-                        }
-                        else {
+                        } else {
                             break;
                         }
                     }
-                    
+
                     // Because the @item_pricing of the container includes price and weigth of the individual items,
                     // after deselecting the container itself, go through once more and add the @item_pricing of the remaining selected items.
                     // We want to find orphaned containers, that are marked for trade, and we want to SELECT them too. If we treat them as regular items,
@@ -762,23 +766,23 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
                     std::queue<item_pricing *> nodes;
                     nodes.push( ip_container );
 
-                    while ( nodes.size() ) {
+                    while( nodes.size() ) {
                         item_pricing *current = nodes.front();
 
-                        for ( item_pricing* ip2 : current->contents ) {
+                        for( item_pricing *ip2 : current->contents ) {
                             // We found an orphaned subcontainer. SELECT it for trading. Its contents should be already marked
-                            if ( ip2->is_container && ip2->marked && ip2->contents.size() ) {
+                            if( ip2->is_container && ip2->marked && ip2->contents.size() ) {
                                 ip2->selected = true;
                                 adjust_balance( *ip2, np, 1 );
                             }
                             // regular item or container without contents. Treat as a regular item, i.e select for trading and add price
-                            else if ( ip2->marked ) {
+                            else if( ip2->marked ) {
                                 ip2->selected = true;
                                 ip2->marked = true;
                                 adjust_balance( *ip2, np, get_change_amount( *ip2, false ) );
                             }
                             // unmarked container. we have to make sure that we check it for orphaned unselected items or orphaned containers
-                            else if ( !ip2->marked && ip2->contents.size() ) {
+                            else if( !ip2->marked && ip2->contents.size() ) {
                                 nodes.push( ip2 );
                             }
 
@@ -788,60 +792,64 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
                     continue;
                 }
                 adjust_balance( ip, np, change_amount );
-            }
-        }
-    }
+                }
+                }
+                }
 
-    return confirm;
-}
+                return confirm;
+                }
 
-// Recalculates the money, volume, and weight balance
-// As a rule of thumb you want to adjust balance only for items that have been SELECTED.
-// If an item is marked it means it's inside a selected container, and its price is already taken into account.
-void trading_window::adjust_balance( item_pricing &ip, npc &np, int change_amount ) {
-    if( ( ip.selected || ip.marked ) != focus_them ) {
-        change_amount *= -1;
-    }
-    int delta_price = ip.price * change_amount;
-    if( !np.will_exchange_items_freely() ) {
-        your_balance -= delta_price;
-    }
-    if( ip.loc.where() == item_location::type::character ) {
-        volume_left += ip.vol * change_amount;
-        weight_left += ip.weight * change_amount;
-    }
-}
+                // Recalculates the money, volume, and weight balance
+                // As a rule of thumb you want to adjust balance only for items that have been SELECTED.
+                // If an item is marked it means it's inside a selected container, and its price is already taken into account.
+                void trading_window::adjust_balance( item_pricing &ip, npc &np, int change_amount )
+                {
+                    if( ( ip.selected || ip.marked ) != focus_them ) {
+                        change_amount *= -1;
+                    }
+                    int delta_price = ip.price * change_amount;
+                    if( !np.will_exchange_items_freely() ) {
+                        your_balance -= delta_price;
+                    }
+                    if( ip.loc.where() == item_location::type::character ) {
+                        volume_left += ip.vol * change_amount;
+                        weight_left += ip.weight * change_amount;
+                    }
+                }
 
-// Returns the amount of money that needs to be charged. 
-// @manual checks whether the user should be asked for input. If True, then the function may return < 1,
-// which is usually means the user has cancelled the input, so you need to handle this appropriately.
-// If manual is False, then the whole item stack is selected / deselected for trading.
-int trading_window::get_change_amount( item_pricing &ip, bool manual ){
-    int change_amount = 1;
-    int &owner_sells = focus_them ? ip.u_has : ip.npc_has;
-    int &owner_sells_charge = focus_them ? ip.u_charges : ip.npc_charges;
+                // Returns the amount of money that needs to be charged.
+                // @manual checks whether the user should be asked for input. If True, then the function may return < 1,
+                // which is usually means the user has cancelled the input, so you need to handle this appropriately.
+                // If manual is False, then the whole item stack is selected / deselected for trading.
+                int trading_window::get_change_amount( item_pricing &ip, bool manual )
+                {
+                    int change_amount = 1;
+                    int &owner_sells = focus_them ? ip.u_has : ip.npc_has;
+                    int &owner_sells_charge = focus_them ? ip.u_charges : ip.npc_charges;
 
-    // This the item has been just deselected for trading.
-    if( !ip.selected && !ip.marked ) {
-        if( owner_sells_charge > 0 ) {
-            change_amount = owner_sells_charge;
-            owner_sells_charge = 0;
-        } else if( owner_sells > 0 ) {
-            change_amount = owner_sells;
-            owner_sells = 0;
-        }
-    } else if( ip.charges > 0 ) {
-        change_amount = manual ? get_var_trade( *ip.loc.get_item(), ip.charges ) : ( owner_sells_charge ? owner_sells_charge : ip.charges );
-        owner_sells_charge = change_amount;
-    } else {
-        if ( ip.count > 1 ) {
-            change_amount = manual ? get_var_trade(*ip.loc.get_item(), ip.count) : ( owner_sells ? owner_sells : ip.count );
-        }
-        owner_sells = change_amount;
-    }
+                    // This the item has been just deselected for trading.
+                    if( !ip.selected && !ip.marked ) {
+                        if( owner_sells_charge > 0 ) {
+                            change_amount = owner_sells_charge;
+                            owner_sells_charge = 0;
+                        } else if( owner_sells > 0 ) {
+                            change_amount = owner_sells;
+                            owner_sells = 0;
+                        }
+                    } else if( ip.charges > 0 ) {
+                        change_amount = manual ? get_var_trade( *ip.loc.get_item(),
+                                                                ip.charges ) : ( owner_sells_charge ? owner_sells_charge : ip.charges );
+                        owner_sells_charge = change_amount;
+                    } else {
+                        if( ip.count > 1 ) {
+                            change_amount = manual ? get_var_trade( *ip.loc.get_item(),
+                                                                    ip.count ) : ( owner_sells ? owner_sells : ip.count );
+                        }
+                        owner_sells = change_amount;
+                    }
 
-    return change_amount;
-}
+                    return change_amount;
+                }
 
 // Returns how much the NPC will owe you after this transaction.
 // You must also check if they will accept the trade.
