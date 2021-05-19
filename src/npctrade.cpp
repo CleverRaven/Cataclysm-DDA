@@ -792,64 +792,64 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
                     continue;
                 }
                 adjust_balance( ip, np, change_amount );
-                }
-                }
-                }
+            }
+        }
+    }
 
-                return confirm;
-                }
+return confirm;
+}
 
-                // Recalculates the money, volume, and weight balance
-                // As a rule of thumb you want to adjust balance only for items that have been SELECTED.
-                // If an item is marked it means it's inside a selected container, and its price is already taken into account.
-                void trading_window::adjust_balance( item_pricing &ip, npc &np, int change_amount )
-                {
-                    if( ( ip.selected || ip.marked ) != focus_them ) {
-                        change_amount *= -1;
-                    }
-                    int delta_price = ip.price * change_amount;
-                    if( !np.will_exchange_items_freely() ) {
-                        your_balance -= delta_price;
-                    }
-                    if( ip.loc.where() == item_location::type::character ) {
-                        volume_left += ip.vol * change_amount;
-                        weight_left += ip.weight * change_amount;
-                    }
-                }
+// Recalculates the money, volume, and weight balance
+// As a rule of thumb you want to adjust balance only for items that have been SELECTED.
+// If an item is marked it means it's inside a selected container, and its price is already taken into account.
+void trading_window::adjust_balance( item_pricing &ip, npc &np, int change_amount )
+{
+    if( ( ip.selected || ip.marked ) != focus_them ) {
+        change_amount *= -1;
+    }
+    int delta_price = ip.price * change_amount;
+    if( !np.will_exchange_items_freely() ) {
+        your_balance -= delta_price;
+    }
+    if( ip.loc.where() == item_location::type::character ) {
+        volume_left += ip.vol * change_amount;
+        weight_left += ip.weight * change_amount;
+    }
+}
 
-                // Returns the amount of money that needs to be charged.
-                // @manual checks whether the user should be asked for input. If True, then the function may return < 1,
-                // which is usually means the user has cancelled the input, so you need to handle this appropriately.
-                // If manual is False, then the whole item stack is selected / deselected for trading.
-                int trading_window::get_change_amount( item_pricing &ip, bool manual )
-                {
-                    int change_amount = 1;
-                    int &owner_sells = focus_them ? ip.u_has : ip.npc_has;
-                    int &owner_sells_charge = focus_them ? ip.u_charges : ip.npc_charges;
+// Returns the amount of money that needs to be charged.
+// @manual checks whether the user should be asked for input. If True, then the function may return < 1,
+// which is usually means the user has cancelled the input, so you need to handle this appropriately.
+// If manual is False, then the whole item stack is selected / deselected for trading.
+int trading_window::get_change_amount( item_pricing &ip, bool manual )
+{
+    int change_amount = 1;
+    int &owner_sells = focus_them ? ip.u_has : ip.npc_has;
+    int &owner_sells_charge = focus_them ? ip.u_charges : ip.npc_charges;
 
-                    // This the item has been just deselected for trading.
-                    if( !ip.selected && !ip.marked ) {
-                        if( owner_sells_charge > 0 ) {
-                            change_amount = owner_sells_charge;
-                            owner_sells_charge = 0;
-                        } else if( owner_sells > 0 ) {
-                            change_amount = owner_sells;
-                            owner_sells = 0;
-                        }
-                    } else if( ip.charges > 0 ) {
-                        change_amount = manual ? get_var_trade( *ip.loc.get_item(),
-                                                                ip.charges ) : ( owner_sells_charge ? owner_sells_charge : ip.charges );
-                        owner_sells_charge = change_amount;
-                    } else {
-                        if( ip.count > 1 ) {
-                            change_amount = manual ? get_var_trade( *ip.loc.get_item(),
-                                                                    ip.count ) : ( owner_sells ? owner_sells : ip.count );
-                        }
-                        owner_sells = change_amount;
-                    }
+    // This the item has been just deselected for trading.
+    if( !ip.selected && !ip.marked ) {
+        if( owner_sells_charge > 0 ) {
+            change_amount = owner_sells_charge;
+            owner_sells_charge = 0;
+        } else if( owner_sells > 0 ) {
+            change_amount = owner_sells;
+            owner_sells = 0;
+        }
+    } else if( ip.charges > 0 ) {
+        change_amount = manual ? get_var_trade( *ip.loc.get_item(),
+                                                ip.charges ) : ( owner_sells_charge ? owner_sells_charge : ip.charges );
+        owner_sells_charge = change_amount;
+    } else {
+        if( ip.count > 1 ) {
+            change_amount = manual ? get_var_trade( *ip.loc.get_item(),
+                                                    ip.count ) : ( owner_sells ? owner_sells : ip.count );
+        }
+        owner_sells = change_amount;
+    }
 
-                    return change_amount;
-                }
+    return change_amount;
+}
 
 // Returns how much the NPC will owe you after this transaction.
 // You must also check if they will accept the trade.
