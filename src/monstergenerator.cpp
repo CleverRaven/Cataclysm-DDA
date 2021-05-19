@@ -635,13 +635,13 @@ mon_effect_data load_mon_effect_data( const JsonObject &e )
 class mon_attack_effect_reader : public generic_typed_reader<mon_attack_effect_reader>
 {
     public:
-        mon_effect_data get_next( JsonIn &jin ) const {
-            JsonObject e = jin.get_object();
+        mon_effect_data get_next( JsonValue &jv ) const {
+            JsonObject e = jv.get_object();
             return load_mon_effect_data( e );
         }
         template<typename C>
-        void erase_next( JsonIn &jin, C &container ) const {
-            const efftype_id id = efftype_id( jin.get_string() );
+        void erase_next( std::string &&eff_str, C &container ) const {
+            const efftype_id id = efftype_id( std::move( eff_str ) );
             reader_detail::handler<C>().erase_if( container, [&id]( const mon_effect_data & e ) {
                 return e.id == id;
             } );

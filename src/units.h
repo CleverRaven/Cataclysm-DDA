@@ -913,8 +913,9 @@ static const std::vector<std::pair<std::string, angle>> angle_units = { {
 };
 } // namespace units
 
-namespace
+namespace detail
 {
+
 template<typename T, typename Error>
 T read_from_json_string_common( const std::string &s,
                                 const std::vector<std::pair<std::string, T>> &units, Error &&error )
@@ -970,7 +971,8 @@ T read_from_json_string_common( const std::string &s,
     } while( !skip_spaces() );
     return result;
 }
-}
+
+} // namespace detail
 
 template<typename T>
 T read_from_json_string( JsonIn &jsin, const std::vector<std::pair<std::string, T>> &units )
@@ -983,7 +985,7 @@ T read_from_json_string( JsonIn &jsin, const std::vector<std::pair<std::string, 
 
     const std::string s = jsin.get_string();
 
-    return read_from_json_string_common<T>( s, units, error );
+    return detail::read_from_json_string_common<T>( s, units, error );
 }
 
 template<typename T>
@@ -995,7 +997,7 @@ T read_from_json_string( const JsonValue &jv, const std::vector<std::pair<std::s
 
     const std::string s = jv;
 
-    return read_from_json_string_common<T>( s, units, error );
+    return detail::read_from_json_string_common<T>( s, units, error );
 }
 
 template<typename T>

@@ -530,6 +530,7 @@ void translation::deserialize( JsonIn &jsin )
     cached_language_version = INVALID_LANGUAGE_VERSION;
     cached_num = 0;
     cached_translation = nullptr;
+    int end_offset = jsin.tell();
 
     if( jsin.test_string() ) {
         ctxt = nullptr;
@@ -538,14 +539,20 @@ void translation::deserialize( JsonIn &jsin )
             // strings with plural forms are currently only simple names, and
             // need no text style check.
             raw = jsin.get_string();
+            end_offset = jsin.tell();
             raw_pl = cata::make_value<std::string>( raw + "s" );
         } else {
+            // We know it's a string, we need to save the offset after the string.
+            JsonValue jv = jsin.get_value();
+            jv.get_string();
+            end_offset = jsin.tell();
             raw = text_style_check_reader( text_style_check_reader::allow_object::no )
-                  .get_next( jsin );
+                  .get_next( jv );
         }
         needs_translation = true;
     } else {
         JsonObject jsobj = jsin.get_object();
+        end_offset = jsin.tell();
         if( jsobj.has_member( "ctxt" ) ) {
             ctxt = cata::make_value<std::string>( jsobj.get_string( "ctxt" ) );
         } else {
@@ -578,7 +585,7 @@ void translation::deserialize( JsonIn &jsin )
                 raw = jsobj.get_string( "str" );
             } else {
                 raw = text_style_check_reader( text_style_check_reader::allow_object::no )
-                      .get_next( *jsobj.get_raw( "str" ) );
+                      .get_next( jsobj.get_member( "str" ) );
             }
             // if plural form is enabled
             if( raw_pl ) {
@@ -614,6 +621,7 @@ void translation::deserialize( JsonIn &jsin )
         }
         needs_translation = true;
     }
+    jsin.seek( end_offset );
 }
 
 std::string translation::translated( const int num ) const
@@ -742,36 +750,24 @@ text_style_check_reader::text_style_check_reader( const allow_object object_allo
 {
 }
 
-std::string text_style_check_reader::get_next( JsonIn &jsin ) const
+std::string text_style_check_reader::get_next( JsonValue jv ) const
 {
-#ifndef CATA_IN_TOOL
-    int origin = 0;
-#endif
+    const JsonValue &jsin = jv;
     std::string raw;
     bool check_style = true;
     if( object_allowed == allow_object::yes && jsin.test_object() ) {
         JsonObject jsobj = jsin.get_object();
-#ifndef CATA_IN_TOOL
-        if( test_mode ) {
-            origin = jsobj.get_raw( "str" )->tell();
-        }
-#endif
         raw = jsobj.get_string( "str" );
         if( jsobj.has_member( "//NOLINT(cata-text-style)" ) ) {
             check_style = false;
         }
     } else {
-#ifndef CATA_IN_TOOL
-        if( test_mode ) {
-            origin = jsin.tell();
-        }
-#endif
         raw = jsin.get_string();
     }
 #ifndef CATA_IN_TOOL
     if( test_mode && check_style ) {
         const auto text_style_callback =
-            [&jsin, origin]
+            [&jsin]
             ( const text_style_fix type, const std::string & msg,
               const std::u32string::const_iterator & beg, const std::u32string::const_iterator & /*end*/,
               const std::u32string::const_iterator & /*at*/,
@@ -797,16 +793,11 @@ std::string text_style_check_reader::get_next( JsonIn &jsin ) const
                           + "    At the following position (marked with caret)";
                     break;
             }
-            const int previous_pos = jsin.tell();
             try {
-                jsin.seek( origin );
                 jsin.string_error( err, std::distance( beg, to ) );
             } catch( const JsonError &e ) {
                 debugmsg( "(json-error)\n%s", e.what() );
             }
-            // seek to previous pos (end of string) so subsequent json input
-            // can continue.
-            jsin.seek( previous_pos );
         };
 
         const std::u32string raw32 = utf8_to_utf32( raw );
