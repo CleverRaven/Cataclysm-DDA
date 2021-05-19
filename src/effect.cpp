@@ -819,7 +819,7 @@ void effect::set_duration( const time_duration &dur, bool alert )
         set_intensity( duration / eff_type->int_dur_factor + 1, alert );
     }
 
-    add_msg_debug( "ID: %s, Duration %s", get_id().c_str(), to_string( duration ) );
+    //add_msg_debug( "ID: %s, Duration %s", get_id().c_str(), to_string( duration ) );
 }
 void effect::mod_duration( const time_duration &dur, bool alert )
 {
@@ -897,11 +897,13 @@ int effect::set_intensity( int val, bool alert )
                  eff_type->decay_msgs[ val - 1 ].first.translated() );
     }
 
-    int old_intensity = intensity;
+    //int old_intensity = intensity;
     intensity = val;
+    /*
     if( old_intensity != intensity ) {
         add_msg_debug( "%s intensity %d->%d", get_id().c_str(), old_intensity, intensity );
     }
+    */
 
     return intensity;
 }
