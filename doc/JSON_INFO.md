@@ -554,13 +554,13 @@ This section describes each json file and their contents. Each json has their ow
 
 | Identifier        | Description
 |---                |---
-| id                | Unique ID. Must be one continuous word, use underscores if necessary.
+| id                | ID string that matches the ID of the item json the ascii art is displayed for.
 | picture           | Array of string, each entry is a line of an ascii picture and must be at most 41 columns long. \ have to be replaced by \\\ in order to be visible.
 
 ```C++
   {
     "type": "ascii_art",
-    "id": "cashcard",
+    "id": "cash_card",
     "picture": [
       "",
       "",
@@ -579,7 +579,7 @@ This section describes each json file and their contents. Each json has their ow
     ]
   }
 ```
-For information about tools with option to export ASCII art in format ready to be pasted into `ascii_arts.json`, see `ASCII_ARTS.md`.
+For information about tools with option to export ASCII art in format ready to be pasted into `data/json/ascii_art/`, see `ASCII_ARTS.md`.
 
 ### Body_parts
 
