@@ -887,7 +887,6 @@ void Item_factory::init()
     add_iuse( "CHEW", &iuse::chew );
     add_iuse( "RPGDIE", &iuse::rpgdie );
     add_iuse( "BIRDFOOD", &iuse::feedbird );
-    add_iuse( "BURROW", &iuse::burrow );
     add_iuse( "CHOP_TREE", &iuse::chop_tree );
     add_iuse( "CHOP_LOGS", &iuse::chop_logs );
     add_iuse( "CIRCSAW_ON", &iuse::circsaw_on );
@@ -1127,10 +1126,6 @@ void Item_factory::check_definitions() const
                     msg += "is bigger on the inside.  consider using TARDIS flag.\n";
                 }
             }
-        }
-
-        if( !type->picture_id.is_empty() && !type->picture_id.is_valid() ) {
-            msg +=  "item has unknown ascii_picture.";
         }
 
         int mag_pocket_number = 0;
@@ -2887,7 +2882,6 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     assign( jo, "explode_in_fire", def.explode_in_fire );
     assign( jo, "insulation", def.insulation_factor );
     assign( jo, "solar_efficiency", def.solar_efficiency );
-    assign( jo, "ascii_picture", def.picture_id );
 
     if( jo.has_member( "thrown_damage" ) ) {
         def.thrown_damage = load_damage_instance( jo.get_array( "thrown_damage" ) );

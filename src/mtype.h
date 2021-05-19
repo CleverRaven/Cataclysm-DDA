@@ -203,8 +203,6 @@ struct mtype {
         translation name;
         translation description;
 
-        ascii_art_id picture_id;
-
         enum_bitset<m_flag> flags;
 
         enum_bitset<mon_trigger> anger;
@@ -387,7 +385,6 @@ struct mtype {
         itype_id get_meat_itype() const;
         int get_meat_chunks_count() const;
         std::string get_description() const;
-        ascii_art_id get_picture_id() const;
         std::string get_footsteps() const;
         void set_strategy();
         void add_goal( const std::string &goal_id );
