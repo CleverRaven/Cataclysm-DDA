@@ -5,7 +5,7 @@
     "result": "mutagen_raptor",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
-    "skill_used": "cooking",
+    "skill_used": "chemistry",
     "skills_required": [ "firstaid", 1 ],
     "difficulty": 9,
     "time": 10000,
@@ -17,5 +17,75 @@
       [ [ "egg_dino", 1 ], [ "egg_velociraptor", 1 ], [ "egg_deinonychus", 1 ], [ "egg_utahraptor", 1 ] ],
       [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "mutagen_stego",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_MUTAGEN",
+    "skill_used": "chemistry",
+    "skills_required": [ "firstaid", 1 ],
+    "difficulty": 9,
+    "time": 10000,
+    "book_learn": [ [ "kiernans_notes", 9 ] ],
+    "qualities": [ { "id": "CHEM", "level": 3 } ],
+    "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
+    "components": [
+      [ [ "mutagen", 1 ] ],
+      [ [ "egg_dino", 1 ], [ "egg_ankylosaurus", 1 ], [ "egg_stegosaurus", 1 ], [ "egg_pachycephalosaurus", 1 ] ],
+      [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "mutagen_tyrant",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_MUTAGEN",
+    "skill_used": "chemistry",
+    "skills_required": [ "firstaid", 1 ],
+    "difficulty": 9,
+    "time": 10000,
+    "book_learn": [ [ "kiernans_notes", 9 ] ],
+    "qualities": [ { "id": "CHEM", "level": 3 } ],
+    "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
+    "components": [
+      [ [ "mutagen", 1 ] ],
+      [ [ "egg_dino", 1 ], [ "egg_allosaurus", 1 ], [ "egg_acrocanthosaurus", 1 ], [ "egg_tyrannosaurus", 1 ] ],
+      [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "iv_mutagen_tyrant",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_MUTAGEN",
+    "skill_used": "chemistry",
+    "skills_required": [ "firstaid", 3 ],
+    "difficulty": 7,
+    "time": "2 h",
+    "batch_time_factors": [ 20, 5 ],
+    "book_learn": [ [ "kiernans_notes", 9 ] ],
+    "using": [ [ "serum_production_standard", 37 ] ],
+    "components": [ [ [ "mutagen_tyrant", 2 ] ] ],
+    "flags": [ "SECRET" ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "iv_mutagen_stego",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_MUTAGEN",
+    "skill_used": "chemistry",
+    "skills_required": [ "firstaid", 3 ],
+    "difficulty": 7,
+    "time": "2 h",
+    "batch_time_factors": [ 20, 5 ],
+    "book_learn": [ [ "kiernans_notes", 9 ] ],
+    "using": [ [ "serum_production_standard", 37 ] ],
+    "components": [ [ [ "mutagen_stego", 2 ] ] ],
+    "flags": [ "SECRET" ]
   }
 ]

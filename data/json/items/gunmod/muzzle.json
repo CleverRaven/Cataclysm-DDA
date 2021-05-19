@@ -1,26 +1,5 @@
 [
   {
-    "id": "barrel_ported",
-    "type": "GUNMOD",
-    "name": { "str": "ported barrel" },
-    "description": "A ported barrel redirects exhaust gases to compensate for muzzle climb, improves recoil but increases noise and reduces accuracy slightly.",
-    "weight": "225 g",
-    "integral_weight": "0 g",
-    "volume": "200 ml",
-    "price": 72000,
-    "price_postapoc": 500,
-    "install_time": "5 m",
-    "material": [ "steel" ],
-    "symbol": ":",
-    "color": "light_gray",
-    "location": "muzzle",
-    "mod_targets": [ "smg", "rifle", "pistol", "shotgun" ],
-    "dispersion_modifier": 15,
-    "handling_modifier": 4,
-    "loudness_modifier": 8,
-    "min_skills": [ [ "weapon", 5 ] ]
-  },
-  {
     "id": "muzzle_brake",
     "type": "GUNMOD",
     "name": { "str": "muzzle brake" },

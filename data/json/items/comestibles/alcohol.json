@@ -576,7 +576,7 @@
   {
     "type": "COMESTIBLE",
     "id": "drink_screwdriver",
-    "name": "screwdriver cocktail",
+    "name": { "str": "screwdriver cocktail" },
     "weight": "258 g",
     "color": "yellow",
     "addiction_type": "alcohol",
@@ -1020,7 +1020,7 @@
   {
     "type": "COMESTIBLE",
     "id": "drink_strawberry_surprise",
-    "name": "strawberry surprise",
+    "name": { "str": "strawberry surprise" },
     "weight": "43 g",
     "color": "pink",
     "addiction_type": "alcohol",
@@ -1265,7 +1265,7 @@
   {
     "type": "COMESTIBLE",
     "id": "drink_wsour",
-    "name": "whiskey sour",
+    "name": { "str": "whiskey sour" },
     "weight": "249 g",
     "color": "yellow",
     "addiction_type": "alcohol",
@@ -1291,7 +1291,7 @@
   {
     "type": "COMESTIBLE",
     "id": "honey_gold",
-    "name": "honeygold brew",
+    "name": { "str": "honeygold brew" },
     "weight": "259 g",
     "color": "yellow",
     "use_action": [ "ALCOHOL_WEAK" ],
@@ -1317,7 +1317,7 @@
   {
     "type": "COMESTIBLE",
     "id": "honey_ant",
-    "name": "honey ball",
+    "name": { "str": "honey ball" },
     "weight": "178 g",
     "color": "yellow",
     "addiction_type": "alcohol",
@@ -1343,7 +1343,7 @@
   {
     "type": "COMESTIBLE",
     "id": "eggnog_spiked",
-    "name": "spiked eggnog",
+    "name": { "str": "spiked eggnog" },
     "weight": "132 g",
     "color": "white",
     "addiction_type": "alcohol",
@@ -1373,7 +1373,7 @@
   {
     "type": "COMESTIBLE",
     "id": "drink_martini",
-    "name": "martini",
+    "name": { "str": "martini" },
     "weight": "49600 mg",
     "color": "white",
     "addiction_type": "alcohol",
@@ -1400,7 +1400,7 @@
   {
     "type": "COMESTIBLE",
     "id": "drink_bloody_mary",
-    "name": "bloody mary cocktail",
+    "name": { "str": "bloody mary cocktail" },
     "weight": "258 g",
     "color": "red",
     "addiction_type": "alcohol",
@@ -1424,5 +1424,33 @@
     "freezing_point": -29,
     "fun": 25,
     "vitamins": [ [ "vitA", 2 ], [ "vitC", 23 ], [ "calcium", 1 ], [ "iron", 2 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "drink_hard_seltzer",
+    "name": { "str_sp": "hard seltzer" },
+    "weight": "249 g",
+    "color": "brown",
+    "addiction_type": "alcohol",
+    "use_action": [ "ALCOHOL_WEAK" ],
+    "stim": -4,
+    "container": "can_drink",
+    "comestible_type": "DRINK",
+    "symbol": "~",
+    "quench": 18,
+    "healthy": -1,
+    "addiction_potential": 2,
+    "calories": 70,
+    "description": "Alcoholic sparkling water.  Perfect for a hot summer day.",
+    "price": 260,
+    "price_postapoc": 100,
+    "material": [ "alcohol", "water" ],
+    "primary_material": "alcohol",
+    "volume": "250 ml",
+    "phase": "liquid",
+    "flags": [ "EATEN_COLD" ],
+    "freezing_point": 23,
+    "fun": 10,
+    "vitamins": [ [ "calcium", 1 ] ]
   }
 ]

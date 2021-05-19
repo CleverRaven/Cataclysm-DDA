@@ -2,7 +2,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sauce_red",
-    "name": "red sauce",
+    "name": { "str": "red sauce" },
     "weight": "64 g",
     "color": "red",
     "spoils_in": "3 days",
@@ -11,6 +11,7 @@
     "symbol": "%",
     "healthy": 1,
     "calories": 21,
+    "sealed": true,
     "description": "A minimally seasoned sauce of cooked tomatoes.",
     "price": 4,
     "price_postapoc": 50,
@@ -75,7 +76,7 @@
     "type": "COMESTIBLE",
     "symbol": "~",
     "color": "red",
-    "name": "ketchup",
+    "name": { "str": "ketchup" },
     "description": "A viscous paste of tomato, salt, and vinegar.",
     "price": 1875,
     "price_postapoc": 100,
@@ -252,13 +253,14 @@
     "quench": 1,
     "healthy": -1,
     "addiction_potential": 1,
+    "calories": 116,
     "description": "A thick syrup made of water and sugar strained through coffee grounds.  Can be used to flavor many foods and beverages.",
     "price": 800,
     "price_postapoc": 100,
     "material": [ "junk" ],
     "volume": "250 ml",
     "phase": "liquid",
-    "charges": 8,
+    "charges": 3,
     "fun": 6
   }
 ]

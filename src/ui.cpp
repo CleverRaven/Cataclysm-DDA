@@ -1,24 +1,25 @@
 #include "ui.h"
 
-#include <algorithm>
 #include <cctype>
+#include <algorithm>
 #include <climits>
 #include <cstdlib>
 #include <iterator>
 #include <memory>
+#include <set>
 
 #include "avatar.h"
-#include "cached_options.h"
+#include "cached_options.h" // IWYU pragma: keep
 #include "cata_assert.h"
 #include "cata_utility.h"
 #include "catacharset.h"
-#include "character.h"
 #include "game.h"
 #include "input.h"
 #include "memory_fast.h"
 #include "output.h"
 #include "sdltiles.h"
 #include "string_input_popup.h"
+#include "translations.h"
 #include "ui_manager.h"
 
 #if defined(__ANDROID__)
@@ -210,6 +211,15 @@ uilist::~uilist()
     shared_ptr_fast<ui_adaptor> current_ui = ui.lock();
     if( current_ui ) {
         current_ui->reset();
+    }
+}
+
+void uilist::color_error( const bool report )
+{
+    if( report ) {
+        _color_error = report_color_error::yes;
+    } else {
+        _color_error = report_color_error::no;
     }
 }
 
@@ -659,7 +669,8 @@ void uilist::show()
     int estart = 1;
     if( !textformatted.empty() ) {
         for( int i = 0; i < text_lines; i++ ) {
-            trim_and_print( window, point( 2, 1 + i ), getmaxx( window ) - 4, text_color, textformatted[i] );
+            trim_and_print( window, point( 2, 1 + i ), getmaxx( window ) - 4,
+                            text_color, _color_error, "%s", textformatted[i] );
         }
 
         mvwputch( window, point( 0, text_lines + 1 ), border_color, LINE_XXXO );
@@ -702,13 +713,14 @@ void uilist::show()
                 int y = estart + si;
                 entries[ei].drawn_rect.p_min = point( x, y );
                 entries[ei].drawn_rect.p_max = point( x + max_entry_len - 1, y );
-                trim_and_print( window, point( x, y ), max_entry_len, co, "%s", entry.c_str() );
+                trim_and_print( window, point( x, y ), max_entry_len,
+                                co, _color_error, "%s", entry.str() );
 
                 if( max_column_len && !entries[ ei ].ctxt.empty() ) {
                     const utf8_wrapper centry = utf8_wrapper( ei == selected ? remove_color_tags( entries[ ei ].ctxt ) :
                                                 entries[ ei ].ctxt );
                     trim_and_print( window, point( getmaxx( window ) - max_column_len - 2, estart + si ),
-                                    max_column_len, co, "%s", centry.c_str() );
+                                    max_column_len, co, _color_error, "%s", centry.str() );
                 }
             }
             mvwzstr menu_entry_extra_text = entries[ei].extratxt;
@@ -1037,7 +1049,7 @@ struct pointmenu_cb::impl_t {
     tripoint last_view; // to reposition the view after selecting
     shared_ptr_fast<game::draw_callback_t> terrain_draw_cb;
 
-    impl_t( const std::vector<tripoint> &pts );
+    explicit impl_t( const std::vector<tripoint> &pts );
     ~impl_t();
 
     void select( uilist *menu );

@@ -1,0 +1,7 @@
+{
+  "id": "yum_lichen_harv",
+  "type": "harvest",
+  "entries": [
+    { "drop": "yum_lichen", "base_num": [ 1, 4 ] }
+  ]
+}

@@ -498,7 +498,7 @@
   {
     "type": "COMESTIBLE",
     "id": "Dana_sourdough_bread",
-    "name": "Dana's sourdough bread",
+    "name": { "str": "Dana's sourdough bread" },
     "copy-from": "sourdough_bread",
     "looks_like": "sourdough_bread",
     "description": "This round loaf of bread has a thick, dark crust, and smells very enticing.",

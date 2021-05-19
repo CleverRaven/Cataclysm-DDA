@@ -900,7 +900,7 @@
     "symbol": "/",
     "color": "brown",
     "name": { "str": "quarterstaff", "str_pl": "quarterstaves" },
-    "description": "A smooth and sturdy staff with a leather-wrapped grip.  Light and well-balanced, it is surprisingly easy to handle.",
+    "description": "A smooth and sturdy staff.  Light and well-balanced, it is surprisingly easy to handle.",
     "price": 4000,
     "material": [ "wood" ],
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],

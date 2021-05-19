@@ -15,10 +15,12 @@
 #include <curses.h>
 #endif
 
+#include <cstdint>
+#include <cstring>
+#include <iosfwd>
 #include <langinfo.h>
 #include <memory>
 #include <stdexcept>
-#include <string>
 
 #include "cached_options.h"
 #include "catacharset.h"
@@ -39,9 +41,9 @@ catacurses::window catacurses::newwin( const int nlines, const int ncols, const 
 {
     // TODO: check for errors
     const auto w = ::newwin( nlines, ncols, begin.y, begin.x );
-    return std::shared_ptr<void>( w, []( void *const w ) {
+    return catacurses::window( std::shared_ptr<void>( w, []( void *const w ) {
         ::curses_check_result( ::delwin( static_cast<::WINDOW *>( w ) ), OK, "delwin" );
-    } );
+    } ) );
 }
 
 void catacurses::wnoutrefresh( const window &win )
@@ -89,14 +91,14 @@ int catacurses::getcury( const window &win )
     return ::getcury( win.get<::WINDOW>() );
 }
 
-void catacurses::wattroff( const window &win, const int attrs )
+void catacurses::wattroff( const window &win, const nc_color attrs )
 {
-    return curses_check_result( ::wattroff( win.get<::WINDOW>(), attrs ), OK, "wattroff" );
+    return curses_check_result( ::wattroff( win.get<::WINDOW>(), attrs.to_int() ), OK, "wattroff" );
 }
 
 void catacurses::wattron( const window &win, const nc_color &attrs )
 {
-    return curses_check_result( ::wattron( win.get<::WINDOW>(), attrs ), OK, "wattron" );
+    return curses_check_result( ::wattron( win.get<::WINDOW>(), attrs.to_int() ), OK, "wattron" );
 }
 
 void catacurses::wmove( const window &win, const point &p )
@@ -233,7 +235,7 @@ void catacurses::resizeterm()
 void catacurses::init_interface()
 {
     // ::endwin will free the pointer returned by ::initscr
-    stdscr = std::shared_ptr<void>( ::initscr(), []( void *const ) { } );
+    stdscr = window( std::shared_ptr<void>( ::initscr(), []( void *const ) { } ) );
     if( !stdscr ) {
         throw std::runtime_error( "initscr failed" );
     }

@@ -82,7 +82,7 @@
     "volume": "46 L",
     "weight": "60 kg",
     "hp": 70,
-    "relative": { "melee_dice": -1, "melee_dice_sides": 2, "melee_cut": 6 },
+    "relative": { "melee_dice": 1, "melee_dice_sides": 2, "melee_cut": 6 },
     "armor_cut": 30,
     "armor_bullet": 24,
     "armor_bash": 12,
@@ -90,8 +90,7 @@
     "special_attacks": [
       [ "SMASH", 45 ],
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
-    ],
-    "upgrades": { "half_life": 12, "into": "mon_skeleton_hulk" }
+    ]
   },
   {
     "id": "mon_wolf_skeleton",
@@ -272,7 +271,7 @@
   {
     "id": "mon_zoose_thorny",
     "type": "MONSTER",
-    "name": { "str": "thorny bear shambler" },
+    "name": { "str": "thorny moose shambler" },
     "copy-from": "mon_zoose",
     "description": "What once was a great moose is now covered with long, matted hair twisted with thorny vines that wrap together and then twist back into the body.  Long interlocking thorns wrap the antlers, dripping with a mysterious silvery liquid.",
     "species": [ "ZOMBIE", "PLANT" ],

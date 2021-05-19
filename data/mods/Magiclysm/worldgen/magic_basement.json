@@ -96,7 +96,7 @@
     "name": "magic door",
     "color": "brown",
     "symbol": "+",
-    "visibility": 1,
+    "visibility": 99,
     "avoidance": 99,
     "difficulty": 99,
     "action": "map_regen",

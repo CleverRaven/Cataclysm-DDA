@@ -2,20 +2,19 @@
 #ifndef CATA_SRC_IEXAMINE_H
 #define CATA_SRC_IEXAMINE_H
 
+#include <iosfwd>
 #include <list>
-#include <string>
 #include <tuple>
 #include <vector>
 
-#include "calendar.h"
 #include "optional.h"
 #include "ret_val.h"
 #include "type_id.h"
 
 class item;
 class player;
+class time_point;
 class vpart_reference;
-
 struct itype;
 struct tripoint;
 

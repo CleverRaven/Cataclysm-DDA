@@ -44,8 +44,8 @@ class pimpl : private std::unique_ptr<T>
         explicit pimpl( P && head, Args &&
                         ... args ) : std::unique_ptr<T>( new T( std::forward<P>( head ), std::forward<Args>( args )... ) ) { }
 
-        explicit pimpl( const pimpl<T> &rhs ) : std::unique_ptr<T>( new T( *rhs ) ) { }
-        explicit pimpl( pimpl<T> &&rhs ) noexcept : std::unique_ptr<T>( new T( std::move( *rhs ) ) ) { }
+        pimpl( const pimpl<T> &rhs ) : std::unique_ptr<T>( new T( *rhs ) ) { }
+        pimpl( pimpl<T> &&rhs ) noexcept : std::unique_ptr<T>( new T( std::move( *rhs ) ) ) { }
 
         pimpl<T> &operator=( const pimpl<T> &rhs ) {
             operator*() = *rhs;

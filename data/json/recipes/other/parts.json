@@ -619,6 +619,7 @@
     "skills_required": [ "mechanics", 1 ],
     "difficulty": 4,
     "time": "1 h",
+    "reversible": true,
     "autolearn": true,
     "using": [ [ "rope_natural", 4 ], [ "welding_standard", 10 ] ],
     "proficiencies": [
@@ -778,7 +779,6 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
-    "skills_required": [ "fabrication", 6 ],
     "difficulty": 6,
     "time": "2 h 30 m",
     "autolearn": true,

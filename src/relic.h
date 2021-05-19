@@ -2,10 +2,9 @@
 #ifndef CATA_SRC_RELIC_H
 #define CATA_SRC_RELIC_H
 
-#include <algorithm>
 #include <climits>
 #include <cmath>
-#include <string>
+#include <iosfwd>
 #include <utility>
 #include <vector>
 
@@ -13,11 +12,11 @@
 #include "item.h"
 #include "magic.h"
 #include "magic_enchantment.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "weighted_list.h"
 
+class Character;
 class Creature;
 class JsonIn;
 class JsonObject;

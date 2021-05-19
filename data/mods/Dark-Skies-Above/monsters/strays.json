@@ -795,7 +795,7 @@
     "name": { "str": "stray wretch", "str_pl": "stray wretches" },
     "description": "This blur of jagged, crystal-fused limbs and hair could have been anything from a housepet to a human at some point, but now it leaps and skitters around like something out of a nightmare.",
     "default_faction": "stray",
-    "looks_like": "mon_dog_zombie",
+    "looks_like": "mon_zombie_dog",
     "bodytype": "dog",
     "categories": [ "ALIEN" ],
     "species": [ "BIOCRYSTAL" ],

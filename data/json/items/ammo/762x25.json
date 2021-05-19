@@ -2,7 +2,7 @@
   {
     "id": "762_25",
     "type": "AMMO",
-    "name": { "str": "7.62x25mm JHP" },
+    "name": { "str_sp": "7.62x25mm JHP" },
     "description": "A commercial version of the 7.62x25mm cartridge created for the armed forces of Soviet Russia.  It was derived from the 7.63x25mm cartridge used by the C96 pistol.",
     "weight": "10 g",
     "volume": "107 ml",
@@ -35,7 +35,7 @@
     "id": "762_25typeP",
     "copy-from": "762_25",
     "type": "AMMO",
-    "name": { "str": "7.62x25mm Type P" },
+    "name": { "str_sp": "7.62x25mm Type P" },
     "//": "Stopgap price of $1 per.  Anti-China prejudice in the pre-Cataclysm US may have made this ammo tougher to come by.",
     "description": "A subsonic cartridge derived from the 7.62x25mm, designed for silenced firearms.  It offers good armor penetration at the cost of slightly less damage.",
     "weight": "12 g",
@@ -49,9 +49,10 @@
   },
   {
     "id": "bp_762_25",
+    "//": "Should this be copied from 762_25hot, or 762_25?",
     "copy-from": "762_25hot",
     "type": "AMMO",
-    "name": { "str": "7.62x25mm FMJ, black powder" },
+    "name": { "str_sp": "7.62x25mm FMJ, black powder" },
     "proportional": {
       "price": 0.3,
       "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
@@ -65,7 +66,7 @@
     "id": "reloaded_762_25",
     "copy-from": "762_25hot",
     "type": "AMMO",
-    "name": { "str": "7.62x25mm, reloaded" },
+    "name": { "str_sp": "7.62x25mm, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9, "armor_penetration": 0.9 }, "dispersion": 1.1 }
   }
 ]

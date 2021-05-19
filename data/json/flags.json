@@ -63,6 +63,12 @@
     "conflicts": [ "OUTER", "SKINTIGHT", "WAIST", "PERSONAL", "AURA" ]
   },
   {
+    "id": "BIONIC_INSTALLATION_DATA",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "This item <info>provides</info> instructions and other required data for several bionics, allowing installation of them with <good>minimal failure chance</good>."
+  },
+  {
     "id": "BIONIC_NPC_USABLE",
     "type": "json_flag",
     "context": [ "BIONIC_ITEM" ],
@@ -148,6 +154,11 @@
   },
   {
     "id": "SKINNED",
+    "type": "json_flag",
+    "context": [ "GENERIC" ]
+  },
+  {
+    "id": "BLED",
     "type": "json_flag",
     "context": [ "GENERIC" ]
   },
@@ -449,7 +460,7 @@
     "id": "PREDATOR_FUN",
     "type": "json_flag",
     "context": [ "COMESTIBLE" ],
-    "info": "Designates a food that is usually undesirable but gives a morale bonus to characters with predator mutations."
+    "//": "Designates a food that is usually undesirable but gives a morale bonus to characters with predator mutations."
   },
   {
     "id": "STAB",
@@ -569,14 +580,12 @@
   {
     "id": "MUSHY",
     "type": "json_flag",
-    "context": [ "COMESTIBLE" ],
-    "info": "This food was frozen and is now <bad>mushy</bad> and tasteless and <bad>will go bad</bad> after freezing again."
+    "context": [ "COMESTIBLE" ]
   },
   {
     "id": "FREEZERBURN",
     "type": "json_flag",
-    "context": [ "COMESTIBLE" ],
-    "info": "This food was frozen and is now <bad>mushy</bad> and tasteless and <bad>will go bad</bad> after freezing again."
+    "context": [ "COMESTIBLE" ]
   },
   {
     "id": "PSYSHIELD_PARTIAL",
@@ -706,6 +715,11 @@
     "type": "json_flag",
     "context": [ "GENERIC" ],
     "info": "This item provides comfort during sleep."
+  },
+  {
+    "id": "SLEEP_AID_CONTAINER",
+    "type": "json_flag",
+    "context": [ "GENERIC" ]
   },
   {
     "id": "REVIVE_SPECIAL",
@@ -1888,21 +1902,6 @@
   },
   {
     "id": "DETERGENT",
-    "type": "json_flag",
-    "context": [  ]
-  },
-  {
-    "id": "FIRE_100",
-    "type": "json_flag",
-    "context": [  ]
-  },
-  {
-    "id": "FIRE_50",
-    "type": "json_flag",
-    "context": [  ]
-  },
-  {
-    "id": "FIRE_20",
     "type": "json_flag",
     "context": [  ]
   },

@@ -128,7 +128,7 @@
     "id": "stick_fiber",
     "type": "COMESTIBLE",
     "category": "spare_parts",
-    "name": "fibrous stalk",
+    "name": { "str": "fibrous stalk" },
     "symbol": "=",
     "material": [ "dry_plant" ],
     "description": "A rather green stick.  Very fibrous.",

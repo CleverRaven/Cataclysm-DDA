@@ -4,13 +4,13 @@
 #include <cstddef>
 #include <functional>
 #include <memory>
+#include <type_traits>
 #include <utility>
 
 #include "cata_utility.h"
 #include "character.h"
 #include "color.h"
 #include "cursesdef.h"
-#include "debug.h"
 #include "filesystem.h"
 #include "input.h"
 #include "item.h"

@@ -43,7 +43,7 @@
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": [ "9mm", "9x18", "380", "357mag", "38" ],
+    "ammo": [ "9mm", "380", "357mag", "38" ],
     "ranged_damage": { "damage_type": "bullet", "amount": 0 },
     "dispersion": 558,
     "durability": 7,

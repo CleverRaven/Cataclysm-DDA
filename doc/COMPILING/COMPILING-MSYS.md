@@ -1,48 +1,50 @@
-# Compilation guide for 64 bit Windows (using MSYS2)
+# Compilation guide for 64-bit Windows (using MSYS2)
 
-This guide contains steps required to allow compilation of Cataclysm-DDA on Windows under MSYS2.
+This guide contains instructions for compiling Cataclysm-DDA on Windows under MSYS2. **PLEASE NOTE:** These instructions *are not intended* to produce a redistributable copy of CDDA. Please download the official builds from the website or [cross-compile from Linux](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/COMPILING/COMPILING.md#cross-compile-to-windows-from-linux) if that is your intention.
 
-Steps from current guide were tested on Windows 10 (64 bit) and MSYS2 (64 bit), but should work for other versions of Windows and also MSYS2 (32 bit) if you download 32 bit version of all files.
+These instructions were written using 64-bit Windows 7 and the 64-bit version of MSYS2; the steps should be the same for other versions of Windows.
 
 ## Prerequisites:
 
-* Computer with 64 bit version of modern Windows operating system installed (Windows 10, Windows 8.1 or Windows 7);
-* NTFS partition with ~10 Gb free space (~2 Gb for MSYS2 installation, ~3 Gb for repository and ~5 Gb for ccache);
-* 64 bit version of MSYS2 (installer can be downloaded from [MSYS2 homepage](http://www.msys2.org/));
+* Windows 7, 8, 8.1, or 10
+* NTFS partition with ~10 Gb free space (~2 Gb for MSYS2 installation, ~3 Gb for repository and ~5 Gb for ccache)
+* 64-bit version of MSYS2
 
 **Note:** Windows XP is unsupported!
 
 ## Installation:
 
-1. Go to [MSYS2 homepage](http://www.msys2.org/) and download 64 bit installer (e.g. [msys2-x86_64-20180531.exe](http://repo.msys2.org/distrib/x86_64/msys2-x86_64-20180531.exe)).
+1. Go to the [MSYS2 homepage](http://www.msys2.org/) and download the installer.
 
-2. Run downloaded file and install MSYS2 (click `Next` button, specify directory where MSYS2 64 bit will be installed (e.g. `C:\msys64`), click `Next` button again, specify Start Menu folder name and click `Install` button).
+2. Run the installer. It is suggested that you install to a dev-specific folder (C:\dev\msys64\ or similar), but it's not strictly necessary.
 
-3. After MSYS2 installation is complete press `Next` button, tick `Run MSYS2 64 bit now` checkbox and press `Finish` button.
+3. After installation, run MSYS2 64bit now.
 
 ## Configuration:
 
-1. Update the package database and core system packages with:
+1. Update the package database and core system packages:
 
 ```bash
-pacman -Syu
+pacman -Syyu
 ```
 
-2. If asked close MSYS2 window and restart it from Start Menu or `C:\msys64\msys2_shell.cmd`.
+2. MSYS will inform you of a cygheap base mismatch and inform you a forked process died unexpectedly; these errors appear to be due to the nature of `pacman`'s upgrades and *may be safely ignored.* You will be prompted to close the terminal window; do so, then re-start using the MSYS2 MinGW 64-bit menu item.
 
-3. Update remaining packages with:
+3. Update remaining packages:
 
 ```bash
 pacman -Su
 ```
 
-4. Install packages required for compilation with:
+4. Install packages required for compilation:
 
 ```bash
-pacman -S git git-extras make mingw-w64-x86_64-{astyle,ccache,gcc,libmad,libwebp,ncurses,pkg-config,SDL2} mingw-w64-x86_64-SDL2_{image,mixer,ttf}
+pacman -S git make mingw-w64-x86_64-{astyle,ccache,gcc,libmad,libwebp,pkg-config,SDL2} mingw-w64-x86_64-SDL2_{image,mixer,ttf}
 ```
 
-5. Update paths in system-wide profile file (e.g. `C:\msys64\etc\profile`) as following:
+5. Close MSYS2.
+
+6. Update path variables in the system-wide profile file (e.g. `C:\dev\msys64\etc\profile`) as following:
 
 - find lines:
 
@@ -72,33 +74,34 @@ and
     PKG_CONFIG_PATH="/usr/lib/pkgconfig:/usr/share/pkgconfig:/lib/pkgconfig:/mingw64/lib/pkgconfig:/mingw64/share/pkgconfig"
 ```
 
-6. Restart MSYS2 to apply path changes.
-
 ## Cloning and compilation:
 
-1. Clone Cataclysm-DDA repository with following command line:
-
-**Note:** This will download whole CDDA repository. If you're just testing you should probably add `--depth=1`.
+1. Open MSYS2 and clone the Cataclysm-DDA repository:
 
 ```bash
-git clone https://github.com/CleverRaven/Cataclysm-DDA.git
-cd Cataclysm-DDA
+cd /c/dev/
+git clone https://github.com/CleverRaven/Cataclysm-DDA.git ./Cataclysm-DDA
 ```
+
+**Note:** This will download the entire CDDA repository and all of its history (3GB). If you're just testing, you should probably add `--depth=1` (~350MB).
 
 2. Compile with following command line:
 
 ```bash
-make CCACHE=1 RELEASE=1 MSYS2=1 DYNAMIC_LINKING=1 SDL=1 TILES=1 SOUND=1 LOCALIZE=1 LANGUAGES=all LINTJSON=0 ASTYLE=0 RUNTESTS=0
+cd Cataclysm-DDA
+make -j$((`nproc`+0)) CCACHE=1 RELEASE=1 MSYS2=1 DYNAMIC_LINKING=1 SDL=1 TILES=1 SOUND=1 LOCALIZE=1 LANGUAGES=all LINTJSON=0 ASTYLE=0 RUNTESTS=0
 ```
 
-**Note**: This will compile release version with Sound and Tiles support and all localization languages, skipping checks and tests and using ccache for faster build. You can use other switches, but `MSYS2=1`, `DYNAMIC_LINKING=1` and probably `RELEASE=1` are required to compile without issues.
+You will receive warnings about unterminated character constants; they do not impact the compilation as far as this writer is aware.
+
+**Note**: This will compile a release version with Sound and Tiles support and all localization languages, skipping checks and tests, and using ccache for build acceleration. You can use other switches, but `MSYS2=1`, `DYNAMIC_LINKING=1` and probably `RELEASE=1` are required to compile without issues.
 
 ## Running:
 
-1. Run from within MSYS2 with following command line:
+1. Run inside MSYS2 from Cataclysm's directory with the following command:
 
 ```bash
 ./cataclysm-tiles
 ```
 
-**Note:** If you want to run compiled executable from Explorer you will also need to update user or system `PATH` variable with path to MSYS2 runtime binaries (e.g. `C:\msys64\mingw64\bin`).
+**Note:** If you want to run the compiled executable outside of MSYS2, you will also need to update your user or system `PATH` variable with the path to MSYS2's runtime binaries (e.g. `C:\dev\msys64\mingw64\bin`).

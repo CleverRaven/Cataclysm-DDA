@@ -42,6 +42,44 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
+    "result": "cream_prot_cold",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_DRUGS",
+    "skill_used": "chemistry",
+    "difficulty": 5,
+    "time": "20 m",
+    "book_learn": [ [ "recipes_resistance", 5 ] ],
+    "qualities": [ { "id": "CHEM", "level": 3 } ],
+    "tools": [ [ [ "surface_heat", 15, "LIST" ] ] ],
+    "components": [
+      [ [ "afs_biomaterial_1", 8 ] ],
+      [ [ "afs_biomaterial_2", 3 ] ],
+      [ [ "afs_biomaterial_3", 1 ] ],
+      [ [ "morphine", 5 ], [ "heroin", 2 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "fake",
+    "result": "cream_greater_prot_cold",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_DRUGS",
+    "skill_used": "chemistry",
+    "difficulty": 5,
+    "time": "20 m",
+    "book_learn": [ [ "recipes_resistance", 5 ] ],
+    "qualities": [ { "id": "CHEM", "level": 3 } ],
+    "tools": [ [ [ "surface_heat", 15, "LIST" ] ] ],
+    "components": [
+      [ [ "afs_biomaterial_1", 8 ] ],
+      [ [ "afs_biomaterial_2", 5 ] ],
+      [ [ "afs_biomaterial_3", 2 ] ],
+      [ [ "morphine", 8 ], [ "heroin", 3 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "yum_lichen_extra",
     "category": "CC_FOOD",

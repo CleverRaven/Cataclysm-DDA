@@ -61,11 +61,6 @@
   },
   {
     "type": "item_action",
-    "id": "BURROW",
-    "name": { "str": "Burrow through rock" }
-  },
-  {
-    "type": "item_action",
     "id": "GEIGER",
     "name": { "str": "Use geiger counter" }
   },
@@ -248,11 +243,6 @@
     "type": "item_action",
     "id": "ALCOHOL_WEAK",
     "name": { "str": "Drink" }
-  },
-  {
-    "type": "item_action",
-    "id": "ANTIASTHMATIC",
-    "name": { "str": "Take" }
   },
   {
     "type": "item_action",
@@ -726,11 +716,6 @@
   },
   {
     "type": "item_action",
-    "id": "PHEROMONE",
-    "name": { "str": "Squeeze" }
-  },
-  {
-    "type": "item_action",
     "id": "PLANTBLECH",
     "name": { "str": "Consume" }
   },
@@ -747,7 +732,7 @@
   {
     "type": "item_action",
     "id": "FITNESS_CHECK",
-    "name": "Check health metrics"
+    "name": { "str": "Check health metrics" }
   },
   {
     "type": "item_action",

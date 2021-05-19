@@ -1,11 +1,15 @@
-#include "catch/catch.hpp"
-#include "effect.h"
-
+#include <iosfwd>
+#include <memory>
 #include <string>
 #include <vector>
 
 #include "calendar.h"
+#include "catch/catch.hpp"
 #include "character.h"
+#include "character_id.h"
+#include "damage.h"
+#include "effect.h"
+#include "effect_source.h"
 #include "game.h"
 #include "map.h"
 #include "map_helpers.h"
@@ -14,6 +18,8 @@
 #include "player_helpers.h"
 #include "point.h"
 #include "type_id.h"
+
+class Creature;
 
 // Test `effect` class
 

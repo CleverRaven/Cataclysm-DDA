@@ -12,7 +12,7 @@
   {
     "id": "artifact_teleportitis_aura",
     "type": "ARMOR",
-    "name": "strange pressure",
+    "name": { "str": "strange pressure" },
     "description": "You feel a strange force pressing you inwards and inside-out.",
     "weight": "1g",
     "volume": "1ml",
@@ -25,7 +25,7 @@
   {
     "id": "artifact_slow_aura",
     "type": "ARMOR",
-    "name": "temporal distortion",
+    "name": { "str": "temporal distortion" },
     "description": "A slight temporal distortion appears to be centered around you.",
     "weight": "1g",
     "volume": "1ml",

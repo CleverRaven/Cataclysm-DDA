@@ -27,4 +27,16 @@ extern test_mode_spilling_action_t test_mode_spilling_action;
 
 extern bool direct3d_mode;
 
+enum class error_log_format_t {
+    human_readable,
+    // Output error messages in github action command format (currently json only)
+    // See https://docs.github.com/en/free-pro-team@latest/actions/reference/workflow-commands-for-github-actions#setting-an-error-message
+    github_action,
+};
+#ifndef CATA_IN_TOOL
+extern error_log_format_t error_log_format;
+#else
+constexpr error_log_format_t error_log_format = error_log_format_t::human_readable;
+#endif
+
 #endif // CATA_SRC_CACHED_OPTIONS_H

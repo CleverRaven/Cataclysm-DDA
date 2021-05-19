@@ -1,15 +1,17 @@
-#include "catch/catch.hpp"
-
+#include <iosfwd>
 #include <memory>
 #include <set>
 #include <string>
 
 #include "calendar.h"
+#include "catch/catch.hpp"
 #include "character.h"
 #include "flag.h"
 #include "item.h"
+#include "item_pocket.h"
 #include "itype.h"
 #include "options_helpers.h"
+#include "ret_val.h"
 #include "type_id.h"
 #include "value_ptr.h"
 

@@ -91,7 +91,7 @@
     "components": [
       [
         [ "stopcock", 11 ],
-        [ "button_plastic", 3 ],
+        [ "button_plastic", 25 ],
         [ "bottle_folding", 4 ],
         [ "plastic_straw", 3 ],
         [ "plastic_knife", 2 ],
@@ -321,18 +321,6 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "rag",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "survival",
-    "time": "3 m",
-    "autolearn": true,
-    "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
-    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "rag_bloody", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
     "result": "sheet",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -409,6 +397,19 @@
     "autolearn": true,
     "qualities": [ { "id": "SEW_CURVED", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "neoprene", 5 ] ], [ [ "filament", 15, "LIST" ] ] ]
+  },
+  {
+    "result": "sheet_nomex_patchwork",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "tailor",
+    "time": "270 m",
+    "charges": 4,
+    "autolearn": true,
+    "qualities": [ { "id": "SEW_CURVED", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "nomex", 5 ] ], [ [ "thread_nomex", 15 ] ] ]
   },
   {
     "type": "recipe",
@@ -626,7 +627,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "button_wood",
-    "category": "CC_WEAPON",
+    "category": "CC_OTHER",
     "skill_used": "fabrication",
     "skills_required": [ "fabrication", 1 ],
     "difficulty": 3,
@@ -641,7 +642,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "button_plastic",
-    "category": "CC_WEAPON",
+    "category": "CC_OTHER",
     "skill_used": "fabrication",
     "difficulty": 4,
     "time": "1 h 30 m",

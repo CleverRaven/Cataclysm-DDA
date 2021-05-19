@@ -2,7 +2,8 @@
 #ifndef CATA_SRC_EFFECT_H
 #define CATA_SRC_EFFECT_H
 
-#include <algorithm>
+#include <iosfwd>
+#include <map>
 #include <set>
 #include <string>
 #include <tuple>
@@ -10,13 +11,12 @@
 #include <utility>
 #include <vector>
 
-#include "bodypart.h"
 #include "calendar.h"
+#include "color.h"
+#include "effect_source.h"
 #include "hash_utils.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
-#include "effect_source.h"
 
 class effect_type;
 class player;
@@ -328,6 +328,7 @@ void reset_effect_types();
 std::string texitify_base_healing_power( int power );
 std::string texitify_healing_power( int power );
 std::string texitify_bandage_power( int power );
+nc_color colorize_bleeding_intensity( int intensity );
 
 // Inheritance here allows forward declaration of the map in class Creature.
 // Storing body_part as an int_id to make things easier for hash and JSON

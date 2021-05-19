@@ -1,8 +1,9 @@
 #include "iuse_software_minesweeper.h"
 
-#include <algorithm>
 #include <array>
 #include <functional>
+#include <iosfwd>
+#include <new>
 #include <string>
 #include <vector>
 
@@ -332,7 +333,7 @@ int minesweeper_game::start_game()
                     popup_top( _( "Boom, you're dead!  Better luck next time." ) );
                     action = "QUIT";
                 } else if( mLevelReveal[iPlayerY][iPlayerX] == unknown ) {
-                    rec_reveal( point( iPlayerY, iPlayerX ) );
+                    rec_reveal( point( iPlayerX, iPlayerY ) );
                 }
             }
         }

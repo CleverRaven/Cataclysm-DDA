@@ -1,5 +1,4 @@
-#include "catch/catch.hpp"
-
+#include <iosfwd>
 #include <list>
 #include <map>
 #include <string>
@@ -7,6 +6,7 @@
 #include <vector>
 
 #include "avatar.h"
+#include "catch/catch.hpp"
 #include "flag.h"
 #include "item.h"
 #include "item_contents.h"

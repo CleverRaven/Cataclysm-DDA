@@ -38,6 +38,25 @@
     "effect_str": "mon_bear"
   },
   {
+    "id": "forge_trap",
+    "type": "SPELL",
+    "name": "Forge Trap",
+    "description": "A trap that summons forge hounds!  Not what you were expecting, is it?",
+    "valid_targets": [ "ground" ],
+    "flags": [ "HOSTILE_SUMMON", "LOUD", "NO_PROJECTILE" ],
+    "min_damage": 3,
+    "max_damage": 3,
+    "min_aoe": 5,
+    "max_aoe": 5,
+    "sound_description": "\"It's a trap!\"",
+    "min_duration": 30000,
+    "max_duration": 30000,
+    "sound_type": "speech",
+    "shape": "blast",
+    "effect": "summon",
+    "effect_str": "mon_forgehounds"
+  },
+  {
     "id": "rocket_punch",
     "type": "SPELL",
     "name": "Rocket Punch",

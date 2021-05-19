@@ -25,6 +25,7 @@
     "harvest": "human",
     "vision_day": 30,
     "vision_night": 3,
+    "path_settings": { "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
     "starting_ammo": { "rock": 6 },
     "special_attacks": [
       {
@@ -32,6 +33,8 @@
         "cooldown": 5,
         "move_cost": 150,
         "gun_type": "feral_human_thrown_rock",
+        "ammo_type": "rock",
+        "no_ammo_sound": "",
         "fake_skills": [ [ "gun", 2 ], [ "throw", 2 ] ],
         "fake_dex": 6,
         "fake_per": 6,
@@ -53,7 +56,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_2",
+      "PATH_AVOID_DANGER_1",
       "DROPS_AMMO"
     ]
   },

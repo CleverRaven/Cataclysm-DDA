@@ -1,18 +1,18 @@
 #include "gamemode_tutorial.h" // IWYU pragma: associated
 
 #include <cstdlib>
+#include <iosfwd>
 #include <memory>
-#include <string>
 
 #include "action.h"
 #include "avatar.h"
 #include "calendar.h"
 #include "character.h"
+#include "colony.h"
 #include "coordinates.h"
 #include "debug.h"
 #include "game.h"
 #include "game_constants.h"
-#include "int_id.h"
 #include "inventory.h"
 #include "item.h"
 #include "map.h"
@@ -26,7 +26,6 @@
 #include "point.h"
 #include "profession.h"
 #include "scent_map.h"
-#include "string_id.h"
 #include "text_snippets.h"
 #include "translations.h"
 #include "trap.h"

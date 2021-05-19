@@ -1,6 +1,8 @@
 #include "monexamine.h"
 
-#include <algorithm>
+#include <functional>
+#include <iosfwd>
+#include <list>
 #include <map>
 #include <memory>
 #include <string>
@@ -12,7 +14,6 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
-#include "compatibility.h"
 #include "creature.h"
 #include "debug.h"
 #include "enums.h"
@@ -37,14 +38,12 @@
 #include "type_id.h"
 #include "ui.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "value_ptr.h"
 
 static const quality_id qual_SHEAR( "SHEAR" );
 
 static const efftype_id effect_sheared( "sheared" );
 
-static const activity_id ACT_MILK( "ACT_MILK" );
 static const activity_id ACT_PLAY_WITH_PET( "ACT_PLAY_WITH_PET" );
 
 static const efftype_id effect_controlled( "controlled" );
@@ -81,7 +80,6 @@ bool monexamine::pet_menu( monster &z )
         mon_harness_remove,
         mon_armor_remove,
         play_with_pet,
-        pheromone,
         milk,
         shear,
         pay,
@@ -92,6 +90,7 @@ bool monexamine::pet_menu( monster &z )
         remove_bat,
         insert_bat,
         check_bat,
+        attack
     };
 
     uilist amenu;
@@ -106,6 +105,7 @@ bool monexamine::pet_menu( monster &z )
     amenu.addentry( swap_pos, true, 's', _( "Swap positions" ) );
     amenu.addentry( push_monster, true, 'p', _( "Push %s" ), pet_name );
     amenu.addentry( rename, true, 'e', _( "Rename" ) );
+    amenu.addentry( attack, true, 'A', _( "Attack" ) );
     Character &player_character = get_player_character();
     if( z.has_effect( effect_has_bag ) ) {
         amenu.addentry( give_items, true, 'g', _( "Place items into bag" ) );
@@ -140,9 +140,6 @@ bool monexamine::pet_menu( monster &z )
             amenu.addentry( rope, false, 't', _( "You need any type of rope to tie %s in place" ),
                             pet_name );
         }
-    }
-    if( is_zombie ) {
-        amenu.addentry( pheromone, true, 'z', _( "Tear out pheromone ball" ) );
     }
 
     if( z.has_flag( MF_MILKABLE ) ) {
@@ -258,11 +255,6 @@ bool monexamine::pet_menu( monster &z )
                 play_with( z );
             }
             break;
-        case pheromone:
-            if( query_yn( _( "Really kill the zombie slave?" ) ) ) {
-                kill_zslave( z );
-            }
-            break;
         case rope:
             tie_or_untie( z );
             break;
@@ -289,6 +281,12 @@ bool monexamine::pet_menu( monster &z )
             insert_battery( z );
             break;
         case check_bat:
+            break;
+        case attack:
+            if( query_yn( _( "You may be attacked!  Proceed?" ) ) ) {
+                get_player_character().melee_attack( z, true );
+            }
+            break;
         default:
             break;
     }
@@ -398,7 +396,7 @@ static int prompt_for_amount( const char *const msg, const int max )
     const int amount = string_input_popup()
                        .title( formatted )
                        .width( 20 )
-                       .text( to_string( max ) )
+                       .text( std::to_string( max ) )
                        .only_digits( true )
                        .query_int();
 
@@ -444,6 +442,50 @@ bool monexamine::pay_bot( monster &z )
     }
 
     return false;
+}
+
+bool monexamine::mfriend_menu( monster &z )
+{
+    enum choices {
+        swap_pos = 0,
+        push_monster,
+        rename,
+        attack
+    };
+
+    uilist amenu;
+    const std::string pet_name = z.get_name();
+
+    amenu.text = string_format( _( "What to do with your %s?" ), pet_name );
+
+    amenu.addentry( swap_pos, true, 's', _( "Swap positions" ) );
+    amenu.addentry( push_monster, true, 'p', _( "Push %s" ), pet_name );
+    amenu.addentry( rename, true, 'e', _( "Rename" ) );
+    amenu.addentry( attack, true, 'a', _( "Attack" ) );
+
+    amenu.query();
+    const int choice = amenu.ret;
+
+    switch( choice ) {
+        case swap_pos:
+            swap( z );
+            break;
+        case push_monster:
+            push( z );
+            break;
+        case rename:
+            rename_pet( z );
+            break;
+        case attack:
+            if( query_yn( _( "You may be attacked!  Proceed?" ) ) ) {
+                get_player_character().melee_attack( z, true );
+            }
+            break;
+        default:
+            break;
+    }
+
+    return true;
 }
 
 void monexamine::attach_or_remove_saddle( monster &z )
@@ -628,10 +670,25 @@ bool monexamine::give_items_to( monster &z )
             to_move.insert( to_move.end(), itq );
         }
     }
+    // Quit if there is nothing to add
+    if( to_move.empty() ) {
+        add_msg( _( "Never mind." ) );
+        return true;
+    }
     z.add_effect( effect_controlled, 5_turns );
     player_character.drop( to_move, z.pos(), true );
-
-    return false;
+    // Print an appropriate message for the inserted item or items
+    if( to_move.size() > 1 ) {
+        add_msg( _( "You put %1$s items in the %2$s on your %3$s." ), to_move.size(), storage.tname(),
+                 pet_name );
+    } else {
+        item_location loc = to_move.front().first;
+        item &it = *loc;
+        //~ %1$s - item name, %2$s - storage item name, %3$s - pet name
+        add_msg( _( "You put the %1$s in the %2$s on your %3$s." ), it.tname(), storage.tname(), pet_name );
+    }
+    // Return success if all items were inserted
+    return to_move.size() == items.size();
 }
 
 bool monexamine::add_armor( monster &z )
@@ -694,27 +751,12 @@ void monexamine::play_with( monster &z )
     player_character.activity.str_values.push_back( pet_name );
 }
 
-void monexamine::kill_zslave( monster &z )
-{
-    avatar &player_character = get_avatar();
-    z.apply_damage( &player_character, bodypart_id( "torso" ),
-                    100 ); // damage the monster (and its corpse)
-    z.die( &player_character ); // and make sure it's really dead
-
-    player_character.moves -= 150;
-
-    if( !one_in( 3 ) ) {
-        player_character.add_msg_if_player( _( "You tear out the pheromone ball from the zombie slave." ) );
-        item ball( "pheromone", calendar::turn_zero );
-        iuse::pheromone( &player_character, &ball, true, player_character.pos() );
-    }
-}
-
 void monexamine::tie_or_untie( monster &z )
 {
     Character &player_character = get_player_character();
     if( z.has_effect( effect_tied ) ) {
         z.remove_effect( effect_tied );
+        add_msg( _( "You untie your %s." ), z.get_name() );
         if( z.tied_item ) {
             player_character.i_add( *z.tied_item );
             z.tied_item.reset();
@@ -744,6 +786,7 @@ void monexamine::tie_or_untie( monster &z )
         z.tied_item = cata::make_value<item>( *rope_item );
         player_character.i_rem( rope_item );
         z.add_effect( effect_tied, 1_turns, true );
+        add_msg( _( "You tie your %s." ), z.get_name() );
     }
 }
 
@@ -757,8 +800,8 @@ void monexamine::milk_source( monster &source_mon )
     }
     if( milkable_ammo->second > 0 ) {
         const int moves = to_moves<int>( time_duration::from_minutes( milkable_ammo->second / 2 ) );
-        std::vector<tripoint> coords {};
-        std::vector<std::string> str_values {};
+        std::vector<tripoint> coords{};
+        std::vector<std::string> str_values{};
         Character &player_character = get_player_character();
         coords.push_back( get_map().getabs( source_mon.pos() ) );
         // pin the cow in place if it isn't already

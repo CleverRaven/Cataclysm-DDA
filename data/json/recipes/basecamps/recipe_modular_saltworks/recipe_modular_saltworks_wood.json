@@ -11,7 +11,7 @@
     "construction_blueprint": "fbmsw_saltpan_wood_northeast",
     "blueprint_name": "NE wood panel saltpan",
     "blueprint_requires": [ { "id": "fbmsw_0" } ],
-    "blueprint_provides": [ { "id": "fbmsw_northeast" }, { "id": "Salt_Pan" } ],
+    "blueprint_provides": [ { "id": "fbmsw_northeast" }, { "id": "Salt_Pan" }, { "id": "saltworks_recipes_1" } ],
     "blueprint_excludes": [ { "id": "fbmsw_northeast" } ],
     "blueprint_needs": {
       "time": "3 d 1 h 20 m",

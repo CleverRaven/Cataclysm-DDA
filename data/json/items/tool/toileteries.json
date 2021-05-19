@@ -36,6 +36,31 @@
     "use_action": [ "WASH_HARD_ITEMS" ]
   },
   {
+    "id": "dish_towel",
+    "type": "TOOL",
+    "category": "spare_parts",
+    "name": { "str": "dish towel" },
+    "description": "This is a dish towel, useful for cleaning hard surfaces.",
+    "weight": "80 g",
+    "volume": "250 ml",
+    "price": 200,
+    "price_postapoc": 20,
+    "material": [ "cotton" ],
+    "symbol": ",",
+    "color": "white",
+    "use_action": [ "WASH_HARD_ITEMS" ],
+    "snippet_category": [
+      { "id": "dtowel1", "text": "An elegant, monogrammed dish towel.  Unfortunately, they aren't your initials." },
+      { "id": "dtowel2", "text": "An elegant, monogrammed dish towel.  It even has your initials!" },
+      { "id": "dtowel3", "text": "A well used dish towel, judging by the stains." },
+      { "id": "dtowel4", "text": "A novelty dish towel, featuring a popular children's cartoon character." },
+      { "id": "dtowel5", "text": "A novelty dish towel which reads \"IT'S WINE O CLOCK\"." },
+      { "id": "dtowel6", "text": "A dish towel with a floral pattern." },
+      { "id": "dtowel7", "text": "A dish towel with a gingham pattern." },
+      { "id": "dtowel8", "text": "A dish towel with a cat pattern." }
+    ]
+  },
+  {
     "id": "elec_hairtrimmer",
     "type": "TOOL",
     "name": { "str": "electric hair trimmer" },

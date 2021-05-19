@@ -1,5 +1,4 @@
 #MSHOCKXOTTO+ TILESET
-#Generated from project in Cataclysm DDA Tileset Studio
 
 #Name of the tileset
 NAME: MshockXottoplus

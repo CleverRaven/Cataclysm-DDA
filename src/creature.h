@@ -2,10 +2,11 @@
 #ifndef CATA_SRC_CREATURE_H
 #define CATA_SRC_CREATURE_H
 
+#include <array>
 #include <climits>
+#include <iosfwd>
 #include <map>
 #include <set>
-#include <string>
 #include <type_traits>
 #include <unordered_map>
 #include <utility>
@@ -19,13 +20,13 @@
 #include "location.h"
 #include "pimpl.h"
 #include "string_formatter.h"
-#include "string_id.h"
-#include "translations.h"
 #include "type_id.h"
 #include "units_fwd.h"
 #include "viewer.h"
 
 class monster;
+class translation;
+template <typename T> struct enum_traits;
 
 enum game_message_type : int;
 class effect;
@@ -50,11 +51,10 @@ struct tripoint;
 
 enum class damage_type : int;
 enum m_flag : int;
-struct damage_instance;
-struct damage_unit;
-struct dealt_damage_instance;
 struct dealt_projectile_attack;
 struct pathfinding_settings;
+struct projectile;
+struct projectile_attack_results;
 struct trap;
 
 using anatomy_id = string_id<anatomy>;
@@ -293,7 +293,7 @@ class Creature : public location, public viewer
 
         /** Should always be overwritten by the appropriate player/NPC/monster version. */
         virtual float hit_roll() const = 0;
-        virtual float dodge_roll() = 0;
+        virtual float dodge_roll() const = 0;
         virtual float stability_roll() const = 0;
 
         /**
@@ -397,7 +397,7 @@ class Creature : public location, public viewer
         // If allow_zlev is true, also allow distance == 1 and on different z-level
         // as long as floor/ceiling doesn't exist.
         // Also check other factors, like vehicle separating deep water/air
-        bool is_adjacent( Creature *target, bool allow_z_levels ) const;
+        bool is_adjacent( const Creature *target, bool allow_z_levels ) const;
 
         // modifies the damage dealt based on the creature's enchantments
         // since creatures currently don't have enchantments, this is just virtual
@@ -448,6 +448,11 @@ class Creature : public location, public viewer
          */
         virtual void on_hit( Creature *source, bodypart_id bp_hit,
                              float difficulty = INT_MIN, dealt_projectile_attack const *proj = nullptr ) = 0;
+
+        /** Returns true if this monster has any sort of ranged attack. This doesn't necessarily mean direct damage ranged attack,
+        * but also includes any sort of potentially dangerous ranged interaction, e.g. monster with RANGED_PULL special attack will fit here too.
+         */
+        virtual bool is_ranged_attacker() const;
 
         virtual bool digging() const;
         virtual bool is_on_ground() const = 0;
@@ -541,6 +546,8 @@ class Creature : public location, public viewer
         bool has_effect_with_flag( const flag_id &flag, const bodypart_id &bp ) const;
         bool has_effect_with_flag( const flag_id &flag ) const;
         std::vector<effect> get_effects_with_flag( const flag_id &flag ) const;
+        std::vector<effect> get_effects() const;
+
         /** Return the effect that matches the given arguments exactly. */
         const effect &get_effect( const efftype_id &eff_id,
                                   const bodypart_id &bp = bodypart_str_id::NULL_ID() ) const;
@@ -805,6 +812,18 @@ class Creature : public location, public viewer
         void describe_specials( std::vector<std::string> &buf ) const;
 
         // Message related stuff
+        // These functions print to the sidebar message log. Unlike add_msg which prints messages
+        // unconditionally, these only print messages when invoked for certain creature types:
+        //
+        // add_msg_if_player - only printed for avatar, not NPCs/monsters
+        // add_msg_if_npc - only printed for NPCs, not players/monsters
+        // add_msg_player_or_npc - printed for avatar or NPC, not monsters
+        //
+        // Examples:
+        // add_msg_if_player( "You feel that you need to eat more calorie-dense food." );
+        // add_msg_if_npc( "<npcname> falls off their mount!" );
+        // add_msg_if_player_or_npc( "You open the door.", "<npcname> opens the door." );
+        //
         virtual void add_msg_if_player( const std::string &/*msg*/ ) const {}
         virtual void add_msg_if_player( const game_message_params &/*params*/,
                                         const std::string &/*msg*/ ) const {}
@@ -1055,6 +1074,8 @@ class Creature : public location, public viewer
 
         int throw_resist = 0;
 
+        time_point last_updated;
+
         bool fake = false;
         Creature();
         Creature( const Creature & ) = default;
@@ -1117,6 +1138,14 @@ class Creature : public location, public viewer
 
     private:
         int pain;
+        // calculate how well the projectile hits
+        double accuracy_projectile_attack( dealt_projectile_attack &attack ) const;
+        // what bodypart does the projectile hit
+        projectile_attack_results select_body_part_projectile_attack( const projectile &proj,
+                double goodhit, double missed_by ) const;
+        // do messaging and SCT for projectile hit
+        void messaging_projectile_attack( const Creature *source,
+                                          const projectile_attack_results &hit_selection, int total_damage ) const;
 };
 
 #endif // CATA_SRC_CREATURE_H

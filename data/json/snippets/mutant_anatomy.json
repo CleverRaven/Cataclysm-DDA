@@ -276,6 +276,18 @@
   },
   {
     "type": "snippet",
+    "category": "<incubator_mammal>",
+    "text": [
+      "The skin is so riddled with wounds that you barely need to cut to pull it away.",
+      "The poor creature has stopped breathing, but there's still a lot of movement in the corpse.",
+      "The larvae seem to have taken care to leave enough intact not to kill their host, but the rest is practically hollow.",
+      "You have to pause often to stomp on the slower grubs, who only now realized that their home is growing cold.",
+      "Its stomach is full of grubs even more malformed than the rest.  The runt of the litter got recycled, it seems.",
+      "In the beginning you take care to separate parasite and host, but after a while you give up and start cutting through."
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "<arachnid_harvest>",
     "text": [
       "<bug_harvest_general_chitin>.",
