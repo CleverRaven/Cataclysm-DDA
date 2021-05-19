@@ -282,11 +282,9 @@ int Character::max_quality( const quality_id &qual, int radius )
     int res = max_quality( qual );
 
     if( radius > 0 ) {
-        crafting_inventory( tripoint_zero, radius, true ).visit_items(
-        [&res, &qual]( item * e, item * ) {
-            res = std::max( res, e->get_quality( qual ) );
-            return VisitResponse::NEXT;
-        } );
+        res = std::max( res,
+                        crafting_inventory( tripoint_zero, radius, true )
+                        .max_quality( qual ) );
     }
 
     return res;
