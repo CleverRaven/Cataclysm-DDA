@@ -168,7 +168,7 @@
     "id": "mon_boomer_glutton",
     "type": "MONSTER",
     "name": "boomer glutton",
-    "description": "A grotesque ball of flesh and fat.  Seemingly vestigial limbs flop around haphazardly as it rolls across the ground.  You occasionally catch a glimpse of bulging eyes and a distended gaping maw oozing some sort of black sludge.",
+    "description": "A large, grotesque ball of flesh and fat.  Seemingly vestigial limbs flop around haphazardly as it rolls across the ground.  You occasionally catch a glimpse of bulging eyes and a distended gaping maw oozing some sort of black sludge.",
     "default_faction": "zombie",
     "bodytype": "blob",
     "species": [ "ZOMBIE", "HUMAN" ],
