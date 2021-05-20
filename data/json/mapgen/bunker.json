@@ -112,7 +112,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "bunker_basement_1" ],
+    "om_terrain": [ "bunker_basement" ],
     "weight": 250,
     "object": {
       "fill_ter": "t_floor",
@@ -211,7 +211,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "bunker_basement_1" ],
+    "om_terrain": [ "bunker_basement" ],
     "weight": 500,
     "object": {
       "fill_ter": "t_floor",
