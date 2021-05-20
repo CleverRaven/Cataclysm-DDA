@@ -25,18 +25,12 @@
     "blueprint_provides": [ { "id": "fbmc_radio_tower_shack_0" } ],
     "blueprint_excludes": [ { "id": "fbmc_radio_tower_shack_0" } ],
     "blueprint_requires": [ { "id": "fbmc_radio_tower" } ],
-	"blueprint_needs": {
+    "blueprint_needs": {
       "time": "40 h",
       "skills": [ [ "fabrication", 3 ] ],
       "inline": {
         "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [
-          [ [ "2x4", 230 ] ],
-          [ [ "glass_sheet", 1 ] ],
-          [ [ "hinge", 2 ] ],
-          [ [ "nail", 1100 ] ],
-          [ [ "wood_panel", 54 ] ]
-        ]
+        "components": [ [ [ "2x4", 230 ] ], [ [ "glass_sheet", 1 ] ], [ [ "hinge", 2 ] ], [ [ "nail", 1100 ] ], [ [ "wood_panel", 54 ] ] ]
       }
     },
     "blueprint_name": "wooden shack"

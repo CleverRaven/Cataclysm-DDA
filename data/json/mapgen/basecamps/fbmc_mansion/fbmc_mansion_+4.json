@@ -3,11 +3,7 @@
     "type": "mapgen",
     "update_mapgen_id": "fbmc_mansion_+4",
     "method": "json",
-    "object": {
-      "set": [
-        { "point": "furniture", "id": "f_bulletin", "x": 9, "y": 2 }
-      ]
-    }
+    "object": { "set": [ { "point": "furniture", "id": "f_bulletin", "x": 9, "y": 2 } ] }
   },
   {
     "type": "mapgen",
@@ -41,12 +37,13 @@
     "type": "mapgen",
     "update_mapgen_id": "fbmc_mansion_+4_farm",
     "method": "json",
-    "object": { "place_nested": [
-	   { "chunks": [ "fbmc_mansion_+4_prefarm" ], "x": 4, "y": 10 },
-	   { "chunks": [ "fbmc_mansion_+4_prefarm" ], "x": 14, "y": 10 },
-	   { "chunks": [ "fbmc_mansion_farm_field" ], "x": 4, "y": 11 },
-	   { "chunks": [ "fbmc_mansion_farm_field" ], "x": 14, "y": 11 }
-	]
-	}
+    "object": {
+      "place_nested": [
+        { "chunks": [ "fbmc_mansion_+4_prefarm" ], "x": 4, "y": 10 },
+        { "chunks": [ "fbmc_mansion_+4_prefarm" ], "x": 14, "y": 10 },
+        { "chunks": [ "fbmc_mansion_farm_field" ], "x": 4, "y": 11 },
+        { "chunks": [ "fbmc_mansion_farm_field" ], "x": 14, "y": 11 }
+      ]
+    }
   }
 ]

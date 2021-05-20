@@ -139,7 +139,7 @@
     "skills_required": [ [ "computer", 3 ] ],
     "tools": [ [ [ "laptop", 240 ] ] ],
     "components": [ [ [ "usb_drive", 1 ] ] ],
-	"container": "usb_drive"
+    "container": "usb_drive"
   },
   {
     "type": "recipe",
@@ -156,7 +156,7 @@
     "skills_required": [ [ "computer", 4 ] ],
     "tools": [ [ [ "laptop", 300 ] ], [ [ "software_hacking", -1 ] ] ],
     "components": [ [ [ "usb_drive", 1 ] ] ],
-	"container": "usb_drive"
+    "container": "usb_drive"
   },
   {
     "type": "recipe",
@@ -189,7 +189,7 @@
     "skills_required": [ [ "computer", 5 ] ],
     "tools": [ [ [ "laptop", 420 ] ], [ [ "software_hacking", -1 ] ] ],
     "components": [ [ [ "usb_drive", 1 ] ] ],
-	"container": "usb_drive"
+    "container": "usb_drive"
   },
   {
     "type": "recipe",
@@ -206,7 +206,7 @@
     "skills_required": [ [ "computer", 6 ] ],
     "tools": [ [ [ "laptop", 480 ] ], [ [ "software_hacking", -1 ] ] ],
     "components": [ [ [ "usb_drive", 1 ] ] ],
-	"container": "usb_drive"
+    "container": "usb_drive"
   },
   {
     "type": "recipe",

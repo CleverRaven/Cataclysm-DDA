@@ -176,16 +176,7 @@
     "use_action": {
       "type": "reveal_map",
       "radius": 90,
-      "terrain": [
-        "hiway",
-        "road",
-        "bridge",
-		"field",
-		"swamp",
-		"forest",
-		"lake",
-		"river"
-      ],
+      "terrain": [ "hiway", "road", "bridge", "field", "swamp", "forest", "lake", "river" ],
       "message": "You add terrain and roads to your map."
     }
   }

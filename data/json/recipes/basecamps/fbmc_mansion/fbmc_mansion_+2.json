@@ -18,8 +18,8 @@
       { "id": "foraging" },
       { "id": "sorting" },
       { "id": "logging" },
-	  { "id": "tool_storage" },
-	  { "id": "bed", "amount": 8 }
+      { "id": "tool_storage" },
+      { "id": "bed", "amount": 8 }
     ],
     "blueprint_requires": [ { "id": "not_an_upgrade" } ],
     "blueprint_name": "basic survey",
@@ -36,11 +36,7 @@
     "construction_blueprint": "fbmc_mansion_+2_radio",
     "blueprint_name": "build a radio tower and console",
     "blueprint_requires": [ { "id": "fbmc_mansion_+2" } ],
-    "blueprint_provides": [
-	  { "id": "fbmc_mansion_+2_radio" },
-	  { "id": "recruiting" },
-	  { "id": "radio" }
-	],
+    "blueprint_provides": [ { "id": "fbmc_mansion_+2_radio" }, { "id": "recruiting" }, { "id": "radio" } ],
     "blueprint_excludes": [ { "id": "fbmc_mansion_+2_radio" } ],
     "blueprint_needs": {
       "time": "2 d",

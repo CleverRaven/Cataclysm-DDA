@@ -87,7 +87,16 @@
     "blueprint_name": "kitchen survey",
     "time": "180 m",
     "blueprint_requires": [ { "id": "not_an_upgrade" } ],
-    "blueprint_provides": [ { "id": "faction_base_mansion_t4" }, { "id": "kitchen" }, { "id": "kitchen_recipes_1" }, { "id": "kitchen_recipes_2" }, { "id": "kitchen_recipes_3" }, { "id": "saltworks_recipes_1" }, { "id": "saltworks_recipes_2" }, { "id": "saltworks_recipes_3" } ]
+    "blueprint_provides": [
+      { "id": "faction_base_mansion_t4" },
+      { "id": "kitchen" },
+      { "id": "kitchen_recipes_1" },
+      { "id": "kitchen_recipes_2" },
+      { "id": "kitchen_recipes_3" },
+      { "id": "saltworks_recipes_1" },
+      { "id": "saltworks_recipes_2" },
+      { "id": "saltworks_recipes_3" }
+    ]
   },
   {
     "type": "recipe",
@@ -162,7 +171,13 @@
     "blueprint_name": "bar survey",
     "time": "180 m",
     "blueprint_requires": [ { "id": "not_an_upgrade" } ],
-    "blueprint_provides": [ { "id": "faction_base_mansion_c2" }, { "id": "kitchen" }, { "id": "kitchen_recipes_1" }, { "id": "kitchen_recipes_2" }, { "id": "kitchen_recipes_3" } ]
+    "blueprint_provides": [
+      { "id": "faction_base_mansion_c2" },
+      { "id": "kitchen" },
+      { "id": "kitchen_recipes_1" },
+      { "id": "kitchen_recipes_2" },
+      { "id": "kitchen_recipes_3" }
+    ]
   },
   {
     "type": "recipe",
@@ -207,6 +222,15 @@
     "blueprint_name": "kitchen survey",
     "time": "180 m",
     "blueprint_requires": [ { "id": "not_an_upgrade" } ],
-    "blueprint_provides": [ { "id": "faction_base_mansion_c5" }, { "id": "kitchen" }, { "id": "kitchen_recipes_1" }, { "id": "kitchen_recipes_2" }, { "id": "kitchen_recipes_3" }, { "id": "saltworks_recipes_1" }, { "id": "saltworks_recipes_2" }, { "id": "saltworks_recipes_3" } ]
+    "blueprint_provides": [
+      { "id": "faction_base_mansion_c5" },
+      { "id": "kitchen" },
+      { "id": "kitchen_recipes_1" },
+      { "id": "kitchen_recipes_2" },
+      { "id": "kitchen_recipes_3" },
+      { "id": "saltworks_recipes_1" },
+      { "id": "saltworks_recipes_2" },
+      { "id": "saltworks_recipes_3" }
+    ]
   }
 ]

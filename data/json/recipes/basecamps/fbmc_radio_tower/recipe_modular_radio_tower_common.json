@@ -86,7 +86,7 @@
     "never_learn": true,
     "construction_blueprint": "fbmc_radio_tower_fix_controls",
     "blueprint_name": "fix radio tower and controls",
-    "blueprint_requires": [ { "id": "fbmc_radio_tower_water_well" }, { "id": "fbmc_radio_tower_root_cellar" }  ],
+    "blueprint_requires": [ { "id": "fbmc_radio_tower_water_well" }, { "id": "fbmc_radio_tower_root_cellar" } ],
     "blueprint_provides": [ { "id": "fbmc_radio_tower_fix_controls" }, { "id": "recruiting" }, { "id": "radio" } ],
     "blueprint_excludes": [ { "id": "fbmc_radio_tower_fix_controls" } ],
     "blueprint_needs": {
@@ -126,9 +126,7 @@
     "autolearn": false,
     "never_learn": true,
     "construction_blueprint": "fbmc_radio_tower_0_prepalisade",
-    "blueprint_provides": [
-      { "id": "fbmc_radio_tower_0_prepalisade" }
-    ],
+    "blueprint_provides": [ { "id": "fbmc_radio_tower_0_prepalisade" } ],
     "blueprint_requires": [ { "id": "fbmc_radio_tower_0" }, { "id": "fbmc_radio_tower_shack_5" } ],
     "blueprint_excludes": [ { "id": "fbmc_radio_tower_prepalisade" } ],
     "blueprint_name": "dig pits"
@@ -142,9 +140,7 @@
     "autolearn": false,
     "never_learn": true,
     "construction_blueprint": "fbmc_radio_tower_1_prepalisade",
-    "blueprint_provides": [
-      { "id": "fbmc_radio_tower_1_prepalisade" }
-    ],
+    "blueprint_provides": [ { "id": "fbmc_radio_tower_1_prepalisade" } ],
     "blueprint_requires": [ { "id": "fbmc_radio_tower_1" }, { "id": "fbmc_radio_tower_shack_8" } ],
     "blueprint_excludes": [ { "id": "fbmc_radio_tower_prepalisade" } ],
     "blueprint_name": "dig pits"
@@ -158,9 +154,7 @@
     "autolearn": false,
     "never_learn": true,
     "construction_blueprint": "fbmc_radio_tower_0_palisade",
-    "blueprint_provides": [
-      { "id": "fbmc_radio_tower_0_palisade" }, { "id": "fbmc_radio_tower_palisade" }
-    ],
+    "blueprint_provides": [ { "id": "fbmc_radio_tower_0_palisade" }, { "id": "fbmc_radio_tower_palisade" } ],
     "blueprint_requires": [ { "id": "fbmc_radio_tower_0_prepalisade" } ],
     "blueprint_excludes": [ { "id": "fbmc_radio_tower_palisade" } ],
     "blueprint_name": "build palisade"
@@ -174,9 +168,7 @@
     "autolearn": false,
     "never_learn": true,
     "construction_blueprint": "fbmc_radio_tower_1_palisade",
-    "blueprint_provides": [
-      { "id": "fbmc_radio_tower_1_palisade" }, { "id": "fbmc_radio_tower_palisade" }
-    ],
+    "blueprint_provides": [ { "id": "fbmc_radio_tower_1_palisade" }, { "id": "fbmc_radio_tower_palisade" } ],
     "blueprint_requires": [ { "id": "fbmc_radio_tower_1_prepalisade" } ],
     "blueprint_excludes": [ { "id": "fbmc_radio_tower_palisade" } ],
     "blueprint_name": "build palisade"
@@ -192,15 +184,28 @@
     "construction_blueprint": "faction_base_radio_tower_fix_tower",
     "blueprint_name": "fix whole radio tower",
     "blueprint_requires": [ { "id": "bed", "amount": 12 }, { "id": "fbmc_radio_tower_palisade" }, { "id": "fbmc_radio_tower_fix_controls" } ],
-    "blueprint_provides": [ { "id": "faction_base_radio_tower_fix_tower" }, { "id": "hack_recipes_general" }, { "id": "hack_recipes_science" }, { "id": "hack_recipes_satellite" } ],
+    "blueprint_provides": [
+      { "id": "faction_base_radio_tower_fix_tower" },
+      { "id": "hack_recipes_general" },
+      { "id": "hack_recipes_science" },
+      { "id": "hack_recipes_satellite" }
+    ],
     "blueprint_excludes": [ { "id": "faction_base_radio_tower_fix_tower" } ],
-	"using": [ [ "soldering_standard", 200 ], [ "welding_standard", 80 ] ],
+    "using": [ [ "soldering_standard", 200 ], [ "welding_standard", 80 ] ],
     "blueprint_needs": {
       "time": "3 d",
       "skills": [ [ "fabrication", 3 ], [ "computer", 4 ], [ "electronics", 8 ] ],
       "inline": {
         "tools": [ [ [ "laptop", 600 ] ], [ [ "radio_book", -1 ] ] ],
-        "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M" } ], [ { "id": "SCREW", "level": 2 } ], [ { "id": "SCREW_FINE" } ], [ { "id": "WRENCH", "level": 2 } ], [ { "id": "WRENCH_FINE" } ], [ { "id": "GLARE", "level": 2 }  ] ],
+        "qualities": [
+          [ { "id": "HAMMER", "level": 2 } ],
+          [ { "id": "SAW_M" } ],
+          [ { "id": "SCREW", "level": 2 } ],
+          [ { "id": "SCREW_FINE" } ],
+          [ { "id": "WRENCH", "level": 2 } ],
+          [ { "id": "WRENCH_FINE" } ],
+          [ { "id": "GLARE", "level": 2 } ]
+        ],
         "components": [
           [
             [ "wind_turbine", 16 ],
@@ -221,7 +226,7 @@
           [ [ "power_supply", 16 ] ],
           [ [ "amplifier", 16 ] ],
           [ [ "cable", 400 ] ],
-		  [ [ "software_electronics_reference", 1 ] ]
+          [ [ "software_electronics_reference", 1 ] ]
         ]
       }
     }

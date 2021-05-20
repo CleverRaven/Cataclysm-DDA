@@ -3,11 +3,7 @@
     "type": "mapgen",
     "update_mapgen_id": "fbmc_mansion_+2",
     "method": "json",
-    "object": {
-      "set": [
-        { "point": "furniture", "id": "f_bulletin", "x": 18, "y": 6 }
-      ]
-    }
+    "object": { "set": [ { "point": "furniture", "id": "f_bulletin", "x": 18, "y": 6 } ] }
   },
   {
     "type": "mapgen",

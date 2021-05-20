@@ -5,10 +5,7 @@
     "nested_mapgen_id": "fbmc_mattress_bed_horizontal",
     "object": {
       "mapgensize": [ 2, 2 ],
-      "set": [
-        { "point": "furniture", "id": "f_bed", "x": 0, "y": 0 },
-        { "point": "furniture", "id": "f_bed", "x": 1, "y": 0 }
-      ]
+      "set": [ { "point": "furniture", "id": "f_bed", "x": 0, "y": 0 }, { "point": "furniture", "id": "f_bed", "x": 1, "y": 0 } ]
     }
   },
   {
@@ -17,10 +14,7 @@
     "nested_mapgen_id": "fbmc_mattress_bed_vertical",
     "object": {
       "mapgensize": [ 2, 2 ],
-      "set": [
-        { "point": "furniture", "id": "f_bed", "x": 0, "y": 0 },
-        { "point": "furniture", "id": "f_bed", "x": 0, "y": 1 }
-      ]
+      "set": [ { "point": "furniture", "id": "f_bed", "x": 0, "y": 0 }, { "point": "furniture", "id": "f_bed", "x": 0, "y": 1 } ]
     }
   },
   {
