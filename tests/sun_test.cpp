@@ -486,7 +486,7 @@ static PointSet sun_throughout_year( time_point day_start )
 
 static void check_sun_plot( const std::vector<PointSet> &points, const std::string &reference )
 {
-    static constexpr std::array<char, 3> symbols = { '#', '*', '.' };
+    static constexpr std::array<char, 3> symbols = { { '#', '*', '.' } };
     REQUIRE( points.size() <= symbols.size() );
 
     std::ostringstream os;
