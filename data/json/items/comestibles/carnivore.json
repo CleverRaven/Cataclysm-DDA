@@ -224,9 +224,9 @@
     "name": { "str": "scrap of meat", "str_pl": "scraps of meat" },
     "description": "This is a tiny scrap of edible meat.  It's not much, but it'll do in a pinch.",
     "cooks_like": "meat_scrap_cooked",
-    "proportional": { "weight": 0.1, "volume": 0.1, "price": 0.1, "calories": 0.1,"vitamins": 0.1 },
-    "delete": { "flags": [ "SMOKABLE" ] }
-    
+    "proportional": { "weight": 0.1, "volume": 0.1, "price": 0.1, "calories": 0.1 },
+    "delete": { "flags": [ "SMOKABLE" ] },
+    "vitamins": [ [ "calcium", 0 ], [ "iron", 1 ], [ "vitB", 8 ] ]    
   },
   {
     "id": "mutant_meat",
