@@ -321,7 +321,7 @@
     "name": { "str": "bloated corvid" },
     "description": "This may have once been a crow or a raven, but now it's a deformed monstrosity nearly the size of a man.  It heaves its sable bulk awkwardly along the ground, too overfed on carrion to fly.",
     "bodytype": "bird",
-    "default_faction": "mutant",
+    "default_faction": "corvid",
     "species": [ "MUTANT" ],
     "diff": 2,
     "volume": "35000 ml",
