@@ -119,14 +119,16 @@ struct solar_effective_time {
 static std::pair<units::angle, units::angle> sun_ra_declination(
     solar_effective_time t, time_duration timezone )
 {
-    // This derivation mostly from
+    // This derivation is mostly from
     // https://en.wikipedia.org/wiki/Position_of_the_Sun
     // https://en.wikipedia.org/wiki/Celestial_coordinate_system#Notes_on_conversion
 
     // The computation is inspired by the derivation based on J2000 (Greenwich
-    // noon, 2000-01-01), but because we want to handle a different year length
-    // than the real Earth, we don't use the same exact values.
-    // Instead we use as our epoch Greenwich midnight on the vernal equinox
+    // noon, 2000-01-01), but because we want to be capable of handling a
+    // different year length than the real Earth, we don't use the same exact
+    // values.
+    // Instead we use as our epoch a point that won't change arbitrarily with a
+    // different year length - Greenwich midnight on the vernal equinox
     // (note that the vernal equinox happens to be Spring day 1 in the game
     // calendar, which is convenient).
     const double days_since_epoch = to_days<double>( t.t - calendar::turn_zero - timezone );
@@ -154,9 +156,9 @@ static std::pair<units::angle, units::angle> sun_ra_declination(
     const rl_vec2d eclip( cos( ecliptic_longitude ), sin( ecliptic_longitude ) );
     // rotate to equatorial coordinates
     const rl_vec3d rot( eclip.x, eclip.y * cos( obliquity ), eclip.y * sin( obliquity ) );
-    const units::angle RA = atan2( rot.xy() );
+    const units::angle right_ascension = atan2( rot.xy() );
     const units::angle declination = units::asin( rot.z );
-    return { RA, declination };
+    return { right_ascension, declination };
 }
 
 static units::angle sidereal_time_at( solar_effective_time t, units::angle longitude,
@@ -180,19 +182,22 @@ static units::angle sidereal_time_at( solar_effective_time t, units::angle longi
 static std::pair<units::angle, units::angle> sun_azimuth_altitude(
     solar_effective_time t, lat_long location, time_duration timezone )
 {
-    units::angle RA;
+    units::angle right_ascension;
     units::angle declination;
-    std::tie( RA, declination ) = sun_ra_declination( t, timezone );
-    const units::angle SIDTIME = sidereal_time_at( t, location.longitude, timezone );
+    std::tie( right_ascension, declination ) = sun_ra_declination( t, timezone );
+    const units::angle sidereal_time = sidereal_time_at( t, location.longitude, timezone );
 
-    const units::angle hour_angle = SIDTIME - RA;
+    const units::angle hour_angle = sidereal_time - right_ascension;
 
+    // Use a two-step transformation to convert equatorial coordinates to
+    // horizontal.
+    // https://en.wikipedia.org/wiki/Celestial_coordinate_system#Equatorial_%E2%86%94_horizontal
     const rl_vec3d intermediate(
         cos( hour_angle ) * cos( declination ),
         sin( hour_angle ) * cos( declination ),
         sin( declination ) );
 
-    const rl_vec3d hor(
+    const rl_vec3d horizontal(
         -intermediate.x * sin( location.latitude ) +
         intermediate.z * cos( location.latitude ),
         intermediate.y,
@@ -201,18 +206,16 @@ static std::pair<units::angle, units::angle> sun_azimuth_altitude(
     );
 
     // Azimuth is from the South, turning positive to the west
-    const units::angle azimuth = normalize( -atan2( hor.xy() ) + 180_degrees );
-    const units::angle altitude = units::asin( hor.z );
+    const units::angle azimuth = normalize( -atan2( horizontal.xy() ) + 180_degrees );
+    const units::angle altitude = units::asin( horizontal.z );
 
     /*printf(
         "\n"
-        "days_since_j2000 = %f, ecliptic_longitude = %f\n"
-        "RA = %f, declination = %f\n"
-        "SIDTIME = %f, hour_angle = %f\n"
+        "right_ascension = %f, declination = %f\n"
+        "sidereal_time = %f, hour_angle = %f\n"
         "aziumth = %f, altitude = %f\n",
-        days_since_j2000, to_degrees( ecliptic_longitude ),
-        to_degrees( RA ), to_degrees( declination ),
-        to_degrees( SIDTIME ), to_degrees( hour_angle ),
+        to_degrees( right_ascension ), to_degrees( declination ),
+        to_degrees( sidereal_time ), to_degrees( hour_angle ),
         to_degrees( azimuth ), to_degrees( altitude ) );*/
 
     return std::make_pair( azimuth, altitude );
@@ -239,6 +242,7 @@ cata::optional<rl_vec2d> sunlight_angle( const time_point &t, lat_long location 
     units::angle azimuth, altitude;
     std::tie( azimuth, altitude ) = sun_azimuth_altitude( t, location, timezone_boston );
     if( altitude <= 0_degrees ) {
+        // Sun below horizon
         return cata::nullopt;
     }
     rl_vec2d horizontal_direction( -sin( azimuth ), cos( azimuth ) );
