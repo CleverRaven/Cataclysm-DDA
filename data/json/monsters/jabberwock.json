@@ -28,7 +28,7 @@
     "death_function": [ "NORMAL" ],
     "harvest": "zombie",
     "upgrades": { "half_life": 15, "into": "mon_flesh_golem" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "ATTACKMON", "POISON" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "PUSH_MON", "POISON" ]
   },
   {
     "id": "mon_flesh_golem",
@@ -59,7 +59,7 @@
     "death_function": [ "NORMAL" ],
     "harvest": "flesh_golem",
     "upgrades": { "half_life": 15, "into": "mon_jabberwock" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "ATTACKMON", "POISON" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "PUSH_MON", "POISON" ]
   },
   {
     "id": "mon_jabberwock",
@@ -90,6 +90,6 @@
     "special_attacks": [ [ "FLESH_GOLEM", 5 ] ],
     "death_function": [ "JABBERWOCKY" ],
     "harvest": "jabberwock",
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "DESTROYS", "ATTACKMON", "POISON" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "DESTROYS", "PUSH_MON", "POISON" ]
   }
 ]
