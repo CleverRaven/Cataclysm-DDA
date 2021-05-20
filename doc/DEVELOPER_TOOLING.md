@@ -126,7 +126,7 @@ To run `clang-tidy` with this plugin enabled add the
 to your `clang-tidy` command line.
 
 If you wish to run the tests for the custom clang-tidy plugin you will also
-need `lit`.  This will be built as part of `llvm`, or you can install it via
+need `lit`.  This will be built as part of LLVM, or you can install it via
 `pip` or your local package manager if you prefer.
 
 Then, assuming `build` is your Cataclysm build directory, you can run the tests
@@ -139,17 +139,17 @@ lit -v build/tools/clang-tidy-plugin/test
 
 ##### Build LLVM
 
-To build llvm on Windows, you'll first need to get some tools installed.
+To build LLVM on Windows, you'll first need to get some tools installed.
 - Cmake
 - Python 3
 - MinGW-w64 (other compilers may or may not work. Clang itself does not seem to be
-building llvm on Windows correctly.)
+building LLVM on Windows correctly.)
 - A shell environment
 
 After the tools are installed, a patch still needs to be applied before building
-llvm, since `clang-tidy` as distributed by LLVM doesn't support plugins.
+LLVM, since `clang-tidy` as distributed by LLVM doesn't support plugins.
 
-First, clone the llvm repo from, for example, [the official github repo](https://github.com/llvm/llvm-project.git).
+First, clone the LLVM repo from, for example, [the official github repo](https://github.com/llvm/llvm-project.git).
 Checkout the `release/12.x` branch, since that's what our patch was based on.
 
 On Windows, in addition to applying `plugin-support.patch` mentioned in the previous section, you
@@ -158,13 +158,13 @@ should also apply
 so you can run the lit test with the custom clang-tidy executable and let
 clang-tidy apply suggestions automatically.
 
-After the patch is applied, you can then build the llvm code. Unfortunately, it
-seems that clang itself cannot correctly compile the llvm code on Windows (gives
+After the patch is applied, you can then build the LLVM code. Unfortunately, it
+seems that clang itself cannot correctly compile the LLVM code on Windows (gives
 some sort of relocation error). Luckily, MinGW-w64 can be used instead to compile
 the code.
 
 The first step to build the code is to run CMake to generate the makefile. On
-the root dir of llvm, run the following script (substitute values inside `<>`
+the root dir of LLVM, run the following script (substitute values inside `<>`
 with the actual paths). Make sure CMake, python, and MinGW-w64 are on the path.
 
 ```sh
@@ -183,7 +183,7 @@ cmake \
 The next step is to call `make` to actually build clang-tidy as a library.
 When using MinGW-w64 to build, you should call `mingw32-make` instead.
 Also, because `FileCheck` is not shipped with Windows, you'll also need to build
-it yourself using llvm sources by adding the `FileCheck` target to the make command.
+it yourself using LLVM sources by adding the `FileCheck` target to the make command.
 
 ```sh
 mkdir -p build
@@ -196,14 +196,14 @@ are needed to build our custom clang-tidy executable later.
 
 ##### Build clang-tidy with custom checks
 
-After building clang-tidy as a library from the llvm source, the next step is to
+After building clang-tidy as a library from the LLVM source, the next step is to
 build clang-tidy as an executable, with the custom checks from the CDDA source.
 
 In this step, the following tools are required.
 - Python 3
 - CMake
 - MinGW-w64
-- FileCheck (built from the llvm source)
+- FileCheck (built from the LLVM source)
 - A shell environment
 
 You also need to install yaml for python 3 to work. Download the `.whl` installer
