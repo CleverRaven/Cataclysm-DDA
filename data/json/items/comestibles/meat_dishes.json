@@ -126,7 +126,7 @@
     "material": [ "flesh" ],
     "volume": "500 ml",
     "fun": 7,
-    "vitamins": [ [ "vitC", 16 ], [ "calcium", 2 ], [ "iron", 69 ], [ "vitB", 778 ] ]
+    "vitamins": [ [ "vitC", 4 ], [ "calcium", 6 ], [ "iron", 69 ], [ "vitB", 323 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -149,7 +149,7 @@
     "material": [ "flesh" ],
     "charges": 2,
     "flags": [ "EATEN_HOT", "SMOKED" ],
-    "vitamins": [ [ "calcium", 0 ], [ "iron", 2 ] ],
+    "vitamins": [ [ "vitA", 1 ],[ "vitC", 0 ],[ "calcium", 0 ], [ "iron", 6 ], [ "vitB", 39 ] ],
     "fun": 5
   },
   {
@@ -196,6 +196,7 @@
     "material": [ "flesh" ],
     "charges": 4,
     "flags": [ "EATEN_HOT" ],
+    "vitamins": [ [ "vitA", 1 ],[ "vitC", 0 ],[ "calcium", 0 ], [ "iron", 3 ], [ "vitB", 19 ] ],
     "fun": 4
   },
   {
@@ -444,14 +445,14 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "healthy": -1,
-    "calories": 26,
+    "calories": 157,
     "description": "Formally known as Bologna sausage, this is a finely ground preserved meat that comes in circular slices.  Its first name isn't Oscar.  You can eat it cold.",
     "price": 1000,
     "price_postapoc": 250,
     "material": [ "flesh" ],
     "volume": "750 ml",
     "charges": 10,
-    "vitamins": [ [ "iron", 15 ], [ "vitB", 8 ] ]
+    "vitamins": [ [ "vitA", 0 ],[ "vitC", 0 ],[ "calcium", 6 ], [ "iron", 5 ], [ "vitB", 11 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -497,7 +498,7 @@
     "charges": 6,
     "flags": [ "EATEN_HOT" ],
     "fun": -8,
-    "vitamins": [ [ "iron", 3 ] ]
+    "vitamins": [ [ "iron", 3 ], [ "vitB", 11 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -581,7 +582,7 @@
     "price_postapoc": 350,
     "material": [ "flesh", "veggy" ],
     "volume": "120 ml",
-    "vitamins": [ [ "vitC", 3 ], [ "calcium", 24 ], [ "iron", 14 ] ],
+    "vitamins": [ [ "vitA", 14 ],[ "vitC", 3 ], [ "calcium", 5 ], [ "iron", 21 ] ],
     "fun": 3
   },
   {
@@ -629,7 +630,7 @@
     "volume": "500 ml",
     "flags": [ "EATEN_HOT" ],
     "charges": 2,
-    "vitamins": [ [ "vitA", 6 ], [ "calcium", 16 ], [ "iron", 9 ] ]
+    "vitamins": [ [ "vitA", 6 ], [ "calcium", 5 ], [ "iron", 27 ], [ "vitB", 64 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -664,7 +665,7 @@
     "flags": [ "EATEN_HOT" ],
     "fun": 5,
     "charges": 2,
-    "vitamins": [ [ "vitA", 14 ], [ "vitC", 7 ], [ "calcium", 6 ], [ "iron", 27 ] ]
+    "vitamins": [ [ "vitA", 5 ], [ "vitC", 7 ], [ "calcium", 7 ], [ "iron", 27 ], [ "vitB", 66 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -686,7 +687,7 @@
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
     "fun": 5,
-    "vitamins": [ [ "vitC", 6 ], [ "calcium", 14 ], [ "iron", 25 ] ]
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 14 ], [ "iron", 32 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -930,7 +931,7 @@
     "charges": 4,
     "flags": [ "EATEN_HOT" ],
     "fun": 10,
-    "vitamins": [ [ "vitA", 3 ], [ "vitC", 10 ], [ "calcium", 28 ], [ "iron", 28 ] ]
+    "vitamins": [ [ "vitA", 19 ], [ "vitC", 0 ], [ "calcium", 44 ], [ "iron", 36 ], [ "vitB", 63 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -945,7 +946,7 @@
     "price_postapoc": 1500,
     "material": [ "wheat", "flesh", "veggy", "milk" ],
     "fun": 11,
-    "vitamins": [ [ "vitA", 12 ], [ "vitC", 20 ], [ "calcium", 32 ], [ "iron", 28 ] ]
+    "vitamins": [ [ "vitA", 12 ], [ "vitC", 20 ], [ "calcium", 32 ], [ "iron", 28 ], [ "vitB", 53 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -967,7 +968,7 @@
     "charges": 3,
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 4,
-    "vitamins": [ [ "vitA", 9 ], [ "vitC", 8 ], [ "calcium", 4 ], [ "iron", 39 ], [ "vitB", 410 ] ]
+    "vitamins": [ [ "vitA", 19 ], [ "vitC", 2 ], [ "calcium", 4 ], [ "iron", 39 ], [ "vitB", 97 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1035,7 +1036,7 @@
     "charges": 8,
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 4,
-    "vitamins": [ [ "vitA", 3 ], [ "vitC", 3 ], [ "calcium", 13 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "vitA", 8 ], [ "vitC", 5 ], [ "calcium", 3 ], [ "iron", 9 ], [ "vitB", 17 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1053,7 +1054,7 @@
     "symbol": "%",
     "quench": 5,
     "healthy": 1,
-    "calories": 226,
+    "calories": 326,
     "description": "A very old type of pasta made with several layers of lasagne sheets alternated with cheese, sauces and meats.",
     "price": 1000,
     "price_postapoc": 300,
@@ -1063,7 +1064,7 @@
     "charges": 8,
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 15,
-    "vitamins": [ [ "vitA", 5 ], [ "vitC", 19 ], [ "calcium", 22 ], [ "iron", 10 ] ]
+    "vitamins": [ [ "vitA", 12 ], [ "vitC", 6 ], [ "calcium", 22 ], [ "iron", 17 ], [ "vitB", 79 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1093,7 +1094,7 @@
     "container": "wrapper",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "calories": 380,
+    "calories": 630,
     "description": "A sandwich of minced meat and cheese with condiments.  The apex of pre-Cataclysm culinary achievement.",
     "price": 1000,
     "price_postapoc": 250,
@@ -1102,7 +1103,7 @@
     "volume": "300 ml",
     "flags": [ "EATEN_HOT", "ALLERGEN_MILK" ],
     "fun": 5,
-    "vitamins": [ [ "calcium", 9 ], [ "iron", 14 ] ]
+    "vitamins": [ [ "vitA", 17 ], [ "vitC", 1 ], [ "calcium", 57 ] [ "iron", 65 ], [ "vitB", 213 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1119,7 +1120,7 @@
     "container": "wrapper",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "calories": 258,
+    "calories": 638,
     "description": "A sandwich of minced meat with condiments.",
     "price": 900,
     "price_postapoc": 200,
@@ -1127,7 +1128,7 @@
     "volume": "300 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 4,
-    "vitamins": [ [ "vitC", 2 ], [ "calcium", 8 ], [ "iron", 16 ] ]
+    "vitamins": [ [ "vitA", 17 ], [ "vitC", 1 ], [ "calcium", 57 ] [ "iron", 65 ], [ "vitB", 213 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1181,7 +1182,7 @@
     "material": [ "flesh" ],
     "volume": "250 ml",
     "fun": 8,
-    "vitamins": [ [ "calcium", 13 ], [ "iron", 9 ], [ "vitB", 36 ] ]
+    "vitamins": [ [ "vitA", 6 ], [ "vitC", 1 ][ "calcium", 8 ], [ "iron", 15 ], [ "vitB", 17 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1266,7 +1267,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 2,
-    "vitamins": [ [ "vitA", 144 ], [ "vitC", 21 ], [ "calcium", 1 ], [ "iron", 29 ] ]
+    "vitamins": [ [ "vitA", 144 ], [ "vitC", 21 ], [ "calcium", 1 ], [ "iron", 29 ], [ "vitB", 87 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1384,6 +1385,6 @@
     "charges": 3,
     "flags": [ "EATEN_HOT" ],
     "fun": 7,
-    "vitamins": [ [ "vitC", 3 ], [ "calcium", 19 ], [ "iron", 12 ] ]
+    "vitamins": [ [ "vitC", 3 ], [ "calcium", 19 ], [ "iron", 12 ], [ "vitB", 17 ] ]
   }
 ]
