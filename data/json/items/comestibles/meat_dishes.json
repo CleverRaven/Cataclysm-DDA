@@ -1103,7 +1103,7 @@
     "volume": "300 ml",
     "flags": [ "EATEN_HOT", "ALLERGEN_MILK" ],
     "fun": 5,
-    "vitamins": [ [ "vitA", 17 ], [ "vitC", 1 ], [ "calcium", 57 ] [ "iron", 65 ], [ "vitB", 213 ] ]
+    "vitamins": [ [ "vitA", 17 ], [ "vitC", 1 ], [ "calcium", 57 ], [ "iron", 65 ], [ "vitB", 213 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1128,7 +1128,7 @@
     "volume": "300 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 4,
-    "vitamins": [ [ "vitA", 17 ], [ "vitC", 1 ], [ "calcium", 57 ] [ "iron", 65 ], [ "vitB", 213 ] ]
+    "vitamins": [ [ "vitA", 17 ], [ "vitC", 1 ], [ "calcium", 57 ], [ "iron", 65 ], [ "vitB", 213 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1182,7 +1182,7 @@
     "material": [ "flesh" ],
     "volume": "250 ml",
     "fun": 8,
-    "vitamins": [ [ "vitA", 6 ], [ "vitC", 1 ][ "calcium", 8 ], [ "iron", 15 ], [ "vitB", 17 ] ]
+    "vitamins": [ [ "vitA", 6 ], [ "vitC", 1 ], [ "calcium", 8 ], [ "iron", 15 ], [ "vitB", 17 ] ]
   },
   {
     "type": "COMESTIBLE",
