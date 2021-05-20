@@ -216,7 +216,7 @@
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
     "attack_effs": [ { "id": "tetanus", "chance": 10 } ],
-    "burn_into": "mon_zombie_scorched",
+    "burn_into": "mon_zombie_fiend",
     "flags": [
       "SEES",
       "HEARS",

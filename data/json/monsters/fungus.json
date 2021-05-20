@@ -442,7 +442,6 @@
     "special_attacks": [ [ "SMASH", 20 ] ],
     "death_drops": "mon_zombie_hulk_death_drops",
     "death_function": [ "FUNGUS" ],
-    "burn_into": "mon_zombie_fiend",
     "flags": [
       "HEARS",
       "STUMBLES",
