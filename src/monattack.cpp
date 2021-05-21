@@ -5294,8 +5294,8 @@ bool mattack::bio_op_impale( monster *z )
 
     t_dam = foe->deal_damage( z, hit, damage_instance( damage_type::STAB, dam ) ).total_damage();
 
-    target->add_msg_player_or_npc( _( "The %1$s tries to impale your %s…" ),
-                                   _( "The %1$s tries to impale <npcname>'s %s…" ),
+    target->add_msg_player_or_npc( _( "The %1$s tries to impale your %2$s…" ),
+                                   _( "The %1$s tries to impale <npcname>'s %2$s…" ),
                                    z->name(), body_part_name_accusative( hit ) );
 
     if( t_dam > 0 ) {
