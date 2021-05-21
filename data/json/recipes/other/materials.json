@@ -211,7 +211,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "bubblewrap", -1 ] ], [ [ "casserole", -1 ] ] ],
-    "components": [ [ [ "soap", 5 ] ], [ [ "water_clean", 3 ] ], [ [ "wool_staple", 1 ] ], , [ [ "bubblewrap", 1 ] ] ]
+    "components": [ [ [ "soap", 5 ] ], [ [ "water_clean", 3 ] ], [ [ "wool_staple", 1 ] ], [ [ "bubblewrap", 1 ] ] ]
   },
   {
     "type": "recipe",
