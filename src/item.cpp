@@ -8896,7 +8896,6 @@ void item::set_item_temperature( float new_temperature )
     float freeze_percentage = 0.0f;
 
     temperature = std::lround( 100000 * new_temperature );
-	add_msg( m_neutral, _( "%i" ), temperature );
     specific_energy = std::lround( 100000 * new_specific_energy );
 
     const float completely_frozen_specific_energy = specific_heat_solid *
