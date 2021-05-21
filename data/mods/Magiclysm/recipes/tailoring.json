@@ -1,0 +1,15 @@
+[
+  {
+    "type": "recipe",
+    "activity_level": "fake",
+    "result": "parabolan_felt_patch",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "skills_required": [ "tailor", 1 ],
+    "difficulty": 1,
+    "time": "15 m",
+    "autolearn": true,
+    "components": [ [ [ "soap", 5 ] ], [ [ "water_clean", 3 ] ], [ [ "parabolan_wool_staple", 1 ] ] ]
+  }
+]

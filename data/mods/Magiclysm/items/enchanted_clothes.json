@@ -5,12 +5,12 @@
     "has": "WORN",
     "condition": "ALWAYS",
     "values": [ { "value": "DEXTERITY", "add": 2 }, { "value": "BONUS_DODGE", "add": 3 }, { "value": "SOCIAL_LIE", "add": 3 } ],
-    "mutations": [ "UNCANNY_DODGE" ]
+    "mutations": [ "MIRROR_DISPLACEMENT" ]
   },
   {
     "id": "enchanted_pirate_blouse",
     "type": "ARMOR",
-    "name": "enchatned parabolan wool blouse",
+    "name": { "str_sp": "enchanted parabolan wool blouse" },
     "description": "A loose iridescent blouse in a style most often associated with pirates and renfaires.  It shimmers as you look at it.  Made of parabolan wool, it sometimes dimly shows reflections of things here and not.  This particular one has piratical flairs.",
     "looks_like": "dress_shirt",
     "weight": "60 g",
@@ -22,8 +22,8 @@
     "coverage": 90,
     "encumbrance": 2,
     "material": [ "parabolan_wool" ],
-    "thickness": 0.5,
-    "flags": [ "VARSIZE", "FANCY", "WATER_FRIENDLY", "RAINPROOF" ],
+    "material_thickness": 0.5,
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "RAINPROOF", "SUPER_FANCY", "STURDY", "TRADER_KEEP_EQUIPPED" ],
     "relic_data": { "passive_effects": [ { "id": "ench_parabolan_blouse" } ] }
   },
   {
@@ -43,15 +43,16 @@
     "coverage": 80,
     "encumbrance": 4,
     "material_thickness": 0.5,
-    "flags": [ "VARSIZE", "FANCY", "WATER_FRIENDLY", "RAINPROOF" ],
-    "relic_data": { "passive_effects": [ { "id": "ench_parabolan_breeches" } ] }
-  },
-  {
-    "id": "ench_parabolan_breeches",
-    "type": "enchantment",
-    "has": "WORN",
-    "condition": "ALWAYS",
-    "values": [ { "value": "ARMOR_BULLET", "add": 8 }, { "value": "ARMOR_STAB", "add": 3 }, { "value": "ARMOR_CUT", "add": 3 } ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "RAINPROOF", "SUPER_FANCY", "STURDY", "TRADER_KEEP_EQUIPPED" ],
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "values": [ { "value": "ARMOR_BULLET", "add": 8 }, { "value": "ARMOR_STAB", "add": 3 }, { "value": "ARMOR_CUT", "add": 3 } ]
+        }
+      ]
+    }
   },
   {
     "id": "parabolan_blouse",
@@ -61,14 +62,15 @@
     "looks_like": "dress_shirt",
     "weight": "60 g",
     "volume": "750 ml",
-    "price": 200000,
+    "price": 2000,
+    "price_postapoc": 500,
     "symbol": "[",
     "color": "brown",
     "covers": [ "torso", "arm_l", "arm_r" ],
     "coverage": 90,
     "encumbrance": 2,
     "material": [ "parabolan_wool" ],
-    "thickness": 0.5,
+    "material_thickness": 0.5,
     "flags": [ "VARSIZE", "FANCY", "WATER_FRIENDLY", "RAINPROOF" ]
   },
   {

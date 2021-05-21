@@ -22,8 +22,9 @@
     "common": false,
     "bonus_int": { "one_in": 4 },
     "bonus_per": { "one_in": 4 },
-    "shopkeeper_item_group": "NC_FORGE_LORDSTORE_REAGENT",
+    "shopkeeper_item_group": "NC_FORGE_LORD_STORE_REAGENT",
     "worn_override": "NC_FORGE_REAGENT_clothes",
+    "weapon_override": "NC_FORGE_REAGENT_wield",
     "skills": [
       {
         "skill": "ALL",
@@ -41,13 +42,32 @@
     "id": "NC_FORGE_REAGENT_clothes",
     "subtype": "collection",
     "entries": [
-      { "item": "baldric_holster", "prob": 100, "container-item": [ "enchanted_blackpowder_pistol", "enchanted_blackpowder_pistol", "enchanted_blackpowder_pistol", "enchanted_blackpowder_pistol" ] },
-      { "item": "scabbard", "prob": 100, "container-item": "cavalry_sabre_plus_one" },
+      { "item": "baldric_holster", "prob": 100, "contents-group": "pirate_loadout" },
+      { "item": "cavalry_sabre_plus_one", "prob": 100, "container-item": "scabbard" },
       { "item": "bandana", "prob": 100 },
       { "item": "mboots_escape", "prob": 100 },
       { "item": "parabolan_enchanted_breeches", "prob": 100 },
       { "item": "enchanted_pirate_blouse", "prob": 100 },
-      { "item": "flintlock_pouch", "contents-group": "flintlock_pouch_reenactor" },
+      { "item": "flintlock_pouch", "contents-group": "flintlock_pouch_reenactor" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_FORGE_REAGENT_wield",
+    "subtype": "collection",
+    "items": [ { "item": "enchanted_blackpowder_pistol", "prob": 100, "charges": 1 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "pirate_loadout",
+    "entries": [
+      { "item": "enchanted_blackpowder_pistol", "ammo-item": "flintlock_ammo", "charges": 1 },
+      { "item": "enchanted_blackpowder_pistol", "ammo-item": "flintlock_ammo", "charges": 1 },
+      { "item": "enchanted_blackpowder_pistol", "ammo-item": "flintlock_ammo", "charges": 1 },
+      { "item": "enchanted_blackpowder_pistol", "ammo-item": "flintlock_ammo", "charges": 1 },
+      { "item": "enchanted_blackpowder_pistol", "ammo-item": "flintlock_ammo", "charges": 1 },
+      { "item": "enchanted_blackpowder_pistol", "ammo-item": "flintlock_ammo", "charges": 1 }
     ]
   },
   {
@@ -55,10 +75,10 @@
     "subtype": "collection",
     "id": "NC_FORGE_LORD_STORE_REAGENT",
     "items": [
-      { "group": "organic_materials", "count": [ 13, 18 ], "prob": 40 },
-      { "group": "magic_shop_potions", "count": [ 1, 3 ], "prob": 50 },
-      { "group": "potions_common", "count": [ 5, 8 ], "prob": 20 },
-      { "group": "spellbook_loot_1", "prob": 35, "count": [ 1, 3 ] }
+      { "group": "organic_materials", "count": [ 13, 18 ], "prob": 100 },
+      { "group": "magic_shop_potions", "count": [ 1, 3 ], "prob": 100 },
+      { "group": "potions_common", "count": [ 5, 8 ], "prob": 50 },
+      { "group": "spellbook_loot_1", "prob": 75, "count": [ 1, 3 ] }
     ]
   },
   {
