@@ -12,6 +12,7 @@ on:
     - '**/Makefile'
     - '**.hpp'
     - '**.cmake'
+    - '.github/workflows/CBA.yml'
   pull_request:
     branches:
     - master
@@ -23,6 +24,7 @@ on:
     - '**/Makefile'
     - '**.hpp'
     - '**.cmake'
+    - '.github/workflows/CBA.yml'
 
 
 jobs:
