@@ -99,7 +99,7 @@
   },
   {
     "type": "recipe",
-    "result": "faction_base_radio_tower_wad_shack_5",
+    "result": "faction_base_radio_tower_wad_shack_8",
     "description": "We need some shelter, so build a wattle and daub shack with a sod roof on the south side of the camp.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
