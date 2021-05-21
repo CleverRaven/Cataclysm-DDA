@@ -95,7 +95,7 @@
       [ "cauldron_demon_chitin", 3 ],
       [ "manatouched_serum", 3 ],
       [ "wolfsbane", 2 ],
-      [ "wolfshead_cufflinks", 1 ]
+      [ "wolfshead_cufflinks", 3 ]
     ]
   },
   {
@@ -681,7 +681,10 @@
     "items": [
       { "group": "enchanted_bracers_lesser", "prob": 25 },
       { "group": "enchanted_boots", "prob": 7 },
-      { "group": "enchanted_belts", "prob": 7 }
+      { "group": "enchanted_belts", "prob": 7 },
+      [ "item": "wolfshead_cufflinks", "prob": 1 ],
+      [ "item": "parabolan_breeches", "prob": 30 ],
+      [ "item": "parabolan_blouse", "prob": 30 ]
     ]
   },
   {
