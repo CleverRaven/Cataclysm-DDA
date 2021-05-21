@@ -71,7 +71,7 @@
     "encumbrance": 2,
     "material": [ "parabolan_wool" ],
     "material_thickness": 0.5,
-    "flags": [ "VARSIZE", "FANCY", "WATER_FRIENDLY", "RAINPROOF" ]
+    "flags": [ "VARSIZE", "FANCY", "WATER_FRIENDLY" ]
   },
   {
     "id": "parabolan_breeches",
@@ -90,6 +90,6 @@
     "coverage": 80,
     "encumbrance": 4,
     "material_thickness": 0.5,
-    "flags": [ "VARSIZE", "FANCY", "WATER_FRIENDLY", "RAINPROOF" ]
+    "flags": [ "VARSIZE", "FANCY", "WATER_FRIENDLY" ]
   }
 ]

@@ -10,6 +10,21 @@
     "difficulty": 1,
     "time": "15 m",
     "autolearn": true,
-    "components": [ [ [ "soap", 5 ] ], [ [ "water_clean", 3 ] ], [ [ "parabolan_wool_staple", 1 ] ] ]
+    "components": [ [ [ "soap", 5 ] ], [ [ "water_clean", 3 ] ], [ [ "crystallized_mana", 6 ] ], [ [ "parabolan_wool_staple", 1 ] ] ]
+  },
+  {
+    "result": "parabolan_yarn",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "30 m",
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_spinning" }, { "proficiency": "prof_fibers" } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "tools": [ [ [ "distaff_spindle", -1 ] ] ],
+    "components": [ [ "parabolan_wool_staple", 1 ] ]
   }
 ]
