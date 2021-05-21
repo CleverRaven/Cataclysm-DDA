@@ -138,7 +138,7 @@
       "!": { "item": "magic_smith", "chance": 40, "repeat": [ 1, 2 ] },
       "f": [
         { "item": "NC_FORGE_LORD_STORE_REAGENT", "chance": 40, "repeat": [ 1, 2 ] },
-        { "item": "NC_FORGE_PIRATE_wield", "chance": 40 }
+        { "item": "NC_FORGE_PIRATE_wield", "chance": 20 }
       ],
       "8": { "item": "NC_FORGE_LORD_STORE", "chance": 100, "repeat": [ 5, 8 ] },
       "9": { "item": "NC_FORGE_LORD_STORE", "chance": 100, "repeat": [ 5, 8 ] },
