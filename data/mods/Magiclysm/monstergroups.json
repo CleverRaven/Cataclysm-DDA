@@ -72,9 +72,7 @@
     "name": "GROUP_DOMESTIC",
     "default": "mon_dog",
     "is_animal": true,
-    "monsters": [
-      { "monster": "mon_nightmare_sheep", "freq": 20, "cost_multiplier": 25, "pack_size": [ 1, 12 ] }
-    ]
+    "monsters": [ { "monster": "mon_nightmare_sheep", "freq": 20, "cost_multiplier": 25, "pack_size": [ 1, 12 ] } ]
   },
   {
     "type": "monstergroup",
