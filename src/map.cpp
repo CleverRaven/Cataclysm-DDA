@@ -1241,7 +1241,7 @@ bool map::displace_vehicle( vehicle &veh, const tripoint &dp, const bool adjust_
     veh.zones_dirty = true;
 
     for( int vsmz : smzs ) {
-        on_vehicle_moved( vsmz );
+        on_vehicle_moved( dst.z + vsmz );
     }
     return true;
 }
