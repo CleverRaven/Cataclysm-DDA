@@ -971,7 +971,8 @@
       }
     ],
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "use_action": [ "HEAT_FOOD" ]
+    "use_action": [ "HEAT_FOOD" ],
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "pot_makeshift_copper",
@@ -999,7 +1000,8 @@
       }
     ],
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "use_action": [ "HEAT_FOOD" ]
+    "use_action": [ "HEAT_FOOD" ],
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "type": "GENERIC",
