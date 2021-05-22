@@ -6679,7 +6679,7 @@
     "autolearn": true,
     "batch_time_factors": [ 50, 3 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 1 } ],
-    "tools": [ [ "funnel", -1] ],
+    "tools": [ [ [ "funnel", -1] ] ],
     "components": [
       [ [ "offal", 4 ], [ "mutant_bug_organs", 4 ], [ "meat_nofish", 2, "LIST" ], [ "brain", 10 ] ],
       [ [ "sausage_casings", 2 ] ],
