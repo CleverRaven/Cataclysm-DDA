@@ -305,6 +305,7 @@
     "reversible": true,
     "using": [ [ "ammo_shot", 1 ] ],
     "tools": [ [ [ "press", -1 ] ] ],
+    "//1": "currently halved inputs (rounding up) and result pending fix of casing duplication",
     "components": [
       [ [ "chem_black_powder", 12 ] ],
       [
