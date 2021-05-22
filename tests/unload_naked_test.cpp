@@ -60,7 +60,7 @@ TEST_CASE( "unload_revolver_naked_fully_loaded", "[unload][nonmagzine]" )
     Character &dummy = get_player_character();
     avatar &player_character = get_avatar();
 
-    // revolver fully loaded 
+    // revolver fully loaded
     item revolver( "ruger_redhawk" );
     revolver.ammo_set( revolver.ammo_default(), revolver.remaining_ammo_capacity() );
 
