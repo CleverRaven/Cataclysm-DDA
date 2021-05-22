@@ -8712,11 +8712,6 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
         moves = pre_obtain_moves;
         return false;
     }
-    if( used->is_medication() && !can_use_heal_item( *used ) ) {
-        add_msg_if_player( m_bad, _( "Your biology is not compatible with that healing item." ) );
-        moves = pre_obtain_moves;
-        return false;
-    }
 
     item *actually_used = used->get_usable_item( method );
     if( actually_used == nullptr ) {
