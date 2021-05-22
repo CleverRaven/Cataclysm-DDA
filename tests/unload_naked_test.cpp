@@ -46,7 +46,7 @@ TEST_CASE( "unload_revolver_naked_one_bullet", "[unload][nonmagzine]" )
     CHECK( player_character.weapon.ammo_remaining() == 0 );
 
     // No bullets in inventory
-    const std::vector<item *> bullets = dummy.items_with( []( const item& item ) {
+    const std::vector<item *> bullets = dummy.items_with( []( const item & item ) {
         return item.is_ammo();
     } );
     CHECK( bullets.size() == 0 );
