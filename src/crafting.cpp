@@ -1092,10 +1092,10 @@ bool item::handle_craft_failure( Character &crafter )
         return true;
     }
 
-    // Minimum 25% progress lost, average 35%.  Falls off exponentially
+    // If a loss happens, minimum 25% progress lost, average 35%.  Falls off exponentially
     // Loss is scaled by the success roll
-    const double percent_progress_loss = rng_exponential( 0.25, 0.35 ) *
-                                         ( 1.0 - std::min( success_roll, 1.0 ) );
+    const double percent_progress_loss = rng_exponential( 0.25, 0.35 ) * ( 1.0 - success_roll );
+    // Ensure only positive losses have an effect on progress
     if( percent_progress_loss > 0.0 ) {
         const int progress_loss = item_counter * percent_progress_loss;
         crafter.add_msg_player_or_npc( _( "You mess up and lose %d%% progress." ),
