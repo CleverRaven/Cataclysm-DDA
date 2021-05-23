@@ -2716,7 +2716,7 @@ bool mattack::grab( monster *z )
             target->add_msg_player_or_npc( m_info, tech.avatar_message.translated(),
                                            tech.npc_message.translated(), z->name() );
         } else {
-            add_msg_if_player_sees( *z, m_bad, _( "The %1$s tries to grab %2$s, but %2$s break its grab!" ),
+            add_msg_if_player_sees( *z, m_info, _( "The %1$s tries to grab %2$s, but %2$s break its grab!" ),
                                     z->name(), target->disp_name() );
         }
         return true;
