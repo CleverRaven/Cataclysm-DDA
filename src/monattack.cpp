@@ -2716,9 +2716,8 @@ bool mattack::grab( monster *z )
             target->add_msg_player_or_npc( m_info, tech.avatar_message.translated(),
                                            tech.npc_message.translated(), z->name() );
         } else {
-            target->add_msg_player_or_npc( m_info, _( "The %s tries to grab you, but you break its grab!" ),
-                                           _( "The %s tries to grab <npcname>, but they break its grab!" ),
-                                           z->name() );
+            add_msg_if_player_sees( *z, m_bad, _( "The %1$s tries to grab %2$s, but %2$s break its grab!" ),
+                                    z->name(), target->disp_name() );
         }
         return true;
     }
@@ -2727,8 +2726,7 @@ bool mattack::grab( monster *z )
     z->add_effect( effect_grabbing, 2_turns );
     target->add_effect( effect_grabbed, 2_turns, bodypart_id( "torso" ), false,
                         prev_effect + z->get_grab_strength() );
-    target->add_msg_player_or_npc( m_bad, _( "The %s grabs you!" ), _( "The %s grabs <npcname>!" ),
-                                   z->name() );
+    add_msg_if_player_sees( *z, m_bad, _( "The %1$s grabs %2$s!" ), z->name(), target->disp_name() );
 
     return true;
 }
