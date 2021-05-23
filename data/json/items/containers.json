@@ -281,7 +281,6 @@
     "to_hit": 1,
     "bashing": 2,
     "material": [ "glass" ],
-    "ascii_picture": "glass_bottle",
     "symbol": ")",
     "color": "cyan",
     "pocket_data": [
@@ -322,7 +321,6 @@
     "price_postapoc": 10,
     "to_hit": 1,
     "material": [ "plastic" ],
-    "ascii_picture": "plastic_bottle",
     "symbol": ")",
     "color": "light_cyan"
   },
@@ -446,7 +444,6 @@
     "price": 0,
     "price_postapoc": 0,
     "material": [ "paper" ],
-    "ascii_picture": "box_cigarette",
     "symbol": ")",
     "color": "white",
     "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "90 ml", "max_contains_weight": "3 kg" } ]
@@ -535,7 +532,6 @@
     "category": "container",
     "name": { "str": "bucket" },
     "description": "A galvanized bucket for peanuts, chilled wine, iced beer, lobster, crab legs, French fries, animal feed, farm use, tailgating, crafts, planting flowers, holding gift baskets, containing a fruit basket and herbs, loose item storage or as an ice bucket.",
-    "ascii_picture": "bucket",
     "weight": "725 g",
     "volume": "5500 ml",
     "price": 300,
