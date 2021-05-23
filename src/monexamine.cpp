@@ -143,7 +143,7 @@ bool monexamine::pet_menu( monster &z )
     if( z.has_flag( MF_MILKABLE ) ) {
         amenu.addentry( milk, true, 'm', _( "Milk %s" ), pet_name );
     }
-    if( z.has_flag( MF_SHEARABLE ) ) {
+    if( z.shearable() ) {
         bool available = true;
         if( season_of_year( calendar::turn ) == WINTER ) {
             amenu.addentry( shear, false, 'S',
