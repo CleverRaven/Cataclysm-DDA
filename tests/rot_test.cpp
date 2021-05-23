@@ -119,5 +119,5 @@ TEST_CASE( "Hourly rotpoints", "[rot]" )
     CHECK( normal_item.get_hourly_rotpoints_at_temp( 35 ) == Approx( 1117.672 / 2 ).margin( 0.1 ) );
 
     // Maximum rot at above 105 F
-    CHECK( normal_item.get_hourly_rotpoints_at_temp( 107 ) == Approx( 20364.6753 ).margin( 0.1 ) );
+    CHECK( normal_item.get_hourly_rotpoints_at_temp( 107 ) == Approx( 9394.08 ).margin( 0.1 ) );
 }

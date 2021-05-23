@@ -5923,33 +5923,34 @@ int item::spoilage_sort_order() const
 /**
  * Food decay calculation.
  * Calculate how much food rots per hour, based on 3600 rot/hour at 65 F (18.3 C).
- * Rate of rot doubles every 16 F increase in temperature
+ * Rate of rot doubles every 16 F (~8.8888 C) increase in temperature
  * Rate of rot halves every 16 F decrease in temperature
  * Rot maxes out at 105 F
  * Rot stops below 32 F (0C) and above 145 F (63 C)
  */
-float item::get_hourly_rotpoints_at_temp( const int temp )
+float item::get_hourly_rotpoints_at_temp( const int temp ) const
 {
-    const float dropoff = 38;  // ~3 C
-    const float max_rot_temp = 105; // ~41 C Maximum rotting rate is at this temperature
-    const float safe_temp = 145; // ~63 C safe temperature at which food stops rotting
+    const int dropoff = 38;  // ~3 C
+    const int max_rot_temp = 105; // ~41 C Maximum rotting rate is at this temperature
+    const int safe_temp = 145; // ~63 C safe temperature above which food stops rotting
+    // temperatures::freezing = 32 F ( 0 C)
 
     if( temp <= temperatures::freezing || temp > safe_temp ) {
-        return 0;
+        return 0.f;
     } else if( temp < dropoff ) {
         // Linear progress from 32 F (0 C) to 38 F (3 C)
-        // The constand d is calculated from: multiplier * std::pow( 2.0, 38.0 / 16.0 );
-        const float d = 1117.672;
-        return d / 6 * ( temp - temperatures::freezing );
+        // Constant makes sure that rot function is continuous at 38 F
+        // The constand 305.065 = rot(38 F) / ( 38 F - 32 F) = ( 218.13 * ( 38 / 16 )^2 ) / 6
+        return 305.06509f * ( temp - temperatures::freezing );
     } else if( temp < max_rot_temp ) {
         // This multiplier makes sure the rot at 65 F (18 C) is 3600 rot/hour (1 rot/second).
-        // the multiplier is calculated from: 3600 / std::pow( 2.0, 65.0 / 16.0 );
-        const float multiplier = 215.4607;
-        return multiplier * std::pow( 2.0, static_cast<float>( temp ) / 16.0 );
+        // the multiplier is calculated 218.13018f = 3600 / ( 65 / 16 )^2
+        const float temp_ratio = temp / 16.0f;
+        return 218.13018f * temp_ratio * temp_ratio;
     } else {
-        // stop torturing the player at 105 F (41 C). No higher rot at higher temp.
-        // This is calculated from:  multiplier * std::pow( 2.0, max_rot_temp / 16.0 );
-        return 20364.6753;
+        // stop torturing the player at max_rot_temp (105 F, 41 C). No higher rot at higher temp.
+        // This is calculated from:  multiplier * ( 105 / 16.0 )^2
+        return 9394.0828f;
     }
 }
 
