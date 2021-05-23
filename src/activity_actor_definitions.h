@@ -928,6 +928,41 @@ class milk_activity_actor : public activity_actor
         std::vector<std::string> string_values {};
 };
 
+class shearing_activity_actor : public activity_actor
+{
+    private:
+        tripoint mon_coords;    // monster is tied for the duration
+        bool shearing_tie;      // was the monster tied due to shearing
+
+    public:
+        explicit shearing_activity_actor(
+            const tripoint &mon_coords, bool shearing_tie = true )
+            : mon_coords( mon_coords ), shearing_tie( shearing_tie ) {};
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_SHEARING" );
+        }
+
+        void start( player_activity &act, Character &who ) override;
+        void do_turn( player_activity &/*act*/, Character &who ) override;
+        void finish( player_activity &act, Character &who ) override;
+        void canceled( player_activity &/*act*/, Character &/*who*/ ) override;
+
+        bool can_resume_with_internal( const activity_actor &other,
+                                       const Character &/*who*/ ) const override {
+            const shearing_activity_actor &actor = static_cast<const shearing_activity_actor &>
+                                                   ( other );
+            return actor.mon_coords == mon_coords;
+        }
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<shearing_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+};
+
 class disassemble_activity_actor : public activity_actor
 {
     private:
