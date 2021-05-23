@@ -2820,7 +2820,7 @@ void shearing_activity_actor::start( player_activity &act, Character &who )
 
 void shearing_activity_actor::do_turn( player_activity &, Character &who )
 {
-    if( !who.has_quality( qual_SHEAR ) > 0 ) {
+    if( !who.has_quality( qual_SHEAR ) ) {
         if( who.is_player() ) {
             add_msg(
                 m_bad,
