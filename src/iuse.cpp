@@ -4733,7 +4733,7 @@ cata::optional<int> iuse::blood_draw( player *p, item *it, bool, const tripoint 
     item blood( "blood", calendar::turn );
     bool drew_blood = false;
     bool acid_blood = false;
-    float blood_temp = 0.0f;  //kelvins
+    float blood_temp = -1.0f;  //kelvins
     for( item &map_it : get_map().i_at( point( p->posx(), p->posy() ) ) ) {
         if( map_it.is_corpse() &&
             query_yn( _( "Draw blood from %s?" ),
