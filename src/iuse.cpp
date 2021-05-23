@@ -4753,7 +4753,7 @@ cata::optional<int> iuse::blood_draw( player *p, item *it, bool, const tripoint 
     if( !drew_blood && query_yn( _( "Draw your own blood?" ) ) ) {
         p->add_msg_if_player( m_info, _( "You drew your own blood…" ) );
         drew_blood = true;
-        blood_temp = 310.15;
+        blood_temp = 310.15f;
         if( p->has_trait( trait_ACIDBLOOD ) ) {
             acid_blood = true;
         }
