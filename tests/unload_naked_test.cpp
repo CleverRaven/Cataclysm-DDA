@@ -49,7 +49,7 @@ TEST_CASE( "unload_revolver_naked_one_bullet", "[unload][nonmagzine]" )
     const std::vector<item *> bullets = dummy.items_with( []( const item & item ) {
         return item.is_ammo();
     } );
-    CHECK( bullets.size() == 0 );
+    CHECK( bullets.empty() );
 }
 
 TEST_CASE( "unload_revolver_naked_fully_loaded", "[unload][nonmagzine]" )
@@ -84,5 +84,5 @@ TEST_CASE( "unload_revolver_naked_fully_loaded", "[unload][nonmagzine]" )
     const std::vector<item *> bullets = dummy.items_with( []( const item & item ) {
         return item.is_ammo();
     } );
-    CHECK( bullets.size() == 0 );
+    CHECK( bullets.empty() );
 }
