@@ -559,7 +559,7 @@ All ascii_art files are contained within the 'data/json/ascii_art/' folder.  Bot
 
 | Identifier        | Description
 |---                |---
-| id                | Unique ID. Must be one continuous word, use underscores if necessary.
+| id                | ID string that matches the ID of the item or monster the ascii art is displayed for.
 | picture           | Array of string, each entry is a line of an ascii picture and must be at most 41 columns long. \ have to be replaced by \\\ in order to be visible.
 
 ```C++
