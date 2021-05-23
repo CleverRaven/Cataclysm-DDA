@@ -271,7 +271,7 @@
     "using": [ [ "ammo_shot", 1 ] ],
     "tools": [ [ [ "press", -1 ] ] ],
     "//": "1166 mg gunpowder rounded to 12 100 mg 'pieces'; recipe makes two shells",
-	  "//1": "currently halved inputs (rounding up) and result pending fix of casing duplication",
+    "//1": "currently halved inputs (rounding up) and result pending fix of casing duplication",
     "components": [
       [ [ "gunpowder", 12 ], [ "gunpowder_pistol", 12 ], [ "gunpowder_shotgun", 12 ] ],
       [
