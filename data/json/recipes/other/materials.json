@@ -210,7 +210,7 @@
     "time": "15 m",
     "autolearn": true,
     "tools": [ [ [ "bubblewrap", -1 ] ], [ [ "casserole", -1 ] ] ],
-    "components": [ [ [ "soap", 5 ] ], [ [ "water_clean", 3 ] ], [ [ "wool_staple", 1 ] ], [ [ "bubblewrap", 1 ] ] ]
+    "components": [ [ [ "soap", 5 ] ], [ [ "water_clean", 3 ] ], [ [ "wool_staple", 1 ] ] ]
   },
   {
     "type": "recipe",
