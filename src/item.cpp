@@ -5940,17 +5940,16 @@ float item::get_hourly_rotpoints_at_temp( const int temp ) const
     } else if( temp < dropoff ) {
         // Linear progress from 32 F (0 C) to 38 F (3 C)
         // Constant makes sure that rot function is continuous at 38 F
-        // The constand 305.065 = rot(38 F) / ( 38 F - 32 F) = ( 218.13 * ( 38 / 16 )^2 ) / 6
-        return 305.06509f * ( temp - temperatures::freezing );
+        // The constand 186.28 = rot(38 F) / ( 38 F - 32 F) = ( 215.46 * 2^( 38 / 16 ) ) / 6
+        return 186.27867f * ( temp - temperatures::freezing );
     } else if( temp < max_rot_temp ) {
         // This multiplier makes sure the rot at 65 F (18 C) is 3600 rot/hour (1 rot/second).
-        // the multiplier is calculated 218.13018f = 3600 / ( 65 / 16 )^2
-        const float temp_ratio = temp / 16.0f;
-        return 218.13018f * temp_ratio * temp_ratio;
+        // the multiplier is calculated 218.13018f = 3600 / 2^( 65 / 16 )
+        return 215.4607 * std::pow( 2.0, static_cast<double>( temp ) / 16.0 );
     } else {
         // stop torturing the player at max_rot_temp (105 F, 41 C). No higher rot at higher temp.
-        // This is calculated from:  multiplier * ( 105 / 16.0 )^2
-        return 9394.0828f;
+        // This is calculated from:  multiplier * 2^( 105 / 16.0 )
+        return 20364.6753f;
     }
 }
 
