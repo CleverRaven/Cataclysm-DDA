@@ -158,7 +158,7 @@
     "type": "TOOL",
     "category": "spare_parts",
     "name": { "str": "parabolan wool staple" },
-    "description": "The natural cluster of parabolan wool fibers.  Could be processed to the felt patches or yarns.",
+    "description": "The natural cluster of parabolan wool fibers.  Could be processed to felt patches or yarns.",
     "weight": "120 g",
     "volume": "500 ml",
     "price": 0,

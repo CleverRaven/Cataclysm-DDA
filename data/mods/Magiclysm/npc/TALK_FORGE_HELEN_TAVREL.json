@@ -88,8 +88,8 @@
       "u_is_wearing": "badge_marshal",
       "yes": [
         "Would you try to capture me?",
-        "I've killed many a government sanctioned hunter in my life.",
-        "Aren't we all lucky that you are probably the last law man alive in miles?"
+        "I've killed many a government-sanctioned hunter in my life.",
+        "Aren't we all lucky that you are probably the last lawman alive in miles?"
       ],
       "no": [ "Welcome to the Forge of Wonders.", "Reagents and blackpowders!", "Ahoy and other nautical terms!" ]
     },

@@ -68,7 +68,7 @@
     "copy-from": "pistol_flintlock",
     "type": "GUN",
     "name": { "str": "Pistolet modèle Gardes de la Marine", "str_pl": "several Pistolet modèle Gardes de la Marine" },
-    "description": "These beautifully made enchanted flintlock pistols were specially made for those young noble scions in the Gardes de la Marine.  They still exist today as unspeakably rare heirlooms that remain combat worthy due to their magical nature.",
+    "description": "These beautifully-made enchanted flintlock pistols were specially made for young noble scions in the Gardes de la Marine.  They still exist today as unspeakably-rare heirlooms that remain combat-worthy due to their magical nature.",
     "price": 74000,
     "price_postapoc": 25750,
     "to_hit": -1,

@@ -11,7 +11,7 @@
   {
     "type": "MONSTER_FACTION",
     "name": "hunllef",
-    "friendly": [ "herbivore" ]
+    "base_faction": "herbivore"
   },
   {
     "type": "MONSTER_FACTION",
