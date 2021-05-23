@@ -5944,7 +5944,7 @@ float item::get_hourly_rotpoints_at_temp( const int temp ) const
         return 186.27867f * ( temp - temperatures::freezing );
     } else if( temp < max_rot_temp ) {
         // This multiplier makes sure the rot at 65 F (18 C) is 3600 rot/hour (1 rot/second).
-        // the multiplier is calculated 218.13018f = 3600 / 2^( 65 / 16 )
+        // the multiplier is calculated 215.46 = 3600 / 2^( 65 / 16 )
         return 215.4607 * std::pow( 2.0, static_cast<double>( temp ) / 16.0 );
     } else {
         // stop torturing the player at max_rot_temp (105 F, 41 C). No higher rot at higher temp.
