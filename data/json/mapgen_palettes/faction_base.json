@@ -3,6 +3,6 @@
     "type": "palette",
     "id": "fbmc_mansion_pallete",
     "terrain": { "d": "t_dirt", "f": "t_dirtmound", "W": "t_wall_wood", "D": "t_rdoor_c" },
-	"furniture": { "d": "f_null" }
+    "furniture": { "d": "f_null" }
   }
 ]

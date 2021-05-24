@@ -225,7 +225,7 @@
   {
     "type": "overmap_terrain",
     "id": "faction_base_mansion_t3",
-    "name": "mansion base ???",
+    "name": "mansion base???",
     "sym": "M",
     "color": "white",
     "flags": [ "SOURCE_PEOPLE", "NO_ROTATE" ]
