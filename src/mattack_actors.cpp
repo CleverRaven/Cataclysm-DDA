@@ -257,7 +257,18 @@ Creature *melee_actor::find_target( monster &z ) const
     }
 
     Creature *target = z.attack_target();
-    if( target == nullptr || rl_dist( z.pos(), target->pos() ) > range ) {
+
+    if( target == nullptr ) {
+        return nullptr;
+    }
+
+    if( range > 1 ) {
+        if( !z.sees( *target ) ||
+            !get_map().clear_path( z.pos(), target->pos(), range, 1, 200 ) ) {
+            return nullptr;
+        }
+
+    } else if( !z.is_adjacent( target, false ) ) {
         return nullptr;
     }
 
