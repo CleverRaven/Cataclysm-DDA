@@ -220,6 +220,8 @@ void melee_actor::load_internal( const JsonObject &obj, const std::string & )
     move_cost = obj.get_int( "move_cost", 100 );
     accuracy = obj.get_int( "accuracy", INT_MIN );
 
+    optional( obj, was_loaded, "range", range, 1 );
+
     optional( obj, was_loaded, "miss_msg_u", miss_msg_u,
               to_translation( "The %s lunges at you, but you dodge!" ) );
     optional( obj, was_loaded, "no_dmg_msg_u", no_dmg_msg_u,
@@ -255,7 +257,7 @@ Creature *melee_actor::find_target( monster &z ) const
     }
 
     Creature *target = z.attack_target();
-    if( target == nullptr || !z.is_adjacent( target, false ) ) {
+    if( target == nullptr || rl_dist( z.pos(), target->pos() ) > range ) {
         return nullptr;
     }
 

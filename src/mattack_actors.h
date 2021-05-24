@@ -71,6 +71,7 @@ class melee_actor : public mattack_actor
         // If non-negative, the attack will use a different accuracy from mon's
         // regular melee attack.
         int accuracy = INT_MIN;
+        int range = 1;
 
         /**
          * If empty, regular melee roll body part selection is used.
