@@ -2792,12 +2792,12 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
         const std::string &vp_id = veh.part_id_string( veh_part, part_mod );
         const int subtile = part_mod == 1 ? open_
                             : part_mod == 2 ? broken
-                            : part_mod == 3 ? lb
-                            : part_mod == 4 ? lb_open_
-                            : part_mod == 5 ? lb_broken
-                            : part_mod == 6 ? hb
-                            : part_mod == 7 ? hb_open_
-                            : part_mod == 8 ? hb_broken
+                            : part_mod == 3 ? lightblood
+                            : part_mod == 4 ? lightblood_open_
+                            : part_mod == 5 ? lightblood_broken
+                            : part_mod == 6 ? heavyblood
+                            : part_mod == 7 ? heavyblood_open_
+                            : part_mod == 8 ? heavyblood_broken
                             : 0;
         const int rotation = std::round( to_degrees( veh.face.dir() ) );
         const std::string vpname = "vp_" + vp_id;
@@ -2828,12 +2828,12 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
             const char part_mod = std::get<1>( override->second );
             const int subtile = part_mod == 1 ? open_
                                 : part_mod == 2 ? broken
-                                : part_mod == 3 ? lb
-                                : part_mod == 4 ? lb_open_
-                                : part_mod == 5 ? lb_broken
-                                : part_mod == 6 ? hb
-                                : part_mod == 7 ? hb_open_
-                                : part_mod == 8 ? hb_broken
+                                : part_mod == 3 ? lightblood
+                                : part_mod == 4 ? lightblood_open_
+                                : part_mod == 5 ? lightblood_broken
+                                : part_mod == 6 ? heavyblood
+                                : part_mod == 7 ? heavyblood_open_
+                                : part_mod == 8 ? heavyblood_broken
                                 : 0;
             const units::angle rotation = std::get<2>( override->second );
             const int draw_highlight = std::get<3>( override->second );
