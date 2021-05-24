@@ -3631,8 +3631,12 @@
     "vehicle": "car_sports",
     "items": {
       "both": {
-        "items": [ "gold_watch", "water_mineral", "money_bundle", "cig" ],
-        "entries": [ { "group": "charged_ref_lighter" }, { "group": "charged_smart_phone" } ]
+        "items": [ "gold_watch", "water_mineral", "cig" ],
+        "entries": [
+          { "group": "charged_ref_lighter" },
+          { "group": "charged_smart_phone" },
+          { "item": "wallet_stylish", "contents-item": [ "money_benjamin", "money_benjamin", "condom" ] }
+        ]
       },
       "male": [ "boxer_shorts", "pants", "dress_shoes", "polo_shirt", "socks" ],
       "female": [ "tank_top", "bra", "panties", "skirt", "heels", "jacket_leather", "stockings" ]

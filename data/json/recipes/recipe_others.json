@@ -2269,15 +2269,5 @@
       [ [ "paper", 1 ] ]
     ],
     "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "money_bundle",
-    "type": "uncraft",
-    "//": "uncraft recipe for bundles created during worldgen",
-    "activity_level": "NO_EXERCISE",
-    "time": "5 s",
-    "autolearn": true,
-    "components": [ [ [ "money_twenty", 100 ] ], [ [ "paper", 1 ] ] ],
-    "flags": [ "BLIND_EASY" ]
   }
 ]

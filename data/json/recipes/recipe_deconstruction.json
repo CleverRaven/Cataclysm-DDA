@@ -2950,8 +2950,9 @@
     "result": "money_bundle",
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
-    "time": "12 s",
-    "components": [ [ [ "paper", 2 ] ] ],
+    "time": "5 s",
+    "autolearn": true,
+    "components": [ [ [ "money_twenty", 100 ] ], [ [ "paper", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
