@@ -3635,7 +3635,7 @@
         "entries": [
           { "group": "charged_ref_lighter" },
           { "group": "charged_smart_phone" },
-          { "item": "wallet_stylish", "contents-item": [ "money_benjamin", "money_benjamin", "condom" ] }
+          { "item": "wallet_stylish", "contents-item": [ "money_hundred", "money_hundred", "condom" ] }
         ]
       },
       "male": [ "boxer_shorts", "pants", "dress_shoes", "polo_shirt", "socks" ],

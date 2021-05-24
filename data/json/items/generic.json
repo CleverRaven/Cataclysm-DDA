@@ -2510,7 +2510,7 @@
   },
   {
     "type": "GENERIC",
-    "id": "money_benjamin",
+    "id": "money_hundred",
     "name": { "str": "one-hundred dollar bill" },
     "description": "A one-hundred dollar bill, pretty useless now though.",
     "copy-from": "paper_money"
@@ -3274,7 +3274,7 @@
           "money_ten",
           "money_twenty",
           "money_fifty",
-          "money_benjamin",
+          "money_hundred",
           "condom"
         ]
       },
@@ -3355,7 +3355,7 @@
           "money_ten",
           "money_twenty",
           "money_fifty",
-          "money_benjamin",
+          "money_hundred",
           "condom"
         ]
       },

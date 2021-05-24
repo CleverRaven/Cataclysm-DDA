@@ -2258,7 +2258,7 @@
     "reversible": true,
     "components": [
       [
-        [ "money_benjamin", 100 ],
+        [ "money_hundred", 100 ],
         [ "money_fifty", 100 ],
         [ "money_twenty", 100 ],
         [ "money_ten", 100 ],
