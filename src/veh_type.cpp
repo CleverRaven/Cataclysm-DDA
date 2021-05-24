@@ -24,6 +24,7 @@
 #include "item_pocket.h"
 #include "itype.h"
 #include "json.h"
+#include "options.h"
 #include "output.h"
 #include "player.h"
 #include "requirements.h"
@@ -561,7 +562,7 @@ void vpart_info::finalize()
         // Calculate and cache z-ordering based off of location
         // list_order is used when inspecting the vehicle
         if( e.second.location == "on_roof" ) {
-            e.second.z_order = 9;
+            e.second.z_order = 10;
             e.second.list_order = 3;
         } else if( e.second.location == "on_cargo" ) {
             e.second.z_order = 8;
@@ -589,8 +590,12 @@ void vpart_info::finalize()
             e.second.z_order = 3;
             e.second.list_order = 9;
         } else if( e.second.location == "roof" ) {
-            // Shouldn't be displayed
-            e.second.z_order = -1;
+            // displays if toggle is on
+            if( get_option<bool>( "DISPLAY_VEHICLE_ROOF" ) ) {
+                e.second.z_order = 9;
+            } else {
+                e.second.z_order = -1;
+            }
             e.second.list_order = 4;
         } else if( e.second.location == "armor" ) {
             // Shouldn't be displayed (the color is used, but not the symbol)
