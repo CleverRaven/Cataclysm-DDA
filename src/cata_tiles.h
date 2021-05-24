@@ -55,6 +55,12 @@ enum MULTITILE_TYPE {
     unconnected,
     open_,
     broken,
+    lb,
+    hb,
+    lb_open_,
+    lb_broken,
+    hb_open_,
+    hb_broken,
     num_multitile_types
 };
 // Make sure to change TILE_CATEGORY_IDS if this changes!

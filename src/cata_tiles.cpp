@@ -2782,9 +2782,23 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
         // Gets the visible part, should work fine once tileset vp_ids are updated to work
         // with the vehicle part json ids
         // get the vpart_id
+        //
+        // part_mod number guide
+        //          no blood   light blood   heavy blood
+        // normal      0            3            6
+        // open        1            4            7
+        // broken      2            5            8
         char part_mod = 0;
         const std::string &vp_id = veh.part_id_string( veh_part, part_mod );
-        const int subtile = part_mod == 1 ? open_ : part_mod == 2 ? broken : 0;
+        const int subtile = part_mod == 1 ? open_
+                            : part_mod == 2 ? broken
+                            : part_mod == 3 ? lb
+                            : part_mod == 4 ? lb_open_
+                            : part_mod == 5 ? lb_broken
+                            : part_mod == 6 ? hb
+                            : part_mod == 7 ? hb_open_
+                            : part_mod == 8 ? hb_broken
+                            : 0;
         const int rotation = std::round( to_degrees( veh.face.dir() ) );
         const std::string vpname = "vp_" + vp_id;
         avatar &you = get_avatar();
@@ -2812,7 +2826,15 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
         const vpart_id &vp2 = std::get<0>( override->second );
         if( vp2 ) {
             const char part_mod = std::get<1>( override->second );
-            const int subtile = part_mod == 1 ? open_ : part_mod == 2 ? broken : 0;
+            const int subtile = part_mod == 1 ? open_
+                                : part_mod == 2 ? broken
+                                : part_mod == 3 ? lb
+                                : part_mod == 4 ? lb_open_
+                                : part_mod == 5 ? lb_broken
+                                : part_mod == 6 ? hb
+                                : part_mod == 7 ? hb_open_
+                                : part_mod == 8 ? hb_broken
+                                : 0;
             const units::angle rotation = std::get<2>( override->second );
             const int draw_highlight = std::get<3>( override->second );
             const std::string vpname = "vp_" + vp2.str();

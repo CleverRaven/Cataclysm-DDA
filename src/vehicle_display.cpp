@@ -64,9 +64,14 @@ char vehicle::part_sym( const int p, const bool exact ) const
 
 // similar to part_sym(int p) but for use when drawing SDL tiles. Called only by cata_tiles
 // during draw_vpart vector returns at least 1 element, max of 2 elements. If 2 elements the
-// second denotes if it is open or damaged
+// second denotes if it is open or damaged and bloodstained level
+//          no blood   light blood   heavy blood
+// normal      0            3            6
+// open        1            4            7
+// broken      2            5            8
 std::string vehicle::part_id_string( const int p, char &part_mod ) const
 {
+
     part_mod = 0;
     if( p < 0 || p >= static_cast<int>( parts.size() ) || parts[p].removed ) {
         return "";
@@ -81,11 +86,35 @@ std::string vehicle::part_id_string( const int p, char &part_mod ) const
     const vehicle_part &vp = parts.at( displayed_part );
 
     if( part_flag( displayed_part, VPFLAG_OPENABLE ) && vp.open ) {
-        // open
-        part_mod = 1;
+        if( parts[displayed_part].blood > 200 ) {
+            // open and heavy blood
+            part_mod = 7;
+        } else if( parts[displayed_part].blood > 0 ) {
+            // open and light blood
+            part_mod = 4;
+        } else {
+            // open
+            part_mod = 1;
+        }
     } else if( vp.is_broken() ) {
-        // broken
-        part_mod = 2;
+        if( parts[displayed_part].blood > 200 ) {
+            // broken and heavy blood
+            part_mod = 8;
+        } else if( parts[displayed_part].blood > 0 ) {
+            // broken and light blood
+            part_mod = 5;
+        } else {
+            // broken
+            part_mod = 2;
+        }
+    } else {
+        if( parts[displayed_part].blood > 200 ) {
+            // normal and heavy blood
+            part_mod = 6;
+        } else if( parts[displayed_part].blood > 0 ) {
+            // normal and light blood
+            part_mod = 3;
+        }
     }
 
     return vp.id.str() + ( vp.variant.empty() ?  "" : "_" + vp.variant );
