@@ -71,19 +71,21 @@
       { "monster": "mon_unseen_hunter", "freq": 40, "cost_multiplier": 2, "starts": 42 },
       { "monster": "mon_dog_thing", "freq": 10, "cost_multiplier": 2 },
       { "monster": "mon_dog", "freq": 10, "cost_multiplier": 2 },
-      { "monster": "mon_flying_polyp", "freq": 20, "cost_multiplier": 2, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_blank", "freq": 20, "cost_multiplier": 2, "pack_size": [ 1, 4 ] },
+      { "monster": "mon_kreck", "freq": 20, "cost_multiplier": 2, "pack_size": [ 1, 4 ] },
+      { "monster": "mon_gracke", "freq": 20, "cost_multiplier": 2, "pack_size": [ 1, 4 ] },
       { "monster": "mon_hunting_horror", "freq": 20, "cost_multiplier": 2, "pack_size": [ 1, 3 ] },
-      { "monster": "mon_shoggoth", "freq": 10, "cost_multiplier": 5, "starts": 42 }
+      { "monster": "mon_shoggoth", "freq": 10, "cost_multiplier": 3, "starts": 42 }
      ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_SUBWAY_CITY",
     "//": "Normal subway, extra spawns underneath a city",
-    "default": "mon_null",
+    "default": "mon_chud",
     "monsters": [ 
-      { "monster": "mon_chud", "freq": 400, "cost_multiplier": 1, "pack_size": [ 1, 3 ] },
-      { "monster": "mon_one_eye", "freq": 20, "cost_multiplier": 1 },
+      { "monster": "mon_chud", "freq": 400, "cost_multiplier": 1, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_one_eye", "freq": 10, "cost_multiplier": 1 },
       { "monster": "mon_zombie_survivor", "freq": 100, "cost_multiplier": 3, "pack_size": [ 1, 3 ], "starts": 42 },
       { "monster": "mon_zombie_survivor_elite", "freq": 100, "cost_multiplier": 4, "pack_size": [ 1, 3 ], "starts": 180 },
       { "monster": "mon_zombie_technician", "freq": 100, "cost_multiplier": 2, "pack_size": [ 1, 2 ] },
@@ -95,23 +97,24 @@
     "name": "GROUP_SUBWAY_LAB",
     "//": "Lower subway with eldritch nasties and lab escapees",
     "default": "mon_kreck",
-    "//2": "1W 42, 1M 180, 1,5M 270, 2M 360, 3M 540, sum 950",
+    "//2": "1W 42, 1M 180, 1,5M 270, 2M 360, 3M 540, sum 910",
     "monsters":[
       { "monster": "mon_unseen_hunter", "freq": 200, "cost_multiplier": 1, "starts": 42, "ends": 360 },
       { "monster": "mon_unseen_hunter", "freq": 200, "cost_multiplier": 1, "pack_size": [ 1, 2 ], "starts": 360 },
       { "monster": "mon_mutant_experimental", "freq": 200, "cost_multiplier": 1, "ends": 180 },
       { "monster": "mon_mutant_evolved", "freq": 200, "cost_multiplier": 1, "starts": 180 },
+      { "monster": "mon_mi_go", "freq": 100, "cost_multiplier": 1, "pack_size": [ 1, 4 ], "ends": 360 },
+      { "monster": "mon_mi_go_scout", "freq": 100, "cost_multiplier": 2, "starts": 360 },
+      { "monster": "mon_mi_go_myrmidon", "freq": 50, "cost_multiplier": 2, "pack_size": [ 1, 2 ], "starts": 540 },
       { "monster": "mon_sludge_crawler", "freq": 50, "cost_multiplier": 1 },
       { "monster": "mon_dog_thing", "freq": 50, "cost_multiplier": 1 },
       { "monster": "mon_thing", "freq": 50, "cost_multiplier": 1 },
       { "monster": "mon_flying_polyp", "freq": 50, "cost_multiplier": 1, "pack_size": [ 1, 2 ] },
       { "monster": "mon_hunting_horror", "freq": 50, "cost_multiplier": 1, "pack_size": [ 1, 2 ] },
       { "monster": "mon_gozu", "freq": 50, "cost_multiplier": 1 },
-      { "monster": "mon_mi_go", "freq": 100, "cost_multiplier": 1, "pack_size": [ 1, 4 ], "ends": 360 },
-      { "monster": "mon_mi_go_scout", "freq": 100, "cost_multiplier": 2, "starts": 360 },
-      { "monster": "mon_mi_go_myrmidon", "freq": 100, "cost_multiplier": 2, "pack_size": [ 1, 2 ], "starts": 540 },
       { "monster": "mon_shoggoth", "freq": 30, "cost_multiplier": 2 },
-      { "monster": "mon_albino_penguin", "freq": 20 , "cost_multiplier": 1, "pack_size": [ 2, 8 ] }
+      { "monster": "mon_albino_penguin", "freq": 20 , "cost_multiplier": 1, "pack_size": [ 2, 8 ] },
+      { "monster": "mon_darkman", "freq": 10, "cost_multiplier": 2 }
     ]
   },
   {

@@ -25,7 +25,7 @@
     "harvest": "human",
     "vision_day": 30,
     "vision_night": 3,
-    "path_settings": { "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
+    "path_settings": { "max_dist": 30, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
     "starting_ammo": { "rock": 6 },
     "special_attacks": [
       {
