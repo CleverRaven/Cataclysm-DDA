@@ -225,6 +225,8 @@ void melee_actor::load_internal( const JsonObject &obj, const std::string & )
     optional( obj, was_loaded, "dodgeable", dodgeable, true );
     optional( obj, was_loaded, "blockable", blockable, true );
 
+    optional( obj, was_loaded, "range", range, 1 );
+
     optional( obj, was_loaded, "miss_msg_u", miss_msg_u,
               to_translation( "The %s lunges at you, but you dodge!" ) );
     optional( obj, was_loaded, "no_dmg_msg_u", no_dmg_msg_u,
