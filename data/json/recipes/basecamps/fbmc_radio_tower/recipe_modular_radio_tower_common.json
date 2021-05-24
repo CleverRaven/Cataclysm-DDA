@@ -37,6 +37,7 @@
     "construction_blueprint": "fbmc_radio_tower_1",
     "blueprint_provides": [
       { "id": "fbmc_radio_tower_1" },
+      { "id": "fbmc_radio_tower" },
       { "id": "primitive_camp_recipes_1" },
       { "id": "gathering" },
       { "id": "firewood" },
@@ -59,7 +60,7 @@
     "construction_blueprint": "fbmc_radio_tower_root_cellar",
     "blueprint_name": "root cellar",
     "blueprint_provides": [ { "id": "pantry" }, { "id": "fbmc_radio_tower_root_cellar" } ],
-    "blueprint_requires": [ { "id": "bed", "amount": 4 } ],
+    "blueprint_requires": [ { "id": "bed", "amount": 4 }, { "id": "fbmc_radio_tower" } ],
     "blueprint_excludes": [ { "id": "fbmc_radio_tower_root_cellar" } ]
   },
   {
@@ -73,7 +74,7 @@
     "construction_blueprint": "fbmc_radio_tower_water_well",
     "blueprint_name": "water well",
     "blueprint_provides": [ { "id": "fbmc_radio_tower_water_well" } ],
-    "blueprint_requires": [ { "id": "bed", "amount": 4 } ],
+    "blueprint_requires": [ { "id": "bed", "amount": 4 }, { "id": "fbmc_radio_tower" } ],
     "blueprint_excludes": [ { "id": "fbmc_radio_tower_water_well" } ]
   },
   {
