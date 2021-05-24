@@ -2245,5 +2245,39 @@
       [ [ "glass_shard", 3 ], [ "pipe_glass", 1 ], [ "flask_glass", 3 ], [ "test_tube", 6 ], [ "marble", 75 ] ],
       [ [ "stopcock", 1 ] ]
     ]
+  },
+  {
+    "result": "money_bundle",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "time": "15 s",
+    "autolearn": true,
+    "reversible": true,
+    "components": [
+      [
+        [ "money_benjamin", 100 ],
+        [ "money_fifty", 100 ],
+        [ "money_twenty", 100 ],
+        [ "money_ten", 100 ],
+        [ "money_five", 100 ],
+        [ "money_two", 100 ],
+        [ "money_one", 100 ]
+      ],
+      [ [ "paper", 1 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "money_bundle",
+    "type": "uncraft",
+    "//": "uncraft recipe for bundles created during worldgen",
+    "activity_level": "NO_EXERCISE",
+    "time": "5 s",
+    "autolearn": true,
+    "components": [ [ [ "money_twenty", 100 ] ], [ [ "paper", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   }
 ]

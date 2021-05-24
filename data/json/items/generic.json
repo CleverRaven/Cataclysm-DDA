@@ -2445,48 +2445,75 @@
     "flags": [ "SLEEP_AID" ]
   },
   {
+    "abstract": "paper_money",
     "type": "GENERIC",
-    "id": "money_bundle",
-    "name": { "str": "money bundle" },
-    "description": "A bundle holding many 20 dollar bills, pretty useless now though.",
-    "weight": "20 g",
+    "name": { "str": "generic money" },
+    "weight": "1 g",
+    "volume": "1 ml",
     "to_hit": -3,
     "color": "green",
     "symbol": ",",
     "material": [ "paper" ],
-    "volume": "250 ml",
     "price": 0
+  },
+  {
+    "type": "GENERIC",
+    "id": "money_bundle",
+    "name": { "str": "bundle of cash", "str_pl": "bundles of cash" },
+    "description": "One hundred bills of the same demonination, held together with a small paper band.",
+    "copy-from": "paper_money",
+    "volume": "100 ml",
+    "weight": "100 g",
+    "longest_side": "15 cm"
   },
   {
     "type": "GENERIC",
     "id": "money_one",
     "name": { "str": "one dollar bill" },
     "description": "A one dollar bill, pretty useless now though.",
-    "weight": "1 g",
-    "to_hit": -3,
-    "color": "green",
-    "symbol": ",",
-    "material": [ "paper" ],
-    "volume": "1 ml",
-    "price": 0
+    "copy-from": "paper_money"
+  },
+  {
+    "type": "GENERIC",
+    "id": "money_two",
+    "name": { "str": "two dollar bill" },
+    "description": "A two dollar bill, pretty useless now though.",
+    "copy-from": "paper_money"
+  },
+  {
+    "type": "GENERIC",
+    "id": "money_five",
+    "name": { "str": "five dollar bill" },
+    "description": "A five dollar bill, pretty useless now though.",
+    "copy-from": "paper_money"
   },
   {
     "type": "GENERIC",
     "id": "money_ten",
     "name": { "str": "ten dollar bill" },
     "description": "A ten dollar bill, pretty useless now though.",
-    "copy-from": "money_one",
-    "color": "green",
-    "symbol": ","
+    "copy-from": "paper_money"
   },
   {
     "type": "GENERIC",
     "id": "money_twenty",
     "name": { "str": "twenty dollar bill" },
     "description": "A twenty dollar bill, pretty useless now though.",
-    "copy-from": "money_one",
-    "color": "green",
-    "symbol": ","
+    "copy-from": "paper_money"
+  },
+  {
+    "type": "GENERIC",
+    "id": "money_fifty",
+    "name": { "str": "fifty dollar bill" },
+    "description": "A fifty dollar bill, pretty useless now though.",
+    "copy-from": "paper_money"
+  },
+  {
+    "type": "GENERIC",
+    "id": "money_benjamin",
+    "name": { "str": "one-hundred dollar bill" },
+    "description": "A one-hundred dollar bill, pretty useless now though.",
+    "copy-from": "paper_money"
   },
   {
     "id": "pouch_autoclave",
@@ -3237,7 +3264,19 @@
         "max_contains_weight": "60 g",
         "max_contains_volume": "150 ml",
         "moves": 100,
-        "item_restriction": [ "FMCNote", "signed_chit", "family_photo", "money_one", "money_ten", "money_twenty", "condom" ]
+        "item_restriction": [
+          "FMCNote",
+          "signed_chit",
+          "family_photo",
+          "money_one",
+          "money_two",
+          "money_five",
+          "money_ten",
+          "money_twenty",
+          "money_fifty",
+          "money_benjamin",
+          "condom"
+        ]
       },
       {
         "//": "Card Sleeves",
@@ -3306,7 +3345,19 @@
         "max_contains_weight": "80 g",
         "max_contains_volume": "175 ml",
         "moves": 100,
-        "item_restriction": [ "FMCNote", "signed_chit", "family_photo", "money_one", "money_ten", "money_twenty", "condom" ]
+        "item_restriction": [
+          "FMCNote",
+          "signed_chit",
+          "family_photo",
+          "money_one",
+          "money_two",
+          "money_five",
+          "money_ten",
+          "money_twenty",
+          "money_fifty",
+          "money_benjamin",
+          "condom"
+        ]
       },
       {
         "//": "Card Sleeves",
