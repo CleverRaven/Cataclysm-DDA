@@ -388,7 +388,7 @@
     "melee_cut": 0,
     "dodge": 4,
     "harvest": "exempt",
-    "special_attacks": [ [ "TENTACLE", 5 ] ],
+    "special_attacks": [ { "id": "tentacle" }  ],
     "death_function": [ "THING" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "BASHES" ]
   },
@@ -738,7 +738,7 @@
     "dodge": 2,
     "armor_bash": 8,
     "harvest": "exempt",
-    "special_attacks": [ [ "TENTACLE", 5 ] ],
+    "special_attacks": [ { "id": "tentacle" } ],
     "death_function": [ "MELT" ],
     "flags": [ "SMELLS", "HEARS", "NOHEAD", "BASHES", "GROUP_BASH", "SWIMS", "ATTACKMON", "PLASTIC", "ACIDPROOF", "NOGIB", "CLIMBS" ]
   },

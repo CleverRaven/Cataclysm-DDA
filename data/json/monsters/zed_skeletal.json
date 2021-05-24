@@ -139,7 +139,7 @@
     "harvest": "mr_bones",
     "special_attacks": [
       [ "SMASH", 20 ],
-      [ "STRETCH_ATTACK", 20 ],
+      { "id": "stretch_attack" },
       [ "LONGSWIPE", 20 ],
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] }
     ],

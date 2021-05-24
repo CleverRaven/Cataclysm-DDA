@@ -317,7 +317,7 @@
     "vision_day": 5,
     "vision_night": 40,
     "harvest": "zombie",
-    "special_attacks": [ [ "SMASH", 40 ], [ "STRETCH_ATTACK", 20 ], [ "LONGSWIPE", 20 ] ],
+    "special_attacks": [ [ "SMASH", 40 ], { "id": "stretch_attack", "cooldown": 40 }, [ "LONGSWIPE", 20 ] ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_fiend",
@@ -505,7 +505,7 @@
     "vision_day": 30,
     "vision_night": 3,
     "harvest": "zombie",
-    "special_attacks": [ [ "STRETCH_BITE", 10 ], [ "STRETCH_ATTACK", 5 ] ],
+    "special_attacks": [ {"id": "stretch_bite" }, {"id": "stretch_attack", "cooldown": 5 } ],
     "death_function": [ "BLOBSPLIT" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "FILTHY" ]
   },
