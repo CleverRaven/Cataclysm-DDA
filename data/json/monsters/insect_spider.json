@@ -604,7 +604,7 @@
         "no_dmg_msg_u": "The %1$s's mouthpart hits your %2$s, but it glances off your armor!",
         "no_dmg_msg_npc": "The %1$s's mouthpart hits <npcname>'s %2$s, but it glances off their armor!",
         "miss_msg_u": "The %s thrusts its mouthpart at you, but you dodge!",
-        "miss_msg_npc": "The %s's thrustst its mouthpart at <npcname>, but they dodge!"
+        "miss_msg_npc": "The %s's thrusts its mouthpart at <npcname>, but they dodge!"
       }
      ],
     "dodge": 3,
