@@ -54,7 +54,12 @@
         "id": "faction_base_radio_tower_1_0",
         "description": "Radio Tower With Building Base",
         "om_terrains": [ "radio_tower_1" ]
-      }
+      },
+	  { 
+	    "id": "faction_base_fire_lookout_tower_0", 
+		"description": "Fire Lookout Tower Base", 
+		"om_terrains": [ "ws_fire_lookout_tower_base" ]
+	  }
     ]
   },
   {
