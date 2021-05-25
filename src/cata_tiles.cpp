@@ -78,7 +78,7 @@ static const itype_id itype_corpse( "corpse" );
 static const std::string ITEM_HIGHLIGHT( "highlight_item" );
 static const std::string ZOMBIE_REVIVAL_INDICATOR( "zombie_revival_indicator" );
 
-static const std::array<std::string, 8> multitile_keys = {{
+static const std::array<std::string, 12> multitile_keys = {{
         "center",
         "corner",
         "edge",
@@ -86,7 +86,11 @@ static const std::array<std::string, 8> multitile_keys = {{
         "end_piece",
         "unconnected",
         "open",
-        "broken"
+        "broken",
+        "blooded_open",
+        "blooded_broken",
+        "lightblood",
+        "heavyblood"
     }
 };
 
@@ -2785,19 +2789,17 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
         //
         // part_mod number guide
         //          no blood   light blood   heavy blood
-        // normal      0            3            6
-        // open        1            4            7
-        // broken      2            5            8
+        // normal      0            5            6
+        // open        1            3            3
+        // broken      2            4            4
         char part_mod = 0;
         const std::string &vp_id = veh.part_id_string( veh_part, part_mod );
         const int subtile = part_mod == 1 ? open_
                             : part_mod == 2 ? broken
-                            : part_mod == 3 ? lightblood
-                            : part_mod == 4 ? lightblood_open_
-                            : part_mod == 5 ? lightblood_broken
+                            : part_mod == 3 ? blooded_open_
+                            : part_mod == 4 ? blooded_broken
+                            : part_mod == 5 ? lightblood
                             : part_mod == 6 ? heavyblood
-                            : part_mod == 7 ? heavyblood_open_
-                            : part_mod == 8 ? heavyblood_broken
                             : 0;
         const int rotation = std::round( to_degrees( veh.face.dir() ) );
         const std::string vpname = "vp_" + vp_id;
@@ -2828,12 +2830,10 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
             const char part_mod = std::get<1>( override->second );
             const int subtile = part_mod == 1 ? open_
                                 : part_mod == 2 ? broken
-                                : part_mod == 3 ? lightblood
-                                : part_mod == 4 ? lightblood_open_
-                                : part_mod == 5 ? lightblood_broken
+                                : part_mod == 3 ? blooded_open_
+                                : part_mod == 4 ? blooded_broken
+                                : part_mod == 5 ? lightblood
                                 : part_mod == 6 ? heavyblood
-                                : part_mod == 7 ? heavyblood_open_
-                                : part_mod == 8 ? heavyblood_broken
                                 : 0;
             const units::angle rotation = std::get<2>( override->second );
             const int draw_highlight = std::get<3>( override->second );

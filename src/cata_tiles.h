@@ -55,12 +55,10 @@ enum MULTITILE_TYPE {
     unconnected,
     open_,
     broken,
+    blooded_open_,
+    blooded_broken,
     lightblood,
     heavyblood,
-    lightblood_open_,
-    lightblood_broken,
-    heavyblood_open_,
-    heavyblood_broken,
     num_multitile_types
 };
 // Make sure to change TILE_CATEGORY_IDS if this changes!

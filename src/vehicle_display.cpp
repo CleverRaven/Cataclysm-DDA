@@ -66,9 +66,9 @@ char vehicle::part_sym( const int p, const bool exact ) const
 // during draw_vpart vector returns at least 1 element, max of 2 elements. If 2 elements the
 // second denotes if it is open or damaged and bloodstained level
 //          no blood   light blood   heavy blood
-// normal      0            3            6
-// open        1            4            7
-// broken      2            5            8
+// normal      0            5            6
+// open        1            3            3
+// broken      2            4            4
 std::string vehicle::part_id_string( const int p, char &part_mod ) const
 {
 
@@ -86,34 +86,28 @@ std::string vehicle::part_id_string( const int p, char &part_mod ) const
     const vehicle_part &vp = parts.at( displayed_part );
 
     if( part_flag( displayed_part, VPFLAG_OPENABLE ) && vp.open ) {
-        if( parts[displayed_part].blood > 200 ) {
-            // open and heavy blood
-            part_mod = 7;
-        } else if( parts[displayed_part].blood > 0 ) {
-            // open and light blood
-            part_mod = 4;
+        if( vp.blood > 0 ) {
+            // open and blooded
+            part_mod = 3;
         } else {
             // open
             part_mod = 1;
         }
     } else if( vp.is_broken() ) {
-        if( parts[displayed_part].blood > 200 ) {
-            // broken and heavy blood
-            part_mod = 8;
-        } else if( parts[displayed_part].blood > 0 ) {
-            // broken and light blood
-            part_mod = 5;
+        if( vp.blood > 0 ) {
+            // broken and blooded
+            part_mod = 4;
         } else {
             // broken
             part_mod = 2;
         }
     } else {
-        if( parts[displayed_part].blood > 200 ) {
+        if( vp.blood > 200 ) {
             // normal and heavy blood
             part_mod = 6;
-        } else if( parts[displayed_part].blood > 0 ) {
+        } else if( vp.blood > 0 ) {
             // normal and light blood
-            part_mod = 3;
+            part_mod = 5;
         }
     }
 
