@@ -158,7 +158,7 @@
     "no_dmg_msg_u": "The %1$s's arms hit your %2$s, but they glance off your armor!",
     "no_dmg_msg_npc": "The %1$s's arms hit <npcname>'s %2$s, but they glance off their armor!",
     "miss_msg_u": "The %s thrusts its arms at you, but you evade the stretched arm!",
-    "miss_msg_npc": "The %s's thrustst its arms at <npcname>, but they dodge!"
+    "miss_msg_npc": "The %s's thrusts its arms at <npcname>, but they dodge!"
   },
   {
     "type": "monster_attack",
