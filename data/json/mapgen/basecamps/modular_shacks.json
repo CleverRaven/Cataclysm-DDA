@@ -44,7 +44,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "fbmc_log_shack_north",
+    "nested_mapgen_id": "fbmc_log_shack_south",
     "object": {
       "mapgensize": [ 6, 6 ],
       "rows": [
@@ -61,7 +61,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "fbmc_log_shack_south",
+    "nested_mapgen_id": "fbmc_log_shack_north",
     "object": {
       "mapgensize": [ 6, 6 ],
       "rows": [
@@ -146,7 +146,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "fbmc_metal_shack_north",
+    "nested_mapgen_id": "fbmc_metal_shack_south",
     "object": {
       "mapgensize": [ 6, 6 ],
       "rows": [
@@ -163,7 +163,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "fbmc_metal_shack_south",
+    "nested_mapgen_id": "fbmc_metal_shack_north",
     "object": {
       "mapgensize": [ 6, 6 ],
       "rows": [
@@ -248,7 +248,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "fbmc_migo_resin_shack_north",
+    "nested_mapgen_id": "fbmc_migo_resin_shack_south",
     "object": {
       "mapgensize": [ 6, 6 ],
       "rows": [
@@ -265,7 +265,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "fbmc_migo_resin_shack_south",
+    "nested_mapgen_id": "fbmc_migo_resin_shack_north",
     "object": {
       "mapgensize": [ 6, 6 ],
       "rows": [
@@ -350,7 +350,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "fbmc_rammed_earth_shack_north",
+    "nested_mapgen_id": "fbmc_rammed_earth_shack_south",
     "object": {
       "mapgensize": [ 6, 6 ],
       "rows": [
@@ -367,7 +367,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "fbmc_rammed_earth_shack_south",
+    "nested_mapgen_id": "fbmc_rammed_earth_shack_north",
     "object": {
       "mapgensize": [ 6, 6 ],
       "rows": [
@@ -452,7 +452,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "fbmc_rock_shack_north",
+    "nested_mapgen_id": "fbmc_rock_shack_south",
     "object": {
       "mapgensize": [ 6, 6 ],
       "rows": [
@@ -469,7 +469,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "fbmc_rock_shack_south",
+    "nested_mapgen_id": "fbmc_rock_shack_north",
     "object": {
       "mapgensize": [ 6, 6 ],
       "rows": [
@@ -554,7 +554,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "fbmc_wad_shack_north",
+    "nested_mapgen_id": "fbmc_wad_shack_south",
     "object": {
       "mapgensize": [ 6, 6 ],
       "rows": [
@@ -571,7 +571,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "fbmc_wad_shack_south",
+    "nested_mapgen_id": "fbmc_wad_shack_north",
     "object": {
       "mapgensize": [ 6, 6 ],
       "rows": [
@@ -656,7 +656,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "fbmc_wood_shack_north",
+    "nested_mapgen_id": "fbmc_wood_shack_south",
     "object": {
       "mapgensize": [ 6, 6 ],
       "rows": [
@@ -673,7 +673,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "fbmc_wood_shack_south",
+    "nested_mapgen_id": "fbmc_wood_shack_north",
     "object": {
       "mapgensize": [ 6, 6 ],
       "rows": [
