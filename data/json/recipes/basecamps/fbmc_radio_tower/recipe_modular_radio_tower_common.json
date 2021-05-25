@@ -163,7 +163,7 @@
   {
     "type": "recipe",
     "result": "faction_base_radio_tower_1_palisade",
-    "description": "We should dig pits for palisade around camp.",
+    "description": "We should build palisade around camp.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
