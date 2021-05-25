@@ -27,6 +27,7 @@
 #include "json.h"
 #include "optional.h"
 #include "output.h"
+#include "panels.h"
 #include "point.h"
 #include "popup.h"
 #include "recipe.h"
@@ -226,6 +227,9 @@ static std::vector<std::string> recipe_info(
 
     oss << string_format( _( "Batch time savings: <color_cyan>%s</color>\n" ),
                           recp.batch_savings_string() );
+
+    oss << string_format( _( "Activity level: <color_cyan>%s</color>\n" ),
+                          activity_level::activity_level_str( recp.exertion_level() ) );
 
     const int makes = recp.makes_amount();
     if( makes > 1 ) {
