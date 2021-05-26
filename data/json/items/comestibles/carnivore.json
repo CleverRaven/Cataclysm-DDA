@@ -226,7 +226,7 @@
     "cooks_like": "meat_scrap_cooked",
     "proportional": { "weight": 0.1, "volume": 0.1, "price": 0.1, "calories": 0.1 },
     "delete": { "flags": [ "SMOKABLE" ] },
-    "vitamins": [ [ "calcium", 0 ], [ "iron", 1 ], [ "vitB", 8 ] ]    
+    "vitamins": [ [ "calcium", 0 ], [ "iron", 1 ], [ "vitB", 8 ] ]
   },
   {
     "id": "mutant_meat",
