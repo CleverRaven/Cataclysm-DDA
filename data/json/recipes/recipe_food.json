@@ -906,7 +906,7 @@
     "book_learn": [ [ "family_cookbook", 2 ], [ "scots_cookbook", 2 ] ],
     "batch_time_factors": [ 83, 3 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 7, "LIST" ] ], [ ["funnel", -1] ]  ],
+    "tools": [ [ [ "surface_heat", 7, "LIST" ] ], [ [ "funnel", -1 ] ] ],
     "charges": 8,
     "components": [
       [ [ "meat_red", 2, "LIST" ], [ "can_chicken", 2 ] ],
