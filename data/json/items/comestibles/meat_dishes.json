@@ -149,7 +149,7 @@
     "material": [ "flesh" ],
     "charges": 2,
     "flags": [ "EATEN_HOT", "SMOKED" ],
-    "vitamins": [ [ "vitA", 1 ],[ "vitC", 0 ],[ "calcium", 0 ], [ "iron", 6 ], [ "vitB", 39 ] ],
+    "vitamins": [ [ "vitA", 1 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 6 ], [ "vitB", 39 ] ],
     "fun": 5
   },
   {
