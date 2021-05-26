@@ -2062,7 +2062,8 @@ cata::optional<int> iuse::extinguisher( player *p, item *it, bool, const tripoin
 cata::optional<int> iuse::rm13armor_off( player *p, item *it, bool, const tripoint & )
 {
     // This allows it to turn on for a turn, because ammo_sufficient assumes non-tool non-weapons need zero ammo, for some reason.
-    if( !it->ammo_sufficient() && !( it->has_flag( flag_USE_UPS ) && p->has_enough_charges( *it, false )) ) {
+    if( !it->ammo_sufficient() && !( it->has_flag( flag_USE_UPS ) &&
+                                     p->has_enough_charges( *it, false ) ) ) {
         p->add_msg_if_player( m_info, _( "The RM13 combat armor's fuel cells are dead." ) );
         return cata::nullopt;
     } else {
