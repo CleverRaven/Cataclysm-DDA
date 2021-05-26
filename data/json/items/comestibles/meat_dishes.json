@@ -196,7 +196,7 @@
     "material": [ "flesh" ],
     "charges": 4,
     "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "vitA", 1 ],[ "vitC", 0 ],[ "calcium", 0 ], [ "iron", 3 ], [ "vitB", 19 ] ],
+    "vitamins": [ [ "vitA", 1 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 3 ], [ "vitB", 19 ] ],
     "fun": 4
   },
   {
@@ -452,7 +452,7 @@
     "material": [ "flesh" ],
     "volume": "750 ml",
     "charges": 10,
-    "vitamins": [ [ "vitA", 0 ],[ "vitC", 0 ],[ "calcium", 6 ], [ "iron", 5 ], [ "vitB", 11 ] ]
+    "vitamins": [ [ "vitA", 0 ], [ "vitC", 0 ], [ "calcium", 6 ], [ "iron", 5 ], [ "vitB", 11 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -582,7 +582,7 @@
     "price_postapoc": 350,
     "material": [ "flesh", "veggy" ],
     "volume": "120 ml",
-    "vitamins": [ [ "vitA", 14 ],[ "vitC", 3 ], [ "calcium", 5 ], [ "iron", 21 ] ],
+    "vitamins": [ [ "vitA", 14 ], [ "vitC", 3 ], [ "calcium", 5 ], [ "iron", 21 ] ],
     "fun": 3
   },
   {
