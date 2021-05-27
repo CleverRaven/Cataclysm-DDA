@@ -966,11 +966,11 @@
     "type": "construction",
     "id": "constr_railroad_rubble",
     "group": "make_gravel_floor",
-    "//": "Covers the floor with pebbles. Used for constructing railroads.",
+    "//": "Covers the floor with gravel. Used for constructing railroads.",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "40 m",
-    "components": [ [ [ "pebble", 100 ] ] ],
+    "components": [ [ [ "material_gravel", 1000 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "t_railroad_rubble"
   },
@@ -4272,7 +4272,7 @@
     "required_skills": [ [ "survival", 0 ] ],
     "time": "60 m",
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
-    "byproducts": [ { "item": "pebble", "count": [ 70, 100 ] } ],
+    "byproducts": [ { "item": "gravel", "count": [ 700, 1000 ] } ],
     "pre_terrain": "t_railroad_rubble",
     "post_terrain": "t_dirt"
   }
