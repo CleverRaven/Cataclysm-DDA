@@ -86,7 +86,7 @@
     "weight": "66 g",
     "bashing": 1,
     "count": 50,
-    "ammo_type": "components",
+    "ammo_type": "components"
   },
   {
     "type": "AMMO",
