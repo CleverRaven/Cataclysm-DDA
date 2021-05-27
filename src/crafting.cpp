@@ -987,7 +987,7 @@ float Character::get_recipe_weighted_skill_average( const recipe &making ) const
     // TO DO: Attribute role should also be data-driven either in skills.json or in the recipe itself.
     // For now let's just use Intelligence.  For the average intelligence of 8, give +2.  Inc/dec by 0.25 per stat point.
     // This ensures that at parity, where skill = difficulty, you have a roughly 85% chance of success at average intelligence.
-    total_skill_modifiers += ( int_cur - 8 ) / 4.0f;
+    total_skill_modifiers += int_cur / 4.0f;
 
     // Missing proficiencies penalize skill level
     // At the time of writing this is currently called a fail multiplier.
