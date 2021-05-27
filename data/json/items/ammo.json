@@ -388,7 +388,7 @@
     "description": "A small rock, useful as ammunition for slingshots.",
     "material": [ "stone" ],
     "volume": "250 ml",
-    "weight": " 66 g",
+    "weight": "66 g",
     "ammo_type": "pebble",
     "flags": [ "TRADER_AVOID" ],
     "damage": { "damage_type": "bullet", "amount": 2 },
