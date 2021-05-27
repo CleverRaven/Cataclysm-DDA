@@ -259,7 +259,7 @@ Creature *melee_actor::find_target( monster &z ) const
 
     Creature *target = z.attack_target();
 
-    if( target == nullptr || no_adjacent == true && z.is_adjacent( target, false ) ) {
+    if( target == nullptr || ( no_adjacent == true && z.is_adjacent( target, false ) ) ) {
         return nullptr;
     }
 
