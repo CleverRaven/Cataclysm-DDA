@@ -970,7 +970,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "40 m",
-    "components": [ [ [ "material_gravel", 1000 ] ] ],
+    "components": [ [ [ "material_gravel", 500 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "t_railroad_rubble"
   },
@@ -4272,7 +4272,7 @@
     "required_skills": [ [ "survival", 0 ] ],
     "time": "60 m",
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
-    "byproducts": [ { "item": "gravel", "count": [ 700, 1000 ] } ],
+    "byproducts": [ { "item": "gravel", "count": [ 350, 500 ] } ],
     "pre_terrain": "t_railroad_rubble",
     "post_terrain": "t_dirt"
   }
