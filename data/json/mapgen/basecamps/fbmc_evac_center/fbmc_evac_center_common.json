@@ -1,0 +1,14 @@
+[
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_evac_center_0",
+    "method": "json",
+    "object": { "set": [ { "point": "furniture", "id": "f_bulletin", "x": 11, "y": 1 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_evac_center_cleanup",
+    "method": "json",
+    "object": { "set": [ { "point": "terrain", "id": "t_water_pump", "x": 15, "y": 10 } ] }
+  }
+]

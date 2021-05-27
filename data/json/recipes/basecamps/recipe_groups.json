@@ -55,11 +55,12 @@
         "description": "Radio Tower With Building Base",
         "om_terrains": [ "radio_tower_1" ]
       },
-	  { 
-	    "id": "faction_base_fire_lookout_tower_0", 
-		"description": "Fire Lookout Tower Base", 
-		"om_terrains": [ "ws_fire_lookout_tower_base" ]
-	  }
+      {
+        "id": "faction_base_fire_lookout_tower_0",
+        "description": "Fire Lookout Tower Base",
+        "om_terrains": [ "ws_fire_lookout_tower_base" ]
+      },
+      { "id": "faction_base_evac_center_0", "description": "Evac Center Base", "om_terrains": [ "evac_center_13" ] }
     ]
   },
   {
@@ -87,7 +88,42 @@
       { "id": "faction_base_mansion_c2", "description": "Mansion's Bar", "om_terrains": [ "mansion_c2" ] },
       { "id": "faction_base_mansion_c3", "description": "Mansion's Living Rooms", "om_terrains": [ "mansion_c3" ] },
       { "id": "faction_base_mansion_c4", "description": "Mansion's Bedroom", "om_terrains": [ "mansion_c4" ] },
-      { "id": "faction_base_mansion_c5", "description": "Mansion's Kitchen", "om_terrains": [ "mansion_c5" ] }
+      { "id": "faction_base_mansion_c5", "description": "Mansion's Kitchen", "om_terrains": [ "mansion_c5" ] },
+      {
+        "id": "faction_base_evac_center_garage_0",
+        "description": "Evac Center's Garage",
+        "om_terrains": [ "evac_center_8" ]
+      },
+      {
+        "id": "faction_base_evac_center_bathroom_0",
+        "description": "Evac Center's Bathroom",
+        "om_terrains": [ "evac_center_12", "evac_center_14" ]
+      },
+      {
+        "id": "faction_base_evac_center_dormitory_0",
+        "description": "Evac Center's Dormitory",
+        "om_terrains": [ "evac_center_7" ]
+      },
+      {
+        "id": "faction_base_evac_center_command_0",
+        "description": "Evac Center's Command",
+        "om_terrains": [ "evac_center_17" ]
+      },
+      {
+        "id": "faction_base_evac_center_warehouse_0",
+        "description": "Evac Center's Warehouse",
+        "om_terrains": [ "evac_center_19" ]
+      },
+      {
+        "id": "faction_base_evac_center_entrance_0",
+        "description": "Evac Center's Entrance",
+        "om_terrains": [ "evac_center_18" ]
+      },
+      {
+        "id": "faction_base_evac_center_workshop_0",
+        "description": "Evac Center's Workshop",
+        "om_terrains": [ "evac_center_9" ]
+      }
     ]
   },
   {
