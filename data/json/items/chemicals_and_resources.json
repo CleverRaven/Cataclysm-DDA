@@ -83,7 +83,7 @@
     "description": "A handful of gravel, smaller than pebbles but larger than sand.",
     "material": [ "stone" ],
     "volume": "250 ml",
-    "weight": "66 g",
+    "weight": "6 g",
     "bashing": 1,
     "count": 50,
     "ammo_type": "components"
