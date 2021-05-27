@@ -69,6 +69,7 @@
           [ [ "motor_small", 1 ], [ "motor_tiny", 2 ] ]
         ]
       }
-    }
+    },
+    "check_blueprint_needs": false
   }
 ]

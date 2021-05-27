@@ -31,6 +31,7 @@
       "skills": [ [ "fabrication", 2 ] ],
       "inline": { "qualities": [ [ { "id": "SMOOTH", "level": 1 } ] ], "components": [ [ [ "alien_pod_resin", 52 ] ] ] }
     },
+    "check_blueprint_needs": false,
     "blueprint_name": "mi-go resin shack"
   },
   {

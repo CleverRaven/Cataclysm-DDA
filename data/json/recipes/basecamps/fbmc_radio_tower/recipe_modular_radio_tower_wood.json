@@ -33,6 +33,7 @@
         "components": [ [ [ "2x4", 230 ] ], [ [ "glass_sheet", 1 ] ], [ [ "hinge", 2 ] ], [ [ "nail", 1100 ] ], [ [ "wood_panel", 54 ] ] ]
       }
     },
+    "check_blueprint_needs": false,
     "blueprint_name": "wooden shack"
   },
   {

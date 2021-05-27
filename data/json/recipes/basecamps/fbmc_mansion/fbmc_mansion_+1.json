@@ -39,7 +39,8 @@
     "blueprint_requires": [ { "id": "fbmc_mansion_+1" } ],
     "blueprint_provides": [ { "id": "fbmc_mansion_+1_farm" }, { "id": "farming" }, { "id": "farm_recipes_1" } ],
     "blueprint_excludes": [ { "id": "fbmc_mansion_+1_farm" } ],
-    "blueprint_needs": { "time": "7 h", "inline": { "tools": [  ], "qualities": [ [ { "id": "DIG", "level": 1 } ] ] } }
+    "blueprint_needs": { "time": "7 h", "inline": { "tools": [  ], "qualities": [ [ { "id": "DIG", "level": 1 } ] ] } },
+    "check_blueprint_needs": false
   },
   {
     "type": "recipe",
@@ -85,6 +86,7 @@
           [ [ "motor_small", 1 ], [ "motor_tiny", 2 ] ]
         ]
       }
-    }
+    },
+    "check_blueprint_needs": false
   }
 ]

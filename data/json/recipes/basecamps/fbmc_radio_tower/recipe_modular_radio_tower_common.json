@@ -116,7 +116,8 @@
           [ [ "cable", 160 ] ]
         ]
       }
-    }
+    },
+    "check_blueprint_needs": false
   },
   {
     "type": "recipe",
@@ -230,6 +231,7 @@
           [ [ "software_electronics_reference", 1 ] ]
         ]
       }
-    }
+    },
+    "check_blueprint_needs": false
   }
 ]

@@ -17,7 +17,7 @@
   },
   {
     "type": "recipe",
-    "result": "faction_base_evac_center_root_cellar",
+    "result": "faction_base_evac_center_cleanup",
     "description": "We need space for our survivors, you know what to do.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
@@ -52,6 +52,7 @@
       "time": "0 h",
       "skills": [  ],
       "inline": { "tools": [  ], "qualities": [  ], "components": [ [ [ "corpse_generic_human", 30 ] ] ] }
-    }
+    },
+    "check_blueprint_needs": false
   }
 ]

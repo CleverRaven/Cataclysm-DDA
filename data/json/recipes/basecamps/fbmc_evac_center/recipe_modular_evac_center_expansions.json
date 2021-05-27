@@ -188,6 +188,7 @@
         "components": [ [ [ "metal_tank", 2 ] ], [ [ "water_faucet", 2 ] ], [ [ "anvil", 1 ] ], [ [ "chain", 4 ] ], [ [ "pipe", 3 ] ] ]
       }
     },
+    "check_blueprint_needs": false,
     "blueprint_name": "build drop hammer"
   }
 ]
