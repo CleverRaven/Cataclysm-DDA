@@ -4300,7 +4300,7 @@ cata::optional<int> sew_advanced_actor::use( player &p, item &it, bool, const tr
 
     // Cache available materials
     std::map< itype_id, bool > has_enough;
-    const int items_needed = mod.volume() / 750_ml + 1;
+    const int items_needed = mod.base_volume() / 750_ml + 1;
     const inventory &crafting_inv = p.crafting_inventory();
     const std::function<bool( const item & )> is_filthy_filter = is_crafting_component;
 
@@ -4316,7 +4316,7 @@ cata::optional<int> sew_advanced_actor::use( player &p, item &it, bool, const tr
     }
 
     // We need extra thread to lose it on bad rolls
-    const int thread_needed = mod.volume() / 125_ml + 10;
+    const int thread_needed = mod.base_volume() / 125_ml + 10;
 
     const auto valid_mods = mod.find_armor_data()->valid_mods;
 

@@ -415,7 +415,7 @@
     "reversible": true,
     "using": [ [ "sewing_standard", 50 ] ],
     "components": [ [ [ "felt_patch", 10 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_millinery" } ]
+    "proficiencies": [ { "proficiency": "prof_millinery" } ]
   },
   {
     "result": "hat_knit",
@@ -764,11 +764,7 @@
       [ [ "glasses_bal", 1 ], [ "goggles_ski", 1 ] ],
       [ [ "sheet_kevlar_layered", 8 ] ]
     ],
-    "proficiencies": [
-      { "proficiency": "prof_millinery" },
-      { "proficiency": "prof_leatherworking_basic" },
-      { "proficiency": "prof_polymerworking" }
-    ]
+    "proficiencies": [ { "proficiency": "prof_millinery" }, { "proficiency": "prof_polymerworking" } ]
   },
   {
     "result": "xl_helmet_scavenger",
@@ -823,11 +819,7 @@
     "using": [ [ "sewing_standard", 40 ] ],
     "tools": [ [ [ "welder", 21 ], [ "welder_crude", 32 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ] ],
     "components": [ [ [ "nomex", 8 ] ], [ [ "sheet_kevlar_layered", 4 ] ], [ [ "nomex_hood", 1 ] ], [ [ "duct_tape", 100 ] ] ],
-    "proficiencies": [
-      { "proficiency": "prof_millinery" },
-      { "proficiency": "prof_leatherworking_basic" },
-      { "proficiency": "prof_polymerworking" }
-    ]
+    "proficiencies": [ { "proficiency": "prof_millinery" }, { "proficiency": "prof_polymerworking" } ]
   },
   {
     "result": "xl_hood_fsurvivor",
@@ -853,7 +845,6 @@
     "tools": [ [ [ "welder", 21 ], [ "welder_crude", 32 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ] ],
     "components": [ [ [ "sheet_kevlar_layered", 4 ] ], [ [ "wetsuit_hood", 1 ] ], [ [ "duct_tape", 100 ] ] ],
     "proficiencies": [
-      { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_millinery" },
       { "proficiency": "prof_plasticworking" },
       { "proficiency": "prof_polymerworking" }
@@ -879,7 +870,6 @@
       [ [ "duct_tape", 100 ] ]
     ],
     "proficiencies": [
-      { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_millinery" },
       { "proficiency": "prof_plasticworking" },
       { "proficiency": "prof_polymerworking" }
@@ -1479,11 +1469,7 @@
     "book_learn": [ [ "textbook_fireman", 6 ], [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ] ],
     "using": [ [ "sewing_standard", 8 ] ],
     "components": [ [ [ "nomex", 6 ] ] ],
-    "proficiencies": [
-      { "proficiency": "prof_leatherworking_basic" },
-      { "proficiency": "prof_millinery" },
-      { "proficiency": "prof_polymerworking" }
-    ]
+    "proficiencies": [ { "proficiency": "prof_millinery" }, { "proficiency": "prof_polymerworking" } ]
   },
   {
     "result": "patchwork_scarf",

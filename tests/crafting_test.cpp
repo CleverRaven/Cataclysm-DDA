@@ -860,15 +860,15 @@ TEST_CASE( "crafting_skill_gain", "[skill],[crafting],[slow]" )
     }
     SECTION( "lvl 8 -> 9" ) {
         GIVEN( "nominal morale" ) {
-            test_skill_progression( recipe_id( "helmet_scavenger" ), 179110, 0, false );
+            test_skill_progression( recipe_id( "helmet_scavenger" ), 143457, 0, false );
             test_skill_progression( recipe_id( "helmet_scavenger" ), 66243, 0, true );
         }
         GIVEN( "high morale" ) {
-            test_skill_progression( recipe_id( "helmet_scavenger" ), 142655, 50, false );
+            test_skill_progression( recipe_id( "helmet_scavenger" ), 114137, 50, false );
             test_skill_progression( recipe_id( "helmet_scavenger" ), 54170, 50, true );
         }
         GIVEN( "very high morale" ) {
-            test_skill_progression( recipe_id( "helmet_scavenger" ), 130529, 100, false );
+            test_skill_progression( recipe_id( "helmet_scavenger" ), 105128, 100, false );
             test_skill_progression( recipe_id( "helmet_scavenger" ), 49609, 100, true );
         }
     }
