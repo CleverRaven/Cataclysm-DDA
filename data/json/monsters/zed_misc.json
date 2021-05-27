@@ -317,7 +317,7 @@
     "vision_day": 5,
     "vision_night": 40,
     "harvest": "zombie",
-    "special_attacks": [ [ "SMASH", 40 ], { "id": "stretch_attack", "cooldown": 40 }, [ "LONGSWIPE", 20 ] ],
+    "special_attacks": [ [ "SMASH", 40 ], { "id": "stretch_attack", "cooldown": 40 }, { "id": "longswipe" }, { "id": "cut_throat" } ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_fiend",

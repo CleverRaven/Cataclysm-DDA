@@ -215,11 +215,13 @@ void melee_actor::load_internal( const JsonObject &obj, const std::string & )
         damage_max_instance = load_damage_instance( obj );
     }
 
+    optional( obj, was_loaded, "attack_chance", attack_chance, 100 );
     optional( obj, was_loaded, "accuracy", accuracy, INT_MIN );
     optional( obj, was_loaded, "min_mul", min_mul, 0.5f );
     optional( obj, was_loaded, "max_mul", max_mul, 1.0f );
     optional( obj, was_loaded, "move_cost", move_cost, 100 );
     optional( obj, was_loaded, "range", range, 1 );
+    optional( obj, was_loaded, "no_adjacent", no_adjacent, false );
 
     optional( obj, was_loaded, "miss_msg_u", miss_msg_u,
               to_translation( "The %s lunges at you, but you dodge!" ) );
@@ -257,7 +259,7 @@ Creature *melee_actor::find_target( monster &z ) const
 
     Creature *target = z.attack_target();
 
-    if( target == nullptr ) {
+    if( target == nullptr || no_adjacent == true && z.is_adjacent( target, false ) ) {
         return nullptr;
     }
 
@@ -276,6 +278,10 @@ Creature *melee_actor::find_target( monster &z ) const
 
 bool melee_actor::call( monster &z ) const
 {
+    if( attack_chance != 100 && !x_in_y( attack_chance, 100 ) ) {
+        return false;
+    }
+
     Creature *target = find_target( z );
     if( target == nullptr ) {
         return false;

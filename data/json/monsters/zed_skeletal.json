@@ -140,7 +140,8 @@
     "special_attacks": [
       [ "SMASH", 20 ],
       { "id": "stretch_attack" },
-      [ "LONGSWIPE", 20 ],
+      { "id": "longswipe" },
+      { "id": "cut_throat" },
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] }
     ],
     "death_drops": "mon_zombie_hulk_death_drops",
