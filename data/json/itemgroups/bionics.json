@@ -86,7 +86,6 @@
       [ "bio_cable", 10 ],
       [ "bio_syringe", 10 ],
       [ "bio_weight", 10 ],
-      [ "bio_shock_absorber", 10 ],
       [ "bio_jointservo", 10 ],
       [ "bio_shotgun", 10 ],
       [ "bio_taste_blocker", 10 ],
@@ -284,7 +283,6 @@
       [ "bio_faraday", 10 ],
       [ "bio_nanobots", 10 ],
       [ "bio_ods", 10 ],
-      [ "bio_shock_absorber", 10 ],
       [ "bio_uncanny_dodge", 10 ]
     ]
   },
@@ -322,7 +320,6 @@
       [ "bio_watch", 20 ],
       [ "bio_faraday", 20 ],
       [ "bio_weight", 20 ],
-      [ "bio_shock_absorber", 20 ],
       [ "bio_soporific", 20 ]
     ]
   },

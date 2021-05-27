@@ -4,7 +4,8 @@
     "type": "overmap_land_use_code",
     "id": "",
     "sym": "#",
-    "color": "white"
+    "color": "white",
+    "detailed_definition": ""
   },
   {
     "type": "overmap_land_use_code",

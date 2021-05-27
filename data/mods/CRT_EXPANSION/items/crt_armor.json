@@ -119,7 +119,7 @@
     "price": 20000,
     "warmth": 17,
     "symbol": ":",
-    "flags": [ "STURDY", "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ]
+    "flags": [ "STURDY", "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY", "ALLOWS_TAIL" ]
   },
   {
     "id": "crt_armguard",
@@ -227,7 +227,7 @@
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 }
     ],
     "material_thickness": 2,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "BELTED", "RAINPROOF" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "BELTED", "RAINPROOF", "ALLOWS_TAIL" ]
   },
   {
     "id": "crt_earmor",

@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <numeric>
 #include <set>
+#include <string>
 #include <utility>
 
 #include "bodypart.h"
@@ -16,10 +17,10 @@
 #include "debug.h"
 #include "enums.h"
 #include "input.h"
-#include "int_id.h"
 #include "item.h"
 #include "make_static.h"
 #include "morale_types.h"
+#include "mutation.h"
 #include "output.h"
 #include "point.h"
 #include "string_formatter.h"
@@ -69,7 +70,7 @@ bool is_permanent_morale( const morale_type &id )
 struct morale_mult {
     morale_mult(): good( 1.0 ), bad( 1.0 ) {}
     morale_mult( double good, double bad ): good( good ), bad( bad ) {}
-    morale_mult( double both ): good( both ), bad( both ) {}
+    explicit morale_mult( double both ): good( both ), bad( both ) {}
 
     double good;    // For good morale
     double bad;     // For bad morale
@@ -501,7 +502,7 @@ void player_morale::display( int focus_eq, int pain_penalty, int fatigue_penalty
 
         public:
             morale_line() = default;
-            morale_line( const separation_line ) : sep_line( true ) {}
+            explicit morale_line( const separation_line ) : sep_line( true ) {}
             morale_line( const std::string &text, const nc_color &color )
                 : left( text ), color( color ) {}
             morale_line( const std::string &left, const std::string &right,
@@ -596,7 +597,7 @@ void player_morale::display( int focus_eq, int pain_penalty, int fatigue_penalty
     const std::vector<morale_line> top_lines {
         {},
         { _( "Morale" ), c_white },
-        { morale_line::separation_line {} },
+        morale_line{ morale_line::separation_line {} },
 
         positive_morale.empty() &&negative_morale.empty() ?
         morale_line( _( "Nothing affects your morale" ), c_dark_gray ) :
@@ -838,6 +839,11 @@ bool player_morale::has_mutation( const trait_id &mid )
     return ( mutation != mutations.end() && mutation->second.get_active() );
 }
 
+bool player_morale::has_flag( const json_character_flag &flag )
+{
+    return get_player_character().has_flag( flag );
+}
+
 void player_morale::set_mutation( const trait_id &mid, bool active )
 {
     const auto &mutation = mutations.find( mid );
@@ -1045,7 +1051,7 @@ void player_morale::update_bodytemp_penalty( const time_duration &ticks )
         add( MORALE_COLD, -2 * to_turns<int>( ticks ), -std::abs( max_cold_penalty ), 1_minutes, 30_seconds,
              true );
     }
-    if( max_hot_penalty != 0 ) {
+    if( max_hot_penalty != 0 && !has_flag( STATIC( json_character_flag( "HEATPROOF" ) ) ) ) {
         add( MORALE_HOT, -2 * to_turns<int>( ticks ), -std::abs( max_hot_penalty ), 1_minutes, 30_seconds,
              true );
     }

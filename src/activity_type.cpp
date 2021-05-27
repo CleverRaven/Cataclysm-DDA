@@ -1,8 +1,8 @@
 #include "activity_type.h"
 
-#include <algorithm>
 #include <functional>
 #include <map>
+#include <string>
 #include <unordered_map>
 #include <utility>
 
@@ -12,7 +12,6 @@
 #include "debug.h"
 #include "enum_conversions.h"
 #include "json.h"
-#include "player.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "translations.h"
@@ -60,7 +59,7 @@ void activity_type::load( const JsonObject &jo )
                   result.id().c_str() );
         activity_level = "LIGHT_EXERCISE";
     }
-    result.activity_level = activity_levels.find( activity_level )->second;
+    result.activity_level = activity_levels_map.find( activity_level )->second;
 
     result.based_on_ = io::string_to_enum_look_up( based_on_type_values, jo.get_string( "based_on" ) );
 

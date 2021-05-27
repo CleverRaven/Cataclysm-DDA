@@ -2,7 +2,7 @@
 #ifndef CATA_SRC_MONSTER_ORACLE_H
 #define CATA_SRC_MONSTER_ORACLE_H
 
-#include <string>
+#include <iosfwd>
 
 #include "behavior_oracle.h"
 
@@ -15,7 +15,7 @@ enum class status_t : char;
 class monster_oracle_t : public oracle_t
 {
     public:
-        monster_oracle_t( const monster *subject ) {
+        explicit monster_oracle_t( const monster *subject ) {
             this->subject = subject;
         }
         /**

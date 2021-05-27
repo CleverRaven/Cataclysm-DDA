@@ -5,7 +5,7 @@
     "price": 70000,
     "price_postapoc": 5000,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
-    "name": { "str": "152mm ATGM HEAT" },
+    "name": { "str_sp": "152mm ATGM HEAT" },
     "symbol": "=",
     "color": "dark_gray",
     "description": "A tube-launched, optically tracked, wire-guided missile contained in a steel tube.  Designed to be highly effective against vehicles and structures.",

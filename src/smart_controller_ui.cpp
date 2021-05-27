@@ -1,6 +1,8 @@
 #include "smart_controller_ui.h"
 
 #include <algorithm>
+#include <functional>
+#include <iosfwd>
 #include <string>
 #include <vector>
 

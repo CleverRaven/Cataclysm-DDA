@@ -72,6 +72,7 @@ template<typename E>
 struct enum_test_result {
     E value;
 
+    // NOLINTNEXTLINE(google-explicit-constructor)
     operator E() const {
         return value;
     }

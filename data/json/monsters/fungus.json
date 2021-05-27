@@ -558,6 +558,6 @@
     "harvest": "arachnid",
     "special_attacks": [ [ "FUNGAL_TRAIL", 3 ] ],
     "death_function": [ "NORMAL", "FUNGUS" ],
-    "flags": [ "SEES", "SMELLS", "VENOM", "WEBWALK", "CLIMBS", "PATH_AVOID_FIRE" ]
+    "flags": [ "SEES", "SMELLS", "VENOM", "WEBWALK", "CLIMBS", "PATH_AVOID_FIRE", "INSECTICIDEPROOF" ]
   }
 ]

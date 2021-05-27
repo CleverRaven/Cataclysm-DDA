@@ -3,7 +3,6 @@
 #include <algorithm>
 #include <functional>
 #include <iterator>
-#include <memory>
 
 #include "item.h"
 #include "item_category.h"

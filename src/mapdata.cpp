@@ -16,16 +16,15 @@
 #include "generic_factory.h"
 #include "harvest.h"
 #include "iexamine.h"
-#include "int_id.h"
 #include "item_group.h"
 #include "json.h"
 #include "output.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "translations.h"
 #include "trap.h"
 
 static const std::string flag_DIGGABLE( "DIGGABLE" );
+static const std::string flag_LOCKED( "LOCKED" );
 static const std::string flag_TRANSPARENT( "TRANSPARENT" );
 
 namespace
@@ -182,7 +181,8 @@ static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { 
         { "THIN_OBSTACLE",            TFLAG_THIN_OBSTACLE },  // Passable by players and monsters. Vehicles destroy it.
         { "Z_TRANSPARENT",            TFLAG_Z_TRANSPARENT },  // Doesn't block vision passing through the z-level
         { "SMALL_PASSAGE",            TFLAG_SMALL_PASSAGE },   // A small passage, that large or huge things cannot pass through
-        { "SUN_ROOF_ABOVE",           TFLAG_SUN_ROOF_ABOVE }   // This furniture has a "fake roof" above, that blocks sunlight (see #44421).
+        { "SUN_ROOF_ABOVE",           TFLAG_SUN_ROOF_ABOVE },   // This furniture has a "fake roof" above, that blocks sunlight (see #44421).
+        { "FUNGUS",                   TFLAG_FUNGUS }            // Fungal covered.
     }
 };
 
@@ -441,7 +441,10 @@ void map_data_common_t::load_symbol( const JsonObject &jo )
     if( has_color && has_bgcolor ) {
         jo.throw_error( "Found both color and bgcolor, only one of these is allowed." );
     } else if( has_color ) {
-        load_season_array( jo, "color", color_, color_from_string );
+        load_season_array( jo, "color", color_, []( const std::string & str ) {
+            // has to use a lambda because of default params
+            return color_from_string( str );
+        } );
     } else if( has_bgcolor ) {
         load_season_array( jo, "bgcolor", color_, bgcolor_from_string );
     } else {
@@ -570,6 +573,9 @@ ter_id t_null,
        t_window_alarm, t_window_alarm_taped, t_window_empty, t_window_frame, t_window_boarded,
        t_window_boarded_noglass, t_window_reinforced, t_window_reinforced_noglass, t_window_enhanced,
        t_window_enhanced_noglass, t_window_bars_alarm, t_window_bars,
+       t_metal_grate_window, t_metal_grate_window_with_curtain, t_metal_grate_window_with_curtain_open,
+       t_metal_grate_window_noglass, t_metal_grate_window_with_curtain_noglass,
+       t_metal_grate_window_with_curtain_open_noglass,
        t_window_stained_green, t_window_stained_red, t_window_stained_blue,
        t_window_no_curtains, t_window_no_curtains_open, t_window_no_curtains_taped,
        t_rock, t_fault,
@@ -1157,7 +1163,7 @@ std::string enum_to_string<season_type>( season_type data )
 }
 } // namespace io
 
-void map_data_common_t::load( const JsonObject &jo, const std::string &src )
+void map_data_common_t::load( const JsonObject &jo, const std::string & )
 {
     if( jo.has_member( "examine_action" ) ) {
         examine_func = iexamine_function_from_string( jo.get_string( "examine_action" ) );
@@ -1173,17 +1179,7 @@ void map_data_common_t::load( const JsonObject &jo, const std::string &src )
                             seasons.begin() ), io::string_to_enum<season_type> );
 
             harvest_id hl;
-            if( harvest_jo.has_array( "entries" ) ) {
-                // TODO: A better inline name - can't use id or name here because it's not set yet
-                const size_t num = harvest_list::all().size() + 1;
-                hl = harvest_list::load( harvest_jo, src,
-                                         string_format( "harvest_inline_%d", static_cast<int>( num ) ) );
-            } else if( harvest_jo.has_string( "id" ) ) {
-                hl = harvest_id( harvest_jo.get_string( "id" ) );
-            } else {
-                jo.throw_error( R"(Each harvest entry must specify either "entries" or "id")",
-                                "harvest_by_season" );
-            }
+            harvest_jo.read( "id", hl );
 
             for( season_type s : seasons ) {
                 harvest_by_season[ s ] = hl;
@@ -1222,6 +1218,8 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
     if( jo.has_member( "connects_to" ) ) {
         set_connects( jo.get_string( "connects_to" ) );
     }
+
+    optional( jo, was_loaded, "allowed_template_ids", allowed_template_id );
 
     optional( jo, was_loaded, "open", open, ter_str_id::NULL_ID() );
     optional( jo, was_loaded, "close", close, ter_str_id::NULL_ID() );
@@ -1283,15 +1281,39 @@ void ter_t::check() const
     if( !transforms_into.is_valid() ) {
         debugmsg( "invalid transforms_into %s for %s", transforms_into.c_str(), id.c_str() );
     }
+
+    // Validate open/close transforms
     if( !open.is_valid() ) {
         debugmsg( "invalid terrain %s for opening %s", open.c_str(), id.c_str() );
     }
     if( !close.is_valid() ) {
         debugmsg( "invalid terrain %s for closing %s", close.c_str(), id.c_str() );
     }
+    // Check transition consistency for opening/closing terrain. Has an obvious
+    // exception for locked terrains - those aren't expected to be locked again
+    if( open && open->close && open->close != id && !has_flag( flag_LOCKED ) ) {
+        debugmsg( "opening terrain %s for %s doesn't reciprocate", open.c_str(), id.c_str() );
+    }
+    if( close && close->open && close->open != id && !has_flag( flag_LOCKED ) ) {
+        debugmsg( "closing terrain %s for %s doesn't reciprocate", close.c_str(), id.c_str() );
+    }
+
+    // Validate curtain transforms
+    if( has_examine( iexamine::curtains ) && !has_curtains() ) {
+        debugmsg( "%s is a curtain, but has no curtain_transform", id.c_str() );
+    }
+    if( !has_examine( iexamine::curtains ) && has_curtains() ) {
+        debugmsg( "%s is not a curtain, but has curtain_transform", id.c_str() );
+    }
+    if( !curtain_transform.is_empty() && !curtain_transform.is_valid() ) {
+        debugmsg( "%s has invalid curtain transform target %s", id.c_str(), curtain_transform.c_str() );
+    }
+
+    // Validate generic transforms
     if( transforms_into && transforms_into == id ) {
         debugmsg( "%s transforms_into itself", id.c_str() );
     }
+
     for( const emit_id &e : emissions ) {
         if( !e.is_valid() ) {
             debugmsg( "ter %s has invalid emission %s set", id.c_str(), e.str().c_str() );

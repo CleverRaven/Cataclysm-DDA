@@ -1,12 +1,9 @@
-#include "catch/catch.hpp"
-
-#include <string>
-
 #include "calendar.h"
+#include "catch/catch.hpp"
 #include "enums.h"
-#include "flat_set.h"
 #include "item.h"
 #include "point.h"
+#include "type_id.h"
 #include "weather.h"
 
 static void set_map_temperature( int new_temperature )

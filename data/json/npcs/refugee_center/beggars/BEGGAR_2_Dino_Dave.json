@@ -135,8 +135,8 @@
     "dynamic_line": "I can tell when it has stuff in it, it's got a sandy texture.  But this doesn't.  Thanks again.",
     "speaker_effect": [ { "effect": { "npc_add_effect": "beggar_has_eaten", "duration": 3600 } } ],
     "responses": [
-      { "text": "What are you doing here?", "topic": "TALK_REFUGEE_BEGGAR_2", "effect": "u_bulk_trade_accept" },
-      { "text": "No problem.  See you around.", "topic": "TALK_DONE", "effect": "u_bulk_trade_accept" }
+      { "text": "What are you doing here?", "topic": "TALK_REFUGEE_BEGGAR_2", "effect": { "u_bulk_donate": 1 } },
+      { "text": "No problem.  See you around.", "topic": "TALK_DONE", "effect": { "u_bulk_donate": 1 } }
     ]
   },
   {
@@ -270,6 +270,7 @@
     "value": 0,
     "goal": "MGOAL_FIND_ITEM",
     "item": "duct_tape",
+    "count": 200,
     "followup": "MISSION_BEGGAR_2_BOX_MEDIUM",
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {

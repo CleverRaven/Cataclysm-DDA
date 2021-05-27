@@ -272,7 +272,7 @@
     "id": "achievement_exhume_10_graves",
     "type": "achievement",
     "name": "Grave Robber",
-    "description": "Hey, what if they turned down there?  You've gotta check.",
+    "description": "Hey, what if they turned down there?  You gotta check.",
     "requirements": [ { "event_statistic": "num_exhumed_graves", "is": ">=", "target": 10 } ],
     "hidden_by": [ "achievement_exhume_1_grave" ]
   },
@@ -319,7 +319,7 @@
     "id": "achievement_crosses_mutation_threshold",
     "type": "achievement",
     "name": "Homo Evolutis",
-    "description": "World of man has ended.  Long live the world of transhumanism.",
+    "description": "The world of man has ended.  Long live the world of transhumanity.",
     "requirements": [
       {
         "event_statistic": "num_crosses_mutation_threshold",
@@ -646,7 +646,7 @@
     "id": "achievement_lvl_10_speech",
     "type": "achievement",
     "name": "Silver Tongue",
-    "description": "Legend has it that you convinced a zombie hulk to go away.",
+    "description": "Legend has it you convinced a zombie hulk to go away.",
     "requirements": [ { "event_statistic": "num_gains_speech_level_10", "is": ">=", "target": 1 } ],
     "hidden_by": [ "achievement_lvl_7_speech" ]
   },
@@ -691,7 +691,7 @@
     "id": "achievement_lvl_10_mechanics",
     "type": "achievement",
     "name": "MacGyver",
-    "description": "This whole deal is holding on faith, spit and duct tape.",
+    "description": "This whole deal is holding on faith, spit, and duct tape.",
     "requirements": [ { "event_statistic": "num_gains_mechanics_level_10", "is": ">=", "target": 1 } ],
     "hidden_by": [ "achievement_lvl_7_mechanics" ]
   },
@@ -751,7 +751,7 @@
     "id": "achievement_lvl_10_fabrication",
     "type": "achievement",
     "name": "Jack of All Trades",
-    "description": "With a right amount of glue, there is nothing I can't do.",
+    "description": "With the right amount of glue, there is nothing I can't do.",
     "requirements": [ { "event_statistic": "num_gains_fabrication_level_10", "is": ">=", "target": 1 } ],
     "hidden_by": [ "achievement_lvl_7_fabrication" ]
   },
@@ -766,7 +766,7 @@
     "id": "achievement_lvl_10_cooking",
     "type": "achievement",
     "name": "Hell's Kitchen",
-    "description": "Today's menu: Soupe a l'oignon, Boeuf Bourguignon and Creme brulee.",
+    "description": "Today's menu: Soupe a l'oignon, Boeuf Bourguignon, and Creme brulee.",
     "requirements": [ { "event_statistic": "num_gains_cooking_level_10", "is": ">=", "target": 1 } ],
     "hidden_by": [ "achievement_lvl_7_cooking" ]
   },
@@ -774,14 +774,14 @@
     "id": "achievement_lvl_7_tailor",
     "type": "achievement",
     "name": "Tailor",
-    "description": "A needle, a thread and a dream.",
+    "description": "A needle, a thread, and a dream.",
     "requirements": [ { "event_statistic": "num_gains_tailor_level_7", "is": ">=", "target": 1 } ]
   },
   {
     "id": "achievement_lvl_10_tailor",
     "type": "achievement",
     "name": "Fashion Designer",
-    "description": "Male, female and mutant fashion alike.",
+    "description": "Male, female, and mutant fashion alike.",
     "requirements": [ { "event_statistic": "num_gains_tailor_level_10", "is": ">=", "target": 1 } ],
     "hidden_by": [ "achievement_lvl_7_tailor" ]
   },
@@ -864,7 +864,7 @@
     "id": "achievement_lvl_7_pistol",
     "type": "achievement",
     "name": "Small But Deadly",
-    "description": "Caliber doesn't count when you're on the receiving side of the barrel.",
+    "description": "Caliber doesn't count when you're on the receiving end of the barrel.",
     "requirements": [ { "event_statistic": "num_gains_pistol_level_7", "is": ">=", "target": 1 } ]
   },
   {
@@ -961,7 +961,7 @@
     "id": "achievement_lvl_10_bashing",
     "type": "achievement",
     "name": "Stone Age",
-    "description": "Cudgel was humanity's first tool.  And it may be it's last, so why not master it?",
+    "description": "Cudgel was humanity's first tool.  And it may be its last, so why not master it?",
     "requirements": [ { "event_statistic": "num_gains_bashing_level_10", "is": ">=", "target": 1 } ],
     "hidden_by": [ "achievement_lvl_7_bashing" ]
   },
@@ -984,7 +984,7 @@
     "id": "achievement_lvl_7_dodge",
     "type": "achievement",
     "name": "Elusive",
-    "description": "A strongest of blows is nothing if it doesn't land.",
+    "description": "The strongest of blows is nothing if it doesn't land.",
     "requirements": [ { "event_statistic": "num_gains_dodge_level_7", "is": ">=", "target": 1 } ]
   },
   {

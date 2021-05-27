@@ -1,12 +1,13 @@
-#include "catch/catch.hpp"
-
 #include <algorithm>
+#include <functional>
 #include <list>
 #include <memory>
+#include <new>
 #include <vector>
 
 #include "calendar.h"
 #include "cata_utility.h"
+#include "catch/catch.hpp"
 #include "character.h"
 #include "inventory.h"
 #include "item.h"
@@ -19,6 +20,7 @@
 #include "point.h"
 #include "rng.h"
 #include "type_id.h"
+#include "units.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
 #include "visitable.h"
@@ -28,7 +30,7 @@ template <typename T>
 static int count_items( const T &src, const itype_id &id )
 {
     int n = 0;
-    src.visit_items( [&n, &id]( const item * e ) {
+    src.visit_items( [&n, &id]( const item * e, item * ) {
         n += ( e->typeId() == id );
         return VisitResponse::NEXT;
     } );
@@ -235,7 +237,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
                 THEN( "all of the bottles remain in the players possession" ) {
                     REQUIRE( count_items( p, container_id ) == 5 );
                     AND_THEN( "all of the bottles are now empty" ) {
-                        REQUIRE( p.visit_items( [&container_id]( const item * e ) {
+                        REQUIRE( p.visit_items( [&container_id]( const item * e, item * ) {
                             return ( e->typeId() != container_id || e->contents.empty() ) ?
                                    VisitResponse::NEXT : VisitResponse::ABORT;
                         } ) != VisitResponse::ABORT );

@@ -1,24 +1,25 @@
 #include "editmap.h"
 
-#include <algorithm>
 #include <cstdlib>
-#include <cstring>
+#include <exception>
 #include <iosfwd>
 #include <map>
 #include <memory>
+#include <new>
+#include <ostream>
 #include <set>
 #include <string>
+#include <type_traits>
 #include <typeinfo>
 #include <utility>
 #include <vector>
 
 #include "avatar.h"
-#include "cached_options.h"
+#include "cached_options.h" // IWYU pragma: keep
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "colony.h"
-#include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "creature.h"
@@ -30,8 +31,8 @@
 #include "game.h"
 #include "game_constants.h"
 #include "input.h"
-#include "int_id.h"
 #include "item.h"
+#include "level_cache.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -45,7 +46,6 @@
 #include "scent_map.h"
 #include "shadowcasting.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "string_input_popup.h"
 #include "submap.h"
 #include "translations.h"
@@ -290,7 +290,7 @@ bool editmap::eget_direction( tripoint &p, const std::string &action ) const
 class editmap::game_draw_callback_t_container
 {
     public:
-        game_draw_callback_t_container( editmap *em ) : em( em ) {}
+        explicit game_draw_callback_t_container( editmap *em ) : em( em ) {}
         shared_ptr_fast<game::draw_callback_t> create_or_get();
     private:
         editmap *em;
@@ -1194,7 +1194,7 @@ void editmap::update_fmenu_entry( uilist &fmenu, field &field, const field_type_
         fmenu.entries[idx.to_i()].txt += " " + std::string( field_intensity, '*' );
     }
     fmenu.entries[idx.to_i()].text_color = fld != nullptr ? c_cyan : fmenu.text_color;
-    fmenu.entries[idx.to_i()].extratxt.color = ftype.get_color( field_intensity - 1 );
+    fmenu.entries[idx.to_i()].extratxt.color = ftype.get_intensity_level( field_intensity - 1 ).color;
     fmenu.entries[idx.to_i()].extratxt.txt = ftype.get_symbol( field_intensity - 1 );
 }
 
@@ -1486,7 +1486,7 @@ void editmap::edit_itm()
                         retval = popup
                                  .title( "set:" )
                                  .width( 20 )
-                                 .text( to_string( intval ) )
+                                 .text( std::to_string( intval ) )
                                  .query_int();
                     } else if( imenu.ret == imenu_tags ) {
                         strval = popup

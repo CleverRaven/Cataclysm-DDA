@@ -4,21 +4,21 @@
     "copy-from": "style_eskrima",
     "type": "martial_art",
     "name": { "str": "Eskrima" },
-    "extend": { "weapons": [ "ceramic_knife" ] }
+    "extend": { "weapons": [ "ceramic_knife", "afs_energy_saber_off" ] }
   },
   {
     "id": "style_fencing",
     "copy-from": "style_fencing",
     "type": "martial_art",
     "name": { "str": "Fencing" },
-    "extend": { "weapons": [ "afs_energy_saber_on" ] }
+    "extend": { "weapons": [ "afs_energy_saber_on", "afs_energy_saber_off" ] }
   },
   {
     "id": "style_krav_maga",
     "copy-from": "style_krav_maga",
     "type": "martial_art",
     "name": { "str": "Krav Maga" },
-    "extend": { "weapons": [ "ceramic_knife" ] }
+    "extend": { "weapons": [ "ceramic_knife", "afs_energy_saber_off" ] }
   },
   {
     "id": "style_swordsmanship",
@@ -46,6 +46,6 @@
     "copy-from": "style_silat",
     "type": "martial_art",
     "name": { "str": "Silat" },
-    "extend": { "weapons": [ "afs_energy_saber_on" ] }
+    "extend": { "weapons": [ "afs_energy_saber_on", "afs_energy_saber_off" ] }
   }
 ]

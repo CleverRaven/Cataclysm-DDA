@@ -4,28 +4,27 @@
 
 #include <cstddef>
 #include <functional>
+#include <iosfwd>
 #include <list>
 #include <map>
-#include <memory>
+#include <new>
 #include <set>
-#include <string>
 #include <type_traits>
 #include <vector>
 
-#include "enum_traits.h"
 #include "enums.h"
 #include "flat_set.h"
-#include "json.h"
 #include "optional.h"
 #include "ret_val.h"
-#include "translations.h"
 #include "type_id.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "value_ptr.h"
 #include "visitable.h"
 
 class Character;
+class JsonIn;
+class JsonObject;
+class JsonOut;
 class item;
 class item_location;
 class player;
@@ -109,7 +108,7 @@ class item_pocket
         };
 
         item_pocket() = default;
-        item_pocket( const pocket_data *data ) : data( data ) {}
+        explicit item_pocket( const pocket_data *data ) : data( data ) {}
 
         bool stacks_with( const item_pocket &rhs ) const;
         bool is_funnel_container( units::volume &bigger_than ) const;
@@ -166,6 +165,11 @@ class item_pocket
         // combined weight of contained items
         units::mass contains_weight() const;
         units::mass remaining_weight() const;
+        // these avoid rounding errors and are preferred over
+        // `it.charges_per_volume( pocket.remaining_volume() )` or
+        // `it.charges_per_weight( pocket.remaining_weight() )`
+        int charges_per_remaining_volume( const item &it ) const;
+        int charges_per_remaining_weight( const item &it ) const;
 
         units::volume item_size_modifier() const;
         units::mass item_weight_modifier() const;
@@ -199,6 +203,7 @@ class item_pocket
         bool item_has_uses_recursive() const;
         // will the items inside this pocket fall out of this pocket if it is placed into another item?
         bool will_spill() const;
+        bool will_spill_if_unsealed() const;
         // seal the pocket. returns false if it fails (pocket does not seal)
         bool seal();
         // unseal the pocket.
@@ -258,8 +263,6 @@ class item_pocket
           * may create a new pocket
           */
         void add( const item &it, item **ret = nullptr );
-        /** fills the pocket to the brim with the item */
-        void fill_with( item contained );
         bool can_unload_liquid() const;
 
         // only available to help with migration from previous usage of std::list<item>
@@ -282,6 +285,9 @@ class item_pocket
 
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
+
+        // true if pocket state is the same as if freshly created from the pocket type
+        bool is_default_state() const;
 
         bool same_contents( const item_pocket &rhs ) const;
         /** stacks like items inside the pocket */
@@ -337,7 +343,7 @@ class pocket_data
 
         pocket_data() = default;
         // this constructor is used for special types of pockets, not loading
-        pocket_data( item_pocket::pocket_type pk ) : type( pk ) {
+        explicit pocket_data( item_pocket::pocket_type pk ) : type( pk ) {
             rigid = true;
         }
 

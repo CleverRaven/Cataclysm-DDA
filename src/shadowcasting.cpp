@@ -1,11 +1,14 @@
 #include "shadowcasting.h"
 
-#include "cached_options.h"
+#include <cstdint>
+#include <cstdlib>
+#include <iterator>
+
 #include "cuboid_rectangle.h"
-#include "enums.h"
 #include "fragment_cloud.h" // IWYU pragma: keep
 #include "line.h"
 #include "list.h"
+#include "point.h"
 
 struct slope {
     slope( int_least8_t rise, int_least8_t run ) {
@@ -157,7 +160,7 @@ void cast_horizontal_zlight_segment(
 
     slope new_start_minor( 1, 1 );
 
-    T last_intensity = 0.0;
+    T last_intensity( 0.0 );
     tripoint delta;
     tripoint current;
 
@@ -168,14 +171,14 @@ void cast_horizontal_zlight_segment(
     cata::list<span<T>> spans = { {
             slope( 0, 1 ), slope( 1, 1 ),
             slope( 0, 1 ), slope( 1, 1 ),
-            LIGHT_TRANSPARENCY_OPEN_AIR
+            T( LIGHT_TRANSPARENCY_OPEN_AIR )
         }
     };
     // At each "depth", a.k.a. distance from the origin, we iterate once over the list of spans,
     // possibly splitting them.
     for( int distance = 1; distance <= radius; distance++ ) {
         delta.y = distance;
-        T current_transparency = 0.0f;
+        T current_transparency( 0.0f );
 
         for( auto this_span = spans.begin(); this_span != spans.end(); ) {
             bool started_block = false;
@@ -339,7 +342,7 @@ void cast_vertical_zlight_segment(
 
     slope new_start_minor( 1, 1 );
 
-    T last_intensity = 0.0;
+    T last_intensity( 0.0 );
     tripoint delta;
     tripoint current;
 
@@ -350,14 +353,14 @@ void cast_vertical_zlight_segment(
     cata::list<span<T>> spans = { {
             slope( 0, 1 ), slope( 1, 1 ),
             slope( 0, 1 ), slope( 1, 1 ),
-            LIGHT_TRANSPARENCY_OPEN_AIR
+            T( LIGHT_TRANSPARENCY_OPEN_AIR )
         }
     };
     // At each "depth", a.k.a. distance from the origin, we iterate once over the list of spans,
     // possibly splitting them.
     for( int distance = 1; distance <= radius; distance++ ) {
         delta.z = distance;
-        T current_transparency = 0.0f;
+        T current_transparency( 0.0f );
 
         for( auto this_span = spans.begin(); this_span != spans.end(); ) {
             bool started_block = false;

@@ -2,13 +2,12 @@
 #ifndef CATA_SRC_ASCII_ART_H
 #define CATA_SRC_ASCII_ART_H
 
-#include <algorithm>
-#include <string>
+#include <iosfwd>
 #include <vector>
 
-#include "json.h"
-#include "string_id.h"
 #include "type_id.h"
+
+class JsonObject;
 
 class ascii_art
 {

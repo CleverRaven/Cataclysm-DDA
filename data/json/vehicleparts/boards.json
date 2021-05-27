@@ -6,8 +6,8 @@
     "categories": [ "hull" ],
     "standard_symbols": true,
     "symbols": {
-      "horizontal_front": "T",
-      "horizontal_rear": "B",
+      "horizontal_front": "h",
+      "horizontal_rear": "h",
       "horizontal_2_front": "=",
       "horizontal_2_rear": "=",
       "vertical_left": "j",

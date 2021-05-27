@@ -449,8 +449,8 @@
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted .308 pipe rifle" },
-    "item": "rifle_308",
-    "breaks_into": [ { "item": "rifle_308", "prob": 50 } ],
+    "item": "m1a",
+    "breaks_into": [ { "item": "m1a", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
@@ -623,8 +623,8 @@
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted 223 carbine" },
-    "item": "surv_carbine_223",
-    "breaks_into": [ { "item": "surv_carbine_223", "prob": 50 } ],
+    "item": "ar15",
+    "breaks_into": [ { "item": "ar15", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {

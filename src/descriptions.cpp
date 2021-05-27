@@ -1,19 +1,21 @@
+#include "game.h" // IWYU pragma: associated
+
 #include <algorithm>
+#include <map>
 #include <sstream>
+#include <string>
 #include <utility>
 
 #include "avatar.h"
 #include "calendar.h"
 #include "character.h"
 #include "color.h"
-#include "game.h" // IWYU pragma: associated
 #include "harvest.h"
 #include "input.h"
 #include "map.h"
 #include "mapdata.h"
 #include "output.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "translations.h"
 #include "ui_manager.h"
 #include "viewer.h"

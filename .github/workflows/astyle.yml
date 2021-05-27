@@ -1,10 +1,14 @@
 name: astyle
 
 on:
-  pull_request
+  pull_request:
+    paths:
+    - '**.cpp'
+    - '**.h'
+    - '**.c'
 
 jobs:
-  style-json:
+  astyle-code:
     name: astyle check
 
     runs-on: ubuntu-latest
@@ -12,7 +16,7 @@ jobs:
     steps:
     - uses: actions/checkout@v1
       with:
-        fetch-depth: 10
+        fetch-depth: 1
 
     - name: install dependencies
       run: sudo apt-get install astyle

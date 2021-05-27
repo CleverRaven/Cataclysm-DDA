@@ -6,6 +6,7 @@
 #include <chrono>
 #include <cstddef>
 #include <functional>
+#include <iosfwd>
 #include <string>
 #include <type_traits>
 #include <utility>

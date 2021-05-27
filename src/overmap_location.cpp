@@ -1,8 +1,8 @@
 #include "overmap_location.h"
 
-#include <algorithm>
 #include <map>
 #include <set>
+#include <string>
 #include <utility>
 
 #include "debug.h"

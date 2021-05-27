@@ -1,11 +1,12 @@
-#include "catch/catch.hpp"
-
+#include <functional>
 #include <list>
 #include <memory>
 #include <set>
 #include <vector>
 
 #include "avatar.h"
+#include "calendar.h"
+#include "catch/catch.hpp"
 #include "game.h"
 #include "item.h"
 #include "item_contents.h"
@@ -17,8 +18,10 @@
 #include "player.h"
 #include "player_activity.h"
 #include "player_helpers.h"
+#include "point.h"
 #include "ret_val.h"
 #include "type_id.h"
+#include "units.h"
 #include "value_ptr.h"
 
 TEST_CASE( "reload_gun_with_integral_magazine", "[reload],[gun]" )

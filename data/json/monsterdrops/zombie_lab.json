@@ -19,7 +19,8 @@
           { "group": "electronics", "prob": 40 },
           { "group": "bionics", "prob": 10 },
           { "group": "radio", "prob": 15 },
-          { "group": "textbooks", "prob": 25 }
+          { "group": "textbooks", "prob": 25 },
+          { "group": "autodoc_installation_programs", "prob": 5 }
         ]
       },
       { "group": "wallets_science", "damage": [ 1, 4 ], "prob": 5 }

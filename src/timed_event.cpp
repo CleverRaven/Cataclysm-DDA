@@ -2,6 +2,8 @@
 
 #include <array>
 #include <memory>
+#include <new>
+#include <string>
 
 #include "avatar.h"
 #include "avatar_action.h"
@@ -12,7 +14,6 @@
 #include "event_bus.h"
 #include "game.h"
 #include "game_constants.h"
-#include "int_id.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"

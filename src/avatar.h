@@ -3,6 +3,7 @@
 #define CATA_SRC_AVATAR_H
 
 #include <cstddef>
+#include <iosfwd>
 #include <list>
 #include <map>
 #include <memory>
@@ -15,17 +16,14 @@
 #include "coordinates.h"
 #include "enums.h"
 #include "game_constants.h"
+#include "json.h"
 #include "magic_teleporter_list.h"
 #include "map_memory.h"
 #include "memory_fast.h"
 #include "player.h"
 #include "point.h"
-#include "string_id.h"
 #include "type_id.h"
 
-class JsonIn;
-class JsonObject;
-class JsonOut;
 class advanced_inv_area;
 class advanced_inv_listitem;
 class advanced_inventory_pane;
@@ -37,6 +35,8 @@ class monster;
 class nc_color;
 class npc;
 class talker;
+struct bionic;
+
 namespace catacurses
 {
 class window;
@@ -247,9 +247,10 @@ class avatar : public player
                 advanced_inv_area &square );
 
         using Character::invoke_item;
-        bool invoke_item( item *, const tripoint &pt ) override;
+        bool invoke_item( item *, const tripoint &pt, int pre_obtain_moves ) override;
         bool invoke_item( item * ) override;
-        bool invoke_item( item *, const std::string &, const tripoint &pt ) override;
+        bool invoke_item( item *, const std::string &, const tripoint &pt,
+                          int pre_obtain_moves = -1 ) override;
         bool invoke_item( item *, const std::string & ) override;
 
         monster_visible_info &get_mon_visible() {

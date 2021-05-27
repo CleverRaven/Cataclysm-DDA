@@ -1,10 +1,10 @@
 #include "memorial_logger.h"
 
-#include <algorithm>
 #include <istream>
 #include <list>
 #include <map>
 #include <memory>
+#include <string>
 #include <tuple>
 #include <utility>
 
@@ -27,7 +27,6 @@
 #include "filesystem.h"
 #include "game.h"
 #include "get_version.h"
-#include "int_id.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_factory.h"
@@ -49,7 +48,6 @@
 #include "profession.h"
 #include "skill.h"
 #include "stats_tracker.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"

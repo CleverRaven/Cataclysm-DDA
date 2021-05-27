@@ -74,7 +74,7 @@
     "max_level": 20,
     "min_damage": 30,
     "max_damage": 100,
-    "damage_increment": 3.25,
+    "damage_increment": 3.5,
     "min_range": 3,
     "max_range": 12,
     "range_increment": 0.45,
@@ -100,10 +100,10 @@
     "difficulty": 1,
     "max_level": 20,
     "base_casting_time": 1000,
-    "base_energy_cost": 500,
+    "base_energy_cost": 200,
     "min_duration": 100000,
     "max_duration": 1000000,
-    "duration_increment": 2000
+    "duration_increment": 45000
   },
   {
     "id": "blinding_flash",
@@ -193,6 +193,8 @@
     "name": { "str": "Aura of Protection" },
     "description": "Encases your whole body in a magical aura that protects you from the environment.",
     "valid_targets": [ "self" ],
+    "min_damage": 1,
+    "max_damage": 1,
     "effect": "spawn_item",
     "effect_str": "protect_env",
     "shape": "blast",
@@ -243,7 +245,7 @@
     "base_energy_cost": 150,
     "min_duration": 84000,
     "max_duration": 360000,
-    "duration_increment": 18000,
+    "duration_increment": 18400,
     "learn_spells": { "acid_resistance_greater": 15 }
   },
   {

@@ -1,10 +1,11 @@
+#include <functional>
+
 #include "catch/catch.hpp"
-#include "item_contents.h"
-
-#include <string>
-
 #include "item.h"
+#include "item_contents.h"
 #include "item_pocket.h"
+#include "itype.h"
+#include "map.h"
 #include "point.h"
 #include "ret_val.h"
 #include "type_id.h"
@@ -70,4 +71,32 @@ TEST_CASE( "item_contents" )
     CHECK( tool_belt.contents.num_item_stacks() == 3 );
     tool_belt.spill_contents( tripoint_zero );
     CHECK( tool_belt.contents.empty() );
+}
+
+TEST_CASE( "overflow on combine", "[item]" )
+{
+    tripoint origin{ 60, 60, 0 };
+    item purse( itype_id( "purse" ) );
+    item log( itype_id( "log" ) );
+    item_contents overfull_contents( purse.type->pockets );
+    overfull_contents.force_insert_item( log, item_pocket::pocket_type::CONTAINER );
+    capture_debugmsg_during( [&purse, &overfull_contents]() {
+        purse.contents.combine( overfull_contents );
+    } );
+    map &here = get_map();
+    here.i_clear( origin );
+    purse.contents.overflow( origin );
+    CHECK( here.i_at( origin ).size() == 1 );
+}
+
+TEST_CASE( "overflow test", "[item]" )
+{
+    tripoint origin{ 60, 60, 0 };
+    item purse( itype_id( "purse" ) );
+    item log( itype_id( "log" ) );
+    purse.contents.force_insert_item( log, item_pocket::pocket_type::MIGRATION );
+    map &here = get_map();
+    here.i_clear( origin );
+    purse.contents.overflow( origin );
+    CHECK( here.i_at( origin ).size() == 1 );
 }
