@@ -1080,7 +1080,7 @@ double Character::crafting_success_roll( const recipe &making ) const
     float craft_roll = std::max( normal_roll( weighted_skill_average, crafting_stddev ), 0.0 );
     
     // TK: check all calls to crafting_success_roll, make sure they fit with the outputs this gives.
-    return std::max( craft_roll - final_difficulty, 0.0f );
+    return std::max( craft_roll - final_difficulty + 1, 0.0f );
 }
 
 int item::get_next_failure_point() const
