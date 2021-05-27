@@ -845,6 +845,30 @@
   },
   {
     "type": "construction",
+    "id": "constr_gravelbag_half",
+    "group": "build_gravelbag_wall",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "16 m",
+    "components": [ [ [ "gravelbag", 16 ] ] ],
+    "pre_note": "Can be deconstructed without tools.",
+    "pre_special": "check_empty",
+    "post_terrain": "f_gravelbag_half"
+  },
+  {
+    "type": "construction",
+    "id": "constr_gravelbag_wall",
+    "group": "build_gravelbag_wall",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "20 m",
+    "components": [ [ [ "gravelbag", 20 ] ] ],
+    "pre_note": "Can be deconstructed without tools.",
+    "pre_terrain": "f_gravelbag_half",
+    "post_terrain": "f_gravelbag_wall"
+  },
+  {
+    "type": "construction",
     "id": "constr_earthbag_half",
     "group": "build_earthbag_wall",
     "//": "Step 1: Build earthbag barricade",

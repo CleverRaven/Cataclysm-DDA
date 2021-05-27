@@ -1476,6 +1476,21 @@
     "looks_like": "bag_canvas"
   },
   {
+    "id": "gravelbag",
+    "type": "GENERIC",
+    "category": "other",
+    "name": { "str": "gravelbag" },
+    "description": "This is a canvas sack filled with gravel.  It can be used to construct simple barricades.",
+    "weight": "19200 g",
+    "volume": "16L",
+    "price": 0,
+    "price_postapoc": 10,
+    "material": [ "cotton", "powder" ],
+    "symbol": ")",
+    "color": "brown",
+    "looks_like": "bag_canvas"
+  },
+  {
     "id": "earthbag",
     "type": "GENERIC",
     "category": "other",
