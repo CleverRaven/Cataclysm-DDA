@@ -85,8 +85,8 @@
     "volume": "250 ml",
     "weight": "6 g",
     "bashing": 1,
-    "ammo_type": "components"
-    "count": 50,
+    "ammo_type": "components",
+    "count": 50
   },
   {
     "type": "AMMO",
