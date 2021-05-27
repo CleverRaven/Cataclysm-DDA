@@ -950,7 +950,6 @@ float Character::get_recipe_weighted_skill_average( const recipe &making ) const
     if( has_trait( trait_DEBUG_CNF ) ) {
         return 1.0;
     }
-    int secondary_dice = 0;
     int secondary_skill_total = 0;
     int secondary_difficulty = 0;
     for( const auto &count_secondaries : making.required_skills ) {
