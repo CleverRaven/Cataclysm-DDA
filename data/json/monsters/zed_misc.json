@@ -505,7 +505,7 @@
     "vision_day": 30,
     "vision_night": 3,
     "harvest": "zombie",
-    "special_attacks": [ {"id": "stretch_bite" }, {"id": "stretch_attack", "cooldown": 5 } ],
+    "special_attacks": [ { "id": "stretch_bite" }, { "id": "stretch_attack", "cooldown": 5 } ],
     "death_function": [ "BLOBSPLIT" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "FILTHY" ]
   },
