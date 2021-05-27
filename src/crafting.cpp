@@ -985,10 +985,13 @@ float Character::get_recipe_weighted_skill_average( const recipe &making ) const
     total_skill_modifiers += ( focus_pool - 100 ) /  50.0f;
 
     // TO DO: Attribute role should also be data-driven either in skills.json or in the recipe itself.
-    // For now let's just use Intelligence.  For the average intelligence of 8, this provides no bonus.
-    // Deviations above or below become a bonus/penalty of 0.25 per point of int.
+    // For now let's just use Intelligence.  For the average intelligence of 8, give +2.  Inc/dec by 0.25 per stat point.
+    // This ensures that at parity, where skill = difficulty, you have a roughly 85% chance of success at average intelligence.
     total_skill_modifiers += ( int_cur - 8 ) / 4.0f;
 
+    // Missing proficiencies penalize skill level
+    // At the time of writing this is currently called a fail multiplier.
+    // TK: change the name of this feature to "skill penalty".
     for( const recipe_proficiency &recip : making.proficiencies ) {
         if( !recip.required && !has_proficiency( recip.id ) ) {
             total_skill_modifiers -= ( recip.fail_multiplier - 1.0f );
@@ -1053,6 +1056,7 @@ double Character::crafting_success_roll( const recipe &making ) const
         ( 2.0f * making.difficulty + 1.0f * secondary_level_count );
 
     // in the future we might want to make the standard deviation vary depending on some feature of the recipe.
+    // For now, it varies only depending on your skill relative to the recipe's difficulty.
     float crafting_stddev = 2.0f;
     if( final_difficulty > weighted_skill_average ){
         // Increase the standard deviation by 0.33 for every point below the difficulty your skill level is.
@@ -1066,7 +1070,8 @@ double Character::crafting_success_roll( const recipe &making ) const
     }
     float craft_roll = std::max( normal_roll( weighted_skill_average, crafting_stddev ), 0.0 );
     
-    return std::max( craft_roll / final_difficulty, 0.0f );
+    // TK: check all calls to crafting_success_roll, make sure they fit with the outputs this gives.
+    return std::max( craft_roll - final_difficulty, 0.0f );
 }
 
 int item::get_next_failure_point() const
