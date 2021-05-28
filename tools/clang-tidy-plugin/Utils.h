@@ -206,6 +206,27 @@ class NameConvention
         bool valid = true;
 };
 
+template<typename T, typename U>
+inline size_t HashCombine( const T &t, const U &u )
+{
+    std::hash<T> t_hash;
+    std::hash<U> u_hash;
+    size_t result = t_hash( t );
+    result ^= 0x9e3779b9 + ( result << 6 ) + ( result >> 2 );
+    result ^= u_hash( u );
+    return result;
+}
+
+template<typename T0, typename... T>
+std::string StrCat( T0 &&a0, T &&...a )
+{
+    std::string result( std::forward<T0>( a0 ) );
+    // Using initializer list as a poor man's fold expression until C++17.
+    static_cast<void>(
+        std::array<bool, sizeof...( T )> { ( result.append( std::forward<T>( a ) ), false )... } );
+    return result;
+}
+
 } // namespace cata
 } // namespace tidy
 } // namespace clang

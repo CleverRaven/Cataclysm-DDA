@@ -19,7 +19,7 @@
     "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE" ],
     "phase": "liquid",
     "price": 2500,
-    "freezing_point": 40
+    "freezing_point": 4
   },
   {
     "id": "mana_potion",
@@ -56,7 +56,7 @@
     "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE" ],
     "phase": "liquid",
     "price": 3000,
-    "freezing_point": 40
+    "freezing_point": 4
   },
   {
     "id": "ogres_strength_potion",
@@ -139,7 +139,7 @@
     "flags": [ "TRADER_AVOID", "NUTRIENT_OVERRIDE" ],
     "phase": "liquid",
     "price": 2500,
-    "freezing_point": 10
+    "freezing_point": -12
   },
   {
     "id": "twisted_restore_potion_improved",

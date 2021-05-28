@@ -36,6 +36,9 @@ using construction_group_str_id = string_id<construction_group>;
 struct clothing_mod;
 using clothing_mod_id = string_id<clothing_mod>;
 
+struct effect_on_condition;
+using effect_on_condition_id = string_id<effect_on_condition>;
+
 class effect_type;
 using efftype_id = string_id<effect_type>;
 

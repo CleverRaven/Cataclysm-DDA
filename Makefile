@@ -1154,6 +1154,7 @@ ifdef OSXCROSS
 	dmg dmg Cataclysm-uncompressed.dmg Cataclysm.dmg
 	rm Cataclysm-uncompressed.dmg
 else
+	plutil -convert binary1 Cataclysm.app/Contents/Info.plist
 	dmgbuild -s build-data/osx/dmgsettings.py "Cataclysm DDA" Cataclysm.dmg
 endif
 

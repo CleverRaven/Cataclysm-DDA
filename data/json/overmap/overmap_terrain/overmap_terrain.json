@@ -221,6 +221,34 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "lodge_ground1", "lodge_ground2" ],
+    "name": "hunting lodge",
+    "sym": "L",
+    "copy-from": "generic_forest",
+    "color": "light_green",
+    "see_cost": 4,
+    "extend": { "flags": [ "SOURCE_GUN", "SOURCE_AMMO" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "lodge_2ndfloor1", "lodge_2ndfloor2" ],
+    "name": "second floor hunting lodge",
+    "copy-from": "generic_forest",
+    "sym": "L",
+    "see_cost": 4,
+    "color": "light_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "lodge_basement_residential1", "lodge_basement_residential2", "lodge_basement_laboratory_entrance" ],
+    "name": "hunting lodge basement",
+    "copy-from": "generic_forest",
+    "sym": "L",
+    "see_cost": 4,
+    "color": "light_green"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "dirtroad1_aban1",
     "name": "forest",
     "sym": "F",

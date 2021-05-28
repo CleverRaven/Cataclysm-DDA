@@ -1033,15 +1033,15 @@ void Character::modify_health( const islot_comestible &comest )
 
 void Character::modify_stimulation( const islot_comestible &comest )
 {
+    if( comest.stim == 0 ) {
+        return;
+    }
     const int current_stim = get_stim();
-    if( comest.stim != 0 &&
-        ( std::abs( current_stim ) < ( std::abs( comest.stim ) * 3 ) ||
-          sgn( current_stim ) != sgn( comest.stim ) ) ) {
-        if( comest.stim < 0 ) {
-            set_stim( std::max( comest.stim * 3, current_stim + comest.stim ) );
-        } else {
-            set_stim( std::min( comest.stim * 3, current_stim + comest.stim ) );
-        }
+    if( ( std::abs( comest.stim ) * 3 ) > std::abs( current_stim ) ) {
+        mod_stim( comest.stim );
+    } else {
+        comest.stim > 0 ? mod_stim( std::max( comest.stim / 2, 1 ) ) : mod_stim( std::min( comest.stim / 2,
+                -1 ) );
     }
     if( has_trait( trait_STIMBOOST ) && ( current_stim > 30 ) &&
         ( ( comest.add == add_type::CAFFEINE ) || ( comest.add == add_type::SPEED ) ||
@@ -1337,7 +1337,7 @@ bool Character::consume_effects( item &food )
         // But always round down
         int h_loss = -rottedness * comest.get_default_nutr();
         mod_healthy_mod( h_loss, -200 );
-        add_msg_debug( "%d health from %0.2f%% rotten food", h_loss, rottedness );
+        add_msg_debug( debugmode::DF_FOOD, "%d health from %0.2f%% rotten food", h_loss, rottedness );
     }
 
     // Used in hibernation messages.
@@ -1423,10 +1423,10 @@ bool Character::consume_effects( item &food )
         food_vol * ratio,
         food_nutrients
     };
-    add_msg_debug(
-        "Effective volume: %d (solid) %d (liquid)\n multiplier: %g calories: %d, weight: %d",
-        units::to_milliliter( ingested.solids ), units::to_milliliter( ingested.water ), ratio,
-        food_nutrients.kcal(), units::to_gram( food_weight ) );
+    add_msg_debug( debugmode::DF_FOOD,
+                   "Effective volume: %d (solid) %d (liquid)\n multiplier: %g calories: %d, weight: %d",
+                   units::to_milliliter( ingested.solids ), units::to_milliliter( ingested.water ), ratio,
+                   food_nutrients.kcal(), units::to_gram( food_weight ) );
     // Maybe move tapeworm to digestion
     if( has_effect( effect_tapeworm ) ) {
         ingested.nutr /= 2;

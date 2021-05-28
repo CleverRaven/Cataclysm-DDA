@@ -190,6 +190,50 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "gelatin_powder",
+    "name": { "str_sp": "powdered gelatin" },
+    "weight": "11 g",
+    "color": "yellow",
+    "container": "bag_plastic",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "quench": -1,
+    "calories": 6,
+    "description": "Dried and powdered gelatin, used as a gelling agent when mixed with water.",
+    "price": 150,
+    "price_postapoc": 50,
+    "material": "powder",
+    "volume": "250 ml",
+    "flags": [ "EDIBLE_FROZEN" ],
+    "charges": 25,
+    "fun": -10
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "gelatin_fresh",
+    "name": { "str_sp": "fresh gelatin" },
+    "conditional_names": [
+      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "abomination %s" } },
+      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "amoral %s" } },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "Orwell's %s" } }
+    ],
+    "weight": "25 g",
+    "color": "yellow",
+    "spoils_in": "7 days",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "calories": 6,
+    "//": "Same as the meat it's been made from.  It's additional ingredient compared to smoking, jerking, and dehydrating, so there's no incentive otherwise.",
+    "description": "Fresh ",
+    "price": 150,
+    "price_postapoc": 50,
+    "material": [ "flesh" ],
+    "volume": "250 ml",
+    "vitamins": [ [ "vitA", 10 ], [ "vitC", 15 ], [ "calcium", 2 ], [ "iron", 8 ] ],
+    "flags": [ "EATEN_COLD", "FREEZERBURN" ]
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "meal_bone_tainted",
     "name": { "str_sp": "tainted bone meal" },
     "weight": "112 g",
@@ -240,7 +284,7 @@
     "price_postapoc": 0,
     "material": [ "paper" ],
     "volume": "250 ml",
-    "freezing_point": -459,
+    "freezing_point": -274,
     "charges": 50,
     "fun": -20
   },
@@ -259,7 +303,7 @@
     "price_postapoc": 0,
     "material": [ "cardboard" ],
     "volume": "250 ml",
-    "freezing_point": -459,
+    "freezing_point": -274,
     "charges": 10,
     "fun": -20
   },
@@ -526,7 +570,7 @@
     "calories": 2,
     "charges": 20,
     "fun": -5,
-    "freezing_point": -459
+    "freezing_point": -274
   },
   {
     "type": "COMESTIBLE",
@@ -623,7 +667,7 @@
     "calories": 170,
     "vitamins": [ [ "vitA", 20 ], [ "vitC", 45 ], [ "calcium", 5 ], [ "iron", 5 ] ],
     "fun": 5,
-    "freezing_point": -459,
+    "freezing_point": -274,
     "color": "brown",
     "flags": [ "INEDIBLE", "CATTLE" ],
     "use_action": [ "CATTLEFODDER" ]
@@ -645,7 +689,7 @@
     "calories": 400,
     "vitamins": [ [ "calcium", 1 ], [ "iron", 7 ] ],
     "fun": 5,
-    "freezing_point": -459,
+    "freezing_point": -274,
     "color": "brown",
     "flags": [ "INEDIBLE", "BIRD", "NUTRIENT_OVERRIDE" ],
     "use_action": [ "BIRDFOOD" ]
@@ -694,7 +738,7 @@
     "calories": 380,
     "vitamins": [ [ "vitA", 25 ], [ "iron", 25 ], [ "vitB", 20 ], [ "calcium", 30 ] ],
     "fun": -15,
-    "freezing_point": -459,
+    "freezing_point": -274,
     "color": "brown",
     "flags": [ "LUPINE" ],
     "use_action": [ "DOGFOOD" ]
@@ -743,7 +787,7 @@
     "calories": 380,
     "vitamins": [ [ "vitA", 25 ], [ "iron", 25 ], [ "vitB", 20 ], [ "calcium", 30 ] ],
     "fun": -15,
-    "freezing_point": -459,
+    "freezing_point": -274,
     "color": "brown",
     "flags": [ "FELINE" ],
     "use_action": [ "CATFOOD" ]
@@ -809,10 +853,11 @@
     "color": "white",
     "symbol": "?",
     "container": "box_tea",
+    "calories": 1,
     "material": [ "paper" ],
     "price": 50,
     "price_postapoc": 200,
-    "freezing_point": -459,
+    "freezing_point": -274,
     "description": "A paper sachet with tea leaves inside.  Put it into boiling water to make a cup of black tea."
   },
   {
@@ -834,7 +879,6 @@
     "type": "COMESTIBLE",
     "name": { "str": "herbal tea bag" },
     "copy-from": "tea_bag",
-    "calories": 9,
     "description": "A paper sachet with dried wild herbs inside.  Put it into boiling water to make a cup of herbal tea."
   },
   {
@@ -842,7 +886,6 @@
     "type": "COMESTIBLE",
     "name": { "str": "dandelion tea bag" },
     "copy-from": "tea_bag",
-    "calories": 26,
     "description": "A paper sachet with dried dandelion roots inside.  Put it into boiling water to make a cup of dandelion tea."
   },
   {
@@ -866,7 +909,46 @@
     "material": [ "plastic" ],
     "price": 50,
     "price_postapoc": 200,
-    "freezing_point": -459,
+    "freezing_point": -274,
     "description": "A small packet of commercial instant coffee powder.  No creamer or sweetener added."
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "acid_soaked_hide",
+    "name": "acid soaked hide",
+    "description": "Raw hide soaking in a dilute acid solution to extract collagen.  After 24 hours the solution can be strained to extract fresh gelatin.",
+    "weight": "500 g",
+    "color": "yellow",
+    "sealed": false,
+    "symbol": "~",
+    "calories": 9,
+    "quench": 6,
+    "fun": -10,
+    "price": 0,
+    "volume": "10L",
+    "price_postapoc": 10,
+    "phase": "liquid",
+    "comestible_type": "DRINK",
+    "flags": [ "NUTRIENT_OVERRIDE" ],
+    "brewable": { "time": "24 hours", "results": [ "gelatin_extracted" ] }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "gelatin_extracted",
+    "name": "extracted gelatin",
+    "description": "Freshly extracted gelatin in a dilute acid solution.  It needs to be strained to separate the gelatin from the acid.",
+    "weight": "500 g",
+    "color": "yellow",
+    "sealed": false,
+    "symbol": "~",
+    "calories": 9,
+    "quench": 6,
+    "fun": -10,
+    "price": 0,
+    "volume": "10L",
+    "price_postapoc": 10,
+    "phase": "liquid",
+    "comestible_type": "DRINK",
+    "flags": [ "NUTRIENT_OVERRIDE" ]
   }
 ]

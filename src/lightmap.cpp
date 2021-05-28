@@ -155,7 +155,8 @@ bool map::build_transparency_cache( const int zlev )
             };
 
             if( cur_submap->is_uniform ) {
-                float value, dummy;
+                float value;
+                float dummy;
                 std::tie( value, dummy ) = calc_transp( sm_offset );
                 // if rebuild_all==true all values were already set to LIGHT_TRANSPARENCY_OPEN_AIR
                 if( !rebuild_all || value != LIGHT_TRANSPARENCY_OPEN_AIR ) {
@@ -492,7 +493,7 @@ void map::generate_lightmap( const int zlev )
                         }
                         const float light_override = cur->get_intensity_level().local_light_override;
                         if( light_override >= 0.0f ) {
-                            lm_override.push_back( std::pair<tripoint, float>( p, light_override ) );
+                            lm_override.emplace_back( p, light_override );
                         }
                     }
                 }

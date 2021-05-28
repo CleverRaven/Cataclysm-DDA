@@ -220,8 +220,7 @@ static weather_type_id get_weather_at_point( const tripoint_abs_omt &pos )
         // TODO: fix point types
         const tripoint abs_ms_pos = project_to<coords::ms>( pos ).raw();
         const auto &wgen = overmap_buffer.get_settings( pos ).weather;
-        const auto weather = wgen.get_weather_conditions( abs_ms_pos, calendar::turn, g->get_seed(),
-                             g->weather.next_instance_allowed );
+        const auto weather = wgen.get_weather_conditions( abs_ms_pos, calendar::turn, g->get_seed() );
         iter = weather_cache.insert( std::make_pair( pos, weather ) ).first;
     }
     return iter->second;
@@ -655,7 +654,7 @@ void draw(
             npc *npc_to_add = elem.get();
             if( npc_to_add->mission == NPC_MISSION_TRAVELLING && !npc_to_add->omt_path.empty() ) {
                 for( auto &elem : npc_to_add->omt_path ) {
-                    path_route.push_back( tripoint_abs_omt( elem.xy(), npc_to_add->posz() ) );
+                    path_route.emplace_back( elem.xy(), npc_to_add->posz() );
                 }
             }
         }

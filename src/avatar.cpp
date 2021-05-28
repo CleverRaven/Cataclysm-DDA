@@ -420,7 +420,7 @@ bool avatar::read( item &it, const bool continuous )
 
     const int time_taken = time_to_read( it, *reader );
 
-    add_msg_debug( "avatar::read: time_taken = %d", time_taken );
+    add_msg_debug( debugmode::DF_AVATAR, "avatar::read: time_taken = %d", time_taken );
     player_activity act( ACT_READ, time_taken, continuous ? activity.index : 0,
                          reader->getID().get_value() );
     act.targets.emplace_back( item_location( *this, &it ) );
@@ -745,11 +745,11 @@ void avatar::do_read( item &book )
         player *n = g->find_npc( character_id( activity.values[i] ) );
         if( n != nullptr ) {
             const std::string &s = activity.get_str_value( i, "1" );
-            learners.push_back( { n, strtod( s.c_str(), nullptr ) } );
+            learners.emplace_back( n, strtod( s.c_str(), nullptr ) );
         }
         // Otherwise they must have died/teleported or something
     }
-    learners.push_back( { this, 1.0 } );
+    learners.emplace_back( this, 1.0 );
     //whether to continue reading or not
     bool continuous = false;
     // NPCs who learned a little about the skill
@@ -872,7 +872,7 @@ void avatar::do_read( item &book )
         skill_id skill_used = style_to_learn->primary_skill;
         int difficulty = std::max( 1, style_to_learn->learn_difficulty );
         difficulty = std::max( 1, 20 + difficulty * 2 - get_skill_level( skill_used ) * 2 );
-        add_msg_debug( _( "Chance to learn one in: %d" ), difficulty );
+        add_msg_debug( debugmode::DF_AVATAR, _( "Chance to learn one in: %d" ), difficulty );
 
         if( one_in( difficulty ) ) {
             m->second.call( *this, book, false, pos() );
@@ -1526,6 +1526,13 @@ void avatar::toggle_crouch_mode()
     }
 }
 
+void avatar::activate_crouch_mode()
+{
+    if( !is_crouching() ) {
+        set_movement_mode( move_mode_id( "crouch" ) );
+    }
+}
+
 void avatar::reset_move_mode()
 {
     if( !is_walking() ) {
@@ -1593,7 +1600,7 @@ bool avatar::wield( item &target, const int obtain_cost )
         target.on_takeoff( *this );
     }
 
-    add_msg_debug( "wielding took %d moves", mv );
+    add_msg_debug( debugmode::DF_AVATAR, "wielding took %d moves", mv );
     moves -= mv;
 
     if( has_item( target ) ) {
