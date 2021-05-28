@@ -736,6 +736,38 @@ bool item::covers( const bodypart_id &bp ) const
     return does_cover;
 }
 
+cata::optional<side> item::covers_overlaps( const item &rhs ) const
+{
+    if( get_layer() != rhs.get_layer() ) {
+        return cata::nullopt;
+    }
+    const islot_armor *armor = find_armor_data();
+    if( armor == nullptr ) {
+        return cata::nullopt;
+    }
+    const islot_armor *rhs_armor = rhs.find_armor_data();
+    if( rhs_armor == nullptr ) {
+        return cata::nullopt;
+    }
+    body_part_set this_covers;
+    for( const armor_portion_data &data : armor->data ) {
+        if( data.covers.has_value() ) {
+            this_covers.unify_set( *data.covers );
+        }
+    }
+    body_part_set rhs_covers;
+    for( const armor_portion_data &data : rhs_armor->data ) {
+        if( data.covers.has_value() ) {
+            rhs_covers.unify_set( *data.covers );
+        }
+    }
+    if( this_covers.intersect_set( rhs_covers ).any() ) {
+        return rhs.get_side();
+    } else {
+        return cata::nullopt;
+    }
+}
+
 body_part_set item::get_covered_body_parts() const
 {
     return get_covered_body_parts( get_side() );
@@ -4011,7 +4043,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                               signame ) );
         }
 
-        if( has_flag( flag_RADIO_INVOKE_PROC ) &&
+        if( has_flag( flag_BOMB ) && has_flag( flag_RADIO_INVOKE_PROC ) &&
             parts->test( iteminfo_parts::DESCRIPTION_RADIO_ACTIVATION_PROC ) ) {
             info.emplace_back( "DESCRIPTION",
                                _( "* Activating this item with a <info>radio signal</info> will "

@@ -65,18 +65,33 @@ TEST_CASE( "cuboid_shrinks", "[point]" )
 
 TEST_CASE( "point_to_from_string", "[point]" )
 {
+    bool use_locale = GENERATE( false, true );
+
+    if( use_locale ) {
+        try {
+            std::locale::global( std::locale( "en_US.UTF-8" ) );
+        } catch( std::runtime_error & ) {
+            // On platforms where we can't set the locale, don't worry about it
+            return;
+        }
+        setlocale( LC_ALL, nullptr );
+    }
+    CAPTURE( std::locale().name() );
+
     SECTION( "points_from_string" ) {
         CHECK( point_south.to_string() == "(0,1)" );
         CHECK( tripoint( -1, 0, 1 ).to_string() == "(-1,0,1)" );
+        CHECK( point( 77777, 0 ).to_string() == "(77777,0)" );
+        CHECK( tripoint( 77777, 0, 0 ).to_string() == "(77777,0,0)" );
     }
 
     SECTION( "point_round_trip" ) {
-        point p( 10, -777 );
+        point p( 10, -77777 );
         CHECK( point::from_string( p.to_string() ) == p );
     }
 
     SECTION( "tripoint_round_trip" ) {
-        tripoint p( 10, -777, 6 );
+        tripoint p( 10, -77777, 6 );
         CHECK( tripoint::from_string( p.to_string() ) == p );
     }
 }

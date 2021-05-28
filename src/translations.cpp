@@ -12,6 +12,11 @@
 #define __STRICT_ANSI__
 #endif
 
+#if defined(__APPLE__)
+// needed by localized_comparator
+#include <CoreFoundation/CoreFoundation.h>
+#endif
+
 #include <algorithm>
 #include <map>
 #include <memory>
@@ -63,7 +68,6 @@ int detail::get_current_language_version()
 static std::string getWindowsLanguage();
 #elif defined(__APPLE__)
 #include <CoreFoundation/CFLocale.h>
-#include <CoreFoundation/CoreFoundation.h>
 static std::string getAppleSystemLanguage();
 #elif defined(__ANDROID__)
 #include <jni.h>

@@ -495,6 +495,7 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "2 m",
     "qualities": [ [ { "id": "CUT", "level": 1 } ] ],
+    "byproducts": [ { "item": "duct_tape", "charges": [ 15, 25 ] } ],
     "pre_terrain": "t_window_taped",
     "post_terrain": "t_window"
   },
@@ -507,6 +508,7 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "2 m",
     "qualities": [ [ { "id": "CUT", "level": 1 } ] ],
+    "byproducts": [ { "item": "duct_tape", "charges": [ 15, 25 ] } ],
     "pre_terrain": "t_window_domestic_taped",
     "post_terrain": "t_window_domestic"
   },
@@ -519,6 +521,7 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "2 m",
     "qualities": [ [ { "id": "CUT", "level": 1 } ] ],
+    "byproducts": [ { "item": "duct_tape", "charges": [ 15, 25 ] } ],
     "pre_terrain": "t_window_alarm_taped",
     "post_terrain": "t_window_alarm"
   },
@@ -531,6 +534,7 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "2 m",
     "qualities": [ [ { "id": "CUT", "level": 1 } ] ],
+    "byproducts": [ { "item": "duct_tape", "charges": [ 15, 25 ] } ],
     "pre_terrain": "t_window_no_curtains_taped",
     "post_terrain": "t_window_no_curtains"
   },
@@ -853,6 +857,30 @@
   },
   {
     "type": "construction",
+    "id": "constr_gravelbag_half",
+    "group": "build_gravelbag_wall",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "16 m",
+    "components": [ [ [ "gravelbag", 16 ] ] ],
+    "pre_note": "Can be deconstructed without tools.",
+    "pre_special": "check_empty",
+    "post_terrain": "f_gravelbag_half"
+  },
+  {
+    "type": "construction",
+    "id": "constr_gravelbag_wall",
+    "group": "build_gravelbag_wall",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "20 m",
+    "components": [ [ [ "gravelbag", 20 ] ] ],
+    "pre_note": "Can be deconstructed without tools.",
+    "pre_terrain": "f_gravelbag_half",
+    "post_terrain": "f_gravelbag_wall"
+  },
+  {
+    "type": "construction",
     "id": "constr_earthbag_half",
     "group": "build_earthbag_wall",
     "//": "Step 1: Build earthbag barricade",
@@ -974,11 +1002,11 @@
     "type": "construction",
     "id": "constr_railroad_rubble",
     "group": "make_gravel_floor",
-    "//": "Covers the floor with pebbles. Used for constructing railroads.",
+    "//": "Covers the floor with gravel. Used for constructing railroads.",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "40 m",
-    "components": [ [ [ "pebble", 100 ] ] ],
+    "components": [ [ [ "material_gravel", 500 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "t_railroad_rubble"
   },
@@ -4280,9 +4308,41 @@
     "required_skills": [ [ "survival", 0 ] ],
     "time": "60 m",
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
-    "byproducts": [ { "item": "pebble", "count": [ 70, 100 ] } ],
+    "byproducts": [ { "item": "material_gravel", "count": [ 350, 500 ] } ],
     "pre_terrain": "t_railroad_rubble",
     "post_terrain": "t_dirt"
+  },
+  {
+    "type": "construction",
+    "id": "constr_mechanical_winch",
+    "group": "build_mechanical_winch",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 5 ], [ "mechanics", 6 ] ],
+    "time": "60 m",
+    "tools": [ [ [ "oxy_torch", 4 ], [ "welder", 20 ], [ "welder_crude", 30 ], [ "toolset", 30 ] ] ],
+    "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "GLARE", "level": 2 } ] ],
+    "components": [ [ [ "chain", 16 ] ], [ [ "wheel_metal", 2 ] ], [ [ "pipe", 4 ] ] ],
+    "pre_note": "Must be adjacent to a reinforced concrete wall that is itself adjacent to a metal gate in order to open said gate.",
+    "pre_special": "check_empty",
+    "post_terrain": "t_gates_mech_control_lab"
+  },
+  {
+    "type": "construction",
+    "id": "constr_metal_gate",
+    "group": "build_metal_gate",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 4 ], [ "mechanics", 4 ] ],
+    "time": "120 m",
+    "tools": [ [ [ "oxy_torch", 10 ], [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ] ] ],
+    "qualities": [ [ { "id": "SAW_M", "level": 2 } ], [ { "id": "GLARE", "level": 2 } ] ],
+    "components": [
+      [ [ "steel_lump", 8 ], [ "steel_chunk", 24 ], [ "scrap", 72 ] ],
+      [ [ "sheet_metal", 16 ] ],
+      [ [ "frame", 4 ], [ "spike", 24 ] ]
+    ],
+    "pre_note": "Must be between reinforced concrete walls to function, and at least one wall must have an adjacent mechanical winch.",
+    "pre_special": "check_empty",
+    "post_terrain": "t_door_metal_locked"
   },
   {
     "type": "construction",
