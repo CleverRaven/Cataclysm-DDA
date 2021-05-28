@@ -12810,7 +12810,16 @@ bool Character::add_or_drop_with_msg( item &it, const bool /*unloading*/, const 
     } else if( !this->can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
         put_into_vehicle_or_drop( *this, item_drop_reason::too_heavy, { it } );
     } else {
-        const bool allow_wield = !weapon.has_item( it ) && weapon.magazine_current() != &it;
+        bool wielded_has_it = false;
+        // Cannot use weapon.has_item(it) because it skips any pockets that
+        // are not containers such as magazines and magazine wells.
+        for( const item *scan_contents : weapon.contents.all_items_top() ) {
+            if( scan_contents == &it ) {
+                wielded_has_it = true;
+                break;
+            }
+        }
+        const bool allow_wield = !wielded_has_it && weapon.magazine_current() != &it;
         const int prev_charges = it.charges;
         auto &ni = this->i_add( it, true, avoid, /*allow_drop=*/false, /*allow_wield=*/allow_wield );
         if( ni.is_null() ) {
