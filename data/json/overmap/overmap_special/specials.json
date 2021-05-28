@@ -867,7 +867,7 @@
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] } ],
     "locations": [ "land" ],
     "city_distance": [ 0, 20 ],
-    "occurrences": [ 0, 5 ],
+    "occurrences": [ 0, 4 ],
     "flags": [ "CLASSIC", "WILDERNESS" ]
   },
   {
@@ -885,8 +885,48 @@
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] } ],
     "locations": [ "land" ],
     "city_distance": [ 0, 20 ],
-    "occurrences": [ 0, 5 ],
+    "occurrences": [ 0, 4 ],
     "flags": [ "CLASSIC", "WILDERNESS" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Wasp Tower",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "wasp_tower_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "radio_tower_odd_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "wasp_tower_even_1_north" },
+      { "point": [ 0, 0, 3 ], "overmap": "wasp_tower_odd_1_north" },
+      { "point": [ 0, 0, 4 ], "overmap": "wasp_tower_even_2_north" },
+      { "point": [ 0, 0, 5 ], "overmap": "wasp_tower_odd_2_north" },
+      { "point": [ 0, 0, 6 ], "overmap": "wasp_tower_top_north" },
+      { "point": [ 0, 0, 7 ], "overmap": "wasp_tower_roof_north" }
+    ],
+    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] } ],
+    "locations": [ "land" ],
+    "city_distance": [ 5, 25 ],
+    "occurrences": [ 80, 100 ],
+    "spawns": { "group": "GROUP_WASP_FORAGER", "population": [ 50, 80 ], "radius": [ 6, 20 ] },
+    "flags": [ "WILDERNESS", "UNIQUE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Wasp Tower 1",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "wasp_tower_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "wasp_tower_roof_1_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "wasp_tower_even_1_north" },
+      { "point": [ 0, 0, 3 ], "overmap": "wasp_tower_odd_1_north" },
+      { "point": [ 0, 0, 4 ], "overmap": "wasp_tower_even_2_north" },
+      { "point": [ 0, 0, 5 ], "overmap": "wasp_tower_odd_2_north" },
+      { "point": [ 0, 0, 6 ], "overmap": "wasp_tower_top_north" },
+      { "point": [ 0, 0, 7 ], "overmap": "wasp_tower_roof_north" }
+    ],
+    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] } ],
+    "locations": [ "land" ],
+    "city_distance": [ 5, 25 ],
+    "occurrences": [ 80, 100 ],
+    "spawns": { "group": "GROUP_WASP_FORAGER", "population": [ 50, 100 ], "radius": [ 6, 20 ] },
+    "flags": [ "WILDERNESS", "UNIQUE" ]
   },
   {
     "type": "overmap_special",
