@@ -4314,6 +4314,38 @@
   },
   {
     "type": "construction",
+    "id": "constr_mechanical_winch",
+    "group": "build_mechanical_winch",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 5 ], [ "mechanics", 6 ] ],
+    "time": "60 m",
+    "tools": [ [ [ "oxy_torch", 4 ], [ "welder", 20 ], [ "welder_crude", 30 ], [ "toolset", 30 ] ] ],
+    "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "GLARE", "level": 2 } ] ],
+    "components": [ [ [ "chain", 16 ] ], [ [ "wheel_metal", 2 ] ], [ [ "pipe", 4 ] ] ],
+    "pre_note": "Must be adjacent to a reinforced concrete wall that is itself adjacent to a metal gate in order to open said gate.",
+    "pre_special": "check_empty",
+    "post_terrain": "t_gates_mech_control_lab"
+  },
+  {
+    "type": "construction",
+    "id": "constr_metal_gate",
+    "group": "build_metal_gate",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 4 ], [ "mechanics", 4 ] ],
+    "time": "120 m",
+    "tools": [ [ [ "oxy_torch", 10 ], [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ] ] ],
+    "qualities": [ [ { "id": "SAW_M", "level": 2 } ], [ { "id": "GLARE", "level": 2 } ] ],
+    "components": [
+      [ [ "steel_lump", 8 ], [ "steel_chunk", 24 ], [ "scrap", 72 ] ],
+      [ [ "sheet_metal", 16 ] ],
+      [ [ "frame", 4 ], [ "spike", 24 ] ]
+    ],
+    "pre_note": "Must be between reinforced concrete walls to function, and at least one wall must have an adjacent mechanical winch.",
+    "pre_special": "check_empty",
+    "post_terrain": "t_door_metal_locked"
+  },
+  {
+    "type": "construction",
     "id": "constr_exercise_machine",
     "group": "build_exercise_machine",
     "category": "FURN",
