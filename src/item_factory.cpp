@@ -418,12 +418,6 @@ void Item_factory::finalize_pre( itype &obj )
                                     gun_modifier_data( to_translation( "melee" ), 1,
             { "MELEE" } ) );
         }
-        if( obj.gun->burst > 1 ) {
-            // handle legacy JSON format
-            obj.gun->modes.emplace( gun_mode_id( "AUTO" ),
-                                    gun_modifier_data( to_translation( "auto" ), obj.gun->burst,
-                                            std::set<std::string>() ) );
-        }
 
         if( obj.gun->handling < 0 ) {
             // TODO: specify in JSON via classes
@@ -1795,11 +1789,6 @@ void gun_variant_data::load( const JsonObject &jo )
 void Item_factory::load( islot_gun &slot, const JsonObject &jo, const std::string &src )
 {
     bool strict = src == "dda";
-
-    if( jo.has_member( "burst" ) && jo.has_member( "modes" ) ) {
-        jo.throw_error( "cannot specify both burst and modes", "burst" );
-    }
-
     assign( jo, "skill", slot.skill_used, strict );
     assign( jo, "ammo", slot.ammo, strict );
     assign( jo, "range", slot.range, strict );
@@ -1811,7 +1800,6 @@ void Item_factory::load( islot_gun &slot, const JsonObject &jo, const std::strin
     assign( jo, "recoil", slot.recoil, strict, 0 );
     assign( jo, "handling", slot.handling, strict );
     assign( jo, "durability", slot.durability, strict, 0, 10 );
-    assign( jo, "burst", slot.burst, strict, 1 );
     assign( jo, "loudness", slot.loudness, strict );
     assign( jo, "clip_size", slot.clip, strict, 0 );
     assign( jo, "reload", slot.reload_time, strict, 0 );
