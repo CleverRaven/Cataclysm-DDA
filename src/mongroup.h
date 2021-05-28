@@ -197,6 +197,9 @@ class MonsterGroupManager
         static t_string_set monster_whitelist;
         static t_string_set monster_categories_blacklist;
         static t_string_set monster_categories_whitelist;
+        static t_string_set monster_species_blacklist;
+        static t_string_set monster_species_whitelist;
+
 };
 
 #endif // CATA_SRC_MONGROUP_H

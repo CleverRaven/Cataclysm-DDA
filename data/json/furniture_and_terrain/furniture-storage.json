@@ -1128,7 +1128,7 @@
     "type": "furniture",
     "id": "f_foot_locker",
     "name": "metal foot locker",
-    "description": "An metal stoarge box, capable of holding any number of things.  The lid has has a small lock.",
+    "description": "A metal storage box, capable of holding any number of things.  The lid has a small lock.",
     "symbol": "O",
     "color": "white",
     "move_cost_mod": -1,

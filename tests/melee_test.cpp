@@ -3,7 +3,7 @@
 #include <string>
 
 #include "calendar.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "creature.h"
 #include "game_constants.h"
 #include "item.h"
@@ -85,7 +85,7 @@ TEST_CASE( "Character attacking a zombie", "[.melee]" )
         check_near( prob, 0.6f, 0.1f );
     }
 
-    SECTION( "8/8/8/8, 3 all skills, two-by-four" ) {
+    SECTION( "8/8/8/8, 3 all skills, plank" ) {
         standard_npc dude( "TestCharacter", dude_pos, {}, 3, 8, 8, 8, 8 );
         dude.weapon = item( "2x4" );
         const float prob = brute_probability( dude, zed, num_iters );
@@ -114,7 +114,7 @@ TEST_CASE( "Character attacking a manhack", "[.melee]" )
         check_near( prob, 0.2f, 0.05f );
     }
 
-    SECTION( "8/8/8/8, 3 all skills, two-by-four" ) {
+    SECTION( "8/8/8/8, 3 all skills, plank" ) {
         standard_npc dude( "TestCharacter", dude_pos, {}, 3, 8, 8, 8, 8 );
         dude.weapon = item( "2x4" );
         const float prob = brute_probability( dude, manhack, num_iters );

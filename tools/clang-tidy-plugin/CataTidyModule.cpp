@@ -13,11 +13,14 @@
 #include "PointInitializationCheck.h"
 #include "SimplifyPointConstructorsCheck.h"
 #include "StaticDeclarationsCheck.h"
+#include "StaticIntIdConstantsCheck.h"
 #include "StaticStringIdConstantsCheck.h"
 #include "TestFilenameCheck.h"
 #include "TestsMustRestoreGlobalStateCheck.h"
 #include "TextStyleCheck.h"
 #include "TranslatorCommentsCheck.h"
+#include "UnsequencedCallsCheck.h"
+#include "UnusedStaticsCheck.h"
 #include "UseLocalizedSortingCheck.h"
 #include "UseNamedPointConstantsCheck.h"
 #include "UsePointApisCheck.h"
@@ -48,6 +51,8 @@ class CataModule : public ClangTidyModule
             CheckFactories.registerCheck<SimplifyPointConstructorsCheck>(
                 "cata-simplify-point-constructors" );
             CheckFactories.registerCheck<StaticDeclarationsCheck>( "cata-static-declarations" );
+            CheckFactories.registerCheck<StaticIntIdConstantsCheck>(
+                "cata-static-int_id-constants" );
             CheckFactories.registerCheck<StaticStringIdConstantsCheck>(
                 "cata-static-string_id-constants" );
             CheckFactories.registerCheck<TestFilenameCheck>( "cata-test-filename" );
@@ -55,6 +60,8 @@ class CataModule : public ClangTidyModule
                 "cata-tests-must-restore-global-state" );
             CheckFactories.registerCheck<TextStyleCheck>( "cata-text-style" );
             CheckFactories.registerCheck<TranslatorCommentsCheck>( "cata-translator-comments" );
+            CheckFactories.registerCheck<UnsequencedCallsCheck>( "cata-unsequenced-calls" );
+            CheckFactories.registerCheck<UnusedStaticsCheck>( "cata-unused-statics" );
             CheckFactories.registerCheck<UseLocalizedSortingCheck>( "cata-use-localized-sorting" );
             CheckFactories.registerCheck<UseNamedPointConstantsCheck>(
                 "cata-use-named-point-constants" );
@@ -67,6 +74,7 @@ class CataModule : public ClangTidyModule
 } // namespace cata
 
 // Register the MiscTidyModule using this statically initialized variable.
+// NOLINTNEXTLINE(cata-unused-statics)
 static ClangTidyModuleRegistry::Add<cata::CataModule>
 X( "cata-module", "Adds Cataclysm-DDA checks." );
 

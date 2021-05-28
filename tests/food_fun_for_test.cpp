@@ -4,7 +4,7 @@
 
 #include "avatar.h"
 #include "calendar.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "flag.h"
 #include "item.h"
 #include "itype.h"
@@ -142,29 +142,29 @@ TEST_CASE( "fun for cold food", "[fun_for][food][cold]" )
     }
 
     GIVEN( "food that tastes bad, but better when cold" ) {
-        item sports( "sports_drink" );
-        REQUIRE( sports.is_comestible() );
-        int sports_fun = sports.get_comestible_fun();
+        item rehydration( "rehydration_drink" );
+        REQUIRE( rehydration.is_comestible() );
+        int rehydration_fun = rehydration.get_comestible_fun();
 
-        REQUIRE( sports_fun < 0 );
-        REQUIRE( sports.has_flag( flag_EATEN_COLD ) );
+        REQUIRE( rehydration_fun < 0 );
+        REQUIRE( rehydration.has_flag( flag_EATEN_COLD ) );
 
         WHEN( "it is cold" ) {
-            sports.set_flag( flag_COLD );
-            REQUIRE( sports.has_flag( flag_COLD ) );
+            rehydration.set_flag( flag_COLD );
+            REQUIRE( rehydration.has_flag( flag_COLD ) );
 
             THEN( "it doesn't taste bad" ) {
-                actual_fun = dummy.fun_for( sports );
+                actual_fun = dummy.fun_for( rehydration );
                 CHECK( actual_fun.first > 0 );
             }
         }
 
         WHEN( "it is not cold" ) {
-            REQUIRE_FALSE( sports.has_flag( flag_COLD ) );
+            REQUIRE_FALSE( rehydration.has_flag( flag_COLD ) );
 
             THEN( "it tastes as bad as usual" ) {
-                actual_fun = dummy.fun_for( sports );
-                CHECK( actual_fun.first == sports_fun );
+                actual_fun = dummy.fun_for( rehydration );
+                CHECK( actual_fun.first == rehydration_fun );
             }
         }
     }

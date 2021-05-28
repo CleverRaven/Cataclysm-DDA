@@ -183,9 +183,9 @@ int minesweeper_game::start_game()
         draw_border( w_minesweeper_border );
 
         std::vector<std::string> shortcuts;
-        shortcuts.push_back( _( "<n>ew level" ) );
-        shortcuts.push_back( _( "<f>lag" ) );
-        shortcuts.push_back( _( "<q>uit" ) );
+        shortcuts.emplace_back( _( "<n>ew level" ) );
+        shortcuts.emplace_back( _( "<f>lag" ) );
+        shortcuts.emplace_back( _( "<q>uit" ) );
 
         int iWidth = 0;
         for( auto &shortcut : shortcuts ) {

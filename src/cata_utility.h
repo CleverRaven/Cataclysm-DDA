@@ -200,6 +200,13 @@ double temp_to_celsius( double fahrenheit );
 double temp_to_kelvin( double fahrenheit );
 
 /**
+ * Convert a temperature from degrees Celsius to Kelvin.
+ *
+ * @return Temperature in degrees K.
+ */
+double celsius_to_kelvin( double celsius );
+
+/**
  * Convert a temperature from Kelvin to degrees Fahrenheit.
  *
  * @return Temperature in degrees C.
@@ -434,6 +441,36 @@ bool return_true( const T & )
  * Joins a vector of `std::string`s into a single string with a delimiter/joiner
  */
 std::string join( const std::vector<std::string> &strings, const std::string &joiner );
+
+/**
+ * Append all arguments after the first to the first.
+ *
+ * This provides a way to append several strings to a single root string
+ * in a single line without an expression like 'a += b + c' which can cause an
+ * unnecessary allocation in the 'b + c' expression.
+ */
+template<typename... T>
+std::string &str_append( std::string &root, T &&...a )
+{
+    // Using initializer list as a poor man's fold expression until C++17.
+    static_cast<void>(
+    std::array<bool, sizeof...( T )> { {
+            ( root.append( std::forward<T>( a ) ), false )...
+        }
+    } );
+    return root;
+}
+
+/**
+ * Concatenates a bunch of strings with append, to minimze unnecessary
+ * allocations
+ */
+template<typename T0, typename... T>
+std::string str_cat( T0 &&a0, T &&...a )
+{
+    std::string result( std::forward<T0>( a0 ) );
+    return str_append( result, std::forward<T>( a )... );
+}
 
 /**
  * Erases elements from a set that match given predicate function.

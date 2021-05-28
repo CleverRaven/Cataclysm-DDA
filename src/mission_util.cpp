@@ -529,7 +529,7 @@ bool mission_type::parse_funcs( const JsonObject &jo, std::function<void( missio
      * write that code in two places so here it goes.
      */
     talk_effect_t talk_effects;
-    talk_effects.load_effect( jo );
+    talk_effects.load_effect( jo, "effect" );
     phase_func = [ funcs, talk_effects ]( mission * miss ) {
         ::dialogue d;
         npc *beta = g->find_npc( miss->get_npc_id() );

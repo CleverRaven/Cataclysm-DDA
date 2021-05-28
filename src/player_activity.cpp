@@ -64,11 +64,11 @@ void player_activity::migrate_item_position( Character &guy )
         type == ACT_ATM;
 
     if( simple_action_replace ) {
-        targets.push_back( item_location( guy, &guy.i_at( position ) ) );
+        targets.emplace_back( guy, &guy.i_at( position ) );
     } else if( type == ACT_GUNMOD_ADD ) {
         // this activity has two indices; "position" = gun and "values[0]" = mod
-        targets.push_back( item_location( guy, &guy.i_at( position ) ) );
-        targets.push_back( item_location( guy, &guy.i_at( values[0] ) ) );
+        targets.emplace_back( guy, &guy.i_at( position ) );
+        targets.emplace_back( guy, &guy.i_at( values[0] ) );
     }
 }
 
@@ -155,8 +155,7 @@ cata::optional<std::string> player_activity::get_progress_message( const avatar 
             }
         }
     } else if( moves_total > 0 ) {
-        if( type == activity_id( "ACT_BURROW" ) ||
-            type == activity_id( "ACT_HACKSAW" ) ||
+        if( type == activity_id( "ACT_HACKSAW" ) ||
             type == activity_id( "ACT_JACKHAMMER" ) ||
             type == activity_id( "ACT_PICKAXE" ) ||
             type == activity_id( "ACT_VEHICLE" ) ||

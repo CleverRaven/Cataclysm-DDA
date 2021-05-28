@@ -926,7 +926,7 @@ void tileset_loader::load_tilejson_from_file( const JsonObject &config )
                 // fetch additional tiles
                 for( const JsonObject subentry : entry.get_array( "additional_tiles" ) ) {
                     const std::string s_id = subentry.get_string( "id" );
-                    const std::string m_id = t_id + "_" + s_id;
+                    const std::string m_id = str_cat( t_id, "_", s_id );
                     tile_type &curr_subtile = load_tile( subentry, m_id );
                     curr_subtile.offset = sprite_offset;
                     curr_subtile.rotates = true;
@@ -1679,12 +1679,15 @@ bool cata_tiles::find_overlay_looks_like( const bool male, const std::string &ov
     }
 
     for( int cnt = 0; cnt < 10 && !looks_like.empty(); cnt++ ) {
-        draw_id = ( male ? "overlay_male_" : "overlay_female_" ) + over_type + looks_like;
+        draw_id.clear();
+        str_append( draw_id,
+                    ( male ? "overlay_male_" : "overlay_female_" ), over_type, looks_like );
         if( tileset_ptr->find_tile_type( draw_id ) ) {
             exists = true;
             break;
         }
-        draw_id = "overlay_" + over_type + looks_like;
+        draw_id.clear();
+        str_append( draw_id, "overlay_", over_type, looks_like );
         if( tileset_ptr->find_tile_type( draw_id ) ) {
             exists = true;
             break;
@@ -2007,7 +2010,9 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
         };
         // use a fair mix function to turn the "random" seed into a random int
         // taken from public domain code at http://burtleburtle.net/bob/c/lookup3.c 2015/12/11
-        unsigned int a = seed, b = -seed, c = seed * seed;
+        unsigned int a = seed;
+        unsigned int b = -seed;
+        unsigned int c = seed * seed;
         c ^= b;
         c -= rot32( b, 14 );
         a ^= c;
@@ -3928,6 +3933,7 @@ std::vector<options_manager::id_and_option> cata_tiles::build_display_list()
     };
 
     int numdisplays = SDL_GetNumVideoDisplays();
+    display_names.reserve( numdisplays );
     for( int i = 0 ; i < numdisplays ; i++ ) {
         display_names.emplace_back( std::to_string( i ), no_translation( SDL_GetDisplayName( i ) ) );
     }

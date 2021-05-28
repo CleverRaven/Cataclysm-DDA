@@ -8,7 +8,7 @@
 
 #include "avatar.h"
 #include "calendar.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "character.h"
 #include "character_id.h"
 #include "coordinate_conversions.h"
@@ -616,7 +616,7 @@ TEST_CASE( "npc_talk_items", "[npc_talk]" )
     };
     player_character.cash = 1000;
     player_character.int_cur = 8;
-    player_character.worn.push_back( item( "backpack" ) );
+    player_character.worn.emplace_back( "backpack" );
     d.add_topic( "TALK_TEST_EFFECTS" );
     gen_response_lines( d, 19 );
     // add and remove effect

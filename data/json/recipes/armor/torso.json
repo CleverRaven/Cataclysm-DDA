@@ -491,8 +491,6 @@
     ],
     "proficiencies": [
       { "proficiency": "prof_polymerworking" },
-      { "proficiency": "prof_leatherworking_basic" },
-      { "proficiency": "prof_leatherworking" },
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" }
     ]
@@ -743,12 +741,7 @@
       [ [ "duct_tape", 150 ] ],
       [ [ "kevlar", 1 ], [ "ballistic_vest_empty", 1 ], [ "swat_armor", 1 ], [ "kevlar_plate", 16 ] ]
     ],
-    "proficiencies": [
-      { "proficiency": "prof_polymerworking" },
-      { "proficiency": "prof_leatherworking_basic" },
-      { "proficiency": "prof_leatherworking" },
-      { "proficiency": "prof_closures_waterproofing" }
-    ]
+    "proficiencies": [ { "proficiency": "prof_polymerworking" }, { "proficiency": "prof_closures_waterproofing" } ]
   },
   {
     "result": "xl_lsurvivor_armor",
@@ -1056,8 +1049,6 @@
     ],
     "proficiencies": [
       { "proficiency": "prof_polymerworking" },
-      { "proficiency": "prof_leatherworking_basic" },
-      { "proficiency": "prof_leatherworking" },
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" }
     ]
@@ -1240,8 +1231,6 @@
     ],
     "proficiencies": [
       { "proficiency": "prof_polymerworking" },
-      { "proficiency": "prof_leatherworking_basic" },
-      { "proficiency": "prof_leatherworking" },
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" }
     ]
@@ -1533,8 +1522,6 @@
     ],
     "proficiencies": [
       { "proficiency": "prof_polymerworking" },
-      { "proficiency": "prof_leatherworking_basic" },
-      { "proficiency": "prof_leatherworking" },
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" }
     ]

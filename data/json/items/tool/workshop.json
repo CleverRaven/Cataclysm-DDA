@@ -309,7 +309,7 @@
     "id": "hammer",
     "type": "TOOL",
     "name": { "str": "hammer" },
-    "description": "This is a demagnetized steel claw hammer with a wooden grip.  With a hammer, nails, and two by fours in your inventory, you could board up adjacent doors and windows.  It has myriad other uses as well.",
+    "description": "This is a demagnetized steel claw hammer with a wooden grip.  With a hammer, nails, and planks in your inventory, you could board up adjacent doors and windows.  It has myriad other uses as well.",
     "ascii_picture": "hammer",
     "longest_side": "25 cm",
     "weight": "566 g",
@@ -491,7 +491,7 @@
       [ "SCREW_FINE", 1 ],
       [ "SCREW", 1 ],
       [ "CHISEL", 3 ],
-      [ "CHISEL_WOOD", 1 ]
+      [ "CHISEL_WOOD", 3 ]
     ],
     "use_action": [ "GUN_REPAIR", "CROWBAR", "HAMMER" ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
@@ -852,7 +852,7 @@
       [ "SCREW_FINE", 1 ],
       [ "SCREW", 1 ],
       [ "CHISEL", 3 ],
-      [ "CHISEL_WOOD", 1 ]
+      [ "CHISEL_WOOD", 3 ]
     ],
     "use_action": [ "GUN_REPAIR", "CROWBAR", "HAMMER" ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
