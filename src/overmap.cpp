@@ -852,7 +852,7 @@ bool overmap_special::can_belong_to_city( const tripoint_om_omt &p, const city &
     if( !cit || !city_size.contains( cit.size ) ) {
         return false;
     }
-    return city_distance.contains( cit.get_distance_from( p ) );
+    return city_distance.contains( cit.get_distance_from( p ) - ( cit.size ) );
 }
 
 void overmap_special::load( const JsonObject &jo, const std::string &src )
