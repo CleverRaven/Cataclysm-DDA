@@ -86,6 +86,7 @@
     "material": [ "plastic" ],
     "flags": [ "FRAGILE_MELEE" ],
     "volume": "2250 ml",
+    "bashing": 1,
     "price": "25 USD"
   },
   {

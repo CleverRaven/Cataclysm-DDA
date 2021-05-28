@@ -6,7 +6,7 @@
 #include <type_traits>
 #include <vector> // range-insert testing
 
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "colony_list_test_helpers.h"
 #include "list.h"
 

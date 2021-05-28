@@ -51,6 +51,7 @@
 #include "string_formatter.h"
 #include "text_snippets.h"
 #include "translations.h"
+#include "try_parse_integer.h"
 #include "ui.h"
 #include "units.h"
 #include "value_ptr.h"
@@ -215,9 +216,19 @@ void Item_factory::finalize_pre( itype &obj )
 
     // set light_emission based on LIGHT_[X] flag
     for( const auto &f : obj.item_tags ) {
-        int ll;
-        if( sscanf( f.c_str(), "LIGHT_%i", &ll ) == 1 && ll > 0 ) {
-            obj.light_emission = ll;
+        if( string_starts_with( f.str(), "LIGHT_" ) ) {
+            ret_val<int> ll = try_parse_integer<int>( f.str().substr( 6 ), false );
+            if( ll.success() ) {
+                if( ll.value() > 0 ) {
+                    obj.light_emission = ll.value();
+                } else {
+                    debugmsg( "item %s specifies light emission of zero, which is redundant",
+                              obj.id.str() );
+                }
+            } else {
+                debugmsg( "error parsing integer light emission suffic for item %s: %s",
+                          obj.id.str(), ll.str() );
+            }
         }
     }
     // remove LIGHT_[X] flags
@@ -1761,6 +1772,20 @@ void Item_factory::load_wheel( const JsonObject &jo, const std::string &src )
     }
 }
 
+void gun_variant_data::deserialize( JsonIn &jsin )
+{
+    load( jsin.get_object() );
+}
+
+void gun_variant_data::load( const JsonObject &jo )
+{
+    mandatory( jo, false, "id", id );
+    mandatory( jo, false, "name", brand_name );
+    mandatory( jo, false, "description", alt_description );
+    optional( jo, false, "ascii_picture", art );
+    optional( jo, false, "weight", weight );
+}
+
 void Item_factory::load( islot_gun &slot, const JsonObject &jo, const std::string &src )
 {
     bool strict = src == "dda";
@@ -1788,6 +1813,8 @@ void Item_factory::load( islot_gun &slot, const JsonObject &jo, const std::strin
     assign( jo, "min_cycle_recoil", slot.min_cycle_recoil, strict, 0 );
     assign( jo, "ammo_effects", slot.ammo_effects, strict );
     assign( jo, "ammo_to_fire", slot.ammo_to_fire, strict, 1 );
+
+    optional( jo, false, "variants", slot.variants );
 
     if( jo.has_array( "valid_mod_locations" ) ) {
         slot.valid_mod_locations.clear();
@@ -2408,6 +2435,8 @@ void Item_factory::load( islot_magazine &slot, const JsonObject &jo, const std::
     assign( jo, "default_ammo", slot.default_ammo, strict );
     assign( jo, "reload_time", slot.reload_time, strict, 0 );
     assign( jo, "linkage", slot.linkage, strict );
+
+    optional( jo, false, "variants", slot.variants );
 }
 
 void Item_factory::load_magazine( const JsonObject &jo, const std::string &src )
@@ -2534,7 +2563,7 @@ void hflesh_to_flesh( itype &item_template )
     // Only add "flesh" material if not already present
     if( old_size != mats.size() &&
         std::find( mats.begin(), mats.end(), material_id( "flesh" ) ) == mats.end() ) {
-        mats.push_back( material_id( "flesh" ) );
+        mats.emplace_back( "flesh" );
     }
 }
 
@@ -3125,6 +3154,7 @@ void Item_factory::load_migration( const JsonObject &jo )
 {
     migration m;
     assign( jo, "replace", m.replace );
+    assign( jo, "variant", m.variant );
     assign( jo, "flags", m.flags );
     assign( jo, "charges", m.charges );
     assign( jo, "contents", m.contents );
@@ -3173,6 +3203,8 @@ void Item_factory::migrate_item( const itype_id &id, item &obj )
         if( iter->second.charges > 0 ) {
             obj.charges = iter->second.charges;
         }
+
+        obj.set_gun_variant( iter->second.variant );
 
         for( const migration::content &it : iter->second.contents ) {
             int count = it.count;
@@ -3358,10 +3390,10 @@ bool Item_factory::load_sub_ref( std::unique_ptr<Item_spawn_data> &ptr, const Js
                                         iname, gname ) );
     }
     if( obj.has_string( iname ) ) {
-        entries.push_back( std::make_pair( obj.get_string( iname ), false ) );
+        entries.emplace_back( obj.get_string( iname ), false );
     }
     if( obj.has_string( gname ) ) {
-        entries.push_back( std::make_pair( obj.get_string( gname ), true ) );
+        entries.emplace_back( obj.get_string( gname ), true );
     }
 
     const std::string subcontext = name + " of " + parent.context();
@@ -3474,6 +3506,10 @@ void Item_factory::add_entry( Item_group &ig, const JsonObject &obj, const std::
     modifier.custom_flags.clear();
     for( const auto &cf : custom_flags ) {
         modifier.custom_flags.emplace_back( cf );
+    }
+    if( obj.has_member( "variant" ) ) {
+        modifier.variant = obj.get_string( "variant" );
+        use_modifier = true;
     }
 
     if( use_modifier ) {

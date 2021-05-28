@@ -38,7 +38,7 @@ Optional. Float
 When used in recipes these values are the amount the time to complete the recipe, and the chance to fail the recipe, will be multiplied by.
 
 - For proficiencies that represent core basic knowledge and foundational principles, the `time` should usually be low (1.5 or so), and the `fail` should be high (4 or more).
-- For "flavour" proficiencies that offer a small boost, these should be around 1.5 each.
+- For "flavor" proficiencies that offer a small boost, these should be around 1.5 each.
 - Most other proficiencies should be in the 2-3 range for both values.
 
 ### `time_to_learn`

@@ -269,10 +269,10 @@ monster::monster( const mtype_id &id, const tripoint &p ) : monster( id )
 }
 
 monster::monster( const monster & ) = default;
-monster::monster( monster && ) = default;
+monster::monster( monster && ) noexcept = default;
 monster::~monster() = default;
 monster &monster::operator=( const monster & ) = default;
-monster &monster::operator=( monster && ) = default;
+monster &monster::operator=( monster && ) noexcept( string_is_noexcept ) = default;
 
 void monster::setpos( const tripoint &p )
 {
@@ -284,7 +284,8 @@ void monster::setpos( const tripoint &p )
     g->update_zombie_pos( *this, p );
     position = p;
     if( has_effect( effect_ridden ) && mounted_player && mounted_player->pos() != pos() ) {
-        add_msg_debug( "Ridden monster %s moved independently and dumped player", get_name() );
+        add_msg_debug( debugmode::DF_MONSTER, "Ridden monster %s moved independently and dumped player",
+                       get_name() );
         mounted_player->forced_dismount();
     }
     if( wandering ) {
@@ -1075,6 +1076,16 @@ void monster::set_goal( const tripoint &p )
     goal = p;
 }
 
+void monster::set_patrol_route( const std::vector<point> &patrol_pts_rel_ms )
+{
+    map &here = get_map();
+    tripoint base_abs_ms( real_coords( here.getabs( pos().xy() ) ).begin_om_pos(), posz() );
+    for( const point &patrol_pt : patrol_pts_rel_ms ) {
+        patrol_route_abs_ms.push_back( base_abs_ms + patrol_pt );
+    }
+    next_patrol_point = 0;
+}
+
 void monster::shift( const point &sm_shift )
 {
     const point ms_shift = sm_to_ms_copy( sm_shift );
@@ -1085,7 +1096,7 @@ void monster::shift( const point &sm_shift )
     }
 }
 
-tripoint monster::move_target()
+tripoint monster::move_target() const
 {
     return goal;
 }
@@ -1490,7 +1501,7 @@ bool monster::block_hit( Creature *, bodypart_id &, damage_instance & )
 void monster::absorb_hit( const bodypart_id &, damage_instance &dam )
 {
     for( auto &elem : dam.damage_units ) {
-        add_msg_debug( "Dam Type: %s :: Ar Pen: %.1f :: Armor Mult: %.1f",
+        add_msg_debug( debugmode::DF_MONSTER, "Dam Type: %s :: Ar Pen: %.1f :: Armor Mult: %.1f",
                        name_by_dt( elem.type ), elem.res_pen, elem.res_mult );
         elem.amount -= std::min( resistances( *this ).get_effective_resist( elem ) +
                                  get_worn_armor_val( elem.type ), elem.amount );
@@ -2817,13 +2828,25 @@ void monster::add_msg_if_npc( const game_message_params &params, const std::stri
     add_msg_if_player_sees( *this, params, replace_with_npc_name( msg ) );
 }
 
+void monster::add_msg_debug_if_npc( debugmode::debug_filter type, const std::string &msg ) const
+{
+    add_msg_debug_if_player_sees( *this, type, replace_with_npc_name( msg ) );
+}
+
 void monster::add_msg_player_or_npc( const game_message_params &params,
                                      const std::string &/*player_msg*/, const std::string &npc_msg ) const
 {
     add_msg_if_player_sees( *this, params, replace_with_npc_name( npc_msg ) );
 }
 
-units::mass monster::get_carried_weight()
+void monster::add_msg_debug_player_or_npc( debugmode::debug_filter type,
+        const std::string &/*player_msg*/,
+        const std::string &npc_msg ) const
+{
+    add_msg_debug_if_player_sees( *this, type, replace_with_npc_name( npc_msg ) );
+}
+
+units::mass monster::get_carried_weight() const
 {
     units::mass total_weight = 0_gram;
     if( tack_item ) {
@@ -2841,7 +2864,7 @@ units::mass monster::get_carried_weight()
     return total_weight;
 }
 
-units::volume monster::get_carried_volume()
+units::volume monster::get_carried_volume() const
 {
     units::volume total_volume = 0_ml;
     for( const item &it : inv ) {
@@ -3108,7 +3131,7 @@ void monster::on_load()
         healed_speed = get_speed_base() - old_speed;
     }
 
-    add_msg_debug( "on_load() by %s, %d turns, healed %d hp, %d speed",
+    add_msg_debug( debugmode::DF_MONSTER, "on_load() by %s, %d turns, healed %d hp, %d speed",
                    name(), to_turns<int>( dt ), healed, healed_speed );
 }
 

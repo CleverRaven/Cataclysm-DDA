@@ -13,7 +13,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
-    "flags": [ "OBSTACLE" ]
+    "flags": [ "PROTRUSION", "OBSTACLE" ]
   },
   {
     "id": "ram_alloy",
@@ -171,7 +171,7 @@
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "5 m", "using": [  ] }
     },
     "damage_reduction": { "bash": 20 },
-    "flags": [ "OBSTACLE", "OPAQUE" ]
+    "flags": [ "PROTRUSION", "OBSTACLE", "OPAQUE" ]
   },
   {
     "id": "tearer",
@@ -194,7 +194,7 @@
       "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
-    "flags": [ "UNMOUNT_ON_DAMAGE", "SHARP" ],
+    "flags": [ "UNMOUNT_ON_DAMAGE", "SHARP", "PROTRUSION" ],
     "damage_reduction": { "all": 82 }
   }
 ]
