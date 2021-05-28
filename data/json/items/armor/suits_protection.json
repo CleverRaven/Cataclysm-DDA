@@ -782,6 +782,30 @@
     "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "POCKETS", "STURDY", "OVERSIZE" ]
   },
   {
+    "id": "wsurvivor_suit_nofur",
+    "type": "ARMOR",
+    "name": { "str": "winter survivor suit" },
+    "description": "A warm and heavy hand-built combination armor made from a reinforced bulletproof vest and a faux fur insulated leather jumpsuit.  Protects from the elements as well as from harm.",
+    "copy-from": "wsurvivor_suit",
+    "material": [ "kevlar_layered", "faux_fur" ],
+    "symbol": "[",
+    "warmth": 65,
+    "looks_like": "survivor_suit",
+    "color": "pink"
+  },
+  {
+    "id": "xl_wsurvivor_suit_nofur",
+    "type": "ARMOR",
+    "name": { "str": "XL winter survivor suit" },
+    "copy-from": "wsurvivor_suit",
+    "material": [ "kevlar_layered", "faux_fur" ],
+    "description": "A warm, heavy and oversized hand-built combination armor made from a reinforced bulletproof vest and a faux fur insulated leather jumpsuit.  Protects from the elements as well as from harm.",
+    "color": "pink",
+    "warmth": 65,
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "OVERSIZE" ]
+  },
+  {
     "id": "gambeson",
     "type": "ARMOR",
     "name": { "str": "gambeson" },
