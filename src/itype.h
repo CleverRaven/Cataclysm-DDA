@@ -546,9 +546,6 @@ struct islot_gun : common_ranged_data {
     /** Firing modes are supported by the gun. Always contains at least DEFAULT mode */
     std::map<gun_mode_id, gun_modifier_data> modes;
 
-    /** Burst size for AUTO mode (legacy field for items not migrated to specify modes ) */
-    int burst = 0;
-
     /** How easy is control of recoil? If unset value automatically derived from weapon type */
     int handling = -1;
 
