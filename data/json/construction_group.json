@@ -251,6 +251,11 @@
   },
   {
     "type": "construction_group",
+    "id": "build_gravelbag_wall",
+    "name": "Build Gravelbag Wall"
+  },
+  {
+    "type": "construction_group",
     "id": "build_earthbag_wall",
     "name": "Build Earthbag Wall"
   },
