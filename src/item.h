@@ -1589,6 +1589,8 @@ class item : public visitable
          * Whether this item (when worn) covers the given body part.
          */
         bool covers( const bodypart_id &bp ) const;
+        // do both items overlap a bodypart at all? returns the side that conflicts via rhs
+        cata::optional<side> covers_overlaps( const item &rhs ) const;
         /**
          * Bitset of all covered body parts.
          *
