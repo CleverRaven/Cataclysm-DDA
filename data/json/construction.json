@@ -857,6 +857,30 @@
   },
   {
     "type": "construction",
+    "id": "constr_gravelbag_half",
+    "group": "build_gravelbag_wall",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "16 m",
+    "components": [ [ [ "gravelbag", 16 ] ] ],
+    "pre_note": "Can be deconstructed without tools.",
+    "pre_special": "check_empty",
+    "post_terrain": "f_gravelbag_half"
+  },
+  {
+    "type": "construction",
+    "id": "constr_gravelbag_wall",
+    "group": "build_gravelbag_wall",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "20 m",
+    "components": [ [ [ "gravelbag", 20 ] ] ],
+    "pre_note": "Can be deconstructed without tools.",
+    "pre_terrain": "f_gravelbag_half",
+    "post_terrain": "f_gravelbag_wall"
+  },
+  {
+    "type": "construction",
     "id": "constr_earthbag_half",
     "group": "build_earthbag_wall",
     "//": "Step 1: Build earthbag barricade",
@@ -978,11 +1002,11 @@
     "type": "construction",
     "id": "constr_railroad_rubble",
     "group": "make_gravel_floor",
-    "//": "Covers the floor with pebbles. Used for constructing railroads.",
+    "//": "Covers the floor with gravel. Used for constructing railroads.",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "40 m",
-    "components": [ [ [ "pebble", 500 ] ] ],
+    "components": [ [ [ "material_gravel", 500 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "t_railroad_rubble"
   },
@@ -4284,7 +4308,7 @@
     "required_skills": [ [ "survival", 0 ] ],
     "time": "60 m",
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
-    "byproducts": [ { "item": "pebble", "count": [ 20, 40 ] } ],
+    "byproducts": [ { "item": "material_gravel", "count": [ 350, 500 ] } ],
     "pre_terrain": "t_railroad_rubble",
     "post_terrain": "t_dirt"
   },

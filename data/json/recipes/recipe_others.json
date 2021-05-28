@@ -11,7 +11,7 @@
     "autolearn": false,
     "book_learn": [ [ "concrete_book", 4 ] ],
     "tools": [ [ [ "con_mix", 50 ] ] ],
-    "components": [ [ [ "material_cement", 50 ] ], [ [ "material_sand", 25 ] ], [ [ "pebble", 20 ] ] ]
+    "components": [ [ [ "material_cement", 50 ] ], [ [ "material_sand", 25 ] ], [ [ "pebble", 20 ], [ "material_gravel", 100 ] ] ]
   },
   {
     "type": "recipe",
