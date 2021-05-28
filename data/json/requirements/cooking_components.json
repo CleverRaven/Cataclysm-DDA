@@ -72,7 +72,8 @@
         [ "egg_locust", 4 ],
         [ "egg_dragonfly", 4 ],
         [ "egg_firefly", 4 ],
-        [ "egg_centipede", 2 ]
+        [ "egg_centipede", 2 ],
+        [ "egg_wasp", 4 ]
       ]
     ]
   },
