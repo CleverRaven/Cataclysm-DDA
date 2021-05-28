@@ -711,5 +711,13 @@
     "sym": "O",
     "color": "brown",
     "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "rock_border",
+    "name": "rock border",
+    "sym": "#",
+    "color": "white",
+    "flags": [ "NO_ROTATE" ]
   }
 ]
