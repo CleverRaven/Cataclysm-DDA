@@ -281,7 +281,7 @@
     "encumbrance": 60,
     "material_thickness": 3,
     "qualities": [ [ "GLARE", 3 ] ],
-    "flags": [ "SUN_GLASSES", "FLASH_PROTECTION", "BLIND" ]
+    "flags": [ "SUN_GLASSES", "FLASH_PROTECTION" ]
   },
   {
     "id": "welding_mask_crude",
