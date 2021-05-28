@@ -109,7 +109,7 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "CHISEL", 3 ] ],
+    "qualities": [ [ "CHISEL", 3 ], [ "CHISEL_WOOD", 3 ] ],
     "flags": [ "DURABLE_MELEE", "BELT_CLIP" ]
   },
   {

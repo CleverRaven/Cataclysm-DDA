@@ -237,6 +237,8 @@ class avatar : public player
         void toggle_run_mode();
         // Toggles crouching on/off.
         void toggle_crouch_mode();
+        // Activate crouch mode if not in crouch mode.
+        void activate_crouch_mode();
 
         bool wield( item_location target );
         bool wield( item &target ) override;
@@ -247,9 +249,10 @@ class avatar : public player
                 advanced_inv_area &square );
 
         using Character::invoke_item;
-        bool invoke_item( item *, const tripoint &pt ) override;
+        bool invoke_item( item *, const tripoint &pt, int pre_obtain_moves ) override;
         bool invoke_item( item * ) override;
-        bool invoke_item( item *, const std::string &, const tripoint &pt ) override;
+        bool invoke_item( item *, const std::string &, const tripoint &pt,
+                          int pre_obtain_moves = -1 ) override;
         bool invoke_item( item *, const std::string & ) override;
 
         monster_visible_info &get_mon_visible() {

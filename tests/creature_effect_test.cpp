@@ -1,6 +1,6 @@
 #include "avatar.h"
 #include "calendar.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "monster.h"
 #include "mtype.h"
 #include "type_id.h"
@@ -314,7 +314,7 @@ TEST_CASE( "has_effect_with_flag", "[creature][effect][has][flag]" )
 {
     const efftype_id effect_downed( "downed" );
     const efftype_id effect_invisibility( "invisibility" );
-    const flag_id invisibility_flag( "EFFECT_INVISIBLE" );
+    const flag_id invisibility_flag( "INVISIBLE" );
 
     monster mummy( mtype_id( "debug_mon" ) );
 

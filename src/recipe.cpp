@@ -225,8 +225,8 @@ void recipe::load( const JsonObject &jo, const std::string &src )
     if( exert == "fake" ) {
         exert = "MODERATE_EXERCISE";
     }
-    const auto it = activity_levels.find( exert );
-    if( it == activity_levels.end() ) {
+    const auto it = activity_levels_map.find( exert );
+    if( it == activity_levels_map.end() ) {
         jo.throw_error( string_format( "Invalid activity level %s", exert ), "activity_level" );
     }
     exertion = it->second;
@@ -502,6 +502,11 @@ std::string recipe::get_consistency_error() const
 item recipe::create_result() const
 {
     item newit( result_, calendar::turn, item::default_charges_tag{} );
+
+    if( newit.has_flag( flag_VARSIZE ) ) {
+        newit.set_flag( flag_FIT );
+    }
+
     if( charges ) {
         newit.charges = *charges;
     }
@@ -809,7 +814,7 @@ std::string recipe::primary_skill_string( const Character *c, bool print_skill_l
     std::vector< std::pair<skill_id, int> > skillList;
 
     if( !skill_used.is_null() ) {
-        skillList.push_back( std::pair<skill_id, int>( skill_used, difficulty ) );
+        skillList.emplace_back( skill_used, difficulty );
     }
 
     return required_skills_as_string( skillList.begin(), skillList.end(), c, print_skill_level );
@@ -1009,6 +1014,11 @@ void recipe::check_blueprint_requirements()
     }
 }
 
+bool recipe::removes_raw() const
+{
+    return create_result().is_comestible() && !create_result().has_flag( flag_RAW );
+}
+
 bool recipe::hot_result() const
 {
     // Check if the recipe tools make this food item hot upon making it.
@@ -1038,10 +1048,10 @@ bool recipe::hot_result() const
 
 int recipe::makes_amount() const
 {
-    int makes;
+    int makes = 0;
     if( charges.has_value() ) {
         makes = charges.value();
-    } else {
+    } else if( item::count_by_charges( result_ ) ) {
         makes = item::find_type( result_ )->charges_default();
     }
     // return either charges * mult or 1

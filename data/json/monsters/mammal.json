@@ -105,7 +105,7 @@
     "type": "MONSTER",
     "name": { "str": "beaver" },
     "description": "The North American beaver, the continent's largest rodent.  Its paddle-shaped tail helps ferry it through the water, and its prominent teeth can chew through wood, which it uses to build dam-like nests in lakes and streams.",
-    "default_faction": "small_animal",
+    "default_faction": "herbivore",
     "bodytype": "bear",
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],
@@ -231,6 +231,7 @@
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "placate_triggers": [ "MEAT" ],
     "death_function": [ "NORMAL" ],
+    "zombify_into": "mon_zpig_brute",
     "special_attacks": [ [ "EAT_FOOD", 20 ] ],
     "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE" ]
   },

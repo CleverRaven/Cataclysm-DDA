@@ -77,7 +77,7 @@ static constexpr int MONSTER_FOLLOW_DIST = 8;
 
 bool monster::wander()
 {
-    return ( goal == pos() );
+    return ( goal == pos() && patrol_route_abs_ms.empty() );
 }
 
 bool monster::is_immune_field( const field_type_id &fid ) const
@@ -619,6 +619,17 @@ void monster::plan()
                 anger += 10 - static_cast<int>( hp_per / 10 );
             }
         }
+    } else if( !patrol_route_abs_ms.empty() ) {
+        // If we have a patrol route and no target, find the current step on the route
+        tripoint next_stop_loc_ms = here.getlocal( patrol_route_abs_ms.at( next_patrol_point ) );
+
+        // if there is more than one patrol point, advance to the next one if we're almost there
+        // this handles impassable obstancles but patrollers can still get stuck
+        if( ( patrol_route_abs_ms.size() > 1 ) && rl_dist( next_stop_loc_ms, pos() ) < 2 ) {
+            next_patrol_point = ( next_patrol_point + 1 ) % patrol_route_abs_ms.size();
+            next_stop_loc_ms = here.getlocal( patrol_route_abs_ms.at( next_patrol_point ) );
+        }
+        set_dest( next_stop_loc_ms );
     } else if( friendly > 0 && one_in( 3 ) ) {
         // Grow restless with no targets
         friendly--;
@@ -841,7 +852,7 @@ void monster::move()
         }
     }
 
-    if( current_attitude == MATT_IGNORE ||
+    if( ( current_attitude == MATT_IGNORE && patrol_route_abs_ms.empty() ) ||
         ( current_attitude == MATT_FOLLOW && rl_dist( pos(), goal ) <= MONSTER_FOLLOW_DIST ) ) {
         moves = 0;
         stumble();
@@ -1390,7 +1401,7 @@ static std::vector<tripoint> get_bashing_zone( const tripoint &bashee, const tri
     for( const tripoint &p : path ) {
         std::vector<point> swath = squares_in_direction( previous.xy(), p.xy() );
         for( const point &q : swath ) {
-            zone.push_back( tripoint( q, bashee.z ) );
+            zone.emplace_back( q, bashee.z );
         }
 
         previous = p;
@@ -1505,7 +1516,7 @@ bool monster::attack_at( const tripoint &p )
     }
 
     Character &player_character = get_player_character();
-    if( p == player_character.pos() ) {
+    if( p == player_character.pos() && sees( player_character ) ) {
         return melee_attack( player_character );
     }
 
@@ -1917,9 +1928,9 @@ void monster::stumble()
     for( const tripoint &dest : here.points_in_radius( pos(), 1 ) ) {
         if( dest != pos() ) {
             if( here.has_flag( TFLAG_RAMP_DOWN, dest ) ) {
-                valid_stumbles.push_back( tripoint( dest.xy(), dest.z - 1 ) );
+                valid_stumbles.emplace_back( dest.xy(), dest.z - 1 );
             } else  if( here.has_flag( TFLAG_RAMP_UP, dest ) ) {
-                valid_stumbles.push_back( tripoint( dest.xy(), dest.z + 1 ) );
+                valid_stumbles.emplace_back( dest.xy(), dest.z + 1 );
             } else {
                 valid_stumbles.push_back( dest );
             }

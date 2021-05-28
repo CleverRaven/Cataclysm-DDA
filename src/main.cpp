@@ -121,6 +121,12 @@ void exit_handler( int s )
 
         catacurses::endwin();
 
+#if defined(__ANDROID__)
+        // Avoid capturing SIGABRT on exit on Android in crash report
+        // Can be removed once the SIGABRT on exit problem is fixed
+        signal( SIGABRT, SIG_DFL );
+#endif
+
         exit( exit_status );
     }
     inp_mngr.set_timeout( old_timeout );
@@ -673,21 +679,7 @@ int main( int argc, const char *argv[] )
 #endif
 
 #if defined(LOCALIZE)
-    std::string lang;
-#if defined(_WIN32)
-    lang = getLangFromLCID( GetUserDefaultLCID() );
-#else
-    const char *v = setlocale( LC_ALL, nullptr );
-    if( v != nullptr ) {
-        lang = v;
-
-        if( lang == "C" ) {
-            lang = "en";
-        }
-    }
-#endif
-    if( get_option<std::string>( "USE_LANG" ).empty() && ( lang.empty() ||
-            !isValidLanguage( lang ) ) ) {
+    if( get_option<std::string>( "USE_LANG" ).empty() && getSystemLanguage().empty() ) {
         select_language();
         set_language();
     }

@@ -115,6 +115,28 @@
     "flags": [ "BLIND" ]
   },
   {
+    "id": "blindfold_duct",
+    "type": "ARMOR",
+    "name": { "str": "duct tape blindfold" },
+    "//": "A folded bandana still takes up some space on the head.",
+    "description": "A simple covering tied over the eyes to block sight, made out of duct tape.  Useful for sleeping in bright areas.",
+    "weight": "20 g",
+    "volume": "60 ml",
+    "price": 10,
+    "price_postapoc": 5,
+    "material": [ "plastic" ],
+    "symbol": "[",
+    "looks_like": "blindfold",
+    "color": "dark_gray",
+    "covers": [ "eyes" ],
+    "coverage": 95,
+    "encumbrance": 10,
+    "warmth": 0,
+    "material_thickness": 1,
+    "environmental_protection": 1,
+    "flags": [ "BLIND" ]
+  },
+  {
     "id": "ear_plugs",
     "type": "ARMOR",
     "name": { "str": "pair of ear plugs", "str_pl": "pairs of ear plugs" },
@@ -281,7 +303,7 @@
     "encumbrance": 60,
     "material_thickness": 3,
     "qualities": [ [ "GLARE", 3 ] ],
-    "flags": [ "SUN_GLASSES", "FLASH_PROTECTION", "BLIND" ]
+    "flags": [ "SUN_GLASSES", "FLASH_PROTECTION" ]
   },
   {
     "id": "welding_mask_crude",
@@ -375,7 +397,7 @@
     "price": 6000,
     "price_postapoc": 100,
     "material": [ "plastic" ],
-    "flags": [ "WATCH", "WATER_FRIENDLY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ],
+    "flags": [ "WATCH", "ALARMCLOCK", "WATER_FRIENDLY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ],
     "coverage": 15,
     "symbol": "[",
     "ammo": "battery",
@@ -439,8 +461,6 @@
       }
     ],
     "ammo": "battery",
-    "max_charges": 500,
-    "initial_charges": 500,
     "charges_per_use": 25,
     "warmth": 10,
     "material_thickness": 0.5,
@@ -557,7 +577,7 @@
     "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ],
     "warmth": 10,
     "coverage": 100,
-    "material_thickness": 1,
+    "material_thickness": 0.1,
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -1033,8 +1053,6 @@
       }
     ],
     "ammo": "battery",
-    "max_charges": 1000,
-    "initial_charges": 1000,
     "use_action": {
       "type": "transform",
       "msg": "A LED light in the %s flickers on.",
@@ -1109,8 +1127,6 @@
       }
     ],
     "ammo": "battery",
-    "max_charges": 1000,
-    "initial_charges": 1000,
     "use_action": {
       "type": "transform",
       "msg": "Initiating\nRunning suit integrity diagnostics…\nAll systems operational.",
@@ -2743,6 +2759,7 @@
     "//": "3M Peltors claim to go 100 hours on 2 AAs",
     "power_draw": 60,
     "ammo": "battery",
+    "charges_per_use": 1,
     "revert_to": "powered_earmuffs",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s flicks off.", "target": "powered_earmuffs" },
     "covers": [ "head" ],
@@ -2920,7 +2937,7 @@
       { "pocket_type": "MAGAZINE", "airtight": true, "rigid": true, "watertight": true, "ammo_restriction": { "nitrox": 60 } }
     ],
     "covers": [ "torso" ],
-    "flags": [ "WATER_FRIENDLY", "BELTED", "ONLY_ONE", "STURDY", "NO_UNLOAD" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "ONLY_ONE", "STURDY", "NO_UNLOAD", "NO_RELOAD" ],
     "environmental_protection": 1,
     "environmental_protection_with_filter": 16,
     "encumbrance": 30,
@@ -2952,7 +2969,7 @@
     "charges_per_use": 1,
     "turns_per_charge": 60,
     "covers": [ "torso", "mouth" ],
-    "flags": [ "WATER_FRIENDLY", "BELTED", "ONLY_ONE", "STURDY", "NO_UNLOAD" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "ONLY_ONE", "STURDY", "NO_UNLOAD", "NO_RELOAD" ],
     "environmental_protection": 1,
     "environmental_protection_with_filter": 16,
     "encumbrance": 30,
@@ -2981,7 +2998,7 @@
       { "pocket_type": "MAGAZINE", "airtight": true, "rigid": true, "watertight": true, "ammo_restriction": { "nitrox": 20 } }
     ],
     "covers": [ "torso" ],
-    "flags": [ "WATER_FRIENDLY", "BELTED", "ONLY_ONE", "STURDY", "NO_UNLOAD" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "ONLY_ONE", "STURDY", "NO_UNLOAD", "NO_RELOAD" ],
     "environmental_protection": 1,
     "environmental_protection_with_filter": 16,
     "encumbrance": 30,
@@ -3013,7 +3030,7 @@
     "charges_per_use": 1,
     "turns_per_charge": 60,
     "covers": [ "torso", "mouth" ],
-    "flags": [ "WATER_FRIENDLY", "BELTED", "ONLY_ONE", "STURDY", "NO_UNLOAD" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "ONLY_ONE", "STURDY", "NO_UNLOAD", "NO_RELOAD" ],
     "environmental_protection": 1,
     "environmental_protection_with_filter": 16,
     "encumbrance": 30,

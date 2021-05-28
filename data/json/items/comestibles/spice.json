@@ -19,7 +19,7 @@
     "volume": "250 ml",
     "color": "red",
     "primary_material": "water",
-    "freezing_point": -22,
+    "freezing_point": -30,
     "phase": "liquid"
   },
   {
@@ -142,7 +142,7 @@
     "charges": 10,
     "healthy": -1,
     "fun": -15,
-    "freezing_point": -22,
+    "freezing_point": -30,
     "phase": "liquid"
   },
   {

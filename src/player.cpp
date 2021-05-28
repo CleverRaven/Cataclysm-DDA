@@ -139,6 +139,8 @@ static const bionic_id bio_ground_sonar( "bio_ground_sonar" );
 static const bionic_id bio_soporific( "bio_soporific" );
 static const bionic_id bio_speed( "bio_speed" );
 
+static const json_character_flag json_flag_FEATHER_FALL( "FEATHER_FALL" );
+
 stat_mod player::get_pain_penalty() const
 {
     stat_mod ret;
@@ -224,8 +226,8 @@ player::player()
 }
 
 player::~player() = default;
-player::player( player && ) = default;
-player &player::operator=( player && ) = default;
+player::player( player && ) noexcept = default;
+player &player::operator=( player && ) noexcept( list_is_noexcept ) = default;
 
 void player::normalize()
 {
@@ -833,7 +835,7 @@ int player::get_perceived_pain() const
 
 float player::fall_damage_mod() const
 {
-    if( has_effect_with_flag( flag_EFFECT_FEATHER_FALL ) ) {
+    if( has_flag( json_flag_FEATHER_FALL ) ) {
         return 0.0f;
     }
     float ret = 1.0f;
@@ -1142,6 +1144,7 @@ void player::on_worn_item_transform( const item &old_it, const item &new_it )
 void player::process_items()
 {
     if( weapon.needs_processing() && weapon.process( this, pos() ) ) {
+        weapon.spill_contents( pos() );
         remove_weapon();
     }
 
@@ -1152,6 +1155,7 @@ void player::process_items()
         }
         if( it->needs_processing() ) {
             if( it->process( this, pos() ) ) {
+                it->spill_contents( pos() );
                 removed_items.push_back( it );
             }
         }
@@ -1522,7 +1526,9 @@ bool player::list_ammo( const item &base, std::vector<item::reload_option> &ammo
             if( can_reload( *e, id ) &&
                 ( speedloader || e->ammo_remaining() == 0 ||
                   e->ammo_remaining() < ammo->ammo_remaining() ||
-                  e->loaded_ammo().stacks_with( *ammo ) ) ) {
+                  e->loaded_ammo().stacks_with( *ammo ) ||
+                  ( ammo->made_of_from_type( phase_id::LIQUID ) &&
+                    e->contents.remaining_capacity_for_liquid( *ammo ) > 0 ) ) ) {
                 ammo_list.emplace_back( this, e, &base, std::move( ammo ) );
             }
         }
@@ -1959,7 +1965,7 @@ bool player::takeoff( item &it, std::list<item> *res )
     worn.erase( iter );
     takeoff_copy.on_takeoff( *this );
     if( res == nullptr ) {
-        i_add( takeoff_copy, true, &it );
+        i_add( takeoff_copy, true, &it, true, !has_weapon() );
     } else {
         res->push_back( takeoff_copy );
     }
@@ -1995,37 +2001,50 @@ void player::use( int inventory_position )
     use( loc );
 }
 
-void player::use( item_location loc )
+void player::use( item_location loc, int pre_obtain_moves )
 {
+    // if -1 is passed in we don't want to change moves at all
+    if( pre_obtain_moves == -1 ) {
+        pre_obtain_moves = moves;
+    }
     if( !loc ) {
         add_msg( m_info, _( "You do not have that item." ) );
+        moves = pre_obtain_moves;
         return;
     }
 
     item &used = *loc;
     last_item = used.typeId();
 
-    if( ( *loc ).is_medication() && !can_use_heal_item( *loc ) ) {
-        add_msg_if_player( m_bad, _( "Your biology is not compatible with that healing item." ) );
-        return;
-    }
-
     if( used.is_tool() ) {
         if( !used.type->has_use() ) {
             add_msg_if_player( _( "You can't do anything interesting with your %s." ), used.tname() );
+            moves = pre_obtain_moves;
             return;
         }
-        invoke_item( &used, loc.position() );
+        invoke_item( &used, loc.position(), pre_obtain_moves );
 
     } else if( used.type->can_use( "DOGFOOD" ) ||
                used.type->can_use( "CATFOOD" ) ||
                used.type->can_use( "BIRDFOOD" ) ||
                used.type->can_use( "CATTLEFODDER" ) ) {
-        invoke_item( &used, loc.position() );
+        invoke_item( &used, loc.position(), pre_obtain_moves );
 
     } else if( !used.is_craft() && ( used.is_medication() || ( !used.type->has_use() &&
                                      used.is_food() ) ) ) {
+
+        if( used.is_medication() && !can_use_heal_item( used ) ) {
+            add_msg_if_player( m_bad, _( "Your biology is not compatible with that healing item." ) );
+            moves = pre_obtain_moves;
+            return;
+        }
+
         if( avatar *u = as_avatar() ) {
+            const ret_val<edible_rating> ret = u->will_eat( used, true );
+            if( !ret.success() ) {
+                moves = pre_obtain_moves;
+                return;
+            }
             u->assign_activity( player_activity( consume_activity_actor( item_location( *u, &used ) ) ) );
         } else  {
             const time_duration &consume_time = get_consume_time( used );
@@ -2035,10 +2054,12 @@ void player::use( item_location loc )
     } else if( used.is_book() ) {
         // TODO: Handle this with dynamic dispatch.
         if( avatar *u = as_avatar() ) {
-            u->read( used );
+            if( !u->read( used ) ) {
+                moves = pre_obtain_moves;
+            }
         }
     } else if( used.type->has_use() ) {
-        invoke_item( &used, loc.position() );
+        invoke_item( &used, loc.position(), pre_obtain_moves );
     } else if( used.has_flag( flag_SPLINT ) ) {
         ret_val<bool> need_splint = can_wear( *loc );
         if( need_splint.success() ) {
@@ -2048,10 +2069,10 @@ void player::use( item_location loc )
             add_msg( m_info, need_splint.str() );
         }
     } else if( used.is_relic() ) {
-        invoke_item( &used, loc.position() );
+        invoke_item( &used, loc.position(), pre_obtain_moves );
     } else {
-        add_msg( m_info, _( "You can't do anything interesting with your %s." ),
-                 used.tname() );
+        add_msg( m_info, _( "You can't do anything interesting with your %s." ), used.tname() );
+        moves = pre_obtain_moves;
     }
 }
 
@@ -2217,8 +2238,8 @@ void player::gunmod_add( item &gun, item &mod )
     const int moves = !has_trait( trait_DEBUG_HS ) ? mod.type->gunmod->install_time : 0;
 
     assign_activity( activity_id( "ACT_GUNMOD_ADD" ), moves, -1, 0, tool );
-    activity.targets.push_back( item_location( *this, &gun ) );
-    activity.targets.push_back( item_location( *this, &mod ) );
+    activity.targets.emplace_back( *this, &gun );
+    activity.targets.emplace_back( *this, &mod );
     activity.values.push_back( 0 ); // dummy value
     activity.values.push_back( roll ); // chance of success (%)
     activity.values.push_back( risk ); // chance of damage (%)
@@ -2520,11 +2541,23 @@ void player::add_msg_if_player( const game_message_params &params, const std::st
     Messages::add_msg( params, msg );
 }
 
+void player::add_msg_debug_if_player( debugmode::debug_filter type, const std::string &msg ) const
+{
+    Messages::add_msg_debug( type, msg );
+}
+
 void player::add_msg_player_or_npc( const game_message_params &params,
                                     const std::string &player_msg,
                                     const std::string &/*npc_msg*/ ) const
 {
     Messages::add_msg( params, player_msg );
+}
+
+void player::add_msg_debug_player_or_npc( debugmode::debug_filter type,
+        const std::string &player_msg,
+        const std::string &/*npc_msg*/ ) const
+{
+    Messages::add_msg_debug( type, player_msg );
 }
 
 void player::add_msg_player_or_say( const std::string &player_msg,

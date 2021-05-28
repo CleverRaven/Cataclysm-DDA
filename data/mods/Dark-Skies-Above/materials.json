@@ -18,8 +18,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
-    "burn_products": [ [ "dks_blend_scrap", 1 ] ],
-    "compacts_into": [ "dks_blend_scrap" ]
+    "burn_products": [ [ "dks_blend_scrap", 1 ] ]
   },
   {
     "type": "material",

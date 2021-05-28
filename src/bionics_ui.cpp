@@ -314,10 +314,10 @@ static std::string build_bionic_poweronly_string( const bionic &bio )
                                                bio_data.charge_time ) );
     }
     if( bio_data.has_flag( STATIC( json_character_flag( "BIONIC_TOGGLED" ) ) ) ) {
-        properties.push_back( bio.powered ? _( "ON" ) : _( "OFF" ) );
+        properties.emplace_back( bio.powered ? _( "ON" ) : _( "OFF" ) );
     }
     if( bio.incapacitated_time > 0_turns ) {
-        properties.push_back( _( "(incapacitated)" ) );
+        properties.emplace_back( _( "(incapacitated)" ) );
     }
     if( bio.get_safe_fuel_thresh() > 0 && ( !bio.info().fuel_opts.empty() ||
                                             bio.info().is_remote_fueled ) ) {

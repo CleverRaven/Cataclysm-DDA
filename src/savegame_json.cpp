@@ -496,9 +496,16 @@ void consumption_event::deserialize( JsonIn &jsin )
     jo.read( "component_hash", component_hash );
 }
 
-void weariness_tracker::serialize( JsonOut &json ) const
+void activity_tracker::serialize( JsonOut &json ) const
 {
     json.start_object();
+    json.member( "current_activity", current_activity );
+    json.member( "accumulated_activity", accumulated_activity );
+    json.member( "previous_activity", previous_activity );
+    json.member( "current_turn", current_turn );
+    json.member( "activity_reset", activity_reset );
+    json.member( "num_events", num_events );
+
     json.member( "tracker", tracker );
     json.member( "intake", intake );
     json.member( "low_activity_ticks", low_activity_ticks );
@@ -506,14 +513,32 @@ void weariness_tracker::serialize( JsonOut &json ) const
     json.end_object();
 }
 
-void weariness_tracker::deserialize( JsonIn &jsin )
+void activity_tracker::deserialize( JsonIn &jsin )
 {
     JsonObject jo = jsin.get_object();
+
     jo.allow_omitted_members();
+    jo.read( "current_activity", current_activity );
+    jo.read( "accumulated_activity", accumulated_activity );
+    jo.read( "previous_activity", previous_activity );
+    jo.read( "current_turn", current_turn );
+    jo.read( "activity_reset", activity_reset );
+    jo.read( "num_events", num_events );
+
     jo.read( "tracker", tracker );
     jo.read( "intake", intake );
     jo.read( "low_activity_ticks", low_activity_ticks );
     jo.read( "tick_counter", tick_counter );
+}
+
+// migration handling of items that used to have charges instead of real items.
+// remove this migration funciton after 0.F
+static void migrate_item_charges( item &it )
+{
+    if( it.charges != 0 && it.contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE ) ) {
+        it.ammo_set( it.ammo_default(), it.charges );
+        it.charges = 0;
+    }
 }
 
 /**
@@ -560,7 +585,9 @@ void Character::load( const JsonObject &data )
     data.read( "thirst", thirst );
     data.read( "hunger", hunger );
     data.read( "fatigue", fatigue );
-    data.read( "weary", weary );
+    // Legacy read, remove after 0.F
+    data.read( "weary", activity_history );
+    data.read( "activity_history", activity_history );
     data.read( "sleep_deprivation", sleep_deprivation );
     data.read( "stored_calories", stored_calories );
     // stored_calories was changed from being in kcal to being in just cal
@@ -896,6 +923,14 @@ void Character::load( const JsonObject &data )
         const std::string t = pmap.get_string( "trap" );
         known_traps.insert( trap_map::value_type( p, t ) );
     }
+
+    // remove after 0.F
+    if( savegame_loading_version < 33 ) {
+        visit_items( []( item * it, item * ) {
+            migrate_item_charges( *it );
+            return VisitResponse::NEXT;
+        } );
+    }
 }
 
 /**
@@ -941,7 +976,7 @@ void Character::store( JsonOut &json ) const
     json.member( "thirst", thirst );
     json.member( "hunger", hunger );
     json.member( "fatigue", fatigue );
-    json.member( "weary", weary );
+    json.member( "activity_history", activity_history );
     json.member( "sleep_deprivation", sleep_deprivation );
     json.member( "stored_calories", stored_calories );
     json.member( "radiation", radiation );
@@ -1883,9 +1918,6 @@ void npc::load( const JsonObject &data )
     cbm_weapon_index = -1;
     data.read( "cbm_weapon_index", cbm_weapon_index );
 
-    if( !data.read( "last_updated", last_updated ) ) {
-        last_updated = calendar::turn;
-    }
     complaints.clear();
     for( const JsonMember member : data.get_object( "complaints" ) ) {
         // TODO: time_point does not have a default constructor, need to read in the map manually
@@ -1965,7 +1997,6 @@ void npc::store( JsonOut &json ) const
     companion_mission_inv.json_save_items( json );
     json.member( "restock", restock );
 
-    json.member( "last_updated", last_updated );
     json.member( "complaints", complaints );
 }
 
@@ -2068,6 +2099,10 @@ void monster::load( const JsonObject &data )
     data.read( "wandy", wander_pos.y );
     if( data.read( "wandz", wander_pos.z ) ) {
         wander_pos.z = position.z;
+    }
+    if( data.has_int( "next_patrol_point" ) ) {
+        data.read( "next_patrol_point", next_patrol_point );
+        data.read( "patrol_route", patrol_route_abs_ms );
     }
     if( data.has_object( "tied_item" ) ) {
         JsonIn *tied_item_json = data.get_raw( "tied_item" );
@@ -2192,9 +2227,6 @@ void monster::load( const JsonObject &data )
     // TODO: Remove blob migration after 0.F
     const std::string faction_string = data.get_string( "faction", "" );
     faction = mfaction_str_id( faction_string == "blob" ? "slime" : faction_string );
-    if( !data.read( "last_updated", last_updated ) ) {
-        last_updated = calendar::turn;
-    }
     data.read( "mounted_player_id", mounted_player_id );
     data.read( "path", path );
 }
@@ -2223,6 +2255,10 @@ void monster::store( JsonOut &json ) const
     json.member( "wandy", wander_pos.y );
     json.member( "wandz", wander_pos.z );
     json.member( "wandf", wandf );
+    if( !patrol_route_abs_ms.empty() ) {
+        json.member( "patrol_route", patrol_route_abs_ms );
+        json.member( "next_patrol_point", next_patrol_point );
+    }
     json.member( "hp", hp );
     json.member( "special_attacks", special_attacks );
     json.member( "friendly", friendly );
@@ -2257,7 +2293,6 @@ void monster::store( JsonOut &json ) const
     json.member( "underwater", underwater );
     json.member( "upgrades", upgrades );
     json.member( "upgrade_time", upgrade_time );
-    json.member( "last_updated", last_updated );
     json.member( "reproduces", reproduces );
     json.member( "baby_timer", baby_timer );
     json.member( "biosignatures", biosignatures );
@@ -2443,6 +2478,13 @@ void item::io( Archive &archive )
         return i.id.str();
     } );
     archive.io( "craft_data", craft_data_, decltype( craft_data_ )() );
+    const auto gvload = [this]( const std::string & variant ) {
+        set_gun_variant( variant );
+    };
+    const auto gvsave = []( const gun_variant_data * gv ) {
+        return gv->id;
+    };
+    archive.io( "variant", _gun_variant, gvload, gvsave, false );
     archive.io( "light", light.luminance, nolight.luminance );
     archive.io( "light_width", light.width, nolight.width );
     archive.io( "light_dir", light.direction, nolight.direction );
@@ -2541,14 +2583,6 @@ void item::io( Archive &archive )
     // Activate corpses from old saves
     if( is_corpse() && !active ) {
         active = true;
-    }
-
-
-    // migration handling of items that used to have charges instead of real items.
-    // remove after 0.F
-    if( charges != 0 && contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE ) ) {
-        ammo_set( ammo_default(), charges );
-        charges = 0;
     }
 
     if( charges != 0 && !type->can_have_charges() ) {
@@ -2961,6 +2995,10 @@ void vehicle::deserialize( JsonIn &jsin )
             if( it->needs_processing() ) {
                 active_items.add( *it, vp.mount() );
             }
+            // remove after 0.F
+            if( savegame_loading_version < 33 ) {
+                migrate_item_charges( *it );
+            }
         }
     }
 
@@ -3295,6 +3333,8 @@ void Creature::store( JsonOut &jsout ) const
 
     jsout.member( "throw_resist", throw_resist );
 
+    jsout.member( "last_updated", last_updated );
+
     jsout.member( "body", body );
 
     // fake is not stored, it's temporary anyway, only used to fire with a gun.
@@ -3363,6 +3403,10 @@ void Creature::load( const JsonObject &jsin )
     jsin.read( "melee_quiet", melee_quiet );
 
     jsin.read( "throw_resist", throw_resist );
+
+    if( !jsin.read( "last_updated", last_updated ) ) {
+        last_updated = calendar::turn;
+    }
 
     jsin.read( "underwater", underwater );
 
@@ -4178,6 +4222,10 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
                 if( it.needs_processing() ) {
                     active_items.add( it, p );
                 }
+                if( savegame_loading_version < 33 ) {
+                    // remove after 0.F
+                    migrate_item_charges( it );
+                }
             }
         }
     } else if( member_name == "traps" ) {
@@ -4240,7 +4288,8 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
             int i = jsin.get_int();
             int j = jsin.get_int();
             const point p( i, j );
-            std::string type, str;
+            std::string type;
+            std::string str;
             // Try to read as current format
             if( jsin.test_string() ) {
                 type = jsin.get_string();

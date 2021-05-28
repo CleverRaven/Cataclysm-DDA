@@ -302,13 +302,22 @@
         "tools": [  ],
         "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W" } ], [ { "id": "WRENCH" } ] ],
         "components": [
-          [ [ "sheet_metal", 4 ] ],
-          [ [ "pipe", 16 ] ],
-          [ [ "lock", 2 ] ],
           [ [ "2x4", 20 ] ],
-          [ [ "wood_sheet", 1 ], [ "wood_panel", 1 ] ],
+          [
+            [ "blanket", 4 ],
+            [ "down_blanket", 4 ],
+            [ "fur_blanket", 4 ],
+            [ "quilt", 4 ],
+            [ "quilt_patchwork", 4 ],
+            [ "sheet", 8 ],
+            [ "sleeping_bag", 4 ],
+            [ "sleeping_bag_fur", 4 ]
+          ],
+          [ [ "lock", 2 ] ],
           [ [ "nail", 32 ] ],
-          [ [ "sheet", 8 ], [ "blanket", 4 ], [ "down_blanket", 4 ], [ "fur_blanket", 4 ] ]
+          [ [ "pipe", 16 ] ],
+          [ [ "sheet_metal", 4 ] ],
+          [ [ "wood_panel", 1 ], [ "wood_sheet", 1 ] ]
         ]
       }
     }
@@ -334,13 +343,22 @@
         "tools": [  ],
         "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W" } ], [ { "id": "WRENCH" } ] ],
         "components": [
-          [ [ "sheet_metal", 4 ] ],
-          [ [ "pipe", 16 ] ],
-          [ [ "lock", 2 ] ],
           [ [ "2x4", 20 ] ],
-          [ [ "wood_sheet", 1 ], [ "wood_panel", 1 ] ],
+          [
+            [ "blanket", 4 ],
+            [ "down_blanket", 4 ],
+            [ "fur_blanket", 4 ],
+            [ "quilt", 4 ],
+            [ "quilt_patchwork", 4 ],
+            [ "sheet", 8 ],
+            [ "sleeping_bag", 4 ],
+            [ "sleeping_bag_fur", 4 ]
+          ],
+          [ [ "lock", 2 ] ],
           [ [ "nail", 32 ] ],
-          [ [ "sheet", 8 ], [ "blanket", 4 ], [ "down_blanket", 4 ], [ "fur_blanket", 4 ] ]
+          [ [ "pipe", 16 ] ],
+          [ [ "sheet_metal", 4 ] ],
+          [ [ "wood_panel", 1 ], [ "wood_sheet", 1 ] ]
         ]
       }
     }
@@ -559,7 +577,16 @@
         "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W" } ], [ { "id": "WRENCH" } ] ],
         "components": [
           [ [ "2x4", 20 ] ],
-          [ [ "blanket", 4 ], [ "down_blanket", 4 ], [ "fur_blanket", 4 ], [ "sheet", 8 ] ],
+          [
+            [ "blanket", 4 ],
+            [ "down_blanket", 4 ],
+            [ "fur_blanket", 4 ],
+            [ "quilt", 4 ],
+            [ "quilt_patchwork", 4 ],
+            [ "sheet", 8 ],
+            [ "sleeping_bag", 4 ],
+            [ "sleeping_bag_fur", 4 ]
+          ],
           [ [ "lock", 2 ] ],
           [ [ "nail", 32 ] ],
           [ [ "pipe", 16 ] ],
@@ -590,13 +617,22 @@
         "tools": [  ],
         "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W" } ], [ { "id": "WRENCH" } ] ],
         "components": [
-          [ [ "sheet_metal", 4 ] ],
-          [ [ "pipe", 16 ] ],
-          [ [ "lock", 2 ] ],
           [ [ "2x4", 20 ] ],
-          [ [ "wood_sheet", 1 ], [ "wood_panel", 1 ] ],
+          [
+            [ "blanket", 4 ],
+            [ "down_blanket", 4 ],
+            [ "fur_blanket", 4 ],
+            [ "quilt", 4 ],
+            [ "quilt_patchwork", 4 ],
+            [ "sheet", 8 ],
+            [ "sleeping_bag", 4 ],
+            [ "sleeping_bag_fur", 4 ]
+          ],
+          [ [ "lock", 2 ] ],
           [ [ "nail", 32 ] ],
-          [ [ "sheet", 8 ], [ "blanket", 4 ], [ "down_blanket", 4 ], [ "fur_blanket", 4 ] ]
+          [ [ "pipe", 16 ] ],
+          [ [ "sheet_metal", 4 ] ],
+          [ [ "wood_panel", 1 ], [ "wood_sheet", 1 ] ]
         ]
       }
     }
@@ -622,13 +658,22 @@
         "tools": [  ],
         "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W" } ], [ { "id": "WRENCH" } ] ],
         "components": [
-          [ [ "sheet_metal", 4 ] ],
-          [ [ "pipe", 16 ] ],
-          [ [ "lock", 2 ] ],
           [ [ "2x4", 20 ] ],
-          [ [ "wood_sheet", 1 ], [ "wood_panel", 1 ] ],
+          [
+            [ "blanket", 4 ],
+            [ "down_blanket", 4 ],
+            [ "fur_blanket", 4 ],
+            [ "quilt", 4 ],
+            [ "quilt_patchwork", 4 ],
+            [ "sheet", 8 ],
+            [ "sleeping_bag", 4 ],
+            [ "sleeping_bag_fur", 4 ]
+          ],
+          [ [ "lock", 2 ] ],
           [ [ "nail", 32 ] ],
-          [ [ "sheet", 8 ], [ "blanket", 4 ], [ "down_blanket", 4 ], [ "fur_blanket", 4 ] ]
+          [ [ "pipe", 16 ] ],
+          [ [ "sheet_metal", 4 ] ],
+          [ [ "wood_panel", 1 ], [ "wood_sheet", 1 ] ]
         ]
       }
     }

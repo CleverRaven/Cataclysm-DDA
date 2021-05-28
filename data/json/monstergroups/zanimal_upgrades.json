@@ -5,9 +5,20 @@
     "default": "mon_dog_skeleton",
     "//": "No bionics or fungal",
     "monsters": [
-      { "monster": "mon_dog_skeleton", "freq": 45, "cost_multiplier": 5 },
-      { "monster": "mon_dog_zombie_brute", "freq": 45, "cost_multiplier": 2 },
-      { "monster": "mon_zombie_dog_acidic", "freq": 45, "cost_multiplier": 2 }
+      { "monster": "mon_dog_skeleton", "freq": 330, "cost_multiplier": 5 },
+      { "monster": "mon_dog_zombie_brute", "freq": 330, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_dog_acidic", "freq": 330, "cost_multiplier": 2 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ZOMBIE_PIG_UPGRADE",
+    "default": "mon_zombie_pig",
+    "//": "No bionics or fungal",
+    "monsters": [
+      { "monster": "mon_zombie_pig", "freq": 45, "cost_multiplier": 5 },
+      { "monster": "mon_zpig_brute", "freq": 45, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_pig_gas", "freq": 45, "cost_multiplier": 2 }
     ]
   },
   {
@@ -16,8 +27,8 @@
     "default": "mon_wolf_skeleton",
     "//": "No bionics or fungal",
     "monsters": [
-      { "monster": "mon_wolf_skeleton", "freq": 45, "cost_multiplier": 5 },
-      { "monster": "mon_dog_zombie_brute", "freq": 45, "cost_multiplier": 2 }
+      { "monster": "mon_wolf_skeleton", "freq": 500, "cost_multiplier": 5 },
+      { "monster": "mon_dog_zombie_brute", "freq": 500, "cost_multiplier": 2 }
     ]
   },
   {
@@ -26,8 +37,8 @@
     "default": "mon_zombear_skeleton",
     "//": "No bionics or fungal",
     "monsters": [
-      { "monster": "mon_zombear_skeleton", "freq": 45, "cost_multiplier": 5 },
-      { "monster": "mon_zombear_acidic", "freq": 45, "cost_multiplier": 2 }
+      { "monster": "mon_zombear_skeleton", "freq": 500, "cost_multiplier": 5 },
+      { "monster": "mon_zombear_acidic", "freq": 500, "cost_multiplier": 2 }
     ]
   },
   {
@@ -35,8 +46,8 @@
     "name": "GROUP_ZOOSE_UPGRADE",
     "default": "mon_zoose_brute",
     "monsters": [
-      { "monster": "mon_zoose_brute", "freq": 23, "cost_multiplier": 15 },
-      { "monster": "mon_zoose_thorny", "freq": 13, "cost_multiplier": 5 }
+      { "monster": "mon_zoose_brute", "freq": 500, "cost_multiplier": 15 },
+      { "monster": "mon_zoose_thorny", "freq": 500, "cost_multiplier": 5 }
     ]
   },
   {
@@ -44,8 +55,8 @@
     "name": "GROUP_ZOUGAR_UPGRADE",
     "default": "mon_zougar_hunter",
     "monsters": [
-      { "monster": "mon_zougar_hunter", "freq": 30, "cost_multiplier": 5 },
-      { "monster": "mon_zougar_shady", "freq": 15, "cost_multiplier": 5 }
+      { "monster": "mon_zougar_hunter", "freq": 600, "cost_multiplier": 4 },
+      { "monster": "mon_zougar_shady", "freq": 400, "cost_multiplier": 6 }
     ]
   }
 ]

@@ -201,7 +201,6 @@
     "proficiencies": [
       { "proficiency": "prof_closures_waterproofing" },
       { "proficiency": "prof_polymerworking" },
-      { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_articulation" }
     ],
     "components": [ [ [ "duct_tape", 120 ] ], [ [ "wetsuit_gloves", 1 ] ] ]

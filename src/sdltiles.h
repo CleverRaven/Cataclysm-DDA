@@ -17,6 +17,11 @@ class window;
 #include "color_loader.h"
 #include "sdl_wrappers.h"
 
+#if defined(__APPLE__)
+// For TARGET_OS_IPHONE macro to test if is on iOS
+#include <TargetConditionals.h>
+#endif
+
 class cata_tiles;
 
 namespace catacurses

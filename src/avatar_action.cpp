@@ -73,7 +73,6 @@ static const itype_id itype_swim_fins( "swim_fins" );
 
 static const skill_id skill_swimming( "swimming" );
 
-static const trait_id trait_BURROW( "BURROW" );
 static const trait_id trait_GRAZER( "GRAZER" );
 static const trait_id trait_RUMINANT( "RUMINANT" );
 static const trait_id trait_SHELL2( "SHELL2" );
@@ -133,18 +132,11 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
                 return true;
             }
         }
-        if( you.has_trait( trait_BURROW ) ) {
-            item burrowing_item( itype_id( "fake_burrowing" ) );
-            you.invoke_item( &burrowing_item, "BURROW", dest_loc );
-            // don't move into the tile until done mining
-            you.defer_move( dest_loc );
-            return true;
-        }
     }
 
     // by this point we're either walking, running, crouching, or attacking, so update the activity level to match
     if( !is_riding ) {
-        you.increase_activity_level( you.current_movement_mode()->exertion_level() );
+        you.set_activity_level( you.current_movement_mode()->exertion_level() );
     }
 
     // If the player is *attempting to* move on the X axis, update facing direction of their sprite to match.
@@ -606,7 +598,7 @@ void avatar_action::autoattack( avatar &you, map &m )
         if( !c->is_npc() ) {
             return false;
         }
-        return !dynamic_cast<const npc *>( c )->is_enemy();
+        return !dynamic_cast<const npc &>( *c ).is_enemy();
     } ), critters.end() );
     if( critters.empty() ) {
         add_msg( m_info, _( "No hostile creature in reach.  Waiting a turn." ) );
@@ -730,8 +722,7 @@ void avatar_action::fire_wielded_weapon( avatar &you )
         return;
     } else if( !weapon.is_gun() ) {
         return;
-    } else if( weapon.ammo_data() && weapon.type->gun &&
-               !weapon.type->gun->ammo.count( weapon.ammo_data()->ammo->type ) ) {
+    } else if( weapon.ammo_data() && !weapon.ammo_types().count( weapon.loaded_ammo().ammo_type() ) ) {
         add_msg( m_info, _( "The %s can't be fired while loaded with incompatible ammunition %s" ),
                  weapon.tname(), weapon.ammo_current()->nname( 1 ) );
         return;
@@ -1022,7 +1013,7 @@ void avatar_action::use_item( avatar &you, item_location &loc )
             return;
         }
     }
-
+    int pre_obtain_moves = you.moves;
     if( loc->has_flag( flag_ALLOWS_REMOTE_USE ) ) {
         use_in_place = true;
         // Activate holster on map only if hands are free.
@@ -1031,7 +1022,16 @@ void avatar_action::use_item( avatar &you, item_location &loc )
         // Adjustment because in player::wield_contents this amount is refunded.
         you.mod_moves( -loc.obtain_cost( you ) );
     } else {
+        item_location::type loc_where = loc.where_recursive();
+        if( loc_where != item_location::type::character ) {
+            you.add_msg_if_player( _( "You pick up the %s." ), loc.get_item()->display_name() );
+            pre_obtain_moves = -1;
+
+        }
         loc = loc.obtain( you, 1 );
+        if( pre_obtain_moves == -1 ) {
+            pre_obtain_moves = you.moves;
+        }
         if( !loc ) {
             debugmsg( "Failed to obtain target item" );
             return;
@@ -1040,12 +1040,12 @@ void avatar_action::use_item( avatar &you, item_location &loc )
 
     if( use_in_place ) {
         update_lum( loc, false );
-        you.use( loc );
+        you.use( loc, pre_obtain_moves );
         update_lum( loc, true );
 
         make_active( loc );
     } else {
-        you.use( loc );
+        you.use( loc, pre_obtain_moves );
     }
 
     you.invalidate_crafting_inventory();

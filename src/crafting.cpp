@@ -861,7 +861,7 @@ void Character::start_craft( craft_command &command, const cata::optional<tripoi
         craft.tname() );
 }
 
-void Character::craft_skill_gain( const item &craft, const int &multiplier )
+void Character::craft_skill_gain( const item &craft, const int &num_practice_ticks )
 {
     if( !craft.is_craft() ) {
         debugmsg( "craft_skill_check() called on non-craft '%s.' Aborting.", craft.tname() );
@@ -874,32 +874,26 @@ void Character::craft_skill_gain( const item &craft, const int &multiplier )
     std::vector<npc *> helpers = get_crafting_helpers();
 
     if( making.skill_used ) {
-        // Logically speaking, we practice by one point per turn of crafting.
-        // However we don't count turns of crafting added by missing proficiencies,
-        const double nominal_craft_time = making.time_to_craft_moves( *this,
-                                          recipe_time_flag::ignore_proficiencies ) / 100.0;
-        // One tick is 5% of the total, hence / 20.
-        const int base_practice = std::max( 1.0, multiplier * nominal_craft_time / 20.0 );
         const int skill_cap = static_cast<int>( making.difficulty * 1.25 );
-        practice( making.skill_used, base_practice, skill_cap, true );
+        practice( making.skill_used, num_practice_ticks, skill_cap, true );
 
         // NPCs assisting or watching should gain experience...
         for( auto &helper : helpers ) {
             //If the NPC can understand what you are doing, they gain more exp
             if( helper->get_skill_level( making.skill_used ) >= making.difficulty ) {
-                helper->practice( making.skill_used, roll_remainder( base_practice / 2.0 ),
+                helper->practice( making.skill_used, roll_remainder( num_practice_ticks / 2.0 ),
                                   skill_cap );
-                if( batch_size > 1 && one_in( 3 ) ) {
+                if( batch_size > 1 && one_in( 300 ) ) {
                     add_msg( m_info, _( "%s assists with crafting…" ), helper->name );
                 }
-                if( batch_size == 1 && one_in( 3 ) ) {
+                if( batch_size == 1 && one_in( 300 ) ) {
                     add_msg( m_info, _( "%s could assist you with a batch…" ), helper->name );
                 }
                 // NPCs around you understand the skill used better
             } else {
-                helper->practice( making.skill_used, roll_remainder( base_practice / 10.0 ),
+                helper->practice( making.skill_used, roll_remainder( num_practice_ticks / 10.0 ),
                                   skill_cap );
-                if( one_in( 3 ) ) {
+                if( one_in( 300 ) ) {
                     add_msg( m_info, _( "%s watches you craft…" ), helper->name );
                 }
             }
@@ -1033,7 +1027,7 @@ double Character::crafting_success_roll( const recipe &making ) const
         }
     }
 
-    return ( skill_roll / diff_roll ) * prof_multiplier;
+    return ( skill_roll / diff_roll ) / prof_multiplier;
 }
 
 int item::get_next_failure_point() const
@@ -1052,8 +1046,8 @@ void item::set_next_failure_point( const Character &crafter )
         return;
     }
 
-    const int percent_left = 10000000 - item_counter;
-    const int failure_point_delta = crafter.crafting_success_roll( get_making() ) * percent_left;
+    const int percent = 10000000;
+    const int failure_point_delta = crafter.crafting_success_roll( get_making() ) * percent;
 
     craft_data_->next_failure_point = item_counter + failure_point_delta;
 }
@@ -1098,14 +1092,16 @@ bool item::handle_craft_failure( Character &crafter )
         return true;
     }
 
-    // Minimum 25% progress lost, average 35%.  Falls off exponentially
+    // If a loss happens, minimum 25% progress lost, average 35%.  Falls off exponentially
     // Loss is scaled by the success roll
-    const double percent_progress_loss = rng_exponential( 0.25, 0.35 ) *
-                                         ( 1.0 - std::min( success_roll, 1.0 ) );
-    const int progess_loss = item_counter * percent_progress_loss;
-    crafter.add_msg_player_or_npc( _( "You mess up and lose %d%% progress." ),
-                                   _( "<npcname> messes up and loses %d%% progress." ), progess_loss / 100000 );
-    item_counter = clamp( item_counter - progess_loss, 0, 10000000 );
+    const double percent_progress_loss = rng_exponential( 0.25, 0.35 ) * ( 1.0 - success_roll );
+    // Ensure only positive losses have an effect on progress
+    if( percent_progress_loss > 0.0 ) {
+        const int progress_loss = item_counter * percent_progress_loss;
+        crafter.add_msg_player_or_npc( _( "You mess up and lose %d%% progress." ),
+                                       _( "<npcname> messes up and loses %d%% progress." ), progress_loss / 100000 );
+        item_counter = clamp( item_counter - progress_loss, 0, 10000000 );
+    }
 
     set_next_failure_point( crafter );
 
@@ -1176,6 +1172,7 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
     std::vector<item> newits = making.create_results( batch_size );
 
     const bool should_heat = making.hot_result();
+    const bool remove_raw = making.removes_raw();
 
     bool first = true;
     size_t newit_counter = 0;
@@ -1214,10 +1211,7 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
             }
         }
 
-        //If item is crafted neither from poor-fit nor from perfect-fit components, and it can be refitted, the result is refitted by default
-        if( newit.has_flag( flag_VARSIZE ) ) {
-            newit.set_flag( flag_FIT );
-        }
+        // Newly-crafted items are perfect by default. Inspect their materials to see if they shouldn't be
         food_contained.inherit_flags( used, making );
 
         for( const flag_id &flag : making.flags_to_delete ) {
@@ -1241,7 +1235,7 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
                     comp = item( comp.get_comestible()->cooks_like, comp.birthday(), comp.charges );
                 }
                 // If this recipe is cooked, components are no longer raw.
-                if( should_heat ) {
+                if( should_heat || remove_raw ) {
                     comp.set_flag_recursive( flag_COOKED );
                 }
             }
@@ -2321,11 +2315,14 @@ void Character::disassemble_all( bool one_pass )
     assign_activity( player_activity(), true );
 
     bool found_any = false;
+    std::vector<item_location> to_disassemble;
     for( item &it : get_map().i_at( pos() ) ) {
+        to_disassemble.emplace_back( map_cursor( pos() ), &it );
+    }
+    for( item_location &it_loc : to_disassemble ) {
         // Prevent disassembling an in process disassembly because it could have been created by a previous iteration of this loop
         // and choosing to place it on the ground
-        if( it.typeId() != itype_disassembly &&
-            disassemble( item_location( map_cursor( pos() ), &it ), false ) ) {
+        if( disassemble( it_loc, false ) ) {
             found_any = true;
         }
     }

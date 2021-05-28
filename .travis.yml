@@ -27,7 +27,7 @@ os: linux
 branches:
   only:
   - master
-  - development
+  - 0.F-dev
 
 # Overall strategy for what sorts of builds to include:
 # We want a build for each compiler and each platform.
@@ -99,7 +99,8 @@ jobs:
     - stage: "Platforms and Tidy"
     # MXE variant using alternate repository http://mirror.mxe.cc/repos/apt
       env: COMPILER=g++ LDFLAGS="-static-libgcc -static-libstdc++" MXE_TARGET="i686-w64-mingw32.static" WINE="wine" TILES=1 SOUND=1
-      name: "Mingw-w64 Make cross-compile to Windows with Tiles and Sound"
+      name: "MinGW-Win64 Make cross-compile to Windows with Tiles and Sound"
+      if: type != pull_request
       compiler: gcc
       addons: &gcc
         apt:
@@ -111,7 +112,6 @@ jobs:
       android:
         components:
           - build-tools-28.0.1
-          - android-28
       cache:
         # The ccache feature in Travis doesn't work for language: android, so
         # do it ourselves.
@@ -216,6 +216,9 @@ jobs:
           sources:
             - sourceline: "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-9 main"
               key_url: "https://apt.llvm.org/llvm-snapshot.gpg.key"
+
+before_install:
+  - if [ "${NATIVE}" == "android" ]; then yes | sdkmanager "platforms;android-28"; fi
 
 before_script:
   - if [ -n "${CLANG}" ]; then COMPILER="$CLANG"; fi

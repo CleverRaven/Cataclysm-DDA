@@ -482,6 +482,7 @@
     "difficulty": 4,
     "autolearn": true,
     "time": "60 m",
+    "reversible": true,
     "using": [ [ "welding_standard", 5 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [ [ [ "sheet_metal", 3 ] ], [ [ "hinge", 2 ] ] ]

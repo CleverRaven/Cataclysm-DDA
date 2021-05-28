@@ -322,12 +322,7 @@
     "autolearn": true,
     "book_learn": [ [ "recipe_melee", 2 ] ],
     "using": [ [ "strap_small", 4 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_cobbling" },
-      { "proficiency": "prof_leatherworking_basic" },
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_articulation" }
-    ],
+    "proficiencies": [ { "proficiency": "prof_cobbling" }, { "proficiency": "prof_metalworking" }, { "proficiency": "prof_articulation" } ],
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 50 ] ] ]
   },
