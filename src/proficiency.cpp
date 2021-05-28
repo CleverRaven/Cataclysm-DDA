@@ -418,28 +418,28 @@ book_proficiency_bonuses &book_proficiency_bonuses::operator+=( const book_profi
 
 float book_proficiency_bonuses::fail_factor( const proficiency_id &id ) const
 {
-    float ret = 1.0f;
+    float ret = 0.0f;
 
     for( const book_proficiency_bonus &bonus : bonuses ) {
         if( id != bonus.id ) {
             continue;
         }
-        ret = std::min( ret, bonus.fail_factor );
+        ret += std::pow( bonus.fail_factor, 2 );
     }
 
-    return ret;
+    return std::min( std::sqrt( ret ), 1.0f );
 }
 
 float book_proficiency_bonuses::time_factor( const proficiency_id &id ) const
 {
-    float ret = 1.0f;
+    float ret = 0.0f;
 
     for( const book_proficiency_bonus &bonus : bonuses ) {
         if( id != bonus.id ) {
             continue;
         }
-        ret = std::min( ret, bonus.time_factor );
+        ret += std::pow( bonus.time_factor, 2 );
     }
 
-    return ret;
+    return std::min( std::sqrt( ret ), 1.0f );
 }

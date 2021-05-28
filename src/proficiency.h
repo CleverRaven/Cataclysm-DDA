@@ -153,7 +153,11 @@ class book_proficiency_bonuses
     public:
         void add( const book_proficiency_bonus &bonus );
         book_proficiency_bonuses &operator+=( const book_proficiency_bonuses &rhs );
+        // adjustment to the crafting failure malus when missing the proficiency, ranging from 0
+        // (no mitigation) to 1 (full mitigation)
         float fail_factor( const proficiency_id &id ) const;
+        // adjustment to the crafting time malus when missing the proficiency, ranging from 0
+        // (no mitigation) to 1 (full mitigation)
         float time_factor( const proficiency_id &id ) const;
 };
 

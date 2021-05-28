@@ -671,9 +671,10 @@ std::string recipe::missing_proficiencies_string( Character *c ) const
         if( !rec.required ) {
             if( !( c->has_proficiency( rec.id ) || helpers_have_proficiencies( *c, rec.id ) ) ) {
                 prof_penalty pen = { rec.id, rec.time_multiplier, rec.fail_multiplier };
-                if( book_bonuses.time_factor( pen.id ) != 1.0f || book_bonuses.fail_factor( pen.id ) != 1.0f ) {
-                    pen.time_mult = 1.0f + ( pen.time_mult - 1.0f ) * book_bonuses.time_factor( pen.id );
-                    pen.failure_mult = 1.0f + ( pen.failure_mult - 1.0f ) * book_bonuses.fail_factor( pen.id );
+                if( book_bonuses.time_factor( pen.id ) != 0.0f || book_bonuses.fail_factor( pen.id ) != 0.0f ) {
+                    pen.time_mult = 1.0f + ( pen.time_mult - 1.0f ) * ( 1.0f - book_bonuses.time_factor( pen.id ) );
+                    pen.failure_mult = 1.0f + ( pen.failure_mult - 1.0f ) * ( 1.0f - book_bonuses.fail_factor(
+                                           pen.id ) );
                     pen.mitigated = true;
                 }
                 missing_profs.push_back( pen );
@@ -744,7 +745,7 @@ float recipe::proficiency_time_maluses( Character &guy ) const
         if( !guy.has_proficiency( prof.id ) &&
             !helpers_have_proficiencies( guy, prof.id ) && prof.time_multiplier > 1.0f ) {
             float malus = 1.0f + ( prof.time_multiplier - 1.0f ) *
-                          guy.crafting_inventory().get_book_proficiency_bonuses().time_factor( prof.id );
+                          ( 1.0f - guy.crafting_inventory().get_book_proficiency_bonuses().time_factor( prof.id ) );
             total_malus *= malus;
         }
     }
@@ -758,7 +759,7 @@ float recipe::proficiency_failure_maluses( Character &guy ) const
         if( !guy.has_proficiency( prof.id ) &&
             !helpers_have_proficiencies( guy, prof.id ) && prof.fail_multiplier > 1.0f ) {
             float malus = 1.0f + ( prof.fail_multiplier - 1.0f ) *
-                          guy.crafting_inventory().get_book_proficiency_bonuses().fail_factor( prof.id );
+                          ( 1.0f - guy.crafting_inventory().get_book_proficiency_bonuses().fail_factor( prof.id ) );
             total_malus *= malus;
         }
     }
