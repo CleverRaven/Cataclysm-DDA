@@ -60,7 +60,7 @@
     "weather_animation": { "factor": 0.02, "color": "white", "sym": "*" },
     "sound_category": "rainy",
     "sun_intensity": "light",
-    "requirements": { "pressure_max": 993, "humidity_min": 98, "humidity_and_pressure": false, "required_weathers": [ "afs_flurries" ] }
+    "requirements": { "pressure_max": 993, "humidity_min": 98, "humidity_and_pressure": false, "required_weathers": [ "afs_flurries", "afs_whiteout" ] }
   },
   {
     "id": "afs_thunder",
@@ -116,7 +116,7 @@
       {
         "one_in_chance": 600,
         "must_be_outside": false,
-        "message": "A flash of lightning illuminates your surroundings!.",
+        "message": "A flash of lightning illuminates your surroundings!",
         "sound_effect": "thunder_near",
         "lightning": true
       }
@@ -125,6 +125,6 @@
     "weather_animation": { "factor": 0.04, "color": "white", "sym": "*" },
     "sound_category": "thunder",
     "sun_intensity": "none",
-    "requirements": { "pressure_max": 940, "required_weathers": [ "thunder" ] }
+    "requirements": { "pressure_max": 940, "required_weathers": [ "afs_thunder" ] }
   }
 ]
