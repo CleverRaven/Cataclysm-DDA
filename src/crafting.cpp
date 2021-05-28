@@ -1046,8 +1046,8 @@ void item::set_next_failure_point( const Character &crafter )
         return;
     }
 
-    const int percent_left = 10000000 - item_counter;
-    const int failure_point_delta = crafter.crafting_success_roll( get_making() ) * percent_left;
+    const int percent = 10000000;
+    const int failure_point_delta = crafter.crafting_success_roll( get_making() ) * percent;
 
     craft_data_->next_failure_point = item_counter + failure_point_delta;
 }
