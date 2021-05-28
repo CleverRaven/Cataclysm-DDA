@@ -4,12 +4,14 @@
     "id": "NC_ARSONIST_STOCK",
     "subtype": "collection",
     "items": [
-      { "item": "molotov", "count": 50 },
-      { "item": "improvised_pipebomb", "count": 50 },
-      { "item": "fuse", "count": 20 },
+      { "item": "molotov", "count": 5 },
+      { "item": "rag", "count": 25 },
+      { "item": "gasoline", "count": 1 },
+      { "item": "improvised_pipebomb", "count": 25 },
+      { "item": "fuse", "count": 5 },
       { "item": "FMCNote", "count": 3 },
-      { "item": "nail", "count": 5 },
-      { "item": "rebar_rail", "count": 5 },
+      { "item": "nail", "count": 5, "charges": [ 1, 100 ] },
+      { "item": "rebar", "count": 5 },
       { "item": "textbook_anarch", "count": 1 },
       { "item": "fertilizer_commercial", "count": 1 }
     ]

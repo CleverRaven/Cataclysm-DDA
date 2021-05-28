@@ -479,11 +479,14 @@ struct advanced_inv_sorter {
                     return d1.cat < d2.cat;
                 }
                 break;
-            case SORTBY_DAMAGE:
-                if( d1.items.front()->damage() != d2.items.front()->damage() ) {
-                    return d1.items.front()->damage() < d2.items.front()->damage();
+            case SORTBY_DAMAGE: {
+                const double dam1 = d1.items.front()->average_dps( get_player_character() );
+                const double dam2 = d2.items.front()->average_dps( get_player_character() );
+                if( dam1 != dam2 ) {
+                    return dam1 > dam2;
                 }
                 break;
+            }
             case SORTBY_AMMO: {
                 const std::string a1 = d1.items.front()->ammo_sort_name();
                 const std::string a2 = d2.items.front()->ammo_sort_name();

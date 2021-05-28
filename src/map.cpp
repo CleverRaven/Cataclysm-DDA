@@ -1241,7 +1241,7 @@ bool map::displace_vehicle( vehicle &veh, const tripoint &dp, const bool adjust_
     veh.zones_dirty = true;
 
     for( int vsmz : smzs ) {
-        on_vehicle_moved( vsmz );
+        on_vehicle_moved( dst.z + vsmz );
     }
     return true;
 }
@@ -2274,8 +2274,8 @@ void map::drop_vehicle( const tripoint &p )
     if( !vp ) {
         return;
     }
-
     vp->vehicle().is_falling = true;
+    set_seen_cache_dirty( p );
 }
 
 void map::drop_fields( const tripoint &p )
@@ -2816,7 +2816,7 @@ bool map::has_nearby_table( const tripoint &p, int radius )
         if( has_flag( "FLAT_SURF", pt ) ) {
             return true;
         }
-        const optional_vpart_position vp = veh_at( p );
+        const optional_vpart_position vp = veh_at( pt );
         if( vp && vp->part_with_feature( "FLAT_SURF", true ) ) {
             return true;
         }
@@ -4610,6 +4610,7 @@ static bool process_map_items( item_stack &items, safe_reference<item> &item_ref
         // Item is to be destroyed so erase it from the map stack
         // unless it was already destroyed by processing.
         if( item_ref ) {
+            items.get_iterator_from_pointer( item_ref.get() )->spill_contents( location );
             items.erase( items.get_iterator_from_pointer( item_ref.get() ) );
         }
         return true;
@@ -6987,9 +6988,8 @@ void map::rotten_item_spawn( const item &item, const tripoint &pnt )
     if( mgroup.is_null() ) {
         return;
     }
-    const int chance = static_cast<int>( comest->rot_spawn_chance *
-                                         get_option<float>( "CARRION_SPAWNRATE" ) );
-    if( rng( 0, 100 ) < chance ) {
+
+    if( rng( 0, 100 ) < comest->rot_spawn_chance ) {
         MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( mgroup );
         add_spawn( spawn_details, pnt );
         if( get_player_view().sees( pnt ) ) {

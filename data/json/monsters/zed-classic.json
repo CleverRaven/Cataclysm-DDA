@@ -490,6 +490,7 @@
     "description": "This zombie is rather sleek and barely clothed.",
     "copy-from": "mon_zombie",
     "looks_like": "mon_zombie",
+    "dodge": 1,
     "upgrades": { "half_life": 14, "into_group": "GROUP_ZOMBIE_UPGRADE" },
     "death_drops": "mon_zombie_resort_dancer_death_drops"
   },

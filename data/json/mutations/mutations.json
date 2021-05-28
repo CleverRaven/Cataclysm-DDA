@@ -349,7 +349,7 @@
     "description": "Your system is rather tolerant of poisons and toxins, and most will affect you less.",
     "starting_trait": true,
     "leads_to": [ "EATPOISON" ],
-    "category": [ "INSECT", "SLIME", "SPIDER", "MEDICAL" ]
+    "category": [ "INSECT", "SLIME", "SPIDER", "MEDICAL", "CEPHALOPOD" ]
   },
   {
     "type": "mutation",
@@ -2052,6 +2052,7 @@
     "id": "LIGHT_BONES",
     "name": { "str": "Light Bones" },
     "points": 2,
+    "mixed_effect": true,
     "description": "Your bones are very light.  This enables you to move and attack 10% faster, but also reduces your carrying weight by 20% and makes bashing attacks hurt a little more.",
     "category": [ "MOUSE" ],
     "changes_to": [ "HOLLOW_BONES" ],
@@ -2973,7 +2974,7 @@
     "prereqs": [ "POISRESIST" ],
     "leads_to": [ "EATPOISON" ],
     "changes_to": [ "POISONOUS2" ],
-    "category": [ "SLIME", "TROGLOBITE", "SPIDER" ]
+    "category": [ "SLIME", "TROGLOBITE", "SPIDER", "CEPHALOPOD" ]
   },
   {
     "type": "mutation",
@@ -3259,10 +3260,9 @@
     "valid": false,
     "purifiable": false,
     "description": "Between your claws and teeth, you can tunnel through just about anything.",
-    "prereqs": [ "CLAWS_ST" ],
-    "prereqs2": [ "INCISORS" ],
-    "threshreq": [ "THRESH_RAT" ],
-    "category": [ "RAT" ],
+    "prereqs": [ "CLAWS_ST", "PAWS", "PAWS_LARGE" ],
+    "threshreq": [ "THRESH_RAT", "THRESH_LUPINE", "THRESH_URSINE" ],
+    "category": [ "RAT", "LUPINE", "URSINE" ],
     "active": true
   },
   {
@@ -4658,7 +4658,7 @@
     "ugliness": 6,
     "description": "Skin tabs and odd flaps of skin surround your mouth.  They don't affect your eating, but are unpleasant to look at.",
     "category": [ "CHIMERA" ],
-    "leads_to": [ "MOUTH_TENTACLES", "MANDIBLES" ]
+    "changes_to": [ "MOUTH_TENTACLES", "MANDIBLES" ]
   },
   {
     "type": "mutation",
@@ -5834,7 +5834,6 @@
     "types": [ "HANDS" ],
     "changes_to": [ "INSECT_ARMS_OK", "ARACHNID_ARMS" ],
     "prereqs": [ "CHITIN", "CHITIN2", "CHITIN3", "CHITIN_FUR2", "CHITIN_FUR3" ],
-    "prereqs2": [ "ANTENNAE" ],
     "threshreq": [ "THRESH_INSECT", "THRESH_SPIDER" ],
     "category": [ "INSECT", "SPIDER" ],
     "restricts_gear": [ "torso" ],

@@ -955,22 +955,22 @@ void move_items_activity_actor::do_turn( player_activity &act, Character &who )
 
         // Check that we can pick it up.
         if( !target->made_of_from_type( phase_id::LIQUID ) ) {
-            //make a copy in case the owner check cancels activity
-            item leftovers = *target.get_item();
+            item &leftovers = *target;
             // Make a copy to be put in the destination location
             item newit = leftovers;
+
+            if( newit.is_owned_by( who, true ) ) {
+                newit.set_owner( who );
+            } else {
+                continue;
+            }
+
             // Handle charges, quantity == 0 means move all
             if( quantity != 0 && newit.count_by_charges() ) {
                 newit.charges = std::min( newit.charges, quantity );
                 leftovers.charges -= quantity;
             } else {
                 leftovers.charges = 0;
-            }
-
-            if( newit.is_owned_by( who, true ) ) {
-                newit.set_owner( who );
-            } else {
-                continue;
             }
 
             // This is for hauling across zlevels, remove when going up and down stairs
@@ -1643,6 +1643,9 @@ void unload_activity_actor::unload( Character &who, item_location &target )
 
     std::vector<item *> remove_contained;
     for( item *contained : it.contents.all_items_top() ) {
+        if( contained->ammo_type() == ammotype( "plutonium" ) ) {
+            contained->charges /= PLUTONIUM_CHARGES;
+        }
         if( who.as_player()->add_or_drop_with_msg( *contained, true ) ) {
             qty += contained->charges;
             remove_contained.push_back( contained );
@@ -1785,10 +1788,20 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
     // This is to ensure we don't over count skill steps
     craft.item_counter = std::min( craft.item_counter, 10'000'000 );
 
-    // Skill and tools are gained/consumed after every 5% progress
+    // This nominal craft time is also how many practice ticks to perform
+    // spread out evenly across the actual duration.
+    const double total_practice_ticks = rec.time_to_craft_moves( crafter,
+                                        recipe_time_flag::ignore_proficiencies ) / 100.0;
+
+    const int ticks_per_practice = 10'000'000.0 / total_practice_ticks;
+    int num_practice_ticks = craft.item_counter / ticks_per_practice -
+                             old_counter / ticks_per_practice;
+    if( num_practice_ticks > 0 ) {
+        crafter.craft_skill_gain( craft, num_practice_ticks );
+    }
+    // Proficiencies and tools are gained/consumed after every 5% progress
     int five_percent_steps = craft.item_counter / 500'000 - old_counter / 500'000;
     if( five_percent_steps > 0 ) {
-        crafter.craft_skill_gain( craft, five_percent_steps );
         // Divide by 100 for seconds, 20 for 5%
         const time_duration pct_time = time_duration::from_seconds( base_total_moves / 2000 );
         crafter.craft_proficiency_gain( craft, pct_time * five_percent_steps );
@@ -2405,9 +2418,11 @@ void insert_item_activity_actor::finish( player_activity &act, Character &who )
                 success = result > 0;
 
                 if( success ) {
+                    item copy( it );
+                    copy.charges = result;
                     //~ %1$s: item to put in the container, %2$s: container to put item in
                     who.add_msg_if_player( string_format( _( "You put your %1$s into the %2$s." ),
-                                                          holstered_item.first->display_name( result ), holster->type->nname( 1 ) ) );
+                                                          copy.display_name(), holster->type->nname( 1 ) ) );
                     handler.add_unsealed( holster );
                     handler.unseal_pocket_containing( holstered_item.first );
                     it.charges -= result;
@@ -2469,72 +2484,6 @@ std::unique_ptr<activity_actor> insert_item_activity_actor::deserialize( JsonIn 
     data.read( "items", actor.items );
     data.read( "handler", actor.handler );
     data.read( "all_pockets_rigid", actor.all_pockets_rigid );
-
-    return actor.clone();
-}
-
-void burrow_activity_actor::start( player_activity &act, Character &who )
-{
-    act.moves_total = moves_total;
-    act.moves_left = moves_total;
-    who.add_msg_if_player( _( "You start tearing into the %1$s with your %2$s." ),
-                           here.tername( burrow_position ), burrow_tool );
-}
-
-void burrow_activity_actor::do_turn( player_activity &, Character & )
-{
-    sfx::play_activity_sound( "activity", "burrow", sfx::get_heard_volume( burrow_position ) );
-    if( calendar::once_every( 1_minutes ) ) {
-        sounds::sound( burrow_position, 10, sounds::sound_t::movement,
-                       //~ Sound of a Rat mutant burrowing!
-                       _( "ScratchCrunchScrabbleScurry." ) );
-    }
-
-}
-
-void burrow_activity_actor::finish( player_activity &act, Character &who )
-{
-
-    if( here.is_bashable( burrow_position ) && here.has_flag( "SUPPORTS_ROOF", burrow_position ) &&
-        here.ter( burrow_position ) != t_tree ) {
-        // Tunneling through solid rock is hungry, sweaty, tiring, backbreaking work
-        // Not quite as bad as the pickaxe, though
-        who.mod_stored_nutr( 10 );
-        who.mod_thirst( 10 );
-        who.mod_fatigue( 15 );
-        who.mod_pain( 3 * rng( 1, 3 ) );
-    } else if( here.move_cost( burrow_position ) == 2 && here.get_abs_sub().z == 0 &&
-               here.ter( burrow_position ) != t_dirt && here.ter( burrow_position ) != t_grass ) {
-        //Breaking up concrete on the surface? not nearly as bad
-        who.mod_stored_nutr( 5 );
-        who.mod_thirst( 5 );
-        who.mod_fatigue( 10 );
-    }
-    who.add_msg_if_player( m_good, _( "You finish burrowing." ) );
-    here.destroy( burrow_position, true );
-
-    act.set_to_null();
-}
-
-void burrow_activity_actor::serialize( JsonOut &jsout ) const
-{
-    jsout.start_object();
-
-    jsout.member( "moves_total", moves_total );
-    jsout.member( "burrow_position", burrow_position );
-    jsout.member( "burrow_tool", burrow_tool );
-
-    jsout.end_object();
-}
-
-std::unique_ptr<activity_actor> burrow_activity_actor::deserialize( JsonIn &jsin )
-{
-    burrow_activity_actor actor {};
-
-    JsonObject data = jsin.get_object();
-    data.read( "moves_total", actor.moves_total );
-    data.read( "burrow_position", actor.burrow_position );
-    data.read( "burrow_tool", actor.burrow_tool );
 
     return actor.clone();
 }
@@ -2838,7 +2787,6 @@ const std::unordered_map<activity_id, std::unique_ptr<activity_actor>( * )( Json
 deserialize_functions = {
     { activity_id( "ACT_AIM" ), &aim_activity_actor::deserialize },
     { activity_id( "ACT_AUTODRIVE" ), &autodrive_activity_actor::deserialize },
-    { activity_id( "ACT_BURROW" ), &burrow_activity_actor::deserialize },
     { activity_id( "ACT_CONSUME" ), &consume_activity_actor::deserialize },
     { activity_id( "ACT_CRAFT" ), &craft_activity_actor::deserialize },
     { activity_id( "ACT_DIG" ), &dig_activity_actor::deserialize },

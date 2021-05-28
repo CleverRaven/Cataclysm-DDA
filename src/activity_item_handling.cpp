@@ -204,6 +204,12 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
         if( handle_spillable_contents( c, it, here ) ) {
             continue;
         }
+
+        if( it.made_of( phase_id::LIQUID ) ) {
+            here.add_item_or_charges( c.pos(), it );
+            it.charges = 0;
+        }
+
         if( veh.add_item( part, it ) ) {
             into_vehicle_count += it.count();
         } else {
@@ -817,7 +823,7 @@ static activity_reason_info find_base_construction(
 
     //we can't immediately build it, looking for pre-req
     used.insert( idx );
-    cata::optional<do_activity_reason> reason;
+    cata::optional<do_activity_reason> reason = { };
     construction_id pre_req_idx( -1 );
     //first step: try only constructions with the same group
     //second step: try all constructions
@@ -2919,9 +2925,15 @@ int get_auto_consume_moves( player &p, const bool food )
                 continue;
             }
             if( !food && it->is_watertight_container() && comest.made_of( phase_id::SOLID ) ) {
-                // its frozen
+                // it's frozen
                 continue;
             }
+            const use_function *usef = comest.type->get_use( "BLECH_BECAUSE_UNCLEAN" );
+            if( usef ) {
+                // it's unclean
+                continue;
+            }
+
             int consume_moves = -Pickup::cost_to_move_item( p, *it ) * std::max( rl_dist( p.pos(),
                                 here.getlocal( loc ) ), 1 );
             consume_moves += to_moves<int>( p.get_consume_time( comest ) );

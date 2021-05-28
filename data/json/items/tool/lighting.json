@@ -152,7 +152,7 @@
       "need_charges": 1,
       "need_charges_msg": "The lantern has no batteries."
     },
-    "flags": [ "RADIO_MODABLE", "ALLOWS_REMOTE_USE" ],
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "ALLOWS_REMOTE_USE" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -180,7 +180,7 @@
     "power_draw": 1000,
     "revert_to": "electric_lantern",
     "use_action": { "menu_text": "Turn off", "type": "transform", "target": "electric_lantern", "msg": "You turn the lamp off." },
-    "flags": [ "RADIO_MODABLE", "LIGHT_15", "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "LIGHT_15", "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "flashlight",
@@ -298,7 +298,7 @@
       "menu_text": "Activate",
       "type": "transform"
     },
-    "flags": [ "NO_UNLOAD" ]
+    "flags": [ "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
     "id": "glowstick_dead",
@@ -332,7 +332,7 @@
     "turns_per_charge": 30,
     "revert_to": "glowstick_dead",
     "revert_msg": "The glowstick fades out.",
-    "flags": [ "LIGHT_8", "TRADER_AVOID", "SLEEP_IGNORE", "NO_UNLOAD" ]
+    "flags": [ "LIGHT_8", "TRADER_AVOID", "SLEEP_IGNORE", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
     "id": "handflare",
@@ -355,7 +355,7 @@
       "active": true,
       "msg": "You strike your flare and light it."
     },
-    "flags": [ "NO_UNLOAD" ]
+    "flags": [ "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
     "id": "handflare_lit",
@@ -368,7 +368,7 @@
     "revert_to": "handflare_dead",
     "revert_msg": "The flare sputters out",
     "use_action": { "type": "firestarter", "moves": 50 },
-    "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "TRADER_AVOID", "FIRESTARTER", "NO_UNLOAD" ]
+    "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "TRADER_AVOID", "FIRESTARTER", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
     "id": "heavy_flashlight",
@@ -640,7 +640,7 @@
       "need_charges_msg": "The smart lamp batteries are dead.",
       "type": "transform"
     },
-    "flags": [ "ALLOWS_REMOTE_USE", "RADIO_ACTIVATION", "RADIOSIGNAL_2" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "RADIO_ACTIVATION", "RADIO_INVOKE_PROC", "RADIOSIGNAL_2" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -669,7 +669,15 @@
     "power_draw": 10000,
     "revert_to": "smart_lamp",
     "use_action": { "target": "smart_lamp", "msg": "Your smart lamp turned off.", "menu_text": "Turn off", "type": "transform" },
-    "flags": [ "ALLOWS_REMOTE_USE", "RADIO_ACTIVATION", "RADIOSIGNAL_2", "LIGHT_240", "CHARGEDIM", "TRADER_AVOID" ]
+    "flags": [
+      "ALLOWS_REMOTE_USE",
+      "RADIO_ACTIVATION",
+      "RADIO_INVOKE_PROC",
+      "RADIOSIGNAL_2",
+      "LIGHT_240",
+      "CHARGEDIM",
+      "TRADER_AVOID"
+    ]
   },
   {
     "id": "torch",
@@ -688,7 +696,6 @@
     "techniques": [ "WBLOCK_1" ],
     "initial_charges": 20,
     "max_charges": 20,
-    "charges_per_use": 1,
     "use_action": {
       "target": "torch_lit",
       "msg": "You light the torch.",

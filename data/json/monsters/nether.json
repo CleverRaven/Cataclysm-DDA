@@ -38,7 +38,7 @@
     "type": "MONSTER",
     "name": { "str": "amigara horror" },
     "description": "A hellish, vaguely humanoid horror, two stories tall.  Its face is grotesquely stretched out, its limbs deformed to unrecognizable outgrowths.",
-    "default_faction": "mutant",
+    "default_faction": "amigara",
     "bodytype": "human",
     "species": [ "HORROR" ],
     "diff": 5,
@@ -335,18 +335,7 @@
     "harvest": "gozu",
     "special_attacks": [ [ "FEAR_PARALYZE", 20 ] ],
     "death_function": [ "NORMAL" ],
-    "flags": [
-      "SEES",
-      "SMELLS",
-      "HEARS",
-      "WARM",
-      "BASHES",
-      "GROUP_BASH",
-      "ANIMAL",
-      "PATH_AVOID_DANGER_1",
-      "NO_BREATHE",
-      "PATH_AVOID_DANGER_1"
-    ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "BASHES", "GROUP_BASH", "ANIMAL", "NO_BREATHE", "PATH_AVOID_DANGER_1" ]
   },
   {
     "id": "mon_gracke",
@@ -370,9 +359,10 @@
     "melee_dice_sides": 4,
     "melee_cut": 0,
     "dodge": 4,
+    "path_settings": { "avoid_traps": true, "avoid_sharp": true },
     "harvest": "demihuman",
     "death_function": [ "NORMAL" ],
-    "flags": [ "SMELLS", "HEARS", "WARM", "NO_BREATHE", "GRABS", "PATH_AVOID_DANGER_2", "PRIORITIZE_TARGETS" ]
+    "flags": [ "SMELLS", "HEARS", "WARM", "NO_BREATHE", "GRABS", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_1" ]
   },
   {
     "id": "mon_headless_dog_thing",
@@ -495,7 +485,7 @@
     "type": "MONSTER",
     "name": { "str": "human snail" },
     "description": "An enormous fleshy snail, with an oddly human face.  Eyestalks protrude from where the eyes should be.",
-    "default_faction": "mutant",
+    "default_faction": "mutant_with_vortex",
     "species": [ "ABERRATION" ],
     "diff": 5,
     "volume": "92500 ml",
@@ -614,9 +604,10 @@
     "dodge": 6,
     "vision_day": 50,
     "vision_night": 15,
+    "path_settings": { "avoid_traps": true, "avoid_sharp": true },
     "harvest": "mammal_small_fur",
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_2", "WARM", "HARDTOSHOOT" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "HARDTOSHOOT", "PATH_AVOID_DANGER_1" ]
   },
   {
     "id": "mon_shadow",
@@ -716,7 +707,7 @@
     "armor_bullet": 24,
     "harvest": "exempt",
     "path_settings": { "max_dist": 5 },
-    "special_attacks": [ [ "PARROT", 40 ] ],
+    "special_attacks": [ [ "PARROT", 400 ] ],
     "death_function": [ "MELT" ],
     "regenerates": 50,
     "regen_morale": true,
@@ -756,7 +747,7 @@
     "type": "MONSTER",
     "name": { "str": "twisted body", "str_pl": "twisted bodies" },
     "description": "A human body, but with its limbs, neck, and hair impossibly twisted.  It clambers around swiftly, making awful screeching sounds.",
-    "default_faction": "mutant",
+    "default_faction": "mutant_with_vortex",
     "bodytype": "human",
     "species": [ "HORROR" ],
     "volume": "62500 ml",

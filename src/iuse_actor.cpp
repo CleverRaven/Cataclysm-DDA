@@ -204,6 +204,8 @@ cata::optional<int> iuse_transform::use( player &p, item &it, bool t, const trip
         return cata::nullopt; // invoked from active item processing, do nothing.
     }
 
+    int result = 0;
+
     const bool possess = p.has_item( it ) ||
                          ( it.has_flag( flag_ALLOWS_REMOTE_USE ) && square_dist( p.pos(), pos ) == 1 );
 
@@ -245,6 +247,9 @@ cata::optional<int> iuse_transform::use( player &p, item &it, bool t, const trip
     item *obj;
     // defined here to allow making a new item assigned to the pointer
     item obj_it;
+    if( it.is_tool() ) {
+        result = it.type->charges_to_use();
+    }
     if( container.is_empty() ) {
         obj = &it.convert( target );
         if( ammo_qty >= 0 || !random_ammo_qty.empty() ) {
@@ -282,7 +287,7 @@ cata::optional<int> iuse_transform::use( player &p, item &it, bool t, const trip
     obj->item_counter = countdown > 0 ? countdown : obj->type->countdown_interval;
     obj->active = active || obj->item_counter;
 
-    return 0;
+    return result;
 }
 
 ret_val<bool> iuse_transform::can_use( const Character &p, const item &, bool,
@@ -1130,10 +1135,6 @@ cata::optional<int> reveal_map_actor::use( player &p, item &it, bool, const trip
 {
     if( it.already_used_by_player( p ) ) {
         p.add_msg_if_player( _( "There isn't anything new on the %s." ), it.tname() );
-        return cata::nullopt;
-    } else if( get_map().get_abs_sub().z < 0 ) {
-        p.add_msg_if_player( _( "You should read your %s when you get to the surface." ),
-                             it.tname() );
         return cata::nullopt;
     } else if( p.fine_detail_vision_mod() > 4 ) {
         p.add_msg_if_player( _( "It's too dark to read." ) );
@@ -4299,7 +4300,7 @@ cata::optional<int> sew_advanced_actor::use( player &p, item &it, bool, const tr
 
     // Cache available materials
     std::map< itype_id, bool > has_enough;
-    const int items_needed = mod.volume() / 750_ml + 1;
+    const int items_needed = mod.base_volume() / 750_ml + 1;
     const inventory &crafting_inv = p.crafting_inventory();
     const std::function<bool( const item & )> is_filthy_filter = is_crafting_component;
 
@@ -4315,7 +4316,7 @@ cata::optional<int> sew_advanced_actor::use( player &p, item &it, bool, const tr
     }
 
     // We need extra thread to lose it on bad rolls
-    const int thread_needed = mod.volume() / 125_ml + 10;
+    const int thread_needed = mod.base_volume() / 125_ml + 10;
 
     const auto valid_mods = mod.find_armor_data()->valid_mods;
 

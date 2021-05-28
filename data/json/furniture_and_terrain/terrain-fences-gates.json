@@ -778,17 +778,14 @@
     "examine_action": "chainfence",
     "flags": [ "NOITEM", "CLIMBABLE", "PERMEABLE", "AUTO_WALL_SYMBOL", "FLAMMABLE_ASH", "THIN_OBSTACLE", "BURROWABLE" ],
     "connects_to": "WOODFENCE",
-    "deconstruct": {
-      "ter_set": "t_fence_post",
-      "items": [ { "item": "2x4", "count": 10 }, { "item": "nail", "charges": 20 }, { "item": "hinge", "count": [ 1, 2 ] } ]
-    },
+    "deconstruct": { "ter_set": "t_fence_post", "items": [ { "item": "2x4", "count": 8 }, { "item": "nail", "charges": 20 } ] },
     "bash": {
       "str_min": 5,
       "str_max": 12,
       "sound": "whump!",
       "sound_fail": "whack!",
       "ter_set": "t_fence_post",
-      "items": [ { "item": "2x4", "count": [ 4, 10 ] } ]
+      "items": [ { "item": "2x4", "count": [ 4, 8 ] } ]
     }
   },
   {

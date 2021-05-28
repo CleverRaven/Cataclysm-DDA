@@ -26,7 +26,7 @@
     "armor_bullet": 8,
     "vision_day": 50,
     "revert_to_itype": "bot_broken_cyborg",
-    "special_attacks": [ [ "PARROT", 80 ] ],
+    "special_attacks": [ [ "PARROT", 800 ] ],
     "death_function": [ "NORMAL" ],
     "harvest": "mon_broken_cyborg",
     "flags": [
@@ -69,8 +69,9 @@
     "armor_cut": 6,
     "armor_bullet": 5,
     "vision_day": 50,
+    "path_settings": { "avoid_traps": true, "avoid_sharp": true },
     "revert_to_itype": "bot_prototype_cyborg",
-    "special_attacks": [ [ "PARROT", 80 ] ],
+    "special_attacks": [ [ "PARROT", 800 ] ],
     "death_function": [ "NORMAL" ],
     "harvest": "mon_broken_cyborg",
     "flags": [
@@ -82,7 +83,7 @@
       "WARM",
       "STUMBLES",
       "HUMAN",
-      "PATH_AVOID_DANGER_2",
+      "PATH_AVOID_DANGER_1",
       "PRIORITIZE_TARGETS"
     ]
   },

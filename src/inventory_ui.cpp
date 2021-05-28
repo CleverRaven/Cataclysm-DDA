@@ -352,9 +352,14 @@ bool inventory_holster_preset::is_shown( const item_location &contained ) const
     if( !holster->contents.can_contain( item_copy ).success() ) {
         return false;
     }
-    if( holster->has_item( *contained ) ) {
-        return false;
+
+    //only hide if it is in the toplevel of holster (to allow shuffling of items inside a bag)
+    for( const item *it : holster->contents.all_items_top() ) {
+        if( it == contained.get_item() ) {
+            return false;
+        }
     }
+
     if( contained->is_bucket_nonempty() ) {
         return false;
     }
@@ -2442,6 +2447,18 @@ drop_locations inventory_iuse_selector::execute()
 {
     shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
 
+    auto is_entry = []( const inventory_entry & elem ) {
+        return elem.is_selectable();
+    };
+    for( inventory_column *col : get_all_columns() ) {
+        if( col->allows_selecting() ) {
+            for( inventory_entry *ie : col->get_entries( is_entry ) ) {
+                for( item_location const &x : ie->locations ) {
+                    usable_locs.push_back( x );
+                }
+            }
+        }
+    }
     int count = 0;
     while( true ) {
         ui_manager::redraw();
@@ -2505,23 +2522,36 @@ drop_locations inventory_iuse_selector::execute()
 void inventory_iuse_selector::set_chosen_count( inventory_entry &entry, size_t count )
 {
     const item_location &it = entry.any_item();
+    std::map<const item_location *, int> temp_use;
 
     if( count == 0 ) {
         entry.chosen_count = 0;
         for( const item_location &loc : entry.locations ) {
-            to_use.erase( &loc );
+            temp_use[&loc] = 0;
         }
     } else {
         entry.chosen_count = std::min( std::min( count, max_chosen_count ), entry.get_available_count() );
         if( it->count_by_charges() ) {
-            to_use[&it] = entry.chosen_count;
+            temp_use[&it] = entry.chosen_count;
         } else {
             for( const item_location &loc : entry.locations ) {
                 if( count == 0 ) {
                     break;
                 }
-                to_use[&loc] = 1;
+                temp_use[&loc] = 1;
                 count--;
+            }
+        }
+    }
+    // Optimisation to reduce the scale of looping if otherwise done in the preceeding code.
+    for( auto iter : temp_use ) {
+        for( const item_location &x : usable_locs ) {
+            if( x == *iter.first ) {
+                if( iter.second > 0 ) {
+                    to_use[&x] = iter.second;
+                } else {
+                    to_use.erase( &x );
+                }
             }
         }
     }
@@ -2578,22 +2608,19 @@ void inventory_drop_selector::deselect_contained_items()
         item_location loc_front = drop.first;
         inventory_items.push_back( loc_front );
     }
-    for( item_location loc_contained : inventory_items ) {
-        for( item_location loc_container : inventory_items ) {
-            if( loc_container == loc_contained ) {
-                continue;
-            }
-            if( loc_container->has_item( *loc_contained ) ) {
-                for( inventory_column *col : get_all_columns() ) {
-                    for( inventory_entry *selected : col->get_entries( []( const inventory_entry &
-                    entry ) {
-                    return entry.chosen_count > 0;
-                } ) ) {
-                        if( !selected->is_item() ) {
-                            continue;
-                        }
+    for( item_location loc_container : inventory_items ) {
+        if( !loc_container->contents.empty() ) {
+            for( inventory_column *col : get_all_columns() ) {
+                for( inventory_entry *selected : col->get_entries( []( const inventory_entry &
+                entry ) {
+                return entry.chosen_count > 0;
+            } ) ) {
+                    if( !selected->is_item() ) {
+                        continue;
+                    }
+                    for( item *item_contained : loc_container->contents.all_items_top() ) {
                         for( const item_location &selected_loc : selected->locations ) {
-                            if( selected_loc == loc_contained ) {
+                            if( selected_loc.get_item() == item_contained ) {
                                 set_chosen_count( *selected, 0 );
                             }
                         }
@@ -2677,6 +2704,7 @@ drop_locations inventory_drop_selector::execute()
                 for( const auto &elem : selected ) {
                     set_chosen_count( *elem, count );
                 }
+                deselect_contained_items();
             }
 
             count = 0;

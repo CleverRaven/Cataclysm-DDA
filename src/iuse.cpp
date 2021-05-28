@@ -108,13 +108,13 @@
 #include "veh_type.h"
 #include "vehicle.h"
 #include "viewer.h"
+#include "vitamin.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "weather.h"
 #include "weather_gen.h"
 #include "weather_type.h"
 
-static const activity_id ACT_BURROW( "ACT_BURROW" );
 static const activity_id ACT_CHOP_LOGS( "ACT_CHOP_LOGS" );
 static const activity_id ACT_CHOP_PLANKS( "ACT_CHOP_PLANKS" );
 static const activity_id ACT_CHOP_TREE( "ACT_CHOP_TREE" );
@@ -354,6 +354,9 @@ static const species_id species_INSECT( "INSECT" );
 static const species_id species_ROBOT( "ROBOT" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
 
+static const vitamin_id vitamin_blood( "blood" );
+static const vitamin_id vitamin_redcells( "redcells" );
+
 static const mongroup_id GROUP_FISH( "GROUP_FISH" );
 
 static const mtype_id mon_bee( "mon_bee" );
@@ -453,17 +456,21 @@ void remove_radio_mod( item &it, Character &p )
     it.unset_flag( flag_RADIOCARITEM );
 }
 
-// Checks that the player does not have an active item with LITCIG flag.
-static bool check_litcig( player &u )
+// Checks that the player can smoke
+cata::optional<std::string> iuse::can_smoke( const player &u )
 {
     auto cigs = u.items_with( []( const item & it ) {
         return it.active && it.has_flag( flag_LITCIG );
     } );
-    if( cigs.empty() ) {
-        return true;
+
+    if( !cigs.empty() ) {
+        return string_format( _( "You're already smoking a %s!" ), cigs[0]->tname() );
     }
-    u.add_msg_if_player( m_info, _( "You're already smoking a %s!" ), cigs[0]->tname() );
-    return false;
+
+    if( !u.has_charges( itype_fire, 1 ) ) {
+        return _( "You don't have anything to light it with!" );
+    }
+    return cata::nullopt;
 }
 
 /* iuse methods return the number of charges expended or no value, which is usually it->charges_to_use().
@@ -550,15 +557,9 @@ cata::optional<int> iuse::alcohol_strong( player *p, item *it, bool, const tripo
  */
 cata::optional<int> iuse::smoking( player *p, item *it, bool, const tripoint & )
 {
-    bool hasFire = ( p->has_charges( itype_fire, 1 ) );
-
-    // make sure we're not already smoking something
-    if( !check_litcig( *p ) ) {
-        return cata::nullopt;
-    }
-
-    if( !hasFire ) {
-        p->add_msg_if_player( m_info, _( "You don't have anything to light it with!" ) );
+    cata::optional<std::string> litcig = can_smoke( *p );
+    if( litcig.has_value() ) {
+        p->add_msg_if_player( m_info, _( litcig.value_or( "" ) ) );
         return cata::nullopt;
     }
 
@@ -911,7 +912,7 @@ cata::optional<int> iuse::vaccine( player *p, item *it, bool, const tripoint & )
 cata::optional<int> iuse::flu_vaccine( player *p, item *it, bool, const tripoint & )
 {
     p->add_msg_if_player( _( "You inject the vaccine." ) );
-    time_point expiration_date = calendar::start_of_cataclysm + 24_weeks;
+    time_point expiration_date = it->birthday() + 24_weeks;
     time_duration remaining_time = expiration_date - calendar::turn;
     // FIXME Removing feedback and visible status would be more realistic
     if( remaining_time > 0_turns ) {
@@ -1055,6 +1056,7 @@ cata::optional<int> iuse::inhaler( player *p, item *it, bool, const tripoint & )
             p->add_effect( effect_shakes, rng( 2_minutes, 5_minutes ) );
         }
     }
+    p->add_effect( effect_took_antiasthmatic, rng( 6_hours, 12_hours ) );
     p->remove_effect( effect_smoke );
     return it->type->charges_to_use();
 }
@@ -1569,7 +1571,10 @@ cata::optional<int> iuse::mycus( player *p, item *it, bool t, const tripoint &po
         map &here = get_map();
         fungal_effects fe( *g, here );
         for( const tripoint &nearby_pos : here.points_in_radius( p->pos(), 3 ) ) {
-            fe.marlossify( nearby_pos );
+            if( here.move_cost( nearby_pos ) != 0 && !here.has_furn( nearby_pos ) &&
+                !here.has_flag( TFLAG_DEEP_WATER, nearby_pos ) && !here.has_flag( TFLAG_NO_FLOOR, nearby_pos ) ) {
+                fe.marlossify( nearby_pos );
+            }
         }
         p->rem_addiction( add_type::MARLOSS_R );
         p->rem_addiction( add_type::MARLOSS_B );
@@ -3508,50 +3513,6 @@ cata::optional<int> iuse::pickaxe( player *p, item *it, bool, const tripoint &po
     return 0; // handled when the activity finishes
 }
 
-cata::optional<int> iuse::burrow( player *p, item *it, bool, const tripoint &pos )
-{
-    if( p->is_npc() ) {
-        // Long action
-        return cata::nullopt;
-    }
-    if( p->is_mounted() ) {
-        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
-        return cata::nullopt;
-    }
-    if( p->is_underwater() ) {
-        p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
-        return cata::nullopt;
-    }
-
-    tripoint pnt = pos;
-    if( pos == p->pos() ) {
-        const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Burrow where?" ) );
-        if( !pnt_ ) {
-            return cata::nullopt;
-        }
-        pnt = *pnt_;
-    }
-
-    map &here = get_map();
-    if( !here.has_flag( "MINEABLE", pnt ) ) {
-        p->add_msg_if_player( m_info, _( "You can't burrow there." ) );
-        return cata::nullopt;
-    }
-    if( here.veh_at( pnt ) ) {
-        p->add_msg_if_player( _( "There's a vehicle in the way!" ) );
-        return cata::nullopt;
-    }
-
-    int moves = to_moves<int>( 5_minutes );
-    moves += ( ( MAX_STAT + 3 ) - std::min( p->str_cur, MAX_STAT ) ) * to_moves<int>( 2_minutes );
-    if( here.move_cost( pnt ) == 2 ) {
-        // We're breaking up some flat surface like pavement, which is much easier
-        moves /= 2;
-    }
-    p->assign_activity( player_activity( burrow_activity_actor( moves, pnt,  it->tname() ) ) );
-    return 0; // handled when the activity finishes
-}
-
 cata::optional<int> iuse::geiger( player *p, item *it, bool t, const tripoint &pos )
 {
     map &here = get_map();
@@ -4057,51 +4018,6 @@ cata::optional<int> iuse::mininuke( player *p, item *it, bool, const tripoint & 
     it->convert( itype_mininuke_act );
     it->charges = time;
     it->active = true;
-    return it->type->charges_to_use();
-}
-
-cata::optional<int> iuse::pheromone( player *p, item *it, bool, const tripoint &pos )
-{
-    if( !it->ammo_sufficient() ) {
-        return cata::nullopt;
-    }
-    if( p->is_underwater() ) {
-        p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
-        return cata::nullopt;
-    }
-
-    if( pos.x == -999 || pos.y == -999 ) {
-        return cata::nullopt;
-    }
-
-    p->add_msg_player_or_npc( _( "You squeeze the pheromone ball…" ),
-                              _( "<npcname> squeezes the pheromone ball…" ) );
-
-    p->moves -= 15;
-
-    int converts = 0;
-    for( const tripoint &dest : get_map().points_in_radius( pos, 4 ) ) {
-        monster *const mon_ptr = g->critter_at<monster>( dest, true );
-        if( !mon_ptr ) {
-            continue;
-        }
-        monster &critter = *mon_ptr;
-        if( critter.type->in_species( species_ZOMBIE ) && critter.friendly == 0 &&
-            rng( 0, 500 ) > critter.get_hp() ) {
-            converts++;
-            critter.anger = 0;
-        }
-    }
-
-    if( get_player_view().sees( *p ) ) {
-        if( converts == 0 ) {
-            add_msg( _( "…but nothing happens." ) );
-        } else if( converts == 1 ) {
-            add_msg( m_good, _( "…and a nearby zombie becomes passive!" ) );
-        } else {
-            add_msg( m_good, _( "…and several nearby zombies become passive!" ) );
-        }
-    }
     return it->type->charges_to_use();
 }
 
@@ -4838,8 +4754,12 @@ cata::optional<int> iuse::blood_draw( player *p, item *it, bool, const tripoint 
         if( p->has_trait( trait_ACIDBLOOD ) ) {
             acid_blood = true;
         }
-        p->mod_stored_nutr( 10 );
-        p->mod_thirst( 10 );
+        // From wikipedia,
+        // "To compare, this (volume of blood loss that causes death) is five to eight times
+        // as much blood as people usually give in a blood donation.[2]"
+        // This is half a TU, hence I'm setting it to 1/10th of a lethal exsanguination.
+        p->vitamin_mod( vitamin_redcells, vitamin_redcells->min() / 10 );
+        p->vitamin_mod( vitamin_blood, vitamin_blood->min() / 10 );
         p->mod_pain( 3 );
     }
 
@@ -5082,12 +5002,20 @@ cata::optional<int> iuse::oxytorch( player *p, item *it, bool, const tripoint & 
         t_bars,
         t_window_bars_alarm,
         t_window_bars,
+        t_window_bars_curtains,
+        t_window_bars_domestic,
         t_reb_cage,
         t_door_metal_locked,
         t_door_metal_c,
         t_door_bar_c,
         t_door_bar_locked,
-        t_door_metal_pickable
+        t_door_metal_pickable,
+        t_metal_grate_window,
+        t_metal_grate_window_with_curtain,
+        t_metal_grate_window_with_curtain_open,
+        t_metal_grate_window_noglass,
+        t_metal_grate_window_with_curtain_noglass,
+        t_metal_grate_window_with_curtain_open_noglass
     };
     const std::set<furn_id> allowed_furn_id {
         f_rack,
@@ -5135,7 +5063,11 @@ cata::optional<int> iuse::oxytorch( player *p, item *it, bool, const tripoint & 
         turns = to_turns<int>( 5_seconds );
     } else if( ter == t_chainfence || ter == t_chaingate_c ||
                ter == t_chaingate_l  || ter == t_bars || ter == t_window_bars_alarm ||
-               ter == t_window_bars || ter == t_reb_cage ) {
+               ter == t_window_bars || ter == t_window_bars_curtains || ter == t_window_domestic ||
+               ter == t_reb_cage || ter == t_metal_grate_window || ter == t_metal_grate_window_with_curtain ||
+               ter == t_metal_grate_window_with_curtain_open || ter == t_metal_grate_window_noglass ||
+               ter == t_metal_grate_window_with_curtain_noglass ||
+               ter == t_metal_grate_window_with_curtain_open_noglass ) {
         turns = to_turns<int>( 10_seconds );
     } else if( ter == t_door_metal_locked || ter == t_door_metal_c || ter == t_door_bar_c ||
                ter == t_door_bar_locked || ter == t_door_metal_pickable || furn == f_safe_l ||
@@ -5181,10 +5113,18 @@ cata::optional<int> iuse::hacksaw( player *p, item *it, bool t, const tripoint &
         t_chaingate_l,
         t_window_bars_alarm,
         t_window_bars,
+        t_window_bars_curtains,
+        t_window_bars_domestic,
         t_reb_cage,
         t_door_bar_c,
         t_door_bar_locked,
-        t_bars
+        t_bars,
+        t_metal_grate_window,
+        t_metal_grate_window_with_curtain,
+        t_metal_grate_window_with_curtain_open,
+        t_metal_grate_window_noglass,
+        t_metal_grate_window_with_curtain_noglass,
+        t_metal_grate_window_with_curtain_open_noglass
     };
     const std::set<furn_id> allowed_furn_id {
         f_rack
@@ -5225,8 +5165,12 @@ cata::optional<int> iuse::hacksaw( player *p, item *it, bool t, const tripoint &
         moves = to_moves<int>( 2_minutes );
     } else if( ter == t_window_enhanced || ter == t_window_enhanced_noglass ) {
         moves = to_moves<int>( 5_minutes );
-    } else if( ter == t_chainfence || ter == t_chaingate_c ||
-               ter == t_chaingate_l || ter == t_window_bars_alarm || ter == t_window_bars || ter == t_reb_cage ) {
+    } else if( ter == t_chainfence || ter == t_chaingate_c || ter == t_chaingate_l ||
+               ter == t_window_bars_alarm || ter == t_window_bars || ter == t_window_bars_curtains ||
+               ter == t_window_bars_domestic || ter == t_reb_cage || ter == t_metal_grate_window ||
+               ter == t_metal_grate_window_with_curtain || ter == t_metal_grate_window_with_curtain_open ||
+               ter == t_metal_grate_window_noglass || ter == t_metal_grate_window_with_curtain_noglass ||
+               ter == t_metal_grate_window_with_curtain_open_noglass ) {
         moves = to_moves<int>( 10_minutes );
     } else if( ter == t_door_bar_c || ter == t_door_bar_locked || ter == t_bars ) {
         moves = to_moves<int>( 15_minutes );
@@ -8458,9 +8402,19 @@ cata::optional<int> iuse::multicooker( player *p, item *it, bool t, const tripoi
 {
     static const std::set<std::string> multicooked_subcats = { "CSC_FOOD_MEAT", "CSC_FOOD_VEGGI", "CSC_FOOD_PASTA" };
     static const int charges_to_start = 50;
+    const int charge_buffer = 2;
+
     if( t ) {
-        if( !it->units_sufficient( *p ) ) {
+        //stop action before power runs out and iuse deletes the cooker
+        if( !( it->ammo_remaining() >= charge_buffer ) && !( it->has_flag( flag_USE_UPS ) &&
+                p->charges_of( itype_UPS ) >= charge_buffer ) ) {
             it->active = false;
+            it->erase_var( "RECIPE" );
+            it->convert( itype_multi_cooker );
+            //drain the buffer amount given at activation
+            it->ammo_consume( charge_buffer, pos );
+            p->add_msg_if_player( m_info,
+                                  _( "Batteries low, entering standby mode.  With a low buzzing sound the multi-cooker shuts down." ) );
             return 0;
         }
 
@@ -8478,7 +8432,7 @@ cata::optional<int> iuse::multicooker( player *p, item *it, bool t, const tripoi
         }
 
         if( cooktime <= 0 ) {
-            item meal( it->get_var( "DISH" ) );
+            item meal( it->get_var( "DISH" ), time_point( calendar::turn ), 1 );
             if( ( *recipe_id( it->get_var( "RECIPE" ) ) ).hot_result() ) {
                 meal.heat_up();
             } else {
@@ -8487,9 +8441,15 @@ cata::optional<int> iuse::multicooker( player *p, item *it, bool t, const tripoi
             }
 
             it->active = false;
-            it->erase_var( "DISH" );
             it->erase_var( "COOKTIME" );
-            it->put_in( meal, item_pocket::pocket_type::CONTAINER );
+            it->convert( itype_multi_cooker );
+            if( it->can_contain( meal ) ) {
+                it->put_in( meal, item_pocket::pocket_type::CONTAINER );
+            } else {
+                add_msg( m_info,
+                         _( "Obstruction detected.  Please remove any items lodged in the multi-cooker." ) );
+                return 0;
+            }
 
             //~ sound of a multi-cooker finishing its cycle!
             sounds::sound( pos, 8, sounds::sound_t::alarm, _( "ding!" ), true, "misc", "ding" );
@@ -8502,7 +8462,7 @@ cata::optional<int> iuse::multicooker( player *p, item *it, bool t, const tripoi
 
     } else {
         enum {
-            mc_start, mc_stop, mc_take, mc_upgrade
+            mc_start, mc_stop, mc_take, mc_upgrade, mc_empty
         };
 
         if( p->is_underwater() ) {
@@ -8541,7 +8501,8 @@ cata::optional<int> iuse::multicooker( player *p, item *it, bool t, const tripoi
             menu.addentry( mc_stop, true, 's', _( "Stop cooking" ) );
         } else {
             if( dish_it == nullptr ) {
-                if( it->ammo_remaining() < charges_to_start ) {
+                if( it->ammo_remaining() < charges_to_start && !( it->has_flag( flag_USE_UPS ) &&
+                        p->charges_of( itype_UPS ) >= charges_to_start ) ) {
                     p->add_msg_if_player( _( "Batteries are low." ) );
                     return 0;
                 }
@@ -8563,7 +8524,13 @@ cata::optional<int> iuse::multicooker( player *p, item *it, bool t, const tripoi
                     }
                 }
             } else {
-                menu.addentry( mc_take, true, 't', _( "Take out dish" ) );
+                // Something other than a recipe item might be stored in the pocket.
+                if( dish_it->typeId().str() == it->get_var( "DISH" ) ) {
+                    menu.addentry( mc_take, true, 't', _( "Take out dish" ) );
+                } else {
+                    menu.addentry( mc_empty, true, 't',
+                                   _( "Obstruction detected.  Please remove any items lodged in the multi-cooker." ) );
+                }
             }
         }
 
@@ -8580,6 +8547,7 @@ cata::optional<int> iuse::multicooker( player *p, item *it, bool t, const tripoi
                 it->erase_var( "DISH" );
                 it->erase_var( "COOKTIME" );
                 it->erase_var( "RECIPE" );
+                it->convert( itype_multi_cooker );
             }
             return 0;
         }
@@ -8605,7 +8573,6 @@ cata::optional<int> iuse::multicooker( player *p, item *it, bool t, const tripoi
 
             it->remove_item( *dish_it );
             it->erase_var( "RECIPE" );
-            it->convert( itype_multi_cooker );
             if( is_delicious ) {
                 p->add_msg_if_player( m_good,
                                       _( "You got the dish from the multi-cooker.  The %s smells delicious." ),
@@ -8616,6 +8583,11 @@ cata::optional<int> iuse::multicooker( player *p, item *it, bool t, const tripoi
             }
 
             return 0;
+        }
+
+        // Empty the cooker before it can be activated.
+        if( mc_empty == choice ) {
+            it->contents.handle_liquid_or_spill( *p );
         }
 
         if( mc_start == choice ) {
@@ -8663,9 +8635,11 @@ cata::optional<int> iuse::multicooker( player *p, item *it, bool t, const tripoi
                     mealtime = meal->time_to_craft_moves( *p ) * 2;
                 }
 
-                const int all_charges = charges_to_start + mealtime / ( it->type->tool->power_draw / 10000 );
+                const int all_charges = charges_to_start + ( ( mealtime / 100 ) * ( it->type->tool->power_draw /
+                                        1000 ) ) / 1000;
 
-                if( it->ammo_remaining() < all_charges ) {
+                if( it->ammo_remaining() < all_charges && !( it->has_flag( flag_USE_UPS ) &&
+                        p->charges_of( itype_UPS ) >= all_charges ) ) {
 
                     p->add_msg_if_player( m_warning,
                                           _( "The multi-cooker needs %d charges to cook this dish." ),
@@ -8676,7 +8650,7 @@ cata::optional<int> iuse::multicooker( player *p, item *it, bool t, const tripoi
 
                 const auto filter = is_crafting_component;
                 const requirement_data *reqs =
-                    meal->deduped_requirements().select_alternative( *p, filter );
+                    meal->deduped_requirements().select_alternative( *p, crafting_inv, filter );
                 if( !reqs ) {
                     return cata::nullopt;
                 }
@@ -8693,7 +8667,7 @@ cata::optional<int> iuse::multicooker( player *p, item *it, bool t, const tripoi
                                       _( "The screen flashes blue symbols and scales as the multi-cooker begins to shake." ) );
 
                 it->convert( itype_multi_cooker_filled ).active = true;
-                it->ammo_consume( charges_to_start, pos );
+                it->ammo_consume( charges_to_start - charge_buffer, pos );
 
                 p->practice( skill_cooking, meal->difficulty * 3 ); //little bonus
 

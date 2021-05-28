@@ -388,3 +388,7 @@ diff <(ls src/*.h | sed 's!.*/!!') <(for i in src/*.cpp; do echo $i; sed -n '/^#
 * IWYU seems to have particular trouble with types used in maps and
   `cata::optional`.  Have not looked into this in detail, but again worked
   around it with pragmas.
+
+## Python and pyvips on Windows
+
+They are needed to work with `compose.py` and some other tileset infrastructure scripts. See [TILESET.md](/doc/TILESET.md#pyvips)

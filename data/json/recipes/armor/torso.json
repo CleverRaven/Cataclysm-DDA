@@ -491,8 +491,6 @@
     ],
     "proficiencies": [
       { "proficiency": "prof_polymerworking" },
-      { "proficiency": "prof_leatherworking_basic" },
-      { "proficiency": "prof_leatherworking" },
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" }
     ]
@@ -743,12 +741,7 @@
       [ [ "duct_tape", 150 ] ],
       [ [ "kevlar", 1 ], [ "ballistic_vest_empty", 1 ], [ "swat_armor", 1 ], [ "kevlar_plate", 16 ] ]
     ],
-    "proficiencies": [
-      { "proficiency": "prof_polymerworking" },
-      { "proficiency": "prof_leatherworking_basic" },
-      { "proficiency": "prof_leatherworking" },
-      { "proficiency": "prof_closures_waterproofing" }
-    ]
+    "proficiencies": [ { "proficiency": "prof_polymerworking" }, { "proficiency": "prof_closures_waterproofing" } ]
   },
   {
     "result": "xl_lsurvivor_armor",
@@ -928,7 +921,7 @@
     "time": "10 h 20 m",
     "reversible": true,
     "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ], [ "recipe_fauxfur", 2 ] ],
-    "using": [ [ "sewing_standard", 50, [ "fastener_large", 1 ] ] ],
+    "using": [ [ "sewing_standard", 50 ], [ "fastener_large", 1 ] ],
     "components": [ [ [ "rag", 20 ] ], [ [ "faux_fur", 12 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
@@ -1056,8 +1049,6 @@
     ],
     "proficiencies": [
       { "proficiency": "prof_polymerworking" },
-      { "proficiency": "prof_leatherworking_basic" },
-      { "proficiency": "prof_leatherworking" },
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" }
     ]
@@ -1240,8 +1231,6 @@
     ],
     "proficiencies": [
       { "proficiency": "prof_polymerworking" },
-      { "proficiency": "prof_leatherworking_basic" },
-      { "proficiency": "prof_leatherworking" },
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" }
     ]
@@ -1533,8 +1522,6 @@
     ],
     "proficiencies": [
       { "proficiency": "prof_polymerworking" },
-      { "proficiency": "prof_leatherworking_basic" },
-      { "proficiency": "prof_leatherworking" },
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" }
     ]
