@@ -65,7 +65,13 @@
     "id": "NC_ROBOFAC_MERC_1_wield",
     "subtype": "collection",
     "items": [
-      { "item": "acr", "ammo-item": "556", "charges": 30, "contents-item": [ "shoulder_strap", "holo_sight", "suppressor" ] }
+      {
+        "item": "nato_assault_rifle",
+        "variant": "acr",
+        "ammo-item": "556",
+        "charges": 30,
+        "contents-item": [ "shoulder_strap", "holo_sight", "suppressor" ]
+      }
     ]
   },
   {

@@ -174,7 +174,7 @@
     "id": "afs_mon_sentinel_lx",
     "type": "MONSTER",
     "name": { "str": "Wraitheon Sentinel-lx" },
-    "description": "Its exterior plates sable and gold, this luxurious variant of a Wraitheon drone was once kept as a bodyguard by society's wealthiest.  Still with its wrist sword extended, it resembles an ancient knight, standing an eternal watch.",
+    "description": "Its exterior plates are sable and gold, this luxurious variant of a Wraitheon drone was once kept as a bodyguard by society's wealthiest.  Still with its wrist sword extended, it resembles an ancient knight, standing an eternal watch.",
     "default_faction": "WraitheonRobotics",
     "species": [ "ROBOT" ],
     "diff": 10,
@@ -197,7 +197,7 @@
     "armor_bullet": 16,
     "vision_day": 6,
     "vision_night": 6,
-    "path_settings": { "max_dist": 6 },
+    "path_settings": { "max_dist": 6, "avoid_traps": true, "avoid_sharp": true },
     "revert_to_itype": "bot_sentinel_lx",
     "special_attacks": [
       [ "SMASH", 20 ],
@@ -220,7 +220,7 @@
       "NO_BREATHE",
       "PRIORITIZE_TARGETS",
       "GOODHEARING",
-      "PATH_AVOID_DANGER_2",
+      "PATH_AVOID_DANGER_1",
       "HIT_AND_RUN"
     ]
   },
@@ -534,7 +534,7 @@
     "type": "MONSTER",
     "copy-from": "mon_milbot_base",
     "name": "Wraitheon Hashashiyyin",
-    "description": "he Hashashiyyin is unorthodox in its design as a military humaniform.  While it keeps the strength of most Wraitheon humaniforms, it also prioritizes stealth.  It comes equipped with an integrated 5x50mm flechette gun.",
+    "description": "The Hashashiyyin is unorthodox in its design as a military humaniform.  While it keeps the strength of most Wraitheon humaniforms, it also prioritizes stealth.  It comes equipped with an integrated 5x50mm flechette gun.",
     "diff": 15,
     "melee_damage": [ { "damage_type": "electric", "amount": 6 } ],
     "starting_ammo": { "5x50dart": 1000 },

@@ -15,7 +15,7 @@
       [ [ "stick", 1 ], [ "2x4", 1 ] ],
       [ [ "rock", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ], [ "water_sewage", 1 ], [ "salt_water", 1 ], [ "saline", 5 ] ],
-      [ [ "material_sand", 1 ] ],
+      [ [ "material_sand", 1 ], [ "material_gravel", 1 ] ],
       [ [ "cordage_short", 1, "LIST" ], [ "filament", 50, "LIST" ] ]
     ]
   },
@@ -135,7 +135,7 @@
       [ [ "stick", 1 ], [ "2x4", 1 ] ],
       [ [ "rock", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ], [ "water_sewage", 1 ], [ "salt_water", 1 ], [ "saline", 5 ] ],
-      [ [ "material_sand", 1 ] ]
+      [ [ "material_sand", 1 ], [ "material_gravel", 1 ] ]
     ]
   },
   {
@@ -180,7 +180,7 @@
       [ [ "stick", 1 ], [ "2x4", 1 ] ],
       [ [ "rock_large", 2 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ], [ "water_sewage", 1 ], [ "salt_water", 1 ], [ "saline", 5 ] ],
-      [ [ "material_sand", 1 ] ]
+      [ [ "material_sand", 1 ], [ "material_gravel", 1 ] ]
     ]
   },
   {
@@ -279,7 +279,7 @@
     "components": [
       [ [ "rock", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ], [ "water_sewage", 1 ], [ "salt_water", 1 ], [ "saline", 5 ] ],
-      [ [ "material_sand", 1 ] ]
+      [ [ "material_sand", 1 ], [ "material_gravel", 1 ] ]
     ]
   },
   {

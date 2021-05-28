@@ -62,6 +62,7 @@ static constexpr tripoint editmap_boundary_max( MAPSIZE_X, MAPSIZE_Y, OVERMAP_HE
 static constexpr half_open_cuboid<tripoint> editmap_boundaries(
     editmap_boundary_min, editmap_boundary_max );
 
+// NOLINTNEXTLINE(cata-static-int_id-constants)
 static const ter_id undefined_ter_id( -1 );
 
 static std::vector<std::string> fld_string( const std::string &str, int width )
@@ -2094,7 +2095,7 @@ void editmap::mapgen_retarget()
                     for( int y = target.y - SEEY + 1; y < target.y + SEEY + 1; y++ ) {
                         if( x == target.x - SEEX + 1 || x == target.x + SEEX ||
                             y == target.y - SEEY + 1 || y == target.y + SEEY ) {
-                            target_list.push_back( tripoint( x, y, target.z ) );
+                            target_list.emplace_back( x, y, target.z );
                         }
                     }
                 }
@@ -2160,7 +2161,7 @@ void editmap::edit_mapgen()
             for( int y = target.y - SEEY + 1; y < target.y + SEEY + 1; y++ ) {
                 if( x == target.x - SEEX + 1 || x == target.x + SEEX ||
                     y == target.y - SEEY + 1 || y == target.y + SEEY ) {
-                    target_list.push_back( tripoint( x, y, target.z ) );
+                    target_list.emplace_back( x, y, target.z );
                 }
             }
         }

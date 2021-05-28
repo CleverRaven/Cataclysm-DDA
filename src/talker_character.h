@@ -55,6 +55,8 @@ class talker_character: public talker
         int dex_cur() const override;
         int int_cur() const override;
         int per_cur() const override;
+        int pain_cur() const override;
+        units::energy power_cur() const override;
         bool has_trait( const trait_id &trait_to_check ) const override;
         void set_mutation( const trait_id &new_trait ) override;
         void unset_mutation( const trait_id &old_trait ) override;
@@ -107,6 +109,11 @@ class talker_character: public talker
 
         // speaking
         void shout( const std::string &speech = "", bool order = false ) override;
+
+        bool worn_with_flag( const flag_id &flag ) const override;
+        bool wielded_with_flag( const flag_id &flag ) const override;
+
+        void mod_pain( int amount ) override;
 
     protected:
         talker_character() = default;

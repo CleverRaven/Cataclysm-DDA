@@ -12,6 +12,7 @@
       { "item": "whistle_multitool" },
       { "item": "water_clean", "container-item": "bottle_twoliter", "count": 3 },
       { "item": "afs_escapepod_ration", "count": 3 },
+      { "item": "cold_res_cream", "count": 3 },
       { "item": "light_plus_battery_cell", "charges": 150, "container-item": "flashlight" },
       { "item": "light_plus_battery_cell", "charges": 150, "container-item": "water_purifier" },
       { "item": "medium_plus_battery_cell", "ammo-item": "battery", "charges": 600, "container-item": "mil_mess_kit" },
@@ -19,7 +20,7 @@
       { "item": "emer_blanket", "count": 2 },
       { "item": "afs_radiobeacon" },
       { "item": "afs_landfall_gun", "container-item": "back_holster" },
-      { "item": "22_lr", "charges": 18 },
+      { "item": "afs_7.50mm_rp", "charges": 18 },
       { "item": "afs_landfall_kit_2_instructions" }
     ]
   }

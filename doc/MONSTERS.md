@@ -47,8 +47,8 @@ Monsters may also have any of these optional properties:
 | `phase`                  | (string) Monster's body matter state, ex. SOLID, LIQUID, GAS, PLASMA, NULL
 | `attack_cost`            | (integer) Number of moves per regular attack (??)
 | `diff`                   | (integer) Additional monster difficulty for special and ranged attacks
-| `aggression`             | (integer) From totally passive `-99` to guaranteed hostile `100`
-| `morale`                 | (integer) From lemming `-50` to bear `60` to most zombies and monsters `100`
+| `aggression`             | (integer) Starting aggression, the monster will become hostile when it reaches 10
+| `morale`                 | (integer) Starting morale, monster will flee when (current aggression + current morale) < 0 
 | `mountable_weight_ratio` | (float) For mounts, max ratio of mount to rider weight, ex. `0.2` for `<=20%`
 | `melee_skill`            | (integer) Monster skill in melee combat, from `0-10`, with `4` being an average mob
 | `dodge`                  | (integer) Monster's skill at dodging attacks
@@ -74,9 +74,9 @@ Monsters may also have any of these optional properties:
 | `regen_morale`           | (bool) True if monster will stop fleeing at max HP to regenerate anger and morale
 | `special_attacks`        | (array of objects) Special attacks the monster has
 | `flags`                  | (array of strings) Any number of attributes like SEES, HEARS, SMELLS, STUMBLES, REVIVES
-| `fear_triggers`          | (array of strings) What makes the monster afraid, ex. FIRE, HURT, PLAYER_CLOSE, SOUND
-| `anger_triggers`         | (array of strings) What makes the monster angry (same flags as fear)
-| `placate_triggers`       | (array of strings) What calms the monster (same flags as fear)
+| `fear_triggers`          | (array of strings) Triggers that lower monster morale (see JSON_FLAGS.md) 
+| `anger_triggers`         | (array of strings) Triggers that raise monster aggression (same flags as fear)
+| `placate_triggers`       | (array of strings) Triggers that lower monster aggression (same flags as fear)
 | `revert_to_itype`        | (string) Item monster can be converted to when friendly (ex. to deconstruct turrets)
 | `starting_ammo`          | (object) Ammo that newly spawned monsters start with
 | `upgrades`               | (boolean or object) False if monster does not upgrade, or an object do define an upgrade
@@ -87,6 +87,8 @@ Monsters may also have any of these optional properties:
 | `path_settings`          | (object) How monster may find a path, open doors, avoid traps, or bash obstacles
 | `biosignature`           | (object) Droppings or feces left by the animal or monster
 | `harvest`                | (string) ID of a "harvest" type describing what can be harvested from the corpse
+| `zombify_into`           | (string) mtype_id this monster zombifies into after it's death
+| `fungalize_into`         | (string) mtype_id this monster turns into when fungalized by spores
 
 Properties in the above tables are explained in more detail in the sections below.
 
@@ -399,10 +401,10 @@ The upgrades object may have the following members:
 
 | field        | description
 | ---          | ---
-| `half_life`  | (int) Time in which half of the monsters upgrade according to an approximated exponential progression. It is scaled with the evolution scaling factor which defaults to 4 days.
-| `into_group` | (string, optional) The upgraded monster's type is taken from the specified group. The cost in these groups is for an upgrade in the spawn process (related to the rare "replace_monster_group" and "new_monster_group_id" attributes of spawning groups).
+| `half_life`  | (int) Days in which half of the monsters upgrade according to an approximated exponential progression. It is multiplied with the evolution scaling factor (at the time of this writing, 4).
+| `into_group` | (string, optional) The upgraded monster's type is taken from the specified group. 
 | `into`       | (string, optional) The upgraded monster's type.
-| `age_grow`   | (int, optional) Number of days needed for monster to change into another monster.
+| `age_grow`   | (int, optional) Number of days needed for monster to change into another monster. Does not scale with the evolution factor.
 
 ## "reproduction"
 (dictionary, optional)

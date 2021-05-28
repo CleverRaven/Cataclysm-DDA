@@ -116,15 +116,12 @@
     "category": "clothing",
     "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "24 h", "regenerate_ammo": true } },
     "use_action": {
-      "target": "whiskey",
+      "target": "magic_whiskey",
       "msg": "You open the flask and discover it full of sweet, sweet, whiskey!",
       "container": "mflask_hip_whiskey",
       "target_charges": 7,
       "moves": 50,
-      "type": "delayed_transform",
-      "transform_age": 14400,
-      "not_ready_msg": "The flask isn't done refilling yet.",
-      "//": "24 hours"
+      "type": "transform"
     }
   },
   {
@@ -147,6 +144,7 @@
         "materials": [
           "cotton",
           "leather",
+          "lycra",
           "wool",
           "fur",
           "faux_fur",
@@ -165,7 +163,20 @@
       },
       {
         "type": "sew_advanced",
-        "materials": [ "cotton", "leather", "wool", "fur", "faux_fur", "nomex", "kevlar", "neoprene", "gutskin", "plastic", "kevlar_rigid" ],
+        "materials": [
+          "cotton",
+          "leather",
+          "lycra",
+          "wool",
+          "fur",
+          "faux_fur",
+          "nomex",
+          "kevlar",
+          "neoprene",
+          "gutskin",
+          "plastic",
+          "kevlar_rigid"
+        ],
         "skill": "tailor",
         "clothing_mods": [ "leather_padded", "steel_padded", "kevlar_padded", "furred", "wooled" ]
       }

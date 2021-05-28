@@ -1,0 +1,228 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lodge_cannibal_15x15",
+    "object": {
+      "mapgensize": [ 15, 15 ],
+      "rows": [
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "DF ARF LRL ORa ",
+        "R              ",
+        "SF DRA LRa ORO ",
+        "DF ARF LRL LRa ",
+        "R              ",
+        "SF DRA LRa LRL ",
+        "               "
+      ],
+      "palettes": [ "lodge_items" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lodge_hunting_15x15",
+    "object": {
+      "mapgensize": [ 15, 15 ],
+      "rows": [
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "DF ARF BRB BRa ",
+        "R              ",
+        "SF DRA BRa BRB ",
+        "               "
+      ],
+      "palettes": [ "lodge_items" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lodge_pantry_15x15",
+    "object": {
+      "mapgensize": [ 15, 15 ],
+      "rows": [
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "SS SRa SRS SRS ",
+        "R              ",
+        "SS SRA BRB SRS ",
+        "               "
+      ],
+      "palettes": [ "lodge_items" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lodge_game_6x6",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "E CC T",
+        "      ",
+        "  BB  ",
+        "  BB  ",
+        "  BB  ",
+        "E    T"
+      ],
+      "terrain": {
+        ".": "t_floor",
+        "B": "t_floor",
+        "C": "t_floor",
+        "y": "t_floor",
+        "T": "t_floor",
+        "E": "t_floor",
+        " ": "t_carpet_red",
+        "h": "t_carpet_red",
+        "A": "t_carpet_red",
+        "d": "t_carpet_red",
+        "f": "t_carpet_red",
+        "O": "t_carpet_red",
+        "=": "t_carpet_red"
+      },
+      "furniture": { "A": "f_stool", "B": "f_table", "E": "f_armchair", "C": "f_bookcase", "T": "f_floor_lamp" },
+      "items": { "C": [ { "item": "games", "chance": 80, "repeat": [ 3, 6 ] } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lodge_dungeon_6x6",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        " tc td",
+        " t  t ",
+        " tttt ",
+        "      ",
+        "   h  ",
+        "C    T"
+      ],
+      "terrain": {
+        ".": "t_floor",
+        "B": "t_floor",
+        "C": "t_floor",
+        "c": "t_floor",
+        "y": "t_floor",
+        "T": "t_floor",
+        "t": "t_reb_cage",
+        "E": "t_floor",
+        " ": "t_carpet_red",
+        "h": "t_carpet_red",
+        "A": "t_carpet_red",
+        "d": "t_carpet_red",
+        "f": "t_carpet_red",
+        "O": "t_carpet_red",
+        "=": "t_carpet_red"
+      },
+      "furniture": {
+        "A": "f_stool",
+        "B": "f_workbench",
+        "E": "f_armchair",
+        "C": "f_rack_wood",
+        "T": "f_floor_lamp",
+        "d": "f_mannequin",
+        "b": "f_bench",
+        "f": "f_table",
+        "h": "f_butcher_rack",
+        "y": [ "f_indoor_plant_y", "f_indoor_plant" ]
+      },
+      "items": {
+        "C": [
+          { "item": "SUS_tailoring_materials", "chance": 80, "repeat": [ 3, 6 ] },
+          { "item": "leather_shop_repair", "chance": 40, "repeat": [ 2, 4 ] },
+          { "item": "bullwhip", "chance": 100 }
+        ],
+        "c": [
+          { "item": "bone", "chance": 80, "repeat": [ 4, 8 ] },
+          { "item": "pants", "chance": 100 },
+          { "item": "shirts", "chance": 100 },
+          { "item": "leather_shop_accessories", "chance": 10 }
+        ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lodge_drug_6x6",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "E CC T",
+        "      ",
+        "  BB  ",
+        "  BB  ",
+        "  BB  ",
+        "E    T"
+      ],
+      "terrain": {
+        ".": "t_floor",
+        "B": "t_floor",
+        "C": "t_floor",
+        "y": "t_floor",
+        "T": "t_floor",
+        "E": "t_floor",
+        " ": "t_carpet_red",
+        "h": "t_carpet_red",
+        "A": "t_carpet_red",
+        "d": "t_carpet_red",
+        "f": "t_carpet_red",
+        "O": "t_carpet_red",
+        "=": "t_carpet_red"
+      },
+      "furniture": {
+        "A": "f_stool",
+        "B": "f_workbench",
+        "E": "f_armchair",
+        "C": "f_rack_wood",
+        "T": "f_floor_lamp",
+        "d": "f_mannequin",
+        "b": "f_bench",
+        "f": "f_table",
+        "h": "f_chair",
+        "y": [ "f_indoor_plant_y", "f_indoor_plant" ]
+      },
+      "items": {
+        "C": [
+          { "item": "straw_doll", "chance": 80, "repeat": [ 6, 14 ] },
+          { "item": "bag_body_bag", "chance": 40, "repeat": [ 2, 4 ] }
+        ],
+        "B": [
+          { "item": "coke", "chance": 60, "repeat": [ 13, 126 ] },
+          { "item": "funnel", "chance": 60, "repeat": [ 0, 1 ] },
+          { "item": "plastic_bag", "chance": 90, "repeat": [ 20, 60 ] }
+        ]
+      }
+    }
+  }
+]

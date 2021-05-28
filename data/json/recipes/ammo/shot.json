@@ -15,6 +15,7 @@
     "reversible": true,
     "//": "Assumes standard 9 pellet 00 load. 1166 mg gunpowder rounded to 12 100 mg 'pieces'",
     "using": [ [ "shot_forming", 1 ], [ "ammo_bullet", 11 ], [ "ammo_shot", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "tools": [ [ [ "press", -1 ] ] ],
     "components": [ [ [ "gunpowder", 12 ], [ "gunpowder_pistol", 12 ], [ "gunpowder_shotgun", 12 ] ] ]
   },
@@ -33,6 +34,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "shot_forming", 1 ], [ "ammo_bullet", 8 ], [ "ammo_410shot", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "tools": [ [ [ "press", -1 ] ] ],
     "//": "971 mg gunpowder rounded to 10 100 mg 'pieces'",
     "components": [ [ [ "gunpowder", 10 ], [ "gunpowder_pistol", 10 ], [ "gunpowder_shotgun", 10 ] ] ]
@@ -52,6 +54,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "shot_forming", 1 ], [ "ammo_bullet", 10 ], [ "ammo_shot", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "tools": [ [ [ "press", -1 ] ] ],
     "//": "1490 mg gunpowder rounded to 15 100 mg 'pieces'",
     "components": [ [ [ "gunpowder", 15 ], [ "gunpowder_pistol", 15 ], [ "gunpowder_shotgun", 15 ] ] ]
@@ -70,6 +73,7 @@
     "book_learn": [ [ "recipe_bullets", 3 ], [ "manual_shotgun", 3 ] ],
     "charges": 1,
     "using": [ [ "ammo_shot", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "tools": [ [ [ "press", -1 ] ] ],
     "//": "same charge as a 1 oz load, could find no refference to actual loading data. 1490 mg gunpowder rounded to 15 100 mg 'pieces'",
     "components": [ [ [ "gunpowder", 15 ], [ "gunpowder_pistol", 15 ], [ "gunpowder_shotgun", 15 ] ], [ [ "magnesium", 5 ] ] ]
@@ -89,6 +93,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "ammo_shot", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "tools": [ [ [ "press", -1 ] ] ],
     "//": "Wikipedia states the shells contain 20 7.3 grain flechettes for a 146 grain or 1/3 oz load. http://www.sabotdesigns.com/002.html lists flechette velocity at 1950 fps. Gunpowder charge is calculated as if it was a solid slug for sake of ease. 750 mg gunpowder rounded to 8 100 mg 'pieces",
     "components": [ [ [ "gunpowder", 8 ], [ "gunpowder_pistol", 8 ], [ "gunpowder_shotgun", 8 ] ], [ [ "combatnail", 10 ] ] ]
@@ -109,6 +114,7 @@
     "reversible": true,
     "//": "assumes 1 oz slug. 1684 mg gunpowder rounded to 17 100 mg 'pieces'",
     "using": [ [ "bullet_forming", 1 ], [ "ammo_bullet", 10 ], [ "ammo_shot", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [ [ [ "gunpowder", 17 ], [ "gunpowder_pistol", 17 ], [ "gunpowder_shotgun", 17 ] ] ]
   },
   {
@@ -126,6 +132,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "shot_forming", 1 ], [ "ammo_bullet", 11 ], [ "ammo_shot", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "tools": [ [ [ "press", -1 ] ] ],
     "components": [ [ [ "chem_black_powder", 12 ] ] ]
   },
@@ -145,6 +152,7 @@
     "reversible": true,
     "//": "assumes 1 oz load",
     "using": [ [ "shot_forming", 1 ], [ "ammo_bullet", 10 ], [ "ammo_shot", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "tools": [ [ [ "press", -1 ] ] ],
     "components": [ [ [ "chem_black_powder", 15 ] ] ]
   },
@@ -163,6 +171,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "ammo_shot", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "tools": [ [ [ "press", -1 ] ] ],
     "components": [ [ [ "chem_black_powder", 15 ] ], [ [ "magnesium", 5 ] ] ]
   },
@@ -181,6 +190,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "ammo_shot", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "tools": [ [ [ "press", -1 ] ] ],
     "components": [ [ [ "chem_black_powder", 8 ] ], [ [ "combatnail", 10 ] ] ]
   },
@@ -199,6 +209,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "bullet_forming", 1 ], [ "ammo_bullet", 10 ], [ "ammo_shot", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [ [ [ "chem_black_powder", 17 ] ] ]
   },
   {
@@ -271,6 +282,7 @@
     "using": [ [ "ammo_shot", 2 ] ],
     "tools": [ [ [ "press", -1 ] ] ],
     "//": "1166 mg gunpowder rounded to 12 100 mg 'pieces'; recipe makes two shells",
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
       [ [ "gunpowder", 23 ], [ "gunpowder_pistol", 23 ], [ "gunpowder_shotgun", 23 ] ],
       [
@@ -303,6 +315,7 @@
     "charges": 2,
     "reversible": true,
     "using": [ [ "ammo_shot", 2 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "tools": [ [ [ "press", -1 ] ] ],
     "components": [
       [ [ "chem_black_powder", 23 ] ],
@@ -362,6 +375,7 @@
     "book_learn": [ [ "recipe_bullets", 3 ], [ "manual_shotgun", 2 ], [ "pocket_survival", 2 ], [ "mag_survival", 2 ] ],
     "charges": 1,
     "using": [ [ "ammo_shot", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "tools": [ [ [ "press", -1 ] ] ],
     "components": [ [ [ "incendiary", 25 ] ] ]
   },
@@ -380,6 +394,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "ammo_bullet", 8 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "chem_black_powder", 15 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "paper", 1 ], [ "aluminum_foil", 1 ] ] ]
   },
@@ -398,6 +413,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "ammo_bullet", 16 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "chem_black_powder", 15 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "paper", 1 ], [ "aluminum_foil", 1 ] ] ]
   },
@@ -416,6 +432,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "ammo_bullet", 16 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "chem_black_powder", 12 ] ],
@@ -439,6 +456,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "ammo_bullet", 8 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "chem_black_powder", 15 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "paper", 1 ], [ "aluminum_foil", 1 ] ] ]
   }

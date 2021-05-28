@@ -182,17 +182,39 @@ A tilesheet can be an expansion from a mod.  Each expansion tilesheet is a singl
 
 `--palette-copies`: Output copies of tilesheet files quantized to 8bpp palette with `.png8` extension. Intended for external detection if conversion was lossless.
 
-Requires `pyvips` module.
+Requires `pyvips` module, see below.
 
-### Installing pyvips on Windows
+## pyvips
 
-- Download Python https://www.python.org/downloads/
-- Download `libvips` https://libvips.github.io/libvips/install.html
-- Make sure  directories with `python`, `pip`, and `libvips` are in your `PATH` [environment variable](https://en.wikipedia.org/wiki/Environment_variable#Windows)
-- Press `Windows key + r` to open the "Run" dialog box
-- run `cmd`; it should open the console
-- run `py -m pip install --upgrade pip` to get the latest version of `pip`
-- run `pip install --user pyvips` to install `pyvips`
+### Windows
+
+#### Python and pyvips
+ * Install Python with the latest installer https://www.python.org/downloads/windows/
+ * Open Console (Window key + `R` key, type `cmd` and hit `Enter`)
+ * Install pyvips with these commands:
+```
+py -m pip install -U pip
+py -m pip install --user pyvips
+```
+
+#### libvips
+ * Extract the latest libvips distribution to a folder (get the `vips-dev-w64-web-#.#.#.zip` NOT the `vips-dev-w64-all-#.#.#.zip`) https://libvips.github.io/libvips/install.html
+ * Press start menu and search for "`environment variables`".
+ * Alternatively go to `Control Panel > System > Advanced System Settings > Environment Variables`
+ * In the `User variables` section, select `Path` and click `Edit`.
+ * Select an empty line and press `New`
+ * Copy and paste the path to `vips\bin` folder, it should look something like `C:\Users\username\AppData\Roaming\Python\Python39\site-packages\pyvips\vips-dev-8.10\bin`
+ * If you have the Console open, close it so the changes take effect.
+
+#### Launching scripts
+Navigate on Console to a directory with the script you want to launch.
+Prefix the script filename with `py `, like this: `py compose.py --use-all --obsolete-fillers pathToYourTileset pathToYourOutputFolder`
+
+### Linux
+_TODO, please ask if you need it or send suggestions if you want to help_
+
+### MacOS
+_TODO, please ask if you need it or send suggestions if you want to help_
 
 ## Legacy tilesets
 
