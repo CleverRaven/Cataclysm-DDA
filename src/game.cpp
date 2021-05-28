@@ -10361,7 +10361,7 @@ int game::grabbed_furn_move_time( const tripoint &dp )
     tripoint fdest = fpos + dp; // intended destination of furniture.
 
     const bool canmove = can_move_furniture( fdest, dp );
-    const furn_t &furntype = m.furn( fpos ).obj();
+    const furn_t furntype = m.furn( fpos ).obj();
     const int dst_items = m.i_at( fdest ).size();
 
     const bool only_liquid_items = std::all_of( m.i_at( fdest ).begin(), m.i_at( fdest ).end(),

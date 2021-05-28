@@ -231,9 +231,6 @@ void DynamicDataLoader::add( const std::string &type,
 
 void DynamicDataLoader::initialize()
 {
-    // Initialize loading data that must be in place before any loading functions are called
-    init_mapdata();
-
     // all of the applicable types that can be loaded, along with their loading functions
     // Add to this as needed with new StaticFunctionAccessors or new ClassFunctionAccessors for new applicable types
     // Static Function Access

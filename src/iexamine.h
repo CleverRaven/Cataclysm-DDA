@@ -12,7 +12,6 @@
 #include "type_id.h"
 
 class item;
-class JsonObject;
 class player;
 class time_point;
 class vpart_reference;
@@ -21,24 +20,8 @@ struct tripoint;
 
 using seed_tuple = std::tuple<itype_id, std::string, int>;
 
-struct iexamine_actor {
-    const std::string type;
-
-    explicit iexamine_actor( const std::string &type ) : type( type ) {}
-
-    virtual void load( const JsonObject & ) = 0;
-    virtual void call( player &, const tripoint & ) const = 0;
-    virtual void finalize() const = 0;
-
-    virtual std::unique_ptr<iexamine_actor> clone() const = 0;
-
-    virtual ~iexamine_actor() = default;
-};
-
 namespace iexamine
 {
-
-bool try_start_hacking( player &p, const tripoint &examp );
 
 void egg_sack_generic( player &p, const tripoint &examp, const mtype_id &montype );
 

@@ -3531,7 +3531,7 @@ Color of the object as it appears in the game. "color" defines the foreground co
 
 #### `examine_action`
 
-(Optional) The json function that is called when the object is examined. See [doc/EXAMINE.md](EXAMINE.md).
+(Optional) The json function that is called when the object is examined. See "src/iexamine.h".
 
 #### `close" And "open`
 
