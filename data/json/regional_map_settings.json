@@ -392,6 +392,7 @@
           "mx_grass2": 40,
           "mx_fallen_shed": 30,
           "mx_spider": 200,
+          "mx_nest_wasp": 100,
           "mx_grove": 500,
           "mx_shrubbery": 500,
           "mx_clearcut": 125,
@@ -421,6 +422,7 @@
           "mx_fallen_shed": 20,
           "mx_shia": 1,
           "mx_spider": 200,
+          "mx_nest_wasp": 100,
           "mx_jabberwock": 1,
           "mx_grove": 500,
           "mx_shrubbery": 500,
@@ -480,7 +482,7 @@
           "mx_point_burned_ground": 50,
           "mx_casings": 20,
           "mx_corpses": 3,
-          "mx_nest_wasp": 2,
+          "mx_nest_wasp": 5,
           "mx_mass_grave": 5,
           "mx_grave": 5
         }
