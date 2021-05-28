@@ -1171,7 +1171,8 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
     // Set up the new item, and assign an inventory letter if available
     std::vector<item> newits = making.create_results( batch_size );
 
-    const bool should_heat = making.hot_result() || making.removes_raw();
+    const bool should_heat = making.hot_result();
+    const bool remove_raw = making.removes_raw();
 
     bool first = true;
     size_t newit_counter = 0;
@@ -1234,7 +1235,7 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
                     comp = item( comp.get_comestible()->cooks_like, comp.birthday(), comp.charges );
                 }
                 // If this recipe is cooked, components are no longer raw.
-                if( should_heat ) {
+                if( should_heat || remove_raw ) {
                     comp.set_flag_recursive( flag_COOKED );
                 }
             }
