@@ -2510,6 +2510,10 @@ tab_direction set_scenario( avatar &u, points_left &points,
                 wprintz( w_flags, c_light_gray, _( "No starting NPC" ) );
                 wprintz( w_flags, c_light_gray, ( "\n" ) );
             }
+            if( sorted_scens[cur_id]->has_flag( "BORDERED" ) ) {
+                wprintz( w_flags, c_light_gray, _( "Starting location is bordered by an immense wall" ) );
+                wprintz( w_flags, c_light_gray, ( "\n" ) );
+            }
         }
 
         draw_scrollbar( w, cur_id, iContentHeight, scens_length, point( 0, 5 ) );
