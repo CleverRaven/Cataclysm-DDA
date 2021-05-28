@@ -4,7 +4,7 @@
 #include <set>
 #include <string>
 
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "debug.h"
 #include "item.h"
 #include "item_pocket.h"

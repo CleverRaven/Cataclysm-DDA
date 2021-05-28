@@ -252,8 +252,6 @@ static const trait_id trait_CHITIN_FUR3( "CHITIN_FUR3" );
 static const trait_id trait_CLUMSY( "CLUMSY" );
 static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
 static const trait_id trait_DEFT( "DEFT" );
-static const trait_id trait_EASYSLEEPER( "EASYSLEEPER" );
-static const trait_id trait_EASYSLEEPER2( "EASYSLEEPER2" );
 static const trait_id trait_EATHEALTH( "EATHEALTH" );
 static const trait_id trait_FAT( "FAT" );
 static const trait_id trait_FELINE_FUR( "FELINE_FUR" );
@@ -3495,7 +3493,7 @@ std::vector<item_location> Character::find_reloadables()
                          node->remaining_ammo_capacity() > 0;
         }
         if( reloadable ) {
-            reloadables.push_back( item_location( *this, node ) );
+            reloadables.emplace_back( *this, node );
         }
         return VisitResponse::NEXT;
     } );
@@ -10653,7 +10651,8 @@ void Character::apply_persistent_morale()
         }
         // Characters with higher tiers of Nomad suffer worse morale penalties, faster.
         int max_unhappiness;
-        float min_time, max_time;
+        float min_time;
+        float max_time;
         if( has_trait( trait_NOMAD ) ) {
             max_unhappiness = 20;
             min_time = to_moves<float>( 12_hours );

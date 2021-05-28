@@ -293,7 +293,7 @@ bool mod_manager::copy_mod_contents( const t_mod_list &mods_to_copy,
         return true;
     }
     std::vector<std::string> search_extensions;
-    search_extensions.push_back( ".json" );
+    search_extensions.emplace_back( ".json" );
 
     DebugLog( D_INFO, DC_ALL ) << "Copying mod contents into directory: " << output_base_path;
 
@@ -443,7 +443,8 @@ static inline bool compare_mod_by_name_and_category( const MOD_INFORMATION *cons
 
 void mod_manager::set_usable_mods()
 {
-    std::vector<mod_id> available_cores, available_supplementals;
+    std::vector<mod_id> available_cores;
+    std::vector<mod_id> available_supplementals;
     std::vector<mod_id> ordered_mods;
 
     std::vector<const MOD_INFORMATION *> mods;

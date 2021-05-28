@@ -8,7 +8,7 @@
 #include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "character.h"
 #include "flag.h"
 #include "item.h"
@@ -20,7 +20,6 @@
 #include "player_helpers.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
-#include "stringmaker.h" // IWYU pragma: keep
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
@@ -658,10 +657,10 @@ static std::vector<bodypart_id> bodyparts_to_check()
 
 static void verify_item_coverage( const item &i, const std::map<bodypart_id, int> &expected )
 {
-    CAPTURE( i.typeId().str() );
+    CAPTURE( i.typeId() );
     REQUIRE( i.get_covered_body_parts().any() );
     for( const bodypart_id &bp : bodyparts_to_check() ) {
-        CAPTURE( bp.id().str() );
+        CAPTURE( bp.id() );
         REQUIRE( i.get_coverage( bp ) == expected.at( bp ) );
     }
 }
@@ -669,10 +668,10 @@ static void verify_item_coverage( const item &i, const std::map<bodypart_id, int
 static void verify_item_encumbrance( const item &i, item::encumber_flags flags, int average,
                                      const std::map<bodypart_id, int> &expected )
 {
-    CAPTURE( i.typeId().str() );
+    CAPTURE( i.typeId() );
     REQUIRE( i.get_avg_encumber( get_player_character(), flags ) == average );
     for( const bodypart_id &bp : bodyparts_to_check() ) {
-        CAPTURE( bp.id().str() );
+        CAPTURE( bp.id() );
         REQUIRE( i.get_encumber( get_player_character(), bp, flags ) == expected.at( bp ) );
     }
 }
@@ -2348,7 +2347,7 @@ TEST_CASE( "show available recipes with item as an ingredient", "[iteminfo][reci
     std::vector<iteminfo_parts> crafting = { iteminfo_parts::DESCRIPTION_APPLICABLE_RECIPES };
 
     GIVEN( "character has a potassium iodide tablet and no skill" ) {
-        player_character.worn.push_back( item( "backpack" ) );
+        player_character.worn.emplace_back( "backpack" );
         item &iodine = player_character.i_add( item( "iodine" ) );
         player_character.empty_skills();
         REQUIRE( !player_character.knows_recipe( purtab ) );

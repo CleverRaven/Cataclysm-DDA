@@ -1287,8 +1287,10 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
     }
 
     std::string label_m = _( "Moves" );
-    std::vector<std::string> t_aims( 4 ), t_confidence( 20 );
-    int aim_iter = 0, conf_iter = 0;
+    std::vector<std::string> t_aims( 4 );
+    std::vector<std::string> t_confidence( 20 );
+    int aim_iter = 0;
+    int conf_iter = 0;
 
     nc_color col = c_dark_gray;
 
@@ -2668,7 +2670,7 @@ std::vector<weak_ptr_fast<Creature>> target_ui::list_friendlies_in_lof()
                     ( cr->is_npc() && a != Creature::Attitude::HOSTILE ) ||
                     ( !cr->is_npc() && a == Creature::Attitude::FRIENDLY )
                 ) {
-                    ret.push_back( g->shared_from( *cr ) );
+                    ret.emplace_back( g->shared_from( *cr ) );
                 }
             }
         }

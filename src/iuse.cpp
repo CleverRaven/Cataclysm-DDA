@@ -121,7 +121,6 @@ static const activity_id ACT_CHOP_PLANKS( "ACT_CHOP_PLANKS" );
 static const activity_id ACT_CHOP_TREE( "ACT_CHOP_TREE" );
 static const activity_id ACT_CHURN( "ACT_CHURN" );
 static const activity_id ACT_CLEAR_RUBBLE( "ACT_CLEAR_RUBBLE" );
-static const activity_id ACT_CRAFT( "ACT_CRAFT" );
 static const activity_id ACT_FILL_PIT( "ACT_FILL_PIT" );
 static const activity_id ACT_FISH( "ACT_FISH" );
 static const activity_id ACT_GAME( "ACT_GAME" );
@@ -143,7 +142,6 @@ static const efftype_id effect_antibiotic( "antibiotic" );
 static const efftype_id effect_antibiotic_visible( "antibiotic_visible" );
 static const efftype_id effect_antifungal( "antifungal" );
 static const efftype_id effect_asthma( "asthma" );
-static const efftype_id effect_attention( "attention" );
 static const efftype_id effect_beartrap( "beartrap" );
 static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
@@ -206,7 +204,6 @@ static const efftype_id effect_strong_antibiotic_visible( "strong_antibiotic_vis
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_tapeworm( "tapeworm" );
 static const efftype_id effect_teargas( "teargas" );
-static const efftype_id effect_teleglow( "teleglow" );
 static const efftype_id effect_tetanus( "tetanus" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_took_antiasthmatic( "took_antiasthmatic" );
@@ -350,23 +347,18 @@ static const species_id species_FUNGUS( "FUNGUS" );
 static const species_id species_HALLUCINATION( "HALLUCINATION" );
 static const species_id species_INSECT( "INSECT" );
 static const species_id species_ROBOT( "ROBOT" );
-static const species_id species_ZOMBIE( "ZOMBIE" );
 
 static const vitamin_id vitamin_blood( "blood" );
 static const vitamin_id vitamin_redcells( "redcells" );
 
 static const mongroup_id GROUP_FISH( "GROUP_FISH" );
 
-static const mtype_id mon_bee( "mon_bee" );
 static const mtype_id mon_blob( "mon_blob" );
 static const mtype_id mon_dog_thing( "mon_dog_thing" );
-static const mtype_id mon_fly( "mon_fly" );
 static const mtype_id mon_hallu_multicooker( "mon_hallu_multicooker" );
 static const mtype_id mon_hologram( "mon_hologram" );
-static const mtype_id mon_shadow( "mon_shadow" );
 static const mtype_id mon_spore( "mon_spore" );
 static const mtype_id mon_vortex( "mon_vortex" );
-static const mtype_id mon_wasp( "mon_wasp" );
 
 static const bionic_id bio_shock( "bio_shock" );
 static const bionic_id bio_tools( "bio_tools" );
@@ -1864,7 +1856,7 @@ cata::optional<int> iuse::fishing_rod( player *p, item *it, bool, const tripoint
     }
     p->add_msg_if_player( _( "You cast your line and wait to hook something…" ) );
     p->assign_activity( ACT_FISH, to_moves<int>( 5_hours ), 0, 0, it->tname() );
-    p->activity.targets.push_back( item_location( *p, it ) );
+    p->activity.targets.emplace_back( *p, it );
     p->activity.coord_set = g->get_fishable_locations( 60, *found );
     return 0;
 }
@@ -2136,7 +2128,7 @@ cata::optional<int> iuse::pack_cbm( player *p, item *it, bool, const tripoint & 
     }
 
     std::vector<item_comp> comps;
-    comps.push_back( item_comp( it->typeId(), 1 ) );
+    comps.emplace_back( it->typeId(), 1 );
     p->consume_items( comps, 1, is_crafting_component );
 
     return 0;
@@ -3386,7 +3378,7 @@ cata::optional<int> iuse::jackhammer( player *p, item *it, bool, const tripoint 
     }
 
     p->assign_activity( ACT_JACKHAMMER, moves );
-    p->activity.targets.push_back( item_location( *p, it ) );
+    p->activity.targets.emplace_back( *p, it );
     p->activity.placement = here.getabs( pnt );
 
     // You can mine either furniture or terrain, and furniture goes first,
@@ -3498,7 +3490,7 @@ cata::optional<int> iuse::pickaxe( player *p, item *it, bool, const tripoint &po
     }
 
     p->assign_activity( ACT_PICKAXE, moves, -1 );
-    p->activity.targets.push_back( item_location( *p, it ) );
+    p->activity.targets.emplace_back( *p, it );
     p->activity.placement = here.getabs( pnt );
 
     // You can mine either furniture or terrain, and furniture goes first,
@@ -4505,11 +4497,11 @@ cata::optional<int> iuse::portable_game( player *p, item *it, bool active, const
         if( loaded_software == "null" ) {
             p->assign_activity( ACT_GENERIC_GAME, to_moves<int>( 1_hours ), -1,
                                 p->get_item_position( it ), "gaming" );
-            p->activity.targets.push_back( item_location( *p, it ) );
+            p->activity.targets.emplace_back( *p, it );
             return 0;
         }
         p->assign_activity( ACT_GAME, moves, -1, 0, "gaming" );
-        p->activity.targets.push_back( item_location( *p, it ) );
+        p->activity.targets.emplace_back( *p, it );
         std::map<std::string, std::string> game_data;
         game_data.clear();
         int game_score = 0;
@@ -4596,7 +4588,7 @@ cata::optional<int> iuse::hand_crank( player *p, item *it, bool, const tripoint 
             p->add_msg_if_player( _( "You start cranking the %s to charge its %s." ), it->tname(),
                                   it->magazine_current()->tname() );
             p->assign_activity( ACT_HAND_CRANK, moves, -1, 0, "hand-cranking" );
-            p->activity.targets.push_back( item_location( *p, it ) );
+            p->activity.targets.emplace_back( *p, it );
         } else {
             p->add_msg_if_player( _( "You could use the %s to charge its %s, but it's already charged." ),
                                   it->tname(), magazine->tname() );
@@ -4642,7 +4634,7 @@ cata::optional<int> iuse::vibe( player *p, item *it, bool, const tripoint & )
                                   it->tname() );
         }
         p->assign_activity( ACT_VIBE, moves, -1, 0, "de-stressing" );
-        p->activity.targets.push_back( item_location( *p, it ) );
+        p->activity.targets.emplace_back( *p, it );
     }
     return it->type->charges_to_use();
 }
@@ -4814,7 +4806,7 @@ cata::optional<int> iuse::mind_splicer( player *p, item *it, bool, const tripoin
                     skill_firstaid ) - 1 ) - 10_minutes * ( p->get_dex() - 8 ), 30_minutes );
 
             player_activity act( ACT_MIND_SPLICER, to_moves<int>( time ) );
-            act.targets.push_back( item_location( *p, &data_card ) );
+            act.targets.emplace_back( *p, &data_card );
             p->assign_activity( act );
             return it->type->charges_to_use();
         }
@@ -5089,7 +5081,7 @@ cata::optional<int> iuse::oxytorch( player *p, item *it, bool, const tripoint & 
 
     // placing ter here makes resuming tasks work better
     p->assign_activity( ACT_OXYTORCH, moves, static_cast<int>( ter ) );
-    p->activity.targets.push_back( item_location( *p, it ) );
+    p->activity.targets.emplace_back( *p, it );
     p->activity.placement = pnt;
     p->activity.values.push_back( charges );
 
@@ -5405,7 +5397,7 @@ static bool heat_item( player &p )
     }
     p.add_msg_if_player( m_info, _( "You start heating up the food." ) );
     p.assign_activity( ACT_HEATING, duration );
-    p.activity.targets.push_back( item_location( p, target ) );
+    p.activity.targets.emplace_back( p, target );
     return true;
 }
 
@@ -6523,7 +6515,7 @@ cata::optional<int> iuse::einktabletpc( player *p, item *it, bool t, const tripo
                 if( s.empty() ) {
                     continue;
                 }
-                monster_photos.push_back( mtype_id( s ) );
+                monster_photos.emplace_back( s );
                 std::string menu_str;
                 const monster dummy( monster_photos.back() );
                 menu_str = dummy.name();
@@ -7103,7 +7095,11 @@ static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
         }
 
         if( guy || mon ) {
-            std::string figure_appearance, figure_name, pose, pronoun_sex, figure_effects;
+            std::string figure_appearance;
+            std::string figure_name;
+            std::string pose;
+            std::string pronoun_sex;
+            std::string figure_effects;
             Creature *creature;
             if( mon && mon->has_effect( effect_ridden ) ) {
                 // only player can ride, see monexamine::mount_pet
@@ -7176,8 +7172,8 @@ static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
     std::string ter_name = colorized_ter_name_flags_at( aim_point, {}, {} );
     const std::string field_desc = colorized_field_description_at( aim_point );
 
-    bool found_vehicle_aim_point = here.veh_at( aim_point ).has_value(),
-         found_furniture_aim_point = !furn_desc.empty();
+    bool found_vehicle_aim_point = here.veh_at( aim_point ).has_value();
+    bool found_furniture_aim_point = !furn_desc.empty();
     // colorized_feature_description_at do not update flag if no furniture found, so need to check again
     if( !found_furniture_aim_point ) {
         found_item_aim_point = !item.is_null();
@@ -7654,7 +7650,7 @@ cata::optional<int> iuse::camera( player *p, item *it, bool, const tripoint & )
                 continue;
             }
 
-            monster_photos.push_back( mtype_id( s ) );
+            monster_photos.emplace_back( s );
 
             std::string menu_str;
 
@@ -9613,7 +9609,7 @@ cata::optional<int> iuse::break_stick( player *p, item *it, bool, const tripoint
         return 0;
     }
     std::vector<item_comp> comps;
-    comps.push_back( item_comp( it->typeId(), 1 ) );
+    comps.emplace_back( it->typeId(), 1 );
     p->consume_items( comps, 1, is_crafting_component );
     int chance = rng( 0, 100 );
     map &here = get_map();

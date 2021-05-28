@@ -1328,7 +1328,7 @@ class jmapgen_monster : public jmapgen_piece
                     for( const JsonObject p_pt : patrol_pts ) {
                         jmapgen_int ptx = jmapgen_int( p_pt, "x" );
                         jmapgen_int pty = jmapgen_int( p_pt, "y" );
-                        data.patrol_points_rel_ms.push_back( point( ptx.get(), pty.get() ) );
+                        data.patrol_points_rel_ms.emplace_back( ptx.get(), pty.get() );
                     }
                 }
             }
@@ -3224,37 +3224,37 @@ void map::draw_lab( mapgendata &dat )
                             if( is_ot_match( "stairs", terrain_type, ot_match_type::contains ) ) { // Stairs going down
                                 std::vector<point> stair_points;
                                 if( tw != 0 ) {
-                                    stair_points.push_back( point( SEEX - 1, 2 ) );
-                                    stair_points.push_back( point( SEEX - 1, 2 ) );
-                                    stair_points.push_back( point( SEEX, 2 ) );
-                                    stair_points.push_back( point( SEEX, 2 ) );
+                                    stair_points.emplace_back( SEEX - 1, 2 );
+                                    stair_points.emplace_back( SEEX - 1, 2 );
+                                    stair_points.emplace_back( SEEX, 2 );
+                                    stair_points.emplace_back( SEEX, 2 );
                                 }
                                 if( rw != 1 ) {
-                                    stair_points.push_back( point( SEEX * 2 - 3, SEEY - 1 ) );
-                                    stair_points.push_back( point( SEEX * 2 - 3, SEEY - 1 ) );
-                                    stair_points.push_back( point( SEEX * 2 - 3, SEEY ) );
-                                    stair_points.push_back( point( SEEX * 2 - 3, SEEY ) );
+                                    stair_points.emplace_back( SEEX * 2 - 3, SEEY - 1 );
+                                    stair_points.emplace_back( SEEX * 2 - 3, SEEY - 1 );
+                                    stair_points.emplace_back( SEEX * 2 - 3, SEEY );
+                                    stair_points.emplace_back( SEEX * 2 - 3, SEEY );
                                 }
                                 if( bw != 1 ) {
-                                    stair_points.push_back( point( SEEX - 1, SEEY * 2 - 3 ) );
-                                    stair_points.push_back( point( SEEX - 1, SEEY * 2 - 3 ) );
-                                    stair_points.push_back( point( SEEX, SEEY * 2 - 3 ) );
-                                    stair_points.push_back( point( SEEX, SEEY * 2 - 3 ) );
+                                    stair_points.emplace_back( SEEX - 1, SEEY * 2 - 3 );
+                                    stair_points.emplace_back( SEEX - 1, SEEY * 2 - 3 );
+                                    stair_points.emplace_back( SEEX, SEEY * 2 - 3 );
+                                    stair_points.emplace_back( SEEX, SEEY * 2 - 3 );
                                 }
                                 if( lw != 0 ) {
-                                    stair_points.push_back( point( 2, SEEY - 1 ) );
-                                    stair_points.push_back( point( 2, SEEY - 1 ) );
-                                    stair_points.push_back( point( 2, SEEY ) );
-                                    stair_points.push_back( point( 2, SEEY ) );
+                                    stair_points.emplace_back( 2, SEEY - 1 );
+                                    stair_points.emplace_back( 2, SEEY - 1 );
+                                    stair_points.emplace_back( 2, SEEY );
+                                    stair_points.emplace_back( 2, SEEY );
                                 }
-                                stair_points.push_back( point( static_cast<int>( SEEX / 2 ), SEEY ) );
-                                stair_points.push_back( point( static_cast<int>( SEEX / 2 ), SEEY - 1 ) );
-                                stair_points.push_back( point( static_cast<int>( SEEX / 2 ) + SEEX, SEEY ) );
-                                stair_points.push_back( point( static_cast<int>( SEEX / 2 ) + SEEX, SEEY - 1 ) );
-                                stair_points.push_back( point( SEEX, static_cast<int>( SEEY / 2 ) ) );
-                                stair_points.push_back( point( SEEX + 2, static_cast<int>( SEEY / 2 ) ) );
-                                stair_points.push_back( point( SEEX, static_cast<int>( SEEY / 2 ) + SEEY ) );
-                                stair_points.push_back( point( SEEX + 2, static_cast<int>( SEEY / 2 ) + SEEY ) );
+                                stair_points.emplace_back( static_cast<int>( SEEX / 2 ), SEEY );
+                                stair_points.emplace_back( static_cast<int>( SEEX / 2 ), SEEY - 1 );
+                                stair_points.emplace_back( static_cast<int>( SEEX / 2 ) + SEEX, SEEY );
+                                stair_points.emplace_back( static_cast<int>( SEEX / 2 ) + SEEX, SEEY - 1 );
+                                stair_points.emplace_back( SEEX, static_cast<int>( SEEY / 2 ) );
+                                stair_points.emplace_back( SEEX + 2, static_cast<int>( SEEY / 2 ) );
+                                stair_points.emplace_back( SEEX, static_cast<int>( SEEY / 2 ) + SEEY );
+                                stair_points.emplace_back( SEEX + 2, static_cast<int>( SEEY / 2 ) + SEEY );
                                 const point p = random_entry( stair_points );
                                 ter_set( p, t_stairs_down );
                             }
@@ -4091,13 +4091,14 @@ void map::draw_temple( const mapgendata &dat )
                     square( this, t_rock, point( SEEX + 2, 0 ), point( EAST_EDGE, 1 ) );
                     square( this, t_rock, point( SEEX + 2, SEEY * 2 - 2 ), point( EAST_EDGE, SOUTH_EDGE ) );
                     square( this, t_rock, point( SEEX + 5, 2 ), point( EAST_EDGE, SEEY * 2 - 3 ) );
-                    int x = rng( SEEX - 1, SEEX + 2 ), y = 2;
+                    int x = rng( SEEX - 1, SEEX + 2 );
+                    int y = 2;
                     std::vector<point> path; // Path, from end to start
                     while( x < SEEX - 1 || x > SEEX + 2 || y < SEEY * 2 - 2 ) {
                         static const std::vector<ter_id> terrains = {
                             t_floor_red, t_floor_green, t_floor_blue,
                         };
-                        path.push_back( point( x, y ) );
+                        path.emplace_back( x, y );
                         ter_set( point( x, y ), random_entry( terrains ) );
                         if( y == SEEY * 2 - 2 ) {
                             if( x < SEEX - 1 ) {
@@ -4110,7 +4111,7 @@ void map::draw_temple( const mapgendata &dat )
                             for( int nx = x - 1; nx <= x + 1; nx++ ) {
                                 for( int ny = y; ny <= y + 1; ny++ ) {
                                     if( ter( point( nx, ny ) ) == t_rock_floor ) {
-                                        next.push_back( point( nx, ny ) );
+                                        next.emplace_back( nx, ny );
                                     }
                                 }
                             }
@@ -4239,8 +4240,10 @@ void map::draw_mine( mapgendata &dat )
                 point end_location( rng( SEEX + 1, SEEX * 2 - 7 ), rng( SEEY + 1, SEEY * 2 - 7 ) );
                 const int num = rng( 2, 4 );
                 for( int i = 0; i < num; i++ ) {
-                    int lx1 = start_location.x + rng( -1, 1 ), lx2 = end_location.x + rng( -1, 1 ),
-                        ly1 = start_location.y + rng( -1, 1 ), ly2 = end_location.y + rng( -1, 1 );
+                    int lx1 = start_location.x + rng( -1, 1 );
+                    int lx2 = end_location.x + rng( -1, 1 );
+                    int ly1 = start_location.y + rng( -1, 1 );
+                    int ly2 = end_location.y + rng( -1, 1 );
                     line( this, t_lava, point( lx1, ly1 ), point( lx2, ly2 ) );
                 }
             }
@@ -4490,7 +4493,8 @@ void map::draw_mine( mapgendata &dat )
         computer *tmpcomp = nullptr;
         switch( rn ) {
             case 1: { // Wyrms
-                const int x = rng( SEEX, SEEX + 1 ), y = rng( SEEY, SEEY + 1 );
+                const int x = rng( SEEX, SEEX + 1 );
+                const int y = rng( SEEY, SEEY + 1 );
                 ter_set( point( x, y ), t_pedestal_wyrm );
                 spawn_item( point( x, y ), "petrified_eye" );
             }

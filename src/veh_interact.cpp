@@ -912,15 +912,15 @@ void veh_interact::do_install()
     for( const vpart_category &cat : vpart_category::all() ) {
         tab_list.push_back( cat );
         if( cat.get_id() == "_all" ) {
-            tab_filters.push_back( []( const vpart_info * ) {
+            tab_filters.emplace_back( []( const vpart_info * ) {
                 return true;
             } );
         } else if( cat.get_id() == "_filter" ) {
-            tab_filters.push_back( [&filter]( const vpart_info * p ) {
+            tab_filters.emplace_back( [&filter]( const vpart_info * p ) {
                 return lcmatch( p->name(), filter );
             } );
         } else {
-            tab_filters.push_back( [ &, cat = cat.get_id()]( const vpart_info * p ) {
+            tab_filters.emplace_back( [ &, cat = cat.get_id()]( const vpart_info * p ) {
                 return p->has_category( cat );
             } );
         }
@@ -2383,7 +2383,9 @@ void veh_interact::display_stats() const
     const int extraw = ( ( TERMX - FULL_SCREEN_WIDTH ) / 4 ) * 2;
     // 3 * stats_h
     const int slots = 24;
-    int x[slots], y[slots], w[slots];
+    int x[slots];
+    int y[slots];
+    int w[slots];
 
     units::volume total_cargo = 0_ml;
     units::volume free_cargo = 0_ml;
