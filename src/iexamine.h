@@ -6,6 +6,7 @@
 #include <list>
 #include <tuple>
 #include <vector>
+#include <memory>
 
 #include "optional.h"
 #include "ret_val.h"
