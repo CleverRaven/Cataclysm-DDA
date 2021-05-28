@@ -22,6 +22,60 @@
   },
   {
     "type": "furniture",
+    "id": "f_gravelbag_half",
+    "name": "gravelbag barricade",
+    "symbol": "#",
+    "looks_like": "f_sandbag_half",
+    "bgcolor": "brown",
+    "description": "A low wall made of stacked gravelbags, uncommonly used to catch bullets and block flooding.",
+    "move_cost_mod": -1,
+    "coverage": 60,
+    "required_str": -1,
+    "flags": [
+      "CLIMB_SIMPLE",
+      "TRANSPARENT",
+      "MOUNTABLE",
+      "BLOCKSDOOR",
+      "SHORT",
+      "EASY_DECONSTRUCT",
+      "THIN_OBSTACLE",
+      "CLIMBABLE",
+      "PERMEABLE"
+    ],
+    "examine_action": "chainfence",
+    "deconstruct": { "items": [ { "item": "gravelbag", "count": 16 } ] },
+    "bash": {
+      "str_min": 12,
+      "str_max": 60,
+      "sound": "rrrip!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "bag_canvas", "count": [ 10, 16 ] }, { "item": "material_gravel", "charges": [ 40, 48 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_gravelbag_wall",
+    "name": "gravelbag wall",
+    "symbol": "#",
+    "looks_like": "f_sandbag_wall",
+    "bgcolor": "brown",
+    "move_cost_mod": -1,
+    "coverage": 95,
+    "description": "A wall of stacked gravelbags, a bit taller than an average adult.",
+    "required_str": -1,
+    "flags": [ "NOITEM", "BLOCKSDOOR", "EASY_DECONSTRUCT", "MINEABLE", "BLOCK_WIND" ],
+    "deconstruct": { "items": [ { "item": "gravelbag", "count": 20 } ], "furn_set": "f_gravelbag_half" },
+    "bash": {
+      "str_min": 24,
+      "str_max": 80,
+      "sound": "rrrip!",
+      "sound_fail": "whump.",
+      "furn_set": "f_gravelbag_half",
+      "items": [ { "item": "bag_canvas", "count": [ 15, 20 ] }, { "item": "material_gravel", "charges": [ 50, 60 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_earthbag_half",
     "name": "earthbag barricade",
     "symbol": "#",
