@@ -222,6 +222,7 @@
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_fiend",
     "upgrades": { "half_life": 21, "into_group": "GROUP_ZOMBIE_BRUTE" },
+    "fungalize_into": "mon_zombie_fungus",
     "flags": [
       "SEES",
       "HEARS",
@@ -415,6 +416,7 @@
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
     "upgrades": { "half_life": 14, "into_group": "GROUP_ZOMBIE_GRAB" },
+    "fungalize_into": "mon_zombie_fungus",
     "flags": [
       "SEES",
       "HEARS",
@@ -460,6 +462,7 @@
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
+    "fungalize_into": "mon_zombie_fungus",
     "flags": [
       "SEES",
       "HEARS",
@@ -540,6 +543,7 @@
     "special_attacks": [ [ "SMASH", 20 ] ],
     "death_drops": "mon_zombie_hulk_death_drops",
     "death_function": [ "NORMAL" ],
+    "fungalize_into": "mon_zombie_fungus",
     "flags": [
       "SEES",
       "HEARS",
@@ -593,6 +597,7 @@
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
     "upgrades": { "half_life": 28, "into": "mon_zombie_predator" },
+    "fungalize_into": "mon_zombie_fungus",
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "CLIMBS", "PUSH_MON", "FILTHY" ]
   },
   {
@@ -735,6 +740,7 @@
       "REVIVES",
       "CAN_OPEN_DOORS",
       "PRIORITIZE_TARGETS",
+      "NO_FUNG_DMG",
       "FILTHY",
       "PATH_AVOID_DANGER_1"
     ]
@@ -784,6 +790,7 @@
       "PATH_AVOID_DANGER_1",
       "CAN_OPEN_DOORS",
       "PRIORITIZE_TARGETS",
+      "NO_FUNG_DMG",
       "FILTHY"
     ]
   },
@@ -1017,6 +1024,7 @@
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
+    "fungalize_into": "mon_zombie_fungus",
     "upgrades": { "half_life": 10, "into": "mon_zombie_screecher" },
     "flags": [
       "SEES",
@@ -1110,6 +1118,7 @@
     "emit_fields": [ { "emit_id": "emit_smoke_stream", "delay": "1 s" } ],
     "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "scratch", 15 ] ],
     "death_function": [ "SMOKEBURST" ],
+    "fungalize_into": "mon_zombie_smoker_fungus",
     "upgrades": { "half_life": 28, "into": "mon_smoker_brute" },
     "flags": [
       "SEES",
@@ -1204,6 +1213,7 @@
     "death_drops": "mon_zombie_swimmer_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
+    "fungalize_into": "mon_zombie_fungus",
     "upgrades": { "half_life": 14, "into": "mon_zombie_swimmer" },
     "categories": [ "CLASSIC" ],
     "flags": [
@@ -1249,6 +1259,7 @@
     "death_drops": "mon_zombie_swimmer_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
+    "fungalize_into": "mon_zombie_fungus",
     "upgrades": { "half_life": 28, "into": "mon_zombie_mancroc" },
     "flags": [
       "SEES",
@@ -1295,6 +1306,7 @@
     "vision_day": 15,
     "vision_night": 2,
     "harvest": "CBM_TECH",
+    "fungalize_into": "mon_zombie_fungus",
     "special_attacks": [ [ "PULL_METAL_WEAPON", 25 ], { "type": "bite", "cooldown": 20 } ],
     "death_drops": "mon_zombie_technician_death_drops",
     "death_function": [ "NORMAL" ],
