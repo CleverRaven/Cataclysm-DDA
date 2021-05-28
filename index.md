@@ -9,15 +9,18 @@ Cataclysm: Dark Days Ahead is a turn-based survival game set in a post-apocalypt
 
 As your game begins, you awaken with hazy memories of violence and terror from when the world suddenly unravelled around you.  Now you need to explore your surroundings, and secure food, water and safety.  After that, who knows?  Long term survival will mean tapping abilities you haven't used before, learning to survive in this new environment, and developing new skills.
 
-## Community and Resources
-
-* [Forums](https://discourse.cataclysmdda.org)
-* [Discord (Official development server)](https://discord.gg/jFEc7Yp)
-* [Reddit (unofficial)](https://www.reddit.com/r/cataclysmdda/)
-* IRC server: irc.libera.chat channel: #CataclysmDDA [webchat](https://kiwiirc.com/nextclient/irc.libera.chat#CataclysmDDA)
-* [Wiki](http://cddawiki.chezzo.com/cdda_wiki/index.php)
+## Project Managed Resources
+These sites are owned and managed by the project directly.
 * [GitHub repository](https://github.com/CleverRaven/Cataclysm-DDA)
+* [Forums](https://discourse.cataclysmdda.org)
+* [Development-oriented Discord](https://discord.gg/jFEc7Yp)
+* IRC channel: irc.libera.chat channel: #CataclysmDDA [webchat](https://kiwiirc.com/nextclient/irc.libera.chat#CataclysmDDA)
+
+## Community Managed Resources
+These are resources provided by third parties that the project sees as helpful to users.
+* [Wiki](http://cddawiki.chezzo.com/cdda_wiki/index.php)
 * [Item Browser](http://cdda-trunk.chezzo.com/)
+* [Hitchhiker's Guide to the Cataclysm](https://nornagon.github.io/cdda-guide/)
 * [Game Launcher](https://discourse.cataclysmdda.org/t/cdda-game-launcher-automatic-updates-and-more)
 
 ## System Requirements
