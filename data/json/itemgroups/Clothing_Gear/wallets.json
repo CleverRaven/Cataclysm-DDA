@@ -51,7 +51,7 @@
       { "item": "coin_quarter", "prob": 10, "count": [ 1, 3 ] },
       { "item": "coin_nickel", "prob": 10, "count": [ 1, 3 ] },
       { "group": "discount_cards", "prob": 10 },
-      [ "condom", 1 ],
+      { "item": "condom", "prob": 10 },,
       [ "scorecard", 40 ]
     ]
   },
@@ -72,7 +72,7 @@
       { "item": "coin_quarter", "prob": 10, "count": [ 1, 3 ] },
       { "item": "coin_nickel", "prob": 10, "count": [ 1, 3 ] },
       { "group": "discount_cards", "prob": 40, "count": [ 1, 3 ] },
-      [ "condom", 1 ],
+      { "item": "condom", "prob": 10 },
       [ "scorecard", 20 ]
     ]
   },
@@ -93,7 +93,7 @@
       { "item": "coin_quarter", "prob": 10, "count": [ 1, 3 ] },
       { "item": "coin_nickel", "prob": 10, "count": [ 1, 3 ] },
       { "group": "discount_cards", "prob": 60, "count": [ 2, 5 ] },
-      [ "condom", 1 ],
+      { "item": "condom", "prob": 10 },
       [ "scorecard", 5 ]
     ]
   },

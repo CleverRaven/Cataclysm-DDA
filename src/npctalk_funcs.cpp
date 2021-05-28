@@ -210,7 +210,7 @@ void spawn_animal( npc &p, const mtype_id &mon )
         mon_ptr->add_effect( effect_pet, 1_turns, true );
     } else {
         // TODO: handle this gracefully (return the money, proper in-character message from npc)
-        add_msg_debug( "No space to spawn purchased pet" );
+        add_msg_debug( debugmode::DF_NPC, "No space to spawn purchased pet" );
     }
 }
 
@@ -801,6 +801,13 @@ void talk_function::flee( npc &p )
     p.set_attitude( NPCATT_FLEE );
 }
 
+void talk_function::lightning( npc & )
+{
+    if( get_player_character().posz() >= 0 ) {
+        get_weather().lightning_active = true;
+    }
+}
+
 void talk_function::leave( npc &p )
 {
     add_msg( _( "%s leaves." ), p.name );
@@ -911,7 +918,8 @@ void talk_function::drop_weapon( npc &p )
     if( p.is_hallucination() ) {
         return;
     }
-    get_map().add_item_or_charges( p.pos(), p.remove_weapon() );
+    item weap = p.remove_weapon();
+    get_map().add_item_or_charges( p.pos(), weap );
 }
 
 void talk_function::player_weapon_away( npc &/*p*/ )
@@ -923,7 +931,8 @@ void talk_function::player_weapon_away( npc &/*p*/ )
 void talk_function::player_weapon_drop( npc &/*p*/ )
 {
     Character &player_character = get_player_character();
-    get_map().add_item_or_charges( player_character.pos(), player_character.remove_weapon() );
+    item weap = player_character.remove_weapon();
+    get_map().add_item_or_charges( player_character.pos(), weap );
 }
 
 void talk_function::lead_to_safety( npc &p )

@@ -115,6 +115,28 @@
     "flags": [ "BLIND" ]
   },
   {
+    "id": "blindfold_duct",
+    "type": "ARMOR",
+    "name": { "str": "duct tape blindfold" },
+    "//": "A folded bandana still takes up some space on the head.",
+    "description": "A simple covering tied over the eyes to block sight, made out of duct tape.  Useful for sleeping in bright areas.",
+    "weight": "20 g",
+    "volume": "60 ml",
+    "price": 10,
+    "price_postapoc": 5,
+    "material": [ "plastic" ],
+    "symbol": "[",
+    "looks_like": "blindfold",
+    "color": "dark_gray",
+    "covers": [ "eyes" ],
+    "coverage": 95,
+    "encumbrance": 10,
+    "warmth": 0,
+    "material_thickness": 1,
+    "environmental_protection": 1,
+    "flags": [ "BLIND" ]
+  },
+  {
     "id": "ear_plugs",
     "type": "ARMOR",
     "name": { "str": "pair of ear plugs", "str_pl": "pairs of ear plugs" },
@@ -281,7 +303,7 @@
     "encumbrance": 60,
     "material_thickness": 3,
     "qualities": [ [ "GLARE", 3 ] ],
-    "flags": [ "SUN_GLASSES", "FLASH_PROTECTION", "BLIND" ]
+    "flags": [ "SUN_GLASSES", "FLASH_PROTECTION" ]
   },
   {
     "id": "welding_mask_crude",
@@ -1537,6 +1559,30 @@
     "environmental_protection_with_filter": 15,
     "qualities": [ [ "GLARE", 1 ] ],
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "SUN_GLASSES", "SLEEP_IGNORE" ]
+  },
+  {
+    "id": "mask_wsurvivor_nofur",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "faux fur winter survivor mask" },
+    "description": "A custom-built, faux fur-trimmed gas mask that covers the face and eyes.  It provides excellent protection from smoke, teargas, and shrapnel and while not quite as warm as real fur it's pretty good.  It must be prepared before use.",
+    "copy-from": "mask_wsurvivor",
+    "material": [ "kevlar_layered", "faux_fur" ],
+    "symbol": "[",
+    "warmth": 65,
+    "looks_like": "mask_wsurvivor",
+    "color": "pink"
+  },
+  {
+    "id": "mask_wsurvivorxl_nofur",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "XL faux fur winter survivor mask" },
+    "description": "A custom-built, faux fur-trimmed gas mask that covers the face and eyes regardless of your state of mutation.  It still provides excellent protection from smoke, teargas, and shrapnel and while not quite as warm as real fur it's pretty good.  It must be prepared before use.",
+    "copy-from": "mask_wsurvivorxl",
+    "material": [ "kevlar_layered", "faux_fur" ],
+    "symbol": "[",
+    "warmth": 65,
+    "looks_like": "mask_wsurvivorxl",
+    "color": "pink"
   },
   {
     "id": "mask_wsurvivor",

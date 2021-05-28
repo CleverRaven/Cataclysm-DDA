@@ -1,0 +1,247 @@
+[
+  {
+    "type": "profession",
+    "id": "heroin_addict",
+    "copy-from": "heroin_addict",
+    "name": "Heroin Addict",
+    "description": "The last thing you remember was meeting God behind the local Foodplace.  Then the skies opened up and fire rained forth.  This doesn't feel like a fever dream."
+  },
+  {
+    "type": "profession",
+    "id": "pillhead",
+    "copy-from": "pillhead",
+    "name": "Heroin Addict",
+    "description": "After an accident in your youth, you got addicted to the opiates treating your pain.  With the pharmacies shut down and your dealers started growing crystals, satisfying those cravings just got a lot more difficult."
+  },
+  {
+    "type": "profession",
+    "id": "naked",
+    "copy-from": "naked",
+    "name": "Naked and Afraid",
+    "description": "You were out filming a reality TV show, naked in the woods.  The cast and crew fled when the aliens came, which is pretty bad timing for you.  Looks like it's for real this time…"
+  },
+  {
+    "type": "profession",
+    "id": "lumberjack",
+    "copy-from": "lumberjack",
+    "name": "Lumberjack",
+    "description": "You're a lumberjack, and you're okay.  You felled trees before the world ended, but suspect those crystal ghouls aren't nearly as tough."
+  },
+  {
+    "type": "profession",
+    "id": "dancer",
+    "copy-from": "dancer",
+    "name": "Ballroom Dancer",
+    "description": "Things got a little weird on your way to your weekly dance class.  Aliens don't seem to know how to dance, but you're not about to let them step on your toes."
+  },
+  {
+    "type": "profession",
+    "id": "skaboy",
+    "copy-from": "skaboy",
+    "name": { "male": "Rude Boy", "female": "Rude Girl" },
+    "description": "Your ska band broke up after the drummer got vaporized.  Now you're alone in the Cataclysm with some cigarettes and your mp3 player."
+  },
+  {
+    "type": "profession",
+    "id": "imam",
+    "copy-from": "imam",
+    "name": { "male": "Imam", "female": "Mourchida" },
+    "description": "You spent much of your time prior to the apocalypse at the local mosque, studying the words of the Prophet and the Quran and guiding your community in prayer.  Back then they came from far and wide to listen to you; now they come to tear you apart."
+  },
+  {
+    "type": "profession",
+    "id": "teacher",
+    "copy-from": "teacher",
+    "name": "Teacher",
+    "description": "You've been teaching kids all your life, experiencing the joy and aggravation of imparting knowledge to young minds.  If aliens have any interest in education, they're not showing it."
+  },
+  {
+    "type": "profession",
+    "id": "groundskeeper",
+    "copy-from": "groundskeeper",
+    "name": "Landscaper",
+    "description": "You used to mow lawns and trim hedges for the wealthy.  Contract work was getting scarce even before the aliens came, but now you've got nothing left except your tools and expertise."
+  },
+  {
+    "type": "profession",
+    "id": "homemaker",
+    "copy-from": "homemaker",
+    "name": "Nursing Assistant",
+    "description": "You went on providing in-home care for the elderly even as the whole world fell apart around you.  You can only pray that you don't see your former clients among those crystal things…"
+  },
+  {
+    "type": "profession",
+    "id": "cosplay",
+    "copy-from": "cosplay",
+    "name": "Otaku",
+    "description": "After many late nights with friends watching anime and eating snacks, you decided to make the trip to the premier anime convention in the Northeast.  Now aliens are killing everyone, and even worse, the convention is cancelled!  At least you were ready in case your costume tore."
+  },
+  {
+    "type": "profession",
+    "id": "lawyer",
+    "copy-from": "lawyer",
+    "name": "Lawyer",
+    "description": "The jury were in the palm of your hand, but after the aliens started invading, you were forced to flee the courtroom in disgrace.  Now nobody seems to care about your objections."
+  },
+  {
+    "type": "profession",
+    "id": "pizzaboy",
+    "copy-from": "pizzaboy",
+    "name": { "male": "Pizza Delivery Boy", "female": "Pizza Delivery Girl" },
+    "description": "You were delivering the last pizza of the night to the local cryogenics lab when hungry aliens attempted to make a meal out of you.  Fleeing for safety, you find yourself with only your wits and some leftover pizza.  And they didn't even leave a tip!"
+  },
+  {
+    "type": "profession",
+    "id": "relief_volunteer",
+    "copy-from": "relief_volunteer",
+    "name": "Relief Volunteer",
+    "description": "You were a member of a non-profit organization dedicated to helping out where help was needed.  When the storms picked up and the first bombs dropped, you were eager to lend a hand.  But you had to cut your plans short when the aliens arrived: they seem less interested in handouts, and more interested in eating you."
+  },
+  {
+    "type": "profession",
+    "id": "guru",
+    "copy-from": "guru",
+    "name": "Guru",
+    "description": "You spent many years traveling through the world, becoming wise and learned.  Normally, you can answer any question, but even you are not quite sure what to do about the ravenous aliens."
+  },
+  {
+    "type": "profession",
+    "id": "preacher",
+    "copy-from": "preacher",
+    "name": "Preacher",
+    "description": "You devoted your life to spreading the good word, always on the road, traveling from town to town.  Now everything has gone to hell, you can't host your daily podcast, and the aliens don't seem particularly moved by your sermons."
+  },
+  {
+    "type": "profession",
+    "id": "rollerderby",
+    "copy-from": "rollerderby",
+    "name": "Roller Derby Player",
+    "description": "You were hell on wheels.  Now the rest of your team is dead, and you probably wouldn't have lived this long if not for your penchant for high-speed violence.  Things are looking grim; how long can you race laps around the aliens before you get blocked for good?"
+  },
+  {
+    "type": "profession",
+    "id": "game_master",
+    "copy-from": "game_master",
+    "name": "Game Master",
+    "description": "Trying to herd cats into meeting up every week has taught you something: it's usually better to cut your losses and trust your gut.  For that reason, when you had two no-shows and the other two got eaten, you ditched.  Maybe you can find some new players in the ruins of the world."
+  },
+  {
+    "type": "profession",
+    "id": "frat",
+    "copy-from": "frat",
+    "name": { "male": "Frat Boy", "female": "Sorority Girl" },
+    "description": "You were living the high life, spending your parents' money without a care in the world.  At one of your usual crazy parties, a bomb landed right in the hot tub, but you still have a chance to use the last symbol of your luxurious life - your sports car - and get far away."
+  },
+  {
+    "type": "profession",
+    "id": "labtech",
+    "copy-from": "labtech",
+    "name": "Lab Technician",
+    "description": "Thanks to years of study and hard work in the lab, you're familiar with the basics of scientific inquiry.  Only one question remains: can you avoid getting experimented on in return?"
+  },
+  {
+    "type": "profession",
+    "id": "paperboy",
+    "copy-from": "paperboy",
+    "name": { "male": "Paperboy", "female": "Papergirl" },
+    "description": "You set out this morning to deliver the news of the apocalypse.  The aliens don't seem to value the latest news, but at least your trusty bicycle is still in working order."
+  },
+  {
+    "type": "profession",
+    "id": "labtech",
+    "copy-from": "labtech",
+    "name": "Lab Technician",
+    "description": "Thanks to years of study and hard work in the lab, you're familiar with the basics of scientific inquiry.  Only one question remains: can you avoid getting experimented on in return?"
+  },
+  {
+    "type": "profession",
+    "id": "national_guard",
+    "copy-from": "national_guard",
+    "name": "National Guard",
+    "description": "The government activated your National Guard unit to deal with the growing storms and the following bombings.  Despite your best efforts, you were unable to form up before all communications ceased and you found yourself alone amongst the enemy."
+  },
+  {
+    "type": "profession",
+    "id": "gym_teacher",
+    "copy-from": "gym_teacher",
+    "name": "Gym Teacher",
+    "description": "It was hard enough getting kids to run laps without having to worry about doing it in a warzone.  Aliens won't even line up when you blow your whistle."
+  },
+  {
+    "type": "profession",
+    "id": "major-general",
+    "copy-from": "major-general",
+    "name": "Major General",
+    "description": "You worked your way up through the ranks, from a no-name private, to a big shot Major General.  Now however, it is years since you last fired a weapon in anger, and you've somehow ended up deep behind enemy lines."
+  },
+  {
+    "type": "profession",
+    "id": "recruit",
+    "copy-from": "recruit",
+    "name": "Military Recruit",
+    "description": "Joining the military has been your dream for years.  You finally got in, just in time for your training to get interrupted by some sort of national emergency.  After a hot deployment, as far as you can tell you're one of the last active personnel in this hellhole."
+  },
+  {
+    "type": "profession",
+    "id": "combat-mechanic",
+    "copy-from": "combat-mechanic",
+    "name": "Combat Mechanic",
+    "description": "You failed out of high school, and joined the army.  You were soon hand picked for extra training in the mechanics trade, keeping the armour running.  It's been years since you last touched a rifle, and now the sky is falling…"
+  },
+  {
+    "type": "profession",
+    "id": "riot_police",
+    "copy-from": "riot_police",
+    "name": "Riot Control Officer",
+    "description": "You were keeping the peace at a local climate change protest when the bombs started dropping and aliens started appearing in the streets.  It was only by luck that you manage to survive the crowd in one piece, and the worst is yet to come."
+  },
+  {
+    "type": "profession",
+    "id": "trucker",
+    "copy-from": "trucker",
+    "name": "Trucker",
+    "description": "You once ruled the road in your big rig.  When the bombs hit, you hopped in and drove it to safety.  Now it's just you and your truck against the world."
+  },
+  {
+    "type": "profession",
+    "id": "fencer",
+    "copy-from": "fencer",
+    "name": "Competitive Fencer",
+    "description": "Years of training prepared you for the competitive fencing circuit, but your latest tournament was cut short when aliens invaded the piste.  The referee was blown away, so you're not sure if the rules are still in play."
+  },
+  {
+    "type": "profession",
+    "id": "politician",
+    "copy-from": "politician",
+    "name": "Career Politician",
+    "description": "You've spent your life appealing to the people, persuading many and promising much throughout your time in office.  Now that your voting base is dead or worse and hostile forces are in America's heartland, winning hearts and minds just got that much harder."
+  },
+  {
+    "type": "profession",
+    "id": "hazmat_unit",
+    "copy-from": "hazmat_unit",
+    "name": "Hazmat Unit",
+    "description": "You were deployed to autopsy one of the aliens after it was put down.  When their friends showed up in force, you knew this was out of your job description."
+  },
+  {
+    "type": "profession",
+    "id": "mili_burner",
+    "copy-from": "mili_burner",
+    "name": "Military Flamethrower Operator",
+    "description": "In response to the outbreak, you were dispatched to contain alien invasive species through judicious use of fire.  After getting separated from your squad, your priorities have shifted to basic survival."
+  },
+  {
+    "type": "profession",
+    "id": "nco",
+    "copy-from": "nco",
+    "name": "Non Commissioned Officer",
+    "description": "You're a veteran of several peace keeping missions.  You lead your squad as a sort of parental figure, offering helpful advice on how not to die.  Now they've been blasted to pieces by the alien and you're on your own."
+  },
+  {
+    "type": "profession",
+    "id": "specops",
+    "copy-from": "specops",
+    "name": "Special Operator",
+    "description": "You were the best of the best, the military's finest.  That's why you're still alive, even after all your comrades fell to the aliens.  As far as you can tell, you're one of the last active operators in this hellhole."
+  }
+]

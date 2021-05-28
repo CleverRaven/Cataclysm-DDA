@@ -86,7 +86,7 @@
     "looks_like": "recurbow",
     "color": "white",
     "name": { "str": "Alien lune" },
-    "description": "A delicate strand of light links the antipodes of this cresent-shaped device.  If the strand is interrupted, the device clanks and shudders before violently emitting a bolt of plasma from its apex.",
+    "description": "A delicate strand of light links the antipodes of this crescent-shaped device.  If the strand is interrupted, the device clanks and shudders before violently emitting a bolt of plasma from its apex.",
     "price": 1000000,
     "price_postapoc": 20000,
     "material": [ "superalloy", "hardsteel" ],
@@ -214,19 +214,17 @@
   {
     "type": "GENERIC",
     "id": "afs_titanium_bat",
+    "copy-from": "bat_metal",
+    "looks_like": "bat_metal",
     "name": { "str": "titanium bat" },
     "description": "A luxury baseball bat made out of titanium that was banned from competitive sport due to the increased performance that put defenders at risk.",
     "weight": "680 g",
-    "to_hit": 3,
     "color": "light_gray",
     "symbol": "/",
     "material": [ "titanium" ],
-    "looks_like": "bat_metal",
-    "techniques": [ "WBLOCK_1" ],
-    "flags": [ "DURABLE_MELEE" ],
-    "volume": "1750 ml",
     "bashing": 22,
-    "price": 20000
+    "price": 20000,
+    "price_postapoc": 1750
   },
   {
     "id": "ceramic_knife",

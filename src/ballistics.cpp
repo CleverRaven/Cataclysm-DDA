@@ -18,6 +18,7 @@
 #include "explosion.h"
 #include "game.h"
 #include "item.h"
+#include "itype.h"
 #include "line.h"
 #include "map.h"
 #include "messages.h"
@@ -61,6 +62,21 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
         // TODO: Wine glass breaking vs. entire sheet of glass breaking
         sounds::sound( pt, 16, sounds::sound_t::combat, _( "glass breaking!" ), false, "bullet_hit",
                        "hit_glass" );
+
+        const units::mass shard_mass = itype_id( "glass_shard" )->weight;
+        const int max_nb_of_shards = floor( to_gram( drop_item.type->weight ) / to_gram( shard_mass ) );
+        //between half and max_nb_of_shards-1 will be usable
+        const int nb_of_dropped_shard = std::max( 0, rng( max_nb_of_shards / 2, max_nb_of_shards - 1 ) );
+        //feel free to remove this msg_debug
+        /*add_msg_debug( "Shattered %s dropped %i shards out of a max of %i, based on mass %i g",
+                       drop_item.tname(), nb_of_dropped_shard, max_nb_of_shards - 1, to_gram( drop_item.type->weight ) );*/
+
+        for( int i = 0; i < nb_of_dropped_shard; ++i ) {
+            item shard( "glass_shard" );
+            //actual dropping of shards
+            get_map().add_item_or_charges( pt, shard );
+        }
+
         return;
     }
 
@@ -266,7 +282,8 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         trajectory = here.find_clear_path( source, target );
     }
 
-    add_msg_debug( "missed_by_tiles: %.2f; missed_by: %.2f; target (orig/hit): %d,%d,%d/%d,%d,%d",
+    add_msg_debug( debugmode::DF_BALLISTIC,
+                   "missed_by_tiles: %.2f; missed_by: %.2f; target (orig/hit): %d,%d,%d/%d,%d,%d",
                    aim.missed_by_tiles, aim.missed_by,
                    target_arg.x, target_arg.y, target_arg.z,
                    target.x, target.y, target.z );
