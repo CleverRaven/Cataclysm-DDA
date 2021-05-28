@@ -1559,6 +1559,30 @@
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "SUN_GLASSES", "SLEEP_IGNORE" ]
   },
   {
+    "id": "mask_wsurvivor_nofur",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "faux fur winter survivor mask" },
+    "description": "A custom-built, faux fur-trimmed gas mask that covers the face and eyes.  It provides excellent protection from smoke, teargas, and shrapnel and while not quite as warm as real fur it's pretty good.  It must be prepared before use.",
+    "copy-from": "mask_wsurvivor",
+    "material": [ "kevlar_layered", "faux_fur" ],
+    "symbol": "[",
+    "warmth": 65,
+    "looks_like": "mask_wsurvivor",
+    "color": "pink"
+  },
+  {
+    "id": "mask_wsurvivorxl_nofur",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "XL faux fur winter survivor mask" },
+    "description": "A custom-built, faux fur-trimmed gas mask that covers the face and eyes regardless of your state of mutation.  It still provides excellent protection from smoke, teargas, and shrapnel and while not quite as warm as real fur it's pretty good.  It must be prepared before use.",
+    "copy-from": "mask_wsurvivorxl",
+    "material": [ "kevlar_layered", "faux_fur" ],
+    "symbol": "[",
+    "warmth": 65,
+    "looks_like": "mask_wsurvivorxl",
+    "color": "pink"
+  },
+  {
     "id": "mask_wsurvivor",
     "type": "TOOL_ARMOR",
     "category": "armor",
