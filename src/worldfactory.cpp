@@ -31,7 +31,6 @@
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
-#include "try_parse_integer.h"
 #include "ui_manager.h"
 
 using namespace std::placeholders;
