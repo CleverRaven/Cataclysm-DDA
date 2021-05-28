@@ -16,6 +16,7 @@
 #include "generic_factory.h"
 #include "harvest.h"
 #include "iexamine.h"
+#include "iexamine_actors.h"
 #include "item_group.h"
 #include "json.h"
 #include "output.h"
@@ -408,6 +409,11 @@ bool map_data_common_t::has_examine( iexamine_function_ref func ) const
     return examine_func == &func;
 }
 
+bool map_data_common_t::has_examine( const std::string &action ) const
+{
+    return examine_actor->type == action;
+}
+
 void map_data_common_t::set_examine( iexamine_function_ref func )
 {
     examine_func = &func;
@@ -415,7 +421,11 @@ void map_data_common_t::set_examine( iexamine_function_ref func )
 
 void map_data_common_t::examine( player &guy, const tripoint &examp ) const
 {
-    examine_func( guy, examp );
+    if( !examine_actor ) {
+        examine_func( guy, examp );
+        return;
+    }
+    examine_actor->call( guy, examp );
 }
 
 void map_data_common_t::load_symbol( const JsonObject &jo )
@@ -1163,10 +1173,37 @@ std::string enum_to_string<season_type>( season_type data )
 }
 } // namespace io
 
+static std::map<std::string, cata::clone_ptr<iexamine_actor>> examine_actors;
+
+static void add_actor( std::unique_ptr<iexamine_actor> ptr )
+{
+    std::string type = ptr->type;
+    examine_actors[type] = cata::clone_ptr<iexamine_actor>( std::move( ptr ) );
+}
+
+static cata::clone_ptr<iexamine_actor> iexamine_actor_from_jsobj( const JsonObject &jo )
+{
+    std::string type = jo.get_string( "type" );
+    try {
+        return examine_actors.at( type );
+    } catch( const std::exception & ) {
+        jo.throw_error( string_format( "Invalid iexamine actor %s", type ) );
+    }
+}
+
+void init_mapdata()
+{
+    add_actor( std::make_unique<cardreader_examine_actor>() );
+}
+
 void map_data_common_t::load( const JsonObject &jo, const std::string & )
 {
-    if( jo.has_member( "examine_action" ) ) {
+    if( jo.has_string( "examine_action" ) ) {
         examine_func = iexamine_function_from_string( jo.get_string( "examine_action" ) );
+    } else if( jo.has_object( "examine_action" ) ) {
+        JsonObject data = jo.get_object( "examine_action" );
+        examine_actor = iexamine_actor_from_jsobj( data );
+        examine_actor->load( data );
     } else {
         examine_func = iexamine_function_from_string( "none" );
     }
@@ -1384,6 +1421,9 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
 
 void map_data_common_t::check() const
 {
+    if( examine_actor ) {
+        examine_actor->finalize();
+    }
     for( const string_id<harvest_list> &harvest : harvest_by_season ) {
         if( !harvest.is_null() && !can_examine() ) {
             debugmsg( "Harvest data defined without examine function for %s", name_ );
