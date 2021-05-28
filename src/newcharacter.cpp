@@ -69,6 +69,7 @@ static const std::string flag_SECRET( "SECRET" );
 static const std::string type_hair_style( "hair_style" );
 static const std::string type_skin_tone( "skin_tone" );
 static const std::string type_facial_hair( "facial_hair" );
+static const std::string type_eye_color( "eye_color" );
 
 static const flag_id json_flag_no_auto_equip( "no_auto_equip" );
 static const flag_id json_flag_auto_wield( "auto_wield" );
@@ -384,6 +385,7 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
 
     randomize_cosmetic_trait( type_hair_style );
     randomize_cosmetic_trait( type_skin_tone );
+    randomize_cosmetic_trait( type_eye_color );
     //arbitrary 50% chance to add beard to male characters
     if( male && one_in( 2 ) ) {
         randomize_cosmetic_trait( type_facial_hair );
