@@ -40,6 +40,7 @@
       [ "SAW_M_FINE", 1 ],
       [ "WRENCH", 2 ],
       [ "WRENCH_FINE", 1 ],
+      [ "WHEEL_FAST", 1 ],
       [ "SCREW", 1 ],
       [ "SCREW_FINE", 1 ],
       [ "CUT", 1 ],

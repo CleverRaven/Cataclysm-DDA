@@ -59,6 +59,7 @@
     "armor_stab": 14,
     "armor_acid": 15,
     "harvest": "exempt",
+    "path_settings": { "avoid_traps": true, "avoid_sharp": true },
     "death_function": [ "MELT" ],
     "special_attacks": [
       {
@@ -68,7 +69,7 @@
         "monster_message": "The black pudding burns %3$s with acid!"
       }
     ],
-    "flags": [ "HEARS", "GOODHEARING", "NOHEAD", "POISON", "NO_BREATHE", "ACIDPROOF", "PATH_AVOID_DANGER_2" ]
+    "flags": [ "HEARS", "GOODHEARING", "NOHEAD", "POISON", "NO_BREATHE", "ACIDPROOF", "PATH_AVOID_DANGER_1" ]
   },
   {
     "id": "mon_krabgek",

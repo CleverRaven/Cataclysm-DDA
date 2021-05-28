@@ -1045,7 +1045,7 @@ std::string spell::energy_string() const
         case magic_energy_type::stamina:
             return _( "stamina" );
         case magic_energy_type::bionic:
-            return _( "bionic power" );
+            return _( "kJ" );
         default:
             return "";
     }

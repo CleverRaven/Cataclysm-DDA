@@ -143,6 +143,24 @@
     "context": [ "GENERIC" ]
   },
   {
+    "id": "SCIENCE_CARD",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "You could probably use this to get into a secure science facility."
+  },
+  {
+    "id": "MILITARY_CARD",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "You could probably use this to get into a secure military facility."
+  },
+  {
+    "id": "INDUSTRIAL_CARD",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "You could probably use this to get into a secure industrial facility."
+  },
+  {
     "id": "SKINNED",
     "type": "json_flag",
     "context": [ "GENERIC" ]
@@ -239,6 +257,12 @@
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "info": "You can wear <info>only one</info>."
+  },
+  {
+    "id": "ONE_PER_LAYER",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "<info>Only one</info> item can be worn on this clothing layer."
   },
   {
     "id": "FANCY",

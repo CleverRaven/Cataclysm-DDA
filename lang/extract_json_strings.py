@@ -1045,7 +1045,6 @@ directories = {os.path.normpath(i) for i in {
     "data/json",
     "data/mods",
     "data/core",
-    "data/legacy",
     "data/help",
 }}
 to_dir = os.path.normpath("lang/json")

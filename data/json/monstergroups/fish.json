@@ -325,13 +325,14 @@
         "conditions": [ "SPRING", "SUMMER" ],
         "pack_size": [ 1, 3 ]
       }
-    ]
+    ],
+    "freq_total": 1740
   },
   {
     "type": "monstergroup",
     "name": "GROUP_RAZORCLAW",
     "default": "mon_razorclaw",
     "is_animal": true,
-    "monsters": [ { "monster": "mon_razorclaw", "freq": 33, "cost_multiplier": 0, "pack_size": [ 1, 2 ] } ]
+    "monsters": [ { "monster": "mon_razorclaw", "freq": 333, "cost_multiplier": 0, "pack_size": [ 1, 2 ] } ]
   }
 ]

@@ -193,7 +193,6 @@ class computer;
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
-const int core_version = 6;
 static constexpr int DANGEROUS_PROXIMITY = 5;
 
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
@@ -816,6 +815,14 @@ bool game::start_game()
                 }
             }
         }
+    }
+    if( scen->has_flag( "BORDERED" ) ) {
+        overmap &starting_om = get_cur_om();
+        for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
+            starting_om.place_special_forced( overmap_special_id( "world" ), { 0, 0, z },
+                                              om_direction::type::north );
+        }
+
     }
     for( auto &e : u.inv_dump() ) {
         e->set_owner( get_player_character() );
@@ -3072,19 +3079,6 @@ bool game::load_packs( const std::string &msg, const std::vector<mod_id> &packs,
     for( const auto &e : available ) {
         const MOD_INFORMATION &mod = *e;
         load_data_from_dir( mod.path, mod.ident.str(), ui );
-
-        // if mod specifies legacy migrations load any that are required
-        if( !mod.legacy.empty() ) {
-            static_popup popup;
-            for( int i = get_option<int>( "CORE_VERSION" ); i < core_version; ++i ) {
-                popup.message( _( "%s Applying legacy migration (%s %i/%i)" ),
-                               msg, e.c_str(), i, core_version - 1 );
-                ui_manager::redraw();
-                refresh_display();
-
-                load_data_from_dir( string_format( "%s/%i", mod.legacy.c_str(), i ), mod.ident.str(), ui );
-            }
-        }
 
         ui.proceed();
     }
@@ -6126,10 +6120,10 @@ void game::peek()
         vertical_move( p->z, false, true );
 
         if( old_pos != u.pos() ) {
-            look_around();
             vertical_move( p->z * -1, false, true );
+        } else {
+            return;
         }
-        return;
     }
 
     if( m.impassable( u.pos() + *p ) ) {
@@ -10409,7 +10403,7 @@ int game::grabbed_furn_move_time( const tripoint &dp )
     tripoint fdest = fpos + dp; // intended destination of furniture.
 
     const bool canmove = can_move_furniture( fdest, dp );
-    const furn_t furntype = m.furn( fpos ).obj();
+    const furn_t &furntype = m.furn( fpos ).obj();
     const int dst_items = m.i_at( fdest ).size();
 
     const bool only_liquid_items = std::all_of( m.i_at( fdest ).begin(), m.i_at( fdest ).end(),

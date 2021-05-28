@@ -87,6 +87,8 @@ Monsters may also have any of these optional properties:
 | `path_settings`          | (object) How monster may find a path, open doors, avoid traps, or bash obstacles
 | `biosignature`           | (object) Droppings or feces left by the animal or monster
 | `harvest`                | (string) ID of a "harvest" type describing what can be harvested from the corpse
+| `zombify_into`           | (string) mtype_id this monster zombifies into after it's death
+| `fungalize_into`         | (string) mtype_id this monster turns into when fungalized by spores
 
 Properties in the above tables are explained in more detail in the sections below.
 
@@ -399,10 +401,10 @@ The upgrades object may have the following members:
 
 | field        | description
 | ---          | ---
-| `half_life`  | (int) Time in which half of the monsters upgrade according to an approximated exponential progression. It is scaled with the evolution scaling factor which defaults to 4 days.
-| `into_group` | (string, optional) The upgraded monster's type is taken from the specified group. The cost in these groups is for an upgrade in the spawn process (related to the rare "replace_monster_group" and "new_monster_group_id" attributes of spawning groups).
+| `half_life`  | (int) Days in which half of the monsters upgrade according to an approximated exponential progression. It is multiplied with the evolution scaling factor (at the time of this writing, 4).
+| `into_group` | (string, optional) The upgraded monster's type is taken from the specified group. 
 | `into`       | (string, optional) The upgraded monster's type.
-| `age_grow`   | (int, optional) Number of days needed for monster to change into another monster.
+| `age_grow`   | (int, optional) Number of days needed for monster to change into another monster. Does not scale with the evolution factor.
 
 ## "reproduction"
 (dictionary, optional)

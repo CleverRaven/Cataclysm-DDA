@@ -66,7 +66,7 @@
         "damage_max_instance": [ { "damage_type": "stab", "amount": 12, "armor_multiplier": 0.7 } ]
       }
     ],
-    "path_settings": { "max_dist": 50 },
+    "path_settings": { "max_dist": 50, "avoid_traps": true, "avoid_sharp": true },
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE", "STALK", "SOUND" ],
     "fear_triggers": [ "HURT" ],
     "placate_triggers": [ "MEAT" ],
@@ -75,7 +75,7 @@
     "upgrades": { "half_life": 50, "into": "mon_mutant_evolved" },
     "regenerates": 1,
     "regen_morale": true,
-    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "WARM", "BASHES", "PATH_AVOID_DANGER_2" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "WARM", "BASHES" ]
   },
   {
     "id": "mon_mutant_evolved",
@@ -113,18 +113,7 @@
     "death_drops": "mon_mutant_evolved_death_drops",
     "regenerates": 1,
     "regen_morale": true,
-    "flags": [
-      "SEES",
-      "HEARS",
-      "GOODHEARING",
-      "SMELLS",
-      "KEENNOSE",
-      "WARM",
-      "BASHES",
-      "PATH_AVOID_DANGER_2",
-      "PUSH_MON",
-      "PUSH_VEH"
-    ]
+    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "KEENNOSE", "WARM", "BASHES", "PUSH_MON", "PUSH_VEH" ]
   },
   {
     "id": "mon_one_eye",

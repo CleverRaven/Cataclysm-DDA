@@ -3260,7 +3260,10 @@ void Character::drop( const drop_locations &what, const tripoint &target,
         return;
     }
 
-    if( rl_dist( pos(), target ) > 1 || !( stash || get_map().can_put_items( target ) ) ) {
+    const cata::optional<vpart_reference> vp = get_map().veh_at(
+                target ).part_with_feature( "CARGO", false );
+    if( rl_dist( pos(), target ) > 1 || !( stash || get_map().can_put_items( target ) )
+        || vp->part().is_cleaner_on() ) {
         add_msg_player_or_npc( m_info, _( "You can't place items here!" ),
                                _( "<npcname> can't place items here!" ) );
         return;
@@ -3876,14 +3879,36 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
                                               : string_format( _( "%s doesn't have a hand free to wear that." ), name ) ) );
     }
 
+    const bool this_restricts_only_one = it.has_flag( flag_id( "ONE_PER_LAYER" ) );
+    std::map<side, bool> sidedness;
+    sidedness[side::BOTH] = false;
+    sidedness[side::LEFT] = false;
+    sidedness[side::RIGHT] = false;
+    const auto sidedness_conflicts = [&sidedness]( side s ) -> bool {
+        const bool ret = sidedness[s];
+        sidedness[s] = true;
+        if( sidedness[side::LEFT] && sidedness[side::RIGHT] )
+        {
+            sidedness[side::BOTH] = true;
+            return true;
+        }
+        return ret;
+    };
     for( const item &i : worn ) {
         if( i.has_flag( flag_ONLY_ONE ) && i.typeId() == it.typeId() ) {
             return ret_val<bool>::make_failure( _( "Can't wear more than one %s!" ), it.tname() );
         }
+
+        if( this_restricts_only_one || i.has_flag( flag_id( "ONE_PER_LAYER" ) ) ) {
+            cata::optional<side> overlaps = it.covers_overlaps( i );
+            if( overlaps && sidedness_conflicts( *overlaps ) ) {
+                return ret_val<bool>::make_failure( _( "%1$s conflicts with %2$s!" ), it.tname(), i.tname() );
+            }
+        }
     }
 
     if( amount_worn( it.typeId() ) >= MAX_WORN_PER_TYPE ) {
-        return ret_val<bool>::make_failure( _( "Can't wear %i or more %s at once." ),
+        return ret_val<bool>::make_failure( _( "Can't wear %1$i or more %2$s at once." ),
                                             MAX_WORN_PER_TYPE + 1, it.tname( MAX_WORN_PER_TYPE + 1 ) );
     }
 
@@ -4432,6 +4457,23 @@ bool Character::change_side( item &it, bool interactive )
                                    it.tname() );
         }
         return false;
+    }
+
+    const bool item_one_per_layer = it.has_flag( flag_id( "ONE_PER_LAYER" ) );
+    for( const item &worn_item : worn ) {
+        if( item_one_per_layer && worn_item.has_flag( flag_id( "ONE_PER_LAYER" ) ) ) {
+            const cata::optional<side> sidedness_conflict = it.covers_overlaps( worn_item );
+            if( sidedness_conflict ) {
+                const std::string player_msg = string_format(
+                                                   _( "Your %s conflicts with %s, so you cannot swap its side." ),
+                                                   it.tname(), worn_item.tname() );
+                const std::string npc_msg = string_format(
+                                                _( "<npcname>'s %s conflicts with %s so they cannot swap its side." ),
+                                                it.tname(), worn_item.tname() );
+                add_msg_player_or_npc( m_info, player_msg, npc_msg );
+                return false;
+            }
+        }
     }
 
     if( interactive ) {
@@ -6936,7 +6978,7 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint &p )
                     }
                     if( items_it.has_flag( flag_SLEEP_AID_CONTAINER ) ) {
                         bool found = false;
-                        if( items_it.contents.size() > 1 ) {
+                        if( items_it.contents.num_item_stacks() > 1 ) {
                             // Only one item is allowed, so we don't fill our pillowcase with nails
                             continue;
                         }
@@ -6993,7 +7035,7 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint &p )
                 }
                 if( items_it.has_flag( flag_SLEEP_AID_CONTAINER ) ) {
                     bool found = false;
-                    if( items_it.contents.size() > 1 ) {
+                    if( items_it.contents.num_item_stacks() > 1 ) {
                         // Only one item is allowed, so we don't fill our pillowcase with nails
                         continue;
                     }
@@ -7466,7 +7508,8 @@ bool Character::is_immune_effect( const efftype_id &eff ) const
     } else if( eff == effect_onfire ) {
         return is_immune_damage( damage_type::HEAT );
     } else if( eff == effect_deaf ) {
-        return worn_with_flag( flag_DEAF ) || worn_with_flag( flag_PARTIAL_DEAF ) ||
+        return worn_with_flag( flag_DEAF ) || has_flag( json_flag_DEAF ) ||
+               worn_with_flag( flag_PARTIAL_DEAF ) ||
                has_flag( json_flag_IMMUNE_HEARING_DAMAGE ) ||
                is_wearing( itype_rm13_armor_on );
     } else if( eff == effect_mute ) {
@@ -8688,11 +8731,6 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
                              int pre_obtain_moves )
 {
     if( !has_enough_charges( *used, true ) ) {
-        moves = pre_obtain_moves;
-        return false;
-    }
-    if( used->is_medication() && !can_use_heal_item( *used ) ) {
-        add_msg_if_player( m_bad, _( "Your biology is not compatible with that healing item." ) );
         moves = pre_obtain_moves;
         return false;
     }
@@ -12787,7 +12825,16 @@ bool Character::add_or_drop_with_msg( item &it, const bool /*unloading*/, const 
     } else if( !this->can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
         put_into_vehicle_or_drop( *this, item_drop_reason::too_heavy, { it } );
     } else {
-        const bool allow_wield = !weapon.has_item( it ) && weapon.magazine_current() != &it;
+        bool wielded_has_it = false;
+        // Cannot use weapon.has_item(it) because it skips any pockets that
+        // are not containers such as magazines and magazine wells.
+        for( const item *scan_contents : weapon.contents.all_items_top() ) {
+            if( scan_contents == &it ) {
+                wielded_has_it = true;
+                break;
+            }
+        }
+        const bool allow_wield = !wielded_has_it && weapon.magazine_current() != &it;
         const int prev_charges = it.charges;
         auto &ni = this->i_add( it, true, avoid, /*allow_drop=*/false, /*allow_wield=*/allow_wield );
         if( ni.is_null() ) {

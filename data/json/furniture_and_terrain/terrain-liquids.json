@@ -336,7 +336,7 @@
     "symbol": "#",
     "looks_like": "t_metal_floor",
     "color": "light_gray",
-    "move_cost": 8,
+    "move_cost": 3,
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS", "FLAT", "ROAD", "MINEABLE" ],
     "bash": {
       "sound": "thump",

@@ -197,7 +197,7 @@
     "armor_bullet": 16,
     "vision_day": 6,
     "vision_night": 6,
-    "path_settings": { "max_dist": 6 },
+    "path_settings": { "max_dist": 6, "avoid_traps": true, "avoid_sharp": true },
     "revert_to_itype": "bot_sentinel_lx",
     "special_attacks": [
       [ "SMASH", 20 ],
@@ -220,7 +220,7 @@
       "NO_BREATHE",
       "PRIORITIZE_TARGETS",
       "GOODHEARING",
-      "PATH_AVOID_DANGER_2",
+      "PATH_AVOID_DANGER_1",
       "HIT_AND_RUN"
     ]
   },

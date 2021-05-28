@@ -1027,7 +1027,7 @@ double Character::crafting_success_roll( const recipe &making ) const
         }
     }
 
-    return ( skill_roll / diff_roll ) * prof_multiplier;
+    return ( skill_roll / diff_roll ) / prof_multiplier;
 }
 
 int item::get_next_failure_point() const
@@ -1046,8 +1046,8 @@ void item::set_next_failure_point( const Character &crafter )
         return;
     }
 
-    const int percent_left = 10000000 - item_counter;
-    const int failure_point_delta = crafter.crafting_success_roll( get_making() ) * percent_left;
+    const int percent = 10000000;
+    const int failure_point_delta = crafter.crafting_success_roll( get_making() ) * percent;
 
     craft_data_->next_failure_point = item_counter + failure_point_delta;
 }
@@ -1092,14 +1092,16 @@ bool item::handle_craft_failure( Character &crafter )
         return true;
     }
 
-    // Minimum 25% progress lost, average 35%.  Falls off exponentially
+    // If a loss happens, minimum 25% progress lost, average 35%.  Falls off exponentially
     // Loss is scaled by the success roll
-    const double percent_progress_loss = rng_exponential( 0.25, 0.35 ) *
-                                         ( 1.0 - std::min( success_roll, 1.0 ) );
-    const int progess_loss = item_counter * percent_progress_loss;
-    crafter.add_msg_player_or_npc( _( "You mess up and lose %d%% progress." ),
-                                   _( "<npcname> messes up and loses %d%% progress." ), progess_loss / 100000 );
-    item_counter = clamp( item_counter - progess_loss, 0, 10000000 );
+    const double percent_progress_loss = rng_exponential( 0.25, 0.35 ) * ( 1.0 - success_roll );
+    // Ensure only positive losses have an effect on progress
+    if( percent_progress_loss > 0.0 ) {
+        const int progress_loss = item_counter * percent_progress_loss;
+        crafter.add_msg_player_or_npc( _( "You mess up and lose %d%% progress." ),
+                                       _( "<npcname> messes up and loses %d%% progress." ), progress_loss / 100000 );
+        item_counter = clamp( item_counter - progress_loss, 0, 10000000 );
+    }
 
     set_next_failure_point( crafter );
 
@@ -1169,7 +1171,8 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
     // Set up the new item, and assign an inventory letter if available
     std::vector<item> newits = making.create_results( batch_size );
 
-    const bool should_heat = making.hot_result() || making.removes_raw();
+    const bool should_heat = making.hot_result();
+    const bool remove_raw = making.removes_raw();
 
     bool first = true;
     size_t newit_counter = 0;
@@ -1232,7 +1235,7 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
                     comp = item( comp.get_comestible()->cooks_like, comp.birthday(), comp.charges );
                 }
                 // If this recipe is cooked, components are no longer raw.
-                if( should_heat ) {
+                if( should_heat || remove_raw ) {
                     comp.set_flag_recursive( flag_COOKED );
                 }
             }

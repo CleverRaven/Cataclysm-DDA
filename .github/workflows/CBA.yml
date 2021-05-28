@@ -13,6 +13,7 @@ on:
     - '**/Makefile'
     - '**.hpp'
     - '**.cmake'
+    - '.github/workflows/CBA.yml'
   pull_request:
     branches:
     - master
@@ -25,6 +26,7 @@ on:
     - '**/Makefile'
     - '**.hpp'
     - '**.cmake'
+    - '.github/workflows/CBA.yml'
 
 
 jobs:
@@ -53,7 +55,7 @@ jobs:
     - name: make
       run: |
         ClangBuildAnalyzer --start .
-        CLANG=clang++-9 CXXFLAGS=-ftime-trace make 
+        CLANG=clang++-10 CXXFLAGS=-ftime-trace make
         ClangBuildAnalyzer --stop . buildAnalysis
     - name: Analyze
       run: ClangBuildAnalyzer --analyze buildAnalysis

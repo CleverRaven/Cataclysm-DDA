@@ -69,6 +69,7 @@ static const std::string flag_SECRET( "SECRET" );
 static const std::string type_hair_style( "hair_style" );
 static const std::string type_skin_tone( "skin_tone" );
 static const std::string type_facial_hair( "facial_hair" );
+static const std::string type_eye_color( "eye_color" );
 
 static const flag_id json_flag_no_auto_equip( "no_auto_equip" );
 static const flag_id json_flag_auto_wield( "auto_wield" );
@@ -382,6 +383,7 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
 
     randomize_cosmetic_trait( type_hair_style );
     randomize_cosmetic_trait( type_skin_tone );
+    randomize_cosmetic_trait( type_eye_color );
     //arbitrary 50% chance to add beard to male characters
     if( male && one_in( 2 ) ) {
         randomize_cosmetic_trait( type_facial_hair );
@@ -2505,6 +2507,10 @@ tab_direction set_scenario( avatar &u, points_left &points,
             }
             if( sorted_scens[cur_id]->has_flag( "LONE_START" ) ) {
                 wprintz( w_flags, c_light_gray, _( "No starting NPC" ) );
+                wprintz( w_flags, c_light_gray, ( "\n" ) );
+            }
+            if( sorted_scens[cur_id]->has_flag( "BORDERED" ) ) {
+                wprintz( w_flags, c_light_gray, _( "Starting location is bordered by an immense wall" ) );
                 wprintz( w_flags, c_light_gray, ( "\n" ) );
             }
         }
