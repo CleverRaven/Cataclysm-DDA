@@ -59,5 +59,15 @@
     "symbol": ",",
     "color": "light_gray",
     "flags": [ "NO_SALVAGE" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "sugar",
+    "name": { "str_sp": "sugar" },
+    "copy-from": "sugar",
+    "color": "white",
+    "symbol": "%",
+    "description": "Sweet, sweet sugar.  Bad for your teeth and surprisingly not very tasty on its own.",
+    "material": [ "junk" ]
   }
 ]
