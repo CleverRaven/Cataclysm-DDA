@@ -1042,7 +1042,7 @@ bool recipe::hot_result() const
         const requirement_data::alter_tool_comp_vector &tool_lists = simple_requirements().get_tools();
         for( const std::vector<tool_comp> &tools : tool_lists ) {
             for( const tool_comp &t : tools ) {
-                if( t.type == itype_hotplate ) || ( t.type == itype_atomic_coffeepot ) {
+                if( ( t.type == itype_hotplate ) || ( t.type == itype_atomic_coffeepot ) ) {
                     return true;
                 }
             }
