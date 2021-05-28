@@ -6508,6 +6508,18 @@
     "name": { "str": "US Marshal" },
     "points": 0,
     "description": "You are a duly sworn Federal marshal, with nationwide jurisdiction and the authority of the United States of America.",
+    "cancels": [ "PROF_HUB01_ANCILLIARY" ],
+    "valid": false,
+    "purifiable": false,
+    "profession": true
+  },
+  {
+    "type": "mutation",
+    "id": "PROF_HUB01_ANCILLIARY",
+    "name": { "str": "Hub 01 Ancilliary" },
+    "points": 0,
+    "description": "You are known to be a capable and resourceful mercenary at the employ of Hub 01.",
+    "cancels": [ "PROF_FED" ],
     "valid": false,
     "purifiable": false,
     "profession": true
