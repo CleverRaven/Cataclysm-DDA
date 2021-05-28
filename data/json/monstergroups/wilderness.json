@@ -2604,7 +2604,7 @@
         "cost_multiplier": 2,
         "pack_size": [ 1, 2 ],
         "starts": 336,
-        "ends": 720
+        "ends": 720,
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
