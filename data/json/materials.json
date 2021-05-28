@@ -803,6 +803,7 @@
     "copy-from": "hydrocarbons",
     "fuel_data": {
       "energy": 45.8,
+      "pump_terrain": "t_avgas_pump",
       "explosion_data": { "chance_hot": 20, "chance_cold": 1000, "factor": 0.2, "fiery": false, "size_factor": 0.1 }
     }
   },

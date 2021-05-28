@@ -1085,7 +1085,7 @@ class jmapgen_gaspump : public jmapgen_piece
                 fuel = jsi.get_string( "fuel" );
 
                 // may want to not force this, if we want to support other fuels for some reason
-                if( fuel != "gasoline" && fuel != "diesel" && fuel != "jp8" ) {
+                if( fuel != "gasoline" && fuel != "diesel" && fuel != "jp8" && fuel != "avgas" ) {
                     jsi.throw_error( "invalid fuel", "fuel" );
                 }
             }
