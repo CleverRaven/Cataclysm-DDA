@@ -76,7 +76,7 @@
     "warmth": 50,
     "material_thickness": 5,
     "environmental_protection": 2,
-    "flags": [ "OUTER" ]
+    "flags": [ "OUTER", "FANCY" ]
   },
   {
     "id": "jumpsuit",
