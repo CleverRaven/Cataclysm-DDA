@@ -425,17 +425,19 @@ static std::set<tripoint> spell_effect_area( const spell &sp, const tripoint &ta
 {
     // calculate spell's effect area
     std::set<tripoint> targets = calculate_spell_effect_area( sp, target, caster );
+    if( !sp.has_flag( spell_flag::NO_VISUAL ) ) {
 
-    // Draw the explosion
-    std::map<tripoint, nc_color> explosion_colors;
-    for( const tripoint &pt : targets ) {
-        explosion_colors[pt] = sp.damage_type_color();
+        // Draw the explosion
+        std::map<tripoint, nc_color> explosion_colors;
+        for( const tripoint &pt : targets ) {
+            explosion_colors[pt] = sp.damage_type_color();
+        }
+
+        std::string exp_name = "explosion_" + sp.id().str();
+
+        explosion_handler::draw_custom_explosion( get_player_character().pos(), explosion_colors,
+                exp_name );
     }
-
-    std::string exp_name = "explosion_" + sp.id().str();
-
-    explosion_handler::draw_custom_explosion( get_player_character().pos(), explosion_colors,
-            exp_name );
     return targets;
 }
 
