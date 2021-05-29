@@ -14,11 +14,12 @@
     "precip": "light",
     "rains": true,
     "acidic": false,
-    "tiles_animation": "weather_snow_drop",
+    "tiles_animation": "weather_snowflake",
     "weather_animation": { "factor": 0.01, "color": "white", "sym": "." },
-    "sound_category": "drizzle",
+    "sound_category": "flurries",
     "sun_intensity": "light",
-    "requirements": { "pressure_max": 1000, "humidity_min": 97, "humidity_and_pressure": false, "required_weathers": [ "cloudy" ] }
+    "required_weathers": [ "cloudy" ],
+    "condition": { "or": [ { "is_humidity": 97 }, { "not": { "is_pressure": 1000 } } ] }
   },
   {
     "id": "afs_whiteout",
@@ -32,14 +33,15 @@
     "light_modifier": -40,
     "sound_attn": 1,
     "dangerous": false,
-    "precip": "light",
-    "rains": false,
+    "precip": "heavy",
+    "rains": true,
     "acidic": false,
-    "tiles_animation": "weather_snow_drop",
+    "tiles_animation": "weather_snowflake",
     "weather_animation": { "factor": 0.01, "color": "white", "sym": "*" },
-    "sound_category": "drizzle",
+    "sound_category": "snowstorm",
     "sun_intensity": "light",
-    "requirements": { "time": "day", "windpower_min": 20, "humidity_min": 97, "required_weathers": [ "cloudy", "afs_flurries" ] }
+    "required_weathers": [ "cloudy", "afs_flurries" ],
+    "condition": { "and": [ "is_day", { "is_windpower": 20 } ] }
   },
   {
     "id": "afs_snowing",
@@ -56,11 +58,12 @@
     "precip": "heavy",
     "rains": true,
     "acidic": false,
-    "tiles_animation": "weather_snow_drop",
+    "tiles_animation": "weather_snowflake",
     "weather_animation": { "factor": 0.02, "color": "white", "sym": "*" },
-    "sound_category": "rainy",
+    "sound_category": "snow",
     "sun_intensity": "light",
-    "requirements": { "pressure_max": 993, "humidity_min": 98, "humidity_and_pressure": false, "required_weathers": [ "afs_flurries", "afs_whiteout" ] }
+    "required_weathers": [ "afs_flurries", "afs_whiteout" ],
+    "condition": { "or": [ { "is_humidity": 98 }, { "not": { "is_pressure": 993 } } ] }
   },
   {
     "id": "afs_thunder",
@@ -77,19 +80,12 @@
     "precip": "heavy",
     "rains": true,
     "acidic": false,
-    "effects": [
-      {
-        "one_in_chance": 50,
-        "must_be_outside": false,
-        "sound_message": "You hear a distant rumble of thunder.",
-        "sound_effect": "thunder_far"
-      }
-    ],
-    "tiles_animation": "weather_snow_drop",
+    "tiles_animation": "weather_snowflake",
     "weather_animation": { "factor": 0.02, "color": "white", "sym": "*" },
-    "sound_category": "thunder",
+    "sound_category": "snowstorm",
     "sun_intensity": "none",
-    "requirements": { "pressure_max": 950, "required_weathers": [ "afs_snowing" ] }
+    "required_weathers": [ "afs_snowing" ],
+    "condition": { "not": { "is_pressure": 990 } }
   },
   {
     "id": "afs_lightning",
@@ -106,25 +102,11 @@
     "precip": "heavy",
     "rains": true,
     "acidic": false,
-    "effects": [
-      {
-        "one_in_chance": 50,
-        "must_be_outside": false,
-        "sound_message": "You hear a distant rumble of thunder.",
-        "sound_effect": "thunder_far"
-      },
-      {
-        "one_in_chance": 600,
-        "must_be_outside": false,
-        "message": "A flash of lightning illuminates your surroundings!",
-        "sound_effect": "thunder_near",
-        "lightning": true
-      }
-    ],
-    "tiles_animation": "weather_snow_drop",
+    "tiles_animation": "weather_snowflake",
     "weather_animation": { "factor": 0.04, "color": "white", "sym": "*" },
-    "sound_category": "thunder",
+    "sound_category": "snowstorm",
     "sun_intensity": "none",
-    "requirements": { "pressure_max": 940, "required_weathers": [ "afs_thunder" ] }
+    "required_weathers": [ "afs_thunder" ],
+    "condition": { "not": { "is_pressure": 980 } }
   }
 ]
