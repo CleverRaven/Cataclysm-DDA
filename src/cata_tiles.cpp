@@ -611,6 +611,7 @@ void tileset_loader::load( const std::string &tileset_id, const bool precheck )
     }
 
     if( precheck ) {
+        config.allow_omitted_members();
         return;
     }
 
@@ -640,10 +641,16 @@ void tileset_loader::load( const std::string &tileset_id, const bool precheck )
 
         JsonIn mod_config_json( mod_config_file );
 
+        const auto mark_visited = []( const JsonObject & jobj ) {
+            // These fields have been visited in load_mod_tileset
+            jobj.get_string_array( "compatibility" );
+        };
+
         int num_in_file = 1;
         if( mod_config_json.test_array() ) {
             for( const JsonObject mod_config : mod_config_json.get_array() ) {
                 if( mod_config.get_string( "type" ) == "mod_tileset" ) {
+                    mark_visited( mod_config );
                     if( num_in_file == mts.num_in_file() ) {
                         // visit this if it exists, it's used elsewhere
                         if( mod_config.has_member( "compatibility" ) ) {
@@ -657,6 +664,7 @@ void tileset_loader::load( const std::string &tileset_id, const bool precheck )
             }
         } else {
             JsonObject mod_config = mod_config_json.get_object();
+            mark_visited( mod_config );
             load_internal( mod_config, tileset_root, img_path );
         }
     }
