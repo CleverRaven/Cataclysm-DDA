@@ -3683,9 +3683,9 @@ units::mass Character::weight_capacity() const
     return ret;
 }
 
-bool Character::can_pickVolume( const item &it, bool ) const
+bool Character::can_pickVolume( const item &it, bool, const item *avoid ) const
 {
-    if( weapon.can_contain( it ) ) {
+    if( weapon.can_contain( it ) && ( avoid == nullptr || &weapon != avoid ) ) {
         return true;
     }
     for( const item &w : worn ) {
@@ -12805,7 +12805,7 @@ bool Character::add_or_drop_with_msg( item &it, const bool /*unloading*/, const 
         liquid_handler::consume_liquid( it, 1, avoid );
         return it.charges <= 0;
     }
-    if( !this->can_pickVolume( it ) ) {
+    if( !this->can_pickVolume( it, false, avoid ) ) {
         put_into_vehicle_or_drop( *this, item_drop_reason::too_large, { it } );
     } else if( !this->can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
         put_into_vehicle_or_drop( *this, item_drop_reason::too_heavy, { it } );
