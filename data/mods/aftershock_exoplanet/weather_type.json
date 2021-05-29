@@ -60,7 +60,12 @@
     "weather_animation": { "factor": 0.02, "color": "white", "sym": "*" },
     "sound_category": "rainy",
     "sun_intensity": "light",
-    "requirements": { "pressure_max": 993, "humidity_min": 98, "humidity_and_pressure": false, "required_weathers": [ "afs_flurries", "afs_whiteout" ] }
+    "requirements": {
+      "pressure_max": 993,
+      "humidity_min": 98,
+      "humidity_and_pressure": false,
+      "required_weathers": [ "afs_flurries", "afs_whiteout" ]
+    }
   },
   {
     "id": "afs_thunder",
