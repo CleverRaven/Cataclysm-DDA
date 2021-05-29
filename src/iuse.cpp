@@ -7554,7 +7554,7 @@ cata::optional<int> iuse::camera( player *p, item *it, bool, const tripoint & )
                 std::vector<monster *> monster_vec;
                 std::vector<Character *> character_vec;
                 extended_photo_def photo = photo_def_for_camera_point( trajectory_point, p->pos(), monster_vec,
-                                                                       character_vec );
+                                           character_vec );
                 photo.quality = photo_quality;
 
                 try {
@@ -7566,7 +7566,8 @@ cata::optional<int> iuse::camera( player *p, item *it, bool, const tripoint & )
                               e.c_str() );
                 }
 
-                const bool selfie = std::find( character_vec.begin(), character_vec.end(), p ) != character_vec.end();
+                const bool selfie = std::find( character_vec.begin(), character_vec.end(),
+                                               p ) != character_vec.end();
 
                 if( selfie ) {
                     p->add_msg_if_player( _( "You took a selfie." ) );
