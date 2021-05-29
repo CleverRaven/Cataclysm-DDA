@@ -368,6 +368,7 @@ class json_talk_response
     private:
         talk_response actual_response;
         std::function<bool( const dialogue & )> condition;
+        bool has_condition_ = false;
         bool is_switch = false;
         bool is_default = false;
 
@@ -377,6 +378,11 @@ class json_talk_response
     public:
         json_talk_response() = default;
         explicit json_talk_response( const JsonObject &jo );
+
+        const talk_response &get_actual_response() const;
+        bool has_condition() const {
+            return has_condition_;
+        }
 
         /**
          * Callback from @ref json_talk_topic::gen_responses, see there.
@@ -445,6 +451,8 @@ class json_talk_topic
          * responses will be added (behind those added here).
          */
         bool gen_responses( dialogue &d ) const;
+
+        cata::flat_set<std::string> get_directly_reachable_topics( bool only_unconditional ) const;
 };
 
 void unload_talk_topics();

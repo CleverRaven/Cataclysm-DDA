@@ -10,4 +10,6 @@
     <string name="settings">設定</string>
     <string name="startGame">ゲーム開始</string>
     <string name="showHelp">ヘルプ表示</string>
+    <string name="crashAlert">前回のプレイ時にゲームが正常に終了しませんでした</string>
+    <string name="crashMessage">configフォルダ内のcrash.logに記録されるクラッシュレポートは、開発者がプログラムエラーを解決する役に立つ場合があります。</string>
 </resources>

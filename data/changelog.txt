@@ -1,4 +1,69 @@
-# 0.F (2021-03-01)
+# 0.F (2021-04-15)
+
+3974 files changed, 5440251 insertions(+), 3904330 deletions(-)
+10,463 commits
+~454 contributors
+
+New game entities (core): 4510
+Items: 987
+    228 misc items, 199 books, 196 articles of clothing, 161 guns and gun related items,
+    151 comestibles, 99 tools, 53 ammunition types
+Mapgen: 778
+    424 overmap terrains, 198 palettes, 62 start locations, 41 city buildings, 25 map extras,
+    20 overmap specials, 5 overmap locations, 3 region setting
+Crafting: 562
+    223 construction groups, 201 requirements, 60 proficiencies, 50 constructions,
+    17 recipe groups, 10 recipe categories, 1 construction category
+Achievements: 363
+    115 achievements, 107 event statistics, 100 event transformations, 26 score entries, 15 conducts
+Item Traits: 325
+    171 item groups, 97 materials, 20 ammunition types, 18 ammo effects, 13 tool qualities,
+    2 vitamins, 3 item actions, 1 fault
+Player Traits: 263
+    144 professions, 41 effect types, 28 skills, 17 mutations, 14 activity types,
+    4 skill display types, 3 behaviors, 3 movement modes, 3 scent types, 2 morale types,
+    1 butchery requirement, 1 disease type, 1 mutation types, 1 trait group
+NPCs and NPC interactions: 237
+    255 talk topics, 29 missions, 29 scenarios, 15 npcs, 6 npc classes, 3 factions
+Map Traits: 234
+    149 terrains, 12 weather types, 64 furnitures, 5 gates, 3 field types, 1 terrain transformation
+Monsters: 228
+    151 monster types, 72 harvest entries, 4 species, 1 anatomy entry
+Vehicles: 140
+    80 vehicle parts, 41 vehicles, 12 vehicle part categories, 7 vehicle groups
+Magic: 40
+    23 spells, 7 enchantments, 6 emit definitions, 4 relic definitions
+Misc: 363
+    258 json flags, 104 ascii art, 1 loot zone
+
+New game entities (mods): 3231
+Items: 773
+    179 misc items, 172 books, 161 comestibles, 85 tools, 83 articles of clothing,
+    65 guns and gun-related items, 21 ammunition types, 7 compact bionic modules
+Player traits: 749
+    273 mutations, 214 trait groups, 96 professions, 64 techniques, 47 scenarios, 21 effect types,
+    9 martial arts, 8 bionics, 8 start locations, 6 mutation categories, 2 proficiencies, 1 skill
+Mapgen: 430
+    154 item groups, 202 overmap terrains, 39 palettes, 30 overmap specials,
+    5 city buildings, 2 map extras
+Monsters: 406
+    360 monster types, 32 harvest entries, 11 species, 3 monster attacks
+NPCs and NPC interactions: 234
+    144 talk topics, 59 npc classes, 15 mission definitions, 13 npcs, 3 factions
+Map traits: 190
+    103 terrains, 56 furnitures, 10 terrain transformations,
+    9 gates, 6 field types, 4 traps, 2 emit definitions
+Vehicles: 185
+    141 vehicle parts, 27 vehicle groups, 17 vehicles
+Magic: 155
+    132 spells, 23 enchantments
+Crafting: 48
+    32 requirements, 7 tool qualities, 5 construction groups, 2 constructions,
+    1 recipe category, 1 recipe group
+Item Traits: 39
+    20 materials, 11 ammunition types, 8 ammo effects
+Achievements: 22
+    14 achievements, 3 event statistics, 3 event transformations, 2 score entries
 
 ## Features:
 Adds option to randomize INITIAL_DAY.
@@ -48,6 +113,7 @@ Allows nanofabricator templates to contain recipes from any item group.
 Adds different bleeding types for different species.
 Adds bleeding butchery action.
 Autodoc installation programs added that almost guarantee flawless installation of supported bionics.
+Removes the obsolete 'carrion spawn rate scaling factor' world configuration option.
 
 ## Content:
 Gun volume and weight audit.
@@ -87,6 +153,7 @@ Enables using a rope to carry large items.
 Adds large dermatik nest and tweaks dermatiks.
 Adds a new layout for the island prison challenge scenario.
 Adds tazer drones.
+Adds a demo of the Cuteclysm tileset, which is loosely inspired by the aesthetics of 16-bit Japanese RPGs.
 
 ## Interface:
 Introduces, and migrates most windows to, ui_adaptor, which handles redrawing windows when others are closed and the game is resized.
@@ -109,6 +176,7 @@ Adds item length and pocket volume entries to menus.
 Adds fast scrolling to many menus with long lists.
 Adds responsive screen behavior to the new character menu for small terminal sizes.
 Shows weariness and activity levels in sidebar panels.
+Warns before crafting armor or clothing you won't be able to wear.
 
 ## Mods:
 [Magiclysm] Manatouched mutation tree.
@@ -145,6 +213,8 @@ Cap monsters at 1000 kg so butchering kind of works.
 [Aftershock] Adds new laser and plasma pistols.
 [Magiclysm] Adds three new Attunement spells (Frozen Winds, Auroral wave, and Immolate).
 [Magiclysm] Adds Workshop Elves, Yule Cats, and Leprechauns.
+[Aftershock] Adds Formless Ruins - a new aboveground, low-risk dungeon type.
+[Dark Skies Above] DSA is reborn as an actively-developed, total-conversion mod.
 
 ## Balance:
 Large item price audit.
@@ -171,7 +241,6 @@ Rebalances spawn rates for overmap specials.
 Mycus Fireproofing now also gives heat immunity.
 Tweaks Infection impact by lowering fatigue drain and removing pain.
 Adjusts ordinary clothing to not meaningfully contribute to protection values.
-Caps warmth loss from fatigue.
 
 ## Bugfixes:
 Prevents possible negative damage from explosions.
@@ -272,6 +341,12 @@ Fixes localization not working if the LANG environmental variable is not set.
 Avoids creating starving characters from older templates.
 Fixes furniture being 'destroyed' when grab-moving.
 Fixes crashes from canceling reloading a container that is on the ground.
+Fixes NPCs still being hungry - and unhappy about it - after eating from faction camp stores.
+Reins in the plant mutation category's photosynthesis ability to be more representative of real photosynthesis.
+Prevents cross-z-level melee attacks when the target is not actually visible.
+Avoids doing character body updates more than once per turn
+When harvesting crops, drops the result on the player's square.
+Improves road system connectivity across overmaps.
 
 ## Performance:
 Adds an option to enable batching when it is available in SDL.
@@ -300,6 +375,7 @@ Improves performance of initializing the achievements tracker.
 When NPCs are fleeing from explosions, skips considering routing through tiles without a floor.
 Speeds up fungus-related code processing by 30%+.
 Optimizes item migrations to decrease load times.
+Restores graphics speed for large screens with lots of text.
 
 ## Infrastructure:
 Adds basic infrastructure for diseases.
@@ -370,6 +446,8 @@ Uses GNU Parallel to run tests concurrently, enabling concurrent tests in MacOS 
 Improves scooter tile representation by adding scooter vehicle parts, which scooters spawn with.
 Reduces file size of composed tilesheets from compose.py.
 Implements C++ symbol demangling in crash reports on MacOS, MinGW, and Linux.
+Adds tests of automatic triggers for mutations.
+Generates a crash report on Android.
 
 ## Build:
 Moves clang-tidy runs from Travis to GitHub.
@@ -403,6 +481,7 @@ Uses class translation in many more places for more flexible translation support
 Infrastructure: Automates translation template push.
 Enables using additional languages (Arabic, Czech, Danish, Dutch, Greek, Indonesian, Icelandic, Italian, Norwegian, Serbian, Turkish, and Ukrainian) with the game.
 Places cursor at highlighted item name in construction and crafting menus, as expected by screen readers.
+Adds translations of the Android installation interface.
 
 # 0.E (Ellison)
 

@@ -338,12 +338,7 @@
     "time": "1 h 20 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 90 ] ],
-    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
-    "proficiencies": [
-      { "proficiency": "prof_leatherworking_basic" },
-      { "proficiency": "prof_closures" },
-      { "proficiency": "prof_closures_waterproofing" }
-    ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ],
     "components": [
       [ [ "tunic", 1 ] ],
       [ [ "shorts_cargo", 1 ], [ "shorts_denim", 1 ] ],
@@ -452,7 +447,6 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 90 ], [ "soldering_standard", 18 ] ],
     "proficiencies": [
-      { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
       { "proficiency": "prof_polymerworking" }
@@ -742,7 +736,6 @@
     "using": [ [ "sewing_standard", 200 ] ],
     "tools": [ [ [ "welder", 28 ], [ "welder_crude", 42 ], [ "soldering_iron", 42 ], [ "toolset", 42 ] ] ],
     "proficiencies": [
-      { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
       { "proficiency": "prof_polymerworking" }
@@ -827,7 +820,6 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 200 ] ],
     "proficiencies": [
-      { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
       { "proficiency": "prof_polymerworking" }
@@ -960,7 +952,6 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 100 ] ],
     "proficiencies": [
-      { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
       { "proficiency": "prof_polymerworking" }

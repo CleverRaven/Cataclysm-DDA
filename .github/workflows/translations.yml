@@ -1,5 +1,7 @@
 name: "Push translation template"
 
+concurrency: push_transifex
+
 on:
   push:
     branches:

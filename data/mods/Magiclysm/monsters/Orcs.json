@@ -25,6 +25,7 @@
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK" ],
     "vision_day": 13,
     "vision_night": 5,
+    "path_settings": { "avoid_traps": true, "avoid_sharp": true },
     "zombify_into": "mon_zorc",
     "death_drops": {
       "subtype": "collection",
@@ -38,7 +39,7 @@
       ]
     },
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "FILTHY", "PATH_AVOID_DANGER_2", "SWARMS", "GROUP_MORALE" ]
+    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "FILTHY", "PATH_AVOID_DANGER_1", "SWARMS", "GROUP_MORALE" ]
   },
   {
     "type": "MONSTER",
@@ -66,14 +67,14 @@
           "type": "gun",
           "cooldown": 10,
           "move_cost": 93,
-          "gun_type": "bow",
-          "ammo_type": "arrow",
+          "gun_type": "longbow",
+          "ammo_type": "arrow_wood_heavy",
           "fake_skills": [ [ "gun", 6 ], [ "rifle", 7 ] ],
           "fake_dex": 9,
           "fake_per": 5,
           "require_targeting_player": false,
           "description": "The orc shoots you with laser accuracy",
-          "ranges": [ [ 12, 13, "DEFAULT" ] ],
+          "ranges": [ [ 3, 13, "DEFAULT" ] ],
           "no_ammo_sound": "grunting"
         }
       ]

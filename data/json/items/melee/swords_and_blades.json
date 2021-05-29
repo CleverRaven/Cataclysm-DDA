@@ -240,7 +240,7 @@
     "color": "dark_gray",
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
-    "flags": [ "DURABLE_MELEE", "STAB", "SHEATH_KNIFE", "UNARMED_WEAPON" ]
+    "flags": [ "DURABLE_MELEE", "STAB", "SHEATH_KNIFE" ]
   },
   {
     "id": "makeshift_knife",

@@ -2484,17 +2484,14 @@ void Character::set_max_power_level( const units::energy &npower_max )
 
 void Character::mod_power_level( const units::energy &npower )
 {
-    // units::energy is an int, so avoid overflow by converting it to a int64_t, then adding them
-    // If the result is greater than the max power level, set power to max
-    int64_t power = static_cast<int64_t>( units::to_millijoule( get_power_level() ) ) +
-                    static_cast<int64_t>( units::to_millijoule( npower ) );
-    units::energy new_power;
-    if( power > units::to_millijoule( get_max_power_level() ) ) {
-        new_power = get_max_power_level();
-    } else {
-        new_power = get_power_level() + npower;
-    }
-    set_power_level( clamp( new_power, 0_kJ, get_max_power_level() ) );
+    // Remaining capacity between current and maximum power levels we can make use of.
+    const units::energy remaining_capacity = get_max_power_level() - get_power_level();
+    // We can't add more than remaining capacity, so get the minimum of the two
+    const units::energy minned_npower = std::min( npower, remaining_capacity );
+    // new candidate power level
+    const units::energy new_power = get_power_level() + minned_npower;
+    // set new power level while prevending it from going negative
+    set_power_level( std::max( 0_kJ, new_power ) );
 }
 
 void Character::mod_max_power_level( const units::energy &npower_max )
@@ -3269,7 +3266,10 @@ void Character::drop( const drop_locations &what, const tripoint &target,
         return;
     }
 
-    if( rl_dist( pos(), target ) > 1 || !( stash || get_map().can_put_items( target ) ) ) {
+    const cata::optional<vpart_reference> vp = get_map().veh_at(
+                target ).part_with_feature( "CARGO", false );
+    if( rl_dist( pos(), target ) > 1 || !( stash || get_map().can_put_items( target ) )
+        || ( vp.has_value() && vp->part().is_cleaner_on() ) ) {
         add_msg_player_or_npc( m_info, _( "You can't place items here!" ),
                                _( "<npcname> can't place items here!" ) );
         return;
@@ -6958,7 +6958,7 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint &p )
                     }
                     if( items_it.has_flag( flag_SLEEP_AID_CONTAINER ) ) {
                         bool found = false;
-                        if( items_it.contents.size() > 1 ) {
+                        if( items_it.contents.num_item_stacks() > 1 ) {
                             // Only one item is allowed, so we don't fill our pillowcase with nails
                             continue;
                         }
@@ -7015,7 +7015,7 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint &p )
                 }
                 if( items_it.has_flag( flag_SLEEP_AID_CONTAINER ) ) {
                     bool found = false;
-                    if( items_it.contents.size() > 1 ) {
+                    if( items_it.contents.num_item_stacks() > 1 ) {
                         // Only one item is allowed, so we don't fill our pillowcase with nails
                         continue;
                     }
@@ -7488,7 +7488,8 @@ bool Character::is_immune_effect( const efftype_id &eff ) const
     } else if( eff == effect_onfire ) {
         return is_immune_damage( damage_type::HEAT );
     } else if( eff == effect_deaf ) {
-        return worn_with_flag( flag_DEAF ) || worn_with_flag( flag_PARTIAL_DEAF ) ||
+        return worn_with_flag( flag_DEAF ) || has_flag( json_flag_DEAF ) ||
+               worn_with_flag( flag_PARTIAL_DEAF ) ||
                has_flag( json_flag_IMMUNE_HEARING_DAMAGE ) ||
                is_wearing( itype_rm13_armor_on );
     } else if( eff == effect_mute ) {
@@ -8719,11 +8720,6 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
                              int pre_obtain_moves )
 {
     if( !has_enough_charges( *used, true ) ) {
-        moves = pre_obtain_moves;
-        return false;
-    }
-    if( used->is_medication() && !can_use_heal_item( *used ) ) {
-        add_msg_if_player( m_bad, _( "Your biology is not compatible with that healing item." ) );
         moves = pre_obtain_moves;
         return false;
     }
@@ -12822,7 +12818,16 @@ bool Character::add_or_drop_with_msg( item &it, const bool /*unloading*/, const 
     } else if( !this->can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
         put_into_vehicle_or_drop( *this, item_drop_reason::too_heavy, { it } );
     } else {
-        const bool allow_wield = !weapon.has_item( it ) && weapon.magazine_current() != &it;
+        bool wielded_has_it = false;
+        // Cannot use weapon.has_item(it) because it skips any pockets that
+        // are not containers such as magazines and magazine wells.
+        for( const item *scan_contents : weapon.contents.all_items_top() ) {
+            if( scan_contents == &it ) {
+                wielded_has_it = true;
+                break;
+            }
+        }
+        const bool allow_wield = !wielded_has_it && weapon.magazine_current() != &it;
         const int prev_charges = it.charges;
         auto &ni = this->i_add( it, true, avoid, /*allow_drop=*/false, /*allow_wield=*/allow_wield );
         if( ni.is_null() ) {
