@@ -7075,7 +7075,7 @@ static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
             continue; // disallow photos with non-visible objects
         }
         monster *const mon = g->critter_at<monster>( current, false );
-        avatar *guy = g->critter_at<avatar>( current );
+        player *guy = g->critter_at<player>( current );
 
         total_tiles_num++;
         if( here.is_outside( current ) ) {
