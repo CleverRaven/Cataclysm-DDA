@@ -4,7 +4,7 @@
     "type": "MONSTER",
     "name": { "str": "experimental mutant" },
     "description": "A deformed amalgamation of man and animal.  Grotesque humanoid covered in fur and a torn jumpsuit.  The sinister fangs, claws and the look of insanity in his pale yellow eyes are a testament to that he lost all of his humanity.",
-    "default_faction": "factionless",
+    "default_faction": "lab_mutant",
     "bodytype": "human",
     "species": [ "MUTANT" ],
     "volume": "62500 ml",
