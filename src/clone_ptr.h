@@ -13,6 +13,7 @@ class clone_ptr
         clone_ptr() = default;
         // NOLINTNEXTLINE(google-explicit-constructor)
         clone_ptr( std::nullptr_t ) {}
+        // NOLINTNEXTLINE(clang-analyzer-cplusplus.NewDeleteLeaks)
         clone_ptr( const clone_ptr &other ) : p_( other.p_ ? other.p_->clone() : nullptr ) {}
         clone_ptr( clone_ptr && ) noexcept = default;
         clone_ptr &operator=( const clone_ptr &other ) {
