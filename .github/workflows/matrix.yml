@@ -145,8 +145,9 @@ jobs:
     - name: build and test
       run: bash ./build-scripts/build.sh
     - name: upload artifacts if failed
-      uses: actions/upload-artifact@v1
+      uses: actions/upload-artifact@v2
       if: failure()
       with:
         name: cata_test
         path: tests/cata_test
+        if-no-files-found: ignore
