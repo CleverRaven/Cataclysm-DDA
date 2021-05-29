@@ -383,10 +383,10 @@ void book_proficiency_bonus::deserialize( JsonIn &jsin )
     optional( jo, was_loaded, "fail_factor", fail_factor, default_fail_factor );
     optional( jo, was_loaded, "time_factor", time_factor, default_time_factor );
     optional( jo, was_loaded, "include_prereqs", include_prereqs, default_include_prereqs );
-    if( fail_factor < 0 || fail_factor >= 1) {
+    if( fail_factor < 0 || fail_factor >= 1 ) {
         jo.throw_error( "fail_factor must be in range [0,1)" );
     }
-    if( time_factor < 0 || time_factor >= 1) {
+    if( time_factor < 0 || time_factor >= 1 ) {
         jo.throw_error( "time_factor must be in range [0,1)" );
     }
 }
