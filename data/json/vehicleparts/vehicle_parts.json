@@ -191,7 +191,7 @@
     },
     "flags": [ "BED", "BOARDABLE", "CARGO", "MOUNTABLE", "NONBELTABLE" ],
     "breaks_into": "ig_vp_seat",
-    "damage_reduction": { "all": 3 }
+    "damage_reduction": { "all": 3, "bash": 5 }
   },
   {
     "type": "vehicle_part",
@@ -504,7 +504,7 @@
       { "item": "steel_chunk", "count": [ 1, 2 ] },
       { "item": "scrap", "count": [ 0, 3 ] }
     ],
-    "damage_reduction": { "all": 8 }
+    "damage_reduction": { "all": 8, "bash": 10 }
   },
   {
     "type": "vehicle_part",
@@ -1332,7 +1332,9 @@
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
     },
     "flags": [ "SEATBELT", "FOLDABLE", "SIMPLE_PART" ],
-    "breaks_into": [ { "item": "string_36", "count": [ 0, 3 ] } ]
+    "breaks_into": [ { "item": "string_36", "count": [ 0, 3 ] } ],
+    "damage_reduction": { "bash": 15 }
+
   },
   {
     "type": "vehicle_part",
@@ -1418,7 +1420,9 @@
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
     },
     "flags": [ "SEATBELT", "FOLDABLE", "SIMPLE_PART" ],
-    "breaks_into": [ { "item": "string_36", "count": [ 0, 3 ] } ]
+    "breaks_into": [ { "item": "string_36", "count": [ 0, 3 ] } ],
+    "damage_reduction": { "bash": 15 }
+
   },
   {
     "type": "vehicle_part",
@@ -2647,7 +2651,9 @@
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
     },
     "flags": [ "WATCH", "ALARMCLOCK", "FOLDABLE" ],
-    "breaks_into": [ { "item": "scrap", "prob": 50 } ]
+    "breaks_into": [ { "item": "scrap", "prob": 50 } ],
+    "damage_reduction": { "bash": 5 }
+
   },
   {
     "type": "vehicle_part",
