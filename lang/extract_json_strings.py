@@ -854,6 +854,14 @@ def extract_mutation(item):
     if "ranged_mutation" in item:
         writestr(outfile, item.get("ranged_mutation").get("message"))
 
+    if "transform" in item:
+        writestr(outfile, item.get("transform").get("msg_transform"))
+
+    for trigger in item.get("triggers", []):
+        for entry in trigger:
+            writestr(outfile, entry.get("msg_on", {}).get("text"))
+            writestr(outfile, entry.get("msg_off", {}).get("text"))
+
 
 def extract_mutation_category(item):
     outfile = get_outfile("mutation_category")
