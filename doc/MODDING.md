@@ -31,7 +31,8 @@ A barebones `modinfo.json` file looks like this:
 ]
 ````
 The `category` attribute denotes where the mod will appear in the mod selection menu. These are the available categories to choose from, with some examples chosen from mods that existed when this document was written. Pick whichever one applies best to your mod when writing your modinfo file.
- - `content` - A mod that adds a lot of stuff. Typically reserved for very large mods or complete game overhauls (eg: Core game files, Aftershock)
+ - `content` - A mod that adds a lot of stuff. Typically reserved for large mods (eg: Core game files, Aftershock)
+ - `total_conversion` - A mod that fundamentally changes the game.  In particular, the assumption is that a player should not use two total conversion mods at the same time, and so they will not be tested together.  However, nothing prevents players from using more than one if they wish. (eg: Dark Skies Above)
  - `items` - A mod that adds new items and recipes to the game (eg: More survival tools)
  - `creatures` - A mod that adds new creatures or NPCs to the game (eg: Modular turrets)
  - `misc_additions` - Miscellaneous content additions to the game (eg: Alternative map key, Crazy cataclysm)
