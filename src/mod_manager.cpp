@@ -54,6 +54,7 @@ std::string MOD_INFORMATION::name() const
 const std::vector<std::pair<std::string, translation>> &get_mod_list_categories()
 {
     static const std::vector<std::pair<std::string, translation>> mod_list_categories = {
+        {"total_conversion", to_translation( "TOTAL CONVERSIONS" )},
         {"content", to_translation( "CORE CONTENT PACKS" )},
         {"items", to_translation( "ITEM ADDITION MODS" )},
         {"creatures", to_translation( "CREATURE MODS" )},
