@@ -1334,7 +1334,6 @@
     "flags": [ "SEATBELT", "FOLDABLE", "SIMPLE_PART" ],
     "breaks_into": [ { "item": "string_36", "count": [ 0, 3 ] } ],
     "damage_reduction": { "bash": 15 }
-
   },
   {
     "type": "vehicle_part",
@@ -1422,7 +1421,6 @@
     "flags": [ "SEATBELT", "FOLDABLE", "SIMPLE_PART" ],
     "breaks_into": [ { "item": "string_36", "count": [ 0, 3 ] } ],
     "damage_reduction": { "bash": 15 }
-
   },
   {
     "type": "vehicle_part",
@@ -2653,7 +2651,6 @@
     "flags": [ "WATCH", "ALARMCLOCK", "FOLDABLE" ],
     "breaks_into": [ { "item": "scrap", "prob": 50 } ],
     "damage_reduction": { "bash": 5 }
-
   },
   {
     "type": "vehicle_part",
