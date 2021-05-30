@@ -65,7 +65,7 @@
     "item": "mil_plate",
     "color": "green",
     "broken_color": "green",
-    "durability": 800,
+    "durability": 875,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 4, 6 ] },
       { "item": "steel_chunk", "count": [ 4, 6 ] },
@@ -77,7 +77,7 @@
       "removal": { "skills": [ [ "mechanics", 4 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 7 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
-    "damage_reduction": { "all": 180, "cut": 210, "stab": 280 }
+    "damage_reduction": { "all": 87, "bullet": 131 }
   },
   {
     "id": "ram_spiked",
