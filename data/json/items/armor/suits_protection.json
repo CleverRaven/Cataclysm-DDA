@@ -931,7 +931,7 @@
 	"warmth": 25,
 	"material_thickness": 2,
 	"flags": ["VARSIZE", "SUPER_FANCY", "POCKETS"]
-}
+  },
   {
     "id": "robofac_enviro_suit",
     "repairs_like": "aep_suit",
