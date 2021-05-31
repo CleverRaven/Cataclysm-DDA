@@ -485,7 +485,7 @@ Character::Character() :
 
     move_mode = move_mode_id( "walk" );
     next_expected_position = cata::nullopt;
-    cached_time = calendar::before_time_starts;
+    crafting_cache.time = calendar::before_time_starts;
 }
 // *INDENT-ON*
 

@@ -541,17 +541,15 @@ const inventory &Character::crafting_inventory( const tripoint &src_pos, int rad
     if( src_pos == tripoint_zero ) {
         inv_pos = pos();
     }
-    static int radius_mem = radius;
-    if( cached_moves == moves
-        && radius_mem == radius
-        && cached_time == calendar::turn
-        && cached_position == inv_pos ) {
-        return *cached_crafting_inventory;
+    if( moves == crafting_cache.moves
+        && radius == crafting_cache.radius
+        && calendar::turn == crafting_cache.time
+        && inv_pos == crafting_cache.position ) {
+        return *crafting_cache.crafting_inventory;
     }
-    radius_mem = radius;
-    cached_crafting_inventory->clear();
+    crafting_cache.crafting_inventory->clear();
     if( radius >= 0 ) {
-        cached_crafting_inventory->form_from_map( inv_pos, radius, this, false, clear_path );
+        crafting_cache.crafting_inventory->form_from_map( inv_pos, radius, this, false, clear_path );
     }
 
     for( const item_location &it : const_cast<Character *>( this )->all_items_loc() ) {
@@ -559,31 +557,32 @@ const inventory &Character::crafting_inventory( const tripoint &src_pos, int rad
         if( !it->contents.empty_container() ) {
             continue;
         }
-        cached_crafting_inventory->add_item( *it );
+        crafting_cache.crafting_inventory->add_item( *it );
     }
 
     for( const bionic &bio : *my_bionics ) {
         const bionic_data &bio_data = bio.info();
         if( ( !bio_data.activated || bio.powered ) &&
             !bio_data.fake_item.is_empty() ) {
-            *cached_crafting_inventory += item( bio.info().fake_item,
-                                                calendar::turn, units::to_kilojoule( get_power_level() ) );
+            *crafting_cache.crafting_inventory += item( bio.info().fake_item,
+                                                  calendar::turn, units::to_kilojoule( get_power_level() ) );
         }
     }
     if( has_trait( trait_BURROW ) ) {
-        *cached_crafting_inventory += item( "pickaxe", calendar::turn );
-        *cached_crafting_inventory += item( "shovel", calendar::turn );
+        *crafting_cache.crafting_inventory += item( "pickaxe", calendar::turn );
+        *crafting_cache.crafting_inventory += item( "shovel", calendar::turn );
     }
 
-    cached_moves = moves;
-    cached_time = calendar::turn;
-    cached_position = inv_pos;
-    return *cached_crafting_inventory;
+    crafting_cache.moves = moves;
+    crafting_cache.time = calendar::turn;
+    crafting_cache.position = inv_pos;
+    crafting_cache.radius = radius;
+    return *crafting_cache.crafting_inventory;
 }
 
 void Character::invalidate_crafting_inventory()
 {
-    cached_time = calendar::before_time_starts;
+    crafting_cache.time = calendar::before_time_starts;
 }
 
 void Character::make_craft( const recipe_id &id_to_make, int batch_size,

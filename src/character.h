@@ -2922,11 +2922,14 @@ class Character : public Creature, public visitable
 
         struct weighted_int_list<std::string> melee_miss_reasons;
 
-        /* crafting inventory cached time */
-        mutable time_point cached_time;
-        mutable int cached_moves;
-        mutable tripoint cached_position;
-        mutable pimpl<inventory> cached_crafting_inventory;
+        struct crafting_cache_type {
+            time_point time;
+            int moves;
+            tripoint position;
+            int radius;
+            pimpl<inventory> crafting_inventory;
+        };
+        mutable crafting_cache_type crafting_cache;
 
     protected:
         /** Subset of learned recipes. Needs to be mutable for lazy initialization. */
