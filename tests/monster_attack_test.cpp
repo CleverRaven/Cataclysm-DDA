@@ -160,7 +160,7 @@ TEST_CASE( "monster_special_attack", "[vision][reachability]" )
     override_option opt( "FOV_3D", fov_3d ? "true" : "false" );
     get_map().ter_set( attacker_location + tripoint{ 2, 0, 0 }, ter_id( "t_wall" ) );
     get_map().ter_set( attacker_location + tripoint{ 2, 0, 1 }, ter_id( "t_floor" ) );
-    get_map().ter_set( attacker_location + tripoint{ 1, 0, 0 }, ter_id( "t_wall" ) );
+    get_map().ter_set( attacker_location + tripoint_east, ter_id( "t_wall" ) );
     get_map().ter_set( attacker_location + tripoint{ 1, 0, 1 }, ter_id( "t_floor" ) );
     // Adjacent should be visible if 3d vision is on, but it's too close to attack.
     //test_monster_attack( { 1, 0, 1 },  false, fov_3d, mattack::stretch_attack );
