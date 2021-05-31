@@ -28,9 +28,9 @@
     "dispersion": 120,
     "durability": 8,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], 
-    "loudness" 8,
-    "ups_charges" 50,
-    "reload" 200,
+    "loudness", 8,
+    "ups_charges", 50,
+    "reload", 200,
     "location" "emitter",
     "mod_targets": [ "rifle" ],
     "ammo_effects": ["INCENDIARY" ],
@@ -56,9 +56,9 @@
     "dispersion": 120,
     "durability": 8,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], 
-    "loudness" 15,
-    "ups_charges" 200
-    "reload" 200,
+    "loudness", 15,
+    "ups_charges", 200
+    "reload", 200,
     "location" "emitter",
     "mod_targets": [ "rifle" ],
     "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE" ]
