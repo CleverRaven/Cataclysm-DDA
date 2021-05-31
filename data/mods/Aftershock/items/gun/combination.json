@@ -28,7 +28,7 @@
     "longest_side": "900 mm",
     "price": 50000,
     "price_postapoc": 6000,
-    "to_hit":-2,
+    "to_hit": -2,
     "bashing": 5,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
@@ -52,7 +52,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "ammo_effects": ["INCENDIARY" ],
+    "ammo_effects": [ "INCENDIARY" ],
     "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE" ]
   }
 ]
