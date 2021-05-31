@@ -6456,7 +6456,7 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
             auto wreckage = std::make_unique<vehicle>();
             wreckage->pos = other_veh->pos;
             wreckage->sm_pos = other_veh->sm_pos;
-
+            wreckage->face = other_veh->face;
             //Where are we on the global scale?
             const tripoint global_pos = wreckage->global_pos3();
 
