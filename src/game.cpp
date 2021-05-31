@@ -893,7 +893,11 @@ vehicle *game::place_vehicle_nearby(
                 tripoint abs_local = m.getlocal( target_map.getabs( tinymap_center ) );
                 veh->sm_pos =  ms_to_sm_remain( abs_local );
                 veh->pos = abs_local.xy();
+
+                // Track the player's spawn vehicle.
+                veh->tracking_on = true;
                 overmap_buffer.add_vehicle( veh );
+
                 target_map.save();
                 return veh;
             }
