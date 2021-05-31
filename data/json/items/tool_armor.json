@@ -124,7 +124,7 @@
     "covers": [ "head" ],
     "use_action": { "menu_text": "Salute", "type": "transform", "target": "combo_cover", "msg": "You bring your hand to your cover and issue a salute." },
     "symbol": "[",
-    "description": "A military officer's combo cover, or peaked cap. It conveys an air of authority, while keeping the sun out of your eyes."
+    "description": "A military officer's combo cover, or peaked cap. It conveys an air of authority, while keeping the sun out of your eyes.",
     "price": 10000,
     "price_postapoc": 1000,
     "material": [ "cotton" ],
