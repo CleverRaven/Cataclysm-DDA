@@ -15,7 +15,7 @@
 	"name": {
 		"str": "VER-3 stage 2 capacitor"
 	},
-	"description": "The second stage capacitor of the VER-3, increasing it's power and range to where it's comparable to a DMR, but losing the ability to fire full auto and doubling it's power consumption. It's irremovable ",
+	"description": "The second stage capacitor of the VER-3, increasing its power and range to where it's comparable to a DMR, but losing the ability to fire full auto and doubling its power consumption.  It's irremovable.",
 	"weight": "150 g",
 	"volume": "50 ml",
 	"price": 0,
