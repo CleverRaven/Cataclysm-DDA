@@ -941,7 +941,7 @@ TEST_CASE( "book_proficiency_mitigation", "[crafting][proficiency]" )
             std::vector<item> books;
             books.emplace_back( "manual_tailor" );
             give_tools( books );
-            get_player_character().moves--;  // invalidate the inventory cache
+            get_player_character().invalidate_crafting_inventory();
             int mitigated_time_taken = test_recipe.batch_time( get_player_character(), 1, 1, 0 );
             THEN( "it takes less time to craft the recipe" ) {
                 CHECK( mitigated_time_taken < unmitigated_time_taken );
