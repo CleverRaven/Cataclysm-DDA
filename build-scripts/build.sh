@@ -195,11 +195,15 @@ else
 
     if [ -n "$TEST_STAGE" ]
     then
-        # Run the tests one more time, without actually running any tests, just to verify that all
-        # the mod data can be successfully loaded
+        # Run the tests with all the mods, without actually running any tests,
+        # just to verify that all the mod data can be successfully loaded.
+        # Because some mods might be mutually incompatible we might need to run a few times.
 
-        mods="$(./build-scripts/get_all_mods.py)"
-        run_test './tests/cata_test --user-dir=all_modded --mods='"${mods}" '~*' ''
+        ./build-scripts/get_all_mods.py | \
+            while read mods
+            do
+                run_test './tests/cata_test --user-dir=all_modded --mods='"${mods}" '~*' ''
+            done
     fi
 fi
 ccache --show-stats
