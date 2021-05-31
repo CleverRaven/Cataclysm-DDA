@@ -33,11 +33,10 @@
     "ammo_effects", ["INCENDIARY" ],
     "ups_charges", 50,
     "reload", 200,
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE" ]
+    "flags", [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE" ]
     },
     "location", "emitter",
     "mod_targets", [ "rifle" ],
-
   },
   {
     "id": "charge_capacitor_2",
