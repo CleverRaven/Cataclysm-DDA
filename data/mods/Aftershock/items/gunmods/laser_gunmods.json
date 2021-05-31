@@ -32,8 +32,8 @@
     "ups_charges", 50,
     "reload", 200,
     "location", "emitter",
-    "mod_targets": [ "rifle" ],
-    "ammo_effects": ["INCENDIARY" ],
+    "mod_targets", [ "rifle" ],
+    "ammo_effects", ["INCENDIARY" ],
     "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE" ]
   },
   {
@@ -47,7 +47,7 @@
     "price_postapoc": 0,
     "install_time": "0 s",
     "material": [ "steel" ],
-    "ammo_effects": [ "PLASMA", "EXPLOSIVE_SMALL", "FLAME" ],
+    "ammo_effects", [ "PLASMA", "EXPLOSIVE_SMALL", "FLAME" ],
     "symbol": ":",
     "color": "light_red",
     "skill": "rifle",
@@ -60,7 +60,7 @@
     "ups_charges", 200
     "reload", 200,
     "location", "emitter",
-    "mod_targets": [ "rifle" ],
+    "mod_targets", [ "rifle" ],
     "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE" ]
   },
   {
