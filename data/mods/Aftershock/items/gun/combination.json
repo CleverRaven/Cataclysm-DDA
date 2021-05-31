@@ -36,7 +36,7 @@
     "skill": "rifle",
     "range": 20,
     "ranged_damage": { "damage_type": "heat", "amount": 20, "armor_penetration": 4 },
-    "built_in_mods": [ "charge_capacitor_1", "charge_capacitor_2", ],
+    "built_in_mods": [ "charge_capacitor_1", "charge_capacitor_2" ],
     "dispersion": 150,
     "durability": 8,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 3 ] ],
