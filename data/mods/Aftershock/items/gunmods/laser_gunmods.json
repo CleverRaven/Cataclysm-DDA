@@ -48,7 +48,7 @@
  	"name": {
  		"str": "VER-3 stage 3 capacitor"
  	},
- 	"description": "The third stage capacitor of the VER-3, further increasing it's power to where it creates a small explosion on impact, but quadruples it's power cost from the stage 2 capacitor, as well as increasing it's noise. It's irremovable ",
+ 	"description": "The third stage capacitor of the VER-3, further increasing its power to where it creates a small explosion on impact, but quadruples its power cost from the stage 2 capacitor, as well as increasing its noise.  It's irremovable.",
  	"weight": "150 g",
  	"volume": "50 ml",
  	"price": 0,
