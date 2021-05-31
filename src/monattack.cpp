@@ -211,6 +211,8 @@ static const mtype_id mon_zombie_gasbag_impaler( "mon_zombie_gasbag_impaler" );
 static const mtype_id mon_zombie_jackson( "mon_zombie_jackson" );
 static const mtype_id mon_zombie_skeltal_minion( "mon_zombie_skeltal_minion" );
 
+static const matec_id tec_none( "tec_none" );
+
 static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
 
 // shared utility functions
@@ -2697,13 +2699,14 @@ bool mattack::grab( monster *z )
         return true;
     }
 
-    item &cur_weapon = pl->weapon;
     ///\EFFECT_DEX increases chance to avoid being grabbed
     int reflex_mod = pl->has_trait( trait_FAST_REFLEXES ) ? 2 : 1;
     const bool dodged_grab = rng( 0, reflex_mod * pl->get_dex() ) > rng( 0,
                              z->type->melee_sides + z->type->melee_dice );
 
-    if( pl->can_grab_break( cur_weapon ) && dodged_grab ) {
+    const ma_technique grab_break = pl->martial_arts_data->get_grab_break( *pl );
+
+    if( grab_break.id != tec_none && dodged_grab ) {
         if( target->has_effect( effect_grabbed ) ) {
             target->add_msg_if_player( m_info, _( "The %s tries to grab you as well, but you bat it away!" ),
                                        z->name() );
@@ -2711,13 +2714,9 @@ bool mattack::grab( monster *z )
                                               pl->martial_arts_data->selected_has_weapon( pl->weapon.typeId() ) ) ) {
             target->add_msg_if_player( m_info, _( "The %s tries to grab you…" ), z->name() );
             thrown_by_judo( z );
-        } else if( pl->has_grab_break_tec() ) {
-            ma_technique tech = pl->martial_arts_data->get_grab_break_tec( cur_weapon );
-            target->add_msg_player_or_npc( m_info, tech.avatar_message.translated(),
-                                           tech.npc_message.translated(), z->name() );
         } else {
-            add_msg_if_player_sees( *z, m_info, _( "The %1$s tries to grab %2$s, but %2$s break its grab!" ),
-                                    z->name(), target->disp_name() );
+            target->add_msg_player_or_npc( m_info, grab_break.avatar_message.translated(),
+                                           grab_break.npc_message.translated(), z->name() );
         }
         return true;
     }

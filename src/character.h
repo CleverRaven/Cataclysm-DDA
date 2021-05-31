@@ -765,8 +765,6 @@ class Character : public Creature, public visitable
 
         std::string custom_profession;
 
-        /** Returns true if the player is able to use a miss recovery technique */
-        bool can_miss_recovery( const item &weap ) const;
         /** Returns true if the player has quiet melee attacks */
         bool is_quiet() const;
 
@@ -862,8 +860,6 @@ class Character : public Creature, public visitable
         float stability_roll() const override;
         /** Returns true if the player can learn the entered martial art */
         bool can_autolearn( const matype_id &ma_id ) const;
-        /** Returns true if the player is able to use a grab breaking technique */
-        bool can_grab_break( const item &weap ) const;
     private:
         /** Check if an area-of-effect technique has valid targets */
         bool valid_aoe_technique( Creature &t, const ma_technique &technique );

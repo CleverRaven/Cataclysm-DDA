@@ -557,6 +557,9 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
     if( !hits ) {
         int stumble_pen = stumble( *this, *cur_weapon );
         sfx::generate_melee_sound( pos(), t.pos(), false, false );
+
+        const ma_technique miss_recovery = martial_arts_data->get_miss_recovery( *this );
+
         if( is_player() ) { // Only display messages if this is the player
 
             if( one_in( 2 ) ) {
@@ -566,9 +569,8 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
                 }
             }
 
-            if( can_miss_recovery( *cur_weapon ) ) {
-                ma_technique tec = martial_arts_data->get_miss_recovery_tec( *cur_weapon );
-                add_msg( tec.avatar_message.translated(), t.disp_name() );
+            if( miss_recovery.id != tec_none ) {
+                add_msg( miss_recovery.avatar_message.translated(), t.disp_name() );
             } else if( stumble_pen >= 60 ) {
                 add_msg( m_bad, _( "You miss and stumble with the momentum." ) );
             } else if( stumble_pen >= 10 ) {
@@ -577,7 +579,9 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
                 add_msg( _( "You miss." ) );
             }
         } else if( player_character.sees( *this ) ) {
-            if( stumble_pen >= 60 ) {
+            if( miss_recovery.id != tec_none ) {
+                add_msg( miss_recovery.npc_message.translated(), t.disp_name() );
+            } else if( stumble_pen >= 60 ) {
                 add_msg( _( "%s misses and stumbles with the momentum." ), name );
             } else if( stumble_pen >= 10 ) {
                 add_msg( _( "%s swings wildly and misses." ), name );
@@ -593,7 +597,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
 
         // Cap stumble penalty, heavy weapons are quite weak already
         move_cost += std::min( 60, stumble_pen );
-        if( martial_arts_data->has_miss_recovery_tec( *cur_weapon ) ) {
+        if( miss_recovery.id != tec_none ) {
             move_cost /= 2;
         }
 
@@ -837,8 +841,12 @@ void Character::reach_attack( const tripoint &p )
 
     if( critter == nullptr ) {
         add_msg_if_player( _( "You swing at the air." ) );
-        if( martial_arts_data->has_miss_recovery_tec( weapon ) ) {
+
+        const ma_technique miss_recovery = martial_arts_data->get_miss_recovery( *this );
+
+        if( miss_recovery.id != tec_none ) {
             move_cost /= 3; // "Probing" is faster than a regular miss
+            // Communicate this with a different message?
         }
 
         mod_moves( -move_cost );
