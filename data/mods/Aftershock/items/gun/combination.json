@@ -54,5 +54,5 @@
     ],
     "ammo_effects": ["INCENDIARY" ],
     "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE" ]
-  },
+  }
 ]
