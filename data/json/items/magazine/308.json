@@ -12,6 +12,15 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "308": 500 } } ]
   },
   {
+    "type": "MAGAZINE",
+    "id": "crows_belt308",
+    "copy-from": "belt308",
+    "name": { "str": "CROWS 7.62x51mm ammo belt" },
+    "ammo_type": [ "crows_308" ],
+    "default_ammo": "crows_762_51",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "crows_308": 500 } } ]
+  },
+  {
     "id": "falbigmag",
     "looks_like": "stanag30",
     "type": "MAGAZINE",

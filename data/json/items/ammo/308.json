@@ -34,6 +34,17 @@
     "extend": { "effects": [ "NEVER_MISFIRES" ] }
   },
   {
+    "type": "AMMO",
+    "id": "crows_762_51",
+    "copy-from": "762_51",
+    "name": { "str_sp": "CROWS 7.62x51mm M80" },
+    "description": "A 7.62x51mm NATO round with a 147gr FMJ bullet.  It is a powerful rifle cartridge commonly used by hunters and military snipers because of its high accuracy and long range.  It has CROWS engraved on the casing, which unfortunately doesn't fit regular weapons.",
+    "ammo_type": "crows_308",
+    "casing": "crows_762_51_casing",
+    "price": 150,
+    "price_postapoc": 8
+  },
+  {
     "id": "762_51_incendiary",
     "copy-from": "762_51",
     "type": "AMMO",

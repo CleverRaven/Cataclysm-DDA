@@ -216,14 +216,14 @@
     "vision_day": 50,
     "vision_night": 3,
     "revert_to_itype": "bot_crows_m240",
-    "starting_ammo": { "762_51": 1000 },
+    "starting_ammo": { "crows_762_51": 1000 },
     "special_attacks": [
       {
         "type": "gun",
         "cooldown": 1,
         "move_cost": 150,
-        "gun_type": "m240",
-        "ammo_type": "762_51",
+        "gun_type": "crows_m240",
+        "ammo_type": "crows_762_51",
         "fake_skills": [ [ "gun", 8 ], [ "rifle", 8 ] ],
         "fake_dex": 12,
         "ranges": [ [ 0, 60, "DEFAULT" ] ],

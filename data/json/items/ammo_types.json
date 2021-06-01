@@ -241,6 +241,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "crows_308",
+    "name": "crows .308",
+    "default": "crows_762_51"
+  },
+  {
+    "type": "ammunition_type",
     "id": "40x46mm",
     "name": "40x46mm grenade",
     "default": "40x46mm_m433"
