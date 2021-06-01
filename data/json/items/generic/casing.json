@@ -20,6 +20,13 @@
     "volume": "5ml"
   },
   {
+    "type": "GENERIC",
+    "id": "crows_223_casing",
+    "copy-from": "223_casing",
+    "name": { "str": "CROWS .223 casing" },
+    "description": "An empty casing from a .223 round.  It has CROWS engraved on its side and won't fit on regular weapons."
+  },
+  {
     "id": "22_casing",
     "copy-from": "casing",
     "looks_like": "9mm_casing",

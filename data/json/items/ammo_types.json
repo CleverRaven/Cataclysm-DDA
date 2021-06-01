@@ -217,6 +217,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "crows_223",
+    "name": "crows .223",
+    "default": "crows_556"
+  },
+  {
+    "type": "ammunition_type",
     "id": "3006",
     "name": ".30-06",
     "default": "3006"

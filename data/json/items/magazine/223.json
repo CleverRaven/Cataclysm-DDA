@@ -13,6 +13,15 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 500 } } ]
   },
   {
+    "type": "MAGAZINE",
+    "id": "crows_belt223",
+    "copy-from": "belt223",
+    "name": { "str": "CROWS 5.56x45mm ammo belt" },
+    "ammo_type": [ "crows_223" ],
+    "default_ammo": "crows_556",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "crows_223": 500 } } ]
+  },
+  {
     "id": "famasmag",
     "looks_like": "stanag30",
     "type": "MAGAZINE",

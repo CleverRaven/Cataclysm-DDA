@@ -36,6 +36,17 @@
     "extend": { "effects": [ "NEVER_MISFIRES" ] }
   },
   {
+    "type": "AMMO",
+    "id": "crows_556",
+    "copy-from": "556",
+    "name": { "str_sp": "CROWS 5.56 NATO M855A1" },
+    "description": "5.56x45mm ammunition with a 62gr FMJ bullet containing a steel penetrator.  Its light weight, high accuracy, and manageable recoil lead to widespread use in the 20th century and it remains popular among militaries and civilians.  It has CROWS engraved on the casing, which unfortunately doesn't fit regular weapons.",
+    "ammo_type": "crows_223",
+    "casing": "crows_223_casing",
+    "price": 250,
+    "price_postapoc": 10
+  },
+  {
     "id": "556_incendiary",
     "copy-from": "556",
     "type": "AMMO",
