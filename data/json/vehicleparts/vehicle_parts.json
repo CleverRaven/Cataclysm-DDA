@@ -2215,6 +2215,7 @@
     "broken_color": "light_gray",
     "damage_modifier": 0,
     "durability": 60,
+    "damage_reduction": { "bash": 5 },
     "description": "A stereo system.  When turned on, it plays music, improving your mood.",
     "epower": -50,
     "bonus": 80,
