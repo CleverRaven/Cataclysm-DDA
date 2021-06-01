@@ -33,6 +33,17 @@
     "effects": [ "COOKOFF", "NEVER_MISFIRES" ]
   },
   {
+    "type": "AMMO",
+    "id": "crows_50bmg",
+    "copy-from": "50bmg",
+    "name": { "str_sp": "CROWS .50 BMG M33 Ball" },
+    "description": ".50 BMG ammunition with mild steel cored 661gr FMJ bullets.  The .50 BMG is a very powerful rifle round designed for anti-aircraft use, later adapted to anti-vehicular and anti-personnel roles.  Its stupendous energy and armor piercing capabilities make it one of the most deadly rounds available, offset only by its drastic recoil and noise.  It has CROWS engraved on the casing, which unfortunately doesn't fit regular weapons.",
+    "ammo_type": "crows_50",
+    "casing": "crows_50_casing",
+    "price": 2000,
+    "price_postapoc": 30
+  },
+  {
     "id": "50match",
     "copy-from": "50bmg",
     "type": "AMMO",

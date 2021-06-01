@@ -98,14 +98,14 @@
     "vision_day": 50,
     "vision_night": 3,
     "revert_to_itype": "bot_antimateriel",
-    "starting_ammo": { "50bmg": 400 },
+    "starting_ammo": { "crows_50bmg": 400 },
     "special_attacks": [
       {
         "type": "gun",
         "cooldown": 1,
         "move_cost": 150,
-        "gun_type": "m2browning",
-        "ammo_type": "50bmg",
+        "gun_type": "crows_m2browning",
+        "ammo_type": "crows_50bmg",
         "fake_skills": [ [ "gun", 8 ], [ "rifle", 8 ] ],
         "fake_dex": 12,
         "ranges": [ [ 0, 40, "AUTO" ], [ 41, 110, "DEFAULT" ] ],

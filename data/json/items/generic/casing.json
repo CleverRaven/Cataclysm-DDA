@@ -326,6 +326,13 @@
     "volume": "12ml"
   },
   {
+    "type": "GENERIC",
+    "id": "crows_50_casing",
+    "copy-from": "50_casing",
+    "name": { "str": "CROWS .50 BMG casing" },
+    "description": "An empty casing from a .50 BMG round.  It has CROWS engraved on its side and won't fit on regular weapons."
+  },
+  {
     "id": "545_casing",
     "copy-from": "casing",
     "looks_like": "9mm_casing",

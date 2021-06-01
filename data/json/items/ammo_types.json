@@ -19,6 +19,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "crows_50",
+    "name": "crows .50 BMG",
+    "default": "crows_50bmg"
+  },
+  {
+    "type": "ammunition_type",
     "id": "4570",
     "name": ".45-70",
     "default": "4570_sp"

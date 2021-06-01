@@ -81,6 +81,24 @@
     ]
   },
   {
+    "type": "GUN",
+    "id": "crows_m2browning",
+    "copy-from": "m2browning",
+    "name": { "str": "CROWS II M2HB Browning HMG" },
+    "//": "This weapon is exclusive for the CROWS II turret.",
+    "description": "If you're seeing this weapon, it's a bug.",
+    "ammo": [ "crows_50" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "crows_belt50" ]
+      }
+    ]
+  },
+  {
     "id": "m2browning_sawn",
     "copy-from": "m2browning",
     "type": "GUN",
