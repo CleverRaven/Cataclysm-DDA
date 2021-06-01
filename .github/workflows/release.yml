@@ -151,7 +151,7 @@ jobs:
         if: runner.os == 'macOS'
         run: |
           HOMEBREW_NO_AUTO_UPDATE=yes HOMEBREW_NO_INSTALL_CLEANUP=yes brew install sdl2 sdl2_image sdl2_ttf sdl2_mixer gettext ccache parallel
-          pip3 install dmgbuild biplist
+          pip3 install dmgbuild==1.4.2 biplist
       - name: Build CDDA (linux)
         if: runner.os == 'Linux' && matrix.mxe == 'none' && matrix.android == 'none' 
         run: |
