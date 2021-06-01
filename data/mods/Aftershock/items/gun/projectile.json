@@ -48,7 +48,6 @@
     "ups_charges": 40,
     "reload": 1200,
     "valid_mod_locations": [
-      [ "emitter", 1 ],
       [ "grip", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
