@@ -18,7 +18,7 @@ install:
     - cmd: vcpkg --triplet %PLATFORM%-windows-static install sdl2 sdl2-image sdl2-mixer[dynamic-load,libflac,mpg123,libmodplug,libvorbis] sdl2-ttf gettext --recurse
 build:
   project: ${project_name}
-  parallel: true
+  parallel: false
   verbosity: minimal
 only_commits:
   files:
