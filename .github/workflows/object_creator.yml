@@ -1,0 +1,47 @@
+name: ObjectCreator Windows build
+
+on:
+  push:
+    branches:
+    - master
+    - 0.F-dev
+    paths-ignore:
+    - 'android/**'
+    - 'build-data/osx/**'
+    - 'doc/**'
+    - 'doxygen_doc/**'
+    - 'lgtm/**'
+    - 'tools/**'
+    - 'utilities/**'
+  pull_request:
+    branches:
+    - master
+    - 0.F-dev
+    paths-ignore:
+    - 'android/**'
+    - 'build-data/osx/**'
+    - 'doc/**'
+    - 'doxygen_doc/**'
+    - 'lgtm/**'
+    - 'tools/**'
+    - 'utilities/**'
+
+jobs:
+  build_object_creator:
+    name: Build
+    runs-on: windows-2019
+
+    steps:
+    - name: checkout repository
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 1
+
+    - name: Add msbuild to PATH
+      uses: microsoft/setup-msbuild@v1.0.2
+
+    - name: Build
+      shell: cmd
+      run: |
+          msbuild /p:Configuration=Release /p:Platform=x64 \
+            msvc-object_creator/ObjectCreator-vcpkg-static.sln
