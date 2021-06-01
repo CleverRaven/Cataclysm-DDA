@@ -1,6 +1,10 @@
 version: '{branch}.{build}'
 image: Visual Studio 2019
 configuration: Release
+environment:
+  matrix:
+    - project_name: /msvc-full-features/Cataclysm-vcpkg-static.sln
+    - project_name: /msvc-object_creator/ObjectCreator-vcpkg-static.sln
 platform: x86
 shallow_clone: true
 clone_folder: C:\Projects\Cataclysm-DDA
@@ -13,7 +17,7 @@ install:
     - cmd: bootstrap-vcpkg.bat -disableMetrics
     - cmd: vcpkg --triplet %PLATFORM%-windows-static install sdl2 sdl2-image sdl2-mixer[dynamic-load,libflac,mpg123,libmodplug,libvorbis] sdl2-ttf gettext --recurse
 build:
-  project: /msvc-full-features/Cataclysm-vcpkg-static.sln
+  project: ${project_name}
   parallel: true
   verbosity: minimal
 only_commits:
@@ -25,4 +29,3 @@ only_commits:
 branches:
   only:
     - master
-    
