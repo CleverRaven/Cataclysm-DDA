@@ -23,9 +23,10 @@ build:
 only_commits:
   files:
     - '.appveyor.yml'
-    - 'msvc-full-features/**'
+    - 'msvc-*/**'
     - 'src/**'
     - 'tests/**'
+    - 'object_creator/**'
 branches:
   only:
     - master
