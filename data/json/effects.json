@@ -1042,7 +1042,7 @@
     "remove_memorial_log": "Cured the fungal infection.",
     "miss_messages": [ [ "You feel sick inside.", 1 ] ],
     "speed_name": "Itchy skin",
-    "remove_message": "Tingling sensation in your skin fades away.",
+    "remove_message": "Your skin no longer itches.",
     "rating": "bad",
     "max_intensity": 3,
     "int_dur_factor": "6 h",
