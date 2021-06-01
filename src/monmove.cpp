@@ -1990,7 +1990,7 @@ void monster::knock_back_to( const tripoint &to )
         apply_damage( nullptr, bodypart_id( "torso" ), dam );
         add_effect( effect_stunned, 2_turns );
         if( u_see ) {
-            add_msg( _( "The %1$s bounces off a %2$s and takes %3$s damage." ), name(),
+            add_msg( _( "The %1$s bounces off a %2$s and takes %3$d damage." ), name(),
                      here.obstacle_name( to ), dam );
         }
 
