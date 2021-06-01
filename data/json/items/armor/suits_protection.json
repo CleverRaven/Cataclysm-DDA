@@ -887,7 +887,7 @@
     "SUPER_FANCY",
     "POCKETS"
   ]
-}
+  },
   {
     "id": "robofac_enviro_suit",
     "repairs_like": "aep_suit",
