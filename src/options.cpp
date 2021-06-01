@@ -3040,12 +3040,11 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
 #if !defined(__ANDROID__) && (defined(TILES) || defined(_WIN32))
     if( terminal_size_changed ) {
         int scaling_factor = get_scaling_factor();
-        int TERMX = ::get_option<int>( "TERMINAL_X" );
-        int TERMY = ::get_option<int>( "TERMINAL_Y" );
-        TERMX -= TERMX % scaling_factor;
-        TERMY -= TERMY % scaling_factor;
-        get_option( "TERMINAL_X" ).setValue( std::max( FULL_SCREEN_WIDTH * scaling_factor, TERMX ) );
-        get_option( "TERMINAL_Y" ).setValue( std::max( FULL_SCREEN_HEIGHT * scaling_factor, TERMY ) );
+        point TERM( ::get_option<int>( "TERMINAL_X" ), ::get_option<int>( "TERMINAL_Y" ) );
+        TERM.x -= TERM.x % scaling_factor;
+        TERM.y -= TERM.y % scaling_factor;
+        get_option( "TERMINAL_X" ).setValue( std::max( FULL_SCREEN_WIDTH * scaling_factor, TERM.x ) );
+        get_option( "TERMINAL_Y" ).setValue( std::max( FULL_SCREEN_HEIGHT * scaling_factor, TERM.y ) );
         save();
 
         resize_term( ::get_option<int>( "TERMINAL_X" ), ::get_option<int>( "TERMINAL_Y" ) );

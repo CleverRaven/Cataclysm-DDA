@@ -709,11 +709,10 @@ void uilist::show()
                 // to be used.
                 const utf8_wrapper entry = utf8_wrapper( ei == selected ? remove_color_tags( entries[ ei ].txt ) :
                                            entries[ ei ].txt );
-                int x = pad_left + 4;
-                int y = estart + si;
-                entries[ei].drawn_rect.p_min = point( x, y );
-                entries[ei].drawn_rect.p_max = point( x + max_entry_len - 1, y );
-                trim_and_print( window, point( x, y ), max_entry_len,
+                point p( pad_left + 4, estart + si );
+                entries[ei].drawn_rect.p_min = p;
+                entries[ei].drawn_rect.p_max = p + point( -1 + max_entry_len, 0 );
+                trim_and_print( window, p, max_entry_len,
                                 co, _color_error, "%s", entry.str() );
 
                 if( max_column_len && !entries[ ei ].ctxt.empty() ) {

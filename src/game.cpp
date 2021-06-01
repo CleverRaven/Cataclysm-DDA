@@ -1125,11 +1125,11 @@ bool game::cleanup_at_end()
             vRip.emplace_back( R"(@%@@%%%%%@@@@@@%%%%%%%%@@%%@@@%%%@%%@)" );
         }
 
-        const int iOffsetX = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
-        const int iOffsetY = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
+        const point iOffset( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
+                             TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 );
 
         catacurses::window w_rip = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                   point( iOffsetX, iOffsetY ) );
+                                   iOffset );
         draw_border( w_rip );
 
         sfx::do_player_death_hurt( get_player_character(), true );
@@ -3963,26 +3963,25 @@ void game::draw_minimap()
                 mvwputch( w_minimap, point( 3, 0 ), c_red, "*" );
             }
         } else {
-            int arrowx = -1;
-            int arrowy = -1;
+            point arrow( point_north_west );
             if( std::fabs( slope ) >= 1. ) { // y diff is bigger!
-                arrowy = targ.y() > curs2.y() ? 6 : 0;
-                arrowx =
+                arrow.y = targ.y() > curs2.y() ? 6 : 0;
+                arrow.x =
                     static_cast<int>( 3 + 3 * ( targ.y() > curs2.y() ? slope : ( 0 - slope ) ) );
-                if( arrowx < 0 ) {
-                    arrowx = 0;
+                if( arrow.x < 0 ) {
+                    arrow.x = 0;
                 }
-                if( arrowx > 6 ) {
-                    arrowx = 6;
+                if( arrow.x > 6 ) {
+                    arrow.x = 6;
                 }
             } else {
-                arrowx = targ.x() > curs2.x() ? 6 : 0;
-                arrowy = static_cast<int>( 3 + 3 * ( targ.x() > curs2.x() ? slope : -slope ) );
-                if( arrowy < 0 ) {
-                    arrowy = 0;
+                arrow.x = targ.x() > curs2.x() ? 6 : 0;
+                arrow.y = static_cast<int>( 3 + 3 * ( targ.x() > curs2.x() ? slope : -slope ) );
+                if( arrow.y < 0 ) {
+                    arrow.y = 0;
                 }
-                if( arrowy > 6 ) {
-                    arrowy = 6;
+                if( arrow.y > 6 ) {
+                    arrow.y = 6;
                 }
             }
             char glyph = '*';
@@ -3992,7 +3991,7 @@ void game::draw_minimap()
                 glyph = 'v';
             }
 
-            mvwputch( w_minimap, point( arrowx, arrowy ), c_red, glyph );
+            mvwputch( w_minimap, arrow, c_red, glyph );
         }
     }
 
@@ -4377,10 +4376,9 @@ void game::mon_info_update( )
         monster *m = dynamic_cast<monster *>( c );
         npc *p = dynamic_cast<npc *>( c );
         const direction dir_to_mon = direction_from( view.xy(), point( c->posx(), c->posy() ) );
-        const int mx = POSX + ( c->posx() - view.x );
-        const int my = POSY + ( c->posy() - view.y );
+        const point m2( -view.xy() + point( POSX + c->posx(), POSY + c->posy() ) );
         int index = 8;
-        if( !is_valid_in_w_terrain( point( mx, my ) ) ) {
+        if( !is_valid_in_w_terrain( m2 ) ) {
             // for compatibility with old code, see diagram below, it explains the values for index,
             // also might need revisiting one z-levels are in.
             switch( dir_to_mon ) {
@@ -7872,12 +7870,11 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                         }
                         trim_and_print( w_items, point( 1, iNum - iStartPos ), width - 9, col, sText );
                         const int numw = iItemNum > 9 ? 2 : 1;
-                        const int x = iter->vIG[iThisPage].pos.x;
-                        const int y = iter->vIG[iThisPage].pos.y;
+                        const point p( iter->vIG[iThisPage].pos.xy() );
                         mvwprintz( w_items, point( width - 6 - numw, iNum - iStartPos ),
                                    iNum == iActive ? c_light_green : c_light_gray,
-                                   "%*d %s", numw, rl_dist( point_zero, point( x, y ) ),
-                                   direction_name_short( direction_from( point_zero, point( x, y ) ) ) );
+                                   "%*d %s", numw, rl_dist( point_zero, p ),
+                                   direction_name_short( direction_from( point_zero, p ) ) );
                         ++iter;
                     }
                 } else {

@@ -55,7 +55,6 @@ readability-*,\
 -bugprone-signed-char-misuse,\
 -bugprone-sizeof-expression,\
 -bugprone-unhandled-self-assignment,\
--cata-combine-locals-into-point,\
 -cert-dcl37-c,\
 -cert-dcl51-cpp,\
 -cert-oop54-cpp,\
