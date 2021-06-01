@@ -46,6 +46,7 @@
 #include "vpart_range.h"
 #include "weather.h"
 #include "weather_type.h"
+#include <units_utility.h>
 
 static const efftype_id effect_haslight( "haslight" );
 static const efftype_id effect_onfire( "onfire" );
@@ -1249,46 +1250,129 @@ void map::apply_light_arc( const tripoint &p, const units::angle &angle, float l
 
     apply_light_source( p, LIGHT_SOURCE_LOCAL );
 
-    // Normalize (should work with negative values too)
-    const units::angle wangle = wideangle / 2.0;
+    const point p2( p.xy() );
 
-    units::angle nangle = fmod( angle, 360_degrees );
+    auto &cache = get_cache( p.z );
+    four_quadrants( &lm )[MAPSIZE_X][MAPSIZE_Y] = cache.lm;
+    float( &transparency_cache )[MAPSIZE_X][MAPSIZE_Y] = cache.transparency_cache;
+
+    // Normalize (should work with negative values too)
+    units::angle wangle = wideangle / 2.0;
+
+    units::angle nangle = normalize( angle );
+    units::angle oangle = angle - wangle;
+    units::angle cangle = angle + wangle;
 
     tripoint end;
     int range = LIGHT_RANGE( luminance );
     calc_ray_end( nangle, range, p, end );
-    apply_light_ray( lit, p, end, luminance );
 
     tripoint test;
     calc_ray_end( wangle + nangle, range, p, test );
 
     const float wdist = hypot( end.x - test.x, end.y - test.y );
     if( wdist <= 0.5 ) {
+        apply_light_ray( lit, p, end, luminance );
         return;
     }
 
     // attempt to determine beam intensity required to cover all squares
     const units::angle wstep = ( wangle / ( wdist * M_SQRT2 ) );
 
+    if( wideangle >= 45_degrees ) {
+        //cut pre-subsection
+        if( fmod( oangle, 45_degrees ) != 0_degrees ) {
+            units::angle preangle = oangle;
+            //get next largest
+            oangle = 45_degrees * std::ceil( to_degrees( oangle ) / 45 );
+            if( oangle == 360_degrees ) {
+                oangle = 0_degrees;
+            }
+            units::angle preanglew = units::from_radians( std::abs( ( oangle - preangle ).value() ) );
+
+            // NOLINTNEXTLINE(clang-analyzer-security.FloatLoopCounter)
+            for( units::angle ao = 0_degrees; ao <= preanglew; ao += wstep ) {
+                if( trigdist ) {
+                    double fdist = ( ao * M_PI_2 ) / preanglew;
+                    end.x = static_cast<int>(
+                                p.x + ( static_cast<double>( range ) - fdist * 2.0 ) * cos( preangle + ao ) );
+                    end.y = static_cast<int>(
+                                p.y + ( static_cast<double>( range ) - fdist * 2.0 ) * sin( preangle + ao ) );
+                    apply_light_ray( lit, p, end, luminance );
+                } else {
+                    calc_ray_end( nangle + ao, range, p, end );
+                    apply_light_ray( lit, p, end, luminance );
+                }
+            }
+        }
+        //octants, optimize later
+        int numoct = to_degrees( cangle - oangle ) / 45;
+        int firstoct = to_degrees( oangle ) / 45;
+        oangle += numoct * 45_degrees;
+        wangle = cangle - oangle;
+
+        for( int i = firstoct; i < numoct + firstoct; i++ ) {
+            //if arc crosses 0 degrees, i.e. sectors 7-0-1, offset back to sector 0 after 7
+            switch( i > 7 ? i - 8 : ( i < 0 ? i + 8 : i ) ) {
+                case 0:
+                    castLight < 0, -1, -1, 0, float, four_quadrants, light_calc, light_check,
+                              update_light_quadrants, accumulate_transparency > (
+                                  lm, transparency_cache, p2, 0, luminance );
+                    break;
+                case 1:
+                    castLight < -1, 0, 0, -1, float, four_quadrants, light_calc, light_check,
+                              update_light_quadrants, accumulate_transparency > (
+                                  lm, transparency_cache, p2, 0, luminance );
+                    break;
+                case 2:
+                    castLight < 1, 0, 0, -1, float, four_quadrants, light_calc, light_check,
+                              update_light_quadrants, accumulate_transparency > (
+                                  lm, transparency_cache, p2, 0, luminance );
+                    break;
+                case 3:
+                    castLight < 0, 1, -1, 0, float, four_quadrants, light_calc, light_check,
+                              update_light_quadrants, accumulate_transparency > (
+                                  lm, transparency_cache, p2, 0, luminance );
+                    break;
+                case 4:
+                    castLight<0, 1, 1, 0, float, four_quadrants, light_calc, light_check,
+                              update_light_quadrants, accumulate_transparency>(
+                                  lm, transparency_cache, p2, 0, luminance );
+                    break;
+                case 5:
+                    castLight<1, 0, 0, 1, float, four_quadrants, light_calc, light_check,
+                              update_light_quadrants, accumulate_transparency>(
+                                  lm, transparency_cache, p2, 0, luminance );
+                    break;
+                case 6:
+                    castLight < -1, 0, 0, 1, float, four_quadrants, light_calc, light_check,
+                              update_light_quadrants, accumulate_transparency > (
+                                  lm, transparency_cache, p2, 0, luminance );
+                    break;
+                case 7:
+                    castLight < 0, -1, 1, 0, float, four_quadrants, light_calc, light_check,
+                              update_light_quadrants, accumulate_transparency > (
+                                  lm, transparency_cache, p2, 0, luminance );
+                    break;
+            }
+        }
+    }
+
+    if( wangle == 0_degrees ) {
+        return;
+    }
+
     // NOLINTNEXTLINE(clang-analyzer-security.FloatLoopCounter)
-    for( units::angle ao = wstep; ao <= wangle; ao += wstep ) {
+    for( units::angle ao = 0_degrees; ao <= wangle; ao += wstep ) {
         if( trigdist ) {
             double fdist = ( ao * M_PI_2 ) / wangle;
             end.x = static_cast<int>(
-                        p.x + ( static_cast<double>( range ) - fdist * 2.0 ) * cos( nangle + ao ) );
+                        p.x + ( static_cast<double>( range ) - fdist * 2.0 ) * cos( oangle + ao ) );
             end.y = static_cast<int>(
-                        p.y + ( static_cast<double>( range ) - fdist * 2.0 ) * sin( nangle + ao ) );
-            apply_light_ray( lit, p, end, luminance );
-
-            end.x = static_cast<int>(
-                        p.x + ( static_cast<double>( range ) - fdist * 2.0 ) * cos( nangle - ao ) );
-            end.y = static_cast<int>(
-                        p.y + ( static_cast<double>( range ) - fdist * 2.0 ) * sin( nangle - ao ) );
+                        p.y + ( static_cast<double>( range ) - fdist * 2.0 ) * sin( oangle + ao ) );
             apply_light_ray( lit, p, end, luminance );
         } else {
-            calc_ray_end( nangle + ao, range, p, end );
-            apply_light_ray( lit, p, end, luminance );
-            calc_ray_end( nangle - ao, range, p, end );
+            calc_ray_end( oangle + ao, range, p, end );
             apply_light_ray( lit, p, end, luminance );
         }
     }
