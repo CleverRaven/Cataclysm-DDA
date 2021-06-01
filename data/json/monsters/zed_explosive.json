@@ -179,7 +179,7 @@
     "speed": 75,
     "material": [ "flesh" ],
     "symbol": "Z",
-    "color": "i_light_red",
+    "color": "pink",
     "aggression": 100,
     "morale": 100,
     "melee_skill": 4,
@@ -191,7 +191,6 @@
     "emit_fields": [ { "emit_id": "emit_sludge_puddle", "delay": "1 s" } ],
     "special_attacks": [
       [ "BOOMER", 21 ],
-      [ "ABSORB_MEAT", 2 ],
       {
         "type": "bite",
         "cooldown": 1,
@@ -207,7 +206,7 @@
       }
     ],
     "death_drops": "default_zombie_items",
-    "death_function": [ "BOOMER", "NORMAL" ],
+    "death_function": [ "BOOMER" ],
     "flags": [
       "SEES",
       "HEARS",
