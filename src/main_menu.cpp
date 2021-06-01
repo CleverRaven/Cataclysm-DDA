@@ -309,10 +309,9 @@ void main_menu::init_windows()
     const int total_h = FULL_SCREEN_HEIGHT + extra_h;
 
     // position of window within main display
-    const int x0 = ( TERMX - total_w ) / 2;
-    const int y0 = ( TERMY - total_h ) / 2;
+    const point p0( ( TERMX - total_w ) / 2, ( TERMY - total_h ) / 2 );
 
-    w_open = catacurses::newwin( total_h, total_w, point( x0, y0 ) );
+    w_open = catacurses::newwin( total_h, total_w, p0 );
 
     menu_offset.y = total_h - 3;
     // note: if iMenuOffset is changed,

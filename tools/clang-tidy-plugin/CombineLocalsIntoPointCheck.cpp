@@ -153,8 +153,8 @@ static void CheckDecl( CombineLocalsIntoPointCheck &Check, const MatchFinder::Ma
     }
 
     const Expr *XInit = XDecl->getAnyInitializer();
-    const Expr *YInit = YDecl->getInit();
-    const Expr *ZInit = ZDecl ? ZDecl->getInit() : nullptr;
+    const Expr *YInit = YDecl->getAnyInitializer();
+    const Expr *ZInit = ZDecl ? ZDecl->getAnyInitializer() : nullptr;
 
     if( !XInit || !YInit || ( ZDecl && !ZInit ) ) {
         return;
