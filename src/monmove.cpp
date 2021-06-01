@@ -1986,7 +1986,7 @@ void monster::knock_back_to( const tripoint &to )
     map &here = get_map();
     // It's some kind of wall.
     if( here.impassable( to ) ) {
-        int dam = static_cast<float>( type->size );
+        const int dam = static_cast<int>( type->size );
         apply_damage( nullptr, bodypart_id( "torso" ), dam );
         add_effect( effect_stunned, 2_turns );
         if( u_see ) {
