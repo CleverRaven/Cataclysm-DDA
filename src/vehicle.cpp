@@ -6044,14 +6044,13 @@ void vehicle::do_towing_move()
         } else {
             nearby_destination = tower_tow_point;
         }
-        const int destination_delta_x = here.getlocal( tower_tow_point ).x - nearby_destination.x;
-        const int destination_delta_y = here.getlocal( tower_tow_point ).y - nearby_destination.y;
-        const int destination_delta_z = towed_veh->global_pos3().z;
-        const tripoint move_destination( clamp( destination_delta_x, -1, 1 ),
-                                         clamp( destination_delta_y, -1, 1 ),
-                                         clamp( destination_delta_z, -1, 1 ) );
+        const tripoint destination_delta( here.getlocal( tower_tow_point ).xy() - nearby_destination.xy() +
+                                          tripoint( 0, 0, towed_veh->global_pos3().z ) );
+        const tripoint move_destination( clamp( destination_delta.x, -1, 1 ),
+                                         clamp( destination_delta.y, -1, 1 ),
+                                         clamp( destination_delta.z, -1, 1 ) );
         here.move_vehicle( *towed_veh, move_destination, towed_veh->face );
-        towed_veh->move = tileray( point( destination_delta_x, destination_delta_y ) );
+        towed_veh->move = tileray( destination_delta.xy() );
     }
 
 }

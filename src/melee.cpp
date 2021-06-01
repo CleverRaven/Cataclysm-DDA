@@ -1618,26 +1618,25 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
 
     if( technique.side_switch ) {
         const tripoint b = t.pos();
-        int newx;
-        int newy;
+        point new_;
 
         if( b.x > posx() ) {
-            newx = posx() - 1;
+            new_.x = posx() - 1;
         } else if( b.x < posx() ) {
-            newx = posx() + 1;
+            new_.x = posx() + 1;
         } else {
-            newx = b.x;
+            new_.x = b.x;
         }
 
         if( b.y > posy() ) {
-            newy = posy() - 1;
+            new_.y = posy() - 1;
         } else if( b.y < posy() ) {
-            newy = posy() + 1;
+            new_.y = posy() + 1;
         } else {
-            newy = b.y;
+            new_.y = b.y;
         }
 
-        const tripoint &dest = tripoint( newx, newy, b.z );
+        const tripoint &dest = tripoint( new_, b.z );
         if( g->is_empty( dest ) ) {
             t.setpos( dest );
         }
@@ -1650,9 +1649,9 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
     map &here = get_map();
     if( technique.knockback_dist ) {
         const tripoint prev_pos = t.pos(); // track target startpoint for knockback_follow
-        const int kb_offset_x = rng( -technique.knockback_spread, technique.knockback_spread );
-        const int kb_offset_y = rng( -technique.knockback_spread, technique.knockback_spread );
-        tripoint kb_point( posx() + kb_offset_x, posy() + kb_offset_y, posz() );
+        const point kb_offset( rng( -technique.knockback_spread, technique.knockback_spread ),
+                               rng( -technique.knockback_spread, technique.knockback_spread ) );
+        tripoint kb_point( posx() + kb_offset.x, posy() + kb_offset.y, posz() );
         for( int dist = rng( 1, technique.knockback_dist ); dist > 0; dist-- ) {
             t.knock_back_from( kb_point );
         }

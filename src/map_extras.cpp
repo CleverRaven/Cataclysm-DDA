@@ -390,25 +390,21 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
     // Get the bounding box, centered on mount(0,0)
     bounding_box bbox = veh->get_bounding_box();
     // Move the wreckage forward/backward half it's length so that it spawns more over the center of the debris area
-    int x_length = std::abs( bbox.p2.x - bbox.p1.x );
-    int y_length = std::abs( bbox.p2.y - bbox.p1.y );
+    point length( std::abs( bbox.p2.x - bbox.p1.x ), std::abs( bbox.p2.y - bbox.p1.y ) );
 
     // cont.
-    int x_offset = veh->dir_vec().x * x_length / 2;
-    int y_offset = veh->dir_vec().y * y_length / 2;
+    point offset( veh->dir_vec().x * length.x / 2, veh->dir_vec().y * length.y / 2 );
 
-    int x_min = std::abs( bbox.p1.x ) + 0;
-    int y_min = std::abs( bbox.p1.y ) + 0;
+    point min( std::abs( bbox.p1.x ) + 0, std::abs( bbox.p1.y ) + 0 );
 
     int x_max = SEEX * 2 - bbox.p2.x - 1;
     int y_max = SEEY * 2 - bbox.p2.y - 1;
 
     // Clamp x1 & y1 such that no parts of the vehicle extend over the border of the submap.
-    int x1 = clamp( c.x + x_offset, x_min, x_max );
-    int y1 = clamp( c.y + y_offset, y_min, y_max );
+    point p1( clamp( c.x + offset.x, min.x, x_max ), clamp( c.y + offset.y, min.y, y_max ) );
 
     vehicle *wreckage = m.add_vehicle(
-                            crashed_hull, tripoint( x1, y1, abs_sub.z ), dir1, rng( 1, 33 ), 1 );
+                            crashed_hull, tripoint( p1, abs_sub.z ), dir1, rng( 1, 33 ), 1 );
 
     const auto controls_at = []( vehicle * wreckage, const tripoint & pos ) {
         return !wreckage->get_parts_at( pos, "CONTROLS", part_status_flag::any ).empty() ||
@@ -1227,25 +1223,23 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         //Spawn 6-20 mines in the upper submap.
         //Spawn ordinary mine on asphalt, otherwise spawn buried mine
         for( int i = 0; i < num_mines; i++ ) {
-            const int x = rng( 3, SEEX * 2 - 4 );
-            const int y = rng( 1, SEEY );
-            if( m.has_flag( flag_DIGGABLE, point( x, y ) ) ) {
-                place_trap_if_clear( m, point( x, y ), tr_landmine_buried );
+            const point p3( rng( 3, SEEX * 2 - 4 ), rng( 1, SEEY ) );
+            if( m.has_flag( flag_DIGGABLE, p3 ) ) {
+                place_trap_if_clear( m, p3, tr_landmine_buried );
             } else {
-                place_trap_if_clear( m, point( x, y ), tr_landmine );
+                place_trap_if_clear( m, p3, tr_landmine );
             }
         }
 
         //Spawn 6-20 puddles of blood on tiles without mines
         for( int i = 0; i < num_mines; i++ ) {
-            const int x = rng( 3, SEEX * 2 - 4 );
-            const int y = rng( 1, SEEY );
-            if( m.tr_at( { x, y, abs_sub.z } ).is_null() ) {
-                m.add_field( { x, y, abs_sub.z }, fd_blood, rng( 1, 3 ) );
+            const point p4( rng( 3, SEEX * 2 - 4 ), rng( 1, SEEY ) );
+            if( m.tr_at( { p4, abs_sub.z } ).is_null() ) {
+                m.add_field( { p4, abs_sub.z }, fd_blood, rng( 1, 3 ) );
                 //10% chance to spawn a corpse of dead people/zombie on a tile with blood
                 if( one_in( 10 ) ) {
-                    m.add_corpse( { x, y, abs_sub.z } );
-                    for( const auto &loc : m.points_in_radius( { x, y, abs_sub.z }, 1 ) ) {
+                    m.add_corpse( { p4, abs_sub.z } );
+                    for( const auto &loc : m.points_in_radius( { p4, abs_sub.z }, 1 ) ) {
                         //50% chance to spawn gibs in every tile around corpse in 1-tile radius
                         if( one_in( 2 ) ) {
                             m.add_field( { loc.xy(), abs_sub.z }, fd_gibs_flesh, rng( 1, 3 ) );
@@ -1376,25 +1370,23 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         //Spawn 6-20 mines in the rightmost submap.
         //Spawn ordinary mine on asphalt, otherwise spawn buried mine
         for( int i = 0; i < num_mines; i++ ) {
-            const int x = rng( SEEX + 1, SEEX * 2 - 2 );
-            const int y = rng( 3, SEEY * 2 - 4 );
-            if( m.has_flag( flag_DIGGABLE, point( x, y ) ) ) {
-                place_trap_if_clear( m, point( x, y ), tr_landmine_buried );
+            const point p5( rng( SEEX + 1, SEEX * 2 - 2 ), rng( 3, SEEY * 2 - 4 ) );
+            if( m.has_flag( flag_DIGGABLE, p5 ) ) {
+                place_trap_if_clear( m, p5, tr_landmine_buried );
             } else {
-                place_trap_if_clear( m, point( x, y ), tr_landmine );
+                place_trap_if_clear( m, p5, tr_landmine );
             }
         }
 
         //Spawn 6-20 puddles of blood on tiles without mines
         for( int i = 0; i < num_mines; i++ ) {
-            const int x = rng( SEEX + 1, SEEX * 2 - 2 );
-            const int y = rng( 3, SEEY * 2 - 4 );
-            if( m.tr_at( { x, y, abs_sub.z } ).is_null() ) {
-                m.add_field( { x, y, abs_sub.z }, fd_blood, rng( 1, 3 ) );
+            const point p6( rng( SEEX + 1, SEEX * 2 - 2 ), rng( 3, SEEY * 2 - 4 ) );
+            if( m.tr_at( { p6, abs_sub.z } ).is_null() ) {
+                m.add_field( { p6, abs_sub.z }, fd_blood, rng( 1, 3 ) );
                 //10% chance to spawn a corpse of dead people/zombie on a tile with blood
                 if( one_in( 10 ) ) {
-                    m.add_corpse( { x, y, abs_sub.z } );
-                    for( const auto &loc : m.points_in_radius( { x, y, abs_sub.z }, 1 ) ) {
+                    m.add_corpse( { p6, abs_sub.z } );
+                    for( const auto &loc : m.points_in_radius( { p6, abs_sub.z }, 1 ) ) {
                         //50% chance to spawn gibs in every tile around corpse in 1-tile radius
                         if( one_in( 2 ) ) {
                             m.add_field( { loc.xy(), abs_sub.z }, fd_gibs_flesh, rng( 1, 3 ) );
@@ -1517,25 +1509,23 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         //Spawn 6-20 mines in the leftmost submap.
         //Spawn ordinary mine on asphalt, otherwise spawn buried mine
         for( int i = 0; i < num_mines; i++ ) {
-            const int x = rng( 1, SEEX );
-            const int y = rng( 3, SEEY * 2 - 4 );
-            if( m.has_flag( flag_DIGGABLE, point( x, y ) ) ) {
-                place_trap_if_clear( m, point( x, y ), tr_landmine_buried );
+            const point p7( rng( 1, SEEX ), rng( 3, SEEY * 2 - 4 ) );
+            if( m.has_flag( flag_DIGGABLE, p7 ) ) {
+                place_trap_if_clear( m, p7, tr_landmine_buried );
             } else {
-                place_trap_if_clear( m, point( x, y ), tr_landmine );
+                place_trap_if_clear( m, p7, tr_landmine );
             }
         }
 
         //Spawn 6-20 puddles of blood on tiles without mines
         for( int i = 0; i < num_mines; i++ ) {
-            const int x = rng( 1, SEEX );
-            const int y = rng( 3, SEEY * 2 - 4 );
-            if( m.tr_at( { x, y, abs_sub.z } ).is_null() ) {
-                m.add_field( { x, y, abs_sub.z }, fd_blood, rng( 1, 3 ) );
+            const point p8( rng( 1, SEEX ), rng( 3, SEEY * 2 - 4 ) );
+            if( m.tr_at( { p8, abs_sub.z } ).is_null() ) {
+                m.add_field( { p8, abs_sub.z }, fd_blood, rng( 1, 3 ) );
                 //10% chance to spawn a corpse of dead people/zombie on a tile with blood
                 if( one_in( 10 ) ) {
-                    m.add_corpse( { x, y, abs_sub.z } );
-                    for( const auto &loc : m.points_in_radius( { x, y, abs_sub.z }, 1 ) ) {
+                    m.add_corpse( { p8, abs_sub.z } );
+                    for( const auto &loc : m.points_in_radius( { p8, abs_sub.z }, 1 ) ) {
                         //50% chance to spawn gibs in every tile around corpse in 1-tile radius
                         if( one_in( 2 ) ) {
                             m.add_field( { loc.xy(), abs_sub.z }, fd_gibs_flesh, rng( 1, 3 ) );
