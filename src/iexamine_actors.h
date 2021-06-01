@@ -35,7 +35,8 @@ class cardreader_examine_actor : public iexamine_actor
         bool apply( const tripoint &examp ) const;
 
     public:
-        cardreader_examine_actor( const std::string &type = "cardreader" ) : iexamine_actor( type ) {}
+        explicit cardreader_examine_actor( const std::string &type = "cardreader" )
+            : iexamine_actor( type ) {}
 
         void load( const JsonObject &jo ) override;
         void call( player &guy, const tripoint &examp ) const override;
