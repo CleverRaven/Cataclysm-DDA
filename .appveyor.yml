@@ -30,3 +30,4 @@ only_commits:
 branches:
   only:
     - master
+    - object_creator
