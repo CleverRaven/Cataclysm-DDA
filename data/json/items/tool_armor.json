@@ -115,6 +115,33 @@
     "flags": [ "BLIND" ]
   },
   {
+    "type": "TOOL_ARMOR",
+    "category": "clothing",
+    "id": "combo_cover",
+    "name": { "str": "Combo cover" },
+    "weight": "500 g",
+    "color": "white",
+    "covers": [ "head" ],
+    "use_action": {
+      "menu_text": "Salute",
+      "type": "transform",
+      "target": "combo_cover",
+      "msg": "You bring your hand to your cover and issue a salute."
+    },
+    "symbol": "[",
+    "description": "A military officer's combo cover, or peaked cap. It conveys an air of authority, while keeping the sun out of your eyes.",
+    "price": 10000,
+    "price_postapoc": 1000,
+    "material": [ "cotton" ],
+    "volume": "1750 ml",
+    "warmth": 7,
+    "environmental_protection": 3,
+    "encumbrance": 10,
+    "coverage": 50,
+    "flags": [ "FANCY", "VARSIZE", "SUN_GLASSES" ],
+    "material_thickness": 0.5
+  },
+  {
     "id": "ear_plugs",
     "type": "ARMOR",
     "name": { "str": "pair of ear plugs", "str_pl": "pairs of ear plugs" },
