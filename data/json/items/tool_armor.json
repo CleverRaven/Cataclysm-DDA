@@ -3279,7 +3279,7 @@
     "material_thickness": 5,
     "environmental_protection": 2,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "STURDY", "PARTIAL_DEAF", "SUN_GLASSES" ],
+    "flags": [ "VARSIZE", "STURDY", "PARTIAL_DEAF", "SUN_GLASSES", "TWO_WAY_RADIO" ],
     "charges_per_use": 1,
     "ammo": "battery",
     "power_draw": 60,
