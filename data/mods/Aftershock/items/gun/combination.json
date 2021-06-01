@@ -16,4 +16,4 @@
     "blackpowder_tolerance": 60,
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ]
   }
- 
+]
