@@ -4668,7 +4668,7 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                 autoclave_finished = true;
                 cur_veh.part( part ).enabled = false;
             } else if( calendar::once_every( 15_minutes ) ) {
-                add_msg( _( "It should take %d minutes to finish sterilising items in the %s." ),
+                add_msg( _( "It should take %d minutes to finish sterilizing items in the %s." ),
                          to_minutes<int>( time_left ) + 1, cur_veh.name );
                 break;
             }
