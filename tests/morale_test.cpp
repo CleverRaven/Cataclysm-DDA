@@ -178,9 +178,9 @@ TEST_CASE( "player_morale_fancy_clothes", "[player_morale]" )
     player_morale m;
 
     GIVEN( "a set of super fancy bride's clothes" ) {
-        const item dress_wedding( "dress_wedding", calendar::turn_zero ); // legs, torso           | 8 + 2 | 10
-        const item veil_wedding( "veil_wedding", calendar::turn_zero );   // eyes, mouth           | 4 + 2 | 6
-        const item heels( "heels", calendar::turn_zero );                 // feet, not super fancy | 1     | 1
+        const item dress_wedding( "dress_wedding", calendar::turn_zero ); // legs, torso | 8 + 2 | 10
+        const item veil_wedding( "veil_wedding", calendar::turn_zero );   // eyes, mouth | 4 + 2 | 6
+        const item heels( "heels", calendar::turn_zero );      // not super fancy, feet  | 1     | 1
 
         m.on_item_wear( dress_wedding );
         m.on_item_wear( veil_wedding );
