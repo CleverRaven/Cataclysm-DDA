@@ -5,7 +5,7 @@
     "result": "salt_water",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_OTHER",
-    "skill_used": "cooking",
+    "skill_used": "chemistry",
     "time": "1 m",
     "autolearn": true,
     "flags": [ "BLIND_HARD" ],

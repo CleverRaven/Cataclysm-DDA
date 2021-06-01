@@ -281,7 +281,7 @@
     "encumbrance": 60,
     "material_thickness": 3,
     "qualities": [ [ "GLARE", 3 ] ],
-    "flags": [ "SUN_GLASSES", "FLASH_PROTECTION", "BLIND" ]
+    "flags": [ "SUN_GLASSES", "FLASH_PROTECTION" ]
   },
   {
     "id": "welding_mask_crude",
@@ -555,7 +555,7 @@
     "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ],
     "warmth": 10,
     "coverage": 100,
-    "material_thickness": 1,
+    "material_thickness": 0.1,
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",

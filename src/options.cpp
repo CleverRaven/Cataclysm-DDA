@@ -2052,13 +2052,6 @@ void options_manager::add_options_world_default()
         world_default_page_.items_.emplace_back();
     };
 
-    add( "CORE_VERSION", "world_default", to_translation( "Core version data" ),
-         to_translation( "Controls what migrations are applied for legacy worlds" ),
-         1, core_version, core_version, COPT_ALWAYS_HIDE
-       );
-
-    add_empty_line();
-
     add( "WORLD_END", "world_default", to_translation( "World end handling" ),
     to_translation( "Handling of game world when last character dies." ), {
         { "reset", to_translation( "Reset" ) }, { "delete", to_translation( "Delete" ) },
