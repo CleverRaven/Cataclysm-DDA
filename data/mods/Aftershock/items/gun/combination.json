@@ -16,43 +16,4 @@
     "blackpowder_tolerance": 60,
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ]
   },
-  {
-    "id": "charge_rifle",
-    "looks_like": "ar_15",
-    "type": "GUN",
-    "reload_noise_volume": 10,
-    "name": { "str": "VER-3" },
-    "description": "Variable Energy Rifle Model 3, colloquially known as the 'charge rifle'.  Designed by a consortium of private security forces, it is made to be used in multiple roles thanks to its unique set of staged capacitors that can be used to increase the power of the gun exponetially.  However this renders it incompatible with energy weapon mods.",
-    "weight": "5000 g",
-    "volume": "3 L",
-    "longest_side": "900 mm",
-    "price": 50000,
-    "price_postapoc": 6000,
-    "to_hit": -2,
-    "bashing": 5,
-    "material": [ "steel", "plastic" ],
-    "symbol": "(",
-    "color": "magenta",
-    "skill": "rifle",
-    "range": 20,
-    "ranged_damage": { "damage_type": "heat", "amount": 20, "armor_penetration": 4 },
-    "built_in_mods": [ "charge_capacitor_1", "charge_capacitor_2" ],
-    "dispersion": 150,
-    "durability": 8,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 3 ] ],
-    "loudness": 8,
-    "ups_charges": 25,
-    "reload": 200,
-    "valid_mod_locations": [
-      [ "accessories", 2 ],
-      [ "grip", 1 ],
-      [ "emitter", 1 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel", 1 ]
-    ],
-    "ammo_effects": [ "INCENDIARY" ],
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE" ]
-  }
-]
+ 
