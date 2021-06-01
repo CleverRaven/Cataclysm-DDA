@@ -2710,12 +2710,11 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const point &offset ) const
             }
             break;
             case JMAPGEN_SETMAP_SQUARE_RADIATION: {
-                const int cx = x_get();
-                const int cy = y_get();
+                const point c2( x_get(), y_get() );
                 const int cx2 = x2_get();
                 const int cy2 = y2_get();
-                for( int tx = cx; tx <= cx2; tx++ ) {
-                    for( int ty = cy; ty <= cy2; ty++ ) {
+                for( int tx = c2.x; tx <= cx2; tx++ ) {
+                    for( int ty = c2.y; ty <= cy2; ty++ ) {
                         m.set_radiation( point( tx, ty ), static_cast<int>( val.get() ) );
                     }
                 }
@@ -3567,15 +3566,14 @@ void map::draw_lab( mapgendata &dat )
                                   center.xy() + point_west, 1, true );
 
                     // damaged mininuke/plut thrown past edge of rubble so the player can see it.
-                    int marker_x = center.x - 2 + 4 * rng( 0, 1 );
-                    int marker_y = center.y + rng( -2, 2 );
+                    point marker( center.xy() + point( -2 + 4 * rng( 0, 1 ), rng( -2, 2 ) ) );
                     if( one_in( 4 ) ) {
-                        spawn_item( point( marker_x, marker_y ),
+                        spawn_item( marker,
                                     "mininuke", 1, 1, calendar::turn_zero, rng( 2, 4 ) );
                     } else {
                         item newliquid( "plut_slurry_dense", calendar::start_of_cataclysm );
                         newliquid.charges = 1;
-                        add_item_or_charges( tripoint( marker_x, marker_y, get_abs_sub().z ),
+                        add_item_or_charges( tripoint( marker, get_abs_sub().z ),
                                              newliquid );
                     }
                     break;
@@ -4091,25 +4089,25 @@ void map::draw_temple( const mapgendata &dat )
                     square( this, t_rock, point( SEEX + 2, 0 ), point( EAST_EDGE, 1 ) );
                     square( this, t_rock, point( SEEX + 2, SEEY * 2 - 2 ), point( EAST_EDGE, SOUTH_EDGE ) );
                     square( this, t_rock, point( SEEX + 5, 2 ), point( EAST_EDGE, SEEY * 2 - 3 ) );
-                    int x = rng( SEEX - 1, SEEX + 2 );
-                    int y = 2;
+                    point p2( rng( SEEX - 1, SEEX + 2 ), 2 );
                     std::vector<point> path; // Path, from end to start
-                    while( x < SEEX - 1 || x > SEEX + 2 || y < SEEY * 2 - 2 ) {
+                    while( p2.x < SEEX - 1 || p2.x > SEEX + 2 || p2.y < SEEY * 2 - 2 ) {
                         static const std::vector<ter_id> terrains = {
                             t_floor_red, t_floor_green, t_floor_blue,
                         };
-                        path.emplace_back( x, y );
-                        ter_set( point( x, y ), random_entry( terrains ) );
-                        if( y == SEEY * 2 - 2 ) {
-                            if( x < SEEX - 1 ) {
-                                x++;
-                            } else if( x > SEEX + 2 ) {
-                                x--;
+                        path.emplace_back( p2 );
+                        ter_set( p2, random_entry( terrains ) );
+                        if( p2.y == SEEY * 2 - 2 ) {
+                            if( p2.x < SEEX - 1 ) {
+                                p2.x++;
+                            } else if( p2.x > SEEX + 2 ) {
+                                p2.x--;
+
                             }
                         } else {
                             std::vector<point> next;
-                            for( int nx = x - 1; nx <= x + 1; nx++ ) {
-                                for( int ny = y; ny <= y + 1; ny++ ) {
+                            for( int nx = p2.x - 1; nx <= p2.x + 1; nx++ ) {
+                                for( int ny = p2.y; ny <= p2.y + 1; ny++ ) {
                                     if( ter( point( nx, ny ) ) == t_rock_floor ) {
                                         next.emplace_back( nx, ny );
                                     }
@@ -4119,8 +4117,8 @@ void map::draw_temple( const mapgendata &dat )
                                 break;
                             } else {
                                 const point p = random_entry( next );
-                                x = p.x;
-                                y = p.y;
+                                p2.x = p.x;
+                                p2.y = p.y;
                             }
                         }
                     }
@@ -4493,21 +4491,19 @@ void map::draw_mine( mapgendata &dat )
         computer *tmpcomp = nullptr;
         switch( rn ) {
             case 1: { // Wyrms
-                const int x = rng( SEEX, SEEX + 1 );
-                const int y = rng( SEEY, SEEY + 1 );
-                ter_set( point( x, y ), t_pedestal_wyrm );
-                spawn_item( point( x, y ), "petrified_eye" );
+                const point p2( rng( SEEX, SEEX + 1 ), rng( SEEY, SEEY + 1 ) );
+                ter_set( p2, t_pedestal_wyrm );
+                spawn_item( p2, "petrified_eye" );
             }
             break; // That's it!  game::examine handles the pedestal/wyrm spawns
 
             case 2: { // The Thing dog
                 const int num_bodies = rng( 4, 8 );
                 for( int i = 0; i < num_bodies; i++ ) {
-                    int x = rng( 4, SEEX * 2 - 5 );
-                    int y = rng( 4, SEEX * 2 - 5 );
-                    add_item( point( x, y ), item::make_corpse() );
-                    place_items( item_group_id( "mine_equipment" ), 60, point( x, y ),
-                                 point( x, y ), false, calendar::start_of_cataclysm );
+                    point p3( rng( 4, SEEX * 2 - 5 ), rng( 4, SEEX * 2 - 5 ) );
+                    add_item( p3, item::make_corpse() );
+                    place_items( item_group_id( "mine_equipment" ), 60, p3,
+                                 p3, false, calendar::start_of_cataclysm );
                 }
                 place_spawns( GROUP_DOG_THING, 1, point( SEEX, SEEX ), point( SEEX + 1, SEEX + 1 ), 1, true, true );
                 spawn_artifact( tripoint( rng( SEEX, SEEX + 1 ), rng( SEEY, SEEY + 1 ), abs_sub.z ),
@@ -4722,25 +4718,24 @@ void map::draw_triffid( const mapgendata &dat )
         // Chance increases by 1 each turn, and gives the % chance of forcing a move
         // to the right or down.
         int chance = 0;
-        int x = 4;
-        int y = 4;
+        point p( 4, 4 );
         do {
-            ter_set( point( x, y ), t_dirt );
+            ter_set( p, t_dirt );
 
             if( chance >= 10 && one_in( 10 ) ) { // Add a spawn
-                place_spawns( GROUP_TRIFFID, 1, point( x, y ), point( x, y ), 1, true );
+                place_spawns( GROUP_TRIFFID, 1, p, p, 1, true );
             }
 
             if( rng( 0, 99 ) < chance ) { // Force movement down or to the right
-                if( x >= 19 ) {
-                    y++;
-                } else if( y >= 19 ) {
-                    x++;
+                if( p.x >= 19 ) {
+                    p.y++;
+                } else if( p.y >= 19 ) {
+                    p.x++;
                 } else {
                     if( one_in( 2 ) ) {
-                        x++;
+                        p.x++;
                     } else {
-                        y++;
+                        p.y++;
                     }
                 }
             } else {
@@ -4751,31 +4746,31 @@ void map::draw_triffid( const mapgendata &dat )
                 int chance_north = 0;
                 int chance_south = 0;
                 for( int dist = 1; dist <= 5; dist++ ) {
-                    if( ter( point( x - dist, y ) ) == t_root_wall ) {
+                    if( ter( p + point( -dist, 0 ) ) == t_root_wall ) {
                         chance_west++;
                     }
-                    if( ter( point( x + dist, y ) ) == t_root_wall ) {
+                    if( ter( p + point( dist, 0 ) ) == t_root_wall ) {
                         chance_east++;
                     }
-                    if( ter( point( x, y - dist ) ) == t_root_wall ) {
+                    if( ter( p + point( 0, -dist ) ) == t_root_wall ) {
                         chance_north++;
                     }
-                    if( ter( point( x, y + dist ) ) == t_root_wall ) {
+                    if( ter( p + point( 0, dist ) ) == t_root_wall ) {
                         chance_south++;
                     }
                 }
                 int roll = rng( 0, chance_west + chance_east + chance_north + chance_south );
-                if( roll < chance_west && x > 0 ) {
-                    x--;
-                } else if( roll < chance_west + chance_east && x < EAST_EDGE ) {
-                    x++;
-                } else if( roll < chance_west + chance_east + chance_north && y > 0 ) {
-                    y--;
-                } else if( y < SOUTH_EDGE ) {
-                    y++;
+                if( roll < chance_west && p.x > 0 ) {
+                    p.x--;
+                } else if( roll < chance_west + chance_east && p.x < EAST_EDGE ) {
+                    p.x++;
+                } else if( roll < chance_west + chance_east + chance_north && p.y > 0 ) {
+                    p.y--;
+                } else if( p.y < SOUTH_EDGE ) {
+                    p.y++;
                 }
             } // Done with drunken walk
-        } while( x < 19 || y < 19 );
+        } while( p.x < 19 || p.y < 19 );
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         square( this, t_slope_up, point( 1, 1 ), point( 2, 2 ) );
         place_spawns( GROUP_TRIFFID_HEART, 1, point( 21, 21 ), point( 21, 21 ), 1, true );
@@ -5755,19 +5750,18 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
 
         case room_bionics:
             if( rotate % 2 == 0 ) {
-                int biox = p1.x + 2;
-                int bioy = static_cast<int>( ( p1.y + p2.y ) / 2 );
-                mapf::formatted_set_simple( m, point( biox - 1, bioy - 1 ),
+                point bio( p1.x + 2, static_cast<int>( ( p1.y + p2.y ) / 2 ) );
+                mapf::formatted_set_simple( m, bio + point_north_west,
                                             "---\n"
                                             "|c|\n"
                                             "-=-\n",
                                             mapf::ter_bind( "- | =", t_concrete_wall, t_concrete_wall, t_reinforced_glass ),
                                             mapf::furn_bind( "c", f_counter ) );
-                m->place_items( item_group_id( "bionics_common" ), 70, point( biox, bioy ),
-                                point( biox, bioy ), false, calendar::start_of_cataclysm );
+                m->place_items( item_group_id( "bionics_common" ), 70, bio,
+                                bio, false, calendar::start_of_cataclysm );
 
-                m->furn_set( point( biox, bioy + 2 ), furn_str_id( "f_console" ) );
-                computer *tmpcomp = m->add_computer( tripoint( biox,  bioy + 2, z ), _( "Bionic access" ), 2 );
+                m->furn_set( bio + point( 0, 2 ), furn_str_id( "f_console" ) );
+                computer *tmpcomp = m->add_computer( tripoint( bio.x,  bio.y + 2, z ), _( "Bionic access" ), 2 );
                 tmpcomp->add_option( _( "Manifest" ), COMPACT_LIST_BIONICS, 0 );
                 tmpcomp->add_option( _( "Open Chambers" ), COMPACT_RELEASE_BIONICS, 3 );
                 tmpcomp->add_failure( COMPFAIL_MANHACKS );
@@ -5775,18 +5769,18 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
                 tmpcomp->set_access_denied_msg(
                     _( "ERROR!  Access denied!  Unauthorized access will be met with lethal force!" ) );
 
-                biox = p2.x - 2;
-                mapf::formatted_set_simple( m, point( biox - 1, bioy - 1 ),
+                bio.x = p2.x - 2;
+                mapf::formatted_set_simple( m, bio + point_north_west,
                                             "-=-\n"
                                             "|c|\n"
                                             "---\n",
                                             mapf::ter_bind( "- | =", t_concrete_wall, t_concrete_wall, t_reinforced_glass ),
                                             mapf::furn_bind( "c", f_counter ) );
-                m->place_items( item_group_id( "bionics_common" ), 70, point( biox, bioy ),
-                                point( biox, bioy ), false, calendar::start_of_cataclysm );
+                m->place_items( item_group_id( "bionics_common" ), 70, bio,
+                                bio, false, calendar::start_of_cataclysm );
 
-                m->furn_set( point( biox, bioy - 2 ), furn_str_id( "f_console" ) );
-                computer *tmpcomp2 = m->add_computer( tripoint( biox,  bioy - 2, z ), _( "Bionic access" ), 2 );
+                m->furn_set( bio + point( 0, -2 ), furn_str_id( "f_console" ) );
+                computer *tmpcomp2 = m->add_computer( tripoint( bio.x,  bio.y - 2, z ), _( "Bionic access" ), 2 );
                 tmpcomp2->add_option( _( "Manifest" ), COMPACT_LIST_BIONICS, 0 );
                 tmpcomp2->add_option( _( "Open Chambers" ), COMPACT_RELEASE_BIONICS, 3 );
                 tmpcomp2->add_failure( COMPFAIL_MANHACKS );

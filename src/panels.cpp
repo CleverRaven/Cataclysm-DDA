@@ -247,8 +247,7 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
     bool drew_mission = targ == overmap::invalid_tripoint;
     const int start_y = start_input.y;
     const int start_x = start_input.x;
-    const int mid_x = width / 2;
-    const int mid_y = height / 2;
+    const point mid( width / 2, height / 2 );
     map &here = get_map();
 
     for( int i = -( width / 2 ); i <= width - ( width / 2 ) - 1; i++ ) {
@@ -372,9 +371,9 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
             }
             if( i == 0 && j == 0 ) {
                 // Highlight player character position in center of minimap
-                mvwputch_hi( w_minimap, point( mid_x + start_x, mid_y + start_y ), ter_color, ter_sym );
+                mvwputch_hi( w_minimap, mid + point( start_x, start_y ), ter_color, ter_sym );
             } else {
-                mvwputch( w_minimap, point( mid_x + i + start_x, mid_y + j + start_y ), ter_color,
+                mvwputch( w_minimap, mid + point( i + start_x, j + start_y ), ter_color,
                           ter_sym );
             }
         }
@@ -389,37 +388,36 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
         if( std::fabs( slope ) > 12 ) {
             // For any near-vertical slope, center the marker
             if( targ.y() > curs.y() ) {
-                mvwputch( w_minimap, point( mid_x + start_x, height - 1 + start_y ), c_red, '*' );
+                mvwputch( w_minimap, point( mid.x + start_x, height - 1 + start_y ), c_red, '*' );
             } else {
-                mvwputch( w_minimap, point( mid_x + start_x, 1 + start_y ), c_red, '*' );
+                mvwputch( w_minimap, point( mid.x + start_x, 1 + start_y ), c_red, '*' );
             }
         } else {
-            int arrowx = -1;
-            int arrowy = -1;
+            point arrow( point_north_west );
             if( std::fabs( slope ) >= 1. ) {
                 // If target to the north or south, arrow on top or bottom edge of minimap
                 if( targ.y() > curs.y() ) {
-                    arrowx = static_cast<int>( ( 1. + ( 1. / slope ) ) * mid_x );
-                    arrowy = height - 1;
+                    arrow.x = static_cast<int>( ( 1. + ( 1. / slope ) ) * mid.x );
+                    arrow.y = height - 1;
                 } else {
-                    arrowx = static_cast<int>( ( 1. - ( 1. / slope ) ) * mid_x );
-                    arrowy = 0;
+                    arrow.x = static_cast<int>( ( 1. - ( 1. / slope ) ) * mid.x );
+                    arrow.y = 0;
                 }
                 // Clip to left/right edges
-                arrowx = std::max( arrowx, 0 );
-                arrowx = std::min( arrowx, width - 1 );
+                arrow.x = std::max( arrow.x, 0 );
+                arrow.x = std::min( arrow.x, width - 1 );
             } else {
                 // If target to the east or west, arrow on left or right edge of minimap
                 if( targ.x() > curs.x() ) {
-                    arrowx = width - 1;
-                    arrowy = static_cast<int>( ( 1. + slope ) * mid_y );
+                    arrow.x = width - 1;
+                    arrow.y = static_cast<int>( ( 1. + slope ) * mid.y );
                 } else {
-                    arrowx = 0;
-                    arrowy = static_cast<int>( ( 1. - slope ) * mid_y );
+                    arrow.x = 0;
+                    arrow.y = static_cast<int>( ( 1. - slope ) * mid.y );
                 }
                 // Clip to top/bottom edges
-                arrowy = std::max( arrowy, 0 );
-                arrowy = std::min( arrowy, height - 1 );
+                arrow.y = std::max( arrow.y, 0 );
+                arrow.y = std::min( arrow.y, height - 1 );
             }
             char glyph = '*';
             if( targ.z() > you.posz() ) {
@@ -428,7 +426,7 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
                 glyph = 'v';
             }
 
-            mvwputch( w_minimap, point( arrowx + start_x, arrowy + start_y ), c_red, glyph );
+            mvwputch( w_minimap, arrow + point( start_x, start_y ), c_red, glyph );
         }
     }
     avatar &player_character = get_avatar();
@@ -444,7 +442,7 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
             if( horde_size >= HORDE_VISIBILITY_SIZE ) {
                 if( overmap_buffer.seen( omp )
                     && player_character.overmap_los( omp, sight_points ) ) {
-                    mvwputch( w_minimap, point( i + mid_x, j + mid_y ), c_green,
+                    mvwputch( w_minimap, mid + point( i, j ), c_green,
                               horde_size > HORDE_VISIBILITY_SIZE * 2 ? 'Z' : 'z' );
                 }
             }
