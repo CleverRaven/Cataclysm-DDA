@@ -44,7 +44,7 @@ jobs:
       uses: lukka/run-vcpkg@main
       id: runvcpkg
       with:
-        vcpkgArguments: 'sdl2 sdl2-image sdl2-mixer[dynamic-load,libflac,mpg123,libmodplug,libvorbis] sdl2-ttf gettext qt5-base[latest]'
+        vcpkgArguments: 'yasm-tool:x86-windows sdl2 sdl2-image sdl2-mixer[dynamic-load,libflac,mpg123,libmodplug,libvorbis] sdl2-ttf gettext qt5-base[latest]'
         vcpkgTriplet: 'x64-windows'
         vcpkgDirectory: '${{ runner.workspace }}/b/vcpkg'
         vcpkgGitCommitId: '30124253eecff36bc90f73341edbfb4f845e2a1e'
