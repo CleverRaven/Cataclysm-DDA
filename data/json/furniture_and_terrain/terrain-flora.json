@@ -346,6 +346,26 @@
   },
   {
     "type": "terrain",
+    "id": "t_mega_fern",
+    "name": "mega fern",
+    "looks_like": "t_tree_young",
+    "description": "A gigantic fern like nothing you've seen before.  The leaves are a bright scarlet color with a net like structure of green veins.  The multipronged trunks appear to have the consistency of balsa wood.",
+    "symbol": "1",
+    "color": [ "red_green", "red_green", "red_green", "brown" ],
+    "//": "barren in winter",
+    "move_cost": 4,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "NOITEM", "YOUNG", "REDUCE_SCENT" ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 50,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "alien_fern", "count": [ 0, 5 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_tree_apple",
     "name": "apple tree",
     "looks_like": "t_tree",
