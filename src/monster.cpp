@@ -109,7 +109,6 @@ static const species_id species_MAMMAL( "MAMMAL" );
 static const species_id species_MOLLUSK( "MOLLUSK" );
 static const species_id species_NETHER( "NETHER" );
 static const species_id species_ROBOT( "ROBOT" );
-static const species_id species_SPIDER( "SPIDER" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
 
 static const trait_id trait_ANIMALDISCORD( "ANIMALDISCORD" );
@@ -2933,8 +2932,7 @@ void monster::hear_sound( const tripoint &source, const int vol, const int dist 
         max_error = 1;
     }
 
-    int target_x = source.x + rng( -max_error, max_error );
-    int target_y = source.y + rng( -max_error, max_error );
+    point target( source.xy() + point( rng( -max_error, max_error ), rng( -max_error, max_error ) ) );
     // target_z will require some special check due to soil muffling sounds
 
     int wander_turns = volume * ( goodhearing ? 6 : 1 );
@@ -2942,10 +2940,10 @@ void monster::hear_sound( const tripoint &source, const int vol, const int dist 
     if( morale >= 0 && anger >= 10 ) {
         // TODO: Add a proper check for fleeing attitude
         // but cache it nicely, because this part is called a lot
-        wander_to( tripoint( target_x, target_y, source.z ), wander_turns );
+        wander_to( tripoint( target, source.z ), wander_turns );
     } else if( morale < 0 ) {
         // Monsters afraid of sound should not go towards sound
-        wander_to( tripoint( 2 * posx() - target_x, 2 * posy() - target_y, 2 * posz() - source.z ),
+        wander_to( -target + tripoint( 2 * posx(), 2 * posy(), 2 * posz() - source.z ),
                    wander_turns );
     }
 }

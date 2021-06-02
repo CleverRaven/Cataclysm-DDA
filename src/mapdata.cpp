@@ -1019,7 +1019,8 @@ furn_id f_null,
         f_tourist_table,
         f_camp_chair,
         f_sign,
-        f_street_light, f_traffic_light;
+        f_street_light, f_traffic_light,
+        f_console, f_console_broken;
 
 void set_furn_ids()
 {
@@ -1133,6 +1134,8 @@ void set_furn_ids()
     f_gun_safe_el = furn_id( "f_gun_safe_el" );
     f_street_light = furn_id( "f_street_light" );
     f_traffic_light = furn_id( "f_traffic_light" );
+    f_console_broken = furn_id( "f_console_broken" );
+    f_console = furn_id( "f_console" );
 }
 
 size_t ter_t::count()

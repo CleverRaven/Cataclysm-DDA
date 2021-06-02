@@ -2716,9 +2716,8 @@ bool mattack::grab( monster *z )
             target->add_msg_player_or_npc( m_info, tech.avatar_message.translated(),
                                            tech.npc_message.translated(), z->name() );
         } else {
-            target->add_msg_player_or_npc( m_info, _( "The %s tries to grab you, but you break its grab!" ),
-                                           _( "The %s tries to grab <npcname>, but they break its grab!" ),
-                                           z->name() );
+            add_msg_if_player_sees( *z, m_info, _( "The %1$s tries to grab %2$s, but %2$s break its grab!" ),
+                                    z->name(), target->disp_name() );
         }
         return true;
     }
@@ -2727,8 +2726,7 @@ bool mattack::grab( monster *z )
     z->add_effect( effect_grabbing, 2_turns );
     target->add_effect( effect_grabbed, 2_turns, bodypart_id( "torso" ), false,
                         prev_effect + z->get_grab_strength() );
-    target->add_msg_player_or_npc( m_bad, _( "The %s grabs you!" ), _( "The %s grabs <npcname>!" ),
-                                   z->name() );
+    add_msg_if_player_sees( *z, m_bad, _( "The %1$s grabs %2$s!" ), z->name(), target->disp_name() );
 
     return true;
 }
@@ -3476,8 +3474,7 @@ bool mattack::searchlight( monster *z )
         max_lamp_count--;
     }
 
-    const int zposx = z->posx();
-    const int zposy = z->posy();
+    const point zpos( z->posx(), z->posy() );
 
     map &here = get_map();
     //this searchlight is not initialized
@@ -3495,16 +3492,16 @@ bool mattack::searchlight( monster *z )
             for( const tripoint &dest : here.points_in_radius( z->pos(), 24 ) ) {
                 const monster *const mon = g->critter_at<monster>( dest );
                 if( mon && mon->type->id == mon_turret_searchlight ) {
-                    if( dest.x < zposx ) {
+                    if( dest.x < zpos.x ) {
                         settings.set_var( "SL_PREFER_LEFT", "FALSE" );
                     }
-                    if( dest.x > zposx ) {
+                    if( dest.x > zpos.x ) {
                         settings.set_var( "SL_PREFER_RIGHT", "FALSE" );
                     }
-                    if( dest.y < zposy ) {
+                    if( dest.y < zpos.y ) {
                         settings.set_var( "SL_PREFER_UP", "FALSE" );
                     }
-                    if( dest.y > zposy ) {
+                    if( dest.y > zpos.y ) {
                         settings.set_var( "SL_PREFER_DOWN", "FALSE" );
                     }
                 }
@@ -3522,8 +3519,8 @@ bool mattack::searchlight( monster *z )
 
         bool generator_ok = false;
 
-        for( int x = zposx - 24; x < zposx + 24; x++ ) {
-            for( int y = zposy - 24; y < zposy + 24; y++ ) {
+        for( int x = zpos.x - 24; x < zpos.x + 24; x++ ) {
+            for( int y = zpos.y - 24; y < zpos.y + 24; y++ ) {
                 tripoint dest( x, y, z->posz() );
                 if( here.ter( dest ) == ter_str_id( "t_plut_generator" ) ) {
                     generator_ok = true;
@@ -3569,8 +3566,7 @@ bool mattack::searchlight( monster *z )
             }
         }
 
-        int x = zposx + settings.get_var( "SL_SPOT_X", 0 );
-        int y = zposy + settings.get_var( "SL_SPOT_Y", 0 );
+        point p( zpos + point( settings.get_var( "SL_SPOT_X", 0 ), settings.get_var( "SL_SPOT_Y", 0 ) ) );
         int shift = 0;
 
         for( int i = 0; i < rng( 1, 2 ); i++ ) {
@@ -3580,32 +3576,32 @@ bool mattack::searchlight( monster *z )
 
                 switch( shift ) {
                     case 0:
-                        y--;
+                        p.y--;
                         break;
                     case 1:
-                        y--;
-                        x++;
+                        p.y--;
+                        p.x++;
                         break;
                     case 2:
-                        x++;
+                        p.x++;
                         break;
                     case 3:
-                        x++;
-                        y++;
+                        p.x++;
+                        p.y++;
                         break;
                     case 4:
-                        y++;
+                        p.y++;
                         break;
                     case 5:
-                        y++;
-                        x--;
+                        p.y++;
+                        p.x--;
                         break;
                     case 6:
-                        x--;
+                        p.x--;
                         break;
                     case 7:
-                        x--;
-                        y--;
+                        p.x--;
+                        p.y--;
                         break;
 
                     default:
@@ -3613,40 +3609,40 @@ bool mattack::searchlight( monster *z )
                 }
 
             } else {
-                if( x < player_character.posx() ) {
-                    x++;
+                if( p.x < player_character.posx() ) {
+                    p.x++;
                 }
-                if( x > player_character.posx() ) {
-                    x--;
+                if( p.x > player_character.posx() ) {
+                    p.x--;
                 }
-                if( y < player_character.posy() ) {
-                    y++;
+                if( p.y < player_character.posy() ) {
+                    p.y++;
                 }
-                if( y > player_character.posy() ) {
-                    y--;
+                if( p.y > player_character.posy() ) {
+                    p.y--;
                 }
             }
 
-            if( rl_dist( point( x, y ), point( zposx, zposy ) ) > 50 ) {
-                if( x > zposx ) {
-                    x--;
+            if( rl_dist( p, zpos ) > 50 ) {
+                if( p.x > zpos.x ) {
+                    p.x--;
                 }
-                if( x < zposx ) {
-                    x++;
+                if( p.x < zpos.x ) {
+                    p.x++;
                 }
-                if( y > zposy ) {
-                    y--;
+                if( p.y > zpos.y ) {
+                    p.y--;
                 }
-                if( y < zposy ) {
-                    y++;
+                if( p.y < zpos.y ) {
+                    p.y++;
                 }
             }
         }
 
-        settings.set_var( "SL_SPOT_X", x - zposx );
-        settings.set_var( "SL_SPOT_Y", y - zposy );
+        settings.set_var( "SL_SPOT_X", p.x - zpos.x );
+        settings.set_var( "SL_SPOT_Y", p.y - zpos.y );
 
-        here.add_field( tripoint( x, y, z->posz() ), field_type_id( "fd_spotlight" ), 1 );
+        here.add_field( tripoint( p, z->posz() ), field_type_id( "fd_spotlight" ), 1 );
     }
 
     return true;
