@@ -427,7 +427,7 @@ static object_names_collection enumerate_objects_around_point( const tripoint &p
         std::unordered_set<const vehicle *> &vehicles_recorded );
 static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
         const tripoint &camera_pos,
-        std::vector<monster *> &monster_vec, std::vector<player *> &player_vec );
+        std::vector<monster *> &monster_vec, std::vector<Character *> &character_vec );
 
 static const std::vector<std::string> camera_ter_whitelist_flags = {
     "HIDE_PLACE", "FUNGUS", "TREE", "PERMEABLE", "SHRUB",
@@ -7039,7 +7039,7 @@ static object_names_collection enumerate_objects_around_point( const tripoint &p
 
 static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
         const tripoint &camera_pos,
-        std::vector<monster *> &monster_vec, std::vector<player *> &player_vec )
+        std::vector<monster *> &monster_vec, std::vector<Character *> &character_vec )
 {
     // look for big items on top of stacks in the background for the selfie description
     const units::volume min_visible_volume = 490_ml;
@@ -7075,7 +7075,7 @@ static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
             continue; // disallow photos with non-visible objects
         }
         monster *const mon = g->critter_at<monster>( current, false );
-        avatar *guy = g->critter_at<avatar>( current );
+        Character *guy = g->critter_at<Character>( current );
 
         total_tiles_num++;
         if( here.is_outside( current ) ) {
@@ -7106,7 +7106,7 @@ static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
                 figure_name = guy->name;
                 pronoun_sex = guy->male ? _( "He" ) : _( "She" );
                 creature = guy;
-                player_vec.push_back( guy );
+                character_vec.push_back( guy );
             } else {
                 if( mon->is_hallucination() || mon->type->in_species( species_HALLUCINATION ) ) {
                     continue; // do not include hallucinations
@@ -7552,9 +7552,9 @@ cata::optional<int> iuse::camera( player *p, item *it, bool, const tripoint & )
 
                 std::vector<extended_photo_def> extended_photos;
                 std::vector<monster *> monster_vec;
-                std::vector<player *> player_vec;
+                std::vector<Character *> character_vec;
                 extended_photo_def photo = photo_def_for_camera_point( trajectory_point, p->pos(), monster_vec,
-                                           player_vec );
+                                           character_vec );
                 photo.quality = photo_quality;
 
                 try {
@@ -7566,7 +7566,8 @@ cata::optional<int> iuse::camera( player *p, item *it, bool, const tripoint & )
                               e.c_str() );
                 }
 
-                const bool selfie = std::find( player_vec.begin(), player_vec.end(), p ) != player_vec.end();
+                const bool selfie = std::find( character_vec.begin(), character_vec.end(),
+                                               p ) != character_vec.end();
 
                 if( selfie ) {
                     p->add_msg_if_player( _( "You took a selfie." ) );
@@ -7584,10 +7585,10 @@ cata::optional<int> iuse::camera( player *p, item *it, bool, const tripoint & )
                             blinded_names.push_back( monster_p->name() );
                         }
                     }
-                    for( player * const &player_p : player_vec ) {
-                        if( dist < 4 && one_in( dist + 2 ) && !player_p->is_blind() ) {
-                            player_p->add_effect( effect_blind, rng( 5_turns, 10_turns ) );
-                            blinded_names.push_back( player_p->name );
+                    for( Character * const &character_p : character_vec ) {
+                        if( dist < 4 && one_in( dist + 2 ) && !character_p->is_blind() ) {
+                            character_p->add_effect( effect_blind, rng( 5_turns, 10_turns ) );
+                            blinded_names.push_back( character_p->name );
                         }
                     }
                     if( !blinded_names.empty() ) {

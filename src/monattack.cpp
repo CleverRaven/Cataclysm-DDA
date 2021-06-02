@@ -2716,9 +2716,8 @@ bool mattack::grab( monster *z )
             target->add_msg_player_or_npc( m_info, tech.avatar_message.translated(),
                                            tech.npc_message.translated(), z->name() );
         } else {
-            target->add_msg_player_or_npc( m_info, _( "The %s tries to grab you, but you break its grab!" ),
-                                           _( "The %s tries to grab <npcname>, but they break its grab!" ),
-                                           z->name() );
+            add_msg_if_player_sees( *z, m_info, _( "The %1$s tries to grab %2$s, but %2$s break its grab!" ),
+                                    z->name(), target->disp_name() );
         }
         return true;
     }
@@ -2727,8 +2726,7 @@ bool mattack::grab( monster *z )
     z->add_effect( effect_grabbing, 2_turns );
     target->add_effect( effect_grabbed, 2_turns, bodypart_id( "torso" ), false,
                         prev_effect + z->get_grab_strength() );
-    target->add_msg_player_or_npc( m_bad, _( "The %s grabs you!" ), _( "The %s grabs <npcname>!" ),
-                                   z->name() );
+    add_msg_if_player_sees( *z, m_bad, _( "The %1$s grabs %2$s!" ), z->name(), target->disp_name() );
 
     return true;
 }
@@ -4094,7 +4092,15 @@ bool mattack::stretch_bite( monster *z )
     // Let it be used on non-player creatures
     // can be used at close range too!
     Creature *target = z->attack_target();
-    if( target == nullptr || rl_dist( z->pos(), target->pos() ) > 3 || !z->sees( *target ) ) {
+    if( target == nullptr ) {
+        return false;
+    }
+    int distance = rl_dist( z->pos(), target->pos() );
+    // Hack, only allow attacking above or below if the target is adjacent.
+    if( z->pos().z != target->pos().z ) {
+        distance += 2;
+    }
+    if( distance > 3 || !z->sees( *target ) ) {
         return false;
     }
 
@@ -4380,7 +4386,12 @@ bool mattack::longswipe( monster *z )
         return false;
     }
     // Out of range
-    if( rl_dist( z->pos(), target->pos() ) > 3 || !z->sees( *target ) ) {
+    int distance = rl_dist( z->pos(), target->pos() );
+    // Hack, only allow attacking above or below if the target is adjacent.
+    if( z->pos().z != target->pos().z ) {
+        distance += 2;
+    }
+    if( distance > 3 || !z->sees( *target ) ) {
         return false;
     }
     map &here = get_map();
@@ -5294,8 +5305,8 @@ bool mattack::bio_op_impale( monster *z )
 
     t_dam = foe->deal_damage( z, hit, damage_instance( damage_type::STAB, dam ) ).total_damage();
 
-    target->add_msg_player_or_npc( _( "The %1$s tries to impale your %s…" ),
-                                   _( "The %1$s tries to impale <npcname>'s %s…" ),
+    target->add_msg_player_or_npc( _( "The %1$s tries to impale your %2$s…" ),
+                                   _( "The %1$s tries to impale <npcname>'s %2$s…" ),
                                    z->name(), body_part_name_accusative( hit ) );
 
     if( t_dam > 0 ) {
@@ -5684,6 +5695,10 @@ bool mattack::stretch_attack( monster *z )
     }
 
     int distance = rl_dist( z->pos(), target->pos() );
+    // Hack, only allow attacking above or below if the target is adjacent.
+    if( z->pos().z != target->pos().z ) {
+        distance += 2;
+    }
     if( distance < 2 || distance > 3 || !z->sees( *target ) ) {
         return false;
     }

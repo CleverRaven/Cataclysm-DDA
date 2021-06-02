@@ -1646,7 +1646,7 @@ void unload_activity_actor::unload( Character &who, item_location &target )
         if( contained->ammo_type() == ammotype( "plutonium" ) ) {
             contained->charges /= PLUTONIUM_CHARGES;
         }
-        if( who.as_player()->add_or_drop_with_msg( *contained, true ) ) {
+        if( who.as_player()->add_or_drop_with_msg( *contained, true, &it ) ) {
             qty += contained->charges;
             remove_contained.push_back( contained );
             actually_unloaded = true;

@@ -1241,7 +1241,7 @@ bool map::displace_vehicle( vehicle &veh, const tripoint &dp, const bool adjust_
     veh.zones_dirty = true;
 
     for( int vsmz : smzs ) {
-        on_vehicle_moved( vsmz );
+        on_vehicle_moved( dst.z + vsmz );
     }
     return true;
 }
@@ -6988,13 +6988,16 @@ void map::rotten_item_spawn( const item &item, const tripoint &pnt )
     if( mgroup.is_null() ) {
         return;
     }
-    MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( mgroup );
-    add_spawn( spawn_details, pnt );
-    if( get_player_view().sees( pnt ) ) {
-        if( item.is_seed() ) {
-            add_msg( m_warning, _( "Something has crawled out of the %s plants!" ), item.get_plant_name() );
-        } else {
-            add_msg( m_warning, _( "Something has crawled out of the %s!" ), item.tname() );
+
+    if( rng( 0, 100 ) < comest->rot_spawn_chance ) {
+        MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( mgroup );
+        add_spawn( spawn_details, pnt );
+        if( get_player_view().sees( pnt ) ) {
+            if( item.is_seed() ) {
+                add_msg( m_warning, _( "Something has crawled out of the %s plants!" ), item.get_plant_name() );
+            } else {
+                add_msg( m_warning, _( "Something has crawled out of the %s!" ), item.tname() );
+            }
         }
     }
 }
