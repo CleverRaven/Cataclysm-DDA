@@ -821,7 +821,21 @@
     "connections": [ { "point": [ 0, -1, 0 ], "from": [ 0, 0, 0 ] } ],
     "locations": [ "forest" ],
     "city_distance": [ 20, -1 ],
-    "occurrences": [ 50, 100 ],
+    "occurrences": [ 25, 100 ],
+    "flags": [ "MILITARY", "UNIQUE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Military Bunker",
+    "overmaps": [
+      { "point": [ 0, -1, 0 ], "overmap": "road_end_north" },
+      { "point": [ 0, 0, 0 ], "overmap": "bunker_south" },
+      { "point": [ 0, 0, -1 ], "overmap": "bunker_basement_1" }
+    ],
+    "connections": [ { "point": [ 0, -1, 0 ], "from": [ 0, 0, 0 ] } ],
+    "locations": [ "forest" ],
+    "city_distance": [ 20, -1 ],
+    "occurrences": [ 25, 100 ],
     "flags": [ "MILITARY", "UNIQUE" ]
   },
   {
@@ -830,7 +844,16 @@
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "outpost_north" } ],
     "locations": [ "wilderness" ],
     "city_distance": [ 15, -1 ],
-    "occurrences": [ 50, 100 ],
+    "occurrences": [ 25, 100 ],
+    "flags": [ "MILITARY", "UNIQUE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Military Outpost",
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "outpost_cross_north" } ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ 15, -1 ],
+    "occurrences": [ 25, 100 ],
     "flags": [ "MILITARY", "UNIQUE" ]
   },
   {
