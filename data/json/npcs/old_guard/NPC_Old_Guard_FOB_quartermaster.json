@@ -14,8 +14,8 @@
   {
     "type": "npc_class",
     "id": "NC_SOLDIER_QMASTER",
-    "name": { "str": "Merchant" },
-    "job_description": "I'm a local shopkeeper.",
+    "name": { "str": "Quatermaster" },
+    "job_description": "I trade on behalf of the Old Guard.",
     "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "common": false,
     "bonus_int": { "one_in": 4 },
