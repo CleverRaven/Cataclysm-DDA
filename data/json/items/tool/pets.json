@@ -125,6 +125,37 @@
     "looks_like": "pet_carrier"
   },
   {
+    "id": "terrarium",
+    "type": "TOOL",
+    "copy-from": "pet_carrier",
+    "name": { "str": "glass terrarium" },
+    "description": "A glass container meant to hold plants and/or insects.  They come in a variety of sizes.",
+    "weight": "5 kg",
+    "volume": "37 L",
+    "price": 800,
+    "price_postapoc": 50,
+    "material": [ "glass" ],
+    "symbol": "#",
+    "color": "white_yellow",
+    "properties": [ [ "creature_size_capacity", "TINY" ] ],
+    "looks_like": "pet_carrier"
+  },
+  {
+    "id": "firefly_terrarium",
+    "type": "TOOL",
+    "name": { "str": "survivor giant firefly lamp" },
+    "description": "Some enterprising survivor has decided to turn this terrarium into a light source, using what appear to be a giant firefly and triffid vegetation.",
+    "weight": "30 kg",
+    "volume": "37 L",
+    "price": 800,
+    "price_postapoc": 1200,
+    "material": [ "glass" ],
+    "symbol": "#",
+    "color": "white_yellow",
+    "use_action": { "type": "deploy_furn", "furn_type": "f_firefly_terrarium" },
+    "looks_like": "pet_carrier"
+  },
+  {
     "id": "dog_whistle_wood",
     "type": "TOOL",
     "name": { "str": "wooden dog whistle" },
