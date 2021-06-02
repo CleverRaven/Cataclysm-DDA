@@ -18,7 +18,7 @@
       { "max_contains_volume": "500 ml", "max_contains_weight": "400 g", "moves": 60, "flag_restriction": [ "BELT_CLIP" ] }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stick what into your belt", "holster_msg": "You tuck your %s into your %s" },
-    "flags": [ "WAIST", "WATER_FRIENDLY", "STURDY" ]
+    "flags": [ "WAIST", "WATER_FRIENDLY", "STURDY", "OVERSIZE" ]
   },
   {
     "type": "TOOL_ARMOR",
