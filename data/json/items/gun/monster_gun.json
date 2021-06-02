@@ -70,9 +70,7 @@
       "NO_REPAIR",
       "WATERPROOF_GUN",
       "NO_SALVAGE",
-      "NO_UNLOAD",
-      "WATERPROOF_GUN",
-      "NEVER_JAMS"
+      "NO_UNLOAD"
     ],
     "skill": "throw",
     "ammo": [ "rock" ],
