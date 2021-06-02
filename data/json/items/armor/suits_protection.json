@@ -877,7 +877,7 @@
       { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 }
     ],
     "warmth": 25,
-    "material_thickness": 2,
+    "material_thickness": 0.3,
     "flags": [ "VARSIZE", "SUPER_FANCY", "POCKETS" ]
   },
   {
