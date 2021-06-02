@@ -851,7 +851,7 @@
     "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": { "str": "Dress Uniform" },
-    "description": "A military officer's dress uniform from before the Cataclysm, complete with rank and ribbons. Just looking at it gives you an air of authority. Perhaps not the most practical military wear, but a very stylish option",
+    "description": "A military officer's dress uniform from before the Cataclysm, complete with rank and ribbons.  Just looking at it gives you an air of authority.  Perhaps not the most practical military wear, but a very stylish option.",
     "weight": "1653 g",
     "volume": "4750 ml",
     "price": 22400,
