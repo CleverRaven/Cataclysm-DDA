@@ -81,6 +81,8 @@ class melee_actor : public mattack_actor
         bool dodgeable = true;
         // Determines if a special attack can be blocked
         bool blockable = true;
+        // Hopefully flings you, side*dice*3, hulk =92
+        int throw_strength = 0;
 
         /**
          * If empty, regular melee roll body part selection is used.
