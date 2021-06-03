@@ -46,13 +46,14 @@ jobs:
       with:
         setupOnly: true
         vcpkgDirectory: '${{ runner.workspace }}/b/vcpkg'
-        vcpkgGitCommitId: '30124253eecff36bc90f73341edbfb4f845e2a1e'
+        vcpkgGitCommitId: '5568f110b509a9fd90711978a7cb76bae75bb092'
 
     # We have to install packages in two passes because the x86 yasm-tool
     # is required for the later packages, but vcpkg builds them in an
     # unhelpful order
     - name: Install more vcpkg packages
       run: |
+        vcpkg.exe --version
         vcpkg.exe install yasm-tool:x86-windows
         vcpkg.exe install --triplet x64-windows-static sdl2 sdl2-image sdl2-mixer[dynamic-load,libflac,mpg123,libmodplug,libvorbis] sdl2-ttf gettext qt5-base[latest]
 
