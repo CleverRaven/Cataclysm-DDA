@@ -45,8 +45,6 @@ jobs:
       id: runvcpkg
       with:
         setupOnly: true
-        vcpkgArguments: 'yasm-tool:x86-windows'
-        vcpkgTriplet: 'x64-windows'
         vcpkgDirectory: '${{ runner.workspace }}/b/vcpkg'
         vcpkgGitCommitId: '30124253eecff36bc90f73341edbfb4f845e2a1e'
 
@@ -55,6 +53,7 @@ jobs:
     # unhelpful order
     - name: Install more vcpkg packages
       run: |
+        vcpkg.exe install yasm-tool:x86-windows
         vcpkg.exe install --triplet x64-windows sdl2 sdl2-image sdl2-mixer[dynamic-load,libflac,mpg123,libmodplug,libvorbis] sdl2-ttf gettext qt5-base[latest]
 
     - name: Build
