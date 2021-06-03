@@ -127,7 +127,6 @@
   {
     "id": "terrarium",
     "type": "TOOL",
-    "copy-from": "pet_carrier",
     "name": { "str": "glass terrarium" },
     "description": "A glass container meant to hold plants and/or insects.  They come in a variety of sizes.",
     "weight": "5 kg",
@@ -138,7 +137,9 @@
     "symbol": "#",
     "color": "white_yellow",
     "properties": [ [ "creature_size_capacity", "TINY" ] ],
-    "looks_like": "pet_carrier"
+    "looks_like": "pet_carrier",
+    "use_action": [ "CAPTURE_MONSTER_ACT" ],
+    "flags": [ "TRADER_AVOID" ]
   },
   {
     "id": "firefly_terrarium",
