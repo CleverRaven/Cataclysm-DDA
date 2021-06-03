@@ -60,4 +60,4 @@ jobs:
     - name: Build
       run: |
           cd msvc-object_creator
-          msbuild -m /p:Configuration=Release /p:Platform=x64 ObjectCreator-vcpkg-static.sln
+          msbuild -m -p:Configuration=Release -p:Platform=x64 ObjectCreator-vcpkg-static.sln
