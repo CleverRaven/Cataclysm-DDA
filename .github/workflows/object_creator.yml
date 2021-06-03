@@ -57,6 +57,10 @@ jobs:
         vcpkg.exe install yasm-tool:x86-windows
         vcpkg.exe install --triplet x64-windows-static sdl2 sdl2-image sdl2-mixer[dynamic-load,libflac,mpg123,libmodplug,libvorbis] sdl2-ttf gettext qt5-base[latest]
 
+    - name: Integrate vcpkg
+      run: |
+        vcpkg integrate install
+
     - name: Build
       run: |
           cd msvc-object_creator
