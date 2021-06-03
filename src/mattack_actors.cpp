@@ -240,6 +240,8 @@ void melee_actor::load_internal( const JsonObject &obj, const std::string & )
               to_translation( "The %1$s bites <npcname>'s %2$s, but fails to penetrate armor!" ) );
     optional( obj, was_loaded, "hit_dmg_npc", hit_dmg_npc,
               to_translation( "The %1$s bites <npcname>'s %2$s!" ) );
+    optional( obj, was_loaded, "throw_message_u", throw_message_u, to_translation( "The force of the %s's attack sends you flying!") );
+    optional( obj, was_loaded, "throw_message_npc", throw_message_npc, to_translation( "The force of the %s's attack sends you flying!") );
 
     if( obj.has_array( "body_parts" ) ) {
         for( JsonArray sub : obj.get_array( "body_parts" ) ) {
@@ -347,6 +349,7 @@ bool melee_actor::call( monster &z ) const
     if( throw_strength > 0 ) {
         g->fling_creature( target, coord_to_angle( z.pos(), target->pos() ),
                            throw_strength );
+        target->add_msg_player_or_npc( m_bad, throw_message_u, throw_message_npc, z.name());
     }
 
     return true;
