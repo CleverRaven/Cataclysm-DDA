@@ -44,6 +44,7 @@ jobs:
       uses: lukka/run-vcpkg@main
       id: runvcpkg
       with:
+        setupOnly: true
         vcpkgArguments: 'yasm-tool:x86-windows'
         vcpkgTriplet: 'x64-windows'
         vcpkgDirectory: '${{ runner.workspace }}/b/vcpkg'
