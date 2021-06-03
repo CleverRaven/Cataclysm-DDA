@@ -659,7 +659,7 @@
   {
     "type": "construction",
     "id": "constr_wall_wattle_post",
-    "group": "build_woven_wattle_wall",
+    "group": "build_woven_wattle_fence",
     "//": "Step 1: narrow fence posts for a woven wattle wall",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 0 ], [ "survival", 1 ] ],
@@ -672,7 +672,7 @@
   {
     "type": "construction",
     "id": "constr_wall_wattle_woven",
-    "group": "build_woven_wattle_wall",
+    "group": "build_woven_wattle_fence",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 2 ], [ "survival", 2 ] ],
     "time": "50 m",
