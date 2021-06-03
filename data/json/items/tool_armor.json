@@ -118,7 +118,7 @@
     "type": "TOOL_ARMOR",
     "category": "clothing",
     "id": "combo_cover",
-    "name": { "str": "Combo cover" },
+    "name": { "str": "combo cover" },
     "weight": "500 g",
     "color": "white",
     "covers": [ "head" ],
