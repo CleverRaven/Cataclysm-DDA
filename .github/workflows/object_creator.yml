@@ -50,7 +50,7 @@ jobs:
         vcpkgDirectory: '${{ runner.workspace }}/b/vcpkg'
         vcpkgGitCommitId: '30124253eecff36bc90f73341edbfb4f845e2a1e'
 
-    # We have to install packages in two passes because the x86 yasm tool
+    # We have to install packages in two passes because the x86 yasm-tool
     # is required for the later packages, but vcpkg builds them in an
     # unhelpful order
     - name: Install more vcpkg packages
