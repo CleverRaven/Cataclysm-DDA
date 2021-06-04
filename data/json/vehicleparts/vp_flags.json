@@ -694,5 +694,5 @@
     "id": "WINDSHIELD",
     "type": "json_flag",
     "context": [ "vehicle_part" ]
-  }  
+  }
 ]
