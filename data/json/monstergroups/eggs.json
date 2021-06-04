@@ -104,6 +104,12 @@
     "monsters": [ { "monster": "mon_centipede_small", "freq": 1000, "cost_multiplier": 1 } ]
   },
   {
+    "name": "GROUP_EGG_WASP",
+    "type": "monstergroup",
+    "default": "mon_wasp_larva",
+    "monsters": [ { "monster": "mon_wasp_larva", "freq": 1000, "cost_multiplier": 1, "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] } ]
+  },
+  {
     "name": "GROUP_EGG_DRAGONFLY",
     "type": "monstergroup",
     "default": "mon_null",

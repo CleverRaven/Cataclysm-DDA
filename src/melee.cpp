@@ -55,6 +55,7 @@
 #include "pimpl.h"
 #include "player.h"
 #include "point.h"
+#include "popup.h"
 #include "projectile.h"
 #include "rng.h"
 #include "sounds.h"
@@ -84,7 +85,6 @@ static const skill_id skill_unarmed( "unarmed" );
 static const skill_id skill_bashing( "bashing" );
 static const skill_id skill_melee( "melee" );
 
-static const efftype_id effect_badpoison( "badpoison" );
 static const efftype_id effect_beartrap( "beartrap" );
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_contacts( "contacts" );
@@ -97,7 +97,6 @@ static const efftype_id effect_hit_by_player( "hit_by_player" );
 static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_lightsnare( "lightsnare" );
 static const efftype_id effect_narcosis( "narcosis" );
-static const efftype_id effect_poison( "poison" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_venom_dmg( "venom_dmg" );
 static const efftype_id effect_venom_weaken( "venom_weaken" );
@@ -540,8 +539,29 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
         add_msg( m_bad, _( "This weapon is too unwieldy to attack with!" ) );
         return false;
     }
-
     int move_cost = attack_speed( *cur_weapon );
+
+    if( is_avatar() && move_cost > 1000 && calendar::turn > melee_warning_turn ) {
+        const auto &action = query_popup()
+                             .context( "CANCEL_ACTIVITY_OR_IGNORE_QUERY" )
+                             .message( _( "<color_light_red>Attacking with your %1$s will take a long time.  "
+                                          "Are you sure you want to continue?</color>" ),
+                                       cur_weapon->display_name() )
+                             .option( "YES" )
+                             .option( "NO" )
+                             .option( "IGNORE" )
+                             .query()
+                             .action;
+
+        if( action == "NO" ) {
+            return false;
+        }
+        if( action == "IGNORE" ) {
+            if( melee_warning_turn == calendar::turn_zero || melee_warning_turn <= calendar::turn ) {
+                melee_warning_turn = calendar::turn + 50_turns;
+            }
+        }
+    }
 
     const bool hits = hit_spread >= 0;
 
@@ -767,7 +787,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
     const int deft_bonus = !hits && has_trait( trait_DEFT ) ? 50 : 0;
 
     mod_stamina( std::min( -50, mod_sta + melee + deft_bonus ) );
-    add_msg_debug( "Stamina burn: %d", std::min( -50, mod_sta ) );
+    add_msg_debug( debugmode::DF_MELEE, "Stamina burn: %d", std::min( -50, mod_sta ) );
     // Weariness handling - 1 / the value, because it returns what % of the normal speed
     const float weary_mult = exertion_adjusted_move_multiplier( EXTRA_EXERCISE );
     mod_moves( -move_cost * ( 1 / weary_mult ) );
@@ -1560,13 +1580,13 @@ static void print_damage_info( const damage_instance &di )
         ss += name_by_dt( du.type ) + ":" + std::to_string( amount ) + ",";
     }
 
-    add_msg_debug( "%stotal: %d", ss, total );
+    add_msg_debug( debugmode::DF_MELEE, "%stotal: %d", ss, total );
 }
 
 void Character::perform_technique( const ma_technique &technique, Creature &t, damage_instance &di,
                                    int &move_cost )
 {
-    add_msg_debug( "dmg before tec:" );
+    add_msg_debug( debugmode::DF_MELEE, "dmg before tec:" );
     print_damage_info( di );
 
     for( damage_unit &du : di.damage_units ) {
@@ -1580,7 +1600,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
         du.res_pen += technique.armor_penetration( *this, du.type );
     }
 
-    add_msg_debug( "dmg after tec:" );
+    add_msg_debug( debugmode::DF_MELEE, "dmg after tec:" );
     print_damage_info( di );
 
     move_cost *= technique.move_cost_multiplier( *this );
@@ -1598,26 +1618,25 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
 
     if( technique.side_switch ) {
         const tripoint b = t.pos();
-        int newx;
-        int newy;
+        point new_;
 
         if( b.x > posx() ) {
-            newx = posx() - 1;
+            new_.x = posx() - 1;
         } else if( b.x < posx() ) {
-            newx = posx() + 1;
+            new_.x = posx() + 1;
         } else {
-            newx = b.x;
+            new_.x = b.x;
         }
 
         if( b.y > posy() ) {
-            newy = posy() - 1;
+            new_.y = posy() - 1;
         } else if( b.y < posy() ) {
-            newy = posy() + 1;
+            new_.y = posy() + 1;
         } else {
-            newy = b.y;
+            new_.y = b.y;
         }
 
-        const tripoint &dest = tripoint( newx, newy, b.z );
+        const tripoint &dest = tripoint( new_, b.z );
         if( g->is_empty( dest ) ) {
             t.setpos( dest );
         }
@@ -1630,9 +1649,9 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
     map &here = get_map();
     if( technique.knockback_dist ) {
         const tripoint prev_pos = t.pos(); // track target startpoint for knockback_follow
-        const int kb_offset_x = rng( -technique.knockback_spread, technique.knockback_spread );
-        const int kb_offset_y = rng( -technique.knockback_spread, technique.knockback_spread );
-        tripoint kb_point( posx() + kb_offset_x, posy() + kb_offset_y, posz() );
+        const point kb_offset( rng( -technique.knockback_spread, technique.knockback_spread ),
+                               rng( -technique.knockback_spread, technique.knockback_spread ) );
+        tripoint kb_point( posx() + kb_offset.x, posy() + kb_offset.y, posz() );
         for( int dist = rng( 1, technique.knockback_dist ); dist > 0; dist-- ) {
             t.knock_back_from( kb_point );
         }
@@ -1676,7 +1695,8 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
     }
 
     if( technique.disarms && p != nullptr && p->is_armed() ) {
-        here.add_item_or_charges( p->pos(), p->remove_weapon() );
+        item weap = p->remove_weapon();
+        here.add_item_or_charges( p->pos(), weap );
         if( p->is_player() ) {
             add_msg_if_npc( _( "<npcname> disarms you!" ) );
         } else {
@@ -2151,7 +2171,8 @@ std::vector<special_attack> Character::mutation_attacks( Creature &t ) const
 
             // Calculate actor ability value to be compared against mutation attack difficulty and add debug message
             const int proc_value = get_dex() + unarmed;
-            add_msg_debug( "%s proc chance: %d in %d", pr.c_str(), proc_value, mut_atk.chance );
+            add_msg_debug( debugmode::DF_MELEE, "%s proc chance: %d in %d", pr.c_str(), proc_value,
+                           mut_atk.chance );
             // If the mutation attack fails to proc, bail out
             if( !x_in_y( proc_value, mut_atk.chance ) ) {
                 continue;
@@ -2162,7 +2183,7 @@ std::vector<special_attack> Character::mutation_attacks( Creature &t ) const
             [this]( const trait_id & blocker ) {
             return has_trait( blocker );
             } ) ) {
-                add_msg_debug( "%s not procing: blocked", pr.c_str() );
+                add_msg_debug( debugmode::DF_MELEE, "%s not procing: blocked", pr.c_str() );
                 continue;
             }
 
@@ -2171,7 +2192,7 @@ std::vector<special_attack> Character::mutation_attacks( Creature &t ) const
             [this]( const trait_id & need ) {
             return has_trait( need );
             } ) ) {
-                add_msg_debug( "%s not procing: unmet req", pr.c_str() );
+                add_msg_debug( debugmode::DF_MELEE, "%s not procing: unmet req", pr.c_str() );
                 continue;
             }
 
@@ -2200,7 +2221,7 @@ std::vector<special_attack> Character::mutation_attacks( Creature &t ) const
             if( tmp.damage.total_damage() > 0.0f ) {
                 ret.emplace_back( tmp );
             } else {
-                add_msg_debug( "%s not procing: zero damage", pr.c_str() );
+                add_msg_debug( debugmode::DF_MELEE, "%s not procing: zero damage", pr.c_str() );
             }
         }
     }
@@ -2443,7 +2464,8 @@ double Character::weapon_value( const item &weap, int ammo ) const
 
     // A small bonus for guns you can also use to hit stuff with (bayonets etc.)
     const double my_val = more + ( less / 2.0 );
-    add_msg_debug( "%s (%ld ammo) sum value: %.1f", weap.type->get_id().str(), ammo, my_val );
+    add_msg_debug( debugmode::DF_MELEE, "%s (%ld ammo) sum value: %.1f", weap.type->get_id().str(),
+                   ammo, my_val );
     if( is_wielding( weap ) ) {
         cached_info.emplace( "weapon_value", my_val );
     }
@@ -2470,7 +2492,7 @@ double Character::melee_value( const item &weap ) const
         my_value *= 1.5;
     }
 
-    add_msg_debug( "%s as melee: %.1f", weap.type->get_id().str(), my_value );
+    add_msg_debug( debugmode::DF_MELEE, "%s as melee: %.1f", weap.type->get_id().str(), my_value );
 
     return std::max( 0.0, my_value );
 }

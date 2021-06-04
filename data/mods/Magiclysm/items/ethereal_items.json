@@ -379,6 +379,24 @@
     "use_action": [ "WATER_PURIFIER" ]
   },
   {
+    "type": "COMESTIBLE",
+    "id": "druid_fertilizer",
+    "name": { "str": "seed of growth", "str_pl": "seeds of growth" },
+    "weight": "27 g",
+    "color": "white",
+    "flags": [ "TRADER_AVOID", "FERTILIZER" ],
+    "comestible_type": "FOOD",
+    "symbol": "°",
+    "quench": -10,
+    "healthy": -2,
+    "description": "A magical powder that can be scattered on growing crops and make them grow faster.",
+    "material": [ "powder" ],
+    "volume": "2 L",
+    "charges": 60,
+    "category": "chems",
+    "fun": -15
+  },
+  {
     "id": "obfuscating_aura",
     "type": "ARMOR",
     "name": "obfuscating aura",
@@ -619,8 +637,7 @@
       "TRADER_AVOID",
       "NO_UNLOAD",
       "NO_REPAIR",
-      "WATERPROOF_GUN",
-      "NEVER_JAMS"
+      "WATERPROOF_GUN"
     ],
     "ammo_effects": [ "NEVER_MISFIRES" ],
     "weight": "86 g",
@@ -756,6 +773,38 @@
     "techniques": [ "WBLOCK_2", "RAPID" ],
     "relic_data": {
       "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_COLD", "add": 6 } ] } ]
+    }
+  },
+  {
+    "id": "jar_3l_force",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "jar of force", "str_pl": "jars of force" },
+    "looks_like": "jar_glass_sealed",
+    "description": "A three-liter container made out of transparent force.  Can be used to store liquids.",
+    "weight": "1 g",
+    "volume": "3050 ml",
+    "longest_side": "298 mm",
+    "price": 0,
+    "price_postapoc": 0,
+    "to_hit": -1,
+    "bashing": 1,
+    "material": [  ],
+    "symbol": ")",
+    "color": "light_cyan",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "6 kg"
+      }
+    ],
+    "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS", "TRADER_AVOID" ],
+    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 1 ] ],
+    "relic_data": {
+      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_PURE", "add": 3 } ] } ]
     }
   },
   {

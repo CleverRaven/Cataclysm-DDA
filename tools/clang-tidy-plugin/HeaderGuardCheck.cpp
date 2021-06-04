@@ -3,11 +3,14 @@
 #include <unordered_set>
 
 #include <clang/Frontend/CompilerInstance.h>
+#include <clang/Tooling/Tooling.h>
 
 #if !defined(_MSC_VER)
 #include <sys/stat.h>
 #include <unistd.h>
 #endif
+
+#include "Utils.h"
 
 namespace clang
 {
@@ -25,7 +28,7 @@ static std::string cleanPath( StringRef Path )
 {
     SmallString<256> Result = Path;
     llvm::sys::path::remove_dots( Result, true );
-    return Result.str();
+    return Result.str().str();
 }
 
 static bool pathExists( const std::string &path )
@@ -265,7 +268,7 @@ class HeaderGuardPPCallbacks : public PPCallbacks
             std::string CPPVar = getHeaderGuard( FileName );
 
             if( CPPVar.empty() ) {
-                return CurHeaderGuard;
+                return CurHeaderGuard.str();
             }
 
             if( Ifndef.isValid() && CurHeaderGuard != CPPVar ) {
@@ -279,7 +282,7 @@ class HeaderGuardPPCallbacks : public PPCallbacks
                                       CPPVar ) );
                 return CPPVar;
             }
-            return CurHeaderGuard;
+            return CurHeaderGuard.str();
         }
 
         /// \brief Checks the comment after the #endif of a header guard and fixes it
@@ -360,12 +363,13 @@ class HeaderGuardPPCallbacks : public PPCallbacks
                     Newlines = "\n";
                 }
 
+                std::string ToInsertHeader = StrCat(
+                                                 "#ifndef ", CPPVar, "\n#define ", CPPVar, Newlines );
                 Check->diag( InsertLoc, "Header is missing header guard." )
-                        << FixItHint::CreateInsertion(
-                            InsertLoc, "#ifndef " + CPPVar + "\n#define " + CPPVar + Newlines )
+                        << FixItHint::CreateInsertion( InsertLoc, ToInsertHeader )
                         << FixItHint::CreateInsertion(
                             SM.getLocForEndOfFile( FID ),
-                            "\n#" + formatEndIf( CPPVar ) + "\n" );
+                            StrCat( "\n#", formatEndIf( CPPVar ), "\n" ) );
             }
         }
     private:
@@ -376,11 +380,10 @@ class HeaderGuardPPCallbacks : public PPCallbacks
         CataHeaderGuardCheck *Check;
 };
 
-void CataHeaderGuardCheck::registerPPCallbacks( CompilerInstance &Compiler )
+void CataHeaderGuardCheck::registerPPCallbacks(
+    const SourceManager &, Preprocessor *PP, Preprocessor * )
 {
-    Compiler.getPreprocessor().addPPCallbacks(
-        llvm::make_unique<HeaderGuardPPCallbacks>( &Compiler.getPreprocessor(),
-                this ) );
+    PP->addPPCallbacks( std::make_unique<HeaderGuardPPCallbacks>( PP, this ) );
 }
 
 } // namespace cata

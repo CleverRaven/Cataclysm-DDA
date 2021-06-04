@@ -3,7 +3,7 @@
     "type": "terrain",
     "id": "t_tree_worm",
     "name": "leviathan annelids",
-    "description": "Several massive protusions emerge from the ground, coiled together into a tower.  At the top, blue and purple tentacles sway in the wind.",
+    "description": "Several massive protrusions emerge from the ground, coiled together into a tower.  At the top, blue and purple tentacles sway in the wind.",
     "symbol": "I",
     "color": "magenta",
     "move_cost": 0,
