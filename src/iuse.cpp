@@ -9406,7 +9406,7 @@ cata::optional<int> iuse::ladder( player *p, item *, bool, const tripoint & )
     }
     const tripoint pnt = *pnt_;
 
-    if( !g->is_empty( pnt ) || here.has_furn( pnt ) ) {
+    if( !g->is_empty( pnt ) || here.has_furn( pnt ) || here.veh_at( pnt ) ) {
         p->add_msg_if_player( m_bad, _( "Can't place it there." ) );
         return cata::nullopt;
     }
