@@ -85,7 +85,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_OLD_GUARD_FOB_OFFICER_DISMISSED_2",
-    "dynamic_line": [ "Go. Away.", "If I have to tell you one more time so help me god..." ],
-    "responses": [ { "text": "...", "topic": "TALK_DONE" } ]
+    "dynamic_line": [ "Go. Away.", "If I have to tell you one more time so help me god…" ],
+    "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
   }
 ]
