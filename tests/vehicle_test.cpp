@@ -108,4 +108,6 @@ TEST_CASE( "starting_bicycle_damaged_pedal" )
 
         CHECK_FALSE( veh_ptr->start_engine( 0 ) );
     }
+
+    here.detach_vehicle( veh_ptr );
 }
