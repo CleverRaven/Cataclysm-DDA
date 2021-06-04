@@ -1283,11 +1283,7 @@ void map::apply_light_arc( const tripoint &p, const units::angle &angle, float l
         //cut pre-subsection
         if( fmod( oangle, 45_degrees ) != 0_degrees ) {
             units::angle preangle = oangle;
-            //get next largest
             oangle = 45_degrees * std::ceil( to_degrees( oangle ) / 45 );
-            if( oangle == 360_degrees ) {
-                oangle = 0_degrees;
-            }
             units::angle preanglew = units::from_radians( std::abs( ( oangle - preangle ).value() ) );
 
             // NOLINTNEXTLINE(clang-analyzer-security.FloatLoopCounter)
@@ -1305,7 +1301,6 @@ void map::apply_light_arc( const tripoint &p, const units::angle &angle, float l
                 }
             }
         }
-        //octants, optimize later
         int numoct = to_degrees( cangle - oangle ) / 45;
         int firstoct = to_degrees( oangle ) / 45;
         oangle += numoct * 45_degrees;
@@ -1356,11 +1351,11 @@ void map::apply_light_arc( const tripoint &p, const units::angle &angle, float l
                     break;
             }
         }
+        if( wangle == 0_degrees ) {
+            return;
+        }
     }
 
-    if( wangle == 0_degrees ) {
-        return;
-    }
 
     // NOLINTNEXTLINE(clang-analyzer-security.FloatLoopCounter)
     for( units::angle ao = 0_degrees; ao <= wangle; ao += wstep ) {
