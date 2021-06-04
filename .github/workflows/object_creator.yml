@@ -60,12 +60,16 @@ jobs:
     - name: Dump vcpkg logs if vcpkg build failed
       if: failure()
       run: |
-        for %%f in D:\a\Cataclysm-DDA\b\vcpkg\buildtrees\*\build-*.log do (
-          echo =================================================
-          echo %%f
-          echo =================================================
-          type %%f
-        )
+        Get-ChildItem "D:\a\Cataclysm-DDA\b\vcpkg\buildtrees" |
+        Foreach-Object {
+            Get-ChildItem $_.FullName -Filter *.log |
+            Foreach-Object {
+              echo =================================================
+              echo $_.FullName
+              echo =================================================
+              type $_.FullName
+            }
+        }
 
     - name: Integrate vcpkg
       run: |
