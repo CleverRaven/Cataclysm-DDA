@@ -57,6 +57,16 @@ jobs:
         vcpkg.exe install yasm-tool:x86-windows
         vcpkg.exe install --triplet x64-windows-static sdl2 sdl2-image sdl2-mixer[dynamic-load,libflac,mpg123,libmodplug,libvorbis] sdl2-ttf gettext qt5-base[latest]
 
+    - name: Dump vcpkg logs if vcpkg build failed
+      if: failure()
+      run: |
+        for %%f in D:\a\Cataclysm-DDA\b\vcpkg\buildtrees\*\build-*.log do (
+          echo =================================================
+          echo %%f
+          echo =================================================
+          type %%f
+        )
+
     - name: Integrate vcpkg
       run: |
         vcpkg integrate install
