@@ -48,6 +48,13 @@ jobs:
         vcpkgDirectory: '${{ runner.workspace }}/b/vcpkg'
         vcpkgGitCommitId: '5568f110b509a9fd90711978a7cb76bae75bb092'
 
+    # There's not enough disk space to build both release and debug versions of
+    # our dependencies, so we hack the triplet file to build only release
+    # versions
+    - name: Disable debug builds for vcpkg
+      run: |
+        Add-Content "${{ runner.workspace }}/b/vcpkg/triplets/x64-windows.cmake" "`nset(VCPKG_BUILD_TYPE release)`n"
+
     # We have to install packages in two passes because the x86 yasm-tool
     # is required for the later packages, but vcpkg builds them in an
     # unhelpful order
@@ -60,7 +67,7 @@ jobs:
     - name: Dump vcpkg logs if vcpkg build failed
       if: failure()
       run: |
-        Get-ChildItem "D:\a\Cataclysm-DDA\b\vcpkg\buildtrees" |
+        Get-ChildItem "${{ runner.workspace }}/b/vcpkg/buildtrees" |
         Foreach-Object {
             Get-ChildItem $_.FullName -Filter *.log |
             Foreach-Object {
