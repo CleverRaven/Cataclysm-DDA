@@ -453,12 +453,13 @@ TEST_CASE( "activity levels and calories in daily diary", "[avatar][biometrics][
 
     SECTION( "shows time at each activity level for the current day" ) {
         dummy.reset_activity_level();
-        test_activity_duration( dummy, NO_EXERCISE, 1_hours );
+        test_activity_duration( dummy, NO_EXERCISE, 59_minutes );
         test_activity_duration( dummy, LIGHT_EXERCISE, 45_minutes );
         test_activity_duration( dummy, MODERATE_EXERCISE, 30_minutes );
         test_activity_duration( dummy, BRISK_EXERCISE, 20_minutes );
         test_activity_duration( dummy, ACTIVE_EXERCISE, 15_minutes );
         test_activity_duration( dummy, EXTRA_EXERCISE, 10_minutes );
+        test_activity_duration( dummy, NO_EXERCISE, 1_minutes );
 
         int expect_gained_kcal = 1283;
         int expect_net_kcal = 551;
