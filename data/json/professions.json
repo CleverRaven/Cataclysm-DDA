@@ -3767,6 +3767,10 @@
           "scalpel",
           "syringe",
           "morphine",
+          "aspirin",
+          "antibiotics",
+          "disinfectant",
+          "pepto",
           "molle_pack"
         ],
         "entries": [
