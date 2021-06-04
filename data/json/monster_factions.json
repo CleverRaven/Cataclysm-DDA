@@ -376,6 +376,34 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "antlion",
+    "base_faction": "insect",
+    "neutral": [ "antlion" ],
+    "by_mood": [ "zombie", "fungus", "bee" ],
+    "hate": [ "insect", "small_animal", "ant", "acid_ant" ]
+  },
+  {
+   "type": "MONSTER_FACTION",
+    "name": "ladybug",
+    "base_faction": "insect",
+    "by_mood": [ "zombie", "bee", "insect" ],
+    "hate": [ "small_animal", "ant", "acid_ant" ]
+  },
+   {
+    "type": "MONSTER_FACTION",
+    "name": "mantis",
+    "base_faction": "insect",
+    "by_mood": [ "centipede", "spider", "ant", "acid_ant" ],
+    "hate": [ "insect", "small_animal" ]
+  },
+    {
+    "type": "MONSTER_FACTION",
+    "name": "strider",
+    "base_faction": "insect",
+    "hate": [ "small_animal", "fish"]
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "fungus",
     "neutral": [ "bot", "fish" ]
   },
