@@ -442,7 +442,6 @@ std::string enum_to_string<blood_type>( blood_type data )
 
 // *INDENT-OFF*
 Character::Character() :
-    cached_time( calendar::before_time_starts ),
     id( -1 ),
     next_climate_control_check( calendar::before_time_starts ),
     last_climate_control_ret( false )
@@ -486,6 +485,7 @@ Character::Character() :
 
     move_mode = move_mode_id( "walk" );
     next_expected_position = cata::nullopt;
+    crafting_cache.time = calendar::before_time_starts;
 }
 // *INDENT-ON*
 

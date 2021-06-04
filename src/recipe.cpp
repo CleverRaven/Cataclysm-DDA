@@ -67,16 +67,7 @@ int64_t recipe::time_to_craft_moves( const Character &guy, recipe_time_flag flag
     if( flags == recipe_time_flag::ignore_proficiencies ) {
         return time;
     }
-    int64_t ret = time;
-    for( const recipe_proficiency &prof : proficiencies ) {
-        if( !prof.required ) {
-            if( !guy.has_proficiency( prof.id ) &&
-                !helpers_have_proficiencies( guy, prof.id ) ) {
-                ret *= prof.time_multiplier;
-            }
-        }
-    }
-    return ret;
+    return time * proficiency_time_maluses( guy );
 }
 
 int64_t recipe::batch_time( const Character &guy, int batch, float multiplier,
@@ -658,7 +649,7 @@ std::string recipe::used_proficiencies_string( const Character *c ) const
     return used;
 }
 
-std::string recipe::missing_proficiencies_string( Character *c ) const
+std::string recipe::missing_proficiencies_string( const Character *c ) const
 {
     if( c == nullptr ) {
         return { };
@@ -738,7 +729,7 @@ std::set<proficiency_id> recipe::assist_proficiencies() const
     return ret;
 }
 
-float recipe::proficiency_time_maluses( Character &guy ) const
+float recipe::proficiency_time_maluses( const Character &guy ) const
 {
     float total_malus = 1.0f;
     for( const recipe_proficiency &prof : proficiencies ) {
@@ -752,7 +743,7 @@ float recipe::proficiency_time_maluses( Character &guy ) const
     return total_malus;
 }
 
-float recipe::proficiency_failure_maluses( Character &guy ) const
+float recipe::proficiency_failure_maluses( const Character &guy ) const
 {
     float total_malus = 1.0f;
     for( const recipe_proficiency &prof : proficiencies ) {
