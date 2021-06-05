@@ -1782,17 +1782,17 @@ std::string avatar::total_daily_calories_string() const
         for( const std::pair<const float, int> &level : day.activity_levels ) {
             if( level.second > 0 ) {
                 if( level.first < light_ex_thresh ) {
-                    no_exercise++;
+                    no_exercise += level.second;
                 } else if( level.first < mod_ex_thresh ) {
-                    light_exercise++;
+                    light_exercise += level.second;
                 } else if( level.first < brisk_ex_thresh ) {
-                    moderate_exercise++;
+                    moderate_exercise += level.second;
                 } else if( level.first < active_ex_thresh ) {
-                    brisk_exercise++;
+                    brisk_exercise += level.second;
                 } else if( level.first < extra_ex_thresh ) {
-                    active_exercise++;
+                    active_exercise += level.second;
                 } else {
-                    extra_exercise++;
+                    extra_exercise += level.second;
                 }
             }
         }
