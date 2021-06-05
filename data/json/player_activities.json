@@ -564,7 +564,7 @@
   {
     "id": "ACT_MEND_ITEM",
     "type": "activity_type",
-    "activity_level": "NO_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "verb": "mending",
     "rooted": true,
     "based_on": "speed",
