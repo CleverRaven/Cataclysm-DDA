@@ -59,7 +59,7 @@
     "death_function": [ "NORMAL" ],
     "harvest": "flesh_golem",
     "upgrades": { "half_life": 15, "into": "mon_jabberwock" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "PUSH_MON", "POISON" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "ATTACKMON", "POISON" ]
   },
   {
     "id": "mon_jabberwock",
