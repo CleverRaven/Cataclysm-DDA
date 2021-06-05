@@ -380,8 +380,20 @@ void MonsterGenerator::finalize_mtypes()
         mon.size = volume_to_size( mon.volume );
 
         // adjust for worldgen difficulty parameters
-        mon.speed *= get_option<int>( "MONSTER_SPEED" )      / 100.0;
-        mon.hp    *= get_option<int>( "MONSTER_RESILIENCE" ) / 100.0;
+        mon.speed           *= get_option<int>( "MONSTER_SPEED" )      / 100.0;
+        mon.hp              *= get_option<int>( "MONSTER_RESILIENCE" ) / 100.0;
+        mon.vision_day      *= get_option<int>( "MONSTER_VISION" ) / 100.0;
+        mon.vision_night    *= get_option<int>( "MONSTER_VISION" ) / 100.0;
+        mon.melee_sides     *= get_option<int>( "MONSTER_ATTACK" ) / 100.0;
+        for( auto &damage : mon.melee_damage ) {
+            damage.damage_multiplier *= get_option<int>( "MONSTER_ATTACK" ) / 100.0;
+        }
+        mon.armor_bash      *= get_option<int>( "MONSTER_ARMOR" ) / 100.0;
+        mon.armor_cut       *= get_option<int>( "MONSTER_ARMOR" ) / 100.0;
+        mon.armor_bullet    *= get_option<int>( "MONSTER_ARMOR" ) / 100.0;
+        mon.armor_acid      *= get_option<int>( "MONSTER_ARMOR" ) / 100.0;
+        mon.armor_fire      *= get_option<int>( "MONSTER_ARMOR" ) / 100.0;
+        mon.armor_stab      *= get_option<int>( "MONSTER_ARMOR" ) / 100.0;
 
         for( monster_adjustment adj : adjustments ) {
             adj.apply( mon );
