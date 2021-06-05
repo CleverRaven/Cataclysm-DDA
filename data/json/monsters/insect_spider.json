@@ -1969,7 +1969,7 @@
     "id": "mon_mole_cricket",
     "type": "MONSTER",
     "name": { "str": "giant mole cricket" },
-    "description": "An enormous underground bug.  It's a common garden pest.  Beware ear-splitting screech and strong shovel-like front legs.",
+    "description": "An enormous underground bug.  Beware the ear-splitting screech and strong shovel-like front legs.",
     "default_faction": "insect",
     "bodytype": "insect",
     "species": [ "INSECT" ],
