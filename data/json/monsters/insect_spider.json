@@ -1861,8 +1861,8 @@
   {
     "id": "mon_aphid",
     "type": "MONSTER",
-    "name": { "str": "giant aphid", "str_pl": "giant aphids" },
-    "description": "A green aphid about a size of a rabbit.  It is constantly searching for plants to suck from.",
+    "name": { "str": "giant aphid" },
+    "description": "A green aphid about the size of a rabbit.  It is constantly searching for plants to suck from.",
     "default_faction": "ant",
     "bodytype": "insect",
     "species": [ "INSECT" ],
