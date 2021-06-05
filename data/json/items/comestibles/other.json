@@ -88,7 +88,7 @@
     "type": "COMESTIBLE",
     "id": "honeydew",
     "name": { "str": "honeydew" },
-    "description": "It's a sugar-rich sticky substance, produced by aphids from plant's sap.  Ants and bees love it.",
+    "description": "A sugar-rich sticky substance, produced by aphids from plant sap.  Ants and bees love it.",
     "weight": "22 g",
     "color": "green",
     "symbol": "~",
