@@ -6390,6 +6390,7 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const units
         ch.vehicle_list.insert( placed_vehicle );
         add_vehicle_to_cache( placed_vehicle );
 
+        rebuild_vehicle_level_caches();
         //debugmsg ("grid[%d]->vehicles.size=%d veh.parts.size=%d", nonant, grid[nonant]->vehicles.size(),veh.parts.size());
     }
     return placed_vehicle;
@@ -6401,7 +6402,7 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const units
  * otherwise returns a pointer to the placed vehicle, which may not necessarily
  * be the one passed in (if wreckage is created by fusing cars).
  * @param veh The vehicle to place on the map.
- * @param merge_wrecks Whether crashed vehicles become part of each other
+ * @param merge_wrecks Whether crashed vehicles intermix parts
  * @return The vehicle that was finally placed.
  */
 std::unique_ptr<vehicle> map::add_vehicle_to_map(
@@ -6445,29 +6446,41 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
                 return nullptr;
             }
 
-            std::vector<vehicle_part *> overlapping_parts;
+            /**
+             * attempt to pull parts from `veh_to_add` (the prospective new vehicle)
+             * in order to place them into `first_veh` (the vehicle that is overlapped)
+             * 
+             * the intent here is to get something similar to the old wreckage behavior 
+             * (combining two vehicles) without completely garbling all of the vehicle parts
+             * for tile rendering purposes.
+             * 
+             * the overlap span is still a mess, though.
+             */
 
-            //Where are we on the global scale?
-            const tripoint global_pos = first_veh->global_pos3();
+            for( const tripoint map_pos : first_veh->get_points( true ) ) {
+                std::vector<vehicle_part *> parts_to_move = veh_to_add->get_parts_at( map_pos, "", part_status_flag::any );
+                if( !parts_to_move.empty() ) {
+                    const point &target_point = first_veh->get_parts_at( map_pos, "", part_status_flag:: any ).front()->mount;
+                    const point &source_point = veh_to_add->get_parts_at( map_pos, "", part_status_flag:: any ).front()->mount;
+                    for( const vehicle_part *vp : parts_to_move ) {
+                        // TODO: change mount points to be tripoint
+                        first_veh->install_part( target_point, *vp );
+                    }
 
-            for( const vpart_reference &vpr : first_veh->get_all_parts() ) {
-                const tripoint part_pos = first_veh->global_part_pos3( vpr.part() );
-                for( vehicle_part *vp : veh_to_add->get_parts_at( part_pos, "", part_status_flag::any ) ) {
-                    overlapping_parts.emplace_back( vp );
+                    // this couuld probably be done in a single loop with installing parts above
+                    std::vector<int> parts_in_square = veh_to_add->parts_at_relative( source_point, true );
+                    for( int index = parts_in_square.size() - 1; index >= 0; index-- ) {
+                        veh_to_add->remove_part( parts_in_square[index] );
+                    }
                 }
             }
 
-            for( vehicle_part *vp : overlapping_parts ) {
+            // TODO: more targeted damage around the impact site
+            first_veh->smash( *this );
+            first_veh->enable_refresh();
 
-                const tripoint pos = veh_to_add->global_part_pos3( *vp );
-                first_veh->install_part( pos.xy(), *vp );
-
-                std::vector<int> parts_in_square = veh_to_add->parts_at_relative( vp->mount, true );
-                for( int index = parts_in_square.size() - 1; index >= 0; index-- ) {
-                    veh_to_add->remove_part( parts_in_square[index] );
-                }
-            }
-
+            // TODO: entangle the old vehicle and the new vehicle somehow, perhaps with tow cables
+            // or something like them, to make them harder to separate
             std::unique_ptr<vehicle> new_veh = add_vehicle_to_map( std::move( veh_to_add ), true );
             if( new_veh != nullptr ) {
                 new_veh->smash( *this );
