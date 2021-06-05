@@ -740,7 +740,7 @@
     "harvest": "exempt",
     "special_attacks": [ [ "TENTACLE", 5 ] ],
     "death_function": [ "MELT" ],
-    "flags": [ "SMELLS", "HEARS", "NOHEAD", "BASHES", "GROUP_BASH", "SWIMS", "PUSH_MON", "PLASTIC", "ACIDPROOF", "NOGIB", "CLIMBS" ]
+    "flags": [ "SMELLS", "HEARS", "NOHEAD", "BASHES", "GROUP_BASH", "SWIMS", "ATTACKMON", "PLASTIC", "ACIDPROOF", "NOGIB", "CLIMBS" ]
   },
   {
     "id": "mon_twisted_body",
