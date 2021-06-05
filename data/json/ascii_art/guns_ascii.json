@@ -1,7 +1,7 @@
 [
   {
     "type": "ascii_art",
-    "id": "hk_mp5a2",
+    "id": "hk_mp5",
     "picture": [
       "                        ",
       "      <color_dark_gray>█                 ",
@@ -73,7 +73,7 @@
   },
   {
     "type": "ascii_art",
-    "id": "hk_mp5-pdw",
+    "id": "hk_mp5k",
     "picture": [
       "                       ",
       "     <color_dark_gray>▄                 ",
@@ -104,7 +104,7 @@
   },
   {
     "type": "ascii_art",
-    "id": "hk_ump",
+    "id": "hk_ump45",
     "picture": [
       "                     ",
       "      <color_light_gray>▓              ",
@@ -135,7 +135,7 @@
   },
   {
     "type": "ascii_art",
-    "id": "shotgun_pistol",
+    "id": "ashot",
     "picture": [
       "                                        ",
       "        <color_light_gray>~\\</color><color_dark_gray>▄☻████</color><color_light_gray>▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓",
@@ -150,7 +150,7 @@
   },
   {
     "type": "ascii_art",
-    "id": "shotgun_revolver",
+    "id": "revolver_shotgun",
     "picture": [
       "  <color_dark_gray>▄           ",
       " ▐█           ",
@@ -191,7 +191,7 @@
   },
   {
     "type": "ascii_art",
-    "id": "remington870mcs",
+    "id": "remington_870_breacher",
     "picture": [
       "             ",
       "  <color_light_gray>▓▌█▓       ",
@@ -216,7 +216,7 @@
   },
   {
     "type": "ascii_art",
-    "id": "remington870xpress",
+    "id": "remington_870_express",
     "picture": [
       "                ",
       " <color_dark_gray>█▒ ▒▓          ",
@@ -262,7 +262,7 @@
   },
   {
     "type": "ascii_art",
-    "id": "remington1100",
+    "id": "remington_1100",
     "picture": [
       "                ",
       " <color_dark_gray>╔▓▌            ",
@@ -322,7 +322,7 @@
   },
   {
     "type": "ascii_art",
-    "id": "remington870",
+    "id": "remington_870",
     "picture": [
       "                ",
       " <color_light_gray>╔▓▌            ",
@@ -381,7 +381,7 @@
   },
   {
     "type": "ascii_art",
-    "id": "mossberg930sxp",
+    "id": "mossberg_930",
     "picture": [
       "                   ",
       "   <color_light_gray>▄</color><color_white>▄ </color><color_light_gray>▄            ",
@@ -427,7 +427,7 @@
   },
   {
     "type": "ascii_art",
-    "id": "mossberg590",
+    "id": "mossberg_590",
     "picture": [
       "                ",
       " <color_dark_gray>○</color><color_light_gray>◙</color><color_dark_gray>▒▌▄∙         ",
@@ -474,7 +474,7 @@
   },
   {
     "type": "ascii_art",
-    "id": "mossberg500_sec",
+    "id": "mossberg_500_security",
     "picture": [
       "                ",
       "  <color_dark_gray>▒▌            ",
@@ -522,7 +522,7 @@
   },
   {
     "type": "ascii_art",
-    "id": "mossberg500",
+    "id": "mossberg_500",
     "picture": [
       "",
       " <color_dark_gray>╔▓▌",
@@ -579,7 +579,7 @@
   },
   {
     "type": "ascii_art",
-    "id": "beretta_m9",
+    "id": "m9",
     "picture": [
       "",
       "  <color_light_gray>•</color><color_dark_gray>▄__▄▄▲</color><color_light_gray>▄▄▄▄▄▄▄</color><color_dark_gray>______________</color><color_light_gray>■</color><color_dark_gray>▄</color><color_light_gray>■",
@@ -691,45 +691,7 @@
   },
   {
     "type": "ascii_art",
-    "id": "db_pipe_gun",
-    "picture": [
-      "",
-      "  <color_light_gray>◙</color><color_white>▒",
-      " </color><color_dark_gray>▐</color><color_light_gray>▓</color><color_white>▒",
-      " </color><color_dark_gray>▐</color><color_light_gray>▓</color><color_white>▒",
-      " </color><color_dark_gray>▐</color><color_light_gray>▓</color><color_white>▒",
-      " </color><color_dark_gray>▐</color><color_light_gray>▓</color><color_white>▒",
-      " </color><color_dark_gray>▐</color><color_light_gray>▓</color><color_white>▒",
-      " </color><color_dark_gray>▐</color><color_light_gray>▓</color><color_white>▒",
-      " </color><color_dark_gray>▐</color><color_light_gray>▓</color><color_white>▒",
-      " </color><color_dark_gray>▐</color><color_light_gray>▓</color><color_white>▒",
-      " </color><color_dark_gray>▐</color><color_light_gray>▓</color><color_white>▒",
-      " </color><color_dark_gray>▐</color><color_light_gray>▓</color><color_white>▒",
-      " </color><color_dark_gray>▐</color><color_light_gray>▓</color><color_white>▒</color><color_dark_gray>▄ </color><color_light_gray>__∙▄▄",
-      " </color><color_dark_gray>▐▒▓▓█♥☻▀▀▀▀▀",
-      " ▐▓</color><color_white>░</color><color_dark_gray>█",
-      " ▐▓</color><color_white>░</color><color_dark_gray>█",
-      " ▐◙</color><color_white>░</color><color_dark_gray>█",
-      " ▐</color><color_light_gray>▓</color><color_white>░</color><color_dark_gray>█",
-      " ▐</color><color_light_gray>▓</color><color_white>░</color><color_dark_gray>█",
-      " ▐</color><color_light_gray>▓</color><color_white>░</color><color_dark_gray>█",
-      " ▐</color><color_light_gray>▓</color><color_white>░</color><color_dark_gray>█",
-      " ▐</color><color_light_gray>▓</color><color_white>░</color><color_dark_gray>█",
-      " ▐</color><color_light_gray>▓</color><color_white>░</color><color_light_gray>▓",
-      " </color><color_dark_gray>▐</color><color_light_gray>▓</color><color_white>░</color><color_light_gray>▓</color><color_dark_gray>▒▀▀≡▓▓",
-      " ▐</color><color_light_gray>▓</color><color_white>░</color><color_light_gray>▓",
-      " </color><color_dark_gray>▐</color><color_light_gray>▓</color><color_brown>▓▓▒",
-      " </color><color_dark_gray>▐</color><color_light_gray>▓</color><color_brown>▓▓▒",
-      " </color><color_dark_gray>▐</color><color_light_gray>▓</color><color_brown>▓▓▓▄",
-      " </color><color_dark_gray>▐█</color><color_brown>▓▓▓▒▌",
-      "  </color><color_dark_gray>█</color><color_brown>▓</color><color_light_red>░</color><color_brown>██░▄",
-      "   █</color><color_light_red>░</color><color_brown>██▓▒░▄",
-      "    ████▒▒░"
-    ]
-  },
-  {
-    "type": "ascii_art",
-    "id": "2barrel_shotgun",
+    "id": "shotgun_d",
     "picture": [
       "                    ",
       " </color><color_light_gray> ▓                 ",
@@ -773,42 +735,6 @@
       "      ▐▓▓▓▒▒▒▒▒▓▓▒▒ ",
       "       █▒▒▒▒█▒▓▒░░▒▓",
       "       </color><color_dark_gray>▀▀▀▀▀°^</color><color_light_gray>^~</color><color_dark_gray>~~~`"
-    ]
-  },
-  {
-    "type": "ascii_art",
-    "id": "blunderbuss",
-    "picture": [
-      "",
-      "    <color_light_gray>▄▄▄",
-      "   ▐▓</color><color_white>▒</color><color_light_gray>▓</color><color_dark_gray>▌",
-      "    </color><color_light_gray>▓▒█ ▌",
-      "    ▐▓</color><color_dark_gray>▒ </color><color_light_gray>▌",
-      "    ▐▓</color><color_brown>▓▒</color><color_light_gray>▌",
-      "    ▐▓</color><color_light_red>░</color><color_brown>░</color><color_light_gray>▌",
-      "    ▐▓</color><color_brown>▒</color><color_light_red>░</color><color_dark_gray>▌",
-      "    </color><color_light_gray>▐▓</color><color_brown>▒</color><color_light_red>▒</color><color_dark_gray>▌",
-      "    </color><color_light_gray>▐▓</color><color_brown>█▒</color><color_dark_gray>▌",
-      "    </color><color_light_gray>▐▓</color><color_brown>██</color><color_dark_gray>█",
-      "    </color><color_light_gray>▐▓</color><color_brown>██▓",
-      "    </color><color_light_gray>▐▓</color><color_brown>▒█▌",
-      "    </color><color_light_gray>▐▓</color><color_brown>▓▒▌",
-      "    </color><color_light_gray>▐▓</color><color_brown>▒▒▓",
-      "   </color><color_light_gray>_▐▓</color><color_dark_gray>▒</color><color_light_gray>▒</color><color_brown>▓",
-      "  </color><color_light_gray>` </color><color_dark_gray>▐</color><color_light_gray>█</color><color_white>░</color><color_light_gray>▒</color><color_brown>▓</color><color_light_gray>°▬",
-      "   ▄▐▒▒</color><color_dark_gray>░</color><color_brown>▓</color><color_light_gray>─·│",
-      " ∙▀</color><color_dark_gray>▀ </color><color_light_gray>▐</color><color_white>░</color><color_light_gray>▓</color><color_brown>▓</color><color_light_gray>▌</color><color_dark_gray>▬",
-      "      </color><color_brown>▐▒▓▒",
-      "       ▓▒▒▒",
-      "       ▓▓▒█▓",
-      "      ▐▓▓██▒▌",
-      "       ▒▓▒▒▒▒",
-      "       ▒▓▓▒██▒",
-      "       ▒▒▓█▒██▓",
-      "       ▐▒▒▒▓██▓▌",
-      "       ▐▒▒▒▓</color><color_light_red>░</color><color_brown>█</color><color_light_red>░</color><color_brown>▓▌",
-      "       ▐▓▒▒▓▓▓</color><color_light_red>░</color><color_brown>▓▓</color><color_light_gray>⌐",
-      "        </color><color_dark_gray>▀▀</color><color_light_gray>▀▀</color><color_dark_gray>~</color><color_light_gray>~```"
     ]
   },
   {
@@ -864,7 +790,7 @@
   },
   {
     "type": "ascii_art",
-    "id": "mini-14",
+    "id": "ruger_mini",
     "picture": [
       "",
       " <color_dark_gray>▄▄",
@@ -911,7 +837,7 @@
   },
   {
     "type": "ascii_art",
-    "id": "ruger1022",
+    "id": "ruger_1022",
     "picture": [
       "",
       " <color_dark_gray>¡</color><color_light_gray>█</color><color_dark_gray>▌",
@@ -958,7 +884,7 @@
   },
   {
     "type": "ascii_art",
-    "id": "rem700",
+    "id": "remington700_270",
     "picture": [
       "",
       "      <color_white>║</color><color_light_gray>▌",
@@ -1009,7 +935,7 @@
   },
   {
     "type": "ascii_art",
-    "id": "rem700_3006",
+    "id": "remington_700",
     "picture": [
       "",
       "      <color_dark_gray>█▌",
@@ -1060,118 +986,7 @@
   },
   {
     "type": "ascii_art",
-    "id": "sm_pipe_gun",
-    "picture": [
-      "",
-      "   <color_light_gray>▓",
-      "   ▓",
-      "   ▓",
-      "   ▓",
-      "  ▐</color><color_dark_gray>░▌",
-      "  ▐░▌",
-      "  ▐░▌",
-      "  ▐░▌",
-      "  ▐░▌",
-      "  ▐░▌",
-      "  ▐░▌",
-      "  ▐░▌",
-      "  ▐░▄ </color><color_light_gray>__∙▄▄",
-      "  </color><color_dark_gray>▐░░█♥☻▀▀▀▀▀",
-      "  ▐░█",
-      "  ▐░▌",
-      " </color><color_light_gray>▐</color><color_dark_gray>▓░▌",
-      "  ◙░▌",
-      "  ▐░▌",
-      "  ▐░▌",
-      "  ▐░▒▒▀▀≡▓▓",
-      "  ▐░█",
-      "  ▐░█",
-      "  ▐░█",
-      "  ▐░█",
-      "  ▐░█",
-      "  █░█",
-      "   █▒▄",
-      "    </color><color_light_gray>▒▒</color><color_dark_gray>▄▄▄▄"
-    ]
-  },
-  {
-    "type": "ascii_art",
-    "id": "ps_pipe_gun",
-    "picture": [
-      "",
-      "  <color_dark_gray>▐</color><color_light_gray>▓",
-      "  </color><color_dark_gray>▐</color><color_light_gray>▓",
-      "  </color><color_dark_gray>▐</color><color_light_gray>▓ ",
-      "  </color><color_dark_gray>▐</color><color_light_gray>▓",
-      "  </color><color_dark_gray>▐</color><color_light_gray>▓",
-      "  </color><color_dark_gray>▐</color><color_light_gray>▓",
-      "  </color><color_dark_gray>▐</color><color_light_gray>▓",
-      "  </color><color_dark_gray>▒░▌",
-      "  ▓░▌ ",
-      "  ▓░▌",
-      "  ◙░▌",
-      "  █░▌",
-      "  █░▄ </color><color_light_gray>__∙▄▄",
-      "  </color><color_dark_gray>█░░█♥☻▀▀▀▀▀",
-      "  █░▌",
-      "  █░▌",
-      "  █░▌",
-      "  █░▌",
-      "  █░▌",
-      "  █░▌",
-      "  █░▌",
-      "  █░▒▒▀▀≡▓▓",
-      "  █░█",
-      "  █░█",
-      "  █░█",
-      "  █░█▒▄",
-      "  █░█  ▌",
-      "  █░█   \\",
-      "   █▒▄   \\",
-      "    </color><color_light_gray>▒▒</color><color_white>▄▄</color><color_dark_gray>▄▄▌"
-    ]
-  },
-  {
-    "type": "ascii_art",
-    "id": "lg_pipe_gun",
-    "picture": [
-      "",
-      "  <color_dark_gray>◙</color><color_light_gray>▓",
-      "  </color><color_dark_gray>█</color><color_light_gray>▓",
-      "  </color><color_dark_gray>█</color><color_light_gray>▓",
-      "  </color><color_dark_gray>█</color><color_light_gray>▓",
-      "  </color><color_dark_gray>█</color><color_light_gray>▓",
-      "  </color><color_dark_gray>█</color><color_light_gray>▓",
-      "  </color><color_dark_gray>█</color><color_light_gray>▓",
-      "  </color><color_dark_gray>█</color><color_light_gray>▓",
-      "  </color><color_dark_gray>█</color><color_light_gray>▓",
-      "  </color><color_dark_gray>█</color><color_light_gray>▓",
-      "  </color><color_dark_gray>█</color><color_light_gray>▓",
-      "  </color><color_dark_gray>█</color><color_light_gray>▓</color><color_dark_gray>▄ </color><color_light_gray>__∙▄▄",
-      "  </color><color_dark_gray>▒░░█♥☻▀▀▀▀▀",
-      "  ▓░█",
-      "  ▓░█",
-      "  ◙░█",
-      "  █░█",
-      "  █░█",
-      "  █░█",
-      "  █░█",
-      "  █░█",
-      "  █░█",
-      "  █░▒▒▀▀≡▓▓",
-      "  █░█",
-      "  █</color><color_brown>▓▓▒",
-      "  </color><color_dark_gray>█</color><color_brown>▓▓▒",
-      "  </color><color_dark_gray>█</color><color_brown>▓▓▓▄",
-      "  </color><color_dark_gray>█</color><color_brown>▓▓▓▒▌",
-      "  </color><color_dark_gray>█</color><color_brown>▓</color><color_light_red>░</color><color_brown>██░▄",
-      "   █</color><color_light_red>░</color><color_brown>██▓▒░▄",
-      "    ████▒▒░"
-    ]
-  },
-  {
-    "type": "ascii_art",
-    "id": "marlin_39a",
+    "id": "marlin_9a",
     "picture": [
       "",
       "  <color_dark_gray>▄",
@@ -1219,7 +1034,7 @@
   },
   {
     "type": "ascii_art",
-    "id": "m249_saw",
+    "id": "m249",
     "picture": [
       "",
       "        <color_light_gray>▐▓</color><color_dark_gray>▌",
@@ -1327,7 +1142,7 @@
   },
   {
     "type": "ascii_art",
-    "id": "m27_iar",
+    "id": "m27iar",
     "picture": [
       "",
       "       <color_light_gray>▄g",
@@ -1375,7 +1190,7 @@
   },
   {
     "type": "ascii_art",
-    "id": "m1_garand",
+    "id": "garand",
     "picture": [
       "",
       "  <color_dark_gray>▐</color><color_light_gray>▓</color><color_dark_gray>▄",
@@ -1476,54 +1291,7 @@
   },
   {
     "type": "ascii_art",
-    "id": "handmade_carb",
-    "picture": [
-      "   <color_light_gray>▐</color><color_dark_gray>█Γ",
-      " </color><color_light_gray>▐</color><color_dark_gray>███▌",
-      "   </color><color_light_gray>▐</color><color_dark_gray>█Γ",
-      "   </color><color_light_gray>▐</color><color_dark_gray>█Γ",
-      "   ▐</color><color_light_gray>▓</color><color_brown>b▄┐",
-      "   </color><color_dark_gray>▐</color><color_light_gray>▓</color><color_brown>██▓",
-      "   </color><color_dark_gray>▐</color><color_light_gray>█</color><color_brown>▓█▓",
-      "   </color><color_dark_gray>▐</color><color_light_gray>▓</color><color_brown>▓█▓",
-      "   </color><color_dark_gray>▐</color><color_light_gray>█</color><color_brown>▓█▓",
-      "   </color><color_dark_gray>▐</color><color_light_gray>█</color><color_light_red>▒</color><color_brown>█▓▌",
-      "   </color><color_dark_gray>▐</color><color_light_gray>█</color><color_light_red>▒</color><color_brown>█▓",
-      "   </color><color_dark_gray>▐</color><color_light_gray>█</color><color_light_red>▒</color><color_brown>█▓",
-      "   </color><color_dark_gray>▐</color><color_light_gray>█</color><color_brown>██▌",
-      "   </color><color_light_gray>▓▓</color><color_brown>█▓▌",
-      "  </color><color_dark_gray>█</color><color_light_gray>█▓</color><color_brown>█▒▓",
-      " </color><color_light_gray>▀</color><color_dark_gray>▀</color><color_light_gray>▓▓</color><color_brown>█▓█",
-      "   </color><color_light_gray>▓▒</color><color_brown>██▓",
-      "  </color><color_dark_gray>▐</color><color_light_gray>▒</color><color_dark_gray>███</color><color_light_gray>▓▄",
-      "  </color><color_dark_gray>▐</color><color_light_gray>▒</color><color_dark_gray>██</color><color_light_gray>▒██▌",
-      " </color>█<color_dark_gray>▓███</color><color_light_gray>▓█▒▌",
-      " </color>█<color_dark_gray>██◙█</color><color_light_gray>▓▓▓█▄▄_ _",
-      " </color>█<color_dark_gray>▓███</color><color_light_gray>▓████████</color><color_dark_gray>█",
-      " </color>█<color_dark_gray>████</color><color_light_gray>▓██>  ~▀▀</color><color_dark_gray>°",
-      "</color>██<color_dark_gray>▓███</color><color_light_gray>▓█</color><color_dark_gray>▄_",
-      "</color>██<color_dark_gray>████</color><color_light_gray>▓█▓</color><color_dark_gray>▀\\",
-      "</color>██<color_dark_gray>▓███</color><color_light_gray>▓█▌</color><color_dark_gray>_▐",
-      "  ████</color><color_light_gray>▓█▓</color><color_dark_gray>▓</color><color_light_gray>▒▄",
-      "   </color><color_dark_gray>▀▀▀</color><color_light_gray>▓█▒</color><color_dark_gray>██▓</color><color_light_gray>▓</color><color_dark_gray>▄</color><color_light_gray>▄</color><color_dark_gray>_",
-      "     </color><color_light_gray>▐██▓</color><color_dark_gray>▀</color><color_light_gray>▓▓▒</color><color_dark_gray>███</color><color_light_gray>▓",
-      "     ▐▓█    ~</color><color_dark_gray>▀▀</color><color_light_gray>▀▀",
-      "     ▐▓█▓",
-      "     </color><color_dark_gray>▐</color><color_light_gray>▒</color><color_dark_gray>▓█▄",
-      "      </color><color_light_gray>▒ </color><color_dark_gray>█▌",
-      "      █ </color><color_light_gray>▓</color><color_dark_gray>▌",
-      "     ▐█▓█▌",
-      "     ▐█▌ </color><color_light_gray>▓",
-      "     </color><color_dark_gray>▐█▌ █▄",
-      "     ▐█▌  █▄",
-      "     ▐█▌   </color><color_light_gray>▒</color><color_dark_gray>▄",
-      "     ▐█▌    </color><color_light_gray>▓</color><color_dark_gray>█",
-      "     /▓▒     ▓▓▄"
-    ]
-  },
-  {
-    "type": "ascii_art",
-    "id": "scar-H",
+    "id": "scar_h",
     "picture": [
       "",
       "        <color_light_gray>█▓",
@@ -1573,7 +1341,7 @@
   },
   {
     "type": "ascii_art",
-    "id": "scar-L",
+    "id": "scar_l",
     "picture": [
       "",
       "        <color_white>▐</color><color_light_gray>▓",
@@ -1618,300 +1386,7 @@
   },
   {
     "type": "ascii_art",
-    "id": "ppk",
-    "picture": [
-      "      <color_light_gray>╓▄▄▄▄▄▄</color><color_dark_gray>▄▄--▄</color><color_light_gray>▄▄</color><color_dark_gray>▄▄▄▄▄▄",
-      "    </color><color_light_gray>▒▀</color><color_dark_gray>█</color><color_white>░</color><color_dark_gray>▓▓▒▀▀▀▀▀▀▀▀▀▀▓▓▀▀▀▌",
-      "  _▬░ É</color><color_white>░</color><color_dark_gray>░☺░≈</color><color_light_gray>•*∟***∟**</color><color_dark_gray>∞</color><color_light_gray>↔</color><color_dark_gray>▄</color><color_light_gray>▄▀",
-      " </color><color_dark_gray>▀▀▬░ ¢◛▒∞⌐ ┐</color><color_light_gray>▄</color><color_dark_gray>-█~ ▀◛▀~",
-      "    ▐</color><color_light_gray>▒</color><color_dark_gray>███▓⌐  | ╘▬ _¿",
-      "   _█▓▒███:▀</color><color_light_gray>~ </color><color_dark_gray>~~^~",
-      "   ▓▒▒j██▌</color><color_light_gray>▐",
-      "  </color><color_dark_gray>▓▓█████•</color><color_light_gray>Γ",
-      "  </color><color_dark_gray>\\__   =</color><color_light_gray>▒",
-      "     </color><color_dark_gray>`^▀▀▀"
-    ]
-  },
-  {
-    "type": "ascii_art",
-    "id": "sig_p320",
-    "picture": [
-      "     <color_dark_gray>▄▄_____________________▄▄▄",
-      "    ▐█▓▓▒◙█◙▒▓▓▓░░░░░█████▒████",
-      "    ▒░░░▓²²▓▓░▒▒▒░▒#▓▓▓▓▓▓////▓",
-      " _▄▓▒░T░░▒▒◙▒▓████▒░▒▒▒▒▒▒░▒▒▒▓",
-      "  ~▀██▒▒▒#▒▓█▀▀◙▀▀▀▀▀▄▀°°`▀ °</color><color_light_gray>▀</color><color_dark_gray>`",
-      "    ▐███☻▒░██   ▲    ▌",
-      "    </color><color_light_gray>▓</color><color_dark_gray>░####░██▀∞∙∙∙▲▲☻°",
-      "   ▐█◙####██",
-      "  </color><color_light_gray>▐</color><color_dark_gray>█▓###▒▓█▌",
-      "  </color><color_light_gray>▓</color><color_dark_gray>█▒####▓█Γ",
-      "  ██▓▓░░██▌",
-      "  `▀▀▀▀▀▀▀°"
-    ]
-  },
-  {
-    "type": "ascii_art",
-    "id": "sig_pro_40",
-    "picture": [
-      "      <color_white>_",
-      "    </color><color_light_gray>▄</color><color_dark_gray>▄█</color><color_light_gray>▄▄▄▄▄▄▄▄▄▄▄▄▄_▄▄▄▄▄▄▄▄▄▄♥◙",
-      "  </color><color_dark_gray>♥█</color><color_light_gray>▓</color><color_dark_gray>█████@██████▒▓▓▓☻███████████▌",
-      "   ▓▓▓░▒▒▒▒▓▒▒▒▒◙▀▀◙◙▓▓█▓▓▓▓▓▓▒▓▓▌",
-      "   ▀▀░░░r▒░░░▒▒▒▒█▒▒▒▓▓▓Pⁿ▒░▒▀▀▀ƒ`",
-      "   ▀▄`☺ `  #⌂▓▀█░▀▀▀▀██</color><color_light_gray>▀~ </color><color_dark_gray>° ~</color><color_light_gray>`</color><color_dark_gray>^~",
-      "    ▐#   `  ⌂▌  ▐╥   ▐▌",
-      "    ▌⌂ `  #▓█▀♥▬▬▬▬▲♥▀",
-      "   /#   ` #╬Γ",
-      "  ▐#  ` /#⌂▌",
-      "  ▒⌂`   #░░Γ",
-      "  ░░# ` #⌂</color><color_light_gray>▓",
-      "    </color><color_dark_gray>▀▀▀███</color><color_light_gray>▓"
-    ]
-  },
-  {
-    "type": "ascii_art",
-    "id": "sig_mosquito",
-    "picture": [
-      "      <color_dark_gray>▄▄▄▄▄▄▄▄·    ·▄▄▄▄▄▄▄▄▄▄",
-      "   </color><color_light_gray>♠▓</color><color_dark_gray>███▒▒▒███░░░░░░██████████▌",
-      "    ▄▒▒▒▒▒▒▒▓▒▒▒▒▒▓▒███████▌▒▒▌",
-      "  </color><color_light_gray>•</color><color_dark_gray>☻███████░██▒☻████░██ ▀▀▀ ▀▀",
-      "     ▐█████▒░``█</color><color_light_gray>Γ  </color><color_dark_gray>█",
-      "     </color><color_light_gray>▓</color><color_dark_gray>██</color><color_light_gray>☻</color><color_dark_gray>█▒█░■</color><color_light_gray>__</color><color_white>▒</color><color_dark_gray>__▌",
-      "    ▐████▒░▌",
-      "   ▐█████░▒</color><color_light_gray>Γ",
-      "   ▒</color><color_dark_gray>██████▌",
-      "   ███</color><color_light_gray>☻</color><color_dark_gray>█░░Γ",
-      "   ▀</color><color_light_gray>▓</color><color_dark_gray>▓▓▓░░♠"
-    ]
-  },
-  {
-    "type": "ascii_art",
-    "id": "sw_610",
-    "picture": [
-      "            <color_dark_gray>☻■▄▄▄▄▄▄</color><color_white>▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄</color><color_light_gray>■▒▓",
-      "        </color><color_dark_gray>°</color><color_light_gray>¶</color><color_dark_gray>▄</color><color_white>▓█</color><color_light_gray>▒▒▒▒▒▒░</color><color_white>░▓▒▒▒▒▒▒░</color><color_light_gray>█</color><color_white>░░</color><color_light_gray>█</color><color_white>░▒▒▒▒▒</color><color_light_gray>█",
-      "       </color><color_dark_gray>▄</color><color_light_gray>/</color><color_white>▒███</color><color_light_gray>▒█████▓</color><color_white>█▓</color><color_light_gray>▓▓▓▒</color><color_white>░</color><color_light_gray>▒▓▓▓▓</color><color_white>░</color><color_light_gray>▓</color><color_white>░</color><color_light_gray>▓</color><color_white>░</color><color_light_gray>▓▒</color><color_dark_gray>♥",
-      "     </color><color_light_gray>▐</color><color_dark_gray>░█</color><color_light_gray>▒</color><color_white>████▓</color><color_light_gray>░░░░░</color><color_white>▒▓√",
-      "     </color><color_dark_gray>▒████</color><color_white>▒█▓▒</color><color_light_gray>▒▓▓</color><color_white>▓▒▒</color><color_light_gray>▓</color><color_white>⌡",
-      "   </color><color_dark_gray>╓▓▒▒▒▒▒░░</color><color_light_gray>▓^</color><color_dark_gray>▐▌ </color><color_light_gray>▐▌",
-      "  ▐</color><color_dark_gray>▒▒░▒▒█▀~^▀*∙√■~",
-      "  </color><color_light_gray>▓</color><color_dark_gray>▒▒▒▒▒</color><color_light_gray>▓",
-      " </color><color_dark_gray>▐▒▒▒▒▒▒▌",
-      " ▀█████▒",
-      "   </color><color_light_gray>~^^"
-    ]
-  },
-  {
-    "type": "ascii_art",
-    "id": "sw_22a",
-    "picture": [
-      " <color_dark_gray>▐▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄∙",
-      " █▓▓▓██▓▓▓▓▓█▄▄▄▄▄██▄▄▄▄▄█▌",
-      "▐▓▓▓███████▓</color><color_white>▒▒▒▒▒▒</color><color_dark_gray>▀▀▀▀▀▀▀▀`",
-      "^▀~▀▒██████</color><color_light_gray>▒</color><color_white>▀▀█▀</color><color_dark_gray>▀",
-      "   ▒▓████▒</color><color_light_gray>☻</color><color_white>▒_∙╜",
-      "  </color><color_dark_gray>▐▒████▌",
-      "  ▒▓███▓",
-      " ▐▒███▓Γ",
-      "  ▀▀▀█☻"
-    ]
-  },
-  {
-    "type": "ascii_art",
-    "id": "redhawk",
-    "picture": [
-      "          <color_dark_gray>∙                          _▄",
-      "       </color><color_light_gray>▬_▄▒█▒▒▓▓▓▓</color><color_white>▒</color><color_light_gray>█</color><color_white>▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒</color><color_light_gray>██",
-      "        ▐▓</color><color_white>░</color><color_light_gray>█▓</color><color_white>▒▓▓▓</color><color_light_gray>▌██▓▓▓▓▓▓▓▀▀▀▀▀▀▀▀▀▀▀▀▀",
-      "     ▄███▓</color><color_white>░</color><color_light_gray>▒░░░░░</color><color_white>░</color><color_light_gray>█▌°°~~~",
-      "    </color><color_brown>▄█▓░</color><color_light_gray>████▒▒▒▒▒██",
-      "   </color><color_brown>█▓</color><color_light_red>░</color><color_brown>▒░</color><color_light_gray>█</color><color_white>▒</color><color_light_gray>█▀▀  ▐Γ",
-      "  </color><color_brown>▓▓</color><color_white>Θ</color><color_brown>▒▒</color><color_light_gray>^  ╘_</color><color_dark_gray>_</color><color_light_gray>◙_/",
-      " </color><color_brown>▐█</color><color_light_red>░▒</color><color_brown>▓</color><color_light_gray>▌",
-      " </color><color_brown>█</color><color_light_red>▒█░</color><color_brown>▓▓"
-    ]
-  },
-  {
-    "type": "ascii_art",
-    "id": "ruger_LCP",
-    "picture": [
-      "   <color_dark_gray>▄▄▄▄▄▄▄▄</color><color_light_gray>▄▄</color><color_dark_gray>▄▄▄▄▄▄▄",
-      " ╓▒▒</color><color_light_gray>////</color><color_dark_gray>▒▒▒▒▒▒▒▒▒▒░▒",
-      " ▒▓▓▓▒▓▒▓▓▓▓▒</color><color_light_gray>☺</color><color_dark_gray>▒▒▀▀▀▀",
-      "  \\▒#○#░▓</color><color_light_gray>▓ </color><color_dark_gray>`▌  </color><color_light_gray>▒",
-      "   </color><color_dark_gray>▒░▒#▒▓</color><color_light_gray>▓</color><color_dark_gray>▬_,∙*°",
-      "  /##</color><color_light_gray>Θ</color><color_dark_gray>#▒</color><color_light_gray>▓",
-      "  </color><color_dark_gray>#####█▌",
-      "  </color><color_light_gray>▀</color><color_dark_gray>▀▀▀▀</color><color_light_gray>▀`"
-    ]
-  },
-  {
-    "type": "ascii_art",
-    "id": "m1911",
-    "picture": [
-      "",
-      "     <color_dark_gray>▄▄▄▄▄▄▄▄▄▄</color><color_light_gray>▄▄▄▄▄</color><color_dark_gray>▄▄▄▄▄▄▄▄▄▄▄█▄",
-      "  ~▀███║║║║█████▓████████████▓██▒",
-      "    </color><color_light_gray>▒</color><color_dark_gray>▒▒║║║║███████████████▓▓▓░☻█▓",
-      " ■☻</color><color_light_gray>▓</color><color_dark_gray>█</color><color_brown>▓▓▓▓▓▓</color><color_light_red>░</color><color_dark_gray>█▀░▀▀▒▒</color><color_light_gray>▓</color><color_dark_gray>▀▀▀▀▀▀▀▀</color><color_light_gray>▀▀</color><color_dark_gray>~~~",
-      "    ▐</color><color_brown>▓▓▓</color><color_light_gray>Θ</color><color_brown>▓</color><color_light_red>░</color><color_dark_gray>▓▓ </color><color_light_gray>▌   </color><color_dark_gray>│",
-      "    </color><color_light_gray>}</color><color_brown>▓▓▓▓</color><color_light_red>▒▓</color><color_dark_gray>█</color><color_light_gray>▓</color><color_dark_gray>▀♥</color><color_light_gray>▲▲◄^",
-      "   </color><color_dark_gray>▐▓</color><color_brown>▓▓▓▓</color><color_light_red>░</color><color_dark_gray>▓Γ",
-      "  ▄▓</color><color_brown>▓▓▓▓</color><color_light_red>▒</color><color_dark_gray>▓</color><color_light_gray>▒",
-      " </color><color_dark_gray>▐▓</color><color_brown>▓▓</color><color_light_gray>Θ</color><color_brown>▓▓</color><color_light_red>░</color><color_dark_gray>░</color><color_light_gray>▌",
-      " </color><color_dark_gray>▒</color><color_brown>▓▓▓▓▓</color><color_light_red>░</color><color_brown>▓</color><color_dark_gray>▌",
-      " ╙</color><color_light_gray>▀▀</color><color_dark_gray>▀▀▀▀▀</color><color_light_gray>°"
-    ]
-  },
-  {
-    "type": "ascii_art",
-    "id": "P3AT",
-    "picture": [
-      "   <color_dark_gray>▄▄▄▄▄▄▄▄</color><color_light_gray>▄▄</color><color_dark_gray>▄▄▄▄▄▄▄",
-      " ╓▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒░▒",
-      " ▒▓▓▓▒▓▒▓▓▓▓▒▒▒▒▀▀▀▀",
-      "  \\▒#○#░▓</color><color_light_gray>▓ </color><color_dark_gray>`▌  </color><color_light_gray>▒",
-      "   </color><color_dark_gray>▒░▒#▒▓</color><color_light_gray>▓</color><color_dark_gray>▬_,∙*°",
-      "  /##▒#▒</color><color_light_gray>▓",
-      "  </color><color_dark_gray>#####█▌",
-      "  </color><color_light_gray>▀</color><color_dark_gray>▀▀▀▀</color><color_light_gray>▀`"
-    ]
-  },
-  {
-    "type": "ascii_art",
-    "id": "glock_40mos",
-    "picture": [
-      "                                      ",
-      "   <color_light_gray>__</color><color_dark_gray>█</color><color_light_gray>______________________________</color><color_dark_gray>⌂</color><color_light_gray>_",
-      "   ▓▌</color><color_dark_gray>▌▌▌▌█████░░░░████████████████████",
-      "   </color><color_light_gray>▓▌</color><color_dark_gray>▌▌▌▌█████████████████████████████",
-      "   </color><color_light_gray>▀▀▓▓▓▓▓▓▓▓▓▓</color><color_dark_gray>@</color><color_light_gray>▓▓▒▒Θ▓▓████</color><color_dark_gray>▀▀▀▀▀▀▀    ",
-      "     </color><color_light_gray>▐</color><color_dark_gray>▓▓▓▓▓▓▓█▀██   </color><color_light_gray>▒                 ",
-      "     </color><color_dark_gray>█▓▓▓▓▓▓██▄_◛█</color><color_light_gray>▄</color><color_dark_gray>▄█                 ",
-      "    </color><color_light_gray>▓</color><color_dark_gray>▓▓▓▓▓▓▓░                         ",
-      "   </color><color_light_gray>▓</color><color_dark_gray>▓▓▓▓▓▓▓</color><color_light_gray>▓                          ",
-      " ╓▒</color><color_dark_gray>▓▓▓▓▓▓▓</color><color_light_gray>█                           ",
-      " ▓</color><color_dark_gray>▓▓▓▓▓▓▓</color><color_light_gray>▓                            ",
-      " </color><color_dark_gray>▀█▒▒▒▒▒</color><color_light_gray>▒░                            ",
-      "   </color><color_dark_gray>▀▀▀▀▀</color><color_light_gray>▀                             "
-    ]
-  },
-  {
-    "type": "ascii_art",
-    "id": "glock_20",
-    "picture": [
-      "                                 ",
-      "   <color_light_gray>__⌂_________________________∙_",
-      "   ▓▌</color><color_dark_gray>▌▌▌▌█████░░░░███████████████",
-      "   </color><color_light_gray>▓▌</color><color_dark_gray>▌▌▌▌████████████████████████",
-      "   </color><color_light_gray>▀█▓▓▓▓▓▓▓▓▓▓▓▓▓▒▒▒▓▓██████</color><color_dark_gray>████",
-      "   </color><color_light_gray>▀▀▓▓▓▓▓▓▓▓▓▓</color><color_dark_gray>@</color><color_light_gray>▓▓▒▒Θ▓▓██████</color><color_dark_gray>▀☻▀ ",
-      "     </color><color_light_gray>▐</color><color_dark_gray>▓▓▓▓▓▓▓█▀██   </color><color_light_gray>▒            ",
-      "     </color><color_dark_gray>█▓▓▓▓▓▓██▄_◛█</color><color_light_gray>▄</color><color_dark_gray>▄█            ",
-      "    </color><color_light_gray>▓</color><color_dark_gray>▓▓▓▓▓▓▓░                    ",
-      "   </color><color_light_gray>▓</color><color_dark_gray>▓▓▓▓▓▓▓</color><color_light_gray>▓                     ",
-      "   ▓</color><color_dark_gray>▓▓▓▓▓▓▓</color><color_light_gray>▓                     ",
-      " ╓▒</color><color_dark_gray>▓▓▓▓▓▓▓</color><color_light_gray>█                      ",
-      " ▓</color><color_dark_gray>▓▓▓▓▓▓▓</color><color_light_gray>▓                       ",
-      " </color><color_dark_gray>▀█▒▒▒▒▒</color><color_light_gray>▒░                       ",
-      "   </color><color_dark_gray>▀▀▀▀▀</color><color_light_gray>▀                        "
-    ]
-  },
-  {
-    "type": "ascii_art",
-    "id": "glock_19",
-    "picture": [
-      "   <color_light_gray>__</color><color_dark_gray>∙</color><color_light_gray>____________________</color><color_dark_gray>.</color><color_light_gray>_</color>",
-      "   <color_light_gray>▓▌</color><color_dark_gray>▌▌▌▌█████░░░░██████████</color>",
-      "   <color_light_gray>▓▌</color><color_dark_gray>▌▌▌▌██████████████████▌</color>",
-      "   <color_light_gray>▀▀▓▓▓▓▓▓▓▓▓▓</color><color_dark_gray>@</color><color_light_gray>▓▓▒▒Θ▓▓██</color><color_dark_gray>▀☻⌡</color>",
-      "     <color_light_gray>▐</color><color_dark_gray>▓▓▓▓▓▓▓█▀██   </color><color_light_gray>▒",
-      "     </color><color_dark_gray>█▓▓▓▓▓▓██▄_▄█</color><color_light_gray>▄</color><color_dark_gray>▄⌡",
-      "    </color><color_light_gray>▓</color><color_dark_gray>▓▓▓▓▓▓▓░",
-      "   </color><color_light_gray>▓</color><color_dark_gray>▓▓▓▓▓▓▓</color><color_light_gray>▓",
-      "   </color><color_dark_gray>█▒▒▒▒▒</color><color_light_gray>▒░",
-      "    </color><color_dark_gray>▀▀▀▀▀</color><color_light_gray>▀"
-    ]
-  },
-  {
-    "type": "ascii_art",
-    "id": "glock_18c",
-    "picture": [
-      "                                 ",
-      "     <color_light_gray>__⌂_______________________∙_",
-      "     ▓▌</color><color_dark_gray>▌▌▌▌█████░░░░█████████████",
-      "     </color><color_light_gray>▓▌</color><color_dark_gray>▌▌▌▌██████████████████████",
-      "     </color><color_light_gray>▀▀▓▓▓▓▓▓▓▓▓▓</color><color_dark_gray>@</color><color_light_gray>▓▓▒▒Θ▓▓████</color><color_dark_gray>▀☻▀▀",
-      "       </color><color_light_gray>▐</color><color_dark_gray>▓▓▓▓▓▓▓█▀██   </color><color_light_gray>▒          ",
-      "       </color><color_dark_gray>█▓▓▓▓▓▓██▄_◛█</color><color_light_gray>▄</color><color_dark_gray>▄█          ",
-      "      </color><color_light_gray>▓</color><color_dark_gray>▓▓▓▓▓▓▓░                  ",
-      "     </color><color_light_gray>▓</color><color_dark_gray>▓▓▓▓▓▓▓</color><color_light_gray>▓                   ",
-      "   ╓▒</color><color_dark_gray>▓▓▓▓▓▓▓</color><color_light_gray>█                    ",
-      "   ▓</color><color_dark_gray>▓▓▓▓▓▓▓</color><color_light_gray>▓                     ",
-      "   </color><color_dark_gray>▒▒▒▒▒▒▒</color><color_light_gray>▒░                     ",
-      "   </color><color_dark_gray>▀░░░░░░</color><color_light_gray>▀                      ",
-      "    </color><color_dark_gray>▒░░░░▌                       ",
-      "   ▐░░░░▒                        ",
-      "   ▒░░░▒                         ",
-      "  ▒░░░░▌                         ",
-      " ▐░░░░▒                          ",
-      "  ▀▀☻▒▒▌                         "
-    ]
-  },
-  {
-    "type": "ascii_art",
-    "id": "glock_17",
-    "picture": [
-      "   <color_light_gray>__⌂_______________________∙_",
-      "   ▓▌</color><color_dark_gray>▌▌▌▌█████░░░░█████████████",
-      "   </color><color_light_gray>▓▌</color><color_dark_gray>▌▌▌▌██████████████████████",
-      "   </color><color_light_gray>▀▀▓▓▓▓▓▓▓▓▓▓</color><color_dark_gray>@</color><color_light_gray>▓▓▒▒Θ▓▓████</color><color_dark_gray>▀☻▀▀",
-      "     </color><color_light_gray>▐</color><color_dark_gray>▓▓▓▓▓▓▓█▀██   </color><color_light_gray>▒",
-      "     </color><color_dark_gray>█▓▓▓▓▓▓██▄_▄█</color><color_light_gray>▄</color><color_dark_gray>▄█",
-      "    </color><color_light_gray>▓</color><color_dark_gray>▓▓▓▓▓▓▓░",
-      "   </color><color_light_gray>▓</color><color_dark_gray>▓▓▓▓▓▓▓</color><color_light_gray>▓",
-      " ╓▒</color><color_dark_gray>▓▓▓▓▓▓▓</color><color_light_gray>█",
-      " ▓</color><color_dark_gray>▓▓▓▓▓▓▓</color><color_light_gray>▓",
-      " </color><color_dark_gray>▀█▒▒▒▒▒</color><color_light_gray>▒░",
-      "   </color><color_dark_gray>▀▀▀▀▀</color><color_light_gray>▀"
-    ]
-  },
-  {
-    "type": "ascii_art",
-    "id": "flaregunb",
-    "picture": [
-      "           <color_dark_gray>♥▄</color><color_light_red>__-▄____________",
-      "            </color><color_dark_gray>▐</color><color_brown>▄▄</color><color_red>▒▓▒▒▒▒▓▒░▒▓▒▒▒",
-      "        </color><color_dark_gray>⌂⌂</color><color_brown>▄</color><color_brown>█</color><color_red>░░▓▓▓▓@▒▓▒▒▓▀▀▀▀▀",
-      "      </color><color_dark_gray>⌂░</color><color_brown>░░░░░</color><color_light_red>▲</color><color_red>▒▒▓▓▒▓▒▓▒░",
-      "     </color><color_dark_gray>▄░</color><color_brown>░░░░░░</color><color_red>░░▀█▀▀▀░▀</color><color_brown>↔~",
-      "    </color><color_dark_gray>█░</color><color_brown>░░░π▀^▀▀▀ </color><color_dark_gray>Γ   </color><color_light_red>⌡",
-      "   </color><color_brown>▐</color><color_light_gray>░</color><color_brown>░░░░</color><color_light_gray>▌     </color><color_brown>~↔</color><color_light_red>°</color><color_brown>°</color><color_light_red>~",
-      "    </color><color_red>▌</color><color_dark_gray>░</color><color_brown>░░</color><color_brown>►</color><color_light_gray>Γ",
-      "     </color><color_brown>▀</color><color_light_red>█</color><color_red>☻♥"
-    ]
-  },
-  {
-    "type": "ascii_art",
-    "id": "coilgun",
-    "picture": [
-      "           <color_white>(</color><color_light_green>A</color><color_light_gray>)______</color><color_red>▄</color><color_light_gray>_____</color><color_red>▄</color><color_light_gray>__</color><color_dark_gray>_</color><color_light_gray>_____</color><color_dark_gray>_</color><color_light_gray>____</color><color_light_green>·",
-      "</color><color_light_gray>║║║║║║║████</color><color_dark_gray>░☺</color><color_light_gray>███████</color><color_red>▐</color><color_light_gray>█████</color><color_red>▐</color><color_light_gray>██████▓███▄▄▄█",
-      "</color><color_dark_gray>▒▓▓▓█@▀▀▓▓▒▒▒█</color><color_light_gray>██████</color><color_red>▐</color><color_light_gray>█████</color><color_red>▐</color><color_light_gray>██▒█▓█◙◙◙◙◙◙◙◙",
-      "</color><color_dark_gray>░░░▀▓▓▓▓▓▓▀██▓▓▓██▓▌</color><color_red>▀</color><color_dark_gray>▐█▓▓▌</color><color_red>▀</color><color_dark_gray>▐</color><color_light_gray>█/█/█/█/█/█/▓",
-      "</color><color_dark_gray>▀▓▓▓▓▓▓▓▓▓▓▓▓█████████▓█████</color><color_light_gray>█/█/█/█</color><color_dark_gray>/</color><color_light_gray>█/█/ </color>",
-      "         <color_dark_gray>░▒▒▓▀^~▀███████│   </color><color_light_gray>█▄█▄█▄█▄█/</color>",
-      "        <color_dark_gray>▐░░▒▓▓☻▼☻▌■╧╧╧╧☻╛          </color>",
-      "        <color_dark_gray>▒░░░▒▌                          </color>",
-      "       <color_dark_gray>▐░░░▒▒                           </color>",
-      "       <color_dark_gray>░░░░░▌     </color>"
-    ]
-  },
-  {
-    "type": "ascii_art",
-    "id": "1918_BAR",
+    "id": "m1918",
     "picture": [
       "",
       "     <color_dark_gray>__",
@@ -1965,60 +1440,6 @@
       "        </color> <color_brown>█</color><color_light_red>▒</color><color_brown>█████▓▒",
       "         ██▓▓▓█▓☻▀",
       "         </color>"
-    ]
-  },
-  {
-    "type": "ascii_art",
-    "id": "FN_five_seven",
-    "picture": [
-      "    <color_light_green>_                               __",
-      "  </color><color_dark_gray>▄▒▒▓▄▄▄▄▄▄▄▄▄▄▄▬▬▄▬▬▬▬▄▄▄▄▄▄▄▄▄▄▄▄▒▒▄",
-      " ▓▒░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░",
-      "</color><color_brown>▐█ ▒▒▒█▒▒▒▒▒███◙█</color><color_dark_gray>▀◙▀</color><color_brown>█◙██◙██◙███████████",
-      "▓▒████████████████☻█@█████▄▄▄▄▄▄▄▄▄▌▀▀▀",
-      "^▀☻█☻☻☻◙◙◙░░░╚ </color><color_dark_gray>‼▓◙</color><color_brown>↔-=≡▓◙▀~ ▀°~''~°▀",
-      "    ▒▒▒▓▓▓█▌▒▌  </color><color_dark_gray>`▓    </color><color_brown>▐▌",
-      "   ▐█▒▓░░░██</color><color_dark_gray>▓▄   ▀►</color><color_brown>_.▄Å",
-      "   █████████▓█~▀°°~~",
-      "   ▓▓◙█◙◙◙◙◙☻▒",
-      "  ▐▓████◙◙◙◙☻▌",
-      "  ▓▒██▓█◙◙◙☻▒",
-      " ▐◙████◙◙◙◙☻▌",
-      " ▐▓█▓▓▓</color><color_dark_gray>◙◙◙☻▓▲",
-      " `▀▀▀▀▀▀▀°°°▀"
-    ]
-  },
-  {
-    "type": "ascii_art",
-    "id": "ashot",
-    "picture": [
-      "                        <color_dark_gray>▒",
-      "▄▄▄▄▓█▒██▒▓▒▒█▓▓▓▓▒■▀▒░▓</color><color_light_gray>._",
-      "</color><color_dark_gray>░▓▓▌▄▒░▓░</color><color_light_gray>▄▄▄███</color><color_white>▒▒▒</color><color_light_gray>▌▒</color><color_dark_gray>▒▓▓</color><color_light_gray>▒▓█▓►─·",
-      "</color><color_dark_gray>░</color><color_light_gray>▓▓</color><color_dark_gray>▌█▒██████░▓▓▀▒▓█▓▓█▓▓██▓█▓▓</color><color_light_gray>'</color>'",
-      "<color_light_gray>▓</color><color_dark_gray>▄▄█▓██▓▓ ▄▄ █▓▓▌╣███████▒█</color><color_yellow>░</color><color_light_gray>▒▒</color><color_dark_gray>█</color><color_brown>▒",
-      "</color><color_dark_gray>╙▐</color><color_brown>▒</color><color_dark_gray>k▓████♥═▓▓███</color><color_light_gray>▒</color><color_dark_gray>▒▓▓███</color><color_light_gray>▓</color><color_dark_gray>█</color><color_light_gray>▓</color><color_dark_gray>▓▓</color><color_yellow>░</color><color_brown>▓▓</color><color_light_gray>▓</color><color_brown>██",
-      " </color><color_dark_gray>`</color><color_brown>░▌</color><color_dark_gray>▒▓_÷▒ ░▒█████■▐▀▀</color><color_white>∙</color><color_light_gray>▓▓</color><color_dark_gray>██</color><color_light_gray>▓</color><color_dark_gray>█</color><color_light_gray>▒▓█</color><color_brown>▓</color><color_light_gray>▓</color><color_brown>▒░░",
-      "   ▀</color><color_dark_gray>▀▀▀▀    </color><color_light_gray>▄▄▄</color><color_dark_gray>▄ ▀°  </color><color_white>▐</color><color_light_gray>▒</color><color_dark_gray>▒▀▀▀ ▒▀█▓▒▌▀</color><color_brown>░░",
-      "             </color><color_light_gray>`ª█</color><color_dark_gray>▄___</color><color_white>_</color><color_light_gray>▓</color><color_dark_gray>▀      ▌'☻▒░{▐</color><color_brown>█░",
-      "                </color><color_white>`</color><color_dark_gray>~^^         ▐'▐▒4▓</color><color_brown>▓▒</color><color_dark_gray>▌",
-      "                              ▌░~─</color><color_brown>÷╜</color><color_dark_gray>°",
-      "                               ▀'·'"
-    ]
-  },
-  {
-    "type": "ascii_art",
-    "id": "2_shot_special",
-    "picture": [
-      "",
-      "             <color_white>________</color><color_light_gray>∙",
-      "    `°▄█▓▓▓▓▓</color><color_dark_gray>█████████",
-      "   </color><color_light_gray>▄◙▓</color><color_dark_gray>█</color><color_light_gray>▓▐▒</color><color_dark_gray>▄▄▄▄▄▄▄▄▄▄▄▓",
-      "  </color><color_light_gray>▓</color><color_brown>░▒▒</color><color_dark_gray>██▄▄▄▄▄▄───────▀",
-      " ▐</color><color_brown>██</color><color_light_red>▓</color><color_brown>▓░</color><color_dark_gray>█▀▀▀▒▒▌",
-      " █</color><color_brown>█</color><color_light_gray>▓▓</color><color_brown>▒░</color><color_dark_gray>▌    ▀",
-      " ╚█</color><color_brown>█░█</color><color_dark_gray>░▀",
-      "   </color><color_light_gray>▀</color><color_dark_gray>▀▀"
     ]
   }
 ]

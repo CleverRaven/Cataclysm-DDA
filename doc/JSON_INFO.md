@@ -411,7 +411,6 @@ Here's a quick summary of what each of the JSON files contain, broken down by fo
 |---                            |---
 | `achievements.json`           | achievements
 | `anatomy.json`                | a listing of player body parts - do not edit
-| `ascii_arts.json`             | ascii arts for item descriptions
 | `bionics.json`                | bionics, does NOT include bionic effects
 | `body_parts.json`             | an expansion of anatomy.json - do not edit
 | `clothing_mods.json`          | definition of clothing mods
@@ -474,6 +473,10 @@ Here's a quick summary of what each of the JSON files contain, broken down by fo
 | `vitamin.json`                | vitamins and their deficiencies
 
 selected subfolders
+
+### `data/json/ascii_art/`
+
+All the ascii art for items and monsters are here.
 
 ## `data/json/items/`
 
@@ -552,15 +555,17 @@ This section describes each json file and their contents. Each json has their ow
 
 ### Ascii_arts
 
+All ascii_art files are contained within the 'data/json/ascii_art/' folder.  Both item ascii art and monster art are here.  Each file is modular, so adding or removing json files will add or remove the art from the game.
+
 | Identifier        | Description
 |---                |---
-| id                | Unique ID. Must be one continuous word, use underscores if necessary.
+| id                | ID string that matches the ID of the item or monster the ascii art is displayed for.
 | picture           | Array of string, each entry is a line of an ascii picture and must be at most 41 columns long. \ have to be replaced by \\\ in order to be visible.
 
 ```C++
   {
     "type": "ascii_art",
-    "id": "cashcard",
+    "id": "cash_card",
     "picture": [
       "",
       "",
@@ -579,7 +584,9 @@ This section describes each json file and their contents. Each json has their ow
     ]
   }
 ```
-For information about tools with option to export ASCII art in format ready to be pasted into `ascii_arts.json`, see `ASCII_ARTS.md`.
+For information about tools with option to export ASCII art in format ready to be pasted into `data/json/ascii_art/`, see `ASCII_ARTS.md`.
+
+For information about allowed character types and color types, see `unicode_chars_palette.txt` and `COLOR.md`.
 
 ### Body_parts
 
@@ -2274,7 +2281,6 @@ See also VEHICLE_JSON.md
 "symbol": "[",                   // The item symbol as it appears on the map. Must be a Unicode string exactly 1 console cell width.
 "looks_like": "rag",              // hint to tilesets if this item has no tile, use the looks_like tile
 "description": "Socks. Put 'em on your feet.", // Description of the item
-"ascii_picture": "ascii_socks", // Id of the asci_art used for this item
 "phase": "solid",                            // (Optional, default = "solid") What phase it is
 "weight": "350 g",                           // Weight, weight in grams, mg and kg can be used - "50 mg", "5 g" or "5 kg". For stackable items (ammo, comestibles) this is the weight per charge.
 "volume": "250 ml",                          // Volume, volume in ml and L can be used - "50 ml" or "2 L". For stackable items (ammo, comestibles) this is the volume of stack_size charges.
