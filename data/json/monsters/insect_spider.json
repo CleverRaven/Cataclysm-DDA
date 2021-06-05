@@ -1862,7 +1862,7 @@
     "id": "mon_aphid",
     "type": "MONSTER",
     "name": { "str": "giant aphid", "str_pl": "giant aphids" },
-    "description": "A green aphid about a size of a rabbit.  It is constantly searching for plants to suck from.  Probably you could sate it for a moment with cattle fodder.",
+    "description": "A green aphid about a size of a rabbit.  It is constantly searching for plants to suck from.",
     "default_faction": "ant",
     "bodytype": "insect",
     "species": [ "INSECT" ],
