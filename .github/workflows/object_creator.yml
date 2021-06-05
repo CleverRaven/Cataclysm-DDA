@@ -48,12 +48,25 @@ jobs:
         vcpkgDirectory: '${{ runner.workspace }}/b/vcpkg'
         vcpkgGitCommitId: '5568f110b509a9fd90711978a7cb76bae75bb092'
 
+    - name: Seek out triplet files
+      run: |
+        Get-ChildItem "${{ runner.workspace }}/b/vcpkg/triplets" -File |
+        Foreach-Object {
+            echo =================================================
+            echo $_.FullName
+            echo =================================================
+            type $_.FullName
+        }
+
     # There's not enough disk space to build both release and debug versions of
     # our dependencies, so we hack the triplet file to build only release
     # versions
     - name: Disable debug builds for vcpkg
       run: |
         Add-Content "${{ runner.workspace }}/b/vcpkg/triplets/x64-windows.cmake" "`nset(VCPKG_BUILD_TYPE release)`n"
+        echo =================================================
+        type "${{ runner.workspace }}/b/vcpkg/triplets/x64-windows.cmake"
+        echo =================================================
 
     # We have to install packages in two passes because the x86 yasm-tool
     # is required for the later packages, but vcpkg builds them in an
