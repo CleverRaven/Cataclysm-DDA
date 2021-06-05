@@ -63,9 +63,12 @@ jobs:
     # versions
     - name: Disable debug builds for vcpkg
       run: |
-        Add-Content "${{ runner.workspace }}/b/vcpkg/triplets/x64-windows.cmake" "`nset(VCPKG_BUILD_TYPE release)`n"
+        Get-ChildItem "${{ runner.workspace }}/b/vcpkg/triplets" -File |
+        Foreach-Object {
+          Add-Content $_.FullName "set(VCPKG_BUILD_TYPE release)`n"
+        }
         echo =================================================
-        type "${{ runner.workspace }}/b/vcpkg/triplets/x64-windows.cmake"
+        type "${{ runner.workspace }}/b/vcpkg/triplets/x64-windows-static.cmake"
         echo =================================================
 
     # We have to install packages in two passes because the x86 yasm-tool
