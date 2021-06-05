@@ -221,7 +221,7 @@
         "M": [ "f_crate_c", "f_cardboard_box" ]
       },
       "place_loot": [ { "item": "television", "x": 3, "y": 6, "chance": 75 }, { "item": "stepladder", "x": 20, "y": 19, "chance": 100 } ],
-      "vendingmachines": { "W": { "item_group": "vending_drink" }, "V": { "item_group": "vending_food" } },
+      "vendingmachines": { "W": { "item_group": "vending_drink", "lootable": true }, "V": { "item_group": "vending_food", "lootable": true } },
       "place_items": [
         { "item": "softdrugs", "x": [ 1, 2 ], "y": [ 1, 3 ], "chance": 50, "repeat": [ 1, 11 ] },
         { "item": "camping", "x": 1, "y": [ 1, 3 ], "chance": 50, "repeat": [ 1, 11 ] },

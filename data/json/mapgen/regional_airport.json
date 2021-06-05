@@ -835,7 +835,7 @@
         { "item": "mechanics", "chance": 20, "repeat": [ 1, 2 ] }
       ]
     },
-    "vendingmachines": { "8": { "item_group": "vending_drink" }, "9": { "item_group": "vending_food" } },
+    "vendingmachines": { "8": { "item_group": "vending_drink", "lootable": true }, "9": { "item_group": "vending_food", "lootable": true } },
     "toilets": { "T": {  } }
   }
 ]

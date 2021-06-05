@@ -57,7 +57,7 @@
         "t": "f_table",
         "x": "f_console_broken"
       },
-      "vendingmachines": { "V": {  } },
+      "vendingmachines": { "V": { "lootable": true } },
       "toilets": { "T": {  } },
       "place_loot": [
         { "group": "dining", "x": [ 21, 21 ], "y": [ 10, 10 ], "chance": 20, "repeat": [ 1, 2 ] },
@@ -194,7 +194,7 @@
         "t": "f_table",
         "x": "f_console_broken"
       },
-      "vendingmachines": { "V": {  } },
+      "vendingmachines": { "V": { "lootable": true } },
       "toilets": { "T": {  } },
       "items": {
         "o": { "item": "novels", "chance": 70 },

@@ -220,9 +220,9 @@
         "Y": "f_rack_coat"
       },
       "place_vendingmachines": [
-        { "item_group": "vending_food", "x": 18, "y": 6 },
-        { "item_group": "vending_food", "x": 18, "y": 7 },
-        { "item_group": "vending_drink", "x": 18, "y": 9 }
+        { "item_group": "vending_food", "x": 18, "y": 6, "lootable": true },
+        { "item_group": "vending_food", "x": 18, "y": 7, "lootable": true },
+        { "item_group": "vending_drink", "x": 18, "y": 9, "lootable": true }
       ],
       "toilets": { ";": {  } },
       "items": { "Y": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] } },
@@ -906,7 +906,7 @@
         "G": "f_oven",
         "0": "f_dive_block"
       },
-      "place_vendingmachines": [ { "x": 18, "y": 6 }, { "x": 18, "y": 7 }, { "x": 18, "y": 9 } ],
+      "place_vendingmachines": [ { "x": 18, "y": 6, "lootable": true }, { "x": 18, "y": 7, "lootable": true }, { "x": 18, "y": 9, "lootable": true } ],
       "toilets": { ";": {  } },
       "set": [
         { "point": "terrain", "id": "t_dirt", "x": 0, "y": [ 0, 23 ], "repeat": [ 5, 10 ] },

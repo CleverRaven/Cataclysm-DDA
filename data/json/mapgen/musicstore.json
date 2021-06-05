@@ -70,7 +70,7 @@
         "7": "f_speaker_cabinet",
         "r": "f_rack"
       },
-      "vendingmachines": { "1": { "item_group": "vending_drink" }, "2": { "item_group": "vending_food" } },
+      "vendingmachines": { "1": { "item_group": "vending_drink", "lootable": true }, "2": { "item_group": "vending_food", "lootable": true } },
       "toilets": { "T": {  } },
       "place_loot": [
         { "group": "mussto_stringinst", "x": [ 5, 10 ], "y": 10, "chance": 70, "repeat": [ 1, 3 ] },

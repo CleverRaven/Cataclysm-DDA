@@ -34,7 +34,7 @@
       ],
       "palettes": [ "junkyard_palette" ],
       "place_toilets": [ { "x": 12, "y": 13 } ],
-      "vendingmachines": { "K": { "item_group": "vending_drink" }, "F": { "item_group": "vending_food" } },
+      "vendingmachines": { "K": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } },
       "place_loot": [ { "item": "television", "x": 17, "y": 9, "chance": 100 } ],
       "place_items": [
         { "chance": 25, "item": "cubical_office", "x": [ 18, 19 ], "y": 12 },

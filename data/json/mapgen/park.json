@@ -593,7 +593,7 @@
         "'''u'''''''''''''''u''''"
       ],
       "palettes": [ "park_scenic_palette" ],
-      "vendingmachines": { "v": { "item_group": "vending_drink" } },
+      "vendingmachines": { "v": { "item_group": "vending_drink", "lootable": true } },
       "items": { "X": [ { "item": "trash", "chance": 75, "repeat": [ 2, 7 ] }, { "item": "vending_drink_items", "chance": 25 } ] },
       "monsters": {
         "'": { "monster": "GROUP_PARK_SCENIC", "chance": 200 },

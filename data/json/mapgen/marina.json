@@ -170,7 +170,10 @@
         "T": [ "f_table" ]
       },
       "toilets": { "&": {  } },
-      "place_vendingmachines": [ { "item_group": "vending_food", "x": 13, "y": 59 }, { "item_group": "vending_drink", "x": 13, "y": 60 } ],
+      "place_vendingmachines": [
+        { "item_group": "vending_food", "x": 13, "y": 59, "lootable": true },
+        { "item_group": "vending_drink", "x": 13, "y": 60, "lootable": true }
+      ],
       "items": {
         "f": { "item": "fridge", "chance": 70, "repeat": [ 1, 3 ] },
         "e": { "item": "novels", "chance": 70, "repeat": [ 2, 4 ] },

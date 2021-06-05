@@ -31,7 +31,7 @@
         ".nn_____######oooo#####.",
         "........................"
       ],
-      "vendingmachines": { "D": { "item_group": "vending_drink" }, "F": { "item_group": "vending_food" } },
+      "vendingmachines": { "D": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } },
       "terrain": {
         "|": "t_wall_w",
         "#": "t_brick_wall",
