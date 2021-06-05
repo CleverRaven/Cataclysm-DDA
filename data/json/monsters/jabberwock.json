@@ -90,6 +90,6 @@
     "special_attacks": [ [ "FLESH_GOLEM", 5 ] ],
     "death_function": [ "JABBERWOCKY" ],
     "harvest": "jabberwock",
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "DESTROYS", "PUSH_MON", "POISON" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "DESTROYS", "ATTACKMON", "POISON" ]
   }
 ]
