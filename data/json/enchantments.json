@@ -9,7 +9,7 @@
     "type": "enchantment",
     "id": "ENCH_UNCANNY_DODGE",
     "condition": "ACTIVE",
-    "values": [ { "value": "BONUS_DODGE", "multiply": 15 } ]
+    "values": [ { "value": "BONUS_DODGE", "add": 28 } ]
   },
   {
     "type": "enchantment",
