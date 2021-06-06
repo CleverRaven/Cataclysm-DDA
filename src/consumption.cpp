@@ -902,6 +902,7 @@ static bool eat( item &food, player &you, bool force )
         // Already consumed by using `food.type->invoke`?
         if( charges_used > 0 ) {
             food.mod_charges( -charges_used );
+            return true;
         }
         return false;
     }
@@ -1257,7 +1258,7 @@ void Character::modify_morale( item &food, const int nutr )
 double Character::compute_effective_food_volume_ratio( const item &food ) const
 {
     const nutrients food_nutrients = compute_effective_nutrients( food );
-    units::mass food_weight = ( food.weight() / food.count() );
+    units::mass food_weight = ( food.weight() / std::max( 1, food.count() ) );
     double ratio = 1.0f;
     if( units::to_gram( food_weight ) != 0 ) {
         ratio = std::max( static_cast<double>( food_nutrients.kcal() ) / units::to_gram( food_weight ),
@@ -1277,8 +1278,9 @@ units::volume Character::masticated_volume( const item &food ) const
     units::volume water_vol = ( food.get_comestible()->quench > 0 ) ? food.get_comestible()->quench *
                               5_ml : 0_ml;
     units::mass water_weight = units::from_gram( units::to_milliliter( water_vol ) );
-    units::mass food_dry_weight = food.weight() / food.count() - water_weight;
-    units::volume food_dry_volume = food.volume() / food.count() - water_vol ;
+    // handle the division by zero exception when the food count is 0 with std::max()
+    units::mass food_dry_weight = food.weight() / std::max( 1, food.count() ) - water_weight;
+    units::volume food_dry_volume = food.volume() / std::max( 1, food.count() ) - water_vol;
 
     if( units::to_milliliter( food_dry_volume ) != 0 &&
         units::to_gram( food_dry_weight ) < units::to_milliliter( food_dry_volume ) ) {

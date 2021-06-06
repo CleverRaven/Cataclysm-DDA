@@ -311,6 +311,17 @@ static void give_tools( const std::vector<item> &tools )
     }
 }
 
+static void grant_skills_to_character( Character &you, const recipe &r )
+{
+    // Ensure adequate skill for all "required" skills
+    for( const std::pair<const skill_id, int> &skl : r.required_skills ) {
+        you.set_skill_level( skl.first, skl.second );
+    }
+    // and just in case "used" skill difficulty is higher, set that too
+    you.set_skill_level( r.skill_used, std::max( r.difficulty,
+                         you.get_skill_level( r.skill_used ) ) );
+}
+
 static void prep_craft( const recipe_id &rid, const std::vector<item> &tools,
                         bool expect_craftable )
 {
@@ -321,17 +332,10 @@ static void prep_craft( const recipe_id &rid, const std::vector<item> &tools,
     Character &player_character = get_player_character();
     player_character.toggle_trait( trait_id( "DEBUG_CNF" ) );
     player_character.setpos( test_origin );
-    give_tools( tools );
-
     const recipe &r = rid.obj();
+    grant_skills_to_character( player_character, r );
 
-    // Ensure adequate skill for all "required" skills
-    for( const std::pair<const skill_id, int> &skl : r.required_skills ) {
-        player_character.set_skill_level( skl.first, skl.second );
-    }
-    // and just in case "used" skill difficulty is higher, set that too
-    player_character.set_skill_level( r.skill_used, std::max( r.difficulty,
-                                      player_character.get_skill_level( r.skill_used ) ) );
+    give_tools( tools );
     player_character.moves--;
     const inventory &crafting_inv = player_character.crafting_inventory();
 
@@ -921,4 +925,34 @@ TEST_CASE( "check-tool_qualities" )
     CHECK( tool_with_ammo( "mess_kit", 20 ).has_quality( quality_id( "BOIL" ), 2, 1 ) );
     CHECK( tool_with_ammo( "survivor_mess_kit", 20 ).has_quality( quality_id( "BOIL" ), 2, 1 ) );
     CHECK( tool_with_ammo( "survivor_mess_kit", 20 ).get_quality( quality_id( "BOIL" ) ) > 0 );
+}
+
+TEST_CASE( "book_proficiency_mitigation", "[crafting][proficiency]" )
+{
+    GIVEN( "a recipe with required proficiencies" ) {
+        clear_avatar();
+        clear_map();
+        const recipe &test_recipe = recipe_id( "leather_belt" ).obj();
+
+        grant_skills_to_character( get_player_character(), test_recipe );
+        int unmitigated_time_taken = test_recipe.batch_time( get_player_character(), 1, 1, 0 );
+
+        WHEN( "player has a book mitigating lack of proficiency" ) {
+            std::vector<item> books;
+            books.emplace_back( "manual_tailor" );
+            give_tools( books );
+            get_player_character().invalidate_crafting_inventory();
+            int mitigated_time_taken = test_recipe.batch_time( get_player_character(), 1, 1, 0 );
+            THEN( "it takes less time to craft the recipe" ) {
+                CHECK( mitigated_time_taken < unmitigated_time_taken );
+            }
+            AND_WHEN( "player acquires missing proficiencies" ) {
+                grant_proficiencies_to_character( get_player_character(), test_recipe, true );
+                int proficient_time_taken = test_recipe.batch_time( get_player_character(), 1, 1, 0 );
+                THEN( "it takes even less time to craft the recipe" ) {
+                    CHECK( proficient_time_taken < mitigated_time_taken );
+                }
+            }
+        }
+    }
 }
