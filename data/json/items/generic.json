@@ -1838,6 +1838,7 @@
   {
     "type": "GENERIC",
     "id": "mobile_memory_card_used",
+    "looks_like": "mobile_memory_card",
     "symbol": ",",
     "color": "white",
     "name": { "str": "SD-Memory card (clean)", "str_pl": "SD-Memory cards (clean)" },
@@ -1853,6 +1854,7 @@
   {
     "type": "GENERIC",
     "id": "mobile_memory_card_encrypted",
+    "looks_like": "mobile_memory_card",
     "symbol": ",",
     "color": "white",
     "name": { "str": "SD-Memory card (encrypted)", "str_pl": "SD-Memory cards (encrypted)" },
@@ -1867,6 +1869,7 @@
   {
     "type": "GENERIC",
     "id": "mobile_memory_card_science",
+    "looks_like": "mobile_memory_card",
     "symbol": ",",
     "color": "white",
     "name": { "str": "Science SD-Memory card" },
