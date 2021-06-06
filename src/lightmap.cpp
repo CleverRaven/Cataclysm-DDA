@@ -40,13 +40,13 @@
 #include "tileray.h"
 #include "type_id.h"
 #include "units.h"
+#include "units_utility.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "weather.h"
 #include "weather_type.h"
-#include <units_utility.h>
 
 static const efftype_id effect_haslight( "haslight" );
 static const efftype_id effect_onfire( "onfire" );
@@ -1270,7 +1270,7 @@ void map::apply_light_arc( const tripoint &p, const units::angle &angle, float l
     tripoint test;
     calc_ray_end( wangle + nangle, range, p, test );
 
-    const float wdist = hypot( end.x - test.x, end.y - test.y );
+    const double wdist = hypot( end.x - test.x, end.y - test.y );
     if( wdist <= 0.5 ) {
         apply_light_ray( lit, p, end, luminance );
         return;
@@ -1296,19 +1296,19 @@ void map::apply_light_arc( const tripoint &p, const units::angle &angle, float l
                                 p.y + ( static_cast<double>( range ) - fdist * 2.0 ) * sin( preangle + ao ) );
                     apply_light_ray( lit, p, end, luminance );
                 } else {
-                    calc_ray_end( nangle + ao, range, p, end );
+                    calc_ray_end( preangle + ao, range, p, end );
                     apply_light_ray( lit, p, end, luminance );
                 }
             }
         }
-        int numoct = to_degrees( cangle - oangle ) / 45;
-        int firstoct = to_degrees( oangle ) / 45;
+        int numoct = std::floor( to_degrees( cangle - oangle ) / 45 );
+        int firstoct = static_cast<int>( std::lround( to_degrees( oangle ) / 45 ) );
         oangle += numoct * 45_degrees;
         wangle = cangle - oangle;
 
         for( int i = firstoct; i < numoct + firstoct; i++ ) {
             //if arc crosses 0 degrees, i.e. sectors 7-0-1, offset back to sector 0 after 7
-            switch( i > 7 ? i - 8 : ( i < 0 ? i + 8 : i ) ) {
+            switch( ( i + 8 ) % 8 ) {
                 case 0:
                     castLight < 0, -1, -1, 0, float, four_quadrants, light_calc, light_check,
                               update_light_quadrants, accumulate_transparency > (
@@ -1330,13 +1330,13 @@ void map::apply_light_arc( const tripoint &p, const units::angle &angle, float l
                                   lm, transparency_cache, p2, 0, luminance );
                     break;
                 case 4:
-                    castLight<0, 1, 1, 0, float, four_quadrants, light_calc, light_check,
-                              update_light_quadrants, accumulate_transparency>(
+                    castLight < 0, 1, 1, 0, float, four_quadrants, light_calc, light_check,
+                              update_light_quadrants, accumulate_transparency > (
                                   lm, transparency_cache, p2, 0, luminance );
                     break;
                 case 5:
-                    castLight<1, 0, 0, 1, float, four_quadrants, light_calc, light_check,
-                              update_light_quadrants, accumulate_transparency>(
+                    castLight < 1, 0, 0, 1, float, four_quadrants, light_calc, light_check,
+                              update_light_quadrants, accumulate_transparency > (
                                   lm, transparency_cache, p2, 0, luminance );
                     break;
                 case 6:
