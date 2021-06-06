@@ -446,7 +446,8 @@ static PointSet sun_positions_regular( time_point start, time_point end, time_du
 
     for( time_point t = start; t < end; t += interval ) {
         CAPTURE( to_minutes<int>( t - start ) );
-        units::angle azimuth, altitude;
+        units::angle azimuth;
+        units::angle altitude;
         std::tie( azimuth, altitude ) = sun_azimuth_altitude( t, location_boston, timezone_boston );
         if( altitude < 0_degrees ) {
             continue;
@@ -551,10 +552,10 @@ TEST_CASE( "movement_of_sun_through_day", "[sun]" )
 "                     ##        **                        **        ##                      \n"
 "                     #        **                           **       #                      \n"
 "                    ##       *                              *        #                     \n"
-"                   ##       *              ....              *       #                     \n"
-"                   #       **          .....  .....           *       #                    \n"
-"                  ##      **         ...          ...         **      ##                   \n"
-"                  #      **        ...              ..         **      #                   \n"
+"                   ##       *              ....              *       #                     \n" // NOLINT
+"                   #       **          .....  .....           *       #                    \n" // NOLINT
+"                  ##      **         ...          ...         **      ##                   \n" // NOLINT
+"                  #      **        ...              ..         **      #                   \n" // NOLINT
 "                 #       *        ..                  ..        *       #                  \n"
 "                ##      *        ..                    ..        *      ##                 \n"
 "                #      **       ..                      ..       **      ##                \n"

@@ -239,7 +239,8 @@ static units::angle sun_altitude( time_point t )
 
 cata::optional<rl_vec2d> sunlight_angle( const time_point &t, lat_long location )
 {
-    units::angle azimuth, altitude;
+    units::angle azimuth;
+    units::angle altitude;
     std::tie( azimuth, altitude ) = sun_azimuth_altitude( t, location, timezone_boston );
     if( altitude <= 0_degrees ) {
         // Sun below horizon
