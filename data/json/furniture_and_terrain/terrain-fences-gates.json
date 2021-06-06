@@ -444,7 +444,7 @@
     "id": "t_wattle_fence",
     "alias": [ "t_wattle_fence_h", "t_wattle_fence_v" ],
     "name": "woven wattle fence",
-    "description": "A flimsy barrier made of woven sticks. Suitable for small animals.",
+    "description": "A flimsy barrier made of woven sticks.  Suitable for small animals.",
     "symbol": "LINE_OXOX",
     "color": "brown",
     "looks_like": "t_fence",
