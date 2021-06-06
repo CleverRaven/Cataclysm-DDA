@@ -7,6 +7,12 @@
   },
   {
     "type": "enchantment",
+    "id": "ENCH_UNCANNY_DODGE",
+    "condition": "ACTIVE",
+    "values": [ { "value": "BONUS_DODGE", "multiply": 15 } ]
+  },
+  {
+    "type": "enchantment",
     "id": "ENCH_SHADOW_CLOUD",
     "condition": "ACTIVE",
     "ench_effects": [ { "effect": "invisibility", "intensity": 1 } ],
