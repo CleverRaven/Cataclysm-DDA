@@ -638,10 +638,6 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
                    _( "This is full of dirt after being on the ground." ) );
     }
 
-    if( food.is_container() && !food.is_container_empty() ) {
-        return ret_val<edible_rating>::make_failure( _( "You can't eat it, there's something inside." ) );
-    }
-
     const bool eat_verb  = food.has_flag( flag_USE_EAT_VERB );
     const bool edible    = eat_verb ||  comest->comesttype == comesttype_FOOD;
     const bool drinkable = !eat_verb && comest->comesttype == comesttype_DRINK;
@@ -869,6 +865,10 @@ static bool eat( item &food, player &you, bool force )
 
     // Note: the block below assumes we decided to eat it
     // No coming back from here
+
+    if( food.is_container() ) {
+        food.spill_contents( you );
+    }
 
     const bool hibernate = you.has_active_mutation( trait_HIBERNATE );
     const int nutr = you.nutrition_for( food );
