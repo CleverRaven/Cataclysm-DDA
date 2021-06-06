@@ -863,15 +863,15 @@ TEST_CASE( "crafting_skill_gain", "[skill],[crafting],[slow]" )
     }
     SECTION( "long craft with proficiency delays" ) {
         GIVEN( "nominal morale" ) {
-            test_skill_progression( recipe_id( "longbow" ), 70037, 0, false );
+            test_skill_progression( recipe_id( "longbow" ), 71187, 0, false );
             test_skill_progression( recipe_id( "longbow" ), 28804, 0, true );
         }
         GIVEN( "high morale" ) {
-            test_skill_progression( recipe_id( "longbow" ), 55734, 50, false );
+            test_skill_progression( recipe_id( "longbow" ), 56945, 50, false );
             test_skill_progression( recipe_id( "longbow" ), 23608, 50, true );
         }
         GIVEN( "very high morale" ) {
-            test_skill_progression( recipe_id( "longbow" ), 51193, 100, false );
+            test_skill_progression( recipe_id( "longbow" ), 52222, 100, false );
             test_skill_progression( recipe_id( "longbow" ), 21651, 100, true );
         }
     }
@@ -900,7 +900,7 @@ TEST_CASE( "book_proficiency_mitigation", "[crafting][proficiency]" )
     GIVEN( "a recipe with required proficiencies" ) {
         clear_avatar();
         clear_map();
-        const recipe &test_recipe = recipe_id( "leather_belt" ).obj();
+        const recipe &test_recipe = *recipe_id( "leather_belt" );
 
         grant_skills_to_character( get_player_character(), test_recipe );
         int unmitigated_time_taken = test_recipe.batch_time( get_player_character(), 1, 1, 0 );
@@ -910,6 +910,38 @@ TEST_CASE( "book_proficiency_mitigation", "[crafting][proficiency]" )
             books.emplace_back( "manual_tailor" );
             give_tools( books );
             get_player_character().invalidate_crafting_inventory();
+            int mitigated_time_taken = test_recipe.batch_time( get_player_character(), 1, 1, 0 );
+            THEN( "it takes less time to craft the recipe" ) {
+                CHECK( mitigated_time_taken < unmitigated_time_taken );
+            }
+            AND_WHEN( "player acquires missing proficiencies" ) {
+                grant_proficiencies_to_character( get_player_character(), test_recipe, true );
+                int proficient_time_taken = test_recipe.batch_time( get_player_character(), 1, 1, 0 );
+                THEN( "it takes even less time to craft the recipe" ) {
+                    CHECK( proficient_time_taken < mitigated_time_taken );
+                }
+            }
+        }
+    }
+}
+
+TEST_CASE( "partial_proficiency_mitigation", "[crafting][proficiency]" )
+{
+    GIVEN( "a recipe with required proficiencies" ) {
+        clear_avatar();
+        clear_map();
+        const recipe &test_recipe = *recipe_id( "leather_belt" );
+
+        grant_skills_to_character( get_player_character(), test_recipe );
+        int unmitigated_time_taken = test_recipe.batch_time( get_player_character(), 1, 1, 0 );
+
+        WHEN( "player acquires partial proficiency" ) {
+            int np = 0;
+            for( const proficiency_id &prof : test_recipe.assist_proficiencies() ) {
+                np++;
+                get_player_character().practice_proficiency( prof,
+                        get_player_character().proficiency_training_needed( prof ) / 2 );
+            }
             int mitigated_time_taken = test_recipe.batch_time( get_player_character(), 1, 1, 0 );
             THEN( "it takes less time to craft the recipe" ) {
                 CHECK( mitigated_time_taken < unmitigated_time_taken );
