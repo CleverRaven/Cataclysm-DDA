@@ -20,7 +20,9 @@
     "final_energy_cost": 1000,
     "base_casting_time": 600000,
     "final_casting_time": 600000,
-    "extra_effects": [ { "id": "mana_fatigue" } ]
+    "extra_effects": [ { "id": "mana_fatigue" } ],
+    "sound_id": "manatouched_crystal",
+    "sound_variant": "mana crystal"
   },
   {
     "id": "manatouched_seeker_bolts",
@@ -45,6 +47,8 @@
     "damage_type": "pure",
     "sound_description": "a zing",
     "flags": [ "RANDOM_TARGET", "SOMATIC", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
-    "extra_effects": [ { "id": "magic_missile" }, { "id": "magic_missile" }, { "id": "magic_missile" }, { "id": "magic_missile" } ]
+    "extra_effects": [ { "id": "magic_missile" }, { "id": "magic_missile" }, { "id": "magic_missile" }, { "id": "magic_missile" } ],
+    "sound_id": "seeker_bolts",
+    "sound_variant": "zing"
   }
 ]
