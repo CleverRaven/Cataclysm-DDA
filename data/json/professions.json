@@ -1551,7 +1551,7 @@
             "item": "ksg",
             "ammo-item": "shot_00",
             "charges": 7,
-            "contents-item": [ "shoulder_strap", "ksg_aux_shotgun" ]
+            "contents-item": [ "shoulder_strap" ]
           }
         ]
       },
