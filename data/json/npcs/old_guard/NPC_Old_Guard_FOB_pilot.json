@@ -45,7 +45,6 @@
       { "item": "mil_flight_suit" },
       { "item": "flight_helmet" },
       { "item": "jacket_army", "prob": 40 },
-      { "item": "tacvest" },
       { "item": "legrig" },
       { "item": "boots_combat" },
       {
@@ -55,7 +54,6 @@
           { "item": "gloves_leather", "prob": 20 }
         ]
       },
-      { "item": "nomex_gloves", "prob": 60 },
       { "group": "clothing_watch", "prob": 85 },
       { "item": "glock17_17", "ammo-item": "9mmfmj", "container-item": "tacvest", "charges": 17 },
       { "item": "glock_17", "ammo-item": "9mmfmj", "container-item": "holster", "charges": 17 }
