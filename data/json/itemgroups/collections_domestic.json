@@ -262,6 +262,7 @@
       [ "eyedrops", 10 ],
       [ "holy_symbol", 5 ],
       [ "pills_sleep", 5 ],
+      { "item": "melatonin_tablet", "prob": 3, "charges": [ 1, 30 ] },
       { "item": "nyquil", "prob": 5, "charges": [ 1, 5 ] },
       { "group": "mansion_guns", "prob": 3 },
       { "group": "harddrugs", "prob": 1 },

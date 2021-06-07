@@ -4168,6 +4168,7 @@
   {
     "type": "mutation",
     "id": "LARGE",
+    "flags": [ "LARGE" ],
     "name": { "str": "Inconveniently Large" },
     "points": 0,
     "visibility": 1,
@@ -4186,6 +4187,7 @@
   {
     "type": "mutation",
     "id": "LARGE_OK",
+    "flags": [ "LARGE" ],
     "name": { "str": "Large" },
     "points": 2,
     "visibility": 1,
@@ -4204,6 +4206,7 @@
   {
     "type": "mutation",
     "id": "HUGE",
+    "flags": [ "HUGE" ],
     "name": { "str": "Freakishly Huge" },
     "points": -2,
     "visibility": 4,
@@ -4226,6 +4229,7 @@
   {
     "type": "mutation",
     "id": "HUGE_OK",
+    "flags": [ "HUGE" ],
     "name": { "str": "Huge" },
     "points": 2,
     "visibility": 4,
@@ -4532,6 +4536,7 @@
   {
     "type": "mutation",
     "id": "SMALL",
+    "flags": [ "SMALL" ],
     "name": { "str": "Little" },
     "points": -2,
     "visibility": 5,
@@ -4548,6 +4553,7 @@
   {
     "type": "mutation",
     "id": "SMALL2",
+    "flags": [ "TINY" ],
     "name": { "str": "Tiny" },
     "points": -4,
     "visibility": 8,
@@ -4566,6 +4572,7 @@
   {
     "type": "mutation",
     "id": "SMALL_OK",
+    "flags": [ "TINY" ],
     "name": { "str": "Unassuming" },
     "points": 3,
     "mixed_effect": true,

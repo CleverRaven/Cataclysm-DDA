@@ -649,7 +649,13 @@
       { "item": "eyedrops", "prob": 15 },
       { "item": "pepto", "prob": 70, "charges-min": 1, "container-item": "bottle_plastic_small" },
       { "item": "inhaler", "prob": 25, "charges-min": 10, "charges-max": 100 },
-      { "item": "pills_sleep", "prob": 10, "charges": [ 1, 10 ] },
+      {
+        "distribution": [
+          { "item": "pills_sleep", "prob": 60, "charges": [ 1, 10 ] },
+          { "item": "melatonin_tablet", "prob": 40, "charges": [ 1, 30 ] }
+        ],
+        "prob": 10
+      },
       {
         "distribution": [ { "item": "nyquil", "prob": 60, "charges-min": 1 }, { "item": "dayquil", "prob": 20, "charges-min": 1 } ],
         "prob": 50
