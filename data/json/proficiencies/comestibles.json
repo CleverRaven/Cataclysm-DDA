@@ -28,7 +28,7 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_fail_multiplier": 1.5,
-    "time_to_learn": "10 h",
+    "time_to_learn": "10 h"
   },
   {
     "type": "proficiency",
