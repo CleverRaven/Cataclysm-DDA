@@ -247,7 +247,11 @@
   {
     "type": "item_group",
     "id": "pawn",
-    "items": [ { "group": "enchanted_wands_lesser", "prob": 3 }, { "group": "enchanted_rings_common", "prob": 1 }, [ "wolfshead_cufflinks", 10 ] ]
+    "items": [
+      { "group": "enchanted_wands_lesser", "prob": 3 },
+      { "group": "enchanted_rings_common", "prob": 1 },
+      [ "wolfshead_cufflinks", 10 ]
+    ]
   },
   {
     "type": "item_group",
