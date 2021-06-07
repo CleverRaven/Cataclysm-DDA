@@ -442,7 +442,6 @@ std::string enum_to_string<blood_type>( blood_type data )
 
 // *INDENT-OFF*
 Character::Character() :
-    cached_time( calendar::before_time_starts ),
     id( -1 ),
     next_climate_control_check( calendar::before_time_starts ),
     last_climate_control_ret( false )
@@ -486,6 +485,7 @@ Character::Character() :
 
     move_mode = move_mode_id( "walk" );
     next_expected_position = cata::nullopt;
+    crafting_cache.time = calendar::before_time_starts;
 }
 // *INDENT-ON*
 
@@ -11361,9 +11361,11 @@ const item *Character::find_firestarter_with_charges( const int quantity ) const
     for( const item *i : all_items_with_flag( flag_FIRESTARTER ) ) {
         if( !i->typeId()->can_have_charges() ) {
             const use_function *usef = i->type->get_use( "firestarter" );
-            const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
-            if( actor->can_use( *this->as_character(), *i, false, tripoint_zero ).success() ) {
-                return i;
+            if( usef != nullptr && usef->get_actor_ptr() != nullptr ) {
+                const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
+                if( actor->can_use( *this->as_character(), *i, false, tripoint_zero ).success() ) {
+                    return i;
+                }
             }
         } else if( has_charges( i->typeId(), quantity ) ) {
             return i;

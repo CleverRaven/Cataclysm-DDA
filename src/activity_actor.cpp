@@ -1703,6 +1703,10 @@ std::unique_ptr<activity_actor> unload_activity_actor::deserialize( JsonIn &jsin
 craft_activity_actor::craft_activity_actor( item_location &it, const bool is_long ) :
     craft_item( it ), is_long( is_long )
 {
+    cached_crafting_speed = 0;
+    cached_assistants = 0;
+    cached_base_total_moves = 1;
+    cached_cur_total_moves = 1;
 }
 
 bool craft_activity_actor::check_if_craft_okay( item_location &craft_item, Character &crafter )
@@ -1738,6 +1742,7 @@ void craft_activity_actor::start( player_activity &act, Character &crafter )
     }
     act.moves_left = calendar::INDEFINITELY_LONG;
     activity_override = craft_item.get_item()->get_making().exertion_level();
+    cached_crafting_speed = 0;
 }
 
 void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
@@ -1761,18 +1766,26 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
         return;
     }
 
+    if( cached_crafting_speed != crafting_speed || cached_assistants != assistants ) {
+        cached_crafting_speed = crafting_speed;
+        cached_assistants = assistants;
+
+        // Base moves for batch size with no speed modifier or assistants
+        // Must ensure >= 1 so we don't divide by 0;
+        cached_base_total_moves = std::max( static_cast<int64_t>( 1 ),
+                                            rec.batch_time( crafter, craft.charges, 1.0f, 0 ) );
+        // Current expected total moves, includes crafting speed modifiers and assistants
+        cached_cur_total_moves = std::max( static_cast<int64_t>( 1 ),
+                                           rec.batch_time( crafter, craft.charges, crafting_speed,
+                                                   assistants ) );
+    }
+    const double base_total_moves = cached_base_total_moves;
+    const double cur_total_moves = cached_cur_total_moves;
+
     // item_counter represents the percent progress relative to the base batch time
     // stored precise to 5 decimal places ( e.g. 67.32 percent would be stored as 6'732'000 )
     const int old_counter = craft.item_counter;
 
-    // Base moves for batch size with no speed modifier or assistants
-    // Must ensure >= 1 so we don't divide by 0;
-    const double base_total_moves = std::max( static_cast<int64_t>( 1 ), rec.batch_time( crafter,
-                                    craft.charges, 1.0f, 0 ) );
-    // Current expected total moves, includes crafting speed modifiers and assistants
-    const double cur_total_moves = std::max( static_cast<int64_t>( 1 ), rec.batch_time( crafter,
-                                   craft.charges, crafting_speed,
-                                   assistants ) );
     // Delta progress in moves adjusted for current crafting speed /
     //crafter.exertion_adjusted_move_multiplier( exertion_level() )
     int spent_moves = crafter.get_moves() * crafter.exertion_adjusted_move_multiplier(
@@ -1805,6 +1818,8 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
         // Divide by 100 for seconds, 20 for 5%
         const time_duration pct_time = time_duration::from_seconds( base_total_moves / 2000 );
         crafter.craft_proficiency_gain( craft, pct_time * five_percent_steps );
+        // Invalidate the crafting time cache because proficiencies may have changed
+        cached_crafting_speed = 0;
     }
 
     // Unlike skill, tools are consumed once at the start and should not be consumed at the end

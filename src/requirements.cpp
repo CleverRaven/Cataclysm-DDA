@@ -638,6 +638,7 @@ std::vector<std::string> requirement_data::get_folded_list( int width,
     for( const auto &comp_list : objs ) {
         const bool has_one = any_marked_available( comp_list );
         std::vector<std::string> list_as_string;
+        std::vector<std::string> list_as_string_unavailable;
         std::vector<std::string> buffer_has;
         for( const T &component : comp_list ) {
             nc_color color = component.get_color( has_one, crafting_inv, filter, batch );
@@ -661,12 +662,19 @@ std::vector<std::string> requirement_data::get_folded_list( int width,
                 color = yellow_background( color );
             }
 
-            if( !no_unavailable || component.has( crafting_inv, filter, batch ) ) {
+            if( component.has( crafting_inv, filter, batch ) ) {
                 list_as_string.push_back( colorize( text, color ) );
+            } else if( !no_unavailable ) {
+                list_as_string_unavailable.push_back( colorize( text, color ) );
             }
             buffer_has.push_back( text + color_tag );
         }
+
         std::sort( list_as_string.begin(), list_as_string.end(), localized_compare );
+        std::sort( list_as_string_unavailable.begin(), list_as_string_unavailable.end(),
+                   localized_compare );
+        list_as_string.insert( list_as_string.end(), list_as_string_unavailable.begin(),
+                               list_as_string_unavailable.end() );
 
         const std::string separator = colorize( _( " OR " ), c_white );
         const std::string unfolded = join( list_as_string, separator );

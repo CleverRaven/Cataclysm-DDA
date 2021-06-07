@@ -1996,8 +1996,6 @@ class Character : public Creature, public visitable
         // Save favorite ammo location
         item_location ammo_location;
         std::set<tripoint_abs_omt> camps;
-        /* crafting inventory cached time */
-        time_point cached_time;
 
         std::vector <addiction> addictions;
         /** Adds an addiction to the player */
@@ -2447,7 +2445,7 @@ class Character : public Creature, public visitable
         void clear_morale();
         bool has_morale_to_read() const;
         bool has_morale_to_craft() const;
-        const inventory &crafting_inventory( bool clear_path );
+        const inventory &crafting_inventory( bool clear_path ) const;
         /**
         * Returns items that can be used to craft with. Always includes character inventory.
         * @param src_pos Character position.
@@ -2456,7 +2454,7 @@ class Character : public Creature, public visitable
         * @returns Craftable inventory items found.
         * */
         const inventory &crafting_inventory( const tripoint &src_pos = tripoint_zero,
-                                             int radius = PICKUP_RANGE, bool clear_path = true );
+                                             int radius = PICKUP_RANGE, bool clear_path = true ) const;
         void invalidate_crafting_inventory();
 
         /** Returns a value from 1.0 to 11.0 that acts as a multiplier
@@ -2516,14 +2514,9 @@ class Character : public Creature, public visitable
         float crafting_speed_multiplier( const item &craft, const cata::optional<tripoint> &loc ) const;
         int available_assistant_count( const recipe &rec ) const;
         /**
-         * Time to craft not including speed multiplier
-         */
-        int64_t base_time_to_craft( const recipe &rec, int batch_size = 1 ) const;
-        /**
          * Expected time to craft a recipe, with assumption that multipliers stay constant.
          */
-        int64_t expected_time_to_craft( const recipe &rec, int batch_size = 1,
-                                        bool in_progress = false ) const;
+        int64_t expected_time_to_craft( const recipe &rec, int batch_size = 1 ) const;
         std::vector<const item *> get_eligible_containers_for_crafting() const;
         bool check_eligible_containers_for_crafting( const recipe &rec, int batch_size = 1 ) const;
         bool can_make( const recipe *r, int batch_size = 1 );  // have components?
@@ -2929,9 +2922,14 @@ class Character : public Creature, public visitable
 
         struct weighted_int_list<std::string> melee_miss_reasons;
 
-        int cached_moves;
-        tripoint cached_position;
-        pimpl<inventory> cached_crafting_inventory;
+        struct crafting_cache_type {
+            time_point time;
+            int moves;
+            tripoint position;
+            int radius;
+            pimpl<inventory> crafting_inventory;
+        };
+        mutable crafting_cache_type crafting_cache;
 
     protected:
         /** Subset of learned recipes. Needs to be mutable for lazy initialization. */

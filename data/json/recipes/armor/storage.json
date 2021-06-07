@@ -692,7 +692,17 @@
     "time": "48 s",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "sheet", 1 ], [ "blanket", 1 ], [ "electric_blanket", 1 ] ] ],
+    "components": [
+      [
+        [ "blanket", 1 ],
+        [ "down_blanket", 1 ],
+        [ "fur_blanket", 1 ],
+        [ "electric_blanket", 1 ],
+        [ "quilt", 1 ],
+        [ "quilt_patchwork", 1 ],
+        [ "sheet", 1 ]
+      ]
+    ],
     "flags": [ "BLIND_EASY" ]
   },
   {

@@ -44,6 +44,7 @@
     "id": "stash_drugs",
     "items": [
       { "item": "pills_sleep", "prob": 15, "charges": [ 1, 10 ] },
+      { "item": "melatonin_tablet", "prob": 5, "charges": [ 1, 30 ] },
       { "item": "oxycodone", "prob": 4, "charges": [ 1, 10 ] },
       { "item": "morphine", "prob": 4, "charges": [ 1, 4 ] },
       { "item": "xanax", "prob": 10, "charges": [ 1, 10 ] },
