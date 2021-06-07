@@ -1547,12 +1547,7 @@
           { "item": "legpouch_large", "contents-group": "army_mags_usp9" },
           { "item": "usp_9mm", "ammo-item": "9mmfmj", "charges": 15, "container-item": "holster" },
           { "item": "baton-extended", "container-item": "police_belt" },
-          {
-            "item": "ksg",
-            "ammo-item": "shot_00",
-            "charges": 7,
-            "contents-item": [ "shoulder_strap" ]
-          }
+          { "item": "ksg", "ammo-item": "shot_00", "charges": 7, "contents-item": [ "shoulder_strap" ] }
         ]
       },
       "male": [ "boxer_shorts" ],
