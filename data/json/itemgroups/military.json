@@ -568,7 +568,9 @@
       { "item": "briefcase", "prob": 5 },
       { "item": "survnote", "prob": 2 },
       { "item": "robot_controls", "prob": 3 },
-      { "item": "solarpack", "prob": 1 }
+      { "item": "solarpack", "prob": 1 },
+      { "item": "flight_helmet", "prob": 20, "charges": [ 0, 100 ] },
+      { "item": "mil_flight_suit", "prob": 20 }
     ]
   }
 ]
