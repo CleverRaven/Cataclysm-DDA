@@ -185,7 +185,17 @@
     ],
     "warmth": 10,
     "material_thickness": 0.25,
-    "flags": [ "VARSIZE", "POCKETS" ]
+    "flags": [ "VARSIZE", "POCKETS" ],
+    "snippet_category": [
+      { "id": "jeans1", "text": "A pair of black jeans with two deep pockets." },
+      { "id": "jeans2", "text": "A pair of black skinny jeans." },
+      { "id": "jeans3", "text": "A stylish pair of bleached denim jeans." },
+      { "id": "jeans4", "text": "A pair of old baggy jeans.  The heels are all ripped up." },
+      {
+        "id": "jeans5",
+        "text": "An old pair of blue jeans.  You are not sure if they are faded through age or stone washed."
+      }
+    ]
   },
   {
     "id": "jeans_red",
@@ -422,6 +432,28 @@
       { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 100 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "3 kg", "moves": 120 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "3 kg", "moves": 120 }
+    ],
+    "snippet_category": [
+      {
+        "id": "apants_UCP",
+        "text": "A tough pair of pants Favored by the military.  This pair came in a grey, green and tan camouflage.  The pattern is notable for it's lack of black."
+      },
+      {
+        "id": "apants_desert",
+        "text": "A tough pair of military pants patterned in desert camouflage.  They are Lined with deep pockets."
+      },
+      {
+        "id": "apants_MARPAT",
+        "text": "A tough pair of military pants with a black, green and tan pixel camouflage pattern.  Commonly seen worn by US Marines."
+      },
+      {
+        "id": "apants_BDU",
+        "text": "A tough pair of military pants with a black, brown, green and tan camouflage pattern.  It looks old."
+      },
+      {
+        "id": "mil_pants_navy",
+        "text": "A tough pair of military pants with a predominantly dark blue camouflage Favored by the navy."
+      }
     ],
     "warmth": 20,
     "material_thickness": 0.25,
@@ -688,6 +720,11 @@
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 }
+    ],
+    "snippet_category": [
+      { "id": "denim_shorts1", "text": "A pair of stone wash denim shorts." },
+      { "id": "denim_shorts2", "text": "An old pair of denim jeans that have been cut down to shorts." },
+      { "id": "denim_shorts3", "text": "A pair of brand-name black denim shorts." }
     ],
     "warmth": 5,
     "material_thickness": 0.25,
