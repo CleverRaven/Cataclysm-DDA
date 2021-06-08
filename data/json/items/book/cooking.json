@@ -125,7 +125,7 @@
     "proficiencies": [
       { "proficiency": "prof_baking", "time_factor": 0.1, "fail_factor": 0.3 },
       { "proficiency": "prof_baking_bread", "time_factor": 0.1, "fail_factor": 0.25 },
-      { "proficiency": "prof_baking_desserts_1", "time_factor": 0.1, "fail_factor": 0.25 }
+      { "proficiency": "prof_baking_desserts_1", "time_factor": 0.1, "fail_factor": 0.25 },
       { "proficiency": "prof_frying", "time_factor": 0.1, "fail_factor": 0.2 }
     ],
     "intelligence": 7,
