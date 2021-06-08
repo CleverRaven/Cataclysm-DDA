@@ -151,6 +151,27 @@
   },
   {
     "type": "proficiency",
+    "id": "prof_cheesemaking_1",
+    "name": { "str": "Principles of Cheesemaking" },
+    "description": "The basics of curdling and coagulating milk and similar things without the wrong kinds of bacteria and mold winning out.",
+    "can_learn": true,
+    "default_time_multiplier": 1.1,
+    "default_fail_multiplier": 1.5,
+    "time_to_learn": "6 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_cheesemaking_2",
+    "name": { "str": "Cheesemaking Expert" },
+    "description": "Taking the basics of curdled milk and making it delicious.",
+    "can_learn": true,
+    "default_time_multiplier": 1.1,
+    "default_fail_multiplier": 1.5,
+    "time_to_learn": "8 h",
+    "required_proficiencies": [ "prof_cheesemaking_1" ]
+  },
+  {
+    "type": "proficiency",
     "id": "prof_preservation",
     "name": { "str": "Food Preservation" },
     "description": "The basic knowledge of ways to keep food safe for long periods of time in a post-refrigeration world.",
