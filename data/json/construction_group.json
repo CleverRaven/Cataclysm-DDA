@@ -516,6 +516,11 @@
   },
   {
     "type": "construction_group",
+    "id": "build_floor",
+    "name": "Build Floor With Roof"
+  },
+  {
+    "type": "construction_group",
     "id": "build_roof",
     "name": "Build Roof"
   },
