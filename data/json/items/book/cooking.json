@@ -123,7 +123,7 @@
     "required_level": 1,
     "max_level": 5,
     "proficiencies": [
-      { "proficiency": "prof_baking", "time_factor": 0.1, "fail_factor": 0.3 },
+      { "proficiency": "prof_baking", "time_factor": 0.1, "fail_factor": 0.4 },
       { "proficiency": "prof_baking_bread", "time_factor": 0.1, "fail_factor": 0.25 },
       { "proficiency": "prof_baking_desserts_1", "time_factor": 0.1, "fail_factor": 0.25 },
       { "proficiency": "prof_frying", "time_factor": 0.1, "fail_factor": 0.2 }
@@ -209,8 +209,8 @@
     "required_level": 1,
     "max_level": 3,
     "proficiencies": [
-      { "proficiency": "prof_fermenting", "time_factor": 0.1, "fail_factor": 0.3 },
-      { "proficiency": "prof_distilling", "time_factor": 0.1, "fail_factor": 0.25 },
+      { "proficiency": "prof_fermenting", "time_factor": 0.1, "fail_factor": 0.4 },
+      { "proficiency": "prof_distilling", "time_factor": 0.1, "fail_factor": 0.3 },
       { "proficiency": "prof_brewing", "time_factor": 0.05, "fail_factor": 0.1 },
       { "proficiency": "prof_winemaking", "time_factor": 0.05, "fail_factor": 0.2 }
     ],
@@ -348,9 +348,9 @@
     "required_level": 1,
     "max_level": 2,
     "proficiencies": [
-      { "proficiency": "prof_fermenting", "time_factor": 0.1, "fail_factor": 0.25 },
+      { "proficiency": "prof_fermenting", "time_factor": 0.1, "fail_factor": 0.5 },
       { "proficiency": "prof_brewing", "time_factor": 0.1, "fail_factor": 0.1 },
-      { "proficiency": "prof_winemaking", "time_factor": 0.25, "fail_factor": 0.25 }
+      { "proficiency": "prof_winemaking", "time_factor": 0.25, "fail_factor": 0.3 }
     ],
     "time": "12 m"
   },
@@ -396,10 +396,10 @@
     "required_level": 2,
     "max_level": 5,
     "proficiencies": [
-      { "proficiency": "prof_baking", "time_factor": 0.1, "fail_factor": 0.3 },
-      { "proficiency": "prof_baking_bread", "time_factor": 0.1, "fail_factor": 0.4 },
-      { "proficiency": "prof_baking_desserts_1", "time_factor": 0.1, "fail_factor": 0.3 },
-      { "proficiency": "prof_baking_desserts_2", "time_factor": 0.1, "fail_factor": 0.3 }
+      { "proficiency": "prof_baking", "time_factor": 0.1, "fail_factor": 0.5 },
+      { "proficiency": "prof_baking_bread", "time_factor": 0.1, "fail_factor": 0.5 },
+      { "proficiency": "prof_baking_desserts_1", "time_factor": 0.1, "fail_factor": 0.5 },
+      { "proficiency": "prof_baking_desserts_2", "time_factor": 0.1, "fail_factor": 0.4 }
     ],
     "intelligence": 8,
     "time": "15 m",
