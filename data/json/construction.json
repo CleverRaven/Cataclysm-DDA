@@ -1132,7 +1132,7 @@
     "tools": [ [ [ "oxy_torch", 10 ], [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ] ] ],
     "components": [ [ [ "steel_plate", 2 ] ] ],
     "pre_note": "Must be supported on at least two sides.",
-    "pre_special": "check_support",
+    "pre_special": "check_support_passable",
     "post_terrain": "t_scrap_floor"
   },
   {
@@ -1143,8 +1143,8 @@
     "required_skills": [ [ "fabrication", 5 ] ],
     "time": "90 m",
     "qualities": [ { "id": "GLARE", "level": 2 } ],
-    "tools": [ [ [ "oxy_torch", 10 ], [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ] ] ],
-    "components": [ [ [ "steel_plate", 2 ] ] ],
+    "tools": [ [ [ "oxy_torch", 5 ], [ "welder", 25 ], [ "welder_crude", 37 ], [ "toolset", 37 ] ] ],
+    "components": [ [ [ "steel_plate", 1 ] ] ],
     "pre_note": "Must be supported on at least two sides and have open air above.",
     "pre_special": "check_support_up_empty",
     "post_terrain": "t_metal_flat_roof",
@@ -1158,8 +1158,8 @@
     "required_skills": [ [ "fabrication", 5 ] ],
     "time": "90 m",
     "qualities": [ { "id": "GLARE", "level": 2 } ],
-    "tools": [ [ [ "oxy_torch", 10 ], [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ] ] ],
-    "components": [ [ [ "steel_plate", 2 ] ] ],
+    "tools": [ [ [ "oxy_torch", 5 ], [ "welder", 25 ], [ "welder_crude", 37 ], [ "toolset", 37 ] ] ],
+    "components": [ [ [ "steel_plate", 1 ] ] ],
     "pre_note": "Must be supported on at least two sides.",
     "pre_special": "check_support_below",
     "pre_terrain": "t_open_air",
@@ -1328,9 +1328,9 @@
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "120 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-    "components": [ [ [ "wood_sheet", 1 ], [ "wood_panel", 2 ] ], [ [ "2x4", 6 ] ], [ [ "nail", 40 ] ] ],
+    "components": [ [ [ "wood_sheet", 2 ], [ "wood_panel", 4 ] ], [ [ "2x4", 12 ] ], [ [ "nail", 80 ] ] ],
     "pre_note": "Must be supported on at least two sides.",
-    "pre_special": "check_support",
+    "pre_special": "check_support_passable",
     "post_terrain": "t_floor"
   },
   {
@@ -1369,8 +1369,8 @@
     "required_skills": [ [ "fabrication", 3 ], [ "survival", 7 ] ],
     "time": "360 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "2x4", 5 ], [ "stick", 10 ] ], [ [ "straw_pile", 60 ], [ "withered", 60 ] ], [ [ "cordage", 8, "LIST" ] ] ],
-    "pre_special": "check_support",
+    "components": [ [ [ "2x4", 10 ], [ "stick", 20 ] ], [ [ "straw_pile", 120 ], [ "withered", 120 ] ], [ [ "cordage", 16, "LIST" ] ] ],
+    "pre_special": "check_support_passable",
     "post_terrain": "t_dirtfloor_thatchroof"
   },
   {
@@ -1414,7 +1414,7 @@
       [ [ "birchbark", 12 ], [ "pine_bough", 12 ] ]
     ],
     "pre_note": "Must be supported on at least two sides.",
-    "pre_special": "check_support",
+    "pre_special": "check_support_passable",
     "post_terrain": "t_floor_primitive"
   },
   {
@@ -1465,7 +1465,7 @@
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
     "components": [ [ [ "wood_panel", 1 ] ], [ [ "2x4", 8 ] ], [ [ "nail", 20 ] ] ],
     "pre_note": "Must be supported on at least two sides.",
-    "pre_special": "check_support",
+    "pre_special": "check_support_passable",
     "post_terrain": "t_dirtfloor"
   },
   {
@@ -3570,7 +3570,7 @@
     "time": "15 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SCREW", "level": 1 } ] ],
     "components": [ [ [ "grip_hook", 1 ] ], [ [ "chain", 1 ] ] ],
-    "pre_special": "check_support",
+    "pre_special": "check_support_passable",
     "post_terrain": "f_hanging_meathook"
   },
   {
@@ -3746,7 +3746,7 @@
     "qualities": [ { "id": "SMOOTH", "level": 1 } ],
     "components": [ [ [ "alien_pod_resin", 2 ] ] ],
     "pre_note": "Must be supported on at least two sides.",
-    "pre_special": "check_support",
+    "pre_special": "check_support_passable",
     "post_terrain": "t_floor_resin"
   },
   {
@@ -4431,6 +4431,19 @@
     "pre_terrain": "t_rock_roof",
     "post_terrain": "t_skylight_frame",
     "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 50 ], [ "elec_jackhammer", 50 ] ] ]
+  },
+  {
+    "type": "construction",
+    "id": "constr_skylight_frame_sod_roof",
+    "group": "build_sky_light_frame",
+    "//": "Step 9: Build skylight frame log sod roof",
+    "category": "WINDOWS",
+    "required_skills": [ [ "fabrication", 4 ] ],
+    "time": "90 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ], [ { "id": "DIG", "level": 1 } ] ],
+    "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 16 ] ] ],
+    "pre_terrain": "t_log_sod_roof",
+    "post_terrain": "t_skylight_frame"
   },
   {
     "type": "construction",

@@ -177,7 +177,7 @@
   {
     "type": "construction_group",
     "id": "build_concrete_roof",
-    "name": "Build Concrete Roof"
+    "name": "Build Concrete Floor With Roof"
   },
   {
     "type": "construction_group",
@@ -317,7 +317,7 @@
   {
     "type": "construction_group",
     "id": "build_floor_primitive",
-    "name": "Build Primitive Floor"
+    "name": "Build Primitive Floor With Sod Roof"
   },
   {
     "type": "construction_group",
@@ -387,7 +387,7 @@
   {
     "type": "construction_group",
     "id": "build_metal_floor",
-    "name": "Build Metal Floor and Roof"
+    "name": "Build Metal Floor With Roof"
   },
   {
     "type": "construction_group",
@@ -467,7 +467,7 @@
   {
     "type": "construction_group",
     "id": "build_reinforced_concrete_roof",
-    "name": "Build Reinforced Concrete Roof"
+    "name": "Build Reinforced Concrete Floor With Roof"
   },
   {
     "type": "construction_group",
@@ -537,7 +537,7 @@
   {
     "type": "construction_group",
     "id": "build_dirt_floor",
-    "name": "Build Dirt Floor"
+    "name": "Build Dirt Floor With Shingle Roof"
   },
   {
     "type": "construction_group",
@@ -702,7 +702,7 @@
   {
     "type": "construction_group",
     "id": "build_dirtfloor_thatchroof",
-    "name": "Build Dirt Floor"
+    "name": "Build Dirt Floor With Thatched Roof"
   },
   {
     "type": "construction_group",
@@ -762,7 +762,7 @@
   {
     "type": "construction_group",
     "id": "build_wooden_floor",
-    "name": "Build Wooden Floor"
+    "name": "Build Wooden Floor (no roof)"
   },
   {
     "type": "construction_group",
@@ -872,7 +872,7 @@
   {
     "type": "construction_group",
     "id": "extrude_resin_floor_and_roof",
-    "name": "Extrude Resin Floor and Roof"
+    "name": "Extrude Resin Floor With Roof"
   },
   {
     "type": "construction_group",
