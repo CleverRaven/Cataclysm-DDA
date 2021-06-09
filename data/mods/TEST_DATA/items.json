@@ -1771,5 +1771,23 @@
     ],
     "armor_data": { "covers": [ "torso" ], "coverage": 10, "encumbrance": 4, "material_thickness": 2 },
     "flags": [ "BELTED" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "test_vitfood",
+    "name": { "str": "Vitamin Food" },
+    "weight": "250 g",
+    "color": "red",
+    "spoils_in": "1 day",
+    "comestible_type": "FOOD",
+    "symbol": "O",
+    "calories": 250,
+    "description": "Delicious vitamin food.",
+    "price": 1600,
+    "price_postapoc": 200,
+    "material": [ "flesh" ],
+    "volume": "250 ml",
+    "vitamins": [ [ "test_vitx", 200 ] ],
+    "fun": -10
   }
 ]

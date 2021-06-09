@@ -2339,6 +2339,8 @@ class Character : public Creature, public visitable
         time_duration vitamin_rate( const vitamin_id &vit ) const;
         /** Modify vitamin intake (e.g. due to effects) */
         std::map<vitamin_id, int> effect_vitamin_mod( const std::map<vitamin_id, int> & );
+        /** Remove all vitamins */
+        void clear_vitamins();
 
         /** Handles the nutrition value for a comestible **/
         int nutrition_for( const item &comest ) const;

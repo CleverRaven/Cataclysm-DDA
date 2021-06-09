@@ -487,6 +487,11 @@ time_duration Character::vitamin_rate( const vitamin_id &vit ) const
     return res;
 }
 
+void Character::clear_vitamins()
+{
+    vitamin_levels.clear();
+}
+
 std::map<vitamin_id, int> Character::effect_vitamin_mod( const std::map<vitamin_id, int> &vits )
 {
     std::vector<std::pair<vitamin_id, float>> mods;
