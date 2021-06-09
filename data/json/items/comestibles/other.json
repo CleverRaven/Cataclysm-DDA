@@ -93,14 +93,14 @@
     "color": "green",
     "symbol": "~",
     "material": [ "honey" ],
-  "quench": 4,
+    "quench": 4,
     "calories": 67,
-  "charges": 16,
-    "fun": 2  , 
-  "comestible_type": "FOOD" ,
-  "flags": ["NUTRIENT_OVERRIDE"],
-  "volume": "250 ml"  
- },
+    "charges": 16,
+    "fun": 2,
+    "comestible_type": "FOOD",
+    "flags": [ "NUTRIENT_OVERRIDE" ],
+    "volume": "250 ml"
+  },
   {
     "type": "COMESTIBLE",
     "id": "marloss_berry",
