@@ -1010,7 +1010,7 @@
     "id": "tools_hunting",
     "//": "A distribution of magical items for classless themed spaces.",
     "type": "item_group",
-    "subtype": "collection",
+    "subtype": "distribution",
     "items": [
       { "group": "enchanted_tokens_tool", "prob": 3 },
       { "group": "enchanted_tokens_weapon", "prob": 2 },
