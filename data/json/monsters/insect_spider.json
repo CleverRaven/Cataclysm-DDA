@@ -1891,7 +1891,7 @@
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_FOOD", 60 ], [ "EAT_CROP", 80 ] ],
     "reproduction": { "baby_monster": "mon_aphid", "baby_count": 1, "baby_timer": 20 },
-    "baby_flags": [ "SPRING", "SUMMER"],
+    "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "honeydew", "biosig_timer": 600 },
     "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
   },
@@ -1935,12 +1935,16 @@
     "vision_day": 15,
     "vision_night": 5,
     "harvest": "arachnid",
-    "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE"],
+    "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "fear_triggers": [ "FIRE" ],
     "death_function": [ "NORMAL" ],
-    "special_attacks": [  [ "RANGED_PULL", 30 ], [ "GRAB_DRAG", 10 ], { "type": "leap", "cooldown": 8, "max_range": 5, "allow_no_target": false }],
-    "flags": ["POISON", "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FIRE","PATH_AVOID_FALL", "STUMBLES" ]
-  }, 
+    "special_attacks": [
+      [ "RANGED_PULL", 30 ],
+      [ "GRAB_DRAG", 10 ],
+      { "type": "leap", "cooldown": 8, "max_range": 5, "allow_no_target": false }
+    ],
+    "flags": [ "POISON", "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL", "STUMBLES" ]
+  },
   {
     "id": "mon_mantis_mega",
     "type": "MONSTER",
@@ -1964,9 +1968,9 @@
       }
     ],
     "extend": { "flags": [ "DESTROYS", "PUSH_MON", "PUSH_VEH" ] },
-  "delete": { "type": "leap", "cooldown": 8, "max_range": 5, "allow_no_target": false }
+    "delete": { "type": "leap", "cooldown": 8, "max_range": 5, "allow_no_target": false }
   },
- {
+  {
     "id": "mon_mole_cricket",
     "type": "MONSTER",
     "name": { "str": "giant mole cricket" },
@@ -1997,10 +2001,10 @@
     "anger_triggers": [ "HURT", "SOUND", "STALK" ],
     "fear_triggers": [ "FIRE" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "POISON","ATTACKMON", "BORES", "CAN_DIG", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SMELLS", "WARM" ],
+    "flags": [ "POISON", "ATTACKMON", "BORES", "CAN_DIG", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SMELLS", "WARM" ],
     "//": "Reinsert GOODHEARING when z-level tunneling is possible."
   },
-    {
+  {
     "id": "mon_lady_bug_giant",
     "type": "MONSTER",
     "name": { "str": "giant lady bug" },
@@ -2028,26 +2032,26 @@
     "vision_day": 20,
     "vision_night": 5,
     "harvest": "arachnid",
-    "anger_triggers": [  "PLAYER_CLOSE" ],
+    "anger_triggers": [ "PLAYER_CLOSE" ],
     "fear_triggers": [ "HURT" ],
     "death_function": [ "NORMAL" ],
     "special_attacks": [
-{
+      {
         "type": "bite",
         "cooldown": 4,
         "accuracy": 6,
         "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_multiplier": 0.6 } ]
- } 
+      }
     ],
-    "flags": ["POISON", "SEES", "HEARS", "SMELLS", "FLIES" , "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
+    "flags": [ "POISON", "SEES", "HEARS", "SMELLS", "FLIES", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
   },
-    {
+  {
     "id": "mon_grasshopper_small",
     "type": "MONSTER",
     "name": { "str": "huge grasshopper" },
     "description": "A large grasshopper a few times bigger than a regular one.",
     "copy-from": "mon_grasshopper_giant",
-    "proportional": { "hp": 0.5, "speed": 1.1},
+    "proportional": { "hp": 0.5, "speed": 1.1 },
     "volume": "750 ml",
     "weight": "1 kg",
     "upgrades": { "half_life": 7, "into": "mon_mantis_giant" }
@@ -2079,10 +2083,10 @@
     "vision_day": 20,
     "vision_night": 20,
     "harvest": "arachnid",
-    "fear_triggers": [ "FIRE", "PLAYER_CLOSE"],
+    "fear_triggers": [ "FIRE", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
-     "special_attacks": [ [ "EAT_FOOD", 60 ], [ "EAT_CROP", 80 ], { "type": "leap", "cooldown": 3, "max_range": 10, "allow_no_target": true } ],
-    "flags": ["POISON", "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FALL", "PATH_AVOID_FIRE" ]
+    "special_attacks": [ [ "EAT_FOOD", 60 ], [ "EAT_CROP", 80 ], { "type": "leap", "cooldown": 3, "max_range": 10, "allow_no_target": true } ],
+    "flags": [ "POISON", "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FALL", "PATH_AVOID_FIRE" ]
   },
   {
     "id": "mon_antlion_larva",
@@ -2112,18 +2116,21 @@
     "vision_night": 5,
     "harvest": "arachnid",
     "upgrades": { "half_life": 12, "into": "mon_antlion_giant" },
-    "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE"],
+    "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "fear_triggers": [ "FIRE" ],
     "death_function": [ "NORMAL" ],
-    "special_attacks": [  [ "RANGED_PULL", 10 ], [ "GRAB", 3 ], [ "impale", 10 ], 
-     {
+    "special_attacks": [
+      [ "RANGED_PULL", 10 ],
+      [ "GRAB", 3 ],
+      [ "impale", 10 ],
+      {
         "type": "bite",
         "cooldown": 4,
         "accuracy": 8,
         "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_multiplier": 0.6 } ]
-      } 
+      }
     ],
-    "flags": ["POISON", "SEES", "SMELLS", "IMMOBILE", "DIGS", "RANGED_ATTACKER" ]
+    "flags": [ "POISON", "SEES", "SMELLS", "IMMOBILE", "DIGS", "RANGED_ATTACKER" ]
   },
   {
     "id": "mon_antlion_giant",
@@ -2156,13 +2163,13 @@
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "FLIES", "HEARS", "HIT_AND_RUN", "PATH_AVOID_FIRE" ]
   },
-    {
+  {
     "id": "mon_strider_small",
     "type": "MONSTER",
     "name": { "str": "big water strider" },
     "description": "This water bug is several times larger than a regular one.  It's moves are fast and fluid.",
     "copy-from": "mon_strider_giant",
-    "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.50 },
+    "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.5 },
     "volume": "3 L",
     "weight": "4 kg",
     "melee_cut": 8,
@@ -2171,7 +2178,7 @@
   {
     "id": "mon_strider_giant",
     "type": "MONSTER",
-    "name": { "str": "giant water strider"  },
+    "name": { "str": "giant water strider" },
     "description": "This water glider is about as big as a domestic cat.  Its legs are more fin-like and a swollen body is mostly submerged underwater.",
     "default_faction": "strider",
     "bodytype": "insect",
@@ -2197,8 +2204,8 @@
     "vision_night": 5,
     "harvest": "arachnid",
     "anger_triggers": [ "PLAYER_WEAK" ],
-    "fear_triggers": [ "FIRE",  "PLAYER_CLOSE"],
+    "fear_triggers": [ "FIRE", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
-    "flags": ["POISON", "SEES", "HEARS", "SMELLS", "SWIMS" ]
+    "flags": [ "POISON", "SEES", "HEARS", "SMELLS", "SWIMS" ]
   }
 ]
