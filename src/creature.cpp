@@ -1437,7 +1437,9 @@ void Creature::process_effects()
                 add_msg_if_player( m_bad, e.get_death_message() );
                 if( is_player() ) {
                     std::map<std::string, cata_variant> event_data;
-                    event_data.emplace( "character", as_player()->getID() );
+                    std::pair<std::string, cata_variant> data_obj( "character",
+                            cata_variant::make<cata_variant_type::character_id>( as_player()->getID() ) );
+                    event_data.insert( data_obj );
                     cata::event sent( e.death_event(), calendar::turn, std::move( event_data ) );
                     get_event_bus().send( sent );
                 }
