@@ -106,6 +106,7 @@ static bool check_nothing( const tripoint & )
 bool check_empty( const tripoint & ); // tile is empty
 bool check_support( const tripoint & ); // at least two orthogonal supports
 bool check_support_up_empty( const tripoint & ); // 2+ orthogonal supports and open air above
+bool check_support_below( const tripoint & ); // at least two orthogonal supports below
 bool check_deconstruct( const tripoint & ); // either terrain or furniture must be deconstructible
 bool check_empty_up_OK( const tripoint & ); // tile is empty and below OVERMAP_HEIGHT
 bool check_up_OK( const tripoint & ); // tile is below OVERMAP_HEIGHT
@@ -1133,6 +1134,11 @@ bool construct::check_support( const tripoint &p )
     return num_supports >= 2;
 }
 
+bool construct::check_support_below( const tripoint &p )
+{
+    return check_support( p + tripoint_below );
+}
+
 
 bool construct::check_support_up_empty( const tripoint &p )
 {
@@ -1627,6 +1633,7 @@ void load_construction( const JsonObject &jo )
             { "", construct::check_nothing },
             { "check_empty", construct::check_empty },
             { "check_support", construct::check_support },
+            { "check_support_below", construct::check_support_below },
             { "check_support_up_empty", construct::check_support_up_empty },
             { "check_deconstruct", construct::check_deconstruct },
             { "check_empty_up_OK", construct::check_empty_up_OK },
