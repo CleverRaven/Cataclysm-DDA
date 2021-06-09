@@ -1068,7 +1068,7 @@ void complete_construction( player *p )
     }
     // Make the terrain change
     if( !built.post_terrain.empty() ) {
-        const auto terp_actual = built.post_flags.count( "is_roof" ) ? terp + tripoint_above : terp;
+        const tripoint terp_actual = built.post_flags.count( "is_roof" ) ? terp + tripoint_above : terp;
         if( built.post_is_furniture ) {
             here.furn_set( terp_actual, furn_str_id( built.post_terrain ) );
         } else {

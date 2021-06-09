@@ -316,6 +316,11 @@
   },
   {
     "type": "construction_group",
+    "id": "build_floor_primitive",
+    "name": "Build Primitive Floor"
+  },
+  {
+    "type": "construction_group",
     "id": "build_log_sod_roof",
     "name": "Build Log & Sod Roof"
   },
@@ -378,6 +383,11 @@
     "type": "construction_group",
     "id": "build_metal_rack",
     "name": "Build Metal Rack"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_metal_floor",
+    "name": "Build Metal Floor and Roof"
   },
   {
     "type": "construction_group",
@@ -526,8 +536,13 @@
   },
   {
     "type": "construction_group",
-    "id": "build_roof_over_dirt_floor",
-    "name": "Build Roof Over Dirt Floor"
+    "id": "build_dirt_floor",
+    "name": "Build Dirt Floor"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_shingle_roof",
+    "name": "Build Shingle Roof"
   },
   {
     "type": "construction_group",
@@ -683,6 +698,11 @@
     "type": "construction_group",
     "id": "build_tarp_lean_to",
     "name": "Build Tarp Lean-To"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_dirtfloor_thatchroof",
+    "name": "Build Dirt Floor"
   },
   {
     "type": "construction_group",
@@ -853,6 +873,11 @@
     "type": "construction_group",
     "id": "extrude_resin_floor_and_roof",
     "name": "Extrude Resin Floor and Roof"
+  },
+  {
+    "type": "construction_group",
+    "id": "extrude_resin_roof",
+    "name": "Extrude Resin Roof"
   },
   {
     "type": "construction_group",

@@ -1124,7 +1124,7 @@
   {
     "type": "construction",
     "id": "constr_scrap_floor",
-    "group": "build_metal_roof",
+    "group": "build_metal_floor",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 5 ] ],
     "time": "90 m",
@@ -1134,6 +1134,21 @@
     "pre_note": "Must be supported on at least two sides.",
     "pre_special": "check_support",
     "post_terrain": "t_scrap_floor"
+  },
+  {
+    "type": "construction",
+    "id": "constr_metal_roof",
+    "group": "build_metal_roof",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 5 ] ],
+    "time": "90 m",
+    "qualities": [ { "id": "GLARE", "level": 2 } ],
+    "tools": [ [ [ "oxy_torch", 10 ], [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ] ] ],
+    "components": [ [ [ "steel_plate", 2 ] ] ],
+    "pre_note": "Must be supported on at least two sides.",
+    "pre_special": "check_support_up_empty",
+    "post_terrain": "t_metal_flat_roof",
+    "post_flags": [ "is_roof" ]
   },
   {
     "type": "construction",
@@ -1320,7 +1335,7 @@
   {
     "type": "construction",
     "id": "constr_dirtfloor_thatchroof",
-    "group": "build_thatched_roof",
+    "group": "build_dirtfloor_thatchroof",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ], [ "survival", 7 ] ],
     "time": "360 m",
@@ -1331,8 +1346,21 @@
   },
   {
     "type": "construction",
+    "id": "constr_thatched_roof",
+    "group": "build_thatched_roof",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 3 ], [ "survival", 7 ] ],
+    "time": "360 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "2x4", 5 ], [ "stick", 10 ] ], [ [ "straw_pile", 60 ], [ "withered", 60 ] ], [ [ "cordage", 8, "LIST" ] ] ],
+    "pre_special": "check_support_up_empty",
+    "post_terrain": "t_thatch_roof",
+    "post_flags": [ "is_roof" ]
+  },
+  {
+    "type": "construction",
     "id": "constr_floor_primitive",
-    "group": "build_log_sod_roof",
+    "group": "build_floor_primitive",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "120 m",
@@ -1349,8 +1377,27 @@
   },
   {
     "type": "construction",
+    "id": "constr_log_sod_roof",
+    "group": "build_log_sod_roof",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 4 ] ],
+    "time": "120 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [
+      [ [ "log", 2 ] ],
+      [ [ "stick", 4 ], [ "2x4", 8 ] ],
+      [ [ "material_soil", 40 ] ],
+      [ [ "birchbark", 12 ], [ "pine_bough", 12 ] ]
+    ],
+    "pre_note": "Must be supported on at least two sides.",
+    "pre_special": "check_support_up_empty",
+    "post_terrain": "t_log_sod_roof",
+    "post_flags": [ "is_roof" ]
+  },
+  {
+    "type": "construction",
     "id": "constr_dirtfloor",
-    "group": "build_roof_over_dirt_floor",
+    "group": "build_dirt_floor",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "60 m",
@@ -1359,6 +1406,20 @@
     "pre_note": "Must be supported on at least two sides.",
     "pre_special": "check_support",
     "post_terrain": "t_dirtfloor"
+  },
+  {
+    "type": "construction",
+    "id": "constr_shingle_roof",
+    "group": "build_shingle_roof",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "60 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+    "components": [ [ [ "wood_panel", 1 ] ], [ [ "2x4", 8 ] ], [ [ "nail", 20 ] ] ],
+    "pre_note": "Must be supported on at least two sides.",
+    "pre_special": "check_support_up_empty",
+    "post_terrain": "t_shingle_flat_roof",
+    "post_flags": [ "is_roof" ]
   },
   {
     "type": "construction",
@@ -3609,8 +3670,24 @@
     "time": "90 m",
     "qualities": [ { "id": "SMOOTH", "level": 1 } ],
     "components": [ [ [ "alien_pod_resin", 2 ] ] ],
-    "pre_special": "check_empty",
+    "pre_note": "Must be supported on at least two sides.",
+    "pre_special": "check_support",
     "post_terrain": "t_floor_resin"
+  },
+  {
+    "type": "construction",
+    "id": "constr_roof_resin",
+    "group": "extrude_resin_roof",
+    "category": "CONSTRUCT",
+    "skill": "fabrication",
+    "difficulty": 2,
+    "time": "90 m",
+    "qualities": [ { "id": "SMOOTH", "level": 1 } ],
+    "components": [ [ [ "alien_pod_resin", 2 ] ] ],
+    "pre_note": "Must be supported on at least two sides.",
+    "pre_special": "check_support_up_empty",
+    "post_terrain": "t_resin_roof",
+    "post_flags": [ "is_roof" ]
   },
   {
     "type": "construction",
