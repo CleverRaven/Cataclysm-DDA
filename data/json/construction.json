@@ -1328,7 +1328,7 @@
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "120 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-    "components": [ [ [ "wood_sheet", 2 ], [ "wood_panel", 4 ] ], [ [ "2x4", 12 ] ], [ [ "nail", 80 ] ] ],
+    "components": [ [ [ "wood_sheet", 1 ], [ "wood_panel", 2 ] ], [ [ "2x4", 6 ] ], [ [ "nail", 40 ] ] ],
     "pre_note": "Must be supported on at least two sides.",
     "pre_special": "check_support_passable",
     "post_terrain": "t_floor"
@@ -1341,7 +1341,7 @@
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "120 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-    "components": [ [ [ "wood_sheet", 1 ], [ "wood_panel", 2 ] ], [ [ "2x4", 6 ] ], [ [ "nail", 40 ] ] ],
+    "components": [ [ [ "wood_sheet", 1 ], [ "wood_panel", 1 ] ], [ [ "2x4", 4 ] ], [ [ "nail", 30 ] ] ],
     "pre_note": "Must be supported on at least two sides and should have open air above.",
     "pre_special": "check_support_up_empty",
     "post_terrain": "t_flat_roof",
@@ -1355,7 +1355,7 @@
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "120 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-    "components": [ [ [ "wood_sheet", 1 ], [ "wood_panel", 2 ] ], [ [ "2x4", 6 ] ], [ [ "nail", 40 ] ] ],
+    "components": [ [ [ "wood_sheet", 1 ], [ "wood_panel", 1 ] ], [ [ "2x4", 4 ] ], [ [ "nail", 30 ] ] ],
     "pre_note": "Must be supported on at least two sides.",
     "pre_terrain": "t_open_air",
     "pre_special": "check_support_below",
@@ -1369,7 +1369,7 @@
     "required_skills": [ [ "fabrication", 3 ], [ "survival", 7 ] ],
     "time": "360 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "2x4", 10 ], [ "stick", 20 ] ], [ [ "straw_pile", 120 ], [ "withered", 120 ] ], [ [ "cordage", 16, "LIST" ] ] ],
+    "components": [ [ [ "2x4", 5 ], [ "stick", 10 ] ], [ [ "straw_pile", 60 ], [ "withered", 60 ] ], [ [ "cordage", 8, "LIST" ] ] ],
     "pre_special": "check_support_passable",
     "post_terrain": "t_dirtfloor_thatchroof"
   },
@@ -1381,7 +1381,7 @@
     "required_skills": [ [ "fabrication", 3 ], [ "survival", 7 ] ],
     "time": "360 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "2x4", 5 ], [ "stick", 10 ] ], [ [ "straw_pile", 60 ], [ "withered", 60 ] ], [ [ "cordage", 8, "LIST" ] ] ],
+    "components": [ [ [ "2x4", 3 ], [ "stick", 5 ] ], [ [ "straw_pile", 30 ], [ "withered", 30 ] ], [ [ "cordage", 4, "LIST" ] ] ],
     "pre_special": "check_support_up_empty",
     "post_terrain": "t_thatch_roof",
     "post_flags": [ "is_roof" ]
@@ -1394,7 +1394,7 @@
     "required_skills": [ [ "fabrication", 3 ], [ "survival", 7 ] ],
     "time": "360 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "2x4", 5 ], [ "stick", 10 ] ], [ [ "straw_pile", 60 ], [ "withered", 60 ] ], [ [ "cordage", 8, "LIST" ] ] ],
+    "components": [ [ [ "2x4", 3 ], [ "stick", 5 ] ], [ [ "straw_pile", 30 ], [ "withered", 30 ] ], [ [ "cordage", 4, "LIST" ] ] ],
     "pre_special": "check_support_below",
     "pre_terrain": "t_open_air",
     "post_terrain": "t_thatch_roof"
@@ -1426,8 +1426,8 @@
     "time": "120 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [
-      [ [ "log", 2 ] ],
-      [ [ "stick", 4 ], [ "2x4", 8 ] ],
+      [ [ "log", 1 ] ],
+      [ [ "stick", 2 ], [ "2x4", 4 ] ],
       [ [ "material_soil", 40 ] ],
       [ [ "birchbark", 12 ], [ "pine_bough", 12 ] ]
     ],
@@ -1445,8 +1445,8 @@
     "time": "120 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [
-      [ [ "log", 2 ] ],
-      [ [ "stick", 4 ], [ "2x4", 8 ] ],
+      [ [ "log", 1 ] ],
+      [ [ "stick", 2 ], [ "2x4", 4 ] ],
       [ [ "material_soil", 40 ] ],
       [ [ "birchbark", 12 ], [ "pine_bough", 12 ] ]
     ],
