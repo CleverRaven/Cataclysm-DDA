@@ -677,12 +677,7 @@ void vpart_info::check()
         if( !item_group::group_is_defined( part.breaks_into_group ) ) {
             debugmsg( "Vehicle part %s breaks into non-existent item group %s.",
                       part.id.c_str(), part.breaks_into_group.c_str() );
-        }
-        for( const auto &f : part.get_flags() ) {
-            if( !json_flag::get( f ) ) {
-                debugmsg( "vehicle part %s has unknown flag %s", part.id.c_str(), f.c_str() );
-            }
-        }
+        }        
         // Default symbol is always needed in case an unknown variant is encountered
         if( part.sym == 0 ) {
             debugmsg( "vehicle part %s does not define a symbol", part.id.c_str() );
