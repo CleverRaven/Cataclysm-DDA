@@ -3446,11 +3446,13 @@ bodypart_id heal_actor::use_healing_item( player &healer, player &patient, item 
             if( ( !patient.has_effect( effect_bandaged, part_id ) && bandages_power > 0 ) ||
                 ( !patient.has_effect( effect_disinfected, part_id ) && disinfectant_power > 0 ) ) {
                 damage += patient.get_part_hp_max( part_id ) - patient.get_part_hp_cur( part_id );
-                damage += bite * patient.get_effect_dur( effect_bite, part_id ) / 10_minutes;
                 damage += infect * patient.get_effect_dur( effect_infected, part_id ) / 10_minutes;
             }
             if( patient.get_effect_int( effect_bleed, part_id ) > 5 && bleed > 0 ) {
                 damage += bleed * patient.get_effect_dur( effect_bleed, part_id ) / 5_minutes;
+            }
+            if( patient.has_effect( effect_bite, part_id ) && disinfectant_power > 0 ) {
+                damage += bite * patient.get_effect_dur( effect_bite, part_id ) / 1_minutes;
             }
             if( damage > highest_damage ) {
                 highest_damage = damage;

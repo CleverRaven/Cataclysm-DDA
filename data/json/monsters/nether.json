@@ -83,7 +83,7 @@
     "melee_dice_sides": 4,
     "melee_cut": 0,
     "dodge": 1,
-    "harvest": "human",
+    "harvest": "demihuman",
     "special_attacks": [ [ "SHRIEK", 10 ] ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SMELLS", "HEARS", "WARM", "ANIMAL", "PATH_AVOID_DANGER_1", "SUNDEATH", "NO_BREATHE", "HUMAN" ]
@@ -264,6 +264,7 @@
     "vision_night": 40,
     "luminance": 25,
     "harvest": "zombie_meatslug",
+    "//": "Add a demihuman alien anatomy for things like flaming eye's and Mi-go, polyps and other lovecraftian horrors from other dimensions",
     "special_attacks": [ [ "STARE", 12 ] ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "WARM", "FLIES", "FIREY", "NO_BREATHE", "NOHEAD" ]
@@ -503,7 +504,7 @@
     "armor_bash": 6,
     "armor_cut": 12,
     "armor_bullet": 10,
-    "harvest": "human",
+    "harvest": "demihuman",
     "special_attacks": [ [ "ACID", 15 ] ],
     "anger_triggers": [ "PLAYER_WEAK", "FRIEND_DIED" ],
     "death_function": [ "NORMAL" ],
@@ -571,6 +572,7 @@
     "armor_cut": 5,
     "armor_bullet": 4,
     "vision_day": 50,
+    "//": "a good candidate for an alien anatomy harvest",
     "harvest": "exempt",
     "path_settings": { "max_dist": 10 },
     "death_function": [ "MELT" ],
@@ -764,7 +766,7 @@
     "melee_dice_sides": 4,
     "melee_cut": 0,
     "dodge": 6,
-    "harvest": "human",
+    "harvest": "demihuman",
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "GOODHEARING", "POISON", "HUMAN", "CLIMBS" ]
   },

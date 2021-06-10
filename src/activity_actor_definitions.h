@@ -647,6 +647,10 @@ class craft_activity_actor : public activity_actor
 
         float activity_override = NO_EXERCISE;
         cata::optional<requirement_data> cached_continuation_requirements;
+        float cached_crafting_speed;
+        int cached_assistants;
+        double cached_base_total_moves;
+        double cached_cur_total_moves;
 
         bool check_if_craft_okay( item_location &craft_item, Character &crafter );
     public:
