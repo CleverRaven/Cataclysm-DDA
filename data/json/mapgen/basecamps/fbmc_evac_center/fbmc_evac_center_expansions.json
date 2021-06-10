@@ -1,0 +1,128 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": [ "faction_base_evac_center_garage_0" ],
+    "method": "json",
+    "object": { "fill_ter": "t_dirt" }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "faction_base_evac_center_bathroom_0" ],
+    "method": "json",
+    "object": { "fill_ter": "t_dirt" }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "faction_base_evac_center_dormitory_0" ],
+    "method": "json",
+    "object": { "fill_ter": "t_dirt" }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "faction_base_evac_center_command_0" ],
+    "method": "json",
+    "object": { "fill_ter": "t_dirt" }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "faction_base_evac_center_warehouse_0" ],
+    "method": "json",
+    "object": { "fill_ter": "t_dirt" }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "faction_base_evac_center_entrance_0" ],
+    "method": "json",
+    "object": { "fill_ter": "t_dirt" }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "faction_base_evac_center_workshop_0" ],
+    "method": "json",
+    "object": { "fill_ter": "t_dirt" }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "faction_base_evac_center_garage_0",
+    "method": "json",
+    "object": { "set": [ { "point": "furniture", "id": "f_null", "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "faction_base_evac_center_bathroom_0",
+    "method": "json",
+    "object": { "set": [ { "point": "furniture", "id": "f_null", "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "faction_base_evac_center_dormitory_0",
+    "method": "json",
+    "object": { "set": [ { "point": "furniture", "id": "f_null", "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "faction_base_evac_center_command_0",
+    "method": "json",
+    "object": { "set": [ { "point": "furniture", "id": "f_null", "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "faction_base_evac_center_warehouse_0",
+    "method": "json",
+    "object": { "set": [ { "point": "furniture", "id": "f_null", "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "faction_base_evac_center_entrance_0",
+    "method": "json",
+    "object": { "set": [ { "point": "furniture", "id": "f_null", "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "faction_base_evac_center_workshop_0",
+    "method": "json",
+    "object": { "set": [ { "point": "furniture", "id": "f_null", "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "faction_base_evac_center_workshop_1",
+    "method": "json",
+    "object": {
+      "set": [
+        { "point": "furniture", "id": "f_workbench", "x": 7, "y": 7 },
+        { "point": "furniture", "id": "f_workbench", "x": 8, "y": 7 },
+        { "point": "furniture", "id": "f_kiln_empty", "x": 9, "y": 7 },
+        { "point": "furniture", "id": "f_forge_rock", "x": 10, "y": 7 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "faction_base_evac_center_workshop_2",
+    "method": "json",
+    "object": {
+      "set": [
+        { "point": "furniture", "id": "f_rack", "x": 7, "y": 11 },
+        { "point": "furniture", "id": "f_workbench", "x": 8, "y": 11 },
+        { "point": "furniture", "id": "f_workbench", "x": 9, "y": 11 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "faction_base_evac_center_workshop_3",
+    "method": "json",
+    "object": {
+      "set": [
+        { "point": "furniture", "id": "f_forge_rock", "x": 10, "y": 11 },
+        { "point": "furniture", "id": "f_workbench", "x": 11, "y": 11 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "faction_base_evac_center_workshop_4",
+    "method": "json",
+    "object": { "set": [ { "point": "furniture", "id": "f_drophammer", "x": 9, "y": 9 } ] }
+  }
+]

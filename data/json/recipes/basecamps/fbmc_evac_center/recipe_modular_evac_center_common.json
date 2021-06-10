@@ -1,0 +1,58 @@
+[
+  {
+    "type": "recipe",
+    "result": "faction_base_evac_center_0",
+    "description": "We should survey the base site and set up a bulletin board.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "skill_used": "fabrication",
+    "autolearn": false,
+    "never_learn": true,
+    "time": "1 h",
+    "construction_blueprint": "fbmc_evac_center_0",
+    "blueprint_provides": [ { "id": "fbmc_evac_center_0" } ],
+    "blueprint_requires": [ { "id": "not_an_upgrade" } ],
+    "blueprint_name": "basic survey",
+    "check_blueprint_needs": false
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_evac_center_cleanup",
+    "description": "We need space for our survivors, you know what to do.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_evac_center_cleanup",
+    "blueprint_name": "clean up evac center",
+    "blueprint_provides": [
+      { "id": "fbmc_evac_center_cleanup" },
+      { "id": "bed", "amount": 16 },
+      { "id": "radio" },
+      { "id": "pantry" },
+      { "id": "gathering" },
+      { "id": "foraging" },
+      { "id": "firewood" },
+      { "id": "sorting" },
+      { "id": "logging" },
+      { "id": "trapping" },
+      { "id": "hunting" },
+      { "id": "primitive_camp_recipes_1" },
+      { "id": "kitchen" },
+      { "id": "kitchen_recipes_1" },
+      { "id": "kitchen_recipes_2" },
+      { "id": "kitchen_recipes_3" },
+      { "id": "saltworks_recipes_1" },
+      { "id": "saltworks_recipes_2" },
+      { "id": "saltworks_recipes_3" }
+    ],
+    "blueprint_requires": [ { "id": "fbmc_evac_center_0" } ],
+    "blueprint_excludes": [ { "id": "fbmc_evac_center_cleanup" } ],
+    "blueprint_needs": {
+      "time": "0 h",
+      "skills": [  ],
+      "inline": { "tools": [  ], "qualities": [  ], "components": [ [ [ "corpse_generic_human", 30 ] ] ] }
+    },
+    "check_blueprint_needs": false
+  }
+]

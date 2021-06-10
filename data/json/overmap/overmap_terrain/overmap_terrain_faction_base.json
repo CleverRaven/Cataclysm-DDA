@@ -189,5 +189,61 @@
     "name": "canteen survey",
     "color": "i_green",
     "delete": { "flags": [ "SOURCE_PEOPLE" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_evac_center_garage_0",
+    "name": "evac center base garage",
+    "sym": "+",
+    "color": "white",
+    "flags": [ "SOURCE_PEOPLE", "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_evac_center_bathroom_0",
+    "name": "evac center base bathroom",
+    "sym": "+",
+    "color": "white",
+    "flags": [ "SOURCE_PEOPLE", "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_evac_center_dormitory_0",
+    "name": "evac center base dormitory",
+    "sym": "+",
+    "color": "white",
+    "flags": [ "SOURCE_PEOPLE", "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_evac_center_command_0",
+    "name": "evac center base command",
+    "sym": "+",
+    "color": "white",
+    "flags": [ "SOURCE_PEOPLE", "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_evac_center_warehouse_0",
+    "name": "evac center base warehouse",
+    "sym": "+",
+    "color": "white",
+    "flags": [ "SOURCE_PEOPLE", "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_evac_center_entrance_0",
+    "name": "evac center base entrance",
+    "sym": "+",
+    "color": "white",
+    "flags": [ "SOURCE_PEOPLE", "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_evac_center_workshop_0",
+    "name": "evac center base workshop",
+    "sym": "+",
+    "color": "white",
+    "flags": [ "SOURCE_PEOPLE", "NO_ROTATE" ]
   }
 ]

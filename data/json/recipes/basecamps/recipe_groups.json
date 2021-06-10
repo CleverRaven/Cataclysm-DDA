@@ -24,7 +24,8 @@
         "id": "faction_base_shelter_2_0",
         "description": "Central Stairs Evac Shelter Base",
         "om_terrains": [ "shelter_2", "shelter_2_vandal" ]
-      }
+      },
+      { "id": "faction_base_evac_center_0", "description": "Evac Center Base", "om_terrains": [ "evac_center_13" ] }
     ]
   },
   {
@@ -38,7 +39,42 @@
       { "id": "faction_base_livestock_0", "description": "Livestock Area", "om_terrains": [ "field" ] },
       { "id": "faction_base_storehouse_0", "description": "Central Storage Building", "om_terrains": [ "field" ] },
       { "id": "faction_base_saltworks_0", "description": "Saltworks Area", "om_terrains": [ "field" ] },
-      { "id": "faction_base_workshop_0", "description": "Fabrication Workshop", "om_terrains": [ "field" ] }
+      { "id": "faction_base_workshop_0", "description": "Fabrication Workshop", "om_terrains": [ "field" ] },
+      {
+        "id": "faction_base_evac_center_garage_0",
+        "description": "Evac Center's Garage",
+        "om_terrains": [ "evac_center_8" ]
+      },
+      {
+        "id": "faction_base_evac_center_bathroom_0",
+        "description": "Evac Center's Bathroom",
+        "om_terrains": [ "evac_center_12", "evac_center_14" ]
+      },
+      {
+        "id": "faction_base_evac_center_dormitory_0",
+        "description": "Evac Center's Dormitory",
+        "om_terrains": [ "evac_center_7" ]
+      },
+      {
+        "id": "faction_base_evac_center_command_0",
+        "description": "Evac Center's Command",
+        "om_terrains": [ "evac_center_17" ]
+      },
+      {
+        "id": "faction_base_evac_center_warehouse_0",
+        "description": "Evac Center's Warehouse",
+        "om_terrains": [ "evac_center_19" ]
+      },
+      {
+        "id": "faction_base_evac_center_entrance_0",
+        "description": "Evac Center's Entrance",
+        "om_terrains": [ "evac_center_18" ]
+      },
+      {
+        "id": "faction_base_evac_center_workshop_0",
+        "description": "Evac Center's Workshop",
+        "om_terrains": [ "evac_center_9" ]
+      }
     ]
   },
   {
