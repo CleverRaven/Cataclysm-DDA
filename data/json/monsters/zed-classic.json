@@ -483,6 +483,15 @@
       "FILTHY"
     ]
   },
+  { "id": "mon_zombie_milbase_personnel",
+    "type": "MONSTER",
+    "name": { "str": "uniformed zombie" },
+    "description": "This undead soldier is adorned in standard military fatigues.",
+    "copy-from": "mon_zombie",
+    "looks_like": "mon_zombie",
+    "upgrades": { "half_life": 14, "into_group": "GROUP_ZOMBIE_UPGRADE" },
+    "death_drops": "mon_zombie_milbase_personnel_death_drops"
+  },
   {
     "id": "mon_zombie_resort_dancer",
     "type": "MONSTER",

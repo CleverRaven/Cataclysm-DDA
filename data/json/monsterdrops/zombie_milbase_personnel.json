@@ -7,10 +7,12 @@
     "ammo": 60,
     "entries": [
       { "group": "clothing_military", "damage": [ 1, 4 ] },
-      { "item": "holster", "contents-group": "military_standard_pistols", "prob": 5 },
-      { "item": "two_way_radio", "prob": 15 },
-      { "group": "wallets_military", "prob": 10 },
-      { "group": "military_patrol_food", "prob": 10 },
+      { "group": "gear_soldier_sidearm", "prob": 10 },
+      { "item": "two_way_radio", "charges": [ 0, 300 ], "prob": 15 },
+      { "group": "wallets_military", "prob": 5 },
+      { "group": "clothing_glasses", "damage": [ 0, 4 ], "prob": 5 },
+      { "item": "wristwatch", "damage": [ 0, 4 ], "prob": 5 },
+      { "group": "mil_food_nodrugs", "prob": 15 },
       { "group": "misc_smoking", "prob": 10 }
     ]
   }
