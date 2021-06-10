@@ -113,7 +113,7 @@
     "price": 9000,
     "price_postapoc": 250,
     "bashing": 5,
-    "material": [ "leather" ],
+    "material": [ "leather", "steel" ],
     "symbol": "[",
     "color": "brown",
     "covers": [ "torso" ],

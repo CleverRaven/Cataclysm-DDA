@@ -61,6 +61,9 @@
 #       if defined(LIBBACKTRACE)
 #           include <backtrace.h>
 #       endif
+#   elif defined(__ANDROID__)
+#       include <unwind.h>
+#       include <dlfcn.h>
 #   else
 #       include <execinfo.h>
 #       include <unistd.h>
@@ -597,7 +600,7 @@ static std::ostream &operator<<( std::ostream &out, DebugClass cl )
 }
 
 #if defined(BACKTRACE)
-#if !defined(_WIN32) && !defined(__CYGWIN__)
+#if !defined(_WIN32) && !defined(__CYGWIN__) && !defined(__ANDROID__)
 // Verify that a string is safe for passing as an argument to addr2line.
 // In particular, we want to avoid any characters of significance to the shell.
 static bool debug_is_safe_string( const char *start, const char *finish )
@@ -790,7 +793,7 @@ static SYMBOL_INFO &sym = reinterpret_cast<SYMBOL_INFO &>( sym_storage );
 #if defined(LIBBACKTRACE)
 static std::map<DWORD64, backtrace_state *> bt_states;
 #endif
-#else
+#elif !defined(__ANDROID__)
 static constexpr int bt_cnt = 20;
 static void *bt[bt_cnt];
 #endif
@@ -824,10 +827,10 @@ static std::string demangle( const char *symbol )
     return std::string( symbol );
 }
 
-#if !defined(_WIN32)
+#if !defined(_WIN32) && !defined(__ANDROID__)
 static void write_demangled_frame( std::ostream &out, const char *frame )
 {
-#if defined(__linux__) && !defined(__ANDROID__)
+#if defined(__linux__)
     // ./cataclysm(_ZN4game13handle_actionEv+0x47e8) [0xaaaae91e80fc]
     static const std::regex symbol_regex( R"(^(.*)\((.*)\+(0x?[a-f0-9]*)\)\s\[(0x[a-f0-9]+)\]$)" );
     std::cmatch match_result;
@@ -872,8 +875,9 @@ static void write_demangled_frame( std::ostream &out, const char *frame )
     out << "\n    " << frame;
 #endif
 }
-#endif // !defined(_WIN32)
+#endif // !defined(_WIN32) && !defined(__ANDROID__)
 
+#if !defined(__ANDROID__)
 void debug_write_backtrace( std::ostream &out )
 {
 #if defined(_WIN32)
@@ -1110,6 +1114,51 @@ void debug_write_backtrace( std::ostream &out )
     free( funcNames );
 #   endif
 #endif
+}
+#endif
+#endif
+
+// Probably because there are too many nested #if..#else..#endif in this file
+// NDK compiler doesn't understand #if defined(__ANDROID__)..#else..#endif
+// So write as two separate #if blocks
+#if defined(__ANDROID__)
+
+// The following Android backtrace code was originally written by Eugene Shapovalov
+// on https://stackoverflow.com/questions/8115192/android-ndk-getting-the-backtrace
+struct android_backtrace_state {
+    void **current;
+    void **end;
+};
+
+static _Unwind_Reason_Code unwindCallback( struct _Unwind_Context *context, void *arg )
+{
+    android_backtrace_state *state = static_cast<android_backtrace_state *>( arg );
+    uintptr_t pc = _Unwind_GetIP( context );
+    if( pc ) {
+        if( state->current == state->end ) {
+            return _URC_END_OF_STACK;
+        } else {
+            *state->current++ = reinterpret_cast<void *>( pc );
+        }
+    }
+    return _URC_NO_REASON;
+}
+
+void debug_write_backtrace( std::ostream &out )
+{
+    const size_t max = 50;
+    void *buffer[max];
+    android_backtrace_state state = {buffer, buffer + max};
+    _Unwind_Backtrace( unwindCallback, &state );
+    const std::size_t count = state.current - buffer;
+    // Start from 1: skip debug_write_backtrace ourselves
+    for( size_t idx = 1; idx < count && idx < max; ++idx ) {
+        const void *addr = buffer[idx];
+        Dl_info info;
+        if( dladdr( addr, &info ) && info.dli_sname ) {
+            out << "#" << std::setw( 2 ) << idx << ": " << addr << " " << demangle( info.dli_sname ) << "\n";
+        }
+    }
 }
 #endif
 

@@ -208,6 +208,17 @@ int weariness_events::transition_minutes( const int from, const int to,
     return ret.first;
 }
 
+bool weariness_events::have_weary_decrease() const
+{
+    for( const weary_transition &change : transitions ) {
+        if( change.from > change.to ) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 std::string weariness_events::summarize() const
 {
     std::string buffer;

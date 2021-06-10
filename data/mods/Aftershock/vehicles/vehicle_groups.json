@@ -15,8 +15,6 @@
     "vehicles": [
       [ "afs_sports_bike", 300 ],
       [ "afs_electric_semi", 300 ],
-      [ "afs_gas_tanker", 300 ],
-      [ "afs_water_tanker", 250 ],
       [ "car_atomic", 1000 ],
       [ "car_sports_atomic", 100 ],
       [ "suv_atomic", 1000 ],
@@ -47,7 +45,7 @@
   {
     "id": "highway",
     "type": "vehicle_group",
-    "vehicles": [ [ "afs_electric_semi", 300 ], [ "afs_gas_tanker", 250 ], [ "afs_water_tanker", 200 ] ]
+    "vehicles": [ [ "afs_electric_semi", 300 ] ]
   },
   {
     "id": "afs_lab_cars",

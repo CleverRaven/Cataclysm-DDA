@@ -1,5 +1,11 @@
 [
   {
+    "type": "item_group",
+    "id": "NC_ARSONIST_storage",
+    "subtype": "distribution",
+    "entries": [ { "item": "golf_bag", "prob": 100 } ]
+  },
+  {
     "type": "npc",
     "id": "arsonist",
     "//": "Appears in the refugee center as a unique trader and potential mission provider.",

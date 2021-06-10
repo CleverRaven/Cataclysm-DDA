@@ -17,6 +17,7 @@
 
 #include "avatar.h"
 #include "bodypart.h"
+#include "cached_options.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
@@ -476,7 +477,7 @@ bool Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
         add_msg_if_player( m_info, _( "You lack the substance to affect anything." ) );
         return false;
     }
-    if( !is_adjacent( &t, true ) ) {
+    if( !is_adjacent( &t, fov_3d ) ) {
         return false;
     }
     return melee_attack_abstract( t, allow_special, force_technique, allow_unarmed );

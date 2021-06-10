@@ -770,6 +770,7 @@ class inventory_iuse_selector : public inventory_multiselector
     private:
         GetStats get_stats;
         std::map<const item_location *, int> to_use;
+        std::vector<item_location> usable_locs;
         size_t max_chosen_count;
 };
 
