@@ -497,7 +497,8 @@
         { "item": "element", "count": [ 10, 25 ] },
         { "item": "scrap", "count": [ 12, 16 ] }
       ]
-    }
+    },
+    "crafting_pseudo_item": "fake_arc_furnace"
   },
   {
     "type": "furniture",
@@ -534,7 +535,8 @@
         { "item": "plastic_chunk", "count": [ 4, 14 ] },
         { "item": "motor_small", "count": 1 }
       ]
-    }
+    },
+    "crafting_pseudo_item": "fake_drill_press"
   },
   {
     "type": "furniture",
@@ -572,7 +574,8 @@
         { "item": "plastic_chunk", "count": [ 4, 14 ] },
         { "item": "motor_small", "count": 1 }
       ]
-    }
+    },
+    "crafting_pseudo_item": "fake_tablesaw"
   },
   {
     "type": "furniture",
@@ -610,7 +613,8 @@
         { "item": "plastic_chunk", "count": [ 4, 14 ] },
         { "item": "motor_small", "count": 1 }
       ]
-    }
+    },
+    "crafting_pseudo_item": "fake_mitresaw"
   },
   {
     "type": "furniture",
@@ -647,7 +651,8 @@
         { "item": "plastic_chunk", "count": [ 4, 14 ] },
         { "item": "motor_small", "count": 1 }
       ]
-    }
+    },
+    "crafting_pseudo_item": "fake_bandsaw"
   },
   {
     "type": "furniture",
@@ -684,7 +689,8 @@
         { "item": "plastic_chunk", "count": [ 4, 14 ] },
         { "item": "motor_small", "count": 1 }
       ]
-    }
+    },
+    "crafting_pseudo_item": "fake_router_table"
   },
   {
     "type": "furniture",
@@ -721,7 +727,8 @@
         { "item": "plastic_chunk", "count": [ 4, 14 ] },
         { "item": "motor_small", "count": 1 }
       ]
-    }
+    },
+    "crafting_pseudo_item": "fake_planer"
   },
   {
     "type": "furniture",
@@ -758,7 +765,8 @@
         { "item": "plastic_chunk", "count": [ 4, 14 ] },
         { "item": "motor_small", "count": 1 }
       ]
-    }
+    },
+    "crafting_pseudo_item": "fake_jointer"
   },
   {
     "type": "furniture",
@@ -795,7 +803,8 @@
         { "item": "chain", "count": [ 0, 1 ] },
         { "item": "motor_small", "count": 1 }
       ]
-    }
+    },
+    "crafting_pseudo_item": "fake_hydraulic_press"
   },
   {
     "type": "furniture",
@@ -829,7 +838,8 @@
         { "item": "pipe", "count": [ 0, 4 ] },
         { "item": "motor_small", "count": 1 }
       ]
-    }
+    },
+    "crafting_pseudo_item": "fake_power_lathe"
   },
   {
     "type": "furniture",
@@ -872,7 +882,8 @@
         { "item": "e_scrap", "count": [ 5, 10 ] },
         { "item": "plastic_chunk", "count": [ 0, 2 ] }
       ]
-    }
+    },
+    "crafting_pseudo_item": "fake_air_compressor"
   },
   {
     "type": "furniture",
