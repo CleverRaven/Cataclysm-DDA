@@ -1,0 +1,17 @@
+[
+  {
+    "id": "mon_zombie_milbase_personnel_death_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "magazine": 100,
+    "ammo": 60,
+    "entries": [
+      { "group": "clothing_military", "damage": [ 1, 4 ] },
+      { "item": "holster", "contents-group": "military_standard_pistols", "prob": 5 },
+      { "item": "two_way_radio", "prob": 15 },
+      { "group": "wallets_military", "prob": 10 },
+      { "group": "military_patrol_food", "prob": 10 },
+      { "group": "misc_smoking", "prob": 10 }
+    ]
+  }
+]
