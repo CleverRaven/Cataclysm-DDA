@@ -24,6 +24,16 @@
         "id": "faction_base_shelter_2_0",
         "description": "Central Stairs Evac Shelter Base",
         "om_terrains": [ "shelter_2", "shelter_2_vandal" ]
+      },
+      {
+        "id": "faction_base_radio_tower_0",
+        "description": "Radio Tower Without Building Base",
+        "om_terrains": [ "radio_tower" ]
+      },
+      {
+        "id": "faction_base_radio_tower_1_0",
+        "description": "Radio Tower With Building Base",
+        "om_terrains": [ "radio_tower_1" ]
       }
     ]
   },
