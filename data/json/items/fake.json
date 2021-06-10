@@ -172,5 +172,94 @@
     "sub": "char_smoker",
     "max_charges": 2000,
     "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ]
+  },
+  {
+    "id": "fake_power_tool",
+    "type": "TOOL",
+    "copy-from": "fake_item",
+    "name": { "str": "fake power tool" },
+    "ammo": [ "battery" ],
+    "pocket_data": [
+	  {
+	    "pocket_type": "MAGAZINE_WELL",
+		"holster": true,
+		"rigid": false,
+		"max_contains_volume": "50 L",
+		"max_contains_weight": "400 kg",
+		"item_restriction": [
+		  "storage_battery",
+		  "medium_storage_battery",
+		  "large_storage_battery"
+		]
+	  }
+	],
+	"//": "For now, it can't be reloaded by examining furniture",
+    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ]
+  },
+  {
+    "id": "fake_arc_furnace",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "electric arc furnace" }
+  },
+  {
+    "id": "fake_drill_press",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "drill press" }
+  },
+  {
+    "id": "fake_tablesaw",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "tablesaw" }
+  },
+  {
+    "id": "fake_mitresaw",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "mitresaw" }
+  },
+  {
+    "id": "fake_bandsaw",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "bandsaw" }
+  },
+  {
+    "id": "fake_router_table",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "router table" }
+  },
+  {
+    "id": "fake_planer",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "planer" }
+  },
+  {
+    "id": "fake_jointer",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "jointer" }
+  },
+  {
+    "id": "fake_hydraulic_press",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "hydraulic press" }
+  },
+  {
+    "id": "fake_power_lathe",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "power lathe" }
+  },
+  {
+    "id": "fake_air_compressor",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "air compressor" }
   }
 ]
