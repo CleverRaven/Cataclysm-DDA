@@ -187,7 +187,10 @@
     "blueprint_name": "fix whole radio tower",
     "blueprint_requires": [ { "id": "bed", "amount": 12 }, { "id": "fbmc_radio_tower_palisade" }, { "id": "fbmc_radio_tower_fix_controls" } ],
     "blueprint_provides": [
-      { "id": "faction_base_radio_tower_fix_tower" }
+      { "id": "faction_base_radio_tower_fix_tower" },
+      { "id": "hack_recipes_general" },
+      { "id": "hack_recipes_science" },
+      { "id": "hack_recipes_satellite" }
     ],
     "blueprint_excludes": [ { "id": "faction_base_radio_tower_fix_tower" } ],
     "using": [ [ "soldering_standard", 200 ], [ "welding_standard", 80 ] ],
