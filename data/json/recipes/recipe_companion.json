@@ -208,5 +208,21 @@
     "tools": [ [ [ "laptop", 480 ] ], [ [ "software_hacking", -1 ] ] ],
     "components": [ [ [ "usb_drive", 1 ] ] ],
     "container": "usb_drive"
+  },
+  {
+    "type": "recipe",
+    "activity_level": "fake",
+    "result": "satellitemap",
+    "id_suffix": "npc_hack",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "computer",
+    "difficulty": 8,
+    "time": "480 m",
+    "autolearn": false,
+    "never_learn": true,
+    "skills_required": [ [ "computer", 8 ] ],
+    "tools": [ [ [ "laptop", 600 ] ], [ [ "pencil", 50 ] ], [ [ "software_hacking", -1 ] ] ],
+    "components": [ [ [ "paper", 25 ] ] ]
   }
 ]

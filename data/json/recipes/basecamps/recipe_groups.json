@@ -304,5 +304,11 @@
         "description": " Hack & Download: IC datasheet archives, USB drive"
       }
     ]
+  },
+  {
+    "type": "recipe_group",
+    "id": "hack_recipes_satellite",
+    "building_type": "BASE",
+    "recipes": [ { "id": "satellitemap_npc_hack", "description": " Hack & Download: Satellite Map, sketch" } ]
   }
 ]
