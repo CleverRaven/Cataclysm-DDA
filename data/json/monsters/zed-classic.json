@@ -483,7 +483,8 @@
       "FILTHY"
     ]
   },
-  { "id": "mon_zombie_milbase_personnel",
+  {
+    "id": "mon_zombie_milbase_personnel",
     "type": "MONSTER",
     "name": { "str": "uniformed zombie" },
     "description": "This undead soldier is adorned in standard military fatigues.",
