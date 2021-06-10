@@ -92,6 +92,7 @@ static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
 static const std::string flag_FLAT( "FLAT" );
 static const std::string flag_INITIAL_PART( "INITIAL_PART" );
 static const std::string flag_SUPPORTS_ROOF( "SUPPORTS_ROOF" );
+static const std::string flag_NO_FLOOR( "NO_FLOOR" );
 
 static bool finalized = false;
 
@@ -106,11 +107,11 @@ static bool check_nothing( const tripoint & )
 bool check_empty( const tripoint & ); // tile is empty
 bool check_support( const tripoint & ); // at least two orthogonal supports
 bool check_support_passable( const tripoint & ); // at least two orthogonal supports and passable
-bool check_support_up_empty( const tripoint & ); // 2+ supports, passable and open air above
+bool check_support_up_empty( const tripoint & ); // 2+ supports, passable and NO_FLOOR above
 bool check_support_below( const tripoint & ); // at least two orthogonal supports below
-bool check_stable( const tripoint & ); // tile below has flag support roof
-bool check_empty_stable( const tripoint & ); // tile is empty, tile below has flag support roof
-bool check_open_air_above( const tripoint & ); // above this tile is open air
+bool check_stable( const tripoint & ); // tile below has a flag SUPPORTS_ROOF
+bool check_empty_stable( const tripoint & ); // tile is empty, tile below has a flag SUPPORTS_ROOF
+bool check_nofloor_above( const tripoint & ); // tile above has a flag NO_FLOOR
 bool check_deconstruct( const tripoint & ); // either terrain or furniture must be deconstructible
 bool check_empty_up_OK( const tripoint & ); // tile is empty and below OVERMAP_HEIGHT
 bool check_up_OK( const tripoint & ); // tile is below OVERMAP_HEIGHT
@@ -1083,7 +1084,7 @@ void complete_construction( player *p )
                 const int_id<ter_t> post_terrain = ter_id( built.post_terrain );
                 if( post_terrain->roof ) {
                     const tripoint top = terp + tripoint_above;
-                    if( here.ter( top ) == t_open_air ) {
+                    if( here.has_flag( flag_NO_FLOOR, top ) ) {
                         here.ter_set( top, ter_id( post_terrain->roof ) );
                     }
                 }
@@ -1157,7 +1158,7 @@ bool construct::check_support_below( const tripoint &p )
 
 bool construct::check_support_up_empty( const tripoint &p )
 {
-    return check_support_passable( p ) && check_up_OK( p ) && check_open_air_above( p );
+    return check_support_passable( p ) && check_up_OK( p ) && check_nofloor_above( p );
 }
 
 bool construct::check_stable( const tripoint &p )
@@ -1170,9 +1171,9 @@ bool construct::check_empty_stable( const tripoint &p )
     return check_empty( p ) && check_stable( p );
 }
 
-bool construct::check_open_air_above( const tripoint &p )
+bool construct::check_nofloor_above( const tripoint &p )
 {
-    return get_map().ter( p + tripoint_above ) == t_open_air;
+    return get_map().has_flag( flag_NO_FLOOR, p + tripoint_above );
 }
 
 bool construct::check_deconstruct( const tripoint &p )
@@ -1209,7 +1210,7 @@ bool construct::check_no_trap( const tripoint &p )
 
 bool construct::check_ramp_high( const tripoint &p )
 {
-    if( check_empty_stable( p ) && check_up_OK( p ) && check_open_air_above( p ) ) {
+    if( check_empty_stable( p ) && check_up_OK( p ) && check_nofloor_above( p ) ) {
         for( const point &car_d : four_cardinal_directions ) {
             // check adjacent points on the z-level above for a completed down ramp
             if( get_map().has_flag( TFLAG_RAMP_DOWN, p + car_d + tripoint_above ) ) {
@@ -1222,7 +1223,7 @@ bool construct::check_ramp_high( const tripoint &p )
 
 bool construct::check_ramp_low( const tripoint &p )
 {
-    return check_empty_stable( p ) && check_up_OK( p ) && check_open_air_above( p );
+    return check_empty_stable( p ) && check_up_OK( p ) && check_nofloor_above( p );
 }
 
 void construct::done_trunk_plank( const tripoint &/*p*/ )
@@ -1668,7 +1669,7 @@ void load_construction( const JsonObject &jo )
             { "check_support_up_empty", construct::check_support_up_empty },
             { "check_stable", construct::check_stable },
             { "check_empty_stable", construct::check_empty_stable },
-            { "check_open_air_above", construct::check_open_air_above },
+            { "check_nofloor_above", construct::check_nofloor_above },
             { "check_deconstruct", construct::check_deconstruct },
             { "check_empty_up_OK", construct::check_empty_up_OK },
             { "check_up_OK", construct::check_up_OK },
