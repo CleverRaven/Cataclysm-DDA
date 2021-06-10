@@ -848,6 +848,7 @@
     "weight": "81500 g",
     "hp": 90,
     "speed": 140,
+    "attack_cost": 110,
     "material": [ "flesh" ],
     "symbol": "Z",
     "color": "brown_green",
@@ -1325,6 +1326,7 @@
     "weight": "81500 g",
     "hp": 80,
     "speed": 50,
+    "attack_cost": 80
     "material": [ "veggy" ],
     "symbol": "Z",
     "color": "light_green",

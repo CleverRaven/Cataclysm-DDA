@@ -12,6 +12,7 @@
     "weight": "120 kg",
     "hp": 30,
     "speed": 40,
+    "attack_cost": 70,
     "material": [ "flesh" ],
     "symbol": "Z",
     "color": "light_gray_magenta",
@@ -326,6 +327,7 @@
     "weight": "81500 g",
     "hp": 60,
     "speed": 45,
+    "attack_cost": 80,
     "material": [ "flesh" ],
     "symbol": "Z",
     "color": "light_gray",
@@ -359,6 +361,7 @@
     "weight": "81500 g",
     "hp": 10,
     "speed": 50,
+    "attack_cost": 80
     "material": [ "flesh" ],
     "symbol": "Z",
     "color": "magenta_yellow",

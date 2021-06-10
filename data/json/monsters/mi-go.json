@@ -269,6 +269,7 @@
     "weight": "90 kg",
     "hp": 200,
     "speed": 150,
+    "attack_cost": 130,
     "material": [ "flesh" ],
     "symbol": "&",
     "color": "red",
