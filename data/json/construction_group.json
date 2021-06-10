@@ -316,8 +316,13 @@
   },
   {
     "type": "construction_group",
-    "id": "build_floor_primitive",
+    "id": "build_primitive_floor_with_sod_roof",
     "name": "Build Primitive Floor With Sod Roof"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_floor_primitive",
+    "name": "Build Primitive Floor (no roof)"
   },
   {
     "type": "construction_group",
@@ -537,6 +542,11 @@
   {
     "type": "construction_group",
     "id": "build_dirt_floor",
+    "name": "Build Dirt Floor (no roof)"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_dirt_floor_with_roof",
     "name": "Build Dirt Floor With Shingle Roof"
   },
   {

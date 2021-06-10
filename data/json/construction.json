@@ -1402,7 +1402,7 @@
   {
     "type": "construction",
     "id": "constr_floor_primitive",
-    "group": "build_floor_primitive",
+    "group": "build_primitive_floor_with_sod_roof",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "120 m",
@@ -1419,11 +1419,23 @@
   },
   {
     "type": "construction",
+    "id": "constr_floor_primitive_noroof",
+    "group": "build_floor_primitive",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 4 ] ],
+    "time": "60 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [ [ [ "log", 1 ] ], [ [ "stick", 2 ], [ "2x4", 4 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "t_floor_primitive_noroof"
+  },
+  {
+    "type": "construction",
     "id": "constr_log_sod_roof_above",
     "group": "build_log_sod_roof",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ] ],
-    "time": "120 m",
+    "time": "100 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [
       [ [ "log", 1 ] ],
@@ -1442,7 +1454,7 @@
     "group": "build_log_sod_roof",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ] ],
-    "time": "120 m",
+    "time": "80 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [
       [ [ "log", 1 ] ],
@@ -1458,7 +1470,7 @@
   {
     "type": "construction",
     "id": "constr_dirtfloor",
-    "group": "build_dirt_floor",
+    "group": "build_dirt_floor_with_roof",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "60 m",
@@ -1466,7 +1478,20 @@
     "components": [ [ [ "wood_panel", 1 ] ], [ [ "2x4", 8 ] ], [ [ "nail", 20 ] ] ],
     "pre_note": "Must be supported on at least two sides.",
     "pre_special": "check_support_passable",
+    "pre_terrain": "t_dirt",
     "post_terrain": "t_dirtfloor"
+  },
+  {
+    "type": "construction",
+    "id": "constr_dirtfloor_noroof",
+    "group": "build_dirt_floor",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "time": "5 m",
+    "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
+    "pre_special": "check_empty",
+    "pre_terrain": "t_dirt",
+    "post_terrain": "t_dirtfloor_no_roof"
   },
   {
     "type": "construction",
@@ -1488,7 +1513,7 @@
     "group": "build_shingle_roof",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ] ],
-    "time": "60 m",
+    "time": "40 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
     "components": [ [ [ "wood_panel", 1 ] ], [ [ "2x4", 8 ] ], [ [ "nail", 20 ] ] ],
     "pre_note": "Must be supported on at least two sides.",
