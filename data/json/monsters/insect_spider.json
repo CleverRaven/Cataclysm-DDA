@@ -124,7 +124,7 @@
     "name": { "str": "huge cockroach", "str_pl": "huge cockroaches" },
     "description": "A mutant cockroach the size of a small dog.",
     "copy-from": "mon_giant_cockroach",
-    "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
+    "proportional": { "hp": 0.5, "speed": 1.1, "attack_cost": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
     "volume": "15 L",
     "weight": "20 kg",
     "upgrades": { "half_life": 14, "into": "mon_giant_cockroach" }
@@ -1785,7 +1785,7 @@
     "name": { "str": "huge locust" },
     "description": "A yellow and brown mutated locust the size of a cat with big eyes and long powerful legs.",
     "copy-from": "mon_locust",
-    "proportional": { "hp": 0.5, "speed": 1.1, "attack_cost" 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
+    "proportional": { "hp": 0.5, "speed": 1.1, "attack_cost": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
     "volume": "15 L",
     "weight": "20 kg",
     "upgrades": { "half_life": 14, "into": "mon_locust" }
