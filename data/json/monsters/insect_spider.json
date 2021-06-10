@@ -1911,7 +1911,7 @@
     "id": "mon_mantis_giant",
     "type": "MONSTER",
     "name": { "str": "giant praying mantis" },
-    "description": "An enormous green creature grown about a size of a bear.  It dances weirdly and looks ready to chop your head off at any moment.",
+    "description": "An enormous green creature grown about the size of a bear.  It dances weirdly and looks ready to chop your head off at any moment.",
     "default_faction": "mantis",
     "bodytype": "insect",
     "species": [ "INSECT" ],
@@ -2059,7 +2059,7 @@
   {
     "id": "mon_grasshopper_giant",
     "type": "MONSTER",
-    "name": { "str": "giant grasshopper", "str_pl": "giant grasshoppers" },
+    "name": { "str": "giant grasshopper" },
     "description": "A huge green grasshopper about the size of a big dog, with long and strong back legs.  It hops, it hops and never stops.",
     "default_faction": "insect",
     "bodytype": "insect",
@@ -2173,7 +2173,7 @@
     "volume": "3 L",
     "weight": "4 kg",
     "melee_cut": 8,
-    "upgrades": { "half_life": 14, "into": "mon_mantis_giant" }
+    "upgrades": { "half_life": 14, "into": "mon_strider_giant" }
   },
   {
     "id": "mon_strider_giant",
@@ -2187,6 +2187,7 @@
     "weight": "12 kg",
     "hp": 20,
     "speed": 200,
+    "attack_cost": 200,
     "material": [ "iflesh" ],
     "symbol": "s",
     "color": "light_gray",
@@ -2206,6 +2207,6 @@
     "anger_triggers": [ "PLAYER_WEAK" ],
     "fear_triggers": [ "FIRE", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "POISON", "SEES", "HEARS", "SMELLS", "SWIMS" ]
+    "flags": ["POISON", "SEES", "HEARS", "SMELLS", "SWIMS", "AQUATIC" ]
   }
 ]
