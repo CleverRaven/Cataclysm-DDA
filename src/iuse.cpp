@@ -4733,12 +4733,14 @@ cata::optional<int> iuse::blood_draw( player *p, item *it, bool, const tripoint 
     item blood( "blood", calendar::turn );
     bool drew_blood = false;
     bool acid_blood = false;
+    float blood_temp = -1.0f;  //kelvins
     for( item &map_it : get_map().i_at( point( p->posx(), p->posy() ) ) ) {
         if( map_it.is_corpse() &&
             query_yn( _( "Draw blood from %s?" ),
                       colorize( map_it.tname(), map_it.color_in_inventory() ) ) ) {
             p->add_msg_if_player( m_info, _( "You drew blood from the %s…" ), map_it.tname() );
             drew_blood = true;
+            blood_temp = map_it.temperature * 0.00001;
             auto bloodtype( map_it.get_mtype()->bloodType() );
             if( bloodtype.obj().has_acid ) {
                 acid_blood = true;
@@ -4751,6 +4753,7 @@ cata::optional<int> iuse::blood_draw( player *p, item *it, bool, const tripoint 
     if( !drew_blood && query_yn( _( "Draw your own blood?" ) ) ) {
         p->add_msg_if_player( m_info, _( "You drew your own blood…" ) );
         drew_blood = true;
+        blood_temp = 310.15f;
         if( p->has_trait( trait_ACIDBLOOD ) ) {
             acid_blood = true;
         }
@@ -4765,6 +4768,7 @@ cata::optional<int> iuse::blood_draw( player *p, item *it, bool, const tripoint 
 
     if( acid_blood ) {
         item acid( "chem_sulphuric_acid", calendar::turn );
+        acid.set_item_temperature( blood_temp );
         it->put_in( acid, item_pocket::pocket_type::CONTAINER );
         if( one_in( 3 ) ) {
             if( it->inc_damage( damage_type::ACID ) ) {
@@ -4782,6 +4786,7 @@ cata::optional<int> iuse::blood_draw( player *p, item *it, bool, const tripoint 
         return it->type->charges_to_use();
     }
 
+    blood.set_item_temperature( blood_temp );
     it->put_in( blood, item_pocket::pocket_type::CONTAINER );
     return it->type->charges_to_use();
 }
