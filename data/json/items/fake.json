@@ -172,5 +172,19 @@
     "sub": "char_smoker",
     "max_charges": 2000,
     "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ]
+  },
+  {
+    "id": "fake_power_tool",
+    "type": "TOOL",
+    "copy-from": "fake_item",
+    "name": { "str": "fake power tool" },
+    "ammo": [ "battery" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO", "USE_UPS" ]
+  },
+  {
+    "id": "fake_oven",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "oven" }
   }
 ]
