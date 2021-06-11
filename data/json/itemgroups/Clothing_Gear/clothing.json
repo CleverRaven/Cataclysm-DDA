@@ -254,7 +254,7 @@
     "//": "add in field caps when they are added to the game.",
     "subtype": "distribution",
     "entries": [ 
-      { "item": "beret", "prob": 60, }, 
+      { "item": "beret", "prob": 60 }, 
       { "item": "hat_boonie", "prob": 38 }, 
       { "item": "turban", "prob": 1 }, 
       { "item": "headscarf", "prob": 1 } 
