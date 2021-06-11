@@ -76,12 +76,12 @@
     "blueprint_provides": [ { "id": "fbmk_smoking_area" } ],
     "blueprint_excludes": [ { "id": "fbmk_smoking_area" } ],
     "blueprint_needs": {
-      "time": "1 d 10 h 25 m",
-      "skills": [ [ "fabrication", 3 ] ],
+      "time": "2 d 8 h 25 m",
+      "skills": [ [ "survival", 2 ], [ "fabrication", 3 ] ],
       "inline": {
         "tools": [  ],
-        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 252 ] ], [ [ "nail", 448 ] ], [ [ "log", 24 ] ], [ [ "wood_panel", 22 ] ] ]
+        "qualities": [ [ { "id": "SAW_W", "level": 2 } ], [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
+        "components": [ [ [ "2x4", 252 ] ], [ [ "log", 24 ] ], [ [ "nail", 448 ] ], [ [ "wood_panel", 22 ] ] ]
       }
     }
   },

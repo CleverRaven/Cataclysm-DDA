@@ -32,7 +32,16 @@
   {
     "type": "recipe",
     "result": "faction_base_canteen_smoking_area_migo_resin",
-    "obsolete": true
+    "obsolete": true,
+    "blueprint_needs": {
+      "time": "1 d 23 h 25 m",
+      "skills": [ [ "survival", 2 ], [ "fabrication", 3 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "SAW_W", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
+        "components": [ [ [ "2x4", 180 ] ], [ [ "alien_pod_resin", 12 ] ], [ [ "nail", 448 ] ], [ [ "wood_panel", 22 ] ] ]
+      }
+    }
   },
   {
     "type": "recipe",

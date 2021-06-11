@@ -14,19 +14,19 @@
     "blueprint_provides": [ { "id": "fbmk_center" } ],
     "blueprint_excludes": [ { "id": "fbmk_center" } ],
     "blueprint_needs": {
-      "time": "1 d 1 h",
-      "skills": [ [ "fabrication", 3 ], [ "survival", 3 ] ],
+      "time": "1 d 12 h",
+      "skills": [ [ "survival", 3 ], [ "fabrication", 3 ] ],
       "inline": {
         "tools": [  ],
-        "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "qualities": [ [ { "id": "SAW_W", "level": 2 } ], [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
           [ [ "2x4", 181 ] ],
+          [ [ "cattail_stalk", 60 ], [ "dogbane", 60 ], [ "pine_bough", 60 ], [ "straw_pile", 60 ] ],
+          [ [ "clay_lump", 60 ], [ "material_limestone", 60 ], [ "material_quicklime", 60 ] ],
+          [ [ "material_sand", 150 ], [ "pebble", 150 ] ],
           [ [ "nail", 244 ] ],
-          [ [ "material_quicklime", 60 ], [ "material_limestone", 60 ], [ "clay_lump", 60 ] ],
-          [ [ "pebble", 150 ], [ "material_sand", 150 ] ],
-          [ [ "straw_pile", 60 ], [ "cattail_stalk", 60 ], [ "dogbane", 60 ], [ "pine_bough", 60 ] ],
+          [ [ "rope_6", 2 ], [ "rope_makeshift_6", 2 ] ],
           [ [ "water", 75 ], [ "water_clean", 75 ] ],
-          [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ] ],
           [ [ "wood_panel", 11 ] ]
         ]
       }
@@ -47,19 +47,19 @@
     "blueprint_provides": [ { "id": "fbmk_center2" } ],
     "blueprint_excludes": [ { "id": "fbmk_center2" } ],
     "blueprint_needs": {
-      "time": "1 d 10 h 50 m",
-      "skills": [ [ "fabrication", 3 ], [ "survival", 3 ] ],
+      "time": "2 d 2 h 50 m",
+      "skills": [ [ "survival", 3 ], [ "fabrication", 3 ] ],
       "inline": {
         "tools": [  ],
-        "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "qualities": [ [ { "id": "SAW_W", "level": 2 } ], [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
           [ [ "2x4", 259 ] ],
+          [ [ "cattail_stalk", 76 ], [ "dogbane", 76 ], [ "pine_bough", 76 ], [ "straw_pile", 76 ] ],
+          [ [ "clay_lump", 76 ], [ "material_limestone", 76 ], [ "material_quicklime", 76 ] ],
+          [ [ "material_sand", 190 ], [ "pebble", 190 ] ],
           [ [ "nail", 368 ] ],
-          [ [ "material_quicklime", 76 ], [ "material_limestone", 76 ], [ "clay_lump", 76 ] ],
-          [ [ "pebble", 190 ], [ "material_sand", 190 ] ],
-          [ [ "straw_pile", 76 ], [ "cattail_stalk", 76 ], [ "dogbane", 76 ], [ "pine_bough", 76 ] ],
+          [ [ "rope_6", 4 ], [ "rope_makeshift_6", 4 ] ],
           [ [ "water", 95 ], [ "water_clean", 95 ] ],
-          [ [ "rope_makeshift_6", 4 ], [ "rope_6", 4 ] ],
           [ [ "wood_panel", 16 ] ]
         ]
       }
@@ -80,17 +80,17 @@
     "blueprint_provides": [ { "id": "fbmk_smoking_area" } ],
     "blueprint_excludes": [ { "id": "fbmk_smoking_area" } ],
     "blueprint_needs": {
-      "time": "1 d 8 h 25 m",
-      "skills": [ [ "fabrication", 3 ], [ "survival", 3 ] ],
+      "time": "2 d 6 h 25 m",
+      "skills": [ [ "survival", 3 ], [ "fabrication", 3 ] ],
       "inline": {
         "tools": [  ],
-        "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "qualities": [ [ { "id": "SAW_W", "level": 2 } ], [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
           [ [ "2x4", 240 ] ],
+          [ [ "cattail_stalk", 48 ], [ "dogbane", 48 ], [ "pine_bough", 48 ], [ "straw_pile", 48 ] ],
+          [ [ "clay_lump", 48 ], [ "material_limestone", 48 ], [ "material_quicklime", 48 ] ],
+          [ [ "material_sand", 120 ], [ "pebble", 120 ] ],
           [ [ "nail", 448 ] ],
-          [ [ "material_quicklime", 48 ], [ "material_limestone", 48 ], [ "clay_lump", 48 ] ],
-          [ [ "pebble", 120 ], [ "material_sand", 120 ] ],
-          [ [ "straw_pile", 48 ], [ "cattail_stalk", 48 ], [ "dogbane", 48 ], [ "pine_bough", 48 ] ],
           [ [ "water", 60 ], [ "water_clean", 60 ] ],
           [ [ "wood_panel", 22 ] ]
         ]
@@ -112,11 +112,11 @@
     "blueprint_provides": [ { "id": "fbmk_pantry_room" } ],
     "blueprint_excludes": [ { "id": "fbmk_pantry_room" } ],
     "blueprint_needs": {
-      "time": "2 d 3 h 40 m",
-      "skills": [ [ "fabrication", 3 ], [ "survival", 3 ] ],
+      "time": "3 d 4 h 40 m",
+      "skills": [ [ "survival", 3 ], [ "fabrication", 3 ] ],
       "inline": {
         "tools": [  ],
-        "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "qualities": [ [ { "id": "SAW_W", "level": 2 } ], [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
           [ [ "2x4", 360 ] ],
           [ [ "cattail_stalk", 128 ], [ "dogbane", 128 ], [ "pine_bough", 128 ], [ "straw_pile", 128 ] ],
@@ -144,19 +144,19 @@
     "blueprint_provides": [ { "id": "fbmk_canteen_dining_west" } ],
     "blueprint_excludes": [ { "id": "fbmk_canteen_dining_west" } ],
     "blueprint_needs": {
-      "time": "1 d 1 h 46 m",
-      "skills": [ [ "fabrication", 3 ], [ "survival", 3 ] ],
+      "time": "1 d 12 h 46 m",
+      "skills": [ [ "survival", 3 ], [ "fabrication", 3 ] ],
       "inline": {
         "tools": [ [ [ "machete", -1 ], [ "makeshift_machete", -1 ], [ "scythe", -1 ], [ "sickle", -1 ], [ "survivor_machete", -1 ] ] ],
-        "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "qualities": [ [ { "id": "SAW_W", "level": 2 } ], [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
           [ [ "2x4", 188 ] ],
+          [ [ "cattail_stalk", 56 ], [ "dogbane", 56 ], [ "pine_bough", 56 ], [ "straw_pile", 56 ] ],
+          [ [ "clay_lump", 56 ], [ "material_limestone", 56 ], [ "material_quicklime", 56 ] ],
+          [ [ "material_sand", 140 ], [ "pebble", 140 ] ],
           [ [ "nail", 274 ] ],
-          [ [ "material_quicklime", 56 ], [ "material_limestone", 56 ], [ "clay_lump", 56 ] ],
-          [ [ "pebble", 140 ], [ "material_sand", 140 ] ],
-          [ [ "straw_pile", 56 ], [ "cattail_stalk", 56 ], [ "dogbane", 56 ], [ "pine_bough", 56 ] ],
+          [ [ "rope_6", 2 ], [ "rope_makeshift_6", 2 ] ],
           [ [ "water", 70 ], [ "water_clean", 70 ] ],
-          [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ] ],
           [ [ "wood_panel", 11 ] ]
         ]
       }
@@ -177,17 +177,17 @@
     "blueprint_provides": [ { "id": "fbmk_canteen_dining_east" } ],
     "blueprint_excludes": [ { "id": "fbmk_canteen_dining_east" } ],
     "blueprint_needs": {
-      "time": "1 d 8 h 40 m",
-      "skills": [ [ "fabrication", 3 ], [ "survival", 3 ] ],
+      "time": "2 d 1 h 40 m",
+      "skills": [ [ "survival", 3 ], [ "fabrication", 3 ] ],
       "inline": {
         "tools": [  ],
-        "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "qualities": [ [ { "id": "SAW_W", "level": 2 } ], [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
           [ [ "2x4", 233 ] ],
+          [ [ "cattail_stalk", 68 ], [ "dogbane", 68 ], [ "pine_bough", 68 ], [ "straw_pile", 68 ] ],
+          [ [ "clay_lump", 68 ], [ "material_limestone", 68 ], [ "material_quicklime", 68 ] ],
+          [ [ "material_sand", 170 ], [ "pebble", 170 ] ],
           [ [ "nail", 370 ] ],
-          [ [ "material_quicklime", 68 ], [ "material_limestone", 68 ], [ "clay_lump", 68 ] ],
-          [ [ "pebble", 170 ], [ "material_sand", 170 ] ],
-          [ [ "straw_pile", 68 ], [ "cattail_stalk", 68 ], [ "dogbane", 68 ], [ "pine_bough", 68 ] ],
           [ [ "water", 85 ], [ "water_clean", 85 ] ],
           [ [ "wood_panel", 17 ] ]
         ]
@@ -209,19 +209,19 @@
     "blueprint_provides": [ { "id": "fbmk_canteen_dining_center" } ],
     "blueprint_excludes": [ { "id": "fbmk_canteen_dining_center" } ],
     "blueprint_needs": {
-      "time": "1 d 5 h 40 m",
-      "skills": [ [ "fabrication", 3 ], [ "survival", 3 ] ],
+      "time": "2 d 5 h 40 m",
+      "skills": [ [ "survival", 3 ], [ "fabrication", 3 ] ],
       "inline": {
         "tools": [  ],
-        "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "qualities": [ [ { "id": "SAW_W", "level": 2 } ], [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
           [ [ "2x4", 235 ] ],
+          [ [ "cattail_stalk", 20 ], [ "dogbane", 20 ], [ "pine_bough", 20 ], [ "straw_pile", 20 ] ],
+          [ [ "clay_lump", 20 ], [ "material_limestone", 20 ], [ "material_quicklime", 20 ] ],
+          [ [ "material_sand", 50 ], [ "pebble", 50 ] ],
           [ [ "nail", 504 ] ],
-          [ [ "material_quicklime", 20 ], [ "material_limestone", 20 ], [ "clay_lump", 20 ] ],
-          [ [ "pebble", 50 ], [ "material_sand", 50 ] ],
-          [ [ "straw_pile", 20 ], [ "cattail_stalk", 20 ], [ "dogbane", 20 ], [ "pine_bough", 20 ] ],
+          [ [ "rope_6", 2 ], [ "rope_makeshift_6", 2 ] ],
           [ [ "water", 25 ], [ "water_clean", 25 ] ],
-          [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ] ],
           [ [ "wood_panel", 24 ] ]
         ]
       }

@@ -14,19 +14,19 @@
     "blueprint_provides": [ { "id": "fbml_northeast" }, { "id": "chicken_coop" } ],
     "blueprint_excludes": [ { "id": "fbml_northeast" } ],
     "blueprint_needs": {
-      "time": "5 d 5 h 45 m",
-      "skills": [ [ "fabrication", 6 ], [ "survival", 2 ] ],
+      "time": "5 d 21 h 45 m",
+      "skills": [ [ "survival", 2 ], [ "fabrication", 6 ] ],
       "inline": {
         "tools": [  ],
-        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "qualities": [ [ { "id": "SAW_W", "level": 2 } ], [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
           [ [ "2x4", 138 ] ],
-          [ [ "nail", 360 ] ],
-          [ [ "wire", 20 ] ],
           [ [ "hinge", 2 ] ],
-          [ [ "rock", 432 ] ],
-          [ [ "pebble", 900 ] ],
           [ [ "mortar_build", 36 ] ],
+          [ [ "nail", 360 ] ],
+          [ [ "pebble", 900 ] ],
+          [ [ "rock", 432 ] ],
+          [ [ "wire", 20 ] ],
           [ [ "wood_panel", 16 ] ]
         ]
       }
@@ -47,27 +47,27 @@
     "blueprint_provides": [ { "id": "fbml_southeast" } ],
     "blueprint_excludes": [ { "id": "fbml_southeast" } ],
     "blueprint_needs": {
-      "time": "3 d 16 h",
-      "skills": [ [ "fabrication", 6 ], [ "survival", 2 ] ],
+      "time": "4 d",
+      "skills": [ [ "survival", 2 ], [ "fabrication", 6 ] ],
       "inline": {
         "tools": [  ],
         "qualities": [
+          [ { "id": "SAW_W", "level": 2 } ],
           [ { "id": "DIG", "level": 2 } ],
           [ { "id": "HAMMER", "level": 2 } ],
-          [ { "id": "SAW_W", "level": 2 } ],
           [ { "id": "WRENCH" } ]
         ],
         "components": [
           [ [ "2x4", 142 ] ],
-          [ [ "nail", 324 ] ],
-          [ [ "wood_panel", 10 ] ],
-          [ [ "hinge", 2 ] ],
-          [ [ "pipe", 60 ] ],
-          [ [ "sheet_metal", 10 ] ],
           [ [ "glass_sheet", 4 ] ],
-          [ [ "rock", 264 ] ],
+          [ [ "hinge", 2 ] ],
+          [ [ "mortar_build", 22 ] ],
+          [ [ "nail", 324 ] ],
           [ [ "pebble", 550 ] ],
-          [ [ "mortar_build", 22 ] ]
+          [ [ "pipe", 60 ] ],
+          [ [ "rock", 264 ] ],
+          [ [ "sheet_metal", 10 ] ],
+          [ [ "wood_panel", 10 ] ]
         ]
       }
     }
@@ -87,19 +87,19 @@
     "blueprint_provides": [ { "id": "fbml_southwest" }, { "id": "stables" } ],
     "blueprint_excludes": [ { "id": "fbml_southwest" } ],
     "blueprint_needs": {
-      "time": "4 d 14 h",
-      "skills": [ [ "fabrication", 6 ], [ "survival", 2 ] ],
+      "time": "5 d 7 h",
+      "skills": [ [ "survival", 2 ], [ "fabrication", 6 ] ],
       "inline": {
         "tools": [  ],
-        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "qualities": [ [ { "id": "SAW_W", "level": 2 } ], [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
           [ [ "2x4", 161 ] ],
-          [ [ "nail", 432 ] ],
-          [ [ "pointy_stick", 8 ], [ "spear_wood", 8 ] ],
           [ [ "hinge", 2 ] ],
-          [ [ "rock", 360 ] ],
-          [ [ "pebble", 750 ] ],
           [ [ "mortar_build", 30 ] ],
+          [ [ "nail", 432 ] ],
+          [ [ "pebble", 750 ] ],
+          [ [ "pointy_stick", 8 ], [ "spear_wood", 8 ] ],
+          [ [ "rock", 360 ] ],
           [ [ "wood_panel", 17 ] ]
         ]
       }
@@ -120,19 +120,19 @@
     "blueprint_provides": [ { "id": "fbml_west" } ],
     "blueprint_excludes": [ { "id": "fbml_west" } ],
     "blueprint_needs": {
-      "time": "4 d 4 h",
-      "skills": [ [ "fabrication", 6 ], [ "survival", 2 ] ],
+      "time": "4 d 23 h",
+      "skills": [ [ "survival", 2 ], [ "fabrication", 6 ] ],
       "inline": {
         "tools": [  ],
-        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "qualities": [ [ { "id": "SAW_W", "level": 2 } ], [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
           [ [ "2x4", 178 ] ],
-          [ [ "nail", 464 ] ],
-          [ [ "pointy_stick", 8 ], [ "spear_wood", 8 ] ],
           [ [ "hinge", 4 ] ],
-          [ [ "rock", 312 ] ],
-          [ [ "pebble", 650 ] ],
           [ [ "mortar_build", 26 ] ],
+          [ [ "nail", 464 ] ],
+          [ [ "pebble", 650 ] ],
+          [ [ "pointy_stick", 8 ], [ "spear_wood", 8 ] ],
+          [ [ "rock", 312 ] ],
           [ [ "wood_panel", 19 ] ]
         ]
       }
@@ -153,19 +153,19 @@
     "blueprint_provides": [ { "id": "fbml_northwest" } ],
     "blueprint_excludes": [ { "id": "fbml_northwest" } ],
     "blueprint_needs": {
-      "time": "4 d 9 h",
-      "skills": [ [ "fabrication", 6 ], [ "survival", 2 ] ],
+      "time": "5 d 3 h",
+      "skills": [ [ "survival", 2 ], [ "fabrication", 6 ] ],
       "inline": {
         "tools": [  ],
-        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "qualities": [ [ { "id": "SAW_W", "level": 2 } ], [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
           [ [ "2x4", 170 ] ],
-          [ [ "nail", 444 ] ],
-          [ [ "pointy_stick", 8 ], [ "spear_wood", 8 ] ],
           [ [ "hinge", 4 ] ],
-          [ [ "rock", 336 ] ],
-          [ [ "pebble", 700 ] ],
           [ [ "mortar_build", 28 ] ],
+          [ [ "nail", 444 ] ],
+          [ [ "pebble", 700 ] ],
+          [ [ "pointy_stick", 8 ], [ "spear_wood", 8 ] ],
+          [ [ "rock", 336 ] ],
           [ [ "wood_panel", 18 ] ]
         ]
       }
