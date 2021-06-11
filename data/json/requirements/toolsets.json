@@ -124,5 +124,17 @@
     "type": "requirement",
     "//": "should contain all the ink pens",
     "tools": [ [ [ "pen", 1 ], [ "black_pen", 1 ], [ "blue_pen", 1 ], [ "green_pen", 1 ], [ "red_pen", 1 ] ] ]
+  },
+  {
+    "id": "power_saw_long",
+    "type": "requirement",
+    "//": "Power tools able to make long, straigth cuts",
+    "tools": [ [ [ "fake_tablesaw", 50 ], [ "circsaw_off", 100 ], [ "fake_bandsaw", 50 ] ] ]
+  },
+  {
+    "id": "power_saw_short",
+    "type": "requirement",
+    "//": "Power tools able to make short, precise cuts",
+    "tools": [ [ [ "fake_mitresaw", 10 ], [ "circsaw_off", 20 ], [ "fake_bandsaw", 10 ] ] ]
   }
 ]
