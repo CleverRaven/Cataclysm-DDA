@@ -33,14 +33,14 @@
     "id": "forging_standard",
     "type": "requirement",
     "//": "Forging of steel items (per steel chunk), charcoal forge is already a substitute for forge",
-    "tools": [ [ [ "forge", 20 ], [ "oxy_torch", 20 ] ] ]
+    "tools": [ [ [ "forge", 20 ], [ "oxy_torch", 20 ], [ "fake_arc_furnace", 10 ] ] ]
   },
   {
     "id": "blacksmithing_standard",
     "type": "requirement",
     "//": "Includes forging resources as well as tools needed for most blacksmithing",
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
-    "tools": [ [ [ "forge", 20 ], [ "oxy_torch", 20 ] ], [ [ "tongs", -1 ] ] ]
+    "tools": [ [ [ "forge", 20 ], [ "oxy_torch", 20 ], [ "fake_arc_furnace", 10 ] ], [ [ "tongs", -1 ] ] ]
   },
   {
     "id": "mutagen_production_standard",
@@ -78,7 +78,7 @@
     "tools": [
       [ [ "pliers", -1 ], [ "multitool", -1 ] ],
       [ [ "boltcutters", -1 ], [ "toolset", -1 ] ],
-      [ [ "cordless_drill", 10 ] ]
+      [ [ "cordless_drill", 10 ], [ "fake_drill_press", 5 ] ]
     ]
   },
   {
