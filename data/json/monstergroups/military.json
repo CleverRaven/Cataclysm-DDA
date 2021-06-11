@@ -62,8 +62,8 @@
     "//": "Civilians with soldiers and burned ones.",
     "default": "mon_zombie",
     "monsters": [
-      { "monster": "mon_zombie_fat", "freq": 70, "cost_multiplier": 2 },
-      { "monster": "mon_zombie_child", "freq": 40, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_fat", "freq": 60, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_child", "freq": 30, "cost_multiplier": 1 },
       { "monster": "mon_zombie_tough", "freq": 40, "cost_multiplier": 3 },
       { "monster": "mon_zombie_rot", "freq": 20, "cost_multiplier": 2 },
       { "monster": "mon_zombie_crawler", "freq": 10, "cost_multiplier": 2 },
@@ -80,7 +80,7 @@
       { "monster": "mon_zombie_survivor", "freq": 1, "cost_multiplier": 25 },
       { "monster": "mon_zombie_survivor_elite", "freq": 1, "cost_multiplier": 25, "starts": 1440 },
       { "monster": "mon_zombie_scorched", "freq": 25, "cost_multiplier": 2 },
-      { "monster": "mon_zombie_soldier", "freq": 180, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_soldier", "freq": 200, "cost_multiplier": 2 },
       { "monster": "mon_zombie_milbase_personnel", "freq": 50, "cost_multiplier": 1 },
       { "monster": "mon_zombie_military_pilot", "freq": 5, "cost_multiplier": 1 },
       { "monster": "mon_zombie_flamer", "freq": 1, "cost_multiplier": 30 }
