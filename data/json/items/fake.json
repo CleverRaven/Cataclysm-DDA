@@ -261,5 +261,11 @@
     "type": "TOOL",
     "copy-from": "fake_power_tool",
     "name": { "str": "air compressor" }
+  },
+  {
+    "id": "fake_oven",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "oven" }
   }
 ]
