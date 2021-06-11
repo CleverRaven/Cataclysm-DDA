@@ -73,7 +73,7 @@ jobs:
             ext: zip
             content: application/zip
           - name: Linux Tiles x64
-            os: ubuntu-latest
+            os: ubuntu-18.04
             mxe: none
             android: none
             tiles: 1
@@ -81,7 +81,7 @@ jobs:
             ext: tar.gz
             content: application/gzip
           - name: linux-curses-x64
-            os: ubuntu-latest
+            os: ubuntu-18.04
             mxe: none
             android: none
             tiles: 0
