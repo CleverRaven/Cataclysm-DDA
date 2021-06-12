@@ -509,6 +509,13 @@ character_id Character::getID() const
     return this->id;
 }
 
+void Character::randomize_height()
+{
+    // Height distribution data is taken from this paper:
+    // http://www.biostat.jhsph.edu/bstcourse/bio751/papers/bimodalHeight.pdf
+    init_height = round( male ? normal_roll( 176.0, 7.4 ) : normal_roll( 162.8, 7.0 ) );
+}
+
 void Character::randomize_blood()
 {
     // Blood type distribution data is taken from this study on blood types of
