@@ -12,6 +12,7 @@
 
 #include "calendar.h"
 #include "color.h"
+#include "iexamine.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
@@ -26,9 +27,6 @@ class player;
 struct furn_t;
 struct itype;
 struct tripoint;
-
-using iexamine_function = void ( * )( player &, const tripoint & );
-using iexamine_function_ref = void( & )( player &, const tripoint & );
 
 struct map_bash_info {
     int str_min;            // min str(*) required to bash
@@ -251,7 +249,7 @@ struct map_data_common_t {
         translation name_;
 
         // Hardcoded examination function
-        iexamine_function examine_func; // What happens when the terrain/furniture is examined
+        iexamine_functions examine_func; // What happens when the terrain/furniture is examined
 
     private:
         std::set<std::string> flags;    // string flags which possibly refer to what's documented above.
@@ -275,9 +273,9 @@ struct map_data_common_t {
         */
         std::array<int, NUM_SEASONS> symbol_;
 
-        bool can_examine() const;
-        bool has_examine( iexamine_function_ref func ) const;
-        void set_examine( iexamine_function_ref func );
+        bool can_examine( const tripoint &examp ) const;
+        bool has_examine( iexamine_examine_function func ) const;
+        void set_examine( iexamine_functions func );
         void examine( player &, const tripoint & ) const;
 
         int light_emitted = 0;
@@ -352,7 +350,7 @@ struct map_data_common_t {
         }
 
         virtual void load( const JsonObject &jo, const std::string & );
-        virtual void check() const;
+        virtual void check() const {};
 };
 
 /*

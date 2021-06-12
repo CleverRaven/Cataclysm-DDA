@@ -27,6 +27,10 @@ void egg_sack_generic( player &p, const tripoint &examp, const mtype_id &montype
 
 void none( player &p, const tripoint &examp );
 
+bool always_false( const tripoint &examp );
+bool always_true( const tripoint &examp );
+bool harvestable_now( const tripoint &examp );
+
 void gaspump( player &p, const tripoint &examp );
 void atm( player &p, const tripoint &examp );
 void vending( player &p, const tripoint &examp );
@@ -138,7 +142,13 @@ void practice_survival_while_foraging( player *p );
 
 } //namespace iexamine
 
-using iexamine_function = void ( * )( player &, const tripoint & );
-iexamine_function iexamine_function_from_string( const std::string &function_name );
+using iexamine_examine_function = void ( * )( player &, const tripoint & );
+using iexamine_can_examine_function = bool ( * )( const tripoint & );
+struct iexamine_functions {
+    iexamine_can_examine_function can_examine;
+    iexamine_examine_function examine;
+};
+
+iexamine_functions iexamine_functions_from_string( const std::string &function_name );
 
 #endif // CATA_SRC_IEXAMINE_H
