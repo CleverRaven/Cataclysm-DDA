@@ -3200,5 +3200,110 @@
       "need_worn": true
     },
     "delete": { "flags": [ "DEAF" ] }
+  },
+  {
+    "id": "flight_helmet",
+    "repairs_like": "nomex_hood",
+    "type": "TOOL_ARMOR",
+    "category": "armor",
+    "name": { "str": "military flight helmet" },
+    "description": "A military flight helmet.  Adorned with a visor, microphone and a noise dampening system.  The helmet is also fitted with plastic rails to allow for different load-outs.",
+    "weight": "1324 g",
+    "volume": "2 L",
+    "price": 50000,
+    "price_postapoc": 1000,
+    "to_hit": -1,
+    "bashing": 10,
+    "material": [ "nomex" ],
+    "symbol": "[",
+    "looks_like": "helmet_motor",
+    "color": "dark_gray",
+    "armor_portion_data": [
+      { "covers": [ "head" ], "coverage": 100, "encumbrance": 30 },
+      { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 5 }
+    ],
+    "warmth": 15,
+    "material_thickness": 5,
+    "environmental_protection": 2,
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "VARSIZE", "STURDY", "DEAF", "SUN_GLASSES" ],
+    "charges_per_use": 1,
+    "ammo": "battery",
+    "use_action": {
+      "type": "transform",
+      "msg": "You turn the flight helmet on.",
+      "target": "flight_helmet_on",
+      "active": true,
+      "need_charges": 1,
+      "need_charges_msg": "The helmet's batteries are dead."
+    },
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "rigid": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
+          "light_plus_battery_cell",
+          "light_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "flight_helmet_on",
+    "repairs_like": "nomex_hood",
+    "type": "TOOL_ARMOR",
+    "category": "armor",
+    "name": { "str": "military flight helmet" },
+    "description": "A military flight helmet.  Adorned with a visor, microphone and a noise dampening system.  The helmet is also fitted with plastic rails to allow for different load-outs.",
+    "weight": "1324 g",
+    "volume": "2 L",
+    "price": 50000,
+    "price_postapoc": 1000,
+    "to_hit": -1,
+    "bashing": 10,
+    "material": [ "kevlar_rigid", "plastic" ],
+    "symbol": "[",
+    "looks_like": "helmet_motor",
+    "color": "dark_gray",
+    "armor_portion_data": [
+      { "covers": [ "head" ], "coverage": 100, "encumbrance": 30 },
+      { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 5 }
+    ],
+    "warmth": 15,
+    "material_thickness": 5,
+    "environmental_protection": 2,
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "VARSIZE", "STURDY", "PARTIAL_DEAF", "SUN_GLASSES", "TWO_WAY_RADIO" ],
+    "charges_per_use": 1,
+    "ammo": "battery",
+    "power_draw": 60,
+    "revert_to": "flight_helmet",
+    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s flicks off.", "target": "flight_helmet" },
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "rigid": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
+          "light_plus_battery_cell",
+          "light_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
+        ]
+      }
+    ]
   }
 ]
