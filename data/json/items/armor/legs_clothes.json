@@ -440,7 +440,7 @@
       },
       {
         "id": "apants_desert",
-        "text": "A tough pair of military pants patterned in desert camouflage.  They are Lined with deep pockets."
+        "text": "A tough pair of military pants patterned in desert camouflage.  They are lined with deep pockets."
       },
       {
         "id": "apants_MARPAT",
@@ -448,11 +448,11 @@
       },
       {
         "id": "apants_BDU",
-        "text": "A tough pair of military pants with a black, brown, green and tan camouflage pattern.  It looks old."
+        "text": "A tough pair of military pants with a black, brown, green and tan camouflage pattern.  They look old."
       },
       {
         "id": "mil_pants_navy",
-        "text": "A tough pair of military pants with a predominantly dark blue camouflage Favored by the navy."
+        "text": "A tough pair of military pants with a predominantly dark blue camouflage.  Favored by the navy."
       }
     ],
     "warmth": 20,
