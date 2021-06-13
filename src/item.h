@@ -845,7 +845,7 @@ class item : public visitable
         /**
         * Calculates rot per hour at given temperature.
         */
-        float get_hourly_rotpoints_at_temp( int temp ) const;
+        float get_hourly_rotpoints_at_temp( const int temp ) const;
 
         /**
          * Accumulate rot of the item since last rot calculation.

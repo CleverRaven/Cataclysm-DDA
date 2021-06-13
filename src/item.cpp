@@ -5928,29 +5928,63 @@ int item::spoilage_sort_order() const
  * Rot maxes out at 105 F
  * Rot stops below 32 F (0C) and above 145 F (63 C)
  */
-float item::get_hourly_rotpoints_at_temp( const int temp ) const
+static float calc_hourly_rotpoints_at_temp( const double temp )
 {
-    const int dropoff = 38;  // ~3 C
-    const int max_rot_temp = 105; // ~41 C Maximum rotting rate is at this temperature
-    const int safe_temp = 145; // ~63 C safe temperature above which food stops rotting
+    const double dropoff =
+        38;  // ~3 C ditch our fancy equation and do a linear approach to 0 rot from 3 C -> 0 C
+    const double max_rot_temp = 105; // ~41 C Maximum rotting rate is at this temperature
+    const double safe_temp = 145; // ~63 C safe temperature above which food stops rotting
     // temperatures::freezing = 32 F ( 0 C)
 
+    // This multiplier makes sure the rot at 65 F (18.3 C) C is 3600 rot/hour (1 rot/second).
+    // This is approximately 215.5
+    const double multiplier = 3600.0 / std::pow( 2.0, 65.0 / 16.0 );
+
     if( temp <= temperatures::freezing || temp > safe_temp ) {
-        return 0.f;
+        return 0.0;
     } else if( temp < dropoff ) {
         // Linear progress from 32 F (0 C) to 38 F (3 C)
         // Constant makes sure that rot function is continuous at 38 F
-        // The constand 186.28 = rot(38 F) / ( 38 F - 32 F) = ( 215.46 * 2^( 38 / 16 ) ) / 6
-        return 186.27867f * ( temp - temperatures::freezing );
+        // The constand 186.28 = ( multiplier * 2^( 38F / 16F ) ) / 6
+        return 186.27867 * ( temp - temperatures::freezing );
     } else if( temp < max_rot_temp ) {
-        // This multiplier makes sure the rot at 65 F (18 C) is 3600 rot/hour (1 rot/second).
-        // the multiplier is calculated 215.46 = 3600 / 2^( 65 / 16 )
-        return 215.4607 * std::pow( 2.0, static_cast<double>( temp ) / 16.0 );
+        return multiplier * std::pow( 2.0, temp / 16.0 );
     } else {
         // stop torturing the player at max_rot_temp (105 F, 41 C). No higher rot at higher temp.
-        // This is calculated from:  multiplier * 2^( 105 / 16.0 )
-        return 20364.6753f;
+        // This is approximately 20364.67 rot/hour
+        return multiplier * std::pow( 2.0, max_rot_temp / 16.0 );
     }
+}
+
+/**
+ * Initialize the rot table.
+ * @see rot_chart
+ */
+static std::vector<float> calc_rot_array()
+{
+    std::vector<float> ret;
+    ret.reserve( 145 );
+    for( size_t i = 0; i < 145; ++i ) {
+        ret.push_back( calc_hourly_rotpoints_at_temp( i ) );
+    }
+    return ret;
+}
+
+/**
+ * Get the hourly rot for a given temperature from the precomputed table.
+ * @see rot_chart
+ */
+float item::get_hourly_rotpoints_at_temp( const int temp ) const
+{
+    if( temp <= 32 || temp > 145 ) {
+        return 0.0;
+    }
+
+    /**
+     * Precomputed rot lookup table.
+     */
+    static const std::vector<float> rot_chart = calc_rot_array();
+    return rot_chart[temp];
 }
 
 void item::calc_rot( int temp, const float spoil_modifier,
