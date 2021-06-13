@@ -106,14 +106,18 @@ TEST_CASE( "Hourly rotpoints", "[rot]" )
     // No rot above 145F/63C
     CHECK( normal_item.get_hourly_rotpoints_at_temp( 150 ) == 0 );
 
+    // Make sure no off by one error at the border
+    CHECK( normal_item.get_hourly_rotpoints_at_temp( 145 ) == Approx( 20364.67 ).margin( 0.1 ) );
+    CHECK( normal_item.get_hourly_rotpoints_at_temp( 146 ) == 0 );
+
     // 3200 point/h at 65F/18C
     CHECK( normal_item.get_hourly_rotpoints_at_temp( 65 ) == Approx( 3600 ).margin( 0.1 ) );
 
     // Doubles after +16F
-    CHECK( normal_item.get_hourly_rotpoints_at_temp( 65 + 16 ) == Approx( 3600 * 2 ).margin( 0.1 ) );
+    CHECK( normal_item.get_hourly_rotpoints_at_temp( 65 + 16 ) == Approx( 3600.0 * 2 ).margin( 0.1 ) );
 
     // Halves after -16F
-    CHECK( normal_item.get_hourly_rotpoints_at_temp( 65 - 16 ) == Approx( 3600 / 2 ).margin( 0.1 ) );
+    CHECK( normal_item.get_hourly_rotpoints_at_temp( 65 - 16 ) == Approx( 3600.0 / 2 ).margin( 0.1 ) );
 
     // Test the linear area. Halfway between 32F/9C (0 point/hour) and 38F/3C (1117.672 point/hour)
     CHECK( normal_item.get_hourly_rotpoints_at_temp( 35 ) == Approx( 1117.672 / 2 ).margin( 0.1 ) );
