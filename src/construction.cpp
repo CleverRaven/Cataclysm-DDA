@@ -107,7 +107,7 @@ static bool check_nothing( const tripoint & )
 bool check_empty( const tripoint & ); // tile is empty
 bool check_support( const tripoint & ); // at least two orthogonal supports
 bool check_support_passable( const tripoint & ); // at least two orthogonal supports and passable
-bool check_support_up_empty( const tripoint & ); // 2+ supports, passable and NO_FLOOR above
+bool check_support_nofloor_above( const tripoint & ); // 2+ supports, passable and NO_FLOOR above
 bool check_support_below( const tripoint & ); // at least two orthogonal supports below
 bool check_stable( const tripoint & ); // tile below has a flag SUPPORTS_ROOF
 bool check_empty_stable( const tripoint & ); // tile is empty, tile below has a flag SUPPORTS_ROOF
@@ -1156,9 +1156,9 @@ bool construct::check_support_below( const tripoint &p )
     return check_support( p + tripoint_below );
 }
 
-bool construct::check_support_up_empty( const tripoint &p )
+bool construct::check_support_nofloor_above( const tripoint &p )
 {
-    return check_support_passable( p ) && check_up_OK( p ) && check_nofloor_above( p );
+    return check_support_passable( p ) && check_nofloor_above( p );
 }
 
 bool construct::check_stable( const tripoint &p )
@@ -1173,7 +1173,7 @@ bool construct::check_empty_stable( const tripoint &p )
 
 bool construct::check_nofloor_above( const tripoint &p )
 {
-    return get_map().has_flag( flag_NO_FLOOR, p + tripoint_above );
+    return check_up_OK( p ) && get_map().has_flag( flag_NO_FLOOR, p + tripoint_above );
 }
 
 bool construct::check_deconstruct( const tripoint &p )
@@ -1210,7 +1210,7 @@ bool construct::check_no_trap( const tripoint &p )
 
 bool construct::check_ramp_high( const tripoint &p )
 {
-    if( check_empty_stable( p ) && check_up_OK( p ) && check_nofloor_above( p ) ) {
+    if( check_empty_stable( p ) && check_nofloor_above( p ) ) {
         for( const point &car_d : four_cardinal_directions ) {
             // check adjacent points on the z-level above for a completed down ramp
             if( get_map().has_flag( TFLAG_RAMP_DOWN, p + car_d + tripoint_above ) ) {
@@ -1223,7 +1223,7 @@ bool construct::check_ramp_high( const tripoint &p )
 
 bool construct::check_ramp_low( const tripoint &p )
 {
-    return check_empty_stable( p ) && check_up_OK( p ) && check_nofloor_above( p );
+    return check_empty_stable( p ) && check_nofloor_above( p );
 }
 
 void construct::done_trunk_plank( const tripoint &/*p*/ )
@@ -1666,7 +1666,7 @@ void load_construction( const JsonObject &jo )
             { "check_support", construct::check_support },
             { "check_support_passable", construct::check_support_passable },
             { "check_support_below", construct::check_support_below },
-            { "check_support_up_empty", construct::check_support_up_empty },
+            { "check_support_nofloor_above", construct::check_support_nofloor_above },
             { "check_stable", construct::check_stable },
             { "check_empty_stable", construct::check_empty_stable },
             { "check_nofloor_above", construct::check_nofloor_above },

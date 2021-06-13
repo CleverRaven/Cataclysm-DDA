@@ -1145,8 +1145,8 @@
     "qualities": [ { "id": "GLARE", "level": 2 } ],
     "tools": [ [ [ "oxy_torch", 5 ], [ "welder", 25 ], [ "welder_crude", 37 ], [ "toolset", 37 ] ] ],
     "components": [ [ [ "steel_plate", 1 ] ] ],
-    "pre_note": "Must be supported on at least two sides and have open air above.",
-    "pre_special": "check_support_up_empty",
+    "pre_note": "Must be supported on at least two sides and has an open air above.",
+    "pre_special": "check_support_nofloor_above",
     "post_terrain": "t_metal_flat_roof",
     "post_flags": [ "is_roof" ]
   },
@@ -1342,8 +1342,8 @@
     "time": "120 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
     "components": [ [ [ "wood_sheet", 1 ], [ "wood_panel", 1 ] ], [ [ "2x4", 4 ] ], [ [ "nail", 30 ] ] ],
-    "pre_note": "Must be supported on at least two sides and should have open air above.",
-    "pre_special": "check_support_up_empty",
+    "pre_note": "Must be supported on at least two sides and has an open air above.",
+    "pre_special": "check_support_nofloor_above",
     "post_terrain": "t_flat_roof",
     "post_flags": [ "is_roof" ]
   },
@@ -1382,7 +1382,8 @@
     "time": "360 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "2x4", 3 ], [ "stick", 5 ] ], [ [ "straw_pile", 30 ], [ "withered", 30 ] ], [ [ "cordage", 4, "LIST" ] ] ],
-    "pre_special": "check_support_up_empty",
+    "pre_note": "Must be supported on at least two sides and has an open air above.",
+    "pre_special": "check_support_nofloor_above",
     "post_terrain": "t_thatch_roof",
     "post_flags": [ "is_roof" ]
   },
@@ -1443,8 +1444,8 @@
       [ [ "material_soil", 40 ] ],
       [ [ "birchbark", 12 ], [ "pine_bough", 12 ] ]
     ],
-    "pre_note": "Must be supported on at least two sides and have open air above.",
-    "pre_special": "check_support_up_empty",
+    "pre_note": "Must be supported on at least two sides and has an open air above.",
+    "pre_special": "check_support_nofloor_above",
     "post_terrain": "t_log_sod_roof",
     "post_flags": [ "is_roof" ]
   },
@@ -1502,8 +1503,8 @@
     "time": "60 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
     "components": [ [ [ "wood_panel", 1 ] ], [ [ "2x4", 8 ] ], [ [ "nail", 20 ] ] ],
-    "pre_note": "Must be supported on at least two sides and open air above.",
-    "pre_special": "check_support_up_empty",
+    "pre_note": "Must be supported on at least two sides and has an open air above.",
+    "pre_special": "check_support_nofloor_above",
     "post_terrain": "t_shingle_flat_roof",
     "post_flags": [ "is_roof" ]
   },
@@ -3782,8 +3783,8 @@
     "time": "90 m",
     "qualities": [ { "id": "SMOOTH", "level": 1 } ],
     "components": [ [ [ "alien_pod_resin", 1 ] ] ],
-    "pre_note": "Must be supported on at least two sides and have open air above.",
-    "pre_special": "check_support_up_empty",
+    "pre_note": "Must be supported on at least two sides and has an open air above.",
+    "pre_special": "check_support_nofloor_above",
     "post_terrain": "t_resin_roof",
     "post_flags": [ "is_roof" ]
   },
