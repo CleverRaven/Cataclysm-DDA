@@ -113,9 +113,10 @@
     "batch_time_factors": [ 80, 20 ],
     "book_learn": [ [ "recipe_maiar", 6 ] ],
     "using": [ [ "mutagen_production_standard", 25 ] ],
+    "//": "Don't forget to add bee eggs to the recipe when they'll be added",
     "components": [
       [ [ "mutagen", 1 ] ],
-      [ [ "honey_bottled", 3 ], [ "honeycomb", 3 ], [ "royal_jelly", 1 ], [ "bee_sting", 3 ], [ "wasp_sting", 3 ] ],
+      [ [ "honeycomb", 3 ], [ "royal_jelly", 1 ], [ "ant_egg", 1 ], [ "spider_egg", 1 ], [ "egg_roach", 1 ], [ "egg_roach_plague", 1 ], [ "egg_locust", 1 ], [ "egg_dragonfly", 1 ], [ "egg_firefly", 1 ], [ "egg_centipede", 1 ], [ "bee_sting", 3 ], [ "wasp_sting", 3 ] ],
       [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
     ],
     "flags": [ "SECRET" ]
