@@ -1816,7 +1816,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
 
     // weapon blocks are preferred to limb blocks
     std::string thing_blocked_with;
-    if( !force_unarmed && has_shield ) {
+    if( !( unarmed || force_unarmed ) && has_shield ) {
         thing_blocked_with = shield.tname();
         // TODO: Change this depending on damage blocked
         float wear_modifier = 1.0f;
