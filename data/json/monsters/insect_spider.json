@@ -1936,14 +1936,14 @@
     "vision_night": 5,
     "harvest": "arachnid",
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE" ],
-    "fear_triggers": [ "FIRE" ],
+    "fear_triggers": [ "FIRE", "HURT" ],
     "death_function": [ "NORMAL" ],
     "special_attacks": [
       [ "RANGED_PULL", 30 ],
       [ "GRAB_DRAG", 10 ],
       { "type": "leap", "cooldown": 8, "max_range": 5, "allow_no_target": false }
     ],
-    "flags": [ "POISON", "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL", "STUMBLES" ]
+    "flags": [ "SEES", "HEARS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
   },
   {
     "id": "mon_mantis_mega",
@@ -2001,7 +2001,7 @@
     "anger_triggers": [ "HURT", "SOUND", "STALK" ],
     "fear_triggers": [ "FIRE" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "POISON", "ATTACKMON", "BORES", "CAN_DIG", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SMELLS", "WARM" ],
+    "flags": [ "SEES", "BORES", "DESTROYS", "PUSH_VEH", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SMELLS" ],
     "//": "Reinsert GOODHEARING when z-level tunneling is possible."
   },
   {
