@@ -178,6 +178,8 @@ jobs:
           mv cataclysmdda-0.E.zip cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.zip
       - name: Build CDDA (osx)
         if: runner.os == 'macOS'
+        env:
+          USE_HOME_DIR: 1
         run: |
           cat >VERSION.txt <<EOL
           build type: ${{ matrix.artifact }}
