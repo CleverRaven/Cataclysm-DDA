@@ -1,5 +1,5 @@
 {
-    "name": "cdda-vcpkg-dependencies",
+    "name": "object-creator-vcpkg-dependencies",
     "version-string": "0.E",
     "dependencies": [
         "sdl2",
@@ -10,9 +10,6 @@
         },
         "sdl2-ttf",
         "gettext",
-        {
-          "name": "qt5-base",
-          "features": [ "latest" ]
-        }
+        "qt5"
     ]
 }
