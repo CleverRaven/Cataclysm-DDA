@@ -658,6 +658,31 @@
   },
   {
     "type": "construction",
+    "id": "constr_wall_wattle_post",
+    "group": "build_woven_wattle_fence",
+    "//": "Step 1: narrow fence posts for a woven wattle wall",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 0 ], [ "survival", 1 ] ],
+    "time": "20 m",
+    "qualities": [ [ { "id": "CUT", "level": 1 } ], [ { "id": "HAMMER", "level": 1 } ], [ { "id": "DIG", "level": 1 } ] ],
+    "components": [ [ [ "stick", 4 ], [ "pointy_stick", 4 ] ] ],
+    "pre_flags": "DIGGABLE",
+    "post_terrain": "t_wattle_fence_posts"
+  },
+  {
+    "type": "construction",
+    "id": "constr_wall_wattle_woven",
+    "group": "build_woven_wattle_fence",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 2 ], [ "survival", 2 ] ],
+    "time": "50 m",
+    "qualities": [ [ { "id": "CUT", "level": 1 } ], [ { "id": "HAMMER", "level": 1 } ] ],
+    "components": [ [ [ "stick", 10 ] ] ],
+    "pre_terrain": "t_wattle_fence_posts",
+    "post_terrain": "t_wattle_fence"
+  },
+  {
+    "type": "construction",
     "id": "constr_wall_wattle_half",
     "group": "build_wattle_and_daub_wall",
     "//": "Step 1: half of a wall in an empty space",
@@ -692,6 +717,25 @@
       [ [ "water", 5 ], [ "water_clean", 5 ] ]
     ],
     "pre_terrain": "t_wall_wattle_half",
+    "post_terrain": "t_wall_wattle"
+  },
+  {
+    "type": "construction",
+    "id": "constr_wall_wattle_from_fence",
+    "group": "build_wattle_and_daub_wall",
+    "//": "Upgrade a woven wattle fence to a full wall",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 3 ], [ "survival", 3 ] ],
+    "time": "60 m",
+    "qualities": [ [ { "id": "CUT", "level": 1 } ], [ { "id": "HAMMER", "level": 1 } ] ],
+    "components": [
+      [ [ "2x4", 5 ], [ "stick", 10 ] ],
+      [ [ "material_quicklime", 8 ], [ "material_limestone", 8 ], [ "clay_lump", 8 ] ],
+      [ [ "pebble", 10 ], [ "material_sand", 10 ] ],
+      [ [ "straw_pile", 8 ], [ "cattail_stalk", 8 ], [ "dogbane", 8 ], [ "pine_bough", 8 ] ],
+      [ [ "water", 10 ], [ "water_clean", 10 ] ]
+    ],
+    "pre_terrain": "t_wattle_fence",
     "post_terrain": "t_wall_wattle"
   },
   {
