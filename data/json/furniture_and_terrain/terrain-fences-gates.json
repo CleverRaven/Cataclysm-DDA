@@ -441,6 +441,60 @@
   },
   {
     "type": "terrain",
+    "id": "t_wattle_fence",
+    "alias": [ "t_wattle_fence_h", "t_wattle_fence_v" ],
+    "name": "woven wattle fence",
+    "description": "A flimsy barrier made of woven sticks.  Suitable for small animals.",
+    "symbol": "LINE_OXOX",
+    "color": "brown",
+    "looks_like": "t_fence",
+    "move_cost": 0,
+    "examine_action": "chainfence",
+    "flags": [
+      "TRANSPARENT",
+      "DIGGABLE",
+      "FLAMMABLE_ASH",
+      "THIN_OBSTACLE",
+      "SHORT",
+      "NOITEM",
+      "PERMEABLE",
+      "UNSTABLE",
+      "CLIMBABLE",
+      "AUTO_WALL_SYMBOL",
+      "BURROWABLE"
+    ],
+    "connects_to": "WOODFENCE",
+    "deconstruct": { "ter_set": "t_fence_post", "items": [ { "item": "splinter", "count": 20 } ] },
+    "bash": {
+      "str_min": 4,
+      "str_max": 20,
+      "sound": "crack.",
+      "sound_fail": "wham.",
+      "ter_set": "t_null",
+      "items": [ { "item": "pointy_stick", "count": [ 0, 2 ] }, { "item": "splinter", "count": [ 5, 15 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_wattle_fence_posts",
+    "name": "narrow fence posts",
+    "description": "A set of narrow wooden posts for a woven wattle fence.",
+    "symbol": "#",
+    "color": "brown",
+    "looks_like": "t_fence_post",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "THIN_OBSTACLE", "SHORT" ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 20,
+      "sound": "crack.",
+      "sound_fail": "wham.",
+      "ter_set": "t_null",
+      "items": [ { "item": "stick", "count": [ 1, 4 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_chainfence",
     "alias": [ "t_chainfence_h", "t_chainfence_v" ],
     "name": "chain link fence",
