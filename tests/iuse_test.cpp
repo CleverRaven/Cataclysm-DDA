@@ -1,12 +1,11 @@
-#include "catch/catch.hpp"
-
-#include <cmath>
 #include <cstdlib>
+#include <iosfwd>
 #include <memory>
 #include <string>
 
 #include "avatar.h"
 #include "calendar.h"
+#include "catch/catch.hpp"
 #include "flag.h"
 #include "item.h"
 #include "itype.h"

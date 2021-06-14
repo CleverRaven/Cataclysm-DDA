@@ -20,6 +20,8 @@
       [ "spell_scroll_create_lighter", 50 ],
       [ "spell_scroll_chilling_touch", 50 ],
       [ "spell_scroll_magic_missile", 50 ],
+      [ "spell_scroll_bleed", 50 ],
+      [ "spell_scroll_shocking_lash", 50 ],
       [ "spell_scroll_bless", 25 ],
       [ "spell_scroll_create_atomic_lamp", 25 ],
       [ "spell_scroll_taze", 25 ],
@@ -31,7 +33,8 @@
       [ "spell_scroll_biomancer_paralytic_dart", 40 ],
       [ "spell_scroll_biomancer_visceral_projection", 40 ],
       [ "spell_scroll_summon_wisps", 30 ],
-      [ "spell_scroll_stormshaper_wall_of_fog", 35 ]
+      [ "spell_scroll_stormshaper_wall_of_fog", 35 ],
+      [ "spell_scroll_shadow_field", 20 ]
     ]
   },
   {
@@ -131,14 +134,15 @@
       [ "spell_scroll_druidic_healing", 20 ],
       [ "spell_scroll_summon_magic_motorcycle", 5 ],
       [ "bio_sneeze_beam", 50 ],
-      [ "spell_scroll_nova_flare", 25 ]
+      [ "spell_scroll_nova_flare", 25 ],
+      [ "spell_scroll_freezing_touch", 40 ]
     ]
   },
   {
     "id": "spellbook_tier_0",
     "type": "item_group",
     "//": "These are spellbooks that a beginner would have, or scrolls that would have this tier or one tier higher of spells.",
-    "items": [ [ "wizard_beginner", 30 ], [ "priest_beginner", 30 ], [ "techno_idiots", 30 ] ]
+    "items": [ [ "wizard_beginner", 30 ], [ "priest_beginner", 30 ], [ "techno_idiots", 30 ], [ "novice_stormshaper_book", 30 ] ]
   },
   {
     "id": "spellbook_tier_1",

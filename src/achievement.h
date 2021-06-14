@@ -1,22 +1,19 @@
 #ifndef CATA_SRC_ACHIEVEMENT_H
 #define CATA_SRC_ACHIEVEMENT_H
 
-#include <algorithm>
 #include <array>
 #include <functional>
-#include <list>
+#include <iosfwd>
 #include <memory>
-#include <string>
+#include <new>
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
 
 #include "calendar.h"
 #include "cata_variant.h"
-#include "enum_traits.h"
 #include "event_subscriber.h"
 #include "optional.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 

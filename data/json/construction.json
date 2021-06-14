@@ -483,6 +483,7 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "2 m",
     "qualities": [ [ { "id": "CUT", "level": 1 } ] ],
+    "byproducts": [ { "item": "duct_tape", "charges": [ 15, 25 ] } ],
     "pre_terrain": "t_window_taped",
     "post_terrain": "t_window"
   },
@@ -495,6 +496,7 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "2 m",
     "qualities": [ [ { "id": "CUT", "level": 1 } ] ],
+    "byproducts": [ { "item": "duct_tape", "charges": [ 15, 25 ] } ],
     "pre_terrain": "t_window_domestic_taped",
     "post_terrain": "t_window_domestic"
   },
@@ -507,6 +509,7 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "2 m",
     "qualities": [ [ { "id": "CUT", "level": 1 } ] ],
+    "byproducts": [ { "item": "duct_tape", "charges": [ 15, 25 ] } ],
     "pre_terrain": "t_window_alarm_taped",
     "post_terrain": "t_window_alarm"
   },
@@ -519,6 +522,7 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "2 m",
     "qualities": [ [ { "id": "CUT", "level": 1 } ] ],
+    "byproducts": [ { "item": "duct_tape", "charges": [ 15, 25 ] } ],
     "pre_terrain": "t_window_no_curtains_taped",
     "post_terrain": "t_window_no_curtains"
   },
@@ -1844,7 +1848,16 @@
     "components": [
       [ [ "2x4", 4 ] ],
       [ [ "nail", 6 ] ],
-      [ [ "sheet", 2 ], [ "blanket", 1 ], [ "down_blanket", 1 ], [ "fur_blanket", 1 ] ]
+      [
+        [ "sheet", 2 ],
+        [ "blanket", 1 ],
+        [ "down_blanket", 1 ],
+        [ "fur_blanket", 1 ],
+        [ "quilt", 1 ],
+        [ "quilt_patchwork", 1 ],
+        [ "sleeping_bag", 1 ],
+        [ "sleeping_bag_fur", 1 ]
+      ]
     ],
     "pre_special": "check_empty",
     "post_terrain": "f_makeshift_bed"
@@ -2580,6 +2593,7 @@
     "time": "60 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "2x4", 6 ] ], [ [ "nail", 20 ] ], [ [ "wood_panel", 3 ] ] ],
+    "pre_special": "check_nofloor_above",
     "pre_terrain": "t_wood_stairs_up_broken",
     "post_terrain": "t_wood_stairs_up",
     "post_special": "done_wood_stairs"
@@ -2607,6 +2621,7 @@
     "time": "360 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
     "components": [ [ [ "wood_panel", 4 ] ], [ [ "nail", 30 ] ] ],
+    "pre_special": "check_nofloor_above",
     "pre_terrain": "t_wood_stairs_up_half",
     "post_terrain": "t_wood_stairs_up",
     "post_special": "done_wood_stairs"
@@ -2655,7 +2670,6 @@
     "tools": [ [ [ "con_mix", 125 ] ] ],
     "qualities": [ [ { "id": "SMOOTH", "level": 1 } ] ],
     "components": [ [ [ "concrete", 5 ] ], [ [ "water", 5 ] ] ],
-    "pre_terrain": "t_pit_shallow",
     "pre_special": "check_ramp_low",
     "post_terrain": "t_ramp_up_low",
     "post_special": "done_ramp_low"
@@ -2672,7 +2686,6 @@
     "tools": [ [ [ "con_mix", 125 ] ] ],
     "qualities": [ [ { "id": "SMOOTH", "level": 1 } ] ],
     "components": [ [ [ "concrete", 5 ] ], [ [ "water", 5 ] ] ],
-    "pre_terrain": "t_pit_shallow",
     "pre_special": "check_ramp_high",
     "post_terrain": "t_ramp_up_high",
     "post_special": "done_ramp_high"
@@ -2712,7 +2725,8 @@
     "time": "40 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
     "components": [
-      [ [ "2x4", 8 ] ],
+      [ [ "2x4", 4 ] ],
+      [ [ "2x4", 4 ], [ "wood_sheet", 1 ], [ "wood_panel", 2 ] ],
       [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ] ],
       [ [ "55gal_drum", 2 ], [ "30gal_drum", 2 ], [ "wooden_barrel", 2 ] ]
     ],
@@ -4063,7 +4077,7 @@
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "40 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ] ],
-    "components": [ [ [ "rigid_plastic_sheet", 2 ] ], [ [ "nail", 16 ] ], [ [ "2x4", 4 ] ] ],
+    "components": [ [ [ "rigid_plastic_sheet", 1 ] ], [ [ "nail", 16 ] ], [ [ "2x4", 4 ] ] ],
     "pre_terrain": "t_window_empty",
     "post_terrain": "t_plastic_window"
   },
@@ -4089,7 +4103,7 @@
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "40 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ] ],
-    "components": [ [ [ "rigid_plastic_sheet", 1 ] ], [ [ "nail", 16 ] ], [ [ "2x4", 4 ] ] ],
+    "components": [ [ [ "rigid_plastic_sheet", 3 ] ], [ [ "nail", 16 ] ], [ [ "2x4", 4 ] ] ],
     "pre_terrain": "t_window_empty",
     "post_terrain": "t_reinforced_plastic_window"
   },

@@ -109,7 +109,7 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "CHISEL", 3 ] ],
+    "qualities": [ [ "CHISEL", 3 ], [ "CHISEL_WOOD", 3 ] ],
     "flags": [ "DURABLE_MELEE", "BELT_CLIP" ]
   },
   {
@@ -225,7 +225,7 @@
     "color": "brown",
     "use_action": {
       "target": "kiln_done",
-      "msg": "The kilns embers have died out, you can now disassemble it to harvest the charcoal.",
+      "msg": "The kiln's embers have died out; you can now disassemble it to harvest the charcoal.",
       "moves": 0,
       "type": "delayed_transform",
       "transform_age": 3600,

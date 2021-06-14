@@ -2,9 +2,10 @@
 
 #include <algorithm>
 #include <cstddef>
+#include <functional>
 #include <memory>
 #include <ostream>
-#include <set>
+#include <string>
 
 #include "action.h"
 #include "avatar.h"
@@ -35,7 +36,6 @@
 #include "ret_val.h"
 #include "rng.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "translations.h"
 #include "ui_manager.h"
 #include "weather.h"

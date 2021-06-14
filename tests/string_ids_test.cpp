@@ -1,11 +1,17 @@
-#include <unordered_set>
-#include "catch/catch.hpp"
+#include <algorithm>
+#include <iosfwd>
+#include <map>
+#include <set>
+#include <string>
+#include <utility>
+#include <vector>
 
+#include "catch/catch.hpp"
 #include "field_type.h"
-#include "flag.h"
-#include "generic_factory.h"
 #include "string_id_utils.h"
 #include "type_id.h"
+
+class json_flag;
 
 TEST_CASE( "sizeof_new_id", "[.][int_id][string_id]" )
 {

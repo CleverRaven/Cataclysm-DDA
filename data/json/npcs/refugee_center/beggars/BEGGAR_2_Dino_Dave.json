@@ -270,6 +270,7 @@
     "value": 0,
     "goal": "MGOAL_FIND_ITEM",
     "item": "duct_tape",
+    "count": 200,
     "followup": "MISSION_BEGGAR_2_BOX_MEDIUM",
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {

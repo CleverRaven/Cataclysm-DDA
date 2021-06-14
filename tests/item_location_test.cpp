@@ -1,12 +1,12 @@
-#include "catch/catch.hpp"
-#include "item_location.h"
-
+#include <functional>
 #include <functional>
 #include <list>
 
+#include "catch/catch.hpp"
 #include "character.h"
 #include "item.h"
 #include "item_contents.h"
+#include "item_location.h"
 #include "item_pocket.h"
 #include "map.h"
 #include "map_helpers.h"

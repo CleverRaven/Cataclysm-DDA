@@ -485,7 +485,7 @@
     "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
     "coverage": 80,
     "encumbrance": 18,
-    "warmth": 20,
+    "warmth": 10,
     "material_thickness": 2,
     "flags": [ "OUTER" ]
   },

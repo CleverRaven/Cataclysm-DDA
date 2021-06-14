@@ -1,8 +1,17 @@
-#include "catch/catch.hpp"
+#include <functional>
+#include <iosfwd>
+#include <memory>
+#include <set>
+#include <string>
 
-#include "item.h"
-#include "itype.h"
+#include "catch/catch.hpp"
 #include "debug.h"
+#include "item.h"
+#include "item_pocket.h"
+#include "itype.h"
+#include "ret_val.h"
+#include "type_id.h"
+#include "value_ptr.h"
 
 TEST_CASE( "ammo_set", "[ammo_set][magazine][ammo]" )
 {

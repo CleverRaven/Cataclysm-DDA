@@ -4,15 +4,15 @@
 
 #include <cstddef>
 #include <functional>
+#include <iosfwd>
 #include <list>
+#include <map>
 #include <set>
-#include <string>
 #include <utility>
 #include <vector>
 
 #include "enums.h"
 #include "item_pocket.h"
-#include "iteminfo_query.h"
 #include "optional.h"
 #include "ret_val.h"
 #include "type_id.h"
@@ -23,13 +23,10 @@ class Character;
 class JsonIn;
 class JsonOut;
 class item;
-class item;
 class item_location;
 class iteminfo_query;
 class player;
-class pocket_data;
 struct iteminfo;
-struct tripoint;
 struct tripoint;
 
 class item_contents
@@ -37,7 +34,7 @@ class item_contents
     public:
         item_contents() = default;
         // used for loading itype
-        item_contents( const std::vector<pocket_data> &pockets );
+        explicit item_contents( const std::vector<pocket_data> &pockets );
 
         /**
           * returns an item_location and pointer to the best pocket that can contain the item @it

@@ -724,7 +724,7 @@
     "type": "MONSTER",
     "name": { "str": "giant fly", "str_pl": "giant flies" },
     "description": "A tremendous housefly the size of a dog, predictably accompanied by a loud, incessant buzzing sound.",
-    "default_faction": "small_animal",
+    "default_faction": "insect",
     "bodytype": "flying insect",
     "species": [ "INSECT_FLYING" ],
     "volume": "30 L",

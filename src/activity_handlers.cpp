@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <climits>
 #include <cmath>
-#include <cstddef>
+#include <cstdlib>
 #include <iterator>
 #include <memory>
 #include <ostream>
@@ -31,24 +31,22 @@
 #include "color.h"
 #include "construction.h"
 #include "coordinates.h"
-#include "craft_command.h"
 #include "creature.h"
 #include "damage.h"
 #include "debug.h"
+#include "effect_source.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
 #include "fault.h"
 #include "field_type.h"
 #include "flag.h"
-#include "flat_set.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "handle_liquid.h"
 #include "harvest.h"
 #include "iexamine.h"
-#include "int_id.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_contents.h"
@@ -66,6 +64,7 @@
 #include "map_selector.h"
 #include "mapdata.h"
 #include "martialarts.h"
+#include "memory_fast.h"
 #include "messages.h"
 #include "mongroup.h"
 #include "monster.h"
@@ -82,20 +81,17 @@
 #include "point.h"
 #include "proficiency.h"
 #include "ranged.h"
-#include "recipe.h"
 #include "requirements.h"
 #include "ret_val.h"
 #include "rng.h"
 #include "skill.h"
 #include "sounds.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "text_snippets.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "value_ptr.h"
 #include "veh_interact.h"
 #include "vehicle.h"
@@ -111,7 +107,6 @@ static const efftype_id effect_sheared( "sheared" );
 static const activity_id ACT_ADV_INVENTORY( "ACT_ADV_INVENTORY" );
 static const activity_id ACT_ARMOR_LAYERS( "ACT_ARMOR_LAYERS" );
 static const activity_id ACT_ATM( "ACT_ATM" );
-static const activity_id ACT_AUTODRIVE( "ACT_AUTODRIVE" );
 static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_BLEED( "ACT_BLEED" );
 static const activity_id ACT_BUTCHER( "ACT_BUTCHER" );
@@ -208,6 +203,7 @@ static const itype_id itype_mind_scan_robofac( "mind_scan_robofac" );
 static const itype_id itype_muscle( "muscle" );
 static const itype_id itype_nail( "nail" );
 static const itype_id itype_pipe( "pipe" );
+static const itype_id itype_rebar( "rebar" );
 static const itype_id itype_scrap( "scrap" );
 static const itype_id itype_sheet_metal( "sheet_metal" );
 static const itype_id itype_spike( "spike" );
@@ -235,11 +231,11 @@ static const quality_id qual_CUT_FINE( "CUT_FINE" );
 static const species_id species_HUMAN( "HUMAN" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
 
-static const std::string trait_flag_CANNIBAL( "CANNIBAL" );
-static const std::string trait_flag_PSYCHOPATH( "PSYCHOPATH" );
-static const std::string trait_flag_SAPIOVORE( "SAPIOVORE" );
+static const json_character_flag json_flag_CANNIBAL( "CANNIBAL" );
+static const json_character_flag json_flag_PSYCHOPATH( "PSYCHOPATH" );
+static const json_character_flag json_flag_SAPIOVORE( "SAPIOVORE" );
+static const json_character_flag json_flag_SUPER_HEARING( "SUPER_HEARING" );
 
-static const bionic_id bio_ears( "bio_ears" );
 static const bionic_id bio_painkiller( "bio_painkiller" );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
@@ -617,9 +613,9 @@ static void set_up_butchery( player_activity &act, player &u, butcher_type actio
     // applies to all butchery actions
     const bool is_human = corpse.id == mtype_id::NULL_ID() || ( corpse.in_species( species_HUMAN ) &&
                           !corpse.in_species( species_ZOMBIE ) );
-    if( is_human && !( u.has_trait_flag( trait_flag_CANNIBAL ) ||
-                       u.has_trait_flag( trait_flag_PSYCHOPATH ) ||
-                       u.has_trait_flag( trait_flag_SAPIOVORE ) ) ) {
+    if( is_human && !( u.has_trait_flag( json_flag_CANNIBAL ) ||
+                       u.has_trait_flag( json_flag_PSYCHOPATH ) ||
+                       u.has_trait_flag( json_flag_SAPIOVORE ) ) ) {
 
         if( u.is_player() ) {
             if( query_yn( _( "Would you dare desecrate the mortal remains of a fellow human being?" ) ) ) {
@@ -658,7 +654,7 @@ int butcher_time_to_cut( const player &u, const item &corpse_item, const butcher
     const mtype &corpse = *corpse_item.get_mtype();
     const int factor = u.max_quality( action == butcher_type::DISSECT ? qual_CUT_FINE : qual_BUTCHER );
 
-    int time_to_cut = 0;
+    int time_to_cut;
     switch( corpse.size ) {
         // Time (roughly) in turns to cut up the corpse
         case creature_size::tiny:
@@ -676,16 +672,14 @@ int butcher_time_to_cut( const player &u, const item &corpse_item, const butcher
         case creature_size::huge:
             time_to_cut = 1800;
             break;
-        case creature_size::num_sizes:
+        default:
             debugmsg( "ERROR: Invalid creature_size on %s", corpse.nname() );
+            time_to_cut = 450; // default to medium
             break;
     }
 
     // At factor 0, base 100 time_to_cut remains 100. At factor 50, it's 50 , at factor 75 it's 25
     time_to_cut *= std::max( 25, 100 - factor );
-    if( time_to_cut < 3000 ) {
-        time_to_cut = 3000;
-    }
 
     switch( action ) {
         case butcher_type::QUICK:
@@ -1826,23 +1820,13 @@ void activity_handlers::pickaxe_finish( player_activity *act, player *p )
         const int helpersize = get_player_character().get_num_crafting_helpers( 3 );
         if( here.is_bashable( pos ) && here.has_flag( flag_SUPPORTS_ROOF, pos ) &&
             here.ter( pos ) != t_tree ) {
-            // Tunneling through solid rock is hungry, sweaty, tiring, backbreaking work
-            // Betcha wish you'd opted for the J-Hammer ;P
-            p->mod_stored_nutr( 15 - ( helpersize * 3 ) );
-            p->mod_thirst( 15 - ( helpersize * 3 ) );
+            // Tunneling through solid rock is sweaty, backbreaking work
+            // Betcha wish you'd opted for the J-Hammer
             if( p->has_trait( trait_STOCKY_TROGLO ) ) {
-                // Yep, dwarves can dig longer before tiring
-                p->mod_fatigue( 20 - ( helpersize  * 3 ) );
+                p->mod_pain( std::max( 0, ( 1 * static_cast<int>( rng( 0, 3 ) ) ) - helpersize ) );
             } else {
-                p->mod_fatigue( 30 - ( helpersize  * 3 ) );
+                p->mod_pain( std::max( 0, ( 2 * static_cast<int>( rng( 1, 3 ) ) ) - helpersize ) );
             }
-            p->mod_pain( std::max( 0, ( 2 * static_cast<int>( rng( 1, 3 ) ) ) - helpersize ) );
-        } else if( here.move_cost( pos ) == 2 && here.get_abs_sub().z == 0 &&
-                   here.ter( pos ) != t_dirt && here.ter( pos ) != t_grass ) {
-            //Breaking up concrete on the surface? not nearly as bad
-            p->mod_stored_nutr( 5 - ( helpersize ) );
-            p->mod_thirst( 5 - ( helpersize ) );
-            p->mod_fatigue( 10 - ( helpersize  * 2 ) );
         }
     }
     p->add_msg_player_or_npc( m_good,
@@ -2000,6 +1984,18 @@ void activity_handlers::start_fire_do_turn( player_activity *act, player *p )
         }
     }
 
+    // Sometimes when an item is dropped it causes the whole item* to get set to null.
+    // This null pointer gets cast to a reference at some point, causing UB and
+    // segfaults. It looks like something is supposed to catch this, maybe
+    // get_safe_reference in item.cpp, but it's not working so we check for a
+    // null pointer here.
+    //
+    if( act->targets.front().get_item() == nullptr ) {
+        add_msg( m_bad, _( "You have lost the item you were using to start the fire." ) );
+        p->cancel_activity();
+        return;
+    }
+
     item &firestarter = *act->targets.front();
     if( firestarter.has_flag( flag_REQUIRES_TINDER ) ) {
         if( !here.tinder_at( act->placement ) ) {
@@ -2150,7 +2146,6 @@ void activity_handlers::hand_crank_do_turn( player_activity *act, player *p )
     // Modify for weariness
     time_to_crank /= p->exertion_adjusted_move_multiplier( act->exertion_level() );
     if( calendar::once_every( time_duration::from_seconds( time_to_crank ) ) ) {
-        p->mod_fatigue( 1 );
         if( hand_crank_item.ammo_capacity( ammotype( "battery" ) ) > hand_crank_item.ammo_remaining() ) {
             hand_crank_item.ammo_set( itype_id( "battery" ), hand_crank_item.ammo_remaining() + 1 );
         } else {
@@ -2178,7 +2173,6 @@ void activity_handlers::vibe_do_turn( player_activity *act, player *p )
     }
 
     if( calendar::once_every( 1_minutes ) ) {
-        p->mod_fatigue( 1 );
         if( vibrator_item.ammo_remaining() > 0 ) {
             vibrator_item.ammo_consume( 1, p->pos() );
             p->add_morale( MORALE_FEELING_GOOD, 3, 40 );
@@ -2338,10 +2332,13 @@ void activity_handlers::oxytorch_finish( player_activity *act, player *p )
         }
     } else if( ter == t_window_bars_alarm ) {
         here.ter_set( pos, t_window_alarm );
-        here.spawn_item( p->pos(), itype_pipe, rng( 1, 2 ) );
+        here.spawn_item( p->pos(), itype_rebar, rng( 1, 2 ) );
     } else if( ter == t_window_bars ) {
         here.ter_set( pos, t_window_empty );
-        here.spawn_item( p->pos(), itype_pipe, rng( 1, 2 ) );
+        here.spawn_item( p->pos(), itype_rebar, rng( 1, 2 ) );
+    } else if( ter == t_window_bars_curtains || ter == t_window_bars_domestic ) {
+        here.ter_set( pos, t_window_domestic );
+        here.spawn_item( p->pos(), itype_rebar, rng( 1, 2 ) );
     } else if( furn == f_safe_l || furn == f_gunsafe_ml || furn == f_gunsafe_mj ||
                furn == f_gun_safe_el ) {
         here.furn_set( pos, f_safe_o );
@@ -2349,6 +2346,17 @@ void activity_handlers::oxytorch_finish( player_activity *act, player *p )
         if( here.flammable_items_at( pos ) && rng( 1, 100 ) < 50 ) {
             here.add_field( pos, fd_fire, 1, 10_minutes );
         }
+    } else if( ter == t_metal_grate_window || ter == t_metal_grate_window_with_curtain ||
+               ter == t_metal_grate_window_with_curtain_open ) {
+        here.ter_set( pos, t_window_reinforced );
+        here.spawn_item( p->pos(), itype_pipe, rng( 1, 12 ) );
+        here.spawn_item( p->pos(), itype_sheet_metal, 4 );
+    } else if( ter == t_metal_grate_window_noglass ||
+               ter == t_metal_grate_window_with_curtain_noglass ||
+               ter == t_metal_grate_window_with_curtain_open_noglass ) {
+        here.ter_set( pos, t_window_reinforced_noglass );
+        here.spawn_item( p->pos(), itype_pipe, rng( 1, 12 ) );
+        here.spawn_item( p->pos(), itype_sheet_metal, 4 );
     }
 }
 
@@ -3018,7 +3026,7 @@ void activity_handlers::cracking_do_turn( player_activity *act, player *p )
         item temporary_item( it.type );
         return temporary_item.has_flag( flag_SAFECRACK );
     } );
-    if( cracking_tool.empty() && !p->has_bionic( bio_ears ) ) {
+    if( cracking_tool.empty() && !p->has_flag( json_flag_SUPER_HEARING ) ) {
         // We lost our cracking tool somehow, bail out.
         act->set_to_null();
         return;
@@ -3219,7 +3227,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
 
     const time_duration half_op_duration = difficulty * 10_minutes;
     const time_duration message_freq = difficulty * 2_minutes;
-    time_duration time_left = time_duration::from_turns( act->moves_left / 100 );
+    time_duration time_left = time_duration::from_moves( act->moves_left );
 
     map &here = get_map();
     if( autodoc && here.inbounds( p->pos() ) ) {
@@ -3580,10 +3588,13 @@ void activity_handlers::hacksaw_finish( player_activity *act, player *p )
         here.spawn_item( p->pos(), itype_pipe, 6 );
     } else if( ter == t_window_bars_alarm ) {
         here.ter_set( pos, t_window_alarm );
-        here.spawn_item( p->pos(), itype_pipe, 6 );
+        here.spawn_item( p->pos(), itype_rebar, rng( 1, 8 ) );
+    } else if( ter == t_window_bars_curtains || ter == t_window_bars_domestic ) {
+        here.ter_set( pos, t_window_domestic );
+        here.spawn_item( p->pos(), itype_rebar, rng( 1, 8 ) );
     } else if( ter == t_window_bars ) {
         here.ter_set( pos, t_window_empty );
-        here.spawn_item( p->pos(), itype_pipe, 6 );
+        here.spawn_item( p->pos(), itype_rebar, rng( 1, 8 ) );
     } else if( ter == t_window_enhanced ) {
         here.ter_set( pos, t_window_reinforced );
         here.spawn_item( p->pos(), itype_spike, rng( 1, 4 ) );
@@ -3608,11 +3619,19 @@ void activity_handlers::hacksaw_finish( player_activity *act, player *p )
     } else if( ter == t_door_bar_c || ter == t_door_bar_locked ) {
         here.ter_set( pos, t_mdoor_frame );
         here.spawn_item( p->pos(), itype_pipe, 12 );
+    } else if( ter == t_metal_grate_window || ter == t_metal_grate_window_with_curtain ||
+               ter == t_metal_grate_window_with_curtain_open ) {
+        here.ter_set( pos, t_window_reinforced );
+        here.spawn_item( p->pos(), itype_pipe, rng( 1, 12 ) );
+        here.spawn_item( p->pos(), itype_sheet_metal, 4 );
+    } else if( ter == t_metal_grate_window_noglass ||
+               ter == t_metal_grate_window_with_curtain_noglass ||
+               ter == t_metal_grate_window_with_curtain_open_noglass ) {
+        here.ter_set( pos, t_window_reinforced_noglass );
+        here.spawn_item( p->pos(), itype_pipe, rng( 1, 12 ) );
+        here.spawn_item( p->pos(), itype_sheet_metal, 4 );
     }
 
-    p->mod_stored_nutr( 5 );
-    p->mod_thirst( 5 );
-    p->mod_fatigue( 10 );
     p->add_msg_if_player( m_good, _( "You finish cutting the metal." ) );
 
     act->set_to_null();
@@ -3727,10 +3746,6 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
     }
 
     here.ter_set( pos, t_stump );
-    const int helpersize = p->get_num_crafting_helpers( 3 );
-    p->mod_stored_nutr( 5 - helpersize );
-    p->mod_thirst( 5 - helpersize );
-    p->mod_fatigue( 10 - ( helpersize * 2 ) );
     p->add_msg_if_player( m_good, _( "You finish chopping down a tree." ) );
     // sound of falling tree
     sfx::play_variant_sound( "misc", "timber",
@@ -3776,10 +3791,6 @@ void activity_handlers::chop_logs_finish( player_activity *act, player *p )
         here.add_item_or_charges( pos, obj );
     }
     here.ter_set( pos, t_dirt );
-    const int helpersize = p->get_num_crafting_helpers( 3 );
-    p->mod_stored_nutr( 5 - helpersize );
-    p->mod_thirst( 5 - helpersize );
-    p->mod_fatigue( 10 - ( helpersize * 2 ) );
     p->add_msg_if_player( m_good, _( "You finish chopping wood." ) );
 
     act->set_to_null();
@@ -3830,12 +3841,6 @@ void activity_handlers::jackhammer_finish( player_activity *act, player *p )
 
     here.destroy( pos, true );
 
-    if( p->is_avatar() ) {
-        const int helpersize = get_player_character().get_num_crafting_helpers( 3 );
-        p->mod_stored_nutr( 5 - helpersize );
-        p->mod_thirst( 5 - helpersize );
-        p->mod_fatigue( 10 - ( helpersize * 2 ) );
-    }
     p->add_msg_player_or_npc( m_good,
                               _( "You finish drilling." ),
                               _( "<npcname> finishes drilling." ) );
@@ -3875,10 +3880,6 @@ void activity_handlers::fill_pit_finish( player_activity *act, player *p )
     } else {
         here.ter_set( pos, t_dirt );
     }
-    const int helpersize = get_player_character().get_num_crafting_helpers( 3 );
-    p->mod_stored_nutr( 5 - helpersize );
-    p->mod_thirst( 5 - helpersize );
-    p->mod_fatigue( 10 - ( helpersize * 2 ) );
     p->add_msg_if_player( m_good, _( "You finish filling up %s." ), old_ter.obj().name() );
 
     act->set_to_null();
@@ -4306,8 +4307,6 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
                                       spell_being_cast.xp() );
             }
             if( spell_being_cast.get_level() != old_level ) {
-                get_event_bus().send<event_type::player_levels_spell>( p->getID(),
-                        spell_being_cast.id(), spell_being_cast.get_level() );
                 // Level 0-1 message is printed above - notify player when leveling up further
                 if( old_level > 0 ) {
                     p->add_msg_if_player( m_good, _( "You gained a level in %s!" ), spell_being_cast.name() );
@@ -4341,6 +4340,8 @@ void activity_handlers::study_spell_do_turn( player_activity *act, player *p )
         const int xp = roll_remainder( studying.exp_modifier( *p ) / to_turns<float>( 6_seconds ) );
         act->values[0] += xp;
         studying.gain_exp( xp );
+        p->practice( studying.skill(), xp, studying.get_difficulty() );
+
         // Notify player if the spell leveled up
         if( studying.get_level() > old_level ) {
             p->add_msg_if_player( m_good, _( "You gained a level in %s!" ), studying.name() );
@@ -4356,8 +4357,6 @@ void activity_handlers::study_spell_finish( player_activity *act, player *p )
     if( act->get_str_value( 1 ) == "study" ) {
         p->add_msg_if_player( m_good, _( "You gained %i experience from your study session." ),
                               total_exp_gained );
-        const spell &sp = p->magic->get_spell( spell_id( act->name ) );
-        p->practice( sp.skill(), total_exp_gained, sp.get_difficulty() );
     } else if( act->get_str_value( 1 ) == "learn" && act->values[2] == 0 ) {
         p->magic->learn_spell( act->name, *p );
     }

@@ -749,6 +749,7 @@
       "both": {
         "items": [ "pants_army", "undershirt", "jacket_army", "gloves_liner", "socks", "boots", "beret", "wristwatch", "binoculars" ],
         "entries": [
+          { "item": "water_clean", "container-item": "canteen" },
           { "item": "m17", "ammo-item": "9mm", "container-item": "holster", "charges": 17 },
           { "item": "p320mag_17rd_9x19mm", "ammo-item": "9mm", "charges": 17, "count": 2 },
           { "item": "militarymap" }
@@ -792,6 +793,7 @@
         ],
         "entries": [
           { "group": "charged_two_way_radio" },
+          { "item": "water_clean", "container-item": "canteen" },
           { "item": "legpouch_large", "contents-group": "army_mags_m4" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_combat", "container-item": "sheath" },
@@ -836,6 +838,7 @@
           "molle_pack"
         ],
         "entries": [
+          { "item": "water_clean", "container-item": "canteen" },
           { "item": "wrench" },
           { "item": "hacksaw" },
           { "item": "pliers" },
@@ -884,6 +887,7 @@
         ],
         "entries": [
           { "group": "charged_two_way_radio" },
+          { "item": "water_clean", "container-item": "canteen" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "c4", "count": 3 }
         ]
@@ -928,6 +932,7 @@
         ],
         "entries": [
           { "group": "charged_two_way_radio" },
+          { "item": "water_clean", "container-item": "canteen" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_combat", "container-item": "sheath" },
           { "item": "shot_00", "count": 2 },
@@ -977,6 +982,7 @@
         ],
         "entries": [
           { "group": "charged_two_way_radio" },
+          { "item": "water_clean", "container-item": "canteen" },
           { "item": "legpouch_large", "contents-group": "army_mags_m4" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_combat", "container-item": "sheath" },
@@ -1023,6 +1029,7 @@
           "diving_watch"
         ],
         "entries": [
+          { "item": "water_clean", "container-item": "canteen" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "kukri", "container-item": "sheath" },
           { "item": "chestrig", "contents-group": "army_mags_mp5" },
@@ -1155,7 +1162,17 @@
     "points": 1,
     "items": {
       "both": {
-        "items": [ "pants", "socks", "boots_combat", "longshirt", "jacket_light", "knife_folding", "hat_ball", "wristwatch" ],
+        "items": [
+          "pants",
+          "socks",
+          "boots_combat",
+          "longshirt",
+          "jacket_light",
+          "knife_folding",
+          "hat_ball",
+          "wristwatch",
+          "leather_belt"
+        ],
         "entries": [
           { "group": "charged_cell_phone" },
           { "group": "charged_flashlight" },
@@ -1288,7 +1305,10 @@
     "description": "Cocaine.  It is, indeed, a helluva drug.  You blew your money on some dust, and before you knew it you were turning tricks behind the local CVS just to score one more line.  Where are you going to get your next fix now?",
     "points": -1,
     "items": {
-      "both": { "items": [ "crackpipe", "crack", "crack", "tank_top" ], "entries": [ { "group": "charged_ref_lighter" } ] },
+      "both": {
+        "items": [ "crackpipe", "tank_top" ],
+        "entries": [ { "group": "charged_ref_lighter" }, { "item": "crack", "charges": 8, "container-item": "bag_zipper" } ]
+      },
       "male": [ "jeans", "flip_flops" ],
       "female": [ "jeans", "heels" ]
     },
@@ -1527,12 +1547,7 @@
           { "item": "legpouch_large", "contents-group": "army_mags_usp9" },
           { "item": "usp_9mm", "ammo-item": "9mmfmj", "charges": 15, "container-item": "holster" },
           { "item": "baton-extended", "container-item": "police_belt" },
-          {
-            "item": "ksg",
-            "ammo-item": "shot_00",
-            "charges": 7,
-            "contents-item": [ "shoulder_strap", "ksg_aux_shotgun" ]
-          }
+          { "item": "ksg", "ammo-item": "shot_00", "charges": 7, "contents-item": [ "shoulder_strap" ] }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -2728,6 +2743,7 @@
           "wristwatch"
         ],
         "entries": [
+          { "item": "water_clean", "container-item": "canteen" },
           { "item": "scar_h", "ammo-item": "762_51", "contents-item": "shoulder_strap" },
           { "item": "katana", "container-item": "scabbard" }
         ]
@@ -2768,6 +2784,7 @@
           "quikclot"
         ],
         "entries": [
+          { "item": "water_clean", "container-item": "canteen" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_combat", "container-item": "sheath" },
           { "item": "m4a1", "ammo-item": "556", "contents-item": "shoulder_strap" },
@@ -2794,7 +2811,7 @@
     "points": 0,
     "items": {
       "both": {
-        "items": [ "pants", "socks", "boots", "longshirt", "jacket_light", "holster", "pockknife", "wristwatch" ],
+        "items": [ "pants", "socks", "boots", "longshirt", "jacket_light", "holster", "pockknife", "wristwatch", "leather_belt" ],
         "entries": [
           { "group": "charged_cell_phone" },
           { "group": "charged_flashlight" },
@@ -3322,10 +3339,12 @@
           "sneakers",
           "roadmap",
           "touristmap",
-          "wristwatch",
-          "camera"
+          "wristwatch"
         ],
-        "entries": [ { "group": "charged_cell_phone" } ]
+        "entries": [
+          { "group": "charged_cell_phone" },
+          { "item": "light_disposable_cell", "ammo-item": "battery", "charges": 300, "container-item": "camera" }
+        ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
@@ -3653,6 +3672,7 @@
         ],
         "entries": [
           { "group": "charged_two_way_radio" },
+          { "item": "water_clean", "container-item": "canteen" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "m17", "ammo-item": "9mm", "container-item": "holster", "charges": 17 },
           { "item": "p320mag_17rd_9x19mm", "ammo-item": "9mm", "charges": 17 },
@@ -3752,11 +3772,16 @@
           "scalpel",
           "syringe",
           "morphine",
+          "aspirin",
+          "antibiotics",
+          "disinfectant",
+          "pepto",
           "molle_pack"
         ],
         "entries": [
           { "group": "charged_two_way_radio" },
           { "group": "full_ifak" },
+          { "item": "water_clean", "container-item": "canteen" },
           { "item": "legpouch_large", "contents-group": "army_mags_m4" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "gloves_medical", "custom-flags": [ "no_auto_equip" ] },
@@ -3776,7 +3801,11 @@
     "name": "Heroin Addict",
     "description": "The last thing you remember was meeting God behind the local Foodplace.  Then people started eating each other.  This doesn't feel like a fever dream.",
     "points": -3,
-    "items": { "both": [ "shorts", "heroin", "syringe" ], "male": [ "briefs" ], "female": [ "bra", "panties" ] },
+    "items": {
+      "both": { "items": [ "shorts", "syringe" ], "entries": [ { "item": "heroin", "charges": 9, "container-item": "bag_zipper" } ] },
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    },
     "addictions": [ { "intensity": 40, "type": "opiate" } ]
   },
   {
@@ -3866,6 +3895,7 @@
         "entries": [
           { "group": "charged_two_way_radio" },
           { "group": "full_gasmask" },
+          { "item": "water_clean", "container-item": "canteen" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "flamethrower", "ammo-item": "napalm", "charges": 3000, "custom-flags": [ "auto_wield" ] },
           { "item": "m17", "ammo-item": "9mm", "container-item": "holster", "charges": 17 },

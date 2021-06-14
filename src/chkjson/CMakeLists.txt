@@ -22,7 +22,7 @@ include_directories(${CMAKE_SOURCE_DIR}/src ${CMAKE_SOURCE_DIR}/src/chkjson)
 
 # Add the actual executable
 if (WIN32)
-	add_executable(chkjson WIN32 EXCLUDE_FROM_ALL ${CHKJSON_SOURCES} ${CHKJSON_HEADERS})
+    add_executable(chkjson WIN32 EXCLUDE_FROM_ALL ${CHKJSON_SOURCES} ${CHKJSON_HEADERS})
 else ()
-	add_executable(chkjson EXCLUDE_FROM_ALL ${CHKJSON_SOURCES} ${CHKJSON_HEADERS})
+    add_executable(chkjson EXCLUDE_FROM_ALL ${CHKJSON_SOURCES} ${CHKJSON_HEADERS})
 endif ()

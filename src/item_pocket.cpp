@@ -1,15 +1,16 @@
 #include "item_pocket.h"
 
 #include <algorithm>
-#include <cmath>
 #include <cstdlib>
 #include <memory>
+#include <string>
 #include <utility>
 
 #include "ammo.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "color.h"
 #include "crafting.h"
 #include "debug.h"
 #include "enums.h"
@@ -24,9 +25,9 @@
 #include "itype.h"
 #include "json.h"
 #include "map.h"
+#include "math_defines.h"
 #include "output.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "translations.h"
 #include "units.h"
 #include "units_utility.h"
@@ -660,8 +661,8 @@ void item_pocket::handle_liquid_or_spill( Character &guy, const item *avoid )
             }
         } else {
             item i_copy( *iter );
-            iter = contents.erase( iter );
             guy.i_add_or_drop( i_copy, 1, avoid );
+            iter = contents.erase( iter );
         }
     }
 }
@@ -767,6 +768,7 @@ bool item_pocket::process( const itype &type, player *carrier, const tripoint &p
             spoil_multiplier = 0.0f;
         }
         if( it->process( carrier, pos, type.insulation_factor * insulation, flag, spoil_multiplier ) ) {
+            it->spill_contents( pos );
             it = contents.erase( it );
             processed = true;
         } else {
@@ -1212,6 +1214,11 @@ void item_pocket::overflow( const tripoint &pos )
         }
     }
 
+    if( empty() ) {
+        // we've removed the migration pockets and items that didn't fit
+        return;
+    }
+
     if( !data->ammo_restriction.empty() ) {
         const ammotype contained_ammotype = contents.front().ammo_type();
         const auto ammo_iter = data->ammo_restriction.find( contained_ammotype );
@@ -1326,6 +1333,7 @@ void item_pocket::process( player *carrier, const tripoint &pos, float insulatio
         if( iter->process( carrier, pos, insulation, flag,
                            // spoil multipliers on pockets are not additive or multiplicative, they choose the best
                            std::min( spoil_multiplier_parent, spoil_multiplier() ) ) ) {
+            iter->spill_contents( pos );
             iter = contents.erase( iter );
         } else {
             ++iter;

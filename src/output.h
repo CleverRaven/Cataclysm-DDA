@@ -2,13 +2,15 @@
 #ifndef CATA_SRC_OUTPUT_H
 #define CATA_SRC_OUTPUT_H
 
+#include <functional>
+#include <clocale>
 #include <algorithm>
 #include <cstddef>
 #include <cstdint>
 #include <forward_list>
 #include <functional>
+#include <iosfwd>
 #include <iterator>
-#include <locale>
 #include <map>
 #include <string>
 #include <type_traits>
@@ -401,7 +403,7 @@ class border_helper
 
                 friend class border_helper;
             private:
-                border_info( border_helper &helper );
+                explicit border_info( border_helper &helper );
 
                 point pos;
                 point size;
@@ -866,7 +868,7 @@ class scrollbar
 class scrolling_text_view
 {
     public:
-        scrolling_text_view( catacurses::window &w ) : w_( w ) {}
+        explicit scrolling_text_view( catacurses::window &w ) : w_( w ) {}
 
         void set_text( const std::string & );
         void scroll_up();

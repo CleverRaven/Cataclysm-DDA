@@ -52,7 +52,7 @@
   {
     "id": "factory_handguard",
     "type": "GUNMOD",
-    "name": "factory handguard",
+    "name": { "str": "factory handguard" },
     "description": "A removable molded grip that comes standard on guns without rails.  It's not as efficient as a proper forward grip or bipod at controlling recoil, but it's better than nothing.",
     "weight": "246 g",
     "volume": "568ml",

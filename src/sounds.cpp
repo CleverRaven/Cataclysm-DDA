@@ -5,9 +5,11 @@
 #include <cmath>
 #include <cstdlib>
 #include <memory>
+#include <type_traits>
 #include <unordered_map>
 
-#include "cached_options.h"
+#include "activity_type.h"
+#include "cached_options.h" // IWYU pragma: keep
 #include "calendar.h"
 #include "character.h"
 #include "coordinate_conversions.h"
@@ -17,9 +19,9 @@
 #include "enums.h"
 #include "game.h"
 #include "game_constants.h"
-#include "itype.h"
-#include "json.h"
+#include "itype.h" // IWYU pragma: keep
 #include "line.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "messages.h"
@@ -32,10 +34,10 @@
 #include "rng.h"
 #include "safemode_ui.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
-#include "veh_type.h"
+#include "units.h"
+#include "veh_type.h" // IWYU pragma: keep
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "weather.h"
@@ -497,7 +499,7 @@ void sounds::process_sound_markers( player *p )
         }
 
         if( !p->has_effect( effect_sleep ) && p->has_effect( effect_alarm_clock ) &&
-            !p->has_bionic( bionic_id( "bio_watch" ) ) ) {
+            !p->has_flag( STATIC( json_character_flag( "ALARMCLOCK" ) ) ) ) {
             // if we don't have effect_sleep but we're in_sleep_state, either
             // we were trying to fall asleep for so long our alarm is now going
             // off or something disturbed us while trying to sleep

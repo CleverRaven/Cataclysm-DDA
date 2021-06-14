@@ -57,6 +57,22 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "special_forest",
+    "copy-from": "special_forest",
+    "name": "forest",
+    "sym": "#",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "special_forest_thick",
+    "copy-from": "special_forest_thick",
+    "name": "forest",
+    "sym": "#",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "hiway_ns",
     "copy-from": "hiway_ns",
     "name": "highway",

@@ -1,9 +1,12 @@
 #include "mapbuffer.h"
 
-#include <algorithm>
+#include <chrono>
+#include <exception>
 #include <functional>
+#include <ratio>
 #include <set>
 #include <sstream>
+#include <string>
 #include <utility>
 #include <vector>
 

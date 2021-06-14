@@ -111,14 +111,13 @@ jobs:
       android:
         components:
           - build-tools-28.0.1
-          - android-28
       cache:
         # The ccache feature in Travis doesn't work for language: android, so
         # do it ourselves.
         directories:
           - $HOME/.ccache
 
-    - env: CLANG=clang++ NATIVE=osx OSX_MIN=10.13 TILES=1 SOUND=1 BREWGETTEXT=1
+    - env: CLANG=clang++ OSX_MIN=10.13 TILES=1 SOUND=1
       name: "Xcode 10.2 Make build with Tiles and sound (macOS)"
       os: osx
       osx_image: xcode10.2
@@ -216,6 +215,9 @@ jobs:
           sources:
             - sourceline: "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-9 main"
               key_url: "https://apt.llvm.org/llvm-snapshot.gpg.key"
+
+before_install:
+  - if [ "${NATIVE}" == "android" ]; then yes | sdkmanager "platforms;android-28"; fi
 
 before_script:
   - if [ -n "${CLANG}" ]; then COMPILER="$CLANG"; fi

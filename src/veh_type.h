@@ -5,8 +5,10 @@
 #include <algorithm>
 #include <array>
 #include <bitset>
+#include <iosfwd>
 #include <map>
 #include <memory>
+#include <new>
 #include <set>
 #include <string>
 #include <utility>
@@ -18,11 +20,9 @@
 #include "optional.h"
 #include "point.h"
 #include "requirements.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
-#include "units_fwd.h"
 
 class JsonObject;
 class player;

@@ -3,12 +3,12 @@
 #include <algorithm>
 #include <array>
 #include <cmath>
-#include <cstddef>
+#include <cstdlib>
 #include <limits>
+#include <string>
 
 #include "cata_assert.h"
 #include "debug.h"
-#include "enum_conversions.h"
 #include "options.h"
 #include "rng.h"
 #include "string_formatter.h"

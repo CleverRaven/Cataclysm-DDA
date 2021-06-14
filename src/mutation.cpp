@@ -2,9 +2,11 @@
 
 #include <algorithm>
 #include <cstdlib>
+#include <functional>
 #include <memory>
 #include <unordered_set>
 
+#include "activity_type.h"
 #include "avatar_action.h"
 #include "bionics.h"
 #include "character.h"
@@ -16,10 +18,10 @@
 #include "event_bus.h"
 #include "field_type.h"
 #include "game.h"
-#include "int_id.h"
 #include "item.h"
 #include "item_contents.h"
 #include "itype.h"
+#include "magic_enchantment.h"
 #include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -29,9 +31,9 @@
 #include "omdata.h"
 #include "output.h"
 #include "overmapbuffer.h"
+#include "pimpl.h"
 #include "player_activity.h"
 #include "rng.h"
-#include "string_id.h"
 #include "translations.h"
 #include "units.h"
 
@@ -76,6 +78,12 @@ static const trait_id trait_TREE_COMMUNION( "TREE_COMMUNION" );
 static const trait_id trait_VOMITOUS( "VOMITOUS" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 
+static const json_character_flag json_flag_TINY( "TINY" );
+static const json_character_flag json_flag_SMALL( "SMALL" );
+static const json_character_flag json_flag_MEDIUM( "MEDIUM" );
+static const json_character_flag json_flag_LARGE( "LARGE" );
+static const json_character_flag json_flag_HUGE( "HUGE" );
+
 namespace io
 {
 
@@ -104,13 +112,19 @@ bool Character::has_trait( const trait_id &b ) const
     return my_mutations.count( b ) || enchantment_cache->get_mutations().count( b );
 }
 
-bool Character::has_trait_flag( const std::string &b ) const
+bool Character::has_trait_flag( const json_character_flag &b ) const
 {
     // UGLY, SLOW, should be cached as my_mutation_flags or something
     for( const trait_id &mut : get_mutations() ) {
         const mutation_branch &mut_data = mut.obj();
         if( mut_data.flags.count( b ) > 0 ) {
             return true;
+        } else if( mut_data.activated ) {
+            Character &player = get_player_character();
+            if( ( mut_data.active_flags.count( b ) > 0 && player.has_active_mutation( mut ) ) ||
+                ( mut_data.inactive_flags.count( b ) > 0 && !player.has_active_mutation( mut ) ) ) {
+                return true;
+            }
         }
     }
 
@@ -371,13 +385,13 @@ const resistances &mutation_branch::damage_resistance( const bodypart_id &bp ) c
 
 void Character::recalculate_size()
 {
-    if( has_trait( trait_SMALL2 ) || has_trait( trait_SMALL_OK ) ) {
+    if( has_trait_flag( json_flag_TINY ) ) {
         size_class = creature_size::tiny;
-    } else if( has_trait( trait_SMALL ) ) {
+    } else if( has_trait_flag( json_flag_SMALL ) ) {
         size_class = creature_size::small;
-    } else if( has_trait( trait_LARGE ) || has_trait( trait_LARGE_OK ) ) {
+    } else if( has_trait_flag( json_flag_LARGE ) ) {
         size_class = creature_size::large;
-    } else if( has_trait( trait_HUGE ) || has_trait( trait_HUGE_OK ) ) {
+    } else if( has_trait_flag( json_flag_HUGE ) ) {
         size_class = creature_size::huge;
     } else {
         size_class = creature_size::medium;

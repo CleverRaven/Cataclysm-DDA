@@ -35,7 +35,7 @@
     "coverage": 100,
     "encumbrance": 15,
     "warmth": 10,
-    "material_thickness": 1,
+    "material_thickness": 0.1,
     "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS" ]
   },
   {
@@ -56,7 +56,7 @@
     "coverage": 100,
     "encumbrance": 35,
     "warmth": 50,
-    "material_thickness": 3,
+    "material_thickness": 1,
     "environmental_protection": 1,
     "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS" ]
   },
@@ -78,7 +78,7 @@
     "coverage": 100,
     "encumbrance": 45,
     "warmth": 70,
-    "material_thickness": 3,
+    "material_thickness": 1,
     "environmental_protection": 1,
     "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS" ]
   },
@@ -100,14 +100,14 @@
     "coverage": 100,
     "encumbrance": 55,
     "warmth": 80,
-    "material_thickness": 4,
+    "material_thickness": 2,
     "environmental_protection": 1,
     "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS" ]
   },
   {
     "id": "quilt",
     "type": "ARMOR",
-    "name": "quilt",
+    "name": { "str": "quilt" },
     "description": "A big, comfy quilt made of thick wool in a triangle pattern.  Extremely cozy!",
     "weight": "1814 g",
     "volume": "5 L",
@@ -120,7 +120,7 @@
     "coverage": 100,
     "encumbrance": 40,
     "warmth": 75,
-    "material_thickness": 3,
+    "material_thickness": 1,
     "environmental_protection": 2,
     "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS" ],
     "looks_like": "down_blanket"
@@ -129,7 +129,7 @@
     "id": "quilt_patchwork",
     "type": "ARMOR",
     "copy-from": "quilt",
-    "name": "patchwork quilt",
+    "name": { "str": "patchwork quilt" },
     "description": "A huge, patchwork wool quilt.  Very, very warm.",
     "encumbrance": 50,
     "warmth": 70
@@ -152,7 +152,7 @@
     "coverage": 100,
     "encumbrance": 80,
     "warmth": 80,
-    "material_thickness": 4,
+    "material_thickness": 3,
     "environmental_protection": 1,
     "flags": [ "OVERSIZE", "OUTER" ],
     "use_action": {

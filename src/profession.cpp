@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <functional>
 #include <iterator>
 #include <map>
 #include <memory>
@@ -11,7 +12,6 @@
 #include "calendar.h"
 #include "debug.h"
 #include "flag.h"
-#include "flat_set.h"
 #include "generic_factory.h"
 #include "item.h"
 #include "item_contents.h"
@@ -42,7 +42,7 @@ static class json_item_substitution
 
     private:
         struct trait_requirements {
-            trait_requirements( const JsonObject &obj );
+            explicit trait_requirements( const JsonObject &obj );
             trait_requirements() = default;
             std::vector<trait_id> present;
             std::vector<trait_id> absent;
@@ -51,7 +51,7 @@ static class json_item_substitution
         struct substitution {
             trait_requirements trait_reqs;
             struct info {
-                info( const JsonValue &value );
+                explicit info( const JsonValue &value );
                 info() = default;
                 itype_id new_item;
                 double ratio = 1.0; // new charges / old charges

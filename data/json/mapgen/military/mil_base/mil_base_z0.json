@@ -121,8 +121,8 @@
         "%": [ { "item": "mil_base_ash", "chance": 25, "repeat": [ 1, 15 ] } ]
       },
       "place_loot": [
-        { "group": "fuel_diesel", "x": 19, "y": 15, "chance": 75 },
-        { "group": "fuel_diesel", "x": 45, "y": 11, "chance": 75 },
+        { "group": "fuel_jp8", "x": 19, "y": 15, "chance": 75 },
+        { "group": "fuel_jp8", "x": 45, "y": 11, "chance": 75 },
         { "group": "mil_base_hmg", "x": 67, "y": 57, "chance": 10, "magazine": 100 }
       ],
       "place_monsters": [
@@ -732,7 +732,7 @@
         { "item": "tinyweldtank", "x": 71, "y": [ 19, 20 ], "chance": 50, "repeat": [ 5, 10 ] },
         { "item": "tinyweldtank", "x": 72, "y": [ 19, 20 ], "chance": 50, "repeat": [ 5, 10 ] },
         { "item": "motor_oil", "x": 75, "y": [ 17, 18 ], "chance": 50, "repeat": [ 20, 40 ] },
-        { "item": "diesel", "x": 75, "y": 19, "chance": 80, "repeat": [ 1, 10 ] },
+        { "group": "fuel_jp8", "x": 75, "y": 19, "chance": 80, "repeat": [ 1, 10 ] },
         { "item": "jerrycan", "x": 75, "y": 20, "chance": 80, "repeat": [ 1, 10 ] },
         { "group": "supplies_metal", "x": 76, "y": [ 17, 20 ], "chance": 50, "repeat": [ 20, 80 ] },
         { "item": "extinguisher", "x": 69, "y": 23, "chance": 75 },
@@ -1106,7 +1106,7 @@
         "W": [ { "item": "mil_base_iv", "chance": 70 } ],
         "^": [ { "item": "mil_base_iv", "chance": 70 } ]
       },
-      "gaspumps": { "p": { "fuel": "diesel", "amount": [ 200000, 1000000 ] } },
+      "gaspumps": { "p": { "fuel": "jp8", "amount": [ 200000, 1000000 ] } },
       "place_loot": [
         { "group": "mil_base_hmg", "x": 65, "y": 46, "chance": 10, "magazine": 100 },
         { "group": "SUS_janitors_closet", "x": 22, "y": 26, "chance": 90, "repeat": [ 1, 2 ] },

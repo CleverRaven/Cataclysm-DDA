@@ -2,12 +2,11 @@
 #ifndef CATA_TESTS_PLAYER_HELPERS_H
 #define CATA_TESTS_PLAYER_HELPERS_H
 
-#include <string>
+#include <iosfwd>
 
-#include "type_id.h"
+#include "npc.h"
 
 class item;
-class npc;
 class player;
 struct point;
 

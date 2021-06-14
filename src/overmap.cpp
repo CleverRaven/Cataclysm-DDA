@@ -1,10 +1,16 @@
+#include "omdata.h" // IWYU pragma: associated
+#include "overmap.h" // IWYU pragma: associated
+
 #include <algorithm>
 #include <cmath>
 #include <cstring>
+#include <exception>
+#include <istream>
 #include <memory>
 #include <numeric>
 #include <ostream>
 #include <set>
+#include <type_traits>
 #include <unordered_set>
 #include <vector>
 
@@ -25,17 +31,16 @@
 #include "map_iterator.h"
 #include "mapbuffer.h"
 #include "mapgen.h"
+#include "math_defines.h"
 #include "messages.h"
 #include "mongroup.h"
 #include "monster.h"
 #include "mtype.h"
 #include "name.h"
 #include "npc.h"
-#include "omdata.h" // IWYU pragma: associated
 #include "optional.h"
 #include "options.h"
 #include "output.h"
-#include "overmap.h" // IWYU pragma: associated
 #include "overmap_connection.h"
 #include "overmap_location.h"
 #include "overmap_noise.h"
@@ -412,13 +417,12 @@ void overmap_specials::finalize()
 
 void overmap_specials::check_consistency()
 {
-    const size_t max_count = ( OMAPX / OMSPEC_FREQ ) * ( OMAPY / OMSPEC_FREQ ) / 2;
+    const size_t max_count = ( OMAPX / OMSPEC_FREQ ) * ( OMAPY / OMSPEC_FREQ );
     const size_t actual_count = std::accumulate( specials.get_all().begin(), specials.get_all().end(),
                                 static_cast< size_t >( 0 ),
     []( size_t sum, const overmap_special & elem ) {
-        return sum + ( elem.flags.count( "UNIQUE" ) == static_cast<size_t>( 0 ) ? static_cast<size_t>
-                       ( std::max(
-                             elem.occurrences.min, 0 ) ) : static_cast<size_t>( 1 ) );
+        return sum + ( elem.flags.count( "UNIQUE" ) ? static_cast<size_t>( 0 )  : static_cast<size_t>( (
+                           std::max( elem.occurrences.min, 0 ) ) ) ) ;
     } );
 
     if( actual_count > max_count ) {
@@ -950,17 +954,25 @@ void overmap_special::finalize()
 
 void overmap_special::check() const
 {
-    std::set<oter_id> invalid_terrains;
+    std::set<oter_str_id> invalid_terrains;
     std::set<tripoint> points;
 
-    for( const auto &elem : terrains ) {
-        const auto &oter = elem.terrain;
+    for( const overmap_special_terrain &elem : terrains ) {
+        const oter_str_id &oter = elem.terrain;
 
         if( !oter.is_valid() ) {
-            if( invalid_terrains.count( oter.id() ) == 0 ) {
-                invalid_terrains.insert( oter.id() );
-                debugmsg( "In overmap special \"%s\", terrain \"%s\" is invalid.",
-                          id.c_str(), oter.c_str() );
+            if( invalid_terrains.count( oter ) == 0 ) {
+                // Not a huge fan of the the direct id manipulation here, but I don't know
+                // how else to do this
+                oter_str_id invalid( oter.str() + "_north" );
+                if( invalid.is_valid() ) {
+                    debugmsg( "In overmap special \"%s\", terrain \"%s\" rotates, but is specified without a rotation.",
+                              id.str(), oter.str() );
+                } else  {
+                    debugmsg( "In overmap special \"%s\", terrain \"%s\" is invalid.",
+                              id.c_str(), oter.c_str() );
+                }
+                invalid_terrains.insert( oter );
             }
         }
 
@@ -1670,12 +1682,6 @@ bool overmap::generate_sub( const int z )
     subway_points.insert( subway_points.end(), subway_lab_train_points.begin(),
                           subway_lab_train_points.end() );
     connect_closest_points( subway_points, z, *subway_tunnel );
-    // If on z = 4 and central lab is present, be sure to connect normal labs and central labs (just in case).
-    if( z == -4 && !central_lab_points.empty() ) {
-        std::vector<point_om_omt> extra_route;
-        extra_route.push_back( subway_lab_train_points.back() );
-        connect_closest_points( extra_route, z, *subway_tunnel );
-    }
 
     for( auto &i : subway_points ) {
         if( is_ot_match( "sub_station", ter( tripoint_om_omt( i, z + 2 ) ), ot_match_type::type ) ) {
@@ -1754,7 +1760,7 @@ bool overmap::generate_sub( const int z )
         add_mon_group(
             mongroup( ant_group, tripoint_om_sm( project_to<coords::sm>( i.pos ), z ),
                       ( i.size * 3 ) / 2, rng( 6000, 8000 ) ) );
-        build_anthill( p_loc, i.size );
+        build_anthill( p_loc, i.size, ter( p_loc + tripoint_above ) == "anthill" );
     }
 
     return requires_sub;
@@ -2739,8 +2745,8 @@ void overmap::place_roads( const overmap *north, const overmap *east, const over
     const string_id<overmap_connection> local_road( "local_road" );
     std::vector<tripoint_om_omt> &roads_out = connections_out[local_road];
 
-    // Ideally we should have at least two exit points for roads, on different sides
-    if( roads_out.size() < 2 ) {
+    // At least 3 exit points, to guarantee road continuity across overmaps
+    if( roads_out.size() < 3 ) {
         std::vector<tripoint_om_omt> viable_roads;
         tripoint_om_omt tmp;
         // Populate viable_roads with one point for each neighborless side.
@@ -2795,7 +2801,7 @@ void overmap::place_roads( const overmap *north, const overmap *east, const over
                 }
             }
         }
-        while( roads_out.size() < 2 && !viable_roads.empty() ) {
+        while( roads_out.size() < 3 && !viable_roads.empty() ) {
             roads_out.push_back( random_entry_removed( viable_roads ) );
         }
     }
@@ -2954,7 +2960,7 @@ void overmap::place_cities()
         // randomly make some cities smaller or larger
         int size = rng( op_city_size - 1, op_city_size + 1 );
         if( one_in( 3 ) ) {      // 33% tiny
-            size = 1;
+            size = size * 1 / 3;
         } else if( one_in( 2 ) ) { // 33% small
             size = size * 2 / 3;
         } else if( one_in( 2 ) ) { // 17% large
@@ -3274,10 +3280,10 @@ bool overmap::build_lab(
     return numstairs > 0;
 }
 
-void overmap::build_anthill( const tripoint_om_omt &p, int s )
+void overmap::build_anthill( const tripoint_om_omt &p, int s, bool ordinary_ants )
 {
     for( om_direction::type dir : om_direction::all ) {
-        build_tunnel( p, s - rng( 0, 3 ), dir );
+        build_tunnel( p, s - rng( 0, 3 ), dir, ordinary_ants );
     }
 
     // TODO: This should follow the tunnel network,
@@ -3295,7 +3301,7 @@ void overmap::build_anthill( const tripoint_om_omt &p, int s )
         debugmsg( "No queenpoints when building anthill, anthill over %s", ter( p ).id().str() );
     }
     const tripoint_om_omt target = random_entry( queenpoints );
-    ter_set( target, oter_id( "ants_queen" ) );
+    ter_set( target, ordinary_ants ? oter_id( "ants_queen" ) : oter_id( "ants_queen_acid" ) );
 
     const oter_id root_id( "ants_isolated" );
 
@@ -3322,7 +3328,8 @@ void overmap::build_anthill( const tripoint_om_omt &p, int s )
     }
 }
 
-void overmap::build_tunnel( const tripoint_om_omt &p, int s, om_direction::type dir )
+void overmap::build_tunnel( const tripoint_om_omt &p, int s, om_direction::type dir,
+                            bool ordinary_ants )
 {
     if( s <= 0 ) {
         return;
@@ -3355,6 +3362,7 @@ void overmap::build_tunnel( const tripoint_om_omt &p, int s, om_direction::type 
 
     const oter_id ants_food( "ants_food" );
     const oter_id ants_larvae( "ants_larvae" );
+    const oter_id ants_larvae_acid( "ants_larvae_acid" );
     const tripoint_om_omt next =
         s != 1 ? p + om_direction::displace( dir ) : tripoint_om_omt( -1, -1, -1 );
 
@@ -3370,15 +3378,15 @@ void overmap::build_tunnel( const tripoint_om_omt &p, int s, om_direction::type 
                 if( one_in( 2 ) ) {
                     ter_set( cand, ants_food );
                 } else {
-                    ter_set( cand, ants_larvae );
+                    ter_set( cand, ordinary_ants ? ants_larvae : ants_larvae_acid );
                 }
             } else if( one_in( 5 ) ) {
                 // Branch off a side tunnel
-                build_tunnel( cand, s - rng( 1, 3 ), r );
+                build_tunnel( cand, s - rng( 1, 3 ), r, ordinary_ants );
             }
         }
     }
-    build_tunnel( next, s - 1, dir );
+    build_tunnel( next, s - 1, dir, ordinary_ants );
 }
 
 bool overmap::build_slimepit( const tripoint_om_omt &origin, int s )
@@ -4142,7 +4150,8 @@ om_special_sectors get_sectors( const int sector_width )
 {
     std::vector<point_om_omt> res;
 
-    res.reserve( ( OMAPX / sector_width ) * ( OMAPY / sector_width ) );
+    res.reserve( static_cast<size_t>( OMAPX / sector_width ) * static_cast<size_t>
+                 ( OMAPY / sector_width ) );
     for( int x = 0; x < OMAPX; x += sector_width ) {
         for( int y = 0; y < OMAPY; y += sector_width ) {
             res.emplace_back( x, y );

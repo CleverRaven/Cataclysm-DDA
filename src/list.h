@@ -155,7 +155,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                 number_of_elements( 0 )
             {}
 
-            group( const group_size_type group_size, node_pointer_type const previous = nullptr ):
+            explicit group( const group_size_type group_size, node_pointer_type const previous = nullptr ):
                 nodes( LIST_ALLOCATE_INITIALIZATION( node_allocator_type, group_size, previous ) ),
                 free_list_head( nullptr ),
                 beyond_end( nodes + group_size ),
@@ -829,17 +829,20 @@ template <class element_type, class element_allocator_type = std::allocator<elem
 
                 list_iterator( const list_iterator &source ) noexcept: node_pointer( source.node_pointer ) {}
 
+                // NOLINTNEXTLINE(google-explicit-constructor)
                 list_iterator( const list_iterator < !is_const > &source ) noexcept: node_pointer(
                         source.node_pointer ) {}
 
                 list_iterator( const list_iterator &&source ) noexcept: node_pointer( std::move(
                                 source.node_pointer ) ) {}
 
+                // NOLINTNEXTLINE(google-explicit-constructor)
                 list_iterator( const list_iterator < !is_const > &&
                                source ) noexcept: node_pointer( std::move( source.node_pointer ) ) {}
 
             private:
 
+                // NOLINTNEXTLINE(google-explicit-constructor)
                 list_iterator( const node_pointer_type node_p ) noexcept: node_pointer( node_p ) {}
         };
 
@@ -945,7 +948,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
 
             private:
 
-                list_reverse_iterator( const node_pointer_type node_p ) noexcept: node_pointer( node_p ) {}
+                explicit list_reverse_iterator( const node_pointer_type node_p ) noexcept: node_pointer( node_p ) {}
         };
 
     private:

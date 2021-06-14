@@ -180,7 +180,7 @@
     "move_cost_mod": -1,
     "coverage": 90,
     "required_str": 10,
-    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE" ],
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "NO_SELF_CONNECT" ],
     "deconstruct": {
       "items": [
         { "item": "sheet_metal", "count": [ 2, 6 ] },
@@ -407,7 +407,7 @@
       "items": [
         { "item": "tanned_hide", "count": [ 1, 2 ] },
         { "item": "2x4", "count": [ 2, 4 ] },
-        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "spring", "count": [ 1, 2 ] },
         { "item": "wire", "count": [ 1, 4 ] }
       ]
     },

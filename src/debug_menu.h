@@ -2,11 +2,10 @@
 #ifndef CATA_SRC_DEBUG_MENU_H
 #define CATA_SRC_DEBUG_MENU_H
 
+#include <cstddef>
 #include <functional>
 #include <iosfwd>
-#include <string>
-
-#include "enum_traits.h"
+#include <string> // IWYU pragma: keep
 
 struct tripoint;
 template <typename E> struct enum_traits;

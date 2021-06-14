@@ -4,8 +4,10 @@
 #include <limits>
 #include <list>
 #include <memory>
+#include <string>
 
 #include "avatar.h"
+#include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
 #include "creature.h"
@@ -13,7 +15,6 @@
 #include "game.h"
 #include "generic_factory.h"
 #include "gun_mode.h"
-#include "int_id.h"
 #include "item.h"
 #include "item_pocket.h"
 #include "json.h"

@@ -46,6 +46,7 @@ class int_id
          * Construct an id from the matching string based id. This may show a debug message if the
          * string id is invalid.
          */
+        // NOLINTNEXTLINE(google-explicit-constructor)
         int_id( const string_id<T> &id );
 
         /**

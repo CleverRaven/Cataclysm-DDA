@@ -2,7 +2,8 @@
 #ifndef CATA_SRC_EFFECT_H
 #define CATA_SRC_EFFECT_H
 
-#include <algorithm>
+#include <iosfwd>
+#include <map>
 #include <set>
 #include <string>
 #include <tuple>
@@ -10,14 +11,12 @@
 #include <utility>
 #include <vector>
 
-#include "bodypart.h"
 #include "calendar.h"
 #include "color.h"
+#include "effect_source.h"
 #include "hash_utils.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
-#include "effect_source.h"
 
 class effect_type;
 class player;

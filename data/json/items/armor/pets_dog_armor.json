@@ -15,7 +15,7 @@
     "bashing": 5,
     "to_hit": -1,
     "flags": [ "IS_PET_ARMOR", "NO_SALVAGE" ],
-    "material_thickness": 2,
+    "material_thickness": 2.0,
     "max_pet_vol": "60 L",
     "min_pet_vol": "25000 ml",
     "pet_bodytype": "dog",
@@ -86,7 +86,7 @@
     "price_postapoc": 3500,
     "material": [ "iron", "budget_steel" ],
     "weight": "6434 g",
-    "material_thickness": 0
+    "material_thickness": 0.5
   },
   {
     "type": "PET_ARMOR",
@@ -123,7 +123,7 @@
     "price_postapoc": 1000,
     "material": [ "neoprene", "plastic", "rubber" ],
     "weight": "1960 g",
-    "material_thickness": 0,
+    "material_thickness": 0.1,
     "environmental_protection": 10,
     "min_pet_vol": "15000 ml",
     "extend": { "flags": [ "NO_SALVAGE" ] }

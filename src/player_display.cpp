@@ -1,35 +1,37 @@
+#include "player.h" // IWYU pragma: associated
+
 #include <algorithm>
 #include <array>
 #include <cmath>
 #include <cstddef>
 #include <cstdlib>
+#include <functional>
 #include <memory>
-#include <unordered_map>
+#include <string>
 
 #include "addiction.h"
 #include "avatar.h"
 #include "bionics.h"
 #include "bodypart.h"
+#include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "color.h"
+#include "cursesdef.h"
 #include "debug.h"
 #include "effect.h"
 #include "enum_conversions.h"
 #include "game.h"
 #include "input.h"
-#include "int_id.h"
 #include "mutation.h"
 #include "options.h"
 #include "output.h"
 #include "pimpl.h"
-#include "player.h" // IWYU pragma: associated
 #include "pldata.h"
 #include "profession.h"
 #include "proficiency.h"
 #include "skill.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "string_input_popup.h"
 #include "translations.h"
 #include "ui_manager.h"

@@ -480,7 +480,7 @@
     "time": "1 m",
     "activity_level": "NO_EXERCISE",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "leather", 1 ] ] ]
+    "components": [ [ [ "leather", 1 ] ], [ [ "buckle_steel", 1 ] ] ]
   },
   {
     "result": "leather_cat_ears",
@@ -2183,6 +2183,22 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
+    "result": "fancy_sunglasses_bifocal",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "6 s",
+    "components": [ [ [ "glass_tinted", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "fancy_sunglasses_reading",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "6 s",
+    "components": [ [ [ "glass_tinted", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
     "result": "felt_patch",
     "type": "uncraft",
     "time": "5 m",
@@ -2272,7 +2288,7 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "1 s",
-    "components": [ [ [ "glass_shard", 10 ] ] ]
+    "components": [ [ [ "glass_shard", 5 ] ] ]
   },
   {
     "result": "bottle_glass",
@@ -2286,14 +2302,14 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "1 s",
-    "components": [ [ [ "glass_shard", 2 ] ] ]
+    "components": [ [ [ "glass_shard", 1 ] ] ]
   },
   {
     "result": "jar_glass_sealed",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "1 s",
-    "components": [ [ [ "glass_shard", 4 ] ] ]
+    "components": [ [ [ "glass_shard", 2 ] ] ]
   },
   {
     "result": "beaker",
@@ -3766,6 +3782,22 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
+    "result": "sunglasses_bifocal",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "6 s",
+    "components": [ [ [ "glass_tinted", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "sunglasses_reading",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "6 s",
+    "components": [ [ [ "glass_tinted", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
     "result": "survivormap",
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
@@ -4208,41 +4240,6 @@
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "time": "1 h",
     "components": [ [ [ "thread_nomex", 50 ] ] ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "1st_aid",
-    "type": "uncraft",
-    "activity_level": "NO_EXERCISE",
-    "time": "12 s",
-    "components": [
-      [ [ "medical_tape", 20 ] ],
-      [ [ "aspirin", 10 ] ],
-      [ [ "disinfectant", 10 ] ],
-      [ [ "saline", 5 ] ],
-      [ [ "adhesive_bandages", 6 ] ],
-      [ [ "bandages", 3 ] ],
-      [ [ "medical_gauze", 6 ] ],
-      [ [ "booklet_firstaid", 1 ] ]
-    ],
-    "flags": [ "BLIND_EASY", "UNCRAFT_LIQUIDS_CONTAINED" ]
-  },
-  {
-    "result": "ifak",
-    "type": "uncraft",
-    "activity_level": "NO_EXERCISE",
-    "time": "12 s",
-    "components": [
-      [ [ "medical_tape", 20 ] ],
-      [ [ "tourniquet_upper", 1 ] ],
-      [ [ "quikclot", 5 ] ],
-      [ [ "bandages", 9 ] ],
-      [ [ "medical_gauze", 3 ] ],
-      [ [ "adhesive_bandages", 3 ] ],
-      [ [ "pur_tablets", 3 ] ],
-      [ [ "gloves_medical", 1 ] ],
-      [ [ "scissors", 1 ] ]
-    ],
     "flags": [ "BLIND_EASY" ]
   },
   {

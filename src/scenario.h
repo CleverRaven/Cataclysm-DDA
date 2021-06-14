@@ -2,13 +2,12 @@
 #ifndef CATA_SRC_SCENARIO_H
 #define CATA_SRC_SCENARIO_H
 
-#include <algorithm>
+#include <iosfwd>
 #include <set>
 #include <string>
 #include <vector>
 
-#include "pldata.h"
-#include "string_id.h"
+#include "calendar.h"
 #include "translations.h"
 #include "type_id.h"
 

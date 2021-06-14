@@ -1,29 +1,28 @@
 #include "output.h"
 
+#include <cctype>
+// IWYU pragma: no_include <sys/errno.h>
 #include <algorithm>
 #include <array>
-#include <cctype>
-#include <cerrno>
 #include <cmath>
 #include <cstdarg>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <map>
-#include <memory>
+#include <new>
 #include <sstream>
 #include <stack>
 #include <stdexcept>
 #include <string>
-#include <type_traits>
 #include <vector>
 
-#include "cached_options.h"
+#include "cached_options.h" // IWYU pragma: keep
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "color.h"
+#include "cursesport.h" // IWYU pragma: keep
 #include "cursesdef.h"
-#include "cursesport.h"
 #include "input.h"
 #include "item.h"
 #include "line.h"
@@ -32,6 +31,7 @@
 #include "point.h"
 #include "popup.h"
 #include "rng.h"
+#include "sdltiles.h" // IWYU pragma: keep
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "ui_manager.h"

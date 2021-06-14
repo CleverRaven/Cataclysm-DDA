@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <memory>
 #include <set>
+#include <string>
 #include <unordered_map>
 #include <utility>
 
@@ -12,7 +13,6 @@
 #include "coordinates.h"
 #include "debug.h"
 #include "dialogue_chatbin.h"
-#include "enums.h"
 #include "game.h"
 #include "game_inventory.h"
 #include "item.h"
@@ -35,12 +35,10 @@
 #include "ret_val.h"
 #include "skill.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "talker.h"
 #include "talker_npc.h"
 #include "translations.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "units_utility.h"
 #include "value_ptr.h"
 
@@ -463,7 +461,7 @@ static consumption_result try_consume( npc &p, item &it, std::string &reason )
             reason = _( "Thanks, I feel better already." );
         }
         if( to_eat.type->has_use() ) {
-            amount_used = to_eat.type->invoke( p, to_eat, p.pos() );
+            amount_used = to_eat.type->invoke( p, to_eat, p.pos() ).value_or( 0 );
             if( amount_used <= 0 ) {
                 reason = _( "It doesn't look like a good idea to consume this…" );
                 return REFUSED;

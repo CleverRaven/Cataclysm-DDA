@@ -2,9 +2,9 @@
 #ifndef CATA_SRC_SUBMAP_H
 #define CATA_SRC_SUBMAP_H
 
-#include <algorithm>
 #include <cstddef>
 #include <cstdint>
+#include <iosfwd>
 #include <iterator>
 #include <map>
 #include <memory>
@@ -41,9 +41,9 @@ struct spawn_point {
     bool friendly;
     std::string name;
     spawn_data data;
-    spawn_point( const mtype_id &T = mtype_id::NULL_ID(), int C = 0, point P = point_zero,
-                 int FAC = -1, int MIS = -1, bool F = false,
-                 const std::string &N = "NONE", spawn_data SD = spawn_data() ) :
+    explicit spawn_point( const mtype_id &T = mtype_id::NULL_ID(), int C = 0, point P = point_zero,
+                          int FAC = -1, int MIS = -1, bool F = false,
+                          const std::string &N = "NONE", spawn_data SD = spawn_data() ) :
         pos( P ), count( C ), type( T ), faction_id( FAC ),
         mission_id( MIS ), friendly( F ), name( N ), data( SD ) {}
 };
@@ -269,13 +269,14 @@ struct maptile {
         friend submap;
         submap *const sm;
         point pos_;
-        point pos() const {
-            return pos_;
-        }
 
         maptile( submap *sub, const point &p ) :
             sm( sub ), pos_( p ) { }
     public:
+        inline point pos() const {
+            return pos_;
+        }
+
         trap_id get_trap() const {
             return sm->get_trap( pos() );
         }

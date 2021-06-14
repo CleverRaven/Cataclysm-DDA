@@ -1,18 +1,23 @@
 #include "debug_menu.h"
 
+#include <cstdint>
+// IWYU pragma: no_include <sys/signal.h>
 // IWYU pragma: no_include <cxxabi.h>
 
 #include <algorithm>
+#include <array>
 #include <chrono>
 #include <csignal>
 #include <cstdlib>
-#include <iomanip>
+#include <iomanip> // IWYU pragma: keep
 #include <iostream>
 #include <iterator>
 #include <limits>
 #include <list>
 #include <map>
 #include <memory>
+#include <new>
+#include <sstream>
 #include <string>
 #include <type_traits>
 #include <unordered_map>
@@ -30,22 +35,24 @@
 #include "character.h"
 #include "character_id.h"
 #include "character_martial_arts.h"
+#include "clzones.h"
 #include "color.h"
-#include "compatibility.h"
 #include "coordinates.h"
 #include "creature.h"
 #include "debug.h"
 #include "dialogue_chatbin.h"
+#include "effect.h"
+#include "effect_source.h"
 #include "enum_conversions.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
 #include "faction.h"
-#include "filesystem.h"
+#include "filesystem.h" // IWYU pragma: keep
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
-#include "int_id.h"
+#include "input.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_group.h"
@@ -74,16 +81,16 @@
 #include "overmap.h"
 #include "overmap_ui.h"
 #include "overmapbuffer.h"
-#include "path_info.h"
+#include "path_info.h" // IWYU pragma: keep
 #include "pimpl.h"
 #include "player.h"
 #include "point.h"
 #include "popup.h"
 #include "recipe_dictionary.h"
 #include "rng.h"
+#include "sounds.h"
 #include "stomach.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "string_input_popup.h"
 #include "trait_group.h"
 #include "translations.h"
@@ -1829,7 +1836,7 @@ void debug()
                 const auto text = string_input_popup()
                                   .title( msg )
                                   .width( 20 )
-                                  .text( to_string( initial ) )
+                                  .text( std::to_string( initial ) )
                                   .only_digits( true )
                                   .query_string();
                 if( text.empty() ) {
@@ -1947,12 +1954,10 @@ void debug()
             raise( SIGSEGV );
             break;
         case debug_menu_index::MAP_EXTRA: {
-            std::unordered_map<std::string, map_extra_pointer> FM = MapExtras::all_functions();
+            const std::vector<std::string> &mx_str = MapExtras::get_all_function_names();
             uilist mx_menu;
-            std::vector<std::string> mx_str;
-            for( auto &extra : FM ) {
-                mx_menu.addentry( -1, true, -1, extra.first );
-                mx_str.push_back( extra.first );
+            for( const std::string &extra : mx_str ) {
+                mx_menu.addentry( -1, true, -1, extra );
             }
             mx_menu.query();
             int mx_choice = mx_menu.ret;
@@ -2096,7 +2101,6 @@ void debug()
                                            //~ translation should not exceed 4 console cells
                                            right_justify( _( "MAX" ), 4 ) );
                 uile.enabled = false;
-                uile.force_color = c_light_blue;
                 uiles.emplace_back( uile );
             }
             int retval = 0;

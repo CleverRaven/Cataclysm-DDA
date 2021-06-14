@@ -4,32 +4,40 @@
 #include <array>
 #include <cmath>
 #include <cstdlib>
+#include <functional>
 #include <map>
 #include <memory>
+#include <stack>
+#include <string>
+#include <tuple>
 
 #include "anatomy.h"
 #include "cached_options.h"
 #include "calendar.h"
+#include "cata_assert.h"
 #include "character.h"
 #include "color.h"
 #include "cursesdef.h"
 #include "damage.h"
 #include "debug.h"
 #include "effect.h"
+#include "enum_traits.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
 #include "field.h"
+#include "flat_set.h"
 #include "game.h"
 #include "game_constants.h"
-#include "int_id.h"
 #include "item.h"
 #include "json.h"
+#include "level_cache.h"
 #include "lightmap.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
+#include "mattack_common.h"
 #include "messages.h"
 #include "monster.h"
 #include "mtype.h"
@@ -39,13 +47,11 @@
 #include "point.h"
 #include "projectile.h"
 #include "rng.h"
-#include "string_id.h"
 #include "translations.h"
 #include "units.h"
 #include "value_ptr.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-#include "options.h"
 
 struct mutation_branch;
 
@@ -245,7 +251,7 @@ bool Creature::sees( const Creature &critter ) const
         return is_player();
     }
 
-    if( !fov_3d && !debug_mode && posz() != critter.posz() ) {
+    if( !fov_3d && posz() != critter.posz() ) {
         return false;
     }
 
@@ -261,7 +267,8 @@ bool Creature::sees( const Creature &critter ) const
     // We also bypass lighting for vertically adjacent monsters, but still check for floors.
     if( wanted_range <= 1 && ( posz() == critter.posz() || here.sees( pos(), critter.pos(), 1 ) ) ) {
         return visible( ch );
-    } else if( ( wanted_range > 1 && critter.digging() ) ||
+    } else if( ( wanted_range > 1 && critter.digging() &&
+                 here.has_flag( TFLAG_DIGGABLE, critter.pos() ) ) ||
                ( critter.has_flag( MF_NIGHT_INVISIBILITY ) && here.light_at( critter.pos() ) <= lit_level::LOW ) ||
                ( critter.is_underwater() && !is_underwater() && here.is_divable( critter.pos() ) ) ||
                ( here.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, critter.pos() ) &&
@@ -623,7 +630,7 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
                                            disp_name() );
         }
 
-        add_effect( source, effect_downed, 1_turns );
+        add_effect( effect_source( source ), effect_downed, 1_turns );
         mod_moves( -stab_moves / 2 );
     } else {
         mod_moves( -stab_moves );
@@ -638,7 +645,7 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
         dealt_dam.type_damage( damage_type::BASH ) > 0 ) {
         // check if raw bash damage is enough to stun
         if( d.type_damage( damage_type::BASH ) * hit_spread > get_hp_max() ) {
-            add_effect( source, effect_stunned, 1_turns ); // 1 turn is enough
+            add_effect( effect_source( source ), effect_stunned, 1_turns ); // 1 turn is enough
             if( source->is_avatar() ) {
                 add_msg( m_good, _( "You stun %s with your blow." ), disp_name() );
             }
@@ -661,7 +668,7 @@ double Creature::accuracy_projectile_attack( dealt_projectile_attack &attack ) c
 void projectile::apply_effects_nodamage( Creature &target, Creature *source ) const
 {
     if( proj_effects.count( "BOUNCE" ) ) {
-        target.add_effect( source, effect_bounced, 1_turns );
+        target.add_effect( effect_source( source ), effect_bounced, 1_turns );
     }
 }
 
@@ -675,7 +682,7 @@ void projectile::apply_effects_damage( Creature &target, Creature *source,
         if( target.is_monster() ) {
             const item &drop_item = get_drop();
             if( !drop_item.is_null() ) {
-                target.add_effect( source, effect_tied, 1_turns, true );
+                target.add_effect( effect_source( source ), effect_tied, 1_turns, true );
                 target.as_monster()->tied_item = cata::make_value<item>( drop_item );
             } else {
                 add_msg_debug( "projectile with TANGLE effect, but no drop item specified" );
@@ -684,30 +691,32 @@ void projectile::apply_effects_damage( Creature &target, Creature *source,
                    !target.is_immune_effect( effect_downed ) ) {
             // no tied up effect for people yet, just down them and stun them, its close enough to the desired effect.
             // we can assume a person knows how to untangle their legs eventually and not panic like an animal.
-            target.add_effect( source, effect_downed, 1_turns );
+            target.add_effect( effect_source( source ), effect_downed, 1_turns );
             // stunned to simulate staggering around and stumbling trying to get the entangled thing off of them.
-            target.add_effect( source, effect_stunned, rng( 3_turns, 8_turns ) );
+            target.add_effect( effect_source( source ), effect_stunned, rng( 3_turns, 8_turns ) );
         }
     }
     if( proj_effects.count( "INCENDIARY" ) ) {
         if( target.made_of( material_id( "veggy" ) ) || target.made_of_any( Creature::cmat_flammable ) ) {
-            target.add_effect( source, effect_onfire, rng( 2_turns, 6_turns ), dealt_dam.bp_hit );
+            target.add_effect( effect_source( source ), effect_onfire, rng( 2_turns, 6_turns ),
+                               dealt_dam.bp_hit );
         } else if( target.made_of_any( Creature::cmat_flesh ) && one_in( 4 ) ) {
-            target.add_effect( source, effect_onfire, rng( 1_turns, 4_turns ), dealt_dam.bp_hit );
+            target.add_effect( effect_source( source ), effect_onfire, rng( 1_turns, 4_turns ),
+                               dealt_dam.bp_hit );
         }
     } else if( proj_effects.count( "IGNITE" ) ) {
         if( target.made_of( material_id( "veggy" ) ) || target.made_of_any( Creature::cmat_flammable ) ) {
-            target.add_effect( source, effect_onfire, 6_turns, dealt_dam.bp_hit );
+            target.add_effect( effect_source( source ), effect_onfire, 6_turns, dealt_dam.bp_hit );
         } else if( target.made_of_any( Creature::cmat_flesh ) ) {
-            target.add_effect( source, effect_onfire, 10_turns, dealt_dam.bp_hit );
+            target.add_effect( effect_source( source ), effect_onfire, 10_turns, dealt_dam.bp_hit );
         }
     }
 
     if( proj_effects.count( "ROBOT_DAZZLE" ) ) {
         if( critical && target.in_species( species_ROBOT ) ) {
             time_duration duration = rng( 6_turns, 8_turns );
-            target.add_effect( source, effect_stunned, duration );
-            target.add_effect( source, effect_sensor_stun, duration );
+            target.add_effect( effect_source( source ), effect_stunned, duration );
+            target.add_effect( effect_source( source ), effect_sensor_stun, duration );
             add_msg( source->is_player() ?
                      _( "You land a clean shot on the %1$s sensors, stunning it." ) :
                      _( "The %1$s is stunned!" ),
@@ -721,16 +730,16 @@ void projectile::apply_effects_damage( Creature &target, Creature *source,
     }
 
     if( proj_effects.count( "APPLY_SAP" ) ) {
-        target.add_effect( source, effect_sap, 1_turns * dealt_dam.total_damage() );
+        target.add_effect( effect_source( source ), effect_sap, 1_turns * dealt_dam.total_damage() );
     }
     if( proj_effects.count( "PARALYZEPOISON" ) && dealt_dam.total_damage() > 0 ) {
         target.add_msg_if_player( m_bad, _( "You feel poison coursing through your body!" ) );
-        target.add_effect( source, effect_paralyzepoison, 5_minutes );
+        target.add_effect( effect_source( source ), effect_paralyzepoison, 5_minutes );
     }
 
     if( proj_effects.count( "FOAMCRETE" ) && effect_foamcrete_slow.is_valid() ) {
         target.add_msg_if_player( m_bad, _( "The foamcrete stiffens around you!" ) );
-        target.add_effect( source, effect_foamcrete_slow, 5_minutes );
+        target.add_effect( effect_source( source ), effect_foamcrete_slow, 5_minutes );
     }
 
     int stun_strength = 0;
@@ -758,7 +767,8 @@ void projectile::apply_effects_damage( Creature &target, Creature *source,
                 stun_strength /= 4;
                 break;
         }
-        target.add_effect( source, effect_stunned, 1_turns * rng( stun_strength / 2, stun_strength ) );
+        target.add_effect( effect_source( source ), effect_stunned,
+                           1_turns * rng( stun_strength / 2, stun_strength ) );
     }
 }
 
@@ -769,7 +779,7 @@ struct projectile_attack_results {
     double damage_mult = 1.0;
     bodypart_id bp_hit;
 
-    projectile_attack_results( const projectile &proj ) {
+    explicit projectile_attack_results( const projectile &proj ) {
         max_damage = proj.impact.total_damage();
     }
 };
@@ -798,18 +808,17 @@ projectile_attack_results Creature::select_body_part_projectile_attack(
     }
 
     const float crit_multiplier = proj.critical_multiplier;
-    float world_multiplier = get_option<int>( "MONSTER_RESILIENCE" ) / 100.0f;
     if( magic ) {
         ret.damage_mult *= rng_float( 0.9, 1.1 );
     } else if( goodhit < accuracy_headshot &&
-               ret.max_damage * crit_multiplier > get_hp_max( bodypart_id( "head" ) ) / world_multiplier ) {
+               ret.max_damage * crit_multiplier > get_hp_max( bodypart_id( "head" ) ) ) {
         ret.message = _( "Headshot!" );
         ret.gmtSCTcolor = m_headshot;
         ret.damage_mult *= rng_float( 0.95, 1.05 );
         ret.damage_mult *= crit_multiplier;
         ret.bp_hit = bodypart_id( "head" ); // headshot hits the head, of course
     } else if( goodhit < accuracy_critical &&
-               ret.max_damage * crit_multiplier > get_hp_max( bodypart_id( "torso" ) ) / world_multiplier ) {
+               ret.max_damage * crit_multiplier > get_hp_max( bodypart_id( "torso" ) ) ) {
         ret.message = _( "Critical!" );
         ret.gmtSCTcolor = m_critical;
         ret.damage_mult *= rng_float( 0.75, 1.0 );
@@ -998,7 +1007,7 @@ dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
     // Add up all the damage units dealt
     for( const auto &it : d.damage_units ) {
         int cur_damage = 0;
-        deal_damage_handle_type( source, it, bp, cur_damage, total_pain );
+        deal_damage_handle_type( effect_source( source ), it, bp, cur_damage, total_pain );
         if( cur_damage > 0 ) {
             dealt_dams.dealt_dams[ static_cast<int>( it.type ) ] += cur_damage;
             total_damage += cur_damage;

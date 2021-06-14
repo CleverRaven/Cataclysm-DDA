@@ -1,6 +1,9 @@
 #include "effect_source.h"
 
+#include <memory>
+
 #include "character.h"
+#include "creature.h"
 #include "debug.h"
 #include "faction.h"
 #include "game.h"

@@ -6,11 +6,14 @@
 #include <iterator>
 #include <list>
 #include <memory>
+#include <new>
 #include <numeric>
+#include <set>
 #include <unordered_map>
 #include <utility>
 
 #include "avatar.h"
+#include "colony.h"
 #include "creature.h"
 #include "debug.h"
 #include "dialogue_chatbin.h"
@@ -20,7 +23,9 @@
 #include "item.h"
 #include "item_contents.h"
 #include "item_group.h"
+#include "item_stack.h"
 #include "kill_tracker.h"
+#include "map.h"
 #include "map_iterator.h"
 #include "monster.h"
 #include "npc.h"

@@ -4,9 +4,10 @@
 
 #include <cstddef>
 #include <functional>
+#include <iosfwd>
 #include <memory>
 #include <string>
-#include <utility>
+#include <type_traits>
 #include <vector>
 
 #include "color.h"

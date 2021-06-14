@@ -36,6 +36,9 @@ if [[ "$TRAVIS_EVENT_TYPE" == "pull_request" ]]; then
 fi
 
 set -x
+if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+    $travis_retry sudo apt-get --yes install parallel
+fi
 
 if [ -n "${CODE_COVERAGE}" ]; then
   $travis_retry pip install --user wheel --upgrade
@@ -46,7 +49,7 @@ fi
 
 if [ -n "$CATA_CLANG_TIDY" ]; then
     $travis_retry pip install --user wheel --upgrade
-    $travis_retry pip install --user compiledb lit
+    $travis_retry pip install --user compiledb 'lit==0.11.1' 'click==7.1.2'
 fi
 
 # Influenced by https://github.com/zer0main/battleship/blob/master/build/windows/requirements.sh
@@ -87,7 +90,7 @@ if [ -n "${MXE_TARGET}" ]; then
 fi
 
 if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-  HOMEBREW_NO_AUTO_UPDATE=yes HOMEBREW_NO_INSTALL_CLEANUP=yes brew install sdl2 sdl2_image sdl2_ttf sdl2_mixer gettext ncurses ccache
+  HOMEBREW_NO_AUTO_UPDATE=yes HOMEBREW_NO_INSTALL_CLEANUP=yes brew install sdl2 sdl2_image sdl2_ttf sdl2_mixer gettext ncurses ccache parallel
 fi
 
 if [[ "$NATIVE" == "android" ]]; then

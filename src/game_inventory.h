@@ -3,12 +3,13 @@
 #define CATA_SRC_GAME_INVENTORY_H
 
 #include <functional>
+#include <iosfwd>
 #include <list>
-#include <string>
 #include <utility>
 
 #include "inventory_ui.h"
 #include "item_location.h"
+#include "type_id.h"
 
 class Character;
 struct tripoint;
@@ -32,7 +33,7 @@ using drop_locations = std::list<drop_location>;
 class inventory_filter_preset : public inventory_selector_preset
 {
     public:
-        inventory_filter_preset( const item_location_filter &filter );
+        explicit inventory_filter_preset( const item_location_filter &filter );
 
         bool is_shown( const item_location &location ) const override;
 

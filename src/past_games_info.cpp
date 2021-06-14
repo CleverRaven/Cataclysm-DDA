@@ -1,6 +1,16 @@
 #include "past_games_info.h"
 
+#include <algorithm>
+#include <functional>
+#include <map>
+#include <sstream>
+#include <stdexcept>
+#include <string>
+#include <utility>
+
 #include "achievement.h"
+#include "cata_utility.h"
+#include "debug.h"
 #include "event.h"
 #include "filesystem.h"
 #include "json.h"
@@ -9,6 +19,8 @@
 #include "path_info.h"
 #include "popup.h"
 #include "stats_tracker.h"
+#include "string_formatter.h"
+#include "translations.h"
 #include "ui_manager.h"
 
 static void no_op( const achievement *, bool ) {}

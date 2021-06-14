@@ -1,5 +1,4 @@
-#include "catch/catch.hpp"
-
+#include <iosfwd>
 #include <list>
 #include <memory>
 #include <string>
@@ -7,12 +6,16 @@
 
 #include "avatar.h"
 #include "calendar.h"
+#include "catch/catch.hpp"
+#include "character.h"
 #include "item.h"
 #include "itype.h"
 #include "morale_types.h"
 #include "player_helpers.h"
 #include "type_id.h"
 #include "value_ptr.h"
+
+class player;
 
 static const trait_id trait_HATES_BOOKS( "HATES_BOOKS" );
 static const trait_id trait_HYPEROPIC( "HYPEROPIC" );

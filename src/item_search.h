@@ -2,9 +2,10 @@
 #ifndef CATA_SRC_ITEM_SEARCH_H
 #define CATA_SRC_ITEM_SEARCH_H
 
-#include <cstddef>
 #include <algorithm>
+#include <cstddef>
 #include <functional>
+#include <iosfwd>
 #include <string>
 #include <vector>
 

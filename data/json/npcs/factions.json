@@ -677,5 +677,32 @@
       "no_faction": { "knows your voice": true }
     },
     "description": "A small family trying to survive in this new world."
+  },
+  {
+    "type": "faction",
+    "id": "prisoners",
+    "name": "Prisoners",
+    "likes_u": 0,
+    "respects_u": 0,
+    "known_by_u": true,
+    "size": 100,
+    "power": 100,
+    "food_supply": 230400,
+    "wealth": 45000000,
+    "relations": {
+      "hells_raiders": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": true,
+        "guard your stuff": true,
+        "lets you in": true,
+        "defends your space": true,
+        "knows your voice": true
+      },
+      "free_merchants": { "kill on sight": true },
+      "old_guard": { "kill on sight": true },
+      "your_followers": { "kill on sight": false }
+    },
+    "description": "Former prisoners who got their freedom during the apocalypse."
   }
 ]

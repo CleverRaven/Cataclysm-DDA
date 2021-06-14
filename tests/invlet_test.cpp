@@ -1,6 +1,5 @@
-#include "catch/catch.hpp"
-
 #include <cstddef>
+#include <functional>
 #include <list>
 #include <map>
 #include <memory>
@@ -9,9 +8,9 @@
 #include <unordered_map>
 #include <utility>
 
-#include "activity_actor.h"
 #include "activity_actor_definitions.h"
 #include "avatar.h"
+#include "catch/catch.hpp"
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"

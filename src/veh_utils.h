@@ -2,10 +2,12 @@
 #ifndef CATA_SRC_VEH_UTILS_H
 #define CATA_SRC_VEH_UTILS_H
 
+#include <iosfwd>
+
 #include "type_id.h"
 
-class vehicle;
 class Character;
+class vehicle;
 class vpart_info;
 struct vehicle_part;
 

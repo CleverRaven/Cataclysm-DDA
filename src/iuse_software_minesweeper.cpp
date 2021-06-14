@@ -1,8 +1,9 @@
 #include "iuse_software_minesweeper.h"
 
-#include <algorithm>
 #include <array>
 #include <functional>
+#include <iosfwd>
+#include <new>
 #include <string>
 #include <vector>
 

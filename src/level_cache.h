@@ -4,36 +4,18 @@
 
 #include <array>
 #include <bitset>
-#include <climits>
-#include <cstddef>
-#include <cstdint>
-#include <functional>
-#include <list>
-#include <map>
-#include <memory>
 #include <set>
-#include <string>
-#include <tuple>
+#include <unordered_map>
 #include <utility>
-#include <vector>
 
-#include "cata_utility.h"
-#include "coordinates.h"
 #include "game_constants.h"
 #include "lightmap.h"
-#include "line.h"
-#include "lru_cache.h"
 #include "point.h"
 #include "reachability_cache.h"
 #include "shadowcasting.h"
-#include "string_id.h"
-#include "type_id.h"
-#include "units_fwd.h"
 #include "value_ptr.h"
 
 class vehicle;
-struct pathfinding_cache;
-struct pathfinding_settings;
 
 struct level_cache {
     public:

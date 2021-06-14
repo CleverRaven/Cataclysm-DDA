@@ -2,8 +2,8 @@
 #ifndef CATA_SRC_ACTIVITY_ACTOR_H
 #define CATA_SRC_ACTIVITY_ACTOR_H
 
+#include <iosfwd>
 #include <memory>
-#include <string>
 #include <unordered_map>
 
 #include "activity_type.h"

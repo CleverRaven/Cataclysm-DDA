@@ -6,7 +6,7 @@
 #include <array>
 #include <cmath>
 #include <functional>
-#include <string>
+#include <iosfwd>
 
 #include "game_constants.h"
 #include "lightmap.h"

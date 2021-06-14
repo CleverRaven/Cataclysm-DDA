@@ -128,6 +128,24 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "special_field",
+    "name": "field",
+    "sym": ".",
+    "color": "brown",
+    "see_cost": 1,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "special_forest", "special_forest_thick" ],
+    "name": "forest",
+    "sym": "F",
+    "color": "green",
+    "see_cost": 1,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": "riverside_dwelling",
     "name": "riverside dwelling",
     "sym": "+",

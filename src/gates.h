@@ -2,7 +2,7 @@
 #ifndef CATA_SRC_GATES_H
 #define CATA_SRC_GATES_H
 
-#include <string>
+#include <iosfwd>
 
 class Character;
 class Creature;

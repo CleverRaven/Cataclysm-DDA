@@ -148,7 +148,7 @@
   {
     "type": "COMESTIBLE",
     "id": "thyme",
-    "name": "thyme",
+    "name": { "str": "thyme" },
     "description": "A stalk of thyme.  Smells delicious.",
     "comestible_type": "FOOD",
     "calories": 9,
@@ -174,7 +174,7 @@
     "id": "artificial_sweetener",
     "copy-from": "sugar",
     "type": "COMESTIBLE",
-    "name": "artificial sweetener",
+    "name": { "str": "artificial sweetener" },
     "description": "Sweet, sweet sugar?  No, it is bitter-sweet artificial sweetener.  No calories, no worries.",
     "calories": 0
   }

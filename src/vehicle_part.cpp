@@ -1,7 +1,10 @@
+#include "vehicle.h" // IWYU pragma: associated
+
 #include <algorithm>
 #include <cmath>
 #include <memory>
 #include <set>
+#include <string>
 
 #include "cata_assert.h"
 #include "character.h"
@@ -19,12 +22,10 @@
 #include "npc.h"
 #include "ret_val.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "translations.h"
 #include "units.h"
 #include "value_ptr.h"
 #include "veh_type.h"
-#include "vehicle.h" // IWYU pragma: associated
 #include "vpart_position.h"
 #include "weather.h"
 
@@ -164,6 +165,14 @@ double vehicle_part::damage_percent() const
 bool vehicle_part::is_broken() const
 {
     return base.damage() >= base.max_damage();
+}
+
+bool vehicle_part::is_cleaner_on() const
+{
+    const bool is_cleaner = info().has_flag( VPFLAG_AUTOCLAVE ) ||
+                            info().has_flag( VPFLAG_DISHWASHER ) ||
+                            info().has_flag( VPFLAG_WASHING_MACHINE );
+    return is_cleaner && enabled;
 }
 
 bool vehicle_part::is_unavailable( const bool carried ) const
@@ -527,6 +536,12 @@ bool vehicle_part::is_fuel_store( bool skip_broke ) const
 bool vehicle_part::is_tank() const
 {
     return base.is_watertight_container();
+}
+
+bool vehicle_part::contains_liquid() const
+{
+    return is_tank() && !base.contents.empty() &&
+           base.contents.only_item().made_of( phase_id::LIQUID );
 }
 
 bool vehicle_part::is_battery() const

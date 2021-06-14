@@ -5,17 +5,19 @@
 #include <istream>
 #include <iterator>
 #include <memory>
+#include <new>
+#include <string>
 #include <utility>
 
 #include "avatar.h"
 #include "cached_options.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "colony.h"
 #include "creature.h"
 #include "debug.h"
 #include "flag.h"
 #include "game.h"
-#include "iexamine.h"
 #include "input.h"
 #include "inventory.h"
 #include "item.h"

@@ -2,24 +2,23 @@
 #ifndef CATA_SRC_MAGIC_ENCHANTMENT_H
 #define CATA_SRC_MAGIC_ENCHANTMENT_H
 
-#include <algorithm>
+#include <iosfwd>
 #include <map>
+#include <new>
 #include <set>
-#include <string>
 #include <utility>
 #include <vector>
 
 #include "calendar.h"
-#include "enum_traits.h"
-#include "json.h"
 #include "magic.h"
 #include "optional.h"
-#include "string_id.h"
 #include "type_id.h"
 #include "units_fwd.h"
 
 class Character;
 class Creature;
+class JsonObject;
+class JsonOut;
 class item;
 
 namespace enchant_vals

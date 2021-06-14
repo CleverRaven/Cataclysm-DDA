@@ -5,15 +5,18 @@
 #include <climits>
 #include <cmath>
 #include <cstdlib>
+#include <functional>
 #include <list>
 #include <map>
 #include <memory>
+#include <new>
 #include <ostream>
 #include <set>
 #include <string>
 #include <utility>
 #include <vector>
 
+#include "activity_type.h"
 #include "ballistics.h"
 #include "bodypart.h"
 #include "calendar.h"
@@ -27,24 +30,24 @@
 #include "debug.h"
 #include "dispersion.h"
 #include "effect.h"
+#include "effect_source.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
 #include "explosion.h"
 #include "field_type.h"
 #include "flag.h"
-#include "flat_set.h"
 #include "fungal_effects.h"
 #include "game.h"
 #include "game_constants.h"
 #include "gun_mode.h"
-#include "int_id.h"
 #include "item.h"
 #include "item_stack.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
 #include "line.h"
+#include "location.h"
 #include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -72,7 +75,6 @@
 #include "sounds.h"
 #include "speech.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "text_snippets.h"
 #include "tileray.h"
 #include "timed_event.h"
@@ -798,7 +800,7 @@ bool mattack::pull_metal_weapon( monster *z )
               foe->weapon.made_of( material_id( "hardsteel" ) ) ||
               foe->weapon.made_of( material_id( "steel" ) ) ||
               foe->weapon.made_of( material_id( "budget_steel" ) ) ) ) {
-            int wp_skill = foe->get_skill_level( skill_melee );
+            const int wp_skill = foe->get_skill_level( skill_melee );
             // It takes a while
             z->moves -= att_cost_pull;
             int success = 100;
@@ -809,9 +811,19 @@ bool mattack::pull_metal_weapon( monster *z )
             }
             game_message_type m_type = foe->is_avatar() ? m_bad : m_neutral;
             if( rng( 1, 100 ) <= success ) {
-                target->add_msg_player_or_npc( m_type, _( "%s is pulled away from your hands!" ),
-                                               _( "%s is pulled away from <npcname>'s hands!" ), foe->weapon.tname() );
-                z->add_item( foe->remove_weapon() );
+                item pulled_weapon = foe->remove_weapon();
+                projectile proj;
+                proj.speed  = 50;
+                proj.impact = damage_instance::physical( pulled_weapon.weight() / 250_gram, 0, 0, 0 );
+                // make the projectile stop one tile short to prevent hitting the monster
+                proj.range = rl_dist( foe->pos(), z->pos() ) - 1;
+                proj.proj_effects = { { "NO_ITEM_DAMAGE", "DRAW_AS_LINE", "NO_DAMAGE_SCALING", "JET" } };
+
+                dealt_projectile_attack dealt = projectile_attack( proj, foe->pos(), z->pos(), dispersion_sources { 0 },
+                                                z );
+                get_map().add_item( dealt.end_point, pulled_weapon );
+                target->add_msg_player_or_npc( m_type, _( "The %s is pulled away from your hands!" ),
+                                               _( "The %s is pulled away from <npcname>'s hands!" ), pulled_weapon.tname() );
                 if( foe->has_activity( ACT_RELOAD ) ) {
                     foe->cancel_activity();
                 }
@@ -2183,7 +2195,7 @@ bool mattack::dermatik( monster *z )
     target->add_msg_if_player( m_bad, _( "The %1$s sinks its ovipositor into your %2$s!" ),
                                z->name(),
                                body_part_name_accusative( targeted ) );
-    if( !foe->has_trait( trait_PARAIMMUNE ) || !foe->has_trait( trait_ACIDBLOOD ) ) {
+    if( !foe->has_trait( trait_PARAIMMUNE ) && !foe->has_trait( trait_ACIDBLOOD ) ) {
         foe->add_effect( effect_dermatik, 1_turns, targeted, true );
         get_event_bus().send<event_type::dermatik_eggs_injected>( foe->getID() );
     }
@@ -2510,7 +2522,10 @@ bool mattack::tentacle( monster *z )
         return false;
     }
     Creature *target = z->attack_target();
-    if( target == nullptr || rl_dist( z->pos(), target->pos() ) > 3 || !z->sees( *target ) ) {
+
+    // Can't see/reach target, no attack
+    if( target == nullptr || rl_dist( z->pos(), target->pos() ) > 3 || !z->sees( *target ) ||
+        !get_map().clear_path( z->pos(), target->pos(), 3, 1, 100 ) ) {
         return false;
     }
     game_message_type msg_type = target->is_avatar() ? m_bad : m_info;
@@ -2701,9 +2716,8 @@ bool mattack::grab( monster *z )
             target->add_msg_player_or_npc( m_info, tech.avatar_message.translated(),
                                            tech.npc_message.translated(), z->name() );
         } else {
-            target->add_msg_player_or_npc( m_info, _( "The %s tries to grab you, but you break its grab!" ),
-                                           _( "The %s tries to grab <npcname>, but they break its grab!" ),
-                                           z->name() );
+            add_msg_if_player_sees( *z, m_info, _( "The %1$s tries to grab %2$s, but %2$s break its grab!" ),
+                                    z->name(), target->disp_name() );
         }
         return true;
     }
@@ -2712,8 +2726,7 @@ bool mattack::grab( monster *z )
     z->add_effect( effect_grabbing, 2_turns );
     target->add_effect( effect_grabbed, 2_turns, bodypart_id( "torso" ), false,
                         prev_effect + z->get_grab_strength() );
-    target->add_msg_player_or_npc( m_bad, _( "The %s grabs you!" ), _( "The %s grabs <npcname>!" ),
-                                   z->name() );
+    add_msg_if_player_sees( *z, m_bad, _( "The %1$s grabs %2$s!" ), z->name(), target->disp_name() );
 
     return true;
 }
@@ -4079,7 +4092,15 @@ bool mattack::stretch_bite( monster *z )
     // Let it be used on non-player creatures
     // can be used at close range too!
     Creature *target = z->attack_target();
-    if( target == nullptr || rl_dist( z->pos(), target->pos() ) > 3 || !z->sees( *target ) ) {
+    if( target == nullptr ) {
+        return false;
+    }
+    int distance = rl_dist( z->pos(), target->pos() );
+    // Hack, only allow attacking above or below if the target is adjacent.
+    if( z->pos().z != target->pos().z ) {
+        distance += 2;
+    }
+    if( distance > 3 || !z->sees( *target ) ) {
         return false;
     }
 
@@ -4365,7 +4386,12 @@ bool mattack::longswipe( monster *z )
         return false;
     }
     // Out of range
-    if( rl_dist( z->pos(), target->pos() ) > 3 || !z->sees( *target ) ) {
+    int distance = rl_dist( z->pos(), target->pos() );
+    // Hack, only allow attacking above or below if the target is adjacent.
+    if( z->pos().z != target->pos().z ) {
+        distance += 2;
+    }
+    if( distance > 3 || !z->sees( *target ) ) {
         return false;
     }
     map &here = get_map();
@@ -5279,8 +5305,8 @@ bool mattack::bio_op_impale( monster *z )
 
     t_dam = foe->deal_damage( z, hit, damage_instance( damage_type::STAB, dam ) ).total_damage();
 
-    target->add_msg_player_or_npc( _( "The %1$s tries to impale your %s…" ),
-                                   _( "The %1$s tries to impale <npcname>'s %s…" ),
+    target->add_msg_player_or_npc( _( "The %1$s tries to impale your %2$s…" ),
+                                   _( "The %1$s tries to impale <npcname>'s %2$s…" ),
                                    z->name(), body_part_name_accusative( hit ) );
 
     if( t_dam > 0 ) {
@@ -5669,6 +5695,10 @@ bool mattack::stretch_attack( monster *z )
     }
 
     int distance = rl_dist( z->pos(), target->pos() );
+    // Hack, only allow attacking above or below if the target is adjacent.
+    if( z->pos().z != target->pos().z ) {
+        distance += 2;
+    }
     if( distance < 2 || distance > 3 || !z->sees( *target ) ) {
         return false;
     }
@@ -5690,7 +5720,7 @@ bool mattack::stretch_attack( monster *z )
                                    _( "The %s thrusts its arm at you, stretching to reach you from afar." ),
                                    _( "The %s thrusts its arm at <npcname>." ),
                                    z->name() );
-    if( dodge_check( z, target ) || get_player_character().uncanny_dodge() ) {
+    if( dodge_check( z, target ) || target->uncanny_dodge() ) {
         target->add_msg_player_or_npc( msg_type, _( "You evade the stretched arm and it sails past you!" ),
                                        _( "<npcname> evades the stretched arm!" ) );
         target->on_dodge( z, z->type->melee_skill * 2 );

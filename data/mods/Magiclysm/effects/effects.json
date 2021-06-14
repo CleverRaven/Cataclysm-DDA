@@ -290,5 +290,15 @@
     "remove_message": "Time to go.",
     "rating": "bad",
     "flags": [ "DIMENSIONAL_ANCHOR" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "slow_freeze_effect",
+    "name": [ "Slow Freeze" ],
+    "desc": [ "The cold slows down your foes." ],
+    "max_intensity": 4,
+    "int_add_val": 1,
+    "base_mods": { "speed_mod": [ -25 ] },
+    "scaling_mods": { "speed_mod": [ -5 ] }
   }
 ]

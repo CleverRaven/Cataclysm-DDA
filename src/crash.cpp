@@ -1,5 +1,7 @@
 #include "crash.h"
 
+// IWYU pragma: no_include <sys/signal.h>
+
 #if defined(BACKTRACE)
 
 #include <csignal>
@@ -62,6 +64,13 @@ extern "C" {
 #endif
         const std::string crash_log_file = PATH_INFO::crash();
         std::ostringstream log_text;
+#if defined(__ANDROID__)
+        // At this point, Android JVM is already doomed
+        // No further UI interaction (including the SDL message box)
+        // Show a dialogue at next launch
+        log_text << "VERSION: " << getVersionString()
+                 << '\n' << type << ' ' << msg;
+#else
         log_text << "The program has crashed."
                  << "\nSee the log file for a stack trace."
                  << "\nCRASH LOG FILE: " << crash_log_file
@@ -74,6 +83,7 @@ extern "C" {
             log_text << "Error creating SDL message box: " << SDL_GetError() << '\n';
         }
 #endif
+#endif
         log_text << "\nSTACK TRACE:\n";
         debug_write_backtrace( log_text );
         std::cerr << log_text.str();
@@ -82,6 +92,15 @@ extern "C" {
             fwrite( log_text.str().data(), 1, log_text.str().size(), file );
             fclose( file );
         }
+#if defined(__ANDROID__)
+        // Create a placeholder dummy file "config/crash.log.prompt"
+        // to let the app show a dialog box at next start
+        file = fopen( ( crash_log_file + ".prompt" ).c_str(), "w" );
+        if( file ) {
+            fwrite( "0", 1, 1, file );
+            fclose( file );
+        }
+#endif
     }
 
     static void signal_handler( int sig )
@@ -160,6 +179,10 @@ extern "C" {
 
 void init_crash_handlers()
 {
+#if defined(__ANDROID__)
+    // Clean dummy file crash.log.prompt
+    remove( ( PATH_INFO::crash() + ".prompt" ).c_str() );
+#endif
     for( int sig : {
              SIGSEGV, SIGILL, SIGABRT, SIGFPE
          } ) {

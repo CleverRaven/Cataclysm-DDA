@@ -7,7 +7,6 @@
 #include "calendar.h"
 #include "type_id.h"
 #include "units.h"
-#include "units_fwd.h"
 
 class Character;
 class JsonIn;

@@ -1,17 +1,12 @@
-#include "catch/catch.hpp"
-
-#include <cmath>
-#include <string>
-
 #include "calendar.h"
 #include "cata_utility.h"
+#include "catch/catch.hpp"
 #include "enums.h"
 #include "flag.h"
 #include "game_constants.h"
 #include "item.h"
 #include "point.h"
 #include "weather.h"
-
 
 static void set_map_temperature( int new_temperature )
 {

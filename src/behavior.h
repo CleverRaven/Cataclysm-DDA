@@ -2,8 +2,8 @@
 #ifndef CATA_SRC_BEHAVIOR_H
 #define CATA_SRC_BEHAVIOR_H
 
-#include <algorithm>
 #include <functional>
+#include <iosfwd>
 #include <string>
 #include <utility>
 #include <vector>

@@ -15,7 +15,7 @@
     "covers": [ "leg_l", "leg_r" ],
     "coverage": 15,
     "warmth": 5,
-    "material_thickness": 1,
+    "material_thickness": 0.01,
     "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ]
   },
   {
@@ -35,7 +35,7 @@
     "color": "blue",
     "covers": [ "leg_l", "leg_r" ],
     "coverage": 35,
-    "material_thickness": 1,
+    "material_thickness": 0.1,
     "flags": [ "VARSIZE", "WATER_FRIENDLY" ]
   },
   {
@@ -64,7 +64,7 @@
       { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 }
     ],
     "warmth": 50,
-    "material_thickness": 1,
+    "material_thickness": 3,
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ]
   },
@@ -85,7 +85,7 @@
     "coverage": 100,
     "encumbrance": 10,
     "warmth": 30,
-    "material_thickness": 1,
+    "material_thickness": 3,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ]
   },
@@ -109,7 +109,7 @@
     "coverage": 100,
     "encumbrance": 25,
     "warmth": 15,
-    "material_thickness": 2,
+    "material_thickness": 3,
     "environmental_protection": 10,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY", "OUTER", "HELMET_COMPAT" ]
   },
@@ -142,7 +142,7 @@
       { "pocket_type": "CONTAINER", "max_contains_volume": "3 L", "max_contains_weight": "6 kg", "moves": 200 }
     ],
     "warmth": 15,
-    "material_thickness": 2,
+    "material_thickness": 3,
     "environmental_protection": 10,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ]
   },
@@ -194,7 +194,7 @@
       { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 }
     ],
     "warmth": 30,
-    "material_thickness": 1,
+    "material_thickness": 2,
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ]
   },
@@ -281,7 +281,7 @@
     "coverage": 100,
     "encumbrance": 10,
     "warmth": 30,
-    "material_thickness": 1,
+    "material_thickness": 2,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ]
   }

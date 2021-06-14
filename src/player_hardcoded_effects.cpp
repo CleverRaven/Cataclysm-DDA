@@ -1,11 +1,14 @@
+#include "player.h" // IWYU pragma: associated
+
 #include <array>
-#include <cmath>
 #include <cstdlib>
 #include <memory>
+#include <string>
 
 #include "activity_handlers.h"
 #include "activity_type.h"
 #include "bodypart.h"
+#include "calendar.h"
 #include "character.h"
 #include "damage.h"
 #include "effect.h"
@@ -15,7 +18,6 @@
 #include "field_type.h"
 #include "fungal_effects.h"
 #include "game.h"
-#include "int_id.h"
 #include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -24,13 +26,11 @@
 #include "messages.h"
 #include "mongroup.h"
 #include "monster.h"
-#include "player.h" // IWYU pragma: associated
 #include "player_activity.h"
 #include "rng.h"
 #include "sounds.h"
 #include "stomach.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "teleport.h"
 #include "translations.h"
 #include "units.h"
@@ -113,8 +113,6 @@ static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
 
 static const mtype_id mon_dermatik_larva( "mon_dermatik_larva" );
 
-static const bionic_id bio_watch( "bio_watch" );
-
 static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
 static const trait_id trait_HEAVYSLEEPER( "HEAVYSLEEPER" );
 static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
@@ -127,6 +125,8 @@ static const trait_id trait_SEESLEEP( "SEESLEEP" );
 static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
+
+static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
 
 static void eff_fun_onfire( Character &u, effect &it )
 {
@@ -1483,7 +1483,7 @@ void Character::hardcoded_effects( effect &it )
     } else if( id == effect_alarm_clock ) {
         if( in_sleep_state() ) {
             const bool asleep = has_effect( effect_sleep );
-            if( has_bionic( bio_watch ) ) {
+            if( has_flag( json_flag_ALARMCLOCK ) ) {
                 if( dur == 1_turns ) {
                     // Normal alarm is volume 12, tested against (2/3/6)d15 for
                     // normal/HEAVYSLEEPER/HEAVYSLEEPER2.

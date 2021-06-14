@@ -2,6 +2,7 @@
 
 #include <cstdlib>
 #include <set>
+#include <string>
 
 #include "character.h"
 #include "creature.h"
@@ -9,11 +10,11 @@
 #include "enum_conversions.h"
 #include "enums.h"
 #include "generic_factory.h"
+#include "item.h"
 #include "json.h"
 #include "map.h"
 #include "point.h"
 #include "rng.h"
-#include "string_id.h"
 #include "units.h"
 
 namespace io

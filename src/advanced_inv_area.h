@@ -3,13 +3,12 @@
 #define CATA_SRC_ADVANCED_INV_AREA_H
 
 #include <array>
-#include <list>
-#include <string>
+#include <iosfwd>
 #include <vector>
 
+#include "item_location.h"
 #include "point.h"
-#include "units.h"
-#include "units_fwd.h"
+#include "units.h" // IWYU pragma: keep
 
 enum aim_location : char {
     AIM_INVENTORY = 0,
@@ -81,6 +80,7 @@ class advanced_inv_area
         // used for isometric view
         const aim_location relative_location;
 
+        // NOLINTNEXTLINE(google-explicit-constructor)
         advanced_inv_area( aim_location id ) : id( id ), relative_location( id ) {}
         advanced_inv_area(
             aim_location id, const point &hscreen, tripoint off, const std::string &name,
@@ -99,17 +99,11 @@ class advanced_inv_area
         // does _not_ check vehicle storage, do that with `can_store_in_vehicle()' below
         bool canputitems( const advanced_inv_listitem *advitem = nullptr );
         // if you want vehicle cargo, specify so via `in_vehicle'
-        item *get_container( bool in_vehicle = false );
+        item_location get_container( bool in_vehicle = false );
         void set_container( const advanced_inv_listitem *advitem );
         bool is_container_valid( const item *it ) const;
         void set_container_position();
         aim_location offset_to_location() const;
-        bool can_store_in_vehicle() const {
-            // disallow for non-valid vehicle locations
-            if( id > AIM_DRAGGED || id < AIM_SOUTHWEST ) {
-                return false;
-            }
-            return veh != nullptr && vstor >= 0;
-        }
+        bool can_store_in_vehicle() const;
 };
 #endif // CATA_SRC_ADVANCED_INV_AREA_H

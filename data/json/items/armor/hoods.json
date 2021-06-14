@@ -134,7 +134,7 @@
     "covers": [ "head" ],
     "coverage": 100,
     "warmth": 10,
-    "material_thickness": 1,
+    "material_thickness": 0.3,
     "environmental_protection": 1,
     "flags": [ "WATERPROOF", "OUTER", "HELMET_COMPAT" ]
   },
@@ -259,7 +259,7 @@
     "covers": [ "head" ],
     "coverage": 95,
     "warmth": 10,
-    "material_thickness": 1,
+    "material_thickness": 0.1,
     "environmental_protection": 1,
     "flags": [ "WATERPROOF", "RAINPROOF", "OUTER", "HELMET_COMPAT" ]
   }

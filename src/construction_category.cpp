@@ -1,12 +1,9 @@
 #include "construction_category.h"
 
 #include <set>
-#include <string>
 
 #include "generic_factory.h"
-#include "int_id.h"
 #include "json.h"
-#include "string_id.h"
 
 namespace
 {

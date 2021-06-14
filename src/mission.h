@@ -2,15 +2,14 @@
 #ifndef CATA_SRC_MISSION_H
 #define CATA_SRC_MISSION_H
 
-#include <algorithm>
 #include <functional>
+#include <iosfwd>
 #include <map>
 #include <memory>
 #include <string>
 #include <utility>
 #include <vector>
 
-#include "basecamp.h"
 #include "calendar.h"
 #include "character_id.h"
 #include "coordinates.h"
@@ -20,8 +19,6 @@
 #include "omdata.h"
 #include "optional.h"
 #include "overmap.h"
-#include "point.h"
-#include "string_id.h"
 #include "talker.h"
 #include "translations.h"
 #include "type_id.h"
@@ -36,7 +33,6 @@ class item;
 class mission;
 class npc;
 class overmapbuffer;
-class player;
 template<typename T> struct enum_traits;
 
 enum npc_mission : int;

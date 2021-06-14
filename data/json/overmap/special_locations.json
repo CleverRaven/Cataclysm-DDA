@@ -31,6 +31,16 @@
   },
   {
     "type": "overmap_location",
+    "id": "special_field",
+    "terrains": [ "special_field" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "special_forest",
+    "terrains": [ "special_forest", "special_forest_thick" ]
+  },
+  {
+    "type": "overmap_location",
     "id": "water",
     "terrains": [
       "river",

@@ -1,7 +1,7 @@
 #include "mod_tileset.h"
 
 #include <algorithm>
-#include <memory>
+#include <string>
 
 #include "json.h"
 

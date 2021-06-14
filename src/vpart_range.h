@@ -5,12 +5,13 @@
 #include <functional>
 #include <cstddef>
 #include <iterator>
-#include <utility>
+#include <new>
+#include <type_traits>
 
 #include "cata_assert.h"
 #include "optional.h"
-#include "vpart_position.h"
 #include "vehicle.h"
+#include "vpart_position.h"
 
 enum class part_status_flag : int;
 
@@ -103,7 +104,7 @@ class generic_vehicle_part_range
         std::reference_wrapper<::vehicle> vehicle_;
 
     public:
-        generic_vehicle_part_range( ::vehicle &v ) : vehicle_( v ) { }
+        explicit generic_vehicle_part_range( ::vehicle &v ) : vehicle_( v ) { }
 
         // Templated because see top of file.
         template<typename T = ::vehicle>
@@ -142,7 +143,7 @@ class generic_vehicle_part_range
 class vehicle_part_range : public generic_vehicle_part_range<vehicle_part_range>
 {
     public:
-        vehicle_part_range( ::vehicle &v ) : generic_vehicle_part_range( v ) { }
+        explicit vehicle_part_range( ::vehicle &v ) : generic_vehicle_part_range( v ) { }
 
         bool matches( const size_t /*part*/ ) const {
             return true;
