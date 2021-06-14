@@ -191,17 +191,16 @@ static void update_note_preview( const std::string &note,
     mvwputch( *w_preview_title, point( note_text_width, 1 ), c_white, LINE_XOOX );
     wnoutrefresh( *w_preview_title );
 
-    const int npm_offset_x = 1;
-    const int npm_offset_y = 1;
+    const point npm_offset( point_south_east );
     werase( *w_preview_map );
     draw_border( *w_preview_map, c_yellow );
     for( int i = 0; i < npm_height; i++ ) {
         for( int j = 0; j < npm_width; j++ ) {
             const auto &ter = map_around[i * npm_width + j];
-            mvwputch( *w_preview_map, point( j + npm_offset_x, i + npm_offset_y ), ter.first, ter.second );
+            mvwputch( *w_preview_map, npm_offset + point( j, i ), ter.first, ter.second );
         }
     }
-    mvwputch( *w_preview_map, point( npm_width / 2 + npm_offset_x, npm_height / 2 + npm_offset_y ),
+    mvwputch( *w_preview_map, npm_offset + point( npm_width / 2, npm_height / 2 ),
               note_color, symbol );
     wnoutrefresh( *w_preview_map );
 }
@@ -220,8 +219,7 @@ static weather_type_id get_weather_at_point( const tripoint_abs_omt &pos )
         // TODO: fix point types
         const tripoint abs_ms_pos = project_to<coords::ms>( pos ).raw();
         const auto &wgen = overmap_buffer.get_settings( pos ).weather;
-        const auto weather = wgen.get_weather_conditions( abs_ms_pos, calendar::turn, g->get_seed(),
-                             g->weather.next_instance_allowed );
+        const auto weather = wgen.get_weather_conditions( abs_ms_pos, calendar::turn, g->get_seed() );
         iter = weather_cache.insert( std::make_pair( pos, weather ) ).first;
     }
     return iter->second;
@@ -655,7 +653,7 @@ void draw(
             npc *npc_to_add = elem.get();
             if( npc_to_add->mission == NPC_MISSION_TRAVELLING && !npc_to_add->omt_path.empty() ) {
                 for( auto &elem : npc_to_add->omt_path ) {
-                    path_route.push_back( tripoint_abs_omt( elem.xy(), npc_to_add->posz() ) );
+                    path_route.emplace_back( elem.xy(), npc_to_add->posz() );
                 }
             }
         }

@@ -236,7 +236,7 @@
     "copy-from": "flesh",
     "type": "COMESTIBLE",
     "name": "alien stomach",
-    "description": "A balloon like organ you can only guess is a stomach.  It is surprisingly durable.",
+    "description": "A balloon-like organ you can only guess is a stomach.  It is surprisingly durable.",
     "weight": "72 g",
     "volume": "250 ml",
     "price_postapoc": 25,
@@ -254,7 +254,7 @@
     "copy-from": "alien_stomach",
     "type": "COMESTIBLE",
     "name": "large alien stomach",
-    "description": "A balloon like organ of a large alien.  It is surprisingly durable.",
+    "description": "A balloon-like organ of a large alien you can only guess is a stomach.  It is surprisingly durable.",
     "proportional": { "weight": 2.0, "volume": 2.0, "price": 1.5, "calories": 2.0 }
   },
   {

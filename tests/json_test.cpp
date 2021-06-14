@@ -13,7 +13,7 @@
 #include "bodypart.h"
 #include "cached_options.h"
 #include "cata_utility.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "colony.h"
 #include "damage.h"
 #include "debug.h"

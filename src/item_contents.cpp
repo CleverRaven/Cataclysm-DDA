@@ -149,6 +149,7 @@ bool pocket_favorite_callback::key( const input_context &, const input_event &ev
         }
 
         std::vector<std::string> itype_initializer;
+        itype_initializer.reserve( nearby_itypes.size() );
         for( const std::pair<const std::string, const itype *> &name : nearby_itypes ) {
             itype_initializer.emplace_back( name.first );
         }
@@ -200,7 +201,7 @@ item_contents::item_contents( const std::vector<pocket_data> &pockets )
 {
 
     for( const pocket_data &data : pockets ) {
-        contents.push_back( item_pocket( &data ) );
+        contents.emplace_back( &data );
     }
 }
 
@@ -1251,7 +1252,7 @@ void item_contents::update_modified_pockets(
                         // in case the debugmsg wasn't clear, this should never happen
                         debugmsg( "Oops!  deleted some items when updating pockets that were added via toolmods" );
                     }
-                    contents.push_back( item_pocket( *mag_or_mag_well ) );
+                    contents.emplace_back( *mag_or_mag_well );
                     pocket_iter = contents.erase( pocket_iter );
                 } else {
                     ++pocket_iter;
@@ -1267,7 +1268,7 @@ void item_contents::update_modified_pockets(
 
     // we've deleted all of the superfluous copies already, so time to add the new pockets
     for( const pocket_data *container_pocket : container_pockets ) {
-        contents.push_back( item_pocket( container_pocket ) );
+        contents.emplace_back( container_pocket );
     }
 
 }
@@ -1548,7 +1549,7 @@ int item_contents::best_quality( const quality_id &id ) const
 static void insert_separation_line( std::vector<iteminfo> &info )
 {
     if( info.empty() || info.back().sName != "--" ) {
-        info.push_back( iteminfo( "DESCRIPTION", "--" ) );
+        info.emplace_back( "DESCRIPTION", "--" );
     }
 }
 
@@ -1581,9 +1582,9 @@ void item_contents::info( std::vector<iteminfo> &info, const iteminfo_query *par
         if( found_pockets.size() > 1 || pocket_num[0] > 1 ) {
             insert_separation_line( info );
             info.emplace_back( "CONTAINER", _( "<bold>Total capacity</bold>:" ) );
-            info.push_back( vol_to_info( "CONTAINER", _( "Volume: " ), total_container_capacity() ) );
-            info.push_back( weight_to_info( "CONTAINER", _( "  Weight: " ),
-                                            total_container_weight_capacity() ) );
+            info.push_back( vol_to_info( "CONTAINER", _( "Volume: " ), total_container_capacity(), 2, false ) );
+            info.push_back( weight_to_info( "CONTAINER", _( "  Weight: " ), total_container_weight_capacity(),
+                                            2, false ) );
             info.back().bNewLine = true;
         }
 

@@ -4,6 +4,11 @@ Certain features of the game can be modified without rebuilding the game from so
 
 The majority of modding is done by editing JSON files. An in-depth review of all json files and their appropriate fields is available in [JSON_INFO.md](JSON_INFO.md).
 
+## Other guides
+
+You might want to read the [Guide to adding new content to CDDA for first time
+contributors](https://github.com/CleverRaven/Cataclysm-DDA/wiki/Guide-to-adding-new-content-to-CDDA-for-first-time-contributors) on the CDDA wiki.
+
 ## The basics
 
 ### Creating a barebones mod
@@ -26,7 +31,8 @@ A barebones `modinfo.json` file looks like this:
 ]
 ````
 The `category` attribute denotes where the mod will appear in the mod selection menu. These are the available categories to choose from, with some examples chosen from mods that existed when this document was written. Pick whichever one applies best to your mod when writing your modinfo file.
- - `content` - A mod that adds a lot of stuff. Typically reserved for very large mods or complete game overhauls (eg: Core game files, Aftershock)
+ - `content` - A mod that adds a lot of stuff. Typically reserved for large mods (eg: Core game files, Aftershock)
+ - `total_conversion` - A mod that fundamentally changes the game.  In particular, the assumption is that a player should not use two total conversion mods at the same time, and so they will not be tested together.  However, nothing prevents players from using more than one if they wish. (eg: Dark Skies Above)
  - `items` - A mod that adds new items and recipes to the game (eg: More survival tools)
  - `creatures` - A mod that adds new creatures or NPCs to the game (eg: Modular turrets)
  - `misc_additions` - Miscellaneous content additions to the game (eg: Alternative map key, Crazy cataclysm)
@@ -135,7 +141,7 @@ Items are where you really want to read the [JSON_INFO.md](JSON_INFO.md) file, j
 ````
 
 ### Preventing monsters from spawning
-This kind of mod is relatively simple, but very useful. If you don't want to deal with certain types of monsters in your world, this is how you do it. There are two ways to go about this, and both will be detailed below. You can blacklist entire monster groups, or you can blacklist certain monsters. In order to do either of those things, you need that monster's ID. These can be found in the relevant data files. For the core game, these are in the `data/json/monsters` directory.
+This kind of mod is relatively simple, but very useful. If you don't want to deal with certain types of monsters in your world, this is how you do it. There are two ways to go about this, and both will be detailed below. You can blacklist entire monster groups, blacklist monsters by their specified species, or you can blacklist individual monsters. In order to do any of those things, you need that monster's ID or SPECIES data. These can be found in the relevant data files. For the core game, these are in the `data/json/monsters` directory.
 The example below is from the `No Ants` mod, and will stop any kind of ant from spawning in-game.
 ````json
 [
@@ -155,6 +161,15 @@ The example below is from the `No Ants` mod, and will stop any kind of ant from 
       "mon_ant_acid",
       "mon_ant"
     ]
+  }
+]
+````
+The following is an example of how to blacklist monsters by species. In this case, it would remove all fungaloids from the game.
+````json
+[
+  {
+    "type": "MONSTER_BLACKLIST",
+    "species": [ "FUNGUS" ]
   }
 ]
 ````

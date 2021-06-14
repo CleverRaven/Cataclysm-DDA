@@ -985,7 +985,7 @@ bool mattack::resurrect( monster *z )
             int raise_score = ( i.damage_level() + 1 ) * mt->hp + i.burnt;
             lowest_raise_score = std::min( lowest_raise_score, raise_score );
             if( raise_score <= raising_level ) {
-                corpses.push_back( std::make_pair( p, &i ) );
+                corpses.emplace_back( p, &i );
             }
         }
     }
@@ -2853,7 +2853,7 @@ bool mattack::stare( monster *z )
     if( z->sees( player_character ) ) {
         //dimensional effects don't take against dimensionally anchored foes.
         if( player_character.worn_with_flag( flag_DIMENSIONAL_ANCHOR ) ||
-            player_character.has_effect_with_flag( flag_DIMENSIONAL_ANCHOR ) ) {
+            player_character.has_flag( flag_DIMENSIONAL_ANCHOR ) ) {
             add_msg( m_warning, _( "You feel a strange reverberation across your body." ) );
             return true;
         }
@@ -3474,8 +3474,7 @@ bool mattack::searchlight( monster *z )
         max_lamp_count--;
     }
 
-    const int zposx = z->posx();
-    const int zposy = z->posy();
+    const point zpos( z->posx(), z->posy() );
 
     map &here = get_map();
     //this searchlight is not initialized
@@ -3493,16 +3492,16 @@ bool mattack::searchlight( monster *z )
             for( const tripoint &dest : here.points_in_radius( z->pos(), 24 ) ) {
                 const monster *const mon = g->critter_at<monster>( dest );
                 if( mon && mon->type->id == mon_turret_searchlight ) {
-                    if( dest.x < zposx ) {
+                    if( dest.x < zpos.x ) {
                         settings.set_var( "SL_PREFER_LEFT", "FALSE" );
                     }
-                    if( dest.x > zposx ) {
+                    if( dest.x > zpos.x ) {
                         settings.set_var( "SL_PREFER_RIGHT", "FALSE" );
                     }
-                    if( dest.y < zposy ) {
+                    if( dest.y < zpos.y ) {
                         settings.set_var( "SL_PREFER_UP", "FALSE" );
                     }
-                    if( dest.y > zposy ) {
+                    if( dest.y > zpos.y ) {
                         settings.set_var( "SL_PREFER_DOWN", "FALSE" );
                     }
                 }
@@ -3520,8 +3519,8 @@ bool mattack::searchlight( monster *z )
 
         bool generator_ok = false;
 
-        for( int x = zposx - 24; x < zposx + 24; x++ ) {
-            for( int y = zposy - 24; y < zposy + 24; y++ ) {
+        for( int x = zpos.x - 24; x < zpos.x + 24; x++ ) {
+            for( int y = zpos.y - 24; y < zpos.y + 24; y++ ) {
                 tripoint dest( x, y, z->posz() );
                 if( here.ter( dest ) == ter_str_id( "t_plut_generator" ) ) {
                     generator_ok = true;
@@ -3567,8 +3566,7 @@ bool mattack::searchlight( monster *z )
             }
         }
 
-        int x = zposx + settings.get_var( "SL_SPOT_X", 0 );
-        int y = zposy + settings.get_var( "SL_SPOT_Y", 0 );
+        point p( zpos + point( settings.get_var( "SL_SPOT_X", 0 ), settings.get_var( "SL_SPOT_Y", 0 ) ) );
         int shift = 0;
 
         for( int i = 0; i < rng( 1, 2 ); i++ ) {
@@ -3578,32 +3576,32 @@ bool mattack::searchlight( monster *z )
 
                 switch( shift ) {
                     case 0:
-                        y--;
+                        p.y--;
                         break;
                     case 1:
-                        y--;
-                        x++;
+                        p.y--;
+                        p.x++;
                         break;
                     case 2:
-                        x++;
+                        p.x++;
                         break;
                     case 3:
-                        x++;
-                        y++;
+                        p.x++;
+                        p.y++;
                         break;
                     case 4:
-                        y++;
+                        p.y++;
                         break;
                     case 5:
-                        y++;
-                        x--;
+                        p.y++;
+                        p.x--;
                         break;
                     case 6:
-                        x--;
+                        p.x--;
                         break;
                     case 7:
-                        x--;
-                        y--;
+                        p.x--;
+                        p.y--;
                         break;
 
                     default:
@@ -3611,40 +3609,40 @@ bool mattack::searchlight( monster *z )
                 }
 
             } else {
-                if( x < player_character.posx() ) {
-                    x++;
+                if( p.x < player_character.posx() ) {
+                    p.x++;
                 }
-                if( x > player_character.posx() ) {
-                    x--;
+                if( p.x > player_character.posx() ) {
+                    p.x--;
                 }
-                if( y < player_character.posy() ) {
-                    y++;
+                if( p.y < player_character.posy() ) {
+                    p.y++;
                 }
-                if( y > player_character.posy() ) {
-                    y--;
+                if( p.y > player_character.posy() ) {
+                    p.y--;
                 }
             }
 
-            if( rl_dist( point( x, y ), point( zposx, zposy ) ) > 50 ) {
-                if( x > zposx ) {
-                    x--;
+            if( rl_dist( p, zpos ) > 50 ) {
+                if( p.x > zpos.x ) {
+                    p.x--;
                 }
-                if( x < zposx ) {
-                    x++;
+                if( p.x < zpos.x ) {
+                    p.x++;
                 }
-                if( y > zposy ) {
-                    y--;
+                if( p.y > zpos.y ) {
+                    p.y--;
                 }
-                if( y < zposy ) {
-                    y++;
+                if( p.y < zpos.y ) {
+                    p.y++;
                 }
             }
         }
 
-        settings.set_var( "SL_SPOT_X", x - zposx );
-        settings.set_var( "SL_SPOT_Y", y - zposy );
+        settings.set_var( "SL_SPOT_X", p.x - zpos.x );
+        settings.set_var( "SL_SPOT_Y", p.y - zpos.y );
 
-        here.add_field( tripoint( x, y, z->posz() ), field_type_id( "fd_spotlight" ), 1 );
+        here.add_field( tripoint( p, z->posz() ), field_type_id( "fd_spotlight" ), 1 );
     }
 
     return true;
@@ -4290,7 +4288,8 @@ bool mattack::absorb_meat( monster *z )
                 if( player_character.sees( *z ) ) {
                     add_msg( m_warning, _( "The %1$s absorbs the %2$s, growing larger." ), z->name(),
                              current_item.tname() );
-                    add_msg_debug( "The %1$s now has %2$s out of %3$s hp", z->name(), z->get_hp(),
+                    add_msg_debug( debugmode::DF_MATTACK, "The %1$s now has %2$s out of %3$s hp", z->name(),
+                                   z->get_hp(),
                                    z->get_hp_max() );
                 }
                 return true;
@@ -5407,7 +5406,7 @@ bool mattack::kamikaze( monster *z )
 {
     if( z->ammo.empty() ) {
         // We somehow lost our ammo! Toggle this special off so we stop processing
-        add_msg_debug( "Missing ammo in kamikaze special for %s.", z->name() );
+        add_msg_debug( debugmode::DF_MATTACK, "Missing ammo in kamikaze special for %s.", z->name() );
         z->disable_special( "KAMIKAZE" );
         return true;
     }
@@ -5427,14 +5426,15 @@ bool mattack::kamikaze( monster *z )
         const use_function *usage = bomb_type->get_use( "transform" );
         if( usage == nullptr ) {
             // Invalid item usage, Toggle this special off so we stop processing
-            add_msg_debug( "Invalid bomb transform use in kamikaze special for %s.", z->name() );
+            add_msg_debug( debugmode::DF_MATTACK, "Invalid bomb transform use in kamikaze special for %s.",
+                           z->name() );
             z->disable_special( "KAMIKAZE" );
             return true;
         }
         const iuse_transform *actor = dynamic_cast<const iuse_transform *>( usage->get_actor_ptr() );
         if( actor == nullptr ) {
             // Invalid bomb item, Toggle this special off so we stop processing
-            add_msg_debug( "Invalid bomb type in kamikaze special for %s.", z->name() );
+            add_msg_debug( debugmode::DF_MATTACK, "Invalid bomb type in kamikaze special for %s.", z->name() );
             z->disable_special( "KAMIKAZE" );
             return true;
         }
@@ -5459,7 +5459,8 @@ bool mattack::kamikaze( monster *z )
     const use_function *use = act_bomb_type->get_use( "explosion" );
     if( use == nullptr ) {
         // Invalid active bomb item usage, Toggle this special off so we stop processing
-        add_msg_debug( "Invalid active bomb explosion use in kamikaze special for %s.",
+        add_msg_debug( debugmode::DF_MATTACK,
+                       "Invalid active bomb explosion use in kamikaze special for %s.",
                        z->name() );
         z->disable_special( "KAMIKAZE" );
         return true;
@@ -5467,7 +5468,8 @@ bool mattack::kamikaze( monster *z )
     const explosion_iuse *exp_actor = dynamic_cast<const explosion_iuse *>( use->get_actor_ptr() );
     if( exp_actor == nullptr ) {
         // Invalid active bomb item, Toggle this special off so we stop processing
-        add_msg_debug( "Invalid active bomb type in kamikaze special for %s.", z->name() );
+        add_msg_debug( debugmode::DF_MATTACK, "Invalid active bomb type in kamikaze special for %s.",
+                       z->name() );
         z->disable_special( "KAMIKAZE" );
         return true;
     }
@@ -5588,7 +5590,7 @@ static int grenade_helper( monster *const z, Creature *const target, const int d
     // if the player can see it
     if( get_player_view().sees( *z ) ) {
         if( data[att].message.empty() ) {
-            add_msg_debug( "Invalid ammo message in grenadier special." );
+            add_msg_debug( debugmode::DF_MATTACK, "Invalid ammo message in grenadier special." );
         } else {
             add_msg( m_bad, data[att].message, z->name() );
         }
@@ -5599,14 +5601,15 @@ static int grenade_helper( monster *const z, Creature *const target, const int d
     const use_function *usage = bomb_type->get_use( "place_monster" );
     if( usage == nullptr ) {
         // Invalid bomb item usage, Toggle this special off so we stop processing
-        add_msg_debug( "Invalid bomb item usage in grenadier special for %s.", z->name() );
+        add_msg_debug( debugmode::DF_MATTACK, "Invalid bomb item usage in grenadier special for %s.",
+                       z->name() );
         return -1;
     }
     const place_monster_iuse *actor = dynamic_cast<const place_monster_iuse *>
                                       ( usage->get_actor_ptr() );
     if( actor == nullptr ) {
         // Invalid bomb item, Toggle this special off so we stop processing
-        add_msg_debug( "Invalid bomb type in grenadier special for %s.", z->name() );
+        add_msg_debug( debugmode::DF_MATTACK, "Invalid bomb type in grenadier special for %s.", z->name() );
         return -1;
     }
 
@@ -5825,5 +5828,94 @@ bool mattack::speaker( monster *z )
 {
     sounds::sound( z->pos(), 60, sounds::sound_t::order,
                    SNIPPET.random_from_category( "speaker_warning" ).value_or( translation() ) );
+    return true;
+}
+
+bool mattack::dsa_drone_scan( monster *z )
+{
+    z->moves -= 100;
+    constexpr int scan_range = 30;
+    // Select a target: the avatar or a nearby NPC.  Must be visible and within scan range
+    Character *target = &get_player_character();
+    Character &you = get_player_character();
+    bool avatar_in_range = z->posz() == target->posz() && z->sees( target->pos() ) &&
+                           rl_dist( z->pos(), target->pos() ) <= scan_range;
+    const std::vector<npc *> available = g->get_npcs_if( [&]( const npc & guy ) {
+        // TODO: Get rid of the z-level check when z-level vision gets "better"
+        return z->posz() == guy.posz() && z->sees( guy.pos() ) &&
+               rl_dist( z->pos(), guy.pos() ) <= scan_range;
+    } );
+    if( !avatar_in_range && available.empty() ) {
+        return true;
+    }
+    if( !available.empty() ) {
+        if( !avatar_in_range ||
+            ( avatar_in_range && x_in_y( available.size(), available.size() + 1 ) ) ) {
+            target = random_entry( available );
+        }
+    }
+    const std::string timestamp_str = "dsa_drone_scan_timestamp";
+    const std::string weapons_str = "dsa_drone_scan_weapons_count";
+
+    // only check for weapons once every 10 seconds by timestap variable
+    int weapons_count = 0;
+    bool summon_reinforcements = false;
+    if( !target->get_value( weapons_str ).empty() ) {
+        weapons_count = std::stoi( target->get_value( weapons_str ) );
+    }
+
+    if( !target->get_value( timestamp_str ).empty() ) {
+        time_point last_check( std::stoi( target->get_value( timestamp_str ) ) );
+        if( ( last_check + 10_seconds ) > calendar::turn ) {
+            return true;
+        }
+        // reset the weapons count if it has been more than an hour
+        if( ( last_check + 1_hours ) < calendar::turn ) {
+            weapons_count = 0;
+        }
+    }
+    target->set_value( timestamp_str, string_format( "%d", to_turn<int>( calendar::turn ) ) );
+    if( weapons_count < 3 ) {
+        if( target->weapon.is_gun() ) {
+            const gun_type_type &guntype = target->weapon.gun_type();
+            if( guntype == gun_type_type( "rifle" ) ||
+                guntype == gun_type_type( "shotgun" ) ||
+                guntype == gun_type_type( "launcher" ) ) {
+                weapons_count += 2;
+            } else {
+                weapons_count += 1;
+            }
+        } else {
+            for( const item &worn_item : target->worn ) {
+                if( worn_item.is_gun() ) {
+                    weapons_count += 1;
+                    break;
+                }
+            }
+        }
+        summon_reinforcements = weapons_count >= 3;
+    }
+    target->set_value( weapons_str, string_format( "%d", weapons_count ) );
+
+    if( you.sees( z->pos() ) ) {
+        target->add_msg_player_or_npc( _( "The %s shines its light at you." ),
+                                       _( "The %s shines its light at <npcname>." ),
+                                       z->name() );
+    }
+    std::string warning_signal = _( "a dull beep" );
+    if( weapons_count == 1 ) {
+        warning_signal = _( "an ominous hum" );
+    } else if( weapons_count == 2 ) {
+        warning_signal = _( "a threatening whirr" );
+    } else if( weapons_count >= 3 ) {
+        warning_signal = _( "a high-pitched shriek" );
+    }
+    warning_signal = string_format( _( "%s from the %s." ), warning_signal, z->name() );
+    sounds::sound( z->pos(), 15 + 10 * weapons_count, sounds::sound_t::alarm, warning_signal );
+    if( summon_reinforcements ) {
+        get_timed_events().add( timed_event_type::DSA_ALRP_SUMMON,
+                                calendar::turn + rng( 5_turns, 10_turns ),
+                                0, target->global_sm_location() );
+    }
     return true;
 }

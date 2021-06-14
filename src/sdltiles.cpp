@@ -635,25 +635,23 @@ static void invalidate_framebuffer_proportion( cata_cursesport::WINDOW *win )
     const int termpixel_y2 = termpixel.y + win->height * font->height - 1;
 
     if( map_font != nullptr && map_font->width != 0 && map_font->height != 0 ) {
-        const int mapfont_x = termpixel.x / map_font->width;
-        const int mapfont_y = termpixel.y / map_font->height;
+        const point mapfont( termpixel.x / map_font->width, termpixel.y / map_font->height );
         const int mapfont_x2 = std::min( termpixel_x2 / map_font->width, oversized_width - 1 );
         const int mapfont_y2 = std::min( termpixel_y2 / map_font->height, oversized_height - 1 );
-        const int mapfont_width = mapfont_x2 - mapfont_x + 1;
-        const int mapfont_height = mapfont_y2 - mapfont_y + 1;
-        invalidate_framebuffer( oversized_framebuffer, point( mapfont_x, mapfont_y ), mapfont_width,
+        const int mapfont_width = mapfont_x2 - mapfont.x + 1;
+        const int mapfont_height = mapfont_y2 - mapfont.y + 1;
+        invalidate_framebuffer( oversized_framebuffer, mapfont, mapfont_width,
                                 mapfont_height );
     }
 
     if( overmap_font != nullptr && overmap_font->width != 0 && overmap_font->height != 0 ) {
-        const int overmapfont_x = termpixel.x / overmap_font->width;
-        const int overmapfont_y = termpixel.y / overmap_font->height;
+        const point overmapfont( termpixel.x / overmap_font->width, termpixel.y / overmap_font->height );
         const int overmapfont_x2 = std::min( termpixel_x2 / overmap_font->width, oversized_width - 1 );
         const int overmapfont_y2 = std::min( termpixel_y2 / overmap_font->height,
                                              oversized_height - 1 );
-        const int overmapfont_width = overmapfont_x2 - overmapfont_x + 1;
-        const int overmapfont_height = overmapfont_y2 - overmapfont_y + 1;
-        invalidate_framebuffer( oversized_framebuffer, point( overmapfont_x, overmapfont_y ),
+        const int overmapfont_width = overmapfont_x2 - overmapfont.x + 1;
+        const int overmapfont_height = overmapfont_y2 - overmapfont.y + 1;
+        invalidate_framebuffer( oversized_framebuffer, overmapfont,
                                 overmapfont_width,
                                 overmapfont_height );
     }
@@ -758,9 +756,8 @@ static bool draw_window( Font_Ptr &font, const catacurses::window &w, const poin
 
             const cursecell &cell = win->line[j].chars[i];
 
-            const int drawx = offset.x + i * font->width;
-            const int drawy = offset.y + j * font->height;
-            if( drawx + font->width > WindowWidth || drawy + font->height > WindowHeight ) {
+            const point draw( offset + point( i * font->width, j * font->height ) );
+            if( draw.x + font->width > WindowWidth || draw.y + font->height > WindowHeight ) {
                 // Outside of the display area, would not render anyway
                 continue;
             }
@@ -780,7 +777,7 @@ static bool draw_window( Font_Ptr &font, const catacurses::window &w, const poin
 
             // Spaces are used a lot, so this does help noticeably
             if( cell.ch == space_string ) {
-                geometry->rect( renderer, point( drawx, drawy ), font->width, font->height,
+                geometry->rect( renderer, draw, font->width, font->height,
                                 color_as_sdl( cell.BG ) );
                 continue;
             }
@@ -835,12 +832,12 @@ static bool draw_window( Font_Ptr &font, const catacurses::window &w, const poin
                     use_draw_ascii_lines_routine = false;
                     break;
             }
-            geometry->rect( renderer, point( drawx, drawy ), font->width * cw, font->height,
+            geometry->rect( renderer, draw, font->width * cw, font->height,
                             color_as_sdl( BG ) );
             if( use_draw_ascii_lines_routine ) {
-                font->draw_ascii_lines( renderer, geometry, uc, point( drawx, drawy ), FG );
+                font->draw_ascii_lines( renderer, geometry, uc, draw, FG );
             } else {
-                font->OutputChar( renderer, geometry, cell.ch, point( drawx, drawy ), FG );
+                font->OutputChar( renderer, geometry, cell.ch, draw, FG );
             }
         }
     }
@@ -930,20 +927,18 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
 
             int width = 0;
             for( size_t i = 0; i < text.size(); ++i ) {
-                const int x0 = win->pos.x * fontwidth;
-                const int y0 = win->pos.y * fontheight;
-                const int x = x0 + ( x_offset - alignment_offset + width ) * map_font->width + coord.x;
-                const int y = y0 + coord.y;
+                const point p0( win->pos.x * fontwidth, win->pos.y * fontheight );
+                const point p( coord + p0 + point( ( x_offset - alignment_offset + width ) * map_font->width, 0 ) );
 
                 // Clip to window bounds.
-                if( x < x0 || x > x0 + ( TERRAIN_WINDOW_TERM_WIDTH - 1 ) * font->width
-                    || y < y0 || y > y0 + ( TERRAIN_WINDOW_TERM_HEIGHT - 1 ) * font->height ) {
+                if( p.x < p0.x || p.x > p0.x + ( TERRAIN_WINDOW_TERM_WIDTH - 1 ) * font->width
+                    || p.y < p0.y || p.y > p0.y + ( TERRAIN_WINDOW_TERM_HEIGHT - 1 ) * font->height ) {
                     continue;
                 }
 
                 // TODO: draw with outline / BG color for better readability
                 const uint32_t ch = text.at( i );
-                map_font->OutputChar( renderer, geometry, utf32_to_utf8( ch ), point( x, y ), ft.color );
+                map_font->OutputChar( renderer, geometry, utf32_to_utf8( ch ), p, ft.color );
                 width += mk_wcwidth( ch );
             }
 
@@ -2904,7 +2899,8 @@ static void init_term_size_and_scaling_factor()
 
     if( scaling_factor > 1 ) {
 
-        int max_width, max_height;
+        int max_width;
+        int max_height;
 
         int current_display_id = std::stoi( get_option<std::string>( "DISPLAY" ) );
         SDL_DisplayMode current_display;

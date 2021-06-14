@@ -13,7 +13,7 @@
   - [Bionics](#bionics)
   - [Books](#books)
     - [Use actions](#use-actions)
-  - [Character - (Bionic/Mutation)](#character)
+  - [Character - (Bionic/Mutation/Effect)](#character)
   - [Comestibles](#comestibles)
     - [Comestible type](#comestible-type)
     - [Addiction type](#addiction-type)
@@ -206,6 +206,10 @@ These are handled through `ammo_types.json`.  You can tag a weapon with these to
 - ```WIDE``` Prevents `HARDTOSHOOT` monster flag from having any effect. Implied by ```SHOT``` or liquid ammo.
 - ```NON_FOULING``` This ammo does not cause dirtying or blackpowder fouling on the gun when fired.
 
+## Traps
+
+- ```SONAR_DETECTABLE``` This trap can be identified with ground-penetrating SONAR.
+- ```CONVECTS_TEMPERATURE``` This trap convects temperature, like lava.
 
 ## Armor
 
@@ -605,42 +609,6 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```WORKOUT_LEGS``` This furniture is for training your legs. Needed for checks like `is_limb_broken()`.
 - ```WORKOUT_ARMS``` This furniture is for training your arms. Needed for checks like `is_limb_broken()`.
 
-### Examine Actions
-
-- ```aggie_plant``` Harvest plants.
-- ```autodoc``` Brings the autodoc consoles menu. Needs the ```AUTODOC``` flag to function properly and an adjacent furniture with the ```AUTODOC_COUCH``` flag.
-- ```autoclave_empty``` Start the autoclave cycle if it contains filthy CBM, and the player has enough water.
-- ```autoclave_full``` Check on the progress of the cycle, and collect sterile CBM once cycle is completed.
-- ```bars``` Take advantage of AMORPHOUS and slip through the bars.
-- ```bulletin_board``` Use this to arrange tasks for your faction camp.
-- ```cardreader``` Use the cardreader with a valid card, or attempt to hack.
-- ```chainfence``` Hop over the chain fence.
-- ```controls_gate``` Controls the attached gate.
-- ```dirtmound``` Plant seeds and plants.
-- ```elevator``` Use the elevator to change floors.
-- ```fault``` Displays descriptive message, but otherwise unused.
-- ```flower_poppy``` Pick the mutated poppy.
-- ```fswitch``` Flip the switch and the rocks will shift.
-- ```fungus``` Release spores as the terrain crumbles away.
-- ```gaspump``` Use the gas-pump.
-- ```locked_object``` Locked, but can be pried open. Adding 'PICKABLE' flag allows opening with a lockpick as well. Prying/lockpicking results are hardcoded.
-- ```locked_object_pickable``` Locked, but can be opened with a lockpick. Requires 'PICKABLE' flag, lockpicking results are hardcoded.
-- ```none``` None
-- ```pedestal_temple``` Opens the temple if you have a petrified eye.
-- ```pedestal_wyrm``` Spawn wyrms.
-- ```pit_covered``` Uncover the pit.
-- ```pit``` Cover the pit if you have some planks of wood.
-- ```portable_structure``` Take down a tent or similar portable structure.
-- ```recycle_compactor``` Compress pure metal objects into basic shapes.
-- ```rubble``` Clear up the rubble if you have a shovel.
-- ```safe``` Attempt to crack the safe.
-- ```shelter``` Take down the shelter.
-- ```shrub_marloss``` Pick a marloss bush.
-- ```shrub_wildveggies``` Pick a wild veggies shrub.
-- ```slot_machine``` Gamble.
-- ```toilet``` Either drink or get water out of the toilet.
-- ```water_source``` Drink or get water from a water source.
-
 ### Fungal Conversions Only
 
 - ```FLOWER``` This furniture is a flower.
@@ -854,16 +822,19 @@ Flags used to describe monsters and define their properties and abilities.
 
 ### Anger, Fear and Placation Triggers
 
-- ```FIRE``` There's a fire nearby.
-- ```FRIEND_ATTACKED``` A monster of the same type was attacked.
-- ```FRIEND_DIED``` A monster of the same type died.
-- ```HURT``` The monster is hurt.
+- ```FIRE``` Triggers if there's a fire within 3 tiles, the strength of the effect equals 5 * the field intensity of the fire.
+- ```FRIEND_ATTACKED``` Triggers if the monster sees another monster of the same type being attacked; strength = 15.
+- ```FRIEND_DIED``` Triggers if the monster sees another monster of the same type dying; strength = 15.
+- ```HURT``` Triggers when the monster is hurt, strength equals 1 + (damage / 3 ).
 - ```MEAT``` Meat or a corpse is nearby. - Currently nonfunctional!
 - ```NULL``` Source use only?
-- ```PLAYER_CLOSE``` The player gets within a few tiles distance.
-- ```PLAYER_WEAK``` The player is hurt.
-- ```SOUND``` Heard a sound.
-- ```STALK``` Increases if already angry at the player.
+- ```PLAYER_CLOSE``` Triggers when a potential enemy is within 5 tiles range - Anger/fear trigger only!
+- ```PLAYER_WEAK``` Raises monster aggression by  10 - (percent of hp remaining / 10) if a potential enemy has less than 70% hp remaining - Anger trigger only!
+- ```PLAYER_NEAR_BABY``` Increases monster aggression by 8 and morale by 4 if **the player** comes within 3 tiles of its offspring (defined by the baby_monster field in its reproduction data)- Anger trigger only!
+- ```SOUND``` Not an actual trigger, monsters above 10 aggression and 0 morale will wander towards, monsters below 0 morale will wander away from the source of the sound for 1 turn (6, if they have the GOODHEARING flag).
+- ```STALK``` Raises monster aggresssion by 1, triggers 20% of the time each turn if aggression > 5 - Anger trigger only!
+- ```HOSTILE_SEEN``` Increases aggression/ decreases morale by a random amount between 0-2 for every potential enemy it can see, up to 20 aggression - Anger/fear trigger only!
+- ```MATING_SEASON``` Increases aggression by 3 if a potential enemy is within 5 tiles range and the season is the same as the monster's mating season (defined by the baby_flags field in its reproduction data) - Anger trigger only!
 
 ### Categories
 
@@ -894,6 +865,7 @@ Multiple death functions can be used. Not all combinations make sense.
 - ```NORMAL``` Drop a body, leave gibs.
 - ```RATKING``` Cure verminitis.
 - ```SMOKEBURST``` Explode like a huge smoke bomb.
+- ```TEARBURST``` Explode like a huge tear gas bomb.
 - ```THING``` Turn into a full thing.
 - ```TRIFFID_HEART``` Destroys all roots.
 - ```VINE_CUT``` Kill adjacent vine if it's cut.
@@ -976,6 +948,7 @@ Other monster flags.
 - ```NOHEAD``` Headshots not allowed!
 - ```NO_BREATHE``` Creature can't drown and is unharmed by gas, smoke or poison.
 - ```NO_BREED``` Creature doesn't reproduce even though it has reproduction data - useful when using copy-from to make child versions of adult creatures
+- ```NO_FUNG_DMG``` This monster can't be damaged by fungal spores and can't be fungalized either.
 - ```PAY_BOT``` Creature can be turned into a pet for a limited time in exchange of e-money.
 - ```PET_MOUNTABLE``` Creature can be ridden or attached to an harness.
 - ```PET_HARNESSABLE```Creature can be attached to an harness.
@@ -1245,6 +1218,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 ### Flags
 
 - ```BAD_DAY``` Player starts the game drunk, depressed and sick with the flu.
+- ```BORDERED``` Initial start location is bordered by an enormous wall of solid rock.
 - ```CHALLENGE``` Game won't choose this scenario in random game types.
 - ```CITY_START``` Scenario is available only when city size value in world options is more than 0.
 - ```FIRE_START``` Player starts the game with fire nearby.
@@ -1444,6 +1418,7 @@ Those flags are added by the game code to specific items (for example, that spec
 - ```SOLAR_PANEL``` Recharges vehicle batteries when exposed to sunlight. Has a 1 in 4 chance of being broken on car generation.
 - ```SPACE_HEATER``` There is separate command to toggle this part.
 - ```STABLE``` Similar to `WHEEL`, but if the vehicle is only a 1x1 section, this single wheel counts as enough wheels.
+- ```UNSTABLE_WHEEL``` The opposite of `STABLE` - this will not provide for the wheeling needs of your vehicle if installed alone.
 - ```STEERABLE``` This wheel is steerable.
 - ```STEREO```
 - ```TRANSFORM_TERRAIN``` Transform terrain (using rules defined in ```transform_terrain```).
@@ -1549,3 +1524,8 @@ Gun fault flags:
 - ```ALARMCLOCK``` You always can set alarms.
 - ```PARAIMMUNE``` You are immune to parasites.
 - ```IMMUNE_SPOIL``` You are immune to negative outcomes from spoiled food.
+- ```FEATHER_FALL``` You are immune to fall damage.
+- ```INVISIBLE``` You can't be seen.
+- ```DIMENSIONAL_ANCHOR``` You can't be teleported.
+- ```CLIMATE_CONTROL``` You are resistant to extreme temperatures.
+- ```HEATSINK``` You are resistant to extreme heat.
