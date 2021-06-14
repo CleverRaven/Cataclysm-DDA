@@ -294,5 +294,24 @@
         "description": " Hack & Download: IC datasheet archives, USB drive"
       }
     ]
+  },
+  {
+    "type": "recipe_group",
+    "id": "fishing_recipes",
+    "building_type": "COOK",
+    "recipes": [
+      { 
+        "id": "fish_npc_fish_trap",
+        "description": " Fishing: fish, plastic fish trap"
+      },
+      { 
+        "id": "fish_npc_fish_rod",
+        "description": " Fishing: fish, basic fishing rod"
+      },
+      {
+        "id": "fish_npc_fish_rod_pro",
+        "description": " Fishing: fish, pro fishing rod"
+      }
+    ]
   }
 ]
