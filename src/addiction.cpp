@@ -53,6 +53,7 @@ std::string enum_to_string<add_type>( add_type data )
 
 static void marloss_add( Character &u, int in, const char *msg );
 
+// FIXME: Determine how many of these raw 20s should be MAX_ADDICTION_LEVEL
 void addict_effect( Character &u, addiction &add )
 {
     const int in = std::min( 20, add.intensity );
