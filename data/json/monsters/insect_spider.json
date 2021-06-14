@@ -2151,7 +2151,7 @@
     "armor_cut": 4,
     "vision_day": 25,
     "vision_night": 5,
-    "harvest": "arachnid",
+    "harvest": "arachnid_flying",
     "anger_triggers": [ "PLAYER_WEAK" ],
     "fear_triggers": [ "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
