@@ -286,9 +286,14 @@ as it corresponds to the way in which the JSON for mapgen is defined.
 
 The overmap special can be connected to the road, subway or sewer networks. Specifying a connection
 point causes the appropriate connection to be automatically generated from the nearest matching terrain
-, unless `existing` is set to true. In that case the special can only be placed if the connection point
-intersects an existing road/etc. Since the road network is sparse, and most roads will be generated to 
-connect up other specials, this lowers the chances of the special spawning considerably.
+, unless `existing` is set to true.
+
+Connections with `existing` set to true are used to test the validity of an overmap special's
+placement. Unlike normal connection points these do not have to reference road/tunnel terrain types.
+They will not generate new terrain, and may even be overwritten by the overmap special's terrain.
+However, since the overmap special algorithm considers a limited number of random locations per overmap,
+the use of `existing` connections that target a rare terrain lowers the chances of the special 
+spawning considerably.
 
 ### Occurrences (default)
 
@@ -299,8 +304,8 @@ other. In addition, there are no specials with a maximum occurrence of 1. This i
 each normal special has a very high chance of being placed at least once per overmap, owing to some 
 quirks of the code (most notably, the number of specials is only slightly more than the number of slots per
 overmap, specials that failed placement don't get disqualified and can be rolled for again, and placement iterates
-until all sectors are occupied). For specials that are not common enough to warrant appearing on all overmaps
-please use the "UNIQUE" flag.
+until all sectors are occupied). For specials that are not common enough to warrant appearing more
+than once per overmap please use the "UNIQUE" flag.
 
 ### Occurrences ( UNIQUE )
 
