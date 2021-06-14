@@ -2186,8 +2186,8 @@
     "volume": "9 L",
     "weight": "12 kg",
     "hp": 20,
-    "speed": 200,
-    "attack_cost": 200,
+    "speed": 50,
+    "attack_cost": 50,
     "material": [ "iflesh" ],
     "symbol": "s",
     "color": "light_gray",
@@ -2207,6 +2207,6 @@
     "anger_triggers": [ "PLAYER_WEAK" ],
     "fear_triggers": [ "FIRE", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
-    "flags": ["POISON", "SEES", "HEARS", "SMELLS", "SWIMS", "AQUATIC" ]
+    "flags": ["POISON", "SEES", "HEARS", "SMELLS", "SWIMS" ]
   }
 ]
