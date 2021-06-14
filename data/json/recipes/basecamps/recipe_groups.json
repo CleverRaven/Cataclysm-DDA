@@ -24,6 +24,11 @@
         "id": "faction_base_shelter_2_0",
         "description": "Central Stairs Evac Shelter Base",
         "om_terrains": [ "shelter_2", "shelter_2_vandal" ]
+      },
+      {
+        "id": "faction_base_sealab_small_0",
+        "description": "Freshwater Research Station Base",
+        "om_terrains": [ "sealab_small_-3" ]
       }
     ]
   },
