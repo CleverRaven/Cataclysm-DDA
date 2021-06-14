@@ -355,7 +355,7 @@
     "id": "f_oven",
     "name": "oven",
     "symbol": "#",
-    "description": "A standard convection-based oven, commonly used for heating and cooking food.  Despite it no longer working, you could safely light a fire inside.",
+    "description": "A standard convection-based oven, commonly used for heating and cooking food.  You could safely light a fire inside or power it with UPS.",
     "color": "dark_gray",
     "move_cost_mod": 2,
     "coverage": 60,
