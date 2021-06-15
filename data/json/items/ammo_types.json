@@ -649,6 +649,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "co2",
+    "name": "compressed carbon dioxide",
+    "default": "co2"
+  },
+  {
+    "type": "ammunition_type",
     "id": "extinguishing_agent",
     "name": "extinguishing agent",
     "default": "extinguishing_agent"
