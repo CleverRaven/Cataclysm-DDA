@@ -198,7 +198,7 @@
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "famasmag" ]
+        "item_restriction": [ "famasmag", "famas_makeshiftmag" ]
       }
     ]
   },
@@ -241,7 +241,7 @@
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "stanag30" ]
+        "item_restriction": [ "stanag30", "survivor223mag" ]
       }
     ]
   },
@@ -321,7 +321,7 @@
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "g36mag_30rd", "g36mag_100rd" ]
+        "item_restriction": [ "g36mag_30rd", "g36mag_100rd", "g36_makeshiftmag" ]
       }
     ]
   },
@@ -816,7 +816,7 @@
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "augmag_30rd", "augmag_10rd", "augmag_42rd", "augmag_100rd" ]
+        "item_restriction": [ "augmag_30rd", "augmag_10rd", "augmag_42rd", "augmag_100rd", "aug_makeshiftmag" ]
       }
     ]
   }

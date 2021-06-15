@@ -12,5 +12,30 @@
     "color": "light_gray",
     "armor_data": { "covers": [ "torso" ], "coverage": 5, "encumbrance": 10 },
     "flags": [ "MAG_BELT", "MAG_DESTROY", "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
+  },
+  {
+    "abstract": "makeshiftmag_rifle",
+    "type": "MAGAZINE",
+    "name": { "str": "makeshift rifle magazine" },
+    "weight": "250 g",
+    "volume": "250 ml",
+    "longest_side": "12 cm",
+    "price": 1200,
+    "price_postapoc": 50,
+    "material": [ "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "reload_time": 150,
+    "flags": [ "MAG_COMPACT" ]
+  },
+  {
+    "abstract": "makeshiftmag_smg",
+    "type": "MAGAZINE",
+    "copy-from": "makeshiftmag_rifle",
+    "name": { "str": "makeshift SMG magazine" },
+    "weight": "300 g",
+    "volume": "500 ml",
+    "longest_side": "25 cm",
+    "reload_time": 160
   }
 ]

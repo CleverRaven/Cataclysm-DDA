@@ -17,7 +17,26 @@
     "mod_targets": [ "ar15", "m4a1", "m16a4", "h&k416a5", "m27iar" ],
     "install_time": "1 m",
     "ammo_modifier": [ "300blk" ],
-    "magazine_adaptor": [ [ "300blk", [ "stanag30", "stanag50", "survivor223mag" ] ] ],
+    "magazine_adaptor": [
+      [
+        "300blk",
+        [
+          "stanag30",
+          "stanag5",
+          "stanag10",
+          "stanag20",
+          "stanag40",
+          "stanag50",
+          "stanag60",
+          "stanag60drum",
+          "stanag90",
+          "stanag100",
+          "stanag100drum",
+          "stanag150",
+          "survivor223mag"
+        ]
+      ]
+    ],
     "min_skills": [ [ "weapon", 1 ] ],
     "flags": [ "IRREMOVABLE" ]
   }
