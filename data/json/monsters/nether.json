@@ -872,7 +872,6 @@
     "aggression": 100,
     "morale": 100,
     "melee_cut": 0,
-    "melee_skill": 20,
     "harvest": "exempt",
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
     "flags": [ "HEARS", "GOODHEARING", "STUMBLES", "NOHEAD", "HARDTOSHOOT", "FLIES", "PLASTIC", "NO_BREATHE", "NOGIB" ]

@@ -195,7 +195,7 @@
   },
   {
     "type": "monster_attack",
-    "attack_type":"melee",
+    "attack_type": "melee",
     "id": "smash",
     "move_cost": 400,
     "cooldown": 20,
