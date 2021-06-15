@@ -7331,11 +7331,10 @@ bool item::can_contain_partial( const item &it ) const
 }
 
 std::pair<item_location, item_pocket *> item::best_pocket( const item &it, item_location &parent,
-        const bool allow_sealed )
+        const bool allow_sealed, const bool ignore_settings )
 {
     item_location nested_location( parent, this );
-    return contents.best_pocket( it, nested_location, false,
-                                 /*allow_sealed=*/allow_sealed );
+    return contents.best_pocket( it, nested_location, false, allow_sealed, ignore_settings );
 }
 
 bool item::spill_contents( Character &c )
@@ -8940,7 +8939,8 @@ void item::set_item_temperature( float new_temperature )
 
 int item::fill_with( const item &contained, const int amount,
                      const bool unseal_pockets,
-                     const bool allow_sealed )
+                     const bool allow_sealed,
+                     const bool ignore_settings )
 {
     if( amount <= 0 ) {
         return 0;
@@ -8959,8 +8959,7 @@ int item::fill_with( const item &contained, const int amount,
             if( count_by_charges ) {
                 contained_item.charges = 1;
             }
-            pocket = best_pocket( contained_item, loc,
-                                  /*allow_sealed=*/allow_sealed ).second;
+            pocket = best_pocket( contained_item, loc, allow_sealed, ignore_settings ).second;
         }
         if( pocket == nullptr ) {
             break;

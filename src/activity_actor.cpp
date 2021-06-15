@@ -2429,7 +2429,8 @@ void insert_item_activity_actor::finish( player_activity &act, Character &who )
             if( charges > 0 && holster->can_contain_partial( it ) ) {
                 int result = holster->fill_with( it, charges,
                                                  /*unseal_pockets=*/true,
-                                                 /*allow_sealed=*/true );
+                                                 /*allow_sealed=*/true,
+                                                 /*ignore_settings*/true );
                 success = result > 0;
 
                 if( success ) {

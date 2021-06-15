@@ -755,7 +755,8 @@ class item : public visitable
          */
         int fill_with( const item &contained, int amount = INFINITE_CHARGES,
                        bool unseal_pockets = false,
-                       bool allow_sealed = false );
+                       bool allow_sealed = false,
+                       bool ignore_settings = false );
 
         /**
          * How much more of this liquid (in charges) can be put in this container.
@@ -1277,7 +1278,7 @@ class item : public visitable
         bool can_contain_partial( const item &it ) const;
         /*@}*/
         std::pair<item_location, item_pocket *> best_pocket( const item &it, item_location &parent,
-                bool allow_sealed = false );
+                bool allow_sealed = false, bool ignore_settings = false );
 
         units::length max_containable_length() const;
         units::volume max_containable_volume() const;
