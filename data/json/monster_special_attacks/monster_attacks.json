@@ -198,6 +198,7 @@
     "attack_type":"melee",
     "id": "smash",
     "move_cost": 400,
+    "cooldown": 20,
     "damage_max_instance": [ { "damage_type": "bash", "amount": 30 } ],
     "throw_strength": 100,
     "hit_dmg_u": "The %s takes a powerful swing at your %2$s, pulverizing it!",
