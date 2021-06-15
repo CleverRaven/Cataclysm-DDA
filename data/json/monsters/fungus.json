@@ -483,7 +483,7 @@
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "mr_bones",
-    "special_attacks": [ [ "SMASH", 20 ] ],
+    "special_attacks": [ { "id": "smash", "throw_strength": 54 } ],
     "death_drops": "mon_zombie_hulk_death_drops",
     "death_function": { "corpse_type": "NO_CORPSE", "effect": { "id": "death_fungus", "hit_self": true } },
     "burn_into": "mon_zombie_fiend",
