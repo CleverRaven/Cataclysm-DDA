@@ -102,7 +102,7 @@ class melee_actor : public mattack_actor
         /** Message for damaging hit against the player. */
         translation hit_dmg_u;
         /** Message for throwing the player. */
-        translation throw_message_u;
+        translation throw_msg_u;
 
         /** Message for missed attack against a non-player. */
         translation miss_msg_npc;
@@ -111,7 +111,7 @@ class melee_actor : public mattack_actor
         /** Message for damaging hit against a non-player. */
         translation hit_dmg_npc;
         /** Message for throwing a non-player. */
-        translation throw_message_npc;
+        translation throw_msg_npc;
 
         melee_actor();
         ~melee_actor() override = default;
