@@ -1341,27 +1341,45 @@ void veh_interact::do_refill()
 
 void veh_interact::calc_overview()
 {
-    const hotkey_queue &hotkeys = hotkey_queue::alphabets();
-
-    const auto next_hotkey = [&]( const vehicle_part & pt, input_event & evt ) {
-        if( overview_action && overview_enable && overview_enable( pt ) ) {
-            const input_event prev = evt;
-            evt = main_context.next_unassigned_hotkey( hotkeys, evt );
-            return prev;
-        } else {
-            return input_event();
-        }
-    };
-
     overview_opts.clear();
     overview_headers.clear();
 
+    veh_interact::calc_vehicle_header();
+    //call for main vehicle ui
+    overview_opts = get_vehicle_overview();
+
+    std::vector<std::string> carried_vehicles;
+    for( const vpart_reference &vpr : veh->get_all_parts() ) {
+        if( vpr.part().has_flag( vehicle_part::carried_flag ) && ( carried_vehicles.empty() ||
+                std::find( carried_vehicles.begin(), carried_vehicles.end(),
+                           vpr.part().carry_names.top().substr( vehicle_part::name_offset ) ) == carried_vehicles.end() ) ) {
+
+
+            std::vector<part_option> tmp_overview = get_vehicle_overview( vpr.part().carry_names.top().substr(
+                    vehicle_part::name_offset ) );
+            overview_opts.insert( overview_opts.end(), tmp_overview.begin(), tmp_overview.end() );
+            carried_vehicles.push_back( vpr.part().carry_names.top().substr( vehicle_part::name_offset ) );
+
+        }
+    }
+}
+
+void veh_interact::calc_vehicle_header()
+{
     int epower_w = veh->net_battery_charge_rate_w();
+
+    overview_headers["0_CARRIED_NAME"] = []( const catacurses::window & w, int y ) {
+        trim_and_print( w, point( 1, y ), getmaxx( w ) - 2, c_light_gray, _( "" ) );
+    };
     overview_headers["1_ENGINE"] = [this]( const catacurses::window & w, int y ) {
         trim_and_print( w, point( 1, y ), getmaxx( w ) - 2, c_light_gray,
-                        string_format( _( "Engines: %sSafe %4d kW</color> %sMax %4d kW</color>" ),
+                        string_format( _( "Engines %sSafe %4d kW</color> %sMax %4d kW</color>" ),
                                        health_color( true ), veh->total_power_w( true, true ) / 1000,
                                        health_color( false ), veh->total_power_w() / 1000 ) );
+        right_print( w, y, 1, c_light_gray, _( "Fuel     Use" ) );
+    };
+    overview_headers["1_CARRIED_ENGINE"] = []( const catacurses::window & w, int y ) {
+        trim_and_print( w, point( 1, y ), getmaxx( w ) - 2, c_light_gray, _( "Engines " ) );
         right_print( w, y, 1, c_light_gray, _( "Fuel     Use" ) );
     };
     overview_headers["2_TANK"] = []( const catacurses::window & w, int y ) {
@@ -1371,10 +1389,10 @@ void veh_interact::calc_overview()
     overview_headers["3_BATTERY"] = [epower_w]( const catacurses::window & w, int y ) {
         std::string batt;
         if( std::abs( epower_w ) < 10000 ) {
-            batt = string_format( _( "Batteries: %s%+4d W</color>" ),
+            batt = string_format( _( "Batteries %s%+4d W</color>" ),
                                   health_color( epower_w >= 0 ), epower_w );
         } else {
-            batt = string_format( _( "Batteries: %s%+4.1f kW</color>" ),
+            batt = string_format( _( "Batteries %s%+4.1f kW</color>" ),
                                   health_color( epower_w >= 0 ), epower_w / 1000.0 );
         }
         trim_and_print( w, point( 1, y ), getmaxx( w ) - 2, c_light_gray, batt );
@@ -1389,10 +1407,10 @@ void veh_interact::calc_overview()
         if( reactor_epower_w == 0 ) {
             reactor = _( "Reactors" );
         } else if( reactor_epower_w < 10000 ) {
-            reactor = string_format( _( "Reactors: Up to %s%+4d W</color>" ),
+            reactor = string_format( _( "Reactors Up to %s%+4d W</color>" ),
                                      health_color( reactor_epower_w ), reactor_epower_w );
         } else {
-            reactor = string_format( _( "Reactors: Up to %s%+4.1f kW</color>" ),
+            reactor = string_format( _( "Reactors Up to %s%+4.1f kW</color>" ),
                                      health_color( reactor_epower_w ), reactor_epower_w / 1000.0 );
         }
         trim_and_print( w, point( 1, y ), getmaxx( w ) - 2, c_light_gray, reactor );
@@ -1407,11 +1425,53 @@ void veh_interact::calc_overview()
         right_print( w, y, 1, c_light_gray, _( "Who" ) );
     };
 
+}
+
+std::vector<veh_interact::part_option> veh_interact::get_vehicle_overview(
+    const std::string carried_vehicle_name )
+{
+    bool is_carried = !carried_vehicle_name.empty();
+    std::vector<veh_interact::part_option> tmp_overview_opts;
+    const hotkey_queue &hotkeys = hotkey_queue::alphabets();
+
+    const auto next_hotkey = [&]( const vehicle_part & pt, input_event & evt ) {
+        if( overview_action && overview_enable && overview_enable( pt ) && !is_carried ) {
+            const input_event prev = evt;
+            evt = main_context.next_unassigned_hotkey( hotkeys, evt );
+            return prev;
+        } else {
+            return input_event();
+        }
+    };
+
     input_event hotkey = main_context.first_unassigned_hotkey( hotkeys );
+    bool add_seperator = is_carried;
 
     for( const vpart_reference &vpr : veh->get_all_parts() ) {
-        if( !vpr.part().is_available() ) {
+        //skip conditions
+        if( vpr.part().is_broken() ||
+            !( is_carried == vpr.part().has_flag( vehicle_part::carried_flag ) ) || ( is_carried &&
+                    vpr.part().carry_names.top().substr( vehicle_part::name_offset ) != carried_vehicle_name ) ) {
             continue;
+        }
+
+        if( add_seperator && !veh->name.empty() && ( vpr.part().is_engine() || vpr.part().is_tank() ||
+                vpr.part().is_battery() || vpr.part().is_reactor() || vpr.part().is_turret() ||
+                vpr.part().is_seat() ) ) {
+            auto details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
+                std::string text = " <color_green>" + pt.carried_name() + "</color> ";
+
+                int max_w = ( ( TERMX - 2 ) / 3 ) - 1;
+                std::string sperator_line = std::string( std::max( static_cast<int>( max_w - 1 - utf8_width(
+                                                pt.carried_name() ) - 2 ), 0 ), '=' );
+                sperator_line.insert( ( sperator_line.length() / 2 ), text );
+                right_print( w, y, 1, c_light_gray, sperator_line );
+            };
+
+            tmp_overview_opts.emplace_back( "0_CARRIED_NAME", &vpr.part(), next_hotkey( vpr.part(), hotkey ),
+                                            details );
+
+            add_seperator = false;
         }
 
         if( vpr.part().is_engine() ) {
@@ -1434,12 +1494,16 @@ void veh_interact::calc_overview()
                                                        colorize( e->description(), c_light_gray ) );
                 }
             };
-            overview_opts.emplace_back( "1_ENGINE", &vpr.part(), next_hotkey( vpr.part(), hotkey ), details,
-                                        msg_cb );
+            std::string key = "1_ENGINE";
+            if( is_carried ) {
+                key = "1_CARRIED_ENGINE";
+            }
+            tmp_overview_opts.emplace_back( key, &vpr.part(), next_hotkey( vpr.part(), hotkey ), details,
+                                            msg_cb );
         }
 
-        if( vpr.part().is_tank() || ( vpr.part().is_fuel_store() &&
-                                      !( vpr.part().is_turret() || vpr.part().is_battery() || vpr.part().is_reactor() ) ) ) {
+        if( ( vpr.part().is_tank() || ( vpr.part().is_fuel_store() &&
+                                        !( vpr.part().is_turret() || vpr.part().is_battery() || vpr.part().is_reactor() ) ) ) ) {
             auto tank_details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
                 if( !pt.ammo_current().is_null() ) {
                     std::string specials;
@@ -1490,12 +1554,12 @@ void veh_interact::calc_overview()
             };
 
             if( vpr.part().is_tank() ) {
-                overview_opts.emplace_back( "2_TANK", &vpr.part(), next_hotkey( vpr.part(), hotkey ),
-                                            tank_details );
+                tmp_overview_opts.emplace_back( "2_TANK", &vpr.part(), next_hotkey( vpr.part(), hotkey ),
+                                                tank_details );
             } else if( vpr.part().is_fuel_store() && !( vpr.part().is_turret() ||
                        vpr.part().is_battery() || vpr.part().is_reactor() ) ) {
-                overview_opts.emplace_back( "2_TANK", &vpr.part(), next_hotkey( vpr.part(), hotkey ),
-                                            no_tank_details );
+                tmp_overview_opts.emplace_back( "2_TANK", &vpr.part(), next_hotkey( vpr.part(), hotkey ),
+                                                no_tank_details );
             }
         }
 
@@ -1513,10 +1577,11 @@ void veh_interact::calc_overview()
                 right_print( w, y, offset, item::find_type( pt.ammo_current() )->color,
                              string_format( fmtstring, pt.ammo_capacity( ammotype( "battery" ) ), pct ) );
             };
-            overview_opts.emplace_back( "3_BATTERY", &vpr.part(), next_hotkey( vpr.part(), hotkey ), details );
+            tmp_overview_opts.emplace_back( "3_BATTERY", &vpr.part(), next_hotkey( vpr.part(), hotkey ),
+                                            details );
         }
 
-        if( vpr.part().is_reactor() || vpr.part().is_turret() ) {
+        if( ( vpr.part().is_reactor() || vpr.part().is_turret() ) ) {
             auto details_ammo = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
                 if( pt.ammo_remaining() ) {
                     int offset = 1;
@@ -1530,12 +1595,12 @@ void veh_interact::calc_overview()
                 }
             };
             if( vpr.part().is_reactor() ) {
-                overview_opts.emplace_back( "4_REACTOR", &vpr.part(), next_hotkey( vpr.part(), hotkey ),
-                                            details_ammo );
+                tmp_overview_opts.emplace_back( "4_REACTOR", &vpr.part(), next_hotkey( vpr.part(), hotkey ),
+                                                details_ammo );
             }
             if( vpr.part().is_turret() ) {
-                overview_opts.emplace_back( "5_TURRET", &vpr.part(), next_hotkey( vpr.part(), hotkey ),
-                                            details_ammo );
+                tmp_overview_opts.emplace_back( "5_TURRET", &vpr.part(), next_hotkey( vpr.part(), hotkey ),
+                                                details_ammo );
             }
         }
 
@@ -1546,7 +1611,7 @@ void veh_interact::calc_overview()
                     right_print( w, y, 1, pt.passenger_id == who->getID() ? c_green : c_light_gray, who->name );
                 }
             };
-            overview_opts.emplace_back( "6_SEAT", &vpr.part(), next_hotkey( vpr.part(), hotkey ), details );
+            tmp_overview_opts.emplace_back( "6_SEAT", &vpr.part(), next_hotkey( vpr.part(), hotkey ), details );
         }
     }
 
@@ -1555,8 +1620,10 @@ void veh_interact::calc_overview()
         // NOLINTNEXTLINE cata-use-localized-sorting
         return  s1.key <  s2.key;
     };
-    std::sort( overview_opts.begin(), overview_opts.end(), compare );
-
+    if( !tmp_overview_opts.empty() ) {
+        std::sort( tmp_overview_opts.begin(), tmp_overview_opts.end(), compare );
+    }
+    return tmp_overview_opts;
 }
 
 void veh_interact::display_overview()
@@ -1591,10 +1658,14 @@ void veh_interact::display_overview()
         // print part name
         const input_event &hotkey = overview_opts[idx].hotkey;
         nc_color col = hotkey != input_event() ? c_white : c_dark_gray;
+        std::string part_name;
+        if( overview_opts[idx].key != "0_CARRIED_NAME" ) {
+            part_name = pt.name();
+        }
         trim_and_print( w_list, point( 1, y ), getmaxx( w_list ) - 1,
                         highlighted ? hilite( col ) : col,
                         "<color_dark_gray>%s </color>%s",
-                        right_justify( hotkey.short_description(), 2 ), pt.name() );
+                        right_justify( hotkey.short_description(), 2 ), part_name );
 
         // print extra columns (if any)
         overview_opts[idx].details( pt, w_list, y );

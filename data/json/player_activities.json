@@ -143,6 +143,17 @@
     "auto_needs": true
   },
   {
+    "id": "ACT_BIKERACK",
+    "type": "activity_type",
+    "activity_level": "MODERATE_EXERCISE",
+    "verb": "handling vehicle",
+    "rooted": true,
+    "based_on": "time",
+    "no_resume": true,
+    "refuel_fires": false,
+    "auto_needs": false
+  },
+  {
     "id": "ACT_CRAFT",
     "type": "activity_type",
     "activity_level": "MODERATE_EXERCISE",
