@@ -707,30 +707,50 @@ class comestible_inventory_preset : public inventory_selector_preset
         }
 
         bool sort_compare( const inventory_entry &lhs, const inventory_entry &rhs ) const override {
-            time_duration time_a = get_time_left( lhs.any_item() );
-            time_duration time_b = get_time_left( rhs.any_item() );
-            int order_a = get_order( lhs.any_item(), time_a );
-            int order_b = get_order( rhs.any_item(), time_b );
+            // Sort by comestibility first
+            const bool lhs_comestible = lhs.any_item()->is_comestible();
+            const bool rhs_comestible = rhs.any_item()->is_comestible();
+            if( lhs_comestible != rhs_comestible ) {
+                return !lhs_comestible && rhs_comestible;
+            }
 
-            return order_a < order_b
-                   || ( order_a == order_b && time_a < time_b )
-                   || ( order_a == order_b && time_a == time_b &&
-                        inventory_selector_preset::sort_compare( lhs, rhs ) );
+            // Then by rotten/fresh status depending on player's traits
+            const bool lhs_rotten = lhs.any_item()->rotten();
+            const bool rhs_rotten = rhs.any_item()->rotten();
+            if( lhs_rotten != rhs_rotten ) {
+                return prefer_rotten() ^ ( !lhs_rotten && rhs_rotten );
+            }
+
+            // Then by perishability
+            const bool lhs_imperishable = !lhs.any_item()->goes_bad();
+            const bool rhs_imperishable = !rhs.any_item()->goes_bad();
+            if( lhs_imperishable != rhs_imperishable ) {
+                return !lhs_imperishable && rhs_imperishable;
+            }
+
+            // Then by sealed status, skipping imperishable items
+            const bool lhs_sealed = is_sealed( lhs.any_item() );
+            const bool rhs_sealed = is_sealed( rhs.any_item() );
+            if( lhs_sealed != rhs_sealed && lhs.any_item()->goes_bad() ) {
+                return !lhs_sealed && rhs_sealed;
+            }
+
+            // Then by remaining freshness time, ascending
+            const time_duration lhs_time_left = get_time_left( lhs.any_item() );
+            const time_duration rhs_time_left = get_time_left( rhs.any_item() );
+            if( lhs_time_left != rhs_time_left ) {
+                return lhs_time_left < rhs_time_left;
+            }
+
+            // Finally sort by item's generic name
+            const auto lhs_name = lhs.any_item()->type_name();
+            const auto rhs_name = rhs.any_item()->type_name();
+            return localized_compare( lhs_name, rhs_name );
         }
 
     protected:
-        int get_order( const item_location &loc, const time_duration &time ) const {
-            if( loc->rotten() ) {
-                if( p.has_trait( trait_SAPROPHAGE ) || p.has_trait( trait_SAPROVORE ) ) {
-                    return 1;
-                } else {
-                    return 4;
-                }
-            } else if( time == 0_turns ) {
-                return 3;
-            } else {
-                return 2;
-            }
+        bool prefer_rotten() const {
+            return p.has_trait( trait_SAPROPHAGE ) || p.has_trait( trait_SAPROVORE );
         }
 
         const islot_comestible &get_edible_comestible( const item &it ) const {
@@ -742,10 +762,22 @@ class comestible_inventory_preset : public inventory_selector_preset
             return dummy;
         }
 
+        bool is_sealed( const item_location &loc ) const {
+            if( loc.has_parent() ) {
+                const auto &pocket = loc.parent_item()->contained_where( *loc );
+                return pocket->sealed();
+            }
+            return false;
+        }
+
+        time_duration get_shelf_life( const item_location &loc ) const {
+            return loc->is_comestible() ?
+                   loc->get_comestible()->spoils : calendar::INDEFINITELY_LONG_DURATION;
+        }
+
         time_duration get_time_left( const item_location &loc ) const {
             time_duration time_left = 0_turns;
-            const time_duration shelf_life = loc->is_comestible() ? loc->get_comestible()->spoils :
-                                             calendar::INDEFINITELY_LONG_DURATION;
+            const time_duration shelf_life = get_shelf_life( loc );
             if( shelf_life > 0_turns ) {
                 const item &it = *loc;
                 const double relative_rot = it.get_relative_rot();
