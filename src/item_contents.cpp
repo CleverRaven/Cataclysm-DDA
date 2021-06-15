@@ -1130,6 +1130,28 @@ std::list<item *> item_contents::all_items_top_recursive( item_pocket::pocket_ty
     return all_items_internal;
 }
 
+const cata::something<something> &item::contains_perishable() const
+{
+    contains_perishable = false
+    std::list<const item *> all_contents = container->contents.all_items_ptr();
+    std::for_each(
+        all_contents.begin(),
+        all_contents.end(),
+        [](const itype & child) {
+            // this is to prevent double checking of child objects in goes_bad()
+            if( !child->is_container() ){
+                if( child->goes_bad() ) {
+                    contains_perishable = true
+                    // 2 possible optimizations here, but given the item counts while sorting the value is questionable
+                    // we could just return true if that won't leave anything dangling (I don't know C++ enough to be sure of this)
+                    // or we could break the loop early (not sure the command for this)
+                }
+            }
+        }
+    )
+    return contains_perishable
+}
+
 item &item_contents::legacy_front()
 {
     if( empty() ) {
