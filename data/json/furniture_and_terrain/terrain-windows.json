@@ -255,7 +255,7 @@
       "SMALL_PASSAGE",
       "WINDOW"
     ],
-    "curtain_transform": "t_window_no_curtains",
+    "curtain_transform": "t_window_no_curtains_open",
     "examine_action": "curtains",
     "close": "t_window_domestic",
     "deconstruct": {
