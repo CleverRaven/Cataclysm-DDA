@@ -20,8 +20,9 @@
 #include "options.h"
 #include "pimpl.h"
 #include "point.h"
-#include "sdl_wrappers.h"
+#include "robin_hood.h"
 #include "sdl_geometry.h"
+#include "sdl_wrappers.h"
 #include "type_id.h"
 #include "weather.h"
 #include "weighted_list.h"
@@ -136,10 +137,14 @@ class tileset
         std::vector<texture> overexposed_tile_values;
         std::vector<texture> memory_tile_values;
 
-        std::unordered_map<std::string, tile_type> tile_ids;
+        // `node_map` has to be used here, because that's where actual string ids and  tile_type values are stored
+        // `flat_map` may invalidate references to keys and values on insertion,
+        //  while `node_map` guarantees their validity
+        robin_hood::unordered_node_map<std::string, tile_type> tile_ids;
         // caches both "default" and "_season_XXX" tile variants (to reduce the number of lookups)
         // either variant can be either a `nullptr` or a pointer/reference to the real value (stored inside `tile_ids`)
-        std::unordered_map<std::string, season_tile_value> tile_ids_by_season[season_type::NUM_SEASONS];
+        robin_hood::unordered_flat_map<std::string, season_tile_value>
+        tile_ids_by_season[season_type::NUM_SEASONS];
 
         static const texture *get_if_available( const size_t index,
                                                 const decltype( shadow_tile_values ) &tiles ) {
