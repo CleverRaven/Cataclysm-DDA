@@ -386,3 +386,106 @@ TEST_CASE( "healing_rate_medicine with bandages and/or disinfectant", "[heal][ba
     }
 }
 
+// Get the character addicted
+void get_addicted( Character &dummy, add_type addiction )
+{
+    // add_addiction uses rng; try several times until addiction is obtained
+    int tries = 0;
+    while( tries < 10 && !dummy.has_addiction( addiction ) ) {
+        dummy.add_addiction( addiction, 20 );
+        ++tries;
+    }
+    REQUIRE( dummy.has_addiction( addiction ) );
+}
+
+// Mending broken bones uses Character::mend_healing_factor to influence the chance of success,
+// with penalties reducing the number below 1.0, and bonuses increasing the number above 1.0.
+//
+// Tobacco and alcohol (and addiction to them) reduce the chance of mending:
+// - Alcohol penalties stack with tobacco penalties.
+// - Being under the influence of alcohol slows mending by 50%.
+// - Being under the influence of tobacco slows mending by 50%.
+// - When not directly under their influence, having an addiction to alcohol and/or tobacco
+//   gives a 25% to 75% penalty to each, depending on severity of addiction.
+//
+// Hidden health strongly influences the chance of mending:
+// - Health +200 doubles the chance of mending
+// - Health -200 reduces the chance to 0
+//
+TEST_CASE( "mend_healing_factor", "[heal][mend]" )
+{
+    avatar dummy;
+
+    SECTION( "baseline mending factor while awake" ) {
+        REQUIRE_FALSE( dummy.has_effect( efftype_id( "sleep" ) ) );
+        CHECK( dummy.mend_healing_factor() == Approx( 1.0f ) );
+    }
+
+    SECTION( "better mending factors" ) {
+        SECTION( "asleep" ) {
+            dummy.add_effect( efftype_id( "sleep" ), 1_hours );
+            REQUIRE( dummy.has_effect( efftype_id( "sleep" ) ) );
+            CHECK( dummy.mend_healing_factor() == Approx( 4.0f ) );
+        }
+
+        SECTION( "good health speeds up mending" ) {
+            dummy.set_healthy( 100 );
+            CHECK( dummy.mend_healing_factor() == Approx( 1.5f ) );
+            dummy.set_healthy( 200 );
+            CHECK( dummy.mend_healing_factor() == Approx( 2.0f ) );
+        }
+    }
+
+    SECTION( "worse mending factors" ) {
+        SECTION( "under the influence of tobacco" ) {
+            dummy.add_effect( efftype_id( "cig" ), 1_hours );
+            REQUIRE( dummy.has_effect( efftype_id( "cig" ) ) );
+
+            CHECK( dummy.mend_healing_factor() == Approx( 0.5f ) );
+        }
+
+        SECTION( "addicted to tobacco, but not under the influence" ) {
+            get_addicted( dummy, add_type::CIG );
+            REQUIRE_FALSE( dummy.has_effect( efftype_id( "cig" ) ) );
+
+            CHECK( dummy.mend_healing_factor() == Approx( 0.25f ) );
+        }
+
+        SECTION( "under the influence of alcohol" ) {
+            dummy.add_effect( efftype_id( "drunk" ), 1_hours );
+            REQUIRE( dummy.has_effect( efftype_id( "drunk" ) ) );
+
+            CHECK( dummy.mend_healing_factor() == Approx( 0.5f ) );
+        }
+
+        SECTION( "addicted to alcohol, but not under the influence" ) {
+            get_addicted( dummy, add_type::ALCOHOL );
+            REQUIRE_FALSE( dummy.has_effect( efftype_id( "drunk" ) ) );
+
+            CHECK( dummy.mend_healing_factor() == Approx( 0.25f ) );
+        }
+
+        SECTION( "under the influence of both alcohol and tobacco" ) {
+            dummy.add_effect( efftype_id( "cig" ), 1_hours );
+            dummy.add_effect( efftype_id( "drunk" ), 1_hours );
+            REQUIRE( dummy.has_effect( efftype_id( "cig" ) ) );
+            REQUIRE( dummy.has_effect( efftype_id( "drunk" ) ) );
+
+            CHECK( dummy.mend_healing_factor() == Approx( 0.25f ) );
+        }
+
+        SECTION( "bad health" ) {
+            dummy.set_healthy( -100 );
+            CHECK( dummy.mend_healing_factor() == Approx( 0.5f ) );
+            dummy.set_healthy( -200 );
+            CHECK( dummy.mend_healing_factor() == Approx( 0.0f ) );
+        }
+
+        SECTION( "extreme hunger" ) {
+        }
+
+        SECTION( "extreme thirst" ) {
+        }
+    }
+}
+
