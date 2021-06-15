@@ -1149,6 +1149,8 @@ bool Character::deactivate_bionic( int b, bool eff_only )
 
     // Recalculate stats (strength, mods from pain etc.) that could have been affected
     calc_encumbrance();
+    //Possibly size or slots used changed?
+    update_bionic_faults();
     reset();
     if( !bio.id->enchantments.empty() ) {
         recalculate_enchantment_cache();
@@ -2412,7 +2414,27 @@ bool Character::install_bionics( const itype &type, player &installer, bool auto
     const int difficulty = type.bionic->difficulty;
     int pl_skill = installer.bionics_pl_skill( autodoc, skill_level );
     int chance_of_success = bionic_success_chance( autodoc, skill_level, difficulty, installer );
+    bool bonus = false;
+    bool penalty = false;
 
+    // If all parts have no bionics give bonus.  If any parts have more than safe slots used apply penalty.
+    for( const std::pair<const bodypart_str_id, size_t> &bp : bioid->occupied_bodyparts ) {
+        if( get_used_bionics_slots( bp.first ) == 0 ) {
+            bonus = true;
+        } else if( get_used_bionics_slots( bp.first ) > bp.first->safe_bionic_slots() ) {
+            bonus = false;
+            penalty = true;
+            break;
+        } else {
+            bonus = false;
+        }
+    }
+    //TODO make this scale and balanced
+    if( penalty ) {
+        chance_of_success -= 30;
+    } else if( bonus ) {
+        chance_of_success += 30;
+    }
     // Practice skills only if conducting manual installation
     if( !autodoc ) {
         installer.practice( skill_electronics, static_cast<int>( ( 100 - chance_of_success ) * 1.5 ) );
@@ -2626,9 +2648,7 @@ int Character::get_used_bionics_slots( const bodypart_id &bp ) const
 std::map<bodypart_id, int> Character::bionic_installation_issues( const bionic_id &bioid )
 {
     std::map<bodypart_id, int> issues;
-    if( !get_option < bool >( "CBM_SLOTS_ENABLED" ) ) {
-        return issues;
-    }
+
     for( const std::pair<const string_id<body_part_type>, size_t> &elem : bioid->occupied_bodyparts ) {
         const int lacked_slots = elem.second - get_free_bionics_slots( elem.first );
         if( lacked_slots > 0 ) {
@@ -2645,7 +2665,7 @@ int Character::get_total_bionics_slots( const bodypart_id &bp ) const
     for( const trait_id &mut : get_mutations() ) {
         mut_bio_slots += mut->bionic_slot_bonus( id );
     }
-    return bp->bionic_slots() + mut_bio_slots;
+    return bp->max_bionic_slots() + mut_bio_slots;
 }
 
 int Character::get_free_bionics_slots( const bodypart_id &bp ) const
@@ -2706,6 +2726,7 @@ void Character::add_bionic( const bionic_id &b )
 
     calc_encumbrance();
     recalc_sight_limits();
+    update_bionic_faults();
     if( !b->enchantments.empty() ) {
         recalculate_enchantment_cache();
     }
@@ -2747,6 +2768,7 @@ void Character::remove_bionic( const bionic_id &b )
     *my_bionics = new_my_bionics;
     calc_encumbrance();
     recalc_sight_limits();
+    update_bionic_faults();
     if( !b->enchantments.empty() ) {
         recalculate_enchantment_cache();
     }
@@ -2755,6 +2777,20 @@ void Character::remove_bionic( const bionic_id &b )
 int Character::num_bionics() const
 {
     return my_bionics->size();
+}
+
+void Character::update_bionic_faults()
+{
+    for( const std::pair<const bodypart_str_id, bodypart> &part : get_body() ) {
+        for( const bp_bionic_fault fault : part.first->faults() ) {
+            if( get_used_bionics_slots( part.first ) >= fault.slots_requirement &&
+                !has_effect( fault.effect, part.first ) ) {
+                add_effect( fault.effect, time_duration::from_seconds( 1 ), part.first, true, 1 );
+            } else if( has_effect( fault.effect, part.first ) ) {
+                remove_effect( fault.effect, part.first );
+            }
+        }
+    }
 }
 
 std::pair<int, int> Character::amount_of_storage_bionics() const

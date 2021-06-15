@@ -1279,6 +1279,7 @@ class Character : public Creature, public visitable
         int get_used_bionics_slots( const bodypart_id &bp ) const;
         int get_total_bionics_slots( const bodypart_id &bp ) const;
         int get_free_bionics_slots( const bodypart_id &bp ) const;
+        void update_bionic_faults();
 
         /**Has enough anesthetic for surgery*/
         bool has_enough_anesth( const itype &cbm, player &patient );
