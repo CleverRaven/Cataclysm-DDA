@@ -7323,5 +7323,16 @@
     "city_sizes": [ 0, 12 ],
     "occurrences": [ 10, 100 ],
     "flags": [ "CLASSIC", "UNIQUE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "basement_hidden_lab_entrance",
+    "overmaps": [ { "point": [ 0, 0, -1 ], "overmap": "basement_hidden_lab_stairs" } ],
+    "connections": [ { "point": [ 0, 0, -1 ], "connection": "hidden_lab_basement", "terrain": "basement", "existing": true } ],
+    "rotate": false,
+    "locations": [ "potential_basement_lab_entrance" ],
+    "//": "Low chance to find a matching location, so always try to place it",
+    "occurrences": [ 100, 100 ],
+    "flags": [ "LAB", "UNIQUE" ]
   }
 ]
