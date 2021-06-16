@@ -866,6 +866,10 @@ static bool eat( item &food, player &you, bool force )
     // Note: the block below assumes we decided to eat it
     // No coming back from here
 
+    if( food.is_container() ) {
+        food.spill_contents( you );
+    }
+
     const bool hibernate = you.has_active_mutation( trait_HIBERNATE );
     const int nutr = you.nutrition_for( food );
     const int quench = food.get_comestible()->quench;

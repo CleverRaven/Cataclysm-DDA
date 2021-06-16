@@ -2,7 +2,7 @@
   {
     "method": "json",
     "om_terrain": "house_31",
-    "//": "used by legacy basements including lab basements, no dedicated stairs added.",
+    "//": "used by lab basements.",
     "type": "mapgen",
     "weight": 100,
     "object": {
@@ -20,7 +20,7 @@
         ")  hhhh        #~~~~~~~#",
         ")  ffff        +~~~~~~~#",
         ")  hhhh        #U~NN~~q#",
-        "#        RRT   #########",
+        "#       >RRT   #########",
         "#6  Y||||||||   | I@@I #",
         "#6  J|RIII  +   +  @@  o",
         "o7  J|  h   ||+||     b#",
