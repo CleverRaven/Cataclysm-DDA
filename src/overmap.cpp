@@ -421,7 +421,8 @@ void overmap_specials::check_consistency()
     const size_t actual_count = std::accumulate( specials.get_all().begin(), specials.get_all().end(),
                                 static_cast< size_t >( 0 ),
     []( size_t sum, const overmap_special & elem ) {
-        return sum + ( elem.flags.count( "UNIQUE" ) ? static_cast<size_t>( 0 )  : static_cast<size_t>( (
+        const bool unique = elem.flags.count( "UNIQUE" ) > 0 || elem.flags.count( "GLOBALLY_UNIQUE" ) > 0;
+        return sum + ( unique ? static_cast<size_t>( 0 )  : static_cast<size_t>( (
                            std::max( elem.occurrences.min, 0 ) ) ) ) ;
     } );
 
@@ -4115,6 +4116,10 @@ bool overmap::can_place_special( const overmap_special &special, const tripoint_
     if( !special.id ) {
         return false;
     }
+    if( special.flags.count( "GLOBALLY_UNIQUE" ) > 0 &&
+        overmap_buffer.contains_unique_special( special.id ) ) {
+        return false;
+    }
 
     return std::all_of( special.terrains.begin(),
     special.terrains.end(), [&]( const overmap_special_terrain & elem ) {
@@ -4149,6 +4154,9 @@ void overmap::place_special(
     cata_assert( dir != om_direction::type::invalid );
     if( !force ) {
         cata_assert( can_place_special( special, p, dir, must_be_unexplored ) );
+    }
+    if( special.flags.count( "GLOBALLY_UNIQUE" ) > 0 ) {
+        overmap_buffer.add_unique_special( special.id );
     }
 
     const bool blob = special.flags.count( "BLOB" ) > 0;
@@ -4335,11 +4343,14 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
             continue;
         }
 
-        if( iter->special_details->flags.count( "UNIQUE" ) > 0 ) {
+        const bool unique = iter->special_details->flags.count( "UNIQUE" ) > 0;
+        const bool globally_unique = iter->special_details->flags.count( "GLOBALLY_UNIQUE" ) > 0;
+        if( unique || globally_unique ) {
+            const overmap_special_id &id = iter->special_details->id;
             const int min = iter->special_details->occurrences.min;
             const int max = iter->special_details->occurrences.max;
 
-            if( x_in_y( min, max ) ) {
+            if( x_in_y( min, max ) && ( !globally_unique || !overmap_buffer.contains_unique_special( id ) ) ) {
                 // Min and max are overloaded to be the chance of occurrence,
                 // so reset instances placed to one short of max so we don't place several.
                 iter->instances_placed = max - 1;
