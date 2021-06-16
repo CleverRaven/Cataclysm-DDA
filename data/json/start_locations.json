@@ -503,5 +503,12 @@
       { "om_terrain": "road_curved", "om_terrain_match_type": "PREFIX" },
       { "om_terrain": "road_end", "om_terrain_match_type": "PREFIX" }
     ]
+    "terrain": [ "road_straight", "road_curved", "road_end" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_light_industry",
+    "name": "Industrial Offices",
+    "terrain": [ "s_lightindustry_10_scen" ]
   }
 ]
