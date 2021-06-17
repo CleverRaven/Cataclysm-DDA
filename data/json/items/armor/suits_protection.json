@@ -226,7 +226,7 @@
     "looks_like": "armor_larmor",
     "color": "light_gray",
     "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
-    "coverage": 95,
+    "coverage": 98,
     "encumbrance": 20,
     "warmth": 20,
     "material_thickness": 4,
