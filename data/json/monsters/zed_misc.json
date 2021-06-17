@@ -1301,6 +1301,7 @@
     "special_attacks": [ [ "PULL_METAL_WEAPON", 25 ], { "type": "bite", "cooldown": 20 } ],
     "death_drops": "mon_zombie_technician_death_drops",
     "death_function": [ "NORMAL" ],
+    "burn_into": "mon_zombie_scorched",
     "flags": [
       "SEES",
       "HEARS",
