@@ -1172,10 +1172,23 @@ float Character::get_dodge() const
     }
 
     //Dodge decreases linearly to 0 when below 50% stamina.
-    const float stamina_ratio = static_cast<float>( get_stamina() ) / get_stamina_max();
-    if( stamina_ratio <= .5 ) {
-        ret *= 2.0f * stamina_ratio;
+    //const float stamina_ratio = static_cast<float>( get_stamina() ) / get_stamina_max();
+    const double stamina = get_stamina();
+    const double stamina_min = get_stamina_max() * 0.1;
+    const double stamina_max = get_stamina_max() * 0.9;
+    const double stamina_logistic = 1.0 - logarithmic_range( stamina_min, stamina_max, stamina );
+    if( stamina_logistic <= 0.1 ) {
+        //Don't attempt to dodge if stamina too low, to avoid getting locked in
+        return 0.0f;
     }
+    ret *= stamina_logistic;
+    /*
+    if( stamina_ratio < 0.1 ) {
+    return 0.0f;
+    }
+    if( stamina_ratio <= .5 ) {
+    ret *= 2.0f * stamina_ratio;
+    }*/
 
     // Reaction score of limbs influences dodge chances
     ret *= get_limb_score( limb_score_reaction );
