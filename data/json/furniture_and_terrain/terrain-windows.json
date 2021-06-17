@@ -334,7 +334,6 @@
     "move_cost": 0,
     "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "FLAMMABLE", "ALARMED", "NOITEM", "BARRICADABLE_WINDOW", "CONNECT_TO_WALL", "BLOCK_WIND", "WINDOW" ],
-    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "glass_sheet", "count": 2 } ] },
     "bash": {
       "str_min": 3,
       "str_max": 6,
@@ -357,10 +356,6 @@
     "coverage": 95,
     "roof": "t_flat_roof",
     "flags": [ "FLAMMABLE", "NOITEM", "ALARMED", "WALL", "BARRICADABLE_WINDOW", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW" ],
-    "deconstruct": {
-      "ter_set": "t_window_empty",
-      "items": [ { "item": "glass_sheet", "count": 2 }, { "item": "duct_tape", "charges": [ 15, 25 ] } ]
-    },
     "bash": {
       "str_min": 6,
       "str_max": 12,
@@ -598,10 +593,6 @@
     "move_cost": 0,
     "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE", "WINDOW" ],
-    "deconstruct": {
-      "ter_set": "t_window_no_curtains",
-      "items": [ { "item": "sheet_metal_small", "count": [ 4, 6 ] }, { "item": "rebar", "count": [ 6, 8 ] } ]
-    },
     "bash": {
       "str_min": 60,
       "str_max": 250,
@@ -627,10 +618,6 @@
     "move_cost": 0,
     "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "NOITEM", "REDUCE_SCENT", "BLOCK_WIND", "ALARMED", "CONNECT_TO_WALL", "WINDOW" ],
-    "deconstruct": {
-      "ter_set": "t_window_alarm",
-      "items": [ { "item": "sheet_metal_small", "count": [ 4, 6 ] }, { "item": "rebar", "count": [ 6, 8 ] } ]
-    },
     "bash": {
       "str_min": 3,
       "str_max": 6,
@@ -665,17 +652,6 @@
     "curtain_transform": "t_window_bars",
     "examine_action": "curtains",
     "open": "t_window_bars_domestic",
-    "deconstruct": {
-      "ter_set": "t_window",
-      "items": [
-        { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "string_36", "count": 1 },
-        { "item": "sheet_metal_small", "count": [ 4, 6 ] },
-        { "item": "rebar", "count": [ 6, 8 ] }
-      ]
-    },
     "bash": {
       "str_min": 3,
       "str_max": 6,
@@ -715,17 +691,6 @@
     "curtain_transform": "t_window_bars",
     "examine_action": "curtains",
     "close": "t_window_bars_curtains",
-    "deconstruct": {
-      "ter_set": "t_window",
-      "items": [
-        { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "string_36", "count": 1 },
-        { "item": "sheet_metal_small", "count": [ 4, 6 ] },
-        { "item": "rebar", "count": [ 6, 8 ] }
-      ]
-    },
     "bash": {
       "str_min": 3,
       "str_max": 6,
@@ -850,10 +815,6 @@
       "REDUCE_SCENT",
       "WINDOW"
     ],
-    "deconstruct": {
-      "ter_set": "t_window_reinforced",
-      "items": [ { "item": "pipe", "count": 12 }, { "item": "sheet_metal_small", "count": 40 } ]
-    },
     "bash": {
       "str_min": 50,
       "str_max": 75,
@@ -882,17 +843,6 @@
     "curtain_transform": "t_metal_grate_window",
     "examine_action": "curtains",
     "open": "t_metal_grate_window_with_curtain_open",
-    "deconstruct": {
-      "ter_set": "t_window_reinforced",
-      "items": [
-        { "item": "pipe", "count": [ 10, 12 ] },
-        { "item": "sheet_metal_small", "count": [ 30, 40 ] },
-        { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "string_36", "count": 1 }
-      ]
-    },
     "bash": {
       "str_min": 50,
       "str_max": 75,
@@ -921,17 +871,6 @@
     "curtain_transform": "t_metal_grate_window",
     "examine_action": "curtains",
     "close": "t_metal_grate_window_with_curtain",
-    "deconstruct": {
-      "ter_set": "t_window_reinforced",
-      "items": [
-        { "item": "pipe", "count": [ 10, 12 ] },
-        { "item": "sheet_metal_small", "count": [ 30, 40 ] },
-        { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "string_36", "count": 1 }
-      ]
-    },
     "bash": {
       "str_min": 50,
       "str_max": 75,
@@ -958,10 +897,6 @@
     "move_cost": 0,
     "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "NOITEM", "CONNECT_TO_WALL", "BARRICADABLE_WINDOW", "THIN_OBSTACLE", "WINDOW" ],
-    "deconstruct": {
-      "ter_set": "t_window_reinforced_noglass",
-      "items": [ { "item": "pipe", "count": [ 10, 12 ] }, { "item": "sheet_metal_small", "count": [ 30, 40 ] } ]
-    },
     "bash": {
       "str_min": 50,
       "str_max": 75,
@@ -990,17 +925,6 @@
     "curtain_transform": "t_metal_grate_window_noglass",
     "examine_action": "curtains",
     "open": "t_metal_grate_window_with_curtain_open_noglass",
-    "deconstruct": {
-      "ter_set": "t_window_reinforced_noglass",
-      "items": [
-        { "item": "pipe", "count": [ 10, 12 ] },
-        { "item": "sheet_metal_small", "count": [ 30, 40 ] },
-        { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "string_36", "count": 1 }
-      ]
-    },
     "bash": {
       "str_min": 50,
       "str_max": 75,
