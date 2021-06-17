@@ -300,18 +300,9 @@
     "id": "fishing_recipes",
     "building_type": "COOK",
     "recipes": [
-      { 
-        "id": "fish_npc_fish_trap",
-        "description": " Fishing: Fish, Plastic Fish Trap"
-      },
-      { 
-        "id": "fish_npc_fish_rod",
-        "description": " Fishing: Fish, Basic Fishing Rod"
-      },
-      {
-        "id": "fish_npc_fish_rod_pro",
-        "description": " Fishing: Fish, Pro Fishing Rod"
-      }
+      { "id": "fish_npc_fish_trap", "description": " Fishing: Fish, Plastic Fish Trap" },
+      { "id": "fish_npc_fish_rod", "description": " Fishing: Fish, Basic Fishing Rod" },
+      { "id": "fish_npc_fish_rod_pro", "description": " Fishing: Fish, Pro Fishing Rod" }
     ]
   },
   {
@@ -319,11 +310,11 @@
     "id": "clay_recipes_1",
     "building_type": "SMITH",
     "recipes": [
-	  { "id": "brick", "description": " Craft: Brick" },
-	  { "id": "fire_brick", "description": " Craft: Fire Brick" },
-	  { "id": "pebble_clay", "description": " Craft: Clay Pellet" },
-	  { "id": "clay_canister", "description": " Craft: Clay Canister" },
-	  { "id": "clay_hydria", "description": " Craft: Clay Hydria" }
-	]
+      { "id": "brick", "description": " Craft: Brick" },
+      { "id": "fire_brick", "description": " Craft: Fire Brick" },
+      { "id": "pebble_clay", "description": " Craft: Clay Pellet" },
+      { "id": "clay_canister", "description": " Craft: Clay Canister" },
+      { "id": "clay_hydria", "description": " Craft: Clay Hydria" }
+    ]
   }
 ]
