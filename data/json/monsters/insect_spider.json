@@ -1861,7 +1861,7 @@
   {
     "id": "mon_aphid",
     "type": "MONSTER",
-    "name": { "str": "giant aphid", "str_pl": "giant aphids" },
+    "name": { "str": "giant aphid" },
     "description": "A green aphid about a size of a rabbit.  It is constantly searching for plants to suck from.",
     "default_faction": "ant",
     "bodytype": "insect",
@@ -1909,7 +1909,7 @@
   {
     "id": "mon_mantis_giant",
     "type": "MONSTER",
-    "name": { "str": "giant praying mantis", "str_pl": "giant praying mantises" },
+    "name": { "str": "giant praying mantis" },
     "description": "An enormous green creature grown about a size of a bear.  It dances weirdly and ready to chop your head off in any moment.",
     "default_faction": "mantis",
     "bodytype": "insect",
@@ -1943,7 +1943,7 @@
   {
     "id": "mon_mantis_mega",
     "type": "MONSTER",
-    "name": { "str": "great mantis", "str_pl": "great mantises" },
+    "name": { "str": "great mantis" },
     "description": "This ferocious creature is lurking through the land.  It's probably capable of killing a moose with it's powerful arms.",
     "copy-from": "mon_mantis_giant",
     "proportional": { "hp": 20, "speed": 0.25, "vision_day": 2 },
@@ -2055,7 +2055,7 @@
   {
     "id": "mon_grasshopper_giant",
     "type": "MONSTER",
-    "name": { "str": "giant grasshopper", "str_pl": "giant grasshoppers" },
+    "name": { "str": "giant grasshopper" },
     "description": "A huge green grasshopper about a size of a big dog with long and strong back legs.  It hops, it hops and never stops.",
     "default_faction": "insect",
     "bodytype": "insect",
@@ -2087,9 +2087,9 @@
   {
     "id": "mon_antlion_larva",
     "type": "MONSTER",
-    "name": { "str": "giant antlion larva", "str_pl": "giant antlion larvae" },
+    "name": { "str": "giant antlion larva" },
     "description": "This huge grub has powerful mandibles and a hungry look.  It hides in dirt and waits for pray to come clother.",
-    "default_faction": "antlion",
+    "default_faction": "antlion_grub",
     "bodytype": "insect",
     "species": [ "INSECT" ],
     "volume": "80 L",
@@ -2131,7 +2131,7 @@
     "type": "MONSTER",
     "name": { "str": "giant adult antlion" },
     "description": "A ferocious mutant flying antlion as big as a cat, darting through the air with a cluster of fangs for a mouth.",
-    "default_faction": "antlion",
+    "default_faction": "antlion_adult",
     "bodytype": "flying insect",
     "species": [ "INSECT_FLYING" ],
     "volume": "30 L",
