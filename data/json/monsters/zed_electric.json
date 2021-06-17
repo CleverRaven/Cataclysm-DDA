@@ -109,6 +109,7 @@
     "weight": "81500 g",
     "hp": 200,
     "speed": 50,
+    "attack_cost": 80,
     "//": "slow walk speed - intimidating!",
     "material": [ "flesh" ],
     "symbol": "Z",
