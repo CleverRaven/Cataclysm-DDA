@@ -990,7 +990,7 @@ float Character::get_dodge() const
         ret /= 4;
     }
 
-    // Each dodge after the first subtracts equivalent of 2 points of dodge skill
+    // Ensure no attempt to dodge without sources of extra dodges, eg martial arts
     if( dodges_left <= 0 ) {
         return 0.0f;
     }
