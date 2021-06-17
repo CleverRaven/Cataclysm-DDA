@@ -575,6 +575,8 @@
         { "item": "motor_small", "count": 1 }
       ]
     },
+    "deployed_item": "table_saw",
+    "examine_action": "deployed_furniture",
     "crafting_pseudo_item": "fake_tablesaw"
   },
   {
@@ -614,6 +616,8 @@
         { "item": "motor_small", "count": 1 }
       ]
     },
+    "deployed_item": "mitre_saw",
+    "examine_action": "deployed_furniture",
     "crafting_pseudo_item": "fake_mitresaw"
   },
   {
