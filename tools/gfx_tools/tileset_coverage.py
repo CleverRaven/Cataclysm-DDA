@@ -9,6 +9,7 @@ import pandas
 
 GAME_IDS_FILENAME = 'all_game_ids.csv'
 TILESET_IDS_FILENAME = 'tileset_ids.csv'
+OVERLAY_IDS_FILENAME = 'all_overlay_ids.csv'
 OUTPUT_FILENAME = 'tileset_coverage.csv'
 
 REPLACEMENTS = (
@@ -80,10 +81,26 @@ def main():
         names=('tileset_id',),
         warn_bad_lines=True,
     )
+    overlay_ids = pandas.read_csv(
+        OVERLAY_IDS_FILENAME,
+        header=None,
+        names=('overlay_id',),
+        warn_bad_lines=True,
+    )
 
     tileset_ids['id'] = tileset_ids['tileset_id'].apply(strip_overlay_id)
 
-    result = all_game_ids.merge(tileset_ids, how='outer', on='id')
+    result = all_game_ids.merge(
+        tileset_ids,
+        how='outer',
+        on='id',
+    )
+    result = result.merge(
+        overlay_ids,
+        how='outer',
+        left_on='tileset_id',
+        right_on='overlay_id',
+    )
     result.to_csv(OUTPUT_FILENAME)
 
 
