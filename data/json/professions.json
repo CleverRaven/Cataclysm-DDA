@@ -1788,6 +1788,127 @@
     }
   },
   {
+    "id": "car_survivor",
+    "type": "profession",
+    "name": "Day Driver",
+    "description": "You love driving and making a living with it.  On your way to pick up someone with your car, you start to notice all the chaos happening around you.  Not wanting to be a part of it, you took a long detour to safety, only to find yourself in a different place.  All thats left is your car.",
+    "points": 4,
+    "skills": [ { "level": 1, "name": "barter" }, { "level": 4, "name": "driving" } ],
+    "vehicle": "car",
+    "items": {
+      "both": {
+        "items": [ "sneakers", "socks", "jeans", "tshirt", "wristwatch", "jacket_light", "water_clean" ],
+        "entries": [ { "group": "charged_cell_phone" } ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "panties", "bra" ]
+    }
+  },
+  {
+    "id": "emt_firefighter",
+    "type": "profession",
+    "name": "EMT Firefighter",
+    "description": "You love driving as much as you love extinguishing fire and helping the wounded, where every second counts.  On your way to respond to an emergency call with your firetruck, you start to notice all the chaos happening around you.  Not wanting to be a part of an emergency, you took a long detour to safety, only to find yourself in a different place.  Looks like the only emergency you will respond to will be your own.",
+    "points": 5,
+    "skills": [ { "level": 3, "name": "firstaid" }, { "level": 3, "name": "driving" }, { "level": 1, "name": "electronics" } ],
+    "vehicle": "fire_engine",
+    "items": {
+      "both": {
+        "items": [
+          "boots_bunker",
+          "bunker_coat",
+          "bunker_pants",
+          "dress_shirt",
+          "fire_gauntlets",
+          "firehelmet",
+          "glasses_safety",
+          "mbag",
+          "nomex_socks",
+          "water_clean",
+          "wristwatch"
+        ],
+        "entries": [
+          { "group": "full_1st_aid" },
+          { "group": "charged_cell_phone" },
+          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "halligan", "container-item": "fireman_belt" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "panties", "bra" ]
+    }
+  },
+  {
+    "id": "handymanservice",
+    "type": "profession",
+    "name": "Serviceman",
+    "description": "Employed by a large Company, you performed services directly at annoying customer's homes and also troubleshoot problems with their devices.  After you finally finished replacing the 'wifi-cable' you finally were able to go back to your company, only for you to notice all the chaos happening around you.  Not wanting to be a part of it, you took a long detour to safety, only to find yourself in a different place.  Couldn't this all just happen before you finished your work.",
+    "points": 4,
+    "skills": [ { "level": 3, "name": "electronics" }, { "level": 2, "name": "driving" }, { "level": 1, "name": "mechanics" } ],
+    "vehicle": "cube_van_cheap",
+    "items": {
+      "both": {
+        "items": [
+          "dress_shirt",
+          "socks",
+          "boots",
+          "pants",
+          "multitool",
+          "wristwatch",
+          "mbag",
+          "water_clean",
+          "gloves_work",
+          "hammer",
+          "hat_ball"
+        ],
+        "entries": [ { "group": "charged_cell_phone" } ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "panties", "bra" ]
+    }
+  },
+  {
+    "id": "bus_driver",
+    "type": "profession",
+    "name": "Bus Driver",
+    "description": "You are making a living with delivering noisy brats to their schools, where you wish with every delivery, that they dont break a seat or window for you.  On your way to pick up the first row of brats, you start to notice all the chaos happening around you.  By the time you arrive at the station, all the brats look like zombies, so you took a long detour to safety, only to find yourself in a different place.  At last you have been freed of the hellish noises they release, but new ones are on the merge.",
+    "points": 4,
+    "skills": [ { "level": 1, "name": "barter" }, { "level": 3, "name": "driving" } ],
+    "vehicle": "schoolbus",
+    "items": {
+      "both": {
+        "items": [ "sneakers", "socks", "jeans", "tshirt", "wristwatch", "jacket_light", "water_clean", "hat_ball" ],
+        "entries": [ { "group": "charged_cell_phone" } ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "panties", "bra" ]
+    }
+  },
+  {
+    "id": "cop_car",
+    "type": "profession",
+    "name": "Police Interceptor",
+    "description": "As on-duty Officer, you received the call and got ready to respond to the robbery with your patrol car.  After arriving at the scene, it was soon you who needed rescuing, and you were lucky to escape with your life and car.  No one responds on the radio anymore either.  Who's going to respect your authority when the government this badge represents might not even exist anymore?",
+    "points": 6,
+    "skills": [ { "level": 3, "name": "gun" }, { "level": 3, "name": "pistol" }, { "level": 3, "name": "driving" } ],
+    "vehicle": "policecar",
+    "traits": [ "PROF_POLICE" ],
+    "items": {
+      "both": {
+        "items": [ "pants_army", "socks", "badge_deputy", "sheriffshirt", "police_belt", "boots", "whistle", "kevlar", "wristwatch" ],
+        "entries": [
+          { "group": "charged_cell_phone" },
+          { "group": "charged_two_way_radio" },
+          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
+          { "item": "legpouch_large", "contents-group": "army_mags_usp45" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "boy_shorts" ]
+    }
+  },
+  {
     "type": "profession",
     "id": "lumberjack",
     "name": "Lumberjack",
