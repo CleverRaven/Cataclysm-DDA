@@ -45,10 +45,7 @@
     "autolearn": false,
     "never_learn": true,
     "construction_blueprint": "fbmc_pottery_cottage_butchery_rack",
-    "blueprint_provides": [
-      { "id": "hunting" },
-      { "id": "fbmc_pottery_cottage_butchery_rack" }
-    ],
+    "blueprint_provides": [ { "id": "hunting" }, { "id": "fbmc_pottery_cottage_butchery_rack" } ],
     "blueprint_requires": [ { "id": "fbmc_pottery_cottage_0" } ],
     "blueprint_excludes": [ { "id": "fbmc_pottery_cottage_butchery_rack" } ],
     "blueprint_name": "butchery rack"

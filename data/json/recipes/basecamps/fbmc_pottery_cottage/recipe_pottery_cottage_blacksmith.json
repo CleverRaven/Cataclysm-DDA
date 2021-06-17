@@ -8,10 +8,7 @@
     "autolearn": false,
     "never_learn": true,
     "construction_blueprint": "fbmc_pottery_cottage_blacksmith_log",
-    "blueprint_provides": [
-      { "id": "blacksmith" },
-      { "id": "fbmc_pottery_cottage_blacksmith_0" }
-    ],
+    "blueprint_provides": [ { "id": "blacksmith" }, { "id": "fbmc_pottery_cottage_blacksmith_0" } ],
     "blueprint_requires": [ { "id": "fbmc_pottery_cottage_0" } ],
     "blueprint_excludes": [ { "id": "fbmc_pottery_cottage_blacksmith_0" } ],
     "blueprint_name": "log blacksmith workshop"
@@ -25,10 +22,7 @@
     "autolearn": false,
     "never_learn": true,
     "construction_blueprint": "fbmc_pottery_cottage_blacksmith_metal",
-    "blueprint_provides": [
-      { "id": "blacksmith" },
-      { "id": "fbmc_pottery_cottage_blacksmith_0" }
-    ],
+    "blueprint_provides": [ { "id": "blacksmith" }, { "id": "fbmc_pottery_cottage_blacksmith_0" } ],
     "blueprint_requires": [ { "id": "fbmc_pottery_cottage_0" } ],
     "blueprint_excludes": [ { "id": "fbmc_pottery_cottage_blacksmith_0" } ],
     "blueprint_name": "metal blacksmith workshop"
@@ -42,10 +36,7 @@
     "autolearn": false,
     "never_learn": true,
     "construction_blueprint": "fbmc_pottery_cottage_blacksmith_migo_resin",
-    "blueprint_provides": [
-      { "id": "blacksmith" },
-      { "id": "fbmc_pottery_cottage_blacksmith_0" }
-    ],
+    "blueprint_provides": [ { "id": "blacksmith" }, { "id": "fbmc_pottery_cottage_blacksmith_0" } ],
     "blueprint_requires": [ { "id": "fbmc_pottery_cottage_0" } ],
     "blueprint_excludes": [ { "id": "fbmc_pottery_cottage_blacksmith_0" } ],
     "blueprint_name": "mi-go blacksmith workshop"
@@ -59,10 +50,7 @@
     "autolearn": false,
     "never_learn": true,
     "construction_blueprint": "fbmc_pottery_cottage_blacksmith_rammed_earth",
-    "blueprint_provides": [
-      { "id": "blacksmith" },
-      { "id": "fbmc_pottery_cottage_blacksmith_0" }
-    ],
+    "blueprint_provides": [ { "id": "blacksmith" }, { "id": "fbmc_pottery_cottage_blacksmith_0" } ],
     "blueprint_requires": [ { "id": "fbmc_pottery_cottage_0" } ],
     "blueprint_excludes": [ { "id": "fbmc_pottery_cottage_blacksmith_0" } ],
     "blueprint_name": "rammed earth blacksmith workshop"
@@ -76,10 +64,7 @@
     "autolearn": false,
     "never_learn": true,
     "construction_blueprint": "fbmc_pottery_cottage_blacksmith_rock",
-    "blueprint_provides": [
-      { "id": "blacksmith" },
-      { "id": "fbmc_pottery_cottage_blacksmith_0" }
-    ],
+    "blueprint_provides": [ { "id": "blacksmith" }, { "id": "fbmc_pottery_cottage_blacksmith_0" } ],
     "blueprint_requires": [ { "id": "fbmc_pottery_cottage_0" } ],
     "blueprint_excludes": [ { "id": "fbmc_pottery_cottage_blacksmith_0" } ],
     "blueprint_name": "stone blacksmith workshop"
@@ -93,10 +78,7 @@
     "autolearn": false,
     "never_learn": true,
     "construction_blueprint": "fbmc_pottery_cottage_blacksmith_wad",
-    "blueprint_provides": [
-      { "id": "blacksmith" },
-      { "id": "fbmc_pottery_cottage_blacksmith_0" }
-    ],
+    "blueprint_provides": [ { "id": "blacksmith" }, { "id": "fbmc_pottery_cottage_blacksmith_0" } ],
     "blueprint_requires": [ { "id": "fbmc_pottery_cottage_0" } ],
     "blueprint_excludes": [ { "id": "fbmc_pottery_cottage_blacksmith_0" } ],
     "blueprint_name": "wattle and daub blacksmith workshop"
@@ -110,10 +92,7 @@
     "autolearn": false,
     "never_learn": true,
     "construction_blueprint": "fbmc_pottery_cottage_blacksmith_wood",
-    "blueprint_provides": [
-      { "id": "blacksmith" },
-      { "id": "fbmc_pottery_cottage_blacksmith_0" }
-    ],
+    "blueprint_provides": [ { "id": "blacksmith" }, { "id": "fbmc_pottery_cottage_blacksmith_0" } ],
     "blueprint_requires": [ { "id": "fbmc_pottery_cottage_0" } ],
     "blueprint_excludes": [ { "id": "fbmc_pottery_cottage_blacksmith_0" } ],
     "blueprint_name": "wooden blacksmith workshop"
@@ -127,10 +106,7 @@
     "autolearn": false,
     "never_learn": true,
     "construction_blueprint": "fbmc_pottery_cottage_blacksmith_1",
-    "blueprint_provides": [
-      { "id": "blacksmith_recipes_1" },
-      { "id": "fbmc_pottery_cottage_blacksmith_1" }
-    ],
+    "blueprint_provides": [ { "id": "blacksmith_recipes_1" }, { "id": "fbmc_pottery_cottage_blacksmith_1" } ],
     "blueprint_resources": [ "fake_forge" ],
     "blueprint_requires": [ { "id": "fbmc_pottery_cottage_blacksmith_0" } ],
     "blueprint_excludes": [ { "id": "fbmc_pottery_cottage_blacksmith_1" } ],
@@ -145,10 +121,7 @@
     "autolearn": false,
     "never_learn": true,
     "construction_blueprint": "fbmc_pottery_cottage_blacksmith_2",
-    "blueprint_provides": [
-      { "id": "blacksmith_recipes_7" },
-      { "id": "fbmc_pottery_cottage_blacksmith_2" }
-    ],
+    "blueprint_provides": [ { "id": "blacksmith_recipes_7" }, { "id": "fbmc_pottery_cottage_blacksmith_2" } ],
     "blueprint_resources": [ "fake_drop_hammer" ],
     "blueprint_requires": [ { "id": "fbmc_pottery_cottage_blacksmith_1" } ],
     "blueprint_excludes": [ { "id": "fbmc_pottery_cottage_blacksmith_2" } ],
