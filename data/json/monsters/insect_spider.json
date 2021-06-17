@@ -1869,8 +1869,9 @@
     "weight": "96 g",
     "special_attacks": [ [ "EAT_FOOD", 400 ], [ "EAT_CROP", 600 ] ],
     "delete": {
-    "reproduction": { "baby_monster": "mon_aphid", "baby_count": 1, "baby_timer": 20 },
-    "baby_flags": [ "SPRING", "SUMMER"]  },
+      "reproduction": { "baby_monster": "mon_aphid", "baby_count": 1, "baby_timer": 20 },
+      "baby_flags": [ "SPRING", "SUMMER" ]
+    },
     "biosignature": { "biosig_item": "honeydew", "biosig_timer": 7000 },
     "upgrades": { "half_life": 14, "into": "mon_aphid" }
   },
@@ -1975,7 +1976,7 @@
     "melee_dice": 2,
     "melee_cut": 20,
     "dodge": 2,
-    "attack_cost":25,
+    "attack_cost": 25,
     "special_attacks": [
       {
         "type": "bite",
@@ -1984,7 +1985,9 @@
         "no_infection_chance": 25,
         "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_penetration": 0.6 } ]
       },
-      [ "RANGED_PULL", 30 ], [ "GRAB_DRAG", 10 ], { "type": "leap", "cooldown": 8, "max_range": 5, "allow_no_target": false }
+      [ "RANGED_PULL", 30 ],
+      [ "GRAB_DRAG", 10 ],
+      { "type": "leap", "cooldown": 8, "max_range": 5, "allow_no_target": false }
     ],
     "extend": { "flags": [ "DESTROYS", "PUSH_MON", "PUSH_VEH" ] },
     "delete": { "type": "leap", "cooldown": 8, "max_range": 5, "allow_no_target": false }
@@ -2060,9 +2063,9 @@
         "cooldown": 4,
         "accuracy": 6,
         "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_penetration": 0.6 } ]
- } 
+      }
     ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "FLIES" , "PATH_AVOID_FIRE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "FLIES", "PATH_AVOID_FIRE" ]
   },
   {
     "id": "mon_grasshopper_small",
@@ -2148,7 +2151,7 @@
         "accuracy": 8,
         "no_infection_chance": 25,
         "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_penetration": 0.6 } ]
-      } 
+      }
     ],
     "flags": [ "SEES", "SMELLS", "IMMOBILE", "DIGS", "RANGED_ATTACKER" ]
   },
