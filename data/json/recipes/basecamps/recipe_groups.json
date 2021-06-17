@@ -302,15 +302,15 @@
     "recipes": [
       { 
         "id": "fish_npc_fish_trap",
-        "description": " Fishing: fish, plastic fish trap"
+        "description": " Fishing: Fish, Plastic Fish Trap"
       },
       { 
         "id": "fish_npc_fish_rod",
-        "description": " Fishing: fish, basic fishing rod"
+        "description": " Fishing: Fish, Basic Fishing Rod"
       },
       {
         "id": "fish_npc_fish_rod_pro",
-        "description": " Fishing: fish, pro fishing rod"
+        "description": " Fishing: Fish, Pro Fishing Rod"
       }
     ]
   },
