@@ -25,11 +25,7 @@
         "description": "Central Stairs Evac Shelter Base",
         "om_terrains": [ "shelter_2", "shelter_2_vandal" ]
       },
-      {
-        "id": "faction_base_lighthouse_0",
-        "description": "Lighthouse Base",
-        "om_terrains": [ "lighthouse_ground" ]
-      }
+      { "id": "faction_base_lighthouse_0", "description": "Lighthouse Base", "om_terrains": [ "lighthouse_ground" ] }
     ]
   },
   {
@@ -282,18 +278,9 @@
     "id": "fishing_recipes",
     "building_type": "COOK",
     "recipes": [
-      { 
-        "id": "fish_npc_fish_trap",
-        "description": " Fishing: fish, plastic fish trap"
-      },
-      { 
-        "id": "fish_npc_fish_rod",
-        "description": " Fishing: fish, basic fishing rod"
-      },
-      {
-        "id": "fish_npc_fish_rod_pro",
-        "description": " Fishing: fish, pro fishing rod"
-      }
+      { "id": "fish_npc_fish_trap", "description": " Fishing: fish, plastic fish trap" },
+      { "id": "fish_npc_fish_rod", "description": " Fishing: fish, basic fishing rod" },
+      { "id": "fish_npc_fish_rod_pro", "description": " Fishing: fish, pro fishing rod" }
     ]
   }
 ]

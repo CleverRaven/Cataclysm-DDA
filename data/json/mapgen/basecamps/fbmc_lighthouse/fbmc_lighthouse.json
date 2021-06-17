@@ -3,11 +3,7 @@
     "type": "mapgen",
     "update_mapgen_id": "fbmc_lighthouse_0",
     "method": "json",
-    "object": {
-      "set": [
-        { "point": "furniture", "id": "f_bulletin", "x": 10, "y": 8 }
-      ]
-    }
+    "object": { "set": [ { "point": "furniture", "id": "f_bulletin", "x": 10, "y": 8 } ] }
   },
   {
     "type": "mapgen",
