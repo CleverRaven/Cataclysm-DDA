@@ -992,7 +992,7 @@ float Character::get_dodge() const
 
     // Each dodge after the first subtracts equivalent of 2 points of dodge skill
     if( dodges_left <= 0 ) {
-        ret += dodges_left * 2 - 2;
+        return 0.0f;
     }
 
     // Speed below 100 linearly decreases dodge effectiveness
