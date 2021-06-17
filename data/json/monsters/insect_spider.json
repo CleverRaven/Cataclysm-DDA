@@ -2112,7 +2112,7 @@
     "type": "MONSTER",
     "name": { "str": "giant antlion larva" },
     "description": "This huge grub has powerful mandibles and a hungry look.  It hides in the dirt and awaits its prey.",
-    "default_faction": "antlion",
+    "default_faction": "antlion_grub",
     "bodytype": "insect",
     "species": [ "INSECT" ],
     "volume": "80 L",
