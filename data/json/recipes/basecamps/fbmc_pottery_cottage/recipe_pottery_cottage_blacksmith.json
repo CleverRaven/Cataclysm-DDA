@@ -128,6 +128,7 @@
     "never_learn": true,
     "construction_blueprint": "fbmc_pottery_cottage_blacksmith_1",
     "blueprint_provides": [
+      { "id": "blacksmith_recipes_1" },
       { "id": "fbmc_pottery_cottage_blacksmith_1" }
     ],
     "blueprint_resources": [ "fake_forge" ],
@@ -145,6 +146,7 @@
     "never_learn": true,
     "construction_blueprint": "fbmc_pottery_cottage_blacksmith_2",
     "blueprint_provides": [
+      { "id": "blacksmith_recipes_7" },
       { "id": "fbmc_pottery_cottage_blacksmith_2" }
     ],
     "blueprint_resources": [ "fake_drop_hammer" ],
