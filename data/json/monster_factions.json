@@ -389,7 +389,7 @@
     "neutral": [ "antlion_grub", "antlion_adult" ]
   },
   {
-   "type": "MONSTER_FACTION",
+    "type": "MONSTER_FACTION",
     "name": "ladybug",
     "base_faction": "insect",
     "by_mood": [ "zombie", "bee", "insect" ],
