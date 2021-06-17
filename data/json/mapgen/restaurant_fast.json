@@ -96,6 +96,7 @@
       ],
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE", "x": 15, "y": 15, "chance": 10 },
+        { "monster": "GROUP_PLAGUE_ROACH", "x": [ 7, 19 ], "y": 19, "chance": 20 },
         { "monster": "GROUP_ROACH", "x": [ 7, 19 ], "y": 19, "chance": 20 }
       ]
     }
@@ -247,6 +248,7 @@
       },
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE", "x": 15, "y": 15, "chance": 10 },
+        { "monster": "GROUP_PLAGUE_ROACH", "x": [ 7, 19 ], "y": 19, "chance": 30 },
         { "monster": "GROUP_ROACH", "x": [ 7, 19 ], "y": 19, "chance": 30 }
       ]
     }
