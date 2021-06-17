@@ -1938,7 +1938,7 @@
     "fear_triggers": [ "FIRE" ],
     "death_function": [ "NORMAL" ],
     "special_attacks": [  [ "RANGED_PULL", 30 ], [ "GRAB_DRAG", 10 ], { "type": "leap", "cooldown": 8, "max_range": 5, "allow_no_target": false }],
-    "flags": ["POISON", "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FIRE","PATH_AVOID_FALL", "STUMBLES" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FIRE","PATH_AVOID_FALL", "STUMBLES" ]
   }, 
   {
     "id": "mon_mantis_mega",
@@ -1997,7 +1997,7 @@
     "anger_triggers": [ "HURT", "SOUND", "STALK" ],
     "fear_triggers": [ "FIRE" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "POISON","ATTACKMON", "BORES", "CAN_DIG", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SMELLS", "WARM" ],
+    "flags": [ "ATTACKMON", "BORES", "CAN_DIG", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SMELLS", "WARM" ],
     "//": "Reinsert GOODHEARING when z-level tunneling is possible."
   },
     {
@@ -2039,7 +2039,7 @@
         "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_multiplier": 0.6 } ]
  } 
     ],
-    "flags": ["POISON", "SEES", "HEARS", "SMELLS", "FLIES" , "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "FLIES" , "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
   },
     {
     "id": "mon_grasshopper_small",
@@ -2082,7 +2082,7 @@
     "fear_triggers": [ "FIRE", "PLAYER_CLOSE"],
     "death_function": [ "NORMAL" ],
      "special_attacks": [ [ "EAT_FOOD", 60 ], [ "EAT_CROP", 80 ], { "type": "leap", "cooldown": 3, "max_range": 10, "allow_no_target": true } ],
-    "flags": ["POISON", "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FALL", "PATH_AVOID_FIRE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FALL", "PATH_AVOID_FIRE" ]
   },
   {
     "id": "mon_antlion_larva",
@@ -2124,7 +2124,7 @@
         "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_multiplier": 0.6 } ]
       } 
     ],
-    "flags": ["POISON", "SEES", "SMELLS", "IMMOBILE", "DIGS", "RANGED_ATTACKER" ]
+    "flags": [ "SEES", "SMELLS", "IMMOBILE", "DIGS", "RANGED_ATTACKER" ]
   },
   {
     "id": "mon_antlion_giant",
@@ -2200,6 +2200,6 @@
     "anger_triggers": [ "PLAYER_WEAK" ],
     "fear_triggers": [ "FIRE",  "PLAYER_CLOSE"],
     "death_function": [ "NORMAL" ],
-    "flags": ["POISON", "SEES", "HEARS", "SMELLS", "SWIMS" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "SWIMS" ]
   }
 ]
