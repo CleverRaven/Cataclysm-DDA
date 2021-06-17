@@ -511,9 +511,9 @@ character_id Character::getID() const
 
 void Character::randomize_height()
 {
-    // Height distribution data is taken from CIA's world factbook and @pehamm's simulation
-    // https://github.com/CleverRaven/Cataclysm-DDA/pull/49270#issuecomment-860267777
-    const int x = std::round( normal_roll( 169.43, 9.75 ) );
+    // Height distribution data is taken from CDC distributes statistics for the US population
+    // https://github.com/CleverRaven/Cataclysm-DDA/pull/49270#issuecomment-861339732
+    const int x = std::round( normal_roll( 168.35, 15.50 ) );
     // clamping to 145..200 because this is the bounds of what player can set, see newplayer.cpp
     init_height = clamp( x, 145, 200 );
 }
