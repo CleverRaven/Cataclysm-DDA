@@ -2,6 +2,8 @@
 #define CATA_SRC_COMPATIBILITY_H
 
 #include <list>
+#include <map>
+#include <set>
 #include <string>
 
 // Some older standard libraries don't have all their classes
