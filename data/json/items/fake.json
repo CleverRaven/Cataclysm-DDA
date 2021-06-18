@@ -179,22 +179,7 @@
     "copy-from": "fake_item",
     "name": { "str": "fake power tool" },
     "ammo": [ "battery" ],
-    "pocket_data": [
-	  {
-	    "pocket_type": "MAGAZINE_WELL",
-		"holster": true,
-		"rigid": false,
-		"max_contains_volume": "50 L",
-		"max_contains_weight": "400 kg",
-		"item_restriction": [
-		  "storage_battery",
-		  "medium_storage_battery",
-		  "large_storage_battery"
-		]
-	  }
-	],
-	"//": "For now, it can't be reloaded by examining furniture",
-    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ]
+    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO", "USE_UPS" ]
   },
   {
     "id": "fake_arc_furnace",
