@@ -631,7 +631,6 @@
       { "group": "enchanted_masks", "prob": 2 },
       { "group": "magic_shop_potions", "prob": 40 },
       { "group": "spellbook_loot_1", "prob": 30 },
-      { "group": "magic_CBM", "prob": 2 },
       { "item": "lair_map", "prob": 20 },
       { "item": "retreat_map", "prob": 30 },
       [ "crystallized_mana", 50 ],
@@ -885,8 +884,7 @@
       {
         "distribution": [ { "item": "recovery_spellbook", "prob": 10 }, { "item": "spell_scroll_invisibility", "prob": 50 } ],
         "prob": 5
-      },
-      { "group": "magic_CBM", "prob": 2 }
+      }
     ]
   },
   {

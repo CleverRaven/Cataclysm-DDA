@@ -68,8 +68,7 @@
         "I": [
           { "item": "magic_shop_potions", "chance": 30, "repeat": [ 1, 2 ] },
           { "item": "magic_shop_wands", "chance": 15 },
-          { "item": "enchanted_small_items", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "magic_CBM", "chance": 30, "repeat": [ 1, 2 ] }
+          { "item": "enchanted_small_items", "chance": 30, "repeat": [ 1, 2 ] }
         ],
         "!": [
           { "item": "enchanted_worn_items", "chance": 20, "repeat": [ 1, 2 ] },
