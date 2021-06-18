@@ -530,6 +530,7 @@ void DynamicDataLoader::unload_data()
     construction_groups::reset();
     dreams.clear();
     emit::reset();
+    enchantment::reset();
     event_statistic::reset();
     effect_on_conditions::reset();
     event_transformation::reset();
