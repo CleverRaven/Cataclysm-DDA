@@ -389,8 +389,7 @@
         { "item": "cable", "charges": [ 1, 3 ] },
         { "item": "pilot_light", "count": 1 }
       ]
-    },
-    "crafting_pseudo_item": "fake_oven"
+    }
   },
   {
     "type": "furniture",
