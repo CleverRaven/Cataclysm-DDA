@@ -988,7 +988,7 @@ std::string spell::energy_string() const
         case magic_energy_type::stamina:
             return _( "stamina" );
         case magic_energy_type::bionic:
-            return _( "bionic power" );
+            return _( "kJ" );
         case magic_energy_type::fatigue:
             return _( "fatigue" );
         default:
@@ -2316,9 +2316,8 @@ spell fake_spell::get_spell( int min_level_override ) const
         debugmsg( "ERROR: fake spell %s has higher min_level than max_level", id.c_str() );
         return sp;
     }
-    while( sp.get_level() < level_of_spell ) {
-        sp.gain_level();
-    }
+    sp.set_exp( exp_for_level( level_of_spell ) );
+
     return sp;
 }
 

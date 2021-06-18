@@ -78,7 +78,6 @@ cata::optional<int> bell( player *, item *, bool, const tripoint & );
 cata::optional<int> blood_draw( player *, item *, bool, const tripoint & );
 cata::optional<int> boltcutters( player *, item *, bool, const tripoint & );
 cata::optional<int> break_stick( player *, item *, bool, const tripoint & );
-cata::optional<int> burrow( player *, item *, bool, const tripoint & );
 cata::optional<int> c4( player *, item *, bool, const tripoint & );
 cata::optional<int> cable_attach( player *, item *, bool, const tripoint & );
 cata::optional<int> call_of_tindalos( player *, item *, bool, const tripoint & );

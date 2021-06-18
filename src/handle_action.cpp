@@ -324,6 +324,11 @@ input_context game::get_player_input( std::string &action )
                 }
             }
 
+            if( pixel_minimap_option ) {
+                // TODO: more granular control to only redraw pixel minimap
+                invalidate_main_ui_adaptor();
+            }
+
             std::unique_ptr<static_popup> deathcam_msg_popup;
             if( uquit == QUIT_WATCH ) {
                 deathcam_msg_popup = std::make_unique<static_popup>();
@@ -419,7 +424,7 @@ static void pldrive( const tripoint &p )
         player_character.in_vehicle = false;
         return;
     }
-    if( veh->is_on_ramp && p.y != 0 ) {
+    if( veh->is_on_ramp && p.x != 0 ) {
         add_msg( m_bad, _( "You can't turn the vehicle while on a ramp." ) );
         return;
     }

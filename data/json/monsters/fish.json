@@ -27,13 +27,13 @@
     "armor_bullet": 24,
     "vision_day": 30,
     "vision_night": 20,
+    "path_settings": { "max_dist": 50, "avoid_traps": true, "avoid_sharp": true },
     "harvest": "mutant_shellfish",
-    "path_settings": { "max_dist": 50 },
     "special_attacks": [ [ "SHRIEK_ALERT", 6 ], [ "SHRIEK_STUN", 1 ] ],
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "FIRE" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SMELLS", "HEARS", "SEES", "SWIMS", "GRABS", "ARTHROPOD_BLOOD", "PATH_AVOID_DANGER_2", "QUEEN" ]
+    "flags": [ "SMELLS", "HEARS", "SEES", "SWIMS", "GRABS", "ARTHROPOD_BLOOD", "QUEEN", "PATH_AVOID_DANGER_1" ]
   },
   {
     "id": "mon_fish_tiny",
@@ -679,13 +679,13 @@
     "armor_bullet": 14,
     "vision_day": 30,
     "vision_night": 15,
+    "path_settings": { "max_dist": 50, "avoid_traps": true, "avoid_sharp": true },
     "harvest": "mutant_shellfish",
-    "path_settings": { "max_dist": 50 },
     "special_attacks": [ [ "SHRIEK_ALERT", 6 ], [ "SHRIEK_STUN", 1 ] ],
     "anger_triggers": [ "PLAYER_CLOSE", "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
     "fear_triggers": [ "FIRE" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SMELLS", "HEARS", "SEES", "SWIMS", "GRABS", "ARTHROPOD_BLOOD", "PATH_AVOID_DANGER_2" ]
+    "flags": [ "SMELLS", "HEARS", "SEES", "SWIMS", "GRABS", "ARTHROPOD_BLOOD", "PATH_AVOID_DANGER_1" ]
   },
   {
     "id": "mon_mutant_carp",

@@ -1646,7 +1646,7 @@ void unload_activity_actor::unload( Character &who, item_location &target )
         if( contained->ammo_type() == ammotype( "plutonium" ) ) {
             contained->charges /= PLUTONIUM_CHARGES;
         }
-        if( who.as_player()->add_or_drop_with_msg( *contained, true ) ) {
+        if( who.as_player()->add_or_drop_with_msg( *contained, true, &it ) ) {
             qty += contained->charges;
             remove_contained.push_back( contained );
             actually_unloaded = true;
@@ -1703,6 +1703,10 @@ std::unique_ptr<activity_actor> unload_activity_actor::deserialize( JsonIn &jsin
 craft_activity_actor::craft_activity_actor( item_location &it, const bool is_long ) :
     craft_item( it ), is_long( is_long )
 {
+    cached_crafting_speed = 0;
+    cached_assistants = 0;
+    cached_base_total_moves = 1;
+    cached_cur_total_moves = 1;
 }
 
 bool craft_activity_actor::check_if_craft_okay( item_location &craft_item, Character &crafter )
@@ -1738,6 +1742,7 @@ void craft_activity_actor::start( player_activity &act, Character &crafter )
     }
     act.moves_left = calendar::INDEFINITELY_LONG;
     activity_override = craft_item.get_item()->get_making().exertion_level();
+    cached_crafting_speed = 0;
 }
 
 void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
@@ -1761,18 +1766,26 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
         return;
     }
 
+    if( cached_crafting_speed != crafting_speed || cached_assistants != assistants ) {
+        cached_crafting_speed = crafting_speed;
+        cached_assistants = assistants;
+
+        // Base moves for batch size with no speed modifier or assistants
+        // Must ensure >= 1 so we don't divide by 0;
+        cached_base_total_moves = std::max( static_cast<int64_t>( 1 ),
+                                            rec.batch_time( crafter, craft.charges, 1.0f, 0 ) );
+        // Current expected total moves, includes crafting speed modifiers and assistants
+        cached_cur_total_moves = std::max( static_cast<int64_t>( 1 ),
+                                           rec.batch_time( crafter, craft.charges, crafting_speed,
+                                                   assistants ) );
+    }
+    const double base_total_moves = cached_base_total_moves;
+    const double cur_total_moves = cached_cur_total_moves;
+
     // item_counter represents the percent progress relative to the base batch time
     // stored precise to 5 decimal places ( e.g. 67.32 percent would be stored as 6'732'000 )
     const int old_counter = craft.item_counter;
 
-    // Base moves for batch size with no speed modifier or assistants
-    // Must ensure >= 1 so we don't divide by 0;
-    const double base_total_moves = std::max( static_cast<int64_t>( 1 ), rec.batch_time( crafter,
-                                    craft.charges, 1.0f, 0 ) );
-    // Current expected total moves, includes crafting speed modifiers and assistants
-    const double cur_total_moves = std::max( static_cast<int64_t>( 1 ), rec.batch_time( crafter,
-                                   craft.charges, crafting_speed,
-                                   assistants ) );
     // Delta progress in moves adjusted for current crafting speed /
     //crafter.exertion_adjusted_move_multiplier( exertion_level() )
     int spent_moves = crafter.get_moves() * crafter.exertion_adjusted_move_multiplier(
@@ -1805,6 +1818,8 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
         // Divide by 100 for seconds, 20 for 5%
         const time_duration pct_time = time_duration::from_seconds( base_total_moves / 2000 );
         crafter.craft_proficiency_gain( craft, pct_time * five_percent_steps );
+        // Invalidate the crafting time cache because proficiencies may have changed
+        cached_crafting_speed = 0;
     }
 
     // Unlike skill, tools are consumed once at the start and should not be consumed at the end
@@ -2418,9 +2433,11 @@ void insert_item_activity_actor::finish( player_activity &act, Character &who )
                 success = result > 0;
 
                 if( success ) {
+                    item copy( it );
+                    copy.charges = result;
                     //~ %1$s: item to put in the container, %2$s: container to put item in
                     who.add_msg_if_player( string_format( _( "You put your %1$s into the %2$s." ),
-                                                          holstered_item.first->display_name( result ), holster->type->nname( 1 ) ) );
+                                                          copy.display_name(), holster->type->nname( 1 ) ) );
                     handler.add_unsealed( holster );
                     handler.unseal_pocket_containing( holstered_item.first );
                     it.charges -= result;
@@ -2482,72 +2499,6 @@ std::unique_ptr<activity_actor> insert_item_activity_actor::deserialize( JsonIn 
     data.read( "items", actor.items );
     data.read( "handler", actor.handler );
     data.read( "all_pockets_rigid", actor.all_pockets_rigid );
-
-    return actor.clone();
-}
-
-void burrow_activity_actor::start( player_activity &act, Character &who )
-{
-    act.moves_total = moves_total;
-    act.moves_left = moves_total;
-    who.add_msg_if_player( _( "You start tearing into the %1$s with your %2$s." ),
-                           here.tername( burrow_position ), burrow_tool );
-}
-
-void burrow_activity_actor::do_turn( player_activity &, Character & )
-{
-    sfx::play_activity_sound( "activity", "burrow", sfx::get_heard_volume( burrow_position ) );
-    if( calendar::once_every( 1_minutes ) ) {
-        sounds::sound( burrow_position, 10, sounds::sound_t::movement,
-                       //~ Sound of a Rat mutant burrowing!
-                       _( "ScratchCrunchScrabbleScurry." ) );
-    }
-
-}
-
-void burrow_activity_actor::finish( player_activity &act, Character &who )
-{
-
-    if( here.is_bashable( burrow_position ) && here.has_flag( "SUPPORTS_ROOF", burrow_position ) &&
-        here.ter( burrow_position ) != t_tree ) {
-        // Tunneling through solid rock is hungry, sweaty, tiring, backbreaking work
-        // Not quite as bad as the pickaxe, though
-        who.mod_stored_nutr( 10 );
-        who.mod_thirst( 10 );
-        who.mod_fatigue( 15 );
-        who.mod_pain( 3 * rng( 1, 3 ) );
-    } else if( here.move_cost( burrow_position ) == 2 && here.get_abs_sub().z == 0 &&
-               here.ter( burrow_position ) != t_dirt && here.ter( burrow_position ) != t_grass ) {
-        //Breaking up concrete on the surface? not nearly as bad
-        who.mod_stored_nutr( 5 );
-        who.mod_thirst( 5 );
-        who.mod_fatigue( 10 );
-    }
-    who.add_msg_if_player( m_good, _( "You finish burrowing." ) );
-    here.destroy( burrow_position, true );
-
-    act.set_to_null();
-}
-
-void burrow_activity_actor::serialize( JsonOut &jsout ) const
-{
-    jsout.start_object();
-
-    jsout.member( "moves_total", moves_total );
-    jsout.member( "burrow_position", burrow_position );
-    jsout.member( "burrow_tool", burrow_tool );
-
-    jsout.end_object();
-}
-
-std::unique_ptr<activity_actor> burrow_activity_actor::deserialize( JsonIn &jsin )
-{
-    burrow_activity_actor actor {};
-
-    JsonObject data = jsin.get_object();
-    data.read( "moves_total", actor.moves_total );
-    data.read( "burrow_position", actor.burrow_position );
-    data.read( "burrow_tool", actor.burrow_tool );
 
     return actor.clone();
 }
@@ -2851,7 +2802,6 @@ const std::unordered_map<activity_id, std::unique_ptr<activity_actor>( * )( Json
 deserialize_functions = {
     { activity_id( "ACT_AIM" ), &aim_activity_actor::deserialize },
     { activity_id( "ACT_AUTODRIVE" ), &autodrive_activity_actor::deserialize },
-    { activity_id( "ACT_BURROW" ), &burrow_activity_actor::deserialize },
     { activity_id( "ACT_CONSUME" ), &consume_activity_actor::deserialize },
     { activity_id( "ACT_CRAFT" ), &craft_activity_actor::deserialize },
     { activity_id( "ACT_DIG" ), &dig_activity_actor::deserialize },

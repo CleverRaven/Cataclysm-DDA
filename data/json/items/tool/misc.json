@@ -666,7 +666,7 @@
     "volume": "15 ml",
     "price": 0,
     "price_postapoc": 10,
-    "material": [ "plastic" ],
+    "material": [ "charcoal" ],
     "symbol": ",",
     "color": "dark_gray",
     "initial_charges": 100,

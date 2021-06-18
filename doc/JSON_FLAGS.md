@@ -1026,34 +1026,39 @@ Some special attacks are also valid use actions for tools and weapons.
 See `monsters.json` for examples on how to use these attacks.
 Also see `monster_attacks.json` for more special attacks, for example, impale and scratch.
 
+- ```ABSORB_MEAT``` Absorbs adjacent meat items (maximal absorbable item volume depends on the monster's volume), regenerating health in the process.
 - ```ACID_ACCURATE``` Shoots acid that is accurate at long ranges, but less so up close.
 - ```ACID_BARF``` Barfs corroding, blinding acid.
 - ```ACID``` Spits acid.
 - ```ANTQUEEN``` Hatches/grows: `egg > ant > soldier`.
-- ```BIO_OP_BIOJUTSU``` Attack with a random special martial art maneuver.
-- ```BIO_OP_TAKEDOWN``` Attack with special martial art takedown maneuver.
-- ```BIO_OP_DISARM``` Attack with a special martial art disarm maneuver.
-- ```BIO_OP_IMPALE``` Attack with a strong martial art maneuver.
-- ```BITE``` Bite attack that can cause deep infected wounds.
-- ```BMG_TUR``` Barrett .50BMG rifle fires.
+- ```BIO_OP_BIOJUTSU``` Attack with any of the below martial art attacks.
+- ```BIO_OP_TAKEDOWN``` Takedown attack, bashes either the target's head or torso and inflicts `downed`.
+- ```BIO_OP_DISARM``` Disarming attack, does no damage.
+- ```BIO_OP_IMPALE``` Stabbing attack, deals heavy damage and has a chance to cause bleeding .
+- ```BITE``` Bite attack that can cause deep infected wounds if the target is `grabbed` at the same time.
 - ```BOOMER_GLOW``` Spit glowing bile.
 - ```BOOMER``` Spit bile.
 - ```BRANDISH``` Brandish a knife at the player.
-- ```BREATHE``` Spawns a `breather`
+- ```BREATHE``` Spawns a `breather` - `breather hub` only!
 - ```CALLBLOBS``` Calls 2/3 of nearby blobs to defend this monster, and sends 1/3 of nearby blobs after the player.
 - ```CHICKENBOT``` LEGACY - Robot can attack with tazer, M4, or MGL depending on distance.
 - ```COPBOT``` Cop-bot warns then tazes the player.
 - ```DANCE``` Monster dances.
 - ```DARKMAN``` Can cause darkness and wraiths to spawn.
-- ```DERMATIK_GROWTH``` Dermatik larva grows into an adult.
+- ```DERMATIK_GROWTH``` Dermatik larva grows into an adult - obsoleted by them using `age_grow`.
 - ```DERMATIK``` Attempts to lay dermatik eggs in the player.
 - ```DISAPPEAR``` Hallucination (or other unusual monster) disappears.
 - ```DOGTHING``` The dog _thing_ spawns into a tentacle dog.
+- ```EAT_CROP``` The monster eats an adjacent planted crop.
+- ```EAT_FOOD``` The monster eats an adjacent non-seed food item (apart from their own eggs and food with fun < -20).
+- ```EVOLVE_KILL_STRIKE``` Damages the target's torso (damage scales with monster's melee dice), if it succeeds in killing a fleshy target the monster will upgrade to its next evolution.
 - ```FEAR_PARALYZE``` Paralyze the player with fear.
 - ```FLAMETHROWER``` Shoots a stream of fire.
-- ```FLESH_GOLEM``` Attack the player with claw, and inflict disease `downed` if the attack connects.
-- ```FORMBLOB``` Spawns blobs?
+- ```FLESH_GOLEM``` Attack the player with 5-10 bash, has a chance to inflict `downed` if the attack connects. Also roars menacingly for some reason.
+- ```FLESH_TENDRIL``` Spawns gangrenous impalers or crawlers, pulls targets close when 4 > range > 1, either flings or grabs them when adjacent.
+- ```FORMBLOB``` Attacks a neighboring tile, effect depends on the tile's inhabitant: spawns small slimes depending on its speed if empty, slimes players/NPCs, speeds up friendly slimes, heals brain slimes, converts nonfriendly flesh/veggy non-huge monsters to slimes of appropriate size.  Decreases in size if it did any of those and its current speed is below a threshold.
 - ```FRAG_TUR``` MGL fires frag rounds.
+- ```FUNGAL_TRAIL``` Spreads fungal terrain.
 - ```FUNGUS_BIG_BLOSSOM``` Spreads fire suppressing fungal haze.
 - ```FUNGUS_BRISTLE``` Perform barbed tendril attack that can cause fungal infections.
 - ```FUNGUS_CORPORATE``` Used solely by Crazy Cataclysm. This will cause runtime errors if used without, and spawns SpOreos on top of the creature.
@@ -1063,18 +1068,24 @@ Also see `monster_attacks.json` for more special attacks, for example, impale an
 - ```FUNGUS_INJECT``` Perform needle attack that can cause fungal infections.
 - ```FUNGUS_SPROUT``` Grows a fungal wall.
 - ```FUNGUS``` Releases fungal spores and attempts to infect the player.
-- ```GENERATOR``` Regenerates health.
+- ```GENERATOR``` Regenerates health, humms.
 - ```GENE_STING``` Shoot a dart at the player that causes a mutation if it connects.
-- ```GRAB_DRAG``` GRAB the target, and drag it around.
+- ```GRAB_DRAG``` GRAB the target, and drag it around - dragging is resistable depending on the size difference and the melee dice of the attacker.
 - ```GRAB``` Grabs the player, slowing on hit, making movement and dodging impossible and blocking harder.
-- ```GROWPLANTS``` Spawns underbrush, or promotes it to `> young tree > tree`.
+- ```GROWPLANTS``` Spawns underbrush, or promotes it to `> young tree > tree`. Can destroy bashable terrain or do damage if it hits something.
 - ```GROW_VINE``` Grows creeper vines.
+- ```GRENADIER``` Deploys tear gas/pacification/flashbang/c4 hacks from its ammo.
+- ```GRENADIER_ELITE``` Deploys grenade/flashbang/c4/mininuke hacks from its ammo.
 - ```HOWL``` "an ear-piercing howl!"
+- ```IMPALE``` Stabbing attack agains the target's torso, with a chance to down (superseded by the JSON-defined `impale` attack)
 - ```JACKSON``` Converts zombies into zombie dancers (until its death).
+- ```KAMIKAZE``` Detonates its defined ammo after a countdown (calculated automatically to hopefully almost catch up to a running player).
 - ```LASER``` Laser turret fires.
 - ```LEAP``` leap away to an unobstructed tile.
-- ```LONGSWIPE``` Does high damage claw attack, which can even hit some distance away.
+- ```LEECH_SPAWNER``` Spawns root runners or root drones, low chance of upgrading itself into a leech stalk.
+- ```LONGSWIPE``` Claw attack with 3-10 cut damage, which can even hit 3 tiles away. If targeting an adjacent enemy it always hits the head and causes heavy bleeding.
 - ```LUNGE``` Perform a jumping attack from some distance away, which can down the target.
+- ```MON_LEECH_EVOLUTION``` Evolves a leech plant into a leech blossom if no other blossoms are in sight.
 - ```MULTI_ROBOT``` Robot can attack with tazer, flamethrower, M4, MGL, or 120mm cannon depending on distance.
 - ```NONE``` No special attack.
 - ```PARA_STING``` Shoot a paralyzing dart at the player.
@@ -1084,7 +1095,7 @@ Also see `monster_attacks.json` for more special attacks, for example, impale an
 - ```PHOTOGRAPH``` Photograph the player. Causes a robot attack?
 - ```PLANT``` Fungal spores take seed and grow into a fungaloid.
 - ```PULL_METAL_WEAPON``` Pulls any weapon that's made of iron or steel from the player's hand.
-- ```RANGED_PULL``` Pulls targets towards attacker.
+- ```RANGED_PULL``` Pulls targets towards attacker from 3 tiles range, dodgable but not resistable.
 - ```RATKING``` Inflicts disease `rat`
 - ```RATTLE``` "a sibilant rattling sound!"
 - ```RESURRECT``` Revives the dead--again.
@@ -1099,19 +1110,19 @@ Also see `monster_attacks.json` for more special attacks, for example, impale an
 - ```SHRIEK``` "a terrible shriek!"
 - ```SLIMESPRING``` Can provide a morale boost to the player, and cure bite and bleed effects.
 - ```SMASH``` Smashes the target for massive damage, sending it flying for a number of tiles equal to `("melee_dice" * "melee_dice_sides" * 3) / 10`.
-- ```SMG``` SMG turret fires.
-- ```SPIT_SAP``` Spit sap.
-- ```STARE``` Stare at the player and inflict teleglow.
-- ```STRETCH_ATTACK``` Long-ranged piercing attack.
-- ```STRETCH_BITE``` Long-ranged bite attack.
+- ```SPIT_SAP``` Spit sap (acid damage, 12 range).
+- ```STARE``` Stare at the player and inflict ramping debuffs (`taint>tindrift`).
+- ```STRETCH_ATTACK``` Ranged (3 tiles) piercing attack, doing 5-10 damage.
+- ```STRETCH_BITE``` Ranged (3 tiles) bite attack, doing stab damage and potentially infecting without grabbing.
 - ```SUICIDE``` Dies after attacking.
 - ```TAZER``` Shock the player.
-- ```TENTACLE``` Lashes a tentacle at the player.
+- ```TENTACLE``` Lashes a tentacle at an enemy, doing bash damage at 3 tiles range.
+- ```TINDALOS_TELEPORT``` Spawns afterimages, teleports to corners nearer to its target.
 - ```TRIFFID_GROWTH``` Young triffid grows into an adult.
 - ```TRIFFID_HEARTBEAT``` Grows and crumbles root walls around the player, and spawns more monsters.
-- ```UPGRADE``` Upgrades a regular zombie into a special zombie.
+- ```UPGRADE``` Upgrades one of the non-hostile surrounding monsters, gets angry if it finds no targets to upgrade.
 - ```VINE``` Attacks with vine.
-- ```VORTEX``` Forms a vortex/tornado that causes damage and throws creatures around.
+- ```ZOMBIE_FUSE``` Absorbs an adjacent creature, healing and becoming less likely to fuse for 10 days.
 
 
 ## Mutations

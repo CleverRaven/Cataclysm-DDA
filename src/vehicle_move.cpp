@@ -1072,7 +1072,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
         }
 
         if( critter == nullptr || !critter->is_hallucination() ) {
-            coll_velocity = vel1_a * ( smashed ? 100 : 90 );
+            coll_velocity = vel1_a * 100;
         }
         // Stop processing when sign inverts, not when we reach 0
     } while( !smashed && sgn( coll_velocity ) == vel_sign );

@@ -998,7 +998,7 @@ void veh_interact::do_install()
                 // more than one shape available, display selection
                 size_t num_vpart_shapes = shapes.size();
                 size_t num_shapes_total = num_vpart_shapes + sel_vpart_info->symbols.size();
-                if( num_shapes_total > 0 ) {
+                if( num_shapes_total > 1 ) {
                     std::vector<uilist_entry> shape_ui_entries;
                     for( size_t i = 0; i < shapes.size(); i++ ) {
                         uilist_entry entry( i, true, 0, shapes[i]->name() );

@@ -625,6 +625,11 @@ item &item::ammo_set( const itype_id &ammo, int qty )
                         opts.emplace_back( mag_type );
                     }
                 }
+                if( opts.empty() ) {
+                    debugmsg( "Cannot find magazine with enough %s ammo capacity for %s", ammo.c_str(),
+                              typeId().c_str() );
+                    return *this;
+                }
                 std::sort( opts.begin(), opts.end(), [&ammo_type]( const item & lhs, const item & rhs ) {
                     return lhs.ammo_capacity( ammo_type ) < rhs.ammo_capacity( ammo_type );
                 } );
@@ -2561,7 +2566,7 @@ void item::gunmod_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     }
     if( mod.aim_speed >= 0 && parts->test( iteminfo_parts::GUNMOD_AIMSPEED ) ) {
         info.push_back( iteminfo( "GUNMOD", _( "Aim speed: " ), "",
-                                  iteminfo::lower_is_better, mod.aim_speed ) );
+                                  iteminfo::no_flags, mod.aim_speed ) );
     }
     int total_damage = static_cast<int>( mod.damage.total_damage() );
     if( total_damage != 0 && parts->test( iteminfo_parts::GUNMOD_DAMAGE ) ) {
@@ -3934,7 +3939,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                               signame ) );
         }
 
-        if( has_flag( flag_RADIO_INVOKE_PROC ) &&
+        if( has_flag( flag_BOMB ) && has_flag( flag_RADIO_INVOKE_PROC ) &&
             parts->test( iteminfo_parts::DESCRIPTION_RADIO_ACTIVATION_PROC ) ) {
             info.emplace_back( "DESCRIPTION",
                                _( "* Activating this item with a <info>radio signal</info> will "

@@ -1006,7 +1006,7 @@ void overmap_special::check() const
         } else if( !elem.existing && !elem.terrain->has_flag( oter_flags::line_drawing ) ) {
             debugmsg( "In overmap special \"%s\", connection [%d,%d,%d] \"%s\" isn't drawn with lines.",
                       id.c_str(), elem.p.x, elem.p.y, elem.p.z, elem.terrain.c_str() );
-        } else if( oter.terrain && !oter.terrain->type_is( elem.terrain ) ) {
+        } else if( !elem.existing && oter.terrain && !oter.terrain->type_is( elem.terrain ) ) {
             debugmsg( "In overmap special \"%s\", connection [%d,%d,%d] overwrites \"%s\".",
                       id.c_str(), elem.p.x, elem.p.y, elem.p.z, oter.terrain.c_str() );
         }
@@ -2745,8 +2745,8 @@ void overmap::place_roads( const overmap *north, const overmap *east, const over
     const string_id<overmap_connection> local_road( "local_road" );
     std::vector<tripoint_om_omt> &roads_out = connections_out[local_road];
 
-    // Ideally we should have at least two exit points for roads, on different sides
-    if( roads_out.size() < 2 ) {
+    // At least 3 exit points, to guarantee road continuity across overmaps
+    if( roads_out.size() < 3 ) {
         std::vector<tripoint_om_omt> viable_roads;
         tripoint_om_omt tmp;
         // Populate viable_roads with one point for each neighborless side.
@@ -2801,7 +2801,7 @@ void overmap::place_roads( const overmap *north, const overmap *east, const over
                 }
             }
         }
-        while( roads_out.size() < 2 && !viable_roads.empty() ) {
+        while( roads_out.size() < 3 && !viable_roads.empty() ) {
             roads_out.push_back( random_entry_removed( viable_roads ) );
         }
     }
@@ -2960,7 +2960,7 @@ void overmap::place_cities()
         // randomly make some cities smaller or larger
         int size = rng( op_city_size - 1, op_city_size + 1 );
         if( one_in( 3 ) ) {      // 33% tiny
-            size = 1;
+            size = size * 1 / 3;
         } else if( one_in( 2 ) ) { // 33% small
             size = size * 2 / 3;
         } else if( one_in( 2 ) ) { // 17% large

@@ -230,6 +230,8 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
     // to many points, therefore they are added back.
     points.stat_points += 8 * 4;
 
+    set_body();
+
     int num_gtraits = 0;
     int num_btraits = 0;
     int tries = 0;
@@ -387,7 +389,6 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
         randomize_cosmetic_trait( type_facial_hair );
     }
 
-    set_body();
 }
 
 void avatar::add_profession_items()

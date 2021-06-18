@@ -11,7 +11,7 @@
     "//": "It's little more than a piece of slightly shaped leather",
     "material": [ "leather" ],
     "flags": [ "RELOAD_AND_SHOOT", "NEVER_JAMS", "PRIMITIVE_RANGED_WEAPON", "BELT_CLIP", "WATERPROOF_GUN", "NEVER_JAMS" ],
-    "ammo_effects": [ "NEVER_MISFIRES" ],
+    "ammo_effects": [ "NEVER_MISFIRES", "NO_PENETRATE_OBSTACLES" ],
     "skill": "throw",
     "ammo": [ "rock" ],
     "weight": "96 g",
@@ -44,7 +44,7 @@
       "WATERPROOF_GUN",
       "NEVER_JAMS"
     ],
-    "ammo_effects": [ "NEVER_MISFIRES" ],
+    "ammo_effects": [ "NEVER_MISFIRES", "NO_PENETRATE_OBSTACLES" ],
     "skill": "archery",
     "ammo": [ "pebble" ],
     "weight": "254 g",
@@ -82,7 +82,7 @@
       "WATERPROOF_GUN",
       "NEVER_JAMS"
     ],
-    "ammo_effects": [ "NEVER_MISFIRES" ],
+    "ammo_effects": [ "NEVER_MISFIRES", "NO_PENETRATE_OBSTACLES" ],
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
     "skill": "throw",
     "ammo": [ "rock" ],
@@ -118,7 +118,7 @@
       "WATERPROOF_GUN",
       "NEVER_JAMS"
     ],
-    "ammo_effects": [ "NEVER_MISFIRES" ],
+    "ammo_effects": [ "NEVER_MISFIRES", "NO_PENETRATE_OBSTACLES" ],
     "skill": "archery",
     "ammo": [ "pebble" ],
     "weight": "322 g",

@@ -17,7 +17,7 @@
       ],
       "i": "t_region_groundcover",
       ".": "t_null",
-      "/": [ [ "t_region_groundcover_barren", 225 ], [ "t_region_groundcover", 45 ], [ "t_region_shrub", 3 ] ],
+      "/": [ [ "t_region_groundcover_barren", 225 ], [ "t_region_groundcover", 45 ] ],
       "5": "t_barndoor",
       "6": "t_palisade_pulley",
       "T": [ [ "t_region_groundcover_barren", 20 ], [ "t_region_tree_shade", 30 ] ],
