@@ -91,7 +91,7 @@ class monster : public Creature
         explicit monster( const mtype_id &id );
         monster( const mtype_id &id, const tripoint &pos );
         monster( const monster & );
-        monster( monster && ) noexcept;
+        monster( monster && ) noexcept( map_is_noexcept );
         ~monster() override;
         monster &operator=( const monster & );
         monster &operator=( monster && ) noexcept( string_is_noexcept );

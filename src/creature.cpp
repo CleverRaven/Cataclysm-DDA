@@ -115,7 +115,7 @@ Creature::Creature()
 }
 
 Creature::Creature( const Creature & ) = default;
-Creature::Creature( Creature && ) noexcept = default;
+Creature::Creature( Creature && ) noexcept( map_is_noexcept ) = default;
 Creature &Creature::operator=( const Creature & ) = default;
 Creature &Creature::operator=( Creature && ) noexcept = default;
 
