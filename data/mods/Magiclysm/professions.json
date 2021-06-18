@@ -342,7 +342,7 @@
       { "id": "summon_zombie", "level": 2 },
       { "id": "dark_sight", "level": 3 }
     ],
-    "CBMs": [ "bio_fuel_cell_blood", "bio_power_storage_mkII", "bio_nanobots" ],
+    "CBMs": [ "bio_power_storage_mkII", "bio_nanobots" ],
     "skills": [
       { "level": 2, "name": "unarmed" },
       { "level": 2, "name": "melee" },
