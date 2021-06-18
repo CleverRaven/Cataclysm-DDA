@@ -64,5 +64,21 @@
         "item_restriction": [ "small_mana_crystal" ]
       }
     ]
+  },
+  {
+    "type": "AMMO",
+    "id": "tainted_blood",
+    "name": { "str_sp": "tainted blood" },
+    "weight": "2 g",
+    "color": "magenta",
+    "container": "flask_glass",
+    "symbol": "~",
+    "description": "Blood from a blob corrupted creature.  The surface of this black sludge undulates slowly as if agitated by a soft breeze.",
+    "price": 0,
+    "material": [ "tainted_blood" ],
+    "volume": "1 ml",
+    "phase": "liquid",
+    "category": "fuel",
+    "ammo_type": "tainted_blood"
   }
 ]

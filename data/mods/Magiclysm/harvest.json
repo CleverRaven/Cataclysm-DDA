@@ -264,7 +264,7 @@
     "//": "nothing much aside from big pile of meat and maybe demon blood in future.  But for now, tainted will do.",
     "type": "harvest",
     "entries": [
-      { "drop": "tainted_blood", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.4 }
     ]
   },

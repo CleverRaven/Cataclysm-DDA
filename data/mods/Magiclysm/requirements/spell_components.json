@@ -37,7 +37,7 @@
     "//": "Weapon materials and 1000 energy from blood suitable for the Decaying Boneclub spell",
     "components": [
       [ [ "bone", 3 ], [ "bone_demihuman", 3 ], [ "bone_human", 3 ], [ "bone_tainted", 6 ] ],
-      [ [ "blood", 4 ], [ "tainted_blood", 200 ], [ "dragon_blood", 20 ] ]
+      [ [ "blood", 4 ], [ "blood_tainted", 200 ], [ "dragon_blood", 20 ] ]
     ]
   },
   {
