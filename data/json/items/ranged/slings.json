@@ -89,7 +89,7 @@
     "volume": "1650 ml",
     "longest_side": "180 cm",
     "price_postapoc": 250,
-    "to_hit": 2,
+    "to_hit": 1,
     "ranged_damage": { "damage_type": "bullet", "amount": 10 },
     "bashing": 23,
     "range": 10,
