@@ -437,7 +437,7 @@ item::item( const recipe *rec, item &component )
 }
 
 item::item( const item & ) = default;
-item::item( item && ) noexcept = default;
+item::item( item && ) noexcept( map_is_noexcept ) = default;
 item::~item() = default;
 item &item::operator=( const item & ) = default;
 item &item::operator=( item && ) noexcept( list_is_noexcept ) = default;
