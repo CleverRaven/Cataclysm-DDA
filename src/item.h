@@ -181,7 +181,7 @@ class item : public visitable
 
         item();
 
-        item( item && ) noexcept;
+        item( item && ) noexcept( map_is_noexcept );
         item( const item & );
         item &operator=( item && ) noexcept( list_is_noexcept );
         item &operator=( const item & );

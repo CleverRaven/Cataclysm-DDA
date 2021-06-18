@@ -2740,7 +2740,7 @@ class Character : public Creature, public visitable
 
     protected:
         Character();
-        Character( Character && ) noexcept;
+        Character( Character && ) noexcept( map_is_noexcept );
         Character &operator=( Character && ) noexcept( list_is_noexcept );
     public:
         struct trait_data {

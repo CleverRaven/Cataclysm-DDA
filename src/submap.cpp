@@ -36,7 +36,7 @@ submap::submap()
     is_uniform = false;
 }
 
-submap::submap( submap && ) noexcept = default;
+submap::submap( submap && ) noexcept( map_is_noexcept ) = default;
 submap::~submap() = default;
 
 submap &submap::operator=( submap && ) noexcept = default;

@@ -762,7 +762,7 @@ class npc : public player
 
         npc();
         npc( const npc & ) = delete;
-        npc( npc && ) noexcept;
+        npc( npc && ) noexcept( map_is_noexcept );
         npc &operator=( const npc & ) = delete;
         npc &operator=( npc && ) noexcept( list_is_noexcept );
         ~npc() override;

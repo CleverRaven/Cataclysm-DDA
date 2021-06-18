@@ -79,7 +79,7 @@ class player : public Character
     public:
         player();
         player( const player & ) = delete;
-        player( player && ) noexcept;
+        player( player && ) noexcept( map_is_noexcept );
         ~player() override;
         player &operator=( const player & ) = delete;
         player &operator=( player && ) noexcept( list_is_noexcept );
