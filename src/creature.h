@@ -13,6 +13,7 @@
 #include <vector>
 
 #include "bodypart.h"
+#include "compatibility.h"
 #include "damage.h"
 #include "debug.h"
 #include "effect_source.h"
@@ -1173,7 +1174,7 @@ class Creature : public location, public viewer
         bool fake = false;
         Creature();
         Creature( const Creature & );
-        Creature( Creature && ) noexcept;
+        Creature( Creature && ) noexcept( map_is_noexcept );
         Creature &operator=( const Creature & );
         Creature &operator=( Creature && ) noexcept;
 
