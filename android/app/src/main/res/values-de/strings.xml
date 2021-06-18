@@ -6,7 +6,7 @@
     <string name="helpMessage">\"Wischen\" für Richtungsbewegung (Halten für virtuellen Joystick). \"Tippen\" um Auswahl in Menüs zu bestätigen oder pausiere einen Zug In-Game (Halten zum pausieren mehrerer Züge). \"Doppel Tippen\" zum Abbrechen oder Zurück in Menüs (Wie ESC auf Tastatur). \"Zusammenkneifen\" zum Rein/Raus zoomen (In-Game). Drücke Hardware \"Zurück\" Knopf fürs Umschalten der virtuellen Tastaur (Halten zum Umschalten der Tastatur Shortcuts).</string>
     <string name="softwareRendering">Software-Rendering</string>
     <string name="forceFullscreen">Erwzinge Vollbild</string>
-    <string name="trapBackButton">?Verstecke? Zurück Knopf</string>
+    <string name="trapBackButton">Verstecke Zurück Knopf</string>
     <string name="settings">Einstellungen</string>
     <string name="startGame">Starte Spiel</string>
     <string name="showHelp">Zeige Hilfe</string>
