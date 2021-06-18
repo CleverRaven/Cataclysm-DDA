@@ -121,6 +121,7 @@ class enchantment
         };
 
         static void load_enchantment( const JsonObject &jo, const std::string &src );
+        static void reset();
         void load( const JsonObject &jo, const std::string &src = "",
                    const cata::optional<std::string> &inline_id = cata::nullopt );
 
