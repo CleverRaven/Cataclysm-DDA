@@ -77,7 +77,7 @@
     "id": "mon_brute_pupa",
     "type": "MONSTER",
     "name": { "str": "pupating brute" },
-    "description": "This muscular human corpse is wrapped in sticky black fibers that cover everything neck down.  Beneath the wrapping there is strange rhythmic movement grotesque to behold.",
+    "description": "This muscular human corpse is wrapped in sticky black fibers that cover everything from the neck down.  Beneath the wrapping there is a strange rhythmic movement, grotesque to behold.",
     "copy-from": "mon_brute_pupa_decoy",
     "extend": {
       "special_attacks": [
