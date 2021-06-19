@@ -1442,8 +1442,8 @@
       ],
       "palettes": [ "prison_palette" ],
       "terrain": {
-        " ": [ "t_rock" ],
-        "^": [ "t_rock_floor" ],
+        " ": [ "t_soil" ],
+        "^": [ "t_thconc_floor" ],
         "_": [ "t_grate" ],
         "~": [ "t_sewage" ],
         "'": [ "t_water_sh_murky_underground" ],
