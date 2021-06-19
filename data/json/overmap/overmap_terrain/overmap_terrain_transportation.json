@@ -309,7 +309,7 @@
     "mapgen_end": [ { "method": "builtin", "name": "subway_end" } ],
     "mapgen_tee": [ { "method": "builtin", "name": "subway_tee" } ],
     "mapgen_four_way": [ { "method": "builtin", "name": "subway_four_way" } ],
-    "spawns": { "group": "GROUP_SUBWAY_LAB", "population": [ 1, 4 ], "chance": 33 },
+    "spawns": { "group": "GROUP_SUBWAY_LAB", "population": [ 1, 4 ], "chance": 25 },
     "flags": [ "LINEAR" ]
   },
   {
