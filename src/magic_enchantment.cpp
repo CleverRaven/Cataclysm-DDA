@@ -148,6 +148,11 @@ void enchantment::load_enchantment( const JsonObject &jo, const std::string &src
     spell_factory.load( jo, src );
 }
 
+void enchantment::reset()
+{
+    spell_factory.reset();
+}
+
 enchantment_id enchantment::load_inline_enchantment( const JsonValue &jv, const std::string &src,
         std::string &inline_id )
 {
