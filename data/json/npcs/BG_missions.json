@@ -1,0 +1,80 @@
+[
+  {
+    "id": "MISSION_FIND_HUB01",
+    "type": "mission_definition",
+    "name": { "str": "Find the scientists" },
+    "description": "My cousin worked at some super advanced laboratory and he told me it was crazy fortified.  We should go there and join up with them.",
+    "goal": "MGOAL_GO_TO",
+    "difficulty": 3,
+    "start": {
+      "assign_mission_target": { "om_terrain": "robofachq_surface_car_entrance", "om_special": "hub_01", "reveal_radius": 3, "search_range": 360 }
+    },
+    "goal_condition": { "u_has_var": "u_met_robofac_intercom", "type": "dialogue", "context": "intercom", "value": "yes" },
+    "value": 5000,
+    "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
+    "//": "Update Origins to match background traits once that part is built.",
+    "dialogue": {
+      "describe": "We need to find somewhere safe and I bet a well defended government factory will be safe.",
+      "offer": "I hope you decide to help me find a safe place.",
+      "accepted": "Thank you.  Once you've found it come back and get me.",
+      "rejected": "You don't have to be mean about not being willing to help.",
+      "advice": "I've told you what I can remember of how to get there.",
+      "inquire": "Have you found the lab?",
+      "success": "I guess my cousin didn't make it and we won't be allowed inside.",
+      "success_lie": "I'm glad to hear they are fine.  Why haven't they been by then?",
+      "failure": "At least you came back with your life…"
+    }
+  },
+  {
+    "id": "MISSION_FIND_REFUGEE_CENTER",
+    "type": "mission_definition",
+    "name": { "str": "Get to the Refugee Center" },
+    "description": "When I got to my local evacuation gathering point I'd missed the last bus but they'd left a map with directions for any stragglers.",
+    "goal": "MGOAL_GO_TO",
+    "difficulty": 3,
+    "start": {
+      "assign_mission_target": { "om_terrain": "evac_center_18", "om_special": "evac_center", "reveal_radius": 3, "search_range": 360 }
+    },
+    "goal_condition": { "u_has_var": "u_met_free_merchant_shopkeep", "type": "dialogue", "context": "meeting", "value": "yes" },
+    "value": 5000,
+    "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
+    "//": "Update Origins to match background traits once that part is built.",
+    "dialogue": {
+      "describe": "I know the rumors say there is no government but surely that can't be true.",
+      "offer": "I hope you decide to help me find a safe place.",
+      "accepted": "Thank you.  Once you've found it come back and get me.",
+      "rejected": "You don't have to be mean about not being willing to help.",
+      "advice": "I've told you what I can remember of how to get there.",
+      "inquire": "Have you found the refugee center?",
+      "success": "What do you mean they won't take us in?",
+      "success_lie": "Well let's go then!",
+      "failure": "At least you came back with your life…"
+    }
+  },
+  {
+    "id": "MISSION_FIND_LAPIN",
+    "type": "mission_definition",
+    "name": { "str": "Rumors of a kind man" },
+    "description": "I don't know if it's true or not but I've heard stories of a man who raises bunnies and will help survivors for a day's labor.",
+    "goal": "MGOAL_GO_TO",
+    "difficulty": 3,
+    "start": {
+      "assign_mission_target": { "om_terrain": "cabin_lapin", "om_special": "Cabin_Lapin", "reveal_radius": 3, "search_range": 360 }
+    },
+    "goal_condition": { "u_has_var": "u_met_lapin", "type": "dialogue", "context": "meeting", "value": "yes" },
+    "value": 5000,
+    "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
+    "//": "Update Origins to match background traits once that part is built.",
+    "dialogue": {
+      "describe": "I know the rumors say there is no government but surely that can't be true.",
+      "offer": "I hope you decide to help me find a safe place.",
+      "accepted": "Thank you.  Once you've found it come back and get me.",
+      "rejected": "You don't have to be mean about not being willing to help.",
+      "advice": "I've told you what I can remember of how to get there.",
+      "inquire": "Have you found the refugee center?",
+      "success": "What do you mean they won't take us in?",
+      "success_lie": "Well let's go then!",
+      "failure": "At least you came back with your life…"
+    }
+  }
+]

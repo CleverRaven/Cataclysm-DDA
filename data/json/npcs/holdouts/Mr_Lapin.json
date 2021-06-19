@@ -41,6 +41,7 @@
     "type": "talk_topic",
     "id": "TALK_WARRENER",
     "dynamic_line": { "u_is_wearing": "badge_marshal", "yes": "Are you here to protect us?", "no": "Pleased to meet you." },
+    "effect": { "u_add_var": "u_met_lapin", "type": "general", "context": "meeting", "value": "yes" },
     "responses": [
       { "text": "I'm just trying to get by.", "topic": "TALK_WARRENER_TRYING" },
       { "text": "What are you doing here?", "topic": "TALK_WARRENER_DOING" },
