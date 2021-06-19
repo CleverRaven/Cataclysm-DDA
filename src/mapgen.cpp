@@ -4901,7 +4901,7 @@ void map::draw_connections( const mapgendata &dat )
     } else if( is_ot_match( "ants", terrain_type, ot_match_type::type ) ) {
         if( dat.above() == "anthill" ) {
             if( const auto p = random_point( *this, [this]( const tripoint & n ) {
-            return ter( n ) == t_rock_floor;
+            return ter( n ) == t_dirt;
             } ) ) {
                 ter_set( *p, t_slope_up );
             }
