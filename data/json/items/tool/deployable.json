@@ -310,5 +310,41 @@
     "symbol": "T",
     "color": "red",
     "flags": [ "DURABLE_MELEE" ]
+  },
+  {
+    "id": "table_saw",
+    "type": "TOOL",
+    "name": { "str": "table saw" },
+    "description": "A rotating saw blade set into a large flat table, for making straight measured cuts, if supplied with power from UPS.  Can be placed via the construction menu.",
+    "weight": "100000 g",
+    "volume": "20000 ml",
+    "longest_side": "120 cm",
+    "price": 100000,
+    "price_postapoc": 1500,
+    "to_hit": -5,
+    "bashing": 40,
+    "material": [ "steel" ],
+    "symbol": "7",
+    "color": "yellow_red",
+    "flags": [ "DURABLE_MELEE" ],
+    "use_action": { "type": "deploy_furn", "furn_type": "f_tablesaw" }
+  },
+  {
+    "id": "mitre_saw",
+    "type": "TOOL",
+    "name": { "str": "mitre saw" },
+    "description": "A circular saw blade on an arm that can slide and rotate in several directions, this is a staple tool for nearly any carpentry, if supplied with power from UPS.  Can be placed via the construction menu.",
+    "weight": "50000 g",
+    "volume": "10000 ml",
+    "longest_side": "60 cm",
+    "price": 100000,
+    "price_postapoc": 1500,
+    "to_hit": -5,
+    "bashing": 40,
+    "material": [ "steel" ],
+    "symbol": "7",
+    "color": "yellow_cyan",
+    "flags": [ "DURABLE_MELEE" ],
+    "use_action": { "type": "deploy_furn", "furn_type": "f_mitresaw" }
   }
 ]
