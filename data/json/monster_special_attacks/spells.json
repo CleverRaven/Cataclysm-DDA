@@ -193,7 +193,7 @@
     "type": "SPELL",
     "id": "hive_raptor_spawn",
     "name": { "str": "Spawn Raptor" },
-    "description": "Summons a zombiespawn raptor without killing the zombie.",
+    "description": "Summons a zombie-spawn raptor without killing the zombie.",
     "flags": [ "HOSTILE_SUMMON", "RANDOM_DAMAGE", "PERMANENT" ],
     "valid_targets": [ "ground", "self" ],
     "min_damage": 1,
