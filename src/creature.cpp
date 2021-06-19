@@ -572,7 +572,8 @@ bool Creature::is_adjacent( const Creature *target, const bool allow_z_levels ) 
 int Creature::deal_melee_attack( Creature *source, int hitroll )
 {
     const float dodge = dodge_roll();
-    int hit_spread = hitroll - dodge - size_melee_penalty();
+    int hit_chance = hitroll - size_melee_penalty();
+    int hit_spread = hit_chance - dodge;
     if( has_flag( MF_IMMOBILE ) ) {
         // Under normal circumstances, even a clumsy person would
         // not miss a turret.  It should, however, be possible to
@@ -581,9 +582,12 @@ int Creature::deal_melee_attack( Creature *source, int hitroll )
         hit_spread += 40;
     }
 
-    // If attacker missed call targets on_dodge event
-    if( dodge > 0.0 && hit_spread <= 0 && source != nullptr && !source->is_hallucination() ) {
-        on_dodge( source, source->get_melee() );
+    if( hit_chance > 0 && dodge > 0.0 && source != nullptr && !source->is_hallucination() ) {
+        on_try_dodge();
+        // If attacker missed call targets on_dodge event.
+        if( hit_spread <= 0 ) {
+            on_dodge( source, std::max( 0.0, source->get_melee() + hit_spread / 5.0 ) );
+        }
     }
 
     return hit_spread;

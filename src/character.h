@@ -552,6 +552,7 @@ class Character : public Creature, public visitable
 
         /** Called after the player has successfully dodged an attack */
         void on_dodge( Creature *source, float difficulty ) override;
+        void on_try_dodge() override;
 
         /** Combat getters */
         float get_dodge_base() const override;

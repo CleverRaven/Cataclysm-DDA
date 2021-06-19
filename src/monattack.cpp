@@ -5816,8 +5816,12 @@ bool mattack::doot( monster *z )
 
 bool mattack::dodge_check( monster *z, Creature *target )
 {
+    const float dodge_ability = target->get_dodge();
+    if( dodge_ability > 0.0 ) {
+        target->on_try_dodge();
+    }
     ///\EFFECT_DODGE increases chance of dodging, vs their melee skill
-    float dodge = std::max( target->get_dodge() - rng( 0, z->get_hit() ), 0.0f );
+    float dodge = std::max( dodge_ability - rng( 0, z->get_hit() ), 0.0f );
     return dodge > 0.0 && rng( 0, 10000 ) < 10000 / ( 1 + 99 * std::exp( -.6 * dodge ) );
 }
 

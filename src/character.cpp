@@ -1382,6 +1382,13 @@ bool Character::is_dead_state() const
            get_part_hp_cur( body_part_torso ) <= 0;
 }
 
+void Character::on_try_dodge()
+{
+    const int base_burn_rate = get_option<int>( STATIC( "PLAYER_BASE_STAMINA_BURN_RATE" ) );
+    mod_stamina( -base_burn_rate * 6 );
+    set_activity_level( EXTRA_EXERCISE );
+}
+
 void Character::on_dodge( Creature *source, float difficulty )
 {
     static const matec_id tec_none( "tec_none" );

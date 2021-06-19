@@ -443,6 +443,10 @@ class Creature : public location, public viewer
          */
         virtual void on_dodge( Creature *source, float difficulty ) = 0;
         /**
+         * Invoked when the creature attempts to dodge, regardless of success or failure.
+         */
+        virtual void on_try_dodge() = 0;
+        /**
          * This creature just got hit by an attack - possibly special/ranged attack - from source.
          * Players should train dodge, possibly counter-attack somehow.
          */
