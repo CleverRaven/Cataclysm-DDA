@@ -789,6 +789,7 @@ int read_only_visitable::charges_of( const itype_id &what, int limit,
                                      const std::function<bool( const item & )> &filter,
                                      const std::function<void( int )> &visitor ) const
 {
+    // I do not believe this is used anywhere - Hirmuolio
     if( what == itype_UPS ) {
         int qty = 0;
         qty = sum_no_wrap( qty, charges_of( itype_UPS_off ) );
@@ -840,9 +841,12 @@ int Character::charges_of( const itype_id &what, int limit,
     }
 
     if( what == itype_UPS ) {
-        return std::min( available_ups(), limit );
+        int ups_power = available_ups();
+        if( has_active_bionic( bio_ups ) ) {
+            ups_power -= units::to_kilojoule( get_power_level() );
+        }
+        return std::min( ups_power, limit );
     }
-
     return charges_of_internal( *this, *this, what, limit, filter, visitor );
 }
 
