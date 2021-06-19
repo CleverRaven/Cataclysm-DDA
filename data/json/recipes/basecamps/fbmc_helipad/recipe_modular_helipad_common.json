@@ -107,7 +107,13 @@
     "never_learn": true,
     "construction_blueprint": "fbmc_helipad_radio",
     "blueprint_name": "radio tower",
-    "blueprint_provides": [ { "id": "fbmc_helipad_radio" }, { "id": "radio" }, { "id": "recruiting" }, { "id": "scouting" }, { "id": "patroling" } ],
+    "blueprint_provides": [
+      { "id": "fbmc_helipad_radio" },
+      { "id": "radio" },
+      { "id": "recruiting" },
+      { "id": "scouting" },
+      { "id": "patroling" }
+    ],
     "blueprint_requires": [ { "id": "fbmc_helipad_reinforce_doors" }, { "id": "fbmc_helipad_root_cellar" } ],
     "blueprint_excludes": [ { "id": "fbmc_helipad_radio" } ],
     "blueprint_needs": {

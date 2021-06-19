@@ -3,11 +3,7 @@
     "type": "mapgen",
     "update_mapgen_id": "fbmc_helipad_0",
     "method": "json",
-    "object": {
-      "set": [
-        { "point": "furniture", "id": "f_bulletin", "x": 15, "y": 15 }
-      ]
-    }
+    "object": { "set": [ { "point": "furniture", "id": "f_bulletin", "x": 15, "y": 15 } ] }
   },
   {
     "type": "mapgen",
@@ -45,11 +41,7 @@
     "type": "mapgen",
     "update_mapgen_id": "fbmc_helipad_root_cellar",
     "method": "json",
-    "object": {
-      "set": [
-        { "point": "terrain", "id": "t_rootcellar", "x": 13, "y": 15 }
-      ]
-    }
+    "object": { "set": [ { "point": "terrain", "id": "t_rootcellar", "x": 13, "y": 15 } ] }
   },
   {
     "type": "mapgen",
