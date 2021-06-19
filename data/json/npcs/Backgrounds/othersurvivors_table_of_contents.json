@@ -1,0 +1,26 @@
+[
+  {
+    "id": "TALK_FRIEND_CONVERSATION",
+    "type": "talk_topic",
+    "responses": [
+      {
+        "text": "<BOSS_intro_question>",
+        "topic": "BOSS_No_Others_01_Story1",
+        "condition": { "npc_has_trait": "BOSS_No_Others_01" },
+        "switch": true
+      },
+      {
+        "text": "<BOSS_intro_question>",
+        "topic": "BOSS_No_Others_02_Story1",
+        "condition": { "npc_has_trait": "BOSS_No_Others_02" },
+        "switch": true
+      },
+      {
+        "text": "<BOSS_intro_question>",
+        "topic": "BOSS_Lapin_01_Story1",
+        "condition": { "or": { "npc_has_trait": "BOSS_Lapin_01", "npc_has_trait": "BOSS_Lapin_01b" } },
+        "switch": true
+      }
+    ]
+  }
+]

@@ -1,0 +1,14 @@
+[
+  {
+    "id": "BOSS_Lapin_01_Story1",
+    "type": "talk_topic",
+    "dynamic_line": "",
+    "responses": [
+      {
+        "text": "<done_conversation>",
+        "topic": "TALK_FRIEND"
+      },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  }
+]
