@@ -1093,15 +1093,7 @@ void overmap::populate()
 
 oter_id overmap::get_default_terrain( int z ) const
 {
-    if( z == 0 ) {
-        return settings.default_oter.id();
-    } else {
-        // // TODO: Get rid of the hard-coded ids.
-        static const oter_str_id open_air( "open_air" );
-        static const oter_str_id empty_rock( "empty_rock" );
-
-        return z > 0 ? open_air.id() : empty_rock.id();
-    }
+    return settings.default_oter[OVERMAP_DEPTH + z].id();
 }
 
 void overmap::init_layers()
@@ -1501,9 +1493,9 @@ bool overmap::generate_sub( const int z )
     std::vector<point_om_omt> central_lab_train_points;
     std::vector<city> mine_points;
     // These are so common that it's worth checking first as int.
-    const oter_id skip_above[5] = {
+    const oter_id skip_above[6] = {
         oter_id( "empty_rock" ), oter_id( "forest" ), oter_id( "field" ),
-        oter_id( "forest_thick" ), oter_id( "forest_water" )
+        oter_id( "forest_thick" ), oter_id( "forest_water" ), oter_id( "solid_earth" )
     };
 
     for( int i = 0; i < OMAPX; i++ ) {
@@ -1749,7 +1741,7 @@ bool overmap::generate_over( const int z )
     // These are so common that it's worth checking first as int.
     const std::set<oter_id> skip_below = {
         oter_id( "empty_rock" ), oter_id( "forest" ), oter_id( "field" ),
-        oter_id( "forest_thick" ), oter_id( "forest_water" )
+        oter_id( "forest_thick" ), oter_id( "forest_water" ), oter_id( "solid_earth" )
     };
 
     if( z == 1 ) {
@@ -2339,7 +2331,7 @@ void overmap::place_forest_trailheads()
 
 void overmap::place_forests()
 {
-    const oter_id default_oter_id( settings.default_oter );
+    const oter_id default_oter_id( settings.default_oter[OVERMAP_DEPTH] );
     const oter_id forest( "forest" );
     const oter_id forest_thick( "forest_thick" );
 
@@ -2950,7 +2942,7 @@ void overmap::place_cities()
         point_om_omt c( rng( size - 1, OMAPX - size ), rng( size - 1, OMAPY - size ) );
         const tripoint_om_omt p( c, 0 );
 
-        if( ter( p ) == settings.default_oter ) {
+        if( ter( p ) == settings.default_oter[OVERMAP_DEPTH] ) {
             placement_attempts = 0;
             ter_set( p, oter_id( "road_nesw" ) ); // every city starts with an intersection
             city tmp;
