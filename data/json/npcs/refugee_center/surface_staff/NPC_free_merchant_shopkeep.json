@@ -280,7 +280,7 @@
   {
     "id": "TALK_EVAC_MERCHANT_NEW",
     "type": "talk_topic",
-    "dynamic_line": "Before you say anything else, we're full.  We don't have the space, nor the food, to take in more refugees.  We do desperately need supplies and are willing to trade what we can for it.  Pay top dollar for jerky if you have any; just talk to the broker in the back."
+    "dynamic_line": "Before you say anything else, we're full.  We don't have the space, nor the food, to take in more refugees.  We do desperately need supplies and are willing to trade what we can for it.  Pay top dollar for jerky if you have any; just talk to the broker in the back.",
     "effect": { "u_add_var": "u_met_free_merchant_shopkeep", "type": "general", "context": "meeting", "value": "yes" }
   },
   {
