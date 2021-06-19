@@ -1538,7 +1538,7 @@ bool overmap::generate_sub( const int z )
             } else if( oter_above == "anthill" || oter_above == "acid_anthill" ) {
                 const int size = rng( MIN_ANT_SIZE, MAX_ANT_SIZE );
                 ant_points.emplace_back( p.xy(), size );
-            } else if( oter_above == "slimepit_down" ) {
+            } else if( oter_above == "slimepit_down" || oter_above == "slimepit_bottom" ) {
                 const int size = rng( MIN_GOO_SIZE, MAX_GOO_SIZE );
                 goo_points.emplace_back( p.xy(), size );
             } else if( oter_above == "forest_water" ) {

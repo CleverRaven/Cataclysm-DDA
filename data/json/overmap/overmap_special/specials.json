@@ -1244,7 +1244,7 @@
   {
     "type": "overmap_special",
     "id": "Slime Pit",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "slimepit_down" } ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "slimepit_top" }, { "point": [ 0, 0, -1 ], "overmap": "slimepit_bottom" } ],
     "locations": [ "wilderness" ],
     "city_distance": [ 3, 30 ],
     "occurrences": [ 0, 3 ],
