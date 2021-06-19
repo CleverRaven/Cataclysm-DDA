@@ -769,14 +769,15 @@ static int charges_of_internal( const T &self, const M &main, const itype_id &id
         return qty < limit ? VisitResponse::NEXT : VisitResponse::ABORT;
     } );
 
-    if( id == itype_UPS_off && qty < limit && get_player_character().has_active_bionic( bio_ups ) ) {
+    if( found_tool_with_UPS && qty < limit && get_player_character().has_active_bionic( bio_ups ) ) {
         qty = sum_no_wrap( qty, units::to_kilojoule( get_player_character().get_power_level() ) );
     }
 
     if( qty < limit && found_tool_with_UPS ) {
-        qty += main.charges_of( itype_UPS, limit - qty );
+        int used_ups = main.charges_of( itype_UPS, limit - qty );
+        qty += used_ups;
         if( visitor ) {
-            visitor( qty );
+            visitor( used_ups );
         }
     }
 
@@ -808,7 +809,7 @@ int inventory::charges_of( const itype_id &what, int limit,
         return std::min( qty, limit );
     }
 
-    const auto &binned = get_binned_items();
+    const itype_bin &binned = get_binned_items();
     const auto iter = binned.find( what );
     if( iter == binned.end() ) {
         return 0;
