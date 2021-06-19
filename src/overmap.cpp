@@ -1632,11 +1632,18 @@ bool overmap::generate_sub( const int z )
                         // mark tile to prevent subway gen
                         ter_set( nearby_loc, oter_id( "open_air" ) );
                     }
+                    if( is_ot_match( "solid_earth", ter( nearby_loc ), ot_match_type::contains ) ) {
+                        // mark tile to prevent subway gen
+                        ter_set( nearby_loc, oter_id( "field" ) );
+                    }
                 }
             } else {
                 // change train connection point back to rock to allow gen
                 if( is_ot_match( "open_air", ter( i ), ot_match_type::contains ) ) {
                     ter_set( i, oter_id( "empty_rock" ) );
+                }
+                if( is_ot_match( "field", ter( i ), ot_match_type::contains ) ) {
+                    ter_set( i, oter_id( "solid_earth" ) );
                 }
                 real_train_points.push_back( i.xy() );
             }
@@ -1689,6 +1696,10 @@ bool overmap::generate_sub( const int z )
                                             ot_match_type::contains ) ) {
                         // clear marked
                         ter_set( subway_loc, oter_id( "empty_rock" ) );
+                    } else if( is_ot_match( "field", ter( subway_loc ),
+                                            ot_match_type::contains ) ) {
+                        // clear marked
+                        ter_set( subway_loc, oter_id( "solid_earth" ) );
                     }
                 }
             }
@@ -1719,7 +1730,7 @@ bool overmap::generate_sub( const int z )
 
     for( auto &i : ant_points ) {
         const tripoint_om_omt p_loc( i.pos, z );
-        if( ter( p_loc ) != "empty_rock" ) {
+        if( ter( p_loc ) != "empty_rock" && ter( p_loc ) != "solid_earth" ) {
             continue;
         }
         mongroup_id ant_group( ter( p_loc + tripoint_above ) == "anthill" ?
@@ -3310,7 +3321,8 @@ void overmap::build_tunnel( const tripoint_om_omt &p, int s, om_direction::type 
         if( check_ot( "ants", ot_match_type::type, p ) ) {
             return;
         }
-        if( !is_ot_match( "empty_rock", ter( p ), ot_match_type::type ) ) {
+        if( !is_ot_match( "empty_rock", ter( p ), ot_match_type::type ) &&
+            !is_ot_match( "solid_earth", ter( p ), ot_match_type::type ) ) {
             return;
         }
     }
@@ -3321,8 +3333,9 @@ void overmap::build_tunnel( const tripoint_om_omt &p, int s, om_direction::type 
     valid.reserve( om_direction::size );
     for( om_direction::type r : om_direction::all ) {
         const tripoint_om_omt cand = p + om_direction::displace( r );
-        if( !check_ot( "ants", ot_match_type::type, cand ) &&
-            is_ot_match( "empty_rock", ter( cand ), ot_match_type::type ) ) {
+        if( !check_ot( "ants", ot_match_type::type, cand ) && (
+                is_ot_match( "empty_rock", ter( cand ), ot_match_type::type ) ||
+                is_ot_match( "solid_earth", ter( cand ), ot_match_type::type ) ) ) {
             valid.push_back( r );
         }
     }
