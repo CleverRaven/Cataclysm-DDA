@@ -44,8 +44,7 @@ jobs:
             test-stage: 1
             native: linux64
             gold: 1
-            lto: 1
-            title: GCC 9, Ubuntu, Curses, LTO
+            title: GCC 9, Ubuntu, Curses, no LTO
           - compiler: g++-7
             os: ubuntu-latest
             cmake: 1
@@ -85,7 +84,6 @@ jobs:
         EXTRA_TEST_OPTS: --error-format=github-action
         NATIVE: ${{ matrix.native }}
         GOLD: ${{ matrix.gold }}
-        LTO: ${{ matrix.lto }}
         RELEASE: 1
     steps:
     - name: checkout repository
