@@ -662,7 +662,16 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "lab_subway_vent_shaft-1", "lab_subway_vent_shaft-2", "lab_subway_vent_shaft-3", "lab_subway_vent_shaft-4" ],
+    "id": "lab_subway_vent_shaft-1",
+    "name": "ventilation shaft",
+    "sym": "#",
+    "color": "brown",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "lab_subway_vent_shaft-2", "lab_subway_vent_shaft-3", "lab_subway_vent_shaft-4" ],
     "name": "ventilation shaft",
     "sym": "%",
     "color": "dark_gray",
