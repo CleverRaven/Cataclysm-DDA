@@ -3275,7 +3275,13 @@ void game::write_memorial_file( std::string sLastWords )
     // Add a timestamp for uniqueness.
     char buffer[suffix_len] {};
     std::time_t t = std::time( nullptr );
-    std::strftime( buffer, suffix_len, "%Y-%m-%d-%H-%M-%S", std::localtime( &t ) );
+    tm current_time;
+#if defined(_WIN32)
+    localtime_s( &current_time, &t );
+#else
+    localtime_r( &t, &current_time );
+#endif
+    std::strftime( buffer, suffix_len, "%Y-%m-%d-%H-%M-%S", &current_time );
     memorial_file_path << buffer;
 
     const std::string text_path_string = memorial_file_path.str() + ".txt";
