@@ -31,6 +31,7 @@
   },
   {
     "abstract": "judo_belt_abstract",
+    "repairs_like": "scarf",
     "type": "ARMOR",
     "name": { "str": "judo belt template" },
     "description": "This is a template for judo belts.  If found in a game, it is a bug.",
