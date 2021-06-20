@@ -17,7 +17,7 @@
     "ammo_type": "10mm",
     "casing": "10mm_casing",
     "range": 14,
-    "damage": { "damage_type": "bullet", "amount": 31, "armor_penetration": 4 },
+    "damage": { "damage_type": "bullet", "amount": 28, "armor_penetration": 4 },
     "dispersion": 50,
     "recoil": 750,
     "effects": [ "COOKOFF" ]
