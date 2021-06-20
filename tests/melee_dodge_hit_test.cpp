@@ -79,6 +79,7 @@ TEST_CASE( "Character::get_hit_base", "[character][melee][hit][dex]" )
 
     avatar &dummy = get_avatar();
     clear_character( dummy );
+    dummy.dodges_left = 1;
 
     SECTION( "character get_hit_base increases by 1/4 for each point of DEX" ) {
         CHECK( hit_base_with_dex( dummy, 1 ) == 0.25f );
