@@ -25,6 +25,7 @@
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK" ],
     "vision_day": 13,
     "vision_night": 5,
+    "path_settings": { "avoid_traps": true, "avoid_sharp": true },
     "zombify_into": "mon_zorc",
     "death_drops": {
       "subtype": "collection",
@@ -38,7 +39,7 @@
       ]
     },
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "FILTHY", "PATH_AVOID_DANGER_2", "SWARMS", "GROUP_MORALE" ]
+    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "FILTHY", "PATH_AVOID_DANGER_1", "SWARMS", "GROUP_MORALE" ]
   },
   {
     "type": "MONSTER",

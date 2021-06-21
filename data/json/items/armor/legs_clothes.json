@@ -25,7 +25,7 @@
     ],
     "warmth": 8,
     "material_thickness": 0.3,
-    "flags": [ "VARSIZE", "POCKETS", "FANCY" ]
+    "flags": [ "VARSIZE", "POCKETS" ]
   },
   {
     "id": "b_shorts",
@@ -71,7 +71,7 @@
     "encumbrance": 8,
     "warmth": 10,
     "material_thickness": 0.4,
-    "flags": [ "VARSIZE", "FANCY" ]
+    "flags": [ "VARSIZE" ]
   },
   {
     "id": "fishing_waders",
@@ -214,7 +214,7 @@
     ],
     "warmth": 10,
     "material_thickness": 0.25,
-    "flags": [ "VARSIZE", "POCKETS", "FANCY" ]
+    "flags": [ "VARSIZE", "POCKETS" ]
   },
   {
     "id": "kilt",
@@ -366,7 +366,7 @@
     "covers": [ "leg_l", "leg_r" ],
     "coverage": 7,
     "material_thickness": 0.5,
-    "flags": [ "VARSIZE", "FANCY" ]
+    "flags": [ "VARSIZE" ]
   },
   {
     "id": "pants",

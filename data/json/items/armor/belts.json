@@ -27,10 +27,11 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Attach what to belt loop?", "holster_msg": "You clip your %s to your %s" },
-    "flags": [ "FANCY", "WAIST", "NO_QUICKDRAW", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "NO_QUICKDRAW", "WATER_FRIENDLY" ]
   },
   {
     "abstract": "judo_belt_abstract",
+    "repairs_like": "scarf",
     "type": "ARMOR",
     "name": { "str": "judo belt template" },
     "description": "This is a template for judo belts.  If found in a game, it is a bug.",
@@ -113,7 +114,7 @@
     "price": 9000,
     "price_postapoc": 250,
     "bashing": 5,
-    "material": [ "leather" ],
+    "material": [ "leather", "steel" ],
     "symbol": "[",
     "color": "brown",
     "covers": [ "torso" ],

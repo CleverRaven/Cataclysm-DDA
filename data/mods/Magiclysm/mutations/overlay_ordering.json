@@ -1,0 +1,11 @@
+[
+  {
+    "type": "overlay_order",
+    "overlay_ordering": [
+      { "id": [ "DRAGON_WINGS_BLACK" ], "order": 500 },
+      { "id": [ "DRAGON_SCALES_BLACK" ], "order": 1500 },
+      { "id": [ "DRAGON_TAIL_STUB", "DRAGON_TAIL_SCALED", "DRAGON_TAIL" ], "order": 400 },
+      { "id": [ "MUZZLE_DRAGON", "DRAGON_MAW_BLACK" ], "order": 7000 }
+    ]
+  }
+]

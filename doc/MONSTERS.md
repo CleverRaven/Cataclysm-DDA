@@ -399,10 +399,10 @@ The upgrades object may have the following members:
 
 | field        | description
 | ---          | ---
-| `half_life`  | (int) Time in which half of the monsters upgrade according to an approximated exponential progression. It is scaled with the evolution scaling factor which defaults to 4 days.
-| `into_group` | (string, optional) The upgraded monster's type is taken from the specified group. The cost in these groups is for an upgrade in the spawn process (related to the rare "replace_monster_group" and "new_monster_group_id" attributes of spawning groups).
+| `half_life`  | (int) Days in which half of the monsters upgrade according to an approximated exponential progression. It is multiplied with the evolution scaling factor (at the time of this writing, 4).
+| `into_group` | (string, optional) The upgraded monster's type is taken from the specified group. 
 | `into`       | (string, optional) The upgraded monster's type.
-| `age_grow`   | (int, optional) Number of days needed for monster to change into another monster.
+| `age_grow`   | (int, optional) Number of days needed for monster to change into another monster. Does not scale with the evolution factor.
 
 ## "reproduction"
 (dictionary, optional)

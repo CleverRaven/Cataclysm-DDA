@@ -152,6 +152,7 @@
       { "item": "aspirin", "prob": 85, "charges": [ 1, 20 ] },
       { "item": "caffeine", "prob": 25, "charges": [ 1, 10 ] },
       { "item": "pills_sleep", "prob": 15, "charges": [ 1, 10 ] },
+      { "item": "melatonin_tablet", "prob": 10, "charges": [ 1, 30 ] },
       { "item": "iodine", "prob": 5, "charges": [ 1, 10 ] },
       { "item": "prussian_blue", "prob": 5, "charges": [ 1, 10 ] },
       { "item": "dayquil", "prob": 70, "charges": [ 1, 5 ] },
@@ -197,6 +198,24 @@
       { "item": "diazepam", "prob": 4, "charges": [ 1, 10 ] },
       [ "flu_shot", 5 ],
       [ "syringe", 8 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "mobile_meth_lab",
+    "subtype": "collection",
+    "entries": [
+      {
+        "distribution": [
+          { "item": "adderall", "count": [ 0, 2 ], "charges": [ 1, 10 ] },
+          { "item": "energy_drink", "count": [ 0, 2 ] },
+          { "item": "caffeine", "count": [ 0, 2 ], "charges": [ 1, 10 ] }
+        ]
+      },
+      { "item": "dayquil", "count": [ 0, 2 ], "charges": [ 1, 5 ] },
+      { "item": "aspirin", "count": [ 0, 5 ], "charges": [ 1, 20 ] },
+      { "item": "cola", "count": [ 0, 2 ] },
+      { "item": "meth", "count": [ 0, 2 ], "charges": [ 1, 6 ] }
     ]
   },
   {

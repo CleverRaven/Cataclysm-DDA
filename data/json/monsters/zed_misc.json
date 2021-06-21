@@ -549,7 +549,6 @@
       "BASHES",
       "DESTROYS",
       "POISON",
-      "ATTACKMON",
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
@@ -719,7 +718,7 @@
     "vision_day": 50,
     "vision_night": 5,
     "harvest": "zombie",
-    "path_settings": { "max_dist": 10 },
+    "path_settings": { "max_dist": 10, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
     "special_attacks": [ [ "UPGRADE", 10 ] ],
     "anger_triggers": [ "HURT", "PLAYER_CLOSE", "PLAYER_WEAK" ],
     "death_drops": "default_zombie_death_drops",
@@ -734,10 +733,10 @@
       "POISON",
       "NO_BREATHE",
       "REVIVES",
-      "PATH_AVOID_DANGER_2",
       "CAN_OPEN_DOORS",
       "PRIORITIZE_TARGETS",
-      "FILTHY"
+      "FILTHY",
+      "PATH_AVOID_DANGER_1"
     ]
   },
   {

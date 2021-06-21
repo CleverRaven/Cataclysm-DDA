@@ -60,8 +60,10 @@ endif ()
 
 if (${CMAKE_SYSTEM_NAME} MATCHES Darwin)
     set(_OS_DARWIN_ 1)
-    set(LOCALIZE OFF)
-    message(STATUS "Internationalization on Darwin is not supported")
+    add_definitions(-DMACOSX)
+    if (${TILES})
+        add_definitions(-DOSX_SDL2_LIBS)
+    endif ()
 endif ()
 
 include(CheckCXXCompilerFlag)
@@ -335,21 +337,21 @@ endif (BACKTRACE)
 
 # Ok. Now create build and install recipes
 if (LOCALIZE)
-    if (WIN32)
+    if (NOT _OS_LINUX_) # on Linux with glibc, libintl is not required
         find_package(Libintl)
         if (NOT LIBINTL_FOUND)
             message(FATAL_ERROR
                     "You need the libintl development library \
+                         to be able to compile with LOCALIZE support. \
+                         See doc/COMPILING/COMPILING-CMAKE.md for details and more info.")
+        endif ()
+    endif()
+    find_package(Iconv)
+    if (NOT ICONV_FOUND)
+        message(FATAL_ERROR
+                "You need the iconv development library \
                      to be able to compile with LOCALIZE support. \
                      See doc/COMPILING/COMPILING-CMAKE.md for details and more info.")
-        endif ()
-        find_package(Iconv)
-        if (NOT ICONV_FOUND)
-            message(FATAL_ERROR
-                    "You need the iconv development library \
-                     to be able to compile with LOCALIZE support. \
-                     See doc/COMPILING/COMPILING-CMAKE.md for details and more info.")
-        endif ()
     endif ()
     add_subdirectory(lang)
     add_definitions(-DLOCALIZE)

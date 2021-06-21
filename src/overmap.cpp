@@ -1006,7 +1006,7 @@ void overmap_special::check() const
         } else if( !elem.existing && !elem.terrain->has_flag( oter_flags::line_drawing ) ) {
             debugmsg( "In overmap special \"%s\", connection [%d,%d,%d] \"%s\" isn't drawn with lines.",
                       id.c_str(), elem.p.x, elem.p.y, elem.p.z, elem.terrain.c_str() );
-        } else if( oter.terrain && !oter.terrain->type_is( elem.terrain ) ) {
+        } else if( !elem.existing && oter.terrain && !oter.terrain->type_is( elem.terrain ) ) {
             debugmsg( "In overmap special \"%s\", connection [%d,%d,%d] overwrites \"%s\".",
                       id.c_str(), elem.p.x, elem.p.y, elem.p.z, oter.terrain.c_str() );
         }
@@ -2960,7 +2960,7 @@ void overmap::place_cities()
         // randomly make some cities smaller or larger
         int size = rng( op_city_size - 1, op_city_size + 1 );
         if( one_in( 3 ) ) {      // 33% tiny
-            size = 1;
+            size = size * 1 / 3;
         } else if( one_in( 2 ) ) { // 33% small
             size = size * 2 / 3;
         } else if( one_in( 2 ) ) { // 17% large

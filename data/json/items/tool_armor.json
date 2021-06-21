@@ -281,7 +281,7 @@
     "encumbrance": 60,
     "material_thickness": 3,
     "qualities": [ [ "GLARE", 3 ] ],
-    "flags": [ "SUN_GLASSES", "FLASH_PROTECTION", "BLIND" ]
+    "flags": [ "SUN_GLASSES", "FLASH_PROTECTION" ]
   },
   {
     "id": "welding_mask_crude",
@@ -555,7 +555,7 @@
     "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ],
     "warmth": 10,
     "coverage": 100,
-    "material_thickness": 1,
+    "material_thickness": 0.1,
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -1125,7 +1125,6 @@
       "WATERPROOF",
       "HYGROMETER",
       "THERMOMETER",
-      "SUPER_FANCY",
       "RAINPROOF",
       "WATCH",
       "ALARMCLOCK",
@@ -1152,7 +1151,6 @@
       "WATERPROOF",
       "HYGROMETER",
       "THERMOMETER",
-      "SUPER_FANCY",
       "RAINPROOF",
       "WATCH",
       "ALARMCLOCK",
@@ -1962,7 +1960,7 @@
         "rigid": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "light_minus_battery_cell", "light_minus_atomic_battery_cell" ]
+        "item_restriction": [ "light_minus_battery_cell", "light_minus_atomic_battery_cell", "light_minus_disposable_cell" ]
       }
     ]
   },
@@ -2058,7 +2056,7 @@
     "environmental_protection": 3,
     "encumbrance": 10,
     "coverage": 50,
-    "flags": [ "FANCY", "VARSIZE", "SUN_GLASSES" ],
+    "flags": [ "VARSIZE", "SUN_GLASSES" ],
     "material_thickness": 1
   },
   {
@@ -2915,7 +2913,7 @@
       { "pocket_type": "MAGAZINE", "airtight": true, "rigid": true, "watertight": true, "ammo_restriction": { "nitrox": 60 } }
     ],
     "covers": [ "torso" ],
-    "flags": [ "WATER_FRIENDLY", "BELTED", "ONLY_ONE", "STURDY", "NO_UNLOAD" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "ONLY_ONE", "STURDY", "NO_UNLOAD", "NO_RELOAD" ],
     "environmental_protection": 1,
     "environmental_protection_with_filter": 16,
     "encumbrance": 30,
@@ -2947,7 +2945,7 @@
     "charges_per_use": 1,
     "turns_per_charge": 60,
     "covers": [ "torso", "mouth" ],
-    "flags": [ "WATER_FRIENDLY", "BELTED", "ONLY_ONE", "STURDY", "NO_UNLOAD" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "ONLY_ONE", "STURDY", "NO_UNLOAD", "NO_RELOAD" ],
     "environmental_protection": 1,
     "environmental_protection_with_filter": 16,
     "encumbrance": 30,
@@ -2976,7 +2974,7 @@
       { "pocket_type": "MAGAZINE", "airtight": true, "rigid": true, "watertight": true, "ammo_restriction": { "nitrox": 20 } }
     ],
     "covers": [ "torso" ],
-    "flags": [ "WATER_FRIENDLY", "BELTED", "ONLY_ONE", "STURDY", "NO_UNLOAD" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "ONLY_ONE", "STURDY", "NO_UNLOAD", "NO_RELOAD" ],
     "environmental_protection": 1,
     "environmental_protection_with_filter": 16,
     "encumbrance": 30,
@@ -3008,7 +3006,7 @@
     "charges_per_use": 1,
     "turns_per_charge": 60,
     "covers": [ "torso", "mouth" ],
-    "flags": [ "WATER_FRIENDLY", "BELTED", "ONLY_ONE", "STURDY", "NO_UNLOAD" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "ONLY_ONE", "STURDY", "NO_UNLOAD", "NO_RELOAD" ],
     "environmental_protection": 1,
     "environmental_protection_with_filter": 16,
     "encumbrance": 30,
