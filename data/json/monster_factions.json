@@ -397,7 +397,7 @@
     "neutral": [ "antlion_grub", "antlion_adult" ]
   },
   {
-   "type": "MONSTER_FACTION",
+    "type": "MONSTER_FACTION",
     "name": "ladybug",
     "base_faction": "insect",
     "by_mood": [ "zombie", "bee", "insect" ],
@@ -414,7 +414,7 @@
     "type": "MONSTER_FACTION",
     "name": "strider",
     "base_faction": "insect",
-    "hate": [ "small_animal", "fish"]
+    "hate": [ "small_animal", "fish" ]
   },
   {
     "type": "MONSTER_FACTION",
