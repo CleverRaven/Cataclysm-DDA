@@ -96,8 +96,8 @@ def get_data() -> tuple:
 def merge_datasets(
         all_game_ids: Union[dict, pandas.DataFrame],
         overlay_ids: Union[dict, pandas.DataFrame],
-        tileset_ids: Union[dict, pandas.DataFrame],
-        ) -> pandas.DataFrame:
+        tileset_ids: Union[dict, pandas.DataFrame])\
+        -> pandas.DataFrame:
     """
     Match IDs between game data, overlays and tileset
 
