@@ -175,7 +175,7 @@
     "diff": 8,
     "volume": "102500ml",
     "weight": "180kg",
-    "hp": 150,
+    "hp": 200,
     "speed": 75,
     "material": [ "flesh" ],
     "symbol": "Z",
@@ -183,9 +183,9 @@
     "aggression": 100,
     "morale": 100,
     "melee_skill": 4,
-    "armor_bash": 10,
-    "armor_cut": 4,
-    "armor_bullet": 4,
+    "armor_bash": 20,
+    "armor_cut": 5,
+    "armor_bullet": 5,
     "vision_night": 5,
     "harvest": "zombie_meatslug",
     "emit_fields": [ { "emit_id": "emit_sludge_puddle", "delay": "1 s" } ],
@@ -196,7 +196,7 @@
         "cooldown": 1,
         "min_mul": 0.75,
         "max_mul": 1.25,
-        "damage_max_instance": [ { "damage_type": "stab", "amount": 10, "armor_multiplier": 0.5 } ]
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_multiplier": 0.8 } ]
       },
       {
         "type": "spell",
