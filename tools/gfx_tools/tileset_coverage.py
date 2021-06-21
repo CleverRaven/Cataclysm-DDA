@@ -5,6 +5,8 @@ Outer join game IDs with tileset IDs and output a CSV report
 import re
 import sys
 
+from typing import Union
+
 import pandas
 
 
@@ -91,29 +93,25 @@ def get_data() -> tuple:
     return all_game_ids, overlay_ids, tileset_ids
 
 
-def merge_datasets(all_game_ids, overlay_ids, tileset_ids) -> pandas.DataFrame:
+def merge_datasets(
+        all_game_ids: Union[dict, pandas.DataFrame],
+        overlay_ids: Union[dict, pandas.DataFrame],
+        tileset_ids: Union[dict, pandas.DataFrame],
+        ) -> pandas.DataFrame:
     """
     Match IDs between game data, overlays and tileset
 
-    >>> merge_datasets(pandas.DataFrame({
-    ...     'id': [
-    ...         'a', 'b', 'c',
-    ...     ],
-    ...     'desc': [
-    ...         'desc a', 'desc b', 'desc c',
-    ...     ],
-    ... }),
-    ... pandas.DataFrame({
+    >>> merge_datasets({
+    ...     'id': ['a', 'b', 'c'],
+    ...     'desc': ['desc a', 'desc b', 'desc c'],
+    ... }, {
     ...     'overlay_id': [
     ...         'overlay_worn_a', 'overlay_worn_b', 'overlay_worn_c',
     ...         'overlay_wielded_a', 'overlay_wielded_b', 'overlay_wielded_c',
     ...     ],
-    ... }),
-    ... pandas.DataFrame({
-    ...     'tileset_id': [
-    ...         'a', 'b', 'overlay_worn_a', 'overlay_wielded_b',
-    ...     ],
-    ... }))
+    ... }, {
+    ...     'tileset_id': ['a', 'b', 'overlay_worn_a', 'overlay_wielded_b'],
+    ... })
       id    desc         overlay_id         tileset_id
     0  a  desc a                NaN                  a
     1  a     NaN     overlay_worn_a     overlay_worn_a
@@ -125,6 +123,10 @@ def merge_datasets(all_game_ids, overlay_ids, tileset_ids) -> pandas.DataFrame:
     7  c     NaN     overlay_worn_c                NaN
     8  c     NaN  overlay_wielded_c                NaN
     """
+    all_game_ids = pandas.DataFrame(all_game_ids)
+    overlay_ids = pandas.DataFrame(overlay_ids)
+    tileset_ids = pandas.DataFrame(tileset_ids)
+
     tileset_ids['id'] = tileset_ids['tileset_id'].apply(strip_overlay_id)
 
     # FIXME: output the original ID in the generate_overlay_ids.py
@@ -146,15 +148,16 @@ def merge_datasets(all_game_ids, overlay_ids, tileset_ids) -> pandas.DataFrame:
     return result
 
 
-def write_output(result: pandas.DataFrame, output_filename: str) -> int:
+def write_output(data: pandas.DataFrame, output_filename: str) -> int:
     """
     Write the resulting DataFrame to a file
     """
-    try:
-        result.to_csv(output_filename)
-        return 0
-    except:  # noqa
+    result = data.to_csv(output_filename)
+    if result is None:
+        # error
         return 1
+
+    return 0
 
 
 if __name__ == '__main__':
