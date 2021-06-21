@@ -20,7 +20,9 @@ def portionize(jo):
     if not dat:
         return None
 
-    if "encumbrance" in dat and "max_encumbrance" in dat:
+    if "max_encumbrance" in dat:
+        if "encumbrance" not in dat:
+            dat["encumbrance"] = 0
         dat["encumbrance"] = [dat["encumbrance"], dat.pop("max_encumbrance")]
 
     if "armor_portion_data" not in jo:
