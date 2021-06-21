@@ -100,6 +100,23 @@
   },
   {
     "type": "GENERIC",
+    "id": "knuckle_steel_forged",
+    "symbol": "3",
+    "color": "light_gray",
+    "name": { "str": "pair of steel knuckles", "str_pl": "pairs of steel knuckles" },
+    "looks_like": "knuckle_brass",
+    "description": "A pair of knuckles forged from steel, designed to be gripped in the palm and cause punches to do more damage.  A good, quick weapon - but you have to get within punching range to use it.",
+    "category": "weapons",
+    "material": [ "steel" ],
+    "volume": "250 ml",
+    "weight": "240 g",
+    "bashing": 4,
+    "price_postapoc": 180,
+    "qualities": [ [ "HAMMER", 1 ] ],
+    "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE" ]
+  },
+  {
+    "type": "GENERIC",
     "id": "punch_dagger",
     "name": { "str": "punch dagger" },
     "description": "A short and sharp double-edged dagger made to be gripped in the palm, with the blade protruding between the fingers.",

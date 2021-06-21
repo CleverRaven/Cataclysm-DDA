@@ -304,7 +304,8 @@
     "starting_trait": true,
     "valid": false,
     "cancels": [ "INSOMNIA" ],
-    "category": [ "MOUSE", "INSECT" ]
+    "category": [ "MOUSE", "INSECT" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SLEEPY", "add": 24 } ] } ]
   },
   {
     "type": "mutation",
@@ -315,7 +316,8 @@
     "prereqs": [ "MET_RAT" ],
     "cancels": [ "INSOMNIA" ],
     "threshreq": [ "THRESH_MOUSE" ],
-    "category": [ "MOUSE" ]
+    "category": [ "MOUSE" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SLEEPY", "add": 40 } ] } ]
   },
   {
     "type": "mutation",
@@ -1060,6 +1062,7 @@
     "starting_trait": true,
     "valid": false,
     "category": [ "MEDICAL" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SLEEPY", "add": -12 } ] } ],
     "cancels": [ "EASYSLEEPER" ]
   },
   {
@@ -2523,7 +2526,7 @@
     "points": 3,
     "visibility": 8,
     "ugliness": 3,
-    "description": "All the hair on your body has turned to long, grass-like leaves.  Apart from being physically striking, these provide you with a minor amount of nutrition while in sunlight when your head is uncovered.  Slightly reduces wet effects.",
+    "description": "All the hair on your body has turned to long, grass-like leaves.  Apart from being physically striking, these provide you with a minor amount of nutrients while in sunlight when your head is uncovered.  Slightly reduces wet effects.",
     "prereqs": [ "PLANTSKIN", "BARK" ],
     "changes_to": [ "LEAVES2" ],
     "category": [ "PLANT", "ELFA" ],
@@ -2536,7 +2539,7 @@
     "points": 6,
     "visibility": 10,
     "ugliness": 5,
-    "description": "Your leaves have grown in size and prominence, with additional leaves sprouting along your arms.  While your arms and head are uncovered, you will photosynthesize additional nutrients while in sunlight.  Reduces wet effects.",
+    "description": "Your leaves have grown in size and prominence, with additional leaves sprouting along your arms.  While your arms and head are uncovered, you will photosynthesize nutrients while in sunlight.  Reduces wet effects.",
     "prereqs": [ "LEAVES" ],
     "prereqs2": [ "TRANSPIRATION" ],
     "threshreq": [ "THRESH_PLANT" ],
@@ -2552,7 +2555,7 @@
     "points": 9,
     "visibility": 12,
     "ugliness": 6,
-    "description": "Your leaves are vibrant, large, and green, and have become a major source of nutrition for your body.  Whenever your arms and head are uncovered you will gain a large amount of nutrition by standing in the sunlight.  Reduces wet effects.",
+    "description": "Your leaves are vibrant, large, and green, and have become a major source of nutrients for your body.  Whenever your arms and head are uncovered you will gain a large amount of nutrients by standing in the sunlight.  Reduces wet effects.",
     "prereqs": [ "LEAVES2" ],
     "prereqs2": [ "TRANSPIRATION" ],
     "threshreq": [ "THRESH_PLANT" ],
@@ -2812,7 +2815,19 @@
     "visibility": 1,
     "ugliness": 1,
     "description": "Several ink glands have grown onto your torso.  They can be used to spray defensive ink and blind an attacker in an emergency, as long as the torso isn't covered.",
-    "enchantments": [ "MEP_INK_GLAND_SPRAY" ],
+    "enchantments": [
+      {
+        "hit_me_effect": [
+          {
+            "id": "generic_blinding_spray_1",
+            "hit_self": false,
+            "once_in": 15,
+            "message": "Your ink glands spray some ink into %2$s's eyes.",
+            "npc_message": "%1$s's ink glands spray some ink into %2$s's eyes."
+          }
+        ]
+      }
+    ],
     "category": [ "CEPHALOPOD" ]
   },
   {
@@ -3162,7 +3177,7 @@
     "points": -3,
     "visibility": 5,
     "ugliness": 9,
-    "description": "You prefer to sustain yourself using your roots and direct nutrient extraction/synthesis.  You can still consume 'food', though, if you have to: you merely prefer it aged a little.",
+    "description": "You prefer to sustain your nutritional needs using your roots and direct nutrient extraction/synthesis.  Your human parts still need the raw caloric bulk of 'food' to keep them going, though, and you handle it a lot easier if it's had time to… age a little.",
     "prereqs": [ "ROOTS2" ],
     "prereqs2": [ "LEAVES" ],
     "threshreq": [ "THRESH_PLANT" ],
@@ -6493,6 +6508,18 @@
     "name": { "str": "US Marshal" },
     "points": 0,
     "description": "You are a duly sworn Federal marshal, with nationwide jurisdiction and the authority of the United States of America.",
+    "cancels": [ "PROF_HUB01_ANCILLIARY" ],
+    "valid": false,
+    "purifiable": false,
+    "profession": true
+  },
+  {
+    "type": "mutation",
+    "id": "PROF_HUB01_ANCILLIARY",
+    "name": { "str": "Hub 01 Ancilliary" },
+    "points": 0,
+    "description": "You are known to be a capable and resourceful mercenary at the employ of Hub 01.",
+    "cancels": [ "PROF_FED" ],
     "valid": false,
     "purifiable": false,
     "profession": true

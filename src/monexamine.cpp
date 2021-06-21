@@ -44,8 +44,6 @@ static const quality_id qual_SHEAR( "SHEAR" );
 
 static const efftype_id effect_sheared( "sheared" );
 
-static const activity_id ACT_PLAY_WITH_PET( "ACT_PLAY_WITH_PET" );
-
 static const efftype_id effect_controlled( "controlled" );
 static const efftype_id effect_harnessed( "harnessed" );
 static const efftype_id effect_has_bag( "has_bag" );
@@ -304,10 +302,10 @@ void monexamine::shear_animal( monster &z )
     // pin the sheep in place if it isn't already
     if( !z.has_effect( effect_tied ) ) {
         z.add_effect( effect_tied, 1_turns, true );
-        player_character.activity.str_values.push_back( "temp_tie" );
+        player_character.activity.str_values.emplace_back( "temp_tie" );
     }
-    player_character.activity.targets.push_back( item_location( player_character,
-            player_character.best_quality_item( qual_SHEAR ) ) );
+    player_character.activity.targets.emplace_back( player_character,
+            player_character.best_quality_item( qual_SHEAR ) );
     add_msg( _( "You start shearing the %s." ), z.get_name() );
 }
 
@@ -747,8 +745,7 @@ void monexamine::play_with( monster &z )
 {
     std::string pet_name = z.get_name();
     Character &player_character = get_player_character();
-    player_character.assign_activity( ACT_PLAY_WITH_PET, rng( 50, 125 ) * 100 );
-    player_character.activity.str_values.push_back( pet_name );
+    player_character.assign_activity( player_activity( play_with_pet_activity_actor( pet_name ) ) );
 }
 
 void monexamine::tie_or_untie( monster &z )
@@ -808,7 +805,7 @@ void monexamine::milk_source( monster &source_mon )
         bool temp_tie = !source_mon.has_effect( effect_tied );
         if( temp_tie ) {
             source_mon.add_effect( effect_tied, 1_turns, true );
-            str_values.push_back( "temp_tie" );
+            str_values.emplace_back( "temp_tie" );
         }
         player_character.assign_activity( player_activity( milk_activity_actor( moves, coords,
                                           str_values ) ) );

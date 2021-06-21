@@ -2,7 +2,7 @@
 #include "activity_scheduling_helper.h"
 #include "avatar.h"
 #include "calendar.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "player_helpers.h"
 #include "point.h"
 #include "type_id.h"

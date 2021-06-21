@@ -192,6 +192,7 @@ static const trait_id trait_PROF_MED( "PROF_MED" );
 static const trait_id trait_THRESH_MEDICAL( "THRESH_MEDICAL" );
 
 static const json_character_flag json_flag_BIONIC_GUN( "BIONIC_GUN" );
+static const json_character_flag json_flag_BIONIC_NPC_USABLE( "BIONIC_NPC_USABLE" );
 static const json_character_flag json_flag_BIONIC_WEAPON( "BIONIC_WEAPON" );
 static const json_character_flag json_flag_BIONIC_TOGGLED( "BIONIC_TOGGLED" );
 
@@ -305,7 +306,6 @@ void bionic_data::load( const JsonObject &jsobj, const std::string & )
 
     optional( jsobj, was_loaded, "fake_item", fake_item, itype_id() );
 
-    optional( jsobj, was_loaded, "enchantments", enchantments );
     optional( jsobj, was_loaded, "spell_on_activation", spell_on_activate );
 
     optional( jsobj, was_loaded, "weight_capacity_modifier", weight_capacity_modifier, 1.0f );
@@ -317,6 +317,7 @@ void bionic_data::load( const JsonObject &jsobj, const std::string & )
     optional( jsobj, was_loaded, "learned_spells", learned_spells );
     optional( jsobj, was_loaded, "learned_proficiencies", proficiencies );
     optional( jsobj, was_loaded, "canceled_mutations", canceled_mutations );
+    optional( jsobj, was_loaded, "mutation_conflicts", mutation_conflicts );
     optional( jsobj, was_loaded, "included_bionics", included_bionics );
     optional( jsobj, was_loaded, "included", included );
     optional( jsobj, was_loaded, "upgraded_bionic", upgraded_bionic );
@@ -328,6 +329,12 @@ void bionic_data::load( const JsonObject &jsobj, const std::string & )
     optional( jsobj, was_loaded, "installation_requirement", installation_requirement );
 
     optional( jsobj, was_loaded, "vitamin_absorb_mod", vitamin_absorb_mod, 1.0f );
+
+    int enchant_num = 0;
+    for( JsonValue jv : jsobj.get_array( "enchantments" ) ) {
+        std::string enchant_name = "INLINE_ENCH_" + name + "_" + std::to_string( enchant_num++ );
+        enchantments.push_back( enchantment::load_inline_enchantment( jv, "", enchant_name ) );
+    }
 
     if( jsobj.has_array( "stat_bonus" ) ) {
         // clear data first so that copy-from can override it
@@ -2192,13 +2199,13 @@ bool Character::uninstall_bionic( const bionic_id &b_id, player &installer, bool
     activity.values.push_back( success );
     activity.values.push_back( units::to_kilojoule( b_id->capacity ) );
     activity.values.push_back( pl_skill );
-    activity.str_values.push_back( "uninstall" );
+    activity.str_values.emplace_back( "uninstall" );
     activity.str_values.push_back( b_id.str() );
-    activity.str_values.push_back( "" ); // installer_name is unused for uninstall
+    activity.str_values.emplace_back( "" ); // installer_name is unused for uninstall
     if( autodoc ) {
-        activity.str_values.push_back( "true" );
+        activity.str_values.emplace_back( "true" );
     } else {
-        activity.str_values.push_back( "false" );
+        activity.str_values.emplace_back( "false" );
     }
     for( const std::pair<const bodypart_str_id, size_t> &elem : b_id->occupied_bodyparts ) {
         add_effect( effect_under_operation, difficulty * 20_minutes, elem.first.id(), true, difficulty );
@@ -2316,6 +2323,54 @@ bool Character::uninstall_bionic( const bionic &target_cbm, monster &installer, 
     return false;
 }
 
+ret_val<bool> Character::is_installable( const item_location &loc, const bool by_autodoc ) const
+{
+    const item *it = loc.get_item();
+    const itype *itemtype = it->type;
+    const bionic_id &bid = itemtype->bionic->id;
+
+    const auto has_trait_lambda = [this]( const trait_id & candidate ) {
+        return has_trait( candidate );
+    };
+
+    if( it->has_flag( flag_FILTHY ) ) {
+        // NOLINTNEXTLINE(cata-text-style): single space after the period for symmetry
+        const std::string msg = by_autodoc ? _( "/!\\ CBM is highly contaminated. /!\\" ) :
+                                _( "CBM is filthy." );
+        return ret_val<bool>::make_failure( msg );
+    } else if( it->has_flag( flag_NO_STERILE ) ) {
+        const std::string msg = by_autodoc ?
+                                // NOLINTNEXTLINE(cata-text-style): single space after the period for symmetry
+                                _( "/!\\ CBM is not sterile. /!\\ Please use autoclave to sterilize." ) :
+                                _( "CBM is not sterile." );
+        return ret_val<bool>::make_failure( msg );
+    } else if( it->has_fault( fault_id( "fault_bionic_salvaged" ) ) ) {
+        return ret_val<bool>::make_failure( _( "CBM already deployed.  Please reset to factory state." ) );
+    } else if( has_bionic( bid ) ) {
+        return ret_val<bool>::make_failure( _( "CBM is already installed." ) );
+    } else if( !can_install_cbm_on_bp( get_occupied_bodyparts( bid ) ) ) {
+        return ret_val<bool>::make_failure( _( "CBM not compatible with patient's body." ) );
+    } else if( std::any_of( bid->mutation_conflicts.begin(), bid->mutation_conflicts.end(),
+                            has_trait_lambda ) ) {
+        return ret_val<bool>::make_failure( _( "CBM not compatible with patient's body." ) );
+    } else if( bid->upgraded_bionic &&
+               !has_bionic( bid->upgraded_bionic ) &&
+               it->is_upgrade() ) {
+        return ret_val<bool>::make_failure( _( "No base version installed." ) );
+    } else if( std::any_of( bid->available_upgrades.begin(),
+                            bid->available_upgrades.end(),
+                            std::bind( &Character::has_bionic, this,
+                                       std::placeholders::_1 ) ) ) {
+        return ret_val<bool>::make_failure( _( "Superior version installed." ) );
+    } else if( is_npc() && !bid->has_flag( json_flag_BIONIC_NPC_USABLE ) ) {
+        return ret_val<bool>::make_failure( _( "CBM not compatible with patient." ) );
+    } else if( units::energy_max - get_max_power_level() < bid->capacity ) {
+        return ret_val<bool>::make_failure( _( "Max power capacity already reached." ) );
+    }
+
+    return ret_val<bool>::make_success( std::string() );
+}
+
 bool Character::can_install_bionics( const itype &type, Character &installer, bool autodoc,
                                      int skill_level )
 {
@@ -2431,18 +2486,18 @@ bool Character::install_bionics( const itype &type, player &installer, bool auto
     activity.values.push_back( success );
     activity.values.push_back( units::to_millijoule( bioid->capacity ) );
     activity.values.push_back( pl_skill );
-    activity.str_values.push_back( "install" );
+    activity.str_values.emplace_back( "install" );
     activity.str_values.push_back( bioid.str() );
 
     if( installer.has_trait( trait_PROF_MED ) || installer.has_trait( trait_PROF_AUTODOC ) ) {
         activity.str_values.push_back( installer.disp_name( true ) );
     } else {
-        activity.str_values.push_back( "NOT_MED" );
+        activity.str_values.emplace_back( "NOT_MED" );
     }
     if( autodoc ) {
-        activity.str_values.push_back( "true" );
+        activity.str_values.emplace_back( "true" );
     } else {
-        activity.str_values.push_back( "false" );
+        activity.str_values.emplace_back( "false" );
     }
     for( const std::pair<const bodypart_str_id, size_t> &elem : bioid->occupied_bodyparts ) {
         add_effect( effect_under_operation, difficulty * 20_minutes, elem.first.id(), true, difficulty );
@@ -2709,6 +2764,7 @@ void Character::add_bionic( const bionic_id &b )
     if( !b->enchantments.empty() ) {
         recalculate_enchantment_cache();
     }
+    effect_on_conditions::process_reactivate();
 }
 
 void Character::remove_bionic( const bionic_id &b )
@@ -2750,6 +2806,7 @@ void Character::remove_bionic( const bionic_id &b )
     if( !b->enchantments.empty() ) {
         recalculate_enchantment_cache();
     }
+    effect_on_conditions::process_reactivate();
 }
 
 int Character::num_bionics() const

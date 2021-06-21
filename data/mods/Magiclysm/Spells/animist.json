@@ -222,6 +222,27 @@
     "range_increment": 1.0
   },
   {
+    "id": "banishment_lesser",
+    "type": "SPELL",
+    "name": "Lesser Banishment",
+    "description": "Banish a monster to the lesser-known nether dimension.  If a monster is more powerful than you can handle, the spell drains your life force to make up the difference.",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "SOMATIC", "VERBAL" ],
+    "effect": "banishment",
+    "shape": "blast",
+    "min_damage": 40,
+    "damage_increment": 10,
+    "max_damage": 290,
+    "min_range": 6,
+    "max_range": 6,
+    "base_energy_cost": 600,
+    "spell_class": "ANIMIST",
+    "difficulty": 9,
+    "max_level": 25,
+    "base_casting_time": 100,
+    "energy_source": "MANA"
+  },
+  {
     "id": "summon_wisps",
     "type": "SPELL",
     "name": "Ignus Fatuus",

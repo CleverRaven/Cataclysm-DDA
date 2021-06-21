@@ -303,16 +303,16 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
             }
         } else if( action == "ADD_DEFAULT_RULESET" ) {
             changes_made = true;
-            current_tab.push_back( rules_class( "*", true, false, Creature::Attitude::HOSTILE,
-                                                get_option<int>( "SAFEMODEPROXIMITY" )
-                                                , Categories::HOSTILE_SPOTTED ) );
-            current_tab.push_back( rules_class( "*", true, true, Creature::Attitude::HOSTILE, 5,
-                                                Categories::SOUND ) );
+            current_tab.emplace_back( "*", true, false, Creature::Attitude::HOSTILE,
+                                      get_option<int>( "SAFEMODEPROXIMITY" )
+                                      , Categories::HOSTILE_SPOTTED );
+            current_tab.emplace_back( "*", true, true, Creature::Attitude::HOSTILE, 5,
+                                      Categories::SOUND );
             line = current_tab.size() - 1;
         } else if( action == "ADD_RULE" ) {
             changes_made = true;
-            current_tab.push_back( rules_class( "", true, false, Creature::Attitude::HOSTILE,
-                                                get_option<int>( "SAFEMODEPROXIMITY" ), Categories::HOSTILE_SPOTTED ) );
+            current_tab.emplace_back( "", true, false, Creature::Attitude::HOSTILE,
+                                      get_option<int>( "SAFEMODEPROXIMITY" ), Categories::HOSTILE_SPOTTED );
             line = current_tab.size() - 1;
         } else if( action == "REMOVE_RULE" && !current_tab.empty() ) {
             changes_made = true;
@@ -439,7 +439,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
                     //Let the options class handle the validity of the new value
                     options_manager::cOpt temp_option = get_options().get_option( "SAFEMODEPROXIMITY" );
                     temp_option.setValue( text );
-                    current_tab[line].proximity = atoi( temp_option.getValue().c_str() );
+                    current_tab[line].proximity = temp_option.value_as<int>();
                 }
             }
         } else if( action == "ENABLE_RULE" && !current_tab.empty() ) {
@@ -640,8 +640,8 @@ void safemode::add_rule( const std::string &rule_in, const Creature::Attitude at
                          const int proximity_in,
                          const rule_state state_in )
 {
-    character_rules.push_back( rules_class( rule_in, true, ( state_in == rule_state::WHITELISTED ),
-                                            attitude_in, proximity_in, Categories::HOSTILE_SPOTTED ) );
+    character_rules.emplace_back( rule_in, true, ( state_in == rule_state::WHITELISTED ),
+                                  attitude_in, proximity_in, Categories::HOSTILE_SPOTTED );
     create_rules();
 
     if( !get_option<bool>( "SAFEMODE" ) &&
@@ -891,8 +891,7 @@ void safemode::deserialize( JsonIn &jsin )
         const Categories cat = jo.has_member( "category" ) ? static_cast<Categories>
                                ( jo.get_int( "category" ) ) : Categories::HOSTILE_SPOTTED;
 
-        temp_rules.push_back(
-            rules_class( rule, active, whitelist, attitude, proximity, cat )
-        );
+        temp_rules.emplace_back( rule, active, whitelist, attitude, proximity, cat
+                               );
     }
 }

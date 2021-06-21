@@ -67,11 +67,13 @@ std::list<item> npc_trading::transfer_items( std::vector<item_pricing> &stuff, p
 
         // Items are moving to escrow.
         if( use_escrow && ip.charges ) {
+            gift.charges = charges;
             escrow.emplace_back( gift );
         } else if( use_escrow ) {
             std::fill_n( std::back_inserter( escrow ), count, gift );
             // No escrow in use. Items moving from giver to receiver.
         } else if( ip.charges ) {
+            gift.charges = charges;
             receiver.i_add( gift );
         } else {
             for( int i = 0; i < count; i++ ) {
@@ -378,7 +380,7 @@ void trading_window::update_win( npc &np, const std::string &deal )
             std::string itname = it->display_name();
 
             if( np.will_exchange_items_freely() && ip.loc.where() != item_location::type::character ) {
-                itname = itname + " (" + ip.loc.describe( &player_character ) + ")";
+                itname += " (" + ip.loc.describe( &player_character ) + ")";
                 color = c_light_blue;
             }
 

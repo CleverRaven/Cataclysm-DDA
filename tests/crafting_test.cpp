@@ -14,7 +14,7 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_utility.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "character.h"
 #include "game.h"
 #include "inventory.h"
@@ -165,7 +165,7 @@ TEST_CASE( "available_recipes", "[recipes]" )
     }
 
     GIVEN( "an appropriate book" ) {
-        dummy.worn.push_back( item( "backpack" ) );
+        dummy.worn.emplace_back( "backpack" );
         item &craftbook = dummy.i_add( item( "manual_electronics" ) );
         REQUIRE( craftbook.is_book() );
         REQUIRE_FALSE( craftbook.type->book->recipes.empty() );
@@ -209,7 +209,7 @@ TEST_CASE( "available_recipes", "[recipes]" )
 
     GIVEN( "an eink pc with a sushi recipe" ) {
         const recipe *r2 = &recipe_id( "sushi_rice" ).obj();
-        dummy.worn.push_back( item( "backpack" ) );
+        dummy.worn.emplace_back( "backpack" );
         item &eink = dummy.i_add( item( "eink_tablet_pc" ) );
         eink.set_var( "EIPC_RECIPES", ",sushi_rice," );
         REQUIRE_FALSE( dummy.knows_recipe( r2 ) );
@@ -375,7 +375,8 @@ static int actually_test_craft( const recipe_id &rid, int interrupt_after_turns,
 
     // This really shouldn't be needed, but for some reason the tests fail for mingw builds without it
     player_character.learn_recipe( &rec );
-    REQUIRE( player_character.has_recipe( &rec, player_character.crafting_inventory(),
+    const inventory &inv = player_character.crafting_inventory();
+    REQUIRE( player_character.has_recipe( &rec, inv,
                                           player_character.get_crafting_helpers() ) != -1 );
     player_character.remove_weapon();
     REQUIRE( !player_character.is_armed() );
@@ -402,7 +403,7 @@ TEST_CASE( "UPS shows as a crafting component", "[crafting][ups]" )
 {
     avatar dummy;
     clear_character( dummy );
-    dummy.worn.push_back( item( "backpack" ) );
+    dummy.worn.emplace_back( "backpack" );
     item &ups = dummy.i_add( item( "UPS_off", calendar::turn_zero, 500 ) );
     REQUIRE( dummy.has_item( ups ) );
     REQUIRE( ups.charges == 500 );

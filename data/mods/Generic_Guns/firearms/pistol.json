@@ -15,7 +15,7 @@
     "type": "GUN",
     "name": { "str": "machine pistol" },
     "ammo": [ "ammo_pistol" ],
-    "description": "This pistol is a tiny machinegun you can stuff into a holster, with which you could dump its magazine at a blistering rate into any close range foes.  Machine pistols mostly see use by vehicle crewmen or bodygaurds of VIPs.  Due to its preposterous rate of fire it is difficult to control.",
+    "description": "This pistol is a tiny machinegun you can stuff into a holster, with which you could dump its magazine at a blistering rate into any close range foes.  Machine pistols mostly see use by vehicle crewmen or bodyguards of VIPs.  Due to its preposterous rate of fire it is difficult to control.",
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
