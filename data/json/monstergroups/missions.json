@@ -8,5 +8,12 @@
       { "monster": "mon_zombie_acidic", "freq": 333, "cost_multiplier": 1 },
       { "monster": "mon_zombie_electric", "freq": 333, "cost_multiplier": 1 }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_OLD_GUARD_BOSS_MONSTER",
+    "default": "mon_zombear",
+    "//": "The old guard mission 4 enemies are chosen from here",
+    "monsters": [ { "monster": "mon_graboid", "freq": 333, "cost_multiplier": 1 } ]
   }
 ]
