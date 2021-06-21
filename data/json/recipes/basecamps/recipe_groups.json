@@ -26,6 +26,11 @@
         "om_terrains": [ "shelter_2", "shelter_2_vandal" ]
       },
       {
+        "id": "faction_base_fire_lookout_tower_0",
+        "description": "Fire Lookout Tower Base",
+        "om_terrains": [ "ws_fire_lookout_tower_base" ]
+      },
+      {
         "id": "faction_base_mansion_+1_0",
         "description": "Mansion Fountain Garden Base",
         "om_terrains": [ "mansion_+1" ]
