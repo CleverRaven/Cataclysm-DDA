@@ -3,7 +3,7 @@
 
 #include "calendar.h"
 #include "cata_variant.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "character_id.h"
 #include "event.h"
 #include "event_bus.h"

@@ -352,8 +352,8 @@ class mission
         character_id player_id;
     public:
 
-        std::string name();
-        mission_type_id mission_id();
+        std::string name() const;
+        mission_type_id mission_id() const;
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
 

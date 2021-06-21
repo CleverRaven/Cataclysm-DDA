@@ -92,12 +92,16 @@ class local_translation_cache<std::string>
         std::string cached_translation;
     public:
         const std::string &operator()( const std::string &arg ) {
+#ifndef CATA_IN_TOOL
             if( cached_lang_version != get_current_language_version() || cached_arg != arg ) {
                 cached_lang_version = get_current_language_version();
                 cached_arg = arg;
                 cached_translation = _translate_internal( arg );
             }
             return cached_translation;
+#else
+            return arg;
+#endif
         }
 };
 
@@ -111,6 +115,7 @@ class local_translation_cache<const char *>
         const char *cached_translation = nullptr;
     public:
         const char *operator()( const char *arg ) {
+#ifndef CATA_IN_TOOL
             if( cached_lang_version != get_current_language_version() || cached_arg != arg ) {
                 cached_lang_version = get_current_language_version();
                 cached_translation = _translate_internal( arg );
@@ -120,6 +125,9 @@ class local_translation_cache<const char *>
             // mimic gettext() behavior: return `arg` if no translation is found
             // `same_as_arg` is needed to ensure that the current `arg` is returned (not a cached one)
             return same_as_arg ? arg : cached_translation;
+#else
+            return arg;
+#endif
         }
 };
 

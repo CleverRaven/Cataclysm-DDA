@@ -1,0 +1,19 @@
+[
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_mansion_+2",
+    "method": "json",
+    "object": { "set": [ { "point": "furniture", "id": "f_bulletin", "x": 18, "y": 6 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_mansion_+2_radio",
+    "method": "json",
+    "object": {
+      "set": [
+        { "point": "terrain", "id": "t_radio_tower", "x": 12, "y": 0 },
+        { "point": "terrain", "id": "t_radio_controls", "x": 12, "y": 1 }
+      ]
+    }
+  }
+]

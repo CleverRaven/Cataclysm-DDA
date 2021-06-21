@@ -1,0 +1,47 @@
+[
+  {
+    "id": "tool_dsa_alien_bomb_act",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "active alien bomb" },
+    "looks_like": "tool_rdx_charge_act",
+    "description": "This is an alien bomb.  It has been activated and will soon explode, delivering its entire destructive power to everything in sight.",
+    "weight": "4400 g",
+    "volume": "10 L",
+    "price": 0,
+    "to_hit": -5,
+    "bashing": 20,
+    "material": [ "steel" ],
+    "symbol": "(",
+    "color": "light_red",
+    "initial_charges": 1,
+    "max_charges": 1,
+    "turns_per_charge": 1,
+    "explode_in_fire": true,
+    "explosion": { "power": 40000, "max_noise": 0 },
+    "use_action": {
+      "type": "explosion",
+      "no_deactivate_msg": "You've already activated the bomb - clear the area immediately!",
+      "explosion": { "power": 40000, "max_noise": 0 }
+    },
+    "flags": [ "BOMB", "TRADER_AVOID" ]
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_dsa_bombed_crater",
+    "object": {
+      "place_item": [ { "item": "tool_dsa_alien_bomb_act", "x": 12, "y": 12, "amount": 1, "custom-flags": [ "ACTIVATE_ON_PLACE" ] } ]
+    }
+  },
+  {
+    "id": "mx_dsa_bombed_crater",
+    "type": "map_extra",
+    "name": { "str": "Bomb Crater" },
+    "description": "A bomb crater.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_dsa_bombed_crater" },
+    "sym": ".",
+    "color": "brown",
+    "autonote": true
+  }
+]

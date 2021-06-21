@@ -231,6 +231,7 @@
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "placate_triggers": [ "MEAT" ],
     "death_function": [ "NORMAL" ],
+    "zombify_into": "mon_zpig_brute",
     "special_attacks": [ [ "EAT_FOOD", 20 ] ],
     "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE" ]
   },

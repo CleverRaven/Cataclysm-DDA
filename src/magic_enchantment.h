@@ -43,6 +43,7 @@ enum class mod : int {
     REGEN_STAMINA,
     MAX_HP,        // for all limbs! use with caution
     REGEN_HP,
+    HUNGER,        // hunger rate
     THIRST,        // thirst rate
     FATIGUE,       // fatigue rate
     PAIN,          // cost or regen over time
@@ -57,6 +58,7 @@ enum class mod : int {
     SOCIAL_LIE,
     SOCIAL_PERSUADE,
     SOCIAL_INTIMIDATE,
+    SLEEPY,
     ARMOR_BASH,
     ARMOR_CUT,
     ARMOR_STAB,
@@ -119,7 +121,14 @@ class enchantment
         };
 
         static void load_enchantment( const JsonObject &jo, const std::string &src );
-        void load( const JsonObject &jo, const std::string &src = "" );
+        static void reset();
+        void load( const JsonObject &jo, const std::string &src = "",
+                   const cata::optional<std::string> &inline_id = cata::nullopt );
+
+        // Takes in a JsonValue which can be either a string or an enchantment object and returns the id of the enchantment the caller will use.
+        // If the input is a string return it as an enchantment_id otherwise create an enchantment with id inline_id and return inline_id as an enchantment id
+        static enchantment_id load_inline_enchantment( const JsonValue &jv, const std::string &src,
+                std::string &inline_id );
 
         // attempts to add two like enchantments together.
         // if their conditions don't match, return false. else true.

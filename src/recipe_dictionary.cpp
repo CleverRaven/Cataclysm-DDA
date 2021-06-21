@@ -189,6 +189,64 @@ std::vector<const recipe *> recipe_subset::search(
             case search_type::proficiency:
                 return lcmatch( r->recipe_proficiencies_string(), txt );
 
+            case search_type::difficulty: {
+                std::string range_start;
+                std::string range_end;
+                bool use_range = false;
+                for( const char &chr : txt ) {
+                    if( std::isdigit( chr ) ) {
+                        if( use_range ) {
+                            range_end += chr;
+                        } else {
+                            range_start += chr;
+                        }
+                    } else if( chr == '~' ) {
+                        use_range = true;
+                    } else {
+                        // unexpected character
+                        return true;
+                    }
+                }
+
+                int start = 0;
+                int end = INT_MAX;
+
+                if( use_range ) {
+                    if( !range_start.empty() ) {
+                        start = std::stoi( range_start );
+                    }
+
+                    if( !range_end.empty() ) {
+                        end = std::stoi( range_end );
+                    }
+
+                    if( range_start.empty() && range_end.empty() ) {
+                        return true;
+                    }
+                } else {
+                    if( !range_start.empty() ) {
+                        start = std::stoi( range_start );
+                    }
+
+                    if( range_start.empty() && range_end.empty() ) {
+                        return true;
+                    }
+                }
+
+                if( use_range && start > end ) {
+                    int swap = start;
+                    start = end;
+                    end = swap;
+                }
+
+                if( use_range ) {
+                    // check if number is between two numbers inclusive
+                    return r->difficulty == clamp( r->difficulty, start, end );
+                } else {
+                    return r->difficulty == start;
+                }
+            }
+
             default:
                 return false;
         }

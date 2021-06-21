@@ -1,6 +1,6 @@
 #include <fstream>
 
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "coordinates.h"
 #include "game_constants.h"
 #include "overmap_noise.h"

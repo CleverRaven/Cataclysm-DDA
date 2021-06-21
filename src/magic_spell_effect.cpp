@@ -480,16 +480,7 @@ static void damage_targets( const spell &sp, Creature &caster,
             continue;
         }
 
-        projectile bolt;
-        bolt.speed = 10000;
-        bolt.impact = sp.get_damage_instance();
-        bolt.proj_effects.emplace( "magic" );
-
-        dealt_projectile_attack atk;
-        atk.end_point = target;
-        atk.hit_critter = cr;
-        atk.proj = bolt;
-        atk.missed_by = 0.0;
+        dealt_projectile_attack atk = sp.get_projectile_attack( target, *cr );
         if( !sp.effect_data().empty() ) {
             add_effect_to_target( target, sp );
         }
@@ -1238,6 +1229,7 @@ void spell_effect::dash( const spell &sp, Creature &caster, const tripoint &targ
     ::map &here = get_map();
     // uses abs() coordinates
     std::vector<tripoint> trajectory;
+    trajectory.reserve( trajectory_local.size() );
     for( const tripoint &local_point : trajectory_local ) {
         trajectory.push_back( here.getabs( local_point ) );
     }

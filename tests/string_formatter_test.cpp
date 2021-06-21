@@ -4,7 +4,7 @@
 #include <string>
 #include <type_traits>
 
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "string_formatter.h"
 
 // Same as @ref string_format, but does not swallow errors and throws them instead.
@@ -101,8 +101,7 @@ void mingw_test( const char *const old_pattern, const char *const new_pattern, c
     CHECK( original_result == new_result );
 }
 
-// Marking mayfail due to failure in MXE's MinGW on Travis on Ubuntu Xenial.
-TEST_CASE( "string_formatter", "[!mayfail]" )
+TEST_CASE( "string_formatter" )
 {
     test_typed_printf<signed char>( "%hhi", "%i" );
     test_typed_printf<unsigned char>( "%hhu", "%u" );
@@ -221,7 +220,10 @@ TEST_CASE( "string_formatter", "[!mayfail]" )
     importet_test( 38, "42             ", "%0-15d", 42 );
     importet_test( 39, "-42            ", "%0-15d", -42 );
     importet_test( 43, "42.90", "%.2f", 42.8952 );
+#if !(defined(__MINGW32__) || defined(__MINGW64__))
+    // Omit this one that fails on Mingw
     importet_test( 44, "42.90", "%.2F", 42.8952 );
+#endif
     importet_test( 45, "42.8952000000", "%.10f", 42.8952 );
     importet_test( 46, "42.90", "%1.2f", 42.8952 );
     importet_test( 47, " 42.90", "%6.2f", 42.8952 );
@@ -515,6 +517,8 @@ TEST_CASE( "string_formatter", "[!mayfail]" )
     importet_test( 365, "          00edcb5433", "%20.10x", 3989525555U );
     importet_test( 366, "            1234ABCD", "%20.5X", 305441741 );
     importet_test( 367, "          00EDCB5433", "%20.10X", 3989525555U );
+#if !(defined(__MINGW32__) || defined(__MINGW64__))
+    // Omit these ones that fail on Mingw
     importet_test( 369, "               01024", "%020.5d", 1024 );
     importet_test( 370, "              -01024", "%020.5d", -1024 );
     importet_test( 371, "               01024", "%020.5i", 1024 );
@@ -527,6 +531,7 @@ TEST_CASE( "string_formatter", "[!mayfail]" )
     importet_test( 378, "          00edcb5433", "%020.10x", 3989525555U );
     importet_test( 379, "            1234ABCD", "%020.5X", 305441741 );
     importet_test( 380, "          00EDCB5433", "%020.10X", 3989525555U );
+#endif
     importet_test( 381, "", "%.0s", "Hallo heimur" );
     importet_test( 382, "                    ", "%20.0s", "Hallo heimur" );
     importet_test( 383, "", "%.s", "Hallo heimur" );

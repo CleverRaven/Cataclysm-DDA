@@ -3,7 +3,7 @@
 #include <iostream>
 
 #include "avatar.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "item.h"
 #include "melee.h"
 #include "monster.h"
