@@ -24,11 +24,6 @@
 #include "vpart_position.h"
 #include "vpart_range.h"
 
-static const vpart_id vpart_battery_car( "battery_car" );
-static const vpart_id vpart_headlight( "headlight" );
-static const vpart_id vpart_vehicle_clock( "vehicle_clock" );
-static const vpart_id vpart_windshield( "windshield" );
-
 enum class outcome_type {
     Kill, Casualty
 };
