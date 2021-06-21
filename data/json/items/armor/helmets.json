@@ -146,7 +146,7 @@
     "warmth": 15,
     "material_thickness": 6,
     "environmental_protection": 6,
-    "flags": [ "VARSIZE", "WATERPROOF", "FANCY", "STURDY" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
   },
   {
     "id": "helmet_ball",
@@ -743,7 +743,7 @@
     "encumbrance": 20,
     "warmth": 15,
     "material_thickness": 3,
-    "flags": [ "FANCY", "STAB" ]
+    "flags": [ "STAB" ]
   },
   {
     "id": "helmet_corinthian",

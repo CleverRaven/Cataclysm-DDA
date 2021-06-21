@@ -360,14 +360,22 @@
     "type": "MONSTER_FACTION",
     "name": "ant",
     "base_faction": "insect",
-    "by_mood": [ "zombie", "fungus" ]
+    "by_mood": [ "zombie", "fungus" ],
+    "neutral": [ "aphid" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "acid_ant",
     "base_faction": "insect",
-    "by_mood": [ "zombie", "fungus" ]
+    "by_mood": [ "zombie", "fungus" ],
+    "neutral": [ "aphid" ]
   },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "aphid",
+    "base_faction": "insect",
+    "neutral": [ "ant", "acid_ant" ]
+  }
   {
     "type": "MONSTER_FACTION",
     "name": "crayfish",

@@ -37,6 +37,7 @@
 #include "value_ptr.h"
 
 static const itype_id itype_hotplate( "hotplate" );
+static const itype_id itype_atomic_coffeepot( "atomic_coffeepot" );
 
 recipe::recipe() : skill_used( skill_id::NULL_ID() ) {}
 
@@ -1018,17 +1019,21 @@ bool recipe::hot_result() const
     // processing works, the "surface_heat" id gets nuked into an actual
     // list of tools, see data/json/recipes/cooking_tools.json.
     //
-    // Currently it's only checking for a hotplate because that's a
+    // Currently it's checking for a hotplate because that's a
     // suitable item in both the "surface_heat" and "water_boiling_heat"
     // tools, and it's usually the first item in a list of tools so if this
     // does get heated we'll find it right away.
+    //
+    // Atomic coffee is an outlier in that it is a hot drink that cannot be crafted
+    // with any of the usual tools except the atomic coffee maker, which is why
+    // the check includes this tool in addition to the hotplate.
     //
     // TODO: Make this less of a hack
     if( create_result().is_food() ) {
         const requirement_data::alter_tool_comp_vector &tool_lists = simple_requirements().get_tools();
         for( const std::vector<tool_comp> &tools : tool_lists ) {
             for( const tool_comp &t : tools ) {
-                if( t.type == itype_hotplate ) {
+                if( ( t.type == itype_hotplate ) || ( t.type == itype_atomic_coffeepot ) ) {
                     return true;
                 }
             }
