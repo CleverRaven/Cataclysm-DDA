@@ -114,8 +114,8 @@ Adds different bleeding types for different species.
 Adds bleeding butchery action.
 Autodoc installation programs added that almost guarantee flawless installation of supported bionics.
 Removes the obsolete 'carrion spawn rate scaling factor' world configuration option.
-Make thrown glass items drop glass shard when shattered
-Adding ability to cranes (excluding tiny) and forklift arms to suspend creatures for butchering
+Make thrown glass items drop glass shards when shattered.
+Adding ability to cranes (excluding tiny) and forklift arms to suspend creatures for butchering.
 
 ## Content:
 Gun volume and weight audit.
@@ -156,29 +156,6 @@ Adds large dermatik nest and tweaks dermatiks.
 Adds a new layout for the island prison challenge scenario.
 Adds tazer drones.
 Adds a demo of the Cuteclysm tileset, which is loosely inspired by the aesthetics of 16-bit Japanese RPGs.
-Allow deconstruction of most windows, and adjust window deconstruction material.
-Allow dissolving lye powder back into lye
-Make cabins feel lived in
-Fixes biodiesel use chemistry in recipe, but its book still teaches mechanics,
-Add a few epitaphs
-Add Eye colors comsetic traits
-Add the first four Hub 01 basement Npcs
-Wasp rework
-adding steel knuckles
-Adds Faux Fur survivor gear
-Avgas fuel pump
-New 'Bordered' scenario
-Add large wasp nests
-Addition of Gravel and pebble adjustments
-added mechanical winch and metal gate to construction menu
-Adds buckles to belts
-Flight suit and helmet
-Plastic canteen with clean water added to military
-School is an option for the Large Building scenario
-Flight suit and helmet
-Adds a wattle fence
-Snippets for 3 pants items
-Add mansion basecamp
 
 ## Interface:
 Introduces, and migrates most windows to, ui_adaptor, which handles redrawing windows when others are closed and the game is resized.
@@ -202,15 +179,6 @@ Adds fast scrolling to many menus with long lists.
 Adds responsive screen behavior to the new character menu for small terminal sizes.
 Shows weariness and activity levels in sidebar panels.
 Warns before crafting armor or clothing you won't be able to wear.
-Update MSX, Ultica and Chibi-Ultica 2021-04-26
-Spell cost is displayed in kJ when it uses bionic power
-Update Tilesets 2021-05-21
-Add fillers from Ultica for missing monsters to MSXotto+
-Speed Description in quick monster description
-List available requirements first
-Cuteclysm: Blood and Thorns update.
-Tileset update 2021-06-18
-Update Cuteclysm
 
 ## Mods:
 [Magiclysm] Manatouched mutation tree.
@@ -249,25 +217,7 @@ Cap monsters at 1000 kg so butchering kind of works.
 [Magiclysm] Adds Workshop Elves, Yule Cats, and Leprechauns.
 [Aftershock] Adds Formless Ruins - a new aboveground, low-risk dungeon type.
 [Dark Skies Above] DSA is reborn as an actively-developed, total-conversion mod.
-Aftershock:Add cold resistance gear to escape pod
-Fixes problematic faction relationships
-Less confusing juvenile sauropod descriptions
-CRT renames and Lore start
-Greeting Card Snippets for Aftershock
-No laser Spino instakills on day one
-Adjust Endless Whiskey Flask
-Aftershock: Add blood to harvest lists
-Add length and postapo price to titanium bat
-Aftershock: Forbid manual unloading of AFS UPS and tweak recipe to imply an integral power storage system.
-Aftershock: Exoplanet Region sub-mod
-More Forge improvements
-Cut ruins spawn rate in half
-Fix Schwarz Walders inability to shoot
-Update description of Schwarz Walder
-Fix infinite ammo for rail rifle
-Add new total_conversion category for mods
-Use size flags for size changing mutations.
-Implements rideable zombie T Rex via missions
+[Many Mods] Fixes problematic faction relationships (one-way aggression).
 
 ## Balance:
 Large item price audit.
@@ -294,15 +244,6 @@ Rebalances spawn rates for overmap specials.
 Mycus Fireproofing now also gives heat immunity.
 Tweaks Infection impact by lowering fatigue drain and removing pain.
 Adjusts ordinary clothing to not meaningfully contribute to protection values.
-Reduce plastic golem regeneration and armour
-Privacy fence deconstruct - item balance
-Fix Crude Wooden Bolt and Crude Wooden Arrow recipe requiring Fletching Proficiency when they have no Fletching
-Stop failures clustering at high completion percentages
-Recipe update (JSON): Modify primary skill used for salt water to be applied science instead of food handling.
-Reduce the number of monster spawns in parks by a factor of two
-Isherwood Farms spawn nerfed to 35%
-make it feasible to get into welding using the DIY makeshift approach
-Redistribute brewing and distillation recipes between books
 
 ## Bugfixes:
 Prevents possible negative damage from explosions.
@@ -409,139 +350,18 @@ Prevents cross-z-level melee attacks when the target is not actually visible.
 Avoids doing character body updates more than once per turn
 When harvesting crops, drops the result on the player's square.
 Improves road system connectivity across overmaps.
-Remove Burrowing Mutation Pickaxe Effect
-Don't spawn player in open air.
-Fixed firearm/gunsmith repair kit wood chiseling property
-Rebalance wheel and other vehicle part sizes
-Fix not-spring eternal season
-Improved multi cooker activation
-Canning liver takes as much as canning anything else
-Disable turning on ramp - variable correction
-If the result item of a recipe doesn't have RAW flag add COOKED flag
-Uplifted INT now has different ID from Uplifted Animal mutation
-Fix certain items from activating without power
-Fix recipe display
-Fix torch disappearing
-Stop unreloadable items from being reloadable
-Fix .300 conversion mod
+Stop failures clustering at high completion percentages.
+Fix not-spring eternal season.
+Stop unreloadable items from being reloadable.
 Fix savegame corruption from teleporting to very distant submaps
-Fix the mojocycle spell duration
-Prevent duplicate selection of same item when inserting into a container
-Allow using jacking tools from vehicle cargo
-Removes PROTRUSION flag, so rams can ram more things
-Unfreeze trap-avoiding monsters
-Changes rng city scaling to be consistent per scaling
-Nerf Moodswing
-Fix insert message for partial item stacks
-Fix ramming at low speed
-Fix the crafting success formula when crafter is missing proficiencies
-Change filter without a crash when washing items
-Zombie animal upgrade balance fix
-Flu vaccine expires based on creation time, not start of cataclysm
-items that shatter were not destroyed on impact. To fix #48707
-Make we can haul through freshwater station door and drag furniture , can deploy furniture on said station floor
-fix boneplate wolf attacks
-[Aftershock] make trident looks like pitchfork
-fix thorny moose shambler name
-Aftershock: Remove obsolete tankers from spawn lists.
-Fix accidentally deleted overlay_ordering info in RretroDays
-Adjust a few gunmods' volume
-Show higher aim speed as good when comparing gunmods
-Allowed reading maps underground
-Fix for Predator line of mutations
-Fix overloaded monster groups, spawn timers
-Allow crafting one explosive arrow to avoid exploit
-Remove raw flag from jerky
-Bionic enhanced hearing takes effect only when activated
-Add missing "spoil_multiplier": 0.5 to sealed milk carton
-Pick Magiclysm NPC mission dialogue fix from BN
-Detect and fix NPC dialogue using TALK_MISSION_OFFER directly and unconditionally
-Now you can drive a bus out of a bus station
-Deaf mutation now protects from getting dazed by the screams
-Adjusts problematic monster faction relationships (possible attack without counterattack)
-When installing vehicle parts. don't ask for shape selection when there's only one shape
-Filling container does not change amount of materials required for modification with tailoring kit. Empty backpack and filled backpack now require the same amount of materials to modify
-Fix remote activation for radio-controlled items
-Wash multiselect - fix unselect of previous selected items
-Fix stim&depressant cap removed. Overdoses are now possible again
-remove watertight flag from body bags
-Remove looks_like from the Mech guns
-Fix impossibility to resume craft in MSC
-Change symbols of variants vehicle parts to increase ascii readability
-Remove leatherworking proficiency from recipes that shouldn't need it
-Do not show crafting progress loss when none happened
-Stop birds hatching from unfertilized eggs
-Fix wind restoration on game load
-add wheel fastening to integrated toolset
-Fix bug with crafted food always being hot
-Fix pillowcase sleeping
-Fix blind throw while peeking up/downstairs
-Fix welding mask prevents welding
-Add z level when setting map cache dirty flags while in a vehicle
-Prevent adding or removing from activated cleaning machines
-Unload partial ammo of wielded item without duplication
-Caramel ointment instant heal up to 5 hit point
-Make sugar comestible to sugarkin
-Return only one shotgun hull per shot disassembled
-Separate woods soup by meat and egg variants
-Placing specials around cities now scales with city size
-Felt Recipe
-[Magiclysm] Fix ring stacking by adding ONE_PER_LAYER flag
-Update soy milk and almond milk to fix carnivores having no problems with them.
-Show message about grab only if player sees the grab.
-Unloading gun you're wielding when you have nowhere to store its ammo leads to an error
-Partially fix proficiency books' effect on crafting (formulas and UI)
-Correctly update the player's spawn vehicle overmap tracking
-Fix for placement of consoles in 'Retrieve Software' quest.
-Camera can take a photo of NPC
-Adjusts failure multipliers of proficiencies based on playtest results
-Fix crash when killing monsters without 'material'
-Avoid illegal memory access in game::overmap_npc_move()
-Fix crash with cigarettes nearby and flamethrower equipped
-Fix NPC antiseptic application on bite wounds
-Adds demihuman harvest to nether creatures where applicable
-Fix a segfault when starting a fire and losing your firestarter
-Makeshift pots will stop jumping into my backpack
-Fix muscle-powered vehicles causing fatigue and thirst
-9x19mm +P versus + prices
-Fix proficiency books' effect on crafting
-fix kevlar armor horse recipe
-Disallow placing stepladder if a vehicle in tile
-Fixed open wooden split rail gate of being non-transparent and unbreakable
-Radiation biomonitors can now take ultra light disposable batteries
-Fixes the division by zero exception when calculating the food volume
-Fix demon forges in the forge of wonder fuel type and reloadability
-Faction camp crafting creates byproducts as appropriate
-Fixes slime duplication bug by adding "slime" material.
-[Alternative Map Key] Overrided special forest tile to make it same as regular forest
-Fixed overfilled kegs
-Melatonin tablet added to various itemgroups for spawn
-Fixed eating containers with items inside
-Added aspirin, antibiotics, disinfectant, pepto to Combat Medic
-Faction camp charcoal recipe back to original formula (13x more)
-Fixes incorrect weights of medium/large turbine engines
-Removes redundant second magazine from SWAT CQC starting ksg
-Gave the Kel Tec 2000 its missing stock attachment slot
-Set extracted blood temperature
-Construction of roofs actually makes tile above the construction a roof
-partial vehicle damage reduction hotfix
-Remove duplicate knitting tool requirement from some recipes
-Add overlay_ordering entry for black dragon mutations
-Fix building ramps and stairs
-Fix incorrect block logic with unarmed
-Remove Shrubs from Dirt Road tile
-Make Mac version read/write saves in the Application Support again
-Fixed tanks in Medevac wrecks
-Replaced all ATTACKMON entire with PUSH_MON
-Fix the hidden lab basement mapgen
-Deconstruction of windows in gun store removed
-Prevent climbing mesh walls
-Removed duplicate medical gloves from Combat Medic starting items
-Workaround language from being unsettable in options menu
-Ensure Atomic Coffee is hot after brewing
-The Bicycles engine fails to start
-Fix an item duplication bug when trading stackable items, e.g aspirin
-Add right wing mirror to Low-End Cube Van
+Unfreeze trap-avoiding monsters.
+Fix ramming at low speed.
+Fix the crafting success formula when crafter is missing proficiencies.
+Placing specials around cities now scales with city size.
+Fix proficiency books' effect on crafting.
+Construction of roofs actually makes tile above the construction a roof.
+Partial vehicle damage reduction hotfix.
+Fix building ramps and stairs.
 
 ## Performance:
 Adds an option to enable batching when it is available in SDL.
@@ -643,19 +463,10 @@ Reduces file size of composed tilesheets from compose.py.
 Implements C++ symbol demangling in crash reports on MacOS, MinGW, and Linux.
 Adds tests of automatic triggers for mutations.
 Generates a crash report on Android.
-New clang-tidy check for unsequenced calls to member functions
-Remove all uses of atoi, atol, atof and use of sscanf for integer parsing
-Move Mingw cross-compile CI job from Travis to GitHub
-compose.py: Fix --use-all when there are no filler sheets
-compose.py: Don't warn about unused fillers matching IDs in tile entries from main sheets
-Add a tool to check printf style format string in translations
-compose.py: use the default values when none provided in config
-Remove "burst" from the coe for good
-Jsonize fungalization
-Improve printf format checking script
-Allow adding data for examine actions in JSON
-Switch clang-tidy plugin and workflow to LLVM 12
-Provide documentation and support for llama builds
+Move Mingw cross-compile CI job from Travis to GitHub.
+compose.py: Fix --use-all when there are no filler sheets.
+compose.py: Don't warn about unused fillers matching IDs in tile entries from main sheets.
+Add a tool to check printf style format string in translations.
 
 ## Build:
 Moves clang-tidy runs from Travis to GitHub.
@@ -677,16 +488,8 @@ Adds a GitHub workflow running flake8 to check the Python scripts.
 Consistently styles code in CMakeLists.txt files.
 Adds CMake linting.
 Captures ODR violations using GOLD linker, ASAN, or LTO.
-Fix building with GCC 11
-Adds a CI action to build and release for Windows
-Fix json formatter build and string extraction script
-Fix 'make dmgdist' error on native macOS
-Fix compile error on macOS with l10n disabled
-Improve CMake build script for macOS
-Added fail-fast=false and android builds to actions.
-Add missing header to compile on gcc (Debian 8.3.0-6) 8.3.0
-Build linux releases on ubuntu-18.04
-freedesktop metadata files are updated and installed when appropriate
+Adds a CI action to build and release for Windows.
+Added fail-fast=false and android builds to Github actions.
 
 ## I18N and A11Y:
 Fixes translations of martial art initiate and computer terminal messages.
@@ -700,8 +503,6 @@ Infrastructure: Automates translation template push.
 Enables using additional languages (Arabic, Czech, Danish, Dutch, Greek, Indonesian, Icelandic, Italian, Norwegian, Serbian, Turkish, and Ukrainian) with the game.
 Places cursor at highlighted item name in construction and crafting menus, as expected by screen readers.
 Adds translations of the Android installation interface.
-Routine i18n updates on 8 May 2021
-Extract mutation.transform and mutation.triggers for translation
 
 # 0.E (Ellison)
 
