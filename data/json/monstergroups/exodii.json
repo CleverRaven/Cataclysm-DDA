@@ -1,0 +1,22 @@
+[
+  {
+    "type": "monstergroup",
+    "name": "GROUP_Exodii_Stowaway",
+    "//": "An enemy that caught an interdimensional ride along with an exodii.",
+    "default": "mon_zomborg",
+    "monsters": [
+      { "monster": "mon_zomborg", "freq": 100, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zomborg", "freq": 50, "cost_multiplier": 20, "pack_size": [ 4, 6 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_Exodii_Scout_Small",
+    "//": "A small exodii scouting unit or party.",
+    "default": "mon_exodii_quad",
+    "monsters": [
+      { "monster": "mon_exodii_quad", "freq": 100, "cost_multiplier": 20, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_exodii_worker", "freq": 100, "cost_multiplier": 10, "pack_size": [ 1, 3 ] }
+    ]
+  }
+]

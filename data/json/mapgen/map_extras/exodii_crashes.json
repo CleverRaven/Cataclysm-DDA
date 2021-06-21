@@ -22,10 +22,10 @@
     "terrain": {
       " ": "t_null",
       "|": "t_wall_metal",
-	  "M": "t_door_metal_locked",
-	  "m": "t_secretdoor_metal_c",
-	  "_": "t_metal_floor",
-	  ".": "t_metal_floor"
+      "M": "t_door_metal_locked",
+      "m": "t_secretdoor_metal_c",
+      "_": "t_metal_floor",
+      ".": "t_metal_floor"
     }
   },
   {
@@ -60,7 +60,45 @@
         "       ..........       "
       ],
       "palettes": [ "exodii_crash_ground_palette" ],
-      "object": { "place_nested": [ { "chunks": [ [ "nest_exodii_crash_building_big_1", 30 ], [ "nest_exodii_crash_building_big_2", 10 ], [ "nest_exodii_crash_building_big_2", 60 ] ], "x": [ 7, 15 ], "y": [ 7, 15 ] } ] }
+      "object": {
+        "place_nested": [
+          {
+            "chunks": [
+              [ "nest_exodii_crash_building_big_1", 30 ],
+              [ "nest_exodii_crash_building_big_2", 10 ],
+              [ "nest_exodii_crash_building_big_2", 60 ]
+            ],
+            "x": [ 7, 15 ],
+            "y": [ 7, 15 ]
+          },
+          {
+            "chunks": [ [ "nest_exodii_scouts", 10 ], [ "nest_exodii_zombies", 20 ] ],
+            "x": [ 7, 14 ],
+            "y": [ 16, 19 ]
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "nest_exodii_scouts",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "palettes": [ "exodii_crash_palette" ],
+      "place_monsters": [ { "monster": "GROUP_Exodii_Scout_Small", "x": [ 0, 2 ], "y": [ 0, 2 ] } ],
+      "place_furniture": [ { "furn": "f_scrap_antenna", "x": [ 0, 2 ], "y": [ 0, 2 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "nest_exodii_zombies",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "palettes": [ "exodii_crash_palette" ],
+      "place_monsters": [ { "monster": "GROUP_Exodii_Stowaway", "x": [ 0, 2 ], "y": [ 0, 2 ] } ]
     }
   },
   {
@@ -78,9 +116,7 @@
         "||mm||"
       ],
       "palettes": [ "exodii_crash_palette" ],
-      "items": {
-        "_": [ { "item": "SUS_exodii_storage_lowvalue", "chance": 100 } ]
-      }
+      "items": { "_": [ { "item": "SUS_exodii_storage_lowvalue", "chance": 100 } ] }
     }
   },
   {
@@ -98,9 +134,7 @@
         "||mm||"
       ],
       "palettes": [ "exodii_crash_palette" ],
-      "items": {
-        "_": [ { "item": "SUS_exodii_storage_medvalue", "chance": 100 } ]
-      }
+      "items": { "_": [ { "item": "SUS_exodii_storage_medvalue", "chance": 100 } ] }
     }
   },
   {
@@ -118,9 +152,7 @@
         " |mm| "
       ],
       "palettes": [ "exodii_crash_palette" ],
-      "items": {
-        "_": [ { "item": "SUS_exodii_storage_medvalue", "chance": 100 } ]
-      }
+      "items": { "_": [ { "item": "SUS_exodii_storage_medvalue", "chance": 100 } ] }
     }
   },
   {
@@ -138,9 +170,7 @@
         "||||||"
       ],
       "palettes": [ "exodii_crash_palette" ],
-      "items": {
-        "_": [ { "item": "SUS_exodii_storage_medvalue", "chance": 100, "repeat": [ 1, 3 ] } ]
-      }
+      "items": { "_": [ { "item": "SUS_exodii_storage_medvalue", "chance": 100, "repeat": [ 1, 3 ] } ] }
     }
   },
   {
@@ -157,9 +187,7 @@
         "||m||"
       ],
       "palettes": [ "exodii_crash_palette" ],
-      "items": {
-        "_": [ { "item": "SUS_exodii_storage_highvalue", "chance": 100 } ]
-      }
+      "items": { "_": [ { "item": "SUS_exodii_storage_highvalue", "chance": 100 } ] }
     }
   },
   {
@@ -176,9 +204,7 @@
         "|||||"
       ],
       "palettes": [ "exodii_crash_palette" ],
-      "items": {
-        "_": [ { "item": "SUS_exodii_storage_highvalue", "chance": 100 } ]
-      }
+      "items": { "_": [ { "item": "SUS_exodii_storage_highvalue", "chance": 100 } ] }
     }
   },
   {
@@ -195,9 +221,7 @@
         " ||| "
       ],
       "palettes": [ "exodii_crash_palette" ],
-      "items": {
-        "_": [ { "item": "SUS_exodii_storage_highvalue", "chance": 100 } ]
-      }
+      "items": { "_": [ { "item": "SUS_exodii_storage_highvalue", "chance": 100 } ] }
     }
   },
   {
@@ -212,9 +236,7 @@
         "|m|"
       ],
       "palettes": [ "exodii_crash_palette" ],
-      "items": {
-        "_": [ { "item": "SUS_exodii_storage_lowvalue", "chance": 100 } ]
-      }
+      "items": { "_": [ { "item": "SUS_exodii_storage_lowvalue", "chance": 100 } ] }
     }
   },
   {
@@ -229,9 +251,7 @@
         "|||"
       ],
       "palettes": [ "exodii_crash_palette" ],
-      "items": {
-        "_": [ { "item": "SUS_exodii_storage_lowvalue", "chance": 100 } ]
-      }
+      "items": { "_": [ { "item": "SUS_exodii_storage_lowvalue", "chance": 100 } ] }
     }
   }
 ]
