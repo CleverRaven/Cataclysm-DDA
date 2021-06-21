@@ -11775,7 +11775,7 @@ int Character::run_cost( int base_cost, bool diag ) const
     const bool on_fungus = here.has_flag_ter_or_furn( STATIC( "FUNGUS" ), pos() );
 
     if( !is_mounted() ) {
-        if( movecost > 100 ) {
+        if( movecost > 105 ) {
             movecost *= mutation_value( "movecost_obstacle_modifier" );
             if( movecost < 100 ) {
                 movecost = 100;
