@@ -2,7 +2,7 @@
   {
     "type": "recipe",
     "result": "faction_base_pottery_cottage_blacksmith_log",
-    "description": "Let's build log shack with wooden roof for our blacksmith workshop.",
+    "description": "Let's build a log shack with a wooden roof for our blacksmith's workshop.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -16,7 +16,7 @@
   {
     "type": "recipe",
     "result": "faction_base_pottery_cottage_blacksmith_metal",
-    "description": "Let's build metal shack with metal roof for our blacksmith workshop.",
+    "description": "Let's build a metal shack with a metal roof for our blacksmith's workshop.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -44,7 +44,7 @@
   {
     "type": "recipe",
     "result": "faction_base_pottery_cottage_blacksmith_rammed_earth",
-    "description": "Let's build rammed earth shack with sod roof for our blacksmith workshop.",
+    "description": "Let's build a rammed earth shack with a sod roof for our blacksmith's workshop.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -58,7 +58,7 @@
   {
     "type": "recipe",
     "result": "faction_base_pottery_cottage_blacksmith_rock",
-    "description": "Let's build stone shack with wooden roof for our blacksmith workshop.",
+    "description": "Let's build a stone shack with a wooden roof for our blacksmith's workshop.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -72,7 +72,7 @@
   {
     "type": "recipe",
     "result": "faction_base_pottery_cottage_blacksmith_wad",
-    "description": "Let's build wattle and daub shack with sod roof for our blacksmith workshop.",
+    "description": "Let's build a wattle and daub shack with a sod roof for our blacksmith's workshop.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -86,7 +86,7 @@
   {
     "type": "recipe",
     "result": "faction_base_pottery_cottage_blacksmith_wood",
-    "description": "Let's build wooden shack with wooden roof for our blacksmith workshop.",
+    "description": "Let's build a wooden shack with a wooden roof for our blacksmith's workshop.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
