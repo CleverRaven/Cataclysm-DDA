@@ -45,11 +45,11 @@
   {
     "id": "drugs_emergency",
     "type": "item_group",
-    "//": "Medical consumables for emergency use excluduing painkillers",
+    "//": "Medical consumables for emergency use excluding painkillers",
     "items": [
       [ "adrenaline_injector", 50 ],
       { "item": "inhaler", "prob": 100, "charges-min": 10, "charges-max": 100 },
-      [ "quikclot", 50 ],
+      { "item": "quikclot", "prob": 50, "charges": [ 1, 6 ] },
       { "item": "smoxygen_tank", "prob": 70, "charges": [ 0, 12 ] },
       { "distribution": [ { "group": "full_ifak" }, { "group": "used_ifak" } ], "prob": 40 }
     ]
@@ -97,12 +97,12 @@
     "//": "Healing items appropriate for soldiers and other paramilitary forces",
     "entries": [
       { "distribution": [ { "group": "full_ifak" }, { "group": "used_ifak" } ], "prob": 50 },
-      { "item": "antibiotics", "prob": 20 },
-      { "item": "bandages", "prob": 100 },
-      { "item": "morphine", "prob": 20 },
-      { "item": "quikclot", "prob": 20 },
+      { "item": "antibiotics", "prob": 20, "charges": [ 1, 15 ] },
+      { "item": "bandages", "prob": 100, "charges": [ 1, 3 ] },
+      { "item": "morphine", "prob": 20, "charges": [ 1, 4 ] },
+      { "item": "quikclot", "prob": 20, "charges": [ 1, 6 ] },
       { "item": "smoxygen_tank", "prob": 20, "charges": [ 0, 12 ] },
-      { "item": "tramadol", "prob": 20 }
+      { "item": "tramadol", "prob": 20, "charges": [ 1, 10 ] }
     ]
   },
   {
@@ -140,25 +140,26 @@
     "type": "item_group",
     "id": "softdrugs",
     "items": [
-      [ "bandages", 30 ],
+      { "item": "bandages", "prob": 30, "charges": [ 1, 3 ] },
       [ "adhesive_bandages", 30 ],
-      [ "cotton_ball", 50 ],
+      { "item": "cotton_ball", "prob": 50, "charges": [ 1, 10 ] },
       { "group": "used_1st_aid", "prob": 35 },
-      [ "saline", 25 ],
+      { "item": "saline", "prob": 25, "charges": [ 1, 5 ] },
       [ "contacts", 10 ],
-      [ "vitamins", 75 ],
-      [ "gummy_vitamins", 25 ],
-      [ "calcium_tablet", 75 ],
-      [ "aspirin", 85 ],
-      [ "caffeine", 25 ],
-      [ "pills_sleep", 15 ],
-      [ "iodine", 5 ],
-      [ "prussian_blue", 5 ],
-      [ "dayquil", 70 ],
-      [ "nyquil", 70 ],
-      [ "disinfectant", 35 ],
+      { "item": "vitamins", "prob": 75, "charges": [ 1, 20 ] },
+      { "item": "gummy_vitamins", "prob": 25, "charges": [ 1, 10 ] },
+      { "item": "calcium_tablet", "prob": 75, "charges": [ 1, 20 ] },
+      { "item": "aspirin", "prob": 85, "charges": [ 1, 20 ] },
+      { "item": "caffeine", "prob": 25, "charges": [ 1, 10 ] },
+      { "item": "pills_sleep", "prob": 15, "charges": [ 1, 10 ] },
+      { "item": "melatonin_tablet", "prob": 10, "charges": [ 1, 30 ] },
+      { "item": "iodine", "prob": 5, "charges": [ 1, 10 ] },
+      { "item": "prussian_blue", "prob": 5, "charges": [ 1, 10 ] },
+      { "item": "dayquil", "prob": 70, "charges": [ 1, 5 ] },
+      { "item": "nyquil", "prob": 70, "charges": [ 1, 5 ] },
+      { "item": "disinfectant", "prob": 35, "charges": [ 1, 10 ] },
       [ "vaccine_shot", 10 ],
-      [ "homeopathic_pills", 10 ],
+      { "item": "homeopathic_pills", "prob": 10, "charges": [ 1, 20 ] },
       {
         "item": "protein_powder",
         "prob": 12,
@@ -166,14 +167,14 @@
         "charges-min": 1,
         "charges-max": 9
       },
-      [ "caff_gum", 10 ],
+      { "item": "caff_gum", "prob": 10, "charges": [ 1, 10 ] },
       { "item": "oxygen_tank", "prob": 20, "charges": [ 0, 24 ] },
       { "item": "smoxygen_tank", "prob": 5, "charges": [ 0, 12 ] },
       [ "eyedrops", 35 ],
       { "item": "shavingkit", "prob": 5, "charges": [ 0, 10 ] },
       { "item": "elec_hairtrimmer", "prob": 2, "charges": [ 0, 50 ] },
-      [ "nic_gum", 25 ],
-      [ "weak_antibiotic", 30 ]
+      { "item": "nic_gum", "prob": 25, "charges": [ 1, 10 ] },
+      { "item": "weak_antibiotic", "prob": 30, "charges": [ 1, 5 ] }
     ]
   },
   {
@@ -181,27 +182,51 @@
     "id": "harddrugs",
     "items": [
       { "item": "inhaler", "prob": 14, "charges-min": 10, "charges-max": 100 },
-      [ "codeine", 15 ],
-      [ "oxycodone", 4 ],
-      [ "morphine", 4 ],
-      [ "tramadol", 11 ],
-      [ "xanax", 10 ],
-      [ "adderall", 10 ],
-      [ "thorazine", 7 ],
-      [ "prozac", 10 ],
-      [ "antibiotics", 25 ],
-      [ "strong_antibiotic", 5 ],
-      [ "antifungal", 2 ],
-      [ "antiparasitic", 3 ],
+      { "item": "codeine", "prob": 15, "charges": [ 1, 10 ] },
+      { "item": "oxycodone", "prob": 4, "charges": [ 1, 10 ] },
+      { "item": "morphine", "prob": 4, "charges": [ 1, 4 ] },
+      { "item": "tramadol", "prob": 11, "charges": [ 1, 10 ] },
+      { "item": "xanax", "prob": 10, "charges": [ 1, 10 ] },
+      { "item": "adderall", "prob": 10, "charges": [ 1, 10 ] },
+      { "item": "thorazine", "prob": 7, "charges": [ 1, 10 ] },
+      { "item": "prozac", "prob": 10, "charges": [ 1, 15 ] },
+      { "item": "antibiotics", "prob": 25, "charges": [ 1, 15 ] },
+      { "item": "strong_antibiotic", "prob": 5, "charges": [ 1, 5 ] },
+      { "item": "antifungal", "prob": 2, "charges": [ 1, 5 ] },
+      { "item": "antiparasitic", "prob": 3, "charges": [ 1, 10 ] },
       [ "survnote", 1 ],
-      [ "diazepam", 4 ],
+      { "item": "diazepam", "prob": 4, "charges": [ 1, 10 ] },
       [ "flu_shot", 5 ],
       [ "syringe", 8 ]
     ]
   },
   {
     "type": "item_group",
+    "id": "mobile_meth_lab",
+    "subtype": "collection",
+    "entries": [
+      {
+        "distribution": [
+          { "item": "adderall", "count": [ 0, 2 ], "charges": [ 1, 10 ] },
+          { "item": "energy_drink", "count": [ 0, 2 ] },
+          { "item": "caffeine", "count": [ 0, 2 ], "charges": [ 1, 10 ] }
+        ]
+      },
+      { "item": "dayquil", "count": [ 0, 2 ], "charges": [ 1, 5 ] },
+      { "item": "aspirin", "count": [ 0, 5 ], "charges": [ 1, 20 ] },
+      { "item": "cola", "count": [ 0, 2 ] },
+      { "item": "meth", "count": [ 0, 2 ], "charges": [ 1, 6 ] }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "meth_ingredients",
-    "items": [ [ "dayquil", 2 ], [ "aspirin", 40 ], [ "adderall", 5 ], [ "energy_drink", 2 ], [ "caffeine", 20 ] ]
+    "items": [
+      { "item": "dayquil", "prob": 2, "charges": [ 1, 5 ] },
+      { "item": "aspirin", "prob": 40, "charges": [ 1, 20 ] },
+      { "item": "adderall", "prob": 5, "charges": [ 1, 10 ] },
+      [ "energy_drink", 2 ],
+      { "item": "caffeine", "prob": 20, "charges": [ 1, 10 ] }
+    ]
   }
 ]

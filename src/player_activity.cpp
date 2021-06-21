@@ -155,8 +155,7 @@ cata::optional<std::string> player_activity::get_progress_message( const avatar 
             }
         }
     } else if( moves_total > 0 ) {
-        if( type == activity_id( "ACT_BURROW" ) ||
-            type == activity_id( "ACT_HACKSAW" ) ||
+        if( type == activity_id( "ACT_HACKSAW" ) ||
             type == activity_id( "ACT_JACKHAMMER" ) ||
             type == activity_id( "ACT_PICKAXE" ) ||
             type == activity_id( "ACT_VEHICLE" ) ||
@@ -223,9 +222,9 @@ void player_activity::do_turn( player &p )
     // Only do once every two minutes to loosely simulate consume times,
     // the exact amount of time is added correctly below, here we just want to prevent eating something every second
     if( calendar::once_every( 2_minutes ) && *this && !p.is_npc() && type->valid_auto_needs() &&
-        !no_food_nearby_for_auto_consume &&
         !p.has_effect( effect_nausea ) ) {
-        if( p.stomach.contains() <= p.stomach.capacity( p ) / 4 && p.get_kcal_percent() < 0.95f ) {
+        if( p.stomach.contains() <= p.stomach.capacity( p ) / 4 && p.get_kcal_percent() < 0.95f &&
+            !no_food_nearby_for_auto_consume ) {
             int consume_moves = get_auto_consume_moves( p, true );
             moves_left += consume_moves;
             if( consume_moves == 0 ) {
@@ -240,7 +239,7 @@ void player_activity::do_turn( player &p )
             }
         }
     }
-    const float activity_mult = p.exertion_adjusted_move_multiplier();
+    const float activity_mult = p.exertion_adjusted_move_multiplier( exertion_level() );
     if( type->based_on() == based_on_type::TIME ) {
         if( moves_left >= 100 ) {
             moves_left -= 100 * activity_mult;
@@ -268,7 +267,7 @@ void player_activity::do_turn( player &p )
         return;
     }
     const bool travel_activity = id() == ACT_TRAVELLING;
-    p.increase_activity_level( exertion_level() );
+    p.set_activity_level( exertion_level() );
     // This might finish the activity (set it to null)
     if( actor ) {
         actor->do_turn( *this, p );

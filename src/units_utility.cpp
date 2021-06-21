@@ -94,7 +94,6 @@ double convert_length_cm_in( const units::length &length )
     return ret;
 }
 
-
 int convert_length( const units::length &length )
 {
     int ret = to_millimeter( length );

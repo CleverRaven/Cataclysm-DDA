@@ -82,7 +82,6 @@ std::string length_units( const units::length &length );
 /** Convert length to inches or cm. Used in pickup UI */
 double convert_length_cm_in( const units::length &length );
 
-
 /** convert a mass unit to a string readable by a human */
 std::string weight_to_string( const units::mass &weight );
 

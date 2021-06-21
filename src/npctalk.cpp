@@ -22,10 +22,8 @@
 #include "catacharset.h"
 #include "character.h"
 #include "character_id.h"
-// needed for the workaround for the std::to_string bug in some compilers
 #include "clzones.h"
 #include "color.h"
-#include "compatibility.h" // IWYU pragma: keep
 #include "condition.h"
 #include "coordinates.h"
 #include "debug.h"
@@ -1097,7 +1095,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         }
         for( const skill_id &trained : trainable ) {
             const std::string &text = beta->skill_training_text( *alpha, trained );
-            if( !text.empty() ) {
+            if( !text.empty() && !trained->obsolete() ) {
                 add_response( text, "TALK_TRAIN_START", trained );
             }
         }
@@ -2551,6 +2549,7 @@ json_talk_response::json_talk_response( const JsonObject &jo )
 
 void json_talk_response::load_condition( const JsonObject &jo )
 {
+    has_condition_ = jo.has_member( "condition" );
     is_switch = jo.get_bool( "switch", false );
     is_default = jo.get_bool( "default", false );
     read_condition<dialogue>( jo, "condition", condition, true );
@@ -2562,6 +2561,11 @@ bool json_talk_response::test_condition( const dialogue &d ) const
         return condition( d );
     }
     return true;
+}
+
+const talk_response &json_talk_response::get_actual_response() const
+{
+    return actual_response;
 }
 
 bool json_talk_response::gen_responses( dialogue &d, bool switch_done ) const
@@ -2864,6 +2868,29 @@ bool json_talk_topic::gen_responses( dialogue &d ) const
     return replace_built_in_responses;
 }
 
+cata::flat_set<std::string> json_talk_topic::get_directly_reachable_topics(
+    bool only_unconditional ) const
+{
+    std::vector<std::string> result;
+
+    auto add_reachable_for_response = [&]( const json_talk_response & json_response ) {
+        const talk_response &response = json_response.get_actual_response();
+        if( !only_unconditional || !json_response.has_condition() ) {
+            result.push_back( response.success.next_topic.id );
+            result.push_back( response.failure.next_topic.id );
+        }
+    };
+
+    for( const json_talk_response &r : responses ) {
+        add_reachable_for_response( r );
+    }
+    for( const json_talk_repeat_response &r : repeat_responses ) {
+        add_reachable_for_response( r.response );
+    }
+
+    return cata::flat_set<std::string>( result.begin(), result.end() );
+}
+
 std::string json_talk_topic::get_dynamic_line( const dialogue &d ) const
 {
     return dynamic_line( d );
@@ -2960,4 +2987,13 @@ bool npc::item_whitelisted( const item &it )
 
     const auto to_match = it.tname( 1, false );
     return item_name_whitelisted( to_match );
+}
+
+const json_talk_topic *get_talk_topic( const std::string &id )
+{
+    auto it = json_talk_topics.find( id );
+    if( it == json_talk_topics.end() ) {
+        return nullptr;
+    }
+    return &it->second;
 }

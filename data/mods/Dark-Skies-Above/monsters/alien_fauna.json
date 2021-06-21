@@ -131,7 +131,7 @@
     "type": "MONSTER",
     "name": "pack lizard",
     "description": "A slim reptoid about the size of a big dog, with a thick mane of what looks like rather pretty orange-blue 'feathers' around its head.  Frond-like protrusions grow from the top of its head down to the base of its tail, glowing faintly when in the presence of other members of its pack.",
-    "default_faction": "packliz",
+    "default_faction": "alien_packliz",
     "bodytype": "gator",
     "categories": [ "ALIEN" ],
     "species": [ "WILDALIEN" ],

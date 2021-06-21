@@ -768,6 +768,7 @@ bool item_pocket::process( const itype &type, player *carrier, const tripoint &p
             spoil_multiplier = 0.0f;
         }
         if( it->process( carrier, pos, type.insulation_factor * insulation, flag, spoil_multiplier ) ) {
+            it->spill_contents( pos );
             it = contents.erase( it );
             processed = true;
         } else {
@@ -1213,6 +1214,11 @@ void item_pocket::overflow( const tripoint &pos )
         }
     }
 
+    if( empty() ) {
+        // we've removed the migration pockets and items that didn't fit
+        return;
+    }
+
     if( !data->ammo_restriction.empty() ) {
         const ammotype contained_ammotype = contents.front().ammo_type();
         const auto ammo_iter = data->ammo_restriction.find( contained_ammotype );
@@ -1327,6 +1333,7 @@ void item_pocket::process( player *carrier, const tripoint &pos, float insulatio
         if( iter->process( carrier, pos, insulation, flag,
                            // spoil multipliers on pockets are not additive or multiplicative, they choose the best
                            std::min( spoil_multiplier_parent, spoil_multiplier() ) ) ) {
+            iter->spill_contents( pos );
             iter = contents.erase( iter );
         } else {
             ++iter;

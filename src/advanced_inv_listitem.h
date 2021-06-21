@@ -5,11 +5,10 @@
 #include <iosfwd>
 #include <vector>
 
+#include "item_location.h"
 #include "type_id.h"
 #include "units.h"
 
-// see item_factory.h
-class item;
 class item_category;
 
 enum aim_location : char;
@@ -32,7 +31,7 @@ class advanced_inv_listitem
         // the id of the item
         itype_id id;
         // The list of items
-        std::vector<item *> items;
+        std::vector<item_location> items;
         /**
          * The displayed name of the item.
          */
@@ -74,7 +73,7 @@ class advanced_inv_listitem
          * @param area The source area. Must not be AIM_ALL.
          * @param from_vehicle Is the item from a vehicle cargo space?
          */
-        advanced_inv_listitem( item *an_item, int index, int count,
+        advanced_inv_listitem( const item_location &an_item, int index, int count,
                                aim_location area, bool from_vehicle );
         /**
          * Create an item entry.
@@ -83,7 +82,7 @@ class advanced_inv_listitem
          * @param area The source area. Must not be AIM_ALL.
          * @param from_vehicle Is the item from a vehicle cargo space?
          */
-        advanced_inv_listitem( const std::vector<item *> &list, int index,
+        advanced_inv_listitem( const std::vector<item_location> &list, int index,
                                aim_location area, bool from_vehicle );
 };
 #endif // CATA_SRC_ADVANCED_INV_LISTITEM_H

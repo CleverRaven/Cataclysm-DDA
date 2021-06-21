@@ -39,7 +39,8 @@
       { "item": "savage_111f" },
       { "item": "hk_g3" },
       { "item": "hk_g80" },
-      { "item": "plasma_rifle" }
+      { "item": "plasma_rifle" },
+      { "item": "compbow" }
     ]
   },
   {
@@ -48,7 +49,6 @@
     "subtype": "collection",
     "items": [
       { "item": "bolt_steel" },
-      { "item": "compbow" },
       { "item": "arrow_cf" },
       { "item": "22_lr" },
       { "item": "9mm" },

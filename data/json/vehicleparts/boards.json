@@ -6,8 +6,8 @@
     "categories": [ "hull" ],
     "standard_symbols": true,
     "symbols": {
-      "horizontal_front": "T",
-      "horizontal_rear": "B",
+      "horizontal_front": "h",
+      "horizontal_rear": "h",
       "horizontal_2_front": "=",
       "horizontal_2_rear": "=",
       "vertical_left": "j",
@@ -31,7 +31,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
-    "damage_reduction": { "all": 28 }
+    "damage_reduction": { "all": 7 }
   },
   {
     "id": "board",
@@ -63,7 +63,8 @@
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
-    }
+    },
+    "damage_reduction": { "all": 0, "bash": 3 }
   },
   {
     "id": "clothboard",
@@ -100,7 +101,7 @@
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
     "extend": { "categories": [ "cargo" ], "flags": [ "OPAQUE", "CARGO", "COVERED", "FULL_BOARD", "LOCKABLE_CARGO" ] },
-    "damage_reduction": { "all": 28 }
+    "damage_reduction": { "all": 7 }
   },
   {
     "id": "hdstowboard",
@@ -111,7 +112,7 @@
     "color": "brown",
     "broken_color": "dark_gray",
     "proportional": { "durability": 4.15, "size": 0.76 },
-    "damage_reduction": { "all": 72, "cut": 80, "stab": 80 }
+    "damage_reduction": { "all": 20 }
   },
   {
     "abstract": "hdboard_abstract",
@@ -127,7 +128,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
-    "damage_reduction": { "all": 75, "cut": 80, "stab": 80 }
+    "damage_reduction": { "all": 20 }
   },
   {
     "id": "hdboard",
@@ -160,7 +161,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
     },
-    "damage_reduction": { "all": 16, "cut": 8, "stab": 8 }
+    "damage_reduction": { "all": 5 }
   },
   {
     "id": "woodboard",
@@ -195,6 +196,6 @@
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
     "extend": { "flags": [ "HALF_BOARD" ] },
-    "damage_reduction": { "all": 8 }
+    "damage_reduction": { "all": 5 }
   }
 ]

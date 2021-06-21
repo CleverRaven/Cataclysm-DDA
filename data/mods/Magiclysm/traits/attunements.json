@@ -542,6 +542,7 @@
     "valid": false,
     "description": "The fundamental Laws of the universe are thought of as the end-all-be-all in magical circles, and the Gravity Mage is a result of mages mucking around with those laws.  Unfortunately, this attunement does not give supreme control over gravity as a fundamental force, though the affinity is prominent and comes with some non-negligible benefits.",
     "prereqs": [ "MAGUS", "EARTHSHAPER" ],
+    "spells_learned": [ [ "gravitymage_graviton", 5 ] ],
     "weight_capacity_modifier": 2,
     "cancels": [
       "ARTIFICER",

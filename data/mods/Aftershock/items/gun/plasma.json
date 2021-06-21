@@ -26,7 +26,6 @@
     "reload": 50,
     "valid_mod_locations": [
       [ "accessories", 4 ],
-      [ "emitter", 1 ],
       [ "grip", 1 ],
       [ "rail", 1 ],
       [ "sights", 1 ],

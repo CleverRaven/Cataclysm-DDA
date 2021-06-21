@@ -1074,6 +1074,8 @@ class Creature : public location, public viewer
 
         int throw_resist = 0;
 
+        time_point last_updated;
+
         bool fake = false;
         Creature();
         Creature( const Creature & ) = default;
@@ -1136,8 +1138,6 @@ class Creature : public location, public viewer
 
     private:
         int pain;
-
-
         // calculate how well the projectile hits
         double accuracy_projectile_attack( dealt_projectile_attack &attack ) const;
         // what bodypart does the projectile hit

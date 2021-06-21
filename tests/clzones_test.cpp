@@ -154,7 +154,6 @@ TEST_CASE( "zone sorting comestibles ", "[zones][items][food][activities]" )
             }
         }
 
-
         GIVEN( "a perishable food" ) {
             item perishable_food( "test_apple" );
             REQUIRE( perishable_food.goes_bad() );
@@ -222,7 +221,6 @@ TEST_CASE( "zone sorting comestibles ", "[zones][items][food][activities]" )
                 }
             }
         }
-
 
         // MREs are under the food category but are not directly edible.
         GIVEN( "a non-comestible food" ) {

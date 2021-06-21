@@ -499,7 +499,7 @@ void bodypart::set_encumbrance_data( const encumbrance_data &set )
     encumb_data = set;
 }
 
-void bodypart::set_mut_drench( std::pair<water_tolerance, int> set )
+void bodypart::set_mut_drench( const std::pair<water_tolerance, int> &set )
 {
     if( set.first < WT_IGNORED || set.first > NUM_WATER_TOLERANCE ) {
         debugmsg( "Tried to use invalid water tolerance enum in set_mut_drench()." );

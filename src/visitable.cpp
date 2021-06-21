@@ -48,6 +48,8 @@ static const quality_id qual_BUTCHER( "BUTCHER" );
 static const bionic_id bio_tools( "bio_tools" );
 static const bionic_id bio_ups( "bio_ups" );
 
+static const json_character_flag json_flag_BIONIC_TOGGLED( "BIONIC_TOGGLED" );
+
 /** @relates visitable */
 item *read_only_visitable::find_parent( const item &it ) const
 {
@@ -169,6 +171,10 @@ bool inventory::has_quality( const quality_id &qual, int level, int qty ) const
 bool vehicle_selector::has_quality( const quality_id &qual, int level, int qty ) const
 {
     for( const auto &cursor : *this ) {
+        if( cursor.ignore_vpart ) {
+            continue;
+        }
+
         qty -= has_quality_from_vpart( cursor.veh, cursor.part, qual, level, qty );
         if( qty <= 0 ) {
             return true;
@@ -180,7 +186,9 @@ bool vehicle_selector::has_quality( const quality_id &qual, int level, int qty )
 /** @relates visitable */
 bool vehicle_cursor::has_quality( const quality_id &qual, int level, int qty ) const
 {
-    qty -= has_quality_from_vpart( veh, part, qual, level, qty );
+    if( !ignore_vpart ) {
+        qty -= has_quality_from_vpart( veh, part, qual, level, qty );
+    }
     return qty <= 0 ? true : has_quality_internal( *this, qual, level, qty ) == qty;
 }
 
@@ -276,8 +284,8 @@ int Character::max_quality( const quality_id &qual ) const
 /** @relates visitable */
 int vehicle_cursor::max_quality( const quality_id &qual ) const
 {
-    return std::max( max_quality_from_vpart( veh, part, qual ),
-                     max_quality_internal( *this, qual ) );
+    int vpart = ignore_vpart ? 0 : max_quality_from_vpart( veh, part, qual );
+    return std::max( vpart, max_quality_internal( *this, qual ) );
 }
 
 /** @relates visitable */
@@ -289,7 +297,6 @@ int vehicle_selector::max_quality( const quality_id &qual ) const
     }
     return res;
 }
-
 
 template<typename T, typename V>
 static inline std::vector<T> items_with_internal( V &self, const std::function<bool( const item & )>
@@ -900,8 +907,13 @@ int inventory::amount_of( const itype_id &what, bool pseudo, int limit,
 int Character::amount_of( const itype_id &what, bool pseudo, int limit,
                           const std::function<bool( const item & )> &filter ) const
 {
-    if( what == itype_toolset && pseudo && has_active_bionic( bio_tools ) ) {
-        return 1;
+    if( pseudo ) {
+        for( const auto &bio : *this->my_bionics ) {
+            const bionic_data &bid = bio.info();
+            if( bid.fake_item == what && ( !bid.activated || bio.powered ) ) {
+                return 1;
+            }
+        }
     }
 
     if( what == itype_apparatus && pseudo ) {

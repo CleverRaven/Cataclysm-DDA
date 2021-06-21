@@ -68,8 +68,6 @@ static const efftype_id effect_stunned( "stunned" );
 static const itype_id itype_pressurized_tank( "pressurized_tank" );
 
 static const species_id species_FUNGUS( "FUNGUS" );
-static const species_id species_INSECT( "INSECT" );
-static const species_id species_SPIDER( "SPIDER" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
 
 static const std::string flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
@@ -1484,7 +1482,7 @@ bool monster::attack_at( const tripoint &p )
     }
 
     Character &player_character = get_player_character();
-    if( p == player_character.pos() ) {
+    if( p == player_character.pos() && sees( player_character ) ) {
         return melee_attack( player_character );
     }
 

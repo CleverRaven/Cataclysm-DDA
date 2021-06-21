@@ -10,6 +10,7 @@
 #include <string>
 #include <tuple>
 #include <type_traits>
+#include <unordered_map>
 #include <utility>
 #include <vector>
 
@@ -322,10 +323,11 @@ struct requirement_data {
          * will be marked as @ref blacklisted
          */
         void blacklist_item( const itype_id &id );
+
         /**
-         * Replace tools or components of the given type.
+         * Replace tools or components using a provided replacement map.
          */
-        void replace_item( const itype_id &id, const itype_id &replacement );
+        void replace_items( const std::unordered_map<itype_id, itype_id> &replacements );
 
         const alter_tool_comp_vector &get_tools() const;
         const alter_quali_req_vector &get_qualities() const;

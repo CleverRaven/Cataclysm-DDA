@@ -740,7 +740,7 @@ std::set<point> vehicle::immediate_path( const units::angle &rotate )
     return points_to_check;
 }
 
-static int get_turn_from_angle( const units::angle angle, const tripoint &vehpos,
+static int get_turn_from_angle( const units::angle &angle, const tripoint &vehpos,
                                 const tripoint &target, bool reverse = false )
 {
     if( angle > 10.0_degrees && angle <= 45.0_degrees ) {
@@ -4614,16 +4614,16 @@ double vehicle::drain_energy( const itype_id &ftype, double energy_j )
     return drained;
 }
 
-void vehicle::consume_fuel( int load, const int t_seconds, bool skip_electric )
+void vehicle::consume_fuel( int load, bool idling )
 {
     double st = strain();
     for( const auto &fuel_pr : fuel_usage() ) {
         const itype_id &ft = fuel_pr.first;
-        if( skip_electric && ft == fuel_type_battery ) {
+        if( idling && ft == fuel_type_battery ) {
             continue;
         }
 
-        double amnt_precise_j = static_cast<double>( fuel_pr.second ) * t_seconds;
+        double amnt_precise_j = static_cast<double>( fuel_pr.second );
         amnt_precise_j *= load / 1000.0 * ( 1.0 + st * st * 100.0 );
         auto inserted = fuel_used_last_turn.insert( { ft, 0.0f } );
         inserted.first->second += amnt_precise_j;
@@ -4636,6 +4636,10 @@ void vehicle::consume_fuel( int load, const int t_seconds, bool skip_electric )
             fuel_remainder[ ft ] = -amnt_precise_j;
         }
     }
+    // Only process muscle power things when moving.
+    if( idling ) {
+        return;
+    }
     Character &player_character = get_player_character();
     if( load > 0 && fuel_left( fuel_type_muscle ) > 0 &&
         player_character.has_effect( effect_winded ) ) {
@@ -4644,9 +4648,9 @@ void vehicle::consume_fuel( int load, const int t_seconds, bool skip_electric )
             stop();
         }
     }
-    // we want this to update the activity level whenever the engine is running
+    // we want this to update the activity level whenever we're using muscle power to move
     if( load > 0 && fuel_left( fuel_type_muscle ) > 0 ) {
-        player_character.increase_activity_level( ACTIVE_EXERCISE );
+        player_character.set_activity_level( ACTIVE_EXERCISE );
         //do this as a function of current load
         // But only if the player is actually there!
         int eff_load = load / 10;
@@ -4675,10 +4679,7 @@ void vehicle::consume_fuel( int load, const int t_seconds, bool skip_electric )
             player_character.mod_power_level( units::from_kilojoule( -std::max( eff_load / 20, 1 ) ) );
             mod -= std::max( eff_load / 5, 5 );
         }
-        if( one_in( 1000 / load ) && one_in( 10 ) ) {
-            player_character.mod_thirst( 1 );
-            player_character.mod_fatigue( 1 );
-        }
+
         player_character.mod_stamina( -( base_burn + mod ) );
         add_msg_debug( "Load: %d", load );
         add_msg_debug( "Mod: %d", mod );
@@ -5197,7 +5198,7 @@ void vehicle::idle( bool on_map )
             idle_rate = 1000;
         }
         if( has_engine_type_not( fuel_type_muscle, true ) ) {
-            consume_fuel( idle_rate, to_turns<int>( 1_turns ), true );
+            consume_fuel( idle_rate, true );
         }
 
         if( on_map ) {
@@ -6715,7 +6716,8 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
     if( parts[p].is_fuel_store() ) {
         explode_fuel( p, type );
     } else if( parts[ p ].is_broken() && part_flag( p, "UNMOUNT_ON_DAMAGE" ) ) {
-        here.spawn_item( global_part_pos3( p ), part_info( p ).base_item, 1, 0, calendar::turn );
+        here.spawn_item( global_part_pos3( p ), part_info( p ).base_item, 1, 0, calendar::turn,
+                         part_info( p ).base_item.obj().damage_max() - 1 );
         monster *mon = get_monster( p );
         if( mon != nullptr && mon->has_effect( effect_harnessed ) ) {
             mon->remove_effect( effect_harnessed );

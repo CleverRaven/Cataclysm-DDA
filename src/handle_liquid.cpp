@@ -205,7 +205,7 @@ static bool get_liquid_target( item &liquid, const item *const source, const int
         menu.text = string_format( pgettext( "liquid", "What to do with the %s?" ), liquid_name );
     }
     std::vector<std::function<void()>> actions;
-    if( player_character.can_consume( liquid ) && !source_mon && ( source_veh || source_pos ) ) {
+    if( player_character.can_consume_as_is( liquid ) && !source_mon && ( source_veh || source_pos ) ) {
         if( player_character.can_fuel_bionic_with( liquid ) ) {
             menu.addentry( -1, true, 'e', _( "Fuel bionic with it" ) );
         } else {
@@ -239,11 +239,14 @@ static bool get_liquid_target( item &liquid, const item *const source, const int
     std::set<vehicle *> opts;
     for( const tripoint &e : here.points_in_radius( player_character.pos(), 1 ) ) {
         vehicle *veh = veh_pointer_or_null( here.veh_at( e ) );
-        vehicle_part_range vpr = veh->get_all_parts();
-        if( veh && std::any_of( vpr.begin(), vpr.end(), [&liquid]( const vpart_reference & pt ) {
-        return pt.part().can_reload( liquid );
-        } ) ) {
-            opts.insert( veh );
+        if( veh ) {
+            vehicle_part_range vpr = veh->get_all_parts();
+            const auto veh_accepts_liquid = [&liquid]( const vpart_reference & pt ) {
+                return pt.part().can_reload( liquid );
+            };
+            if( std::any_of( vpr.begin(), vpr.end(), veh_accepts_liquid ) ) {
+                opts.insert( veh );
+            }
         }
     }
     for( vehicle *veh : opts ) {

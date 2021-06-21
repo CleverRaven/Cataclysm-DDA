@@ -6,7 +6,6 @@
 
 #include "cata_utility.h"
 #include "character.h"
-#include "compatibility.h"
 #include "game.h"
 #include "json.h"
 #include "player.h"
@@ -121,7 +120,7 @@ stomach_contents::stomach_contents( units::volume max_vol, bool is_stomach )
 
 static std::string ml_to_string( const units::volume &vol )
 {
-    return to_string( units::to_milliliter<int>( vol ) ) + "_ml";
+    return std::to_string( units::to_milliliter<int>( vol ) ) + "_ml";
 }
 
 void stomach_contents::serialize( JsonOut &json ) const

@@ -24,7 +24,6 @@
 #include "character_martial_arts.h"
 #include "clzones.h"
 #include "color.h"
-#include "compatibility.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "effect.h"
@@ -441,7 +440,7 @@ bool avatar::read( item &it, const bool continuous )
         // special guidebook effect: print a misc. hint when read
         if( reader != this ) {
             add_msg( m_info, fail_messages[0] );
-            dynamic_cast<const npc *>( reader )->say( get_hint() );
+            dynamic_cast<const npc &>( *reader ).say( get_hint() );
         } else {
             add_msg( m_info, get_hint() );
         }
@@ -478,7 +477,7 @@ bool avatar::read( item &it, const bool continuous )
             learners.insert( {elem, elem == reader ? _( " (reading aloud to you)" ) : ""} );
             const double penalty = static_cast<double>( time_taken ) / time_to_read( it, *reader, elem );
             act.values.push_back( elem->getID().get_value() );
-            act.str_values.push_back( to_string( penalty ) );
+            act.str_values.push_back( std::to_string( penalty ) );
         } else {
             std::string reason = _( " (uninterested)" );
             if( !morale_req ) {
@@ -1625,7 +1624,7 @@ bool avatar::wield( item &target, const int obtain_cost )
     return true;
 }
 
-bool avatar::invoke_item( item *used, const tripoint &pt )
+bool avatar::invoke_item( item *used, const tripoint &pt, int pre_obtain_moves )
 {
     const std::map<std::string, use_function> &use_methods = used->type->use_methods;
     const int num_methods = use_methods.size();
@@ -1634,7 +1633,7 @@ bool avatar::invoke_item( item *used, const tripoint &pt )
     if( use_methods.empty() && !has_relic ) {
         return false;
     } else if( num_methods == 1 && !has_relic ) {
-        return invoke_item( used, use_methods.begin()->first, pt );
+        return invoke_item( used, use_methods.begin()->first, pt, pre_obtain_moves );
     } else if( num_methods == 0 && has_relic ) {
         return used->use_relic( *this, pt );
     }
@@ -1672,7 +1671,7 @@ bool avatar::invoke_item( item *used, const tripoint &pt )
 
     const std::string &method = std::next( use_methods.begin(), choice )->first;
 
-    return invoke_item( used, method, pt );
+    return invoke_item( used, method, pt, pre_obtain_moves );
 }
 
 bool avatar::invoke_item( item *used )
@@ -1680,9 +1679,13 @@ bool avatar::invoke_item( item *used )
     return Character::invoke_item( used );
 }
 
-bool avatar::invoke_item( item *used, const std::string &method, const tripoint &pt )
+bool avatar::invoke_item( item *used, const std::string &method, const tripoint &pt,
+                          int pre_obtain_moves )
 {
-    return Character::invoke_item( used, method, pt );
+    if( pre_obtain_moves == -1 ) {
+        pre_obtain_moves = moves;
+    }
+    return Character::invoke_item( used, method, pt, pre_obtain_moves );
 }
 
 bool avatar::invoke_item( item *used, const std::string &method )
@@ -1713,31 +1716,37 @@ void avatar::log_activity_level( float level )
     calorie_diary.front().activity_levels[level]++;
 }
 
-static const std::map<float, std::string> activity_levels_str = {
-    { NO_EXERCISE, "NO_EXERCISE" },
-    { LIGHT_EXERCISE, "LIGHT_EXERCISE" },
-    { MODERATE_EXERCISE, "MODERATE_EXERCISE" },
-    { BRISK_EXERCISE, "BRISK_EXERCISE" },
-    { ACTIVE_EXERCISE, "ACTIVE_EXERCISE" },
-    { EXTRA_EXERCISE, "EXTRA_EXERCISE" }
-};
 void avatar::daily_calories::save_activity( JsonOut &json ) const
 {
     json.member( "activity" );
-    json.start_object();
+    json.start_array();
     for( const std::pair<const float, int> &level : activity_levels ) {
-        json.member( activity_levels_str.at( level.first ), level.second );
+        if( level.second > 0 ) {
+            json.start_array();
+            json.write( level.first );
+            json.write( level.second );
+            json.end_array();
+        }
     }
-    json.end_object();
+    json.end_array();
 }
 
 void avatar::daily_calories::read_activity( JsonObject &data )
 {
+    if( data.has_array( "activity" ) ) {
+        double act_level;
+        for( JsonArray ja : data.get_array( "activity" ) ) {
+            act_level = ja.next_float();
+            activity_levels[ act_level ] = ja.next_int();
+        }
+        return;
+    }
+    // Fallback to legacy format for backward compatibility
     JsonObject jo = data.get_object( "activity" );
-    for( const std::pair<const float, std::string> &member : activity_levels_str ) {
+    for( const std::pair<const std::string, float> &member : activity_levels_map ) {
         int times;
-        jo.read( member.second, times );
-        activity_levels.at( member.first ) = times;
+        jo.read( member.first, times );
+        activity_levels.at( member.second ) = times;
     }
 }
 
@@ -1750,19 +1759,50 @@ std::string avatar::total_daily_calories_string() const
     const std::string format_string =
         " %4d  %4d  %4d     %4d  %4d   %4d  %4d    %6d %6d";
 
+    const float light_ex_thresh = ( NO_EXERCISE + LIGHT_EXERCISE ) / 2.0f;
+    const float mod_ex_thresh = ( LIGHT_EXERCISE + MODERATE_EXERCISE ) / 2.0f;
+    const float brisk_ex_thresh = ( MODERATE_EXERCISE + BRISK_EXERCISE ) / 2.0f;
+    const float active_ex_thresh = ( BRISK_EXERCISE + ACTIVE_EXERCISE ) / 2.0f;
+    const float extra_ex_thresh = ( ACTIVE_EXERCISE + EXTRA_EXERCISE ) / 2.0f;
+
     std::string ret = header_string;
 
     // Start with today in the first row, day number from start of cataclysm
     int today = day_of_season<int>( calendar::turn ) + 1;
     int day_offset = 0;
     for( const daily_calories &day : calorie_diary ) {
+        // Yes, this is clunky.
+        // Perhaps it should be done in log_activity_level? But that's called a lot more often.
+        int no_exercise = 0;
+        int light_exercise = 0;
+        int moderate_exercise = 0;
+        int brisk_exercise = 0;
+        int active_exercise = 0;
+        int extra_exercise = 0;
+        for( const std::pair<const float, int> &level : day.activity_levels ) {
+            if( level.second > 0 ) {
+                if( level.first < light_ex_thresh ) {
+                    no_exercise += level.second;
+                } else if( level.first < mod_ex_thresh ) {
+                    light_exercise += level.second;
+                } else if( level.first < brisk_ex_thresh ) {
+                    moderate_exercise += level.second;
+                } else if( level.first < active_ex_thresh ) {
+                    brisk_exercise += level.second;
+                } else if( level.first < extra_ex_thresh ) {
+                    active_exercise += level.second;
+                } else {
+                    extra_exercise += level.second;
+                }
+            }
+        }
         std::string row_data = string_format( format_string, today + day_offset--,
-                                              5 * day.activity_levels.at( NO_EXERCISE ),
-                                              5 * day.activity_levels.at( LIGHT_EXERCISE ),
-                                              5 * day.activity_levels.at( MODERATE_EXERCISE ),
-                                              5 * day.activity_levels.at( BRISK_EXERCISE ),
-                                              5 * day.activity_levels.at( ACTIVE_EXERCISE ),
-                                              5 * day.activity_levels.at( EXTRA_EXERCISE ),
+                                              5 * no_exercise,
+                                              5 * light_exercise,
+                                              5 * moderate_exercise,
+                                              5 * brisk_exercise,
+                                              5 * active_exercise,
+                                              5 * extra_exercise,
                                               day.gained, day.spent );
         // Alternate gray and white text for row data
         if( day_offset % 2 == 0 ) {

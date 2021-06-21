@@ -20,6 +20,8 @@
       [ "spell_scroll_create_lighter", 50 ],
       [ "spell_scroll_chilling_touch", 50 ],
       [ "spell_scroll_magic_missile", 50 ],
+      [ "spell_scroll_bleed", 50 ],
+      [ "spell_scroll_shocking_lash", 50 ],
       [ "spell_scroll_bless", 25 ],
       [ "spell_scroll_create_atomic_lamp", 25 ],
       [ "spell_scroll_taze", 25 ],
@@ -140,7 +142,7 @@
     "id": "spellbook_tier_0",
     "type": "item_group",
     "//": "These are spellbooks that a beginner would have, or scrolls that would have this tier or one tier higher of spells.",
-    "items": [ [ "wizard_beginner", 30 ], [ "priest_beginner", 30 ], [ "techno_idiots", 30 ] ]
+    "items": [ [ "wizard_beginner", 30 ], [ "priest_beginner", 30 ], [ "techno_idiots", 30 ], [ "novice_stormshaper_book", 30 ] ]
   },
   {
     "id": "spellbook_tier_1",

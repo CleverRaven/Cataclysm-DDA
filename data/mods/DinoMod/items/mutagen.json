@@ -8,7 +8,7 @@
     "price": 1000000,
     "color": "light_green",
     "healthy": -4,
-    "use_action": { "type": "mutagen_iv", "mutation_category": "  TYRANT" }
+    "use_action": { "type": "mutagen_iv", "mutation_category": "TYRANT" }
   },
   {
     "id": "mutagen_tyrant",

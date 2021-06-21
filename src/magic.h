@@ -72,6 +72,7 @@ enum class spell_flag : int {
     WITH_CONTAINER, // items spawned with container
     SPAWN_GROUP, // spawn or summon from an item or monster group, instead of individual item/monster ID
     IGNITE_FLAMMABLE, // if spell effect area has any thing flammable, a fire will be produced
+    MUST_HAVE_CLASS_TO_LEARN, // you can't learn the spell unless you already have the class.
     LAST
 };
 
@@ -597,7 +598,7 @@ class known_magic
         void update_mana( const Character &guy, float turns );
         // does the Character have enough energy to cast this spell?
         // not specific to mana
-        bool has_enough_energy( const Character &guy, spell &sp ) const;
+        bool has_enough_energy( const Character &guy, const spell &sp ) const;
 
         void on_mutation_gain( const trait_id &mid, Character &guy );
         void on_mutation_loss( const trait_id &mid );

@@ -293,7 +293,7 @@ class player : public Character
         /** Uses a tool */
         void use( int inventory_position );
         /** Uses a tool at location */
-        void use( item_location loc );
+        void use( item_location loc, int pre_obtain_moves = -1 );
         /** Uses the current wielded weapon */
         void use_wielded();
 

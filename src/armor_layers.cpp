@@ -822,11 +822,10 @@ void player::sort_armor()
         } else if( action == "EQUIP_ARMOR" ) {
             // filter inventory for all items that are armor/clothing
             item_location loc = game_menus::inv::wear( *this );
-            // store the item name just in case obtain() fails
-            const std::string item_name = loc->display_name();
-
             // only equip if something valid selected!
             if( loc ) {
+                // store the item name just in case obtain() fails
+                const std::string item_name = loc->display_name();
                 item_location obtained = loc.obtain( *this );
                 if( obtained ) {
                     // wear the item

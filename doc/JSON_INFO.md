@@ -2,8 +2,6 @@
 
 Use the `Home` key to return to the top.
 
-<!-- XXX: REMOVE ME. Touch JSON_INFO.md to see if it triggers the bot -->
-
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**
@@ -68,7 +66,7 @@ Use the `Home` key to return to the top.
       - [`score`](#score)
       - [`achievement`](#achievement)
       - [`conduct`](#conduct)
-    - [Skills](#skills-1)
+    - [Skills](#skills)
     - [Traits/Mutations](#traitsmutations)
     - [Traps](#traps)
     - [Vehicle Groups](#vehicle-groups)
@@ -91,11 +89,12 @@ Use the `Home` key to return to the top.
     - [Ammo](#ammo)
     - [Magazine](#magazine)
     - [Armor](#armor)
+      - [Guidelines for thickness:](#guidelines-for-thickness)
     - [Pet Armor](#pet-armor)
     - [Books](#books)
       - [Conditional Naming](#conditional-naming)
       - [Color Key](#color-key)
-      - [CBMs](#cbms-1)
+      - [CBMs](#cbms)
     - [Comestibles](#comestibles)
     - [Containers](#containers)
     - [Melee](#melee)
@@ -133,9 +132,8 @@ Use the `Home` key to return to the top.
       - [`heat_radiation`](#heat_radiation)
       - [`light_emitted`](#light_emitted-1)
       - [`trap`](#trap)
-      - [`harvestable`](#harvestable)
       - [`transforms_into`](#transforms_into)
-      - [`harvest_season`](#harvest_season)
+      - [`harvest_by_season`](#harvest_by_season)
       - [`roof`](#roof)
     - [Common To Furniture And Terrain](#common-to-furniture-and-terrain)
       - [`id`](#id-1)
@@ -178,17 +176,17 @@ Use the `Home` key to return to the top.
   - [`points`](#points-1)
   - [`items`](#items-3)
   - [`flags`](#flags-2)
-  - [`cbms`](#cbms-2)
+  - [`cbms`](#cbms-1)
   - [`traits", "forced_traits", "forbidden_traits`](#traits-forced_traits-forbidden_traits)
   - [`allowed_locs`](#allowed_locs)
   - [`start_name`](#start_name)
-  - [`professions`](#professions-1)
+  - [`professions`](#professions)
   - [`map_special`](#map_special)
   - [`missions`](#missions)
   - [`custom_initial_date`](#custom_initial_date)
 - [Starting locations](#starting-locations)
   - [`name`](#name-3)
-  - [`terrain`](#terrain-1)
+  - [`terrain`](#terrain)
   - [`flags`](#flags-3)
 - [Mutation overlay ordering](#mutation-overlay-ordering)
   - [`id`](#id-2)
@@ -826,7 +824,7 @@ When you sort your inventory by category, these are the categories that are disp
 | `cut_dmg_verb`   | Verb used when material takes cutting damage.
 | `dmg_adj`        | Description added to damaged item in ascending severity.
 | `dmg_adj`        | Adjectives used to describe damage states of a material.
-| `density`        | Density of a material.
+| `density`        | Affects vehicle collision damage, with denser parts having the advantage over less-dense parts.
 | `vitamins`       | Vitamins in a material. Usually overridden by item specific values.  An integer percentage of ideal daily value.
 | `specific_heat_liquid` | Specific heat of a material when not frozen (J/(g K)). Default 4.186.
 | `specific_heat_solid`  | Specific heat of a material when frozen (J/(g K)). Default 2.108.
@@ -905,21 +903,25 @@ If a fuel has the PERPETUAL flag, engines powered by it never use any fuel.  Thi
 |---          |---
 | `name`      | Unique ID. Must be one continuous word, use underscores if necessary.
 | `default`   | Default monster, automatically fills in any remaining spawn chances.
-| `monsters`  | To choose a monster for spawning, the game creates 1000 entries and picks one. Each monster will have a number of entries equal to it's "freq" and the default monster will fill in the remaining. See the table below for how to build the single monster definitions.
-| `is_safe`   | (bool) Check to not trigger safe-mode warning.
-| `is_animal` | (bool) Check if that group has only normal animals.
+| `monsters`  | To choose a monster for spawning, the game creates `freq_total` entries (default 1000) and picks one. Each monster will have a number of entries equal to it's `freq` and the default monster will fill in the remaining. See the table below for how to build the single monster definitions.
+| `is_safe`   | (bool) Check to not trigger safe-mode warning, currently inconsequential.
+| `is_animal` | (bool) Check if that group has only normal animals, currently inconsequential.
+| `freq_total`| (int) Determines the number of entries created for the monster roll, default 1000. If the total eligable `freq`s of a group exceed `freq_total` the entries after the monster that exceeded it **won't be included** in the roll - ie if the first two monsters out of a group of ten each have `freq: 500` the rest of the group won't have a chance to spawn at all!
+| `replace_monster_group` | (bool) Check if the group should be replaced completely by another monster group as game time progresses - doesn't affect already spawned monsters, as such mostly superceded by monster evolution.
+| `new_monster_group_id` | (string) The id of the monster group that should replace this one.
+| `replacement_time` | (int) The amount of time before the group should be replaced by the new one, in days. Final replacement date is calculated by `replacement_time * evolution factor`.
 
 #### Monster definition
 
 | Identifier        | Description
 |---                |---
 | `monster`         | The monster's unique ID, eg. `"mon_zombie"`.
-| `freq`            | Chance of occurrence, x/1000.
+| `freq`            | Chance of occurrence, x/`freq_total` (default x/1000).
 | `cost_multiplier` | How many monsters each monster in this definition should count as, if spawning a limited number of monsters.
 | `pack_size`       | (_optional_) The minimum and maximum number of monsters in this group that should spawn together.  (default: `[1,1]`)
 | `conditions`      | Conditions limit when monsters spawn. Valid options: `SUMMER`, `WINTER`, `AUTUMN`, `SPRING`, `DAY`, `NIGHT`, `DUSK`, `DAWN`. Multiple Time-of-day conditions (`DAY`, `NIGHT`, `DUSK`, `DAWN`) will be combined together so that any of those conditions makes the spawn valid. Multiple Season conditions (`SUMMER`, `WINTER`, `AUTUMN`, `SPRING`) will be combined together so that any of those conditions makes the spawn valid.
-| `starts`          | (_optional_) This entry becomes active after this time. (Measured in hours)
-| `ends`            | (_optional_) This entry becomes inactive after this time. (Measured in hours)
+| `starts`          | (_optional_) This entry becomes active after this time. (Measured in hours, **multiplied by the evolution scaling factor**)
+| `ends`            | (_optional_) This entry becomes inactive after this time. (Measured in hours, **multiplied by the evolution scaling factor**)
 | `spawn_data`      | (_optional_) Any properties that the monster only has when spawned in this group. `ammo` defines how much of which ammo types the monster spawns with.
 
 ```C++
@@ -1487,9 +1489,25 @@ request](https://github.com/CleverRaven/Cataclysm-DDA/pull/36657) and the
 "required_skills": [ [ "survival", 1 ] ],                           // Skill levels required to undertake construction
 "time": "30 m",                                                     // Time required to complete construction. Integers will be read as minutes or a time string can be used.
 "components": [ [ [ "spear_wood", 4 ], [ "pointy_stick", 4 ] ] ],   // Items used in construction
-"pre_terrain": "t_pit",                                             // Required terrain to build on
+"pre_special": "check_empty",                                       // Required something that isn't terrain
+"pre_terrain": "t_pit",                                             // Alternative to pre_special; Required terrain to build on
 "post_terrain": "t_pit_spiked"                                      // Terrain type after construction is complete
 ```
+
+| pre_special            | Description
+|---                     |---
+| `check_empty`          | Tile is empty
+| `check_support`        | Must have at least two solid walls/obstructions nearby on orthogonals (non-diagonal directions only) to support the tile
+| `check_stable`         | Tile on level below has a flag `SUPPORTS_ROOF`
+| `check_empty_stable`   | Tile is empty and stable
+| `check_nofloor_above`  | Tile on level above has a flag `NO_FLOOR`
+| `check_deconstruction` | The furniture (or tile, if no furniture) in the target tile must have a "deconstruct" entry
+| `check_empty_up_OK`    | Tile is empty and is below the maximum possible elevation (can build up here)
+| `check_up_OK`          | Tile is below the maximum possible elevation (can build up here)
+| `check_down_OK`        | Tile is above the lowest possible elevation (can dig down here)
+| `check_no_trap`        | There is no trap object in this tile
+| `check_ramp_low`       | Both this and the next level above can be built up one additional Z level
+| `check_ramp_high`      | There is a complete downramp on the next higher level, and both this and next level above can be built up one additional Z level
 
 ### Scent_types
 
@@ -2949,10 +2967,10 @@ The contents of use_action fields can either be a string indicating a built-in f
     "flashbang_player_immune" : true, // Whether the player is immune to the flashbang effect.
     "fields_radius": 3, // The radius of spread for fields produced.
     "fields_type": "fd_tear_gas", // The type of fields produced.
-    "fields_min_density": 3,
-    "fields_max_density": 3,
-    "emp_blast_radius": 4,
-    "scrambler_blast_radius": 4
+    "fields_min_intensity": 3, // Minimum intensity of field generated by the explosion.
+    "fields_max_intensity": 3, // Maximum intensity of field generated by the explosion.
+    "emp_blast_radius": 4, // The radius of EMP blast created by the explosion.
+    "scrambler_blast_radius": 4 // The radius of scrambler blast created by the explosion.
 },
 "use_action": {
     "type": "change_scent", // Change the scent type of the user.

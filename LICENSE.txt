@@ -10,6 +10,8 @@ PLF List and PLF Colony (src/list.h, src/colony.h) are licensed under the zLib l
 
 getpost (tools/json_tools/format/getpost.h) is licensed under the MIT license, see file for text of license.
 
+libintl-lite is licensed under Boost Software License 1.0. Visit https://www.boost.org/users/license.html to read the license.
+
 gzstream (src/gzstream.*) is licensed under the GNU Lesser General Public License 2.1, see http://www.cs.unc.edu/Research/compgeom/gzstream/
 
 libbacktrace is licensed under a BSD license (https://github.com/ianlancetaylor/libbacktrace/blob/master/LICENSE). The full license text is as follows:

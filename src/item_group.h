@@ -5,6 +5,8 @@
 #include <iosfwd>
 #include <memory>
 #include <set>
+#include <string>
+#include <unordered_map>
 #include <utility>
 #include <vector>
 
@@ -162,7 +164,7 @@ class Item_spawn_data
          * all linked groups.
          */
         virtual bool remove_item( const itype_id &itemid ) = 0;
-        virtual void replace_item( const itype_id &itemid, const itype_id &replacementid ) = 0;
+        virtual void replace_items( const std::unordered_map<itype_id, itype_id> &replacements ) = 0;
         virtual bool has_item( const itype_id &itemid ) const = 0;
         void set_container_item( const itype_id &container );
 
@@ -259,7 +261,7 @@ class Item_modifier
         void modify( item &new_item, const std::string &context ) const;
         void check_consistency( const std::string &context ) const;
         bool remove_item( const itype_id &itemid );
-        void replace_item( const itype_id &itemid, const itype_id &replacementid );
+        void replace_items( const std::unordered_map<itype_id, itype_id> &replacements );
 
         // Currently these always have the same chance as the item group it's part of, but
         // theoretically it could be defined per-item / per-group.
@@ -308,7 +310,7 @@ class Single_item_creator : public Item_spawn_data
         item create_single( const time_point &birthday, RecursionList &rec ) const override;
         void check_consistency() const override;
         bool remove_item( const itype_id &itemid ) override;
-        void replace_item( const itype_id &itemid, const itype_id &replacementid ) override;
+        void replace_items( const std::unordered_map<itype_id, itype_id> &replacements ) override;
 
         bool has_item( const itype_id &itemid ) const override;
         std::set<const itype *> every_item() const override;
@@ -355,7 +357,7 @@ class Item_group : public Item_spawn_data
         item create_single( const time_point &birthday, RecursionList &rec ) const override;
         void check_consistency() const override;
         bool remove_item( const itype_id &itemid ) override;
-        void replace_item( const itype_id &itemid, const itype_id &replacementid ) override;
+        void replace_items( const std::unordered_map<itype_id, itype_id> &replacements ) override;
         bool has_item( const itype_id &itemid ) const override;
         std::set<const itype *> every_item() const override;
 

@@ -50,7 +50,6 @@
 #include "clone_ptr.h"
 #include "clzones.h"
 #include "colony.h"
-#include "compatibility.h"
 #include "computer.h"
 #include "construction.h"
 #include "coordinates.h"
@@ -497,9 +496,16 @@ void consumption_event::deserialize( JsonIn &jsin )
     jo.read( "component_hash", component_hash );
 }
 
-void weariness_tracker::serialize( JsonOut &json ) const
+void activity_tracker::serialize( JsonOut &json ) const
 {
     json.start_object();
+    json.member( "current_activity", current_activity );
+    json.member( "accumulated_activity", accumulated_activity );
+    json.member( "previous_activity", previous_activity );
+    json.member( "current_turn", current_turn );
+    json.member( "activity_reset", activity_reset );
+    json.member( "num_events", num_events );
+
     json.member( "tracker", tracker );
     json.member( "intake", intake );
     json.member( "low_activity_ticks", low_activity_ticks );
@@ -507,14 +513,32 @@ void weariness_tracker::serialize( JsonOut &json ) const
     json.end_object();
 }
 
-void weariness_tracker::deserialize( JsonIn &jsin )
+void activity_tracker::deserialize( JsonIn &jsin )
 {
     JsonObject jo = jsin.get_object();
+
     jo.allow_omitted_members();
+    jo.read( "current_activity", current_activity );
+    jo.read( "accumulated_activity", accumulated_activity );
+    jo.read( "previous_activity", previous_activity );
+    jo.read( "current_turn", current_turn );
+    jo.read( "activity_reset", activity_reset );
+    jo.read( "num_events", num_events );
+
     jo.read( "tracker", tracker );
     jo.read( "intake", intake );
     jo.read( "low_activity_ticks", low_activity_ticks );
     jo.read( "tick_counter", tick_counter );
+}
+
+// migration handling of items that used to have charges instead of real items.
+// remove this migration funciton after 0.F
+static void migrate_item_charges( item &it )
+{
+    if( it.charges != 0 && it.contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE ) ) {
+        it.ammo_set( it.ammo_default(), it.charges );
+        it.charges = 0;
+    }
 }
 
 /**
@@ -561,7 +585,9 @@ void Character::load( const JsonObject &data )
     data.read( "thirst", thirst );
     data.read( "hunger", hunger );
     data.read( "fatigue", fatigue );
-    data.read( "weary", weary );
+    // Legacy read, remove after 0.F
+    data.read( "weary", activity_history );
+    data.read( "activity_history", activity_history );
     data.read( "sleep_deprivation", sleep_deprivation );
     data.read( "stored_calories", stored_calories );
     // stored_calories was changed from being in kcal to being in just cal
@@ -897,6 +923,14 @@ void Character::load( const JsonObject &data )
         const std::string t = pmap.get_string( "trap" );
         known_traps.insert( trap_map::value_type( p, t ) );
     }
+
+    // remove after 0.F
+    if( savegame_loading_version < 33 ) {
+        visit_items( []( item * it, item * ) {
+            migrate_item_charges( *it );
+            return VisitResponse::NEXT;
+        } );
+    }
 }
 
 /**
@@ -942,7 +976,7 @@ void Character::store( JsonOut &json ) const
     json.member( "thirst", thirst );
     json.member( "hunger", hunger );
     json.member( "fatigue", fatigue );
-    json.member( "weary", weary );
+    json.member( "activity_history", activity_history );
     json.member( "sleep_deprivation", sleep_deprivation );
     json.member( "stored_calories", stored_calories );
     json.member( "radiation", radiation );
@@ -1004,9 +1038,9 @@ void Character::store( JsonOut &json ) const
 
     // npc; unimplemented
     if( power_level < 1_J ) {
-        json.member( "power_level", to_string( units::to_millijoule( power_level ) ) + " mJ" );
+        json.member( "power_level", std::to_string( units::to_millijoule( power_level ) ) + " mJ" );
     } else if( power_level < 1_kJ ) {
-        json.member( "power_level", to_string( units::to_joule( power_level ) ) + " J" );
+        json.member( "power_level", std::to_string( units::to_joule( power_level ) ) + " J" );
     } else {
         json.member( "power_level", units::to_kilojoule( power_level ) );
     }
@@ -1884,9 +1918,6 @@ void npc::load( const JsonObject &data )
     cbm_weapon_index = -1;
     data.read( "cbm_weapon_index", cbm_weapon_index );
 
-    if( !data.read( "last_updated", last_updated ) ) {
-        last_updated = calendar::turn;
-    }
     complaints.clear();
     for( const JsonMember member : data.get_object( "complaints" ) ) {
         // TODO: time_point does not have a default constructor, need to read in the map manually
@@ -1966,7 +1997,6 @@ void npc::store( JsonOut &json ) const
     companion_mission_inv.json_save_items( json );
     json.member( "restock", restock );
 
-    json.member( "last_updated", last_updated );
     json.member( "complaints", complaints );
 }
 
@@ -2193,9 +2223,6 @@ void monster::load( const JsonObject &data )
     // TODO: Remove blob migration after 0.F
     const std::string faction_string = data.get_string( "faction", "" );
     faction = mfaction_str_id( faction_string == "blob" ? "slime" : faction_string );
-    if( !data.read( "last_updated", last_updated ) ) {
-        last_updated = calendar::turn;
-    }
     data.read( "mounted_player_id", mounted_player_id );
     data.read( "path", path );
 }
@@ -2258,7 +2285,6 @@ void monster::store( JsonOut &json ) const
     json.member( "underwater", underwater );
     json.member( "upgrades", upgrades );
     json.member( "upgrade_time", upgrade_time );
-    json.member( "last_updated", last_updated );
     json.member( "reproduces", reproduces );
     json.member( "baby_timer", baby_timer );
     json.member( "biosignatures", biosignatures );
@@ -2559,12 +2585,13 @@ void item::migrate_content_item( const item &contained )
 {
     if( contained.is_gunmod() || contained.is_toolmod() ) {
         put_in( contained, item_pocket::pocket_type::MOD );
-    } else if( !contained.made_of( phase_id::LIQUID )
-               && ( contained.is_magazine() || contained.is_ammo() ) ) {
-        put_in( contained, item_pocket::pocket_type::MAGAZINE );
     } else if( typeId() == itype_usb_drive ) {
         // as of this migration, only usb_drive has any software in it.
         put_in( contained, item_pocket::pocket_type::SOFTWARE );
+    } else if( contents.insert_item( contained, item_pocket::pocket_type::MAGAZINE ).success() ) {
+        // left intentionally blank
+    } else if( contents.insert_item( contained, item_pocket::pocket_type::MAGAZINE_WELL ).success() ) {
+        // left intentionally blank
     } else if( is_corpse() ) {
         put_in( contained, item_pocket::pocket_type::CORPSE );
     } else if( can_contain( contained ) ) {
@@ -2609,7 +2636,8 @@ void item::deserialize( JsonIn &jsin )
                 }
             }
         }
-    } else { // empty contents was not serialized, recreate pockets from the type
+        // contents may not be empty if other migration happened in item::io
+    } else if( contents.empty() ) { // empty contents was not serialized, recreate pockets from the type
         contents = item_contents( type->pockets );
     }
 
@@ -2952,6 +2980,10 @@ void vehicle::deserialize( JsonIn &jsin )
             if( it->needs_processing() ) {
                 active_items.add( *it, vp.mount() );
             }
+            // remove after 0.F
+            if( savegame_loading_version < 33 ) {
+                migrate_item_charges( *it );
+            }
         }
     }
 
@@ -3286,6 +3318,8 @@ void Creature::store( JsonOut &jsout ) const
 
     jsout.member( "throw_resist", throw_resist );
 
+    jsout.member( "last_updated", last_updated );
+
     jsout.member( "body", body );
 
     // fake is not stored, it's temporary anyway, only used to fire with a gun.
@@ -3327,6 +3361,19 @@ void Creature::load( const JsonObject &jsin )
     } else {
         jsin.read( "effects", *effects );
     }
+
+    // Remove legacy vitamin effects - they don't do anything, and can't be removed
+    // Remove this code whenever they actually do anything (0.F or later)
+    std::set<efftype_id> blacklisted = {
+        efftype_id( "hypocalcemia" ),
+        efftype_id( "hypovitA" ),
+        efftype_id( "hypovitB" ),
+        efftype_id( "scurvy" )
+    };
+    for( const efftype_id &remove : blacklisted ) {
+        remove_effect( remove );
+    }
+
     jsin.read( "values", values );
 
     jsin.read( "damage_over_time_map", damage_over_time_map );
@@ -3354,6 +3401,10 @@ void Creature::load( const JsonObject &jsin )
     jsin.read( "melee_quiet", melee_quiet );
 
     jsin.read( "throw_resist", throw_resist );
+
+    if( !jsin.read( "last_updated", last_updated ) ) {
+        last_updated = calendar::turn;
+    }
 
     jsin.read( "underwater", underwater );
 
@@ -4169,6 +4220,10 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
                 if( it.needs_processing() ) {
                     active_items.add( it, p );
                 }
+                if( savegame_loading_version < 33 ) {
+                    // remove after 0.F
+                    migrate_item_charges( it );
+                }
             }
         }
     } else if( member_name == "traps" ) {
@@ -4207,10 +4262,9 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
                 } else {
                     ft = field_types::get_field_type_by_legacy_enum( type_int ).id;
                 }
-                if( fld[i][j].find_field( ft ) == nullptr ) {
+                if( fld[i][j].add_field( ft, intensity, time_duration::from_turns( age ) ) ) {
                     field_count++;
                 }
-                fld[i][j].add_field( ft, intensity, time_duration::from_turns( age ) );
             }
         }
     } else if( member_name == "graffiti" ) {

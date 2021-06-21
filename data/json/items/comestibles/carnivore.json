@@ -515,7 +515,8 @@
     "quench": -5,
     "fun": 4,
     "calories": 348,
-    "vitamins": [ [ "vitA", 0 ], [ "vitC", 0 ], [ "calcium", 2 ], [ "iron", 26 ], [ "vitB", 35 ] ]
+    "vitamins": [ [ "vitA", 0 ], [ "vitC", 0 ], [ "calcium", 2 ], [ "iron", 26 ], [ "vitB", 35 ] ],
+    "delete": { "flags": [ "RAW" ] }
   },
   {
     "id": "salted_fish",
@@ -604,7 +605,6 @@
     "snippet_category": "mutant_lung_desc",
     "description": "You're pretty sure this is lung tissue.",
     "looks_like": "lung",
-    "cooks_like": "lung_cooked",
     "proportional": { "price_postapoc": 0.1, "calories": 0.65 },
     "vitamins": [ [ "mutant_toxin", 25 ] ],
     "extend": { "flags": [ "BAD_TASTE" ] }

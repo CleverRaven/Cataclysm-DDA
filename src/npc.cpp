@@ -18,11 +18,11 @@
 #include "character_id.h"
 #include "character_martial_arts.h"
 #include "clzones.h"
-#include "compatibility.h"
 #include "coordinate_conversions.h"
 #include "cursesdef.h"
 #include "damage.h"
 #include "debug.h"
+#include "dialogue.h"
 #include "dialogue_chatbin.h"
 #include "effect.h"
 #include "enums.h"
@@ -51,6 +51,7 @@
 #include "mtype.h"
 #include "mutation.h"
 #include "npc_class.h"
+#include "npctalk.h"
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
@@ -133,8 +134,8 @@ npc::npc()
     : restock( calendar::turn_zero )
     , companion_mission_time( calendar::before_time_starts )
     , companion_mission_time_ret( calendar::before_time_starts )
-    , last_updated( calendar::turn )
 {
+    last_updated = calendar::turn;
     submap_coords = point_zero;
     position.x = -1;
     position.y = -1;
@@ -259,6 +260,18 @@ void npc_template::check_consistency()
         const auto &guy = e.second.guy;
         if( !guy.myclass.is_valid() ) {
             debugmsg( "Invalid NPC class %s", guy.myclass.c_str() );
+        }
+        std::string first_topic = guy.chatbin.first_topic;
+        if( const json_talk_topic *topic = get_talk_topic( first_topic ) ) {
+            cata::flat_set<std::string> reachable_topics =
+                topic->get_directly_reachable_topics( true );
+            if( reachable_topics.count( "TALK_MISSION_OFFER" ) ) {
+                debugmsg(
+                    "NPC template \"%s\" has dialogue \"%s\" which leads unconditionally to "
+                    "\"TALK_MISSION_OFFER\", which doesn't check for an available mission.  "
+                    "You should probably prefer \"TALK_MISSION_LIST\"",
+                    e.first.str(), first_topic );
+            }
         }
     }
 }
@@ -1026,7 +1039,7 @@ void npc::start_read( item &chosen, player *pl )
     const double penalty = static_cast<double>( time_taken ) / time_to_read( chosen, *pl );
     player_activity act( ACT_READ, time_taken, 0, pl->getID().get_value() );
     act.targets.emplace_back( item_location( *this, &chosen ) );
-    act.str_values.push_back( to_string( penalty ) );
+    act.str_values.push_back( std::to_string( penalty ) );
     // push an identifier of martial art book to the action handling
     if( chosen.type->use_methods.count( "MA_MANUAL" ) ) {
         act.str_values.clear();
@@ -2872,7 +2885,7 @@ void npc::process_turn()
     // TODO: Make NPCs leave the player if there's a path out of map and player is sleeping/unseen/etc.
 }
 
-bool npc::invoke_item( item *used, const tripoint &pt )
+bool npc::invoke_item( item *used, const tripoint &pt, int )
 {
     const auto &use_methods = used->type->use_methods;
 

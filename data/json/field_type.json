@@ -238,7 +238,7 @@
     "description_affix": "covered_in",
     "is_splattering": true,
     "priority": 2,
-    "half_life": "6 hours",
+    "half_life": "30 minutes",
     "phase": "liquid",
     "display_field": true,
     "looks_like": "fd_sap"

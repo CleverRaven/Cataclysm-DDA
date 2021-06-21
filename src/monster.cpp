@@ -9,11 +9,11 @@
 #include <tuple>
 
 #include "ascii_art.h"
+#include "avatar.h"
 #include "bodypart.h"
 #include "catacharset.h"
 #include "character.h"
 #include "colony.h"
-#include "compatibility.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "cursesdef.h"
@@ -92,6 +92,10 @@ static const efftype_id effect_run( "run" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_supercharged( "supercharged" );
 static const efftype_id effect_tied( "tied" );
+static const efftype_id effect_venom_dmg( "venom_dmg" );
+static const efftype_id effect_venom_player1( "venom_player1" );
+static const efftype_id effect_venom_player2( "venom_player2" );
+static const efftype_id effect_venom_weaken( "venom_weaken" );
 static const efftype_id effect_webbed( "webbed" );
 
 static const itype_id itype_corpse( "corpse" );
@@ -100,8 +104,10 @@ static const itype_id itype_milk_raw( "milk_raw" );
 
 static const species_id species_FISH( "FISH" );
 static const species_id species_FUNGUS( "FUNGUS" );
+static const species_id species_LEECH_PLANT( "LEECH_PLANT" );
 static const species_id species_MAMMAL( "MAMMAL" );
 static const species_id species_MOLLUSK( "MOLLUSK" );
+static const species_id species_NETHER( "NETHER" );
 static const species_id species_ROBOT( "ROBOT" );
 static const species_id species_SPIDER( "SPIDER" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
@@ -652,7 +658,6 @@ static std::pair<std::string, nc_color> hp_description( int cur_hp, int max_hp )
     return std::make_pair( damage_info, col );
 }
 
-
 static std::pair<std::string, nc_color> speed_description( float mon_speed_rating,
         bool immobile = false )
 {
@@ -661,23 +666,30 @@ static std::pair<std::string, nc_color> speed_description( float mon_speed_ratin
     }
 
     const std::array<std::tuple<float, nc_color, std::string>, 8> cases = {{
-            std::make_tuple( 1.30f, c_red, _( "It is much faster than you." ) ),
-            std::make_tuple( 1.00f, c_light_red, _( "It is faster than you." ) ),
-            std::make_tuple( 0.70f, c_yellow, _( "It is a bit faster than you." ) ),
-            std::make_tuple( 0.55f, c_white, _( "It is about as fast as you." ) ),
-            std::make_tuple( 0.50f, c_light_cyan, _( "It is a bit slower than you." ) ),
-            std::make_tuple( 0.40f, c_cyan, _( "It is slower than you." ) ),
-            std::make_tuple( 0.20f, c_light_green, _( "It is much slower than you." ) ),
+            std::make_tuple( 1.40f, c_red, _( "It is much faster than you." ) ),
+            std::make_tuple( 1.15f, c_light_red, _( "It is faster than you." ) ),
+            std::make_tuple( 1.05f, c_yellow, _( "It is a bit faster than you." ) ),
+            std::make_tuple( 0.90f, c_white, _( "It is about as fast as you." ) ),
+            std::make_tuple( 0.80f, c_light_cyan, _( "It is a bit slower than you." ) ),
+            std::make_tuple( 0.60f, c_cyan, _( "It is slower than you." ) ),
+            std::make_tuple( 0.30f, c_light_green, _( "It is much slower than you." ) ),
             std::make_tuple( 0.00f, c_green, _( "It is practically immobile." ) )
         }
     };
 
-    const float player_speed_rating = get_player_character().speed_rating();
-    const float ratio = player_speed_rating == 0 ?
-                        2.00f : mon_speed_rating / player_speed_rating;
+    const avatar &ply = get_avatar();
+    float player_runcost = ply.run_cost( 100 );
+    if( player_runcost == 0 ) {
+        player_runcost = 1.0f;
+    }
+
+    // tpt = tiles per turn
+    const float player_tpt = ply.get_speed() / player_runcost;
+    const float ratio_tpt = player_tpt == 0 ?
+                            2.00f : mon_speed_rating / player_tpt;
 
     for( const std::tuple<float, nc_color, std::string> &speed_case : cases ) {
-        if( ratio >= std::get<0>( speed_case ) ) {
+        if( ratio_tpt >= std::get<0>( speed_case ) ) {
             return std::make_pair( std::get<2>( speed_case ), std::get<1>( speed_case ) );
         }
     }
@@ -693,7 +705,7 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
 
     // Print health bar, monster name, then statuses on the first line.
     nc_color bar_color = c_white;
-    std::string bar_str, dot_str;
+    std::string bar_str;
     get_HP_Bar( bar_color, bar_str );
     std::ostringstream oss;
     oss << get_tag_from_color( bar_color ) << bar_str << "</color>";
@@ -712,6 +724,13 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
                              _( "Can't see to your current location" );
     vStart += fold_and_print( w, point( column, vStart ), max_width, sees_player ? c_red : c_green,
                               senses_str );
+
+    const std::pair<std::string, nc_color> speed_desc =
+        speed_description(
+            speed_rating(),
+            has_flag( MF_IMMOBILE ) );
+    vStart += fold_and_print( w, point( column, vStart ), max_width, speed_desc.second,
+                              speed_desc.first );
 
     // Monster description on following lines.
     std::vector<std::string> lines = foldstring( type->get_description(), max_width );
@@ -760,7 +779,7 @@ std::string monster::extended_description() const
     std::string att_colored = colorize( att.first, att.second );
     std::string difficulty_str;
     if( debug_mode ) {
-        difficulty_str = _( "Difficulty " ) + to_string( type->difficulty );
+        difficulty_str = _( "Difficulty " ) + std::to_string( type->difficulty );
     } else {
         if( type->difficulty < 3 ) {
             difficulty_str = _( "<color_light_gray>Minimal threat.</color>" );
@@ -1403,17 +1422,31 @@ bool monster::is_immune_effect( const efftype_id &effect ) const
         return type->bloodType() == fd_null;
     }
 
+    if( effect == effect_venom_dmg ||
+        effect == effect_venom_player1 ||
+        effect == effect_venom_player2 ) {
+        return ( !made_of( material_id( "flesh" ) ) && !made_of( material_id( "iflesh" ) ) ) ||
+               type->in_species( species_NETHER ) || type->in_species( species_LEECH_PLANT );
+    }
+
     if( effect == effect_paralyzepoison ||
         effect == effect_badpoison ||
+        effect == effect_venom_weaken ||
         effect == effect_poison ) {
-        return !has_flag( MF_WARM ) ||
-               ( !made_of( material_id( "flesh" ) ) && !made_of( material_id( "iflesh" ) ) );
+        return type->in_species( species_ZOMBIE ) || type->in_species( species_NETHER ) ||
+               !made_of_any( Creature::cmat_flesh ) || type->in_species( species_LEECH_PLANT );
     }
 
     if( effect == effect_stunned ) {
         return has_flag( MF_STUN_IMMUNE );
     }
 
+    if( effect == effect_downed ) {
+        if( type->bodytype == "insect" || type->bodytype == "spider" || type->bodytype == "crab" ) {
+            return x_in_y( 3, 4 );
+        } else return type->bodytype == "snake" || type->bodytype == "blob" || type->bodytype == "fish" ||
+                          has_flag( MF_FLIES );
+    }
     return false;
 }
 
@@ -1482,6 +1515,10 @@ bool monster::melee_attack( Creature &target, float accuracy )
     // otherwise infinite loop will happen
     mod_moves( -type->attack_cost );
     if( /*This happens sometimes*/ this == &target || !is_adjacent( &target, true ) ) {
+        return false;
+    }
+    if( !sees( target ) ) {
+        debugmsg( "Z-Level view violation: %s tried to attack %s.", disp_name(), target.disp_name() );
         return false;
     }
 

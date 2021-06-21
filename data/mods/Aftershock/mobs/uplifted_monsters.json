@@ -27,7 +27,7 @@
     "special_attacks": [
       {
         "type": "gun",
-        "cooldown": 10,
+        "cooldown": 1,
         "move_cost": 150,
         "gun_type": "hk_mp5",
         "ammo_type": "9mm",

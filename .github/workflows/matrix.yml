@@ -58,13 +58,13 @@ jobs:
             sanitize: address
             native: linux64
             title: GCC 8, Ubuntu, Tiles, ASan
-          - compiler: clang++-9
+          - compiler: clang++-12
             os: ubuntu-latest
             cmake: 0
             tiles: 1
             sanitize: address,undefined
             native: linux64
-            title: Clang 9, Ubuntu, Tiles, ASan, UBSan
+            title: Clang 12, Ubuntu, Tiles, ASan, UBSan
           - compiler: clang++
             os: macos-10.15
             cmake: 0
@@ -97,6 +97,10 @@ jobs:
           sudo apt-get update
           sudo apt-get install libncursesw5-dev libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev \
             libsdl2-mixer-dev libpulse-dev ccache gettext parallel
+    - name: install old GCC (ubuntu)
+      if: runner.os == 'Linux' && (matrix.compiler == 'g++-7' || matrix.compiler == 'g++-8')
+      run: |
+          sudo apt-get install g++-7 g++-8
     - name: install dependencies (mac)
       if: runner.os == 'macOS'
       run: |

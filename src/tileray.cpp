@@ -4,7 +4,6 @@
 #include <cstdlib>
 #include <string>
 
-#include "compatibility.h"
 #include "line.h"
 #include "units.h"
 #include "units_utility.h"
@@ -171,7 +170,7 @@ int tileray::dir_symbol( int sym ) const
 
 std::string tileray::to_string_azimuth_from_north() const
 {
-    return to_string( std::lround( to_degrees( dir() + 90_degrees ) ) % 360 ) + "°";
+    return std::to_string( std::lround( to_degrees( dir() + 90_degrees ) ) % 360 ) + "°";
 }
 
 int tileray::ortho_dx( int od ) const

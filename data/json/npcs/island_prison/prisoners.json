@@ -510,7 +510,7 @@
       },
       {
         "text": "Yeah, sure.",
-        "topic": "TALK_MISSION_LIST",
+        "topic": "TALK_MISSION_OFFER",
         "condition": {
           "and": [
             { "not": { "u_has_var": "prisoner_leader_mission", "type": "mission", "context": "military_id", "value": "yes" } },

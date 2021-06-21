@@ -96,6 +96,7 @@ std::unique_ptr<cata_tiles> tilecontext;
 static uint32_t lastupdate = 0;
 static uint32_t interval = 25;
 static bool needupdate = false;
+static bool need_invalidate_framebuffers = false;
 
 palette_array windowsPalette;
 
@@ -544,7 +545,9 @@ void refresh_display()
 #endif
 #if defined(__ANDROID__)
     draw_terminal_size_preview();
-    draw_quick_shortcuts();
+    if( g ) {
+        draw_quick_shortcuts();
+    }
     draw_virtual_joystick();
 #endif
     SDL_RenderPresent( renderer.get() );
@@ -601,7 +604,8 @@ void reinitialize_framebuffer()
         for( int i = 0; i < new_height; i++ ) {
             terminal_framebuffer[i].chars.assign( new_width, cursecell( "" ) );
         }
-    } else {
+    } else if( need_invalidate_framebuffers ) {
+        need_invalidate_framebuffers = false;
         invalidate_framebuffer( oversized_framebuffer );
         invalidate_framebuffer( terminal_framebuffer );
     }
@@ -1354,6 +1358,7 @@ bool handle_resize( int w, int h )
         WindowHeight = h;
         TERMINAL_WIDTH = WindowWidth / fontwidth / scaling_factor;
         TERMINAL_HEIGHT = WindowHeight / fontheight / scaling_factor;
+        need_invalidate_framebuffers = true;
         catacurses::stdscr = catacurses::newwin( TERMINAL_HEIGHT, TERMINAL_WIDTH, point_zero );
         SetupRenderTarget();
         game_ui::init_ui();
@@ -1549,7 +1554,7 @@ bool ignore_action_for_quick_shortcuts( const std::string &action )
 void add_quick_shortcut( quick_shortcuts_t &qsl, input_event &event, bool back,
                          bool reset_shortcut_last_used_action_counter )
 {
-    if( reset_shortcut_last_used_action_counter ) {
+    if( reset_shortcut_last_used_action_counter && g ) {
         event.shortcut_last_used_action_counter =
             g->get_user_action_counter();    // only used for DEFAULTMODE
     }
@@ -2517,7 +2522,7 @@ static void CheckMessages()
                     SDL_ShowCursor( SDL_DISABLE );
                 }
                 keyboard_mode mode = keyboard_mode::keychar;
-#if !defined( __ANDROID__ )
+#if !defined(__ANDROID__) && !defined(TARGET_OS_IPHONE)
                 if( !SDL_IsTextInputActive() ) {
                     mode = keyboard_mode::keycode;
                 }
@@ -2574,7 +2579,7 @@ static void CheckMessages()
                 }
 #endif
                 keyboard_mode mode = keyboard_mode::keychar;
-#if !defined( __ANDROID__ )
+#if !defined(__ANDROID__) && !defined(TARGET_OS_IPHONE)
                 if( !SDL_IsTextInputActive() ) {
                     mode = keyboard_mode::keycode;
                 }
@@ -2991,6 +2996,7 @@ void catacurses::init_interface()
 
     get_options().init();
     get_options().load();
+    set_language(); //Prevent translated language strings from causing an error if language not set
 
     font_loader fl;
     fl.load();
@@ -3093,7 +3099,7 @@ input_event input_manager::get_input_event( const keyboard_mode preferred_keyboa
         throw std::runtime_error( "input_manager::get_input_event called in test mode" );
     }
 
-#if !defined( __ANDROID__ )
+#if !defined(__ANDROID__) && !defined(TARGET_OS_IPHONE)
     if( actual_keyboard_mode( preferred_keyboard_mode ) == keyboard_mode::keychar ) {
         SDL_StartTextInput();
     } else {

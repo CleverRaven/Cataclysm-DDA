@@ -90,7 +90,7 @@
     "coverage": 100,
     "encumbrance": 40,
     "warmth": 35,
-    "material_thickness": 4,
+    "material_thickness": 4.5,
     "environmental_protection": 8,
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
   },
@@ -743,8 +743,7 @@
     "encumbrance": 60,
     "warmth": 20,
     "material_thickness": 2.5,
-    "environmental_protection": 2,
-    "flags": [ "FANCY" ]
+    "environmental_protection": 2
   },
   {
     "id": "dance_shoes",
@@ -956,7 +955,7 @@
     "coverage": 30,
     "encumbrance": 50,
     "material_thickness": 1.5,
-    "flags": [ "VARSIZE", "SUPER_FANCY" ]
+    "flags": [ "VARSIZE", "FANCY" ]
   },
   {
     "id": "knee_high_boots",
@@ -1259,7 +1258,7 @@
     "warmth": 20,
     "material_thickness": 2,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "WATERPROOF", "FANCY" ]
+    "flags": [ "VARSIZE", "WATERPROOF" ]
   },
   {
     "id": "wetsuit_booties",

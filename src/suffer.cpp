@@ -328,10 +328,10 @@ void Character::suffer_while_awake( const int current_stim )
     if( has_trait( trait_MOODSWINGS ) && one_turn_in( 6_hours ) ) {
         if( rng( 1, 20 ) > 9 ) {
             // 55% chance
-            add_morale( MORALE_MOODSWING, -100, -500 );
+            add_morale( MORALE_MOODSWING, -20, -100 );
         } else {
             // 45% chance
-            add_morale( MORALE_MOODSWING, 100, 500 );
+            add_morale( MORALE_MOODSWING, 20, 100 );
         }
     }
 
@@ -610,7 +610,9 @@ void Character::suffer_from_asthma( const int current_stim )
         has_effect( effect_took_antiasthmatic ) ) {
         return;
     }
-    if( !one_in( ( to_turns<int>( 6_hours ) - current_stim * 300 ) *
+    //cap asthma attacks to 1 per minute (or risk instantly killing players that rely on oxygen tanks)
+    if( !one_in( std::max( to_turns<int>( 1_minutes ),
+                           ( to_turns<int>( 6_hours ) - current_stim * 300 ) ) *
                  ( has_effect( effect_sleep ) ? 10 : 1 ) ) ) {
         return;
     }
@@ -642,6 +644,7 @@ void Character::suffer_from_asthma( const int current_stim )
         } else if( auto_use ) {
             if( use_charges_if_avail( itype_inhaler, 1 ) ) {
                 add_msg_if_player( m_info, _( "You use your inhaler and go back to sleep." ) );
+                add_effect( effect_took_antiasthmatic, rng( 6_hours, 12_hours ) );
             } else if( use_charges_if_avail( itype_oxygen_tank, 1 ) ||
                        use_charges_if_avail( itype_smoxygen_tank, 1 ) ) {
                 add_msg_if_player( m_info, _( "You take a deep breath from your oxygen tank "
@@ -652,6 +655,7 @@ void Character::suffer_from_asthma( const int current_stim )
             int amount = 1;
             if( !here.use_charges( player_character.pos(), 2, itype_inhaler, amount ).empty() ) {
                 add_msg_if_player( m_info, _( "You use your inhaler and go back to sleep." ) );
+                add_effect( effect_took_antiasthmatic, rng( 6_hours, 12_hours ) );
             } else if( !here.use_charges( player_character.pos(), 2, itype_oxygen_tank, amount ).empty() ||
                        !here.use_charges( player_character.pos(), 2, itype_smoxygen_tank, amount ).empty() ) {
                 add_msg_if_player( m_info, _( "You take a deep breath from your oxygen tank "
@@ -682,6 +686,7 @@ void Character::suffer_from_asthma( const int current_stim )
                                                      "only %d charges left.", charges ),
                                    charges );
             }
+            add_effect( effect_took_antiasthmatic, rng( 6_hours, 12_hours ) );
         } else if( use_charges_if_avail( itype_oxygen_tank, 1 ) ||
                    use_charges_if_avail( itype_smoxygen_tank, 1 ) ) {
             moves -= 500; // synched with use action
@@ -735,13 +740,6 @@ void Character::suffer_in_sunlight()
     if( x_in_y( sunlight_nutrition, 18000 ) ) {
         vitamin_mod( vitamin_id( "vitA" ), 1, true );
         vitamin_mod( vitamin_id( "vitC" ), 1, true );
-    }
-
-    if( x_in_y( sunlight_nutrition, 12000 ) ) {
-        mod_hunger( -1 );
-        // photosynthesis absorbs kcal directly
-        mod_stored_nutr( -1 );
-        stomach.ate();
     }
 
     if( !g->is_in_sunlight( pos() ) ) {
@@ -966,29 +964,6 @@ void Character::suffer_from_other_mutations()
         //~Sound of buzzing Insect Wings
         sounds::sound( pos(), 10, sounds::sound_t::movement, _( "BZZZZZ" ), false, "misc",
                        "insect_wings" );
-    }
-
-    bool wearing_shoes = footwear_factor() == 1.0;
-    int root_vitamins = 0;
-    int root_water = 0;
-    if( has_trait( trait_ROOTS3 ) && here.has_flag( flag_PLOWABLE, pos() ) && !wearing_shoes ) {
-        root_vitamins += 1;
-        if( get_thirst() <= -2000 ) {
-            root_water += 51;
-        }
-    }
-
-    if( x_in_y( root_vitamins, 576 ) ) {
-        vitamin_mod( vitamin_id( "iron" ), 1, true );
-        vitamin_mod( vitamin_id( "calcium" ), 1, true );
-        mod_healthy_mod( 5, 50 );
-    }
-
-    if( x_in_y( root_water, 2550 ) ) {
-        // Plants draw some crazy amounts of water from the ground in real life,
-        // so these numbers try to reflect that uncertain but large amount
-        // this should take 12 hours to meet your daily needs with ROOTS2, and 8 with ROOTS3
-        mod_thirst( -1 );
     }
 
     if( has_trait( trait_SORES ) ) {
@@ -1415,8 +1390,8 @@ void Character::suffer_from_exertion()
     }
 
     // Significantly slow the rate of messaging when in an activity
-    int chance = activity ? 2000 : 60;
-    if( attempted_activity_level > max_activity && one_in( chance ) && !in_sleep_state() ) {
+    const int chance = activity ? to_turns<int>( 48_minutes ) : to_turns<int>( 5_minutes );
+    if( activity_history.activity() > max_activity && one_in( chance ) && !in_sleep_state() ) {
         add_msg_if_player( m_bad,
                            _( "You're tiring out; continuing to work at this rate will be slower." ) );
     }

@@ -266,6 +266,7 @@
     "description": "It smells of tomatoes.  Not very filling, but it goes well with grilled cheese.",
     "price": 400,
     "price_postapoc": 50,
+    "sealed": true,
     "material": [ "tomato" ],
     "volume": "250 ml",
     "phase": "liquid",

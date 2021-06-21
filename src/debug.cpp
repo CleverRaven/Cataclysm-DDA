@@ -18,6 +18,7 @@
 #include <map>
 #include <memory>
 #include <new>
+#include <regex>
 #include <set>
 #include <sstream>
 #include <string>
@@ -60,9 +61,15 @@
 #       if defined(LIBBACKTRACE)
 #           include <backtrace.h>
 #       endif
+#   elif defined(__ANDROID__)
+#       include <unwind.h>
+#       include <dlfcn.h>
 #   else
 #       include <execinfo.h>
 #       include <unistd.h>
+#   endif
+#   if defined(__GNUC__) || defined(__clang__)
+#       include <cxxabi.h>
 #   endif
 #endif
 
@@ -77,6 +84,10 @@
 #if defined(__ANDROID__)
 // used by android_version() function for __system_property_get().
 #include <sys/system_properties.h>
+#endif
+
+#if (defined(__DragonFly__) || defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__)) && !defined(BSD)
+#define BSD
 #endif
 
 // Static defines                                                   {{{1
@@ -589,7 +600,7 @@ static std::ostream &operator<<( std::ostream &out, DebugClass cl )
 }
 
 #if defined(BACKTRACE)
-#if !defined(_WIN32) && !defined(__CYGWIN__)
+#if !defined(_WIN32) && !defined(__CYGWIN__) && !defined(__ANDROID__)
 // Verify that a string is safe for passing as an argument to addr2line.
 // In particular, we want to avoid any characters of significance to the shell.
 static bool debug_is_safe_string( const char *start, const char *finish )
@@ -782,11 +793,91 @@ static SYMBOL_INFO &sym = reinterpret_cast<SYMBOL_INFO &>( sym_storage );
 #if defined(LIBBACKTRACE)
 static std::map<DWORD64, backtrace_state *> bt_states;
 #endif
-#else
+#elif !defined(__ANDROID__)
 static constexpr int bt_cnt = 20;
 static void *bt[bt_cnt];
 #endif
 
+static std::string demangle( const char *symbol )
+{
+#if defined(_MSC_VER)
+    // TODO: implement demangling on MSVC
+#elif defined(__GNUC__) || defined(__clang__)
+    int status = -1;
+    char *demangled = abi::__cxa_demangle( symbol, nullptr, nullptr, &status );
+    if( status == 0 ) {
+        std::string demangled_str( demangled );
+        free( demangled );
+        return demangled_str;
+    }
+#if defined(_WIN32)
+    // https://stackoverflow.com/questions/54333608/boost-stacktrace-not-demangling-names-when-cross-compiled
+    // libbacktrace may strip leading underscore character in the symbol name returned
+    // so if demangling failed, try again with an underscore prepended
+    std::string prepend_underscore( "_" );
+    prepend_underscore = prepend_underscore + symbol;
+    demangled = abi::__cxa_demangle( prepend_underscore.c_str(), nullptr, nullptr, &status );
+    if( status == 0 ) {
+        std::string demangled_str( demangled );
+        free( demangled );
+        return demangled_str;
+    }
+#endif // defined(_WIN32)
+#endif // compiler macros
+    return std::string( symbol );
+}
+
+#if !defined(_WIN32) && !defined(__ANDROID__)
+static void write_demangled_frame( std::ostream &out, const char *frame )
+{
+#if defined(__linux__)
+    // ./cataclysm(_ZN4game13handle_actionEv+0x47e8) [0xaaaae91e80fc]
+    static const std::regex symbol_regex( R"(^(.*)\((.*)\+(0x?[a-f0-9]*)\)\s\[(0x[a-f0-9]+)\]$)" );
+    std::cmatch match_result;
+    if( std::regex_search( frame, match_result, symbol_regex ) && match_result.size() == 5 ) {
+        std::csub_match file_name = match_result[1];
+        std::csub_match raw_symbol_name = match_result[2];
+        std::csub_match offset = match_result[3];
+        std::csub_match address = match_result[4];
+        out << "\n    " << file_name.str() << "(" << demangle( raw_symbol_name.str().c_str() ) << "+" <<
+            offset.str() << ") [" << address.str() << "]";
+    } else {
+        out << "\n    " << frame;
+    }
+#elif defined(MACOSX)
+    //1   cataclysm-tiles                     0x0000000102ba2244 _ZL9log_crashPKcS0_ + 608
+    static const std::regex symbol_regex( R"(^(.*)(0x[a-f0-9]{16})\s(.*)\s\+\s([0-9]+)$)" );
+    std::cmatch match_result;
+    if( std::regex_search( frame, match_result, symbol_regex ) && match_result.size() == 5 ) {
+        std::csub_match prefix = match_result[1];
+        std::csub_match address = match_result[2];
+        std::csub_match raw_symbol_name = match_result[3];
+        std::csub_match offset = match_result[4];
+        out << "\n    " << prefix.str() << address.str() << ' ' << demangle( raw_symbol_name.str().c_str() )
+            << " + " << offset.str();
+    } else {
+        out << "\n    " << frame;
+    }
+#elif defined(BSD)
+    static const std::regex symbol_regex( R"(^(0x[a-f0-9]+)\s<(.*)\+(0?x?[a-f0-9]*)>\sat\s(.*)$)" );
+    std::cmatch match_result;
+    if( std::regex_search( frame, match_result, symbol_regex ) && match_result.size() == 5 ) {
+        std::csub_match address = match_result[1];
+        std::csub_match raw_symbol_name = match_result[2];
+        std::csub_match offset = match_result[3];
+        std::csub_match file_name = match_result[4];
+        out << "\n    " << address.str() << " <" << demangle( raw_symbol_name.str().c_str() ) << "+" <<
+            offset.str() << "> at " << file_name.str();
+    } else {
+        out << "\n    " << frame;
+    }
+#else
+    out << "\n    " << frame;
+#endif
+}
+#endif // !defined(_WIN32) && !defined(__ANDROID__)
+
+#if !defined(__ANDROID__)
 void debug_write_backtrace( std::ostream &out )
 {
 #if defined(_WIN32)
@@ -803,7 +894,7 @@ void debug_write_backtrace( std::ostream &out )
         out << "\n  #" << i;
         out << "\n    (dbghelp: ";
         if( SymFromAddr( proc, reinterpret_cast<DWORD64>( bt[i] ), &off, &sym ) ) {
-            out << sym.Name << "+0x" << std::hex << off << std::dec;
+            out << demangle( sym.Name ) << "+0x" << std::hex << off << std::dec;
         }
         out << "@" << bt[i];
         const DWORD64 mod_base = SymGetModuleBase64( proc, reinterpret_cast<DWORD64>( bt[i] ) );
@@ -855,7 +946,7 @@ void debug_write_backtrace( std::ostream &out )
                         // syminfo callback
                         [&out]( const uintptr_t pc, const char *const symname,
             const uintptr_t symval, const uintptr_t ) {
-                out << "\n    (libbacktrace: " << ( symname ? symname : "[unknown symbol]" )
+                out << "\n    (libbacktrace: " << ( symname ? demangle( symname ) : "[unknown symbol]" )
                     << "+0x" << std::hex << pc - symval << std::dec
                     << "@0x" << std::hex << pc << std::dec
                     << "),";
@@ -895,7 +986,7 @@ void debug_write_backtrace( std::ostream &out )
     int count = backtrace( bt, bt_cnt );
     char **funcNames = backtrace_symbols( bt, count );
     for( int i = 0; i < count; ++i ) {
-        out << "\n    " << funcNames[i];
+        write_demangled_frame( out, funcNames[i] );
     }
     out << "\n\n    Attempting to repeat stack trace using debug symbols…\n";
     // Try to print the backtrace again, but this time using addr2line
@@ -1025,6 +1116,51 @@ void debug_write_backtrace( std::ostream &out )
 #endif
 }
 #endif
+#endif
+
+// Probably because there are too many nested #if..#else..#endif in this file
+// NDK compiler doesn't understand #if defined(__ANDROID__)..#else..#endif
+// So write as two separate #if blocks
+#if defined(__ANDROID__)
+
+// The following Android backtrace code was originally written by Eugene Shapovalov
+// on https://stackoverflow.com/questions/8115192/android-ndk-getting-the-backtrace
+struct android_backtrace_state {
+    void **current;
+    void **end;
+};
+
+static _Unwind_Reason_Code unwindCallback( struct _Unwind_Context *context, void *arg )
+{
+    android_backtrace_state *state = static_cast<android_backtrace_state *>( arg );
+    uintptr_t pc = _Unwind_GetIP( context );
+    if( pc ) {
+        if( state->current == state->end ) {
+            return _URC_END_OF_STACK;
+        } else {
+            *state->current++ = reinterpret_cast<void *>( pc );
+        }
+    }
+    return _URC_NO_REASON;
+}
+
+void debug_write_backtrace( std::ostream &out )
+{
+    const size_t max = 50;
+    void *buffer[max];
+    android_backtrace_state state = {buffer, buffer + max};
+    _Unwind_Backtrace( unwindCallback, &state );
+    const std::size_t count = state.current - buffer;
+    // Start from 1: skip debug_write_backtrace ourselves
+    for( size_t idx = 1; idx < count && idx < max; ++idx ) {
+        const void *addr = buffer[idx];
+        Dl_info info;
+        if( dladdr( addr, &info ) && info.dli_sname ) {
+            out << "#" << std::setw( 2 ) << idx << ": " << addr << " " << demangle( info.dli_sname ) << "\n";
+        }
+    }
+}
+#endif
 
 std::ostream &DebugLog( DebugLevel lev, DebugClass cl )
 {
@@ -1092,7 +1228,7 @@ std::string game_info::operating_system()
     /* OSX */
     return "MacOs";
 #endif // TARGET_IPHONE_SIMULATOR
-#elif defined(BSD) // defined(__DragonFly__) || defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__)
+#elif defined(BSD)
     return "BSD";
 #else
     return "Unix";

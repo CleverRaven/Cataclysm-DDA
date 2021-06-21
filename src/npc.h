@@ -1043,7 +1043,7 @@ class npc : public player
         void process_turn() override;
 
         using Character::invoke_item;
-        bool invoke_item( item *, const tripoint &pt ) override;
+        bool invoke_item( item *, const tripoint &pt, int pre_obtain_moves ) override;
         bool invoke_item( item *used, const std::string &method ) override;
         bool invoke_item( item * ) override;
 
@@ -1323,7 +1323,6 @@ class npc : public player
         // Dummy point that indicates that the goal is invalid.
         static constexpr tripoint_abs_omt no_goal_point{ tripoint_min };
         job_data job;
-        time_point last_updated;
         /**
          * Do some cleanup and caching as npc is being unloaded from map.
          */

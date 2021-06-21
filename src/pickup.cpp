@@ -222,7 +222,7 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
                   PickupMap &mapPickup, bool autopickup )
 {
     Character &player_character = get_player_character();
-    int moves_taken = 100;
+    int moves_taken = loc.obtain_cost( player_character, quantity );
     bool picked_up = false;
     pickup_answer option = CANCEL;
 

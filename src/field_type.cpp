@@ -55,7 +55,6 @@ const field_type_str_id fd_fungicidal_gas( "fd_fungicidal_gas" );
 const field_type_str_id fd_insecticidal_gas( "fd_insecticidal_gas" );
 const field_type_str_id fd_smoke_vent( "fd_smoke_vent" );
 const field_type_str_id fd_tindalos_rift( "fd_tindalos_rift" );
-const field_type_str_id fd_mechanical_fluid( "fd_mechanical_fluid" );
 
 namespace io
 {

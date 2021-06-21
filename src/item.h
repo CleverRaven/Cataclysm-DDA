@@ -335,6 +335,11 @@ class item : public visitable
         bool is_software_storage() const;
 
         /**
+         * Returns a symbol for indicating the current dirt or fouling level for a gun.
+         */
+        std::string dirt_symbol() const;
+
+        /**
          * Returns the default color of the item (e.g. @ref itype::color).
          */
         nc_color color() const;
@@ -568,8 +573,9 @@ class item : public visitable
          * NOTE: Result is rounded up to next nearest milliliter when working with stackable (@ref count_by_charges) items that have fractional volume per charge.
          * If trying to determine how many of an item can fit in a given space, @ref charges_per_volume should be used instead.
          * @param integral if true return effective volume if this item was integrated into another
+         * @param ignore_contents if true return effective volume for the item alone, ignoring its contents
          */
-        units::volume volume( bool integral = false ) const;
+        units::volume volume( bool integral = false, bool ignore_contents = false ) const;
 
         units::length length() const;
 
@@ -895,7 +901,7 @@ class item : public visitable
          * 1 for other comestibles,
          * 0 otherwise.
          */
-        int spoilage_sort_order();
+        int spoilage_sort_order() const;
 
         /** an item is fresh if it is capable of rotting but still has a long shelf life remaining */
         bool is_fresh() const {

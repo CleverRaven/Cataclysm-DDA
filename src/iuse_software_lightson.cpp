@@ -28,7 +28,7 @@ void lightson_game::new_level()
     const int lvl_width = rng( 4, 6 );
     const int lvl_height = half_perimeter - lvl_width;
     level_size = point( lvl_width, lvl_height );
-    level.resize( lvl_height * lvl_width );
+    level.resize( static_cast<size_t>( lvl_height ) * static_cast<size_t>( lvl_width ) );
 
     const int steps_rng = half_perimeter / 2.0 + rng_float( 0.0, 2.0 );
     generate_change_coords( steps_rng );
