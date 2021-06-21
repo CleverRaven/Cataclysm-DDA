@@ -115,7 +115,7 @@
   {
     "type": "recipe",
     "result": "faction_base_pottery_cottage_blacksmith_2",
-    "description": "Let's build second workbench and drop hammer for more productive smithing.",
+    "description": "Let's build a second workbench and a drop hammer for more productive smithing.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
