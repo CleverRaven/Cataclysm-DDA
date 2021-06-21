@@ -102,8 +102,10 @@ def merge_datasets(
     Match IDs between game data, overlays and tileset
 
     >>> merge_datasets({
+    ...     'type': ['ARMOR', 'TOOL', 'BOOK'],
     ...     'id': ['a', 'b', 'c'],
-    ...     'desc': ['desc a', 'desc b', 'desc c'],
+    ...     'description': ['desc a', 'desc b', 'desc c'],
+    ...     'color': ['red', 'green', 'blue']
     ... }, {
     ...     'overlay_id': [
     ...         'overlay_worn_a', 'overlay_worn_b', 'overlay_worn_c',
@@ -112,16 +114,16 @@ def merge_datasets(
     ... }, {
     ...     'tileset_id': ['a', 'b', 'overlay_worn_a', 'overlay_wielded_b'],
     ... })
-      id    desc         overlay_id         tileset_id
-    0  a  desc a                NaN                  a
-    1  a     NaN     overlay_worn_a     overlay_worn_a
-    2  a     NaN  overlay_wielded_a                NaN
-    3  b  desc b                NaN                  b
-    4  b     NaN     overlay_worn_b                NaN
-    5  b     NaN  overlay_wielded_b  overlay_wielded_b
-    6  c  desc c                NaN                NaN
-    7  c     NaN     overlay_worn_c                NaN
-    8  c     NaN  overlay_wielded_c                NaN
+        type id description  color         overlay_id         tileset_id
+    0  ARMOR  a      desc a    red                NaN                  a
+    1  ARMOR  a         NaN    NaN     overlay_worn_a     overlay_worn_a
+    2  ARMOR  a         NaN    NaN  overlay_wielded_a                NaN
+    3   TOOL  b      desc b  green                NaN                  b
+    4   TOOL  b         NaN    NaN     overlay_worn_b                NaN
+    5   TOOL  b         NaN    NaN  overlay_wielded_b  overlay_wielded_b
+    6   BOOK  c      desc c   blue                NaN                NaN
+    7   BOOK  c         NaN    NaN     overlay_worn_c                NaN
+    8   BOOK  c         NaN    NaN  overlay_wielded_c                NaN
     """
     all_game_ids = pandas.DataFrame(all_game_ids)
     overlay_ids = pandas.DataFrame(overlay_ids)
@@ -129,23 +131,33 @@ def merge_datasets(
 
     tileset_ids['id'] = tileset_ids['tileset_id'].apply(strip_overlay_id)
 
-    # FIXME: output the original ID in the generate_overlay_ids.py
+    # TODO: output the original ID and type in the generate_overlay_ids.py
     overlay_ids['id'] = overlay_ids['overlay_id'].apply(strip_overlay_id)
+    # game_data = pandas.merge(all_game_ids, overlay_ids, on=['type', 'id'])
 
-    # game_data = pandas.merge(all_game_ids, overlay_ids, on='id')  # TODO
-
+    # match tileset with game data
     result = all_game_ids.merge(
         tileset_ids,
         how='outer',
         on='id',
+        sort=False,
     )
+    # match overlays
     result = result.merge(
         overlay_ids,
         how='outer',
         left_on=['id', 'tileset_id'],
         right_on=['id', 'overlay_id'],
+        sort=False,
     )
-    return result
+    # rearrange columns
+    overlay_id_column = result.pop('overlay_id')
+    result.insert(
+        result.columns.get_loc('tileset_id'),
+        overlay_id_column.name,
+        overlay_id_column,
+    )
+    return result.sort_values('id')
 
 
 def write_output(data: pandas.DataFrame, output_filename: str) -> int:
