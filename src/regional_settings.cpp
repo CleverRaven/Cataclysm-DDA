@@ -11,6 +11,7 @@
 #include "enum_conversions.h"
 #include "json.h"
 #include "options.h"
+#include "output.h"
 #include "rng.h"
 #include "string_formatter.h"
 #include "translations.h"
@@ -593,6 +594,39 @@ void load_region_settings( const JsonObject &jo )
             false );
 
     region_settings_map[new_region.id] = new_region;
+}
+
+void check_region_settings()
+{
+    for( const std::pair<const std::string, regional_settings> &p : region_settings_map ) {
+        const std::string &region_name = p.first;
+        const regional_settings &region = p.second;
+        for( const std::pair<const std::string, map_extras> &p2 : region.region_extras ) {
+            const std::string extras_name = p.first;
+            const map_extras &extras = p2.second;
+            if( extras.chance == 0 ) {
+                continue;
+            }
+            const weighted_int_list<std::string> &values = extras.values;
+            if( !values.is_valid() ) {
+                if( values.empty() ) {
+                    debugmsg( "Invalid map extras for region \"%s\", extras \"%s\".  "
+                              "Extras have nonzero chance but no extras are listed.",
+                              region_name, extras_name );
+                } else {
+                    std::string list_of_values =
+                        enumerate_as_string( values,
+                    []( const weighted_object<int, std::string> &w ) {
+                        return '"' + w.obj + '"';
+                    } );
+                    debugmsg( "Invalid map extras for region \"%s\", extras \"%s\".  "
+                              "Extras %s are listed, but all have zero weight.",
+                              region_name, extras_name,
+                              list_of_values );
+                }
+            }
+        }
+    }
 }
 
 void reset_region_settings()
