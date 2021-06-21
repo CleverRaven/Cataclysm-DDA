@@ -24,6 +24,26 @@
         "id": "faction_base_shelter_2_0",
         "description": "Central Stairs Evac Shelter Base",
         "om_terrains": [ "shelter_2", "shelter_2_vandal" ]
+      },
+      {
+        "id": "faction_base_mansion_+1_0",
+        "description": "Mansion Fountain Garden Base",
+        "om_terrains": [ "mansion_+1" ]
+      },
+      {
+        "id": "faction_base_mansion_+2_0",
+        "description": "Mansion Dance Floor Room Base",
+        "om_terrains": [ "mansion_+2" ]
+      },
+      {
+        "id": "faction_base_mansion_+3_0",
+        "description": "Mansion Basketball Room Base",
+        "om_terrains": [ "mansion_+3" ]
+      },
+      {
+        "id": "faction_base_mansion_+4_0",
+        "description": "Mansion Garden With Columns Base",
+        "om_terrains": [ "mansion_+4" ]
       }
     ]
   },
@@ -38,7 +58,21 @@
       { "id": "faction_base_livestock_0", "description": "Livestock Area", "om_terrains": [ "field" ] },
       { "id": "faction_base_storehouse_0", "description": "Central Storage Building", "om_terrains": [ "field" ] },
       { "id": "faction_base_saltworks_0", "description": "Saltworks Area", "om_terrains": [ "field" ] },
-      { "id": "faction_base_workshop_0", "description": "Fabrication Workshop", "om_terrains": [ "field" ] }
+      { "id": "faction_base_workshop_0", "description": "Fabrication Workshop", "om_terrains": [ "field" ] },
+      { "id": "faction_base_mansion_e1", "description": "Mansion's Entrance", "om_terrains": [ "mansion_e1" ] },
+      { "id": "faction_base_mansion_e2", "description": "Mansion's Entrance", "om_terrains": [ "mansion_e2" ] },
+      { "id": "faction_base_mansion_t1", "description": "Mansion's Swimming Pool", "om_terrains": [ "mansion_t1" ] },
+      { "id": "faction_base_mansion_t2", "description": "Mansion's Bedrooms", "om_terrains": [ "mansion_t2" ] },
+      { "id": "faction_base_mansion_t3", "description": "Mansion's???", "om_terrains": [ "mansion_t3" ] },
+      { "id": "faction_base_mansion_t4", "description": "Mansion's Kitchen", "om_terrains": [ "mansion_t4" ] },
+      { "id": "faction_base_mansion_t5", "description": "Mansion's Library", "om_terrains": [ "mansion_t5" ] },
+      { "id": "faction_base_mansion_t6", "description": "Mansion's Bedroom", "om_terrains": [ "mansion_t6" ] },
+      { "id": "faction_base_mansion_t7", "description": "Mansion's Living Rooms", "om_terrains": [ "mansion_t7" ] },
+      { "id": "faction_base_mansion_c1", "description": "Mansion's Swimming Pool", "om_terrains": [ "mansion_c1" ] },
+      { "id": "faction_base_mansion_c2", "description": "Mansion's Bar", "om_terrains": [ "mansion_c2" ] },
+      { "id": "faction_base_mansion_c3", "description": "Mansion's Living Rooms", "om_terrains": [ "mansion_c3" ] },
+      { "id": "faction_base_mansion_c4", "description": "Mansion's Bedroom", "om_terrains": [ "mansion_c4" ] },
+      { "id": "faction_base_mansion_c5", "description": "Mansion's Kitchen", "om_terrains": [ "mansion_c5" ] }
     ]
   },
   {
