@@ -3,6 +3,7 @@
 Outer join game IDs with tileset IDs and output a CSV report
 """
 import re
+import sys
 
 import pandas
 
@@ -35,7 +36,7 @@ DELETION_RE = (
 )
 
 
-def strip_overlay_id(overlay_id):
+def strip_overlay_id(overlay_id: str) -> str:
     """
     Extract game ID from an overlay ID string
 
@@ -67,18 +68,12 @@ def strip_overlay_id(overlay_id):
     return stripped_id
 
 
-def main():
+def get_data() -> tuple:
     """
-    Executed when the file is run directly
+    Load datasets with game IDs, tileset IDs and overlay IDs
     """
     all_game_ids = pandas.read_csv(
         GAME_IDS_FILENAME,
-        warn_bad_lines=True,
-    )
-    tileset_ids = pandas.read_csv(
-        TILESET_IDS_FILENAME,
-        header=None,
-        names=('tileset_id',),
         warn_bad_lines=True,
     )
     overlay_ids = pandas.read_csv(
@@ -87,8 +82,55 @@ def main():
         names=('overlay_id',),
         warn_bad_lines=True,
     )
+    tileset_ids = pandas.read_csv(
+        TILESET_IDS_FILENAME,
+        header=None,
+        names=('tileset_id',),
+        warn_bad_lines=True,
+    )
+    return all_game_ids, overlay_ids, tileset_ids
 
+
+def merge_datasets(all_game_ids, overlay_ids, tileset_ids) -> pandas.DataFrame:
+    """
+    Match IDs between game data, overlays and tileset
+
+    >>> merge_datasets(pandas.DataFrame({
+    ...     'id': [
+    ...         'a', 'b', 'c',
+    ...     ],
+    ...     'desc': [
+    ...         'desc a', 'desc b', 'desc c',
+    ...     ],
+    ... }),
+    ... pandas.DataFrame({
+    ...     'overlay_id': [
+    ...         'overlay_worn_a', 'overlay_worn_b', 'overlay_worn_c',
+    ...         'overlay_wielded_a', 'overlay_wielded_b', 'overlay_wielded_c',
+    ...     ],
+    ... }),
+    ... pandas.DataFrame({
+    ...     'tileset_id': [
+    ...         'a', 'b', 'overlay_worn_a', 'overlay_wielded_b',
+    ...     ],
+    ... }))
+      id    desc         overlay_id         tileset_id
+    0  a  desc a                NaN                  a
+    1  a     NaN     overlay_worn_a     overlay_worn_a
+    2  a     NaN  overlay_wielded_a                NaN
+    3  b  desc b                NaN                  b
+    4  b     NaN     overlay_worn_b                NaN
+    5  b     NaN  overlay_wielded_b  overlay_wielded_b
+    6  c  desc c                NaN                NaN
+    7  c     NaN     overlay_worn_c                NaN
+    8  c     NaN  overlay_wielded_c                NaN
+    """
     tileset_ids['id'] = tileset_ids['tileset_id'].apply(strip_overlay_id)
+
+    # FIXME: output the original ID in the generate_overlay_ids.py
+    overlay_ids['id'] = overlay_ids['overlay_id'].apply(strip_overlay_id)
+
+    # game_data = pandas.merge(all_game_ids, overlay_ids, on='id')  # TODO
 
     result = all_game_ids.merge(
         tileset_ids,
@@ -98,11 +140,22 @@ def main():
     result = result.merge(
         overlay_ids,
         how='outer',
-        left_on='tileset_id',
-        right_on='overlay_id',
+        left_on=['id', 'tileset_id'],
+        right_on=['id', 'overlay_id'],
     )
-    result.to_csv(OUTPUT_FILENAME)
+    return result
+
+
+def write_output(result: pandas.DataFrame, output_filename: str) -> int:
+    """
+    Write the resulting DataFrame to a file
+    """
+    try:
+        result.to_csv(output_filename)
+        return 0
+    except:  # noqa
+        return 1
 
 
 if __name__ == '__main__':
-    main()
+    sys.exit(write_output(merge_datasets(*get_data()), OUTPUT_FILENAME))
