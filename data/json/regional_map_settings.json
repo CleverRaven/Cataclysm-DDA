@@ -400,7 +400,8 @@
           "mx_point_burned_ground": 500,
           "mx_casings": 30,
           "mx_corpses": 30,
-          "mx_mass_grave": 5
+          "mx_mass_grave": 5,
+		  "mx_exocrash_1": 1
         }
       },
       "forest_thick": {
@@ -429,7 +430,8 @@
           "mx_point_burned_ground": 500,
           "mx_casings": 30,
           "mx_corpses": 30,
-          "mx_mass_grave": 5
+          "mx_mass_grave": 5,
+		  "mx_exocrash_1": 1
         }
       },
       "forest_water": {
@@ -451,7 +453,8 @@
           "mx_point_dead_vegetation": 60,
           "mx_casings": 60,
           "mx_corpses": 80,
-          "mx_nest_dermatik": 50
+          "mx_nest_dermatik": 50,
+		  "mx_exocrash_1": 1
         }
       },
       "field": {
@@ -476,7 +479,8 @@
           "mx_corpses": 3,
           "mx_nest_wasp": 2,
           "mx_mass_grave": 5,
-          "mx_grave": 5
+          "mx_grave": 5,
+		  "mx_exocrash_1": 1
         }
       },
       "road": {
@@ -497,7 +501,8 @@
           "mx_mayhem": 50,
           "mx_casings": 100,
           "mx_corpses": 30,
-          "mx_prison_bus": 15
+          "mx_prison_bus": 15,
+		  "mx_exocrash_1": 1
         }
       },
       "bridgehead_ground": { "chance": 5, "extras": { "mx_minefield": 100 } },
@@ -534,7 +539,8 @@
           "mx_crater": 180,
           "mx_portal_in": 30,
           "mx_point_burned_ground": 100,
-          "mx_casings": 30
+          "mx_casings": 30,
+		  "mx_exocrash_1": 1
         }
       },
       "research_facility_interior": {
