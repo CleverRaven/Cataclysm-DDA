@@ -180,10 +180,11 @@ static units::angle sidereal_time_at( solar_effective_time t, units::angle longi
 }
 
 static std::pair<units::angle, units::angle> sun_azimuth_altitude(
-    solar_effective_time t, lat_long location, time_duration timezone )
+    solar_effective_time t, lat_long location )
 {
     units::angle right_ascension;
     units::angle declination;
+    time_duration timezone = angle_to_time( location.longitude );
     std::tie( right_ascension, declination ) = sun_ra_declination( t, timezone );
     const units::angle sidereal_time = sidereal_time_at( t, location.longitude, timezone );
 
@@ -221,27 +222,26 @@ static std::pair<units::angle, units::angle> sun_azimuth_altitude(
     return std::make_pair( azimuth, altitude );
 }
 
-std::pair<units::angle, units::angle> sun_azimuth_altitude(
-    time_point t, lat_long location, time_duration timezone )
+std::pair<units::angle, units::angle> sun_azimuth_altitude( time_point t, lat_long location )
 {
-    return sun_azimuth_altitude( solar_effective_time( t ), location, timezone );
+    return sun_azimuth_altitude( solar_effective_time( t ), location );
 }
 
-static units::angle sun_altitude( time_point t, lat_long location, time_duration timezone )
+static units::angle sun_altitude( time_point t, lat_long location )
 {
-    return sun_azimuth_altitude( t, location, timezone ).second;
+    return sun_azimuth_altitude( t, location ).second;
 }
 
 static units::angle sun_altitude( time_point t )
 {
-    return sun_altitude( t, location_boston, timezone_boston );
+    return sun_altitude( t, location_boston );
 }
 
 cata::optional<rl_vec2d> sunlight_angle( const time_point &t, lat_long location )
 {
     units::angle azimuth;
     units::angle altitude;
-    std::tie( azimuth, altitude ) = sun_azimuth_altitude( t, location, timezone_boston );
+    std::tie( azimuth, altitude ) = sun_azimuth_altitude( t, location );
     if( altitude <= 0_degrees ) {
         // Sun below horizon
         return cata::nullopt;
@@ -259,17 +259,22 @@ cata::optional<rl_vec2d> sunlight_angle( const time_point &t )
 
 static time_point solar_noon_near( const time_point &t )
 {
-    constexpr time_duration longitude_hours = angle_to_time( location_boston.longitude );
     const time_point prior_midnight = t - time_past_midnight( t );
-    return prior_midnight + 12_hours - longitude_hours + timezone_boston;
+    return prior_midnight + 12_hours;
+    // If we were using a timezone rather than local solar time this would be
+    // calculated as follows:
+    //constexpr time_duration longitude_hours = angle_to_time( location_boston.longitude );
+    //return prior_midnight + 12_hours - longitude_hours + timezone;
 }
 
-static units::angle offset_to_sun_altitude( const units::angle altitude,
-        const solar_effective_time approx_time, const bool evening )
+static units::angle offset_to_sun_altitude(
+    const units::angle altitude, const units::angle longitude,
+    const solar_effective_time approx_time, const bool evening )
 {
     units::angle ra;
     units::angle declination;
-    std::tie( ra, declination ) = sun_ra_declination( approx_time, timezone_boston );
+    time_duration timezone = angle_to_time( longitude );
+    std::tie( ra, declination ) = sun_ra_declination( approx_time, timezone );
     double cos_hour_angle =
         ( sin( altitude ) - sin( location_boston.latitude ) * sin( declination ) ) /
         cos( location_boston.latitude ) / cos( declination );
@@ -284,16 +289,16 @@ static units::angle offset_to_sun_altitude( const units::angle altitude,
     }
     const units::angle target_sidereal_time = hour_angle + ra;
     const units::angle sidereal_time_at_approx_time =
-        sidereal_time_at( approx_time, location_boston.longitude, timezone_boston );
+        sidereal_time_at( approx_time, location_boston.longitude, timezone );
     return normalize( target_sidereal_time - sidereal_time_at_approx_time );
 }
 
-static time_point sun_at_altitude( const units::angle altitude, const time_point t,
-                                   const bool evening )
+static time_point sun_at_altitude( const units::angle altitude, const units::angle longitude,
+                                   const time_point t, const bool evening )
 {
     const time_point solar_noon = solar_noon_near( t );
     units::angle initial_offset =
-        offset_to_sun_altitude( altitude, solar_effective_time( solar_noon ), evening );
+        offset_to_sun_altitude( altitude, longitude, solar_effective_time( solar_noon ), evening );
     if( !evening ) {
         initial_offset -= 360_degrees;
     }
@@ -302,7 +307,8 @@ static time_point sun_at_altitude( const units::angle altitude, const time_point
     // Now we should have the correct time to within a few minutes; iterate to
     // get a more precise estimate
     units::angle correction_offset =
-        offset_to_sun_altitude( altitude, solar_effective_time( initial_approximation ), evening );
+        offset_to_sun_altitude( altitude, longitude, solar_effective_time( initial_approximation ),
+                                evening );
     if( correction_offset > 180_degrees ) {
         correction_offset -= 360_degrees;
     }
@@ -312,22 +318,22 @@ static time_point sun_at_altitude( const units::angle altitude, const time_point
 
 time_point sunrise( const time_point &p )
 {
-    return sun_at_altitude( 0_degrees, p, false );
+    return sun_at_altitude( 0_degrees, location_boston.longitude, p, false );
 }
 
 time_point sunset( const time_point &p )
 {
-    return sun_at_altitude( 0_degrees, p, true );
+    return sun_at_altitude( 0_degrees, location_boston.longitude, p, true );
 }
 
 time_point night_time( const time_point &p )
 {
-    return sun_at_altitude( min_sun_angle_for_day, p, true );
+    return sun_at_altitude( min_sun_angle_for_day, location_boston.longitude, p, true );
 }
 
 time_point daylight_time( const time_point &p )
 {
-    return sun_at_altitude( min_sun_angle_for_day, p, false );
+    return sun_at_altitude( min_sun_angle_for_day, location_boston.longitude, p, false );
 }
 
 bool is_night( const time_point &p )

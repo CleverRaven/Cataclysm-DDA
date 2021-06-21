@@ -241,26 +241,26 @@ TEST_CASE( "sunrise and sunset", "[sun][sunrise][sunset][equinox][solstice]" )
 
     SECTION( "spring equinox is day 1 of spring" ) {
         // Actual sunrise and sunset on March 21st 2001 are 0545 and 1757
-        CHECK( "Year 1, Spring, day 1 5:47:36 AM" == to_string( sunrise( spring ) ) );
-        CHECK( "Year 1, Spring, day 1 5:54:55 PM" == to_string( sunset( spring ) ) );
+        CHECK( "Year 1, Spring, day 1 6:03:22 AM" == to_string( sunrise( spring ) ) );
+        CHECK( "Year 1, Spring, day 1 6:10:41 PM" == to_string( sunset( spring ) ) );
     }
 
     SECTION( "summer solstice is day 1 of summer" ) {
         // Actual sunrise and sunset on June 21st 2001 are 0407 and 1924
-        CHECK( "Year 1, Summer, day 1 4:13:02 AM" == to_string( sunrise( summer ) ) );
-        CHECK( "Year 1, Summer, day 1 7:19:24 PM" == to_string( sunset( summer ) ) );
+        CHECK( "Year 1, Summer, day 1 4:28:48 AM" == to_string( sunrise( summer ) ) );
+        CHECK( "Year 1, Summer, day 1 7:35:10 PM" == to_string( sunset( summer ) ) );
     }
 
     SECTION( "autumn equinox is day 1 of autumn" ) {
         // Actual sunrise and sunset on September 22nd 2001 are 0531 and 1741
-        CHECK( "Year 1, Autumn, day 1 5:35:13 AM" == to_string( sunrise( autumn ) ) );
-        CHECK( "Year 1, Autumn, day 1 5:38:27 PM" == to_string( sunset( autumn ) ) );
+        CHECK( "Year 1, Autumn, day 1 5:50:59 AM" == to_string( sunrise( autumn ) ) );
+        CHECK( "Year 1, Autumn, day 1 5:54:13 PM" == to_string( sunset( autumn ) ) );
     }
 
     SECTION( "winter solstice is day 1 of winter" ) {
         // Actual sunrise and sunset on December 21st 2001 are 0710 and 1614
-        CHECK( "Year 1, Winter, day 1 7:15:44 AM" == to_string( sunrise( winter ) ) );
-        CHECK( "Year 1, Winter, day 1 4:09:37 PM" == to_string( sunset( winter ) ) );
+        CHECK( "Year 1, Winter, day 1 7:31:30 AM" == to_string( sunrise( winter ) ) );
+        CHECK( "Year 1, Winter, day 1 4:25:23 PM" == to_string( sunset( winter ) ) );
     }
 
     SECTION( "spring sunrise gets earlier" ) {
@@ -412,7 +412,7 @@ TEST_CASE( "sunrise_sunset_consistency", "[sun]" )
             units::angle azimuth;
             units::angle altitude;
             std::tie( azimuth, altitude ) =
-                sun_azimuth_altitude( this_sunrise, location_boston, timezone_boston );
+                sun_azimuth_altitude( this_sunrise, location_boston );
             CHECK( to_degrees( altitude ) == Approx( 0 ).margin( 0.01 ) );
         }
         {
@@ -421,7 +421,7 @@ TEST_CASE( "sunrise_sunset_consistency", "[sun]" )
             units::angle azimuth;
             units::angle altitude;
             std::tie( azimuth, altitude ) =
-                sun_azimuth_altitude( this_sunset, location_boston, timezone_boston );
+                sun_azimuth_altitude( this_sunset, location_boston );
             CHECK( to_degrees( altitude ) == Approx( 0 ).margin( 0.01 ) );
         }
         {
@@ -430,7 +430,7 @@ TEST_CASE( "sunrise_sunset_consistency", "[sun]" )
             units::angle azimuth;
             units::angle altitude;
             std::tie( azimuth, altitude ) =
-                sun_azimuth_altitude( this_daylight, location_boston, timezone_boston );
+                sun_azimuth_altitude( this_daylight, location_boston );
             CHECK( to_degrees( altitude ) == Approx( -12 ).margin( 0.01 ) );
         }
     }
@@ -448,7 +448,7 @@ static PointSet sun_positions_regular( time_point start, time_point end, time_du
         CAPTURE( to_minutes<int>( t - start ) );
         units::angle azimuth;
         units::angle altitude;
-        std::tie( azimuth, altitude ) = sun_azimuth_altitude( t, location_boston, timezone_boston );
+        std::tie( azimuth, altitude ) = sun_azimuth_altitude( t, location_boston );
         if( altitude < 0_degrees ) {
             continue;
         }
@@ -487,7 +487,7 @@ static PointSet sun_throughout_year( time_point day_start )
 
 static void check_sun_plot( const std::vector<PointSet> &points, const std::string &reference )
 {
-    static constexpr std::array<char, 3> symbols = { { '#', '*', '.' } };
+    static constexpr std::array<char, 3> symbols = { { '#', '*', '-' } };
     REQUIRE( points.size() <= symbols.size() );
 
     std::ostringstream os;
@@ -537,30 +537,30 @@ TEST_CASE( "movement_of_sun_through_day", "[sun]" )
 "                                                                                           \n"
 "                                                                                           \n"
 "                                                                                           \n"
-"                                      ###############                                      \n"
+"                                     ################                                      \n"
 "                                  ####              ####                                   \n"
 "                               ####                     ##                                 \n"
 "                              ##                          ##                               \n"
-"                            ##                              ##                             \n"
+"                            ##                             ###                             \n"
 "                           ##                                ##                            \n"
 "                          ##                                  ##                           \n"
-"                         ##               ******               ##                          \n"
+"                         ##               *******              ##                          \n"
 "                        ##            ****      *****           ##                         \n"
 "                        #          ***              ***          ##                        \n"
-"                       #         ***                  **          #                        \n"
+"                       #         ***                  ***         #                        \n"
 "                      ##        **                      **        ##                       \n"
 "                     ##        **                        **        ##                      \n"
-"                     #        **                           **       #                      \n"
-"                    ##       *                              *        #                     \n"
-"                   ##       *              ....              *       #                     \n" // NOLINT
-"                   #       **          .....  .....           *       #                    \n" // NOLINT
-"                  ##      **         ...          ...         **      ##                   \n" // NOLINT
-"                  #      **        ...              ..         **      #                   \n" // NOLINT
-"                 #       *        ..                  ..        *       #                  \n"
-"                ##      *        ..                    ..        *      ##                 \n"
-"                #      **       ..                      ..       **      ##                \n"
-"               #      **       ..                        ..       **      #                \n"
-"              ##      *       ..                          ..       *       #               \n"
+"                     #        **                           *        #                      \n"
+"                    ##       *                              *       ##                     \n"
+"                   ##       *              ----              *       #                     \n"
+"                   #       **          -----  -----           *       #                    \n"
+"                  ##      **         ---          ---          *      ##                   \n"
+"                 ##      **        ---              --         **      ##                  \n"
+"                 #       *        --                  --        **      #                  \n"
+"                ##      *        --                    --        *      ##                 \n"
+"                #      **       --                      --       **      #                 \n"
+"               #      **       --                        --       **      #                \n"
+"              ##      *       --                          --       *       #               \n"
 "                                                                                    Azimuth\n";
 // *INDENT-ON*
     check_sun_plot( { summer_points, equinox_points, winter_points }, reference );
@@ -580,22 +580,22 @@ TEST_CASE( "movement_of_noon_through_year", "[sun]" )
 "                                                                                           \n"
 "                                                                                           \n"
 "                                                                                           \n"
-"                                                   ######                                  \n"
-"                                                  ##    #                                  \n"
-"                                                  #    ##                                  \n"
-"                                                  #  ##                                    \n"
-"                                                   ###                                     \n"
-"                                                  ###                                      \n"
-"                                                 ## #                                      \n"
-"                                                ##  ##                                     \n"
-"                                               ##    #                                     \n"
-"                                              ##     ##                                    \n"
-"                                             ##       #                                    \n"
-"                                             #        #                                    \n"
-"                                             #        #                                    \n"
-"                                             #       ##                                    \n"
-"                                             ##     ##                                     \n"
-"                                              #######                                      \n"
+"                                         ######                                            \n"
+"                                        ##    ##                                           \n"
+"                                         ##   ##                                           \n"
+"                                          ## ##                                            \n"
+"                                           ###                                             \n"
+"                                           ###                                             \n"
+"                                           # ##                                            \n"
+"                                          #   ##                                           \n"
+"                                         ##    ##                                          \n"
+"                                         #      ##                                         \n"
+"                                        ##       #                                         \n"
+"                                        #        #                                         \n"
+"                                        #        #                                         \n"
+"                                        ##       #                                         \n"
+"                                         ##     ##                                         \n"
+"                                          #######                                          \n"
 "                                                                                           \n"
 "                                                                                           \n"
 "                                                                                           \n"
