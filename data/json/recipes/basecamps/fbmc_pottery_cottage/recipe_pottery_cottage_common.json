@@ -39,7 +39,7 @@
   {
     "type": "recipe",
     "result": "faction_base_pottery_cottage_butchery_rack",
-    "description": "Let's build butchery rack, so we can start hunting large animals.",
+    "description": "Let's build a butchery rack, so we can start hunting large animals.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,

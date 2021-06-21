@@ -100,7 +100,7 @@
   {
     "type": "recipe",
     "result": "faction_base_pottery_cottage_blacksmith_1",
-    "description": "Let's build rock forge and workbench to start smithing.",
+    "description": "Let's build a rock forge and a workbench to start smithing.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
