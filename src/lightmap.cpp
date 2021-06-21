@@ -155,7 +155,8 @@ bool map::build_transparency_cache( const int zlev )
             };
 
             if( cur_submap->is_uniform ) {
-                float value, dummy;
+                float value;
+                float dummy;
                 std::tie( value, dummy ) = calc_transp( sm_offset );
                 // if rebuild_all==true all values were already set to LIGHT_TRANSPARENCY_OPEN_AIR
                 if( !rebuild_all || value != LIGHT_TRANSPARENCY_OPEN_AIR ) {
@@ -351,17 +352,16 @@ void map::build_sunlight_cache( int pzlev )
             for( int y = 0; y < MAPSIZE_Y; ++y ) {
                 // Check center, then four adjacent cardinals.
                 for( int i = 0; i < 5; ++i ) {
-                    int prev_x = x + offset.x + cardinals[i].x;
-                    int prev_y = y + offset.y + cardinals[i].y;
-                    bool inbounds = prev_x >= 0 && prev_x < MAPSIZE_X &&
-                                    prev_y >= 0 && prev_y < MAPSIZE_Y;
+                    point prev( cardinals[i] + offset + point( x, y ) );
+                    bool inbounds = prev.x >= 0 && prev.x < MAPSIZE_X &&
+                                    prev.y >= 0 && prev.y < MAPSIZE_Y;
 
                     if( !inbounds ) {
                         continue;
                     }
 
                     float prev_light_max;
-                    float prev_transparency = prev_transparency_cache[prev_x][prev_y];
+                    float prev_transparency = prev_transparency_cache[prev.x][prev.y];
                     // This is pretty gross, this cancels out the per-tile transparency effect
                     // derived from weather.
                     if( outside_cache[x][y] ) {
@@ -369,8 +369,8 @@ void map::build_sunlight_cache( int pzlev )
                     }
 
                     if( prev_transparency > LIGHT_TRANSPARENCY_SOLID &&
-                        !prev_floor_cache[prev_x][prev_y] &&
-                        ( prev_light_max = prev_lm[prev_x][prev_y].max() ) > 0.0 ) {
+                        !prev_floor_cache[prev.x][prev.y] &&
+                        ( prev_light_max = prev_lm[prev.x][prev.y].max() ) > 0.0 ) {
                         const float light_level = clamp( prev_light_max * LIGHT_TRANSPARENCY_OPEN_AIR / prev_transparency,
                                                          inside_light_level, prev_light_max );
 
@@ -445,9 +445,8 @@ void map::generate_lightmap( const int zlev )
 
             for( int sx = 0; sx < SEEX; ++sx ) {
                 for( int sy = 0; sy < SEEY; ++sy ) {
-                    const int x = sx + smx * SEEX;
-                    const int y = sy + smy * SEEY;
-                    const tripoint p( x, y, zlev );
+                    const point p2( sx + smx * SEEX, sy + smy * SEEY );
+                    const tripoint p( p2, zlev );
                     // Project light into any openings into buildings.
                     if( !outside_cache[p.x][p.y] || ( !top_floor && prev_floor_cache[p.x][p.y] ) ) {
                         // Apply light sources for external/internal divide
@@ -492,7 +491,7 @@ void map::generate_lightmap( const int zlev )
                         }
                         const float light_override = cur->get_intensity_level().local_light_override;
                         if( light_override >= 0.0f ) {
-                            lm_override.push_back( std::pair<tripoint, float>( p, light_override ) );
+                            lm_override.emplace_back( p, light_override );
                         }
                     }
                 }

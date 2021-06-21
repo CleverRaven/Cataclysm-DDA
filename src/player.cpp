@@ -139,6 +139,8 @@ static const bionic_id bio_ground_sonar( "bio_ground_sonar" );
 static const bionic_id bio_soporific( "bio_soporific" );
 static const bionic_id bio_speed( "bio_speed" );
 
+static const json_character_flag json_flag_FEATHER_FALL( "FEATHER_FALL" );
+
 stat_mod player::get_pain_penalty() const
 {
     stat_mod ret;
@@ -224,8 +226,8 @@ player::player()
 }
 
 player::~player() = default;
-player::player( player && ) = default;
-player &player::operator=( player && ) = default;
+player::player( player && ) noexcept( map_is_noexcept ) = default;
+player &player::operator=( player && ) noexcept( list_is_noexcept ) = default;
 
 void player::normalize()
 {
@@ -833,7 +835,7 @@ int player::get_perceived_pain() const
 
 float player::fall_damage_mod() const
 {
-    if( has_effect_with_flag( flag_EFFECT_FEATHER_FALL ) ) {
+    if( has_flag( json_flag_FEATHER_FALL ) ) {
         return 0.0f;
     }
     float ret = 1.0f;
@@ -1880,6 +1882,20 @@ player::wear( item_location item_wear, bool interactive )
         was_weapon = false;
     }
 
+    const bool item_one_per_layer = to_wear_copy.has_flag( flag_id( "ONE_PER_LAYER" ) );
+    for( const item &worn_item : worn ) {
+        const cata::optional<side> sidedness_conflict = to_wear_copy.covers_overlaps( worn_item );
+        if( sidedness_conflict && ( item_one_per_layer ||
+                                    worn_item.has_flag( flag_id( "ONE_PER_LAYER" ) ) ) ) {
+            // we can assume both isn't an option because it'll be caught in can_wear
+            if( *sidedness_conflict == side::LEFT ) {
+                to_wear_copy.set_side( side::RIGHT );
+            } else {
+                to_wear_copy.set_side( side::LEFT );
+            }
+        }
+    }
+
     auto result = wear_item( to_wear_copy, interactive );
     if( !result ) {
         if( was_weapon ) {
@@ -2236,8 +2252,8 @@ void player::gunmod_add( item &gun, item &mod )
     const int moves = !has_trait( trait_DEBUG_HS ) ? mod.type->gunmod->install_time : 0;
 
     assign_activity( activity_id( "ACT_GUNMOD_ADD" ), moves, -1, 0, tool );
-    activity.targets.push_back( item_location( *this, &gun ) );
-    activity.targets.push_back( item_location( *this, &mod ) );
+    activity.targets.emplace_back( *this, &gun );
+    activity.targets.emplace_back( *this, &mod );
     activity.values.push_back( 0 ); // dummy value
     activity.values.push_back( roll ); // chance of success (%)
     activity.values.push_back( risk ); // chance of damage (%)
@@ -2539,11 +2555,23 @@ void player::add_msg_if_player( const game_message_params &params, const std::st
     Messages::add_msg( params, msg );
 }
 
+void player::add_msg_debug_if_player( debugmode::debug_filter type, const std::string &msg ) const
+{
+    Messages::add_msg_debug( type, msg );
+}
+
 void player::add_msg_player_or_npc( const game_message_params &params,
                                     const std::string &player_msg,
                                     const std::string &/*npc_msg*/ ) const
 {
     Messages::add_msg( params, player_msg );
+}
+
+void player::add_msg_debug_player_or_npc( debugmode::debug_filter type,
+        const std::string &player_msg,
+        const std::string &/*npc_msg*/ ) const
+{
+    Messages::add_msg_debug( type, player_msg );
 }
 
 void player::add_msg_player_or_say( const std::string &player_msg,

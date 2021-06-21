@@ -70,7 +70,8 @@ void game::list_missions()
         };
         draw_tabs( w_missions, tabs, tab );
         draw_border_below_tabs( w_missions );
-        int x1 = 2, x2 = 2;
+        int x1 = 2;
+        int x2 = 2;
         for( const std::pair<tab_mode, std::string> &t : tabs ) {
             x2 = x1 + utf8_width( t.second ) + 1;
             if( t.first == tab ) {

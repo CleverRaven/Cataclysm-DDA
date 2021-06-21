@@ -16,6 +16,7 @@
 #include "generic_factory.h"
 #include "harvest.h"
 #include "iexamine.h"
+#include "iexamine_actors.h"
 #include "item_group.h"
 #include "json.h"
 #include "output.h"
@@ -408,6 +409,11 @@ bool map_data_common_t::has_examine( iexamine_function_ref func ) const
     return examine_func == &func;
 }
 
+bool map_data_common_t::has_examine( const std::string &action ) const
+{
+    return examine_actor->type == action;
+}
+
 void map_data_common_t::set_examine( iexamine_function_ref func )
 {
     examine_func = &func;
@@ -415,7 +421,11 @@ void map_data_common_t::set_examine( iexamine_function_ref func )
 
 void map_data_common_t::examine( player &guy, const tripoint &examp ) const
 {
-    examine_func( guy, examp );
+    if( !examine_actor ) {
+        examine_func( guy, examp );
+        return;
+    }
+    examine_actor->call( guy, examp );
 }
 
 void map_data_common_t::load_symbol( const JsonObject &jo )
@@ -551,6 +561,8 @@ ter_id t_null,
        t_wall_half, t_wall_wood, t_wall_wood_chipped, t_wall_wood_broken,
        t_wall, t_concrete_wall, t_brick_wall,
        t_wall_metal,
+       t_scrap_wall,
+       t_scrap_wall_halfway,
        t_wall_glass,
        t_wall_glass_alarm,
        t_reinforced_glass, t_reinforced_glass_shutter, t_reinforced_glass_shutter_open,
@@ -562,6 +574,7 @@ ter_id t_null,
        t_rdoor_o, t_door_locked_interior, t_door_locked, t_door_locked_peep, t_door_locked_alarm,
        t_door_frame,
        t_chaingate_l, t_fencegate_c, t_fencegate_o, t_chaingate_c, t_chaingate_o,
+       t_retractable_gate_c, t_retractable_gate_l, t_retractable_gate_o,
        t_door_boarded, t_door_boarded_damaged, t_door_boarded_peep, t_rdoor_boarded,
        t_rdoor_boarded_damaged, t_door_boarded_damaged_peep,
        t_door_metal_c, t_door_metal_o, t_door_metal_locked, t_door_metal_pickable, t_mdoor_frame,
@@ -643,8 +656,6 @@ ter_id t_null,
        t_railroad_track_on_tie, t_railroad_track_h_on_tie, t_railroad_track_v_on_tie,
        t_railroad_track_d_on_tie;
 
-static ter_id t_nanofab, t_nanofab_body, t_wall_b, t_wall_g, t_wall_p, t_wall_r, t_wall_w;
-
 // TODO: Put this crap into an inclusion, which should be generated automatically using JSON data
 
 void set_ter_ids()
@@ -707,6 +718,8 @@ void set_ter_ids()
     t_concrete_wall = ter_id( "t_concrete_wall" );
     t_brick_wall = ter_id( "t_brick_wall" );
     t_wall_metal = ter_id( "t_wall_metal" );
+    t_scrap_wall = ter_id( "t_scrap_wall" );
+    t_scrap_wall_halfway = ter_id( "t_scrap_wall_halfway" );
     t_wall_glass = ter_id( "t_wall_glass" );
     t_wall_glass_alarm = ter_id( "t_wall_glass_alarm" );
     t_reinforced_glass = ter_id( "t_reinforced_glass" );
@@ -718,11 +731,6 @@ void set_ter_ids()
     t_reinforced_door_glass_o = ter_id( "t_reinforced_door_glass_o" );
     t_bars = ter_id( "t_bars" );
     t_reb_cage = ter_id( "t_reb_cage" );
-    t_wall_b = ter_id( "t_wall_b" );
-    t_wall_g = ter_id( "t_wall_g" );
-    t_wall_p = ter_id( "t_wall_p" );
-    t_wall_r = ter_id( "t_wall_r" );
-    t_wall_w = ter_id( "t_wall_w" );
     t_door_c = ter_id( "t_door_c" );
     t_door_c_peep = ter_id( "t_door_c_peep" );
     t_door_b = ter_id( "t_door_b" );
@@ -743,6 +751,9 @@ void set_ter_ids()
     t_fencegate_o = ter_id( "t_fencegate_o" );
     t_chaingate_c = ter_id( "t_chaingate_c" );
     t_chaingate_o = ter_id( "t_chaingate_o" );
+    t_retractable_gate_l = ter_id( "t_retractable_gate_l" );
+    t_retractable_gate_c = ter_id( "t_retractable_gate_c" );
+    t_retractable_gate_o = ter_id( "t_retractable_gate_o" );
     t_door_boarded = ter_id( "t_door_boarded" );
     t_door_boarded_damaged = ter_id( "t_door_boarded_damaged" );
     t_door_boarded_peep = ter_id( "t_door_boarded_peep" );
@@ -886,8 +897,6 @@ void set_ter_ids()
     t_rootcellar = ter_id( "t_rootcellar" );
     t_cvdbody = ter_id( "t_cvdbody" );
     t_cvdmachine = ter_id( "t_cvdmachine" );
-    t_nanofab = ter_id( "t_nanofab" );
-    t_nanofab_body = ter_id( "t_nanofab_body" );
     t_stairs_down = ter_id( "t_stairs_down" );
     t_stairs_up = ter_id( "t_stairs_up" );
     t_manhole = ter_id( "t_manhole" );
@@ -1013,9 +1022,6 @@ furn_id f_null,
         f_street_light, f_traffic_light,
         f_console, f_console_broken;
 
-static furn_id f_ball_mach, f_bluebell, f_dahlia, f_dandelion, f_datura, f_floor_canvas,
-       f_indoor_plant_y, f_lane, f_statue;
-
 void set_furn_ids()
 {
     f_null = furn_id( "f_null" );
@@ -1029,7 +1035,6 @@ void set_furn_ids()
     f_sandbag_wall = furn_id( "f_sandbag_wall" );
     f_bulletin = furn_id( "f_bulletin" );
     f_indoor_plant = furn_id( "f_indoor_plant" );
-    f_indoor_plant_y = furn_id( "f_indoor_plant_y" );
     f_bed = furn_id( "f_bed" );
     f_toilet = furn_id( "f_toilet" );
     f_makeshift_bed = furn_id( "f_makeshift_bed" );
@@ -1046,9 +1051,7 @@ void set_furn_ids()
     f_trashcan = furn_id( "f_trashcan" );
     f_desk = furn_id( "f_desk" );
     f_exercise = furn_id( "f_exercise" );
-    f_ball_mach = furn_id( "f_ball_mach" );
     f_bench = furn_id( "f_bench" );
-    f_lane = furn_id( "f_lane" );
     f_table = furn_id( "f_table" );
     f_pool_table = furn_id( "f_pool_table" );
     f_counter = furn_id( "f_counter" );
@@ -1087,10 +1090,6 @@ void set_furn_ids()
     f_fungal_mass = furn_id( "f_fungal_mass" );
     f_fungal_clump = furn_id( "f_fungal_clump" );
     f_flower_fungal = furn_id( "f_flower_fungal" );
-    f_bluebell = furn_id( "f_bluebell" );
-    f_dahlia = furn_id( "f_dahlia" );
-    f_datura = furn_id( "f_datura" );
-    f_dandelion = furn_id( "f_dandelion" );
     f_cattails = furn_id( "f_cattails" );
     f_lilypad = furn_id( "f_lilypad" );
     f_lotus = furn_id( "f_lotus" );
@@ -1105,13 +1104,11 @@ void set_furn_ids()
     f_fvat_full = furn_id( "f_fvat_full" );
     f_wood_keg = furn_id( "f_wood_keg" );
     f_standing_tank = furn_id( "f_standing_tank" );
-    f_statue = furn_id( "f_statue" );
     f_egg_sackbw = furn_id( "f_egg_sackbw" );
     f_egg_sackcs = furn_id( "f_egg_sackcs" );
     f_egg_sackws = furn_id( "f_egg_sackws" );
     f_egg_sacke = furn_id( "f_egg_sacke" );
     f_flower_marloss = furn_id( "f_flower_marloss" );
-    f_floor_canvas = furn_id( "f_floor_canvas" );
     f_kiln_empty = furn_id( "f_kiln_empty" );
     f_kiln_full = furn_id( "f_kiln_full" );
     f_kiln_metal_empty = furn_id( "f_kiln_metal_empty" );
@@ -1166,10 +1163,37 @@ std::string enum_to_string<season_type>( season_type data )
 }
 } // namespace io
 
+static std::map<std::string, cata::clone_ptr<iexamine_actor>> examine_actors;
+
+static void add_actor( std::unique_ptr<iexamine_actor> ptr )
+{
+    std::string type = ptr->type;
+    examine_actors[type] = cata::clone_ptr<iexamine_actor>( std::move( ptr ) );
+}
+
+static cata::clone_ptr<iexamine_actor> iexamine_actor_from_jsobj( const JsonObject &jo )
+{
+    std::string type = jo.get_string( "type" );
+    try {
+        return examine_actors.at( type );
+    } catch( const std::exception & ) {
+        jo.throw_error( string_format( "Invalid iexamine actor %s", type ) );
+    }
+}
+
+void init_mapdata()
+{
+    add_actor( std::make_unique<cardreader_examine_actor>() );
+}
+
 void map_data_common_t::load( const JsonObject &jo, const std::string & )
 {
-    if( jo.has_member( "examine_action" ) ) {
+    if( jo.has_string( "examine_action" ) ) {
         examine_func = iexamine_function_from_string( jo.get_string( "examine_action" ) );
+    } else if( jo.has_object( "examine_action" ) ) {
+        JsonObject data = jo.get_object( "examine_action" );
+        examine_actor = iexamine_actor_from_jsobj( data );
+        examine_actor->load( data );
     } else {
         examine_func = iexamine_function_from_string( "none" );
     }
@@ -1387,6 +1411,9 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
 
 void map_data_common_t::check() const
 {
+    if( examine_actor ) {
+        examine_actor->finalize();
+    }
     for( const string_id<harvest_list> &harvest : harvest_by_season ) {
         if( !harvest.is_null() && !can_examine() ) {
             debugmsg( "Harvest data defined without examine function for %s", name_ );

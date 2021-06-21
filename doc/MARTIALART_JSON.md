@@ -61,7 +61,7 @@
 "aoe": "spin",              // This technique has an area-of-effect; doesn't work against solo targets
 "block_counter": true,      // This technique may automatically counterattack on a successful block
 "dodge_counter": true,      // This technique may automatically counterattack on a successful dodge
-"weighting": 2,             // Affects likelihood this technique will be seleted when many are available
+"weighting": 2,             // Affects likelihood this technique will be selected when many are available
 "defensive": true,          // Game won't try to select this technique when attacking
 "miss_recovery": true,      // Misses while attacking will use fewer moves
 "messages" : [              // What is printed when this technique is used by the player and by an npc

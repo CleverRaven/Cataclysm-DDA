@@ -119,5 +119,10 @@
     "type": "overmap_location",
     "id": "lake_shore",
     "terrains": [ "lake_shore" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "potential_basement_lab_entrance",
+    "terrains": [ "basement" ]
   }
 ]

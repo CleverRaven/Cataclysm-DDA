@@ -2,7 +2,7 @@
 #include <string>
 #include <type_traits>
 
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "make_static.h"
 #include "string_id.h"
 

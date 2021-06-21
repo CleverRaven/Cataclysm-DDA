@@ -46,7 +46,7 @@ inline StringRef getText( const ast_matchers::MatchFinder::MatchResult &Result, 
 template<typename T, typename U>
 static const T *getParent( const ast_matchers::MatchFinder::MatchResult &Result, const U *Node )
 {
-    for( const ast_type_traits::DynTypedNode &parent : Result.Context->getParents( *Node ) ) {
+    for( const DynTypedNode &parent : Result.Context->getParents( *Node ) ) {
         if( const T *Candidate = parent.get<T>() ) {
             return Candidate;
         }
@@ -59,7 +59,7 @@ template<typename T>
 static const FunctionDecl *getContainingFunction(
     const ast_matchers::MatchFinder::MatchResult &Result, const T *Node )
 {
-    for( const ast_type_traits::DynTypedNode &parent : Result.Context->getParents( *Node ) ) {
+    for( const DynTypedNode &parent : Result.Context->getParents( *Node ) ) {
         if( const Decl *Candidate = parent.get<Decl>() ) {
             if( const FunctionDecl *ContainingFunction = dyn_cast<FunctionDecl>( Candidate ) ) {
                 return ContainingFunction;
@@ -205,6 +205,27 @@ class NameConvention
         bool atEnd;
         bool valid = true;
 };
+
+template<typename T, typename U>
+inline size_t HashCombine( const T &t, const U &u )
+{
+    std::hash<T> t_hash;
+    std::hash<U> u_hash;
+    size_t result = t_hash( t );
+    result ^= 0x9e3779b9 + ( result << 6 ) + ( result >> 2 );
+    result ^= u_hash( u );
+    return result;
+}
+
+template<typename T0, typename... T>
+std::string StrCat( T0 &&a0, T &&...a )
+{
+    std::string result( std::forward<T0>( a0 ) );
+    // Using initializer list as a poor man's fold expression until C++17.
+    static_cast<void>(
+        std::array<bool, sizeof...( T )> { ( result.append( std::forward<T>( a ) ), false )... } );
+    return result;
+}
 
 } // namespace cata
 } // namespace tidy

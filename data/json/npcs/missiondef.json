@@ -817,5 +817,53 @@
       "success_lie": "OK, then hand them over.",
       "failure": "Well, that's a shame."
     }
+  },
+  {
+    "id": "MISSION_PYROMANIAC",
+    "type": "mission_definition",
+    "name": { "str": "Angry pyromaniac" },
+    "goal": "MGOAL_GO_TO",
+    "difficulty": 0,
+    "value": 0,
+    "//": "NPC will ask player to burn tagged house. Will follow player after accepting mission.",
+    "//2": "Change first topic to do proper checks. MGOAL_GO_TO to check if player stands on tagged tile.",
+    "//3": "At the end of the mission, will place fire on tagged tile and NPC will join player faction.",
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [ "follow_only", { "npc_first_topic": "MISSION_PYROMANIAC" } ],
+      "assign_mission_target": {
+        "om_terrain": "house",
+        "om_terrain_replace": "forest",
+        "om_terrain_match_type": "PREFIX",
+        "search_range": 75,
+        "random": true,
+        "z": 0
+      }
+    },
+    "end": {
+      "effect": [ "follow", { "u_consume_item": "gasoline", "count": 200 }, { "mapgen_update": "MISSION_PYROMANIAC_BURN" } ]
+    },
+    "origins": [ "ORIGIN_OPENER_NPC" ],
+    "dialogue": {
+      "describe": "Oh man, I want to <swear> burn it so bad…",
+      "offer": "I'm so <swear> infuriated!  I've got an enemy that ruined my life, and now I want to get revenge!  I don't care about <the_cataclysm>, I just want to burn his house!  Would you help me, <name_g>?",
+      "accepted": "Good.  Let's go to his house and <swear> burn it down!  Oh, by the way, could you bring gasoline with you, <name_g>?  I was so angry I forgot to bring it with me…",
+      "rejected": "Seriously?  It's such an easy job…",
+      "advice": "Maybe we can find some gasoline at gas station.",
+      "inquire": "Are you ready, <name_g>?",
+      "success": "Sweet, sweet revenge!  Ah, smells so nice!  Feels like the smell of napalm in the morning!  All his stuff, and probably even that <name_b>, will burn to ashes in a matter of minutes.  You helped me get my revenge, so I'll follow you to the end, <name_g>!",
+      "success_lie": "What?!  You liar!",
+      "failure": "Wow, you failed?  How…"
+    }
+  },
+  {
+    "//": "For MISSION_PYROMANIAC. Will spawn fire on tile where PC is standing.",
+    "type": "mapgen",
+    "update_mapgen_id": "MISSION_PYROMANIAC_BURN",
+    "method": "json",
+    "object": {
+      "place_liquids": [ { "liquid": "gasoline", "x": [ 5, 20 ], "y": [ 5, 20 ], "amount": 5, "repeat": 40 } ],
+      "place_fields": [ { "field": "fd_fire", "x": [ 5, 20 ], "y": [ 5, 20 ], "repeat": 40 } ]
+    }
   }
 ]
