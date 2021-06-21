@@ -26,6 +26,11 @@
         "om_terrains": [ "shelter_2", "shelter_2_vandal" ]
       },
       {
+        "id": "faction_base_pottery_cottage_0",
+        "description": "Pottery Cottage Camp",
+        "om_terrains": [ "pottery_cottage" ]
+      },
+      {
         "id": "faction_base_radio_tower_0",
         "description": "Radio Tower Without Building Base",
         "om_terrains": [ "radio_tower" ]
@@ -323,12 +328,34 @@
   },
   {
     "type": "recipe_group",
+    "id": "fishing_recipes",
+    "building_type": "COOK",
+    "recipes": [
+      { "id": "fish_npc_fish_trap", "description": " Fishing: fish, plastic fish trap" },
+      { "id": "fish_npc_fish_rod", "description": " Fishing: fish, basic fishing rod" },
+      { "id": "fish_npc_fish_rod_pro", "description": " Fishing: fish, pro fishing rod" }
+    ]
+  },
+  {
+    "type": "recipe_group",
     "id": "hack_recipes_general",
     "building_type": "BASE",
     "recipes": [
       { "id": "mobile_memory_card_npc_hack", "description": " Hack & Download: random data, SD-Memory card" },
       { "id": "software_useless_npc_hack", "description": " Hack & Download: misc software, USB drive" },
       { "id": "software_math_npc_hack", "description": " Hack & Download: MatheMAX, USB drive" }
+    ]
+  },
+  {
+    "type": "recipe_group",
+    "id": "clay_recipes_1",
+    "building_type": "SMITH",
+    "recipes": [
+      { "id": "brick", "description": " Craft: Brick" },
+      { "id": "fire_brick", "description": " Craft: Fire Brick" },
+      { "id": "pebble_clay", "description": " Craft: Clay Pellet" },
+      { "id": "clay_canister", "description": " Craft: Clay Canister" },
+      { "id": "clay_hydria", "description": " Craft: Clay Hydria" }
     ]
   },
   {
