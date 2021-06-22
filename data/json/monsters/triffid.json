@@ -47,7 +47,6 @@
     "harvest": "biollante",
     "special_attacks": [ [ "SPIT_SAP", 2 ] ],
     "death_drops": { "subtype": "collection", "groups": [ [ "biollante", 8 ] ], "//": "80% chance of an item from group biollante" },
-    "death_function": [ "NORMAL" ],
     "flags": [ "NOHEAD", "IMMOBILE" ]
   },
   {
@@ -71,7 +70,7 @@
     "bleed_rate": 50,
     "harvest": "exempt",
     "special_attacks": [ [ "GROW_VINE", 60 ] ],
-    "death_function": [ "KILL_VINES" ],
+    "death_function": { "effect": { "id": "death_kill_vines", "hit_self": true, "min_level": 1 }, "corpse_type": "NO_CORPSE" },
     "flags": [ "NOHEAD", "IMMOBILE" ]
   },
   {
@@ -95,7 +94,7 @@
     "bleed_rate": 80,
     "harvest": "exempt",
     "special_attacks": [ [ "VINE", 100 ] ],
-    "death_function": [ "VINE_CUT" ],
+    "death_function": { "effect": { "id": "death_kill_vines", "hit_self": true }, "corpse_type": "NO_CORPSE" },
     "flags": [ "NOHEAD", "HARDTOSHOOT", "PLASTIC", "IMMOBILE" ]
   },
   {
@@ -120,7 +119,6 @@
     "melee_cut": 1,
     "harvest": "triffid_small",
     "upgrades": { "age_grow": 14, "into": "mon_triffid_young" },
-    "death_function": [ "NORMAL" ],
     "flags": [ "HEARS", "SMELLS", "NOHEAD", "STUMBLES" ]
   },
   {
@@ -146,7 +144,6 @@
     "harvest": "triffid_paralytic",
     "upgrades": { "age_grow": 14, "into": "mon_triffid" },
     "special_attacks": [ [ "TRIFFID_GROWTH", 28800 ] ],
-    "death_function": [ "NORMAL" ],
     "fungalize_into": "mon_fungaloid",
     "flags": [ "HEARS", "SMELLS", "NOHEAD", "PARALYZEVENOM" ]
   },
@@ -175,7 +172,6 @@
     "armor_bullet": 3,
     "bleed_rate": 60,
     "harvest": "triffid_paralytic",
-    "death_function": [ "NORMAL" ],
     "fungalize_into": "mon_fungaloid",
     "flags": [ "SEES", "SMELLS", "BASHES", "GROUP_BASH", "NOHEAD", "PARALYZEVENOM" ]
   },
@@ -205,7 +201,6 @@
     "bleed_rate": 40,
     "harvest": "triffid_queen",
     "special_attacks": [ [ "GROWPLANTS", 20 ] ],
-    "death_function": [ "NORMAL" ],
     "fungalize_into": "mon_fungaloid",
     "flags": [ "HEARS", "SMELLS", "BASHES", "NOHEAD", "PARALYZEVENOM" ]
   },
@@ -233,7 +228,6 @@
     "armor_bash": 18,
     "bleed_rate": 10,
     "harvest": "triffid_small",
-    "death_function": [ "NORMAL" ],
     "flags": [ "HEARS", "GOODHEARING", "NOHEAD", "HARDTOSHOOT", "GRABS", "SWIMS", "PLASTIC" ]
   },
   {
@@ -268,7 +262,6 @@
     ],
     "special_attacks": [ [ "PARA_STING", 10 ] ],
     "death_drops": { "subtype": "collection", "groups": [ [ "fungal_sting", 80 ] ], "//": "80% chance of an item from group fungal_sting" },
-    "death_function": [ "NORMAL" ],
     "flags": [ "HEARS", "SMELLS", "NOHEAD", "CAN_DIG" ]
   },
   {
@@ -293,7 +286,6 @@
     "emit_fields": [ { "emit_id": "emit_pollen_stream", "delay": "1 s" } ],
     "harvest": "triffid_paralytic",
     "special_attacks": [ [ "SPIT_SAP", 3 ], [ "PARA_STING", 12 ] ],
-    "death_function": [ "NORMAL" ],
     "flags": [ "NOHEAD", "IMMOBILE" ]
   },
   {
@@ -319,7 +311,7 @@
     "armor_bullet": 13,
     "harvest": "triffid_small",
     "special_attacks": [ [ "TRIFFID_HEARTBEAT", 50 ] ],
-    "death_function": [ "TRIFFID_HEART" ],
+    "death_function": { "effect": { "id": "death_triffid_heart", "hit_self": true } },
     "flags": [ "NOHEAD", "IMMOBILE", "QUEEN" ]
   }
 ]
