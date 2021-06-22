@@ -42,7 +42,6 @@
     "id": "TALK_WARRENER",
     "dynamic_line": { "u_is_wearing": "badge_marshal", "yes": "Are you here to protect us?", "no": "Pleased to meet you." },
     "responses": [
-      "effect": { "u_add_var": "u_met_lapin", "type": "general", "context": "meeting", "value": "yes" },
       { "text": "I'm just trying to get by.", "topic": "TALK_WARRENER_TRYING" },
       { "text": "What are you doing here?", "topic": "TALK_WARRENER_DOING" },
       { "text": "Heard anything about the outside world?", "topic": "TALK_WARRENER_WORLD" },
@@ -50,7 +49,8 @@
       { "text": "Anything I can help with?", "topic": "TALK_MISSION_LIST" },
       { "text": "Do you need any resources?", "topic": "TALK_LAPIN_RESOURCES" },
       { "text": "Well, bye.", "topic": "TALK_DONE" }
-    ]
+    ],
+    "effect": { "u_add_var": "u_met_lapin", "type": "general", "context": "meeting", "value": "yes" }
   },
   {
     "type": "talk_topic",
