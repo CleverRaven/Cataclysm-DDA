@@ -114,8 +114,8 @@ Adds different bleeding types for different species.
 Adds bleeding butchery action.
 Autodoc installation programs added that almost guarantee flawless installation of supported bionics.
 Removes the obsolete 'carrion spawn rate scaling factor' world configuration option.
-Make thrown glass items drop glass shards when shattered.
-Add ability to cranes (excluding tiny ones) and forklift arms to suspend creatures for butchering.
+Makes thrown glass items drop glass shards when shattered.
+Adds suspension for butchering using cranes (except tiny ones) and forklift arms.
 
 ## Content:
 Gun volume and weight audit.
@@ -217,7 +217,7 @@ Cap monsters at 1000 kg so butchering kind of works.
 [Magiclysm] Adds Workshop Elves, Yule Cats, and Leprechauns.
 [Aftershock] Adds Formless Ruins - a new aboveground, low-risk dungeon type.
 [Dark Skies Above] DSA is reborn as an actively-developed, total-conversion mod.
-[Many Mods] Fixes problematic faction relationships (one-way aggression).
+[Vanilla + Many Mods] Fixes problematic faction relationships (one-way aggression).
 
 ## Balance:
 Large item price audit.
@@ -350,18 +350,18 @@ Prevents cross-z-level melee attacks when the target is not actually visible.
 Avoids doing character body updates more than once per turn
 When harvesting crops, drops the result on the player's square.
 Improves road system connectivity across overmaps.
-Stop crafting failures clustering at high completion percentages.
-Fix non-spring eternal seasons.
-Stop unreloadable items from being reloadable.
-Fix savegame corruption from teleporting to very distant submaps
-Unfreeze trap-avoiding monsters.
-Fix ramming at low speed.
-Fix the crafting success formula when crafter is missing proficiencies.
+Stops crafting failures from clustering at high completion percentages.
+Fixes non-spring eternal seasons.
+Stops unreloadable items from being reloadable.
+Fixes savegame corruption causing teleporting to very distant submaps
+Unfreezes trap-avoiding monsters.
+Fixes ramming at low speed.
+Fixes the crafting success formula when the crafter is missing proficiencies.
 Placing specials around cities now scales with city size.
-Fix proficiency books' effect on crafting.
-Construction of roofs actually makes tile above the construction a roof.
-Partial vehicle damage reduction hotfix.
-Fix building ramps and stairs.
+Fixes proficiency books' effect on crafting.
+Construction of roofs actually makes the tile above the construction a roof.
+Partial fix for vehicle damage reduction inconsistencies.
+Fixes building ramps and stairs.
 
 ## Performance:
 Adds an option to enable batching when it is available in SDL.
@@ -463,10 +463,10 @@ Reduces file size of composed tilesheets from compose.py.
 Implements C++ symbol demangling in crash reports on MacOS, MinGW, and Linux.
 Adds tests of automatic triggers for mutations.
 Generates a crash report on Android.
-Move Mingw cross-compile CI job from Travis to GitHub.
-compose.py: Fix --use-all when there are no filler sheets.
+Moves Mingw cross-compile CI job from Travis to GitHub.
+compose.py: Fixes --use-all when there are no filler sheets.
 compose.py: Don't warn about unused fillers matching IDs in tile entries from main sheets.
-Add a tool to check printf style format string in translations.
+Adds a tool to check printf style format string in translations.
 
 ## Build:
 Moves clang-tidy runs from Travis to GitHub.
@@ -489,7 +489,7 @@ Consistently styles code in CMakeLists.txt files.
 Adds CMake linting.
 Captures ODR violations using GOLD linker, ASAN, or LTO.
 Adds a CI action to build and release for Windows.
-Added fail-fast=false and android builds to Github actions.
+Adds android builds to Github actions.
 
 ## I18N and A11Y:
 Fixes translations of martial art initiate and computer terminal messages.
