@@ -148,6 +148,7 @@
   },
   {
     "id": "exodii_ingot_aluminum",
+    "type": "GENERIC",
     "category": "spare_parts",
     "name": { "str": "Enormous aluminum ingot" },
     "description": "A block of pure aluminum at least as big as a dishwasher.",
@@ -161,6 +162,7 @@
   },
   {
     "id": "exodii_ingot_plastic",
+    "type": "GENERIC",
     "category": "spare_parts",
     "name": { "str": "Enormous plastic block" },
     "description": "This is a single enormous brick of plastic, big enough to curl up inside were it hollow.",
@@ -174,6 +176,7 @@
   },
   {
     "id": "exodii_ingot_steel",
+    "type": "GENERIC",
     "category": "spare_parts",
     "name": { "str": "Enormous steel ingot" },
     "description": "A single, monolithic block of high quality steel.",
@@ -187,6 +190,7 @@
   },
   {
     "id": "exodii_ingot_tin",
+    "type": "GENERIC",
     "category": "spare_parts",
     "name": { "str": "Enormous tin ingot" },
     "description": "An enormous ingot of pure tin.",
@@ -200,6 +204,7 @@
   },
   {
     "id": "exodii_ingot_copper",
+    "type": "GENERIC",
     "category": "spare_parts",
     "name": { "str": "Enormous copper ingot" },
     "description": "A massive solid piece of copper, covered by a blue-green patina.",
@@ -213,6 +218,7 @@
   },
   {
     "id": "exodii_ingot_zinc",
+    "type": "GENERIC",
     "category": "spare_parts",
     "name": { "str": "Enormous zinc ingot" },
     "description": "An absolutely massive block of pure zinc. Bet you didn't expect that... nobody expects zinc.",
@@ -226,6 +232,7 @@
   },
   {
     "id": "exodii_ingot_lead",
+    "type": "GENERIC",
     "category": "spare_parts",
     "name": { "str": "Enormous lead ingot" },
     "description": "A block of lead so huge you don't even want to think about how heavy it is.",
