@@ -4768,7 +4768,8 @@ cata::optional<int> iuse::blood_draw( player *p, item *it, bool, const tripoint 
 
     if( acid_blood ) {
         item acid( "chem_sulphuric_acid", calendar::turn );
-        acid.set_item_temperature( blood_temp );
+        // Acid should have temperature. But it currently does not. So trying to set it crashes the game.
+        // When acid gets temperature just add acid.set_item_temperature( blood_temp ); here
         it->put_in( acid, item_pocket::pocket_type::CONTAINER );
         if( one_in( 3 ) ) {
             if( it->inc_damage( damage_type::ACID ) ) {
