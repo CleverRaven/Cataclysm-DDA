@@ -221,7 +221,7 @@
     "type": "GENERIC",
     "category": "spare_parts",
     "name": { "str": "enormous zinc ingot" },
-    "description": "An absolutely massive block of pure zinc. Bet you didn't expect that... nobody expects zinc.",
+    "description": "An absolutely massive block of pure zinc.  Bet you didn't expect that - nobody expects zinc.",
     "weight": "5680 kg",
     "volume": "800 L",
     "price": 1000,
