@@ -113,7 +113,7 @@
     "symbol": "[",
     "looks_like": "balclava",
     "color": "dark_gray",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "head", "eyes" ], "coverage": 90, "encumbrance": 10 },
       { "covers": [ "mouth" ], "coverage": 90, "encumbrance": 0 }
     ],

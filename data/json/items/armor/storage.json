@@ -233,7 +233,7 @@
     "symbol": ")",
     "looks_like": "plastic_shopping_bag",
     "color": "light_gray",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "arm_l", "arm_r" ], "coverage": 5, "encumbrance": [ 50, 50 ] },
       { "covers": [ "hand_l", "hand_r" ], "coverage": 5, "encumbrance": [ 50, 50 ] }
     ],
@@ -321,7 +321,7 @@
     "looks_like": "plastic_shopping_bag",
     "color": "light_gray",
     "sided": true,
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "arm_l", "arm_r" ], "coverage": 4, "encumbrance": [ 30, 33 ] },
       { "covers": [ "hand_l", "hand_r" ], "coverage": 4, "encumbrance": [ 30, 32 ] }
     ],
@@ -1064,7 +1064,7 @@
     "symbol": "[",
     "color": "white",
     "sided": true,
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "arm_l", "arm_r" ], "coverage": 4, "encumbrance": [ 1, 30 ] },
       { "covers": [ "hand_l", "hand_r" ], "coverage": 4, "encumbrance": [ 1, 30 ] }
     ],
@@ -1490,7 +1490,7 @@
     "looks_like": "duffelbag",
     "color": "brown",
     "sided": true,
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "hand_l", "hand_r" ], "coverage": 5, "encumbrance": [ 4, 48 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 5, "encumbrance": [ 4, 48 ] }
     ],
