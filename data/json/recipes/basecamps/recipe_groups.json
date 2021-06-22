@@ -24,6 +24,16 @@
         "id": "faction_base_shelter_2_0",
         "description": "Central Stairs Evac Shelter Base",
         "om_terrains": [ "shelter_2", "shelter_2_vandal" ]
+      },
+      {
+        "id": "faction_base_outpost_normal_0",
+        "description": "Normal Military Outpost Base",
+        "om_terrains": [ "outpost" ]
+      },
+      {
+        "id": "faction_base_outpost_cross_0",
+        "description": "Cross Military Outpost Base",
+        "om_terrains": [ "outpost_cross" ]
       }
     ]
   },
