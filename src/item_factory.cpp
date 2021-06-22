@@ -1905,11 +1905,13 @@ std::string enum_to_string<layer_level>( layer_level data )
 
 void islot_armor::load( const JsonObject &jo )
 {
-    if( jo.has_array( "armor_portion_data" ) ) {
+    if( jo.has_array( "armor_portion_data" ) || jo.has_array( "armor" ) ) {
+        const JsonArray &arr = jo.has_array( "armor" ) ? jo.get_array( "armor" ) :
+                               jo.get_array( "armor_portion_data" );
         bool dont_add_first = false;
         if( !data.empty() ) { // Uses copy-from
             dont_add_first = true;
-            const JsonObject &obj = *jo.get_array( "armor_portion_data" ).begin();
+            const JsonObject &obj = *arr.begin();
             armor_portion_data tempData;
 
             if( obj.has_array( "encumbrance" ) ) {
@@ -1938,7 +1940,7 @@ void islot_armor::load( const JsonObject &jo )
             }
         }
 
-        for( const JsonObject obj : jo.get_array( "armor_portion_data" ) ) {
+        for( const JsonObject obj : arr ) {
             // If this item used copy-from, data[0] is already set, so skip adding first data
             if( dont_add_first ) {
                 obj.allow_omitted_members();
