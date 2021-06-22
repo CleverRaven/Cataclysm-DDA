@@ -87,17 +87,11 @@
         "prob": 30
       },
       {
-        "collection": [
-          { "item": "pamd68", "count": [ 15, 20 ] },
-          { "item": "pamd71z", "count": [ 10, 15 ] }
-        ],
+        "collection": [ { "item": "pamd68", "count": [ 15, 20 ] }, { "item": "pamd71z", "count": [ 10, 15 ] } ],
         "prob": 30
       },
       {
-        "collection": [
-          { "item": "exodiiminimag", "count": [ 30, 50 ] },
-          { "item": "exodiiBRmag", "count": [ 20, 40 ] }
-        ],
+        "collection": [ { "item": "exodiiminimag", "count": [ 30, 50 ] }, { "item": "exodiiBRmag", "count": [ 20, 40 ] } ],
         "prob": 20
       },
       {
@@ -117,13 +111,7 @@
     "//2": "This group is for exodii storage pods and lockers that processed ingots and the like, ready for use.",
     "subtype": "distribution",
     "entries": [
-      {
-        "collection": [
-          { "item": "pamd68", "count": [ 15, 20 ] },
-          { "item": "pamd71z", "count": [ 10, 15 ] }
-        ],
-        "prob": 20
-      },
+      { "collection": [ { "item": "pamd68", "count": [ 15, 20 ] }, { "item": "pamd71z", "count": [ 10, 15 ] } ], "prob": 20 },
       {
         "collection": [
           { "item": "exodiiminimag", "count": [ 30, 50 ] },
