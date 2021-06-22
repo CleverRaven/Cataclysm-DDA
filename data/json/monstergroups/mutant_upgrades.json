@@ -4,5 +4,29 @@
     "name": "GROUP_CROW_MUTANT",
     "default": "mon_crow_mutant_small",
     "monsters": [ { "monster": "mon_crow_mutant", "freq": 350, "cost_multiplier": 2 } ]
+  },
+  {
+    "name": "GROUP_CENTIPEDE_ADULT",
+    "type": "monstergroup",
+    "default": "mon_centipede_giant",
+    "monsters": [ { "monster": "mon_centipede_mom", "freq": 100, "cost_multiplier": 1 } ]
+  },
+  {
+    "name": "GROUP_CENTIPEDE_GIANT",
+    "type": "monstergroup",
+    "default": "mon_centipede_mom",
+    "monsters": [
+      { "monster": "mon_centipede_giant", "freq": 500, "cost_multiplier": 1 },
+      { "monster": "mon_centipede_mega", "freq": 50, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "name": "GROUP_CENTIPEDE_MOM",
+    "type": "monstergroup",
+    "default": "mon_centipede_giant",
+    "monsters": [
+      { "monster": "mon_centipede_mom", "freq": 250, "cost_multiplier": 1 },
+      { "monster": "mon_centipede_mega", "freq": 100, "cost_multiplier": 1 }
+    ]
   }
 ]

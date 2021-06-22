@@ -79,7 +79,7 @@ inline std::vector<std::vector<int>> generate_cellular_automaton( const int widt
                     continue;
                 }
 
-                // Count our neighors.
+                // Count our neighbors.
                 const int neighbors = neighbor_count( current, width, height, point( i, j ) );
 
                 // Dead and > birth_limit neighbors, so become alive.

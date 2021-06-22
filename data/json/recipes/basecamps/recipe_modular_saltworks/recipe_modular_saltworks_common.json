@@ -26,7 +26,7 @@
     "never_learn": true,
     "construction_blueprint": "fbmsw_brewery1_southwest",
     "blueprint_name": "SW brewery still",
-    "blueprint_requires": [ { "id": "fbmsw_southwest" } ],
+    "blueprint_requires": [ { "id": "fbmsw_southwest" }, { "id": "saltworks_recipes_2" } ],
     "blueprint_provides": [ { "id": "fbmsw_southwest1_still" } ],
     "blueprint_excludes": [ { "id": "fbmsw_southwest1_still" } ],
     "blueprint_needs": {
@@ -59,7 +59,7 @@
     "construction_blueprint": "fbmsw_brewery2_southwest",
     "blueprint_name": "SW brewery kegs",
     "blueprint_requires": [ { "id": "fbmsw_southwest1_still" } ],
-    "blueprint_provides": [ { "id": "fbmsw_southwest2_kegs" } ],
+    "blueprint_provides": [ { "id": "fbmsw_southwest2_kegs" }, { "id": "saltworks_recipes_3" } ],
     "blueprint_excludes": [ { "id": "fbmsw_southwest2_kegs" } ],
     "blueprint_needs": {
       "time": "7 h",

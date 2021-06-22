@@ -64,16 +64,21 @@
     "range": 3,
     "dispersion": 90,
     "durability": 10,
+    "blackpowder_tolerance": 48,
     "clip_size": 5,
     "barrel_volume": "1000 ml",
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "brass catcher", 1 ],
+      [ "grip mount", 1 ],
       [ "mechanism", 4 ],
       [ "muzzle", 1 ],
+      [ "rail mount", 1 ],
       [ "sights", 1 ],
-      [ "sling", 1 ]
+      [ "sling", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
     ],
     "flags": [ "RELOAD_ONE" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "762R": 5 }, "allowed_speedloaders": [ "762R_clip" ] } ]

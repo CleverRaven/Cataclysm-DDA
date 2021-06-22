@@ -59,6 +59,7 @@
     },
     "furniture": {
       "@": "f_bed",
+      "‡": "f_woodstove",
       "B": "f_bathtub",
       "D": "f_trashcan",
       "E": "f_bookcase",
@@ -73,8 +74,15 @@
       "h": "f_chair",
       "k": "f_desk",
       "n": "f_table",
+      "Ŧ": "f_sink",
       "r": "f_rack",
       "t": "f_toilet",
+      "♥": "f_cupboard",
+      "♠": "f_cupboard",
+      "♦": "f_cupboard",
+      "♣": "f_cupboard",
+      "Δ": "f_armchair",
+      "Ʌ": "f_wardrobe",
       "z": "f_crate_c"
     }
   }

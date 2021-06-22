@@ -469,5 +469,23 @@
     "sym": "#",
     "color": "light_blue",
     "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "attunement_altar_NW",
+      "attunement_altar_NE",
+      "attunement_altar_SW",
+      "attunement_altar_SE",
+      "attunement_altar_NW_roof",
+      "attunement_altar_NE_roof",
+      "attunement_altar_SW_roof",
+      "attunement_altar_SE_roof"
+    ],
+    "name": "attunement altar",
+    "sym": "O",
+    "color": "light_green",
+    "see_cost": 5,
+    "mondensity": 2
   }
 ]

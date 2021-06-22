@@ -4,15 +4,15 @@
 
 #include <cstddef>
 #include <functional>
+#include <iosfwd>
 #include <list>
+#include <map>
 #include <set>
-#include <string>
 #include <utility>
 #include <vector>
 
 #include "enums.h"
 #include "item_pocket.h"
-#include "iteminfo_query.h"
 #include "optional.h"
 #include "ret_val.h"
 #include "type_id.h"
@@ -23,13 +23,10 @@ class Character;
 class JsonIn;
 class JsonOut;
 class item;
-class item;
 class item_location;
 class iteminfo_query;
 class player;
-class pocket_data;
 struct iteminfo;
-struct tripoint;
 struct tripoint;
 
 class item_contents
@@ -37,14 +34,17 @@ class item_contents
     public:
         item_contents() = default;
         // used for loading itype
-        item_contents( const std::vector<pocket_data> &pockets );
+        explicit item_contents( const std::vector<pocket_data> &pockets );
 
         /**
           * returns an item_location and pointer to the best pocket that can contain the item @it
           * only checks CONTAINER pocket type
           */
         std::pair<item_location, item_pocket *> best_pocket( const item &it, item_location &parent,
-                bool nested );
+                bool nested, bool allow_sealed = false );
+
+        units::length max_containable_length() const;
+        units::volume max_containable_volume() const;
         /**
          * returns whether an item can be physically stored within these item contents.
          * Fails if all pockets are MOD, CORPSE, SOFTWARE, or MIGRATION type, as they are not
@@ -169,10 +169,8 @@ class item_contents
          * pocket, items will be successfully inserted without regard to volume, length, or any
          * other restrictions, since these pockets are not considered to be normal "containers".
          */
-        ret_val<bool> insert_item( const item &it, item_pocket::pocket_type pk_type );
+        ret_val<item_pocket *> insert_item( const item &it, item_pocket::pocket_type pk_type );
         void force_insert_item( const item &it, item_pocket::pocket_type pk_type );
-        // fills the contents to the brim of this item
-        void fill_with( const item &contained );
         bool can_unload_liquid() const;
 
         /**
@@ -193,6 +191,8 @@ class item_contents
         // spill items that don't fit in the container
         void overflow( const tripoint &pos );
         void clear_items();
+        // clears all items from magazine type pockets
+        void clear_magazines();
         void update_open_pockets();
 
         /**
@@ -229,6 +229,7 @@ class item_contents
         void handle_liquid_or_spill( Character &guy, const item *avoid = nullptr );
         // returns true if any of the pockets will spill if placed into a pocket
         bool will_spill() const;
+        bool will_spill_if_unsealed() const;
         bool spill_open_pockets( Character &guy, const item *avoid = nullptr );
         void casings_handle( const std::function<bool( item & )> &func );
 

@@ -1,7 +1,7 @@
 [
   {
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "NO_EXERCISE",
     "result": "brew_mycus_wine",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREW",
@@ -17,7 +17,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "NO_EXERCISE",
     "result": "brew_milk_curdled",
     "result_mult": 18,
     "category": "CC_FOOD",
@@ -28,7 +28,7 @@
     "time": "30 m",
     "batch_time_factors": [ 50, 4 ],
     "book_learn": [ [ "survival_book", 3 ], [ "textbook_survival", 3 ], [ "manual_survival", 3 ], [ "dairy_book", 3 ] ],
-    "using": [ [ "milk_standard", 15 ] ],
+    "using": [ [ "milk_standard_raw_fresh", 15 ] ],
     "components": [ [ [ "vinegar", 3 ] ], [ [ "wild_herbs", 40 ], [ "meat_stomach", 1, "LIST" ] ] ]
   },
   {
@@ -287,7 +287,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "NO_EXERCISE",
     "result": "brew_vinegar",
     "result_mult": 10,
     "category": "CC_FOOD",

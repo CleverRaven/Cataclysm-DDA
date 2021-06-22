@@ -1,11 +1,11 @@
-#include "catch/catch.hpp"
-
 #include <functional>
+#include <iosfwd>
 #include <list>
 #include <string>
 #include <vector>
 
 #include "bodypart.h"
+#include "catch/catch.hpp"
 #include "character.h"
 #include "item.h"
 #include "npc.h"
@@ -68,8 +68,8 @@ static void test_encumbrance(
 }
 
 struct add_trait {
-    add_trait( const std::string &t ) : trait( t ) {}
-    add_trait( const trait_id &t ) : trait( t ) {}
+    explicit add_trait( const std::string &t ) : trait( t ) {}
+    explicit add_trait( const trait_id &t ) : trait( t ) {}
 
     void operator()( Character &p ) {
         p.toggle_trait( trait );
@@ -113,7 +113,7 @@ TEST_CASE( "same_layer_encumbrance", "[encumbrance]" )
 TEST_CASE( "tiny_clothing", "[encumbrance]" )
 {
     item i( "longshirt" );
-    i.set_flag( "UNDERSIZE" );
+    i.set_flag( flag_id( "UNDERSIZE" ) );
     test_encumbrance_items( { i }, "torso", longshirt_e * 3 );
 }
 
@@ -124,7 +124,7 @@ TEST_CASE( "tiny_character", "[encumbrance]" )
         test_encumbrance_items( { i }, "torso", longshirt_e * 2, add_trait( "SMALL2" ) );
     }
     SECTION( "undersize shrt" ) {
-        i.set_flag( "UNDERSIZE" );
+        i.set_flag( flag_id( "UNDERSIZE" ) );
         test_encumbrance_items( { i }, "torso", longshirt_e, add_trait( "SMALL2" ) );
     }
 }

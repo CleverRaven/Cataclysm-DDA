@@ -1,12 +1,14 @@
+#include "vehicle.h" // IWYU pragma: associated
+
 #include <algorithm>
 #include <memory>
+#include <string>
 
 #include "avatar.h"
 #include "character.h"
 #include "creature.h"
 #include "debug.h"
 #include "enums.h"
-#include "game.h"
 #include "gun_mode.h"
 #include "item.h"
 #include "itype.h"
@@ -20,7 +22,6 @@
 #include "ui.h"
 #include "value_ptr.h"
 #include "veh_type.h"
-#include "vehicle.h" // IWYU pragma: associated
 #include "vehicle_selector.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
@@ -33,8 +34,9 @@ std::vector<vehicle_part *> vehicle::turrets()
 {
     std::vector<vehicle_part *> res;
 
-    for( auto &e : parts ) {
-        if( !e.is_broken() && e.base.is_gun() ) {
+    for( int index : turret_locations ) {
+        vehicle_part &e = parts[index];
+        if( !e.is_broken() && e.is_turret() ) {
             res.push_back( &e );
         }
     }
@@ -572,6 +574,7 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
 
     Character &player_character = get_player_character();
     const bool u_see = player_character.sees( pos );
+    const bool u_hear = !player_character.is_deaf();
     // The current target of the turret.
     auto &target = pt.target;
     if( target.first == target.second ) {
@@ -588,16 +591,18 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
         if( auto_target == nullptr ) {
             if( boo_hoo ) {
                 cpu.name = string_format( pgettext( "vehicle turret", "The %s" ), pt.name() );
-                if( u_see ) {
+                // check if the player can see or hear then print chooses a message accordingly
+                if( u_see & u_hear ) {
                     add_msg( m_warning, ngettext( "%s points in your direction and emits an IFF warning beep.",
                                                   "%s points in your direction and emits %d annoyed sounding beeps.",
                                                   boo_hoo ),
                              cpu.name, boo_hoo );
-                } else {
-                    add_msg( m_warning, ngettext( "%s emits an IFF warning beep.",
-                                                  "%s emits %d annoyed sounding beeps.",
-                                                  boo_hoo ),
-                             cpu.name, boo_hoo );
+                } else if( !u_see & u_hear ) {
+                    add_msg( m_warning, ngettext( "You hear a warning beep.",
+                                                  "You hear %d annoyed sounding beeps.",
+                                                  boo_hoo ), boo_hoo );
+                } else if( u_see & !u_hear ) {
+                    add_msg( m_warning, _( "%s points in your direction." ), cpu.name );
                 }
             }
             return shots;

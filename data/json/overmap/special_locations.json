@@ -31,6 +31,16 @@
   },
   {
     "type": "overmap_location",
+    "id": "special_field",
+    "terrains": [ "special_field" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "special_forest",
+    "terrains": [ "special_forest", "special_forest_thick" ]
+  },
+  {
+    "type": "overmap_location",
     "id": "water",
     "terrains": [
       "river",
@@ -94,6 +104,16 @@
     "type": "overmap_location",
     "id": "lake_surface",
     "terrains": [ "lake_surface" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "lake_water_cube",
+    "terrains": [ "lake_water_cube" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "lake_bed",
+    "terrains": [ "lake_bed" ]
   },
   {
     "type": "overmap_location",

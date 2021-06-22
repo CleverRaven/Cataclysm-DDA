@@ -25,7 +25,7 @@
   {
     "type": "skill_boost",
     "stat": "int",
-    "skills": [ "barter", "computer", "cooking", "electronics", "fabrication", "firstaid", "speech" ],
+    "skills": [ "computer", "cooking", "electronics", "fabrication", "firstaid", "speech", "chemistry" ],
     "skill_offset": -3,
     "scaling_power": 0.4
   },

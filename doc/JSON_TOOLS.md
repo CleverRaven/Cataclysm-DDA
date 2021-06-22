@@ -12,7 +12,7 @@ might use this to learn how many items have "weight" and/or "volume", or what fi
 often by "overmap_special" types, for example.
 
 - `values.py` counts how many times each value occurs in a given key (field).  Use this if you want
-to know what different "volume" or "weight" values items have, or to look up all "id" values from a
+to know what different "volume" or "weight" values items have or to look up all "id" values from a
 set of matching items, for instance.
 
 Run either script with `-h` to see help on their command-line options.  Both scripts output JSON

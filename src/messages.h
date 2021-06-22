@@ -3,19 +3,19 @@
 #define CATA_SRC_MESSAGES_H
 
 #include <cstddef>
-#include <string>
+#include <iosfwd>
+#include <type_traits>
 #include <utility>
 #include <vector>
 
-#include "string_formatter.h"
-#include "enums.h"
 #include "debug.h"
+#include "enums.h"
+#include "string_formatter.h"
 
 class Creature;
-class JsonOut;
 class JsonObject;
+class JsonOut;
 class translation;
-
 struct tripoint;
 
 namespace catacurses

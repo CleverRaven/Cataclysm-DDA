@@ -1,105 +1,32 @@
 #include "field.h"
 
 #include <algorithm>
+#include <cmath>
+#include <random>
 #include <utility>
 
 #include "calendar.h"
-#include "int_id.h"
+#include "make_static.h"
+#include "rng.h"
 
-int field_entry::move_cost() const
+std::string field_entry::symbol() const
 {
-    return type.obj().get_move_cost( intensity - 1 );
-}
-
-int field_entry::extra_radiation_min() const
-{
-    return type.obj().get_extra_radiation_min( intensity - 1 );
-}
-
-int field_entry::extra_radiation_max() const
-{
-    return type.obj().get_extra_radiation_max( intensity - 1 );
-}
-
-int field_entry::radiation_hurt_damage_min() const
-{
-    return type.obj().get_radiation_hurt_damage_min( intensity - 1 );
-}
-
-int field_entry::radiation_hurt_damage_max() const
-{
-    return type.obj().get_radiation_hurt_damage_max( intensity - 1 );
-}
-
-std::string field_entry::radiation_hurt_message() const
-{
-    return type.obj().get_radiation_hurt_message( intensity - 1 );
-}
-
-int field_entry::intensity_upgrade_chance() const
-{
-    return type.obj().get_intensity_upgrade_chance( intensity - 1 );
-}
-
-time_duration field_entry::intensity_upgrade_duration() const
-{
-    return type.obj().get_intensity_upgrade_duration( intensity - 1 );
-}
-
-int field_entry::monster_spawn_chance() const
-{
-    return type.obj().get_monster_spawn_chance( intensity - 1 );
-}
-
-int field_entry::monster_spawn_count() const
-{
-    return type.obj().get_monster_spawn_count( intensity - 1 );
-}
-
-int field_entry::monster_spawn_radius() const
-{
-    return type.obj().get_monster_spawn_radius( intensity - 1 );
-}
-
-mongroup_id field_entry::monster_spawn_group() const
-{
-    return type.obj().get_monster_spawn_group( intensity - 1 );
-}
-
-float field_entry::light_emitted() const
-{
-    return type.obj().get_light_emitted( intensity - 1 );
-}
-
-float field_entry::local_light_override() const
-{
-    return type.obj().get_local_light_override( intensity - 1 );
-}
-
-float field_entry::translucency() const
-{
-    return type.obj().get_translucency( intensity - 1 );
-}
-
-bool field_entry::is_transparent() const
-{
-    return type.obj().get_transparent( intensity - 1 );
-}
-
-int field_entry::convection_temperature_mod() const
-{
-    return type.obj().get_convection_temperature_mod( intensity - 1 );
+    return get_field_type()->get_symbol( get_field_intensity() - 1 );
 }
 
 nc_color field_entry::color() const
 {
-    return type.obj().get_color( intensity - 1 );
+    return get_intensity_level().color;
 }
 
-std::string field_entry::symbol() const
+const field_intensity_level &field_entry::get_intensity_level() const
 {
-    return type.obj().get_symbol( intensity - 1 );
+    return get_field_type()->get_intensity_level( intensity - 1 );
+}
 
+bool field_entry::is_dangerous() const
+{
+    return get_intensity_level().dangerous;
 }
 
 field_type_id field_entry::get_field_type() const
@@ -142,7 +69,34 @@ time_duration field_entry::get_field_age() const
 
 time_duration field_entry::set_field_age( const time_duration &new_age )
 {
+    decay_time = time_point();
     return age = new_age;
+}
+
+void field_entry::do_decay()
+{
+    // Bypass set_field_age() so we don't reset decay_time;
+    age += 1_turns;
+    if( type.obj().half_life > 0_turns && get_field_age() > 0_turns ) {
+        // Legacy handling for fire because it's weird and complicated.
+        if( type == STATIC( field_type_str_id( "fd_fire" ) ) ) {
+            if( to_turns<int>( type->half_life ) < dice( 2, to_turns<int>( age ) ) ) {
+                set_field_age( 0_turns );
+                set_field_intensity( get_field_intensity() - 1 );
+            }
+            return;
+        }
+        if( decay_time == calendar::turn_zero ) {
+            std::exponential_distribution<> d( 1.0f / ( M_LOG2E * to_turns<float>
+                                               ( type.obj().half_life ) ) );
+            const time_duration decay_delay = time_duration::from_turns( d( rng_get_engine() ) );
+            decay_time = calendar::turn - age + decay_delay;
+        }
+        if( decay_time <= calendar::turn ) {
+            set_field_age( 0_turns );
+            set_field_intensity( get_field_intensity() - 1 );
+        }
+    }
 }
 
 field::field()
@@ -155,33 +109,29 @@ Function: find_field
 Returns a field entry corresponding to the field_type_id parameter passed in. If no fields are found then returns NULL.
 Good for checking for existence of a field: if(myfield.find_field(fd_fire)) would tell you if the field is on fire.
 */
-field_entry *field::find_field( const field_type_id &field_type_to_find )
+field_entry *field::find_field( const field_type_id &field_type_to_find, const bool alive_only )
 {
     if( !_displayed_field_type ) {
         return nullptr;
     }
     const auto it = _field_type_list.find( field_type_to_find );
-    if( it != _field_type_list.end() ) {
+    if( it != _field_type_list.end() && ( !alive_only || it->second.is_field_alive() ) ) {
         return &it->second;
     }
     return nullptr;
 }
 
-const field_entry *field::find_field_c( const field_type_id &field_type_to_find ) const
+const field_entry *field::find_field( const field_type_id &field_type_to_find,
+                                      const bool alive_only ) const
 {
     if( !_displayed_field_type ) {
         return nullptr;
     }
     const auto it = _field_type_list.find( field_type_to_find );
-    if( it != _field_type_list.end() ) {
+    if( it != _field_type_list.end() && ( !alive_only || it->second.is_field_alive() ) ) {
         return &it->second;
     }
     return nullptr;
-}
-
-const field_entry *field::find_field( const field_type_id &field_type_to_find ) const
-{
-    return find_field_c( field_type_to_find );
 }
 
 /*
@@ -202,7 +152,12 @@ bool field::add_field( const field_type_id &field_type_to_add, const int new_int
     auto it = _field_type_list.find( field_type_to_add );
     if( it != _field_type_list.end() ) {
         //Already exists, but lets update it. This is tentative.
-        it->second.set_field_intensity( it->second.get_field_intensity() + new_intensity );
+        int prev_intensity = it->second.get_field_intensity();
+        if( !it->second.is_field_alive() ) {
+            it->second.set_field_age( new_age );
+            prev_intensity = 0;
+        }
+        it->second.set_field_intensity( prev_intensity + new_intensity );
         return false;
     }
     if( !_displayed_field_type ||
@@ -234,6 +189,12 @@ void field::remove_field( std::map<field_type_id, field_entry>::iterator const i
             }
         }
     }
+}
+
+void field::clear()
+{
+    _field_type_list.clear();
+    _displayed_field_type = fd_null;
 }
 
 /*
@@ -283,7 +244,7 @@ int field::total_move_cost() const
 {
     int current_cost = 0;
     for( const auto &fld : _field_type_list ) {
-        current_cost += fld.second.move_cost();
+        current_cost += fld.second.get_intensity_level().move_cost;
     }
     return current_cost;
 }

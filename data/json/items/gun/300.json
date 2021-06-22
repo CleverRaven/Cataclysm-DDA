@@ -18,7 +18,6 @@
     "ammo": [ "300" ],
     "dispersion": 90,
     "durability": 8,
-    "min_cycle_recoil": 4770,
     "barrel_volume": "500 ml",
     "flags": [ "NEVER_JAMS" ],
     "pocket_data": [

@@ -1,12 +1,16 @@
 #include "main_menu.h"
 
 #include <algorithm>
+#include <cmath>
+#include <cstdint>
 #include <cstdio>
 #include <cstring>
 #include <ctime>
+#include <exception>
 #include <functional>
 #include <istream>
 #include <memory>
+#include <string>
 
 #include "auto_pickup.h"
 #include "avatar.h"
@@ -1239,7 +1243,7 @@ void main_menu::world_tab()
                 points.limit = points_left::TRANSFER;
 
                 player_character.setID( character_id(), true );
-                player_character.reset_all_misions();
+                player_character.reset_all_missions();
                 player_character.save_template( player_character.name, points );
 
                 player_character = avatar();

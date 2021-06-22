@@ -2,20 +2,15 @@
 #ifndef CATA_SRC_NPC_CLASS_H
 #define CATA_SRC_NPC_CLASS_H
 
-#include <algorithm>
 #include <functional>
+#include <iosfwd>
 #include <map>
-#include <string>
 #include <vector>
 
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 
 class JsonObject;
-
-using Group_tag = std::string;
-
 class Trait_group;
 
 namespace trait_group
@@ -30,7 +25,7 @@ class distribution
 {
     private:
         std::function<float()> generator_function;
-        distribution( const std::function<float()> &gen );
+        explicit distribution( const std::function<float()> &gen );
 
     public:
         distribution();
@@ -65,15 +60,15 @@ class npc_class
         // Just for finalization
         std::map<skill_id, distribution> bonus_skills;
 
-        Group_tag shopkeeper_item_group = "EMPTY_GROUP";
+        item_group_id shopkeeper_item_group = item_group_id( "EMPTY_GROUP" );
 
     public:
         npc_class_id id;
         bool was_loaded = false;
 
-        Group_tag worn_override;
-        Group_tag carry_override;
-        Group_tag weapon_override;
+        item_group_id worn_override;
+        item_group_id carry_override;
+        item_group_id weapon_override;
 
         std::map<mutation_category_id, distribution> mutation_rounds;
         trait_group::Trait_group_tag traits = trait_group::Trait_group_tag( "EMPTY_GROUP" );
@@ -93,7 +88,7 @@ class npc_class
 
         int roll_skill( const skill_id & ) const;
 
-        const Group_tag &get_shopkeeper_items() const;
+        const item_group_id &get_shopkeeper_items() const;
 
         void load( const JsonObject &jo, const std::string &src );
 

@@ -66,7 +66,7 @@
     "id": "dks_cop_extras",
     "type": "item_group",
     "items": [
-      { "item": "1st_aid", "prob": 25 },
+      { "group": "full_1st_aid", "prob": 25 },
       { "item": "legrig", "prob": 10 },
       { "item": "dump_pouch", "prob": 10 },
       { "item": "medium_disposable_cell", "prob": 30 }
@@ -76,7 +76,7 @@
     "id": "dks_scout_extras",
     "type": "item_group",
     "items": [
-      { "item": "1st_aid", "prob": 25 },
+      { "group": "full_1st_aid", "prob": 25 },
       { "item": "legrig", "prob": 10 },
       { "item": "dump_pouch", "prob": 10 },
       { "item": "binoculars", "prob": 30 }

@@ -694,5 +694,14 @@
     "name": "marina parking",
     "color": "cyan",
     "sym": "m"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "park_maze",
+    "name": "hedge maze",
+    "sym": "g",
+    "color": "light_green",
+    "see_cost": 5,
+    "mondensity": 2
   }
 ]

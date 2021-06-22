@@ -1,8 +1,6 @@
-#include "catch/catch.hpp"
-
 #include <algorithm>
-#include <array>
-#include <cmath>
+#include <cstdlib>
+#include <functional>
 #include <list>
 #include <memory>
 #include <ostream>
@@ -13,6 +11,7 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
+#include "catch/catch.hpp"
 #include "creature.h"
 #include "dispersion.h"
 #include "game_constants.h"
@@ -163,7 +162,7 @@ static std::vector<firing_statistics> firing_test( const dispersion_sources &dis
         const int range, const std::vector< Threshold > &thresholds )
 {
     std::vector<firing_statistics> firing_stats;
-    for( const Threshold pear : thresholds ) {
+    for( const Threshold &pear : thresholds ) {
         firing_stats.push_back( firing_test( dispersion, range, pear ) );
     }
     return firing_stats;

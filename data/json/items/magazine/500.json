@@ -13,7 +13,6 @@
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "500" ],
-    "capacity": 5,
     "flags": [ "SPEEDLOADER" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "500": 5 } } ]
   }

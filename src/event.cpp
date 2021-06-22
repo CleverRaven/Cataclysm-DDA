@@ -1,6 +1,6 @@
 #include "event.h"
 
-#include <algorithm>
+#include <string>
 
 namespace io
 {

@@ -34,12 +34,13 @@
         ",,,,,              ,,,,,"
       ],
       "palettes": [ "mil_outpost_bandit" ],
+      "furniture": { "8": "f_sandbag_half" },
       "npcs": { "@": { "class": "raider" }, "z": { "class": "bandit" }, "Z": { "class": "thug" } },
       "place_traps": [
-        { "x": [ 6, 17 ], "y": [ 9, 18 ], "trap": "tr_caltrops", "chance": 85, "repeat": [ 10, 20 ] },
-        { "x": [ 6, 17 ], "y": [ 9, 18 ], "trap": "tr_nailboard", "chance": 85, "repeat": [ 10, 20 ] }
+        { "x": [ 6, 17 ], "y": [ 9, 18 ], "trap": "tr_caltrops", "repeat": [ 10, 20 ] },
+        { "x": [ 6, 17 ], "y": [ 9, 18 ], "trap": "tr_nailboard", "repeat": [ 10, 20 ] }
       ],
-      "mapping": { "H": { "furniture": "f_brazier", "item": { "item": "2x4", "count": 5 }, "fields": { "field": "fd_fire" } } }
+      "mapping": { "H": { "furniture": "f_brazier", "item": { "item": "2x4", "amount": 5 }, "fields": { "field": "fd_fire" } } }
     }
   }
 ]

@@ -2,15 +2,15 @@
 #ifndef CATA_SRC_MAPBUFFER_H
 #define CATA_SRC_MAPBUFFER_H
 
+#include <iosfwd>
 #include <list>
 #include <map>
 #include <memory>
-#include <string>
 
 #include "point.h"
 
-class submap;
 class JsonIn;
+class submap;
 
 /**
  * Store, buffer, save and load the entire world map.

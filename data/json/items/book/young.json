@@ -10,6 +10,7 @@
     "price_postapoc": 1900,
     "material": [ "paper" ],
     "symbol": "?",
+    "looks_like": "story_book",
     "color": "light_cyan",
     "time": "4 m",
     "chapters": 4,
@@ -26,6 +27,7 @@
     "price_postapoc": 1900,
     "material": [ "paper" ],
     "symbol": "?",
+    "looks_like": "story_book",
     "color": "light_blue",
     "intelligence": 6,
     "time": "18 m",
@@ -167,7 +169,7 @@
     "id": "book_fict_soft_ya_pbbr",
     "type": "BOOK",
     "name": { "str": "Peanut Butter Bruised", "str_pl": "copies of Peanut Butter Bruised" },
-    "description": "In this work of young adult fiction, a woman raised on food stamps falls in love with a young cook.  More importantly, she falls in love with the idea of become a professional chef.",
+    "description": "In this work of young adult fiction, a woman raised on food stamps falls in love with a young cook.  More importantly, she falls in love with the idea of becoming a professional chef.",
     "copy-from": "book_fict_soft_ya_quiddity"
   },
   {

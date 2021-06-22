@@ -14,6 +14,14 @@
 #include "path_info.h"
 #include "cata_utility.h"
 
+// Ensure that unifont is always loaded as a fallback font to prevent users from shooting themselves in the foot
+static void ensure_unifont_loaded( std::vector<std::string> &font_list )
+{
+    if( std::find( std::begin( font_list ), std::end( font_list ), "unifont" ) == font_list.end() ) {
+        font_list.emplace_back( PATH_INFO::fontdir() + "unifont.ttf" );
+    }
+}
+
 class font_loader
 {
     public:
@@ -53,12 +61,6 @@ class font_loader
                     config.read( "overmap_typeface", overmap_typeface );
                 }
 
-                // Ensure that unifont is always loaded as a fallback font to prevent users from shooting themselves in the foot
-                auto ensure_unifont_loaded = []( std::vector<std::string> &font_list ) {
-                    if( std::find( std::begin( font_list ), std::end( font_list ), "unifont" ) == font_list.end() ) {
-                        font_list.emplace_back( "unifont" );
-                    }
-                };
                 ensure_unifont_loaded( typeface );
                 ensure_unifont_loaded( map_typeface );
                 ensure_unifont_loaded( overmap_typeface );

@@ -1,6 +1,7 @@
 #include "name.h"
 
 #include <cstddef>
+#include <functional>
 #include <map>
 #include <string>
 #include <utility>
@@ -74,7 +75,7 @@ static void load( JsonIn &jsin )
 
         // find group type and add name(s) to group
         if( jo.has_array( "name" ) ) {
-            for( const std::string &n : jo.get_array( "name" ) ) {
+            for( const std::string n : jo.get_array( "name" ) ) {
                 names[type].push_back( n );
             }
         } else {

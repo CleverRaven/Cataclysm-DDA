@@ -1,0 +1,108 @@
+[
+  {
+    "type": "talk_topic",
+    "id": [ "TALK_FRIEND", "TALK_GIVE_ITEM", "TALK_USE_ITEM", "TALK_RADIO" ],
+    "responses": [
+      {
+        "text": "You said that you have experience in electrical engineering…",
+        "topic": "TALK_ENG_LIGHTHOUSE",
+        "condition": {
+          "and": [
+            { "npc_has_any_trait": [ "Exp_Eng_Electrical2", "Exp_Eng_Electrical1Fake2", "Exp_Eng_Electrical0Fake2" ] },
+            { "u_has_mission": "MISSION_lighthouse_man_5" }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ENG_LIGHTHOUSE",
+    "dynamic_line": "I did, actually.  Why are you asking?",
+    "responses": [
+      {
+        "text": "We're here.  Ready to start?",
+        "topic": "TALK_ENG_LIGHTHOUSE_2",
+        "condition": { "npc_at_om_location": "lighthouse_z4" },
+        "effect": [ "leave", "assign_guard" ]
+      },
+      { "text": "Can you repair the mechanism of the lighthouse?", "topic": "TALK_ENG_LIGHTHOUSE_1" },
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ENG_LIGHTHOUSE_1",
+    "dynamic_line": "Sure thing, boss.  Take me there and in a few days it will be like new.",
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ENG_LIGHTHOUSE_2",
+    "dynamic_line": "Hmm, looks <shitty>.  I'll do my best.",
+    "responses": [
+      {
+        "text": "Start working.",
+        "topic": "TALK_DONE",
+        "effect": [
+          { "npc_first_topic": "TALK_ENG_LIGHTHOUSE_WORKING" },
+          { "npc_add_var": "wait", "type": "time", "context": "lighthouse", "time": true }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ENG_LIGHTHOUSE_WORKING",
+    "dynamic_line": {
+      "npc_compare_time_since_var": "wait",
+      "type": "time",
+      "context": "lighthouse",
+      "op": ">",
+      "time": "2 days",
+      "yes": {
+        "npc_has_trait": "Exp_Eng_Electrical1Fake2",
+        "yes": "Boss, here's the thing… just don't be mad, please.  I lied that I'm good at this… I thought I could figure it out, but it's far beyond my comprehension.  I'm sorry.",
+        "no": {
+          "npc_has_trait": "Exp_Eng_Electrical0Fake2",
+          "yes": "Boss, here's the thing… just don't be mad, please.  I lied that I know something about this… I thought I could figure it out, but it's far beyond my comprehension.  I'm sorry.",
+          "no": "All done, boss.  Tell that fisherman to try it in action."
+        }
+      },
+      "no": "I'm still working, boss."
+    },
+    "speaker_effect": {
+      "sentinel": "done",
+      "condition": {
+        "and": [
+          { "npc_compare_time_since_var": "wait", "type": "time", "context": "lighthouse", "op": ">", "time": "2 days" },
+          { "not": { "npc_has_any_trait": [ "Exp_Eng_Electrical1Fake2", "Exp_Eng_Electrical0Fake2" ] } }
+        ]
+      },
+      "effect": { "u_add_var": "lighthouse_fixed", "type": "global", "context": "safe_space", "value": "ready" }
+    },
+    "responses": [
+      {
+        "truefalsetext": {
+          "true": "Thanks for wasting my time, <name_b>.  <end_talking>",
+          "false": "We're done here.  <end_talking>",
+          "condition": { "npc_has_any_trait": [ "Exp_Eng_Electrical1Fake2", "Exp_Eng_Electrical0Fake2" ] }
+        },
+        "topic": "TALK_DONE",
+        "condition": {
+          "and": [
+            { "npc_compare_time_since_var": "wait", "type": "time", "context": "lighthouse", "op": ">", "time": "2 days" },
+            {
+              "or": [
+                { "not": { "u_has_mission": "MISSION_lighthouse_man_5" } },
+                { "npc_has_any_trait": [ "Exp_Eng_Electrical1Fake2", "Exp_Eng_Electrical0Fake2" ] }
+              ]
+            }
+          ]
+        },
+        "effect": "follow"
+      },
+      { "text": "Good.", "topic": "TALK_DONE" }
+    ]
+  }
+]

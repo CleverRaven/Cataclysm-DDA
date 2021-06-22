@@ -9,7 +9,7 @@
       "rows": [
         ".R...R....RssR....R...R.",
         ".|---------LL---------|.",
-        ".|d5                  |.",
+        ".|d5   C              |.",
         ".|-R            888   |.",
         ".|d5  DD   DD   5#5   |.",
         ".|-R  DD   DD   5#5   |.",
@@ -91,7 +91,8 @@
         { "item": "museum_melee", "x": [ 4, 7 ], "y": [ 20, 21 ], "chance": 70 },
         { "item": "museum_guns", "x": [ 4, 7 ], "y": [ 20, 21 ], "chance": 70 },
         { "item": "museum_misc", "x": [ 4, 7 ], "y": [ 20, 21 ], "chance": 80 }
-      ]
+      ],
+      "vehicles": { "C": { "vehicle": "museum_cannon", "chance": 100 } }
     }
   },
   {
@@ -147,5 +148,10 @@
         }
       ]
     }
+  },
+  {
+    "id": "museum_cannon",
+    "type": "vehicle_group",
+    "vehicles": [ [ "cannon_3in", 10 ], [ "cannon_3in_plugged", 90 ] ]
   }
 ]

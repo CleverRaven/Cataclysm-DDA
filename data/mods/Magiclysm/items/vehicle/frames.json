@@ -21,5 +21,14 @@
     "color": "yellow",
     "material": [ "orichalcum_metal" ],
     "price": 800000
+  },
+  {
+    "type": "GENERIC",
+    "id": "light_orichalcum_frame",
+    "name": "light orichalcum frame",
+    "copy-from": "orichalcum_frame",
+    "description": "A frame made of orichalcum.  Partially torn down in order to reduce weight at the cost of durability.",
+    "weight": "40 kg",
+    "price": 300000
   }
 ]

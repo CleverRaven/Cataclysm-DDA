@@ -3,7 +3,7 @@
 #define CATA_SRC_ITYPE_H
 
 #include <array>
-#include <functional>
+#include <cstddef>
 #include <iosfwd>
 #include <map>
 #include <memory>
@@ -19,11 +19,11 @@
 #include "enums.h" // point
 #include "explosion.h"
 #include "game_constants.h"
-#include "item_contents.h"
 #include "item_pocket.h"
 #include "iuse.h" // use_function
 #include "optional.h"
 #include "pldata.h" // add_type
+#include "proficiency.h"
 #include "relic.h"
 #include "stomach.h"
 #include "translations.h"
@@ -34,7 +34,6 @@
 class Item_factory;
 class JsonIn;
 class JsonObject;
-class body_part_set;
 class item;
 class player;
 struct tripoint;
@@ -77,7 +76,7 @@ class gunmod_location
 
     public:
         gunmod_location() = default;
-        gunmod_location( const std::string &id ) : _id( id ) { }
+        explicit gunmod_location( const std::string &id ) : _id( id ) { }
 
         /// Returns the translated name.
         std::string name() const;
@@ -180,11 +179,11 @@ struct islot_comestible {
         static constexpr float kcal_per_nutr = 2500.0f / ( 12 * 24 );
 
         bool has_calories() const {
-            return default_nutrition.kcal > 0;
+            return default_nutrition.calories > 0;
         }
 
         int get_default_nutr() const {
-            return default_nutrition.kcal / kcal_per_nutr;
+            return default_nutrition.kcal() / kcal_per_nutr;
         }
 
         /** The monster group that is drawn from when the item rots away */
@@ -237,9 +236,10 @@ struct islot_armor {
     */
     bool sided = false;
     /**
-     * TODO: document me.
+     * Material protection stats are multiplied by this number
+     * to determine armor protection values.
      */
-    int thickness = 0;
+    float thickness = 0.0f;
     /**
      * Resistance to environmental effects.
      */
@@ -253,7 +253,7 @@ struct islot_armor {
      */
     int warmth = 0;
     /**
-    * Factor modifiying weight capacity
+    * Factor modifying weight capacity
     */
     float weight_capacity_modifier = 1.0f;
     /**
@@ -283,7 +283,7 @@ struct islot_pet_armor {
     /**
      * TODO: document me.
      */
-    int thickness = 0;
+    float thickness = 0;
     /**
      * Resistance to environmental effects.
      */
@@ -379,6 +379,7 @@ struct islot_book {
     };
     using recipe_list_t = std::set<recipe_with_description_t>;
     recipe_list_t recipes;
+    std::vector<book_proficiency_bonus> proficiencies;
 
     bool was_loaded = false;
 
@@ -455,23 +456,6 @@ struct islot_wheel {
 
         void load( const JsonObject &jo );
         void deserialize( JsonIn &jsin );
-};
-
-struct fuel_explosion {
-    int explosion_chance_hot = 0;
-    int explosion_chance_cold = 0;
-    float explosion_factor = 0.0f;
-    bool fiery_explosion = false;
-    float fuel_size_factor = 0.0f;
-};
-
-struct islot_fuel {
-    public:
-        /** Energy of the fuel (kilojoules per charge) */
-        float energy = 0.0f;
-        struct fuel_explosion explosion_data;
-        bool has_explode_data = false;
-        std::string pump_terrain = "t_null";
 };
 
 // TODO: this shares a lot with the ammo item type, merge into a separate slot type?
@@ -560,6 +544,8 @@ struct islot_gun : common_ranged_data {
      *  @note useful for adding recoil effect to guns which otherwise consume no ammo
      */
     int recoil = 0;
+
+    int ammo_to_fire = 1;
 };
 
 /// The type of gun. The second "_type" suffix is only to distinguish it from `item::gun_type`.
@@ -571,7 +557,7 @@ class gun_type_type
     public:
         /// @param name The untranslated name of the gun type. Must have been extracted
         /// for translation with the context "gun_type_type".
-        gun_type_type( const std::string &name ) : name_( name ) {}
+        explicit gun_type_type( const std::string &name ) : name_( name ) {}
         /// Translated name.
         std::string name() const;
 
@@ -622,6 +608,12 @@ struct islot_gunmod : common_ranged_data {
 
     /** Increases base gun UPS consumption by this value per shot */
     int ups_charges_modifier = 0;
+
+    /** Increases base gun ammo to fire by this many times per shot */
+    float ammo_to_fire_multiplier = 1.0f;
+
+    /** Increases base gun ammo to fire by this value per shot */
+    int ammo_to_fire_modifier = 0;
 
     /** Increases gun weight by this many times */
     float weight_multiplier = 1.0f;
@@ -744,7 +736,7 @@ struct islot_ammo : common_ranged_data {
      * Some combat ammo might not have a damage value
      * Set this to make it show as combat ammo anyway
      */
-    cata::optional<bool> force_stat_display;
+    bool force_stat_display;
 
     bool was_loaded = false;
 
@@ -765,6 +757,11 @@ struct islot_bionic {
      * Whether this CBM is an upgrade of another.
      */
     bool is_upgrade = false;
+
+    /**
+    * Item with installation data that can be used to provide almost guaranteed successful install of corresponding bionic.
+    */
+    itype_id installation_data;
 };
 
 struct islot_seed {
@@ -839,7 +836,7 @@ class islot_milling
 struct itype {
         friend class Item_factory;
 
-        using FlagsSetType = std::set<std::string>;
+        using FlagsSetType = std::set<flag_id>;
 
         /**
          * Slots for various item type properties. Each slot may contain a valid pointer or null, check
@@ -855,7 +852,6 @@ struct itype {
         cata::value_ptr<islot_mod> mod;
         cata::value_ptr<islot_engine> engine;
         cata::value_ptr<islot_wheel> wheel;
-        cata::value_ptr<islot_fuel> fuel;
         cata::value_ptr<islot_gun> gun;
         cata::value_ptr<islot_gunmod> gunmod;
         cata::value_ptr<islot_magazine> magazine;
@@ -1013,6 +1009,11 @@ struct itype {
         // used for generic_factory for copy-from
         bool was_loaded = false;
 
+        // itemgroup used to generate the recipes within nanofabricator templates.
+        item_group_id nanofab_template_group;
+
+        requirement_id template_requirements;
+
     private:
         /** Can item be combined with other identical items? */
         bool stackable_ = false;
@@ -1116,7 +1117,7 @@ struct itype {
 
         bool has_use() const;
 
-        bool has_flag( const std::string &flag ) const;
+        bool has_flag( const flag_id &flag ) const;
 
         // returns read-only set of all item tags/flags
         const FlagsSetType &get_flags() const;
@@ -1125,8 +1126,10 @@ struct itype {
         const use_function *get_use( const std::string &iuse_name ) const;
 
         // Here "invoke" means "actively use". "Tick" means "active item working"
-        int invoke( player &p, item &it, const tripoint &pos ) const; // Picks first method or returns 0
-        int invoke( player &p, item &it, const tripoint &pos, const std::string &iuse_name ) const;
+        cata::optional<int> invoke( player &p, item &it,
+                                    const tripoint &pos ) const; // Picks first method or returns 0
+        cata::optional<int> invoke( player &p, item &it, const tripoint &pos,
+                                    const std::string &iuse_name ) const;
         int tick( player &p, item &it, const tripoint &pos ) const;
 
         virtual ~itype() = default;

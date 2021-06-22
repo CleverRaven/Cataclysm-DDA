@@ -135,7 +135,7 @@ void node_t::load( const JsonObject &jo, const std::string & )
             jo.throw_error( "Invalid strategy in behavior." );
         }
     }
-    for( const JsonObject &predicate_object : jo.get_array( "conditions" ) ) {
+    for( const JsonObject predicate_object : jo.get_array( "conditions" ) ) {
         const std::string predicate_id = predicate_object.get_string( "predicate" );
         auto new_predicate = predicate_map.find( predicate_id );
         if( new_predicate == predicate_map.end() ) {

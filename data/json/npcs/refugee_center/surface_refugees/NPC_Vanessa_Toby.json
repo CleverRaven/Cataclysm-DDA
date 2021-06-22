@@ -77,6 +77,18 @@
       "TALK_REFUGEE_Vanessa_Situation"
     ],
     "responses": [
+      {
+        "text": "I'm trying to put a cleanup crew together to tidy up the back room.  Can you help?",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
+            {
+              "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
+            }
+          ]
+        },
+        "topic": "TALK_REFUGEE_Vanessa_Refuse_Boris_Mission_1"
+      },
       { "text": "What's your story?", "topic": "TALK_REFUGEE_Vanessa_Background" },
       { "text": "How are things here?", "topic": "TALK_REFUGEE_Vanessa_Situation" },
       { "text": "Is there anything I can do to help you out?", "topic": "TALK_MISSION_LIST" },
@@ -219,9 +231,16 @@
     ]
   },
   {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Vanessa_Refuse_Boris_Mission_1",
+    "dynamic_line": "Ha ha ha ha!  No.",
+    "speaker_effect": { "effect": { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" } },
+    "responses": [ { "text": "I don't know what I expected.", "topic": "TALK_DONE" } ]
+  },
+  {
     "id": "MISSION_REFUGEE_Vanessa_1",
     "type": "mission_definition",
-    "name": { "str": "Make a makeshift haircut kit" },
+    "name": { "str": "Make a makeshift haircut kit for Vanessa Toby in the refugee center" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 2,
     "value": 0,
@@ -241,7 +260,8 @@
     "end": {
       "effect": [
         { "u_add_var": "Vanessa_Mission1", "type": "mission", "context": "flag", "value": "yes" },
-        { "npc_add_var": "owed_haircut_1", "type": "mission", "context": "services", "value": "yes" }
+        { "npc_add_var": "owed_haircut_1", "type": "mission", "context": "services", "value": "yes" },
+        { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 2 }
       ]
     }
   }

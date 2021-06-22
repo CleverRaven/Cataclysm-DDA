@@ -18,7 +18,7 @@
     "dispersion": 14,
     "loudness": 0,
     "to_hit": -2,
-    "effects": [ "NEVER_MISFIRES", "NON-FOULING", "RECOVER_80" ],
+    "effects": [ "NEVER_MISFIRES", "NON_FOULING", "RECOVER_80" ],
     "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
@@ -117,7 +117,7 @@
       {
         "holster": true,
         "min_item_volume": "50 ml",
-        "max_item_length": "60 cm",
+        "max_item_length": "70 cm",
         "max_contains_volume": "1500 ml",
         "max_contains_weight": "1000 g",
         "moves": 50,
@@ -126,7 +126,7 @@
       {
         "holster": true,
         "min_item_volume": "50 ml",
-        "max_item_length": "60 cm",
+        "max_item_length": "70 cm",
         "max_contains_volume": "1500 ml",
         "max_contains_weight": "1000 g",
         "moves": 50,
@@ -135,7 +135,7 @@
       {
         "holster": true,
         "min_item_volume": "50 ml",
-        "max_item_length": "60 cm",
+        "max_item_length": "70 cm",
         "max_contains_volume": "1500 ml",
         "max_contains_weight": "1000 g",
         "moves": 50,
@@ -144,7 +144,7 @@
       {
         "holster": true,
         "min_item_volume": "50 ml",
-        "max_item_length": "60 cm",
+        "max_item_length": "70 cm",
         "max_contains_volume": "1500 ml",
         "max_contains_weight": "1000 g",
         "moves": 50,
@@ -530,7 +530,7 @@
     "coverage": 90,
     "encumbrance": 3,
     "warmth": 5,
-    "material_thickness": 1,
+    "material_thickness": 0.2,
     "flags": [ "VARSIZE" ]
   },
   {
@@ -640,7 +640,8 @@
     "description": "A high-power bow with shaped cams and extra cables for high velocity shots that can be used effectively by fairly strong archers.  Currently set to a medium weight.",
     "price": 55000,
     "material": [ "steel", "plastic" ],
-    "flags": [ "FIRE_TWOHAND", "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON" ],
+    "flags": [ "FIRE_TWOHAND", "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON", "WATERPROOF_GUN", "NEVER_JAMS" ],
+    "ammo_effects": [ "NEVER_MISFIRES" ],
     "skill": "archery",
     "min_strength": 6,
     "ammo": [ "arrow" ],
@@ -1057,7 +1058,7 @@
     "material": [ "plastic", "steel" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": [ "9mm" ],
+    "ammo": [ "test_9mm" ],
     "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "dispersion": 480,
     "durability": 6,
@@ -1087,10 +1088,10 @@
     "material": [ "plastic" ],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": [ "9mm" ],
+    "ammo_type": [ "test_9mm" ],
     "capacity": 15,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 15 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "test_9mm": 15 } } ]
   },
   {
     "id": "test_glockbigmag",
@@ -1105,11 +1106,11 @@
     "material": [ "plastic" ],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": [ "9mm" ],
+    "ammo_type": [ "test_9mm" ],
     "capacity": 30,
     "reload_time": 140,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 30 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "test_9mm": 30 } } ]
   },
   {
     "id": "test_9mm_ammo",
@@ -1126,7 +1127,7 @@
     "color": "yellow",
     "count": 50,
     "stack_size": 50,
-    "ammo_type": "9mm",
+    "ammo_type": "test_9mm",
     "casing": "9mm_casing",
     "range": 14,
     "damage": { "damage_type": "bullet", "amount": 26 },
@@ -1268,6 +1269,29 @@
     "handling_modifier": 1,
     "loudness_modifier": -30,
     "flags": [ "DISABLE_SIGHTS", "CONSUMABLE", "REACH_ATTACK" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "test_milk",
+    "name": { "str_sp": "intolerant milk" },
+    "weight": "258 g",
+    "color": "white",
+    "spoils_in": "1 d",
+    "container": "jug_plastic",
+    "comestible_type": "DRINK",
+    "symbol": "~",
+    "quench": 25,
+    "healthy": 1,
+    "calories": 132,
+    "description": "You can only push a drink so far before it spoils.",
+    "price": 38,
+    "price_postapoc": 50,
+    "material": [ "milk" ],
+    "volume": "250 ml",
+    "phase": "liquid",
+    "flags": [ "EATEN_COLD" ],
+    "vitamins": [ [ "vitA", 10 ], [ "vitB", 6 ], [ "vitC", 4 ], [ "calcium", 25 ] ],
+    "fun": 1
   },
   {
     "type": "COMESTIBLE",

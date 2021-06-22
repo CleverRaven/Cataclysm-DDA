@@ -4,6 +4,7 @@
 #include <iterator>
 #include <list>
 #include <memory>
+#include <new>
 #include <set>
 #include <tuple>
 #include <unordered_set>
@@ -24,6 +25,7 @@
 #include "itype.h"
 #include "iuse.h"
 #include "json.h"
+#include "make_static.h"
 #include "optional.h"
 #include "output.h"
 #include "pimpl.h"
@@ -64,7 +66,7 @@ class actmenu_cb : public uilist_callback
     private:
         const action_map am;
     public:
-        actmenu_cb( const action_map &acm ) : am( acm ) { }
+        explicit actmenu_cb( const action_map &acm ) : am( acm ) { }
         ~actmenu_cb() override = default;
 
         bool key( const input_context &ctxt, const input_event &event, int /*idx*/,
@@ -156,14 +158,14 @@ item_action_map item_action_generator::map_actions_to_items( player &p,
                 continue;
             }
             if( !actual_item->ammo_sufficient() &&
-                ( !actual_item->has_flag( "USE_UPS" ) ||
+                ( !actual_item->has_flag( STATIC( flag_id( "USE_UPS" ) ) ) ||
                   p.charges_of( itype_UPS ) < actual_item->ammo_required() ) ) {
                 continue;
             }
 
             // Don't try to remove 'irremovable' toolmods
-            if( actual_item->is_toolmod() && use == item_action_id( "TOOLMOD_ATTACH" ) &&
-                actual_item->has_flag( "IRREMOVABLE" ) ) {
+            if( actual_item->is_toolmod() && use == STATIC( item_action_id( "TOOLMOD_ATTACH" ) ) &&
+                actual_item->has_flag( STATIC( flag_id( "IRREMOVABLE" ) ) ) ) {
                 continue;
             }
 

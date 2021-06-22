@@ -1,10 +1,10 @@
 #include "path_info.h"
 
-#include <clocale>
 #include <cstdlib>
+#include <string>
 
 #include "enums.h"
-#include "filesystem.h"
+#include "filesystem.h" // IWYU pragma: keep
 #include "options.h"
 #include "rng.h"
 
@@ -80,21 +80,20 @@ void PATH_INFO::init_user_dir( std::string dir )
 void PATH_INFO::set_standard_filenames()
 {
     // Special: data_dir and gfx_dir
+    std::string prefix;
     if( !base_path_value.empty() ) {
 #if defined(DATA_DIR_PREFIX)
         datadir_value = base_path_value + "share/cataclysm-dda/";
-        gfxdir_value = datadir_value + "gfx/";
-        langdir_value = datadir_value + "lang/";
+        prefix = datadir_value;
 #else
         datadir_value = base_path_value + "data/";
-        gfxdir_value = base_path_value + "gfx/";
-        langdir_value = base_path_value + "lang/";
+        prefix = base_path_value;
 #endif
     } else {
         datadir_value = "data/";
-        gfxdir_value = "gfx/";
-        langdir_value = "lang/";
     }
+    gfxdir_value = prefix + "gfx/";
+    langdir_value = prefix + "lang/mo/";
 
     // Shared dirs
 
@@ -126,45 +125,12 @@ std::string find_translated_file( const std::string &base_path, const std::strin
                                   const std::string &fallback )
 {
 #if defined(LOCALIZE) && !defined(__CYGWIN__)
-    std::string loc_name;
-    if( get_option<std::string>( "USE_LANG" ).empty() ) {
-#if defined(_WIN32)
-        loc_name = getLangFromLCID( GetUserDefaultLCID() );
-        if( !loc_name.empty() ) {
-            const std::string local_path = base_path + loc_name + extension;
-            if( file_exist( local_path ) ) {
-                return local_path;
-            }
-        }
-#endif
-
-        const char *v = setlocale( LC_ALL, nullptr );
-        if( v != nullptr ) {
-            loc_name = v;
-        }
-    } else {
-        loc_name = get_option<std::string>( "USE_LANG" );
-    }
-    if( loc_name == "C" ) {
-        loc_name = "en";
-    }
+    const std::string language_option = get_option<std::string>( "USE_LANG" );
+    const std::string loc_name = language_option.empty() ? getSystemLanguage() : language_option;
     if( !loc_name.empty() ) {
-        const size_t dotpos = loc_name.find( '.' );
-        if( dotpos != std::string::npos ) {
-            loc_name.erase( dotpos );
-        }
-        // complete locale: en_NZ
         const std::string local_path = base_path + loc_name + extension;
         if( file_exist( local_path ) ) {
             return local_path;
-        }
-        const size_t p = loc_name.find( '_' );
-        if( p != std::string::npos ) {
-            // only the first part: en
-            const std::string local_path = base_path + loc_name.substr( 0, p ) + extension;
-            if( file_exist( local_path ) ) {
-                return local_path;
-            }
         }
     }
 #else
@@ -232,10 +198,6 @@ std::string PATH_INFO::fontdir()
 std::string PATH_INFO::user_font()
 {
     return user_dir_value + "font/";
-}
-std::string PATH_INFO::fontlist()
-{
-    return config_dir_value + "fontlist.txt";
 }
 std::string PATH_INFO::graveyarddir()
 {

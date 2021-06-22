@@ -51,5 +51,11 @@
     ],
     "neutral": [ "small_animal", "insect", "fish" ],
     "by_mood": "bee"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "licorice_snakes",
+    "neutral": [ "bot", "plant", "nether", "human", "crackers", "cookies" ],
+    "by_mood": [ "insect", "player", "animal", "gummy_bears", "chewgum" ]
   }
 ]

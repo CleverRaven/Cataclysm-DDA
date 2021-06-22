@@ -853,6 +853,7 @@
         { "item": "motor", "count": 1 },
         { "item": "metal_tank", "count": 1 },
         { "item": "plastic_chunk", "count": [ 4, 6 ] },
+        { "item": "pipe_fittings", "count": [ 2, 4 ] },
         { "item": "solder_wire", "charges": [ 1, 15 ] }
       ]
     },
@@ -958,7 +959,7 @@
     "flags": [
       "PLACE_ITEM",
       "TRANSPARENT",
-      "FLAMABLE_ASH",
+      "FLAMMABLE_ASH",
       "MOUNTABLE",
       "ALLOW_FIELD_EFFECT",
       "EASY_DECONSTRUCT",
@@ -1154,6 +1155,7 @@
         { "item": "scrap", "count": [ 2, 8 ] },
         { "item": "steel_chunk", "count": [ 0, 3 ] },
         { "item": "hose", "count": 1 },
+        { "item": "pipe_fittings", "count": 1 },
         { "item": "cu_pipe", "count": [ 1, 4 ] },
         { "item": "scrap_copper", "count": [ 0, 2 ] }
       ]

@@ -3,6 +3,7 @@
 #define CATA_SRC_BASECAMP_H
 
 #include <cstddef>
+#include <iosfwd>
 #include <list>
 #include <map>
 #include <memory>
@@ -44,7 +45,6 @@ struct expansion_data {
 
 using npc_ptr = shared_ptr_fast<npc>;
 using comp_list = std::vector<npc_ptr>;
-using Group_tag = std::string;
 
 namespace catacurses
 {
@@ -166,6 +166,8 @@ class basecamp
         void define_camp( const tripoint_abs_omt &p, const std::string &camp_type = "default" );
 
         std::string expansion_tab( const point &dir ) const;
+        // check whether the point is the part of camp
+        bool point_within_camp( const tripoint_abs_omt &p ) const;
         // upgrade levels
         bool has_provides( const std::string &req, const expansion_data &e_data, int level = 0 ) const;
         bool has_provides( const std::string &req, const cata::optional<point> &dir = cata::nullopt,
@@ -208,7 +210,7 @@ class basecamp
         void form_crafting_inventory();
         void form_crafting_inventory( map &target_map );
         std::list<item> use_charges( const itype_id &fake_id, int &quantity );
-        std::string get_gatherlist() const;
+        item_group_id get_gatherlist() const;
         /**
          * spawn items or corpses based on search attempts
          * @param skill skill level of the search
@@ -217,7 +219,7 @@ class basecamp
          * @param difficulty a random number from 0 to difficulty is created for each attempt, and
          * if skill is higher, an item or corpse is spawned
          */
-        void search_results( int skill, const Group_tag &group_id, int attempts, int difficulty );
+        void search_results( int skill, const item_group_id &, int attempts, int difficulty );
         /**
          * spawn items or corpses based on search attempts
          * @param skill skill level of the search
@@ -285,11 +287,9 @@ class basecamp
         void start_clearcut();
         void start_setup_hide_site();
         void start_relay_hide_site();
-        /// Called when a compansion is sent to start fortifications
+        /// Called when a companion is sent to start fortifications
         void start_fortifications( std::string &bldg_exp );
         void start_combat_mission( const std::string &miss );
-        /// Called when a companion starts a chop shop @ref task mission
-        bool start_garage_chop( const point &dir, const tripoint_abs_omt &omt_tgt );
         void start_farm_op( const point &dir, const tripoint_abs_omt &omt_tgt, farm_ops op );
         ///Display items listed in @ref equipment to let the player pick what to give the departing
         ///NPC, loops until quit or empty.

@@ -2,6 +2,7 @@
 
 #include <cstdlib>
 #include <set>
+#include <string>
 #include <tuple>
 #include <utility>
 
@@ -217,7 +218,7 @@ struct achievement_requirement {
         }
     }
 
-    bool satisifed_by( const cata_variant &v ) const {
+    bool satisfied_by( const cata_variant &v ) const {
         switch( comparison ) {
             case achievement_comparison::equal:
                 return v == target;
@@ -272,7 +273,7 @@ void achievement::time_bound::deserialize( JsonIn &jin )
     if( !( jo.read( "since", epoch_ ) &&
            jo.read( "is", comparison_ ) &&
            jo.read( "target", period_ ) ) ) {
-        jo.throw_error( "Mandatory field missing for achievement time_constaint" );
+        jo.throw_error( "Mandatory field missing for achievement time_constraint" );
     }
 }
 
@@ -480,7 +481,7 @@ static cata::optional<std::string> text_for_requirement(
     const cata_variant &current_value,
     achievement_completion ach_completed )
 {
-    bool is_satisfied = req.satisifed_by( current_value );
+    bool is_satisfied = req.satisfied_by( current_value );
     if( !req.is_visible( ach_completed, is_satisfied ) ) {
         return cata::nullopt;
     }
@@ -527,10 +528,9 @@ class requirement_watcher : stat_watcher
     public:
         requirement_watcher( achievement_tracker &tracker, const achievement_requirement &req,
                              stats_tracker &stats ) :
-            current_value_( req.statistic->value( stats ) ),
             tracker_( &tracker ),
-            requirement_( &req ) {
-            stats.add_watcher( req.statistic, this );
+            requirement_( &req ),
+            current_value_( stats.add_watcher( req.statistic, this ) ) {
         }
 
         const cata_variant &current_value() const {
@@ -543,8 +543,8 @@ class requirement_watcher : stat_watcher
 
         void new_value( const cata_variant &new_value, stats_tracker & ) override;
 
-        bool is_satisfied( stats_tracker &stats ) {
-            return requirement_->satisifed_by( requirement_->statistic->value( stats ) );
+        bool is_satisfied( stats_tracker &/*stats*/ ) {
+            return requirement_->satisfied_by( current_value_ );
         }
 
         cata::optional<std::string> ui_text() const {
@@ -552,9 +552,9 @@ class requirement_watcher : stat_watcher
                                          achievement_completion::pending );
         }
     private:
-        cata_variant current_value_;
         achievement_tracker *tracker_;
         const achievement_requirement *requirement_;
+        cata_variant current_value_;
 };
 
 void requirement_watcher::new_value( const cata_variant &new_value, stats_tracker & )
@@ -564,7 +564,7 @@ void requirement_watcher::new_value( const cata_variant &new_value, stats_tracke
     }
     // set_requirement can result in this being deleted, so it must be the last
     // thing in this function
-    tracker_->set_requirement( this, requirement_->satisifed_by( current_value_ ) );
+    tracker_->set_requirement( this, requirement_->satisfied_by( current_value_ ) );
 }
 
 namespace io
@@ -615,7 +615,7 @@ std::string achievement_state::ui_text( const achievement *ach ) const
     // Next: the requirements
     const std::vector<achievement_requirement> &reqs = ach->requirements();
     // If these two vectors are of different sizes then the definition must
-    // have changed since it was complated / failed, so we don't print any
+    // have changed since it was completed / failed, so we don't print any
     // requirements info.
     std::vector<cata::optional<std::string>> req_texts;
     if( final_values.size() == reqs.size() ) {

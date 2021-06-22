@@ -4,28 +4,27 @@
 
 #include <cstddef>
 #include <functional>
+#include <iosfwd>
 #include <list>
 #include <map>
-#include <memory>
+#include <new>
 #include <set>
-#include <string>
 #include <type_traits>
 #include <vector>
 
-#include "enum_traits.h"
 #include "enums.h"
 #include "flat_set.h"
-#include "json.h"
 #include "optional.h"
 #include "ret_val.h"
-#include "translations.h"
 #include "type_id.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "value_ptr.h"
 #include "visitable.h"
 
 class Character;
+class JsonIn;
+class JsonObject;
+class JsonOut;
 class item;
 class item_location;
 class player;
@@ -93,8 +92,8 @@ class item_pocket
                 void blacklist_category( const item_category_id &id );
                 void clear_category( const item_category_id &id );
 
-                // essentially operator> but needs extra input. checks if *this is better
-                bool is_better_favorite( const item &it, const favorite_settings &rhs ) const;
+                /** Whether an item passes the current whitelist and blacklist filters. */
+                bool accepts_item( const item &it ) const;
 
                 void info( std::vector<iteminfo> &info ) const;
 
@@ -109,7 +108,7 @@ class item_pocket
         };
 
         item_pocket() = default;
-        item_pocket( const pocket_data *data ) : data( data ) {}
+        explicit item_pocket( const pocket_data *data ) : data( data ) {}
 
         bool stacks_with( const item_pocket &rhs ) const;
         bool is_funnel_container( units::volume &bigger_than ) const;
@@ -149,6 +148,8 @@ class item_pocket
         bool can_contain_liquid( bool held_or_ground ) const;
         bool contains_phase( phase_id phase ) const;
 
+        units::length max_containable_length() const;
+
         // combined volume of contained items
         units::volume contains_volume() const;
         units::volume remaining_volume() const;
@@ -164,6 +165,11 @@ class item_pocket
         // combined weight of contained items
         units::mass contains_weight() const;
         units::mass remaining_weight() const;
+        // these avoid rounding errors and are preferred over
+        // `it.charges_per_volume( pocket.remaining_volume() )` or
+        // `it.charges_per_weight( pocket.remaining_weight() )`
+        int charges_per_remaining_volume( const item &it ) const;
+        int charges_per_remaining_weight( const item &it ) const;
 
         units::volume item_size_modifier() const;
         units::mass item_weight_modifier() const;
@@ -197,6 +203,7 @@ class item_pocket
         bool item_has_uses_recursive() const;
         // will the items inside this pocket fall out of this pocket if it is placed into another item?
         bool will_spill() const;
+        bool will_spill_if_unsealed() const;
         // seal the pocket. returns false if it fails (pocket does not seal)
         bool seal();
         // unseal the pocket.
@@ -256,8 +263,6 @@ class item_pocket
           * may create a new pocket
           */
         void add( const item &it, item **ret = nullptr );
-        /** fills the pocket to the brim with the item */
-        void fill_with( item contained );
         bool can_unload_liquid() const;
 
         // only available to help with migration from previous usage of std::list<item>
@@ -281,13 +286,21 @@ class item_pocket
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
 
+        // true if pocket state is the same as if freshly created from the pocket type
+        bool is_default_state() const;
+
         bool same_contents( const item_pocket &rhs ) const;
         /** stacks like items inside the pocket */
         void restack();
         /** same as above, except returns the stack where input item was placed */
         item *restack( /*const*/ item *it );
         bool has_item_stacks_with( const item &it ) const;
-        // returns true if @rhs is a better pocket than this
+
+        /**
+         * Whether another pocket is a better fit for an item.
+         *
+         * This assumes that both pockets are able to and allowed to contain the item.
+         */
         bool better_pocket( const item_pocket &rhs, const item &it ) const;
 
         bool operator==( const item_pocket &rhs ) const;
@@ -324,11 +337,13 @@ struct sealable_data {
 class pocket_data
 {
     public:
+        using FlagsSetType = std::set<flag_id>;
+
         bool was_loaded = false;
 
         pocket_data() = default;
         // this constructor is used for special types of pockets, not loading
-        pocket_data( item_pocket::pocket_type pk ) : type( pk ) {
+        explicit pocket_data( item_pocket::pocket_type pk ) : type( pk ) {
             rigid = true;
         }
 
@@ -369,7 +384,10 @@ class pocket_data
         cata::value_ptr<sealable_data> sealed_data;
         // allows only items with at least one of the following flags to be stored inside
         // empty means no restriction
-        std::vector<std::string> flag_restriction;
+        const FlagsSetType &get_flag_restrictions() const;
+        // flag_restrictions are not supposed to be modifiable, but sometimes there is a need to
+        // add some, i.e. for tests.
+        void add_flag_restriction( const flag_id &flag );
         // items stored are restricted to these ammo types:
         // the pocket can only contain one of them since the amount is also defined for each ammotype
         std::map<ammotype, int> ammo_restriction;
@@ -390,6 +408,9 @@ class pocket_data
 
         void load( const JsonObject &jo );
         void deserialize( JsonIn &jsin );
+    private:
+
+        FlagsSetType flag_restrictions;
 };
 
 template<>

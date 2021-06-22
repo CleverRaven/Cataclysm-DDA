@@ -184,5 +184,11 @@
     "type": "LOOT_ZONE",
     "name": "Loot: Ignore",
     "description": "Items inside of this zone are ignored by \"sort out loot\" zone-action."
+  },
+  {
+    "id": "LOOT_IGNORE_FAVORITES",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Ignore Favorites",
+    "description": "Favorite items inside of this zone are ignored by \"sort out loot\" zone-action."
   }
 ]

@@ -23,7 +23,7 @@
     "type": "overmap_terrain",
     "id": [ "FEMA_tlc", "FEMA_te", "FEMA_trc", "FEMA_le", "FEMA_mid", "FEMA_re", "FEMA_blc", "FEMA_brc" ],
     "name": "FEMA refugee camp",
-    "sym": "f",
+    "sym": "F",
     "color": "i_blue",
     "extras": "build",
     "see_cost": 2,

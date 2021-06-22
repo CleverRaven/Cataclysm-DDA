@@ -44,6 +44,7 @@
       [ "coffee", 20 ],
       [ "atomic_coffee", 20 ],
       [ "coffee_raw", 20 ],
+      [ "instant_coffee", 20 ],
       [ "coffee_syrup", 20 ],
       [ "water_mineral", 20 ]
     ]

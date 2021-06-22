@@ -77,7 +77,7 @@
     "destination": "dairy_farm_isherwood_W",
     "start": {
       "effect": [ { "u_add_var": "u_have_barry_escape", "type": "general", "context": "meeting", "value": "yes" } ],
-      "assign_mission_target": { "om_terrain": "dairy_farm_isherwood_W", "reveal_radius": 3 }
+      "assign_mission_target": { "om_terrain": "dairy_farm_isherwood_W", "om_special": "Isherwood Farm", "reveal_radius": 3, "search_range": 240 }
     },
     "end": {
       "opinion": { "trust": 5, "value": 5 },

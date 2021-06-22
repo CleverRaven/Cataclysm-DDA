@@ -1,6 +1,5 @@
 #include "catacharset.h"
 
-#include <algorithm>
 #include <array>
 #include <cstdlib>
 #include <cstring>

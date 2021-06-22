@@ -461,5 +461,13 @@
     "color": "dark_gray",
     "see_cost": 5,
     "extras": "build"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_lot",
+    "copy-from": "generic_city_building",
+    "name": "parking lot",
+    "sym": "O",
+    "color": "dark_gray"
   }
 ]

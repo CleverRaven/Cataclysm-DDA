@@ -79,7 +79,7 @@
         { "item": "lawnmower", "x": 33, "y": 18, "chance": 100 },
         { "item": "basket_laundry", "x": 31, "y": 18, "chance": 100 }
       ],
-      "place_vehicles": [ { "vehicle": "suburban_home", "x": 39, "y": 19, "chance": 100, "rotation": 270 } ]
+      "place_vehicles": [ { "vehicle": "suburban_home_compact", "x": 39, "y": 19, "chance": 100, "rotation": 270 } ]
     }
   },
   {

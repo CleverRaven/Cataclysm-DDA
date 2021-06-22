@@ -57,5 +57,17 @@
     "max_duration": "10 m",
     "max_intensity": 3,
     "scaling_mods": { "int_mod": [ -1 ], "per_mod": [ -2 ], "speed_mod": [ -5 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "max_effected",
+    "name": [ "Max-effected" ],
+    "desc": [ "Affected by an effect with a maximum effective intensity." ],
+    "rating": "good",
+    "int_dur_factor": "1 m",
+    "max_duration": "1 h",
+    "max_intensity": 10,
+    "max_effective_intensity": 6,
+    "scaling_mods": { "int_mod": [ 1 ] }
   }
 ]

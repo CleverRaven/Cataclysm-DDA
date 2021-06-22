@@ -4,7 +4,7 @@
     "id": "wheel_mount_wood",
     "name": { "str": "wooden wheel mount" },
     "symbol": "-",
-    "categories": [ "Other" ],
+    "categories": [ "movement" ],
     "color": "brown",
     "location": "axle",
     "broken_symbol": "X",
@@ -35,7 +35,7 @@
     "id": "wheel_mount_light",
     "name": { "str": "light wheel mount" },
     "symbol": "-",
-    "categories": [ "Other" ],
+    "categories": [ "movement" ],
     "color": "light_gray",
     "location": "axle",
     "broken_symbol": "X",
@@ -66,7 +66,7 @@
     "id": "wheel_mount_medium",
     "name": { "str": "wheel hub assembly" },
     "symbol": "-",
-    "categories": [ "Other" ],
+    "categories": [ "movement" ],
     "color": "light_gray",
     "location": "axle",
     "broken_symbol": "X",
@@ -76,8 +76,12 @@
     "description": "Connection where wheels can be connected on.  This particular one is fit for normal car wheels.",
     "item": "wheel_mount_medium",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "45 m", "using": [ [ "welding_standard", 10 ], [ "vehicle_bolt", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "15 m", "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_bolt", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "45 m", "using": [ [ "welding_standard", 10 ], [ "vehicle_wrench_2", 1 ] ] },
+      "removal": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": "15 m",
+        "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
+      },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "welding_standard", 5 ] ] }
     },
     "flags": [ "WHEEL_MOUNT_MEDIUM", "NEEDS_JACKING" ],
@@ -86,7 +90,6 @@
   },
   {
     "id": "wheel_mount_medium_steerable",
-    "categories": [ "Other" ],
     "copy-from": "wheel_mount_medium",
     "type": "vehicle_part",
     "name": { "str": "wheel hub assembly (steerable)" },
@@ -97,7 +100,7 @@
     "id": "wheel_mount_heavy",
     "name": { "str": "heavy wheel hub assembly" },
     "symbol": "-",
-    "categories": [ "Other" ],
+    "categories": [ "movement" ],
     "color": "light_gray",
     "location": "axle",
     "broken_symbol": "X",
@@ -107,8 +110,12 @@
     "description": "Connection where wheels can be connected on.  This particular one is fit for large car wheels.",
     "item": "wheel_mount_heavy",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "welding_standard", 15 ], [ "vehicle_bolt", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "20 m", "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_bolt", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "welding_standard", 15 ], [ "vehicle_wrench_2", 1 ] ] },
+      "removal": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": "20 m",
+        "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
+      },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "welding_standard", 5 ] ] }
     },
     "flags": [ "WHEEL_MOUNT_HEAVY", "NEEDS_JACKING" ],
@@ -136,11 +143,11 @@
     "breaks_into": [ { "item": "scrap", "count": [ 4, 6 ] }, { "item": "steel_chunk", "count": [ 2, 3 ] } ],
     "rolling_resistance": 0.25,
     "wheel_type": "rail",
-    "categories": [ "Other" ],
+    "categories": [ "movement" ],
     "contact_area": 80,
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_fasten", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_fasten", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
     "flags": [ "WHEEL", "NEEDS_JACKING", "RAIL" ],
@@ -160,7 +167,6 @@
     "item": "wheel_rail_small_pair",
     "copy-from": "rail_wheel",
     "symbol": "=",
-    "difficulty": 2,
     "durability": 150,
     "description": "A pair of small rail wheels.  It performs well when riding on a pair of small rails.  It performs terribly when not on a rail.  Moreover, you can't steer it.",
     "damage_modifier": 50,
@@ -175,7 +181,7 @@
     "location": "center",
     "symbol": "B",
     "broken_symbol": "E",
-    "categories": [ "Other" ],
+    "categories": [ "movement" ],
     "color": "light_red",
     "durability": 7500,
     "description": "A strong metal wheel.",
@@ -187,8 +193,8 @@
     ],
     "rolling_resistance": 0.125,
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "vehicle_fasten", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "vehicle_fasten", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
     "flags": [ "ARMOR", "OBSTACLE", "WHEEL", "NEEDS_JACKING", "STEERABLE" ],
@@ -204,7 +210,7 @@
     "location": "under",
     "symbol": "0",
     "broken_symbol": "x",
-    "categories": [ "Other" ],
+    "categories": [ "movement" ],
     "color": "dark_gray",
     "durability": 200,
     "description": "A wheel.",
@@ -218,8 +224,8 @@
     "wheel_type": "standard",
     "contact_area": 153,
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_fasten", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_fasten", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ], [ "plastics", 1 ] ] }
     },
     "flags": [ "WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_MEDIUM" ],
@@ -244,7 +250,7 @@
     "looks_like": "wheel",
     "symbol": "0",
     "broken_symbol": "x",
-    "categories": [ "Other" ],
+    "categories": [ "movement" ],
     "color": "green",
     "durability": 800,
     "description": "A very strong, armored metal wheel.",
@@ -258,8 +264,8 @@
     "wheel_type": "standard",
     "contact_area": 480,
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "20 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "20 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "20 m", "using": [ [ "vehicle_fasten", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "20 m", "using": [ [ "vehicle_fasten", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "20 m", "using": [ [ "adhesive", 1 ], [ "plastics", 1 ] ] }
     },
     "flags": [ "WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_HEAVY" ],
@@ -274,7 +280,7 @@
     "looks_like": "wheel_bicycle",
     "symbol": "o",
     "broken_symbol": "x",
-    "categories": [ "Other" ],
+    "categories": [ "movement" ],
     "color": "dark_gray",
     "durability": 70,
     "description": "A small wheel.",
@@ -285,8 +291,8 @@
     "wheel_type": "off-road",
     "contact_area": 30,
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_fasten", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_fasten", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ], [ "plastics", 1 ] ] }
     },
     "flags": [ "WHEEL", "NEEDS_JACKING", "STABLE", "STEERABLE", "FOLDABLE", "NEEDS_WHEEL_MOUNT_LIGHT" ],
@@ -300,7 +306,7 @@
     "location": "under",
     "symbol": "|",
     "broken_symbol": "x",
-    "categories": [ "Other" ],
+    "categories": [ "movement" ],
     "color": "dark_gray",
     "durability": 40,
     "description": "A thin bicycle wheel.",
@@ -315,8 +321,8 @@
     "wheel_type": "standard",
     "contact_area": 40,
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_fasten", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_fasten", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ], [ "plastics", 1 ] ] }
     },
     "flags": [ "WHEEL", "NEEDS_JACKING", "FOLDABLE", "NEEDS_WHEEL_MOUNT_LIGHT" ],
@@ -363,7 +369,7 @@
     "location": "under",
     "symbol": "o",
     "broken_symbol": "x",
-    "categories": [ "Other" ],
+    "categories": [ "movement" ],
     "color": "dark_gray",
     "durability": 70,
     "description": "A set of small wheels, mounted on pivots, like the ones on a rolling office chair or grocery cart.",
@@ -378,8 +384,8 @@
     "wheel_type": "rigid",
     "contact_area": 4,
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "welding_standard", 5 ] ] }
     },
     "flags": [ "WHEEL", "NEEDS_JACKING", "STABLE", "FOLDABLE", "STEERABLE" ]
@@ -392,7 +398,7 @@
     "location": "under",
     "symbol": "o",
     "broken_symbol": "x",
-    "categories": [ "Other" ],
+    "categories": [ "movement" ],
     "color": "dark_gray",
     "durability": 120,
     "description": "A set of 10\" wheels with tough rubber tires.",
@@ -407,14 +413,14 @@
     "wheel_type": "off-road",
     "contact_area": 4,
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_fasten", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_fasten", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "welding_standard", 5 ] ] }
     },
     "flags": [ "WHEEL", "NEEDS_JACKING", "STABLE", "FOLDABLE", "STEERABLE" ]
   },
   {
-    "id": "wheel_motorbike",
+    "abstract": "wheel_motorbike_abstract",
     "type": "vehicle_part",
     "name": { "str": "motorbike wheel" },
     "item": "wheel_motorbike",
@@ -422,7 +428,7 @@
     "looks_like": "wheel",
     "symbol": "o",
     "broken_symbol": "x",
-    "categories": [ "Other" ],
+    "categories": [ "movement" ],
     "color": "dark_gray",
     "durability": 90,
     "description": "A small wheel from a motorcycle.",
@@ -436,16 +442,30 @@
     "wheel_type": "standard",
     "contact_area": 66,
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_fasten", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_fasten", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ], [ "plastics", 1 ] ] }
     },
     "flags": [ "WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_LIGHT" ],
     "damage_reduction": { "bash": 10 }
   },
   {
+    "copy-from": "wheel_motorbike_abstract",
+    "id": "wheel_motorbike",
+    "looks_like": "wheel",
+    "symbol": "o",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "wheel_motorbike_abstract",
+    "id": "wheel_motorbike_rear",
+    "looks_like": "wheel",
+    "symbol": "o",
+    "type": "vehicle_part"
+  },
+  {
     "id": "wheel_motorbike_or",
-    "copy-from": "wheel_motorbike",
+    "copy-from": "wheel_motorbike_abstract",
     "type": "vehicle_part",
     "name": { "str": "off-road motorbike wheel" },
     "item": "wheel_motorbike_or",
@@ -454,14 +474,25 @@
     "damage_reduction": { "bash": 10, "cut": 8, "stab": 4 }
   },
   {
-    "id": "wheel_small",
+    "id": "wheel_motorbike_or_rear",
+    "copy-from": "wheel_motorbike_abstract",
+    "type": "vehicle_part",
+    "name": { "str": "off-road motorbike wheel" },
+    "item": "wheel_motorbike_or",
+    "contact_area": 60,
+    "wheel_type": "off-road",
+    "damage_reduction": { "bash": 10, "cut": 8, "stab": 4 }
+  },
+  {
+    "abstract": "wheel_small_abstract",
     "type": "vehicle_part",
     "name": { "str": "small wheel" },
+    "looks_like": "wheel",
     "item": "wheel_small",
     "location": "under",
     "symbol": "o",
     "broken_symbol": "x",
-    "categories": [ "Other" ],
+    "categories": [ "movement" ],
     "color": "dark_gray",
     "durability": 70,
     "description": "A small wheel.",
@@ -472,11 +503,26 @@
     "wheel_type": "racing",
     "contact_area": 30,
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ], [ "plastics", 1 ] ] }
     },
     "flags": [ "WHEEL", "FOLDABLE", "NEEDS_WHEEL_MOUNT_LIGHT" ]
+  },
+  {
+    "copy-from": "wheel_small_abstract",
+    "id": "wheel_small",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "wheel_small_abstract",
+    "id": "wheel_small_scooter",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "wheel_small_abstract",
+    "id": "wheel_small_scooter_rear",
+    "type": "vehicle_part"
   },
   {
     "id": "wheel_tricycle",
@@ -486,15 +532,15 @@
     "location": "under",
     "symbol": "|",
     "broken_symbol": "x",
-    "categories": [ "Other" ],
+    "categories": [ "movement" ],
     "color": "dark_gray",
     "durability": 30,
     "description": "A set of three plastic wheels, with a larger one in the front, mounted with bolts.",
     "damage_modifier": 50,
     "breaks_into": [ { "item": "plastic_chunk", "count": [ 1, 3 ] } ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "4 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "2 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "4 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "2 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ] ] }
     },
     "rolling_resistance": 10.0,
@@ -512,7 +558,7 @@
     "looks_like": "wheel_bicycle",
     "symbol": "|",
     "broken_symbol": "x",
-    "categories": [ "Other" ],
+    "categories": [ "movement" ],
     "color": "dark_gray",
     "durability": 40,
     "description": "A small wheel.",
@@ -527,8 +573,8 @@
     "wheel_type": "standard",
     "contact_area": 20,
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ], [ "plastics", 1 ] ] }
     },
     "flags": [ "WHEEL", "NEEDS_JACKING", "STABLE", "FOLDABLE", "STEERABLE", "NEEDS_WHEEL_MOUNT_LIGHT" ],
@@ -543,7 +589,7 @@
     "looks_like": "wheel_bicycle",
     "symbol": "|",
     "broken_symbol": "x",
-    "categories": [ "Other" ],
+    "categories": [ "movement" ],
     "color": "dark_gray",
     "durability": 40,
     "description": "A pair of wheelchair wheels.",
@@ -558,8 +604,8 @@
     "wheel_type": "racing",
     "contact_area": 40,
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ], [ "plastics", 1 ] ] }
     },
     "flags": [ "WHEEL", "NEEDS_JACKING", "STABLE", "FOLDABLE", "STEERABLE", "NEEDS_WHEEL_MOUNT_LIGHT" ],
@@ -574,7 +620,7 @@
     "looks_like": "wheel",
     "symbol": "O",
     "broken_symbol": "x",
-    "categories": [ "Other" ],
+    "categories": [ "movement" ],
     "color": "dark_gray",
     "durability": 400,
     "description": "A wide wheel that provides more traction and better off-road performance.",
@@ -588,8 +634,8 @@
     "wheel_type": "standard",
     "contact_area": 360,
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_fasten", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_fasten", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ], [ "plastics", 1 ] ] }
     },
     "flags": [ "WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_MEDIUM" ],
@@ -613,7 +659,7 @@
     "location": "under",
     "symbol": "|",
     "broken_symbol": "x",
-    "categories": [ "Other" ],
+    "categories": [ "movement" ],
     "color": "brown",
     "broken_color": "brown",
     "durability": 30,
@@ -621,8 +667,8 @@
     "damage_modifier": 50,
     "breaks_into": [ { "item": "2x4", "count": [ 0, 4 ] }, { "item": "nail", "charges": [ 5, 15 ] } ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "vehicle_wrench_1", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "vehicle_wrench_1", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "50 s", "using": [ [ "adhesive", 1 ] ] }
     },
     "rolling_resistance": 2.15,

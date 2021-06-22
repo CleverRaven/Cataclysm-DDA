@@ -16,7 +16,7 @@
     "coverage": 95,
     "encumbrance": 5,
     "warmth": 30,
-    "material_thickness": 2,
+    "material_thickness": 0.5,
     "flags": [ "VARSIZE", "SKINTIGHT" ]
   },
   {
@@ -30,14 +30,20 @@
   },
   {
     "id": "bandana",
-    "type": "ARMOR",
+    "type": "TOOL_ARMOR",
+    "category": "clothing",
     "name": { "str": "bandana" },
     "description": "A cotton bandana, worn over the mouth for warmth and minor protection from dust and other contaminants.",
     "weight": "42 g",
     "volume": "250 ml",
     "price": 600,
     "price_postapoc": 10,
-    "to_hit": -1,
+    "use_action": {
+      "type": "transform",
+      "msg": "You adjust the %s to cover your head.",
+      "target": "bandana_head",
+      "menu_text": "Cover head"
+    },
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "scarf",
@@ -46,7 +52,7 @@
     "coverage": 95,
     "encumbrance": 1,
     "warmth": 5,
-    "material_thickness": 1,
+    "material_thickness": 0.1,
     "environmental_protection": 1
   },
   {
@@ -68,7 +74,7 @@
     "coverage": 100,
     "encumbrance": 30,
     "warmth": 30,
-    "material_thickness": 2,
+    "material_thickness": 0.5,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
     "use_action": {
@@ -112,7 +118,7 @@
       { "covers": [ "mouth" ], "coverage": 90, "encumbrance": 0 }
     ],
     "warmth": 10,
-    "material_thickness": 2
+    "material_thickness": 1
   },
   {
     "id": "mask_bal",
@@ -157,7 +163,7 @@
     "coverage": 100,
     "encumbrance": 8,
     "warmth": 5,
-    "material_thickness": 1,
+    "material_thickness": 0.1,
     "environmental_protection": 2
   },
   {
@@ -179,7 +185,7 @@
     "coverage": 95,
     "encumbrance": 10,
     "warmth": 5,
-    "material_thickness": 1,
+    "material_thickness": 0.2,
     "environmental_protection": 1,
     "flags": [ "WATER_FRIENDLY" ]
   },
@@ -204,7 +210,7 @@
     "coverage": 95,
     "encumbrance": 20,
     "warmth": 5,
-    "material_thickness": 3,
+    "material_thickness": 2,
     "environmental_protection": 1,
     "flags": [ "WATER_FRIENDLY", "STURDY" ]
   },
@@ -226,7 +232,7 @@
     "coverage": 90,
     "encumbrance": 8,
     "warmth": 10,
-    "material_thickness": 1,
+    "material_thickness": 0.5,
     "environmental_protection": 1,
     "flags": [ "HELMET_COMPAT" ]
   }

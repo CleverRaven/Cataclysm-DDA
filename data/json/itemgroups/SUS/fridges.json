@@ -39,7 +39,7 @@
       { "item": "yoghurt", "prob": 80 },
       { "item": "butter", "prob": 80 },
       { "item": "pudding", "prob": 30 },
-      { "item": "egg_bird_unfert", "prob": 85, "count-min": 1, "count-max": 12 },
+      { "item": "egg_bird_unfert", "prob": 85, "charges-min": 1, "charges-max": 12, "container-item": "carton_egg" },
       { "item": "bacon", "prob": 25 },
       {
         "distribution": [ { "item": "lunchmeat", "prob": 60 }, { "item": "bologna", "prob": 40 }, { "item": "tofu", "prob": 30 } ],
@@ -60,6 +60,7 @@
           { "item": "onion_rings", "charges-min": 1, "prob": 10 },
           { "item": "milkshake", "charges-min": 1, "prob": 10 },
           { "item": "milkshake_fastfood", "charges-min": 1, "prob": 10 },
+          { "item": "frozen_lemonade", "charges-min": 1, "prob": 10 },
           { "item": "milkshake_deluxe", "charges-min": 1, "prob": 5 },
           { "item": "pizza_meat", "charges-min": 1, "prob": 10 },
           { "item": "pizza_veggy", "charges-min": 1, "prob": 10 },
@@ -72,7 +73,11 @@
           { "item": "sloppyjoe", "charges-min": 1, "prob": 10 },
           { "item": "sandwich_t", "charges-min": 1, "prob": 10 },
           { "item": "junk_burrito", "charges-min": 1, "prob": 10 },
-          { "item": "chili", "charges-min": 1, "prob": 10 }
+          { "item": "chili", "charges-min": 1, "prob": 10 },
+          { "item": "hotdogs_cooked", "charges-min": 1, "prob": 10 },
+          { "item": "hotdogs_newyork", "charges-min": 1, "prob": 5 },
+          { "item": "crab_cakes", "charges-min": 1, "prob": 5 },
+          { "item": "stuffed_clams", "charges-min": 1, "prob": 3 }
         ],
         "prob": 75
       },
@@ -307,7 +312,7 @@
       { "item": "yoghurt", "prob": 20 },
       { "item": "butter", "prob": 30 },
       { "item": "pudding", "prob": 10 },
-      { "item": "egg_bird_unfert", "prob": 55, "count-min": 1, "count-max": 2 },
+      { "item": "egg_bird_unfert", "prob": 55, "charges-min": 1, "charges-max": 2, "container-item": "carton_egg" },
       { "item": "bacon", "prob": 65 },
       {
         "distribution": [
@@ -330,6 +335,7 @@
       { "item": "onion_rings", "charges-min": 1, "prob": 10 },
       { "item": "milkshake", "charges-min": 1, "prob": 10 },
       { "item": "milkshake_fastfood", "charges-min": 1, "prob": 10 },
+      { "item": "frozen_lemonade", "charges-min": 1, "prob": 10 },
       { "item": "milkshake_deluxe", "charges-min": 1, "prob": 5 },
       { "item": "pizza_meat", "charges-min": 1, "prob": 10 },
       { "item": "pizza_veggy", "charges-min": 1, "prob": 10 },
@@ -347,6 +353,10 @@
       { "item": "sandwich_t", "charges-min": 1, "prob": 10 },
       { "item": "junk_burrito", "charges-min": 1, "prob": 10 },
       { "item": "chili", "charges-min": 1, "prob": 10 },
+      { "item": "hotdogs_cooked", "charges-min": 1, "prob": 10 },
+      { "item": "hotdogs_newyork", "charges-min": 1, "prob": 5 },
+      { "item": "crab_cakes", "charges-min": 1, "prob": 5 },
+      { "item": "stuffed_clams", "charges-min": 1, "prob": 3 },
       {
         "distribution": [
           {
@@ -613,7 +623,7 @@
       { "item": "yoghurt", "prob": 20 },
       { "item": "butter", "prob": 20 },
       { "item": "pudding", "prob": 20 },
-      { "item": "egg_bird_unfert", "prob": 20, "count-min": 1, "count-max": 12 },
+      { "item": "egg_bird_unfert", "prob": 20, "charges-min": 1, "charges-max": 12, "container-item": "carton_egg" },
       { "item": "bacon", "prob": 25 },
       {
         "distribution": [ { "item": "lunchmeat", "prob": 60 }, { "item": "bologna", "prob": 40 }, { "item": "tofu", "prob": 30 } ],
@@ -634,6 +644,7 @@
           { "item": "onion_rings", "charges-min": 1, "prob": 10 },
           { "item": "milkshake", "charges-min": 1, "prob": 10 },
           { "item": "milkshake_fastfood", "charges-min": 1, "prob": 10 },
+          { "item": "frozen_lemonade", "charges-min": 1, "prob": 10 },
           { "item": "milkshake_deluxe", "charges-min": 1, "prob": 5 },
           { "item": "pizza_meat", "charges-min": 1, "prob": 10 },
           { "item": "pizza_veggy", "charges-min": 1, "prob": 10 },
@@ -646,7 +657,11 @@
           { "item": "sloppyjoe", "charges-min": 1, "prob": 10 },
           { "item": "sandwich_t", "charges-min": 1, "prob": 10 },
           { "item": "junk_burrito", "charges-min": 1, "prob": 10 },
-          { "item": "chili", "charges-min": 1, "prob": 10 }
+          { "item": "chili", "charges-min": 1, "prob": 10 },
+          { "item": "hotdogs_cooked", "charges-min": 1, "prob": 10 },
+          { "item": "hotdogs_newyork", "charges-min": 1, "prob": 5 },
+          { "item": "crab_cakes", "charges-min": 1, "prob": 5 },
+          { "item": "stuffed_clams", "charges-min": 1, "prob": 3 }
         ],
         "prob": 20
       },
@@ -834,6 +849,52 @@
         ],
         "prob": 20
       }
+    ]
+  },
+  {
+    "id": "SUS_fridge_breakroom",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for a refrigerator which can be found in office kitchenettes, or workplace breakrooms.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "apple", "prob": 25, "count": [ 1, 3 ] },
+      { "item": "orange", "prob": 25, "count": [ 1, 3 ] },
+      { "item": "banana", "prob": 25, "count": [ 1, 3 ] },
+      { "item": "pear", "prob": 10, "count": [ 1, 2 ] },
+      { "item": "grapes", "prob": 10 },
+      { "item": "peach", "prob": 5, "count": [ 1, 2 ] },
+      { "item": "watermelon", "prob": 2 },
+      { "item": "melon", "prob": 2 },
+      { "item": "kiwi", "prob": 2, "count": [ 1, 3 ] },
+      { "item": "milk", "charges-min": 1, "prob": 20, "container-item": "jug_plastic", "sealed": false },
+      { "item": "milk", "charges-min": 1, "prob": 55, "container-item": "bottle_twoliter", "sealed": false },
+      { "item": "almond_milk", "charges-min": 1, "prob": 1, "container-item": "jug_plastic", "sealed": false },
+      { "item": "almond_milk", "charges-min": 1, "prob": 3, "container-item": "bottle_twoliter", "sealed": false },
+      { "item": "soy_milk", "charges-min": 1, "prob": 2, "container-item": "jug_plastic", "sealed": false },
+      { "item": "soy_milk", "charges-min": 1, "prob": 6, "container-item": "bottle_twoliter", "sealed": false },
+      { "item": "milk_choc", "charges-min": 1, "prob": 2, "container-item": "jug_plastic", "sealed": false },
+      { "item": "milk_choc", "charges-min": 1, "prob": 6, "container-item": "bottle_twoliter", "sealed": false },
+      { "item": "cheese", "prob": 40 },
+      { "item": "cheese_hard", "prob": 50 },
+      { "item": "yoghurt", "count": [ 1, 3 ], "prob": 75 },
+      { "item": "butter", "prob": 50 },
+      { "item": "pudding", "prob": 30 },
+      { "item": "veggy_salad", "charges-min": 1, "prob": 19 },
+      { "item": "blt", "charges-min": 1, "prob": 13 },
+      { "item": "protein_shake", "charges-min": 1, "prob": 6 },
+      { "item": "sandwich_t", "charges-min": 1, "prob": 13 },
+      { "item": "sandwich_veggy", "charges-min": 1, "prob": 10 },
+      { "item": "sandwich_jam_butter", "charges-min": 1, "prob": 1 },
+      { "item": "sandwich_jam", "charges-min": 1, "prob": 6 },
+      { "item": "sandwich_cheese", "charges-min": 1, "prob": 6 },
+      { "item": "sandwich_deluxe", "charges-min": 1, "prob": 6 },
+      { "item": "sandwich_pb", "charges-min": 1, "prob": 6 },
+      { "item": "sandwich_pbj", "charges-min": 1, "prob": 6 },
+      { "item": "fish_sandwich", "charges-min": 1, "prob": 6 },
+      { "group": "softdrinks_canned", "count": [ 1, 5 ], "prob": 75 },
+      { "item": "water_clean", "container-item": "bottle_plastic", "prob": 65, "count": [ 1, 3 ], "sealed": false },
+      { "item": "water_mineral", "container-item": "bottle_plastic", "prob": 35, "count": [ 1, 2 ], "sealed": false }
     ]
   }
 ]

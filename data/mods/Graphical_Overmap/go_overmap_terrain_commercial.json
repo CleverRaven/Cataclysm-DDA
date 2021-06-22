@@ -116,29 +116,57 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "office_tower_1_entrance",
-    "copy-from": "office_tower_1_entrance",
+    "id": "office_tower_nw",
+    "copy-from": "office_tower_nw",
     "sym": "\u00C7",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
-    "id": "office_tower_1",
-    "copy-from": "office_tower_1",
+    "id": "office_tower_ne",
+    "copy-from": "office_tower_ne",
     "sym": "\u00C7",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
-    "id": "office_tower_b_entrance",
-    "copy-from": "office_tower_b_entrance",
+    "id": "office_tower_sw",
+    "copy-from": "office_tower_sw",
+    "sym": "\u00C7",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "office_tower_se",
+    "copy-from": "office_tower_se",
+    "sym": "\u00C7",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "office_tower_underground_nw",
+    "copy-from": "office_tower_underground_nw",
     "sym": "\u00F4",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
-    "id": "office_tower_b",
-    "copy-from": "office_tower_b",
+    "id": "office_tower_underground_ne",
+    "copy-from": "office_tower_underground_ne",
+    "sym": "\u00F4",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "office_tower_underground_sw",
+    "copy-from": "office_tower_underground_sw",
+    "sym": "\u00F4",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "office_tower_underground_se",
+    "copy-from": "office_tower_underground_se",
     "sym": "\u00F4",
     "color": "light_gray"
   },

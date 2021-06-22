@@ -2,8 +2,6 @@
 #ifndef CATA_SRC_MAPGENDATA_H
 #define CATA_SRC_MAPGENDATA_H
 
-#include <algorithm>
-
 #include "calendar.h"
 #include "coordinates.h"
 #include "type_id.h"
@@ -13,7 +11,6 @@ class map;
 class mission;
 struct point;
 struct regional_settings;
-struct tripoint;
 
 namespace om_direction
 {

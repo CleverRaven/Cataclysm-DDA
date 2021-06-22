@@ -2,17 +2,15 @@
 #ifndef CATA_SRC_CONDITION_H
 #define CATA_SRC_CONDITION_H
 
-#include <algorithm>
 #include <functional>
+#include <iosfwd>
 #include <string>
 #include <unordered_set>
 
 #include "dialogue.h"
-#include "json.h"
 #include "mission.h"
 
-struct dialogue;
-struct mission_goal_condition_context;
+class JsonObject;
 
 namespace dialogue_data
 {
@@ -72,8 +70,8 @@ struct conditional_t {
 
     public:
         conditional_t() = default;
-        conditional_t( const std::string &type );
-        conditional_t( const JsonObject &jo );
+        explicit conditional_t( const std::string &type );
+        explicit conditional_t( const JsonObject &jo );
 
         void set_has_any_trait( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_trait( const JsonObject &jo, const std::string &member, bool is_npc = false );

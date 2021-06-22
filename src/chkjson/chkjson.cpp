@@ -3,19 +3,20 @@
  * But maybe not
  * Who knows
  */
-#include <sys/stat.h>
 #include <dirent.h>
+// IWYU pragma: no_include <sys/dirent.h>
+#include <sys/stat.h>
 #include <clocale>
 #include <cstdio>
 #include <cstring>  // for strcmp
+#include <exception>
+#include <fstream>
+#include <iterator>
+#include <sstream> // for throwing errors
 #include <stack>    // for stack (obviously)
+#include <stdexcept>
 #include <string>
 #include <vector>
-#include <fstream>
-#include <sstream> // for throwing errors
-#include <exception>
-#include <iterator>
-#include <stdexcept>
 
 #include "json.h"
 

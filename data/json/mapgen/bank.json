@@ -214,7 +214,7 @@
         "o": { "item": "novels", "chance": 70 },
         "$": { "item": "vault", "chance": 95, "repeat": 5 },
         "T": { "item": "vault", "chance": 20, "repeat": 5 },
-        "e": { "item": "fridge", "chance": 70, "repeat": [ 2, 3 ] },
+        "e": { "item": "SUS_fridge_breakroom", "chance": 70 },
         "d": { "item": "office", "chance": 50 },
         "L": { "item": "cop_weapons", "chance": 40 }
       },

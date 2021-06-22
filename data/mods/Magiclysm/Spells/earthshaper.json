@@ -134,7 +134,7 @@
     "flags": [ "SOMATIC", "LOUD" ],
     "min_damage": 20,
     "max_damage": 60,
-    "damage_increment": 1.5,
+    "damage_increment": 2.0,
     "damage_type": "cut",
     "min_aoe": 1,
     "max_aoe": 6,

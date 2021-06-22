@@ -86,9 +86,21 @@
     "id": "afs_bio_cranialbomb",
     "type": "bionic",
     "name": { "str": "Cranium Bomb" },
-    "description": "You've worked for some nasty people.  People who installed a bomb at the top of your spine.  They are all dead now but there is unfortunately a dead man switch if you don't check in roughly every thirty days.  You need this out and fast.",
+    "description": "You've worked for some nasty people.  People who installed a bomb at the top of your spine.  They are all dead now but there is unfortunately a dead man switch if you don't check in roughly every thirty days.  Those thirty days are almost up but you can't remember exactly how many are left.  You need this out and fast.",
     "occupied_bodyparts": [ [ "head", 2 ] ],
     "enchantments": [ "cranial_explosion" ]
+  },
+  {
+    "id": "bio_cold_absorber",
+    "type": "bionic",
+    "name": { "str": "Emergency Insulation" },
+    "description": "Described in design documents as emergency insulation to protect against exposure to hard vacuum, this CBM is also useful in any encounter that causes instant frostbite.",
+    "occupied_bodyparts": [ [ "torso", 5 ], [ "head", 1 ], [ "arm_l", 1 ], [ "arm_r", 1 ], [ "leg_l", 1 ], [ "leg_r", 1 ] ],
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
+    "enchantments": [ "protect_cold" ],
+    "act_cost": "1 kJ",
+    "react_cost": "1 kJ",
+    "time": 10
   },
   {
     "type": "bionic",

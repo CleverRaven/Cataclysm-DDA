@@ -101,25 +101,6 @@
   },
   {
     "type": "city_building",
-    "id": "urban_25_dense_diner_apt",
-    "overmaps": [
-      { "point": [ 1, 0, -1 ], "overmap": "urban_25_1_south" },
-      { "point": [ 0, 0, -1 ], "overmap": "urban_25_2_south" },
-      { "point": [ 1, 0, 0 ], "overmap": "urban_25_3_south" },
-      { "point": [ 0, 0, 0 ], "overmap": "urban_25_4_south" },
-      { "point": [ 1, 0, 1 ], "overmap": "urban_25_5_south" },
-      { "point": [ 0, 0, 1 ], "overmap": "urban_25_6_south" },
-      { "point": [ 1, 0, 2 ], "overmap": "urban_25_7_south" },
-      { "point": [ 0, 0, 2 ], "overmap": "urban_25_8_south" },
-      { "point": [ 1, 0, 3 ], "overmap": "urban_25_9_south" },
-      { "point": [ 0, 0, 3 ], "overmap": "urban_25_10_south" },
-      { "point": [ 0, 0, 4 ], "overmap": "urban_25_12_south" }
-    ],
-    "locations": [ "land" ],
-    "flags": [ "CLASSIC" ]
-  },
-  {
-    "type": "city_building",
     "id": "urban_26_dense_club",
     "overmaps": [
       { "point": [ 1, 0, -1 ], "overmap": "urban_26_1_south" },

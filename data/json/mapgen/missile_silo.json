@@ -136,7 +136,7 @@
         "r": { "item": "trash_cart", "chance": 50, "repeat": 2 },
         "l": { "item": "lab_dorm", "chance": 70, "repeat": 2 },
         "B": { "item": "bed", "chance": 60 },
-        "f": { "item": "fridge", "chance": 70, "repeat": 3 },
+        "f": { "item": "SUS_fridge_breakroom", "chance": 70 },
         "C": { "item": "office_supplies", "chance": 60 },
         "t": { "item": "dining", "chance": 45 },
         "b": { "item": "bunker_basement_books", "chance": 70, "repeat": 2 }

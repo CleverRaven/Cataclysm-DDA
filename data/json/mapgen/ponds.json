@@ -805,5 +805,127 @@
         { "monster": "GROUP_SWAMP", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5 }
       ]
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "hot_springs" ],
+    "weight": 20,
+    "object": {
+      "fill_ter": "t_dirt",
+      "rows": [
+        "                        ",
+        "                        ",
+        "     ????????????????   ",
+        "   ???????????????????  ",
+        "   ?**]]]]]*]***]]]]??  ",
+        "  ???**************]??  ",
+        "  ???*************]]??  ",
+        "  ????***[[[*******]??  ",
+        "  ???***[[[[[[[[**]]??  ",
+        "  ???***[[[[[[[[**]]??  ",
+        "  ???***[[[~~~[[**]]??  ",
+        "  ??****[[[~~~[[***]??  ",
+        "  ??]***[[~~~~[[***]??  ",
+        "  ??]***[[~~~~[[**]]??  ",
+        "  ??]***[[~[[[[[**]]??  ",
+        "  ??]***[[[[[[[[**]]??  ",
+        "  ??]*****[[******]]??  ",
+        "  ??]**************]??  ",
+        "  ??]**************]??  ",
+        "  ????]??]]]]]]]]]]]??  ",
+        "  ????????]]]????????   ",
+        "  ?????????????????     ",
+        "                        ",
+        "                        "
+      ],
+      "set": [
+        { "point": "furniture", "id": "f_rubble_rock", "x": [ 1, 22 ], "y": [ 1, 22 ], "chance": 8, "repeat": [ 1, 5 ] },
+        {
+          "point": "furniture",
+          "id": "f_boulder_small",
+          "x": [ 1, 22 ],
+          "y": [ 1, 22 ],
+          "chance": 8,
+          "repeat": [ 1, 5 ]
+        },
+        {
+          "point": "furniture",
+          "id": "f_boulder_medium",
+          "x": [ 1, 22 ],
+          "y": [ 1, 22 ],
+          "chance": 8,
+          "repeat": [ 1, 5 ]
+        },
+        {
+          "point": "furniture",
+          "id": "f_boulder_large",
+          "x": [ 1, 22 ],
+          "y": [ 1, 22 ],
+          "chance": 8,
+          "repeat": [ 1, 5 ]
+        }
+      ],
+      "terrain": {
+        " ": [
+          "t_water_hot",
+          "t_dirt",
+          "t_dirt",
+          "t_dirt",
+          "t_dirt",
+          "t_dirt",
+          "t_dirt",
+          "t_dirt",
+          "t_grass",
+          "t_grass",
+          "t_grass",
+          "t_grass",
+          "t_grass",
+          "t_grass",
+          "t_grass",
+          "t_grass",
+          "t_grass",
+          "t_grass",
+          "t_grass",
+          "t_grass",
+          "t_underbrush",
+          "t_underbrush"
+        ],
+        "*": "t_water_hot",
+        "?": [
+          "t_water_hot",
+          "t_water_hot",
+          "t_dirt",
+          "t_dirt",
+          "t_dirt",
+          "t_dirt",
+          "t_dirt",
+          "t_dirt",
+          "t_dirt",
+          "t_grass",
+          "t_grass",
+          "t_grass",
+          "t_grass",
+          "t_grass",
+          "t_grass",
+          "t_grass",
+          "t_grass",
+          "t_grass",
+          "t_grass",
+          "t_grass",
+          "t_grass",
+          "t_grass",
+          "t_shrub",
+          "t_tree"
+        ],
+        "[": [ "t_water_hot", "t_water_hot", "t_water_hot", "t_water_hot", "t_water_hot" ],
+        "]": [ "t_water_hot", "t_water_hot", "t_water_hot", "t_water_hot", "t_water_hot", "t_water_hot", "t_dirt", "t_grass" ],
+        "~": "t_water_hot"
+      },
+      "place_monsters": [
+        { "monster": "GROUP_SAFE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5 },
+        { "monster": "GROUP_DOMESTIC", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5 }
+      ]
+    }
   }
 ]

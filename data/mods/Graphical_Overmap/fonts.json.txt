@@ -1,8 +1,15 @@
 {
-  "typeface": "unifont",
-  "map_typeface": "unifont",
-  "overmap_fontwidth": 16,
-  "overmap_fontheight": 16,
-  "overmap_fontsize": 16,
-  "overmap_typeface": "map_font_LARWICK.png"
+  "typeface": [
+    "data/font/Terminus.ttf",
+    "data/font/unifont.ttf"
+  ],
+  "map_typeface": [
+    "data/font/Terminus.ttf",
+    "data/font/unifont.ttf"
+  ],
+  "overmap_typeface": [
+    "data/font/map_font_LARWICK.png",
+    "data/font/Terminus.ttf",
+    "data/font/unifont.ttf"
+  ]
 }

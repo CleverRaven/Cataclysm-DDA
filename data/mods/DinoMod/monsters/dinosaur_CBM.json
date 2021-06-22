@@ -158,5 +158,58 @@
     "description": "A feathered flying reptile with short wings dotted with crackling bionics and a colorful glowing beak.",
     "special_when_hit": [ "ZAPBACK", 75 ],
     "harvest": "CBM_DINO_FEATHER"
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_spinosaurus_bio_op",
+    "name": { "str_sp": "Spinosaurus bio-operator" },
+    "copy-from": "mon_spinosaurus",
+    "diff": 5,
+    "proportional": { "hp": 2, "speed": 1.3 },
+    "aggression": 99,
+    "relative": { "morale": 90, "melee_skill": 10, "melee_dice": 9, "dodge": 2, "armor_bash": 8, "armor_cut": 8, "armor_bullet": 8 },
+    "flags": [
+      "ELECTRIC",
+      "NO_BREATHE",
+      "SEES",
+      "SMELLS",
+      "HEARS",
+      "ANIMAL",
+      "BASHES",
+      "DESTROYS",
+      "WARM",
+      "SWIMS",
+      "ATTACKMON",
+      "INTERIOR_AMMO"
+    ],
+    "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],
+    "vision_day": 100,
+    "vision_night": 100,
+    "luminance": 1,
+    "starting_ammo": { "battery": 10 },
+    "special_attacks": [
+      [ "BIO_OP_TAKEDOWN", 20 ],
+      {
+        "type": "gun",
+        "cooldown": 7,
+        "move_cost": 10,
+        "gun_type": "laser_rifle_dino2",
+        "fake_skills": [ [ "gun", 2 ], [ "rifle", 1 ] ],
+        "fake_dex": 1,
+        "ranges": [ [ 0, 30, "DEFAULT" ] ],
+        "require_targeting_npc": true,
+        "require_targeting_monster": true,
+        "laser_lock": false,
+        "targeting_cost": 1,
+        "targeting_timeout_extend": -1,
+        "targeting_sound": "\"TARGET ACQUIRED.\"",
+        "targeting_volume": 70,
+        "no_ammo_sound": "TARGET ACQUIRED.  *beeeeeeeeep*.  OUT OF AMMO."
+      }
+    ],
+    "zombify_into": "mon_zpinosaurus_bio_op",
+    "description": "A massive therapod with a huge fin on its back and a crocodile-like snout.  It is silver from armor plating and cybernetics crackle all over its body.  There seems to be a laser rifle mounted to its head.  It scans endlessly for its next target.",
+    "special_when_hit": [ "ZAPBACK", 10 ],
+    "harvest": "CBM_DINO_LARGE"
   }
 ]

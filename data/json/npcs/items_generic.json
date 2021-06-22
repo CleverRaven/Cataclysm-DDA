@@ -323,7 +323,7 @@
     "magazine": 50,
     "items": [
       [ "101_carpentry", 1 ],
-      [ "1st_aid", 20 ],
+      { "group": "used_1st_aid", "prob": 20 },
       [ "223_casing", 1 ],
       [ "2lcanteen", 3 ],
       [ "3006_casing", 1 ],

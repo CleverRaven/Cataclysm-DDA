@@ -12,7 +12,8 @@
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "rifle_mag", "rifle_sniper_mag" ]
+        "item_restriction": [ "rifle_mag", "rifle_sniper_mag" ],
+        "rigid": true
       }
     ]
   },
@@ -29,7 +30,8 @@
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "rifle_belt" ]
+        "item_restriction": [ "rifle_belt" ],
+        "rigid": true
       }
     ]
   },
@@ -46,7 +48,8 @@
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "rifle_sniper_mag", "rifle_mag" ]
+        "item_restriction": [ "rifle_sniper_mag", "rifle_mag" ],
+        "rigid": true
       }
     ]
   },
@@ -63,8 +66,70 @@
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "rifle_mag", "rifle_sniper_mag" ]
+        "item_restriction": [ "rifle_mag", "rifle_sniper_mag" ],
+        "rigid": true
       }
     ]
+  },
+  {
+    "id": "rifle_assault_foreign",
+    "copy-from": "pamd68",
+    "type": "GUN",
+    "name": { "str": "foreign assault rifle" },
+    "ammo": [ "ammo_rifle_foreign" ],
+    "description": "A battle rifle popular among the Exodii.  Reliable and powerful, though slightly unwieldy to use as an infantry weapon.  Just different enough from local weaponry that the same ammunition cannot be shared between them.",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "rifle_mag_foreign", "rifle_sniper_mag_foreign" ]
+      }
+    ]
+  },
+  {
+    "id": "rifle_sniper_foreign",
+    "copy-from": "m2010",
+    "type": "GUN",
+    "name": "foreign sniper rifle",
+    "ammo": [ "ammo_rifle_foreign" ],
+    "description": "A sniper rifle popular among the Exodii.  Just different enough from local weaponry that the same ammunition cannot be shared between them.",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "rifle_sniper_mag_foreign" ]
+      }
+    ]
+  },
+  {
+    "id": "rifle_rail",
+    "copy-from": "hk_g80",
+    "type": "GUN",
+    "name": "railgun rifle",
+    "ammo": [ "ammo_railgun" ],
+    "description": "A handheld railgun which magnetically propels a ferromagnetic projectile using an alternating current.  Powered by UPS.",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "magazine_well": "250 ml",
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "rifle_rail_mag" ]
+      }
+    ]
+  },
+  {
+    "id": "rifle_shotgun_combination",
+    "copy-from": "combination_gun",
+    "type": "GUN",
+    "name": "combination rifle shotgun",
+    "description": "A break action firearm comprised of a rifle barrel over two smooth bore shotgun barrels.  Historically used by egomaniac hunters in Africa, now used by their egomaniac descendants in New England.",
+    "built_in_mods": [ "rifle_shotgun_combination_shotgun" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "ammo_rifle": 1 } } ]
   }
 ]

@@ -1,0 +1,17 @@
+[
+  {
+    "id": [ "v29" ],
+    "type": "MIGRATION",
+    "replace": "afs_av22"
+  },
+  {
+    "id": [ "laser_rifle" ],
+    "type": "MIGRATION",
+    "replace": "afs_a7"
+  },
+  {
+    "id": [ "emp_gun" ],
+    "type": "MIGRATION",
+    "replace": "afs_xm34"
+  }
+]

@@ -1,21 +1,21 @@
 #include <algorithm>
 #include <cmath>
+#include <iosfwd>
 #include <string>
 #include <utility>
 
 #include "cata_utility.h"
 #include "character.h"
-#include "compatibility.h"
+#include "game.h"
 #include "json.h"
 #include "player.h"
-#include "rng.h"
 #include "stomach.h"
 #include "units.h"
 #include "vitamin.h"
 
 void nutrients::min_in_place( const nutrients &r )
 {
-    kcal = std::min( kcal, r.kcal );
+    calories = std::min( calories, r.calories );
     for( const std::pair<const vitamin_id, vitamin> &vit_pair : vitamin::all() ) {
         const vitamin_id &vit = vit_pair.first;
         int other = r.get_vitamin( vit );
@@ -32,7 +32,7 @@ void nutrients::min_in_place( const nutrients &r )
 
 void nutrients::max_in_place( const nutrients &r )
 {
-    kcal = std::max( kcal, r.kcal );
+    calories = std::max( calories, r.calories );
     for( const std::pair<const vitamin_id, vitamin> &vit_pair : vitamin::all() ) {
         const vitamin_id &vit = vit_pair.first;
         int other = r.get_vitamin( vit );
@@ -52,9 +52,14 @@ int nutrients::get_vitamin( const vitamin_id &vit ) const
     return it->second;
 }
 
+int nutrients::kcal() const
+{
+    return calories / 1000;
+}
+
 bool nutrients::operator==( const nutrients &r ) const
 {
-    if( kcal != r.kcal ) {
+    if( kcal() != r.kcal() ) {
         return false;
     }
     // Can't just use vitamins == r.vitamins, because there might be zero
@@ -70,7 +75,7 @@ bool nutrients::operator==( const nutrients &r ) const
 
 nutrients &nutrients::operator+=( const nutrients &r )
 {
-    kcal += r.kcal;
+    calories += r.calories;
     for( const std::pair<const vitamin_id, int> &vit : r.vitamins ) {
         vitamins[vit.first] += vit.second;
     }
@@ -79,7 +84,7 @@ nutrients &nutrients::operator+=( const nutrients &r )
 
 nutrients &nutrients::operator-=( const nutrients &r )
 {
-    kcal -= r.kcal;
+    calories -= r.calories;
     for( const std::pair<const vitamin_id, int> &vit : r.vitamins ) {
         vitamins[vit.first] -= vit.second;
     }
@@ -88,7 +93,7 @@ nutrients &nutrients::operator-=( const nutrients &r )
 
 nutrients &nutrients::operator*=( int r )
 {
-    kcal *= r;
+    calories *= r;
     for( std::pair<const vitamin_id, int> &vit : vitamins ) {
         vit.second *= r;
     }
@@ -97,7 +102,7 @@ nutrients &nutrients::operator*=( int r )
 
 nutrients &nutrients::operator/=( int r )
 {
-    kcal = divide_round_up( kcal, r );
+    calories = divide_round_up( calories, r );
     for( std::pair<const vitamin_id, int> &vit : vitamins ) {
         vit.second = divide_round_up( vit.second, r );
     }
@@ -115,14 +120,14 @@ stomach_contents::stomach_contents( units::volume max_vol, bool is_stomach )
 
 static std::string ml_to_string( const units::volume &vol )
 {
-    return to_string( units::to_milliliter<int>( vol ) ) + "_ml";
+    return std::to_string( units::to_milliliter<int>( vol ) ) + "_ml";
 }
 
 void stomach_contents::serialize( JsonOut &json ) const
 {
     json.start_object();
     json.member( "vitamins", nutr.vitamins );
-    json.member( "calories", nutr.kcal );
+    json.member( "calories", nutr.calories );
     json.member( "water", ml_to_string( water ) );
     json.member( "max_volume", ml_to_string( max_volume ) );
     json.member( "contents", ml_to_string( contents ) );
@@ -139,7 +144,11 @@ void stomach_contents::deserialize( JsonIn &json )
 {
     JsonObject jo = json.get_object();
     jo.read( "vitamins", nutr.vitamins );
-    jo.read( "calories", nutr.kcal );
+    jo.read( "calories", nutr.calories );
+    // nutr.calories was changed from being in kcal to being in cal
+    if( savegame_loading_version <= 31 ) {
+        nutr.calories *= 1000;
+    }
     std::string str;
     jo.read( "water", str );
     water = string_to_ml( str );
@@ -194,8 +203,9 @@ food_summary stomach_contents::digest( const Character &owner, const needs_rates
 
     // Digest kCal -- use min_kcal by default, but no more than what's in stomach,
     // and no less than percentage_kcal of what's in stomach.
-    int kcal_fraction = std::lround( nutr.kcal * rates.percent_kcal );
-    digested.nutr.kcal = half_hours * clamp( rates.min_kcal, kcal_fraction, nutr.kcal );
+    int kcal_fraction = std::lround( nutr.kcal() * rates.percent_kcal );
+    digested.nutr.calories = half_hours * clamp( rates.min_calories, kcal_fraction * 1000,
+                             nutr.calories );
 
     // Digest vitamins just like we did kCal, but we need to do one at a time.
     for( const std::pair<const vitamin_id, int> &vit : nutr.vitamins ) {
@@ -226,14 +236,15 @@ stomach_digest_rates stomach_contents::get_digest_rates( const needs_rates &meta
         rates.water = 250_ml; // Water is special, passes very quickly, in 5 minute intervals
         rates.min_vitamin = 1;
         rates.percent_vitamin = 1.0f / 6.0f;
-        rates.min_kcal = 5;
+        rates.min_calories = 5000;
         rates.percent_kcal = 1.0f / 6.0f;
     } else {
         // The guts are focused on absorption into the body, we don't care about passing rates.
         // Solids rate doesn't do anything impactful here so just make it big enough to avoid overflow.
         rates.solids = 250_ml;
         rates.water = 250_ml;
-        rates.min_kcal = roll_remainder( metabolic_rates.kcal / 24.0 * metabolic_rates.hunger );
+        // Explicitly floor it, because casting it to an int will do so anyways
+        rates.min_calories = std::floor( metabolic_rates.kcal / 24.0 * metabolic_rates.hunger * 1000 );
         rates.percent_kcal = 0.05f * metabolic_rates.hunger;
         rates.min_vitamin = std::round( 100.0 / 24.0 * metabolic_rates.hunger );
         rates.percent_vitamin = 0.05f * metabolic_rates.hunger;
@@ -241,13 +252,13 @@ stomach_digest_rates stomach_contents::get_digest_rates( const needs_rates &meta
     return rates;
 }
 
-void stomach_contents::mod_calories( int cal )
+void stomach_contents::mod_calories( int kcal )
 {
-    if( -cal >= nutr.kcal ) {
-        nutr.kcal = 0;
+    if( -kcal >= nutr.kcal() ) {
+        nutr.calories = 0;
         return;
     }
-    nutr.kcal += cal;
+    nutr.calories += kcal * 1000;
 }
 
 void stomach_contents::mod_nutr( int nutr )
@@ -279,7 +290,7 @@ void stomach_contents::mod_contents( const units::volume &vol )
 
 int stomach_contents::get_calories() const
 {
-    return nutr.kcal;
+    return nutr.kcal();
 }
 
 units::volume stomach_contents::get_water() const

@@ -123,6 +123,35 @@
     ]
   },
   {
+    "result": "broken_wraitheon_irradiant",
+    "type": "uncraft",
+    "activity_level": "fake",
+    "skill_used": "electronics",
+    "difficulty": 8,
+    "time": "5 h",
+    "using": [ [ "soldering_standard", 10 ], [ "welding_standard", 10 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "self_monitoring_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
+      [ [ "pathfinding_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "spidery_legs_big", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
+      [ [ "afs_magnet_3", 4 ] ],
+      [ [ "afs_circuitry_3", 1 ] ],
+      [ [ "afs_material_1", 10 ] ],
+      [ [ "afs_material_3", 1 ] ],
+      [ [ "afs_material_4", 1 ] ],
+      [ [ "gun_module", 1 ] ],
+      [ [ "afs_heat_2_salvage", 2 ] ],
+      [ [ "afs_energy_storage_4", 1 ] ],
+      [ [ "flamethrower", 1 ] ]
+    ]
+  },
+  {
     "result": "broken_bloodhound_drone",
     "type": "uncraft",
     "activity_level": "fake",
@@ -141,6 +170,17 @@
       [ [ "spike", 2 ] ],
       [ [ "identification_module", 1 ] ]
     ]
+  },
+  {
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "afs_radiobeacon",
+    "skill_used": "electronics",
+    "difficulty": 1,
+    "time": "15 m",
+    "using": [ [ "soldering_standard", 10 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "afs_energy_storage_2", 1 ] ], [ [ "antenna", 1 ] ], [ [ "afs_material_1", 2 ] ], [ [ "afs_circuitry_1", 1 ] ] ]
   },
   {
     "//": "TODO: use copy-from inheritance for solarpack uncrafts -- it is currently not working properly #24702",
@@ -187,5 +227,12 @@
       [ [ "scrap", 8 ] ],
       [ [ "rope_6", 1 ] ]
     ]
+  },
+  {
+    "result": "afs_heat_2_salvage",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "30 s",
+    "components": [ [ [ "afs_heat_2", 1 ] ] ]
   }
 ]

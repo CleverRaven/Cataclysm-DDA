@@ -1,0 +1,26 @@
+[
+  {
+    "id": "afs_escape_pod_suppliesII",
+    "type": "item_group",
+    "//": "Survival kit for survival in terrestrial planets.  List based on the gear found on lifeboats.",
+    "subtype": "collection",
+    "container-item": "afs_landfall_kit_2",
+    "on_overflow": "spill",
+    "entries": [
+      { "item": "knife_folding" },
+      { "item": "flint_steel" },
+      { "item": "whistle_multitool" },
+      { "item": "water_clean", "container-item": "bottle_twoliter", "count": 3 },
+      { "item": "afs_escapepod_ration", "count": 3 },
+      { "item": "light_plus_battery_cell", "charges": 150, "container-item": "flashlight" },
+      { "item": "light_plus_battery_cell", "charges": 150, "container-item": "water_purifier" },
+      { "item": "medium_plus_battery_cell", "ammo-item": "battery", "charges": 600, "container-item": "mil_mess_kit" },
+      { "item": "rope_6" },
+      { "item": "emer_blanket", "count": 2 },
+      { "item": "afs_radiobeacon" },
+      { "item": "afs_landfall_gun", "container-item": "back_holster" },
+      { "item": "22_lr", "charges": 18 },
+      { "item": "afs_landfall_kit_2_instructions" }
+    ]
+  }
+]
