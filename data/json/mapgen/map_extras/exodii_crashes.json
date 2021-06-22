@@ -5,9 +5,9 @@
     "terrain": {
       " ": "t_null",
       ".": [ [ "t_glassed_sand", 10 ], "t_sandmound" ],
-      ",": [ [ "t_glassed_sand", 3 ], [ "t_rock_floor_no_roof", 3 ], "t_sandmound", "t_sand" ],
-      ";": [ [ "t_rock_floor_no_roof", 3 ], [ "t_sand", 3 ], "t_sandmound" ],
-      "|": [ [ "t_rock_floor_no_roof", 3 ], [ "t_sand", 3 ], "t_sandmound" ]
+      ",": [ [ "t_glassed_sand", 3 ], [ "t_grass_dead", 3 ], "t_sandmound", "t_sand" ],
+      ";": [ [ "t_grass_dead", 3 ], [ "t_sand", 3 ], "t_sandmound" ],
+      "|": [ [ "t_grass_dead", 3 ], [ "t_sand", 3 ], "t_sandmound" ]
     },
     "furniture": {
       ".": [ [ "f_null", 1000 ], [ "f_rubble_rock", 20 ] ],
@@ -69,6 +69,52 @@
           ],
           "x": [ 6, 10 ],
           "y": [ 6, 10 ]
+        },
+        { "chunks": [ [ "nest_exodii_scouts", 10 ], [ "nest_exodii_zombies", 20 ] ], "x": [ 7, 14 ], "y": [ 16, 18 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_exodii_crash_big_1",
+    "object": {
+      "rows": [
+        "          .   .         ",
+        "     ...  ..  ..   .    ",
+        "      ....,, ,,. ...    ",
+        "  ...   .,,,,,,,,.. ..  ",
+        "   ..,.. ,,,,,,,,,,..   ",
+        "    .,,,;;;;;;;,,,,. .  ",
+        "      ,;;;;;;;;;,,,,..  ",
+        "  ..,,;;;;||;;;;,,,,    ",
+        "...  ,,;;;;;||;;,,,,,...",
+        "   ,;,;;||;||;;;;,,,,.. ",
+        "...,,;;;;;;;;||;;,,,    ",
+        "   ,;,;||;||;;;;;,,,,.. ",
+        "... ,,,;;;;;;||;,,,,,...",
+        "..., ,,;;||;||;;,,,,,.. ",
+        "   ,,,;;|;;;;||;;,,,    ",
+        "...   ,,;;||;;;;,,,,,...",
+        "   .,,;,;;;;;;;,,,,,... ",
+        " ...  ,,,,;;||;;;,,,.   ",
+        "    .,,,,,;;;;;,,,, ..  ",
+        " ....,,,,,,,,,,,,,,  .. ",
+        "  ..  ...,,,,, .. ..    ",
+        "    ..  ...... .. ...   ",
+        "      ...  ..  .   .    ",
+        "      .                 "
+      ],
+      "palettes": [ "exodii_crash_ground_palette" ],
+      "place_nested": [
+        {
+          "chunks": [
+            [ "nest_exodii_crash_building_big_1", 30 ],
+            [ "nest_exodii_crash_building_big_2", 10 ],
+            [ "nest_exodii_crash_building_big_2", 60 ]
+          ],
+          "x": [ 7, 10 ],
+          "y": [ 7, 10 ]
         },
         { "chunks": [ [ "nest_exodii_scouts", 10 ], [ "nest_exodii_zombies", 20 ] ], "x": [ 7, 14 ], "y": [ 16, 18 ] }
       ]
