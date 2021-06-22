@@ -4,7 +4,7 @@
     "id": "exodii_crash_ground_palette",
     "terrain": {
       " ": "t_null",
-      ".": [ [ "t_null", 5 ], [ "t_glassed_sand", 10 ], "t_sandmound" ],
+      ".": [ [ "t_glassed_sand", 10 ], "t_sandmound" ],
       ",": [ [ "t_glassed_sand", 3 ], [ "t_rock_floor_no_roof", 3 ], "t_sandmound", "t_sand" ],
       ";": [ [ "t_rock_floor_no_roof", 3 ], [ "t_sand", 3 ], "t_sandmound" ],
       "|": [ [ "t_rock_floor_no_roof", 3 ], [ "t_sand", 3 ], "t_sandmound" ]
@@ -67,10 +67,10 @@
             [ "nest_exodii_crash_building_big_2", 10 ],
             [ "nest_exodii_crash_building_big_2", 60 ]
           ],
-          "x": [ 7, 15 ],
-          "y": [ 7, 15 ]
+          "x": [ 6, 10 ],
+          "y": [ 6, 10 ]
         },
-        { "chunks": [ [ "nest_exodii_scouts", 10 ], [ "nest_exodii_zombies", 20 ] ], "x": [ 7, 14 ], "y": [ 16, 19 ] }
+        { "chunks": [ [ "nest_exodii_scouts", 10 ], [ "nest_exodii_zombies", 20 ] ], "x": [ 7, 14 ], "y": [ 16, 18 ] }
       ]
     }
   },
