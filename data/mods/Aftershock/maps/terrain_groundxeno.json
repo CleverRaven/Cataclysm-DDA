@@ -417,7 +417,7 @@
     "type": "terrain",
     "id": "t_moxfloor",
     "name": "bleached coral floor",
-    "description": "Small outgrowths of white coral spring from a underlying lattice of black, pulsating veins.",
+    "description": "Small outgrowths of white coral spring from an underlying lattice of black, pulsating veins.",
     "symbol": ".",
     "looks_like": "t_fungus",
     "color": "light_red",

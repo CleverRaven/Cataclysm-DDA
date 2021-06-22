@@ -29,7 +29,7 @@
     "copy-from": "fake_item",
     "type": "TOOL",
     "name": { "str": "integrated toolset" },
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID", "FIRESTARTER", "USES_BIONIC_POWER" ],
     "max_charges": 10000,
     "use_action": [ "HAMMER", "CROWBAR" ],
     "qualities": [
@@ -143,7 +143,7 @@
     "copy-from": "fake_item",
     "type": "TOOL",
     "name": { "str": "bionic firestarter" },
-    "flags": [ "FIRESTARTER" ]
+    "flags": [ "FIRESTARTER", "USES_BIONIC_POWER" ]
   },
   {
     "id": "migo_bio_gun",
@@ -179,18 +179,7 @@
     "copy-from": "fake_item",
     "name": { "str": "fake power tool" },
     "ammo": [ "battery" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "rigid": false,
-        "max_contains_volume": "50 L",
-        "max_contains_weight": "400 kg",
-        "item_restriction": [ "storage_battery", "medium_storage_battery", "large_storage_battery" ]
-      }
-    ],
-    "//": "For now, it can't be reloaded by examining furniture",
-    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ]
+    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO", "USE_UPS" ]
   },
   {
     "id": "fake_arc_furnace",

@@ -4,7 +4,7 @@
 
 #include "calendar.h"
 #include "cata_utility.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "json.h"
 #include "math_defines.h"
 #include "options_helpers.h"

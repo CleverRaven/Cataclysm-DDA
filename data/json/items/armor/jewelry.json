@@ -9,7 +9,6 @@
     "volume": "10 ml",
     "price": 100,
     "price_postapoc": 10,
-    "flags": [ "FANCY" ],
     "material": [ "wood" ],
     "symbol": "[",
     "color": "brown",
@@ -40,7 +39,6 @@
     "price": 100,
     "price_postapoc": 10,
     "material": [ "wood" ],
-    "flags": [ "FANCY" ],
     "symbol": "u",
     "color": "brown",
     "use_action": [ "MEDITATE" ]
@@ -55,7 +53,6 @@
     "volume": "10 ml",
     "price": 100,
     "price_postapoc": 10,
-    "flags": [ "FANCY" ],
     "material": [ "wood", "plastic" ],
     "symbol": "[",
     "color": "red"
@@ -72,8 +69,7 @@
     "material": [ "iron" ],
     "symbol": "[",
     "looks_like": "copper_locket",
-    "color": "brown",
-    "flags": [ "FANCY" ]
+    "color": "brown"
   },
   {
     "id": "diamond_dental_grill",
@@ -92,7 +88,7 @@
     "color": "yellow",
     "covers": [ "mouth" ],
     "encumbrance": 10,
-    "flags": [ "SUPER_FANCY", "SKINTIGHT" ]
+    "flags": [ "SKINTIGHT" ]
   },
   {
     "id": "garnet_dental_grill",
@@ -111,7 +107,7 @@
     "color": "red",
     "covers": [ "mouth" ],
     "encumbrance": 10,
-    "flags": [ "FANCY", "SKINTIGHT" ]
+    "flags": [ "SKINTIGHT" ]
   },
   {
     "id": "amethyst_dental_grill",
@@ -195,8 +191,7 @@
     "price_postapoc": 10,
     "material": [ "plastic" ],
     "symbol": "[",
-    "color": "pink",
-    "flags": [ "FANCY" ]
+    "color": "pink"
   },
   {
     "id": "blue_topaz_dental_grill",
@@ -253,8 +248,7 @@
     "material": [ "silver" ],
     "symbol": "[",
     "looks_like": "tieclip",
-    "color": "light_gray",
-    "flags": [ "FANCY" ]
+    "color": "light_gray"
   },
   {
     "id": "copper_bracelet",
@@ -806,7 +800,7 @@
     "symbol": "[",
     "color": "yellow",
     "covers": [ "mouth" ],
-    "flags": [ "FANCY", "SKINTIGHT" ]
+    "flags": [ "SKINTIGHT" ]
   },
   {
     "id": "gold_ear",
@@ -863,8 +857,7 @@
     "price_postapoc": 25,
     "material": [ "gold" ],
     "symbol": "[",
-    "color": "yellow",
-    "flags": [ "SUPER_FANCY" ]
+    "color": "yellow"
   },
   {
     "id": "gold_necklace",
@@ -1001,8 +994,7 @@
     "material": [ "bone", "silver" ],
     "symbol": "[",
     "color": "white",
-    "use_action": [ "MEDITATE" ],
-    "flags": [ "FANCY" ]
+    "use_action": [ "MEDITATE" ]
   },
   {
     "id": "holy_symbol",
@@ -1016,8 +1008,7 @@
     "material": [ "gold" ],
     "symbol": ",",
     "color": "yellow",
-    "use_action": [ "MEDITATE" ],
-    "flags": [ "FANCY" ]
+    "use_action": [ "MEDITATE" ]
   },
   {
     "id": "holy_symbol_wood",
@@ -1109,7 +1100,7 @@
     "symbol": "[",
     "color": "white",
     "covers": [ "mouth" ],
-    "flags": [ "SUPER_FANCY", "SKINTIGHT" ]
+    "flags": [ "SKINTIGHT" ]
   },
   {
     "id": "platinum_ear",
@@ -1294,8 +1285,7 @@
     "price_postapoc": 10,
     "material": [ "silver" ],
     "symbol": "[",
-    "color": "light_gray",
-    "flags": [ "FANCY" ]
+    "color": "light_gray"
   },
   {
     "id": "silver_ring",
@@ -1322,8 +1312,7 @@
     "price_postapoc": 25,
     "material": [ "leather" ],
     "symbol": "-",
-    "color": "dark_gray",
-    "flags": [ "FANCY" ]
+    "color": "dark_gray"
   },
   {
     "id": "wristwatch",
@@ -1447,8 +1436,7 @@
     "price_postapoc": 10,
     "material": [ "fur", "plastic" ],
     "symbol": "^",
-    "color": "brown",
-    "flags": [ "FANCY" ]
+    "color": "brown"
   },
   {
     "id": "faux_fur_cat_ears",
@@ -1471,8 +1459,7 @@
     "bashing": 4,
     "material": [ "fur", "plastic" ],
     "symbol": "s",
-    "color": "brown",
-    "flags": [ "FANCY" ]
+    "color": "brown"
   },
   {
     "id": "faux_fur_cat_tail",
@@ -1494,8 +1481,7 @@
     "price_postapoc": 10,
     "material": [ "fur" ],
     "symbol": "-",
-    "color": "brown",
-    "flags": [ "FANCY" ]
+    "color": "brown"
   },
   {
     "id": "faux_fur_collar",
@@ -1517,8 +1503,7 @@
     "price_postapoc": 10,
     "material": [ "leather", "plastic" ],
     "symbol": "^",
-    "color": "dark_gray",
-    "flags": [ "FANCY" ]
+    "color": "dark_gray"
   },
   {
     "id": "leather_cat_tail",
@@ -1532,8 +1517,7 @@
     "bashing": 4,
     "material": [ "leather", "plastic" ],
     "symbol": "s",
-    "color": "dark_gray",
-    "flags": [ "FANCY" ]
+    "color": "dark_gray"
   },
   {
     "id": "diamond_gold_earring",
