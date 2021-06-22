@@ -115,7 +115,7 @@ Adds bleeding butchery action.
 Autodoc installation programs added that almost guarantee flawless installation of supported bionics.
 Removes the obsolete 'carrion spawn rate scaling factor' world configuration option.
 Make thrown glass items drop glass shards when shattered.
-Adding ability to cranes (excluding tiny) and forklift arms to suspend creatures for butchering.
+Add ability to cranes (excluding tiny ones) and forklift arms to suspend creatures for butchering.
 
 ## Content:
 Gun volume and weight audit.
@@ -350,8 +350,8 @@ Prevents cross-z-level melee attacks when the target is not actually visible.
 Avoids doing character body updates more than once per turn
 When harvesting crops, drops the result on the player's square.
 Improves road system connectivity across overmaps.
-Stop failures clustering at high completion percentages.
-Fix not-spring eternal season.
+Stop crafting failures clustering at high completion percentages.
+Fix non-spring eternal seasons.
 Stop unreloadable items from being reloadable.
 Fix savegame corruption from teleporting to very distant submaps
 Unfreeze trap-avoiding monsters.
