@@ -1,7 +1,7 @@
 #include <iosfwd>
 #include <string>
 
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "output.h"
 
 static void test_remove_color_tags( const std::string &original, const std::string &expected )
@@ -37,4 +37,27 @@ TEST_CASE( "trim_by_length" )
                            6 ) == "MRE …" );
     CHECK( trim_by_length( "MRE 主菜（鸡肉意大利香蒜沙司通心粉）（新鲜）",
                            36 ) == "MRE 主菜（鸡肉意大利香蒜沙司通心粉…" );
+}
+
+TEST_CASE( "str_cat" )
+{
+    CHECK( str_cat( " " ) == " " );
+    CHECK( str_cat( "a", "b", "c" ) == "abc" );
+    CHECK( str_cat( "a", std::string( "b" ), "c" ) == "abc" );
+    std::string a( "a" );
+    std::string b( "b" );
+    std::string result = str_cat( a, std::move( b ), a );
+    CHECK( result == "aba" );
+}
+
+TEST_CASE( "str_append" )
+{
+    std::string root( "a" );
+    CHECK( str_append( root, " " ) == "a " );
+    CHECK( str_append( root, "b", "c" ) == "a bc" );
+    CHECK( str_append( root, std::string( "b" ), "c" ) == "a bcbc" );
+    std::string a( "a" );
+    std::string b( "b" );
+    str_append( root, a, std::move( b ), a );
+    CHECK( root == "a bcbcaba" );
 }

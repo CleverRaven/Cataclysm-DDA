@@ -80,6 +80,7 @@ static const activity_id ACT_WAIT_NPC( "ACT_WAIT_NPC" );
 
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_riding( "riding" );
+static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_under_operation( "under_operation" );
 
 static const itype_id fuel_type_animal( "animal" );
@@ -631,7 +632,8 @@ void npc::handle_sound( const sounds::sound_t spriority, const std::string &desc
     const tripoint s_abs_pos = here.getabs( spos );
     const tripoint my_abs_pos = here.getabs( pos() );
 
-    add_msg_debug( "%s heard '%s', priority %d at volume %d from %d:%d, my pos %d:%d",
+    add_msg_debug( debugmode::DF_NPC,
+                   "%s heard '%s', priority %d at volume %d from %d:%d, my pos %d:%d",
                    disp_name(), description, static_cast<int>( spriority ), heard_volume,
                    s_abs_pos.x, s_abs_pos.y, my_abs_pos.x, my_abs_pos.y );
 
@@ -652,11 +654,11 @@ void npc::handle_sound( const sounds::sound_t spriority, const std::string &desc
     // but only for bantering purposes, not for investigating.
     if( spriority < sounds::sound_t::alarm ) {
         if( player_ally ) {
-            add_msg_debug( "Allied NPC ignored same faction %s", name );
+            add_msg_debug( debugmode::DF_NPC, "Allied NPC ignored same faction %s", name );
             return;
         }
         if( npc_ally ) {
-            add_msg_debug( "NPC ignored same faction %s", name );
+            add_msg_debug( debugmode::DF_NPC, "NPC ignored same faction %s", name );
             return;
         }
     }
@@ -664,7 +666,7 @@ void npc::handle_sound( const sounds::sound_t spriority, const std::string &desc
     // and listener is friendly and sound source is combat or alert only.
     if( spriority < sounds::sound_t::alarm && player_character.sees( spos ) ) {
         if( is_player_ally() ) {
-            add_msg_debug( "NPC %s ignored low priority noise that player can see", name );
+            add_msg_debug( debugmode::DF_NPC, "NPC %s ignored low priority noise that player can see", name );
             return;
             // discount if sound source is player, or seen by player,
             // listener is neutral and sound type is worth investigating.
@@ -703,7 +705,7 @@ void npc::handle_sound( const sounds::sound_t spriority, const std::string &desc
                 }
             }
             if( should_check ) {
-                add_msg_debug( "%s added noise at pos %d:%d", name, s_abs_pos.x, s_abs_pos.y );
+                add_msg_debug( debugmode::DF_NPC, "%s added noise at pos %d:%d", name, s_abs_pos.x, s_abs_pos.y );
                 dangerous_sound temp_sound;
                 temp_sound.abs_pos = s_abs_pos;
                 temp_sound.volume = heard_volume;
@@ -1341,7 +1343,7 @@ void parse_tags( std::string &phrase, const Character &u, const Character &me,
 
 void dialogue::add_topic( const std::string &topic_id )
 {
-    topic_stack.push_back( talk_topic( topic_id ) );
+    topic_stack.emplace_back( topic_id );
 }
 
 void dialogue::add_topic( const talk_topic &topic )
@@ -1765,7 +1767,7 @@ void talk_effect_fun_t::set_u_buy_item( const itype_id &item_name, int cost, int
 
     // Update structure used by mission descriptions.
     if( cost <= 0 ) {
-        likely_rewards.push_back( std::pair<int, itype_id>( count, item_name ) );
+        likely_rewards.emplace_back( count, item_name );
     }
 }
 
@@ -2060,6 +2062,136 @@ void talk_effect_fun_t::set_npc_first_topic( const std::string &chat_topic )
     };
 }
 
+void talk_effect_fun_t::set_message( const JsonObject &jo, const std::string &member )
+{
+    std::string message = jo.get_string( member );
+    const bool snippet = jo.get_bool( "snippet", false );
+    const bool outdoor_only = jo.get_bool( "outdoor_only", false );
+    const bool sound = jo.get_bool( "sound", false );
+    const bool popup_msg = jo.get_bool( "popup", false );
+    game_message_type type = m_neutral;
+    std::string type_string = jo.get_string( "type", "neutral" );
+    if( type_string == "good" ) {
+        type = m_good;
+    } else if( type_string == "neutral" ) {
+        type = m_neutral;
+    } else if( type_string == "bad" ) {
+        type = m_bad;
+    } else if( type_string == "mixed" ) {
+        type = m_mixed;
+    } else if( type_string == "warning" ) {
+        type = m_warning;
+    } else if( type_string == "info" ) {
+        type = m_info;
+    } else if( type_string == "debug" ) {
+        type = m_debug;
+    } else if( type_string == "headshot" ) {
+        type = m_headshot;
+    } else if( type_string == "critical" ) {
+        type = m_critical;
+    } else if( type_string == "grazing" ) {
+        type = m_grazing;
+    } else {
+        jo.throw_error( "Invalid message type." );
+    }
+
+    function = [message, outdoor_only, sound, snippet, type, popup_msg]( const dialogue & d ) {
+        std::string translated_message;
+        if( snippet ) {
+            translated_message = SNIPPET.random_from_category( message ).value_or( translation() ).translated();
+        } else {
+            translated_message = _( message );
+        }
+        Character *target = d.alpha->get_character();
+        if( !target ) {
+            return;
+        }
+        if( sound ) {
+            bool display = false;
+            map &here = get_map();
+            if( !target->has_effect( effect_sleep ) && !target->is_deaf() ) {
+                if( !outdoor_only || here.get_abs_sub().z >= 0 ) {
+                    display = true;
+                } else if( one_in( std::max( roll_remainder( 2.0f * here.get_abs_sub().z /
+                                             target->mutation_value( "hearing_modifier" ) ), 1 ) ) ) {
+                    display = true;
+                }
+            }
+            if( !display ) {
+                return;
+            }
+        }
+        if( popup_msg ) {
+            popup( translated_message, PF_NONE );
+        } else {
+            target->add_msg_if_player( type, translated_message );
+        }
+
+    };
+}
+
+
+void talk_effect_fun_t::set_mod_pain( const JsonObject &jo, const std::string &member,
+                                      bool is_npc )
+{
+    int amount = jo.get_int( member );
+    function = [is_npc, amount]( const dialogue & d ) {
+        d.actor( is_npc )->mod_pain( amount );
+    };
+}
+
+void talk_effect_fun_t::set_add_wet( const JsonObject &jo, const std::string &member,
+                                     bool is_npc )
+{
+    int amount = jo.get_int( member );
+    function = [is_npc, amount]( const dialogue & d ) {
+        Character *target = d.actor( is_npc )->get_character();
+        if( target ) {
+            wet_character( *target, amount );
+        }
+    };
+}
+
+void talk_effect_fun_t::set_sound_effect( const JsonObject &jo, const std::string &member )
+{
+    std::string variant = jo.get_string( member );
+    std::string id = jo.get_string( "id" );
+    const bool outdoor_event = jo.get_bool( "outdoor_event", false );
+    const int volume = jo.get_int( "volume", -1 );
+    function = [variant, id, outdoor_event, volume]( const dialogue & d ) {
+        map &here = get_map();
+        int local_volume = volume;
+        Character *target = d.alpha->get_character();
+        if( target && !target->has_effect( effect_sleep ) && !target->is_deaf() ) {
+            if( !outdoor_event || here.get_abs_sub().z >= 0 ) {
+                if( local_volume == -1 ) {
+                    local_volume = 80;
+                }
+                sfx::play_variant_sound( id, variant, local_volume, random_direction() );
+            } else if( one_in( std::max( roll_remainder( 2.0f * here.get_abs_sub().z /
+                                         target->mutation_value( "hearing_modifier" ) ), 1 ) ) ) {
+                if( local_volume == -1 ) {
+                    local_volume = 80 * target->mutation_value( "hearing_modifier" );
+                }
+                sfx::play_variant_sound( id, variant, local_volume, random_direction() );
+            }
+        }
+    };
+}
+
+void talk_effect_fun_t::set_add_power( const JsonObject &jo, const std::string &member,
+                                       bool is_npc )
+{
+    units::energy amount;
+    assign( jo, member, amount, false );
+    function = [is_npc, amount]( const dialogue & d ) {
+        Character *target = d.actor( is_npc )->get_character();
+        if( target ) {
+            target->mod_power_level( amount );
+        }
+    };
+}
+
 void talk_effect_t::set_effect_consequence( const talk_effect_fun_t &fun,
         dialogue_consequence con )
 {
@@ -2133,9 +2265,9 @@ talk_topic talk_effect_t::apply( dialogue &d ) const
     return next_topic;
 }
 
-talk_effect_t::talk_effect_t( const JsonObject &jo )
+talk_effect_t::talk_effect_t( const JsonObject &jo, const std::string &member_name )
 {
-    load_effect( jo );
+    load_effect( jo, member_name );
     if( jo.has_object( "topic" ) ) {
         next_topic = load_inline_topic( jo.get_object( "topic" ) );
     } else if( jo.has_string( "topic" ) ) {
@@ -2297,6 +2429,22 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
     } else if( jo.has_string( "npc_first_topic" ) ) {
         const std::string chat_topic = jo.get_string( "npc_first_topic" );
         subeffect_fun.set_npc_first_topic( chat_topic );
+    } else if( jo.has_string( "sound_effect" ) ) {
+        subeffect_fun.set_sound_effect( jo, "sound_effect" );
+    } else if( jo.has_string( "message" ) ) {
+        subeffect_fun.set_message( jo, "message" );
+    } else if( jo.has_int( "u_mod_pain" ) ) {
+        subeffect_fun.set_mod_pain( jo, "u_mod_pain", false );
+    } else if( jo.has_int( "npc_mod_pain" ) ) {
+        subeffect_fun.set_mod_pain( jo, "npc_mod_pain", false );
+    } else if( jo.has_int( "u_add_wet" ) ) {
+        subeffect_fun.set_add_wet( jo, "u_add_wet", false );
+    } else if( jo.has_int( "npc_add_wet" ) ) {
+        subeffect_fun.set_add_wet( jo, "npc_add_wet", true );
+    } else if( jo.has_member( "u_add_power" ) ) {
+        subeffect_fun.set_add_power( jo, "u_add_power", false );
+    } else if( jo.has_member( "npc_add_power" ) ) {
+        subeffect_fun.set_add_power( jo, "npc_add_power", true );
     } else {
         jo.throw_error( "invalid sub effect syntax: " + jo.str() );
     }
@@ -2383,6 +2531,7 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
             WRAP( npc_die ),
             WRAP( npc_thankful ),
             WRAP( clear_overrides ),
+            WRAP( lightning ),
             WRAP( nothing )
 #undef WRAP
         }
@@ -2413,7 +2562,7 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
     jo.throw_error( "unknown effect string", effect_id );
 }
 
-void talk_effect_t::load_effect( const JsonObject &jo )
+void talk_effect_t::load_effect( const JsonObject &jo, const std::string &member_name )
 {
     if( jo.has_member( "opinion" ) ) {
         JsonIn *ji = jo.get_raw( "opinion" );
@@ -2425,7 +2574,6 @@ void talk_effect_t::load_effect( const JsonObject &jo )
         // Same format as when saving a game (-:
         mission_opinion.deserialize( *ji );
     }
-    static const std::string member_name( "effect" );
     if( !jo.has_member( member_name ) ) {
         return;
     } else if( jo.has_string( member_name ) ) {
@@ -2486,11 +2634,11 @@ talk_response::talk_response( const JsonObject &jo )
     }
     if( jo.has_member( "success" ) ) {
         JsonObject success_obj = jo.get_object( "success" );
-        success = talk_effect_t( success_obj );
+        success = talk_effect_t( success_obj, "effect" );
     } else if( jo.has_string( "topic" ) ) {
         // This is for simple topic switching without a possible failure
         success.next_topic = talk_topic( jo.get_string( "topic" ) );
-        success.load_effect( jo );
+        success.load_effect( jo, "effect" );
     } else if( jo.has_object( "topic" ) ) {
         success.next_topic = load_inline_topic( jo.get_object( "topic" ) );
     }
@@ -2499,7 +2647,7 @@ talk_response::talk_response( const JsonObject &jo )
     }
     if( jo.has_member( "failure" ) ) {
         JsonObject failure_obj = jo.get_object( "failure" );
-        failure = talk_effect_t( failure_obj );
+        failure = talk_effect_t( failure_obj, "effect" );
     }
 
     // TODO: mission_selected
@@ -2766,7 +2914,7 @@ json_dynamic_line_effect::json_dynamic_line_effect( const JsonObject &jo,
 {
     std::function<bool( const dialogue & )> tmp_condition;
     read_condition<dialogue>( jo, "condition", tmp_condition, true );
-    talk_effect_t tmp_effect = talk_effect_t( jo );
+    talk_effect_t tmp_effect = talk_effect_t( jo, "effect" );
     // if the topic has a sentinel, it means implicitly add a check for the sentinel value
     // and do not run the effects if it is set.  if it is not set, run the effects and
     // set the sentinel

@@ -139,6 +139,15 @@
   {
     "type": "item_group",
     "subtype": "collection",
+    "id": "m1911_10_magazines_reloaded",
+    "entries": [
+      { "item": "m1911_10mag", "ammo-item": "reloaded_10mm_fmj", "charges": 8 },
+      { "item": "m1911_10mag", "ammo-item": "reloaded_10mm_fmj", "charges": 8 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "quiver_bow_hunter",
     "entries": [ { "item": "arrow_cf", "charges": 8 } ]
   },
@@ -797,7 +806,13 @@
           { "item": "legpouch_large", "contents-group": "army_mags_m4" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_combat", "container-item": "sheath" },
-          { "item": "m4a1", "ammo-item": "556", "charges": 30, "contents-item": [ "shoulder_strap", "holo_sight" ] }
+          {
+            "item": "nato_assault_rifle",
+            "variant": "m4a1",
+            "ammo-item": "556",
+            "charges": 30,
+            "contents-item": [ "shoulder_strap", "holo_sight" ]
+          }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -986,7 +1001,13 @@
           { "item": "legpouch_large", "contents-group": "army_mags_m4" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_combat", "container-item": "sheath" },
-          { "item": "m4a1", "ammo-item": "556", "charges": 30, "contents-item": [ "shoulder_strap", "holo_sight" ] }
+          {
+            "item": "nato_assault_rifle",
+            "variant": "m4a1",
+            "ammo-item": "556",
+            "charges": 30,
+            "contents-item": [ "shoulder_strap", "holo_sight" ]
+          }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -1084,7 +1105,13 @@
         "items": [ "armor_farmor", "socks", "boots_fur", "hat_fur", "gloves_fur", "vest", "wristwatch" ],
         "entries": [
           { "item": "knife_combat", "container-item": "sheath" },
-          { "item": "m4a1", "ammo-item": "556", "charges": 30, "contents-item": "shoulder_strap" },
+          {
+            "item": "nato_assault_rifle",
+            "variant": "m4a1",
+            "ammo-item": "556",
+            "charges": 30,
+            "contents-item": "shoulder_strap"
+          },
           { "item": "stanag30", "ammo-item": "556", "charges": 30 },
           { "item": "stanag30", "ammo-item": "556", "charges": 30 },
           { "item": "stanag30", "ammo-item": "556", "charges": 30 }
@@ -1872,7 +1899,7 @@
     "type": "profession",
     "id": "student",
     "name": "Student",
-    "description": "Just an average high school student, you find yourself facing a test you never studied for, and the stakes are a bit higher than geometry.  Maybe there'll be something useful in one of these books you've been lugging around all year.",
+    "description": "Just an average student, you find yourself facing a test you never studied for, and the stakes are a bit higher than geometry.  Maybe there'll be something useful in one of these books you've been lugging around all year.",
     "points": 1,
     "items": {
       "both": {
@@ -1886,8 +1913,7 @@
           "wristwatch",
           "textbook_speech",
           "story_book",
-          "howto_computer",
-          "novel_coa"
+          "howto_computer"
         ],
         "entries": [ { "group": "charged_cell_phone" } ]
       },
@@ -2787,7 +2813,7 @@
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_combat", "container-item": "sheath" },
-          { "item": "m4a1", "ammo-item": "556", "contents-item": "shoulder_strap" },
+          { "item": "nato_assault_rifle", "variant": "m4a1", "ammo-item": "556", "contents-item": "shoulder_strap" },
           {
             "item": "medium_plus_battery_cell",
             "ammo-item": "battery",
@@ -3787,7 +3813,13 @@
           { "item": "mask_dust", "custom-flags": [ "no_auto_equip" ] },
           { "item": "stethoscope", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_combat", "container-item": "sheath" },
-          { "item": "m4a1", "ammo-item": "556", "charges": 30, "contents-item": [ "shoulder_strap", "holo_sight" ] }
+          {
+            "item": "nato_assault_rifle",
+            "variant": "m4a1",
+            "ammo-item": "556",
+            "charges": 30,
+            "contents-item": [ "shoulder_strap", "holo_sight" ]
+          }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -3922,5 +3954,56 @@
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
     }
+  },
+  {
+    "type": "profession",
+    "id": "local_drug_dealer",
+    "name": "Drug Dealer",
+    "description": "You were about to make your biggest sale yet, but when you met the buyer he tried to bite you.  To top it off, it seems that this wasn't some sort of bad high for the user, as the whole town tried going for your throat too.",
+    "points": 2,
+    "skills": [ { "level": 1, "name": "melee" }, { "level": 2, "name": "stabbing" }, { "level": 2, "name": "speech" } ],
+    "items": {
+      "both": {
+        "items": [ "hoodie", "jeans", "mbag", "socks", "sneakers", "bandana", "gloves_medical", "switchblade" ],
+        "entries": [ { "item": "crack", "charges": 25, "container-item": "bag_zipper" } ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "sports_bra", "boy_shorts" ]
+    },
+    "traits": [ "LIAR" ]
+  },
+  {
+    "type": "profession",
+    "id": "handloader",
+    "name": "Hobby Handloader",
+    "description": "Out of financial concerns and an appreciation for power, you took up handloading for your mighty handgun.  Now that the gunstores are closed, your skills ensure you won't be running out of ammo anytime soon.",
+    "points": 5,
+    "proficiencies": [ "prof_handloading" ],
+    "items": {
+      "both": {
+        "items": [
+          "pants",
+          "dress_shirt",
+          "wristwatch",
+          "socks",
+          "boots",
+          "jacket_light",
+          "gloves_fingerless",
+          "press",
+          "puller",
+          "slingpack",
+          "hat_ball"
+        ],
+        "entries": [
+          { "group": "charged_cell_phone" },
+          { "group": "m1911_10_magazines_reloaded" },
+          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "m1911_10", "ammo-item": "reloaded_10mm_fmj", "charges": 8, "container-item": "holster" }
+        ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    },
+    "skills": [ { "level": 3, "name": "fabrication" }, { "level": 3, "name": "gun" }, { "level": 3, "name": "pistol" } ]
   }
 ]

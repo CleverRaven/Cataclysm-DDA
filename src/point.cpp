@@ -121,22 +121,21 @@ std::vector<point> closest_points_first( const point &center, int min_dist, int 
         result.push_back( center );
     }
 
-    int x = std::max( min_dist, 1 );
-    int y = 1 - x;
+    int x_init = std::max( min_dist, 1 );
+    point p( x_init, 1 - x_init );
 
-    int dx = 1;
-    int dy = 0;
+    point d( point_east );
 
     for( int i = 0; i < n; i++ ) {
-        result.push_back( center + point{ x, y } );
+        result.push_back( center + p );
 
-        if( x == y || ( x < 0 && x == -y ) || ( x > 0 && x == 1 - y ) ) {
-            std::swap( dx, dy );
-            dx = -dx;
+        if( p.x == p.y || ( p.x < 0 && p.x == -p.y ) || ( p.x > 0 && p.x == 1 - p.y ) ) {
+            std::swap( d.x, d.y );
+            d.x = -d.x;
         }
 
-        x += dx;
-        y += dy;
+        p.x += d.x;
+        p.y += d.y;
     }
 
     return result;

@@ -6,7 +6,7 @@
 #include <unordered_set>
 #include <vector>
 
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "colony_list_test_helpers.h"
 #include "flat_set.h"
 #include "generic_factory.h"
@@ -347,7 +347,7 @@ TEST_CASE( "string_and_int_ids_benchmark", "[.][generic_factory][int_id][string_
             std_uo_set_int_ids.emplace( int_id );
             // do not add duplicates
             if( std_uo_set_int_ids.size() > vector_int_ids.size() ) {
-                vector_int_ids.push_back( flag );
+                vector_int_ids.emplace_back( flag );
             }
         }
     } item;
@@ -380,8 +380,9 @@ TEST_CASE( "string_and_int_ids_benchmark", "[.][generic_factory][int_id][string_
     }
     const int test_flags_size = test_flags.size();
     std::vector<dyn_str_id > test_dyn_str_ids;
+    test_dyn_str_ids.reserve( test_flags.size() );
     for( const auto &f : test_flags ) {
-        test_dyn_str_ids.push_back( dyn_str_id( f.str() ) );
+        test_dyn_str_ids.emplace_back( f.str() );
     }
 
     DYNAMIC_SECTION( "number_ids_in_collection: " << flags_in_item << "; only_hits: " << hits ) {

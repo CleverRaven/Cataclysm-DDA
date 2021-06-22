@@ -1,6 +1,6 @@
 #include "calendar.h"
 #include "cata_utility.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "enums.h"
 #include "flag.h"
 #include "game_constants.h"

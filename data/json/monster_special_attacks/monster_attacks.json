@@ -66,6 +66,22 @@
     "no_dmg_msg_npc": "The %1$s tries to slam into <npcname>, but fails to."
   },
   {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "sting",
+    "cooldown": 20,
+    "move_cost": 260,
+    "damage_max_instance": [ { "damage_type": "stab", "amount": 10 } ],
+    "body_parts": [ [ "leg_l", 2 ], [ "leg_r", 2 ], [ "head", 1 ], [ "arm_l", 2 ], [ "arm_r", 2 ], [ "torso", 3 ] ],
+    "effects": [ { "id": "venom_weaken", "duration": 400, "chance": 50 } ],
+    "hit_dmg_u": "The %1$s stings your %2$s!",
+    "hit_dmg_npc": "The %1$s stings <npcname>'s %2$s!",
+    "miss_msg_u": "The %1$s tries to sting you, but you dodge!",
+    "miss_msg_npc": "The %1$s tries to sting <npcname>, but they dodge!",
+    "no_dmg_msg_u": "The %1$s tries to sting your %2$s, but it fails to penetrate your armor.",
+    "no_dmg_msg_npc": "The %1$s tries to sting <npcname>'s %2$s, but it fails to penetrate their armor."
+  },
+  {
     "id": "acid_spray",
     "type": "GUN",
     "copy-from": "fake_item",

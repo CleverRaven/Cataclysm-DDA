@@ -91,15 +91,14 @@ void minesweeper_game::new_level()
     mLevel.clear();
     mLevelReveal.clear();
 
-    int iRandX;
-    int iRandY;
+    point iRand;
     for( int i = 0; i < iBombs; i++ ) {
         do {
-            iRandX = rng( 0, level.x - 1 );
-            iRandY = rng( 0, level.y - 1 );
-        } while( mLevel[iRandY][iRandX] == bomb );
+            iRand.x = rng( 0, level.x - 1 );
+            iRand.y = rng( 0, level.y - 1 );
+        } while( mLevel[iRand.y][iRand.x] == bomb );
 
-        mLevel[iRandY][iRandX] = bomb;
+        mLevel[iRand.y][iRand.x] = bomb;
     }
 
     for( int y = 0; y < level.y; y++ ) {
@@ -183,9 +182,9 @@ int minesweeper_game::start_game()
         draw_border( w_minesweeper_border );
 
         std::vector<std::string> shortcuts;
-        shortcuts.push_back( _( "<n>ew level" ) );
-        shortcuts.push_back( _( "<f>lag" ) );
-        shortcuts.push_back( _( "<q>uit" ) );
+        shortcuts.emplace_back( _( "<n>ew level" ) );
+        shortcuts.emplace_back( _( "<f>lag" ) );
+        shortcuts.emplace_back( _( "<q>uit" ) );
 
         int iWidth = 0;
         for( auto &shortcut : shortcuts ) {
@@ -312,11 +311,10 @@ int minesweeper_game::start_game()
         }
 
         if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
-            const int new_x = iPlayerX + vec->x;
-            const int new_y = iPlayerY + vec->y;
-            if( new_x >= 0 && new_x < level.x && new_y >= 0 && new_y < level.y ) {
-                iPlayerX = new_x;
-                iPlayerY = new_y;
+            const point new_( vec->xy() + point( iPlayerX, iPlayerY ) );
+            if( new_.x >= 0 && new_.x < level.x && new_.y >= 0 && new_.y < level.y ) {
+                iPlayerX = new_.x;
+                iPlayerY = new_.y;
             }
         } else if( action == "FLAG" ) {
             if( mLevelReveal[iPlayerY][iPlayerX] == unknown ) {

@@ -267,6 +267,7 @@ using t_regional_settings_map_citr = t_regional_settings_map::const_iterator;
 extern t_regional_settings_map region_settings_map;
 
 void load_region_settings( const JsonObject &jo );
+void check_region_settings();
 void reset_region_settings();
 void load_region_overlay( const JsonObject &jo );
 void apply_region_overlay( const JsonObject &jo, regional_settings &region );
