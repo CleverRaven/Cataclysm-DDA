@@ -350,7 +350,7 @@
     "city_distance": [ 25, -1 ],
     "occurrences": [ 50, 100 ],
     "//": "Inflated chance, effective rate ~40%",
-    "flags": [ "CLASSIC", "WILDERNESS", "UNIQUE" ]
+    "flags": [ "WILDERNESS", "UNIQUE" ]
   },
   {
     "type": "overmap_special",
@@ -6659,7 +6659,7 @@
     "occurrences": [ 35, 100 ],
     "//": "Inflated chance, effective rate ~19% (n=726)",
     "connections": [ { "point": [ -1, 15, 0 ], "terrain": "road" } ],
-    "flags": [ "CLASSIC", "FARM", "UNIQUE" ]
+    "flags": [ "FARM", "UNIQUE" ]
   },
   {
     "id": "airliner_crashed",
