@@ -65,10 +65,10 @@
     "damage_type": "cold"
   },
   {
-    "id": "sauce_pain",
+    "id": "spice_pain",
     "type": "SPELL",
-    "name": { "str": "hot sauce pain" },
-    "description": "Causes pain from drinking hot sauce.",
+    "name": { "str": "spice pain" },
+    "description": "Causes pain from eating spicy food.",
     "valid_targets": [ "self" ],
     "flags": [ "SILENT" ],
     "min_damage": -2,
