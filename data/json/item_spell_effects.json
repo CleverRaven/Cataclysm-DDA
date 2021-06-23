@@ -75,7 +75,7 @@
     "max_damage": -200,
     "damage_increment": -2.0,
     "max_level": 100,
-    "//": "Spicier sauces might be added in the future so the spell is ready for them.",
+    "//": "Spicier dishes might be added in the future so the spell is ready for them.",
     "message": "Spicy!",
     "shape": "blast",
     "effect": "recover_energy",
