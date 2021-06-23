@@ -334,7 +334,7 @@ void pixel_minimap::update_cache_at( const tripoint &sm_pos )
 
             if( current_color != color ) {
                 current_color = color;
-                cache_item.update_list.push_back( { x, y } );
+                cache_item.update_list.emplace_back( x, y );
             }
         }
     }
@@ -496,8 +496,7 @@ void pixel_minimap::render_critters( const tripoint &center )
 
     const level_cache &access_cache = get_map().access_cache( center.z );
 
-    const int start_x = center.x - total_tiles_count.x / 2;
-    const int start_y = center.y - total_tiles_count.y / 2;
+    const point start( center.x - total_tiles_count.x / 2, center.y - total_tiles_count.y / 2 );
     const point beacon_size = {
         std::max<int>( projector->get_tile_size().x *settings.beacon_size / 2, 2 ),
         std::max<int>( projector->get_tile_size().y *settings.beacon_size / 2, 2 )
@@ -505,7 +504,7 @@ void pixel_minimap::render_critters( const tripoint &center )
 
     for( int y = 0; y < total_tiles_count.y; y++ ) {
         for( int x = 0; x < total_tiles_count.x; x++ ) {
-            const tripoint p = tripoint{ start_x + x, start_y + y, center.z };
+            const tripoint p = start + tripoint( x, y, center.z );
             const lit_level lighting = access_cache.visibility_cache[p.x][p.y];
 
             if( lighting == lit_level::DARK || lighting == lit_level::BLANK ) {

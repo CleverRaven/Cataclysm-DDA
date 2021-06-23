@@ -67,6 +67,7 @@ namespace io
             case enchant_vals::mod::REGEN_STAMINA: return "REGEN_STAMINA";
             case enchant_vals::mod::MAX_HP: return "MAX_HP";
             case enchant_vals::mod::REGEN_HP: return "REGEN_HP";
+            case enchant_vals::mod::HUNGER: return "HUNGER";
             case enchant_vals::mod::THIRST: return "THIRST";
             case enchant_vals::mod::FATIGUE: return "FATIGUE";
             case enchant_vals::mod::PAIN: return "PAIN";
@@ -81,6 +82,7 @@ namespace io
             case enchant_vals::mod::SOCIAL_LIE: return "SOCIAL_LIE";
             case enchant_vals::mod::SOCIAL_PERSUADE: return "SOCIAL_PERSUADE";
             case enchant_vals::mod::SOCIAL_INTIMIDATE: return "SOCIAL_INTIMIDATE";
+            case enchant_vals::mod::SLEEPY: return "SLEEPY";
             case enchant_vals::mod::ARMOR_ACID: return "ARMOR_ACID";
             case enchant_vals::mod::ARMOR_BASH: return "ARMOR_BASH";
             case enchant_vals::mod::ARMOR_BIO: return "ARMOR_BIO";
@@ -146,6 +148,34 @@ void enchantment::load_enchantment( const JsonObject &jo, const std::string &src
     spell_factory.load( jo, src );
 }
 
+void enchantment::reset()
+{
+    spell_factory.reset();
+}
+
+enchantment_id enchantment::load_inline_enchantment( const JsonValue &jv, const std::string &src,
+        std::string &inline_id )
+{
+    if( jv.test_string() ) {
+        return enchantment_id( jv.get_string() );
+    } else if( jv.test_object() ) {
+        if( inline_id.empty() ) {
+            jv.throw_error( "Inline enchantment cannot be created without an id." );
+        }
+        if( spell_factory.is_valid( enchantment_id( inline_id ) ) ) {
+            jv.throw_error( "Inline enchantment " + inline_id +
+                            " cannot be created as an enchantment already has this id." );
+        }
+
+        enchantment inline_enchant;
+        inline_enchant.load( jv.get_object(), src, inline_id );
+        spell_factory.insert( inline_enchant );
+        return enchantment_id( inline_id );
+    } else {
+        jv.throw_error( "Enchantment needs to be either string or enchantment object." );
+    }
+}
+
 bool enchantment::is_active( const Character &guy, const item &parent ) const
 {
     if( !guy.has_item( parent ) ) {
@@ -196,9 +226,10 @@ void enchantment::add_activation( const time_duration &dur, const fake_spell &fa
     intermittent_activation[dur].emplace_back( fake );
 }
 
-void enchantment::load( const JsonObject &jo, const std::string & )
+void enchantment::load( const JsonObject &jo, const std::string &,
+                        const cata::optional<std::string> &inline_id )
 {
-    optional( jo, was_loaded, "id", id, enchantment_id( "" ) );
+    optional( jo, was_loaded, "id", id, enchantment_id( inline_id.value_or( "" ) ) );
 
     jo.read( "hit_you_effect", hit_you_effect );
     jo.read( "hit_me_effect", hit_me_effect );

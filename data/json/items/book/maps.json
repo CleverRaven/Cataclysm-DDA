@@ -165,5 +165,19 @@
       ],
       "message": "You add roads and restaurants to your map."
     }
+  },
+  {
+    "id": "satellitemap",
+    "copy-from": "abstractmap",
+    "type": "GENERIC",
+    "name": { "str": "satellite map" },
+    "description": "This is a printed satellite map of the local area.  Due to it's low quality and lack of map legend, you are unable to recognise most buildings.  Using it will add terrain and roads to your map.",
+    "color": "light_gray",
+    "use_action": {
+      "type": "reveal_map",
+      "radius": 90,
+      "terrain": [ "hiway", "road", "bridge", "field", "swamp", "forest", "lake", "river" ],
+      "message": "You add terrain and roads to your map."
+    }
   }
 ]

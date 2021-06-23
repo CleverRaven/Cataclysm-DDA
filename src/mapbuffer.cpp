@@ -43,36 +43,32 @@ static std::string find_dirname( const tripoint &om_addr )
 mapbuffer MAPBUFFER;
 
 mapbuffer::mapbuffer() = default;
+mapbuffer::~mapbuffer() = default;
 
-mapbuffer::~mapbuffer()
+void mapbuffer::clear()
 {
-    reset();
-}
-
-void mapbuffer::reset()
-{
-    for( auto &elem : submaps ) {
-        delete elem.second;
-    }
     submaps.clear();
-}
-
-bool mapbuffer::add_submap( const tripoint &p, submap *sm )
-{
-    if( submaps.count( p ) != 0 ) {
-        return false;
-    }
-
-    submaps[p] = sm;
-
-    return true;
 }
 
 bool mapbuffer::add_submap( const tripoint &p, std::unique_ptr<submap> &sm )
 {
-    const bool result = add_submap( p, sm.get() );
-    if( result ) {
-        sm.release();
+    if( submaps.count( p ) ) {
+        return false;
+    }
+
+    submaps[p] = std::move( sm );
+
+    return true;
+}
+
+bool mapbuffer::add_submap( const tripoint &p, submap *sm )
+{
+    // FIXME: get rid of this overload and make submap ownership semantics sane.
+    std::unique_ptr<submap> temp( sm );
+    bool result = add_submap( p, temp );
+    if( !result ) {
+        // NOLINTNEXTLINE( bugprone-unused-return-value )
+        temp.release();
     }
     return result;
 }
@@ -84,7 +80,6 @@ void mapbuffer::remove_submap( tripoint addr )
         debugmsg( "Tried to remove non-existing submap %d,%d,%d", addr.x, addr.y, addr.z );
         return;
     }
-    delete m_target->second;
     submaps.erase( m_target );
 }
 
@@ -102,7 +97,7 @@ submap *mapbuffer::lookup_submap( const tripoint &p )
         return nullptr;
     }
 
-    return iter->second;
+    return iter->second.get();
 }
 
 void mapbuffer::save( bool delete_after_save )
@@ -182,7 +177,7 @@ void mapbuffer::save_quad( const std::string &dirname, const std::string &filena
         submap_addr.x += offsets_offset.x;
         submap_addr.y += offsets_offset.y;
         submap_addrs.push_back( submap_addr );
-        submap *sm = submaps[submap_addr];
+        submap *sm = submaps[submap_addr].get();
         if( sm != nullptr && !sm->is_uniform ) {
             all_uniform = false;
         }
@@ -211,7 +206,7 @@ void mapbuffer::save_quad( const std::string &dirname, const std::string &filena
                 continue;
             }
 
-            submap *sm = submaps[submap_addr];
+            submap *sm = submaps[submap_addr].get();
 
             if( sm == nullptr ) {
                 continue;
@@ -272,7 +267,7 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
                   quad_path, p.x, p.y, p.z );
         return nullptr;
     }
-    return submaps[ p ];
+    return submaps[ p ].get();
 }
 
 void mapbuffer::deserialize( JsonIn &jsin )
