@@ -109,7 +109,8 @@ zone_manager::zone_manager()
 
 }
 
-void zone_manager::reset() {
+void zone_manager::reset()
+{
     zone_manager::get_manager() = zone_manager();
 }
 
