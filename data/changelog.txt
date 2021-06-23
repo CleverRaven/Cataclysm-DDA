@@ -356,7 +356,6 @@ Stops unreloadable items from being reloadable.
 Fixes savegame corruption causing teleporting to very distant submaps
 Unfreezes trap-avoiding monsters.
 Fixes ramming at low speed.
-Fixes the crafting success formula when the crafter is missing proficiencies.
 Placing specials around cities now scales with city size.
 Fixes proficiency books' effect on crafting.
 Construction of roofs actually makes the tile above the construction a roof.
