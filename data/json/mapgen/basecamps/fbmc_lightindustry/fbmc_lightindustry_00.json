@@ -3,11 +3,7 @@
     "type": "mapgen",
     "update_mapgen_id": "fbmc_lightindustry_00",
     "method": "json",
-    "object": {
-      "set": [
-        { "point": "furniture", "id": "f_bulletin", "x": 17, "y": 22 }
-      ]
-    }
+    "object": { "set": [ { "point": "furniture", "id": "f_bulletin", "x": 17, "y": 22 } ] }
   },
   {
     "type": "mapgen",
@@ -53,11 +49,7 @@
     "type": "mapgen",
     "update_mapgen_id": "fbmc_lightindustry_00_root_cellar",
     "method": "json",
-    "object": {
-      "set": [
-        { "point": "terrain", "id": "t_rootcellar", "x": 14, "y": 9 }
-      ]
-    }
+    "object": { "set": [ { "point": "terrain", "id": "t_rootcellar", "x": 14, "y": 9 } ] }
   },
   {
     "type": "mapgen",
@@ -74,11 +66,7 @@
     "type": "mapgen",
     "update_mapgen_id": "fbmc_lightindustry_00_water_well",
     "method": "json",
-    "object": {
-      "set": [
-        { "point": "terrain", "id": "t_water_pump", "x": 16, "y": 7 }
-      ]
-    }
+    "object": { "set": [ { "point": "terrain", "id": "t_water_pump", "x": 16, "y": 7 } ] }
   },
   {
     "type": "mapgen",

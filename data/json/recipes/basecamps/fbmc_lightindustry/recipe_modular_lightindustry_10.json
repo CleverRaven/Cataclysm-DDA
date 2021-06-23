@@ -31,12 +31,13 @@
     "never_learn": true,
     "construction_blueprint": "fbmc_lightindustry_10_barricades_wood",
     "blueprint_name": "wooden barricades",
-    "blueprint_provides": [ { "id": "fbmc_lightindustry_10_barricades" },
-	  { "id": "bed", "amount": 2 },
-	  { "id": "sorting" },
-	  { "id": "logging" },
-	  { "id": "fbmc_lightindustry_10_barricades" }
-	],
+    "blueprint_provides": [
+      { "id": "fbmc_lightindustry_10_barricades" },
+      { "id": "bed", "amount": 2 },
+      { "id": "sorting" },
+      { "id": "logging" },
+      { "id": "fbmc_lightindustry_10_barricades" }
+    ],
     "blueprint_requires": [ { "id": "fbmc_lightindustry_10" } ],
     "blueprint_excludes": [ { "id": "fbmc_lightindustry_10_barricades" } ]
   },
@@ -50,12 +51,13 @@
     "never_learn": true,
     "construction_blueprint": "fbmc_lightindustry_10_barricades_migo",
     "blueprint_name": "resin barricades",
-    "blueprint_provides": [ { "id": "fbmc_lightindustry_10_barricades" },
-	  { "id": "bed", "amount": 2 },
-	  { "id": "sorting" },
-	  { "id": "logging" },
-	  { "id": "fbmc_lightindustry_10_barricades" }
-	],
+    "blueprint_provides": [
+      { "id": "fbmc_lightindustry_10_barricades" },
+      { "id": "bed", "amount": 2 },
+      { "id": "sorting" },
+      { "id": "logging" },
+      { "id": "fbmc_lightindustry_10_barricades" }
+    ],
     "blueprint_requires": [ { "id": "fbmc_lightindustry_10" } ],
     "blueprint_excludes": [ { "id": "fbmc_lightindustry_10_barricades" } ]
   },

@@ -9,10 +9,7 @@
     "never_learn": true,
     "construction_blueprint": "fbmc_lightindustry_00_bed_1_mattress",
     "blueprint_name": "build 1. pair of mattress beds",
-    "blueprint_provides": [
-	  { "id": "bed", "amount": 2 },
-	  { "id": "fbmc_lightindustry_00_bed_1" }
-	],
+    "blueprint_provides": [ { "id": "bed", "amount": 2 }, { "id": "fbmc_lightindustry_00_bed_1" } ],
     "blueprint_requires": [ { "id": "fbmc_lightindustry_00_barricades" } ],
     "blueprint_excludes": [ { "id": "fbmc_lightindustry_00_bed_1" } ]
   },
@@ -26,10 +23,7 @@
     "never_learn": true,
     "construction_blueprint": "fbmc_lightindustry_00_bed_2_mattress",
     "blueprint_name": "build 2. pair of mattress beds",
-    "blueprint_provides": [
-	  { "id": "bed", "amount": 2 },
-	  { "id": "fbmc_lightindustry_00_bed_2" }
-	],
+    "blueprint_provides": [ { "id": "bed", "amount": 2 }, { "id": "fbmc_lightindustry_00_bed_2" } ],
     "blueprint_requires": [ { "id": "fbmc_lightindustry_00_bed_1" } ],
     "blueprint_excludes": [ { "id": "fbmc_lightindustry_00_bed_2" } ]
   },
@@ -43,10 +37,7 @@
     "never_learn": true,
     "construction_blueprint": "fbmc_lightindustry_00_bed_3_mattress",
     "blueprint_name": "build 3. pair of mattress beds",
-    "blueprint_provides": [
-	  { "id": "bed", "amount": 2 },
-	  { "id": "fbmc_lightindustry_00_bed_3" }
-	],
+    "blueprint_provides": [ { "id": "bed", "amount": 2 }, { "id": "fbmc_lightindustry_00_bed_3" } ],
     "blueprint_requires": [ { "id": "fbmc_lightindustry_00_bed_2" } ],
     "blueprint_excludes": [ { "id": "fbmc_lightindustry_00_bed_3" } ]
   },
@@ -60,10 +51,7 @@
     "never_learn": true,
     "construction_blueprint": "fbmc_lightindustry_00_bed_4_mattress",
     "blueprint_name": "build 4. pair of mattress beds",
-    "blueprint_provides": [
-	  { "id": "bed", "amount": 2 },
-	  { "id": "fbmc_lightindustry_00_bed_4" }
-	],
+    "blueprint_provides": [ { "id": "bed", "amount": 2 }, { "id": "fbmc_lightindustry_00_bed_4" } ],
     "blueprint_requires": [ { "id": "fbmc_lightindustry_00_bed_3" } ],
     "blueprint_excludes": [ { "id": "fbmc_lightindustry_00_bed_4" } ]
   },
@@ -77,10 +65,7 @@
     "never_learn": true,
     "construction_blueprint": "fbmc_lightindustry_00_bed_5_mattress",
     "blueprint_name": "build 5. pair of mattress beds",
-    "blueprint_provides": [
-	  { "id": "bed", "amount": 2 },
-	  { "id": "fbmc_lightindustry_00_bed_5" }
-	],
+    "blueprint_provides": [ { "id": "bed", "amount": 2 }, { "id": "fbmc_lightindustry_00_bed_5" } ],
     "blueprint_requires": [ { "id": "fbmc_lightindustry_00_bed_4" } ],
     "blueprint_excludes": [ { "id": "fbmc_lightindustry_00_bed_5" } ]
   },
@@ -94,10 +79,7 @@
     "never_learn": true,
     "construction_blueprint": "fbmc_lightindustry_00_bed_1_straw",
     "blueprint_name": "build 1. pair of straw beds",
-    "blueprint_provides": [
-	  { "id": "bed", "amount": 2 },
-	  { "id": "fbmc_lightindustry_00_bed_1" }
-	],
+    "blueprint_provides": [ { "id": "bed", "amount": 2 }, { "id": "fbmc_lightindustry_00_bed_1" } ],
     "blueprint_requires": [ { "id": "fbmc_lightindustry_00_barricades" } ],
     "blueprint_excludes": [ { "id": "fbmc_lightindustry_00_bed_1" } ]
   },
@@ -111,10 +93,7 @@
     "never_learn": true,
     "construction_blueprint": "fbmc_lightindustry_00_bed_2_straw",
     "blueprint_name": "build 2. pair of straw beds",
-    "blueprint_provides": [
-	  { "id": "bed", "amount": 2 },
-	  { "id": "fbmc_lightindustry_00_bed_2" }
-	],
+    "blueprint_provides": [ { "id": "bed", "amount": 2 }, { "id": "fbmc_lightindustry_00_bed_2" } ],
     "blueprint_requires": [ { "id": "fbmc_lightindustry_00_bed_1" } ],
     "blueprint_excludes": [ { "id": "fbmc_lightindustry_00_bed_2" } ]
   },
@@ -128,10 +107,7 @@
     "never_learn": true,
     "construction_blueprint": "fbmc_lightindustry_00_bed_3_straw",
     "blueprint_name": "build 3. pair of straw beds",
-    "blueprint_provides": [
-	  { "id": "bed", "amount": 2 },
-	  { "id": "fbmc_lightindustry_00_bed_3" }
-	],
+    "blueprint_provides": [ { "id": "bed", "amount": 2 }, { "id": "fbmc_lightindustry_00_bed_3" } ],
     "blueprint_requires": [ { "id": "fbmc_lightindustry_00_bed_2" } ],
     "blueprint_excludes": [ { "id": "fbmc_lightindustry_00_bed_3" } ]
   },
@@ -145,10 +121,7 @@
     "never_learn": true,
     "construction_blueprint": "fbmc_lightindustry_00_bed_4_straw",
     "blueprint_name": "build 4. pair of straw beds",
-    "blueprint_provides": [
-	  { "id": "bed", "amount": 2 },
-	  { "id": "fbmc_lightindustry_00_bed_4" }
-	],
+    "blueprint_provides": [ { "id": "bed", "amount": 2 }, { "id": "fbmc_lightindustry_00_bed_4" } ],
     "blueprint_requires": [ { "id": "fbmc_lightindustry_00_bed_3" } ],
     "blueprint_excludes": [ { "id": "fbmc_lightindustry_00_bed_4" } ]
   },
@@ -162,10 +135,7 @@
     "never_learn": true,
     "construction_blueprint": "fbmc_lightindustry_00_bed_5_straw",
     "blueprint_name": "build 5. pair of straw beds",
-    "blueprint_provides": [
-	  { "id": "bed", "amount": 2 },
-	  { "id": "fbmc_lightindustry_00_bed_5" }
-	],
+    "blueprint_provides": [ { "id": "bed", "amount": 2 }, { "id": "fbmc_lightindustry_00_bed_5" } ],
     "blueprint_requires": [ { "id": "fbmc_lightindustry_00_bed_4" } ],
     "blueprint_excludes": [ { "id": "fbmc_lightindustry_00_bed_5" } ]
   }

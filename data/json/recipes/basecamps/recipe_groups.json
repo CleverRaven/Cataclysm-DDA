@@ -89,10 +89,11 @@
       { "id": "faction_base_storehouse_0", "description": "Central Storage Building", "om_terrains": [ "field" ] },
       { "id": "faction_base_saltworks_0", "description": "Saltworks Area", "om_terrains": [ "field" ] },
       { "id": "faction_base_workshop_0", "description": "Fabrication Workshop", "om_terrains": [ "field" ] },
-	  { "id": "faction_base_lightindustry_workshop_0", 
-	    "description": "Light Industry Workshop", 
-		"om_terrains": [ "s_lightindustry_11", "s_lightindustry_01", "s_lightindustry_scen_11", "s_lightindustry_scen_01" ] 
-	  },
+      {
+        "id": "faction_base_lightindustry_workshop_0",
+        "description": "Light Industry Workshop",
+        "om_terrains": [ "s_lightindustry_11", "s_lightindustry_01", "s_lightindustry_scen_11", "s_lightindustry_scen_01" ]
+      },
       { "id": "faction_base_mansion_e1", "description": "Mansion's Entrance", "om_terrains": [ "mansion_e1" ] },
       { "id": "faction_base_mansion_e2", "description": "Mansion's Entrance", "om_terrains": [ "mansion_e2" ] },
       { "id": "faction_base_mansion_t1", "description": "Mansion's Swimming Pool", "om_terrains": [ "mansion_t1" ] },
