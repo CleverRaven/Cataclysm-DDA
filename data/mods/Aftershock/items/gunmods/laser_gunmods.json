@@ -55,7 +55,7 @@
       "ranged_damage": { "damage_type": "heat", "amount": 35, "armor_penetration": 10 },
       "dispersion": 120,
       "durability": 8,
-      "ammo_effects": [ "PLASMA", "EXPLOSIVE_SMALL", "FLAME" ],
+      "ammo_effects": [ "PLASMA", "INCENDIARY"  ],
       "loudness": 15,
       "ups_charges": 200,
       "reload": 200
