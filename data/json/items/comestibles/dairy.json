@@ -142,7 +142,7 @@
     "description": "Clarified butter, free from milk solids and water.  Will last a very long time.",
     "price": 420,
     "price_postapoc": 50,
-	"material": [],
+    "material": [ "oil" ],
     "phase": "liquid"
   },
   {
