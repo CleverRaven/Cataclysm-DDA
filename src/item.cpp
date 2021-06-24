@@ -9526,7 +9526,8 @@ bool item::needs_processing() const
 {
     bool need_process = false;
     visit_items( [&need_process]( const item * it, item * ) {
-        if( it->active || it->ethereal || it->has_flag( flag_RADIO_ACTIVATION ) || it->has_relic_recharge() ) {
+        if( it->active || it->ethereal || it->has_flag( flag_RADIO_ACTIVATION ) ||
+            it->has_relic_recharge() ) {
             need_process = true;
             return VisitResponse::ABORT;
         }
