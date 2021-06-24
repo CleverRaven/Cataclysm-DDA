@@ -166,7 +166,7 @@
     "id": "mon_lab_rat",
     "type": "MONSTER",
     "name": { "str": "lab rat" },
-    "description": "The albino Norway rat, an omnivorous rodent with sleek white fur and a long, rough tail. While its ancestors were harbingers of plague, these clever animals are omnipresent in modern biomedical research.",
+    "description": "The albino Norway rat, an omnivorous rodent with sleek white fur and a long, rough tail.  While its ancestors were harbingers of plague, these clever animals are omnipresent in modern biomedical research.",
     "default_faction": "rat",
     "bodytype": "pig",
     "categories": [ "WILDLIFE" ],
