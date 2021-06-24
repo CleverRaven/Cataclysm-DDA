@@ -51,7 +51,7 @@
     "color": "light_red",
     "gun_data": {
       "skill": "rifle",
-      "range": 30,
+      "range": 45,
       "ranged_damage": { "damage_type": "heat", "amount": 35, "armor_penetration": 10 },
       "dispersion": 120,
       "durability": 8,
