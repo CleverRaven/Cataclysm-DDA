@@ -27,7 +27,7 @@
     "gun_data": {
       "skill": "rifle",
       "range": 30,
-      "ranged_damage": { "damage_type": "heat", "amount": 30, "armor_penetration": 7 },
+      "ranged_damage": { "damage_type": "heat", "amount": 50, "armor_penetration": 7 },
       "dispersion": 120,
       "durability": 8,
       "loudness": 8,
