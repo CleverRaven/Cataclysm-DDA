@@ -204,7 +204,7 @@
       { "item": "novel_thriller", "count": [ 1, 5 ], "prob": 80 },
       { "item": "novel_crime", "count": [ 1, 5 ], "prob": 80 },
       { "item": "novel_horror", "count": [ 1, 5 ], "prob": 80 },
-      { "item": "novel_tragedy", "count": [ 1, 5 ], "prob": 80 },
+      { "item": "novel_tragedy", "count": [ 1, 5 ], "prob": 80 }
     ]
   },
   {
