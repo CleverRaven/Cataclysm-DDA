@@ -1482,7 +1482,7 @@ bool monster::attack_at( const tripoint &p )
     }
 
     Character &player_character = get_player_character();
-    if( p == player_character.pos() ) {
+    if( p == player_character.pos() && sees( player_character ) ) {
         return melee_attack( player_character );
     }
 

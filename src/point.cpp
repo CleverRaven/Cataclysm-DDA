@@ -10,6 +10,7 @@
 point point::from_string( const std::string &s )
 {
     std::istringstream is( s );
+    is.imbue( std::locale::classic() );
     point result;
     is >> result;
     if( !is ) {
@@ -22,6 +23,7 @@ point point::from_string( const std::string &s )
 std::string point::to_string() const
 {
     std::ostringstream os;
+    os.imbue( std::locale::classic() );
     os << *this;
     return os.str();
 }
@@ -29,6 +31,7 @@ std::string point::to_string() const
 tripoint tripoint::from_string( const std::string &s )
 {
     std::istringstream is( s );
+    is.imbue( std::locale::classic() );
     tripoint result;
     is >> result;
     if( !is ) {
@@ -41,6 +44,7 @@ tripoint tripoint::from_string( const std::string &s )
 std::string tripoint::to_string() const
 {
     std::ostringstream os;
+    os.imbue( std::locale::classic() );
     os << *this;
     return os.str();
 }

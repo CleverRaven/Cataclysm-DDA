@@ -111,7 +111,6 @@ jobs:
       android:
         components:
           - build-tools-28.0.1
-          - android-28
       cache:
         # The ccache feature in Travis doesn't work for language: android, so
         # do it ourselves.
@@ -216,6 +215,9 @@ jobs:
           sources:
             - sourceline: "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-9 main"
               key_url: "https://apt.llvm.org/llvm-snapshot.gpg.key"
+
+before_install:
+  - if [ "${NATIVE}" == "android" ]; then yes | sdkmanager "platforms;android-28"; fi
 
 before_script:
   - if [ -n "${CLANG}" ]; then COMPILER="$CLANG"; fi

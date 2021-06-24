@@ -193,7 +193,6 @@ class computer;
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
-const int core_version = 6;
 static constexpr int DANGEROUS_PROXIMITY = 5;
 
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
@@ -894,7 +893,11 @@ vehicle *game::place_vehicle_nearby(
                 tripoint abs_local = m.getlocal( target_map.getabs( tinymap_center ) );
                 veh->sm_pos =  ms_to_sm_remain( abs_local );
                 veh->pos = abs_local.xy();
+
+                // Track the player's spawn vehicle.
+                veh->tracking_on = true;
                 overmap_buffer.add_vehicle( veh );
+
                 target_map.save();
                 return veh;
             }
@@ -1675,12 +1678,6 @@ bool game::do_turn()
     // reset player noise
     u.volume = 0;
 
-    // This is a hack! Remove this when we have per-turn activity tracking
-    // This prevents the display from erroneously updating when we use more
-    // than our allotted moves in a single turn
-    if( u.moves < 0 ) {
-        u.increase_activity_level( NO_EXERCISE );
-    }
     return false;
 }
 
@@ -3072,19 +3069,6 @@ bool game::load_packs( const std::string &msg, const std::vector<mod_id> &packs,
         const MOD_INFORMATION &mod = *e;
         load_data_from_dir( mod.path, mod.ident.str(), ui );
 
-        // if mod specifies legacy migrations load any that are required
-        if( !mod.legacy.empty() ) {
-            static_popup popup;
-            for( int i = get_option<int>( "CORE_VERSION" ); i < core_version; ++i ) {
-                popup.message( _( "%s Applying legacy migration (%s %i/%i)" ),
-                               msg, e.c_str(), i, core_version - 1 );
-                ui_manager::redraw();
-                refresh_display();
-
-                load_data_from_dir( string_format( "%s/%i", mod.legacy.c_str(), i ), mod.ident.str(), ui );
-            }
-        }
-
         ui.proceed();
     }
 
@@ -3291,7 +3275,13 @@ void game::write_memorial_file( std::string sLastWords )
     // Add a timestamp for uniqueness.
     char buffer[suffix_len] {};
     std::time_t t = std::time( nullptr );
-    std::strftime( buffer, suffix_len, "%Y-%m-%d-%H-%M-%S", std::localtime( &t ) );
+    tm current_time;
+#if defined(_WIN32)
+    localtime_s( &current_time, &t );
+#else
+    localtime_r( &t, &current_time );
+#endif
+    std::strftime( buffer, suffix_len, "%Y-%m-%d-%H-%M-%S", &current_time );
     memorial_file_path << buffer;
 
     const std::string text_path_string = memorial_file_path.str() + ".txt";
@@ -4713,27 +4703,28 @@ void game::overmap_npc_move()
     bool npcs_need_reload = false;
     for( auto &elem : travelling_npcs ) {
         if( elem->has_omt_destination() ) {
-            if( !elem->omt_path.empty() && rl_dist( elem->omt_path.back(), elem->global_omt_location() ) > 2 ) {
-                //recalculate path, we got distracted doing something else probably
-                elem->omt_path.clear();
+            if( !elem->omt_path.empty() ) {
+                if( rl_dist( elem->omt_path.back(), elem->global_omt_location() ) > 2 ) {
+                    // recalculate path, we got distracted doing something else probably
+                    elem->omt_path.clear();
+                } else if( elem->omt_path.back() == elem->global_omt_location() ) {
+                    elem->omt_path.pop_back();
+                }
             }
             if( elem->omt_path.empty() ) {
                 elem->omt_path = overmap_buffer.get_npc_path( elem->global_omt_location(), elem->goal );
-                if( elem->omt_path.empty() ) { // goal is unreachable, reset it
+                if( elem->omt_path.empty() ) { // goal is unreachable, or already reached goal, reset it
                     elem->goal = npc::no_goal_point;
                 }
             } else {
-                if( elem->omt_path.back() == elem->global_omt_location() ) {
-                    elem->omt_path.pop_back();
-                }
                 // TODO: fix point types
-                elem->travel_overmap(
-                    project_to<coords::sm>( elem->omt_path.back() ).raw() );
+                elem->travel_overmap( project_to<coords::sm>( elem->omt_path.back() ).raw() );
                 npcs_need_reload = true;
             }
-        } else if( calendar::once_every( 1_hours ) && one_in( 3 ) ) {
+        }
+        if( !elem->has_omt_destination() && calendar::once_every( 1_hours ) && one_in( 3 ) ) {
             // travelling destination is reached/not set, try different one
-            elem -> set_omt_destination();
+            elem->set_omt_destination();
         }
     }
     if( npcs_need_reload ) {
@@ -6118,10 +6109,10 @@ void game::peek()
         vertical_move( p->z, false, true );
 
         if( old_pos != u.pos() ) {
-            look_around();
             vertical_move( p->z * -1, false, true );
+        } else {
+            return;
         }
-        return;
     }
 
     if( m.impassable( u.pos() + *p ) ) {
@@ -12260,6 +12251,8 @@ void game::start_calendar()
     }
     calendar::start_of_game += 1_days * get_option<int>( "SPAWN_DELAY" );
     calendar::turn = calendar::start_of_game;
+    calendar::initial_season = static_cast<season_type>( ( to_days<int>( calendar::start_of_game -
+                               calendar::turn_zero ) / get_option<int>( "SEASON_LENGTH" ) ) % 4 );
 }
 
 overmap &game::get_cur_om() const

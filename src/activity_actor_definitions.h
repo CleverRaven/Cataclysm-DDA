@@ -647,6 +647,10 @@ class craft_activity_actor : public activity_actor
 
         float activity_override = NO_EXERCISE;
         cata::optional<requirement_data> cached_continuation_requirements;
+        float cached_crafting_speed;
+        int cached_assistants;
+        double cached_base_total_moves;
+        double cached_cur_total_moves;
 
         bool check_if_craft_okay( item_location &craft_item, Character &crafter );
     public:
@@ -808,38 +812,6 @@ class stash_activity_actor: public activity_actor
         tripoint placement;
 };
 
-class burrow_activity_actor: public activity_actor
-{
-    public:
-        burrow_activity_actor() = default;
-        burrow_activity_actor( int moves, tripoint &position, const std::string &burrow_tool )
-            : moves_total( moves ), burrow_position( position ), burrow_tool( burrow_tool ) {
-
-        }
-
-        activity_id get_type() const override {
-            return activity_id( "ACT_BURROW" );
-        }
-
-        void start( player_activity &act, Character &who ) override;
-        void do_turn( player_activity &/*act*/, Character &/*who*/ ) override;
-        void finish( player_activity &act, Character &who ) override;
-        void canceled( player_activity &/*act*/, Character &/*who*/ ) override {}
-
-        std::unique_ptr<activity_actor> clone() const override {
-            return std::make_unique<burrow_activity_actor>( *this );
-        }
-
-        void serialize( JsonOut &jsout ) const override;
-        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
-
-    private:
-        int moves_total {};
-        tripoint burrow_position {};
-        std::string burrow_tool {};
-        map &here = get_map();
-
-};
 class reload_activity_actor : public activity_actor
 {
     public:

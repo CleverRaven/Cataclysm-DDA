@@ -1104,12 +1104,24 @@ void iexamine::cardreader( player &p, const tripoint &examp )
                            itype_id_industrial );
     if( p.has_amount( card_type, 1 ) && query_yn( _( "Swipe your ID card?" ) ) ) {
         p.mod_moves( -to_moves<int>( 1_seconds ) );
+
         for( const tripoint &tmp : here.points_in_radius( examp, 3 ) ) {
             if( here.ter( tmp ) == t_door_metal_locked ) {
                 here.ter_set( tmp, t_door_metal_c );
                 open = true;
             }
         }
+
+        add_msg( m_info, _( "You insert your ID card." ) );
+
+        if( open ) {
+            add_msg( m_good, _( "The nearby doors unlock." ) );
+        } else {
+            add_msg( m_info, _( "The nearby doors are already opened." ) );
+        }
+
+        p.use_amount( card_type, 1 );
+
         for( monster &critter : g->all_monsters() ) {
             // Check 1) same overmap coords, 2) turret, 3) hostile
             if( ms_to_omt_copy( here.getabs( critter.pos() ) ) == ms_to_omt_copy( here.getabs( examp ) ) &&
@@ -1117,13 +1129,6 @@ void iexamine::cardreader( player &p, const tripoint &examp )
                 critter.attitude_to( p ) == Creature::Attitude::HOSTILE ) {
                 g->remove_zombie( critter );
             }
-        }
-        if( open ) {
-            add_msg( _( "You insert your ID card." ) );
-            add_msg( m_good, _( "The nearby doors unlock." ) );
-            p.use_amount( card_type, 1 );
-        } else {
-            add_msg( _( "The nearby doors are already opened." ) );
         }
     } else if( query_yn( _( "Attempt to hack this card-reader?" ) ) ) {
         try_start_hacking( p, examp );
@@ -2441,7 +2446,7 @@ void iexamine::harvest_plant( player &p, const tripoint &examp, bool from_activi
             if( from_activity ) {
                 i.set_var( "activity_var", p.name );
             }
-            here.add_item_or_charges( examp, i );
+            here.add_item_or_charges( p.pos(), i );
         }
         here.furn_set( examp, furn_str_id( here.furn( examp )->plant->transform ) );
         p.moves -= to_moves<int>( 10_seconds );
@@ -4125,11 +4130,7 @@ void iexamine::curtains( player &p, const tripoint &examp )
     } else if( choice == 1 ) {
         // Mr. Gorbachev, tear down those curtains!
         if( here.ter( examp )->has_curtains() ) {
-            bool is_open = here.ter( examp )->open.is_empty() || here.ter( examp )->open.is_null();
             here.ter_set( examp, here.ter( examp )->curtain_transform );
-            if( is_open ) {
-                here.ter_set( examp, here.ter( examp )->open );
-            }
         }
 
         here.spawn_item( p.pos(), itype_nail, 1, 4, calendar::turn );
@@ -4643,7 +4644,7 @@ void iexamine::ledge( player &p, const tripoint &examp )
                 add_msg( m_warning, _( "You are not going to jump over an obstacle only to fall down." ) );
             } else {
                 add_msg( m_info, _( "You jump over an obstacle." ) );
-                p.increase_activity_level( LIGHT_EXERCISE );
+                p.set_activity_level( LIGHT_EXERCISE );
                 g->place_player( dest );
             }
             break;
@@ -4684,7 +4685,7 @@ void iexamine::ledge( player &p, const tripoint &examp )
                 return;
             } else if( height == 1 ) {
                 const char *query;
-                p.increase_activity_level( MODERATE_EXERCISE );
+                p.set_activity_level( MODERATE_EXERCISE );
                 weary_mult = 1.0f / p.exertion_adjusted_move_multiplier( MODERATE_EXERCISE );
 
                 if( !has_grapnel ) {

@@ -9,6 +9,7 @@
 #include <tuple>
 
 #include "ascii_art.h"
+#include "avatar.h"
 #include "bodypart.h"
 #include "catacharset.h"
 #include "character.h"
@@ -665,23 +666,30 @@ static std::pair<std::string, nc_color> speed_description( float mon_speed_ratin
     }
 
     const std::array<std::tuple<float, nc_color, std::string>, 8> cases = {{
-            std::make_tuple( 1.30f, c_red, _( "It is much faster than you." ) ),
-            std::make_tuple( 1.00f, c_light_red, _( "It is faster than you." ) ),
-            std::make_tuple( 0.70f, c_yellow, _( "It is a bit faster than you." ) ),
-            std::make_tuple( 0.55f, c_white, _( "It is about as fast as you." ) ),
-            std::make_tuple( 0.50f, c_light_cyan, _( "It is a bit slower than you." ) ),
-            std::make_tuple( 0.40f, c_cyan, _( "It is slower than you." ) ),
-            std::make_tuple( 0.20f, c_light_green, _( "It is much slower than you." ) ),
+            std::make_tuple( 1.40f, c_red, _( "It is much faster than you." ) ),
+            std::make_tuple( 1.15f, c_light_red, _( "It is faster than you." ) ),
+            std::make_tuple( 1.05f, c_yellow, _( "It is a bit faster than you." ) ),
+            std::make_tuple( 0.90f, c_white, _( "It is about as fast as you." ) ),
+            std::make_tuple( 0.80f, c_light_cyan, _( "It is a bit slower than you." ) ),
+            std::make_tuple( 0.60f, c_cyan, _( "It is slower than you." ) ),
+            std::make_tuple( 0.30f, c_light_green, _( "It is much slower than you." ) ),
             std::make_tuple( 0.00f, c_green, _( "It is practically immobile." ) )
         }
     };
 
-    const float player_speed_rating = get_player_character().speed_rating();
-    const float ratio = player_speed_rating == 0 ?
-                        2.00f : mon_speed_rating / player_speed_rating;
+    const avatar &ply = get_avatar();
+    float player_runcost = ply.run_cost( 100 );
+    if( player_runcost == 0 ) {
+        player_runcost = 1.0f;
+    }
+
+    // tpt = tiles per turn
+    const float player_tpt = ply.get_speed() / player_runcost;
+    const float ratio_tpt = player_tpt == 0 ?
+                            2.00f : mon_speed_rating / player_tpt;
 
     for( const std::tuple<float, nc_color, std::string> &speed_case : cases ) {
-        if( ratio >= std::get<0>( speed_case ) ) {
+        if( ratio_tpt >= std::get<0>( speed_case ) ) {
             return std::make_pair( std::get<2>( speed_case ), std::get<1>( speed_case ) );
         }
     }
@@ -716,6 +724,13 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
                              _( "Can't see to your current location" );
     vStart += fold_and_print( w, point( column, vStart ), max_width, sees_player ? c_red : c_green,
                               senses_str );
+
+    const std::pair<std::string, nc_color> speed_desc =
+        speed_description(
+            speed_rating(),
+            has_flag( MF_IMMOBILE ) );
+    vStart += fold_and_print( w, point( column, vStart ), max_width, speed_desc.second,
+                              speed_desc.first );
 
     // Monster description on following lines.
     std::vector<std::string> lines = foldstring( type->get_description(), max_width );
@@ -1500,6 +1515,10 @@ bool monster::melee_attack( Creature &target, float accuracy )
     // otherwise infinite loop will happen
     mod_moves( -type->attack_cost );
     if( /*This happens sometimes*/ this == &target || !is_adjacent( &target, true ) ) {
+        return false;
+    }
+    if( !sees( target ) ) {
+        debugmsg( "Z-Level view violation: %s tried to attack %s.", disp_name(), target.disp_name() );
         return false;
     }
 

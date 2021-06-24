@@ -750,7 +750,6 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
         add_msg_activate();
 
         teleport::teleport( *this );
-        add_effect( effect_teleglow, 30_minutes );
         mod_moves( -100 );
     } else if( bio.id == bio_blood_anal ) {
         add_msg_activate();
@@ -1358,7 +1357,7 @@ void Character::burn_fuel( const int b, const auto_toggle_bionic_result &result 
             const int kcal_consumed = result.fuel_energy;
             // 1kcal = 4184 J
             const units::energy power_gain = kcal_consumed * 4184_J * result.effective_efficiency;
-            mod_stored_kcal( -kcal_consumed );
+            mod_stored_kcal( -kcal_consumed, true );
             mod_power_level( power_gain );
             break;
         }

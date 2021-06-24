@@ -2056,8 +2056,8 @@
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
     "components": [
-      [ [ "coffee_raw", 4 ] ],
-      [ [ "sugar", 10 ], [ "honeycomb", 1 ], [ "honey_bottled", 1 ], [ "honey_glassed", 1 ], [ "syrup", 1 ] ],
+      [ [ "coffee_raw", 3 ] ],
+      [ [ "sugar", 20 ], [ "honeycomb", 2 ], [ "honey_bottled", 6 ], [ "honey_glassed", 2 ], [ "syrup", 6 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]
   },
@@ -2390,14 +2390,7 @@
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [
       [ [ "edible_tallow_lard", 2, "LIST" ] ],
-      [
-        [ "jerky", 2 ],
-        [ "dry_meat", 2 ],
-        [ "meat_smoked", 2 ],
-        [ "dry_fish", 2 ],
-        [ "salted_fish", 2 ],
-        [ "fish_smoked", 2 ]
-      ],
+      [ [ "jerky", 2 ], [ "dry_meat", 2 ], [ "meat_smoked", 2 ], [ "dry_fish", 2 ], [ "fish_smoked", 2 ] ],
       [
         [ "dry_veggy", 2 ],
         [ "dry_fruit", 2 ],
@@ -2590,6 +2583,7 @@
         [ "meat_smoked", 1 ],
         [ "dry_meat", 1 ],
         [ "rehydrated_meat", 1 ],
+        [ "meat_salted", 1 ],
         [ "sausage", 1 ],
         [ "sausage_cooked", 1 ],
         [ "bratwurst_sausage", 2 ],
@@ -2986,6 +2980,8 @@
         [ "rehydrated_fish", 1 ],
         [ "fish_canned", 1 ],
         [ "can_salmon", 1 ],
+        [ "salted_fish", 1 ],
+        [ "meat_salted", 1 ],
         [ "can_tuna", 1 ],
         [ "sausage", 2 ],
         [ "sausage_cooked", 2 ],
@@ -3072,6 +3068,8 @@
         [ "fish_smoked", 1 ],
         [ "dry_fish", 1 ],
         [ "rehydrated_fish", 1 ],
+        [ "salted_fish", 1 ],
+        [ "meat_salted", 1 ],
         [ "fish_canned", 1 ],
         [ "can_salmon", 1 ],
         [ "can_tuna", 1 ],
@@ -3158,6 +3156,8 @@
         [ "fish_smoked", 1 ],
         [ "dry_fish", 1 ],
         [ "rehydrated_fish", 1 ],
+        [ "salted_fish", 1 ],
+        [ "meat_salted", 1 ],
         [ "fish_canned", 1 ],
         [ "can_salmon", 1 ],
         [ "can_tuna", 1 ],
@@ -3635,7 +3635,6 @@
         [ "can_chicken", 1 ],
         [ "can_spam", 2 ],
         [ "fish_pickled", 1 ],
-        [ "salted_fish", 1 ],
         [ "fish_canned", 1 ],
         [ "cracklins", 2 ],
         [ "can_sardine", 1 ],
@@ -3678,7 +3677,6 @@
         [ "can_chicken", 1 ],
         [ "can_spam", 2 ],
         [ "fish_pickled", 1 ],
-        [ "salted_fish", 1 ],
         [ "fish_canned", 1 ],
         [ "cracklins", 2 ],
         [ "can_sardine", 1 ],
@@ -4062,6 +4060,8 @@
         [ "fish", 1 ],
         [ "rehydrated_fish", 1 ],
         [ "dry_fish", 1 ],
+        [ "salted_fish", 1 ],
+        [ "meat_salted", 1 ],
         [ "fish_canned", 1 ],
         [ "can_tuna", 1 ]
       ],
@@ -6365,11 +6365,10 @@
     "components": [
       [ [ "chocolate", 2 ] ],
       [ [ "milk_standard_raw", 1, "LIST" ], [ "con_milk", 1 ], [ "milk_powder", 1 ] ],
-      [ [ "water", 1 ] ],
       [ [ "sugar", 5 ], [ "artificial_sweetener", 5 ] ],
       [ [ "chilly-p", 1 ] ],
       [ [ "cinnamon", 1 ] ],
-      [ [ "water", 6 ], [ "water_clean", 6 ] ]
+      [ [ "water", 7 ], [ "water_clean", 7 ] ]
     ]
   },
   {

@@ -28,8 +28,7 @@
   {
     "type": "MONSTER_FACTION",
     "name": "otter",
-    "base_faction": "animal",
-    "by_mood": "fish"
+    "base_faction": "animal"
   },
   {
     "result": "plastic_shopping_bag",
@@ -1509,5 +1508,24 @@
       [ "VISE", 1 ]
     ],
     "use_action": [ "HAMMER", "CROWBAR" ]
+  },
+  {
+    "id": "bio_shock_absorber",
+    "type": "bionic",
+    "name": { "str": "Kinetic Shock Absorbers" },
+    "description": "Most of the flesh in your arms, legs, and upper torso has been replaced with industrial-strength springs and protective padding.  Clenching your fist allows you to fold and unfold this padding; while active, the hydraulic absorbers will prevent damage to your body from severe impacts, at the cost of impaired movement.",
+    "occupied_bodyparts": [ [ "torso", 1 ], [ "arm_l", 1 ], [ "arm_r", 1 ], [ "leg_l", 1 ], [ "leg_r", 1 ] ],
+    "flags": [ "BIONIC_TOGGLED" ]
+  },
+  {
+    "id": "bio_shock_absorber",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Kinetic Shock Absorbers CBM" },
+    "looks_like": "bio_int_enhancer",
+    "description": "A set of hydraulic springs and foldable padding that replaces most of the flesh in the limbs and upper torso.  While active, these absorbers will negate damage from severe impacts such as falling, at the cost of reducing the user's ability to move effectively.",
+    "price": 10000,
+    "weight": "3000 g",
+    "difficulty": 4
   }
 ]

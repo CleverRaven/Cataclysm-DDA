@@ -251,9 +251,6 @@ void mod_manager::load_modfile( const JsonObject &jo, const std::string &path )
     } else {
         modfile.path = path;
     }
-    if( assign( jo, "legacy", modfile.legacy ) ) {
-        modfile.legacy = path + "/" + modfile.legacy;
-    }
 
     assign( jo, "authors", modfile.authors );
     assign( jo, "maintainers", modfile.maintainers );

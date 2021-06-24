@@ -67,11 +67,13 @@ std::list<item> npc_trading::transfer_items( std::vector<item_pricing> &stuff, p
 
         // Items are moving to escrow.
         if( use_escrow && ip.charges ) {
+            gift.charges = charges;
             escrow.emplace_back( gift );
         } else if( use_escrow ) {
             std::fill_n( std::back_inserter( escrow ), count, gift );
             // No escrow in use. Items moving from giver to receiver.
         } else if( ip.charges ) {
+            gift.charges = charges;
             receiver.i_add( gift );
         } else {
             for( int i = 0; i < count; i++ ) {

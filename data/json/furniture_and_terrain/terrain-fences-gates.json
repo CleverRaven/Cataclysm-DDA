@@ -442,7 +442,6 @@
     "looks_like": "t_chickenwire_fence",
     "move_cost": 0,
     "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "AUTO_WALL_SYMBOL", "BURROWABLE", "AUTO_WALL_SYMBOL" ],
-    "examine_action": "chainfence",
     "deconstruct": {
       "ter_set": "t_floor",
       "items": [ { "item": "screen_mesh", "count": 1 }, { "item": "nail", "charges": 10 }, { "item": "2x4", "charges": 4 } ]
@@ -650,6 +649,21 @@
         { "item": "nail", "charges": 12 },
         { "item": "hinge", "count": [ 1, 2 ] }
       ]
+    },
+    "bash": {
+      "str_min": 4,
+      "str_max": 20,
+      "str_min_blocked": 6,
+      "str_max_blocked": 30,
+      "sound": "crack.",
+      "sound_fail": "wham.",
+      "ter_set": "t_null",
+      "items": [
+        { "item": "2x4", "count": [ 1, 4 ] },
+        { "item": "nail", "charges": [ 2, 8 ] },
+        { "item": "splinter", "count": [ 1, 2 ] },
+        { "item": "hinge", "count": [ 1, 2 ] }
+      ]
     }
   },
   {
@@ -778,17 +792,14 @@
     "examine_action": "chainfence",
     "flags": [ "NOITEM", "CLIMBABLE", "PERMEABLE", "AUTO_WALL_SYMBOL", "FLAMMABLE_ASH", "THIN_OBSTACLE", "BURROWABLE" ],
     "connects_to": "WOODFENCE",
-    "deconstruct": {
-      "ter_set": "t_fence_post",
-      "items": [ { "item": "2x4", "count": 10 }, { "item": "nail", "charges": 20 }, { "item": "hinge", "count": [ 1, 2 ] } ]
-    },
+    "deconstruct": { "ter_set": "t_fence_post", "items": [ { "item": "2x4", "count": 8 }, { "item": "nail", "charges": 20 } ] },
     "bash": {
       "str_min": 5,
       "str_max": 12,
       "sound": "whump!",
       "sound_fail": "whack!",
       "ter_set": "t_fence_post",
-      "items": [ { "item": "2x4", "count": [ 4, 10 ] } ]
+      "items": [ { "item": "2x4", "count": [ 4, 8 ] } ]
     }
   },
   {
@@ -838,7 +849,7 @@
     "color": "brown",
     "looks_like": "t_fencegate_o",
     "move_cost": 1,
-    "flags": [ "FLAMMABLE_ASH", "FLAT", "ROAD", "BURROWABLE" ],
+    "flags": [ "FLAMMABLE_ASH", "FLAT", "ROAD", "BURROWABLE", "TRANSPARENT" ],
     "connects_to": "WOODFENCE",
     "close": "t_privacy_fencegate_c",
     "deconstruct": {
@@ -847,6 +858,21 @@
         { "item": "2x4", "count": 8 },
         { "item": "pointy_stick", "count": 2 },
         { "item": "nail", "charges": 20 },
+        { "item": "hinge", "count": [ 1, 2 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 4,
+      "str_max": 20,
+      "str_min_blocked": 6,
+      "str_max_blocked": 30,
+      "sound": "crack.",
+      "sound_fail": "wham.",
+      "ter_set": "t_null",
+      "items": [
+        { "item": "2x4", "count": [ 4, 8 ] },
+        { "item": "nail", "charges": [ 10, 20 ] },
+        { "item": "splinter", "count": [ 4, 6 ] },
         { "item": "hinge", "count": [ 1, 2 ] }
       ]
     }

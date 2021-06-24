@@ -1,5 +1,5 @@
-# Max length of a line is 78 characters; the following line is for reference
-# Longer lines will be automatically folded
+# Lines longer than 78 characters will be wrapped automatically
+# The following line is for reference
 ##############################################################################
 <color_white>Visit us:</color>
 
@@ -15,7 +15,7 @@
 
 <color_light_gray>* Discourse:                 </color><color_cyan>https://discourse.cataclysmdda.org/</color>
 <color_light_gray>* Discord:                   </color><color_cyan>https://discord.gg/jFEc7Yp</color>
-<color_light_gray>* IRC:                       </color><color_cyan>#CataclysmDDA at freenode.net</color>
+<color_light_gray>* IRC:                       </color><color_cyan>#CataclysmDDA at irc.libera.chat</color>
 <color_light_gray>* Reddit (unofficial):       </color><color_cyan>https://www.reddit.com/r/cataclysmdda/</color>
 
 <color_light_gray>Other useful links are also available at our Homepage.</color>

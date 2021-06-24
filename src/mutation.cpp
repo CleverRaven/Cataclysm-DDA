@@ -48,12 +48,8 @@ static const trait_id trait_DEBUG_BIONIC_POWER( "DEBUG_BIONIC_POWER" );
 static const trait_id trait_DEBUG_BIONIC_POWERGEN( "DEBUG_BIONIC_POWERGEN" );
 static const trait_id trait_DEX_ALPHA( "DEX_ALPHA" );
 static const trait_id trait_GLASSJAW( "GLASSJAW" );
-static const trait_id trait_HUGE( "HUGE" );
-static const trait_id trait_HUGE_OK( "HUGE_OK" );
 static const trait_id trait_INT_ALPHA( "INT_ALPHA" );
 static const trait_id trait_INT_SLIME( "INT_SLIME" );
-static const trait_id trait_LARGE( "LARGE" );
-static const trait_id trait_LARGE_OK( "LARGE_OK" );
 static const trait_id trait_M_BLOOM( "M_BLOOM" );
 static const trait_id trait_M_BLOSSOMS( "M_BLOSSOMS" );
 static const trait_id trait_M_FERTILE( "M_FERTILE" );
@@ -68,15 +64,18 @@ static const trait_id trait_ROOTS2( "ROOTS2" );
 static const trait_id trait_ROOTS3( "ROOTS3" );
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_SLIMESPAWNER( "SLIMESPAWNER" );
-static const trait_id trait_SMALL( "SMALL" );
-static const trait_id trait_SMALL2( "SMALL2" );
-static const trait_id trait_SMALL_OK( "SMALL_OK" );
 static const trait_id trait_STR_ALPHA( "STR_ALPHA" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 static const trait_id trait_TREE_COMMUNION( "TREE_COMMUNION" );
 static const trait_id trait_VOMITOUS( "VOMITOUS" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
+
+static const json_character_flag json_flag_TINY( "TINY" );
+static const json_character_flag json_flag_SMALL( "SMALL" );
+static const json_character_flag json_flag_MEDIUM( "MEDIUM" );
+static const json_character_flag json_flag_LARGE( "LARGE" );
+static const json_character_flag json_flag_HUGE( "HUGE" );
 
 namespace io
 {
@@ -379,13 +378,15 @@ const resistances &mutation_branch::damage_resistance( const bodypart_id &bp ) c
 
 void Character::recalculate_size()
 {
-    if( has_trait( trait_SMALL2 ) || has_trait( trait_SMALL_OK ) ) {
+    if( has_trait_flag( json_flag_TINY ) ) {
         size_class = creature_size::tiny;
-    } else if( has_trait( trait_SMALL ) ) {
+    } else if( has_trait_flag( json_flag_SMALL ) ) {
         size_class = creature_size::small;
-    } else if( has_trait( trait_LARGE ) || has_trait( trait_LARGE_OK ) ) {
+    } else if( has_trait_flag( json_flag_MEDIUM ) ) {
+        size_class = creature_size::medium;
+    } else if( has_trait_flag( json_flag_LARGE ) ) {
         size_class = creature_size::large;
-    } else if( has_trait( trait_HUGE ) || has_trait( trait_HUGE_OK ) ) {
+    } else if( has_trait_flag( json_flag_HUGE ) ) {
         size_class = creature_size::huge;
     } else {
         size_class = creature_size::medium;

@@ -70,7 +70,7 @@
   <ItemDefinitionGroup>
     <ClCompile>
       <PreprocessorDefinitions>QT_STATICPLUGIN;QT_NO_KEYWORDS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\tools\format;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\tools\format;..\msvc-object_creator\vcpkg_installed\$(VcpkgTriplet)\include\qt5;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

@@ -360,7 +360,8 @@
     "name": { "str": "Enhanced Hearing" },
     "description": "When this bionic is active, your hearing will be drastically improved, allowing you to hear ten times better than the average person.  Additionally, high-intensity sounds will be automatically dampened before they can damage your hearing.",
     "occupied_bodyparts": [ [ "head", 3 ] ],
-    "flags": [ "BIONIC_TOGGLED", "IMMUNE_HEARING_DAMAGE", "SUPER_HEARING" ],
+    "flags": [ "BIONIC_TOGGLED", "IMMUNE_HEARING_DAMAGE" ],
+    "active_flags": [ "SUPER_HEARING" ],
     "included_bionics": [ "bio_earplugs" ]
   },
   {
@@ -1207,14 +1208,6 @@
     "occupied_bodyparts": [ [ "torso", 8 ], [ "arm_l", 3 ], [ "arm_r", 3 ], [ "leg_l", 3 ], [ "leg_r", 3 ] ],
     "weight_capacity_bonus": "20 kg",
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
-  },
-  {
-    "id": "bio_shock_absorber",
-    "type": "bionic",
-    "name": { "str": "Kinetic Shock Absorbers" },
-    "description": "Most of the flesh in your arms, legs, and upper torso has been replaced with industrial-strength springs and protective padding.  Clenching your fist allows you to fold and unfold this padding; while active, the hydraulic absorbers will prevent damage to your body from severe impacts, at the cost of impaired movement.",
-    "occupied_bodyparts": [ [ "torso", 1 ], [ "arm_l", 1 ], [ "arm_r", 1 ], [ "leg_l", 1 ], [ "leg_r", 1 ] ],
-    "flags": [ "BIONIC_TOGGLED" ]
   },
   {
     "id": "bio_taste_blocker",

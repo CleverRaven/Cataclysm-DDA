@@ -502,10 +502,20 @@ endif
 # OSX
 ifeq ($(NATIVE), osx)
   ifeq ($(OSX_MIN),)
-    ifneq ($(CLANG), 0)
-      OSX_MIN = 10.7
+    ifneq ($(findstring Darwin,$(OS)),)
+      OSX_MIN = $(shell sw_vers -productVersion | awk -F '.' '{print $$1 "." $$2}')
     else
-      OSX_MIN = 10.5
+      ifneq ($(CLANG), 0)
+        ifneq ($(SANITIZE),)
+          # sanitizers does not function properly (e.g. false positive errors) if OSX_MIN < 10.9
+          # https://github.com/llvm/llvm-project/blob/release/11.x/compiler-rt/CMakeLists.txt#L183
+          OSX_MIN = 10.9
+        else
+          OSX_MIN = 10.7
+        endif
+      else
+        OSX_MIN = 10.5
+      endif
     endif
   endif
   DEFINES += -DMACOSX
@@ -990,6 +1000,7 @@ ifeq ($(TARGETSYSTEM), LINUX)
 DATA_PREFIX=$(DESTDIR)$(PREFIX)/share/cataclysm-dda/
 BIN_PREFIX=$(DESTDIR)$(PREFIX)/bin
 LOCALE_DIR=$(DESTDIR)$(PREFIX)/share/locale
+SHARE_DIR=$(DESTDIR)$(PREFIX)/share
 install: version $(TARGET)
 	mkdir -p $(DATA_PREFIX)
 	mkdir -p $(BIN_PREFIX)
@@ -1006,6 +1017,9 @@ install: version $(TARGET)
 	cp -R --no-preserve=ownership data/help $(DATA_PREFIX)
 ifeq ($(TILES), 1)
 	cp -R --no-preserve=ownership gfx $(DATA_PREFIX)
+	install -Dm755 -t $(SHARE_DIR)/applications/ data/xdg/org.cataclysmdda.CataclysmDDA.desktop
+	install -Dm644 -t $(SHARE_DIR)/metainfo/ data/xdg/org.cataclysmdda.CataclysmDDA.appdata.xml
+	install -Dm644 -t $(SHARE_DIR)/icons/hicolor/scalable/apps/ data/xdg/org.cataclysmdda.CataclysmDDA.svg
 endif
 ifeq ($(SOUND), 1)
 	cp -R --no-preserve=ownership data/sound $(DATA_PREFIX)
@@ -1022,6 +1036,7 @@ ifeq ($(TARGETSYSTEM), CYGWIN)
 DATA_PREFIX=$(DESTDIR)$(PREFIX)/share/cataclysm-dda/
 BIN_PREFIX=$(DESTDIR)$(PREFIX)/bin
 LOCALE_DIR=$(DESTDIR)$(PREFIX)/share/locale
+SHARE_DIR=$(DESTDIR)$(PREFIX)/share
 install: version $(TARGET)
 	mkdir -p $(DATA_PREFIX)
 	mkdir -p $(BIN_PREFIX)
@@ -1038,6 +1053,9 @@ install: version $(TARGET)
 	cp -R --no-preserve=ownership data/help $(DATA_PREFIX)
 ifeq ($(TILES), 1)
 	cp -R --no-preserve=ownership gfx $(DATA_PREFIX)
+	install -Dm755 -t $(SHARE_DIR)/applications/ data/xdg/org.cataclysmdda.CataclysmDDA.desktop
+	install -Dm644 -t $(SHARE_DIR)/metainfo/ data/xdg/org.cataclysmdda.CataclysmDDA.appdata.xml
+	install -Dm644 -t $(SHARE_DIR)/icons/hicolor/scalable/apps/ data/xdg/org.cataclysmdda.CataclysmDDA.svg
 endif
 ifeq ($(SOUND), 1)
 	cp -R --no-preserve=ownership data/sound $(DATA_PREFIX)
@@ -1144,6 +1162,7 @@ ifdef OSXCROSS
 	dmg dmg Cataclysm-uncompressed.dmg Cataclysm.dmg
 	rm Cataclysm-uncompressed.dmg
 else
+	plutil -convert binary1 Cataclysm.app/Contents/Info.plist
 	dmgbuild -s build-data/osx/dmgsettings.py "Cataclysm DDA" Cataclysm.dmg
 endif
 
@@ -1186,7 +1205,7 @@ endif
 
 style-json: json_blacklist $(JSON_FORMATTER_BIN)
 ifndef CROSS
-	find data -name "*.json" -print0 | grep -v -z -F -f json_blacklist | \
+	find data gfx -name "*.json" -print0 | grep -v -z -F -f json_blacklist | \
 	  xargs -0 -L 1 $(JSON_FORMATTER_BIN)
 else
 	@echo Cannot run json formatter in cross compiles.

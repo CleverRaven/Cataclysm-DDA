@@ -37,6 +37,7 @@
 #include "value_ptr.h"
 
 static const itype_id itype_hotplate( "hotplate" );
+static const itype_id itype_atomic_coffeepot( "atomic_coffeepot" );
 
 recipe::recipe() : skill_used( skill_id::NULL_ID() ) {}
 
@@ -67,16 +68,7 @@ int64_t recipe::time_to_craft_moves( const Character &guy, recipe_time_flag flag
     if( flags == recipe_time_flag::ignore_proficiencies ) {
         return time;
     }
-    int64_t ret = time;
-    for( const recipe_proficiency &prof : proficiencies ) {
-        if( !prof.required ) {
-            if( !guy.has_proficiency( prof.id ) &&
-                !helpers_have_proficiencies( guy, prof.id ) ) {
-                ret *= prof.time_multiplier;
-            }
-        }
-    }
-    return ret;
+    return time * proficiency_time_maluses( guy );
 }
 
 int64_t recipe::batch_time( const Character &guy, int batch, float multiplier,
@@ -225,8 +217,8 @@ void recipe::load( const JsonObject &jo, const std::string &src )
     if( exert == "fake" ) {
         exert = "MODERATE_EXERCISE";
     }
-    const auto it = activity_levels.find( exert );
-    if( it == activity_levels.end() ) {
+    const auto it = activity_levels_map.find( exert );
+    if( it == activity_levels_map.end() ) {
         jo.throw_error( string_format( "Invalid activity level %s", exert ), "activity_level" );
     }
     exertion = it->second;
@@ -658,25 +650,23 @@ std::string recipe::used_proficiencies_string( const Character *c ) const
     return used;
 }
 
-std::string recipe::missing_proficiencies_string( Character *c ) const
+std::string recipe::missing_proficiencies_string( const Character *c ) const
 {
     if( c == nullptr ) {
         return { };
     }
     std::vector<prof_penalty> missing_profs;
 
+    const book_proficiency_bonuses book_bonuses =
+        c->crafting_inventory().get_book_proficiency_bonuses();
     for( const recipe_proficiency &rec : proficiencies ) {
         if( !rec.required ) {
             if( !( c->has_proficiency( rec.id ) || helpers_have_proficiencies( *c, rec.id ) ) ) {
                 prof_penalty pen = { rec.id, rec.time_multiplier, rec.fail_multiplier };
-                const book_proficiency_bonuses book_bonuses =
-                    c->crafting_inventory().get_book_proficiency_bonuses();
-                pen.time_mult *= book_bonuses.time_factor( pen.id );
-                pen.failure_mult *= book_bonuses.fail_factor( pen.id );
-                // The book bonuses can't make not having this a positive
-                pen.time_mult = std::max( pen.time_mult, 1.0f );
-                pen.failure_mult = std::max( pen.failure_mult, 1.0f );
-                if( book_bonuses.time_factor( pen.id ) != 1.0f || book_bonuses.fail_factor( pen.id ) != 1.0f ) {
+                if( book_bonuses.time_factor( pen.id ) != 0.0f || book_bonuses.fail_factor( pen.id ) != 0.0f ) {
+                    pen.time_mult = 1.0f + ( pen.time_mult - 1.0f ) * ( 1.0f - book_bonuses.time_factor( pen.id ) );
+                    pen.failure_mult = 1.0f + ( pen.failure_mult - 1.0f ) * ( 1.0f - book_bonuses.fail_factor(
+                                           pen.id ) );
                     pen.mitigated = true;
                 }
                 missing_profs.push_back( pen );
@@ -740,30 +730,32 @@ std::set<proficiency_id> recipe::assist_proficiencies() const
     return ret;
 }
 
-float recipe::proficiency_time_maluses( Character &guy ) const
+float recipe::proficiency_time_maluses( const Character &guy ) const
 {
-    float malus = 1.0f;
+    float total_malus = 1.0f;
     for( const recipe_proficiency &prof : proficiencies ) {
         if( !guy.has_proficiency( prof.id ) &&
-            !helpers_have_proficiencies( guy, prof.id ) ) {
-            malus *= prof.time_multiplier *
-                     guy.crafting_inventory().get_book_proficiency_bonuses().time_factor( prof.id );
+            !helpers_have_proficiencies( guy, prof.id ) && prof.time_multiplier > 1.0f ) {
+            float malus = 1.0f + ( prof.time_multiplier - 1.0f ) *
+                          ( 1.0f - guy.crafting_inventory().get_book_proficiency_bonuses().time_factor( prof.id ) );
+            total_malus *= malus;
         }
     }
-    return malus;
+    return total_malus;
 }
 
-float recipe::proficiency_failure_maluses( Character &guy ) const
+float recipe::proficiency_failure_maluses( const Character &guy ) const
 {
-    float malus = 1.0f;
+    float total_malus = 1.0f;
     for( const recipe_proficiency &prof : proficiencies ) {
         if( !guy.has_proficiency( prof.id ) &&
-            !helpers_have_proficiencies( guy, prof.id ) ) {
-            malus *= prof.fail_multiplier *
-                     guy.crafting_inventory().get_book_proficiency_bonuses().fail_factor( prof.id );
+            !helpers_have_proficiencies( guy, prof.id ) && prof.fail_multiplier > 1.0f ) {
+            float malus = 1.0f + ( prof.fail_multiplier - 1.0f ) *
+                          ( 1.0f - guy.crafting_inventory().get_book_proficiency_bonuses().fail_factor( prof.id ) );
+            total_malus *= malus;
         }
     }
-    return malus;
+    return total_malus;
 }
 
 float recipe::exertion_level() const
@@ -1014,6 +1006,11 @@ void recipe::check_blueprint_requirements()
     }
 }
 
+bool recipe::removes_raw() const
+{
+    return create_result().is_comestible() && !create_result().has_flag( flag_RAW );
+}
+
 bool recipe::hot_result() const
 {
     // Check if the recipe tools make this food item hot upon making it.
@@ -1022,17 +1019,21 @@ bool recipe::hot_result() const
     // processing works, the "surface_heat" id gets nuked into an actual
     // list of tools, see data/json/recipes/cooking_tools.json.
     //
-    // Currently it's only checking for a hotplate because that's a
+    // Currently it's checking for a hotplate because that's a
     // suitable item in both the "surface_heat" and "water_boiling_heat"
     // tools, and it's usually the first item in a list of tools so if this
     // does get heated we'll find it right away.
+    //
+    // Atomic coffee is an outlier in that it is a hot drink that cannot be crafted
+    // with any of the usual tools except the atomic coffee maker, which is why
+    // the check includes this tool in addition to the hotplate.
     //
     // TODO: Make this less of a hack
     if( create_result().is_food() ) {
         const requirement_data::alter_tool_comp_vector &tool_lists = simple_requirements().get_tools();
         for( const std::vector<tool_comp> &tools : tool_lists ) {
             for( const tool_comp &t : tools ) {
-                if( t.type == itype_hotplate ) {
+                if( ( t.type == itype_hotplate ) || ( t.type == itype_atomic_coffeepot ) ) {
                     return true;
                 }
             }
@@ -1043,10 +1044,10 @@ bool recipe::hot_result() const
 
 int recipe::makes_amount() const
 {
-    int makes;
+    int makes = 0;
     if( charges.has_value() ) {
         makes = charges.value();
-    } else {
+    } else if( item::count_by_charges( result_ ) ) {
         makes = item::find_type( result_ )->charges_default();
     }
     // return either charges * mult or 1
