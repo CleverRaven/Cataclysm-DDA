@@ -23,7 +23,7 @@
     "reload_noise_volume": 10,
     "name": { "str": "VER-3" },
     "description": "Variable Energy Rifle Model 3, colloquially known as the 'charge rifle'.  Designed by a consortium of private security forces, it is made to be used in multiple roles thanks to its unique set of staged capacitors that can be used to increase the power of the gun exponentially.  However this renders it incompatible with energy weapon mods.",
-    "weight": "5000 g",
+    "weight": "10 kg",
     "volume": "12 L",
     "longest_side": "900 mm",
     "price": 50000,
