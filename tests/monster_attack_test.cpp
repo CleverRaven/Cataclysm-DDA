@@ -169,7 +169,7 @@ TEST_CASE( "monster_special_attack", "[vision][reachability]" )
     test_monster_attack( { 2, 0, 1 },  false, false, mattack::stretch_attack );
 }
 
-TEST_CASE( "monster_throwing_sanity_test", "[throwing],[balance]" )
+TEST_CASE( "monster_throwing_sanity_test", "[throwing][balance]" )
 {
     clear_map();
     const tripoint target_location = { 65, 65, 0 };
@@ -182,13 +182,13 @@ TEST_CASE( "monster_throwing_sanity_test", "[throwing],[balance]" )
     const std::string monster_type = "mon_feral_human_pipe";
     monster &test_monster = spawn_test_monster( monster_type, attacker_location );
     test_monster.set_goal( target_location );
-    const mtype_special_attack &attack = test_monster.type->special_attacks.at( "gun" );
+    const mtype_special_attack &attack = test_monster.type->special_attacks.at( "throw" );
     reset_caches( attacker_location.z, target_location.z );
     statistics<int> damage_dealt;
     do {
         you.set_all_parts_hp_to_max();
         int prev_hp = you.get_hp();
-        // monster shoots the player
+        // monster throws stuff at player
         REQUIRE( attack->call( test_monster ) == true );
         // how much damage did it do?
         // Player-centric test in throwing_test.cpp ranges from 2 - 8 damage at point-blank range.
