@@ -3273,16 +3273,21 @@ void game::write_memorial_file( std::string sLastWords )
     memorial_file_path << ( ( truncated_name_len != name_len ) ? "~-" : "-" );
 
     // Add a timestamp for uniqueness.
+
+#if defined(_WIN32)
+    SYSTEMTIME current_time;
+    GetLocalTime( &current_time );
+    memorial_file_path << string_format( "%d-%02d-%02d-%02d-%02d-%02d",
+                                         current_time.wYear, current_time.wMonth, current_time.wDay,
+                                         current_time.wHour, current_time.wMinute, current_time.wSecond );
+#else
     char buffer[suffix_len] {};
     std::time_t t = std::time( nullptr );
     tm current_time;
-#if defined(_WIN32)
-    localtime_s( &current_time, &t );
-#else
     localtime_r( &t, &current_time );
-#endif
     std::strftime( buffer, suffix_len, "%Y-%m-%d-%H-%M-%S", &current_time );
     memorial_file_path << buffer;
+#endif
 
     const std::string text_path_string = memorial_file_path.str() + ".txt";
     const std::string json_path_string = memorial_file_path.str() + ".json";

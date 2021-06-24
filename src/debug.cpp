@@ -375,7 +375,7 @@ struct time_info {
     }
 };
 
-#if defined(_MSC_VER)
+#if defined(_WIN32)
 static time_info get_time() noexcept
 {
     SYSTEMTIME time {};
