@@ -109,6 +109,11 @@ zone_manager::zone_manager()
 
 }
 
+void zone_manager::reset()
+{
+    zone_manager::get_manager() = zone_manager();
+}
+
 std::string zone_type::name() const
 {
     return name_.translated();
