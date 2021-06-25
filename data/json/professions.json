@@ -914,7 +914,7 @@
       { "level": 3, "name": "firstaid" },
       { "level": 3, "name": "survival" }
     ],
-	"traits": [ "MARTIAL_BAYONET" ],
+    "traits": [ "MARTIAL_BAYONET" ],
     "items": {
       "both": {
         "items": [
@@ -965,7 +965,7 @@
       { "level": 2, "name": "survival" },
       { "level": 2, "name": "firstaid" }
     ],
-	"traits": [ "MARTIAL_BAYONET" ],
+    "traits": [ "MARTIAL_BAYONET" ],
     "items": {
       "both": {
         "items": [
@@ -1014,7 +1014,7 @@
       { "level": 3, "name": "swimming" },
       { "level": 4, "name": "survival" }
     ],
-	"traits": [ "MARTIAL_BAYONET" ],
+    "traits": [ "MARTIAL_BAYONET" ],
     "items": {
       "both": {
         "items": [
@@ -3880,7 +3880,7 @@
       { "level": 2, "name": "firstaid" },
       { "level": 2, "name": "stabbing" }
     ],
-	"traits": [ "MARTIAL_BAYONET" ],
+    "traits": [ "MARTIAL_BAYONET" ],
     "items": {
       "both": {
         "items": [

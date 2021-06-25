@@ -1432,13 +1432,13 @@
     "messages": [ "You strike %s with the buttstock", "<npcname> strikes %s with the buttstock" ],
     "skill_requirements": [ { "name": "melee", "level": 1 } ],
     "melee_allowed": true,
-	"crit_ok": true,
-	"stun_dur": 1,
-	"mult_bonuses": [
+    "crit_ok": true,
+    "stun_dur": 1,
+    "mult_bonuses": [
       { "stat": "movecost", "scale": 0.6 },
       { "stat": "damage", "type": "cut", "scale": 0 },
       { "stat": "damage", "type": "stab", "scale": 0 }
-	]
+    ]
   },
   {
     "type": "technique",
@@ -1447,14 +1447,14 @@
     "messages": [ "You lunge into %s", "<npcname> lunges into %s" ],
     "skill_requirements": [ { "name": "melee", "level": 1 } ],
     "melee_allowed": true,
-	"weighting": 2,
+    "weighting": 2,
     "crit_ok": true,
-	"mult_bonuses": [
+    "mult_bonuses": [
       { "stat": "movecost", "scale": 0.75 },
       { "stat": "damage", "type": "bash", "scale": 0.5 },
-	  { "stat": "damage", "type": "cut", "scale": 0 },
+      { "stat": "damage", "type": "cut", "scale": 0 },
       { "stat": "damage", "type": "stab", "scale": 1.2 }
-	]
+    ]
   },
   {
     "type": "technique",
@@ -1462,48 +1462,48 @@
     "name": "Bayonet strike",
     "messages": [ "You quickly strike %s", "<npcname> quickly strikes %s" ],
     "melee_allowed": true,
-	"mult_bonuses": [
+    "mult_bonuses": [
       { "stat": "movecost", "scale": 0.5 },
       { "stat": "damage", "type": "bash", "scale": 0.66 },
-	  { "stat": "damage", "type": "cut", "scale": 0 },
+      { "stat": "damage", "type": "cut", "scale": 0 },
       { "stat": "damage", "type": "stab", "scale": 0.66 }
-	]
+    ]
   },
   {
     "type": "technique",
     "id": "tec_bayonet_drill_charge",
     "name": "Bayonet charge",
-	"messages": [ "You charge and force %s back", "<npcname> charges and forces %s back" ],
+    "messages": [ "You charge and force %s back", "<npcname> charges and forces %s back" ],
     "skill_requirements": [ { "name": "melee", "level": 2 } ],
-	"req_buffs": [ "buff_bayonet_drill_onmove" ],
+    "req_buffs": [ "buff_bayonet_drill_onmove" ],
     "melee_allowed": true,
-	"weighting": 4,
+    "weighting": 4,
     "crit_tec": true,
-	"knockback_dist": 1,
-	"mult_bonuses": [
+    "knockback_dist": 1,
+    "mult_bonuses": [
       { "stat": "movecost", "scale": 1.5 },
       { "stat": "damage", "type": "bash", "scale": 0.5 },
-	  { "stat": "damage", "type": "cut", "scale": 0 },
+      { "stat": "damage", "type": "cut", "scale": 0 },
       { "stat": "damage", "type": "stab", "scale": 2 }
-	]
+    ]
   },
   {
     "type": "technique",
     "id": "tec_bayonet_drill_smash",
     "name": "Butt smash",
-	"messages": [ "You smash %s with the buttstock brutally", "<npcname> smashes %s with the buttstock brutally" ],
+    "messages": [ "You smash %s with the buttstock brutally", "<npcname> smashes %s with the buttstock brutally" ],
     "skill_requirements": [ { "name": "melee", "level": 2 } ],
-	"req_buffs": [ "buff_bayonet_drill_onblock" ],
+    "req_buffs": [ "buff_bayonet_drill_onblock" ],
     "melee_allowed": true,
-	"weighting": 2,
+    "weighting": 2,
     "crit_ok": true,
-	"stun_dur": 1,
-	"mult_bonuses": [
+    "stun_dur": 1,
+    "mult_bonuses": [
       { "stat": "movecost", "scale": 0.75 },
       { "stat": "damage", "type": "bash", "scale": 1.4 },
-	  { "stat": "damage", "type": "cut", "scale": 0 },
-	  { "stat": "damage", "type": "stab", "scale": 0 }
-	]
+      { "stat": "damage", "type": "cut", "scale": 0 },
+      { "stat": "damage", "type": "stab", "scale": 0 }
+    ]
   },
   {
     "type": "technique",
