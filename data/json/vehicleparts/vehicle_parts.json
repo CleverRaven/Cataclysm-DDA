@@ -825,7 +825,7 @@
     "broken_color": "light_gray",
     "damage_modifier": 60,
     "durability": 145,
-    "size": 80,
+    "size": 160,
     "item": "v_table",
     "location": "center",
     "requirements": {
@@ -839,7 +839,7 @@
       { "item": "splinter", "count": [ 4, 6 ] },
       { "item": "nail", "charges": [ 4, 7 ] }
     ],
-    "workbench": { "multiplier": 1.1, "mass": 150000, "volume": "20L" },
+    "workbench": { "multiplier": 1.1, "mass": 150000, "volume": "40L" },
     "damage_reduction": { "all": 24 }
   },
   {
@@ -854,7 +854,7 @@
     "broken_color": "light_gray",
     "damage_modifier": 60,
     "durability": 145,
-    "size": 80,
+    "size": 160,
     "item": "w_table",
     "location": "center",
     "requirements": {
@@ -868,7 +868,7 @@
       { "item": "splinter", "count": [ 4, 6 ] },
       { "item": "nail", "charges": [ 4, 7 ] }
     ],
-    "workbench": { "multiplier": 1.1, "mass": 150000, "volume": "20L" },
+    "workbench": { "multiplier": 1.1, "mass": 150000, "volume": "40L" },
     "damage_reduction": { "all": 16 }
   },
   {
@@ -883,7 +883,7 @@
     "broken_color": "light_gray",
     "damage_modifier": 60,
     "durability": 300,
-    "size": 120,
+    "size": 360,
     "item": "workbench",
     "location": "center",
     "requirements": {
@@ -899,7 +899,7 @@
       { "item": "steel_chunk", "count": [ 4, 8 ] },
       { "item": "scrap", "count": [ 12, 24 ] }
     ],
-    "workbench": { "multiplier": 1.2, "mass": 300000, "volume": "30L" },
+    "workbench": { "multiplier": 1.2, "mass": 300000, "volume": "90L" },
     "damage_reduction": { "all": 29 }
   },
   {
