@@ -881,7 +881,7 @@
       [ "survnote", 1 ],
       [ "tinder", 1 ],
       { "item": "hobo_stove", "prob": 1 },
-      { "item": "l-stick", "prob": 1 },
+      { "item": "l-stick", "prob": 1, "charges": [ 0, 500 ] },
       [ "eclipse_glasses", 1 ],
       { "group": "writing_utensils", "prob": 5 }
     ]
