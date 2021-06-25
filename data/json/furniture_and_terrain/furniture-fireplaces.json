@@ -79,7 +79,7 @@
     "flags": [ "PLACE_ITEM", "TRANSPARENT", "FIRE_CONTAINER", "EASY_DECONSTRUCT" ],
     "deployed_item": "hobo_stove",
     "examine_action": "fireplace",
-    "max_volume": "500 ml",
+    "max_volume": "680 ml",
     "bash": {
       "str_min": 8,
       "str_max": 30,
