@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "point.h"
+#include "type_id.h"
 
 class item;
 
@@ -43,8 +44,8 @@ class map_item_stack
 
 std::vector<map_item_stack> filter_item_stacks( const std::vector<map_item_stack> &stack,
         const std::string &filter );
-int list_filter_high_priority( std::vector<map_item_stack> &stack, const std::string &priorities );
+int list_filter_high_priority( std::vector<map_item_stack> &stack, const std::unordered_set<itype_id> *priorities );
 int list_filter_low_priority( std::vector<map_item_stack> &stack, int start,
-                              const std::string &priorities );
+                              const std::unordered_set<itype_id> *priorities );
 
 #endif // CATA_SRC_MAP_ITEM_STACK_H

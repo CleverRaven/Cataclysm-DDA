@@ -1042,8 +1042,8 @@ class game
         catacurses::window w_minimap_ptr;
 
         std::string sFilter; // a member so that it's remembered over time
-        std::string list_item_upvote;
-        std::string list_item_downvote;
+        std::unordered_set<itype_id> *list_item_upvote;
+        std::unordered_set<itype_id> *list_item_downvote; //TODO move to block level scope
 
         bool safe_mode_warning_logged = false;
         bool bVMonsterLookFire = false;

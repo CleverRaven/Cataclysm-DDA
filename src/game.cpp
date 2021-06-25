@@ -7708,12 +7708,9 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
         if( uistate.list_item_filter_active ) {
             sFilter = uistate.list_item_filter;
         }
-        if( uistate.list_item_downvote_active ) {
-            list_item_downvote = uistate.list_item_downvote;
-        }
-        if( uistate.list_item_priority_active ) {
-            list_item_upvote = uistate.list_item_priority;
-        }
+
+        list_item_downvote = &(uistate.list_item_downvote);
+        list_item_upvote = &(uistate.list_item_priority);
         uistate.list_item_init = true;
     }
 
@@ -7925,35 +7922,43 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             draw_item_info( [&]() -> catacurses::window {
                 return catacurses::newwin( TERMY, width - 5, point_zero );
             }, info_data );
-        } else if( action == "PRIORITY_INCREASE" ) {
+        } else if( action == "PRIORITY_INCREASE") {
             filter_type = item_filter_type::HIGH_PRIORITY;
             ui.invalidate_ui();
-            list_item_upvote = string_input_popup()
-                               .title( _( "High Priority:" ) )
-                               .width( 55 )
-                               .text( list_item_upvote )
-                               .description( _( "UP: history, CTRL-U clear line, ESC: abort, ENTER: save" ) )
-                               .identifier( "list_item_priority" )
-                               .max_length( 256 )
-                               .query_string();
+
+            itype_id item_id = activeItem->vIG[page_num].it->typeId()->get_id();
+
+            //Upvoting a downvoted item will make it neutral
+            if(list_item_downvote->count(item_id) != 0)
+            {
+                list_item_downvote->erase(item_id);
+            }
+            else
+            {
+                list_item_upvote->insert(item_id);
+            }
+
             refilter = true;
             addcategory = !sort_radius;
-            uistate.list_item_priority_active = !list_item_upvote.empty();
             filter_type = cata::nullopt;
-        } else if( action == "PRIORITY_DECREASE" ) {
+        } else if( action == "PRIORITY_DECREASE") {
             filter_type = item_filter_type::LOW_PRIORITY;
             ui.invalidate_ui();
-            list_item_downvote = string_input_popup()
-                                 .title( _( "Low Priority:" ) )
-                                 .width( 55 )
-                                 .text( list_item_downvote )
-                                 .description( _( "UP: history, CTRL-U clear line, ESC: abort, ENTER: save" ) )
-                                 .identifier( "list_item_downvote" )
-                                 .max_length( 256 )
-                                 .query_string();
+
+            itype_id item_id = activeItem->vIG[page_num].it->typeId()->get_id();
+
+            //Upvote a downvoted item will make it neutral
+            if (list_item_upvote->count(item_id) != 0)
+            {
+                list_item_upvote->erase(item_id);
+            }
+            else
+            {
+                list_item_downvote->insert(item_id);
+            }
+
             refilter = true;
             addcategory = !sort_radius;
-            uistate.list_item_downvote_active = !list_item_downvote.empty();
             filter_type = cata::nullopt;
         } else if( action == "SORT" ) {
             if( sort_radius ) {

@@ -118,12 +118,10 @@ class uistatedata
         // V Menu Stuff
         int list_item_sort = 0;
         std::string list_item_filter;
-        std::string list_item_downvote;
-        std::string list_item_priority;
+        std::unordered_set<itype_id> list_item_downvote;
+        std::unordered_set<itype_id> list_item_priority;
         bool vmenu_show_items = true; // false implies show monsters
         bool list_item_filter_active = false;
-        bool list_item_downvote_active = false;
-        bool list_item_priority_active = false;
         bool list_item_init = false;
 
         // construction menu selections
@@ -194,8 +192,8 @@ class uistatedata
             json.member( "vmenu_show_items", vmenu_show_items );
             json.member( "list_item_sort", list_item_sort );
             json.member( "list_item_filter_active", list_item_filter_active );
-            json.member( "list_item_downvote_active", list_item_downvote_active );
-            json.member( "list_item_priority_active", list_item_priority_active );
+            json.member( "list_item_downvote", list_item_downvote );
+            json.member( "list_item_priority", list_item_priority );
             json.member( "hidden_recipes", hidden_recipes );
             json.member( "favorite_recipes", favorite_recipes );
             json.member( "recent_recipes", recent_recipes );
@@ -255,8 +253,8 @@ class uistatedata
 
             jo.read( "list_item_sort", list_item_sort );
             jo.read( "list_item_filter_active", list_item_filter_active );
-            jo.read( "list_item_downvote_active", list_item_downvote_active );
-            jo.read( "list_item_priority_active", list_item_priority_active );
+            jo.read( "list_item_downvote",list_item_downvote );
+            jo.read( "list_item_priority", list_item_priority );
 
             for( const JsonMember member : jo.get_object( "input_history" ) ) {
                 std::vector<std::string> &v = gethistory( member.name() );
@@ -268,12 +266,6 @@ class uistatedata
             // fetch list_item settings from input_history
             if( !gethistory( "item_filter" ).empty() ) {
                 list_item_filter = gethistory( "item_filter" ).back();
-            }
-            if( !gethistory( "list_item_downvote" ).empty() ) {
-                list_item_downvote = gethistory( "list_item_downvote" ).back();
-            }
-            if( !gethistory( "list_item_priority" ).empty() ) {
-                list_item_priority = gethistory( "list_item_priority" ).back();
             }
         }
 };

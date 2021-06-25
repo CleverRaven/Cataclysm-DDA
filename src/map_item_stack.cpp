@@ -74,13 +74,12 @@ std::vector<map_item_stack> filter_item_stacks( const std::vector<map_item_stack
 }
 
 //returns the first non priority items.
-int list_filter_high_priority( std::vector<map_item_stack> &stack, const std::string &priorities )
+int list_filter_high_priority( std::vector<map_item_stack> &stack, const std::unordered_set<itype_id> *priorities )
 {
     // TODO:optimize if necessary
     std::vector<map_item_stack> tempstack;
-    const auto filter_fn = item_filter_from_string( priorities );
     for( auto it = stack.begin(); it != stack.end(); ) {
-        if( priorities.empty() || ( it->example != nullptr && !filter_fn( *it->example ) ) ) {
+        if( priorities->empty() || ( it->example != nullptr && !priorities->count( it->example->typeId() ) ) ) {
             tempstack.push_back( *it );
             it = stack.erase( it );
         } else {
@@ -95,14 +94,13 @@ int list_filter_high_priority( std::vector<map_item_stack> &stack, const std::st
     return id;
 }
 
-int list_filter_low_priority( std::vector<map_item_stack> &stack, const int start,
-                              const std::string &priorities )
+int list_filter_low_priority( std::vector<map_item_stack> &stack, const int start, const std::unordered_set<itype_id> *priorities )
 {
     // TODO:optimize if necessary
     std::vector<map_item_stack> tempstack;
-    const auto filter_fn = item_filter_from_string( priorities );
     for( auto it = stack.begin() + start; it != stack.end(); ) {
-        if( !priorities.empty() && it->example != nullptr && filter_fn( *it->example ) ) {
+        if(!priorities->empty() && ( it->example != nullptr && priorities->count( it->example->typeId() ) ))
+        {
             tempstack.push_back( *it );
             it = stack.erase( it );
         } else {
