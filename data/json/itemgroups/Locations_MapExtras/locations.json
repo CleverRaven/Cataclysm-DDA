@@ -2278,7 +2278,7 @@
       [ "bodypillow", 1 ],
       [ "flint_steel", 6 ],
       [ "bottle_metal", 2 ],
-      { "item": "hobo_stove", "prob": 3},
+      { "item": "hobo_stove", "prob": 3 },
       [ "tinder", 3 ],
       { "item": "tinderbox", "prob": 2, "charges": [ 0, 100 ] },
       [ "tarp", 15 ],
