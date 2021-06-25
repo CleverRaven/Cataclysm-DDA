@@ -1348,6 +1348,92 @@
   },
   {
     "type": "martial_art",
+    "id": "style_bayonet_drill",
+    "name": { "str": "Bayonet Drill" },
+    "description": "Bayonet charge was a common tactic used during the early modern wars. It focuses on move one's body to keep or regain his own balance, and exploits weaknesses in his opponent's balance.",
+    "initiate": [
+      "You take a step forward and flex your knees.",
+      "%s enters a bayonet attack position."
+    ],
+    "learn_difficulty": 5,
+    "primary_skill": "stabbing",
+    "strictly_melee": true,
+	"onblock_buffs": [
+      {
+        "id": "buff_bayonet_drill_onblock",
+        "name": "Parry",
+        "description": "You make an opening by initiating a block movement.\n\n+1 Accuracy.\nLasts 1 turn.",
+        "melee_allowed": true,
+        "skill_requirements": [ { "name": "melee", "level": 1 } ],
+        "buff_duration": 1,
+        "flat_bonuses": [ { "stat": "hit", "scale": 1.0 } ]
+      }
+    ],
+    "onmove_buffs": [
+      {
+        "id": "buff_bayonet_drill_onmove",
+        "name": "Thrust movements",
+        "description": "You lunge forward on your leading foot without losing your balance.\n\n+10% damage.\nLasts 1 turn.",
+        "melee_allowed": true,
+        "buff_duration": 1,
+        "max_stacks": 1,
+        "mult_bonuses": [
+          { "stat": "damage", "type": "bash", "scale": 1.1 },
+          { "stat": "damage", "type": "cut", "scale": 1.1 },
+          { "stat": "damage", "type": "stab", "scale": 1.1 }
+        ]
+      }
+    ],
+	"onpause_buffs": [
+      {
+        "id": "buff_bayonet_drill_onpause",
+        "name": "Attack position",
+        "description": "You hold your rifle diagonally across your body at a sufficient distance from the body to add balance and protect you from enemy blows.\n\nBlocked damage reduced by 50% of Perception, +1 Block attempts",
+        "melee_allowed": true,
+		"buff_duration": 1,
+		"bonus_blocks": 1,
+        "flat_bonuses": [
+          { "stat": "block", "scaling-stat": "per", "scale": 0.5 }
+		]
+      }
+    ],
+    "techniques": [
+      "tec_bayonet_drill_butt_strike",
+      "tec_bayonet_drill_lunge",
+	  "tec_bayonet_drill_rapid_strike",
+	  "tec_bayonet_drill_charge",
+	  "tec_bayonet_drill_smash"
+    ],
+    "weapons": [
+      "ar10",
+      "ar15",
+      "ar15_retool_300blk",
+	  "cx4",
+      "fn_fal",
+      "h&k416a5",
+      "hk417_13",
+      "hk_g3",
+      "hk_g36",
+      "iwi_tavor_x95_300blk",
+      "m1a",
+      "m110a1",
+      "m14ebr",
+      "m16a4",
+      "m27iar",
+      "m38dmr",
+      "m4a1",
+      "rm51_assault_rifle",
+      "rm88_battle_rifle",
+      "ruger_mini",
+      "scar_l",
+      "scar_h",
+      "sig552",
+      "sks",
+      "steyr_aug"
+    ]
+  },
+  {
+    "type": "martial_art",
     "id": "style_taekwondo",
     "name": { "str": "Taekwondo" },
     "description": "Taekwondo is the national sport of Korea, and was used by the South Korean army in the 20th century.  Focused on kicks and so it does not benefit from wielded weapons.  It also includes strength training; your blocks absorb extra damage and your attacks do more damage if you are not holding anything.",
