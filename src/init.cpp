@@ -589,7 +589,6 @@ void DynamicDataLoader::unload_data()
     vpart_info::reset();
     vpart_category::reset();
     weather_types::reset();
-    zone_manager::reset();
 }
 
 void DynamicDataLoader::finalize_loaded_data()
