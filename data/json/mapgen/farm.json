@@ -162,7 +162,11 @@
           { "item": "gear_survival", "chance": 20, "repeat": [ 3, 4 ] },
           { "item": "bed", "chance": 40, "repeat": [ 1, 4 ] }
         ],
-        "u": [ { "item": "kitchen", "chance": 70, "repeat": [ 2, 4 ] }, { "item": "cannedfood", "chance": 80, "repeat": [ 3, 7 ] }, { "item": "softdrugs", "chance": 40 } ],
+        "u": [
+          { "item": "kitchen", "chance": 70, "repeat": [ 2, 4 ] },
+          { "item": "cannedfood", "chance": 80, "repeat": [ 3, 7 ] },
+          { "item": "softdrugs", "chance": 40 }
+        ],
         "Q": { "item": "farming_tools", "chance": 15 }
       },
       "palettes": [ "farm" ]
