@@ -800,6 +800,16 @@
   },
   {
     "type": "mutation",
+    "id": "MARTIAL_BAYONET",
+    "name": { "str": "Bayonet Melee Training" },
+    "points": 0,
+    "description": "You are a soldier with complete military training, including elective course of bayonet drill."
+    "starting_trait": false,
+    "initial_ma_styles": [ "style_bayonet_drill" ],
+    "valid": false
+  },
+  {
+    "type": "mutation",
     "id": "MARTIAL_FENCING",
     "name": { "str": "Competitive Fencer" },
     "points": 0,
