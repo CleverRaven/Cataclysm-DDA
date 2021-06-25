@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """
-Outer join game IDs with tileset IDs and output a CSV report
+Outer join game IDs with overlay IDs and tileset IDs
 """
+import argparse
 import re
 import sys
 
@@ -9,11 +10,6 @@ from typing import Union
 
 import pandas
 
-
-GAME_IDS_FILENAME = 'all_game_ids.csv'
-TILESET_IDS_FILENAME = 'tileset_ids.csv'
-OVERLAY_IDS_FILENAME = 'all_overlay_ids.csv'
-OUTPUT_FILENAME = 'tileset_coverage.csv'
 
 REPLACEMENTS = (
     r'^overlay_(.+)_sees_player$',
@@ -70,22 +66,26 @@ def strip_overlay_id(overlay_id: str) -> str:
     return stripped_id
 
 
-def get_data() -> tuple:
+def get_data(
+        all_game_ids_filename: str,
+        overlay_ids_filename: str,
+        tileset_ids_filename: str)\
+        -> tuple:
     """
     Load datasets with game IDs, tileset IDs and overlay IDs
     """
     all_game_ids = pandas.read_csv(
-        GAME_IDS_FILENAME,
+        all_game_ids_filename,
         warn_bad_lines=True,
     )
     overlay_ids = pandas.read_csv(
-        OVERLAY_IDS_FILENAME,
+        overlay_ids_filename,
         header=None,
         names=('overlay_id',),
         warn_bad_lines=True,
     )
     tileset_ids = pandas.read_csv(
-        TILESET_IDS_FILENAME,
+        tileset_ids_filename,
         header=None,
         names=('tileset_id',),
         warn_bad_lines=True,
@@ -114,6 +114,18 @@ def merge_datasets(
     ... }, {
     ...     'tileset_id': ['a', 'b', 'overlay_worn_a', 'overlay_wielded_b'],
     ... })
+        type id description  color         overlay_id         tileset_id
+    0  ARMOR  a      desc a    red                NaN                  a
+    1  ARMOR  a      desc a    red     overlay_worn_a     overlay_worn_a
+    7    NaN  a         NaN    NaN  overlay_wielded_a                NaN
+    2   TOOL  b      desc b  green                NaN                  b
+    3   TOOL  b      desc b  green  overlay_wielded_b  overlay_wielded_b
+    5    NaN  b         NaN    NaN     overlay_worn_b                NaN
+    4   BOOK  c      desc c   blue                NaN                NaN
+    6    NaN  c         NaN    NaN     overlay_worn_c                NaN
+    8    NaN  c         NaN    NaN  overlay_wielded_c                NaN
+
+    # TODO:
         type id description  color         overlay_id         tileset_id
     0  ARMOR  a      desc a    red                NaN                  a
     1  ARMOR  a         NaN    NaN     overlay_worn_a     overlay_worn_a
@@ -173,4 +185,23 @@ def write_output(data: pandas.DataFrame, output_filename: str) -> int:
 
 
 if __name__ == '__main__':
-    sys.exit(write_output(merge_datasets(*get_data()), OUTPUT_FILENAME))
+    arg_parser = argparse.ArgumentParser(
+        description=__doc__,
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
+    arg_parser.add_argument('all_game_ids.csv')
+    arg_parser.add_argument('all_overlay_ids.csv')
+    arg_parser.add_argument('tileset_ids.csv')
+    arg_parser.add_argument('tileset_coverage_output.csv')
+    args_dict = vars(arg_parser.parse_args())
+
+    sys.exit(write_output(
+        merge_datasets(
+            *get_data(
+                args_dict.get('all_game_ids.csv'),
+                args_dict.get('all_overlay_ids.csv'),
+                args_dict.get('tileset_ids.csv'),
+            )
+        ),
+        args_dict.get('tileset_coverage_output.csv'),
+    ))
