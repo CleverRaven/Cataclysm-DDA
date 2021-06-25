@@ -109,9 +109,15 @@ zone_manager::zone_manager()
 
 }
 
-void zone_manager::reset()
+void zone_manager::clear()
 {
-    zone_manager::get_manager() = zone_manager();
+    zones.clear();
+    added_vzones.clear();
+    changed_vzones.clear();
+    removed_vzones.clear();
+    // Do not clear types since it is needed for the next games.
+    area_cache.clear();
+    vzone_cache.clear();
 }
 
 std::string zone_type::name() const
