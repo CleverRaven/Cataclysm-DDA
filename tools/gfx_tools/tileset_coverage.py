@@ -1,6 +1,23 @@
 #!/usr/bin/env python3
 """
 Outer join game IDs with overlay IDs and tileset IDs
+
+
+cd Cataclysm-DDA
+
+python3 tools/json_tools/table.py -f csv --nonestring ""\
+ --tileset type id name description color looks_like "copy-from" longest_side \
+ > all_game_ids.csv
+
+python3 tools/gfx_tools/list_tileset_ids.py gfx/UltimateCataclysm \
+ > tileset_ids.csv
+
+python3 tools/json_tools/generate_overlay_ids.py \
+ > all_overlay_ids.csv
+
+python3 tools/gfx_tools/tileset_coverage.py \
+ all_game_ids.csv all_overlay_ids.csv tileset_ids.csv \
+ tileset_coverage_output.csv
 """
 import argparse
 import re
