@@ -30,8 +30,8 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": false,
-        "open_container": true,
-        "min_contains_volume": "5 ml",
+        "open_container": false,
+        "min_contains_volume": "4 ml",
         "max_contains_volume": "400 ml",
         "max_contains_weight": "1 kg"
       }
