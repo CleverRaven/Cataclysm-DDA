@@ -1356,6 +1356,7 @@
       "%s enters a bayonet attack position."
     ],
     "learn_difficulty": 5,
+	"arm_block": 0,
     "primary_skill": "stabbing",
     "strictly_melee": true,
 	"onblock_buffs": [

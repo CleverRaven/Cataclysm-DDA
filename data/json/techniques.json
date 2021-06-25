@@ -1437,7 +1437,6 @@
 	"mult_bonuses": [
       { "stat": "movecost", "scale": 0.6 },
       { "stat": "damage", "type": "cut", "scale": 0 },
-	  { "stat": "damage", "type": "cut", "scale": 0 },
       { "stat": "damage", "type": "stab", "scale": 0 }
 	]
   },
