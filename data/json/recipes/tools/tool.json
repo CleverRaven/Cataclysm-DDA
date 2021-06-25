@@ -575,7 +575,6 @@
     "skills_required": [ "fabrication", 2 ],
     "difficulty": 3,
     "time": "25 m",
-    "reversible": false,
     "autolearn": false,
     "book_learn": [ [ "mag_survival", 2 ], [ "textbook_survival", 1 ], [ "cookbook", 2 ] ],
     "qualities": [ [ { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 1 } ] ],
