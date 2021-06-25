@@ -123,7 +123,7 @@
     "ammo": "10mm",
     "ranged_damage": { "damage_type": "bullet", "amount": -4 },
     "dispersion": 440,
-    "sight_dispersion": 440,
+    "sight_dispersion": 40,
     "durability": 8,
     "blackpowder_tolerance": 48,
     "min_cycle_recoil": 570,
