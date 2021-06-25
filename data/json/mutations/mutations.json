@@ -803,7 +803,7 @@
     "id": "MARTIAL_BAYONET",
     "name": { "str": "Bayonet Melee Training" },
     "points": 0,
-    "description": "You are a soldier with complete military training, including elective course of bayonet drill."
+    "description": "You are a soldier with complete military training, including elective course of bayonet drill.",
     "starting_trait": false,
     "initial_ma_styles": [ "style_bayonet_drill" ],
     "valid": false
