@@ -180,42 +180,42 @@ Shows weariness and activity levels in sidebar panels.
 Warns before crafting armor or clothing you won't be able to wear.
 
 ## Mods:
-[Magiclysm] Manatouched mutation tree.
-Overhauls Blazemod and splits it into separate mods.
-[MMA] Adds Ki Strike trait.
-[Magiclysm] Adds polymorph spells so you can transform your foes.
-[Magiclysm] Adds a spell component system and more-powerful spells to use it.
-Aftershock: Adds autodoc tiers and augmentation clinics.
+[Aftershock] Adds autodoc tiers and augmentation clinics.
+[Aftershock] Megacity-oriented overmap generation adjustments
+[Aftershock] Adds new Melee oriented bionics.
+[Aftershock] Replaces Vanilla autodocs with Aftershock Average Autodocs.
+[Aftershock] Adds an astrobiology lab.
+[Aftershock] Adds a design document.
+[Aftershock] Adds new laser and plasma pistols.
+[Aftershock] Adds Formless Ruins - a new aboveground, low-risk dungeon type.
+[Blazemod] Overhauls Blazemod and splits it into separate mods.
+[Dark Skies Above] DSA is reborn as an actively-developed, total-conversion mod.
 [DinoMod] Adds location variants with dinosaurs.
-Aftershock: Megacity-oriented overmap generation adjustments
-Aftershock: Adds new Melee oriented bionics.
 [DinoMod] Adds Acrocanthosaurus and overhauls dino baby code.
-[Magiclysm] Adds a new mutation line: Black Dragon.
-Adjusts fog frequency in black dragon lair plus other (minor) map adjustments.
-Adds monsters 'Scutellosaurus', 'Maiasaura', and 'Coelophysis'.
-[Magiclysm] Attunements - Special abilities gained by mastering two schools of magic.
-Adds monsters 'Pachyrhinosaurus', 'Pentaceratops', and 'Torosaurus'.
+[DinoMod] Adds monsters 'Scutellosaurus', 'Maiasaura', and 'Coelophysis'.
+[DinoMod] Adds monsters 'Pachyrhinosaurus', 'Pentaceratops', and 'Torosaurus'.
 [DinoMod] Organizes dinos into three main factions with defined inter-faction behavior.
 [DinoMod] Rebalances Jurassic spawns and monsters for realism and fixes predator in-fighting.
-Cap monsters at 1000 kg so butchering kind of works.
-[Magiclysm] implement summonable motorcycle
-[Magiclysm] Adds a new house with technomancer-themed loot.
-[Aftershock] Replaces Vanilla autodocs with Aftershock Average Autodocs.
+[DinoMod] Cap monsters at 1000 kg so butchering kind of works.
 [DinoMod] Adds monsters 'Brontosaurus', 'Alamosaurus', and 'Brachiosaurus'.
-[Magiclysm] Rings of wizardry and mojocycle tweaks
-[Magiclysm] Adds bullet armor to magic rings and bracers of protection.
 [DinoMod] Converts 'dinoexhibit' to use templates, adds a roof, and adds a baby dino variant.
 [DinoMod] Ankylosaurs Abound: Adds Dyoplosaurus, Nodosaurus, and Edmontonia.
-[Aftershock] Adds an astrobiology lab.
 [DinoMod] Adds Amargasaurus and Kosmoceratops as well as variants.
-[Magiclysm] Adds Orcs and Ogres.
-[Aftershock] Adds a design document.
 [DinoMod] Adds mod-specific mutation trees Stego and Tyrant.
-[Aftershock] Adds new laser and plasma pistols.
+[Magiclysm] Manatouched mutation tree.
+[Magiclysm] Adds polymorph spells so you can transform your foes.
+[Magiclysm] Adds a spell component system and more-powerful spells to use it.
+[Magiclysm] Adds a new mutation line: Black Dragon.
+[Magiclysm] Adjust fog frequency in black dragon lair plus other (minor) map adjustments.
+[Magiclysm] Attunements - Special abilities gained by mastering two schools of magic.
+[Magiclysm] implement summonable motorcycle
+[Magiclysm] Adds a new house with technomancer-themed loot.
+[Magiclysm] Rings of wizardry and mojocycle tweaks
+[Magiclysm] Adds bullet armor to magic rings and bracers of protection.
+[Magiclysm] Adds Orcs and Ogres.
 [Magiclysm] Adds three new Attunement spells (Frozen Winds, Auroral wave, and Immolate).
 [Magiclysm] Adds Workshop Elves, Yule Cats, and Leprechauns.
-[Aftershock] Adds Formless Ruins - a new aboveground, low-risk dungeon type.
-[Dark Skies Above] DSA is reborn as an actively-developed, total-conversion mod.
+[MMA] Adds Ki Strike trait, buffing unarmed to make it more competitive with other weapons.
 [Vanilla + Many Mods] Fixes problematic faction relationships (one-way aggression).
 
 ## Balance:
