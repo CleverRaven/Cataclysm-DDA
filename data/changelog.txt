@@ -73,9 +73,9 @@ Allows mutations to cast spells via enchantments.
 Add mining multi-activity for NPCs and players.
 Basecamp job rework - wandering/sitting/job priorities.
 Auto eat and drink from auto-zones during long activities or while waiting.
-Add flyable helicopters.
-Allow towing vehicles.
-Allow specfying height and age in character creation.
+Adds flyable helicopters.
+Allows towing vehicles.
+Allows specifying height and age in character creation.
 Adds support for json-defined achievements to provide more goals to strive for.
 Overhauls lock picking.
 Appropriate items can now rot away when in the reality bubble.
@@ -91,7 +91,7 @@ Worn gloves count as unarmed weapons when no weapon is held.
 Any corpse can rise again as a zombie.
 Added to autodocs the ability to stop bleeding, disinfect wounds, and inject antibiotics in case of infected wounds or tetanus.
 Allow randomizing scenario and profession in new character menu.
-Add actions to workout and do exercise.
+Adds actions to workout and do exercises.
 Vehicles: ground vehicle z-level transitions and z+1 bridges.
 Remove static/random NPC options, adjust random NPC rates.
 Overhauls blood and blood loss.
@@ -111,7 +111,7 @@ Allows customizing initial date in scenarios.
 Allows nanofabricator templates to contain recipes from any item group.
 Adds different bleeding types for different species.
 Adds bleeding butchery action.
-Add autodoc installation programs that almost guarantee flawless installation of supported bionics.
+Adds autodoc installation programs that almost guarantee flawless installation of supported bionics.
 Removes the obsolete 'carrion spawn rate scaling factor' world configuration option.
 Makes thrown glass items drop glass shards when shattered.
 Adds suspension for butchering using cranes (except tiny ones) and forklift arms.
@@ -166,12 +166,12 @@ Adds bigger mini-maps to all sidebar layouts.
 Adds keycode support to uilist.
 Allows attempting to disable robots by 'e'xamining them.
 Warns if a friendly creature or non-hostile NPC enters the line of fire.
-Added a satiety column to the eat menu, showing how many calories the food will have for how filling it is.
+Adds a satiety column to the eat menu, showing how many calories the food will have for how filling it is.
 Shows crafting failure rates due to missing proficiencies.
 Displays contained items like 'water (plastic bottle)' instead of as 'plastic bottle of water'.
 Keeps track of preferred aiming mode.
-Add Chibi Ultica tileset, a mix of MSX character and monster sprites with Ultica terrain, vehicles, and items.
-Brings back MSX+ Tileset.
+Adds the Chibi Ultica tileset, a mix of MSX character and monster sprites with Ultica terrain, vehicles, and items.
+Brings back the MSX+ Tileset.
 Adds item length and pocket volume entries to menus.
 Adds fast scrolling to many menus with long lists.
 Adds responsive screen behavior to the new character menu for small terminal sizes.
@@ -195,7 +195,7 @@ Warns before crafting armor or clothing you won't be able to wear.
 [DinoMod] Adds monsters 'Pachyrhinosaurus', 'Pentaceratops', and 'Torosaurus'.
 [DinoMod] Organizes dinos into three main factions with defined inter-faction behavior.
 [DinoMod] Rebalances Jurassic spawns and monsters for realism and fixes predator in-fighting.
-[DinoMod] Cap monsters at 1000 kg so butchering kind of works.
+[DinoMod] Caps monsters at 1000 kg so butchering kind of works.
 [DinoMod] Adds monsters 'Brontosaurus', 'Alamosaurus', and 'Brachiosaurus'.
 [DinoMod] Converts 'dinoexhibit' to use templates, adds a roof, and adds a baby dino variant.
 [DinoMod] Ankylosaurs Abound: Adds Dyoplosaurus, Nodosaurus, and Edmontonia.
@@ -206,7 +206,7 @@ Warns before crafting armor or clothing you won't be able to wear.
 [Magiclysm] Adds polymorph spells so you can transform your foes.
 [Magiclysm] Adds a spell component system and more-powerful spells to use it.
 [Magiclysm] Adds a new mutation line: Black Dragon.
-[Magiclysm] Adjust fog frequency in black dragon lair plus other (minor) map adjustments.
+[Magiclysm] Adjusts fog frequency in black dragon lair plus other (minor) map adjustments.
 [Magiclysm] Attunements - Special abilities gained by mastering two schools of magic.
 [Magiclysm] implement summonable motorcycle
 [Magiclysm] Adds a new house with technomancer-themed loot.
