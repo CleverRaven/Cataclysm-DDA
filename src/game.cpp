@@ -7947,7 +7947,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
 
             itype_id item_id = activeItem->vIG[page_num].it->typeId()->get_id();
 
-            //Upvote a downvoted item will make it neutral
+            //Downvoting an upvoted item will make it neutral
             if (list_item_upvote->count(item_id) != 0)
             {
                 list_item_upvote->erase(item_id);
