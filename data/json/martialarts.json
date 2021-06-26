@@ -1371,10 +1371,10 @@
       {
         "id": "buff_bayonet_drill_onmove",
         "name": "Thrust movements",
-        "description": "You lunge forward on your leading foot without losing your balance.\n\n+10% damage.\nLasts 1 turn.",
+        "description": "You lunge forward on your leading foot without losing your balance.\n\n+10% damage.\nLasts 2 turn. Stacks 2 times.",
         "melee_allowed": true,
-        "buff_duration": 1,
-        "max_stacks": 1,
+        "buff_duration": 2,
+        "max_stacks": 2,
         "mult_bonuses": [
           { "stat": "damage", "type": "bash", "scale": 1.1 },
           { "stat": "damage", "type": "cut", "scale": 1.1 },
@@ -1389,7 +1389,7 @@
         "description": "You hold your rifle diagonally across your body at a sufficient distance from the body to add balance and protect you from enemy blows.\n\nBlocked damage reduced by 50% of Perception, +1 Block attempts",
         "melee_allowed": true,
         "buff_duration": 1,
-        "bonus_blocks": 1,
+        "bonus_blocks": 2,
         "flat_bonuses": [ { "stat": "block", "scaling-stat": "per", "scale": 0.5 } ]
       }
     ],
@@ -1401,10 +1401,11 @@
       "tec_bayonet_drill_smash"
     ],
     "weapons": [
+      "acr",
+      "aksemi",
       "ar10",
       "ar15",
       "ar15_retool_300blk",
-      "cx4",
       "fn_fal",
       "h&k416a5",
       "hk417_13",
@@ -1418,8 +1419,7 @@
       "m27iar",
       "m38dmr",
       "m4a1",
-      "rm51_assault_rifle",
-      "rm88_battle_rifle",
+      "ruger_1022",
       "ruger_mini",
       "scar_l",
       "scar_h",
