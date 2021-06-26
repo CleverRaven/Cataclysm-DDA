@@ -39,7 +39,7 @@
     "built_in_mods": [ "charge_capacitor_1", "charge_capacitor_2" ],
     "dispersion": 150,
     "durability": 8,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 3 ] ],
+    "modes": [ "DEFAULT", "semi-auto", 1 ],
     "loudness": 8,
     "ups_charges": 30,
     "reload": 200,
