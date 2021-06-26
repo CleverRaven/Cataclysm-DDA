@@ -7922,7 +7922,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             draw_item_info( [&]() -> catacurses::window {
                 return catacurses::newwin( TERMY, width - 5, point_zero );
             }, info_data );
-        } else if( action == "PRIORITY_INCREASE") {
+        } else if( action == "PRIORITY_INCREASE" ) {
             filter_type = item_filter_type::HIGH_PRIORITY;
             ui.invalidate_ui();
 
@@ -7941,7 +7941,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             refilter = true;
             addcategory = !sort_radius;
             filter_type = cata::nullopt;
-        } else if( action == "PRIORITY_DECREASE") {
+        } else if( action == "PRIORITY_DECREASE" ) {
             filter_type = item_filter_type::LOW_PRIORITY;
             ui.invalidate_ui();
 
