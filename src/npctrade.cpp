@@ -213,8 +213,12 @@ std::vector<item_pricing> npc_trading::init_buying( player &buyer, player &selle
         }
     }
 
-    for( vehicle_cursor &cursor : vehicle_selector( seller.pos(), 1 ) ) {
-        buy_helper( cursor, check_item );
+    // Allow direct trade from vehicles, but *not* with allies, as that ends up
+    // with the same item on both sides of the trade panel, and so much clutter.
+    if( ! np.will_exchange_items_freely() ) {
+        for( vehicle_cursor &cursor : vehicle_selector( seller.pos(), 1 ) ) {
+            buy_helper( cursor, check_item );
+        }
     }
 
     const auto cmp = []( const item_pricing & a, const item_pricing & b ) {
