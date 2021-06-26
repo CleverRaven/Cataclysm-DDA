@@ -88,6 +88,11 @@ class item_pocket
                 void blacklist_item( const itype_id &id );
                 void clear_item( const itype_id &id );
 
+                const cata::flat_set<itype_id> &get_item_whitelist() const;
+                const cata::flat_set<itype_id> &get_item_blacklist() const;
+                const cata::flat_set<item_category_id> &get_category_whitelist() const;
+                const cata::flat_set<item_category_id> &get_category_blacklist() const;
+
                 void whitelist_category( const item_category_id &id );
                 void blacklist_category( const item_category_id &id );
                 void clear_category( const item_category_id &id );
