@@ -167,13 +167,12 @@ Adds bigger mini-maps to all sidebar layouts.
 Adds keycode support to uilist.
 Allows attempting to disable robots by 'e'xamining them.
 Warns if a friendly creature or non-hostile NPC enters the line of fire.
-Replaces the CAL/kg column of the (E)at menu with a more meaningful Satiety column.
-Adds a Mod to use MSX characters and monsters with the Ultica tileset.
+Added a satiety column to the eat menu, showing how many calories the food will have for how filling it is.
 Shows crafting failure rates due to missing proficiencies.
 Displays contained items like 'water (plastic bottle)' instead of as 'plastic bottle of water'.
 Keeps track of preferred aiming mode.
-Makes Chibi Ultica a stand-alone tileset.
-Brings back MSX+.
+Add Chibi Ultica tileset, a mix of MSX character and monster sprites with Ultica terrain, vehicles, and items.
+Brings back MSX+ Tileset.
 Adds item length and pocket volume entries to menus.
 Adds fast scrolling to many menus with long lists.
 Adds responsive screen behavior to the new character menu for small terminal sizes.
