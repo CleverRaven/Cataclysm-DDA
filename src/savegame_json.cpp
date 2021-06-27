@@ -2548,7 +2548,9 @@ void item::io( Archive &archive )
     if( count_by_charges() && charges <= 0 ) {
         charges = item( type, calendar::turn_zero ).charges;
     }
-    if( has_temperature() || goes_bad() ) {
+
+    // Items from old saves before those items were temperature tracked need activating.
+    if( has_temperature() ) {
         active = true;
     }
     if( !active && ( has_own_flag( flag_HOT ) || has_own_flag( flag_COLD ) ||

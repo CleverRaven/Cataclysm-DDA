@@ -308,7 +308,7 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
                     item_pocket::pocket_type::MAGAZINE );
         }
 
-    } else if( has_temperature() || goes_bad() ) {
+    } else if( has_temperature() ) {
         active = true;
         last_temp_check = bday;
 
