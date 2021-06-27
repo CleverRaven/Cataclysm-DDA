@@ -6852,11 +6852,6 @@ bool item::reinforceable() const
     } );
 }
 
-bool item::destroyed_at_zero_charges() const
-{
-    return ( is_ammo() || is_food() );
-}
-
 bool item::is_gun() const
 {
     return !!type->gun;
