@@ -6854,7 +6854,7 @@ bool item::reinforceable() const
 
 bool item::destroyed_at_zero_charges() const
 {
-    return ( is_ammo() || is_comestible() );
+    return ( is_ammo() || is_food() );
 }
 
 bool item::is_gun() const
@@ -10422,7 +10422,7 @@ bool item::process_internal( player *carrier, const tripoint &pos,
     // Remaining stuff is only done for active items.
     if( active ) {
 
-        if( !is_comestible() && item_counter > 0 ) {
+        if( !is_food() && item_counter > 0 ) {
             item_counter--;
         }
 
