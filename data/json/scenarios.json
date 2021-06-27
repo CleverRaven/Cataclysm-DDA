@@ -584,6 +584,6 @@
     "allowed_locs": [ "sloc_road" ],
     "start_name": "Crash Site",
     "map_extra": "mx_mayhem",
-    "flags": [ "HELI_CRASH", "LONE_START" ]
+    "flags": [ "CHALLENGE", "HELI_CRASH", "LONE_START" ]
   }
 ]
