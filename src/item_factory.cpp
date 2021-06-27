@@ -1941,45 +1941,6 @@ void islot_armor::load( const JsonObject &jo )
             //    }
             //}
         }
-    } else {
-        if( data.empty() ) { // Loading item does not have copy-from
-            data.emplace_back();
-            optional( jo, was_loaded, "encumbrance", data[0].encumber, 0 );
-            // Default max_encumbrance will be set to a reasonable value in finalize_post
-            optional( jo, was_loaded, "max_encumbrance", data[0].max_encumber, -1 );
-            optional( jo, was_loaded, "coverage", data[0].coverage, 0 );
-            body_part_set temp_cover_data;
-            assign_coverage_from_json( jo, "covers", temp_cover_data );
-            data[0].covers = temp_cover_data;
-        } else { // This item has copy-from and already has taken data from parent
-            armor_portion_data child_data;
-            if( jo.has_int( "encumbrance" ) ) {
-                child_data.encumber = jo.get_int( "encumbrance" );
-            }
-            if( jo.has_int( "max_encumbrance" ) ) {
-                child_data.max_encumber = jo.get_int( "max_encumbrance" );
-            } else {
-                child_data.max_encumber = -1;
-            }
-            if( jo.has_int( "coverage" ) ) {
-                child_data.coverage = jo.get_int( "coverage" );
-            }
-            // If child item contains data, use that data, otherwise use parents data
-            if( child_data.encumber != data[0].encumber && child_data.encumber != 0 ) {
-                data[0].encumber = child_data.encumber;
-            }
-            if( child_data.max_encumber != data[0].max_encumber && child_data.max_encumber != -1 ) {
-                data[0].max_encumber = child_data.max_encumber;
-            }
-            if( child_data.coverage != data[0].coverage && child_data.coverage != 0 ) {
-                data[0].coverage = child_data.coverage;
-            }
-            body_part_set temp_cover_data;
-            assign_coverage_from_json( jo, "covers", temp_cover_data );
-            if( temp_cover_data.any() ) {
-                data[0].covers = temp_cover_data;
-            }
-        }
     }
 
     optional( jo, was_loaded, "sided", sided, false );
