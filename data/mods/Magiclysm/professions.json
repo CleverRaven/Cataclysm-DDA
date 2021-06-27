@@ -333,7 +333,7 @@
   {
     "// TEMP WORKAROUND": "bio_metabolics should be bio_fuel_cell_blood but that's currently broken (as of 2021-06-27), so I'm using the metabolic+cannibal as a temp standin as that approximates the intent",
     "// TEMP WORKAROUND CBMS": " -bio_metabolics, +bio_fuel_cell_blood (once the latter is fixed)",
-    "// TEMP WORKAROUND TRAITS": "-CANNIBAL (once blood power generator bionic is fixed)",
+    "// TEMP WORKAROUND TRAITS": "-CANNIBAL, -HUNGER (once blood power generator bionic is fixed)",
     "type": "profession",
     "id": "magic_vamp",
     "name": "Bionic Pseudovamp",
@@ -361,7 +361,7 @@
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     },
-    "traits": [ "ANIMIST", "ALBINO", "TROGLO2", "SLOWHEALER2", "CANNIBAL" ]
+    "traits": [ "ANIMIST", "ALBINO", "TROGLO2", "SLOWHEALER2", "CANNIBAL", "HUNGER" ]
   },
   {
     "type": "profession",
