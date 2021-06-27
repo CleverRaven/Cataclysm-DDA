@@ -2192,6 +2192,22 @@ void talk_effect_fun_t::set_add_power( const JsonObject &jo, const std::string &
     };
 }
 
+void talk_effect_fun_t::set_assign_mission( const JsonObject &jo, const std::string &member )
+{
+    std::string mission_name = jo.get_string( member );
+    function = [mission_name]( const dialogue & d ) {
+        avatar &player_character = get_avatar();
+
+        const mission_type_id &mission_type = mission_type_id( mission_name );
+        tripoint_abs_omt mission_target;
+
+        std::vector<mission *> missions = player_character.get_active_missions();
+        mission *new_mission = mission::reserve_new( mission_type, character_id() );
+        new_mission->assign( player_character );
+        mission_target = new_mission->get_target();
+    };
+}
+
 void talk_effect_t::set_effect_consequence( const talk_effect_fun_t &fun,
         dialogue_consequence con )
 {
@@ -2445,6 +2461,8 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_add_power( jo, "u_add_power", false );
     } else if( jo.has_member( "npc_add_power" ) ) {
         subeffect_fun.set_add_power( jo, "npc_add_power", true );
+    } else if( jo.has_member( "assign_mission" ) ) {
+        subeffect_fun.set_assign_mission( jo, "assign_mission" );
     } else {
         jo.throw_error( "invalid sub effect syntax: " + jo.str() );
     }
