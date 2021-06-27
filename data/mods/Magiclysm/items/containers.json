@@ -2,6 +2,7 @@
   {
     "type": "GENERIC",
     "id": "bag_holding_1",
+    "category": "container",
     "name": { "str": "lesser dimensional bag" },
     "description": "This is a bag that can contain more than it should.  The bag magically reduces the weight of its contents and expands less than the amount of stuff you put into it.  It takes a few words and hand-waving to take an item out.",
     "symbol": "U",
@@ -30,6 +31,7 @@
     "type": "GENERIC",
     "copy-from": "bag_holding_1",
     "id": "bag_holding_2",
+    "category": "container",
     "name": { "str": "dimensional bag" },
     "weight": "6 kg",
     "price": "7500 USD",
@@ -53,6 +55,7 @@
     "type": "GENERIC",
     "copy-from": "bag_holding_1",
     "id": "bag_holding_3",
+    "category": "container",
     "name": { "str": "greater dimensional bag" },
     "description": "This dimensional bag has reached the limits of human innovation with a combination of manufacturing and magical secrets.",
     "weight": "10 kg",
@@ -76,6 +79,7 @@
   {
     "type": "GENERIC",
     "id": "fridge_holding_1",
+    "category": "container",
     "name": { "str": "supergravity preservation box", "str_pl": "supergravity preservation boxes" },
     "description": "A box that uses gravity magic to preserve food.  It makes the box much heavier, but anything in it lasts far longer and you can store more.",
     "weight": "80 kg",
