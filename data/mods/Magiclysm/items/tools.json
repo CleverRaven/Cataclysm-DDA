@@ -2,7 +2,7 @@
   {
     "id": "cauldron_demon_chitin",
     "type": "GENERIC",
-    "category": "other",
+    "category": "container",
     "name": { "str": "cauldron of purification", "str_pl": "cauldrons of purification" },
     "description": "This cauldron made of demon spider chitin seems to absorb the light.  It will hold 16 liters of material and will absorb poisons from it.  It may have other properties that require discovery.",
     "weight": "1424 g",
@@ -22,6 +22,7 @@
   {
     "id": "cauldron_orichalcum",
     "type": "GENERIC",
+    "category": "container",
     "name": { "str": "orichalcum cauldron" },
     "description": "This is an alchemical cauldron made of orichalcum.  The metal is especially resistant to the unique types of corrosion caused by alchemy.",
     "weight": "15 kg",

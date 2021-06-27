@@ -376,7 +376,7 @@
     "encumbrance": 45,
     "warmth": 20,
     "material_thickness": 5,
-    "flags": [ "VARSIZE", "OUTER", "FANCY" ]
+    "flags": [ "VARSIZE", "OUTER" ]
   },
   {
     "id": "xl_armor_plate",
@@ -384,7 +384,7 @@
     "name": { "str": "XL ornamental plate armor" },
     "copy-from": "armor_plate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "VARSIZE", "OUTER", "FANCY", "OVERSIZE" ]
+    "flags": [ "VARSIZE", "OUTER", "OVERSIZE" ]
   },
   {
     "id": "armor_riot",

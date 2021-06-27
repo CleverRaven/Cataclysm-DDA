@@ -377,6 +377,8 @@ class zone_manager
             return manager;
         }
 
+        void clear();
+
         void add( const std::string &name, const zone_type_id &type, const faction_id &faction,
                   bool invert, bool enabled,
                   const tripoint &start, const tripoint &end,
