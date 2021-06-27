@@ -377,7 +377,7 @@ item::item( const recipe *rec, int qty, std::list<item> items, std::vector<item_
     components = items;
     craft_data_->comps_used = selections;
 
-    if( is_comestible() ) {
+    if( has_temperature() ) {
         active = true;
         last_temp_check = bday;
         if( goes_bad() ) {
@@ -411,7 +411,7 @@ item::item( const recipe *rec, item &component )
     std::list<item>items( { component } );
     components = items;
 
-    if( is_comestible() ) {
+    if( has_temperature() ) {
         active = true;
         last_temp_check = bday;
         if( goes_bad() ) {
@@ -4435,7 +4435,7 @@ nc_color item::color_in_inventory() const
         }
     } else if( has_flag( flag_LEAK_DAM ) && has_flag( flag_RADIOACTIVE ) && damage() > 0 ) {
         ret = c_light_green;
-    } else if( active && !is_comestible() &&  !is_corpse() ) {
+    } else if( active && !has_temperature() &&  !is_corpse() ) {
         // Active items show up as yellow
         ret = c_yellow;
     } else if( is_corpse() && can_revive() ) {
@@ -4974,7 +4974,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         tagtext += _( " (lit)" );
     } else if( has_flag( flag_IS_UPS ) && get_var( "cable" ) == "plugged_in" ) {
         tagtext += _( " (plugged in)" );
-    } else if( active && !is_comestible() && !is_corpse() &&
+    } else if( active && !has_temperature() && !is_corpse() &&
                !string_ends_with( typeId().str(), "_on" ) ) {
         // Usually the items whose ids end in "_on" have the "active" or "on" string already contained
         // in their name, also food is active while it rots.
@@ -9417,7 +9417,7 @@ bool item::has_rotten_away() const
     if( is_corpse() && !can_revive() ) {
         return get_rot() > 10_days;
     } else {
-        return is_comestible() && get_relative_rot() > 2.0;
+        return get_relative_rot() > 2.0;
     }
 }
 
