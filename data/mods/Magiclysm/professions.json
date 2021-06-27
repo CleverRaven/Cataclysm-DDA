@@ -331,6 +331,9 @@
     "traits": [ "TECHNOMANCER" ]
   },
   {
+    "// TEMP WORKAROUND": "bio_metabolics should be bio_fuel_cell_blood but that's currently broken (as of 2021-06-27), so I'm using the metabolic+cannibal as a temp standin as that approximates the intent",
+    "// TEMP WORKAROUND CBMS": " -bio_metabolics, +bio_fuel_cell_blood (once the latter is fixed)",
+    "// TEMP WORKAROUND TRAITS": "-CANNIBAL (once blood power generator bionic is fixed)",
     "type": "profession",
     "id": "magic_vamp",
     "name": "Bionic Pseudovamp",
@@ -342,7 +345,7 @@
       { "id": "summon_zombie", "level": 2 },
       { "id": "dark_sight", "level": 3 }
     ],
-    "CBMs": [ "bio_fuel_cell_blood", "bio_power_storage_mkII", "bio_nanobots" ],
+    "CBMs": [ "bio_metabolics", "bio_power_storage_mkII", "bio_nanobots" ],
     "skills": [
       { "level": 2, "name": "unarmed" },
       { "level": 2, "name": "melee" },
@@ -358,7 +361,7 @@
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     },
-    "traits": [ "ANIMIST", "ALBINO", "TROGLO2", "SLOWHEALER2" ]
+    "traits": [ "ANIMIST", "ALBINO", "TROGLO2", "SLOWHEALER2", "CANNIBAL" ]
   },
   {
     "type": "profession",
