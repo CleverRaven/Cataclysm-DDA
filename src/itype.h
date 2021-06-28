@@ -228,6 +228,8 @@ struct armor_portion_data {
     // What layer does it cover if any
     // TODO: Not currently supported, we still use flags for this
     //cata::optional<layer_level> layer;
+
+    void deserialize( JsonIn &jsin );
 };
 
 struct islot_armor {
