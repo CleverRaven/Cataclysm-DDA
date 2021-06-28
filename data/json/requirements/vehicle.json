@@ -28,7 +28,7 @@
     "id": "vehicle_nail_removal",
     "type": "requirement",
     "//": "Compatible with legacy flag NAILABLE",
-    "qualities": [ { "id": "HAMMER", "level": 2 } ]
+    "qualities": [ { "id": "PRY", "level": 1 } ]
   },
   {
     "id": "vehicle_screw",
