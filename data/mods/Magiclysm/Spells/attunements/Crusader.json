@@ -1,0 +1,108 @@
+[
+  {
+    "id": "holy_shield",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "Holy Shield" },
+    "description": "A Crusader's magical shield, enhanced to protect the Crusader from all that stands in their way.",
+    "weight": "1905 g",
+    "volume": "4 L",
+    "longest_side": "100 cm",
+    "price": 1560000,
+    "price_postapoc": 7200,
+	"to_hit": 3,
+    "bashing": 14,
+	"material": [ "steel" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "armor_portion_data": [
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 70, "encumbrance": [ 12, 12 ] },
+      { "covers": [ "hand_l", "hand_r" ], "coverage": 100, "encumbrance": [ 12, 12 ] },
+      { "sided": true }
+    ],
+    "material_thickness": 6,
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN", "ONLY_ONE", "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE", "TRADER_AVOID" ],
+	"relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "values": [
+            { "value": "ARMOR_CUT", "add": -6 },
+            { "value": "ARMOR_BASH", "add": -6 },
+            { "value": "ARMOR_STAB", "add": -6 },
+            { "value": "ARMOR_BULLET", "add": -3 }
+		  ]
+		}
+	  ]
+	}
+  },
+  {
+	"id": "holy_shield",
+    "type": "SPELL",
+    "name": "Holy Shield",
+    "description": "Crusaders have the ability to summon a magically enhanced shield to their arm to protect them in armed combat.",
+    "valid_targets": [ "none" ],
+    "flags": [ "CONCENTRATE", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
+    "effect": "spawn_item",
+    "shape": "blast",
+    "effect_str": "holy_shield",
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_duration": 0,
+    "max_duration": 3240000,
+    "duration_increment": 92572,
+    "spell_class": "CRUSADER",
+    "difficulty": 1,
+    "max_level": 35,
+    "base_casting_time": 1500,
+    "final_casting_time": 500,
+    "casting_time_increment": -30,
+    "base_energy_cost": 100,
+    "energy_source": "MANA"
+  },
+  {
+    "id": "judgement_sword",
+    "type": "TOOL",
+    "name": { "str": "Sword of Judgement" },
+    "description": "A Crusader's magical sword, enhanced to purge the corruption before them.",
+    "weight": "1088 g",
+    "volume": "2750 ml",
+    "longest_side": "120 cm",
+    "price": 1560000,
+    "price_postapoc": 7200,
+	"to_hit": 6,
+    "bashing": 15,
+	"cutting": 42,
+	"material": [ "steel" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "techniques": [ "WBLOCK_2" ],
+	"category": "weapons",
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
+    "flags": [ "SHEATH_SWORD", "ONLY_ONE", "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE", "TRADER_AVOID" ]
+  },
+  {
+    "id": "judgement_sword",
+    "type": "SPELL",
+    "name": "Sword of Judgement",
+    "description": "Crusaders have the ability to summon a magically enhanced sword to their hand to aid them in armed combat.",
+    "valid_targets": [ "none" ],
+    "flags": [ "CONCENTRATE", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
+    "effect": "spawn_item",
+    "shape": "blast",
+    "effect_str": "judgement_sword",
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_duration": 0,
+    "max_duration": 3240000,
+    "duration_increment": 92572,
+    "spell_class": "CRUSADER",
+    "difficulty": 1,
+    "max_level": 35,
+    "base_casting_time": 1500,
+    "final_casting_time": 500,
+    "casting_time_increment": -30,
+    "base_energy_cost": 100,
+    "energy_source": "MANA"
+  }
+]
