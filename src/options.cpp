@@ -1987,9 +1987,18 @@ void options_manager::add_options_graphics()
     "software", COPT_CURSES_HIDE );
 #   else
     std::vector<options_manager::id_and_option> renderer_list = cata_tiles::build_renderer_list();
+    std::string default_renderer = renderer_list.front().first;
+#   if defined(_WIN32)
+    for( const id_and_option &renderer : renderer_list ) {
+        if( renderer.first == "direct3d11" ) {
+            default_renderer = renderer.first;
+            break;
+        }
+    }
+#   endif
     add( "RENDERER", "graphics", to_translation( "Renderer" ),
          to_translation( "Set which renderer to use.  Requires restart." ), renderer_list,
-         renderer_list.front().first, COPT_CURSES_HIDE );
+         default_renderer, COPT_CURSES_HIDE );
 #   endif
 
 #else
