@@ -67,7 +67,7 @@
     "max_level": 3,
     "proficiencies": [
       { "proficiency": "prof_closures", "time_factor": 0.2, "fail_factor": 0.25 },
-      { "proficiency": "prof_elastics", "time_factor": 0.1, "fail_factor": 0.25 }
+      { "proficiency": "prof_elastics", "time_factor": 0.2, "fail_factor": 0.15 }
     ],
     "intelligence": 4,
     "time": "18 m"
