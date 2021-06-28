@@ -207,8 +207,8 @@
     ],
     "death_drops": "mon_zombie_kevlar_death_drops",
     "death_function": [ "NORMAL" ],
+    "burn_into": "mon_zombie_fiend",
     "upgrades": { "half_life": 42, "into": "mon_zombie_kevlar_2" },
-    "burn_into": "mon_zombie_scorched",
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
   },
   {
@@ -247,7 +247,6 @@
     ],
     "death_drops": "mon_zombie_kevlar_death_drops",
     "death_function": [ "NORMAL" ],
-    "burn_into": "mon_zombie_scorched",
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
   },
   {
@@ -324,6 +323,7 @@
     "armor_bash": 12,
     "armor_cut": 25,
     "armor_bullet": 20,
+    "armor_fire": 15,
     "vision_day": 30,
     "vision_night": 3,
     "luminance": 8,
@@ -380,7 +380,7 @@
     "harvest": "zombie",
     "death_drops": "mon_zombie_armored_death_drops",
     "death_function": [ "NORMAL" ],
-    "burn_into": "mon_zombie_scorched",
+    "burn_into": "mon_zombie_fiend",
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
   },
   {
@@ -418,6 +418,7 @@
     "special_when_hit": [ "ZAPBACK", 75 ],
     "death_drops": "mon_zombie_bio_op_death_drops",
     "death_function": [ "NORMAL" ],
+    "burn_into": "mon_zombie_scorched",
     "flags": [
       "SEES",
       "HEARS",

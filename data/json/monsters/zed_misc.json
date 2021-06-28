@@ -1110,6 +1110,7 @@
     "emit_fields": [ { "emit_id": "emit_smoke_stream", "delay": "1 s" } ],
     "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "scratch", 15 ] ],
     "death_function": [ "SMOKEBURST" ],
+    "burn_into": "mon_zombie_scorched",
     "upgrades": { "half_life": 28, "into": "mon_smoker_brute" },
     "flags": [
       "SEES",
@@ -1159,6 +1160,7 @@
     "emit_fields": [ { "emit_id": "emit_smoke_stream", "delay": "1 s" } ],
     "special_attacks": [ [ "SMASH", 30 ], { "type": "bite", "cooldown": 5 }, [ "scratch", 15 ], [ "RANGED_PULL", 20 ], [ "GRAB_DRAG", 10 ] ],
     "death_function": [ "SMOKEBURST" ],
+    "burn_into": "mon_zombie_fiend",
     "flags": [
       "SEES",
       "HEARS",
@@ -1298,6 +1300,7 @@
     "special_attacks": [ [ "PULL_METAL_WEAPON", 25 ], { "type": "bite", "cooldown": 20 } ],
     "death_drops": "mon_zombie_technician_death_drops",
     "death_function": [ "NORMAL" ],
+    "burn_into": "mon_zombie_scorched",
     "flags": [
       "SEES",
       "HEARS",

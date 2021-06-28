@@ -32,6 +32,7 @@
     "special_when_hit": [ "ZAPBACK", 75 ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
+    "burn_into": "mon_zombie_fiend",
     "flags": [
       "SEES",
       "HEARS",
@@ -78,6 +79,7 @@
     "special_when_hit": [ "ZAPBACK", 100 ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
+    "burn_into": "mon_zombie_scorched",
     "upgrades": { "half_life": 28, "into_group": "GROUP_ZOMBIE_ELECTRIC_UPGRADE" },
     "flags": [
       "SEES",
@@ -127,6 +129,7 @@
     "special_when_hit": [ "ZAPBACK", 75 ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
+    "burn_into": "mon_zombie_scorched",
     "flags": [ "SEES", "HEARS", "WARM", "POISON", "ELECTRIC", "NO_BREATHE", "REVIVES", "ELECTRIC_FIELD", "FILTHY" ]
   },
   {
@@ -157,6 +160,7 @@
     "special_when_hit": [ "ZAPBACK", 100 ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
+    "burn_into": "mon_zombie_scorched",
     "upgrades": { "half_life": 8, "into": "mon_zombie_electric" },
     "flags": [
       "SEES",
