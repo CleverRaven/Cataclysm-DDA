@@ -6,7 +6,7 @@
     "description": "You know the basics of manipulating the mana of objects through application of chemical laws.",
     "can_learn": true,
     "default_time_multiplier": 2,
-    "default_fail_multiplier": 3,
+    "default_fail_multiplier": 1.3,
     "time_to_learn": "8 h"
   },
   {
@@ -17,7 +17,7 @@
     "can_learn": true,
     "time_to_learn": "4 h",
     "default_time_multiplier": 2,
-    "default_fail_multiplier": 2,
+    "default_fail_multiplier": 1.2,
     "required_proficiencies": [ "prof_alchemy" ]
   }
 ]
