@@ -1,0 +1,21 @@
+[
+  {
+    "type": "COMESTIBLE",
+    "id": "hot_corn_casserole",
+    "name": { "str_sp": "hot corn casserole" },
+    "comestible_type": "FOOD",
+    "weight": "178 g",
+    "color": "yellow",
+    "symbol": "%",
+    "material": [ "veggy", "dairy" ],
+    "spoils_in": "2 days",
+    "quench": 0,
+    "calories": 112,
+    "fun": 6,
+    "volume": "250 ml",
+    "description": "It’s cheesy and indulgent, although the mix of tender kernels of corn, veggies, fresh herbs, and a pop of heat keep it in check so it’s not too heavy for the apocalypse.",
+    "price": 50,
+    "price_postapoc": 100,
+    "flags": [ "EATEN_HOT" ]
+  }
+]
