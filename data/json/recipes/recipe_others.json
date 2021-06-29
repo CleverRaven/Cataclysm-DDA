@@ -152,7 +152,10 @@
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ],
     "time": "32 m",
     "autolearn": true,
-    "components": [ [ [ "largebroketent", 2 ], [ "broketent", 4 ], [ "tent_kit", 3 ], [ "tent_parts", 3, "LIST" ] ], [ [ "adhesive", 3, "LIST" ] ] ]
+    "components": [
+      [ [ "largebroketent", 2 ], [ "broketent", 4 ], [ "tent_kit", 3 ], [ "tent_parts", 3, "LIST" ] ],
+      [ [ "adhesive", 3, "LIST" ] ]
+    ]
   },
   {
     "type": "recipe",
