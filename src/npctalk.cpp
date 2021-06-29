@@ -2199,12 +2199,9 @@ void talk_effect_fun_t::set_assign_mission( const JsonObject &jo, const std::str
         avatar &player_character = get_avatar();
 
         const mission_type_id &mission_type = mission_type_id( mission_name );
-        tripoint_abs_omt mission_target;
-
         std::vector<mission *> missions = player_character.get_active_missions();
         mission *new_mission = mission::reserve_new( mission_type, character_id() );
         new_mission->assign( player_character );
-        mission_target = new_mission->get_target();
     };
 }
 
