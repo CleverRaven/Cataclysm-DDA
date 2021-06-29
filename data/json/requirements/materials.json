@@ -218,7 +218,13 @@
     "id": "tent_parts",
     "type": "requirement",
     "//": "Materials used to make tents.",
-    "components": [ [ [ "tarp", 2 ] ], [ [ "tent_pole", 2 ] ], [ [ "plastic_sheet", 1 ] ], [ [ "bag_plastic", 1 ] ] ]
+    "components": [
+      [ [ "tarp", 2 ] ],
+      [ [ "tent_pole", 2 ] ],
+      [ [ "plastic_sheet", 1 ] ],
+      [ [ "bag_plastic", 1 ] ],
+      [ [ "adhesive", 1, "LIST" ] ]
+    ]
   },
   {
     "id": "solar_panel",
