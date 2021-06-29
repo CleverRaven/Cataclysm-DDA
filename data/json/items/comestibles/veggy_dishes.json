@@ -235,7 +235,7 @@
     "material": [ "veggy" ],
     "vitamins": [ [ "vitA", 6 ], [ "vitC", 3 ], [ "iron", 3 ] ],
     "spoils_in": "2 days",
-    "calories": 448,
+    "calories": 172,
     "fun": 3,
     "volume": "250 ml",
     "description": "Corn roasted in a frying pan with herbs and spices.",
