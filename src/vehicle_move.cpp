@@ -572,7 +572,7 @@ void vehicle::cruise_thrust( int amount )
         return;
     }
     int safe_vel = safe_velocity();
-    int max_vel = is_autodriving ? safe_velocity() : max_velocity();
+    int max_vel = autopilot_on ? safe_velocity() : max_velocity();
     int max_rev_vel = max_reverse_velocity();
 
     //if the safe velocity is between the cruise velocity and its next value, set to safe velocity

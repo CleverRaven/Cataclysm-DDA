@@ -857,9 +857,7 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
             accel_y = 1;
         }
     }
-    follow_protocol ||
-    is_patrolling ? selfdrive( point( turn_x, accel_y ) ) : pldrive( player_character, point( turn_x,
-            accel_y ) );
+    selfdrive( point( turn_x, accel_y ) );
 }
 
 units::angle vehicle::get_angle_from_targ( const tripoint &targ )
