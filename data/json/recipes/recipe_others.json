@@ -151,7 +151,7 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "time": "28 m",
     "autolearn": true,
-    "components": [ [ "tent_parts", 1 ] ]
+    "components": [ [ [ "tent_parts", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
