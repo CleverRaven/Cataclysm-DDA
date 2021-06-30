@@ -186,6 +186,7 @@ TEST_CASE( "monster_throwing_sanity_test", "[throwing][balance]" )
     reset_caches( attacker_location.z, target_location.z );
     statistics<int> damage_dealt;
     do {
+        test_monster.moves = test_monster.type->speed;
         you.set_all_parts_hp_to_max();
         int prev_hp = you.get_hp();
         // monster throws stuff at player
