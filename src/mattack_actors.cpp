@@ -633,7 +633,7 @@ bool throw_actor::call( monster &z ) const
                                        _( "<npcname> dodges the thrown %1$s!" ),
                                        throwable_type.str() );
         if( !uncanny ) {
-            target->on_dodge( &z, z.type->melee_skill * 2 );
+            target->on_dodge( &z, z.type->melee_skill );
         }
         /* Target dodged the attack, so skip actual throwing altogether, instead simply place projectile at target's location
            TODO: make monster actually throw the projectile, and make target actually dodge it
