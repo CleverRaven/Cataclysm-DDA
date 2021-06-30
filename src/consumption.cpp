@@ -1717,8 +1717,9 @@ trinary player::consume( item &target, bool force )
         return trinary::NONE;
     }
     if( consume_med( target, *this ) ||
-        eat( target, *this, force ) ||
-        fuel_bionic_with( target ) ) {
+        ( has_max_power() && get_power_level() < get_max_power_level() &&
+          get_fuel_capacity( target.get_base_material().id ) > 0 && fuel_bionic_with( target ) ) ||
+        eat( target, *this, force ) ) {
 
         get_event_bus().send<event_type::character_consumes_item>( getID(), target.typeId() );
 
