@@ -740,33 +740,28 @@ static int charges_of_internal( const T &self, const M &main, const itype_id &id
 
     bool found_tool_with_UPS = false;
     self.visit_items( [&]( const item * e, item * ) {
-        if( filter( *e && !e->is_broken() ) ) {
+        if( filter( *e ) && id == e->typeId() && !e->is_broken() ) {
             if( id != itype_UPS_off ) {
-                if( e->typeId() == id ) {
-                    // includes charges from any included magazine.
+                if( e->count_by_charges() ) {
+                    qty = sum_no_wrap( qty, e->charges );
+                } else {
                     qty = sum_no_wrap( qty, e->ammo_remaining() );
-                    if( e->has_flag( STATIC( flag_id( "USE_UPS" ) ) ) ) {
-                        found_tool_with_UPS = true;
-                    }
-                    if( e->has_flag( STATIC( flag_id( "USES_BIONIC_POWER" ) ) ) ) {
-                        qty = sum_no_wrap( qty, units::to_kilojoule( get_player_character().get_power_level() ) );
-                    }
                 }
-                if( !e->is_container() ) {
-                    return qty < limit ? VisitResponse::SKIP : VisitResponse::ABORT;
+                if( e->has_flag( STATIC( flag_id( "USE_UPS" ) ) ) ) {
+                    found_tool_with_UPS = true;
+                }
+                if( e->has_flag( STATIC( flag_id( "USES_BIONIC_POWER" ) ) ) ) {
+                    qty = sum_no_wrap( qty, units::to_kilojoule( get_player_character().get_power_level() ) );
                 }
             } else if( id == itype_UPS_off && e->has_flag( STATIC( flag_id( "IS_UPS" ) ) ) ) {
                 qty = sum_no_wrap( qty, e->ammo_remaining() );
-            } else if( e->count_by_charges() ) {
-                if( e->typeId() == id ) {
-                    qty = sum_no_wrap( qty, e->charges );
-                }
-                // items counted by charges are not themselves expected to be containers
-                return qty < limit ? VisitResponse::SKIP : VisitResponse::ABORT;
             }
         }
-        // recurse through any nested containers
-        return qty < limit ? VisitResponse::NEXT : VisitResponse::ABORT;
+        if( qty >= limit ) {
+            return VisitResponse::ABORT;
+        }
+        // recurse through nested containers if any
+        return e->is_container() ? VisitResponse::NEXT : VisitResponse::SKIP;
     } );
 
     if( found_tool_with_UPS && qty < limit && get_player_character().has_active_bionic( bio_ups ) ) {
