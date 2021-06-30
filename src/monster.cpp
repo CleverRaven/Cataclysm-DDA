@@ -725,6 +725,13 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     vStart += fold_and_print( w, point( column, vStart ), max_width, sees_player ? c_red : c_green,
                               senses_str );
 
+    const std::pair<std::string, nc_color> speed_desc =
+        speed_description(
+            speed_rating(),
+            has_flag( MF_IMMOBILE ) );
+    vStart += fold_and_print( w, point( column, vStart ), max_width, speed_desc.second,
+                              speed_desc.first );
+
     // Monster description on following lines.
     std::vector<std::string> lines = foldstring( type->get_description(), max_width );
     int numlines = lines.size();

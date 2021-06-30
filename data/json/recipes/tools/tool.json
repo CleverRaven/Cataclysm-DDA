@@ -14,7 +14,7 @@
     "using": [ [ "welding_standard", 10 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_welding_basic", "fail_multiplier": 5 },
+      { "proficiency": "prof_welding_basic", "fail_multiplier": 1.5 },
       { "proficiency": "prof_welding" }
     ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
@@ -69,7 +69,7 @@
     "using": [ [ "welding_standard", 10 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_welding_basic", "fail_multiplier": 5 },
+      { "proficiency": "prof_welding_basic", "fail_multiplier": 1.5 },
       { "proficiency": "prof_welding" }
     ],
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
@@ -196,7 +196,7 @@
         "proficiency": "prof_lockpicking",
         "required": false,
         "time_multiplier": 2,
-        "fail_multiplier": 5,
+        "fail_multiplier": 1.5,
         "learning_time_multiplier": 0
       }
     ],
@@ -218,7 +218,7 @@
         "proficiency": "prof_lockpicking",
         "required": false,
         "time_multiplier": 2,
-        "fail_multiplier": 5,
+        "fail_multiplier": 1.5,
         "learning_time_multiplier": 0
       }
     ],
@@ -491,7 +491,7 @@
     "difficulty": 4,
     "time": "200 m",
     "reversible": true,
-    "book_learn": [ [ "textbook_chemistry", 4 ], [ "brewing_cookbook", 3 ] ],
+    "book_learn": [ [ "textbook_chemistry", 4 ], [ "distilling_cookbook", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
     "tools": [ [ [ "material_sand", 1 ] ] ],
     "qualities": [ { "id": "DRILL", "level": 2 }, { "id": "HAMMER", "level": 2 } ],

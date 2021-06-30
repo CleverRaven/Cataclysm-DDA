@@ -49,7 +49,7 @@ fi
 
 if [ -n "$CATA_CLANG_TIDY" ]; then
     $travis_retry pip install --user wheel --upgrade
-    $travis_retry pip install --user compiledb 'lit==0.11.1'
+    $travis_retry pip install --user compiledb 'lit==0.11.1' 'click==7.1.2'
 fi
 
 # Influenced by https://github.com/zer0main/battleship/blob/master/build/windows/requirements.sh

@@ -1053,7 +1053,8 @@ bool vehicle::start_engine( const int e )
     }
 
     // Damaged non-electric engines have a chance of failing to start
-    if( !is_engine_type( e, fuel_type_battery ) && x_in_y( dmg * 100, 120 ) ) {
+    if( !is_engine_type( e, fuel_type_battery ) && einfo.fuel_type != fuel_type_muscle &&
+        x_in_y( dmg * 100, 120 ) ) {
         sounds::sound( pos, eng.info().engine_noise_factor(), sounds::sound_t::movement,
                        string_format( _( "the %s clanking and grinding." ), eng.name() ), true, "vehicle",
                        "engine_clanking_fail" );
@@ -1065,7 +1066,7 @@ bool vehicle::start_engine( const int e )
     if( sfx::has_variant_sound( "engine_start", eng.info().get_id().str() ) ) {
         sfx::play_variant_sound( "engine_start", eng.info().get_id().str(),
                                  eng.info().engine_noise_factor() );
-    } else if( is_engine_type( e, fuel_type_muscle ) ) {
+    } else if( einfo.fuel_type == fuel_type_muscle ) {
         sfx::play_variant_sound( "engine_start", "muscle", eng.info().engine_noise_factor() );
     } else if( is_engine_type( e, fuel_type_wind ) ) {
         sfx::play_variant_sound( "engine_start", "wind", eng.info().engine_noise_factor() );

@@ -195,7 +195,7 @@
     "type": "material",
     "id": "alumentum",
     "name": "Alumentum",
-    "copy-from": "wood",
+    "copy-from": "charcoal",
     "fuel_data": { "energy": 150 }
   },
   {

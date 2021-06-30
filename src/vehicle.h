@@ -415,6 +415,9 @@ struct vehicle_part {
         /** parts are considered broken at zero health */
         bool is_broken() const;
 
+        /** Is this an enabled autoclave, dishwasher, or washing machine? */
+        bool is_cleaner_on() const;
+
         /** parts are unavailable if broken or if carried is true, if they have the CARRIED flag */
         bool is_unavailable( bool carried = true ) const;
         /** parts are available if they aren't unavailable */

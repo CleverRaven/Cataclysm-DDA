@@ -40,7 +40,6 @@
   },
   {
     "id": "gatling_mech_laser",
-    "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 20,
     "name": { "str": "CMES laser cannon" },
@@ -68,7 +67,6 @@
   },
   {
     "id": "recon_mech_laser",
-    "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 2,
     "name": { "str": "RMES marksman system" },

@@ -19,7 +19,7 @@
     "warmth": 8,
     "material_thickness": 0.3,
     "environmental_protection": 2,
-    "flags": [ "FANCY", "VARSIZE", "SUN_GLASSES" ]
+    "flags": [ "VARSIZE", "SUN_GLASSES" ]
   },
   {
     "id": "bandana_head",
@@ -64,7 +64,7 @@
     "coverage": 40,
     "warmth": 10,
     "material_thickness": 0.3,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "FANCY" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "beret_wool",
@@ -83,7 +83,7 @@
     "coverage": 40,
     "warmth": 15,
     "material_thickness": 0.3,
-    "flags": [ "VARSIZE", "WATERPROOF", "FANCY" ]
+    "flags": [ "VARSIZE", "WATERPROOF" ]
   },
   {
     "id": "bowhat",
@@ -298,7 +298,6 @@
     "description": "A stylish hat made of faux fur.  Like real fur, but without the suffering, if the tag is to be believed.  Very warm.",
     "material": [ "faux_fur", "cotton" ],
     "covers": [ "head" ],
-    "flags": [ "FANCY" ],
     "warmth": 60
   },
   {
@@ -447,7 +446,7 @@
     "warmth": 2,
     "material_thickness": 0.2,
     "environmental_protection": 4,
-    "flags": [ "FANCY", "OUTER", "SUN_GLASSES" ]
+    "flags": [ "OUTER", "SUN_GLASSES" ]
   },
   {
     "id": "kippah",
@@ -509,7 +508,7 @@
     "encumbrance": 10,
     "warmth": 10,
     "material_thickness": 0.05,
-    "flags": [ "VARSIZE", "FANCY" ]
+    "flags": [ "VARSIZE" ]
   },
   {
     "id": "porkpie",

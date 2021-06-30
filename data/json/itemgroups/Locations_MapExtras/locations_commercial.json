@@ -8,6 +8,7 @@
     "entries": [
       { "item": "aspirin", "prob": 85, "charges": [ 1, 10 ] },
       { "item": "caffeine", "prob": 25, "charges": [ 1, 10 ] },
+      { "item": "melatonin_tablet", "prob": 5, "charges": [ 1, 30 ] },
       { "group": "tobacco_products", "prob": 161 },
       { "item": "sponge", "prob": 10 },
       { "group": "ammo_pocket_batteries_full", "prob": 50 },

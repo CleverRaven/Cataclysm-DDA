@@ -718,6 +718,9 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     assign( jo, "ascii_picture", picture_id );
 
     optional( jo, was_loaded, "material", mat, auto_flags_reader<material_id> {} );
+    if( mat.empty() ) { // Assign a default "flesh" material to prevent crash (#48988)
+        mat.emplace_back( material_id( "flesh" ) );
+    }
     optional( jo, was_loaded, "species", species, auto_flags_reader<species_id> {} );
     optional( jo, was_loaded, "categories", categories, auto_flags_reader<> {} );
 

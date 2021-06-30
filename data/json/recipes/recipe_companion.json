@@ -3,6 +3,7 @@
     "type": "recipe",
     "activity_level": "fake",
     "result": "charcoal",
+    "byproducts": [ [ "charcoal", 12 ] ],
     "id_suffix": "npc",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",

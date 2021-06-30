@@ -5,6 +5,7 @@
 #include "type_id.h"
 
 class item;
+class json_talk_topic;
 class npc;
 class time_duration;
 
@@ -100,4 +101,7 @@ time_duration calc_proficiency_training_time( const npc &, const proficiency_id 
 int calc_proficiency_training_cost( const npc &p, const proficiency_id &proficiency );
 time_duration calc_ma_style_training_time( const npc &, const matype_id & /* id */ );
 int calc_ma_style_training_cost( const npc &p, const matype_id & /* id */ );
+
+const json_talk_topic *get_talk_topic( const std::string &id );
+
 #endif // CATA_SRC_NPCTALK_H

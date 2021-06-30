@@ -2278,6 +2278,9 @@ void basecamp::start_crafting( const std::string &cur_id, const point &cur_dir,
             components.consume_components();
             for( const item &results : making.create_results( batch_size ) ) {
                 comp->companion_mission_inv.add_item( results );
+                for( const item &byproducts : making.create_byproducts() ) {
+                    comp->companion_mission_inv.add_item( byproducts );
+                }
             }
         }
         return;

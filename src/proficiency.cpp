@@ -383,19 +383,12 @@ void book_proficiency_bonus::deserialize( JsonIn &jsin )
     optional( jo, was_loaded, "fail_factor", fail_factor, default_fail_factor );
     optional( jo, was_loaded, "time_factor", time_factor, default_time_factor );
     optional( jo, was_loaded, "include_prereqs", include_prereqs, default_include_prereqs );
-}
-
-book_proficiency_bonus &book_proficiency_bonus::operator+=( const book_proficiency_bonus &rhs )
-{
-    if( !id.is_empty() && id != rhs.id ) {
-        debugmsg( "ERROR: Tried to add two book proficiency bonuses with different ids" );
-        // can't add them together unless the ids are the same
-        return *this;
+    if( fail_factor < 0 || fail_factor >= 1 ) {
+        jo.throw_error( "fail_factor must be in range [0,1)" );
     }
-    fail_factor += rhs.fail_factor;
-    time_factor += rhs.time_factor;
-    // includ_prereqs is not included
-    return *this;
+    if( time_factor < 0 || time_factor >= 1 ) {
+        jo.throw_error( "time_factor must be in range [0,1)" );
+    }
 }
 
 void book_proficiency_bonuses::add( const book_proficiency_bonus &bonus )
@@ -431,40 +424,28 @@ book_proficiency_bonuses &book_proficiency_bonuses::operator+=( const book_profi
 
 float book_proficiency_bonuses::fail_factor( const proficiency_id &id ) const
 {
-    float ret = 0.0f;
-    bool found_bonus = false;
+    double sum = 0;
 
     for( const book_proficiency_bonus &bonus : bonuses ) {
         if( id != bonus.id ) {
             continue;
         }
-        found_bonus = true;
-        ret += std::pow( 1 - bonus.fail_factor, 2 );
+        sum += std::pow( std::log( 1.0 - bonus.fail_factor ), 2 );
     }
 
-    if( !found_bonus ) {
-        return 1.0f;
-    }
-
-    return 1 - std::sqrt( ret );
+    return static_cast<float>( 1.0 - std::exp( -std::sqrt( sum ) ) );
 }
 
 float book_proficiency_bonuses::time_factor( const proficiency_id &id ) const
 {
-    float ret = 0.0f;
-    bool found_bonus = false;
+    double sum = 0;
 
     for( const book_proficiency_bonus &bonus : bonuses ) {
         if( id != bonus.id ) {
             continue;
         }
-        found_bonus = true;
-        ret += std::pow( 1 - bonus.time_factor, 2 );
+        sum += std::pow( std::log( 1.0 - bonus.time_factor ), 2 );
     }
 
-    if( !found_bonus ) {
-        return 1.0f;
-    }
-
-    return 1 - std::sqrt( ret );
+    return static_cast<float>( 1.0 - std::exp( -std::sqrt( sum ) ) );
 }

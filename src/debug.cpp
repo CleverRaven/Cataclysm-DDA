@@ -375,7 +375,7 @@ struct time_info {
     }
 };
 
-#if defined(_MSC_VER)
+#if defined(_WIN32)
 static time_info get_time() noexcept
 {
     SYSTEMTIME time {};
@@ -393,9 +393,10 @@ static time_info get_time() noexcept
     gettimeofday( &tv, nullptr );
 
     const time_t tt      = time_t {tv.tv_sec};
-    struct tm *const current = localtime( &tt );
+    tm current;
+    localtime_r( &tt, &current );
 
-    return time_info { current->tm_hour, current->tm_min, current->tm_sec,
+    return time_info { current.tm_hour, current.tm_min, current.tm_sec,
                        static_cast<int>( std::lround( tv.tv_usec / 1000.0 ) )
                      };
 }

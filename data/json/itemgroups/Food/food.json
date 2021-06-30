@@ -770,6 +770,8 @@
       { "item": "hamburger", "count": [ 0, 3 ] },
       { "item": "sloppyjoe", "count": [ 0, 3 ] },
       { "item": "fries", "count": [ 0, 3 ] },
+      { "item": "hotdogs_cooked", "count": [ 0, 3 ] },
+      { "item": "corndogs_cooked", "count": [ 0, 3 ] },
       { "item": "bacon", "count": [ 0, 3 ] }
     ]
   },

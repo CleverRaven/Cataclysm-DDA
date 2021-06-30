@@ -54,8 +54,6 @@ class game;
 
 extern std::unique_ptr<game> g;
 
-extern const int core_version;
-
 extern const int savegame_version;
 extern int savegame_loading_version;
 

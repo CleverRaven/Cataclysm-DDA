@@ -1535,9 +1535,6 @@ bool worldfactory::valid_worldname( const std::string &name, bool automated )
 
 void WORLD::load_options( JsonIn &jsin )
 {
-    // if core data version isn't specified then assume version 1
-    int version = 1;
-
     auto &opts = get_options();
 
     jsin.start_array();
@@ -1548,11 +1545,6 @@ void WORLD::load_options( JsonIn &jsin )
         const std::string value = opts.migrateOptionValue( jo.get_string( "name" ),
                                   jo.get_string( "value" ) );
 
-        if( name == "CORE_VERSION" ) {
-            version = std::max( std::atoi( value.c_str() ), 0 );
-            continue;
-        }
-
         if( opts.has_option( name ) && opts.get_option( name ).getPage() == "world_default" ) {
             WORLD_OPTIONS[ name ].setValue( value );
         }
@@ -1561,8 +1553,6 @@ void WORLD::load_options( JsonIn &jsin )
     if( WORLD_OPTIONS.count( "CITY_SPACING" ) == 0 ) {
         WORLD_OPTIONS["CITY_SPACING"].setValue( 5 - get_option<int>( "CITY_SIZE" ) / 3 );
     }
-
-    WORLD_OPTIONS[ "CORE_VERSION" ].setValue( version );
 }
 
 bool WORLD::load_options()

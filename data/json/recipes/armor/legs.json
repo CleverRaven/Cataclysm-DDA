@@ -278,7 +278,7 @@
     "time": "4 h",
     "reversible": true,
     "book_learn": [ [ "textbook_tailor", 2 ], [ "manual_tailor", 3 ] ],
-    "using": [ [ "tailoring_cotton", 2 ] ],
+    "using": [ [ "tailoring_fur", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_furriery" } ]
   },
   {

@@ -1,0 +1,13 @@
+[
+  {
+    "//": "Fix for #49285. Remove if/when evac shelters are excluded from the mod.",
+    "id": "MISSION_REACH_REFUGEE_CENTER",
+    "type": "mission_definition",
+    "name": { "str": "Reach Refugee Center" },
+    "goal": "MGOAL_NULL",
+    "deadline_low": "1s",
+    "deadline_high": "1s",
+    "difficulty": 0,
+    "value": 0
+  }
+]

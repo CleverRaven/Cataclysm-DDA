@@ -4679,10 +4679,7 @@ void vehicle::consume_fuel( int load, bool idling )
             player_character.mod_power_level( units::from_kilojoule( -std::max( eff_load / 20, 1 ) ) );
             mod -= std::max( eff_load / 5, 5 );
         }
-        if( one_in( 1000 / load ) && one_in( 10 ) ) {
-            player_character.mod_thirst( 1 );
-            player_character.mod_fatigue( 1 );
-        }
+
         player_character.mod_stamina( -( base_burn + mod ) );
         add_msg_debug( "Load: %d", load );
         add_msg_debug( "Mod: %d", mod );

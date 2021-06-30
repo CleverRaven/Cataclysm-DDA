@@ -28,7 +28,7 @@
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 }, { "id": "MANA_FOCUS", "level": 1 } ],
     "tools": [ [ [ "paint_brush", -1 ] ] ],
     "components": [
-      [ [ "tainted_blood", 2000 ], [ "blood", 8 ], [ "dragon_blood", 2000 ] ],
+      [ [ "blood_tainted", 2000 ], [ "blood", 8 ], [ "dragon_blood", 2000 ] ],
       [ [ "any_strong_acid", 4, "LIST" ] ],
       [ [ "water", 2 ], [ "water_clean", 2 ] ]
     ],

@@ -1987,9 +1987,18 @@ void options_manager::add_options_graphics()
     "software", COPT_CURSES_HIDE );
 #   else
     std::vector<options_manager::id_and_option> renderer_list = cata_tiles::build_renderer_list();
+    std::string default_renderer = renderer_list.front().first;
+#   if defined(_WIN32)
+    for( const id_and_option &renderer : renderer_list ) {
+        if( renderer.first == "direct3d11" ) {
+            default_renderer = renderer.first;
+            break;
+        }
+    }
+#   endif
     add( "RENDERER", "graphics", to_translation( "Renderer" ),
          to_translation( "Set which renderer to use.  Requires restart." ), renderer_list,
-         renderer_list.front().first, COPT_CURSES_HIDE );
+         default_renderer, COPT_CURSES_HIDE );
 #   endif
 
 #else
@@ -2051,13 +2060,6 @@ void options_manager::add_options_world_default()
     const auto add_empty_line = [&]() {
         world_default_page_.items_.emplace_back();
     };
-
-    add( "CORE_VERSION", "world_default", to_translation( "Core version data" ),
-         to_translation( "Controls what migrations are applied for legacy worlds" ),
-         1, core_version, core_version, COPT_ALWAYS_HIDE
-       );
-
-    add_empty_line();
 
     add( "WORLD_END", "world_default", to_translation( "World end handling" ),
     to_translation( "Handling of game world when last character dies." ), {

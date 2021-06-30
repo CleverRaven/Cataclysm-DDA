@@ -741,7 +741,7 @@
     "material_thickness": 1.0,
     "environmental_protection": 1,
     "valid_mods": [ "steel_padded" ],
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "FANCY" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
   },
   {
     "id": "jacket_light",
@@ -880,7 +880,7 @@
     "encumbrance": 2,
     "warmth": 20,
     "material_thickness": 0.5,
-    "flags": [ "VARSIZE", "FANCY" ]
+    "flags": [ "VARSIZE" ]
   },
   {
     "id": "keikogi",
@@ -954,7 +954,7 @@
     ],
     "warmth": 5,
     "material_thickness": 0.15,
-    "flags": [ "VARSIZE", "FANCY" ]
+    "flags": [ "VARSIZE" ]
   },
   {
     "id": "haori",
@@ -1080,7 +1080,7 @@
     "encumbrance": 2,
     "warmth": 12,
     "material_thickness": 0.5,
-    "flags": [ "VARSIZE", "FANCY", "OUTER" ]
+    "flags": [ "VARSIZE", "OUTER" ]
   },
   {
     "id": "ski_jacket",
