@@ -740,8 +740,8 @@ static int charges_of_internal( const T &self, const M &main, const itype_id &id
 
     bool found_tool_with_UPS = false;
     self.visit_items( [&]( const item * e, item * ) {
-        if( filter( *e ) && !e->is_broken()  ) {
-            if( e->is_tool() && id != itype_UPS_off ) {
+        if( filter( *e && !e->is_broken() ) ) {
+            if( id != itype_UPS_off ) {
                 if( e->typeId() == id ) {
                     // includes charges from any included magazine.
                     qty = sum_no_wrap( qty, e->ammo_remaining() );
