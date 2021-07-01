@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="installTitle">正在解压游戏数据…</string>
-    <string name="upgradeTitle">正在合并游戏数据…</string>
-    <string name="helpTitle">游戏控制帮助</string>
-    <string name="helpMessage">[屏幕上滑动]可定向移动([按住]可显示虚拟操纵杆，可在设置中选择关闭)。
-[轻触屏幕]可确认菜单中的选项\'或\'在游戏中等待一个回合([长按]可等待几个回合)。
-[双击屏幕]可取消当前操作\'或\'返回菜单(类似于Escape键)。
-游戏中[双指并拢手势]可放大/缩小视图当前分辨率(仅限开启贴图包状态下)。
-[点击系统后退键(手机上的小于号键，在菜单键旁边)]可切出虚拟键盘,按住直至弹窗出现可隐藏/显示下方快捷键栏。
-*设置中可绑定四个双指方向滑动快捷键；例双指向下滑动绑定键为\"i\"，即可游戏内双指向下滑动打开物品栏。</string>
+    <string name="installTitle">正在安装游戏数据……</string>
+    <string name="upgradeTitle">正在合并游戏数据……</string>
+    <string name="helpTitle">帮助及设置</string>
+    <string name="helpMessage">[滑动] 按方向移动（[长按] 显示虚拟手柄）。
+[短按] 确认菜单选项 或 等待一回合（[长按] 等待多回合）。
+[双击] 取消当前操作 或 返回菜单 （等同于 Esc 键）。
+[双指内缩] 放大/缩小视野（游戏中）。
+[系统返回键] 切出虚拟键盘（[长按] 隐藏/显示快捷键栏）。
+*设置中可设置四个双指方向滑动快捷键；例：[双指向下滑动] 设置为 \"i\"，即可游戏内双指向下滑动打开物品栏。</string>
     <string name="softwareRendering">软件渲染
-(不可开启)</string>
+（仅在硬件渲染失效时尝试使用）</string>
     <string name="forceFullscreen">强制全屏
-(开启后不显示通知栏与虚拟键)</string>
+（隐藏通知栏与虚拟键）</string>
     <string name="trapBackButton">限制返回
-(禁止返回按键退出APP)</string>
+（返回按键不会退出游戏）</string>
     <string name="settings">预设
-（进入游戏后请到 设置-图形 中修改终端宽高比）</string>
-    <string name="startGame">载入游戏</string>
+（首次启动建议进入 设置-图形 调整终端宽高比）</string>
+    <string name="startGame">开始游戏</string>
     <string name="showHelp">查看帮助</string>
-    <string name="crashAlert">上一次游戏遇到错误异常退出</string>
-    <string name="crashMessage">日志文件位于Android/data/CataclysmDDA/files/config/crash.log，可有助于开发者解决程序错误。</string>
+    <string name="crashAlert">检测到上次游戏未正常退出</string>
+    <string name="crashMessage">崩溃日志已保存至安装目录 ./config/debug.log，上传至官方论坛协助开发者解决游戏异常提供帮助。</string>
 </resources>

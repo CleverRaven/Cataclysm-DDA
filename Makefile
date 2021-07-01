@@ -1000,6 +1000,7 @@ ifeq ($(TARGETSYSTEM), LINUX)
 DATA_PREFIX=$(DESTDIR)$(PREFIX)/share/cataclysm-dda/
 BIN_PREFIX=$(DESTDIR)$(PREFIX)/bin
 LOCALE_DIR=$(DESTDIR)$(PREFIX)/share/locale
+SHARE_DIR=$(DESTDIR)$(PREFIX)/share
 install: version $(TARGET)
 	mkdir -p $(DATA_PREFIX)
 	mkdir -p $(BIN_PREFIX)
@@ -1016,6 +1017,9 @@ install: version $(TARGET)
 	cp -R --no-preserve=ownership data/help $(DATA_PREFIX)
 ifeq ($(TILES), 1)
 	cp -R --no-preserve=ownership gfx $(DATA_PREFIX)
+	install -Dm755 -t $(SHARE_DIR)/applications/ data/xdg/org.cataclysmdda.CataclysmDDA.desktop
+	install -Dm644 -t $(SHARE_DIR)/metainfo/ data/xdg/org.cataclysmdda.CataclysmDDA.appdata.xml
+	install -Dm644 -t $(SHARE_DIR)/icons/hicolor/scalable/apps/ data/xdg/org.cataclysmdda.CataclysmDDA.svg
 endif
 ifeq ($(SOUND), 1)
 	cp -R --no-preserve=ownership data/sound $(DATA_PREFIX)
@@ -1032,6 +1036,7 @@ ifeq ($(TARGETSYSTEM), CYGWIN)
 DATA_PREFIX=$(DESTDIR)$(PREFIX)/share/cataclysm-dda/
 BIN_PREFIX=$(DESTDIR)$(PREFIX)/bin
 LOCALE_DIR=$(DESTDIR)$(PREFIX)/share/locale
+SHARE_DIR=$(DESTDIR)$(PREFIX)/share
 install: version $(TARGET)
 	mkdir -p $(DATA_PREFIX)
 	mkdir -p $(BIN_PREFIX)
@@ -1048,6 +1053,9 @@ install: version $(TARGET)
 	cp -R --no-preserve=ownership data/help $(DATA_PREFIX)
 ifeq ($(TILES), 1)
 	cp -R --no-preserve=ownership gfx $(DATA_PREFIX)
+	install -Dm755 -t $(SHARE_DIR)/applications/ data/xdg/org.cataclysmdda.CataclysmDDA.desktop
+	install -Dm644 -t $(SHARE_DIR)/metainfo/ data/xdg/org.cataclysmdda.CataclysmDDA.appdata.xml
+	install -Dm644 -t $(SHARE_DIR)/icons/hicolor/scalable/apps/ data/xdg/org.cataclysmdda.CataclysmDDA.svg
 endif
 ifeq ($(SOUND), 1)
 	cp -R --no-preserve=ownership data/sound $(DATA_PREFIX)

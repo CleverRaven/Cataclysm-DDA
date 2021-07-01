@@ -14,6 +14,7 @@
 #include "options_helpers.h"
 #include "player_helpers.h"
 #include "point.h"
+#include "test_statistics.h"
 #include "type_id.h"
 #include "weather.h"
 #include "weather_type.h"
@@ -166,4 +167,36 @@ TEST_CASE( "monster_special_attack", "[vision][reachability]" )
     //test_monster_attack( { 1, 0, 1 },  false, fov_3d, mattack::stretch_attack );
     // At a distance of 2, the ledge should block los and line of attack.
     test_monster_attack( { 2, 0, 1 },  false, false, mattack::stretch_attack );
+}
+
+TEST_CASE( "monster_throwing_sanity_test", "[throwing],[balance]" )
+{
+    clear_map();
+    const tripoint target_location = { 65, 65, 0 };
+    const tripoint attacker_location = { 65, 67, 0 };
+    // You got a player
+    Character &you = get_player_character();
+    clear_avatar();
+    you.setpos( target_location );
+    // and you got a monster
+    const std::string monster_type = "mon_feral_human_pipe";
+    monster &test_monster = spawn_test_monster( monster_type, attacker_location );
+    test_monster.set_goal( target_location );
+    const mtype_special_attack &attack = test_monster.type->special_attacks.at( "gun" );
+    reset_caches( attacker_location.z, target_location.z );
+    statistics<int> damage_dealt;
+    do {
+        you.set_all_parts_hp_to_max();
+        int prev_hp = you.get_hp();
+        // monster shoots the player
+        REQUIRE( attack->call( test_monster ) == true );
+        // how much damage did it do?
+        // Player-centric test in throwing_test.cpp ranges from 2 - 8 damage at point-blank range.
+        int current_hp = you.get_hp();
+        damage_dealt.add( prev_hp - current_hp );
+        test_monster.ammo[ itype_id( "rock" ) ]++;
+    } while( damage_dealt.n() < 100 );
+    INFO( "Avg total damage: " << damage_dealt.avg() );
+    INFO( "Dmg Lower: " << damage_dealt.lower() << " Dmg Upper: " << damage_dealt.upper() );
+    CHECK( damage_dealt.test_threshold( epsilon_threshold{ 5, 3 } ) );
 }

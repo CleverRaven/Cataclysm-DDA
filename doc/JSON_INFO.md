@@ -1498,6 +1498,9 @@ request](https://github.com/CleverRaven/Cataclysm-DDA/pull/36657) and the
 |---                     |---
 | `check_empty`          | Tile is empty
 | `check_support`        | Must have at least two solid walls/obstructions nearby on orthogonals (non-diagonal directions only) to support the tile
+| `check_stable`         | Tile on level below has a flag `SUPPORTS_ROOF`
+| `check_empty_stable`   | Tile is empty and stable
+| `check_nofloor_above`  | Tile on level above has a flag `NO_FLOOR`
 | `check_deconstruction` | The furniture (or tile, if no furniture) in the target tile must have a "deconstruct" entry
 | `check_empty_up_OK`    | Tile is empty and is below the maximum possible elevation (can build up here)
 | `check_up_OK`          | Tile is below the maximum possible elevation (can build up here)

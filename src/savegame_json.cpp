@@ -3361,6 +3361,19 @@ void Creature::load( const JsonObject &jsin )
     } else {
         jsin.read( "effects", *effects );
     }
+
+    // Remove legacy vitamin effects - they don't do anything, and can't be removed
+    // Remove this code whenever they actually do anything (0.F or later)
+    std::set<efftype_id> blacklisted = {
+        efftype_id( "hypocalcemia" ),
+        efftype_id( "hypovitA" ),
+        efftype_id( "hypovitB" ),
+        efftype_id( "scurvy" )
+    };
+    for( const efftype_id &remove : blacklisted ) {
+        remove_effect( remove );
+    }
+
     jsin.read( "values", values );
 
     jsin.read( "damage_over_time_map", damage_over_time_map );

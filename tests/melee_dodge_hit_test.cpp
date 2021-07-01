@@ -79,6 +79,7 @@ TEST_CASE( "Character::get_hit_base", "[character][melee][hit][dex]" )
 
     avatar &dummy = get_avatar();
     clear_character( dummy );
+    dummy.dodges_left = 1;
 
     SECTION( "character get_hit_base increases by 1/4 for each point of DEX" ) {
         CHECK( hit_base_with_dex( dummy, 1 ) == 0.25f );
@@ -201,20 +202,6 @@ TEST_CASE( "player::get_dodge", "[player][melee][dodge]" )
     clear_character( dummy );
 
     const float base_dodge = dummy.get_dodge_base();
-
-    SECTION( "each dodge after the first subtracts 2 points" ) {
-        dummy.dodges_left = 1;
-        // Simulate some dodges, so dodges_left will go to 0, -1
-        dummy.on_dodge( nullptr, 0 );
-        CHECK( dummy.get_dodge() == base_dodge - 2 );
-        dummy.on_dodge( nullptr, 0 );
-        CHECK( dummy.get_dodge() == base_dodge - 4 );
-
-        // Reset dodges_left, so subsequent tests are not affected
-        dummy.set_moves( 100 );
-        dummy.process_turn();
-        REQUIRE( dummy.dodges_left > 0 );
-    }
 
     SECTION( "speed below 100 linearly decreases dodge" ) {
         dummy.set_speed_base( 90 );

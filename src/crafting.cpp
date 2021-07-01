@@ -908,7 +908,9 @@ void Character::craft_proficiency_gain( const item &craft, const time_duration &
     // The proficiency, and the multiplier on the time we learn it for
     std::vector<std::tuple<proficiency_id, float, cata::optional<time_duration>>> subjects;
     for( const recipe_proficiency &prof : making.proficiencies ) {
-        if( prof.id->can_learn() && _proficiencies->has_prereqs( prof.id ) ) {
+        if( !_proficiencies->has_learned( prof.id ) &&
+            prof.id->can_learn() &&
+            _proficiencies->has_prereqs( prof.id ) ) {
             std::tuple<proficiency_id, float, cata::optional<time_duration>> subject( prof.id,
                     prof.learning_time_mult / prof.time_multiplier, prof.max_experience );
             subjects.push_back( subject );

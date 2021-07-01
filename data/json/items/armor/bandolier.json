@@ -42,7 +42,7 @@
         "moves": 20
       }
     ],
-    "flags": [ "WATER_FRIENDLY", "WAIST", "OVERSIZE", "FANCY" ]
+    "flags": [ "WATER_FRIENDLY", "WAIST", "OVERSIZE" ]
   },
   {
     "id": "bandolier_rifle",

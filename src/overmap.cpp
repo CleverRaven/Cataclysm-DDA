@@ -1006,7 +1006,7 @@ void overmap_special::check() const
         } else if( !elem.existing && !elem.terrain->has_flag( oter_flags::line_drawing ) ) {
             debugmsg( "In overmap special \"%s\", connection [%d,%d,%d] \"%s\" isn't drawn with lines.",
                       id.c_str(), elem.p.x, elem.p.y, elem.p.z, elem.terrain.c_str() );
-        } else if( oter.terrain && !oter.terrain->type_is( elem.terrain ) ) {
+        } else if( !elem.existing && oter.terrain && !oter.terrain->type_is( elem.terrain ) ) {
             debugmsg( "In overmap special \"%s\", connection [%d,%d,%d] overwrites \"%s\".",
                       id.c_str(), elem.p.x, elem.p.y, elem.p.z, oter.terrain.c_str() );
         }

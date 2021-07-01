@@ -91,7 +91,7 @@
     "id_suffix": "from_mineral",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
-    "skill_used": "cooking",
+    "skill_used": "chemistry",
     "time": "1 h 30 m",
     "autolearn": true,
     "batch_time_factors": [ 80, 4 ],
@@ -4358,7 +4358,7 @@
     "result": "salt",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
-    "skill_used": "cooking",
+    "skill_used": "chemistry",
     "difficulty": 6,
     "time": "48 m",
     "book_learn": [ [ "textbook_chemistry", 4 ] ],
@@ -6365,11 +6365,10 @@
     "components": [
       [ [ "chocolate", 2 ] ],
       [ [ "milk_standard_raw", 1, "LIST" ], [ "con_milk", 1 ], [ "milk_powder", 1 ] ],
-      [ [ "water", 1 ] ],
       [ [ "sugar", 5 ], [ "artificial_sweetener", 5 ] ],
       [ [ "chilly-p", 1 ] ],
       [ [ "cinnamon", 1 ] ],
-      [ [ "water", 6 ], [ "water_clean", 6 ] ]
+      [ [ "water", 7 ], [ "water_clean", 7 ] ]
     ]
   },
   {

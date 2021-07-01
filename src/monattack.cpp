@@ -638,7 +638,7 @@ bool mattack::acid_barf( monster *z )
                                        _( "The %s barfs acid at <npcname>, but they dodge!" ),
                                        z->name() );
         if( !uncanny ) {
-            target->on_dodge( z, z->type->melee_skill * 2 );
+            target->on_dodge( z, z->type->melee_skill );
         }
 
         return true;
@@ -1107,7 +1107,7 @@ bool mattack::smash( monster *z )
         target->add_msg_player_or_npc( _( "The %s takes a powerful swing at you, but you dodge it!" ),
                                        _( "The %s takes a powerful swing at <npcname>, who dodges it!" ),
                                        z->name() );
-        target->on_dodge( z, z->type->melee_skill * 2 );
+        target->on_dodge( z, z->type->melee_skill );
         return true;
     }
 
@@ -1813,7 +1813,7 @@ bool mattack::fungus_inject( monster *z )
     if( dodge_check( z, target ) ) {
         target->add_msg_player_or_npc( _( "You dodge it!" ),
                                        _( "<npcname> dodges it!" ) );
-        target->on_dodge( z, z->type->melee_skill * 2 );
+        target->on_dodge( z, z->type->melee_skill );
         return true;
     }
 
@@ -1871,7 +1871,7 @@ bool mattack::fungus_bristle( monster *z )
     if( dodge_check( z, target ) ) {
         target->add_msg_player_or_npc( _( "You dodge it!" ),
                                        _( "<npcname> dodges it!" ) );
-        target->on_dodge( z, z->type->melee_skill * 2 );
+        target->on_dodge( z, z->type->melee_skill );
         return true;
     }
 
@@ -2040,7 +2040,7 @@ bool mattack::fungus_fortify( monster *z )
     if( dodge_check( z, target ) ) {
         target->add_msg_player_or_npc( _( "You dodge it!" ),
                                        _( "<npcname> dodges it!" ) );
-        target->on_dodge( z, z->type->melee_skill * 2 );
+        target->on_dodge( z, z->type->melee_skill );
         return true;
     }
 
@@ -2085,7 +2085,7 @@ bool mattack::impale( monster *z )
                                        _( "The %s lunges at <npcname>, but they dodge!" ),
                                        z->name() );
         if( !uncanny ) {
-            target->on_dodge( z, z->type->melee_skill * 2 );
+            target->on_dodge( z, z->type->melee_skill );
         }
 
         return true;
@@ -2147,7 +2147,7 @@ bool mattack::dermatik( monster *z )
             add_msg( _( "The %s tries to land on you, but you dodge." ), z->name() );
         }
         z->stumble();
-        target->on_dodge( z, z->type->melee_skill * 2 );
+        target->on_dodge( z, z->type->melee_skill );
         return true;
     }
 
@@ -2542,7 +2542,7 @@ bool mattack::tentacle( monster *z )
     if( dodge_check( z, target ) ) {
         target->add_msg_player_or_npc( _( "You dodge it!" ),
                                        _( "<npcname> dodges it!" ) );
-        target->on_dodge( z, z->type->melee_skill * 2 );
+        target->on_dodge( z, z->type->melee_skill );
         return true;
     }
 
@@ -2605,7 +2605,7 @@ bool mattack::ranged_pull( monster *z )
                                        z->name() );
 
         if( !uncanny ) {
-            target->on_dodge( z, z->type->melee_skill * 2 );
+            target->on_dodge( z, z->type->melee_skill );
         }
 
         return true;
@@ -2686,7 +2686,7 @@ bool mattack::grab( monster *z )
                                        z->name() );
 
         if( !uncanny ) {
-            target->on_dodge( z, z->type->melee_skill * 2 );
+            target->on_dodge( z, z->type->melee_skill );
         }
 
         return true;
@@ -4127,7 +4127,7 @@ bool mattack::stretch_bite( monster *z )
                                        _( "The %s's head extends to bite <npcname>, but they dodge and the head sails past!" ),
                                        z->name() );
         if( !uncanny ) {
-            target->on_dodge( z, z->type->melee_skill * 2 );
+            target->on_dodge( z, z->type->melee_skill );
         }
         return true;
     }
@@ -4227,7 +4227,7 @@ bool mattack::flesh_golem( monster *z )
     if( dodge_check( z, target ) ) {
         target->add_msg_player_or_npc( _( "You dodge it!" ),
                                        _( "<npcname> dodges it!" ) );
-        target->on_dodge( z, z->type->melee_skill * 2 );
+        target->on_dodge( z, z->type->melee_skill );
         return true;
     }
     const bodypart_id hit = target->get_random_body_part();
@@ -4349,7 +4349,7 @@ bool mattack::lunge( monster *z )
     if( dodge_check( z, target ) ) {
         target->add_msg_player_or_npc( _( "The %1$s lunges at you, but you sidestep it!" ),
                                        _( "The %1$s lunges at <npcname>, but they sidestep it!" ), z->name() );
-        target->on_dodge( z, z->type->melee_skill * 2 );
+        target->on_dodge( z, z->type->melee_skill );
         return true;
     }
     const bodypart_id hit = target->get_random_body_part();
@@ -4423,7 +4423,7 @@ bool mattack::longswipe( monster *z )
                 target->add_msg_player_or_npc( _( "The %s thrusts a claw at you, but you evade it!" ),
                                                _( "The %s thrusts a claw at <npcname>, but they evade it!" ),
                                                z->name() );
-                target->on_dodge( z, z->type->melee_skill * 2 );
+                target->on_dodge( z, z->type->melee_skill );
                 return true;
             }
             const bodypart_id hit = target->get_random_body_part();
@@ -4459,7 +4459,7 @@ bool mattack::longswipe( monster *z )
     if( dodge_check( z, target ) ) {
         target->add_msg_player_or_npc( _( "The %s slashes at your neck!  You duck!" ),
                                        _( "The %s slashes at <npcname>'s neck!  They duck!" ), z->name() );
-        target->on_dodge( z, z->type->melee_skill * 2 );
+        target->on_dodge( z, z->type->melee_skill );
         return true;
     }
 
@@ -4909,7 +4909,7 @@ bool mattack::evolve_kill_strike( monster *z )
                                        _( "The %s lunges at <npcname>, but they dodge!" ),
                                        z->name() );
         if( !uncanny ) {
-            target->on_dodge( z, z->type->melee_skill * 2 );
+            target->on_dodge( z, z->type->melee_skill );
             target->add_msg_player_or_npc( msg_type, _( "The %s lunges at you, but you dodge!" ),
                                            _( "The %s lunges at <npcname>, but they dodge!" ),
                                            z->name() );
@@ -5180,7 +5180,7 @@ bool mattack::bio_op_takedown( monster *z )
     if( dodge_check( z, target ) ) {
         target->add_msg_player_or_npc( _( "You dodge it!" ),
                                        _( "<npcname> dodges it!" ) );
-        target->on_dodge( z, z->type->melee_skill * 2 );
+        target->on_dodge( z, z->type->melee_skill );
         return true;
     }
     int dam = rng( 3, 9 );
@@ -5274,7 +5274,7 @@ bool mattack::bio_op_impale( monster *z )
     if( dodge_check( z, target ) ) {
         target->add_msg_player_or_npc( _( "You dodge it!" ),
                                        _( "<npcname> dodges it!" ) );
-        target->on_dodge( z, z->type->melee_skill * 2 );
+        target->on_dodge( z, z->type->melee_skill );
         return true;
     }
 
@@ -5361,7 +5361,7 @@ bool mattack::bio_op_disarm( monster *z )
     if( dodge_check( z, target ) ) {
         target->add_msg_player_or_npc( _( "You dodge it!" ),
                                        _( "<npcname> dodges it!" ) );
-        target->on_dodge( z, z->type->melee_skill * 2 );
+        target->on_dodge( z, z->type->melee_skill );
         return true;
     }
 
@@ -5723,7 +5723,7 @@ bool mattack::stretch_attack( monster *z )
     if( dodge_check( z, target ) || target->uncanny_dodge() ) {
         target->add_msg_player_or_npc( msg_type, _( "You evade the stretched arm and it sails past you!" ),
                                        _( "<npcname> evades the stretched arm!" ) );
-        target->on_dodge( z, z->type->melee_skill * 2 );
+        target->on_dodge( z, z->type->melee_skill );
         //takes some time to retract the arm
         z->moves -= 150;
         return true;

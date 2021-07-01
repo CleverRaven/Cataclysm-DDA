@@ -609,7 +609,6 @@
     "time": "50 m",
     "autolearn": true,
     "reversible": true,
-    "qualities": [ { "id": "KNIT", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_knitting" }, { "proficiency": "prof_knitting_speed" } ],
     "using": [ [ "tailoring_wool_knitting", 36 ] ]
   },

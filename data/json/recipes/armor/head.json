@@ -428,7 +428,6 @@
     "time": "40 m",
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "KNIT", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_knitting" }, { "proficiency": "prof_knitting_speed" } ],
     "using": [ [ "tailoring_wool_knitting", 120 ] ]
   },
@@ -1042,7 +1041,6 @@
     "time": "40 m",
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "KNIT", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_knitting" }, { "proficiency": "prof_knitting_speed" } ],
     "using": [ [ "tailoring_wool_knitting", 100 ] ]
   },
@@ -1071,7 +1069,6 @@
     "time": "4 h",
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "KNIT", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_knitting" }, { "proficiency": "prof_knitting_speed" } ],
     "using": [ [ "tailoring_wool_knitting", 190 ] ]
   },
@@ -1579,7 +1576,6 @@
     "time": "1 h",
     "autolearn": true,
     "reversible": true,
-    "qualities": [ { "id": "KNIT", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_knitting" }, { "proficiency": "prof_knitting_speed" } ],
     "using": [ [ "tailoring_wool_knitting", 80 ] ]
   },
@@ -1643,7 +1639,6 @@
     "difficulty": 3,
     "time": "1 h 20 m",
     "autolearn": true,
-    "qualities": [ { "id": "KNIT", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_knitting" }, { "proficiency": "prof_knitting_speed" } ],
     "using": [ [ "tailoring_wool_knitting", 160 ] ]
   },

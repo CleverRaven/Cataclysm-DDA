@@ -2267,10 +2267,6 @@ bionic_id Character::get_remote_fueled_bionic() const
 
 bool Character::can_fuel_bionic_with( const item &it ) const
 {
-    if( ( !it.is_fuel() && !it.type->magazine && !it.flammable() ) || it.is_comestible() ) {
-        return false;
-    }
-
     for( const bionic_id &bid : get_bionics() ) {
         for( const material_id &fuel : bid->fuel_opts ) {
             if( fuel == it.get_base_material().id ) {
@@ -11775,7 +11771,7 @@ int Character::run_cost( int base_cost, bool diag ) const
     const bool on_fungus = here.has_flag_ter_or_furn( STATIC( "FUNGUS" ), pos() );
 
     if( !is_mounted() ) {
-        if( movecost > 100 ) {
+        if( movecost > 105 ) {
             movecost *= mutation_value( "movecost_obstacle_modifier" );
             if( movecost < 100 ) {
                 movecost = 100;
