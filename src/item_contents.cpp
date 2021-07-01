@@ -141,30 +141,67 @@ bool pocket_favorite_callback::key( const input_context &, const input_event &ev
     const bool cat_id = input == 'c';
     uilist selector_menu;
 
+    const std::string remove_prefix = "<color_light_red>-</color> ";
+    const std::string add_prefix = "<color_green>+</color> ";
+
     if( item_id ) {
-        std::map<std::string, const itype *> nearby_itypes;
+        const cata::flat_set<itype_id> &listed_itypes = whitelist
+                ? selected_pocket->settings.get_item_whitelist()
+                : selected_pocket->settings.get_item_blacklist();
+        cata::flat_set<itype_id> nearby_itypes;
         selector_menu.title = _( "Select an item from nearby" );
         for( const std::list<item> *it_list : get_player_character().crafting_inventory().const_slice() ) {
-            nearby_itypes.emplace( it_list->front().typeId()->nname( 1 ), it_list->front().type );
+            nearby_itypes.insert( it_list->front().typeId() );
         }
 
-        std::vector<std::string> itype_initializer;
-        for( const std::pair<const std::string, const itype *> &name : nearby_itypes ) {
-            itype_initializer.emplace_back( name.first );
+        std::vector<std::pair<itype_id, std::string>> listed_names;
+        std::vector<std::pair<itype_id, std::string>> nearby_names;
+        for( const itype_id &id : listed_itypes ) {
+            listed_names.emplace_back( id, id->nname( 1 ) );
         }
-        std::sort( itype_initializer.begin(), itype_initializer.end(), localized_compare );
+        for( const itype_id &id : nearby_itypes ) {
+            if( !listed_itypes.count( id ) ) {
+                nearby_names.emplace_back( id, id->nname( 1 ) );
+            }
+        }
+        const auto &compare_names = []( const std::pair<itype_id, std::string> &lhs,
+        const std::pair<itype_id, std::string> &rhs ) {
+            return localized_compare( lhs.second, rhs.second );
+        };
+        std::sort( listed_names.begin(), listed_names.end(), compare_names );
+        std::sort( nearby_names.begin(), nearby_names.end(), compare_names );
 
-        for( const std::string &it : itype_initializer ) {
-            selector_menu.addentry( it );
+        for( const std::pair<itype_id, std::string> &it : listed_names ) {
+            selector_menu.addentry( remove_prefix + it.second );
+        }
+        for( const std::pair<itype_id, std::string> &it : nearby_names ) {
+            selector_menu.addentry( add_prefix + it.second );
         }
         selector_menu.query();
 
-        if( selector_menu.ret >= 0 ) {
-            const itype_id id( nearby_itypes[itype_initializer.at( selector_menu.ret )]->get_id() );
-            if( whitelist ) {
-                selected_pocket->settings.whitelist_item( id );
+        const int selected = selector_menu.ret;
+        itype_id selected_id = itype_id::NULL_ID();
+        if( selected >= 0 ) {
+            size_t idx = selected;
+            const std::vector<std::pair<itype_id, std::string>> *names = nullptr;
+            if( idx < listed_names.size() ) {
+                names = &listed_names;
             } else {
-                selected_pocket->settings.blacklist_item( id );
+                idx -= listed_names.size();
+            }
+            if( !names && idx < nearby_names.size() ) {
+                names = &nearby_names;
+            }
+            if( names ) {
+                selected_id = ( *names )[idx].first;
+            }
+        }
+
+        if( !selected_id.is_null() ) {
+            if( whitelist ) {
+                selected_pocket->settings.whitelist_item( selected_id );
+            } else {
+                selected_pocket->settings.blacklist_item( selected_id );
             }
         }
 
@@ -172,18 +209,30 @@ bool pocket_favorite_callback::key( const input_context &, const input_event &ev
     } else if( cat_id ) {
         // Get all categories and sort by name
         std::vector<item_category> all_cat = item_category::get_all();
-        std::sort( all_cat.begin(), all_cat.end(), []( const item_category & lhs,
+        const cata::flat_set<item_category_id> &listed_cat = whitelist
+                ? selected_pocket->settings.get_category_whitelist()
+                : selected_pocket->settings.get_category_blacklist();
+        std::sort( all_cat.begin(), all_cat.end(), [&]( const item_category & lhs,
         const item_category & rhs ) {
+            const bool lhs_in_list = listed_cat.count( lhs.get_id() );
+            const bool rhs_in_list = listed_cat.count( rhs.get_id() );
+            if( lhs_in_list && !rhs_in_list ) {
+                return true;
+            } else if( !lhs_in_list && rhs_in_list ) {
+                return false;
+            }
             return localized_compare( lhs.name(), rhs.name() );
         } );
 
         for( const item_category &cat : all_cat ) {
-            selector_menu.addentry( cat.name() );
+            const bool in_list = listed_cat.count( cat.get_id() );
+            const std::string &prefix = in_list ? remove_prefix : add_prefix;
+            selector_menu.addentry( prefix + cat.name() );
         }
         selector_menu.query();
 
         if( selector_menu.ret >= 0 ) {
-            const item_category_id id( all_cat.at( selector_menu.ret ).id );
+            const item_category_id id( all_cat.at( selector_menu.ret ).get_id() );
             if( whitelist ) {
                 selected_pocket->settings.whitelist_category( id );
             } else {

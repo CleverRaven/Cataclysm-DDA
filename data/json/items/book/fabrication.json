@@ -59,8 +59,8 @@
     "required_level": 6,
     "max_level": 6,
     "proficiencies": [
-      { "proficiency": "prof_fine_metalsmithing", "time_factor": 0.9, "fail_factor": 0.6, "include_prereqs": false },
-      { "proficiency": "prof_gem_setting", "time_factor": 0.9, "fail_factor": 0.7, "include_prereqs": false }
+      { "proficiency": "prof_fine_metalsmithing", "time_factor": 0.2, "fail_factor": 0.3, "include_prereqs": false },
+      { "proficiency": "prof_gem_setting", "time_factor": 0.2, "fail_factor": 0.3, "include_prereqs": false }
     ],
     "intelligence": 8,
     "time": "60 m"
@@ -79,7 +79,7 @@
     "color": "pink",
     "skill": "fabrication",
     "max_level": 1,
-    "proficiencies": [ { "proficiency": "prof_pottery", "time_factor": 0.85, "fail_factor": 0.75 } ],
+    "proficiencies": [ { "proficiency": "prof_pottery", "time_factor": 0.15, "fail_factor": 0.15 } ],
     "intelligence": 5,
     "time": "8 m",
     "fun": 2
@@ -117,7 +117,7 @@
     "skill": "fabrication",
     "required_level": 2,
     "max_level": 4,
-    "proficiencies": [ { "proficiency": "prof_fletching", "time_factor": 0.75, "fail_factor": 0.5 } ],
+    "proficiencies": [ { "proficiency": "prof_fletching", "time_factor": 0.15, "fail_factor": 0.35 } ],
     "intelligence": 8,
     "time": "30 m"
   },
@@ -136,7 +136,7 @@
     "skill": "fabrication",
     "required_level": 3,
     "max_level": 5,
-    "proficiencies": [ { "proficiency": "prof_bowyery", "time_factor": 0.75, "fail_factor": 0.5 } ],
+    "proficiencies": [ { "proficiency": "prof_bowyery", "time_factor": 0.15, "fail_factor": 0.5 } ],
     "intelligence": 8,
     "time": "30 m"
   },
@@ -230,7 +230,7 @@
     "skill": "fabrication",
     "required_level": 5,
     "max_level": 10,
-    "proficiencies": [ { "proficiency": "prof_armorsmithing", "time_factor": 0.85, "fail_factor": 0.8, "include_prereqs": false } ],
+    "proficiencies": [ { "proficiency": "prof_armorsmithing", "time_factor": 0.2, "fail_factor": 0.3, "include_prereqs": false } ],
     "intelligence": 9,
     "time": "60 m",
     "fun": -1
@@ -250,7 +250,7 @@
     "skill": "fabrication",
     "required_level": 5,
     "max_level": 10,
-    "proficiencies": [ { "proficiency": "prof_redsmithing", "time_factor": 0.65, "fail_factor": 0.6, "include_prereqs": false } ],
+    "proficiencies": [ { "proficiency": "prof_redsmithing", "time_factor": 0.15, "fail_factor": 0.3, "include_prereqs": false } ],
     "intelligence": 9,
     "time": "55 m",
     "fun": -1
@@ -270,7 +270,7 @@
     "skill": "fabrication",
     "required_level": 5,
     "max_level": 10,
-    "proficiencies": [ { "proficiency": "prof_armorsmithing", "time_factor": 0.75, "fail_factor": 0.7 } ],
+    "proficiencies": [ { "proficiency": "prof_armorsmithing", "time_factor": 0.2, "fail_factor": 0.25 } ],
     "intelligence": 9,
     "time": "60 m",
     "fun": -1
@@ -328,7 +328,7 @@
     "skill": "fabrication",
     "required_level": 5,
     "max_level": 10,
-    "proficiencies": [ { "proficiency": "prof_bladesmith", "time_factor": 0.65, "fail_factor": 0.6, "include_prereqs": false } ],
+    "proficiencies": [ { "proficiency": "prof_bladesmith", "time_factor": 0.2, "fail_factor": 0.3, "include_prereqs": false } ],
     "intelligence": 9,
     "time": "55 m",
     "fun": -1
@@ -348,7 +348,7 @@
     "skill": "fabrication",
     "required_level": 5,
     "max_level": 10,
-    "proficiencies": [ { "proficiency": "prof_bladesmith", "time_factor": 0.75, "fail_factor": 0.75, "include_prereqs": true } ],
+    "proficiencies": [ { "proficiency": "prof_bladesmith", "time_factor": 0.15, "fail_factor": 0.25, "include_prereqs": true } ],
     "intelligence": 9,
     "time": "55 m",
     "fun": -1
@@ -369,7 +369,7 @@
     "skill": "fabrication",
     "required_level": 4,
     "max_level": 7,
-    "proficiencies": [ { "proficiency": "prof_welding", "time_factor": 0.75, "fail_factor": 0.6, "include_prereqs": true } ],
+    "proficiencies": [ { "proficiency": "prof_welding", "time_factor": 0.25, "fail_factor": 0.3, "include_prereqs": true } ],
     "intelligence": 9,
     "time": "30 m"
   },
@@ -390,8 +390,8 @@
     "max_level": 2,
     "intelligence": 5,
     "proficiencies": [
-      { "proficiency": "prof_carpentry_basic", "time_factor": 0.4, "fail_factor": 0.8, "include_prereqs": true },
-      { "proficiency": "prof_plumbing", "time_factor": 0.5, "fail_factor": 0.8, "include_prereqs": true }
+      { "proficiency": "prof_carpentry_basic", "time_factor": 0.2, "fail_factor": 0.3, "include_prereqs": true },
+      { "proficiency": "prof_plumbing", "time_factor": 0.2, "fail_factor": 0.2, "include_prereqs": true }
     ],
     "time": "16 m"
   },
@@ -413,8 +413,8 @@
     "required_level": 5,
     "max_level": 8,
     "proficiencies": [
-      { "proficiency": "prof_carpentry_basic", "time_factor": 0.7, "fail_factor": 0.3, "include_prereqs": true },
-      { "proficiency": "prof_plumbing", "time_factor": 0.85, "fail_factor": 0.5, "include_prereqs": true }
+      { "proficiency": "prof_carpentry_basic", "time_factor": 0.3, "fail_factor": 0.3, "include_prereqs": true },
+      { "proficiency": "prof_plumbing", "time_factor": 0.2, "fail_factor": 0.3, "include_prereqs": true }
     ],
     "intelligence": 9,
     "time": "55 m",
@@ -435,7 +435,7 @@
     "color": "pink",
     "skill": "fabrication",
     "max_level": 1,
-    "proficiencies": [ { "proficiency": "prof_carpentry_basic", "time_factor": 0.8, "fail_factor": 0.9, "include_prereqs": true } ],
+    "proficiencies": [ { "proficiency": "prof_carpentry_basic", "time_factor": 0.2, "fail_factor": 0.1, "include_prereqs": true } ],
     "intelligence": 5,
     "time": "8 m",
     "fun": 1
@@ -456,8 +456,8 @@
     "skill": "fabrication",
     "max_level": 3,
     "proficiencies": [
-      { "proficiency": "prof_carpentry_basic", "time_factor": 0.5, "fail_factor": 0.4, "include_prereqs": true },
-      { "proficiency": "prof_plumbing", "time_factor": 0.5, "fail_factor": 0.6, "include_prereqs": true }
+      { "proficiency": "prof_carpentry_basic", "time_factor": 0.1, "fail_factor": 0.4, "include_prereqs": true },
+      { "proficiency": "prof_plumbing", "time_factor": 0.1, "fail_factor": 0.2, "include_prereqs": true }
     ],
     "intelligence": 5,
     "time": "16 m"

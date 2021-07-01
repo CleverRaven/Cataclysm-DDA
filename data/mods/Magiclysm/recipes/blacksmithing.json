@@ -12,7 +12,7 @@
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_metallurgy" },
-      { "proficiency": "prof_alchemy", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_alchemy", "required": false, "time_multiplier": 1.5, "fail_multiplier": 1.5 },
       { "proficiency": "prof_almetallurgy" }
     ],
     "book_learn": [ [ "welding_book", 4 ] ],
@@ -30,7 +30,7 @@
     "time": "180 m",
     "proficiencies": [
       { "proficiency": "prof_metallurgy" },
-      { "proficiency": "prof_alchemy", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_alchemy", "required": false, "time_multiplier": 1.5, "fail_multiplier": 1.5 },
       { "proficiency": "prof_almetallurgy" }
     ],
     "batch_time_factors": [ 50, 2 ],
@@ -49,7 +49,7 @@
     "time": "40 m",
     "book_learn": [ [ "metal_legends", 2 ] ],
     "proficiencies": [
-      { "proficiency": "prof_alchemy", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_alchemy", "required": false, "time_multiplier": 1.5, "fail_multiplier": 1.5 },
       { "proficiency": "prof_pottery" }
     ],
     "qualities": [ { "id": "MANA_INFUSE", "level": 1 } ],
@@ -67,7 +67,7 @@
     "time": "45 m",
     "autolearn": true,
     "qualities": [ { "id": "MANA_INFUSE", "level": 1 }, { "id": "COOK", "level": 3 }, { "id": "DISTILL", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_alchemy", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 } ],
+    "proficiencies": [ { "proficiency": "prof_alchemy", "required": false, "time_multiplier": 1.5, "fail_multiplier": 1.5 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [ [ [ "charcoal", 50 ] ], [ [ "crystallized_mana", 10 ] ], [ [ "denat_alcohol", 10 ] ] ]
   }
