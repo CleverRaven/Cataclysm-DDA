@@ -2267,6 +2267,16 @@ bionic_id Character::get_remote_fueled_bionic() const
 
 bool Character::can_fuel_bionic_with( const item &it ) const
 {
+    // the item needs fuel data, or it needs to be a magazine with an item with fuel data.
+    if( !it.is_fuel() ) {
+        if( it.is_magazine() ) {
+            if( !item( it.ammo_current() ).is_fuel() ) {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
     for( const bionic_id &bid : get_bionics() ) {
         for( const material_id &fuel : bid->fuel_opts ) {
             if( fuel == it.get_base_material().id ) {
