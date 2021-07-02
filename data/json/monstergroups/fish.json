@@ -332,7 +332,7 @@
     "type": "monstergroup",
     "name": "GROUP_STOCKED_POND",
     "default": "mon_fish_rainbow_trout",
-    "is_animal": "true",
+    "is_animal": true,
     "monsters": [
       { "monster": "mon_fish_sbass", "freq": 25, "cost_multiplier": 3, "pack_size": [ 1, 3 ] },
       {
