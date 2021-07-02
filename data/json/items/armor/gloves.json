@@ -563,7 +563,7 @@
     "material": [ "kevlar_layered", "leather" ],
     "symbol": "[",
     "color": "brown",
-    "covers": ["hand_l", "hand_r"],
+    "covers": [ "hand_l", "hand_r" ],
     "coverage": 85,
     "encumbrance": 16,
     "warmth": 12,
@@ -576,7 +576,7 @@
     "type": "ARMOR",
     "name": { "str": "pair of XL fingerless survivor gloves", "str_pl": "pairs of XL fingerless survivor gloves" },
     "copy-from": "gloves_survivor_fingerless",
-    "proportional": {"weight": 1.5, "volume": 1.5},
+    "proportional": { "weight": 1.5, "volume": 1.5 },
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "WATERPROOF", "ALLOWS_NATURAL_ATTACKS" ]
   },
   {
