@@ -325,5 +325,11 @@
     "id": "WHEEL_FAST",
     "//": "A tool that is capable of manipulating the lug nuts of a vehicle's wheels or smaller to replace or fasten them.",
     "name": { "str": "wheel fastening" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "HYGIENE",
+    "//": "A tool capable of reducing body odor by a small amount, and making it slightly harder for zombies to track you.",
+    "name": { "str": "hygiene" }
   }
 ]
