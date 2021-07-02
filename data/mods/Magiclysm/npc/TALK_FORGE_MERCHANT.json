@@ -81,7 +81,41 @@
     "responses": [
       { "text": "Let's trade.", "effect": "start_trade", "topic": "TALK_FORGE_LORD" },
       { "text": "What are you doing here?", "topic": "TALK_FORGE_LORD_DOING" },
+      { "text": "Do you have any stories for me?", "topic": "TALK_FORGE_LORD_BOOKS_DELIVER" },
       { "text": "Well, bye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_FORGE_LORD_BOOKS_DELIVER",
+    "dynamic_line": "Excellent.  What new stories have you broght me?",
+    "repeat_responses": {
+      "for_item": [
+        "book_fict_soft_pulp_venus",
+        "book_fict_soft_pulp_wtmrw",
+        "book_fict_soft_pulp_nogod",
+        "book_fict_soft_pulp_ddive",
+        "book_fict_soft_pulp_squids",
+        "book_fict_soft_pulp_gcapes",
+        "book_fict_soft_pulp_yesmurd",
+        "book_fict_soft_pulp_flashcc",
+        "novel_scifi",
+        "book_fict_soft_scifi_dune",
+        "book_fict_hard_scifi_dune",
+        "book_fict_hard_scifi_talnt",
+        "book_fict_hard_scifi_fifth",
+        "book_fict_hard_scifi_zamwe",
+        "book_fict_soft_scifi_zamwe",
+        "book_fict_soft_scifi_cybrd",
+        "book_fict_soft_scifi_brave",
+        "book_fict_soft_scifi_roadp",
+        "book_fict_soft_scifi_f451"
+      ],
+      "response": { "text": "Delivering <topic_item>.", "topic": "TALK_DELIVER_ASK" }
+    },
+    "responses": [
+      { "text": "That's all for now.  Can we discuss something else?", "topic": "TALK_FORGE_LORD" },
+      { "text": "That's all for now.  I'd best get going.", "topic": "TALK_DONE" }
     ]
   },
   {
