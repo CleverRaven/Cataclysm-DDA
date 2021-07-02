@@ -1282,7 +1282,7 @@
       { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 120 }
     ],
     "warmth": 15,
-    "material_thickness": 2,
+    "material_thickness": 0.3,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
   },
@@ -1466,7 +1466,7 @@
       { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 120 }
     ],
     "warmth": 15,
-    "material_thickness": 2,
+    "material_thickness": 0.3,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
   },
