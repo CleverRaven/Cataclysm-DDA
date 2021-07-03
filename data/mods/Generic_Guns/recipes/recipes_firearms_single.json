@@ -140,11 +140,7 @@
     "time": "2 h",
     "autolearn": true,
     "book_learn": [ [ "manual_shotgun", 1 ] ],
-    "qualities": [
-      { "id": "SAW_M", "level": 1 },
-      { "id": "HAMMER", "level": 2 },
-      { "id": "FILE", "level": 1 }
-    ],
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "FILE", "level": 1 } ],
     "using": [ [ "welding_standard", 1 ] ],
     "tools": [
       [
@@ -224,11 +220,7 @@
     "time": "2 h",
     "autolearn": true,
     "book_learn": [ [ "manual_shotgun", 1 ] ],
-    "qualities": [
-      { "id": "SAW_M", "level": 1 },
-      { "id": "HAMMER", "level": 2 },
-      { "id": "FILE", "level": 1 }
-    ],
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "FILE", "level": 1 } ],
     "using": [ [ "welding_standard", 1 ] ],
     "tools": [
       [
