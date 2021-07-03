@@ -153,7 +153,6 @@ automatically_convertible = {
     "json_flag",
     "keybinding",
     "LOOT_ZONE",
-    "MAGAZINE",
     "map_extra",
     "MOD_INFO",
     "MONSTER",
@@ -266,6 +265,13 @@ def extract_construction(item):
     outfile = get_outfile("construction")
     if "pre_note" in item:
         writestr(outfile, item["pre_note"])
+
+
+def extract_effect_on_condition(item):
+    outfile = get_outfile("effect_on_condition")
+    extract_talk_effects(item["effect"], outfile)
+    if "false_effect" in item:
+        extract_talk_effects(item["false_effect"], outfile)
 
 
 def extract_harvest(item):
@@ -476,6 +482,12 @@ def extract_gun(item):
     if "description" in item:
         description = item.get("description")
         writestr(outfile, description)
+    if "variants" in item:
+        for variant in item.get("variants"):
+            vname = variant.get("name")
+            writestr(outfile, vname, pl_fmt=True)
+            vdesc = variant.get("description")
+            writestr(outfile, vdesc)
     if "modes" in item:
         modes = item.get("modes")
         for fire_mode in modes:
@@ -490,6 +502,25 @@ def extract_gun(item):
     if "reload_noise" in item:
         item_reload_noise = item.get("reload_noise")
         writestr(outfile, item_reload_noise)
+
+
+def extract_magazine(item):
+    outfile = get_outfile("magazine")
+    if "name" in item:
+        item_name = item.get("name")
+        if item["type"] in needs_plural:
+            writestr(outfile, item_name, pl_fmt=True)
+        else:
+            writestr(outfile, item_name)
+    if "description" in item:
+        description = item.get("description")
+        writestr(outfile, description)
+    if "variants" in item:
+        for variant in item.get("variants"):
+            vname = variant.get("name")
+            writestr(outfile, vname, pl_fmt=True)
+            vdesc = variant.get("description")
+            writestr(outfile, vdesc)
     if "use_action" in item:
         use_action = item.get("use_action")
         item_name = item.get("name")
@@ -692,6 +723,8 @@ def extract_talk_effects(effects, outfile):
                 comment = "Nickname for creature '{}'".format(
                     eff["u_buy_monster"])
                 writestr(outfile, eff["name"], comment=comment)
+            if "message" in eff:
+                writestr(outfile, eff["message"])
 
 
 def extract_talk_response(response, outfile):
@@ -820,6 +853,14 @@ def extract_mutation(item):
 
     if "ranged_mutation" in item:
         writestr(outfile, item.get("ranged_mutation").get("message"))
+
+    if "transform" in item:
+        writestr(outfile, item.get("transform").get("msg_transform"))
+
+    for trigger in item.get("triggers", []):
+        for entry in trigger:
+            writestr(outfile, entry.get("msg_on", {}).get("text"))
+            writestr(outfile, entry.get("msg_off", {}).get("text"))
 
 
 def extract_mutation_category(item):
@@ -971,11 +1012,13 @@ extract_specials = {
     "clothing_mod": extract_clothing_mod,
     "conduct": extract_achievement,
     "construction": extract_construction,
+    "effect_on_condition": extract_effect_on_condition,
     "effect_type": extract_effect_type,
     "fault": extract_fault,
     "GUN": extract_gun,
     "GUNMOD": extract_gunmod,
     "harvest": extract_harvest,
+    "MAGAZINE": extract_magazine,
     "mapgen": extract_mapgen,
     "martial_art": extract_martial_art,
     "material": extract_material,

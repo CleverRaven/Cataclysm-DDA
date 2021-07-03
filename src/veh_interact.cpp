@@ -912,15 +912,15 @@ void veh_interact::do_install()
     for( const vpart_category &cat : vpart_category::all() ) {
         tab_list.push_back( cat );
         if( cat.get_id() == "_all" ) {
-            tab_filters.push_back( []( const vpart_info * ) {
+            tab_filters.emplace_back( []( const vpart_info * ) {
                 return true;
             } );
         } else if( cat.get_id() == "_filter" ) {
-            tab_filters.push_back( [&filter]( const vpart_info * p ) {
+            tab_filters.emplace_back( [&filter]( const vpart_info * p ) {
                 return lcmatch( p->name(), filter );
             } );
         } else {
-            tab_filters.push_back( [ &, cat = cat.get_id()]( const vpart_info * p ) {
+            tab_filters.emplace_back( [ &, cat = cat.get_id()]( const vpart_info * p ) {
                 return p->has_category( cat );
             } );
         }
@@ -1459,7 +1459,7 @@ void veh_interact::calc_overview()
                     int offset = 1;
                     std::string fmtstring = "%s %s  %5.1fL";
                     if( pt.is_leaking() ) {
-                        fmtstring = "%s %s " + leak_marker + "%5.1fL" + leak_marker;
+                        fmtstring = str_cat( "%s %s ", leak_marker, "%5.1fL", leak_marker );
                         offset = 0;
                     }
                     right_print( w, y, offset, pt_ammo_cur->color,
@@ -1467,7 +1467,7 @@ void veh_interact::calc_overview()
                                                 round_up( units::to_liter( it.volume() ), 1 ) ) );
                 } else {
                     if( pt.is_leaking() ) {
-                        std::string outputstr = leak_marker + "      " + leak_marker;
+                        std::string outputstr = str_cat( leak_marker, "      ", leak_marker );
                         right_print( w, y, 0, c_light_gray, outputstr );
                     }
                 }
@@ -1480,7 +1480,7 @@ void veh_interact::calc_overview()
                     int offset = 1;
                     std::string fmtstring = "%s  %5.1fL";
                     if( pt.is_leaking() ) {
-                        fmtstring = "%s  " + leak_marker + "%5.1fL" + leak_marker;
+                        fmtstring = str_cat( "%s  ", leak_marker, "%5.1fL", leak_marker );
                         offset = 0;
                     }
                     right_print( w, y, offset, pt_ammo_cur->color,
@@ -1507,7 +1507,7 @@ void veh_interact::calc_overview()
                 int offset = 1;
                 std::string fmtstring = "%i    %3i%%";
                 if( pt.is_leaking() ) {
-                    fmtstring = "%i   " + leak_marker + "%3i%%" + leak_marker;
+                    fmtstring = str_cat( "%i   ", leak_marker, "%3i%%", leak_marker );
                     offset = 0;
                 }
                 right_print( w, y, offset, item::find_type( pt.ammo_current() )->color,
@@ -1522,7 +1522,7 @@ void veh_interact::calc_overview()
                     int offset = 1;
                     std::string fmtstring = "%s   %5i";
                     if( pt.is_leaking() ) {
-                        fmtstring = "%s  " + leak_marker + "%5i" + leak_marker;
+                        fmtstring = str_cat( "%s  ", leak_marker, "%5i", leak_marker );
                         offset = 0;
                     }
                     right_print( w, y, offset, item::find_type( pt.ammo_current() )->color,
@@ -2383,7 +2383,9 @@ void veh_interact::display_stats() const
     const int extraw = ( ( TERMX - FULL_SCREEN_WIDTH ) / 4 ) * 2;
     // 3 * stats_h
     const int slots = 24;
-    int x[slots], y[slots], w[slots];
+    int x[slots];
+    int y[slots];
+    int w[slots];
 
     units::volume total_cargo = 0_ml;
     units::volume free_cargo = 0_ml;

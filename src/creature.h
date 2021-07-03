@@ -13,6 +13,7 @@
 #include <vector>
 
 #include "bodypart.h"
+#include "compatibility.h"
 #include "damage.h"
 #include "debug.h"
 #include "effect_source.h"
@@ -44,6 +45,7 @@ class anatomy;
 class avatar;
 class field;
 class field_entry;
+class npc;
 class player;
 class time_duration;
 struct point;
@@ -261,6 +263,12 @@ class Creature : public location, public viewer
             return nullptr;
         }
         virtual const avatar *as_avatar() const {
+            return nullptr;
+        }
+        virtual const npc *as_npc() {
+            return nullptr;
+        }
+        virtual const npc *as_npc() const {
             return nullptr;
         }
         virtual monster *as_monster() {
@@ -964,6 +972,93 @@ class Creature : public location, public viewer
                                           string_format( npc_msg, std::forward<Args>( args )... ) );
         }
 
+        virtual void add_msg_debug_if_player( debugmode::debug_filter /*type*/,
+                                              const std::string &/*msg*/ ) const {}
+        void add_msg_debug_if_player( debugmode::debug_filter /*type*/, const translation &/*msg*/ ) const;
+        template<typename ...Args>
+        void add_msg_debug_if_player( debugmode::debug_filter type, const char *const msg,
+                                      Args &&... args ) const {
+            // expanding for string formatting can be expensive
+            if( debug_mode ) {
+                return add_msg_debug_if_player( type, string_format( msg, std::forward<Args>( args )... ) );
+            }
+        }
+        template<typename ...Args>
+        void add_msg_debug_if_player( debugmode::debug_filter type, const std::string &msg,
+                                      Args &&... args ) const {
+            if( debug_mode ) {
+                return add_msg_debug_if_player( type, string_format( msg, std::forward<Args>( args )... ) );
+            }
+        }
+        template<typename ...Args>
+        void add_msg_debug_if_player( debugmode::debug_filter type, const translation &msg,
+                                      Args &&... args ) const {
+            if( debug_mode ) {
+                return add_msg_debug_if_player( type, string_format( msg, std::forward<Args>( args )... ) );
+            }
+        }
+
+        virtual void add_msg_debug_if_npc( debugmode::debug_filter /*type*/,
+                                           const std::string &/*msg*/ ) const {}
+        void add_msg_debug_if_npc( debugmode::debug_filter /*type*/, const translation &/*msg*/ ) const;
+        template<typename ...Args>
+        void add_msg_debug_if_npc( debugmode::debug_filter type, const char *const msg,
+                                   Args &&... args ) const {
+            // expanding for string formatting can be expensive
+            if( debug_mode ) {
+                return add_msg_debug_if_npc( type, string_format( msg, std::forward<Args>( args )... ) );
+            }
+        }
+        template<typename ...Args>
+        void add_msg_debug_if_npc( debugmode::debug_filter type, const std::string &msg,
+                                   Args &&... args ) const {
+            if( debug_mode ) {
+                return add_msg_debug_if_npc( type, string_format( msg, std::forward<Args>( args )... ) );
+            }
+        }
+        template<typename ...Args>
+        void add_msg_debug_if_npc( debugmode::debug_filter type, const translation &msg,
+                                   Args &&... args ) const {
+            if( debug_mode ) {
+                return add_msg_debug_if_npc( type, string_format( msg, std::forward<Args>( args )... ) );
+            }
+        }
+
+        virtual void add_msg_debug_player_or_npc( debugmode::debug_filter /*type*/,
+                const std::string &/*player_msg*/,
+                const std::string &/*npc_msg*/ ) const {}
+        void add_msg_debug_player_or_npc( debugmode::debug_filter /*type*/,
+                                          const translation &/*player_msg*/,
+                                          const translation &/*npc_msg*/ ) const;
+        template<typename ...Args>
+        void add_msg_debug_player_or_npc( debugmode::debug_filter type, const char *const player_msg,
+                                          const char *const npc_msg, Args &&... args ) const {
+            // expanding for string formatting can be expensive
+            if( debug_mode ) {
+                return add_msg_debug_player_or_npc( type, string_format( player_msg,
+                                                    std::forward<Args>( args )... ),
+                                                    string_format( npc_msg, std::forward<Args>( args )... ) );
+            }
+        }
+        template<typename ...Args>
+        void add_msg_debug_player_or_npc( debugmode::debug_filter type, const std::string &player_msg,
+                                          const std::string &npc_msg, Args &&... args ) const {
+            if( debug_mode ) {
+                return add_msg_debug_player_or_npc( type, string_format( player_msg,
+                                                    std::forward<Args>( args )... ),
+                                                    string_format( npc_msg, std::forward<Args>( args )... ) );
+            }
+        }
+        template<typename ...Args>
+        void add_msg_debug_player_or_npc( debugmode::debug_filter type, const translation &player_msg,
+                                          const translation &npc_msg, Args &&... args ) const {
+            if( debug_mode ) {
+                return add_msg_debug_player_or_npc( type, string_format( player_msg,
+                                                    std::forward<Args>( args )... ),
+                                                    string_format( npc_msg, std::forward<Args>( args )... ) );
+            }
+        }
+
         virtual void add_msg_player_or_say( const std::string &/*player_msg*/,
                                             const std::string &/*npc_speech*/ ) const {}
         virtual void add_msg_player_or_say( const game_message_params &/*params*/,
@@ -1078,10 +1173,10 @@ class Creature : public location, public viewer
 
         bool fake = false;
         Creature();
-        Creature( const Creature & ) = default;
-        Creature( Creature && ) = default;
-        Creature &operator=( const Creature & ) = default;
-        Creature &operator=( Creature && ) = default;
+        Creature( const Creature & );
+        Creature( Creature && ) noexcept( map_is_noexcept );
+        Creature &operator=( const Creature & );
+        Creature &operator=( Creature && ) noexcept;
 
     protected:
         virtual void on_stat_change( const std::string &, int ) {}

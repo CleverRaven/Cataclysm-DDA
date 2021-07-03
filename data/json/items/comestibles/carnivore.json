@@ -209,7 +209,7 @@
     "flags": [  ],
     "use_action": {
       "target": "raw_cured_fatty_meat",
-      "msg": "You pat off a bit of extra brine from the slice, this piece of meat is now fully cured.",
+      "msg": "You pat off a bit of extra brine from the slice; this piece of meat is now fully cured.",
       "moves": 150,
       "type": "delayed_transform",
       "transform_age": 4800,

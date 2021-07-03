@@ -2100,6 +2100,10 @@ void monster::load( const JsonObject &data )
     if( data.read( "wandz", wander_pos.z ) ) {
         wander_pos.z = position.z;
     }
+    if( data.has_int( "next_patrol_point" ) ) {
+        data.read( "next_patrol_point", next_patrol_point );
+        data.read( "patrol_route", patrol_route_abs_ms );
+    }
     if( data.has_object( "tied_item" ) ) {
         JsonIn *tied_item_json = data.get_raw( "tied_item" );
         item newitem;
@@ -2251,6 +2255,10 @@ void monster::store( JsonOut &json ) const
     json.member( "wandy", wander_pos.y );
     json.member( "wandz", wander_pos.z );
     json.member( "wandf", wandf );
+    if( !patrol_route_abs_ms.empty() ) {
+        json.member( "patrol_route", patrol_route_abs_ms );
+        json.member( "next_patrol_point", next_patrol_point );
+    }
     json.member( "hp", hp );
     json.member( "special_attacks", special_attacks );
     json.member( "friendly", friendly );
@@ -2470,6 +2478,13 @@ void item::io( Archive &archive )
         return i.id.str();
     } );
     archive.io( "craft_data", craft_data_, decltype( craft_data_ )() );
+    const auto gvload = [this]( const std::string & variant ) {
+        set_gun_variant( variant );
+    };
+    const auto gvsave = []( const gun_variant_data * gv ) {
+        return gv->id;
+    };
+    archive.io( "variant", _gun_variant, gvload, gvsave, false );
     archive.io( "light", light.luminance, nolight.luminance );
     archive.io( "light_width", light.width, nolight.width );
     archive.io( "light_dir", light.direction, nolight.direction );
@@ -4286,7 +4301,8 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
             int i = jsin.get_int();
             int j = jsin.get_int();
             const point p( i, j );
-            std::string type, str;
+            std::string type;
+            std::string str;
             // Try to read as current format
             if( jsin.test_string() ) {
                 type = jsin.get_string();

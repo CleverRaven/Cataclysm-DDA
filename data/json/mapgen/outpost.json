@@ -149,7 +149,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "outpost" ],
+    "om_terrain": [ "outpost_cross" ],
     "weight": 100,
     "object": {
       "rows": [

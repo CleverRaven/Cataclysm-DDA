@@ -1,6 +1,6 @@
 # WEATHER TYPES
 
-Each weather type is a type of weather that occurs, its effects and what causes it.  The only required entries are null and clear.
+Each weather type is a type of weather that occurs, and what causes it. The only required entries are null and clear.
 
 ## `weather_type` properties
 
@@ -26,8 +26,8 @@ Each weather type is a type of weather that occurs, its effects and what causes 
 | `time_between_min`             | Optional: the lower bound on the amount of time that will be guaranteed to pass before this weather happens again. Defaults to 0. |
 | `time_between_max`             | Optional: the upper bound on the amount of time that will be guaranteed to pass before this weather happens again. Defaults to 0. |
 | `weather_animation`            | Optional, Information controlling weather animations.  Members: factor, color and glyph |
-| `effects`                      | Array for the effects the weather has. Descibed in detail below
-| `requirements`                 | Optional, is what determines what weather it is.  All members are optional. When determining current weather, it loops through the entries in order and uses the last one to pass all the requirements. |
+|	`required_weathers`          | a string array of possible weathers it is at this point in the loop. i.e. rain can only happen if the conditions for clouds light drizzle or drizzle are present |
+| `condition`                  | A dialog condition to determine if this weather is happening.  See Dialogue conditions section of [NPCs](NPCs.md)
 
 #### `weather_type` example
 
@@ -37,9 +37,9 @@ Each weather type is a type of weather that occurs, its effects and what causes 
     "id": "lightning",
     "type": "weather_type",
     "name": "Lightning Storm",
-    "color": "yellow",
+    "color": "c_yellow",
     "map_color": "h_yellow",
-    "sym": "%",
+    "glyph": "%",
     "ranged_penalty": 4,
     "sight_penalty": 1.25,
     "light_modifier": -45,
@@ -48,27 +48,9 @@ Each weather type is a type of weather that occurs, its effects and what causes 
     "precip": "heavy",
     "rains": true,
     "acidic": false,
-    "effects": [
-      {
-        "one_in_chance": 50,
-        "must_be_outside": false,
-        "sound_message": "You hear a distant rumble of thunder.",
-        "sound_effect": "thunder_far"
-      },
-      {
-        "one_in_chance": 600,
-        "must_be_outside": false,
-        "message": "A flash of lightning illuminates your surroundings!.",
-        "sound_effect": "thunder_near",
-        "lightning": true
-      }
-    ],
-    "tiles_animation": "weather_rain_drop",
-    "weather_animation": { "factor": 0.04, "color": "light_blue", "sym": "," },
-    "sound_category": "thunder",
-    "sun_intensity": "none",
-    "requirements": { "pressure_max": 990, "required_weathers": [ "thunder" ] }
-  },
+    "required_weathers": [ "thunder" ],
+    "condition": { "not": { "is_pressure": 990 } }
+  }
 ]
 ```
 
@@ -128,45 +110,3 @@ Each weather type is a type of weather that occurs, its effects and what causes 
       }]
 }
 ```
-
-### `requirements` properties
-
-|     Identifier                 |                              Description                              |
-| ------------------------------ | --------------------------------------------------------------------- |
-| `pressure_min`                 | These are all minimum and maximum values for which the weather will occur.  I.e., it will only rain if it is sufficiently humid. |
-| `pressure_max`                 | |
-| `humidity_min`                 | |
-| `humidity_max`                 | |
-| `temperature_min`              | |
-| `temperature_max`              | |
-| `windpower_min`                | |
-| `windpower_max`                |  |
-| `humidity_and_pressure`        | should logical AND be used for pressure and humidity requirements when they are both defined |
-| `acidic`                       | does this require acidic precipitation                                |
-| `time`                         | Valid values are: "day", "night", and "both".                               |
-| `required_weathers`            | a string array of possible prior weathers; i.e., rain can only happen if the conditions for clouds, light drizzle, or drizzle are present |
-| `time_passed_min`              | Optional: Time after the Cataclysm when this weather can start appearing; |
-| `time_passed_max`              | Optional: Time after the Cataclysm when this weather can no longer appear. |
-| `one_in_chance`                | Optional: This has a 1 in this value chance of happening.  This will usually be called every 5 minutes|
-
-
-### `spawns` properties
-
-|     Identifier                 |                              Description                              |
-| ------------------------------ | --------------------------------------------------------------------- |
-| `max_radius`                   | Optional: The furthest away a spawn will happen.                      |
-| `min_radius`                   | Optional: The closest a spawn will happen.                            |
-| `hallucination_count`          | Optional: Number of hallucinations of the target to spawn.            |
-| `real_count`                   | Optional: Number of real copies to spawn.                             |
-| `target`                       | Optional: Monster id of target to spawn.  If left blank a nearby monster will be used. |
-| `target_range`                 | Optional: If target is left blank how far away to look for something to copy. |
-
-### `fields` properties
-        
-|     Identifier                 |                              Description                              |
-| ------------------------------ | --------------------------------------------------------------------- |
-| `type`                         | The string id of the field.                                           |
-| `intensity`                    | Intensity of the field.                                               |
-| `age`                          | Age of the field.                                                     |
-| `outdoor_only`                 | Optional: Defaults to true. If true field will only spawn outdoors.   |
-| `radius`                       | Optional: Radius around player the effect will spread, defaults to everywhere.  |
