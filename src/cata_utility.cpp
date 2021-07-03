@@ -21,8 +21,7 @@
 #include "output.h"
 #include "rng.h"
 #include "translations.h"
-
-#include "gzstream.h"
+#include "zlib.h"
 
 static double pow10( unsigned int n )
 {
@@ -354,15 +353,56 @@ bool read_from_file( const std::string &path, const std::function<void( std::ist
         // (byte1 == 0x1f) && (byte2 == 0x8b)
         char header[2];
         fin.read( header, 2 );
+        fin.clear();
+        fin.seekg( 0, std::ios::beg ); // reset read position
+
         if( ( header[0] == '\x1f' ) && ( header[1] == '\x8b' ) ) {
-            igzstream fingz( path.c_str() );
-            std::stringstream ss;
-            ss << fingz.rdbuf();
-            if( fingz.bad() ) {
-                throw std::runtime_error( "reading file failed" );
+            std::ostringstream deflated_contents_stream;
+            std::string str;
+
+            deflated_contents_stream << fin.rdbuf();
+            str = deflated_contents_stream.str();
+
+            z_stream zs;
+            memset(&zs, 0, sizeof(zs));
+
+            if (inflateInit2(&zs, MAX_WBITS | 16) != Z_OK)
+                throw(std::runtime_error("inflateInit failed while decompressing."));
+
+            zs.next_in = reinterpret_cast<unsigned char*>(const_cast<char*>(str.data()));
+            zs.avail_in = str.size();
+
+            int ret;
+            char outbuffer[32768];
+            std::string outstring;
+
+            // get the decompressed bytes blockwise using repeated calls to inflate
+            do {
+                zs.next_out = reinterpret_cast<Bytef*>(outbuffer);
+                zs.avail_out = sizeof(outbuffer);
+
+                ret = inflate(&zs, 0);
+
+                if (outstring.size() < zs.total_out) {
+                    outstring.append(outbuffer,
+                                     zs.total_out - outstring.size());
+                }
+
+            } while (ret == Z_OK);
+
+            inflateEnd(&zs);
+
+            if (ret != Z_STREAM_END) { // an error occurred that was not EOF
+                std::ostringstream oss;
+                oss << "Exception during zlib decompression: (" << ret << ") "
+                    << zs.msg;
+                throw(std::runtime_error(oss.str()));
             }
-            ss.seekg( 0, std::ios::beg );
-            reader( ss );
+
+            std::stringstream inflated_contents_stream;
+            inflated_contents_stream << outstring;
+
+            reader( inflated_contents_stream );
         } else {
             fin.clear();
             fin.seekg( 0, std::ios::beg ); // reset read position
