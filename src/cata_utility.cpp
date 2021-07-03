@@ -364,12 +364,13 @@ bool read_from_file( const std::string &path, const std::function<void( std::ist
             str = deflated_contents_stream.str();
 
             z_stream zs;
-            memset(&zs, 0, sizeof(zs));
+            memset( &zs, 0, sizeof( zs ) );
 
-            if (inflateInit2(&zs, MAX_WBITS | 16) != Z_OK)
-                throw(std::runtime_error("inflateInit failed while decompressing."));
+            if( inflateInit2( &zs, MAX_WBITS | 16 ) != Z_OK ) {
+                throw( std::runtime_error( "inflateInit failed while decompressing." ) );
+            }
 
-            zs.next_in = reinterpret_cast<unsigned char*>(const_cast<char*>(str.data()));
+            zs.next_in = reinterpret_cast<unsigned char *>( const_cast<char *>( str.data() ) );
             zs.avail_in = str.size();
 
             int ret;
@@ -378,25 +379,25 @@ bool read_from_file( const std::string &path, const std::function<void( std::ist
 
             // get the decompressed bytes blockwise using repeated calls to inflate
             do {
-                zs.next_out = reinterpret_cast<Bytef*>(outbuffer);
-                zs.avail_out = sizeof(outbuffer);
+                zs.next_out = reinterpret_cast<Bytef *>( outbuffer );
+                zs.avail_out = sizeof( outbuffer );
 
-                ret = inflate(&zs, 0);
+                ret = inflate( &zs, 0 );
 
-                if (outstring.size() < zs.total_out) {
-                    outstring.append(outbuffer,
-                                     zs.total_out - outstring.size());
+                if( outstring.size() < zs.total_out ) {
+                    outstring.append( outbuffer,
+                                      zs.total_out - outstring.size() );
                 }
 
-            } while (ret == Z_OK);
+            } while( ret == Z_OK );
 
-            inflateEnd(&zs);
+            inflateEnd( &zs );
 
-            if (ret != Z_STREAM_END) { // an error occurred that was not EOF
+            if( ret != Z_STREAM_END ) { // an error occurred that was not EOF
                 std::ostringstream oss;
                 oss << "Exception during zlib decompression: (" << ret << ") "
                     << zs.msg;
-                throw(std::runtime_error(oss.str()));
+                throw( std::runtime_error( oss.str() ) );
             }
 
             std::stringstream inflated_contents_stream;
