@@ -3573,13 +3573,17 @@ void cata_tiles::draw_footsteps_frame( const tripoint &center )
     static const std::string id_footstep_above = "footstep_above";
     static const std::string id_footstep_below = "footstep_below";
 
+
+    const tile_type *tl_above = tileset_ptr->find_tile_type( id_footstep_above );
+    const tile_type *tl_below = tileset_ptr->find_tile_type( id_footstep_below );
+
     for( const tripoint &pos : sounds::get_footstep_markers() ) {
-        if( pos.z == center.z ) {
-            draw_from_id_string( id_footstep, pos, 0, 0, lit_level::LIT, false );
-        } else if( pos.z > center.z ) {
+        if( pos.z > center.z && tl_above ) {
             draw_from_id_string( id_footstep_above, pos, 0, 0, lit_level::LIT, false );
-        } else {
+        } else if( pos.z < center.z && tl_below ) {
             draw_from_id_string( id_footstep_below, pos, 0, 0, lit_level::LIT, false );
+        } else {
+            draw_from_id_string( id_footstep, pos, 0, 0, lit_level::LIT, false );
         }
     }
 }
