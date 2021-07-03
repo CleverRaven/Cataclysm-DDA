@@ -1048,7 +1048,7 @@
     "difficulty": 4,
     "time": "35 m",
     "book_learn": [ [ "recipe_bows", 3 ], [ "manual_archery", 5 ], [ "book_archery", 4 ] ],
-    "proficiencies": [ { "proficiency": "prof_carving" }, { "proficiency": "prof_gunsmithing_spring" }, { "proficiency": "prof_bowery" } ],
+    "proficiencies": [ { "proficiency": "prof_carving" }, { "proficiency": "prof_gunsmithing_spring" }, { "proficiency": "prof_bowyery" } ],
     "qualities": [
       { "id": "CUT", "level": 1 },
       { "id": "HAMMER", "level": 2 },
