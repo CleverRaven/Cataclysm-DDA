@@ -1864,7 +1864,7 @@ class Character : public Creature, public visitable
         bool cast_spell( spell &sp, bool fake_spell, cata::optional<tripoint> target );
 
         void make_bleed( const effect_source &source, const bodypart_id &bp, time_duration duration,
-                         int intensity = 1, bool permanent = false, bool force = false, bool defferred = false );
+                         int intensity = 1, bool permanent = false, bool force = false, bool defferred = false ) override;
 
         /** Calls Creature::normalize()
          *  nulls out the player's weapon

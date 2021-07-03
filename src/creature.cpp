@@ -57,7 +57,6 @@ struct mutation_branch;
 
 static const anatomy_id anatomy_human_anatomy( "human_anatomy" );
 
-static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_bounced( "bounced" );
 static const efftype_id effect_downed( "downed" );
@@ -1068,13 +1067,7 @@ void Creature::deal_damage_handle_type( const effect_source &source, const damag
         case damage_type::STAB:
         case damage_type::BULLET:
             // these are bleed inducing damage types
-            if( is_avatar() || is_npc() ) {
-                as_character()->make_bleed( source, bp, 1_minutes * rng( 1, adjusted_damage ) );
-            } else if( in_species( species_ROBOT ) ) {
-                add_effect( source, effect_dripping_mechanical_fluid, 1_seconds * rng( 1, adjusted_damage ), bp );
-            } else {
-                add_effect( source, effect_bleed, 1_minutes * rng( 1, adjusted_damage ), bp );
-            }
+            make_bleed( source, bp, 1_minutes * rng( 1, adjusted_damage ) );
 
         default:
             break;
@@ -1084,6 +1077,11 @@ void Creature::deal_damage_handle_type( const effect_source &source, const damag
 
     damage += adjusted_damage;
     pain += roll_remainder( adjusted_damage / div );
+}
+
+void Creature::make_bleed( const effect_source &source, const bodypart_id &bp,
+                           time_duration duration, int intensity, bool permanent, bool force, bool defferred )
+{
 }
 
 void Creature::heal_bp( bodypart_id /* bp */, int /* dam */ )
