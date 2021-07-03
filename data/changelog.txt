@@ -1,4 +1,4 @@
-# 0.F (2021-06-19)
+# 0.F (Frank)
 
 ## Highlights
 Nested Containers rationalize inventory management and enable dropping and retrieving go-bags during fights.
