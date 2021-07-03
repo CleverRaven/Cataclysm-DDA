@@ -614,15 +614,15 @@ static std::string profstring( const prof_penalty &prof,
     }
 
     if( prof.time_mult == 1.0f ) {
-        return string_format( _( "<color_%s>%s</color> (<color_%s>%gx\u00a0failure</color>%s)" ),
+        return string_format( _( "<color_%s>%s</color> (<color_%s>%.1fx\u00a0failure</color>%s)" ),
                               name_color, prof.id->name(), color, prof.failure_mult, mitigated_str );
     } else if( prof.failure_mult == 1.0f ) {
-        return string_format( _( "<color_%s>%s</color> (<color_%s>%gx\u00a0time</color>%s)" ),
+        return string_format( _( "<color_%s>%s</color> (<color_%s>%.1fx\u00a0time</color>%s)" ),
                               name_color, prof.id->name(), color, prof.time_mult, mitigated_str );
     }
 
     return string_format(
-               _( "<color_%s>%s</color> (<color_%s>%gx\u00a0time, %gx\u00a0failure</color>%s)" ),
+               _( "<color_%s>%s</color> (<color_%s>%.1fx\u00a0time, %.1fx\u00a0failure</color>%s)" ),
                name_color, prof.id->name(), color, prof.time_mult, prof.failure_mult, mitigated_str );
 }
 
