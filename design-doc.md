@@ -145,7 +145,7 @@ In general, goods should be distributed in a way representative of how they woul
 
 This results in a glut of marginally useful resources, but scarcity of ideal resources.
 
-For example cars are extrordinarally common, but robust and functional cars that are both in full working order and not surrounded by dangerous enemies are rare.
+For example cars are extraordinary common, but robust and functional cars that are both in full working order and not surrounded by dangerous enemies are rare.
 
 Likewise improvised melee weapons appear in vast numbers, but quality melee weapons and powerful firearms and ammunition are somewhat harder to come by.
 
@@ -223,7 +223,7 @@ Small towns represent a good risk vs reward for early game characters. Zombies o
 
 The primary risk is attracting an entire town full of zombies by making too much noise.
 
-Towns present ample opportunities to maneuver, break line of sight, hide and set up ambushes, but present many opportunities for a unwary survivor to become cornered.
+Towns present ample opportunities to maneuver, break line of sight, hide and set up ambushes, but present many opportunities for an unwary survivor to become cornered.
 
 If a survivor can clear an area, food, water, tools, weapons and shelter are all readily available, even to a survivor with no particular survival skills.
 
@@ -373,7 +373,7 @@ Explicitly hostile to the Mycus, triffids, zombies, and nether cults.
 
 **Development Direction**: The major challenge facing the old guard immediately after the Cataclysm is extracting as much value as possible from the fleet while decommissioning it. Each remaining ship can either be operated as a combat vessel at great resource cost (food, equipment, provisions, fuel and manpower) or decommissioned to provide a core around which a community can be built. Even the smallest ship has a large diesel engine that can be configured as a generator, as well as secured storage facilities, sleeping berths, stocks of ammunition and weapons, and various facilities such a cooking, machine shops and medical facilities. The expected trajectory is that the Old Guard recruits survivors to act as settlers, and once they have a sufficient number and have located a strategic location for a settlement, they establish a settlement there and decommission a ship to act as the core of the settlement. In parallel with this decommissioning effort, the Old Guard would prioritize establishing a provisional and then permanent government to maintain their legitimacy.
 
-One possible ongoing campaign for hte Old Guard might be clearing and forming a permanent zombie-free zone on Nantucket, then launching a similar campaign to attempt to retake Martha's Vineyard. Player/mercenary involvement in the Martha's Vineyard campaign would be an option.
+One possible ongoing campaign for the Old Guard might be clearing and forming a permanent zombie-free zone on Nantucket, then launching a similar campaign to attempt to retake Martha's Vineyard. Player/mercenary involvement in the Martha's Vineyard campaign would be an option.
 
 **Steady State**: Eventually the majority of the fleet is decommissioned as the cores of new settlements scattered across the eastern seaboard. A remaining skeleton fleet, operating with skeleton crews might continue to patrol the Atlantic coast to provide support to these settlements. The faction at this point is transitioned into expanding their control and solidifying their holdings. Settlements built around a decommissioned ship have a massive head start compared to most settlements, but at the same time Old Guard settlers would be the least equipped among the factions to adapt to the new realities of founding an inshore settlement.
 
@@ -405,7 +405,7 @@ These are factions that are not yet in the game.
 
 ##### Major Factions
 
-These are proposed factions with a scope similar to the Free Merchants or Tacoma Commune: large groups that will have substantial influence the CDDA world.
+These are proposed factions with a scope similar to the Free Merchants or Tacoma Commune: large groups that will have substantial influence in the CDDA world.
 
 ##### Micro Factions
 
@@ -469,7 +469,7 @@ The Blob is a dispersed intelligence vastly greater than anything conceivable to
 The Blob, as a concept in writing, should be thought of less like an antagonist or a character and more like a set of rules and a force of nature.  None of the direct interacting organisms in the game world are even particularly aware of its existence. Those few that are aware that XE-037 exists do not realize that it is a vast interdimensional organism. This information might *never* be directly revealed in game.
 
 **What does it want**?  
-The Blob is vast. It cannot be communicated with nor reasoned with. The most we could possible manage would be to annoy it enough that it would reach out and slap us, and that would be that. Far preferable would be for us to convince it to leave us alone - which really isn't that hard, since it doesn't really care about the human survivors whatsoever. It is in many ways analogous to a Lovecraftian elder god, but one that has already woken up, devastated the world, and moved on to other things.
+The Blob is vast. It cannot be communicated with nor reasoned with. The most we could possibly manage would be to annoy it enough that it would reach out and slap us, and that would be that. Far preferable would be for us to convince it to leave us alone - which really isn't that hard, since it doesn't really care about the human survivors whatsoever. It is in many ways analogous to a Lovecraftian elder god, but one that has already woken up, devastated the world, and moved on to other things.
 
 **Quest options**  
 With the Blob itself, there really aren't any. You can't convince Azathoth to go away and leave us alone, it's not a thing. Zombies cannot be cured; their brains are mush, they are dead. Perhaps sufficient purifier could clear your own XE-037 infestation for a while, but unless you plan to drink treated water the rest of your life, it's going to come back, and what have you really accomplished? Survivors' best hope is to get the Blob to leave them alone, which is mostly wants to do anyway.
@@ -648,7 +648,7 @@ Mid-to-late summer to winter, year 1
 **Key Events**:
 
 *    Return of focus to food security as winter comes closer and survivor needs to work hard on stockpiling
-*    Most other key resources now well stocked - ammo, clothing, armor. Survivor has likely managed to make some deep forays into a few towns, loot a mansion or the upper levels of a Lab.
+*    Most other key resources are now well stocked - ammo, clothing, armor. Survivor has likely managed to make some deep forays into a few towns, loot a mansion or the upper levels of a Lab.
 *    Although the player isn't equipped to install CBMs or develop higher level mutagens they probably have access to the components now, and can start projects to get them on the go over the winter. Likewise for fancier gear and equipment that isn't available readily from raids.
 *    Decreasing focus on wide ranging travel in favor of developing base defenses
 *    May at this point have achieved welding tools
