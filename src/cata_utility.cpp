@@ -404,8 +404,6 @@ bool read_from_file( const std::string &path, const std::function<void( std::ist
 
             reader( inflated_contents_stream );
         } else {
-            fin.clear();
-            fin.seekg( 0, std::ios::beg ); // reset read position
             reader( fin );
         }
         if( fin.bad() ) {
