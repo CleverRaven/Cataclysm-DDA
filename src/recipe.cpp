@@ -699,9 +699,9 @@ std::set<proficiency_id> recipe::assist_proficiencies() const
 
 static float get_aided_proficiency_level( const Character &crafter, proficiency_id prof )
 {
-    float max_prof = crafter.get_proficiency_level( prof );
+    float max_prof = crafter.get_proficiency_practice( prof );
     for( const npc *helper : crafter.get_crafting_helpers() ) {
-        max_prof = std::max( max_prof, helper->get_proficiency_level( prof ) );
+        max_prof = std::max( max_prof, helper->get_proficiency_practice( prof ) );
     }
     return max_prof;
 }

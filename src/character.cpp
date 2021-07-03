@@ -12756,7 +12756,7 @@ bool Character::has_proficiency( const proficiency_id &prof ) const
     return _proficiencies->has_learned( prof );
 }
 
-float Character::get_proficiency_level( const proficiency_id &prof ) const
+float Character::get_proficiency_practice( const proficiency_id &prof ) const
 {
     return _proficiencies->pct_practiced( prof );
 }
