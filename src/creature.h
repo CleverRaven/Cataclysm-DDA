@@ -441,7 +441,7 @@ class Creature : public location, public viewer
 
         // Pass handling bleed to creature/character
         virtual void make_bleed( const effect_source &source, const bodypart_id &bp, time_duration duration,
-                                 int intensity = 1, bool permanent = false, bool force = false, bool defferred = false );
+                                 int intensity = 1, bool permanent = false, bool force = false, bool defferred = false ) = 0;
 
         // directly decrements the damage. ONLY handles damage, doesn't
         // increase pain, apply effects, etc
