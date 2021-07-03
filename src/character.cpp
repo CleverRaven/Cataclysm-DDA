@@ -1375,7 +1375,8 @@ float Character::stability_roll() const
 bool Character::is_dead_state() const
 {
     return get_part_hp_cur( body_part_head ) <= 0 ||
-           get_part_hp_cur( body_part_torso ) <= 0;
+           get_part_hp_cur( body_part_torso ) <= 0 ||
+           is_dead;
 }
 
 void Character::on_dodge( Creature *source, float difficulty )
@@ -4274,6 +4275,7 @@ void Character::normalize()
 void Character::die( Creature *nkiller )
 {
     g->set_critter_died();
+    is_dead = true;
     set_killer( nkiller );
     set_time_died( calendar::turn );
     if( has_effect( effect_lightsnare ) ) {
@@ -5762,7 +5764,7 @@ void Character::update_stomach( const time_point &from, const time_point &to )
         guts.ingest( digested_to_guts );
 
         mod_stored_kcal( digested_to_body.nutr.kcal() );
-        vitamins_mod( digested_to_body.nutr.vitamins, false );
+        vitamins_mod( effect_vitamin_mod( digested_to_body.nutr.vitamins ), false );
         log_activity_level( activity_history.average_activity() );
 
         if( !foodless && rates.hunger > 0.0f ) {
@@ -12167,6 +12169,14 @@ void Character::process_one_effect( effect &it, bool is_new )
         }
     }
 
+    // Handle vitamins
+    for( const vitamin_applied_effect &vit : it.vit_effects( reduced ) ) {
+        if( vit.tick && vit.rate && calendar::once_every( *vit.tick ) ) {
+            const int mod = rng( vit.rate->first, vit.rate->second );
+            vitamin_mod( vit.vitamin, mod, false );
+        }
+    }
+
     // Handle health mod
     val = get_effect( "H_MOD", reduced );
     if( val != 0 ) {
@@ -12392,8 +12402,8 @@ void Character::process_effects()
     }
 
     //Human only effects
-    for( auto &elem : *effects ) {
-        for( auto &_effect_it : elem.second ) {
+    for( std::pair<const efftype_id, std::map<bodypart_id, effect>> &elem : *effects ) {
+        for( std::pair<const bodypart_id, effect> &_effect_it : elem.second ) {
             process_one_effect( _effect_it.second, false );
         }
     }
