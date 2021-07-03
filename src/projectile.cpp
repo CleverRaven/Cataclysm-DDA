@@ -25,7 +25,7 @@ projectile::projectile() :
 
 projectile::~projectile() = default;
 
-projectile::projectile( projectile && ) = default;
+projectile::projectile( projectile && ) noexcept( set_is_noexcept ) = default;
 
 projectile::projectile( const projectile &other )
 {

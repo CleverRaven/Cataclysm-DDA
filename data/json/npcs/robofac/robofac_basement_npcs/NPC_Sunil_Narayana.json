@@ -1,0 +1,81 @@
+[
+  {
+    "type": "npc",
+    "id": "HUB01_SNarayana",
+    "name_unique": "Sunil Narayana",
+    "gender": "male",
+    "name_suffix": "server maintenance",
+    "class": "NC_HUB01_SNarayana",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "HUB01_SNarayana_Intro",
+    "faction": "robofac"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_HUB01_SNarayana",
+    "name": { "str": "Hub 01 Server Maintenance" },
+    "job_description": "I'm part of Hub 01's maintenance crew.",
+    "common": false,
+    "//": "HVAC maintenance.  Resident dungeon master.",
+    "bonus_str": { "rng": [ -2, 2 ] },
+    "bonus_dex": { "rng": [ 0, 2 ] },
+    "bonus_int": { "rng": [ 0, 2 ] },
+    "bonus_per": { "rng": [ -1, 1 ] },
+    "worn_override": "HUB01_SNarayana_worn",
+    "carry_override": "HUB01_SNarayana_carried",
+    "weapon_override": "HUB01_SNarayana_wield",
+    "traits": [ { "trait": "PROF_DICEMASTER" }, { "group": "Appearance_demographics" } ],
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
+      { "skill": "speech", "bonus": { "rng": [ 0, 1 ] } },
+      { "skill": "electronics", "bonus": { "rng": [ 4, 5 ] } }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "HUB01_SNarayana_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "boxer_briefs" },
+      { "item": "socks" },
+      { "item": "robofac_jumpsuit" },
+      { "item": "boots" },
+      { "item": "hat_ball" },
+      { "item": "gloves_work" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "HUB01_SNarayana_carried",
+    "subtype": "collection",
+    "entries": [ { "group": "wallet_full" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "HUB01_SNarayana_wield"
+  },
+  {
+    "type": "talk_topic",
+    "id": "HUB01_SNarayana_Intro",
+    "dynamic_line": {
+      "u_has_trait": "PROF_HUB01_ANCILLIARY",
+      "yes": "Oooh, the NEW person.  So, you're not just some rumour they cooked up as a team building exercise.  I'm Sunil, welcome to the underground.",
+      "no": "Who the fuck are you?  How did you get down here?  Security!"
+    },
+    "responses": [
+      {
+        "text": "Hold on, hold on.  I'm not here to hurt anyone, and there aren't enough of us left to just start fighting.",
+        "condition": { "not": { "u_has_trait": "PROF_HUB01_ANCILLIARY" } },
+        "topic": "TALK_DONE",
+        "effect": "flee"
+      },
+      {
+        "text": "Nice to meet you too.",
+        "topic": "TALK_DONE",
+        "effect": { "u_add_var": "u_met_SNarayana", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "u_has_trait": "PROF_HUB01_ANCILLIARY" }
+      }
+    ]
+  }
+]

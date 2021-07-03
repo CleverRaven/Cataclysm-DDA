@@ -158,6 +158,12 @@
     "info": "If your vehicle consists of a single tile, this wheel is enough to allow it to move."
   },
   {
+    "id": "UNSTABLE_WHEEL",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ],
+    "info": "This wheel requires another wheel to be installed to be functional."
+  },
+  {
     "id": "STEERABLE",
     "type": "json_flag",
     "context": [ "vehicle_part" ],

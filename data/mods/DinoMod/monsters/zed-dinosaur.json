@@ -235,6 +235,31 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_zyrannosaurus_chain",
+    "//": "Special monster for Old Guard questline",
+    "name": { "str": "chained Tyrannosaurus zombie" },
+    "copy-from": "mon_zyrannosaurus",
+    "description": "A massive dinosaur corpse with enormous teeth wrapped with heavy chains to allow some control.",
+    "upgrades": {  },
+    "aggression": 0
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zalbertosaurus",
+    "name": { "str": "Albertosaurus zombie" },
+    "copy-from": "mon_zyrannosaurus",
+    "melee_dice_sides": 4,
+    "melee_cut": 10,
+    "armor_bash": 5,
+    "armor_cut": 5,
+    "armor_bullet": 3,
+    "hp": 330,
+    "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "GRAB", 7 ], [ "scratch", 20 ], [ "LUNGE", 5 ] ],
+    "description": "Massive jaws drooling black liquid lifted over grasping claws by a huge shuffling dinosaur corpse.",
+    "upgrades": { "half_life": 14, "into_group": "GROUP_zalbertosaurus_UPGRADE" }
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_zallimimus",
     "name": { "str": "Gallimimus zombie" },
     "looks_like": "mon_gallimimus",
@@ -700,6 +725,17 @@
     "vision_night": 3,
     "harvest": "zed_dino_feather",
     "categories": [ "DINOSAUR", "CLASSIC" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zachycephalosaurus_chain",
+    "//": "Special monster for Old Guard questline",
+    "name": { "str": "chained Pachycephalosaurus zombie" },
+    "copy-from": "mon_zachycephalosaurus",
+    "description": "A feathered dinosaur corpse with a domed head with heavy chains to allow some control.",
+    "upgrades": {  },
+    "aggression": 0,
+    "speed": 80
   },
   {
     "type": "MONSTER",

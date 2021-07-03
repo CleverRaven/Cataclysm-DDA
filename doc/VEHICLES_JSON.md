@@ -30,7 +30,7 @@ Vehicle prototypes do not currently accept copy-from
 "items": [                                 // Item spawn list
     { "x": 0, "y": 0, "items": "helmet_army" },   // individual item
     { "x": 0, "y": 0, "item_groups": "army_uniform" }, // item or items from an item_group
-    { "x": 0, "y": 1, "items": [ "matchbook", "two_by_four" ] }, // all items in the list spawn
+    { "x": 0, "y": 1, "items": [ "matchbook", "2x4" ] }, // all items in the list spawn
     { "x": 0, "y": 0, "item_groups": [ "army_uniform", "rare_guns" ] } all item_groups are processed
 ]
 ```
@@ -69,5 +69,7 @@ TYPE and DATA may be one of:
 "item_groups": [ "groupid1", "groupid2" ... ]  // one or more items for each group
 ```
 the optional keyword "chance" provides an X in 100 chance that a particular item definition will spawn.
+
+If a single item is specified through `"items"`, a gun variant for it can be specified through `"variant"`.
 
 Multiple lines of items may share the same X and Y values.

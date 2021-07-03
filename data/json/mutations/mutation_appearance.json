@@ -480,6 +480,78 @@
     "types": [ "hair_style" ]
   },
   {
+    "id": "eye_blue",
+    "type": "mutation",
+    "name": { "str": "Eye color: blue" },
+    "description": "You have blue eyes.",
+    "points": 0,
+    "starting_trait": true,
+    "valid": false,
+    "purifiable": false,
+    "player_display": false,
+    "types": [ "eye_color" ]
+  },
+  {
+    "id": "eye_brown",
+    "type": "mutation",
+    "name": { "str": "Eye color: brown" },
+    "description": "You have brown eyes.",
+    "points": 0,
+    "starting_trait": true,
+    "valid": false,
+    "purifiable": false,
+    "player_display": false,
+    "types": [ "eye_color" ]
+  },
+  {
+    "id": "eye_hazel",
+    "type": "mutation",
+    "name": { "str": "Eye color: hazel" },
+    "description": "You have hazel eyes.",
+    "points": 0,
+    "starting_trait": true,
+    "valid": false,
+    "purifiable": false,
+    "player_display": false,
+    "types": [ "eye_color" ]
+  },
+  {
+    "id": "eye_amber",
+    "type": "mutation",
+    "name": { "str": "Eye color: amber" },
+    "description": "You have amber eyes.",
+    "points": 0,
+    "starting_trait": true,
+    "valid": false,
+    "purifiable": false,
+    "player_display": false,
+    "types": [ "eye_color" ]
+  },
+  {
+    "id": "eye_gray",
+    "type": "mutation",
+    "name": { "str": "Eye color: gray" },
+    "description": "You have gray eyes.",
+    "points": 0,
+    "starting_trait": true,
+    "valid": false,
+    "purifiable": false,
+    "player_display": false,
+    "types": [ "eye_color" ]
+  },
+  {
+    "id": "eye_green",
+    "type": "mutation",
+    "name": { "str": "Eye color: green" },
+    "description": "You have green eyes.",
+    "points": 0,
+    "starting_trait": true,
+    "valid": false,
+    "purifiable": false,
+    "player_display": false,
+    "types": [ "eye_color" ]
+  },
+  {
     "id": "SKIN_DARK",
     "type": "mutation",
     "name": { "str": "Skin tone: dark brown" },

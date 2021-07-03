@@ -42,6 +42,7 @@ enum class mon_trigger : int {
     MEAT,               // Meat or a corpse nearby
     HOSTILE_WEAK,       // Hurt hostile player/npc/monster seen
     HOSTILE_CLOSE,      // Hostile creature within a few tiles
+    HOSTILE_SEEN,       // Hostile creature in visual range
     HURT,               // We are hurt
     FIRE,               // Fire nearby
     FRIEND_DIED,        // A monster of the same type died
@@ -164,6 +165,7 @@ enum m_flag : int {
     MF_MILKABLE,            // This monster is milkable.
     MF_SHEARABLE,           // This monster is shearable.
     MF_NO_BREED,            // This monster doesn't breed, even though it has breed data
+    MF_NO_FUNG_DMG,         // This monster can't be damaged by fungal spores and can't be fungalized either.
     MF_PET_WONT_FOLLOW,     // This monster won't follow the player automatically when tamed.
     MF_DRIPS_NAPALM,        // This monster occasionally drips napalm on move
     MF_DRIPS_GASOLINE,      // This monster occasionally drips gasoline on move
@@ -311,6 +313,7 @@ struct mtype {
         mtype_id burn_into;
 
         mtype_id zombify_into; // mtype_id this monster zombifies into
+        mtype_id fungalize_into; // mtype_id this monster fungalize into
 
         // Monster reproduction variables
         cata::optional<time_duration> baby_timer;

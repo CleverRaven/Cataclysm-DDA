@@ -29,7 +29,21 @@
     "book_learn": [ [ "concrete_book", 4 ] ],
     "batch_time_factors": [ 75, 3 ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 250 ], [ "oxy_torch", 50 ] ] ],
-    "components": [ [ [ "material_quicklime", 50 ] ], [ [ "material_sand", 50 ] ] ]
+    "components": [ [ [ "material_quicklime", 50 ] ], [ [ "material_sand", 50 ], [ "material_gravel", 50 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "material_gravel",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "survival",
+    "skills_required": [ "survival", 1 ],
+    "difficulty": 1,
+    "time": "10m",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "ANVIL", "level": 1 } ],
+    "components": [ [ [ "pebble", 10 ] ] ]
   },
   {
     "type": "recipe",

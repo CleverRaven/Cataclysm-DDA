@@ -16,6 +16,7 @@
 #include "calendar.h"
 #include "character_id.h"
 #include "color.h"
+#include "compatibility.h"
 #include "creature.h"
 #include "damage.h"
 #include "enums.h"
@@ -90,10 +91,10 @@ class monster : public Creature
         explicit monster( const mtype_id &id );
         monster( const mtype_id &id, const tripoint &pos );
         monster( const monster & );
-        monster( monster && );
+        monster( monster && ) noexcept( map_is_noexcept );
         ~monster() override;
         monster &operator=( const monster & );
-        monster &operator=( monster && );
+        monster &operator=( monster && ) noexcept( string_is_noexcept );
 
         bool is_monster() const override {
             return true;
@@ -172,12 +173,13 @@ class monster : public Creature
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
 
-        tripoint move_target(); // Returns point at the end of the monster's current plans
+        tripoint move_target() const; // Returns point at the end of the monster's current plans
         Creature *attack_target(); // Returns the creature at the end of plans (if hostile)
 
         // Movement
         void shift( const point &sm_shift ); // Shifts the monster to the appropriate submap
         void set_goal( const tripoint &p );
+        void set_patrol_route( const std::vector<point> &patrol_pts_rel_ms );
         // Updates current pos AND our plans
         bool wander(); // Returns true if we have no plans
 
@@ -414,6 +416,7 @@ class monster : public Creature
         /**
          * Makes this monster into a fungus version
          * Returns false if no such monster exists
+         * Returns true if monster is immune or if it got fungalized
          */
         bool make_fungus();
         void make_friendly();
@@ -443,11 +446,16 @@ class monster : public Creature
         using Creature::add_msg_if_npc;
         void add_msg_if_npc( const std::string &msg ) const override;
         void add_msg_if_npc( const game_message_params &params, const std::string &msg ) const override;
+        using Creature::add_msg_debug_if_npc;
+        void add_msg_debug_if_npc( debugmode::debug_filter type, const std::string &msg ) const override;
         using Creature::add_msg_player_or_npc;
         void add_msg_player_or_npc( const std::string &player_msg,
                                     const std::string &npc_msg ) const override;
         void add_msg_player_or_npc( const game_message_params &params, const std::string &player_msg,
                                     const std::string &npc_msg ) const override;
+        using Creature::add_msg_debug_player_or_npc;
+        void add_msg_debug_player_or_npc( debugmode::debug_filter type, const std::string &player_msg,
+                                          const std::string &npc_msg ) const override;
         // TEMP VALUES
         tripoint wander_pos; // Wander destination - Just try to move in that direction
         int wandf = 0;       // Urge to wander - Increased by sound, decrements each move
@@ -460,8 +468,8 @@ class monster : public Creature
         cata::value_ptr<item> armor_item; // item of armor the monster may be wearing
         cata::value_ptr<item> storage_item; // storage item for monster carrying items
         cata::value_ptr<item> battery_item; // item to power mechs
-        units::mass get_carried_weight();
-        units::volume get_carried_volume();
+        units::mass get_carried_weight() const;
+        units::volume get_carried_volume() const;
         void move_special_item_to_inv( cata::value_ptr<item> &it );
 
         // DEFINING VALUES
@@ -567,6 +575,10 @@ class monster : public Creature
         monster_horde_attraction horde_attraction = MHA_NULL;
         /** Found path. Note: Not used by monsters that don't pathfind! **/
         std::vector<tripoint> path;
+        /** patrol points for monsters that can pathfind and have a patrol route! **/
+        std::vector<tripoint> patrol_route_abs_ms;
+        int next_patrol_point = -1;
+
         std::bitset<NUM_MEFF> effect_cache;
         cata::optional<time_duration> summon_time_limit = cata::nullopt;
         int turns_since_target = 0;

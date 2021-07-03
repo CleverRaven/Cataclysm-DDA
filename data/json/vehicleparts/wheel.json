@@ -150,7 +150,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_fasten", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
-    "flags": [ "WHEEL", "NEEDS_JACKING", "RAIL" ],
+    "flags": [ "WHEEL", "UNSTABLE_WHEEL", "NEEDS_JACKING", "RAIL" ],
     "damage_reduction": { "all": 66 }
   },
   {
@@ -197,7 +197,7 @@
       "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "vehicle_fasten", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
-    "flags": [ "ARMOR", "OBSTACLE", "WHEEL", "NEEDS_JACKING", "STEERABLE" ],
+    "flags": [ "ARMOR", "OBSTACLE", "WHEEL", "UNSTABLE_WHEEL", "NEEDS_JACKING", "STEERABLE" ],
     "wheel_type": "rigid",
     "contact_area": 400,
     "damage_reduction": { "all": 280 }
@@ -228,7 +228,7 @@
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_fasten", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ], [ "plastics", 1 ] ] }
     },
-    "flags": [ "WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_MEDIUM" ],
+    "flags": [ "WHEEL", "UNSTABLE_WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_MEDIUM" ],
     "damage_reduction": { "bash": 20 }
   },
   {
@@ -268,7 +268,7 @@
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "20 m", "using": [ [ "vehicle_fasten", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "20 m", "using": [ [ "adhesive", 1 ], [ "plastics", 1 ] ] }
     },
-    "flags": [ "WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_HEAVY" ],
+    "flags": [ "WHEEL", "UNSTABLE_WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_HEAVY" ],
     "damage_reduction": { "all": 60, "cut": 30, "stab": 16 }
   },
   {
@@ -325,7 +325,7 @@
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_fasten", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ], [ "plastics", 1 ] ] }
     },
-    "flags": [ "WHEEL", "NEEDS_JACKING", "FOLDABLE", "NEEDS_WHEEL_MOUNT_LIGHT" ],
+    "flags": [ "WHEEL", "UNSTABLE_WHEEL", "NEEDS_JACKING", "FOLDABLE", "NEEDS_WHEEL_MOUNT_LIGHT" ],
     "damage_reduction": { "bash": 6 }
   },
   {
@@ -446,7 +446,7 @@
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_fasten", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ], [ "plastics", 1 ] ] }
     },
-    "flags": [ "WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_LIGHT" ],
+    "flags": [ "WHEEL", "UNSTABLE_WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_LIGHT" ],
     "damage_reduction": { "bash": 10 }
   },
   {
@@ -507,7 +507,7 @@
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ], [ "plastics", 1 ] ] }
     },
-    "flags": [ "WHEEL", "FOLDABLE", "NEEDS_WHEEL_MOUNT_LIGHT" ]
+    "flags": [ "WHEEL", "UNSTABLE_WHEEL", "FOLDABLE", "NEEDS_WHEEL_MOUNT_LIGHT" ]
   },
   {
     "copy-from": "wheel_small_abstract",
@@ -638,7 +638,7 @@
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_fasten", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ], [ "plastics", 1 ] ] }
     },
-    "flags": [ "WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_MEDIUM" ],
+    "flags": [ "WHEEL", "UNSTABLE_WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_MEDIUM" ],
     "damage_reduction": { "bash": 25 }
   },
   {
@@ -674,7 +674,7 @@
     "rolling_resistance": 2.15,
     "wheel_type": "rigid",
     "contact_area": 60,
-    "flags": [ "WHEEL", "NEEDS_JACKING" ],
+    "flags": [ "WHEEL", "UNSTABLE_WHEEL", "NEEDS_JACKING" ],
     "damage_reduction": { "all": 14 }
   },
   {

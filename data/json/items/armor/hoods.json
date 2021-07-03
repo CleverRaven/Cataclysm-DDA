@@ -119,6 +119,30 @@
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "HELMET_COMPAT", "OUTER", "WATERPROOF" ]
   },
   {
+    "id": "hood_wsurvivor_nofur",
+    "type": "ARMOR",
+    "name": { "str": "winter faux fur survivor hood" },
+    "description": "A customized armored faux fur and Kevlar hood, warm and durable.  If not quite as warm as real fur.",
+    "copy-from": "hood_wsurvivor",
+    "material": [ "kevlar_layered", "faux_fur" ],
+    "symbol": "[",
+    "warmth": 65,
+    "looks_like": "hood_survivor",
+    "color": "pink"
+  },
+  {
+    "id": "xl_hood_wsurvivor_nofur",
+    "type": "ARMOR",
+    "copy-from": "hood_wsurvivor",
+    "material": [ "kevlar_layered", "faux_fur" ],
+    "color": "pink",
+    "warmth": 65,
+    "name": { "str": "XL faux fur winter survivor hood" },
+    "description": "A customized and oversized armored faux fur and Kevlar hood, warm and durable.  If not quite as warm as real fur.",
+    "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
+    "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "HELMET_COMPAT", "OUTER", "WATERPROOF" ]
+  },
+  {
     "id": "hood_rain",
     "type": "ARMOR",
     "name": { "str": "rain hood" },
