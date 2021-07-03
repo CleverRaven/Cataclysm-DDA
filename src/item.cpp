@@ -4537,8 +4537,8 @@ nc_color item::color_in_inventory() const
             ret = c_light_red;
         }
     } else if( is_book() ) {
+        const islot_book &tmp = *type->book;
         if( player_character.has_identified( typeId() ) ) {
-            const islot_book &tmp = *type->book;
             if( tmp.skill && // Book can improve skill: blue
                 player_character.get_skill_level_object( tmp.skill ).can_train() &&
                 player_character.get_skill_level( tmp.skill ) >= tmp.req &&
@@ -4555,8 +4555,12 @@ nc_color item::color_in_inventory() const
                            *type ) ) { // Book can't improve skill anymore, but has more recipes: yellow
                 ret = c_yellow;
             }
+        } else if( tmp.skill || type->can_use( "MA_MANUAL" ) ) {
+            // Book can teach you something and hasn't been identified yet
+            ret = c_red;
         } else {
-            ret = c_red; // Book hasn't been identified yet: red
+            // "just for fun" book that they haven't read yet
+            ret = c_light_red;
         }
     }
     return ret;

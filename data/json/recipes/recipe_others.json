@@ -828,6 +828,7 @@
       [ "manual_pistol", 0 ],
       [ "recipe_bullets", 0 ],
       [ "textbook_mechanics", 1 ],
+      [ "decoy_elfa", 1 ],
       [ "mag_mechanics", 2 ],
       [ "mag_rifle", 2 ]
     ],
