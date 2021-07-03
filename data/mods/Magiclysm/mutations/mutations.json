@@ -184,6 +184,7 @@
   {
     "type": "mutation",
     "id": "LARGE_DRAGON",
+    "flags": [ "LARGE" ],
     "name": { "str": "Inconvenient Draconic Growth" },
     "points": 0,
     "visibility": 1,
@@ -202,6 +203,7 @@
   {
     "type": "mutation",
     "id": "LARGE_OK_DRAGON",
+    "flags": [ "LARGE" ],
     "name": { "str": "Draconic Growth" },
     "points": 2,
     "visibility": 1,
@@ -220,6 +222,7 @@
   {
     "type": "mutation",
     "id": "HUGE_DRAGON",
+    "flags": [ "HUGE" ],
     "name": { "str": "Freakish Draconic Maturity" },
     "points": -2,
     "visibility": 4,
@@ -290,6 +293,7 @@
   {
     "type": "mutation",
     "id": "HUGE_OK_DRAGON",
+    "flags": [ "HUGE" ],
     "name": { "str": "Draconic Maturity" },
     "points": 2,
     "visibility": 4,

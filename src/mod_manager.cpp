@@ -54,6 +54,7 @@ std::string MOD_INFORMATION::name() const
 const std::vector<std::pair<std::string, translation>> &get_mod_list_categories()
 {
     static const std::vector<std::pair<std::string, translation>> mod_list_categories = {
+        {"total_conversion", to_translation( "TOTAL CONVERSIONS" )},
         {"content", to_translation( "CORE CONTENT PACKS" )},
         {"items", to_translation( "ITEM ADDITION MODS" )},
         {"creatures", to_translation( "CREATURE MODS" )},
@@ -251,9 +252,6 @@ void mod_manager::load_modfile( const JsonObject &jo, const std::string &path )
     } else {
         modfile.path = path;
     }
-    if( assign( jo, "legacy", modfile.legacy ) ) {
-        modfile.legacy = path + "/" + modfile.legacy;
-    }
 
     assign( jo, "authors", modfile.authors );
     assign( jo, "maintainers", modfile.maintainers );
@@ -293,7 +291,7 @@ bool mod_manager::copy_mod_contents( const t_mod_list &mods_to_copy,
         return true;
     }
     std::vector<std::string> search_extensions;
-    search_extensions.push_back( ".json" );
+    search_extensions.emplace_back( ".json" );
 
     DebugLog( D_INFO, DC_ALL ) << "Copying mod contents into directory: " << output_base_path;
 
@@ -344,8 +342,7 @@ bool mod_manager::copy_mod_contents( const t_mod_list &mods_to_copy,
 
         // trim file paths from full length down to just /data forward
         for( auto &input_file : input_files ) {
-            std::string output_path = input_file;
-            output_path = cur_mod_dir + output_path.substr( start_index );
+            std::string output_path = cur_mod_dir + input_file.substr( start_index );
             copy_file( input_file, output_path );
         }
     }
@@ -444,7 +441,8 @@ static inline bool compare_mod_by_name_and_category( const MOD_INFORMATION *cons
 
 void mod_manager::set_usable_mods()
 {
-    std::vector<mod_id> available_cores, available_supplementals;
+    std::vector<mod_id> available_cores;
+    std::vector<mod_id> available_supplementals;
     std::vector<mod_id> ordered_mods;
 
     std::vector<const MOD_INFORMATION *> mods;

@@ -157,9 +157,9 @@ class Tileset:
 
         with open(info_path, 'r') as file:
             self.info = json.load(file)
-            self.sprite_width = self.info[0].get('width')
-            self.sprite_height = self.info[0].get('height')
-            self.pixelscale = self.info[0].get('pixelscale')
+            self.sprite_width = self.info[0].get('width', self.sprite_width)
+            self.sprite_height = self.info[0].get('height', self.sprite_height)
+            self.pixelscale = self.info[0].get('pixelscale', self.pixelscale)
 
         # TODO: self.errors
         self.error_logged = False

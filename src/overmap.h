@@ -137,7 +137,13 @@ class overmap_special_batch
         std::vector<overmap_special_placement>::iterator begin() {
             return placements.begin();
         }
+        std::vector<overmap_special_placement>::const_iterator begin() const {
+            return placements.begin();
+        }
         std::vector<overmap_special_placement>::iterator end() {
+            return placements.end();
+        }
+        std::vector<overmap_special_placement>::const_iterator end() const {
             return placements.end();
         }
         std::vector<overmap_special_placement>::iterator erase(

@@ -45,7 +45,7 @@
   {
     "id": "cream_prot_cold",
     "name": { "str": "heat retention cream" },
-    "description": "Rub this on your skin when you are expecting exposure extreme cold temperatures.  Cannot protect from instant frostbite.  Smells like the inside of a sheep.",
+    "description": "Rub this on your skin when you are expecting exposure to extreme cold temperatures.  Cannot protect from instant frostbite.  Smells like the inside of a sheep.",
     "use_action": { "type": "cast_spell", "spell_id": "cream_prot_cold", "no_fail": true, "level": 0 },
     "type": "COMESTIBLE",
     "weight": "265 g",

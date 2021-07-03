@@ -310,15 +310,15 @@
   {
     "type": "AMMO",
     "id": "arrow_exploding",
-    "price": 5000,
+    "price": 1000,
     "name": { "str": "explosive arrow" },
     "symbol": "=",
     "color": "green",
     "looks_like": "arrow_fire_hardened_fletched",
     "description": "This arrow has a small IED strapped to its tip.  Horribly inaccurate, heavy, and bulky, not only does this contraption require expert hands to pull off a shot, it requires one to loose this with a small measure of confidence that the shooter won't be caught in the blast radius.",
     "material": [ "steel", "powder" ],
-    "volume": "500 ml",
-    "price_postapoc": 2000,
+    "volume": "100 ml",
+    "price_postapoc": 400,
     "weight": "633 g",
     "longest_side": "86 cm",
     "bashing": 2,
@@ -326,7 +326,6 @@
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 0.1 },
     "dispersion": 285,
     "loudness": 0,
-    "count": 5,
     "effects": [ "EXPLOSIVE_SMALL" ]
   },
   {

@@ -25,6 +25,7 @@ mapgendata::mapgendata( oter_id north, oter_id east, oter_id south, oter_id west
 
 mapgendata::mapgendata( const tripoint_abs_omt &over, map &m, const float density,
                         const time_point &when, ::mission *const miss )
+// NOLINTNEXTLINE( cata-unsequenced-calls )
     : mapgendata( overmap_buffer.ter( over + tripoint_north ),
                   overmap_buffer.ter( over + tripoint_east ),
                   overmap_buffer.ter( over + tripoint_south ),

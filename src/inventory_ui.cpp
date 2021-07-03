@@ -1044,8 +1044,8 @@ void inventory_column::draw( const catacurses::window &win, const point &p,
         const int hx_max = p.x + get_width() + contained_offset;
         inclusive_rectangle<point> rect = inclusive_rectangle<point>( point( x1, yy ),
                                           point( hx_max - 1, yy ) );
-        rect_entry_map.push_back( std::pair<inclusive_rectangle<point>, inventory_entry *>( rect,
-                                  &entry ) );
+        rect_entry_map.emplace_back( rect,
+                                     &entry );
 
         if( selected && visible_cells() > 1 ) {
             for( int hx = x1; hx < hx_max; ++hx ) {
@@ -2527,7 +2527,7 @@ void inventory_iuse_selector::set_chosen_count( inventory_entry &entry, size_t c
     if( count == 0 ) {
         entry.chosen_count = 0;
         for( const item_location &loc : entry.locations ) {
-            to_use.erase( &loc );
+            temp_use[&loc] = 0;
         }
     } else {
         entry.chosen_count = std::min( std::min( count, max_chosen_count ), entry.get_available_count() );
@@ -2545,9 +2545,13 @@ void inventory_iuse_selector::set_chosen_count( inventory_entry &entry, size_t c
     }
     // Optimisation to reduce the scale of looping if otherwise done in the preceeding code.
     for( auto iter : temp_use ) {
-        for( item_location &x : usable_locs ) {
+        for( const item_location &x : usable_locs ) {
             if( x == *iter.first ) {
-                to_use[&x] = iter.second;
+                if( iter.second > 0 ) {
+                    to_use[&x] = iter.second;
+                } else {
+                    to_use.erase( &x );
+                }
             }
         }
     }

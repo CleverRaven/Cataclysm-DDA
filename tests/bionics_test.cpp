@@ -7,7 +7,7 @@
 #include "avatar.h"
 #include "bionics.h"
 #include "calendar.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "item.h"
 #include "item_pocket.h"
 #include "npc.h"

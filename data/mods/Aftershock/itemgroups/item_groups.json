@@ -78,6 +78,11 @@
     "items": [ [ "afs_atompot", 3 ] ]
   },
   {
+    "id": "newspaper",
+    "type": "item_group",
+    "items": [ [ "afs_personal_card", 2 ] ]
+  },
+  {
     "id": "livingroom",
     "type": "item_group",
     "items": [ [ "afs_atomic_smartphone", 1 ], [ "atomic_light", 2 ] ]

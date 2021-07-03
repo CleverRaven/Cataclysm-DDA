@@ -274,8 +274,7 @@ void defense_game::init_map()
     int old_percent = 0;
     for( int i = 0; i <= MAPSIZE * 2; i += 2 ) {
         for( int j = 0; j <= MAPSIZE * 2; j += 2 ) {
-            int mx = 100 - MAPSIZE + i;
-            int my = 100 - MAPSIZE + j;
+            point m( 100 - MAPSIZE + i, 100 - MAPSIZE + j );
             int percent = 100 * ( ( j / 2 + MAPSIZE * ( i / 2 ) ) ) /
                           ( ( MAPSIZE ) * ( MAPSIZE + 1 ) );
             if( percent >= old_percent + 1 ) {
@@ -285,10 +284,10 @@ void defense_game::init_map()
                 old_percent = percent;
             }
             // Round down to the nearest even number
-            mx -= mx % 2;
-            my -= my % 2;
+            m.x -= m.x % 2;
+            m.y -= m.y % 2;
             tinymap tm;
-            tm.generate( tripoint( mx, my, 0 ), calendar::turn );
+            tm.generate( tripoint( m, 0 ), calendar::turn );
             tm.clear_spawns();
             tm.clear_traps();
             tm.save();
