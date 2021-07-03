@@ -288,6 +288,7 @@ void bionic_data::load( const JsonObject &jsobj, const std::string & )
     mandatory( jsobj, was_loaded, "name", name );
     mandatory( jsobj, was_loaded, "description", description );
 
+    optional( jsobj, was_loaded, "cant_remove_reason", cant_remove_reason );
     // uses assign because optional doesn't handle loading units as strings
     assign( jsobj, "react_cost", power_over_time, false, 0_kJ );
     assign( jsobj, "capacity", capacity, false, 0_kJ );
@@ -2121,12 +2122,6 @@ bool Character::can_uninstall_bionic( const bionic_id &b_id, player &installer, 
         return false;
     }
 
-    if( b_id == bio_blaster ) {
-        popup( _( "Removing %s Fusion Blaster Arm would leave %s with a useless stump." ),
-               disp_name( true ), disp_name() );
-        return false;
-    }
-
     Character &player_character = get_player_character();
 
     for( const bionic_id &bid : get_bionics() ) {
@@ -2137,9 +2132,8 @@ bool Character::can_uninstall_bionic( const bionic_id &b_id, player &installer, 
         }
     }
 
-    if( b_id == bio_eye_optic ) {
-        popup( _( "The Telescopic Lenses are part of %s eyes now.  Removing them would leave %s blind." ),
-               disp_name( true ), disp_name() );
+    if( b_id->cant_remove_reason.has_value() ) {
+        popup( string_format( b_id->cant_remove_reason.value(), disp_name( true ), disp_name() ) );
         return false;
     }
 
