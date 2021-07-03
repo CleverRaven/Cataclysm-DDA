@@ -1776,8 +1776,9 @@ void Character::process_bionic( const int b )
 
 void Character::roll_critical_bionics_failure( const bodypart_id &bp )
 {
-    if( one_in( get_part_hp_cur( bp ) / 4 ) ) {
-        set_part_hp_cur( bp, 0 );
+    const bodypart_id bp_to_hurt = bp->main_part;
+    if( one_in( get_part_hp_cur( bp_to_hurt ) / 4 ) ) {
+        set_part_hp_cur( bp_to_hurt, 0 );
     }
 }
 
