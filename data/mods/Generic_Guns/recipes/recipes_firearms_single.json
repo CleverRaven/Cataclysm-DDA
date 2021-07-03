@@ -142,11 +142,10 @@
     "book_learn": [ [ "manual_shotgun", 1 ] ],
     "qualities": [
       { "id": "SAW_M", "level": 1 },
-      { "id": "GLARE", "level": 2 },
       { "id": "HAMMER", "level": 2 },
-      { "id": "FILE", "level": 1 },
-      { "id": "WELD", "level": 1 }
+      { "id": "FILE", "level": 1 }
     ],
+    "using": [ [ "welding_standard", 1 ] ],
     "tools": [
       [
         [ "shot_buck", -1 ],
@@ -227,11 +226,10 @@
     "book_learn": [ [ "manual_shotgun", 1 ] ],
     "qualities": [
       { "id": "SAW_M", "level": 1 },
-      { "id": "GLARE", "level": 2 },
       { "id": "HAMMER", "level": 2 },
-      { "id": "FILE", "level": 1 },
-      { "id": "WELD", "level": 1 }
+      { "id": "FILE", "level": 1 }
     ],
+    "using": [ [ "welding_standard", 1 ] ],
     "tools": [
       [
         [ "shot_buck", -1 ],
@@ -271,12 +269,11 @@
     "book_learn": [ [ "manual_shotgun", 1 ] ],
     "qualities": [
       { "id": "SAW_M", "level": 1 },
-      { "id": "GLARE", "level": 2 },
       { "id": "HAMMER", "level": 2 },
       { "id": "FILE", "level": 1 },
-      { "id": "WRENCH", "level": 1 },
-      { "id": "WELD", "level": 1 }
+      { "id": "WRENCH", "level": 1 }
     ],
+    "using": [ [ "welding_standard", 1 ] ],
     "tools": [
       [
         [ "shot_buck", -1 ],
@@ -313,7 +310,7 @@
     "difficulty": 1,
     "time": "2 h",
     "autolearn": true,
-    "qualities": [ { "id": "WELD", "level": 1 } ],
+    "using": [ [ "welding_standard", 1 ] ],
     "components": [ [ [ "slamfire_shotgun", 2 ] ], [ [ "scrap", 2 ] ] ]
   },
   {
