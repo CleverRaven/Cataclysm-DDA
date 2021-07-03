@@ -1579,7 +1579,7 @@
     "skill_used": "cooking",
     "time": "10 m",
     "autolearn": true,
-    "batch_time_factors": [ 80, 4 ],
+    "batch_time_factors": [ 20, 1 ],
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
     "components": [ [ [ "tea_raw", 1 ], [ "tea_bag", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
@@ -1642,7 +1642,7 @@
     "difficulty": 1,
     "time": "10 m",
     "autolearn": true,
-    "batch_time_factors": [ 80, 4 ],
+    "batch_time_factors": [ 20, 1 ],
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
     "components": [ [ [ "wild_herbs", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
@@ -1657,7 +1657,7 @@
     "difficulty": 2,
     "skills_required": [ "survival", 2 ],
     "time": "10 m",
-    "batch_time_factors": [ 80, 4 ],
+    "batch_time_factors": [ 20, 1 ],
     "book_learn": [
       [ "pocket_survival", 1 ],
       [ "survival_book", 1 ],
@@ -1679,7 +1679,7 @@
     "skill_used": "cooking",
     "difficulty": 1,
     "time": "12 m",
-    "batch_time_factors": [ 80, 4 ],
+    "batch_time_factors": [ 20, 1 ],
     "book_learn": {
       "pocket_survival": { "skill_level": 1 },
       "survival_book": { "skill_level": 1 },
@@ -1702,7 +1702,7 @@
     "skill_used": "cooking",
     "difficulty": 1,
     "time": "12 m",
-    "batch_time_factors": [ 80, 4 ],
+    "batch_time_factors": [ 20, 1 ],
     "book_learn": {
       "pocket_survival": { "skill_level": 1 },
       "survival_book": { "skill_level": 1 },
@@ -1748,7 +1748,7 @@
     "difficulty": 1,
     "skills_required": [ "survival", 1 ],
     "time": "10 m",
-    "batch_time_factors": [ 80, 4 ],
+    "batch_time_factors": [ 20, 1 ],
     "book_learn": [
       [ "pocket_survival", 1 ],
       [ "survival_book", 1 ],
@@ -1772,7 +1772,7 @@
     "skills_required": [ "survival", 1 ],
     "time": "20 m",
     "charges": 4,
-    "batch_time_factors": [ 80, 4 ],
+    "batch_time_factors": [ 20, 1 ],
     "book_learn": [
       [ "pocket_survival", 1 ],
       [ "survival_book", 1 ],
@@ -1795,7 +1795,7 @@
     "difficulty": 1,
     "skills_required": [ "survival", 1 ],
     "time": "10 m",
-    "batch_time_factors": [ 80, 4 ],
+    "batch_time_factors": [ 20, 1 ],
     "book_learn": [
       [ "pocket_survival", 1 ],
       [ "survival_book", 1 ],
@@ -5963,7 +5963,7 @@
     "skills_required": [ "survival", 6 ],
     "difficulty": 5,
     "time": "12 m",
-    "batch_time_factors": [ 80, 4 ],
+    "batch_time_factors": [ 20, 1 ],
     "book_learn": [ [ "textbook_survival", 5 ], [ "atomic_survival", 4 ], [ "survival_book", 3 ] ],
     "qualities": [ { "id": "BOIL", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 8, "LIST" ] ] ],
@@ -6006,7 +6006,7 @@
     "difficulty": 2,
     "time": "15 m",
     "autolearn": true,
-    "batch_time_factors": [ 80, 4 ],
+    "batch_time_factors": [ 20, 1 ],
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
     "components": [
@@ -6281,7 +6281,7 @@
     "difficulty": 2,
     "time": "10 m",
     "autolearn": true,
-    "batch_time_factors": [ 80, 4 ],
+    "batch_time_factors": [ 20, 1 ],
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
     "components": [ [ [ "bee_balm", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
@@ -7396,7 +7396,7 @@
     "skill_used": "cooking",
     "time": "10 m",
     "autolearn": true,
-    "batch_time_factors": [ 80, 4 ],
+    "batch_time_factors": [ 20, 1 ],
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
     "components": [
