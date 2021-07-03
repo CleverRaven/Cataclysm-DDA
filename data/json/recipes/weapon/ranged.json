@@ -326,11 +326,7 @@
     "difficulty": 1,
     "time": "4 h",
     "book_learn": [ [ "manual_shotgun", 1 ] ],
-    "qualities": [
-      { "id": "SAW_M", "level": 1 },
-      { "id": "HAMMER", "level": 2 },
-      { "id": "FILE", "level": 1 }
-    ],
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "FILE", "level": 1 } ],
     "using": [ [ "welding_standard", 1 ] ],
     "tools": [
       [
@@ -434,11 +430,7 @@
     "difficulty": 2,
     "time": "5 h",
     "book_learn": [ [ "manual_shotgun", 1 ] ],
-    "qualities": [
-      { "id": "SAW_M", "level": 1 },
-      { "id": "HAMMER", "level": 2 },
-      { "id": "FILE", "level": 1 }
-    ],
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "FILE", "level": 1 } ],
     "using": [ [ "welding_standard", 1 ] ],
     "tools": [
       [
@@ -483,11 +475,7 @@
     "difficulty": 2,
     "time": "2 h",
     "book_learn": [ [ "manual_shotgun", 1 ] ],
-    "qualities": [
-      { "id": "SAW_M", "level": 1 },
-      { "id": "HAMMER", "level": 2 },
-      { "id": "FILE", "level": 1 }
-    ],
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "FILE", "level": 1 } ],
     "using": [ [ "welding_standard", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },

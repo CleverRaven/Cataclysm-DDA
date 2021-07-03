@@ -2030,10 +2030,7 @@
     "category": "FURN",
     "required_skills": [ [ "fabrication", 2 ], [ "cooking", 1 ] ],
     "time": "180 m",
-    "qualities": [
-      [ { "id": "HAMMER", "level": 2 } ],
-      [ { "id": "SAW_M", "level": 1 } ]
-    ],
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ] ],
     "using": [ [ "welding_standard", 2 ] ],
     "components": [ [ [ "metal_tank", 4 ] ], [ [ "water_faucet", 1 ] ] ],
     "pre_special": "check_empty",
