@@ -46,7 +46,7 @@
     "color": "light_gray",
     "aggression": 30,
     "morale": 100,
-    "armor_bash": 18,
+    "armor_bash": 15,
     "armor_cut": 6,
     "armor_bullet": 5,
     "melee_skill": 5,
@@ -55,7 +55,7 @@
     "melee_cut": 3,
     "vision_day": 30,
     "vision_night": 30,
-    "regenerates": 10,
+    "regenerates": 4,
     "death_function": [ "BROKEN" ],
     "flags": [ "SEES", "HEARS", "NO_BREATHE", "LOUDMOVES" ]
   },

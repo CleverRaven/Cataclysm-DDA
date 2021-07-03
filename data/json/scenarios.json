@@ -49,7 +49,14 @@
     "name": "Large Building",
     "points": -2,
     "description": "Whether due to stubbornness, ignorance, or just plain bad luck, you missed the evacuation, and are stuck in a large building full of the risen dead.",
-    "allowed_locs": [ "sloc_mall_loading_area", "sloc_mall_food_court", "sloc_apartments_rooftop", "sloc_hospital" ],
+    "allowed_locs": [
+      "sloc_mall_loading_area",
+      "sloc_mall_food_court",
+      "sloc_apartments_rooftop",
+      "sloc_apartments_rooftop2",
+      "sloc_hospital",
+      "sloc_school"
+    ],
     "start_name": "In Large Building",
     "flags": [ "SUR_START", "CITY_START", "LONE_START" ]
   },
@@ -283,6 +290,16 @@
     "professions": [ "labtech", "security", "medic" ],
     "allowed_locs": [ "sloc_lab_random", "sloc_lab_escape_cells", "sloc_lab_finale", "sloc_ice_lab_stairs", "sloc_ice_lab_finale" ],
     "flags": [ "CHALLENGE", "CITY_START", "LONE_START" ]
+  },
+  {
+    "type": "scenario",
+    "id": "bordered",
+    "name": "Challenge - Bordered",
+    "points": -2,
+    "description": "You have survived the initial wave of panic, and have achieved (relative) safety in one of the many government evac shelters.  The only thing that really bothers you is a mysterious sky-high wall seen in the distance.",
+    "allowed_locs": [ "sloc_shelter_a", "sloc_shelter_b", "sloc_shelter_c" ],
+    "start_name": "Evac Shelter",
+    "flags": [ "CHALLENGE", "CITY_START", "BORDERED" ]
   },
   {
     "type": "scenario",

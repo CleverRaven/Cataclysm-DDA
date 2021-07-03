@@ -63,8 +63,6 @@ static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
 static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
 static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
 
-static const fault_id fault_bionic_salvaged( "fault_bionic_salvaged" );
-
 static const quality_id qual_ANESTHESIA( "ANESTHESIA" );
 
 static const bionic_id bio_painkiller( "bio_painkiller" );
@@ -690,7 +688,7 @@ class comestible_inventory_preset : public inventory_selector_preset
                 return _( "Can't drink spilt liquids." );
             }
 
-            if( med.is_medication() && !p.can_use_heal_item( med ) ) {
+            if( med.is_medication() && !p.can_use_heal_item( med ) && !med.is_craft() ) {
                 return _( "Your biology is not compatible with that item." );
             }
 

@@ -158,6 +158,12 @@
     "info": "If your vehicle consists of a single tile, this wheel is enough to allow it to move."
   },
   {
+    "id": "UNSTABLE_WHEEL",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ],
+    "info": "This wheel requires another wheel to be installed to be functional."
+  },
+  {
     "id": "STEERABLE",
     "type": "json_flag",
     "context": [ "vehicle_part" ],
@@ -259,5 +265,440 @@
     "type": "json_flag",
     "context": [ "vehicle_part" ],
     "requires_flag": "ROOF"
+  },
+  {
+    "id": "ADVANCED_PLANTER",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "AIRCRAFT_REPAIRABLE_NOPROF",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "ANIMAL_CTRL",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "ATOMIC_LIGHT",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "AUTOCLAVE",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "AUTOPILOT",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "BATTERY_MOUNT",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "BEEPER",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "BIKE_RACK_VEH",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "BOARDABLE",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "CAMERA",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "CAMERA_CONTROL",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "CAPTURE_MONSTER_VEH",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "CHIMES",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "CIRCLE_LIGHT",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "CONE_LIGHT",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "CONTROL_ANIMAL",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "COOLER",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "DISHWASHER",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "DOME_LIGHT",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "E_COLD_START",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "E_HEATER",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "E_HIGHER_SKILL",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "E_STARTS_INSTANTLY",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "EVENTURN",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "FLUIDTANK",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "FOLDABLE",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "FREEZER",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "FRIDGE",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "FULL_BOARD",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "FUNNEL",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "HALF_BOARD",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "HALF_CIRCLE_LIGHT",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "HARNESS_any",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "HARNESS_human",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "HORN",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "LOCKABLE_CARGO",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "LOW_FINAL_AIR_DRAG",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "MOUNTABLE",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "MUFFLER",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "MULTISQUARE",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "MUSCLE_ARMS",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "MUSCLE_LEGS",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "NEEDS_JACKING",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "NO_INSTALL_PLAYER",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "NO_ROOF_NEEDED",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "NOINSTALL",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "OBSTACLE",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "ODDTURN",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "OPAQUE",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "OPENABLE",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "OPENCLOSE_INSIDE",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "OVER",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "PLANTER",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "PLOW",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "POWER_TRANSFER",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "PROTRUSION",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "RAIL",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "REACTOR",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "REAPER",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "REMOTE_CONTROLS",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "ROCKWHEEL",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "ROTOR",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "SCOOP",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "SECURITY",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "SELF_JACK",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "SHARP",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "SIMPLE_PART",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "SMASH_REMOVE",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "SPACE_HEATER",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "STEREO",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "TRACK",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "TRANSFORM_TERRAIN",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "TURRET_MOUNT",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "UNMOUNT_ON_DAMAGE",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "UNMOUNT_ON_MOVE",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "USE_TANKS",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "VARIABLE_SIZE",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "VISION",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "WASHING_MACHINE",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "WHEEL_MOUNT_HEAVY",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "WHEEL_MOUNT_LIGHT",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "WHEEL_MOUNT_MEDIUM",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "WIDE_CONE_LIGHT",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "WIND_POWERED",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "WINDOW",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
+    "id": "WINDSHIELD",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
   }
 ]

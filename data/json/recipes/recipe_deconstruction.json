@@ -480,7 +480,7 @@
     "time": "1 m",
     "activity_level": "NO_EXERCISE",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "leather", 1 ] ] ]
+    "components": [ [ [ "leather", 1 ] ], [ [ "buckle_steel", 1 ] ] ]
   },
   {
     "result": "leather_cat_ears",
@@ -1415,7 +1415,7 @@
       [ [ "gun_module", 3 ] ],
       [ [ "flamethrower", 1 ] ],
       [ [ "tazer", 1 ] ],
-      [ [ "m4a1", 1 ] ],
+      [ [ "nato_assault_rifle", 1 ] ],
       [ [ "pamd68", 1 ] ],
       [ [ "power_supply", 20 ] ],
       [ [ "amplifier", 5 ] ],
@@ -2288,7 +2288,7 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "1 s",
-    "components": [ [ [ "glass_shard", 10 ] ] ]
+    "components": [ [ [ "glass_shard", 5 ] ] ]
   },
   {
     "result": "bottle_glass",
@@ -2302,14 +2302,14 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "1 s",
-    "components": [ [ [ "glass_shard", 2 ] ] ]
+    "components": [ [ [ "glass_shard", 1 ] ] ]
   },
   {
     "result": "jar_glass_sealed",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "1 s",
-    "components": [ [ [ "glass_shard", 4 ] ] ]
+    "components": [ [ [ "glass_shard", 2 ] ] ]
   },
   {
     "result": "beaker",

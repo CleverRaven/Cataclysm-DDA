@@ -66,6 +66,7 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "trap.h"
+#include "try_parse_integer.h"
 #include "type_id.h"
 #include "ui.h"
 #include "ui_manager.h"
@@ -702,7 +703,8 @@ void npc::pretend_fire( npc *source, int shots, item &gun )
         add_msg_if_player_sees( *source, m_info, _( "%s shoots something." ), source->disp_name() );
     }
     while( curshot != shots ) {
-        if( gun.ammo_consume( gun.ammo_required(), pos() ) != gun.ammo_required() ) {
+        const int required = gun.ammo_required();
+        if( gun.ammo_consume( required, pos() ) != required ) {
             debugmsg( "Unexpected shortage of ammo whilst firing %s", gun.tname().c_str() );
             break;
         }
@@ -808,7 +810,8 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
             }
         }
 
-        if( gun.ammo_consume( gun.ammo_required(), pos() ) != gun.ammo_required() ) {
+        const int required = gun.ammo_required();
+        if( gun.ammo_consume( required, pos() ) != required ) {
             debugmsg( "Unexpected shortage of ammo whilst firing %s", gun.tname() );
             break;
         }
@@ -1284,8 +1287,10 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
     }
 
     std::string label_m = _( "Moves" );
-    std::vector<std::string> t_aims( 4 ), t_confidence( 20 );
-    int aim_iter = 0, conf_iter = 0;
+    std::vector<std::string> t_aims( 4 );
+    std::vector<std::string> t_confidence( 20 );
+    int aim_iter = 0;
+    int conf_iter = 0;
 
     nc_color col = c_dark_gray;
 
@@ -1591,8 +1596,15 @@ static projectile make_gun_projectile( const item &gun )
     if( gun.ammo_data() ) {
         // Some projectiles have a chance of being recoverable
         bool recover = std::any_of( fx.begin(), fx.end(), []( const std::string & e ) {
-            int n;
-            return sscanf( e.c_str(), "RECOVER_%i", &n ) == 1 && !one_in( n );
+            if( !string_starts_with( e, "RECOVER_" ) ) {
+                return false;
+            }
+            ret_val<int> n = try_parse_integer<int>( e.substr( 8 ), false );
+            if( !n.success() ) {
+                debugmsg( "Error parsing ammo RECOVER_ denominator: %s", n.str() );
+                return false;
+            }
+            return !one_in( n.value() );
         } );
 
         if( recover && !fx.count( "IGNITE" ) && !fx.count( "EXPLOSIVE" ) ) {
@@ -1959,7 +1971,8 @@ double Character::gun_value( const item &weap, int ammo ) const
 
     double gun_value = damage_and_accuracy * capacity_factor;
 
-    add_msg_debug( "%s as gun: %.1f total, %.1f dispersion, %.1f damage, %.1f capacity",
+    add_msg_debug( debugmode::DF_RANGED,
+                   "%s as gun: %.1f total, %.1f dispersion, %.1f damage, %.1f capacity",
                    weap.type->get_id().str(), gun_value, dispersion_factor, damage_factor,
                    capacity_factor );
     return std::max( 0.0, gun_value );
@@ -2657,7 +2670,7 @@ std::vector<weak_ptr_fast<Creature>> target_ui::list_friendlies_in_lof()
                     ( cr->is_npc() && a != Creature::Attitude::HOSTILE ) ||
                     ( !cr->is_npc() && a == Creature::Attitude::FRIENDLY )
                 ) {
-                    ret.push_back( g->shared_from( *cr ) );
+                    ret.emplace_back( g->shared_from( *cr ) );
                 }
             }
         }

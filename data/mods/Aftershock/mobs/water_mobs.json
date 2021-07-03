@@ -27,7 +27,7 @@
     "vision_day": 40,
     "vision_night": 15,
     "harvest": "zombie_meatslug",
-    "path_settings": { "max_dist": 50 },
+    "path_settings": { "max_dist": 50, "avoid_traps": true, "avoid_sharp": true },
     "scents_ignored": [ "sc_fetid" ],
     "special_attacks": [
       [ "PARROT", 0 ],
@@ -44,7 +44,7 @@
       "POISON",
       "NO_BREATHE",
       "ARTHROPOD_BLOOD",
-      "PATH_AVOID_DANGER_2",
+      "PATH_AVOID_DANGER_1",
       "CAN_OPEN_DOORS",
       "PRIORITIZE_TARGETS",
       "SWIMS"
@@ -78,7 +78,7 @@
     "vision_day": 40,
     "vision_night": 15,
     "harvest": "zombie_meatslug",
-    "path_settings": { "max_dist": 50 },
+    "path_settings": { "max_dist": 50, "avoid_traps": true, "avoid_sharp": true },
     "scents_ignored": [ "sc_fetid" ],
     "special_attacks": [
       [ "PARROT", 0 ],
@@ -96,7 +96,7 @@
       "POISON",
       "NO_BREATHE",
       "ARTHROPOD_BLOOD",
-      "PATH_AVOID_DANGER_2",
+      "PATH_AVOID_DANGER_1",
       "CAN_OPEN_DOORS",
       "PRIORITIZE_TARGETS",
       "SWIMS"

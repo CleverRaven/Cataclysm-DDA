@@ -2777,5 +2777,10 @@
     "type": "recipe",
     "result": "bodypillow",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bodypillow",
+    "obsolete": true
   }
 ]

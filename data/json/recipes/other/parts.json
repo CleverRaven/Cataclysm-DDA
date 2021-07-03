@@ -278,7 +278,7 @@
     "using": [ [ "welding_standard", 10 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_welding_basic", "fail_multiplier": 5 },
+      { "proficiency": "prof_welding_basic", "fail_multiplier": 1.5 },
       { "proficiency": "prof_welding" }
     ],
     "components": [ [ [ "sheet_metal_small", 24 ] ] ]
@@ -331,7 +331,7 @@
     "using": [ [ "welding_standard", 6 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_welding_basic", "fail_multiplier": 5 },
+      { "proficiency": "prof_welding_basic", "fail_multiplier": 1.5 },
       { "proficiency": "prof_welding" }
     ],
     "components": [ [ [ "material_aluminium_ingot", 8 ] ] ]
@@ -605,7 +605,7 @@
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
     "proficiencies": [
       { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5 },
-      { "proficiency": "prof_plumbing", "required": false, "time_multiplier": 3, "fail_multiplier": 5 }
+      { "proficiency": "prof_plumbing", "required": false, "time_multiplier": 3, "fail_multiplier": 1.5 }
     ],
     "components": [ [ [ "pipe", 1 ] ], [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 1 ] ], [ [ "pipe_fittings", 1 ] ] ]
   },
@@ -624,7 +624,7 @@
     "using": [ [ "rope_natural", 4 ], [ "welding_standard", 10 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_welding_basic", "fail_multiplier": 5 },
+      { "proficiency": "prof_welding_basic", "fail_multiplier": 1.5 },
       { "proficiency": "prof_welding" }
     ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
@@ -644,7 +644,7 @@
     "using": [ [ "welding_standard", 5 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_welding_basic", "fail_multiplier": 5 },
+      { "proficiency": "prof_welding_basic", "fail_multiplier": 1.5 },
       { "proficiency": "prof_welding" }
     ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
@@ -664,7 +664,7 @@
     "using": [ [ "sewing_standard", 50 ], [ "welding_standard", 5 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_welding_basic", "fail_multiplier": 5 },
+      { "proficiency": "prof_welding_basic", "fail_multiplier": 1.5 },
       { "proficiency": "prof_welding" }
     ],
     "components": [ [ [ "pipe", 4 ] ], [ [ "spring", 2 ] ], [ [ "rag", 20 ], [ "sheet", 1 ] ], [ [ "pipe_fittings", 4 ] ] ]
@@ -683,7 +683,7 @@
     "using": [ [ "sewing_standard", 50 ], [ "welding_standard", 5 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_welding_basic", "fail_multiplier": 5 },
+      { "proficiency": "prof_welding_basic", "fail_multiplier": 1.5 },
       { "proficiency": "prof_welding" },
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_leatherworking" }
@@ -709,7 +709,7 @@
     "using": [ [ "welding_standard", 5 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_welding_basic", "fail_multiplier": 5 },
+      { "proficiency": "prof_welding_basic", "fail_multiplier": 1.5 },
       { "proficiency": "prof_welding" }
     ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
@@ -782,7 +782,7 @@
     "difficulty": 6,
     "time": "2 h 30 m",
     "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_plasticworking", "time_multiplier": 1.25, "fail_multiplier": 1.25 } ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking", "time_multiplier": 1.25, "fail_multiplier": 1.125 } ],
     "using": [ [ "surface_heat", 10 ] ],
     "qualities": [ { "id": "FILE", "level": 1 }, { "id": "CUT", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "chunk_rubber", 8 ] ], [ [ "superglue", 4 ], [ "bone_glue", 4 ] ], [ [ "wheel_caster", 1 ] ] ]

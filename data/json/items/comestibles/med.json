@@ -2009,7 +2009,7 @@
     "stack_size": 60,
     "symbol": "u",
     "color": "light_gray",
-    "material": [ "powder" ],
+    "phase": "liquid",
     "container": "bottle_plastic_small",
     "addiction_potential": 5,
     "addiction_type": "cocaine",

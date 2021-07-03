@@ -177,6 +177,7 @@ class job_data
             const std::pair<activity_id, int> &b ) {
                 return a.second > b.second;
             } );
+            ret.reserve( pairs.size() );
             for( const std::pair<activity_id, int> &elem : pairs ) {
                 ret.push_back( elem.first );
             }
@@ -761,9 +762,9 @@ class npc : public player
 
         npc();
         npc( const npc & ) = delete;
-        npc( npc && );
+        npc( npc && ) noexcept( map_is_noexcept );
         npc &operator=( const npc & ) = delete;
-        npc &operator=( npc && );
+        npc &operator=( npc && ) noexcept( list_is_noexcept );
         ~npc() override;
 
         bool is_player() const override {
@@ -1198,15 +1199,23 @@ class npc : public player
         using player::add_msg_if_npc;
         void add_msg_if_npc( const std::string &msg ) const override;
         void add_msg_if_npc( const game_message_params &params, const std::string &msg ) const override;
+        using player::add_msg_debug_if_npc;
+        void add_msg_debug_if_npc( debugmode::debug_filter type, const std::string &msg ) const override;
         using player::add_msg_player_or_npc;
         void add_msg_player_or_npc( const std::string &player_msg,
                                     const std::string &npc_msg ) const override;
         void add_msg_player_or_npc( const game_message_params &params, const std::string &player_msg,
                                     const std::string &npc_msg ) const override;
+        using player::add_msg_debug_player_or_npc;
+        void add_msg_debug_player_or_npc( debugmode::debug_filter type, const std::string &player_msg,
+                                          const std::string &npc_msg ) const override;
         using player::add_msg_if_player;
         void add_msg_if_player( const std::string &/*msg*/ ) const override {}
         void add_msg_if_player( const game_message_params &/*type*/,
                                 const std::string &/*msg*/ ) const override {}
+        using player::add_msg_debug_if_player;
+        void add_msg_debug_if_player( debugmode::debug_filter /*type*/,
+                                      const std::string &/*msg*/ ) const override {}
         using player::add_msg_player_or_say;
         void add_msg_player_or_say( const std::string &player_msg,
                                     const std::string &npc_speech ) const override;

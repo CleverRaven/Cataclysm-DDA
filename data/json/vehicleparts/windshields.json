@@ -16,9 +16,9 @@
       "vertical": "j",
       "vertical_left": "j",
       "vertical_right": "H",
-      "horizontal_front": "T",
+      "horizontal_front": "h",
       "horizontal_front_edge": "^",
-      "horizontal_rear": "B",
+      "horizontal_rear": "h",
       "horizontal_rear_edge": "="
     },
     "broken_color": "light_gray",
@@ -56,9 +56,9 @@
       "vertical": "j",
       "vertical_left": "j",
       "vertical_right": "H",
-      "horizontal_front": "T",
+      "horizontal_front": "h",
       "horizontal_front_edge": "^",
-      "horizontal_rear": "B",
+      "horizontal_rear": "h",
       "horizontal_rear_edge": "="
     },
     "broken_color": "light_gray",

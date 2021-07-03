@@ -13,6 +13,7 @@
       [ "spell_scroll_blinding_flash", 50 ],
       [ "spell_scroll_ethereal_grasp", 50 ],
       [ "spell_scroll_druid_woodshaft", 50 ],
+      [ "spell_scroll_seed_of_growth", 35 ],
       [ "spell_scroll_summon_cats", 65 ],
       [ "spell_scroll_stonefist", 20 ],
       [ "spell_scroll_eshaper_piercing_bolt", 40 ],
@@ -79,6 +80,7 @@
       [ "spell_scroll_impactsling", 20 ],
       [ "spell_scroll_boneclub", 20 ],
       [ "spell_scroll_flamesword", 35 ],
+      [ "spell_scroll_force_jar", 30 ],
       [ "spell_scroll_flamebreath", 30 ]
     ]
   },

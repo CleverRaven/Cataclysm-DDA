@@ -40,7 +40,7 @@
     "id": "t_wall_half",
     "name": "half-built wall",
     "looks_like": "t_wall",
-    "description": "An incomplete wall of refined wood, dotted with carefully placed nails to provide proper support.  It requires some more two by fours and nails before it'd be considered a suitable wall.",
+    "description": "An incomplete wall of refined wood, dotted with carefully placed nails to provide proper support.  It requires some more planks and nails before it'd be considered a suitable wall.",
     "symbol": "#",
     "color": "light_red",
     "move_cost": 4,
@@ -649,7 +649,7 @@
     "id": "t_wall_wood_chipped",
     "name": "chipped wood wall",
     "looks_like": "t_wall_wood",
-    "description": "A wall of aligned two by fours that's starting to crack and break open.  Some cut wood and a number of nails could patch this up quick.",
+    "description": "A wall of aligned planks that's starting to crack and break open.  Some cut wood and a number of nails could patch this up quick.",
     "symbol": "LINE_OXOX",
     "color": "light_red",
     "move_cost": 0,
@@ -1160,7 +1160,44 @@
       "sound_fail": "slap!",
       "sound_vol": 8,
       "sound_fail_vol": 4,
-      "ter_set": "t_null"
+      "ter_set": "t_floor_paper"
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_paper_brood",
+    "copy-from": "t_paper",
+    "symbol": "#",
+    "color": "white",
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "WALL", "NO_SCENT" ],
+    "bash": {
+      "str_min": 1,
+      "str_max": 6,
+      "sound": "rrrrip!",
+      "sound_fail": "slap!",
+      "sound_vol": 8,
+      "sound_fail_vol": 4,
+      "ter_set": "t_floor_paper_noroof"
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_paper_hard",
+    "name": "layered paper wall",
+    "description": "A thick wall of layered tree pulp and wasp saliva, hardened to withstand the elements.  You could break through this, but it won't be easy.",
+    "symbol": "#",
+    "color": "dark_gray",
+    "move_cost": 0,
+    "coverage": 100,
+    "flags": [ "FLAMMABLE_HARD", "NOITEM", "MINEABLE", "WALL", "NO_SCENT" ],
+    "bash": {
+      "str_min": 30,
+      "str_max": 150,
+      "sound": "rrrrip!",
+      "sound_fail": "slap!",
+      "sound_vol": 20,
+      "sound_fail_vol": 10,
+      "ter_set": "t_floor_paper_hard"
     }
   },
   {
@@ -1362,7 +1399,7 @@
     "color": "light_gray",
     "move_cost": 6,
     "coverage": 20,
-    "flags": [ "WALL", "PERMEABLE" ],
+    "flags": [ "TRANSPARENT", "WALL", "SHORT", "PERMEABLE" ],
     "bash": {
       "str_min": 350,
       "str_max": 650,

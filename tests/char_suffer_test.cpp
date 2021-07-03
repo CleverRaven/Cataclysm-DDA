@@ -7,7 +7,7 @@
 
 #include "avatar.h"
 #include "calendar.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "character.h"
 #include "creature.h"
 #include "flag.h"
@@ -15,6 +15,7 @@
 #include "item.h"
 #include "map_helpers.h"
 #include "player_helpers.h"
+#include "test_statistics.h"
 #include "type_id.h"
 
 // Tests for Character suffering
@@ -273,25 +274,30 @@ TEST_CASE( "suffering from sunburn", "[char][suffer][sunburn]" )
 
         }
 
-        WHEN( "torso and arms are 90%% covered" ) {
+        WHEN( "torso and arms are 90% covered" ) {
             dummy.worn.clear();
             dummy.wear_item( longshirt, false );
 
-            THEN( "damage to torso is 90%% less than other parts" ) {
-                bp_hp_lost = test_suffer_bodypart_hp_lost( dummy, 10_minutes );
+            THEN( "damage to torso is 90% less than other parts" ) {
+                time_duration t = 10_minutes;
+                int num_turns = t / 1_turns;
+
+                bp_hp_lost = test_suffer_bodypart_hp_lost( dummy, t );
                 for( const bodypart_id &bp : body_parts_with_hp ) {
                     CAPTURE( bp.id().str() );
                     if( bp.id().str() == "torso" ) {
                         // Torso has only 10% chance losing 2 HP, 3x per minute
-                        CHECK( bp_hp_lost[bp] == Approx( 6 ).margin( 12 ) );
+                        CHECK_THAT( bp_hp_lost[bp] / 2,
+                                    IsBinomialObservation( num_turns, 1.0 / 200 ) );
                     } else if( bp.id().str() == "arm_l" || bp.id().str() == "arm_r" ) {
                         // Arms have 10% chance of losing 1 HP, 3x per minute (6 in 10m)
                         // But hands are exposed, and still lose 1 HP, 3x per minute (30 in 10m)
-                        CHECK( bp_hp_lost[bp] == Approx( 36 ).margin( 30 ) );
+                        CHECK_THAT( bp_hp_lost[bp],
+                                    IsBinomialObservation( num_turns, 1.0 / 200 + 1.0 / 20 ) );
                     } else {
                         // All other parts lose 1 HP, 3x per minute (30 in 10m)
                         // but legs+feet combine, and head+mouth combine (60 in 10m)
-                        CHECK( bp_hp_lost[bp] == Approx( 60 ).margin( 40 ) );
+                        CHECK_THAT( bp_hp_lost[bp], IsBinomialObservation( num_turns, 2.0 / 20 ) );
                     }
                 }
             }

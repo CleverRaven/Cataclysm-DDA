@@ -964,7 +964,7 @@ class Character : public Creature, public visitable
         bool has_bionic_with_flag( const json_character_flag &flag ) const;
         /** This is to prevent clang complaining about overloading a virtual function, the creature version uses monster flags so confusion is unlikely. */
         using Creature::has_flag;
-        /** Returns true if player has a trait or bionic with a flag */
+        /** Returns true if player has a trait, bionic or effect with a flag */
         bool has_flag( const json_character_flag &flag ) const;
         /** Returns the trait id with the given invlet, or an empty string if no trait has that invlet */
         trait_id trait_by_invlet( int ch ) const;
@@ -1714,7 +1714,7 @@ class Character : public Creature, public visitable
         bool fun_to_read( const item &book ) const;
         int book_fun_for( const item &book, const Character &p ) const;
 
-        bool can_pickVolume( const item &it, bool safe = false ) const;
+        bool can_pickVolume( const item &it, bool safe = false, const item *avoid = nullptr ) const;
         bool can_pickWeight( const item &it, bool safe = true ) const;
         bool can_pickWeight_partial( const item &it, bool safe = true ) const;
         /**
@@ -2011,8 +2011,6 @@ class Character : public Creature, public visitable
         // Save favorite ammo location
         item_location ammo_location;
         std::set<tripoint_abs_omt> camps;
-        /* crafting inventory cached time */
-        time_point cached_time;
 
         std::vector <addiction> addictions;
         /** Adds an addiction to the player */
@@ -2072,7 +2070,7 @@ class Character : public Creature, public visitable
         std::list<item> use_charges( const itype_id &what, int qty, int radius,
                                      const std::function<bool( const item & )> &filter = return_true<item> );
 
-        const item *find_firestarter_with_charges( int quantity ) const;
+        item find_firestarter_with_charges( int quantity ) const;
         bool has_fire( int quantity ) const;
         void use_fire( int quantity );
         void assign_stashed_activity();
@@ -2462,7 +2460,7 @@ class Character : public Creature, public visitable
         void clear_morale();
         bool has_morale_to_read() const;
         bool has_morale_to_craft() const;
-        const inventory &crafting_inventory( bool clear_path );
+        const inventory &crafting_inventory( bool clear_path ) const;
         /**
         * Returns items that can be used to craft with. Always includes character inventory.
         * @param src_pos Character position.
@@ -2471,7 +2469,7 @@ class Character : public Creature, public visitable
         * @returns Craftable inventory items found.
         * */
         const inventory &crafting_inventory( const tripoint &src_pos = tripoint_zero,
-                                             int radius = PICKUP_RANGE, bool clear_path = true );
+                                             int radius = PICKUP_RANGE, bool clear_path = true ) const;
         void invalidate_crafting_inventory();
 
         /** Returns a value from 1.0 to 11.0 that acts as a multiplier
@@ -2531,14 +2529,9 @@ class Character : public Creature, public visitable
         float crafting_speed_multiplier( const item &craft, const cata::optional<tripoint> &loc ) const;
         int available_assistant_count( const recipe &rec ) const;
         /**
-         * Time to craft not including speed multiplier
-         */
-        int64_t base_time_to_craft( const recipe &rec, int batch_size = 1 ) const;
-        /**
          * Expected time to craft a recipe, with assumption that multipliers stay constant.
          */
-        int64_t expected_time_to_craft( const recipe &rec, int batch_size = 1,
-                                        bool in_progress = false ) const;
+        int64_t expected_time_to_craft( const recipe &rec, int batch_size = 1 ) const;
         std::vector<const item *> get_eligible_containers_for_crafting() const;
         bool check_eligible_containers_for_crafting( const recipe &rec, int batch_size = 1 ) const;
         bool can_make( const recipe *r, int batch_size = 1 );  // have components?
@@ -2747,8 +2740,9 @@ class Character : public Creature, public visitable
 
     protected:
         Character();
-        Character( Character && );
-        Character &operator=( Character && );
+        Character( Character && ) noexcept( map_is_noexcept );
+        Character &operator=( Character && ) noexcept( list_is_noexcept );
+    public:
         struct trait_data {
             /** Whether the mutation is activated. */
             bool powered = false;
@@ -2944,10 +2938,16 @@ class Character : public Creature, public visitable
 
         struct weighted_int_list<std::string> melee_miss_reasons;
 
-        int cached_moves;
-        tripoint cached_position;
-        pimpl<inventory> cached_crafting_inventory;
+        struct crafting_cache_type {
+            time_point time;
+            int moves;
+            tripoint position;
+            int radius;
+            pimpl<inventory> crafting_inventory;
+        };
+        mutable crafting_cache_type crafting_cache;
 
+        time_point melee_warning_turn = calendar::turn_zero;
     protected:
         /** Subset of learned recipes. Needs to be mutable for lazy initialization. */
         mutable pimpl<recipe_subset> learned_recipes;

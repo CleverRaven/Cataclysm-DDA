@@ -11,7 +11,7 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "creature.h"
 #include "dispersion.h"
 #include "game_constants.h"
@@ -117,6 +117,7 @@ static std::vector<firing_statistics> firing_test( const dispersion_sources &dis
         const int range, const std::vector< Threshold > &thresholds )
 {
     std::vector<firing_statistics> firing_stats;
+    firing_stats.reserve( thresholds.size() );
     for( const Threshold &pear : thresholds ) {
         firing_stats.push_back( firing_test( dispersion, range, pear ) );
     }
@@ -226,7 +227,7 @@ TEST_CASE( "unskilled_shooter_accuracy", "[ranged] [balance] [slow]" )
     clear_map();
     standard_npc shooter( "Shooter", shooter_pos, {}, 0, 8, 8, 8, 7 );
     shooter.set_body();
-    shooter.worn.push_back( item( "backpack" ) );
+    shooter.worn.emplace_back( "backpack" );
     equip_shooter( shooter, { "bastsandals", "armguard_chitin", "armor_chitin", "beekeeping_gloves", "mask_guy_fawkes", "cowboy_hat" } );
     assert_encumbrance( shooter, 10 );
 

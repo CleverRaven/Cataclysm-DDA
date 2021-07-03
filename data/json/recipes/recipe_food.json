@@ -66,7 +66,7 @@
     "skill_used": "cooking",
     "time": "9 s",
     "autolearn": true,
-    "tools": [ [ [ "water_purifier", 1 ], [ "pur_tablets", 1 ], [ "char_purifier", 1 ] ] ],
+    "tools": [ [ [ "water_purifier", 1 ], [ "fake_water_purifier", 1 ], [ "pur_tablets", 1 ], [ "char_purifier", 1 ] ] ],
     "components": [ [ [ "water", 1 ] ] ]
   },
   {
@@ -91,7 +91,7 @@
     "id_suffix": "from_mineral",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
-    "skill_used": "cooking",
+    "skill_used": "chemistry",
     "time": "1 h 30 m",
     "autolearn": true,
     "batch_time_factors": [ 80, 4 ],
@@ -2588,6 +2588,22 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "soup_woods_egg",
+    "charges": 2,
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "time": "20 m",
+    "autolearn": true,
+    "batch_time_factors": [ 80, 4 ],
+    "qualities": [ { "id": "COOK", "level": 3 } ],
+    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "using": [ [ "woods_soup_ingredients_veggy", 1 ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "can_chowder",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -3708,6 +3724,8 @@
       [
         [ "bacon", 2 ],
         [ "meat_cooked", 1 ],
+        [ "human_cooked", 1 ],
+        [ "demihuman_cooked", 1 ],
         [ "mutant_meat_cooked", 1 ],
         [ "meat_smoked", 1 ],
         [ "dry_meat", 1 ],
@@ -3750,6 +3768,8 @@
       [
         [ "bacon", 2 ],
         [ "meat_cooked", 1 ],
+        [ "human_cooked", 1 ],
+        [ "demihuman_cooked", 1 ],
         [ "mutant_meat_cooked", 1 ],
         [ "meat_smoked", 1 ],
         [ "dry_meat", 1 ],
@@ -4460,7 +4480,7 @@
     "result": "salt",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
-    "skill_used": "cooking",
+    "skill_used": "chemistry",
     "difficulty": 6,
     "time": "48 m",
     "book_learn": [ [ "textbook_chemistry", 4 ] ],
@@ -6540,11 +6560,10 @@
     "components": [
       [ [ "chocolate", 2 ] ],
       [ [ "milk_standard_raw", 1, "LIST" ], [ "con_milk", 1 ], [ "milk_powder", 1 ] ],
-      [ [ "water", 1 ] ],
       [ [ "sugar", 5 ], [ "artificial_sweetener", 5 ] ],
       [ [ "chilly-p", 1 ] ],
       [ [ "cinnamon", 1 ] ],
-      [ [ "water", 6 ], [ "water_clean", 6 ] ]
+      [ [ "water", 7 ], [ "water_clean", 7 ] ]
     ]
   },
   {
@@ -7680,5 +7699,46 @@
       [ [ "sugar", 1 ], [ "artificial_sweetener", 1 ] ],
       [ [ "salt", 1 ], [ "seasoning_salt", 1 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "meatball_raw",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "time": "10 m",
+    "charges": 6,
+    "book_learn": [ [ "family_cookbook", 2 ], [ "cookbook_italian", 2 ] ],
+    "batch_time_factors": [ 50, 3 ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 1 } ],
+    "components": [
+      [ [ "meat_red", 2, "LIST" ] ],
+      [ [ "bread", 1 ] ],
+      [
+        [ "salt", 2 ],
+        [ "soysauce", 2 ],
+        [ "seasoning_italian", 2 ],
+        [ "wild_herbs", 2 ],
+        [ "seasoning_salt", 2 ],
+        [ "pepper", 2 ]
+      ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "meatball",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "time": "15 m",
+    "autolearn": true,
+    "batch_time_factors": [ 67, 5 ],
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
+    "charges": 1,
+    "components": [ [ [ "meatball_raw", 1 ] ] ]
   }
 ]

@@ -441,6 +441,12 @@
   },
   {
     "type": "start_location",
+    "id": "sloc_apartments_rooftop2",
+    "name": "Apartment Building Alternate (rooftop)",
+    "terrain": [ "apartments_mod_tower_113", "apartments_mod_tower_013", "apartments_mod_tower_103", "apartments_mod_tower_003" ]
+  },
+  {
+    "type": "start_location",
     "id": "sloc_horse_ranch",
     "name": "Horse Ranch",
     "terrain": [ "horse_farm_13" ]
