@@ -907,7 +907,7 @@ If a fuel has the PERPETUAL flag, engines powered by it never use any fuel.  Thi
 | `monsters`  | To choose a monster for spawning, the game creates `freq_total` entries (default 1000) and picks one. Each monster will have a number of entries equal to its `freq` and the default monster will fill in the remaining. See the table below for how to build the single monster definitions.
 | `is_safe`   | (bool) Check to not trigger safe-mode warning, currently inconsequential.
 | `is_animal` | (bool) Check if that group has only normal animals, currently inconsequential.
-| `freq_total`| (int) Determines the number of entries created for the monster roll, default 1000. If the total eligible `freq`s of a group exceed `freq_total` the entries after the monster that exceeded it **won't be included** in the roll - ie if the first two monsters out of a group of ten each have `freq: 500` the rest of the group won't have a chance to spawn at all!
+| `freq_total`| (int) Determines the number of entries created for the monster roll, default 1000. If the total eligible `freq`s of a group exceed `freq_total` the entries after the monster that exceeded it **won't be included** in the roll - i.e., if the first two monsters out of a group of ten each have `freq: 500` the rest of the group won't have a chance to spawn at all!
 | `replace_monster_group` | (bool) Check if the group should be replaced completely by another monster group as game time progresses - doesn't affect already spawned monsters, as such mostly superseded by monster evolution.
 | `new_monster_group_id` | (string) The id of the monster group that should replace this one.
 | `replacement_time` | (int) The amount of time before the group should be replaced by the new one, in days. Final replacement date is calculated by `replacement_time * evolution factor`.
@@ -2447,8 +2447,8 @@ Pet armor can be defined like this:
 "environmental_protection" : 0,  //  (Optional, default = 0) How much environmental protection it affords
 "material_thickness" : 1,  // Thickness of material, in millimeter units (approximately).  Generally ranges between 1 - 5, more unusual armor types go up to 10 or more
 "pet_bodytype":        // the body type of the pet that this monster will fit.  See MONSTERS.md
-"max_pet_vol":          // the maximum volume of the pet that will fit into this armor. Volume in ml and L can be used - "50 ml" or "2 L".
-"min_pet_vol":          // the minimum volume of the pet that will fit into this armor. Volume in ml and L can be used - "50 ml" or "2 L".
+"max_pet_vol":          // the maximum volume of the pet that will fit into this armor. Volume in ml or L can be used - "50 ml" or "2 L".
+"min_pet_vol":          // the minimum volume of the pet that will fit into this armor. Volume in ml or L can be used - "50 ml" or "2 L".
 "power_armor" : false, // If this is a power armor item (those are special).
 ```
 Alternately, every item (book, tool, gun, even food) can be used as armor if it has armor_data:
@@ -2784,7 +2784,7 @@ Alternately, every item (book, tool, armor, even food) can be used as a gunmod i
 "charges_per_use": 1,      // Charges consumed per tool use
 "initial_charges": 75,     // Charges when spawned
 "max_charges": 75,         // Maximum charges tool can hold
-"rand_charges": [10, 15, 25], // Randomize the charges when spawned. This example has a 50% chance of rng(10, 15) charges and a 50% chance of rng(15, 25) (The endpoints are included)
+"rand_charges": [10, 15, 25], // Randomize the charges when spawned. This example has a 50% chance of rng(10, 15) charges and a 50% chance of rng(15, 25). (The endpoints are included.)
 "power_draw": 50,          // Energy consumption rate in mW
 "revert_to": "torch_done", // Transforms into item when charges are expended
 "sub": "hotplate",         // optional; this tool has the same functions as another tool
@@ -2950,7 +2950,7 @@ The contents of use_action fields can either be a string indicating a built-in f
     "need_worn": true;                        // Whether the item must be worn to be transformed; false by default.
     "need_wielding": true;                    // Whether the item must be wielded to be transformed; false by default.
     "target_charges" : 3, // Number of charges the transformed item has.
-    "rand_target_charges": [10, 15, 25], // Randomize the charges the transformed item has. This example has a 50% chance of rng(10, 15) charges and a 50% chance of rng(15, 25) (The endpoints are included)
+    "rand_target_charges": [10, 15, 25], // Randomize the charges the transformed item has. This example has a 50% chance of rng(10, 15) charges and a 50% chance of rng(15, 25). (The endpoints are included.)
     "container" : "jar",  // Container holding the target item.
     "moves" : 500         // Moves required to transform the item in excess of a normal action.
 },
@@ -3299,9 +3299,9 @@ Array of dictionaries defining possible items produced on butchering and their l
     `bionic`: an item gained by dissecting the creature. not restricted to CBMs.
     `bionic_group`: an item group that will give an item by dissecting a creature. not restricted to groups containing CBMs.
 
-`flags` value should be an array of strings.  It's the flags that will be added to the items of that entry upon harvesting.
+`flags` value should be an array of strings.  These flags will be added to the items of that entry upon harvesting.
 
-`faults` value should be an array of `fault_id` strings.  It's the faults that will be added to the items of that entry upon harvesting.
+`faults` value should be an array of `fault_id` strings.  These faults will be added to the items of that entry upon harvesting.
 
 For every `type` other then `bionic` and `bionic_group` following entries scale the results:
     `base_num` value should be an array with two elements in which the first defines the minimum number of the corresponding item produced and the second defines the maximum number.
@@ -3310,7 +3310,7 @@ For every `type` other then `bionic` and `bionic_group` following entries scale 
     `mass_ratio` value is a multiplier of how much of the monster's weight comprises the associated item. to conserve mass, keep between 0 and 1 combined with all drops. This overrides `base_num`, `scale_num` and `max`
 
 
-For `type`s: `bionic` and `bionic_group` following entries can scale the results:
+For `type`s `bionic` and `bionic_group`, the following entries can scale the results:
     `max` this value (in contrary to `max` for other `type`s) corresponds to maximum butchery roll that will be passed to check_butcher_cbm() in activity_handlers.cpp; view check_butcher_cbm() to see corresponding distribution chances for roll values passed to that function
 
 ### leftovers
