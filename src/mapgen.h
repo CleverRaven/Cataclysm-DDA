@@ -8,7 +8,6 @@
 #include <memory>
 #include <string>
 #include <unordered_map>
-#include <unordered_set>
 #include <utility>
 #include <vector>
 
@@ -160,9 +159,6 @@ class jmapgen_piece
     protected:
         jmapgen_piece() : repeat( 1, 1 ) { }
     public:
-        virtual bool is_nop() const {
-            return false;
-        }
         /** Sanity-check this piece */
         virtual void check( const std::string &/*context*/ ) const { }
         /** Place something on the map from mapgendata &dat, at (x,y). */
@@ -230,7 +226,8 @@ class mapgen_palette
         using placing_map =
             std::unordered_map<map_key, std::vector< shared_ptr_fast<const jmapgen_piece>>>;
 
-        std::unordered_set<map_key> keys_with_terrain;
+        std::unordered_map<map_key, ter_id> format_terrain;
+        std::unordered_map<map_key, furn_id> format_furniture;
         placing_map format_placings;
 
         template<typename PieceType>
@@ -341,10 +338,14 @@ class mapgen_function_json_base
 
         void check_common() const;
 
+        void formatted_set_incredibly_simple( map &m, const point &offset ) const;
+
+        bool do_format;
         bool is_ready;
 
         point mapgensize;
         point m_offset;
+        std::vector<ter_furn_id> format;
         std::vector<jmapgen_setmap> setmap_points;
 
         jmapgen_objects objects;
