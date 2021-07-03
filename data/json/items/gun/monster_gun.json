@@ -67,6 +67,7 @@
     "skill": "throw",
     "ammo": [ "rock" ],
     "ammo_effects": [ "NO_PENETRATE_OBSTACLES", "NEVER_MISFIRES" ],
+    "ranged_damage": { "damage_type": "bash", "amount": -1 },
     "clip_size": 1,
     "weight": "540 g",
     "volume": "210 ml",
