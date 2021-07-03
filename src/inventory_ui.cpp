@@ -1401,6 +1401,18 @@ void inventory_selector::add_contained_items( item_location &container, inventor
     }
 }
 
+void inventory_selector::add_contained_ebooks( item_location &container )
+{
+    if( !container->is_ebook_storage() ) {
+        return;
+    }
+
+    for( item *it : container->contents.ebooks() ) {
+        item_location child( container, it );
+        add_entry( own_inv_column, std::vector<item_location>( 1, child ) );
+    }
+}
+
 void inventory_selector::add_character_items( Character &character )
 {
     character.visit_items( [ this, &character ]( item * it, item * ) {

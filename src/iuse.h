@@ -144,6 +144,8 @@ cata::optional<int> ladder( player *, item *, bool, const tripoint & );
 cata::optional<int> lumber( player *, item *, bool, const tripoint & );
 cata::optional<int> ma_manual( player *, item *, bool, const tripoint & );
 cata::optional<int> magic_8_ball( player *, item *, bool, const tripoint & );
+cata::optional<int> ebooksave( player *, item *, bool, const tripoint & );
+cata::optional<int> ebookread( player *, item *, bool, const tripoint & );
 cata::optional<int> makemound( player *, item *, bool, const tripoint & );
 cata::optional<int> melatonin_tablet( player *, item *, bool, const tripoint & );
 cata::optional<int> mind_splicer( player *, item *, bool, const tripoint & );

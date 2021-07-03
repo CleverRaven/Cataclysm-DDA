@@ -160,7 +160,6 @@ static const activity_id ACT_PLAY_WITH_PET( "ACT_PLAY_WITH_PET" );
 static const activity_id ACT_PRY_NAILS( "ACT_PRY_NAILS" );
 static const activity_id ACT_PULP( "ACT_PULP" );
 static const activity_id ACT_QUARTER( "ACT_QUARTER" );
-static const activity_id ACT_READ( "ACT_READ" );
 static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
 static const activity_id ACT_ROBOT_CONTROL( "ACT_ROBOT_CONTROL" );
 static const activity_id ACT_SHAVE( "ACT_SHAVE" );
@@ -309,7 +308,6 @@ activity_handlers::do_turn_functions = {
     { ACT_ROBOT_CONTROL, robot_control_do_turn },
     { ACT_TREE_COMMUNION, tree_communion_do_turn },
     { ACT_STUDY_SPELL, study_spell_do_turn},
-    { ACT_READ, read_do_turn},
     { ACT_WAIT_STAMINA, wait_stamina_do_turn }
 };
 
@@ -344,7 +342,6 @@ activity_handlers::finish_functions = {
     { ACT_TOOLMOD_ADD, toolmod_add_finish },
     { ACT_CLEAR_RUBBLE, clear_rubble_finish },
     { ACT_MEDITATE, meditate_finish },
-    { ACT_READ, read_finish },
     { ACT_WAIT, wait_finish },
     { ACT_WAIT_WEATHER, wait_weather_finish },
     { ACT_WAIT_NPC, wait_npc_finish },
@@ -3050,50 +3047,6 @@ void activity_handlers::repair_item_do_turn( player_activity *act, player *p )
 void activity_handlers::butcher_do_turn( player_activity * /*act*/, player *p )
 {
     p->mod_stamina( -20 );
-}
-
-void activity_handlers::read_do_turn( player_activity *act, player *p )
-{
-    if( p->is_player() ) {
-        // next check doesn't work for NPCs because it is counted for player's submap and z-level only
-        if( p->fine_detail_vision_mod() > 4 ) {
-            //It got too dark during the process of reading, bail out.
-            act->set_to_null();
-            p->add_msg_if_player( m_bad, _( "It's too dark to read!" ) );
-            return;
-        }
-
-        if( !act->str_values.empty() && act->str_values[0] == "martial_art" && one_in( 3 ) ) {
-            if( act->values.empty() ) {
-                act->values.push_back( p->get_stamina() );
-            }
-            p->set_stamina( act->values[0] - 1 );
-            act->values[0] = p->get_stamina();
-        }
-    } else {
-        p->moves = 0;
-    }
-}
-
-void activity_handlers::read_finish( player_activity *act, player *p )
-{
-    if( !act || !act->targets.front() ) {
-        debugmsg( "Lost target of ACT_READ" );
-        return;
-    }
-    if( p->is_npc() ) {
-        npc *guy = dynamic_cast<npc *>( p );
-        guy->finish_read( * act->targets.front().get_item() );
-    } else {
-        if( avatar *u = p->as_avatar() ) {
-            u->do_read( *act->targets.front().get_item() );
-        } else {
-            act->set_to_null();
-        }
-        if( !act ) {
-            p->add_msg_if_player( m_info, _( "You finish reading." ) );
-        }
-    }
 }
 
 void activity_handlers::wait_finish( player_activity *act, player *p )

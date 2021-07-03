@@ -105,12 +105,34 @@ recipe_subset Character::get_recipes_from_books( const inventory &crafting_inv )
     return res;
 }
 
+recipe_subset Character::get_recipes_from_ebooks( const inventory &crafting_inv ) const
+{
+    recipe_subset res;
+
+    for( const std::list<item> *&stack : crafting_inv.const_slice() ) {
+        const item &ereader = stack->front();
+        if( !ereader.is_ebook_storage() || !ereader.ammo_sufficient() ) {
+            continue;
+        }
+
+        for( const item *it : ereader.contents.ebooks() ) {
+            for( std::pair<const recipe *, int> recipe_entry :
+                 it->get_available_recipes( *this ) ) {
+                res.include( recipe_entry.first, recipe_entry.second );
+            }
+        }
+    }
+
+    return res;
+}
+
 recipe_subset Character::get_available_recipes( const inventory &crafting_inv,
         const std::vector<npc *> *helpers ) const
 {
     recipe_subset res( get_learned_recipes() );
 
     res.include( get_recipes_from_books( crafting_inv ) );
+    res.include( get_recipes_from_ebooks( crafting_inv ) );
 
     if( helpers != nullptr ) {
         for( npc *np : *helpers ) {

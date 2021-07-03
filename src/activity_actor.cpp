@@ -47,6 +47,7 @@
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "memory_fast.h"
+#include "martialarts.h"
 #include "messages.h"
 #include "monster.h"
 #include "morale_types.h"
@@ -67,6 +68,7 @@
 #include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"
+#include "skill.h"
 #include "timed_event.h"
 #include "translations.h"
 #include "ui.h"
@@ -75,6 +77,8 @@
 #include "value_ptr.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+
+static const bionic_id bio_memory( "bio_memory" );
 
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_sleep( "sleep" );
@@ -100,6 +104,8 @@ static const mtype_id mon_skeleton( "mon_skeleton" );
 static const mtype_id mon_zombie_crawler( "mon_zombie_crawler" );
 
 static const quality_id qual_LOCKPICK( "LOCKPICK" );
+
+static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 
 std::string activity_actor::get_progress_message( const player_activity &act ) const
 {
@@ -1336,6 +1342,65 @@ std::unique_ptr<activity_actor> lockpick_activity_actor::deserialize( JsonIn &js
     data.read( "fake_lockpick", actor.fake_lockpick );
     data.read( "target", actor.target );
 
+    return actor.clone();
+}
+
+void ebooksave_activity_actor::start( player_activity &act, Character &/*who*/ )
+{
+    const int pages = pages_in_book( book->typeId() );
+    const time_duration scanning_time = pages < 1 ? time_per_page : pages * time_per_page;
+    add_msg_debug( "ebooksave pages = %d", pages );
+    add_msg_debug( "scanning_time time = %s", to_string( scanning_time ) );
+    act.moves_total = to_moves<int>( scanning_time );
+    act.moves_left = act.moves_total;
+}
+
+void ebooksave_activity_actor::do_turn( player_activity &/*act*/, Character &who )
+{
+    // only consume charges every 25 pages
+    if( calendar::once_every( 25 * time_per_page ) ) {
+        if( !who.has_enough_charges( *ereader, false ) ) {
+            add_msg_if_player_sees(
+                who,
+                _( "%1$s %2$s ran out of batteries." ),
+                who.disp_name( true, true ),
+                item::nname( ereader->typeId() ) );
+            who.cancel_activity();
+            return;
+        }
+
+        ereader->ammo_consume( ereader->type->charges_to_use(), who.pos() );
+    }
+}
+
+void ebooksave_activity_actor::finish( player_activity &act, Character &who )
+{
+    item book_copy = *book;
+    ereader->put_in( book_copy, item_pocket::pocket_type::EBOOK );
+    if( who.is_player() ) {
+        add_msg( m_info, _( "You scan the book into your device." ) );
+    } else { // who.is_npc()
+        add_msg_if_player_sees( who, _( "%s scans the book into their device." ),
+                                who.disp_name( false, true ) );
+    }
+    act.set_to_null();
+}
+
+void ebooksave_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "book", book );
+    jsout.member( "ereader", ereader );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> ebooksave_activity_actor::deserialize( JsonIn &jsin )
+{
+    ebooksave_activity_actor actor = ebooksave_activity_actor( {}, {} );
+
+    JsonObject data = jsin.get_object();
+    data.read( "book", actor.book );
+    data.read( "ereader", actor.ereader );
     return actor.clone();
 }
 
@@ -2794,6 +2859,482 @@ std::unique_ptr<activity_actor> disassemble_activity_actor::deserialize( JsonIn 
     return actor.clone();
 }
 
+void read_activity_actor::start( player_activity &act, Character &who )
+{
+    if( !book->is_book() ) {
+        debugmsg( "ACT_READ on a non-book item" );
+        act.set_to_null();
+        return;
+    }
+
+    // book item_location must be of type character
+    // or else there will be item_location errors while loading
+    if( book.where() != item_location::type::character ) {
+        book = item_location( who, book.get_item() );
+    }
+
+    using_ereader = !!ereader;
+
+    bktype = book->type->use_methods.count( "MA_MANUAL" ) ?
+             book_type::martial_art : book_type::normal;
+
+    // push copy of book for focus calculation
+    // avatar::calc_focus_equilibrium
+    act.targets.push_back( book );
+
+    act.moves_total = moves_total;
+    act.moves_left = moves_total;
+}
+
+void read_activity_actor::do_turn( player_activity &act, Character &who )
+{
+    if( !bktype.has_value() ) {
+        bktype = book->type->use_methods.count( "MA_MANUAL" ) ?
+                 book_type::martial_art : book_type::normal;
+    }
+
+    if( who.is_avatar() ) {
+        // the following check doesn't work for NPCs because it is counted for player's submap and z-level only
+        if( who.fine_detail_vision_mod() > 4 ) {
+            //It got too dark during the process of reading, bail out.
+            act.set_to_null();
+            who.add_msg_if_player( m_bad, _( "It's too dark to read!" ) );
+            return;
+        }
+        if( bktype.value() == book_type::martial_art && one_in( 3 ) ) {
+            who.mod_stamina( -1 );
+        }
+    } else {
+        who.moves = 0;
+    }
+
+    if( using_ereader && !who.has_enough_charges( *ereader, false ) ) {
+        add_msg_if_player_sees(
+            who,
+            _( "%1$s %2$s ran out of batteries." ),
+            who.disp_name( true, true ),
+            item::nname( ereader->typeId() ) );
+        who.cancel_activity();
+        return;
+    }
+}
+
+void read_activity_actor::read_book( Character &learner,
+                                     const cata::value_ptr<islot_book> &islotbook,
+                                     SkillLevel &skill_level, double penalty )
+{
+    const int originalSkillLevel = skill_level.level();
+
+    // Calculate experience gained
+    /** @EFFECT_INT increases reading comprehension */
+    // Enhanced Memory Banks modestly boosts experience
+    int min_ex = std::max( 1, islotbook->time / 10 + learner.get_int() / 4 );
+    int max_ex = islotbook->time / 5 + learner.get_int() / 2 - originalSkillLevel;
+
+    if( learner.has_active_bionic( bio_memory ) ) {
+        min_ex += 2;
+    }
+
+    min_ex = learner.adjust_for_focus( min_ex ) / 100;
+    max_ex = learner.adjust_for_focus( max_ex ) / 100;
+
+    max_ex = clamp( max_ex, 2, 10 );
+    max_ex = std::max( min_ex, max_ex );
+
+    min_ex *= ( originalSkillLevel + 1 ) * penalty;
+    min_ex = std::max( min_ex, 1 );
+
+    max_ex *= ( originalSkillLevel + 1 ) * penalty;
+    max_ex = std::max( min_ex, max_ex );
+
+    add_msg_debug( "%s read exp: min_ex %d; max_ex %d", learner.disp_name(), min_ex, max_ex );
+    skill_level.readBook( min_ex, max_ex, islotbook->level );
+}
+
+bool read_activity_actor::player_read( avatar &you )
+{
+    if( !you.has_identified( book->typeId() ) ) {
+        you.identify( *book );
+        return true;
+    }
+
+    std::vector<std::string> fail_messages;
+    const player *reader = you.get_book_reader( *book, fail_messages );
+    if( reader == nullptr ) {
+        // We can't read, and neither can our followers
+        for( const std::string &reason : fail_messages ) {
+            add_msg( m_bad, reason );
+        }
+        return true;
+    }
+
+    const cata::value_ptr<islot_book> &islotbook = book->type->book;
+    const skill_id &skill = islotbook->skill;
+
+    std::vector<std::string> little_learned;
+    std::vector<std::string> cant_learn;
+
+    std::vector<Character *> learners;
+    for( npc *npc_learner : you.get_crafting_helpers() ) {
+        const book_mastery mastery = npc_learner->get_book_mastery( *book );
+        const bool morale_req = npc_learner->fun_to_read( *book ) || npc_learner->has_morale_to_read();
+
+        if( npc_learner->is_deaf() && npc_learner != reader ) {
+            continue;
+        }
+
+        if( // fun readers
+            ( mastery == book_mastery::MASTERED && npc_learner->fun_to_read( *book ) ) ||
+            // reading for experience
+            ( mastery == book_mastery::LEARNING && morale_req ) ) {
+            learners.push_back( npc_learner->as_character() );
+        }
+    }
+    // caller should check if player
+    // can understand the book
+    learners.push_back( you.as_character() );
+
+    // NPCs can move while learning from a book
+    // Check ID of all learners to avoid
+    // getting stuck in an infinite loop
+    bool learner_left = true;
+    for( Character *learner : learners ) {
+
+        double penalty = 1.0;
+
+        const bool reading_for_skill =
+            learner->get_book_mastery( *book ) == book_mastery::LEARNING;
+
+        const int book_fun = learner->book_fun_for( *book, *learner );
+        if( book_fun != 0 ) {
+            // Fun bonus is no longer calculated here.
+            learner->add_morale( MORALE_BOOK,
+                                 book_fun * 5, book_fun * 15,
+                                 1_hours, 30_minutes, true,
+                                 book->type );
+        }
+
+        book->mark_chapter_as_read( *learner );
+
+        if( reading_for_skill ) {
+            if( !learner->is_avatar() ) {
+                const int npc_read_time = you.time_to_read( *book, *reader, learner->as_player() );
+                penalty = static_cast<double>( moves_total ) / npc_read_time;
+            }
+        } else {
+            continue;   // reading for fun
+        }
+
+        if( skill &&
+            learner->get_skill_level( skill ) < islotbook->level &&
+            learner->get_skill_level_object( skill ).can_train() ) {
+
+            SkillLevel &skill_level = learner->get_skill_level_object( skill );
+            std::string skill_name = skill.obj().name();
+            const int originalSkillLevel = skill_level.level();
+
+            read_book( *learner, islotbook, skill_level, penalty );
+
+            // levels up the skill
+            if( skill_level != originalSkillLevel ) {
+                get_event_bus().send<event_type::gains_skill_level>(
+                    learner->getID(), skill, skill_level.level() );
+
+                if( learner->is_avatar() ) {
+                    add_msg( m_good, _( "You increase %s to level %d." ), skill.obj().name(),
+                             originalSkillLevel + 1 );
+                } else {
+                    add_msg( m_good, _( "%s increases their %s level." ), learner->disp_name(),
+                             skill.obj().name() );
+                }
+
+                if( learner->getID().get_value() == learner_id ) {
+                    continuous = false;
+                }
+
+            } else {
+                if( learner->is_avatar() ) {
+                    add_msg( m_info, _( "You learn a little about %s!  (%d%%)" ), skill_name,
+                             skill_level.exercise() );
+                } else {
+                    little_learned.push_back( learner->disp_name() );
+                }
+            }
+
+            if( ( skill_level == islotbook->level || !skill_level.can_train() ) ||
+                ( learner->has_trait( trait_SCHIZOPHRENIC ) && one_in( 25 ) ) ) {
+                if( learner->is_avatar() ) {
+                    add_msg( m_info, _( "You can no longer learn from %s." ), book->type_name() );
+                } else {
+                    cant_learn.push_back( learner->disp_name() );
+                }
+            }
+        }
+
+        if( learner_left && learner->getID().get_value() == learner_id ) {
+            learner_left = false;
+        }
+    }   // end for all learners
+
+    if( little_learned.size() == 1 ) {
+        add_msg( m_info, _( "%s learns a little about %s!" ), little_learned.begin()->c_str(),
+                 skill.obj().name() );
+
+    } else if( !little_learned.empty() ) {
+        const std::string little_learned_msg = enumerate_as_string( little_learned );
+        add_msg( m_info, _( "%s learn a little about %s!" ), little_learned_msg, skill.obj().name() );
+    }
+
+    if( !cant_learn.empty() ) {
+        const std::string names = enumerate_as_string( cant_learn );
+        add_msg( m_info, _( "%s can no longer learn from %s." ), names, book->type_name() );
+    }
+
+    // read non-skill books only once
+    if( learner_left || !skill ) {
+        continuous = false;
+    }
+
+    return false;
+}
+
+bool read_activity_actor::player_readma( avatar &you )
+{
+    // NPCs can't learn martial arts from manuals (yet).
+
+    if( !you.has_identified( book->typeId() ) ) {
+        you.identify( *book );
+        return true;
+    }
+
+    // std::map<std::string, use_function>::const_iterator
+    auto mart_iter = book->type->use_methods.find( "MA_MANUAL" );
+    if( mart_iter == book->type->use_methods.end() ) {
+        debugmsg( "ACT_READ MARTIAL ARTS BOOK HAS NO MARTIAL ART" );
+        return true;
+    }
+
+    const matype_id style_to_learn = martial_art_learned_from( *book->type );
+    skill_id skill_used = style_to_learn->primary_skill;
+
+    int difficulty = std::max( 1, style_to_learn->learn_difficulty );
+    difficulty = std::max( 1, 20 + difficulty * 2 - you.get_skill_level( skill_used ) * 2 );
+    add_msg_debug( "Chance to learn one in: %d", difficulty );
+
+    if( one_in( difficulty ) ) {
+        // learn martial art
+        mart_iter->second.call( you, *book, false, you.pos() );
+        return true;
+    } else if( continuous ) {
+        switch( rng( 1, 5 ) ) {
+            case 1:
+                add_msg( m_info,
+                         _( "You train the moves according to the book, but can't get a grasp of the style, so you start from the beginning." ) );
+                break;
+            case 2:
+                add_msg( m_info,
+                         _( "This martial art is not easy to grasp.  You start training the moves from the beginning." ) );
+                break;
+            case 3:
+                add_msg( m_info,
+                         _( "You decide to read the manual and train even more.  In martial arts, patience leads to mastery." ) );
+                break;
+            case 4: // intentionally empty
+            case 5:
+                add_msg( m_info, _( "You try again.  This training will finally pay off." ) );
+                break;
+        }
+    } else {
+        add_msg( m_info, _( "You train for a while." ) );
+    }
+    return false;
+}
+
+bool read_activity_actor::npc_read( npc &learner )
+{
+    const cata::value_ptr<islot_book> &islotbook = book->type->book;
+    const skill_id &skill = islotbook->skill;
+
+    // NPCs don't need to identify the book or learn recipes yet.
+    // NPCs don't read to other NPCs yet.
+    const bool display_messages = learner.get_fac_id() == faction_id( "your_followers" ) &&
+                                  get_player_character().sees( learner );
+
+
+    const int book_fun = learner.book_fun_for( *book, learner );
+    if( book_fun != 0 ) {
+        // Fun bonus is no longer calculated here.
+        learner.add_morale( MORALE_BOOK,
+                            book_fun * 5, book_fun * 15,
+                            1_hours, 30_minutes, true,
+                            book->type );
+    }
+
+    book->mark_chapter_as_read( learner );
+
+    if( skill &&
+        learner.get_skill_level( skill ) < islotbook->level &&
+        learner.get_skill_level_object( skill ).can_train() ) {
+
+        SkillLevel &skill_level = learner.get_skill_level_object( skill );
+        std::string skill_name = skill.obj().name();
+        const int originalSkillLevel = skill_level.level();
+
+        read_book( learner, islotbook, skill_level, 1.0 );
+
+        if( skill_level != originalSkillLevel ) {
+            get_event_bus().send<event_type::gains_skill_level>(
+                learner.getID(), skill, skill_level.level() );
+
+            if( display_messages ) {
+                add_msg( m_good, _( "%s increases their %s level." ), learner.disp_name(),
+                         skill_name );
+            }
+
+            continuous = false;
+
+        } else if( display_messages ) {
+            add_msg( m_info, _( "%s learns a little about %s!" ), learner.disp_name(),
+                     skill_name );
+        }
+
+        if( display_messages &&
+            ( ( skill_level == islotbook->level || !skill_level.can_train() ) ||
+              ( learner.has_trait( trait_SCHIZOPHRENIC ) && one_in( 25 ) ) ) ) {
+            add_msg( m_info, _( "%s can no longer learn from %s." ), learner.disp_name(),
+                     book->type_name() );
+        }
+
+    } else if( display_messages && skill ) {
+        add_msg( m_info, _( "%s can no longer learn from %s." ), learner.disp_name(),
+                 book->type_name() );
+        continuous = false;
+        // read non-skill books only once
+    } else if( !skill ) {
+        continuous = false;
+    }
+
+    return false;
+}
+
+void read_activity_actor::finish( player_activity &act, Character &who )
+{
+    const bool is_mabook = bktype.value() == book_type::martial_art;
+    if( who.is_avatar() ) {
+        get_event_bus().send<event_type::reads_book>( who.getID(), book->typeId() );
+
+        const bool should_null = is_mabook ?
+                                 player_readma( *who.as_avatar() ) : player_read( *who.as_avatar() );
+
+        if( should_null ) {
+            act.set_to_null();
+            return;
+        }
+    } else {    // who.is_npc()
+
+        // npcs can't read martial arts books yet
+        if( is_mabook ) {
+            act.set_to_null();
+            return;
+        }
+
+        if( npc_read( static_cast<npc &>( who ) ) ) {
+            act.set_to_null();
+            return;
+        }
+    }
+
+    if( continuous ) {
+        int time_taken;
+
+        // caller should check if npc can read first
+        if( who.is_npc() ) {
+            npc &n = static_cast<npc &>( who );
+            time_taken = n.time_to_read( *book, n );
+
+        } else {    // who.is_avatar()
+
+            // check if there can still be a reader before restarting
+            // because npcs can move while reading for the player
+            std::vector<std::string> fail_messages;
+            const player *reader = who.as_avatar()->get_book_reader( *book, fail_messages );
+            if( reader == nullptr ) {
+                // We can't read, and neither can our followers
+                for( const std::string &reason : fail_messages ) {
+                    add_msg( m_bad, reason );
+                }
+                act.set_to_null();
+                return;
+            }
+
+            time_taken = who.as_avatar()->time_to_read( *book, *reader );
+        }
+
+        // restart the activity
+        moves_total = time_taken;
+        act.moves_total = time_taken;
+        act.moves_left = time_taken;
+
+        return;
+    } else  {
+        who.add_msg_if_player( m_info, _( "You finish reading." ) );
+    }
+
+    act.set_to_null();
+}
+
+std::string read_activity_actor::get_progress_message( const player_activity & ) const
+{
+    Character &you = get_player_character();
+    const cata::value_ptr<islot_book> &islotbook = book->type->book;
+    const skill_id &skill = islotbook->skill;
+
+    if( skill &&
+        you.get_skill_level( skill ) < islotbook->level &&
+        you.get_skill_level_object( skill ).can_train() &&
+        you.has_identified( book->typeId() ) ) {
+        const SkillLevel &skill_level = you.get_skill_level_object( skill );
+        //~ skill_name current_skill_level -> next_skill_level (% to next level)
+        return string_format( pgettext( "reading progress", "%1$s %2$d -> %3$d (%4$d%%)" ),
+                              skill.obj().name(),
+                              skill_level.level(),
+                              skill_level.level() + 1,
+                              skill_level.exercise() );
+    }
+
+    return std::string();
+}
+
+void read_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "moves_total", moves_total );
+    jsout.member( "book", book );
+    jsout.member( "ereader", ereader );
+    jsout.member( "using_ereader", using_ereader );
+    jsout.member( "continuous", continuous );
+    jsout.member( "learner_id", learner_id );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> read_activity_actor::deserialize( JsonIn &jsin )
+{
+    read_activity_actor actor;
+    JsonObject data = jsin.get_object();
+
+    data.read( "moves_total", actor.moves_total );
+    data.read( "book", actor.book );
+    data.read( "ereader", actor.ereader );
+    data.read( "using_ereader", actor.using_ereader );
+    data.read( "continuous", actor.continuous );
+    data.read( "learner_id", actor.learner_id );
+
+    return actor.clone();
+}
+
+
 namespace activity_actors
 {
 
@@ -2808,6 +3349,7 @@ deserialize_functions = {
     { activity_id( "ACT_DIG_CHANNEL" ), &dig_channel_activity_actor::deserialize },
     { activity_id( "ACT_DISASSEMBLE" ), &disassemble_activity_actor::deserialize },
     { activity_id( "ACT_DROP" ), &drop_activity_actor::deserialize },
+    { activity_id( "ACT_EBOOKSAVE" ), &ebooksave_activity_actor::deserialize },
     { activity_id( "ACT_GUNMOD_REMOVE" ), &gunmod_remove_activity_actor::deserialize },
     { activity_id( "ACT_HACKING" ), &hacking_activity_actor::deserialize },
     { activity_id( "ACT_HOTWIRE_CAR" ), &hotwire_car_activity_actor::deserialize },
@@ -2818,6 +3360,7 @@ deserialize_functions = {
     { activity_id( "ACT_MOVE_ITEMS" ), &move_items_activity_actor::deserialize },
     { activity_id( "ACT_OPEN_GATE" ), &open_gate_activity_actor::deserialize },
     { activity_id( "ACT_PICKUP" ), &pickup_activity_actor::deserialize },
+    { activity_id( "ACT_READ" ), &read_activity_actor::deserialize },
     { activity_id( "ACT_RELOAD" ), &reload_activity_actor::deserialize },
     { activity_id( "ACT_STASH" ), &stash_activity_actor::deserialize },
     { activity_id( "ACT_TRY_SLEEP" ), &try_sleep_activity_actor::deserialize },

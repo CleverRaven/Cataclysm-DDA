@@ -14,6 +14,7 @@
 #include "clone_ptr.h"
 #include "handle_liquid.h"
 #include "item.h"
+#include "itype.h"
 #include "item_location.h"
 #include "memory_fast.h"
 #include "optional.h"
@@ -30,7 +31,11 @@ class Creature;
 class JsonIn;
 class JsonOut;
 class avatar;
+class npc;
+class SkillLevel;
 class player_activity;
+
+struct islot_book;
 
 class aim_activity_actor : public activity_actor
 {
@@ -457,6 +462,45 @@ class lockpick_activity_actor : public activity_actor
 
         std::unique_ptr<activity_actor> clone() const override {
             return std::make_unique<lockpick_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+};
+
+class ebooksave_activity_actor : public activity_actor
+{
+    private:
+        item_location book;
+        item_location ereader;
+        const time_duration time_per_page = 5_seconds;
+
+        bool can_resume_with_internal( const activity_actor &other,
+                                       const Character &/*who*/ ) const override {
+            const ebooksave_activity_actor &actor = static_cast<const ebooksave_activity_actor &>
+                                                    ( other );
+            return actor.book == book && actor.ereader == ereader;
+        }
+
+    public:
+        explicit ebooksave_activity_actor( const item_location &book, const item_location &ereader ) :
+            book( book ), ereader( ereader ) {};
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_EBOOKSAVE" );
+        }
+
+        static int pages_in_book( const itype_id &book ) {
+            // an A4 sheet weights roughly 5 grams
+            return units::to_gram( book->weight ) / 5;
+        };
+
+        void start( player_activity &act, Character &/*who*/ ) override;
+        void do_turn( player_activity &/*act*/, Character &who ) override;
+        void finish( player_activity &act, Character &who ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<ebooksave_activity_actor>( *this );
         }
 
         void serialize( JsonOut &jsout ) const override;
@@ -923,6 +967,61 @@ class move_furniture_activity_actor : public activity_actor
 
         std::unique_ptr<activity_actor> clone() const override {
             return std::make_unique<move_furniture_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+};
+
+class read_activity_actor : public activity_actor
+{
+    public:
+        enum class book_type : int { normal, martial_art };
+
+
+    private:
+        int moves_total;
+        item_location book;
+        cata::optional<book_type> bktype;
+
+        // Using an electronic book reader
+        item_location ereader;
+        bool using_ereader;
+
+        // Read until the learner with this ID gets a level
+        bool continuous;
+        int learner_id;
+
+        // Will return true if activity must be set to null
+        bool player_read( avatar &you );
+        bool player_readma( avatar &you );  // Martial arts book
+        bool npc_read( npc &learner );
+
+    public:
+        read_activity_actor() = default;
+
+        explicit read_activity_actor(
+            int moves, item_location &book, item_location &ereader,
+            bool continuous = false, int learner_id = -1 )
+            : moves_total( moves ), book( book ), ereader( ereader ),
+              continuous( continuous ), learner_id( learner_id ) {};
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_READ" );
+        }
+
+        static void read_book( Character &learner, const cata::value_ptr<islot_book> &islotbook,
+                               SkillLevel &skill_level, double penalty );
+
+        void start( player_activity &act, Character &who ) override;
+        void do_turn( player_activity &act, Character &who ) override;
+        void finish( player_activity &act, Character &who ) override;
+        void canceled( player_activity &/*act*/, Character &/*who*/ ) override {};
+
+        std::string get_progress_message( const player_activity & ) const override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<read_activity_actor>( *this );
         }
 
         void serialize( JsonOut &jsout ) const override;

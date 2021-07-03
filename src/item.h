@@ -334,6 +334,8 @@ class item : public visitable
         bool is_software() const;
         bool is_software_storage() const;
 
+        bool is_ebook_storage() const;
+
         /**
          * Returns a symbol for indicating the current dirt or fouling level for a gun.
          */
@@ -1907,6 +1909,8 @@ class item : public visitable
         std::vector<const item *> mods() const;
 
         std::vector<const item *> softwares() const;
+
+        std::vector<const item *> ebooks() const;
 
         /** Get first attached gunmod matching type or nullptr if no such mod or item is not a gun */
         item *gunmod_find( const itype_id &mod );

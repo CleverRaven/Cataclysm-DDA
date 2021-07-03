@@ -451,6 +451,16 @@
   },
   {
     "type": "item_action",
+    "id": "EBOOKSAVE",
+    "name": { "str": "Store a book" }
+  },
+  {
+    "type": "item_action",
+    "id": "EBOOKREAD",
+    "name": { "str": "Read stored books" }
+  },
+  {
+    "type": "item_action",
     "id": "ELEC_CHAINSAW_OFF",
     "name": { "str": "Turn on" }
   },

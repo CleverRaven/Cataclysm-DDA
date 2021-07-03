@@ -138,6 +138,7 @@ cata::optional<std::string> player_activity::get_progress_message( const avatar 
     }
 
     std::string extra_info;
+
     if( type == activity_id( "ACT_READ" ) ) {
         if( const item *book = targets.front().get_item() ) {
             if( const auto &reading = book->type->book ) {
@@ -155,7 +156,8 @@ cata::optional<std::string> player_activity::get_progress_message( const avatar 
             }
         }
     } else if( moves_total > 0 ) {
-        if( type == activity_id( "ACT_HACKSAW" ) ||
+        if( type == activity_id( "ACT_BURROW" ) ||
+            type == activity_id( "ACT_HACKSAW" ) ||
             type == activity_id( "ACT_JACKHAMMER" ) ||
             type == activity_id( "ACT_PICKAXE" ) ||
             type == activity_id( "ACT_VEHICLE" ) ||
@@ -393,20 +395,6 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
 
     if( id() == activity_id( "ACT_CLEAR_RUBBLE" ) ) {
         if( other.coords.empty() || other.coords[0] != coords[0] ) {
-            return false;
-        }
-    } else if( id() == activity_id( "ACT_READ" ) ) {
-        // Return false if any NPCs joined or left the study session
-        // the vector {1, 2} != {2, 1}, so we'll have to check manually
-        if( values.size() != other.values.size() ) {
-            return false;
-        }
-        for( int foo : other.values ) {
-            if( std::find( values.begin(), values.end(), foo ) == values.end() ) {
-                return false;
-            }
-        }
-        if( targets.empty() || other.targets.empty() || targets[0] != other.targets[0] ) {
             return false;
         }
     } else if( id() == activity_id( "ACT_VEHICLE" ) ) {
