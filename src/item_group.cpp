@@ -391,6 +391,8 @@ void Item_modifier::modify( item &new_item, const std::string &context ) const
         }
     }
 
+    new_item.set_gun_variant( variant );
+
     // create container here from modifier or from default to get max charges later
     item cont;
     if( container != nullptr ) {
@@ -610,11 +612,17 @@ Item_group::Item_group( Type t, int probability, int ammo_chance, int magazine_c
     }
 }
 
-void Item_group::add_item_entry( const itype_id &itemid, int probability )
+void Item_group::add_item_entry( const itype_id &itemid, int probability,
+                                 const std::string &variant )
 {
     std::string entry_context = "item " + itemid.str() + " within " + context();
-    add_entry( std::make_unique<Single_item_creator>(
-                   itemid.str(), Single_item_creator::S_ITEM, probability, entry_context ) );
+    std::unique_ptr<Single_item_creator> added = std::make_unique<Single_item_creator>(
+                itemid.str(), Single_item_creator::S_ITEM, probability, entry_context );
+    if( !variant.empty() ) {
+        added->modifier.emplace();
+        added->modifier->variant = variant;
+    }
+    add_entry( std::move( added ) );
 }
 
 void Item_group::add_group_entry( const item_group_id &groupid, int probability )

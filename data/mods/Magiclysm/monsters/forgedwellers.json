@@ -133,7 +133,7 @@
   {
     "id": "mon_forgehounds",
     "type": "MONSTER",
-    "name": { "str": "forge hounds" },
+    "name": { "str_sp": "forge hounds" },
     "description": "A metallic hound steps out of a nearby angle and growls at you.  Run!!!",
     "default_faction": "wonder_forge",
     "copy-from": "mon_hound_tindalos"

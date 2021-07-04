@@ -4,6 +4,7 @@
 
 #include <iosfwd>
 #include <list>
+#include <memory>
 #include <tuple>
 #include <vector>
 
@@ -12,6 +13,7 @@
 #include "type_id.h"
 
 class item;
+class JsonObject;
 class player;
 class time_point;
 class vpart_reference;
@@ -20,8 +22,24 @@ struct tripoint;
 
 using seed_tuple = std::tuple<itype_id, std::string, int>;
 
+struct iexamine_actor {
+    const std::string type;
+
+    explicit iexamine_actor( const std::string &type ) : type( type ) {}
+
+    virtual void load( const JsonObject & ) = 0;
+    virtual void call( player &, const tripoint & ) const = 0;
+    virtual void finalize() const = 0;
+
+    virtual std::unique_ptr<iexamine_actor> clone() const = 0;
+
+    virtual ~iexamine_actor() = default;
+};
+
 namespace iexamine
 {
+
+bool try_start_hacking( player &p, const tripoint &examp );
 
 void egg_sack_generic( player &p, const tripoint &examp, const mtype_id &montype );
 
@@ -81,7 +99,6 @@ void tree_maple_tapped( player &p, const tripoint &examp );
 void shrub_marloss( player &p, const tripoint &examp );
 void tree_marloss( player &p, const tripoint &examp );
 void shrub_wildveggies( player &p, const tripoint &examp );
-void recycle_compactor( player &p, const tripoint &examp );
 void water_source( player &p, const tripoint &examp );
 void clean_water_source( player &, const tripoint &examp );
 void kiln_empty( player &p, const tripoint &examp );

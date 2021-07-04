@@ -59,7 +59,6 @@ static const species_id species_ZOMBIE( "ZOMBIE" );
 static const mongroup_id GROUP_CHUD( "GROUP_CHUD" );
 static const mongroup_id GROUP_RIVER( "GROUP_RIVER" );
 static const mongroup_id GROUP_SEWER( "GROUP_SEWER" );
-static const mongroup_id GROUP_SPIRAL( "GROUP_SPIRAL" );
 static const mongroup_id GROUP_SWAMP( "GROUP_SWAMP" );
 static const mongroup_id GROUP_WORM( "GROUP_WORM" );
 static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
@@ -78,13 +77,11 @@ using oter_type_id = int_id<oter_type_t>;
 using oter_type_str_id = string_id<oter_type_t>;
 
 ////////////////
-static oter_id  ot_null,
-       ot_crater,
-       ot_field,
-       ot_forest,
-       ot_forest_thick,
-       ot_forest_water,
-       ot_river_center;
+static oter_id ot_null;
+static const oter_str_id ot_forest( "ot_forest" );
+static const oter_str_id ot_forest_thick( "ot_forest_thick" );
+static const oter_str_id ot_forest_water( "ot_forest_water" );
+static const oter_str_id ot_river_center( "ot_river_center" );
 
 const oter_type_t oter_type_t::null_type{};
 
@@ -328,13 +325,6 @@ bool operator!=( const int_id<oter_t> &lhs, const char *rhs )
 static void set_oter_ids()   // FIXME: constify
 {
     ot_null         = oter_str_id::NULL_ID();
-    // NOT required.
-    ot_crater       = oter_id( "crater" );
-    ot_field        = oter_id( "field" );
-    ot_forest       = oter_id( "forest" );
-    ot_forest_thick = oter_id( "forest_thick" );
-    ot_forest_water = oter_id( "forest_water" );
-    ot_river_center = oter_id( "river_center" );
 }
 
 std::string overmap_land_use_code::get_symbol() const
@@ -744,9 +734,7 @@ bool oter_t::is_hardcoded() const
         "looted_building",  // pseudo-terrain
         "mine",
         "mine_down",
-        "mine_entrance",
         "mine_finale",
-        "mine_shaft",
         "office_tower_1",
         "office_tower_1_entrance",
         "office_tower_b",
@@ -754,8 +742,6 @@ bool oter_t::is_hardcoded() const
         "slimepit",
         "slimepit_down",
         "spider_pit_under",
-        "spiral",
-        "spiral_hub",
         "temple",
         "temple_finale",
         "temple_stairs",
@@ -866,7 +852,7 @@ bool overmap_special::can_belong_to_city( const tripoint_om_omt &p, const city &
     if( !cit || !city_size.contains( cit.size ) ) {
         return false;
     }
-    return city_distance.contains( cit.get_distance_from( p ) );
+    return city_distance.contains( cit.get_distance_from( p ) - ( cit.size ) );
 }
 
 void overmap_special::load( const JsonObject &jo, const std::string &src )
@@ -1513,7 +1499,6 @@ bool overmap::generate_sub( const int z )
     std::vector<city> central_lab_points;
     std::vector<point_om_omt> lab_train_points;
     std::vector<point_om_omt> central_lab_train_points;
-    std::vector<point_om_omt> shaft_points;
     std::vector<city> mine_points;
     // These are so common that it's worth checking first as int.
     const oter_id skip_above[5] = {
@@ -1560,44 +1545,38 @@ bool overmap::generate_sub( const int z )
                 sewer_points.emplace_back( i, j );
             } else if( oter_above == "anthill" || oter_above == "acid_anthill" ) {
                 const int size = rng( MIN_ANT_SIZE, MAX_ANT_SIZE );
-                ant_points.push_back( city( p.xy(), size ) );
+                ant_points.emplace_back( p.xy(), size );
             } else if( oter_above == "slimepit_down" ) {
                 const int size = rng( MIN_GOO_SIZE, MAX_GOO_SIZE );
-                goo_points.push_back( city( p.xy(), size ) );
+                goo_points.emplace_back( p.xy(), size );
             } else if( oter_above == "forest_water" ) {
                 ter_set( p, oter_id( "cavern" ) );
                 chip_rock( p );
             } else if( oter_above == "lab_core" ||
                        ( z == -1 && oter_above == "lab_stairs" ) ) {
-                lab_points.push_back( city( p.xy(), rng( 1, 5 + z ) ) );
+                lab_points.emplace_back( p.xy(), rng( 1, 5 + z ) );
             } else if( oter_above == "lab_stairs" ) {
                 ter_set( p, oter_id( "lab" ) );
             } else if( oter_above == "ice_lab_core" ||
                        ( z == -1 && oter_above == "ice_lab_stairs" ) ) {
-                ice_lab_points.push_back( city( p.xy(), rng( 1, 5 + z ) ) );
+                ice_lab_points.emplace_back( p.xy(), rng( 1, 5 + z ) );
             } else if( oter_above == "ice_lab_stairs" ) {
                 ter_set( p, oter_id( "ice_lab" ) );
             } else if( oter_above == "central_lab_core" ) {
-                central_lab_points.push_back( city( p.xy(), rng( std::max( 1, 7 + z ), 9 + z ) ) );
+                central_lab_points.emplace_back( p.xy(), rng( std::max( 1, 7 + z ), 9 + z ) );
             } else if( oter_above == "central_lab_stairs" ) {
                 ter_set( p, oter_id( "central_lab" ) );
             } else if( is_ot_match( "hidden_lab_stairs", oter_above, ot_match_type::contains ) ) {
-                lab_points.push_back( city( p.xy(), rng( 1, 5 + z ) ) );
-            } else if( oter_above == "mine_entrance" ) {
-                shaft_points.push_back( p.xy() );
-            } else if( oter_above == "mine_shaft" ||
-                       oter_above == "mine_down" ) {
+                lab_points.emplace_back( p.xy(), rng( 1, 5 + z ) );
+            } else if( is_ot_match( "mine_entrance", oter_ground, ot_match_type::prefix ) && z == -2 ) {
+                mine_points.emplace_back( ( p + tripoint_west ).xy(), rng( 6 + z, 10 + z ) );
+                requires_sub = true;
+            } else if( oter_above == "mine_down" ) {
                 ter_set( p, oter_id( "mine" ) );
-                mine_points.push_back( city( p.xy(), rng( 6 + z, 10 + z ) ) );
+                mine_points.emplace_back( p.xy(), rng( 6 + z, 10 + z ) );
                 // technically not all finales need a sub level,
                 // but at this point we don't know
                 requires_sub = true;
-            } else if( oter_above == "mine_finale" ) {
-                for( const tripoint_om_omt &q : points_in_radius( p, 1, 0 ) ) {
-                    ter_set( q, oter_id( "spiral" ) );
-                }
-                ter_set( p, oter_id( "spiral_hub" ) );
-                add_mon_group( mongroup( GROUP_SPIRAL, tripoint( i * 2, j * 2, z ), 2, 200 ) );
             }
         }
     }
@@ -1746,10 +1725,6 @@ bool overmap::generate_sub( const int z )
         build_mine( tripoint_om_omt( i.pos, z ), i.size );
     }
 
-    for( auto &i : shaft_points ) {
-        ter_set( tripoint_om_omt( i, z ), oter_id( "mine_shaft" ) );
-        requires_sub = true;
-    }
     for( auto &i : ant_points ) {
         const tripoint_om_omt p_loc( i.pos, z );
         if( ter( p_loc ) != "empty_rock" ) {
@@ -2132,11 +2107,11 @@ void overmap::signal_hordes( const tripoint_rel_sm &p_rel, const int sig_power )
                 const int min_inc_inter = 3; // Min interest increase to already targeted source
                 const int inc_roll = rng( min_inc_inter, calculated_inter );
                 mg.inc_interest( inc_roll );
-                add_msg_debug( "horde inc interest %d dist %d", inc_roll, dist );
+                add_msg_debug( debugmode::DF_OVERMAP, "horde inc interest %d dist %d", inc_roll, dist );
             } else { // New signal source
                 mg.set_target( p.xy() );
                 mg.set_interest( min_capped_inter );
-                add_msg_debug( "horde set interest %d dist %d", min_capped_inter, dist );
+                add_msg_debug( debugmode::DF_OVERMAP, "horde set interest %d dist %d", min_capped_inter, dist );
             }
         }
     }
@@ -2629,10 +2604,10 @@ void overmap::place_rivers( const overmap *north, const overmap *east, const ove
         while( river_start.empty() || river_start.size() + 1 < river_end.size() ) {
             new_rivers.clear();
             if( north == nullptr && one_in( river_chance ) ) {
-                new_rivers.push_back( point_om_omt( rng( 10, OMAPX - 11 ), 0 ) );
+                new_rivers.emplace_back( rng( 10, OMAPX - 11 ), 0 );
             }
             if( west == nullptr && one_in( river_chance ) ) {
-                new_rivers.push_back( point_om_omt( 0, rng( 10, OMAPY - 11 ) ) );
+                new_rivers.emplace_back( 0, rng( 10, OMAPY - 11 ) );
             }
             river_start.push_back( random_entry( new_rivers ) );
         }
@@ -2641,10 +2616,10 @@ void overmap::place_rivers( const overmap *north, const overmap *east, const ove
         while( river_end.empty() || river_end.size() + 1 < river_start.size() ) {
             new_rivers.clear();
             if( south == nullptr && one_in( river_chance ) ) {
-                new_rivers.push_back( point_om_omt( rng( 10, OMAPX - 11 ), OMAPY - 1 ) );
+                new_rivers.emplace_back( rng( 10, OMAPX - 11 ), OMAPY - 1 );
             }
             if( east == nullptr && one_in( river_chance ) ) {
-                new_rivers.push_back( point_om_omt( OMAPX - 1, rng( 10, OMAPY - 11 ) ) );
+                new_rivers.emplace_back( OMAPX - 1, rng( 10, OMAPY - 11 ) );
             }
             river_end.push_back( random_entry( new_rivers ) );
         }
@@ -2675,8 +2650,8 @@ void overmap::place_rivers( const overmap *north, const overmap *east, const ove
         }
     } else if( !river_end.empty() ) {
         if( river_start.size() != river_end.size() ) {
-            river_start.push_back( point_om_omt( rng( OMAPX / 4, ( OMAPX * 3 ) / 4 ),
-                                                 rng( OMAPY / 4, ( OMAPY * 3 ) / 4 ) ) );
+            river_start.emplace_back( rng( OMAPX / 4, ( OMAPX * 3 ) / 4 ),
+                                      rng( OMAPY / 4, ( OMAPY * 3 ) / 4 ) );
         }
         for( size_t i = 0; i < river_start.size(); i++ ) {
             place_river( river_start[i], river_end[i] );
@@ -4122,18 +4097,26 @@ void overmap::place_special(
         }
     }
     // Make connections.
-    if( cit ) {
-        for( const auto &elem : special.connections ) {
-            if( elem.connection ) {
-                const tripoint_om_omt rp = p + om_direction::rotate( elem.p, dir );
-                om_direction::type initial_dir = elem.initial_dir;
+    for( const auto &elem : special.connections ) {
+        if( elem.connection ) {
+            const tripoint_om_omt rp = p + om_direction::rotate( elem.p, dir );
+            om_direction::type initial_dir = elem.initial_dir;
 
-                if( initial_dir != om_direction::type::invalid ) {
-                    initial_dir = om_direction::add( initial_dir, dir );
-                }
-
+            if( initial_dir != om_direction::type::invalid ) {
+                initial_dir = om_direction::add( initial_dir, dir );
+            }
+            if( cit ) {
                 build_connection( cit.pos, rp.xy(), elem.p.z, *elem.connection, must_be_unexplored,
                                   initial_dir );
+            }
+            // if no city present, search for nearby road within 50 tiles and make connection to it instead
+            else {
+                for( const tripoint_om_omt &nearby_point : closest_points_first( rp, 50 ) ) {
+                    if( check_ot( "road", ot_match_type::contains, nearby_point ) ) {
+                        build_connection( nearby_point.xy(), rp.xy(), elem.p.z, *elem.connection, must_be_unexplored,
+                                          initial_dir );
+                    }
+                }
             }
         }
     }
@@ -4446,21 +4429,21 @@ void overmap::place_radios()
             // Since location have id such as "radio_tower_1_north", we must check the beginning of the id
             if( is_ot_match( "radio_tower", ter( pos_omt ), ot_match_type::prefix ) ) {
                 if( one_in( 3 ) ) {
-                    radios.push_back( radio_tower( pos_sm, strength(), "", radio_type::WEATHER_RADIO ) );
+                    radios.emplace_back( pos_sm, strength(), "", radio_type::WEATHER_RADIO );
                 } else {
                     message = SNIPPET.expand( SNIPPET.random_from_category( "radio_archive" ).value_or(
                                                   translation() ).translated() );
-                    radios.push_back( radio_tower( pos_sm, strength(), message ) );
+                    radios.emplace_back( pos_sm, strength(), message );
                 }
             } else if( is_ot_match( "lmoe", ter( pos_omt ), ot_match_type::prefix ) ) {
                 message = string_format( _( "This is automated emergency shelter beacon %d%d."
                                             "  Supplies, amenities and shelter are stocked." ), i, j );
-                radios.push_back( radio_tower( pos_sm, strength() / 2, message ) );
+                radios.emplace_back( pos_sm, strength() / 2, message );
             } else if( is_ot_match( "fema_entrance", ter( pos_omt ), ot_match_type::prefix ) ) {
                 message = string_format( _( "This is FEMA camp %d%d."
                                             "  Supplies are limited, please bring supplemental food, water, and bedding."
                                             "  This is FEMA camp %d%d.  A designated long-term emergency shelter." ), i, j, i, j );
-                radios.push_back( radio_tower( pos_sm, strength(), message ) );
+                radios.emplace_back( pos_sm, strength(), message );
             }
         }
     }

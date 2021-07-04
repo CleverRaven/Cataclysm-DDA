@@ -441,6 +441,12 @@
   },
   {
     "type": "start_location",
+    "id": "sloc_apartments_rooftop2",
+    "name": "Apartment Building Alternate (rooftop)",
+    "terrain": [ "apartments_mod_tower_113", "apartments_mod_tower_013", "apartments_mod_tower_103", "apartments_mod_tower_003" ]
+  },
+  {
+    "type": "start_location",
     "id": "sloc_horse_ranch",
     "name": "Horse Ranch",
     "terrain": [ "horse_farm_13" ]
@@ -456,6 +462,12 @@
     "id": "sloc_freshwater_research_station",
     "name": "Freshwater Research Station",
     "terrain": [ "sealab_small_surface" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_lodge_ground",
+    "name": "Hunting Lodge",
+    "terrain": [ "lodge_ground" ]
   },
   {
     "type": "start_location",
@@ -480,5 +492,11 @@
     "id": "sloc_private_resort",
     "name": "Private resort",
     "terrain": [ "p_resort_2ss" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_road",
+    "name": "Road",
+    "terrain": [ "road_straight", "road_curved", "road_end" ]
   }
 ]
