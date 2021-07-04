@@ -227,7 +227,8 @@
       [ "multi_cooker", 1 ],
       [ "pastaextruder", 8 ],
       { "item": "can_sealer", "prob": 5, "charges": [ 0, 500 ] },
-      [ "knuckle_brass", 15 ],
+      [ "knuckle_brass", 10 ],
+      [ "knuckle_steel_forged", 5 ],
       [ "platinum_small", 10 ],
       { "item": "foodperson_mask", "prob": 1, "charges": [ 0, 500 ] },
       [ "gold_small", 10 ],
@@ -630,6 +631,7 @@
     "items": [
       { "group": "mags_surplus", "prob": 400 },
       [ "freeze_dried_meal", 20 ],
+      [ "chocolate_military", 20 ],
       [ "knife_combat", 14 ],
       [ "knife_rm42", 1 ],
       [ "kukri", 2 ],

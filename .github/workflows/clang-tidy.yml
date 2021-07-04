@@ -1,9 +1,10 @@
-name: Clang-tidy (clang-8, tiles)
+name: Clang-tidy (clang-12, tiles)
 
 on:
   push:
     branches:
     - master
+    - 0.F-dev
     paths:
     - '**.cpp'
     - '**.h'
@@ -15,6 +16,7 @@ on:
   pull_request:
     branches:
     - master
+    - 0.F-dev
     paths:
     - '**.cpp'
     - '**.h'
@@ -26,11 +28,11 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-16.04
+    runs-on: ubuntu-20.04
     env:
         CMAKE: 1
-        CLANG: clang++-8
-        COMPILER: clang++-8
+        CLANG: clang++-12
+        COMPILER: clang++-12
         CATA_CLANG_TIDY: plugin
         TILES: 1
         SOUND: 1
@@ -41,9 +43,10 @@ jobs:
         fetch-depth: 1
     - name: install dependencies
       run: |
-          #sudo apt-add-repository "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-8 main"
+          wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
+          sudo apt-add-repository "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-12 main"
           sudo apt-get update
-          sudo apt-get install libncursesw5-dev clang-8 libclang-8-dev llvm-8-dev llvm-8-tools \
+          sudo apt-get install libncursesw5-dev clang-12 libclang-12-dev llvm-12-dev llvm-12-tools \
             libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-mixer-dev libpulse-dev ccache \
             gettext
     - name: prepare

@@ -1,7 +1,7 @@
 #include <fstream>
 #include <vector>
 
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "monfaction.h"
 #include "type_id.h"
 

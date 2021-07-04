@@ -8,6 +8,7 @@
       "-": "t_wall_glass",
       ";": "t_door_glass_c",
       "S": "t_sidewalk",
+      "t": "t_bollard",
       "*": "t_region_shrub_decorative",
       ">": "t_stairs_down",
       "<": "t_stairs_up",

@@ -414,6 +414,7 @@
     "time": "1 h",
     "reversible": true,
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 1 } ],
     "components": [ [ [ "2x4", 5 ] ], [ [ "nail", 30 ] ] ]
   },
@@ -454,6 +455,7 @@
     "difficulty": 2,
     "time": "5 m",
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 1 } ],
     "using": [ [ "sewing_standard", 100 ] ],
     "components": [ [ [ "sheet", 2 ] ], [ [ "2x4", 4 ], [ "stick", 4 ] ], [ [ "nail", 20 ] ] ]
@@ -468,6 +470,7 @@
     "difficulty": 1,
     "time": "60 m",
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 1 } ],
     "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 10 ] ] ]
   },
@@ -497,6 +500,7 @@
     "difficulty": 2,
     "time": "40 m",
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 1 } ],
     "components": [ [ [ "nail", 4 ] ], [ [ "2x4", 2 ] ], [ [ "stick", 2 ], [ "2x4", 2 ] ], [ [ "towel", 3 ] ] ]
   },
@@ -511,6 +515,7 @@
     "difficulty": 2,
     "time": "30 m",
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_carpentry_basic" }, { "proficiency": "prof_metalworking" } ],
     "qualities": [ { "id": "DRILL", "level": 2 }, { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ],
     "components": [ [ [ "nail", 50 ] ], [ [ "2x4", 5 ] ], [ [ "cordage_36", 1 ] ], [ [ "scrap", 5 ], [ "steel_chunk", 4 ] ] ],
     "tools": [
@@ -645,6 +650,7 @@
     "time": "9 m",
     "reversible": true,
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_carpentry_basic" }, { "proficiency": "prof_carving" } ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "2x4", 5 ] ], [ [ "stick", 2 ] ], [ [ "nail", 20 ] ] ]
   },
@@ -742,6 +748,7 @@
     "time": "6 m",
     "reversible": true,
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "2x4", 5 ] ], [ [ "nail", 20 ] ] ]
   },
@@ -769,6 +776,7 @@
     "time": "6 m",
     "reversible": true,
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_W", "level": 1 } ],
     "components": [ [ [ "2x4", 5 ] ], [ [ "nail", 20 ] ] ]
   },
@@ -783,6 +791,7 @@
     "time": "12 m",
     "reversible": true,
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_W", "level": 1 } ],
     "components": [ [ [ "2x4", 5 ] ], [ [ "nail", 30 ] ], [ [ "scrap", 5 ] ] ]
   },

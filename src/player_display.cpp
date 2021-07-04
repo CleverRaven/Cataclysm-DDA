@@ -1192,7 +1192,7 @@ void player::disp_info()
             if( tmp.empty() ) {
                 continue;
             }
-            effect_name_and_text.push_back( { tmp, _effect_it.second.disp_desc() } );
+            effect_name_and_text.emplace_back( tmp, _effect_it.second.disp_desc() );
         }
     }
     if( get_perceived_pain() > 0 ) {
@@ -1208,7 +1208,7 @@ void player::disp_info()
         add_if( ppen.intelligence, _( "Intelligence -%d" ) );
         add_if( ppen.perception, _( "Perception -%d" ) );
         add_if( ppen.speed, _( "Speed -%d %%" ) );
-        effect_name_and_text.push_back( { _( "Pain" ), pain_text } );
+        effect_name_and_text.emplace_back( _( "Pain" ), pain_text );
     }
 
     const float bmi = get_bmi();
@@ -1237,30 +1237,30 @@ void player::disp_info()
                                str_penalty * 50.0f );
         }
 
-        effect_name_and_text.push_back( { starvation_name, starvation_text } );
+        effect_name_and_text.emplace_back( starvation_name, starvation_text );
     }
 
     if( has_trait( trait_id( "TROGLO" ) ) && g->is_in_sunlight( pos() ) &&
         get_weather().weather_id->sun_intensity >= sun_intensity_type::high ) {
-        effect_name_and_text.push_back( { _( "In Sunlight" ),
-                                          _( "The sunlight irritates you.\n"
-                                             "Strength - 1;    Dexterity - 1;    Intelligence - 1;    Perception - 1" )
-                                        } );
+        effect_name_and_text.emplace_back( _( "In Sunlight" ),
+                                           _( "The sunlight irritates you.\n"
+                                              "Strength - 1;    Dexterity - 1;    Intelligence - 1;    Perception - 1" )
+                                         );
     } else if( has_trait( trait_id( "TROGLO2" ) ) && g->is_in_sunlight( pos() ) ) {
-        effect_name_and_text.push_back( { _( "In Sunlight" ),
-                                          _( "The sunlight irritates you badly.\n"
-                                             "Strength - 2;    Dexterity - 2;    Intelligence - 2;    Perception - 2" )
-                                        } );
+        effect_name_and_text.emplace_back( _( "In Sunlight" ),
+                                           _( "The sunlight irritates you badly.\n"
+                                              "Strength - 2;    Dexterity - 2;    Intelligence - 2;    Perception - 2" )
+                                         );
     } else if( has_trait( trait_id( "TROGLO3" ) ) && g->is_in_sunlight( pos() ) ) {
-        effect_name_and_text.push_back( { _( "In Sunlight" ),
-                                          _( "The sunlight irritates you terribly.\n"
-                                             "Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" )
-                                        } );
+        effect_name_and_text.emplace_back( _( "In Sunlight" ),
+                                           _( "The sunlight irritates you terribly.\n"
+                                              "Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" )
+                                         );
     }
 
     for( auto &elem : addictions ) {
         if( elem.sated < 0_turns && elem.intensity >= MIN_ADDICTION_LEVEL ) {
-            effect_name_and_text.push_back( { addiction_name( elem ), addiction_text( elem ) } );
+            effect_name_and_text.emplace_back( addiction_name( elem ), addiction_text( elem ) );
         }
     }
 
