@@ -237,6 +237,8 @@
     "id": "candy_cane",
     "name": { "str_sp": "Candy Cane" },
     "copy-from": "candy_cane",
+    "rot_spawn": "GROUP_EGG_CANE",
+    "rot_spawn_chance": 100,
     "description": "A cane shaped candy traditionally found during winter season, it has a strange evil aura to it, almost as if it's not normal."
   }
 ]
