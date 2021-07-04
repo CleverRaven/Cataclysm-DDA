@@ -219,5 +219,12 @@
     "container": "null",
     "color": "red",
     "description": "A swirly confectionary treat in strings of sweet tasting candy.  You think you've seen them wriggle a bit.  How strange…"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "candy_cane",
+    "name": { "str_sp": "Candy Cane" },
+    "copy-from": "candy_cane",
+    "description": "A cane shaped candy traditionally found during winter season, it has a strange evil aura to it, almost as if it's not normal."
   }
 ]
