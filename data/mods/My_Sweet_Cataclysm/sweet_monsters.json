@@ -539,7 +539,8 @@
     "description": "A baby snake made entirely out of licorice, possibly the children of the larger Licorice Snakes.",
     "copy-from": "mon_licorice_snake",
     "harvest": "licorice_snake",
-    "upgrades": { "age_grow": 200, "into": "mon_licorice_snake" }
+    "upgrades": { "age_grow": 200, "into": "mon_licorice_snake" },
+    "flags": [ "NO_BREED" ]
   },
   {
     "id": "mon_living_pumpkin",
@@ -563,8 +564,19 @@
     "dodge": 4,
     "vision_day": 45,
     "vision_night": 32,
+    "reproduction": { "baby_monster": "mon_pumpkin_kid", "baby_count": 12, "baby_timer": 325 },
     "harvest": "pumpkin",
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "STUMBLES", "BASHES" ]
+  },
+  {
+    "id": "mon_pumpkin_kid",
+    "type": "MONSTER",
+    "name": { "str": "Living Pumpkin Kid" },
+    "description": "A baby Living Pumpkin, it looks strange with its short stature, pumpkin skin, and child-like appearance.",
+    "copy-from": "mon_living_pumpkin",
+    "harvest": "pumpkin",
+    "upgrades": { "age_grow": 200, "into": "mon_living_pumpkin" },
+    "flags": [ "NO_BREED" ]
   }
 ]
