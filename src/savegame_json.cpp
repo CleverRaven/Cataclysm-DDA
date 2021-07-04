@@ -2096,6 +2096,7 @@ void monster::load( const JsonObject &data )
         position.z = get_map().get_abs_sub().z;
     }
 
+    data.read( "provocative_sound", provocative_sound );
     data.read( "wandf", wandf );
     data.read( "wandx", wander_pos.x );
     data.read( "wandy", wander_pos.y );
@@ -2256,6 +2257,7 @@ void monster::store( JsonOut &json ) const
     json.member( "wandx", wander_pos.x );
     json.member( "wandy", wander_pos.y );
     json.member( "wandz", wander_pos.z );
+    json.member( "provocative_sound", provocative_sound );
     json.member( "wandf", wandf );
     if( !patrol_route_abs_ms.empty() ) {
         json.member( "patrol_route", patrol_route_abs_ms );

@@ -85,6 +85,11 @@ static const itype_id fuel_type_battery( "battery" );
 
 static const itype_id itype_weapon_fire_suppressed( "weapon_fire_suppressed" );
 
+struct monster_sound_event {
+    int volume;
+    bool provocative;
+};
+
 struct sound_event {
     int volume;
     sounds::sound_t category;
@@ -102,6 +107,7 @@ struct centroid {
     float z;
     float volume;
     float weight;
+    bool provocative;
 };
 
 namespace io
@@ -133,7 +139,7 @@ std::string enum_to_string<sounds::sound_t>( sounds::sound_t data )
 
 // Static globals tracking sounds events of various kinds.
 // The sound events since the last monster turn.
-static std::vector<std::pair<tripoint, int>> recent_sounds;
+static std::vector<std::pair<tripoint, monster_sound_event>> recent_sounds;
 // The sound events since the last interactive player turn. (doesn't count sleep etc)
 static std::vector<std::pair<tripoint, sound_event>> sounds_since_last_turn;
 // The sound events currently displayed to the player.
@@ -163,6 +169,30 @@ static int sound_distance( const tripoint &source, const tripoint &sink )
     return rl_dist( source.xy(), sink.xy() ) + vertical_attenuation;
 }
 
+static bool is_provocative( sounds::sound_t category )
+{
+    switch( category ) {
+        case sounds::sound_t::background:
+        case sounds::sound_t::weather:
+        case sounds::sound_t::music:
+        case sounds::sound_t::activity:
+        case sounds::sound_t::destructive_activity:
+        case sounds::sound_t::alarm:
+        case sounds::sound_t::combat:
+            return false;
+        case sounds::sound_t::movement:
+        case sounds::sound_t::speech:
+        case sounds::sound_t::electronic_speech:
+        case sounds::sound_t::alert:
+        case sounds::sound_t::order:
+            return true;
+        case sounds::sound_t::_LAST:
+            break;
+    }
+    debugmsg( "Invalid sound_t category" );
+    abort();
+}
+
 void sounds::ambient_sound( const tripoint &p, int vol, sound_t category,
                             const std::string &description )
 {
@@ -181,7 +211,7 @@ void sounds::sound( const tripoint &p, int vol, sound_t category, const std::str
     if( description.empty() ) {
         debugmsg( "Sound at %d:%d has no description!", p.x, p.y );
     }
-    recent_sounds.emplace_back( std::make_pair( p, vol ) );
+    recent_sounds.emplace_back( std::make_pair( p, monster_sound_event{ vol, is_provocative( category ) } ) );
     sounds_since_last_turn.emplace_back( std::make_pair( p,
                                          sound_event {vol, category, description, ambient,
                                                  false, id, variant} ) );
@@ -211,7 +241,8 @@ static void vector_quick_remove( std::vector<C> &source, int index )
     source.pop_back();
 }
 
-static std::vector<centroid> cluster_sounds( std::vector<std::pair<tripoint, int>> input_sounds )
+static std::vector<centroid> cluster_sounds( std::vector<std::pair<tripoint, monster_sound_event>>
+        input_sounds )
 {
     // If there are too many monsters and too many noise sources (which can be monsters, go figure),
     // applying sound events to monsters can dominate processing time for the whole game,
@@ -236,7 +267,8 @@ static std::vector<centroid> cluster_sounds( std::vector<std::pair<tripoint, int
         {
             static_cast<float>( input_sounds[index].first.x ), static_cast<float>( input_sounds[index].first.y ),
             static_cast<float>( input_sounds[index].first.z ),
-            static_cast<float>( input_sounds[index].second ), static_cast<float>( input_sounds[index].second )
+            static_cast<float>( input_sounds[index].second.volume ), static_cast<float>( input_sounds[index].second.volume ),
+            input_sounds[index].second.provocative
         } );
         vector_quick_remove( input_sounds, index );
     }
@@ -254,19 +286,25 @@ static std::vector<centroid> cluster_sounds( std::vector<std::pair<tripoint, int
                 dist_factor = dist * dist;
             }
         }
-        const float volume_sum = static_cast<float>( sound_event_pair.second ) + found_centroid->weight;
+        const float volume_sum = static_cast<float>( sound_event_pair.second.volume ) +
+                                 found_centroid->weight;
         // Set the centroid location to the average of the two locations, weighted by volume.
-        found_centroid->x = static_cast<float>( ( sound_event_pair.first.x * sound_event_pair.second ) +
+        found_centroid->x = static_cast<float>( ( sound_event_pair.first.x *
+                                                sound_event_pair.second.volume ) +
                                                 ( found_centroid->x * found_centroid->weight ) ) / volume_sum;
-        found_centroid->y = static_cast<float>( ( sound_event_pair.first.y * sound_event_pair.second ) +
+        found_centroid->y = static_cast<float>( ( sound_event_pair.first.y *
+                                                sound_event_pair.second.volume ) +
                                                 ( found_centroid->y * found_centroid->weight ) ) / volume_sum;
-        found_centroid->z = static_cast<float>( ( sound_event_pair.first.z * sound_event_pair.second ) +
+        found_centroid->z = static_cast<float>( ( sound_event_pair.first.z *
+                                                sound_event_pair.second.volume ) +
                                                 ( found_centroid->z * found_centroid->weight ) ) / volume_sum;
         // Set the centroid volume to the larger of the volumes.
         found_centroid->volume = std::max( found_centroid->volume,
-                                           static_cast<float>( sound_event_pair.second ) );
+                                           static_cast<float>( sound_event_pair.second.volume ) );
         // Set the centroid weight to the sum of the weights.
         found_centroid->weight = volume_sum;
+        // Set and keep provocative if any sound in the centroid is provocative
+        found_centroid->provocative |= sound_event_pair.second.provocative;
     }
     return sound_clusters;
 }
@@ -324,7 +362,7 @@ void sounds::process_sounds()
             const int dist = sound_distance( source, critter.pos() );
             if( vol * 2 > dist ) {
                 // Exclude monsters that certainly won't hear the sound
-                critter.hear_sound( source, vol, dist );
+                critter.hear_sound( source, vol, dist, this_centroid.provocative );
             }
         }
     }
