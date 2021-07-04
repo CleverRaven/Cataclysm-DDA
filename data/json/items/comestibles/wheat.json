@@ -287,6 +287,20 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "blood_pancakes",
+    "copy-from": "pancakes",
+    "name": { "str": "Blodplättar" },
+    "weight": "80 g",
+    "color": "black",
+    "calories": 113,
+    "description": "Blodplättar is not your average pancake. It does not taste blood at all and it is taste like a crispier black pudding.",
+    "price": 550,
+    "price_postapoc": 50,
+    "fun": 2,
+    "vitamins": [ [ "vitA", 1 ], [ "iron", 9 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "frenchtoast",
     "name": { "str": "French toast" },
     "weight": "42 g",
@@ -595,3 +609,4 @@
     "use_action": [ "WEED_CAKE" ]
   }
 ]
+

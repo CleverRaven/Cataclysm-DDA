@@ -256,6 +256,22 @@
     "copy-from": "book_nonf_hard_cook_tpl"
   },
   {
+    "id": "cookbook_blood",
+    "type": "BOOK",
+    "name": { "str": "Blood for the Greater Good", "str_pl": "copies of Blood for the Greater Good" },
+    "description": "This recipe collection is compiled by blood-as-food advocate Alžbeta Bátoriová.  Although the consumption of blood is a taboo form of food for Abrahamic religions, but they're old now.",
+    "weight": "600 g",
+    "volume": "800 ml",
+    "price": 1999,
+    "price_postapoc": 500,
+    "required_level": 1,
+    "max_level": 2,
+    "intelligence": 5,
+    "time": "10 m",
+    "chapters": 12,
+    "copy-from": "book_nonf_hard_cook_tpl"
+  },
+  {
     "id": "cookbook_daintydishes",
     "type": "BOOK",
     "name": { "str": "Dainty Dishes Fit for a King", "str_pl": "copies of Dainty Dishes" },
