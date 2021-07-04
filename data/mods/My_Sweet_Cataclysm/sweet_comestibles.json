@@ -222,6 +222,18 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "pumpkin",
+    "name": "pumpkin",
+    "symbol": "%",
+    "copy-from": "pumpkin",
+    "rot_spawn": "GROUP_EGG_PUMPKIN",
+    "rot_spawn_chance": 100,
+    "container": "null",
+    "color": "yellow",
+    "description": "A large vegetable, about the size of your head.  Not very tasty raw, but is great for cooking, this one seems alive, weird..."
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "candy_cane",
     "name": { "str_sp": "Candy Cane" },
     "copy-from": "candy_cane",
