@@ -861,7 +861,6 @@ class fuel_inventory_preset : public inventory_selector_preset
         }
 
         std::string get_denial( const item_location &loc ) const override {
-            const item &med = *loc;
 
             if( loc->made_of_from_type( phase_id::LIQUID ) && loc.where() != item_location::type::container ) {
                 return _( "Can't use spilt liquids." );
