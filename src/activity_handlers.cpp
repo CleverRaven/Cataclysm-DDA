@@ -4243,6 +4243,10 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
 
     p->add_msg_if_player( spell_being_cast.message(), spell_being_cast.name() );
 
+    // this is here now so that the spell first consume its components then casts its effects, necessary to cast
+    // spells with the components in hand.
+    spell_being_cast.use_components( *p );
+
     spell_being_cast.cast_all_effects( *p, target );
 
     if( !no_mana ) {
@@ -4266,7 +4270,6 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
                 break;
         }
 
-        spell_being_cast.use_components( *p );
     }
     if( level_override == -1 ) {
         if( !spell_being_cast.is_max_level() ) {

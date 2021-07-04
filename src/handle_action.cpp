@@ -1474,7 +1474,7 @@ static void cast_spell()
 static bool assign_spellcasting( Character &you, spell &sp, bool fake_spell )
 {
     if( you.is_armed() && !sp.has_flag( spell_flag::NO_HANDS ) &&
-        !you.weapon.has_flag( flag_MAGIC_FOCUS ) ) {
+        !you.weapon.has_flag( flag_MAGIC_FOCUS ) && !sp.check_if_component_in_hand( you ) ) {
         add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
                  _( "You need your hands free to cast this spell!" ) );
         return false;
