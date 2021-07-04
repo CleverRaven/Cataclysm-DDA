@@ -100,7 +100,6 @@
       "CLEANSING_FLAME",
       "EARTH_ELEMENTAL",
       "FIRE_ELEMENTAL",
-      "FORCE_MAGE",
       "GAIAS_CHOSEN",
       "GLACIER_MAGE",
       "GOLEMANCER",
@@ -174,6 +173,7 @@
     "valid": false,
     "description": "Named for the auroras that grace the poles of the earth, the Boreal mage specializes in auras that protect ethereally.  Boreal mages definitely know their way around cold spells, but their real strength is protection.",
     "prereqs": [ "KELVINIST", "TECHNOMANCER" ],
+    "spells_learned": [ [ "auroral_wave", 5 ] ],
     "cancels": [
       "ARTIFICER",
       "AURA_MAGE",
@@ -213,6 +213,7 @@
     "purifiable": false,
     "valid": false,
     "description": "The Cleansing Flame is the fire that burns away the chaff, in preparation for the regrowth of new life.",
+    "spells_learned": [ [ "immolate", 5 ] ],
     "prereqs": [ "DRUID", "KELVINIST" ],
     "cancels": [
       "ARTIFICER",
@@ -419,7 +420,8 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": "",
+    "description": "The Champion of the Earth, Gaia's Chosen is blessed on all things nature, animate and inanimate.",
+    "enchantments": [ "GAIAS_CHOSEN" ],
     "prereqs": [ "DRUID", "EARTHSHAPER" ],
     "cancels": [
       "ARTIFICER",
@@ -459,7 +461,7 @@
     "valid": false,
     "description": "The power of a Glacier Mage is backed by a thousand tons of ice and snow, with a brutal might in their spells.  While they are skilled with cold spells, their greatest strength is in offense.",
     "prereqs": [ "EARTHSHAPER", "KELVINIST" ],
-    "spells_learned": [ [ "ice_clave", 5 ] ],
+    "spells_learned": [ [ "ice_clave", 5 ], [ "frozen_winds", 5 ] ],
     "cancels": [
       "ARTIFICER",
       "AURA_MAGE",
@@ -500,7 +502,7 @@
     "valid": false,
     "description": "The Golemancer is the ancient myth of the clay golem, made reality from constant use of Animist summons and Earthshaper self-strengthening spells.  Takes some traits from the golems they create, such as immunity to slowing effects.",
     "prereqs": [ "ANIMIST", "EARTHSHAPER" ],
-    "spells_learned": [ [ "golem_push", 5 ] ],
+    "spells_learned": [ [ "golem_push", 5 ], [ "summon_golem_clay", 5 ] ],
     "cancels": [
       "ARTIFICER",
       "AURA_MAGE",
@@ -539,6 +541,7 @@
     "valid": false,
     "description": "The fundamental Laws of the universe are thought of as the end-all-be-all in magical circles, and the Gravity Mage is a result of mages mucking around with those laws.  Unfortunately, this attunement does not give supreme control over gravity as a fundamental force, though the affinity is prominent and comes with some non-negligible benefits.",
     "prereqs": [ "MAGUS", "EARTHSHAPER" ],
+    "spells_learned": [ [ "gravitymage_graviton", 5 ] ],
     "weight_capacity_modifier": 2,
     "cancels": [
       "ARTIFICER",

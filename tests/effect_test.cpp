@@ -1,11 +1,16 @@
-#include "catch/catch.hpp"
-#include "effect.h"
-
+#include <iosfwd>
+#include <memory>
 #include <string>
 #include <vector>
 
+#include "avatar.h"
 #include "calendar.h"
+#include "cata_catch.h"
 #include "character.h"
+#include "character_id.h"
+#include "damage.h"
+#include "effect.h"
+#include "effect_source.h"
 #include "game.h"
 #include "map.h"
 #include "map_helpers.h"
@@ -14,6 +19,8 @@
 #include "player_helpers.h"
 #include "point.h"
 #include "type_id.h"
+
+class Creature;
 
 // Test `effect` class
 
@@ -156,14 +163,43 @@ TEST_CASE( "effect intensity", "[effect][intensity]" )
         eff_debugged.mod_intensity( 2 );
         CHECK( eff_debugged.get_intensity() == 10 );
     }
+}
 
-    // From EFFECTS_JSON.md:
-    // max_intensity: Used for many later fields, defaults to 1
-    // max_effective_intensity: How many intensity levels will apply effects. Other intensity levels
-    //   will only increase duration.
-    //
-    // If "max_intensity" > 1 and the number of entries in "name" >= "max_intensity" then it will
-    // attempt to use the proper intensity name.
+TEST_CASE( "max effective intensity", "[effect][max][intensity]" )
+{
+    const efftype_id eff_id( "max_effected" );
+    effect eff_maxed( effect_source::empty(), &eff_id.obj(), 3_turns, bodypart_str_id( "bp_null" ),
+                      false, 1, calendar::turn );
+
+    REQUIRE( eff_maxed.get_intensity() == 1 );
+    REQUIRE( eff_maxed.get_max_effective_intensity() == 6 );
+    REQUIRE( eff_maxed.get_max_intensity() == 10 );
+
+    SECTION( "scaling_mods apply up to max_effective_intensity" ) {
+        // No scaling_mod effects at baseline intensity (1)
+        eff_maxed.set_intensity( 1 );
+        CHECK( eff_maxed.get_mod( "INT" ) == 0 );
+        // Adds 1 INT per intensity greater than 1, up to max_effective_intensity
+        eff_maxed.set_intensity( 2 );
+        CHECK( eff_maxed.get_mod( "INT" ) == 1 );
+        eff_maxed.set_intensity( 3 );
+        CHECK( eff_maxed.get_mod( "INT" ) == 2 );
+        eff_maxed.set_intensity( 4 );
+        CHECK( eff_maxed.get_mod( "INT" ) == 3 );
+        eff_maxed.set_intensity( 5 );
+        CHECK( eff_maxed.get_mod( "INT" ) == 4 );
+        eff_maxed.set_intensity( 6 );
+        CHECK( eff_maxed.get_mod( "INT" ) == 5 );
+        // The scaling_mods should stop applying above max_effective_intensity (6)
+        eff_maxed.set_intensity( 7 );
+        CHECK( eff_maxed.get_mod( "INT" ) == 5 );
+        eff_maxed.set_intensity( 8 );
+        CHECK( eff_maxed.get_mod( "INT" ) == 5 );
+        eff_maxed.set_intensity( 9 );
+        CHECK( eff_maxed.get_mod( "INT" ) == 5 );
+        eff_maxed.set_intensity( 10 );
+        CHECK( eff_maxed.get_mod( "INT" ) == 5 );
+    }
 }
 
 // Effect decay
@@ -505,4 +541,121 @@ TEST_CASE( "bleed_effect_attribution", "[effect][bleed][monster]" )
             }
         }
     }
+}
+
+TEST_CASE( "Vitamin Effects", "[effect][vitamins]" )
+{
+    player &subject = get_avatar();
+    clear_avatar();
+
+    // Our effect influencing vitamins, and the two vitamins it influences
+    const efftype_id vits( "test_vitamineff" );
+    const vitamin_id vitv( "test_vitv" );
+    const vitamin_id vitx( "test_vitx" );
+
+    effect vitamin_effect( effect_source::empty(), &( *vits ), 5_hours, body_part_torso, false, 1,
+                           calendar::turn );
+    subject.add_effect( vitamin_effect );
+
+    // A food rich in in vitamin x - we need 2 of them, for with/without the effect
+    item food1( "test_vitfood" );
+    item food2( food1 );
+
+    // Make sure they have none of these vitamins at the start
+    // Except vitv, because the vitamin tick applies immediately when the effect is added
+    subject.vitamin_set( vitv, 0 );
+    REQUIRE( subject.vitamin_get( vitv ) == 0 );
+    REQUIRE( subject.vitamin_get( vitx ) == 0 );
+
+    // Track 5 hours under the effect, and register the affected vitamins after
+    subject.consume( food1 );
+    for( time_duration turn = 0_turns; turn < 5_hours; turn += 1_turns ) {
+        calendar::turn += 1_turns;
+        subject.update_body();
+        subject.process_effects();
+    }
+    const int posteffect_vitv = subject.vitamin_get( vitv );
+    const int posteffect_vitx = subject.vitamin_get( vitx );
+
+    // Clear the avatar, and try 5 hours without the effect, under the same conditions
+    clear_avatar();
+    REQUIRE( subject.vitamin_get( vitv ) == 0 );
+    REQUIRE( subject.vitamin_get( vitx ) == 0 );
+    subject.consume( food2 );
+    for( time_duration turn = 0_turns; turn < 5_hours; turn += 1_turns ) {
+        calendar::turn += 1_turns;
+        subject.update_body();
+        subject.process_effects();
+    }
+    const int post_vitv = subject.vitamin_get( vitv );
+    const int post_vitx = subject.vitamin_get( vitx );
+
+    // The effect roughly halves the absorbed vitamin x
+    CHECK( posteffect_vitx == 22 );
+    CHECK( post_vitx == 46 );
+
+    // Without the effect, no vitamin v is gained
+    CHECK( posteffect_vitv == 120 );
+    CHECK( post_vitv == 0 );
+}
+
+static void test_deadliness( const effect &applied, const int expected_dead, const int margin )
+{
+    const mtype_id debug_mon( "debug_mon" );
+
+    clear_map();
+    std::vector<monster *> mons;
+
+    // Place a hundred debug monsters, our subjects
+    for( int i = 0; i < 10; ++i ) {
+        for( int j = 0; j < 10; ++j ) {
+            tripoint cursor( i + 20, j + 20, 0 );
+
+            mons.push_back( g->place_critter_at( debug_mon, cursor ) );
+            // make sure they're there!
+            CHECK( g->critter_at<Creature>( cursor ) != nullptr );
+        }
+    }
+
+    for( monster *const mon : mons ) {
+        mon->add_effect( applied );
+    }
+
+    // Let them suffer under it for 5 turns.
+    for( int i = 0; i < 5; ++i ) {
+        calendar::turn += 1_turns;
+        for( monster *const mon : mons ) {
+            mon->process_effects();
+        }
+    }
+
+    // See how many remain
+    int alive = 0;
+    for( int i = 0; i < 10; ++i ) {
+        for( int j = 0; j < 10; ++j ) {
+            tripoint cursor( i + 20, j + 20, 0 );
+
+            alive += g->critter_at<Creature>( cursor ) != nullptr;
+        }
+    }
+
+    const int dead = 100 - alive;
+    CHECK( dead == Approx( expected_dead ).margin( margin ) );
+}
+
+TEST_CASE( "Death Effects", "[effect][death]" )
+{
+    const efftype_id fatalism( "test_fatalism" );
+    effect placebo_effect( effect_source::empty(), &( *fatalism ), 5_seconds, body_part_torso, false, 1,
+                           calendar::turn );
+    effect deadly_effect( effect_source::empty(), &( *fatalism ), 5_seconds, body_part_torso, false, 2,
+                          calendar::turn );
+    effect fatal_effect( effect_source::empty(), &( *fatalism ), 5_seconds, body_part_torso, false, 3,
+                         calendar::turn );
+
+    test_deadliness( placebo_effect, 0, 0 );
+    // Need a pretty big margin here, it's fairly random
+    // Just make sure that not everone lives and not everyone dies
+    test_deadliness( deadly_effect, 50, 25 );
+    test_deadliness( fatal_effect, 100, 0 );
 }

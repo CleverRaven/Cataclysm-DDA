@@ -241,6 +241,13 @@
   },
   {
     "type": "start_location",
+    "id": "sloc_river",
+    "name": "River",
+    "terrain": [ "river" ],
+    "flags": [ "ALLOW_OUTSIDE" ]
+  },
+  {
+    "type": "start_location",
     "id": "sloc_bridge",
     "name": "Bridge",
     "terrain": [ "bridgehead_ground" ],
@@ -341,8 +348,14 @@
   {
     "type": "start_location",
     "id": "sloc_prison_alcatraz",
-    "name": "Island prison",
+    "name": "Island prison type A",
     "terrain": [ "prison_alcatraz_3" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_prison_island",
+    "name": "Island prison type B",
+    "terrain": [ "prison_island_1_1" ]
   },
   {
     "type": "start_location",
@@ -428,6 +441,12 @@
   },
   {
     "type": "start_location",
+    "id": "sloc_apartments_rooftop2",
+    "name": "Apartment Building Alternate (rooftop)",
+    "terrain": [ "apartments_mod_tower_113", "apartments_mod_tower_013", "apartments_mod_tower_103", "apartments_mod_tower_003" ]
+  },
+  {
+    "type": "start_location",
     "id": "sloc_horse_ranch",
     "name": "Horse Ranch",
     "terrain": [ "horse_farm_13" ]
@@ -437,6 +456,18 @@
     "id": "sloc_cabin_lake",
     "name": "Lake Cabin",
     "terrain": [ "cabin_lake" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_freshwater_research_station",
+    "name": "Freshwater Research Station",
+    "terrain": [ "sealab_small_surface" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_lodge_ground",
+    "name": "Hunting Lodge",
+    "terrain": [ "lodge_ground" ]
   },
   {
     "type": "start_location",

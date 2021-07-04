@@ -46,7 +46,7 @@
     "type": "TOOL_ARMOR",
     "copy-from": "afs_sentinel_cloak",
     "name": { "str": "hologram cloak mk.2" },
-    "description": " A, when activated, will create an holographic decoy of its wearer.  Powered by an experimental n-space energy generator, it slowly recharges itself for free, probably by syphoning excess energy from some unknown hyperdimensional space.",
+    "description": "When activated, creates an holographic decoy of its wearer.  Powered by an experimental n-space energy generator, it slowly recharges itself for free, probably by syphoning excess energy from some unknown hyperdimensional space.",
     "charges_per_use": 1,
     "//": "Change charges and charge_regen only",
     "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "1 h", "regenerate_ammo": true } },
@@ -282,7 +282,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str_sp": "pair of Killophant gloves" },
-    "description": "A pair of reinforced Kevlar tactical gloves, specifically designed to accomodate three fingered Killophants.  Thinner than regular oversized tactical gloves.",
+    "description": "A pair of reinforced Kevlar tactical gloves, specifically designed to accommodate three-fingered Killophants.  Thinner than regular oversized tactical gloves.",
     "weight": "320 g",
     "volume": "750 ml",
     "price": 5200,
@@ -334,11 +334,37 @@
     "type": "ARMOR",
     "id": "xllegpouch_large",
     "name": { "str": "XL leg ammo pouch", "str_pl": "XL leg ammo pouches" },
-    "description": "An XL fabric ammo pouch that can be strapped to your leg and capable of holding two magazine close at hand.",
+    "description": "An XL fabric ammo pouch that can be strapped to your leg; capable of holding two magazines close at hand.",
     "weight": "120 g",
     "volume": "250 ml",
     "copy-from": "legpouch_large",
     "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ]
+  },
+  {
+    "id": "spacer_jumpsuit",
+    "repairs_like": "jumpsuit",
+    "type": "ARMOR",
+    "copy-from": "jumpsuit",
+    "looks_like": "jumpsuit",
+    "name": { "str": "crew jumpsuit" },
+    "description": "A lightweight cloth jumpsuit adorned with the faded corporate regalia of some freight hauling association or another.  This one is a standard design favored by spacers, with ample, easy access pockets.",
+    "color": "brown"
+  },
+  {
+    "id": "spacer_cap",
+    "repairs_like": "hat_cotton",
+    "type": "ARMOR",
+    "copy-from": "hat_cotton",
+    "material": [ "plastic", "cotton" ],
+    "looks_like": "powered_earmuffs",
+    "flags": [ "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "PARTIAL_DEAF" ],
+    "name": { "str": "communications cap" },
+    "description": "A padded cotton cap built around an augmented reality headset.  During normal operation it would provide visual information about a ship subsystems and a communications link with the rest of the crew, but severed from a spaceship, only their hearing protection function retains any utility.",
+    "armor_portion_data": [
+      { "covers": [ "eyes" ], "coverage": 33, "encumbrance": 0 },
+      { "covers": [ "head" ], "coverage": 100, "encumbrance": 2 }
+    ],
+    "color": "brown"
   },
   {
     "id": "afs_herc_rig",
@@ -400,5 +426,89 @@
       }
     ],
     "flags": [ "WATER_FRIENDLY", "BELTED" ]
+  },
+  {
+    "id": "wetsuit_cecalia",
+    "type": "ARMOR",
+    "name": { "str": "cecalia wetsuit" },
+    "description": "A wetsuit designed for the Octopus Uplifts known as Cecalia.  This is the explorer suit with no head or tentacle protection.",
+    "weight": "1320 g",
+    "volume": "4 L",
+    "price": 12000,
+    "price_postapoc": 500,
+    "to_hit": -3,
+    "material": [ "neoprene", "cotton" ],
+    "symbol": "[",
+    "looks_like": "wetsuit",
+    "color": "light_gray",
+    "covers": [ "torso", "arm_l", "arm_r" ],
+    "coverage": 90,
+    "encumbrance": 2,
+    "max_encumbrance": 5,
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 }
+    ],
+    "warmth": 30,
+    "material_thickness": 1,
+    "environmental_protection": 2,
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ]
+  },
+  {
+    "id": "combat_wetsuit_cecalia",
+    "type": "ARMOR",
+    "name": { "str": "combat wetsuit" },
+    "description": "The combat version of the Cecalia wetsuit; made of neoprene and Kevlar, it will provide some level of protection for deep dwellers.",
+    "weight": "1720 g",
+    "volume": "4 L",
+    "price": 12000,
+    "price_postapoc": 500,
+    "to_hit": -3,
+    "material": [ "neoprene", "kevlar" ],
+    "symbol": "[",
+    "looks_like": "wetsuit",
+    "color": "light_gray",
+    "covers": [ "torso", "arm_l", "arm_r" ],
+    "coverage": 90,
+    "encumbrance": 2,
+    "max_encumbrance": 5,
+    "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 },
+      {
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "6 kg",
+        "max_item_length": "90 cm",
+        "moves": 40,
+        "flag_restriction": [ "BELT_CLIP" ],
+        "rigid": true,
+        "holster": true
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "min_item_volume": "2 L",
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "30 kg",
+        "flag_restriction": [ "MAG_BULKY" ],
+        "moves": 60
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "min_item_volume": "2 L",
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "30 kg",
+        "flag_restriction": [ "MAG_BULKY" ],
+        "moves": 60
+      }
+    ],
+    "warmth": 30,
+    "material_thickness": 2,
+    "environmental_protection": 3,
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ]
   }
 ]

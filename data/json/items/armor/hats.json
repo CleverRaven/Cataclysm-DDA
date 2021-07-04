@@ -17,9 +17,34 @@
     "coverage": 50,
     "encumbrance": 20,
     "warmth": 8,
-    "material_thickness": 2,
+    "material_thickness": 0.3,
     "environmental_protection": 2,
-    "flags": [ "FANCY", "VARSIZE", "SUN_GLASSES" ]
+    "flags": [ "VARSIZE", "SUN_GLASSES" ]
+  },
+  {
+    "id": "bandana_head",
+    "type": "TOOL_ARMOR",
+    "category": "clothing",
+    "name": { "str": "head bandana" },
+    "description": "A cotton bandana, worn over the head.",
+    "weight": "42 g",
+    "volume": "250 ml",
+    "price": 600,
+    "price_postapoc": 10,
+    "use_action": {
+      "type": "transform",
+      "msg": "You adjust the %s to cover your mouth.",
+      "target": "bandana",
+      "menu_text": "Cover mouth"
+    },
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "scarf",
+    "color": "blue",
+    "covers": [ "head" ],
+    "coverage": 80,
+    "warmth": 5,
+    "material_thickness": 0.1
   },
   {
     "id": "beret",
@@ -38,8 +63,8 @@
     "covers": [ "head" ],
     "coverage": 40,
     "warmth": 10,
-    "material_thickness": 1,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "FANCY" ]
+    "material_thickness": 0.3,
+    "flags": [ "VARSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "beret_wool",
@@ -57,8 +82,8 @@
     "covers": [ "head" ],
     "coverage": 40,
     "warmth": 15,
-    "material_thickness": 2,
-    "flags": [ "VARSIZE", "WATERPROOF", "FANCY" ]
+    "material_thickness": 0.3,
+    "flags": [ "VARSIZE", "WATERPROOF" ]
   },
   {
     "id": "bowhat",
@@ -78,9 +103,27 @@
     "coverage": 50,
     "encumbrance": 15,
     "warmth": 5,
-    "material_thickness": 2,
+    "material_thickness": 0.3,
     "environmental_protection": 1,
     "flags": [ "FANCY", "VARSIZE" ]
+  },
+  {
+    "id": "chaplet",
+    "type": "ARMOR",
+    "name": { "str": "chaplet" },
+    "description": "A headdress in the form of wreath made from plant material and woven into a ring.",
+    "weight": "46 g",
+    "volume": "150 ml",
+    "price": 100,
+    "price_postapoc": 10,
+    "material": [ "dry_plant" ],
+    "symbol": "[",
+    "looks_like": "hat_cotton",
+    "color": "dark_gray",
+    "covers": [ "head" ],
+    "coverage": 40,
+    "material_thickness": 0.1,
+    "flags": [ "OVERSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS" ]
   },
   {
     "id": "cowboy_hat",
@@ -99,7 +142,7 @@
     "coverage": 50,
     "encumbrance": 10,
     "warmth": 7,
-    "material_thickness": 2,
+    "material_thickness": 0.3,
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "SUN_GLASSES" ]
   },
@@ -113,13 +156,13 @@
     "description": "This is an improvised harness that can be worn over other headgear or bare head, made from two small liquid containers, a rubber hose, a bundle of steel wire, and some cordage.  A convenient and simple device for hands-free drinking, though the liquid inside would spill if you put it into your backpack.",
     "price": 1000,
     "price_postapoc": 50,
-    "material": [ "cotton", "aluminum" ],
+    "material": [ "cotton", "plastic" ],
     "weight": "733 g",
     "volume": "1500 ml",
     "encumbrance": 5,
     "covers": [ "head" ],
     "coverage": 15,
-    "material_thickness": 1,
+    "material_thickness": 0.2,
     "pocket_data": [ { "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "watertight": true, "rigid": true } ],
     "flags": [ "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY" ]
   },
@@ -141,7 +184,7 @@
     "coverage": 60,
     "encumbrance": 10,
     "warmth": 4,
-    "material_thickness": 1
+    "material_thickness": 0.2
   },
   {
     "id": "hat_boonie",
@@ -160,7 +203,7 @@
     "coverage": 65,
     "encumbrance": 10,
     "warmth": 10,
-    "material_thickness": 1,
+    "material_thickness": 0.3,
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "SUN_GLASSES" ]
   },
@@ -183,7 +226,7 @@
     "coverage": 50,
     "encumbrance": 10,
     "warmth": 5,
-    "material_thickness": 1,
+    "material_thickness": 0.1,
     "environmental_protection": 2,
     "flags": [ "SUN_GLASSES" ]
   },
@@ -205,7 +248,7 @@
     "coverage": 75,
     "encumbrance": 15,
     "warmth": 5,
-    "material_thickness": 2,
+    "material_thickness": 0.1,
     "environmental_protection": 1
   },
   {
@@ -224,7 +267,7 @@
     "covers": [ "head" ],
     "coverage": 65,
     "warmth": 20,
-    "material_thickness": 1,
+    "material_thickness": 0.1,
     "flags": [ "VARSIZE", "HELMET_COMPAT" ]
   },
   {
@@ -244,7 +287,7 @@
     "coverage": 95,
     "encumbrance": 10,
     "warmth": 70,
-    "material_thickness": 3
+    "material_thickness": 0.3
   },
   {
     "id": "hat_faux_fur",
@@ -255,7 +298,6 @@
     "description": "A stylish hat made of faux fur.  Like real fur, but without the suffering, if the tag is to be believed.  Very warm.",
     "material": [ "faux_fur", "cotton" ],
     "covers": [ "head" ],
-    "flags": [ "FANCY" ],
     "warmth": 60
   },
   {
@@ -320,7 +362,7 @@
     "coverage": 85,
     "encumbrance": 10,
     "warmth": 50,
-    "material_thickness": 3,
+    "material_thickness": 0.3,
     "environmental_protection": 2,
     "flags": [ "VARSIZE" ]
   },
@@ -340,7 +382,7 @@
     "covers": [ "head" ],
     "coverage": 65,
     "warmth": 40,
-    "material_thickness": 2,
+    "material_thickness": 0.5,
     "flags": [ "VARSIZE", "HELMET_COMPAT" ]
   },
   {
@@ -360,7 +402,7 @@
     "covers": [ "head" ],
     "coverage": 50,
     "warmth": 30,
-    "material_thickness": 2,
+    "material_thickness": 0.2,
     "flags": [ "VARSIZE" ]
   },
   {
@@ -380,7 +422,7 @@
     "coverage": 5,
     "encumbrance": 17,
     "warmth": 5,
-    "material_thickness": 1,
+    "material_thickness": 0.1,
     "flags": [ "DEAF", "HELMET_COMPAT" ]
   },
   {
@@ -402,9 +444,9 @@
     "coverage": 50,
     "encumbrance": 20,
     "warmth": 2,
-    "material_thickness": 2,
+    "material_thickness": 0.2,
     "environmental_protection": 4,
-    "flags": [ "FANCY", "OUTER", "SUN_GLASSES" ]
+    "flags": [ "OUTER", "SUN_GLASSES" ]
   },
   {
     "id": "kippah",
@@ -423,7 +465,7 @@
     "covers": [ "head" ],
     "coverage": 40,
     "warmth": 3,
-    "material_thickness": 1,
+    "material_thickness": 0.1,
     "flags": [ "HELMET_COMPAT" ]
   },
   {
@@ -444,7 +486,7 @@
     "coverage": 50,
     "encumbrance": 10,
     "warmth": 6,
-    "material_thickness": 1,
+    "material_thickness": 0.1,
     "environmental_protection": 1
   },
   {
@@ -465,8 +507,8 @@
     "coverage": 25,
     "encumbrance": 10,
     "warmth": 10,
-    "material_thickness": 1,
-    "flags": [ "VARSIZE", "FANCY" ]
+    "material_thickness": 0.05,
+    "flags": [ "VARSIZE" ]
   },
   {
     "id": "porkpie",
@@ -486,7 +528,7 @@
     "coverage": 50,
     "encumbrance": 15,
     "warmth": 5,
-    "material_thickness": 1,
+    "material_thickness": 0.2,
     "environmental_protection": 1,
     "flags": [ "FANCY", "VARSIZE" ]
   },
@@ -508,7 +550,7 @@
     "coverage": 60,
     "encumbrance": 10,
     "warmth": 10,
-    "material_thickness": 1,
+    "material_thickness": 0.1,
     "environmental_protection": 2,
     "flags": [ "SUN_GLASSES" ]
   },
@@ -528,7 +570,7 @@
     "covers": [ "head" ],
     "coverage": 40,
     "warmth": 2,
-    "material_thickness": 1,
+    "material_thickness": 0.2,
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "SUN_GLASSES" ]
   },
@@ -569,7 +611,7 @@
     "coverage": 50,
     "encumbrance": 20,
     "warmth": 5,
-    "material_thickness": 2,
+    "material_thickness": 0.2,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "SUPER_FANCY" ]
   },
@@ -590,8 +632,8 @@
     "coverage": 50,
     "encumbrance": 10,
     "warmth": 7,
-    "material_thickness": 3,
-    "environmental_protection": 2,
+    "material_thickness": 0.2,
+    "environmental_protection": 1,
     "flags": [ "VARSIZE", "WATERPROOF", "WATER_FRIENDLY", "FANCY" ]
   },
   {
@@ -613,7 +655,7 @@
     "coverage": 50,
     "encumbrance": 5,
     "warmth": 10,
-    "material_thickness": 1,
+    "material_thickness": 0.3,
     "flags": [ "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ]
   },
   {
@@ -635,7 +677,7 @@
     "coverage": 40,
     "encumbrance": 10,
     "warmth": 5,
-    "material_thickness": 1,
+    "material_thickness": 0.1,
     "environmental_protection": 1,
     "flags": [ "SUN_GLASSES" ]
   }

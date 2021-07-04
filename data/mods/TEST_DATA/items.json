@@ -18,7 +18,7 @@
     "dispersion": 14,
     "loudness": 0,
     "to_hit": -2,
-    "effects": [ "NEVER_MISFIRES", "NON-FOULING", "RECOVER_80" ],
+    "effects": [ "NEVER_MISFIRES", "NON_FOULING", "RECOVER_80" ],
     "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
@@ -117,36 +117,36 @@
       {
         "holster": true,
         "min_item_volume": "50 ml",
-        "max_item_length": "60 cm",
+        "max_item_length": "70 cm",
         "max_contains_volume": "1500 ml",
-        "max_contains_weight": "1000 g",
+        "max_contains_weight": "1200 g",
         "moves": 50,
         "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
       },
       {
         "holster": true,
         "min_item_volume": "50 ml",
-        "max_item_length": "60 cm",
+        "max_item_length": "70 cm",
         "max_contains_volume": "1500 ml",
-        "max_contains_weight": "1000 g",
+        "max_contains_weight": "1200 g",
         "moves": 50,
         "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
       },
       {
         "holster": true,
         "min_item_volume": "50 ml",
-        "max_item_length": "60 cm",
+        "max_item_length": "70 cm",
         "max_contains_volume": "1500 ml",
-        "max_contains_weight": "1000 g",
+        "max_contains_weight": "1200 g",
         "moves": 50,
         "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
       },
       {
         "holster": true,
         "min_item_volume": "50 ml",
-        "max_item_length": "60 cm",
+        "max_item_length": "70 cm",
         "max_contains_volume": "1500 ml",
-        "max_contains_weight": "1000 g",
+        "max_contains_weight": "1200 g",
         "moves": 50,
         "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
       }
@@ -530,7 +530,7 @@
     "coverage": 90,
     "encumbrance": 3,
     "warmth": 5,
-    "material_thickness": 1,
+    "material_thickness": 0.2,
     "flags": [ "VARSIZE" ]
   },
   {
@@ -640,7 +640,8 @@
     "description": "A high-power bow with shaped cams and extra cables for high velocity shots that can be used effectively by fairly strong archers.  Currently set to a medium weight.",
     "price": 55000,
     "material": [ "steel", "plastic" ],
-    "flags": [ "FIRE_TWOHAND", "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON" ],
+    "flags": [ "FIRE_TWOHAND", "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON", "WATERPROOF_GUN", "NEVER_JAMS" ],
+    "ammo_effects": [ "NEVER_MISFIRES" ],
     "skill": "archery",
     "min_strength": 6,
     "ammo": [ "arrow" ],
@@ -1057,7 +1058,7 @@
     "material": [ "plastic", "steel" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": [ "9mm" ],
+    "ammo": [ "test_9mm" ],
     "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "dispersion": 480,
     "durability": 6,
@@ -1087,10 +1088,10 @@
     "material": [ "plastic" ],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": [ "9mm" ],
+    "ammo_type": [ "test_9mm" ],
     "capacity": 15,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 15 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "test_9mm": 15 } } ]
   },
   {
     "id": "test_glockbigmag",
@@ -1105,11 +1106,11 @@
     "material": [ "plastic" ],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": [ "9mm" ],
+    "ammo_type": [ "test_9mm" ],
     "capacity": 30,
     "reload_time": 140,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 30 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "test_9mm": 30 } } ]
   },
   {
     "id": "test_9mm_ammo",
@@ -1126,7 +1127,7 @@
     "color": "yellow",
     "count": 50,
     "stack_size": 50,
-    "ammo_type": "9mm",
+    "ammo_type": "test_9mm",
     "casing": "9mm_casing",
     "range": 14,
     "damage": { "damage_type": "bullet", "amount": 26 },
@@ -1271,6 +1272,29 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "test_milk",
+    "name": { "str_sp": "intolerant milk" },
+    "weight": "258 g",
+    "color": "white",
+    "spoils_in": "1 d",
+    "container": "jug_plastic",
+    "comestible_type": "DRINK",
+    "symbol": "~",
+    "quench": 25,
+    "healthy": 1,
+    "calories": 132,
+    "description": "You can only push a drink so far before it spoils.",
+    "price": 38,
+    "price_postapoc": 50,
+    "material": [ "milk" ],
+    "volume": "250 ml",
+    "phase": "liquid",
+    "flags": [ "EATEN_COLD" ],
+    "vitamins": [ [ "vitA", 10 ], [ "vitB", 6 ], [ "vitC", 4 ], [ "calcium", 25 ] ],
+    "fun": 1
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "test_brew_wine",
     "name": "tennis ball wine must",
     "description": "Unfermented tennis ball wine.  A rubbery, boiled juice made from mashed tennis balls.",
@@ -1317,7 +1341,7 @@
     "charges": 7,
     "flags": [ "EATEN_COLD" ],
     "fun": -5,
-    "freezing_point": 20
+    "freezing_point": -7
   },
   {
     "id": "test_nuclear_carafe",
@@ -1424,7 +1448,22 @@
     "power_armor": true,
     "material_thickness": 14,
     "environmental_protection": 16,
+    "use_action": { "type": "transform", "msg": "The %s engages.", "target": "test_power_armor_on", "active": true },
     "flags": [ "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE" ]
+  },
+  {
+    "id": "test_power_armor_on",
+    "copy-from": "test_power_armor",
+    "repairs_like": "test_power_armor",
+    "looks_like": "test_power_armor",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "test power armor (on)" },
+    "description": "This is a prototype power armor just for testing.",
+    "flags": [ "USE_UPS", "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE", "TRADER_AVOID", "CLIMATE_CONTROL" ],
+    "power_draw": 4000000,
+    "revert_to": "test_power_armor",
+    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s armor disengages.", "target": "test_power_armor" },
+    "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
   },
   {
     "id": "test_meower_armor",
@@ -1747,5 +1786,23 @@
     ],
     "armor_data": { "covers": [ "torso" ], "coverage": 10, "encumbrance": 4, "material_thickness": 2 },
     "flags": [ "BELTED" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "test_vitfood",
+    "name": { "str": "Vitamin Food" },
+    "weight": "250 g",
+    "color": "red",
+    "spoils_in": "1 day",
+    "comestible_type": "FOOD",
+    "symbol": "O",
+    "calories": 250,
+    "description": "Delicious vitamin food.",
+    "price": 1600,
+    "price_postapoc": 200,
+    "material": [ "flesh" ],
+    "volume": "250 ml",
+    "vitamins": [ [ "test_vitx", 200 ] ],
+    "fun": -10
   }
 ]

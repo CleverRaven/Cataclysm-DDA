@@ -1,6 +1,4 @@
-#include "catch/catch.hpp"
-#include "npc.h"
-
+#include <map>
 #include <memory>
 #include <set>
 #include <sstream>
@@ -9,6 +7,7 @@
 #include <vector>
 
 #include "calendar.h"
+#include "cata_catch.h"
 #include "character.h"
 #include "common_types.h"
 #include "faction.h"
@@ -19,6 +18,7 @@
 #include "map.h"
 #include "map_helpers.h"
 #include "memory_fast.h"
+#include "npc.h"
 #include "npc_class.h"
 #include "optional.h"
 #include "overmapbuffer.h"
@@ -27,6 +27,7 @@
 #include "point.h"
 #include "text_snippets.h"
 #include "type_id.h"
+#include "units.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
@@ -35,9 +36,9 @@ class Creature;
 
 static void on_load_test( npc &who, const time_duration &from, const time_duration &to )
 {
-    calendar::turn = to_turn<int>( calendar::turn_zero + from );
+    calendar::turn = calendar::turn_zero + from;
     who.on_unload();
-    calendar::turn = to_turn<int>( calendar::turn_zero + to );
+    calendar::turn = calendar::turn_zero + to;
     who.on_load();
 }
 
@@ -303,7 +304,7 @@ static void check_npc_movement( const tripoint &origin )
 
 TEST_CASE( "npc-movement" )
 {
-    const ter_id t_reinforced_glass( "t_reinforced_glass" );
+    const ter_id t_wall_metal( "t_wall_metal" );
     const ter_id t_floor( "t_floor" );
     const furn_id f_rubble( "f_rubble" );
     const furn_id f_null( "f_null" );
@@ -322,7 +323,7 @@ TEST_CASE( "npc-movement" )
             const tripoint p = player_character.pos() + point( x, y );
             // create walls
             if( type == '#' ) {
-                here.ter_set( p, t_reinforced_glass );
+                here.ter_set( p, t_wall_metal );
             } else {
                 here.ter_set( p, t_floor );
             }

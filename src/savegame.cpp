@@ -1,5 +1,6 @@
 #include "game.h" // IWYU pragma: associated
 
+#include <clocale>
 #include <algorithm>
 #include <map>
 #include <sstream>
@@ -19,7 +20,6 @@
 #include "debug.h"
 #include "faction.h"
 #include "hash_utils.h"
-#include "int_id.h"
 #include "json.h"
 #include "kill_tracker.h"
 #include "map.h"
@@ -30,16 +30,11 @@
 #include "npc.h"
 #include "omdata.h"
 #include "options.h"
-#include "output.h"
 #include "overmap.h"
 #include "overmap_types.h"
-#include "popup.h"
 #include "regional_settings.h"
 #include "scent_map.h"
 #include "stats_tracker.h"
-#include "string_id.h"
-#include "translations.h"
-#include "ui_manager.h"
 
 class overmap_connection;
 
@@ -53,7 +48,7 @@ extern std::map<std::string, std::list<input_event>> quick_shortcuts_map;
  * Changes that break backwards compatibility should bump this number, so the game can
  * load a legacy format loader.
  */
-const int savegame_version = 31;
+const int savegame_version = 33;
 
 /*
  * This is a global set by detected version header in .sav, maps.txt, or overmap.
@@ -105,6 +100,26 @@ void game::serialize( std::ostream &fout )
     json.member( "kill_tracker", *kill_tracker_ptr );
     json.member( "stats_tracker", *stats_tracker_ptr );
     json.member( "achievements_tracker", *achievements_tracker_ptr );
+
+    //save queued effect_on_conditions
+    std::vector<queued_eoc> temp_queue;
+    while( !g->queued_effect_on_conditions.empty() ) {
+        temp_queue.push_back( g->queued_effect_on_conditions.top() );
+        g->queued_effect_on_conditions.pop();
+    }
+    json.member( "queued_effect_on_conditions" );
+    json.start_array();
+
+    for( const auto &queued : temp_queue ) {
+        g->queued_effect_on_conditions.push( queued );
+        json.start_object();
+        json.member( "time", queued.time );
+        json.member( "eoc", queued.eoc );
+        json.member( "recurring", queued.recurring );
+        json.end_object();
+    }
+    json.end_array();
+    json.member( "inactive_eocs", inactive_effect_on_condition_vector );
 
     json.member( "player", u );
     Messages::serialize( json );
@@ -160,7 +175,7 @@ static void chkversion( std::istream &fin )
 /*
  * Parse an open .sav file.
  */
-void game::unserialize( std::istream &fin )
+void game::unserialize( std::istream &fin, const std::string &path )
 {
     chkversion( fin );
     int tmpturn = 0;
@@ -168,7 +183,7 @@ void game::unserialize( std::istream &fin )
     int tmprun = 0;
     tripoint_om_sm lev;
     point_abs_om com;
-    JsonIn jsin( fin );
+    JsonIn jsin( fin, path );
     try {
         JsonObject data = jsin.get_object();
 
@@ -186,8 +201,8 @@ void game::unserialize( std::istream &fin )
         data.read( "om_x", com.x() );
         data.read( "om_y", com.y() );
 
-        calendar::turn = tmpturn;
-        calendar::start_of_cataclysm = tmpcalstart;
+        calendar::turn = time_point( tmpturn );
+        calendar::start_of_cataclysm = time_point( tmpcalstart );
 
         if( !data.read( "game_start", calendar::start_of_game ) ) {
             calendar::start_of_game = calendar::start_of_cataclysm;
@@ -237,6 +252,24 @@ void game::unserialize( std::istream &fin )
         data.read( "player", u );
         data.read( "stats_tracker", *stats_tracker_ptr );
         data.read( "achievements_tracker", *achievements_tracker_ptr );
+
+        //load queued_eocs
+        for( JsonObject elem : data.get_array( "queued_effect_on_conditions" ) ) {
+            queued_eoc temp;
+            temp.time = time_point( elem.get_int( "time" ) );
+            temp.eoc = effect_on_condition_id( elem.get_string( "eoc" ) );
+            temp.recurring = elem.get_bool( "recurring" );
+            g->queued_effect_on_conditions.push( temp );
+        }
+        //load inactive queued_eocs
+        for( JsonObject elem : data.get_array( "inactive_effect_on_conditions" ) ) {
+            queued_eoc temp;
+            temp.time = time_point( elem.get_int( "time" ) );
+            temp.eoc = effect_on_condition_id( elem.get_string( "eoc" ) );
+            temp.recurring = elem.get_bool( "recurring" );
+            g->queued_effect_on_conditions.push( temp );
+        }
+        data.read( "inactive_eocs", inactive_effect_on_condition_vector );
         Messages::deserialize( data );
 
     } catch( const JsonError &jsonerr ) {
@@ -270,9 +303,9 @@ void scent_map::deserialize( const std::string &data, bool is_type )
 
 #if defined(__ANDROID__)
 ///// quick shortcuts
-void game::load_shortcuts( std::istream &fin )
+void game::load_shortcuts( std::istream &fin, const std::string &path )
 {
-    JsonIn jsin( fin );
+    JsonIn jsin( fin, path );
     try {
         JsonObject data = jsin.get_object();
 
@@ -352,7 +385,8 @@ void overmap::convert_terrain(
 
         if( old == "fema" || old == "fema_entrance" || old == "fema_1_3" ||
             old == "fema_2_1" || old == "fema_2_2" || old == "fema_2_3" ||
-            old == "fema_3_1" || old == "fema_3_2" || old == "fema_3_3" ) {
+            old == "fema_3_1" || old == "fema_3_2" || old == "fema_3_3" ||
+            old == "s_lot" || old == "mine_entrance" ) {
             ter_set( pos, oter_id( old + "_north" ) );
         } else if( old.compare( 0, 6, "bridge" ) == 0 ) {
             ter_set( pos, oter_id( old ) );
@@ -365,6 +399,18 @@ void overmap::convert_terrain(
             }
         } else if( old.compare( 0, 10, "mass_grave" ) == 0 ) {
             ter_set( pos, oter_id( "field" ) );
+        } else if( old == "mine_shaft" ) {
+            ter_set( pos, oter_id( "mine_shaft_middle_north" ) );
+        } else if( old.compare( 0, 23, "office_tower_1_entrance" ) == 0 ) {
+            ter_set( pos, oter_id( "office_tower_ne_north" ) );
+            ter_set( pos + point_west, oter_id( "office_tower_nw_north" ) );
+            ter_set( pos + point_south, oter_id( "office_tower_se_north" ) );
+            ter_set( pos + point_south_west, oter_id( "office_tower_sw_north" ) );
+        } else if( old.compare( 0, 23, "office_tower_b_entrance" ) == 0 ) {
+            ter_set( pos, oter_id( "office_tower_underground_ne_north" ) );
+            ter_set( pos + point_west, oter_id( "office_tower_underground_nw_north" ) );
+            ter_set( pos + point_south, oter_id( "office_tower_underground_se_north" ) );
+            ter_set( pos + point_south_west, oter_id( "office_tower_underground_sw_north" ) );
         }
 
         for( const auto &conv : nearby ) {
@@ -1066,7 +1112,9 @@ void mongroup::io( Archive &archive )
 
 void mongroup::deserialize( JsonIn &data )
 {
-    io::JsonObjectInputArchive archive( data );
+    JsonObject jo = data.get_object();
+    jo.allow_omitted_members();
+    io::JsonObjectInputArchive archive( jo );
     io( archive );
 }
 

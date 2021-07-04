@@ -2,11 +2,13 @@
 #include <array>
 #include <climits>
 #include <cmath>
+#include <cstddef>
 #include <cstdlib>
-#include <functional>
+#include <iosfwd>
 #include <iterator>
 #include <map>
 #include <memory>
+#include <new>
 #include <queue>
 #include <set>
 #include <string>
@@ -14,10 +16,10 @@
 #include <vector>
 
 #include "avatar.h"
-#include "avatar_action.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
+#include "colony.h"
 #include "color.h"
 #include "coordinates.h"
 #include "creature.h"
@@ -50,7 +52,7 @@
 #include "projectile.h"
 #include "ret_val.h"
 #include "rng.h"
-#include "string_id.h"
+#include "string_formatter.h"
 #include "teleport.h"
 #include "timed_event.h"
 #include "translations.h"
@@ -149,7 +151,7 @@ void spell_effect::pain_split( const spell &sp, Creature &caster, const tripoint
     int total_hp = 0; // total hp among limbs
 
     for( const std::pair<const bodypart_str_id, bodypart> &elem : p->get_body() ) {
-        if( elem.first == bodypart_str_id( "bp_null" ) ) {
+        if( elem.first == bodypart_str_id::NULL_ID() ) {
             continue;
         }
         num_limbs++;
@@ -203,17 +205,26 @@ static std::set<tripoint> spell_effect_cone_range_override( const spell_effect::
     const units::angle end_angle = initial_angle + half_width;
     std::set<tripoint> end_points;
     for( units::angle angle = start_angle; angle <= end_angle; angle += 1_degrees ) {
-        tripoint potential;
-        calc_ray_end( angle, params.range, source, potential );
-        end_points.emplace( potential );
-    }
-    for( const tripoint &ep : end_points ) {
-        std::vector<tripoint> trajectory = line_to( source, ep );
-        for( const tripoint &tp : trajectory ) {
-            if( params.ignore_walls || get_map().passable( tp ) ) {
-                targets.emplace( tp );
+        for( int range = 1; range <= params.range; range++ ) {
+            tripoint potential;
+            calc_ray_end( angle, range, source, potential );
+            if( params.ignore_walls ) {
+                targets.emplace( potential );
             } else {
-                break;
+                end_points.emplace( potential );
+            }
+        }
+    }
+    if( !params.ignore_walls ) {
+        map &here = get_map();
+        for( const tripoint &ep : end_points ) {
+            std::vector<tripoint> trajectory = line_to( source, ep );
+            for( const tripoint &tp : trajectory ) {
+                if( here.passable( tp ) ) {
+                    targets.emplace( tp );
+                } else {
+                    break;
+                }
             }
         }
     }
@@ -421,14 +432,17 @@ static std::set<tripoint> spell_effect_area( const spell &sp, const tripoint &ta
         explosion_colors[pt] = sp.damage_type_color();
     }
 
-    explosion_handler::draw_custom_explosion( get_player_character().pos(), explosion_colors );
+    std::string exp_name = "explosion_" + sp.id().str();
+
+    explosion_handler::draw_custom_explosion( get_player_character().pos(), explosion_colors,
+            exp_name );
     return targets;
 }
 
 static void add_effect_to_target( const tripoint &target, const spell &sp )
 {
     const int dur_moves = sp.duration();
-    const time_duration dur_td = 1_turns * dur_moves / 100;
+    const time_duration dur_td = time_duration::from_moves( dur_moves );
 
     Creature *const critter = g->critter_at<Creature>( target );
     Character *const guy = g->critter_at<Character>( target );
@@ -466,16 +480,7 @@ static void damage_targets( const spell &sp, Creature &caster,
             continue;
         }
 
-        projectile bolt;
-        bolt.speed = 10000;
-        bolt.impact = sp.get_damage_instance();
-        bolt.proj_effects.emplace( "magic" );
-
-        dealt_projectile_attack atk;
-        atk.end_point = target;
-        atk.hit_critter = cr;
-        atk.proj = bolt;
-        atk.missed_by = 0.0;
+        dealt_projectile_attack atk = sp.get_projectile_attack( target, *cr );
         if( !sp.effect_data().empty() ) {
             add_effect_to_target( target, sp );
         }
@@ -483,10 +488,11 @@ static void damage_targets( const spell &sp, Creature &caster,
             cr->deal_projectile_attack( &caster, atk, true );
         } else if( sp.damage() < 0 ) {
             sp.heal( target );
-            add_msg( m_good, _( "%s wounds are closing up!" ), cr->disp_name( true ) );
+            add_msg_if_player_sees( cr->pos(), m_good, _( "%s wounds are closing up!" ),
+                                    cr->disp_name( true ) );
         }
         // TODO: randomize hit location
-        cr->add_damage_over_time( sp.damage_over_time( { bodypart_str_id( "torso" ) } ) );
+        cr->add_damage_over_time( sp.damage_over_time( { body_part_torso } ) );
     }
 }
 
@@ -778,7 +784,7 @@ void spell_effect::directed_push( const spell &sp, Creature &caster, const tripo
 {
     std::set<tripoint> area = spell_effect_area( sp, target, caster );
     // this group of variables is for deferring movement of the avatar
-    int pushed_distance;
+    int pushed_distance = 0;
     tripoint push_to;
     std::vector<tripoint> pushed_vec;
     bool player_pushed = false;
@@ -853,7 +859,6 @@ void spell_effect::directed_push( const spell &sp, Creature &caster, const tripo
             move_items( here, push_point, push_dest );
         }
 
-
         if( sp.is_valid_target( spell_target::field ) ) {
             move_field( here, push_point, push_dest );
         }
@@ -881,7 +886,7 @@ void spell_effect::spawn_ethereal_item( const spell &sp, Creature &caster, const
     }
     avatar &player_character = get_avatar();
     if( player_character.can_wear( granted ).success() ) {
-        granted.set_flag( "FIT" );
+        granted.set_flag( flag_id( "FIT" ) );
         player_character.wear_item( granted, false );
     } else if( !player_character.has_wield_conflicts( granted ) &&
                player_character.wield( granted, 0 ) ) {
@@ -1224,6 +1229,7 @@ void spell_effect::dash( const spell &sp, Creature &caster, const tripoint &targ
     ::map &here = get_map();
     // uses abs() coordinates
     std::vector<tripoint> trajectory;
+    trajectory.reserve( trajectory_local.size() );
     for( const tripoint &local_point : trajectory_local ) {
         trajectory.push_back( here.getabs( local_point ) );
     }

@@ -2,8 +2,7 @@
 #ifndef CATA_SRC_CHARACTER_MARTIAL_ARTS_H
 #define CATA_SRC_CHARACTER_MARTIAL_ARTS_H
 
-#include <algorithm>
-#include <string>
+#include <iosfwd>
 #include <vector>
 
 #include "martialarts.h"

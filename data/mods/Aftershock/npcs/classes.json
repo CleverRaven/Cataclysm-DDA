@@ -144,7 +144,7 @@
     "class": "whately_cousin",
     "attitude": 0,
     "mission": 3,
-    "chat": "TALK_WHATELY_GENERIC1",
+    "chat": "TALK_WHATELY_1",
     "faction": "whately_family",
     "gender": "female"
   },
@@ -156,8 +156,108 @@
     "class": "whately_cousin",
     "attitude": 0,
     "mission": 3,
-    "chat": "TALK_WHATELY_GENERIC1",
+    "chat": "TALK_WHATELY_1",
     "faction": "whately_family",
     "gender": "male"
+  },
+  {
+    "type": "npc",
+    "id": "cryo_hacker",
+    "name_suffix": "thawed hacker",
+    "class": "CRYO_HACKER",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_THAWED_1",
+    "faction": "no_faction"
+  },
+  {
+    "type": "npc",
+    "id": "cryo_doctor",
+    "name_suffix": "thawed doctor",
+    "class": "CRYO_DOCTOR",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_THAWED_1",
+    "faction": "no_faction"
+  },
+  {
+    "type": "npc",
+    "id": "cryo_scientist",
+    "name_suffix": "thawed scientist",
+    "class": "CRYO_SCIENTIST",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_THAWED_1",
+    "faction": "no_faction"
+  },
+  {
+    "type": "npc",
+    "id": "sadie",
+    "name_unique": "Sadie",
+    "name_suffix": "forgotten experiment",
+    "class": "afs_forgotten_experiment",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_Sadie_1",
+    "mission_offered": "MISSION_sadie_heart",
+    "faction": "no_faction",
+    "gender": "female"
+  },
+  {
+    "type": "npc_class",
+    "id": "afs_forgotten_experiment",
+    "name": "forgotten experiment",
+    "job_description": "What a magical world to explore…",
+    "common": false,
+    "worn_override": "NC_CYBORG_worn",
+    "carry_override": "NC_DOCTOR_misc",
+    "weapon_override": "EMPTY_GROUP",
+    "traits": [
+      [ "PRETTY", 100 ],
+      [ "OPTIMISTIC", 100 ],
+      [ "FORGETFUL", 100 ],
+      [ "STR_UP_3", 100 ],
+      [ "THRESH_MEDICAL", 100 ],
+      [ "CENOBITE", 100 ],
+      { "group": "trait_group_medical" },
+      {
+        "distribution": [ { "group": "trait_group_medical_nonthres" }, { "group": "trait_group_medical_postthres" } ]
+      },
+      [ "BGSS_Sadie", 100 ]
+    ],
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -4 } ] } ] } },
+      { "skill": "firstaid", "bonus": { "rng": [ 4, 8 ] } }
+    ],
+    "bionics": [
+      { "id": "bio_ankles", "chance": 5 },
+      { "id": "bio_batteries", "chance": 20 },
+      { "id": "bio_carbon", "chance": 30 },
+      { "id": "bio_claws", "chance": 10 },
+      { "id": "bio_noise", "chance": 10 },
+      { "id": "bio_power_weakness", "chance": 5 },
+      { "id": "bio_itchy", "chance": 15 },
+      { "id": "bio_laser", "chance": 10 },
+      { "id": "bio_thumbs", "chance": 10 },
+      { "id": "bio_spasm", "chance": 10 },
+      { "id": "bio_shakes", "chance": 10 },
+      { "id": "bio_dex_enhancer", "chance": 20 },
+      { "id": "bio_sleepy", "chance": 5 },
+      { "id": "bio_heat_absorb", "chance": 20 },
+      { "id": "bio_eye_enhancer", "chance": 20 },
+      { "id": "bio_pokedeye", "chance": 10 },
+      { "id": "bio_hydraulics", "chance": 10 },
+      { "id": "bio_painkiller", "chance": 15 },
+      { "id": "bio_shock", "chance": 10 },
+      { "id": "bio_speed", "chance": 10 },
+      { "id": "bio_str_enhancer", "chance": 100 },
+      { "id": "bio_armor_head", "chance": 3 },
+      { "id": "bio_armor_torso", "chance": 15 },
+      { "id": "bio_armor_arms", "chance": 30 },
+      { "id": "bio_armor_legs", "chance": 25 },
+      { "id": "bio_razors", "chance": 15 },
+      { "id": "bio_power_storage", "chance": 100 },
+      { "id": "bio_torsionratchet", "chance": 20 }
+    ]
   }
 ]

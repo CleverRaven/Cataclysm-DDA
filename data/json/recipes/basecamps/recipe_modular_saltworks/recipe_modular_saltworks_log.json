@@ -11,7 +11,7 @@
     "construction_blueprint": "fbmsw_saltpan_log_northeast",
     "blueprint_name": "NE log wall saltpan",
     "blueprint_requires": [ { "id": "fbmsw_0" } ],
-    "blueprint_provides": [ { "id": "fbmsw_northeast" } ],
+    "blueprint_provides": [ { "id": "fbmsw_northeast" }, { "id": "saltworks_recipes_1" } ],
     "blueprint_excludes": [ { "id": "fbmsw_northeast" } ],
     "blueprint_needs": {
       "time": "3 d 14 h 40 m",

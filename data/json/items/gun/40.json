@@ -10,6 +10,7 @@
     "volume": "554 ml",
     "longest_side": "250 mm",
     "price": 65000,
+    "price_postapoc": 2000,
     "to_hit": -2,
     "bashing": 8,
     "material": [ "steel", "plastic" ],
@@ -19,7 +20,7 @@
     "range": 1,
     "dispersion": 480,
     "durability": 7,
-    "min_cycle_recoil": 450,
+    "min_cycle_recoil": 504,
     "pocket_data": [
       {
         "magazine_well": "250 ml",
@@ -92,6 +93,7 @@
     "volume": "520 ml",
     "longest_side": "231 mm",
     "price": 65000,
+    "price_postapoc": 2500,
     "to_hit": -2,
     "bashing": 8,
     "material": [ "plastic", "steel" ],
@@ -101,7 +103,7 @@
     "range": 1,
     "dispersion": 480,
     "durability": 7,
-    "min_cycle_recoil": 450,
+    "min_cycle_recoil": 504,
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -310,6 +312,7 @@
     "ammo": [ "40" ],
     "dispersion": 480,
     "durability": 8,
+    "min_cycle_recoil": 504,
     "pocket_data": [
       {
         "magazine_well": "185 ml",
@@ -339,6 +342,7 @@
     "ammo": [ "40" ],
     "dispersion": 480,
     "durability": 9,
+    "min_cycle_recoil": 504,
     "pocket_data": [
       {
         "magazine_well": "200 ml",
@@ -369,6 +373,7 @@
     "ammo": [ "40" ],
     "dispersion": 480,
     "durability": 7,
+    "min_cycle_recoil": 504,
     "pocket_data": [
       {
         "magazine_well": "312 ml",

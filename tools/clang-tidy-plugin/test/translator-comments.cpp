@@ -18,8 +18,12 @@ using string = basic_string<char>;
 // check_clang_tidy uses -nostdinc++, so we add dummy translation interface here instead of including translations.h
 #define translate_marker( s ) ( s )
 #define translate_marker_context( c, s ) ( s )
+// mimic how it's declared in translation.h
+#define _( msg ) \
+    ( ( []( const auto & arg ) { \
+        return arg; \
+    } )( msg ) )
 
-const char *_( const char * );
 const char *gettext( const char * );
 const char *pgettext( const char *, const char * );
 const char *ngettext( const char *, const char *, int );

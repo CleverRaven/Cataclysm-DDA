@@ -1,14 +1,30 @@
-#include "catch/catch.hpp"
-
+#include <iosfwd>
+#include <list>
+#include <new>
+#include <set>
 #include <string>
 #include <tuple>
+#include <type_traits>
+#include <vector>
 
 #include "avatar.h"
 #include "cached_options.h"
+#include "cata_catch.h"
+#include "character.h"
+#include "colony.h"
 #include "item.h"
+#include "item_contents.h"
+#include "item_location.h"
+#include "item_pocket.h"
+#include "item_stack.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "map_selector.h"
+#include "optional.h"
 #include "player_helpers.h"
+#include "ret_val.h"
+#include "type_id.h"
+#include "units.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
@@ -39,7 +55,7 @@ class enum_tuple
         }
 
     public:
-        enum_tuple( Enums ...enums )
+        explicit enum_tuple( Enums ...enums )
             : enums( enums... ) {
         }
 
@@ -104,7 +120,7 @@ class test_scenario
         enum_tuple_type value;
 
     public:
-        test_scenario( const enum_tuple_type &value ) : value( value ) {
+        explicit test_scenario( const enum_tuple_type &value ) : value( value ) {
         }
 
         void run();
@@ -123,29 +139,24 @@ class test_scenario
         }
 
         static test_scenario begin() {
-            return enum_tuple_type::begin();
+            return test_scenario( enum_tuple_type::begin() );
         }
 
         static test_scenario end() {
-            return enum_tuple_type::end();
+            return test_scenario( enum_tuple_type::end() );
         }
 };
 
-void unseal_items_containing( std::vector<item_location> &unsealed, item_location &root,
+void unseal_items_containing( contents_change_handler &handler, item_location &root,
                               const std::set<itype_id> &types )
 {
     for( item *it : root->contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
         if( it ) {
             item_location content( root, it );
             if( types.count( it->typeId() ) ) {
-                item_pocket *const pocket = root->contained_where( *it );
-                pocket->on_contents_changed();
-                root.on_contents_changed();
-                if( std::find( unsealed.begin(), unsealed.end(), root ) == unsealed.end() ) {
-                    unsealed.emplace_back( root );
-                }
+                handler.unseal_pocket_containing( content );
             }
-            unseal_items_containing( unsealed, content, types );
+            unseal_items_containing( handler, content, types );
         }
     }
 }
@@ -446,6 +457,8 @@ void test_scenario::run()
     }
 
     std::string player_action_str;
+    restore_on_out_of_scope<test_mode_spilling_action_t> restore_test_mode_spilling(
+        test_mode_spilling_action );
     switch( cur_player_action ) {
         case player_action::spill_all: {
             player_action_str = "player_action::spill_all";
@@ -465,14 +478,14 @@ void test_scenario::run()
     // INFO() is scoped, so the message won't be shown if we put in in the switch block.
     INFO( player_action_str );
 
-    std::vector<item_location> liquid_and_food_containers;
+    contents_change_handler handler;
     // TODO replace with actual activities
-    unseal_items_containing( liquid_and_food_containers, it_loc,
+    unseal_items_containing( handler, it_loc,
                              std::set<itype_id> { test_liquid_1ml, test_solid_1ml } );
-    guy.handle_contents_changed( liquid_and_food_containers );
+    handler.handle_by( guy );
 
     // check final state
-    // wether the outermost container will spill. inner containers will always spill.
+    // whether the outermost container will spill. inner containers will always spill.
     bool will_spill_outer = false;
     switch( cur_container_loc ) {
         case container_location::inventory:
@@ -895,6 +908,4 @@ TEST_CASE( "unseal_and_spill" )
         current.run();
         ++current;
     }
-    // Restore options
-    test_mode_spilling_action = test_mode_spilling_action_t::spill_all;
 }

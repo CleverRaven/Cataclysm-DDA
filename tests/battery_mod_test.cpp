@@ -1,5 +1,5 @@
-#include "catch/catch.hpp"
-
+#include <functional>
+#include <iosfwd>
 #include <map>
 #include <memory>
 #include <set>
@@ -7,12 +7,16 @@
 #include <vector>
 
 #include "avatar.h"
-#include "flat_set.h"
+#include "cata_catch.h"
+#include "debug.h"
 #include "item.h"
 #include "item_contents.h"
 #include "item_pocket.h"
 #include "itype.h"
+#include "iuse.h"
 #include "iuse_actor.h"
+#include "make_static.h"
+#include "player.h"
 #include "player_helpers.h"
 #include "ret_val.h"
 #include "type_id.h"
@@ -88,7 +92,7 @@ TEST_CASE( "battery tool mod test", "[battery][mod]" )
         REQUIRE( flashlight.contents.has_pocket_type( item_pocket::pocket_type::MOD ) );
 
         WHEN( "medium battery mod is installed" ) {
-            med_mod.set_flag( "IRREMOVABLE" );
+            med_mod.set_flag( STATIC( flag_id( "IRREMOVABLE" ) ) );
             flashlight.put_in( med_mod, item_pocket::pocket_type::MOD );
 
             THEN( "tool modification is successful" ) {
@@ -179,7 +183,6 @@ TEST_CASE( "battery tool mod test", "[battery][mod]" )
 //
 // - Batteries are "magazines"
 //   - Have "ammo types" compatible with them
-//   - Can be reloaded with "ammo" (battery charges)
 //   - Charge left in the battery is "ammo remaining"
 //
 // - Tools have a "magazine well" (battery compartment)
@@ -222,11 +225,6 @@ TEST_CASE( "battery and tool properties", "[battery][tool][properties]" )
 
         SECTION( "has battery ammo as default" ) {
             CHECK( bat_cell.ammo_default() == bat_ammo );
-        }
-
-        SECTION( "is reloadable with battery ammo" ) {
-            CHECK( bat_cell.is_reloadable() );
-            CHECK( bat_cell.is_reloadable_with( bat_ammo ) );
         }
 
         SECTION( "is not counted by charges" ) {

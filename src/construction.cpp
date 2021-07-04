@@ -11,6 +11,7 @@
 #include "action.h"
 #include "activity_type.h"
 #include "avatar.h"
+#include "build_reqs.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
@@ -27,7 +28,7 @@
 #include "game.h"
 #include "game_constants.h"
 #include "input.h"
-#include "int_id.h"
+#include "inventory.h"
 #include "item.h"
 #include "item_group.h"
 #include "item_stack.h"
@@ -50,7 +51,6 @@
 #include "rng.h"
 #include "skill.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "string_input_popup.h"
 #include "trap.h"
 #include "ui_manager.h"
@@ -59,6 +59,8 @@
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+
+class read_only_visitable;
 
 static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
@@ -90,8 +92,7 @@ static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
 static const std::string flag_FLAT( "FLAT" );
 static const std::string flag_INITIAL_PART( "INITIAL_PART" );
 static const std::string flag_SUPPORTS_ROOF( "SUPPORTS_ROOF" );
-
-class inventory;
+static const std::string flag_NO_FLOOR( "NO_FLOOR" );
 
 static bool finalized = false;
 
@@ -105,6 +106,9 @@ static bool check_nothing( const tripoint & )
 }
 bool check_empty( const tripoint & ); // tile is empty
 bool check_support( const tripoint & ); // at least two orthogonal supports
+bool check_stable( const tripoint & ); // tile below has a flag SUPPORTS_ROOF
+bool check_empty_stable( const tripoint & ); // tile is empty, tile below has a flag SUPPORTS_ROOF
+bool check_nofloor_above( const tripoint & ); // tile above has a flag NO_FLOOR
 bool check_deconstruct( const tripoint & ); // either terrain or furniture must be deconstructible
 bool check_empty_up_OK( const tripoint & ); // tile is empty and below OVERMAP_HEIGHT
 bool check_up_OK( const tripoint & ); // tile is below OVERMAP_HEIGHT
@@ -141,7 +145,7 @@ static std::map<construction_str_id, construction_id> construction_id_map;
 // Helper functions, nobody but us needs to call these.
 static bool can_construct( const construction_group_str_id &group );
 static bool can_construct( const construction &con );
-static bool player_can_build( player &p, const inventory &inv,
+static bool player_can_build( player &p, const read_only_visitable &inv,
                               const construction_group_str_id &group );
 static bool player_can_see_to_build( player &p, const construction_group_str_id &group );
 static void place_construction( const construction_group_str_id &group );
@@ -346,8 +350,10 @@ construction_id construction_menu( const bool blueprint )
     ctxt.register_action( "DOWN", to_translation( "Move cursor down" ) );
     ctxt.register_action( "RIGHT", to_translation( "Move tab right" ) );
     ctxt.register_action( "LEFT", to_translation( "Move tab left" ) );
-    ctxt.register_action( "PAGE_UP" );
-    ctxt.register_action( "PAGE_DOWN" );
+    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
+    ctxt.register_action( "SCROLL_STAGE_UP" );
+    ctxt.register_action( "SCROLL_STAGE_DOWN" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "TOGGLE_UNAVAILABLE_CONSTRUCTIONS" );
     ctxt.register_action( "QUIT" );
@@ -517,7 +523,7 @@ construction_id construction_menu( const bool blueprint )
                 }
                 current_buffer_location += construct_buffers[i].size();
                 if( i < construct_buffers.size() - 1 ) {
-                    full_construct_buffer.push_back( std::string() );
+                    full_construct_buffer.emplace_back( );
                     current_buffer_location++;
                 }
             }
@@ -602,16 +608,16 @@ construction_id construction_menu( const bool blueprint )
             if( current_construct_breakpoint > 0 ) {
                 // Print previous stage indicator if breakpoint is past the beginning
                 trim_and_print( w_con, point( pos_x, 2 ), available_window_width, c_white,
-                                _( "Press %s to show previous stage(s)." ),
-                                ctxt.get_desc( "PAGE_UP" ) );
+                                _( "Press [<color_yellow>%s</color>] to show previous stage(s)." ),
+                                ctxt.get_desc( "SCROLL_STAGE_UP" ) );
             }
             if( static_cast<size_t>( construct_buffer_breakpoints[current_construct_breakpoint] +
                                      available_buffer_height ) < full_construct_buffer.size() ) {
                 // Print next stage indicator if more breakpoints are remaining after screen height
                 trim_and_print( w_con, point( pos_x, w_height - 2 - static_cast<int>( notes.size() ) ),
-                                available_window_width,
-                                c_white, _( "Press %s to show next stage(s)." ),
-                                ctxt.get_desc( "PAGE_DOWN" ) );
+                                available_window_width, c_white,
+                                _( "Press [<color_yellow>%s</color>] to show next stage(s)." ),
+                                ctxt.get_desc( "SCROLL_STAGE_DOWN" ) );
             }
             // Leave room for above/below indicators
             int ypos = 3;
@@ -707,6 +713,8 @@ construction_id construction_menu( const bool blueprint )
         ui_manager::redraw();
 
         const std::string action = ctxt.handle_input();
+        const int recmax = static_cast<int>( constructs.size() );
+        const int scroll_rate = recmax > 20 ? 10 : 3;
         if( action == "FILTER" ) {
             string_input_popup popup;
             popup
@@ -732,7 +740,7 @@ construction_id construction_menu( const bool blueprint )
             }
         } else if( action == "DOWN" ) {
             update_info = true;
-            if( select < static_cast<int>( constructs.size() ) - 1 ) {
+            if( select < recmax - 1 ) {
                 select++;
             } else {
                 select = 0;
@@ -742,7 +750,25 @@ construction_id construction_menu( const bool blueprint )
             if( select > 0 ) {
                 select--;
             } else {
-                select = constructs.size() - 1;
+                select = recmax - 1;
+            }
+        } else if( action == "PAGE_DOWN" ) {
+            update_info = true;
+            if( select == recmax - 1 ) {
+                select = 0;
+            } else if( select + scroll_rate >= recmax ) {
+                select = recmax - 1;
+            } else {
+                select += +scroll_rate;
+            }
+        } else if( action == "PAGE_UP" ) {
+            update_info = true;
+            if( select == 0 ) {
+                select = recmax - 1;
+            } else if( select <= scroll_rate ) {
+                select = 0;
+            } else {
+                select += -scroll_rate;
             }
         } else if( action == "LEFT" ) {
             update_info = true;
@@ -755,14 +781,14 @@ construction_id construction_menu( const bool blueprint )
             update_info = true;
             update_cat = true;
             tabindex = ( tabindex + 1 ) % tabcount;
-        } else if( action == "PAGE_UP" ) {
+        } else if( action == "SCROLL_STAGE_UP" ) {
             if( current_construct_breakpoint > 0 ) {
                 current_construct_breakpoint--;
             }
             if( current_construct_breakpoint < 0 ) {
                 current_construct_breakpoint = 0;
             }
-        } else if( action == "PAGE_DOWN" ) {
+        } else if( action == "SCROLL_STAGE_DOWN" ) {
             if( current_construct_breakpoint < total_project_breakpoints - 1 ) {
                 current_construct_breakpoint++;
             }
@@ -815,7 +841,8 @@ construction_id construction_menu( const bool blueprint )
     return ret;
 }
 
-bool player_can_build( player &p, const inventory &inv, const construction_group_str_id &group )
+bool player_can_build( player &p, const read_only_visitable &inv,
+                       const construction_group_str_id &group )
 {
     // check all with the same group to see if player can build any
     std::vector<construction *> cons = constructions_by_group( group );
@@ -827,7 +854,7 @@ bool player_can_build( player &p, const inventory &inv, const construction_group
     return false;
 }
 
-bool player_can_build( player &p, const inventory &inv, const construction &con )
+bool player_can_build( player &p, const read_only_visitable &inv, const construction &con )
 {
     if( p.has_trait( trait_DEBUG_HS ) ) {
         return true;
@@ -1048,6 +1075,16 @@ void complete_construction( player *p )
             here.furn_set( terp, furn_str_id( built.post_terrain ) );
         } else {
             here.ter_set( terp, ter_str_id( built.post_terrain ) );
+            // Make a roof if constructed terrain should have it and it's an open air
+            if( construct::check_up_OK( terp ) ) {
+                const int_id<ter_t> post_terrain = ter_id( built.post_terrain );
+                if( post_terrain->roof ) {
+                    const tripoint top = terp + tripoint_above;
+                    if( here.ter( top ) == t_open_air ) {
+                        here.ter_set( top, ter_id( post_terrain->roof ) );
+                    }
+                }
+            }
         }
     }
 
@@ -1056,7 +1093,8 @@ void complete_construction( player *p )
         here.spawn_items( p->pos(), item_group::items_from( *built.byproduct_item_group, calendar::turn ) );
     }
 
-    add_msg( m_info, _( "%s finished construction: %s." ), p->disp_name(), built.group->name() );
+    add_msg( m_info, _( "%s finished construction: %s." ), p->disp_name( false, true ),
+             built.group->name() );
     // clear the activity
     p->activity.set_to_null();
 
@@ -1107,6 +1145,21 @@ bool construct::check_support( const tripoint &p )
     return num_supports >= 2;
 }
 
+bool construct::check_stable( const tripoint &p )
+{
+    return get_map().has_flag( flag_SUPPORTS_ROOF, p + tripoint_below );
+}
+
+bool construct::check_empty_stable( const tripoint &p )
+{
+    return check_empty( p ) && check_stable( p );
+}
+
+bool construct::check_nofloor_above( const tripoint &p )
+{
+    return get_map().has_flag( flag_NO_FLOOR, p + tripoint_above );
+}
+
 bool construct::check_deconstruct( const tripoint &p )
 {
     map &here = get_map();
@@ -1141,7 +1194,7 @@ bool construct::check_no_trap( const tripoint &p )
 
 bool construct::check_ramp_high( const tripoint &p )
 {
-    if( check_up_OK( p ) && check_up_OK( p + tripoint_above ) ) {
+    if( check_empty_stable( p ) && check_up_OK( p ) && check_nofloor_above( p ) ) {
         for( const point &car_d : four_cardinal_directions ) {
             // check adjacent points on the z-level above for a completed down ramp
             if( get_map().has_flag( TFLAG_RAMP_DOWN, p + car_d + tripoint_above ) ) {
@@ -1154,7 +1207,7 @@ bool construct::check_ramp_high( const tripoint &p )
 
 bool construct::check_ramp_low( const tripoint &p )
 {
-    return check_up_OK( p ) && check_up_OK( p + tripoint_above );
+    return check_empty_stable( p ) && check_up_OK( p ) && check_nofloor_above( p );
 }
 
 void construct::done_trunk_plank( const tripoint &/*p*/ )
@@ -1171,7 +1224,7 @@ void construct::done_grave( const tripoint &p )
     Character &player_character = get_player_character();
     map &here = get_map();
     map_stack its = here.i_at( p );
-    for( item it : its ) {
+    for( const item &it : its ) {
         if( it.is_corpse() ) {
             if( it.get_corpse_name().empty() ) {
                 if( it.get_mtype()->has_flag( MF_HUMAN ) ) {
@@ -1214,7 +1267,7 @@ static vpart_id vpart_from_item( const itype_id &item_id )
 {
     for( const auto &e : vpart_info::all() ) {
         const vpart_info &vp = e.second;
-        if( vp.item == item_id && vp.has_flag( flag_INITIAL_PART ) ) {
+        if( vp.base_item == item_id && vp.has_flag( flag_INITIAL_PART ) ) {
             return vp.get_id();
         }
     }
@@ -1223,7 +1276,7 @@ static vpart_id vpart_from_item( const itype_id &item_id )
     // such type anyway).
     for( const auto &e : vpart_info::all() ) {
         const vpart_info &vp = e.second;
-        if( vp.item == item_id ) {
+        if( vp.base_item == item_id ) {
             return vp.get_id();
         }
     }
@@ -1588,13 +1641,16 @@ void load_construction( const JsonObject &jo )
 
     if( jo.has_member( "byproducts" ) ) {
         con.byproduct_item_group = item_group::load_item_group( jo.get_member( "byproducts" ),
-                                   "collection" );
+                                   "collection", "byproducts of construction " + con.str_id.str() );
     }
 
     static const std::map<std::string, std::function<bool( const tripoint & )>> pre_special_map = {{
             { "", construct::check_nothing },
             { "check_empty", construct::check_empty },
             { "check_support", construct::check_support },
+            { "check_stable", construct::check_stable },
+            { "check_empty_stable", construct::check_empty_stable },
+            { "check_nofloor_above", construct::check_nofloor_above },
             { "check_deconstruct", construct::check_deconstruct },
             { "check_empty_up_OK", construct::check_empty_up_OK },
             { "check_up_OK", construct::check_up_OK },
@@ -1738,7 +1794,7 @@ int construction::adjusted_time() const
 
 std::string construction::get_time_string() const
 {
-    const time_duration turns = time_duration::from_turns( adjusted_time() / 100 );
+    const time_duration turns = time_duration::from_moves( adjusted_time() );
     return _( "Time to complete: " ) + colorize( to_string( turns ), color_data );
 }
 
@@ -1757,7 +1813,7 @@ void finalize_constructions()
         if( !vp.has_flag( flag_INITIAL_PART ) ) {
             continue;
         }
-        frame_items.push_back( item_comp( vp.item, 1 ) );
+        frame_items.emplace_back( vp.base_item, 1 );
     }
 
     if( frame_items.empty() ) {
@@ -1766,7 +1822,7 @@ void finalize_constructions()
 
     for( construction &con : constructions ) {
         if( !con.group.is_valid() ) {
-            debugmsg( "Invalid construction group (%s) defiend for construction (%s)",
+            debugmsg( "Invalid construction group (%s) defined for construction (%s)",
                       con.group.str(), con.str_id.str() );
         }
         if( con.vehicle_start ) {

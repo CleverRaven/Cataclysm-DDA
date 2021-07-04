@@ -42,7 +42,7 @@
         "moves": 20
       }
     ],
-    "flags": [ "WATER_FRIENDLY", "WAIST", "OVERSIZE", "FANCY" ]
+    "flags": [ "WATER_FRIENDLY", "WAIST", "OVERSIZE" ]
   },
   {
     "id": "bandolier_rifle",
@@ -104,6 +104,16 @@
     "material_thickness": 1,
     "pocket_data": [ { "ammo_restriction": { "410shot": 25, "shot": 25, "20x66mm": 25, "signal_flare": 25 }, "moves": 25 } ],
     "flags": [ "WATER_FRIENDLY", "WAIST", "OVERSIZE" ]
+  },
+  {
+    "id": "torso_bandolier_grenade",
+    "type": "ARMOR",
+    "copy-from": "bandolier_shotgun",
+    "//": "It's very much similar to the torso shotgun bandolier I'm patterning this off of, so I'm keeping the data the same.",
+    "name": { "str": "torso grenade bandolier" },
+    "description": "A leather bandolier strapped around the torso for keeping 40mm grenades close to hand.  For some reason, wearing this makes you feel Austrian.",
+    "pocket_data": [ { "ammo_restriction": { "40x46mm": 6, "40x53mm": 6 }, "moves": 20 } ],
+    "//2": "The image I found when I went looking showed Arnie carrying six grenades in a bandolier."
   },
   {
     "id": "torso_bandolier_shotgun",

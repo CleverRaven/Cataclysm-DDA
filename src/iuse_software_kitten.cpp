@@ -2,11 +2,13 @@
 
 #include <algorithm>
 #include <cstdlib>  // Needed for rand()
-#include <ctime>
+#include <functional>
+#include <string>
 #include <vector>
 
 #include "cuboid_rectangle.h"
 #include "input.h"
+#include "optional.h"
 #include "output.h"
 #include "posix_time.h"
 #include "rng.h"
@@ -17,7 +19,6 @@
 static constexpr int EMPTY = -1;
 static constexpr int ROBOT = 0;
 static constexpr int KITTEN = 1;
-
 
 robot_finds_kitten::robot_finds_kitten()
 {

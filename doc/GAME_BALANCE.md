@@ -112,21 +112,21 @@ Number of moves is calculated as attack speed * ( number of misses + number of n
 Damage per second against a particular monster is total damage * 100 / number of moves (100 for the 100 moves/second).  Overall dps is the average of the dps against the three reference monsters.
 
 ### Critical hits
-A double critical can occcur when a second hit roll is made against 1.5 * the monster's dodge.  Double critical hits have a higher chance of occurring than normal critical hits.  For each hit, the chance of achieving either a double critical hit or a normal critical hit is calculated, and then if a random number is less than the critical chance, the critical occurs.  Both double and normal critical hits have the same effect, but the chance of them occurring is different.
+A double critical can occur when a second hit roll is made against 1.5 * the monster's dodge.  Double critical hits have a higher chance of occurring than normal critical hits.  For each hit, the chance of achieving either a double critical hit or a normal critical hit is calculated, and then if a random number is less than the critical chance, the critical occurs.  Both double and normal critical hits have the same effect, but the chance of them occurring is different.
 
-**Note** The critical hit system is stupid and complicated and produces weird results.  Double critical hits should have a chance of occuring when the original hit roll is more than 1 standard deviation above the mean, which is simple and faster to calculate than the current system.
+**Note** The critical hit system is stupid and complicated and produces weird results.  Double critical hits should have a chance of occurring when the original hit roll is more than 1 standard deviation above the mean, which is simple and faster to calculate than the current system.
 
 ### Other factors
 Reach is worth +20% at reach 2, +35% at reach 3.
 
-A weapon that is usuable by a known martial art is worth +50%.
+A weapon that is usable by a known martial art is worth +50%.
 
 ### Weapon tiers
 Relative value should put the weapon into one of those categories:
 
 <2 - Not weapons. Those items may be pressed into service, but are unlikely to be better than fists. Plastic bottles, rocks, boots.
 
-2-5 - Tools not meant to strike and improvised weapons. Two-by-fours, pointy sticks, pipes, hammers.
+2-5 - Tools not meant to strike and improvised weapons. Planks, pointy sticks, pipes, hammers.
 
 6-11 - Dangerous tools or crude dedicated weapons. Golf clubs, two-by-swords, wooden spears, knife spears, hatchets, switchblades, tonfas, quarterstaves.
 
@@ -191,7 +191,7 @@ Bow damage is based on the momentum achieved in the projectile.  Since arrows an
 ## Ammo stats
 The damage (**Dmg**) of firearm ammunition is the square root of a round's muzzle energy in joules (**Energy, J**) rounded to the nearest integer with an arbitrary increase or decrease to account for terminal ballistics. Damage of handloaded ammo is set to 92% (rounded down) of their factory counterparts. A similar system for calculating recoil is planned but not currently being worked on. The figures used to calculate stats and any other relevant information are presented in table below.
 
-Each cartridge also has a Base Barrel Length (**Base Brl**) listed; this determines the damage for the connected guns. A firearm has its damage modifier determined by it's real life barrel length; for every three inches between it and the listed baseline here, the gun takes a 1 point bonus or penalty, rounding to the nearest modifier. For example, a .45 ACP gun with a 7 inch barrel would get a +1 bonus (against a baseline of 5 inches).
+Each cartridge also has a Base Barrel Length (**Base Brl**) listed; this determines the damage for the connected guns. A firearm has its damage modifier determined by its real life barrel length; for every three inches between it and the listed baseline here, the gun takes a 1 point bonus or penalty, rounding to the nearest modifier. For example, a .45 ACP gun with a 7 inch barrel would get a +1 bonus (against a baseline of 5 inches).
 
 Ammo ID            | Description                 | Energy, J | Dmg | Base Brl | Applied Modifiers / Comments |
 -------------------|-----------------------------|-----------|-----|----------|-------------------------------
@@ -211,7 +211,7 @@ Ammo ID            | Description                 | Energy, J | Dmg | Base Brl | 
 .38 Special        | 130gr FMJ bullet            | 256       | 16  | 4in      |                              |
 .38 FMJ            | 130gr FMJ bullet            | 256       | 16  | 4in      |                              |
 .38 Super          | 147gr JHP bullet            | 660       | 26  | 4in      |                              |
-10mm Auto          | 180gr FMJ bullet            | 960       | 31  | 4in      |                              |
+10mm Auto          | 180gr FMJ bullet            | 799       | 28  | 5in      |                              |
 .40 S&W            | 135gr JHP bullet            | 575       | 24  | 4in      |                              |
 .40 FMJ            | 180gr FMJ bullet            | 598       | 24  | 4in      |                              |
 .44 Magnum         | 240gr JHP bullet            | 1570      | 40  | 7.5in    |                              |

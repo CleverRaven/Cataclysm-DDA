@@ -5,8 +5,10 @@
 #include <algorithm>
 #include <array>
 #include <bitset>
+#include <iosfwd>
 #include <map>
 #include <memory>
+#include <new>
 #include <set>
 #include <string>
 #include <utility>
@@ -14,15 +16,14 @@
 
 #include "calendar.h"
 #include "color.h"
+#include "compatibility.h"
 #include "damage.h"
 #include "optional.h"
 #include "point.h"
 #include "requirements.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
-#include "units_fwd.h"
 
 class JsonObject;
 class player;
@@ -218,7 +219,7 @@ class vpart_category
         std::string id_;
         translation name_;
         translation short_name_;
-        int priority_; // order of tab in the UI
+        int priority_ = 0; // order of tab in the UI
 };
 
 class vpart_info
@@ -356,7 +357,7 @@ class vpart_info
         std::map<skill_id, int> removal_skills;
 
         /** @ref item_group this part breaks into when destroyed */
-        std::string breaks_into_group = "EMPTY_GROUP";
+        item_group_id breaks_into_group = item_group_id( "EMPTY_GROUP" );
 
         /** Flat decrease of damage of a given type. */
         std::array<float, static_cast<int>( damage_type::NUM )> damage_reduction = {};
@@ -401,7 +402,7 @@ class vpart_info
         translation description;
 
         /** base item for this part */
-        itype_id item;
+        itype_id base_item;
 
         /** What slot of the vehicle tile does this part occupy? */
         std::string location;
@@ -438,9 +439,6 @@ class vpart_info
          */
         int power = 0;
 
-        /** Mechanics skill required to install item */
-        int difficulty = 0;
-
         /** Installation time (in moves) for component (@see install_time), default 1 hour */
         int install_moves = to_moves<int>( 1_hours );
         /** Repair time (in moves) to fully repair a component (@see repair_time) */
@@ -449,7 +447,7 @@ class vpart_info
          *  default is half @ref install_moves */
         int removal_moves = -1;
 
-        /** seatbelt (str), muffler (%), horn (vol), light (intensity), recharing (power) */
+        /** seatbelt (str), muffler (%), horn (vol), light (intensity), recharging (power) */
         int bonus = 0;
 
         /** cargo weight modifier (percentage) */
@@ -477,7 +475,9 @@ struct vehicle_item_spawn {
     /** Chance [0-100%] for items to spawn with their default magazine (if any) */
     int with_magazine = 0;
     std::vector<itype_id> item_ids;
-    std::vector<std::string> item_groups;
+    // item_ids, but for items with variants specified
+    std::vector<std::pair<itype_id, std::string>> variant_ids;
+    std::vector<item_group_id> item_groups;
 };
 
 /**
@@ -496,10 +496,10 @@ struct vehicle_prototype {
     };
 
     vehicle_prototype();
-    vehicle_prototype( vehicle_prototype && );
+    vehicle_prototype( vehicle_prototype && ) noexcept;
     ~vehicle_prototype();
 
-    vehicle_prototype &operator=( vehicle_prototype && );
+    vehicle_prototype &operator=( vehicle_prototype && ) noexcept( string_is_noexcept );
 
     translation name;
     std::vector<part_def> parts;

@@ -1,39 +1,45 @@
 #include "lightmap.h" // IWYU pragma: associated
+#include "shadowcasting.h" // IWYU pragma: associated
 
+#include <bitset>
 #include <cmath>
 #include <cstdlib>
 #include <cstring>
+#include <map>
 #include <memory>
+#include <tuple>
 #include <utility>
 #include <vector>
 
 #include "cached_options.h"
 #include "calendar.h"
+#include "cata_utility.h"
 #include "character.h"
 #include "colony.h"
+#include "coordinate_conversions.h"
 #include "cuboid_rectangle.h"
 #include "debug.h"
 #include "field.h"
 #include "fragment_cloud.h" // IWYU pragma: keep
 #include "game.h"
-#include "int_id.h"
 #include "item.h"
 #include "item_stack.h"
+#include "level_cache.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
+#include "math_defines.h"
 #include "monster.h"
 #include "mtype.h"
 #include "npc.h"
 #include "optional.h"
 #include "point.h"
-#include "shadowcasting.h" // IWYU pragma: associated
 #include "string_formatter.h"
-#include "string_id.h"
 #include "submap.h"
 #include "tileray.h"
 #include "type_id.h"
+#include "units.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
@@ -81,6 +87,7 @@ void map::add_light_from_items( const tripoint &p, const item_stack::iterator &b
 bool map::build_transparency_cache( const int zlev )
 {
     auto &map_cache = get_cache( zlev );
+    auto &transparent_cache_wo_fields = map_cache.transparent_cache_wo_fields;
     auto &transparency_cache = map_cache.transparency_cache;
     auto &outside_cache = map_cache.outside_cache;
 
@@ -95,6 +102,9 @@ bool map::build_transparency_cache( const int zlev )
         // Default to just barely not transparent.
         std::uninitialized_fill_n( &transparency_cache[0][0], MAPSIZE_X * MAPSIZE_Y,
                                    static_cast<float>( LIGHT_TRANSPARENCY_OPEN_AIR ) );
+        for( auto &row : transparent_cache_wo_fields ) {
+            row.set(); // true means transparent
+        }
     }
 
     const float sight_penalty = get_weather().weather_id->sight_penalty;
@@ -123,7 +133,7 @@ bool map::build_transparency_cache( const int zlev )
 
                 if( !( cur_submap->get_ter( sp ).obj().transparent &&
                        cur_submap->get_furn( sp ).obj().transparent ) ) {
-                    return LIGHT_TRANSPARENCY_SOLID;
+                    return std::make_pair( LIGHT_TRANSPARENCY_SOLID, LIGHT_TRANSPARENCY_SOLID );
                 }
                 if( outside_cache[p.x][p.y] ) {
                     // FIXME: Places inside vehicles haven't been marked as
@@ -131,25 +141,35 @@ bool map::build_transparency_cache( const int zlev )
                     // weather in vehicles.
                     value *= sight_penalty;
                 }
+                float value_wo_fields = value;
                 for( const auto &fld : cur_submap->get_field( sp ) ) {
-                    const field_entry &cur = fld.second;
-                    if( cur.is_transparent() ) {
+                    const field_intensity_level &i_level = fld.second.get_intensity_level();
+                    if( i_level.transparent ) {
                         continue;
                     }
                     // Fields are either transparent or not, however we want some to be translucent
-                    value = value * cur.translucency();
+                    value = value * i_level.translucency;
                 }
                 // TODO: [lightmap] Have glass reduce light as well
-                return value;
+                return std::make_pair( value, value_wo_fields );
             };
 
             if( cur_submap->is_uniform ) {
-                float value = calc_transp( sm_offset );
+                float value;
+                float dummy;
+                std::tie( value, dummy ) = calc_transp( sm_offset );
                 // if rebuild_all==true all values were already set to LIGHT_TRANSPARENCY_OPEN_AIR
                 if( !rebuild_all || value != LIGHT_TRANSPARENCY_OPEN_AIR ) {
+                    bool opaque = value <= LIGHT_TRANSPARENCY_SOLID;
                     for( int sx = 0; sx < SEEX; ++sx ) {
                         // init all sy indices in one go
                         std::uninitialized_fill_n( &transparency_cache[sm_offset.x + sx][sm_offset.y], SEEY, value );
+                        if( opaque ) {
+                            auto &bs = transparent_cache_wo_fields[sm_offset.x + sx];
+                            for( int i = 0; i < SEEY; i++ ) {
+                                bs[sm_offset.y + i] = false;
+                            }
+                        }
                     }
                 }
             } else {
@@ -157,7 +177,9 @@ bool map::build_transparency_cache( const int zlev )
                     const int x = sx + sm_offset.x;
                     for( int sy = 0; sy < SEEY; ++sy ) {
                         const int y = sy + sm_offset.y;
-                        transparency_cache[x][y] = calc_transp( { x, y } );
+                        float transp_wo_fields;
+                        std::tie( transparency_cache[x][y], transp_wo_fields ) = calc_transp( {x, y } );
+                        transparent_cache_wo_fields[x][y] = transp_wo_fields > LIGHT_TRANSPARENCY_SOLID;
                     }
                 }
             }
@@ -330,17 +352,16 @@ void map::build_sunlight_cache( int pzlev )
             for( int y = 0; y < MAPSIZE_Y; ++y ) {
                 // Check center, then four adjacent cardinals.
                 for( int i = 0; i < 5; ++i ) {
-                    int prev_x = x + offset.x + cardinals[i].x;
-                    int prev_y = y + offset.y + cardinals[i].y;
-                    bool inbounds = prev_x >= 0 && prev_x < MAPSIZE_X &&
-                                    prev_y >= 0 && prev_y < MAPSIZE_Y;
+                    point prev( cardinals[i] + offset + point( x, y ) );
+                    bool inbounds = prev.x >= 0 && prev.x < MAPSIZE_X &&
+                                    prev.y >= 0 && prev.y < MAPSIZE_Y;
 
                     if( !inbounds ) {
                         continue;
                     }
 
                     float prev_light_max;
-                    float prev_transparency = prev_transparency_cache[prev_x][prev_y];
+                    float prev_transparency = prev_transparency_cache[prev.x][prev.y];
                     // This is pretty gross, this cancels out the per-tile transparency effect
                     // derived from weather.
                     if( outside_cache[x][y] ) {
@@ -348,8 +369,8 @@ void map::build_sunlight_cache( int pzlev )
                     }
 
                     if( prev_transparency > LIGHT_TRANSPARENCY_SOLID &&
-                        !prev_floor_cache[prev_x][prev_y] &&
-                        ( prev_light_max = prev_lm[prev_x][prev_y].max() ) > 0.0 ) {
+                        !prev_floor_cache[prev.x][prev.y] &&
+                        ( prev_light_max = prev_lm[prev.x][prev.y].max() ) > 0.0 ) {
                         const float light_level = clamp( prev_light_max * LIGHT_TRANSPARENCY_OPEN_AIR / prev_transparency,
                                                          inside_light_level, prev_light_max );
 
@@ -424,9 +445,8 @@ void map::generate_lightmap( const int zlev )
 
             for( int sx = 0; sx < SEEX; ++sx ) {
                 for( int sy = 0; sy < SEEY; ++sy ) {
-                    const int x = sx + smx * SEEX;
-                    const int y = sy + smy * SEEY;
-                    const tripoint p( x, y, zlev );
+                    const point p2( sx + smx * SEEX, sy + smy * SEEY );
+                    const tripoint p( p2, zlev );
                     // Project light into any openings into buildings.
                     if( !outside_cache[p.x][p.y] || ( !top_floor && prev_floor_cache[p.x][p.y] ) ) {
                         // Apply light sources for external/internal divide
@@ -465,13 +485,13 @@ void map::generate_lightmap( const int zlev )
 
                     for( const auto &fld : cur_submap->get_field( { sx, sy } ) ) {
                         const field_entry *cur = &fld.second;
-                        const int light_emitted = cur->light_emitted();
+                        const int light_emitted = cur->get_intensity_level().light_emitted;
                         if( light_emitted > 0 ) {
                             add_light_source( p, light_emitted );
                         }
-                        const float light_override = cur->local_light_override();
+                        const float light_override = cur->get_intensity_level().local_light_override;
                         if( light_override >= 0.0f ) {
-                            lm_override.push_back( std::pair<tripoint, float>( p, light_override ) );
+                            lm_override.emplace_back( p, light_override );
                         }
                     }
                 }
@@ -810,7 +830,7 @@ void castLight( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
                 const point &offset, int offsetDistance,
                 T numerator = VISIBILITY_FULL,
                 int row = 1, float start = 1.0f, float end = 0.0f,
-                T cumulative_transparency = LIGHT_TRANSPARENCY_OPEN_AIR );
+                T cumulative_transparency = T( LIGHT_TRANSPARENCY_OPEN_AIR ) );
 
 template<int xx, int xy, int yx, int yy, typename T, typename Out,
          T( *calc )( const T &, const T &, const int & ),
@@ -828,12 +848,12 @@ void castLight( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
     if( start < end ) {
         return;
     }
-    T last_intensity = 0.0;
+    T last_intensity( 0.0 );
     tripoint delta;
     for( int distance = row; distance <= radius; distance++ ) {
         delta.y = -distance;
         bool started_row = false;
-        T current_transparency = 0.0;
+        T current_transparency( 0.0 );
         float away = start - ( -distance + 0.5f ) / ( -distance -
                      0.5f ); //The distance between our first leadingEdge and start
 
@@ -1078,6 +1098,7 @@ float fastexp( float x )
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunknown-pragmas"
 #pragma GCC diagnostic ignored "-Wpragmas"
+#pragma GCC diagnostic ignored "-Wunknown-warning-option"
 #pragma GCC diagnostic ignored "-Wimplicit-int-float-conversion"
     u.i = static_cast<long long>( 6051102 * x + 1056478197 );
     v.i = static_cast<long long>( 1056478197 - 6051102 * x );
@@ -1216,8 +1237,8 @@ void map::apply_directional_light( const tripoint &p, int direction, float lumin
     }
 }
 
-void map::apply_light_arc( const tripoint &p, units::angle angle, float luminance,
-                           units::angle wideangle )
+void map::apply_light_arc( const tripoint &p, const units::angle &angle, float luminance,
+                           const units::angle &wideangle )
 {
     if( luminance <= LIGHT_SOURCE_LOCAL ) {
         return;

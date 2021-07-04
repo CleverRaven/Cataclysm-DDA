@@ -11,7 +11,8 @@
     "charges": 120,
     "book_learn": [ [ "textbook_chemistry", 4 ], [ "textbook_gaswarfare", 4 ], [ "atomic_survival", 3 ] ],
     "qualities": [ { "id": "PRESSURIZATION", "level": 1 } ],
-    "components": [ [ [ "oxygen", 24 ] ], [ [ "acetylene", 96 ] ] ]
+    "tools": [ [ [ "oxygen_tank", 24 ], [ "oxygen_cylinder", 24 ], [ "smoxygen_tank", 24 ] ] ],
+    "components": [ [ [ "acetylene", 96 ] ] ]
   },
   {
     "result": "acetylene",

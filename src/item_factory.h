@@ -2,8 +2,8 @@
 #ifndef CATA_SRC_ITEM_FACTORY_H
 #define CATA_SRC_ITEM_FACTORY_H
 
-#include <algorithm>
 #include <functional>
+#include <iosfwd>
 #include <list>
 #include <map>
 #include <memory>
@@ -16,12 +16,12 @@
 #include "item.h"
 #include "itype.h"
 #include "iuse.h"
-#include "string_id.h"
 #include "type_id.h"
 
 class Item_group;
 class Item_spawn_data;
 class relic;
+class translation;
 
 namespace cata
 {
@@ -30,7 +30,6 @@ template <typename T> class value_ptr;
 
 bool item_is_blacklisted( const itype_id &id );
 
-using Group_tag = std::string;
 using item_action_id = std::string;
 using Item_list = std::vector<item>;
 
@@ -45,6 +44,7 @@ class migration
 {
     public:
         itype_id id;
+        std::string variant;
         itype_id replace;
         std::set<std::string> flags;
         int charges = 0;
@@ -121,8 +121,8 @@ class Item_factory
          * ("old" is a distribution, too).
          * @throw JsonError if the json object contains invalid data.
          */
-        void load_item_group( const JsonObject &jsobj, const Group_tag &group_id,
-                              const std::string &subtype );
+        void load_item_group( const JsonObject &jsobj, const item_group_id &group_id,
+                              const std::string &subtype, std::string context = {} );
         /**
          * Like above, but the above loads data from several members of the object, this function
          * assume the given array is the "entries" member of the item group.
@@ -141,16 +141,17 @@ class Item_factory
          * Note that each entry in the array has to be a JSON object. The other function above
          * can also load data from arrays of strings, where the strings are item or group ids.
          */
-        void load_item_group( const JsonArray &entries, const Group_tag &group_id, bool is_collection,
-                              int ammo_chance, int magazine_chance );
+        void load_item_group( const JsonArray &entries, const item_group_id &group_id,
+                              bool is_collection, int ammo_chance, int magazine_chance,
+                              std::string context = {} );
         /**
          * Get the item group object. Returns null if the item group does not exists.
          */
-        Item_spawn_data *get_group( const Group_tag &group_tag );
+        Item_spawn_data *get_group( const item_group_id & );
         /**
          * Returns the idents of all item groups that are known.
          */
-        std::vector<Group_tag> get_all_group_names();
+        std::vector<item_group_id> get_all_group_names();
         /**
          * Sets the chance of the specified item in the group.
          * @param group_id Group to add item to
@@ -159,7 +160,7 @@ class Item_factory
          * group.
          * @return false if the group doesn't exist.
          */
-        bool add_item_to_group( const Group_tag &group_id, const itype_id &item_id, int chance );
+        bool add_item_to_group( const item_group_id &, const itype_id &item_id, int chance );
         /*@}*/
 
         /**
@@ -182,7 +183,6 @@ class Item_factory
         void load_comestible( const JsonObject &jo, const std::string &src );
         void load_engine( const JsonObject &jo, const std::string &src );
         void load_wheel( const JsonObject &jo, const std::string &src );
-        void load_fuel( const JsonObject &jo, const std::string &src );
         void load_gunmod( const JsonObject &jo, const std::string &src );
         void load_magazine( const JsonObject &jo, const std::string &src );
         void load_battery( const JsonObject &jo, const std::string &src );
@@ -269,7 +269,7 @@ class Item_factory
 
         mutable std::map<itype_id, std::unique_ptr<itype>> m_runtimes;
 
-        using GroupMap = std::map<Group_tag, std::unique_ptr<Item_spawn_data>>;
+        using GroupMap = std::map<item_group_id, std::unique_ptr<Item_spawn_data>>;
         GroupMap m_template_groups;
 
         std::unordered_map<itype_id, ammotype> migrated_ammo;
@@ -294,7 +294,8 @@ class Item_factory
          * and calls @ref load to do the actual (type specific) loading.
          */
         template<typename SlotType>
-        void load_slot( cata::value_ptr<SlotType> &slotptr, const JsonObject &jo, const std::string &src );
+        void load_slot( cata::value_ptr<SlotType> &slotptr, const JsonObject &jo,
+                        const std::string &src );
 
         /**
          * Load item the item slot if present in json.
@@ -308,7 +309,6 @@ class Item_factory
         void load( islot_tool &slot, const JsonObject &jo, const std::string &src );
         void load( islot_comestible &slot, const JsonObject &jo, const std::string &src );
         void load( islot_mod &slot, const JsonObject &jo, const std::string &src );
-        void load( islot_fuel &slot, const JsonObject &jo, const std::string &src );
         void load( islot_gun &slot, const JsonObject &jo, const std::string &src );
         void load( islot_gunmod &slot, const JsonObject &jo, const std::string &src );
         void load( islot_magazine &slot, const JsonObject &jo, const std::string &src );
@@ -316,7 +316,8 @@ class Item_factory
         void load( relic &slot, const JsonObject &jo, const std::string &src );
 
         //json data handlers
-        void emplace_usage( std::map<std::string, use_function> &container, const std::string &iuse_id );
+        void emplace_usage( std::map<std::string, use_function> &container,
+                            const std::string &iuse_id );
 
         void set_use_methods_from_json( const JsonObject &jo, const std::string &member,
                                         std::map<std::string, use_function> &use_methods );
@@ -341,7 +342,7 @@ class Item_factory
         bool load_sub_ref( std::unique_ptr<Item_spawn_data> &ptr, const JsonObject &obj,
                            const std::string &name, const Item_group &parent );
         bool load_string( std::vector<std::string> &vec, const JsonObject &obj, const std::string &name );
-        void add_entry( Item_group &ig, const JsonObject &obj );
+        void add_entry( Item_group &ig, const JsonObject &obj, const std::string &context );
 
         void load_basic_info( const JsonObject &jo, itype &def, const std::string &src );
         void set_qualities_from_json( const JsonObject &jo, const std::string &member, itype &def );

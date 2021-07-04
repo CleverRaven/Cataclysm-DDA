@@ -67,12 +67,34 @@
   {
     "id": "ACT_VEHICLE_REPAIR",
     "type": "activity_type",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "verb": "repairing a vehicle",
     "based_on": "neither",
     "suspendable": false,
     "no_resume": true,
     "multi_activity": true
+  },
+  {
+    "id": "ACT_BIKERACK_RACKING",
+    "type": "activity_type",
+    "activity_level": "MODERATE_EXERCISE",
+    "verb": "mounting a vehicle onto rack",
+    "rooted": true,
+    "based_on": "time",
+    "no_resume": true,
+    "refuel_fires": false,
+    "auto_needs": false
+  },
+  {
+    "id": "ACT_BIKERACK_UNRACKING",
+    "type": "activity_type",
+    "activity_level": "MODERATE_EXERCISE",
+    "verb": "taking a vehicle from rack",
+    "rooted": true,
+    "based_on": "time",
+    "no_resume": true,
+    "refuel_fires": false,
+    "auto_needs": false
   },
   {
     "id": "ACT_MULTIPLE_CHOP_PLANKS",
@@ -163,6 +185,13 @@
     "auto_needs": true
   },
   {
+    "id": "ACT_BLEED",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "bleeding",
+    "based_on": "speed"
+  },
+  {
     "id": "ACT_BUTCHER",
     "type": "activity_type",
     "activity_level": "BRISK_EXERCISE",
@@ -240,7 +269,7 @@
   {
     "id": "ACT_VEHICLE",
     "type": "activity_type",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "verb": "interacting with the vehicle",
     "based_on": "speed"
   },
@@ -290,13 +319,6 @@
     "type": "activity_type",
     "activity_level": "EXTRA_EXERCISE",
     "verb": "mining",
-    "based_on": "speed"
-  },
-  {
-    "id": "ACT_BURROW",
-    "type": "activity_type",
-    "activity_level": "EXTRA_EXERCISE",
-    "verb": "burrowing",
     "based_on": "speed"
   },
   {
@@ -363,6 +385,15 @@
     "verb": "moving items",
     "suspendable": false,
     "based_on": "neither",
+    "no_resume": true
+  },
+  {
+    "id": "ACT_INSERT_ITEM",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "inserting",
+    "suspendable": false,
+    "based_on": "speed",
     "no_resume": true
   },
   {
@@ -747,7 +778,7 @@
     "suspendable": false
   },
   {
-    "id": "ACT_UNLOAD_MAG",
+    "id": "ACT_UNLOAD",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
     "verb": "unloading",
@@ -910,5 +941,14 @@
     "verb": "disabling",
     "suspendable": false,
     "based_on": "speed"
+  },
+  {
+    "id": "ACT_FURNITURE_MOVE",
+    "type": "activity_type",
+    "activity_level": "ACTIVE_EXERCISE",
+    "verb": "moving",
+    "suspendable": false,
+    "based_on": "time",
+    "no_resume": true
   }
 ]

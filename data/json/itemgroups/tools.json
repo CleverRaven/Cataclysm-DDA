@@ -22,7 +22,7 @@
       { "item": "circsaw_off", "prob": 100, "charges": [ 0, 500 ] },
       { "item": "cordless_drill", "prob": 100, "charges": [ 0, 500 ] },
       [ "hand_drill", 20 ],
-      [ "nailgun", 100 ],
+      { "item": "nailgun", "prob": 100, "charges": [ 0, 20 ] },
       [ "chisel", 10 ],
       { "group": "tools_toolbox", "prob": 12 },
       { "group": "tools_workshop", "prob": 3 },
@@ -34,9 +34,9 @@
     "type": "item_group",
     "//": "Industrial machinery used for construction",
     "items": [
-      [ "brick_kiln", 80 ],
-      [ "kiln", 40 ],
-      [ "con_mix", 120 ],
+      { "item": "brick_kiln", "prob": 80, "charges": [ 0, 1000 ] },
+      { "item": "kiln", "prob": 40, "charges": [ 0, 1000 ] },
+      { "item": "con_mix", "prob": 120, "charges": [ 0, 500 ] },
       { "item": "elec_jackhammer", "prob": 40, "charges": [ 0, 6000 ] },
       [ "metal_smoother", 90 ],
       { "item": "jackhammer", "prob": 40, "charges": [ 0, 400 ] },
@@ -74,7 +74,8 @@
       [ "clamp", 10 ],
       [ "sandpaper", 80 ],
       [ "rake", 15 ],
-      [ "rake_plastic", 25 ]
+      [ "rake_plastic", 25 ],
+      { "group": "writing_utensils", "prob": 5 }
     ]
   },
   {
@@ -83,6 +84,7 @@
     "//": "A typical toolbox filled with tools.",
     "subtype": "collection",
     "container-item": "toolbox_empty",
+    "on_overflow": "discard",
     "items": [
       [ "hammer", 80 ],
       [ "screwdriver_set", 65 ],
@@ -97,7 +99,8 @@
     "type": "item_group",
     "//": "A typical toolbox filled with tools.",
     "subtype": "collection",
-    "container-item": "toolbox_empty",
+    "container-item": "toolbox_workshop_empty",
+    "on_overflow": "discard",
     "items": [
       [ "hammer", 80 ],
       [ "screwdriver_set", 65 ],
@@ -110,7 +113,7 @@
       [ "pin_reamer", 18 ],
       [ "clamp", 30 ],
       [ "boxcutter", 20 ],
-      [ "nailgun", 15 ],
+      { "item": "nailgun", "prob": 15, "charges": [ 0, 20 ] },
       { "item": "circsaw_off", "prob": 25, "charges": [ 0, 500 ] },
       { "item": "cordless_drill", "prob": 45, "charges": [ 0, 500 ] }
     ]
@@ -130,6 +133,7 @@
       { "group": "tools_mechanic", "prob": 20 },
       { "group": "tools_plumbing", "prob": 20 },
       [ "jumper_cable_heavy", 2 ],
+      [ "tire_iron", 20 ],
       [ "jerrycan", 10 ],
       [ "jerrycan_big", 10 ],
       { "item": "char_smoker", "prob": 5, "charges": [ 0, 300 ] },
@@ -164,14 +168,14 @@
       { "item": "mess_kit", "prob": 20, "charges": [ 0, 500 ] },
       [ "multitool", 10 ],
       [ "pockknife", 30 ],
-      [ "pur_tablets", 10 ],
+      { "item": "pur_tablets", "prob": 10, "charges": [ 1, 15 ] },
       { "item": "ref_lighter", "prob": 20, "charges": [ 0, 50 ] },
       [ "rope_30", 20 ],
       [ "flint_steel", 10 ],
-      [ "tinderbox", 10 ],
+      { "item": "tinderbox", "prob": 10, "charges": [ 0, 100 ] },
       [ "lifestraw", 4 ],
       [ "chem_hexamine", 10 ],
-      [ "esbit_stove", 15 ],
+      { "item": "esbit_stove", "prob": 15, "charges": [ 0, 50 ] },
       [ "mess_tin", 10 ]
     ]
   },
@@ -239,7 +243,7 @@
       { "group": "tools_common", "prob": 100 },
       { "item": "soldering_iron", "prob": 100, "charges": [ 0, 50 ] },
       [ "magnifying_glass", 100 ],
-      [ "voltmeter", 100 ],
+      { "item": "voltmeter", "prob": 100, "charges": [ 0, 100 ] },
       [ "recharge_station", 10 ],
       [ "hand_crank_charger", 40 ]
     ]
@@ -279,6 +283,7 @@
     "ammo": 100,
     "items": [
       [ "jack", 80 ],
+      [ "tire_iron", 80 ],
       [ "jack_small", 80 ],
       {
         "collection": [
@@ -300,6 +305,70 @@
     ]
   },
   {
+    "id": "full_survival_kit",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "survival_kit_box",
+    "items": [
+      { "item": "knife_folding" },
+      { "item": "flint_steel" },
+      { "item": "whistle_multitool" },
+      { "item": "glowstick", "charges": 1400 },
+      { "item": "handflare", "count": 4, "charges": 300 },
+      { "item": "pur_tablets", "charges": 15 },
+      { "item": "pocket_survival" }
+    ]
+  },
+  {
+    "id": "used_survival_kit",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "survival_kit_box",
+    "items": [
+      { "item": "knife_folding", "prob": 40 },
+      { "item": "flint_steel", "prob": 50 },
+      { "item": "whistle_multitool", "prob": 70 },
+      { "item": "glowstick", "charges": 1400, "prob": 60 },
+      { "item": "handflare", "count": [ 0, 4 ], "charges": 300 },
+      { "item": "pur_tablets", "charges": [ 0, 15 ] },
+      { "item": "pocket_survival", "prob": 40 }
+    ]
+  },
+  {
+    "id": "full_1st_aid",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "1st_aid_box",
+    "items": [
+      { "item": "medical_tape", "charges": 20 },
+      { "item": "aspirin", "charges": 10 },
+      { "item": "disinfectant" },
+      { "item": "saline" },
+      { "item": "adhesive_bandages", "charges": 6 },
+      { "item": "bandages", "charges": 3 },
+      { "item": "medical_gauze", "count": 6 },
+      { "item": "booklet_firstaid" },
+      { "item": "scissors" }
+    ]
+  },
+  {
+    "id": "used_1st_aid",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "1st_aid_box",
+    "items": [
+      { "item": "medical_tape", "charges": [ 0, 20 ] },
+      { "item": "aspirin", "charges": [ 0, 10 ] },
+      { "item": "disinfectant", "charges": [ 0, 5 ] },
+      { "item": "saline", "prob": 60 },
+      { "item": "adhesive_bandages", "charges": [ 0, 6 ] },
+      { "item": "bandages", "charges": [ 0, 3 ] },
+      { "item": "medical_gauze", "count": [ 0, 6 ] },
+      { "item": "booklet_firstaid", "prob": 50 },
+      { "item": "scissors", "prob": 50 }
+    ]
+  },
+  {
     "id": "tools_medical",
     "type": "item_group",
     "//": "Portable medical equipment for doctors and paramedics (excludes consumables)",
@@ -311,6 +380,40 @@
       [ "thermometer", 50 ],
       [ "vacutainer", 50 ],
       [ "bag_body_bag", 10 ]
+    ]
+  },
+  {
+    "id": "full_ifak",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "ifak_pouch",
+    "items": [
+      { "item": "medical_tape", "charges": 20 },
+      { "item": "tourniquet_upper" },
+      { "item": "quikclot", "charges": 5 },
+      { "item": "bandages", "charges": 3, "count": 3 },
+      { "item": "medical_gauze", "count": 3 },
+      { "item": "adhesive_bandages", "charges": 3 },
+      { "item": "pur_tablets", "charges": 3 },
+      { "item": "gloves_medical" },
+      { "item": "scissors" }
+    ]
+  },
+  {
+    "id": "used_ifak",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "ifak_pouch",
+    "items": [
+      { "item": "medical_tape", "charges": [ 0, 20 ] },
+      { "item": "tourniquet_upper", "prob": 20 },
+      { "item": "quikclot", "charges": [ 0, 5 ] },
+      { "item": "bandages", "charges": [ 0, 3 ], "count": [ 0, 3 ] },
+      { "item": "medical_gauze", "count": [ 0, 3 ] },
+      { "item": "adhesive_bandages", "charges": [ 0, 3 ] },
+      { "item": "pur_tablets", "charges": [ 0, 3 ] },
+      { "item": "gloves_medical", "prob": 50 },
+      { "item": "scissors", "prob": 30 }
     ]
   },
   {
@@ -370,17 +473,17 @@
       [ "multitool", 5 ],
       [ "pockknife", 50 ],
       [ "knife_folding", 30 ],
-      [ "pur_tablets", 10 ],
+      { "item": "pur_tablets", "prob": 10, "charges": [ 1, 15 ] },
       { "item": "ref_lighter", "prob": 20, "charges": [ 0, 50 ] },
       [ "signal_flare", 20 ],
       { "item": "sm_extinguisher", "prob": 20, "charges": 10 },
       [ "whistle", 20 ],
       [ "hand_crank_charger", 15 ],
       [ "flint_steel", 5 ],
-      [ "tinderbox", 2 ],
+      { "item": "tinderbox", "prob": 2, "charges": [ 0, 100 ] },
       [ "whistle_multitool", 1 ],
       [ "chem_hexamine", 10 ],
-      [ "esbit_stove", 15 ],
+      { "item": "esbit_stove", "prob": 15, "charges": [ 0, 50 ] },
       [ "mess_tin", 5 ],
       [ "horse_tack", 3 ],
       [ "saddlebag", 5 ],
@@ -424,8 +527,8 @@
       [ "spectrophotometer", 5 ],
       [ "balance_small", 5 ],
       [ "cuvettes", 5 ],
-      [ "ph_meter", 5 ],
-      [ "voltmeter", 5 ],
+      { "item": "ph_meter", "prob": 5, "charges": [ 0, 100 ] },
+      { "item": "voltmeter", "prob": 5, "charges": [ 0, 100 ] },
       [ "melting_point", 5 ],
       [ "vortex", 5 ],
       { "item": "hotplate", "prob": 5, "charges": [ 0, 500 ] },
@@ -451,7 +554,7 @@
       { "item": "mask_filter", "prob": 5, "charges": [ 0, 100 ] },
       [ "gasfilter_s", 5 ],
       [ "glasses_safety", 5 ],
-      [ "UPS_off", 3 ],
+      { "item": "UPS_off", "prob": 3, "charges": [ 0, 1000 ] },
       [ "microscope", 5 ],
       [ "microscope_dissecting", 5 ],
       [ "funnel_separation", 3 ],
@@ -470,9 +573,10 @@
       [ "stand_ring_clamps", 5 ],
       [ "syringe", 4 ],
       [ "xacto", 4 ],
-      [ "cotton_ball", 4 ],
+      { "item": "cotton_ball", "prob": 4, "charges": [ 1, 10 ] },
       { "group": "ammo_any_batteries_full", "prob": 50 },
-      [ "acetylene_machine", 1 ]
+      [ "acetylene_machine", 1 ],
+      { "group": "writing_utensils", "prob": 5 }
     ]
   },
   {
@@ -494,17 +598,17 @@
     "//": "tools and equipment you might find on robotics laboratories.",
     "items": [
       [ "recipe_lab_elec", 4 ],
-      [ "UPS_off", 6 ],
+      { "item": "UPS_off", "prob": 6, "charges": [ 0, 1000 ] },
       [ "file", 10 ],
       [ "atomic_lamp", 1 ],
       { "item": "smart_lamp", "prob": 2, "charges": [ 0, 100 ] },
       [ "bot_manhack", 2 ],
       [ "teleporter", 1 ],
       { "item": "laptop", "prob": 4, "charges": [ 0, 500 ] },
-      [ "plut_cell", 4 ],
+      { "item": "plut_cell", "prob": 4, "charges": [ 1, 5 ] },
       [ "superglue", 30 ],
       [ "pliers", 10 ],
-      [ "matches", 10 ],
+      { "item": "matches", "prob": 10, "charges": [ 1, 20 ] },
       [ "glasses_safety", 20 ],
       [ "duct_tape", 8 ],
       { "item": "misc_repairkit", "prob": 15, "charges-min": 0 },
@@ -524,7 +628,8 @@
       { "group": "tools_toolbox", "prob": 5 },
       [ "tool_belt", 10 ],
       [ "clamp", 10 ],
-      [ "wrench", 10 ]
+      [ "wrench", 10 ],
+      { "group": "writing_utensils", "prob": 5 }
     ]
   },
   {

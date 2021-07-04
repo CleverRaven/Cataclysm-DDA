@@ -27,10 +27,11 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Attach what to belt loop?", "holster_msg": "You clip your %s to your %s" },
-    "flags": [ "FANCY", "WAIST", "NO_QUICKDRAW", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "NO_QUICKDRAW", "WATER_FRIENDLY" ]
   },
   {
     "abstract": "judo_belt_abstract",
+    "repairs_like": "scarf",
     "type": "ARMOR",
     "name": { "str": "judo belt template" },
     "description": "This is a template for judo belts.  If found in a game, it is a bug.",
@@ -44,7 +45,7 @@
     "covers": [ "torso" ],
     "coverage": 5,
     "encumbrance": 2,
-    "material_thickness": 5,
+    "material_thickness": 2,
     "flags": [ "WAIST", "WATER_FRIENDLY" ]
   },
   {
@@ -113,12 +114,12 @@
     "price": 9000,
     "price_postapoc": 250,
     "bashing": 5,
-    "material": [ "leather" ],
+    "material": [ "leather", "steel" ],
     "symbol": "[",
     "color": "brown",
     "covers": [ "torso" ],
     "coverage": 5,
-    "material_thickness": 1,
+    "material_thickness": 1.5,
     "pocket_data": [
       {
         "holster": true,
@@ -201,10 +202,56 @@
         "max_contains_weight": "2 kg",
         "max_item_length": "70 cm",
         "moves": 3,
-        "flag_restriction": [ "SHEATH_KNIFE", "SHEATH_SWORD" ]
+        "flag_restriction": [ "SHEATH_KNIFE" ]
+      },
+      { "max_contains_volume": "1 L", "max_contains_weight": "1500 g", "max_item_length": "40 cm", "moves": 100 },
+      {
+        "holster": true,
+        "min_item_volume": "50 ml",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "1500 g",
+        "max_item_length": "70 cm",
+        "moves": 50,
+        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
+      },
+      {
+        "holster": true,
+        "min_item_volume": "50 ml",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "1500 g",
+        "max_item_length": "70 cm",
+        "moves": 50,
+        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
+      },
+      {
+        "holster": true,
+        "min_item_volume": "50 ml",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "1500 g",
+        "max_item_length": "70 cm",
+        "moves": 50,
+        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
+      },
+      {
+        "holster": true,
+        "min_item_volume": "50 ml",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "1500 g",
+        "max_item_length": "70 cm",
+        "moves": 50,
+        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
+      },
+      {
+        "holster": true,
+        "min_item_volume": "50 ml",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "1500 g",
+        "max_item_length": "70 cm",
+        "moves": 50,
+        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
       }
     ],
-    "use_action": { "type": "holster", "holster_prompt": "Sheath blade", "holster_msg": "You sheath your %s" },
+    "use_action": { "type": "holster", "holster_prompt": "Store tool or blade", "holster_msg": "You put your %1$s in your %2$s" },
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY", "WAIST", "OVERSIZE" ]
   },
   {
@@ -226,13 +273,13 @@
     "encumbrance": 2,
     "material_thickness": 2,
     "pocket_data": [
-      { "max_contains_volume": "1 L", "max_contains_weight": "1500 g", "moves": 100 },
+      { "max_contains_volume": "1 L", "max_contains_weight": "1500 g", "max_item_length": "40 cm", "moves": 100 },
       {
         "holster": true,
         "min_item_volume": "50 ml",
         "max_contains_volume": "1500 ml",
         "max_contains_weight": "1500 g",
-        "max_item_length": "50 cm",
+        "max_item_length": "70 cm",
         "moves": 50,
         "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
       },
@@ -241,7 +288,7 @@
         "min_item_volume": "50 ml",
         "max_contains_volume": "1500 ml",
         "max_contains_weight": "1500 g",
-        "max_item_length": "50 cm",
+        "max_item_length": "70 cm",
         "moves": 50,
         "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
       },
@@ -250,7 +297,7 @@
         "min_item_volume": "50 ml",
         "max_contains_volume": "1500 ml",
         "max_contains_weight": "1500 g",
-        "max_item_length": "50 cm",
+        "max_item_length": "70 cm",
         "moves": 50,
         "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
       },
@@ -259,7 +306,7 @@
         "min_item_volume": "50 ml",
         "max_contains_volume": "1500 ml",
         "max_contains_weight": "1500 g",
-        "max_item_length": "50 cm",
+        "max_item_length": "70 cm",
         "moves": 50,
         "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
       },
@@ -268,7 +315,7 @@
         "min_item_volume": "50 ml",
         "max_contains_volume": "1500 ml",
         "max_contains_weight": "1500 g",
-        "max_item_length": "50 cm",
+        "max_item_length": "70 cm",
         "moves": 50,
         "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
       }

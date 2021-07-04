@@ -1,12 +1,13 @@
-#include "catch/catch.hpp"
-
 #include <array>
+#include <iosfwd>
 #include <memory>
+#include <new>
 #include <set>
 #include <string>
 #include <vector>
 
 #include "calendar.h"
+#include "cata_catch.h"
 #include "character.h"
 #include "game.h"
 #include "game_constants.h"
@@ -15,7 +16,9 @@
 #include "monster.h"
 #include "optional.h"
 #include "point.h"
+#include "tileray.h"
 #include "type_id.h"
+#include "units.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
@@ -24,7 +27,7 @@
 static void clear_game_and_set_ramp( const int transit_x, bool use_ramp, bool up )
 {
     // Set to turn 0 to prevent solars from producing power
-    calendar::turn = 0;
+    calendar::turn = calendar::turn_zero;
     clear_map();
     clear_vehicles();
 
@@ -132,6 +135,9 @@ static void ramp_transition_angled( const vproto_id &veh_id, const units::angle 
         for( const tripoint &checkpt : vpts ) {
             int partnum = 0;
             vehicle *check_veh = here.veh_at_internal( checkpt, partnum );
+            CAPTURE( veh_ptr->global_pos3() );
+            CAPTURE( veh_ptr->face.dir() );
+            CAPTURE( checkpt );
             CHECK( check_veh == veh_ptr );
         }
         vpts.clear();
@@ -270,6 +276,7 @@ static void level_out( const vproto_id &veh_id, const bool drop_pos )
     REQUIRE( z_span.size() > 1 );
 
     monster *dmon_p = g->place_critter_at( mtype_id( "debug_mon" ), map_starting_point );
+    REQUIRE( dmon_p );
     monster &dmon = *dmon_p;
 
     for( int y = 0; y < SEEY * MAPSIZE; y++ ) {

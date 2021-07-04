@@ -95,7 +95,7 @@
       "str_max": 30,
       "sound": "porcelain breaking!",
       "sound_fail": "whunk!",
-      "items": [ { "item": "cu_pipe", "prob": 50 }, { "item": "ceramic_shard", "count": [ 2, 8 ] } ]
+      "items": [ { "item": "cu_pipe", "prob": 50 }, { "item": "ceramic_shard", "count": [ 2, 8 ] }, { "item": "wax", "count": 1 } ]
     }
   },
   {
@@ -186,6 +186,7 @@
         { "item": "plastic_chunk", "count": [ 0, 2 ] },
         { "item": "cu_pipe", "count": [ 1, 3 ] }
       ]
-    }
+    },
+    "crafting_pseudo_item": "fake_water_purifier"
   }
 ]

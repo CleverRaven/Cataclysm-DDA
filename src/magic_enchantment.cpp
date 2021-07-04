@@ -2,6 +2,7 @@
 
 #include <cstdlib>
 #include <set>
+#include <string>
 
 #include "character.h"
 #include "creature.h"
@@ -9,11 +10,11 @@
 #include "enum_conversions.h"
 #include "enums.h"
 #include "generic_factory.h"
+#include "item.h"
 #include "json.h"
 #include "map.h"
 #include "point.h"
 #include "rng.h"
-#include "string_id.h"
 #include "units.h"
 
 namespace io
@@ -66,6 +67,7 @@ namespace io
             case enchant_vals::mod::REGEN_STAMINA: return "REGEN_STAMINA";
             case enchant_vals::mod::MAX_HP: return "MAX_HP";
             case enchant_vals::mod::REGEN_HP: return "REGEN_HP";
+            case enchant_vals::mod::HUNGER: return "HUNGER";
             case enchant_vals::mod::THIRST: return "THIRST";
             case enchant_vals::mod::FATIGUE: return "FATIGUE";
             case enchant_vals::mod::PAIN: return "PAIN";
@@ -80,6 +82,7 @@ namespace io
             case enchant_vals::mod::SOCIAL_LIE: return "SOCIAL_LIE";
             case enchant_vals::mod::SOCIAL_PERSUADE: return "SOCIAL_PERSUADE";
             case enchant_vals::mod::SOCIAL_INTIMIDATE: return "SOCIAL_INTIMIDATE";
+            case enchant_vals::mod::SLEEPY: return "SLEEPY";
             case enchant_vals::mod::ARMOR_ACID: return "ARMOR_ACID";
             case enchant_vals::mod::ARMOR_BASH: return "ARMOR_BASH";
             case enchant_vals::mod::ARMOR_BIO: return "ARMOR_BIO";
@@ -89,6 +92,7 @@ namespace io
             case enchant_vals::mod::ARMOR_HEAT: return "ARMOR_HEAT";
             case enchant_vals::mod::ARMOR_STAB: return "ARMOR_STAB";
             case enchant_vals::mod::ARMOR_BULLET: return "ARMOR_BULLET";
+            case enchant_vals::mod::ITEM_DAMAGE_PURE: return "ITEM_DAMAGE_PURE";
             case enchant_vals::mod::ITEM_DAMAGE_BASH: return "ITEM_DAMAGE_BASH";
             case enchant_vals::mod::ITEM_DAMAGE_CUT: return "ITEM_DAMAGE_CUT";
             case enchant_vals::mod::ITEM_DAMAGE_STAB: return "ITEM_DAMAGE_STAB";
@@ -144,6 +148,34 @@ void enchantment::load_enchantment( const JsonObject &jo, const std::string &src
     spell_factory.load( jo, src );
 }
 
+void enchantment::reset()
+{
+    spell_factory.reset();
+}
+
+enchantment_id enchantment::load_inline_enchantment( const JsonValue &jv, const std::string &src,
+        std::string &inline_id )
+{
+    if( jv.test_string() ) {
+        return enchantment_id( jv.get_string() );
+    } else if( jv.test_object() ) {
+        if( inline_id.empty() ) {
+            jv.throw_error( "Inline enchantment cannot be created without an id." );
+        }
+        if( spell_factory.is_valid( enchantment_id( inline_id ) ) ) {
+            jv.throw_error( "Inline enchantment " + inline_id +
+                            " cannot be created as an enchantment already has this id." );
+        }
+
+        enchantment inline_enchant;
+        inline_enchant.load( jv.get_object(), src, inline_id );
+        spell_factory.insert( inline_enchant );
+        return enchantment_id( inline_id );
+    } else {
+        jv.throw_error( "Enchantment needs to be either string or enchantment object." );
+    }
+}
+
 bool enchantment::is_active( const Character &guy, const item &parent ) const
 {
     if( !guy.has_item( parent ) ) {
@@ -194,9 +226,10 @@ void enchantment::add_activation( const time_duration &dur, const fake_spell &fa
     intermittent_activation[dur].emplace_back( fake );
 }
 
-void enchantment::load( const JsonObject &jo, const std::string & )
+void enchantment::load( const JsonObject &jo, const std::string &,
+                        const cata::optional<std::string> &inline_id )
 {
-    optional( jo, was_loaded, "id", id, enchantment_id( "" ) );
+    optional( jo, was_loaded, "id", id, enchantment_id( inline_id.value_or( "" ) ) );
 
     jo.read( "hit_you_effect", hit_you_effect );
     jo.read( "hit_me_effect", hit_me_effect );
@@ -276,11 +309,28 @@ void enchantment::serialize( JsonOut &jsout ) const
     if( !intermittent_activation.empty() ) {
         jsout.member( "intermittent_activation" );
         jsout.start_object();
+        jsout.member( "effects" );
+        jsout.start_array();
         for( const std::pair<time_duration, std::vector<fake_spell>> pair : intermittent_activation ) {
-            jsout.member( "frequency", pair.first );
+            jsout.start_object();
+            jsout.member( "frequency", to_string_writable( pair.first ) );
             jsout.member( "spell_effects", pair.second );
+            jsout.end_object();
         }
+        jsout.end_array();
         jsout.end_object();
+    }
+
+    if( !ench_effects.empty() ) {
+        jsout.member( "ench_effects" );
+        jsout.start_array();
+        for( const std::pair<const efftype_id, int> &eff : ench_effects ) {
+            jsout.start_object();
+            jsout.member( "effect", eff.first );
+            jsout.member( "intensity", eff.second );
+            jsout.end_object();
+        }
+        jsout.end_array();
     }
 
     jsout.member( "mutations", mutations );
@@ -505,4 +555,12 @@ void enchantment::cast_enchantment_spell( Character &caster, const Creature *tar
 
         spell_lvl.cast_all_effects( caster, trg_crtr.pos() );
     }
+}
+
+bool enchantment::operator==( const enchantment &rhs ) const
+{
+    return this->id == rhs.id &&
+           this->get_mutations() == rhs.get_mutations() &&
+           this->values_multiply == rhs.values_multiply &&
+           this->values_add == rhs.values_add;
 }

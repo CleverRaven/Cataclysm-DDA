@@ -2,7 +2,7 @@
 #ifndef CATA_SRC_REGIONAL_SETTINGS_H
 #define CATA_SRC_REGIONAL_SETTINGS_H
 
-#include <algorithm>
+#include <iosfwd>
 #include <map>
 #include <memory>
 #include <set>
@@ -11,11 +11,9 @@
 #include <vector>
 
 #include "enums.h"
-#include "int_id.h"
 #include "mapdata.h"
 #include "memory_fast.h"
 #include "omdata.h"
-#include "string_id.h"
 #include "type_id.h"
 #include "weather_gen.h"
 #include "weighted_list.h"
@@ -127,7 +125,7 @@ struct forest_biome {
     int sparseness_adjacency_factor = 0;
     int item_group_chance = 0;
     int item_spawn_iterations = 0;
-    std::string item_group;
+    item_group_id item_group;
     bool clear_components = false;
     bool clear_groundcover = false;
     bool clear_terrain_furniture = false;
@@ -219,7 +217,7 @@ struct map_extras {
     weighted_int_list<std::string> values;
 
     map_extras() : chance( 0 ) {}
-    map_extras( const unsigned int embellished ) : chance( embellished ) {}
+    explicit map_extras( const unsigned int embellished ) : chance( embellished ) {}
 };
 
 struct region_terrain_and_furniture_settings {
@@ -269,6 +267,7 @@ using t_regional_settings_map_citr = t_regional_settings_map::const_iterator;
 extern t_regional_settings_map region_settings_map;
 
 void load_region_settings( const JsonObject &jo );
+void check_region_settings();
 void reset_region_settings();
 void load_region_overlay( const JsonObject &jo );
 void apply_region_overlay( const JsonObject &jo, regional_settings &region );

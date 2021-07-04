@@ -3,7 +3,7 @@
     "id": "ammo_pouch",
     "type": "ARMOR",
     "name": { "str": "ammo pouch", "str_pl": "ammo pouches" },
-    "description": "A small pouch that can be used to store most types of small ammunition, rockets will not fit.  Use insert to store ammunition.",
+    "description": "A small pouch that can be used to store most types of small ammunition; rockets, however, will not fit.  Use insert to store ammunition.",
     "weight": "490 g",
     "volume": "500 ml",
     "price": 1000,
@@ -75,7 +75,7 @@
     "id": "ammo_satchel",
     "type": "ARMOR",
     "name": { "str": "ammo satchel" },
-    "description": "A fabric ammo bag worn at the waist which is capable of holding a single large magazine close at hand.",
+    "description": "A fabric ammo bag worn at the waist.  It is capable of holding a single large magazine close at hand.",
     "weight": "180 g",
     "volume": "500 ml",
     "price": 2000,
@@ -91,6 +91,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
+        "max_item_length": "300 mm",
         "max_contains_volume": "1500 ml",
         "max_contains_weight": "2 kg",
         "moves": 40,
@@ -104,7 +105,7 @@
     "id": "chestpouch",
     "type": "ARMOR",
     "name": { "str": "chest ammo pouch", "str_pl": "chest ammo pouches" },
-    "description": "A fabric ammo pouch that can be strapped to your chest which is capable of holding a single magazine close at hand.",
+    "description": "A fabric ammo pouch that can be strapped to your chest and hold a single magazine close at hand.",
     "weight": "140 g",
     "volume": "250 ml",
     "price": 1250,
@@ -119,6 +120,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
+        "max_item_length": "240 mm",
         "max_contains_volume": "750 ml",
         "max_contains_weight": "2 kg",
         "moves": 40,
@@ -147,6 +149,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
+        "max_item_length": "240 mm",
         "max_contains_volume": "750 ml",
         "max_contains_weight": "2 kg",
         "moves": 40,
@@ -154,6 +157,7 @@
       },
       {
         "pocket_type": "CONTAINER",
+        "max_item_length": "240 mm",
         "max_contains_volume": "750 ml",
         "max_contains_weight": "2 kg",
         "moves": 40,
@@ -161,6 +165,7 @@
       },
       {
         "pocket_type": "CONTAINER",
+        "max_item_length": "240 mm",
         "max_contains_volume": "750 ml",
         "max_contains_weight": "2 kg",
         "moves": 40,
@@ -168,6 +173,7 @@
       },
       {
         "pocket_type": "CONTAINER",
+        "max_item_length": "240 mm",
         "max_contains_volume": "750 ml",
         "max_contains_weight": "2 kg",
         "moves": 40,
@@ -178,10 +184,19 @@
     "flags": [ "WATER_FRIENDLY", "BELTED" ]
   },
   {
+    "id": "xl_chestrig",
+    "type": "ARMOR",
+    "copy-from": "chestrig",
+    "name": { "str": "XL chest rig" },
+    "description": "Popularized during the Vietnam War, chest rigs like these are typically plain, barebones affairs consisting of three or more pouches in a row, with straps to secure them on your chest.  This one can hold four magazines in its pouches and fits larger-than-human forms.",
+    "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
+    "flags": [ "WATER_FRIENDLY", "WAIST", "OVERSIZE" ]
+  },
+  {
     "id": "javelin_bag",
     "type": "ARMOR",
     "name": { "str": "javelin bag" },
-    "description": "An open medieval-looking bag, designed to store javelins for easy reach.",
+    "description": "An open medieval-looking bag, designed to store javelins within easy reach.",
     "weight": "600 g",
     "volume": "1250 ml",
     "price": 6000,
@@ -248,7 +263,7 @@
     "id": "legpouch",
     "type": "ARMOR",
     "name": { "str": "ankle ammo pouch", "str_pl": "ankle ammo pouches" },
-    "description": "A small fabric ammo pouch that can be strapped to your ankle which is capable of holding a single small magazine close at hand.",
+    "description": "A small fabric ammo pouch that can be strapped to your ankle and hold a single small magazine close at hand.",
     "volume": "250 ml",
     "weight": "60 g",
     "price": 2000,
@@ -265,6 +280,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
+        "max_item_length": "240 mm",
         "max_contains_volume": "250 ml",
         "max_contains_weight": "2 kg",
         "moves": 40,
@@ -278,7 +294,7 @@
     "type": "ARMOR",
     "id": "legpouch_large",
     "name": { "str": "leg ammo pouch", "str_pl": "leg ammo pouches" },
-    "description": "A fabric ammo pouch that can be strapped to your leg and capable of holding two magazine close at hand.",
+    "description": "A fabric ammo pouch that can be strapped to your leg and hold two magazines close at hand.",
     "weight": "120 g",
     "volume": "250 ml",
     "price": 2000,
@@ -294,6 +310,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
+        "max_item_length": "240 mm",
         "max_contains_volume": "500 ml",
         "max_contains_weight": "2 kg",
         "moves": 40,
@@ -301,6 +318,7 @@
       },
       {
         "pocket_type": "CONTAINER",
+        "max_item_length": "240 mm",
         "max_contains_volume": "500 ml",
         "max_contains_weight": "2 kg",
         "moves": 40,
@@ -417,6 +435,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
+        "max_item_length": "300 mm",
         "min_item_volume": "250 ml",
         "max_contains_volume": "1 L",
         "max_contains_weight": "2 kg",
@@ -425,6 +444,7 @@
       },
       {
         "pocket_type": "CONTAINER",
+        "max_item_length": "300 mm",
         "min_item_volume": "250 ml",
         "max_contains_volume": "1 L",
         "max_contains_weight": "2 kg",
@@ -433,6 +453,7 @@
       },
       {
         "pocket_type": "CONTAINER",
+        "max_item_length": "300 mm",
         "min_item_volume": "250 ml",
         "max_contains_volume": "1 L",
         "max_contains_weight": "2 kg",
@@ -441,6 +462,7 @@
       },
       {
         "pocket_type": "CONTAINER",
+        "max_item_length": "300 mm",
         "min_item_volume": "250 ml",
         "max_contains_volume": "1 L",
         "max_contains_weight": "2 kg",
@@ -451,11 +473,20 @@
     "flags": [ "WATER_FRIENDLY", "WAIST" ]
   },
   {
+    "id": "xl_tacvest",
+    "type": "ARMOR",
+    "copy-from": "tacvest",
+    "name": { "str": "XL tac vest" },
+    "description": "This light vest is meant to carry your gear and ammunition comfortably distributed about your torso.  They are popular amongst law enforcement, but less so than combination tactical vests incorporating Kevlar.  Oversized and easy to don, this vest can hold four magazines close at hand in its many pouches.",
+    "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
+    "flags": [ "WATER_FRIENDLY", "WAIST", "OVERSIZE" ]
+  },
+  {
     "id": "xlkevlar",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "XL Kevlar vest" },
-    "description": "A massive, hand-built Kevlar vest based on the design of existing bullet resistant vests.  It has four pouches capable of carrying magazines.",
+    "description": "A massive, hand-built Kevlar vest based on the design of existing bullet-resistant vests.  It has four pouches capable of carrying magazines.",
     "looks_like": "modularvest",
     "weight": "5148 g",
     "volume": "10750 ml",
@@ -474,6 +505,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
+        "max_item_length": "240 mm",
         "min_item_volume": "250 ml",
         "max_contains_volume": "1 L",
         "max_contains_weight": "2 kg",
@@ -482,6 +514,7 @@
       },
       {
         "pocket_type": "CONTAINER",
+        "max_item_length": "240 mm",
         "min_item_volume": "250 ml",
         "max_contains_volume": "1 L",
         "max_contains_weight": "2 kg",
@@ -490,6 +523,7 @@
       },
       {
         "pocket_type": "CONTAINER",
+        "max_item_length": "240 mm",
         "min_item_volume": "250 ml",
         "max_contains_volume": "1 L",
         "max_contains_weight": "2 kg",
@@ -498,6 +532,7 @@
       },
       {
         "pocket_type": "CONTAINER",
+        "max_item_length": "240 mm",
         "min_item_volume": "250 ml",
         "max_contains_volume": "1 L",
         "max_contains_weight": "2 kg",

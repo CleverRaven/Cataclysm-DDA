@@ -374,7 +374,7 @@
   {
     "type": "ammunition_type",
     "id": "battery",
-    "name": "batteries",
+    "name": "kJ",
     "default": "battery"
   },
   {
@@ -688,5 +688,41 @@
     "id": "glowstick_juice",
     "name": "glowstick juice",
     "default": "glowstick_juice"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "cannon",
+    "name": "cannon",
+    "default": "cannon_shot"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "graphite",
+    "name": "graphite",
+    "default": "graphite"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "black_pen_ink",
+    "name": "black pen ink",
+    "default": "black_pen_ink"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "red_pen_ink",
+    "name": "red pen ink",
+    "default": "red_pen_ink"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "blue_pen_ink",
+    "name": "blue pen ink",
+    "default": "blue_pen_ink"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "green_pen_ink",
+    "name": "green pen ink",
+    "default": "green_pen_ink"
   }
 ]

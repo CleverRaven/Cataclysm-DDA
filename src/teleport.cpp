@@ -1,6 +1,8 @@
 #include "teleport.h"
 
+#include <cmath>
 #include <memory>
+#include <string>
 
 #include "calendar.h"
 #include "character.h"
@@ -17,6 +19,8 @@
 #include "translations.h"
 #include "type_id.h"
 #include "viewer.h"
+
+static const flag_id json_flag_DIMENSIONAL_ANCHOR( "DIMENSIONAL_ANCHOR" );
 
 static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_teleglow( "teleglow" );
@@ -35,8 +39,8 @@ bool teleport::teleport( Creature &critter, int min_distance, int max_distance, 
     tripoint new_pos = origin;
     map &here = get_map();
     //The teleportee is dimensionally anchored so nothing happens
-    if( p && ( p->worn_with_flag( "DIMENSIONAL_ANCHOR" ) ||
-               p->has_effect_with_flag( "DIMENSIONAL_ANCHOR" ) ) ) {
+    if( p && ( p->worn_with_flag( json_flag_DIMENSIONAL_ANCHOR ) ||
+               p->has_flag( json_flag_DIMENSIONAL_ANCHOR ) ) ) {
         p->add_msg_if_player( m_warning, _( "You feel a strange, inwards force." ) );
         return false;
     }
@@ -71,8 +75,8 @@ bool teleport::teleport( Creature &critter, int min_distance, int max_distance, 
                 add_msg( m_bad, _( "You cannot teleport safely." ) );
             }
             return false;
-        } else if( poor_player && ( poor_player->worn_with_flag( "DIMENSIONAL_ANCHOR" ) ||
-                                    poor_player->has_effect_with_flag( "DIMENSIONAL_ANCHOR" ) ) ) {
+        } else if( poor_player && ( poor_player->worn_with_flag( json_flag_DIMENSIONAL_ANCHOR ) ||
+                                    poor_player->has_flag( json_flag_DIMENSIONAL_ANCHOR ) ) ) {
             poor_player->add_msg_if_player( m_warning, _( "You feel disjointed." ) );
             return false;
         } else {

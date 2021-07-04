@@ -1,12 +1,12 @@
-#include "catch/catch.hpp"
-
+#include <iosfwd>
 #include <list>
 #include <memory>
-#include <string>
 
 #include "avatar.h"
 #include "calendar.h"
+#include "cata_catch.h"
 #include "creature.h"
+#include "flag.h"
 #include "game.h"
 #include "item.h"
 #include "map_helpers.h"
@@ -79,6 +79,7 @@ TEST_CASE( "Character::get_hit_base", "[character][melee][hit][dex]" )
 
     avatar &dummy = get_avatar();
     clear_character( dummy );
+    dummy.dodges_left = 1;
 
     SECTION( "character get_hit_base increases by 1/4 for each point of DEX" ) {
         CHECK( hit_base_with_dex( dummy, 1 ) == 0.25f );
@@ -202,19 +203,6 @@ TEST_CASE( "player::get_dodge", "[player][melee][dodge]" )
 
     const float base_dodge = dummy.get_dodge_base();
 
-    SECTION( "each dodge after the first subtracts 2 points" ) {
-        // Simulate some dodges, so dodges_left will go to 0, -1
-        dummy.on_dodge( nullptr, 0 );
-        CHECK( dummy.get_dodge() == base_dodge - 2 );
-        dummy.on_dodge( nullptr, 0 );
-        CHECK( dummy.get_dodge() == base_dodge - 4 );
-
-        // Reset dodges_left, so subsequent tests are not affected
-        dummy.set_moves( 100 );
-        dummy.process_turn();
-        REQUIRE( dummy.dodges_left > 0 );
-    }
-
     SECTION( "speed below 100 linearly decreases dodge" ) {
         dummy.set_speed_base( 90 );
         CHECK( dummy.get_dodge() == Approx( 0.9 * base_dodge ) );
@@ -263,9 +251,9 @@ TEST_CASE( "player::get_dodge with effects", "[player][melee][dodge][effect]" )
         item blades( "roller_blades" );
         item heelys( "roller_shoes_on" );
 
-        REQUIRE( skates.has_flag( "ROLLER_QUAD" ) );
-        REQUIRE( blades.has_flag( "ROLLER_INLINE" ) );
-        REQUIRE( heelys.has_flag( "ROLLER_ONE" ) );
+        REQUIRE( skates.has_flag( flag_ROLLER_QUAD ) );
+        REQUIRE( blades.has_flag( flag_ROLLER_INLINE ) );
+        REQUIRE( heelys.has_flag( flag_ROLLER_ONE ) );
 
         SECTION( "amateur skater: 1/5 dodge" ) {
             REQUIRE_FALSE( dummy.has_trait( trait_id( "PROF_SKATER" ) ) );
@@ -409,4 +397,3 @@ TEST_CASE( "player::get_dodge stamina effects", "[player][melee][dodge][stamina]
         }
     }
 }
-

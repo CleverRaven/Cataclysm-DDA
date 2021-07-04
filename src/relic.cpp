@@ -4,6 +4,7 @@
 #include <cmath>
 #include <cstdlib>
 #include <set>
+#include <string>
 
 #include "calendar.h"
 #include "character.h"
@@ -16,9 +17,11 @@
 #include "magic_enchantment.h"
 #include "map.h"
 #include "rng.h"
+#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "weather.h"
+#include "weather_type.h"
 
 /*
  * A little helper function to tell if you can load one ammo into a gun.
@@ -137,7 +140,7 @@ void relic_procgen_data::enchantment_active::deserialize( JsonIn &jsin )
 
 void relic_procgen_data::load( const JsonObject &jo, const std::string & )
 {
-    for( const JsonObject &jo_inner : jo.get_array( "passive_add_procgen_values" ) ) {
+    for( const JsonObject jo_inner : jo.get_array( "passive_add_procgen_values" ) ) {
         int weight = 0;
         mandatory( jo_inner, was_loaded, "weight", weight );
         relic_procgen_data::enchantment_value_passive<int> val;
@@ -146,7 +149,7 @@ void relic_procgen_data::load( const JsonObject &jo, const std::string & )
         passive_add_procgen_values.add( val, weight );
     }
 
-    for( const JsonObject &jo_inner : jo.get_array( "passive_mult_procgen_values" ) ) {
+    for( const JsonObject jo_inner : jo.get_array( "passive_mult_procgen_values" ) ) {
         int weight = 0;
         mandatory( jo_inner, was_loaded, "weight", weight );
         relic_procgen_data::enchantment_value_passive<float> val;
@@ -155,7 +158,7 @@ void relic_procgen_data::load( const JsonObject &jo, const std::string & )
         passive_mult_procgen_values.add( val, weight );
     }
 
-    for( const JsonObject &jo_inner : jo.get_array( "type_weights" ) ) {
+    for( const JsonObject jo_inner : jo.get_array( "type_weights" ) ) {
         int weight = 0;
         mandatory( jo_inner, was_loaded, "weight", weight );
         relic_procgen_data::type val = relic_procgen_data::type::last;
@@ -164,7 +167,7 @@ void relic_procgen_data::load( const JsonObject &jo, const std::string & )
         type_weights.add( val, weight );
     }
 
-    for( const JsonObject &jo_inner : jo.get_array( "items" ) ) {
+    for( const JsonObject jo_inner : jo.get_array( "items" ) ) {
         int weight = 0;
         mandatory( jo_inner, was_loaded, "weight", weight );
         itype_id it;
@@ -173,7 +176,7 @@ void relic_procgen_data::load( const JsonObject &jo, const std::string & )
         item_weights.add( it, weight );
     }
 
-    for( const JsonObject &jo_inner : jo.get_array( "active_procgen_values" ) ) {
+    for( const JsonObject jo_inner : jo.get_array( "active_procgen_values" ) ) {
         int weight = 0;
         mandatory( jo_inner, was_loaded, "weight", weight );
         relic_procgen_data::enchantment_active val;
@@ -182,7 +185,7 @@ void relic_procgen_data::load( const JsonObject &jo, const std::string & )
         active_procgen_values.add( val, weight );
     }
 
-    for( const JsonObject &jo_inner : jo.get_array( "charge_types" ) ) {
+    for( const JsonObject jo_inner : jo.get_array( "charge_types" ) ) {
         int weight = 0;
         mandatory( jo_inner, was_loaded, "weight", weight );
         relic_charge_template charge;
@@ -692,4 +695,23 @@ relic relic_procgen_data::generate( const relic_procgen_data::generation_rules &
     }
 
     return ret;
+}
+
+bool operator==( const relic &source_relic, const relic &target_relic )
+{
+    bool is_the_same = true;
+    is_the_same &= ( source_relic.charges() == target_relic.charges() );
+    is_the_same &= ( source_relic.charges_per_use() == target_relic.charges_per_use() );
+    is_the_same &= ( source_relic.has_activation() == target_relic.has_activation() );
+    is_the_same &= ( source_relic.has_recharge() == target_relic.has_recharge() );
+    is_the_same &= ( source_relic.max_charges() == target_relic.max_charges() );
+    is_the_same &= ( source_relic.name() == target_relic.name() );
+
+    is_the_same &= ( source_relic.get_enchantments().size() == target_relic.get_enchantments().size() );
+    if( is_the_same ) {
+        for( std::size_t i = 0; i < source_relic.get_enchantments().size(); i++ ) {
+            is_the_same &= source_relic.get_enchantments()[i] == target_relic.get_enchantments()[i];
+        }
+    }
+    return is_the_same;
 }

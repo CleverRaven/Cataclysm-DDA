@@ -81,7 +81,7 @@
           {
             "collection": [
               { "item": "extinguisher", "prob": 70, "charges": 100 },
-              { "item": "1st_aid", "count": [ 1, 3 ], "prob": 65 },
+              { "group": "full_1st_aid", "count": [ 1, 3 ], "prob": 65 },
               { "item": "two_way_radio", "prob": 65 },
               { "item": "light_disposable_cell", "count": [ 2, 4 ], "prob": 65 },
               { "item": "electric_lantern", "prob": 35 },
@@ -141,7 +141,7 @@
           {
             "collection": [
               { "item": "extinguisher", "prob": 50, "charges": 100 },
-              { "item": "1st_aid", "prob": 5 },
+              { "group": "full_1st_aid", "prob": 5 },
               { "item": "two_way_radio", "prob": 25 },
               { "item": "electric_lantern", "prob": 5 },
               { "item": "wearable_light", "prob": 5 }
@@ -191,7 +191,7 @@
       { "item": "bleach", "prob": 45 },
       { "item": "ammonia", "prob": 25 },
       { "item": "mirror", "prob": 12 },
-      { "item": "1st_aid", "prob": 60 },
+      { "group": "full_1st_aid", "prob": 60 },
       { "item": "paper", "count": [ 1, 3 ] },
       { "item": "evac_pamphlet", "prob": 10 }
     ]

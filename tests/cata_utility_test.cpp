@@ -1,6 +1,16 @@
-#include "catch/catch.hpp"
+#include <algorithm>
+#include <cstddef>
+#include <iosfwd>
+#include <map>
+#include <set>
+#include <string>
+#include <utility>
+#include <vector>
+
 #include "assertion_helpers.h"
 #include "cata_utility.h"
+#include "cata_catch.h"
+#include "debug_menu.h"
 #include "units.h"
 #include "units_utility.h"
 
@@ -134,7 +144,6 @@ TEST_CASE( "erase_if", "[utility]" )
     }
 }
 
-
 TEST_CASE( "equal_ignoring_elements", "[utility]" )
 {
     SECTION( "empty sets" ) {
@@ -220,5 +229,80 @@ TEST_CASE( "equal_ignoring_elements", "[utility]" )
         } );
 
         CHECK( equal_ignoring_elements( set1, set2, ignored_els ) == equal );
+    }
+}
+
+TEST_CASE( "map_without_keys", "[map][filter]" )
+{
+    std::map<std::string, std::string> map_empty;
+    std::map<std::string, std::string> map_name_a = {
+        { "name", "a" }
+    };
+    std::map<std::string, std::string> map_name_b = {
+        { "name", "b" }
+    };
+    std::map<std::string, std::string> map_dirt_1 = {
+        { "dirt", "1" }
+    };
+    std::map<std::string, std::string> map_dirt_2 = {
+        { "dirt", "2" }
+    };
+    std::map<std::string, std::string> map_name_a_dirt_1 = {
+        { "name", "a" },
+        { "dirt", "1" }
+    };
+    std::map<std::string, std::string> map_name_a_dirt_2 = {
+        { "name", "a" },
+        { "dirt", "2" }
+    };
+    std::vector<std::string> dirt = { "dirt" };
+
+    // Empty maps compare equal to maps with all keys filtered out
+    CHECK( map_without_keys( map_empty, dirt ) == map_without_keys( map_dirt_1, dirt ) );
+    CHECK( map_without_keys( map_empty, dirt ) == map_without_keys( map_dirt_2, dirt ) );
+
+    // Maps are equal when all differing keys are filtered out
+    // (same name, dirt filtered out)
+    CHECK( map_without_keys( map_name_a, dirt ) == map_without_keys( map_name_a_dirt_1, dirt ) );
+    CHECK( map_without_keys( map_name_a, dirt ) == map_without_keys( map_name_a_dirt_2, dirt ) );
+
+    // Maps are different if some different keys remain after filtering
+    // (different name, no dirt to filter out)
+    CHECK_FALSE( map_without_keys( map_name_a, dirt ) == map_without_keys( map_name_b, dirt ) );
+    CHECK_FALSE( map_without_keys( map_name_b, dirt ) == map_without_keys( map_name_a, dirt ) );
+    // (different name, dirt filtered out)
+    CHECK_FALSE( map_without_keys( map_dirt_1, dirt ) == map_without_keys( map_name_a_dirt_1, dirt ) );
+    CHECK_FALSE( map_without_keys( map_dirt_2, dirt ) == map_without_keys( map_name_a_dirt_2, dirt ) );
+}
+
+TEST_CASE( "check_debug_menu_string_methods", "[debug_menu]" )
+{
+    std::map<std::string, std::vector<std::string>> split_expect = {
+        { "", { } },
+        { "a", { "a" } },
+        { ",a", { "a" } },
+        { "a,", { "a" } },
+        { ",a,", { "a" } },
+        { ",,a,,", { "a" } },
+        { "a,b,a\nb,фыва,,a,,,b", { "a", "b", "a\nb", "фыва", "a", "b" } },
+    };
+    std::map<std::string, std::vector<std::string>> joined_expects = {
+        { "", { } },
+        { "a", { "a" } },
+        { "a,b,a\nb,фыва,a,b", { "a", "b", "a\nb", "фыва", "a", "b" } },
+    };
+    for( const std::pair<const std::string, std::vector<std::string>> &pair : split_expect ) {
+        std::vector<std::string> split = debug_menu::string_to_iterable<std::vector<std::string>>
+                                         ( pair.first, "," );
+        CAPTURE( pair.first );
+        CAPTURE( pair.second );
+        CHECK( pair.second == split );
+    }
+
+    for( const std::pair<const std::string, std::vector<std::string>> &pair : joined_expects ) {
+        std::string joined = debug_menu::iterable_to_string( pair.second, "," );
+        CAPTURE( pair.first );
+        CAPTURE( pair.second );
+        CHECK( pair.first == joined );
     }
 }

@@ -5,7 +5,8 @@
     "type": "GUN",
     "name": { "str": "double-barrel shotgun" },
     "ammo": [ "ammo_shot" ],
-    "description": "An old-fashioned double barreled shotgun, with a trigger for each barrel.  Follow up shots are incredibly quick with this, but reloading is a bit slow.  Shotshells come in many varieties, and shotguns are suitable for anything from some large game to small birds."
+    "description": "An old-fashioned double barreled shotgun, with a trigger for each barrel.  Follow up shots are incredibly quick with this, but reloading is a bit slow.  Shotshells come in many varieties, and shotguns are suitable for anything from some large game to small birds.",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_shot": 2 }, "rigid": true } ]
   },
   {
     "id": "shot_pipe_double",

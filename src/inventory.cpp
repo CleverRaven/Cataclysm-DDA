@@ -1,10 +1,11 @@
 #include "inventory.h"
 
 #include <algorithm>
-#include <climits>
 #include <cmath>
+#include <cstdint>
 #include <cstdlib>
-#include <memory>
+#include <string>
+#include <type_traits>
 
 #include "avatar.h"
 #include "calendar.h"
@@ -13,13 +14,12 @@
 #include "damage.h"
 #include "debug.h"
 #include "enums.h"
-#include "flat_set.h"
-#include "game.h"
+#include "flag.h"
 #include "iexamine.h"
-#include "int_id.h"
 #include "inventory_ui.h" // auto inventory blocking
 #include "item_contents.h"
 #include "item_pocket.h"
+#include "item_stack.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -28,12 +28,12 @@
 #include "optional.h"
 #include "options.h"
 #include "point.h"
+#include "proficiency.h"
 #include "ret_val.h"
 #include "rng.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
-#include "vehicle.h"
 #include "vpart_position.h"
 
 static const itype_id itype_aspirin( "aspirin" );
@@ -43,12 +43,6 @@ static const itype_id itype_salt_water( "salt_water" );
 static const itype_id itype_tramadol( "tramadol" );
 static const itype_id itype_oxycodone( "oxycodone" );
 static const itype_id itype_water( "water" );
-static const itype_id itype_water_faucet( "water_faucet" );
-
-static const std::string flag_LEAK_ALWAYS( "LEAK_ALWAYS" );
-static const std::string flag_LEAK_DAM( "LEAK_DAM" );
-static const std::string flag_WATERPROOF( "WATERPROOF" );
-static const std::string flag_WATERPROOF_GUN( "WATERPROOF_GUN" );
 
 struct itype;
 
@@ -344,14 +338,14 @@ item *inventory::provide_pseudo_item( const itype_id &id, int battery )
     }
 
     item &it = add_item( item( id, calendar::turn, 0 ) );
-    it.set_flag( "PSEUDO" );
+    it.set_flag( flag_PSEUDO );
 
     // if tool doesn't need battery bail out early
     if( battery <= 0 || it.magazine_default().is_null() ) {
         return &it;
     }
     item it_batt( it.magazine_default() );
-    item it_ammo = item( it_batt.ammo_default(), 0 );
+    item it_ammo = item( it_batt.ammo_default(), calendar::turn_zero );
     if( it_ammo.is_null() || it_ammo.typeId() != itype_id( "battery" ) ) {
         return &it;
     }
@@ -360,6 +354,15 @@ item *inventory::provide_pseudo_item( const itype_id &id, int battery )
     it.put_in( it_batt, item_pocket::pocket_type::MAGAZINE_WELL );
 
     return &it;
+}
+
+book_proficiency_bonuses inventory::get_book_proficiency_bonuses() const
+{
+    book_proficiency_bonuses ret;
+    for( const std::list<item> &it : this->items ) {
+        ret += it.front().get_book_proficiency_bonuses();
+    }
+    return ret;
 }
 
 void inventory::restack( Character &p )
@@ -446,6 +449,7 @@ void inventory::form_from_zone( map &m, std::unordered_set<tripoint> &zone_pts, 
                                 bool assign_invlet )
 {
     std::vector<tripoint> pts;
+    pts.reserve( zone_pts.size() );
     for( const tripoint &elem : zone_pts ) {
         pts.push_back( m.getlocal( elem ) );
     }
@@ -516,7 +520,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
         }
         // kludge that can probably be done better to check specifically for toilet water to use in
         // crafting
-        if( m.furn( p ).obj().examine == &iexamine::toilet ) {
+        if( m.furn( p )->has_examine( iexamine::toilet ) ) {
             // get water charges at location
             map_stack toilet = m.i_at( p );
             auto water = toilet.end();
@@ -532,7 +536,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
         }
 
         // keg-kludge
-        if( m.furn( p ).obj().examine == &iexamine::keg ) {
+        if( m.furn( p )->has_examine( iexamine::keg ) ) {
             map_stack liq_contained = m.i_at( p );
             for( auto &i : liq_contained ) {
                 if( i.made_of( phase_id::LIQUID ) ) {
@@ -730,25 +734,7 @@ std::list<item> inventory::use_amount( const itype_id &it, int quantity,
     return ret;
 }
 
-bool inventory::has_tools( const itype_id &it, int quantity,
-                           const std::function<bool( const item & )> &filter ) const
-{
-    return has_amount( it, quantity, true, filter );
-}
-
-bool inventory::has_components( const itype_id &it, int quantity,
-                                const std::function<bool( const item & )> &filter ) const
-{
-    return has_amount( it, quantity, false, filter );
-}
-
-bool inventory::has_charges( const itype_id &it, int quantity,
-                             const std::function<bool( const item & )> &filter ) const
-{
-    return ( charges_of( it, INT_MAX, filter ) >= quantity );
-}
-
-int inventory::leak_level( const std::string &flag ) const
+int inventory::leak_level( const flag_id &flag ) const
 {
     int ret = 0;
 
@@ -1105,7 +1091,7 @@ const itype_bin &inventory::get_binned_items() const
 
     // HACK: Hack warning
     inventory *this_nonconst = const_cast<inventory *>( this );
-    this_nonconst->visit_items( [ this ]( item * e ) {
+    this_nonconst->visit_items( [ this ]( item * e, item * ) {
         binned_items[ e->typeId() ].push_back( e );
         for( const item *it : e->softwares() ) {
             binned_items[it->typeId()].push_back( it );

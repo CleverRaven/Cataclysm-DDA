@@ -13,7 +13,7 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "CUT_FINE", "level": 1 } ],
     "proficiencies": [
-      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_redsmithing", "required": false, "time_multiplier": 3 }
     ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
@@ -31,7 +31,7 @@
     "time": "20 m",
     "book_learn": [ [ "alchemy_basic", 3 ], [ "necro_basic", 4 ], [ "techno_basic", 4 ] ],
     "proficiencies": [
-      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_redsmithing", "required": false, "time_multiplier": 3 }
     ],
     "qualities": [ { "id": "CHISEL", "level": 1 } ],
@@ -49,7 +49,7 @@
     "time": "20 m",
     "book_learn": [ [ "alchemy_basic", 3 ], [ "necro_basic", 4 ], [ "techno_basic", 4 ] ],
     "proficiencies": [
-      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_fine_metalsmithing", "required": false, "time_multiplier": 3 }
     ],
     "qualities": [ { "id": "CHISEL", "level": 1 } ],
@@ -80,7 +80,7 @@
     "difficulty": 4,
     "time": "180 m",
     "book_learn": [ [ "cooking_poison", 3 ] ],
-    "proficiencies": [ { "proficiency": "prof_chitinworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 } ],
+    "proficiencies": [ { "proficiency": "prof_chitinworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 1.5 } ],
     "qualities": [ { "id": "CHISEL", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ],
     "components": [ [ [ "demon_chitin_piece", 16 ] ], [ [ "bone_glue", 10 ] ] ]
   },
@@ -101,7 +101,7 @@
       { "id": "HAMMER", "level": 2 },
       { "id": "SMOOTH", "level": 1 }
     ],
-    "proficiencies": [ { "proficiency": "prof_chitinworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 } ],
+    "proficiencies": [ { "proficiency": "prof_chitinworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 1.5 } ],
     "components": [
       [ [ "demon_chitin_plate", 24 ] ],
       [ [ "fireproof_mortar", 30 ] ],

@@ -64,5 +64,47 @@
     "speaker": "mon_utilibot_beehive",
     "sound": "\"bzzzzzz.\"",
     "volume": 3
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_human_biomachine",
+    "sound": "\"west, west, west, west, west\"",
+    "volume": 60
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_human_biomachine",
+    "sound": "\"east, east, east, east, east\"",
+    "volume": 60
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_human_biomachine",
+    "sound": "\"south, south, south, south, south\"",
+    "volume": 60
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_human_biomachine",
+    "sound": "\"north, north, north, north, north\"",
+    "volume": 60
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_human_biomachine",
+    "sound": "\"Where am I?  Where am I?  Where am I?\"",
+    "volume": 60
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_human_biomachine",
+    "sound": "\"It's very cold, It's very cold, It's very cold\"",
+    "volume": 60
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_human_biomachine",
+    "sound": "\"dark, dark, where is everything\"",
+    "volume": 60
   }
 ]

@@ -1,6 +1,6 @@
-#include "catch/catch.hpp"
-
 #include <cstdio>
+#include <functional>
+#include <iosfwd>
 #include <list>
 #include <memory>
 #include <string>
@@ -8,6 +8,7 @@
 
 #include "avatar.h"
 #include "calendar.h"
+#include "cata_catch.h"
 #include "character.h"
 #include "character_id.h"
 #include "coordinate_conversions.h"
@@ -17,6 +18,7 @@
 #include "effect.h"
 #include "faction.h"
 #include "game.h"
+#include "input.h"
 #include "item.h"
 #include "item_category.h"
 #include "map.h"
@@ -97,6 +99,7 @@ static npc &prep_test( dialogue &d )
 {
     clear_avatar();
     clear_vehicles();
+    clear_map();
     avatar &player_character = get_avatar();
     player_character.name = "Alpha Avatar";
     REQUIRE_FALSE( player_character.in_vehicle );
@@ -459,12 +462,12 @@ TEST_CASE( "npc_talk_time", "[npc_talk]" )
     prep_test( d );
 
     const time_point old_calendar = calendar::turn;
-    calendar::turn = to_turn<int>( sunrise( calendar::turn ) + 4_hours );
+    calendar::turn = sunrise( calendar::turn ) + 4_hours;
     d.add_topic( "TALK_TEST_TIME" );
     gen_response_lines( d, 2 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a is day test response." );
-    calendar::turn = to_turn<int>( sunset( calendar::turn ) + 2_hours );
+    calendar::turn = sunset( calendar::turn ) + 2_hours;
     gen_response_lines( d, 2 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a is night test response." );
@@ -613,7 +616,7 @@ TEST_CASE( "npc_talk_items", "[npc_talk]" )
     };
     player_character.cash = 1000;
     player_character.int_cur = 8;
-    player_character.worn.push_back( item( "backpack" ) );
+    player_character.worn.emplace_back( "backpack" );
     d.add_topic( "TALK_TEST_EFFECTS" );
     gen_response_lines( d, 19 );
     // add and remove effect
@@ -764,7 +767,7 @@ TEST_CASE( "npc_talk_combat_commands", "[npc_talk]" )
     CHECK( d.responses[0].text == "Change your engagement rules…" );
     CHECK( d.responses[1].text == "Change your aiming rules…" );
     CHECK( d.responses[2].text == "Stick close to me, no matter what." );
-    CHECK( d.responses[3].text == "<ally_rule_follow_distance_2_false_text>" );
+    CHECK( d.responses[3].text == "<ally_rule_follow_distance_request_4_text>" );
     CHECK( d.responses[4].text == "Don't use ranged weapons anymore." );
     CHECK( d.responses[5].text == "Use only silent weapons." );
     CHECK( d.responses[6].text == "Don't use grenades anymore." );

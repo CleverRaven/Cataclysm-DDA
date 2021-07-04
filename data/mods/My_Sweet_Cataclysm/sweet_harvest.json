@@ -49,5 +49,12 @@
       { "drop": "chocolate", "type": "flesh", "mass_ratio": 0.52 },
       { "drop": "cow_candy", "base_num": [ 0, 2 ], "max": 2, "type": "offal" }
     ]
+  },
+  {
+    "id": "licorice_snake",
+    "type": "harvest",
+    "leftovers": "ruined_candy",
+    "message": "As you butcher the corpse, it turns into a sugary mush of licorice.",
+    "entries": [ { "drop": "licorice", "type": "flesh", "mass_ratio": 0.7 } ]
   }
 ]

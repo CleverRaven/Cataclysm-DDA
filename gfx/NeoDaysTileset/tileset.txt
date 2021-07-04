@@ -1,4 +1,4 @@
-#NEO DAYS+ TILESET
+#NEO DAYS TILESET
 #Name of the tileset
 NAME: neodays
 #Viewing (Option) name of the tileset

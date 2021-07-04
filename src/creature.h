@@ -2,16 +2,18 @@
 #ifndef CATA_SRC_CREATURE_H
 #define CATA_SRC_CREATURE_H
 
+#include <array>
 #include <climits>
+#include <iosfwd>
 #include <map>
 #include <set>
-#include <string>
 #include <type_traits>
 #include <unordered_map>
 #include <utility>
 #include <vector>
 
 #include "bodypart.h"
+#include "compatibility.h"
 #include "damage.h"
 #include "debug.h"
 #include "effect_source.h"
@@ -19,13 +21,13 @@
 #include "location.h"
 #include "pimpl.h"
 #include "string_formatter.h"
-#include "string_id.h"
-#include "translations.h"
 #include "type_id.h"
 #include "units_fwd.h"
 #include "viewer.h"
 
 class monster;
+class translation;
+template <typename T> struct enum_traits;
 
 enum game_message_type : int;
 class effect;
@@ -43,6 +45,7 @@ class anatomy;
 class avatar;
 class field;
 class field_entry;
+class npc;
 class player;
 class time_duration;
 struct point;
@@ -50,11 +53,10 @@ struct tripoint;
 
 enum class damage_type : int;
 enum m_flag : int;
-struct damage_instance;
-struct damage_unit;
-struct dealt_damage_instance;
 struct dealt_projectile_attack;
 struct pathfinding_settings;
+struct projectile;
+struct projectile_attack_results;
 struct trap;
 
 using anatomy_id = string_id<anatomy>;
@@ -263,6 +265,12 @@ class Creature : public location, public viewer
         virtual const avatar *as_avatar() const {
             return nullptr;
         }
+        virtual const npc *as_npc() {
+            return nullptr;
+        }
+        virtual const npc *as_npc() const {
+            return nullptr;
+        }
         virtual monster *as_monster() {
             return nullptr;
         }
@@ -293,7 +301,7 @@ class Creature : public location, public viewer
 
         /** Should always be overwritten by the appropriate player/NPC/monster version. */
         virtual float hit_roll() const = 0;
-        virtual float dodge_roll() = 0;
+        virtual float dodge_roll() const = 0;
         virtual float stability_roll() const = 0;
 
         /**
@@ -358,7 +366,7 @@ class Creature : public location, public viewer
         /**
          * For fake-players (turrets, mounted turrets) this functions
          * chooses a target. This is for creatures that are friendly towards
-         * the player and therefor choose a target that is hostile
+         * the player and therefore choose a target that is hostile
          * to the player.
          *
          * @param range The maximal range to look for monsters, anything
@@ -392,10 +400,20 @@ class Creature : public location, public viewer
         // returns hit - dodge (>=0 = hit, <0 = miss)
         virtual int deal_melee_attack( Creature *source, int hitroll );
 
+        // Distance == 1 and on the same z-level or with a clear shot up/down.
+        // If allow_zlev is false, don't allow attacking up/down at all.
+        // If allow_zlev is true, also allow distance == 1 and on different z-level
+        // as long as floor/ceiling doesn't exist.
+        // Also check other factors, like vehicle separating deep water/air
+        bool is_adjacent( const Creature *target, bool allow_z_levels ) const;
+
+        // modifies the damage dealt based on the creature's enchantments
+        // since creatures currently don't have enchantments, this is just virtual
+        virtual damage_instance modify_damage_dealt_with_enchantments( const damage_instance &dam ) const;
         // completes a melee attack against the creature
         // dealt_dam is overwritten with the values of the damage dealt
         virtual void deal_melee_hit( Creature *source, int hit_spread, bool critical_hit,
-                                     const damage_instance &dam, dealt_damage_instance &dealt_dam );
+                                     damage_instance dam, dealt_damage_instance &dealt_dam );
 
         // Makes a ranged projectile attack against the creature
         // Sets relevant values in `attack`.
@@ -438,6 +456,11 @@ class Creature : public location, public viewer
          */
         virtual void on_hit( Creature *source, bodypart_id bp_hit,
                              float difficulty = INT_MIN, dealt_projectile_attack const *proj = nullptr ) = 0;
+
+        /** Returns true if this monster has any sort of ranged attack. This doesn't necessarily mean direct damage ranged attack,
+        * but also includes any sort of potentially dangerous ranged interaction, e.g. monster with RANGED_PULL special attack will fit here too.
+         */
+        virtual bool is_ranged_attacker() const;
 
         virtual bool digging() const;
         virtual bool is_on_ground() const = 0;
@@ -487,7 +510,6 @@ class Creature : public location, public viewer
         /** Processes move stopping effects. Returns false if movement is stopped. */
         virtual bool move_effects( bool attacking ) = 0;
 
-
         // Next three functions don't do anything but forward to next functions with nullptr
         // as source they should be removed once all effect sources are assigned
         void add_effect( const effect &eff, bool force = false, bool deferred = false ) {
@@ -526,24 +548,26 @@ class Creature : public location, public viewer
         void clear_effects();
         /** Check if creature has the matching effect. If the bodypart is not specified check if the Creature has any effect
          *  of the matching type, targeted or untargeted. */
-        bool has_effect( const efftype_id &eff_id, const bodypart_str_id &bp ) const;
+        bool has_effect( const efftype_id &eff_id, const bodypart_id &bp ) const;
         bool has_effect( const efftype_id &eff_id ) const;
         /** Check if creature has any effect with the given flag. */
-        bool has_effect_with_flag( const std::string &flag, const bodypart_id &bp ) const;
-        bool has_effect_with_flag( const std::string &flag ) const;
-        std::vector<effect> get_effects_with_flag( const std::string &flag ) const;
+        bool has_effect_with_flag( const flag_id &flag, const bodypart_id &bp ) const;
+        bool has_effect_with_flag( const flag_id &flag ) const;
+        std::vector<effect> get_effects_with_flag( const flag_id &flag ) const;
+        std::vector<effect> get_effects() const;
+
         /** Return the effect that matches the given arguments exactly. */
         const effect &get_effect( const efftype_id &eff_id,
-                                  const bodypart_id &bp = bodypart_id( "bp_null" ) ) const;
-        effect &get_effect( const efftype_id &eff_id, const bodypart_id &bp = bodypart_id( "bp_null" ) );
+                                  const bodypart_id &bp = bodypart_str_id::NULL_ID() ) const;
+        effect &get_effect( const efftype_id &eff_id, const bodypart_id &bp = bodypart_str_id::NULL_ID() );
         /** Returns the duration of the matching effect. Returns 0 if effect doesn't exist. */
         time_duration get_effect_dur( const efftype_id &eff_id,
-                                      const bodypart_id &bp = bodypart_id( "bp_null" ) ) const;
+                                      const bodypart_id &bp = bodypart_str_id::NULL_ID() ) const;
         /** Returns the intensity of the matching effect. Returns 0 if effect doesn't exist. */
         int get_effect_int( const efftype_id &eff_id,
-                            const bodypart_id &bp = bodypart_id( "bp_null" ) ) const;
+                            const bodypart_id &bp = bodypart_str_id::NULL_ID() ) const;
         /** Returns true if the creature resists an effect */
-        bool resists_effect( const effect &e );
+        bool resists_effect( const effect &e ) const;
 
         // Methods for setting/getting misc key/value pairs.
         void set_value( const std::string &key, const std::string &value );
@@ -647,7 +671,7 @@ class Creature : public location, public viewer
         std::vector<bodypart_id> get_all_body_parts(
             get_body_part_flags = get_body_part_flags::none ) const;
 
-        std::map<bodypart_str_id, bodypart> get_body() const;
+        const std::map<bodypart_str_id, bodypart> &get_body() const;
         void set_body();
         void calc_all_parts_hp( float hp_mod = 0.0,  float hp_adjust = 0.0, int str_max = 0,
                                 int dex_max = 0,  int per_max = 0,  int int_max = 0, int healthy_mod = 0,
@@ -671,6 +695,8 @@ class Creature : public location, public viewer
         int get_part_temp_conv( const bodypart_id &id ) const;
         int get_part_frostbite_timer( const bodypart_id &id )const;
 
+        std::array<int, NUM_WATER_TOLERANCE> get_part_mut_drench( const bodypart_id &id ) const;
+
         float get_part_wetness_percentage( const bodypart_id &id ) const;
 
         const encumbrance_data &get_part_encumbrance_data( const bodypart_id &id )const;
@@ -687,6 +713,8 @@ class Creature : public location, public viewer
         void set_part_temp_cur( const bodypart_id &id, int set );
         void set_part_temp_conv( const bodypart_id &id, int set );
         void set_part_frostbite_timer( const bodypart_id &id, int set );
+
+        void set_part_mut_drench( const bodypart_id &id, std::pair<water_tolerance, int> set );
 
         void mod_part_hp_cur( const bodypart_id &id, int mod );
         void mod_part_hp_max( const bodypart_id &id, int mod );
@@ -785,7 +813,25 @@ class Creature : public location, public viewer
          */
         virtual int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const = 0;
 
+        /** Describe this creature as seen by the avatar via infrared vision. */
+        void describe_infrared( std::vector<std::string> &buf ) const;
+
+        /** Describe this creature as detected by the avatar's special senses. */
+        void describe_specials( std::vector<std::string> &buf ) const;
+
         // Message related stuff
+        // These functions print to the sidebar message log. Unlike add_msg which prints messages
+        // unconditionally, these only print messages when invoked for certain creature types:
+        //
+        // add_msg_if_player - only printed for avatar, not NPCs/monsters
+        // add_msg_if_npc - only printed for NPCs, not players/monsters
+        // add_msg_player_or_npc - printed for avatar or NPC, not monsters
+        //
+        // Examples:
+        // add_msg_if_player( "You feel that you need to eat more calorie-dense food." );
+        // add_msg_if_npc( "<npcname> falls off their mount!" );
+        // add_msg_if_player_or_npc( "You open the door.", "<npcname> opens the door." );
+        //
         virtual void add_msg_if_player( const std::string &/*msg*/ ) const {}
         virtual void add_msg_if_player( const game_message_params &/*params*/,
                                         const std::string &/*msg*/ ) const {}
@@ -926,6 +972,93 @@ class Creature : public location, public viewer
                                           string_format( npc_msg, std::forward<Args>( args )... ) );
         }
 
+        virtual void add_msg_debug_if_player( debugmode::debug_filter /*type*/,
+                                              const std::string &/*msg*/ ) const {}
+        void add_msg_debug_if_player( debugmode::debug_filter /*type*/, const translation &/*msg*/ ) const;
+        template<typename ...Args>
+        void add_msg_debug_if_player( debugmode::debug_filter type, const char *const msg,
+                                      Args &&... args ) const {
+            // expanding for string formatting can be expensive
+            if( debug_mode ) {
+                return add_msg_debug_if_player( type, string_format( msg, std::forward<Args>( args )... ) );
+            }
+        }
+        template<typename ...Args>
+        void add_msg_debug_if_player( debugmode::debug_filter type, const std::string &msg,
+                                      Args &&... args ) const {
+            if( debug_mode ) {
+                return add_msg_debug_if_player( type, string_format( msg, std::forward<Args>( args )... ) );
+            }
+        }
+        template<typename ...Args>
+        void add_msg_debug_if_player( debugmode::debug_filter type, const translation &msg,
+                                      Args &&... args ) const {
+            if( debug_mode ) {
+                return add_msg_debug_if_player( type, string_format( msg, std::forward<Args>( args )... ) );
+            }
+        }
+
+        virtual void add_msg_debug_if_npc( debugmode::debug_filter /*type*/,
+                                           const std::string &/*msg*/ ) const {}
+        void add_msg_debug_if_npc( debugmode::debug_filter /*type*/, const translation &/*msg*/ ) const;
+        template<typename ...Args>
+        void add_msg_debug_if_npc( debugmode::debug_filter type, const char *const msg,
+                                   Args &&... args ) const {
+            // expanding for string formatting can be expensive
+            if( debug_mode ) {
+                return add_msg_debug_if_npc( type, string_format( msg, std::forward<Args>( args )... ) );
+            }
+        }
+        template<typename ...Args>
+        void add_msg_debug_if_npc( debugmode::debug_filter type, const std::string &msg,
+                                   Args &&... args ) const {
+            if( debug_mode ) {
+                return add_msg_debug_if_npc( type, string_format( msg, std::forward<Args>( args )... ) );
+            }
+        }
+        template<typename ...Args>
+        void add_msg_debug_if_npc( debugmode::debug_filter type, const translation &msg,
+                                   Args &&... args ) const {
+            if( debug_mode ) {
+                return add_msg_debug_if_npc( type, string_format( msg, std::forward<Args>( args )... ) );
+            }
+        }
+
+        virtual void add_msg_debug_player_or_npc( debugmode::debug_filter /*type*/,
+                const std::string &/*player_msg*/,
+                const std::string &/*npc_msg*/ ) const {}
+        void add_msg_debug_player_or_npc( debugmode::debug_filter /*type*/,
+                                          const translation &/*player_msg*/,
+                                          const translation &/*npc_msg*/ ) const;
+        template<typename ...Args>
+        void add_msg_debug_player_or_npc( debugmode::debug_filter type, const char *const player_msg,
+                                          const char *const npc_msg, Args &&... args ) const {
+            // expanding for string formatting can be expensive
+            if( debug_mode ) {
+                return add_msg_debug_player_or_npc( type, string_format( player_msg,
+                                                    std::forward<Args>( args )... ),
+                                                    string_format( npc_msg, std::forward<Args>( args )... ) );
+            }
+        }
+        template<typename ...Args>
+        void add_msg_debug_player_or_npc( debugmode::debug_filter type, const std::string &player_msg,
+                                          const std::string &npc_msg, Args &&... args ) const {
+            if( debug_mode ) {
+                return add_msg_debug_player_or_npc( type, string_format( player_msg,
+                                                    std::forward<Args>( args )... ),
+                                                    string_format( npc_msg, std::forward<Args>( args )... ) );
+            }
+        }
+        template<typename ...Args>
+        void add_msg_debug_player_or_npc( debugmode::debug_filter type, const translation &player_msg,
+                                          const translation &npc_msg, Args &&... args ) const {
+            if( debug_mode ) {
+                return add_msg_debug_player_or_npc( type, string_format( player_msg,
+                                                    std::forward<Args>( args )... ),
+                                                    string_format( npc_msg, std::forward<Args>( args )... ) );
+            }
+        }
+
         virtual void add_msg_player_or_say( const std::string &/*player_msg*/,
                                             const std::string &/*npc_speech*/ ) const {}
         virtual void add_msg_player_or_say( const game_message_params &/*params*/,
@@ -1036,12 +1169,14 @@ class Creature : public location, public viewer
 
         int throw_resist = 0;
 
+        time_point last_updated;
+
         bool fake = false;
         Creature();
-        Creature( const Creature & ) = default;
-        Creature( Creature && ) = default;
-        Creature &operator=( const Creature & ) = default;
-        Creature &operator=( Creature && ) = default;
+        Creature( const Creature & );
+        Creature( Creature && ) noexcept( map_is_noexcept );
+        Creature &operator=( const Creature & );
+        Creature &operator=( Creature && ) noexcept;
 
     protected:
         virtual void on_stat_change( const std::string &, int ) {}
@@ -1098,6 +1233,14 @@ class Creature : public location, public viewer
 
     private:
         int pain;
+        // calculate how well the projectile hits
+        double accuracy_projectile_attack( dealt_projectile_attack &attack ) const;
+        // what bodypart does the projectile hit
+        projectile_attack_results select_body_part_projectile_attack( const projectile &proj,
+                double goodhit, double missed_by ) const;
+        // do messaging and SCT for projectile hit
+        void messaging_projectile_attack( const Creature *source,
+                                          const projectile_attack_results &hit_selection, int total_damage ) const;
 };
 
 #endif // CATA_SRC_CREATURE_H

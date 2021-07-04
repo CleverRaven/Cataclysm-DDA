@@ -2,9 +2,9 @@
 
 #include <cmath>
 #include <cstdlib>
+#include <string>
 
 #include "line.h"
-#include "math_defines.h"
 #include "units.h"
 #include "units_utility.h"
 
@@ -40,7 +40,7 @@ void tileray::init( const point &ad )
     infinite = false;
 }
 
-void tileray::init( units::angle adir )
+void tileray::init( const units::angle &adir )
 {
     leftover = 0;
     // Clamp adir to the range [0, 360)
@@ -170,7 +170,7 @@ int tileray::dir_symbol( int sym ) const
 
 std::string tileray::to_string_azimuth_from_north() const
 {
-    return to_string( std::lround( to_degrees( dir() + 90_degrees ) ) % 360 ) + "°";
+    return std::to_string( std::lround( to_degrees( dir() + 90_degrees ) ) % 360 ) + "°";
 }
 
 int tileray::ortho_dx( int od ) const

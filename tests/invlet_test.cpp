@@ -1,6 +1,5 @@
-#include "catch/catch.hpp"
-
 #include <cstddef>
+#include <functional>
 #include <list>
 #include <map>
 #include <memory>
@@ -9,8 +8,9 @@
 #include <unordered_map>
 #include <utility>
 
-#include "activity_actor.h"
+#include "activity_actor_definitions.h"
 #include "avatar.h"
+#include "cata_catch.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
@@ -67,7 +67,7 @@ template <typename T>
 static item *retrieve_item( const T &sel, int id )
 {
     item *obj = nullptr;
-    sel.visit_items( [&id, &obj]( const item * e ) {
+    sel.visit_items( [&id, &obj]( const item * e, item * ) {
         if( get_id( *e ) == id ) {
             obj = const_cast<item *>( e );
             return VisitResponse::ABORT;
@@ -379,14 +379,14 @@ static void move_item( player &p, const int id, const inventory_location from,
                     FAIL( "unimplemented" );
                     break;
                 case WORN:
-                    p.wear( item_at( p, id, from ), false );
+                    p.wear( item_location( *p.as_character(), &item_at( p, id, from ) ), false );
                     break;
                 case WIELDED_OR_WORN:
                     if( p.weapon.is_null() ) {
                         p.wield( item_at( p, id, from ) );
                     } else {
                         // since we can only wield one item, wear the item instead
-                        p.wear( item_at( p, id, from ), false );
+                        p.wear( item_location( *p.as_character(), &item_at( p, id, from ) ), false );
                     }
                     break;
             }
@@ -464,7 +464,7 @@ static void invlet_test( player &dummy, const inventory_location from, const inv
         dummy.worn.clear();
         dummy.remove_weapon();
         get_map().i_clear( dummy.pos() );
-        dummy.worn.push_back( item( "backpack" ) );
+        dummy.worn.emplace_back( "backpack" );
 
         // some two items that can be wielded, worn, and picked up
         item tshirt( "tshirt" );
@@ -513,8 +513,8 @@ static void invlet_test( player &dummy, const inventory_location from, const inv
                 break;
         }
 
-        invlet_state final_first_invlet_state = check_invlet( dummy, *final_first, invlet ),
-                     final_second_invlet_state = check_invlet( dummy, *final_second, invlet );
+        invlet_state final_first_invlet_state = check_invlet( dummy, *final_first, invlet );
+        invlet_state final_second_invlet_state = check_invlet( dummy, *final_second, invlet );
 
         INFO( test_action_desc( action, from, to, first_invlet_state, second_invlet_state,
                                 expected_first_invlet_state, expected_second_invlet_state, final_first_invlet_state,
@@ -546,7 +546,7 @@ static void stack_invlet_test( player &dummy, inventory_location from, inventory
     dummy.worn.clear();
     dummy.remove_weapon();
     get_map().i_clear( dummy.pos() );
-    dummy.worn.push_back( item( "backpack" ) );
+    dummy.worn.emplace_back( "backpack" );
 
     // some stackable item that can be wielded and worn
     item tshirt1( "tshirt" );
@@ -682,7 +682,7 @@ static void merge_invlet_test( player &dummy, inventory_location from )
         dummy.worn.clear();
         dummy.remove_weapon();
         get_map().i_clear( dummy.pos() );
-        dummy.worn.push_back( item( "backpack" ) );
+        dummy.worn.emplace_back( "backpack" );
 
         // some stackable item
         item tshirt1( "tshirt" );

@@ -29,7 +29,7 @@
   {
     "id": "candy_shop",
     "type": "item_group",
-    "items": [ { "group": "candy_chocolate", "prob": 460 }, [ "cookies", 50 ] ]
+    "items": [ { "group": "candy_chocolate", "prob": 460 }, [ "cookies", 50 ], { "item": "licorice", "prob": 50 } ]
   },
   {
     "id": "tux_shop",
@@ -78,13 +78,14 @@
     "type": "item_group",
     "items": [
       [ "adhesive_bandages", 25 ],
-      [ "1st_aid", 15 ],
-      [ "ifak", 15 ],
+      { "group": "full_1st_aid", "prob": 15 },
+      { "group": "full_ifak", "prob": 15 },
       [ "vitamins", 75 ],
       [ "calcium_tablet", 75 ],
       [ "aspirin", 45 ],
       [ "caffeine", 50 ],
       [ "pills_sleep", 45 ],
+      [ "melatonin_tablet", 30 ],
       [ "disinfectant", 15 ],
       [ "vaccine_shot", 10 ],
       [ "protein_powder", 40 ],
@@ -118,19 +119,22 @@
       { "item": "mp3", "prob": 40, "charges": 100 },
       [ "wolfsuit", 5 ],
       [ "dinosuit", 5 ],
-      [ "gum", 10 ],
+      { "item": "gum", "prob": 10, "charges": [ 1, 10 ] },
       [ "baseball", 40 ],
       [ "football", 40 ],
       [ "basketball", 50 ],
       { "item": "talking_doll", "prob": 50, "charges": 100 },
-      [ "marble", 60 ],
+      { "item": "marble", "prob": 60, "charges": [ 1, 20 ] },
       { "item": "creepy_doll", "prob": 1, "charges": 100 },
       [ "jedi_cloak", 5 ],
       [ "clown_suit", 5 ],
       [ "clownshoes", 5 ],
       { "group": "toy_radio_car", "prob": 10 },
       [ "RPG_die", 5 ],
-      [ "metal_RPG_die", 1 ]
+      [ "metal_RPG_die", 1 ],
+      { "item": "inflatable_dragon", "prob": 1, "charges": [ 0, 500 ] },
+      { "item": "inflatable_ghost", "prob": 1, "charges": [ 0, 500 ] },
+      { "item": "fog_machine", "prob": 1, "charges": [ 0, 500 ] }
     ]
   },
   {
@@ -144,7 +148,22 @@
       [ "glasses_safety", 30 ],
       [ "fancy_sunglasses", 5 ],
       [ "glasses_reading", 50 ],
-      [ "glasses_eye", 85 ]
+      [ "glasses_eye", 85 ],
+      [ "fancy_glasses_bifocal", 15 ],
+      [ "fancy_glasses_reading", 25 ],
+      [ "fancy_glasses_eye", 40 ],
+      [ "sunglasses_bifocal", 25 ],
+      [ "sunglasses_reading", 35 ],
+      [ "sunglasses_eye", 50 ],
+      [ "fancy_sunglasses_bifocal", 10 ],
+      [ "fancy_sunglasses_reading", 15 ],
+      [ "fancy_sunglasses_eye", 30 ],
+      [ "transition_glasses_bifocal", 5 ],
+      [ "transition_glasses_reading", 10 ],
+      [ "transition_glasses_eye", 20 ],
+      [ "fancy_transition_glasses_bifocal", 2 ],
+      [ "fancy_transition_glasses_reading", 5 ],
+      [ "fancy_transition_glasses_eye", 10 ]
     ]
   },
   {
@@ -266,10 +285,10 @@
     "ammo": 75,
     "magazine": 100,
     "items": [
-      [ "portable_game", 20 ],
+      { "item": "portable_game", "prob": 20, "charges": 100 },
       [ "antenna", 25 ],
       { "group": "ammo_any_batteries_full", "prob": 50 },
-      [ "mp3", 40 ],
+      { "item": "mp3", "prob": 40, "charges": 100 },
       [ "usb_drive", 10 ],
       [ "manual_electronics", 20 ],
       [ "cable", 60 ],
@@ -343,6 +362,8 @@
       [ "porkpie", 10 ],
       [ "postman_hat", 5 ],
       [ "maid_hat", 10 ],
+      [ "eyepatch_leather", 10 ],
+      [ "bandana_head", 10 ],
       [ "fedora", 5 ],
       [ "scarf_long", 5 ],
       [ "mask_guy_fawkes", 35 ],

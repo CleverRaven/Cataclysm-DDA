@@ -1,11 +1,17 @@
-#include "catch/catch.hpp"
-#include "mutation.h"
+#include <list>
+#include <memory>
 
+#include "calendar.h"
+#include "cata_catch.h"
+#include "character.h"
+#include "flag.h"
 #include "game.h"
+#include "item.h"
+#include "lightmap.h"
 #include "map.h"
-#include "player.h"
 #include "map_helpers.h"
 #include "player_helpers.h"
+#include "type_id.h"
 
 // Tests of Character vision and sight
 //
@@ -82,7 +88,7 @@ TEST_CASE( "light and fine_detail_vision_mod", "[character][sight][light][vision
 
     SECTION( "blindfolded" ) {
         dummy.wear_item( item( "blindfold" ) );
-        REQUIRE( dummy.worn_with_flag( "BLIND" ) );
+        REQUIRE( dummy.worn_with_flag( flag_BLIND ) );
 
         // 11.0 is zero light or blindness
         CHECK( dummy.fine_detail_vision_mod() == Approx( 11.0f ) );
@@ -119,7 +125,7 @@ TEST_CASE( "character sight limits", "[character][sight][vision]" )
 
     WHEN( "blindfolded" ) {
         dummy.wear_item( item( "blindfold" ) );
-        REQUIRE( dummy.worn_with_flag( "BLIND" ) );
+        REQUIRE( dummy.worn_with_flag( flag_BLIND ) );
 
         THEN( "impaired sight, with 0 tiles of range" ) {
             dummy.recalc_sight_limits();
@@ -145,7 +151,7 @@ TEST_CASE( "character sight limits", "[character][sight][vision]" )
 
         WHEN( "without glasses" ) {
             dummy.worn.clear();
-            REQUIRE_FALSE( dummy.worn_with_flag( "FIX_NEARSIGHT" ) );
+            REQUIRE_FALSE( dummy.worn_with_flag( flag_FIX_NEARSIGHT ) );
 
             THEN( "impaired sight, with 4 tiles of range" ) {
                 dummy.recalc_sight_limits();
@@ -156,7 +162,7 @@ TEST_CASE( "character sight limits", "[character][sight][vision]" )
 
         WHEN( "wearing glasses" ) {
             dummy.wear_item( item( "glasses_eye" ) );
-            REQUIRE( dummy.worn_with_flag( "FIX_NEARSIGHT" ) );
+            REQUIRE( dummy.worn_with_flag( flag_FIX_NEARSIGHT ) );
 
             THEN( "unimpaired sight, with 60 tiles of range" ) {
                 dummy.recalc_sight_limits();
@@ -208,7 +214,7 @@ TEST_CASE( "ursine vision", "[character][ursine][vision]" )
         REQUIRE( dummy.has_trait( trait_id( "URSINE_EYE" ) ) );
 
         dummy.worn.clear();
-        REQUIRE_FALSE( dummy.worn_with_flag( "FIX_NEARSIGHT" ) );
+        REQUIRE_FALSE( dummy.worn_with_flag( flag_FIX_NEARSIGHT ) );
 
         WHEN( "under a new moon" ) {
             calendar::turn = calendar::turn_zero;
@@ -269,7 +275,7 @@ TEST_CASE( "ursine vision", "[character][ursine][vision]" )
             // Glasses can correct Ursine Vision in bright light
             AND_WHEN( "wearing glasses" ) {
                 dummy.wear_item( item( "glasses_eye" ) );
-                REQUIRE( dummy.worn_with_flag( "FIX_NEARSIGHT" ) );
+                REQUIRE( dummy.worn_with_flag( flag_FIX_NEARSIGHT ) );
 
                 THEN( "unimpaired sight, with 87 tiles of range" ) {
                     dummy.recalc_sight_limits();

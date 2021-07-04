@@ -33,7 +33,7 @@
     "id": "lake_retreat",
     "name": "The Wizard's Vacation",
     "flags": [ "LONE_START" ],
-    "points": 6,
+    "points": 3,
     "description": "You have been an apprentice to a wizard for some time now, you've saved for years for your dream vacation at a secluded wizard tower.  Your journey of self-discovery is interrupted by the Cataclysm.  Now you have to figure out how to survive on your own.",
     "start_name": "Wizard's Retreat Vacation",
     "allowed_locs": [ "sloc_lake_retreat" ],
@@ -56,5 +56,29 @@
     "start_name": "Exiled",
     "allowed_locs": [ "sloc_hermit_shack", "sloc_cabin", "sloc_lmoe", "sloc_lighthouse_ground", "sloc_cabin_lake" ],
     "professions": [ "druid", "novice_necromancer" ]
+  },
+  {
+    "copy-from": "alcatraz",
+    "type": "scenario",
+    "extend": { "professions": [ "convict_arsonist", "convict_ecoterrorist", "storm_police" ] },
+    "id": "alcatraz"
+  },
+  {
+    "copy-from": "prisonbreak",
+    "type": "scenario",
+    "extend": { "professions": [ "convict_arsonist", "convict_ecoterrorist", "storm_police" ] },
+    "id": "prisonbreak"
+  },
+  {
+    "copy-from": "overrun",
+    "type": "scenario",
+    "extend": { "professions": [ "whitedeath_expy" ] },
+    "id": "overrun"
+  },
+  {
+    "copy-from": "heli_crash",
+    "type": "scenario",
+    "extend": { "professions": [ "whitedeath_expy" ] },
+    "id": "heli_crash"
   }
 ]

@@ -1,26 +1,19 @@
-#include "catch/catch.hpp"
-
+#include <iosfwd>
 #include <memory>
 #include <set>
 #include <string>
 
 #include "calendar.h"
+#include "cata_catch.h"
 #include "character.h"
+#include "flag.h"
 #include "item.h"
+#include "item_pocket.h"
 #include "itype.h"
 #include "options_helpers.h"
+#include "ret_val.h"
 #include "type_id.h"
 #include "value_ptr.h"
-
-static const std::string flag_COLD( "COLD" );
-static const std::string flag_DIAMOND( "DIAMOND" );
-static const std::string flag_FILTHY( "FILTHY" );
-static const std::string flag_FROZEN( "FROZEN" );
-static const std::string flag_HIDDEN_HALLU( "HIDDEN_HALLU" );
-static const std::string flag_HIDDEN_POISON( "HIDDEN_POISON" );
-static const std::string flag_HOT( "HOT" );
-static const std::string flag_MELTS( "MELTS" );
-static const std::string flag_WET( "WET" );
 
 static const fault_id fault_gun_dirt( "fault_gun_dirt" );
 
@@ -389,8 +382,8 @@ TEST_CASE( "weapon fouling", "[item][tname][fouling][dirt]" )
         // Ensure the player and gun are normal size to prevent "too big" or "too small" suffix in tname
         player_character.clear_mutations();
         REQUIRE( gun.get_sizing( player_character ) == item::sizing::ignore );
-        REQUIRE_FALSE( gun.has_flag( "OVERSIZE" ) );
-        REQUIRE_FALSE( gun.has_flag( "UNDERSIZE" ) );
+        REQUIRE_FALSE( gun.has_flag( flag_OVERSIZE ) );
+        REQUIRE_FALSE( gun.has_flag( flag_UNDERSIZE ) );
 
         WHEN( "it is perfectly clean" ) {
             gun.set_var( "dirt", 0 );
@@ -441,3 +434,60 @@ TEST_CASE( "weapon fouling", "[item][tname][fouling][dirt]" )
     }
 }
 
+TEST_CASE( "nested_items_tname", "[item][tname]" )
+{
+    item backpack_hiking( itype_id( "backpack_hiking" ) );
+    item purse( itype_id( "purse" ) );
+    item rock( itype_id( "test_rock" ) );
+    item rock2( itype_id( "rock" ) );
+    const std::string color_pref = "<color_c_light_green>||\u00A0</color>";
+
+    const std::string nesting_sym = ">";
+
+    SECTION( "single stack inside" ) {
+
+        backpack_hiking.put_in( rock, item_pocket::pocket_type::CONTAINER );
+
+        SECTION( "single rock" ) {
+            CHECK( backpack_hiking.tname( 1 ) == color_pref + "hiking backpack " + nesting_sym + " TEST rock" );
+        }
+        SECTION( "several rocks" ) {
+            backpack_hiking.put_in( rock, item_pocket::pocket_type::CONTAINER );
+            CHECK( backpack_hiking.tname( 1 ) == color_pref + "hiking backpack " + nesting_sym +
+                   " TEST rocks" );
+        }
+        SECTION( "several stacks" ) {
+            backpack_hiking.put_in( rock, item_pocket::pocket_type::CONTAINER );
+            backpack_hiking.put_in( rock2, item_pocket::pocket_type::CONTAINER );
+            CHECK( backpack_hiking.tname( 1 ) == color_pref + "hiking backpack " + nesting_sym + " 2 items" );
+        }
+    }
+
+    SECTION( "multi-level nesting" ) {
+        purse.put_in( rock, item_pocket::pocket_type::CONTAINER );
+
+        SECTION( "single rock" ) {
+            backpack_hiking.put_in( purse, item_pocket::pocket_type::CONTAINER );
+            CHECK( backpack_hiking.tname( 1 ) ==
+                   color_pref + "hiking backpack " + nesting_sym + " " + color_pref + "purse " + nesting_sym +
+                   " 1 item" );
+        }
+
+        SECTION( "several rocks" ) {
+            purse.put_in( rock2, item_pocket::pocket_type::CONTAINER );
+
+            backpack_hiking.put_in( purse, item_pocket::pocket_type::CONTAINER );
+
+            CHECK( backpack_hiking.tname( 1 ) ==
+                   color_pref + "hiking backpack " + nesting_sym + " " + color_pref + "purse " + nesting_sym +
+                   " 2 items" );
+        }
+
+        SECTION( "several purses" ) {
+            backpack_hiking.put_in( purse, item_pocket::pocket_type::CONTAINER );
+            backpack_hiking.put_in( purse, item_pocket::pocket_type::CONTAINER );
+
+            CHECK( backpack_hiking.tname( 1 ) == color_pref + "hiking backpack " + nesting_sym + " 2 items" );
+        }
+    }
+}

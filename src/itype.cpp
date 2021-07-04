@@ -1,10 +1,13 @@
 #include "itype.h"
 
 #include <cstdlib>
+#include <utility>
 
 #include "debug.h"
 #include "item.h"
+#include "make_static.h"
 #include "player.h"
+#include "recipe.h"
 #include "ret_val.h"
 #include "translations.h"
 
@@ -68,23 +71,6 @@ bool itype::has_use() const
     return !use_methods.empty();
 }
 
-bool itype::has_flag( const std::string &flag ) const
-{
-    return has_flag( flag_str_id( flag ) );
-}
-
-bool itype::has_flag( const flag_str_id &flag ) const
-{
-    // whichever collection is not empty is used
-    // if both are empty, either will do
-    // (see `item_tags_str_tmp` and Item_factory::finalize_post)
-    if( item_tags_str_tmp.size() > item_tags.size() ) {
-        return item_tags_str_tmp.count( flag );
-    } else {
-        return has_flag( flag.id() );
-    }
-}
-
 bool itype::has_flag( const flag_id &flag ) const
 {
     return item_tags.count( flag );
@@ -112,7 +98,7 @@ int itype::tick( player &p, item &it, const tripoint &pos ) const
     // Maybe should move charge decrementing here?
     int charges_to_use = 0;
     for( const auto &method : use_methods ) {
-        const int val = method.second.call( p, it, true, pos );
+        const int val = method.second.call( p, it, true, pos ).value_or( 0 );
         if( charges_to_use < 0 || val < 0 ) {
             charges_to_use = -1;
         } else {
@@ -123,7 +109,7 @@ int itype::tick( player &p, item &it, const tripoint &pos ) const
     return charges_to_use;
 }
 
-int itype::invoke( player &p, item &it, const tripoint &pos ) const
+cata::optional<int> itype::invoke( player &p, item &it, const tripoint &pos ) const
 {
     if( !has_use() ) {
         return 0;
@@ -131,7 +117,8 @@ int itype::invoke( player &p, item &it, const tripoint &pos ) const
     return invoke( p, it, pos, use_methods.begin()->first );
 }
 
-int itype::invoke( player &p, item &it, const tripoint &pos, const std::string &iuse_name ) const
+cata::optional<int> itype::invoke( player &p, item &it, const tripoint &pos,
+                                   const std::string &iuse_name ) const
 {
     const use_function *use = get_use( iuse_name );
     if( use == nullptr ) {
@@ -167,7 +154,7 @@ bool itype::can_have_charges() const
     if( gun && gun->clip > 0 ) {
         return true;
     }
-    if( has_flag( "CAN_HAVE_CHARGES" ) ) {
+    if( has_flag( STATIC( flag_id( "CAN_HAVE_CHARGES" ) ) ) ) {
         return true;
     }
     return false;

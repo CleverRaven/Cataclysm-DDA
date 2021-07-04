@@ -1,7 +1,6 @@
-#include "catch/catch.hpp"
+#include <type_traits>
 
-#include <utility>
-
+#include "cata_catch.h"
 #include "value_ptr.h"
 
 TEST_CASE( "value_ptr copy constructor", "[value_ptr]" )

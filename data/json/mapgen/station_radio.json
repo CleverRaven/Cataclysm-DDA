@@ -82,7 +82,7 @@
         "o": { "item": "novels", "chance": 70 },
         "r": { "item": "trash", "chance": 70 },
         "d": { "item": "office", "chance": 70 },
-        "e": { "item": "fridge", "chance": 70, "repeat": [ 2, 3 ] },
+        "e": { "item": "SUS_fridge_breakroom", "chance": 70 },
         "7": { "item": "office_paper", "chance": 30 }
       },
       "place_loot": [
@@ -225,7 +225,7 @@
         "o": { "item": "novels", "chance": 70 },
         "R": { "item": "trash", "chance": 70 },
         "d": { "item": "office", "chance": 70 },
-        "e": { "item": "fridge", "chance": 70, "repeat": [ 2, 3 ] },
+        "e": { "item": "SUS_fridge_breakroom", "chance": 70 },
         "P": { "item": "electronics", "chance": 70 },
         "l": { "item": "cleaning", "chance": 70 }
       },

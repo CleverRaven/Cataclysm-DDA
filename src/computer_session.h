@@ -2,8 +2,8 @@
 #ifndef CATA_SRC_COMPUTER_SESSION_H
 #define CATA_SRC_COMPUTER_SESSION_H
 
+#include <iosfwd>
 #include <map>
-#include <string>
 #include <utility>
 #include <vector>
 
@@ -15,7 +15,7 @@ class player;
 class computer_session
 {
     public:
-        computer_session( computer &comp );
+        explicit computer_session( computer &comp );
 
         /** Handles player use of a computer */
         void use();

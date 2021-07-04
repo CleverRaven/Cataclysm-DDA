@@ -4,14 +4,13 @@
 #include <iterator>
 #include <map>
 #include <set>
-#include <string>
 
 #include "assign.h"
+#include "calendar.h"
 #include "debug.h"
 #include "generic_factory.h"
 #include "item.h"
 #include "json.h"
-#include "string_id.h"
 
 namespace
 {
@@ -69,7 +68,7 @@ void material_type::load( const JsonObject &jsobj, const std::string & )
     optional( jsobj, was_loaded, "specific_heat_liquid", _specific_heat_liquid );
     optional( jsobj, was_loaded, "specific_heat_solid", _specific_heat_solid );
     optional( jsobj, was_loaded, "latent_heat", _latent_heat );
-    optional( jsobj, was_loaded, "freeze_point", _freeze_point );
+    optional( jsobj, was_loaded, "freezing_point", _freeze_point );
 
     assign( jsobj, "salvaged_into", _salvaged_into );
     optional( jsobj, was_loaded, "repaired_with", _repaired_with, itype_id::NULL_ID() );
@@ -101,11 +100,9 @@ void material_type::load( const JsonObject &jsobj, const std::string & )
         _burn_data.emplace_back( mbd );
     }
 
-    jsobj.read( "burn_products", _burn_products, true );
+    optional( jsobj, was_loaded, "fuel_data", fuel );
 
-    optional( jsobj, was_loaded, "compact_accepts", _compact_accepts,
-              auto_flags_reader<material_id>() );
-    optional( jsobj, was_loaded, "compacts_into", _compacts_into, auto_flags_reader<itype_id>() );
+    jsobj.read( "burn_products", _burn_products, true );
 }
 
 void material_type::check() const
@@ -121,16 +118,6 @@ void material_type::check() const
     }
     if( !item::type_is_defined( _repaired_with ) ) {
         debugmsg( "invalid \"repaired_with\" %s for %s.", _repaired_with.c_str(), id.c_str() );
-    }
-    for( const material_id &ca : _compact_accepts ) {
-        if( !ca.is_valid() ) {
-            debugmsg( "invalid \"compact_accepts\" %s for %s.", ca.c_str(), id.c_str() );
-        }
-    }
-    for( const itype_id &ci : _compacts_into ) {
-        if( !item::type_is_defined( ci ) || !item( ci, 0 ).only_made_of( std::set<material_id> { id } ) ) {
-            debugmsg( "invalid \"compacts_into\" %s for %s.", ci.c_str(), id.c_str() );
-        }
     }
 }
 
@@ -225,7 +212,7 @@ float material_type::latent_heat() const
     return _latent_heat;
 }
 
-int material_type::freeze_point() const
+float material_type::freeze_point() const
 {
     return _freeze_point;
 }
@@ -255,6 +242,11 @@ bool material_type::reinforces() const
     return _reinforces;
 }
 
+fuel_data material_type::get_fuel_data() const
+{
+    return fuel;
+}
+
 const mat_burn_data &material_type::burn_data( size_t intensity ) const
 {
     return _burn_data[ std::min<size_t>( intensity, _burn_data.size() ) - 1 ];
@@ -263,16 +255,6 @@ const mat_burn_data &material_type::burn_data( size_t intensity ) const
 const mat_burn_products &material_type::burn_products() const
 {
     return _burn_products;
-}
-
-const material_id_list &material_type::compact_accepts() const
-{
-    return _compact_accepts;
-}
-
-const mat_compacts_into &material_type::compacts_into() const
-{
-    return _compacts_into;
 }
 
 void materials::load( const JsonObject &jo, const std::string &src )
@@ -295,17 +277,6 @@ material_list materials::get_all()
     return material_data.get_all();
 }
 
-material_list materials::get_compactable()
-{
-    material_list all = get_all();
-    material_list compactable;
-    std::copy_if( all.begin(), all.end(),
-    std::back_inserter( compactable ), []( const material_type & mt ) {
-        return !mt.compacts_into().empty();
-    } );
-    return compactable;
-}
-
 std::set<material_id> materials::get_rotting()
 {
     static generic_factory<material_type>::Version version;
@@ -324,4 +295,39 @@ std::set<material_id> materials::get_rotting()
     }
 
     return rotting;
+}
+
+void fuel_data::load( const JsonObject &jsobj )
+{
+    mandatory( jsobj, was_loaded, "energy", energy );
+    optional( jsobj, was_loaded, "pump_terrain", pump_terrain );
+    optional( jsobj, was_loaded, "explosion_data", explosion_data );
+    optional( jsobj, was_loaded, "perpetual", is_perpetual_fuel );
+}
+
+void fuel_data::deserialize( JsonIn &jsin )
+{
+    const JsonObject &jo = jsin.get_object();
+    load( jo );
+}
+
+bool fuel_explosion_data::is_empty()
+{
+    return explosion_chance_cold == 0 && explosion_chance_hot == 0 && explosion_factor == 0.0f &&
+           !fiery_explosion && fuel_size_factor == 0.0f;
+}
+
+void fuel_explosion_data::load( const JsonObject &jsobj )
+{
+    optional( jsobj, was_loaded, "chance_hot", explosion_chance_hot );
+    optional( jsobj, was_loaded, "chance_cold", explosion_chance_cold );
+    optional( jsobj, was_loaded, "factor", explosion_factor );
+    optional( jsobj, was_loaded, "size_factor", fuel_size_factor );
+    optional( jsobj, was_loaded, "fiery", fiery_explosion );
+}
+
+void fuel_explosion_data::deserialize( JsonIn &jsin )
+{
+    const JsonObject &jo = jsin.get_object();
+    load( jo );
 }

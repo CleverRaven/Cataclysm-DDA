@@ -27,7 +27,7 @@
     "type": "item_group",
     "id": "cop_gear",
     "items": [
-      [ "1st_aid", 30 ],
+      { "group": "full_1st_aid", "prob": 30 },
       [ "armor_riot", 20 ],
       [ "airhorn", 5 ],
       [ "bandages", 10 ],
@@ -115,7 +115,11 @@
     "subtype": "collection",
     "entries": [
       {
-        "collection": [ { "item": "adhesive_bandages", "prob": 30 }, { "item": "bandages", "prob": 30 }, { "item": "1st_aid", "prob": 20 } ],
+        "collection": [
+          { "item": "adhesive_bandages", "prob": 30 },
+          { "item": "bandages", "prob": 30 },
+          { "group": "full_1st_aid", "prob": 20 }
+        ],
         "prob": 25
       },
       {

@@ -71,6 +71,11 @@
     "damage_reduction": { "all": 12 }
   },
   {
+    "id": "MAGIC_FOLLOW",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
+  },
+  {
     "id": "mana",
     "name": "mana energy",
     "default": "mana",
@@ -86,9 +91,8 @@
     "volume": "10 ml",
     "bashing": 1,
     "phase": "solid",
-    "material": [ "flesh" ],
+    "material": [ "mana" ],
     "flags": [ "PSEUDO", "PERPETUAL" ],
-    "fuel": { "energy": 500 },
     "symbol": "?",
     "color": "magenta",
     "count": 1,

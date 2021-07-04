@@ -2,15 +2,14 @@
 #ifndef CATA_SRC_MISSION_H
 #define CATA_SRC_MISSION_H
 
-#include <algorithm>
 #include <functional>
+#include <iosfwd>
 #include <map>
 #include <memory>
 #include <string>
 #include <utility>
 #include <vector>
 
-#include "basecamp.h"
 #include "calendar.h"
 #include "character_id.h"
 #include "coordinates.h"
@@ -20,8 +19,6 @@
 #include "omdata.h"
 #include "optional.h"
 #include "overmap.h"
-#include "point.h"
-#include "string_id.h"
 #include "talker.h"
 #include "translations.h"
 #include "type_id.h"
@@ -36,7 +33,6 @@ class item;
 class mission;
 class npc;
 class overmapbuffer;
-class player;
 template<typename T> struct enum_traits;
 
 enum npc_mission : int;
@@ -234,7 +230,7 @@ struct mission_type {
         // Points of origin
         std::vector<mission_origin> origins;
         itype_id item_id = itype_id::NULL_ID();
-        Group_tag group_id = "null";
+        item_group_id group_id = item_group_id::NULL_ID();
         itype_id container_id = itype_id::NULL_ID();
         bool remove_container = false;
         itype_id empty_container = itype_id::NULL_ID();
@@ -356,8 +352,8 @@ class mission
         character_id player_id;
     public:
 
-        std::string name();
-        mission_type_id mission_id();
+        std::string name() const;
+        mission_type_id mission_id() const;
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
 
@@ -446,6 +442,8 @@ class mission
          */
         /*@{*/
         static void on_creature_death( Creature &poor_dead_dude );
+        // returns: whether any mission is tranferred to fuser
+        static bool on_creature_fusion( Creature &fuser, Creature &fused );
         /*@}*/
 
         // Serializes and unserializes all missions
@@ -468,7 +466,7 @@ class mission
 
         static void get_all_item_group_matches(
             std::vector<item *> &items,
-            Group_tag &grp_type,
+            item_group_id &grp_type,
             std::map<itype_id, int> &matches,
             const itype_id &required_container,
             const itype_id &actual_container,

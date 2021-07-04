@@ -8,20 +8,20 @@
 #include <functional>
 #include <iosfwd>
 #include <list>
-#include <map>
 #include <memory>
+#include <queue>
+#include <new>
 #include <set>
-#include <string>
 #include <unordered_set>
 #include <utility>
 #include <vector>
 
-#include "action.h"
 #include "calendar.h"
 #include "character_id.h"
 #include "coordinates.h"
 #include "creature.h"
 #include "cursesdef.h"
+#include "effect_on_condition.h"
 #include "enums.h"
 #include "game_constants.h"
 #include "item_location.h"
@@ -31,6 +31,8 @@
 #include "pimpl.h"
 #include "point.h"
 #include "type_id.h"
+#include "uistate.h"
+#include "units_fwd.h"
 #include "weather.h"
 
 class Character;
@@ -54,8 +56,6 @@ static const std::string SAVE_EXTENSION_SHORTCUTS( ".shortcuts" );
 class game;
 
 extern std::unique_ptr<game> g;
-
-extern const int core_version;
 
 extern const int savegame_version;
 extern int savegame_loading_version;
@@ -125,6 +125,14 @@ enum peek_act : int {
 struct look_around_result {
     cata::optional<tripoint> position;
     cata::optional<peek_act> peek_action;
+};
+struct look_around_params {
+    const bool show_window;
+    tripoint &center;
+    const tripoint &start_point;
+    bool has_first_point;
+    bool select_zone;
+    bool peeking;
 };
 
 struct w_map {
@@ -198,12 +206,10 @@ class game
         /** Loads dynamic data from the given directory. May throw. */
         void load_data_from_dir( const std::string &path, const std::string &src, loading_ui &ui );
     public:
-        /** Initializes the UI. */
-        void init_ui( bool resized = false );
         void setup();
         /** Saving and loading functions. */
         void serialize( std::ostream &fout ); // for save
-        void unserialize( std::istream &fin ); // for load
+        void unserialize( std::istream &fin, const std::string &path ); // for load
         void unserialize_master( std::istream &fin ); // for load
 
         /** write statistics to stdout and @return true if successful */
@@ -229,7 +235,7 @@ class game
         class draw_callback_t
         {
             public:
-                draw_callback_t( const std::function<void()> &cb );
+                explicit draw_callback_t( const std::function<void()> &cb );
                 ~draw_callback_t();
                 void operator()();
                 friend class game;
@@ -333,7 +339,7 @@ class game
         monster *place_critter_at( const shared_ptr_fast<monster> &mon, const tripoint &p );
         monster *place_critter_around( const mtype_id &id, const tripoint &center, int radius );
         monster *place_critter_around( const shared_ptr_fast<monster> &mon, const tripoint &center,
-                                       int radius );
+                                       int radius, bool forced = false );
         monster *place_critter_within( const mtype_id &id, const tripoint_range<tripoint> &range );
         monster *place_critter_within( const shared_ptr_fast<monster> &mon,
                                        const tripoint_range<tripoint> &range );
@@ -414,13 +420,13 @@ class game
         class monster_range : public non_dead_range<monster>
         {
             public:
-                monster_range( game &game_ref );
+                explicit monster_range( game &game_ref );
         };
 
         class npc_range : public non_dead_range<npc>
         {
             public:
-                npc_range( game &game_ref );
+                explicit npc_range( game &game_ref );
         };
 
         class Creature_range : public non_dead_range<Creature>
@@ -429,7 +435,7 @@ class game
                 shared_ptr_fast<player> u;
 
             public:
-                Creature_range( game &game_ref );
+                explicit Creature_range( game &game_ref );
         };
 
     public:
@@ -524,13 +530,11 @@ class game
         void validate_linked_vehicles();
         /** validate camps to ensure they are on the overmap list */
         void validate_camps();
-        /** process vehicles that are following the player */
-        void autopilot_vehicles();
         /** Picks and spawns a random fish from the remaining fish list when a fish is caught. */
         void catch_a_monster( monster *fish, const tripoint &pos, player *p,
                               const time_duration &catch_duration );
         /**
-         * Get the contiguous fishable locations starting at fish_pos, out to the specificed distance.
+         * Get the contiguous fishable locations starting at fish_pos, out to the specified distance.
          * @param distance Distance around the fish_pos to examine for contiguous fishable locations.
          * @param fish_pos The location being fished.
          * @return A set of locations representing the valid contiguous fishable locations.
@@ -556,7 +560,7 @@ class game
         void reset_light_level();
         character_id assign_npc_id();
         Creature *is_hostile_nearby();
-        Creature *is_hostile_very_close();
+        Creature *is_hostile_very_close( bool dangerous = false );
         // Handles shifting coordinates transparently when moving between submaps.
         // Helper to make calling with a player pointer less verbose.
         point update_map( Character &p );
@@ -577,6 +581,7 @@ class game
         cata::optional<tripoint> look_around();
         look_around_result look_around( bool show_window, tripoint &center,
                                         const tripoint &start_point, bool has_first_point, bool select_zone, bool peeking );
+        look_around_result look_around( look_around_params );
 
         // Shared method to print "look around" info
         void pre_print_all_tile_info( const tripoint &lp, const catacurses::window &w_info,
@@ -594,7 +599,7 @@ class game
 
         void draw_trail_to_square( const tripoint &t, bool bDrawX );
 
-        enum inventory_item_menu_positon {
+        enum inventory_item_menu_position {
             RIGHT_TERMINAL_EDGE,
             LEFT_OF_INFO,
             RIGHT_OF_INFO,
@@ -607,7 +612,7 @@ class game
         const std::function<int()> &width = []() {
             return 50;
         },
-        inventory_item_menu_positon position = RIGHT_OF_INFO );
+        inventory_item_menu_position position = RIGHT_OF_INFO );
 
         /** Custom-filtered menu for inventory and nearby items and those that within specified radius */
         item_location inv_map_splice( const item_filter &filter, const std::string &title, int radius = 0,
@@ -694,7 +699,7 @@ class game
         void draw_item_override( const tripoint &p, const itype_id &id, const mtype_id &mid,
                                  bool hilite );
         void draw_vpart_override( const tripoint &p, const vpart_id &id, int part_mod,
-                                  units::angle veh_dir, bool hilite, const point &mount );
+                                  const units::angle &veh_dir, bool hilite, const point &mount );
         void draw_below_override( const tripoint &p, bool draw );
         void draw_monster_override( const tripoint &p, const mtype_id &id, int count,
                                     bool more, Creature::Attitude att );
@@ -737,15 +742,16 @@ class game
 
         // Handle phasing through walls, returns true if it handled the move
         bool phasing_move( const tripoint &dest, bool via_ramp = false );
+        bool can_move_furniture( tripoint fdest, const tripoint &dp );
         // Regular movement. Returns false if it failed for any reason
-        bool walk_move( const tripoint &dest, bool via_ramp = false );
+        bool walk_move( const tripoint &dest, bool via_ramp = false, bool furniture_move = false );
         void on_move_effects();
     private:
         // Game-start procedures
         bool load( const save_t &name ); // Load a player-specific save file
         void load_master(); // Load the master data file, with factions &c
 #if defined(__ANDROID__)
-        void load_shortcuts( std::istream &fin );
+        void load_shortcuts( std::istream &fin, const std::string &path );
 #endif
         bool start_game(); // Starts a new game in the active world
 
@@ -784,9 +790,8 @@ class game
         /** Check for dangerous stuff at dest_loc, return false if the player decides
         not to step there */
         // Handle pushing during move, returns true if it handled the move
-        bool grabbed_move( const tripoint &dp );
+        bool grabbed_move( const tripoint &dp, bool via_ramp );
         bool grabbed_veh_move( const tripoint &dp );
-        bool grabbed_furn_move( const tripoint &dp );
 
         void control_vehicle(); // Use vehicle controls  '^'
         void examine( const tripoint &p ); // Examine nearby terrain  'e'
@@ -803,6 +808,9 @@ class game
 
         void reload( item_location &loc, bool prompt = false, bool empty = true );
     public:
+        int grabbed_furn_move_time( const tripoint &dp );
+        bool grabbed_furn_move( const tripoint &dp );
+
         void reload_item(); // Reload an item
         void reload_wielded( bool prompt = false );
         void reload_weapon( bool try_everything = true ); // Reload a wielded gun/tool  'r'
@@ -878,6 +886,8 @@ class game
         void process_activity(); // Processes and enacts the player's activity
         void handle_key_blocking_activity(); // Abort reading etc.
         void open_consume_item_menu(); // Custom menu for consuming specific group of items
+        bool do_regular_action( action_id &act, avatar &player_character,
+                                const cata::optional<tripoint> &mouse_target );
         bool handle_action();
         bool try_get_right_click_action( action_id &act, const tripoint &mouse_target );
         bool try_get_left_click_action( action_id &act, const tripoint &mouse_target );
@@ -919,17 +929,8 @@ class game
         void disp_NPC_epilogues();  // Display NPC endings
 
         /* Debug functions */
-        // overlays flags (on / off)
-        std::map<action_id, bool> displaying_overlays{
-            { ACTION_DISPLAY_SCENT, false },
-            { ACTION_DISPLAY_SCENT_TYPE, false },
-            { ACTION_DISPLAY_TEMPERATURE, false },
-            { ACTION_DISPLAY_VEHICLE_AI, false },
-            { ACTION_DISPLAY_VISIBILITY, false },
-            { ACTION_DISPLAY_LIGHTING, false },
-            { ACTION_DISPLAY_RADIATION, false },
-            { ACTION_DISPLAY_TRANSPARENCY, false },
-        };
+        // currently displayed overlay (none is displayed if empty)
+        cata::optional<action_id> displaying_overlays;
         void display_scent();   // Displays the scent map
         void display_temperature();    // Displays temperature map
         void display_vehicle_ai(); // Displays vehicle autopilot AI overlay
@@ -938,7 +939,25 @@ class game
         void display_radiation(); // Displays radiation map
         void display_transparency(); // Displays transparency map
 
-        Creature *is_hostile_within( int distance );
+        // prints the IRL time in ms of the last full in-game hour
+        class debug_hour_timer
+        {
+            public:
+                using IRLTimeMs = std::chrono::time_point<std::chrono::system_clock, std::chrono::milliseconds>;
+                void toggle();
+                void print_time();
+            private:
+                bool enabled = false;
+                cata::optional<IRLTimeMs> start_time = cata::nullopt;
+        } debug_hour_timer;
+
+        /**
+         * Checks if there's a hostile creature within given distance.
+         * @param dangerous If true, makes additional checks for monsters with ranged attack capabilities within distance OR
+         * if there's a route from monster to player, and returns this particular monster.
+         * @return Hostile creature within given distance.
+         */
+        Creature *is_hostile_within( int distance, bool dangerous = false );
 
         void move_save_to_graveyard();
         bool save_player_data();
@@ -969,6 +988,13 @@ class game
         achievements_tracker &achievements();
         memorial_logger &memorial();
     public:
+        // setting that specifies which reachability zone cache to display
+        struct debug_reachability_zones_display {
+            public:
+                bool r_cache_vertical;
+                reachability_cache_quadrant quadrant;
+        } debug_rz_display = {};
+        void display_reachability_zones(); // Displays reachability zones
 
         spell_events &spell_events_subscriber();
 
@@ -1003,6 +1029,8 @@ class game
         void display_toggle_overlay( action_id );
         // Get the state of an overlay (on/off).
         bool display_overlay_state( action_id );
+        // toggles the timing of in-game hours
+        void toggle_debug_hour_timer();
         /** Creature for which to display the visibility map */
         Creature *displaying_visibility_creature;
         /** Type of lighting condition overlay to display */
@@ -1016,10 +1044,12 @@ class game
         safe_mode_type safe_mode;
 
         //pixel minimap management
-        int pixel_minimap_option = 0;
-        int turnssincelastmon = 0; // needed for auto run mode
+        time_duration turnssincelastmon = 0_turns; // needed for auto run mode
 
         weather_manager weather;
+
+        std::vector<effect_on_condition_id> inactive_effect_on_condition_vector;
+        std::priority_queue<queued_eoc, std::vector<queued_eoc>, eoc_compare> queued_effect_on_conditions;
 
         int mostseen = 0; // # of mons seen last turn; if this increases, set safe_mode to SAFE_MODE_STOP
     private:

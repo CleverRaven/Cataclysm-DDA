@@ -2,13 +2,11 @@
 #ifndef CATA_SRC_CLOTHING_MOD_H
 #define CATA_SRC_CLOTHING_MOD_H
 
-#include <algorithm>
 #include <array>
 #include <cstddef>
-#include <string>
+#include <iosfwd>
 #include <vector>
 
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 
@@ -37,8 +35,8 @@ struct mod_value {
     clothing_mod_type type = clothing_mod_type::num_clothing_mod_types;
     float value = 0.0f;
     bool round_up = false;
-    bool thickness_propotion = false;
-    bool coverage_propotion = false;
+    bool thickness_proportion = false;
+    bool coverage_proportion = false;
 };
 
 struct clothing_mod {
@@ -49,7 +47,7 @@ struct clothing_mod {
     clothing_mod_id id;
     bool was_loaded = false;
 
-    flag_str_id flag;
+    flag_id flag;
     itype_id item_string;
     translation implement_prompt;
     translation destroy_prompt;

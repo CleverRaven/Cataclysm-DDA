@@ -36,6 +36,31 @@
     "use_action": [ "WASH_HARD_ITEMS" ]
   },
   {
+    "id": "dish_towel",
+    "type": "TOOL",
+    "category": "spare_parts",
+    "name": { "str": "dish towel" },
+    "description": "This is a dish towel, useful for cleaning hard surfaces.",
+    "weight": "80 g",
+    "volume": "250 ml",
+    "price": 200,
+    "price_postapoc": 20,
+    "material": [ "cotton" ],
+    "symbol": ",",
+    "color": "white",
+    "use_action": [ "WASH_HARD_ITEMS" ],
+    "snippet_category": [
+      { "id": "dtowel1", "text": "An elegant, monogrammed dish towel.  Unfortunately, they aren't your initials." },
+      { "id": "dtowel2", "text": "An elegant, monogrammed dish towel.  It even has your initials!" },
+      { "id": "dtowel3", "text": "A well used dish towel, judging by the stains." },
+      { "id": "dtowel4", "text": "A novelty dish towel, featuring a popular children's cartoon character." },
+      { "id": "dtowel5", "text": "A novelty dish towel which reads \"IT'S WINE O CLOCK\"." },
+      { "id": "dtowel6", "text": "A dish towel with a floral pattern." },
+      { "id": "dtowel7", "text": "A dish towel with a gingham pattern." },
+      { "id": "dtowel8", "text": "A dish towel with a cat pattern." }
+    ]
+  },
+  {
     "id": "elec_hairtrimmer",
     "type": "TOOL",
     "name": { "str": "electric hair trimmer" },
@@ -150,7 +175,17 @@
     "symbol": "s",
     "color": "yellow",
     "use_action": [ "WASH_HARD_ITEMS" ],
-    "flags": [ "NO_SALVAGE" ]
+    "flags": [ "NO_SALVAGE" ],
+    "snippet_category": [
+      { "id": "spng1", "text": "A round smiley face sponge." },
+      { "id": "spng2", "text": "A rectangular sponge with a green abrasive back." },
+      { "id": "spng3", "text": "A natural sea sponge.  It looks kind of lumpy." },
+      { "id": "spng4", "text": "A dolphin shaped sponge.  It looks at home in the water." },
+      { "id": "spng5", "text": "A rectangular sponge." },
+      { "id": "spng6", "text": "A sponge cake shaped sponge, the abrasive pad looks like frosting." },
+      { "id": "spng7", "text": "A sponge in the shape of a beloved character from a children's cartoon." },
+      { "id": "spng8", "text": "A cat shaped sponge." }
+    ]
   },
   {
     "id": "survivor_hairtrimmer",
@@ -195,9 +230,9 @@
     "type": "TOOL",
     "name": { "str": "washboard" },
     "description": "This is a wooden washboard.  You can use it to wash filthy clothing if it's supplied with cleansing agent.",
-    "weight": "786 g",
-    "volume": "1966 ml",
-    "longest_side": "40 cm",
+    "weight": "1160 g",
+    "volume": "900 ml",
+    "longest_side": "50 cm",
     "price": 1000,
     "price_postapoc": 50,
     "to_hit": -1,

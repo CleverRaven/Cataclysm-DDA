@@ -1,14 +1,17 @@
+#include "vehicle.h" // IWYU pragma: associated
+
 #include <algorithm>
 #include <cmath>
 #include <memory>
 #include <set>
+#include <string>
 
 #include "cata_assert.h"
 #include "character.h"
 #include "color.h"
 #include "debug.h"
 #include "enums.h"
-#include "flat_set.h"
+#include "flag.h"
 #include "game.h"
 #include "item.h"
 #include "item_contents.h"
@@ -19,12 +22,10 @@
 #include "npc.h"
 #include "ret_val.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "translations.h"
 #include "units.h"
 #include "value_ptr.h"
 #include "veh_type.h"
-#include "vehicle.h" // IWYU pragma: associated
 #include "vpart_position.h"
 #include "weather.h"
 
@@ -45,11 +46,11 @@ vehicle_part::vehicle_part( const vpart_id &vp, const std::string &variant_id, c
     : mount( dp ), id( vp ), variant( variant_id ), base( std::move( obj ) )
 {
     // Mark base item as being installed as a vehicle part
-    base.set_flag( "VEHICLE" );
+    base.set_flag( flag_VEHICLE );
 
-    if( base.typeId() != vp->item ) {
+    if( base.typeId() != vp->base_item ) {
         debugmsg( "incorrect vehicle part item, expected: %s, received: %s",
-                  vp->item.c_str(), base.typeId().c_str() );
+                  vp->base_item.c_str(), base.typeId().c_str() );
     }
 }
 
@@ -71,16 +72,16 @@ void vehicle_part::set_base( const item &new_base )
 item vehicle_part::properties_to_item() const
 {
     item tmp = base;
-    tmp.unset_flag( "VEHICLE" );
+    tmp.unset_flag( flag_VEHICLE );
 
     // Cables get special handling: their target coordinates need to remain
     // stored, and if a cable actually drops, it should be half-connected.
-    if( tmp.has_flag( "CABLE_SPOOL" ) && !tmp.has_flag( "TOW_CABLE" ) ) {
+    if( tmp.has_flag( flag_CABLE_SPOOL ) && !tmp.has_flag( flag_TOW_CABLE ) ) {
         map &here = get_map();
         const tripoint local_pos = here.getlocal( target.first );
         if( !here.veh_at( local_pos ) ) {
             // That vehicle ain't there no more.
-            tmp.set_flag( "NO_DROP" );
+            tmp.set_flag( flag_NO_DROP );
         }
 
         tmp.set_var( "source_x", target.first.x );
@@ -164,6 +165,14 @@ double vehicle_part::damage_percent() const
 bool vehicle_part::is_broken() const
 {
     return base.damage() >= base.max_damage();
+}
+
+bool vehicle_part::is_cleaner_on() const
+{
+    const bool is_cleaner = info().has_flag( VPFLAG_AUTOCLAVE ) ||
+                            info().has_flag( VPFLAG_DISHWASHER ) ||
+                            info().has_flag( VPFLAG_WASHING_MACHINE );
+    return is_cleaner && enabled;
 }
 
 bool vehicle_part::is_unavailable( const bool carried ) const
@@ -377,8 +386,11 @@ bool vehicle_part::can_reload( const item &obj ) const
         return true;
     }
 
-    return is_fuel_store() &&
-           ammo_remaining() <= ammo_capacity( item::find_type( ammo_current() )->ammo->type );
+    if( ammo_current().is_null() ) {
+        return true; // empty tank
+    }
+
+    return ammo_remaining() < ammo_capacity( ammo_current().obj().ammo->type );
 }
 
 void vehicle_part::process_contents( const tripoint &pos, const bool e_heater )
@@ -524,6 +536,12 @@ bool vehicle_part::is_fuel_store( bool skip_broke ) const
 bool vehicle_part::is_tank() const
 {
     return base.is_watertight_container();
+}
+
+bool vehicle_part::contains_liquid() const
+{
+    return is_tank() && !base.contents.empty() &&
+           base.contents.only_item().made_of( phase_id::LIQUID );
 }
 
 bool vehicle_part::is_battery() const

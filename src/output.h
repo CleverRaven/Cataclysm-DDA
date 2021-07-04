@@ -2,13 +2,15 @@
 #ifndef CATA_SRC_OUTPUT_H
 #define CATA_SRC_OUTPUT_H
 
+#include <functional>
+#include <clocale>
 #include <algorithm>
 #include <cstddef>
 #include <cstdint>
 #include <forward_list>
 #include <functional>
+#include <iosfwd>
 #include <iterator>
-#include <locale>
 #include <map>
 #include <string>
 #include <type_traits>
@@ -156,7 +158,7 @@ nc_color msgtype_to_color( game_message_type type, bool bOldMsg = false );
  * @anchor color_tags
  * @name color tags
  *
- * Most print function have only one color parameter (or none at all), therefor they would
+ * Most print function have only one color parameter (or none at all), therefore they would
  * print the whole text in one color. To print some parts of a text in a different color,
  * one would have to write separate calls to the print functions.
  *
@@ -228,7 +230,8 @@ std::vector<std::string> foldstring( const std::string &str, int width, char spl
  * @param base_color Base color that is used outside of any color tag.
  **/
 void print_colored_text( const catacurses::window &w, const point &p, nc_color &cur_color,
-                         const nc_color &base_color, const std::string &text );
+                         const nc_color &base_color, const std::string &text,
+                         report_color_error color_error = report_color_error::yes );
 /**
  * Print word wrapped text (with @ref color_tags) into the window.
  *
@@ -274,7 +277,7 @@ inline int fold_and_print( const catacurses::window &w, const point &begin,
 /**
  * Like @ref fold_and_print, but starts the output with the N-th line of the folded string.
  * This can be used for scrolling large texts. Parameters have the same meaning as for
- * @ref fold_and_print, the function therefor handles @ref color_tags correctly.
+ * @ref fold_and_print, the function therefore handles @ref color_tags correctly.
  *
  * @param w Window we are printing in
  * @param begin The (row,column) index on which to start.
@@ -312,14 +315,26 @@ inline int fold_and_print_from( const catacurses::window &w, const point &begin,
  * @param text Actual message to print
  */
 void trim_and_print( const catacurses::window &w, const point &begin, int width,
-                     nc_color base_color, const std::string &text );
+                     const nc_color &base_color, const std::string &text,
+                     report_color_error color_error = report_color_error::yes );
 std::string trim_by_length( const std::string &text, int width );
 template<typename ...Args>
 inline void trim_and_print( const catacurses::window &w, const point &begin,
-                            const int width, const nc_color base_color, const char *const mes, Args &&... args )
+                            const int width, const nc_color &base_color,
+                            const char *const mes, Args &&... args )
 {
-    return trim_and_print( w, begin, width, base_color, string_format( mes,
-                           std::forward<Args>( args )... ) );
+    return trim_and_print( w, begin, width, base_color,
+                           string_format( mes, std::forward<Args>( args )... ) );
+}
+template<typename ...Args>
+inline void trim_and_print( const catacurses::window &w, const point &begin,
+                            const int width, const nc_color &base_color,
+                            const report_color_error color_error,
+                            const char *const mes, Args &&... args )
+{
+    return trim_and_print( w, begin, width, base_color,
+                           string_format( mes, std::forward<Args>( args )... ),
+                           color_error );
 }
 void center_print( const catacurses::window &w, int y, const nc_color &FG,
                    const std::string &text );
@@ -388,7 +403,7 @@ class border_helper
 
                 friend class border_helper;
             private:
-                border_info( border_helper &helper );
+                explicit border_info( border_helper &helper );
 
                 point pos;
                 point size;
@@ -396,7 +411,7 @@ class border_helper
         };
 
         border_info &add_border();
-        void draw_border( const catacurses::window &win );
+        void draw_border( const catacurses::window &win, nc_color border_color = BORDER_COLOR );
 
         friend class border_info;
     private:
@@ -853,7 +868,7 @@ class scrollbar
 class scrolling_text_view
 {
     public:
-        scrolling_text_view( catacurses::window &w ) : w_( w ) {}
+        explicit scrolling_text_view( catacurses::window &w ) : w_( w ) {}
 
         void set_text( const std::string & );
         void scroll_up();
@@ -921,7 +936,7 @@ class scrollingcombattext
                 }
                 int getPosX() const;
                 int getPosY() const;
-                direction getDirecton() const {
+                direction getDirection() const {
                     return oDir;
                 }
                 int getInitPosX() const {

@@ -1,6 +1,8 @@
 #include "mtype.h"
 
 #include <algorithm>
+#include <array>
+#include <cmath>
 #include <unordered_map>
 
 #include "behavior_strategy.h"
@@ -10,7 +12,6 @@
 #include "itype.h"
 #include "mondeath.h"
 #include "monstergenerator.h"
-#include "string_id.h"
 #include "translations.h"
 #include "units.h"
 
@@ -126,10 +127,6 @@ bool mtype::in_species( const species_id &spec ) const
     return species.count( spec ) > 0;
 }
 
-bool mtype::in_species( const species_type &spec ) const
-{
-    return species_ptrs.count( &spec ) > 0;
-}
 std::vector<std::string> mtype::species_descriptions() const
 {
     std::vector<std::string> ret;
@@ -141,14 +138,21 @@ std::vector<std::string> mtype::species_descriptions() const
     return ret;
 }
 
-bool mtype::same_species( const mtype &other ) const
+field_type_id mtype::get_bleed_type() const
 {
-    for( const species_type *s : species_ptrs ) {
-        if( other.in_species( *s ) ) {
-            return true;
+    for( const species_id &s : species ) {
+        if( !s->bleeds.is_empty() ) {
+            return s->bleeds;
         }
     }
-    return false;
+    return fd_null;
+}
+
+bool mtype::same_species( const mtype &other ) const
+{
+    return std::any_of( species.begin(), species.end(), [&]( const species_id & s ) {
+        return other.in_species( s );
+    } );
 }
 
 field_type_id mtype::bloodType() const
@@ -173,7 +177,7 @@ field_type_id mtype::bloodType() const
     if( has_flag( MF_WARM ) && made_of( material_id( "flesh" ) ) ) {
         return fd_blood;
     }
-    return fd_null;
+    return get_bleed_type();
 }
 
 field_type_id mtype::gibType() const

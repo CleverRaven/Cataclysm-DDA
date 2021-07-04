@@ -110,6 +110,28 @@
     "coverage": 95,
     "encumbrance": 10,
     "warmth": 5,
+    "material_thickness": 0.1,
+    "environmental_protection": 1,
+    "flags": [ "BLIND" ]
+  },
+  {
+    "id": "blindfold_duct",
+    "type": "ARMOR",
+    "name": { "str": "duct tape blindfold" },
+    "//": "A folded bandana still takes up some space on the head.",
+    "description": "A simple covering tied over the eyes to block sight, made out of duct tape.  Useful for sleeping in bright areas.",
+    "weight": "20 g",
+    "volume": "60 ml",
+    "price": 10,
+    "price_postapoc": 5,
+    "material": [ "plastic" ],
+    "symbol": "[",
+    "looks_like": "blindfold",
+    "color": "dark_gray",
+    "covers": [ "eyes" ],
+    "coverage": 95,
+    "encumbrance": 10,
+    "warmth": 0,
     "material_thickness": 1,
     "environmental_protection": 1,
     "flags": [ "BLIND" ]
@@ -181,7 +203,7 @@
     "encumbrance": 70,
     "warmth": 5,
     "material_thickness": 1,
-    "flags": [ "WATER_FRIENDLY", "OUTER", "SPLINT" ]
+    "flags": [ "WATER_FRIENDLY", "OUTER", "SPLINT", "ALLOWS_TAIL" ]
   },
   {
     "id": "leg_xlsplint",
@@ -194,7 +216,7 @@
     "price": 25000,
     "price_postapoc": 50,
     "encumbrance": 140,
-    "flags": [ "OVERSIZE", "WATER_FRIENDLY", "OUTER", "SPLINT" ]
+    "flags": [ "OVERSIZE", "WATER_FRIENDLY", "OUTER", "SPLINT", "ALLOWS_TAIL" ]
   },
   {
     "id": "miner_hat",
@@ -281,7 +303,7 @@
     "encumbrance": 60,
     "material_thickness": 3,
     "qualities": [ [ "GLARE", 3 ] ],
-    "flags": [ "SUN_GLASSES", "FLASH_PROTECTION", "BLIND" ]
+    "flags": [ "SUN_GLASSES", "FLASH_PROTECTION" ]
   },
   {
     "id": "welding_mask_crude",
@@ -375,10 +397,11 @@
     "price": 6000,
     "price_postapoc": 100,
     "material": [ "plastic" ],
-    "flags": [ "WATCH", "WATER_FRIENDLY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ],
+    "flags": [ "WATCH", "ALARMCLOCK", "WATER_FRIENDLY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ],
     "coverage": 15,
     "symbol": "[",
     "ammo": "battery",
+    "charges_per_use": 1,
     "use_action": [ "PORTABLE_GAME" ],
     "pocket_data": [
       {
@@ -394,7 +417,7 @@
   {
     "type": "TOOL_ARMOR",
     "id": "fitness_band",
-    "name": "fitness band",
+    "name": { "str": "fitness band" },
     "category": "clothing",
     "volume": "100 ml",
     "description": "A fitness band that can track your heartbeat, exercise level and also has a clock.  Activate to see your metrics.",
@@ -438,11 +461,9 @@
       }
     ],
     "ammo": "battery",
-    "max_charges": 500,
-    "initial_charges": 500,
     "charges_per_use": 25,
     "warmth": 10,
-    "material_thickness": 1,
+    "material_thickness": 0.5,
     "environmental_protection": 4,
     "use_action": [ "DIRECTIONAL_HOLOGRAM" ],
     "flags": [ "OVERSIZE", "HOOD", "WATERPROOF", "OUTER" ]
@@ -467,7 +488,7 @@
     "encumbrance": 10,
     "coverage": 50,
     "flags": [ "FANCY", "VARSIZE", "SUN_GLASSES" ],
-    "material_thickness": 1
+    "material_thickness": 0.5
   },
   {
     "id": "thermal_socks",
@@ -496,7 +517,7 @@
     "covers": [ "foot_l", "foot_r" ],
     "warmth": 10,
     "coverage": 100,
-    "material_thickness": 1,
+    "material_thickness": 0.3,
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -556,7 +577,7 @@
     "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ],
     "warmth": 10,
     "coverage": 100,
-    "material_thickness": 1,
+    "material_thickness": 0.1,
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -616,7 +637,7 @@
     "covers": [ "hand_l", "hand_r" ],
     "warmth": 10,
     "coverage": 100,
-    "material_thickness": 1,
+    "material_thickness": 0.3,
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -676,7 +697,7 @@
     "covers": [ "head", "mouth" ],
     "warmth": 10,
     "coverage": 100,
-    "material_thickness": 1,
+    "material_thickness": 0.3,
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -993,6 +1014,7 @@
       "SWIM_GOGGLES",
       "SUN_GLASSES",
       "RAD_PROOF",
+      "GAS_PROOF",
       "ELECTRIC_IMMUNE",
       "THERMOMETER",
       "TRADER_AVOID",
@@ -1031,11 +1053,9 @@
       }
     ],
     "ammo": "battery",
-    "max_charges": 1000,
-    "initial_charges": 1000,
     "use_action": {
       "type": "transform",
-      "msg": "A LED light in the %s LED flickers on.",
+      "msg": "A LED light in the %s flickers on.",
       "target": "dimensional_anchor_on",
       "active": true,
       "need_charges": 1,
@@ -1068,6 +1088,21 @@
     "flags": [ "DIMENSIONAL_ANCHOR", "OVERSIZE", "BELTED" ]
   },
   {
+    "id": "broken_dimensional_anchor",
+    "copy-from": "dimensional_anchor",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "malfunctioning 5-point anchor" },
+    "description": "A battered, disc-shaped device mounted on a harness.  The inscriptions \"X.E.D.R.A\" and \"5-point anchor\" are barely legible in its radiation stained front and back.",
+    "use_action": {
+      "type": "transform",
+      "msg": "The %s emits a low pitched clicking alarm as its mounted LED light flashes yellow.",
+      "target": "broken_dimensional_anchor",
+      "active": true,
+      "need_charges": 1,
+      "need_charges_msg": "It seems like this device needs power."
+    }
+  },
+  {
     "id": "phase_immersion_suit",
     "type": "TOOL_ARMOR",
     "category": "clothing",
@@ -1092,8 +1127,6 @@
       }
     ],
     "ammo": "battery",
-    "max_charges": 1000,
-    "initial_charges": 1000,
     "use_action": {
       "type": "transform",
       "msg": "Initiating\nRunning suit integrity diagnostics…\nAll systems operational.",
@@ -1114,7 +1147,6 @@
       "WATERPROOF",
       "HYGROMETER",
       "THERMOMETER",
-      "SUPER_FANCY",
       "RAINPROOF",
       "WATCH",
       "ALARMCLOCK",
@@ -1141,7 +1173,6 @@
       "WATERPROOF",
       "HYGROMETER",
       "THERMOMETER",
-      "SUPER_FANCY",
       "RAINPROOF",
       "WATCH",
       "ALARMCLOCK",
@@ -1528,6 +1559,30 @@
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "SUN_GLASSES", "SLEEP_IGNORE" ]
   },
   {
+    "id": "mask_wsurvivor_nofur",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "faux fur winter survivor mask" },
+    "description": "A custom-built, faux fur-trimmed gas mask that covers the face and eyes.  It provides excellent protection from smoke, teargas, and shrapnel and while not quite as warm as real fur it's pretty good.  It must be prepared before use.",
+    "copy-from": "mask_wsurvivor",
+    "material": [ "kevlar_layered", "faux_fur" ],
+    "symbol": "[",
+    "warmth": 65,
+    "looks_like": "mask_wsurvivor",
+    "color": "pink"
+  },
+  {
+    "id": "mask_wsurvivorxl_nofur",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "XL faux fur winter survivor mask" },
+    "description": "A custom-built, faux fur-trimmed gas mask that covers the face and eyes regardless of your state of mutation.  It still provides excellent protection from smoke, teargas, and shrapnel and while not quite as warm as real fur it's pretty good.  It must be prepared before use.",
+    "copy-from": "mask_wsurvivorxl",
+    "material": [ "kevlar_layered", "faux_fur" ],
+    "symbol": "[",
+    "warmth": 65,
+    "looks_like": "mask_wsurvivorxl",
+    "color": "pink"
+  },
+  {
     "id": "mask_wsurvivor",
     "type": "TOOL_ARMOR",
     "category": "armor",
@@ -1881,7 +1936,7 @@
     "flags": [ "WATERPROOF", "RAINPROOF", "HOOD", "OVERSIZE", "OUTER" ],
     "environmental_protection": 1,
     "coverage": 90,
-    "material_thickness": 1
+    "material_thickness": 0.1
   },
   {
     "type": "TOOL",
@@ -1920,7 +1975,7 @@
     "environmental_protection": 1,
     "encumbrance": 50,
     "coverage": 90,
-    "material_thickness": 1
+    "material_thickness": 0.1
   },
   {
     "id": "rad_monitor",
@@ -1942,7 +1997,7 @@
     "covers": [ "hand_l", "hand_r" ],
     "sided": true,
     "coverage": 5,
-    "material_thickness": 1,
+    "material_thickness": 0.1,
     "flags": [ "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE" ],
     "pocket_data": [
       {
@@ -1951,51 +2006,8 @@
         "rigid": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "light_minus_battery_cell", "light_minus_atomic_battery_cell" ]
+        "item_restriction": [ "light_minus_battery_cell", "light_minus_atomic_battery_cell", "light_minus_disposable_cell" ]
       }
-    ]
-  },
-  {
-    "type": "ARMOR",
-    "id": "survivor_belt",
-    "name": { "str": "survivor utility belt" },
-    "weight": "3390 g",
-    "color": "brown",
-    "covers": [ "torso" ],
-    "symbol": "[",
-    "description": "A custom-built leather utility belt covered with straps and pouches containing many useful hand tools and a sheath to carry a smaller blade.  Durable and carefully crafted to be comfortable to wear.  Activate to sheathe/draw a weapon.",
-    "price": 50000,
-    "price_postapoc": 1000,
-    "material": [ "leather", "iron" ],
-    "volume": "4 L",
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY", "WAIST", "OVERSIZE" ],
-    "coverage": 15,
-    "encumbrance": 4,
-    "material_thickness": 2,
-    "pocket_data": [
-      {
-        "holster": true,
-        "min_item_volume": "250 ml",
-        "max_contains_volume": "1 L",
-        "max_contains_weight": "2 kg",
-        "max_item_length": "70 cm",
-        "moves": 3,
-        "flag_restriction": [ "SHEATH_KNIFE", "SHEATH_SWORD" ]
-      }
-    ],
-    "use_action": [ { "type": "holster", "holster_prompt": "Sheath blade", "holster_msg": "You sheath your %s" }, "CROWBAR", "HAMMER" ],
-    "qualities": [
-      [ "HAMMER", 3 ],
-      [ "PRY", 1 ],
-      [ "SAW_M", 2 ],
-      [ "SAW_W", 2 ],
-      [ "WRENCH", 2 ],
-      [ "AXE", 1 ],
-      [ "SCREW", 1 ],
-      [ "HAMMER_FINE", 1 ],
-      [ "SAW_M_FINE", 1 ],
-      [ "WRENCH_FINE", 1 ],
-      [ "SCREW_FINE", 1 ]
     ]
   },
   {
@@ -2048,7 +2060,7 @@
     "use_action": [ "TOWEL" ],
     "warmth": 10,
     "coverage": 50,
-    "material_thickness": 1
+    "material_thickness": 0.3
   },
   {
     "id": "towel_wet",
@@ -2069,28 +2081,7 @@
     "use_action": [ "TOWEL" ],
     "flags": [ "WET" ],
     "coverage": 50,
-    "material_thickness": 1
-  },
-  {
-    "id": "towel_soiled",
-    "type": "TOOL_ARMOR",
-    "repairs_like": "towel",
-    "symbol": ",",
-    "color": "magenta",
-    "name": { "str": "soiled towel" },
-    "description": "This is a large towel, covered in a thick, gooey liquid.  You'll need to wash it in some water to make it usable again.  Don't panic.",
-    "price": 2000,
-    "price_postapoc": 0,
-    "material": [ "cotton" ],
-    "covers": [ "torso", "leg_l", "leg_r" ],
-    "weight": "400 g",
-    "volume": "500 ml",
-    "to_hit": -1,
-    "revert_to": "towel",
-    "use_action": [ "TOWEL" ],
-    "flags": [ "WET" ],
-    "coverage": 50,
-    "material_thickness": 1
+    "material_thickness": 0.3
   },
   {
     "type": "TOOL_ARMOR",
@@ -2111,8 +2102,8 @@
     "environmental_protection": 3,
     "encumbrance": 10,
     "coverage": 50,
-    "flags": [ "FANCY", "VARSIZE", "SUN_GLASSES" ],
-    "material_thickness": 2
+    "flags": [ "VARSIZE", "SUN_GLASSES" ],
+    "material_thickness": 1
   },
   {
     "id": "patchwork_scarf",
@@ -2135,7 +2126,7 @@
     "environmental_protection": 1,
     "encumbrance": 3,
     "coverage": 85,
-    "material_thickness": 1
+    "material_thickness": 0.3
   },
   {
     "id": "patchwork_scarf_loose",
@@ -2160,7 +2151,7 @@
     "environmental_protection": 1,
     "encumbrance": 2,
     "coverage": 45,
-    "material_thickness": 1
+    "material_thickness": 0.3
   },
   {
     "id": "long_patchwork_scarf",
@@ -2183,7 +2174,7 @@
     "environmental_protection": 1,
     "encumbrance": 3,
     "coverage": 85,
-    "material_thickness": 1
+    "material_thickness": 0.3
   },
   {
     "id": "long_patchwork_scarf_loose",
@@ -2213,7 +2204,7 @@
     "environmental_protection": 1,
     "encumbrance": 2,
     "coverage": 45,
-    "material_thickness": 1
+    "material_thickness": 0.3
   },
   {
     "id": "knit_scarf",
@@ -2236,7 +2227,7 @@
     "environmental_protection": 2,
     "encumbrance": 3,
     "coverage": 85,
-    "material_thickness": 2
+    "material_thickness": 1
   },
   {
     "id": "knit_scarf_loose",
@@ -2261,7 +2252,7 @@
     "environmental_protection": 1,
     "encumbrance": 2,
     "coverage": 45,
-    "material_thickness": 2
+    "material_thickness": 1
   },
   {
     "id": "long_knit_scarf",
@@ -2284,7 +2275,7 @@
     "environmental_protection": 2,
     "encumbrance": 3,
     "coverage": 85,
-    "material_thickness": 2
+    "material_thickness": 1
   },
   {
     "id": "long_knit_scarf_loose",
@@ -2332,7 +2323,7 @@
     "environmental_protection": 2,
     "encumbrance": 3,
     "coverage": 85,
-    "material_thickness": 2
+    "material_thickness": 1
   },
   {
     "id": "scarf_loose",
@@ -2357,7 +2348,7 @@
     "environmental_protection": 1,
     "encumbrance": 2,
     "coverage": 45,
-    "material_thickness": 2
+    "material_thickness": 1
   },
   {
     "id": "scarf_long",
@@ -2380,7 +2371,7 @@
     "environmental_protection": 2,
     "encumbrance": 3,
     "coverage": 85,
-    "material_thickness": 2
+    "material_thickness": 1
   },
   {
     "id": "scarf_long_loose",
@@ -2405,7 +2396,7 @@
     "environmental_protection": 1,
     "encumbrance": 2,
     "coverage": 45,
-    "material_thickness": 2
+    "material_thickness": 1
   },
   {
     "id": "scarf_fur",
@@ -2428,7 +2419,7 @@
     "environmental_protection": 3,
     "encumbrance": 10,
     "coverage": 85,
-    "material_thickness": 3
+    "material_thickness": 2
   },
   {
     "id": "scarf_fur_loose",
@@ -2453,7 +2444,7 @@
     "environmental_protection": 2,
     "encumbrance": 10,
     "coverage": 45,
-    "material_thickness": 3
+    "material_thickness": 2
   },
   {
     "id": "scarf_fur_long",
@@ -2476,7 +2467,7 @@
     "environmental_protection": 3,
     "encumbrance": 10,
     "coverage": 85,
-    "material_thickness": 3
+    "material_thickness": 2
   },
   {
     "id": "scarf_fur_long_loose",
@@ -2500,7 +2491,7 @@
     "warmth": 35,
     "environmental_protection": 2,
     "coverage": 45,
-    "material_thickness": 3
+    "material_thickness": 2
   },
   {
     "id": "thermal_outfit",
@@ -2529,7 +2520,7 @@
     "covers": [ "head", "mouth", "torso", "arm_l", "arm_r", "leg_l", "leg_r", "hand_l", "hand_r", "foot_l", "foot_r" ],
     "warmth": 10,
     "coverage": 100,
-    "material_thickness": 1,
+    "material_thickness": 0.1,
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -2556,6 +2547,98 @@
     "warmth": 60
   },
   {
+    "id": "turtleneck",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "turtleneck" },
+    "description": "A tasteful wool turtleneck, modeled after cashmere.  Unemcumbering and warm, but lacking storage.",
+    "category": "clothing",
+    "weight": "478 g",
+    "volume": "2500 ml",
+    "price": 5000,
+    "price_postapoc": 60,
+    "material": [ "wool" ],
+    "symbol": "[",
+    "looks_like": "sweater",
+    "color": "white",
+    "covers": [ "torso", "arm_l", "arm_r", "mouth" ],
+    "coverage": 95,
+    "encumbrance": 8,
+    "warmth": 35,
+    "material_thickness": 0.5,
+    "use_action": { "target": "turtleneck_rolled", "msg": "You adjust the neck and collar of the turtleneck.", "type": "transform" },
+    "flags": [ "VARSIZE", "FANCY", "ALLOWS_NATURAL_ATTACKS" ]
+  },
+  {
+    "id": "turtleneck_rolled",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "turtleneck (rolled)", "str_pl": "turtlenecks (rolled)" },
+    "description": "This wool turtleneck's neck is rolled out of the way of the mouth.",
+    "category": "clothing",
+    "weight": "478 g",
+    "volume": "2500 ml",
+    "price": 5000,
+    "price_postapoc": 60,
+    "material": [ "wool" ],
+    "symbol": "[",
+    "looks_like": "sweater",
+    "color": "white",
+    "covers": [ "torso", "arm_l", "arm_r" ],
+    "coverage": 95,
+    "encumbrance": 8,
+    "warmth": 35,
+    "material_thickness": 0.5,
+    "use_action": { "target": "turtleneck", "msg": "You adjust the neck and collar of the turtleneck.", "type": "transform" },
+    "flags": [ "VARSIZE", "FANCY", "ALLOWS_NATURAL_ATTACKS" ]
+  },
+  {
+    "id": "turtleneck_shirt",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "turtleneck shirt" },
+    "description": "A tasteful cotton turtleneck shirt, thick for a shirt, thin for a sweater and completely lacking storage.",
+    "category": "clothing",
+    "weight": "300 g",
+    "volume": "2000 ml",
+    "price": 2000,
+    "price_postapoc": 50,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "sweater",
+    "color": "white",
+    "covers": [ "torso", "arm_l", "arm_r", "mouth" ],
+    "coverage": 95,
+    "encumbrance": 4,
+    "warmth": 20,
+    "material_thickness": 0.5,
+    "use_action": {
+      "target": "turtleneck_shirt_rolled",
+      "msg": "You adjust the neck and collar of the turtleneck shirt.",
+      "type": "transform"
+    },
+    "flags": [ "VARSIZE", "FANCY", "ALLOWS_NATURAL_ATTACKS" ]
+  },
+  {
+    "id": "turtleneck_shirt_rolled",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "turtleneck shirt (rolled)", "str_pl": "turtleneck shirts (rolled)" },
+    "description": "This turtleneck shirt's neck is rolled out of the way of the mouth.",
+    "category": "clothing",
+    "weight": "300 g",
+    "volume": "2000 ml",
+    "price": 2000,
+    "price_postapoc": 50,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "sweater",
+    "color": "white",
+    "covers": [ "torso", "arm_l", "arm_r" ],
+    "coverage": 95,
+    "encumbrance": 4,
+    "warmth": 20,
+    "material_thickness": 0.5,
+    "use_action": { "target": "turtleneck_shirt", "msg": "You adjust the neck and collar of the turtleneck shirt.", "type": "transform" },
+    "flags": [ "VARSIZE", "FANCY", "ALLOWS_NATURAL_ATTACKS" ]
+  },
+  {
     "type": "TOOL_ARMOR",
     "id": "mask_ski",
     "name": { "str": "ski mask" },
@@ -2579,7 +2662,7 @@
     "encumbrance": 10,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
     "coverage": 80,
-    "material_thickness": 3
+    "material_thickness": 1
   },
   {
     "type": "TOOL_ARMOR",
@@ -2607,7 +2690,7 @@
     "encumbrance": 10,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
     "coverage": 60,
-    "material_thickness": 3
+    "material_thickness": 1
   },
   {
     "type": "TOOL_ARMOR",
@@ -2635,224 +2718,6 @@
       "noise": 38,
       "moves": 100
     }
-  },
-  {
-    "type": "TOOL_ARMOR",
-    "id": "harmonica_holder",
-    "name": { "str_pl": "harmonicas with holders", "str": "harmonica with a holder" },
-    "category": "tools",
-    "weight": "200 g",
-    "color": "brown",
-    "covers": [ "head" ],
-    "use_action": {
-      "type": "musical_instrument",
-      "speed_penalty": 10,
-      "volume": 10,
-      "fun": -5,
-      "fun_bonus": 2,
-      "description_frequency": 20,
-      "player_descriptions": [ "You produce a happy tune on the harmonica.", "You whistle on the harmonica." ],
-      "npc_descriptions": [ "produce a happy tune on the harmonica.", "whistle on the harmonica." ]
-    },
-    "symbol": "-",
-    "description": "A harmonica with a holder, so that you can play it without a free hand.",
-    "price": 1000,
-    "price_postapoc": 150,
-    "material": [ "steel" ],
-    "volume": "250 ml",
-    "flags": [ "BELTED", "SLEEP_IGNORE" ],
-    "material_thickness": 1
-  },
-  {
-    "type": "TOOL_ARMOR",
-    "id": "acoustic_guitar",
-    "name": { "str": "acoustic guitar" },
-    "category": "tools",
-    "weight": "2500 g",
-    "color": "brown",
-    "covers": [ "torso" ],
-    "to_hit": 2,
-    "use_action": {
-      "type": "musical_instrument",
-      "speed_penalty": 15,
-      "volume": 20,
-      "fun": 2,
-      "fun_bonus": 2,
-      "description_frequency": 20,
-      "player_descriptions": [
-        "You strum a few chords on the guitar.",
-        "You pluck a few notes on the guitar.",
-        "You play a slow blues-y tune on the guitar."
-      ],
-      "npc_descriptions": [ "strum a few chords on the guitar.", "pluck a few notes on the guitar.", "play a slow blues-y tune on the guitar." ]
-    },
-    "symbol": "-",
-    "description": "A simple wooden acoustic guitar with a strap so you can wear it around, even when not playing.",
-    "price": 1000,
-    "price_postapoc": 250,
-    "material": [ "wood" ],
-    "volume": "6750 ml",
-    "longest_side": "100 cm",
-    "warmth": 2,
-    "encumbrance": 27,
-    "bashing": 8,
-    "flags": [ "BELTED", "SLEEP_IGNORE" ],
-    "coverage": 10,
-    "material_thickness": 2
-  },
-  {
-    "type": "TOOL_ARMOR",
-    "id": "guitar_electric",
-    "name": { "str": "electric guitar" },
-    "category": "tools",
-    "weight": "2250 g",
-    "color": "red",
-    "covers": [ "torso" ],
-    "to_hit": 2,
-    "use_action": {
-      "type": "musical_instrument",
-      "speed_penalty": 15,
-      "volume": 20,
-      "fun": 2,
-      "fun_bonus": 2,
-      "description_frequency": 20,
-      "player_descriptions": [
-        "You plink out a shredding solo on your guitar.",
-        "You play an epic classic rock riff on your guitar.",
-        "You play a furious, muted riff on your guitar.",
-        "You play a crunchy stoner tune on your guitar.",
-        "You play an old Britpop song on your guitar.",
-        "You play a tasteful classical piece on your guitar.",
-        "You play a jangly folk ditty on your guitar.",
-        "You play a melancholy melody on your guitar."
-      ]
-    },
-    "symbol": "-",
-    "description": "A standard factory-made electric guitar.  It's probably better at smashing heads than melting faces, these days.  Has a strap.",
-    "price": 1000,
-    "price_postapoc": 250,
-    "//": "Electric guitar less awesome when there's no electricity.",
-    "material": [ "wood", "iron" ],
-    "volume": "6750 ml",
-    "longest_side": "100 cm",
-    "warmth": 2,
-    "encumbrance": 27,
-    "bashing": 8,
-    "flags": [ "BELTED", "SLEEP_IGNORE" ],
-    "coverage": 10,
-    "material_thickness": 2
-  },
-  {
-    "type": "TOOL_ARMOR",
-    "id": "bagpipes",
-    "name": { "str_sp": "bagpipes" },
-    "category": "tools",
-    "weight": "2300 g",
-    "color": "green",
-    "covers": [ "torso" ],
-    "to_hit": -2,
-    "use_action": {
-      "type": "musical_instrument",
-      "speed_penalty": 15,
-      "volume": 24,
-      "fun": 2,
-      "fun_bonus": 2,
-      "description_frequency": 20,
-      "player_descriptions": [
-        "Your pipes drone loudly as you strikes a battle hymn from the chanter.",
-        "Your pipes drone a slow and piercing dirge.",
-        "You strike a lively quick step march on their pipes."
-      ],
-      "npc_descriptions": [
-        "pipes drone loudly as it strikes a battle hymn from the chanter.",
-        "pipes drone a slow and piercing dirge.",
-        "strike a lively quick step march on their pipes."
-      ]
-    },
-    "symbol": "-",
-    "description": "A traditional musical instrument using enclosed reeds fed from a reservoir of air contained within a leather bag.  It has a strap so you can wear it around, even when not playing.",
-    "price": 10000,
-    "price_postapoc": 500,
-    "material": [ "leather", "wood" ],
-    "volume": "4 L",
-    "encumbrance": 15,
-    "bashing": 4,
-    "flags": [ "BELTED", "SLEEP_IGNORE" ],
-    "coverage": 10,
-    "material_thickness": 2
-  },
-  {
-    "type": "TOOL_ARMOR",
-    "id": "tuba",
-    "name": { "str": "tuba" },
-    "category": "tools",
-    "weight": "10000 g",
-    "color": "yellow",
-    "covers": [ "torso" ],
-    "flags": [ "BELTED", "SLEEP_IGNORE" ],
-    "to_hit": -1,
-    "use_action": {
-      "type": "musical_instrument",
-      "speed_penalty": 25,
-      "volume": 20,
-      "fun": -2,
-      "fun_bonus": 4,
-      "description_frequency": 20,
-      "player_descriptions": [ "You play a little tune on the tuba.", "You play a ditty on the tuba.", "You play a marching tune on the tuba." ],
-      "npc_descriptions": [ "play a little tune on the tuba.", "play a ditty on the tuba.", "play a marching tune on the tuba." ]
-    },
-    "symbol": "&",
-    "description": {
-      "//~": "ol' is an informal short-form for old, and here is part of big-ol as large-and-cumbersome.",
-      "str": "A big ol' tuba.  Much easier to play when wearing."
-    },
-    "price": 5500,
-    "price_postapoc": 250,
-    "material": [ "iron" ],
-    "volume": "12500 ml",
-    "encumbrance": 30,
-    "bashing": 13,
-    "coverage": 20,
-    "material_thickness": 4
-  },
-  {
-    "type": "TOOL_ARMOR",
-    "id": "saxophone",
-    "name": { "str": "saxophone" },
-    "category": "tools",
-    "weight": "2000 g",
-    "color": "yellow",
-    "covers": [ "torso" ],
-    "flags": [ "BELTED", "SLEEP_IGNORE" ],
-    "to_hit": 1,
-    "use_action": {
-      "type": "musical_instrument",
-      "speed_penalty": 18,
-      "volume": 20,
-      "fun": -3,
-      "fun_bonus": 4,
-      "description_frequency": 20,
-      "player_descriptions": [
-        "You play a little tune on the saxophone.",
-        "You play a soulful jazz piece on the sax.",
-        "You play a quick, energetic ditty on the sax."
-      ],
-      "npc_descriptions": [
-        "play a little tune on the saxophone.",
-        "play a soulful jazz piece on the sax.",
-        "play a quick, energetic ditty on the sax."
-      ]
-    },
-    "symbol": "{",
-    "description": "A brass alto saxophone with a neck strap, so you can wear it while playing.",
-    "price": 7500,
-    "price_postapoc": 250,
-    "material": [ "brass" ],
-    "volume": "4500 ml",
-    "encumbrance": 30,
-    "bashing": 12,
-    "coverage": 20,
-    "material_thickness": 4
   },
   {
     "id": "powered_earmuffs",
@@ -2920,6 +2785,7 @@
     "//": "3M Peltors claim to go 100 hours on 2 AAs",
     "power_draw": 60,
     "ammo": "battery",
+    "charges_per_use": 1,
     "revert_to": "powered_earmuffs",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s flicks off.", "target": "powered_earmuffs" },
     "covers": [ "head" ],
@@ -3097,7 +2963,7 @@
       { "pocket_type": "MAGAZINE", "airtight": true, "rigid": true, "watertight": true, "ammo_restriction": { "nitrox": 60 } }
     ],
     "covers": [ "torso" ],
-    "flags": [ "WATER_FRIENDLY", "BELTED", "ONLY_ONE", "STURDY", "NO_UNLOAD" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "ONLY_ONE", "STURDY", "NO_UNLOAD", "NO_RELOAD" ],
     "environmental_protection": 1,
     "environmental_protection_with_filter": 16,
     "encumbrance": 30,
@@ -3129,7 +2995,7 @@
     "charges_per_use": 1,
     "turns_per_charge": 60,
     "covers": [ "torso", "mouth" ],
-    "flags": [ "WATER_FRIENDLY", "BELTED", "ONLY_ONE", "STURDY", "NO_UNLOAD" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "ONLY_ONE", "STURDY", "NO_UNLOAD", "NO_RELOAD" ],
     "environmental_protection": 1,
     "environmental_protection_with_filter": 16,
     "encumbrance": 30,
@@ -3158,7 +3024,7 @@
       { "pocket_type": "MAGAZINE", "airtight": true, "rigid": true, "watertight": true, "ammo_restriction": { "nitrox": 20 } }
     ],
     "covers": [ "torso" ],
-    "flags": [ "WATER_FRIENDLY", "BELTED", "ONLY_ONE", "STURDY", "NO_UNLOAD" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "ONLY_ONE", "STURDY", "NO_UNLOAD", "NO_RELOAD" ],
     "environmental_protection": 1,
     "environmental_protection_with_filter": 16,
     "encumbrance": 30,
@@ -3190,7 +3056,7 @@
     "charges_per_use": 1,
     "turns_per_charge": 60,
     "covers": [ "torso", "mouth" ],
-    "flags": [ "WATER_FRIENDLY", "BELTED", "ONLY_ONE", "STURDY", "NO_UNLOAD" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "ONLY_ONE", "STURDY", "NO_UNLOAD", "NO_RELOAD" ],
     "environmental_protection": 1,
     "environmental_protection_with_filter": 16,
     "encumbrance": 30,
@@ -3215,7 +3081,7 @@
     "coverage": 100,
     "encumbrance": 35,
     "warmth": 50,
-    "material_thickness": 3,
+    "material_thickness": 1,
     "environmental_protection": 1,
     "charges_per_use": 1,
     "ammo": "battery",
@@ -3269,7 +3135,7 @@
     "coverage": 100,
     "encumbrance": 30,
     "warmth": 50,
-    "material_thickness": 5,
+    "material_thickness": 1,
     "environmental_protection": 2,
     "charges_per_use": 1,
     "ammo": "battery",
@@ -3334,5 +3200,110 @@
       "need_worn": true
     },
     "delete": { "flags": [ "DEAF" ] }
+  },
+  {
+    "id": "flight_helmet",
+    "repairs_like": "nomex_hood",
+    "type": "TOOL_ARMOR",
+    "category": "armor",
+    "name": { "str": "military flight helmet" },
+    "description": "A military flight helmet.  Adorned with a visor, microphone and a noise dampening system.  The helmet is also fitted with plastic rails to allow for different load-outs.",
+    "weight": "1324 g",
+    "volume": "2 L",
+    "price": 50000,
+    "price_postapoc": 1000,
+    "to_hit": -1,
+    "bashing": 10,
+    "material": [ "nomex" ],
+    "symbol": "[",
+    "looks_like": "helmet_motor",
+    "color": "dark_gray",
+    "armor_portion_data": [
+      { "covers": [ "head" ], "coverage": 100, "encumbrance": 30 },
+      { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 5 }
+    ],
+    "warmth": 15,
+    "material_thickness": 5,
+    "environmental_protection": 2,
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "VARSIZE", "STURDY", "DEAF", "SUN_GLASSES" ],
+    "charges_per_use": 1,
+    "ammo": "battery",
+    "use_action": {
+      "type": "transform",
+      "msg": "You turn the flight helmet on.",
+      "target": "flight_helmet_on",
+      "active": true,
+      "need_charges": 1,
+      "need_charges_msg": "The helmet's batteries are dead."
+    },
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "rigid": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
+          "light_plus_battery_cell",
+          "light_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "flight_helmet_on",
+    "repairs_like": "nomex_hood",
+    "type": "TOOL_ARMOR",
+    "category": "armor",
+    "name": { "str": "military flight helmet" },
+    "description": "A military flight helmet.  Adorned with a visor, microphone and a noise dampening system.  The helmet is also fitted with plastic rails to allow for different load-outs.",
+    "weight": "1324 g",
+    "volume": "2 L",
+    "price": 50000,
+    "price_postapoc": 1000,
+    "to_hit": -1,
+    "bashing": 10,
+    "material": [ "kevlar_rigid", "plastic" ],
+    "symbol": "[",
+    "looks_like": "helmet_motor",
+    "color": "dark_gray",
+    "armor_portion_data": [
+      { "covers": [ "head" ], "coverage": 100, "encumbrance": 30 },
+      { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 5 }
+    ],
+    "warmth": 15,
+    "material_thickness": 5,
+    "environmental_protection": 2,
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "VARSIZE", "STURDY", "PARTIAL_DEAF", "SUN_GLASSES", "TWO_WAY_RADIO" ],
+    "charges_per_use": 1,
+    "ammo": "battery",
+    "power_draw": 60,
+    "revert_to": "flight_helmet",
+    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s flicks off.", "target": "flight_helmet" },
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "rigid": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
+          "light_plus_battery_cell",
+          "light_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
+        ]
+      }
+    ]
   }
 ]
