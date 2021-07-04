@@ -187,6 +187,13 @@
       "palettes": [ "triffid" ],
       "terrain": { ">": "t_rock" },
       "furniture": { "O": "f_midden"},
+      "items": {
+        "O": [
+          { "item": "vertebrate_parts", "chance": 80, "repeat": [ 1, 2 ] },
+          { "item": "human_parts", "chance": 60, "repeat": [ 1, 2 ] },
+          { "item": "wasp_lair", "chance": 70, "repeat": [ 1, 2 ] }
+        ]
+      },
       "monster": { "!": { "monster": "mon_creeper_hub", "chance": 60 } }
     }
   },

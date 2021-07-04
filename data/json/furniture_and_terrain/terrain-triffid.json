@@ -119,7 +119,7 @@
     "color": "brown",
     "move_cost": 2,
     "roof": "t_root_floor",
-    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT" ],
+    "flags": [ "SUPPORTS_ROOF", "WALL", "NO_SCENT" ],
     "bash": {
       "str_min": 12,
       "str_max": 150,

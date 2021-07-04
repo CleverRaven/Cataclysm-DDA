@@ -41,12 +41,12 @@
     "type": "furniture",
     "id": "f_midden",
     "name": "composting midden",
+    "description": "A hole that has been dug into the roots here, and a pretty unpleasant smell emits from it.",
     "symbol": "O",
     "bgcolor": "brown",
-    "move_cost_mod": -1,
+    "move_cost_mod": 3,
     "coverage": 35,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "SHORT" ],
-    "max_volume": "875 L"
+    "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "SHORT", "MOUNTABLE" ]
   }
 ]
