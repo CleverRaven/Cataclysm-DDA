@@ -67,6 +67,6 @@
   {
     "name": "GROUP_EGG_CANE",
     "type": "monstergroup",
-    "default": "mon_cane_hulk",
+    "default": "mon_cane_hulk"
   }
 ]
