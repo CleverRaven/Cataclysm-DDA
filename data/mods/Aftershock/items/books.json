@@ -21,7 +21,7 @@
     "id": "afs_welcome1_book",
     "type": "BOOK",
     "name": { "str": "Unofficial History of Salus IV Vol. 1", "str_pl": "copies of Unofficial History of Salus IV Vol. 1" },
-    "description": "Welcome to Frozen Hell, an Unofficial History of Salus IV by Bette Lapin.  Salus IV was founded in the early days of the Hyperspace Era by the Interstellar Soviet Community.  At it's height several hundred years ago Salus IV had just over one billion sentient citizens, but that population had begun to decline even before the Discontinuity as people migrated to planets that while more hostile to life during the earliest colonization phases than Salus IV were much simpler to terraform into a place more enjoyable by human and uplift citizens.",
+    "description": "Welcome to Frozen Hell, an unofficial history of Salus IV by Bette Lapin.  Salus IV was founded in the early days of the Hyperspace Era by the interstellar Soviet community.  At its height several hundred years ago Salus IV had just over one billion sentient citizens, but that population had begun to decline even before the Discontinuity as people migrated to planets that while more hostile to life during the earliest colonization phases than Salus IV were much simpler to terraform into a place more enjoyable by human and uplift citizens.",
     "weight": "700 g",
     "volume": "750 ml",
     "price": 5000,
