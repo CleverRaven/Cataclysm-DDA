@@ -66,5 +66,12 @@
       { "drop": "pumpkin", "type": "flesh", "mass_ratio": 0.6 },
       { "drop": "seeds_pumpkin", "base_num": [ 3, 5 ], "max": 5, "type": "offal" }
     ]
+  },
+  {
+    "id": "cane_hulk",
+    "type": "harvest",
+    "leftovers": "ruined_candy",
+    "message": "As you butcher the corpse, it turns into a pile of candy canes.",
+    "entries": [ { "drop": "candy_cane", "type": "flesh", "mass_ratio": 0.8 } ]
   }
 ]
