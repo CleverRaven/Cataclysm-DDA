@@ -492,5 +492,11 @@
     "id": "sloc_private_resort",
     "name": "Private resort",
     "terrain": [ "p_resort_2ss" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_road",
+    "name": "Road",
+    "terrain": [ "road_straight", "road_curved", "road_end" ]
   }
 ]
