@@ -578,5 +578,31 @@
     "harvest": "pumpkin",
     "upgrades": { "age_grow": 200, "into": "mon_living_pumpkin" },
     "flags": [ "NO_BREED" ]
+  },
+  {
+    "id": "mon_cane_hulk",
+    "type": "MONSTER",
+    "name": { "str": "Candy Cane Hulk" },
+    "description": "This weird creature stands 10 feet tall, encased in a candy cane shell, you can see veins flowing inside, its menacing stare is unmatched in its ability to enduce terror, you can see your own death reflecting off its eyes, you know this is the end.",
+    "default_faction": "candy_cane",
+    "bodytype": "human",
+    "species": [ "CANE" ],
+    "volume": "500 ml",
+    "weight": "6000 g",
+    "hp": 235,
+    "speed": 23,
+    "material": [ "sugar" ],
+    "symbol": "c",
+    "color": "red",
+    "morale": 110,
+    "melee_skill": 8,
+    "melee_dice": 8,
+    "melee_dice_sides": 8,
+    "dodge": 2,
+    "vision_day": 65,
+    "vision_night": 24,
+    "harvest": "cane_hulk",
+    "death_function": [ "NORMAL" ],
+    "flags": [ "SEES", "STUMBLES", "BASHES", "HEARS", "SMELLS" ]
   }
 ]
