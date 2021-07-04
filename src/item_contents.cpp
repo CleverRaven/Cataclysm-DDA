@@ -154,10 +154,17 @@ bool pocket_favorite_callback::key( const input_context &, const input_event &ev
             nearby_itypes.insert( it_list->front().typeId() );
         }
 
-        std::vector<std::string> itype_initializer;
-        itype_initializer.reserve( nearby_itypes.size() );
-        for( const std::pair<const std::string, const itype *> &name : nearby_itypes ) {
-            itype_initializer.emplace_back( name.first );
+        std::vector<std::pair<itype_id, std::string>> listed_names;
+        std::vector<std::pair<itype_id, std::string>> nearby_names;
+        listed_names.reserve( listed_itypes.size() );
+        nearby_names.reserve( nearby_itypes.size() );
+        for( const itype_id &id : listed_itypes ) {
+            listed_names.emplace_back( id, id->nname( 1 ) );
+        }
+        for( const itype_id &id : nearby_itypes ) {
+            if( !listed_itypes.count( id ) ) {
+                nearby_names.emplace_back( id, id->nname( 1 ) );
+            }
         }
         const auto &compare_names = []( const std::pair<itype_id, std::string> &lhs,
         const std::pair<itype_id, std::string> &rhs ) {
