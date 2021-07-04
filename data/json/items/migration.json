@@ -1197,6 +1197,12 @@
     "variant": "m4_cqbr"
   },
   {
+    "id": "glock_40",
+    "type": "MIGRATION",
+    "replace": "glock_20",
+    "variant": "glock_40"
+  },
+  {
     "id": "lw223bigmag",
     "type": "MIGRATION",
     "replace": "stanag50"
