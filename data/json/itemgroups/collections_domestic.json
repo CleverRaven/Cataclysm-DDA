@@ -480,6 +480,7 @@
       { "item": "knife_butcher", "prob": 10 },
       { "item": "cookbook", "prob": 35 },
       { "item": "rag", "prob": 1 },
+      { "item": "candy_cane", "prob": 2 },
       { "item": "popcan_stove", "prob": 5, "charges": [ 0, 500 ] },
       { "group": "alcohol", "prob": 101 },
       { "item": "sweet_sausage", "prob": 2 },
