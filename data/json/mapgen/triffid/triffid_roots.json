@@ -186,7 +186,7 @@
       ],
       "palettes": [ "triffid" ],
       "terrain": { ">": "t_rock" },
-      "furniture": { "O": "f_midden"},
+      "furniture": { "O": "f_midden" },
       "items": {
         "O": [
           { "item": "vertebrate_parts", "chance": 80, "repeat": [ 1, 2 ] },
