@@ -93,7 +93,7 @@
   {
     "type": "overmap_terrain",
     "id": [ "elf_workshop" ],
-    "name": "elf_workshop",
+    "name": "elf workshop",
     "sym": "W",
     "color": "red",
     "see_cost": 6,
