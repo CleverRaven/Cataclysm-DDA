@@ -38,7 +38,6 @@
 #include "vehicle_selector.h"
 
 static const itype_id itype_apparatus( "apparatus" );
-static const itype_id itype_toolset( "toolset" );
 static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_UPS_off( "UPS_off" );
 
@@ -830,7 +829,7 @@ int Character::charges_of( const itype_id &what, int limit,
     for( const auto &bio : *this->my_bionics ) {
         const bionic_data &bid = bio.info();
         if( bid.fake_item == what && ( !bid.activated || bio.powered ) ) {
-            return std::min( units::to_kilojoule( p->get_power_level() ), limit );
+            return std::min( item(bid.fake_item).ammo_remaining( p ), limit );
         }
     }
 
