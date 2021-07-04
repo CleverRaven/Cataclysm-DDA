@@ -24,7 +24,7 @@
     "type": "map_extra",
     "name": { "str": "Drug Deal" },
     "description": "Several corpses of drug dealers are here.",
-    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_drugdeal" },
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_drugdeal" },
     "sym": "d",
     "color": "light_red",
     "autonote": true
@@ -237,11 +237,23 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_trees_map" }
   },
   {
+    "id": "mx_trees2",
+    "type": "map_extra",
+    "copy-from": "mx_trees",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_trees2_map" }
+  },
+  {
     "id": "mx_grass",
     "type": "map_extra",
     "name": { "str": "Tall grass" },
     "description": "A meadow of tall grass.",
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_grass_map" }
+  },
+  {
+    "id": "mx_grass2",
+    "type": "map_extra",
+    "copy-from": "mx_grass",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_grass2_map" }
   },
   {
     "id": "mx_fallen_shed",

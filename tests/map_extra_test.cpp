@@ -4,7 +4,7 @@
 #include <utility>
 #include <vector>
 
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "coordinates.h"
 #include "enums.h"
 #include "map.h"

@@ -72,6 +72,7 @@ const requirement_data &string_id<requirement_data>::obj() const
 std::vector<requirement_data> requirement_data::get_all()
 {
     std::vector<requirement_data> ret;
+    ret.reserve( requirements_all.size() );
     for( const std::pair<const requirement_id, requirement_data> &pair : requirements_all ) {
         ret.push_back( pair.second );
     }
