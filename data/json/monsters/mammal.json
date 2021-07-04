@@ -189,7 +189,7 @@
     "vision_night": 15,
     "harvest": "mammal_tiny",
     "path_settings": { "max_dist": 10 },
-    "fear_triggers": [ "PLAYER_CLOSE", "SOUND", "FRIEND_DIED", "FIRE" ],
+    "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_FOOD", 120 ] ],
     "flags": [ "SEES", "SMELLS", "HEARS", "KEENNOSE", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1" ]
