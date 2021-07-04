@@ -540,5 +540,31 @@
     "copy-from": "mon_licorice_snake",
     "harvest": "licorice_snake",
     "upgrades": { "age_grow": 200, "into": "mon_licorice_snake" }
+  },
+  {
+    "id": "mon_living_pumpkin",
+    "type": "MONSTER",
+    "name": { "str": "Living Pumpkin" },
+    "description": "This strange creature used to be a pumpkin, now it has taken a humanoid form, it's strange pumpkin skin punctured by hundreds of pumpkin stems, it looks at you with a extremely disturbing look as it lurks forward.",
+    "default_faction": "pumpkin_man",
+    "bodytype": "human",
+    "species": [ "PUMPKIN" ],
+    "volume": "230 ml",
+    "weight": "1000 g",
+    "hp": 65,
+    "speed": 45,
+    "material": [ "veg" ],
+    "symbol": "p",
+    "color": "yellow",
+    "morale": 105,
+    "melee_skill": 4,
+    "melee_dice": 8,
+    "melee_dice_sides": 1,
+    "dodge": 4,
+    "vision_day": 45,
+    "vision_night": 32,
+    "harvest": "pumpkin",
+    "death_function": [ "NORMAL" ],
+    "flags": [ "SEES", "STUMBLES", "BASHES" ]
   }
 ]
