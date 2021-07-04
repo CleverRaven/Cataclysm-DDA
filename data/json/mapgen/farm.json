@@ -135,18 +135,18 @@
       "items": {
         ".": { "item": "trash", "chance": 20 },
         "B": [
-          { "item": "livingroom", "chance": 20 },
+          { "item": "livingroom", "chance": 20, "repeat": [ 1, 4 ] },
           { "item": "survival_armor", "chance": 20 },
           { "item": "camping", "chance": 20 },
-          { "item": "gear_survival", "chance": 20 },
-          { "item": "bed", "chance": 40 }
+          { "item": "gear_survival", "chance": 20, "repeat": [ 1, 4 ] },
+          { "item": "bed", "chance": 80, "repeat": [ 1, 4 ] }
         ],
-        "H": { "item": "livingroom", "chance": 65 },
-        "b": { "item": "softdrugs", "chance": 70 },
-        "d": [ { "item": "dresser", "chance": 80 }, { "item": "homeguns", "chance": 20 } ],
-        "e": { "item": "fridge", "chance": 65 },
-        "h": { "item": "bedroom", "chance": 65 },
-        "k": { "item": "bedroom", "chance": 65 },
+        "H": { "item": "livingroom", "chance": 65, "repeat": [ 1, 3 ] },
+        "b": { "item": "softdrugs", "chance": 70, "repeat": [ 1, 2 ] },
+        "d": [ { "item": "dresser", "chance": 80, "repeat": [ 1, 4 ] }, { "item": "homeguns", "chance": 20 } ],
+        "e": { "item": "fridge", "chance": 65, "repeat": [ 5, 9 ] },
+        "h": { "item": "bedroom", "chance": 65, "repeat": [ 1, 2 ] },
+        "k": { "item": "bedroom", "chance": 65, "repeat": [ 1, 2 ] },
         "P": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] },
         "l": [
           { "item": "tools_earthworking", "chance": 65 },
@@ -156,13 +156,17 @@
           { "item": "fertilizers", "chance": 60 }
         ],
         "m": [
-          { "item": "livingroom", "chance": 20 },
+          { "item": "livingroom", "chance": 70, "repeat": [ 1, 4 ] },
           { "item": "survival_armor", "chance": 20 },
-          { "item": "camping", "chance": 20 },
-          { "item": "gear_survival", "chance": 20 },
-          { "item": "bed", "chance": 40 }
+          { "item": "camping", "chance": 20, "repeat": [ 1, 4 ] },
+          { "item": "gear_survival", "chance": 20, "repeat": [ 3, 4 ] },
+          { "item": "bed", "chance": 40, "repeat": [ 1, 4 ] }
         ],
-        "u": [ { "item": "kitchen", "chance": 70 }, { "item": "cannedfood", "chance": 40 }, { "item": "softdrugs", "chance": 40 } ],
+        "u": [
+          { "item": "kitchen", "chance": 70, "repeat": [ 2, 4 ] },
+          { "item": "cannedfood", "chance": 80, "repeat": [ 3, 7 ] },
+          { "item": "softdrugs", "chance": 40 }
+        ],
         "Q": { "item": "farming_tools", "chance": 15 }
       },
       "palettes": [ "farm" ]

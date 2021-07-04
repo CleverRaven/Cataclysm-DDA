@@ -304,6 +304,47 @@ and hurt effects triggering. "harmful_cough" means that the coughs caused by thi
 "EFFECT_INVISIBLE" Character affected by an effect with this flag are invisible.
 "EFFECT_IMPEDING" Character affected by an effect with this flag can't move until they break free from the effect.  Breaking free requires a strength check: `x_in_y( get_str(), 6 * get_effect_int( eff_id )`
 
+### Vitamin Mods
+
+```json
+    "vitamins": [
+      {
+        "vitamin": "foo",
+        "rate": [ [ 1, 2 ] ],
+        "resist_rate": [ [ 0, 1 ] ],
+        "absorb_mult": [ 0.5 ],
+        "resist_absorb_mult": [ 0.0 ],
+        "tick": [ "2 m" ],
+        "resist_tick": [ "1 s" ],
+      }
+    ],
+```
+- `vitamin` corresponds to the vitamin id that the following effects will be applied to
+- `rate` A randomly generated number between the bounds specified (here, 1 and 2) will added to the vitamin counter of a character with this effect every `tick`.
+- `absorb_mult` metabolically absorbed vitamins will be multiplied by this quantity before being added to the character.
+
+The `resist_` variants of the above keys are the values chosen when the character is resistant to this effect.
+
+All of these members are arrays, with each successive entry corresponding to the intensity level of an effect. If there are more intensity levels to the effect than entries in the array, the last entry in the array will be used.
+
+As defined, this will cause non-resistant characters to gain between 1 and 2 of the vitamin foo every 2 minutes, and half their absorbtion rate of it, and resistant character to gain between 0 and 1 of this vitamin every second, and not absorb any of it from their food.
+
+### Death
+
+```json
+    "chance_kill": [ [ 1, 25 ] ],
+    "chance_kill_resist": [ [ 1, 250 ] ],
+    "death_msg": "You died.",
+    "death_event": "throws_up"
+```
+
+- `chance_kill` A first value in second value chance to kill the creature with this effect each turn.
+- `chance_kill_resist` A first value in second value chance to kill the creature with this effect each turn, if the creature resists this effect.
+- `death_msg` A message added to the log when the player dies from this effect.
+- `death_event` An event that is sent when the player dies from this effect.
+
+For `chance_kill` and `chance_kill_resist`, it accepts an array of arrays in the format described. Each entry in the array will be applied for a successive intensity level of the field. If the intensity level of the field is greater than the number of entries in the array, the last entry will be used.
+
 ### Effect effects
 ```C++
     "base_mods" : {

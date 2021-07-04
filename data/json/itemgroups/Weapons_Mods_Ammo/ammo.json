@@ -5,21 +5,21 @@
     "//": "Pistol ammo commonly owned by citizens and found in many locations.",
     "subtype": "distribution",
     "entries": [
-      { "item": "32_acp", "prob": 20 },
-      { "item": "380_FMJ", "prob": 25 },
-      { "item": "380_JHP", "prob": 20 },
-      { "item": "38_fmj", "prob": 25 },
-      { "item": "38_special", "prob": 25 },
-      { "item": "357mag_fmj", "prob": 15 },
-      { "item": "357mag_jhp", "prob": 15 },
-      { "item": "357sig_jhp", "prob": 25 },
-      { "item": "357sig_fmj", "prob": 25 },
-      { "item": "40sw", "prob": 40 },
-      { "item": "40fmj", "prob": 40 },
-      { "item": "45_acp", "prob": 40 },
-      { "item": "45_jhp", "prob": 40 },
-      { "item": "9mm", "prob": 100 },
-      { "item": "9mmfmj", "prob": 100 }
+      { "item": "32_acp", "prob": 20, "charges": [ 1, 80 ] },
+      { "item": "380_FMJ", "prob": 25, "charges": [ 1, 50 ] },
+      { "item": "380_JHP", "prob": 20, "charges": [ 1, 50 ] },
+      { "item": "38_fmj", "prob": 25, "charges": [ 1, 40 ] },
+      { "item": "38_special", "prob": 25, "charges": [ 1, 40 ] },
+      { "item": "357mag_fmj", "prob": 15, "charges": [ 1, 50 ] },
+      { "item": "357mag_jhp", "prob": 15, "charges": [ 1, 50 ] },
+      { "item": "357sig_jhp", "prob": 25, "charges": [ 1, 50 ] },
+      { "item": "357sig_fmj", "prob": 25, "charges": [ 1, 50 ] },
+      { "item": "40sw", "prob": 40, "charges": [ 1, 40 ] },
+      { "item": "40fmj", "prob": 40, "charges": [ 1, 40 ] },
+      { "item": "45_acp", "prob": 40, "charges": [ 1, 30 ] },
+      { "item": "45_jhp", "prob": 40, "charges": [ 1, 30 ] },
+      { "item": "9mm", "prob": 100, "charges": [ 1, 50 ] },
+      { "item": "9mmfmj", "prob": 100, "charges": [ 1, 50 ] }
     ]
   },
   {
@@ -154,16 +154,16 @@
     "//": "Rifle ammo commonly owned by citizens and found in many locations.",
     "subtype": "distribution",
     "entries": [
-      { "item": "223", "prob": 60 },
-      { "item": "22_cb", "prob": 30 },
-      { "item": "22_fmj", "prob": 50 },
-      { "item": "22_lr", "prob": 100 },
-      { "item": "22_ratshot", "prob": 30 },
-      { "item": "270win_jsp", "prob": 25 },
-      { "item": "3006", "prob": 25 },
-      { "item": "308", "prob": 25 },
-      { "item": "762_54R", "prob": 10 },
-      { "item": "762_m43", "prob": 20 }
+      { "item": "223", "prob": 60, "charges": [ 1, 30 ] },
+      { "item": "22_cb", "prob": 30, "charges": [ 1, 100 ] },
+      { "item": "22_fmj", "prob": 50, "charges": [ 1, 80 ] },
+      { "item": "22_lr", "prob": 100, "charges": [ 1, 80 ] },
+      { "item": "22_ratshot", "prob": 30, "charges": [ 1, 100 ] },
+      { "item": "270win_jsp", "prob": 25, "charges": [ 1, 20 ] },
+      { "item": "3006", "prob": 25, "charges": [ 1, 20 ] },
+      { "item": "308", "prob": 25, "charges": [ 1, 20 ] },
+      { "item": "762_54R", "prob": 10, "charges": [ 1, 20 ] },
+      { "item": "762_m43", "prob": 20, "charges": [ 1, 30 ] }
     ]
   },
   {
@@ -253,10 +253,10 @@
     "//": "Shotgun ammo commonly owned by citizens and found in many locations.",
     "subtype": "distribution",
     "entries": [
-      { "item": "shot_00", "prob": 100 },
-      { "item": "shot_bird", "prob": 70 },
-      { "item": "shot_slug", "prob": 70 },
-      { "item": "410shot_000", "prob": 50 }
+      { "item": "shot_00", "prob": 100, "charges": [ 1, 20 ] },
+      { "item": "shot_bird", "prob": 70, "charges": [ 1, 20 ] },
+      { "item": "shot_slug", "prob": 70, "charges": [ 1, 20 ] },
+      { "item": "410shot_000", "prob": 50, "charges": [ 1, 20 ] }
     ]
   },
   {
@@ -408,14 +408,14 @@
     "//": "Ammo for police issue firearms.",
     "subtype": "distribution",
     "entries": [
-      { "item": "223", "prob": 30 },
-      { "item": "3006", "prob": 10 },
-      { "item": "40sw", "prob": 50 },
-      { "item": "45_acp", "prob": 20 },
-      { "item": "57mm", "prob": 80 },
-      { "item": "9mm", "prob": 100 },
-      { "item": "shot_00", "prob": 40 },
-      { "item": "shot_beanbag", "prob": 40 }
+      { "item": "223", "prob": 30, "charges": [ 1, 30 ] },
+      { "item": "3006", "prob": 10, "charges": [ 1, 20 ] },
+      { "item": "40sw", "prob": 50, "charges": [ 1, 40 ] },
+      { "item": "45_acp", "prob": 20, "charges": [ 1, 30 ] },
+      { "item": "57mm", "prob": 80, "charges": [ 1, 40 ] },
+      { "item": "9mm", "prob": 100, "charges": [ 1, 50 ] },
+      { "item": "shot_00", "prob": 40, "charges": [ 1, 20 ] },
+      { "item": "shot_beanbag", "prob": 40, "charges": [ 1, 10 ] }
     ]
   },
   {
@@ -425,11 +425,11 @@
     "subtype": "distribution",
     "entries": [
       { "group": "ammo_cop", "prob": 100 },
-      { "item": "300_winmag", "prob": 5 },
-      { "item": "40x46mm_m433", "prob": 5 },
-      { "item": "40x46mm_m651", "prob": 20 },
-      { "item": "556", "prob": 10 },
-      { "item": "shot_slug", "prob": 20 }
+      { "item": "300_winmag", "prob": 5, "charges": [ 1, 10 ] },
+      { "item": "40x46mm_m433", "prob": 5, "charges": [ 1, 6 ] },
+      { "item": "40x46mm_m651", "prob": 20, "charges": [ 1, 6 ] },
+      { "item": "556", "prob": 10, "charges": [ 1, 30 ] },
+      { "item": "shot_slug", "prob": 20, "charges": [ 1, 20 ] }
     ]
   },
   {

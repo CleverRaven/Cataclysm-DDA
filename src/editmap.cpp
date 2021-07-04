@@ -62,6 +62,7 @@ static constexpr tripoint editmap_boundary_max( MAPSIZE_X, MAPSIZE_Y, OVERMAP_HE
 static constexpr half_open_cuboid<tripoint> editmap_boundaries(
     editmap_boundary_min, editmap_boundary_max );
 
+// NOLINTNEXTLINE(cata-static-int_id-constants)
 static const ter_id undefined_ter_id( -1 );
 
 static std::vector<std::string> fld_string( const std::string &str, int width )
@@ -1578,28 +1579,26 @@ void editmap::recalc_target( shapetype shape )
         }
         break;
         case editmap_rect_filled:
-        case editmap_rect:
-            int sx;
-            int sy;
-            int ex;
-            int ey;
+        case editmap_rect: {
+            point s;
+            point e;
             if( target.x < origin.x ) {
-                sx = target.x;
-                ex = origin.x;
+                s.x = target.x;
+                e.x = origin.x;
             } else {
-                sx = origin.x;
-                ex = target.x;
+                s.x = origin.x;
+                e.x = target.x;
             }
             if( target.y < origin.y ) {
-                sy = target.y;
-                ey = origin.y;
+                s.y = target.y;
+                e.y = origin.y;
             } else {
-                sy = origin.y;
-                ey = target.y;
+                s.y = origin.y;
+                e.y = target.y;
             }
-            for( int x = sx; x <= ex; x++ ) {
-                for( int y = sy; y <= ey; y++ ) {
-                    if( shape == editmap_rect_filled || x == sx || x == ex || y == sy || y == ey ) {
+            for( int x = s.x; x <= e.x; x++ ) {
+                for( int y = s.y; y <= e.y; y++ ) {
+                    if( shape == editmap_rect_filled || x == s.x || x == e.x || y == s.y || y == e.y ) {
                         const tripoint p( x, y, z );
                         if( editmap_boundaries.contains( p ) ) {
                             target_list.push_back( p );
@@ -1607,7 +1606,8 @@ void editmap::recalc_target( shapetype shape )
                     }
                 }
             }
-            break;
+        }
+        break;
         case editmap_line:
             target_list = line_to( origin, target, 0, 0 );
             break;
@@ -2094,7 +2094,7 @@ void editmap::mapgen_retarget()
                     for( int y = target.y - SEEY + 1; y < target.y + SEEY + 1; y++ ) {
                         if( x == target.x - SEEX + 1 || x == target.x + SEEX ||
                             y == target.y - SEEY + 1 || y == target.y + SEEY ) {
-                            target_list.push_back( tripoint( x, y, target.z ) );
+                            target_list.emplace_back( x, y, target.z );
                         }
                     }
                 }
@@ -2160,7 +2160,7 @@ void editmap::edit_mapgen()
             for( int y = target.y - SEEY + 1; y < target.y + SEEY + 1; y++ ) {
                 if( x == target.x - SEEX + 1 || x == target.x + SEEX ||
                     y == target.y - SEEY + 1 || y == target.y + SEEY ) {
-                    target_list.push_back( tripoint( x, y, target.z ) );
+                    target_list.emplace_back( x, y, target.z );
                 }
             }
         }

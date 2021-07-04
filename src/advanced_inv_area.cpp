@@ -433,6 +433,20 @@ aim_location advanced_inv_area::offset_to_location() const
     return loc_array[off.y + 1][off.x + 1];
 }
 
+bool advanced_inv_area::can_store_in_vehicle() const
+{
+    // disallow for non-valid vehicle locations
+    if( id > AIM_DRAGGED || id < AIM_SOUTHWEST ) {
+        return false;
+    }
+    // Prevent AIM access to activated dishwasher, washing machine, or autoclave.
+    if( veh != nullptr && vstor >= 0 ) {
+        return !veh->part( vstor ).is_cleaner_on();
+    } else {
+        return false;
+    }
+}
+
 template <typename T>
 advanced_inv_area::itemstack advanced_inv_area::i_stacked( T items )
 {

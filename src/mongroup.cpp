@@ -25,6 +25,9 @@ MonsterGroupManager::t_string_set MonsterGroupManager::monster_blacklist;
 MonsterGroupManager::t_string_set MonsterGroupManager::monster_whitelist;
 MonsterGroupManager::t_string_set MonsterGroupManager::monster_categories_blacklist;
 MonsterGroupManager::t_string_set MonsterGroupManager::monster_categories_whitelist;
+MonsterGroupManager::t_string_set MonsterGroupManager::monster_species_blacklist;
+MonsterGroupManager::t_string_set MonsterGroupManager::monster_species_whitelist;
+
 static bool monster_whitelist_is_exclusive = false;
 
 /** @relates string_id */
@@ -125,13 +128,13 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
             //Collect valid time of day ranges
             if( elem == "DAY" || elem == "NIGHT" || elem == "DUSK" || elem == "DAWN" ) {
                 if( elem == "DAY" ) {
-                    valid_times_of_day.push_back( std::make_pair( sunrise, sunset ) );
+                    valid_times_of_day.emplace_back( sunrise, sunset );
                 } else if( elem == "NIGHT" ) {
-                    valid_times_of_day.push_back( std::make_pair( sunset, sunrise ) );
+                    valid_times_of_day.emplace_back( sunset, sunrise );
                 } else if( elem == "DUSK" ) {
-                    valid_times_of_day.push_back( std::make_pair( sunset - 1_hours, sunset + 1_hours ) );
+                    valid_times_of_day.emplace_back( sunset - 1_hours, sunset + 1_hours );
                 } else if( elem == "DAWN" ) {
-                    valid_times_of_day.push_back( std::make_pair( sunrise - 1_hours, sunrise + 1_hours ) );
+                    valid_times_of_day.emplace_back( sunrise - 1_hours, sunrise + 1_hours );
                 }
             }
 
@@ -266,6 +269,7 @@ void MonsterGroupManager::LoadMonsterBlacklist( const JsonObject &jo )
 {
     add_array_to_set( monster_blacklist, jo, "monsters" );
     add_array_to_set( monster_categories_blacklist, jo, "categories" );
+    add_array_to_set( monster_species_blacklist, jo, "species" );
 }
 
 void MonsterGroupManager::LoadMonsterWhitelist( const JsonObject &jo )
@@ -275,6 +279,8 @@ void MonsterGroupManager::LoadMonsterWhitelist( const JsonObject &jo )
     }
     add_array_to_set( monster_whitelist, jo, "monsters" );
     add_array_to_set( monster_categories_whitelist, jo, "categories" );
+    add_array_to_set( monster_species_whitelist, jo, "species" );
+
 }
 
 bool MonsterGroupManager::monster_is_blacklisted( const mtype_id &m )
@@ -288,8 +294,18 @@ bool MonsterGroupManager::monster_is_blacklisted( const mtype_id &m )
             return false;
         }
     }
+    for( const auto &elem : monster_species_whitelist ) {
+        if( mt.in_species( species_id( elem ) ) ) {
+            return false;
+        }
+    }
     for( const auto &elem : monster_categories_blacklist ) {
         if( mt.categories.count( elem ) > 0 ) {
+            return true;
+        }
+    }
+    for( const auto &elem : monster_species_blacklist ) {
+        if( mt.in_species( species_id( elem ) ) ) {
             return true;
         }
     }

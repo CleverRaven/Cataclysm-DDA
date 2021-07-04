@@ -132,6 +132,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "makeshift_halberd",
+    "//": "this makes the simple makeshift glaive, but changing the id would break e.g.  tilesets.",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_CUTTING",
     "skill_used": "fabrication",
@@ -139,7 +140,31 @@
     "reversible": true,
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.5, "fail_multiplier": 1 } ],
-    "components": [ [ [ "duct_tape", 100 ] ], [ [ "blade", 1 ] ], [ [ "stick_long", 1 ] ] ]
+    "components": [
+      [ [ "duct_tape", 100 ] ],
+      [ [ "blade", 1 ], [ "knife_meat_cleaver", 1 ], [ "knife_vegetable_cleaver", 1 ] ],
+      [ [ "stick_long", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "makeshift_glaive",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "45 m",
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "DRILL", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.5, "fail_multiplier": 1.5 } ],
+    "components": [
+      [ [ "duct_tape", 100 ] ],
+      [ [ "blade", 1 ], [ "knife_meat_cleaver", 1 ], [ "knife_vegetable_cleaver", 1 ] ],
+      [ [ "stick_long", 1 ] ],
+      [ [ "cordage", 2, "LIST" ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -253,7 +278,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "result": "knuckle_katar",
     "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_CUTTING",
+    "subcategory": "CSC_WEAPON_PIERCING",
     "skill_used": "fabrication",
     "skills_required": [ "bashing", 1 ],
     "difficulty": 4,

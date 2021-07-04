@@ -655,6 +655,7 @@ For information about tools with option to export ASCII art in format ready to b
 | weight_capacity_bonus       | (_optional_) Bonus to weight carrying capacity in grams, can be negative.  Strings can be used - "5000 g" or "5 kg" (default: `0`)
 | weight_capacity_modifier    | (_optional_) Factor modifying base weight carrying capacity. (default: `1`)
 | canceled_mutations          | (_optional_) A list of mutations/traits that are removed when this bionic is installed (e.g. because it replaces the fault biological part).
+| mutation_conflicts          | (_optional_) A list of mutations that prevent this bionic from being installed.
 | included_bionics            | (_optional_) Additional bionics that are installed automatically when this bionic is installed. This can be used to install several bionics from one CBM item, which is useful as each of those can be activated independently.
 | included                    | (_optional_) Whether this bionic is included with another. If true this bionic does not require a CBM item to be defined. (default: `false`)
 | env_protec                  | (_optional_) How much environmental protection does this bionic provide on the specified body parts.
@@ -672,11 +673,12 @@ For information about tools with option to export ASCII art in format ready to b
 | coverage_power_gen_penalty  | (_optional_) Fraction of coverage diminishing fuel_efficiency. Float between 0.0 and 1.0. (default: `nullopt`)
 | power_gen_emission          | (_optional_) `emit_id` of the field emitted by this bionic when it produces energy. Emit_ids are defined in `emit.json`.
 | stat_bonus                  | (_optional_) List of passive stat bonus. Stat are designated as follow: "DEX", "INT", "STR", "PER".
-| enchantments                | (_optional_) List of enchantments applied by this CBM (see MAGIC.md for instructions on enchantment. NB: enchantments are not necessarily magic.)
+| enchantments                | (_optional_) List of enchantments applied by this CBM (see MAGIC.md for instructions on enchantment. NB: enchantments are not necessarily magic.) Values can either be the enchantments's id or an inline definition of the enchantment.
 | learned_spells              | (_optional_) Map of {spell:level} you gain when installing this CBM, and lose when you uninstall this CBM. Spell classes are automatically gained.
 | learned_proficiencies       | (_optional_) Array of proficiency ids you gain when installing this CBM, and lose when uninstalling
 | installation_requirement    | (_optional_) Requirement id pointing to a requirement defining the tools and components necessary to install this CBM.
 | vitamin_absorb_mod          | (_optional_) Modifier to vitamin absorption, affects all vitamins. (default: `1.0`)
+| cant_remove_reason          | (_optional_) String message to be displayed as the reason it can't be uninstalled.  Having any value other than `""` as this will prevent unistalling the bionic. Formatting includes two `%s` for example: `The Telescopic Lenses are part of %1$s eyes now. Removing them would leave %2$s blind.`  (default: `""`) 
 | social_modifiers			  | (_optional_) Json object with optional members: persuade, lie, and intimidate which add or subtract that amount from those types of social checks
 ```C++
 {
@@ -692,6 +694,7 @@ For information about tools with option to export ASCII art in format ready to b
     "encumbrance"  : [ [ "torso", 10 ], [ "arm_l", 10 ], [ "arm_r", 10 ], [ "leg_l", 10 ], [ "leg_r", 10 ], [ "foot_l", 10 ], [ "foot_r", 10 ] ],
     "description"  : "You have a battery draining attachment, and thus can make use of the energy contained in normal, everyday batteries. Use 'E' to consume batteries.",
     "canceled_mutations": ["HYPEROPIC"],
+    "mutation_conflicts": [ "HUGE" ],
     "installation_requirement": "sewing_standard",
     "included_bionics": ["bio_blindfold"]
 },
@@ -826,10 +829,10 @@ When you sort your inventory by category, these are the categories that are disp
 | `dmg_adj`        | Adjectives used to describe damage states of a material.
 | `density`        | Affects vehicle collision damage, with denser parts having the advantage over less-dense parts.
 | `vitamins`       | Vitamins in a material. Usually overridden by item specific values.  An integer percentage of ideal daily value.
-| `specific_heat_liquid` | Specific heat of a material when not frozen (J/(g K)). Default 4.186.
-| `specific_heat_solid`  | Specific heat of a material when frozen (J/(g K)). Default 2.108.
+| `specific_heat_liquid` | Specific heat of a material when not frozen (J/(g K)). Default 4.186 - water.
+| `specific_heat_solid`  | Specific heat of a material when frozen (J/(g K)). Default 2.108 - water.
 | `latent_heat`    | Latent heat of fusion for a material (J/g). Default 334.
-| `freeze_point`   | Freezing point of this material (F). Default 32 F ( 0 C ).
+| `freezing_point`   | Freezing point of this material (C). Default 0 C ( 32 F ).
 | `edible`   | Optional boolean. Default is false.
 | `rotting`   | Optional boolean. Default is false.
 | `soft`   | Optional boolean. Default is false.
@@ -903,21 +906,25 @@ If a fuel has the PERPETUAL flag, engines powered by it never use any fuel.  Thi
 |---          |---
 | `name`      | Unique ID. Must be one continuous word, use underscores if necessary.
 | `default`   | Default monster, automatically fills in any remaining spawn chances.
-| `monsters`  | To choose a monster for spawning, the game creates 1000 entries and picks one. Each monster will have a number of entries equal to it's "freq" and the default monster will fill in the remaining. See the table below for how to build the single monster definitions.
-| `is_safe`   | (bool) Check to not trigger safe-mode warning.
-| `is_animal` | (bool) Check if that group has only normal animals.
+| `monsters`  | To choose a monster for spawning, the game creates `freq_total` entries (default 1000) and picks one. Each monster will have a number of entries equal to it's `freq` and the default monster will fill in the remaining. See the table below for how to build the single monster definitions.
+| `is_safe`   | (bool) Check to not trigger safe-mode warning, currently inconsequential.
+| `is_animal` | (bool) Check if that group has only normal animals, currently inconsequential.
+| `freq_total`| (int) Determines the number of entries created for the monster roll, default 1000. If the total eligable `freq`s of a group exceed `freq_total` the entries after the monster that exceeded it **won't be included** in the roll - ie if the first two monsters out of a group of ten each have `freq: 500` the rest of the group won't have a chance to spawn at all!
+| `replace_monster_group` | (bool) Check if the group should be replaced completely by another monster group as game time progresses - doesn't affect already spawned monsters, as such mostly superceded by monster evolution.
+| `new_monster_group_id` | (string) The id of the monster group that should replace this one.
+| `replacement_time` | (int) The amount of time before the group should be replaced by the new one, in days. Final replacement date is calculated by `replacement_time * evolution factor`.
 
 #### Monster definition
 
 | Identifier        | Description
 |---                |---
 | `monster`         | The monster's unique ID, eg. `"mon_zombie"`.
-| `freq`            | Chance of occurrence, x/1000.
+| `freq`            | Chance of occurrence, x/`freq_total` (default x/1000).
 | `cost_multiplier` | How many monsters each monster in this definition should count as, if spawning a limited number of monsters.
 | `pack_size`       | (_optional_) The minimum and maximum number of monsters in this group that should spawn together.  (default: `[1,1]`)
 | `conditions`      | Conditions limit when monsters spawn. Valid options: `SUMMER`, `WINTER`, `AUTUMN`, `SPRING`, `DAY`, `NIGHT`, `DUSK`, `DAWN`. Multiple Time-of-day conditions (`DAY`, `NIGHT`, `DUSK`, `DAWN`) will be combined together so that any of those conditions makes the spawn valid. Multiple Season conditions (`SUMMER`, `WINTER`, `AUTUMN`, `SPRING`) will be combined together so that any of those conditions makes the spawn valid.
-| `starts`          | (_optional_) This entry becomes active after this time. (Measured in hours)
-| `ends`            | (_optional_) This entry becomes inactive after this time. (Measured in hours)
+| `starts`          | (_optional_) This entry becomes active after this time. (Measured in hours, **multiplied by the evolution scaling factor**)
+| `ends`            | (_optional_) This entry becomes inactive after this time. (Measured in hours, **multiplied by the evolution scaling factor**)
 | `spawn_data`      | (_optional_) Any properties that the monster only has when spawned in this group. `ammo` defines how much of which ammo types the monster spawns with.
 
 ```C++
@@ -1485,9 +1492,25 @@ request](https://github.com/CleverRaven/Cataclysm-DDA/pull/36657) and the
 "required_skills": [ [ "survival", 1 ] ],                           // Skill levels required to undertake construction
 "time": "30 m",                                                     // Time required to complete construction. Integers will be read as minutes or a time string can be used.
 "components": [ [ [ "spear_wood", 4 ], [ "pointy_stick", 4 ] ] ],   // Items used in construction
-"pre_terrain": "t_pit",                                             // Required terrain to build on
+"pre_special": "check_empty",                                       // Required something that isn't terrain
+"pre_terrain": "t_pit",                                             // Alternative to pre_special; Required terrain to build on
 "post_terrain": "t_pit_spiked"                                      // Terrain type after construction is complete
 ```
+
+| pre_special            | Description
+|---                     |---
+| `check_empty`          | Tile is empty
+| `check_support`        | Must have at least two solid walls/obstructions nearby on orthogonals (non-diagonal directions only) to support the tile
+| `check_stable`         | Tile on level below has a flag `SUPPORTS_ROOF`
+| `check_empty_stable`   | Tile is empty and stable
+| `check_nofloor_above`  | Tile on level above has a flag `NO_FLOOR`
+| `check_deconstruction` | The furniture (or tile, if no furniture) in the target tile must have a "deconstruct" entry
+| `check_empty_up_OK`    | Tile is empty and is below the maximum possible elevation (can build up here)
+| `check_up_OK`          | Tile is below the maximum possible elevation (can build up here)
+| `check_down_OK`        | Tile is above the lowest possible elevation (can dig down here)
+| `check_no_trap`        | There is no trap object in this tile
+| `check_ramp_low`       | Both this and the next level above can be built up one additional Z level
+| `check_ramp_high`      | There is a complete downramp on the next higher level, and both this and next level above can be built up one additional Z level
 
 ### Scent_types
 
@@ -1921,7 +1944,7 @@ it is present to help catch errors.
     }
   ]
 ],
-"enchantments": [ "ench_id_1" ],   // List of IDs of enchantments granted by this mutation
+"enchantments": [ "ench_id_1" ],   // List of enchantments granted by this mutation, can be either string ids of the enchantment or an inline definition of the enchantment
 "temperature_speed_modifier": 0.5, // If nonzero, become slower when cold, and faster when hot
                                    // 1.0 gives +/-1% speed for each degree above or below 65F
 "mana_modifier": 100               // Positive or negative change to total mana pool
@@ -1960,6 +1983,7 @@ it is present to help catch errors.
     "spell_data": { "id": "bear_trap" },   // data required for trapfunc::spell()
     "trigger_weight": "200 g",  // If an item with this weight or more is thrown onto the trap, it triggers. TODO: what is the default?
     "drops": [ "beartrap" ],  // For disassembly?
+    "flags": [ "EXAMPLE_FLAG" ], // A set of valid flags for this trap
     "vehicle_data": {
       "damage": 300,
       "sound_volume": 8,
@@ -2579,7 +2603,7 @@ CBMs can be defined like this:
 "charges" : 4,              // Number of uses when spawned
 "stack_size" : 8,           // (Optional) How many uses are in the above-defined volume. If omitted, is the same as 'charges'
 "fun" : 50                  // Morale effects when used
-"freezing_point": 32,       // (Optional) Temperature in F at which item freezes, default is water (32F/0C)
+"freezing_point": 32,       // (Optional) Temperature in C at which item freezes, default is water (32F/0C)
 "cooks_like": "meat_cooked",         // (Optional) If the item is used in a recipe, replaces it with its cooks_like
 "parasites": 10,            // (Optional) Probability of becoming parasitised when eating
 "contamination": [ { "disease": "bad_food", "probability": 5 } ],         // (Optional) List of diseases carried by this comestible and their associated probability. Values must be in the [0, 100] range.
@@ -2663,10 +2687,19 @@ Guns can be defined like this:
 "durability": 8,           // Resistance to damage/rusting, also determines misfire chance
 "blackpowder_tolerance": 8,// One in X chance to get clogged up (per shot) when firing blackpowder ammunition (higher is better). Optional, default is 8.
 "min_cycle_recoil": 0,     // Minimum ammo recoil for gun to be able to fire more than once per attack.
-"burst": 5,                // Number of shots fired in burst mode
+"variants": [              // Cosmetic variants this gun can have
+  {
+    "id": "varianta",                           // id used in spawning to spawn this variant specifically
+    "name": { "str": "Variant A pistol" },      // The name used instead of the default name when this variant is selected
+    "description": "A fancy variant A pistol",  // The description used instead of the default when this variant is selected
+    "ascii_picture": "valid_ascii_art_id",      // An ASCII art picture used when this variant is selected. If there is none, the default (if it exists) is used.
+    "weight": 2                                 // The relative chance of this variant being selected over other variants when this item is spawned with no explicit variant. Defaults to 0. If it is 0, this variant will not be selected
+  }
+],
 "clip_size": 100,          // Maximum amount of ammo that can be loaded
 "ups_charges": 0,          // Additionally to the normal ammo (if any), a gun can require some charges from an UPS. This also works on mods. Attaching a mod with ups_charges will add/increase ups drain on the weapon.
 "ammo_to_fire" 1,          // Amount of ammo used
+"modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ], // Firing modes on this gun, DEFAULT,AUTO, or MELEE followed by the name of the mode displayed in game, and finaly the number of shots of the mod.
 "reload": 450,             // Amount of time to reload, 100 = 1 second = 1 "turn"
 "built_in_mods": ["m203"], //An array of mods that will be integrated in the weapon using the IRREMOVABLE tag.
 "default_mods": ["m203"]   //An array of mods that will be added to a weapon on spawn.
@@ -2699,7 +2732,6 @@ Gun mods can be defined like this:
 "acceptable_ammo": [ "9mm" ],  // Optional filter restricting mod to guns with those base (before modifiers) ammo types
 "ammo_modifier": [ "57" ],     // Optional field which if specified modifies parent gun to use these ammo types
 "magazine_adaptor": [ [ "223", [ "stanag30" ] ] ], // Optional field which changes the types of magazines the parent gun accepts
-"burst_modifier": 3,           // Optional field increasing or decreasing base gun burst size
 "damage_modifier": -1,         // Optional field increasing or decreasing base gun damage
 "dispersion_modifier": 15,     // Optional field increasing or decreasing base gun dispersion
 "loudness_modifier": 4,        // Optional field increasing or decreasing base guns loudness
@@ -2947,10 +2979,10 @@ The contents of use_action fields can either be a string indicating a built-in f
     "flashbang_player_immune" : true, // Whether the player is immune to the flashbang effect.
     "fields_radius": 3, // The radius of spread for fields produced.
     "fields_type": "fd_tear_gas", // The type of fields produced.
-    "fields_min_density": 3,
-    "fields_max_density": 3,
-    "emp_blast_radius": 4,
-    "scrambler_blast_radius": 4
+    "fields_min_intensity": 3, // Minimum intensity of field generated by the explosion.
+    "fields_max_intensity": 3, // Maximum intensity of field generated by the explosion.
+    "emp_blast_radius": 4, // The radius of EMP blast created by the explosion.
+    "scrambler_blast_radius": 4 // The radius of scrambler blast created by the explosion.
 },
 "use_action": {
     "type": "change_scent", // Change the scent type of the user.
@@ -3514,7 +3546,7 @@ Color of the object as it appears in the game. "color" defines the foreground co
 
 #### `examine_action`
 
-(Optional) The json function that is called when the object is examined. See "src/iexamine.h".
+(Optional) The json function that is called when the object is examined. See [doc/EXAMINE.md](EXAMINE.md).
 
 #### `close" And "open`
 

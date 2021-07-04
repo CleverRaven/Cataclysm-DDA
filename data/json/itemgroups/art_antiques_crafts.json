@@ -194,7 +194,8 @@
       { "item": "coin_quarter", "prob": 1 },
       { "item": "bronze_medal", "prob": 1 },
       { "item": "silver_medal", "prob": 1 },
-      { "item": "gold_medal", "prob": 1 }
+      { "item": "gold_medal", "prob": 1 },
+      { "item": "bookstrap", "prob": 5 }
     ]
   },
   {

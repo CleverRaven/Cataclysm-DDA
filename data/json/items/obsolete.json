@@ -2823,7 +2823,17 @@
     "price": 38000,
     "material": [ "steel", "plastic", "wood" ],
     "//": "60in Fiberglass bow at 28in draw with 29in, 52J, 80 lbs draw, 0.6 slugs. bullshit stats, but this is a nonsense bow.",
-    "flags": [ "FIRE_TWOHAND", "STR_DRAW", "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON", "BELTED", "WATER_FRIENDLY" ],
+    "flags": [
+      "FIRE_TWOHAND",
+      "STR_DRAW",
+      "RELOAD_AND_SHOOT",
+      "PRIMITIVE_RANGED_WEAPON",
+      "BELTED",
+      "WATER_FRIENDLY",
+      "WATERPROOF_GUN",
+      "NEVER_JAMS"
+    ],
+    "ammo_effects": [ "NEVER_MISFIRES" ],
     "skill": "archery",
     "min_strength": 11,
     "ammo": [ "arrow" ],
@@ -3003,5 +3013,22 @@
     "reload_time": 110,
     "flags": [ "MAG_BULKY" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 20 } } ]
+  },
+  {
+    "id": "pheromone",
+    "type": "TOOL",
+    "name": { "str": "zombie pheromone" },
+    "description": "This is a disgusting ball of rotting meat of zombie origin.",
+    "weight": "238 g",
+    "volume": "250 ml",
+    "price": 4000,
+    "price_postapoc": 100,
+    "to_hit": -1,
+    "material": [ "flesh" ],
+    "symbol": "*",
+    "color": "red",
+    "initial_charges": 3,
+    "max_charges": 3,
+    "charges_per_use": 1
   }
 ]

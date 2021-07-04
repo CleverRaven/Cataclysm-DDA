@@ -5,6 +5,7 @@
 #include "type_id.h"
 
 class item;
+class json_talk_topic;
 class npc;
 class time_duration;
 
@@ -67,6 +68,7 @@ void deny_train( npc & );            // p gets "asked_to_train"
 void deny_personal_info( npc & );    // p gets "asked_personal_info"
 void hostile( npc & );               // p turns hostile to u
 void flee( npc & );
+void lightning( npc &p );
 void leave( npc & );                 // p becomes indifferent
 void stop_following( npc & );
 void stranger_neutral( npc & );      // p is now neutral towards you
@@ -100,4 +102,7 @@ time_duration calc_proficiency_training_time( const npc &, const proficiency_id 
 int calc_proficiency_training_cost( const npc &p, const proficiency_id &proficiency );
 time_duration calc_ma_style_training_time( const npc &, const matype_id & /* id */ );
 int calc_ma_style_training_cost( const npc &p, const matype_id & /* id */ );
+
+const json_talk_topic *get_talk_topic( const std::string &id );
+
 #endif // CATA_SRC_NPCTALK_H

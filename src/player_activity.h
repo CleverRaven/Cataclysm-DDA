@@ -87,7 +87,7 @@ class player_activity
 
         player_activity( player_activity && ) noexcept = default;
         player_activity( const player_activity & ) = default;
-        player_activity &operator=( player_activity && ) = default;
+        player_activity &operator=( player_activity && ) noexcept = default;
         player_activity &operator=( const player_activity & ) = default;
 
         explicit operator bool() const {
