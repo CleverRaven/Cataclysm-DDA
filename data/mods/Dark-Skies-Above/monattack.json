@@ -42,5 +42,31 @@
     "hit_dmg_npc": "The %1$s slashes <npcname>!",
     "no_dmg_msg_u": "The %1$s attempts to cut you, but fails to penetrate your armor.",
     "no_dmg_msg_npc": "The %1$s tries to cut <npcname>, but fails to penetrate their armor."
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "melee_shock",
+    "cooldown": 20,
+    "move_cost": 150,
+    "damage_max_instance": [ { "damage_type": "electric", "amount": 8 }, { "damage_type": "stab", "amount": 6 } ],
+    "body_parts": [
+      [ "foot_l", 2 ],
+      [ "foot_r", 2 ],
+      [ "leg_l", 3 ],
+      [ "leg_r", 3 ],
+      [ "hand_l", 2 ],
+      [ "hand_r", 2 ],
+      [ "head", 3 ],
+      [ "eyes", 2 ],
+      [ "mouth", 1 ],
+      [ "arm_l", 3 ],
+      [ "arm_r", 3 ],
+      [ "torso", 4 ]
+    ],
+    "hit_dmg_u": "The %1$s lances electricity into you!",
+    "hit_dmg_npc": "The %1$s lances <npcname> with electricity!",
+    "no_dmg_msg_u": "The %1$s attempts to electrify you, but fails to penetrate your armor.",
+    "no_dmg_msg_npc": "The %1$s tries to electrify <npcname>, but fails to penetrate their armor."
   }
 ]

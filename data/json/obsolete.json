@@ -551,7 +551,8 @@
     "occupied_bodyparts": [ [ "arm_l", 20 ], [ "hand_l", 5 ] ],
     "act_cost": 50,
     "fake_item": "bio_blaster_gun",
-    "flags": [ "BIONIC_GUN" ]
+    "flags": [ "BIONIC_GUN" ],
+    "cant_remove_reason": "Removing %1$s Fusion Blaster Arm would leave %2$s with a useless stump."
   },
   {
     "id": "fusion_gun",
@@ -766,7 +767,7 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "welding_standard", 5 ] ] }
     },
-    "flags": [ "WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_MEDIUM" ],
+    "flags": [ "WHEEL", "UNSTABLE_WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_MEDIUM" ],
     "damage_reduction": { "all": 66 }
   },
   {

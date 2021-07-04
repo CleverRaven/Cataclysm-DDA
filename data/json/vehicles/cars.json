@@ -701,6 +701,7 @@
   {
     "id": "car_sports_atomic",
     "type": "vehicle",
+    "//": "This definition is here for regression testing, do not move.",
     "name": "Atomic Sports Car",
     "blueprint": [
       [ "o--+-o" ],

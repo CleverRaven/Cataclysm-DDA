@@ -262,7 +262,7 @@
     "id": "saw",
     "type": "TOOL",
     "name": { "str": "wood saw" },
-    "description": "This is a thin saw, useful for cutting through wood objects.",
+    "description": "This is a thin saw, useful for cutting through wood objects.  Can turn pre-cut logs into planks by activation.",
     "weight": "283 g",
     "volume": "1 L",
     "longest_side": "46 cm",

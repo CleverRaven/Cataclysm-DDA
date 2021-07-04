@@ -8,6 +8,8 @@
 #include "avatar.h"
 #include "avatar_action.h"
 #include "character.h"
+#include "coordinate_conversions.h"
+#include "coordinates.h"
 #include "debug.h"
 #include "enums.h"
 #include "event.h"
@@ -15,7 +17,9 @@
 #include "game.h"
 #include "game_constants.h"
 #include "line.h"
+#include "magic.h"
 #include "map.h"
+#include "map_extras.h"
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "memorial_logger.h"
@@ -35,6 +39,7 @@ static const mtype_id mon_amigara_horror( "mon_amigara_horror" );
 static const mtype_id mon_copbot( "mon_copbot" );
 static const mtype_id mon_dark_wyrm( "mon_dark_wyrm" );
 static const mtype_id mon_dermatik( "mon_dermatik" );
+static const mtype_id mon_dsa_alien_dispatch( "mon_dsa_alien_dispatch" );
 static const mtype_id mon_eyebot( "mon_eyebot" );
 static const mtype_id mon_riotbot( "mon_riotbot" );
 static const mtype_id mon_sewer_snake( "mon_sewer_snake" );
@@ -238,6 +243,24 @@ void timed_event::actualize()
             };
             const mtype_id &montype = random_entry( temple_monsters );
             g->place_critter_around( montype, player_character.pos(), 2 );
+        }
+        break;
+
+        case timed_event_type::DSA_ALRP_SUMMON: {
+            const tripoint u_pos = player_character.global_sm_location();
+            if( rl_dist( u_pos, map_point ) <= 4 ) {
+                const tripoint spot = here.getlocal( sm_to_ms_copy( map_point ) );
+                monster dispatcher( mon_dsa_alien_dispatch );
+                fake_spell summoning( spell_id( "dks_summon_alrp" ), true, 12 );
+                summoning.get_spell().cast_all_effects( dispatcher, spot );
+            } else {
+                tinymap mx_map;
+                tripoint_abs_sm map_pt( map_point );
+                mx_map.load( map_pt, false );
+                MapExtras::apply_function( "mx_dsa_alrp", mx_map, map_point );
+                g->load_npcs();
+                here.invalidate_map_cache( map_point.z );
+            }
         }
         break;
 

@@ -162,7 +162,7 @@
     "flags": [ "TRADER_AVOID" ]
   },
   {
-    "id": "bag_paper_powder_small",
+    "id": "bag_paper_powder",
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "small powder paper bag" },
@@ -177,7 +177,7 @@
       {
         "pocket_type": "CONTAINER",
         "watertight": false,
-        "max_contains_volume": "2 L",
+        "max_contains_volume": "2500 ml",
         "max_contains_weight": "2 kg",
         "moves": 200
       }

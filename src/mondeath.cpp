@@ -720,6 +720,13 @@ void mdeath::smokeburst( monster &z )
     get_map().emit_field( z.pos(), emit_id( "emit_smoke_blast" ) );
 }
 
+void mdeath::tearburst( monster &z )
+{
+    std::string explode = string_format( _( "a %s explode!" ), z.name() );
+    sounds::sound( z.pos(), 24, sounds::sound_t::combat, explode, false, "explosion", "small" );
+    get_map().emit_field( z.pos(), emit_id( "emit_tear_gas_blast" ) );
+}
+
 void mdeath::fungalburst( monster &z )
 {
     map &here = get_map();
