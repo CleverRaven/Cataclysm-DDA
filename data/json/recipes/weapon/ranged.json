@@ -677,7 +677,7 @@
     "reversible": true,
     "decomp_learn": 1,
     "proficiencies": [ { "proficiency": "prof_bowyery" }, { "proficiency": "prof_carving" } ],
-    "book_learn": [ [ "manual_archery", 2 ], [ "recipe_bows", 1 ], [ "book_archery", 3 ] ],
+    "book_learn": [ [ "manual_archery", 4 ], [ "recipe_bows", 3 ], [ "book_archery", 4 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "stick_long", 1 ], [ "2x4", 1 ] ], [ [ "cordage_superior", 2, "LIST" ] ] ]
   },
