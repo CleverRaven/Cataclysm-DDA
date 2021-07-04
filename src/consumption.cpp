@@ -1736,17 +1736,6 @@ static bool consume_med( item &target, player &you )
     return true;
 }
 
-static bool cbm_is_full( const player &guy, const item &fuel )
-{
-    material_id fuel_mat;
-    if( fuel.is_magazine() ) {
-        fuel_mat = item( fuel.ammo_current() ).get_base_material().id;
-    } else {
-        fuel_mat = fuel.get_base_material().id;
-    }
-    return guy.get_fuel_capacity( fuel_mat ) > 0;
-}
-
 trinary player::consume( item &target, bool force, bool refuel )
 {
     if( target.is_null() ) {
