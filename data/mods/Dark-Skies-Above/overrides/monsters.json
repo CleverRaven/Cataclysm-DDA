@@ -79,7 +79,7 @@
   {
     "id": "mon_wolf_mutant_huge",
     "type": "MONSTER",
-    "name": { "str": "dire wolf" },
+    "name": { "str": "dire wolf", "str_pl": "dire wolves" },
     "copy-from": "mon_wolf_mutant_huge",
     "delete": { "categories": [ "WILDLIFE" ] }
   },
