@@ -9,7 +9,7 @@
 #include "achievement.h"
 #include "avatar.h"
 #include "bodypart.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "character_id.h"
 #include "debug_menu.h"
 #include "event.h"
@@ -294,7 +294,7 @@ TEST_CASE( "convert_legacy_memorial_log", "[memorial]" )
     memorial_logger logger;
     {
         std::istringstream is( input );
-        logger.load( is );
+        logger.load( is, "<test data>" );
         std::ostringstream os;
         logger.save( os );
         CHECK( os.str() == json_value );
@@ -303,7 +303,7 @@ TEST_CASE( "convert_legacy_memorial_log", "[memorial]" )
     // Then verify that the new format is unchanged
     {
         std::istringstream is( json_value );
-        logger.load( is );
+        logger.load( is, "<test data>" );
         std::ostringstream os;
         logger.save( os );
         CHECK( os.str() == json_value );
@@ -328,6 +328,6 @@ TEST_CASE( "memorial_log_dumping", "[memorial]" )
 
     memorial_logger logger;
     std::istringstream is( json_value );
-    logger.load( is );
+    logger.load( is, "<test data>" );
     CHECK( logger.dump() == expected_output );
 }

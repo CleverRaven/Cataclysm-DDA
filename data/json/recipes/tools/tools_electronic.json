@@ -26,7 +26,15 @@
     "decomp_learn": 2,
     "autolearn": [ [ "mechanics", 3 ], [ "electronics", 2 ] ],
     "book_learn": [ [ "manual_mechanics", 3 ], [ "textbook_mechanics", 2 ], [ "welding_book", 1 ] ],
-    "proficiencies": [ { "proficiency": "prof_welding_basic" }, { "proficiency": "prof_welding" } ],
+    "proficiencies": [
+      { "proficiency": "prof_welding_basic" },
+      {
+        "proficiency": "prof_welding",
+        "time_multiplier": 1.1,
+        "fail_multiplier": 1.1,
+        "learning_time_multiplier": 0.25
+      }
+    ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
       [ [ "power_supply", 4 ] ],

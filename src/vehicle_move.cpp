@@ -110,7 +110,8 @@ int vehicle::slowdown( int at_velocity ) const
     if( slowdown < 0 ) {
         debugmsg( "vehicle %s has negative drag slowdown %d\n", name, slowdown );
     }
-    add_msg_debug( "%s at %d vimph, f_drag %3.2f, drag accel %d vmiph - extra drag %d",
+    add_msg_debug( debugmode::DF_VEHICLE_MOVE,
+                   "%s at %d vimph, f_drag %3.2f, drag accel %d vmiph - extra drag %d",
                    name, at_velocity, f_total_drag, slowdown, static_drag() );
     // plows slow rolling vehicles, but not falling or floating vehicles
     if( !( is_falling || is_floating || is_flying ) ) {
@@ -168,7 +169,8 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
         return;
     }
 
-    int cur_battery_level, max_battery_level;
+    int cur_battery_level;
+    int max_battery_level;
     std::tie( cur_battery_level, max_battery_level ) = battery_power_level();
     int battery_level_percent = max_battery_level == 0 ? 0 : cur_battery_level * 100 /
                                 max_battery_level;
@@ -374,7 +376,7 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
             smart_controller_state = cur_state;
 
             if( player_in_control( player_character ) ) {
-                add_msg_debug( _( "Smart controller optimizes engine state." ) );
+                add_msg_debug( debugmode::DF_VEHICLE_MOVE, _( "Smart controller optimizes engine state." ) );
             }
         }
     } else {
@@ -744,7 +746,7 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
         colls.push_back( fake_coll );
         velocity = 0;
         vertical_velocity = 0;
-        add_msg_debug( "Collision check on a dirty vehicle %s", name );
+        add_msg_debug( debugmode::DF_VEHICLE_MOVE, "Collision check on a dirty vehicle %s", name );
         return true;
     }
 
@@ -971,7 +973,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
             continue;
         }
 
-        add_msg_debug( "Deformation energy: %.2f", d_E );
+        add_msg_debug( debugmode::DF_VEHICLE_MOVE, "Deformation energy: %.2f", d_E );
         // Damage calculation
         // Damage dealt overall
         dmg += d_E / 400;
@@ -979,7 +981,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
         // Always if no critters, otherwise if critter is real
         if( critter == nullptr || !critter->is_hallucination() ) {
             part_dmg = dmg * k / 100.0f;
-            add_msg_debug( "Part collision damage: %.2f", part_dmg );
+            add_msg_debug( debugmode::DF_VEHICLE_MOVE, "Part collision damage: %.2f", part_dmg );
         }
         // Damage for object
         const float obj_dmg = dmg * ( 100.0f - k ) / 100.0f;
@@ -1038,7 +1040,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
                                   critter->get_armor_bash( bodypart_id( "torso" ) );
                 dam = std::max( 0, dam - armor );
                 critter->apply_damage( driver, bodypart_id( "torso" ), dam );
-                add_msg_debug( "Critter collision damage: %d", dam );
+                add_msg_debug( debugmode::DF_VEHICLE_MOVE, "Critter collision damage: %d", dam );
             }
 
             // Don't fling if vertical - critter got smashed into the ground
@@ -1639,7 +1641,8 @@ bool vehicle::allow_manual_turn_on_rails( units::angle &corrected_turn_dir ) con
     if( turn_dir != face.dir() ) {
         corrected_turn_dir = get_corrected_turn_dir( turn_dir, face.dir() );
 
-        int wheels_on_rail, turning_wheels_that_are_one_axis;
+        int wheels_on_rail;
+        int turning_wheels_that_are_one_axis;
         precalculate_vehicle_turning( corrected_turn_dir, true, TFLAG_RAIL, wheels_on_rail,
                                       turning_wheels_that_are_one_axis );
         if( is_wheel_state_correct_to_turn_on_rails( wheels_on_rail, rail_wheelcache.size(),
@@ -1656,19 +1659,22 @@ bool vehicle::allow_auto_turn_on_rails( units::angle &corrected_turn_dir ) const
     // check if autoturn is possible
     if( turn_dir == face.dir() ) {
         // precalculate wheels for every direction
-        int straight_wheels_on_rail, straight_turning_wheels_that_are_one_axis;
+        int straight_wheels_on_rail;
+        int straight_turning_wheels_that_are_one_axis;
         precalculate_vehicle_turning( face.dir(), true, TFLAG_RAIL, straight_wheels_on_rail,
                                       straight_turning_wheels_that_are_one_axis );
 
         units::angle left_turn_dir =
             get_corrected_turn_dir( face.dir() - 45_degrees, face.dir() );
-        int leftturn_wheels_on_rail, leftturn_turning_wheels_that_are_one_axis;
+        int leftturn_wheels_on_rail;
+        int leftturn_turning_wheels_that_are_one_axis;
         precalculate_vehicle_turning( left_turn_dir, true, TFLAG_RAIL, leftturn_wheels_on_rail,
                                       leftturn_turning_wheels_that_are_one_axis );
 
         units::angle right_turn_dir =
             get_corrected_turn_dir( face.dir() + 45_degrees, face.dir() );
-        int rightturn_wheels_on_rail, rightturn_turning_wheels_that_are_one_axis;
+        int rightturn_wheels_on_rail;
+        int rightturn_turning_wheels_that_are_one_axis;
         precalculate_vehicle_turning( right_turn_dir, true, TFLAG_RAIL, rightturn_wheels_on_rail,
                                       rightturn_turning_wheels_that_are_one_axis );
 
@@ -2019,7 +2025,7 @@ float map::vehicle_wheel_traction( const vehicle &veh,
     float traction_wheel_area = 0.0f;
     for( int p : wheel_indices ) {
         const tripoint &pp = veh.global_part_pos3( p );
-        const int wheel_area = veh.cpart( p ).wheel_area();
+        const int wheel_area = veh.part( p ).wheel_area();
 
         const auto &tr = ter( pp ).obj();
         // Deep water and air

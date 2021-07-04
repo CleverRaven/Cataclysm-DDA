@@ -5,7 +5,7 @@
 #include <vector>
 
 #include "ballistics.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "character.h"
 #include "damage.h"
 #include "dispersion.h"

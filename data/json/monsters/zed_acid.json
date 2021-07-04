@@ -260,7 +260,7 @@
     "type": "MONSTER",
     "copy-from": "mon_zombie_dog_acidic",
     "name": { "str": "blistered horror" },
-    "description": "A huge canine with multiple large foul looking blisters covering its body.  A corrosive liquid spills from its menancing-looking mouth.",
+    "description": "A huge canine with multiple large, foul-looking blisters covering its body.  A corrosive liquid spills from its menacing-looking mouth.",
     "color": "yellow_white",
     "upgrades": false,
     "relative": {

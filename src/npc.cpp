@@ -204,8 +204,8 @@ standard_npc::standard_npc( const std::string &name, const tripoint &pos,
     }
 }
 
-npc::npc( npc && ) = default;
-npc &npc::operator=( npc && ) = default;
+npc::npc( npc && ) noexcept( map_is_noexcept ) = default;
+npc &npc::operator=( npc && ) noexcept( list_is_noexcept ) = default;
 
 static std::map<string_id<npc_template>, npc_template> npc_templates;
 
@@ -1356,7 +1356,8 @@ void npc::form_opinion( const player &u )
         set_attitude( NPCATT_FLEE_TEMP );
     }
 
-    add_msg_debug( "%s formed an opinion of u: %s", name, npc_attitude_id( attitude ) );
+    add_msg_debug( debugmode::DF_NPC, "%s formed an opinion of u: %s", name,
+                   npc_attitude_id( attitude ) );
 }
 
 void npc::mutiny()
@@ -2149,6 +2150,26 @@ bool npc::is_travelling() const
 
 Creature::Attitude npc::attitude_to( const Creature &other ) const
 {
+    const auto same_as = []( const Creature * lhs, const Creature * rhs ) {
+        return &lhs == &rhs;
+    };
+
+    for( const weak_ptr_fast<Creature> &buddy : ai_cache.friends ) {
+        if( same_as( &other, buddy.lock().get() ) ) {
+            return Creature::Attitude::FRIENDLY;
+        }
+    }
+    for( const weak_ptr_fast<Creature> &enemy : ai_cache.hostile_guys ) {
+        if( same_as( &other, enemy.lock().get() ) ) {
+            return Creature::Attitude::HOSTILE;
+        }
+    }
+    for( const weak_ptr_fast<Creature> &neutral : ai_cache.neutral_guys ) {
+        if( same_as( &other, neutral.lock().get() ) ) {
+            return Creature::Attitude::NEUTRAL;
+        }
+    }
+
     if( other.is_npc() || other.is_player() ) {
         const player &guy = dynamic_cast<const player &>( other );
         // check faction relationships first
@@ -2200,7 +2221,8 @@ Creature::Attitude npc::attitude_to( const Creature &other ) const
 void npc::npc_dismount()
 {
     if( !mounted_creature || !has_effect( effect_riding ) ) {
-        add_msg_debug( "NPC %s tried to dismount, but they have no mount, or they are not riding",
+        add_msg_debug( debugmode::DF_NPC,
+                       "NPC %s tried to dismount, but they have no mount, or they are not riding",
                        disp_name() );
         return;
     }
@@ -2212,7 +2234,7 @@ void npc::npc_dismount()
         }
     }
     if( !pnt ) {
-        add_msg_debug( "NPC %s could not find a place to dismount.", disp_name() );
+        add_msg_debug( debugmode::DF_NPC, "NPC %s could not find a place to dismount.", disp_name() );
         return;
     }
     remove_effect( effect_riding );
@@ -2646,6 +2668,11 @@ std::string npc_attitude_id( npc_attitude att )
     return iter->second;
 }
 
+int npc::closest_enemy_to_friendly_distance() const
+{
+    return ai_cache.closest_enemy_to_friendly_distance();
+}
+
 std::string npc_attitude_name( npc_attitude att )
 {
     switch( att ) {
@@ -2718,12 +2745,26 @@ void npc::add_msg_if_npc( const game_message_params &params, const std::string &
     add_msg( params, replace_with_npc_name( msg ) );
 }
 
+void npc::add_msg_debug_if_npc( debugmode::debug_filter type, const std::string &msg ) const
+{
+    add_msg_debug( type, replace_with_npc_name( msg ) );
+}
+
 void npc::add_msg_player_or_npc( const game_message_params &params,
                                  const std::string &/*player_msg*/,
                                  const std::string &npc_msg ) const
 {
     if( get_player_view().sees( *this ) ) {
         add_msg( params, replace_with_npc_name( npc_msg ) );
+    }
+}
+
+void npc::add_msg_debug_player_or_npc( debugmode::debug_filter type,
+                                       const std::string &/*player_msg*/,
+                                       const std::string &npc_msg ) const
+{
+    if( get_player_view().sees( *this ) ) {
+        add_msg_debug( type, replace_with_npc_name( npc_msg ) );
     }
 }
 
@@ -2779,7 +2820,7 @@ void npc::on_load()
     // TODO: Sleeping, healing etc.
     last_updated = calendar::turn;
     time_point cur = calendar::turn - dt;
-    add_msg_debug( "on_load() by %s, %d turns", name, to_turns<int>( dt ) );
+    add_msg_debug( debugmode::DF_NPC, "on_load() by %s, %d turns", name, to_turns<int>( dt ) );
     // First update with 30 minute granularity, then 5 minutes, then turns
     for( ; cur < calendar::turn - 30_minutes; cur += 30_minutes + 1_turns ) {
         update_body( cur, cur + 30_minutes );
@@ -2821,7 +2862,8 @@ void npc::on_load()
         if( const monster *const mon = g->critter_at<monster>( pos() ) ) {
             mounted_creature = g->shared_from( *mon );
         } else {
-            add_msg_debug( "NPC is meant to be riding, though the mount is not found when %s is loaded",
+            add_msg_debug( debugmode::DF_NPC,
+                           "NPC is meant to be riding, though the mount is not found when %s is loaded",
                            disp_name() );
         }
     }
@@ -3207,7 +3249,7 @@ void npc::set_attitude( npc_attitude new_attitude )
         add_effect( effect_npc_flee_player, 24_hours );
     }
 
-    add_msg_debug( "%s changes attitude from %s to %s",
+    add_msg_debug( debugmode::DF_NPC, "%s changes attitude from %s to %s",
                    name, npc_attitude_id( attitude ), npc_attitude_id( new_attitude ) );
     attitude_group new_group = get_attitude_group( new_attitude );
     attitude_group old_group = get_attitude_group( attitude );

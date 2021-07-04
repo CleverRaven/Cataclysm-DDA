@@ -347,6 +347,29 @@
     "flags": [ "WATERPROOF" ]
   },
   {
+    "id": "gloves_wsurvivor_nofur",
+    "type": "ARMOR",
+    "name": { "str": "pair of faux fur winter survivor gloves", "str_pl": "pairs of faux fur winter survivor gloves" },
+    "description": "A pair of customized, Kevlar armored faux fur gloves, modified to be easy to wear while providing maximum protection under extreme conditions.  While not quite as warm as real fur it's pretty good.",
+    "copy-from": "gloves_wsurvivor",
+    "material": [ "kevlar_layered", "faux_fur" ],
+    "symbol": "[",
+    "looks_like": "gloves_winter",
+    "color": "pink",
+    "warmth": 60
+  },
+  {
+    "id": "xl_gloves_wsurvivor_nofur",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL faux fur winter survivor gloves", "str_pl": "pairs of XL faux fur winter survivor gloves" },
+    "copy-from": "gloves_wsurvivor_nofur",
+    "material": [ "kevlar_layered", "faux_fur" ],
+    "description": "A pair of customized and oversized Kevlar armored faux fur gloves, modified to be easy to wear while providing maximum protection under extreme conditions.  While not quite as warm as real fur it's pretty good.",
+    "color": "pink",
+    "proportional": { "weight": 1.5, "volume": 1.5 },
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OVERSIZE" ]
+  },
+  {
     "id": "gloves_hsurvivor",
     "type": "ARMOR",
     "category": "armor",

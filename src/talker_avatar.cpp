@@ -31,7 +31,7 @@ std::vector<std::string> talker_avatar::get_topics( bool )
     std::vector<std::string> add_topics;
     if( has_trait( trait_PROF_FOODP ) && !( is_wearing( itype_id( "foodperson_mask" ) ) ||
                                             is_wearing( itype_id( "foodperson_mask_on" ) ) ) ) {
-        add_topics.push_back( "TALK_NOFACE" );
+        add_topics.emplace_back( "TALK_NOFACE" );
     }
     return add_topics;
 }
@@ -76,7 +76,7 @@ void talker_avatar::buy_monster( talker &seller, const mtype_id &mtype, int cost
     for( int i = 0; i < count; i++ ) {
         monster *const mon_ptr = g->place_critter_around( mtype, me_chr->pos(), 3 );
         if( !mon_ptr ) {
-            add_msg_debug( "Cannot place u_buy_monster, no valid placement locations." );
+            add_msg_debug( debugmode::DF_TALKER, "Cannot place u_buy_monster, no valid placement locations." );
             break;
         }
         monster &tmp = *mon_ptr;
