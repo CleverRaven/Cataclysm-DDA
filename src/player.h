@@ -213,12 +213,12 @@ class player : public Character
         /** Used for eating object at a location. Removes item if all of it was consumed.
         *   @returns trinary enum NONE, SOME or ALL amount consumed.
         */
-        trinary consume( item_location loc, bool force = false );
+        trinary consume( item_location loc, bool force = false, bool refuel = false );
 
         /** Used for eating a particular item that doesn't need to be in inventory.
          *  @returns trinary enum NONE, SOME or ALL (doesn't remove).
          */
-        trinary consume( item &target, bool force = false );
+        trinary consume( item &target, bool force = false, bool refuel = false );
 
         int get_lift_assist() const;
 
