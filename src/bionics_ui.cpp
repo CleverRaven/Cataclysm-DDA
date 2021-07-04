@@ -7,6 +7,7 @@
 #include <string>
 
 #include "avatar.h"
+#include "avatar_action.h"
 #include "bionics.h"
 #include "bodypart.h"
 #include "calendar.h"
@@ -835,7 +836,8 @@ void avatar::power_bionics()
                 }
             }
         } else if( action == "REFUEL" ) {
-            game_menus::inv::consume_fuel( get_avatar() );
+            avatar_action::eat( get_avatar(), game_menus::inv::consume_fuel( get_avatar() ), true );
+            break;
         } else if( action == "TOGGLE_AUTO_START" ) {
             auto &bio_list = tab_mode == TAB_ACTIVE ? active : passive;
             if( !current_bionic_list->empty() ) {

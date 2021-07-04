@@ -1513,7 +1513,12 @@ void consume_activity_actor::finish( player_activity &act, Character & )
         if( consume_loc ) {
             player_character.consume( consume_loc, /*force=*/true );
         } else if( !consume_item.is_null() ) {
-            player_character.consume( consume_item, /*force=*/true );
+            if( refuel ) {
+                player_character.fuel_bionic_with( consume_item );
+            } else {
+                player_character.consume( consume_item, /*force=*/true );
+            }
+
         } else {
             debugmsg( "Item location/name to be consumed should not be null." );
         }

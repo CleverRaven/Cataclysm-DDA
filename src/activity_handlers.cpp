@@ -2886,7 +2886,7 @@ void activity_handlers::consume_meds_menu_do_turn( player_activity *, player * )
 void activity_handlers::consume_fuel_menu_do_turn( player_activity *, player * )
 {
     avatar &player_character = get_avatar();
-    avatar_action::eat( player_character, game_menus::inv::consume_fuel( player_character ) );
+    avatar_action::eat( player_character, game_menus::inv::consume_fuel( player_character ), true );
 }
 
 void activity_handlers::move_loot_do_turn( player_activity *act, player *p )

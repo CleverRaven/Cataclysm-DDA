@@ -1528,7 +1528,7 @@ bool Character::fuel_bionic_with( item &it )
                            ngettext( "<npcname> load %1$i charge of %2$s in their %3$s.",
                                      "<npcname> load %1$i charges of %2$s in their %3$s.", loadable ), loadable, mat->name(),
                            bio->name );
-    mod_moves( -250 );
+
     // Return false for magazines because only their ammo is consumed
     return !is_magazine;
 }
