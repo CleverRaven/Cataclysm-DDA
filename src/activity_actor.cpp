@@ -2184,7 +2184,7 @@ void disable_activity_actor::do_turn( player_activity &, Character &who )
 {
     monster *const mon_ptr = g->critter_at<monster>( target );
     if( !mon_ptr ) {
-        who.add_msg_if_player( _( "The robot has moved somewhere else" ) );
+        who.add_msg_if_player( _( "The robot has moved somewhere else." ) );
         who.cancel_activity();
         return;
     }
@@ -2192,7 +2192,7 @@ void disable_activity_actor::do_turn( player_activity &, Character &who )
     monster &critter = *mon_ptr;
     if( !can_disable_or_reprogram( critter ) ) {
         // I think recovery from stunned is the only reason this could happen
-        who.add_msg_if_player( _( "The %s recovers before you can finish" ), critter.name() );
+        who.add_msg_if_player( _( "The %s recovers before you can finish." ), critter.name() );
         who.cancel_activity();
         return;
     }
