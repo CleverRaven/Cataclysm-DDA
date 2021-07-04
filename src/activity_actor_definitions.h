@@ -582,8 +582,8 @@ class consume_activity_actor : public activity_actor
         std::vector<item_location> consume_menu_selected_items;
         std::string consume_menu_filter;
         bool canceled = false;
-        bool refuel = false;
         activity_id type;
+        bool refuel = false;
         /**
          * @pre @p other is a consume_activity_actor
          */
