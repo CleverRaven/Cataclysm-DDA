@@ -1452,7 +1452,7 @@ void monster::make_bleed( const effect_source &source, const bodypart_id &bp,
     if( type->in_species( species_ROBOT ) ) {
         add_effect( source, effect_dripping_mechanical_fluid, duration, bp );
     } else {
-        add_effect( source, effect_bleed, duration, bp );
+        add_effect( source, effect_bleed, duration, bp, permanent, intensity, force, defferred );
     }
 }
 
