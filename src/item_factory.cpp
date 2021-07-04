@@ -1788,20 +1788,6 @@ void gun_variant_data::load( const JsonObject &jo )
 
 void Item_factory::load( islot_gun &slot, const JsonObject &jo, const std::string &src )
 {
-    load( jsin.get_object() );
-}
-
-void gun_variant_data::load( const JsonObject &jo )
-{
-    mandatory( jo, false, "id", id );
-    mandatory( jo, false, "name", brand_name );
-    mandatory( jo, false, "description", alt_description );
-    optional( jo, false, "ascii_picture", art );
-    optional( jo, false, "weight", weight );
-}
-
-void Item_factory::load( islot_gun &slot, const JsonObject &jo, const std::string &src )
-{
     bool strict = src == "dda";
     assign( jo, "skill", slot.skill_used, strict );
     assign( jo, "ammo", slot.ammo, strict );
