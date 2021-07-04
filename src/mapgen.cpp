@@ -1027,9 +1027,11 @@ class jmapgen_vending_machine : public jmapgen_piece
     public:
         bool reinforced;
         item_group_id group_id;
+        bool lootable;
         jmapgen_vending_machine( const JsonObject &jsi, const std::string &/*context*/ ) :
             reinforced( jsi.get_bool( "reinforced", false ) )
-            , group_id( jsi.get_string( "item_group", "default_vending_machine" ) ) {
+            , group_id( jsi.get_string( "item_group", "default_vending_machine" ) )
+            , lootable( jsi.get_bool( "lootable", false ) ) {
             if( !item_group::group_is_defined( group_id ) ) {
                 set_mapgen_defer( jsi, "item_group", "no such item group" );
             }
@@ -1038,7 +1040,7 @@ class jmapgen_vending_machine : public jmapgen_piece
                   ) const override {
             const point r( x.get(), y.get() );
             dat.m.furn_set( r, f_null );
-            dat.m.place_vending( r, group_id, reinforced );
+            dat.m.place_vending( r, group_id, reinforced, lootable );
         }
         bool has_vehicle_collision( const mapgendata &dat, const point &p ) const override {
             return dat.m.veh_at( tripoint( p, dat.zlevel() ) ).has_value();
@@ -4997,14 +4999,16 @@ void map::place_toilet( const point &p, int charges )
     furn_set( p, f_toilet );
 }
 
-void map::place_vending( const point &p, const item_group_id &type, bool reinforced )
+void map::place_vending( const point &p, const item_group_id &type, bool reinforced, bool lootable )
 {
     if( reinforced ) {
         furn_set( p, f_vending_reinforced );
         place_items( type, 100, p, p, false, calendar::start_of_cataclysm );
     } else {
-        // The chance to find a non-ransacked vending machine reduces greatly with every day after the cataclysm
-        if( !one_in( std::max( to_days<int>( calendar::turn - calendar::start_of_cataclysm ), 0 ) + 4 ) ) {
+        // The chance to find a non-ransacked vending machine reduces greatly with every day after the cataclysm,
+        // unless it's hidden somewhere far away from everyone's eyes (e.g. deep in the lab)
+        if( lootable &&
+            !one_in( std::max( to_days<int>( calendar::turn - calendar::start_of_cataclysm ), 0 ) + 4 ) ) {
             furn_set( p, f_vending_o );
             for( const auto &loc : points_in_radius( { p, abs_sub.z }, 1 ) ) {
                 if( one_in( 4 ) ) {
