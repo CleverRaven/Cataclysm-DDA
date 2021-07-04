@@ -115,8 +115,10 @@
         { "vehicle": "shopping_cart", "x": [ 4, 21 ], "y": 13, "chance": 15 },
         { "vehicle": "grocery_cart", "x": [ 19, 22 ], "y": 3, "chance": 10, "repeat": [ 1, 3 ], "rotation": 90 }
       ],
+      "place_loot": [ { "item": "salt_water", "container-item": "aquarium_medium", "x": [ 21 ], "y": [ 22 ] } ],
       "place_monster": [
-        { "monster": [ "mon_grocerybot", "mon_grocerybot_busted" ], "x": [ 19, 22 ], "y": 2, "chance": 15, "repeat": [ 1, 3 ] }
+        { "monster": [ "mon_grocerybot", "mon_grocerybot_busted" ], "x": [ 19, 22 ], "y": 2, "chance": 15, "repeat": [ 1, 3 ] },
+        { "monster": [ "mon_fish_lobster" ], "x": [ 21 ], "y": 22 }
       ]
     }
   },
@@ -270,8 +272,10 @@
         { "vehicle": "shopping_cart", "x": [ 4, 21 ], "y": 13, "chance": 15 },
         { "vehicle": "grocery_cart", "x": [ 19, 22 ], "y": 3, "chance": 10, "repeat": [ 1, 3 ], "rotation": 90 }
       ],
+      "place_loot": [ { "item": "salt_water", "container-item": "aquarium_medium", "x": [ 21 ], "y": [ 22 ] } ],
       "place_monster": [
-        { "monster": [ "mon_grocerybot", "mon_grocerybot_busted" ], "x": [ 19, 22 ], "y": 2, "chance": 15, "repeat": [ 1, 3 ] }
+        { "monster": [ "mon_grocerybot", "mon_grocerybot_busted" ], "x": [ 19, 22 ], "y": 2, "chance": 15, "repeat": [ 1, 3 ] },
+        { "monster": [ "mon_fish_lobster" ], "x": [ 21 ], "y": 22 }
       ],
       "nested": {
         "|": { "chunks": [ [ "bile_field", 1 ], [ "shelter_graffiti", 10 ], [ "general_graffiti", 20 ], [ "null", 75 ] ] },
@@ -386,8 +390,10 @@
         { "item": "groce_meat", "x": [ 13, 17 ], "y": 21, "chance": 1, "repeat": [ 1, 12 ] },
         { "item": "groce_dairyegg", "x": [ 18, 21 ], "y": 21, "chance": 1, "repeat": [ 1, 12 ] }
       ],
+      "place_loot": [ { "item": "salt_water", "container-item": "aquarium_medium", "x": [ 21 ], "y": [ 22 ] } ],
       "place_monster": [
-        { "monster": [ "mon_grocerybot", "mon_grocerybot_busted" ], "x": [ 19, 22 ], "y": 2, "chance": 15, "repeat": [ 1, 3 ] }
+        { "monster": [ "mon_grocerybot", "mon_grocerybot_busted" ], "x": [ 19, 22 ], "y": 2, "chance": 15, "repeat": [ 1, 3 ] },
+        { "monster": [ "mon_fish_lobster" ], "x": [ 21 ], "y": 22 }
       ]
     }
   },
