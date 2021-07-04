@@ -106,6 +106,9 @@ static bool check_nothing( const tripoint & )
 }
 bool check_empty( const tripoint & ); // tile is empty
 bool check_support( const tripoint & ); // at least two orthogonal supports
+bool check_support_passable( const tripoint & ); // at least two orthogonal supports and passable
+bool check_support_nofloor_above( const tripoint & ); // 2+ supports, passable and NO_FLOOR above
+bool check_support_below( const tripoint & ); // at least two orthogonal supports below
 bool check_stable( const tripoint & ); // tile below has a flag SUPPORTS_ROOF
 bool check_empty_stable( const tripoint & ); // tile is empty, tile below has a flag SUPPORTS_ROOF
 bool check_nofloor_above( const tripoint & ); // tile above has a flag NO_FLOOR
@@ -1071,16 +1074,17 @@ void complete_construction( player *p )
     }
     // Make the terrain change
     if( !built.post_terrain.empty() ) {
+        const tripoint terp_actual = built.post_flags.count( "is_roof" ) ? terp + tripoint_above : terp;
         if( built.post_is_furniture ) {
-            here.furn_set( terp, furn_str_id( built.post_terrain ) );
+            here.furn_set( terp_actual, furn_str_id( built.post_terrain ) );
         } else {
-            here.ter_set( terp, ter_str_id( built.post_terrain ) );
+            here.ter_set( terp_actual, ter_str_id( built.post_terrain ) );
             // Make a roof if constructed terrain should have it and it's an open air
             if( construct::check_up_OK( terp ) ) {
                 const int_id<ter_t> post_terrain = ter_id( built.post_terrain );
                 if( post_terrain->roof ) {
                     const tripoint top = terp + tripoint_above;
-                    if( here.ter( top ) == t_open_air ) {
+                    if( here.has_flag( flag_NO_FLOOR, top ) ) {
                         here.ter_set( top, ter_id( post_terrain->roof ) );
                     }
                 }
@@ -1133,9 +1137,6 @@ bool construct::check_support( const tripoint &p )
 {
     map &here = get_map();
     // need two or more orthogonally adjacent supports
-    if( here.impassable( p ) ) {
-        return false;
-    }
     int num_supports = 0;
     for( const tripoint &nb : get_orthogonal_neighbors( p ) ) {
         if( here.has_flag( flag_SUPPORTS_ROOF, nb ) ) {
@@ -1143,6 +1144,21 @@ bool construct::check_support( const tripoint &p )
         }
     }
     return num_supports >= 2;
+}
+
+bool construct::check_support_passable( const tripoint &p )
+{
+    return !get_map().impassable( p ) && check_support( p );
+}
+
+bool construct::check_support_below( const tripoint &p )
+{
+    return check_support( p + tripoint_below );
+}
+
+bool construct::check_support_nofloor_above( const tripoint &p )
+{
+    return check_support_passable( p ) && check_nofloor_above( p );
 }
 
 bool construct::check_stable( const tripoint &p )
@@ -1157,7 +1173,7 @@ bool construct::check_empty_stable( const tripoint &p )
 
 bool construct::check_nofloor_above( const tripoint &p )
 {
-    return get_map().has_flag( flag_NO_FLOOR, p + tripoint_above );
+    return check_up_OK( p ) && get_map().has_flag( flag_NO_FLOOR, p + tripoint_above );
 }
 
 bool construct::check_deconstruct( const tripoint &p )
@@ -1194,7 +1210,7 @@ bool construct::check_no_trap( const tripoint &p )
 
 bool construct::check_ramp_high( const tripoint &p )
 {
-    if( check_empty_stable( p ) && check_up_OK( p ) && check_nofloor_above( p ) ) {
+    if( check_empty_stable( p ) && check_nofloor_above( p ) ) {
         for( const point &car_d : four_cardinal_directions ) {
             // check adjacent points on the z-level above for a completed down ramp
             if( get_map().has_flag( TFLAG_RAMP_DOWN, p + car_d + tripoint_above ) ) {
@@ -1207,7 +1223,7 @@ bool construct::check_ramp_high( const tripoint &p )
 
 bool construct::check_ramp_low( const tripoint &p )
 {
-    return check_empty_stable( p ) && check_up_OK( p ) && check_nofloor_above( p );
+    return check_empty_stable( p ) && check_nofloor_above( p );
 }
 
 void construct::done_trunk_plank( const tripoint &/*p*/ )
@@ -1648,6 +1664,9 @@ void load_construction( const JsonObject &jo )
             { "", construct::check_nothing },
             { "check_empty", construct::check_empty },
             { "check_support", construct::check_support },
+            { "check_support_passable", construct::check_support_passable },
+            { "check_support_below", construct::check_support_below },
+            { "check_support_nofloor_above", construct::check_support_nofloor_above },
             { "check_stable", construct::check_stable },
             { "check_empty_stable", construct::check_empty_stable },
             { "check_nofloor_above", construct::check_nofloor_above },

@@ -14,24 +14,24 @@
     "blueprint_provides": [ { "id": "fbmk_center" } ],
     "blueprint_excludes": [ { "id": "fbmk_center" } ],
     "blueprint_needs": {
-      "time": "2 d 5 h 45 m",
-      "skills": [ [ "fabrication", 3 ], [ "survival", 2 ] ],
+      "time": "2 d 16 h 45 m",
+      "skills": [ [ "survival", 2 ], [ "fabrication", 3 ] ],
       "inline": {
         "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
         "qualities": [
+          [ { "id": "SAW_W", "level": 2 } ],
           [ { "id": "CUT" } ],
           [ { "id": "DIG", "level": 2 } ],
-          [ { "id": "HAMMER", "level": 2 } ],
-          [ { "id": "SAW_W", "level": 2 } ]
+          [ { "id": "HAMMER", "level": 2 } ]
         ],
         "components": [
           [ [ "2x4", 151 ] ],
+          [ [ "concrete", 6 ], [ "material_quicklime", 120 ], [ "material_sand", 120 ] ],
+          [ [ "material_soil", 1440 ] ],
           [ [ "nail", 334 ] ],
           [ [ "pointy_stick", 12 ], [ "spear_wood", 12 ] ],
-          [ [ "material_soil", 1440 ] ],
+          [ [ "rope_6", 2 ], [ "rope_makeshift_6", 2 ] ],
           [ [ "water", 600 ], [ "water_clean", 600 ] ],
-          [ [ "material_sand", 120 ], [ "material_quicklime", 120 ], [ "concrete", 6 ] ],
-          [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ] ],
           [ [ "wood_panel", 11 ] ]
         ]
       }
@@ -52,24 +52,24 @@
     "blueprint_provides": [ { "id": "fbmk_center2" } ],
     "blueprint_excludes": [ { "id": "fbmk_center2" } ],
     "blueprint_needs": {
-      "time": "3 d 4 h 30 m",
-      "skills": [ [ "fabrication", 3 ], [ "survival", 2 ] ],
+      "time": "3 d 20 h 30 m",
+      "skills": [ [ "survival", 2 ], [ "fabrication", 3 ] ],
       "inline": {
         "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
         "qualities": [
+          [ { "id": "SAW_W", "level": 2 } ],
           [ { "id": "CUT" } ],
           [ { "id": "DIG", "level": 2 } ],
-          [ { "id": "HAMMER", "level": 2 } ],
-          [ { "id": "SAW_W", "level": 2 } ]
+          [ { "id": "HAMMER", "level": 2 } ]
         ],
         "components": [
           [ [ "2x4", 179 ] ],
+          [ [ "concrete", 9 ], [ "material_quicklime", 180 ], [ "material_sand", 180 ] ],
+          [ [ "material_soil", 2160 ] ],
           [ [ "nail", 398 ] ],
           [ [ "pointy_stick", 18 ], [ "spear_wood", 18 ] ],
-          [ [ "material_soil", 2160 ] ],
+          [ [ "rope_6", 4 ], [ "rope_makeshift_6", 4 ] ],
           [ [ "water", 900 ], [ "water_clean", 900 ] ],
-          [ [ "material_sand", 180 ], [ "material_quicklime", 180 ], [ "concrete", 9 ] ],
-          [ [ "rope_makeshift_6", 4 ], [ "rope_6", 4 ] ],
           [ [ "wood_panel", 16 ] ]
         ]
       }
@@ -90,18 +90,18 @@
     "blueprint_provides": [ { "id": "fbmk_smoking_area" } ],
     "blueprint_excludes": [ { "id": "fbmk_smoking_area" } ],
     "blueprint_needs": {
-      "time": "2 d 11 h 55 m",
-      "skills": [ [ "fabrication", 3 ], [ "survival", 2 ] ],
+      "time": "3 d 9 h 55 m",
+      "skills": [ [ "survival", 2 ], [ "fabrication", 3 ] ],
       "inline": {
         "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
-        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "qualities": [ [ { "id": "SAW_W", "level": 2 } ], [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
-          [ [ "pointy_stick", 12 ], [ "spear_wood", 12 ] ],
           [ [ "2x4", 180 ] ],
-          [ [ "nail", 448 ] ],
+          [ [ "concrete", 6 ], [ "material_quicklime", 120 ], [ "material_sand", 120 ] ],
           [ [ "material_soil", 1440 ] ],
+          [ [ "nail", 448 ] ],
+          [ [ "pointy_stick", 12 ], [ "spear_wood", 12 ] ],
           [ [ "water", 600 ], [ "water_clean", 600 ] ],
-          [ [ "material_sand", 120 ], [ "material_quicklime", 120 ], [ "concrete", 6 ] ],
           [ [ "wood_panel", 22 ] ]
         ]
       }
@@ -122,11 +122,11 @@
     "blueprint_provides": [ { "id": "fbmk_pantry_room" } ],
     "blueprint_excludes": [ { "id": "fbmk_pantry_room" } ],
     "blueprint_needs": {
-      "time": "5 d 1 h 15 m",
-      "skills": [ [ "fabrication", 3 ], [ "survival", 2 ] ],
+      "time": "6 d 2 h 15 m",
+      "skills": [ [ "survival", 2 ], [ "fabrication", 3 ] ],
       "inline": {
         "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
-        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "qualities": [ [ { "id": "SAW_W", "level": 2 } ], [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
           [ [ "2x4", 230 ] ],
           [ [ "concrete", 15 ], [ "material_quicklime", 300 ], [ "material_sand", 300 ] ],
@@ -154,28 +154,34 @@
     "blueprint_provides": [ { "id": "fbmk_canteen_dining_west" } ],
     "blueprint_excludes": [ { "id": "fbmk_canteen_dining_west" } ],
     "blueprint_needs": {
-      "time": "2 d 6 h 6 m",
-      "skills": [ [ "fabrication", 3 ], [ "survival", 2 ] ],
+      "time": "2 d 17 h 6 m",
+      "skills": [ [ "survival", 2 ], [ "fabrication", 3 ] ],
       "inline": {
         "tools": [
-          [ [ "machete", -1 ], [ "makeshift_machete", -1 ], [ "scythe", -1 ], [ "sickle", -1 ], [ "survivor_machete", -1 ] ],
           [ [ "frame_wood_light", -1 ] ],
-          [ [ "log", -1 ] ]
+          [ [ "log", -1 ] ],
+          [
+            [ "machete", -1 ],
+            [ "makeshift_machete", -1 ],
+            [ "scythe", -1 ],
+            [ "sickle", -1 ],
+            [ "survivor_machete", -1 ]
+          ]
         ],
         "qualities": [
+          [ { "id": "SAW_W", "level": 2 } ],
           [ { "id": "CUT" } ],
           [ { "id": "DIG", "level": 2 } ],
-          [ { "id": "HAMMER", "level": 2 } ],
-          [ { "id": "SAW_W", "level": 2 } ]
+          [ { "id": "HAMMER", "level": 2 } ]
         ],
         "components": [
           [ [ "2x4", 148 ] ],
+          [ [ "concrete", 6 ], [ "material_quicklime", 120 ], [ "material_sand", 120 ] ],
+          [ [ "material_soil", 1440 ] ],
           [ [ "nail", 334 ] ],
           [ [ "pointy_stick", 12 ], [ "spear_wood", 12 ] ],
-          [ [ "material_soil", 1440 ] ],
+          [ [ "rope_6", 2 ], [ "rope_makeshift_6", 2 ] ],
           [ [ "water", 600 ], [ "water_clean", 600 ] ],
-          [ [ "material_sand", 120 ], [ "material_quicklime", 120 ], [ "concrete", 6 ] ],
-          [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ] ],
           [ [ "wood_panel", 11 ] ]
         ]
       }
@@ -196,18 +202,18 @@
     "blueprint_provides": [ { "id": "fbmk_canteen_dining_east" } ],
     "blueprint_excludes": [ { "id": "fbmk_canteen_dining_east" } ],
     "blueprint_needs": {
-      "time": "2 d 18 h",
-      "skills": [ [ "fabrication", 3 ], [ "survival", 2 ] ],
+      "time": "3 d 11 h",
+      "skills": [ [ "survival", 2 ], [ "fabrication", 3 ] ],
       "inline": {
         "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
-        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "qualities": [ [ { "id": "SAW_W", "level": 2 } ], [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
-          [ [ "pointy_stick", 14 ], [ "spear_wood", 14 ] ],
           [ [ "2x4", 193 ] ],
-          [ [ "nail", 460 ] ],
+          [ [ "concrete", 7 ], [ "material_quicklime", 140 ], [ "material_sand", 140 ] ],
           [ [ "material_soil", 1680 ] ],
+          [ [ "nail", 460 ] ],
+          [ [ "pointy_stick", 14 ], [ "spear_wood", 14 ] ],
           [ [ "water", 700 ], [ "water_clean", 700 ] ],
-          [ [ "material_sand", 140 ], [ "material_quicklime", 140 ], [ "concrete", 7 ] ],
           [ [ "wood_panel", 17 ] ]
         ]
       }
@@ -228,24 +234,24 @@
     "blueprint_provides": [ { "id": "fbmk_canteen_dining_center" } ],
     "blueprint_excludes": [ { "id": "fbmk_canteen_dining_center" } ],
     "blueprint_needs": {
-      "time": "1 d 15 h 15 m",
-      "skills": [ [ "fabrication", 3 ], [ "survival", 2 ] ],
+      "time": "2 d 15 h 15 m",
+      "skills": [ [ "survival", 2 ], [ "fabrication", 3 ] ],
       "inline": {
         "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
         "qualities": [
+          [ { "id": "SAW_W", "level": 2 } ],
           [ { "id": "CUT" } ],
           [ { "id": "DIG", "level": 2 } ],
-          [ { "id": "HAMMER", "level": 2 } ],
-          [ { "id": "SAW_W", "level": 2 } ]
+          [ { "id": "HAMMER", "level": 2 } ]
         ],
         "components": [
           [ [ "2x4", 225 ] ],
+          [ [ "concrete", 2 ], [ "material_quicklime", 40 ], [ "material_sand", 40 ] ],
+          [ [ "material_soil", 480 ] ],
           [ [ "nail", 534 ] ],
           [ [ "pointy_stick", 4 ], [ "spear_wood", 4 ] ],
-          [ [ "material_soil", 480 ] ],
+          [ [ "rope_6", 2 ], [ "rope_makeshift_6", 2 ] ],
           [ [ "water", 200 ], [ "water_clean", 200 ] ],
-          [ [ "material_sand", 40 ], [ "material_quicklime", 40 ], [ "concrete", 2 ] ],
-          [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ] ],
           [ [ "wood_panel", 24 ] ]
         ]
       }
