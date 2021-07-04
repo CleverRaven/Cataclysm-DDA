@@ -829,7 +829,7 @@ int Character::charges_of( const itype_id &what, int limit,
     for( const auto &bio : *this->my_bionics ) {
         const bionic_data &bid = bio.info();
         if( bid.fake_item == what && ( !bid.activated || bio.powered ) ) {
-            return std::min( item(bid.fake_item).ammo_remaining( p ), limit );
+            return std::min( item( bid.fake_item ).ammo_remaining( p ), limit );
         }
     }
 
