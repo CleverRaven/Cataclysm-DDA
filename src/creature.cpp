@@ -1079,11 +1079,6 @@ void Creature::deal_damage_handle_type( const effect_source &source, const damag
     pain += roll_remainder( adjusted_damage / div );
 }
 
-void Creature::make_bleed( const effect_source &source, const bodypart_id &bp,
-                           time_duration duration, int intensity, bool permanent, bool force, bool defferred )
-{
-}
-
 void Creature::heal_bp( bodypart_id /* bp */, int /* dam */ )
 {
 }
