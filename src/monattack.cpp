@@ -4471,12 +4471,7 @@ bool mattack::longswipe( monster *z )
                                        _( "The %1$s slashes at your neck, cutting your throat for %2$d damage!" ),
                                        _( "The %1$s slashes at <npcname>'s neck, cutting their throat for %2$d damage!" ),
                                        z->name(), dam );
-        if( target->is_player() || target->is_npc() ) {
-            target->as_character()->make_bleed( effect_source( z ), bodypart_id( "head" ), 15_minutes );
-        } else {
-            target->add_effect( effect_source( z ), effect_bleed, 15_minutes, bodypart_id( "head" ) );
-        }
-
+        target->make_bleed( effect_source( z ), bodypart_id( "head" ), 15_minutes );
     } else {
         target->add_msg_player_or_npc( _( "The %1$s slashes at your %2$s, but glances off your armor!" ),
                                        _( "The %1$s slashes at <npcname>'s %2$s, but glances off armor!" ),
