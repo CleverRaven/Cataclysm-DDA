@@ -97,6 +97,9 @@
 		"n": { "item": "supplies_woodcrafts", "chance": 20, "repeat": [ 1, 3 ] },
 		"R": [ { "item": "home_hw", "chance": 20, "repeat": [ 1, 5 ] }, { "item": "tools_carpentry", "chance": 80, "repeat": [ 1, 2 ] } ]
 	  }
+	  "place_item": [
+	    { "item": "extinguisher", "x": 18, "y": 10, "chance": 70 }
+	  ]
 	}
   },
   {
@@ -178,7 +181,7 @@
 	  },
 	  "place_item": [
 	  { "item": "coffeemaker", "x": 14, "y": 8, "chance": 100 },
-	  { "item": "toaster", "x": 21, "y": 16, "chance": 70 }
+	  { "item": "toaster", "x": 21, "y": 16, "chance": 70 },
 	  ]
     }
   },
