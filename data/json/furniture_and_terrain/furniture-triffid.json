@@ -36,5 +36,17 @@
       "sound_fail": "whump.",
       "items": [ { "item": "splinter", "count": [ 10, 15 ] } ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_midden",
+    "name": "composting midden",
+    "symbol": "O",
+    "bgcolor": "brown",
+    "move_cost_mod": -1,
+    "coverage": 35,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "SHORT" ],
+    "max_volume": "875 L"
   }
 ]
