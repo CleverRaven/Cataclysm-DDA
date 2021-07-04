@@ -35,6 +35,12 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "zombie",
+    "copy-from": "zombie",
+    "neutral": [ "moxie" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "moxie",
     "base_faction": "mutant",
     "neutral": [ "bio_machine", "zombie" ],
