@@ -57,5 +57,12 @@
     "name": "licorice_snakes",
     "neutral": [ "bot", "plant", "nether", "human", "crackers", "cookies" ],
     "by_mood": [ "insect", "player", "animal", "gummy_bears", "chewgum" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "pumpkin_man",
+    "hate": [ "bot", "nether", "human", "insect" ],
+    "by_mood": [ "player", "animal", "crackers", "cookies", "gummy_bears", "chewgum" ],
+    "friendly": [ "plant" ]
   }
 ]
