@@ -2937,7 +2937,7 @@ std::list<item> Character::remove_worn_items_with( const std::function<bool( ite
 
 static void recur_internal_locations( item_location parent, std::vector<item_location> &list )
 {
-    for( item *it : parent->contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+    for( item *it : parent->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
         item_location child( parent, it );
         recur_internal_locations( child, list );
     }
@@ -3566,7 +3566,7 @@ units::mass Character::weight_carried_with_tweaks( const item_tweaks &tweaks ) c
     units::mass ret = 0_gram;
     for( const item &i : worn ) {
         if( !without.count( &i ) ) {
-            for( const item *j : i.contents.all_items_ptr( item_pocket::pocket_type::CONTAINER ) ) {
+            for( const item *j : i.all_items_ptr( item_pocket::pocket_type::CONTAINER ) ) {
                 if( j->count_by_charges() ) {
                     ret -= get_selected_stack_weight( j, without );
                 } else if( without.count( j ) ) {
@@ -3581,7 +3581,7 @@ units::mass Character::weight_carried_with_tweaks( const item_tweaks &tweaks ) c
     units::mass weaponweight = 0_gram;
     if( !without.count( &weapon ) ) {
         weaponweight += weapon.weight();
-        for( const item *i : weapon.contents.all_items_ptr( item_pocket::pocket_type::CONTAINER ) ) {
+        for( const item *i : weapon.all_items_ptr( item_pocket::pocket_type::CONTAINER ) ) {
             if( i->count_by_charges() ) {
                 weaponweight -= get_selected_stack_weight( i, without );
             } else if( without.count( i ) ) {
@@ -6990,7 +6990,7 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint &p )
                             // Only one item is allowed, so we don't fill our pillowcase with nails
                             continue;
                         }
-                        for( const item *it : items_it.contents.all_items_top() ) {
+                        for( const item *it : items_it.all_items_top() ) {
                             if( it->has_flag( flag_SLEEP_AID ) ) {
                                 // Note: BED + SLEEP_AID = 9 pts, or 1 pt below very_comfortable
                                 comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
@@ -7047,7 +7047,7 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint &p )
                         // Only one item is allowed, so we don't fill our pillowcase with nails
                         continue;
                     }
-                    for( const item *it : items_it.contents.all_items_top() ) {
+                    for( const item *it : items_it.all_items_top() ) {
                         if( it->has_flag( flag_SLEEP_AID ) ) {
                             // Note: BED + SLEEP_AID = 9 pts, or 1 pt below very_comfortable
                             comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
@@ -9627,7 +9627,7 @@ void Character::absorb_hit( const bodypart_id &bp, damage_instance &dam )
                 destroyed_armor_msg( *this, pre_damage_name );
                 armor_destroyed = true;
                 armor.on_takeoff( *this );
-                for( const item *it : armor.contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+                for( const item *it : armor.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
                     worn_remains.push_back( *it );
                 }
                 // decltype is the type name of the iterator, note that reverse_iterator::base returns the
@@ -12846,7 +12846,7 @@ bool Character::add_or_drop_with_msg( item &it, const bool /*unloading*/, const 
         bool wielded_has_it = false;
         // Cannot use weapon.has_item(it) because it skips any pockets that
         // are not containers such as magazines and magazine wells.
-        for( const item *scan_contents : weapon.contents.all_items_top() ) {
+        for( const item *scan_contents : weapon.all_items_top() ) {
             if( scan_contents == &it ) {
                 wielded_has_it = true;
                 break;
@@ -12886,7 +12886,7 @@ bool Character::unload( item_location &loc, bool bypass_activity )
         }
 
         int moves = 0;
-        for( item *contained : it.contents.all_items_top() ) {
+        for( item *contained : it.all_items_top() ) {
             moves += this->item_handling_cost( *contained );
         }
         assign_activity( player_activity( unload_activity_actor( moves, loc ) ) );
@@ -12959,7 +12959,7 @@ bool Character::unload( item_location &loc, bool bypass_activity )
             unload_activity_actor::unload( *this, targloc );
         } else {
             int mv = 0;
-            for( const item *content : target->contents.all_items_top() ) {
+            for( const item *content : target->all_items_top() ) {
                 // We use the same cost for both reloading and unloading
                 mv += this->item_reload_cost( it, *content, content->charges );
             }
