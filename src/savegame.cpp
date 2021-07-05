@@ -478,7 +478,7 @@ void overmap::load_monster_groups( JsonIn &jsin )
         jsin.start_array();
 
         mongroup new_group;
-        new_group.deserialize( jsin );
+        new_group.deserialize( jsin.get_object() );
 
         jsin.start_array();
         tripoint_om_sm temp;
@@ -635,7 +635,7 @@ void overmap::unserialize( std::istream &fin )
                 tripoint_om_sm monster_location;
                 monster new_monster;
                 monster_location.deserialize( jsin );
-                new_monster.deserialize( jsin, project_combine( loc, monster_location ) );
+                new_monster.deserialize( jsin.get_object(), project_combine( loc, monster_location ) );
                 monster_map.insert( std::make_pair( monster_location,
                                                     std::move( new_monster ) ) );
             }
@@ -682,7 +682,7 @@ void overmap::unserialize( std::istream &fin )
             jsin.start_array();
             while( !jsin.end_array() ) {
                 shared_ptr_fast<npc> new_npc = make_shared_fast<npc>();
-                new_npc->deserialize( jsin );
+                new_npc->deserialize( jsin.get_object() );
                 if( !new_npc->get_fac_id().str().empty() ) {
                     new_npc->set_fac( new_npc->get_fac_id() );
                 }
@@ -692,7 +692,7 @@ void overmap::unserialize( std::istream &fin )
             jsin.start_array();
             while( !jsin.end_array() ) {
                 basecamp new_camp;
-                new_camp.deserialize( jsin );
+                new_camp.deserialize( jsin.get_object() );
                 camps.push_back( new_camp );
             }
         } else if( name == "overmap_special_placements" ) {
@@ -1182,9 +1182,8 @@ void mongroup::io( Archive &archive )
     archive.io( "monsters", monsters, io::empty_default_tag() );
 }
 
-void mongroup::deserialize( JsonIn &data )
+void mongroup::deserialize( const JsonObject &jo )
 {
-    JsonObject jo = data.get_object();
     jo.allow_omitted_members();
     io::JsonObjectInputArchive archive( jo );
     io( archive );
@@ -1229,7 +1228,7 @@ void mongroup::deserialize_legacy( JsonIn &json )
             json.start_array();
             while( !json.end_array() ) {
                 monster new_monster;
-                new_monster.deserialize( json );
+                new_monster.deserialize( json.get_object() );
                 monsters.push_back( new_monster );
             }
         }
@@ -1247,7 +1246,7 @@ void mission::unserialize_all( JsonIn &jsin )
     jsin.start_array();
     while( !jsin.end_array() ) {
         mission mis;
-        mis.deserialize( jsin );
+        mis.deserialize( jsin.get_object() );
         add_existing( mis );
     }
 }
@@ -1265,7 +1264,7 @@ void game::unserialize_master( std::istream &fin )
             if( name == "next_mission_id" ) {
                 next_mission_id = jsin.get_int();
             } else if( name == "next_npc_id" ) {
-                next_npc_id.deserialize( jsin );
+                next_npc_id.deserialize( jsin.get_int() );
             } else if( name == "active_missions" ) {
                 mission::unserialize_all( jsin );
             } else if( name == "factions" ) {

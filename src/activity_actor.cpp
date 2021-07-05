@@ -3282,9 +3282,8 @@ void drop_or_stash_item_info::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-void drop_or_stash_item_info::deserialize( JsonIn &jsin )
+void drop_or_stash_item_info::deserialize( const JsonObject &jsobj )
 {
-    JsonObject jsobj = jsin.get_object();
     jsobj.read( "loc", _loc );
     jsobj.read( "count", _count );
 }

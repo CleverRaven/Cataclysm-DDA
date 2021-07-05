@@ -27,7 +27,6 @@
 #include "value_ptr.h"
 
 class Character;
-class JsonIn;
 class JsonObject;
 class JsonOut;
 class effect;
@@ -173,8 +172,8 @@ class monster : public Creature
         bool avoid_trap( const tripoint &pos, const trap &tr ) const override;
 
         void serialize( JsonOut &json ) const;
-        void deserialize( JsonIn &jsin );
-        void deserialize( JsonIn &jsin, const tripoint_abs_sm &submap_loc );
+        void deserialize( const JsonObject &data );
+        void deserialize( const JsonObject &data, const tripoint_abs_sm &submap_loc );
 
         // Performs any necessary coordinate updates due to map shift.
         void shift( const point &sm_shift );

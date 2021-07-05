@@ -1675,13 +1675,23 @@ void serialize( const cata::optional<T> &obj, JsonOut &jsout )
 }
 
 template<typename T>
+void deserialize( cata::optional<T> &obj, const JsonValue &jsin )
+{
+    if( jsin.test_null() ) {
+        obj.reset();
+    } else {
+        obj.emplace();
+        jsin.read( *obj, true );
+    }
+}
+
+template<typename T>
 void deserialize( cata::optional<T> &obj, JsonIn &jsin )
 {
     if( jsin.read_null() ) {
         obj.reset();
     } else {
-        obj.emplace();
-        jsin.read( *obj, true );
+        deserialize( obj, jsin.get_value() );
     }
 }
 

@@ -6543,20 +6543,20 @@ cata::optional<int> iuse::einktabletpc( Character *p, item *it, bool t, const tr
     return 0;
 }
 
-struct extended_photo_def : public JsonDeserializer, public JsonSerializer {
+struct extended_photo_def {
     int quality = 0;
     std::string name;
     std::string description;
 
     extended_photo_def() = default;
-    void deserialize( JsonIn &jsin ) override {
-        JsonObject obj = jsin.get_object();
+
+    void deserialize( const JsonObject &obj ) {
         quality = obj.get_int( "quality" );
         name = obj.get_string( "name" );
         description = obj.get_string( "description" );
     }
 
-    void serialize( JsonOut &jsout ) const override {
+    void serialize( JsonOut &jsout ) const {
         jsout.start_object();
         jsout.member( "quality", quality );
         jsout.member( "name", name );
