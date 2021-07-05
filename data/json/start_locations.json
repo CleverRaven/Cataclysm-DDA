@@ -467,7 +467,7 @@
     "type": "start_location",
     "id": "sloc_lodge_ground",
     "name": "Hunting Lodge",
-    "terrain": [ "lodge_ground" ]
+    "terrain": [ "lodge_ground1" ]
   },
   {
     "type": "start_location",
