@@ -110,7 +110,6 @@ static const species_id species_MAMMAL( "MAMMAL" );
 static const species_id species_MOLLUSK( "MOLLUSK" );
 static const species_id species_NETHER( "NETHER" );
 static const species_id species_ROBOT( "ROBOT" );
-static const species_id species_SPIDER( "SPIDER" );
 static const species_id species_PLANT( "PLANT" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
 
