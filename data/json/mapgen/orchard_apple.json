@@ -34,7 +34,7 @@
       ],
       "palettes": [ "orchard_buildings" ],
       "terrain": {
-        " ": [ "t_dirt", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass" ]
+        " ": [ [ "t_grass", 5 ], "t_dirt" ]
       },
       "items": {
         "O": { "item": "orchard_tools", "chance": 25, "repeat": [ 0, 1 ] },
@@ -93,7 +93,7 @@
       ],
       "palettes": [ "orchard_buildings" ],
       "terrain": {
-        " ": [ "t_dirt", "t_grass_long", "t_grass", "t_grass", "t_grass", "t_grass" ]
+        " ": [ ["t_grass", 4], "t_grass_long", "t_dirt" ]
       },
       "place_signs": [ { "signage": "Get Apples n Ciders!", "x": 13, "y": 17 } ],
       "place_items": [
@@ -351,9 +351,9 @@
         "                        ",
         "            |5222222223 ",
         "            |.........3 ",
-        "            |.6.....7.3 ",
+        "            |.......6.3 ",
         "            |.........3 ",
-        "            |.......7.3 ",
+        "            |.......6.3 ",
         "            |.........3 ",
         "            |.........3 ",
         "            |.........3 ",
@@ -364,9 +364,6 @@
       "palettes": [ "roof_palette" ],
       "nested": {
         "6": {
-          "chunks": [ [ "null", 30 ], [ "roof_4x4_holdout", 40 ], [ "roof_5x5_coop", 40 ] ]
-        },
-        "7": {
           "chunks": [ [ "null", 30 ], [ "roof_2x2_utilities", 30 ], [ "roof_2x2_utilities_c" , 40 ] ]
         }
       }
