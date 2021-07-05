@@ -90,16 +90,6 @@
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CATFOOD", "GUILT", "NO_BREED", "CANPLAY" ]
   },
   {
-    "id": "mon_tyrannosaurus_juvenile",
-    "type": "MONSTER",
-    "default_faction": "tyrannosaurus_juvenile",
-    "copy-from": "mon_albertosaurus_juvenile",
-    "color": "red_white",
-    "dodge": 5,
-    "upgrades": { "age_grow": 365, "into": "mon_tyrannosaurus" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CATFOOD", "GUILT", "NO_BREED", "CANPLAY" ]
-  },
-  {
     "id": "mon_albertosaurus_juvenile",
     "type": "MONSTER",
     "name": "red and white two-legged juvenile",
@@ -109,6 +99,29 @@
     "color": "light_red_white",
     "dodge": 5,
     "upgrades": { "age_grow": 365, "into": "mon_albertosaurus" },
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CATFOOD", "GUILT", "NO_BREED", "CANPLAY" ]
+  },
+  {
+    "id": "mon_qianzhousaurus_juvenile",
+    "type": "MONSTER",
+    "name": "red and white two-legged juvenile",
+    "copy-from": "mon_gallimimus_juvenile",
+    "description": "A small bipedal meat-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
+    "default_faction": "qianzhousaurus_juvenile",
+    "color": "light_red_white",
+    "dodge": 6,
+    "upgrades": { "age_grow": 365, "into": "mon_qianzhousaurus" },
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CATFOOD", "GUILT", "NO_BREED", "CANPLAY" ]
+  },
+  {
+    "id": "mon_tyrannosaurus_juvenile",
+    "type": "MONSTER",
+    "name": "red and white two-legged juvenile",
+    "default_faction": "tyrannosaurus_juvenile",
+    "copy-from": "mon_albertosaurus_juvenile",
+    "color": "red_white",
+    "dodge": 5,
+    "upgrades": { "age_grow": 365, "into": "mon_tyrannosaurus" },
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CATFOOD", "GUILT", "NO_BREED", "CANPLAY" ]
   },
   {
@@ -181,6 +194,15 @@
     "color": "dark_gray_white",
     "upgrades": { "age_grow": 80, "into": "mon_utahraptor" },
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CATFOOD", "GUILT", "NO_BREED", "CANPLAY" ]
+  },
+  {
+    "id": "mon_amargasaurus_juvenile",
+    "type": "MONSTER",
+    "name": "brown and magenta four-legged juvenile",
+    "copy-from": "mon_apatosaurus_juvenile",
+    "description": "A huge four-legged plant-eating juvenile sauropod with a long neck and tail, it could be from a number of different species.",
+    "zombify_into": "mon_zamargasaurus_juvenile",
+    "upgrades": { "age_grow": 365, "into": "mon_amargasaurus" }
   },
   {
     "id": "mon_apatosaurus_juvenile",
@@ -468,6 +490,15 @@
     "upgrades": { "age_grow": 365, "into": "mon_pentaceratops" }
   },
   {
+    "id": "mon_kosmoceratops_juvenile",
+    "type": "MONSTER",
+    "name": "green and magenta four-legged juvenile",
+    "copy-from": "mon_gallimimus_juvenile",
+    "description": "A small four-legged plant-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
+    "color": "light_green_magenta",
+    "upgrades": { "age_grow": 365, "into": "mon_kosmoceratops" }
+  },
+  {
     "id": "mon_torosaurus_juvenile",
     "type": "MONSTER",
     "name": "green and magenta four-legged juvenile",
@@ -555,37 +586,5 @@
       "SWIMS",
       "AQUATIC"
     ]
-  },
-  {
-    "id": "mon_qianzhousaurus_juvenile",
-    "type": "MONSTER",
-    "name": "Qianzhousaurus juvenile",
-    "copy-from": "mon_gallimimus_juvenile",
-    "description": "A juvenile Pinnochio Rex, It looks at you with fear and hatred at the same time.",
-    "default_faction": "qianzhousaurus_juvenile",
-    "color": "green",
-    "dodge": 6,
-    "upgrades": { "age_grow": 100, "into": "mon_qianzhousaurus" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CATFOOD", "GUILT", "NO_BREED", "CANPLAY" ]
-  },
-  {
-    "id": "mon_kosmoceratops_juvenile",
-    "type": "MONSTER",
-    "name": "Kosmoceratops juvenile",
-    "copy-from": "mon_gallimimus_juvenile",
-    "description": "A juvenile Kosmoceratops, seems relatively harmless as long as you don't anger it.",
-    "color": "brown",
-    "upgrades": { "age_grow": 100, "into": "mon_kosmoceratops" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CATTLEFODDER", "GUILT", "NO_BREED", "CANPLAY" ]
-  },
-  {
-    "id": "mon_amargasaurus_juvenile",
-    "type": "MONSTER",
-    "name": "Amargasaurus juvenile",
-    "copy-from": "mon_gallimimus_juvenile",
-    "description": "A juvenile Amargasaurus, seems unbothered by your presence.",
-    "color": "brown",
-    "upgrades": { "age_grow": 100, "into": "mon_amargasaurus" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CATTLEFODDER", "GUILT", "NO_BREED", "CANPLAY" ]
   }
 ]
