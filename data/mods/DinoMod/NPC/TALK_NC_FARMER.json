@@ -1,0 +1,18 @@
+[
+  {
+    "id": "TALK_NC_FARMER",
+    "type": "talk_topic",
+    "responses": [
+      {
+        "text": "Strange greeting, ignoring that.  What can you tell me about the dinosaurs?",
+        "topic": "TALK_NC_FARMER_DINOSAURS"
+      }
+    ]
+  },
+  {
+    "id": "TALK_NC_FARMER_DINOSAURS",
+    "type": "talk_topic",
+    "dynamic_line": "Cute things aren't they!  Like big birds with big appetites.  The plant eaters are okay unless they get spooked.  Then it's time to hide on the roof for a while until they calm down.  I gave one some cattle feed and they seemed to like it fine, let me pet it and followed me around some. I bet you could tame them if they're young, maybe even some of the grown ones. A man came out here a while ago saying they were coming, that it was their time and we needed to get with them or get out of the way.  The man said I should follow him to the Swamper church, but I'm too busy here.  A whole lot of people went with him though.",
+    "responses": [ { "text": "I'm sure they're fine.  What was that question again?", "topic": "TALK_NC_FARMER" } ]
+  }
+]
