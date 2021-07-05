@@ -6,7 +6,7 @@
 #include <vector>
 
 #include "avatar.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "flag.h"
 #include "item.h"
 #include "item_contents.h"
@@ -46,7 +46,7 @@ static const trait_id trait_VEGETARIAN( "VEGETARIAN" );
 TEST_CASE( "food enjoyability", "[food][modify_morale][fun]" )
 {
     avatar dummy;
-    dummy.worn.push_back( item( "backpack" ) );
+    dummy.worn.emplace_back( "backpack" );
     std::pair<int, int> fun;
 
     GIVEN( "food with positive fun" ) {
@@ -80,7 +80,7 @@ TEST_CASE( "dining with table and chair", "[food][modify_morale][table][chair]" 
     dummy.set_body();
     const tripoint avatar_pos( 60, 60, 0 );
     dummy.setpos( avatar_pos );
-    dummy.worn.push_back( item( "backpack" ) );
+    dummy.worn.emplace_back( "backpack" );
 
     // Morale bonus only applies to unspoiled food that is not junk
     item &bread = dummy.i_add( item( "sourdough_bread" ) );
@@ -194,7 +194,7 @@ TEST_CASE( "dining with table and chair", "[food][modify_morale][table][chair]" 
 TEST_CASE( "eating hot food", "[food][modify_morale][hot]" )
 {
     avatar dummy;
-    dummy.worn.push_back( item( "backpack" ) );
+    dummy.worn.emplace_back( "backpack" );
 
     GIVEN( "some food that tastes better when hot" ) {
         item &bread = dummy.i_add( item( "sourdough_bread" ) );
@@ -268,7 +268,7 @@ TEST_CASE( "cannibalism", "[food][modify_morale][cannibal]" )
 {
     avatar dummy;
     dummy.set_body();
-    dummy.worn.push_back( item( "backpack" ) );
+    dummy.worn.emplace_back( "backpack" );
 
     item &human = dummy.i_add( item( "bone_human" ) );
     REQUIRE( human.has_flag( flag_CANNIBALISM ) );
@@ -344,7 +344,7 @@ TEST_CASE( "sweet junk food", "[food][modify_morale][junk][sweet]" )
 {
     avatar dummy;
     dummy.set_body();
-    dummy.worn.push_back( item( "backpack" ) );
+    dummy.worn.emplace_back( "backpack" );
 
     GIVEN( "some sweet junk food" ) {
         item &necco = dummy.i_add( item( "neccowafers" ) );
@@ -398,7 +398,7 @@ TEST_CASE( "junk food that is not ingested", "[modify_morale][junk][no_ingest]" 
 {
     avatar dummy;
     dummy.set_body();
-    dummy.worn.push_back( item( "backpack" ) );
+    dummy.worn.emplace_back( "backpack" );
 
     item &caff_gum = dummy.i_add( item( "caff_gum" ) );
 
@@ -464,7 +464,7 @@ TEST_CASE( "food allergies and intolerances", "[food][modify_morale][allergy]" )
 {
     avatar dummy;
     dummy.set_body();
-    dummy.worn.push_back( item( "backpack" ) );
+    dummy.worn.emplace_back( "backpack" );
     int penalty = -75;
 
     GIVEN( "character is vegetarian" ) {
@@ -551,7 +551,7 @@ TEST_CASE( "saprophage character", "[food][modify_morale][saprophage]" )
 {
     avatar dummy;
     dummy.set_body();
-    dummy.worn.push_back( item( "backpack" ) );
+    dummy.worn.emplace_back( "backpack" );
 
     GIVEN( "character is a saprophage, preferring rotted food" ) {
         dummy.clear_morale();
@@ -588,7 +588,7 @@ TEST_CASE( "ursine honey", "[food][modify_morale][ursine][honey]" )
 {
     avatar dummy;
     dummy.set_body();
-    dummy.worn.push_back( item( "backpack" ) );
+    dummy.worn.emplace_back( "backpack" );
 
     item &honeycomb = dummy.i_add( item( "honeycomb" ) );
     REQUIRE( honeycomb.has_flag( flag_URSINE_HONEY ) );

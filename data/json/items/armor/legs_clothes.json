@@ -18,10 +18,13 @@
     "encumbrance": 7,
     "max_encumbrance": 11,
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "165 mm",
+        "moves": 400
+      }
     ],
     "warmth": 8,
     "material_thickness": 0.3,
@@ -45,8 +48,20 @@
     "covers": [ "leg_l", "leg_r" ],
     "coverage": 50,
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 80 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1000 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "17 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1000 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "17 cm",
+        "moves": 80
+      }
     ],
     "warmth": 5,
     "material_thickness": 0.1,
@@ -93,10 +108,13 @@
       { "covers": [ "foot_l", "foot_r" ], "coverage": 100, "encumbrance": [ 19, 19 ] }
     ],
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1600 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "18 cm",
+        "moves": 80
+      }
     ],
     "warmth": 5,
     "material_thickness": 2,
@@ -178,14 +196,48 @@
     "encumbrance": 12,
     "max_encumbrance": 16,
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      }
     ],
     "warmth": 10,
     "material_thickness": 0.25,
-    "flags": [ "VARSIZE", "POCKETS" ]
+    "flags": [ "VARSIZE", "POCKETS" ],
+    "snippet_category": [
+      { "id": "jeans1", "text": "A pair of black jeans with two deep pockets." },
+      { "id": "jeans2", "text": "A pair of black skinny jeans." },
+      { "id": "jeans3", "text": "A stylish pair of bleached denim jeans." },
+      { "id": "jeans4", "text": "A pair of old baggy jeans.  The heels are all ripped up." },
+      {
+        "id": "jeans5",
+        "text": "An old pair of blue jeans.  You are not sure if they are faded through age or stone washed."
+      }
+    ]
   },
   {
     "id": "jeans_red",
@@ -207,10 +259,34 @@
     "encumbrance": 12,
     "max_encumbrance": 16,
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      }
     ],
     "warmth": 10,
     "material_thickness": 0.25,
@@ -231,7 +307,15 @@
     "color": "dark_gray",
     "covers": [ "leg_l", "leg_r" ],
     "coverage": 50,
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 80 } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1000 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      }
+    ],
     "warmth": 20,
     "material_thickness": 0.3,
     "flags": [ "VARSIZE" ]
@@ -251,7 +335,15 @@
     "color": "dark_gray",
     "covers": [ "leg_l", "leg_r" ],
     "coverage": 50,
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 80 } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1000 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      }
+    ],
     "warmth": 10,
     "material_thickness": 1.5,
     "flags": [ "VARSIZE" ]
@@ -388,10 +480,34 @@
     "encumbrance": 7,
     "max_encumbrance": 11,
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      }
     ],
     "warmth": 15,
     "material_thickness": 0.2,
@@ -416,12 +532,70 @@
     "encumbrance": 9,
     "max_encumbrance": 18,
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "3 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "3 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 100 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 100 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "3 kg", "moves": 120 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "3 kg", "moves": 120 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      }
+    ],
+    "snippet_category": [
+      {
+        "id": "apants_UCP",
+        "text": "A tough pair of pants Favored by the military.  This pair came in a grey, green and tan camouflage.  The pattern is notable for it's lack of black."
+      },
+      {
+        "id": "apants_desert",
+        "text": "A tough pair of military pants patterned in desert camouflage.  They are lined with deep pockets."
+      },
+      {
+        "id": "apants_MARPAT",
+        "text": "A tough pair of military pants with a black, green and tan pixel camouflage pattern.  Commonly seen worn by US Marines."
+      },
+      {
+        "id": "apants_BDU",
+        "text": "A tough pair of military pants with a black, brown, green and tan camouflage pattern.  They look old."
+      },
+      {
+        "id": "mil_pants_navy",
+        "text": "A tough pair of military pants with a predominantly dark blue camouflage.  Favored by the navy."
+      }
     ],
     "warmth": 20,
     "material_thickness": 0.25,
@@ -445,14 +619,48 @@
     "encumbrance": 8,
     "max_encumbrance": 16,
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "3 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "3 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 100 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 100 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 100 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 100 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "3 kg", "moves": 120 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "3 kg", "moves": 120 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      }
     ],
     "warmth": 15,
     "material_thickness": 0.25,
@@ -477,10 +685,34 @@
     "encumbrance": 2,
     "max_encumbrance": 5,
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      }
     ],
     "warmth": 15,
     "material_thickness": 0.2,
@@ -505,10 +737,34 @@
     "encumbrance": 16,
     "max_encumbrance": 20,
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      }
     ],
     "warmth": 80,
     "material_thickness": 1,
@@ -545,8 +801,20 @@
     "encumbrance": 15,
     "max_encumbrance": 17,
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      }
     ],
     "warmth": 25,
     "material_thickness": 0.75,
@@ -572,10 +840,34 @@
     "encumbrance": 6,
     "max_encumbrance": 10,
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      }
     ],
     "warmth": 70,
     "material_thickness": 1,
@@ -600,10 +892,34 @@
     "covers": [ "leg_l", "leg_r" ],
     "coverage": 40,
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      }
     ],
     "warmth": 5,
     "material_thickness": 0.2,
@@ -628,10 +944,34 @@
     "encumbrance": 2,
     "max_encumbrance": 5,
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      }
     ],
     "warmth": 5,
     "material_thickness": 0.2,
@@ -656,12 +996,48 @@
     "encumbrance": 2,
     "max_encumbrance": 5,
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      }
     ],
     "warmth": 5,
     "material_thickness": 0.2,
@@ -686,8 +1062,25 @@
     "encumbrance": 1,
     "max_encumbrance": 2,
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      }
+    ],
+    "snippet_category": [
+      { "id": "denim_shorts1", "text": "A pair of stone wash denim shorts." },
+      { "id": "denim_shorts2", "text": "An old pair of denim jeans that have been cut down to shorts." },
+      { "id": "denim_shorts3", "text": "A pair of brand-name black denim shorts." }
     ],
     "warmth": 5,
     "material_thickness": 0.25,
@@ -773,10 +1166,34 @@
     "encumbrance": 2,
     "max_encumbrance": 5,
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      }
     ],
     "warmth": 15,
     "material_thickness": 0.2,
@@ -802,10 +1219,34 @@
     "encumbrance": 2,
     "max_encumbrance": 5,
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "3 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "3 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      }
     ],
     "warmth": 15,
     "material_thickness": 0.3,
@@ -835,14 +1276,48 @@
     "encumbrance": 11,
     "max_encumbrance": 22,
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 100 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 100 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 100 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 100 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 120 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 120 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      }
     ],
     "warmth": 50,
     "material_thickness": 0.5,

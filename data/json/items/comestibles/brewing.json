@@ -411,7 +411,7 @@
     "type": "COMESTIBLE",
     "id": "brew_vinegar",
     "name": { "str": "unfermented vinegar" },
-    "description": "Mixture of water, alcohol and fruit juice that will eventually become vinegar.",
+    "description": "Mixture of water, alcohol and fruit juice that will eventually become vinegar when fermented in a vat.",
     "weight": "15 g",
     "color": "yellow",
     "container": "jug_plastic",

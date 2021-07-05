@@ -10,14 +10,13 @@
 #include <vector>
 
 #include "avatar.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "inventory.h"
 #include "item.h"
 #include "pimpl.h"
 #include "profession.h"
 #include "scenario.h"
 #include "string_formatter.h"
-#include "stringmaker.h" // IWYU pragma: keep
 #include "type_id.h"
 #include "visitable.h"
 

@@ -2,7 +2,7 @@
 #include <vector>
 
 #include "calendar.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "common_types.h"
 #include "coordinates.h"
 #include "enums.h"
