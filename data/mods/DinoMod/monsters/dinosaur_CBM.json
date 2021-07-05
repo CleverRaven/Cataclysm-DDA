@@ -29,7 +29,7 @@
   {
     "type": "MONSTER",
     "id": "mon_pachycephalosaurus_bio_op",
-    "name": { "str_sp": "Pachy bio-operator" },
+    "name": { "str_sp": "Pachycephalosaurus bio-operator" },
     "copy-from": "mon_pachycephalosaurus",
     "diff": 5,
     "proportional": { "hp": 1.2, "speed": 1.15 },
