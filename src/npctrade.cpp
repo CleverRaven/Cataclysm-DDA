@@ -384,7 +384,7 @@ void trading_window::update_win( npc &np, const std::string &deal )
             std::string itname = it->display_name();
 
             if( np.will_exchange_items_freely() && ip.loc.where() != item_location::type::character ) {
-                itname = itname + " (" + ip.loc.describe( &player_character ) + ")";
+                itname += " (" + ip.loc.describe( &player_character ) + ")";
                 color = c_light_blue;
             }
 

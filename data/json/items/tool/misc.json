@@ -433,27 +433,6 @@
     "use_action": [ "WATER_PURIFIER" ]
   },
   {
-    "id": "makeshift_halberd",
-    "type": "GENERIC",
-    "name": { "str": "makeshift glaive" },
-    "//": "Name changed to glaive, but changing the id would break e.g.  tilesets.",
-    "description": "This is a large blade attached to a stout section of tree branch.  It could do a considerable amount of damage.",
-    "weight": "1800 g",
-    "volume": "3 L",
-    "longest_side": "180 cm",
-    "price": 5000,
-    "price_postapoc": 250,
-    "to_hit": -1,
-    "bashing": 13,
-    "cutting": 31,
-    "material": [ "steel", "wood" ],
-    "symbol": "/",
-    "color": "light_gray",
-    "techniques": [ "WBLOCK_1" ],
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -42 ] ],
-    "flags": [ "REACH_ATTACK", "POLEARM", "NONCONDUCTIVE", "SHEATH_SPEAR", "FRAGILE_MELEE" ]
-  },
-  {
     "type": "GENERIC",
     "id": "mind_splicer",
     "symbol": "o",

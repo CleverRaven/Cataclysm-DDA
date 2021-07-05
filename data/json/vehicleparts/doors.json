@@ -1,6 +1,6 @@
 [
   {
-    "id": "door",
+    "abstract": "door_abstract",
     "breaks_into": "ig_vp_frame",
     "broken_color": "cyan",
     "broken_symbol": "&",
@@ -26,7 +26,18 @@
     "type": "vehicle_part"
   },
   {
-    "id": "door_opaque",
+    "copy-from": "door_abstract",
+    "id": "door",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "door_abstract",
+    "id": "door_full",
+    "looks_like": "door",
+    "type": "vehicle_part"
+  },
+  {
+    "abstract": "door_opaque_abstract",
     "breaks_into": "ig_vp_frame",
     "broken_color": "cyan",
     "broken_symbol": "&",
@@ -52,7 +63,18 @@
     "type": "vehicle_part"
   },
   {
-    "id": "hddoor",
+    "copy-from": "door_opaque_abstract",
+    "id": "door_opaque",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "door_opaque_abstract",
+    "id": "door_opaque_full",
+    "looks_like": "door_opaque",
+    "type": "vehicle_part"
+  },
+  {
+    "abstract": "hddoor_abstract",
     "breaks_into": "ig_vp_hdframe",
     "broken_color": "cyan",
     "broken_symbol": "&",
@@ -78,7 +100,18 @@
     "type": "vehicle_part"
   },
   {
-    "id": "hddoor_opaque",
+    "copy-from": "hddoor_abstract",
+    "id": "hddoor",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "hddoor_abstract",
+    "id": "hddoor_full",
+    "looks_like": "hddoor",
+    "type": "vehicle_part"
+  },
+  {
+    "abstract": "hddoor_opaque_abstract",
     "breaks_into": "ig_vp_hdframe",
     "broken_color": "cyan",
     "broken_symbol": "&",
@@ -101,6 +134,17 @@
     "size": 10,
     "symbol": "+",
     "symbols": { "left": "+", "right": "+", "front": "+", "rear": "+" },
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "hddoor_opaque_abstract",
+    "id": "hddoor_opaque",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "hddoor_opaque_abstract",
+    "id": "hddoor_opaque_full",
+    "looks_like": "hddoor_opaque",
     "type": "vehicle_part"
   },
   {

@@ -61,6 +61,94 @@
     <binary>cataclysm-tiles</binary>
   </provides>
   <releases>
+    <release version="0.F Frank" date="2021-07-02">
+      <description>
+        <p>
+          After a long and anticlimactic buildup, we are pleased to
+          announce the release of stable version 0.F "Frank" of
+          Cataclysm: Dark Days Ahead! Like our previous stable
+          versions, this release features an expansive range of
+          bugfixes, code and content additions, and new features.
+          4,500 new game entities were added, 123,162 lines of source
+          code were inserted, and 77,727 lines were deleted.
+        </p>
+        <p>
+          The goal was to have a smaller and more manageable release
+          this cycle, which was an utter failure, as it took well over
+          a year and by several measures was even larger than the 0.E
+          cycle.
+        </p>
+        <p>
+          We'd overall characterize 0.F as a release with a lot of
+          content and polish. Compared to 0.E, you may find it a
+          little more difficult (the pendulum swings ever back and
+          forth), but we think also more rewarding.
+        </p>
+        <p>
+          The most obvious feature of 0.F is the addition of nested
+          inventory, the ability to store items in containers and
+          have them behave as you'd expect. This is probably the most
+          long awaited and highly requested feature of the past five
+          years of development.
+        </p>
+        <p>
+          Besides pockets, 0.F features the addition of achievements
+          for fun and bragging rights, a proficiency system to
+          represent more refined skill knowledge, blood loss mechanics
+          for you and your enemies, weariness that builds as you push
+          yourself to your limits, vehicles that can drive up and down
+          z-levels (and bridges that are above rivers, enabling more
+          navigable rivers, as a result), and a vast host of new
+          content from new monsters and evolutions to new quests and items.
+        </p>
+        <p>
+          On the mod side, Magiclysm, Aftershock, and Dinomod have all
+          grown expansively, including new artifact and enchantment
+          systems that have impacted content in the main game.
+          And much more, too much to list here.
+        </p>
+        <p>
+          Players coming from the last stable will notice a switch
+          towards encouraging looting over crafting, especially in
+          the early game, and will have to be cautious about
+          overextending themselves in the beginning of their survival
+          effort. As usual, you'll want to avoid getting into combat
+          with multiple zombies in an open area. However, you can also
+          have 'grab bags' of useful gear and tools, allowing you to
+          toss your loot sack to the floor to engage in an
+          unencumbered melee battle with zombies!
+        </p>
+        <p>
+          All in all, as usual, we're deeply excited about this new
+          version, and look forward to continuing to make your
+          survival difficult in the months to come.
+        </p>
+        <ul>
+          <li>Nested Containers rationalize inventory management and enable dropping and retrieving go-bags during fights.</li>
+          <li>Achievements track your deeds and misdeeds across games.</li>
+          <li>Proficiencies better represent deeper knowledge required for various endeavors, mostly crafting.</li>
+          <li>Bleeding added to both the player and monsters as the first step toward a more comprehensive wound and wound treatment system.</li>
+          <li>Weariness tracking added to represent longer-term physical exhaustion.</li>
+          <li>Elevated bridges over navigable rivers added, allowing better navigability while using boats.</li>
+          <li>Large-scale audit of weapon and armor values for better representativeness and consistency.</li>
+          <li>Improved armor handling by separating ballistic damage into its own damage type.</li>
+          <li>Pervasive performance enhancements throughout the game.</li>
+          <li>Tileset vehicle support for more cohesive vehicle rendering.</li>
+          <li>Aftershock changes direction to a total conversion mod with a new far-future setting on a frozen world.</li>
+          <li>Dinomod added 238 dinosaurs, pterosaurs, mosasaurs, and dino-related NPCs with missions and dino locations.</li>
+          <li>Added many dino features, including zombie, fungal, evolved, bionic, baby, and mutant dino variants.</li>
+          <li>Dinomod added many dino interactions, including farming, riding, butchering, cooking, and special attacks.</li>
+          <li>Magiclysm added a huge content update including many new traits called Attunements that switch up gameplay at the endgame.</li>
+        </ul>
+        <p>
+          Finally, see the changelog for the more complete (but still
+          not comprehensive) listing of new features and contents -
+          <a href="https://github.com/CleverRaven/Cataclysm-DDA/blob/0.F/data/changelog.txt">
+            https://github.com/CleverRaven/Cataclysm-DDA/blob/0.F/data/changelog.txt
+          </a>
+        </p>
+      </description>
+    </release>
     <release version="0.E Ellison" date="2020-04-01">
       <description>
         <p>

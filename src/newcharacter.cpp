@@ -69,6 +69,7 @@ static const std::string flag_SECRET( "SECRET" );
 static const std::string type_hair_style( "hair_style" );
 static const std::string type_skin_tone( "skin_tone" );
 static const std::string type_facial_hair( "facial_hair" );
+static const std::string type_eye_color( "eye_color" );
 
 static const flag_id json_flag_no_auto_equip( "no_auto_equip" );
 static const flag_id json_flag_auto_wield( "auto_wield" );
@@ -205,7 +206,7 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
     if( random_scenario ) {
         std::vector<const scenario *> scenarios;
         for( const auto &scen : scenario::get_all() ) {
-            if( !scen.has_flag( flag_CHALLENGE ) &&
+            if( !scen.has_flag( flag_CHALLENGE ) && !scen.scen_is_blacklisted() &&
                 ( !scen.has_flag( flag_CITY_START ) || cities_enabled ) ) {
                 scenarios.emplace_back( &scen );
             }
@@ -384,6 +385,7 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
 
     randomize_cosmetic_trait( type_hair_style );
     randomize_cosmetic_trait( type_skin_tone );
+    randomize_cosmetic_trait( type_eye_color );
     //arbitrary 50% chance to add beard to male characters
     if( male && one_in( 2 ) ) {
         randomize_cosmetic_trait( type_facial_hair );
@@ -1231,7 +1233,11 @@ tab_direction set_traits( avatar &u, points_left &points )
         }
 
         for( int iCurrentPage = 0; iCurrentPage < 3; iCurrentPage++ ) {
-            nc_color col_on_act, col_off_act, col_on_pas, col_off_pas, hi_on, hi_off, col_tr;
+            nc_color col_on_act;
+            nc_color col_off_act;
+            nc_color col_on_pas;
+            nc_color col_off_pas;
+            nc_color col_tr;
             switch( iCurrentPage ) {
                 case 0:
                     col_on_act = COL_TR_GOOD_ON_ACT;
@@ -1239,8 +1245,6 @@ tab_direction set_traits( avatar &u, points_left &points )
                     col_on_pas = COL_TR_GOOD_ON_PAS;
                     col_off_pas = COL_TR_GOOD_OFF_PAS;
                     col_tr = COL_TR_GOOD;
-                    hi_on = hilite( col_on_act );
-                    hi_off = hilite( col_off_act );
                     break;
                 case 1:
                     col_on_act = COL_TR_BAD_ON_ACT;
@@ -1248,8 +1252,6 @@ tab_direction set_traits( avatar &u, points_left &points )
                     col_on_pas = COL_TR_BAD_ON_PAS;
                     col_off_pas = COL_TR_BAD_OFF_PAS;
                     col_tr = COL_TR_BAD;
-                    hi_on = hilite( col_on_act );
-                    hi_off = hilite( col_off_act );
                     break;
                 default:
                     col_on_act = COL_TR_NEUT_ON_ACT;
@@ -1257,10 +1259,10 @@ tab_direction set_traits( avatar &u, points_left &points )
                     col_on_pas = COL_TR_NEUT_ON_PAS;
                     col_off_pas = COL_TR_NEUT_OFF_PAS;
                     col_tr = COL_TR_NEUT;
-                    hi_on = hilite( col_on_act );
-                    hi_off = hilite( col_off_act );
                     break;
             }
+            nc_color hi_on = hilite( col_on_act );
+            nc_color hi_off = hilite( col_off_act );
 
             int &start = iStartPos[iCurrentPage];
             int current = iCurrentLine[iCurrentPage];
@@ -1448,6 +1450,7 @@ tab_direction set_traits( avatar &u, points_left &points )
                 // Grab a list of the names of the bionics that block this trait
                 // So that the player know what is preventing them from taking it
                 std::vector<std::string> conflict_names;
+                conflict_names.reserve( cbms_blocking_trait.size() );
                 for( const bionic_id &conflict : cbms_blocking_trait ) {
                     conflict_names.emplace_back( conflict->name.translated() );
                 }
@@ -2081,7 +2084,7 @@ tab_direction set_skills( avatar &u, points_left &points )
             } );
 
             if( elem.first == currentSkill->name() ) {
-                rec_disp = "\n\n" + colorize( rec_temp, c_brown ) + rec_disp;
+                rec_disp = "\n\n" + colorize( rec_temp, c_brown ) + std::move( rec_disp );
             } else {
                 rec_disp += "\n\n" + colorize( "[" + elem.first + "]\n" + rec_temp, c_light_gray );
             }
@@ -2507,6 +2510,10 @@ tab_direction set_scenario( avatar &u, points_left &points,
                 wprintz( w_flags, c_light_gray, _( "No starting NPC" ) );
                 wprintz( w_flags, c_light_gray, ( "\n" ) );
             }
+            if( sorted_scens[cur_id]->has_flag( "BORDERED" ) ) {
+                wprintz( w_flags, c_light_gray, _( "Starting location is bordered by an immense wall" ) );
+                wprintz( w_flags, c_light_gray, ( "\n" ) );
+            }
         }
 
         draw_scrollbar( w, cur_id, iContentHeight, scens_length, point( 0, 5 ) );
@@ -2862,10 +2869,10 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
 
         std::vector<std::string> vStatNames;
         mvwprintz( w_stats, point_zero, COL_HEADER, _( "Stats:" ) );
-        vStatNames.push_back( _( "Strength:" ) );
-        vStatNames.push_back( _( "Dexterity:" ) );
-        vStatNames.push_back( _( "Intelligence:" ) );
-        vStatNames.push_back( _( "Perception:" ) );
+        vStatNames.emplace_back( _( "Strength:" ) );
+        vStatNames.emplace_back( _( "Dexterity:" ) );
+        vStatNames.emplace_back( _( "Intelligence:" ) );
+        vStatNames.emplace_back( _( "Perception:" ) );
         int pos = 0;
         for( size_t i = 0; i < vStatNames.size(); i++ ) {
             pos = ( utf8_width( vStatNames[i] ) > pos ?
