@@ -202,6 +202,6 @@
       "trail_terrain": { "t_deaddirt": 1 },
       "trailheads": { "trailhead_basic": 1, "trailhead_outhouse": 1, "trailhead_shack": 1 }
     },
-    "map_extras": {  }
+    "map_extras": { "road": { "chance": 75, "extras": { "mx_wraitheon_droneswarm": 10 } } }
   }
 ]
