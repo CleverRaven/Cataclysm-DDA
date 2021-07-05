@@ -6,7 +6,7 @@
     "description": "You know the basics of manipulating the mana of objects through application of chemical laws.",
     "can_learn": true,
     "default_time_multiplier": 2,
-    "default_fail_multiplier": 3,
+    "default_fail_multiplier": 1.3,
     "time_to_learn": "8 h"
   },
   {
@@ -17,7 +17,39 @@
     "can_learn": true,
     "time_to_learn": "4 h",
     "default_time_multiplier": 2,
-    "default_fail_multiplier": 2,
+    "default_fail_multiplier": 1.2,
     "required_proficiencies": [ "prof_alchemy" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_leatherworking_dragon",
+    "name": { "str": "Dragon leather working" },
+    "description": "Working with dragon leather requires a specific set of skills and tools… a set you are familiar with.",
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_fail_multiplier": 2,
+    "time_to_learn": "6 h",
+    "required_proficiencies": [ "prof_leatherworking" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_scaleworking_dragon",
+    "name": { "str": "Dragon scale working" },
+    "description": "Working with dragon scales requires a specific set of skills and tools… a set you are familiar with.",
+    "can_learn": true,
+    "default_time_multiplier": 2,
+    "default_fail_multiplier": 3,
+    "time_to_learn": "12 h",
+    "required_proficiencies": [ "prof_leatherworking_dragon" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_golemancy_basic",
+    "name": { "str": "Basic Golemancy" },
+    "description": "Infusing shaped material with your will and the ability to move is hard but you're starting to get it.",
+    "can_learn": true,
+    "time_to_learn": "4 h",
+    "default_time_multiplier": 1.5,
+    "default_fail_multiplier": 2
   }
 ]

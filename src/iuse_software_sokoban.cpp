@@ -248,11 +248,11 @@ int sokoban_game::start_game()
         draw_border( w_sokoban, BORDER_COLOR, _( "Sokoban" ), hilite( c_white ) );
 
         std::vector<std::string> shortcuts;
-        shortcuts.push_back( _( "<+> next" ) ); // '+': next
-        shortcuts.push_back( _( "<-> prev" ) ); // '-': prev
-        shortcuts.push_back( _( "<r>eset" ) ); // 'r': reset
-        shortcuts.push_back( _( "<q>uit" ) );  // 'q': quit
-        shortcuts.push_back( _( "<u>ndo move" ) ); // 'u': undo move
+        shortcuts.emplace_back( _( "<+> next" ) ); // '+': next
+        shortcuts.emplace_back( _( "<-> prev" ) ); // '-': prev
+        shortcuts.emplace_back( _( "<r>eset" ) ); // 'r': reset
+        shortcuts.emplace_back( _( "<q>uit" ) ); // 'q': quit
+        shortcuts.emplace_back( _( "<u>ndo move" ) ); // 'u': undo move
 
         int indent = 10;
         for( auto &shortcut : shortcuts ) {
@@ -378,7 +378,7 @@ int sokoban_game::start_game()
                         bMovePlayer = true;
                         mLevel[iPlayerY + iDirY * 2][iPlayerX + iDirX * 2] = sMovePackTo == "." ? "*" : "$";
 
-                        vUndo.push_back( cUndo( point( iDirX, iDirY ), sMoveTo ) );
+                        vUndo.emplace_back( point( iDirX, iDirY ), sMoveTo );
 
                         iMoves--;
                     }
@@ -388,7 +388,7 @@ int sokoban_game::start_game()
 
                 if( bMovePlayer ) {
                     //move player
-                    vUndo.push_back( cUndo( point( iPlayerX, iPlayerY ), mLevel[iPlayerY][iPlayerX] ) );
+                    vUndo.emplace_back( point( iPlayerX, iPlayerY ), mLevel[iPlayerY][iPlayerX] );
 
                     mLevel[iPlayerY][iPlayerX] = mLevel[iPlayerY][iPlayerX] == "+" ? "." : " ";
                     mLevel[iPlayerY + iDirY][iPlayerX + iDirX] = sMoveTo == "." || sMoveTo == "*" ? "+" : "@";

@@ -513,13 +513,13 @@ void activity_handlers::washing_finish( player_activity *act, player *p )
     }
 
     std::vector<item_comp> comps;
-    comps.push_back( item_comp( itype_water, required.water ) );
-    comps.push_back( item_comp( itype_water_clean, required.water ) );
+    comps.emplace_back( itype_water, required.water );
+    comps.emplace_back( itype_water_clean, required.water );
     p->consume_items( comps, 1, is_liquid_crafting_component );
 
     std::vector<item_comp> comps1;
-    comps1.push_back( item_comp( itype_soap, required.cleanser ) );
-    comps1.push_back( item_comp( itype_detergent, required.cleanser ) );
+    comps1.emplace_back( itype_soap, required.cleanser );
+    comps1.emplace_back( itype_detergent, required.cleanser );
     p->consume_items( comps1 );
 
     p->add_msg_if_player( m_good, _( "You washed your items." ) );
@@ -823,7 +823,7 @@ static activity_reason_info find_base_construction(
 
     //we can't immediately build it, looking for pre-req
     used.insert( idx );
-    cata::optional<do_activity_reason> reason;
+    cata::optional<do_activity_reason> reason = { };
     construction_id pre_req_idx( -1 );
     //first step: try only constructions with the same group
     //second step: try all constructions
@@ -1469,7 +1469,7 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
                     continue;
                 }
             }
-            requirement_map.push_back( std::make_tuple( point_elem, map_elem.first, map_elem.second ) );
+            requirement_map.emplace_back( point_elem, map_elem.first, map_elem.second );
         }
     }
     // Ok we now have a list of all the items that match the requirements, their points, and a quantity for each one.
@@ -1493,8 +1493,8 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
                 }
                 if( item_quantity >= quantity_required ) {
                     // it's just this spot that can fulfil the requirement on its own
-                    final_map.push_back( std::make_tuple( pos_here, item_here, std::min<int>( quantity_here,
-                                                          quantity_required ) ) );
+                    final_map.emplace_back( pos_here, item_here, std::min<int>( quantity_here,
+                                            quantity_required ) );
                     if( quantity_here >= quantity_required ) {
                         line_found = true;
                         break;
@@ -1520,10 +1520,10 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
                     int quantity_here2 = std::get<2>( *it );
                     if( comp_elem.type == item_here2 ) {
                         if( quantity_here2 >= remainder ) {
-                            final_map.push_back( std::make_tuple( pos_here2, item_here2, remainder ) );
+                            final_map.emplace_back( pos_here2, item_here2, remainder );
                             line_found = true;
                         } else {
-                            final_map.push_back( std::make_tuple( pos_here2, item_here2, remainder ) );
+                            final_map.emplace_back( pos_here2, item_here2, remainder );
                             remainder -= quantity_here2;
                         }
                     }
@@ -1551,8 +1551,8 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
                 }
                 if( item_quantity >= quantity_required ) {
                     // it's just this spot that can fulfil the requirement on its own
-                    final_map.push_back( std::make_tuple( pos_here, item_here, std::min<int>( quantity_here,
-                                                          quantity_required ) ) );
+                    final_map.emplace_back( pos_here, item_here, std::min<int>( quantity_here,
+                                            quantity_required ) );
                     if( quantity_here >= quantity_required ) {
                         line_found = true;
                         break;
@@ -1578,10 +1578,10 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
                     int quantity_here2 = std::get<2>( *it );
                     if( comp_elem.type == item_here2 ) {
                         if( quantity_here2 >= remainder ) {
-                            final_map.push_back( std::make_tuple( pos_here2, item_here2, remainder ) );
+                            final_map.emplace_back( pos_here2, item_here2, remainder );
                             line_found = true;
                         } else {
-                            final_map.push_back( std::make_tuple( pos_here2, item_here2, remainder ) );
+                            final_map.emplace_back( pos_here2, item_here2, remainder );
                             remainder -= quantity_here2;
                         }
                     }
@@ -1604,7 +1604,7 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
                 item test_item = item( item_here, calendar::turn_zero );
                 if( test_item.has_quality( tool_qual, qual_level ) ) {
                     // it's just this spot that can fulfil the requirement on its own
-                    final_map.push_back( std::make_tuple( pos_here, item_here, 1 ) );
+                    final_map.emplace_back( pos_here, item_here, 1 );
                     line_found = true;
                     break;
                 }
@@ -1613,7 +1613,7 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
         }
     }
     for( const std::tuple<tripoint, itype_id, int> &elem : final_map ) {
-        add_msg_debug( "%s is fetching %s from x: %d y: %d ", p.disp_name(),
+        add_msg_debug( debugmode::DF_REQUIREMENTS_MAP, "%s is fetching %s from x: %d y: %d ", p.disp_name(),
                        std::get<1>( elem ).str(), std::get<0>( elem ).x, std::get<0>( elem ).y );
     }
     return final_map;
@@ -1989,8 +1989,10 @@ void activity_on_turn_move_loot( player_activity &act, player &p )
 
         // the boolean in this pair being true indicates the item is from a vehicle storage space
         auto items = std::vector<std::pair<item *, bool>>();
-        vehicle *src_veh, *dest_veh;
-        int src_part, dest_part;
+        vehicle *src_veh;
+        vehicle *dest_veh;
+        int src_part;
+        int dest_part;
 
         //Check source for cargo part
         //map_stack and vehicle_stack are different types but inherit from item_stack
@@ -2000,14 +2002,14 @@ void activity_on_turn_move_loot( player_activity &act, player &p )
             src_veh = &vp->vehicle();
             src_part = vp->part_index();
             for( auto &it : src_veh->get_items( src_part ) ) {
-                items.push_back( std::make_pair( &it, true ) );
+                items.emplace_back( &it, true );
             }
         } else {
             src_veh = nullptr;
             src_part = -1;
         }
         for( item &it : here.i_at( src_loc ) ) {
-            items.push_back( std::make_pair( &it, false ) );
+            items.emplace_back( &it, false );
         }
 
         //Skip items that have already been processed
@@ -2156,7 +2158,7 @@ static bool mine_activity( player &p, const tripoint &src_loc )
         moves /= 2;
     }
     p.assign_activity( powered ? ACT_JACKHAMMER : ACT_PICKAXE, moves );
-    p.activity.targets.push_back( item_location( p, chosen_item ) );
+    p.activity.targets.emplace_back( p, chosen_item );
     p.activity.placement = here.getabs( src_loc );
     return true;
 
@@ -2526,6 +2528,7 @@ static requirement_check_result generic_multi_activity_check_requirement( player
                 // come back here after successfully fetching your stuff
                 if( act_prev.coords.empty() ) {
                     std::vector<tripoint> local_src_set;
+                    local_src_set.reserve( src_set.size() );
                     for( const tripoint &elem : src_set ) {
                         local_src_set.push_back( here.getlocal( elem ) );
                     }
@@ -2645,7 +2648,7 @@ static bool generic_multi_activity_do( player &p, const activity_id &act_id,
         item *best_rod = p.best_quality_item( qual_FISHING );
         p.assign_activity( ACT_FISH, to_moves<int>( 5_hours ), 0,
                            0, best_rod->tname() );
-        p.activity.targets.push_back( item_location( p, best_rod ) );
+        p.activity.targets.emplace_back( p, best_rod );
         p.activity.coord_set = g->get_fishable_locations( ACTIVITY_SEARCH_DISTANCE, src_loc );
         return false;
     } else if( reason == do_activity_reason::NEEDS_MINING ) {
@@ -2925,9 +2928,15 @@ int get_auto_consume_moves( player &p, const bool food )
                 continue;
             }
             if( !food && it->is_watertight_container() && comest.made_of( phase_id::SOLID ) ) {
-                // its frozen
+                // it's frozen
                 continue;
             }
+            const use_function *usef = comest.type->get_use( "BLECH_BECAUSE_UNCLEAN" );
+            if( usef ) {
+                // it's unclean
+                continue;
+            }
+
             int consume_moves = -Pickup::cost_to_move_item( p, *it ) * std::max( rl_dist( p.pos(),
                                 here.getlocal( loc ) ), 1 );
             consume_moves += to_moves<int>( p.get_consume_time( comest ) );

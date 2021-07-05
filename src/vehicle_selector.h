@@ -18,9 +18,11 @@ struct tripoint;
 class vehicle_cursor : public visitable
 {
     public:
-        vehicle_cursor( vehicle &veh, std::ptrdiff_t part ) : veh( veh ), part( part ) {}
+        vehicle_cursor( vehicle &veh, std::ptrdiff_t part, bool ignore_vpart = false ) : veh( veh ),
+            part( part ), ignore_vpart( ignore_vpart ) {}
         vehicle &veh;
         std::ptrdiff_t part;
+        bool ignore_vpart;
 
         // inherited from visitable
         bool has_quality( const quality_id &qual, int level = 1, int qty = 1 ) const override;

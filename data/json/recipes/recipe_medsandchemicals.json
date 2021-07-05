@@ -5,7 +5,7 @@
     "result": "salt_water",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_OTHER",
-    "skill_used": "cooking",
+    "skill_used": "chemistry",
     "time": "1 m",
     "autolearn": true,
     "flags": [ "BLIND_HARD" ],
@@ -566,6 +566,22 @@
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 120, "LIST" ] ] ],
     "components": [ [ [ "lye", 6 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "lye",
+    "id_suffix": "from_lye_powder",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_CHEMICALS",
+    "skill_used": "chemistry",
+    "difficulty": 1,
+    "time": "1 m",
+    "autolearn": true,
+    "batch_time_factors": [ 90, 4 ],
+    "//": "reversal of the recipe above",
+    "components": [ [ [ "water", 3 ] ], [ [ "lye_powder", 100 ] ] ],
+    "charges": 3
   },
   {
     "type": "recipe",
@@ -1644,7 +1660,7 @@
     "book_learn": [ [ "reference_cooking", 4 ] ],
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "CONCENTRATE", "level": 1 }, { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "syringe", -1 ] ], [ [ "surface_heat", 1, "LIST" ] ] ],
-    "components": [ [ [ "chem_citric_acid", 9 ] ], [ [ "coke", 1 ] ], [ [ "bottle_plastic_small", 1 ] ], [ [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "chem_citric_acid", 9 ] ], [ [ "coke", 1 ] ], [ [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",

@@ -251,6 +251,11 @@
   },
   {
     "type": "construction_group",
+    "id": "build_gravelbag_wall",
+    "name": "Build Gravelbag Wall"
+  },
+  {
+    "type": "construction_group",
     "id": "build_earthbag_wall",
     "name": "Build Earthbag Wall"
   },
@@ -258,6 +263,11 @@
     "type": "construction_group",
     "id": "build_entertainment_center",
     "name": "Build Entertainment Center"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_exercise_machine",
+    "name": "Build Exercise Machine"
   },
   {
     "type": "construction_group",
@@ -283,6 +293,21 @@
     "type": "construction_group",
     "id": "build_fire_ring",
     "name": "Build Fire Ring"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_treadmill_mechanical",
+    "name": "Build Gravity Treadmill"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_glass_door",
+    "name": "Build Glass Door"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_glass_wall",
+    "name": "Build Glass Wall"
   },
   {
     "type": "construction_group",
@@ -351,6 +376,16 @@
   },
   {
     "type": "construction_group",
+    "id": "build_mechanical_winch",
+    "name": "Build Mechanical Winch"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_ergometer_mechanical",
+    "name": "Build Mechanical Ergometer"
+  },
+  {
+    "type": "construction_group",
     "id": "build_metal_bars",
     "name": "Build Metal Bars"
   },
@@ -363,6 +398,11 @@
     "type": "construction_group",
     "id": "build_metal_door",
     "name": "Build Metal Door"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_metal_gate",
+    "name": "Build Metal Gate"
   },
   {
     "type": "construction_group",
@@ -766,6 +806,11 @@
   },
   {
     "type": "construction_group",
+    "id": "build_woven_wattle_fence",
+    "name": "Build Woven Wattle Fence"
+  },
+  {
+    "type": "construction_group",
     "id": "carpet_floor_green",
     "name": "Carpet Floor Green"
   },
@@ -818,6 +863,11 @@
     "type": "construction_group",
     "id": "dig_a_deep_pit",
     "name": "Dig a Deep Pit"
+  },
+  {
+    "type": "construction_group",
+    "id": "underground_pit",
+    "name": "Dig a Deep Pit Underground"
   },
   {
     "type": "construction_group",

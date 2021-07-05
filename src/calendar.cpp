@@ -443,6 +443,19 @@ std::string to_string_approx( const time_duration &dur, const bool verbose )
     return make_result( d, _( "about %s" ), "%s" );
 }
 
+std::string to_string_writable( const time_duration &dur )
+{
+    if( dur % 1_days == 0_seconds ) {
+        return string_format( "%d d", static_cast<int>( dur / 1_days ) );
+    } else if( dur % 1_hours == 0_seconds ) {
+        return string_format( "%d h", static_cast<int>( dur / 1_hours ) );
+    } else if( dur % 1_minutes == 0_seconds ) {
+        return string_format( "%d m", static_cast<int>( dur / 1_minutes ) );
+    } else {
+        return string_format( "%d s", static_cast<int>( dur / 1_seconds ) );
+    }
+}
+
 std::string to_string_time_of_day( const time_point &p )
 {
     const int hour = hour_of_day<int>( p );

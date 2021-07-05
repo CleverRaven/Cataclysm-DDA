@@ -53,6 +53,9 @@ provides `"id"` | meaning
 `"patrolling"` | after this upgrade mission is complete, the Combat Patrol basecamp mission will be available.
 `"dismantling"` | after this upgrade mission is complete, the Chop Shop basecamp mission will be available.
 `"farming"` | after this upgrade mission is complete, the Plow Fields, Plant Fields, Fertilize Fields, and Harvest Fields basecamp missions will be available.
+`"reseeding"` | after this upgrade mission is complete, recipe groups with `"building_type": "FARM"` will become visible.
+`"kitchen"` | after this upgrade mission is complete, recipe groups with `"building_type": "COOK"` will become visible.
+`"blacksmith"` |after this upgrade mission is complete, recipe groups with `"building_type": "SMITH"` will become visible.
 
 `blueprint_provides` can also be used to name objects from `recipe_group.json`. The recipes will be craftable by NPCs at that expansion, allowing the creation of custom recipes that can be performed exclusively at faction camps.
 
@@ -140,7 +143,7 @@ There are two special recipe groups, `"all_faction_base_types"` and `"all_factio
 
 Each entry in the `"recipes"` array must be a dictionary with the `"id"`, `"description"`, and `"om_terrains"` fields.  `"id"` is the recipe `"id"` of the recipe that starts that basecamp or basecamp expansion upgrade path.  `"description"` is a short name of the basecamp or basecamp expansion.  `"om_terrains"` is a list of overmap terrain ids which can be used as the basis for the basecamp or basecamp expansion.
 
-All recipes that start an upgrade path or expansion should have a blueprint requirement that can never be met, such as "not_an_upgrade", to prevent them from showing up as available upgrades.
+All recipes that start an upgrade path or expansion should have a blueprint requirement that can never be met, such as "not_an_upgrade", to prevent them from showing up as available upgrades. Additionally, if you want to add an expansion, you must create an OMT with the same `id` as the expansion's `id`.
 
 If the player attempts to start a basecamp on an overmap terrain that has two or more valid basecamp expansion paths, she will allowed to choose which path to start.
 
