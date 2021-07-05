@@ -86,7 +86,7 @@ static void serialize_liquid_target( player_activity &act, const item_location &
     act.values.push_back( static_cast<int>( liquid_target_type::CONTAINER ) );
     act.values.push_back( 0 ); // dummy
     act.targets.push_back( container_item );
-    act.coords.push_back( tripoint() ); // dummy
+    act.coords.emplace_back( ); // dummy
 }
 
 static void serialize_liquid_target( player_activity &act, const tripoint &pos )
@@ -250,14 +250,24 @@ static bool get_liquid_target( item &liquid, const item *const source, const int
         }
     }
     for( vehicle *veh : opts ) {
-        if( veh == source_veh ) {
-            continue;
+        if( veh == source_veh && veh->has_part( "FLUIDTANK", false ) ) {
+            for( const vpart_reference &vp : veh->get_avail_parts( "FLUIDTANK" ) ) {
+                if( vp.part().get_base().is_reloadable_with( liquid.typeId() ) ) {
+                    menu.addentry( -1, true, MENU_AUTOASSIGN, _( "Fill avaliable tank" ) );
+                    actions.emplace_back( [ &, veh]() {
+                        target.veh = veh;
+                        target.dest_opt = LD_VEH;
+                    } );
+                    break;
+                }
+            }
+        } else {
+            menu.addentry( -1, true, MENU_AUTOASSIGN, _( "Fill nearby vehicle %s" ), veh->name );
+            actions.emplace_back( [ &, veh]() {
+                target.veh = veh;
+                target.dest_opt = LD_VEH;
+            } );
         }
-        menu.addentry( -1, true, MENU_AUTOASSIGN, _( "Fill nearby vehicle %s" ), veh->name );
-        actions.emplace_back( [ &, veh]() {
-            target.veh = veh;
-            target.dest_opt = LD_VEH;
-        } );
     }
 
     for( const tripoint &target_pos : here.points_in_radius( player_character.pos(), 1 ) ) {

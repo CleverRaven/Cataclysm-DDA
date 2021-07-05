@@ -91,7 +91,7 @@ static const std::array<std::string, 8> multitile_keys = {{
 };
 
 static const std::string empty_string;
-static const std::array<std::string, 12> TILE_CATEGORY_IDS = {{
+static const std::array<std::string, 13> TILE_CATEGORY_IDS = {{
         "", // C_NONE,
         "vehicle_part", // C_VEHICLE_PART,
         "terrain", // C_TERRAIN,
@@ -104,6 +104,7 @@ static const std::array<std::string, 12> TILE_CATEGORY_IDS = {{
         "bullet", // C_BULLET,
         "hit_entity", // C_HIT_ENTITY,
         "weather", // C_WEATHER,
+        "overmap_terrain"
     }
 };
 
@@ -611,6 +612,7 @@ void tileset_loader::load( const std::string &tileset_id, const bool precheck )
     }
 
     if( precheck ) {
+        config.allow_omitted_members();
         return;
     }
 
@@ -640,10 +642,16 @@ void tileset_loader::load( const std::string &tileset_id, const bool precheck )
 
         JsonIn mod_config_json( mod_config_file );
 
+        const auto mark_visited = []( const JsonObject & jobj ) {
+            // These fields have been visited in load_mod_tileset
+            jobj.get_string_array( "compatibility" );
+        };
+
         int num_in_file = 1;
         if( mod_config_json.test_array() ) {
             for( const JsonObject mod_config : mod_config_json.get_array() ) {
                 if( mod_config.get_string( "type" ) == "mod_tileset" ) {
+                    mark_visited( mod_config );
                     if( num_in_file == mts.num_in_file() ) {
                         // visit this if it exists, it's used elsewhere
                         if( mod_config.has_member( "compatibility" ) ) {
@@ -657,6 +665,7 @@ void tileset_loader::load( const std::string &tileset_id, const bool precheck )
             }
         } else {
             JsonObject mod_config = mod_config_json.get_object();
+            mark_visited( mod_config );
             load_internal( mod_config, tileset_root, img_path );
         }
     }
@@ -926,7 +935,7 @@ void tileset_loader::load_tilejson_from_file( const JsonObject &config )
                 // fetch additional tiles
                 for( const JsonObject subentry : entry.get_array( "additional_tiles" ) ) {
                     const std::string s_id = subentry.get_string( "id" );
-                    const std::string m_id = t_id + "_" + s_id;
+                    const std::string m_id = str_cat( t_id, "_", s_id );
                     tile_type &curr_subtile = load_tile( subentry, m_id );
                     curr_subtile.offset = sprite_offset;
                     curr_subtile.rotates = true;
@@ -1040,7 +1049,7 @@ struct tile_render_info {
     lit_level ll;
     bool invisible[5];
     tile_render_info( const tripoint &pos, const int height_3d, const lit_level ll,
-                      const bool ( &invisible )[5] )
+                      const bool( &invisible )[5] )
         : pos( pos ), height_3d( height_3d ), ll( ll ) {
         std::copy_n( invisible, 5, this->invisible );
     }
@@ -1095,10 +1104,9 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
 
     avatar &you = get_avatar();
     //limit the render area to maximum view range (121x121 square centered on player)
-    const int min_visible_x = you.posx() % SEEX;
-    const int min_visible_y = you.posy() % SEEY;
-    const int max_visible_x = ( you.posx() % SEEX ) + ( MAPSIZE - 1 ) * SEEX;
-    const int max_visible_y = ( you.posy() % SEEY ) + ( MAPSIZE - 1 ) * SEEY;
+    const point min_visible( you.posx() % SEEX, you.posy() % SEEY );
+    const point max_visible( ( you.posx() % SEEX ) + ( MAPSIZE - 1 ) * SEEX,
+                             ( you.posy() % SEEY ) + ( MAPSIZE - 1 ) * SEEY );
 
     const level_cache &ch = here.access_cache( center.z );
 
@@ -1152,8 +1160,8 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
         }
     }
     const auto apply_visible = [&]( const tripoint & np, const level_cache & ch, map & here ) {
-        return np.y < min_visible_y || np.y > max_visible_y ||
-               np.x < min_visible_x || np.x > max_visible_x ||
+        return np.y < min_visible.y || np.y > max_visible.y ||
+               np.x < min_visible.x || np.x > max_visible.x ||
                would_apply_vision_effects( here.get_visibility( ch.visibility_cache[np.x][np.y],
                                            cache ) );
     };
@@ -1162,8 +1170,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
         std::vector<tile_render_info> draw_points;
         draw_points.reserve( max_col );
         for( int col = min_col; col < max_col; col ++ ) {
-            int temp_x;
-            int temp_y;
+            point temp;
             if( iso_mode ) {
                 // in isometric, rows and columns represent a checkerboard screen space,
                 // and we place the appropriate tile in valid squares by getting position
@@ -1171,13 +1178,13 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                 if( modulo( row - s.y / 2, 2 ) != modulo( col - s.x / 2, 2 ) ) {
                     continue;
                 }
-                temp_x = divide_round_down( col - row - s.x / 2 + s.y / 2, 2 ) + o.x;
-                temp_y = divide_round_down( row + col - s.y / 2 - s.x / 2, 2 ) + o.y;
+                temp.x = divide_round_down( col - row - s.x / 2 + s.y / 2, 2 ) + o.x;
+                temp.y = divide_round_down( row + col - s.y / 2 - s.x / 2, 2 ) + o.y;
             } else {
-                temp_x = col + o.x;
-                temp_y = row + o.y;
+                temp.x = col + o.x;
+                temp.y = row + o.y;
             }
-            const tripoint pos( temp_x, temp_y, center.z );
+            const tripoint pos( temp, center.z );
             const int &x = pos.x;
             const int &y = pos.y;
 
@@ -1186,7 +1193,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             bool invisible[5];
             invisible[0] = false;
 
-            if( y < min_visible_y || y > max_visible_y || x < min_visible_x || x > max_visible_x ) {
+            if( y < min_visible.y || y > max_visible.y || x < min_visible.x || x > max_visible.x ) {
                 if( has_memory_at( pos ) ) {
                     ll = lit_level::MEMORIZED;
                     invisible[0] = true;
@@ -1408,8 +1415,8 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
     void_monster_override();
 
     //Memorize everything the character just saw even if it wasn't displayed.
-    for( int mem_y = min_visible_y; mem_y <= max_visible_y; mem_y++ ) {
-        for( int mem_x = min_visible_x; mem_x <= max_visible_x; mem_x++ ) {
+    for( int mem_y = min_visible.y; mem_y <= max_visible.y; mem_y++ ) {
+        for( int mem_x = min_visible.x; mem_x <= max_visible.x; mem_x++ ) {
             half_open_rectangle<point> already_drawn(
                 point( min_col, min_row ), point( max_col, max_row ) );
             if( iso_mode ) {
@@ -1679,12 +1686,15 @@ bool cata_tiles::find_overlay_looks_like( const bool male, const std::string &ov
     }
 
     for( int cnt = 0; cnt < 10 && !looks_like.empty(); cnt++ ) {
-        draw_id = ( male ? "overlay_male_" : "overlay_female_" ) + over_type + looks_like;
+        draw_id.clear();
+        str_append( draw_id,
+                    ( male ? "overlay_male_" : "overlay_female_" ), over_type, looks_like );
         if( tileset_ptr->find_tile_type( draw_id ) ) {
             exists = true;
             break;
         }
-        draw_id = "overlay_" + over_type + looks_like;
+        draw_id.clear();
+        str_append( draw_id, "overlay_", over_type, looks_like );
         if( tileset_ptr->find_tile_type( draw_id ) ) {
             exists = true;
             break;
@@ -1800,6 +1810,15 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
             }
             sym = tmp.symbol().empty() ? ' ' : tmp.symbol().front();
             col = tmp.color();
+        } else if( category == C_OVERMAP_TERRAIN ) {
+            const oter_str_id tmp( id );
+            if( tmp.is_valid() ) {
+                sym = tmp->get_symbol().front();
+                col = tmp->get_color();
+            }
+        } else if( category == C_OVERMAP_NOTE ) {
+            sym = id[5];
+            col = color_from_string( id.substr( 7, id.length() - 1 ) );
         }
         // Special cases for walls
         switch( sym ) {
@@ -1970,6 +1989,7 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
         case C_BULLET:
         case C_HIT_ENTITY:
         case C_WEATHER:
+        case C_OVERMAP_TERRAIN:
             // TODO: come up with ways to make random sprites consistent for these types
             break;
         case C_MONSTER:
@@ -2007,7 +2027,9 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
         };
         // use a fair mix function to turn the "random" seed into a random int
         // taken from public domain code at http://burtleburtle.net/bob/c/lookup3.c 2015/12/11
-        unsigned int a = seed, b = -seed, c = seed * seed;
+        unsigned int a = seed;
+        unsigned int b = -seed;
+        unsigned int c = seed * seed;
         c ^= b;
         c -= rot32( b, 14 );
         a ^= c;
@@ -3508,8 +3530,7 @@ void cata_tiles::draw_sct_frame( std::multimap<point, formatted_text> &overlay_s
         const point iD( iter->getPosX(), iter->getPosY() );
         const int full_text_length = utf8_width( iter->getText() );
 
-        int iOffsetX = 0;
-        int iOffsetY = 0;
+        point iOffset;
 
         for( int j = 0; j < 2; ++j ) {
             std::string sText = iter->getText( ( j == 0 ) ? "first" : "second" );
@@ -3532,14 +3553,14 @@ void cata_tiles::draw_sct_frame( std::multimap<point, formatted_text> &overlay_s
 
                     if( tileset_ptr->find_tile_type( generic_id ) ) {
                         draw_from_id_string( generic_id, C_NONE, empty_string,
-                                             iD + tripoint( iOffsetX, iOffsetY, player_pos.z ),
+                                             iD + tripoint( iOffset, player_pos.z ),
                                              0, 0, lit_level::LIT, false );
                     }
 
                     if( tile_iso ) {
-                        iOffsetY++;
+                        iOffset.y++;
                     }
-                    iOffsetX++;
+                    iOffset.x++;
                 }
             }
         }
@@ -3928,6 +3949,7 @@ std::vector<options_manager::id_and_option> cata_tiles::build_display_list()
     };
 
     int numdisplays = SDL_GetNumVideoDisplays();
+    display_names.reserve( numdisplays );
     for( int i = 0 ; i < numdisplays ; i++ ) {
         display_names.emplace_back( std::to_string( i ), no_translation( SDL_GetDisplayName( i ) ) );
     }

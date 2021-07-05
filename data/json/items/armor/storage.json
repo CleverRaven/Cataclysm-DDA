@@ -809,6 +809,36 @@
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "BELTED" ]
   },
   {
+    "id": "armrig",
+    "type": "ARMOR",
+    "name": { "str": "armband pouch", "str_pl": "armband pouches" },
+    "description": "A small pouch that can be worn on the upper arm using buckled straps.  This is a favoured item among sports & camping enthusiasts.",
+    "weight": "205 g",
+    "volume": "550 ml",
+    "price": 3000,
+    "price_postapoc": 250,
+    "material": [ "cotton", "plastic" ],
+    "symbol": "[",
+    "looks_like": "armguard_soft",
+    "color": "dark_gray",
+    "covers": [ "arm_l", "arm_r" ],
+    "sided": true,
+    "coverage": 20,
+    "encumbrance": 2,
+    "max_encumbrance": 7,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "15 cm",
+        "moves": 200
+      }
+    ],
+    "material_thickness": 2,
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "BELTED" ]
+  },
+  {
     "id": "makeshift_knapsack",
     "type": "ARMOR",
     "name": { "str": "makeshift knapsack" },
@@ -1017,7 +1047,7 @@
     "warmth": 8,
     "material_thickness": 2,
     "properties": [ [ "creature_size_capacity", "SMALL" ] ],
-    "use_action": "CAPTURE_MONSTER_ACT",
+    "use_action": [ "CAPTURE_MONSTER_ACT" ],
     "flags": [ "BELTED", "WATERPROOF" ]
   },
   {
@@ -1932,6 +1962,37 @@
       }
     ],
     "warmth": 2,
+    "material_thickness": 1,
+    "flags": [ "BELTED", "WATER_FRIENDLY" ]
+  },
+  {
+    "id": "bookstrap",
+    "type": "ARMOR",
+    "name": { "str": "bookstrap" },
+    "description": "An old-fashioned book strap carrier.  Guaranteed to make you feel like a proper scholar.",
+    "weight": "204 g",
+    "volume": "350 ml",
+    "price": 12000,
+    "price_postapoc": 450,
+    "material": [ "leather" ],
+    "symbol": "[",
+    "looks_like": "leather_belt",
+    "color": "brown",
+    "covers": [ "leg_l", "leg_r" ],
+    "sided": true,
+    "coverage": 5,
+    "encumbrance": 0,
+    "max_encumbrance": 11,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "min_item_volume": "500 ml",
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "40 cm",
+        "moves": 400
+      }
+    ],
     "material_thickness": 1,
     "flags": [ "BELTED", "WATER_FRIENDLY" ]
   }

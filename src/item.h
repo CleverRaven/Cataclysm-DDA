@@ -17,6 +17,7 @@
 
 #include "calendar.h"
 #include "cata_utility.h"
+#include "compatibility.h"
 #include "craft_command.h"
 #include "enums.h"
 #include "gun_mode.h"
@@ -34,6 +35,7 @@
 #include "visitable.h"
 
 class Character;
+class Creature;
 class JsonIn;
 class JsonObject;
 class JsonOut;
@@ -50,6 +52,7 @@ class player;
 class recipe;
 class relic;
 struct armor_portion_data;
+struct gun_variant_data;
 struct islot_comestible;
 struct itype;
 struct mtype;
@@ -165,9 +168,9 @@ struct enum_traits<iteminfo::flags> {
 };
 
 iteminfo vol_to_info( const std::string &type, const std::string &left,
-                      const units::volume &vol, int decimal_places = 2 );
+                      const units::volume &vol, int decimal_places = 2, bool lower_is_better = true );
 iteminfo weight_to_info( const std::string &type, const std::string &left,
-                         const units::mass &weight, int decimal_places = 2 );
+                         const units::mass &weight, int decimal_places = 2, bool lower_is_better = true );
 
 inline bool is_crafting_component( const item &component );
 
@@ -178,9 +181,9 @@ class item : public visitable
 
         item();
 
-        item( item && );
+        item( item && ) noexcept( map_is_noexcept );
         item( const item & );
-        item &operator=( item && );
+        item &operator=( item && ) noexcept( list_is_noexcept );
         item &operator=( const item & );
 
         explicit item( const itype_id &id, time_point turn = calendar::turn, int qty = -1 );
@@ -624,7 +627,7 @@ class item : public visitable
         * Calculate the item's effective damage per second past armor when wielded by a
          * character against a monster.
          */
-        double effective_dps( const Character &guy, monster &mon ) const;
+        double effective_dps( const Character &guy, Creature &mon ) const;
         /**
          * calculate effective dps against a stock set of monsters.  by default, assume g->u
          * is wielding
@@ -1241,10 +1244,12 @@ class item : public visitable
         /** Returns true if the item is A: is SOLID and if it B: is of type LIQUID */
         bool is_frozen_liquid() const;
 
+        /** Returns empty string if the book teach no skill */
+        std::string get_book_skill() const;
         float get_specific_heat_liquid() const;
         float get_specific_heat_solid() const;
         float get_latent_heat() const;
-        float get_freeze_point() const; // Fahrenheit
+        float get_freeze_point() const; // Celsius
 
         // If this is food, returns itself.  If it contains food, return that
         // contents.  Otherwise, returns nullptr.
@@ -1584,6 +1589,8 @@ class item : public visitable
          * Whether this item (when worn) covers the given body part.
          */
         bool covers( const bodypart_id &bp ) const;
+        // do both items overlap a bodypart at all? returns the side that conflicts via rhs
+        cata::optional<side> covers_overlaps( const item &rhs ) const;
         /**
          * Bitset of all covered body parts.
          *
@@ -1801,6 +1808,27 @@ class item : public visitable
          *  @note an item can be both a gun and melee weapon concurrently
          */
         bool is_gun() const;
+
+        /**
+         * Does this item have a gun variant associated with it
+         * If check_option, the return of this is dependent on the SHOW_GUN_VARIANTS option
+         */
+        bool has_gun_variant( bool check_option = true ) const;
+
+        /**
+         * The gun variant associated with this item
+         */
+        const gun_variant_data &gun_variant() const;
+
+        /**
+         * Set the gun variant of this item
+         */
+        void set_gun_variant( const std::string &variant );
+
+        /**
+         * For debug use only
+         */
+        void clear_gun_variant();
 
         /** Quantity of energy currently loaded in tool or battery */
         units::energy energy_remaining() const;
@@ -2061,7 +2089,7 @@ class item : public visitable
         /**
          * Returns name of deceased being if it had any or empty string if not
          **/
-        std::string get_corpse_name();
+        std::string get_corpse_name() const;
         /**
          * Returns the translated item name for the item with given id.
          * The name is in the proper plural form as specified by the
@@ -2272,6 +2300,8 @@ class item : public visitable
         std::list<item *> all_items_top_recursive( item_pocket::pocket_type pk_type );
         std::list<const item *> all_items_top_recursive( item_pocket::pocket_type pk_type ) const;
 
+        void armor_encumbrance_info( std::vector<iteminfo> &info, int reduce_encumbrance_by = 0 ) const;
+
     public:
         enum class sizing : int {
             human_sized_human_char = 0,
@@ -2325,6 +2355,13 @@ class item : public visitable
         const mtype *corpse = nullptr;
         std::string corpse_name;       // Name of the late lamented
         std::set<matec_id> techniques; // item specific techniques
+
+        // Select a random variant from the possibilities
+        // Intended to be called when no explicit variant is set
+        void select_gun_variant();
+
+        // If the item has a gun variant, this points to it
+        const gun_variant_data *_gun_variant = nullptr;
 
         /**
          * Data for items that represent in-progress crafts.

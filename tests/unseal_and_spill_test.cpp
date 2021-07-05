@@ -9,7 +9,7 @@
 
 #include "avatar.h"
 #include "cached_options.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "character.h"
 #include "colony.h"
 #include "item.h"

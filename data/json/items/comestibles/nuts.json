@@ -428,7 +428,7 @@
     "charges": 4,
     "flags": [ "EATEN_HOT" ],
     "fun": 5,
-    "freezing_point": -80
+    "freezing_point": -62
   },
   {
     "id": "peanutbutter",
@@ -525,6 +525,7 @@
     "price_postapoc": 300,
     "material": [ "nut" ],
     "vitamins": [ [ "calcium", 1 ], [ "iron", 2 ] ],
-    "volume": "250 ml"
+    "volume": "250 ml",
+    "milling": { "into": "flour", "conversion_rate": 7.5 }
   }
 ]

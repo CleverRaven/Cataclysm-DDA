@@ -12,6 +12,17 @@
   },
   {
     "type": "monstergroup",
+    "name": "GROUP_ZOMBIE_PIG_UPGRADE",
+    "default": "mon_zombie_pig",
+    "//": "No bionics or fungal",
+    "monsters": [
+      { "monster": "mon_zombie_pig", "freq": 45, "cost_multiplier": 5 },
+      { "monster": "mon_zpig_brute", "freq": 45, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_pig_gas", "freq": 45, "cost_multiplier": 2 }
+    ]
+  },
+  {
+    "type": "monstergroup",
     "name": "GROUP_ZOLF_UPGRADE",
     "default": "mon_wolf_skeleton",
     "//": "No bionics or fungal",

@@ -3,7 +3,7 @@
 
 #include "avatar.h"
 #include "calendar.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "field.h"
 #include "field_type.h"
 #include "item.h"

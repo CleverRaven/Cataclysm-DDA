@@ -190,6 +190,20 @@
   },
   {
     "type": "EXTERNAL_OPTION",
+    "name": "GENERIC_PROFESSION_ID",
+    "info": "The profession selected by default in the character creator menu.",
+    "stype": "string_input",
+    "value": "unemployed"
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "GENERIC_SCENARIO_ID",
+    "info": "The scenario selected by default in the character creator menu.",
+    "stype": "string_input",
+    "value": "evacuee"
+  },
+  {
+    "type": "EXTERNAL_OPTION",
     "name": "WORKBENCH_ALL_OPTIONS",
     "info": "If false, examining workbench-type furniture will auto-execute pickup and undeploy (where applicable) actions, no crafting-related options will be listed.",
     "stype": "bool",
