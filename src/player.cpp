@@ -1968,8 +1968,11 @@ ret_val<bool> player::can_takeoff( const item &it, const std::list<item> *res )
     return ret_val<bool>::make_success();
 }
 
-bool player::takeoff( item &it, std::list<item> *res )
+bool player::takeoff( item_location loc, std::list<item> *res )
 {
+    item &it = *loc;
+
+
     const auto ret = can_takeoff( it, res );
     if( !ret.success() ) {
         add_msg( m_info, "%s", ret.c_str() );
@@ -2002,9 +2005,11 @@ bool player::takeoff( item &it, std::list<item> *res )
     return true;
 }
 
+
 bool player::takeoff( int pos )
 {
-    return takeoff( i_at( pos ) );
+    item_location loc = item_location( *this, &i_at( pos ) );
+    return takeoff( loc );
 }
 
 void player::use_wielded()

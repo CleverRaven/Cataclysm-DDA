@@ -2255,7 +2255,7 @@ static std::list<item> obtain_activity_items(
 
         // Take off the item or remove it from the player's inventory
         if( who.is_worn( *loc ) ) {
-            who.as_player()->takeoff( *loc, &res );
+            who.as_player()->takeoff( loc, &res );
         } else if( loc->count_by_charges() ) {
             res.push_back( who.as_player()->reduce_charges( &*loc, it->count() ) );
         } else {

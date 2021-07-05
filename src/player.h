@@ -266,8 +266,9 @@ class player : public Character
         wear( item_location item_wear, bool interactive = true );
 
         /** Takes off an item, returning false on fail. The taken off item is processed in the interact */
-        bool takeoff( item &it, std::list<item> *res = nullptr );
+        bool takeoff( item_location loc, std::list<item> *res = nullptr );
         bool takeoff( int pos );
+
 
         /**
          * Try to wield a contained item consuming moves proportional to weapon skill and volume.
