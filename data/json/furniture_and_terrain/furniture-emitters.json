@@ -75,7 +75,7 @@
     "type": "furniture",
     "id": "f_vent_hot_air2_blast",
     "name": "metal grate",
-    "description": "This is a metal vent, you can feel hot air seeping out of it.",
+    "description": "This is a metal vent, you can feel hot air blasting out of it.",
     "looks_like": "t_grate",
     "symbol": "~",
     "color": "white",
