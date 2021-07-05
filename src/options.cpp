@@ -1866,7 +1866,7 @@ void options_manager::add_options_graphics()
     get_option( "TILES" ).setPrerequisite( "USE_TILES" );
 
     add( "USE_TILES_OVERMAP", "graphics", to_translation( "Use tiles to display overmap" ),
-         to_translation( "If true, replaces some TTF rendered text with tilese for overmap display." ),
+         to_translation( "If true, replaces some TTF-rendered text with tiles for overmap display." ),
          false, COPT_CURSES_HIDE
        );
 
