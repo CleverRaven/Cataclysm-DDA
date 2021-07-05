@@ -130,10 +130,10 @@
     "value": 1000,
     "item": "chemistry_set",
     "start": {
-      "assign_mission_target": { "om_terrain": "microlab_generic_surface", "reveal_radius": 1, "random": true, "search_range": 200 },
+      "assign_mission_target": { "om_terrain": "microlab_DinoLab_surface", "reveal_radius": 1, "random": true, "search_range": 200 },
       "update_mapgen": [
         {
-          "om_terrain": "microlab_generic_surface",
+          "om_terrain": "microlab_DinoLab_surface",
           "place_item": [ { "item": "chemistry_set", "x": 12, "y": 12 } ],
           "place_monster": [ { "group": "GROUP_DINOSAUR_ZOMBIE", "x": 12, "y": 12 } ]
         }
