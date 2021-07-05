@@ -1205,7 +1205,7 @@
     "category": "container",
     "name": { "str": "gallon jug" },
     "looks_like": "bottle_plastic",
-    "description": "A standard plastic jug used for milk and household cleaning chemicals.  Some may be factory sealed to increase shelf life.",
+    "description": "A standard plastic jug used for milk and household cleaning chemicals.  Some may be factory-sealed to increase shelf life.",
     "weight": "190 g",
     "volume": "3752 ml",
     "price": 0,
