@@ -852,11 +852,11 @@ void monster::move()
 
     if( ( current_attitude == MATT_IGNORE && patrol_route_abs_ms.empty() ) ||
         ( ( current_attitude == MATT_FOLLOW ||
-             ( has_flag( MF_KEEP_DISTANCE ) && !( current_attitude == MATT_FLEE ) ) )
+            ( has_flag( MF_KEEP_DISTANCE ) && !( current_attitude == MATT_FLEE ) ) )
           && rl_dist( pos(), goal ) <= type->tracking_distance ) ) {
-            moves = 0;
-            stumble();
-            return;
+        moves = 0;
+        stumble();
+        return;
     }
 
     bool moved = false;
