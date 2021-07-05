@@ -58,6 +58,10 @@ jobs:
           Add-Content $_.FullName "set(VCPKG_BUILD_TYPE release)`n"
         }
 
+    - name: Integrate vcpkg
+      run: |
+        vcpkg integrate install
+
     # We have to install packages in two passes because the x86 yasm-tool
     # is required for the later packages, but vcpkg builds them in an
     # unhelpful order
@@ -80,10 +84,6 @@ jobs:
               type $_.FullName
             }
         }
-
-    - name: Integrate vcpkg
-      run: |
-        vcpkg integrate install
 
     - name: Build
       run: |
