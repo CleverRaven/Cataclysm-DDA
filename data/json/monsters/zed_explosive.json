@@ -70,6 +70,7 @@
     "armor_bash": 5,
     "armor_cut": 5,
     "armor_bullet": 4,
+    "bleed_rate": 50,
     "vision_night": 3,
     "harvest": "zombie",
     "fungalize_into": "mon_boomer_fungus",
