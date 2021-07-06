@@ -85,6 +85,21 @@
   },
   {
     "type": "construction",
+    "id": "constr_beehive",
+    "group": "build_beehive",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "survival", 4 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+    "components": [
+      [ [ "beehive_empty", 1 ] ],
+      [ [ "wax", 1 ], [ "sugar", 1 ], [ "sweet_water", 1 ], [ "molasses", 1 ], [ "syrup", 1 ], [ "beet_syrup", 1 ] ]
+    ],
+    "pre_flags": "DIGGABLE",
+    "post_terrain": "t_hive_young"
+  },
+  {
+    "type": "construction",
     "id": "constr_improvised_shelter",
     "group": "build_improvised_shelter",
     "category": "CONSTRUCT",
