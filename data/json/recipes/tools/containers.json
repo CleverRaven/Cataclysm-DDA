@@ -185,8 +185,7 @@
     "autolearn": true,
     "book_learn": [ [ "plastics_book", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
-    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
-    "using": [ [ "plastic_molding", 1 ] ],
+    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "plastic_chunk", 2 ] ] ]
   },
   {
@@ -201,8 +200,7 @@
     "autolearn": true,
     "book_learn": [ [ "plastics_book", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
-    "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
-    "using": [ [ "plastic_molding", 1 ] ],
+    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 3, "LIST" ] ] ],
     "components": [ [ [ "plastic_chunk", 1 ] ] ]
   },
   {
@@ -217,8 +215,7 @@
     "autolearn": true,
     "book_learn": [ [ "plastics_book", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
-    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "using": [ [ "plastic_molding", 1 ] ],
+    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [ [ [ "plastic_chunk", 8 ] ] ]
   },
   {
@@ -515,8 +512,7 @@
     "autolearn": true,
     "book_learn": [ [ "plastics_book", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
-    "tools": [ [ [ "surface_heat", 15, "LIST" ] ] ],
-    "using": [ [ "plastic_molding", 1 ] ],
+    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 15, "LIST" ] ] ],
     "components": [ [ [ "plastic_chunk", 15 ] ] ]
   },
   {
@@ -574,10 +570,10 @@
     "difficulty": 4,
     "time": "35 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 4 ], [ "plastic_molding", 2 ] ],
+    "using": [ [ "sewing_standard", 4 ] ],
     "book_learn": [ [ "plastics_book", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
-    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [ [ [ "plastic_chunk", 6 ] ], [ [ "rag", 3 ], [ "leather", 3 ], [ "fur", 3 ] ] ]
   },
   {
@@ -590,10 +586,10 @@
     "difficulty": 4,
     "time": "40 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 4 ], [ "plastic_molding", 2 ] ],
+    "using": [ [ "sewing_standard", 4 ] ],
     "book_learn": [ [ "plastics_book", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
-    "tools": [ [ [ "surface_heat", 15, "LIST" ] ] ],
+    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 15, "LIST" ] ] ],
     "components": [ [ [ "plastic_chunk", 10 ] ], [ [ "rag", 3 ], [ "leather", 3 ], [ "fur", 3 ] ] ]
   },
   {
