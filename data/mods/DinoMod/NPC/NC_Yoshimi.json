@@ -118,7 +118,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_yoshimi_ask_mood",
-    "dynamic_line": "I just got here actually, I've found it wise to move a lot recently.  There may be some interesting specimens nearby.  I mean dinosaurs.",
+    "dynamic_line": "I just got here, actually; I've recently found it wise to move a lot.  There may be some interesting specimens nearby.  I mean dinosaurs.",
     "responses": [ { "text": "Interesting.", "topic": "TALK_Yoshimi_1" } ]
   },
   {
