@@ -246,7 +246,7 @@
         "|||=[|||| hth =Y ?||||||",
         " c|  |##| hth =Y V|h  = ",
         " c|  |##| hth =  c|dd = ",
-        " c|=[|##| hth =  a|   ] ",
+        " c|=[|##| hth =  a|   [ ",
         "  |  |##|^    [   |   = ",
         "|||  ||||||||||   |=[=||",
         "     2                  ",
@@ -281,7 +281,7 @@
         "|||22||||    |||||||||||",
         " c|  |l 2    2    2 d^= ",
         " c|  ||||    |    | d = ",
-        " c|     2    | cc |   ] ",
+        " c|     2    | cc |   [ ",
         "  2     2    | cc |   = ",
         "|||||||||||22|||||||||||",
         "   |FFccFF|   c   |     ",
@@ -298,7 +298,8 @@
         "  c      ||  |||||||||  ",
         "  c c|c   |  |6hh6|cFc  "
       ],
-      "palettes": [ "microlab" ]
+      "palettes": [ "microlab" ],
+      "monster": { "T": { "monster": "mon_zeinonychus_bio_op" } }
     }
   },
   {
@@ -316,7 +317,7 @@
         "|||5||||| d   iccc|2===|",
         " c|              c| dh= ",
         " c|cci  cic   iccc| d = ",
-        " c|              c|   ] ",
+        " c|              c|   [ ",
         "  |cci |FFF|66cccc|   = ",
         "2|||||||||||||||||||||||",
         "                        ",
@@ -582,6 +583,7 @@
         "     |c   |  |    |     "
       ],
       "palettes": [ "microlab" ],
+      "terrain": { "G": "t_card_science" },
       "monster": { "T": { "monster": "mon_zachycephalosaurus_bio_op" }, "M": { "monster": "mon_zeinonychus_bio_op" } }
     }
   },
@@ -1131,7 +1133,7 @@
         "  c|?  t ? Y^| cc       ",
         "  c|?  t ?  ^| cc  c    ",
         "  c|^       ^|     c    ",
-        "|2||v       ^|     |((2|",
+        "|2||V       ^|     |((2|",
         "  U|       Y^|22(((|6   ",
         "  U|  ^^   Y^|  666|c   ",
         "  U|2|||2||2||   h |c   ",
