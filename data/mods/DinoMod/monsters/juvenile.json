@@ -366,7 +366,7 @@
     "id": "mon_alamosaurus_juvenile",
     "type": "MONSTER",
     "name": "brown and magenta sauropod juvenile",
-    "description": "A huge four-legged plant-eating juvenile sauropod with a long neck and tail, it could be from a number of different species.",
+    "description": "A huge, four-legged, plant-eating juvenile sauropod with a long neck and tail, it could be from a number of different species.",
     "copy-from": "mon_gallimimus_juvenile",
     "looks_like": "mon_apatosaurus",
     "default_faction": "herbivore_dino",
