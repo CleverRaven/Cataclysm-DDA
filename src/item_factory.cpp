@@ -1779,6 +1779,7 @@ void gun_variant_data::deserialize( JsonIn &jsin )
 
 void gun_variant_data::load( const JsonObject &jo )
 {
+    brand_name.make_plural();
     mandatory( jo, false, "id", id );
     mandatory( jo, false, "name", brand_name );
     mandatory( jo, false, "description", alt_description );
