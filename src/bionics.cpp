@@ -175,6 +175,7 @@ static const bionic_id bio_teleport( "bio_teleport" );
 static const bionic_id bio_time_freeze( "bio_time_freeze" );
 static const bionic_id bio_tools( "bio_tools" );
 static const bionic_id bio_torsionratchet( "bio_torsionratchet" );
+static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
 static const bionic_id bio_water_extractor( "bio_water_extractor" );
 static const bionic_id bio_tools_extend( "bio_tools_extend" );
 // Aftershock stuff!
@@ -293,6 +294,7 @@ void bionic_data::load( const JsonObject &jsobj, const std::string & )
     assign( jsobj, "weight_capacity_bonus", weight_capacity_bonus, false );
     assign( jsobj, "act_cost", power_activate, false, 0_kJ );
     assign( jsobj, "deact_cost", power_deactivate, false, 0_kJ );
+    assign( jsobj, "trigger_cost", power_trigger, false, 0_kJ );
 
     optional( jsobj, was_loaded, "time", charge_time, 0 );
 
@@ -1724,10 +1726,11 @@ void Character::process_bionic( const int b )
     } else if( bio.id == bio_painkiller ) {
         const int pkill = get_painkiller();
         const int pain = get_pain();
+        const units::energy trigger_cost = bio.info().power_trigger;
         int max_pkill = std::min( 150, pain );
         if( pkill < max_pkill ) {
             mod_painkiller( 1 );
-            mod_power_level( -2_kJ );
+            mod_power_level( -trigger_cost );
         }
 
         // Only dull pain so extreme that we can't pkill it safely
@@ -1735,7 +1738,7 @@ void Character::process_bionic( const int b )
             mod_pain( -1 );
             // Negative side effect: negative stim
             mod_stim( -1 );
-            mod_power_level( -2_kJ );
+            mod_power_level( -trigger_cost );
         }
     } else if( bio.id == bio_gills ) {
         if( has_effect( effect_asthma ) ) {
