@@ -1637,6 +1637,16 @@
     "fun": -50
   },
   {
+    "id": "triffid_fungicide",
+    "type": "COMESTIBLE",
+    "copy-from": "venom_gland",
+    "name": { "str": "sac of triffid fungicide", "str_pl": "sacs of triffid fungicide" },
+    "description": "This triffid sack is filled with what appears to be a triffid-produced antifungal agent.  It will likely already work as an antifungal compound for more offensive applications, but requires further refining before it can be used as a medical drug.",
+    "material": [ "veggy" ],
+    "color": "light_blue",
+    "fun": -50
+  },
+  {
     "id": "conc_venom",
     "type": "AMMO",
     "category": "chems",

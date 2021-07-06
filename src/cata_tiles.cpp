@@ -91,7 +91,7 @@ static const std::array<std::string, 8> multitile_keys = {{
 };
 
 static const std::string empty_string;
-static const std::array<std::string, 12> TILE_CATEGORY_IDS = {{
+static const std::array<std::string, 13> TILE_CATEGORY_IDS = {{
         "", // C_NONE,
         "vehicle_part", // C_VEHICLE_PART,
         "terrain", // C_TERRAIN,
@@ -104,6 +104,7 @@ static const std::array<std::string, 12> TILE_CATEGORY_IDS = {{
         "bullet", // C_BULLET,
         "hit_entity", // C_HIT_ENTITY,
         "weather", // C_WEATHER,
+        "overmap_terrain"
     }
 };
 
@@ -1048,7 +1049,7 @@ struct tile_render_info {
     lit_level ll;
     bool invisible[5];
     tile_render_info( const tripoint &pos, const int height_3d, const lit_level ll,
-                      const bool ( &invisible )[5] )
+                      const bool( &invisible )[5] )
         : pos( pos ), height_3d( height_3d ), ll( ll ) {
         std::copy_n( invisible, 5, this->invisible );
     }
@@ -1474,7 +1475,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                    do_draw_cursor || do_draw_highlight || do_draw_weather ||
                    do_draw_sct || do_draw_zones;
 
-    draw_footsteps_frame();
+    draw_footsteps_frame( center );
     if( in_animation ) {
         if( do_draw_explosion ) {
             draw_explosion_frame();
@@ -1809,6 +1810,15 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
             }
             sym = tmp.symbol().empty() ? ' ' : tmp.symbol().front();
             col = tmp.color();
+        } else if( category == C_OVERMAP_TERRAIN ) {
+            const oter_str_id tmp( id );
+            if( tmp.is_valid() ) {
+                sym = tmp->get_symbol().front();
+                col = tmp->get_color();
+            }
+        } else if( category == C_OVERMAP_NOTE ) {
+            sym = id[5];
+            col = color_from_string( id.substr( 7, id.length() - 1 ) );
         }
         // Special cases for walls
         switch( sym ) {
@@ -1979,6 +1989,7 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
         case C_BULLET:
         case C_HIT_ENTITY:
         case C_WEATHER:
+        case C_OVERMAP_TERRAIN:
             // TODO: come up with ways to make random sprites consistent for these types
             break;
         case C_MONSTER:
@@ -3568,11 +3579,25 @@ void cata_tiles::draw_zones_frame()
     }
 
 }
-void cata_tiles::draw_footsteps_frame()
+
+void cata_tiles::draw_footsteps_frame( const tripoint &center )
 {
-    static const std::string footstep_tilestring = "footstep";
-    for( const auto &footstep : sounds::get_footstep_markers() ) {
-        draw_from_id_string( footstep_tilestring, footstep, 0, 0, lit_level::LIT, false );
+    static const std::string id_footstep = "footstep";
+    static const std::string id_footstep_above = "footstep_above";
+    static const std::string id_footstep_below = "footstep_below";
+
+
+    const tile_type *tl_above = tileset_ptr->find_tile_type( id_footstep_above );
+    const tile_type *tl_below = tileset_ptr->find_tile_type( id_footstep_below );
+
+    for( const tripoint &pos : sounds::get_footstep_markers() ) {
+        if( pos.z > center.z && tl_above ) {
+            draw_from_id_string( id_footstep_above, pos, 0, 0, lit_level::LIT, false );
+        } else if( pos.z < center.z && tl_below ) {
+            draw_from_id_string( id_footstep_below, pos, 0, 0, lit_level::LIT, false );
+        } else {
+            draw_from_id_string( id_footstep, pos, 0, 0, lit_level::LIT, false );
+        }
     }
 }
 /* END OF ANIMATION FUNCTIONS */

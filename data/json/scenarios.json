@@ -594,5 +594,16 @@
     "allowed_locs": [ "sloc_private_resort" ],
     "professions": [ "frat", "gangster", "lost_sub", "lawyer", "politician", "dancer" ],
     "flags": [ "CHALLENGE", "LONE_START" ]
+  },
+  {
+    "type": "scenario",
+    "id": "car_crash",
+    "name": "Car Crash",
+    "points": -2,
+    "description": "You decided the open road would be a better prospect than the zombie-filled cities.  While en route to your destination, you were involved in a wreck.  Injured and alone, death seems inevitable.",
+    "allowed_locs": [ "sloc_road" ],
+    "start_name": "Crash Site",
+    "map_extra": "mx_mayhem",
+    "flags": [ "CHALLENGE", "HELI_CRASH", "LONE_START" ]
   }
 ]

@@ -1040,7 +1040,7 @@ void monster::move()
                     continue;
                 }
                 // Don't bash if we're just tracking a noise.
-                if( wander() && destination == wander_pos ) {
+                if( !provocative_sound && wander() && destination == wander_pos ) {
                     continue;
                 }
                 const int estimate = here.bash_rating( bash_estimate(), candidate );

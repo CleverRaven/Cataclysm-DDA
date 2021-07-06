@@ -195,6 +195,10 @@ Another example: The group "milk" spawns a container (taken from milk_containers
 },
 ```
 
+## Adding to item groups
+
+Mods can add entries to item groups simply by specifying an item group with the same id; any entries will be added to the item group.
+
 ## Inlined item groups
 
 In some places one can define an item group directly instead of giving the id of a group.  One cannot refer to that group elsewhere - it has no visible id (it has an unspecific/random id internally).  This is most useful when the group is very specific to the place it is used and won't ever appear anywhere else.
