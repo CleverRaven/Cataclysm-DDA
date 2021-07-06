@@ -436,7 +436,7 @@
         "rigid": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "light_minus_battery_cell", "light_minus_atomic_battery_cell", "light_minus_disposable_cell" ]
+        "item_restriction": [ "medium_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       }
     ],
     "material_thickness": 1,
@@ -472,7 +472,7 @@
         "rigid": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "light_minus_battery_cell", "light_minus_atomic_battery_cell", "light_minus_disposable_cell" ]
+        "item_restriction": [ "medium_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       }
     ],
     "material_thickness": 1,
@@ -519,7 +519,7 @@
         "rigid": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "light_battery_cell", "light_atomic_battery_cell", "light_disposable_cell" ]
+        "item_restriction": [ "medium_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       }
     ],
     "material_thickness": 1,
@@ -596,7 +596,6 @@
       "WATERPROOF",
       "WATCH",
       "ALARMCLOCK",
-      "SUN_GLASSES",
       "THERMOMETER",
       "HYGROMETER",
       "PARTIAL_DEAF",
@@ -647,7 +646,6 @@
       "WATERPROOF",
       "WATCH",
       "ALARMCLOCK",
-      "SUN_GLASSES",
       "THERMOMETER",
       "HYGROMETER",
       "PARTIAL_DEAF",
@@ -677,7 +675,6 @@
       "WATERPROOF",
       "WATCH",
       "ALARMCLOCK",
-      "SUN_GLASSES",
       "THERMOMETER",
       "HYGROMETER",
       "PARTIAL_DEAF",
@@ -715,7 +712,7 @@
         "rigid": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "light_battery_cell", "light_atomic_battery_cell", "light_disposable_cell" ]
+        "item_restriction": [ "medium_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       }
     ],
     "use_action": [

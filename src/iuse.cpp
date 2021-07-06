@@ -233,7 +233,6 @@ static const itype_id itype_ar_glasses_t1( "ar_glasses_t1" );
 static const itype_id itype_ar_glasses_t1_on( "ar_glasses_t1_on" );
 static const itype_id itype_ar_glasses_t2( "ar_glasses_t2" );
 static const itype_id itype_ar_glasses_t2_mil( "ar_glasses_t2_mil" );
-static const itype_id itype_ar_glasses_t2_mil_on( "ar_glasses_t2_mil_on" );
 static const itype_id itype_ar_glasses_t2_mil_radio( "ar_glasses_t2_mil_radio" );
 static const itype_id itype_ar_glasses_t2_on( "ar_glasses_t2_on" );
 static const itype_id itype_UPS( "UPS" );
