@@ -2405,6 +2405,15 @@
   },
   {
     "type": "GENERIC",
+    "id": "bodypillow_makeshift",
+    "copy-from": "bodypillow",
+    "name": { "str": "makeshift body pillow" },
+    "description": "A big, body-sized pillow.  Someone drew a vaguely humanoid figure on it.  Its heartwarming smile fills you with joy.",
+    "price": 100,
+    "price_postapoc": 50
+  },
+  {
+    "type": "GENERIC",
     "id": "down_pillow",
     "symbol": ",",
     "color": "blue",
@@ -2717,6 +2726,15 @@
     "to_hit": -3
   },
   {
+    "type": "GENERIC",
+    "//": "Item for meteorologist mission.",
+    "id": "module_meteorologist",
+    "name": { "str": "drone memory bank" },
+    "description": "Allows for storage and recovery of information.  Found in meteorologist drone.",
+    "copy-from": "robot_module_abstract",
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
     "id": "gasdiscount_silver",
     "type": "TOOL",
     "symbol": ",",
@@ -2772,6 +2790,7 @@
     "name": { "str": "science ID card" },
     "description": "This ID card once belonged to a scientist.  The reverse side describes protocol for using it; this could grant access at one control panel, if you can find one.",
     "price": 60000,
+    "flags": [ "SCIENCE_CARD" ],
     "price_postapoc": 250,
     "material": [ "plastic" ],
     "weight": "6 g",
@@ -2786,6 +2805,7 @@
     "name": { "str": "military ID card" },
     "description": "This ID card once belonged to a military officer.  The reverse side describes protocol for using it; this could grant access at one control panel, if you can find one.",
     "price": 120000,
+    "flags": [ "MILITARY_CARD" ],
     "price_postapoc": 500,
     "material": [ "plastic" ],
     "weight": "6 g",
@@ -2801,6 +2821,7 @@
     "name": { "str": "industrial ID card" },
     "description": "This ID card once belonged to a high level technician.  The reverse side describes protocol for using it; this could grant access at one control panel, if you can find one.",
     "price": 120000,
+    "flags": [ "INDUSTRIAL_CARD" ],
     "price_postapoc": 100,
     "material": [ "plastic" ],
     "weight": "6 g",
@@ -3393,5 +3414,23 @@
         ]
       }
     ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_tazer_hack",
+    "symbol": ",",
+    "color": "green",
+    "name": { "str": "broken tazer hack" },
+    "category": "other",
+    "description": "A broken tazer hack, with its propellers still and tazer inert.  Could be gutted for parts.",
+    "price": 1000,
+    "price_postapoc": 10,
+    "material": [ "steel", "plastic" ],
+    "weight": "100 kg",
+    "volume": "65 L",
+    "bashing": 4,
+    "cutting": 4,
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   }
 ]

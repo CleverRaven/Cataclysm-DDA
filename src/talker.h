@@ -314,5 +314,18 @@ class talker
         virtual bool is_safe() const {
             return true;
         }
+        virtual void mod_pain( int ) {}
+        virtual int pain_cur() const {
+            return 0;
+        }
+        virtual bool worn_with_flag( const flag_id & ) const {
+            return false;
+        }
+        virtual bool wielded_with_flag( const flag_id & ) const {
+            return false;
+        }
+        virtual units::energy power_cur() const {
+            return 0_kJ;
+        }
 };
 #endif // CATA_SRC_TALKER_H

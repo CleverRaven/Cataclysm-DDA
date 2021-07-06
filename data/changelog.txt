@@ -1,5 +1,23 @@
-# 0.F (2021-04-15)
+# 0.F (Frank)
 
+## Highlights
+Nested Containers rationalize inventory management and enable dropping and retrieving go-bags during fights.
+Achievements track your deeds and misdeeds across games.
+Proficiencies better represent deeper knowledge required for various endeavors, mostly crafting.
+Bleeding added to both the player and monsters as the first step toward a more comprehensive wound and wound treatment system.
+Weariness tracking added to represent longer-term physical exhaustion.
+Elevated bridges over navigable rivers added, allowing better navigability while using boats.
+Large-scale audit of weapon and armor values for better representativeness and consistency.
+Improved armor handling by separating ballistic damage into its own damage type.
+Pervasive performance enhancements throughout the game.
+Tileset vehicle support for more cohesive vehicle rendering.
+Aftershock changes direction to a total conversion mod with a new far-future setting on a frozen world.
+Dinomod added 238 dinosaurs, pterosaurs, mosasaurs, and dino-related NPCs with missions and dino locations.
+Added many dino features, including zombie, fungal, evolved, bionic, baby, and mutant dino variants.
+Dinomod added many dino interactions, including farming, riding, butchering, cooking, and special attacks.
+Magiclysm added a huge content update including many new traits called Attunements that switch up gameplay at the endgame.
+
+## Statistics
 3974 files changed, 5440251 insertions(+), 3904330 deletions(-)
 10,463 commits
 ~454 contributors
@@ -70,12 +88,12 @@ Adds option to randomize INITIAL_DAY.
 Allow vehicles with autopilot to follow you.
 Monster factions can unconditionally hate other factions.
 Allows mutations to cast spells via enchantments.
-Mining multi-activity for NPCs and players.
+Add mining multi-activity for NPCs and players.
 Basecamp job rework - wandering/sitting/job priorities.
-Auto eat and drink from auto-zones during long activities/waiting.
-Flyable Helicopters.
-Towing vehicles.
-User defined height and age.
+Auto eat and drink from auto-zones during long activities or while waiting.
+Adds flyable helicopters.
+Allows towing vehicles.
+Allows specifying height and age in character creation.
 Adds support for json-defined achievements to provide more goals to strive for.
 Overhauls lock picking.
 Appropriate items can now rot away when in the reality bubble.
@@ -86,13 +104,12 @@ Enables damage over time for spells.
 Enables nested containers.
 Adds support for conducts (self-imposed play constraints tracked by the game).
 Custom achievement/conduct requirement descriptions.
-[Magiclysm] Adds spell level and number of spells known achievements.
 Enables mouse input for inventory.
 Worn gloves count as unarmed weapons when no weapon is held.
 Any corpse can rise again as a zombie.
 Added to autodocs the ability to stop bleeding, disinfect wounds, and inject antibiotics in case of infected wounds or tetanus.
 Allow randomizing scenario and profession in new character menu.
-Workout and exercise.
+Adds actions to workout and do exercises.
 Vehicles: ground vehicle z-level transitions and z+1 bridges.
 Remove static/random NPC options, adjust random NPC rates.
 Overhauls blood and blood loss.
@@ -112,8 +129,10 @@ Allows customizing initial date in scenarios.
 Allows nanofabricator templates to contain recipes from any item group.
 Adds different bleeding types for different species.
 Adds bleeding butchery action.
-Autodoc installation programs added that almost guarantee flawless installation of supported bionics.
+Adds autodoc installation programs that almost guarantee flawless installation of supported bionics.
 Removes the obsolete 'carrion spawn rate scaling factor' world configuration option.
+Makes thrown glass items drop glass shards when shattered.
+Adds suspension for butchering using cranes (except tiny ones) and forklift arms.
 
 ## Content:
 Gun volume and weight audit.
@@ -165,13 +184,12 @@ Adds bigger mini-maps to all sidebar layouts.
 Adds keycode support to uilist.
 Allows attempting to disable robots by 'e'xamining them.
 Warns if a friendly creature or non-hostile NPC enters the line of fire.
-Replaces the CAL/kg column of the (E)at menu with a more meaningful Satiety column.
-Adds a Mod to use MSX characters and monsters with the Ultica tileset.
+Adds a satiety column to the eat menu, showing how many calories the food will have for how filling it is.
 Shows crafting failure rates due to missing proficiencies.
 Displays contained items like 'water (plastic bottle)' instead of as 'plastic bottle of water'.
 Keeps track of preferred aiming mode.
-Makes Chibi Ultica a stand-alone tileset.
-Brings back MSX+.
+Adds the Chibi Ultica tileset, a mix of MSX character and monster sprites with Ultica terrain, vehicles, and items.
+Brings back the MSX+ Tileset.
 Adds item length and pocket volume entries to menus.
 Adds fast scrolling to many menus with long lists.
 Adds responsive screen behavior to the new character menu for small terminal sizes.
@@ -179,42 +197,44 @@ Shows weariness and activity levels in sidebar panels.
 Warns before crafting armor or clothing you won't be able to wear.
 
 ## Mods:
-[Magiclysm] Manatouched mutation tree.
-Overhauls Blazemod and splits it into separate mods.
-[MMA] Adds Ki Strike trait.
-[Magiclysm] Adds polymorph spells so you can transform your foes.
-[Magiclysm] Adds a spell component system and more-powerful spells to use it.
-Aftershock: Adds autodoc tiers and augmentation clinics.
+[Aftershock] Adds autodoc tiers and augmentation clinics.
+[Aftershock] Megacity-oriented overmap generation adjustments
+[Aftershock] Adds new Melee oriented bionics.
+[Aftershock] Replaces Vanilla autodocs with Aftershock Average Autodocs.
+[Aftershock] Adds an astrobiology lab.
+[Aftershock] Adds a design document.
+[Aftershock] Adds new laser and plasma pistols.
+[Aftershock] Adds Formless Ruins - a new aboveground, low-risk dungeon type.
+[Blazemod] Overhauls Blazemod and splits it into separate mods.
+[Dark Skies Above] DSA is reborn as an actively-developed, total-conversion mod.
 [DinoMod] Adds location variants with dinosaurs.
-Aftershock: Megacity-oriented overmap generation adjustments
-Aftershock: Adds new Melee oriented bionics.
 [DinoMod] Adds Acrocanthosaurus and overhauls dino baby code.
-[Magiclysm] Adds a new mutation line: Black Dragon.
-Adjusts fog frequency in black dragon lair plus other (minor) map adjustments.
-Adds monsters 'Scutellosaurus', 'Maiasaura', and 'Coelophysis'.
-[Magiclysm] Attunements - Special abilities gained by mastering two schools of magic.
-Adds monsters 'Pachyrhinosaurus', 'Pentaceratops', and 'Torosaurus'.
+[DinoMod] Adds monsters 'Scutellosaurus', 'Maiasaura', and 'Coelophysis'.
+[DinoMod] Adds monsters 'Pachyrhinosaurus', 'Pentaceratops', and 'Torosaurus'.
 [DinoMod] Organizes dinos into three main factions with defined inter-faction behavior.
 [DinoMod] Rebalances Jurassic spawns and monsters for realism and fixes predator in-fighting.
-Cap monsters at 1000 kg so butchering kind of works.
-[Magiclysm] implement summonable motorcycle
-[Magiclysm] Adds a new house with technomancer-themed loot.
-[Aftershock] Replaces Vanilla autodocs with Aftershock Average Autodocs.
+[DinoMod] Caps monsters at 1000 kg so butchering kind of works.
 [DinoMod] Adds monsters 'Brontosaurus', 'Alamosaurus', and 'Brachiosaurus'.
-[Magiclysm] Rings of wizardry and mojocycle tweaks
-[Magiclysm] Adds bullet armor to magic rings and bracers of protection.
 [DinoMod] Converts 'dinoexhibit' to use templates, adds a roof, and adds a baby dino variant.
 [DinoMod] Ankylosaurs Abound: Adds Dyoplosaurus, Nodosaurus, and Edmontonia.
-[Aftershock] Adds an astrobiology lab.
 [DinoMod] Adds Amargasaurus and Kosmoceratops as well as variants.
-[Magiclysm] Adds Orcs and Ogres.
-[Aftershock] Adds a design document.
 [DinoMod] Adds mod-specific mutation trees Stego and Tyrant.
-[Aftershock] Adds new laser and plasma pistols.
+[Magiclysm] Adds spell level and number of spells known achievements.
+[Magiclysm] Manatouched mutation tree.
+[Magiclysm] Adds polymorph spells so you can transform your foes.
+[Magiclysm] Adds a spell component system and more-powerful spells to use it.
+[Magiclysm] Adds a new mutation line: Black Dragon.
+[Magiclysm] Adjusts fog frequency in black dragon lair plus other (minor) map adjustments.
+[Magiclysm] Attunements - Special abilities gained by mastering two schools of magic.
+[Magiclysm] implement summonable motorcycle
+[Magiclysm] Adds a new house with technomancer-themed loot.
+[Magiclysm] Rings of wizardry and mojocycle tweaks
+[Magiclysm] Adds bullet armor to magic rings and bracers of protection.
+[Magiclysm] Adds Orcs and Ogres.
 [Magiclysm] Adds three new Attunement spells (Frozen Winds, Auroral wave, and Immolate).
 [Magiclysm] Adds Workshop Elves, Yule Cats, and Leprechauns.
-[Aftershock] Adds Formless Ruins - a new aboveground, low-risk dungeon type.
-[Dark Skies Above] DSA is reborn as an actively-developed, total-conversion mod.
+[MMA] Adds Ki Strike trait, buffing unarmed to make it more competitive with other weapons.
+[Vanilla + Many Mods] Fixes problematic faction relationships (one-way aggression).
 
 ## Balance:
 Large item price audit.
@@ -347,6 +367,17 @@ Prevents cross-z-level melee attacks when the target is not actually visible.
 Avoids doing character body updates more than once per turn
 When harvesting crops, drops the result on the player's square.
 Improves road system connectivity across overmaps.
+Stops crafting failures from clustering at high completion percentages.
+Fixes non-spring eternal seasons.
+Stops unreloadable items from being reloadable.
+Fixes savegame corruption causing teleporting to very distant submaps
+Unfreezes trap-avoiding monsters.
+Fixes ramming at low speed.
+Placing specials around cities now scales with city size.
+Fixes proficiency books' effect on crafting.
+Construction of roofs actually makes the tile above the construction a roof.
+Partial fix for vehicle damage reduction inconsistencies.
+Fixes building ramps and stairs.
 
 ## Performance:
 Adds an option to enable batching when it is available in SDL.
@@ -448,6 +479,10 @@ Reduces file size of composed tilesheets from compose.py.
 Implements C++ symbol demangling in crash reports on MacOS, MinGW, and Linux.
 Adds tests of automatic triggers for mutations.
 Generates a crash report on Android.
+Moves Mingw cross-compile CI job from Travis to GitHub.
+compose.py: Fixes --use-all when there are no filler sheets.
+compose.py: Don't warn about unused fillers matching IDs in tile entries from main sheets.
+Adds a tool to check printf style format string in translations.
 
 ## Build:
 Moves clang-tidy runs from Travis to GitHub.
@@ -469,6 +504,8 @@ Adds a GitHub workflow running flake8 to check the Python scripts.
 Consistently styles code in CMakeLists.txt files.
 Adds CMake linting.
 Captures ODR violations using GOLD linker, ASAN, or LTO.
+Adds a CI action to build and release for Windows.
+Adds android builds to Github actions.
 
 ## I18N and A11Y:
 Fixes translations of martial art initiate and computer terminal messages.

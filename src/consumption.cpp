@@ -17,6 +17,7 @@
 #include "character.h"
 #include "color.h"
 #include "debug.h"
+#include "effect.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
@@ -484,6 +485,40 @@ time_duration Character::vitamin_rate( const vitamin_id &vit ) const
     }
 
     return res;
+}
+
+void Character::clear_vitamins()
+{
+    vitamin_levels.clear();
+}
+
+std::map<vitamin_id, int> Character::effect_vitamin_mod( const std::map<vitamin_id, int> &vits )
+{
+    std::vector<std::pair<vitamin_id, float>> mods;
+    // Yuck!
+    // Construct mods, for easy iteration over to modify vitamins
+    for( const std::pair<const efftype_id, std::map<bodypart_id, effect>> &elem : *effects ) {
+        for( const std::pair<const bodypart_id, effect> &veffect : elem.second ) {
+            const bool reduced = resists_effect( veffect.second );
+            for( const vitamin_applied_effect &rate_mod : veffect.second.vit_effects( reduced ) ) {
+                if( !rate_mod.absorb_mult ) {
+                    continue;
+                }
+                mods.emplace_back( rate_mod.vitamin, *rate_mod.absorb_mult );
+            }
+        }
+    }
+
+    std::map<vitamin_id, int> ret = vits;
+    for( std::pair<const vitamin_id, int> &value : ret ) {
+        for( const std::pair<vitamin_id, float> &mod : mods ) {
+            if( value.first == mod.first ) {
+                value.second *= mod.second;
+            }
+        }
+    }
+
+    return ret;
 }
 
 int Character::vitamin_mod( const vitamin_id &vit, int qty, bool capped )
@@ -1343,7 +1378,7 @@ bool Character::consume_effects( item &food )
         // But always round down
         int h_loss = -rottedness * comest.get_default_nutr();
         mod_healthy_mod( h_loss, -200 );
-        add_msg_debug( "%d health from %0.2f%% rotten food", h_loss, rottedness );
+        add_msg_debug( debugmode::DF_FOOD, "%d health from %0.2f%% rotten food", h_loss, rottedness );
     }
 
     // Used in hibernation messages.
@@ -1429,10 +1464,10 @@ bool Character::consume_effects( item &food )
         food_vol * ratio,
         food_nutrients
     };
-    add_msg_debug(
-        "Effective volume: %d (solid) %d (liquid)\n multiplier: %g calories: %d, weight: %d",
-        units::to_milliliter( ingested.solids ), units::to_milliliter( ingested.water ), ratio,
-        food_nutrients.kcal(), units::to_gram( food_weight ) );
+    add_msg_debug( debugmode::DF_FOOD,
+                   "Effective volume: %d (solid) %d (liquid)\n multiplier: %g calories: %d, weight: %d",
+                   units::to_milliliter( ingested.solids ), units::to_milliliter( ingested.water ), ratio,
+                   food_nutrients.kcal(), units::to_gram( food_weight ) );
     // Maybe move tapeworm to digestion
     if( has_effect( effect_tapeworm ) ) {
         ingested.nutr /= 2;
@@ -1695,6 +1730,17 @@ static bool consume_med( item &target, player &you )
     return true;
 }
 
+static bool cbm_is_full( const player &guy, const item &fuel )
+{
+    material_id fuel_mat;
+    if( fuel.is_magazine() ) {
+        fuel_mat = item( fuel.ammo_current() ).get_base_material().id;
+    } else {
+        fuel_mat = fuel.get_base_material().id;
+    }
+    return guy.get_fuel_capacity( fuel_mat ) > 0;
+}
+
 trinary player::consume( item &target, bool force )
 {
     if( target.is_null() ) {
@@ -1717,8 +1763,9 @@ trinary player::consume( item &target, bool force )
         return trinary::NONE;
     }
     if( consume_med( target, *this ) ||
-        eat( target, *this, force ) ||
-        fuel_bionic_with( target ) ) {
+        ( has_max_power() && get_power_level() < get_max_power_level() &&
+          cbm_is_full( *this, target ) && fuel_bionic_with( target ) ) ||
+        eat( target, *this, force ) ) {
 
         get_event_bus().send<event_type::character_consumes_item>( getID(), target.typeId() );
 

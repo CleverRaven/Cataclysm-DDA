@@ -16,6 +16,21 @@
   },
   {
     "type": "GENERIC",
+    "id": "valentine_card",
+    "category": "books",
+    "symbol": ",",
+    "color": "red",
+    "name": { "str": "valentine card" },
+    "snippet_category": "valentine",
+    "description": "A creased holiday card.  It appears to be a Valentine's Day card from before the Cataclysm.",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "paper" ],
+    "weight": "3 g",
+    "volume": "5 ml"
+  },
+  {
+    "type": "GENERIC",
     "id": "survnote",
     "category": "books",
     "symbol": ",",
