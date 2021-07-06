@@ -248,7 +248,7 @@
     "hp": 200,
     "death_function": [ "NORMAL" ],
     "zombify_into": "mon_zalbertosaurus",
-    "description": "Enormous teeth, fierce eyes and a powerful frame to drive it forward, with long strong arms and a feathered mullet and tail.",
+    "description": "Enormous teeth, fierce eyes, and a powerful frame to drive it forward, with long strong arms and a feathered mullet and tail.",
     "reproduction": { "baby_egg": "egg_albertosaurus", "baby_count": 3, "baby_timer": 24 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
