@@ -520,10 +520,9 @@
     "difficulty": 7,
     "time": "3 h",
     "book_learn": [ [ "textbook_electronics", 6 ], [ "advanced_electronics", 6 ] ],
-    "using": [ [ "soldering_standard", 50 ] ],
+    "using": [ [ "soldering_standard", 50 ], [ "plastic_molding", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
-    "tools": [ [ [ "mold_plastic", -1 ] ] ],
     "components": [ [ [ "lens", 4 ] ], [ [ "e_scrap", 10 ] ], [ [ "amplifier", 4 ] ], [ [ "cable", 20 ] ], [ [ "plastic_chunk", 5 ] ] ]
   },
   {
