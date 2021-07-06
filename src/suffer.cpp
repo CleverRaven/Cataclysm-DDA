@@ -1162,7 +1162,8 @@ void Character::suffer_from_radiation()
 void Character::suffer_from_bad_bionics()
 {
     // Negative bionics effects
-    if( has_bionic( bio_dis_shock ) && get_power_level() > bio_dis_shock->power_trigger && one_turn_in( 2_hours ) &&
+    if( has_bionic( bio_dis_shock ) && get_power_level() > bio_dis_shock->power_trigger &&
+        one_turn_in( 2_hours ) &&
         !has_effect( effect_narcosis ) ) {
         if( !has_trait( trait_NOPAIN ) ) {
             add_msg_if_player( m_bad, _( "You suffer a painful electrical discharge!" ) );
@@ -1226,7 +1227,8 @@ void Character::suffer_from_bad_bionics()
         add_effect( effect_downed, 1_turns, false, 0, true );
         sfx::play_variant_sound( "bionics", "elec_crackle_high", 100 );
     }
-    if( has_bionic( bio_shakes ) && get_power_level() > bio_shakes->power_trigger && one_turn_in( 2_hours ) ) {
+    if( has_bionic( bio_shakes ) && get_power_level() > bio_shakes->power_trigger &&
+        one_turn_in( 2_hours ) ) {
         add_msg_if_player( m_bad, _( "Your bionics short-circuit, causing you to tremble and shiver." ) );
         mod_power_level( -bio_shakes->power_trigger );
         add_effect( effect_shakes, 5_minutes );

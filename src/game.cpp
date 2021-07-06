@@ -4635,7 +4635,7 @@ void game::monmove()
             m.creature_in_field( critter );
         }
 
-        const bionic_id bio_alarm("bio_alarm");
+        const bionic_id bio_alarm( "bio_alarm" );
         if( !critter.is_dead() &&
             u.has_active_bionic( bio_alarm ) &&
             u.get_power_level() >= bio_alarm->power_trigger &&
@@ -10325,7 +10325,7 @@ void game::place_player_overmap( const tripoint_abs_omt &om_dest )
 
 bool game::phasing_move( const tripoint &dest_loc, const bool via_ramp )
 {
-    const bionic_id bio_probability_travel("bio_probability_travel");
+    const bionic_id bio_probability_travel( "bio_probability_travel" );
     const units::energy trigger_cost = bio_probability_travel->power_trigger;
 
     if( !u.has_active_bionic( bio_probability_travel ) ||
@@ -10690,7 +10690,7 @@ void game::on_move_effects()
                 u.mod_power_level( units::from_kilojoule( muscle.fuel_energy() ) * bid->passive_fuel_efficiency );
             }
         }
-        const bionic_id bio_jointservo("bio_jointservo");
+        const bionic_id bio_jointservo( "bio_jointservo" );
         if( u.has_active_bionic( bio_jointservo ) ) {
             if( u.is_running() ) {
                 u.mod_power_level( -bio_jointservo->power_trigger * 1.55 );
