@@ -303,6 +303,9 @@
       { "item": "book_fict_soft_pulp_flashcc", "prob": 2 },
       { "item": "book_fict_soft_pulp_gcapes", "prob": 2 },
       { "item": "book_fict_soft_pulp_yesmurd", "prob": 2 },
+      { "item": "book_anthology_sst", "prob": 2 },
+      { "item": "book_anthology_bk", "prob": 2 },
+      { "item": "book_anthology_cw", "prob": 2 },
       { "item": "novel_pulp", "prob": 1 }
     ]
   },
@@ -338,6 +341,10 @@
       { "item": "book_fict_soft_scifi_dune", "prob": 1 },
       { "item": "book_fict_soft_scifi_zamwe", "prob": 1 },
       { "item": "book_fict_soft_satire_cats", "prob": 1 },
+      { "item": "book_anthology_htloop", "prob": 1 },
+      { "item": "book_anthology_an", "prob": 1 },
+      { "item": "book_anthology_sunvault", "prob": 1 },
+      { "item": "book_anthology_moataatgb", "prob": 1 },
       { "item": "book_fict_soft_pulp_ddive", "prob": 1 }
     ]
   },

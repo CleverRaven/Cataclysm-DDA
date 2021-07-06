@@ -1,0 +1,76 @@
+[
+  {
+    "type": "palette",
+    "id": "mine_palette",
+    "terrain": { "#": "t_rock", " ": "t_rock_floor", "$": "t_rock_floor" },
+    "furniture": { "$": "f_boulder_large" }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "spiral_cw",
+    "object": {
+      "palettes": [ "mine_palette" ],
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "######",
+        "     #",
+        "#### #",
+        "#  # #",
+        "#    #",
+        "######"
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "spiral_ccw",
+    "object": {
+      "palettes": [ "mine_palette" ],
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "######",
+        "#     ",
+        "# ####",
+        "# #  #",
+        "#    #",
+        "######"
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "spiral_boulder_cw",
+    "object": {
+      "palettes": [ "mine_palette" ],
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "$$$$$$",
+        "     $",
+        "$$$$ $",
+        "$  $ $",
+        "$    $",
+        "$$$$$$"
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "spiral_boulder_ccw",
+    "object": {
+      "palettes": [ "mine_palette" ],
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "$$$$$$",
+        "$     ",
+        "$ $$$$",
+        "$ $  $",
+        "$    $",
+        "$$$$$$"
+      ]
+    }
+  }
+]

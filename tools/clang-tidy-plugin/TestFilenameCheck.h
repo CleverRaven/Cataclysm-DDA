@@ -4,6 +4,7 @@
 #include <llvm/ADT/StringRef.h>
 
 #include "ClangTidy.h"
+#include "ClangTidyCheck.h"
 
 namespace clang
 {
@@ -22,7 +23,7 @@ class TestFilenameCheck : public ClangTidyCheck
         TestFilenameCheck( StringRef Name, ClangTidyContext *Context )
             : ClangTidyCheck( Name, Context ) {}
 
-        void registerPPCallbacks( CompilerInstance &Compiler ) override;
+        void registerPPCallbacks( const SourceManager &, Preprocessor *, Preprocessor * ) override;
 };
 
 } // namespace cata

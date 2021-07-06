@@ -2754,6 +2754,12 @@
   },
   {
     "type": "recipe",
+    "result": "blindfold",
+    "id_suffix": "from_tape",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "towel",
     "obsolete": true
   },
@@ -2770,6 +2776,11 @@
   {
     "type": "recipe",
     "result": "rifle_223",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bodypillow",
     "obsolete": true
   }
 ]

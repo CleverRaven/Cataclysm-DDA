@@ -3,7 +3,7 @@
 #include <iostream>
 
 #include "avatar.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "item.h"
 #include "melee.h"
 #include "monster.h"
@@ -466,13 +466,15 @@ TEST_CASE( "expected weapon dps", "[expected][dps]" )
     }
     SECTION( "knives" ) { // expected value 19
         calc_expected_dps( test_guy, "bio_blade_weapon", 24.5 ); // much better than any other knife
-        calc_expected_dps( test_guy, "knife_trench", 18.0 );
-        calc_expected_dps( test_guy, "kirpan", 18.0 );
         calc_expected_dps( test_guy, "knife_combat", 19.0 );
+        calc_expected_dps( test_guy, "knife_trench", 18.0 );
+        calc_expected_dps( test_guy, "knife_baselard", 18.0 );
+        calc_expected_dps( test_guy, "kirpan", 18.0 );
         calc_expected_dps( test_guy, "tanto", 18.0 );
         calc_expected_dps( test_guy, "kris", 18.0 );
         calc_expected_dps( test_guy, "knife_rambo", 17.0 );
         calc_expected_dps( test_guy, "tanto_inferior", 15.0 );
+        calc_expected_dps( test_guy, "bone_knife", 12.0 );
         calc_expected_dps( test_guy, "knife_hunting", 11.0 );
         calc_expected_dps( test_guy, "kirpan_cheap", 11.0 );
         calc_expected_dps( test_guy, "switchblade", 10.5 );

@@ -199,10 +199,24 @@
     "flags": [ "SOURCE_PEOPLE", "NO_ROTATE" ]
   },
   {
+    "id": "faction_base_mansion_e1",
+    "name": "mansion base entrance",
+    "sym": "M",
+    "color": "white",
+    "flags": [ "SOURCE_PEOPLE", "NO_ROTATE" ]
+  },
+  {
     "type": "overmap_terrain",
     "id": "faction_base_evac_center_bathroom_0",
     "name": "evac center base bathroom",
     "sym": "+",
+    "color": "white",
+    "flags": [ "SOURCE_PEOPLE", "NO_ROTATE" ]
+  },
+  {
+    "id": "faction_base_mansion_e2",
+    "name": "mansion base entrance",
+    "sym": "M",
     "color": "white",
     "flags": [ "SOURCE_PEOPLE", "NO_ROTATE" ]
   },
@@ -215,6 +229,13 @@
     "flags": [ "SOURCE_PEOPLE", "NO_ROTATE" ]
   },
   {
+    "id": "faction_base_mansion_t1",
+    "name": "mansion base swimming pool",
+    "sym": "M",
+    "color": "blue",
+    "flags": [ "SOURCE_PEOPLE", "NO_ROTATE" ]
+  },
+  {
     "type": "overmap_terrain",
     "id": "faction_base_evac_center_command_0",
     "name": "evac center base command",
@@ -223,10 +244,24 @@
     "flags": [ "SOURCE_PEOPLE", "NO_ROTATE" ]
   },
   {
+    "id": "faction_base_mansion_t2",
+    "name": "mansion base bedrooms",
+    "sym": "M",
+    "color": "light_green",
+    "flags": [ "SOURCE_PEOPLE", "NO_ROTATE" ]
+  },
+  {
     "type": "overmap_terrain",
     "id": "faction_base_evac_center_warehouse_0",
     "name": "evac center base warehouse",
     "sym": "+",
+    "color": "white",
+    "flags": [ "SOURCE_PEOPLE", "NO_ROTATE" ]
+  },
+  {
+    "id": "faction_base_mansion_t3",
+    "name": "mansion base???",
+    "sym": "M",
     "color": "white",
     "flags": [ "SOURCE_PEOPLE", "NO_ROTATE" ]
   },
@@ -239,11 +274,81 @@
     "flags": [ "SOURCE_PEOPLE", "NO_ROTATE" ]
   },
   {
+    "id": "faction_base_mansion_t4",
+    "name": "mansion base kitchen",
+    "sym": "M",
+    "color": "pink",
+    "flags": [ "SOURCE_PEOPLE", "NO_ROTATE" ]
+  },
+  {
     "type": "overmap_terrain",
     "id": "faction_base_evac_center_workshop_0",
     "name": "evac center base workshop",
     "sym": "+",
     "color": "white",
+    "flags": [ "SOURCE_PEOPLE", "NO_ROTATE" ]
+  },
+  {
+    "id": "faction_base_mansion_t5",
+    "name": "mansion base library",
+    "sym": "M",
+    "color": "brown",
+    "flags": [ "SOURCE_PEOPLE", "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_mansion_t6",
+    "name": "mansion base bedroom",
+    "sym": "M",
+    "color": "light_green",
+    "flags": [ "SOURCE_PEOPLE", "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_mansion_t7",
+    "name": "mansion base living rooms",
+    "sym": "M",
+    "color": "green",
+    "flags": [ "SOURCE_PEOPLE", "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_mansion_c1",
+    "name": "mansion base swimming pool",
+    "sym": "M",
+    "color": "blue",
+    "flags": [ "SOURCE_PEOPLE", "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_mansion_c2",
+    "name": "mansion base bar",
+    "sym": "M",
+    "color": "magenta",
+    "flags": [ "SOURCE_PEOPLE", "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_mansion_c3",
+    "name": "mansion base living rooms",
+    "sym": "M",
+    "color": "green",
+    "flags": [ "SOURCE_PEOPLE", "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_mansion_c4",
+    "name": "mansion base bedroom",
+    "sym": "M",
+    "color": "light_green",
+    "flags": [ "SOURCE_PEOPLE", "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_mansion_c5",
+    "name": "mansion base kitchen",
+    "sym": "M",
+    "color": "pink",
     "flags": [ "SOURCE_PEOPLE", "NO_ROTATE" ]
   }
 ]

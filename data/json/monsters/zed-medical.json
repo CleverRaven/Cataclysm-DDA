@@ -1,0 +1,49 @@
+[
+  {
+    "id": "mon_zombie_medical",
+    "type": "MONSTER",
+    "name": { "str": "zombie medic" },
+    "description": "This shambling corpse is dressed like a medical professional.  Either it was a doctor or only played one on TV.",
+    "copy-from": "mon_zombie",
+    "death_drops": "mon_zombie_medical_death_drops",
+    "color": "blue",
+    "upgrades": { "half_life": 14, "into_group": "GROUP_MEDICAL_UPGRADE" }
+  },
+  {
+    "id": "mon_zombie_medical_brute",
+    "type": "MONSTER",
+    "name": { "str": "medical horror" },
+    "description": "This bulging corpse is dressed like a medical professional.  Its entire body bulges with distended muscles and swollen, festering wounds.",
+    "copy-from": "mon_zombie_brute",
+    "death_drops": "mon_zombie_medical_death_drops",
+    "color": "blue"
+  },
+  {
+    "id": "mon_skeleton_medical",
+    "type": "MONSTER",
+    "name": { "str_sp": "sawbones" },
+    "description": "An overgrowth of ossified tissue has replaced this former medical professional's rotting skin with an organic armor of dense bone.  Large clumps of black goo seep from its joints as it shambles aimlessly, with sickening crackling sounds filling the surrounding air.",
+    "copy-from": "mon_skeleton",
+    "death_drops": "zombie_medical_clothes"
+  },
+  {
+    "id": "mon_zombie_medical_acidic",
+    "type": "MONSTER",
+    "name": { "str_sp": "doctor burns" },
+    "description": "The pale shuffling corpse of a medical professional.  Its skin looks especially thin, with a sticky, yellow fluid flowing through the clearly visible veins.",
+    "copy-from": "mon_zombie_acidic",
+    "death_drops": "mon_zombie_medical_death_drops"
+  },
+  {
+    "id": "mon_zombie_medical_pupa",
+    "type": "MONSTER",
+    "copy-from": "mon_zombie_pupa",
+    "death_drops": "mon_zombie_medical_death_drops"
+  },
+  {
+    "id": "mon_zombie_pupa_medical_decoy",
+    "type": "MONSTER",
+    "copy-from": "mon_zombie_pupa_decoy",
+    "death_drops": "mon_zombie_medical_death_drops"
+  }
+]

@@ -186,7 +186,7 @@
         "Y": "f_trashcan"
       },
       "toilets": { "B": {  } },
-      "vendingmachines": { "%": { "item_group": "vending_drink" }, "F": { "item_group": "vending_food" } },
+      "vendingmachines": { "%": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } },
       "place_loot": [
         { "group": "snacks", "x": [ 19, 20 ], "y": [ 10, 12 ], "chance": 75, "repeat": [ 4, 12 ] },
         { "group": "snacks", "x": [ 19, 20 ], "y": [ 15, 17 ], "chance": 75, "repeat": [ 4, 12 ] },

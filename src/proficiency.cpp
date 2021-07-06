@@ -120,11 +120,11 @@ std::vector<display_proficiency> proficiency_set::display() const
     std::vector<std::pair<std::string, proficiency_id>> sorted_learning;
 
     for( const proficiency_id &cur : known ) {
-        sorted_known.push_back( { cur->name(), cur } );
+        sorted_known.emplace_back( cur->name(), cur );
     }
 
     for( const learning_proficiency &cur : learning ) {
-        sorted_learning.push_back( { cur.id->name(), cur.id } );
+        sorted_learning.emplace_back( cur.id->name(), cur.id );
     }
 
     std::sort( sorted_known.begin(), sorted_known.end(), localized_compare );
@@ -170,7 +170,7 @@ bool proficiency_set::practice( const proficiency_id &practicing, const time_dur
         return false;
     }
     if( !has_practiced( practicing ) ) {
-        learning.push_back( learning_proficiency( practicing, 0_seconds ) );
+        learning.emplace_back( practicing, 0_seconds );
     }
 
     learning_proficiency &current = fetch_learning( practicing );
