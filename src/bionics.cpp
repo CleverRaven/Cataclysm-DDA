@@ -175,7 +175,6 @@ static const bionic_id bio_teleport( "bio_teleport" );
 static const bionic_id bio_time_freeze( "bio_time_freeze" );
 static const bionic_id bio_tools( "bio_tools" );
 static const bionic_id bio_torsionratchet( "bio_torsionratchet" );
-static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
 static const bionic_id bio_water_extractor( "bio_water_extractor" );
 static const bionic_id bio_tools_extend( "bio_tools_extend" );
 // Aftershock stuff!
