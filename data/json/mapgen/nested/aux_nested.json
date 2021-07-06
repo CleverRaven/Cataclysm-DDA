@@ -8,6 +8,16 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "destroyed_glass_door_wall",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_ter_furn_transforms": [ { "transform": "glass_door_wall_2_floor", "x": 0, "y": 0 } ],
+      "place_item": [ { "item": "glass_shard", "x": 0, "y": 0, "repeat": [ 42, 84 ], "chance": 100 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "deployed_small_tent",
     "object": {
       "mapgensize": [ 3, 3 ],

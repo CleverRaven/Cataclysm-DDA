@@ -864,7 +864,7 @@
       "nested": {
         "|": { "chunks": [ [ "bile_field", 1 ], [ "shelter_graffiti", 10 ], [ "general_graffiti", 20 ], [ "null", 75 ] ] },
         "{": { "chunks": [ [ "destroyed_furniture", 20 ], [ "null", 80 ] ] },
-        "D": { "chunks": [ [ "destroyed_furniture", 80 ], [ "null", 20 ] ] },
+        "D": { "chunks": [ [ "destroyed_glass_door_wall", 80 ], [ "null", 20 ] ] },
         "1": { "chunks": [ [ "corpse_blood_casings_3x3", 50 ], [ "null", 50 ] ] }
       }
     }

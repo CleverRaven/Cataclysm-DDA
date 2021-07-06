@@ -280,8 +280,8 @@
         "]": { "chunks": [ [ "destroyed_furniture", 20 ], [ "null", 80 ] ] },
         "t": { "chunks": [ [ "destroyed_furniture", 20 ], [ "null", 80 ] ] },
         "7": { "chunks": [ [ "destroyed_furniture", 10 ], [ "null", 90 ] ] },
-        "[": { "chunks": [ [ "destroyed_furniture", 80 ], [ "null", 20 ] ] },
-        "=": { "chunks": [ [ "destroyed_furniture", 80 ], [ "null", 20 ] ] },
+        "[": { "chunks": [ [ "destroyed_glass_door_wall", 80 ], [ "null", 20 ] ] },
+        "=": { "chunks": [ [ "destroyed_glass_door_wall", 80 ], [ "null", 20 ] ] },
         "f": { "chunks": [ [ "destroyed_furniture", 20 ], [ "null", 80 ] ] }
       }
     }
