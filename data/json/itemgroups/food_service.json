@@ -74,7 +74,11 @@
     "id": "corner_weapon",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "item": "tazer", "prob": 70 }, { "item": "knuckle_brass", "prob": 70 } ]
+    "entries": [
+      { "item": "tazer", "prob": 70, "charges": [ 0, 500 ] },
+      { "item": "knuckle_brass", "prob": 50 },
+      { "item": "knuckle_steel_forged", "prob": 20 }
+    ]
   },
   {
     "id": "displays",
@@ -241,9 +245,9 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "item": "cig", "prob": 50 },
-      { "item": "matches", "prob": 45 },
-      { "item": "rolling_paper", "prob": 10 },
+      { "item": "cig", "prob": 50, "charges": [ 1, 20 ] },
+      { "item": "matches", "prob": 45, "charges": [ 1, 20 ] },
+      { "item": "rolling_paper", "prob": 10, "charges": [ 1, 30 ] },
       { "item": "bottle_glass", "prob": 70 },
       { "item": "bucket", "prob": 5 },
       { "item": "can_drink", "prob": 65 },
@@ -258,13 +262,13 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "item": "weed", "prob": 40 },
-      { "item": "coke", "prob": 40 },
-      { "item": "aspirin", "prob": 40 },
-      { "item": "cig", "prob": 20 },
+      { "item": "weed", "prob": 40, "charges": [ 1, 5 ] },
+      { "item": "coke", "prob": 40, "charges": [ 1, 8 ] },
+      { "item": "aspirin", "prob": 40, "charges": [ 1, 20 ] },
+      { "item": "cig", "prob": 20, "charges": [ 1, 20 ] },
       { "item": "syringe", "prob": 30 },
-      { "item": "meth", "prob": 20 },
-      { "item": "heroin", "prob": 7 },
+      { "item": "meth", "prob": 20, "charges": [ 1, 6 ] },
+      { "item": "heroin", "prob": 7, "charges": [ 1, 4 ] },
       { "item": "mag_porn", "prob": 35 },
       { "item": "hairpin", "prob": 5 },
       { "item": "purse", "prob": 15 }
@@ -342,8 +346,8 @@
     "id": "pizza_table",
     "type": "item_group",
     "items": [
-      [ "cig", 15 ],
-      [ "rolling_paper", 7 ],
+      { "item": "cig", "prob": 15, "charges": [ 1, 20 ] },
+      { "item": "rolling_paper", "prob": 7, "charges": [ 1, 30 ] },
       [ "wrapper", 35 ],
       [ "ceramic_plate", 40 ],
       [ "cup_plastic", 40 ],
@@ -360,8 +364,8 @@
     "type": "item_group",
     "items": [
       [ "towel", 15 ],
-      [ "soap", 15 ],
-      [ "detergent", 15 ],
+      { "item": "soap", "prob": 15, "charges": [ 1, 10 ] },
+      { "item": "detergent", "prob": 15, "charges": [ 1, 20 ] },
       { "item": "bleach", "prob": 15, "charges-min": 1 },
       [ "broom", 13 ],
       [ "dinosuit", 7 ],
@@ -375,10 +379,10 @@
     "id": "pizza_bathroom",
     "type": "item_group",
     "items": [
-      [ "weed", 40 ],
-      [ "coke", 20 ],
-      [ "meth", 1 ],
-      [ "aspirin", 15 ],
+      { "item": "weed", "prob": 40, "charges": [ 1, 5 ] },
+      { "item": "coke", "prob": 20, "charges": [ 1, 8 ] },
+      { "item": "meth", "prob": 1, "charges": [ 1, 6 ] },
+      { "item": "aspirin", "prob": 15, "charges": [ 1, 20 ] },
       [ "mag_porn", 30 ],
       [ "purse", 10 ],
       [ "hairpin", 3 ]
@@ -399,8 +403,8 @@
       [ "mag_news", 7 ],
       [ "hairpin", 10 ],
       [ "flyer", 7 ],
-      [ "glock_19", 5 ],
-      [ "9mm", 3 ]
+      { "item": "glock_19", "prob": 5, "charges": [ 0, 15 ] },
+      { "item": "9mm", "prob": 3, "charges": [ 1, 50 ] }
     ]
   },
   {
@@ -508,8 +512,8 @@
       { "item": "sm_extinguisher", "prob": 10, "charges": 10 },
       { "item": "hat_ball", "prob": 25 },
       { "item": "towel", "prob": 10 },
-      { "item": "soap", "prob": 8 },
-      { "item": "detergent", "prob": 8 },
+      { "item": "soap", "prob": 8, "charges": [ 1, 10 ] },
+      { "item": "detergent", "prob": 8, "charges": [ 1, 20 ] },
       { "item": "rag", "prob": 15 },
       { "item": "broom", "prob": 8 },
       { "item": "bleach", "prob": 8, "charges-min": 1 },
@@ -548,9 +552,9 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "item": "weed", "prob": 10 },
-      { "item": "coke", "prob": 10 },
-      { "item": "aspirin", "prob": 45 },
+      { "item": "weed", "prob": 10, "charges": [ 1, 5 ] },
+      { "item": "coke", "prob": 10, "charges": [ 1, 8 ] },
+      { "item": "aspirin", "prob": 45, "charges": [ 1, 20 ] },
       { "item": "mag_news", "prob": 30 },
       { "item": "purse", "prob": 10 },
       { "item": "hairpin", "prob": 25 }
@@ -647,8 +651,8 @@
       { "item": "knife_steak", "prob": 20 },
       { "item": "sm_extinguisher", "prob": 40, "charges": 10 },
       { "item": "towel", "prob": 40 },
-      { "item": "soap", "prob": 30 },
-      { "item": "detergent", "prob": 30 },
+      { "item": "soap", "prob": 30, "charges": [ 1, 10 ] },
+      { "item": "detergent", "prob": 30, "charges": [ 1, 20 ] },
       { "item": "rag", "prob": 30 },
       { "item": "bleach", "prob": 30, "charges-min": 1 },
       { "item": "vinegar", "prob": 30 },
@@ -661,7 +665,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "bread", "prob": 65 },
-      { "item": "brown_bread", "prob": 50 },
+      { "item": "brown_bread", "prob": 50, "container-item": "bag_plastic" },
       { "item": "cake2", "prob": 10 },
       { "item": "cake3", "prob": 10 },
       { "item": "cornbread", "prob": 35 },

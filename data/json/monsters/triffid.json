@@ -143,6 +143,7 @@
     "upgrades": { "age_grow": 14, "into": "mon_triffid" },
     "special_attacks": [ [ "TRIFFID_GROWTH", 28800 ] ],
     "death_function": [ "NORMAL" ],
+    "fungalize_into": "mon_fungaloid",
     "flags": [ "HEARS", "SMELLS", "NOHEAD", "PARALYZEVENOM" ]
   },
   {
@@ -170,6 +171,7 @@
     "armor_bullet": 3,
     "harvest": "triffid_paralytic",
     "death_function": [ "NORMAL" ],
+    "fungalize_into": "mon_fungaloid",
     "flags": [ "SEES", "SMELLS", "BASHES", "GROUP_BASH", "NOHEAD", "PARALYZEVENOM" ]
   },
   {
@@ -198,6 +200,7 @@
     "harvest": "triffid_queen",
     "special_attacks": [ [ "GROWPLANTS", 20 ] ],
     "death_function": [ "NORMAL" ],
+    "fungalize_into": "mon_fungaloid",
     "flags": [ "HEARS", "SMELLS", "BASHES", "NOHEAD", "PARALYZEVENOM" ]
   },
   {
@@ -249,7 +252,7 @@
     "armor_bash": 4,
     "armor_cut": 6,
     "armor_bullet": 5,
-    "harvest": "triffid_paralytic",
+    "harvest": "triffid_fungal_fighter",
     "attack_effs": [
       { "id": "paralyzepoison", "//": "applying this multiple times makes intensity go up by 3 instead of 1", "duration": 33 },
       { "id": "paralyzepoison", "duration": 33 },

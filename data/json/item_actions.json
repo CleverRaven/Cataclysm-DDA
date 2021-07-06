@@ -61,11 +61,6 @@
   },
   {
     "type": "item_action",
-    "id": "BURROW",
-    "name": { "str": "Burrow through rock" }
-  },
-  {
-    "type": "item_action",
     "id": "GEIGER",
     "name": { "str": "Use geiger counter" }
   },
@@ -718,11 +713,6 @@
     "type": "item_action",
     "id": "PACK_ITEM",
     "name": { "str": "Pack an item" }
-  },
-  {
-    "type": "item_action",
-    "id": "PHEROMONE",
-    "name": { "str": "Squeeze" }
   },
   {
     "type": "item_action",

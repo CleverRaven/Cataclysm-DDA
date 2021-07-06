@@ -24,7 +24,7 @@
         "min_item_volume": "1500 ml",
         "max_contains_volume": "9 L",
         "max_contains_weight": "10 kg",
-        "max_item_length": "60 cm",
+        "max_item_length": "133 cm",
         "moves": 150
       }
     ],
@@ -333,7 +333,7 @@
       {
         "pocket_type": "CONTAINER",
         "holster": true,
-        "min_item_volume": "1250 ml",
+        "min_item_volume": "1000 ml",
         "max_contains_volume": "8 L",
         "max_contains_weight": "8200 g",
         "max_item_length": "120 cm",

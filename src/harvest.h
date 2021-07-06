@@ -88,6 +88,8 @@ class harvest_list
 
         /** Check consistency of all loaded harvest data */
         static void check_consistency();
+        /** Reset all loaded harvest data */
+        static void reset();
 
         bool was_loaded = false;
         void load( const JsonObject &obj, const std::string & );

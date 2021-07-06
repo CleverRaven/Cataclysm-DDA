@@ -142,7 +142,8 @@
       "Inside is a complex, still-squirming mess of strange appendages and organs that bear only a passing resemblance to any natural creature",
       "Beneath the chitin, the meat is covered in thick, bristly hair hiding a chaotic bramble of half-formed, mutated organs",
       "Inside is a tangled mess of organs and tissues that do not appear entirely natural",
-      "Inside the creature you find lungs, hearts, and intestines more like a mammal than a giant bug"
+      "Inside the creature you find lungs, hearts, and intestines more like a mammal than a giant bug",
+      "Despite the apparent death of the whole, some organs still pump, beat, and churn on undisturbed"
     ]
   },
   {
@@ -157,7 +158,9 @@
       "You follow what you think are superflous veins into the deep, finding a gorged, tick-like creature at their convergence",
       "Every cut reveals an organ you can't quite recognize, and you start to wonder what your insides look like by now",
       "You are dizzied by the rainbow coloration of the creature's muscles, clashing with the bloody mess in its guts",
-      "As you cut into its flesh you are disturbed by its sickly-sweet smell, like fermenting fruit"
+      "As you cut into its flesh you are disturbed by its sickly-sweet smell, like fermenting fruit",
+      "There are fist-sized globs of nervous tissue dotted about its insides, sending the corpse into a spasm every time you touch one",
+      "The muscles grow stiff, and begin leaking a dark gray liquid that pools around your feet"
     ]
   },
   {
@@ -245,6 +248,42 @@
   },
   {
     "type": "snippet",
+    "category": "<bug_harvest_wasp_chitin>",
+    "text": [
+      "<bug_harvest_flying_chitin>",
+      "<bug_harvest_general_chitin>",
+      "Its chitin is sturdier than usual for the flying insects, and marked by the struggles of its previous victims",
+      "The stripes on the back of its abdomen are warped into a nauseating spiral you can't tear your eyes away from",
+      "Upon closer inspection, the uniform black stripes reveal themselves to be rows upon rows of glistening eyes",
+      "With each cut, the stinger springs from its sheath, tip bending ever so slightly towards your leg",
+      "The stripes -so uniform at a distance- reveal themselves to be jagged, strangely familiar patterns, like the cursive of an unknown language"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<bug_harvest_wasp_deeper>",
+    "text": [
+      "<bug_harvest_flying_deeper>",
+      "<bug_harvest_general_deeper>",
+      "The chaotic bundle of organs in its torso look much like those of other mutated insects, but as you near the abdomen there's order to the madness: comparatively neat rows of venom-filled glands, each feeding into a reservoir at the base of the stinger",
+      "You open a stomach, releasing a gush of sweet-smelling grey fluid",
+      "For its apparent hunger for meat, its intestines seem almost atrophied",
+      "Your knife reaches the retracted stinger and slips on its smooth surface, opening half a dozen venom glands in the process.  You haven't cut yourself, have you?",
+      "You find a handful of dead grubs underneath its chitin, near a chewed-open venom gland"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<bug_harvest_wasp_queen>",
+    "text": [
+      "Deep, deep within the dead queen you find a smooth, brightly colored plaque the size of your fingernail, reading <number><number>",
+      "Some of the now-familiar venom glands also contain dozens of shiny white eggs, undisturbed by their deadly surroundings",
+      "As you cut into its abdomen you disturb a handful of normal-sized, wingless wasps clinging to a strange, tubular organ.  They crawl a few steps before falling lifelessly to the ground",
+      "Some of the egg clusters are ransacked by fat, white worms tunneling blindly through its flesh"
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "<bug_harvest_acid_chitin>",
     "text": [
       "<bug_harvest_general_chitin>",
@@ -320,7 +359,26 @@
     "text": [
       "<bug_harvest_flying_chitin>.",
       "<bug_harvest_flying_chitin>. <bug_harvest_general_descriptive>.",
-      "<bug_harvest_flying_chitin>. <bug_harvest_general_descriptive>. <bug_harvest_flying_deeper>"
+      "<bug_harvest_flying_chitin>. <bug_harvest_general_descriptive>. <bug_harvest_flying_deeper>."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<wasp_harvest>",
+    "text": [
+      "<arachnid_flying_harvest> <bug_harvest_wasp_deeper>.",
+      "<bug_harvest_wasp_chitin>.",
+      "<bug_harvest_wasp_chitin>. <bug_harvest_general_descriptive>. ",
+      "<bug_harvest_wasp_chitin>. <bug_harvest_general_descriptive>. <bug_harvest_wasp_deeper>."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<wasp_queen_harvest>",
+    "text": [
+      "<bug_harvest_wasp_chitin>. <bug_harvest_wasp_queen>.",
+      "<bug_harvest_flying_chitin>. <bug_harvest_wasp_queen>.",
+      "<bug_harvest_wasp_chitin>. <bug_harvest_wasp_deeper>. <bug_harvest_wasp_queen>."
     ]
   },
   {

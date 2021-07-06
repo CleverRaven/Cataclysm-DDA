@@ -1,7 +1,7 @@
 #include <vector>
 
 #include "avatar.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "character.h"
 #include "damage.h"
 #include "enums.h"
@@ -78,4 +78,36 @@ TEST_CASE( "add_item_to_broken_vehicle_part" )
     //Now part is really broken, adding an item should fail
     const item itm2 = item( "jeans" );
     REQUIRE( !veh_ptr->add_item( *cargo_part, itm2 ) );
+}
+
+TEST_CASE( "starting_bicycle_damaged_pedal" )
+{
+    clear_map();
+    const tripoint test_origin( 60, 60, 0 );
+    const tripoint vehicle_origin = test_origin;
+    map &here = get_map();
+    Character &player_character = get_player_character();
+    vehicle *veh_ptr = here.add_vehicle( vproto_id( "bicycle" ), vehicle_origin, -90_degrees, 0,
+                                         0 );
+    here.board_vehicle( test_origin, &player_character );
+    REQUIRE( player_character.in_vehicle );
+    REQUIRE( veh_ptr->engines.size() == 1 );
+
+    vehicle_part &pedel = veh_ptr->part( veh_ptr->engines[ 0 ] );
+
+    SECTION( "when the pedal has 1/4 hp" ) {
+        veh_ptr->set_hp( pedel, pedel.hp() * 0.25 );
+        // Try starting the engine 100 time because it is random that a combustion engine does fails
+        for( int i = 0; i < 100 ; i++ ) {
+            CHECK( veh_ptr->start_engine( 0 ) );
+        }
+    }
+
+    SECTION( "when the pedal has 0 hp" ) {
+        veh_ptr->set_hp( pedel, 0 );
+
+        CHECK_FALSE( veh_ptr->start_engine( 0 ) );
+    }
+
+    here.detach_vehicle( veh_ptr );
 }
