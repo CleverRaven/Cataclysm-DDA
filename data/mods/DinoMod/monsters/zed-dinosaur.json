@@ -181,7 +181,7 @@
     "armor_cut": 5,
     "armor_bullet": 3,
     "hp": 230,
-    "description": "Massive long jaws drooling black liquid lifted by a huge shuffling dinosaur corpse.",
+    "description": "Massive, long jaws drooling black liquid, lifted by a huge but shuffling dinosaur corpse.",
     "upgrades": { "half_life": 14, "into_group": "GROUP_zianzhousaurus_UPGRADE" },
     "flags": [ "SEES", "SMELLS", "HEARS", "BASHES", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ]
   },
