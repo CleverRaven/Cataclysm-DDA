@@ -13,7 +13,7 @@ def portionize(jo):
     dat = dict()
 
     for member in ["encumbrance", "max_encumbrance",
-                   "coverage", "covers", "sided"]:
+                   "coverage", "covers"]:
         if member in jo:
             dat[member] = jo.pop(member)
 
