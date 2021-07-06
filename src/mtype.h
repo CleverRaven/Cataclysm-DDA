@@ -144,7 +144,7 @@ enum m_flag : int {
     MF_INTERIOR_AMMO,       // Monster contain's its ammo inside itself, no need to load on launch. Prevents ammo from being dropped on disable.
     MF_CLIMBS,              // Monsters that can climb certain terrain and furniture
     MF_PACIFIST,            // Monsters that will never use melee attack, useful for having them use grab without attacking the player
-    MF_KEEP_DISTANCE,       // Attempts to keep a short distance from its current target.
+    MF_KEEP_DISTANCE,       // Attempts to keep a short distance (tracking_distance) from its current target.  The default tracking distance is 8 tiles
     MF_PUSH_MON,            // Monsters that can push creatures out of their way
     MF_PUSH_VEH,            // Monsters that can push vehicles out of their way
     MF_NIGHT_INVISIBILITY,  // Monsters that are invisible in poor light conditions
