@@ -3416,6 +3416,56 @@
     ]
   },
   {
+    "id": "lanyard",
+    "type": "TOOL_ARMOR",
+    "category": "clothing",
+    "symbol": "[",
+    "color": "white",
+    "name": { "str": "lanyard" },
+    "description": "A flat clear plastic sleeve for identification documents, laminated cards, and other small items.  It has a neck strap attached.",
+    "price": 10,
+    "price_postapoc": 1,
+    "material": [ "plastic" ],
+    "flags": [ "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "TARDIS" ],
+    "weight": "250 g",
+    "volume": "250 ml",
+    "longest_side": "5 cm",
+    "bashing": 1,
+    "to_hit": -1,
+    "covers": [ "torso" ],
+    "encumbrance": 0,
+    "material_thickness": 1,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": false,
+        "max_contains_weight": "60 g",
+        "max_contains_volume": "150 ml",
+        "moves": 100,
+        "item_restriction": [
+          "cash_card",
+          "gasdiscount_silver",
+          "gasdiscount_gold",
+          "gasdiscount_platinum",
+          "id_science",
+          "id_military",
+          "id_industrial",
+          "fp_loyalty_card",
+          "robofac_test_data",
+          "icon",
+          "labmap",
+          "FMCNote",
+          "signed_chit",
+          "family_photo",
+          "money_one",
+          "money_ten",
+          "money_twenty",
+          "condom"
+        ]
+      }
+    ]
+  },
+  {
     "type": "GENERIC",
     "id": "broken_tazer_hack",
     "symbol": ",",
