@@ -31,6 +31,7 @@
 #include "pimpl.h"
 #include "point.h"
 #include "type_id.h"
+#include "uistate.h"
 #include "units_fwd.h"
 #include "weather.h"
 

@@ -2726,6 +2726,15 @@
     "to_hit": -3
   },
   {
+    "type": "GENERIC",
+    "//": "Item for meteorologist mission.",
+    "id": "module_meteorologist",
+    "name": { "str": "drone memory bank" },
+    "description": "Allows for storage and recovery of information.  Found in meteorologist drone.",
+    "copy-from": "robot_module_abstract",
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
     "id": "gasdiscount_silver",
     "type": "TOOL",
     "symbol": ",",

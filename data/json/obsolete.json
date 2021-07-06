@@ -551,7 +551,8 @@
     "occupied_bodyparts": [ [ "arm_l", 20 ], [ "hand_l", 5 ] ],
     "act_cost": 50,
     "fake_item": "bio_blaster_gun",
-    "flags": [ "BIONIC_GUN" ]
+    "flags": [ "BIONIC_GUN" ],
+    "cant_remove_reason": "Removing %1$s Fusion Blaster Arm would leave %2$s with a useless stump."
   },
   {
     "id": "fusion_gun",

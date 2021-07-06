@@ -35,6 +35,7 @@
         "description": "Light Industry Office With Glass Walls Base",
         "om_terrains": [ "s_lightindustry_10", "s_lightindustry_scen_10" ]
       },
+      { "id": "faction_base_lighthouse_0", "description": "Lighthouse Base", "om_terrains": [ "lighthouse_ground" ] },
       {
         "id": "faction_base_pottery_cottage_0",
         "description": "Pottery Cottage Camp",

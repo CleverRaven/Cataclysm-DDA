@@ -147,7 +147,7 @@ bool handle_liquid_from_container( item &container, int radius )
 {
     std::vector<item *> remove;
     bool handled = false;
-    for( item *contained : container.contents.all_items_top() ) {
+    for( item *contained : container.all_items_top() ) {
         if( handle_liquid_from_container( contained, container, radius ) ) {
             remove.push_back( contained );
             handled = true;

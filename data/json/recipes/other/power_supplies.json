@@ -184,6 +184,11 @@
     "autolearn": true,
     "book_learn": [ [ "manual_electronics", 7 ], [ "textbook_electronics", 6 ], [ "advanced_electronics", 6 ] ],
     "using": [ [ "soldering_standard", 35 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_carpentry_basic" },
+      { "proficiency": "prof_elec_soldering" }
+    ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
     "components": [
       [ [ "motor_small", 1 ], [ "alternator_bicycle", 1 ], [ "alternator_motorbike", 1 ] ],
@@ -208,6 +213,11 @@
     "autolearn": true,
     "book_learn": [ [ "manual_electronics", 7 ], [ "textbook_electronics", 6 ], [ "advanced_electronics", 6 ] ],
     "using": [ [ "welding_standard", 10 ], [ "soldering_standard", 35 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_carpentry_basic" },
+      { "proficiency": "prof_elec_soldering" }
+    ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
     "components": [
       [ [ "2x4", 30 ], [ "frame_wood", 4 ] ],
@@ -240,6 +250,11 @@
     "autolearn": true,
     "book_learn": [ [ "manual_electronics", 7 ], [ "textbook_electronics", 6 ], [ "advanced_electronics", 6 ] ],
     "using": [ [ "soldering_standard", 35 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_carpentry_basic" },
+      { "proficiency": "prof_elec_soldering" }
+    ],
     "qualities": [
       { "id": "SCREW", "level": 1 },
       { "id": "HAMMER", "level": 2 },
@@ -270,6 +285,11 @@
     "autolearn": true,
     "book_learn": [ [ "manual_electronics", 7 ], [ "textbook_electronics", 6 ], [ "advanced_electronics", 6 ] ],
     "using": [ [ "soldering_standard", 85 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_carpentry_basic" },
+      { "proficiency": "prof_elec_soldering" }
+    ],
     "qualities": [
       { "id": "SCREW", "level": 1 },
       { "id": "HAMMER", "level": 2 },
