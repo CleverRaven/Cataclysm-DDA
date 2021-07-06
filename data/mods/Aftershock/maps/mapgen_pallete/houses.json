@@ -5,6 +5,7 @@
     "id": "standard_afsshelter_palette",
     "toilets": { "t": {  } },
     "terrain": {
+      " ": "t_region_groundcover_urban",
       ".": "t_metal_floor",
       "+": "t_wall_prefab_metal",
       "o": [
