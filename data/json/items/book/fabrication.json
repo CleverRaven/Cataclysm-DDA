@@ -64,8 +64,8 @@
     "required_level": 2,
     "max_level": 4,
     "proficiencies": [
-      { "proficiency": "prof_plasticworking", "time_factor": 0.4, "fail_factor": 0.5 },
-      { "proficiency": "prof_carpentry_basic", "time_factor": 0.4, "fail_factor": 0.5 }
+      { "proficiency": "prof_plasticworking", "time_factor": 0.3, "fail_factor": 0.4 },
+      { "proficiency": "prof_carpentry_basic", "time_factor": 0.2, "fail_factor": 0.2 }
     ],
     "intelligence": 8,
     "time": "30 m"
