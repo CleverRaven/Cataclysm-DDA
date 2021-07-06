@@ -1491,6 +1491,18 @@
     ]
   },
   {
+    "id": "triffid_fungal_fighter",
+    "type": "harvest",
+    "entries": [
+      { "drop": "stick_fiber", "type": "bone", "mass_ratio": 0.4 },
+      { "drop": "veggy", "type": "flesh", "mass_ratio": 0.2 },
+      { "drop": "veggy", "type": "offal", "mass_ratio": 0.05 },
+      { "drop": "stick", "type": "bone", "mass_ratio": 0.05 },
+      { "drop": "venom_paralytic", "type": "offal", "mass_ratio": 0.0075 },
+      { "drop": "triffid_fungicide", "type": "offal", "mass_ratio": 0.0075 }
+    ]
+  },
+  {
     "id": "triffid_queen",
     "type": "harvest",
     "entries": [

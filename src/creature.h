@@ -567,7 +567,7 @@ class Creature : public location, public viewer
         int get_effect_int( const efftype_id &eff_id,
                             const bodypart_id &bp = bodypart_str_id::NULL_ID() ) const;
         /** Returns true if the creature resists an effect */
-        bool resists_effect( const effect &e );
+        bool resists_effect( const effect &e ) const;
 
         // Methods for setting/getting misc key/value pairs.
         void set_value( const std::string &key, const std::string &value );

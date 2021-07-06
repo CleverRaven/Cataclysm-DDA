@@ -119,7 +119,7 @@
     "color": "dark_gray",
     "ammo": "10mm",
     "dispersion": 440,
-    "sight_dispersion": 440,
+    "sight_dispersion": 40,
     "durability": 8,
     "blackpowder_tolerance": 48,
     "min_cycle_recoil": 570,

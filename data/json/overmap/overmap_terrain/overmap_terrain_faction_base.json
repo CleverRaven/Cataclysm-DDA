@@ -192,13 +192,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "faction_base_lightindustry_workshop_0",
-    "name": "industrial workshop",
-    "sym": "I",
-    "color": "cyan",
-    "flags": [ "SOURCE_PEOPLE", "NO_ROTATE" ]
-  },
-  {
     "id": "faction_base_mansion_e1",
     "name": "mansion base entrance",
     "sym": "M",

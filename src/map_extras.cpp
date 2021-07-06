@@ -3189,7 +3189,7 @@ void map_extra::check() const
                 debugmsg( "invalid map extra function (%s) defined for map extra (%s)", generator_id, id.str() );
                 break;
             }
-            MapExtras::all_function_names.push_back( generator_id );
+            MapExtras::all_function_names.push_back( id.str() );
             break;
         }
         case map_extra_method::mapgen: {
@@ -3202,7 +3202,7 @@ void map_extra::check() const
                           id.str() );
                 break;
             }
-            MapExtras::all_function_names.push_back( generator_id );
+            MapExtras::all_function_names.push_back( id.str() );
             break;
         }
         case map_extra_method::null:

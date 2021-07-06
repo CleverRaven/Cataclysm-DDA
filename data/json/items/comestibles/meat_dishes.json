@@ -154,12 +154,10 @@
   },
   {
     "id": "sausage_wasteland",
-    "copy-from": "sausage_raw",
+    "copy-from": "sausage",
     "type": "COMESTIBLE",
     "name": { "str": "wasteland sausage" },
     "description": "Lean sausage made from heavily salt-cured offal, with natural gut casing.  Waste not, want not.",
-    "parasites": 0,
-    "healthy": 0,
     "spoils_in": 1176,
     "quench": -7,
     "fun": -3,

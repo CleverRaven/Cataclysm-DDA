@@ -68,6 +68,7 @@ void clear_character( player &dummy )
     // contents (needs to happen before clear_morale).
     dummy.stomach.empty();
     dummy.guts.empty();
+    dummy.clear_vitamins();
     item food( "debug_nutrition" );
     dummy.consume( food );
 
