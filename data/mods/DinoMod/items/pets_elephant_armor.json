@@ -73,7 +73,7 @@
     "copy-from": "elephant_armor",
     "color": "green",
     "name": { "str": "boiled leather elephant barding with caparison", "str_pl": "boiled leather elephant bardings with caparison" },
-    "description": "A full barding for elephants consisting of boiled leather and cloth undercovering.  This caparison is depicting a battle between a monstrous demon and a regal warrior astride an elephant and wielding an elaborate vajra.  You could put this on a friendly elephant.",
+    "description": "A full barding for elephants, consisting of boiled leather with cloth underneath.  This caparison depicts a battle between a monstrous demon and a regal warrior astride an elephant and wielding an elaborate vajra.  You could put this on a friendly elephant.",
     "price": 30000,
     "price_postapoc": 3000,
     "material": [ "cotton", "leather" ],
