@@ -890,7 +890,7 @@ item item::in_container( const itype_id &cont, const int qty, const bool sealed 
         return *this;
     }
     item container( cont, birthday() );
-    if( container.has_pockets() ) {
+    if( container.is_container() ) {
         if( count_by_charges() ) {
             container.fill_with( *this, qty );
         } else {
@@ -7528,7 +7528,7 @@ std::pair<item_location, item_pocket *> item::best_pocket( const item &it, item_
 
 bool item::spill_contents( Character &c )
 {
-    if( !has_pockets() || is_container_empty() ) {
+    if( !is_container() || is_container_empty() ) {
         return true;
     }
 
@@ -7544,7 +7544,7 @@ bool item::spill_contents( Character &c )
 
 bool item::spill_contents( const tripoint &pos )
 {
-    if( !has_pockets() || is_container_empty() ) {
+    if( !is_container() || is_container_empty() ) {
         return true;
     }
     return contents.spill_contents( pos );
