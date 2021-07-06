@@ -98,7 +98,12 @@
       "place_monsters": [
         { "monster": "GROUP_GROCERY", "x": [ 7, 19 ], "y": 19, "chance": 5 },
         { "monster": "GROUP_PLAGUE_ROACH", "x": [ 7, 19 ], "y": 19, "chance": 20 },
-        { "monster": "GROUP_ROACH", "x": [ 7, 19 ], "y": 19, "chance": 20 }
+        { "monster": "GROUP_ROACH", "x": [ 7, 19 ], "y": 19, "chance": 20 },
+        { "monster": [ "mon_fish_lobster" ], "x": [ 12 ], "y": 17 }
+      ],
+      "place_loot": [
+        { "item": "salt_water", "container-item": "aquarium_medium", "x": [ 12 ], "y": [ 17 ] },
+        { "item": "salt_water", "container-item": "aquarium_medium", "x": [ 13 ], "y": [ 17 ] }
       ]
     }
   },
