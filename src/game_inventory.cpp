@@ -12,6 +12,7 @@
 #include <vector>
 
 #include "activity_type.h"
+#include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "bionics.h"
 #include "bodypart.h"
@@ -20,7 +21,6 @@
 #include "catacharset.h"
 #include "character.h"
 #include "color.h"
-#include "compatibility.h"
 #include "cursesdef.h"
 #include "damage.h"
 #include "debug.h"
@@ -63,21 +63,14 @@ static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
 static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
 static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
 
-static const fault_id fault_bionic_salvaged( "fault_bionic_salvaged" );
-
 static const quality_id qual_ANESTHESIA( "ANESTHESIA" );
 
 static const bionic_id bio_painkiller( "bio_painkiller" );
-static const bionic_id bio_syringe( "bio_syringe" );
-
-static const itype_id itype_syringe( "syringe" );
 
 static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
 static const trait_id trait_SAPROVORE( "SAPROVORE" );
-
-static const json_character_flag json_flag_BIONIC_NPC_USABLE( "BIONIC_NPC_USABLE" );
 
 using item_filter = std::function<bool ( const item & )>;
 using item_location_filter = std::function<bool ( const item_location & )>;
@@ -293,23 +286,23 @@ class armor_inventory_preset: public inventory_selector_preset
             }, _( "WARMTH" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
-                return get_number_string( loc->bash_resist() );
+                return get_decimal_string( loc->bash_resist() );
             }, _( "BASH" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
-                return get_number_string( loc->cut_resist() );
+                return get_decimal_string( loc->cut_resist() );
             }, _( "CUT" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
-                return get_number_string( loc->bullet_resist() );
+                return get_decimal_string( loc->bullet_resist() );
             }, _( "BULLET" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
-                return get_number_string( loc->acid_resist() );
+                return get_decimal_string( loc->acid_resist() );
             }, _( "ACID" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
-                return get_number_string( loc->fire_resist() );
+                return get_decimal_string( loc->fire_resist() );
             }, _( "FIRE" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
@@ -695,7 +688,7 @@ class comestible_inventory_preset : public inventory_selector_preset
                 return _( "Can't drink spilt liquids." );
             }
 
-            if( med.is_medication() && !p.can_use_heal_item( med ) ) {
+            if( med.is_medication() && !p.can_use_heal_item( med ) && !med.is_craft() ) {
                 return _( "Your biology is not compatible with that item." );
             }
 
@@ -915,13 +908,34 @@ class activatable_inventory_preset : public pickup_inventory_preset
             const item &it = *loc;
             const auto &uses = it.type->use_methods;
 
-            auto &comest = it.get_comestible();
+            const auto &comest = it.get_comestible();
             if( comest && !comest->tool.is_null() ) {
                 const bool has = item::count_by_charges( comest->tool )
                                  ? p.has_charges( comest->tool, 1 )
                                  : p.has_amount( comest->tool, 1 );
-                if( !has && !( comest->tool == itype_syringe && p.has_bionic( bio_syringe ) ) ) {
+                if( !has ) {
                     return string_format( _( "You need a %s to consume that!" ), item::nname( comest->tool ) );
+                }
+            }
+            const use_function *consume_drug = it.type->get_use( "consume_drug" );
+            if( consume_drug != nullptr ) { //its a drug)
+                const consume_drug_iuse *consume_drug_use = dynamic_cast<const consume_drug_iuse *>
+                        ( consume_drug->get_actor_ptr() );
+                for( auto &tool : consume_drug_use->tools_needed ) {
+                    const bool has = item::count_by_charges( tool.first )
+                                     ? p.has_charges( tool.first, ( tool.second == -1 ) ? 1 : tool.second )
+                                     : p.has_amount( tool.first, 1 );
+                    if( !has ) {
+                        return string_format( _( "You need a %s to consume that!" ), item::nname( tool.first ) );
+                    }
+                }
+            }
+
+            const use_function *smoking = it.type->get_use( "SMOKING" );
+            if( smoking != nullptr ) {
+                cata::optional<std::string> litcig = iuse::can_smoke( p );
+                if( litcig.has_value() ) {
+                    return _( litcig.value_or( "" ) );
                 }
             }
 
@@ -1077,7 +1091,7 @@ class read_inventory_preset: public pickup_inventory_preset
                 const auto &book = get_book( loc );
                 const int unlearned = book.recipes.size() - get_known_recipes( book );
 
-                return unlearned > 0 ? to_string( unlearned ) : std::string();
+                return unlearned > 0 ? std::to_string( unlearned ) : std::string();
             }, _( "RECIPES" ), unknown );
             append_cell( [ this, &p, unknown ]( const item_location & loc ) -> std::string {
                 if( !is_known( loc ) ) {
@@ -1092,18 +1106,12 @@ class read_inventory_preset: public pickup_inventory_preset
                 }
                 std::vector<std::string> dummy;
 
-                // This is terrible and needs to be removed asap when this entire file is refactored
-                // to use the new avatar class
-                const avatar *u = dynamic_cast<const avatar *>( &p );
-                if( !u ) {
-                    return std::string();
-                }
-                const player *reader = u->get_book_reader( *loc, dummy );
+                const player *reader = p.get_book_reader( *loc, dummy );
                 if( reader == nullptr ) {
                     return std::string();  // Just to make sure
                 }
                 // Actual reading time (in turns). Can be penalized.
-                const int actual_turns = u->time_to_read( *loc, *reader ) / to_moves<int>( 1_turns );
+                const int actual_turns = p.time_to_read( *loc, *reader ) / to_moves<int>( 1_turns );
                 // Theoretical reading time (in turns) based on the reader speed. Free of penalties.
                 const int normal_turns = get_book( loc ).time * reader->read_speed() / to_moves<int>( 1_turns );
                 const std::string duration = to_string_approx( time_duration::from_turns( actual_turns ), false );
@@ -1121,15 +1129,8 @@ class read_inventory_preset: public pickup_inventory_preset
         }
 
         std::string get_denial( const item_location &loc ) const override {
-            // This is terrible and needs to be removed asap when this entire file is refactored
-            // to use the new avatar class
-            const avatar *u = dynamic_cast<const avatar *>( &p );
-            if( !u ) {
-                return std::string();
-            }
-
             std::vector<std::string> denials;
-            if( u->get_book_reader( *loc, denials ) == nullptr && !denials.empty() &&
+            if( p.get_book_reader( *loc, denials ) == nullptr && !denials.empty() &&
                 !loc->type->can_use( "learn_spell" ) ) {
                 return denials.front();
             }
@@ -1193,12 +1194,7 @@ class read_inventory_preset: public pickup_inventory_preset
         }
 
         bool is_known( const item_location &loc ) const {
-            // This is terrible and needs to be removed asap when this entire file is refactored
-            // to use the new avatar class
-            if( const avatar *u = dynamic_cast<const avatar *>( &p ) ) {
-                return u->has_identified( loc->typeId() );
-            }
-            return false;
+            return get_avatar().has_identified( loc->typeId() );
         }
 
         int get_known_recipes( const islot_book &book ) const {
@@ -1311,6 +1307,10 @@ class weapon_inventory_preset: public inventory_selector_preset
             }, _( "WIELD COST" ) );
         }
 
+        bool is_shown( const item_location &loc ) const override {
+            return loc->made_of( phase_id::SOLID );
+        }
+
         std::string get_denial( const item_location &loc ) const override {
             const auto ret = p.can_wield( *loc );
 
@@ -1328,8 +1328,8 @@ class weapon_inventory_preset: public inventory_selector_preset
         }
 
         std::string get_damage_string( float damage, bool display_zeroes = false ) const {
-            return damage ||
-                   display_zeroes ? string_format( "<color_yellow>%g</color>", damage ) : std::string();
+            return ( damage || display_zeroes ) ?
+                   string_format( "<color_yellow>%g</color>", damage ) : std::string();
         }
 
         const player &p;
@@ -1396,54 +1396,12 @@ void game_menus::inv::insert_items( avatar &you, item_location &holster )
         return;
     }
     drop_locations holstered_list = game_menus::inv::holster( you, holster );
-    bool all_pockets_rigid = holster->contents.all_pockets_rigid();
-    contents_change_handler handler;
-    for( drop_location holstered_item : holstered_list ) {
-        if( !holstered_item.first ) {
-            continue;
-        }
-        item &it = *holstered_item.first;
-        bool success = false;
-        if( !it.count_by_charges() ) {
-            if( holster->can_contain( it ) && ( all_pockets_rigid ||
-                                                holster.parents_can_contain_recursive( &it ) ) ) {
 
-                success = holster->put_in( it, item_pocket::pocket_type::CONTAINER,
-                                           /*unseal_pockets=*/true ).success();
-                if( success ) {
-                    handler.add_unsealed( holster );
-                    handler.unseal_pocket_containing( holstered_item.first );
-                    holstered_item.first.remove_item();
-                }
-
-            }
-        } else {
-            int charges = all_pockets_rigid ? holstered_item.second : std::min( holstered_item.second,
-                          holster.max_charges_by_parent_recursive( it ) );
-
-            if( charges > 0 && holster->can_contain_partial( it ) ) {
-                int result = holster->fill_with( it, charges,
-                                                 /*unseal_pockets=*/true,
-                                                 /*allow_sealed=*/true );
-                success = result > 0;
-
-                if( success ) {
-                    handler.add_unsealed( holster );
-                    handler.unseal_pocket_containing( holstered_item.first );
-                    it.charges -= result;
-                    if( it.charges == 0 ) {
-                        holstered_item.first.remove_item();
-                    }
-                }
-            }
-        }
-
-        if( !success ) {
-            you.add_msg_if_player( string_format(
-                                       _( "Could not put %s into %s, aborting." ), it.tname(), holster->tname() ) );
-        }
+    if( !holstered_list.empty() ) {
+        you.assign_activity(
+            player_activity(
+                insert_item_activity_actor( holster, holstered_list ) ) );
     }
-    handler.handle_by( you );
 }
 
 class saw_barrel_inventory_preset: public weapon_inventory_preset
@@ -1836,41 +1794,15 @@ class bionic_install_preset: public inventory_selector_preset
         }
 
         std::string get_denial( const item_location &loc ) const override {
-            const item *it = loc.get_item();
-            const itype *itemtype = it->type;
-            const bionic_id &bid = itemtype->bionic->id;
-
-            if( it->has_flag( flag_FILTHY ) ) {
-                // NOLINTNEXTLINE(cata-text-style): single space after the period for symmetry
-                return _( "/!\\ CBM is highly contaminated. /!\\" );
-            } else if( it->has_flag( flag_NO_STERILE ) ) {
-                // NOLINTNEXTLINE(cata-text-style): single space after the period for symmetry
-                return _( "/!\\ CBM is not sterile. /!\\ Please use autoclave to sterilize." );
-            } else if( it->has_fault( fault_id( "fault_bionic_salvaged" ) ) ) {
-                return _( "CBM already deployed.  Please reset to factory state." );
-            } else if( pa.has_bionic( bid ) ) {
-                return _( "CBM already installed." );
-            } else if( !pa.can_install_cbm_on_bp( get_occupied_bodyparts( bid ) ) ) {
-                return _( "CBM not compatible with patient's body." );
-            } else if( bid->upgraded_bionic &&
-                       !pa.has_bionic( bid->upgraded_bionic ) &&
-                       it->is_upgrade() ) {
-                return _( "No base version installed." );
-            } else if( std::any_of( bid->available_upgrades.begin(),
-                                    bid->available_upgrades.end(),
-                                    std::bind( &player::has_bionic, &pa,
-                                               std::placeholders::_1 ) ) ) {
-                return _( "Superior version installed." );
-            } else if( pa.is_npc() && !bid->has_flag( json_flag_BIONIC_NPC_USABLE ) ) {
-                return _( "CBM not compatible with patient." );
-            } else if( units::energy_max - pa.get_max_power_level() < bid->capacity ) {
-                return _( "Max power capacity already reached." );
-            } else if( !p.has_enough_anesth( *itemtype, pa ) ) {
+            const ret_val<bool> installable = pa.is_installable( loc, true );
+            if( installable.success() && !p.has_enough_anesth( *loc.get_item()->type, pa ) ) {
                 const int weight = units::to_kilogram( pa.bodyweight() ) / 10;
                 const int duration = loc.get_item()->type->bionic->difficulty * 2;
                 const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
                                                     duration * weight;
                 return string_format( _( "%i mL" ), req_anesth.get_tools().front().front().count );
+            } else if( !installable.success() ) {
+                return installable.str();
             }
 
             return std::string();
@@ -1949,32 +1881,8 @@ class bionic_install_surgeon_preset : public inventory_selector_preset
         }
 
         std::string get_denial( const item_location &loc ) const override {
-            const item *it = loc.get_item();
-            const itype *itemtype = it->type;
-            const bionic_id &bid = itemtype->bionic->id;
-
-            if( it->has_flag( flag_FILTHY ) ) {
-                return _( "CBM is filthy." );
-            } else if( it->has_flag( flag_NO_STERILE ) ) {
-                return _( "CBM is not sterile." );
-            } else if( it->has_fault( fault_bionic_salvaged ) ) {
-                return _( "CBM is already deployed." );
-            } else if( pa.has_bionic( bid ) ) {
-                return _( "CBM is already installed." );
-            } else if( bid->upgraded_bionic &&
-                       !pa.has_bionic( bid->upgraded_bionic ) &&
-                       it->is_upgrade() ) {
-                return _( "No base version installed." );
-            } else if( std::any_of( bid->available_upgrades.begin(),
-                                    bid->available_upgrades.end(),
-                                    std::bind( &player::has_bionic, &pa,
-                                               std::placeholders::_1 ) ) ) {
-                return _( "Superior version installed." );
-            } else if( pa.is_npc() && !bid->has_flag( json_flag_BIONIC_NPC_USABLE ) ) {
-                return _( "CBM is not compatible with patient." );
-            }
-
-            return std::string();
+            const ret_val<bool> installable = pa.is_installable( loc, false );
+            return installable.str();
         }
 
     protected:

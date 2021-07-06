@@ -15,8 +15,10 @@
     "color": "yellow",
     "covers": [ "torso" ],
     "coverage": 5,
-    "encumbrance": 4,
+    "encumbrance": 2,
+    "max_encumbrance": 5,
     "pocket_data": [
+      { "max_contains_volume": "1 L", "max_contains_weight": "1500 g", "moves": 100 },
       {
         "max_contains_volume": "2 L",
         "max_contains_weight": "6 kg",
@@ -27,10 +29,11 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Attach what to belt loop?", "holster_msg": "You clip your %s to your %s" },
-    "flags": [ "FANCY", "WAIST", "NO_QUICKDRAW", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "NO_QUICKDRAW", "WATER_FRIENDLY" ]
   },
   {
     "abstract": "judo_belt_abstract",
+    "repairs_like": "scarf",
     "type": "ARMOR",
     "name": { "str": "judo belt template" },
     "description": "This is a template for judo belts.  If found in a game, it is a bug.",
@@ -113,7 +116,7 @@
     "price": 9000,
     "price_postapoc": 250,
     "bashing": 5,
-    "material": [ "leather" ],
+    "material": [ "leather", "steel" ],
     "symbol": "[",
     "color": "brown",
     "covers": [ "torso" ],
@@ -162,8 +165,10 @@
     "color": "brown",
     "covers": [ "torso" ],
     "coverage": 5,
-    "encumbrance": 6,
+    "encumbrance": 2,
+    "max_encumbrance": 5,
     "pocket_data": [
+      { "max_contains_volume": "500 ml", "max_item_volume": "125 ml", "max_contains_weight": "1500 g", "moves": 100 },
       {
         "holster": true,
         "max_contains_volume": "2250 ml",
@@ -191,7 +196,8 @@
     "color": "brown",
     "covers": [ "torso" ],
     "coverage": 15,
-    "encumbrance": 4,
+    "encumbrance": 2,
+    "max_encumbrance": 12,
     "material_thickness": 2,
     "pocket_data": [
       {
@@ -200,16 +206,16 @@
         "max_contains_volume": "1 L",
         "max_contains_weight": "2 kg",
         "max_item_length": "70 cm",
-        "moves": 3,
+        "moves": 20,
         "flag_restriction": [ "SHEATH_KNIFE" ]
       },
-      { "max_contains_volume": "1 L", "max_contains_weight": "1500 g", "moves": 100 },
+      { "max_contains_volume": "1 L", "max_contains_weight": "1500 g", "max_item_length": "40 cm", "moves": 100 },
       {
         "holster": true,
         "min_item_volume": "50 ml",
         "max_contains_volume": "1500 ml",
         "max_contains_weight": "1500 g",
-        "max_item_length": "50 cm",
+        "max_item_length": "70 cm",
         "moves": 50,
         "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
       },
@@ -218,34 +224,34 @@
         "min_item_volume": "50 ml",
         "max_contains_volume": "1500 ml",
         "max_contains_weight": "1500 g",
-        "max_item_length": "50 cm",
+        "max_item_length": "70 cm",
         "moves": 50,
         "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
       },
       {
         "holster": true,
         "min_item_volume": "50 ml",
-        "max_contains_volume": "1500 ml",
+        "max_contains_volume": "1 L",
         "max_contains_weight": "1500 g",
-        "max_item_length": "50 cm",
+        "max_item_length": "70 cm",
         "moves": 50,
         "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
       },
       {
         "holster": true,
         "min_item_volume": "50 ml",
-        "max_contains_volume": "1500 ml",
+        "max_contains_volume": "1 L",
         "max_contains_weight": "1500 g",
-        "max_item_length": "50 cm",
+        "max_item_length": "70 cm",
         "moves": 50,
         "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
       },
       {
         "holster": true,
         "min_item_volume": "50 ml",
-        "max_contains_volume": "1500 ml",
+        "max_contains_volume": "1 L",
         "max_contains_weight": "1500 g",
-        "max_item_length": "50 cm",
+        "max_item_length": "70 cm",
         "moves": 50,
         "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
       }
@@ -270,15 +276,16 @@
     "covers": [ "torso" ],
     "coverage": 20,
     "encumbrance": 2,
+    "max_encumbrance": 12,
     "material_thickness": 2,
     "pocket_data": [
-      { "max_contains_volume": "1 L", "max_contains_weight": "1500 g", "moves": 100 },
+      { "max_contains_volume": "1 L", "max_contains_weight": "1500 g", "max_item_length": "40 cm", "moves": 100 },
       {
         "holster": true,
         "min_item_volume": "50 ml",
         "max_contains_volume": "1500 ml",
         "max_contains_weight": "1500 g",
-        "max_item_length": "50 cm",
+        "max_item_length": "70 cm",
         "moves": 50,
         "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
       },
@@ -287,34 +294,34 @@
         "min_item_volume": "50 ml",
         "max_contains_volume": "1500 ml",
         "max_contains_weight": "1500 g",
-        "max_item_length": "50 cm",
+        "max_item_length": "70 cm",
         "moves": 50,
         "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
       },
       {
         "holster": true,
         "min_item_volume": "50 ml",
-        "max_contains_volume": "1500 ml",
+        "max_contains_volume": "1 L",
         "max_contains_weight": "1500 g",
-        "max_item_length": "50 cm",
+        "max_item_length": "70 cm",
         "moves": 50,
         "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
       },
       {
         "holster": true,
         "min_item_volume": "50 ml",
-        "max_contains_volume": "1500 ml",
+        "max_contains_volume": "1 L",
         "max_contains_weight": "1500 g",
-        "max_item_length": "50 cm",
+        "max_item_length": "70 cm",
         "moves": 50,
         "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
       },
       {
         "holster": true,
         "min_item_volume": "50 ml",
-        "max_contains_volume": "1500 ml",
+        "max_contains_volume": "1 L",
         "max_contains_weight": "1500 g",
-        "max_item_length": "50 cm",
+        "max_item_length": "70 cm",
         "moves": 50,
         "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
       }
@@ -336,6 +343,19 @@
     "looks_like": "leather_belt",
     "color": "yellow",
     "covers": [ "torso" ],
+    "coverage": 5,
+    "material_thickness": 1.5,
+    "pocket_data": [
+      {
+        "holster": true,
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "1000 g",
+        "max_item_length": "70 cm",
+        "moves": 60,
+        "flag_restriction": [ "BELT_CLIP" ]
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Store tool or blade", "holster_msg": "You put your %1$s in your %2$s" },
     "flags": [ "WAIST", "WATER_FRIENDLY" ]
   }
 ]

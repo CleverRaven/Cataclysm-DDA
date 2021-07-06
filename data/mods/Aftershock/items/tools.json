@@ -134,7 +134,7 @@
     "copy-from": "afs_power_cutter",
     "type": "TOOL",
     "name": { "str": "power cutter (on)", "str_pl": "power cutters (on)" },
-    "description": "A huge, gas-powered saw with a diamond blade, currently a whirling blur.  It's consuming gasoline, but can be used a fantastic tool for cutting metal.  You can also use it as a terrifying weapon, if you're into that sort of thing.",
+    "description": "A huge, gas-powered saw with a diamond blade, currently a whirling blur.  It's consuming gasoline, but can be used as a fantastic tool for cutting metal.  You can also use it as a terrifying weapon, if you're into that sort of thing.",
     "cutting": 80,
     "turns_per_charge": 3,
     "revert_to": "afs_power_cutter",
@@ -183,14 +183,14 @@
     "type": "TOOL_ARMOR",
     "copy-from": "UPS_off",
     "name": { "str": "UPS", "str_pl": "UPS's" },
-    "description": "This is a unified power supply, or UPS.  It is a device developed jointly by military and scientific interests for use in combat and the field.  The UPS is designed to power armor and some guns, but drains batteries quickly.  It can be worn around to either leg for ease of access, and it's been waterproofed to protect the delicate electronics.  Has it's own custom battery, with higher capacity and rechargeable, but not removeable",
+    "description": "This is a unified power supply, or UPS.  It is a device developed jointly by military and scientific interests for use in combat and the field.  The UPS is designed to power armor and some guns, but drains batteries quickly.  It can be worn strapped to either leg for ease of access, and it's been waterproofed to protect the delicate electronics.  Has its own custom battery, rechargeable and with higher capacity, but not removable",
     "coverage": 5,
     "ammo": [ "battery" ],
     "encumbrance": 2,
     "covers": [ "leg_l", "leg_r" ],
     "sided": true,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1500 } } ],
-    "flags": [ "RECHARGE", "WAIST", "FRAGILE", "OVERSIZE", "WATERPROOF", "IS_UPS" ]
+    "flags": [ "RECHARGE", "WAIST", "NO_UNLOAD", "NO_RELOAD", "FRAGILE", "OVERSIZE", "WATERPROOF", "IS_UPS" ]
   },
   {
     "id": "adv_UPS_off",

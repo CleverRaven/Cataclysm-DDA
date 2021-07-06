@@ -61,7 +61,7 @@
   {
     "id": "mon_demon_spider",
     "type": "MONSTER",
-    "description": "This spider is the size of a car.  Its huge compound eyes seem to be infinite pools of blackness that seem to suck the light out of the air.  Its maroon carapace is studded with wicked-looking spikes that drip with some kind of viscious black liquid that sizzles when it touches the ground.",
+    "description": "This spider is the size of a car.  Its huge compound eyes seem to be infinite pools of blackness that seem to suck the light out of the air.  Its maroon carapace is studded with wicked-looking spikes that drip with some kind of viscous black liquid that sizzles when it touches the ground.",
     "name": "demon spider",
     "default_faction": "demon_spider",
     "bodytype": "spider",

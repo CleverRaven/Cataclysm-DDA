@@ -143,7 +143,7 @@
       [ "OO---+'" ]
     ],
     "parts": [
-      { "x": 0, "y": 0, "parts": [ "frame_horizontal_2", "roof", "seat", "seatbelt" ] },
+      { "x": 0, "y": 0, "parts": [ "frame_horizontal_2", "roof", "seat_back", "seatbelt" ] },
       { "x": 0, "y": 0, "parts": [ "light_red", "controls", "dashboard" ] },
       { "x": 0, "y": -1, "parts": [ "frame_horizontal_2", "roof", "seat_back_left", "seatbelt" ] },
       { "x": 0, "y": -2, "parts": [ "frame_vertical_T_left", "roof", "door_nw" ] },

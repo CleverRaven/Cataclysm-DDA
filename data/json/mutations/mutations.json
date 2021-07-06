@@ -304,7 +304,8 @@
     "starting_trait": true,
     "valid": false,
     "cancels": [ "INSOMNIA" ],
-    "category": [ "MOUSE", "INSECT" ]
+    "category": [ "MOUSE", "INSECT" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SLEEPY", "add": 24 } ] } ]
   },
   {
     "type": "mutation",
@@ -315,7 +316,8 @@
     "prereqs": [ "MET_RAT" ],
     "cancels": [ "INSOMNIA" ],
     "threshreq": [ "THRESH_MOUSE" ],
-    "category": [ "MOUSE" ]
+    "category": [ "MOUSE" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SLEEPY", "add": 40 } ] } ]
   },
   {
     "type": "mutation",
@@ -349,7 +351,7 @@
     "description": "Your system is rather tolerant of poisons and toxins, and most will affect you less.",
     "starting_trait": true,
     "leads_to": [ "EATPOISON" ],
-    "category": [ "INSECT", "SLIME", "SPIDER", "MEDICAL" ]
+    "category": [ "INSECT", "SLIME", "SPIDER", "MEDICAL", "CEPHALOPOD" ]
   },
   {
     "type": "mutation",
@@ -1060,6 +1062,7 @@
     "starting_trait": true,
     "valid": false,
     "category": [ "MEDICAL" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SLEEPY", "add": -12 } ] } ],
     "cancels": [ "EASYSLEEPER" ]
   },
   {
@@ -2052,6 +2055,7 @@
     "id": "LIGHT_BONES",
     "name": { "str": "Light Bones" },
     "points": 2,
+    "mixed_effect": true,
     "description": "Your bones are very light.  This enables you to move and attack 10% faster, but also reduces your carrying weight by 20% and makes bashing attacks hurt a little more.",
     "category": [ "MOUSE" ],
     "changes_to": [ "HOLLOW_BONES" ],
@@ -2522,7 +2526,7 @@
     "points": 3,
     "visibility": 8,
     "ugliness": 3,
-    "description": "All the hair on your body has turned to long, grass-like leaves.  Apart from being physically striking, these provide you with a minor amount of nutrition while in sunlight when your head is uncovered.  Slightly reduces wet effects.",
+    "description": "All the hair on your body has turned to long, grass-like leaves.  Apart from being physically striking, these provide you with a minor amount of nutrients while in sunlight when your head is uncovered.  Slightly reduces wet effects.",
     "prereqs": [ "PLANTSKIN", "BARK" ],
     "changes_to": [ "LEAVES2" ],
     "category": [ "PLANT", "ELFA" ],
@@ -2535,7 +2539,7 @@
     "points": 6,
     "visibility": 10,
     "ugliness": 5,
-    "description": "Your leaves have grown in size and prominence, with additional leaves sprouting along your arms.  While your arms and head are uncovered, you will photosynthesize additional nutrients while in sunlight.  Reduces wet effects.",
+    "description": "Your leaves have grown in size and prominence, with additional leaves sprouting along your arms.  While your arms and head are uncovered, you will photosynthesize nutrients while in sunlight.  Reduces wet effects.",
     "prereqs": [ "LEAVES" ],
     "prereqs2": [ "TRANSPIRATION" ],
     "threshreq": [ "THRESH_PLANT" ],
@@ -2551,7 +2555,7 @@
     "points": 9,
     "visibility": 12,
     "ugliness": 6,
-    "description": "Your leaves are vibrant, large, and green, and have become a major source of nutrition for your body.  Whenever your arms and head are uncovered you will gain a large amount of nutrition by standing in the sunlight.  Reduces wet effects.",
+    "description": "Your leaves are vibrant, large, and green, and have become a major source of nutrients for your body.  Whenever your arms and head are uncovered you will gain a large amount of nutrients by standing in the sunlight.  Reduces wet effects.",
     "prereqs": [ "LEAVES2" ],
     "prereqs2": [ "TRANSPIRATION" ],
     "threshreq": [ "THRESH_PLANT" ],
@@ -2806,12 +2810,24 @@
   {
     "type": "mutation",
     "id": "INK_GLANDS",
-    "name": "Ink glands",
+    "name": { "str": "Ink glands" },
     "points": 1,
     "visibility": 1,
     "ugliness": 1,
     "description": "Several ink glands have grown onto your torso.  They can be used to spray defensive ink and blind an attacker in an emergency, as long as the torso isn't covered.",
-    "enchantments": [ "MEP_INK_GLAND_SPRAY" ],
+    "enchantments": [
+      {
+        "hit_me_effect": [
+          {
+            "id": "generic_blinding_spray_1",
+            "hit_self": false,
+            "once_in": 15,
+            "message": "Your ink glands spray some ink into %2$s's eyes.",
+            "npc_message": "%1$s's ink glands spray some ink into %2$s's eyes."
+          }
+        ]
+      }
+    ],
     "category": [ "CEPHALOPOD" ]
   },
   {
@@ -2831,7 +2847,8 @@
     "types": [ "CLAWS" ],
     "prereqs": [ "NAILS" ],
     "cancels": [ "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8" ],
-    "category": [ "LIZARD", "BIRD", "CHIMERA" ]
+    "category": [ "LIZARD", "BIRD", "CHIMERA" ],
+    "allowed_items": [ "ALLOWS_TALONS" ]
   },
   {
     "type": "mutation",
@@ -2973,7 +2990,7 @@
     "prereqs": [ "POISRESIST" ],
     "leads_to": [ "EATPOISON" ],
     "changes_to": [ "POISONOUS2" ],
-    "category": [ "SLIME", "TROGLOBITE", "SPIDER" ]
+    "category": [ "SLIME", "TROGLOBITE", "SPIDER", "CEPHALOPOD" ]
   },
   {
     "type": "mutation",
@@ -3161,7 +3178,7 @@
     "points": -3,
     "visibility": 5,
     "ugliness": 9,
-    "description": "You prefer to sustain yourself using your roots and direct nutrient extraction/synthesis.  You can still consume 'food', though, if you have to: you merely prefer it aged a little.",
+    "description": "You prefer to sustain your nutritional needs using your roots and direct nutrient extraction/synthesis.  Your human parts still need the raw caloric bulk of 'food' to keep them going, though, and you handle it a lot easier if it's had time to… age a little.",
     "prereqs": [ "ROOTS2" ],
     "prereqs2": [ "LEAVES" ],
     "threshreq": [ "THRESH_PLANT" ],
@@ -3259,10 +3276,9 @@
     "valid": false,
     "purifiable": false,
     "description": "Between your claws and teeth, you can tunnel through just about anything.",
-    "prereqs": [ "CLAWS_ST" ],
-    "prereqs2": [ "INCISORS" ],
-    "threshreq": [ "THRESH_RAT" ],
-    "category": [ "RAT" ],
+    "prereqs": [ "CLAWS_ST", "PAWS", "PAWS_LARGE" ],
+    "threshreq": [ "THRESH_RAT", "THRESH_LUPINE", "THRESH_URSINE" ],
+    "category": [ "RAT", "LUPINE", "URSINE" ],
     "active": true
   },
   {
@@ -4168,6 +4184,7 @@
   {
     "type": "mutation",
     "id": "LARGE",
+    "flags": [ "LARGE" ],
     "name": { "str": "Inconveniently Large" },
     "points": 0,
     "visibility": 1,
@@ -4186,6 +4203,7 @@
   {
     "type": "mutation",
     "id": "LARGE_OK",
+    "flags": [ "LARGE" ],
     "name": { "str": "Large" },
     "points": 2,
     "visibility": 1,
@@ -4204,6 +4222,7 @@
   {
     "type": "mutation",
     "id": "HUGE",
+    "flags": [ "HUGE" ],
     "name": { "str": "Freakishly Huge" },
     "points": -2,
     "visibility": 4,
@@ -4226,6 +4245,7 @@
   {
     "type": "mutation",
     "id": "HUGE_OK",
+    "flags": [ "HUGE" ],
     "name": { "str": "Huge" },
     "points": 2,
     "visibility": 4,
@@ -4532,6 +4552,7 @@
   {
     "type": "mutation",
     "id": "SMALL",
+    "flags": [ "SMALL" ],
     "name": { "str": "Little" },
     "points": -2,
     "visibility": 5,
@@ -4548,6 +4569,7 @@
   {
     "type": "mutation",
     "id": "SMALL2",
+    "flags": [ "TINY" ],
     "name": { "str": "Tiny" },
     "points": -4,
     "visibility": 8,
@@ -4566,6 +4588,7 @@
   {
     "type": "mutation",
     "id": "SMALL_OK",
+    "flags": [ "TINY" ],
     "name": { "str": "Unassuming" },
     "points": 3,
     "mixed_effect": true,
@@ -4658,7 +4681,7 @@
     "ugliness": 6,
     "description": "Skin tabs and odd flaps of skin surround your mouth.  They don't affect your eating, but are unpleasant to look at.",
     "category": [ "CHIMERA" ],
-    "leads_to": [ "MOUTH_TENTACLES", "MANDIBLES" ]
+    "changes_to": [ "MOUTH_TENTACLES", "MANDIBLES" ]
   },
   {
     "type": "mutation",
@@ -5071,10 +5094,11 @@
     "id": "NO_THIRST",
     "name": { "str": "Metabolic Rehydration" },
     "points": 6,
-    "description": "Your body gets everything it needs from the food that you eat!  You no longer gain hydration from fluids - instead, your thirst will be equal to, and change with, your hunger.",
+    "description": "Your body gets everything it needs from the food that you eat!  You no longer need hydration from fluids.",
     "threshreq": [ "THRESH_MOUSE" ],
     "category": [ "MOUSE" ],
     "cancels": [ "THIRST", "THIRST2", "THIRST3" ],
+    "flags": [ "NO_THIRST" ],
     "purifiable": false
   },
   {
@@ -5833,7 +5857,6 @@
     "types": [ "HANDS" ],
     "changes_to": [ "INSECT_ARMS_OK", "ARACHNID_ARMS" ],
     "prereqs": [ "CHITIN", "CHITIN2", "CHITIN3", "CHITIN_FUR2", "CHITIN_FUR3" ],
-    "prereqs2": [ "ANTENNAE" ],
     "threshreq": [ "THRESH_INSECT", "THRESH_SPIDER" ],
     "category": [ "INSECT", "SPIDER" ],
     "restricts_gear": [ "torso" ],
@@ -6486,6 +6509,18 @@
     "name": { "str": "US Marshal" },
     "points": 0,
     "description": "You are a duly sworn Federal marshal, with nationwide jurisdiction and the authority of the United States of America.",
+    "cancels": [ "PROF_HUB01_ANCILLIARY" ],
+    "valid": false,
+    "purifiable": false,
+    "profession": true
+  },
+  {
+    "type": "mutation",
+    "id": "PROF_HUB01_ANCILLIARY",
+    "name": { "str": "Hub 01 Ancilliary" },
+    "points": 0,
+    "description": "You are known to be a capable and resourceful mercenary at the employ of Hub 01.",
+    "cancels": [ "PROF_FED" ],
     "valid": false,
     "purifiable": false,
     "profession": true

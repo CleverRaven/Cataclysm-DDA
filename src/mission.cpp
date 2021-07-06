@@ -358,7 +358,7 @@ void mission::wrap_up()
                 container, itype_id( "null" ), specific_container_required );
 
             for( std::pair<const itype_id, int> &cnt : matches ) {
-                comps.push_back( item_comp( cnt.first, cnt.second ) );
+                comps.emplace_back( cnt.first, cnt.second );
 
             }
 
@@ -367,10 +367,10 @@ void mission::wrap_up()
             if( remove_container ) {
                 std::vector<item_comp> container_comp = std::vector<item_comp>();
                 if( !empty_container.is_null() ) {
-                    container_comp.push_back( item_comp( empty_container, type->item_count ) );
+                    container_comp.emplace_back( empty_container, type->item_count );
                     player_character.consume_items( container_comp );
                 } else {
-                    container_comp.push_back( item_comp( container, type->item_count ) );
+                    container_comp.emplace_back( container, type->item_count );
                     player_character.consume_items( container_comp );
                 }
             }
@@ -390,7 +390,7 @@ void mission::wrap_up()
                     }
                 }
             } else {
-                comps.push_back( item_comp( type->item_id, item_count ) );
+                comps.emplace_back( type->item_id, item_count );
                 player_character.consume_items( comps );
             }
         }
@@ -597,7 +597,7 @@ void mission::get_all_item_group_matches( std::vector<item *> &items,
 
         //recursively check item contents for target
         if( itm->is_container() && !itm->is_container_empty() ) {
-            std::list<item *> content_list = itm->contents.all_items_top();
+            std::list<item *> content_list = itm->all_items_top();
             std::vector<item *> content = std::vector<item *>();
 
             //list of item into list item*
@@ -733,7 +733,7 @@ character_id mission::get_assigned_player_id() const
     return player_id;
 }
 
-std::string mission::name()
+std::string mission::name() const
 {
     if( type == nullptr ) {
         return "NULL";
@@ -741,7 +741,7 @@ std::string mission::name()
     return type->tname();
 }
 
-mission_type_id mission::mission_id()
+mission_type_id mission::mission_id() const
 {
     if( type == nullptr ) {
         return mission_type_id( "NULL" );

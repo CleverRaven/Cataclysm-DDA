@@ -5,7 +5,7 @@
     "name": "Auroral Wave",
     "description": "A rippling wave of luminous energy spreads from your hands, a beautiful torrent of magnetic force and chill wind.",
     "valid_targets": [ "hostile", "ground" ],
-    "flags": [ "SOMATIC" ],
+    "flags": [ "SOMATIC", "MUST_HAVE_CLASS_TO_LEARN" ],
     "effect": "attack",
     "shape": "cone",
     "extra_effects": [ { "id": "auroral_wave_cold" } ],

@@ -184,6 +184,7 @@
   {
     "type": "mutation",
     "id": "LARGE_DRAGON",
+    "flags": [ "LARGE" ],
     "name": { "str": "Inconvenient Draconic Growth" },
     "points": 0,
     "visibility": 1,
@@ -202,6 +203,7 @@
   {
     "type": "mutation",
     "id": "LARGE_OK_DRAGON",
+    "flags": [ "LARGE" ],
     "name": { "str": "Draconic Growth" },
     "points": 2,
     "visibility": 1,
@@ -220,6 +222,7 @@
   {
     "type": "mutation",
     "id": "HUGE_DRAGON",
+    "flags": [ "HUGE" ],
     "name": { "str": "Freakish Draconic Maturity" },
     "points": -2,
     "visibility": 4,
@@ -281,7 +284,7 @@
     "points": 7,
     "visibility": 2,
     "ugliness": 2,
-    "description": "Your intermal magic has filled you with unimaginable strength, but you can't move as freely as your form once could.  This is no problem.  Strength + 8, Dexterity - 3",
+    "description": "Your internal magic has filled you with unimaginable strength, but you can't move as freely as your form once could.  This is no problem.  Strength + 8, Dexterity - 3",
     "prereqs": [ "DRAGON_STR3" ],
     "category": [ "DRAGON_BLACK" ],
     "threshreq": [ "THRESH_DRAGON_BLACK" ],
@@ -290,6 +293,7 @@
   {
     "type": "mutation",
     "id": "HUGE_OK_DRAGON",
+    "flags": [ "HUGE" ],
     "name": { "str": "Draconic Maturity" },
     "points": 2,
     "visibility": 4,

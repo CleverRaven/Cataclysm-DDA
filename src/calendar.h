@@ -422,6 +422,10 @@ std::string to_string_clipped( const time_duration &d, clipped_align align = cli
  * @param verbose If true, 'less than' and 'more than' will be printed instead of '<' and '>' respectively.
  */
 std::string to_string_approx( const time_duration &dur, bool verbose = true );
+/**
+ * Returns a string that is writable to JSON that is also readable from JSON
+ */
+std::string to_string_writable( const time_duration &dur );
 
 /**
  * A point in the game time. Use `calendar::turn` to get the current point.

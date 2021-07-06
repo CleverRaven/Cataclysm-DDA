@@ -452,7 +452,7 @@
     "transforms_into": "t_tree_coffee_harvested",
     "looks_like": "t_tree_plum",
     "examine_action": "harvest_ter_nectar",
-    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "cherry_harv" } ],
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "coffee_harv" } ],
     "bash": {
       "str_min": 80,
       "str_max": 180,

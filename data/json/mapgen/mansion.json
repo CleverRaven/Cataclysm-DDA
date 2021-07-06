@@ -2737,7 +2737,7 @@
         "=": "f_machinery_old",
         "}": "f_generator_broken"
       },
-      "liquids": { "!": { "liquid": "wine_chardonnay", "amount": [ 100, 1000 ] } },
+      "liquids": { "!": { "liquid": "wine_chardonnay", "amount": [ 100, 500 ] } },
       "place_loot": [ { "item": "deck_of_cards", "x": 16, "y": 11, "chance": 100 } ],
       "items": {
         "%": { "item": "wines_worthy", "chance": 70, "repeat": [ 1, 2 ] },

@@ -137,12 +137,10 @@ struct book_proficiency_bonus {
         bool was_loaded = false;
         void deserialize( JsonIn &jsin );
 
-        book_proficiency_bonus &operator+=( const book_proficiency_bonus &rhs );
-
     private:
         static const float default_time_factor;
         static const float default_fail_factor;
-        static const float default_include_prereqs;
+        static const bool default_include_prereqs;
 };
 
 // a container class for book_proficiency_bonus to make it easy to calculate and compartmentalize
@@ -155,7 +153,11 @@ class book_proficiency_bonuses
     public:
         void add( const book_proficiency_bonus &bonus );
         book_proficiency_bonuses &operator+=( const book_proficiency_bonuses &rhs );
+        // adjustment to the crafting failure malus when missing the proficiency, ranging from 0
+        // (no mitigation) to 1 (full mitigation)
         float fail_factor( const proficiency_id &id ) const;
+        // adjustment to the crafting time malus when missing the proficiency, ranging from 0
+        // (no mitigation) to 1 (full mitigation)
         float time_factor( const proficiency_id &id ) const;
 };
 

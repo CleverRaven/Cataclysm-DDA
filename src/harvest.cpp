@@ -46,7 +46,7 @@ bool harvest_list::is_null() const
     return id == harvest_id::NULL_ID();
 }
 
-bool harvest_list::has_entry_type( std::string type ) const
+bool harvest_list::has_entry_type( const std::string &type ) const
 {
     for( const harvest_entry &entry : entries() ) {
         if( entry.type == type ) {
@@ -152,6 +152,11 @@ void harvest_list::check_consistency()
             debugmsg( "Harvest id %s has invalid leftovers: %s", hl.id.c_str(), hl.leftovers.c_str() );
         }
     }
+}
+
+void harvest_list::reset()
+{
+    harvest_list_factory.reset();
 }
 
 std::list<harvest_entry>::const_iterator harvest_list::begin() const

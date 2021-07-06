@@ -205,6 +205,14 @@ class map
         map &operator=( map && ) = default;
 
         /**
+         * Tinymaps will ocassionally need to skip npc rotation in map::rotate
+         * Here's a little trigger for them to opt out. We won't be doing that here, though
+         */
+        virtual bool skip_npc_rotation() const {
+            return false;
+        }
+
+        /**
          * Sets a dirty flag on the a given cache.
          *
          * If this isn't set, it's just assumed that
@@ -320,7 +328,8 @@ class map
                 return cache.r_hor_cache->has_potential_los( from.xy(), to.xy(), cache ) &&
                        cache.r_hor_cache->has_potential_los( to.xy(), from.xy(), cache ) ;
             }
-            tripoint upper, lower;
+            tripoint upper;
+            tripoint lower;
             std::tie( upper, lower ) = from.z > to.z ? std::make_pair( from, to ) : std::make_pair( to, from );
             // z-bounds depend on the invariant that both points are inbounds and their z are different
             return get_cache( lower.z ).r_up_cache->has_potential_los(
@@ -658,7 +667,7 @@ class map
                                          const std::vector<veh_collision> &collisions );
         // Throws vehicle passengers about the vehicle, possibly out of it
         // Returns change in vehicle orientation due to lost control
-        units::angle shake_vehicle( vehicle &veh, int velocity_before, units::angle direction );
+        units::angle shake_vehicle( vehicle &veh, int velocity_before, const units::angle &direction );
 
         // Actually moves the vehicle
         // Unlike displace_vehicle, this one handles collisions
@@ -688,7 +697,11 @@ class map
         furn_id furn( const point &p ) const {
             return furn( tripoint( p, abs_sub.z ) );
         }
-        void furn_set( const tripoint &p, const furn_id &new_furniture );
+        /**
+        * furn_reset should be true if new_furniture is being set to f_null
+        * when the player is grab-moving furniture
+        */
+        void furn_set( const tripoint &p, const furn_id &new_furniture, bool furn_reset = false );
         void furn_set( const point &p, const furn_id &new_furniture ) {
             furn_set( tripoint( p, abs_sub.z ), new_furniture );
         }
@@ -1079,12 +1092,13 @@ class map
         void spawn_item( const tripoint &p, const itype_id &type_id,
                          unsigned quantity = 1, int charges = 0,
                          const time_point &birthday = calendar::start_of_cataclysm, int damlevel = 0,
-                         const std::set<flag_id> &flags = {} );
+                         const std::set<flag_id> &flags = {}, const std::string &variant = "" );
         void spawn_item( const point &p, const itype_id &type_id,
                          unsigned quantity = 1, int charges = 0,
                          const time_point &birthday = calendar::start_of_cataclysm, int damlevel = 0,
-                         const std::set<flag_id> &flags = {} ) {
-            spawn_item( tripoint( p, abs_sub.z ), type_id, quantity, charges, birthday, damlevel, flags );
+                         const std::set<flag_id> &flags = {}, const std::string &variant = "" ) {
+            spawn_item( tripoint( p, abs_sub.z ), type_id, quantity, charges, birthday, damlevel, flags,
+                        variant );
         }
 
         // FIXME: remove these overloads and require spawn_item to take an
@@ -1092,14 +1106,15 @@ class map
         void spawn_item( const tripoint &p, const std::string &type_id,
                          unsigned quantity = 1, int charges = 0,
                          const time_point &birthday = calendar::start_of_cataclysm, int damlevel = 0,
-                         const std::set<flag_id> &flags = {} ) {
-            spawn_item( p, itype_id( type_id ), quantity, charges, birthday, damlevel, flags );
+                         const std::set<flag_id> &flags = {}, const std::string &variant = "" ) {
+            spawn_item( p, itype_id( type_id ), quantity, charges, birthday, damlevel, flags, variant );
         }
         void spawn_item( const point &p, const std::string &type_id,
                          unsigned quantity = 1, int charges = 0,
                          const time_point &birthday = calendar::start_of_cataclysm, int damlevel = 0,
-                         const std::set<flag_id> &flags = {} ) {
-            spawn_item( tripoint( p, abs_sub.z ), type_id, quantity, charges, birthday, damlevel, flags );
+                         const std::set<flag_id> &flags = {}, const std::string &variant = "" ) {
+            spawn_item( tripoint( p, abs_sub.z ), type_id, quantity, charges, birthday, damlevel, flags,
+                        variant );
         }
         units::volume max_volume( const tripoint &p );
         units::volume free_volume( const tripoint &p );
@@ -1433,7 +1448,8 @@ class map
         }
         // 6 liters at 250 ml per charge
         void place_toilet( const point &p, int charges = 6 * 4 );
-        void place_vending( const point &p, const item_group_id &type, bool reinforced = false );
+        void place_vending( const point &p, const item_group_id &type, bool reinforced = false,
+                            bool lootable = false );
         // places an NPC, if static NPCs are enabled or if force is true
         character_id place_npc( const point &p, const string_id<npc_template> &type );
         void apply_faction_ownership( const point &p1, const point &p2, const faction_id &id );
@@ -1632,7 +1648,6 @@ class map
         void draw_lab( mapgendata &dat );
         void draw_temple( const mapgendata &dat );
         void draw_mine( mapgendata &dat );
-        void draw_spiral( const mapgendata &dat );
         void draw_anthill( const mapgendata &dat );
         void draw_slimepit( const mapgendata &dat );
         void draw_spider_pit( const mapgendata &dat );
@@ -1953,6 +1968,12 @@ class tinymap : public map
     public:
         explicit tinymap( int mapsize = 2, bool zlevels = false );
         bool inbounds( const tripoint &p ) const override;
+
+        /** Sometimes you need to generate and rotate a tinymap without touching npcs */
+        bool skip_npc_rotation() const override {
+            return no_rotate_npcs;
+        }
+        bool no_rotate_npcs = false;
 };
 
 class fake_map : public tinymap

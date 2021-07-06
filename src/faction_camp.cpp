@@ -23,7 +23,6 @@
 #include "clzones.h"
 #include "colony.h"
 #include "color.h"
-#include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "cursesdef.h"
@@ -99,7 +98,6 @@ static const skill_id skill_cutting( "cutting" );
 static const skill_id skill_dodge( "dodge" );
 static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_gun( "gun" );
-static const skill_id skill_mechanics( "mechanics" );
 static const skill_id skill_melee( "melee" );
 static const skill_id skill_speech( "speech" );
 static const skill_id skill_stabbing( "stabbing" );
@@ -478,17 +476,17 @@ static bool update_time_left( std::string &entry, const comp_list &npc_list )
     bool avail = false;
     Character &player_character = get_player_character();
     for( const auto &comp : npc_list ) {
-        if( comp->companion_mission_time_ret < calendar:: turn ) {
-            entry = entry +  _( " [DONE]\n" );
+        if( comp->companion_mission_time_ret < calendar::turn ) {
+            entry += _( " [DONE]\n" );
             avail = true;
         } else {
-            entry = entry + " [" +
-                    to_string( comp->companion_mission_time_ret - calendar::turn ) +
-                    _( " left]\n" );
+            entry += " [" +
+                     to_string( comp->companion_mission_time_ret - calendar::turn ) +
+                     _( " left]\n" );
             avail = player_character.has_trait( trait_DEBUG_HS );
         }
     }
-    entry = entry + _( "\n\nDo you wish to bring your allies back into your party?" );
+    entry += _( "\n\nDo you wish to bring your allies back into your party?" );
     return avail;
 }
 
@@ -498,11 +496,11 @@ static bool update_time_fixed( std::string &entry, const comp_list &npc_list,
     bool avail = false;
     for( const auto &comp : npc_list ) {
         time_duration elapsed = calendar::turn - comp->companion_mission_time;
-        entry = entry + " " +  comp->name + " [" + to_string( elapsed ) + "/" +
-                to_string( duration ) + "]\n";
+        entry += " " +  comp->name + " [" + to_string( elapsed ) + "/" +
+                 to_string( duration ) + "]\n";
         avail |= elapsed >= duration;
     }
-    entry = entry + _( "\n\nDo you wish to bring your allies back into your party?" );
+    entry += _( "\n\nDo you wish to bring your allies back into your party?" );
     return avail;
 }
 
@@ -534,6 +532,7 @@ recipe_id base_camps::select_camp_option( const std::map<recipe_id, translation>
     std::vector<std::string> pos_names;
     int choice = 0;
 
+    pos_names.reserve( pos_options.size() );
     for( const auto &it : pos_options ) {
         pos_names.push_back( it.second.translated() );
     }
@@ -785,7 +784,7 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
         entry = string_format( _( "Notes:\n"
                                   "Send a companion to a nearby forest to cut logs.\n\n"
                                   "Skill used: fabrication\n"
-                                  "Difficulty: 1\n"
+                                  "Difficulty: 2\n"
                                   "Effects:\n"
                                   "> 50%% of trees/trunks at the forest position will be "
                                   "cut down.\n"
@@ -2280,6 +2279,9 @@ void basecamp::start_crafting( const std::string &cur_id, const point &cur_dir,
             components.consume_components();
             for( const item &results : making.create_results( batch_size ) ) {
                 comp->companion_mission_inv.add_item( results );
+                for( const item &byproducts : making.create_byproducts() ) {
+                    comp->companion_mission_inv.add_item( byproducts );
+                }
             }
         }
         return;
@@ -2313,6 +2315,9 @@ static std::pair<size_t, std::string> farm_action( const tripoint_abs_omt &omt_t
 
     //farm_json is what the area should look like according to jsons
     tinymap farm_json;
+    // We're probably going to rotate this tinymap to match the actual map.
+    // Let's make sure we don't move NPCs around when doing this.
+    farm_json.no_rotate_npcs = true;
     // TODO: fix point types
     farm_json.generate( project_to<coords::sm>( omt_tgt ).raw(), calendar::turn );
     //farm_map is what the area actually looks like
@@ -2748,7 +2753,7 @@ void basecamp::recruit_return( const std::string &task, int score )
     int rec_m = 0;
     int appeal = rng( -5, 3 ) + std::min( skill / 3, 3 );
     int food_desire = rng( 0, 5 );
-    while( rec_m >= 0 ) {
+    while( true ) {
         std::string description = _( "NPC Overview:\n\n" );
         description += string_format( _( "Name:  %s\n\n" ), right_justify( recruit->name, 20 ) );
         description += string_format( _( "Strength:        %10d\n" ), recruit->str_max );
@@ -2781,10 +2786,10 @@ void basecamp::recruit_return( const std::string &task, int score )
         description += _( "Select an option:" );
 
         std::vector<std::string> rec_options;
-        rec_options.push_back( _( "Increase Food" ) );
-        rec_options.push_back( _( "Decrease Food" ) );
-        rec_options.push_back( _( "Make Offer" ) );
-        rec_options.push_back( _( "Not Interested" ) );
+        rec_options.emplace_back( _( "Increase Food" ) );
+        rec_options.emplace_back( _( "Decrease Food" ) );
+        rec_options.emplace_back( _( "Make Offer" ) );
+        rec_options.emplace_back( _( "Not Interested" ) );
 
         rec_m = uilist( description, rec_options );
         if( rec_m < 0 || rec_m == 3 || static_cast<size_t>( rec_m ) >= rec_options.size() ) {
@@ -3295,19 +3300,19 @@ void om_range_mark( const tripoint_abs_omt &origin, int range, bool add_notes,
     std::vector<tripoint_abs_omt> note_pts;
     //North Limit
     for( int x = origin.x() - range; x < origin.x() + range + 1; x++ ) {
-        note_pts.push_back( tripoint_abs_omt( x, origin.y() - range, origin.z() ) );
+        note_pts.emplace_back( x, origin.y() - range, origin.z() );
     }
     //South
     for( int x = origin.x() - range; x < origin.x() + range + 1; x++ ) {
-        note_pts.push_back( tripoint_abs_omt( x, origin.y() + range, origin.z() ) );
+        note_pts.emplace_back( x, origin.y() + range, origin.z() );
     }
     //West
     for( int y = origin.y() - range; y < origin.y() + range + 1; y++ ) {
-        note_pts.push_back( tripoint_abs_omt( origin.x() - range, y, origin.z() ) );
+        note_pts.emplace_back( origin.x() - range, y, origin.z() );
     }
     //East
     for( int y = origin.y() - range; y < origin.y() + range + 1; y++ ) {
-        note_pts.push_back( tripoint_abs_omt( origin.x() + range, y, origin.z() ) );
+        note_pts.emplace_back( origin.x() + range, y, origin.z() );
     }
 
     for( auto pt : note_pts ) {
@@ -3479,7 +3484,7 @@ std::vector<item *> basecamp::give_equipment( std::vector<item *> equipment,
         std::vector<std::string> names;
         names.reserve( equipment.size() );
         for( auto &i : equipment ) {
-            names.push_back( i->tname() + " [" + to_string( i->charges ) + "]" );
+            names.push_back( i->tname() + " [" + std::to_string( i->charges ) + "]" );
         }
 
         // Choose item if applicable
@@ -3539,7 +3544,7 @@ std::vector<std::pair<std::string, tripoint_abs_omt>> talk_function::om_building
         std::string om_rnear_id = omt_rnear.id().c_str();
         if( !purge || ( om_rnear_id.find( "faction_base_" ) != std::string::npos &&
                         om_rnear_id.find( "faction_base_camp" ) == std::string::npos ) ) {
-            om_camp_region.push_back( std::make_pair( om_rnear_id, omt_near_pos ) );
+            om_camp_region.emplace_back( om_rnear_id, omt_near_pos );
         }
     }
     return om_camp_region;
@@ -3594,7 +3599,7 @@ std::string basecamp::craft_description( const recipe_id &itm )
 
     std::string comp;
     for( auto &elem : component_print_buffer ) {
-        comp = comp + elem + "\n";
+        str_append( comp, elem, "\n" );
     }
     comp = string_format( _( "Skill used: %s\nDifficulty: %d\n%s\nTime: %s\n" ),
                           making.skill_used.obj().name(), making.difficulty, comp,
@@ -3704,7 +3709,7 @@ std::string basecamp::gathering_description( const std::string &bldg )
         itemnames2.insert( std::pair<int, std::string>( e.second, e.first ) );
     }
     for( const auto &e : itemnames2 ) {
-        output = output + "> " + e.second + "\n";
+        str_append( output, "> ", e.second, "\n" );
     }
     return output;
 }
@@ -3717,13 +3722,13 @@ std::string basecamp::farm_description( const tripoint_abs_omt &farm_pos, size_t
     plots_count = farm_data.first;
     switch( operation ) {
         case farm_ops::harvest:
-            entry += _( "Harvestable: " ) + to_string( plots_count ) + "\n" + farm_data.second;
+            entry += _( "Harvestable: " ) + std::to_string( plots_count ) + "\n" + farm_data.second;
             break;
         case farm_ops::plant:
-            entry += _( "Ready for Planting: " ) + to_string( plots_count ) + "\n";
+            entry += _( "Ready for Planting: " ) + std::to_string( plots_count ) + "\n";
             break;
         case farm_ops::plow:
-            entry += _( "Needs Plowing: " ) + to_string( plots_count ) + "\n";
+            entry += _( "Needs Plowing: " ) + std::to_string( plots_count ) + "\n";
             break;
         default:
             debugmsg( "Farm operations called with no operation" );
