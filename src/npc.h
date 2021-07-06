@@ -177,6 +177,7 @@ class job_data
             const std::pair<activity_id, int> &b ) {
                 return a.second > b.second;
             } );
+            ret.reserve( pairs.size() );
             for( const std::pair<activity_id, int> &elem : pairs ) {
                 ret.push_back( elem.first );
             }
@@ -573,11 +574,17 @@ struct npc_short_term_cache {
     double my_weapon_value = 0;
 
     // Use weak_ptr to avoid circular references between Creatures
+    // attitude of creatures the npc can see
+    std::vector<weak_ptr_fast<Creature>> hostile_guys;
+    std::vector<weak_ptr_fast<Creature>> neutral_guys;
     std::vector<weak_ptr_fast<Creature>> friends;
     std::vector<sphere> dangerous_explosives;
     std::map<direction, float> threat_map;
     // Cache of locations the NPC has searched recently in npc::find_item()
     lru_cache<tripoint, int> searched_tiles;
+    // returns the value of the distance between a friendly creature and the closest enemy to that friendly creature.
+    // returns -1 if not applicable
+    int closest_enemy_to_friendly_distance() const;
 };
 
 // DO NOT USE! This is old, use strings as talk topic instead, e.g. "TALK_AGREE_FOLLOW" instead of
@@ -755,9 +762,9 @@ class npc : public player
 
         npc();
         npc( const npc & ) = delete;
-        npc( npc && );
+        npc( npc && ) noexcept( map_is_noexcept );
         npc &operator=( const npc & ) = delete;
-        npc &operator=( npc && );
+        npc &operator=( npc && ) noexcept( list_is_noexcept );
         ~npc() override;
 
         bool is_player() const override {
@@ -765,6 +772,12 @@ class npc : public player
         }
         bool is_npc() const override {
             return true;
+        }
+        const npc *as_npc() override {
+            return this;
+        }
+        const npc *as_npc() const override {
+            return this;
         }
         void load_npc_template( const string_id<npc_template> &ident );
         void npc_dismount();
@@ -1186,15 +1199,23 @@ class npc : public player
         using player::add_msg_if_npc;
         void add_msg_if_npc( const std::string &msg ) const override;
         void add_msg_if_npc( const game_message_params &params, const std::string &msg ) const override;
+        using player::add_msg_debug_if_npc;
+        void add_msg_debug_if_npc( debugmode::debug_filter type, const std::string &msg ) const override;
         using player::add_msg_player_or_npc;
         void add_msg_player_or_npc( const std::string &player_msg,
                                     const std::string &npc_msg ) const override;
         void add_msg_player_or_npc( const game_message_params &params, const std::string &player_msg,
                                     const std::string &npc_msg ) const override;
+        using player::add_msg_debug_player_or_npc;
+        void add_msg_debug_player_or_npc( debugmode::debug_filter type, const std::string &player_msg,
+                                          const std::string &npc_msg ) const override;
         using player::add_msg_if_player;
         void add_msg_if_player( const std::string &/*msg*/ ) const override {}
         void add_msg_if_player( const game_message_params &/*type*/,
                                 const std::string &/*msg*/ ) const override {}
+        using player::add_msg_debug_if_player;
+        void add_msg_debug_if_player( debugmode::debug_filter /*type*/,
+                                      const std::string &/*msg*/ ) const override {}
         using player::add_msg_player_or_say;
         void add_msg_player_or_say( const std::string &player_msg,
                                     const std::string &npc_speech ) const override;
@@ -1238,6 +1259,9 @@ class npc : public player
         // A temp variable used to link to the correct mission
         std::vector<mission_type_id> miss_ids;
         cata::optional<tripoint_abs_omt> assigned_camp = cata::nullopt;
+
+        // accessors to ai_cache functions
+        int closest_enemy_to_friendly_distance() const;
 
     private:
         npc_attitude attitude = NPCATT_NULL; // What we want to do to the player

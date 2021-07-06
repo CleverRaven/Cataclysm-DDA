@@ -491,6 +491,7 @@
     "description": "The domestic cow, a baleful, ruminating farm animal.  It is quite muscular, and the males can have a violent streak to accompany their nasty-looking horns.  This one looks to be made entirely of chocolate.",
     "copy-from": "mon_cow_calf",
     "harvest": "choc_cows",
+    "biosignature": { "biosig_item": "feces_candy", "biosig_timer": "1 d" },
     "upgrades": { "age_grow": 180, "into": "mon_cow_choc" }
   },
   {
@@ -501,6 +502,7 @@
     "copy-from": "mon_cow",
     "harvest": "choc_cows",
     "starting_ammo": { "milk_raw_choc": 40 },
+    "biosignature": { "biosig_item": "feces_candy", "biosig_timer": "1 d" },
     "reproduction": { "baby_monster": "mon_cow_calf_choc", "baby_count": 1, "baby_timer": 343 }
   },
   {

@@ -43,6 +43,7 @@
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
+      "NO_FUNG_DMG",
       "FILTHY"
     ]
   },
@@ -74,6 +75,7 @@
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
+    "fungalize_into": "mon_zombie_fungus",
     "upgrades": { "half_life": 14, "into_group": "GROUP_ZOMBIE_UPGRADE" },
     "flags": [
       "SEES",
@@ -123,6 +125,7 @@
     "death_drops": "mon_zombie_cop_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
+    "fungalize_into": "mon_zombie_fungus",
     "flags": [
       "SEES",
       "HEARS",
@@ -198,6 +201,7 @@
     "harvest": "zombie_leather",
     "special_attacks": [ [ "DANCE", 30 ] ],
     "death_drops": "mon_zombie_hulk_death_drops",
+    "fungalize_into": "mon_zombie_fungus",
     "death_function": [ "NORMAL" ],
     "regenerates": 50,
     "flags": [ "WARM", "BASHES", "DESTROYS", "NO_BREATHE", "POISON", "FILTHY" ]
@@ -233,6 +237,7 @@
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
+    "fungalize_into": "mon_zombie_fungus",
     "upgrades": { "half_life": 12, "into_group": "GROUP_ZOMBIE_FAT" },
     "flags": [
       "SEES",
@@ -294,6 +299,7 @@
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
+      "NO_FUNG_DMG",
       "FILTHY"
     ]
   },
@@ -340,6 +346,7 @@
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
+      "NO_FUNG_DMG",
       "FILTHY"
     ]
   },
@@ -371,6 +378,7 @@
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
+    "fungalize_into": "mon_zombie_fungus",
     "upgrades": { "half_life": 23, "into": "mon_devourer" },
     "flags": [
       "SEES",
@@ -467,6 +475,7 @@
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
+    "fungalize_into": "mon_zombie_fungus",
     "upgrades": { "half_life": 14, "into_group": "GROUP_ZOMBIE_UPGRADE" },
     "flags": [
       "SEES",
