@@ -321,11 +321,6 @@
   },
   {
     "type": "construction_group",
-    "id": "build_beehive",
-    "name": "Build Beehive"
-  },
-  {
-    "type": "construction_group",
     "id": "build_junk_metal_barrier",
     "name": "Build Junk Metal Barrier"
   },
