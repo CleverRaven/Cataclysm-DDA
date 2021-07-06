@@ -27,7 +27,7 @@
     "method": "json",
     "object": {
       "place_nested": [
-        { "chunks": [ "fbmc_mattress_bed_vertical" ], "x": 5, "y": 7 },
+        { "chunks": [ "fbmc_mattress_bed_vertical" ], "x": 6, "y": 7 },
         { "chunks": [ "fbmc_mattress_bed_vertical" ], "x": 14, "y": 8 }
       ]
     }
@@ -82,7 +82,7 @@
     "method": "json",
     "object": {
       "place_nested": [
-        { "chunks": [ "fbmc_straw_bed_vertical" ], "x": 5, "y": 7 },
+        { "chunks": [ "fbmc_straw_bed_vertical" ], "x": 6, "y": 7 },
         { "chunks": [ "fbmc_straw_bed_vertical" ], "x": 14, "y": 8 }
       ]
     }
