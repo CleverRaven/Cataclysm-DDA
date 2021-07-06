@@ -324,7 +324,7 @@
     "hp": 300,
     "death_function": [ "NORMAL" ],
     "zombify_into": "mon_zyrannosaurus",
-    "description": "Enormous teeth in a massive jaw, fierce eyes and a powerful frame to drive it forward, plus a feathered mullet and tail.",
+    "description": "Enormous teeth in a massive jaw, fierce eyes, and a powerful frame to drive it forward, short arms with large claws, with a feathered mullet and tail.",
     "reproduction": { "baby_egg": "egg_tyrannosaurus", "baby_count": 3, "baby_timer": 24 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
