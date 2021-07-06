@@ -11,6 +11,11 @@
     "context": [  ]
   },
   {
+    "id": "ALLOWS_TALONS",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
     "id": "ALARMCLOCK",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],

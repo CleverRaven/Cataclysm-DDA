@@ -1933,7 +1933,6 @@ void islot_armor::load( const JsonObject &jo )
             }
             body_part_set temp_cover_data;
             assign_coverage_from_json( obj, "covers", temp_cover_data );
-            optional( obj, was_loaded, "sided", sided, false );
             if( temp_cover_data.any() ) {
                 data[0].covers = temp_cover_data;
             }
@@ -1949,7 +1948,6 @@ void islot_armor::load( const JsonObject &jo )
             armor_portion_data tempData;
             body_part_set temp_cover_data;
             assign_coverage_from_json( obj, "covers", temp_cover_data );
-            optional( obj, was_loaded, "sided", sided, false );
             tempData.covers = temp_cover_data;
 
             if( obj.has_array( "encumbrance" ) ) {
@@ -1985,7 +1983,6 @@ void islot_armor::load( const JsonObject &jo )
             optional( jo, was_loaded, "coverage", data[0].coverage, 0 );
             body_part_set temp_cover_data;
             assign_coverage_from_json( jo, "covers", temp_cover_data );
-            optional( jo, was_loaded, "sided", sided, false );
             data[0].covers = temp_cover_data;
         } else { // This item has copy-from and already has taken data from parent
             armor_portion_data child_data;
@@ -2012,12 +2009,13 @@ void islot_armor::load( const JsonObject &jo )
             }
             body_part_set temp_cover_data;
             assign_coverage_from_json( jo, "covers", temp_cover_data );
-            optional( jo, was_loaded, "sided", sided, false );
             if( temp_cover_data.any() ) {
                 data[0].covers = temp_cover_data;
             }
         }
     }
+
+    optional( jo, was_loaded, "sided", sided, false );
 
     optional( jo, was_loaded, "material_thickness", thickness, 0.0f );
     optional( jo, was_loaded, "environmental_protection", env_resist, 0 );
@@ -2631,7 +2629,7 @@ void Item_factory::check_and_create_magazine_pockets( itype &def )
         return;
     }
     // the item we're trying to migrate must actually have data for ammo
-    if( def.magazines.empty() && !( def.gun || def.magazine || def.tool ) ) {
+    if( def.magazines.empty() && !( def.magazine || def.tool ) ) {
         return;
     }
     if( def.tool && def.tool->ammo_id.empty() ) {
@@ -2676,11 +2674,6 @@ void Item_factory::check_and_create_magazine_pockets( itype &def )
         if( def.magazine ) {
             for( const ammotype &amtype : def.magazine->type ) {
                 mag_data.ammo_restriction.emplace( amtype, def.magazine->capacity );
-            }
-        }
-        if( def.gun ) {
-            for( const ammotype &amtype : def.gun->ammo ) {
-                mag_data.ammo_restriction.emplace( amtype, def.gun->clip );
             }
         }
         if( def.tool ) {

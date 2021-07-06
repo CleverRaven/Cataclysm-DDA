@@ -4537,8 +4537,8 @@ nc_color item::color_in_inventory() const
             ret = c_light_red;
         }
     } else if( is_book() ) {
+        const islot_book &tmp = *type->book;
         if( player_character.has_identified( typeId() ) ) {
-            const islot_book &tmp = *type->book;
             if( tmp.skill && // Book can improve skill: blue
                 player_character.get_skill_level_object( tmp.skill ).can_train() &&
                 player_character.get_skill_level( tmp.skill ) >= tmp.req &&
@@ -4555,8 +4555,12 @@ nc_color item::color_in_inventory() const
                            *type ) ) { // Book can't improve skill anymore, but has more recipes: yellow
                 ret = c_yellow;
             }
+        } else if( tmp.skill || type->can_use( "MA_MANUAL" ) ) {
+            // Book can teach you something and hasn't been identified yet
+            ret = c_red;
         } else {
-            ret = c_red; // Book hasn't been identified yet: red
+            // "just for fun" book that they haven't read yet
+            ret = c_light_red;
         }
     }
     return ret;
@@ -8925,7 +8929,7 @@ bool item::use_amount( const itype_id &it, int &quantity, std::list<item> &used,
     // Remember quantity so that we can unseal self
     int old_quantity = quantity;
     std::vector<item *> removed_items;
-    for( item *contained : contents.all_items_ptr( item_pocket::pocket_type::CONTAINER ) ) {
+    for( item *contained : all_items_ptr( item_pocket::pocket_type::CONTAINER ) ) {
         if( contained->use_amount_internal( it, quantity, used, filter ) ) {
             removed_items.push_back( contained );
         }
@@ -10978,4 +10982,72 @@ int item::get_recursive_disassemble_moves( const Character &guy ) const
         }
     }
     return moves;
+}
+
+std::list<const item *> item::all_items_top() const
+{
+    return contents.all_items_top();
+}
+
+std::list<item *> item::all_items_top()
+{
+    return contents.all_items_top();
+}
+
+std::list<const item *> item::all_items_top( item_pocket::pocket_type pk_type ) const
+{
+    return contents.all_items_top( pk_type );
+}
+
+std::list<item *> item::all_items_top( item_pocket::pocket_type pk_type )
+{
+    return contents.all_items_top( pk_type );
+}
+
+std::list<const item *> item::all_items_ptr() const
+{
+    std::list<const item *> all_items_internal;
+    for( int i = static_cast<int>( item_pocket::pocket_type::CONTAINER );
+         i < static_cast<int>( item_pocket::pocket_type::LAST ); i++ ) {
+        std::list<const item *> inserted{ all_items_top_recursive( static_cast<item_pocket::pocket_type>( i ) ) };
+        all_items_internal.insert( all_items_internal.end(), inserted.begin(), inserted.end() );
+    }
+    return all_items_internal;
+}
+
+std::list<const item *> item::all_items_ptr( item_pocket::pocket_type pk_type ) const
+{
+    return all_items_top_recursive( pk_type );
+}
+
+std::list<item *> item::all_items_ptr( item_pocket::pocket_type pk_type )
+{
+    return all_items_top_recursive( pk_type );
+}
+
+std::list<const item *> item::all_items_top_recursive( item_pocket::pocket_type pk_type )
+const
+{
+    std::list<const item *> contained = contents.all_items_top( pk_type );
+    std::list<const item *> all_items_internal{ contained };
+    for( const item *it : contained ) {
+        std::list<const item *> recursion_items = it->all_items_top_recursive( pk_type );
+        all_items_internal.insert( all_items_internal.end(), recursion_items.begin(),
+                                   recursion_items.end() );
+    }
+
+    return all_items_internal;
+}
+
+std::list<item *> item::all_items_top_recursive( item_pocket::pocket_type pk_type )
+{
+    std::list<item *> contained = contents.all_items_top( pk_type );
+    std::list<item *> all_items_internal{ contained };
+    for( item *it : contained ) {
+        std::list<item *> recursion_items = it->all_items_top_recursive( pk_type );
+        all_items_internal.insert( all_items_internal.end(), recursion_items.begin(),
+                                   recursion_items.end() );
+    }
+
+    return all_items_internal;
 }

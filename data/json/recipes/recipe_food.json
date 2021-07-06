@@ -3996,6 +3996,8 @@
       [ [ "flour", 8 ], [ "oatmeal", 8 ], [ "dry_rice", 2 ] ],
       [
         [ "sugar", 16 ],
+        [ "peanutbutter", 4 ],
+        [ "peanutbutter_imitation", 4 ],
         [ "artificial_sweetener", 16 ],
         [ "syrup", 1 ],
         [ "beet_syrup", 1 ],

@@ -602,7 +602,7 @@ void check_region_settings()
         const std::string &region_name = p.first;
         const regional_settings &region = p.second;
         for( const std::pair<const std::string, map_extras> &p2 : region.region_extras ) {
-            const std::string extras_name = p.first;
+            const std::string extras_name = p2.first;
             const map_extras &extras = p2.second;
             if( extras.chance == 0 ) {
                 continue;
@@ -734,17 +734,25 @@ void apply_region_overlay( const JsonObject &jo, regional_settings &region )
             continue;
         }
         JsonObject zonejo = zone.get_object();
+        map_extras &extras = region.region_extras[zone.name()];
 
         int tmpval = 0;
         if( zonejo.read( "chance", tmpval ) ) {
-            region.region_extras[zone.name()].chance = tmpval;
+            extras.chance = tmpval;
         }
 
         for( const JsonMember member : zonejo.get_object( "extras" ) ) {
             if( member.is_comment() ) {
                 continue;
             }
-            region.region_extras[zone.name()].values.add_or_replace( member.name(), member.get_int() );
+            extras.values.add_or_replace( member.name(), member.get_int() );
+        }
+
+        // It's possible that all the entries of the weighted list have their
+        // weights set to zero by this overlay.  In that case we want to reset
+        // the chance to zero.
+        if( !extras.values.is_valid() ) {
+            extras.chance = 0;
         }
     }
 
