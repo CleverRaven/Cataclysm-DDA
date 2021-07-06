@@ -13190,3 +13190,9 @@ bool Character::has_flag( const json_character_flag &flag ) const
     // If this is a performance problem create a map of flags stored for a character and updated on trait, mutation, bionic add/remove, activate/deactivate, effect gain/loss
     return has_trait_flag( flag ) || has_bionic_with_flag( flag ) || has_effect_with_flag( flag );
 }
+
+bool Character::is_driving() const
+{
+    const optional_vpart_position vp = get_map().veh_at( pos() );
+    return vp && vp->vehicle().is_moving() && vp->vehicle().player_in_control( *this );
+}
