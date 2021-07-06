@@ -791,7 +791,7 @@
     "react_cost": "3 J",
     "time": 1,
     "flags": [ "BIONIC_TOGGLED" ],
-    "enchantments": [ { "condition": "ACTIVE", "values": [ { "value": "LUMINATION", "add": 60 } ] } ]
+    "enchantments": [ "ENCH_BIO_FLASHLIGHT" ]
   },
   {
     "id": "bio_tattoo_led",
@@ -802,7 +802,7 @@
     "react_cost": "1 J",
     "time": 1,
     "flags": [ "BIONIC_TOGGLED" ],
-    "enchantments": [ { "condition": "ACTIVE", "values": [ { "value": "LUMINATION", "add": 5 } ] } ]
+    "enchantments": [ "ENCH_BIO_LED_TATTOO" ]
   },
   {
     "id": "bio_glowy",
