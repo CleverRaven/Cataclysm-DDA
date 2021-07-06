@@ -93,7 +93,7 @@
     "id": "mon_albertosaurus_juvenile",
     "type": "MONSTER",
     "name": "red and white two-legged juvenile",
-    "description": "A small bipedal meat-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
+    "description": "A small, bipedal, meat-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
     "default_faction": "albertosaurus_juvenile",
     "copy-from": "mon_gallimimus_juvenile",
     "color": "light_red_white",
