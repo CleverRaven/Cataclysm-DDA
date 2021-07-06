@@ -7,7 +7,7 @@
       "***LAB***\nAuthorized Personnel Only",
       "Restricted\nAccess\nArea",
       "Be Prepared to present ID",
-      "No civilians beyond this point"
+      "No visitors beyond this point"
     ]
   },
   {
@@ -48,7 +48,7 @@
       "There have been\n[4]\ndays without a life-threatening workplace accident",
       "Be Alert, Don't get Hurt!",
       "Safety First\nWork Safely",
-      "<color_white_red>THINK!</color>\n<color_white_red>DON'T CONTAMINATE!</color>\n<color_white>Don't store food in sample refridgerators!</color>",
+      "<color_white_red>THINK!</color>\n<color_white_red>DON'T CONTAMINATE!</color>\n<color_white>Don't store food in sample refrigerators!</color>",
       "Report ALL Accidents",
       "Think!\nDo it the safe way.\nDo it the right way.\nDo it everyday.",
       "3 causes of accidents are\nI didn't think\nI didn't see\nI didn't know",
@@ -67,6 +67,7 @@
     "text": [
       "<color_red>For Country</color>\n<color_white>    For</color>\n    <color_cyan>Mom</color>",
       "<color_white_red>Report any unusual or new symptoms</color>",
+      "<color_white_red>Report any unusual or new manifestations</color>",
       "  Thank You\n    For\nYour Service",
       " <color_white_cyan> Remember:\nYou're our\n best hope</color>",
       "<color_white>Go Boldly Into Your Future!</color>",
