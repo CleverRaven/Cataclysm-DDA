@@ -117,7 +117,7 @@
     "copy-from": "elephant_armor",
     "color": "green",
     "name": { "str": "boiled leather elephant barding with bones", "str_pl": "boiled leather elephant bardings with bones" },
-    "description": "Decorative bones affixed to leather elephant barding to invoke fear in bandits and raiders and traders all!  You could put this on a friendly elephant.",
+    "description": "Leather elephant barding with decorative bones affixed, meant to invoke fear in bandits and raiders and traders all!  You could put this on a friendly elephant.",
     "price": 45000,
     "price_postapoc": 3000,
     "material": [ "bone", "leather" ],
