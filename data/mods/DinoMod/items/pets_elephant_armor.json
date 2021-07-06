@@ -29,7 +29,7 @@
     "copy-from": "elephant_armor",
     "color": "green",
     "name": { "str": "biosilicified chitin elephant armor" },
-    "description": "A makeshift assembly of criniere, peytral and croupiere made from biosilicified chitin fitted to a thin mesh.  You could put this on a friendly elephant.",
+    "description": "A makeshift assembly of criniere, peytral, and croupiere made from biosilicified chitin fitted to a thin mesh.  You could put this on a friendly elephant.",
     "price": 120000,
     "price_postapoc": 8000,
     "material": [ "acidchitin", "steel" ],
