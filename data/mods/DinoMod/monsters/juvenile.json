@@ -201,7 +201,7 @@
     "name": "brown sauropod juvenile",
     "copy-from": "mon_gallimimus_juvenile",
     "looks_like": "mon_apatosaurus",
-    "description": "A huge four-legged plant-eating juvenile sauropod with a long neck and tail, it could be from a number of different species.",
+    "description": "A huge, four-legged, plant-eating juvenile sauropod with a long neck and tail, it could be from a number of different species.",
     "color": "brown",
     "volume": "1000 L",
     "weight": "1000 kg",
