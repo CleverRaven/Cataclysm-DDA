@@ -87,7 +87,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "update_mapgen_id": "mx_exodii_crash_big_1",
+    "update_mapgen_id": "mx_exodii_crash_big_2",
     "object": {
       "rows": [
         "          .   .         ",
