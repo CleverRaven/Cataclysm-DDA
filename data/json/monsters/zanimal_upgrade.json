@@ -100,6 +100,7 @@
     "description": "This former wild boar appears to have been a truly massive specimen in life.  Stretching eight to nine feet in length, the most arresting feature of this animal is that the enamel of its tusks has spread across its face leaving a skull-like appearance with deep-set eyeholes.",
     "diff": 2,
     "color": "red",
+    "weight": "281 kg",
     "proportional": { "hp": 1.5, "speed": 1.5, "attack_cost": 1.5 },
     "relative": {
       "melee_dice": 1,
@@ -121,6 +122,7 @@
     "description": "Billowing clouds of yellow-streaked gas precede boar-shaped shadows.  Glimpses of a zombie boar are quickly obscured by the gases leaving its body through open wounds.",
     "diff": 5,
     "color": "red",
+    "weight": "150 kg",
     "harvest": "exempt",
     "emit_fields": [ { "emit_id": "emit_tear_gas_stream", "delay": "1 s" } ],
     "death_function": [ "TEARBURST" ],

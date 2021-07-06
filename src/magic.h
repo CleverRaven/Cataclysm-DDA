@@ -557,6 +557,8 @@ class spell
         void cast_all_effects( Creature &source, const tripoint &target ) const;
         // uses up the components in @guy's inventory
         void use_components( Character &guy ) const;
+        // checks if the spell's component is in the @guy's hand
+        bool check_if_component_in_hand( Character &guy ) const;
         // checks if a target point is in spell range
         bool is_target_in_range( const Creature &caster, const tripoint &p ) const;
 

@@ -2247,6 +2247,26 @@ class item : public visitable
         std::list<item> remove_items_with( const std::function<bool( const item & )> &filter,
                                            int count = INT_MAX ) override;
 
+        /** returns a list of pointers to all top-level items that are not mods */
+        std::list<const item *> all_items_top() const;
+        /** returns a list of pointers to all top-level items that are not mods */
+        std::list<item *> all_items_top();
+        /** returns a list of pointers to all top-level items */
+        std::list<const item *> all_items_top( item_pocket::pocket_type pk_type ) const;
+        /** returns a list of pointers to all top-level items */
+        std::list<item *> all_items_top( item_pocket::pocket_type pk_type );
+
+        /**
+         * returns a list of pointers to all items inside recursively
+         * includes mods.  used for item_location::unpack()
+         */
+        std::list<const item *> all_items_ptr() const;
+        /** returns a list of pointers to all items inside recursively */
+        std::list<const item *> all_items_ptr( item_pocket::pocket_type pk_type ) const;
+        /** returns a list of pointers to all items inside recursively */
+        std::list<item *> all_items_ptr( item_pocket::pocket_type pk_type );
+
+
     private:
         /** migrates an item into this item. */
         void migrate_content_item( const item &contained );
@@ -2276,6 +2296,9 @@ class item : public visitable
 
         /** Helper for checking reloadability. **/
         bool is_reloadable_helper( const itype_id &ammo, bool now ) const;
+
+        std::list<item *> all_items_top_recursive( item_pocket::pocket_type pk_type );
+        std::list<const item *> all_items_top_recursive( item_pocket::pocket_type pk_type ) const;
 
         void armor_encumbrance_info( std::vector<iteminfo> &info, int reduce_encumbrance_by = 0 ) const;
 

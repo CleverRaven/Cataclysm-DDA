@@ -436,7 +436,7 @@ class monster : public Creature
          * @param vol Volume at the center of the sound source
          * @param distance Distance to sound source (currently just rl_dist)
          */
-        void hear_sound( const tripoint &source, int vol, int distance );
+        void hear_sound( const tripoint &source, int vol, int distance, bool provocative );
 
         bool is_hallucination() const override;    // true if the monster isn't actually real
 
@@ -458,6 +458,7 @@ class monster : public Creature
                                           const std::string &npc_msg ) const override;
         // TEMP VALUES
         tripoint wander_pos; // Wander destination - Just try to move in that direction
+        bool provocative_sound = false; // Are we wandering toward something we think is alive?
         int wandf = 0;       // Urge to wander - Increased by sound, decrements each move
         std::vector<item> inv; // Inventory
         Character *mounted_player = nullptr; // player that is mounting this creature

@@ -1865,6 +1865,13 @@ void options_manager::add_options_graphics()
 
     get_option( "TILES" ).setPrerequisite( "USE_TILES" );
 
+    add( "USE_TILES_OVERMAP", "graphics", to_translation( "Use tiles to display overmap" ),
+         to_translation( "If true, replaces some TTF-rendered text with tiles for overmap display." ),
+         false, COPT_CURSES_HIDE
+       );
+
+    get_option( "USE_TILES_OVERMAP" ).setPrerequisite( "USE_TILES" );
+
     add_empty_line();
 
     add( "MEMORY_MAP_MODE", "graphics", to_translation( "Memory map overlay preset" ),
@@ -2553,6 +2560,7 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
         } catch( const std::exception &err ) {
             popup( _( "Loading the tileset failed: %s" ), err.what() );
             use_tiles = false;
+            use_tiles_overmap = false;
         }
     } else if( ingame && pixel_minimap_option && pixel_minimap_height_changed ) {
         g->mark_main_ui_adaptor_resize();
@@ -3125,6 +3133,7 @@ static void update_options_cache()
     // cache to global due to heavy usage.
     trigdist = ::get_option<bool>( "CIRCLEDIST" );
     use_tiles = ::get_option<bool>( "USE_TILES" );
+    use_tiles_overmap = ::get_option<bool>( "USE_TILES_OVERMAP" );
     log_from_top = ::get_option<std::string>( "LOG_FLOW" ) == "new_top";
     message_ttl = ::get_option<int>( "MESSAGE_TTL" );
     message_cooldown = ::get_option<int>( "MESSAGE_COOLDOWN" );

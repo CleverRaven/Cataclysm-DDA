@@ -320,10 +320,10 @@
     "symbol": "[",
     "looks_like": "plastic_shopping_bag",
     "color": "light_gray",
+    "sided": true,
     "armor_portion_data": [
       { "covers": [ "arm_l", "arm_r" ], "coverage": 4, "encumbrance": [ 30, 33 ] },
-      { "covers": [ "hand_l", "hand_r" ], "coverage": 4, "encumbrance": [ 30, 32 ] },
-      { "sided": true }
+      { "covers": [ "hand_l", "hand_r" ], "coverage": 4, "encumbrance": [ 30, 32 ] }
     ],
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "5 L", "max_contains_weight": "15 kg", "moves": 300 } ],
     "material_thickness": 1,
@@ -1063,10 +1063,10 @@
     "material": [ "plastic" ],
     "symbol": "[",
     "color": "white",
+    "sided": true,
     "armor_portion_data": [
       { "covers": [ "arm_l", "arm_r" ], "coverage": 4, "encumbrance": [ 1, 30 ] },
-      { "covers": [ "hand_l", "hand_r" ], "coverage": 4, "encumbrance": [ 1, 30 ] },
-      { "sided": true }
+      { "covers": [ "hand_l", "hand_r" ], "coverage": 4, "encumbrance": [ 1, 30 ] }
     ],
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "5 L", "max_contains_weight": "3 kg", "moves": 150 } ],
     "material_thickness": 0.01,
@@ -1489,10 +1489,10 @@
     "symbol": "[",
     "looks_like": "duffelbag",
     "color": "brown",
+    "sided": true,
     "armor_portion_data": [
       { "covers": [ "hand_l", "hand_r" ], "coverage": 5, "encumbrance": [ 4, 48 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 5, "encumbrance": [ 4, 48 ] },
-      { "sided": true }
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 5, "encumbrance": [ 4, 48 ] }
     ],
     "pocket_data": [
       {

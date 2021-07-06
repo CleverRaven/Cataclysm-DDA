@@ -1960,6 +1960,8 @@ class Character : public Creature, public visitable
         std::string name;
         bool male = false;
 
+        bool is_dead = false;
+
         std::list<item> worn;
         bool nv_cached = false;
         // Means player sit inside vehicle on the tile he is now
@@ -2350,6 +2352,10 @@ class Character : public Creature, public visitable
         void vitamins_mod( const std::map<vitamin_id, int> &, bool capped = true );
         /** Get vitamin usage rate (minutes per unit) accounting for bionics, mutations and effects */
         time_duration vitamin_rate( const vitamin_id &vit ) const;
+        /** Modify vitamin intake (e.g. due to effects) */
+        std::map<vitamin_id, int> effect_vitamin_mod( const std::map<vitamin_id, int> & );
+        /** Remove all vitamins */
+        void clear_vitamins();
 
         /** Handles the nutrition value for a comestible **/
         int nutrition_for( const item &comest ) const;

@@ -424,13 +424,16 @@ TEST_CASE( "tools use charge to craft", "[crafting][charge]" )
 
         // Tools needed:
         tools.emplace_back( "screwdriver" );
-        tools.emplace_back( "mold_plastic" );
+        tools.emplace_back( "vac_mold" );
+
 
         // Materials needed
         tools.insert( tools.end(), 10, item( "solder_wire" ) );
         tools.insert( tools.end(), 6, item( "plastic_chunk" ) );
         tools.insert( tools.end(), 2, item( "blade" ) );
         tools.insert( tools.end(), 5, item( "cable" ) );
+        tools.insert( tools.end(), 2, item( "polycarbonate_sheet" ) );
+        tools.insert( tools.end(), 1, item( "knife_paring" ) );
         tools.emplace_back( "motor_tiny" );
         tools.emplace_back( "power_supply" );
         tools.emplace_back( "scrap" );
@@ -440,12 +443,15 @@ TEST_CASE( "tools use charge to craft", "[crafting][charge]" )
         // - 10 charges of surface heat
 
         WHEN( "each tool has enough charges" ) {
-            item hotplate = tool_with_ammo( "hotplate", 20 );
-            REQUIRE( hotplate.ammo_remaining() == 20 );
+            item hotplate = tool_with_ammo( "hotplate", 30 );
+            REQUIRE( hotplate.ammo_remaining() == 30 );
             tools.push_back( hotplate );
             item soldering = tool_with_ammo( "soldering_iron", 20 );
             REQUIRE( soldering.ammo_remaining() == 20 );
             tools.push_back( soldering );
+            item plastic_molding = tool_with_ammo( "vac_mold", 4 );
+            REQUIRE( plastic_molding.ammo_remaining() == 4 );
+            tools.push_back( plastic_molding );
 
             THEN( "crafting succeeds, and uses charges from each tool" ) {
                 prep_craft( recipe_id( "carver_off" ), tools, true );
@@ -459,6 +465,7 @@ TEST_CASE( "tools use charge to craft", "[crafting][charge]" )
         WHEN( "multiple tools have enough combined charges" ) {
             tools.insert( tools.end(), 2, tool_with_ammo( "hotplate", 5 ) );
             tools.insert( tools.end(), 2, tool_with_ammo( "soldering_iron", 5 ) );
+            tools.insert( tools.end(), 1, tool_with_ammo( "vac_mold", 4 ) );
 
             THEN( "crafting succeeds, and uses charges from multiple tools" ) {
                 prep_craft( recipe_id( "carver_off" ), tools, true );
@@ -477,9 +484,10 @@ TEST_CASE( "tools use charge to craft", "[crafting][charge]" )
             tools.push_back( soldering_iron );
             item UPS( "UPS_off" );
             item UPS_mag( UPS.magazine_default() );
-            UPS_mag.ammo_set( UPS_mag.ammo_default(), 500 );
+            UPS_mag.ammo_set( UPS_mag.ammo_default(), 510 );
             UPS.put_in( UPS_mag, item_pocket::pocket_type::MAGAZINE_WELL );
             tools.emplace_back( UPS );
+            tools.push_back( tool_with_ammo( "vac_mold", 4 ) );
 
             THEN( "crafting succeeds, and uses charges from the UPS" ) {
                 prep_craft( recipe_id( "carver_off" ), tools, true );

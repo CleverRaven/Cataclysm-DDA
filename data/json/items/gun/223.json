@@ -537,7 +537,7 @@
     "looks_like": "ar15",
     "type": "GUN",
     "//": "This could use a better name, I just wanted to differentiate it from assault rifles, as it also has a burst mode",
-    "name": { "str": "NATO assault rifle with burst" },
+    "name": { "str": "NATO assault rifle with burst", "str_pl": "NATO assault rifles with burst" },
     "description": "An assault rifle used by a NATO member state.  Unlike other assault rifles, this one has a burst fire mode in addition to semi-automatic and fully-automatic modes.  As per NATO's STANAG agreement, it is chambered in 5.56x45mm.",
     "variants": [
       {
