@@ -25,12 +25,12 @@ def portionize(jo):
             dat["encumbrance"] = 0
         dat["encumbrance"] = [dat["encumbrance"], dat.pop("max_encumbrance")]
 
-    if "armor_portion_data" not in jo:
-        jo["armor_portion_data"] = [dat]
+    if "armor" not in jo:
+        jo["armor"] = [dat]
     else:
         dat["//0"] = "Autogenned for item with non-portion and portion data"
         dat["//1"] = "Ensure that this works correctly!"
-        jo["armor_portion_data"].insert(0, dat)
+        jo["armor"].insert(0, dat)
 
     return jo
 

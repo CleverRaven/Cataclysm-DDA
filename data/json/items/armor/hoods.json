@@ -13,7 +13,7 @@
     "symbol": "[",
     "looks_like": "cowboy_hat",
     "color": "white",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "head" ], "coverage": 100, "encumbrance": 20 },
       { "covers": [ "eyes", "mouth" ], "coverage": 100, "encumbrance": 5 }
     ],

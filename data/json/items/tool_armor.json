@@ -923,7 +923,7 @@
     "weight": "5600 g",
     "volume": "4 L",
     "price": 150000,
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "head" ], "coverage": 100, "encumbrance": 20 },
       { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 10 },
       { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 15 }
@@ -1322,7 +1322,7 @@
     "material": [ "plastic" ],
     "symbol": "[",
     "color": "dark_gray",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 10 },
       { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 30 }
     ],
@@ -1348,7 +1348,7 @@
     "material": [ "plastic" ],
     "symbol": "[",
     "color": "dark_gray",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 10 },
       { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 30 }
     ],
@@ -1375,7 +1375,7 @@
     "material": [ "kevlar_layered", "nomex" ],
     "symbol": "[",
     "color": "light_gray",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 10 },
       { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 30 }
     ],
@@ -1403,7 +1403,7 @@
     "material": [ "kevlar_layered", "nomex" ],
     "symbol": "[",
     "color": "light_gray",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 15 },
       { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 35 }
     ],
@@ -1439,7 +1439,7 @@
     "warmth": 30,
     "environmental_protection": 1,
     "environmental_protection_with_filter": 16,
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 10 },
       { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 20 }
     ],
@@ -1463,7 +1463,7 @@
     "material": [ "kevlar_layered", "steel" ],
     "symbol": "[",
     "color": "dark_gray",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 10 },
       { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 30 }
     ],
@@ -1491,7 +1491,7 @@
     "material": [ "kevlar_layered", "cotton" ],
     "symbol": "[",
     "color": "dark_gray",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 5 },
       { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 20 }
     ],
@@ -1519,7 +1519,7 @@
     "material": [ "kevlar_layered", "leather" ],
     "symbol": "[",
     "color": "dark_gray",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 5 },
       { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 25 }
     ],
@@ -1547,7 +1547,7 @@
     "material": [ "kevlar_layered", "plastic" ],
     "symbol": "[",
     "color": "dark_gray",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 10 },
       { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 30 }
     ],
@@ -1599,7 +1599,7 @@
     "material": [ "kevlar_layered", "fur" ],
     "symbol": "[",
     "color": "light_gray",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 5 },
       { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 30 }
     ],
@@ -1627,7 +1627,7 @@
     "material": [ "kevlar_layered", "fur" ],
     "symbol": "[",
     "color": "light_gray",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 10 },
       { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 35 }
     ],
@@ -1835,7 +1835,7 @@
     },
     "warmth": 15,
     "environmental_protection": 10,
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "eyes" ], "coverage": 75, "encumbrance": 5 },
       { "covers": [ "mouth" ], "coverage": 75, "encumbrance": 30 }
     ],
@@ -1882,7 +1882,7 @@
     },
     "warmth": 15,
     "environmental_protection": 10,
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "eyes" ], "coverage": 75, "encumbrance": 10 },
       { "covers": [ "mouth" ], "coverage": 75, "encumbrance": 30 }
     ],
@@ -3218,7 +3218,7 @@
     "symbol": "[",
     "looks_like": "helmet_motor",
     "color": "dark_gray",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "head" ], "coverage": 100, "encumbrance": 30 },
       { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 5 }
     ],
@@ -3273,7 +3273,7 @@
     "symbol": "[",
     "looks_like": "helmet_motor",
     "color": "dark_gray",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "head" ], "coverage": 100, "encumbrance": 30 },
       { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 5 }
     ],

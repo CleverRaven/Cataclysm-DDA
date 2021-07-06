@@ -52,7 +52,7 @@
     "symbol": "[",
     "looks_like": "wetsuit_spring",
     "color": "dark_gray",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 11, 14 ] },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 11, 13 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 11, 11 ] }
@@ -139,7 +139,7 @@
     "symbol": "[",
     "looks_like": "wetsuit",
     "color": "dark_gray",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 10, 16 ] },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 10, 14 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 10, 10 ] }
@@ -193,7 +193,7 @@
     "symbol": "[",
     "looks_like": "wetsuit",
     "color": "pink",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 2, 5 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 2, 4 ] }
     ],

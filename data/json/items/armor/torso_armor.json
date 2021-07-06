@@ -262,7 +262,7 @@
     "symbol": "[",
     "looks_like": "jacket_leather",
     "color": "dark_gray",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 85, "encumbrance": [ 20, 23 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 85, "encumbrance": [ 20, 22 ] }
     ],
@@ -426,7 +426,7 @@
     "symbol": "[",
     "looks_like": "jacket_leather",
     "color": "dark_gray",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 28, 30 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 28, 28 ] }
     ],

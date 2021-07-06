@@ -13,7 +13,7 @@
     "symbol": "[",
     "looks_like": "vest_leather",
     "color": "brown",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 70, "encumbrance": [ 2, 5 ] },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 70, "encumbrance": [ 2, 2 ] }
     ],
@@ -61,7 +61,7 @@
     "symbol": "[",
     "looks_like": "jacket_light",
     "color": "dark_gray",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 85, "encumbrance": [ 16, 20 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 85, "encumbrance": [ 16, 16 ] }
     ],
@@ -129,7 +129,7 @@
     "symbol": "[",
     "looks_like": "longshirt",
     "color": "white",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 4, 5 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 4, 4 ] }
     ],
@@ -288,7 +288,7 @@
     "symbol": "[",
     "looks_like": "sweater",
     "color": "dark_gray",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 6, 12 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 6, 6 ] }
     ],
@@ -480,7 +480,7 @@
     "symbol": "[",
     "looks_like": "dress",
     "color": "blue",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 75, "encumbrance": [ 5, 7 ] },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 75, "encumbrance": [ 5, 5 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 75, "encumbrance": [ 5, 5 ] }
@@ -569,7 +569,7 @@
     "symbol": "[",
     "looks_like": "dress_shirt",
     "color": "light_gray",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 3, 5 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 3, 3 ] }
     ],
@@ -599,7 +599,7 @@
     "symbol": "[",
     "looks_like": "camisole",
     "color": "yellow",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 90, "encumbrance": 8 },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 25, "encumbrance": 1 }
     ],
@@ -900,7 +900,7 @@
     "symbol": "[",
     "looks_like": "hoodie",
     "color": "dark_gray",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 6, 12 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 6, 6 ] }
     ],
