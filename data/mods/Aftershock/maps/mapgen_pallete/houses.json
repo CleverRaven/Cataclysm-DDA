@@ -1,7 +1,7 @@
 [
   {
     "type": "palette",
-    "//": "the food should be rotted, but for now the regular food item groups can work for now",
+    "//": "the food should be rotted, but the regular food item groups can work for now",
     "id": "standard_afsshelter_palette",
     "toilets": { "t": {  } },
     "terrain": {
