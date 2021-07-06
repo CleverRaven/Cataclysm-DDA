@@ -40,7 +40,7 @@
     "coverage": 50,
     "encumbrance": 30,
     "material_thickness": 1,
-    "flags": [ "WATER_FRIENDLY", "SKINTIGHT", "FANCY" ]
+    "flags": [ "WATER_FRIENDLY", "SKINTIGHT" ]
   },
   {
     "id": "fancy_sunglasses",
@@ -176,7 +176,7 @@
     "coverage": 20,
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "SUPER_FANCY", "FIX_NEARSIGHT", "FRAGILE" ]
+    "flags": [ "FANCY", "FIX_NEARSIGHT", "FRAGILE" ]
   },
   {
     "id": "glasses_reading",

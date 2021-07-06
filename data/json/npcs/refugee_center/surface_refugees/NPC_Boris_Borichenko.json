@@ -480,7 +480,7 @@
     },
     "dialogue": {
       "describe": "Find Boris' son's laptop.",
-      "offer": "If you can find it, it would mean so much to me.  I will give you directions to the shelter where he left it.  It was barely a shelter, broken and torn apart.  It should just be on the floor where it was dropped.",
+      "offer": "My son, Ash, had a laptop on which he kept his writing.  If you can find it, it would mean so much to me.  I will give you directions to the shelter where he left it.  It was barely a shelter, broken and torn apart.  It should just be on the floor where it was dropped.",
       "accepted": "You are a kind soul.",
       "rejected": "Ah well.  I can ask around myself, perhaps.",
       "advice": "You can tell it is his because he covered it in stickers.",
