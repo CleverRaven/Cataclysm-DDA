@@ -131,7 +131,7 @@
     "copy-from": "elephant_armor",
     "color": "green",
     "name": { "str": "elephant rain sheet" },
-    "description": "A thin plastic covering adapted for elephant to protect from acid rain and other caustic sources.  You could put this on a friendly elephant.",
+    "description": "A thin plastic covering, adapted to protect an elephant from acid zombie splashes and similar caustic substances.  You could put this on a friendly elephant.",
     "price": 15000,
     "price_postapoc": 1500,
     "material": [ "neoprene", "plastic" ],
