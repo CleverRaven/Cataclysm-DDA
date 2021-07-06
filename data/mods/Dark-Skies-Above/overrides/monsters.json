@@ -1,45 +1,5 @@
 [
   {
-    "id": "mon_c4_hack",
-    "copy-from": "mon_c4_hack",
-    "type": "MONSTER",
-    "name": { "str": "C-4 hack" },
-    "extend": { "categories": [ "ALIEN" ] },
-    "description": "An automated kamikaze drone, this small flying robot appears to have some C-4 inside."
-  },
-  {
-    "id": "mon_flashbang_hack",
-    "copy-from": "mon_flashbang_hack",
-    "type": "MONSTER",
-    "name": { "str": "flashbang hack" },
-    "extend": { "categories": [ "ALIEN" ] },
-    "description": "An automated kamikaze drone, this small flying robot appears to have a flashbang inside."
-  },
-  {
-    "id": "mon_gasbomb_hack",
-    "copy-from": "mon_gasbomb_hack",
-    "type": "MONSTER",
-    "name": { "str": "tear gas hack" },
-    "extend": { "categories": [ "ALIEN" ] },
-    "description": "An automated kamikaze drone, this small flying robot appears to have a tear gas canister inside."
-  },
-  {
-    "id": "mon_grenade_hack",
-    "copy-from": "mon_grenade_hack",
-    "type": "MONSTER",
-    "name": { "str": "grenade hack" },
-    "extend": { "categories": [ "ALIEN" ] },
-    "description": "An automated kamikaze drone, this small flying robot appears to have a grenade inside."
-  },
-  {
-    "id": "mon_manhack",
-    "copy-from": "mon_manhack",
-    "type": "MONSTER",
-    "name": { "str": "manhack" },
-    "extend": { "categories": [ "ALIEN" ] },
-    "description": "An automated anti-personnel drone, a small flying robot surrounded by whirring blades."
-  },
-  {
     "id": "mon_rattlesnake_giant",
     "copy-from": "mon_rattlesnake_giant",
     "type": "MONSTER",
@@ -51,6 +11,97 @@
     "copy-from": "mon_nakedmolerat_giant",
     "type": "MONSTER",
     "name": "gigantic naked mole-rat",
+    "delete": { "categories": [ "WILDLIFE" ] }
+  },
+  {
+    "id": "mon_crow_mutant_small",
+    "copy-from": "mon_crow_mutant_small",
+    "type": "MONSTER",
+    "name": { "str": "oversized crow" },
+    "delete": { "categories": [ "WILDLIFE" ] }
+  },
+  {
+    "id": "mon_cockatrice",
+    "copy-from": "mon_cockatrice",
+    "type": "MONSTER",
+    "name": { "str": "cockatrice" },
+    "delete": { "categories": [ "WILDLIFE" ] }
+  },
+  {
+    "id": "mon_bear_mutant_3headed",
+    "type": "MONSTER",
+    "name": { "str": "Cerbearus", "str_pl": "Cerberuses" },
+    "copy-from": "mon_bear_mutant_3headed",
+    "delete": { "categories": [ "WILDLIFE" ] }
+  },
+  {
+    "id": "mon_beaver_mutant_huge",
+    "type": "MONSTER",
+    "name": { "str": "dambreaker" },
+    "copy-from": "mon_beaver_mutant_huge",
+    "delete": { "categories": [ "WILDLIFE" ] }
+  },
+  {
+    "id": "mon_beaver_mutant_avian",
+    "type": "MONSTER",
+    "name": { "str": "feaver" },
+    "copy-from": "mon_beaver_mutant_avian",
+    "delete": { "categories": [ "WILDLIFE" ] }
+  },
+  {
+    "id": "mon_cat_mutant_prism",
+    "type": "MONSTER",
+    "name": { "str": "iridescent cat" },
+    "copy-from": "mon_cat_mutant_prism",
+    "delete": { "categories": [ "WILDLIFE" ] }
+  },
+  {
+    "id": "mon_cat_mutant_kitten_prism",
+    "type": "MONSTER",
+    "name": { "str": "iridescent kitten" },
+    "copy-from": "mon_cat_mutant_kitten_prism",
+    "delete": { "categories": [ "WILDLIFE" ] }
+  },
+  {
+    "id": "mon_coyote_mutant_shark",
+    "type": "MONSTER",
+    "name": { "str": "grinning coyote" },
+    "copy-from": "mon_coyote_mutant_shark",
+    "delete": { "categories": [ "WILDLIFE" ] }
+  },
+  {
+    "id": "mon_coyote_mutant_venom",
+    "type": "MONSTER",
+    "name": { "str": "slavering coyote" },
+    "copy-from": "mon_coyote_mutant_venom",
+    "delete": { "categories": [ "WILDLIFE" ] }
+  },
+  {
+    "id": "mon_wolf_mutant_huge",
+    "type": "MONSTER",
+    "name": { "str": "dire wolf", "str_pl": "dire wolves" },
+    "copy-from": "mon_wolf_mutant_huge",
+    "delete": { "categories": [ "WILDLIFE" ] }
+  },
+  {
+    "id": "mon_deer_mutant_spider",
+    "type": "MONSTER",
+    "name": { "str": "spideer" },
+    "copy-from": "mon_deer_mutant_spider",
+    "delete": { "categories": [ "WILDLIFE" ] }
+  },
+  {
+    "id": "mon_deer_mutant_spider_fawn",
+    "type": "MONSTER",
+    "name": { "str": "spideer fawn" },
+    "copy-from": "mon_deer_mutant_spider_fawn",
+    "delete": { "categories": [ "WILDLIFE" ] }
+  },
+  {
+    "id": "mon_dog_mutant_mongrel",
+    "type": "MONSTER",
+    "name": { "str": "mongrel" },
+    "copy-from": "mon_dog_mutant_mongrel",
     "delete": { "categories": [ "WILDLIFE" ] }
   }
 ]

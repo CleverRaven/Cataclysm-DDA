@@ -27,7 +27,7 @@ os: linux
 branches:
   only:
   - master
-  - development
+  - 0.F-dev
 
 # Overall strategy for what sorts of builds to include:
 # We want a build for each compiler and each platform.
@@ -99,7 +99,8 @@ jobs:
     - stage: "Platforms and Tidy"
     # MXE variant using alternate repository http://mirror.mxe.cc/repos/apt
       env: COMPILER=g++ LDFLAGS="-static-libgcc -static-libstdc++" MXE_TARGET="i686-w64-mingw32.static" WINE="wine" TILES=1 SOUND=1
-      name: "Mingw-w64 Make cross-compile to Windows with Tiles and Sound"
+      name: "MinGW-Win64 Make cross-compile to Windows with Tiles and Sound"
+      if: type != pull_request
       compiler: gcc
       addons: &gcc
         apt:

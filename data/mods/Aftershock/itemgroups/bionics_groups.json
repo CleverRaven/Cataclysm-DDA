@@ -4,7 +4,6 @@
     "type": "item_group",
     "items": [
       [ "bn_bio_solar", 10 ],
-      [ "afs_bio_wind_turbine", 5 ],
       [ "afs_bio_missiles", 10 ],
       [ "afs_bio_linguistic_coprocessor", 10 ],
       [ "afs_bio_dopamine_stimulators", 10 ],
@@ -15,7 +14,7 @@
   {
     "id": "bionics_common",
     "type": "item_group",
-    "items": [ [ "bn_bio_solar", 10 ], [ "afs_bio_wind_turbine", 5 ], [ "afs_bio_linguistic_coprocessor", 8 ] ]
+    "items": [ [ "bn_bio_solar", 10 ], [ "afs_bio_linguistic_coprocessor", 8 ] ]
   },
   {
     "id": "bionics_mil",
@@ -30,14 +29,13 @@
   {
     "id": "bionics_sci",
     "type": "item_group",
-    "items": [ [ "bn_bio_solar", 5 ], [ "afs_bio_wind_turbine", 2 ] ]
+    "items": [ [ "bn_bio_solar", 5 ] ]
   },
   {
     "id": "bionics_op",
     "type": "item_group",
     "items": [
       [ "bn_bio_solar", 15 ],
-      [ "afs_bio_wind_turbine", 10 ],
       [ "afs_bio_missiles", 10 ],
       [ "afs_bio_melee_counteraction", 10 ],
       [ "afs_bio_melee_optimization_unit", 10 ],

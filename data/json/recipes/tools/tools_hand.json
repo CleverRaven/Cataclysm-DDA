@@ -172,6 +172,7 @@
     "difficulty": 3,
     "time": "8 m",
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "components": [ [ [ "nail", 8 ] ], [ [ "2x4", 3 ] ] ]
   },
@@ -753,6 +754,13 @@
     "time": "3 h",
     "autolearn": true,
     "using": [ [ "blacksmithing_standard", 6 ], [ "steel_standard", 1 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_toolsmithing" },
+      { "proficiency": "prof_bladesmith" },
+      { "proficiency": "prof_carving" }
+    ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ] ]
@@ -1090,6 +1098,7 @@
     "difficulty": 1,
     "time": "1 m",
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_carving" } ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "2x4", 1 ] ] ]
   }
