@@ -3662,7 +3662,7 @@
           "boots_combat",
           "wristwatch",
           "nomex_gloves",
-          "flight_helmet",
+          { "item": "flight_helmet", "ammo-item": "light_plus_battery_cell", "charges": 150 },
           "mil_flight_suit",
           "jacket_army",
           "webbing_belt",
