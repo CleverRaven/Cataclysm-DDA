@@ -190,7 +190,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "I need some expert advice…",
-      "offer": "I don't have access to standard lab procedures here.  Find Dr. Kiernan and get some notes on the basics.  I can work from there.",
+      "offer": "I don't have access to my old lab's procedural documents here.  Find Dr. Kiernan and get some notes on the basics.  I can work from there.",
       "accepted": "So much to do.",
       "rejected": "Ugh.",
       "advice": "Kiernan is probably still at the old field office.  It should be fine as long as the emergency power is still working.  You may have to do some kind of stupid task before Kiernan talks.  Try not to get violent.  If Kiernan is dead try and find some notes or books.",
