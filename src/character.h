@@ -2656,7 +2656,7 @@ class Character : public Creature, public visitable
         void sound_hallu();
 
         /** Checks if a Character is driving */
-        bool is_driving( const Character &p ) const;
+        bool is_driving() const;
 
         /** Drenches the player with water, saturation is the percent gotten wet */
         void drench( int saturation, const body_part_set &flags, bool ignore_waterproof );
