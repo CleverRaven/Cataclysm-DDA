@@ -44,7 +44,7 @@
     "copy-from": "elephant_armor",
     "color": "green",
     "name": { "str": "chitin elephant armor" },
-    "description": "A makeshift assembly of criniere, peytral and croupiere made from chitin fitted to a thin mesh.  You could put this on a friendly elephant.",
+    "description": "A makeshift assembly of criniere, peytral, and croupiere made from chitin fitted to a thin mesh.  You could put this on a friendly elephant.",
     "price": 100000,
     "price_postapoc": 6000,
     "material": [ "chitin", "steel" ],
