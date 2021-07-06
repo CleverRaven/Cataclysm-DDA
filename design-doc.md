@@ -145,7 +145,7 @@ In general, goods should be distributed in a way representative of how they woul
 
 This results in a glut of marginally useful resources, but scarcity of ideal resources.
 
-For example cars are extraordinary common, but robust and functional cars that are both in full working order and not surrounded by dangerous enemies are rare.
+For example cars are extraordinarily common, but robust and functional cars that are both in full working order and not surrounded by dangerous enemies are rare.
 
 Likewise improvised melee weapons appear in vast numbers, but quality melee weapons and powerful firearms and ammunition are somewhat harder to come by.
 
@@ -223,7 +223,7 @@ Small towns represent a good risk vs reward for early game characters. Zombies o
 
 The primary risk is attracting an entire town full of zombies by making too much noise.
 
-Towns present ample opportunities to maneuver, break line of sight, hide and set up ambushes, but present many opportunities for an unwary survivor to become cornered.
+Towns present ample opportunities to maneuver, break line of sight, hide, and set up ambushes, but present many opportunities for an unwary survivor to become cornered.
 
 If a survivor can clear an area, food, water, tools, weapons and shelter are all readily available, even to a survivor with no particular survival skills.
 
