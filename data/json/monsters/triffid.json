@@ -252,7 +252,7 @@
     "armor_bash": 4,
     "armor_cut": 6,
     "armor_bullet": 5,
-    "harvest": "triffid_paralytic",
+    "harvest": "triffid_fungal_fighter",
     "attack_effs": [
       { "id": "paralyzepoison", "//": "applying this multiple times makes intensity go up by 3 instead of 1", "duration": 33 },
       { "id": "paralyzepoison", "duration": 33 },

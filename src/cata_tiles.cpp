@@ -91,7 +91,7 @@ static const std::array<std::string, 8> multitile_keys = {{
 };
 
 static const std::string empty_string;
-static const std::array<std::string, 12> TILE_CATEGORY_IDS = {{
+static const std::array<std::string, 13> TILE_CATEGORY_IDS = {{
         "", // C_NONE,
         "vehicle_part", // C_VEHICLE_PART,
         "terrain", // C_TERRAIN,
@@ -104,6 +104,7 @@ static const std::array<std::string, 12> TILE_CATEGORY_IDS = {{
         "bullet", // C_BULLET,
         "hit_entity", // C_HIT_ENTITY,
         "weather", // C_WEATHER,
+        "overmap_terrain"
     }
 };
 
@@ -611,6 +612,7 @@ void tileset_loader::load( const std::string &tileset_id, const bool precheck )
     }
 
     if( precheck ) {
+        config.allow_omitted_members();
         return;
     }
 
@@ -640,10 +642,16 @@ void tileset_loader::load( const std::string &tileset_id, const bool precheck )
 
         JsonIn mod_config_json( mod_config_file );
 
+        const auto mark_visited = []( const JsonObject & jobj ) {
+            // These fields have been visited in load_mod_tileset
+            jobj.get_string_array( "compatibility" );
+        };
+
         int num_in_file = 1;
         if( mod_config_json.test_array() ) {
             for( const JsonObject mod_config : mod_config_json.get_array() ) {
                 if( mod_config.get_string( "type" ) == "mod_tileset" ) {
+                    mark_visited( mod_config );
                     if( num_in_file == mts.num_in_file() ) {
                         // visit this if it exists, it's used elsewhere
                         if( mod_config.has_member( "compatibility" ) ) {
@@ -657,6 +665,7 @@ void tileset_loader::load( const std::string &tileset_id, const bool precheck )
             }
         } else {
             JsonObject mod_config = mod_config_json.get_object();
+            mark_visited( mod_config );
             load_internal( mod_config, tileset_root, img_path );
         }
     }
@@ -1040,7 +1049,7 @@ struct tile_render_info {
     lit_level ll;
     bool invisible[5];
     tile_render_info( const tripoint &pos, const int height_3d, const lit_level ll,
-                      const bool ( &invisible )[5] )
+                      const bool( &invisible )[5] )
         : pos( pos ), height_3d( height_3d ), ll( ll ) {
         std::copy_n( invisible, 5, this->invisible );
     }
@@ -1801,6 +1810,15 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
             }
             sym = tmp.symbol().empty() ? ' ' : tmp.symbol().front();
             col = tmp.color();
+        } else if( category == C_OVERMAP_TERRAIN ) {
+            const oter_str_id tmp( id );
+            if( tmp.is_valid() ) {
+                sym = tmp->get_symbol().front();
+                col = tmp->get_color();
+            }
+        } else if( category == C_OVERMAP_NOTE ) {
+            sym = id[5];
+            col = color_from_string( id.substr( 7, id.length() - 1 ) );
         }
         // Special cases for walls
         switch( sym ) {
@@ -1971,6 +1989,7 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
         case C_BULLET:
         case C_HIT_ENTITY:
         case C_WEATHER:
+        case C_OVERMAP_TERRAIN:
             // TODO: come up with ways to make random sprites consistent for these types
             break;
         case C_MONSTER:

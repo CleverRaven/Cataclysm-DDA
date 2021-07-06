@@ -7,6 +7,8 @@
       [ "mag_fabrication", 5 ],
       [ "manual_fabrication", 5 ],
       [ "mag_survival", 10 ],
+      [ "theater_props", 2 ],
+      [ "vac_mold", 2 ],
       [ "wax", 30 ],
       [ "straw_pile", 15 ],
       [ "charcoal", 25 ],

@@ -2386,7 +2386,7 @@ cata::optional<int> holster_actor::use( player &p, item &it, bool, const tripoin
     std::string prompt = holster_prompt.empty() ? _( "Holster item" ) : holster_prompt.translated();
     opts.push_back( prompt );
     pos = -1;
-    std::list<item *> all_items = it.contents.all_items_top(
+    std::list<item *> all_items = it.all_items_top(
                                       item_pocket::pocket_type::CONTAINER );
     std::transform( all_items.begin(), all_items.end(), std::back_inserter( opts ),
     []( const item * elem ) {
@@ -2911,7 +2911,7 @@ static bool damage_item( player &pl, item_location &fix )
         if( fix.where() == item_location::type::character ) {
             pl.i_rem_keep_contents( fix.get_item() );
         } else {
-            for( const item *it : fix->contents.all_items_top() ) {
+            for( const item *it : fix->all_items_top() ) {
                 if( it->has_flag( flag_NO_DROP ) ) {
                     continue;
                 }

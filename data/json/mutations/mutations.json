@@ -2810,7 +2810,7 @@
   {
     "type": "mutation",
     "id": "INK_GLANDS",
-    "name": "Ink glands",
+    "name": { "str": "Ink glands" },
     "points": 1,
     "visibility": 1,
     "ugliness": 1,

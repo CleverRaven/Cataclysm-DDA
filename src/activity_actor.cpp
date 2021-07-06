@@ -1679,7 +1679,7 @@ void unload_activity_actor::unload( Character &who, item_location &target )
     if( it.is_container() ) {
         contents_change_handler handler;
         bool changed = false;
-        for( item *contained : it.contents.all_items_top() ) {
+        for( item *contained : it.all_items_top() ) {
             int old_charges = contained->charges;
             const bool consumed = who.add_or_drop_with_msg( *contained, true, &it );
             if( consumed || contained->charges != old_charges ) {
@@ -1700,7 +1700,7 @@ void unload_activity_actor::unload( Character &who, item_location &target )
     }
 
     std::vector<item *> remove_contained;
-    for( item *contained : it.contents.all_items_top() ) {
+    for( item *contained : it.all_items_top() ) {
         if( contained->ammo_type() == ammotype( "plutonium" ) ) {
             contained->charges /= PLUTONIUM_CHARGES;
         }
@@ -2255,7 +2255,7 @@ static std::list<item> obtain_activity_items(
 
         // Take off the item or remove it from the player's inventory
         if( who.is_worn( *loc ) ) {
-            who.as_player()->takeoff( *loc, &res );
+            who.as_player()->takeoff( loc, &res );
         } else if( loc->count_by_charges() ) {
             res.push_back( who.as_player()->reduce_charges( &*loc, it->count() ) );
         } else {

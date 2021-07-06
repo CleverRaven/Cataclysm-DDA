@@ -252,5 +252,11 @@
     "type": "TOOL",
     "copy-from": "fake_power_tool",
     "name": { "str": "oven" }
+  },
+  {
+    "id": "fake_water_purifier",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "stationary water purifier" }
   }
 ]

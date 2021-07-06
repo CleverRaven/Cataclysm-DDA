@@ -35,6 +35,7 @@
         "description": "Cross Military Outpost Base",
         "om_terrains": [ "outpost_cross" ]
       },
+      { "id": "faction_base_lighthouse_0", "description": "Lighthouse Base", "om_terrains": [ "lighthouse_ground" ] },
       {
         "id": "faction_base_pottery_cottage_0",
         "description": "Pottery Cottage Camp",
