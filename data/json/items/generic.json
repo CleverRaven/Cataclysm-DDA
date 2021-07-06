@@ -782,18 +782,6 @@
     "volume": "30000 ml"
   },
   {
-    "id": "beehive_empty",
-    "type": "GENERIC",
-    "name": { "str": "empty beehive" },
-    "description": "A large enclosed and waterproofed wooden box with multiple sliding frames in it, which has a hole covered with wire in it.  With something to attract bees, it can be used to grow a hive.",
-    "weight": "15 kg",
-    "volume": "40 L",
-    "price": 9200,
-    "material": [ "wood" ],
-    "symbol": "-",
-    "color": "brown"
-  },
-  {
     "type": "GENERIC",
     "id": "concrete",
     "symbol": "%",
