@@ -535,12 +535,13 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
         }
     }
 
-    if( cur_weapon->attack_time() > attack_speed( *cur_weapon ) * 20 ) {
+    int move_cost = attack_speed( cur_weapon->has_flag( flag_UNARMED_WEAPON ) ?
+                                  null_item_reference() : *cur_weapon );
+
+    if( cur_weapon->attack_time() > move_cost * 20 ) {
         add_msg( m_bad, _( "This weapon is too unwieldy to attack with!" ) );
         return false;
     }
-    int move_cost = attack_speed( cur_weapon->has_flag( flag_UNARMED_WEAPON ) ? 
-                                  null_item_reference() : *cur_weapon );
 
     if( is_avatar() && move_cost > 1000 && calendar::turn > melee_warning_turn ) {
         const auto &action = query_popup()
