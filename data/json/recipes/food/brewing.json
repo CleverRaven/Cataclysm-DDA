@@ -164,7 +164,7 @@
     "batch_time_factors": [ 95, 4 ],
     "book_learn": [ [ "brewing_cookbook", 2 ], [ "winemaking_beginner", 2 ] ],
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "components": [ [ [ "juice", 1 ] ], [ [ "yeast", 1 ] ] ]
+    "components": [ [ [ "juice", 2 ] ], [ [ "yeast", 1 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ] ]
   },
   {
     "type": "recipe",
