@@ -119,7 +119,6 @@
     "name": { "str": "survivor utility belt" },
     "weight": "3390 g",
     "color": "brown",
-    "covers": [ "torso" ],
     "symbol": "[",
     "description": "A custom-built leather utility belt covered with straps and pouches containing many useful hand tools and a sheath to carry a smaller blade.  Durable and carefully crafted to be comfortable to wear.  Activate to sheathe/draw a weapon.",
     "price": 50000,
@@ -127,8 +126,6 @@
     "material": [ "leather", "iron" ],
     "volume": "4 L",
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY", "WAIST", "OVERSIZE" ],
-    "coverage": 15,
-    "encumbrance": 4,
     "material_thickness": 2,
     "pocket_data": [
       {
@@ -154,7 +151,8 @@
       [ "SAW_M_FINE", 1 ],
       [ "WRENCH_FINE", 1 ],
       [ "SCREW_FINE", 1 ]
-    ]
+    ],
+    "armor": [ { "encumbrance": 4, "coverage": 15, "covers": [ "torso" ] } ]
   },
   {
     "id": "combination_gun_shotgun_pipe",
