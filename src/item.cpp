@@ -7205,6 +7205,11 @@ bool item::has_any_with( const std::function<bool( const item & )> &filter,
     return contents.has_any_with( filter, pk_type );
 }
 
+bool item::all_pockets_rigid() const
+{
+    return contents.all_pockets_rigid();
+}
+
 item_pocket *item::contained_where( const item &contained )
 {
     return contents.contained_where( contained );
@@ -11062,4 +11067,9 @@ std::list<item *> item::all_items_top_recursive( item_pocket::pocket_type pk_typ
     }
 
     return all_items_internal;
+}
+
+void item::clear_items()
+{
+    contents.clear_items();
 }

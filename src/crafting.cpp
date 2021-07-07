@@ -1662,7 +1662,7 @@ static void empty_buckets( Character &p )
             drop_or_handle( *in, p );
         }
 
-        it.contents.clear_items();
+        it.clear_items();
         drop_or_handle( it, p );
     }
 }

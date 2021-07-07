@@ -735,6 +735,9 @@ class item : public visitable
         bool has_any_with( const std::function<bool( const item & )> &filter,
                            item_pocket::pocket_type pk_type ) const;
 
+        /** True if every pocket is rigid or we have no pockets */
+        bool all_pockets_rigid() const;
+
         /**
          * Updates the pockets of this item to be correct based on the mods that are installed.
          * Pockets which are modified that contain an item will be spilled
@@ -2264,6 +2267,8 @@ class item : public visitable
         std::list<const item *> all_items_ptr( item_pocket::pocket_type pk_type ) const;
         /** returns a list of pointers to all items inside recursively */
         std::list<item *> all_items_ptr( item_pocket::pocket_type pk_type );
+
+        void clear_items();
 
 
     private:

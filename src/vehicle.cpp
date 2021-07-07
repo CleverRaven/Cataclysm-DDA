@@ -6851,7 +6851,7 @@ std::list<item> vehicle::use_charges( const vpart_position &vp, const itype_id &
     const auto tool_wants_battery = []( const itype_id & type ) {
         item tool( type, calendar::turn_zero );
         item mag( tool.magazine_default() );
-        mag.contents.clear_items();
+        mag.clear_items();
 
         return tool.contents.insert_item( mag, item_pocket::pocket_type::MAGAZINE_WELL ).success() &&
                tool.ammo_capacity( ammotype( "battery" ) ) > 0;

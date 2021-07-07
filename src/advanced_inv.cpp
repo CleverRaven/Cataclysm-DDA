@@ -1816,7 +1816,7 @@ bool advanced_inventory::move_content( item &src_container, item &dest_container
 
     uistate.adv_inv_container_content_type = dest_container.contents.legacy_front().typeId();
     if( src_contents.charges <= 0 ) {
-        src_container.contents.clear_items();
+        src_container.clear_items();
     }
 
     return true;
