@@ -8962,7 +8962,7 @@ bool Character::consume_charges( item &used, int qty )
         return true;
     }
 
-    used.ammo_consume( qty, pos(), nullptr );
+    used.ammo_consume( qty, pos(), this );
     return false;
 }
 

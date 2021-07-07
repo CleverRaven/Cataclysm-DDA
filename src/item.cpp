@@ -8069,7 +8069,7 @@ int item::ammo_consume( int qty, const tripoint &pos, Character *carrier )
     // Consume bio pwr directly
     if( carrier != nullptr && has_flag( flag_USES_BIONIC_POWER ) ) {
         int bio_used = std::min( units::to_kilojoule( carrier->get_power_level() ), qty );
-        carrier->mod_power_level( units::from_kilojoule( bio_used ) );
+        carrier->mod_power_level( -units::from_kilojoule( bio_used ) );
         qty -= bio_used;
     }
 
