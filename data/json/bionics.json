@@ -1314,6 +1314,7 @@
       [ "foot_l", 2 ],
       [ "foot_r", 2 ]
     ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SPEED", "multiply": 0.1 } ] } ],
     "flags": [ "BIONIC_NPC_USABLE" ]
   },
   {

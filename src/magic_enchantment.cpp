@@ -489,9 +489,6 @@ void enchantment::activate_passive( Character &guy ) const
     guy.mod_int_bonus( get_value_add( enchant_vals::mod::INTELLIGENCE ) );
     guy.mod_int_bonus( mult_bonus( enchant_vals::mod::INTELLIGENCE, guy.get_int_base() ) );
 
-    guy.mod_speed_bonus( get_value_add( enchant_vals::mod::SPEED ) );
-    guy.mod_speed_bonus( mult_bonus( enchant_vals::mod::SPEED, guy.get_speed_base() ) );
-
     guy.mod_num_dodges_bonus( get_value_add( enchant_vals::mod::BONUS_DODGE ) );
     guy.mod_num_dodges_bonus( mult_bonus( enchant_vals::mod::BONUS_DODGE, guy.get_num_dodges_base() ) );
 
