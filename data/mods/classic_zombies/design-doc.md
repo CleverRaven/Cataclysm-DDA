@@ -1,7 +1,7 @@
 # The DDotDDD - Dark Days of the Dead Design Document
 
 ## Mission Statement
-Dark days of the dead is a cataclysm full conversiok mod meant to turn the kitchen sink of cataclysm dda into a classic Romero-style zombie story.
+Dark days of the dead is a cataclysm full conversion mod meant to turn the kitchen sink of cataclysm dda into a classic Romero-style zombie story.
 
 ## Gameplay
 DDotD, like CDDA, aims for verisimilitude and the feeling of being a survivor in a Romero zombie movie. Like Dawn of the Dead, zombies should represent less of an individual deadly threat, and more of an unstoppable glacial force. Survivors should be poorly prepared and weak.
