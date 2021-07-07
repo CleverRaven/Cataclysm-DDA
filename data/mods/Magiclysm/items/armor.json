@@ -72,7 +72,7 @@
     "copy-from": "boots_chitin",
     "type": "ARMOR",
     "name": { "str": "pair of demon chitin boots", "str_pl": "pairs of demon chitin boots" },
-    "description": "Boots crafted from carefully cleaned and pruned pruned red exoskeletons of demon spiders.  Fire-resistant and very durable.",
+    "description": "Boots crafted from carefully cleaned and pruned red exoskeletons of demon spiders.  Fire-resistant and very durable.",
     "material": [ "demon_chitin" ],
     "proportional": { "weight": 0.9, "encumbrance": 0.9, "price": 10, "warmth": 2 },
     "environmental_protection": 8

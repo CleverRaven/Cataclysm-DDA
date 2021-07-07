@@ -6,6 +6,8 @@
 #include <llvm/ADT/StringRef.h>
 
 #include "ClangTidy.h"
+#include "ClangTidyCheck.h"
+#include "Utils.h"
 
 namespace clang
 {
@@ -36,12 +38,7 @@ namespace std
 template<>
 struct hash<clang::tidy::cata::RestoredDecl> {
     std::size_t operator()( const clang::tidy::cata::RestoredDecl &r ) const noexcept {
-        hash<const clang::FunctionDecl *> function_hash;
-        hash<const clang::NamedDecl *> decl_hash;
-        size_t result = function_hash( r.function );
-        result ^= 0x9e3779b9 + ( result << 6 ) + ( result >> 2 );
-        result ^= decl_hash( r.variable );
-        return result;
+        return clang::tidy::cata::HashCombine( r.function, r.variable );
     }
 };
 } // namespace std
@@ -58,7 +55,7 @@ class TestsMustRestoreGlobalStateCheck : public ClangTidyCheck
     public:
         TestsMustRestoreGlobalStateCheck( StringRef Name, ClangTidyContext *Context );
 
-        void registerPPCallbacks( CompilerInstance &Compiler ) override;
+        void registerPPCallbacks( const SourceManager &, Preprocessor *, Preprocessor * ) override;
         void registerMatchers( ast_matchers::MatchFinder *Finder ) override;
         void check( const ast_matchers::MatchFinder::MatchResult &Result ) override;
         void onEndOfTranslationUnit() override;

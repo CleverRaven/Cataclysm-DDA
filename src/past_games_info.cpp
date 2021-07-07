@@ -116,7 +116,7 @@ void past_games_info::ensure_loaded()
         std::istringstream iss( read_entire_file( filename ) );
         try {
             JsonIn jsin( iss );
-            info_.push_back( past_game_info( jsin ) );
+            info_.emplace_back( jsin );
         } catch( const JsonError &err ) {
             debugmsg( "Error reading memorial file %s: %s", filename, err.what() );
         } catch( const too_old_memorial_file_error & ) {
