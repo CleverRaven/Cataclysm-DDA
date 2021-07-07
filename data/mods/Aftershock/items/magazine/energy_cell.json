@@ -50,7 +50,7 @@
     "copy-from": "afs_cartridge",
     "type": "MAGAZINE",
     "name": { "str": "chromoelectric cartridge" },
-    "description": "A thin strip of transuranic metal, glowing a somber blue from within its shielded glass prison.  A rare and well sought relic, it could be used to momentarily power all sorts of technology from the late Hyperspace Era.",
+    "description": "A thin strip of transuranic metal, glowing a somber blue from within its shielded glass prison.  A rare and sought-after relic, it could be used to momentarily power all sorts of technology from the late Hyperspace Era.",
     "weight": "100 g",
     "price": "100 kUSD",
     "price_postapoc": "100 kUSD",
