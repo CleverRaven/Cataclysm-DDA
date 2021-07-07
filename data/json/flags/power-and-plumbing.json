@@ -1,0 +1,42 @@
+[
+    {
+        "type":"source",
+        "flag":"ELECTRIC_SOURCE",
+        "context":[ ]
+    },
+    {
+        "type":"drain",
+        "flag":"ELECTRIC_DRAIN",
+        "context":[ ]
+    },
+    {
+        "type":"path",
+        "flag":"ELECTRIC_CABLE",
+        "context":[ ]
+    },
+    {
+        "type":"in-out",
+        "flag":"ELECTRIC_IN-OUT",
+        "context":[ ]
+    },
+    {
+        "type":"source",
+        "flag":"PLUMBING_SOURCE",
+        "context":[ ]
+    },
+    {
+        "type":"drain",
+        "flag":"PLUMBING_DRAIN",
+        "context":[ ]
+    },
+    {
+        "type":"path",
+        "flag":"PLUMBING_PIPE",
+        "context":[ ]
+    },
+    {
+        "type":"in-out",
+        "flag":"PLUMBING_IN-OUT",
+        "context":[ ]
+    }
+]

@@ -10,6 +10,7 @@
     "move_cost_mod": -1,
     "coverage": 35,
     "required_str": -1,
+    "flags": [ "ELECTRIC_DRAIN" ],
     "bash": {
       "str_min": 40,
       "str_max": 150,
@@ -54,6 +55,7 @@
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": 16,
+    "flags": [ "ELECTRIC_DRAIN", "PLUMBING_IN-OUT" ],
     "bash": {
       "str_min": 40,
       "str_max": 150,
@@ -127,7 +129,7 @@
     "move_cost_mod": -1,
     "coverage": 80,
     "required_str": -1,
-    "flags": [ "NOITEM", "SEALED", "REDUCE_SCENT", "PERMEABLE" ],
+    "flags": [ "NOITEM", "SEALED", "REDUCE_SCENT", "PERMEABLE", "ELECTRIC_SOURCE" ],
     "bash": {
       "str_min": 70,
       "str_max": 400,
@@ -165,7 +167,7 @@
     "move_cost_mod": -1,
     "coverage": 50,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "NOITEM", "SEALED", "REDUCE_SCENT", "PERMEABLE" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "SEALED", "REDUCE_SCENT", "PERMEABLE", "ELECTRIC_SOURCE" ],
     "emissions": [ "emit_rad_leak" ],
     "bash": {
       "str_min": 20,
@@ -195,7 +197,7 @@
     "required_str": 2,
     "deployed_item": "xedra_antenna",
     "examine_action": "deployed_furniture",
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "MOUNTABLE", "CAN_SIT" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "MOUNTABLE", "CAN_SIT", "ELECTRIC_DRAIN"],
     "max_volume": "600 L",
     "deconstruct": { "items": [ { "item": "xedra_antenna", "count": 1 } ] }
   },
@@ -408,7 +410,7 @@
     "bgcolor": "yellow",
     "move_cost_mod": 3,
     "required_str": 18,
-    "flags": [ "TRANSPARENT", "MOUNTABLE" ],
+    "flags": [ "TRANSPARENT", "MOUNTABLE", "ELECTRIC_DRAIN" ],
     "deconstruct": {
       "items": [
         { "item": "processor", "prob": 75 },
@@ -451,7 +453,7 @@
     "color": "white",
     "move_cost_mod": 1,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT", "NOCOLLIDE" ],
+    "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT", "NOCOLLIDE", "ELECTRIC_CABLE" ],
     "bash": {
       "str_min": 10,
       "str_max": 100,
@@ -472,7 +474,7 @@
     "move_cost_mod": 4,
     "coverage": 40,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "MOUNTABLE" ],
+    "flags": [ "TRANSPARENT", "MOUNTABLE", "ELECTRIC_IN-OUT" ],
     "bash": {
       "str_min": 25,
       "str_max": 200,

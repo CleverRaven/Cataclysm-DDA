@@ -210,7 +210,7 @@
     "color": "light_gray",
     "move_cost_mod": 2,
     "required_str": 1,
-    "flags": [ "BLOCKSDOOR", "PLACE_ITEM", "EASY_DECONSTRUCT" ],
+    "flags": [ "BLOCKSDOOR", "PLACE_ITEM", "EASY_DECONSTRUCT", "ELECTRIC_DRAIN" ],
     "deconstruct": {
       "items": [
         { "item": "cable", "charges": [ 1, 2 ] },

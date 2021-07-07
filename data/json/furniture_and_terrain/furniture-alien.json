@@ -172,7 +172,7 @@
     "move_cost_mod": 2,
     "coverage": 30,
     "required_str": 11,
-    "flags": [ "NOITEM", "BLOCKSDOOR" ],
+    "flags": [ "NOITEM", "BLOCKSDOOR", "ELECTRIC_DRAIN" ],
     "bash": {
       "str_min": 30,
       "str_max": 150,
@@ -232,7 +232,7 @@
     "move_cost_mod": 2,
     "coverage": 30,
     "required_str": 11,
-    "flags": [ "TRANSPARENT", "NOITEM", "BLOCKSDOOR" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "BLOCKSDOOR", "ELECTRIC_DRAIN" ],
     "bash": {
       "str_min": 30,
       "str_max": 150,
@@ -261,7 +261,7 @@
     "coverage": 30,
     "required_str": 6,
     "light_emitted": 20,
-    "flags": [ "TRANSPARENT", "NOITEM", "BLOCKSDOOR" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "BLOCKSDOOR", "ELECTRIC_DRAIN" ],
     "bash": {
       "str_min": 20,
       "str_max": 150,
@@ -288,7 +288,7 @@
     "move_cost_mod": -1,
     "coverage": 80,
     "required_str": 14,
-    "flags": [ "TRANSPARENT", "NOITEM", "BLOCKSDOOR" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "BLOCKSDOOR", "PLUMBING_SOURCE" ],
     "bash": {
       "str_min": 40,
       "str_max": 150,
@@ -316,7 +316,7 @@
     "move_cost_mod": -1,
     "coverage": 80,
     "required_str": 14,
-    "flags": [ "NOITEM", "BLOCKSDOOR" ],
+    "flags": [ "NOITEM", "BLOCKSDOOR", "ELECTRIC_DRAIN" ],
     "bash": {
       "str_min": 90,
       "str_max": 150,
@@ -344,7 +344,7 @@
     "move_cost_mod": -1,
     "coverage": 80,
     "required_str": 14,
-    "flags": [ "TRANSPARENT", "NOITEM", "BLOCKSDOOR" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "BLOCKSDOOR", "ELECTRIC_DRAIN" ],
     "bash": {
       "str_min": 90,
       "str_max": 150,
@@ -372,7 +372,7 @@
     "move_cost_mod": -1,
     "coverage": 60,
     "required_str": -1,
-    "flags": [ "NOITEM", "BLOCKSDOOR" ],
+    "flags": [ "NOITEM", "BLOCKSDOOR", "ELECTRIC_SOURCE" ],
     "bash": {
       "str_min": 60,
       "str_max": 400,
@@ -405,7 +405,7 @@
     "move_cost_mod": -1,
     "coverage": 70,
     "required_str": -1,
-    "flags": [ "NOITEM", "BLOCKSDOOR" ],
+    "flags": [ "NOITEM", "BLOCKSDOOR", "ELECTRIC_SOURCE" ],
     "bash": {
       "str_min": 60,
       "str_max": 400,
@@ -439,7 +439,7 @@
     "move_cost_mod": -1,
     "coverage": 50,
     "required_str": -1,
-    "flags": [ "NOITEM", "BLOCKSDOOR" ],
+    "flags": [ "NOITEM", "BLOCKSDOOR", "ELECTRIC_SOURCE" ],
     "bash": {
       "str_min": 60,
       "str_max": 400,
@@ -475,7 +475,7 @@
     "move_cost_mod": -1,
     "coverage": 60,
     "required_str": -1,
-    "flags": [ "NOITEM", "BLOCKSDOOR" ],
+    "flags": [ "NOITEM", "BLOCKSDOOR", "ELECTRIC_SOURCE" ],
     "bash": {
       "str_min": 60,
       "str_max": 400,
@@ -509,7 +509,7 @@
     "move_cost_mod": 6,
     "coverage": 80,
     "required_str": -1,
-    "flags": [ "TRANSPARENT" ],
+    "flags": [ "TRANSPARENT", "ELECTRIC_DRAIN", "PLUMBING_DRAIN" ],
     "bash": {
       "str_min": 18,
       "str_max": 200,
@@ -541,7 +541,7 @@
     "move_cost_mod": 6,
     "coverage": 80,
     "required_str": -1,
-    "flags": [ "TRANSPARENT" ],
+    "flags": [ "TRANSPARENT", "ELECTRIC_DRAIN", "PLUMBING_DRAIN" ],
     "bash": {
       "str_min": 19,
       "str_max": 200,
@@ -574,7 +574,7 @@
     "move_cost_mod": -1,
     "coverage": 50,
     "required_str": -1,
-    "flags": [ "NOITEM", "TRANSPARENT", "MOUNTABLE" ],
+    "flags": [ "NOITEM", "TRANSPARENT", "MOUNTABLE", "ELECTRIC_DRAIN" ],
     "bash": {
       "str_min": 45,
       "str_max": 200,
@@ -603,7 +603,7 @@
     "move_cost_mod": -1,
     "coverage": 50,
     "required_str": -1,
-    "flags": [ "NOITEM", "TRANSPARENT", "MOUNTABLE" ],
+    "flags": [ "NOITEM", "TRANSPARENT", "MOUNTABLE", "ELECTRIC_DRAIN" ],
     "bash": {
       "str_min": 45,
       "str_max": 200,

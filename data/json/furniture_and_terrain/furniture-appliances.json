@@ -10,6 +10,7 @@
     "move_cost_mod": -1,
     "coverage": 55,
     "required_str": -1,
+    "flags": [ "ELECTRIC_DRAIN" ],
     "deconstruct": {
       "items": [
         { "item": "pipe", "count": 1 },
@@ -52,6 +53,7 @@
     "move_cost_mod": -1,
     "coverage": 50,
     "required_str": -1,
+    "flags": [ "ELECTRIC_DRAIN" ],
     "looks_like": "f_air_conditioner",
     "deconstruct": {
       "items": [
@@ -94,7 +96,7 @@
     "coverage": 60,
     "required_str": 13,
     "max_volume": "200 L",
-    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "MINEABLE" ],
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "MINEABLE", "ELECTRIC_DRAIN", "PLUMBING_IN-OUT" ],
     "deconstruct": {
       "items": [
         { "item": "pipe", "count": 1 },
@@ -139,7 +141,7 @@
     "coverage": 60,
     "required_str": 12,
     "max_volume": "37500 ml",
-    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "MINEABLE" ],
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "MINEABLE", "ELECTRIC_DRAIN" ],
     "deconstruct": {
       "items": [
         { "item": "scrap", "count": [ 2, 6 ] },
@@ -180,7 +182,7 @@
     "move_cost_mod": -1,
     "coverage": 90,
     "required_str": 10,
-    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "NO_SELF_CONNECT" ],
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "NO_SELF_CONNECT", "ELECTRIC_DRAIN" ],
     "deconstruct": {
       "items": [
         { "item": "sheet_metal", "count": [ 2, 6 ] },
@@ -227,7 +229,7 @@
     "move_cost_mod": -1,
     "coverage": 90,
     "required_str": 10,
-    "flags": [ "PLACE_ITEM", "BLOCKSDOOR" ],
+    "flags": [ "PLACE_ITEM", "BLOCKSDOOR", "ELECTRIC_DRAIN" ],
     "deconstruct": {
       "items": [
         { "item": "sheet_metal", "count": [ 2, 5 ] },
@@ -275,7 +277,7 @@
     "move_cost_mod": -1,
     "coverage": 60,
     "required_str": -1,
-    "flags": [ "CONTAINER", "PLACE_ITEM", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "BLOCKSDOOR" ],
+    "flags": [ "CONTAINER", "PLACE_ITEM", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "BLOCKSDOOR", "ELECTRIC_DRAIN" ],
     "examine_action": "fireplace",
     "deconstruct": {
       "items": [
@@ -317,7 +319,7 @@
     "coverage": 60,
     "required_str": 12,
     "max_volume": "30 L",
-    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "MINEABLE" ],
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "MINEABLE", "ELECTRIC_DRAIN", "PLUMBING_IN-OUT" ],
     "deconstruct": {
       "items": [
         { "item": "pipe", "count": 1 },
@@ -360,7 +362,7 @@
     "move_cost_mod": 2,
     "coverage": 60,
     "required_str": 10,
-    "flags": [ "PLACE_ITEM", "TRANSPARENT", "FIRE_CONTAINER", "CONTAINER", "BLOCKSDOOR", "MOUNTABLE" ],
+    "flags": [ "PLACE_ITEM", "TRANSPARENT", "FIRE_CONTAINER", "CONTAINER", "BLOCKSDOOR", "MOUNTABLE", "ELECTRIC_DRAIN" ],
     "examine_action": "fireplace",
     "deconstruct": {
       "items": [
@@ -473,7 +475,7 @@
     "move_cost_mod": 5,
     "required_str": 6,
     "looks_like": "f_filing_cabinet",
-    "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR" ],
+    "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "ELECTRIC_DRAIN" ],
     "deconstruct": {
       "items": [
         { "item": "scrap", "count": [ 2, 6 ] },
@@ -516,7 +518,7 @@
     "move_cost_mod": -1,
     "coverage": 90,
     "required_str": 8,
-    "flags": [ "BLOCKSDOOR" ],
+    "flags": [ "BLOCKSDOOR", "ELECTRIC_DRAIN" ],
     "deconstruct": {
       "items": [
         { "item": "sheet_metal_small", "count": [ 4, 6 ] },
@@ -553,6 +555,7 @@
     "move_cost_mod": -1,
     "coverage": 70,
     "required_str": -1,
+    "flags": [ "ELECTRIC_DRAIN" ],
     "deconstruct": {
       "items": [
         { "item": "pipe", "count": [ 6, 12 ] },
@@ -594,7 +597,7 @@
     "color": "yellow",
     "move_cost_mod": 2,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "BASHABLE" ],
+    "flags": [ "TRANSPARENT", "BASHABLE", "ELECTRIC_SOURCE" ],
     "deconstruct": {
       "items": [
         { "item": "scrap", "count": [ 4, 6 ] },
