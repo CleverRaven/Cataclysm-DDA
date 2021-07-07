@@ -194,7 +194,7 @@
       "boosted_other_percent": 50.0
     },
     "overmap_lake_settings": {
-      "noise_threshold_lake": 0.25,
+      "noise_threshold_lake": 0.35,
       "lake_size_min": 15,
       "lake_depth": -5,
       "shore_extendable_overmap_terrain": [ "forest", "forest_thick", "forest_water", "field" ],
@@ -207,10 +207,10 @@
     },
     "overmap_ravine_settings": { "num_ravines": 0, "ravine_width": 3, "ravine_range": 45, "ravine_depth": -3 },
     "overmap_forest_settings": {
-      "noise_threshold_forest": 0.2,
-      "noise_threshold_forest_thick": 0.25,
-      "noise_threshold_swamp_adjacent_water": 0.3,
-      "noise_threshold_swamp_isolated": 0.6,
+      "noise_threshold_forest": 0.4,
+      "noise_threshold_forest_thick": 0.45,
+      "noise_threshold_swamp_adjacent_water": 0.5,
+      "noise_threshold_swamp_isolated": 0.7,
       "river_floodplain_buffer_distance_min": 3,
       "river_floodplain_buffer_distance_max": 15
     },
