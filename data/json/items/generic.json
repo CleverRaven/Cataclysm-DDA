@@ -2390,6 +2390,22 @@
   },
   {
     "type": "GENERIC",
+    "id": "makeshift_pillow",
+    "symbol": ",",
+    "color": "blue",
+    "name": { "str": "makeshift pillow" },
+    "description": "A pillowcase with straw and other dead plants as filling. Its better than nothing...",
+    "price": 1000,
+    "price_postapoc": 10,
+    "material": [ "paper" ],
+    "weight": "514 g",
+    "container": "pillowcase",
+    "volume": "1 L",
+    "flags": [ "SLEEP_AID" ],
+    "category": "other"
+  },
+  {
+    "type": "GENERIC",
     "id": "bodypillow",
     "symbol": "[",
     "color": "white",
