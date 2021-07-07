@@ -2803,11 +2803,11 @@ void shearing_activity_actor::start( player_activity &act, Character &who )
     }
 
     const time_duration shearing_time = 30_minutes / shearing_quality;
-    add_msg_debug( "shearing_time time = %s", to_string( shearing_time ) );
+    add_msg_debug( debugmode::DF_ACT_SHEARING, "shearing_time time = %s", to_string( shearing_time ) );
 
     if( who.is_player() ) {
         add_msg( m_info,
-                 _( "%1%s start shearing %2$s." ), who.disp_name( false, true ), mon->disp_name() );
+                 _( "%1$s start shearing %2$s." ), who.disp_name( false, true ), mon->disp_name() );
     } else { // who.is_npc
         // npcs can't shear monsters yet, this is for when they are able to
         add_msg_if_player_sees( who, _( "%1$s starts shearing %2$s." ), who.disp_name(),
