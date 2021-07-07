@@ -2394,7 +2394,7 @@
     "symbol": ",",
     "color": "blue",
     "name": { "str": "makeshift pillow" },
-    "description": "A pillowcase with straw and other dead plants as filling. Its better than nothing...",
+    "description": "A pillowcase with straw and other dead plants as filling.  It's better than nothing…",
     "price": 1000,
     "price_postapoc": 10,
     "material": [ "paper" ],
