@@ -576,7 +576,7 @@
     "bashing": 1,
     "phase": "liquid",
     "container": "bottle_glass",
-    "freezing_point": 25,
+    "freezing_point": -50,
     "drop_action": { "type": "emit_actor", "emits": [ "emit_acid_drop" ], "scale_qty": true }
   },
   {
