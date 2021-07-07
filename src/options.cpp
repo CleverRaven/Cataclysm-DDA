@@ -480,7 +480,7 @@ bool options_manager::cOpt::is_hidden() const
 #endif
 
         case COPT_CURSES_HIDE: // NOLINT(bugprone-branch-clone)
-#if !defined(TILES) // If not defined.  it's curses interface.
+#if !defined(TILES) // If not defined, it's the curses interface.
             return true;
 #else
             return false;
