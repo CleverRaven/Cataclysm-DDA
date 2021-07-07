@@ -141,6 +141,8 @@
     "flags": [ "TRANSPARENT", "PERMEABLE", "LOCKED", "PICKABLE", "THIN_OBSTACLE" ],
     "connects_to": "WALL",
     "examine_action": "locked_object_pickable",
+    "lockpick_result": "t_retractable_gate_c",
+    "lockpick_message": "With a satisfying click, the lock on the gate opens.",
     "bash": {
       "str_min": 17,
       "str_max": 175,
