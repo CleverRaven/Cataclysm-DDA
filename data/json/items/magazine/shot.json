@@ -48,7 +48,7 @@
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "shot" ],
-    "armor_data": { "covers": [ "torso" ], "coverage": 5, "material_thickness": 1, "encumbrance": 2 },
+    "armor_data": { "material_thickness": 1, "armor": [ { "encumbrance": 2, "coverage": 5, "covers": [ "torso" ] } ] },
     "flags": [ "MAG_EJECT", "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 20 } } ]
   },

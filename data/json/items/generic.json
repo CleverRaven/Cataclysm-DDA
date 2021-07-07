@@ -3390,9 +3390,6 @@
     "volume": "500 ml",
     "bashing": 1,
     "to_hit": -1,
-    "covers": [ "torso" ],
-    "encumbrance": 2,
-    "coverage": 10,
     "material_thickness": 2,
     "pocket_data": [
       {
@@ -3413,7 +3410,8 @@
           "robofac_test_data"
         ]
       }
-    ]
+    ],
+    "armor": [ { "encumbrance": 2, "coverage": 10, "covers": [ "torso" ] } ]
   },
   {
     "id": "lanyard",
@@ -3432,8 +3430,6 @@
     "longest_side": "5 cm",
     "bashing": 1,
     "to_hit": -1,
-    "covers": [ "torso" ],
-    "encumbrance": 0,
     "material_thickness": 1,
     "pocket_data": [
       {
@@ -3463,7 +3459,8 @@
           "condom"
         ]
       }
-    ]
+    ],
+    "armor": [ { "encumbrance": 0, "covers": [ "torso" ] } ]
   },
   {
     "type": "GENERIC",
