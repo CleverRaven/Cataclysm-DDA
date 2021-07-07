@@ -101,7 +101,7 @@
     "thrown_damage": [ { "damage_type": "bash", "amount": 6 }, { "damage_type": "cut", "amount": 16 } ]
   },
   {
-    "type": "GENERIC",
+    "type": "AMMO",
     "id": "throwing_knife",
     "category": "weapons",
     "price": 5200,
@@ -116,6 +116,7 @@
     "to_hit": -2,
     "bashing": 1,
     "cutting": 10,
+    "ammo_type": "thrown",
     "flags": [ "STAB", "SHEATH_KNIFE" ],
     "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ]
   },
