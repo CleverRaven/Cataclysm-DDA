@@ -749,7 +749,7 @@ static int charges_of_internal( const T &self, const M &main, const itype_id &id
                         found_tool_with_UPS = true;
                     }
                 }
-                if( !e->has_pockets() ) {
+                if( !e->is_container() ) {
                     return qty < limit ? VisitResponse::SKIP : VisitResponse::ABORT;
                 }
 

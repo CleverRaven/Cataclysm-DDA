@@ -1090,7 +1090,7 @@ TEST_CASE( "best pocket in item contents", "[pocket][item][best]" )
     SECTION( "item with one watertight pocket has best_pocket for liquid" ) {
         // Must have a CONTAINER pocket, first and foremost
         item skin( "test_waterskin" );
-        REQUIRE( skin.has_pockets() );
+        REQUIRE( skin.is_container() );
         REQUIRE( skin.contents.has_pocket_type( item_pocket::pocket_type::CONTAINER ) );
         // Prerequisite: It can contain water
         item liquid( "test_liquid" );
@@ -1104,7 +1104,7 @@ TEST_CASE( "best pocket in item contents", "[pocket][item][best]" )
     SECTION( "item with many different pockets can have best_pocket for different items" ) {
         // Utility belt has CONTAINER pockets
         item util_belt( "test_utility_belt" );
-        REQUIRE( util_belt.has_pockets() );
+        REQUIRE( util_belt.is_container() );
         REQUIRE( util_belt.contents.has_pocket_type( item_pocket::pocket_type::CONTAINER ) );
         // It can contain small and large tools
         item screwdriver( "test_screwdriver" );
@@ -1153,7 +1153,7 @@ TEST_CASE( "best pocket in item contents", "[pocket][item][best]" )
     SECTION( "sealed pockets cannot be best_pocket" ) {
         // Regular aluminum beverage can and something to fill it with
         item can( "test_can_drink" );
-        REQUIRE( can.has_pockets() );
+        REQUIRE( can.is_container() );
         REQUIRE( can.contents.has_pocket_type( item_pocket::pocket_type::CONTAINER ) );
         item liquid( "test_liquid" );
         REQUIRE( can.can_contain( liquid ) );
