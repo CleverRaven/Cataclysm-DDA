@@ -15,8 +15,32 @@ DDotD zombies *are* capable of learning. At some point we may add our own late s
 
 There are no aliens or interdimensional threats in ddotd.
 
+
 ## Setting
-The setting of DDotD should be vaguely "in the past", some time between 1980 and 2000. 
+The setting of DDotD should be vaguely "in the past", some time between 1980 and 2000. DDotD takes place in Alberta, Canada, in a fictionalized version of the Red Deer area. Why Alberta? Because the current CDDA mapgen of small clustered towns surrounded by fields and patches of forests on mostly flat land suits Alberta perfectly. This also allows us to have harsher winters to survive. Most buildings and loot in CDDA core will be appropriate, but guns and gun stores (with the exception of hunting rifles) are somewhat less common, and military presence substantially less so.
+
+### Changes to in-game stuff for setting reasons
+#### Items and spawns
+Most changes will be for setting reasons, not balance. We will mostly use the CDDA philosophy that real life is fairly well balanced, and go from there. However as our setting is in some vague timeframe between the 80's and early 2000's, and set in Canada, we will need a number of changes to all sorts of spawns to bring them in line. Some examples would include:
+- Electric cars should not exist, and cordless tools need substantially less battery life or shouldn't exist at all.
+- Solar power is much rarer and less efficient.
+- Cell phones exist but do nothing now that the grid is down. They have no flashlight, no camera.
+- Laptops are considerably rarer.
+- Assault weapons and pistols are considerably rarer. Gun stores are extremely rare although sporting goods stores are not.
+- Police are less well armed.
+- The military has much less presence.
+- Healthcare and health insurance costs are not a concern for most people.
+- SUVs and hatchbacks are less common. Compact cars are less common due to the location. Pickup trucks are much more common.
+- Many location names should be changed to Canadian equivalents, or sometimes removed to be later replaced with Canadian versions as appropriate. For example, the cdda "state park" map is a tiny fenced-off area with no resemblance to a Canadian provincial park.
+
+#### Professions and Scenarios
+The "default start" should put you in a cabin in the woods with one other survivor that already knows you and can tell you a bit about the setting. The rest of the start options should fit one of the two following categories:
+
+##### Movie-inspired starts
+These should be based on characters and starting scenarios from classic zombie movies, particularly the "of the dead" franchise, but also similar ones like Zombieland. For example, a Zombieland set of professions would have you starting in one of three groups: A nerdy survivor, a hardened hick survivor, or a cunning older sister with her younger sister starting as a faction member. These starts will not generally have any associated story and will have the current open world gameplay, although later we may add short starting storylines to get you to do things like gather up other survivors that match the movie setting you are from.
+
+##### Story starts
+These starts are a bit more like current cdda, with a wider option of starting classes, but they will be more heavily curated with a specific questline from the very beginning. You will start with a quest and proceed from there along a storyline. Of course, this being CDDA at heart, you can just ignore that storyline and go do other stuff.
 
 ### Zombification Mechanics
 The zombie affliction is infectious, possibly viral or fungal. Survivors may never find out. It comes in two forms: it transmits by airborn spores, which have a low infection rate and a long latency. After infection, carriers are very quickly able to infect others, but do not develop symptoms for 2-3 weeks. Once symptomatic it progresses quickly, with death usually occurring in another week. The infectious symptoms are vague and flu-like: fever, chills, severe nausea and vomiting, muscle aches, muscle spasms, and eventually delirium and death. Due to the relatively low infection rate of the airborne form, only around half of the population were susceptible to this form, and all survivors are clearly among the immune group. However, the much higher dose of infectious agent shared by bite or even scratch from a reanimated zombie carries an increased risk of infection and generates a much faster progressing form of the illness.
@@ -33,9 +57,6 @@ Four months ago, new reports of the same effect came up almost simultaneously in
 The first wave of zombies further spread the illness due to unreadiness and the population already being overwhelmed by the new pandemic. The death toll was catastrophic, particularly among medical personnel caring for those infected with the illness. It isn't known exactly what went wrong with military efforts, but they were undoubtedly stymied by their own ranks falling ill will the airborne form of the pandemic even as they tried to fight the zombies.
 
 Within three months, the world was collapsing. Survivors banded together in small groups, now aware of the signs and symptoms of the illness and the danger of a bite. You are one of those survivors. For the last few weeks you've been somewhere safe, holed up, waiting for things to die down, but it's clear now that things aren't going to die down.
-
-### Location
-DDotD takes place in Alberta, Canada, in a fictionalized version of the Red Deer area. Why Alberta? Because the current CDDA mapgen of small clustered towns surrounded by fields and patches of forests on mostly flat land suits Alberta perfectly. This also allows us to have harsher winters to survive. Most buildings and loot in CDDA core will be appropriate, but guns and gun stores (with the exception of hunting rifles) are somewhat less common, and military presence substantially less so.
 
 ### Factions
 The default CDDA factions do not fit with DDotD without significant change. It is possible that some, like Isherwood, could be rewritten and readded.
