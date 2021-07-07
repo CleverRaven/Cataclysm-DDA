@@ -149,7 +149,7 @@
     "material": [ "black_dragon_hide", "black_dragon_scales" ],
     "symbol": "[",
     "color": "black_white",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "head" ], "coverage": 100, "encumbrance": 32 },
       { "covers": [ "eyes", "mouth" ], "coverage": 100, "encumbrance": 20 }
     ],
@@ -169,7 +169,7 @@
     "description": "A helmet made from incredibly durable black dragonscale, held together with black dragonhide.  The visor is raised.",
     "use_action": { "type": "transform", "target": "helmet_black_dragon_scale", "msg": "You put down your visor." },
     "symbol": "[",
-    "armor_portion_data": [ { "covers": [ "head" ], "coverage": 100, "encumbrance": 32 } ],
+    "armor": [ { "covers": [ "head" ], "coverage": 100, "encumbrance": 32 } ],
     "delete": { "qualities": [ [ "GLARE", 1 ] ], "flags": [ "SUN_GLASSES" ] }
   },
   {
@@ -334,7 +334,7 @@
     "use_action": { "type": "transform", "target": "helmet_xlblack_dragon_scale_raised", "msg": "You raise your visor." },
     "weight": "1256 g",
     "volume": "4500 ml",
-    "armor_portion_data": [ { "covers": [ "head" ], "coverage": 100, "encumbrance": 42 } ],
+    "armor": [ { "covers": [ "head" ], "coverage": 100, "encumbrance": 42 } ],
     "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY", "SUN_GLASSES" ]
   },
   {
@@ -344,7 +344,7 @@
     "name": { "str": "XL black dragonscale helmet (raised visor)", "str_pl": "XL black dragonscale helmets (raised visor)" },
     "description": "A massive helmet made from incredibly durable black dragonscale, held together with black dragonhide.  It is large enough to fit even the strangest of heads.  The visor is raised",
     "use_action": { "type": "transform", "target": "helmet_xlblack_dragon_scale", "msg": "You put down your visor." },
-    "armor_portion_data": [ { "covers": [ "head" ], "coverage": 100, "encumbrance": 42 } ],
+    "armor": [ { "covers": [ "head" ], "coverage": 100, "encumbrance": 42 } ],
     "weight": "1256 g",
     "volume": "4500 ml",
     "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY" ]

@@ -504,6 +504,15 @@ character_id Character::getID() const
     return this->id;
 }
 
+void Character::randomize_height()
+{
+    // Height distribution data is taken from CDC distributes statistics for the US population
+    // https://github.com/CleverRaven/Cataclysm-DDA/pull/49270#issuecomment-861339732
+    const int x = std::round( normal_roll( 168.35, 15.50 ) );
+    // clamping to 145..200 because this is the bounds of what player can set, see newplayer.cpp
+    init_height = clamp( x, 145, 200 );
+}
+
 void Character::randomize_blood()
 {
     // Blood type distribution data is taken from this study on blood types of
@@ -9851,7 +9860,7 @@ std::string Character::weapname() const
                 const item *mag = weapon.magazine_current();
                 mag_ammo = string_format( " (0/%d)",
                                           mag->ammo_capacity( item( mag->ammo_default() ).ammo_type() ) );
-            } else {
+            } else if( weapon.is_reloadable() ) {
                 mag_ammo = _( " (empty)" );
             }
         }
@@ -13189,4 +13198,10 @@ bool Character::has_flag( const json_character_flag &flag ) const
 {
     // If this is a performance problem create a map of flags stored for a character and updated on trait, mutation, bionic add/remove, activate/deactivate, effect gain/loss
     return has_trait_flag( flag ) || has_bionic_with_flag( flag ) || has_effect_with_flag( flag );
+}
+
+bool Character::is_driving() const
+{
+    const optional_vpart_position vp = get_map().veh_at( pos() );
+    return vp && vp->vehicle().is_moving() && vp->vehicle().player_in_control( *this );
 }

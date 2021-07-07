@@ -13,7 +13,7 @@
     "symbol": "[",
     "looks_like": "hazmat_suit",
     "color": "light_red",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 10, 15 ] },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 10, 15 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 10, 10 ] }
@@ -91,7 +91,7 @@
     "symbol": "[",
     "looks_like": "armor_larmor",
     "color": "brown",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 18, 22 ] },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 90, "encumbrance": [ 18, 18 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 18, 18 ] }
@@ -186,7 +186,7 @@
     "symbol": "[",
     "looks_like": "armor_larmor",
     "color": "brown",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 21, 25 ] },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 90, "encumbrance": [ 21, 21 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 21, 21 ] }
@@ -236,7 +236,7 @@
     "symbol": "[",
     "looks_like": "touring_suit",
     "color": "brown",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 12, 18 ] },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 90, "encumbrance": [ 12, 12 ] }
     ],
@@ -314,7 +314,7 @@
     "symbol": "[",
     "looks_like": "touring_suit",
     "color": "light_red",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 10, 16 ] },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 95, "encumbrance": [ 10, 14 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 10, 13 ] }
@@ -352,7 +352,7 @@
     "looks_like": "armor_nomad",
     "symbol": "[",
     "color": "light_gray",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 80, "encumbrance": [ 8, 12 ] },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 80, "encumbrance": [ 8, 12 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 80, "encumbrance": [ 8, 10 ] }
@@ -391,7 +391,7 @@
     "symbol": "[",
     "color": "brown",
     "looks_like": "armor_larmor",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 17, 22 ] },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 90, "encumbrance": [ 17, 19 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 17, 17 ] }
@@ -530,7 +530,7 @@
     "symbol": "[",
     "looks_like": "armor_nomad",
     "color": "green",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 15, 26 ] },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 15, 19 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 15, 15 ] }
@@ -588,7 +588,7 @@
     "symbol": "[",
     "looks_like": "hazmat_suit",
     "color": "white",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 10, 15 ] },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 10, 12 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 10, 10 ] }
@@ -754,7 +754,7 @@
     "symbol": "[",
     "looks_like": "survivor_suit",
     "color": "light_gray",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 10, 26 ] },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 10, 14 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 10, 10 ] }
@@ -873,7 +873,7 @@
     "symbol": "[",
     "looks_like": "survivor_suit",
     "color": "dark_gray",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 17, 31 ] },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 17, 21 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 17, 17 ] }
@@ -903,7 +903,7 @@
     "symbol": "[",
     "looks_like": "survivor_suit",
     "color": "green",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 7, 15 ] },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 7, 7 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 7, 7 ] }
@@ -971,7 +971,7 @@
     "symbol": "[",
     "looks_like": "hazmat_suit",
     "color": "brown",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "head" ], "coverage": 100, "encumbrance": [ 7, 7 ] },
       { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 7, 13 ] },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 7, 10 ] },
@@ -1027,7 +1027,7 @@
     "symbol": "[",
     "looks_like": "jumpsuit",
     "color": "light_gray",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 7, 13 ] },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 95, "encumbrance": [ 7, 10 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 7, 7 ] }
@@ -1060,7 +1060,7 @@
     "symbol": "[",
     "looks_like": "touring_suit",
     "color": "brown",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 12, 20 ] },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 12, 17 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 12, 12 ] }
@@ -1095,7 +1095,7 @@
     "symbol": "[",
     "looks_like": "touring_suit",
     "color": "dark_gray",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 12, 19 ] },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 95, "encumbrance": [ 12, 16 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 12, 12 ] }
@@ -1128,7 +1128,7 @@
     "symbol": "[",
     "looks_like": "jumpsuit",
     "color": "light_red",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 14, 15 ] },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 95, "encumbrance": [ 14, 14 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 14, 14 ] }
@@ -1156,7 +1156,7 @@
     "symbol": "[",
     "looks_like": "survivor_suit",
     "color": "light_gray",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 20, 28 ] },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 20, 25 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 20, 20 ] }
@@ -1197,7 +1197,7 @@
     "symbol": "[",
     "looks_like": "survivor_suit",
     "color": "brown",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 17, 30 ] },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 17, 22 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 17, 17 ] }
@@ -1232,7 +1232,7 @@
     "symbol": "[",
     "looks_like": "hsurvivor_suit",
     "color": "dark_gray",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 22, 39 ] },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 22, 28 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 22, 22 ] }
@@ -1262,7 +1262,7 @@
     "symbol": "[",
     "looks_like": "touring_suit",
     "color": "green",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 1, 2 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 50, "encumbrance": [ 1, 1 ] },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 80, "encumbrance": [ 1, 2 ] }

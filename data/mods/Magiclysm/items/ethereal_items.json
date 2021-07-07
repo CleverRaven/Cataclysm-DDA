@@ -133,7 +133,7 @@
     "material_thickness": 3,
     "environmental_protection": 2,
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MOVE_COST", "add": -5 } ] } ] },
-    "flags": [ "WATERPROOF", "ROLLER_QUAD", "BELTED" ]
+    "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "ROLLER_QUAD", "BELTED" ]
   },
   {
     "type": "GENERIC",
@@ -774,6 +774,22 @@
     "relic_data": {
       "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_COLD", "add": 6 } ] } ]
     }
+  },
+  {
+    "id": "armor_spirit",
+    "type": "ARMOR",
+    "category": "armor",
+    "copy-from": "armor_lightplate",
+    "name": { "str_sp": "spiritual armor" },
+    "description": "A summoned medieval armor.  It glows softly and looks sturdy.",
+    "material": [ "superalloy" ],
+    "//": "I added a helmet to the summon",
+    "covers": [ "head", "mouth", "eyes", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
+    "coverage": 100,
+    "encumbrance": 5,
+    "warmth": 0,
+    "material_thickness": 4,
+    "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "VARSIZE", "STURDY", "NO_REPAIR", "NO_SALVAGE", "LIGHT_2", "TRADER_AVOID" ]
   },
   {
     "id": "jar_3l_force",

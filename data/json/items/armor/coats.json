@@ -15,7 +15,7 @@
     "symbol": "[",
     "looks_like": "coat_winter",
     "color": "yellow",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 22, 26 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 22, 22 ] }
     ],
@@ -84,7 +84,7 @@
     "symbol": "[",
     "looks_like": "coat_winter",
     "color": "brown",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 26, 30 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 26, 26 ] }
     ],
@@ -153,7 +153,7 @@
     "symbol": "[",
     "looks_like": "coat_fur",
     "color": "brown",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 30, 35 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 30, 30 ] }
     ],
@@ -194,7 +194,7 @@
     "symbol": "[",
     "looks_like": "coat_winter",
     "color": "white",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 2, 5 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 2, 2 ] }
     ],
@@ -238,7 +238,7 @@
     "symbol": "[",
     "looks_like": "coat_winter",
     "color": "yellow",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 7, 15 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 7, 7 ] }
     ],
@@ -276,7 +276,7 @@
     "symbol": "[",
     "looks_like": "coat_winter",
     "color": "yellow",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 95, "encumbrance": 12 },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 40, "encumbrance": 2 },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 50, "encumbrance": 0 }
@@ -321,7 +321,7 @@
     "symbol": "[",
     "looks_like": "coat_rain",
     "color": "light_red",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 18, 27 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 18, 21 ] }
     ],
@@ -375,7 +375,7 @@
     "symbol": "[",
     "looks_like": "trenchcoat",
     "color": "dark_gray",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 7, 13 ] },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 90, "encumbrance": [ 7, 9 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 7, 7 ] }
@@ -443,7 +443,7 @@
     "symbol": "[",
     "looks_like": "duster_leather",
     "color": "brown",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 9, 16 ] },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 90, "encumbrance": [ 9, 11 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 9, 9 ] }
@@ -547,7 +547,7 @@
     "symbol": "[",
     "looks_like": "duster",
     "color": "brown",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 8, 15 ] },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 90, "encumbrance": [ 8, 10 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 8, 8 ] }
@@ -625,7 +625,7 @@
     "symbol": "[",
     "looks_like": "duster_leather",
     "color": "brown",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 85, "encumbrance": [ 7, 13 ] },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 85, "encumbrance": [ 7, 9 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 85, "encumbrance": [ 7, 7 ] }
@@ -702,7 +702,7 @@
     "symbol": "[",
     "looks_like": "coat_winter",
     "color": "blue",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 11, 20 ] },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 95, "encumbrance": [ 11, 13 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 11, 11 ] }
@@ -798,7 +798,7 @@
     "symbol": "[",
     "looks_like": "coat_lab",
     "color": "blue",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 85, "encumbrance": [ 5, 10 ] },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 85, "encumbrance": [ 5, 5 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 85, "encumbrance": [ 5, 5 ] }
@@ -838,7 +838,7 @@
     "symbol": "[",
     "looks_like": "coat_winter",
     "color": "green",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 7, 15 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 7, 9 ] }
     ],
@@ -905,7 +905,7 @@
     "symbol": "[",
     "looks_like": "coat_lab",
     "color": "white",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 8, 13 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 8, 8 ] }
     ],
@@ -936,7 +936,7 @@
     "symbol": "[",
     "looks_like": "jacket_leather",
     "color": "cyan",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 13, 15 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 13, 13 ] }
     ],
@@ -974,7 +974,7 @@
     "symbol": "[",
     "looks_like": "coat_winter",
     "color": "light_red",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 9, 13 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 9, 9 ] }
     ],
@@ -1012,7 +1012,7 @@
     "symbol": "[",
     "looks_like": "jacket_windbreaker",
     "color": "light_blue",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 9, 11 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 9, 9 ] }
     ],
@@ -1056,7 +1056,7 @@
     "symbol": "[",
     "looks_like": "jacket_windbreaker",
     "color": "dark_gray",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 10, 15 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 10, 10 ] }
     ],
@@ -1097,7 +1097,7 @@
     "looks_like": "jacket_leather",
     "repairs_like": "jacket_leather",
     "color": "red",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 15, 20 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 15, 15 ] }
     ],
@@ -1137,7 +1137,7 @@
     "symbol": "[",
     "looks_like": "jacket_windbreaker",
     "color": "blue",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 4, 8 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 4, 4 ] }
     ],
@@ -1175,7 +1175,7 @@
     "symbol": "[",
     "looks_like": "jacket_light",
     "color": "cyan",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 6, 9 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 6, 7 ] }
     ],
@@ -1326,7 +1326,7 @@
     "symbol": "[",
     "looks_like": "robe",
     "color": "white",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 2, 5 ] },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 90, "encumbrance": [ 2, 2 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 2, 2 ] }
@@ -1358,7 +1358,7 @@
     "symbol": "[",
     "looks_like": "kimono",
     "color": "blue",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 80, "encumbrance": [ 1, 3 ] },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 80, "encumbrance": [ 1, 1 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 80, "encumbrance": [ 1, 1 ] }
@@ -1433,7 +1433,7 @@
     "symbol": "[",
     "looks_like": "coat_winter",
     "color": "blue",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 85, "encumbrance": [ 10, 20 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 85, "encumbrance": [ 10, 10 ] }
     ],
@@ -1487,7 +1487,7 @@
     "symbol": "[",
     "looks_like": "cloak",
     "color": "brown",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 80, "encumbrance": [ 8, 15 ] },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 80, "encumbrance": [ 8, 10 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 80, "encumbrance": [ 8, 8 ] }
@@ -1576,7 +1576,7 @@
     "symbol": "[",
     "looks_like": "coat_winter",
     "color": "light_blue",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 15, 22 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 15, 15 ] }
     ],
@@ -1631,7 +1631,7 @@
     "symbol": "[",
     "looks_like": "duster",
     "color": "dark_gray",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 7, 12 ] },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 90, "encumbrance": [ 7, 10 ] }
     ],
@@ -1699,7 +1699,7 @@
     "symbol": "[",
     "looks_like": "duster_fur",
     "color": "brown",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 9, 17 ] },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 90, "encumbrance": [ 9, 11 ] }
     ],
@@ -1778,7 +1778,7 @@
     "symbol": "[",
     "looks_like": "duster_leather",
     "color": "brown",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 8, 15 ] },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 90, "encumbrance": [ 8, 10 ] }
     ],
@@ -1848,7 +1848,7 @@
     "symbol": "[",
     "looks_like": "duster_survivor",
     "color": "brown",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 85, "encumbrance": [ 7, 13 ] },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 85, "encumbrance": [ 7, 9 ] }
     ],
@@ -2065,7 +2065,7 @@
     "symbol": "[",
     "looks_like": "coat_winter",
     "color": "dark_gray",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 7, 15 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 7, 7 ] }
     ],
@@ -2096,7 +2096,7 @@
     "symbol": "[",
     "looks_like": "trenchcoat_leather",
     "color": "brown",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 9, 19 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 9, 9 ] }
     ],
@@ -2138,7 +2138,7 @@
     "symbol": "[",
     "looks_like": "trenchcoat",
     "color": "brown",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 8, 17 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 8, 8 ] }
     ],
@@ -2171,7 +2171,7 @@
     "symbol": "[",
     "looks_like": "trenchcoat",
     "color": "brown",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 85, "encumbrance": [ 7, 15 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 85, "encumbrance": [ 7, 7 ] }
     ],
@@ -2281,7 +2281,7 @@
     "symbol": "[",
     "looks_like": "suit",
     "color": "dark_gray",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 13, 16 ] },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 95, "encumbrance": [ 13, 14 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 13, 13 ] }
@@ -2372,7 +2372,7 @@
     "symbol": "[",
     "looks_like": "coat_winter",
     "color": "white",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 10, 20 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 10, 10 ] }
     ],

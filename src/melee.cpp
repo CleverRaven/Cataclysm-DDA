@@ -976,7 +976,7 @@ float Character::get_dodge() const
 {
     //If we're asleep or busy we can't dodge
     if( in_sleep_state() || has_effect( effect_narcosis ) ||
-        has_effect( efftype_id( "winded" ) ) ) {
+        has_effect( efftype_id( "winded" ) ) || is_driving() ) {
         return 0.0f;
     }
 
@@ -1774,7 +1774,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
 
     // Shouldn't block if player is asleep or winded
     if( in_sleep_state() || has_effect( effect_narcosis ) ||
-        has_effect( efftype_id( "winded" ) ) ) {
+        has_effect( efftype_id( "winded" ) ) || is_driving() ) {
         return false;
     }
 

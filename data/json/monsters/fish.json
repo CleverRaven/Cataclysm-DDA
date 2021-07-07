@@ -25,6 +25,7 @@
     "armor_bash": 20,
     "armor_cut": 30,
     "armor_bullet": 24,
+    "bleed_rate": 60,
     "vision_day": 30,
     "vision_night": 20,
     "path_settings": { "max_dist": 50, "avoid_traps": true, "avoid_sharp": true },
@@ -628,6 +629,7 @@
     "dodge": 2,
     "armor_cut": 8,
     "armor_bullet": 6,
+    "bleed_rate": 85,
     "harvest": "shellfish",
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "FIRE" ],
@@ -645,6 +647,7 @@
     "volume": "625 L",
     "weight": "815 kg",
     "melee_dice": 2,
+    "bleed_rate": 60,
     "special_attacks": [
       [ "PARROT", 20 ],
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] }
@@ -677,6 +680,7 @@
     "armor_bash": 10,
     "armor_cut": 18,
     "armor_bullet": 14,
+    "bleed_rate": 65,
     "vision_day": 30,
     "vision_night": 15,
     "path_settings": { "max_dist": 50, "avoid_traps": true, "avoid_sharp": true },
