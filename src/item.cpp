@@ -8521,12 +8521,7 @@ int item::units_remaining( const Character &ch, int limit ) const
         return std::min( static_cast<int>( charges ), limit );
     }
 
-    int res = ammo_remaining();
-    if( res < limit && has_flag( flag_USE_UPS ) ) {
-        res += std::min( ch.available_ups(), limit - res );
-    }
-
-    return std::min( static_cast<int>( res ), limit );
+    return std::min( ammo_remaining( &ch ), limit );
 }
 
 bool item::units_sufficient( const Character &ch, int qty ) const
