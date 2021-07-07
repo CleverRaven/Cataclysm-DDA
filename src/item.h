@@ -730,6 +730,10 @@ class item : public visitable
         /** Whether this is container. Note that container does not necessarily means it's
          * suitable for liquids. */
         bool is_container() const;
+        // whether the contents has a pocket with the associated type
+        bool has_pocket_type( item_pocket::pocket_type pk_type ) const;
+        bool has_any_with( const std::function<bool( const item & )> &filter,
+                           item_pocket::pocket_type pk_type ) const;
 
         /**
          * Updates the pockets of this item to be correct based on the mods that are installed.

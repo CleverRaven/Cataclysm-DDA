@@ -7193,6 +7193,18 @@ bool item::is_container() const
     return contents.has_pocket_type( item_pocket::pocket_type::CONTAINER );
 }
 
+
+bool item::has_pocket_type( item_pocket::pocket_type pk_type ) const
+{
+    return contents.has_pocket_type( pk_type );
+}
+
+bool item::has_any_with( const std::function<bool( const item & )> &filter,
+                         item_pocket::pocket_type pk_type ) const
+{
+    return contents.has_any_with( filter, pk_type );
+}
+
 item_pocket *item::contained_where( const item &contained )
 {
     return contents.contained_where( contained );
