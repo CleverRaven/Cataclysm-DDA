@@ -9,6 +9,7 @@
     "armor_bash": 7,
     "armor_cut": 5,
     "armor_bullet": 5,
+    "bleed_rate": 50,
     "special_attacks": [ { "type": "bite", "cooldown": 3 } ],
     "regenerates": 10,
     "extend": { "flags": [ "SLUDGETRAIL", "SLUDGEPROOF" ] }
@@ -40,6 +41,7 @@
     "armor_bash": 8,
     "armor_cut": 6,
     "armor_bullet": 6,
+    "bleed_rate": 50,
     "special_attacks": [ { "type": "bite", "cooldown": 3 } ],
     "regenerates": 10,
     "extend": { "flags": [ "SLUDGETRAIL", "SLUDGEPROOF" ] }
@@ -212,6 +214,7 @@
     "armor_bullet": 6,
     "special_attacks": [ { "type": "bite", "cooldown": 3 } ],
     "regenerates": 5,
+    "bleed_rate": 0,
     "vision_day": 8,
     "vision_night": 15,
     "extend": { "flags": [ "SLUDGETRAIL", "SLUDGEPROOF", "NIGHT_INVISIBILITY" ] }

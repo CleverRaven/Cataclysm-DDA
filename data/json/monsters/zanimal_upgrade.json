@@ -25,6 +25,7 @@
     "armor_bullet": 12,
     "armor_stab": 30,
     "armor_acid": 3,
+    "bleed_rate": 50,
     "vision_night": 3,
     "harvest": "mr_bones",
     "special_attacks": [ { "type": "bite", "cooldown": 5 } ],
@@ -50,6 +51,7 @@
       "armor_bullet": 5,
       "vision_night": 1
     },
+    "bleed_rate": 50,
     "upgrades": { "half_life": 21, "into": "mon_dog_zombie_hulk" },
     "special_attacks": [ [ "SMASH", 30 ], { "type": "bite", "move_cost": 150, "cooldown": 2, "accuracy": 4, "no_infection_chance": 12 } ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_VEH" ] }
@@ -69,6 +71,7 @@
     "armor_bash": 8,
     "armor_cut": 12,
     "armor_bullet": 10,
+    "bleed_rate": 0,
     "upgrades": {  },
     "special_attacks": [ [ "SMASH", 20 ], { "type": "bite", "move_cost": 188, "cooldown": 2, "accuracy": 4, "no_infection_chance": 12 } ],
     "extend": { "flags": [ "DESTROYS" ] }
@@ -87,6 +90,7 @@
     "armor_bullet": 24,
     "armor_bash": 12,
     "armor_acid": 1,
+    "bleed_rate": 0,
     "special_attacks": [
       [ "SMASH", 45 ],
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
@@ -111,6 +115,7 @@
       "armor_bullet": 5,
       "vision_night": 1
     },
+    "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ], { "id": "impale" } ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_VEH", "HIT_AND_RUN" ] }
   },
@@ -122,6 +127,7 @@
     "description": "Billowing clouds of yellow-streaked gas precede boar-shaped shadows.  Glimpses of a zombie boar are quickly obscured by the gases leaving its body through open wounds.",
     "diff": 5,
     "color": "red",
+    "bleed_rate": 50,
     "weight": "150 kg",
     "harvest": "exempt",
     "emit_fields": [ { "emit_id": "emit_tear_gas_stream", "delay": "1 s" } ],
@@ -156,6 +162,7 @@
     "armor_bullet": 12,
     "armor_stab": 30,
     "armor_acid": 3,
+    "bleed_rate": 50,
     "vision_night": 3,
     "harvest": "mr_bones",
     "special_attacks": [ { "type": "bite", "cooldown": 5 } ],
@@ -176,6 +183,7 @@
     "melee_dice": 6,
     "melee_cut": 8,
     "dodge": 5,
+    "bleed_rate": 50,
     "vision_night": 12,
     "special_attacks": [
       { "id": "scratch", "move_cost": 190, "damage_max_instance": [ { "damage_type": "cut", "amount": 12 } ] },
@@ -207,6 +215,7 @@
     "armor_bullet": 32,
     "armor_stab": 30,
     "armor_acid": 3,
+    "bleed_rate": 0,
     "vision_day": 10,
     "harvest": "mr_bones",
     "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
@@ -220,6 +229,7 @@
     "description": "An uncanny shadow envelops this creature, as if light itself were too repulsed to touch it.  All you can make out is the outline of a large, shambling cat.",
     "color": "light_gray",
     "vision_day": 3,
+    "bleed_rate": 50,
     "vision_night": 45,
     "flags": [
       "SEES",
@@ -250,6 +260,7 @@
     "melee_skill": 4,
     "melee_dice": 3,
     "dodge": 3,
+    "bleed_rate": 50,
     "special_attacks": [ [ "ACID_BARF", 10 ] ],
     "death_function": [ "ACID", "NORMAL" ],
     "flags": [
@@ -287,6 +298,7 @@
     "armor_bash": 10,
     "armor_cut": 10,
     "armor_bullet": 8,
+    "bleed_rate": 50,
     "vision_night": 6,
     "special_attacks": [ [ "SMASH", 30 ], [ "GRAB", 7 ] ],
     "flags": [
@@ -321,6 +333,7 @@
     "armor_bash": 8,
     "armor_cut": 8,
     "armor_bullet": 6,
+    "bleed_rate": 0,
     "vision_night": 7,
     "harvest": "zombie_thorny",
     "attack_effs": [ { "id": "paralyzepoison", "duration": 33 } ],

@@ -193,6 +193,7 @@
     "melee_cut": 12,
     "armor_bash": 12,
     "armor_cut": 28,
+    "bleed_rate": 50,
     "vision_night": 3,
     "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "GRAB", 7 ], [ "scratch", 20 ] ],
     "death_drops": { "subtype": "collection", "groups": [ [ "robots", 80 ] ] },
