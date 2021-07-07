@@ -24,6 +24,7 @@
     "dodge": 3,
     "armor_bash": 8,
     "armor_cut": 12,
+    "bleed_rate": 80,
     "vision_day": 30,
     "vision_night": 10,
     "path_settings": { "max_dist": 10 },
@@ -39,7 +40,7 @@
     "placate_triggers": [ "MEAT" ],
     "death_function": [ "NORMAL" ],
     "harvest": "mutant_mammal_large_fur",
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "BASHES", "ATTACKMON", "STUMBLES", "KEENNOSE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "BASHES", "PUSH_MON", "STUMBLES", "KEENNOSE" ]
   },
   {
     "id": "mon_beaver_mutant_huge",
@@ -283,6 +284,7 @@
     "dodge": 2,
     "armor_bash": 8,
     "armor_cut": 10,
+    "bleed_rate": 60,
     "vision_day": 50,
     "vision_night": 5,
     "harvest": "mutant_mammal_large_fur",

@@ -92,16 +92,14 @@
     "material": [ "cotton" ],
     "symbol": "^",
     "color": "light_blue",
-    "covers": [ "head" ],
-    "coverage": 50,
-    "encumbrance": 12,
     "warmth": 7,
     "material_thickness": 2,
     "environmental_protection": 2,
     "relic_data": {
       "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "multiply": 0.2, "add": 500 } ] } ]
     },
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE" ],
+    "armor": [ { "encumbrance": 12, "coverage": 50, "covers": [ "head" ] } ]
   },
   {
     "id": "debug_fireball_hammer",
@@ -131,13 +129,11 @@
     "material": [ "black_dragon_hide" ],
     "symbol": "[",
     "color": "dark_gray",
-    "covers": [ "torso", "head", "arm_l", "arm_r", "leg_l", "leg_r" ],
-    "coverage": 85,
-    "encumbrance": 4,
     "warmth": 30,
     "material_thickness": 3,
     "flags": [ "OVERSIZE", "HOOD", "OUTER", "NO_REPAIR", "SUPER_FANCY", "STURDY", "TRADER_KEEP_EQUIPPED" ],
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "BONUS_DODGE", "add": 1 } ] } ] }
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "BONUS_DODGE", "add": 1 } ] } ] },
+    "armor": [ { "encumbrance": 4, "coverage": 85, "covers": [ "torso", "head", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
   },
   {
     "id": "wolfshead_cufflinks",

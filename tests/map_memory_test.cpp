@@ -3,7 +3,7 @@
 #include <sstream>
 #include <type_traits>
 
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "game_constants.h"
 #include "json.h"
 #include "lru_cache.h"

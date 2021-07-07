@@ -73,6 +73,10 @@
   },
   {
     "type": "mutation_type",
+    "id": "eye_color"
+  },
+  {
+    "type": "mutation_type",
     "id": "hair_style"
   },
   {

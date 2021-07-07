@@ -18,6 +18,38 @@
     "fun": 6
   },
   {
+    "id": "afs_welcome1_book",
+    "type": "BOOK",
+    "name": { "str": "Unofficial History of Salus IV Vol. 1", "str_pl": "copies of Unofficial History of Salus IV Vol. 1" },
+    "description": "Welcome to Frozen Hell, an unofficial history of Salus IV by Bette Lapin.  Salus IV was founded in the early days of the Hyperspace Era by the interstellar Soviet community.  At its height several hundred years ago Salus IV had just over one billion sentient citizens, but that population had begun to decline even before the Discontinuity as people migrated to planets that while more hostile to life during the earliest colonization phases than Salus IV were much simpler to terraform into a place more enjoyable by human and uplift citizens.",
+    "weight": "700 g",
+    "volume": "750 ml",
+    "price": 5000,
+    "price_postapoc": 1000,
+    "looks_like": "ZSG",
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "light_blue",
+    "intelligence": 4,
+    "time": 20,
+    "chapters": 3,
+    "fun": 2
+  },
+  {
+    "id": "afs_welcome2_book",
+    "type": "BOOK",
+    "name": { "str": "Unofficial History of Salus IV Vol. 2", "str_pl": "copies of Unofficial History of Salus IV Vol. 2" },
+    "description": "Even during the Discontinuity Salus IV's population continued to drop as there were easier places to live even in the Salus system, from honeycombed asteroid habitats, to domed cities with gorgeous views.  As with many other governments during the Discontinuity the Interstellar Soviet collapsed into a vipers pit of microstates, solar corporations and other forms of self governance.  During this time Mercurial Genomics a corporation specializing in Uplifts successfully laid claim to Salus IV in the court system set up by ESCA.  The Whately family, which runs Mercurial Genomics begins leasing development and exploitation permits and allows the establishment of minor UICA outposts within Salus IV.  There is an official citizen count of less than fifty thousand sentient beings mostly in orbit of Salus IV.  It is believed however that there are at least that many non-citizen sentients spread amongst squatter, smuggler, pirate, and feral uplift communities.",
+    "copy-from": "afs_welcome1_book"
+  },
+  {
+    "id": "afs_welcome3_book",
+    "type": "BOOK",
+    "name": { "str": "Unofficial History of Salus IV Vol. 3", "str_pl": "copies of Unofficial History of Salus IV Vol. 3" },
+    "description": "The Salus system is what is called a hinge system for the new FTL travels.  This system contains a number of easy exit points to star systems that have no other easy way to travel to each other than through a series of systems with low to zero civilization in them.  Salus at minimum has several interstellar refueling points.  These stations are often blind to each other as the planets and other objects rotate around the sun.  Mercurial seems to have no interest in managing or protecting the traffic that flows through the Salus system or in neighboring systems beyond the bare minimum effort required by UICA.  As a result of this neglect; victims of pirate attacks, engine failure and other critical issues regularly limp to whatever safety they can find in the Salus system.  Unfortunately for many of them they will crash land on Salus IV where there are few regular shuttles between its scattered ports and the outside universe.  As the locals are fond of saying 'Getting to Salus IV is hard, getting off may be impossible'.",
+    "copy-from": "afs_welcome1_book"
+  },
+  {
     "id": "textbook_atomic",
     "type": "BOOK",
     "name": { "str": "Nuclear Physics Made Easy", "str_pl": "copies of Nuclear Physics Made Easy" },
@@ -114,7 +146,7 @@
     "id": "cyrus'_notes",
     "type": "BOOK",
     "name": { "str": "Cyrus Whateley's Notes on Repurposing mi-go victims", "str_pl": "copies of Cyrus Whateley's Notes" },
-    "description": "A folio of notes written by a madman.  They seem to suggestion ways to re-animate the dead and create various affronts to the natural order.",
+    "description": "A folio of notes written by a madman.  They seem to suggest ways to re-animate the dead and create various affronts to the natural order.",
     "weight": "2063 g",
     "volume": "2 L",
     "price": 929200,
