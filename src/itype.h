@@ -425,6 +425,10 @@ struct common_ranged_data {
      */
     int range = 0;
     /**
+     * Range multiplier from gunmods or ammo.
+     */
+    float range_multiplier = 1.0;
+    /**
      * Dispersion "bonus" from gun.
      */
     int dispersion = 0;

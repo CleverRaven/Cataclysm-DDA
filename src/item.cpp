@@ -2172,8 +2172,12 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
         if( parts->test( iteminfo_parts::AMMO_DAMAGE_RANGE ) ) {
             info.emplace_back( "AMMO", _( "Range: " ), "", iteminfo::no_newline, ammo.range );
         }
+        if( ammo.range_multiplier != 1.0f && parts->test( iteminfo_parts::AMMO_DAMAGE_RANGE_MULTIPLIER ) ) {
+            info.emplace_back( "AMMO", space + _( "Range Multiplier: " ), "",
+                               iteminfo::is_decimal, ammo.range_multiplier );
+        }
         if( parts->test( iteminfo_parts::AMMO_DAMAGE_DISPERSION ) ) {
-            info.emplace_back( "AMMO", space + _( "Dispersion: " ), "",
+            info.emplace_back( "AMMO", _( "Dispersion: " ), "",
                                iteminfo::lower_is_better, ammo.dispersion );
         }
         if( parts->test( iteminfo_parts::AMMO_DAMAGE_RECOIL ) ) {
@@ -2646,6 +2650,14 @@ void item::gunmod_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     if( get_ranged_pierce( mod ) != 0 && parts->test( iteminfo_parts::GUNMOD_ARMORPIERCE ) ) {
         info.emplace_back( "GUNMOD", _( "Armor-pierce: " ), "", iteminfo::show_plus,
                            pierce );
+    }
+    if( mod.range != 0 && parts->test( iteminfo_parts::GUNMOD_RANGE ) ) {
+        info.emplace_back( "GUNMOD", _( "Range: " ), "",
+                           iteminfo::show_plus | iteminfo::no_newline, mod.range );
+    }
+    if( mod.range_multiplier != 1.0f && parts->test( iteminfo_parts::GUNMOD_RANGE_MULTIPLIER ) ) {
+        info.emplace_back( "GUNMOD", _( "Range Multiplier: " ), "",
+                           iteminfo::is_decimal, mod.range_multiplier );
     }
     if( mod.handling != 0 && parts->test( iteminfo_parts::GUNMOD_HANDLING ) ) {
         info.emplace_back( "GUNMOD", _( "Handling modifier: " ), "",
@@ -7830,12 +7842,16 @@ int item::gun_range( bool with_ammo ) const
         return 0;
     }
     int ret = type->gun->range;
+    float range_multiplier = 1.0;
     for( const item *mod : gunmods() ) {
         ret += mod->type->gunmod->range;
+        range_multiplier *= mod->type->gunmod->range_multiplier;
     }
     if( with_ammo && ammo_data() ) {
         ret += ammo_data()->ammo->range;
+        range_multiplier *= ammo_data()->ammo->range_multiplier;
     }
+    ret *= range_multiplier;
     return std::min( std::max( 0, ret ), RANGE_HARD_CAP );
 }
 
