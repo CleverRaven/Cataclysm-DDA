@@ -2136,6 +2136,8 @@ class Character : public Creature, public visitable
         std::string height_string() const;
         // returns the height of the player character in cm
         int height() const;
+        // Randomizes characters' height
+        void randomize_height();
         // returns bodyweight of the Character
         units::mass bodyweight() const;
         // returns total weight of installed bionics
