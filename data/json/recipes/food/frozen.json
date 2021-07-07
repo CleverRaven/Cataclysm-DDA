@@ -15,11 +15,13 @@
       [ [ "milk_standard", 1, "LIST" ], [ "con_milk", 1 ], [ "can_coconut", 1 ] ],
       [
         [ "chocolate", 1 ],
+        [ "peanutbutter", 2 ],
+        [ "peanutbutter_imitation", 2 ],
+        [ "syrup", 1 ],
         [ "candy", 1 ],
         [ "candy2", 1 ],
         [ "candy3", 1 ],
         [ "maple_candy", 1 ],
-        [ "syrup", 1 ],
         [ "strawberries", 1 ],
         [ "strawberries_cooked", 1 ],
         [ "irradiated_strawberries", 1 ],
@@ -45,6 +47,8 @@
       [ [ "milk_choc", 1 ] ],
       [
         [ "chocolate", 1 ],
+        [ "peanutbutter", 2 ],
+        [ "peanutbutter_imitation", 2 ],
         [ "candy", 1 ],
         [ "candy2", 1 ],
         [ "candy3", 1 ],
@@ -79,6 +83,9 @@
       [ [ "milk_standard", 1, "LIST" ] ],
       [
         [ "chocolate", 2 ],
+        [ "peanutbutter", 2 ],
+        [ "peanutbutter_imitation", 2 ],
+        [ "syrup", 1 ],
         [ "candy", 2 ],
         [ "candy2", 2 ],
         [ "candy3", 2 ],
@@ -108,6 +115,9 @@
       [ [ "milk_choc", 1 ] ],
       [
         [ "chocolate", 2 ],
+        [ "peanutbutter", 2 ],
+        [ "peanutbutter_imitation", 2 ],
+        [ "syrup", 1 ],
         [ "candy", 2 ],
         [ "candy2", 2 ],
         [ "candy3", 2 ],
@@ -163,6 +173,9 @@
       [ [ "milk_standard", 2, "LIST" ] ],
       [
         [ "chocolate", 1 ],
+        [ "peanutbutter", 1 ],
+        [ "peanutbutter_imitation", 1 ],
+        [ "syrup", 1 ],
         [ "candy", 1 ],
         [ "candy2", 1 ],
         [ "candy3", 1 ],
@@ -191,6 +204,9 @@
       [ [ "milk_choc", 2 ] ],
       [
         [ "chocolate", 1 ],
+        [ "peanutbutter", 1 ],
+        [ "peanutbutter_imitation", 1 ],
+        [ "syrup", 1 ],
         [ "candy", 1 ],
         [ "candy2", 1 ],
         [ "candy3", 1 ],
@@ -224,6 +240,9 @@
       [ [ "milk_standard", 2, "LIST" ] ],
       [
         [ "chocolate", 1 ],
+        [ "peanutbutter", 1 ],
+        [ "peanutbutter_imitation", 1 ],
+        [ "syrup", 1 ],
         [ "candy", 1 ],
         [ "candy2", 1 ],
         [ "candy3", 1 ],
@@ -255,6 +274,9 @@
       [ [ "milk_choc", 2 ] ],
       [
         [ "chocolate", 1 ],
+        [ "peanutbutter", 1 ],
+        [ "peanutbutter_imitation", 1 ],
+        [ "syrup", 1 ],
         [ "candy", 1 ],
         [ "candy2", 1 ],
         [ "candy3", 1 ],
@@ -316,6 +338,9 @@
       [ [ "milk_standard", 2, "LIST" ] ],
       [
         [ "chocolate", 1 ],
+        [ "peanutbutter", 1 ],
+        [ "peanutbutter_imitation", 1 ],
+        [ "syrup", 1 ],
         [ "candy", 1 ],
         [ "candy2", 1 ],
         [ "candy3", 1 ],
@@ -381,6 +406,9 @@
       [ [ "milk_standard", 1, "LIST" ] ],
       [
         [ "chocolate", 1 ],
+        [ "peanutbutter", 1 ],
+        [ "peanutbutter_imitation", 1 ],
+        [ "syrup", 1 ],
         [ "candy", 1 ],
         [ "candy2", 1 ],
         [ "candy3", 1 ],

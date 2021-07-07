@@ -1304,7 +1304,7 @@
       "palettes": [ "standard_domestic_palette" ],
       "terrain": { "|": "t_wall_wood" },
       "furniture": { "%": "f_rack_wood", "$": "f_fvat_empty", "0": "f_wood_keg", "!": "f_wood_keg" },
-      "liquids": { "X": { "liquid": "hb_beer", "amount": [ 100, 1000 ] }, "W": { "liquid": "dandelion_wine", "amount": [ 100, 1000 ] } },
+      "liquids": { "X": { "liquid": "hb_beer", "amount": [ 100, 500 ] }, "W": { "liquid": "dandelion_wine", "amount": [ 100, 500 ] } },
       "items": {
         "%": [
           { "item": "liqstore_brew", "chance": 50, "repeat": [ 2, 8 ] },
@@ -1332,7 +1332,7 @@
       "palettes": [ "standard_domestic_palette" ],
       "terrain": { "|": "t_wall_wood" },
       "furniture": { "%": "f_rack_wood", "$": "f_fvat_empty", "0": "f_wood_keg", "!": "f_wood_keg" },
-      "liquids": { "0": { "liquid": "hb_beer", "amount": [ 10, 1000 ] }, "!": { "liquid": "dandelion_wine", "amount": [ 10, 1000 ] } },
+      "liquids": { "0": { "liquid": "hb_beer", "amount": [ 10, 500 ] }, "!": { "liquid": "dandelion_wine", "amount": [ 10, 500 ] } },
       "items": {
         "%": [
           { "item": "liqstore_brew", "chance": 50, "repeat": [ 2, 8 ] },
@@ -1360,7 +1360,7 @@
       "palettes": [ "standard_domestic_palette" ],
       "terrain": { "|": "t_wall_wood" },
       "furniture": { "%": "f_rack_wood", "$": "f_fvat_empty", "0": "f_wood_keg", ",": "f_still", "~": "f_ash", "!": "f_wood_keg" },
-      "liquids": { "0": { "liquid": "moonshine", "amount": [ 100, 1000 ] }, "!": { "liquid": "mead", "amount": [ 100, 1000 ] } },
+      "liquids": { "0": { "liquid": "moonshine", "amount": [ 100, 500 ] }, "!": { "liquid": "mead", "amount": [ 100, 500 ] } },
       "items": {
         "%": [
           { "item": "liqstore_brew", "chance": 50, "repeat": [ 2, 8 ] },
@@ -1388,7 +1388,7 @@
       "palettes": [ "standard_domestic_palette" ],
       "terrain": { "|": "t_wall_wood" },
       "furniture": { "%": "f_rack_wood", "$": "f_fvat_empty", "0": "f_wood_keg", ",": "f_still", "~": "f_ash", "!": "f_wood_keg" },
-      "liquids": { "0": { "liquid": "moonshine", "amount": [ 100, 1000 ] }, "!": { "liquid": "mead", "amount": [ 100, 1000 ] } },
+      "liquids": { "0": { "liquid": "moonshine", "amount": [ 100, 500 ] }, "!": { "liquid": "mead", "amount": [ 100, 500 ] } },
       "items": {
         "%": [
           { "item": "liqstore_brew", "chance": 50, "repeat": [ 2, 8 ] },
@@ -1819,8 +1819,8 @@
       },
       "furniture": { "%": "f_rack_wood", "0": "f_wood_keg", "!": "f_wood_keg", "t": "f_table", "E": "f_armchair", "m": "f_glass_fridge" },
       "liquids": {
-        "0": { "liquid": "wine_cabernet", "amount": [ 100, 1000 ] },
-        "!": { "liquid": "wine_chardonnay", "amount": [ 100, 1000 ] }
+        "0": { "liquid": "wine_cabernet", "amount": [ 100, 500 ] },
+        "!": { "liquid": "wine_chardonnay", "amount": [ 100, 500 ] }
       },
       "place_loot": [ { "item": "deck_of_cards", "x": 3, "y": 3, "chance": 100 } ],
       "items": {
@@ -1860,8 +1860,8 @@
       },
       "furniture": { "%": "f_rack_wood", "0": "f_wood_keg", "!": "f_wood_keg", "t": "f_table", "E": "f_armchair", "m": "f_glass_fridge" },
       "liquids": {
-        "0": { "liquid": "wine_cabernet", "amount": [ 100, 1000 ] },
-        "!": { "liquid": "wine_chardonnay", "amount": [ 100, 1000 ] }
+        "0": { "liquid": "wine_cabernet", "amount": [ 100, 500 ] },
+        "!": { "liquid": "wine_chardonnay", "amount": [ 100, 500 ] }
       },
       "place_loot": [ { "item": "deck_of_cards", "x": 3, "y": 3, "chance": 100 } ],
       "items": {
@@ -1901,8 +1901,8 @@
       },
       "furniture": { "%": "f_rack_wood", "0": "f_wood_keg", "!": "f_wood_keg", "t": "f_table", "E": "f_armchair", "m": "f_glass_fridge" },
       "liquids": {
-        "0": { "liquid": "wine_cabernet", "amount": [ 100, 1000 ] },
-        "!": { "liquid": "wine_chardonnay", "amount": [ 100, 1000 ] }
+        "0": { "liquid": "wine_cabernet", "amount": [ 100, 500 ] },
+        "!": { "liquid": "wine_chardonnay", "amount": [ 100, 500 ] }
       },
       "place_loot": [ { "item": "deck_of_cards", "x": 3, "y": 3, "chance": 100 } ],
       "items": {
@@ -1942,8 +1942,8 @@
       },
       "furniture": { "%": "f_rack_wood", "0": "f_wood_keg", "!": "f_wood_keg", "t": "f_table", "E": "f_armchair", "m": "f_glass_fridge" },
       "liquids": {
-        "0": { "liquid": "wine_cabernet", "amount": [ 100, 1000 ] },
-        "!": { "liquid": "wine_chardonnay", "amount": [ 100, 1000 ] }
+        "0": { "liquid": "wine_cabernet", "amount": [ 100, 500 ] },
+        "!": { "liquid": "wine_chardonnay", "amount": [ 100, 500 ] }
       },
       "place_loot": [ { "item": "deck_of_cards", "x": 3, "y": 3, "chance": 100 } ],
       "items": {

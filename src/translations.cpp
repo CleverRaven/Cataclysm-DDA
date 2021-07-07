@@ -434,7 +434,7 @@ std::string gettext_gendered( const GenderMap &genders, const std::string &msg )
     sanity_check_genders( language_genders );
 
     if( language_genders.empty() ) {
-        language_genders.push_back( "n" );
+        language_genders.emplace_back( "n" );
     }
 
     std::vector<std::string> chosen_genders;

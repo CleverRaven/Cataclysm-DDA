@@ -5,7 +5,7 @@
 
 #include "avatar.h"
 #include "calendar.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "damage.h"
 #include "game.h"
 #include "game_constants.h"

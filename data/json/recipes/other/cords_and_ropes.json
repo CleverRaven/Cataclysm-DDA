@@ -79,7 +79,7 @@
     "reversible": true,
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_fibers_rope", "required": false, "time_multiplier": 1.5 } ],
-    "components": [ [ [ "rope_6", 5 ], [ "string_36", 30 ] ] ]
+    "components": [ [ [ "rope_6", 5 ] ] ]
   },
   {
     "type": "recipe",

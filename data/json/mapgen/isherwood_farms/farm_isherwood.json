@@ -300,7 +300,7 @@
         "X": "f_wood_keg",
         "W": "f_wood_keg"
       },
-      "liquids": { "X": { "liquid": "hb_beer", "amount": [ 100, 1000 ] }, "W": { "liquid": "dandelion_wine", "amount": [ 100, 1000 ] } },
+      "liquids": { "X": { "liquid": "hb_beer", "amount": [ 100, 500 ] }, "W": { "liquid": "dandelion_wine", "amount": [ 100, 500 ] } },
       "items": {
         "a": { "item": "dry_goods", "chance": 50, "repeat": [ 2, 8 ] },
         "r": { "item": "preserved_food", "chance": 50, "repeat": [ 2, 8 ] },
