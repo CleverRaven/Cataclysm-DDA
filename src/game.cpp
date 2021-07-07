@@ -743,11 +743,18 @@ bool game::start_game()
     //Load NPCs. Set nearby npcs to active.
     load_npcs();
     // Spawn the monsters
-    const bool spawn_near =
-        get_option<bool>( "BLACK_ROAD" ) || get_scenario()->has_flag( "SUR_START" );
     // Surrounded start ones
+    std::vector<std::pair<mongroup_id, float>> surround_groups = get_scenario()->surround_groups();
+    const bool surrounded_start_scenario = !surround_groups.empty();
+    const bool surrounded_start_options = get_option<bool>( "BLACK_ROAD" );
+    if( surrounded_start_options && !surrounded_start_scenario ) {
+        surround_groups.emplace_back( mongroup_id( "GROUP_BLACK_ROAD" ), 70.0f );
+    }
+    const bool spawn_near = surrounded_start_options || surrounded_start_scenario;
     if( spawn_near ) {
-        start_loc.surround_with_monsters( omtstart, mongroup_id( "GROUP_ZOMBIE" ), 70 );
+        for( const std::pair<mongroup_id, float> &sg : surround_groups ) {
+            start_loc.surround_with_monsters( omtstart, sg.first, sg.second );
+        }
     }
 
     m.spawn_monsters( !spawn_near ); // Static monsters

@@ -1227,7 +1227,6 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```INFECTED``` Player starts the game infected.
 - ```FUNGAL_INFECTION``` Player starts the game with a fungal infection.
 - ```LONE_START``` If starting NPC spawn option is switched to "Scenario-based", this scenario won't spawn a fellow NPC on game start.
-- ```SUR_START``` Surrounded start, zombies outside the starting location.
 
 #### Profession Flags
 

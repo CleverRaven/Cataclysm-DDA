@@ -58,7 +58,8 @@
       "sloc_school"
     ],
     "start_name": "In Large Building",
-    "flags": [ "SUR_START", "CITY_START", "LONE_START" ]
+    "surround_groups": [ [ "GROUP_BLACK_ROAD", 70.0 ] ],
+    "flags": [ "CITY_START", "LONE_START" ]
   },
   {
     "type": "scenario",
@@ -85,7 +86,8 @@
       "sloc_police"
     ],
     "start_name": "In Town",
-    "flags": [ "SUR_START", "CITY_START", "LONE_START" ]
+    "surround_groups": [ [ "GROUP_BLACK_ROAD", 70.0 ] ],
+    "flags": [ "CITY_START", "LONE_START" ]
   },
   {
     "type": "scenario",
@@ -318,7 +320,8 @@
       "sloc_campground"
     ],
     "start_name": "Outside Town",
-    "flags": [ "SUR_START", "LONE_START" ],
+    "surround_groups": [ [ "GROUP_BLACK_ROAD", 70.0 ] ],
+    "flags": [ "LONE_START" ],
     "custom_initial_date": { "season": "winter" },
     "add_professions": true,
     "professions": [ "sheltered_survivor", "sheltered_militia", "winter_scavenger", "winter_army" ]
