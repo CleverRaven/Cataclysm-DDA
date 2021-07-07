@@ -75,6 +75,28 @@
     "multi_activity": true
   },
   {
+    "id": "ACT_BIKERACK_RACKING",
+    "type": "activity_type",
+    "activity_level": "MODERATE_EXERCISE",
+    "verb": "mounting a vehicle onto rack",
+    "rooted": true,
+    "based_on": "time",
+    "no_resume": true,
+    "refuel_fires": false,
+    "auto_needs": false
+  },
+  {
+    "id": "ACT_BIKERACK_UNRACKING",
+    "type": "activity_type",
+    "activity_level": "MODERATE_EXERCISE",
+    "verb": "taking a vehicle from rack",
+    "rooted": true,
+    "based_on": "time",
+    "no_resume": true,
+    "refuel_fires": false,
+    "auto_needs": false
+  },
+  {
     "id": "ACT_MULTIPLE_CHOP_PLANKS",
     "type": "activity_type",
     "activity_level": "EXTRA_EXERCISE",

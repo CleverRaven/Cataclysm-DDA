@@ -1251,7 +1251,7 @@ void zone_manager::zone_edited( zone_data &zone )
             }
         }
         //Add it to the list of changed zones
-        changed_vzones.push_back( std::make_pair( zone_data( zone ), &zone ) );
+        changed_vzones.emplace_back( zone_data( zone ), &zone );
     }
 }
 

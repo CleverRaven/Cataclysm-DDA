@@ -40,5 +40,97 @@
     "subtype": "distribution",
     "ammo": 100,
     "items": [ [ "afs_4g_plasma", 30 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_pistol_rare",
+    "items": [ { "item": "afs_orion_84K", "prob": 15, "charges-min": 0, "charges-max": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_pistol_rare_display",
+    "items": [ { "item": "afs_orion_84K", "prob": 15, "charges-min": 0, "charges-max": 0 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_pistol_obscure",
+    "items": [ { "item": "afs_orion_84K", "prob": 50, "charges-min": 0, "charges-max": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_rifle_rare_display",
+    "items": [
+      { "item": "afs_gibrifle", "prob": 1, "charges-min": 0, "charges-max": 0 },
+      { "item": "afs_Accipitermg", "prob": 1, "charges-min": 0, "charges-max": 0 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_rifle_rare",
+    "items": [
+      { "item": "afs_gibrifle", "prob": 25, "charges-min": 0, "charges-max": 30 },
+      { "item": "afs_Accipitermg", "prob": 20, "charges-min": 0, "charges-max": 30 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_rifle_milspec",
+    "items": [
+      { "item": "afs_gibrifle", "prob": 50, "charges-min": 0, "charges-max": 30 },
+      { "item": "afs_Accipitermg", "prob": 45, "charges-min": 0, "charges-max": 30 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_shotgun_milspec",
+    "items": [ { "item": "afs_gibs_shotgun", "prob": 20, "charges-min": 0, "charges-max": 40 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "mags_pistol_rare",
+    "items": [ [ "afs_84k_20mag", 15 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "mags_rifle_rare",
+    "items": [ [ "afs_UICASTA30", 40 ], [ "afs_UICASTA100drum", 20 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "mags_shotgun_rare",
+    "items": [ [ "afs_25mm_mag", 50 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_pistol_rare",
+    "subtype": "distribution",
+    "entries": [ { "item": "afs_10mm_caseless_FMJ", "prob": 20 }, { "item": "afs_10mm_caseless_JHP", "prob": 15 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_rifle_rare",
+    "//": "Less common rifle ammo including that only used by police/paramilitary forces.",
+    "subtype": "distribution",
+    "entries": [ { "item": "afs_7.50mm_caseless", "prob": 40 }, { "item": "afs_7.50mm_rp", "prob": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_rifle_milspec",
+    "subtype": "distribution",
+    "entries": [ { "item": "afs_7.50mm_caseless", "prob": 40 }, { "item": "afs_7.50mm_rp", "prob": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_shotgun_rare",
+    "//": "Less common shotgun ammo including that only used by police/paramilitary forces.",
+    "subtype": "distribution",
+    "entries": [ { "item": "afs_25mm_shot", "prob": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_shotgun_milspec",
+    "//": "Military specification shotgun ammo found at military sites.",
+    "subtype": "distribution",
+    "entries": [ { "item": "afs_25mm_shot", "prob": 10 } ]
   }
 ]

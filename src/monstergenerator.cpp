@@ -52,6 +52,7 @@ std::string enum_to_string<mon_trigger>( mon_trigger data )
         case mon_trigger::MEAT: return "MEAT";
         case mon_trigger::HOSTILE_WEAK: return "PLAYER_WEAK";
         case mon_trigger::HOSTILE_CLOSE: return "PLAYER_CLOSE";
+        case mon_trigger::HOSTILE_SEEN: return "HOSTILE_SEEN";
         case mon_trigger::HURT: return "HURT";
         case mon_trigger::FIRE: return "FIRE";
         case mon_trigger::FRIEND_DIED: return "FRIEND_DIED";
@@ -175,6 +176,7 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_MILKABLE: return "MILKABLE";
         case MF_SHEARABLE: return "SHEARABLE";
         case MF_NO_BREED: return "NO_BREED";
+        case MF_NO_FUNG_DMG: return "NO_FUNG_DMG";
         case MF_PET_WONT_FOLLOW: return "PET_WONT_FOLLOW";
         case MF_DRIPS_NAPALM: return "DRIPS_NAPALM";
         case MF_DRIPS_GASOLINE: return "DRIPS_GASOLINE";
@@ -527,6 +529,8 @@ void MonsterGenerator::init_death()
     death_map["BROKEN_AMMO"] = &mdeath::broken_ammo;
     // Explode like a huge smoke bomb.
     death_map["SMOKEBURST"] = &mdeath::smokeburst;
+    // Explode like a huge tear gas bomb.
+    death_map["TEARBURST"] = &mdeath::tearburst;
     // Explode with a cloud of fungal haze.
     death_map["FUNGALBURST"] = &mdeath::fungalburst;
     // Snicker-snack!
@@ -649,6 +653,7 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "GRAB", mattack::grab );
     add_hardcoded_attack( "GRAB_DRAG", mattack::grab_drag );
     add_hardcoded_attack( "DOOT", mattack::doot );
+    add_hardcoded_attack( "DSA_DRONE_SCAN", mattack::dsa_drone_scan );
     add_hardcoded_attack( "ZOMBIE_FUSE", mattack::zombie_fuse );
 }
 
@@ -787,6 +792,8 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "mech_battery", mech_battery, itype_id() );
 
     optional( jo, was_loaded, "zombify_into", zombify_into, auto_flags_reader<mtype_id> {},
+              mtype_id() );
+    optional( jo, was_loaded, "fungalize_into", fungalize_into, auto_flags_reader<mtype_id> {},
               mtype_id() );
 
     // TODO: make this work with `was_loaded`
@@ -1219,6 +1226,10 @@ void MonsterGenerator::check_monster_definitions() const
         if( !mon.zombify_into.is_empty() && !mon.zombify_into.is_valid() ) {
             debugmsg( "monster %s has unknown zombify_into: %s", mon.id.c_str(),
                       mon.zombify_into.c_str() );
+        }
+        if( !mon.fungalize_into.is_empty() && !mon.fungalize_into.is_valid() ) {
+            debugmsg( "monster %s has unknown fungalize_into: %s", mon.id.c_str(),
+                      mon.fungalize_into.c_str() );
         }
         if( !mon.picture_id.is_empty() && !mon.picture_id.is_valid() ) {
             debugmsg( "monster %s has unknown ascii_picture: %s", mon.id.c_str(),

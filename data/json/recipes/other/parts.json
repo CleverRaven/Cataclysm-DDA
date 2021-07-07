@@ -81,6 +81,7 @@
     "reversible": true,
     "decomp_learn": 3,
     "book_learn": [ [ "radio_book", 3 ], [ "textbook_anarch", 5 ] ],
+    "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "amplifier", 1 ] ], [ [ "wire", 6 ] ], [ [ "2x4", 2 ] ], [ [ "nail", 12 ] ] ]
   },
@@ -346,6 +347,7 @@
     "difficulty": 3,
     "time": "10 m",
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
     "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "2x4", 2 ], [ "stick", 2 ] ], [ [ "scrap", 1 ] ] ]
   },
@@ -518,10 +520,9 @@
     "difficulty": 7,
     "time": "3 h",
     "book_learn": [ [ "textbook_electronics", 6 ], [ "advanced_electronics", 6 ] ],
-    "using": [ [ "soldering_standard", 50 ] ],
+    "using": [ [ "soldering_standard", 50 ], [ "plastic_molding", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
-    "tools": [ [ [ "mold_plastic", -1 ] ] ],
     "components": [ [ [ "lens", 4 ] ], [ [ "e_scrap", 10 ] ], [ [ "amplifier", 4 ] ], [ [ "cable", 20 ] ], [ [ "plastic_chunk", 5 ] ] ]
   },
   {

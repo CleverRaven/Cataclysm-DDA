@@ -12,6 +12,7 @@
 
 #include "activity_actor.h"
 #include "clone_ptr.h"
+#include "compatibility.h"
 #include "enums.h"
 #include "item_location.h"
 #include "memory_fast.h"
@@ -87,7 +88,7 @@ class player_activity
 
         player_activity( player_activity && ) noexcept = default;
         player_activity( const player_activity & ) = default;
-        player_activity &operator=( player_activity && ) = default;
+        player_activity &operator=( player_activity && ) noexcept( list_is_noexcept ) = default;
         player_activity &operator=( const player_activity & ) = default;
 
         explicit operator bool() const {
