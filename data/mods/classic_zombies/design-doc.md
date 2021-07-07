@@ -45,3 +45,6 @@ An early faction I'd like to see: the Montana National Guard should have a forwa
 
 #### The Central Alberta Historical Re-Enactors Army
 CAHREA was a local club of creative anachronists. By some coincidence, a large number of their members were immune to the initial zombie infection. Their access to armour that is additionally protective against zombie bites gave them an edge, and they began helping evacuate and protect survivors in a rural community center. Although the original CAHREA group is now a small minority, they have maintained the name.
+
+#### The Wild Rose Survivors
+This is a group of rural Albertans less hard-hit by the pandemic portion of the plague due to their remote and spaced-out living. They were still eventually affected as the plague became widespread. They tend to be well equipped with pickup trucks and hunting rifles, somewhat insular, but welcoming - if a bit suspicoius - of other survivors.
