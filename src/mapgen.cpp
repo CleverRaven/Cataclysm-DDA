@@ -90,10 +90,6 @@ static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
 static const mongroup_id GROUP_ROBOT_SECUBOT( "GROUP_ROBOT_SECUBOT" );
 static const mongroup_id GROUP_SEWER( "GROUP_SEWER" );
 static const mongroup_id GROUP_SLIME( "GROUP_SLIME" );
-static const mongroup_id GROUP_SPIDER( "GROUP_SPIDER" );
-static const mongroup_id GROUP_TRIFFID( "GROUP_TRIFFID" );
-static const mongroup_id GROUP_TRIFFID_HEART( "GROUP_TRIFFID_HEART" );
-static const mongroup_id GROUP_TRIFFID_OUTER( "GROUP_TRIFFID_OUTER" );
 static const mongroup_id GROUP_TURRET( "GROUP_TURRET" );
 
 static const trait_id trait_NPC_STATIC_NPC( "NPC_STATIC_NPC" );
@@ -2904,8 +2900,6 @@ void map::draw_map( mapgendata &dat )
         if( is_ot_match( "slimepit", terrain_type, ot_match_type::prefix ) ||
             is_ot_match( "slime_pit", terrain_type, ot_match_type::prefix ) ) {
             draw_slimepit( dat );
-        } else if( is_ot_match( "triffid", terrain_type, ot_match_type::prefix ) ) {
-            draw_triffid( dat );
         } else if( is_ot_match( "spider", terrain_type, ot_match_type::prefix ) ) {
             draw_spider_pit( dat );
         } else if( is_ot_match( "temple", terrain_type, ot_match_type::prefix ) ) {
@@ -4632,153 +4626,6 @@ void map::draw_slimepit( const mapgendata &dat )
         place_spawns( GROUP_SLIME, 1, point( SEEX, SEEY ), point( SEEX, SEEY ), 0.15 );
         place_items( item_group_id( "sewer" ), 40, point_zero, point( EAST_EDGE, SOUTH_EDGE ), true,
                      calendar::start_of_cataclysm );
-    }
-}
-
-void map::draw_triffid( const mapgendata &dat )
-{
-    const oter_id &terrain_type = dat.terrain_type();
-    if( terrain_type == "triffid_roots" ) {
-        fill_background( this, t_root_wall );
-        int node = 0;
-        int step = 0;
-        bool node_built[16];
-        bool done = false;
-        for( auto &elem : node_built ) {
-            elem = false;
-        }
-        do {
-            node_built[node] = true;
-            step++;
-            point node2( 1 + 6 * ( node % 4 ), 1 + 6 * static_cast<int>( node / 4 ) );
-            // Clear a 4x4 dirt square
-            square( this, t_dirt, node2, node2 + point( 3, 3 ) );
-            // Spawn a monster in there
-            if( step > 2 ) { // First couple of chambers are safe
-                int monrng = rng( 1, 25 );
-                point spawn( node2 + point( rng( 0, 3 ), rng( 0, 3 ) ) );
-                if( monrng <= 24 ) {
-                    place_spawns( GROUP_TRIFFID_OUTER, 1, node2,
-                                  node2 + point( 3, 3 ), 1, true );
-                } else {
-                    for( int webx = node2.x; webx <= node2.x + 3; webx++ ) {
-                        for( int weby = node2.y; weby <= node2.y + 3; weby++ ) {
-                            add_field( {webx, weby, abs_sub.z}, fd_web, rng( 1, 3 ) );
-                        }
-                    }
-                    place_spawns( GROUP_SPIDER, 1, spawn, spawn, 1, true );
-                }
-            }
-            // TODO: Non-monster hazards?
-            // Next, pick a cell to move to
-            std::vector<direction> move;
-            if( node % 4 > 0 && !node_built[node - 1] ) {
-                move.push_back( direction::WEST );
-            }
-            if( node % 4 < 3 && !node_built[node + 1] ) {
-                move.push_back( direction::EAST );
-            }
-            if( static_cast<int>( node / 4 ) > 0 && !node_built[node - 4] ) {
-                move.push_back( direction::NORTH );
-            }
-            if( static_cast<int>( node / 4 ) < 3 && !node_built[node + 4] ) {
-                move.push_back( direction::SOUTH );
-            }
-
-            if( move.empty() ) { // Nowhere to go!
-                square( this, t_slope_down, node2 + point_south_east, node2 + point( 2, 2 ) );
-                done = true;
-            } else {
-                switch( random_entry( move ) ) {
-                    case direction::NORTH:
-                        square( this, t_dirt, node2 + point( 1, -2 ), node2 + point( 2, -1 ) );
-                        node -= 4;
-                        break;
-                    case direction::EAST:
-                        square( this, t_dirt, node2 + point( 4, 1 ), node2 + point( 5, 2 ) );
-                        node++;
-                        break;
-                    case direction::SOUTH:
-                        square( this, t_dirt, node2 + point( 1, 4 ), node2 + point( 2, 5 ) );
-                        node += 4;
-                        break;
-                    case direction::WEST:
-                        square( this, t_dirt, node2 + point( -2, 1 ), node2 + point( -1, 2 ) );
-                        node--;
-                        break;
-                    default:
-                        break;
-                }
-            }
-        } while( !done );
-        square( this, t_slope_up, point( 2, 2 ), point( 3, 3 ) );
-        rotate( rng( 0, 3 ) );
-    } else if( terrain_type == "triffid_finale" ) {
-        fill_background( this, t_root_wall );
-        // NOLINTNEXTLINE(cata-use-named-point-constants)
-        square( this, t_dirt, point( 1, 1 ), point( 4, 4 ) );
-        square( this, t_dirt, point( 19, 19 ), point( 22, 22 ) );
-        // Drunken walk until we reach the heart (lower right, [19, 19])
-        // Chance increases by 1 each turn, and gives the % chance of forcing a move
-        // to the right or down.
-        int chance = 0;
-        point p( 4, 4 );
-        do {
-            ter_set( p, t_dirt );
-
-            if( chance >= 10 && one_in( 10 ) ) { // Add a spawn
-                place_spawns( GROUP_TRIFFID, 1, p, p, 1, true );
-            }
-
-            if( rng( 0, 99 ) < chance ) { // Force movement down or to the right
-                if( p.x >= 19 ) {
-                    p.y++;
-                } else if( p.y >= 19 ) {
-                    p.x++;
-                } else {
-                    if( one_in( 2 ) ) {
-                        p.x++;
-                    } else {
-                        p.y++;
-                    }
-                }
-            } else {
-                chance++; // Increase chance of forced movement down/right
-                // Weigh movement towards directions with lots of existing walls
-                int chance_west = 0;
-                int chance_east = 0;
-                int chance_north = 0;
-                int chance_south = 0;
-                for( int dist = 1; dist <= 5; dist++ ) {
-                    if( ter( p + point( -dist, 0 ) ) == t_root_wall ) {
-                        chance_west++;
-                    }
-                    if( ter( p + point( dist, 0 ) ) == t_root_wall ) {
-                        chance_east++;
-                    }
-                    if( ter( p + point( 0, -dist ) ) == t_root_wall ) {
-                        chance_north++;
-                    }
-                    if( ter( p + point( 0, dist ) ) == t_root_wall ) {
-                        chance_south++;
-                    }
-                }
-                int roll = rng( 0, chance_west + chance_east + chance_north + chance_south );
-                if( roll < chance_west && p.x > 0 ) {
-                    p.x--;
-                } else if( roll < chance_west + chance_east && p.x < EAST_EDGE ) {
-                    p.x++;
-                } else if( roll < chance_west + chance_east + chance_north && p.y > 0 ) {
-                    p.y--;
-                } else if( p.y < SOUTH_EDGE ) {
-                    p.y++;
-                }
-            } // Done with drunken walk
-        } while( p.x < 19 || p.y < 19 );
-        // NOLINTNEXTLINE(cata-use-named-point-constants)
-        square( this, t_slope_up, point( 1, 1 ), point( 2, 2 ) );
-        place_spawns( GROUP_TRIFFID_HEART, 1, point( 21, 21 ), point( 21, 21 ), 1, true );
-
     }
 }
 
