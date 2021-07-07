@@ -3010,7 +3010,6 @@ std::unique_ptr<activity_actor> play_with_pet_activity_actor::deserialize( JsonI
     JsonObject data = jsin.get_object();
 
     data.read( "pet_name", actor.pet_name );
-  
     return actor.clone();
 }
 
