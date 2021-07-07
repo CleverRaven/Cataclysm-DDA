@@ -11208,7 +11208,7 @@ int Character::temp_corrected_by_climate_control( int temperature ) const
             temperature = BODYTEMP_VERY_COLD;
         } else if( temperature < BODYTEMP_VERY_COLD ) {
             temperature = BODYTEMP_COLD;
-        } else if( temperature > BODYTEMP_HOT || temperature < BODYTEMP_COLD ) {
+        } else {
             temperature = BODYTEMP_NORM;
         }
     }
