@@ -67,13 +67,17 @@
     "symbol": "[",
     "looks_like": "hazmat_suit",
     "color": "light_red",
-    "covers": [ "head", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
-    "coverage": 100,
-    "encumbrance": 35,
     "warmth": 50,
     "material_thickness": 7,
     "environmental_protection": 20,
-    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "STURDY", "RAD_PROOF", "ELECTRIC_IMMUNE", "OUTER" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "STURDY", "RAD_PROOF", "ELECTRIC_IMMUNE", "OUTER" ],
+    "armor": [
+      {
+        "encumbrance": 35,
+        "coverage": 100,
+        "covers": [ "head", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ]
   },
   {
     "id": "armor_blarmor",
@@ -133,12 +137,10 @@
     "symbol": "[",
     "looks_like": "armor_larmor",
     "color": "green",
-    "covers": [ "torso", "leg_l", "leg_r" ],
-    "coverage": 90,
-    "encumbrance": 10,
     "warmth": 10,
     "material_thickness": 4,
-    "flags": [ "STURDY" ]
+    "flags": [ "STURDY" ],
+    "armor": [ { "encumbrance": 10, "coverage": 90, "covers": [ "torso", "leg_l", "leg_r" ] } ]
   },
   {
     "id": "xl_armor_chitin",
@@ -285,12 +287,10 @@
     "symbol": "[",
     "looks_like": "armor_larmor",
     "color": "light_gray",
-    "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
-    "coverage": 95,
-    "encumbrance": 20,
     "warmth": 20,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "OUTER", "STURDY" ]
+    "flags": [ "VARSIZE", "OUTER", "STURDY" ],
+    "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ]
   },
   {
     "id": "xl_armor_lightplate",
@@ -455,12 +455,10 @@
     "symbol": "[",
     "looks_like": "armor_lightplate",
     "color": "light_gray",
-    "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
-    "coverage": 90,
-    "encumbrance": 45,
     "warmth": 20,
     "material_thickness": 5,
-    "flags": [ "VARSIZE", "OUTER" ]
+    "flags": [ "VARSIZE", "OUTER" ],
+    "armor": [ { "encumbrance": 45, "coverage": 90, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ]
   },
   {
     "id": "xl_armor_plate",
@@ -487,12 +485,10 @@
     "symbol": "[",
     "looks_like": "kevlar",
     "color": "light_gray",
-    "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
-    "coverage": 85,
-    "encumbrance": 10,
     "warmth": 10,
     "material_thickness": 6,
-    "flags": [ "STURDY", "OUTER" ]
+    "flags": [ "STURDY", "OUTER" ],
+    "armor": [ { "encumbrance": 10, "coverage": 85, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ]
   },
   {
     "id": "armor_samurai",
@@ -509,12 +505,10 @@
     "symbol": "[",
     "looks_like": "armor_lightplate",
     "color": "dark_gray",
-    "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r" ],
-    "coverage": 85,
-    "encumbrance": 15,
     "warmth": 25,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "STURDY", "OUTER" ]
+    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
+    "armor": [ { "encumbrance": 15, "coverage": 85, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r" ] } ]
   },
   {
     "id": "armor_scavenger",
@@ -566,12 +560,10 @@
     "symbol": "[",
     "looks_like": "armor_lightplate",
     "color": "light_gray",
-    "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
-    "coverage": 80,
-    "encumbrance": 18,
     "warmth": 10,
     "material_thickness": 2,
-    "flags": [ "OUTER" ]
+    "flags": [ "OUTER" ],
+    "armor": [ { "encumbrance": 18, "coverage": 80, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ]
   },
   {
     "id": "beekeeping_suit",
@@ -622,12 +614,10 @@
     "symbol": "[",
     "looks_like": "armor_blarmor",
     "color": "light_red",
-    "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ],
-    "coverage": 95,
-    "encumbrance": 20,
     "warmth": 30,
     "material_thickness": 6,
-    "flags": [ "VARSIZE", "STURDY" ]
+    "flags": [ "VARSIZE", "STURDY" ],
+    "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
   },
   {
     "id": "xl_chainmail_hauberk",
@@ -652,12 +642,10 @@
     "symbol": "[",
     "looks_like": "touring_suit",
     "color": "light_red",
-    "covers": [ "torso", "head", "arm_l", "arm_r", "leg_l", "leg_r" ],
-    "coverage": 95,
-    "encumbrance": 20,
     "warmth": 30,
     "material_thickness": 6,
-    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT" ]
+    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT" ],
+    "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "torso", "head", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
   },
   {
     "id": "xl_chainmail_suit",
@@ -681,11 +669,15 @@
     "material": [ "iron", "cotton" ],
     "symbol": "[",
     "color": "light_red",
-    "covers": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
-    "coverage": 100,
-    "encumbrance": 30,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "ELECTRIC_IMMUNE", "OUTER" ]
+    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "ELECTRIC_IMMUNE", "OUTER" ],
+    "armor": [
+      {
+        "encumbrance": 30,
+        "coverage": 100,
+        "covers": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ]
+      }
+    ]
   },
   {
     "id": "cleansuit",
@@ -701,13 +693,17 @@
     "symbol": "[",
     "looks_like": "jumpsuit",
     "color": "white",
-    "covers": [ "leg_l", "leg_r", "foot_l", "foot_r", "head", "torso", "arm_l", "arm_r" ],
-    "coverage": 100,
-    "encumbrance": 25,
     "warmth": 10,
     "material_thickness": 1,
     "environmental_protection": 10,
-    "flags": [ "VARSIZE", "WATERPROOF", "HOOD", "RAINPROOF", "RAD_RESIST", "OUTER" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "HOOD", "RAINPROOF", "RAD_RESIST", "OUTER" ],
+    "armor": [
+      {
+        "encumbrance": 25,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r", "foot_l", "foot_r", "head", "torso", "arm_l", "arm_r" ]
+      }
+    ]
   },
   {
     "id": "entry_suit",
@@ -722,13 +718,17 @@
     "symbol": "[",
     "looks_like": "jumpsuit",
     "color": "light_gray",
-    "covers": [ "head", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
-    "coverage": 100,
-    "encumbrance": 50,
     "warmth": 30,
     "material_thickness": 5,
     "environmental_protection": 20,
-    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "STURDY", "OUTER" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "STURDY", "OUTER" ],
+    "armor": [
+      {
+        "encumbrance": 50,
+        "coverage": 100,
+        "covers": [ "head", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ]
   },
   {
     "id": "xl_entry_suit",
@@ -819,13 +819,11 @@
     "symbol": "[",
     "looks_like": "coat_winter",
     "color": "light_gray",
-    "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ],
-    "coverage": 80,
-    "encumbrance": 15,
     "warmth": 30,
     "material_thickness": 5,
     "valid_mods": [ "steel_padded" ],
-    "flags": [ "VARSIZE", "STURDY" ]
+    "flags": [ "VARSIZE", "STURDY" ],
+    "armor": [ { "encumbrance": 15, "coverage": 80, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
   },
   {
     "id": "xl_gambeson",
@@ -849,13 +847,17 @@
     "symbol": "[",
     "looks_like": "beekeeping_suit",
     "color": "yellow",
-    "covers": [ "head", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
-    "coverage": 100,
-    "encumbrance": 37,
     "warmth": 40,
     "material_thickness": 2,
     "environmental_protection": 20,
-    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "RAD_PROOF", "ELECTRIC_IMMUNE", "OUTER" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "RAD_PROOF", "ELECTRIC_IMMUNE", "OUTER" ],
+    "armor": [
+      {
+        "encumbrance": 37,
+        "coverage": 100,
+        "covers": [ "head", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ]
   },
   {
     "id": "hsurvivor_suit",
@@ -941,13 +943,11 @@
     "symbol": "[",
     "looks_like": "jumpsuit",
     "color": "light_gray",
-    "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ],
-    "coverage": 100,
-    "encumbrance": 6,
     "warmth": 5,
     "material_thickness": 2,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "STURDY" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "STURDY" ],
+    "armor": [ { "encumbrance": 6, "coverage": 100, "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ] } ]
   },
   {
     "id": "xl_nomex_suit",
@@ -1005,12 +1005,10 @@
     "symbol": "[",
     "looks_like": "jumpsuit",
     "color": "dark_gray",
-    "covers": [ "foot_l", "foot_r", "leg_l", "leg_r", "torso", "arm_l", "arm_r" ],
-    "coverage": 95,
-    "encumbrance": 18,
     "warmth": 15,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT", "HOOD", "WATERPROOF", "SLOWS_THIRST", "SLOWS_MOVEMENT" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "HOOD", "WATERPROOF", "SLOWS_THIRST", "SLOWS_MOVEMENT" ],
+    "armor": [ { "encumbrance": 18, "coverage": 95, "covers": [ "foot_l", "foot_r", "leg_l", "leg_r", "torso", "arm_l", "arm_r" ] } ]
   },
   {
     "id": "suit",
