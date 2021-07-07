@@ -63,12 +63,10 @@
     "symbol": "[",
     "looks_like": "robe",
     "color": "dark_gray",
-    "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ],
-    "coverage": 90,
-    "encumbrance": 10,
     "warmth": 20,
     "material_thickness": 1,
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE" ],
+    "armor": [ { "encumbrance": 10, "coverage": 90, "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ] } ]
   },
   {
     "id": "coat_fur",
@@ -298,13 +296,11 @@
     "symbol": "[",
     "looks_like": "coat_rain",
     "color": "light_gray",
-    "covers": [ "torso", "arm_l", "arm_r" ],
-    "coverage": 95,
-    "encumbrance": 12,
     "warmth": 10,
     "material_thickness": 0.2,
     "environmental_protection": 3,
-    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "HOOD", "OUTER" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "HOOD", "OUTER" ],
+    "armor": [ { "encumbrance": 12, "coverage": 95, "covers": [ "torso", "arm_l", "arm_r" ] } ]
   },
   {
     "id": "coat_winter",
@@ -757,12 +753,10 @@
     "symbol": "[",
     "looks_like": "skirt",
     "color": "dark_gray",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 100,
-    "encumbrance": 6,
     "warmth": 10,
     "material_thickness": 0.3,
-    "flags": [ "VARSIZE", "STURDY" ]
+    "flags": [ "VARSIZE", "STURDY" ],
+    "armor": [ { "encumbrance": 6, "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "hakama",
@@ -777,12 +771,10 @@
     "symbol": "[",
     "looks_like": "skirt",
     "color": "blue",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 100,
-    "encumbrance": 10,
     "warmth": 15,
     "material_thickness": 0.3,
-    "flags": [ "VARSIZE", "OUTER" ]
+    "flags": [ "VARSIZE", "OUTER" ],
+    "armor": [ { "encumbrance": 10, "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "house_coat",
@@ -1221,12 +1213,10 @@
     "symbol": "[",
     "looks_like": "robe",
     "color": "white",
-    "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ],
-    "coverage": 95,
-    "encumbrance": 10,
     "warmth": 10,
     "material_thickness": 0.5,
-    "flags": [ "VARSIZE", "STURDY" ]
+    "flags": [ "VARSIZE", "STURDY" ],
+    "armor": [ { "encumbrance": 10, "coverage": 95, "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ] } ]
   },
   {
     "id": "karate_gi",
@@ -1242,11 +1232,10 @@
     "symbol": "[",
     "looks_like": "judo_gi",
     "color": "white",
-    "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ],
-    "coverage": 80,
     "warmth": 5,
     "material_thickness": 0.5,
-    "flags": [ "VARSIZE", "STURDY" ]
+    "flags": [ "VARSIZE", "STURDY" ],
+    "armor": [ { "coverage": 80, "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ] } ]
   },
   {
     "id": "kariginu",
@@ -1263,12 +1252,10 @@
     "symbol": "[",
     "looks_like": "robe",
     "color": "white",
-    "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ],
-    "coverage": 100,
-    "encumbrance": 17,
     "warmth": 23,
     "material_thickness": 0.5,
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE" ],
+    "armor": [ { "encumbrance": 17, "coverage": 100, "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ] } ]
   },
   {
     "id": "kasaya",
@@ -1285,12 +1272,10 @@
     "symbol": "[",
     "looks_like": "kimono",
     "color": "brown",
-    "covers": [ "leg_l", "leg_r", "torso" ],
-    "coverage": 90,
-    "encumbrance": 2,
     "warmth": 20,
     "material_thickness": 0.5,
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE" ],
+    "armor": [ { "encumbrance": 2, "coverage": 90, "covers": [ "leg_l", "leg_r", "torso" ] } ]
   },
   {
     "id": "keikogi",
@@ -1306,11 +1291,10 @@
     "symbol": "[",
     "looks_like": "judo_gi",
     "color": "white",
-    "covers": [ "torso", "arm_l", "arm_r" ],
-    "coverage": 80,
     "warmth": 5,
     "material_thickness": 0.3,
-    "flags": [ "VARSIZE", "STURDY" ]
+    "flags": [ "VARSIZE", "STURDY" ],
+    "armor": [ { "coverage": 80, "covers": [ "torso", "arm_l", "arm_r" ] } ]
   },
   {
     "id": "kimono",
@@ -1390,12 +1374,10 @@
     "symbol": "[",
     "looks_like": "house_coat",
     "color": "black",
-    "covers": [ "torso", "arm_l", "arm_r" ],
-    "coverage": 60,
-    "encumbrance": 3,
     "warmth": 10,
     "material_thickness": 0.3,
-    "flags": [ "VARSIZE", "SUPER_FANCY", "OUTER" ]
+    "flags": [ "VARSIZE", "SUPER_FANCY", "OUTER" ],
+    "armor": [ { "encumbrance": 3, "coverage": 60, "covers": [ "torso", "arm_l", "arm_r" ] } ]
   },
   {
     "id": "kittel",
@@ -1412,12 +1394,10 @@
     "symbol": "[",
     "looks_like": "robe",
     "color": "white",
-    "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ],
-    "coverage": 80,
-    "encumbrance": 10,
     "warmth": 17,
     "material_thickness": 0.3,
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE" ],
+    "armor": [ { "encumbrance": 10, "coverage": 80, "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ] } ]
   },
   {
     "id": "peacoat",
@@ -1555,12 +1535,10 @@
     "symbol": "[",
     "looks_like": "trenchcoat",
     "color": "brown",
-    "covers": [ "leg_l", "leg_r", "torso" ],
-    "coverage": 90,
-    "encumbrance": 2,
     "warmth": 12,
     "material_thickness": 0.5,
-    "flags": [ "VARSIZE", "OUTER" ]
+    "flags": [ "VARSIZE", "OUTER" ],
+    "armor": [ { "encumbrance": 2, "coverage": 90, "covers": [ "leg_l", "leg_r", "torso" ] } ]
   },
   {
     "id": "ski_jacket",
@@ -1881,10 +1859,6 @@
     "symbol": "[",
     "looks_like": "sleeveless_duster",
     "color": "dark_gray",
-    "covers": [ "torso" ],
-    "coverage": 90,
-    "encumbrance": 7,
-    "max_encumbrance": 15,
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "4 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "4 kg", "moves": 80 },
@@ -1896,7 +1870,8 @@
     "warmth": 15,
     "material_thickness": 0.3,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER" ],
+    "armor": [ { "encumbrance": [ 7, 15 ], "coverage": 90, "covers": [ "torso" ] } ]
   },
   {
     "id": "sleeveless_trenchcoat_fur",
@@ -1913,10 +1888,6 @@
     "symbol": "[",
     "looks_like": "sleeveless_duster_fur",
     "color": "brown",
-    "covers": [ "torso" ],
-    "coverage": 90,
-    "encumbrance": 9,
-    "max_encumbrance": 19,
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "4 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "4 kg", "moves": 80 },
@@ -1929,7 +1900,8 @@
     "material_thickness": 3,
     "valid_mods": [ "steel_padded" ],
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER" ],
+    "armor": [ { "encumbrance": [ 9, 19 ], "coverage": 90, "covers": [ "torso" ] } ]
   },
   {
     "id": "sleeveless_trenchcoat_faux_fur",
@@ -1956,10 +1928,6 @@
     "symbol": "[",
     "looks_like": "sleeveless_duster_leather",
     "color": "brown",
-    "covers": [ "torso" ],
-    "coverage": 90,
-    "encumbrance": 8,
-    "max_encumbrance": 17,
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "4 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "4 kg", "moves": 80 },
@@ -1972,7 +1940,8 @@
     "material_thickness": 1.5,
     "valid_mods": [ "steel_padded" ],
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER" ],
+    "armor": [ { "encumbrance": [ 8, 17 ], "coverage": 90, "covers": [ "torso" ] } ]
   },
   {
     "id": "sleeveless_trenchcoat_survivor",
@@ -1990,10 +1959,6 @@
     "symbol": "[",
     "looks_like": "sleeveless_duster_survivor",
     "color": "brown",
-    "covers": [ "torso" ],
-    "coverage": 85,
-    "encumbrance": 7,
-    "max_encumbrance": 15,
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "3 L", "max_contains_weight": "6 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "3 L", "max_contains_weight": "6 kg", "moves": 80 },
@@ -2006,7 +1971,8 @@
     "material_thickness": 3,
     "valid_mods": [ "steel_padded" ],
     "environmental_protection": 3,
-    "flags": [ "VARSIZE", "POCKETS", "HOOD", "COLLAR", "STURDY", "WATERPROOF", "RAINPROOF", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "HOOD", "COLLAR", "STURDY", "WATERPROOF", "RAINPROOF", "OUTER" ],
+    "armor": [ { "encumbrance": [ 7, 15 ], "coverage": 85, "covers": [ "torso" ] } ]
   },
   {
     "id": "sleeveless_tunic",
@@ -2022,12 +1988,10 @@
     "symbol": "[",
     "looks_like": "vest_leather",
     "color": "dark_gray",
-    "covers": [ "torso", "leg_l", "leg_r" ],
-    "coverage": 65,
-    "encumbrance": 3,
     "warmth": 2,
     "material_thickness": 1,
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE" ],
+    "armor": [ { "encumbrance": 3, "coverage": 65, "covers": [ "torso", "leg_l", "leg_r" ] } ]
   },
   {
     "id": "thawb",
@@ -2044,12 +2008,10 @@
     "symbol": "[",
     "looks_like": "robe",
     "color": "white",
-    "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ],
-    "coverage": 90,
-    "encumbrance": 7,
     "warmth": 20,
     "material_thickness": 2,
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE" ],
+    "armor": [ { "encumbrance": 7, "coverage": 90, "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ] } ]
   },
   {
     "id": "trenchcoat",
@@ -2239,12 +2201,10 @@
     "symbol": "[",
     "looks_like": "sweatshirt",
     "color": "dark_gray",
-    "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ],
-    "coverage": 75,
-    "encumbrance": 3,
     "warmth": 2,
     "material_thickness": 0.3,
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE" ],
+    "armor": [ { "encumbrance": 3, "coverage": 75, "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ] } ]
   },
   {
     "id": "tunic_rag",
@@ -2259,12 +2219,10 @@
     "symbol": "[",
     "looks_like": "tunic",
     "color": "light_red",
-    "covers": [ "torso", "leg_l", "leg_r" ],
-    "coverage": 65,
-    "encumbrance": 5,
     "warmth": 15,
     "material_thickness": 0.3,
-    "flags": [ "OVERSIZE" ]
+    "flags": [ "OVERSIZE" ],
+    "armor": [ { "encumbrance": 5, "coverage": 65, "covers": [ "torso", "leg_l", "leg_r" ] } ]
   },
   {
     "id": "tux",
@@ -2327,10 +2285,6 @@
     "symbol": "[",
     "looks_like": "blazer",
     "color": "light_gray",
-    "covers": [ "torso" ],
-    "coverage": 60,
-    "encumbrance": 2,
-    "max_encumbrance": 5,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -2356,7 +2310,8 @@
     ],
     "warmth": 5,
     "material_thickness": 0.5,
-    "flags": [ "VARSIZE", "FANCY" ]
+    "flags": [ "VARSIZE", "FANCY" ],
+    "armor": [ { "encumbrance": [ 2, 5 ], "coverage": 60, "covers": [ "torso" ] } ]
   },
   {
     "id": "winter_jacket_army",

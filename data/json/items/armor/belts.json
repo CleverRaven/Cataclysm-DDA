@@ -13,10 +13,6 @@
     "symbol": "[",
     "looks_like": "holster",
     "color": "yellow",
-    "covers": [ "torso" ],
-    "coverage": 5,
-    "encumbrance": 2,
-    "max_encumbrance": 5,
     "pocket_data": [
       { "max_contains_volume": "1 L", "max_contains_weight": "1500 g", "moves": 100 },
       {
@@ -29,7 +25,8 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Attach what to belt loop?", "holster_msg": "You clip your %s to your %s" },
-    "flags": [ "WAIST", "NO_QUICKDRAW", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "NO_QUICKDRAW", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": [ 2, 5 ], "coverage": 5, "covers": [ "torso" ] } ]
   },
   {
     "abstract": "judo_belt_abstract",
@@ -44,11 +41,9 @@
     "to_hit": -1,
     "material": [ "cotton" ],
     "symbol": "[",
-    "covers": [ "torso" ],
-    "coverage": 5,
-    "encumbrance": 2,
     "material_thickness": 2,
-    "flags": [ "WAIST", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 2, "coverage": 5, "covers": [ "torso" ] } ]
   },
   {
     "id": "judo_belt_black",
@@ -119,8 +114,6 @@
     "material": [ "leather", "steel" ],
     "symbol": "[",
     "color": "brown",
-    "covers": [ "torso" ],
-    "coverage": 5,
     "material_thickness": 1.5,
     "pocket_data": [
       {
@@ -133,7 +126,8 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stick what into your belt", "holster_msg": "You tuck your %s into your %s" },
-    "flags": [ "WAIST", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "WATER_FRIENDLY" ],
+    "armor": [ { "coverage": 5, "covers": [ "torso" ] } ]
   },
   {
     "id": "obi_gi",
@@ -163,10 +157,6 @@
     "symbol": "[",
     "looks_like": "fireman_belt",
     "color": "brown",
-    "covers": [ "torso" ],
-    "coverage": 5,
-    "encumbrance": 2,
-    "max_encumbrance": 5,
     "pocket_data": [
       { "max_contains_volume": "500 ml", "max_item_volume": "125 ml", "max_contains_weight": "1500 g", "moves": 100 },
       {
@@ -179,7 +169,8 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Attach what to holder?", "holster_msg": "You attach your %s to your %s." },
-    "flags": [ "WAIST", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": [ 2, 5 ], "coverage": 5, "covers": [ "torso" ] } ]
   },
   {
     "id": "survivor_belt_notools",
@@ -194,10 +185,6 @@
     "symbol": "[",
     "looks_like": "holster",
     "color": "brown",
-    "covers": [ "torso" ],
-    "coverage": 15,
-    "encumbrance": 2,
-    "max_encumbrance": 12,
     "material_thickness": 2,
     "pocket_data": [
       {
@@ -257,7 +244,8 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Store tool or blade", "holster_msg": "You put your %1$s in your %2$s" },
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY", "WAIST", "OVERSIZE" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY", "WAIST", "OVERSIZE" ],
+    "armor": [ { "encumbrance": [ 2, 12 ], "coverage": 15, "covers": [ "torso" ] } ]
   },
   {
     "id": "tool_belt",
@@ -273,10 +261,6 @@
     "symbol": "[",
     "looks_like": "holster",
     "color": "brown",
-    "covers": [ "torso" ],
-    "coverage": 20,
-    "encumbrance": 2,
-    "max_encumbrance": 12,
     "material_thickness": 2,
     "pocket_data": [
       { "max_contains_volume": "1 L", "max_contains_weight": "1500 g", "max_item_length": "40 cm", "moves": 100 },
@@ -327,7 +311,8 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Store tool or blade", "holster_msg": "You put your %1$s in your %2$s" },
-    "flags": [ "WAIST", "NO_QUICKDRAW", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "NO_QUICKDRAW", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": [ 2, 12 ], "coverage": 20, "covers": [ "torso" ] } ]
   },
   {
     "id": "webbing_belt",
@@ -342,8 +327,6 @@
     "symbol": "[",
     "looks_like": "leather_belt",
     "color": "yellow",
-    "covers": [ "torso" ],
-    "coverage": 5,
     "material_thickness": 1.5,
     "pocket_data": [
       {
@@ -356,6 +339,7 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Store tool or blade", "holster_msg": "You put your %1$s in your %2$s" },
-    "flags": [ "WAIST", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "WATER_FRIENDLY" ],
+    "armor": [ { "coverage": 5, "covers": [ "torso" ] } ]
   }
 ]
