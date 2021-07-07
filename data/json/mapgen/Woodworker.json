@@ -73,33 +73,24 @@
         "S": "f_mitresaw",
         "t": "f_table"
       },
-      "place_vehicles": [ 
-          { "vehicle": "pickup", "x": 7, "y": 13, "chance": 50, "rotation": 90, "fuel": 20 }
-        ],
+      "place_vehicles": [ { "vehicle": "pickup", "x": 7, "y": 13, "chance": 50, "rotation": 90, "fuel": 20 } ],
       "nested": {
-        "1": {
-          "chunks": [ [ "null", 30 ], [ "3x3_woodcrafts_crates" , 70 ] ]
-        },
-        "2": {
-          "chunks": [ [ "null", 70 ], [ "3x3_woodcrafts_crates" , 30 ] ]
-        },
-        "3": {
-          "chunks": [ [ "null", 10 ], [ "4x4_woodcrafts_table_vertical", 60 ], [ "4x4_woodcrafts_table_horizontal", 30 ] ]
-        },
-        "4": {
-          "chunks": [ [ "4x4_woodcrafts_display_nocanoe", 70 ], [ "1x1_woodcrafts_display_canoe", 30 ] ]
-        }
+        "1": { "chunks": [ [ "null", 30 ], [ "3x3_woodcrafts_crates", 70 ] ] },
+        "2": { "chunks": [ [ "null", 70 ], [ "3x3_woodcrafts_crates", 30 ] ] },
+        "3": { "chunks": [ [ "null", 10 ], [ "4x4_woodcrafts_table_vertical", 60 ], [ "4x4_woodcrafts_table_horizontal", 30 ] ] },
+        "4": { "chunks": [ [ "4x4_woodcrafts_display_nocanoe", 70 ], [ "1x1_woodcrafts_display_canoe", 30 ] ] }
       },
       "items": {
         "π": { "item": "woodcrafts", "chance": 100, "repeat": [ 1, 3 ] },
         "b": { "item": "trash", "chance": 80 },
         "g": { "item": "trash", "chance": 100, "repeat": [ 1, 3 ] },
         "n": { "item": "supplies_woodcrafts", "chance": 20, "repeat": [ 1, 3 ] },
-        "R": [ { "item": "home_hw", "chance": 20, "repeat": [ 1, 4 ] }, { "item": "tools_carpentry", "chance": 80, "repeat": [ 1, 2 ] } ]
+        "R": [
+          { "item": "home_hw", "chance": 20, "repeat": [ 1, 4 ] },
+          { "item": "tools_carpentry", "chance": 80, "repeat": [ 1, 2 ] }
+        ]
       },
-      "place_loot": [
-        { "item": "extinguisher", "x": 18, "y": 10, "chance": 90, "ammo": 100 }
-      ]
+      "place_loot": [ { "item": "extinguisher", "x": 18, "y": 10, "chance": 90, "ammo": 100 } ]
     }
   },
   {
@@ -176,13 +167,13 @@
         "t": { "item": "dinnerware", "chance": 20, "repeat": [ 1, 5 ] },
         "p": { "item": "SUS_toilet", "chance": 30 },
         "R": { "item": "SUS_woodcrafts_gear", "chance": 95 },
-        "B": [ { "item": "carpentrybooks", "chance": 50, "repeat": [ 1, 3 ] }, { "item": "fabricationbooks", "chance": 10, "repeat": [ 1, 3 ] } ],
+        "B": [
+          { "item": "carpentrybooks", "chance": 50, "repeat": [ 1, 3 ] },
+          { "item": "fabricationbooks", "chance": 10, "repeat": [ 1, 3 ] }
+        ],
         "6": [ { "item": "SUS_junk_drawer", "chance": 20 } ]
       },
-      "place_item": [
-        { "item": "coffeemaker", "x": 14, "y": 8, "chance": 100 },
-        { "item": "toaster", "x": 21, "y": 16, "chance": 70 },
-      ]
+      "place_item": [ { "item": "coffeemaker", "x": 14, "y": 8, "chance": 100 }, { "item": "toaster", "x": 21, "y": 16, "chance": 70 } ]
     }
   },
   {
