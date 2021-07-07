@@ -1072,12 +1072,7 @@ static bool get_escaped_or_unicode( std::istream &stream, std::string &s, std::s
                             return false;
                         }
                     }
-                    try {
-                        s += utf32_to_utf8( u );
-                    } catch( const std::exception &e ) {
-                        err = e.what();
-                        return false;
-                    }
+                    s += utf32_to_utf8( u );
                 }
                 break;
             default:
