@@ -1263,42 +1263,53 @@ void map::apply_light_arc( const tripoint &p, const units::angle &angle, float l
     units::angle oangle = angle - wangle;
     units::angle cangle = angle + wangle;
 
-    tripoint end;
-    int range = LIGHT_RANGE( luminance );
-    calc_ray_end( nangle, range, p, end );
-
-    tripoint test;
-    calc_ray_end( wangle + nangle, range, p, test );
-
-    const double wdist = hypot( end.x - test.x, end.y - test.y );
-    if( wdist <= 0.5 ) {
-        apply_light_ray( lit, p, end, luminance );
-        return;
-    }
-
-    // attempt to determine beam intensity required to cover all squares
-    const units::angle wstep = ( wangle / ( wdist * M_SQRT2 ) );
-
     if( wideangle >= 45_degrees ) {
         //cut pre-subsection
         if( fmod( oangle, 45_degrees ) != 0_degrees ) {
             units::angle preangle = oangle;
             oangle = 45_degrees * std::ceil( to_degrees( oangle ) / 45 );
             units::angle preanglew = units::from_radians( std::abs( ( oangle - preangle ).value() ) );
-
-            // NOLINTNEXTLINE(clang-analyzer-security.FloatLoopCounter)
-            for( units::angle ao = 0_degrees; ao <= preanglew; ao += wstep ) {
-                if( trigdist ) {
-                    double fdist = ( ao * M_PI_2 ) / preanglew;
-                    end.x = static_cast<int>(
-                                p.x + ( static_cast<double>( range ) - fdist * 2.0 ) * cos( preangle + ao ) );
-                    end.y = static_cast<int>(
-                                p.y + ( static_cast<double>( range ) - fdist * 2.0 ) * sin( preangle + ao ) );
-                    apply_light_ray( lit, p, end, luminance );
-                } else {
-                    calc_ray_end( preangle + ao, range, p, end );
-                    apply_light_ray( lit, p, end, luminance );
-                }
+            switch( static_cast<int>( std::lround( ( preangle + 360_degrees ) / 45_degrees ) ) % 8 ) {
+                case 0:
+                    castLight < 0, -1, -1, 0, float, four_quadrants, light_calc, light_check,
+                              update_light_quadrants, accumulate_transparency > (
+                                  lm, transparency_cache, p2, 0, luminance, 1, 1.0, tan( preangle ) );
+                    break;
+                case 1:
+                    castLight < -1, 0, 0, -1, float, four_quadrants, light_calc, light_check,
+                              update_light_quadrants, accumulate_transparency > (
+                                  lm, transparency_cache, p2, 0, luminance, 1, cot( preangle ), 0.0 );
+                    break;
+                case 2:
+                    castLight < 1, 0, 0, -1, float, four_quadrants, light_calc, light_check,
+                              update_light_quadrants, accumulate_transparency > (
+                                  lm, transparency_cache, p2, 0, luminance, 1, 1.0, -cot( preangle ) );
+                    break;
+                case 3:
+                    castLight < 0, 1, -1, 0, float, four_quadrants, light_calc, light_check,
+                              update_light_quadrants, accumulate_transparency > (
+                                  lm, transparency_cache, p2, 0, luminance, 1, -tan( preangle ), 0.0 );
+                    break;
+                case 4:
+                    castLight < 0, 1, 1, 0, float, four_quadrants, light_calc, light_check,
+                              update_light_quadrants, accumulate_transparency >(
+                                  lm, transparency_cache, p2, 0, luminance, 1, 1.0, tan( preangle ) );
+                    break;
+                case 5:
+                    castLight < 1, 0, 0, 1, float, four_quadrants, light_calc, light_check,
+                              update_light_quadrants, accumulate_transparency >(
+                                  lm, transparency_cache, p2, 0, luminance, 1, cot( preangle ), 0.0 );
+                    break;
+                case 6:
+                    castLight < -1, 0, 0, 1, float, four_quadrants, light_calc, light_check,
+                              update_light_quadrants, accumulate_transparency > (
+                                  lm, transparency_cache, p2, 0, luminance, 1, 1.0, -cot( preangle ) );
+                    break;
+                case 7:
+                    castLight < 0, -1, 1, 0, float, four_quadrants, light_calc, light_check,
+                              update_light_quadrants, accumulate_transparency > (
+                                  lm, transparency_cache, p2, 0, luminance, 1, -tan( preangle ), 0.0 );
+                    break;
             }
         }
         int numoct = std::floor( to_degrees( cangle - oangle ) / 45 );
@@ -1356,20 +1367,47 @@ void map::apply_light_arc( const tripoint &p, const units::angle &angle, float l
         }
     }
 
-
-    // NOLINTNEXTLINE(clang-analyzer-security.FloatLoopCounter)
-    for( units::angle ao = 0_degrees; ao <= wangle; ao += wstep ) {
-        if( trigdist ) {
-            double fdist = ( ao * M_PI_2 ) / wangle;
-            end.x = static_cast<int>(
-                        p.x + ( static_cast<double>( range ) - fdist * 2.0 ) * cos( oangle + ao ) );
-            end.y = static_cast<int>(
-                        p.y + ( static_cast<double>( range ) - fdist * 2.0 ) * sin( oangle + ao ) );
-            apply_light_ray( lit, p, end, luminance );
-        } else {
-            calc_ray_end( oangle + ao, range, p, end );
-            apply_light_ray( lit, p, end, luminance );
-        }
+    switch( static_cast<int>( std::lround( oangle / 45_degrees ) ) % 8 ) {
+        case 0:
+            castLight < 0, -1, -1, 0, float, four_quadrants, light_calc, light_check,
+                      update_light_quadrants, accumulate_transparency > (
+                          lm, transparency_cache, p2, 0, luminance, 1, tan( cangle ), tan( oangle ) );
+            break;
+        case 1:
+            castLight < -1, 0, 0, -1, float, four_quadrants, light_calc, light_check,
+                      update_light_quadrants, accumulate_transparency > (
+                          lm, transparency_cache, p2, 0, luminance, 1, cot( oangle ), cot( cangle ) );
+            break;
+        case 2:
+            castLight < 1, 0, 0, -1, float, four_quadrants, light_calc, light_check,
+                      update_light_quadrants, accumulate_transparency > (
+                          lm, transparency_cache, p2, 0, luminance, 1, -cot( cangle ), -cot( oangle ) );
+            break;
+        case 3:
+            castLight < 0, 1, -1, 0, float, four_quadrants, light_calc, light_check,
+                      update_light_quadrants, accumulate_transparency > (
+                          lm, transparency_cache, p2, 0, luminance, 1, -tan( oangle ), -tan( cangle ) );
+            break;
+        case 4:
+            castLight < 0, 1, 1, 0, float, four_quadrants, light_calc, light_check,
+                      update_light_quadrants, accumulate_transparency >(
+                          lm, transparency_cache, p2, 0, luminance, 1, tan( cangle ), tan( oangle ) );
+            break;
+        case 5:
+            castLight < 1, 0, 0, 1, float, four_quadrants, light_calc, light_check,
+                      update_light_quadrants, accumulate_transparency >(
+                          lm, transparency_cache, p2, 0, luminance, 1, cot( oangle ), cot( cangle ) );
+            break;
+        case 6:
+            castLight < -1, 0, 0, 1, float, four_quadrants, light_calc, light_check,
+                      update_light_quadrants, accumulate_transparency > (
+                          lm, transparency_cache, p2, 0, luminance, 1, -cot( cangle ), -cot( oangle ) );
+            break;
+        case 7:
+            castLight < 0, -1, 1, 0, float, four_quadrants, light_calc, light_check,
+                      update_light_quadrants, accumulate_transparency > (
+                          lm, transparency_cache, p2, 0, luminance, 1, -tan( oangle ), -tan( cangle ) );
+            break;
     }
 }
 
