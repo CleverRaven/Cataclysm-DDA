@@ -1,5 +1,43 @@
 [
   {
+    "id": "afs_kaburaya_bomb",
+    "type": "TOOL",
+    "copy-from": "grenade_canister",
+    "category": "weapons",
+    "looks_like": "c4",
+    "name": "Kabura-ya antipersonnel device",
+    "description": "A tiny plastic explosive meant to be installed in a Kabura-ya drone.  Explodes 3 turns after activation.",
+    "use_action": {
+      "need_wielding": true,
+      "target": "afs_kaburaya_bomb_act",
+      "msg": "You activate the device.",
+      "target_charges": 3,
+      "active": true,
+      "menu_text": "Pull pin",
+      "type": "transform"
+    },
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ]
+  },
+  {
+    "id": "afs_kaburaya_bomb_act",
+    "type": "TOOL",
+    "copy-from": "grenade_canister",
+    "looks_like": "c4",
+    "name": "Armed Kabura-ya antipersonnel device",
+    "description": "A tiny plastic explosive meant to be installed within a Kabura-ya drone.  It is on the verge of exploding.",
+    "initial_charges": 3,
+    "max_charges": 3,
+    "turns_per_charge": 2,
+    "use_action": {
+      "type": "explosion",
+      "sound_volume": 0,
+      "sound_msg": "Tick.",
+      "no_deactivate_msg": "You've already activated the %s; try throwing it instead.",
+      "explosion": { "power": 100, "max_noise": 25, "shrapnel": { "casing_mass": 217, "fragment_mass": 0.25 }, "distance_factor": 0.2 }
+    },
+    "flags": [ "BOMB", "TRADER_AVOID" ]
+  },
+  {
     "id": "afs_electroshock_grenade_1",
     "type": "TOOL",
     "copy-from": "grenade_canister",

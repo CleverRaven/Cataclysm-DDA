@@ -954,6 +954,7 @@ Other monster flags.
 - ```PET_HARNESSABLE```Creature can be attached to an harness.
 - ```NULL``` Source use only.
 - ```PACIFIST``` Monster will never do melee attacks.
+- ```KEEP_DISTANCE``` Monster will try to keep `tracking_distance` number of tiles between it and its current target.
 - ```PARALYZE``` Attack may paralyze the player with venom.
 - ```PLASTIC``` Absorbs physical damage to a great degree.
 - ```POISON``` Poisonous to eat.

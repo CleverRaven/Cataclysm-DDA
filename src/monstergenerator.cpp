@@ -158,6 +158,7 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_REVIVES_HEALTHY: return "REVIVES_HEALTHY";
         case MF_NO_NECRO: return "NO_NECRO";
         case MF_PACIFIST: return "PACIFIST";
+        case MF_KEEP_DISTANCE: return "KEEP_DISTANCE";
         case MF_PUSH_MON: return "PUSH_MON";
         case MF_PUSH_VEH: return "PUSH_VEH";
         case MF_AVOID_DANGER_1: return "PATH_AVOID_DANGER_1";
@@ -758,6 +759,8 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     assign( jo, "speed", speed, strict, 0 );
     assign( jo, "aggression", agro, strict, -100, 100 );
     assign( jo, "morale", morale, strict );
+
+    assign( jo, "tracking_distance", tracking_distance, strict, 8 );
 
     assign( jo, "mountable_weight_ratio", mountable_weight_ratio, strict );
 
