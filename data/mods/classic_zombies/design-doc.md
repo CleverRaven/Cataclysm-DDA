@@ -18,6 +18,13 @@ There are no aliens or interdimensional threats in ddotd.
 ## Setting
 The setting of DDotD should be vaguely "in the past", some time between 1980 and 2000. 
 
+### Zombification Mechanics
+The zombie affliction is infectious, possibly viral or fungal. Survivors may never find out. It comes in two forms: it transmits by airborn spores, which have a low infection rate and a long latency. After infection, carriers are very quickly able to infect others, but do not develop symptoms for 2-3 weeks. Once symptomatic it progresses quickly, with death usually occuring in another week. The infectious symptoms are vague and flu-like: fever, chills, severe nausea and vomiting, muscle aches, muscle spasms, and eventually delirium and death. Due to the relatively low infection rate of the airborn form, only around half of the population were susceptible to this form, and all survivors are clearly among that group. However, the much higher dose of infectious agent shared by bite or even scratch from a reanimated zombie carries an increased risk of infection and generates a much faster progressing form of the illness.
+
+During the infection process and especially after death, the victim's body is being infiltrated by an expanding web of loosely connected parasitic tissue that spreads through muscles and other organs. This creates a new superorganism which eventually functions as a new nervous system, controlling muscles and using the sensory input from the brain and attached organs. It laces through the victim's digestive tract and will continue to digest things ingested by the victim. It does the work of keeping the reanimated body intact and "alive". Destroying the victim's brain removes any way for the parasite to get sensory input, rendering it inert.
+
+(Note that in my head, this infectious agent is too perfect, so it probably has to be some kind of alien invader. However, there's no way the survivors will ever find out, and I'd rather not establish it within game.)
+
 ### History
 The source of the zombie plague is unclear. About a year ago, rumours arose of a horrible rabies variant arising in Australia and carried by wombats. This strain had jumped to humans and was baffling and frightening doctors. However, those stories died down, and about three months later it was announced to be a novel strain that couldn't transmit significantly in humans.
 
@@ -27,9 +34,14 @@ The first wave of zombies further spread the illness due to unreadiness and the 
 
 Within three months, the world was collapsing. Survivors banded together in small groups, now aware of the signs and symptoms of the illness and the danger of a bite. You are one of those survivors. For the last few weeks you've been somewhere safe, holed up, waiting for things to die down, but it's clear now that things aren't going to die down.
 
-### Zombification Mechanics
-The zombie affliction is infectious, possibly viral or fungal. Survivors may never find out. It comes in two forms: it transmits by airborn spores, which have a low infection rate and a long latency. After infection, carriers are very quickly able to infect others, but do not develop symptoms for 2-3 weeks. Once symptomatic it progresses quickly, with death usually occuring in another week. The infectious symptoms are vague and flu-like: fever, chills, severe nausea and vomiting, muscle aches, muscle spasms, and eventually delirium and death. Due to the relatively low infection rate of the airborn form, only around half of the population were susceptible to this form, and all survivors are clearly among that group. However, the much higher dose of infectious agent shared by bite or even scratch from a reanimated zombie carries an increased risk of infection and generates a much faster progressing form of the illness.
+### Location
+DDotD takes place in Alberta, Canada, in a fictionalized version of the Red Deer area. Why Alberta? Because the current CDDA mapgen of small clustered towns surrounded by fields and patches of forests on mostly flat land suits Alberta perfectly. This also allows us to have harsher winters to survive. Most buildings and loot in CDDA core will be appropriate, but guns and gun stores (with the exception of hunting rifles) are somewhat less common, and military presence substantially less so.
 
-During the infection process and especially after death, the victim's body is being infiltrated by an expanding web of loosely connected parasitic tissue that spreads through muscles and other organs. This creates a new superorganism which eventually functions as a new nervous system, controlling muscles and using the sensory input from the brain and attached organs. It laces through the victim's digestive tract and will continue to digest things ingested by the victim. It does the work of keeping the reanimated body intact and "alive". Destroying the victim's brain removes any way for the parasite to get sensory input, rendering it inert.
+### Factions
+The default CDDA factions do not fit with DDotD without significant change. It is possible that some, like Isherwood, could be rewritten and readded.
 
-(Note that in my head, this infectious agent is too perfect, so it probably has to be some kind of alien invader. However, there's no way the survivors will ever find out, and I'd rather not establish it within game.)
+#### The Montana Army National Guard
+An early faction I'd like to see: the Montana National Guard should have a forward base in Alberta. This group was sent up in the later part of the apocalypse to aid Canada's self-defense. Within a few days, they lost contact with command. They have chosen to establish a reinforced base, and are fighting off zombies and attempting to rally survivors. They may, at some point, change their name once their makeup is less than half American. They have been here for weeks and are running low on supplies.
+
+#### The Central Alberta Historical Re-Enactors Army
+CAHREA was a local club of creative anachronists. By some coincidence, a large number of their members were immune to the initial zombie infection. Their access to armour that is additionally protective against zombie bites gave them an edge, and they began helping evacuate and protect survivors in a rural community center. Although the original CAHREA group is now a small minority, they have maintained the name.
