@@ -351,7 +351,7 @@
   },
   {
     "id": "suit_xlblack_dragon_scale",
-    "copy-from": "3uit_black_dragon_scale",
+    "copy-from": "suit_black_dragon_scale",
     "type": "ARMOR",
     "name": { "str": "XL black dragonscale armor" },
     "description": "A massive full suit of incredibly durable black dragon scale mail.  It comes with all the accoutrements that cover your torso, legs, and arms; sized to fit even the strangest of bodies.",
