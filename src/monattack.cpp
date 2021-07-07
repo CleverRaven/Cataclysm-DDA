@@ -18,6 +18,7 @@
 
 #include "activity_type.h"
 #include "ballistics.h"
+#include "bionics.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_assert.h"
@@ -4772,7 +4773,7 @@ bool mattack::riotbot( monster *z )
             handcuffs.set_var( "HANDCUFFS_Y", foe->posy() );
 
             const bool is_uncanny = foe->has_active_bionic( bio_uncanny_dodge ) &&
-                                    foe->get_power_level() > 74_kJ &&
+                                    foe->get_power_level() > bio_uncanny_dodge.obj().power_trigger &&
                                     !one_in( 3 );
             ///\EFFECT_DEX >13 allows and increases chance to slip out of riot bot handcuffs
             const bool is_dex = foe->dex_cur > 13 && !one_in( foe->dex_cur - 11 );
@@ -4780,7 +4781,7 @@ bool mattack::riotbot( monster *z )
             if( is_uncanny || is_dex ) {
 
                 if( is_uncanny ) {
-                    foe->mod_power_level( -75_kJ );
+                    foe->mod_power_level( -bio_uncanny_dodge->power_trigger );
                 }
 
                 add_msg( m_good,

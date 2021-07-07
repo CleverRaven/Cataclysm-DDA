@@ -307,6 +307,10 @@ static std::string build_bionic_poweronly_string( const bionic &bio )
         properties.push_back( string_format( _( "%s deact" ),
                                              units::display( bio_data.power_deactivate ) ) );
     }
+    if( bio_data.power_trigger > 0_kJ ) {
+        properties.push_back( string_format( _( "%s trigger" ),
+                                             units::display( bio_data.power_trigger ) ) );
+    }
     if( bio_data.charge_time > 0 && bio_data.power_over_time > 0_kJ ) {
         properties.push_back( bio_data.charge_time == 1
                               ? string_format( _( "%s/turn" ), units::display( bio_data.power_over_time ) )

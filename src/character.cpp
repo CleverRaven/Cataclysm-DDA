@@ -1429,13 +1429,15 @@ float Character::get_melee() const
 
 bool Character::uncanny_dodge()
 {
-
     bool is_u = is_avatar();
     bool seen = get_player_view().sees( *this );
 
-    const bool can_dodge_bio = get_power_level() >= 75_kJ && has_active_bionic( bio_uncanny_dodge );
+    const units::energy trigger_cost = bio_uncanny_dodge->power_trigger;
+
+    const bool can_dodge_bio = get_power_level() >= trigger_cost &&
+                               has_active_bionic( bio_uncanny_dodge );
     const bool can_dodge_mut = get_stamina() >= 300 && has_trait_flag( json_flag_UNCANNY_DODGE );
-    const bool can_dodge_both = get_power_level() >= 37500_J &&
+    const bool can_dodge_both = get_power_level() >= ( trigger_cost / 2 ) &&
                                 has_active_bionic( bio_uncanny_dodge ) &&
                                 get_stamina() >= 150 && has_trait_flag( json_flag_UNCANNY_DODGE );
 
@@ -1445,10 +1447,10 @@ bool Character::uncanny_dodge()
     tripoint adjacent = adjacent_tile();
 
     if( can_dodge_both ) {
-        mod_power_level( -37500_J );
+        mod_power_level( -trigger_cost / 2 );
         mod_stamina( -150 );
     } else if( can_dodge_bio ) {
-        mod_power_level( -75_kJ );
+        mod_power_level( -trigger_cost );
     } else if( can_dodge_mut ) {
         mod_stamina( -300 );
     }
@@ -4343,12 +4345,13 @@ void Character::do_skill_rust()
             continue;
         }
 
-        const bool charged_bio_mem = get_power_level() > 25_J && has_active_bionic( bio_memory );
+        const bool charged_bio_mem = get_power_level() > bio_memory->power_trigger &&
+                                     has_active_bionic( bio_memory );
         const int oldSkillLevel = skill_level_obj.level();
         if( skill_level_obj.rust( charged_bio_mem, rust_rate_tmp ) ) {
             add_msg_if_player( m_warning,
                                _( "Your knowledge of %s begins to fade, but your memory banks retain it!" ), aSkill.name() );
-            mod_power_level( -25_J );
+            mod_power_level( -bio_memory->power_trigger );
         }
         const int newSkill = skill_level_obj.level();
         if( newSkill < oldSkillLevel ) {
@@ -9586,7 +9589,7 @@ void Character::absorb_hit( const bodypart_id &bp, damage_instance &dam )
                 } else if( elem.type == damage_type::STAB || elem.type == damage_type::BULLET ) {
                     elem.amount -= rng( 1, 8 );
                 }
-                mod_power_level( -25_kJ );
+                mod_power_level( -bio_ads->power_trigger );
             }
             if( elem.amount < 0 ) {
                 elem.amount = 0;
@@ -9884,7 +9887,8 @@ void Character::on_hit( Creature *source, bodypart_id bp_hit,
     }
 
     bool u_see = get_player_view().sees( *this );
-    if( has_active_bionic( bionic_id( "bio_ods" ) ) && get_power_level() > 5_kJ ) {
+    const units::energy trigger_cost_base = bionic_id( "bio_ods" )->power_trigger;
+    if( has_active_bionic( bionic_id( "bio_ods" ) ) && get_power_level() > ( 5 * trigger_cost_base ) ) {
         if( is_player() ) {
             add_msg( m_good, _( "Your offensive defense system shocks %s in mid-attack!" ),
                      source->disp_name() );
@@ -9894,7 +9898,7 @@ void Character::on_hit( Creature *source, bodypart_id bp_hit,
                      source->disp_name() );
         }
         int shock = rng( 1, 4 );
-        mod_power_level( units::from_kilojoule( -shock ) );
+        mod_power_level( -shock * trigger_cost_base );
         damage_instance ods_shock_damage;
         ods_shock_damage.add_damage( damage_type::ELECTRIC, shock * 5 );
         // Should hit body part used for attack
