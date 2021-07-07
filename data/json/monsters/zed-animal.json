@@ -118,6 +118,7 @@
     "melee_dice_sides": 4,
     "melee_cut": 2,
     "dodge": 1,
+    "bleed_rate": 50,
     "vision_day": 30,
     "vision_night": 4,
     "harvest": "zombie",

@@ -286,6 +286,9 @@ struct mtype {
         int armor_acid = -1;    /** innate armor vs. acid */
         int armor_fire = -1;    /** innate armor vs. fire */
 
+        // Bleed rate in percent, 0 makes the monster immune to bleeding
+        int bleed_rate = 100;
+
         // Vision range is linearly scaled depending on lighting conditions
         int vision_day = 40;    /** vision range in bright light */
         int vision_night = 1;   /** vision range in total darkness */

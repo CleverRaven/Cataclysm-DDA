@@ -497,6 +497,11 @@
     "type": "start_location",
     "id": "sloc_road",
     "name": "Road",
-    "terrain": [ "road_straight", "road_curved", "road_end" ]
+    "terrain": [
+      "road_nesw_manhole",
+      { "om_terrain": "road_straight", "om_terrain_match_type": "PREFIX" },
+      { "om_terrain": "road_curved", "om_terrain_match_type": "PREFIX" },
+      { "om_terrain": "road_end", "om_terrain_match_type": "PREFIX" }
+    ]
   }
 ]

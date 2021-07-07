@@ -1376,7 +1376,7 @@ bool monster::is_immune_effect( const efftype_id &effect ) const
     }
 
     if( effect == effect_bleed ) {
-        return type->bloodType() == fd_null;
+        return ( type->bloodType() == fd_null || type->bleed_rate == 0 );
     }
 
     if( effect == effect_venom_dmg ||
@@ -1438,6 +1438,21 @@ bool monster::is_immune_damage( const damage_type dt ) const
             return false;
         default:
             return true;
+    }
+}
+
+void monster::make_bleed( const effect_source &source, const bodypart_id &bp,
+                          time_duration duration, int intensity, bool permanent, bool force, bool defferred )
+{
+    if( type->bleed_rate == 0 ) {
+        return;
+    }
+
+    duration = ( duration * type->bleed_rate ) / 100;
+    if( type->in_species( species_ROBOT ) ) {
+        add_effect( source, effect_dripping_mechanical_fluid, duration, bp );
+    } else {
+        add_effect( source, effect_bleed, duration, bp, permanent, intensity, force, defferred );
     }
 }
 

@@ -504,6 +504,15 @@ character_id Character::getID() const
     return this->id;
 }
 
+void Character::randomize_height()
+{
+    // Height distribution data is taken from CDC distributes statistics for the US population
+    // https://github.com/CleverRaven/Cataclysm-DDA/pull/49270#issuecomment-861339732
+    const int x = std::round( normal_roll( 168.35, 15.50 ) );
+    // clamping to 145..200 because this is the bounds of what player can set, see newplayer.cpp
+    init_height = clamp( x, 145, 200 );
+}
+
 void Character::randomize_blood()
 {
     // Blood type distribution data is taken from this study on blood types of
@@ -1420,13 +1429,15 @@ float Character::get_melee() const
 
 bool Character::uncanny_dodge()
 {
-
     bool is_u = is_avatar();
     bool seen = get_player_view().sees( *this );
 
-    const bool can_dodge_bio = get_power_level() >= 75_kJ && has_active_bionic( bio_uncanny_dodge );
+    const units::energy trigger_cost = bio_uncanny_dodge->power_trigger;
+
+    const bool can_dodge_bio = get_power_level() >= trigger_cost &&
+                               has_active_bionic( bio_uncanny_dodge );
     const bool can_dodge_mut = get_stamina() >= 300 && has_trait_flag( json_flag_UNCANNY_DODGE );
-    const bool can_dodge_both = get_power_level() >= 37500_J &&
+    const bool can_dodge_both = get_power_level() >= ( trigger_cost / 2 ) &&
                                 has_active_bionic( bio_uncanny_dodge ) &&
                                 get_stamina() >= 150 && has_trait_flag( json_flag_UNCANNY_DODGE );
 
@@ -1436,10 +1447,10 @@ bool Character::uncanny_dodge()
     tripoint adjacent = adjacent_tile();
 
     if( can_dodge_both ) {
-        mod_power_level( -37500_J );
+        mod_power_level( -trigger_cost / 2 );
         mod_stamina( -150 );
     } else if( can_dodge_bio ) {
-        mod_power_level( -75_kJ );
+        mod_power_level( -trigger_cost );
     } else if( can_dodge_mut ) {
         mod_stamina( -300 );
     }
@@ -4334,12 +4345,13 @@ void Character::do_skill_rust()
             continue;
         }
 
-        const bool charged_bio_mem = get_power_level() > 25_J && has_active_bionic( bio_memory );
+        const bool charged_bio_mem = get_power_level() > bio_memory->power_trigger &&
+                                     has_active_bionic( bio_memory );
         const int oldSkillLevel = skill_level_obj.level();
         if( skill_level_obj.rust( charged_bio_mem, rust_rate_tmp ) ) {
             add_msg_if_player( m_warning,
                                _( "Your knowledge of %s begins to fade, but your memory banks retain it!" ), aSkill.name() );
-            mod_power_level( -25_J );
+            mod_power_level( -bio_memory->power_trigger );
         }
         const int newSkill = skill_level_obj.level();
         if( newSkill < oldSkillLevel ) {
@@ -9577,7 +9589,7 @@ void Character::absorb_hit( const bodypart_id &bp, damage_instance &dam )
                 } else if( elem.type == damage_type::STAB || elem.type == damage_type::BULLET ) {
                     elem.amount -= rng( 1, 8 );
                 }
-                mod_power_level( -25_kJ );
+                mod_power_level( -bio_ads->power_trigger );
             }
             if( elem.amount < 0 ) {
                 elem.amount = 0;
@@ -9851,7 +9863,7 @@ std::string Character::weapname() const
                 const item *mag = weapon.magazine_current();
                 mag_ammo = string_format( " (0/%d)",
                                           mag->ammo_capacity( item( mag->ammo_default() ).ammo_type() ) );
-            } else {
+            } else if( weapon.is_reloadable() ) {
                 mag_ammo = _( " (empty)" );
             }
         }
@@ -9875,7 +9887,8 @@ void Character::on_hit( Creature *source, bodypart_id bp_hit,
     }
 
     bool u_see = get_player_view().sees( *this );
-    if( has_active_bionic( bionic_id( "bio_ods" ) ) && get_power_level() > 5_kJ ) {
+    const units::energy trigger_cost_base = bionic_id( "bio_ods" )->power_trigger;
+    if( has_active_bionic( bionic_id( "bio_ods" ) ) && get_power_level() > ( 5 * trigger_cost_base ) ) {
         if( is_player() ) {
             add_msg( m_good, _( "Your offensive defense system shocks %s in mid-attack!" ),
                      source->disp_name() );
@@ -9885,7 +9898,7 @@ void Character::on_hit( Creature *source, bodypart_id bp_hit,
                      source->disp_name() );
         }
         int shock = rng( 1, 4 );
-        mod_power_level( units::from_kilojoule( -shock ) );
+        mod_power_level( -shock * trigger_cost_base );
         damage_instance ods_shock_damage;
         ods_shock_damage.add_damage( damage_type::ELECTRIC, shock * 5 );
         // Should hit body part used for attack
@@ -13189,4 +13202,10 @@ bool Character::has_flag( const json_character_flag &flag ) const
 {
     // If this is a performance problem create a map of flags stored for a character and updated on trait, mutation, bionic add/remove, activate/deactivate, effect gain/loss
     return has_trait_flag( flag ) || has_bionic_with_flag( flag ) || has_effect_with_flag( flag );
+}
+
+bool Character::is_driving() const
+{
+    const optional_vpart_position vp = get_map().veh_at( pos() );
+    return vp && vp->vehicle().is_moving() && vp->vehicle().player_in_control( *this );
 }

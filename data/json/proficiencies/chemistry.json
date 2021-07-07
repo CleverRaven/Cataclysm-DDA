@@ -37,7 +37,7 @@
     "description": "Knowledge of the branch of chemistry that studies and uses compounds not containing carbon.",
     "can_learn": true,
     "default_time_multiplier": 1.5,
-    "default_fail_multiplier": 2.5, 
+    "default_fail_multiplier": 2.5,
     "required_proficiencies": [ "prof_intro_chemistry" ],
     "time_to_learn": "8 h"
   },

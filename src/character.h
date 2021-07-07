@@ -1864,7 +1864,7 @@ class Character : public Creature, public visitable
         bool cast_spell( spell &sp, bool fake_spell, cata::optional<tripoint> target );
 
         void make_bleed( const effect_source &source, const bodypart_id &bp, time_duration duration,
-                         int intensity = 1, bool permanent = false, bool force = false, bool defferred = false );
+                         int intensity = 1, bool permanent = false, bool force = false, bool defferred = false ) override;
 
         /** Calls Creature::normalize()
          *  nulls out the player's weapon
@@ -2136,6 +2136,8 @@ class Character : public Creature, public visitable
         std::string height_string() const;
         // returns the height of the player character in cm
         int height() const;
+        // Randomizes characters' height
+        void randomize_height();
         // returns bodyweight of the Character
         units::mass bodyweight() const;
         // returns total weight of installed bionics
@@ -2654,6 +2656,9 @@ class Character : public Creature, public visitable
 
         /** Creates an auditory hallucination */
         void sound_hallu();
+
+        /** Checks if a Character is driving */
+        bool is_driving() const;
 
         /** Drenches the player with water, saturation is the percent gotten wet */
         void drench( int saturation, const body_part_set &flags, bool ignore_waterproof );

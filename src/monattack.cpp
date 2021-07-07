@@ -18,6 +18,7 @@
 
 #include "activity_type.h"
 #include "ballistics.h"
+#include "bionics.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_assert.h"
@@ -4471,12 +4472,7 @@ bool mattack::longswipe( monster *z )
                                        _( "The %1$s slashes at your neck, cutting your throat for %2$d damage!" ),
                                        _( "The %1$s slashes at <npcname>'s neck, cutting their throat for %2$d damage!" ),
                                        z->name(), dam );
-        if( target->is_player() || target->is_npc() ) {
-            target->as_character()->make_bleed( effect_source( z ), bodypart_id( "head" ), 15_minutes );
-        } else {
-            target->add_effect( effect_source( z ), effect_bleed, 15_minutes, bodypart_id( "head" ) );
-        }
-
+        target->make_bleed( effect_source( z ), bodypart_id( "head" ), 15_minutes );
     } else {
         target->add_msg_player_or_npc( _( "The %1$s slashes at your %2$s, but glances off your armor!" ),
                                        _( "The %1$s slashes at <npcname>'s %2$s, but glances off armor!" ),
@@ -4777,7 +4773,7 @@ bool mattack::riotbot( monster *z )
             handcuffs.set_var( "HANDCUFFS_Y", foe->posy() );
 
             const bool is_uncanny = foe->has_active_bionic( bio_uncanny_dodge ) &&
-                                    foe->get_power_level() > 74_kJ &&
+                                    foe->get_power_level() > bio_uncanny_dodge.obj().power_trigger &&
                                     !one_in( 3 );
             ///\EFFECT_DEX >13 allows and increases chance to slip out of riot bot handcuffs
             const bool is_dex = foe->dex_cur > 13 && !one_in( foe->dex_cur - 11 );
@@ -4785,7 +4781,7 @@ bool mattack::riotbot( monster *z )
             if( is_uncanny || is_dex ) {
 
                 if( is_uncanny ) {
-                    foe->mod_power_level( -75_kJ );
+                    foe->mod_power_level( -bio_uncanny_dodge->power_trigger );
                 }
 
                 add_msg( m_good,
@@ -5291,7 +5287,7 @@ bool mattack::bio_op_impale( monster *z )
         // Handle mons earlier - less to check for
         target->deal_damage( z, bodypart_id( "torso" ), damage_instance( damage_type::STAB, dam ) );
         if( do_bleed ) {
-            target->add_effect( effect_bleed, rng( 3_minutes, 10_minutes ), bodypart_id( "torso" ), true );
+            target->make_bleed( effect_source( z ), bodypart_id( "torso" ), rng( 3_minutes, 10_minutes ) );
         }
         if( seen ) {
             add_msg( _( "The %1$s impales %2$s!" ), z->name(), target->disp_name() );
@@ -5312,7 +5308,7 @@ bool mattack::bio_op_impale( monster *z )
         target->add_msg_if_player( m_bad, _( "and deals %d damage!" ), t_dam );
 
         if( do_bleed ) {
-            target->as_character()->make_bleed( effect_source( z ), hit, rng( 75_turns, 125_turns ), 1, true );
+            target->make_bleed( effect_source( z ), hit, rng( 75_turns, 125_turns ) );
         }
     } else {
         target->add_msg_player_or_npc( _( "but fails to penetrate your armor!" ),

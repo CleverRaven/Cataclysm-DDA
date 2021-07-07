@@ -4635,12 +4635,13 @@ void game::monmove()
             m.creature_in_field( critter );
         }
 
+        const bionic_id bio_alarm( "bio_alarm" );
         if( !critter.is_dead() &&
-            u.has_active_bionic( bionic_id( "bio_alarm" ) ) &&
-            u.get_power_level() >= 25_kJ &&
+            u.has_active_bionic( bio_alarm ) &&
+            u.get_power_level() >= bio_alarm->power_trigger &&
             rl_dist( u.pos(), critter.pos() ) <= 5 &&
             !critter.is_hallucination() ) {
-            u.mod_power_level( -25_kJ );
+            u.mod_power_level( -bio_alarm->power_trigger );
             add_msg( m_warning, _( "Your motion alarm goes off!" ) );
             cancel_activity_or_ignore_query( distraction_type::motion_alarm,
                                              _( "Your motion alarm goes off!" ) );
@@ -10324,8 +10325,11 @@ void game::place_player_overmap( const tripoint_abs_omt &om_dest )
 
 bool game::phasing_move( const tripoint &dest_loc, const bool via_ramp )
 {
-    if( !u.has_active_bionic( bionic_id( "bio_probability_travel" ) ) ||
-        u.get_power_level() < 250_kJ ) {
+    const bionic_id bio_probability_travel( "bio_probability_travel" );
+    const units::energy trigger_cost = bio_probability_travel->power_trigger;
+
+    if( !u.has_active_bionic( bio_probability_travel ) ||
+        u.get_power_level() < trigger_cost ) {
         return false;
     }
 
@@ -10347,19 +10351,18 @@ bool game::phasing_move( const tripoint &dest_loc, const bool via_ramp )
         if( u.worn_with_flag( flag_DIMENSIONAL_ANCHOR ) ||
             u.has_flag( flag_DIMENSIONAL_ANCHOR ) ) {
             u.add_msg_if_player( m_info, _( "You are repelled by the barrier!" ) );
-            u.mod_power_level( -250_kJ ); //cost of tunneling one tile.
+            u.mod_power_level( -trigger_cost ); //cost of tunneling one tile.
             return false;
         }
-        if( tunneldist * 250_kJ >
+        if( tunneldist * trigger_cost >
             u.get_power_level() ) { //oops, not enough energy! Tunneling costs 250 bionic power per impassable tile
             add_msg( _( "You try to quantum tunnel through the barrier but are reflected!  Try again with more energy!" ) );
-            u.mod_power_level( -250_kJ );
+            u.mod_power_level( -trigger_cost );
             return false;
         }
-
         if( tunneldist > 24 ) {
             add_msg( m_info, _( "It's too dangerous to tunnel that far!" ) );
-            u.mod_power_level( -250_kJ );
+            u.mod_power_level( -trigger_cost );
             return false;
         }
 
@@ -10374,7 +10377,7 @@ bool game::phasing_move( const tripoint &dest_loc, const bool via_ramp )
 
         add_msg( _( "You quantum tunnel through the %d-tile wide barrier!" ), tunneldist );
         //tunneling costs 250 bionic power per impassable tile
-        u.mod_power_level( -( tunneldist * 250_kJ ) );
+        u.mod_power_level( -( tunneldist * trigger_cost ) );
         u.moves -= 100; //tunneling costs 100 moves
         u.setpos( dest );
 
@@ -10687,12 +10690,12 @@ void game::on_move_effects()
                 u.mod_power_level( units::from_kilojoule( muscle.fuel_energy() ) * bid->passive_fuel_efficiency );
             }
         }
-
-        if( u.has_active_bionic( bionic_id( "bio_jointservo" ) ) ) {
+        const bionic_id bio_jointservo( "bio_jointservo" );
+        if( u.has_active_bionic( bio_jointservo ) ) {
             if( u.is_running() ) {
-                u.mod_power_level( -55_J );
+                u.mod_power_level( -bio_jointservo->power_trigger * 1.55 );
             } else {
-                u.mod_power_level( -35_J );
+                u.mod_power_level( -bio_jointservo->power_trigger );
             }
         }
     }

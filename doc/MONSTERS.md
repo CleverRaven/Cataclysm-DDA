@@ -328,6 +328,11 @@ Amount of light passively output by monster. Ranges from 0 to 10.
 
 Monster hit points.
 
+## "bleed_rate"
+(integer, optional)
+
+Percent multiplier on all bleed effects' duration applied to the monster. Values below the default of 100 mean a resistance to bleed, values above 100 make the monster bleed longer and more intensive. 0 translates to bleed immunity.
+
 ## "death_drops"
 (string or item group, optional)
 
