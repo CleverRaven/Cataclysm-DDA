@@ -16,7 +16,7 @@
       "shop_sigma": 80,
       "park_radius": 20,
       "park_sigma": 80,
-      "houses": { "afs_city_ruinfield": 400, "afs_formless_ruins_dynamic": 600 },
+      "houses": { "afs_city_ruinfield": 400, "afs_formless_ruins_dynamic": 600, "afs_house_1": 300 },
       "parks": { "afs_city_ruinfield": 100 },
       "shops": { "afs_augmentation_clinic_1": 400, "afs_astrobiology_lab": 400 }
     },
