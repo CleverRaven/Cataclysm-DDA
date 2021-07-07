@@ -32,6 +32,7 @@ Most changes will be for setting reasons, not balance. We will mostly use the CD
 - Healthcare and health insurance costs are not a concern for most people.
 - SUVs and hatchbacks are less common. Compact cars are less common due to the location. Pickup trucks are much more common.
 - Many location names should be changed to Canadian equivalents, or sometimes removed to be later replaced with Canadian versions as appropriate. For example, the cdda "state park" map is a tiny fenced-off area with no resemblance to a Canadian provincial park.
+- Where possible we should try to audit use of terrible American spelling and use Canadian instead. Luckily, Canada formally accepts both spellings so we don't have to be complete about that, but using the proper spelling of things will colour the setting nicely.
 
 #### Professions and Scenarios
 The "default start" should put you in a cabin in the woods with one other survivor that already knows you and can tell you a bit about the setting. The rest of the start options should fit one of the two following categories:
