@@ -14,13 +14,11 @@
     "symbol": "[",
     "looks_like": "helmet_plate",
     "color": "light_gray",
-    "covers": [ "head" ],
-    "coverage": 55,
-    "encumbrance": 50,
     "warmth": 5,
     "material_thickness": 2,
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
-    "techniques": [ "WBLOCK_1" ]
+    "techniques": [ "WBLOCK_1" ],
+    "armor": [ { "encumbrance": 50, "coverage": 55, "covers": [ "head" ] } ]
   },
   {
     "id": "headgear",
@@ -37,13 +35,11 @@
     "symbol": "[",
     "looks_like": "balclava",
     "color": "red",
-    "covers": [ "head" ],
-    "coverage": 75,
-    "encumbrance": 20,
     "warmth": 10,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "OVERSIZE", "STURDY" ]
+    "flags": [ "VARSIZE", "OVERSIZE", "STURDY" ],
+    "armor": [ { "encumbrance": 20, "coverage": 75, "covers": [ "head" ] } ]
   },
   {
     "id": "helmet_army",
@@ -62,13 +58,11 @@
     "symbol": "[",
     "looks_like": "hat_hard",
     "color": "green",
-    "covers": [ "head" ],
-    "coverage": 85,
-    "encumbrance": 20,
     "warmth": 20,
     "material_thickness": 9,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ],
+    "armor": [ { "encumbrance": 20, "coverage": 85, "covers": [ "head" ] } ]
   },
   {
     "id": "tac_fullhelmet",
@@ -115,13 +109,11 @@
     "symbol": "[",
     "looks_like": "tac_fullhelmet",
     "color": "dark_gray",
-    "covers": [ "head" ],
-    "coverage": 95,
-    "encumbrance": 16,
     "warmth": 20,
     "material_thickness": 8,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ],
+    "armor": [ { "encumbrance": 16, "coverage": 95, "covers": [ "head" ] } ]
   },
   {
     "id": "firehelmet",
@@ -140,13 +132,11 @@
     "symbol": "[",
     "looks_like": "cowboy_hat",
     "color": "yellow",
-    "covers": [ "head" ],
-    "coverage": 75,
-    "encumbrance": 40,
     "warmth": 15,
     "material_thickness": 6,
     "environmental_protection": 6,
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ],
+    "armor": [ { "encumbrance": 40, "coverage": 75, "covers": [ "head" ] } ]
   },
   {
     "id": "helmet_ball",
@@ -165,13 +155,11 @@
     "symbol": "[",
     "looks_like": "hat_hard",
     "color": "blue",
-    "covers": [ "head" ],
-    "coverage": 95,
-    "encumbrance": 20,
     "warmth": 15,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "techniques": [ "WBLOCK_1" ]
+    "techniques": [ "WBLOCK_1" ],
+    "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "head" ] } ]
   },
   {
     "id": "helmet_barbute",
@@ -222,12 +210,10 @@
     "symbol": "[",
     "looks_like": "hat_hard",
     "color": "dark_gray",
-    "covers": [ "head" ],
-    "coverage": 75,
-    "encumbrance": 15,
     "warmth": 15,
     "material_thickness": 4,
-    "techniques": [ "WBLOCK_1" ]
+    "techniques": [ "WBLOCK_1" ],
+    "armor": [ { "encumbrance": 15, "coverage": 75, "covers": [ "head" ] } ]
   },
   {
     "id": "helmet_chitin",
@@ -278,13 +264,11 @@
     "symbol": "[",
     "looks_like": "helmet_barbute",
     "color": "brown",
-    "covers": [ "head" ],
-    "coverage": 90,
-    "encumbrance": 20,
     "warmth": 35,
     "material_thickness": 3,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "STURDY" ]
+    "flags": [ "VARSIZE", "STURDY" ],
+    "armor": [ { "encumbrance": 20, "coverage": 90, "covers": [ "head" ] } ]
   },
   {
     "id": "xl_helmet_conical",
@@ -420,13 +404,11 @@
     "symbol": "[",
     "looks_like": "hat_hard",
     "color": "brown",
-    "covers": [ "head" ],
-    "coverage": 85,
-    "encumbrance": 20,
     "warmth": 10,
     "material_thickness": 3,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY" ],
+    "armor": [ { "encumbrance": 20, "coverage": 85, "covers": [ "head" ] } ]
   },
   {
     "id": "xl_helmet_larmor",
@@ -449,11 +431,9 @@
     "material": [ "leather", "bone" ],
     "symbol": "[",
     "color": "dark_gray",
-    "covers": [ "head" ],
-    "coverage": 85,
-    "encumbrance": 26,
     "material_thickness": 3,
-    "flags": [ "WATER_FRIENDLY" ]
+    "flags": [ "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 26, "coverage": 85, "covers": [ "head" ] } ]
   },
   {
     "id": "helmet_liner",
@@ -471,11 +451,10 @@
     "symbol": "[",
     "looks_like": "balclava",
     "color": "green",
-    "covers": [ "head" ],
-    "coverage": 100,
     "warmth": 30,
     "material_thickness": 0.5,
-    "flags": [ "VARSIZE", "SKINTIGHT" ]
+    "flags": [ "VARSIZE", "SKINTIGHT" ],
+    "armor": [ { "coverage": 100, "covers": [ "head" ] } ]
   },
   {
     "id": "helmet_lobster",
@@ -713,12 +692,10 @@
     "symbol": "[",
     "looks_like": "helmet_bike",
     "color": "dark_gray",
-    "covers": [ "head" ],
-    "coverage": 65,
-    "encumbrance": 20,
     "warmth": 10,
     "material_thickness": 4,
-    "techniques": [ "WBLOCK_1" ]
+    "techniques": [ "WBLOCK_1" ],
+    "armor": [ { "encumbrance": 20, "coverage": 65, "covers": [ "head" ] } ]
   },
   {
     "id": "pickelhaube",
@@ -738,12 +715,10 @@
     "symbol": "[",
     "looks_like": "helmet_plate",
     "color": "dark_gray",
-    "covers": [ "head" ],
-    "coverage": 70,
-    "encumbrance": 20,
     "warmth": 15,
     "material_thickness": 3,
-    "flags": [ "STAB" ]
+    "flags": [ "STAB" ],
+    "armor": [ { "encumbrance": 20, "coverage": 70, "covers": [ "head" ] } ]
   },
   {
     "id": "helmet_corinthian",
@@ -794,12 +769,10 @@
     "symbol": "[",
     "looks_like": "pot_helmet",
     "color": "light_gray",
-    "covers": [ "head" ],
-    "coverage": 55,
-    "encumbrance": 50,
     "warmth": 5,
     "material_thickness": 2,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "OVERSIZE" ]
+    "flags": [ "OVERSIZE" ],
+    "armor": [ { "encumbrance": 50, "coverage": 55, "covers": [ "head" ] } ]
   }
 ]
