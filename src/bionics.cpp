@@ -165,8 +165,6 @@ static const bionic_id bio_magnet( "bio_magnet" );
 static const bionic_id bio_meteorologist( "bio_meteorologist" );
 static const bionic_id bio_nanobots( "bio_nanobots" );
 static const bionic_id bio_painkiller( "bio_painkiller" );
-static const bionic_id bio_power_storage( "bio_power_storage" );
-static const bionic_id bio_power_storage_mkII( "bio_power_storage_mkII" );
 static const bionic_id bio_radscrubber( "bio_radscrubber" );
 static const bionic_id bio_remote( "bio_remote" );
 static const bionic_id bio_resonator( "bio_resonator" );
@@ -330,6 +328,7 @@ void bionic_data::load( const JsonObject &jsobj, const std::string & )
 
     optional( jsobj, was_loaded, "vitamin_absorb_mod", vitamin_absorb_mod, 1.0f );
 
+    optional( jsobj, was_loaded, "dupes_allowed", dupes_allowed, false );
     int enchant_num = 0;
     for( JsonValue jv : jsobj.get_array( "enchantments" ) ) {
         std::string enchant_name = "INLINE_ENCH_" + name + "_" + std::to_string( enchant_num++ );
@@ -2705,18 +2704,16 @@ int Character::get_free_bionics_slots( const bodypart_id &bp ) const
 
 void Character::add_bionic( const bionic_id &b )
 {
-    if( has_bionic( b ) ) {
+    if( has_bionic( b ) && !b->dupes_allowed ) {
         debugmsg( "Tried to install bionic %s that is already installed!", b.c_str() );
         return;
     }
 
     const units::energy pow_up = b->capacity;
     mod_max_power_level( pow_up );
-    if( b == bio_power_storage || b == bio_power_storage_mkII ) {
+    if( pow_up > 0_J ) {
         add_msg_if_player( m_good, _( "Increased storage capacity by %i." ),
                            units::to_kilojoule( pow_up ) );
-        // Power Storage CBMs are not real bionic units, so return without adding it to my_bionics
-        return;
     }
 
     my_bionics->push_back( bionic( b, get_free_invlet( *this ) ) );
@@ -2767,8 +2764,11 @@ void Character::remove_bionic( const bionic_id &b )
     bionic_collection new_my_bionics;
     // any spells you should not forget due to still having a bionic installed that has it.
     std::set<spell_id> cbm_spells;
+    bool skipped_installed = false;
     for( bionic &i : *my_bionics ) {
-        if( b == i.id ) {
+        // if we have multiples of the same bionic only remove one
+        if( b == i.id && !skipped_installed ) {
+            skipped_installed = true;
             continue;
         }
 
@@ -2807,39 +2807,6 @@ void Character::remove_bionic( const bionic_id &b )
 int Character::num_bionics() const
 {
     return my_bionics->size();
-}
-
-std::pair<int, int> Character::amount_of_storage_bionics() const
-{
-    units::energy lvl = get_max_power_level();
-
-    // exclude amount of power capacity obtained via non-power-storage CBMs
-    for( const bionic &it : *my_bionics ) {
-        lvl -= it.info().capacity;
-    }
-
-    std::pair<int, int> results( 0, 0 );
-    if( lvl <= 0_kJ ) {
-        return results;
-    }
-
-    const units::energy pow_mkI = bio_power_storage->capacity;
-    const units::energy pow_mkII = bio_power_storage_mkII->capacity;
-
-    while( lvl >= std::min( pow_mkI, pow_mkII ) ) {
-        if( one_in( 2 ) ) {
-            if( lvl >= pow_mkI ) {
-                results.first++;
-                lvl -= pow_mkI;
-            }
-        } else {
-            if( lvl >= pow_mkII ) {
-                results.second++;
-                lvl -= pow_mkII;
-            }
-        }
-    }
-    return results;
 }
 
 bionic &Character::bionic_at_index( int i )
