@@ -70,7 +70,8 @@ void game::list_missions()
         };
         draw_tabs( w_missions, tabs, tab );
         draw_border_below_tabs( w_missions );
-        int x1 = 2, x2 = 2;
+        int x1 = 2;
+        int x2 = 2;
         for( const std::pair<tab_mode, std::string> &t : tabs ) {
             x2 = x1 + utf8_width( t.second ) + 1;
             if( t.first == tab ) {
@@ -104,8 +105,6 @@ void game::list_missions()
             }
 
             int y = 3;
-            y += fold_and_print( w_missions, point( 31, y ), getmaxx( w_missions ) - 33, col,
-                                 miss->name() + for_npc );
 
             auto format_tokenized_description = []( const std::string & description,
             const std::vector<std::pair<int, itype_id>> &rewards ) {
@@ -117,7 +116,8 @@ void game::list_missions()
                 }
                 return formatted_description;
             };
-
+            y += fold_and_print( w_missions, point( 31, y ), getmaxx( w_missions ) - 33, col,
+                                 format_tokenized_description( miss->name(), miss->get_likely_rewards() ) + for_npc );
             y++;
             if( !miss->get_description().empty() ) {
                 y += fold_and_print( w_missions, point( 31, y ), getmaxx( w_missions ) - 33, c_white,

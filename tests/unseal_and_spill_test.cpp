@@ -9,7 +9,7 @@
 
 #include "avatar.h"
 #include "cached_options.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "character.h"
 #include "colony.h"
 #include "item.h"
@@ -150,7 +150,7 @@ class test_scenario
 void unseal_items_containing( contents_change_handler &handler, item_location &root,
                               const std::set<itype_id> &types )
 {
-    for( item *it : root->contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+    for( item *it : root->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
         if( it ) {
             item_location content( root, it );
             if( types.count( it->typeId() ) ) {
@@ -267,7 +267,7 @@ void match( item_location loc, const final_result &result )
     REQUIRE( loc->typeId() == result.id );
     CHECK( result.sealed == ( loc->contents.get_sealed_summary() !=
                               item_contents::sealed_summary::unsealed ) );
-    match( loc, loc->contents.all_items_top( item_pocket::pocket_type::CONTAINER ), result.contents );
+    match( loc, loc->all_items_top( item_pocket::pocket_type::CONTAINER ), result.contents );
 }
 
 void test_scenario::run()
@@ -457,6 +457,8 @@ void test_scenario::run()
     }
 
     std::string player_action_str;
+    restore_on_out_of_scope<test_mode_spilling_action_t> restore_test_mode_spilling(
+        test_mode_spilling_action );
     switch( cur_player_action ) {
         case player_action::spill_all: {
             player_action_str = "player_action::spill_all";
@@ -906,6 +908,4 @@ TEST_CASE( "unseal_and_spill" )
         current.run();
         ++current;
     }
-    // Restore options
-    test_mode_spilling_action = test_mode_spilling_action_t::spill_all;
 }

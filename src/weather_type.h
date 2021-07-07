@@ -13,6 +13,7 @@
 #include "catacharset.h"
 #include "color.h"
 #include "damage.h"
+#include "dialogue.h"
 #include "optional.h"
 #include "translations.h"
 #include "type_id.h"
@@ -49,18 +50,7 @@ struct enum_traits<sun_intensity_type > {
     static constexpr sun_intensity_type last = sun_intensity_type::last;
 };
 
-enum class weather_time_requirement_type : int {
-    day,
-    night,
-    both,
-    last
-};
-template<>
-struct enum_traits<weather_time_requirement_type> {
-    static constexpr weather_time_requirement_type last = weather_time_requirement_type::last;
-};
-
-enum class weather_sound_category : int {
+enum weather_sound_category : int {
     silent,
     drizzle,
     rainy,
@@ -86,64 +76,6 @@ struct weather_animation_t {
     std::string get_symbol() const {
         return utf32_to_utf8( symbol );
     }
-};
-
-struct weather_requirements {
-    int windpower_min = INT_MIN;
-    int windpower_max = INT_MAX;
-    int temperature_min = INT_MIN;
-    int temperature_max = INT_MAX;
-    int pressure_min = INT_MIN;
-    int pressure_max = INT_MAX;
-    int humidity_min = INT_MIN;
-    int humidity_max = INT_MAX;
-    bool humidity_and_pressure = true;
-    weather_time_requirement_type time = weather_time_requirement_type::both;
-    std::vector<weather_type_id> required_weathers{};
-    time_duration time_passed_min = 0_turns;
-    time_duration time_passed_max = 0_turns;
-    int one_in_chance = 0;
-};
-
-struct weather_field {
-    field_type_str_id type;
-    int intensity = 0;
-    time_duration age = 0_turns;
-    int radius = 0;
-    bool outdoor_only = false;
-};
-
-struct spawn_type {
-    mtype_id target;
-    int target_range = 0;
-    int hallucination_count = 0;
-    int real_count = 0;
-    int min_radius = 0;
-    int max_radius = 0;
-};
-
-struct weather_effect {
-    int one_in_chance = 0;
-    time_duration time_between = 0_turns;
-    translation message;
-    bool must_be_outside = false;
-    translation sound_message;
-    std::string sound_effect;
-    bool lightning = false;
-    bool rain_proof = false;
-    int pain = 0;
-    int pain_max = 0;
-    int wet = 0;
-    int radiation = 0;
-    int healthy = 0;
-    efftype_id effect_id;
-    time_duration effect_duration = 0_turns;
-    trait_id trait_id_to_add;
-    trait_id trait_id_to_remove;
-    bodypart_str_id target_part;
-    cata::optional<damage_instance> damage;
-    std::vector<spawn_type> spawns;
-    std::vector<weather_field> fields;
 };
 
 struct weather_type {
@@ -175,8 +107,6 @@ struct weather_type {
         bool rains = false;
         // Whether said precipitation is acidic.
         bool acidic = false;
-        // vector for weather effects.
-        std::vector<weather_effect> effects{};
         // string for tiles animation
         std::string tiles_animation;
         // Information for weather animations
@@ -186,11 +116,10 @@ struct weather_type {
         // strength of the sun
         sun_intensity_type sun_intensity = sun_intensity_type::none;
         // when this weather should happen
-        weather_requirements requirements;
+        std::function<bool( const dialogue & )> condition;
+        std::vector<weather_type_id> required_weathers;
         time_duration duration_min = 0_turns;
         time_duration duration_max = 0_turns;
-        time_duration time_between_min = 0_turns;
-        time_duration time_between_max = 0_turns;
         void load( const JsonObject &jo, const std::string &src );
         void finalize();
         void check() const;

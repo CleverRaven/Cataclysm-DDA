@@ -41,16 +41,16 @@
         "topic": "TALK_RED_DINOSAURS",
         "condition": { "u_has_var": "asked_about_kill_dinos", "type": "dialogue", "context": "dino", "value": "yes" }
       },
-      {
-        "text": "Would you like to join me on my travels?",
-        "topic": "TALK_SUGGEST_FOLLOW_RED",
-        "condition": { "not": "npc_following" }
-      },
       { "text": "Let's trade items.", "topic": "TALK_OLD_GUARD_RED", "effect": "start_trade" },
       {
         "text": "How can I help?",
         "topic": "TALK_MISSION_LIST",
         "condition": { "u_has_var": "asked_about_kill_dinos", "type": "dialogue", "context": "dino", "value": "yes" }
+      },
+      {
+        "text": "Mission update for you, Red.",
+        "topic": "TALK_MISSION_INQUIRE",
+        "condition": { "and": [ "has_assigned_mission" ] }
       },
       { "text": "Anyway.  Take care, Red.", "topic": "TALK_DONE" }
     ]
@@ -131,9 +131,10 @@
       "update_mapgen": { "place_monster": [ { "group": "GROUP_DINOSAUR_ZOMBIE", "x": 12, "y": 12, "target": true } ] }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_OLD_GUARD_DINO_4",
     "end": {
       "opinion": { "trust": 1, "value": 1 },
-      "effect": [ { "u_buy_monster": "mon_zachycephalosaurus", "count": 1, "name": "Betty" } ]
+      "effect": [ { "u_buy_monster": "mon_zachycephalosaurus_chain", "count": 1, "name": "Betty" } ]
     },
     "dialogue": {
       "describe": "We need help…",
@@ -142,7 +143,63 @@
       "rejected": "Come back when you get a chance, we really need to start reclaiming the region.",
       "advice": "Maybe bring a rope to bring the cattle back or something for them to eat.  They can be ornery cusses if you don't know how to treat them.",
       "inquire": "How is the search going?",
-      "success": "Oh.  Oh no.  We didn't think the dinosaurs could raise and we've killed so many of them.  We might be in trouble here.  Here's one now, I'll rip it apart!",
+      "success": "Oh.  Oh no.  We didn't think the dinosaurs could raise and we've killed so many of them.  We might be in trouble here.  Here's one now, I'll rip it apart!  Wait, I can see in its dead eyes that it loves us and wants to help us.  I'll just end up killing it, I'm barely holding it together here.  You'd better take it.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways…"
+    }
+  },
+  {
+    "id": "MISSION_OLD_GUARD_DINO_4",
+    "type": "mission_definition",
+    "name": { "str": "Kill 50 dinos" },
+    "description": "Kill 50 dinos",
+    "goal": "MGOAL_KILL_MONSTER_SPEC",
+    "monster_species": "DINOSAUR",
+    "monster_kill_goal": 50,
+    "difficulty": 9,
+    "value": 100000,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "end": {
+      "opinion": { "trust": 1, "value": 1 },
+      "effect": [ { "u_buy_monster": "mon_zachycephalosaurus_chain", "count": 1, "name": "Stromer" } ]
+    },
+    "dialogue": {
+      "describe": "We need help…",
+      "offer": "While we were out on a hunting party a couple of those big ugly ones came back and ate a whole mob of the dead I wanted to take out.  We lost a lot of soldiers too while we were out too, good ones, and they died bad.  Slow.  I made sure of it, the traitors.  These dinosaurs have gone too far.  They're making us crazy.  We need to rack up some serious numbers to catch up.  We need some serious risk taking, I'm talking explosives and fire and drugs and rock and roll here.  I don't care if it's living dinos or dead, they all need to be taken down.",
+      "accepted": "Kill all dinos.",
+      "rejected": "I'm right on the edge soldier.  Whose side are you on here?",
+      "advice": "You can kill a lot of dinos without taking a lot of pills, but I don't see how.",
+      "inquire": "You hit your numbers yet?",
+      "success": "That's what I like to hear.  We got our numbers too, and we chained down a couple too.  I had to take out a few more soldiers who didn't make their numbers, so this is good.  We're doing good.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways…"
+    }
+  },
+  {
+    "id": "MISSION_OLD_GUARD_DINO_5",
+    "type": "mission_definition",
+    "name": { "str": "Kill me a T Rex" },
+    "description": "Kill me a T Rex",
+    "goal": "MGOAL_KILL_MONSTER",
+    "difficulty": 9,
+    "value": 100000,
+    "start": {
+      "assign_mission_target": { "om_terrain": "field", "reveal_radius": 5, "random": true, "search_range": 60 },
+      "update_mapgen": { "place_monster": [ { "monster": "mon_tyrannosaurus", "x": 12, "y": 12, "target": true } ] }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "end": {
+      "opinion": { "trust": 1, "value": 1 },
+      "effect": [ "npc_die", { "u_buy_monster": "mon_zyrannosaurus_chain", "count": 1, "name": "Wilma" } ]
+    },
+    "dialogue": {
+      "describe": "We need help…",
+      "offer": "I have a special mission I need to complete before these dinos finish killing me off, and I need you to bring me a something special.  Go kill me a T Rex.  We're going to be gods.  It's all going to be worth it.",
+      "accepted": "MY LIFE FOR YOU.",
+      "rejected": "I'm right on the edge soldier.  Whose side are you on here?",
+      "advice": "You're a dino killing machine like me.  You know what to do.",
+      "inquire": "You got my body yet?",
+      "success": "All right, we've got the body here.  Watch this, I'm going to climb into its dead mouth and when you see me again I'll be a god.  *SWALLOW*",
       "success_lie": "What good does this do us?",
       "failure": "It was a lost cause anyways…"
     }

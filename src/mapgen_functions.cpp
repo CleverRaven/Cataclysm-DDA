@@ -40,7 +40,9 @@ static const itype_id itype_jackhammer( "jackhammer" );
 static const itype_id itype_mask_dust( "mask_dust" );
 
 static const mtype_id mon_ant_larva( "mon_ant_larva" );
+static const mtype_id mon_ant_acid_larva( "mon_ant_acid_larva" );
 static const mtype_id mon_ant_queen( "mon_ant_queen" );
+static const mtype_id mon_ant_acid_queen( "mon_ant_acid_queen" );
 static const mtype_id mon_bee( "mon_bee" );
 static const mtype_id mon_beekeeper( "mon_beekeeper" );
 static const mtype_id mon_zombie_jackson( "mon_zombie_jackson" );
@@ -145,7 +147,9 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
             { "ants_four_way",    &mapgen_ants_four_way },
             { "ants_food", &mapgen_ants_food },
             { "ants_larvae", &mapgen_ants_larvae },
+            { "ants_larvae_acid", &mapgen_ants_larvae_acid },
             { "ants_queen", &mapgen_ants_queen },
+            { "ants_queen_acid", &mapgen_ants_queen_acid },
             { "tutorial", &mapgen_tutorial },
             { "lake_shore", &mapgen_lake_shore },
             { "ravine_edge", &mapgen_ravine_edge },
@@ -755,25 +759,21 @@ void mapgen_road( mapgendata &dat )
                 if( sidewalks_neswx[( dir + 3 ) % 4     ] ||   // has_sidewalk west?
                     sidewalks_neswx[( dir + 3 ) % 4 + 4 ] ||   // has_sidewalk northwest?
                     sidewalks_neswx[   dir               ] ) { // has_sidewalk north?
-                    int x1 = 0;
-                    int y1 = 0;
-                    int x2 = 3;
-                    int y2 = SEEY - 1 + dead_end_extension;
-                    coord_rotate_cw( x1, y1, dir );
-                    coord_rotate_cw( x2, y2, dir );
-                    square( m, t_sidewalk, point( x1, y1 ), point( x2, y2 ) );
+                    point p1;
+                    point p2( 3, SEEY - 1 + dead_end_extension );
+                    coord_rotate_cw( p1.x, p1.y, dir );
+                    coord_rotate_cw( p2.x, p2.y, dir );
+                    square( m, t_sidewalk, p1, p2 );
                 }
                 // sidewalk east of north road, etc
                 if( sidewalks_neswx[( dir + 1 ) % 4 ] ||   // has_sidewalk east?
                     sidewalks_neswx[   dir + 4       ] ||  // has_sidewalk northeast?
                     sidewalks_neswx[   dir           ] ) { // has_sidewalk north?
-                    int x1 = SEEX * 2 - 5;
-                    int y1 = 0;
-                    int x2 = SEEX * 2 - 1;
-                    int y2 = SEEY - 1 + dead_end_extension;
-                    coord_rotate_cw( x1, y1, dir );
-                    coord_rotate_cw( x2, y2, dir );
-                    square( m, t_sidewalk, point( x1, y1 ), point( x2, y2 ) );
+                    point p12( SEEX * 2 - 5, 0 );
+                    point p22( SEEX * 2 - 1, SEEY - 1 + dead_end_extension );
+                    coord_rotate_cw( p12.x, p12.y, dir );
+                    coord_rotate_cw( p22.x, p22.y, dir );
+                    square( m, t_sidewalk, p12, p22 );
                 }
             }
         }
@@ -788,17 +788,16 @@ void mapgen_road( mapgendata &dat )
         // also corner pieces to curve towards diagonal neighbors
         for( int dir = 0; dir < 4; dir++ ) {
             if( roads_nesw[dir] ) {
-                int x1 = 4;
-                int y1 = 0;
-                int x2 = SEEX * 2 - 1 - 4;
-                int y2 = SEEY - 1 + dead_end_extension;
-                coord_rotate_cw( x1, y1, dir );
-                coord_rotate_cw( x2, y2, dir );
-                square( m, t_pavement, point( x1, y1 ), point( x2, y2 ) );
+                point p13( 4, 0 );
+                point p23( SEEX * 2 - 1 - 4, SEEY - 1 + dead_end_extension );
+                coord_rotate_cw( p13.x, p13.y, dir );
+                coord_rotate_cw( p23.x, p23.y, dir );
+                square( m, t_pavement, p13, p23 );
                 if( curvedir_nesw[dir] != 0 ) {
                     for( int x = 1; x < 4; x++ ) {
                         for( int y = 0; y < x; y++ ) {
-                            int ty = y, tx = ( curvedir_nesw[dir] == -1 ? x : SEEX * 2 - 1 - x );
+                            int ty = y;
+                            int tx = ( curvedir_nesw[dir] == -1 ? x : SEEX * 2 - 1 - x );
                             coord_rotate_cw( tx, ty, dir );
                             m->ter_set( point( tx, ty ), t_pavement );
                         }
@@ -818,10 +817,9 @@ void mapgen_road( mapgendata &dat )
                 for( int x = SEEX - 1; x <= SEEX; x++ ) {
                     for( int y = 0; y < max_y; y++ ) {
                         if( ( y + ( ( dir + rot ) / 2 % 2 ) ) % 4 ) {
-                            int xn = x;
-                            int yn = y;
-                            coord_rotate_cw( xn, yn, dir );
-                            m->ter_set( point( xn, yn ), t_pavement_y );
+                            point n( x, y );
+                            coord_rotate_cw( n.x, n.y, dir );
+                            m->ter_set( n, t_pavement_y );
                         }
                     }
                 }
@@ -2486,19 +2484,6 @@ static void mapgen_ants_generic( mapgendata &dat )
             }
         }
     }
-    if( dat.terrain_type() == "ants_food" ) {
-        m->place_items( item_group_id( "ant_food" ), 92, point_zero,
-                        point( SEEX * 2 - 1, SEEY * 2 - 1 ), true, dat.when() );
-    } else {
-        m->place_items( item_group_id( "ant_egg" ),  98, point_zero,
-                        point( SEEX * 2 - 1, SEEY * 2 - 1 ), true, dat.when() );
-    }
-    if( dat.terrain_type() == "ants_queen" ) {
-        m->add_spawn( mon_ant_queen, 1, { SEEX, SEEY, m->get_abs_sub().z } );
-    } else if( dat.terrain_type() == "ants_larvae" ) {
-        m->add_spawn( mon_ant_larva, 10, { SEEX, SEEY, m->get_abs_sub().z } );
-    }
-
 }
 
 void mapgen_ants_food( mapgendata &dat )
@@ -2511,17 +2496,33 @@ void mapgen_ants_food( mapgendata &dat )
 void mapgen_ants_larvae( mapgendata &dat )
 {
     mapgen_ants_generic( dat );
-    dat.m.place_items( item_group_id( "ant_egg" ),  98, point_zero,
+    dat.m.place_items( item_group_id( "ant_egg" ), 98, point_zero,
                        point( SEEX * 2 - 1, SEEY * 2 - 1 ), true, dat.when() );
     dat.m.add_spawn( mon_ant_larva, 10, { SEEX, SEEY, dat.m.get_abs_sub().z } );
+}
+
+void mapgen_ants_larvae_acid( mapgendata &dat )
+{
+    mapgen_ants_generic( dat );
+    dat.m.place_items( item_group_id( "ant_egg" ), 98, point_zero,
+                       point( SEEX * 2 - 1, SEEY * 2 - 1 ), true, dat.when() );
+    dat.m.add_spawn( mon_ant_acid_larva, 10, { SEEX, SEEY, dat.m.get_abs_sub().z } );
 }
 
 void mapgen_ants_queen( mapgendata &dat )
 {
     mapgen_ants_generic( dat );
-    dat.m.place_items( item_group_id( "ant_egg" ),  98, point_zero,
+    dat.m.place_items( item_group_id( "ant_egg" ), 98, point_zero,
                        point( SEEX * 2 - 1, SEEY * 2 - 1 ), true, dat.when() );
     dat.m.add_spawn( mon_ant_queen, 1, { SEEX, SEEY, dat.m.get_abs_sub().z } );
+}
+
+void mapgen_ants_queen_acid( mapgendata &dat )
+{
+    mapgen_ants_generic( dat );
+    dat.m.place_items( item_group_id( "ant_egg" ), 98, point_zero,
+                       point( SEEX * 2 - 1, SEEY * 2 - 1 ), true, dat.when() );
+    dat.m.add_spawn( mon_ant_acid_queen, 1, { SEEX, SEEY, dat.m.get_abs_sub().z } );
 }
 
 void mapgen_tutorial( mapgendata &dat )
@@ -2643,8 +2644,7 @@ void mapgen_forest( mapgendata &dat )
     const int max_factor = get_max_sparseness_adjacency_factor();
 
     // Our margins for blending divide the overmap terrain into nine sections.
-    static constexpr int margin_x = SEEX * 2 / 3;
-    static constexpr int margin_y = SEEY * 2 / 3;
+    static constexpr point margin( SEEX * 2 / 3, SEEY * 2 / 3 );
 
     const auto get_blended_feature = [&no_ter_furn, &max_factor, &factor,
                   &get_feature_for_neighbor, &dat]( const point & p ) {
@@ -2680,25 +2680,25 @@ void mapgen_forest( mapgendata &dat )
         //      ---------------
         //           SOUTH      (SEEX * 2, SEEY * 2)
 
-        const int west_weight = std::max( margin_x - p.x, 0 );
-        const int east_weight = std::max( p.x - ( SEEX * 2 - margin_x ) + 1, 0 );
-        const int north_weight = std::max( margin_y - p.y, 0 );
-        const int south_weight = std::max( p.y - ( SEEY * 2 - margin_y ) + 1, 0 );
+        const int west_weight = std::max( margin.x - p.x, 0 );
+        const int east_weight = std::max( p.x - ( SEEX * 2 - margin.x ) + 1, 0 );
+        const int north_weight = std::max( margin.y - p.y, 0 );
+        const int south_weight = std::max( p.y - ( SEEY * 2 - margin.y ) + 1, 0 );
 
         // We'll build a weighted list of features to pull from at the end.
         weighted_int_list<const ter_furn_id> feature_pool;
 
         // W sections
-        if( p.x < margin_x ) {
+        if( p.x < margin.x ) {
             // NW corner - blend N, W, and self
-            if( p.y < margin_y ) {
+            if( p.y < margin.y ) {
                 feature_pool.add( no_ter_furn, 3 * max_factor - ( dat.n_fac + dat.w_fac + factor * 2 ) );
                 feature_pool.add( self_feature, 1 );
                 feature_pool.add( west_feature, west_weight );
                 feature_pool.add( north_feature, north_weight );
             }
             // SW corner - blend S, W, and self
-            else if( p.y > SEEY * 2 - margin_y ) {
+            else if( p.y > SEEY * 2 - margin.y ) {
                 feature_pool.add( no_ter_furn, 3 * max_factor - ( dat.s_fac + dat.w_fac + factor * 2 ) );
                 feature_pool.add( self_feature, factor );
                 feature_pool.add( west_feature, west_weight );
@@ -2712,16 +2712,16 @@ void mapgen_forest( mapgendata &dat )
             }
         }
         // E sections
-        else if( p.x > SEEX * 2 - margin_x ) {
+        else if( p.x > SEEX * 2 - margin.x ) {
             // NE corner - blend N, E, and self
-            if( p.y < margin_y ) {
+            if( p.y < margin.y ) {
                 feature_pool.add( no_ter_furn, 3 * max_factor - ( dat.n_fac + dat.e_fac + factor * 2 ) );
                 feature_pool.add( self_feature, factor );
                 feature_pool.add( east_feature, east_weight );
                 feature_pool.add( north_feature, north_weight );
             }
             // SE corner - blend S, E, and self
-            else if( p.y > SEEY * 2 - margin_y ) {
+            else if( p.y > SEEY * 2 - margin.y ) {
                 feature_pool.add( no_ter_furn, 3 * max_factor - ( dat.s_fac + dat.e_fac + factor * 2 ) );
                 feature_pool.add( self_feature, factor );
                 feature_pool.add( east_feature, east_weight );
@@ -2737,13 +2737,13 @@ void mapgen_forest( mapgendata &dat )
         // Central sections
         else {
             // N edge - blend N and self
-            if( p.y < margin_y ) {
+            if( p.y < margin.y ) {
                 feature_pool.add( no_ter_furn, 2 * max_factor - ( dat.n_fac + factor * 2 ) );
                 feature_pool.add( self_feature, factor );
                 feature_pool.add( north_feature, north_weight );
             }
             // S edge - blend S, and self
-            else if( p.y > SEEY * 2 - margin_y ) {
+            else if( p.y > SEEY * 2 - margin.y ) {
                 feature_pool.add( no_ter_furn, 2 * max_factor - ( dat.s_fac + factor * 2 ) );
                 feature_pool.add( self_feature, factor );
                 feature_pool.add( south_feature, south_weight );

@@ -3,7 +3,7 @@
 #include <iostream>
 
 #include "avatar.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "item.h"
 #include "melee.h"
 #include "monster.h"
@@ -334,7 +334,7 @@ TEST_CASE( "expected weapon dps", "[expected][dps]" )
     SECTION( "two-handed clubs/hammers" ) { // expected value ideally around 28
         calc_expected_dps( test_guy, "warhammer", 28.0 );
         calc_expected_dps( test_guy, "hammer_sledge", 20.0 );
-        calc_expected_dps( test_guy, "halligan", 15.25 );
+        calc_expected_dps( test_guy, "halligan", 16.5 );
         calc_expected_dps( test_guy, "stick_long", 6.0 );
     }
     SECTION( "two-handed flails" ) { // expected value ideally around 20
@@ -343,8 +343,8 @@ TEST_CASE( "expected weapon dps", "[expected][dps]" )
         calc_expected_dps( test_guy, "homewrecker", 13.0 );
     }
     SECTION( "fist weapons" ) { // expected value around 10 but wide variation
-        calc_expected_dps( test_guy, "bio_claws_weapon", 17.25 ); // basically a knife
-        calc_expected_dps( test_guy, "bagh_nakha", 14.5 );
+        calc_expected_dps( test_guy, "bio_claws_weapon", 16.5 ); // basically a knife
+        calc_expected_dps( test_guy, "bagh_nakha", 14.0 );
         calc_expected_dps( test_guy, "punch_dagger", 11.0 );
         calc_expected_dps( test_guy, "knuckle_katar", 10.5 );
         calc_expected_dps( test_guy, "knuckle_steel", 4.0 );
@@ -465,14 +465,16 @@ TEST_CASE( "expected weapon dps", "[expected][dps]" )
         calc_expected_dps( test_guy, "fencing_foil", 2.0 );
     }
     SECTION( "knives" ) { // expected value 19
-        calc_expected_dps( test_guy, "bio_blade_weapon", 25.0 ); // much better than any other knife
-        calc_expected_dps( test_guy, "knife_trench", 19.0 );
-        calc_expected_dps( test_guy, "kirpan", 18.0 );
+        calc_expected_dps( test_guy, "bio_blade_weapon", 24.5 ); // much better than any other knife
         calc_expected_dps( test_guy, "knife_combat", 19.0 );
+        calc_expected_dps( test_guy, "knife_trench", 18.0 );
+        calc_expected_dps( test_guy, "knife_baselard", 18.0 );
+        calc_expected_dps( test_guy, "kirpan", 18.0 );
         calc_expected_dps( test_guy, "tanto", 18.0 );
         calc_expected_dps( test_guy, "kris", 18.0 );
         calc_expected_dps( test_guy, "knife_rambo", 17.0 );
         calc_expected_dps( test_guy, "tanto_inferior", 15.0 );
+        calc_expected_dps( test_guy, "bone_knife", 12.0 );
         calc_expected_dps( test_guy, "knife_hunting", 11.0 );
         calc_expected_dps( test_guy, "kirpan_cheap", 11.0 );
         calc_expected_dps( test_guy, "switchblade", 10.5 );
