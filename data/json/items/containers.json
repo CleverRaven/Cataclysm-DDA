@@ -162,7 +162,7 @@
     "flags": [ "TRADER_AVOID" ]
   },
   {
-    "id": "bag_paper_powder_small",
+    "id": "bag_paper_powder",
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "small powder paper bag" },
@@ -177,7 +177,7 @@
       {
         "pocket_type": "CONTAINER",
         "watertight": false,
-        "max_contains_volume": "2 L",
+        "max_contains_volume": "2500 ml",
         "max_contains_weight": "2 kg",
         "moves": 200
       }
@@ -302,7 +302,7 @@
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "plastic bottle" },
-    "description": "A watertight plastic bottle, holds 500 ml of liquid.  Some may be factory sealed to preserve content from rot until opened.",
+    "description": "A watertight plastic bottle, holds 500 ml of liquid.  Some may be factory-sealed to increase shelf life.",
     "weight": "13 g",
     "volume": "502 ml",
     "pocket_data": [
@@ -1205,7 +1205,7 @@
     "category": "container",
     "name": { "str": "gallon jug" },
     "looks_like": "bottle_plastic",
-    "description": "A standard plastic jug used for milk and household cleaning chemicals.  Some may be factory sealed to preserve content from rot until opened.",
+    "description": "A standard plastic jug used for milk and household cleaning chemicals.  Some may be factory-sealed to increase shelf life.",
     "weight": "190 g",
     "volume": "3752 ml",
     "price": 0,

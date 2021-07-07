@@ -200,6 +200,7 @@
     "armor_bash": 12,
     "armor_cut": 28,
     "armor_bullet": 8,
+    "bleed_rate": 25,
     "vision_night": 3,
     "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "GRAB", 7 ], [ "scratch", 20 ] ],
     "death_drops": { "subtype": "collection", "groups": [ [ "robots", 80 ] ] },

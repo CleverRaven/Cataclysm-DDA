@@ -179,5 +179,33 @@
     "name": { "str_sp": "40x46mm-M199 flechette, black powder" },
     "description": "An improvised 40x46mm flechette load containing 10 steel darts, loaded into a M199 canister.  Due to the limitations of weapons built to fire 40x46mm grenades, it's much less powerful than most people would expect.",
     "casing": "40x46mm_m199_casing"
+  },
+  {
+    "id": "40x46mm_hornets_nest_22lr",
+    "copy-from": "40x46mm_grenade",
+    "type": "AMMO",
+    "name": { "str_sp": "40x46mm .22 LR hornet's nest" },
+    "proportional": { "dispersion": 1.8 },
+    "description": "A set of ten .22 LR bullets compressed into a 40mm adapter.  Fires all ten rounds simultaneously.",
+    "weight": "114 g",
+    "price": 1500,
+    "price_postapoc": 2400,
+    "material": [ "aluminum", "brass", "lead", "powder" ],
+    "damage": { "damage_type": "bullet", "amount": 100 },
+    "casing": "40x46mm_m212_casing"
+  },
+  {
+    "id": "40x46mm_hornets_nest_410",
+    "copy-from": "40x46mm_grenade",
+    "type": "AMMO",
+    "name": { "str_sp": "40x46mm .410 hornet's nest" },
+    "proportional": { "dispersion": 1.4 },
+    "description": "A set of four .410 shells compressed into a 40mm adapter.  Fires all four rounds at once.",
+    "weight": "245 g",
+    "price": 710,
+    "price_postapoc": 3240,
+    "material": [ "aluminum", "brass", "lead", "powder" ],
+    "damage": { "damage_type": "bullet", "amount": 120 },
+    "casing": "40x46mm_m212_casing"
   }
 ]

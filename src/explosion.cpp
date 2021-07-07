@@ -311,7 +311,8 @@ static void do_blast( const tripoint &p, const float power,
             continue;
         }
 
-        add_msg_debug( "Blast hits %s with force %.1f", critter->disp_name(), force );
+        add_msg_debug( debugmode::DF_EXPLOSION, "Blast hits %s with force %.1f", critter->disp_name(),
+                       force );
 
         Character *pl = critter->as_character();
         if( pl == nullptr ) {
@@ -320,7 +321,8 @@ static void do_blast( const tripoint &p, const float power,
             const int actual_dmg = rng_float( dmg * 2, dmg * 3 );
             critter->apply_damage( nullptr, bodypart_id( "torso" ), actual_dmg );
             critter->check_dead_state();
-            add_msg_debug( "Blast hits %s for %d damage", critter->disp_name(), actual_dmg );
+            add_msg_debug( debugmode::DF_EXPLOSION, "Blast hits %s for %d damage", critter->disp_name(),
+                           actual_dmg );
             continue;
         }
 
@@ -354,7 +356,8 @@ static void do_blast( const tripoint &p, const float power,
             const dealt_damage_instance result = pl->deal_damage( nullptr, blp.bp, dmg_instance );
             const int res_dmg = result.total_damage();
 
-            add_msg_debug( "%s for %d raw, %d actual", hit_part_name, part_dam, res_dmg );
+            add_msg_debug( debugmode::DF_EXPLOSION, "%s for %d raw, %d actual", hit_part_name, part_dam,
+                           res_dmg );
             if( res_dmg > 0 ) {
                 pl->add_msg_if_player( m_bad, _( "Your %s is hit for %d damage!" ), hit_part_name, res_dmg );
             }
@@ -435,10 +438,10 @@ static std::vector<tripoint> shrapnel( const tripoint &src, int power,
                 } else {
                     non_damaging_hits++;
                 }
-                add_msg_debug( "Shrapnel hit %s at %d m/s at a distance of %d",
+                add_msg_debug( debugmode::DF_EXPLOSION, "Shrapnel hit %s at %d m/s at a distance of %d",
                                critter->disp_name(),
                                frag.proj.speed, rl_dist( src, target ) );
-                add_msg_debug( "Shrapnel dealt %d damage", frag.dealt_dam.total_damage() );
+                add_msg_debug( debugmode::DF_EXPLOSION, "Shrapnel dealt %d damage", frag.dealt_dam.total_damage() );
                 if( critter->is_dead_state() ) {
                     break;
                 }
@@ -796,8 +799,10 @@ void resonance_cascade( const tripoint &p )
                                                 player_character.pos() ) ) );
         player_character.add_effect( effect_teleglow, rng( minglow, maxglow ) * 100 );
     }
-    int startx = ( p.x < 8 ? 0 : p.x - 8 ), endx = ( p.x + 8 >= SEEX * 3 ? SEEX * 3 - 1 : p.x + 8 );
-    int starty = ( p.y < 8 ? 0 : p.y - 8 ), endy = ( p.y + 8 >= SEEY * 3 ? SEEY * 3 - 1 : p.y + 8 );
+    int startx = ( p.x < 8 ? 0 : p.x - 8 );
+    int endx = ( p.x + 8 >= SEEX * 3 ? SEEX * 3 - 1 : p.x + 8 );
+    int starty = ( p.y < 8 ? 0 : p.y - 8 );
+    int endy = ( p.y + 8 >= SEEY * 3 ? SEEY * 3 - 1 : p.y + 8 );
     tripoint dest( startx, starty, p.z );
     map &here = get_map();
     for( int &i = dest.x; i <= endx; i++ ) {

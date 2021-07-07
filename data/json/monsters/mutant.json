@@ -55,6 +55,7 @@
     "armor_bash": 5,
     "armor_cut": 5,
     "armor_bullet": 4,
+    "bleed_rate": 75,
     "vision_day": 25,
     "vision_night": 5,
     "harvest": "human_fur",
@@ -97,6 +98,7 @@
     "armor_bash": 7,
     "armor_cut": 7,
     "armor_bullet": 6,
+    "bleed_rate": 50,
     "vision_night": 15,
     "harvest": "human_large_fur",
     "special_attacks": [

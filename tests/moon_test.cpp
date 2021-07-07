@@ -2,7 +2,7 @@
 #include <string>
 
 #include "calendar.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "enum_conversions.h"
 
 // MOON TESTS

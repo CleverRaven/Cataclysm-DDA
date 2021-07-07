@@ -11,6 +11,7 @@
 #include "enum_conversions.h"
 #include "json.h"
 #include "options.h"
+#include "output.h"
 #include "rng.h"
 #include "string_formatter.h"
 #include "translations.h"
@@ -595,6 +596,39 @@ void load_region_settings( const JsonObject &jo )
     region_settings_map[new_region.id] = new_region;
 }
 
+void check_region_settings()
+{
+    for( const std::pair<const std::string, regional_settings> &p : region_settings_map ) {
+        const std::string &region_name = p.first;
+        const regional_settings &region = p.second;
+        for( const std::pair<const std::string, map_extras> &p2 : region.region_extras ) {
+            const std::string extras_name = p2.first;
+            const map_extras &extras = p2.second;
+            if( extras.chance == 0 ) {
+                continue;
+            }
+            const weighted_int_list<std::string> &values = extras.values;
+            if( !values.is_valid() ) {
+                if( values.empty() ) {
+                    debugmsg( "Invalid map extras for region \"%s\", extras \"%s\".  "
+                              "Extras have nonzero chance but no extras are listed.",
+                              region_name, extras_name );
+                } else {
+                    std::string list_of_values =
+                        enumerate_as_string( values,
+                    []( const weighted_object<int, std::string> &w ) {
+                        return '"' + w.obj + '"';
+                    } );
+                    debugmsg( "Invalid map extras for region \"%s\", extras \"%s\".  "
+                              "Extras %s are listed, but all have zero weight.",
+                              region_name, extras_name,
+                              list_of_values );
+                }
+            }
+        }
+    }
+}
+
 void reset_region_settings()
 {
     region_settings_map.clear();
@@ -700,17 +734,25 @@ void apply_region_overlay( const JsonObject &jo, regional_settings &region )
             continue;
         }
         JsonObject zonejo = zone.get_object();
+        map_extras &extras = region.region_extras[zone.name()];
 
         int tmpval = 0;
         if( zonejo.read( "chance", tmpval ) ) {
-            region.region_extras[zone.name()].chance = tmpval;
+            extras.chance = tmpval;
         }
 
         for( const JsonMember member : zonejo.get_object( "extras" ) ) {
             if( member.is_comment() ) {
                 continue;
             }
-            region.region_extras[zone.name()].values.add_or_replace( member.name(), member.get_int() );
+            extras.values.add_or_replace( member.name(), member.get_int() );
+        }
+
+        // It's possible that all the entries of the weighted list have their
+        // weights set to zero by this overlay.  In that case we want to reset
+        // the chance to zero.
+        if( !extras.values.is_valid() ) {
+            extras.chance = 0;
         }
     }
 

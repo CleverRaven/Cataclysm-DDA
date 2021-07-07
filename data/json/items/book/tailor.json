@@ -43,7 +43,10 @@
     "color": "pink",
     "skill": "tailor",
     "max_level": 1,
-    "proficiencies": [ { "proficiency": "prof_knitting", "time_factor": 0.75, "fail_factor": 0.55 } ],
+    "proficiencies": [
+      { "proficiency": "prof_knitting", "time_factor": 0.15, "fail_factor": 0.1 },
+      { "proficiency": "prof_closures", "time_factor": 0.2, "fail_factor": 0.1 }
+    ],
     "intelligence": 5,
     "time": "8 m",
     "fun": 2
@@ -63,8 +66,8 @@
     "skill": "tailor",
     "max_level": 3,
     "proficiencies": [
-      { "proficiency": "prof_closures", "time_factor": 0.5, "fail_factor": 0.75 },
-      { "proficiency": "prof_elastics", "time_factor": 0.5, "fail_factor": 0.75 }
+      { "proficiency": "prof_closures", "time_factor": 0.2, "fail_factor": 0.25 },
+      { "proficiency": "prof_elastics", "time_factor": 0.2, "fail_factor": 0.15 }
     ],
     "intelligence": 4,
     "time": "18 m"
@@ -124,7 +127,7 @@
     "skill": "tailor",
     "required_level": 2,
     "max_level": 5,
-    "proficiencies": [ { "proficiency": "prof_furriery", "time_factor": 0.5, "fail_factor": 0.7, "include_prereqs": false } ],
+    "proficiencies": [ { "proficiency": "prof_furriery", "time_factor": 0.2, "fail_factor": 0.2, "include_prereqs": false } ],
     "intelligence": 7,
     "time": "20 m",
     "fun": 1
@@ -144,6 +147,10 @@
     "looks_like": "textbook_firstaid",
     "color": "blue",
     "skill": "tailor",
+    "proficiencies": [
+      { "proficiency": "prof_closures", "time_factor": 0.1, "fail_factor": 0.25 },
+      { "proficiency": "prof_elastics", "time_factor": 0.1, "fail_factor": 0.25 }
+    ],
     "required_level": 3,
     "max_level": 6,
     "intelligence": 8,
