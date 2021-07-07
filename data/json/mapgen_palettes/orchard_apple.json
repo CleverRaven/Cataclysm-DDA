@@ -56,10 +56,10 @@
     "type": "palette",
     "id": "orchard_tree_apple",
     "terrain": {
-        " ": [ [ "t_grass", 3 ], [ "t_grass_long", 2 ], "t_dirt" ],
-        "*": [ [ "t_dirt", 5 ], "t_grass" ],
-        "$": [ [ "t_shrub", 2 ], "t_underbrush", "t_grass", "t_dirt" ],
-        "7": [ [ "t_tree_apple", 4], [ "t_tree_young", 2 ], "t_tree_dead" ]
+      " ": [ [ "t_grass", 3 ], [ "t_grass_long", 2 ], "t_dirt" ],
+      "*": [ [ "t_dirt", 5 ], "t_grass" ],
+      "$": [ [ "t_shrub", 2 ], "t_underbrush", "t_grass", "t_dirt" ],
+      "7": [ [ "t_tree_apple", 4 ], [ "t_tree_young", 2 ], "t_tree_dead" ]
     }
   }
 ]
