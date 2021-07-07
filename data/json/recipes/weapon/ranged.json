@@ -1139,13 +1139,12 @@
     "subcategory": "CSC_WEAPON_RANGED",
     "skill_used": "fabrication",
     "skills_required": [ "throw", 1 ],
-    "difficulty": 4,
-    "time": "4 h",
+    "difficulty": 3,
+    "time": "2 h",
     "autolearn": true,
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_bladesmith" }
+      { "proficiency": "prof_blacksmithing" }
     ],
     "using": [ [ "blacksmithing_standard", 8 ], [ "steel_tiny", 2 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
