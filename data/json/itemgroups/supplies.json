@@ -147,7 +147,7 @@
       [ "jerrycan", 10 ],
       [ "pump_complex", 10 ],
       [ "well_pump", 10 ],
-      { "item": "scrap_copper", "prob": 15, "count": [ 1, 10 ] },
+      { "item": "scrap_copper", "prob": 15, "count": [ 1, 12 ] },
       { "item": "plunger_toilet", "prob": 90, "count": [ 1, 2 ] },
       [ "plunger_futuristic", 50 ]
     ]
@@ -364,7 +364,7 @@
       { "item": "copper", "prob": 10, "count": [ 1, 5 ] },
       { "item": "tin", "prob": 10, "count": [ 1, 5 ] },
       { "item": "material_aluminium_ingot", "prob": 10, "count": [ 1, 5 ] },
-      { "item": "scrap_copper", "prob": 5, "count": [ 1, 10 ] },
+      { "item": "scrap_copper", "prob": 5, "count": [ 1, 12 ] },
       { "item": "wire", "prob": 5 },
       { "item": "scrap", "prob": 70, "count": [ 1, 10 ] }
     ]
