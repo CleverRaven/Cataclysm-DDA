@@ -459,7 +459,8 @@
     "starting_trait": true,
     "valid": false,
     "cancels": [ "SLOWLEARNER" ],
-    "enchantments": [ "ENCH_FAST_LEARNER" ]
+    "enchantments": [ {    "condition": "ALWAYS",
+      "values": [ { "value": "LEARNING_FOCUS", "add": 15 } ]} ]
   },
   {
     "type": "mutation",
@@ -493,7 +494,8 @@
     "starting_trait": true,
     "valid": false,
     "cancels": [ "FORGETFUL" ],
-    "enchantments": [ "ENCH_GOOD_MEMORY" ]
+    "enchantments": [ {    "condition": "ALWAYS",
+      "values": [ { "value": "MAP_MEMORY", "multiply": 1 } ]} ]
   },
   {
     "type": "mutation",
@@ -1053,7 +1055,8 @@
     "starting_trait": true,
     "valid": false,
     "cancels": [ "FASTLEARNER" ],
-    "enchantments": [ "ENCH_SLOW_LEARNER" ]
+    "enchantments": [ {    "condition": "ALWAYS",
+      "values": [ { "value": "LEARNING_FOCUS", "add": -15 } ]} ]
   },
   {
     "type": "mutation",
@@ -1201,7 +1204,8 @@
     "starting_trait": true,
     "category": [ "BEAST", "MEDICAL", "CHIMERA", "MOUSE", "INSECT" ],
     "cancels": [ "GOODMEMORY" ],
-    "enchantments": [ "ENCH_FORGETFUL" ]
+    "enchantments": [ {    "condition": "ALWAYS",
+      "values": [ { "value": "MAP_MEMORY", "multiply": -0.5 } ]} ]
   },
   {
     "type": "mutation",
