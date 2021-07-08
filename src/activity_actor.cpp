@@ -2915,7 +2915,6 @@ std::unique_ptr<activity_actor> tent_placement_activity_actor::deserialize( Json
     data.read( "radius", actor.radius );
     data.read( "it", actor.it );
     data.read( "target", actor.target );
-  
     return actor.clone();
 }
 
