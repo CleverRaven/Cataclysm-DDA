@@ -2340,7 +2340,7 @@ ret_val<bool> Character::is_installable( const item_location &loc, const bool by
         return ret_val<bool>::make_failure( msg );
     } else if( it->has_fault( fault_id( "fault_bionic_salvaged" ) ) ) {
         return ret_val<bool>::make_failure( _( "CBM already deployed.  Please reset to factory state." ) );
-    } else if( has_bionic( bid ) ) {
+    } else if( has_bionic( bid ) && !bid->dupes_allowed ) {
         return ret_val<bool>::make_failure( _( "CBM is already installed." ) );
     } else if( !can_install_cbm_on_bp( get_occupied_bodyparts( bid ) ) ) {
         return ret_val<bool>::make_failure( _( "CBM not compatible with patient's body." ) );

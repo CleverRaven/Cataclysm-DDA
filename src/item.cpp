@@ -4428,7 +4428,7 @@ nc_color item::color_in_inventory() const
     } else if( is_filthy() || has_own_flag( flag_DIRTY ) ) {
         ret = c_brown;
     } else if( is_bionic() ) {
-        if( !player_character.has_bionic( type->bionic->id ) ) {
+        if( !player_character.has_bionic( type->bionic->id ) || type->bionic->id->dupes_allowed ) {
             ret = player_character.bionic_installation_issues( type->bionic->id ).empty() ? c_green : c_red;
         } else if( !has_flag( flag_NO_STERILE ) ) {
             ret = c_dark_gray;
