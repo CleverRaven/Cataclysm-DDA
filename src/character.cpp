@@ -2269,7 +2269,7 @@ std::vector<item> Character::get_pseudo_items() const
     for( const bionic &bio : *my_bionics ) {
         const bionic_data &bid = bio.info();
         if( bid.fake_item && ( !bid.activated || bio.powered ) ) {
-            result.push_back( item( bid.fake_item ) );
+            result.emplace_back( item( bid.fake_item ) );
         }
     }
     return result;
