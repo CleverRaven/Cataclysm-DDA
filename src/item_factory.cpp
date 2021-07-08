@@ -1909,45 +1909,9 @@ void islot_armor::load( const JsonObject &jo )
     if( jo.has_array( "armor_portion_data" ) || jo.has_array( "armor" ) ) {
         const JsonArray &arr = jo.has_array( "armor" ) ? jo.get_array( "armor" ) :
                                jo.get_array( "armor_portion_data" );
-        bool dont_add_first = false;
-        if( !data.empty() ) { // Uses copy-from
-            dont_add_first = true;
-            const JsonObject &obj = *arr.begin();
-            armor_portion_data tempData;
 
-            if( obj.has_array( "encumbrance" ) ) {
-                tempData.encumber = obj.get_array( "encumbrance" ).get_int( 0 );
-                tempData.max_encumber = obj.get_array( "encumbrance" ).get_int( 1 );
-            } else if( obj.has_int( "encumbrance" ) ) {
-                tempData.encumber = obj.get_int( "encumbrance" );
-                tempData.max_encumber = -1;
-            }
-            if( obj.has_int( "coverage" ) ) {
-                tempData.coverage = obj.get_int( "coverage" );
-            }
-            if( tempData.encumber != data[0].encumber ) {
-                data[0].encumber = tempData.encumber;
-            }
-            if( tempData.max_encumber != data[0].max_encumber ) {
-                data[0].max_encumber = tempData.max_encumber;
-            }
-            if( tempData.coverage != data[0].coverage ) {
-                data[0].coverage = tempData.coverage;
-            }
-            body_part_set temp_cover_data;
-            assign_coverage_from_json( obj, "covers", temp_cover_data );
-            if( temp_cover_data.any() ) {
-                data[0].covers = temp_cover_data;
-            }
-        }
-
+        data.clear();
         for( const JsonObject obj : arr ) {
-            // If this item used copy-from, data[0] is already set, so skip adding first data
-            if( dont_add_first ) {
-                obj.allow_omitted_members();
-                dont_add_first = false;
-                continue;
-            }
             armor_portion_data tempData;
             body_part_set temp_cover_data;
             assign_coverage_from_json( obj, "covers", temp_cover_data );
