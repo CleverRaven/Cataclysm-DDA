@@ -41,6 +41,7 @@ namespace io
         case enchantment::condition::UNDERGROUND: return "UNDERGROUND";
         case enchantment::condition::UNDERWATER: return "UNDERWATER";
         case enchantment::condition::ACTIVE: return "ACTIVE";
+        case enchantment::condition::INACTIVE: return "INACTIVE";
         case enchantment::condition::NUM_CONDITION: break;
         }
         debugmsg( "Invalid enchantment::condition" );
@@ -201,6 +202,10 @@ bool enchantment::is_active( const Character &guy, const bool active ) const
 {
     if( active_conditions.second == condition::ACTIVE ) {
         return active;
+    }
+
+    if( active_conditions.second == condition::INACTIVE ) {
+        return !active;
     }
 
     if( active_conditions.second == condition::ALWAYS ) {

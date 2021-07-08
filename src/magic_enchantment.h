@@ -118,6 +118,7 @@ class enchantment
             UNDERGROUND,
             UNDERWATER,
             ACTIVE, // the item, mutation, etc. is active
+            INACTIVE, // the item, mutation, etc. is inactive
             NUM_CONDITION
         };
 

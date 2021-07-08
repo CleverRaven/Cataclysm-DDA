@@ -277,7 +277,6 @@ static const bionic_id bio_voice( "bio_voice" );
 static const bionic_id bio_gills( "bio_gills" );
 static const bionic_id bio_ground_sonar( "bio_ground_sonar" );
 static const bionic_id bio_hydraulics( "bio_hydraulics" );
-static const bionic_id bio_jointservo( "bio_jointservo" );
 static const bionic_id bio_leukocyte( "bio_leukocyte" );
 static const bionic_id bio_memory( "bio_memory" );
 static const bionic_id bio_railgun( "bio_railgun" );
@@ -11846,15 +11845,6 @@ int Character::run_cost( int base_cost, bool diag ) const
         }
         if( has_trait( trait_PADDED_FEET ) && !footwear_factor() ) {
             movecost *= .9f;
-        }
-        if( has_active_bionic( bio_jointservo ) ) {
-            if( is_running() ) {
-                movecost *= 0.85f;
-            } else {
-                movecost *= 0.95f;
-            }
-        } else if( has_bionic( bio_jointservo ) ) {
-            movecost *= 1.1f;
         }
 
         if( worn_with_flag( flag_SLOWS_MOVEMENT ) ) {
