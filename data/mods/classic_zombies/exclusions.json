@@ -16,6 +16,11 @@
     "value": true
   },
   {
+    "type": "SCENARIO_BLACKLIST",
+    "subtype": "whitelist",
+    "scenarios": [ "classic_survivor" ]
+  }
+  {
     "type": "region_overlay",
     "regions": [ "all" ],
     "map_extras": {
