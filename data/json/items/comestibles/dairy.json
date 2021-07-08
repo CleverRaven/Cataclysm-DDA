@@ -308,7 +308,7 @@
     "symbol": "~",
     "quench": 3,
     "calories": 250,
-    "description": "Cream that has been whipped, perfect for frosting cakes and pies.  Either store bought or homemade.",
+    "description": "Cream that has been whipped, perfect for frosting cakes and pies.  Either store-bought or homemade.",
     "price": 70,
     "price_postapoc": 150,
     "looks_like": "milk",
