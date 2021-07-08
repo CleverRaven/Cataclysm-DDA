@@ -59,6 +59,7 @@ enum class mod : int {
     SOCIAL_PERSUADE,
     SOCIAL_INTIMIDATE,
     SLEEPY,
+    LUMINATION,
     ARMOR_BASH,
     ARMOR_CUT,
     ARMOR_STAB,
