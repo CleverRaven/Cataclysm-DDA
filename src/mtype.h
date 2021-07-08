@@ -42,6 +42,7 @@ enum class mon_trigger : int {
     MEAT,               // Meat or a corpse nearby
     HOSTILE_WEAK,       // Hurt hostile player/npc/monster seen
     HOSTILE_CLOSE,      // Hostile creature within a few tiles
+    HOSTILE_SEEN,       // Hostile creature in visual range
     HURT,               // We are hurt
     FIRE,               // Fire nearby
     FRIEND_DIED,        // A monster of the same type died
@@ -143,6 +144,7 @@ enum m_flag : int {
     MF_INTERIOR_AMMO,       // Monster contain's its ammo inside itself, no need to load on launch. Prevents ammo from being dropped on disable.
     MF_CLIMBS,              // Monsters that can climb certain terrain and furniture
     MF_PACIFIST,            // Monsters that will never use melee attack, useful for having them use grab without attacking the player
+    MF_KEEP_DISTANCE,       // Attempts to keep a short distance (tracking_distance) from its current target.  The default tracking distance is 8 tiles
     MF_PUSH_MON,            // Monsters that can push creatures out of their way
     MF_PUSH_VEH,            // Monsters that can push vehicles out of their way
     MF_NIGHT_INVISIBILITY,  // Monsters that are invisible in poor light conditions
@@ -164,6 +166,7 @@ enum m_flag : int {
     MF_MILKABLE,            // This monster is milkable.
     MF_SHEARABLE,           // This monster is shearable.
     MF_NO_BREED,            // This monster doesn't breed, even though it has breed data
+    MF_NO_FUNG_DMG,         // This monster can't be damaged by fungal spores and can't be fungalized either.
     MF_PET_WONT_FOLLOW,     // This monster won't follow the player automatically when tamed.
     MF_DRIPS_NAPALM,        // This monster occasionally drips napalm on move
     MF_DRIPS_GASOLINE,      // This monster occasionally drips gasoline on move
@@ -254,6 +257,9 @@ struct mtype {
         int agro = 0;           /** chance will attack [-100,100] */
         int morale = 0;         /** initial morale level at spawn */
 
+        // how close the monster is willing to approach its target while under the MATT_FOLLOW attitude
+        int tracking_distance = 8;
+
         // Number of hitpoints regenerated per turn.
         int regenerates = 0;
         // Monster regenerates very quickly in poorly lit tiles.
@@ -284,6 +290,9 @@ struct mtype {
         int armor_acid = -1;    /** innate armor vs. acid */
         int armor_fire = -1;    /** innate armor vs. fire */
 
+        // Bleed rate in percent, 0 makes the monster immune to bleeding
+        int bleed_rate = 100;
+
         // Vision range is linearly scaled depending on lighting conditions
         int vision_day = 40;    /** vision range in bright light */
         int vision_night = 1;   /** vision range in total darkness */
@@ -311,6 +320,7 @@ struct mtype {
         mtype_id burn_into;
 
         mtype_id zombify_into; // mtype_id this monster zombifies into
+        mtype_id fungalize_into; // mtype_id this monster fungalize into
 
         // Monster reproduction variables
         cata::optional<time_duration> baby_timer;

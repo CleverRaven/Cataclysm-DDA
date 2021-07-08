@@ -73,6 +73,7 @@
     "armor_cut": 2,
     "armor_bullet": 2,
     "armor_stab": 12,
+    "bleed_rate": 50,
     "vision_night": 3,
     "luminance": 0,
     "harvest": "zombie",
@@ -135,6 +136,7 @@
     "melee_dice_sides": 6,
     "melee_cut": 0,
     "dodge": 1,
+    "bleed_rate": 50,
     "vision_night": 3,
     "harvest": "zombie",
     "special_attacks": [ [ "ACID", 20 ] ],
@@ -260,7 +262,7 @@
     "type": "MONSTER",
     "copy-from": "mon_zombie_dog_acidic",
     "name": { "str": "blistered horror" },
-    "description": "A huge canine with multiple large foul looking blisters covering its body.  A corrosive liquid spills from its menancing-looking mouth.",
+    "description": "A huge canine with multiple large, foul-looking blisters covering its body.  A corrosive liquid spills from its menacing-looking mouth.",
     "color": "yellow_white",
     "upgrades": false,
     "relative": {
@@ -272,6 +274,7 @@
       "armor_bullet": 3,
       "vision_night": 1
     },
+    "bleed_rate": 50,
     "proportional": { "hp": 1.8, "speed": 1.3, "volume": 1.4, "weigth": 1.1 },
     "special_when_hit": [ "ACIDSPLASH", 100 ]
   }

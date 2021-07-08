@@ -2,7 +2,7 @@
   {
     "id": "cauldron_demon_chitin",
     "type": "GENERIC",
-    "category": "other",
+    "category": "container",
     "name": { "str": "cauldron of purification", "str_pl": "cauldrons of purification" },
     "description": "This cauldron made of demon spider chitin seems to absorb the light.  It will hold 16 liters of material and will absorb poisons from it.  It may have other properties that require discovery.",
     "weight": "1424 g",
@@ -16,12 +16,13 @@
     "color": "red",
     "pocket_data": [ { "open_container": true, "watertight": true, "max_contains_volume": "16 L", "max_contains_weight": "50 kg" } ],
     "//": "I went ahead and gave this a level of 2 for when magical mutagens become a thing as I figured dragonblood for instance should need different tools than making alpha mutagen.",
-    "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "MAGIC_MUTAGEN", 2 ] ],
+    "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "MAGIC_MUTAGEN", 2 ], [ "MAGIC_CAULDRON", 1 ] ],
     "use_action": [ "HEAT_FOOD" ]
   },
   {
     "id": "cauldron_orichalcum",
     "type": "GENERIC",
+    "category": "container",
     "name": { "str": "orichalcum cauldron" },
     "description": "This is an alchemical cauldron made of orichalcum.  The metal is especially resistant to the unique types of corrosion caused by alchemy.",
     "weight": "15 kg",
@@ -34,7 +35,7 @@
     "symbol": "U",
     "color": "yellow",
     "pocket_data": [ { "open_container": true, "watertight": true, "max_contains_volume": "16 L", "max_contains_weight": "50 kg" } ],
-    "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "MAGIC_MUTAGEN", 1 ] ],
+    "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "MAGIC_MUTAGEN", 1 ], [ "MAGIC_CAULDRON", 2 ] ],
     "use_action": [ "HEAT_FOOD" ]
   },
   {
@@ -52,7 +53,7 @@
     "color": "red",
     "ammo": [ "alumentum" ],
     "sub": "forge",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 500 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "alumentum": 500 } } ],
     "max_charges": 500,
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },

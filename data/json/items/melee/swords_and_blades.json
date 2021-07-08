@@ -5,7 +5,7 @@
     "symbol": "!",
     "color": "brown",
     "name": { "str": "2-by-sword" },
-    "description": "A two by four with a crossguard and whittled-down point; not much for slashing, but much better than your bare hands.",
+    "description": "A plank with a crossguard and whittled-down point; not much for slashing, but much better than your bare hands.",
     "material": [ "wood" ],
     "volume": "1250 ml",
     "weight": "1000 g",
@@ -240,7 +240,7 @@
     "color": "dark_gray",
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
-    "flags": [ "DURABLE_MELEE", "STAB", "SHEATH_KNIFE", "UNARMED_WEAPON" ]
+    "flags": [ "DURABLE_MELEE", "STAB", "SHEATH_KNIFE" ]
   },
   {
     "id": "makeshift_knife",
@@ -274,8 +274,8 @@
     "longest_side": "20 cm",
     "price": 0,
     "price_postapoc": 0,
-    "bashing": 4,
-    "cutting": 20,
+    "bashing": 3,
+    "cutting": 12,
     "material": [ "bone" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 12 ] ],
     "flags": [ "STAB", "SHEATH_KNIFE", "FRAGILE_MELEE" ]
@@ -291,7 +291,7 @@
     "price": 19590,
     "to_hit": 1,
     "bashing": 5,
-    "cutting": 20,
+    "cutting": 16,
     "material": [ "iron" ],
     "symbol": ";",
     "color": "dark_gray",
@@ -1228,6 +1228,7 @@
         "pocket_type": "CONTAINER",
         "max_contains_volume": "1531 ml",
         "max_contains_weight": "2 kg",
+        "max_item_length": "80 cm",
         "moves": 80,
         "flag_restriction": [ "SHEATH_SWORD" ]
       }

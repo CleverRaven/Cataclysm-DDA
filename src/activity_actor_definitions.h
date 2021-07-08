@@ -22,6 +22,7 @@
 #include "type_id.h"
 #include "units.h"
 #include "units_fwd.h"
+#include "vehicle.h"
 
 #include "activity_actor.h"
 
@@ -277,14 +278,8 @@ class gunmod_remove_activity_actor : public activity_actor
 
 class hacking_activity_actor : public activity_actor
 {
-    private:
-        bool using_bionic = false;
-
     public:
-        struct use_bionic {};
-
         hacking_activity_actor() = default;
-        explicit hacking_activity_actor( use_bionic );
 
         activity_id get_type() const override {
             return activity_id( "ACT_HACKING" );
@@ -335,6 +330,62 @@ class hotwire_car_activity_actor : public activity_actor
 
         std::unique_ptr<activity_actor> clone() const override {
             return std::make_unique<hotwire_car_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+};
+
+class bikerack_racking_activity_actor : public activity_actor
+{
+    private:
+        int moves_total;
+        vehicle &parent_vehicle;
+        std::vector<std::vector<int>> parts;
+    public:
+        bikerack_racking_activity_actor( int moves_total, vehicle &parent_vehicle,
+                                         std::vector<std::vector<int>> parts ): moves_total( moves_total ),
+            parent_vehicle( parent_vehicle ), parts( parts ) {}
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_BIKERACK_RACKING" );
+        }
+
+        void start( player_activity &act, Character & ) override;
+        void do_turn( player_activity &, Character & ) override {}
+        void finish( player_activity &act, Character & ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<bikerack_racking_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+};
+
+class bikerack_unracking_activity_actor : public activity_actor
+{
+    private:
+        int moves_total;
+        vehicle &parent_vehicle;
+        std::vector<int> parts;
+        std::vector<int> racks;
+
+    public:
+        bikerack_unracking_activity_actor( int moves_total, vehicle &parent_vehicle,
+                                           std::vector<int> parts, std::vector<int> racks ) : moves_total( moves_total ),
+            parent_vehicle( parent_vehicle ), parts( parts ), racks( racks ) {}
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_BIKERACK_UNRACKING" );
+        }
+
+        void start( player_activity &act, Character & ) override;
+        void do_turn( player_activity &, Character & ) override {}
+        void finish( player_activity &act, Character & ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<bikerack_unracking_activity_actor>( *this );
         }
 
         void serialize( JsonOut &jsout ) const override;
@@ -647,6 +698,10 @@ class craft_activity_actor : public activity_actor
 
         float activity_override = NO_EXERCISE;
         cata::optional<requirement_data> cached_continuation_requirements;
+        float cached_crafting_speed;
+        int cached_assistants;
+        double cached_base_total_moves;
+        double cached_cur_total_moves;
 
         bool check_if_craft_okay( item_location &craft_item, Character &crafter );
     public:
@@ -808,38 +863,6 @@ class stash_activity_actor: public activity_actor
         tripoint placement;
 };
 
-class burrow_activity_actor: public activity_actor
-{
-    public:
-        burrow_activity_actor() = default;
-        burrow_activity_actor( int moves, tripoint &position, const std::string &burrow_tool )
-            : moves_total( moves ), burrow_position( position ), burrow_tool( burrow_tool ) {
-
-        }
-
-        activity_id get_type() const override {
-            return activity_id( "ACT_BURROW" );
-        }
-
-        void start( player_activity &act, Character &who ) override;
-        void do_turn( player_activity &/*act*/, Character &/*who*/ ) override;
-        void finish( player_activity &act, Character &who ) override;
-        void canceled( player_activity &/*act*/, Character &/*who*/ ) override {}
-
-        std::unique_ptr<activity_actor> clone() const override {
-            return std::make_unique<burrow_activity_actor>( *this );
-        }
-
-        void serialize( JsonOut &jsout ) const override;
-        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
-
-    private:
-        int moves_total {};
-        tripoint burrow_position {};
-        std::string burrow_tool {};
-        map &here = get_map();
-
-};
 class reload_activity_actor : public activity_actor
 {
     public:
@@ -986,6 +1009,153 @@ class insert_item_activity_actor : public activity_actor
 
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+};
+
+class tent_placement_activity_actor : public activity_actor
+{
+    private:
+        int moves_total;
+        tripoint target;
+        int radius = 1;
+        item it;
+        string_id<furn_t> wall;
+        string_id<furn_t> floor;
+        cata::optional<string_id<furn_t>> floor_center;
+        string_id<furn_t> door_closed;
+
+    public:
+        tent_placement_activity_actor( int moves_total, tripoint target, int radius, item it,
+                                       string_id<furn_t> wall, string_id<furn_t> floor, cata::optional<string_id<furn_t>> floor_center,
+                                       string_id<furn_t> door_closed ) : moves_total( moves_total ), target( target ), radius( radius ),
+            it( it ), wall( wall ), floor( floor ), floor_center( floor_center ), door_closed( door_closed ) {}
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_TENT_PLACE" );
+        }
+
+        void start( player_activity &act, Character & ) override;
+        void do_turn( player_activity &, Character & ) override {}
+        void finish( player_activity &act, Character &p ) override;
+        void canceled( player_activity &, Character &p ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<tent_placement_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+};
+
+class meditate_activity_actor : public activity_actor
+{
+    public:
+        meditate_activity_actor() = default;
+        activity_id get_type() const override {
+            return activity_id( "ACT_MEDITATE" );
+        }
+
+        void start( player_activity &act, Character & ) override;
+        void do_turn( player_activity &, Character & ) override {}
+        void finish( player_activity &act, Character &who ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<meditate_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut & ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonIn & );
+};
+
+class play_with_pet_activity_actor : public activity_actor
+{
+    private:
+        std::string pet_name;
+    public:
+        play_with_pet_activity_actor() = default;
+        explicit play_with_pet_activity_actor( const std::string &pet_name ) :
+            pet_name( pet_name ) {}
+        activity_id get_type() const override {
+            return activity_id( "ACT_PLAY_WITH_PET" );
+        }
+
+        void start( player_activity &act, Character & ) override;
+        void do_turn( player_activity &, Character & ) override {}
+        void finish( player_activity &act, Character &who ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<play_with_pet_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+};
+
+class tent_deconstruct_activity_actor : public activity_actor
+{
+    private:
+        int moves_total;
+        int radius;
+        tripoint target;
+        itype_id tent;
+
+    public:
+        tent_deconstruct_activity_actor( int moves_total, int radius, tripoint target,
+                                         itype_id tent ) : moves_total( moves_total ), radius( radius ), target( target ), tent( tent ) {}
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_TENT_DECONSTRUCT" );
+        }
+
+        void start( player_activity &act, Character & ) override;
+        void do_turn( player_activity &, Character & ) override {}
+        void finish( player_activity &act, Character & ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<tent_deconstruct_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+};
+
+class shave_activity_actor : public activity_actor
+{
+    public:
+        shave_activity_actor() = default;
+        activity_id get_type() const override {
+            return activity_id( "ACT_SHAVE" );
+        }
+
+        void start( player_activity &act, Character & ) override;
+        void do_turn( player_activity &, Character & ) override {}
+        void finish( player_activity &act, Character &who ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<shave_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut & ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonIn & );
+};
+
+class haircut_activity_actor : public activity_actor
+{
+    public:
+        haircut_activity_actor() = default;
+        activity_id get_type() const override {
+            return activity_id( "ACT_HAIRCUT" );
+        }
+
+        void start( player_activity &act, Character & ) override;
+        void do_turn( player_activity &, Character & ) override {}
+        void finish( player_activity &act, Character &who ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<haircut_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut & ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonIn & );
 };
 
 #endif // CATA_SRC_ACTIVITY_ACTOR_DEFINITIONS_H

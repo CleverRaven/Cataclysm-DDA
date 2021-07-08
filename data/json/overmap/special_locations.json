@@ -63,7 +63,7 @@
   {
     "type": "overmap_location",
     "id": "subterranean",
-    "terrains": [ "cavern", "empty_rock", "rock", "slimepit", "sewer" ]
+    "terrains": [ "cavern", "empty_rock", "rock", "slimepit", "sewer", "solid_earth" ]
   },
   {
     "type": "overmap_location",
@@ -119,5 +119,10 @@
     "type": "overmap_location",
     "id": "lake_shore",
     "terrains": [ "lake_shore" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "potential_basement_lab_entrance",
+    "terrains": [ "basement" ]
   }
 ]

@@ -17,7 +17,7 @@
     },
     "flags": [ "INITIAL_PART", "MOUNTABLE", "FOLDABLE" ],
     "categories": [ "hull" ],
-    "damage_reduction": { "all": 8 }
+    "damage_reduction": { "all": 10 }
   },
   {
     "id": "folding_wooden_frame",
@@ -39,7 +39,7 @@
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
     },
     "flags": [ "INITIAL_PART", "MOUNTABLE", "FOLDABLE" ],
-    "damage_reduction": { "all": 12 }
+    "damage_reduction": { "all": 3 }
   },
   {
     "id": "frame",
@@ -58,7 +58,7 @@
     },
     "flags": [ "MOUNTABLE", "INITIAL_PART" ],
     "categories": [ "hull" ],
-    "damage_reduction": { "all": 52 }
+    "damage_reduction": { "all": 20 }
   },
   {
     "id": "frame_wood",
@@ -79,7 +79,7 @@
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
     },
     "flags": [ "MOUNTABLE", "INITIAL_PART" ],
-    "damage_reduction": { "all": 52 }
+    "damage_reduction": { "all": 5 }
   },
   {
     "id": "frame_wood_light",
@@ -99,7 +99,7 @@
       "repair": { "skills": [ [ "mechanics", 0 ] ], "time": "5 m", "using": [ [ "adhesive", 1 ] ] }
     },
     "flags": [ "MOUNTABLE", "INITIAL_PART" ],
-    "damage_reduction": { "all": 46 }
+    "damage_reduction": { "all": 4 }
   },
   {
     "id": "hdframe",
@@ -119,7 +119,7 @@
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "10 m", "using": [ [ "welding_standard", 10 ] ] }
     },
     "flags": [ "MOUNTABLE", "INITIAL_PART" ],
-    "damage_reduction": { "all": 112 }
+    "damage_reduction": { "all": 30 }
   },
   {
     "id": "xlframe",
@@ -139,6 +139,6 @@
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 10 ] ] }
     },
     "flags": [ "MOUNTABLE", "INITIAL_PART" ],
-    "damage_reduction": { "all": 28 }
+    "damage_reduction": { "all": 7 }
   }
 ]

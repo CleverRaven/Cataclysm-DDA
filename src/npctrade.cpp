@@ -67,11 +67,13 @@ std::list<item> npc_trading::transfer_items( std::vector<item_pricing> &stuff, p
 
         // Items are moving to escrow.
         if( use_escrow && ip.charges ) {
+            gift.charges = charges;
             escrow.emplace_back( gift );
         } else if( use_escrow ) {
             std::fill_n( std::back_inserter( escrow ), count, gift );
             // No escrow in use. Items moving from giver to receiver.
         } else if( ip.charges ) {
+            gift.charges = charges;
             receiver.i_add( gift );
         } else {
             for( int i = 0; i < count; i++ ) {
@@ -211,8 +213,12 @@ std::vector<item_pricing> npc_trading::init_buying( player &buyer, player &selle
         }
     }
 
-    for( vehicle_cursor &cursor : vehicle_selector( seller.pos(), 1 ) ) {
-        buy_helper( cursor, check_item );
+    // Allow direct trade from vehicles, but *not* with allies, as that ends up
+    // with the same item on both sides of the trade panel, and so much clutter.
+    if( ! np.will_exchange_items_freely() ) {
+        for( vehicle_cursor &cursor : vehicle_selector( seller.pos(), 1 ) ) {
+            buy_helper( cursor, check_item );
+        }
     }
 
     const auto cmp = []( const item_pricing & a, const item_pricing & b ) {
@@ -378,7 +384,7 @@ void trading_window::update_win( npc &np, const std::string &deal )
             std::string itname = it->display_name();
 
             if( np.will_exchange_items_freely() && ip.loc.where() != item_location::type::character ) {
-                itname = itname + " (" + ip.loc.describe( &player_character ) + ")";
+                itname += " (" + ip.loc.describe( &player_character ) + ")";
                 color = c_light_blue;
             }
 
@@ -748,5 +754,5 @@ bool npc_trading::trade( npc &np, int cost, const std::string &deal )
 // Will the NPC accept the trade that's currently on offer?
 bool trading_window::npc_will_accept_trade( const npc &np ) const
 {
-    return np.will_exchange_items_freely() || your_balance + np.max_credit_extended() > 0;
+    return np.will_exchange_items_freely() || your_balance + np.max_credit_extended() >= 0;
 }

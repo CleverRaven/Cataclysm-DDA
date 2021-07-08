@@ -4,7 +4,7 @@
     "id": "prison_palette",
     "terrain": {
       " ": [ "t_region_groundcover_urban", "t_region_groundcover_barren" ],
-      "#": "t_rock",
+      "#": "t_soil",
       "%": "t_fence_barbed",
       "+": "t_door_locked_interior",
       ",": "t_floor",
@@ -47,7 +47,6 @@
     },
     "furniture": {
       "3": "f_bench",
-      "5": "f_bench",
       "D": "f_dryer",
       "E": "f_exercise",
       "S": "f_sink",
