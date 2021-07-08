@@ -3079,6 +3079,11 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         jo.read( "id", def.id, true );
     }
 
+    if( !def.src.empty() && def.src.back().first != def.id ) {
+        def.src.clear();
+    }
+    def.src.emplace_back( def.id, mod_id( src ) );
+
     if( def.magazines.empty() ) {
         migrate_mag_from_pockets( def );
     }
