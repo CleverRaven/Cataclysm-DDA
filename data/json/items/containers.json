@@ -1817,7 +1817,7 @@
     "description": "A 50 gallon glass aquarium, used for safely storing small animals for use as pets and food.",
     "weight": "83 kg",
     "volume": "189 L",
-    "longest_side": "91 mm",
+    "longest_side": "91 cm",
     "price": 0,
     "bashing": 1,
     "material": [ "glass" ],
