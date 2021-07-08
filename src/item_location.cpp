@@ -552,7 +552,7 @@ class item_location::impl::item_in_container : public item_location::impl
                 }
                 idx++;
             }
-            if( container->contents.empty() ) {
+            if( container->empty() ) {
                 return -1;
             }
             return idx;

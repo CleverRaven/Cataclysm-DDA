@@ -239,7 +239,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
                     REQUIRE( count_items( p, container_id ) == 5 );
                     AND_THEN( "all of the bottles are now empty" ) {
                         REQUIRE( p.visit_items( [&container_id]( const item * e, item * ) {
-                            return ( e->typeId() != container_id || e->contents.empty() ) ?
+                            return ( e->typeId() != container_id || e->empty() ) ?
                                    VisitResponse::NEXT : VisitResponse::ABORT;
                         } ) != VisitResponse::ABORT );
                     }
@@ -289,7 +289,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
                             REQUIRE( p.is_wielding( *found[0] ) );
 
                             AND_THEN( "the hip flask is empty" ) {
-                                REQUIRE( found[0]->contents.empty() );
+                                REQUIRE( found[0]->empty() );
                             }
                         }
                     }

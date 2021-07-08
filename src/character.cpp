@@ -7910,7 +7910,7 @@ hint_rating Character::rate_action_reload( const item &it ) const
 
 hint_rating Character::rate_action_unload( const item &it ) const
 {
-    if( it.is_container() && !it.contents.empty() &&
+    if( it.is_container() && !it.empty() &&
         it.can_unload_liquid() ) {
         return hint_rating::good;
     }
@@ -8809,7 +8809,7 @@ bool Character::dispose_item( item_location &&obj, const std::string &prompt )
         can_stash( *obj ), '1',
         item_handling_cost( *obj ),
         [this, bucket, &obj] {
-            if( bucket && !obj->contents.spill_open_pockets( *this, obj.get_item() ) )
+            if( bucket && !obj->spill_open_pockets( *this, obj.get_item() ) )
             {
                 return false;
             }
@@ -12889,7 +12889,7 @@ bool Character::unload( item_location &loc, bool bypass_activity )
     item &it = *loc;
     // Unload a container consuming moves per item successfully removed
     if( it.is_container() ) {
-        if( it.contents.empty() ) {
+        if( it.empty() ) {
             add_msg( m_info, _( "The %s is already empty!" ), it.tname() );
             return false;
         }

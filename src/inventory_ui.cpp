@@ -2609,7 +2609,7 @@ void inventory_drop_selector::deselect_contained_items()
         inventory_items.push_back( loc_front );
     }
     for( item_location loc_container : inventory_items ) {
-        if( !loc_container->contents.empty() ) {
+        if( !loc_container->empty() ) {
             for( inventory_column *col : get_all_columns() ) {
                 for( inventory_entry *selected : col->get_entries( []( const inventory_entry &
                 entry ) {

@@ -3418,7 +3418,7 @@ bool npc::wield_better_weapon()
         if( node->is_melee() || node->is_gun() ) {
             compare_weapon( *node );
             return VisitResponse::SKIP;
-        } else if( node->get_use( "holster" ) && !node->contents.empty() ) {
+        } else if( node->get_use( "holster" ) && !node->empty() ) {
             // we just recur to the next farther down
             return VisitResponse::NEXT;
         }

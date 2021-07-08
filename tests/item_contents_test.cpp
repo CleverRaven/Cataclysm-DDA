@@ -71,7 +71,7 @@ TEST_CASE( "item_contents" )
     // check to see that removing an item works
     CHECK( tool_belt.contents.num_item_stacks() == 3 );
     tool_belt.spill_contents( tripoint_zero );
-    CHECK( tool_belt.contents.empty() );
+    CHECK( tool_belt.empty() );
 }
 
 TEST_CASE( "overflow on combine", "[item]" )

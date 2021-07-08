@@ -3306,7 +3306,7 @@ int vehicle::fuel_left( const itype_id &ftype, bool recurse ) const
         const vehicle_part &part = parts[i];
         if( part.ammo_current() != ftype ||
             // don't count frozen liquid
-            ( !part.base.contents.empty() && part.is_tank() &&
+            ( !part.base.empty() && part.is_tank() &&
               part.base.contents.legacy_front().made_of( phase_id::SOLID ) ) ) {
             continue;
         }

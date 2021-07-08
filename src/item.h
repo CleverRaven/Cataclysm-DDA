@@ -1349,6 +1349,7 @@ class item : public visitable
          * @return If the item is now empty.
          */
         bool spill_contents( const tripoint &pos );
+        bool spill_open_pockets( Character &guy, const item *avoid = nullptr );
 
         /** Checks if item is a holster and currently capable of storing obj
          *  @param obj object that we want to holster
@@ -2269,6 +2270,7 @@ class item : public visitable
         std::list<item *> all_items_ptr( item_pocket::pocket_type pk_type );
 
         void clear_items();
+        bool empty() const;
 
 
     private:

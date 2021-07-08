@@ -831,7 +831,7 @@ void computer_session::action_blood_anal()
                 print_error( _( "ERROR: Please place sample in centrifuge." ) );
             } else if( items.size() > 1 ) {
                 print_error( _( "ERROR: Please remove all but one sample from centrifuge." ) );
-            } else if( items.only_item().contents.empty() ) {
+            } else if( items.only_item().empty() ) {
                 print_error( _( "ERROR: Please only use container with blood sample." ) );
             } else if( items.only_item().contents.legacy_front().typeId() != itype_blood ) {
                 print_error( _( "ERROR: Please only use blood samples." ) );
@@ -883,7 +883,7 @@ void computer_session::action_data_anal()
                        items.only_item().typeId() != itype_black_box ) {
                 print_error( _( "ERROR: Memory bank destroyed or not present." ) );
             } else if( items.only_item().typeId() == itype_usb_drive &&
-                       items.only_item().contents.empty() ) {
+                       items.only_item().empty() ) {
                 print_error( _( "ERROR: Memory bank is empty." ) );
             } else { // Success!
                 if( items.only_item().typeId() == itype_black_box ) {
@@ -1512,7 +1512,7 @@ void computer_session::failure_destroy_blood()
                 print_error( _( "ERROR: Please remove all but one sample from centrifuge." ) );
             } else if( items.only_item().typeId() != itype_vacutainer ) {
                 print_error( _( "ERROR: Please use blood-contained samples." ) );
-            } else if( items.only_item().contents.empty() ) {
+            } else if( items.only_item().empty() ) {
                 print_error( _( "ERROR: Blood draw kit, empty." ) );
             } else if( items.only_item().contents.legacy_front().typeId() != itype_blood ) {
                 print_error( _( "ERROR: Please only use blood samples." ) );
@@ -1538,7 +1538,7 @@ void computer_session::failure_destroy_data()
                 print_error( _( "ERROR: Please only scan one item at a time." ) );
             } else if( items.only_item().typeId() != itype_usb_drive ) {
                 print_error( _( "ERROR: Memory bank destroyed or not present." ) );
-            } else if( items.only_item().contents.empty() ) {
+            } else if( items.only_item().empty() ) {
                 print_error( _( "ERROR: Memory bank is empty." ) );
             } else {
                 print_error( _( "ERROR: Data bank destroyed." ) );

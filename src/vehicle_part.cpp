@@ -217,7 +217,7 @@ itype_id vehicle_part::ammo_current() const
         return itype_battery;
     }
 
-    if( is_tank() && !base.contents.empty() ) {
+    if( is_tank() && !base.empty() ) {
         return base.contents.legacy_front().typeId();
     }
 
@@ -244,7 +244,7 @@ int vehicle_part::ammo_capacity( const ammotype &ammo ) const
 int vehicle_part::ammo_remaining() const
 {
     if( is_tank() ) {
-        return base.contents.empty() ? 0 : base.contents.legacy_front().charges;
+        return base.empty() ? 0 : base.contents.legacy_front().charges;
     }
     if( is_fuel_store( false ) || is_turret() ) {
         return base.ammo_remaining();
@@ -303,7 +303,7 @@ void vehicle_part::ammo_unset()
 
 int vehicle_part::ammo_consume( int qty, const tripoint &pos )
 {
-    if( is_tank() && !base.contents.empty() ) {
+    if( is_tank() && !base.empty() ) {
         const int res = std::min( ammo_remaining(), qty );
         item &liquid = base.contents.legacy_front();
         liquid.charges -= res;
@@ -317,7 +317,7 @@ int vehicle_part::ammo_consume( int qty, const tripoint &pos )
 
 double vehicle_part::consume_energy( const itype_id &ftype, double energy_j )
 {
-    if( base.contents.empty() || !is_fuel_store() ) {
+    if( base.empty() || !is_fuel_store() ) {
         return 0.0f;
     }
 
@@ -540,7 +540,7 @@ bool vehicle_part::is_tank() const
 
 bool vehicle_part::contains_liquid() const
 {
-    return is_tank() && !base.contents.empty() &&
+    return is_tank() && !base.empty() &&
            base.contents.only_item().made_of( phase_id::LIQUID );
 }
 

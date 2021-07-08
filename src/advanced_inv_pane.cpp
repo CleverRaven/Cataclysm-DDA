@@ -117,7 +117,7 @@ std::vector<advanced_inv_listitem> avatar::get_AIM_inventory( const advanced_inv
     size_t item_index = 0;
 
     for( item &worn_item : worn ) {
-        if( worn_item.contents.empty() || worn_item.has_flag( flag_NO_UNLOAD ) ) {
+        if( worn_item.empty() || worn_item.has_flag( flag_NO_UNLOAD ) ) {
             continue;
         }
         for( const std::vector<item_location> &it_stack : item_list_to_stack(
