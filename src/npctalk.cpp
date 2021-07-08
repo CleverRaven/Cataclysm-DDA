@@ -2195,7 +2195,7 @@ void talk_effect_fun_t::set_add_power( const JsonObject &jo, const std::string &
 void talk_effect_fun_t::set_assign_mission( const JsonObject &jo, const std::string &member )
 {
     std::string mission_name = jo.get_string( member );
-    function = [mission_name]( const dialogue & d ) {
+    function = [mission_name]( const dialogue & ) {
         avatar &player_character = get_avatar();
 
         const mission_type_id &mission_type = mission_type_id( mission_name );
