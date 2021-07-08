@@ -13,11 +13,11 @@
     "type": "monster_adjustment",
     "species": "ZOMBIE",
     "flag": { "name": "REVIVES", "value": false },
-	"stat": { "name": "speed", "modifier": 0.9 }
+    "stat": { "name": "speed", "modifier": 0.9 }
   },
   {
     "type": "monster_adjustment",
     "species": "ZOMBIE",
-	"stat": { "name": "hp", "modifier": 5 }
+    "stat": { "name": "hp", "modifier": 5 }
   }
 ]
