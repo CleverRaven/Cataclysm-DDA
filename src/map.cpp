@@ -3075,7 +3075,7 @@ void map::smash_items( const tripoint &p, const int power, const std::string &ca
         // Remove them if they were damaged too much
         if( i->damage() == i->max_damage() || ( by_charges && i->charges == 0 ) ) {
             // But save the contents, except for irremovable gunmods
-            for( item *elem : i->contents.all_items_top() ) {
+            for( item *elem : i->all_items_top() ) {
                 if( !elem->is_irremovable() ) {
                     contents.emplace_back( *elem );
                 }
@@ -3489,7 +3489,7 @@ void map::bash_items( const tripoint &p, bash_params &params )
         if( bashed_item->made_of( material_id( "glass" ) ) && !bashed_item->active && one_in( 2 ) ) {
             params.did_bash = true;
             smashed_glass = true;
-            for( const item *bashed_content : bashed_item->contents.all_items_top() ) {
+            for( const item *bashed_content : bashed_item->all_items_top() ) {
                 smashed_contents.emplace_back( *bashed_content );
             }
             bashed_item = bashed_items.erase( bashed_item );
@@ -6884,6 +6884,8 @@ void map::loadn( const tripoint &grid, const bool update_vehicles, bool _actuali
     // Cache empty overmap types
     static const oter_str_id rock( "empty_rock" );
     static const oter_str_id air( "open_air" );
+    static const oter_str_id earth( "solid_earth" );
+    static const ter_str_id t_soil( "t_soil" );
 
     dbg( D_INFO ) << "map::loadn(game[" << g.get() << "], worldx[" << abs_sub.x
                   << "], worldy[" << abs_sub.y << "], grid " << grid << ")";
@@ -6915,6 +6917,8 @@ void map::loadn( const tripoint &grid, const bool update_vehicles, bool _actuali
             generate_uniform( grid_abs_sub_rounded, t_open_air );
         } else if( terrain_type == rock ) {
             generate_uniform( grid_abs_sub_rounded, t_rock );
+        } else if( terrain_type == earth ) {
+            generate_uniform( grid_abs_sub_rounded, t_soil );
         } else {
             tinymap tmp_map;
             tmp_map.generate( grid_abs_sub_rounded, calendar::turn );

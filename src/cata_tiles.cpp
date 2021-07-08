@@ -1475,7 +1475,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                    do_draw_cursor || do_draw_highlight || do_draw_weather ||
                    do_draw_sct || do_draw_zones;
 
-    draw_footsteps_frame();
+    draw_footsteps_frame( center );
     if( in_animation ) {
         if( do_draw_explosion ) {
             draw_explosion_frame();
@@ -3579,11 +3579,25 @@ void cata_tiles::draw_zones_frame()
     }
 
 }
-void cata_tiles::draw_footsteps_frame()
+
+void cata_tiles::draw_footsteps_frame( const tripoint &center )
 {
-    static const std::string footstep_tilestring = "footstep";
-    for( const auto &footstep : sounds::get_footstep_markers() ) {
-        draw_from_id_string( footstep_tilestring, footstep, 0, 0, lit_level::LIT, false );
+    static const std::string id_footstep = "footstep";
+    static const std::string id_footstep_above = "footstep_above";
+    static const std::string id_footstep_below = "footstep_below";
+
+
+    const tile_type *tl_above = tileset_ptr->find_tile_type( id_footstep_above );
+    const tile_type *tl_below = tileset_ptr->find_tile_type( id_footstep_below );
+
+    for( const tripoint &pos : sounds::get_footstep_markers() ) {
+        if( pos.z > center.z && tl_above ) {
+            draw_from_id_string( id_footstep_above, pos, 0, 0, lit_level::LIT, false );
+        } else if( pos.z < center.z && tl_below ) {
+            draw_from_id_string( id_footstep_below, pos, 0, 0, lit_level::LIT, false );
+        } else {
+            draw_from_id_string( id_footstep, pos, 0, 0, lit_level::LIT, false );
+        }
     }
 }
 /* END OF ANIMATION FUNCTIONS */

@@ -14,6 +14,7 @@
 
 #include "activity_handlers.h"
 #include "addiction.h"
+#include "bionics.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
@@ -247,9 +248,9 @@ void Character::suffer_while_underwater()
         oxygen += 12;
     }
     if( oxygen <= 5 ) {
-        if( has_bionic( bio_gills ) && get_power_level() >= 25_kJ ) {
+        if( has_bionic( bio_gills ) && get_power_level() >= bio_gills->power_trigger ) {
             oxygen += 5;
-            mod_power_level( -25_kJ );
+            mod_power_level( -bio_gills->power_trigger );
         } else {
             add_msg_if_player( m_bad, _( "You're drowning!" ) );
             apply_damage( nullptr, bodypart_id( "torso" ), rng( 1, 4 ) );
@@ -615,7 +616,7 @@ void Character::suffer_from_asthma( const int current_stim )
     }
     bool auto_use = has_charges( itype_inhaler, 1 ) || has_charges( itype_oxygen_tank, 1 ) ||
                     has_charges( itype_smoxygen_tank, 1 );
-    bool oxygenator = has_bionic( bio_gills ) && get_power_level() >= 3_kJ;
+    bool oxygenator = has_bionic( bio_gills ) && get_power_level() >= ( bio_gills->power_trigger / 8 );
     if( underwater ) {
         oxygen = oxygen / 2;
         auto_use = false;
@@ -635,7 +636,7 @@ void Character::suffer_from_asthma( const int current_stim )
                           map_inv.has_charges( itype_smoxygen_tank, 1 );
         // check if character has an oxygenator first
         if( oxygenator ) {
-            mod_power_level( -3_kJ );
+            mod_power_level( -bio_gills->power_trigger / 8 );
             add_msg_if_player( m_info, _( "You use your Oxygenator to clear it up, "
                                           "then go back to sleep." ) );
         } else if( auto_use ) {
@@ -1161,7 +1162,8 @@ void Character::suffer_from_radiation()
 void Character::suffer_from_bad_bionics()
 {
     // Negative bionics effects
-    if( has_bionic( bio_dis_shock ) && get_power_level() > 9_kJ && one_turn_in( 2_hours ) &&
+    if( has_bionic( bio_dis_shock ) && get_power_level() > bio_dis_shock->power_trigger &&
+        one_turn_in( 2_hours ) &&
         !has_effect( effect_narcosis ) ) {
         if( !has_trait( trait_NOPAIN ) ) {
             add_msg_if_player( m_bad, _( "You suffer a painful electrical discharge!" ) );
@@ -1170,7 +1172,7 @@ void Character::suffer_from_bad_bionics()
             add_msg_if_player( m_bad, _( "You experience an electrical discharge!" ) );
         }
         moves -= 150;
-        mod_power_level( -10_kJ );
+        mod_power_level( -bio_dis_shock->power_trigger );
 
         if( weapon.typeId() == itype_e_handcuffs && weapon.charges > 0 ) {
             weapon.charges -= rng( 1, 3 ) * 50;
@@ -1225,9 +1227,10 @@ void Character::suffer_from_bad_bionics()
         add_effect( effect_downed, 1_turns, false, 0, true );
         sfx::play_variant_sound( "bionics", "elec_crackle_high", 100 );
     }
-    if( has_bionic( bio_shakes ) && get_power_level() > 24_kJ && one_turn_in( 2_hours ) ) {
+    if( has_bionic( bio_shakes ) && get_power_level() > bio_shakes->power_trigger &&
+        one_turn_in( 2_hours ) ) {
         add_msg_if_player( m_bad, _( "Your bionics short-circuit, causing you to tremble and shiver." ) );
-        mod_power_level( -25_kJ );
+        mod_power_level( -bio_shakes->power_trigger );
         add_effect( effect_shakes, 5_minutes );
         sfx::play_variant_sound( "bionics", "elec_crackle_med", 100 );
     }
@@ -1244,10 +1247,10 @@ void Character::suffer_from_bad_bionics()
         add_effect( effect_formication, 10_minutes, bp );
     }
     if( has_bionic( bio_glowy ) && !has_effect( effect_glowy_led ) && one_turn_in( 50_minutes ) &&
-        get_power_level() > 1_kJ ) {
+        get_power_level() > bio_glowy->power_trigger ) {
         add_msg_if_player( m_bad, _( "Your malfunctioning bionic starts to glow!" ) );
         add_effect( effect_glowy_led, 5_minutes );
-        mod_power_level( -1_kJ );
+        mod_power_level( -bio_glowy->power_trigger );
     }
 }
 

@@ -107,7 +107,6 @@ static const skill_id skill_launcher( "launcher" );
 static const skill_id skill_throw( "throw" );
 
 static const bionic_id bio_railgun( "bio_railgun" );
-static const bionic_id bio_targeting( "bio_targeting" );
 static const bionic_id bio_ups( "bio_ups" );
 
 static const std::string flag_MOUNTABLE( "MOUNTABLE" );
@@ -1778,12 +1777,6 @@ item::sound_data item::gun_noise( const bool burst ) const
     return { 0, "" }; // silent weapons
 }
 
-static bool is_driving( const Character &p )
-{
-    const optional_vpart_position vp = get_map().veh_at( p.pos() );
-    return vp && vp->vehicle().is_moving() && vp->vehicle().player_in_control( p );
-}
-
 static double dispersion_from_skill( double skill, double weapon_dispersion )
 {
     if( skill >= MAX_SKILL ) {
@@ -1823,7 +1816,7 @@ dispersion_sources Character::get_weapon_dispersion( const item &obj ) const
     }
     dispersion.add_range( arm_encumb / 5.0 );
 
-    if( is_driving( *this ) ) {
+    if( is_driving() ) {
         // get volume of gun (or for auxiliary gunmods the parent gun)
         const item *parent = has_item( obj ) ? find_parent( obj ) : nullptr;
         const int vol = ( parent ? parent->volume() : obj.volume() ) / 250_ml;
@@ -1839,8 +1832,10 @@ dispersion_sources Character::get_weapon_dispersion( const item &obj ) const
 
     dispersion.add_range( dispersion_from_skill( avgSkill, weapon_dispersion ) );
 
-    if( has_bionic( bio_targeting ) ) {
-        dispersion.add_multiplier( 0.75 );
+    float disperation_mod = enchantment_cache->modify_value( enchant_vals::mod::WEAPON_DISPERSION,
+                            1.0f );
+    if( disperation_mod != 1.0f ) {
+        dispersion.add_multiplier( disperation_mod );
     }
 
     // Range is effectively four times longer when shooting unflagged/flagged guns underwater/out of water.

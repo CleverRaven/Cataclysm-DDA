@@ -87,6 +87,7 @@ static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_pacified( "pacified" );
 static const efftype_id effect_paralyzepoison( "paralyzepoison" );
 static const efftype_id effect_poison( "poison" );
+static const efftype_id effect_tpollen( "tpollen" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_run( "run" );
 static const efftype_id effect_stunned( "stunned" );
@@ -109,6 +110,7 @@ static const species_id species_MAMMAL( "MAMMAL" );
 static const species_id species_MOLLUSK( "MOLLUSK" );
 static const species_id species_NETHER( "NETHER" );
 static const species_id species_ROBOT( "ROBOT" );
+static const species_id species_PLANT( "PLANT" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
 
 static const trait_id trait_ANIMALDISCORD( "ANIMALDISCORD" );
@@ -1256,6 +1258,10 @@ monster_attitude monster::attitude( const Character *u ) const
         return MATT_FOLLOW;
     }
 
+    if( has_flag( MF_KEEP_DISTANCE ) && rl_dist( pos(), goal ) < type->tracking_distance ) {
+        return MATT_FLEE;
+    }
+
     return MATT_ATTACK;
 }
 
@@ -1376,7 +1382,7 @@ bool monster::is_immune_effect( const efftype_id &effect ) const
     }
 
     if( effect == effect_bleed ) {
-        return type->bloodType() == fd_null;
+        return ( type->bloodType() == fd_null || type->bleed_rate == 0 );
     }
 
     if( effect == effect_venom_dmg ||
@@ -1392,6 +1398,10 @@ bool monster::is_immune_effect( const efftype_id &effect ) const
         effect == effect_poison ) {
         return type->in_species( species_ZOMBIE ) || type->in_species( species_NETHER ) ||
                !made_of_any( Creature::cmat_flesh ) || type->in_species( species_LEECH_PLANT );
+    }
+
+    if( effect == effect_tpollen ) {
+        return type->in_species( species_PLANT );
     }
 
     if( effect == effect_stunned ) {
@@ -1438,6 +1448,21 @@ bool monster::is_immune_damage( const damage_type dt ) const
             return false;
         default:
             return true;
+    }
+}
+
+void monster::make_bleed( const effect_source &source, const bodypart_id &bp,
+                          time_duration duration, int intensity, bool permanent, bool force, bool defferred )
+{
+    if( type->bleed_rate == 0 ) {
+        return;
+    }
+
+    duration = ( duration * type->bleed_rate ) / 100;
+    if( type->in_species( species_ROBOT ) ) {
+        add_effect( source, effect_dripping_mechanical_fluid, duration, bp );
+    } else {
+        add_effect( source, effect_bleed, duration, bp, permanent, intensity, force, defferred );
     }
 }
 

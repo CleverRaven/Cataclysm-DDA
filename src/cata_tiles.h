@@ -444,7 +444,7 @@ class cata_tiles
         void draw_hit_frame();
         void void_hit();
 
-        void draw_footsteps_frame();
+        void draw_footsteps_frame( const tripoint &center );
 
         // pseudo-animated layer, not really though.
         void init_draw_line( const tripoint &p, std::vector<tripoint> trajectory,

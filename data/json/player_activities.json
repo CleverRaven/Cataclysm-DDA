@@ -942,5 +942,27 @@
     "suspendable": false,
     "based_on": "time",
     "no_resume": true
+  },
+  {
+    "id": "ACT_TENT_PLACE",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "pitching a tent",
+    "rooted": true,
+    "based_on": "time",
+    "no_resume": true,
+    "refuel_fires": false,
+    "auto_needs": false
+  },
+  {
+    "id": "ACT_TENT_DECONSTRUCT",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "packing up a tent",
+    "rooted": true,
+    "based_on": "time",
+    "no_resume": true,
+    "refuel_fires": false,
+    "auto_needs": false
   }
 ]

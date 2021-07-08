@@ -41,6 +41,7 @@ namespace io
         case enchantment::condition::UNDERGROUND: return "UNDERGROUND";
         case enchantment::condition::UNDERWATER: return "UNDERWATER";
         case enchantment::condition::ACTIVE: return "ACTIVE";
+        case enchantment::condition::INACTIVE: return "INACTIVE";
         case enchantment::condition::NUM_CONDITION: break;
         }
         debugmsg( "Invalid enchantment::condition" );
@@ -79,10 +80,12 @@ namespace io
             case enchant_vals::mod::FOOTSTEP_NOISE: return "FOOTSTEP_NOISE";
             case enchant_vals::mod::SIGHT_RANGE: return "SIGHT_RANGE";
             case enchant_vals::mod::CARRY_WEIGHT: return "CARRY_WEIGHT";
+            case enchant_vals::mod::WEAPON_DISPERSION: return "WEAPON_DISPERSION";
             case enchant_vals::mod::SOCIAL_LIE: return "SOCIAL_LIE";
             case enchant_vals::mod::SOCIAL_PERSUADE: return "SOCIAL_PERSUADE";
             case enchant_vals::mod::SOCIAL_INTIMIDATE: return "SOCIAL_INTIMIDATE";
             case enchant_vals::mod::SLEEPY: return "SLEEPY";
+            case enchant_vals::mod::LUMINATION: return "LUMINATION";
             case enchant_vals::mod::ARMOR_ACID: return "ARMOR_ACID";
             case enchant_vals::mod::ARMOR_BASH: return "ARMOR_BASH";
             case enchant_vals::mod::ARMOR_BIO: return "ARMOR_BIO";
@@ -200,6 +203,10 @@ bool enchantment::is_active( const Character &guy, const bool active ) const
 {
     if( active_conditions.second == condition::ACTIVE ) {
         return active;
+    }
+
+    if( active_conditions.second == condition::INACTIVE ) {
+        return !active;
     }
 
     if( active_conditions.second == condition::ALWAYS ) {
@@ -488,9 +495,6 @@ void enchantment::activate_passive( Character &guy ) const
 
     guy.mod_int_bonus( get_value_add( enchant_vals::mod::INTELLIGENCE ) );
     guy.mod_int_bonus( mult_bonus( enchant_vals::mod::INTELLIGENCE, guy.get_int_base() ) );
-
-    guy.mod_speed_bonus( get_value_add( enchant_vals::mod::SPEED ) );
-    guy.mod_speed_bonus( mult_bonus( enchant_vals::mod::SPEED, guy.get_speed_base() ) );
 
     guy.mod_num_dodges_bonus( get_value_add( enchant_vals::mod::BONUS_DODGE ) );
     guy.mod_num_dodges_bonus( mult_bonus( enchant_vals::mod::BONUS_DODGE, guy.get_num_dodges_base() ) );

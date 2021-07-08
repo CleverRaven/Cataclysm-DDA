@@ -17,6 +17,7 @@
 
 #include "avatar.h"
 #include "bodypart.h"
+#include "bionics.h"
 #include "cached_options.h"
 #include "calendar.h"
 #include "cata_utility.h"
@@ -535,11 +536,13 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
         }
     }
 
-    if( cur_weapon->attack_time() > attack_speed( *cur_weapon ) * 20 ) {
+    int move_cost = attack_speed( cur_weapon->has_flag( flag_UNARMED_WEAPON ) ?
+                                  null_item_reference() : *cur_weapon );
+
+    if( cur_weapon->attack_time() > move_cost * 20 ) {
         add_msg( m_bad, _( "This weapon is too unwieldy to attack with!" ) );
         return false;
     }
-    int move_cost = attack_speed( *cur_weapon );
 
     if( is_avatar() && move_cost > 1000 && calendar::turn > melee_warning_turn ) {
         const auto &action = query_popup()
@@ -976,7 +979,7 @@ float Character::get_dodge() const
 {
     //If we're asleep or busy we can't dodge
     if( in_sleep_state() || has_effect( effect_narcosis ) ||
-        has_effect( efftype_id( "winded" ) ) ) {
+        has_effect( efftype_id( "winded" ) ) || is_driving() ) {
         return 0.0f;
     }
 
@@ -1774,7 +1777,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
 
     // Shouldn't block if player is asleep or winded
     if( in_sleep_state() || has_effect( effect_narcosis ) ||
-        has_effect( efftype_id( "winded" ) ) ) {
+        has_effect( efftype_id( "winded" ) ) || is_driving() ) {
         return false;
     }
 
@@ -2016,9 +2019,10 @@ std::string Character::melee_special_effects( Creature &t, damage_instance &d, i
 
     std::string target = t.disp_name();
 
-    if( has_active_bionic( bionic_id( "bio_shock" ) ) && get_power_level() >= 2_kJ &&
+    const bionic_id bio_shock( "bio_shock" );
+    if( has_active_bionic( bio_shock ) && get_power_level() >= bio_shock->power_trigger &&
         ( !is_armed() || weapon.conductive() ) ) {
-        mod_power_level( -2_kJ );
+        mod_power_level( -bio_shock->power_trigger );
         d.add_damage( damage_type::ELECTRIC, rng( 2, 10 ) );
 
         if( is_player() ) {
@@ -2028,8 +2032,9 @@ std::string Character::melee_special_effects( Creature &t, damage_instance &d, i
         }
     }
 
-    if( has_active_bionic( bionic_id( "bio_heat_absorb" ) ) && !is_armed() && t.is_warm() ) {
-        mod_power_level( 3_kJ );
+    const bionic_id bio_heat_absorb( "bio_heat_absorb" );
+    if( has_active_bionic( bio_heat_absorb ) && !is_armed() && t.is_warm() ) {
+        mod_power_level( bio_heat_absorb->power_trigger );
         d.add_damage( damage_type::COLD, 3 );
         if( is_player() ) {
             dump += string_format( _( "You drain %s's body heat." ), target ) + "\n";

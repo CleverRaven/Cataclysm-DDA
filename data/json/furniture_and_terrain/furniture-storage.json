@@ -780,7 +780,7 @@
     "id": "f_wood_keg",
     "name": "wooden keg",
     "looks_like": "f_standing_tank",
-    "description": "A large standing wooden barrel, completely watertight.  Good for storing liquids of all kinds or fermenting alcohol.",
+    "description": "A large standing wooden barrel, completely watertight.  Good for storing liquids of all kinds.",
     "symbol": "H",
     "color": "brown",
     "move_cost_mod": -1,

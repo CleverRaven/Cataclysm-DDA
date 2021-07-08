@@ -73,8 +73,6 @@ static const species_id species_ZOMBIE( "ZOMBIE" );
 static const std::string flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
 static const std::string flag_LIQUID( "LIQUID" );
 
-static constexpr int MONSTER_FOLLOW_DIST = 8;
-
 bool monster::wander()
 {
     return ( goal == pos() && patrol_route_abs_ms.empty() );
@@ -853,7 +851,9 @@ void monster::move()
     }
 
     if( ( current_attitude == MATT_IGNORE && patrol_route_abs_ms.empty() ) ||
-        ( current_attitude == MATT_FOLLOW && rl_dist( pos(), goal ) <= MONSTER_FOLLOW_DIST ) ) {
+        ( ( current_attitude == MATT_FOLLOW ||
+            ( has_flag( MF_KEEP_DISTANCE ) && !( current_attitude == MATT_FLEE ) ) )
+          && rl_dist( pos(), goal ) <= type->tracking_distance ) ) {
         moves = 0;
         stumble();
         return;

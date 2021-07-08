@@ -216,7 +216,7 @@ struct armor_portion_data {
     int encumber = 0;
 
     // When storage is full, how much it encumbers the player.
-    int max_encumber = 0;
+    int max_encumber = -1;
 
     // Percentage of the body part that this item covers.
     // This determines how likely it is to hit the item instead of the player.

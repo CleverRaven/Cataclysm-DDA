@@ -144,6 +144,7 @@ enum m_flag : int {
     MF_INTERIOR_AMMO,       // Monster contain's its ammo inside itself, no need to load on launch. Prevents ammo from being dropped on disable.
     MF_CLIMBS,              // Monsters that can climb certain terrain and furniture
     MF_PACIFIST,            // Monsters that will never use melee attack, useful for having them use grab without attacking the player
+    MF_KEEP_DISTANCE,       // Attempts to keep a short distance (tracking_distance) from its current target.  The default tracking distance is 8 tiles
     MF_PUSH_MON,            // Monsters that can push creatures out of their way
     MF_PUSH_VEH,            // Monsters that can push vehicles out of their way
     MF_NIGHT_INVISIBILITY,  // Monsters that are invisible in poor light conditions
@@ -256,6 +257,9 @@ struct mtype {
         int agro = 0;           /** chance will attack [-100,100] */
         int morale = 0;         /** initial morale level at spawn */
 
+        // how close the monster is willing to approach its target while under the MATT_FOLLOW attitude
+        int tracking_distance = 8;
+
         // Number of hitpoints regenerated per turn.
         int regenerates = 0;
         // Monster regenerates very quickly in poorly lit tiles.
@@ -285,6 +289,9 @@ struct mtype {
         int armor_bullet = -1;  /** innate armor vs. bullet */
         int armor_acid = -1;    /** innate armor vs. acid */
         int armor_fire = -1;    /** innate armor vs. fire */
+
+        // Bleed rate in percent, 0 makes the monster immune to bleeding
+        int bleed_rate = 100;
 
         // Vision range is linearly scaled depending on lighting conditions
         int vision_day = 40;    /** vision range in bright light */
