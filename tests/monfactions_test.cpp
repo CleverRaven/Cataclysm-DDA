@@ -1,7 +1,7 @@
 #include <fstream>
 #include <vector>
 
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "monfaction.h"
 #include "type_id.h"
 
@@ -14,7 +14,8 @@ TEST_CASE( "generate_monfactions_attitude_matrix", "[.]" )
         for( const auto &f1 : monfactions::get_all() ) {
             mf_attitude att = f.attitude( f1.id );
             mf_attitude rev_att = f1.attitude( f.id );
-            outfile << f.id.str() << "->" << f1.id.str() << ": ";
+            // NOLINTNEXTLINE(cata-text-style)
+            outfile << f.id.str() << "->" << f1.id.str() << ":\t";
             switch( att ) {
                 case MFA_BY_MOOD:
                     outfile << "MFA_BY_MOOD";
@@ -86,9 +87,9 @@ TEST_CASE( "monfactions_attitude", "[monster][monfactions]" )
         INFO( "fish is inherited from animal and should be neutral toward small_animal" );
         CHECK( attitude( "fish", "small_animal" ) == MFA_NEUTRAL );
 
-        INFO( "bear is inherited from animal, but hates small animals, of which vermin is a child" );
-        CHECK( attitude( "bear", "vermin" ) == MFA_HATE );
-        CHECK( attitude( "bear", "fish" ) == MFA_NEUTRAL );
+        INFO( "dog is inherited from animal, but hates small animals, of which vermin is a child" );
+        CHECK( attitude( "dog", "vermin" ) == MFA_HATE );
+        CHECK( attitude( "dog", "fish" ) == MFA_NEUTRAL );
 
     }
 

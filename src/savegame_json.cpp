@@ -1089,6 +1089,7 @@ void player::store( JsonOut &json ) const
 
     // gender
     json.member( "male", male );
+    json.member( "is_dead", is_dead );
 
     json.member( "cash", cash );
     json.member( "recoil", recoil );
@@ -1159,6 +1160,7 @@ void player::load( const JsonObject &data )
     data.read( "slow_rad", slow_rad );
     data.read( "scent", scent );
     data.read( "male", male );
+    data.read( "is_dead", is_dead );
     data.read( "cash", cash );
     data.read( "recoil", recoil );
     data.read( "in_vehicle", in_vehicle );
@@ -2094,11 +2096,16 @@ void monster::load( const JsonObject &data )
         position.z = get_map().get_abs_sub().z;
     }
 
+    data.read( "provocative_sound", provocative_sound );
     data.read( "wandf", wandf );
     data.read( "wandx", wander_pos.x );
     data.read( "wandy", wander_pos.y );
     if( data.read( "wandz", wander_pos.z ) ) {
         wander_pos.z = position.z;
+    }
+    if( data.has_int( "next_patrol_point" ) ) {
+        data.read( "next_patrol_point", next_patrol_point );
+        data.read( "patrol_route", patrol_route_abs_ms );
     }
     if( data.has_object( "tied_item" ) ) {
         JsonIn *tied_item_json = data.get_raw( "tied_item" );
@@ -2250,7 +2257,12 @@ void monster::store( JsonOut &json ) const
     json.member( "wandx", wander_pos.x );
     json.member( "wandy", wander_pos.y );
     json.member( "wandz", wander_pos.z );
+    json.member( "provocative_sound", provocative_sound );
     json.member( "wandf", wandf );
+    if( !patrol_route_abs_ms.empty() ) {
+        json.member( "patrol_route", patrol_route_abs_ms );
+        json.member( "next_patrol_point", next_patrol_point );
+    }
     json.member( "hp", hp );
     json.member( "special_attacks", special_attacks );
     json.member( "friendly", friendly );
@@ -2470,6 +2482,13 @@ void item::io( Archive &archive )
         return i.id.str();
     } );
     archive.io( "craft_data", craft_data_, decltype( craft_data_ )() );
+    const auto gvload = [this]( const std::string & variant ) {
+        set_gun_variant( variant );
+    };
+    const auto gvsave = []( const gun_variant_data * gv ) {
+        return gv->id;
+    };
+    archive.io( "variant", _gun_variant, gvload, gvsave, false );
     archive.io( "light", light.luminance, nolight.luminance );
     archive.io( "light_width", light.width, nolight.width );
     archive.io( "light_dir", light.direction, nolight.direction );
@@ -2695,61 +2714,65 @@ void vehicle_part::deserialize( JsonIn &jsin )
     vpart_id pid;
     data.read( "id", pid );
 
-    std::map<std::string, std::pair<std::string, std::string>> deprecated = {
-        { "laser_gun", { "laser_rifle", "none" } },
-        { "seat_nocargo", { "seat", "none" } },
-        { "engine_plasma", { "minireactor", "none" } },
-        { "battery_truck", { "battery_car", "battery" } },
+    std::map<std::string, std::string> deprecated = {
+        { "laser_gun", "laser_rifle" },
+        { "seat_nocargo", "seat" },
+        { "engine_plasma", "minireactor" },
+        { "battery_truck", "battery_car" },
 
-        { "diesel_tank_little", { "tank_little", "diesel" } },
-        { "diesel_tank_small", { "tank_small", "diesel" } },
-        { "diesel_tank_medium", { "tank_medium", "diesel" } },
-        { "diesel_tank", { "tank", "diesel" } },
-        { "external_diesel_tank_small", { "external_tank_small", "diesel" } },
-        { "external_diesel_tank", { "external_tank", "diesel" } },
+        { "diesel_tank_little", "tank_little" },
+        { "diesel_tank_small", "tank_small" },
+        { "diesel_tank_medium", "tank_medium" },
+        { "diesel_tank",  "tank" },
+        { "external_diesel_tank_small", "external_tank_small" },
+        { "external_diesel_tank", "external_tank" },
+        { "gas_tank_little", "tank_little" },
+        { "gas_tank_small", "tank_small" },
+        { "gas_tank_medium", "tank_medium" },
+        { "gas_tank", "tank" },
+        { "external_gas_tank_small", "external_tank_small" },
+        { "external_gas_tank", "external_tank" },
+        { "water_dirty_tank_little", "tank_little" },
+        { "water_dirty_tank_small", "tank_small" },
+        { "water_dirty_tank_medium", "tank_medium" },
+        { "water_dirty_tank", "tank" },
+        { "external_water_dirty_tank_small", "external_tank_small" },
+        { "external_water_dirty_tank", "external_tank" },
+        { "dirty_water_tank_barrel", "tank_barrel" },
+        { "water_tank_little", "tank_little" },
+        { "water_tank_small", "tank_small" },
+        { "water_tank_medium", "tank_medium" },
+        { "water_tank", "tank" },
+        { "external_water_tank_small", "external_tank_small" },
+        { "external_water_tank", "external_tank" },
+        { "water_tank_barrel", "tank_barrel" },
+        { "napalm_tank", "tank" },
+        { "hydrogen_tank", "tank" },
 
-        { "gas_tank_little", { "tank_little", "gasoline" } },
-        { "gas_tank_small", { "tank_small", "gasoline" } },
-        { "gas_tank_medium", { "tank_medium", "gasoline" } },
-        { "gas_tank", { "tank", "gasoline" } },
-        { "external_gas_tank_small", { "external_tank_small", "gasoline" } },
-        { "external_gas_tank", { "external_tank", "gasoline" } },
-
-        { "water_dirty_tank_little", { "tank_little", "water" } },
-        { "water_dirty_tank_small", { "tank_small", "water" } },
-        { "water_dirty_tank_medium", { "tank_medium", "water" } },
-        { "water_dirty_tank", { "tank", "water" } },
-        { "external_water_dirty_tank_small", { "external_tank_small", "water" } },
-        { "external_water_dirty_tank", { "external_tank", "water" } },
-        { "dirty_water_tank_barrel", { "tank_barrel", "water" } },
-
-        { "water_tank_little", { "tank_little", "water_clean" } },
-        { "water_tank_small", { "tank_small", "water_clean" } },
-        { "water_tank_medium", { "tank_medium", "water_clean" } },
-        { "water_tank", { "tank", "water_clean" } },
-        { "external_water_tank_small", { "external_tank_small", "water_clean" } },
-        { "external_water_tank", { "external_tank", "water_clean" } },
-        { "water_tank_barrel", { "tank_barrel", "water_clean" } },
-
-        { "napalm_tank", { "tank", "napalm" } },
-
-        { "hydrogen_tank", { "tank", "none" } }
+        { "wheel_underbody", "wheel_wide" },
+        { "wheel_steerable", "wheel" },
+        { "wheel_slick_steerable", "wheel_slick" },
+        { "wheel_armor_steerable", "wheel_armor" },
+        { "wheel_bicycle_steerable", "wheel_bicycle" },
+        { "wheel_bicycle_or_steerable", "wheel_bicycle_or" },
+        { "wheel_motorbike_steerable", "wheel_motorbike" },
+        { "wheel_motorbike_or_steerable", "wheel_motorbike_or" },
+        { "wheel_small_steerable", "wheel_small" },
+        { "wheel_wide_steerable", "wheel_wide" },
+        { "wheel_wide_or_steerable", "wheel_wide_or" }
     };
 
     auto dep = deprecated.find( pid.str() );
     if( dep != deprecated.end() ) {
-        pid = vpart_id( dep->second.first );
+        DebugLog( D_INFO, D_GAME ) << "Replacing vpart " << pid.str() << " with " << dep->second;
+        pid = vpart_id( dep->second );
     }
 
     std::tie( pid, variant ) = get_vpart_id_variant( pid );
 
     // if we don't know what type of part it is, it'll cause problems later.
     if( !pid.is_valid() ) {
-        if( pid.str() == "wheel_underbody" ) {
-            pid = vpart_id( "wheel_wide" );
-        } else {
-            data.throw_error( "bad vehicle part", "id" );
-        }
+        data.throw_error( "bad vehicle part", "id" );
     }
     id = pid;
     if( variant.empty() ) {
@@ -2953,7 +2976,17 @@ void vehicle::deserialize( JsonIn &jsin )
     }
     data.read( "theft_time", theft_time );
 
-    data.read( "parts", parts );
+    parts.clear();
+    for( const JsonValue val : data.get_array( "parts" ) ) {
+        vehicle_part part;
+        try {
+            val.read( part, true );
+            parts.emplace_back( std::move( part ) );
+        } catch( const JsonError &err ) {
+            debugmsg( err.what() );
+        }
+    }
+
     // we persist the pivot anchor so that if the rules for finding
     // the pivot change, existing vehicles do not shift around.
     // Loading vehicles that predate the pivot logic is a special
@@ -3361,6 +3394,19 @@ void Creature::load( const JsonObject &jsin )
     } else {
         jsin.read( "effects", *effects );
     }
+
+    // Remove legacy vitamin effects - they don't do anything, and can't be removed
+    // Remove this code whenever they actually do anything (0.F or later)
+    std::set<efftype_id> blacklisted = {
+        efftype_id( "hypocalcemia" ),
+        efftype_id( "hypovitA" ),
+        efftype_id( "hypovitB" ),
+        efftype_id( "scurvy" )
+    };
+    for( const efftype_id &remove : blacklisted ) {
+        remove_effect( remove );
+    }
+
     jsin.read( "values", values );
 
     jsin.read( "damage_over_time_map", damage_over_time_map );
@@ -4273,7 +4319,8 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
             int i = jsin.get_int();
             int j = jsin.get_int();
             const point p( i, j );
-            std::string type, str;
+            std::string type;
+            std::string str;
             // Try to read as current format
             if( jsin.test_string() ) {
                 type = jsin.get_string();
@@ -4312,8 +4359,12 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
         jsin.start_array();
         while( !jsin.end_array() ) {
             std::unique_ptr<vehicle> tmp = std::make_unique<vehicle>();
-            jsin.read( *tmp );
-            vehicles.push_back( std::move( tmp ) );
+            try {
+                jsin.read( *tmp, true );
+                vehicles.push_back( std::move( tmp ) );
+            } catch( const JsonError &err ) {
+                debugmsg( err.what() );
+            }
         }
     } else if( member_name == "partial_constructions" ) {
         jsin.start_array();

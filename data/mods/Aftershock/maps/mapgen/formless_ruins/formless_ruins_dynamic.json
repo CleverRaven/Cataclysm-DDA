@@ -9,6 +9,12 @@
     ]
   },
   {
+    "id": "afs_formless_ruins_random_suit",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "group": "afs_wintersuit_civilian_advanced", "prob": 50 } ]
+  },
+  {
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "afs_formless_ruins_dynamic" ],
@@ -142,6 +148,75 @@
       },
       "place_loot": [ { "group": "afs_formless_ruins_random_loot", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
       "place_monsters": [ { "monster": "AFS_GROUP_MOXIE_LOW_RISK", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "afs_formless_ruins_dynamic" ],
+    "//": "emptier map with a droneswarm, very rare",
+    "weight": 10,
+    "object": {
+      "predecessor_mapgen": "field",
+      "rows": [
+        "           .1           ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "            1           ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "afs_formless_ruins" ],
+      "nested": {
+        "1": {
+          "chunks": [
+            [ "formless_ruins_ribs1", 20 ],
+            [ "formless_ruins_ribs2", 20 ],
+            [ "formless_ruins_twoway1", 20 ],
+            [ "formless_ruins_twoway2", 20 ],
+            [ "formless_ruins_twoway3", 20 ],
+            [ "formless_ruins_pillar1", 20 ],
+            [ "formless_ruins_pillar2", 20 ],
+            [ "formless_ruins_orderly1", 10 ],
+            [ "formless_ruins_orderly2", 10 ],
+            [ "formless_ruins_orderly3", 10 ],
+            [ "formless_ruins_orderly4", 10 ],
+            [ "formless_ruins_empty1", 10 ],
+            [ "formless_ruins_empty2", 10 ],
+            [ "formless_ruins_empty3", 10 ],
+            [ "formless_ruins_empty4", 10 ]
+          ]
+        }
+      },
+      "place_loot": [ { "group": "afs_formless_ruins_random_loot", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
+      "place_monster": [
+        { "monster": "mon_wraitheon_isohypsa", "x": 12, "y": 12, "spawn_data": { "patrol": [ { "x": 12, "y": 12 } ] } },
+        {
+          "monster": "mon_wraitheon_irradiant",
+          "x": 8,
+          "y": 8,
+          "spawn_data": { "patrol": [ { "x": 8, "y": 8 }, { "x": 8, "y": 16 }, { "x": 16, "y": 16 }, { "x": 16, "y": 8 } ] }
+        },
+        { "monster": "mon_wraitheon_kaburaya", "x": 4, "y": 4, "repeat": [ 6, 10 ] }
+      ]
     }
   },
   {
@@ -724,6 +799,7 @@
         "///..  //   "
       ],
       "terrain": { "C": "t_metal_floor", "s": "t_metal_floor" },
+      "items": { "P": [ { "item": "afs_formless_ruins_random_suit", "chance": 80, "repeat": [ 1, 2 ] } ] },
       "furniture": { "P": "f_sleep_pod", "s": "f_sink" },
       "place_monsters": [ { "monster": "AFS_GROUP_MOXIE_LOW_RISK", "x": [ 0, 11 ], "y": [ 0, 11 ], "density": 0.1 } ],
       "palettes": [ "afs_formless_ruins" ]

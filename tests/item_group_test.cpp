@@ -6,7 +6,7 @@
 #include <utility>
 #include <vector>
 
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "flag.h"
 #include "item.h"
 #include "item_contents.h"
@@ -25,7 +25,7 @@ TEST_CASE( "truncate_spawn_when_items_dont_fit", "[item_group]" )
         const item_group::ItemList items = item_group::items_from( truncate_test_id );
         REQUIRE( items.size() == 1 );
         REQUIRE( items[0].typeId().str() == "test_balloon" );
-        std::list<const item *> contents = items[0].contents.all_items_top();
+        std::list<const item *> contents = items[0].all_items_top();
         REQUIRE( contents.size() == 2 );
         observed_pairs.emplace( contents.front()->typeId(), contents.back()->typeId() );
     }
@@ -57,7 +57,7 @@ TEST_CASE( "spill_when_items_dont_fit", "[item_group]" )
             other = &items[0];
         }
         REQUIRE( container->typeId().str() == "test_balloon" );
-        std::list<const item *> contents = container->contents.all_items_top();
+        std::list<const item *> contents = container->all_items_top();
         REQUIRE( contents.size() == 2 );
         observed_pairs_inside.emplace( contents.front()->typeId(), contents.back()->typeId() );
         observed_outside.emplace( other->typeId() );

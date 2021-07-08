@@ -88,5 +88,29 @@
     "name": { "str_sp": "Reaping Talons" },
     "description": "This book contains the teaching of the Tiger Claw discipline.",
     "martial_art": "style_mma_tiger_claw"
+  },
+  {
+    "abstract": "scroll_martial_base",
+    "type": "TOOL",
+    "name": { "str": "scroll abstract" },
+    "weight": "415 g",
+    "volume": "250 ml",
+    "material": [ "paper" ],
+    "symbol": "!",
+    "looks_like": "manual_dragon",
+    "color": "white",
+    "flags": [ "NO_SALVAGE" ]
+  },
+  {
+    "id": "ki_strike_scroll",
+    "copy-from": "scroll_martial_base",
+    "type": "TOOL",
+    "name": { "str": "dragon hand scroll" },
+    "description": "Focus your ki into magical attacks.",
+    "price_postapoc": 12000,
+    "use_action": { "type": "countdown", "name": "Unroll", "message": "You unroll the dragon scroll…" },
+    "countdown_interval": 1,
+    "countdown_destroy": true,
+    "countdown_action": { "type": "cast_spell", "spell_id": "learn_ki_strike", "no_fail": true, "level": 0 }
   }
 ]

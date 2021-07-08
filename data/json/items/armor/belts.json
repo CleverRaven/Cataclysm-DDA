@@ -13,10 +13,8 @@
     "symbol": "[",
     "looks_like": "holster",
     "color": "yellow",
-    "covers": [ "torso" ],
-    "coverage": 5,
-    "encumbrance": 4,
     "pocket_data": [
+      { "max_contains_volume": "1 L", "max_contains_weight": "1500 g", "moves": 100 },
       {
         "max_contains_volume": "2 L",
         "max_contains_weight": "6 kg",
@@ -27,10 +25,12 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Attach what to belt loop?", "holster_msg": "You clip your %s to your %s" },
-    "flags": [ "FANCY", "WAIST", "NO_QUICKDRAW", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "NO_QUICKDRAW", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": [ 2, 5 ], "coverage": 5, "covers": [ "torso" ] } ]
   },
   {
     "abstract": "judo_belt_abstract",
+    "repairs_like": "scarf",
     "type": "ARMOR",
     "name": { "str": "judo belt template" },
     "description": "This is a template for judo belts.  If found in a game, it is a bug.",
@@ -41,11 +41,9 @@
     "to_hit": -1,
     "material": [ "cotton" ],
     "symbol": "[",
-    "covers": [ "torso" ],
-    "coverage": 5,
-    "encumbrance": 2,
     "material_thickness": 2,
-    "flags": [ "WAIST", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 2, "coverage": 5, "covers": [ "torso" ] } ]
   },
   {
     "id": "judo_belt_black",
@@ -113,11 +111,9 @@
     "price": 9000,
     "price_postapoc": 250,
     "bashing": 5,
-    "material": [ "leather" ],
+    "material": [ "leather", "steel" ],
     "symbol": "[",
     "color": "brown",
-    "covers": [ "torso" ],
-    "coverage": 5,
     "material_thickness": 1.5,
     "pocket_data": [
       {
@@ -130,7 +126,8 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stick what into your belt", "holster_msg": "You tuck your %s into your %s" },
-    "flags": [ "WAIST", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "WATER_FRIENDLY" ],
+    "armor": [ { "coverage": 5, "covers": [ "torso" ] } ]
   },
   {
     "id": "obi_gi",
@@ -160,10 +157,8 @@
     "symbol": "[",
     "looks_like": "fireman_belt",
     "color": "brown",
-    "covers": [ "torso" ],
-    "coverage": 5,
-    "encumbrance": 6,
     "pocket_data": [
+      { "max_contains_volume": "500 ml", "max_item_volume": "125 ml", "max_contains_weight": "1500 g", "moves": 100 },
       {
         "holster": true,
         "max_contains_volume": "2250 ml",
@@ -174,7 +169,8 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Attach what to holder?", "holster_msg": "You attach your %s to your %s." },
-    "flags": [ "WAIST", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": [ 2, 5 ], "coverage": 5, "covers": [ "torso" ] } ]
   },
   {
     "id": "survivor_belt_notools",
@@ -189,9 +185,6 @@
     "symbol": "[",
     "looks_like": "holster",
     "color": "brown",
-    "covers": [ "torso" ],
-    "coverage": 15,
-    "encumbrance": 4,
     "material_thickness": 2,
     "pocket_data": [
       {
@@ -200,7 +193,7 @@
         "max_contains_volume": "1 L",
         "max_contains_weight": "2 kg",
         "max_item_length": "70 cm",
-        "moves": 3,
+        "moves": 20,
         "flag_restriction": [ "SHEATH_KNIFE" ]
       },
       { "max_contains_volume": "1 L", "max_contains_weight": "1500 g", "max_item_length": "40 cm", "moves": 100 },
@@ -225,7 +218,7 @@
       {
         "holster": true,
         "min_item_volume": "50 ml",
-        "max_contains_volume": "1500 ml",
+        "max_contains_volume": "1 L",
         "max_contains_weight": "1500 g",
         "max_item_length": "70 cm",
         "moves": 50,
@@ -234,7 +227,7 @@
       {
         "holster": true,
         "min_item_volume": "50 ml",
-        "max_contains_volume": "1500 ml",
+        "max_contains_volume": "1 L",
         "max_contains_weight": "1500 g",
         "max_item_length": "70 cm",
         "moves": 50,
@@ -243,7 +236,7 @@
       {
         "holster": true,
         "min_item_volume": "50 ml",
-        "max_contains_volume": "1500 ml",
+        "max_contains_volume": "1 L",
         "max_contains_weight": "1500 g",
         "max_item_length": "70 cm",
         "moves": 50,
@@ -251,7 +244,8 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Store tool or blade", "holster_msg": "You put your %1$s in your %2$s" },
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY", "WAIST", "OVERSIZE" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY", "WAIST", "OVERSIZE" ],
+    "armor": [ { "encumbrance": [ 2, 12 ], "coverage": 15, "covers": [ "torso" ] } ]
   },
   {
     "id": "tool_belt",
@@ -267,9 +261,6 @@
     "symbol": "[",
     "looks_like": "holster",
     "color": "brown",
-    "covers": [ "torso" ],
-    "coverage": 20,
-    "encumbrance": 2,
     "material_thickness": 2,
     "pocket_data": [
       { "max_contains_volume": "1 L", "max_contains_weight": "1500 g", "max_item_length": "40 cm", "moves": 100 },
@@ -294,7 +285,7 @@
       {
         "holster": true,
         "min_item_volume": "50 ml",
-        "max_contains_volume": "1500 ml",
+        "max_contains_volume": "1 L",
         "max_contains_weight": "1500 g",
         "max_item_length": "70 cm",
         "moves": 50,
@@ -303,7 +294,7 @@
       {
         "holster": true,
         "min_item_volume": "50 ml",
-        "max_contains_volume": "1500 ml",
+        "max_contains_volume": "1 L",
         "max_contains_weight": "1500 g",
         "max_item_length": "70 cm",
         "moves": 50,
@@ -312,7 +303,7 @@
       {
         "holster": true,
         "min_item_volume": "50 ml",
-        "max_contains_volume": "1500 ml",
+        "max_contains_volume": "1 L",
         "max_contains_weight": "1500 g",
         "max_item_length": "70 cm",
         "moves": 50,
@@ -320,7 +311,8 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Store tool or blade", "holster_msg": "You put your %1$s in your %2$s" },
-    "flags": [ "WAIST", "NO_QUICKDRAW", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "NO_QUICKDRAW", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": [ 2, 12 ], "coverage": 20, "covers": [ "torso" ] } ]
   },
   {
     "id": "webbing_belt",
@@ -335,7 +327,19 @@
     "symbol": "[",
     "looks_like": "leather_belt",
     "color": "yellow",
-    "covers": [ "torso" ],
-    "flags": [ "WAIST", "WATER_FRIENDLY" ]
+    "material_thickness": 1.5,
+    "pocket_data": [
+      {
+        "holster": true,
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "1000 g",
+        "max_item_length": "70 cm",
+        "moves": 60,
+        "flag_restriction": [ "BELT_CLIP" ]
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Store tool or blade", "holster_msg": "You put your %1$s in your %2$s" },
+    "flags": [ "WAIST", "WATER_FRIENDLY" ],
+    "armor": [ { "coverage": 5, "covers": [ "torso" ] } ]
   }
 ]

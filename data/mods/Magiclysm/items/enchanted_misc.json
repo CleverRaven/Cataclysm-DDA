@@ -116,15 +116,12 @@
     "category": "clothing",
     "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "24 h", "regenerate_ammo": true } },
     "use_action": {
-      "target": "whiskey",
+      "target": "magic_whiskey",
       "msg": "You open the flask and discover it full of sweet, sweet, whiskey!",
       "container": "mflask_hip_whiskey",
       "target_charges": 7,
       "moves": 50,
-      "type": "delayed_transform",
-      "transform_age": 14400,
-      "not_ready_msg": "The flask isn't done refilling yet.",
-      "//": "24 hours"
+      "type": "transform"
     }
   },
   {
