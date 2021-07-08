@@ -97,9 +97,6 @@ static const skill_id skill_traps( "traps" );
 static const proficiency_id proficiency_prof_lockpicking( "prof_lockpicking" );
 static const proficiency_id proficiency_prof_lockpicking_expert( "prof_lockpicking_expert" );
 
-static const std::string flag_MAG_DESTROY( "MAG_DESTROY" );
-static const std::string flag_PERFECT_LOCKPICK( "PERFECT_LOCKPICK" );
-static const std::string flag_RELOAD_AND_SHOOT( "RELOAD_AND_SHOOT" );
 
 static const mtype_id mon_manhack( "mon_manhack" );
 static const mtype_id mon_zombie( "mon_zombie" );
