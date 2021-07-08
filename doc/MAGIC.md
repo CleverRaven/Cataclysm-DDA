@@ -491,6 +491,7 @@ Effects for the character that has the enchantment:
 * SIGHT_RANGE
 * CARRY_WEIGHT
 * CARRY_VOLUME
+* WEAPON_DISPERSION
 * SOCIAL_LIE
 * SOCIAL_PERSUADE
 * SOCIAL_INTIMIDATE

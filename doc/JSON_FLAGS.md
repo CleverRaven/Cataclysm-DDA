@@ -1529,3 +1529,5 @@ Gun fault flags:
 - ```DIMENSIONAL_ANCHOR``` You can't be teleported.
 - ```CLIMATE_CONTROL``` You are resistant to extreme temperatures.
 - ```HEATSINK``` You are resistant to extreme heat.
+- ```THERMOMETER``` You always know what temperature it is.
+

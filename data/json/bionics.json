@@ -1014,7 +1014,8 @@
     "name": { "str": "Weather Reader" },
     "description": "A multitude of scientific instruments and sensors collect environmental data.  The data is compiled and presented as a simple readout of the current weather.  It also passively tells you the local air temperature.",
     "occupied_bodyparts": [ [ "torso", 1 ], [ "head", 1 ] ],
-    "act_cost": "10 J"
+    "act_cost": "10 J",
+    "flags": [ "THERMOMETER" ]
   },
   {
     "id": "bio_nanobots",
@@ -1372,7 +1373,8 @@
     "name": { "str": "Targeting System" },
     "description": "Your eyes are surgically equipped with range finders, and their movement is synced with that of your arms, to a degree.  Shots you fire will be much more accurate, particularly at long range.",
     "occupied_bodyparts": [ [ "eyes", 1 ], [ "arm_l", 3 ], [ "arm_r", 3 ], [ "hand_l", 1 ], [ "hand_r", 1 ] ],
-    "flags": [ "BIONIC_NPC_USABLE" ]
+    "flags": [ "BIONIC_NPC_USABLE" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "WEAPON_DISPERSION", "multiply": -0.25 } ] } ]
   },
   {
     "id": "bio_teleport",
