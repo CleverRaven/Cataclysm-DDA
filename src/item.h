@@ -738,6 +738,10 @@ class item : public visitable
         /** True if every pocket is rigid or we have no pockets */
         bool all_pockets_rigid() const;
 
+        // gets all pockets contained in this item
+        ret_val<std::vector<const item_pocket *>> get_all_contained_pockets() const;
+        ret_val<std::vector<item_pocket *>> get_all_contained_pockets();
+
         /**
          * Updates the pockets of this item to be correct based on the mods that are installed.
          * Pockets which are modified that contain an item will be spilled
@@ -2278,6 +2282,13 @@ class item : public visitable
          * plus whole stacks of items that are
          */
         size_t num_item_stacks() const;
+        /**
+         * This function is to aid migration to using nested containers.
+         * The call sites of this function need to be updated to search the
+         * pockets of the item, or not assume there is only one pocket or item.
+         */
+        item &legacy_front();
+        const item &legacy_front() const;
 
     private:
         /** migrates an item into this item. */

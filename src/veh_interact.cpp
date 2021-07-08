@@ -1445,7 +1445,7 @@ void veh_interact::calc_overview()
                     std::string specials;
                     // vehicle parts can only have one pocket, and we are showing a liquid,
                     // which can only be one.
-                    const item &it = pt.base.contents.legacy_front();
+                    const item &it = pt.base.legacy_front();
                     // a space isn't actually needed in front of the tags here,
                     // but item::display_name tags use a space so this prevents
                     // needing *second* translation for the same thing with a
@@ -1908,7 +1908,7 @@ void veh_interact::do_siphon()
     auto act = [&]( const vehicle_part & pt ) {
         const item &base = pt.get_base();
         const int idx = veh->find_part( base );
-        item liquid( base.contents.legacy_front() );
+        item liquid( base.legacy_front() );
         const int liq_charges = liquid.charges;
         if( liquid_handler::handle_liquid( liquid, nullptr, 1, nullptr, veh, idx ) ) {
             veh->drain( idx, liq_charges - liquid.charges );
@@ -2933,7 +2933,7 @@ void act_vehicle_siphon( vehicle *veh )
     if( tank ) {
         const item &base = tank.get_base();
         const int idx = veh->find_part( base );
-        item liquid( base.contents.legacy_front() );
+        item liquid( base.legacy_front() );
         const int liq_charges = liquid.charges;
         if( liquid_handler::handle_liquid( liquid, nullptr, 1, nullptr, veh, idx ) ) {
             veh->drain( idx, liq_charges - liquid.charges );

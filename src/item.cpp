@@ -7210,6 +7210,16 @@ bool item::all_pockets_rigid() const
     return contents.all_pockets_rigid();
 }
 
+ret_val<std::vector<const item_pocket *>> item::get_all_contained_pockets() const
+{
+    return contents.get_all_contained_pockets();
+}
+
+ret_val<std::vector<item_pocket *>> item::get_all_contained_pockets()
+{
+    return contents.get_all_contained_pockets();
+}
+
 item_pocket *item::contained_where( const item &contained )
 {
     return contents.contained_where( contained );
@@ -11088,4 +11098,14 @@ bool item::empty() const
 size_t item::num_item_stacks() const
 {
     return contents.num_item_stacks();
+}
+
+item &item::legacy_front()
+{
+    return contents.legacy_front();
+}
+
+const item &item::legacy_front() const
+{
+    return contents.legacy_front();
 }

@@ -218,7 +218,7 @@ itype_id vehicle_part::ammo_current() const
     }
 
     if( is_tank() && !base.empty() ) {
-        return base.contents.legacy_front().typeId();
+        return base.legacy_front().typeId();
     }
 
     if( is_fuel_store( false ) || is_turret() ) {
@@ -244,7 +244,7 @@ int vehicle_part::ammo_capacity( const ammotype &ammo ) const
 int vehicle_part::ammo_remaining() const
 {
     if( is_tank() ) {
-        return base.empty() ? 0 : base.contents.legacy_front().charges;
+        return base.empty() ? 0 : base.legacy_front().charges;
     }
     if( is_fuel_store( false ) || is_turret() ) {
         return base.ammo_remaining();
@@ -305,7 +305,7 @@ int vehicle_part::ammo_consume( int qty, const tripoint &pos )
 {
     if( is_tank() && !base.empty() ) {
         const int res = std::min( ammo_remaining(), qty );
-        item &liquid = base.contents.legacy_front();
+        item &liquid = base.legacy_front();
         liquid.charges -= res;
         if( liquid.charges == 0 ) {
             base.clear_items();
@@ -321,7 +321,7 @@ double vehicle_part::consume_energy( const itype_id &ftype, double energy_j )
         return 0.0f;
     }
 
-    item &fuel = base.contents.legacy_front();
+    item &fuel = base.legacy_front();
     if( fuel.typeId() == ftype ) {
         cata_assert( fuel.is_fuel() );
         // convert energy density in MJ/L to J/ml

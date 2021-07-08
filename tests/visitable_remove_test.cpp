@@ -149,7 +149,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
         }
 
         WHEN( "one of the bottles is wielded" ) {
-            p.wield( p.worn.front().contents.legacy_front() );
+            p.wield( p.worn.front().legacy_front() );
             REQUIRE( p.weapon.typeId() == container_id );
             REQUIRE( count_items( p, container_id ) == count );
             REQUIRE( count_items( p, liquid_id ) == count );

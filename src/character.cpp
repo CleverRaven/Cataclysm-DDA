@@ -3138,7 +3138,7 @@ void Character::handle_contents_changed( const std::vector<item_location> &conta
         loc->on_contents_changed();
         const bool handle_drop = loc.where() != item_location::type::map && !is_wielding( *loc );
         bool drop_unhandled = false;
-        for( item_pocket *const pocket : loc->contents.get_all_contained_pockets().value() ) {
+        for( item_pocket *const pocket : loc->get_all_contained_pockets().value() ) {
             if( pocket && !pocket->sealed() ) {
                 // pockets are unsealed but on_contents_changed is not called
                 // in contents_change_handler::unseal_pocket_containing
@@ -10592,7 +10592,7 @@ units::volume Character::free_space() const
 {
     units::volume volume_capacity = 0_ml;
     volume_capacity += weapon.get_total_capacity();
-    for( const item_pocket *pocket : weapon.contents.get_all_contained_pockets().value() ) {
+    for( const item_pocket *pocket : weapon.get_all_contained_pockets().value() ) {
         if( pocket->contains_phase( phase_id::SOLID ) ) {
             for( const item *it : pocket->all_items_top() ) {
                 volume_capacity -= it->volume();
@@ -10604,7 +10604,7 @@ units::volume Character::free_space() const
     volume_capacity += weapon.check_for_free_space();
     for( const item &w : worn ) {
         volume_capacity += w.get_total_capacity();
-        for( const item_pocket *pocket : w.contents.get_all_contained_pockets().value() ) {
+        for( const item_pocket *pocket : w.get_all_contained_pockets().value() ) {
             if( pocket->contains_phase( phase_id::SOLID ) ) {
                 for( const item *it : pocket->all_items_top() ) {
                     volume_capacity -= it->volume();

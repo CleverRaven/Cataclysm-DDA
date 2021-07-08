@@ -1794,7 +1794,7 @@ bool advanced_inventory::move_content( item &src_container, item &dest_container
         return false;
     }
 
-    item &src_contents = src_container.contents.legacy_front();
+    item &src_contents = src_container.legacy_front();
 
     if( !src_contents.made_of( phase_id::LIQUID ) ) {
         popup( _( "You can unload only liquids into target container." ) );
@@ -1814,7 +1814,7 @@ bool advanced_inventory::move_content( item &src_container, item &dest_container
     src_container.on_contents_changed();
     get_avatar().flag_encumbrance();
 
-    uistate.adv_inv_container_content_type = dest_container.contents.legacy_front().typeId();
+    uistate.adv_inv_container_content_type = dest_container.legacy_front().typeId();
     if( src_contents.charges <= 0 ) {
         src_container.clear_items();
     }

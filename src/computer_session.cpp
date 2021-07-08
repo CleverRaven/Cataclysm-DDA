@@ -833,10 +833,10 @@ void computer_session::action_blood_anal()
                 print_error( _( "ERROR: Please remove all but one sample from centrifuge." ) );
             } else if( items.only_item().empty() ) {
                 print_error( _( "ERROR: Please only use container with blood sample." ) );
-            } else if( items.only_item().contents.legacy_front().typeId() != itype_blood ) {
+            } else if( items.only_item().legacy_front().typeId() != itype_blood ) {
                 print_error( _( "ERROR: Please only use blood samples." ) );
             } else { // Success!
-                const item &blood = items.only_item().contents.legacy_front();
+                const item &blood = items.only_item().legacy_front();
                 const mtype *mt = blood.get_mtype();
                 if( mt == nullptr || mt->id == mtype_id::NULL_ID() ) {
                     print_line( _( "Result: Human blood, no pathogens found." ) );
@@ -1514,7 +1514,7 @@ void computer_session::failure_destroy_blood()
                 print_error( _( "ERROR: Please use blood-contained samples." ) );
             } else if( items.only_item().empty() ) {
                 print_error( _( "ERROR: Blood draw kit, empty." ) );
-            } else if( items.only_item().contents.legacy_front().typeId() != itype_blood ) {
+            } else if( items.only_item().legacy_front().typeId() != itype_blood ) {
                 print_error( _( "ERROR: Please only use blood samples." ) );
             } else {
                 print_error( _( "ERROR: Blood sample destroyed." ) );

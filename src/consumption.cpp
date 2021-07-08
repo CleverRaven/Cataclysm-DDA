@@ -359,7 +359,7 @@ std::pair<nutrients, nutrients> Character::compute_nutrient_range(
 
         item result_it = rec->create_result();
         if( result_it.num_item_stacks() == 1 ) {
-            const item alt_result = result_it.contents.legacy_front();
+            const item alt_result = result_it.legacy_front();
             if( alt_result.typeId() == comest_it.typeId() ) {
                 result_it = alt_result;
             }

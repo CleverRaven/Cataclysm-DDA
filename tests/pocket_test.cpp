@@ -933,7 +933,7 @@ TEST_CASE( "sealed containers", "[pocket][seal]" )
         item can( "test_can_drink" );
 
         // Ensure it has exactly one contained pocket, and get that pocket for testing
-        ret_val<std::vector<item_pocket *>> can_pockets = can.contents.get_all_contained_pockets();
+        ret_val<std::vector<item_pocket *>> can_pockets = can.get_all_contained_pockets();
         REQUIRE( can_pockets.success() );
         REQUIRE( can_pockets.value().size() == 1 );
         item_pocket &pocket = *can_pockets.value().front();
@@ -983,7 +983,7 @@ TEST_CASE( "sealed containers", "[pocket][seal]" )
         item jug( "test_jug_plastic" );
 
         // Ensure it has exactly one contained pocket, and get that pocket for testing
-        ret_val<std::vector<item_pocket *>> jug_pockets = jug.contents.get_all_contained_pockets();
+        ret_val<std::vector<item_pocket *>> jug_pockets = jug.get_all_contained_pockets();
         REQUIRE( jug_pockets.success() );
         REQUIRE( jug_pockets.value().size() == 1 );
         item_pocket &pocket = *jug_pockets.value().front();
@@ -1077,7 +1077,7 @@ static bool has_best_pocket( item &container, const item &thing )
 /** Returns the only pocket for an item. */
 static item_pocket *get_only_pocket( item &container )
 {
-    ret_val<std::vector<item_pocket *>> pockets = container.contents.get_all_contained_pockets();
+    ret_val<std::vector<item_pocket *>> pockets = container.get_all_contained_pockets();
     REQUIRE( pockets.value().size() == 1 );
     return pockets.value()[0];
 }
