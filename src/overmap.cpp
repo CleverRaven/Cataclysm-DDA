@@ -1091,15 +1091,7 @@ void overmap::populate()
 
 oter_id overmap::get_default_terrain( int z ) const
 {
-    if( z == 0 ) {
-        return settings.default_oter.id();
-    } else {
-        // // TODO: Get rid of the hard-coded ids.
-        static const oter_str_id open_air( "open_air" );
-        static const oter_str_id empty_rock( "empty_rock" );
-
-        return z > 0 ? open_air.id() : empty_rock.id();
-    }
+    return settings.default_oter[OVERMAP_DEPTH + z].id();
 }
 
 void overmap::init_layers()
@@ -1499,9 +1491,9 @@ bool overmap::generate_sub( const int z )
     std::vector<point_om_omt> central_lab_train_points;
     std::vector<city> mine_points;
     // These are so common that it's worth checking first as int.
-    const oter_id skip_above[5] = {
+    const oter_id skip_above[6] = {
         oter_id( "empty_rock" ), oter_id( "forest" ), oter_id( "field" ),
-        oter_id( "forest_thick" ), oter_id( "forest_water" )
+        oter_id( "forest_thick" ), oter_id( "forest_water" ), oter_id( "solid_earth" )
     };
 
     for( int i = 0; i < OMAPX; i++ ) {
@@ -1544,7 +1536,7 @@ bool overmap::generate_sub( const int z )
             } else if( oter_above == "anthill" || oter_above == "acid_anthill" ) {
                 const int size = rng( MIN_ANT_SIZE, MAX_ANT_SIZE );
                 ant_points.emplace_back( p.xy(), size );
-            } else if( oter_above == "slimepit_down" ) {
+            } else if( oter_above == "slimepit_down" || oter_above == "slimepit_bottom" ) {
                 const int size = rng( MIN_GOO_SIZE, MAX_GOO_SIZE );
                 goo_points.emplace_back( p.xy(), size );
             } else if( oter_above == "forest_water" ) {
@@ -1638,11 +1630,18 @@ bool overmap::generate_sub( const int z )
                         // mark tile to prevent subway gen
                         ter_set( nearby_loc, oter_id( "open_air" ) );
                     }
+                    if( is_ot_match( "solid_earth", ter( nearby_loc ), ot_match_type::contains ) ) {
+                        // mark tile to prevent subway gen
+                        ter_set( nearby_loc, oter_id( "field" ) );
+                    }
                 }
             } else {
                 // change train connection point back to rock to allow gen
                 if( is_ot_match( "open_air", ter( i ), ot_match_type::contains ) ) {
                     ter_set( i, oter_id( "empty_rock" ) );
+                }
+                if( is_ot_match( "field", ter( i ), ot_match_type::contains ) ) {
+                    ter_set( i, oter_id( "solid_earth" ) );
                 }
                 real_train_points.push_back( i.xy() );
             }
@@ -1695,6 +1694,10 @@ bool overmap::generate_sub( const int z )
                                             ot_match_type::contains ) ) {
                         // clear marked
                         ter_set( subway_loc, oter_id( "empty_rock" ) );
+                    } else if( is_ot_match( "field", ter( subway_loc ),
+                                            ot_match_type::contains ) ) {
+                        // clear marked
+                        ter_set( subway_loc, oter_id( "solid_earth" ) );
                     }
                 }
             }
@@ -1725,7 +1728,7 @@ bool overmap::generate_sub( const int z )
 
     for( auto &i : ant_points ) {
         const tripoint_om_omt p_loc( i.pos, z );
-        if( ter( p_loc ) != "empty_rock" ) {
+        if( ter( p_loc ) != "empty_rock" && ter( p_loc ) != "solid_earth" ) {
             continue;
         }
         mongroup_id ant_group( ter( p_loc + tripoint_above ) == "anthill" ?
@@ -1747,7 +1750,7 @@ bool overmap::generate_over( const int z )
     // These are so common that it's worth checking first as int.
     const std::set<oter_id> skip_below = {
         oter_id( "empty_rock" ), oter_id( "forest" ), oter_id( "field" ),
-        oter_id( "forest_thick" ), oter_id( "forest_water" )
+        oter_id( "forest_thick" ), oter_id( "forest_water" ), oter_id( "solid_earth" )
     };
 
     if( z == 1 ) {
@@ -2337,7 +2340,7 @@ void overmap::place_forest_trailheads()
 
 void overmap::place_forests()
 {
-    const oter_id default_oter_id( settings.default_oter );
+    const oter_id default_oter_id( settings.default_oter[OVERMAP_DEPTH] );
     const oter_id forest( "forest" );
     const oter_id forest_thick( "forest_thick" );
 
@@ -2948,7 +2951,7 @@ void overmap::place_cities()
         point_om_omt c( rng( size - 1, OMAPX - size ), rng( size - 1, OMAPY - size ) );
         const tripoint_om_omt p( c, 0 );
 
-        if( ter( p ) == settings.default_oter ) {
+        if( ter( p ) == settings.default_oter[OVERMAP_DEPTH] ) {
             placement_attempts = 0;
             ter_set( p, oter_id( "road_nesw" ) ); // every city starts with an intersection
             city tmp;
@@ -3316,7 +3319,8 @@ void overmap::build_tunnel( const tripoint_om_omt &p, int s, om_direction::type 
         if( check_ot( "ants", ot_match_type::type, p ) ) {
             return;
         }
-        if( !is_ot_match( "empty_rock", ter( p ), ot_match_type::type ) ) {
+        if( !is_ot_match( "empty_rock", ter( p ), ot_match_type::type ) &&
+            !is_ot_match( "solid_earth", ter( p ), ot_match_type::type ) ) {
             return;
         }
     }
@@ -3327,8 +3331,9 @@ void overmap::build_tunnel( const tripoint_om_omt &p, int s, om_direction::type 
     valid.reserve( om_direction::size );
     for( om_direction::type r : om_direction::all ) {
         const tripoint_om_omt cand = p + om_direction::displace( r );
-        if( !check_ot( "ants", ot_match_type::type, cand ) &&
-            is_ot_match( "empty_rock", ter( cand ), ot_match_type::type ) ) {
+        if( !check_ot( "ants", ot_match_type::type, cand ) && (
+                is_ot_match( "empty_rock", ter( cand ), ot_match_type::type ) ||
+                is_ot_match( "solid_earth", ter( cand ), ot_match_type::type ) ) ) {
             valid.push_back( r );
         }
     }

@@ -6884,6 +6884,8 @@ void map::loadn( const tripoint &grid, const bool update_vehicles, bool _actuali
     // Cache empty overmap types
     static const oter_str_id rock( "empty_rock" );
     static const oter_str_id air( "open_air" );
+    static const oter_str_id earth( "solid_earth" );
+    static const ter_str_id t_soil( "t_soil" );
 
     dbg( D_INFO ) << "map::loadn(game[" << g.get() << "], worldx[" << abs_sub.x
                   << "], worldy[" << abs_sub.y << "], grid " << grid << ")";
@@ -6915,6 +6917,8 @@ void map::loadn( const tripoint &grid, const bool update_vehicles, bool _actuali
             generate_uniform( grid_abs_sub_rounded, t_open_air );
         } else if( terrain_type == rock ) {
             generate_uniform( grid_abs_sub_rounded, t_rock );
+        } else if( terrain_type == earth ) {
+            generate_uniform( grid_abs_sub_rounded, t_soil );
         } else {
             tinymap tmp_map;
             tmp_map.generate( grid_abs_sub_rounded, calendar::turn );

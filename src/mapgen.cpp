@@ -4622,6 +4622,9 @@ void map::draw_slimepit( const mapgendata &dat )
                 case 4:
                     ter_set( point( SEEX * 2 - rng( 1, 3 ), SEEY * 2 - rng( 1, 3 ) ), t_slope_up );
             }
+        } else if( dat.above() == "slimepit_bottom" ) {
+            // Align the stairs
+            ter_set( point( 7, 9 ), t_slope_up );
         }
         place_spawns( GROUP_SLIME, 1, point( SEEX, SEEY ), point( SEEX, SEEY ), 0.15 );
         place_items( item_group_id( "sewer" ), 40, point_zero, point( EAST_EDGE, SOUTH_EDGE ), true,
@@ -4745,7 +4748,7 @@ void map::draw_connections( const mapgendata &dat )
     } else if( is_ot_match( "ants", terrain_type, ot_match_type::type ) ) {
         if( dat.above() == "anthill" ) {
             if( const auto p = random_point( *this, [this]( const tripoint & n ) {
-            return ter( n ) == t_rock_floor;
+            return ter( n ) == t_dirt;
             } ) ) {
                 ter_set( *p, t_slope_up );
             }
