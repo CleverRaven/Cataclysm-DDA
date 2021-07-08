@@ -244,7 +244,7 @@
   {
     "type": "terrain",
     "id": "t_earth_ramp_up_low",
-    "name": "road ramp up (low end)",
+    "name": "earth ramp up (low end)",
     "description": "The lower end of an earth ramp leading up.",
     "symbol": "<",
     "color": "brown",
