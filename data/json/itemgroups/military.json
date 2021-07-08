@@ -20,7 +20,10 @@
     "type": "item_group",
     "id": "military_standard_shotguns",
     "subtype": "distribution",
-    "entries": [ { "item": "m1014", "prob": 60, "charges": [ 0, 8 ] }, { "item": "mossberg_590", "prob": 40, "charges": [ 0, 9 ] } ]
+    "entries": [
+      { "item": "mossberg_930", "variant": "m1014", "prob": 60, "charges": [ 0, 8 ] },
+      { "item": "mossberg_590", "prob": 40, "charges": [ 0, 9 ] }
+    ]
   },
   {
     "type": "item_group",
@@ -190,7 +193,7 @@
       { "item": "p226_9mm", "prob": 1 },
       { "item": "sp2022", "prob": 1 },
       { "item": "nato_assault_rifle", "variant": "h&k416a5", "prob": 7 },
-      { "item": "m1014", "prob": 2 },
+      { "item": "mossberg_930", "variant": "m1014", "prob": 2 },
       { "item": "nato_assault_rifle", "variant": "scar_l", "prob": 6 },
       { "item": "scar_h", "prob": 5 },
       { "item": "sig_mcx_rattler_sbr", "prob": 1 },

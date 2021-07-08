@@ -1409,7 +1409,7 @@
       { "item": "3006", "prob": 5, "charges": [ 1, 20 ] },
       { "item": "ksg", "prob": 8, "charges": [ 0, 7 ] },
       { "item": "remington_870_express", "prob": 8, "charges": [ 0, 7 ] },
-      { "item": "mossberg_500_security", "prob": 8, "charges": [ 0, 6 ] },
+      { "item": "mossberg_500", "variant": "mossberg_500_security", "prob": 8, "charges": [ 0, 6 ] },
       { "item": "shot_beanbag", "prob": 25, "charges": [ 1, 10 ] },
       { "item": "rm120c", "prob": 2, "charges": [ 0, 5 ] },
       { "item": "rm20", "prob": 1, "charges": [ 0, 20 ] },

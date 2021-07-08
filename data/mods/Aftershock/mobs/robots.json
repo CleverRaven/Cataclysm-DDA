@@ -456,7 +456,7 @@
         "type": "gun",
         "move_cost": 150,
         "cooldown": 2,
-        "gun_type": "m1014",
+        "gun_type": "mossberg_930",
         "ammo_type": "shot",
         "fake_skills": [ [ "gun", 2 ], [ "shotgun", 2 ] ],
         "fake_dex": 9,
