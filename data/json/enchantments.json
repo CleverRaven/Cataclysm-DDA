@@ -11,17 +11,5 @@
     "condition": "ACTIVE",
     "ench_effects": [ { "effect": "invisibility", "intensity": 1 } ],
     "emitter": "emit_shadow_field"
-  },
-  {
-    "type": "enchantment",
-    "id": "ENCH_BIO_FLASHLIGHT",
-    "condition": "ACTIVE",
-    "values": [ { "value": "LUMINATION", "add": 60 } ]
-  },
-  {
-    "type": "enchantment",
-    "id": "ENCH_BIO_LED_TATTOO",
-    "condition": "ACTIVE",
-    "values": [ { "value": "LUMINATION", "add": 5 } ]
   }
 ]
