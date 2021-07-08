@@ -929,21 +929,11 @@ void conditional_t<T>::set_has_power( const JsonObject &jo, const std::string &m
     };
 }
 
+template<class T>
 void conditional_t<T>::set_can_see( bool is_npc )
 {
     condition = [is_npc]( const T & d ) {
         return d.actor( is_npc )->can_see();
-    };
-}
-
-template<class T>
-void conditional_t<T>::set_has_power( const JsonObject &jo, const std::string &member,
-                                      bool is_npc )
-{
-    units::energy min_power;
-    assign( jo, member, min_power, false, 0_kJ );
-    condition = [min_power, is_npc]( const T & d ) {
-        return d.actor( is_npc )->power_cur() >= min_power;
     };
 }
 
