@@ -249,6 +249,18 @@
     "entries": [ { "item": "tshirt" } ]
   },
   {
+    "id": "clothing_military_headwear",
+    "type": "item_group",
+    "subtype": "distribution",
+    "//": "add in field caps when they are added to the game.",
+    "items": [
+      { "item": "beret", "prob": 60 },
+      { "item": "hat_boonie", "prob": 38 },
+      { "item": "turban", "prob": 1 },
+      { "item": "headscarf", "prob": 1 }
+    ]
+  },
+  {
     "id": "clothing_outdoor_pants",
     "type": "item_group",
     "//": "Standard (non-winter) pants suitable for wearing outdoors.",
@@ -544,7 +556,7 @@
     "id": "boxing_clothes",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [
+    "items": [
       { "item": "tank_top", "prob": 40 },
       { "item": "shorts", "prob": 40 },
       { "item": "boxing_gloves", "prob": 50 },
