@@ -71,6 +71,16 @@
     "obsolete": true
   },
   {
+    "result": "aep_suit",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "anbc_suit",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
     "type": "recipe",
     "result": "survival_kit",
     "obsolete": true
