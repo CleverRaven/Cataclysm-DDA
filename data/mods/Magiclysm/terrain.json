@@ -143,6 +143,7 @@
     "color": "cyan",
     "move_cost": 2,
     "roof": "t_flat_roof",
+    "looks_like": "t_strconc_floor",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD" ],
     "bash": {
       "sound": "SMASH!",
