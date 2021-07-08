@@ -13,14 +13,7 @@
         "t_region_groundcover_barren": { "t_dirt": 30, "t_grass_dead": 2, "t_railroad_rubble": 1 },
         "t_region_grass": { "t_grass": 1 },
         "t_region_soil": { "t_dirt": 1 },
-        "t_region_shrub": {
-          "t_underbrush": 30,
-          "t_shrub": 15,
-          "t_shrub_rose": 15,
-          "t_fern": 2,
-          "t_shrub_blueberry": 3,
-          "t_shrub_strawberry": 1
-        },
+        "t_region_shrub": { "t_underbrush": 30, "t_shrub": 15, "t_shrub_rose": 15, "t_fern": 2, "t_shrub_blueberry": 3, "t_shrub_strawberry": 1 },
         "t_region_shrub_fruit": {
           "t_shrub_blueberry": 6,
           "t_shrub_strawberry": 6,
@@ -74,12 +67,7 @@
           "t_tree_elderberry": 1,
           "t_tree_dead": 4
         },
-        "t_region_tree_nut": {
-          "t_tree_young": 4,
-          "t_tree_beech": 16,
-          "t_tree_walnut": 3,
-          "t_tree_dead": 4
-        },
+        "t_region_tree_nut": { "t_tree_young": 4, "t_tree_beech": 16, "t_tree_walnut": 3, "t_tree_dead": 4 },
         "t_region_tree_evergreen": { "t_tree_pine": 64, "t_tree_juniper": 16, "t_tree_deadpine": 2 }
       },
       "furniture": {
@@ -101,14 +89,7 @@
           "f_chicory": 1,
           "f_sunflower": 1
         },
-        "f_region_weed": {
-          "f_dandelion": 6,
-          "f_chamomile": 4,
-          "f_burdock": 1,
-          "f_lily": 1,
-          "f_flower_tulip": 1,
-          "f_mustard": 1
-        },
+        "f_region_weed": { "f_dandelion": 6, "f_chamomile": 4, "f_burdock": 1, "f_lily": 1, "f_flower_tulip": 1, "f_mustard": 1 },
         "f_region_water_plant": { "f_cattails": 15, "f_lilypad": 1, "f_lotus": 5 }
       }
     },
@@ -147,7 +128,7 @@
         "t_tree_elderberry": 0.02,
         "t_tree_deadpine": 2.14,
         "t_tree_dead": 3.05,
-		"t_shrub": 10,
+        "t_shrub": 10,
         "t_shrub_blueberry": 8.0,
         "t_shrub_strawberry": 6.5,
         "t_shrub_blackberry": 5.0,
@@ -434,10 +415,7 @@
           "mx_corpses": 80
         }
       },
-      "subway": {
-        "chance": 75,
-        "extras": { "mx_military": 1, "mx_science": 12, "mx_collegekids": 15, "mx_casings": 30 }
-      },
+      "subway": { "chance": 75, "extras": { "mx_military": 1, "mx_science": 12, "mx_collegekids": 15, "mx_casings": 30 } },
       "research_facility_lot": {
         "chance": 3,
         "extras": {
@@ -449,15 +427,7 @@
           "mx_casings": 30
         }
       },
-      "research_facility_interior": {
-        "chance": 2,
-        "extras": {
-          "mx_military": 5,
-          "mx_crater": 300,
-          "mx_point_burned_ground": 125,
-          "mx_casings": 30
-        }
-      },
+      "research_facility_interior": { "chance": 2, "extras": { "mx_military": 5, "mx_crater": 300, "mx_point_burned_ground": 125, "mx_casings": 30 } },
       "river": { "chance": 3, "extras": { "mx_reed": 100 } },
       "lake_shore": { "chance": 2, "extras": { "mx_reed": 100 } },
       "sewer": {
