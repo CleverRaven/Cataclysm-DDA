@@ -281,7 +281,6 @@ static const bionic_id bio_gills( "bio_gills" );
 static const bionic_id bio_ground_sonar( "bio_ground_sonar" );
 static const bionic_id bio_hydraulics( "bio_hydraulics" );
 static const bionic_id bio_memory( "bio_memory" );
-static const bionic_id bio_lighter( "bio_lighter" );
 static const bionic_id bio_railgun( "bio_railgun" );
 static const bionic_id bio_shock_absorber( "bio_shock_absorber" );
 static const bionic_id bio_ups( "bio_ups" );
