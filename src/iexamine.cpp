@@ -1308,7 +1308,6 @@ void iexamine::portable_structure( player &p, const tripoint &examp )
             name = string_format( _( "damaged %s" ), name );
         }
         radius = actor.radius;
-
     } else {
         radius = std::max( 1, fid->bash.collapse_radius );
     }
@@ -1318,12 +1317,9 @@ void iexamine::portable_structure( player &p, const tripoint &examp )
         return;
     }
 
-    p.moves -= to_moves<int>( 2_seconds );
-    for( const tripoint &pt : here.points_in_radius( examp, radius ) ) {
-        here.furn_set( pt, f_null );
-    }
-
-    here.add_item_or_charges( examp, item( dropped, calendar::turn ) );
+    player_activity new_act = player_activity( tent_deconstruct_activity_actor( to_moves<int>
+                              ( 20_minutes ), radius, examp, dropped ) );
+    p.assign_activity( new_act, false );
 }
 
 /**

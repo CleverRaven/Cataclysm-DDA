@@ -2852,6 +2852,110 @@ std::unique_ptr<activity_actor> disassemble_activity_actor::deserialize( JsonIn 
     return actor.clone();
 }
 
+void tent_placement_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = moves_total;
+    act.moves_left = moves_total;
+}
+
+void tent_placement_activity_actor::finish( player_activity &act, Character &p )
+{
+    map &here = get_map();
+    const tripoint center = p.pos() + tripoint( ( radius + 1 ) * target.x, ( radius + 1 ) * target.y,
+                            0 );
+
+    // Make a square of floor surrounded by wall.
+    for( const tripoint &dest : here.points_in_radius( center, radius ) ) {
+        here.furn_set( dest, wall );
+    }
+    for( const tripoint &dest : here.points_in_radius( center, radius - 1 ) ) {
+        here.furn_set( dest, floor );
+    }
+    // Place the center floor and the door.
+    if( floor_center ) {
+        here.furn_set( center, *floor_center );
+    }
+    here.furn_set( p.pos() + target, door_closed );
+
+    add_msg( m_info, _( "You set up the %s on the ground." ), it.tname() );
+    add_msg( m_info, _( "Examine the center square to pack it up again." ) );
+    act.set_to_null();
+}
+
+void tent_placement_activity_actor::canceled( player_activity &, Character &p )
+{
+    map &here = get_map();
+    here.add_item_or_charges( p.pos() + target, it, true );
+}
+
+void tent_placement_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "moves_total", moves_total );
+    jsout.member( "wall", wall );
+    jsout.member( "floor", floor );
+    jsout.member( "floor_center", floor_center );
+    jsout.member( "door_closed", door_closed );
+    jsout.member( "radius", radius );
+    jsout.member( "it", it );
+    jsout.member( "target", target );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> tent_placement_activity_actor::deserialize( JsonIn &jsin )
+{
+    item it;
+    tent_placement_activity_actor actor( 0, {}, 0, it, {}, {}, {}, {} );
+    JsonObject data = jsin.get_object();
+    data.read( "moves_total", actor.moves_total );
+    data.read( "wall", actor.wall );
+    data.read( "floor", actor.floor );
+    data.read( "floor_center", actor.floor_center );
+    data.read( "door_closed", actor.door_closed );
+    data.read( "radius", actor.radius );
+    data.read( "it", actor.it );
+    data.read( "target", actor.target );
+    return actor.clone();
+}
+
+void tent_deconstruct_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = moves_total;
+    act.moves_left = moves_total;
+}
+
+void tent_deconstruct_activity_actor::finish( player_activity &act, Character & )
+{
+    map &here = get_map();
+    for( const tripoint &pt : here.points_in_radius( target, radius ) ) {
+        here.furn_set( pt, f_null );
+    }
+    here.add_item_or_charges( target, item( tent, calendar::turn ) );
+    act.set_to_null();
+}
+
+void tent_deconstruct_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "moves_total", moves_total );
+    jsout.member( "radius", radius );
+    jsout.member( "target", target );
+    jsout.member( "tent", tent );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> tent_deconstruct_activity_actor::deserialize( JsonIn &jsin )
+{
+    tent_deconstruct_activity_actor actor( 0, 0, {}, {} );
+    JsonObject data = jsin.get_object();
+    data.read( "moves_total", actor.moves_total );
+    data.read( "radius", actor.radius );
+    data.read( "target", actor.target );
+    data.read( "tent", actor.tent );
+
+    return actor.clone();
+}
+
 void meditate_activity_actor::start( player_activity &act, Character & )
 {
     act.moves_total = to_moves<int>( 20_minutes );
@@ -2905,7 +3009,6 @@ std::unique_ptr<activity_actor> play_with_pet_activity_actor::deserialize( JsonI
     JsonObject data = jsin.get_object();
 
     data.read( "pet_name", actor.pet_name );
-
     return actor.clone();
 }
 
@@ -2987,6 +3090,8 @@ deserialize_functions = {
     { activity_id( "ACT_RELOAD" ), &reload_activity_actor::deserialize },
     { activity_id( "ACT_SHAVE" ), &shave_activity_actor::deserialize },
     { activity_id( "ACT_STASH" ), &stash_activity_actor::deserialize },
+    { activity_id( "ACT_TENT_DECONSTRUCT" ), &tent_deconstruct_activity_actor::deserialize },
+    { activity_id( "ACT_TENT_PLACE" ), &tent_placement_activity_actor::deserialize },
     { activity_id( "ACT_TRY_SLEEP" ), &try_sleep_activity_actor::deserialize },
     { activity_id( "ACT_UNLOAD" ), &unload_activity_actor::deserialize },
     { activity_id( "ACT_WORKOUT_HARD" ), &workout_activity_actor::deserialize },
