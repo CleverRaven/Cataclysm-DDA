@@ -31,7 +31,11 @@ class Creature;
 class JsonIn;
 class JsonOut;
 class avatar;
+class npc;
+class SkillLevel;
 class player_activity;
+
+struct islot_book;
 
 class aim_activity_actor : public activity_actor
 {
@@ -390,6 +394,58 @@ class bikerack_unracking_activity_actor : public activity_actor
 
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+};
+
+class read_activity_actor : public activity_actor
+{
+    public:
+        enum class book_type : int { normal, martial_art };
+
+        read_activity_actor() = default;
+
+        read_activity_actor( int moves, item_location &book, bool continuous = false, int learner_id = -1 )
+            : moves_total( moves ), book( book ),
+              continuous( continuous ), learner_id( learner_id ) {};
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_READ" );
+        }
+
+        static void read_book( Character &learner, const cata::value_ptr<islot_book> &islotbook,
+                               SkillLevel &skill_level, double penalty );
+
+        void start( player_activity &act, Character &who ) override;
+        void do_turn( player_activity &act, Character &who ) override;
+        void finish( player_activity &act, Character &who ) override;
+
+        std::string get_progress_message( const player_activity & ) const override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<read_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+
+    private:
+        int moves_total;
+        item_location book;
+        cata::optional<book_type> bktype;
+
+        // Read until the learner with this ID gets a level
+        bool continuous;
+        int learner_id;
+
+        // Will return true if activity must be set to null
+        bool player_read( avatar &you );
+        bool player_readma( avatar &you );  // Martial arts book
+        bool npc_read( npc &learner );
+
+        // TODO: RESUMABLE
+        // virtual bool can_resume_with_internal( const activity_actor &,
+        //                                        const Character & ) const {
+        //     return false;
+        // }
 };
 
 class move_items_activity_actor : public activity_actor
