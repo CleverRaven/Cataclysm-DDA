@@ -582,7 +582,7 @@ class TileEntry:
                     if not skipping_filler:
                         print(
                             f'Error: {full_id} encountered more than once, '
-                            f'the second time in {self.filepath}')
+                            f'last time in {self.filepath}')
                         self.tilesheet.tileset.error_logged = True
             if skipping_filler:
                 return None
