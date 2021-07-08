@@ -183,9 +183,8 @@
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "GRABS", "KEENNOSE", "WARM", "HIT_AND_RUN" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
     "harvest": "bird_large",
-    "anger_triggers": [ "PLAYER_WEAK", "HURT" ],
-    "fear_triggers": [ "SOUND", "FIRE" ],
-    "placate_triggers": [ "MEAT" ],
+    "anger_triggers": [ "PLAYER_WEAK", "HURT", "FRIEND_ATTACKED", "PLAYER_CLOSE" ],
+    "fear_triggers": [ "FIRE", "FRIEND_DIED" ],
     "categories": [ "WILDLIFE" ]
   }
 ]
