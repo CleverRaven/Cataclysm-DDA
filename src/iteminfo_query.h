@@ -2,9 +2,9 @@
 #ifndef CATA_SRC_ITEMINFO_QUERY_H
 #define CATA_SRC_ITEMINFO_QUERY_H
 
-#include <cstddef>
 #include <bitset>
-#include <string>
+#include <cstddef>
+#include <iosfwd>
 #include <vector>
 
 enum class iteminfo_parts : size_t {
@@ -33,6 +33,7 @@ enum class iteminfo_parts : size_t {
     MED_CONSUME_TIME,
 
     FOOD_NUTRITION,
+    FOOD_SATIATION,
     FOOD_QUENCH,
     FOOD_JOY,
     FOOD_PORTIONS,
@@ -59,6 +60,7 @@ enum class iteminfo_parts : size_t {
     AMMO_DAMAGE_DISPERSION,
     AMMO_DAMAGE_RECOIL,
     AMMO_FX_RECYCLED,
+    AMMO_FX_RECOVER,
     AMMO_FX_BLACKPOWDER,
     AMMO_FX_CANTMISSFIRE,
     AMMO_FX_INCENDIARY,
@@ -72,6 +74,7 @@ enum class iteminfo_parts : size_t {
 
     AMMO_REMAINING,
     AMMO_UPSCOST,
+    AMMO_TO_FIRE,
 
     GUN_DEFAULT_AMMO,
     GUN_MAX_RANGE,
@@ -254,9 +257,9 @@ class iteminfo_query : public iteminfo_query_base
             not be any issue.
          */
         iteminfo_query();
-        iteminfo_query( const iteminfo_query_base &values );
-        iteminfo_query( const std::string &bits );
-        iteminfo_query( const std::vector<iteminfo_parts> &setBits );
+        explicit iteminfo_query( const iteminfo_query_base &values );
+        explicit iteminfo_query( const std::string &bits );
+        explicit iteminfo_query( const std::vector<iteminfo_parts> &setBits );
 
         bool test( const iteminfo_parts &value ) const;
 

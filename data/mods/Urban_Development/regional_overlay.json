@@ -4,13 +4,6 @@
     "regions": [ "all" ],
     "city": {
       "houses": {
-        "urban_10_house_brick_pool": 30,
-        "urban_11_house_brick": 30,
-        "urban_12_house": 30,
-        "urban_15_house": 30,
-        "urban_16_house_ranch": 30,
-        "urban_17_house_ranch": 30,
-        "urban_18_victorian": 30,
         "urban_19_victorian": 30,
         "urban_20_duplex": 30,
         "urban_21_house": 30,
@@ -20,7 +13,6 @@
       "shops": {
         "urban_23_dense_office_theater": 100,
         "urban_24_dense_bank_house": 200,
-        "urban_25_dense_diner_apt": 200,
         "urban_26_dense_club": 200,
         "urban_27_dense_barber_apt": 100,
         "urban_28_dense_cafe_laundry": 200,

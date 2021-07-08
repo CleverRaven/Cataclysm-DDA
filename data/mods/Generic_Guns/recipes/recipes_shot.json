@@ -2,6 +2,7 @@
   {
     "result": "reloaded_shot_buck",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_SHOT",
     "skill_used": "fabrication",
@@ -13,12 +14,14 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "shot_forming", 1 ], [ "ammo_bullet", 10 ], [ "req_shot", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "tools": [ [ [ "press", -1 ] ] ],
     "components": [ [ [ "gunpowder", 6 ], [ "gunpowder_pistol", 6 ], [ "gunpowder_shotgun", 6 ] ] ]
   },
   {
     "result": "bp_shot_buck",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_SHOT",
     "skill_used": "fabrication",
@@ -30,6 +33,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "shot_forming", 1 ], [ "ammo_bullet", 10 ], [ "req_shot", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "tools": [ [ [ "press", -1 ] ] ],
     "components": [ [ [ "chem_black_powder", 6 ] ] ]
   },
@@ -37,6 +41,7 @@
     "result": "bp_shot_buck",
     "id_suffix": "with_dowel",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_SHOT",
     "skill_used": "fabrication",
@@ -48,11 +53,13 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "shot_forming", 1 ], [ "ammo_bullet", 10 ], [ "req_shot", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "tools": [ [ [ "press_dowel", -1 ] ] ]
   },
   {
     "result": "reloaded_shot_fowl",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_SHOT",
     "skill_used": "fabrication",
@@ -65,11 +72,13 @@
     "tools": [ [ [ "press", -1 ] ] ],
     "book_learn": [ [ "recipe_bullets", 1 ], [ "manual_shotgun", 1 ] ],
     "using": [ [ "shot_forming", 1 ], [ "ammo_bullet", 10 ], [ "req_shot", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [ [ [ "gunpowder", 3 ], [ "gunpowder_pistol", 3 ], [ "gunpowder_shotgun", 3 ] ] ]
   },
   {
     "result": "bp_shot_fowl",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_SHOT",
     "skill_used": "fabrication",
@@ -80,12 +89,14 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "shot_forming", 1 ], [ "ammo_bullet", 10 ], [ "req_shot", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [ [ [ "chem_black_powder", 3 ] ] ]
   },
   {
     "result": "bp_shot_fowl",
     "id_suffix": "with_dowel",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_SHOT",
     "skill_used": "fabrication",
@@ -97,11 +108,13 @@
     "reversible": true,
     "book_learn": [ [ "survival_book", 1 ], [ "mag_survival", 1 ] ],
     "tools": [ [ [ "press_dowel", -1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [ [ [ "chem_black_powder", 3 ] ] ]
   },
   {
     "result": "reloaded_shot_pyro",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_SHOT",
     "skill_used": "fabrication",
@@ -114,11 +127,13 @@
     "tools": [ [ [ "press", -1 ] ] ],
     "book_learn": [ [ "recipe_bullets", 3 ], [ "manual_shotgun", 3 ] ],
     "using": [ [ "req_shot", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [ [ [ "gunpowder", 3 ], [ "gunpowder_pistol", 3 ], [ "gunpowder_shotgun", 3 ] ], [ [ "magnesium", 5 ] ] ]
   },
   {
     "result": "bp_shot_pyro",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_SHOT",
     "skill_used": "fabrication",
@@ -131,12 +146,14 @@
     "tools": [ [ [ "press", -1 ] ] ],
     "book_learn": [ [ "recipe_bullets", 3 ], [ "manual_shotgun", 3 ] ],
     "using": [ [ "req_shot", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [ [ [ "chem_black_powder", 3 ] ], [ [ "magnesium", 5 ] ] ]
   },
   {
     "result": "bp_shot_pyro",
     "id_suffix": "with_dowel",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_SHOT",
     "skill_used": "fabrication",
@@ -147,12 +164,14 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "shot_forming", 1 ], [ "ammo_bullet", 10 ], [ "req_shot", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "book_learn": [ [ "survival_book", 1 ], [ "mag_survival", 1 ] ],
     "tools": [ [ [ "press_dowel", -1 ] ] ]
   },
   {
     "result": "reloaded_shot_foster",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_SHOT",
     "skill_used": "fabrication",
@@ -165,11 +184,13 @@
     "difficulty": 3,
     "book_learn": [ [ "recipe_bullets", 3 ], [ "manual_shotgun", 3 ] ],
     "using": [ [ "bullet_forming", 1 ], [ "ammo_bullet", 20 ], [ "req_shot", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [ [ [ "gunpowder", 6 ], [ "gunpowder_pistol", 6 ], [ "gunpowder_shotgun", 6 ] ] ]
   },
   {
     "result": "bp_shot_foster",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_SHOT",
     "skill_used": "fabrication",
@@ -182,12 +203,14 @@
     "difficulty": 3,
     "book_learn": [ [ "recipe_bullets", 3 ], [ "manual_shotgun", 3 ] ],
     "using": [ [ "bullet_forming", 1 ], [ "ammo_bullet", 20 ], [ "req_shot", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [ [ [ "chem_black_powder", 6 ] ] ]
   },
   {
     "result": "bp_shot_foster",
     "id_suffix": "with_dowel",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_SHOT",
     "skill_used": "fabrication",
@@ -198,12 +221,14 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "shot_forming", 1 ], [ "ammo_bullet", 10 ], [ "req_shot", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "book_learn": [ [ "survival_book", 1 ], [ "mag_survival", 1 ] ],
     "tools": [ [ [ "press_dowel", -1 ] ] ]
   },
   {
     "result": "reloaded_shot_dart",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_SHOT",
     "skill_used": "fabrication",
@@ -216,11 +241,13 @@
     "tools": [ [ [ "press", -1 ] ] ],
     "book_learn": [ [ "recipe_bullets", 4 ], [ "manual_shotgun", 4 ] ],
     "using": [ [ "req_shot", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [ [ [ "gunpowder", 6 ], [ "gunpowder_pistol", 6 ], [ "gunpowder_shotgun", 6 ] ], [ [ "combatnail", 10 ] ] ]
   },
   {
     "result": "bp_shot_dart",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_SHOT",
     "skill_used": "fabrication",
@@ -233,12 +260,14 @@
     "tools": [ [ [ "press", -1 ] ] ],
     "book_learn": [ [ "recipe_bullets", 4 ], [ "manual_shotgun", 4 ] ],
     "using": [ [ "req_shot", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [ [ [ "chem_black_powder", 6 ] ], [ [ "combatnail", 10 ] ] ]
   },
   {
     "result": "bp_shot_dart",
     "id_suffix": "with_dowel",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_SHOT",
     "skill_used": "fabrication",
@@ -249,12 +278,14 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "shot_forming", 1 ], [ "ammo_bullet", 10 ], [ "req_shot", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "book_learn": [ [ "survival_book", 1 ], [ "mag_survival", 1 ] ],
     "tools": [ [ [ "press_dowel", -1 ] ] ]
   },
   {
     "result": "reloaded_shot_junk",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_SHOT",
     "skill_used": "fabrication",
@@ -266,6 +297,7 @@
     "reversible": true,
     "tools": [ [ [ "press", -1 ] ] ],
     "using": [ [ "req_shot", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
       [ [ "gunpowder", 6 ], [ "gunpowder_pistol", 6 ], [ "gunpowder_shotgun", 6 ] ],
       [
@@ -286,6 +318,7 @@
   {
     "result": "bp_shot_junk",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_SHOT",
     "skill_used": "fabrication",
@@ -297,6 +330,7 @@
     "reversible": true,
     "tools": [ [ [ "press", -1 ] ] ],
     "using": [ [ "req_shot", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
       [ [ "chem_black_powder", 6 ] ],
       [
@@ -318,6 +352,7 @@
     "result": "bp_shot_junk",
     "id_suffix": "with_dowel",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_SHOT",
     "skill_used": "fabrication",
@@ -328,6 +363,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "shot_forming", 1 ], [ "ammo_bullet", 10 ], [ "req_shot", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "book_learn": [ [ "survival_book", 1 ], [ "mag_survival", 1 ] ],
     "tools": [ [ [ "press_dowel", -1 ] ] ]
   }

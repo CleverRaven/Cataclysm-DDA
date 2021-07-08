@@ -1,0 +1,50 @@
+[
+  {
+    "id": "mon_utilibot_beehive",
+    "type": "MONSTER",
+    "copy-from": "mon_utilibot",
+    "name": "bee bot",
+    "description": "A salvaged utility robot converted into an AI monitored bee hive that periodically removes and delivers honey combs.",
+    "color": "brown",
+    "speed": 0,
+    "aggression": 0,
+    "morale": 20,
+    "fear_triggers": [ "HURT" ],
+    "revert_to_itype": "bot_utilibot_beehive",
+    "biosignature": { "biosig_item": "honeycomb", "biosig_timer": 3600 },
+    "//": [ "emit_bee_field" ],
+    "special_attacks": [ [ "PARROT", 10 ] ],
+    "death_drops": { "groups": [ [ "broken_robots", 1 ], [ "beehive", 1 ] ] }
+  },
+  {
+    "id": "mon_light_hack",
+    "copy-from": "base_drone",
+    "type": "MONSTER",
+    "name": "floating lantern",
+    "looks_like": "bot_manhack",
+    "description": "A salvaged drone repurposed into a mobile lightsource.",
+    "speed": 250,
+    "color": "yellow",
+    "luminance": 100,
+    "aggression": 0,
+    "morale": 50,
+    "dodge": 8,
+    "armor_cut": 4,
+    "revert_to_itype": "bot_light_hack",
+    "extend": { "flags": [ "STUMBLES", "HARDTOSHOOT" ] }
+  },
+  {
+    "id": "mon_eyebot_heater",
+    "type": "MONSTER",
+    "copy-from": "mon_eyebot",
+    "name": "floating heater",
+    "color": "pink",
+    "luminance": 8,
+    "armor_fire": 10,
+    "description": "A salvaged eyebot repurposed into a floating space heater.  It emits a constant jet of warm air to heat an enclosed space.",
+    "revert_to_itype": "bot_eyebot_heater",
+    "fear_triggers": [ "HURT" ],
+    "emit_fields": [ { "emit_id": "emit_hot_air2_stream", "delay": "1 s" } ],
+    "extend": { "flags": [ "PET_WONT_FOLLOW", "WARM" ] }
+  }
+]

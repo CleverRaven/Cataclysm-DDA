@@ -2,39 +2,40 @@
 #ifndef CATA_SRC_OMDATA_H
 #define CATA_SRC_OMDATA_H
 
+#include <array>
 #include <climits>
 #include <cstddef>
 #include <cstdint>
+#include <iosfwd>
 #include <list>
+#include <new>
 #include <set>
-#include <vector>
-#include <array>
 #include <string>
+#include <vector>
 
-#include "cuboid_rectangle.h"
+#include "assign.h"
 #include "catacharset.h"
 #include "color.h"
 #include "common_types.h"
 #include "coordinates.h"
 #include "enum_bitset.h"
-#include "int_id.h"
+#include "optional.h"
 #include "point.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
-#include "optional.h"
 
-struct city;
 class overmap_land_use_code;
 struct MonsterGroup;
+struct city;
+template <typename E> struct enum_traits;
 
 using overmap_land_use_code_id = string_id<overmap_land_use_code>;
-struct oter_t;
-struct overmap_location;
 class JsonObject;
 class overmap_connection;
-class overmap_special_batch;
 class overmap_special;
+class overmap_special_batch;
+struct oter_t;
+struct overmap_location;
 
 using overmap_special_id = string_id<overmap_special>;
 
@@ -107,8 +108,8 @@ class overmap_land_use_code
         overmap_land_use_code_id id = overmap_land_use_code_id::NULL_ID();
 
         int land_use_code = 0;
-        std::string name;
-        std::string detailed_definition;
+        translation name;
+        translation detailed_definition;
         uint32_t symbol = 0;
         nc_color color = c_black;
 
@@ -165,6 +166,8 @@ enum class oter_flags : int {
     subway_connection,
     lake,
     lake_shore,
+    ravine,
+    ravine_edge,
     generic_loot,
     risk_high,
     risk_low,
@@ -195,7 +198,7 @@ enum class oter_flags : int {
 
 template<>
 struct enum_traits<oter_flags> {
-    static constexpr auto last = oter_flags::num_oter_flags;
+    static constexpr oter_flags last = oter_flags::num_oter_flags;
 };
 
 struct oter_type_t {
@@ -204,7 +207,7 @@ struct oter_type_t {
 
     public:
         string_id<oter_type_t> id;
-        std::string name;               // Untranslated name
+        translation name;
         uint32_t symbol = 0;
         nc_color color = c_black;
         overmap_land_use_code_id land_use_code = overmap_land_use_code_id::NULL_ID();
@@ -259,7 +262,7 @@ struct oter_t {
         oter_str_id id;         // definitive identifier.
 
         oter_t();
-        oter_t( const oter_type_t &type );
+        explicit oter_t( const oter_type_t &type );
         oter_t( const oter_type_t &type, om_direction::type dir );
         oter_t( const oter_type_t &type, size_t line );
 
@@ -271,7 +274,7 @@ struct oter_t {
         oter_id get_rotated( om_direction::type dir ) const;
 
         std::string get_name() const {
-            return _( type->name );
+            return type->name.translated();
         }
 
         std::string get_symbol( const bool from_land_use_code = false ) const {
@@ -349,6 +352,14 @@ struct oter_t {
 
         bool is_lake_shore() const {
             return type->has_flag( oter_flags::lake_shore );
+        }
+
+        bool is_ravine() const {
+            return type->has_flag( oter_flags::ravine );
+        }
+
+        bool is_ravine_edge() const {
+            return type->has_flag( oter_flags::ravine_edge );
         }
 
     private:

@@ -2,7 +2,7 @@
 #ifndef CATA_SRC_MORALE_TYPES_H
 #define CATA_SRC_MORALE_TYPES_H
 
-#include <string>
+#include <iosfwd>
 
 #include "translations.h"
 #include "type_id.h"

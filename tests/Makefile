@@ -13,7 +13,10 @@ CATA_LIB=../$(BUILD_PREFIX)cataclysm.a
 # built with BUILD_PREFIX set, you must set it for this invocation as well.
 ODIR ?= obj
 
-LDFLAGS += -L.
+LDFLAGS += -lpthread -L.
+
+# Enabling benchmarks
+DEFINES += -DCATCH_CONFIG_ENABLE_BENCHMARKING
 
 # Allow use of any header files from cataclysm.
 # Catch sections throw unused variable warnings.
@@ -32,32 +35,14 @@ ifndef CLANG
 endif
 
 ifeq ($(PCH), 1)
-  PCHFLAGS = -Ipch -Winvalid-pch -DCATA_CATCH_PCH
-  PCH_H = pch/pch.hpp
-  ifeq ($(CLANG), 0)
-    PCH_P = pch/pch.hpp.gch
-    PCHFLAGS += -fpch-preprocess -include pch.hpp
-  else
-    PCH_P = pch/pch.hpp.pch
-    PCHFLAGS += -include-pch $(PCH_P)
-    CXXFLAGS += -Wno-unused-macros
-    
-    # FIXME: dirty hack ahead
-    # ccache won't wort with clang unless it supports -fno-pch-timestamp
-    ifeq ($(CCACHE), 1)
-      CLANGVER := $(shell echo 'int main(void){return 0;}'|$(CXX) -Xclang -fno-pch-timestamp -x c++ -o $(ODIR)/__bla__.o - 2>&1)
-      ifneq ($(.SHELLSTATUS), 0)
-        $(warning your clang version does not support -fno-pch-timestamp: $(CLANGVER) ($(.SHELLSTATUS)))
-        undefine PCHFLAGS
-        undefine PCH_H
-        undefine PCH_P
-        PCH = 0
-      else
-        CXXFLAGS += -Xclang -fno-pch-timestamp
-      endif
-    endif
-        
-  endif
+PCHFLAGS += -DCATA_CATCH_PCH
+PCH_H = pch/tests-pch.hpp
+ifeq ($(CLANG), 0)
+PCH_P = $(PCH_H).gch
+else
+PCH_P = $(PCH_H).pch
+CXXFLAGS += -Wno-unused-macros
+endif
 endif
 
 ifeq ($(TARGETSYSTEM), WINDOWS)
@@ -69,27 +54,36 @@ endif
 tests: $(TEST_TARGET)
 
 $(TEST_TARGET): $(OBJS) $(CATA_LIB)
-	+$(CXX) $(W32FLAGS) -o $@ $(DEFINES) $(OBJS) $(CATA_LIB) $(CXXFLAGS) $(PCHFLAGS) $(LDFLAGS)
+	+$(CXX) $(W32FLAGS) -o $@ $(DEFINES) $(OBJS) $(CATA_LIB) $(CXXFLAGS) $(LDFLAGS)
 
 $(PCH_P): $(PCH_H)
 	-$(CXX) $(CPPFLAGS) $(DEFINES) $(subst -Werror,,$(CXXFLAGS)) -Wno-non-virtual-dtor -Wno-unused-macros -I. -c $(PCH_H) -o $(PCH_P)
 
-# Iterate over all the individual tests.
-check: $(TEST_TARGET)
+TEST_BATCHES = "crafting_skill_gain" "[slow]\ ~crafting_skill_gain" "~[slow]\ ~[.]"
+
+$(TEST_BATCHES): $(TEST_TARGET)
+	cd .. && tests/$(TEST_TARGET) --min-duration 0.2 --rng-seed time $@
+
+check: $(TEST_TARGET) $(TEST_BATCHES)
+
+check-single: $(TEST_TARGET)
 	cd .. && tests/$(TEST_TARGET) --min-duration 0.2 --rng-seed time
 
 clean:
 	rm -rf *obj *objwin
 	rm -f *cata_test
-	rm -f pch/pch.hpp.{gch,pch}
+	rm -f pch/*pch.hpp.gch
+	rm -f pch/*pch.hpp.pch
+	rm -f pch/*pch.hpp.d
 
 #Unconditionally create object directory on invocation.
 $(shell mkdir -p $(ODIR))
 
+# Adding ../tests/ so that the directory appears in __FILE__ for log messages
 $(ODIR)/%.o: %.cpp $(PCH_P)
-	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) $(PCHFLAGS) -c $< -o $@
+	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) $(subst main-pch,tests-pch,$(PCHFLAGS)) -c ../tests/$< -o $@
 
-.PHONY: clean check tests precompile_header
+.PHONY: clean check check-single tests precompile_header
 
 .SECONDARY: $(OBJS)
 

@@ -4,7 +4,13 @@
 #include "point.h"
 #include "point_traits.h"
 
-template<typename Point>
+// The following templates check existence of parent class and template type
+// argument's member with the template parameter list, since GCC 5 and earlier
+// versions do not handle SFINAE in class body correctly. std::declval +
+// decltype are used in rectangle/cuboid to workaround incorrect "left operand
+// has no effect" warning.
+
+template<typename Point, decltype( std::declval<decltype( Point::dimension )>(), int() ) = 0>
 struct rectangle {
     static_assert( Point::dimension == 2, "rectangle is for 2D points; use cuboid for 3D points" );
 
@@ -15,7 +21,7 @@ struct rectangle {
         p_min( P_MIN ), p_max( P_MAX ) {}
 };
 
-template<typename Point>
+template<typename Point, decltype( std::declval<rectangle<Point>>(), int() ) = 0>
 struct half_open_rectangle : rectangle<Point> {
     using base = rectangle<Point>;
     using base::base;
@@ -29,7 +35,7 @@ struct half_open_rectangle : rectangle<Point> {
     }
 };
 
-template<typename Point>
+template<typename Point, decltype( std::declval<rectangle<Point>>(), int() ) = 0>
 struct inclusive_rectangle : rectangle<Point> {
     using base = rectangle<Point>;
     using base::base;
@@ -64,7 +70,7 @@ Point clamp( const Point &p, const inclusive_rectangle<Point> &r )
                   clamp( Traits::y( p ), Traits::y( r.p_min ), Traits::y( r.p_max ) ) );
 }
 
-template<typename Tripoint>
+template<typename Tripoint, decltype( std::declval<decltype( Tripoint::dimension )>(), int() ) = 0>
 struct cuboid {
     static_assert( Tripoint::dimension == 3,
                    "cuboid is for 3D points; use rectangle for 2D points" );
@@ -85,7 +91,7 @@ struct cuboid {
     }
 };
 
-template<typename Tripoint>
+template<typename Tripoint, decltype( std::declval<cuboid<Tripoint>>(), int() ) = 0>
 struct half_open_cuboid : cuboid<Tripoint> {
     using base = cuboid<Tripoint>;
     using base::base;
@@ -100,7 +106,7 @@ struct half_open_cuboid : cuboid<Tripoint> {
     }
 };
 
-template<typename Tripoint>
+template<typename Tripoint, decltype( std::declval<cuboid<Tripoint>>(), int() ) = 0>
 struct inclusive_cuboid : cuboid<Tripoint> {
     using base = cuboid<Tripoint>;
     using base::base;

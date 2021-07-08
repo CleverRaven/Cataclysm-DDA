@@ -7,7 +7,7 @@
     "name": { "str": "crash axe" },
     "looks_like": "hatchet",
     "//": "Same stats as a hatchet, except it has prying instead of hammering.",
-    "description": "A short lightweight emergency tool with a quarter circular blade, a short pick opposite the blade and an insulated handle.  Used on airplanes to chop down or pry walls or cabinets to gain access in case of fire.",
+    "description": "A short lightweight emergency tool with a quarter circular blade, a short pick opposite the blade, and an insulated handle.  Used on airplanes to chop down or pry walls, or cabinets to gain access in case of fire.",
     "price": 2500,
     "price_postapoc": 750,
     "material": [ "steel" ],
@@ -69,7 +69,17 @@
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "qualities": [ [ "AXE", 2 ], [ "PRY", 3 ], [ "BUTCHER", -30 ] ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP", "SHEATH_AXE" ],
-    "use_action": [ "CROWBAR" ]
+    "use_action": [ "CROWBAR" ],
+    "pocket_data": [
+      {
+        "max_contains_volume": "550 ml",
+        "max_contains_weight": "5500 g",
+        "max_item_length": "76 cm",
+        "moves": 150,
+        "item_restriction": [ "halligan" ],
+        "holster": true
+      }
+    ]
   },
   {
     "id": "halligan",
@@ -77,8 +87,8 @@
     "name": { "str": "Halligan bar" },
     "description": "This is a heavy multiple-use tool commonly carried by firefighters, law enforcement, and military rescue units.  Use it to open locked doors without destroying them or to lift manhole covers.  You could also wield it to bash some heads in.",
     "weight": "5443 g",
-    "volume": "1250 ml",
-    "longest_side": "60 cm",
+    "volume": "550 ml",
+    "longest_side": "76 cm",
     "price": 7500,
     "price_postapoc": 1500,
     "bashing": 45,
@@ -127,7 +137,7 @@
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "throwable fire extinguisher" },
-    "description": "This is a fire extinguisher in grenade form.  While not as effective as a regular fire extinguisher, you can use it from a distance.  It has a plastic plug that can be pulled, but is primarely activated by heat, so just throw it into the flames.",
+    "description": "This is a fire extinguisher in grenade form.  While not as effective as a regular fire extinguisher, you can use it from a distance.  It has a plastic plug that can be pulled, but is primarily activated by heat, so just throw it into the flames.",
     "weight": "630 g",
     "volume": "250 ml",
     "price": 3000,
@@ -182,7 +192,8 @@
     "techniques": [ "WBLOCK_1", "SWEEP" ],
     "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
     "weight": "3100 g",
-    "volume": "3250 ml",
+    "//": " If the pole itself has a diameter of around 3 cm which is thick, to be frank, then we half it for the radius -> 1,5 cm, square it -> 2,25, mulitplicate with pi -> ~7,07 cm² multiplicate with 160 cm length -> 1130 cm³ which is 1,13 liters. We add the hook which is around 100 ml of volume.",
+    "volume": "1250 ml",
     "longest_side": "160 cm",
     "bashing": 20,
     "cutting": 6,
@@ -202,7 +213,7 @@
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "DURABLE_MELEE", "STAB", "SHEATH_AXE" ],
     "weight": "2900 g",
-    "volume": "1900 ml",
+    "volume": "400 ml",
     "longest_side": "90 cm",
     "bashing": 15,
     "cutting": 13,

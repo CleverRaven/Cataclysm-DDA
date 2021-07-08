@@ -8,6 +8,7 @@
 #include <cstdlib>
 #include <fstream>
 
+#include "cached_options.h"
 #include "cursesdef.h"
 #include "options.h"
 #include "output.h"
@@ -633,7 +634,7 @@ void catacurses::init_interface()
     }
 
     // Use desired font, if possible
-    assert( !fl.typeface.empty() );
+    cata_assert( !fl.typeface.empty() );
     font = CreateFontW( fontheight, fontwidth, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE,
                         DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS,
                         PROOF_QUALITY, FF_MODERN, widen( fl.typeface.front() ).c_str() );
@@ -667,6 +668,11 @@ static uint64_t GetPerfCount()
 // so we just ignore the mode argument.
 input_event input_manager::get_input_event( const keyboard_mode /*preferred_keyboard_mode*/ )
 {
+    if( test_mode ) {
+        // input should be skipped in caller's code
+        throw std::runtime_error( "input_manager::get_input_event called in test mode" );
+    }
+
     // standards note: getch is sometimes required to call refresh
     // see, e.g., http://linux.die.net/man/3/getch
     // so although it's non-obvious, that refresh() call (and maybe InvalidateRect?) IS supposed to be there

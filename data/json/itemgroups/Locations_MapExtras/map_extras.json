@@ -4,7 +4,7 @@
     "subtype": "collection",
     "id": "map_extra_science",
     "entries": [
-      { "item": "id_science", "prob": 50, "//": "half the time an id card" },
+      { "group": "wallets_science", "prob": 50, "//": "half the time a wallet with an id card" },
       { "item": "coat_lab", "damage-min": 1, "damage-max": 3, "//": "all the time a lab coat" },
       { "group": "science" },
       { "group": "lab_pants", "damage-min": 1, "damage-max": 3 },
@@ -71,12 +71,21 @@
     "id": "map_extra_drugdeal",
     "entries": [
       { "group": "drugdealer", "prob": 75 },
+      {
+        "distribution": [
+          { "item": "weed", "container-item": "bag_zipper", "charges-min": 20, "charges-max": 30, "prob": 10 },
+          { "item": "coke", "container-item": "bag_zipper", "charges-min": 10, "charges-max": 20, "prob": 40 },
+          { "item": "meth", "container-item": "bag_zipper", "charges-min": 8, "charges-max": 14, "prob": 30 },
+          { "item": "heroin", "container-item": "bag_zipper", "charges-min": 6, "charges-max": 12, "prob": 20 }
+        ],
+        "prob": 50
+      },
       { "item": "pants_cargo", "damage-min": 1, "damage-max": 4 },
       { "group": "lab_shoes", "damage-min": 1, "damage-max": 4, "prob": 50 },
       { "group": "shirts", "damage-min": 1, "damage-max": 4, "prob": 50 },
       { "group": "jackets", "damage-min": 1, "damage-max": 4, "prob": 30 },
       { "group": "underwear", "damage-min": 1, "damage-max": 3 },
-      { "item": "corpse", "damage": 3 }
+      { "item": "corpse", "damage": 4 }
     ]
   },
   {
@@ -107,6 +116,11 @@
     "type": "item_group",
     "subtype": "distribution",
     "id": "map_extra_casings",
-    "entries": [ { "item": "rag_bloody" }, { "item": "cigar_butt" }, { "item": "cig_butt" }, { "item": "can_drink" } ]
+    "entries": [
+      { "item": "rag", "custom-flags": [ "FILTHY" ] },
+      { "item": "cigar_butt" },
+      { "item": "cig_butt" },
+      { "item": "can_drink" }
+    ]
   }
 ]

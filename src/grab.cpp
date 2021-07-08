@@ -1,19 +1,19 @@
 #include "game.h" // IWYU pragma: associated
 
-#include <cstdlib>
 #include <algorithm>
+#include <cstdlib>
 
 #include "avatar.h"
+#include "debug.h"
 #include "map.h"
 #include "messages.h"
-#include "sounds.h"
-#include "vehicle.h"
-#include "vpart_position.h"
-#include "debug.h"
 #include "rng.h"
+#include "sounds.h"
 #include "tileray.h"
 #include "translations.h"
 #include "units.h"
+#include "vehicle.h"
+#include "vpart_position.h"
 
 static const efftype_id effect_harnessed( "harnessed" );
 
@@ -32,7 +32,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
     }
     const int grabbed_part = grabbed_vehicle_vp->part_index();
     for( int part_index = 0; part_index < grabbed_vehicle->part_count(); ++part_index ) {
-        monster *mon = grabbed_vehicle->get_pet( part_index );
+        monster *mon = grabbed_vehicle->get_monster( part_index );
         if( mon != nullptr && mon->has_effect( effect_harnessed ) ) {
             add_msg( m_info, _( "You cannot move this vehicle whilst your %s is harnessed!" ),
                      mon->get_name() );
@@ -134,7 +134,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
         }
     } else {
         u.moves -= 100;
-        add_msg( m_bad, _( "You lack the strength to move the %s" ), grabbed_vehicle->name );
+        add_msg( m_bad, _( "You lack the strength to move the %s." ), grabbed_vehicle->name );
         return true;
     }
 
@@ -144,7 +144,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
 
         mdir.init( dir.xy() );
         grabbed_vehicle->turn( mdir.dir() - grabbed_vehicle->face.dir() );
-        grabbed_vehicle->face = grabbed_vehicle->turn_dir;
+        grabbed_vehicle->face = tileray( grabbed_vehicle->turn_dir );
         grabbed_vehicle->precalc_mounts( 1, mdir.dir(), grabbed_vehicle->pivot_point() );
 
         // Grabbed part has to stay at distance 1 to the player
@@ -188,6 +188,12 @@ bool game::grabbed_veh_move( const tripoint &dp )
     if( grabbed_vehicle ) {
         m.level_vehicle( *grabbed_vehicle );
         grabbed_vehicle->check_falling_or_floating();
+        if( grabbed_vehicle->is_falling ) {
+            add_msg( _( "You let go of the %1$s as it starts to fall." ), grabbed_vehicle->disp_name() );
+            u.grab( object_type::NONE );
+            m.drop_vehicle( final_dp_veh );
+            return true;
+        }
     } else {
         debugmsg( "Grabbed vehicle disappeared" );
         return false;

@@ -6,6 +6,7 @@
 #include <chrono>
 #include <cstddef>
 #include <functional>
+#include <iosfwd>
 #include <string>
 #include <type_traits>
 #include <utility>
@@ -16,13 +17,13 @@
 #include "hash_utils.h"
 #include "pldata.h"
 #include "point.h"
+#include "to_string_id.h"
 #include "type_id.h"
 
 class JsonIn;
 class JsonOut;
 template <typename E> struct enum_traits;
 
-enum body_part : int;
 enum class mutagen_technique : int;
 
 namespace debug_menu
@@ -44,6 +45,9 @@ enum class cata_variant_type : int {
     chrono_seconds,
     debug_menu_index,
     efftype_id,
+    furn_id,
+    furn_str_id,
+    flag_id,
     int_,
     itype_id,
     matype_id,
@@ -60,6 +64,7 @@ enum class cata_variant_type : int {
     spell_id,
     string,
     ter_id,
+    ter_str_id,
     trait_id,
     trap_str_id,
     tripoint,
@@ -102,14 +107,6 @@ constexpr cata_variant_type type_for_impl( std::index_sequence<I...> )
     return cata_variant_type::num_types;
 }
 
-template<typename T>
-constexpr cata_variant_type type_for()
-{
-    constexpr size_t num_types = static_cast<size_t>( cata_variant_type::num_types );
-    using SimpleT = std::remove_cv_t<std::remove_reference_t<T>>;
-    return type_for_impl<SimpleT>( std::make_index_sequence<num_types> {} );
-}
-
 // Inherit from this struct to easily implement convert specializations for any
 // string type
 template<typename T>
@@ -122,6 +119,9 @@ struct convert_string {
     }
     static T from_string( const std::string &v ) {
         return v;
+    }
+    static bool is_valid( const std::string & ) {
+        return true;
     }
 };
 
@@ -136,6 +136,9 @@ struct convert_string_id {
     static T from_string( const std::string &v ) {
         return T( v );
     }
+    static bool is_valid( const std::string &v ) {
+        return from_string( v ).is_valid();
+    }
 };
 
 // Inherit from this struct to easily implement convert specializations for any
@@ -148,6 +151,9 @@ struct convert_int_id {
     }
     static T from_string( const std::string &v ) {
         return T( v );
+    }
+    static bool is_valid( const std::string &v ) {
+        return to_string_id_t<T>( v ).is_valid();
     }
 };
 
@@ -162,16 +168,22 @@ struct convert_enum {
     static T from_string( const std::string &v ) {
         return io::string_to_enum<T>( v );
     }
+    static bool is_valid( const std::string &v ) {
+        return io::enum_is_valid<T>( v );
+    }
 };
 
 // These are the specializations of convert for each value type.
-static_assert( static_cast<int>( cata_variant_type::num_types ) == 29,
+static_assert( static_cast<int>( cata_variant_type::num_types ) == 33,
                "This assert is a reminder to add conversion support for any new types to the "
                "below specializations" );
 
 template<>
 struct convert<cata_variant_type::void_> {
     using type = void;
+    static bool is_valid( const std::string &s ) {
+        return s.empty();
+    }
 };
 
 template<>
@@ -184,7 +196,7 @@ template<>
 struct convert<cata_variant_type::bionic_id> : convert_string_id<bionic_id> {};
 
 template<>
-struct convert<cata_variant_type::body_part> : convert_enum<body_part> {};
+struct convert<cata_variant_type::body_part> : convert_int_id<bodypart_id> {};
 
 template<>
 struct convert<cata_variant_type::bool_> {
@@ -194,6 +206,11 @@ struct convert<cata_variant_type::bool_> {
     }
     static bool from_string( const std::string &v ) {
         return std::stoi( v );
+    }
+    static bool is_valid( const std::string &v ) {
+        // TODO: check for int-ness
+        int i = std::stoi( v );
+        return i >= 0 && i <= 1;
     }
 };
 
@@ -206,16 +223,24 @@ struct convert<cata_variant_type::character_id> {
     static character_id from_string( const std::string &v ) {
         return character_id( std::stoi( v ) );
     }
+    static bool is_valid( const std::string & ) {
+        // TODO: check for int-ness
+        return true;
+    }
 };
 
 template<>
 struct convert<cata_variant_type::chrono_seconds> {
     using type = std::chrono::seconds;
-    static std::string to_string( const std::chrono::seconds v ) {
+    static std::string to_string( const std::chrono::seconds &v ) {
         return std::to_string( v.count() );
     }
     static std::chrono::seconds from_string( const std::string &v ) {
         return std::chrono::seconds( std::stoll( v ) );
+    }
+    static bool is_valid( const std::string & ) {
+        // TODO: check for int-ness
+        return true;
     }
 };
 
@@ -229,6 +254,15 @@ template<>
 struct convert<cata_variant_type::efftype_id> : convert_string_id<efftype_id> {};
 
 template<>
+struct convert<cata_variant_type::furn_id> : convert_int_id<furn_id> {};
+
+template<>
+struct convert<cata_variant_type::furn_str_id> : convert_string_id<furn_str_id> {};
+
+template<>
+struct convert<cata_variant_type::flag_id> : convert_string_id<flag_id> {};
+
+template<>
 struct convert<cata_variant_type::int_> {
     using type = int;
     static std::string to_string( const int v ) {
@@ -236,6 +270,10 @@ struct convert<cata_variant_type::int_> {
     }
     static int from_string( const std::string &v ) {
         return std::stoi( v );
+    }
+    static bool is_valid( const std::string & ) {
+        // TODO: check for int-ness
+        return true;
     }
 };
 
@@ -252,7 +290,8 @@ template<>
 struct convert<cata_variant_type::mutagen_technique> : convert_enum<mutagen_technique> {};
 
 template<>
-struct convert<cata_variant_type::mutation_category_id> : convert_string<std::string> {};
+struct convert<cata_variant_type::mutation_category_id> :
+    convert_string_id<mutation_category_id> {};
 
 template<>
 struct convert<cata_variant_type::oter_id> : convert_int_id<oter_id> {};
@@ -268,6 +307,10 @@ struct convert<cata_variant_type::point> {
     }
     static point from_string( const std::string &v ) {
         return point::from_string( v );
+    }
+    static bool is_valid( const std::string & ) {
+        // TODO: check for point-ness
+        return true;
     }
 };
 
@@ -290,6 +333,9 @@ template<>
 struct convert<cata_variant_type::ter_id> : convert_int_id<ter_id> {};
 
 template<>
+struct convert<cata_variant_type::ter_str_id> : convert_string_id<ter_str_id> {};
+
+template<>
 struct convert<cata_variant_type::trait_id> : convert_string_id<trait_id> {};
 
 template<>
@@ -304,9 +350,21 @@ struct convert<cata_variant_type::tripoint> {
     static tripoint from_string( const std::string &v ) {
         return tripoint::from_string( v );
     }
+    static bool is_valid( const std::string & ) {
+        // TODO: check for tripoint-ness
+        return true;
+    }
 };
 
 } // namespace cata_variant_detail
+
+template<typename T>
+constexpr cata_variant_type cata_variant_type_for()
+{
+    constexpr size_t num_types = static_cast<size_t>( cata_variant_type::num_types );
+    using SimpleT = std::remove_cv_t<std::remove_reference_t<T>>;
+    return cata_variant_detail::type_for_impl<SimpleT>( std::make_index_sequence<num_types> {} );
+}
 
 class cata_variant
 {
@@ -319,9 +377,9 @@ class cata_variant
         // value passed.
         template < typename Value,
                    typename = std::enable_if_t <(
-                           cata_variant_detail::type_for<Value>() < cata_variant_type::num_types )>>
+                           cata_variant_type_for<Value>() < cata_variant_type::num_types )>>
         explicit cata_variant( Value && value ) {
-            constexpr cata_variant_type Type = cata_variant_detail::type_for<Value>();
+            constexpr cata_variant_type Type = cata_variant_type_for<Value>();
             type_ = Type;
             value_ =
                 cata_variant_detail::convert<Type>::to_string( std::forward<Value>( value ) );
@@ -336,6 +394,13 @@ class cata_variant
             return cata_variant(
                 Type, cata_variant_detail::convert<Type>::to_string(
                     std::forward<Value>( value ) ) );
+        }
+
+        // Call this to construct from a type + string.  This should rarely be
+        // necessary, so think twice before using it (that's why the equivalent
+        // constructor is private).
+        static cata_variant from_string( cata_variant_type t, std::string &&v ) {
+            return cata_variant( t, std::move( v ) );
         }
 
         cata_variant_type type() const {
@@ -355,12 +420,14 @@ class cata_variant
 
         template<typename T>
         T get() const {
-            return get<cata_variant_detail::type_for<T>()>();
+            return get<cata_variant_type_for<T>()>();
         }
 
         const std::string &get_string() const {
             return value_;
         }
+
+        bool is_valid() const;
 
         std::pair<cata_variant_type, std::string> as_pair() const {
             return std::make_pair( type_, value_ );

@@ -1,13 +1,14 @@
-#include "catch/catch.hpp"
+#include "cata_catch.h"
+#include "map.h"
 
 #include <memory>
 #include <vector>
 
 #include "avatar.h"
+#include "coordinates.h"
 #include "enums.h"
 #include "game.h"
 #include "game_constants.h"
-#include "map.h"
 #include "map_helpers.h"
 #include "point.h"
 #include "type_id.h"
@@ -22,7 +23,8 @@ TEST_CASE( "destroy_grabbed_furniture" )
         player_character.setpos( test_origin );
         const tripoint grab_point = test_origin + tripoint_east;
         here.furn_set( grab_point, furn_id( "f_chair" ) );
-        player_character.grab( object_type::FURNITURE, grab_point );
+        player_character.grab( object_type::FURNITURE, tripoint_east );
+        REQUIRE( player_character.get_grab_type() == object_type::FURNITURE );
         WHEN( "The furniture grabbed by the player is destroyed" ) {
             here.destroy( grab_point );
             THEN( "The player's grab is released" ) {

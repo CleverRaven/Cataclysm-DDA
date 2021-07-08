@@ -3,6 +3,7 @@
 #define CATA_SRC_FACTION_H
 
 #include <bitset>
+#include <iosfwd>
 #include <map>
 #include <set>
 #include <string>
@@ -13,9 +14,13 @@
 
 #include "character_id.h"
 #include "color.h"
-#include "cursesdef.h"
-#include "string_id.h"
+#include "translations.h"
 #include "type_id.h"
+
+namespace catacurses
+{
+class window;
+}  // namespace catacurses
 
 // TODO: Redefine?
 static constexpr int MAX_FAC_NAME_SIZE = 40;
@@ -69,7 +74,7 @@ class faction_template
         explicit faction_template( const JsonObject &jsobj );
 
     public:
-        explicit faction_template( const faction_template & ) = default;
+        faction_template( const faction_template & ) = default;
         static void load( const JsonObject &jsobj );
         static void check_consistency();
         static void reset();
@@ -79,7 +84,7 @@ class faction_template
         int respects_u;
         bool known_by_u;
         faction_id id;
-        std::string desc;
+        translation desc;
         int size; // How big is our sphere of influence?
         int power; // General measure of our power
         int food_supply;  //Total nutritional value held
@@ -87,7 +92,7 @@ class faction_template
         bool lone_wolf_faction; // is this a faction for just one person?
         itype_id currency; // id of the faction currency
         std::map<std::string, std::bitset<npc_factions::rel_types>> relations;
-        std::string mon_faction; // mon_faction_id of the monster faction; defaults to human
+        mfaction_str_id mon_faction; // mon_faction_id of the monster faction; defaults to human
         std::set<std::tuple<int, int, snippet_id>> epilogue_data;
 };
 
@@ -95,7 +100,7 @@ class faction : public faction_template
 {
     public:
         faction() = default;
-        faction( const faction_template &templ );
+        explicit faction( const faction_template &templ );
 
         void deserialize( JsonIn &jsin );
         void serialize( JsonOut &json ) const;

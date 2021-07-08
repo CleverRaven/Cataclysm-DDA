@@ -35,7 +35,7 @@
       ],
       "rotation": [ 0, 3 ],
       "palettes": [ "factory" ],
-      "monster": { "z": { "monster": "mon_skitterbot" } }
+      "monster": { "z": { "monster": "mon_skitterbot" }, "t": { "monster": "mon_turret_rifle" } }
     }
   }
 ]

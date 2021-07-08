@@ -1,8 +1,5 @@
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 
-#include <memory>
-
-#include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
 #include "item.h"
@@ -111,7 +108,7 @@ static void burden_player( Character &dummy, float burden_proportion )
 static int burdened_burn_rate( Character &dummy, const move_mode_id &move_mode,
                                float burden_proportion = 0.0 )
 {
-    clear_avatar( false );
+    clear_avatar();
     burden_player( dummy, burden_proportion );
     return actual_burn_rate( dummy, move_mode );
 }
@@ -332,7 +329,7 @@ TEST_CASE( "burning stamina when overburdened may cause pain", "[stamina][burn][
         // To guarantee pain when moving and ensure consistent test results,
         // set to 350% burden.
 
-        clear_avatar( false );
+        clear_avatar();
         burden_player( dummy, 3.5 );
 
         WHEN( "they have zero stamina left" ) {

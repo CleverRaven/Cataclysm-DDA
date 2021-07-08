@@ -54,6 +54,7 @@
         "$": "t_reinforced_glass_shutter",
         "}": "t_reinforced_door_glass_c"
       },
+      "sealed_item": { "0": { "items": { "item": "farming_seeds", "chance": 100 }, "furniture": "f_plant_seedling", "chance": 70 } },
       "place_nested": [
         { "chunks": [ [ "greenhouse_6x6_herbal", 100 ] ], "x": 8, "y": 8 },
         { "chunks": [ [ "greenhouse_6x6_vegetable", 100 ] ], "x": 8, "y": 15 }

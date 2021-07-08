@@ -1,0 +1,25 @@
+[
+  {
+    "id": "fd_foamcrete",
+    "type": "field_type",
+    "intensity_levels": [
+      { "name": "foamcrete", "move_cost": 1, "sym": "#", "color": "light_blue" },
+      { "name": "foamcrete lump", "move_cost": 2, "color": "light_blue_white" },
+      { "name": "foamcrete half-wall", "move_cost": 3, "color": "light_blue_white" }
+    ],
+    "description_affix": "covered_in",
+    "priority": 2,
+    "phase": "solid",
+    "bash": {
+      "str_min": 15,
+      "str_max": 40,
+      "sound_vol": 3,
+      "sound_fail_vol": 2,
+      "sound": "crash!",
+      "sound_fail": "smash!",
+      "msg_success": "You destroy the foamcrete."
+    },
+    "display_items": false,
+    "display_field": true
+  }
+]

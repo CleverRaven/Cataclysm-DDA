@@ -118,7 +118,7 @@
       [ "crucible", 40 ],
       [ "forge", 40 ],
       [ "jewelry_book", 40 ],
-      [ "soldering_iron", 60 ],
+      { "item": "soldering_iron", "prob": 60, "charges": [ 0, 50 ] },
       [ "solder_wire", 60 ],
       [ "hammer", 60 ],
       [ "chisel", 60 ],

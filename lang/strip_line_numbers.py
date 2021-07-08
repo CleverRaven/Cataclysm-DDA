@@ -8,6 +8,7 @@ import os
 
 usage = "USAGE: strip_line_numbers.py <filename> [<filename> ...]"
 
+
 def strip_pot_file(filename):
     # Check pot file
     if not os.path.isfile(filename):
@@ -18,7 +19,7 @@ def strip_pot_file(filename):
     except IOError as read_exc:
         print(read_exc)
         sys.exit(1)
-    assert(len(to_write) > 1) # Wrong .pot file
+    assert(len(to_write) > 1)  # Wrong .pot file
 
     to_write = strip_line_numbers(to_write)
     to_write = strip_repeated_comments(to_write)
@@ -30,13 +31,14 @@ def strip_pot_file(filename):
         print(write_exc)
         sys.exit(1)
 
+
 def strip_repeated_comments(lines):
     to_remove = []
     ln_length = len(lines)
     for i in range(ln_length):
         line = lines[i]
         if i < (ln_length - 1):
-            next_line = lines[i+1]
+            next_line = lines[i + 1]
         else:
             next_line = None
         # only act on line-comments
@@ -52,6 +54,7 @@ def strip_repeated_comments(lines):
 
     return lines
 
+
 def strip_line_numbers(lines):
     "Strip line numbers from the specified list of strings."
 
@@ -59,7 +62,8 @@ def strip_line_numbers(lines):
     for i in range(len(lines)):
         line = lines[i]
         # only act on line-comments
-        if not line.startswith("#:"): continue
+        if not line.startswith("#:"):
+            continue
         # line comments are of the format: "#: <file>:<line> <file>:<line>"
         items = line.split()
         newitems = ["#:"]
@@ -67,13 +71,14 @@ def strip_line_numbers(lines):
         # and checking for duplicates
         for item in items[1:]:
             newname = item.split(':')[0]
-            if not newname in newitems:
+            if newname not in newitems:
                 newitems.append(newname)
         # replace the old line with the new
         newline = ' '.join(newitems) + '\n'
         lines[i] = newline
 
     return lines
+
 
 if __name__ == "__main__":
     # get filename(s) from sys.argv and strip

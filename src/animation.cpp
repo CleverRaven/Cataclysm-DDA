@@ -1,24 +1,29 @@
 #include "animation.h"
 
 #include "avatar.h"
+#include "cached_options.h"
+#include "character.h"
+#include "creature.h"
+#include "cursesdef.h"
+#include "explosion.h"
 #include "game.h"
+#include "game_constants.h"
+#include "input.h"
 #include "map.h"
+#include "memory_fast.h"
 #include "monster.h"
 #include "mtype.h"
 #include "options.h"
 #include "output.h"
-#include "player.h"
+#include "point.h"
 #include "popup.h"
-#include "weather.h"
-#include "creature.h"
-#include "cursesdef.h"
-#include "game_constants.h"
 #include "posix_time.h"
 #include "translations.h"
 #include "type_id.h"
-#include "explosion.h"
-#include "point.h"
 #include "ui_manager.h"
+#include "units_fwd.h"
+#include "viewer.h"
+#include "weather.h"
 
 #if defined(TILES)
 #include <memory>
@@ -28,9 +33,13 @@
 #endif
 
 #include <algorithm>
+#include <functional>
+#include <iosfwd>
+#include <iterator>
 #include <list>
 #include <map>
-#include <string>
+#include <memory>
+#include <type_traits>
 #include <utility>
 #include <vector>
 
@@ -40,7 +49,7 @@ namespace
 class basic_animation
 {
     public:
-        basic_animation( const int scale ) :
+        explicit basic_animation( const int scale ) :
             delay{ 0, get_option<int>( "ANIMATION_DELAY" ) * scale * 1000000L } {
         }
 
@@ -84,7 +93,7 @@ class bullet_animation : public basic_animation
 
 bool is_point_visible( const tripoint &p, int margin = 0 )
 {
-    return g->is_in_viewport( p, margin ) && get_player_character().sees( p );
+    return g->is_in_viewport( p, margin ) && get_player_view().sees( p );
 }
 
 bool is_radius_visible( const tripoint &center, int radius )
@@ -101,7 +110,7 @@ bool is_layer_visible( const std::map<tripoint, explosion_tile> &layer )
 }
 
 //! Get p relative to u's current position and view
-tripoint relative_view_pos( const player &u, const tripoint &p ) noexcept
+tripoint relative_view_pos( const avatar &u, const tripoint &p ) noexcept
 {
     return p - u.view_offset + tripoint( POSX - u.posx(), POSY - u.posy(), -u.posz() );
 }
@@ -289,7 +298,7 @@ void explosion_handler::draw_explosion( const tripoint &p, const int r, const nc
 #endif
 
 void explosion_handler::draw_custom_explosion( const tripoint &,
-        const std::map<tripoint, nc_color> &all_area )
+        const std::map<tripoint, nc_color> &all_area, const cata::optional<std::string> &tile_id )
 {
     if( test_mode ) {
         // avoid segfault from null tilecontext in tests
@@ -310,7 +319,7 @@ void explosion_handler::draw_custom_explosion( const tripoint &,
         for( const auto &pr : all_area ) {
             const tripoint relative_point = relative_view_pos( player_character, pr.first );
             if( relative_point.z == 0 ) {
-                neighbors[pr.first] = explosion_tile{ N_NO_NEIGHBORS, pr.second };
+                neighbors[pr.first] = explosion_tile{ N_NO_NEIGHBORS, pr.second, tile_id };
             }
         }
     } else {
@@ -320,7 +329,7 @@ void explosion_handler::draw_custom_explosion( const tripoint &,
             // Relative point is only used for z level check
             const tripoint relative_point = relative_view_pos( player_character, pr.first );
             if( relative_point.z == view_center.z ) {
-                neighbors[pr.first] = explosion_tile{ N_NO_NEIGHBORS, pr.second };
+                neighbors[pr.first] = explosion_tile{ N_NO_NEIGHBORS, pr.second, tile_id };
             }
         }
     }
@@ -328,7 +337,7 @@ void explosion_handler::draw_custom_explosion( const tripoint &,
     for( const auto &pr : all_area ) {
         const tripoint relative_point = relative_view_pos( player_character, pr.first );
         if( relative_point.z == 0 ) {
-            neighbors[pr.first] = explosion_tile{ N_NO_NEIGHBORS, pr.second };
+            neighbors[pr.first] = explosion_tile{ N_NO_NEIGHBORS, pr.second, tile_id };
         }
     }
 #endif
@@ -466,6 +475,10 @@ void draw_bullet_curses( map &m, const tripoint &t, const char bullet, const tri
 void game::draw_bullet( const tripoint &t, const int /*i*/,
                         const std::vector<tripoint> &/*trajectory*/, const char bullet )
 {
+    if( test_mode ) {
+        // avoid segfault from null tilecontext in tests
+        return;
+    }
     if( !use_tiles ) {
         draw_bullet_curses( m, t, bullet, nullptr );
         return;
@@ -506,7 +519,7 @@ namespace
 {
 // short visual animation (player, monster, ...) (hit, dodge, ...)
 // cTile is a UTF-8 strings, and must be a single cell wide!
-void hit_animation( const player &u, const tripoint &center, nc_color cColor,
+void hit_animation( const avatar &u, const tripoint &center, nc_color cColor,
                     const std::string &cTile )
 {
     const tripoint init_pos = relative_view_pos( u, center );
@@ -529,7 +542,7 @@ void hit_animation( const player &u, const tripoint &center, nc_color cColor,
     }
 }
 
-void draw_hit_mon_curses( const tripoint &center, const monster &m, const player &u,
+void draw_hit_mon_curses( const tripoint &center, const monster &m, const avatar &u,
                           const bool dead )
 {
     hit_animation( u, center, red_background( m.type->color ), dead ? "%" : m.symbol() );
@@ -726,7 +739,7 @@ namespace
 void draw_weather_curses( const catacurses::window &win, const weather_printable &w )
 {
     for( const auto &drop : w.vdrops ) {
-        mvwputch( win, point( drop.first, drop.second ), w.colGlyph, w.cGlyph );
+        mvwputch( win, point( drop.first, drop.second ), w.colGlyph, w.get_symbol() );
     }
 }
 } //namespace
@@ -919,8 +932,9 @@ void game::draw_item_override( const tripoint &, const itype_id &, const mtype_i
 #endif
 
 #if defined(TILES)
-void game::draw_vpart_override( const tripoint &p, const vpart_id &id, const int part_mod,
-                                const int veh_dir, const bool hilite, const point &mount )
+void game::draw_vpart_override(
+    const tripoint &p, const vpart_id &id, const int part_mod, const units::angle &veh_dir,
+    const bool hilite, const point &mount )
 {
     if( use_tiles ) {
         tilecontext->init_draw_vpart_override( p, id, part_mod, veh_dir, hilite, mount );
@@ -928,7 +942,7 @@ void game::draw_vpart_override( const tripoint &p, const vpart_id &id, const int
 }
 #else
 void game::draw_vpart_override( const tripoint &, const vpart_id &, const int,
-                                const int, const bool, const point & )
+                                const units::angle &, const bool, const point & )
 {
 }
 #endif

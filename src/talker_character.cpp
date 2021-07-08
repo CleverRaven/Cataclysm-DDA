@@ -1,14 +1,17 @@
-#include "game.h"
-#include "game_constants.h"
-#include "messages.h"
-#include "monster.h"
-#include "mtype.h"
+#include <memory>
+
+#include "character_id.h"
+#include "item.h"
+#include "magic.h"
 #include "npc.h"
-#include "npctrade.h"
-#include "output.h"
+#include "pimpl.h"
 #include "player.h"
+#include "player_activity.h"
+#include "point.h"
 #include "talker_character.h"
 #include "vehicle.h"
+
+class time_duration;
 
 std::string talker_character::disp_name() const
 {
@@ -85,6 +88,11 @@ bool talker_character::is_deaf() const
     return me_chr->is_deaf();
 }
 
+bool talker_character::is_mute() const
+{
+    return me_chr->is_mute();
+}
+
 void talker_character::set_mutation( const trait_id &new_trait )
 {
     me_chr->set_mutation( new_trait );
@@ -95,7 +103,7 @@ void talker_character::unset_mutation( const trait_id &old_trait )
     me_chr->unset_mutation( old_trait );
 }
 
-bool talker_character::has_trait_flag( const std::string &trait_flag_to_check ) const
+bool talker_character::has_trait_flag( const json_character_flag &trait_flag_to_check ) const
 {
     return me_chr->has_trait_flag( trait_flag_to_check );
 }
@@ -122,7 +130,7 @@ bool talker_character::has_bionic( const bionic_id &bionics_id ) const
 
 bool talker_character::knows_spell( const spell_id &sp ) const
 {
-    return me_chr->magic.knows_spell( sp );
+    return me_chr->magic->knows_spell( sp );
 }
 
 int talker_character::get_skill_level( const skill_id &skill ) const
@@ -151,7 +159,7 @@ void talker_character::remove_effect( const efftype_id &old_effect )
     me_chr->remove_effect( old_effect );
 }
 
-std::string talker_character:: get_value( const std::string &var_name ) const
+std::string talker_character::get_value( const std::string &var_name ) const
 {
     return me_chr->get_value( var_name );
 }
@@ -284,3 +292,29 @@ void talker_character::shout( const std::string &speech, bool order )
 {
     me_chr->shout( speech, order );
 }
+
+int talker_character::pain_cur() const
+{
+    return me_chr->get_pain();
+}
+
+void talker_character::mod_pain( int amount )
+{
+    me_chr->mod_pain( amount );
+}
+
+bool talker_character::worn_with_flag( const flag_id &flag ) const
+{
+    return me_chr->worn_with_flag( flag );
+}
+
+bool talker_character::wielded_with_flag( const flag_id &flag ) const
+{
+    return me_chr->weapon.has_flag( flag );
+}
+
+units::energy talker_character::power_cur() const
+{
+    return me_chr->get_power_level();
+}
+

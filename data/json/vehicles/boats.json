@@ -5,10 +5,10 @@
     "name": "canoe",
     "blueprint": [ [ "<OO>" ] ],
     "parts": [
-      { "x": 0, "y": 0, "parts": [ "frame_wood_horizontal", "seat", "hand_paddles", "boat_board" ] },
-      { "x": 1, "y": 0, "parts": [ "frame_wood_horizontal", "boat_board", "seat" ] },
-      { "x": 2, "y": 0, "parts": [ "frame_wood_horizontal", "boat_board" ] },
-      { "x": -1, "y": 0, "parts": [ "frame_wood_horizontal", "boat_board" ] }
+      { "x": 0, "y": 0, "parts": [ "frame_wood_vertical", "seat", "hand_paddles", "boat_board" ] },
+      { "x": 1, "y": 0, "parts": [ "frame_wood_vertical", "boat_board", "seat" ] },
+      { "x": 2, "y": 0, "parts": [ "frame_wood_horizontal_front", "boat_board" ] },
+      { "x": -1, "y": 0, "parts": [ "frame_wood_horizontal_rear", "boat_board" ] }
     ]
   },
   {

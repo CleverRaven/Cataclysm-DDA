@@ -72,7 +72,7 @@
   {
     "id": "CWH_DREAMER_IDEAS1",
     "type": "talk_topic",
-    "dynamic_line": "So, like, there were some really bad riots, okay?  Everyone got realy violent and nasty, and to be honest, I was on a bit of a spirit journey for a lot of it and I don't really remember too well.  But the weirdest part is, nobody even *cared* about each other.  It's like all our caring got sucked away.  I think it was some kind of negative energy thing.  And also that made the dead, like, come back to life and stuff.  Plus, like, there were some monsters?  I'm not really sure how they fit in.",
+    "dynamic_line": "So, like, there were some really bad riots, okay?  Everyone got really violent and nasty, and to be honest, I was on a bit of a spirit journey for a lot of it and I don't really remember too well.  But the weirdest part is, nobody even *cared* about each other.  It's like all our caring got sucked away.  I think it was some kind of negative energy thing.  And also that made the dead, like, come back to life and stuff.  Plus, like, there were some monsters?  I'm not really sure how they fit in.",
     "responses": [
       { "text": "You seem to know a lot, what do you think caused it all?", "topic": "CWH_DREAMER_IDEAS2" },
       { "text": "<done_conversation_section>", "topic": "TALK_NONE" },

@@ -276,9 +276,9 @@
       "lab_surface_brick_basementE3",
       "lab_surface_brick_basementE4"
     ],
-    "name": "solid rock",
-    "sym": "%",
-    "color": "dark_gray",
+    "name": "solid earth",
+    "sym": "#",
+    "color": "brown",
     "see_cost": 5
   },
   {

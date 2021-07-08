@@ -10,9 +10,8 @@
       { "item": "holster", "contents-group": "military_standard_pistols" },
       { "item": "two_way_radio", "prob": 90 },
       { "item": "adderall", "prob": 40 },
-      { "item": "id_military", "prob": 25 },
+      { "group": "wallets_military", "prob": 25 },
       { "group": "military_patrol_food", "prob": 30 },
-      { "item": "cash_card", "prob": 10, "charges": [ 0, 50000 ] },
       { "group": "misc_smoking", "prob": 30 }
     ]
   }

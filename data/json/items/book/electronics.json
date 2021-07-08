@@ -15,7 +15,7 @@
     "skill": "electronics",
     "required_level": 2,
     "max_level": 5,
-    "intelligence": 11,
+    "intelligence": 10,
     "time": "35 m",
     "fun": -1
   },
@@ -70,7 +70,7 @@
     "skill": "electronics",
     "required_level": 4,
     "max_level": 8,
-    "intelligence": 11,
+    "intelligence": 10,
     "time": "35 m",
     "fun": -1
   },
@@ -108,7 +108,7 @@
     "skill": "electronics",
     "required_level": 4,
     "max_level": 5,
-    "intelligence": 9,
+    "intelligence": 10,
     "time": "45 m",
     "fun": 1
   },
@@ -127,7 +127,7 @@
     "skill": "electronics",
     "required_level": 5,
     "max_level": 8,
-    "intelligence": 12,
+    "intelligence": 13,
     "time": "45 m",
     "fun": -2
   },
@@ -142,6 +142,7 @@
     "price_postapoc": 2500,
     "material": [ "paper" ],
     "symbol": "?",
+    "looks_like": "recipe_lab_elec",
     "color": "light_green",
     "skill": "electronics",
     "required_level": 6,
@@ -185,7 +186,7 @@
     "skill": "electronics",
     "required_level": 3,
     "max_level": 6,
-    "intelligence": 12,
+    "intelligence": 10,
     "time": "35 m",
     "fun": -1
   },
@@ -205,7 +206,7 @@
     "skill": "electronics",
     "required_level": 5,
     "max_level": 10,
-    "intelligence": 13,
+    "intelligence": 12,
     "time": "55 m",
     "fun": -1
   },
@@ -214,6 +215,7 @@
     "type": "BOOK",
     "name": { "str_sp": "schematics" },
     "description": "seeing this is a bug",
+    "looks_like": "schematics_eyebot",
     "weight": "30 g",
     "volume": "250 ml",
     "price": 100000,

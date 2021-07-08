@@ -25,7 +25,7 @@
         "max_contains_weight": "5 kg"
       }
     ],
-    "armor_data": { "covers": [ "torso" ], "coverage": 10, "encumbrance": 4, "material_thickness": 2 },
+    "armor_data": { "material_thickness": 2, "armor": [ { "encumbrance": 4, "coverage": 10, "covers": [ "torso" ] } ] },
     "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
@@ -34,7 +34,7 @@
     "category": "container",
     "name": { "str": "30 gallon barrel" },
     "looks_like": "55gal_drum",
-    "description": "A huge plastic barrel with a resealable lid.",
+    "description": "A huge plastic barrel with a watertight lid.",
     "weight": "6800 g",
     "volume": "118125 ml",
     "price": 5000,
@@ -61,7 +61,7 @@
     "category": "container",
     "looks_like": "30gal_barrel",
     "name": { "str": "steel drum (100L)", "str_pl": "steel drums (100L)" },
-    "description": "A huge steel barrel with a resealable lid.",
+    "description": "A huge steel barrel with a watertight lid.",
     "weight": "12000 g",
     "volume": "105 L",
     "price": 8000,
@@ -88,7 +88,7 @@
     "category": "container",
     "looks_like": "30gal_drum",
     "name": { "str": "steel drum (200L)", "str_pl": "steel drums (200L)" },
-    "description": "A massive steel barrel with a resealable lid.",
+    "description": "A massive steel barrel with a watertight lid.",
     "weight": "20000 g",
     "volume": "210 L",
     "price": 10000,
@@ -162,6 +162,32 @@
     "flags": [ "TRADER_AVOID" ]
   },
   {
+    "id": "bag_paper_powder",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "small powder paper bag" },
+    "looks_like": "bag_plastic",
+    "description": "A small but sturdy paper bag.  Rock solid when packed full with powder.",
+    "weight": "5 g",
+    "volume": "10 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "to_hit": -1,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": false,
+        "max_contains_volume": "2500 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 200
+      }
+    ],
+    "material": [ "paper" ],
+    "symbol": ")",
+    "color": "white",
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
     "id": "bag_zipper",
     "type": "GENERIC",
     "category": "container",
@@ -176,6 +202,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
+        "watertight": true,
         "max_contains_volume": "250 ml",
         "max_contains_weight": "750 g",
         "spoil_multiplier": 0.8,
@@ -204,7 +231,6 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "watertight": true,
         "max_contains_volume": "100 L",
         "max_contains_weight": "100 kg",
         "max_item_length": "200 cm",
@@ -246,7 +272,7 @@
     "category": "container",
     "name": { "str": "glass bottle" },
     "looks_like": "bottle_plastic",
-    "description": "A resealable glass bottle, holds 750 ml of liquid.",
+    "description": "A watertight glass bottle, holds 750 ml of liquid.",
     "weight": "450 g",
     "volume": "1318 ml",
     "longest_side": "276 mm",
@@ -276,17 +302,19 @@
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "plastic bottle" },
-    "description": "A resealable plastic bottle, holds 500 ml of liquid.",
+    "description": "A watertight plastic bottle, holds 500 ml of liquid.  Some may be factory-sealed to increase shelf life.",
     "weight": "13 g",
     "volume": "502 ml",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
+        "airtight": true,
         "watertight": true,
         "rigid": true,
         "max_contains_volume": "500 ml",
         "max_item_volume": "17 ml",
-        "max_contains_weight": "1 kg",
+        "max_contains_weight": "1250 g",
+        "sealed_data": { "spoil_multiplier": 0.5 },
         "moves": 400
       }
     ],
@@ -333,7 +361,7 @@
     "category": "container",
     "name": { "str": "small plastic bottle" },
     "looks_like": "bottle_plastic",
-    "description": "A resealable plastic bottle, holds 250 ml of liquid.",
+    "description": "A watertight plastic bottle, holds 250 ml of liquid.",
     "weight": "7 g",
     "volume": "251 ml",
     "pocket_data": [
@@ -414,14 +442,14 @@
     "looks_like": "box_small",
     "description": "SURGEON GENERAL'S WARNING: Smoking Causes Lung Cancer, Heart Disease, Emphysema And May Complicate Pregnancy.",
     "weight": "15 g",
-    "volume": "90 ml",
+    "volume": "95 ml",
     "price": 0,
     "price_postapoc": 0,
     "material": [ "paper" ],
     "ascii_picture": "box_cigarette",
     "symbol": ")",
     "color": "white",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "85 ml", "max_contains_weight": "3 kg" } ]
+    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "90 ml", "max_contains_weight": "3 kg" } ]
   },
   {
     "id": "box_small",
@@ -430,8 +458,18 @@
     "name": { "str": "small cardboard box", "str_pl": "small cardboard boxes" },
     "description": "A small cardboard box.  No bigger than a foot in dimension.",
     "weight": "151 g",
-    "volume": "1 L",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "990 ml", "max_contains_weight": "4 kg" } ],
+    "volume": "2100 ml",
+    "longest_side": "22 cm",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "2000 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "20 cm"
+      }
+    ],
+    "//": "~7x20x15 or ~4x22x22",
     "price": 0,
     "price_postapoc": 0,
     "material": [ "cardboard" ],
@@ -446,17 +484,18 @@
     "looks_like": "box_small",
     "description": "A sturdy cardboard box, about the size of a banana box.  Great for packing.",
     "weight": "850 g",
-    "volume": "2100 ml",
-    "//": "Volume is much lower than the actual volume of a box this size because presumably if it's in your pack, it isn't empty and full of air; and if it's in your hands, it's irrelevant what the volume is.",
+    "volume": "50100 ml",
+    "longest_side": "50 cm",
+    "//": "(25x40x50)",
     "price": 0,
     "price_postapoc": 0,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "rigid": false,
-        "max_contains_volume": "2990 ml",
+        "rigid": true,
+        "max_contains_volume": "50000 ml",
         "max_contains_weight": "20 kg",
-        "magazine_well": "2 L"
+        "max_item_length": "60 cm"
       }
     ],
     "material": [ "cardboard" ],
@@ -471,8 +510,9 @@
     "looks_like": "box_medium",
     "description": "A very large cardboard box, the sort children would have loved to hide in, when there were still children.",
     "weight": "1250 g",
-    "volume": "3150 ml",
-    "//": "Volume is much lower than the actual volume of a box this size because presumably if it's in your pack, it isn't empty and full of air; and if it's in your hands, it's irrelevant what the volume is.",
+    "volume": "325000 ml",
+    "longest_side": "90 cm",
+    "//": "A box that children could hide in should be big enough to cram a (un)dead child or uncomfortable adult in (90x90x60)",
     "price": 0,
     "price_postapoc": 10,
     "material": [ "cardboard" ],
@@ -481,10 +521,10 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "rigid": false,
-        "max_contains_volume": "4990 ml",
+        "rigid": true,
+        "max_contains_volume": "324000 ml",
         "max_contains_weight": "50 kg",
-        "magazine_well": "3 L"
+        "max_item_length": "100 cm"
       }
     ],
     "use_action": { "type": "deploy_furn", "furn_type": "f_cardboard_box" }
@@ -495,8 +535,9 @@
     "category": "container",
     "name": { "str": "bucket" },
     "description": "A galvanized bucket for peanuts, chilled wine, iced beer, lobster, crab legs, French fries, animal feed, farm use, tailgating, crafts, planting flowers, holding gift baskets, containing a fruit basket and herbs, loose item storage or as an ice bucket.",
+    "ascii_picture": "bucket",
     "weight": "725 g",
-    "volume": "5 L",
+    "volume": "5500 ml",
     "price": 300,
     "price_postapoc": 10,
     "material": [ "steel" ],
@@ -508,7 +549,7 @@
         "rigid": true,
         "watertight": true,
         "open_container": true,
-        "max_contains_volume": "4990 ml",
+        "max_contains_volume": "5000 ml",
         "max_contains_weight": "20 kg"
       }
     ],
@@ -540,7 +581,7 @@
         "max_contains_weight": "20 kg"
       }
     ],
-    "armor_data": { "covers": [ "torso" ], "coverage": 15, "material_thickness": 1 },
+    "armor_data": { "material_thickness": 1, "armor": [ { "coverage": 15, "covers": [ "torso" ] } ] },
     "flags": [ "BELTED" ]
   },
   {
@@ -577,7 +618,7 @@
     "category": "container",
     "name": { "str": "paper carton" },
     "looks_like": "box_small",
-    "description": "A half gallon carton constructed of a paper, aluminum, and plastic laminate.  It has a threaded cap for easy resealing.",
+    "description": "A half gallon carton constructed of a paper, aluminum, and plastic laminate.  It has a threaded cap to keep liquid from leaking out.",
     "weight": "28 g",
     "volume": "2003 ml",
     "price": 0,
@@ -592,7 +633,34 @@
         "rigid": true,
         "watertight": true,
         "max_contains_volume": "2 L",
-        "max_contains_weight": "5 kg"
+        "max_contains_weight": "5 kg",
+        "sealed_data": { "spoil_multiplier": 0.5 }
+      }
+    ]
+  },
+  {
+    "id": "carton_egg",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "egg carton" },
+    "looks_like": "box_small",
+    "description": "A cardboard container with 12 individual cavities for storing eggs.",
+    "weight": "28 g",
+    "volume": "620 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "to_hit": 1,
+    "material": [ "cardboard" ],
+    "symbol": ")",
+    "color": "brown",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": false,
+        "max_contains_volume": "600 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "45 mm"
       }
     ]
   },
@@ -694,7 +762,11 @@
         "max_contains_weight": "3 kg"
       }
     ],
-    "armor_data": { "covers": [ "leg_l", "leg_r" ], "sided": true, "coverage": 5, "encumbrance": 2, "material_thickness": 2 },
+    "armor_data": {
+      "sided": true,
+      "material_thickness": 2,
+      "armor": [ { "encumbrance": 2, "coverage": 5, "covers": [ "leg_l", "leg_r" ] } ]
+    },
     "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
@@ -850,7 +922,7 @@
         "rigid": true,
         "watertight": true,
         "max_contains_volume": "250 ml",
-        "max_contains_weight": "1 kg"
+        "max_contains_weight": "1250 g"
       }
     ],
     "qualities": [ [ "BOIL", 1 ] ]
@@ -993,7 +1065,7 @@
         "max_contains_weight": "1 kg"
       }
     ],
-    "armor_data": { "covers": [ "leg_l", "leg_r" ], "sided": true, "coverage": 2, "material_thickness": 1 },
+    "armor_data": { "sided": true, "material_thickness": 1, "armor": [ { "coverage": 2, "covers": [ "leg_l", "leg_r" ] } ] },
     "qualities": [ [ "BOIL", 1 ] ],
     "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
@@ -1137,7 +1209,7 @@
     "category": "container",
     "name": { "str": "gallon jug" },
     "looks_like": "bottle_plastic",
-    "description": "A standard plastic jug used for milk and household cleaning chemicals.",
+    "description": "A standard plastic jug used for milk and household cleaning chemicals.  Some may be factory-sealed to increase shelf life.",
     "weight": "190 g",
     "volume": "3752 ml",
     "price": 0,
@@ -1153,7 +1225,8 @@
         "watertight": true,
         "max_contains_volume": "3750 ml",
         "max_item_volume": "32 ml",
-        "max_contains_weight": "8 kg"
+        "max_contains_weight": "8 kg",
+        "sealed_data": { "spoil_multiplier": 0.5 }
       }
     ]
   },
@@ -1317,7 +1390,7 @@
         "max_contains_weight": "3 kg"
       }
     ],
-    "armor_data": { "covers": [ "torso" ], "coverage": 5, "encumbrance": 5, "material_thickness": 2 },
+    "armor_data": { "material_thickness": 2, "armor": [ { "encumbrance": 5, "coverage": 5, "covers": [ "torso" ] } ] },
     "flags": [ "WAIST", "WATER_FRIENDLY" ]
   },
   {
@@ -1370,7 +1443,7 @@
         "max_contains_weight": "3 kg"
       }
     ],
-    "armor_data": { "covers": [ "leg_l", "leg_r" ], "sided": true, "coverage": 5, "material_thickness": 2 },
+    "armor_data": { "sided": true, "material_thickness": 2, "armor": [ { "coverage": 5, "covers": [ "leg_l", "leg_r" ] } ] },
     "flags": [ "WAIST", "WATER_FRIENDLY" ]
   },
   {
@@ -1398,7 +1471,7 @@
         "max_contains_weight": "6 kg"
       }
     ],
-    "armor_data": { "covers": [ "torso" ], "coverage": 10, "material_thickness": 2 },
+    "armor_data": { "material_thickness": 2, "armor": [ { "coverage": 10, "covers": [ "torso" ] } ] },
     "flags": [ "WAIST", "WATER_FRIENDLY" ]
   },
   {
@@ -1426,7 +1499,7 @@
         "max_contains_weight": "10 kg"
       }
     ],
-    "armor_data": { "covers": [ "torso" ], "coverage": 15, "material_thickness": 2 },
+    "armor_data": { "material_thickness": 2, "armor": [ { "coverage": 15, "covers": [ "torso" ] } ] },
     "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
@@ -1437,7 +1510,7 @@
     "looks_like": "30l_barrel",
     "description": "Traditionally made of white oak; these vessels are known for delivering delicious whiskey to the future.  It has a capacity of 100 liters.",
     "weight": "42408 g",
-    "volume": "101 L",
+    "volume": "110 L",
     "price": 12000,
     "price_postapoc": 250,
     "to_hit": -5,
@@ -1445,7 +1518,15 @@
     "material": [ "wood", "steel" ],
     "symbol": ")",
     "color": "brown",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "watertight": true, "max_contains_volume": "100 L", "max_contains_weight": "200 kg" } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "max_contains_volume": "100 L",
+        "max_contains_weight": "200 kg"
+      }
+    ],
     "qualities": [ [ "CONTAIN", 1 ] ]
   },
   {
@@ -1469,8 +1550,10 @@
     "id": "wrapper_pr",
     "type": "GENERIC",
     "name": { "str": "wrapper" },
-    "//desc": "Daizu is Japanese for soy, hence DaiZoom",
-    "description": "\"DaiZoom Protein Bar, brought to you by SoyPelusa\" is emblazoned proudly upon this greaseproof wrapper.",
+    "description": {
+      "//~": "Daizu is Japanese for soy, hence DaiZoom",
+      "str": "\"DaiZoom Protein Bar, brought to you by SoyPelusa\" is emblazoned proudly upon this greaseproof wrapper."
+    },
     "copy-from": "wrapper",
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "225 ml", "max_contains_weight": "1 kg" } ]
   },
@@ -1542,7 +1625,6 @@
   {
     "id": "balloon",
     "type": "GENERIC",
-    "category": "other",
     "looks_like": "condom",
     "name": { "str": "balloon" },
     "description": "A child's balloon.  This could be used as a makeshift water container.",
@@ -1567,6 +1649,7 @@
         "pocket_type": "CONTAINER",
         "watertight": true,
         "rigid": true,
+        "open_container": true,
         "max_contains_volume": "3 L",
         "max_contains_weight": "6 kg",
         "sealed_data": { "spoil_multiplier": 0.0 }
@@ -1579,9 +1662,9 @@
     "category": "container",
     "name": { "str": "survival kit box", "str_pl": "survival kit boxes" },
     "looks_like": "box_small",
-    "description": "An aluminum box that used to contain a small survival kit.  Can hold 1 liter of liquid.",
-    "weight": "200 g",
-    "volume": "1002 ml",
+    "description": "An aluminum box that used to contain a small survival kit.",
+    "weight": "800 g",
+    "volume": "2300 ml",
     "price": 0,
     "price_postapoc": 0,
     "material": [ "aluminum" ],
@@ -1592,11 +1675,27 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": true,
-        "max_contains_volume": "1 L",
-        "max_contains_weight": "2 kg"
+        "max_contains_volume": "2100 ml",
+        "max_contains_weight": "4000 g"
       }
     ],
     "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ]
+  },
+  {
+    "id": "large_survival_kit_box",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "survival kit box", "str_pl": "survival kit boxes" },
+    "looks_like": "box_small",
+    "description": "The ultimate survival kit purchased either by the wealthy or the dedicated urban survivalist.  It contains tools and items to help you survive in case of an emergency.",
+    "weight": "850 g",
+    "volume": "8900 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "8500 ml", "max_contains_weight": "20000 g" } ],
+    "material": [ "cardboard" ],
+    "symbol": ")",
+    "color": "brown"
   },
   {
     "id": "box_tea",
@@ -1613,5 +1712,105 @@
     "symbol": ")",
     "color": "green",
     "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "100 ml", "max_contains_weight": "200 g" } ]
+  },
+  {
+    "id": "1st_aid_box",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "first aid kit box", "str_pl": "first aid kit boxes" },
+    "looks_like": "1st_aid",
+    "description": "A plastic box that used to contain a first aid kit.",
+    "weight": "50 g",
+    "volume": "2650 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "to_hit": -2,
+    "material": [ "plastic" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2450 ml",
+        "max_contains_weight": "3 kg",
+        "rigid": true,
+        "moves": 400
+      }
+    ],
+    "symbol": ")",
+    "color": "red"
+  },
+  {
+    "id": "ifak_pouch",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "IFAK pouch", "str_pl": "IFAK pouches" },
+    "looks_like": "1st_aid",
+    "description": "A fabric pouch that used to contain an IFAK.",
+    "weight": "5 g",
+    "volume": "1250 ml",
+    "price": 0,
+    "price_postapoc": 10,
+    "to_hit": -2,
+    "material": [ "cotton", "neoprene" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "3200 ml",
+        "max_contains_weight": "4000 g",
+        "moves": 400,
+        "rigid": false
+      }
+    ],
+    "symbol": ")",
+    "color": "red"
+  },
+  {
+    "id": "rc_car_box",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "radio car box", "str_pl": "radio car boxes" },
+    "description": "An RC car, with radio-control and batteries included!  Unpack and enjoy.",
+    "weight": "400 g",
+    "volume": "3200 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "to_hit": -1,
+    "material": [ "cardboard" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2900 ml",
+        "max_contains_weight": "4 kg",
+        "rigid": true,
+        "moves": 400
+      }
+    ],
+    "symbol": ")",
+    "color": "red"
+  },
+  {
+    "id": "beverage_bag",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "plastic beverage bag" },
+    "description": "A transparent, watertight plastic bag meant for holding drinks.",
+    "looks_like": "bag_plastic",
+    "weight": "6 g",
+    "volume": "262 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "to_hit": 1,
+    "material": [ "plastic" ],
+    "symbol": ")",
+    "color": "white",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": false,
+        "watertight": true,
+        "open_container": true,
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "1 kg"
+      }
+    ]
   }
 ]

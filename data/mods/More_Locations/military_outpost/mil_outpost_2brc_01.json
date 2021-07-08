@@ -16,7 +16,7 @@
         "###||>>......|.....||###",
         "fff||>>......+.....||###",
         "   ||....----------||###",
-        "   ||...v|.....|...||###",
+        "   ||...u|.....|...||###",
         "   ||..---.....+...||###",
         "   ||..|.......|.BB||###",
         "   !...!...<<..|---||###",
@@ -35,7 +35,8 @@
       ],
       "palettes": [ "mil_outpost_bandit" ],
       "terrain": { " ": "t_flat_roof", ",": "t_open_air", "f": "t_railing_h", "F": "t_railing_v" },
-      "items": { "X": { "item": "hardware_bulk", "chance": 80 }, "x": { "item": "mechanics", "chance": 80 } }
+      "items": { "X": { "item": "hardware_bulk", "chance": 80 }, "x": { "item": "mechanics", "chance": 80 } },
+      "npcs": { "@": { "class": "thug" } }
     }
   }
 ]

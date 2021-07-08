@@ -1,11 +1,9 @@
-#include "catch/catch.hpp"
-
-#include <cstdlib>
-#include <memory>
-
 #include "calendar.h"
+#include "cata_catch.h"
+#include "enums.h"
 #include "item.h"
 #include "point.h"
+#include "type_id.h"
 #include "weather.h"
 
 static void set_map_temperature( int new_temperature )
@@ -70,7 +68,7 @@ TEST_CASE( "Rate of rotting" )
         CHECK( freeze_item.get_rot() == 0_turns );
 
         // The item in freezer should still not be frozen
-        CHECK( !freeze_item.item_tags.count( "FROZEN" ) );
+        CHECK( !freeze_item.has_own_flag( flag_id( "FROZEN" ) ) );
     }
 }
 

@@ -1,6 +1,6 @@
 #include "character_id.h"
 
-#include <ostream>
+#include <ostream> // IWYU pragma: keep
 
 std::ostream &operator<<( std::ostream &o, character_id id )
 {

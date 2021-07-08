@@ -1,17 +1,19 @@
 /* Entry point and main loop for Cataclysm
  */
 
+// IWYU pragma: no_include <sys/signal.h>
+#include <clocale>
+#include <algorithm>
+#include <array>
 #include <clocale>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
-#include <iostream>
-#include <locale>
-#include <map>
-#include <array>
 #include <exception>
 #include <functional>
+#include <iostream>
+#include <map>
 #include <memory>
 #include <string>
 #include <utility>
@@ -21,6 +23,7 @@
 #else
 #include <csignal>
 #endif
+#include "cached_options.h"
 #include "color.h"
 #include "crash.h"
 #include "cursesdef.h"
@@ -32,13 +35,15 @@
 #include "loading_ui.h"
 #include "main_menu.h"
 #include "mapsharing.h"
+#include "memory_fast.h"
 #include "options.h"
 #include "output.h"
 #include "path_info.h"
 #include "rng.h"
 #include "translations.h"
 #include "type_id.h"
-#include "ui_manager.h"
+
+class ui_adaptor;
 
 #if defined(TILES)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)
@@ -49,11 +54,11 @@
 #endif
 
 #if defined(__ANDROID__)
-#include <unistd.h>
-#include <SDL_system.h>
 #include <SDL_filesystem.h>
 #include <SDL_keyboard.h>
+#include <SDL_system.h>
 #include <android/log.h>
+#include <unistd.h>
 
 // Taken from: https://codelab.wordpress.com/2014/11/03/how-to-use-standard-output-streams-for-logging-in-android-apps/
 // Force Android standard output to adb logcat output
@@ -115,6 +120,12 @@ void exit_handler( int s )
         g.reset();
 
         catacurses::endwin();
+
+#if defined(__ANDROID__)
+        // Avoid capturing SIGABRT on exit on Android in crash report
+        // Can be removed once the SIGABRT on exit problem is fixed
+        signal( SIGABRT, SIG_DFL );
+#endif
 
         exit( exit_status );
     }
@@ -628,6 +639,8 @@ int main( int argc, const char *argv[] )
 
     rng_set_engine_seed( cli.seed );
 
+    game_ui::init_ui();
+
     g = std::make_unique<game>();
     // First load and initialize everything that does not
     // depend on the mods.
@@ -653,8 +666,8 @@ int main( int argc, const char *argv[] )
 
     // Now we do the actual game.
 
-    game_ui::init_ui();
-
+    // I have no clue what this comment is on about
+    // Any value works well enough for debugging at least
     catacurses::curs_set( 0 ); // Invisible cursor here, because MAPBUFFER.load() is crash-prone
 
 #if !defined(_WIN32)
@@ -666,25 +679,12 @@ int main( int argc, const char *argv[] )
 #endif
 
 #if defined(LOCALIZE)
-    std::string lang;
-#if defined(_WIN32)
-    lang = getLangFromLCID( GetUserDefaultLCID() );
-#else
-    const char *v = setlocale( LC_ALL, nullptr );
-    if( v != nullptr ) {
-        lang = v;
-
-        if( lang == "C" ) {
-            lang = "en";
-        }
-    }
-#endif
-    if( get_option<std::string>( "USE_LANG" ).empty() && ( lang.empty() ||
-            !isValidLanguage( lang ) ) ) {
+    if( get_option<std::string>( "USE_LANG" ).empty() && getSystemLanguage().empty() ) {
         select_language();
         set_language();
     }
 #endif
+    replay_buffered_debugmsg_prompts();
 
     while( true ) {
         if( !cli.world.empty() ) {

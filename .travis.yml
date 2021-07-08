@@ -27,7 +27,7 @@ os: linux
 branches:
   only:
   - master
-  - development
+  - 0.F-dev
 
 # Overall strategy for what sorts of builds to include:
 # We want a build for each compiler and each platform.
@@ -99,7 +99,8 @@ jobs:
     - stage: "Platforms and Tidy"
     # MXE variant using alternate repository http://mirror.mxe.cc/repos/apt
       env: COMPILER=g++ LDFLAGS="-static-libgcc -static-libstdc++" MXE_TARGET="i686-w64-mingw32.static" WINE="wine" TILES=1 SOUND=1
-      name: "Mingw-w64 Make cross-compile to Windows with Tiles and Sound"
+      name: "MinGW-Win64 Make cross-compile to Windows with Tiles and Sound"
+      if: type != pull_request
       compiler: gcc
       addons: &gcc
         apt:
@@ -111,17 +112,16 @@ jobs:
       android:
         components:
           - build-tools-28.0.1
-          - android-28
       cache:
         # The ccache feature in Travis doesn't work for language: android, so
         # do it ourselves.
         directories:
           - $HOME/.ccache
 
-    - env: CLANG=clang++ NATIVE=osx OSX_MIN=10.13 TILES=1 SOUND=1 BREWGETTEXT=1
-      name: "Xcode 10.1 Make build with Tiles and sound (macOS)"
+    - env: CLANG=clang++ OSX_MIN=10.13 TILES=1 SOUND=1
+      name: "Xcode 10.2 Make build with Tiles and sound (macOS)"
       os: osx
-      osx_image: xcode10.1
+      osx_image: xcode10.2
       compiler: clang
 
     # Finally check the compiler variants
@@ -149,13 +149,6 @@ jobs:
           packages: ["g++-7",   "g++-7-multilib",   "libc6-dbg", "libc6-dbg:i386", "lcov"]
           sources: *apt_sources
 
-    - env: COMPILER='g++' LDFLAGS='-static-libgcc -static-libstdc++' MXE_TARGET='i686-w64-mingw32.static' WINE='wine'
-      name: "Mingw-w64 Make build with Curses"
-      if: type != pull_request
-      addons: &gcc
-        apt:
-          packages: ["wine"]
-
     - env: CLANG=clang++-3.9 CXXFLAGS='-Wno-error=unused-command-line-argument -D__extern_always_inline="extern __always_inline"'
       name: "Clang 3.9 Make build with Curses"
       if: type != pull_request
@@ -175,17 +168,14 @@ jobs:
           # Luckily the Trusty install Just Works on Xenial
           sources: [*apt_sources, llvm-toolchain-trusty-4.0]
 
-    # Clang 5.0 (still on Trusty, because I could find no readily available
-    # source on Xenial at time of writing)
     - env: CLANG=clang++-5.0 CXXFLAGS=-Wno-error=unused-command-line-argument
       name: "Clang 5 Make build with Curses"
       if: type != pull_request
-      dist: trusty
       compiler: clang
       addons: &clang50
         apt:
           packages: ["clang-5.0"]
-          sources: [*apt_sources, llvm-toolchain-trusty-5.0]
+          sources: [*apt_sources, llvm-toolchain-xenial-5.0]
 
     - env: CLANG=clang++-6.0 TILES=1 SOUND=1 CXXFLAGS=-Wno-error=unused-command-line-argument CMAKE=1 RELEASE=1
       name: "Clang 6 CMake build with tiles and sound"
@@ -193,7 +183,7 @@ jobs:
       compiler: clang
       addons: &clang60
         apt:
-          packages: ["clang-6.0", "libsdl2-dev", "libsdl2-ttf-dev", "libsdl2-image-dev", "libsdl2-mixer-dev", "libpulse-dev", "libpulse0=1:8.0-0ubuntu3.10", "libpulse-mainloop-glib0=1:8.0-0ubuntu3.10"]
+          packages: ["clang-6.0", "libsdl2-dev", "libsdl2-ttf-dev", "libsdl2-image-dev", "libsdl2-mixer-dev"]
           sources: [*apt_sources, llvm-toolchain-xenial-6.0]
 
     - env: CLANG=clang++-7
@@ -226,6 +216,9 @@ jobs:
           sources:
             - sourceline: "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-9 main"
               key_url: "https://apt.llvm.org/llvm-snapshot.gpg.key"
+
+before_install:
+  - if [ "${NATIVE}" == "android" ]; then yes | sdkmanager "platforms;android-28"; fi
 
 before_script:
   - if [ -n "${CLANG}" ]; then COMPILER="$CLANG"; fi

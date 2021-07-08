@@ -5,7 +5,7 @@
     "copy-from": "cestus",
     "looks_like": "cestus",
     "name": "cestus +1",
-    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "proportional": { "price": 3.0, "price_postapoc": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
     "relative": { "to_hit": 1 }
   },
   {
@@ -14,7 +14,7 @@
     "copy-from": "cestus",
     "looks_like": "cestus",
     "name": "cestus +2",
-    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "proportional": { "price": 6.0, "price_postapoc": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }
   },
   {
@@ -100,7 +100,6 @@
     "symbol": "3",
     "color": "light_gray",
     "name": { "str": "Earthshaper cestus", "str_pl": "Earthshaper cesti" },
-    "//": "Equivalent to cestus +1 with BRUTAL and WBLOCK1",
     "description": "A stone battle glove with carved runes encasing the hand, protecting it while increasing striking power.  There is an Earthshaper rune embedded in the palm.",
     "material": [ "stone", "leather", "steel" ],
     "volume": "500 ml",

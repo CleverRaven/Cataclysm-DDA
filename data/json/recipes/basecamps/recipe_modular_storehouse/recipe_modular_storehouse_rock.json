@@ -1,6 +1,7 @@
 [
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_storehouse_rock_east",
     "description": "We could use a large stone central storage building.  Begin by building the east wing.",
     "category": "CC_BUILDING",
@@ -31,6 +32,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_storehouse_rock_west",
     "description": "We could use a large stone central storage building.  Continue by building the west wing.",
     "category": "CC_BUILDING",
@@ -61,6 +63,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_storehouse_rock_northwest",
     "description": "We could use a large stone central storage building.  Continue by building the northwest corner.",
     "category": "CC_BUILDING",
@@ -92,6 +95,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_storehouse_rock_southwest",
     "description": "We could use a large stone central storage building.  Continue by building the southwest corner.",
     "category": "CC_BUILDING",
@@ -123,6 +127,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_storehouse_rock_northeast",
     "description": "We could use a large stone central storage building.  Continue by building the northeast corner.",
     "category": "CC_BUILDING",
@@ -154,6 +159,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_storehouse_rock_southeast",
     "description": "We could use a large stone central storage building.  Continue by building the southeast corner.",
     "category": "CC_BUILDING",
@@ -185,6 +191,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_storehouse_rock_south",
     "description": "We could use a large stone central storage building.  Continue by building the southern entrance.",
     "category": "CC_BUILDING",
@@ -217,6 +224,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_storehouse_rock_north",
     "description": "We could use a large stone central storage building.  Continue by building the northern entrance.",
     "category": "CC_BUILDING",
@@ -249,6 +257,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_storehouse_rock_center",
     "description": "We could use a large stone central storage building.  Continue by filling in the floor.",
     "category": "CC_BUILDING",

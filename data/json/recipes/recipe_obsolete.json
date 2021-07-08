@@ -6,6 +6,32 @@
   },
   {
     "type": "recipe",
+    "result": "jar_3l_glass",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "jar_glass",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "pheromone",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "four_winds_shotgun",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "four_winds_shotgun",
+    "id_suffix": "without_welding",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "bolt_steel_bodkin",
     "obsolete": true
   },
@@ -16,7 +42,47 @@
   },
   {
     "type": "recipe",
+    "result": "radio_car_box",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "1st_aid",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "ifak",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "toolbox",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "survivor_belt",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "survivor_belt",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "survival_kit",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "arrow_metal_target",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "toolbox_workshop",
     "obsolete": true
   },
   {
@@ -2498,6 +2564,223 @@
   {
     "type": "recipe",
     "result": "slam_shotgun",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "rag",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "can_medium_unsealed",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "acid",
+    "id_suffix": "from batteries",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "toolbox",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "survivor_belt",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_270",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "tool_anfo_charge",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "tool_rdx_charge",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_laser_pack",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "unbio_blaster_gun",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "fertilizer_bomb",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "lsd",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "sheet_neoprene",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "acid",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "water_acid",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "lye_powder",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "flamethrower_simple",
+    "obsolete": true
+  },
+  {
+    "result": "double_plutonium_core",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "ring",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "pipebomb",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "tool_black_powder_charge",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "pipe_combination_gun",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "rifle_308",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "surv_carbine_223",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "rifle_3006",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "tihar",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "helsing",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "pneumatic_shotgun",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mininuke_launcher",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "rebar_rifle",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "heavy_rail_rifle",
+    "obsolete": true
+  },
+  {
+    "result": "nailrifle",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mininuke_mod",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "slime_scrap",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "element",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "foot_crank",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mp3",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "blindfold",
+    "id_suffix": "from_tape",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "towel",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "cs_lajatang_off",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "ecs_lajatang_off",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "rifle_223",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bodypillow",
     "obsolete": true
   }
 ]

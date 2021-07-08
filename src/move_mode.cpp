@@ -1,9 +1,17 @@
 #include "move_mode.h"
 
+#include <algorithm>
+#include <cstddef>
+#include <set>
+#include <string>
+
+#include "assign.h"
+#include "debug.h"
 #include "game_constants.h"
 #include "generic_factory.h"
+#include "json.h"
 
-std::vector<move_mode_id> move_modes_sorted;
+static std::vector<move_mode_id> move_modes_sorted;
 
 const std::vector<move_mode_id> &move_modes_by_speed()
 {
@@ -19,6 +27,12 @@ template<>
 const move_mode &move_mode_id::obj() const
 {
     return move_mode_factory.obj( *this );
+}
+
+template<>
+bool move_mode_id::is_valid() const
+{
+    return move_mode_factory.is_valid( *this );
 }
 
 static const std::map<std::string, move_mode_type> move_types {
@@ -44,10 +58,10 @@ void move_mode::load( const JsonObject &jo, const std::string &src )
     assign( jo, "symbol_color", _symbol_color, strict );
 
     std::string exert = jo.get_string( "exertion_level" );
-    if( !activity_levels.count( exert ) ) {
+    if( !activity_levels_map.count( exert ) ) {
         jo.throw_error( "Invalid activity level for move mode %s", id.str() );
     }
-    _exertion_level = activity_levels.at( exert );
+    _exertion_level = activity_levels_map.at( exert );
 
     mandatory( jo, was_loaded, "change_good_none", change_messages_success[steed_type::NONE] );
     mandatory( jo, was_loaded, "change_good_animal", change_messages_success[steed_type::ANIMAL] );
@@ -111,7 +125,7 @@ std::string move_mode::change_message( bool success, steed_type steed ) const
 {
     if( steed == steed_type::NUM ) {
         debugmsg( "Attempted to switch to bad movement mode!" );
-        //~ This should never occur - this is the message when the character swtiches to
+        //~ This should never occur - this is the message when the character switches to
         //~ an invalid move mode or there's not a message for failing to switch to a move
         //~ mode
         return _( "You feel bugs crawl over your skin." );

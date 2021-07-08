@@ -3,6 +3,8 @@
 // input.h must be include *before* the ncurses header. The latter has some macro
 // defines that clash with the constants defined in input.h (e.g. KEY_UP).
 #include "input.h"
+#include "point.h"
+#include "translations.h"
 
 // ncurses can define some functions as macros, but we need those identifiers
 // to be unchanged by the preprocessor, as we use them as function names.
@@ -13,12 +15,17 @@
 #include <curses.h>
 #endif
 
+#include <cstdint>
+#include <cstring>
+#include <iosfwd>
 #include <langinfo.h>
+#include <memory>
 #include <stdexcept>
 
-#include "cursesdef.h"
+#include "cached_options.h"
 #include "catacharset.h"
 #include "color.h"
+#include "cursesdef.h"
 #include "game_ui.h"
 #include "output.h"
 #include "ui_manager.h"
@@ -34,9 +41,9 @@ catacurses::window catacurses::newwin( const int nlines, const int ncols, const 
 {
     // TODO: check for errors
     const auto w = ::newwin( nlines, ncols, begin.y, begin.x );
-    return std::shared_ptr<void>( w, []( void *const w ) {
+    return catacurses::window( std::shared_ptr<void>( w, []( void *const w ) {
         ::curses_check_result( ::delwin( static_cast<::WINDOW *>( w ) ), OK, "delwin" );
-    } );
+    } ) );
 }
 
 void catacurses::wnoutrefresh( const window &win )
@@ -84,14 +91,14 @@ int catacurses::getcury( const window &win )
     return ::getcury( win.get<::WINDOW>() );
 }
 
-void catacurses::wattroff( const window &win, const int attrs )
+void catacurses::wattroff( const window &win, const nc_color attrs )
 {
-    return curses_check_result( ::wattroff( win.get<::WINDOW>(), attrs ), OK, "wattroff" );
+    return curses_check_result( ::wattroff( win.get<::WINDOW>(), attrs.to_int() ), OK, "wattroff" );
 }
 
 void catacurses::wattron( const window &win, const nc_color &attrs )
 {
-    return curses_check_result( ::wattron( win.get<::WINDOW>(), attrs ), OK, "wattron" );
+    return curses_check_result( ::wattron( win.get<::WINDOW>(), attrs.to_int() ), OK, "wattron" );
 }
 
 void catacurses::wmove( const window &win, const point &p )
@@ -228,7 +235,7 @@ void catacurses::resizeterm()
 void catacurses::init_interface()
 {
     // ::endwin will free the pointer returned by ::initscr
-    stdscr = std::shared_ptr<void>( ::initscr(), []( void *const ) { } );
+    stdscr = window( std::shared_ptr<void>( ::initscr(), []( void *const ) { } ) );
     if( !stdscr ) {
         throw std::runtime_error( "initscr failed" );
     }
@@ -251,6 +258,11 @@ void catacurses::init_interface()
 // ignoring preferred keyboard mode
 input_event input_manager::get_input_event( const keyboard_mode /*preferred_keyboard_mode*/ )
 {
+    if( test_mode ) {
+        // input should be skipped in caller's code
+        throw std::runtime_error( "input_manager::get_input_event called in test mode" );
+    }
+
     int key = ERR;
     input_event rval;
     do {

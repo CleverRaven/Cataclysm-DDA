@@ -3,26 +3,26 @@
 #define CATA_SRC_EDITMAP_H
 
 #include <functional>
+#include <iosfwd>
 #include <map>
+#include <memory>
 #include <vector>
-#include <string>
 
-#include "coordinates.h"
-#include "optional.h"
 #include "color.h"
+#include "coordinates.h"
 #include "cursesdef.h"
 #include "memory_fast.h"
+#include "optional.h"
 #include "point.h"
 #include "type_id.h"
 
-struct real_coords;
 class Creature;
 class field;
+class map;
+class tinymap;
 class ui_adaptor;
 class uilist;
 class vehicle;
-class map;
-class tinymap;
 
 enum shapetype {
     editmap_rect, editmap_rect_filled, editmap_line, editmap_circle,
@@ -32,7 +32,7 @@ class editmap;
 
 struct editmap_hilight {
     std::vector<bool> blink_interval;
-    int cur_blink;
+    int cur_blink = 0;
     nc_color color;
     std::map<tripoint, char> points;
     nc_color( *getbg )( const nc_color & );
@@ -116,6 +116,7 @@ class editmap
 
         // work around the limitation that you can't forward declare an inner class
         class game_draw_callback_t_container;
+
         std::unique_ptr<game_draw_callback_t_container> draw_cb_container_;
         game_draw_callback_t_container &draw_cb_container();
 };

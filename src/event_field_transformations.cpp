@@ -1,12 +1,24 @@
 #include "event_field_transformations.h"
 
 #include <set>
+#include <string>
 
+#include "itype.h"
 #include "mapdata.h"
 #include "mtype.h"
 #include "omdata.h"
-#include "string_id.h"
 #include "type_id.h"
+
+static std::vector<cata_variant> flags_of_itype( const cata_variant &v )
+{
+    const auto &flags = v.get<itype_id>()->get_flags();
+    std::vector<cata_variant> result;
+    result.reserve( flags.size() );
+    for( const flag_id &s : flags ) {
+        result.push_back( cata_variant::make<cata_variant_type::flag_id>( s ) );
+    }
+    return result;
+}
 
 static std::vector<cata_variant> flags_of_terrain( const cata_variant &v )
 {
@@ -48,12 +60,16 @@ static std::vector<cata_variant> species_of_monster( const cata_variant &v )
     std::vector<cata_variant> result;
     result.reserve( species.size() );
     for( const species_id &s : species ) {
-        result.push_back( cata_variant( s ) );
+        result.emplace_back( s );
     }
     return result;
 }
 
 const std::unordered_map<std::string, event_field_transformation> event_field_transformations = {
+    {
+        "flags_of_itype",
+        {flags_of_itype, cata_variant_type::flag_id, { cata_variant_type::itype_id}}
+    },
     {
         "flags_of_terrain",
         {flags_of_terrain, cata_variant_type::string, { cata_variant_type::ter_id}}

@@ -1,0 +1,9 @@
+[
+  {
+    "id": "emit_vault_atmosphere",
+    "type": "emit",
+    "field": "fd_vault_atmosphere",
+    "intensity": 1,
+    "chance": 30
+  }
+]

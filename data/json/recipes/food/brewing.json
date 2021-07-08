@@ -1,6 +1,7 @@
 [
   {
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "result": "brew_mycus_wine",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREW",
@@ -16,6 +17,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "result": "brew_milk_curdled",
     "result_mult": 18,
     "category": "CC_FOOD",
@@ -26,11 +28,12 @@
     "time": "30 m",
     "batch_time_factors": [ 50, 4 ],
     "book_learn": [ [ "survival_book", 3 ], [ "textbook_survival", 3 ], [ "manual_survival", 3 ], [ "dairy_book", 3 ] ],
-    "using": [ [ "milk_standard", 15 ] ],
+    "using": [ [ "milk_standard_raw_fresh", 15 ] ],
     "components": [ [ [ "vinegar", 3 ] ], [ [ "wild_herbs", 40 ], [ "meat_stomach", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "brew_whiskey",
     "result_mult": 3,
     "category": "CC_FOOD",
@@ -39,7 +42,7 @@
     "difficulty": 5,
     "time": "25 m",
     "batch_time_factors": [ 50, 4 ],
-    "book_learn": [ [ "brewing_cookbook", 5 ], [ "scots_cookbook", 5 ] ],
+    "book_learn": [ [ "distilling_cookbook", 5 ], [ "scots_cookbook", 5 ] ],
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
     "components": [
@@ -51,6 +54,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "brew_gin",
     "result_mult": 3,
     "category": "CC_FOOD",
@@ -59,7 +63,7 @@
     "difficulty": 3,
     "time": 10000,
     "batch_time_factors": [ 50, 4 ],
-    "book_learn": [ [ "brewing_cookbook", 3 ] ],
+    "book_learn": [ [ "distilling_cookbook", 3 ] ],
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
     "components": [
@@ -70,6 +74,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "brew_vodka",
     "result_mult": 3,
     "category": "CC_FOOD",
@@ -79,7 +84,7 @@
     "time": "50 m",
     "batch_time_factors": [ 50, 4 ],
     "autolearn": [ [ "cooking", 7 ] ],
-    "book_learn": [ [ "brewing_cookbook", 4 ] ],
+    "book_learn": [ [ "distilling_cookbook", 4 ] ],
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
     "components": [
@@ -100,6 +105,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "brew_rum",
     "result_mult": 3,
     "category": "CC_FOOD",
@@ -108,13 +114,14 @@
     "difficulty": 5,
     "time": "15 m",
     "batch_time_factors": [ 50, 4 ],
-    "book_learn": [ [ "brewing_cookbook", 4 ] ],
+    "book_learn": [ [ "distilling_cookbook", 4 ] ],
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
     "components": [ [ [ "water", 3 ], [ "water_clean", 3 ] ], [ [ "molasses", 2 ], [ "sugar_beet", 1 ] ], [ [ "yeast", 1 ] ] ]
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "brew_moonshine",
     "result_mult": 15,
     "category": "CC_FOOD",
@@ -135,6 +142,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "brew_moonshine",
     "id_suffix": "pumpkin",
     "result_mult": 15,
@@ -145,13 +153,14 @@
     "difficulty": 2,
     "time": "40 m",
     "batch_time_factors": [ 50, 4 ],
-    "book_learn": [ [ "brewing_cookbook", 1 ], [ "family_cookbook", 1 ] ],
+    "book_learn": [ [ "distilling_cookbook", 1 ], [ "family_cookbook", 1 ] ],
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 30, "LIST" ] ] ],
     "components": [ [ [ "water", 15 ], [ "water_clean", 15 ] ], [ [ "pumpkin", 12 ] ], [ [ "sugar", 50 ] ], [ [ "yeast", 2 ] ] ]
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "brew_fruit_wine",
     "result_mult": 3,
     "category": "CC_FOOD",
@@ -167,6 +176,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "brew_hb_beer",
     "result_mult": 15,
     "category": "CC_FOOD",
@@ -187,6 +197,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "brew_mead",
     "result_mult": 3,
     "category": "CC_FOOD",
@@ -204,6 +215,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "brew_dandelion_wine",
     "result_mult": 3,
     "category": "CC_FOOD",
@@ -229,6 +241,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "brew_burdock_wine",
     "result_mult": 3,
     "category": "CC_FOOD",
@@ -254,6 +267,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "brew_pine_wine",
     "result_mult": 3,
     "category": "CC_FOOD",
@@ -273,6 +287,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "result": "brew_vinegar",
     "result_mult": 10,
     "category": "CC_FOOD",

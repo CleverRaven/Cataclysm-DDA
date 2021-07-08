@@ -497,10 +497,10 @@ be used by `map::place_spawns`. Each monster generated from the monster group wi
 location within the rectangle. The values in the above example will produce a rectangle for `map::place_spawns` from (
 13, 15 ) to ( 15, 15 ) inclusive.
 
-The optional "density" is a floating-point multipier to the "chance" value. If the result is bigger than 100% it
-gurantees one spawn point for every 100% and the rest is evaluated by chance (one added or not). Then the monsters are
+The optional "density" is a floating-point multiplier to the "chance" value. If the result is bigger than 100% it
+guarantees one spawn point for every 100% and the rest is evaluated by chance (one added or not). Then the monsters are
 spawned according to their spawn-point cost "cost_multiplier" defined in the monster groups. Additionally all overmap
-densities within a square of raduis 3 (7x7 around player - exact value in mapgen.cpp/MON_RADIUS macro) are added to
+densities within a square of radius 3 (7x7 around player - exact value in mapgen.cpp/MON_RADIUS macro) are added to
 this. The "pack_size" modifier in monstergroups is a random multiplier to the rolled spawn point amount.
 
 
@@ -543,6 +543,7 @@ Value: `[ array of {objects} ]: [ { "monster": ... } ]`
 | friendly    | Set true to make the monster friendly. Default false.
 | name        | Extra name to display on the monster.
 | target      | Set to true to make this into mission target. Only works when the monster is spawned from a mission.
+| spawn_data  | An optional object that contains additional details for spawning the monster.
 
 Note that high spawn density game setting can cause extra monsters to spawn when `monster` is used. When `group` is used
 only one monster will spawn.
@@ -569,9 +570,34 @@ Example:
 ]
 ```
 
-This places "mon_secubot" at random coordinate (7-18, 7-18). The monster is placed with 30% probablity. The placement is
+This places "mon_secubot" at random coordinate (7-18, 7-18). The monster is placed with 30% probability. The placement is
 repeated by random number of times `[1-3]`. The monster will spawn with 20-30 5.56x45mm rounds.
 
+### "spawn_data" for monsters
+This optional object can have two fields:
+| Field       | Description
+| ---         | ---
+| ammo        | A list of objects, each of which has an `"ammo_id"` field and a `"qty"` list of two integers. The monster will spawn with items of "ammo_id", with at least the first number in the "qty" and no more than the second.
+| patrol      | A list of objects, each of which has an `"x"` field and a `"y"` field. Either value can be a range or a single number. The x,y co-ordinates define a patrol point as an relative mapsquare point offset from the (0, 0) local mapsquare of the overmap terrain tile that the monster spawns in. Patrol points are converted to absolute mapsquare tripoints inside the monster generator.
+
+Monsters with a patrol point list will move to each patrol point, in order, whenever they have no more pressing action to take on their turn. Upon reaching the last point in the patrol point list, the monster will continue on to the first point in the list.
+
+Example:
+```json
+"place_monster": [
+    { "monster": "mon_zombie", "x": 12, "y": 12, "spawn_data": { "patrol": [ { "x": 12, "y": 12 } ] } }
+]
+```
+
+This places a "mon_zombie" at (12, 12). The zombie can move freely to chase after enemies, but will always return to the (12, 12) position if it has nothing else to do.
+
+Example 2:
+```json
+"place_monster": [
+    { "monster": "mon_secubot", "x": 12, "y": 12, "spawn_data": { "ammo": [ { "ammo_id": "556", "qty": [ 20, 30 ] } ], "patrol": [ { "x": -23, "y": -23 }, { "x": 47, "y": -23 }, { "x": 47, "y": 47 },  { "x": 47, "y": -23 } ] } }
+]
+```
+This places a "mon_secubot" at (12,12). It will patrol the four outmost concerns of the diagonally adjacent overmap terrain tiles in a box pattern.
 
 ## Spawn specific items with a "place_item" array
 **optional** A list of *specific* things to add. WIP: Monsters and vehicles will be here too
@@ -592,8 +618,10 @@ Example:
 | amount | (required) Number of items to spawn. Single integer, or range `[ a, b ]` for a random value in that range.
 | chance | (optional) One-in-N chance to spawn item.
 | repeat | (optional) Value: `[ n1, n2 ]`. Spawn item randomly between `n1` and `n2` times. Only makes sense if the coordinates are random. Example: `[ 1, 3 ]` - repeat 1-3 times.
+| custom-flags | (optional) Value: `[ "flag1", "flag2" ]`. Spawn item with specific flags.
 
-
+The special custom flag "ACTIVATE_ON_PLACE" causes the item to be activated as it is placed.  This is useful to have noisemakers that are already turned on as the avatar approaches.  It can also be used with explosives with a 1 second countdown to have locations explode as the avatar approaches, creating uniquely ruined terrain.
+ 
 ## Extra map features with specials
 **optional** Special map features that do more than just placing furniture / terrain.
 
@@ -680,7 +708,7 @@ Example with mapping (the characters `"O"` and `";"` should appear in the rows a
 }
 ```
 
-The amount of water to be placed in toilets is optional, an empty entry is therefor completely valid.
+The amount of water to be placed in toilets is optional, an empty entry is therefore completely valid.
 
 Example with coordinates:
 
@@ -751,11 +779,13 @@ Example:
 
 ### Place a vending machine and items with "vendingmachines"
 
-Places a vending machine (furniture) and fills it with items from an item group. The machine can sometimes spawn as broken one.
+Places a vending machine (furniture) and fills it with items from an item group.
 
 | Field      | Description
 | ---        | ---
 | item_group | (optional, string) the item group that is used to create items inside the machine. It defaults to either "vending_food" or "vending_drink" (randomly chosen).
+| reinforced | (optional, bool) setting which will make vending machine spawn as reinforced. Defaults to false.
+| lootable   | (optional, bool) setting which indicates whether this paricular vending machine should have a chance to spawn ransacked (i.e. broken and with no loot inside). The chance for this is increased with each day passed after the Cataclysm. Defaults to false.
 
 
 ### Place a toilet with some amount of water with "toilets"
@@ -807,6 +837,13 @@ The actual monsters are spawned when the map is loaded. Fields:
 | fuel     | (optional, integer) the fuel status. Default is -1 which makes the tanks 1-7% full. Positive values are interpreted as percentage of the vehicles tanks to fill (e.g. 100 means completely full).
 | status   | (optional, integer) default is -1 (light damage), a value of 0 means perfect condition, 1 means heavily damaged.
 
+Note that vehicles cannot be placed over overmap boundaries. So it needs to be 24 tiles long at most.
+
+```json 
+"place_vehicles": [ 
+    { "vehicle": "fire_engine", "x": 11, "y": 13, "chance": 30, "rotation": 270 }
+]
+```
 
 ### Place a specific item with "item"
 
@@ -919,6 +956,7 @@ matching magazine and ammo for guns.
 | chance   | (optional, integer) x in 100 chance of item(s) spawning. Defaults to 100.
 | ammo     | (optional, integer) x in 100 chance of item(s) spawning with the default amount of ammo. Defaults to 0.
 | magazine | (optional, integer) x in 100 chance of item(s) spawning with the default magazine. Defaults to 0.
+| variant  | (optional, string), gun variant id for the spawned item
 
 
 ### Plant seeds in a planter with "sealed_item"
@@ -1064,4 +1102,3 @@ update_mapgen adds new optional keywords to a few mapgen JSON items.
 place_npc, place_monster, and place_computer can take an optional target boolean. If they have `"target": true` and are
 invoked by update_mapgen with a valid mission, then the NPC, monster, or computer will be marked as the target of the
 mission.
-

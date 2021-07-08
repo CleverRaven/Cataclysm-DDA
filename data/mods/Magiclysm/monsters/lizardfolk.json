@@ -18,6 +18,7 @@
     "morale": 80,
     "vision_day": 10,
     "vision_night": 20,
+    "path_settings": { "avoid_traps": true, "avoid_sharp": true },
     "melee_skill": 4,
     "melee_dice": 2,
     "melee_dice_sides": 4,
@@ -45,7 +46,6 @@
       "GROUP_MORALE",
       "LEATHER",
       "SWIMS",
-      "ATTACKMON",
       "PUSH_MON",
       "SWARMS",
       "BONES",
@@ -134,6 +134,8 @@
     "default_faction": "lizardfolk",
     "species": [ "LIZARDFOLK" ],
     "symbol": "C",
-    "harvest": "lizardfolk"
+    "harvest": "lizardfolk",
+    "path_settings": { "avoid_traps": true, "avoid_sharp": true },
+    "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "GROUP_MORALE", "LEATHER", "NO_BREATHE" ]
   }
 ]

@@ -2,12 +2,13 @@
 #ifndef CATA_SRC_MONGROUP_H
 #define CATA_SRC_MONGROUP_H
 
+#include <iosfwd>
 #include <map>
 #include <set>
-#include <string>
 #include <vector>
 
 #include "calendar.h"
+#include "coordinates.h"
 #include "io_tags.h"
 #include "mapgen.h"
 #include "monster.h"
@@ -196,6 +197,9 @@ class MonsterGroupManager
         static t_string_set monster_whitelist;
         static t_string_set monster_categories_blacklist;
         static t_string_set monster_categories_whitelist;
+        static t_string_set monster_species_blacklist;
+        static t_string_set monster_species_whitelist;
+
 };
 
 #endif // CATA_SRC_MONGROUP_H

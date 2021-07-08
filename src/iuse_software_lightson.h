@@ -3,7 +3,6 @@
 #define CATA_SRC_IUSE_SOFTWARE_LIGHTSON_H
 
 #include <vector>
-#include <utility>
 
 #include "cursesdef.h"
 #include "point.h"
@@ -19,7 +18,7 @@ class lightson_game
         std::vector<point> change_coords;
         // row, column
         point position;
-        bool win;
+        bool win = false;
 
         void new_level();
         void reset_level();

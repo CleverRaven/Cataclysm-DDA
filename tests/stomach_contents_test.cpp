@@ -1,16 +1,18 @@
-#include "catch/catch.hpp"
-
 #include <cstdio>
-#include <memory>
+#include <iosfwd>
+#include <vector>
 
 #include "avatar.h"
 #include "calendar.h"
+#include "cata_catch.h"
+#include "character.h"
+#include "item.h"
 #include "player.h"
 #include "player_helpers.h"
-#include "item.h"
 #include "stomach.h"
-#include "units.h"
+#include "string_formatter.h"
 #include "type_id.h"
+#include "units.h"
 
 static void reset_time()
 {
@@ -23,7 +25,7 @@ static void reset_time()
 
 static void pass_time( Character &p, time_duration amt )
 {
-    for( auto turns = 1_turns; turns < amt; turns += 1_turns ) {
+    for( time_duration turns = 1_turns; turns < amt; turns += 1_turns ) {
         calendar::turn += 1_turns;
         p.update_body();
     }
@@ -90,6 +92,10 @@ TEST_CASE( "starve_test", "[starve][slow]" )
     Character &dummy = get_player_character();
     reset_time();
     clear_stomach( dummy );
+    dummy.reset_activity_level();
+    calendar::turn += 1_seconds;
+    dummy.update_body( calendar::turn, calendar::turn );
+    dummy.set_activity_level( 1.0 );
 
     CAPTURE( dummy.metabolic_rate_base() );
     CAPTURE( dummy.activity_level_str() );
@@ -103,7 +109,7 @@ TEST_CASE( "starve_test", "[starve][slow]" )
 
     // A specific BMR isn't the real target of this test, the number of days
     // is, but it helps to debug the test faster if this value is wrong.
-    REQUIRE( dummy.get_bmr() == 1739 );
+    REQUIRE( dummy.get_bmr() == 1738 );
 
     constexpr int expected_day = 36;
     int day = 0;
@@ -269,7 +275,7 @@ TEST_CASE( "hunger" )
         printf( "%d minutes til hunger sets in\n", hunger_time );
     }
     CHECK( hunger_time <= 285 );
-    CHECK( hunger_time >= 255 );
+    CHECK( hunger_time >= 240 );
     if( print_tests ) {
         print_stomach_contents( dummy, print_tests );
         printf( "eat 16 veggy\n" );
@@ -286,7 +292,7 @@ TEST_CASE( "hunger" )
         print_stomach_contents( dummy, print_tests );
     }
     CHECK( hunger_time <= 390 );
-    CHECK( hunger_time >= 360 );
+    CHECK( hunger_time >= 330 );
     if( print_tests ) {
         printf( "eat 16 veggy with extreme metabolism\n" );
     }
@@ -305,5 +311,5 @@ TEST_CASE( "hunger" )
         print_stomach_contents( dummy, print_tests );
     }
     CHECK( hunger_time <= 240 );
-    CHECK( hunger_time >= 210 );
+    CHECK( hunger_time >= 180 );
 }

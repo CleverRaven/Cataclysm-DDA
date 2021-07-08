@@ -1,12 +1,15 @@
-#include "catch/catch.hpp"
-
-#include <memory>
+#include <iosfwd>
+#include <set>
 #include <string>
 
+#include "calendar.h"
+#include "cata_catch.h"
 #include "character.h"
-#include "player_helpers.h"
-#include "flat_set.h"
+#include "flag.h"
 #include "item.h"
+#include "item_pocket.h"
+#include "player_helpers.h"
+#include "ret_val.h"
 #include "type_id.h"
 
 TEST_CASE( "item sizing display", "[item][iteminfo][display_name][sizing]" )
@@ -31,8 +34,8 @@ TEST_CASE( "item sizing display", "[item][iteminfo][display_name][sizing]" )
 
         WHEN( "the item is undersized" ) {
             item i = item( "tunic" );
-            i.item_tags.insert( "UNDERSIZE" );
-            i.item_tags.insert( "FIT" );
+            i.set_flag( flag_UNDERSIZE );
+            i.set_flag( flag_FIT );
             std::string name = i.display_name();
 
             THEN( "we have the correct sizing" ) {
@@ -67,8 +70,8 @@ TEST_CASE( "item sizing display", "[item][iteminfo][display_name][sizing]" )
 
         WHEN( "the item is undersized" ) {
             item i = item( "tunic" );
-            i.item_tags.insert( "UNDERSIZE" );
-            i.item_tags.insert( "FIT" );
+            i.set_flag( flag_UNDERSIZE );
+            i.set_flag( flag_FIT );
             std::string name = i.display_name();
 
             THEN( "we have the correct sizing" ) {
@@ -103,8 +106,8 @@ TEST_CASE( "item sizing display", "[item][iteminfo][display_name][sizing]" )
 
         WHEN( "the item is undersized" ) {
             item i = item( "tunic" );
-            i.item_tags.insert( "UNDERSIZE" );
-            i.item_tags.insert( "FIT" );
+            i.set_flag( flag_UNDERSIZE );
+            i.set_flag( flag_FIT );
             std::string name = i.display_name();
 
             THEN( "we have the correct sizing" ) {
@@ -123,7 +126,7 @@ TEST_CASE( "display name includes item contents", "[item][display_name][contents
 {
     clear_avatar();
 
-    item arrow( "test_arrow_wood", 0, item::default_charges_tag{} );
+    item arrow( "test_arrow_wood", calendar::turn_zero, item::default_charges_tag{} );
     // Arrows are ammo with a default count of 10
     REQUIRE( arrow.is_ammo() );
     REQUIRE( arrow.count() == 10 );
@@ -147,6 +150,6 @@ TEST_CASE( "display name includes item contents", "[item][display_name][contents
     CHECK( quiver.ammo_remaining() == 10 );
     CHECK( quiver.display_name() ==
            "<color_c_light_green>||\u00A0</color>"
-           "test quiver with test wooden broadhead arrow (10)" );
+           "test quiver > test wooden broadhead arrows (10)" );
 }
 

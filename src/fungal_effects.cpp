@@ -3,11 +3,9 @@
 #include <algorithm>
 #include <memory>
 #include <ostream>
-#include <string>
 
-#include "avatar.h"
-#include "bodypart.h"
 #include "calendar.h"
+#include "character.h"
 #include "creature.h"
 #include "debug.h"
 #include "enums.h"
@@ -21,7 +19,6 @@
 #include "messages.h"
 #include "monster.h"
 #include "mtype.h"
-#include "player.h"
 #include "point.h"
 #include "rng.h"
 #include "string_formatter.h"
@@ -45,7 +42,6 @@ static const std::string flag_DIGGABLE( "DIGGABLE" );
 static const std::string flag_FLAMMABLE( "FLAMMABLE" );
 static const std::string flag_FLAT( "FLAT" );
 static const std::string flag_FLOWER( "FLOWER" );
-static const std::string flag_FUNGUS( "FUNGUS" );
 static const std::string flag_ORGANIC( "ORGANIC" );
 static const std::string flag_PLANT( "PLANT" );
 static const std::string flag_SHRUB( "SHRUB" );
@@ -64,9 +60,8 @@ void fungal_effects::fungalize( const tripoint &p, Creature *origin, double spor
     Character &player_character = get_player_character();
     if( monster *const mon_ptr = g->critter_at<monster>( p ) ) {
         monster &critter = *mon_ptr;
-        if( player_character.sees( p ) &&
-            !critter.type->in_species( species_FUNGUS ) ) {
-            add_msg( _( "The %s is covered in tiny spores!" ), critter.name() );
+        if( !critter.type->in_species( species_FUNGUS ) ) {
+            add_msg_if_player_sees( p, _( "The %s is covered in tiny spores!" ), critter.name() );
         }
         if( !critter.make_fungus() ) {
             // Don't insta-kill non-fungables. Jabberwocks, for example
@@ -130,13 +125,14 @@ void fungal_effects::create_spores( const tripoint &p, Creature *origin )
 void fungal_effects::marlossify( const tripoint &p )
 {
     const ter_t &terrain = m.ter( p ).obj();
-    if( one_in( 25 ) && ( terrain.movecost != 0 && !m.has_furn( p ) )
-        && !terrain.has_flag( TFLAG_DEEP_WATER ) ) {
+    if( one_in( 25 ) && terrain.movecost != 0 && !m.has_furn( p )
+        && !terrain.has_flag( TFLAG_DEEP_WATER )
+        && !terrain.has_flag( TFLAG_NO_FLOOR ) ) {
         m.ter_set( p, t_marloss );
         return;
     }
     for( int i = 0; i < 25; i++ ) {
-        bool is_fungi = m.has_flag_ter( flag_FUNGUS, p );
+        bool is_fungi = m.has_flag_ter( TFLAG_FUNGUS, p );
         spread_fungus( p );
         if( is_fungi ) {
             return;
@@ -148,7 +144,6 @@ void fungal_effects::spread_fungus_one_tile( const tripoint &p, const int growth
 {
     bool converted = false;
     // Terrain conversion
-    Character &player_character = get_player_character();
     if( m.has_flag_ter( flag_DIGGABLE, p ) ) {
         if( x_in_y( growth * 10, 100 ) ) {
             m.ter_set( p, t_fungus );
@@ -189,8 +184,8 @@ void fungal_effects::spread_fungus_one_tile( const tripoint &p, const int growth
             if( m.get_field_intensity( p, fd_fungal_haze ) != 0 ) {
                 if( x_in_y( growth * 10, 800 ) ) { // young trees are vulnerable
                     m.ter_set( p, t_fungus );
-                    if( gm.place_critter_at( mon_fungal_blossom, p ) && player_character.sees( p ) ) {
-                        add_msg( m_warning, _( "The young tree blooms forth into a fungal blossom!" ) );
+                    if( gm.place_critter_at( mon_fungal_blossom, p ) ) {
+                        add_msg_if_player_sees( p, m_warning, _( "The young tree blooms forth into a fungal blossom!" ) );
                     }
                 } else if( x_in_y( growth * 10, 400 ) ) {
                     m.ter_set( p, t_marloss_tree );
@@ -205,8 +200,8 @@ void fungal_effects::spread_fungus_one_tile( const tripoint &p, const int growth
             if( m.get_field_intensity( p, fd_fungal_haze ) != 0 ) {
                 if( x_in_y( growth * 10, 100 ) ) {
                     m.ter_set( p, t_fungus );
-                    if( gm.place_critter_at( mon_fungal_blossom, p ) && player_character.sees( p ) ) {
-                        add_msg( m_warning, _( "The tree blooms forth into a fungal blossom!" ) );
+                    if( gm.place_critter_at( mon_fungal_blossom, p ) ) {
+                        add_msg_if_player_sees( p, m_warning, _( "The tree blooms forth into a fungal blossom!" ) );
                     }
                 } else if( x_in_y( growth * 10, 600 ) ) {
                     m.ter_set( p, t_marloss_tree );
@@ -257,12 +252,12 @@ void fungal_effects::spread_fungus( const tripoint &p )
         if( tmp == p ) {
             continue;
         }
-        if( m.has_flag( flag_FUNGUS, tmp ) ) {
+        if( m.has_flag( TFLAG_FUNGUS, tmp ) ) {
             growth += 1;
         }
     }
 
-    if( !m.has_flag_ter( flag_FUNGUS, p ) ) {
+    if( !m.has_flag_ter( TFLAG_FUNGUS, p ) ) {
         spread_fungus_one_tile( p, growth );
     } else {
         // Everything is already fungus
@@ -271,7 +266,7 @@ void fungal_effects::spread_fungus( const tripoint &p )
         }
         for( const tripoint &dest : here.points_in_radius( p, 1 ) ) {
             // One spread on average
-            if( !m.has_flag( flag_FUNGUS, dest ) && one_in( 9 - growth ) ) {
+            if( !m.has_flag( TFLAG_FUNGUS, dest ) && one_in( 9 - growth ) ) {
                 //growth chance is 100 in X simplified
                 spread_fungus_one_tile( dest, 10 );
             }

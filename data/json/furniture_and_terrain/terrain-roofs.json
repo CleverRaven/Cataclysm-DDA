@@ -354,5 +354,27 @@
       "ter_set": "t_open_air",
       "bash_below": true
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_roof_paper_hard",
+    "name": "flat roof",
+    "description": "A flat surface made of hardened pulpy mass, covered in sticky wasp saliva.",
+    "symbol": ".",
+    "looks_like": "t_paper",
+    "color": "white",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "FLAT" ],
+    "bash": {
+      "str_min": 25,
+      "str_max": 150,
+      "str_min_supported": 40,
+      "sound": "rrrrip!",
+      "sound_fail": "slap!",
+      "sound_vol": 15,
+      "sound_fail_vol": 10,
+      "ter_set": "t_open_air",
+      "bash_below": true
+    }
   }
 ]

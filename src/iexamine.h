@@ -2,26 +2,44 @@
 #ifndef CATA_SRC_IEXAMINE_H
 #define CATA_SRC_IEXAMINE_H
 
+#include <iosfwd>
 #include <list>
-#include <string>
+#include <memory>
 #include <tuple>
 #include <vector>
 
-#include "itype.h"
-#include "calendar.h"
 #include "optional.h"
 #include "ret_val.h"
 #include "type_id.h"
 
 class item;
+class JsonObject;
 class player;
+class time_point;
 class vpart_reference;
+struct itype;
 struct tripoint;
 
 using seed_tuple = std::tuple<itype_id, std::string, int>;
 
+struct iexamine_actor {
+    const std::string type;
+
+    explicit iexamine_actor( const std::string &type ) : type( type ) {}
+
+    virtual void load( const JsonObject & ) = 0;
+    virtual void call( player &, const tripoint & ) const = 0;
+    virtual void finalize() const = 0;
+
+    virtual std::unique_ptr<iexamine_actor> clone() const = 0;
+
+    virtual ~iexamine_actor() = default;
+};
+
 namespace iexamine
 {
+
+bool try_start_hacking( player &p, const tripoint &examp );
 
 void egg_sack_generic( player &p, const tripoint &examp, const mtype_id &montype );
 
@@ -47,7 +65,7 @@ void portable_structure( player &p, const tripoint &examp );
 void pit( player &p, const tripoint &examp );
 void pit_covered( player &p, const tripoint &examp );
 void slot_machine( player &p, const tripoint &examp );
-void safe( player &p, const tripoint &examp );
+void safe( player &guy, const tripoint &examp );
 void gunsafe_el( player &p, const tripoint &examp );
 void harvest_furn_nectar( player &p, const tripoint &examp );
 void harvest_furn( player &p, const tripoint &examp );
@@ -81,7 +99,6 @@ void tree_maple_tapped( player &p, const tripoint &examp );
 void shrub_marloss( player &p, const tripoint &examp );
 void tree_marloss( player &p, const tripoint &examp );
 void shrub_wildveggies( player &p, const tripoint &examp );
-void recycle_compactor( player &p, const tripoint &examp );
 void water_source( player &p, const tripoint &examp );
 void clean_water_source( player &, const tripoint &examp );
 void kiln_empty( player &p, const tripoint &examp );
@@ -100,6 +117,7 @@ void sign( player &p, const tripoint &examp );
 void pay_gas( player &p, const tripoint &examp );
 void ledge( player &p, const tripoint &examp );
 void autodoc( player &p, const tripoint &examp );
+void attunement_altar( player &p, const tripoint &examp );
 void translocator( player &p, const tripoint &examp );
 void on_smoke_out( const tripoint &examp,
                    const time_point &start_time ); //activates end of smoking effects

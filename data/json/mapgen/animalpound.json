@@ -23,7 +23,8 @@
       { "monster": "mon_dog_bull", "freq": 75, "cost_multiplier": 0 },
       { "monster": "mon_dog_pitbullmix", "freq": 100, "cost_multiplier": 0 },
       { "monster": "mon_dog_chihuahua", "freq": 75, "cost_multiplier": 0 },
-      { "monster": "mon_dog_gshepherd", "freq": 35, "cost_multiplier": 0 }
+      { "monster": "mon_dog_gshepherd", "freq": 35, "cost_multiplier": 0 },
+      { "monster": "mon_dog_samoyed", "freq": 15, "cost_multiplier": 0 }
     ]
   },
   {

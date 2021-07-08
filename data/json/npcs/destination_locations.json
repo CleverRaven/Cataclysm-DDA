@@ -41,7 +41,7 @@
   },
   {
     "type": "overmap_location",
-    "id": "source_of_fabricaton",
+    "id": "source_of_fabrication",
     "flags": [ "SOURCE_FABRICATION" ]
   },
   {

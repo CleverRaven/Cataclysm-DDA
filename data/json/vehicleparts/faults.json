@@ -16,7 +16,8 @@
           "components": [ [ [ "drivebelt", 1 ], [ "drivebelt_makeshift", 1 ] ] ]
         }
       }
-    ]
+    ],
+    "flags": [ "NO_ALTERNATOR_CHARGE" ]
   },
   {
     "id": "fault_engine_glow_plug",
@@ -32,7 +33,8 @@
         "skills": [ { "id": "mechanics", "level": 4 } ],
         "requirements": { "qualities": [ { "id": "WRENCH_FINE", "level": 1 } ], "components": [ [ [ "glowplug", 1 ] ] ] }
       }
-    ]
+    ],
+    "flags": [ "BAD_COLD_START" ]
   },
   {
     "id": "fault_engine_immobiliser",
@@ -49,7 +51,8 @@
         "skills": [ { "id": "mechanics", "level": 2 }, { "id": "electronics", "level": 5 } ],
         "requirements": { "qualities": [ { "id": "SCREW_FINE", "level": 1 } ] }
       }
-    ]
+    ],
+    "flags": [ "IMMOBILIZER" ]
   },
   {
     "id": "fault_engine_pump_diesel",
@@ -65,7 +68,8 @@
         "skills": [ { "id": "mechanics", "level": 4 } ],
         "requirements": { "qualities": [ { "id": "WRENCH_FINE", "level": 1 } ], "components": [ [ [ "pump_complex", 1 ] ] ] }
       }
-    ]
+    ],
+    "flags": [ "BAD_FUEL_PUMP" ]
   },
   {
     "id": "fault_engine_filter_air",
@@ -84,7 +88,8 @@
           "components": [ [ [ "filter_air", 1 ], [ "filter_air_makeshift", 1 ] ] ]
         }
       }
-    ]
+    ],
+    "flags": [ "DOUBLE_FUEL_CONSUMPTION", "EXTRA_EXHAUST" ]
   },
   {
     "id": "fault_engine_filter_fuel",
@@ -103,7 +108,8 @@
           "components": [ [ [ "filter_liquid", 1 ], [ "filter_liquid_makeshift", 1 ] ] ]
         }
       }
-    ]
+    ],
+    "flags": [ "REDUCE_ENG_POWER", "ENG_BACKFIRE" ]
   },
   {
     "id": "fault_engine_pump_fuel",
@@ -119,23 +125,8 @@
         "skills": [ { "id": "mechanics", "level": 4 } ],
         "requirements": { "qualities": [ { "id": "WRENCH_FINE", "level": 1 } ], "components": [ [ [ "well_pump", 1 ] ] ] }
       }
-    ]
-  },
-  {
-    "id": "fault_engine_pump_water",
-    "type": "fault",
-    "name": { "str": "Faulty water pump" },
-    "description": "Required to pump water to an external radiator or heatsink.",
-    "mending_methods": [
-      {
-        "id": "mend_fault_engine_pump_water_replace",
-        "name": "Replace faulty water pump",
-        "success_msg": "You replace the faulty water pump of the %s.",
-        "time": "20 m",
-        "skills": [ { "id": "mechanics", "level": 4 } ],
-        "requirements": { "qualities": [ { "id": "WRENCH_FINE", "level": 1 } ], "components": [ [ [ "well_pump", 1 ] ] ] }
-      }
-    ]
+    ],
+    "flags": [ "BAD_FUEL_PUMP" ]
   },
   {
     "id": "fault_engine_starter",
@@ -151,6 +142,7 @@
         "skills": [ { "id": "mechanics", "level": 3 } ],
         "requirements": { "qualities": [ { "id": "WRENCH_FINE", "level": 1 } ], "components": [ [ [ "motor_small", 1 ] ] ] }
       }
-    ]
+    ],
+    "flags": [ "BAD_STARTER" ]
   }
 ]

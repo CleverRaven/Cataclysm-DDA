@@ -4,13 +4,13 @@
 #include <array>
 #include <ostream>
 #include <set>
+#include <string>
 #include <utility>
 
 #include "debug.h"
 #include "output.h"
-#include "string_id.h"
 
-std::array<std::string, 3> error_keyvals = {{ "Missing Dependency(ies): ", "", "" }};
+static std::array<std::string, 3> error_keyvals = {{ "Missing Dependency(ies): ", "", "" }};
 
 // dependency_node
 dependency_node::dependency_node(): index( -1 ), lowlink( -1 ), on_stack( false )
@@ -275,7 +275,7 @@ void dependency_tree::build_node_map(
     for( const auto &elem : key_dependency_map ) {
         // check to see if the master node map knows the key
         if( master_node_map.find( elem.first ) == master_node_map.end() ) {
-            master_node_map.emplace( elem.first, elem.first );
+            master_node_map.emplace( elem.first, dependency_node( elem.first ) );
         }
     }
 }

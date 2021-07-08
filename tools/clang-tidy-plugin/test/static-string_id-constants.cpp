@@ -60,3 +60,10 @@ activity_id f()
     return activity_id( "ACT_WASH" );
     // CH/ECK-MESSAGES: warning: Construction of 'activity_id' (aka 'string_id<activity_type>') from string literal should be global static constant. [cata-static-string_id-constants]
 }
+
+class A
+{
+        static efftype_id effect;
+};
+
+efftype_id A::effect( "sleep" );

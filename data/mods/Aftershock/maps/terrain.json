@@ -8,5 +8,32 @@
     "color": "light_green",
     "move_cost": 0,
     "flags": [ "TRANSPARENT", "CONTAINER", "REDUCE_SCENT", "PERMEABLE", "PLACE_ITEM" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_foamcrete_wall",
+    "name": "foamcrete wall",
+    "description": "A lightweight wall made from unreinforced foamcrete.  Not nearly as resilient as a real wall, but it will block sight and the elements nonetheless.",
+    "symbol": "#",
+    "color": "white",
+    "looks_like": "t_rock_wall",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_foamcrete_floor",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "DESTROY_ITEM", "MINEABLE", "BASHABLE", "BLOCK_WIND" ],
+    "bash": { "str_min": 15, "str_max": 40, "sound": "crash!", "sound_fail": "thump!", "ter_set": "t_null" }
+  },
+  {
+    "type": "terrain",
+    "id": "t_foamcrete_floor",
+    "name": "foamcrete floor",
+    "description": "A relatively flat slab of unreinforced foamcrete.",
+    "symbol": ".",
+    "color": "light_blue",
+    "looks_like": "t_rock_floor",
+    "move_cost": 2,
+    "roof": "t_open_air",
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD" ],
+    "bash": { "ter_set": "t_null", "str_min": 75, "str_max": 400, "str_min_supported": 30, "bash_below": true }
   }
 ]

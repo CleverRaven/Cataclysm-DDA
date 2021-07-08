@@ -193,7 +193,7 @@ std::string enum_to_string<mission_goal>( mission_goal data )
 }
 } // namespace io
 
-generic_factory<mission_type> mission_type_factory( "mission_type" );
+static generic_factory<mission_type> mission_type_factory( "mission_type" );
 
 /** @relates string_id */
 template<>
@@ -254,7 +254,7 @@ void mission_type::load( const JsonObject &jo, const std::string &src )
     if( std::any_of( origins.begin(), origins.end(), []( mission_origin origin ) {
     return origin == ORIGIN_ANY_NPC || origin == ORIGIN_OPENER_NPC || origin == ORIGIN_SECONDARY;
 } ) ) {
-        auto djo = jo.get_object( "dialogue" );
+        JsonObject djo = jo.get_object( "dialogue" );
         // TODO: There should be a cleaner way to do it
         mandatory( djo, was_loaded, "describe", dialogue[ "describe" ] );
         mandatory( djo, was_loaded, "offer", dialogue[ "offer" ] );
@@ -288,7 +288,8 @@ void mission_type::load( const JsonObject &jo, const std::string &src )
         } else if( jo.has_member( phase ) ) {
             JsonObject j_start = jo.get_object( phase );
             if( !parse_funcs( j_start, phase_func ) ) {
-                deferred.emplace_back( jo.str(), src );
+                deferred.emplace_back( jo.get_source_location(), src );
+                jo.allow_omitted_members();
                 j_start.allow_omitted_members();
                 return false;
             }

@@ -8,6 +8,7 @@
     "description": "A tool used to drive nails into wood or other material.  It could also be used as an ad-hoc weapon.",
     "weight": "3904 g",
     "volume": "750 ml",
+    "longest_side": "45 cm",
     "price": 13000,
     "price_postapoc": 500,
     "to_hit": -2,

@@ -42,13 +42,8 @@
         "&": "t_shrub_strawberry"
       },
       "furniture": { ";": "f_rack", "'": "f_table" },
+      "sealed_item": { "!": { "items": { "item": "farming_seeds", "chance": 100 }, "furniture": "f_plant_seedling", "chance": 80 } },
       "place_loot": [
-        { "group": "hydro", "x": 5, "y": [ 16, 20 ], "chance": 90, "repeat": [ 1, 7 ] },
-        { "group": "hydro", "x": 7, "y": [ 16, 20 ], "chance": 90, "repeat": [ 1, 7 ] },
-        { "group": "hydro", "x": 9, "y": [ 16, 20 ], "chance": 90, "repeat": [ 1, 7 ] },
-        { "group": "hydro", "x": [ 12, 18 ], "y": 16, "chance": 90, "repeat": [ 1, 9 ] },
-        { "group": "hydro", "x": [ 12, 18 ], "y": 18, "chance": 90, "repeat": [ 1, 9 ] },
-        { "group": "hydro", "x": [ 12, 18 ], "y": 20, "chance": 90, "repeat": [ 1, 9 ] },
         { "group": "farming_tools", "x": [ 16, 20 ], "y": 11, "chance": 65, "repeat": [ 1, 2 ] },
         { "group": "farming_seeds", "x": [ 16, 20 ], "y": 13, "chance": 85, "repeat": [ 1, 5 ] }
       ],

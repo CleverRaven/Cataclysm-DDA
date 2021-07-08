@@ -2,15 +2,20 @@
 
 #include <bitset>
 #include <cstdlib>
+#include <functional>
 #include <limits>
 #include <map>
 #include <memory>
+#include <new>
 #include <set>
 #include <string>
 #include <utility>
 
 #include "avatar.h"
 #include "basecamp.h"
+#include "catacharset.h"
+#include "character.h"
+#include "coordinates.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "faction_camp.h"
@@ -26,7 +31,6 @@
 #include "output.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
-#include "player.h"
 #include "point.h"
 #include "skill.h"
 #include "string_formatter.h"
@@ -100,12 +104,12 @@ faction_template::faction_template( const JsonObject &jsobj )
     , respects_u( jsobj.get_int( "respects_u" ) )
     , known_by_u( jsobj.get_bool( "known_by_u" ) )
     , id( faction_id( jsobj.get_string( "id" ) ) )
-    , desc( jsobj.get_string( "description" ) )
     , size( jsobj.get_int( "size" ) )
     , power( jsobj.get_int( "power" ) )
     , food_supply( jsobj.get_int( "food_supply" ) )
     , wealth( jsobj.get_int( "wealth" ) )
 {
+    jsobj.get_member( "description" ).read( desc );
     if( jsobj.has_string( "currency" ) ) {
         jsobj.read( "currency", currency, true );
     } else {
@@ -113,7 +117,7 @@ faction_template::faction_template( const JsonObject &jsobj )
     }
     lone_wolf_faction = jsobj.get_bool( "lone_wolf_faction", false );
     load_relations( jsobj );
-    mon_faction = jsobj.get_string( "mon_faction", "human" );
+    mon_faction = mfaction_str_id( jsobj.get_string( "mon_faction", "human" ) );
     for( const JsonObject jao : jsobj.get_array( "epilogues" ) ) {
         epilogue_data.emplace( jao.get_int( "power_min", std::numeric_limits<int>::min() ),
                                jao.get_int( "power_max", std::numeric_limits<int>::max() ),
@@ -123,7 +127,7 @@ faction_template::faction_template( const JsonObject &jsobj )
 
 std::string faction::describe() const
 {
-    std::string ret = _( desc );
+    std::string ret = desc.translated();
     return ret;
 }
 
@@ -394,8 +398,8 @@ void faction_manager::create_if_needed()
     if( !factions.empty() ) {
         return;
     }
-    for( const auto &fac_temp : npc_factions::all_templates ) {
-        factions[fac_temp.id] = fac_temp;
+    for( const faction_template &fac_temp : npc_factions::all_templates ) {
+        factions[fac_temp.id] = faction( fac_temp );
     }
 }
 
@@ -446,7 +450,7 @@ faction *faction_manager::get( const faction_id &id, const bool complain )
     for( const faction_template &elem : npc_factions::all_templates ) {
         // id isn't already in factions map, so load in the template.
         if( elem.id == id ) {
-            factions[elem.id] = elem;
+            factions[elem.id] = faction( elem );
             if( !factions.empty() ) {
                 factions[elem.id].validated = true;
             }
@@ -490,7 +494,8 @@ void faction::faction_display( const catacurses::window &fac_w, const int width 
     int y = 2;
     mvwprintz( fac_w, point( width, ++y ), c_light_gray, _( "Attitude to you:           %s" ),
                fac_ranking_text( likes_u ) );
-    fold_and_print( fac_w, point( width, ++y ), getmaxx( fac_w ) - width - 2, c_light_gray, _( desc ) );
+    fold_and_print( fac_w, point( width, ++y ), getmaxx( fac_w ) - width - 2, c_light_gray,
+                    "%s", desc );
 }
 
 int npc::faction_display( const catacurses::window &fac_w, const int width ) const
@@ -547,8 +552,10 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     }
     std::string can_see;
     nc_color see_color;
-    bool u_has_radio = player_character.has_item_with_flag( "TWO_WAY_RADIO", true );
-    bool guy_has_radio = has_item_with_flag( "TWO_WAY_RADIO", true );
+
+    static const flag_id json_flag_TWO_WAY_RADIO( "TWO_WAY_RADIO" );
+    bool u_has_radio = player_character.has_item_with_flag( json_flag_TWO_WAY_RADIO, true );
+    bool guy_has_radio = has_item_with_flag( json_flag_TWO_WAY_RADIO, true );
     // is the NPC even in the same area as the player?
     if( rl_dist( player_abspos, global_omt_location() ) > 3 ||
         ( rl_dist( player_character.pos(), pos() ) > SEEX * 2 || !player_character.sees( pos() ) ) ) {
@@ -663,8 +670,8 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
                                   best_skill().obj().name(), best_skill_level() );
     mvwprintz( fac_w, point( width, ++y ), col, best_skill_text );
     mvwprintz( fac_w, point( width, ++y ), col, best_three_noncombat + skill_strs[0] );
-    mvwprintz( fac_w, point( width + 20, ++y ), col, skill_strs[1] );
-    mvwprintz( fac_w, point( width + 20, ++y ), col, skill_strs[2] );
+    mvwprintz( fac_w, point( width + utf8_width( best_three_noncombat ), ++y ), col, skill_strs[1] );
+    mvwprintz( fac_w, point( width + utf8_width( best_three_noncombat ), ++y ), col, skill_strs[2] );
     return retval;
 }
 
@@ -699,7 +706,7 @@ void faction_manager::display() const
     g->validate_npc_followers();
     tab_mode tab = tab_mode::FIRST_TAB;
     size_t selection = 0;
-    input_context ctxt( "FACTION MANAGER" );
+    input_context ctxt( "FACTION_MANAGER" );
     ctxt.register_cardinal();
     ctxt.register_updown();
     ctxt.register_action( "ANY_INPUT" );
@@ -897,16 +904,16 @@ void faction_manager::display() const
             } else {
                 selection--;
             }
-        } else if( action == "CONFIRM" && guy ) {
-            if( guy->has_companion_mission() ) {
-                guy->reset_companion_mission();
-                popup( _( "%s returns from their mission" ), guy->disp_name() );
-            } else {
-                if( tab == tab_mode::TAB_FOLLOWERS && guy && ( interactable || radio_interactable ) ) {
+        } else if( action == "CONFIRM" ) {
+            if( tab == tab_mode::TAB_FOLLOWERS && guy ) {
+                if( guy->has_companion_mission() ) {
+                    guy->reset_companion_mission();
+                    popup( _( "%s returns from their mission" ), guy->disp_name() );
+                } else if( interactable || radio_interactable ) {
                     player_character.talk_to( get_talker_for( *guy ), false, radio_interactable );
-                } else if( tab == tab_mode::TAB_MYFACTION && camp ) {
-                    camp->query_new_name();
                 }
+            } else if( tab == tab_mode::TAB_MYFACTION && camp ) {
+                camp->query_new_name();
             }
         } else if( action == "QUIT" ) {
             break;

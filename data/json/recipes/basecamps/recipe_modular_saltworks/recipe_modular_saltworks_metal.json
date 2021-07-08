@@ -1,6 +1,7 @@
 [
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_saltpan_metal_northeast",
     "description": "We could divert saltwater from the swamp nearby to create a steady supply of salt for our needs in a metal shed.",
     "category": "CC_BUILDING",
@@ -10,7 +11,7 @@
     "construction_blueprint": "fbmsw_saltpan_metal_northeast",
     "blueprint_name": "NE metal wall saltpan",
     "blueprint_requires": [ { "id": "fbmsw_0" } ],
-    "blueprint_provides": [ { "id": "fbmsw_northeast" } ],
+    "blueprint_provides": [ { "id": "fbmsw_northeast" }, { "id": "saltworks_recipes_1" } ],
     "blueprint_excludes": [ { "id": "fbmsw_northeast" } ],
     "blueprint_needs": {
       "time": "2 d 20 h 40 m",
@@ -31,6 +32,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_shack_metal_southeast",
     "description": "We could use a storage room for chemicals and tools, so build a metal shack with a roof on the southeast side of the saltworks field.",
     "category": "CC_BUILDING",
@@ -68,6 +70,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_brewery0_metal_southwest",
     "description": "We could take advantage of the designation of this area to build a metal wall brewery.",
     "category": "CC_BUILDING",

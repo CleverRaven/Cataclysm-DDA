@@ -1,11 +1,22 @@
-#include "character.h"
+#include <algorithm>
+#include <list>
+#include <map>
+#include <memory>
+#include <set>
+#include <utility>
+#include <vector>
 
+#include "character.h"
+#include "inventory.h"
+#include "item.h"
 #include "itype.h"
-#include "recipe_dictionary.h"
-#include "recipe.h"
-#include "skill.h"
-#include "player.h"
 #include "npc.h"
+#include "pimpl.h"
+#include "recipe.h"
+#include "recipe_dictionary.h"
+#include "skill.h"
+#include "type_id.h"
+#include "value_ptr.h"
 
 int Character::has_recipe( const recipe *r, const inventory &crafting_inv,
                            const std::vector<npc *> &helpers ) const
@@ -18,7 +29,7 @@ int Character::has_recipe( const recipe *r, const inventory &crafting_inv,
         return r->difficulty;
     }
 
-    const auto available = get_available_recipes( crafting_inv, &helpers );
+    const recipe_subset available = get_available_recipes( crafting_inv, &helpers );
     return available.contains( r ) ? available.get_custom_difficulty( r ) : -1;
 }
 
@@ -104,7 +115,7 @@ recipe_subset Character::get_available_recipes( const inventory &crafting_inv,
     if( helpers != nullptr ) {
         for( npc *np : *helpers ) {
             // Directly form the helper's inventory
-            res.include( get_recipes_from_books( np->inv ) );
+            res.include( get_recipes_from_books( *np->inv ) );
             // Being told what to do
             res.include_if( np->get_learned_recipes(), [ this ]( const recipe & r ) {
                 return get_skill_level( r.skill_used ) >= static_cast<int>( r.difficulty *

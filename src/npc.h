@@ -9,23 +9,26 @@
 #include <iterator>
 #include <list>
 #include <map>
+#include <memory>
+#include <new>
 #include <set>
 #include <string>
+#include <type_traits>
 #include <unordered_map>
 #include <utility>
 #include <vector>
 
+#include "activity_type.h"
 #include "auto_pickup.h"
 #include "calendar.h"
 #include "character.h"
 #include "color.h"
+#include "coordinates.h"
 #include "creature.h"
-#include "cursesdef.h"
 #include "dialogue_chatbin.h"
 #include "enums.h"
 #include "faction.h"
 #include "game_constants.h"
-#include "int_id.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
@@ -38,10 +41,9 @@
 #include "point.h"
 #include "sounds.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
-#include "units.h"
+#include "units_fwd.h"
 
 class JsonIn;
 class JsonObject;
@@ -52,6 +54,11 @@ class monster;
 class npc_class;
 class talker;
 class vehicle;
+
+namespace catacurses
+{
+class window;
+}  // namespace catacurses
 struct bionic_data;
 struct mission_type;
 struct overmap_location;
@@ -170,6 +177,7 @@ class job_data
             const std::pair<activity_id, int> &b ) {
                 return a.second > b.second;
             } );
+            ret.reserve( pairs.size() );
             for( const std::pair<activity_id, int> &elem : pairs ) {
                 ret.push_back( elem.first );
             }
@@ -495,9 +503,9 @@ struct npc_follower_rules {
     aim_rule aim = aim_rule::WHEN_CONVENIENT;
     cbm_recharge_rule cbm_recharge = cbm_recharge_rule::CBM_RECHARGE_SOME;
     cbm_reserve_rule cbm_reserve = cbm_reserve_rule::CBM_RESERVE_SOME;
-    ally_rule flags;
-    ally_rule override_enable;
-    ally_rule overrides;
+    ally_rule flags = ally_rule::DEFAULT;
+    ally_rule override_enable = ally_rule::DEFAULT;
+    ally_rule overrides = ally_rule::DEFAULT;
 
     pimpl<auto_pickup::npc_settings> pickup_whitelist;
 
@@ -525,8 +533,8 @@ struct npc_follower_rules {
 
 struct dangerous_sound {
     tripoint abs_pos;
-    sounds::sound_t type;
-    int volume;
+    sounds::sound_t type = sounds::sound_t::_LAST;
+    int volume = 0;
 };
 
 const direction npc_threat_dir[8] = { direction::NORTHWEST, direction::NORTH, direction::NORTHEAST, direction::EAST,
@@ -566,11 +574,17 @@ struct npc_short_term_cache {
     double my_weapon_value = 0;
 
     // Use weak_ptr to avoid circular references between Creatures
+    // attitude of creatures the npc can see
+    std::vector<weak_ptr_fast<Creature>> hostile_guys;
+    std::vector<weak_ptr_fast<Creature>> neutral_guys;
     std::vector<weak_ptr_fast<Creature>> friends;
     std::vector<sphere> dangerous_explosives;
     std::map<direction, float> threat_map;
     // Cache of locations the NPC has searched recently in npc::find_item()
     lru_cache<tripoint, int> searched_tiles;
+    // returns the value of the distance between a friendly creature and the closest enemy to that friendly creature.
+    // returns -1 if not applicable
+    int closest_enemy_to_friendly_distance() const;
 };
 
 // DO NOT USE! This is old, use strings as talk topic instead, e.g. "TALK_AGREE_FOLLOW" instead of
@@ -748,9 +762,9 @@ class npc : public player
 
         npc();
         npc( const npc & ) = delete;
-        npc( npc && );
+        npc( npc && ) noexcept( map_is_noexcept );
         npc &operator=( const npc & ) = delete;
-        npc &operator=( npc && );
+        npc &operator=( npc && ) noexcept( list_is_noexcept );
         ~npc() override;
 
         bool is_player() const override {
@@ -758,6 +772,12 @@ class npc : public player
         }
         bool is_npc() const override {
             return true;
+        }
+        const npc *as_npc() override {
+            return this;
+        }
+        const npc *as_npc() const override {
+            return this;
         }
         void load_npc_template( const string_id<npc_template> &ident );
         void npc_dismount();
@@ -811,6 +831,7 @@ class npc : public player
         std::string opinion_text() const;
         int faction_display( const catacurses::window &fac_w, int width ) const;
         std::string describe_mission() const;
+        std::string name_and_activity() const;
 
         // Interaction with the player
         void form_opinion( const player &u );
@@ -839,7 +860,7 @@ class npc : public player
         /**
          * Proficiencies we know that the character doesn't
          */
-        std::vector < proficiency_id> proficiencies_offered_to( const Character &guy ) const;
+        std::vector<proficiency_id> proficiencies_offered_to( const Character &guy ) const;
         /**
          * Martial art styles that we known, but the player p doesn't.
          */
@@ -856,7 +877,10 @@ class npc : public player
         bool is_following() const;
         bool is_obeying( const Character &p ) const;
 
-        bool is_hallucination() const override; // true if the NPC isn't actually real
+        // true if the NPC isn't actually real
+        bool is_hallucination() const override {
+            return hallucination;
+        }
 
         // Ally of or traveling with p
         bool is_friendly( const Character &p ) const;
@@ -924,8 +948,8 @@ class npc : public player
         bool has_identified( const itype_id & ) const override {
             return true;
         }
-        bool has_artifact_with( const art_effect_passive ) const override {
-            return false;
+        void identify( const item & ) override {
+            // Do nothing
         }
         /**
          * Is the item safe or does the NPC trust you enough?
@@ -974,7 +998,6 @@ class npc : public player
         /*
          *  CBM management functions
          */
-        void adjust_power_cbms();
         void activate_combat_cbms();
         void deactivate_combat_cbms();
         // find items that can be used to fuel CBM rechargers
@@ -1033,7 +1056,7 @@ class npc : public player
         void process_turn() override;
 
         using Character::invoke_item;
-        bool invoke_item( item *, const tripoint &pt ) override;
+        bool invoke_item( item *, const tripoint &pt, int pre_obtain_moves ) override;
         bool invoke_item( item *used, const std::string &method ) override;
         bool invoke_item( item * ) override;
 
@@ -1041,6 +1064,7 @@ class npc : public player
         float evaluate_enemy( const Creature &target ) const;
 
         void assess_danger();
+        bool is_safe() const;
         // Functions which choose an action for a particular goal
         npc_action method_of_fleeing();
         npc_action method_of_attack();
@@ -1175,15 +1199,23 @@ class npc : public player
         using player::add_msg_if_npc;
         void add_msg_if_npc( const std::string &msg ) const override;
         void add_msg_if_npc( const game_message_params &params, const std::string &msg ) const override;
+        using player::add_msg_debug_if_npc;
+        void add_msg_debug_if_npc( debugmode::debug_filter type, const std::string &msg ) const override;
         using player::add_msg_player_or_npc;
         void add_msg_player_or_npc( const std::string &player_msg,
                                     const std::string &npc_msg ) const override;
         void add_msg_player_or_npc( const game_message_params &params, const std::string &player_msg,
                                     const std::string &npc_msg ) const override;
+        using player::add_msg_debug_player_or_npc;
+        void add_msg_debug_player_or_npc( debugmode::debug_filter type, const std::string &player_msg,
+                                          const std::string &npc_msg ) const override;
         using player::add_msg_if_player;
         void add_msg_if_player( const std::string &/*msg*/ ) const override {}
         void add_msg_if_player( const game_message_params &/*type*/,
                                 const std::string &/*msg*/ ) const override {}
+        using player::add_msg_debug_if_player;
+        void add_msg_debug_if_player( debugmode::debug_filter /*type*/,
+                                      const std::string &/*msg*/ ) const override {}
         using player::add_msg_player_or_say;
         void add_msg_player_or_say( const std::string &player_msg,
                                     const std::string &npc_speech ) const override;
@@ -1228,8 +1260,11 @@ class npc : public player
         std::vector<mission_type_id> miss_ids;
         cata::optional<tripoint_abs_omt> assigned_camp = cata::nullopt;
 
+        // accessors to ai_cache functions
+        int closest_enemy_to_friendly_distance() const;
+
     private:
-        npc_attitude attitude; // What we want to do to the player
+        npc_attitude attitude = NPCATT_NULL; // What we want to do to the player
         npc_attitude previous_attitude = NPCATT_NULL;
         bool known_to_u = false; // Does the player know this NPC?
         /**
@@ -1297,7 +1332,7 @@ class npc : public player
         time_point
         companion_mission_time_ret; //When you are expected to return for calculated/variable mission returns
         inventory companion_mission_inv; //Inventory that is added and dropped on mission
-        npc_mission mission;
+        npc_mission mission = NPC_MISSION_NULL;
         npc_mission previous_mission = NPC_MISSION_NULL;
         npc_personality personality;
         npc_opinion op_of_u;
@@ -1312,7 +1347,6 @@ class npc : public player
         // Dummy point that indicates that the goal is invalid.
         static constexpr tripoint_abs_omt no_goal_point{ tripoint_min };
         job_data job;
-        time_point last_updated;
         /**
          * Do some cleanup and caching as npc is being unloaded from map.
          */
@@ -1354,7 +1388,7 @@ class npc : public player
         // the index of the bionics for the fake gun;
         int cbm_weapon_index = -1;
 
-        bool dead;  // If true, we need to be cleaned up
+        bool dead = false;  // If true, we need to be cleaned up
 
         bool sees_dangerous_field( const tripoint &p ) const;
         bool could_move_onto( const tripoint &p ) const;
@@ -1368,10 +1402,10 @@ class npc : public player
 class standard_npc : public npc
 {
     public:
-        standard_npc( const std::string &name = "",
-                      const tripoint &pos = tripoint( HALF_MAPSIZE_X, HALF_MAPSIZE_Y, 0 ),
-                      const std::vector<std::string> &clothing = {},
-                      int sk_lvl = 4, int s_str = 8, int s_dex = 8, int s_int = 8, int s_per = 8 );
+        explicit standard_npc( const std::string &name = "",
+                               const tripoint &pos = tripoint( HALF_MAPSIZE_X, HALF_MAPSIZE_Y, 0 ),
+                               const std::vector<std::string> &clothing = {},
+                               int sk_lvl = 4, int s_str = 8, int s_dex = 8, int s_int = 8, int s_per = 8 );
 };
 
 // instances of this can be accessed via string_id<npc_template>.
@@ -1388,7 +1422,7 @@ class npc_template
             male,
             female
         };
-        gender gender_override;
+        gender gender_override = gender::random;
 
         static void load( const JsonObject &jsobj );
         static void reset();

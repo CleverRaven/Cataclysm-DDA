@@ -34,7 +34,8 @@
         "#######|  |#############"
       ],
       "palettes": [ "mil_outpost_underground" ],
-      "terrain": { "H": "t_plut_generator" }
+      "terrain": { "H": "t_plut_generator" },
+      "monster": { "Z": { "monster": "mon_zombie_dog" } }
     }
   }
 ]

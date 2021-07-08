@@ -1,13 +1,14 @@
-#include "cata_utility.h"
-
 #include <algorithm>
+#include <functional>
 #include <list>
 #include <memory>
-#include <string>
+#include <new>
 #include <vector>
 
 #include "calendar.h"
-#include "catch/catch.hpp"
+#include "cata_utility.h"
+#include "cata_catch.h"
+#include "character.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_contents.h"
@@ -15,10 +16,11 @@
 #include "map.h"
 #include "map_selector.h"
 #include "optional.h"
-#include "character.h"
+#include "pimpl.h"
 #include "point.h"
 #include "rng.h"
 #include "type_id.h"
+#include "units.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
 #include "visitable.h"
@@ -28,13 +30,14 @@ template <typename T>
 static int count_items( const T &src, const itype_id &id )
 {
     int n = 0;
-    src.visit_items( [&n, &id]( const item * e ) {
+    src.visit_items( [&n, &id]( const item * e, item * ) {
         n += ( e->typeId() == id );
         return VisitResponse::NEXT;
     } );
     return n;
 }
 
+// NOLINTNEXTLINE(readability-function-size)
 TEST_CASE( "visitable_remove", "[visitable]" )
 {
     const itype_id liquid_id( "water" );
@@ -47,8 +50,8 @@ TEST_CASE( "visitable_remove", "[visitable]" )
 
     Character &p = get_player_character();
     p.worn.clear();
-    p.worn.push_back( item( "backpack" ) );
-    p.inv.clear();
+    p.worn.emplace_back( "backpack" );
+    p.inv->clear();
     p.remove_weapon();
     p.wear_item( item( "backpack" ) ); // so we don't drop anything
     map &here = get_map();
@@ -221,7 +224,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
         WHEN( "a hip flask containing water is wielded" ) {
             item obj( worn_id );
             item liquid( liquid_id, calendar::turn );
-            liquid.charges -= obj.fill_with( *liquid.type, liquid.charges );
+            liquid.charges -= obj.fill_with( liquid, liquid.charges );
             p.wield( obj );
 
             REQUIRE( count_items( p, container_id ) == count );
@@ -235,13 +238,13 @@ TEST_CASE( "visitable_remove", "[visitable]" )
                 THEN( "all of the bottles remain in the players possession" ) {
                     REQUIRE( count_items( p, container_id ) == 5 );
                     AND_THEN( "all of the bottles are now empty" ) {
-                        REQUIRE( p.visit_items( [&container_id]( const item * e ) {
+                        REQUIRE( p.visit_items( [&container_id]( const item * e, item * ) {
                             return ( e->typeId() != container_id || e->contents.empty() ) ?
                                    VisitResponse::NEXT : VisitResponse::ABORT;
                         } ) != VisitResponse::ABORT );
                     }
                 }
-                THEN( "the hip flask remains in the players posession" ) {
+                THEN( "the hip flask remains in the players possession" ) {
                     auto found = p.items_with( [&worn_id]( const item & e ) {
                         return e.typeId() == worn_id;
                     } );
@@ -277,7 +280,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
                         REQUIRE( count_items( p, liquid_id ) == 0 );
                     }
 
-                    THEN( "the hip flask remains in the players posession" ) {
+                    THEN( "the hip flask remains in the players possession" ) {
                         auto found = p.items_with( [&worn_id]( const item & e ) {
                             return e.typeId() == worn_id;
                         } );
@@ -416,7 +419,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
         std::vector<tripoint> tiles = closest_points_first( p.pos(), 1 );
         tiles.erase( tiles.begin() ); // player tile
         tripoint veh = random_entry( tiles );
-        REQUIRE( here.add_vehicle( vproto_id( "shopping_cart" ), veh, 0, 0, 0 ) );
+        REQUIRE( here.add_vehicle( vproto_id( "shopping_cart" ), veh, 0_degrees, 0, 0 ) );
 
         REQUIRE( std::count_if( tiles.begin(), tiles.end(), [&here]( const tripoint & e ) {
             return static_cast<bool>( here.veh_at( e ) );

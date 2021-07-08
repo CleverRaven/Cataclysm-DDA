@@ -2,9 +2,9 @@
 #ifndef CATA_SRC_NAME_H
 #define CATA_SRC_NAME_H
 
-#include <string>
+#include <iosfwd>
 
-#include "enum_traits.h"
+template <typename E> struct enum_traits;
 
 /// @brief types of proper noun tables
 enum class nameFlags : int {

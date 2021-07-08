@@ -1,20 +1,19 @@
-#include "catch/catch.hpp"
-
-#include <memory>
 #include <set>
 #include <vector>
 
+#include "cata_catch.h"
 #include "character.h"
 #include "map.h"
-#include "vehicle.h"
-#include "type_id.h"
 #include "point.h"
+#include "type_id.h"
+#include "units.h"
+#include "vehicle.h"
 
 TEST_CASE( "vehicle_split_section" )
 {
     map &here = get_map();
     Character &player_character = get_player_character();
-    for( int dir = 0; dir < 360; dir += 15 ) {
+    for( units::angle dir = 0_degrees; dir < 360_degrees; dir += 15_degrees ) {
         CHECK( !player_character.in_vehicle );
         const tripoint test_origin( 15, 15, 0 );
         player_character.setpos( test_origin );
@@ -44,7 +43,7 @@ TEST_CASE( "vehicle_split_section" )
             CHECK( vehs[ 3 ].v->part_count() == 3 );
             std::vector<std::set<tripoint>> all_points;
             for( int i = 0; i < 4; i++ ) {
-                std::set<tripoint> &veh_points = vehs[ i ].v->get_points( true );
+                const std::set<tripoint> &veh_points = vehs[ i ].v->get_points( true );
                 all_points.push_back( veh_points );
             }
             for( int i = 0; i < 4; i++ ) {

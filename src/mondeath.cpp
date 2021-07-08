@@ -1,22 +1,23 @@
 #include "mondeath.h"
 
 #include <algorithm>
-#include <array>
 #include <cmath>
 #include <cstdlib>
+#include <functional>
+#include <iosfwd>
+#include <list>
 #include <map>
 #include <memory>
 #include <set>
 #include <string>
-#include <type_traits>
 #include <utility>
 #include <vector>
 
-#include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
 #include "colony.h"
 #include "creature.h"
+#include "debug.h"
 #include "enums.h"
 #include "explosion.h"
 #include "field_type.h"
@@ -26,10 +27,9 @@
 #include "item.h"
 #include "item_stack.h"
 #include "itype.h"
-#include "iuse.h"
-#include "iuse_actor.h"
 #include "kill_tracker.h"
 #include "line.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mattack_actors.h"
@@ -38,18 +38,16 @@
 #include "monster.h"
 #include "morale_types.h"
 #include "mtype.h"
-#include "pldata.h"
 #include "point.h"
 #include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "timed_event.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
-#include "weighted_list.h"
+#include "viewer.h"
 
 static const efftype_id effect_amigara( "amigara" );
 static const efftype_id effect_boomered( "boomered" );
@@ -59,8 +57,12 @@ static const efftype_id effect_glowing( "glowing" );
 static const efftype_id effect_no_ammo( "no_ammo" );
 static const efftype_id effect_rat( "rat" );
 
+static const json_character_flag json_flag_PRED1( "PRED1" );
+static const json_character_flag json_flag_PRED2( "PRED2" );
+static const json_character_flag json_flag_PRED3( "PRED3" );
+static const json_character_flag json_flag_PRED4( "PRED4" );
+
 static const itype_id itype_processor( "processor" );
-static const itype_id itype_ruined_chunks( "ruined_chunks" );
 
 static const species_id species_SLIME( "SLIME" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
@@ -89,34 +91,36 @@ void mdeath::normal( monster &z )
         return;
     }
 
-    if( z.type->in_species( species_ZOMBIE ) ) {
-        sfx::play_variant_sound( "mon_death", "zombie_death", sfx::get_heard_volume( z.pos() ) );
-    }
-
-    if( get_player_character().sees( z ) ) {
-        //Currently it is possible to get multiple messages that a monster died.
-        add_msg( m_good, _( "The %s dies!" ), z.name() );
-    }
-
-    const int max_hp = std::max( z.get_hp_max(), 1 );
-    const float overflow_damage = std::max( -z.get_hp(), 0 );
-    const float corpse_damage = 2.5 * overflow_damage / max_hp;
-    const bool pulverized = corpse_damage > 5 && overflow_damage > z.get_hp_max();
-
-    z.bleed(); // leave some blood if we have to
-
-    if( !pulverized ) {
-        make_mon_corpse( z, static_cast<int>( std::floor( corpse_damage * itype::damage_scale ) ) );
-    }
-    // if mdeath::splatter was set along normal makes sure it is not called twice
-    bool splatt = false;
-    for( const auto &deathfunction : z.type->dies ) {
-        if( deathfunction == mdeath::splatter ) {
-            splatt = true;
+    if( !z.quiet_death ) {
+        if( z.type->in_species( species_ZOMBIE ) ) {
+            sfx::play_variant_sound( "mon_death", "zombie_death", sfx::get_heard_volume( z.pos() ) );
         }
+
+        //Currently it is possible to get multiple messages that a monster died.
+        add_msg_if_player_sees( z, m_good, _( "The %s dies!" ), z.name() );
     }
-    if( !splatt ) {
-        splatter( z );
+
+    if( z.death_drops ) {
+        const int max_hp = std::max( z.get_hp_max(), 1 );
+        const float overflow_damage = std::max( -z.get_hp(), 0 );
+        const float corpse_damage = 2.5 * overflow_damage / max_hp;
+        const bool pulverized = corpse_damage > 5 && overflow_damage > z.get_hp_max();
+
+        z.bleed(); // leave some blood if we have to
+
+        if( !pulverized ) {
+            make_mon_corpse( z, static_cast<int>( std::floor( corpse_damage * itype::damage_scale ) ) );
+        }
+        // if mdeath::splatter was set along normal makes sure it is not called twice
+        bool splatt = false;
+        for( const auto &deathfunction : z.type->dies ) {
+            if( deathfunction == mdeath::splatter ) {
+                splatt = true;
+            }
+        }
+        if( !splatt ) {
+            splatter( z );
+        }
     }
 }
 
@@ -219,16 +223,17 @@ void mdeath::splatter( monster &z )
             }
         }
         if( gibbed_weight > 0 ) {
+            const itype_id &leftover_id = z.type->id->harvest->leftovers;
             const int chunk_amount =
-                gibbed_weight / to_gram( ( item::find_type( itype_ruined_chunks ) )->weight );
-            scatter_chunks( itype_ruined_chunks, chunk_amount, z, gib_distance,
+                gibbed_weight / to_gram( ( item::find_type( leftover_id ) )->weight );
+            scatter_chunks( leftover_id, chunk_amount, z, gib_distance,
                             chunk_amount / ( gib_distance + 1 ) );
         }
         // add corpse with gib flag
         item corpse = item::make_corpse( z.type->id, calendar::turn, z.unique_name, z.get_upgrade_time() );
         // Set corpse to damage that aligns with being pulped
         corpse.set_damage( 4000 );
-        corpse.set_flag( "GIBBED" );
+        corpse.set_flag( STATIC( flag_id( "GIBBED" ) ) );
         if( z.has_effect( effect_no_ammo ) ) {
             corpse.set_var( "no_ammo", "no_ammo" );
         }
@@ -238,7 +243,7 @@ void mdeath::splatter( monster &z )
 
 void mdeath::acid( monster &z )
 {
-    if( get_player_character().sees( z ) ) {
+    if( get_player_view().sees( z ) ) {
         if( z.type->dies.size() ==
             1 ) { //If this death function is the only function. The corpse gets dissolved.
             add_msg( m_mixed, _( "The %s's body dissolves into acid." ), z.name() );
@@ -285,8 +290,8 @@ void mdeath::boomer_glow( monster &z )
         if( Creature *const critter = g->critter_at( dest ) ) {
             critter->add_env_effect( effect_boomered, bodypart_id( "eyes" ), 5, 25_turns );
             for( int i = 0; i < rng( 2, 4 ); i++ ) {
-                body_part bp = random_body_part();
-                critter->add_env_effect( effect_glowing, convert_bp( bp ).id(), 4, 4_minutes );
+                const bodypart_id &bp = critter->random_body_part();
+                critter->add_env_effect( effect_glowing, bp, 4, 4_minutes );
                 if( critter->has_effect( effect_glowing ) ) {
                     break;
                 }
@@ -358,9 +363,7 @@ void mdeath::vine_cut( monster &z )
 
 void mdeath::triffid_heart( monster &z )
 {
-    if( get_player_character().sees( z ) ) {
-        add_msg( m_warning, _( "The surrounding roots begin to crack and crumble." ) );
-    }
+    add_msg_if_player_sees( z, m_warning, _( "The surrounding roots begin to crack and crumble." ) );
     get_timed_events().add( timed_event_type::ROOTS_DIE, calendar::turn + 10_minutes );
 }
 
@@ -383,19 +386,15 @@ void mdeath::fungus( monster &z )
 
 void mdeath::disintegrate( monster &z )
 {
-    if( get_player_character().sees( z ) ) {
-        add_msg( m_good, _( "The %s disintegrates!" ), z.name() );
-    }
+    add_msg_if_player_sees( z, m_good, _( "The %s disintegrates!" ), z.name() );
 }
 
 void mdeath::worm( monster &z )
 {
-    if( get_player_character().sees( z ) ) {
-        if( z.type->dies.size() == 1 ) {
-            add_msg( m_good, _( "The %s splits in two!" ), z.name() );
-        } else {
-            add_msg( m_warning, _( "Two worms crawl out of the %s's corpse." ), z.name() );
-        }
+    if( z.type->dies.size() == 1 ) {
+        add_msg_if_player_sees( z, m_good, _( "The %s splits in two!" ), z.name() );
+    } else {
+        add_msg_if_player_sees( z, m_warning, _( "Two worms crawl out of the %s's corpse." ), z.name() );
     }
 
     int worms = 2;
@@ -406,9 +405,7 @@ void mdeath::worm( monster &z )
 
 void mdeath::disappear( monster &z )
 {
-    if( get_player_character().sees( z ) ) {
-        add_msg( m_good, _( "The %s disappears." ), z.name() );
-    }
+    add_msg_if_player_sees( z, m_good, _( "The %s disappears." ), z.name() );
 }
 
 void mdeath::guilt( monster &z )
@@ -426,8 +423,9 @@ void mdeath::guilt( monster &z )
     guilt_tresholds[25] = _( "You feel remorse for killing %s." );
 
     Character &player_character = get_player_character();
-    if( player_character.has_trait( trait_PSYCHOPATH ) || player_character.has_trait_flag( "PRED3" ) ||
-        player_character.has_trait_flag( "PRED4" ) || player_character.has_trait( trait_KILLER ) ) {
+    if( player_character.has_trait( trait_PSYCHOPATH ) ||
+        player_character.has_trait_flag( json_flag_PRED3 ) ||
+        player_character.has_trait_flag( json_flag_PRED4 ) || player_character.has_trait( trait_KILLER ) ) {
         return;
     }
     if( rl_dist( z.pos(), player_character.pos() ) > MAX_GUILT_DISTANCE ) {
@@ -446,8 +444,8 @@ void mdeath::guilt( monster &z )
                                 "about their deaths anymore." ), z.name( maxKills ) );
         }
         return;
-    } else if( ( player_character.has_trait_flag( "PRED1" ) ) ||
-               ( player_character.has_trait_flag( "PRED2" ) ) ) {
+    } else if( ( player_character.has_trait_flag( json_flag_PRED1 ) ) ||
+               ( player_character.has_trait_flag( json_flag_PRED2 ) ) ) {
         msg = ( _( "Culling the weak is distasteful, but necessary." ) );
         msgtype = m_neutral;
     } else {
@@ -469,9 +467,9 @@ void mdeath::guilt( monster &z )
         moraleMalus /= 10;
         if( player_character.has_trait( trait_PACIFIST ) ) {
             moraleMalus *= 5;
-        } else if( player_character.has_trait_flag( "PRED1" ) ) {
+        } else if( player_character.has_trait_flag( json_flag_PRED1 ) ) {
             moraleMalus /= 4;
-        } else if( player_character.has_trait_flag( "PRED2" ) ) {
+        } else if( player_character.has_trait_flag( json_flag_PRED2 ) ) {
             moraleMalus /= 5;
         }
     }
@@ -483,19 +481,17 @@ void mdeath::blobsplit( monster &z )
 {
     int speed = z.get_speed() - rng( 30, 50 );
     get_map().spawn_item( z.pos(), "slime_scrap", 1, 0, calendar::turn );
-    Character &player_character = get_player_character();
-    if( z.get_speed() <= 0 ) {
-        if( player_character.sees( z ) ) {
-            // TODO: Add vermin-tagged tiny versions of the splattered blob  :)
-            add_msg( m_good, _( "The %s splatters apart." ), z.name() );
-        }
+    bool sees_blob = get_player_view().sees( z );
+    if( z.get_speed() <= 0 && sees_blob ) {
+        // TODO: Add vermin-tagged tiny versions of the splattered blob  :)
+        add_msg( m_good, _( "The %s splatters apart." ), z.name() );
         return;
     }
-    if( player_character.sees( z ) ) {
+    if( sees_blob ) {
         if( z.type->dies.size() == 1 ) {
             add_msg( m_good, _( "The %s splits in two!" ), z.name() );
         } else {
-            add_msg( m_bad, _( "Two small blobs slither out of the corpse." ) );
+            add_msg( m_bad, _( "Two small slimes slither out of the corpse." ) );
         }
     }
 
@@ -529,16 +525,14 @@ void mdeath::jackson( monster &z )
         }
         music_stopped = true;
     }
-    if( music_stopped && get_player_character().sees( z ) ) {
-        add_msg( m_warning, _( "The music stops!" ) );
+    if( music_stopped ) {
+        add_msg_if_player_sees( z, m_warning, _( "The music stops!" ) );
     }
 }
 
 void mdeath::melt( monster &z )
 {
-    if( get_player_character().sees( z ) ) {
-        add_msg( m_good, _( "The %s melts away." ), z.name() );
-    }
+    add_msg_if_player_sees( z, m_good, _( "The %s melts away." ), z.name() );
 }
 
 void mdeath::amigara( monster &z )
@@ -587,6 +581,9 @@ void mdeath::explode( monster &z )
         case creature_size::huge:
             size = 26;
             break;
+        case creature_size::num_sizes:
+            debugmsg( "ERROR: Invalid Creature size class." );
+            break;
     }
     explosion_handler::explosion( z.pos(), size );
 }
@@ -604,11 +601,8 @@ void mdeath::focused_beam( monster &z )
     }
 
     if( !z.inv.empty() ) {
-
-        if( get_player_character().sees( z ) ) {
-            add_msg( m_warning, _( "As the final light is destroyed, it erupts in a blinding flare!" ) );
-        }
-
+        add_msg_if_player_sees( z, m_warning,
+                                _( "As the final light is destroyed, it erupts in a blinding flare!" ) );
         item &settings = z.inv[0];
 
         point p2( z.posx() + settings.get_var( "SL_SPOT_X", 0 ), z.posy() + settings.get_var( "SL_SPOT_Y",
@@ -658,11 +652,8 @@ void mdeath::broken( monster &z )
                     if( attack.second->id == "gun" ) {
                         item gun = item( dynamic_cast<const gun_actor *>( attack.second.get() )->gun_type );
                         bool same_ammo = false;
-                        for( const ammotype &at : gun.ammo_types() ) {
-                            if( at == item( ammo_entry.first ).ammo_type() ) {
-                                same_ammo = true;
-                                break;
-                            }
+                        if( gun.typeId()->magazine_default.count( item( ammo_entry.first ).ammo_type() ) ) {
+                            same_ammo = true;
                         }
                         const bool uses_mags = !gun.magazine_compatible().empty();
                         if( same_ammo && uses_mags ) {
@@ -690,11 +681,10 @@ void mdeath::broken( monster &z )
     }
 
     // TODO: make mdeath::splatter work for robots
-    Character &player_character = get_player_character();
-    if( ( broken_mon.damage() >= broken_mon.max_damage() ) && player_character.sees( z.pos() ) ) {
-        add_msg( m_good, _( "The %s is destroyed!" ), z.name() );
-    } else if( player_character.sees( z.pos() ) ) {
-        add_msg( m_good, _( "The %s collapses!" ), z.name() );
+    if( ( broken_mon.damage() >= broken_mon.max_damage() ) ) {
+        add_msg_if_player_sees( z.pos(), m_good, _( "The %s is destroyed!" ), z.name() );
+    } else {
+        add_msg_if_player_sees( z.pos(), m_good, _( "The %s collapses!" ), z.name() );
     }
 }
 
@@ -702,9 +692,7 @@ void mdeath::ratking( monster &z )
 {
     Character &player_character = get_player_character();
     player_character.remove_effect( effect_rat );
-    if( player_character.sees( z ) ) {
-        add_msg( m_warning, _( "Rats suddenly swarm into view." ) );
-    }
+    add_msg_if_player_sees( z, m_warning, _( "Rats suddenly swarm into view." ) );
 
     for( int rats = 0; rats < 7; rats++ ) {
         g->place_critter_around( mon_sewer_rat, z.pos(), 1 );
@@ -715,9 +703,7 @@ void mdeath::darkman( monster &z )
 {
     Character &player_character = get_player_character();
     player_character.remove_effect( effect_darkness );
-    if( player_character.sees( z ) ) {
-        add_msg( m_good, _( "The %s melts away." ), z.name() );
-    }
+    add_msg_if_player_sees( z, m_good, _( "The %s melts away." ), z.name() );
 }
 
 void mdeath::gas( monster &z )
@@ -734,14 +720,19 @@ void mdeath::smokeburst( monster &z )
     get_map().emit_field( z.pos(), emit_id( "emit_smoke_blast" ) );
 }
 
+void mdeath::tearburst( monster &z )
+{
+    std::string explode = string_format( _( "a %s explode!" ), z.name() );
+    sounds::sound( z.pos(), 24, sounds::sound_t::combat, explode, false, "explosion", "small" );
+    get_map().emit_field( z.pos(), emit_id( "emit_tear_gas_blast" ) );
+}
+
 void mdeath::fungalburst( monster &z )
 {
     map &here = get_map();
     // If the fungus died from anti-fungal poison, don't pouf
     if( here.get_field_intensity( z.pos(), fd_fungicidal_gas ) ) {
-        if( get_player_character().sees( z ) ) {
-            add_msg( m_good, _( "The %s inflates and melts away." ), z.name() );
-        }
+        add_msg_if_player_sees( z, m_good, _( "The %s inflates and melts away." ), z.name() );
         return;
     }
 
@@ -755,7 +746,7 @@ void mdeath::jabberwock( monster &z )
     Character *ch = dynamic_cast<Character *>( z.get_killer() );
 
     bool vorpal = ch && ch->is_player() &&
-                  ch->weapon.has_flag( "DIAMOND" ) &&
+                  ch->weapon.has_flag( STATIC( flag_id( "DIAMOND" ) ) ) &&
                   ch->weapon.volume() > 750_ml;
 
     if( vorpal && !ch->weapon.has_technique( matec_id( "VORPAL" ) ) ) {
@@ -789,11 +780,10 @@ void mdeath::kill_breathers( monster &/*z*/ )
 
 void mdeath::broken_ammo( monster &z )
 {
-    if( get_player_character().sees( z.pos() ) ) {
-        //~ %s is the possessive form of the monster's name
-        add_msg( m_info, _( "The %s's interior compartment sizzles with destructive energy." ),
-                 z.name() );
-    }
+    add_msg_if_player_sees( z.pos(), m_info,
+                            //~ %s is the possessive form of the monster's name
+                            _( "The %s's interior compartment sizzles with destructive energy." ),
+                            z.name() );
     mdeath::broken( z );
 }
 
@@ -814,13 +804,11 @@ void make_mon_corpse( monster &z, int damageLvl )
 
 void mdeath::preg_roach( monster &z )
 {
-    Character &player_character = get_player_character();
     int num_roach = rng( 1, 3 );
     while( num_roach > 0 && g->place_critter_around( mon_giant_cockroach_nymph, z.pos(), 1 ) ) {
         num_roach--;
-        if( player_character.sees( z ) ) {
-            add_msg( m_warning, _( "A cockroach nymph crawls out of the pregnant giant cockroach corpse." ) );
-        }
+        add_msg_if_player_sees( z, m_warning,
+                                _( "A cockroach nymph crawls out of the pregnant giant cockroach corpse." ) );
     }
 }
 
@@ -851,7 +839,7 @@ void mdeath::conflagration( monster &z )
 void mdeath::necro_boomer( monster &z )
 {
     map &here = get_map();
-    std::string explode = string_format( _( "a %s explodes!" ), z.name() );
+    std::string explode = string_format( _( "a %s explode!" ), z.name() );
     sounds::sound( z.pos(), 24, sounds::sound_t::combat, explode, false, "explosion", "small" );
     for( const tripoint &aoe : here.points_in_radius( z.pos(), 10 ) ) {
         for( item &corpse : here.i_at( aoe ) ) {

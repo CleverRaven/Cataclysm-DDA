@@ -108,10 +108,10 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "CUT", 1 ] ]
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ]
   },
   {
-    "type": "GENERIC",
+    "type": "TOOL",
     "id": "stone_chopper",
     "symbol": "*",
     "color": "light_gray",

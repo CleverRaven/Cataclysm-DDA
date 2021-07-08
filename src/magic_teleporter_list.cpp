@@ -1,27 +1,29 @@
 #include "magic_teleporter_list.h"
 
 #include <algorithm>
+#include <cstddef>
 #include <map>
 #include <memory>
+#include <new>
+#include <string>
 #include <utility>
 
 #include "avatar.h"
-#include "bodypart.h"
 #include "calendar.h"
 #include "catacharset.h"
 #include "character.h"
 #include "color.h"
-#include "coordinate_conversions.h"
 #include "coordinates.h"
+#include "cursesdef.h"
 #include "enums.h"
 #include "game.h"
 #include "json.h"
-#include "line.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "messages.h"
 #include "output.h"
 #include "panels.h"
+#include "point.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
@@ -161,7 +163,7 @@ class teleporter_callback : public uilist_callback
         // to make it easier to get the callback from the known_teleporters
         std::map<int, tripoint_abs_omt> index_pairs;
     public:
-        teleporter_callback( std::map<int, tripoint_abs_omt> &ip ) : index_pairs( ip ) {}
+        explicit teleporter_callback( std::map<int, tripoint_abs_omt> &ip ) : index_pairs( ip ) {}
         void refresh( uilist *menu ) override {
             const int entnum = menu->selected;
             const int start_x = menu->w_width - menu->pad_right;

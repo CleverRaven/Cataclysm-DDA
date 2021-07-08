@@ -3,23 +3,29 @@
 #define CATA_SRC_RECIPE_H
 
 #include <cstddef>
+#include <cstdint>
 #include <functional>
+#include <iosfwd>
 #include <map>
+#include <new>
 #include <set>
 #include <string>
 #include <utility>
 #include <vector>
 
+#include "build_reqs.h"
 #include "calendar.h"
 #include "optional.h"
 #include "requirements.h"
 #include "translations.h"
 #include "type_id.h"
+#include "value_ptr.h"
 
+class Character;
+class JsonIn;
 class JsonObject;
 class item;
-class time_duration;
-class Character;
+template <typename E> struct enum_traits;
 
 enum class recipe_filter_flags : int {
     none = 0,
@@ -44,8 +50,8 @@ struct enum_traits<recipe_filter_flags> {
 struct recipe_proficiency {
     proficiency_id id;
     bool required = false;
-    float time_multiplier = 1.0f;
-    float fail_multiplier = 2.5f;
+    float time_multiplier = 0.0f;
+    float fail_multiplier = 0.0f;
     float learning_time_mult = 1.0f;
     cata::optional<time_duration> max_experience = cata::nullopt;
 
@@ -69,13 +75,19 @@ class recipe
     private:
         itype_id result_ = itype_id::NULL_ID();
 
-        int time = 0; // in movement points (100 per turn)
+        int64_t time = 0; // in movement points (100 per turn)
+
+        float exertion = 0.0f;
 
     public:
         recipe();
 
-        operator bool() const {
-            return !result_.is_null();
+        bool is_null() const {
+            return result_.is_null();
+        }
+
+        explicit operator bool() const {
+            return !is_null();
         }
 
         const itype_id &result() const {
@@ -119,7 +131,7 @@ class recipe
         std::function<bool( const item & )> get_component_filter(
             recipe_filter_flags = recipe_filter_flags::none ) const;
 
-        /** Prevent this recipe from ever being added to the player's learned recipies ( used for special NPC crafting ) */
+        /** Prevent this recipe from ever being added to the player's learned recipes ( used for special NPC crafting ) */
         bool never_learn = false;
 
         /** If recipe can be used for disassembly fetch the combined requirements */
@@ -145,7 +157,7 @@ class recipe
         // Books containing this recipe, and the skill level required
         std::map<itype_id, book_recipe_data> booksets;
 
-        std::set<std::string> flags_to_delete; // Flags to delete from the resultant item.
+        std::set<flag_id> flags_to_delete; // Flags to delete from the resultant item.
 
         // Create a string list to describe the skill requirements for this recipe
         // Format: skill_name(level/amount), skill_name(level/amount)
@@ -160,7 +172,11 @@ class recipe
         std::string required_skills_string( const Character *, bool include_primary_skill,
                                             bool print_skill_level ) const;
         // Format the proficiencies string.
-        std::string required_proficiencies_string( const Character &c ) const;
+        std::string required_proficiencies_string( const Character *c ) const;
+        std::string used_proficiencies_string( const Character *c ) const;
+        std::string missing_proficiencies_string( const Character *c ) const;
+        // Proficiencies for search
+        std::string recipe_proficiencies_string() const;
         // Required proficiencies
         std::set<proficiency_id> required_proficiencies() const;
         //
@@ -168,7 +184,12 @@ class recipe
         // Helpful proficiencies
         std::set<proficiency_id> assist_proficiencies() const;
         // The time malus due to proficiencies lacking
-        float proficiency_maluses( const Character &guy ) const;
+        float proficiency_time_maluses( const Character &crafter ) const;
+        // The failure malus due to proficiencies lacking
+        float proficiency_failure_maluses( const Character &crafter ) const;
+
+        // How active of exercise this recipe is
+        float exertion_level() const;
 
         // This is used by the basecamp bulletin board.
         std::string required_all_skills_string() const;
@@ -187,14 +208,14 @@ class recipe
 
         bool has_byproducts() const;
 
-        int batch_time( const Character &guy, int batch, float multiplier, size_t assistants ) const;
+        int64_t batch_time( const Character &guy, int batch, float multiplier, size_t assistants ) const;
         time_duration batch_duration( const Character &guy, int batch = 1, float multiplier = 1.0,
                                       size_t assistants = 0 ) const;
 
         time_duration time_to_craft( const Character &guy,
                                      recipe_time_flag flags = recipe_time_flag::none ) const;
-        int time_to_craft_moves( const Character &guy,
-                                 recipe_time_flag flags = recipe_time_flag::none ) const;
+        int64_t time_to_craft_moves( const Character &guy,
+                                     recipe_time_flag flags = recipe_time_flag::none ) const;
 
         bool has_flag( const std::string &flag_name ) const;
 
@@ -225,7 +246,13 @@ class recipe
 
         bool hot_result() const;
 
+        bool removes_raw() const;
+
+        // Returns the amount or charges recipe will produce.
+        int makes_amount() const;
+
     private:
+        void incorporate_build_reqs();
         void add_requirements( const std::vector<std::pair<requirement_id, int>> &reqs );
 
     private:
@@ -278,12 +305,12 @@ class recipe
         std::vector<std::pair<std::string, int>> bp_requires;
         std::vector<std::pair<std::string, int>> bp_excludes;
 
-        /** Blueprint requirements to be checked in unit test */
-        bool has_blueprint_needs = false;
+        /** Blueprint requirements either autocalculcated or explicitly
+         * specified.  These members relate to resolving those blueprint
+         * requirements into the standard recipe requirements. */
+        bool bp_autocalc = false;
         bool check_blueprint_needs = false;
-        int time_blueprint = 0;
-        std::map<skill_id, int> skills_blueprint;
-        std::vector<std::pair<requirement_id, int>> reqs_blueprint;
+        cata::value_ptr<build_reqs> blueprint_reqs;
 };
 
 #endif // CATA_SRC_RECIPE_H

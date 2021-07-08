@@ -169,7 +169,7 @@
         "|- -|- -|        |- -|- -|- -|- -|- -|- -|.........................|   |"
       ],
       "palettes": [ "necropolis_b3" ],
-      "terrain": { "2": "t_sewage_pipe", "7": "t_chainfence_h", "X": "t_grate" },
+      "terrain": { "2": "t_sewage_pipe", "7": "t_chainfence_h", "X": "t_grate", "b": "t_metal_floor" },
       "place_items": [
         { "item": "bed", "x": [ 22, 22 ], "y": [ 22, 22 ], "chance": 40 },
         { "item": "traveler", "x": [ 22, 23 ], "y": [ 21, 21 ], "chance": 40 },
@@ -348,7 +348,7 @@
         "..................................|  |.................................."
       ],
       "palettes": [ "necropolis_b3" ],
-      "terrain": { "2": "t_sewage_pipe", "7": "t_chainfence_h", "X": "t_grate" },
+      "terrain": { "2": "t_sewage_pipe", "7": "t_chainfence_h", "X": "t_grate", "b": "t_metal_floor" },
       "place_items": [
         { "item": "hospital_incubator", "x": [ 3, 3 ], "y": [ 17, 17 ], "chance": 40 },
         { "item": "hospital_incubator", "x": [ 5, 5 ], "y": [ 17, 17 ], "chance": 40 },
@@ -625,7 +625,7 @@
         "|EE|        G         |EE|                                              "
       ],
       "palettes": [ "necropolis_b3" ],
-      "terrain": { "2": "t_sewage_pipe", "7": "t_chainfence_h", "X": "t_grate" },
+      "terrain": { "2": "t_sewage_pipe", "7": "t_chainfence_h", "X": "t_grate", "b": "t_metal_floor" },
       "items": {
         "@": { "item": "bed", "chance": 60 },
         "L": { "item": "traveler", "chance": 60 },
@@ -794,7 +794,7 @@
         "|-------------------|.|   |.|-------------------|.|-|--|       b|L @|L @"
       ],
       "palettes": [ "necropolis_b3" ],
-      "terrain": { "2": "t_sewage_pipe", "7": "t_chainfence_h", "X": "t_grate" },
+      "terrain": { "2": "t_sewage_pipe", "7": "t_chainfence_h", "X": "t_grate", "c": "t_rock_floor" },
       "items": {
         "@": { "item": "bed", "chance": 60 },
         "L": { "item": "traveler", "chance": 60 },
@@ -889,7 +889,7 @@
         "|L @|S|@@|      |Lc|t|L @|L @|L @|b       |--|-|........|     |     cc  "
       ],
       "palettes": [ "necropolis_b3" ],
-      "terrain": { "2": "t_sewage_pipe", "7": "t_chainfence_h", "X": "t_grate" },
+      "terrain": { "2": "t_sewage_pipe", "7": "t_chainfence_h", "X": "t_grate", "b": "t_metal_floor" },
       "items": {
         "@": { "item": "bed", "chance": 60 },
         "L": { "item": "traveler", "chance": 60 },
@@ -1071,7 +1071,7 @@
         "|                    v    |.................|-------|        G        |-"
       ],
       "palettes": [ "necropolis_b3" ],
-      "terrain": { "2": "t_sewage_pipe", "7": "t_chainfence_h", "X": "t_grate" },
+      "terrain": { "2": "t_sewage_pipe", "7": "t_chainfence_h", "X": "t_grate", "b": "t_metal_floor" },
       "items": {
         "@": { "item": "bed", "chance": 60 },
         "L": { "item": "traveler", "chance": 60 },
@@ -1156,7 +1156,7 @@
         "|   |-|.......................|------|   |.|rrrrr8///__6///$$/,       Vk"
       ],
       "palettes": [ "necropolis_b3" ],
-      "terrain": { "2": "t_sewage_pipe", "7": "t_chainfence_h", "X": "t_grate" },
+      "terrain": { "2": "t_sewage_pipe", "7": "t_chainfence_h", "X": "t_grate", "b": "t_metal_floor" },
       "items": { "k": { "item": "office", "chance": 60 } },
       "item": { "n": [ { "item": "water_clean", "chance": 20 } ] },
       "place_monsters": [
@@ -1236,7 +1236,7 @@
         "6 |.|EE+    |.|b  ,    ,         ,    ,  b|  |.|L b L|L b L|.|  |  |--|."
       ],
       "palettes": [ "necropolis_b3" ],
-      "terrain": { "2": "t_sewage_pipe", "7": "t_chainfence_h", "X": "t_grate" },
+      "terrain": { "2": "t_sewage_pipe", "7": "t_chainfence_h", "X": "t_grate", "b": "t_metal_floor" },
       "items": {
         "L": { "item": "sports", "chance": 60 },
         "b": { "item": "magazines", "chance": 10 },
@@ -1418,7 +1418,7 @@
         "........................................................................"
       ],
       "palettes": [ "necropolis_b3" ],
-      "terrain": { "2": "t_sewage_pipe", "7": "t_chainfence_h", "X": "t_grate" },
+      "terrain": { "2": "t_sewage_pipe", "7": "t_chainfence_h", "X": "t_grate", "b": "t_metal_floor" },
       "items": { "L": { "item": "sports", "chance": 50 }, "l": { "item": "vending_drink", "chance": 70 } },
       "place_monsters": [
         { "monster": "GROUP_NECROPOLIS_VAULT3", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.15 },

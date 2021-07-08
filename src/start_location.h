@@ -2,8 +2,8 @@
 #ifndef CATA_SRC_START_LOCATION_H
 #define CATA_SRC_START_LOCATION_H
 
-#include <algorithm>
 #include <cstddef>
+#include <iosfwd>
 #include <set>
 #include <string>
 #include <utility>
@@ -17,7 +17,6 @@
 class JsonObject;
 class player;
 class tinymap;
-struct tripoint;
 
 class start_location
 {

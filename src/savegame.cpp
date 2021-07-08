@@ -1,5 +1,6 @@
 #include "game.h" // IWYU pragma: associated
 
+#include <clocale>
 #include <algorithm>
 #include <map>
 #include <sstream>
@@ -19,7 +20,6 @@
 #include "debug.h"
 #include "faction.h"
 #include "hash_utils.h"
-#include "int_id.h"
 #include "json.h"
 #include "kill_tracker.h"
 #include "map.h"
@@ -30,16 +30,11 @@
 #include "npc.h"
 #include "omdata.h"
 #include "options.h"
-#include "output.h"
 #include "overmap.h"
 #include "overmap_types.h"
-#include "popup.h"
 #include "regional_settings.h"
 #include "scent_map.h"
 #include "stats_tracker.h"
-#include "string_id.h"
-#include "translations.h"
-#include "ui_manager.h"
 
 class overmap_connection;
 
@@ -53,7 +48,7 @@ extern std::map<std::string, std::list<input_event>> quick_shortcuts_map;
  * Changes that break backwards compatibility should bump this number, so the game can
  * load a legacy format loader.
  */
-const int savegame_version = 31;
+const int savegame_version = 33;
 
 /*
  * This is a global set by detected version header in .sav, maps.txt, or overmap.
@@ -106,6 +101,26 @@ void game::serialize( std::ostream &fout )
     json.member( "stats_tracker", *stats_tracker_ptr );
     json.member( "achievements_tracker", *achievements_tracker_ptr );
 
+    //save queued effect_on_conditions
+    std::vector<queued_eoc> temp_queue;
+    while( !g->queued_effect_on_conditions.empty() ) {
+        temp_queue.push_back( g->queued_effect_on_conditions.top() );
+        g->queued_effect_on_conditions.pop();
+    }
+    json.member( "queued_effect_on_conditions" );
+    json.start_array();
+
+    for( const auto &queued : temp_queue ) {
+        g->queued_effect_on_conditions.push( queued );
+        json.start_object();
+        json.member( "time", queued.time );
+        json.member( "eoc", queued.eoc );
+        json.member( "recurring", queued.recurring );
+        json.end_object();
+    }
+    json.end_array();
+    json.member( "inactive_eocs", inactive_effect_on_condition_vector );
+
     json.member( "player", u );
     Messages::serialize( json );
 
@@ -114,7 +129,8 @@ void game::serialize( std::ostream &fout )
 
 std::string scent_map::serialize( bool is_type ) const
 {
-    std::stringstream rle_out;
+    std::ostringstream rle_out;
+    rle_out.imbue( std::locale::classic() );
     if( is_type ) {
         rle_out << typescent.str();
     } else {
@@ -159,7 +175,7 @@ static void chkversion( std::istream &fin )
 /*
  * Parse an open .sav file.
  */
-void game::unserialize( std::istream &fin )
+void game::unserialize( std::istream &fin, const std::string &path )
 {
     chkversion( fin );
     int tmpturn = 0;
@@ -167,7 +183,7 @@ void game::unserialize( std::istream &fin )
     int tmprun = 0;
     tripoint_om_sm lev;
     point_abs_om com;
-    JsonIn jsin( fin );
+    JsonIn jsin( fin, path );
     try {
         JsonObject data = jsin.get_object();
 
@@ -175,11 +191,7 @@ void game::unserialize( std::istream &fin )
         data.read( "calendar_start", tmpcalstart );
         calendar::initial_season = static_cast<season_type>( data.get_int( "initial_season",
                                    static_cast<int>( SPRING ) ) );
-        // 0.E stable
-        if( savegame_loading_version < 26 ) {
-            tmpturn *= 6;
-            tmpcalstart *= 6;
-        }
+
         data.read( "auto_travel_mode", auto_travel_mode );
         data.read( "run_mode", tmprun );
         data.read( "mostseen", mostseen );
@@ -189,8 +201,8 @@ void game::unserialize( std::istream &fin )
         data.read( "om_x", com.x() );
         data.read( "om_y", com.y() );
 
-        calendar::turn = tmpturn;
-        calendar::start_of_cataclysm = tmpcalstart;
+        calendar::turn = time_point( tmpturn );
+        calendar::start_of_cataclysm = time_point( tmpcalstart );
 
         if( !data.read( "game_start", calendar::start_of_game ) ) {
             calendar::start_of_game = calendar::start_of_cataclysm;
@@ -214,7 +226,7 @@ void game::unserialize( std::istream &fin )
         data.read( "active_monsters", *critter_tracker );
 
         coming_to_stairs.clear();
-        for( auto elem : data.get_array( "stair_monsters" ) ) {
+        for( JsonValue elem : data.get_array( "stair_monsters" ) ) {
             monster stairtmp;
             elem.read( stairtmp );
             coming_to_stairs.push_back( stairtmp );
@@ -240,6 +252,24 @@ void game::unserialize( std::istream &fin )
         data.read( "player", u );
         data.read( "stats_tracker", *stats_tracker_ptr );
         data.read( "achievements_tracker", *achievements_tracker_ptr );
+
+        //load queued_eocs
+        for( JsonObject elem : data.get_array( "queued_effect_on_conditions" ) ) {
+            queued_eoc temp;
+            temp.time = time_point( elem.get_int( "time" ) );
+            temp.eoc = effect_on_condition_id( elem.get_string( "eoc" ) );
+            temp.recurring = elem.get_bool( "recurring" );
+            g->queued_effect_on_conditions.push( temp );
+        }
+        //load inactive queued_eocs
+        for( JsonObject elem : data.get_array( "inactive_effect_on_conditions" ) ) {
+            queued_eoc temp;
+            temp.time = time_point( elem.get_int( "time" ) );
+            temp.eoc = effect_on_condition_id( elem.get_string( "eoc" ) );
+            temp.recurring = elem.get_bool( "recurring" );
+            g->queued_effect_on_conditions.push( temp );
+        }
+        data.read( "inactive_eocs", inactive_effect_on_condition_vector );
         Messages::deserialize( data );
 
     } catch( const JsonError &jsonerr ) {
@@ -251,6 +281,7 @@ void game::unserialize( std::istream &fin )
 void scent_map::deserialize( const std::string &data, bool is_type )
 {
     std::istringstream buffer( data );
+    buffer.imbue( std::locale::classic() );
     if( is_type ) {
         std::string str;
         buffer >> str;
@@ -272,9 +303,9 @@ void scent_map::deserialize( const std::string &data, bool is_type )
 
 #if defined(__ANDROID__)
 ///// quick shortcuts
-void game::load_shortcuts( std::istream &fin )
+void game::load_shortcuts( std::istream &fin, const std::string &path )
 {
-    JsonIn jsin( fin );
+    JsonIn jsin( fin, path );
     try {
         JsonObject data = jsin.get_object();
 
@@ -316,7 +347,7 @@ void game::save_shortcuts( std::ostream &fout )
 }
 #endif
 
-std::unordered_set<std::string> obsolete_terrains;
+static std::unordered_set<std::string> obsolete_terrains;
 
 void overmap::load_obsolete_terrains( const JsonObject &jo )
 {
@@ -354,7 +385,8 @@ void overmap::convert_terrain(
 
         if( old == "fema" || old == "fema_entrance" || old == "fema_1_3" ||
             old == "fema_2_1" || old == "fema_2_2" || old == "fema_2_3" ||
-            old == "fema_3_1" || old == "fema_3_2" || old == "fema_3_3" ) {
+            old == "fema_3_1" || old == "fema_3_2" || old == "fema_3_3" ||
+            old == "s_lot" || old == "mine_entrance" || old == "triffid_finale" ) {
             ter_set( pos, oter_id( old + "_north" ) );
         } else if( old.compare( 0, 6, "bridge" ) == 0 ) {
             ter_set( pos, oter_id( old ) );
@@ -365,8 +397,47 @@ void overmap::convert_terrain(
                 ter_set( pos + tripoint_above, oter_id( "bridge_road" + oter_get_rotation_string( oter_ground ) ) );
                 bridge_points.emplace_back( pos.xy() );
             }
+        } else if( old == "triffid_grove" ) {
+            {
+                ter_set( pos, oter_id( "triffid_grove_north" ) );
+                ter_set( pos + point_north, oter_id( "triffid_field_north" ) );
+                ter_set( pos + point_north_east, oter_id( "triffid_field_north" ) );
+                ter_set( pos + point_east, oter_id( "triffid_field_north" ) );
+                ter_set( pos + point_south_east, oter_id( "triffid_field_north" ) );
+                ter_set( pos + point_south, oter_id( "triffid_field_north" ) );
+                ter_set( pos + point_south_west, oter_id( "triffid_field_north" ) );
+                ter_set( pos + point_west, oter_id( "triffid_field_north" ) );
+                ter_set( pos + point_north_west, oter_id( "triffid_field_north" ) );
+                ter_set( pos + tripoint_above, oter_id( "triffid_grove_z2_north" ) );
+                ter_set( pos + tripoint( 0, 0, 2 ), oter_id( "triffid_grove_z3_north" ) );
+                ter_set( pos + tripoint( 0, 0, 3 ), oter_id( "triffid_grove_roof_north" ) );
+            }
+        } else if( old == "triffid_roots" ) {
+            {
+                ter_set( pos, oter_id( "triffid_roots_north" ) );
+                ter_set( pos + point_south, oter_id( "triffid_rootsn_north" ) );
+                ter_set( pos + point_south_east, oter_id( "triffid_rootsen_north" ) );
+                ter_set( pos + point_east, oter_id( "triffid_rootse_north" ) );
+                ter_set( pos + point_north_east, oter_id( "triffid_rootsse_north" ) );
+                ter_set( pos + point_north, oter_id( "triffid_rootss_north" ) );
+                ter_set( pos + point_north_west, oter_id( "triffid_rootssw_north" ) );
+                ter_set( pos + point_west, oter_id( "triffid_rootsw_north" ) );
+                ter_set( pos + point_south_west, oter_id( "triffid_rootsnw_north" ) );
+            }
         } else if( old.compare( 0, 10, "mass_grave" ) == 0 ) {
             ter_set( pos, oter_id( "field" ) );
+        } else if( old == "mine_shaft" ) {
+            ter_set( pos, oter_id( "mine_shaft_middle_north" ) );
+        } else if( old.compare( 0, 23, "office_tower_1_entrance" ) == 0 ) {
+            ter_set( pos, oter_id( "office_tower_ne_north" ) );
+            ter_set( pos + point_west, oter_id( "office_tower_nw_north" ) );
+            ter_set( pos + point_south, oter_id( "office_tower_se_north" ) );
+            ter_set( pos + point_south_west, oter_id( "office_tower_sw_north" ) );
+        } else if( old.compare( 0, 23, "office_tower_b_entrance" ) == 0 ) {
+            ter_set( pos, oter_id( "office_tower_underground_ne_north" ) );
+            ter_set( pos + point_west, oter_id( "office_tower_underground_nw_north" ) );
+            ter_set( pos + point_south, oter_id( "office_tower_underground_se_north" ) );
+            ter_set( pos + point_south_west, oter_id( "office_tower_underground_sw_north" ) );
         }
 
         for( const auto &conv : nearby ) {
@@ -1068,7 +1139,9 @@ void mongroup::io( Archive &archive )
 
 void mongroup::deserialize( JsonIn &data )
 {
-    io::JsonObjectInputArchive archive( data );
+    JsonObject jo = data.get_object();
+    jo.allow_omitted_members();
+    io::JsonObjectInputArchive archive( jo );
     io( archive );
 }
 
@@ -1134,14 +1207,6 @@ void game::unserialize_master( std::istream &fin )
 {
     savegame_loading_version = 0;
     chkversion( fin );
-    if( savegame_loading_version < 11 ) {
-        std::unique_ptr<static_popup>popup = std::make_unique<static_popup>();
-        popup->message(
-            _( "Cannot find loader for save data in old version %d, attempting to load as current version %d." ),
-            savegame_loading_version, savegame_version );
-        ui_manager::redraw();
-        refresh_display();
-    }
     try {
         // single-pass parsing example
         JsonIn jsin( fin );
@@ -1185,6 +1250,9 @@ void weather_manager::unserialize_all( JsonIn &jsin )
     w.read( "lightning", get_weather().lightning_active );
     w.read( "weather_id", get_weather().weather_id );
     w.read( "next_weather", get_weather().nextweather );
+    w.read( "temperature", get_weather().temperature );
+    w.read( "winddirection", get_weather().winddirection );
+    w.read( "windspeed", get_weather().windspeed );
 }
 
 void game::serialize_master( std::ostream &fout )
@@ -1208,6 +1276,9 @@ void game::serialize_master( std::ostream &fout )
         json.member( "lightning", weather.lightning_active );
         json.member( "weather_id", weather.weather_id );
         json.member( "next_weather", weather.nextweather );
+        json.member( "temperature", weather.temperature );
+        json.member( "winddirection", weather.winddirection );
+        json.member( "windspeed", weather.windspeed );
         json.end_object();
 
         json.end_object();

@@ -1,0 +1,19 @@
+[
+  {
+    "id": "robot_carrier",
+    "type": "GENERIC",
+    "name": "robot carrier",
+    "description": "A heavy frame outfitted with tie-downs and attachment points for carrying cargo, with additional railings to keep a large machine in place.  It is meant to hold large drones and robots for transport.  Use it on a suitable robot to capture, use it on an empty tile to release.",
+    "weight": "96 kg",
+    "volume": "62500 ml",
+    "price": 48000,
+    "category": "veh_parts",
+    "material": [ "steel", "plastic" ],
+    "symbol": "]",
+    "color": "light_gray",
+    "looks_like": "cargo_rack",
+    "properties": [ [ "monster_size_capacity", "LARGE" ] ],
+    "use_action": "CAPTURE_MONSTER_VEH",
+    "flags": [ "TRADER_AVOID" ]
+  }
+]

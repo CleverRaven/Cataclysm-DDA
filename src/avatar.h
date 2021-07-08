@@ -3,33 +3,45 @@
 #define CATA_SRC_AVATAR_H
 
 #include <cstddef>
+#include <iosfwd>
+#include <list>
+#include <map>
+#include <memory>
 #include <string>
 #include <unordered_set>
 #include <vector>
 
 #include "calendar.h"
 #include "character.h"
+#include "coordinates.h"
 #include "enums.h"
-#include "item.h"
+#include "game_constants.h"
+#include "json.h"
 #include "magic_teleporter_list.h"
 #include "map_memory.h"
 #include "memory_fast.h"
 #include "player.h"
 #include "point.h"
+#include "type_id.h"
 
-class faction;
-
-class advanced_inv_listitem;
 class advanced_inv_area;
+class advanced_inv_listitem;
 class advanced_inventory_pane;
-
-class JsonIn;
-class JsonObject;
-class JsonOut;
+class faction;
+class item;
+class item_location;
 class mission;
 class monster;
+class nc_color;
 class npc;
 class talker;
+struct bionic;
+
+namespace catacurses
+{
+class window;
+} // namespace catacurses
+enum class character_type : int;
 
 namespace debug_menu
 {
@@ -50,7 +62,7 @@ struct monster_visible_info {
     std::vector<npc *> unique_types[9];
     std::vector<const mtype *> unique_mons[9];
 
-    // If the moster visible in this direction is dangerous
+    // If the monster visible in this direction is dangerous
     bool dangerous[8] = {};
 };
 
@@ -112,7 +124,7 @@ class avatar : public player
         /** Resets stats, and applies effects in an idempotent manner */
         void reset_stats() override;
         /** Resets all missions before saving character to template */
-        void reset_all_misions();
+        void reset_all_missions();
 
         std::vector<mission *> get_active_missions() const;
         std::vector<mission *> get_completed_missions() const;
@@ -145,29 +157,20 @@ class avatar : public player
                       bool radio_contact = false );
 
         /**
-         * Helper function for player::read.
-         *
-         * @param book Book to read
-         * @param reasons Starting with g->u, for each player/NPC who cannot read, a message will be pushed back here.
-         * @returns nullptr, if neither the player nor his followers can read to the player, otherwise the player/NPC
-         * who can read and can read the fastest
+         * Try to disarm the NPC. May result in fail attempt, you receiving the weapon and instantly wielding it,
+         * or the weapon falling down on the floor nearby. NPC is always getting angry with you.
+         * @param target Target NPC to disarm
          */
-        const player *get_book_reader( const item &book, std::vector<std::string> &reasons ) const;
-        /**
-         * Helper function for get_book_reader
-         * @warning This function assumes that the everyone is able to read
-         *
-         * @param book The book being read
-         * @param reader the player/NPC who's reading to the caller
-         * @param learner if not nullptr, assume that the caller and reader read at a pace that isn't too fast for him
-         */
-        int time_to_read( const item &book, const player &reader, const player *learner = nullptr ) const;
+        void disarm( npc &target );
+
         /** Handles reading effects and returns true if activity started */
         bool read( item &it, bool continuous = false );
         /** Completes book reading action. **/
         void do_read( item &book );
         /** Note that we've read a book at least once. **/
         bool has_identified( const itype_id &item_id ) const override;
+        void identify( const item &item ) override;
+        void clear_identified();
 
         void wake_up();
         // Grab furniture / vehicle
@@ -175,7 +178,7 @@ class avatar : public player
         object_type get_grab_type() const;
         /** Handles player vomiting effects */
         void vomit();
-
+        void add_pain_msg( int val, const bodypart_id &bp ) const;
         /**
          * Try to steal an item from the NPC's inventory. May result in fail attempt, when NPC not notices you,
          * notices your steal attempt and getting angry with you, and you successfully stealing the item.
@@ -195,10 +198,16 @@ class avatar : public player
         int free_upgrade_points() const;
         // how much "kill xp" you have
         int kill_xp() const;
+        void power_bionics() override;
+        void power_mutations() override;
+        /** Returns the bionic with the given invlet, or NULL if no bionic has that invlet */
+        bionic *bionic_by_invlet( int ch );
 
         faction *get_faction() const override;
         // Set in npc::talk_to_you for use in further NPC interactions
         bool dialogue_by_radio = false;
+        // Preferred aim mode - ranged.cpp aim mode defaults to this if possible
+        std::string preferred_aiming_mode;
 
         void set_movement_mode( const move_mode_id &mode ) override;
 
@@ -210,6 +219,8 @@ class avatar : public player
         void toggle_run_mode();
         // Toggles crouching on/off.
         void toggle_crouch_mode();
+        // Activate crouch mode if not in crouch mode.
+        void activate_crouch_mode();
 
         bool wield( item_location target );
         bool wield( item &target ) override;
@@ -220,9 +231,10 @@ class avatar : public player
                 advanced_inv_area &square );
 
         using Character::invoke_item;
-        bool invoke_item( item *, const tripoint &pt ) override;
+        bool invoke_item( item *, const tripoint &pt, int pre_obtain_moves ) override;
         bool invoke_item( item * ) override;
-        bool invoke_item( item *, const std::string &, const tripoint &pt ) override;
+        bool invoke_item( item *, const std::string &, const tripoint &pt,
+                          int pre_obtain_moves = -1 ) override;
         bool invoke_item( item *, const std::string & ) override;
 
         monster_visible_info &get_mon_visible() {
@@ -303,7 +315,7 @@ class avatar : public player
          */
         mission *active_mission;
         /**
-         * The amont of calories spent and gained per day for the last 30 days.
+         * The amount of calories spent and gained per day for the last 30 days.
          * the back is popped off and a new one added to the front at midnight each day
          */
         std::list<daily_calories> calorie_diary;

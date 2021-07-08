@@ -2,24 +2,30 @@
 
 #include <algorithm>
 #include <memory>
-#include <utility>
+#include <string>
+#include <type_traits>
 #include <vector>
 
 #include "ammo_effect.h"
+#include "debug.h"
+#include "enums.h"
 #include "explosion.h"
 #include "item.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "mapdata.h"
+#include "messages.h"
 #include "rng.h"
-#include "string_id.h"
+#include "translations.h"
+#include "type_id.h"
 
 projectile::projectile() :
-    speed( 0 ), range( 0 ), critical_multiplier( 2.0 ), drop( nullptr ), custom_explosion( nullptr )
+    critical_multiplier( 2.0 ), drop( nullptr ), custom_explosion( nullptr )
 { }
 
 projectile::~projectile() = default;
 
-projectile::projectile( projectile && ) = default;
+projectile::projectile( projectile && ) noexcept( set_is_noexcept ) = default;
 
 projectile::projectile( const projectile &other )
 {
@@ -92,6 +98,35 @@ void projectile::unset_custom_explosion()
     custom_explosion.reset();
 }
 
+static void foamcrete_build( const tripoint &p )
+{
+    map &here = get_map();
+    const ter_str_id floor = ter_str_id( "t_foamcrete_floor" );
+    const ter_str_id wall = ter_str_id( "t_foamcrete_wall" );
+    const field_type_str_id field_fd_foamcrete( "fd_foamcrete" );
+
+    if( !( wall.is_valid() && floor.is_valid() && field_fd_foamcrete.is_valid() ) ) {
+        debugmsg( "Foamcrete terrains or fields are missing" );
+        return;
+    }
+
+    if( here.has_flag_ter( TFLAG_NO_FLOOR, p ) ) {
+        for( const tripoint &ep : here.points_in_radius( p, 1 ) ) {
+            if( here.has_flag_ter( TFLAG_SUPPORTS_ROOF, ep ) ) {
+                here.ter_set( p, floor );
+                here.add_field( p, field_fd_foamcrete, 1 );
+                return;
+            }
+        }
+        add_msg( m_bad, _( "The foamcrete falls without a wall to anchor against." ) );
+    } else if( here.get_field_intensity( p, field_fd_foamcrete ) >= 2 ) {
+        here.bash( p, 9001, false, true, false );
+        here.ter_set( p, wall );
+    } else {
+        here.add_field( p, field_fd_foamcrete, 1 );
+    }
+}
+
 void apply_ammo_effects( const tripoint &p, const std::set<std::string> &effects )
 {
     map &here = get_map();
@@ -114,6 +149,9 @@ void apply_ammo_effects( const tripoint &p, const std::set<std::string> &effects
             }
             if( ae.do_emp_blast ) {
                 explosion_handler::emp_blast( p );
+            }
+            if( ae.foamcrete_build ) {
+                foamcrete_build( p );
             }
         }
     }

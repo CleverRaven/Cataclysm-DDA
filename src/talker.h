@@ -64,7 +64,7 @@ class talker
             return {};
         }
         virtual void check_missions() {}
-        virtual void update_missions( const std::vector<mission *> &, const character_id & ) {}
+        virtual void update_missions( const std::vector<mission *> & ) {}
         virtual bool check_hostile_response( int ) const {
             return false;
         }
@@ -89,14 +89,14 @@ class talker
             return 0;
         }
         virtual int get_skill_level( const skill_id & ) const {
-            return false;
+            return 0;
         }
         virtual bool has_trait( const trait_id & ) const {
             return false;
         }
         virtual void set_mutation( const trait_id & ) {}
         virtual void unset_mutation( const trait_id & ) {}
-        virtual bool has_trait_flag( const std::string & ) const {
+        virtual bool has_trait_flag( const json_character_flag & ) const {
             return false;
         }
         virtual bool crossed_threshold() const {
@@ -152,6 +152,9 @@ class talker
         virtual bool is_deaf() const {
             return false;
         }
+        virtual bool is_mute() const {
+            return false;
+        }
         virtual void add_effect( const efftype_id &, const time_duration &, bool ) {}
         virtual void remove_effect( const efftype_id & ) {}
         virtual std::string get_value( const std::string & ) const {
@@ -179,7 +182,7 @@ class talker
         virtual std::list<item> use_amount( const itype_id &, int ) {
             return {};
         }
-        virtual int value( const item & ) {
+        virtual int value( const item & ) const {
             return 0;
         }
         virtual int cash() const {
@@ -308,5 +311,21 @@ class talker
         virtual void add_opinion( int /*trust*/, int /*fear*/, int /*value*/, int /*anger*/,
                                   int /*debt*/ ) {}
         virtual void set_first_topic( const std::string & ) {}
+        virtual bool is_safe() const {
+            return true;
+        }
+        virtual void mod_pain( int ) {}
+        virtual int pain_cur() const {
+            return 0;
+        }
+        virtual bool worn_with_flag( const flag_id & ) const {
+            return false;
+        }
+        virtual bool wielded_with_flag( const flag_id & ) const {
+            return false;
+        }
+        virtual units::energy power_cur() const {
+            return 0_kJ;
+        }
 };
 #endif // CATA_SRC_TALKER_H

@@ -33,7 +33,7 @@
         "                        "
       ],
       "palettes": [ "bike_shop" ],
-      "vendingmachines": { "D": { "item_group": "vending_drink" }, "F": { "item_group": "vending_food" } },
+      "vendingmachines": { "D": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } },
       "items": {
         "&": { "item": "trash", "chance": 70 },
         "@": { "item": "trash", "chance": 90 },
@@ -154,11 +154,11 @@
         "&": { "item": "trash", "chance": 70 },
         "@": { "item": "trash", "chance": 90 },
         "c": { "item": "bikeshop_for_sale", "chance": 60, "repeat": [ 1, 4 ] },
-        "f": { "item": "fridge", "chance": 70, "repeat": [ 1, 8 ] },
+        "f": { "item": "SUS_fridge_breakroom", "chance": 70 },
         "l": { "item": "jackets", "chance": 60 },
         "r": { "item": "bikeshop_tools", "chance": 80, "repeat": [ 1, 4 ] }
       },
-      "vendingmachines": { "D": { "item_group": "vending_drink" }, "F": { "item_group": "vending_food" } },
+      "vendingmachines": { "D": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } },
       "place_vehicles": [
         { "vehicle": "bikeshop", "x": 6, "y": 7, "chance": 60, "status": 0, "rotation": 270 },
         { "vehicle": "bikeshop", "x": 21, "y": 7, "chance": 90, "rotation": 270 },

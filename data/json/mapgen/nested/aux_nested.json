@@ -1,0 +1,63 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "bile_field",
+    "object": { "mapgensize": [ 1, 1 ], "place_fields": [ { "field": "fd_bile", "x": 0, "y": 0, "intensity": 1, "age": 10 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "destroyed_glass_door_wall",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_ter_furn_transforms": [ { "transform": "glass_door_wall_2_floor", "x": 0, "y": 0 } ],
+      "place_item": [ { "item": "glass_shard", "x": 0, "y": 0, "repeat": [ 42, 84 ], "chance": 100 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "deployed_small_tent",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "place_furniture": [
+        { "furn": "f_canvas_wall", "x": 0, "y": [ 0, 2 ] },
+        { "furn": "f_canvas_wall", "x": 2, "y": [ 0, 2 ] },
+        { "furn": "f_canvas_wall", "x": 1, "y": 2 },
+        { "furn": "f_groundsheet", "x": 1, "y": 1 },
+        { "furn": "f_canvas_door", "x": 1, "y": 0 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "destroyed_small_tent",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "place_furniture": [ { "furn": "f_null", "x": [ 0, 2 ], "y": [ 0, 2 ] } ],
+      "place_item": [
+        { "item": "broketent", "x": 1, "y": 1, "chance": 100 },
+        { "item": "tarp", "x": [ 0, 2 ], "y": [ 0, 2 ], "chance": 50 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "destroyed_furniture",
+    "object": { "mapgensize": [ 1, 1 ], "place_rubble": [ { "x": 0, "y": 0, "rubble_type": "f_null", "items": true } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "corpse_blood_casings_3x3",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "place_item": [ { "item": "corpse_generic_human", "x": 0, "y": 0, "chance": 100 } ],
+      "place_items": [ { "item": "ammo_casings", "x": [ 0, 2 ], "y": [ 0, 2 ], "chance": 50 } ],
+      "place_fields": [ { "field": "fd_blood", "x": [ 0, 2 ], "y": [ 0, 2 ], "intensity": 1, "age": 10 } ]
+    }
+  }
+]

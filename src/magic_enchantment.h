@@ -2,22 +2,23 @@
 #ifndef CATA_SRC_MAGIC_ENCHANTMENT_H
 #define CATA_SRC_MAGIC_ENCHANTMENT_H
 
-#include <algorithm>
+#include <iosfwd>
 #include <map>
-#include <string>
+#include <new>
+#include <set>
 #include <utility>
 #include <vector>
 
 #include "calendar.h"
-#include "enum_traits.h"
-#include "json.h"
 #include "magic.h"
 #include "optional.h"
 #include "type_id.h"
-#include "units.h"
+#include "units_fwd.h"
 
 class Character;
 class Creature;
+class JsonObject;
+class JsonOut;
 class item;
 
 namespace enchant_vals
@@ -42,6 +43,7 @@ enum class mod : int {
     REGEN_STAMINA,
     MAX_HP,        // for all limbs! use with caution
     REGEN_HP,
+    HUNGER,        // hunger rate
     THIRST,        // thirst rate
     FATIGUE,       // fatigue rate
     PAIN,          // cost or regen over time
@@ -53,9 +55,12 @@ enum class mod : int {
     FOOTSTEP_NOISE,
     SIGHT_RANGE,
     CARRY_WEIGHT,
+    WEAPON_DISPERSION,
     SOCIAL_LIE,
     SOCIAL_PERSUADE,
     SOCIAL_INTIMIDATE,
+    SLEEPY,
+    LUMINATION,
     ARMOR_BASH,
     ARMOR_CUT,
     ARMOR_STAB,
@@ -66,6 +71,7 @@ enum class mod : int {
     ARMOR_ACID,
     ARMOR_BIO,
     // effects for the item that has the enchantment
+    ITEM_DAMAGE_PURE,
     ITEM_DAMAGE_BASH,
     ITEM_DAMAGE_CUT,
     ITEM_DAMAGE_STAB,
@@ -112,11 +118,20 @@ class enchantment
             ALWAYS,
             UNDERGROUND,
             UNDERWATER,
+            ACTIVE, // the item, mutation, etc. is active
+            INACTIVE, // the item, mutation, etc. is inactive
             NUM_CONDITION
         };
 
         static void load_enchantment( const JsonObject &jo, const std::string &src );
-        void load( const JsonObject &jo, const std::string &src = "" );
+        static void reset();
+        void load( const JsonObject &jo, const std::string &src = "",
+                   const cata::optional<std::string> &inline_id = cata::nullopt );
+
+        // Takes in a JsonValue which can be either a string or an enchantment object and returns the id of the enchantment the caller will use.
+        // If the input is a string return it as an enchantment_id otherwise create an enchantment with id inline_id and return inline_id as an enchantment id
+        static enchantment_id load_inline_enchantment( const JsonValue &jv, const std::string &src,
+                std::string &inline_id );
 
         // attempts to add two like enchantments together.
         // if their conditions don't match, return false. else true.
@@ -144,7 +159,8 @@ class enchantment
         bool is_active( const Character &guy, const item &parent ) const;
 
         // this enchantment has a valid item independent conditions
-        bool is_active( const Character &guy ) const;
+        // @active means the container for the enchantment is active, for comparison to active flag.
+        bool is_active( const Character &guy, bool active ) const;
 
         // this enchantment is active when wielded.
         // shows total conditional values, so only use this when Character is not available
@@ -164,9 +180,11 @@ class enchantment
         // casts all the hit_me_effects on self or a target depending on the enchantment definition
         void cast_hit_me( Character &caster, const Creature *target ) const;
 
-        std::set<trait_id> get_mutations() const {
+        const std::set<trait_id> &get_mutations() const {
             return mutations;
         }
+
+        bool operator==( const enchantment &rhs ) const;
     private:
         std::set<trait_id> mutations;
         cata::optional<emit_id> emitter;

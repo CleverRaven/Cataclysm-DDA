@@ -1,17 +1,13 @@
-#include "catch/catch.hpp"
-
-#include <array>
 #include <functional>
+#include <iosfwd>
 #include <list>
-#include <memory>
 #include <string>
 #include <vector>
 
 #include "bodypart.h"
+#include "cata_catch.h"
 #include "character.h"
-#include "debug.h"
 #include "item.h"
-#include "material.h"
 #include "npc.h"
 #include "type_id.h"
 
@@ -65,15 +61,16 @@ static void test_encumbrance(
 {
     CAPTURE( clothing_types );
     std::vector<item> clothing;
+    clothing.reserve( clothing_types.size() );
     for( const std::string &type : clothing_types ) {
-        clothing.push_back( item( type ) );
+        clothing.emplace_back( type );
     }
     test_encumbrance_items( clothing, body_part, expected_encumbrance );
 }
 
 struct add_trait {
-    add_trait( const std::string &t ) : trait( t ) {}
-    add_trait( const trait_id &t ) : trait( t ) {}
+    explicit add_trait( const std::string &t ) : trait( t ) {}
+    explicit add_trait( const trait_id &t ) : trait( t ) {}
 
     void operator()( Character &p ) {
         p.toggle_trait( trait );
@@ -117,7 +114,7 @@ TEST_CASE( "same_layer_encumbrance", "[encumbrance]" )
 TEST_CASE( "tiny_clothing", "[encumbrance]" )
 {
     item i( "longshirt" );
-    i.set_flag( "UNDERSIZE" );
+    i.set_flag( flag_id( "UNDERSIZE" ) );
     test_encumbrance_items( { i }, "torso", longshirt_e * 3 );
 }
 
@@ -128,7 +125,7 @@ TEST_CASE( "tiny_character", "[encumbrance]" )
         test_encumbrance_items( { i }, "torso", longshirt_e * 2, add_trait( "SMALL2" ) );
     }
     SECTION( "undersize shrt" ) {
-        i.set_flag( "UNDERSIZE" );
+        i.set_flag( flag_id( "UNDERSIZE" ) );
         test_encumbrance_items( { i }, "torso", longshirt_e, add_trait( "SMALL2" ) );
     }
 }

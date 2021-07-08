@@ -1,19 +1,22 @@
-#include "catch/catch.hpp"
-
 #include <functional>
-#include <memory>
-#include <string>
+#include <functional>
+#include <list>
 
+#include "cata_catch.h"
 #include "character.h"
 #include "item.h"
-#include "map_helpers.h"
-#include "rng.h"
+#include "item_contents.h"
 #include "item_location.h"
+#include "item_pocket.h"
 #include "map.h"
+#include "map_helpers.h"
 #include "map_selector.h"
 #include "optional.h"
 #include "player_helpers.h"
 #include "point.h"
+#include "ret_val.h"
+#include "rng.h"
+#include "type_id.h"
 #include "visitable.h"
 
 TEST_CASE( "item_location_can_maintain_reference_despite_item_removal", "[item][item_location]" )
@@ -29,7 +32,7 @@ TEST_CASE( "item_location_can_maintain_reference_despite_item_removal", "[item][
     m.add_item( pos, item( "jeans" ) );
     map_cursor cursor( pos );
     item *tshirt = nullptr;
-    cursor.visit_items( [&tshirt]( item * i ) {
+    cursor.visit_items( [&tshirt]( item * i, item * ) {
         if( i->typeId() == itype_id( "tshirt" ) ) {
             tshirt = i;
             return VisitResponse::ABORT;

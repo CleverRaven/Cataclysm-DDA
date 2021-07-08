@@ -1,13 +1,12 @@
-#include "catch/catch.hpp"
-
 #include <algorithm> // std::find
 #include <cstdio> // log redirection
 #include <functional> // std::greater
 #include <initializer_list>
 #include <iterator>
-#include <utility> // std::move
+#include <type_traits>
 #include <vector> // range-insert testing
 
+#include "cata_catch.h"
 #include "colony_list_test_helpers.h"
 #include "list.h"
 

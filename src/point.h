@@ -7,18 +7,18 @@
 #ifndef CATA_NO_STL
 
 #include <array>
-#include <cassert>
 #include <climits>
+#include <cstddef>
 #include <cstdint>
 #include <cstdlib>
 #include <functional>
 #include <ostream>
-#include <string>
 #include <vector>
 
+#include "cata_assert.h"
 #else
 
-#define assert(...)
+#define cata_assert(...)
 
 namespace std
 {
@@ -89,8 +89,8 @@ struct point {
      * By default rotates around the origin (0, 0).
      * NOLINTNEXTLINE(cata-use-named-point-constants) */
     point rotate( int turns, const point &dim = { 1, 1 } ) const {
-        assert( turns >= 0 );
-        assert( turns <= 4 );
+        cata_assert( turns >= 0 );
+        cata_assert( turns <= 4 );
 
         switch( turns ) {
             case 1:

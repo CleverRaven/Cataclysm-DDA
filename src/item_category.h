@@ -2,8 +2,8 @@
 #ifndef CATA_SRC_ITEM_CATEGORY_H
 #define CATA_SRC_ITEM_CATEGORY_H
 
-#include <algorithm>
-#include <string>
+#include <iosfwd>
+#include <new>
 #include <vector>
 
 #include "flat_set.h"
@@ -20,7 +20,7 @@ struct zone_priority_data {
     bool was_loaded = false;
     zone_type_id id;
     bool filthy = false;
-    cata::flat_set<std::string> flags;
+    cata::flat_set<flag_id> flags;
 
     void deserialize( JsonIn &jsin );
     void load( JsonObject &jo );

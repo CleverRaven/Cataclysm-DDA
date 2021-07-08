@@ -39,7 +39,7 @@
     "symbol": ";",
     "color": "brown",
     "name": { "str": "primitive rock drill" },
-    "description": "A thick blunted wooden stick.  Can be used to drill rough holes in rock, if water and sand are available, but the process is lenghty.",
+    "description": "A thick blunted wooden stick.  Can be used to drill rough holes in rock, if water and sand are available, but the process is lengthy.",
     "category": "tools",
     "price": 10,
     "material": "wood",

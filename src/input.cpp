@@ -1,20 +1,28 @@
 #include "input.h"
 
-#include <algorithm>
 #include <cctype>
+#include <clocale>
+#include <algorithm>
+#include <array>
+#include <cstddef>
+#include <exception>
 #include <fstream>
+#include <iterator>
+#include <memory>
+#include <new>
+#include <set>
 #include <sstream>
 #include <stdexcept>
-#include <array>
-#include <exception>
-#include <locale>
-#include <memory>
-#include <set>
+#include <tuple>
+#include <type_traits>
 #include <utility>
 
 #include "action.h"
+#include "cached_options.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "color.h"
+#include "cuboid_rectangle.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "filesystem.h"
@@ -26,14 +34,13 @@
 #include "options.h"
 #include "output.h"
 #include "path_info.h"
+#include "point.h"
 #include "popup.h"
+#include "sdltiles.h" // IWYU pragma: keep
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
 #include "ui_manager.h"
-#include "color.h"
-#include "point.h"
-#include "sdltiles.h"
 
 using std::min; // from <algorithm>
 using std::max;
@@ -44,7 +51,7 @@ template <class T1, class T2>
 struct ContainsPredicate {
     const T1 &container;
 
-    ContainsPredicate( const T1 &container ) : container( container ) { }
+    explicit ContainsPredicate( const T1 &container ) : container( container ) { }
 
     // Operator overload required to leverage std functional interface.
     bool operator()( T2 c ) {
@@ -80,11 +87,9 @@ bool is_mouse_enabled()
 #endif
 }
 
-extern bool keycode_mode;
-
 bool is_keycode_mode_supported()
 {
-#if defined(TILES) && !defined(__ANDROID__)
+#if defined(TILES) && !defined(__ANDROID__) && !defined(TARGET_OS_IPHONE)
     return keycode_mode;
 #else
     return false;
@@ -126,6 +131,60 @@ int input_event::get_first_input() const
     return sequence[0];
 }
 
+bool input_event::operator!=( const input_event &other ) const
+{
+    return !operator==( other );
+}
+
+static const std::vector<std::pair<keymod_t, translation>> keymod_long_desc = {
+    { keymod_t::ctrl,  to_translation( "key modifier", "CTRL-" ) },
+    { keymod_t::alt,   to_translation( "key modifier", "ALT-" ) },
+    { keymod_t::shift, to_translation( "key modifier", "SHIFT-" ) },
+};
+
+std::string input_event::long_description() const
+{
+    std::string rval;
+    // test in fixed order to generate consistent description
+    for( const auto &v : keymod_long_desc ) {
+        if( modifiers.count( v.first ) ) {
+            rval += v.second.translated();
+        }
+    }
+    for( const int code : sequence ) {
+        rval += inp_mngr.get_keyname( code, type );
+    }
+    return rval;
+}
+
+static const std::vector<std::pair<keymod_t, std::string>> keymod_short_desc = {
+    { keymod_t::ctrl,  "^" },
+    { keymod_t::alt,   "\u2325" }, // option key
+    { keymod_t::shift, "\u21E7" }, // upwards white arrow
+};
+
+std::string input_event::short_description() const
+{
+    std::string rval;
+    // test in fixed order to generate consistent description
+    for( const auto &v : keymod_short_desc ) {
+        if( modifiers.count( v.first ) ) {
+            rval += v.second;
+        }
+    }
+    // TODO: add short description for control keys such as return, tab, etc
+    for( const int code : sequence ) {
+        rval += inp_mngr.get_keyname( code, type );
+    }
+    return rval;
+}
+
+bool input_event::compare_type_mod_code( const input_event &lhs, const input_event &rhs )
+{
+    return std::tie( lhs.type, lhs.modifiers, lhs.sequence )
+           < std::tie( rhs.type, rhs.modifiers, rhs.sequence );
+}
+
 input_manager inp_mngr;
 
 void input_manager::init()
@@ -140,17 +199,17 @@ void input_manager::init()
     try {
         load( PATH_INFO::keybindings(), false );
     } catch( const JsonError &err ) {
-        throw std::runtime_error( PATH_INFO::keybindings() + ": " + err.what() );
+        throw std::runtime_error( err.what() );
     }
     try {
         load( PATH_INFO::keybindings_vehicle(), false );
     } catch( const JsonError &err ) {
-        throw std::runtime_error( PATH_INFO::keybindings_vehicle() + ": " + err.what() );
+        throw std::runtime_error( err.what() );
     }
     try {
         load( PATH_INFO::user_keybindings(), true );
     } catch( const JsonError &err ) {
-        throw std::runtime_error( PATH_INFO::user_keybindings() + ": " + err.what() );
+        throw std::runtime_error( err.what() );
     }
 
     if( keymap_file_loaded_from.empty() || ( keymap.empty() && unbound_keymap.empty() ) ) {
@@ -215,7 +274,7 @@ void input_manager::load( const std::string &file_name, bool is_user_preferences
         return;
     }
 
-    JsonIn jsin( data_file );
+    JsonIn jsin( data_file, file_name );
 
     //Crawl through once and create an entry for every definition
     jsin.start_array();
@@ -240,11 +299,7 @@ void input_manager::load( const std::string &file_name, bool is_user_preferences
         const std::string action_id = action.get_string( "id" );
         const std::string context = action.get_string( "category", default_context_id );
         t_actions &actions = action_contexts[context];
-        if( !is_user_preferences && action.has_member( "name" ) ) {
-            // Action names are not user preferences. Some experimental builds
-            // post-0.A had written action names into the user preferences
-            // config file. Any names that exist in user preferences will be
-            // ignored.
+        if( action.has_member( "name" ) ) {
             action.read( "name", actions[action_id].name );
         }
 
@@ -269,7 +324,7 @@ void input_manager::load( const std::string &file_name, bool is_user_preferences
             }
 
             if( keybinding.has_member( "mod" ) ) {
-                for( const JsonValue &val : keybinding.get_array( "mod" ) ) {
+                for( const JsonValue val : keybinding.get_array( "mod" ) ) {
                     const std::string str = val;
                     keymod_t mod = keymod_t::ctrl;
                     if( str == "ctrl" ) {
@@ -304,38 +359,23 @@ void input_manager::load( const std::string &file_name, bool is_user_preferences
             events.insert( events.end(), new_events.begin(), new_events.end() );
         }
 
-        // An invariant of this class is that user-created, local keybindings
-        // with an empty set of input_events do not exist in the
-        // action_contexts map. In prior versions of this class, this was not
-        // true, so users of experimental builds post-0.A will have empty
-        // local keybindings saved in their keybindings.json config.
-        //
-        // To be backwards compatible with keybindings.json from prior
-        // experimental builds, we will detect user-created, local keybindings
-        // with empty input_events and disregard them. When keybindings are
-        // later saved, these remnants won't be saved.
-        if( !is_user_preferences ||
-            !events.empty() ||
-            context == default_context_id ||
-            actions.count( action_id ) > 0 ) {
-            // In case this is the second file containing user preferences,
-            // this replaces the default bindings with the user's preferences.
-            action_attributes &attributes = actions[action_id];
-            if( is_user_preferences && version == 0 ) {
-                // version 0 means the keybinding was written prior to the division
-                // of `input_event_t::keyboard_char` and `input_event_t::keyboard_code`,
-                // so we copy any `input_event_t::keyboard_code` event from the default
-                // keybindings to be compatible with old user keybinding files.
-                for( const input_event &evt : attributes.input_events ) {
-                    if( evt.type == input_event_t::keyboard_code ) {
-                        events.emplace_back( evt );
-                    }
+        // In case this is the second file containing user preferences,
+        // this replaces the default bindings with the user's preferences.
+        action_attributes &attributes = actions[action_id];
+        if( is_user_preferences && version == 0 ) {
+            // version 0 means the keybinding was written prior to the division
+            // of `input_event_t::keyboard_char` and `input_event_t::keyboard_code`,
+            // so we copy any `input_event_t::keyboard_code` event from the default
+            // keybindings to be compatible with old user keybinding files.
+            for( const input_event &evt : attributes.input_events ) {
+                if( evt.type == input_event_t::keyboard_code ) {
+                    events.emplace_back( evt );
                 }
             }
-            attributes.input_events = events;
-            if( action.has_member( "is_user_created" ) ) {
-                attributes.is_user_created = action.get_bool( "is_user_created" );
-            }
+        }
+        attributes.input_events = events;
+        if( action.has_member( "is_user_created" ) ) {
+            attributes.is_user_created = action.get_bool( "is_user_created" );
         }
     }
 }
@@ -441,8 +481,8 @@ void input_manager::add_mouse_keycode_pair( const int ch, const std::string &nam
     mouse_keyname_to_keycode[name] = ch;
 }
 
-constexpr int char_key_beg = ' ';
-constexpr int char_key_end = '~';
+static constexpr int char_key_beg = ' ';
+static constexpr int char_key_end = '~';
 
 void input_manager::init_keycode_mapping()
 {
@@ -812,11 +852,11 @@ void input_context::clear_conflicting_keybindings( const input_event &event )
     }
 }
 
-const std::string CATA_ERROR = "ERROR";
-const std::string ANY_INPUT = "ANY_INPUT";
-const std::string HELP_KEYBINDINGS = "HELP_KEYBINDINGS";
-const std::string COORDINATE = "COORDINATE";
-const std::string TIMEOUT = "TIMEOUT";
+static const std::string CATA_ERROR = "ERROR";
+static const std::string ANY_INPUT = "ANY_INPUT";
+static const std::string HELP_KEYBINDINGS = "HELP_KEYBINDINGS";
+static const std::string COORDINATE = "COORDINATE";
+static const std::string TIMEOUT = "TIMEOUT";
 
 const std::string &input_context::input_to_action( const input_event &inp ) const
 {
@@ -879,30 +919,29 @@ void input_context::register_action( const std::string &action_descriptor, const
     }
 }
 
-std::vector<char> input_context::keys_bound_to( const std::string &action_descriptor,
+std::vector<input_event> input_context::keys_bound_to( const std::string &action_descriptor,
+        const int maximum_modifier_count,
         const bool restrict_to_printable ) const
 {
-    std::vector<char> result;
+    std::vector<input_event> result;
     const std::vector<input_event> &events = inp_mngr.get_input_for_action( action_descriptor,
             category );
     for( const auto &events_event : events ) {
-        // Ignore multi-key input and non-keyboard input
-        // TODO: fix for Unicode.
-        if( events_event.type == input_event_t::keyboard_char && events_event.sequence.size() == 1 ) {
+        // Ignore non-keyboard input
+        if( ( events_event.type == input_event_t::keyboard_char
+              || events_event.type == input_event_t::keyboard_code )
+            && is_event_type_enabled( events_event.type )
+            && events_event.sequence.size() == 1
+            && ( maximum_modifier_count < 0
+                 || events_event.modifiers.size() <= static_cast<size_t>( maximum_modifier_count ) ) ) {
             if( !restrict_to_printable || ( events_event.sequence.front() < 0xFF &&
+                                            events_event.sequence.front() != ' ' &&
                                             isprint( events_event.sequence.front() ) ) ) {
-                result.push_back( static_cast<char>( events_event.sequence.front() ) );
+                result.emplace_back( events_event );
             }
         }
     }
     return result;
-}
-
-std::string input_context::key_bound_to( const std::string &action_descriptor, const size_t index,
-        const bool restrict_to_printable ) const
-{
-    const auto bound_keys = keys_bound_to( action_descriptor, restrict_to_printable );
-    return bound_keys.size() > index ? std::string( 1, bound_keys[index] ) : "";
 }
 
 std::string input_context::get_available_single_char_hotkeys( std::string requested_keys )
@@ -945,12 +984,6 @@ bool input_context::allow_all_keys( const input_event & )
     return true;
 }
 
-static const std::vector<std::pair<keymod_t, translation>> keymod_desc = {
-    { keymod_t::ctrl,  to_translation( "key modifier", "CTRL-" ) },
-    { keymod_t::alt,   to_translation( "key modifier", "ALT-" ) },
-    { keymod_t::shift, to_translation( "key modifier", "SHIFT-" ) },
-};
-
 std::string input_context::get_desc( const std::string &action_descriptor,
                                      const unsigned int max_limit,
                                      const input_context::input_event_filter &evt_filter ) const
@@ -984,21 +1017,14 @@ std::string input_context::get_desc( const std::string &action_descriptor,
         return pgettext( "keybinding", "Disabled" );
     }
 
+    const std::string separator = _( " or " );
     std::string rval;
     for( size_t i = 0; i < inputs_to_show.size(); ++i ) {
-        // test in fixed order to generate consistent description
-        for( const auto &v : keymod_desc ) {
-            if( inputs_to_show[i].modifiers.count( v.first ) ) {
-                rval += v.second.translated();
-            }
-        }
-        for( size_t j = 0; j < inputs_to_show[i].sequence.size(); ++j ) {
-            rval += inp_mngr.get_keyname( inputs_to_show[i].sequence[j], inputs_to_show[i].type );
-        }
+        rval += inputs_to_show[i].long_description();
 
         // We're generating a list separated by "," and "or"
         if( i + 2 == inputs_to_show.size() ) {
-            rval += _( " or " );
+            rval += separator;
         } else if( i + 1 < inputs_to_show.size() ) {
             rval += ", ";
         }
@@ -1006,14 +1032,16 @@ std::string input_context::get_desc( const std::string &action_descriptor,
     return rval;
 }
 
-std::string input_context::get_desc( const std::string &action_descriptor,
-                                     const std::string &text,
-                                     const input_context::input_event_filter &evt_filter ) const
+std::string input_context::get_desc(
+    const std::string &action_descriptor,
+    const std::string &text,
+    const input_context::input_event_filter &evt_filter,
+    const translation &inline_fmt,
+    const translation &separate_fmt ) const
 {
     if( action_descriptor == "ANY_INPUT" ) {
-        // \u00A0 is the non-breaking space
         //~ keybinding description for anykey
-        return string_format( pgettext( "keybinding", "[any]\u00A0%s" ), text );
+        return string_format( separate_fmt, pgettext( "keybinding", "any" ), text );
     }
 
     const auto &events = inp_mngr.get_input_for_action( action_descriptor, category );
@@ -1027,9 +1055,10 @@ std::string input_context::get_desc( const std::string &action_descriptor,
                 const int ch = evt.get_first_input();
                 if( ch > ' ' && ch <= '~' ) {
                     const std::string key = utf32_to_utf8( ch );
-                    const auto pos = ci_find_substr( text, key );
+                    const int pos = ci_find_substr( text, key );
                     if( pos >= 0 ) {
-                        return text.substr( 0, pos ) + "(" + key + ")" + text.substr( pos + key.size() );
+                        return string_format( inline_fmt, text.substr( 0, pos ),
+                                              key, text.substr( pos + key.size() ) );
                     }
                 }
             }
@@ -1038,12 +1067,28 @@ std::string input_context::get_desc( const std::string &action_descriptor,
 
     if( na ) {
         //~ keybinding description for unbound or disabled keys
-        return string_format( pgettext( "keybinding", "[n/a]\u00A0%s" ), text );
+        return string_format( separate_fmt, pgettext( "keybinding", "n/a" ), text );
     } else {
-        //~ keybinding description for bound keys
-        return string_format( pgettext( "keybinding", "[%s]\u00A0%s" ),
-                              get_desc( action_descriptor, 1, evt_filter ), text );
+        return string_format( separate_fmt, get_desc( action_descriptor, 1, evt_filter ), text );
     }
+}
+
+std::string input_context::get_desc(
+    const std::string &action_descriptor,
+    const std::string &text,
+    const input_event_filter &evt_filter ) const
+{
+    return get_desc( action_descriptor, text, evt_filter,
+                     to_translation(
+                         //~ %1$s: action description text before key,
+                         //~ %2$s: key description,
+                         //~ %3$s: action description text after key.
+                         "keybinding", "%1$s(%2$s)%3$s" ),
+                     to_translation(
+                         // \u00A0 is the non-breaking space
+                         //~ %1$s: key description,
+                         //~ %2$s: action description.
+                         "keybinding", "[%1$s]\u00A0%2$s" ) );
 }
 
 std::string input_context::describe_key_and_name( const std::string &action_descriptor,
@@ -1059,7 +1104,7 @@ const std::string &input_context::handle_input()
 
 const std::string &input_context::handle_input( const int timeout )
 {
-    const auto old_timeout = inp_mngr.get_timeout();
+    const int old_timeout = inp_mngr.get_timeout();
     if( timeout >= 0 ) {
         inp_mngr.set_timeout( timeout );
     }
@@ -1194,7 +1239,7 @@ cata::optional<tripoint> input_context::get_direction( const std::string &action
 // Custom set of hotkeys that explicitly don't include the hardcoded
 // alternative hotkeys, which mustn't be included so that the hardcoded
 // hotkeys do not show up beside entries within the window.
-const std::string display_help_hotkeys =
+static const std::string display_help_hotkeys =
     "abcdefghijkpqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:;'\",/<>?!@#$%^&*()_[]\\{}|`~";
 
 action_id input_context::display_menu( const bool permit_execute_action )
@@ -1512,7 +1557,7 @@ void input_manager::wait_for_any_key()
     input_context ctxt( "WAIT_FOR_ANY_KEY", keyboard_mode::keycode );
 #endif
     while( true ) {
-        const input_event evt = inp_mngr.get_input_event( keyboard_mode::keycode );
+        const input_event evt = inp_mngr.get_input_event();
         switch( evt.type ) {
             case input_event_t::keyboard_char:
                 if( !evt.sequence.empty() ) {
@@ -1528,6 +1573,17 @@ void input_manager::wait_for_any_key()
                 break;
         }
     }
+}
+
+keyboard_mode input_manager::actual_keyboard_mode( const keyboard_mode preferred_keyboard_mode )
+{
+    switch( preferred_keyboard_mode ) {
+        case keyboard_mode::keycode:
+            return is_keycode_mode_supported() ? keyboard_mode::keycode : keyboard_mode::keychar;
+        case keyboard_mode::keychar:
+            return keyboard_mode::keychar;
+    }
+    return keyboard_mode::keychar;
 }
 
 #if !(defined(TILES) || defined(_WIN32))
@@ -1560,36 +1616,24 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
 }
 #endif
 
-std::pair<point, bool> input_context::get_coordinates_text( const catacurses::window
+cata::optional<point> input_context::get_coordinates_text( const catacurses::window
         &capture_win ) const
 {
 #if !defined( TILES )
     ( void ) capture_win;
-    return std::make_pair( point(), false );
+    return cata::nullopt;
 #else
     if( !coordinate_input_received ) {
-        return std::make_pair( point(), false );
+        return cata::nullopt;
     }
-
     const window_dimensions dim = get_window_dimensions( capture_win );
-
     const int &fw = dim.scaled_font_size.x;
     const int &fh = dim.scaled_font_size.y;
     const point &win_min = dim.window_pos_pixel;
-    const point &win_size = dim.window_size_pixel;
-    const point win_max = win_min + win_size;
-
-    const half_open_rectangle<point> win_bounds( win_min, win_max );
-
     const point screen_pos = coordinate - win_min;
     const point selected( divide_round_down( screen_pos.x, fw ),
                           divide_round_down( screen_pos.y, fh ) );
-
-    if( !win_bounds.contains( coordinate ) ) {
-        return std::make_pair( selected, false );
-    }
-
-    return std::make_pair( selected, true );
+    return selected;
 #endif
 }
 
@@ -1650,19 +1694,13 @@ std::string input_context::press_x( const std::string &action_id, const std::str
     if( events.empty() ) {
         return key_unbound;
     }
+    const std::string separator = _( " or " );
     std::string keyed = key_bound_pre;
     for( size_t j = 0; j < events.size(); j++ ) {
-        // test in fixed order to generate consistent description
-        for( const auto &v : keymod_desc ) {
-            if( events[j].modifiers.count( v.first ) ) {
-                keyed += v.second.translated();
-            }
-        }
-        for( size_t k = 0; k < events[j].sequence.size(); ++k ) {
-            keyed += inp_mngr.get_keyname( events[j].sequence[k], events[j].type );
-        }
+        keyed += events[j].long_description();
+
         if( j + 1 < events.size() ) {
-            keyed += _( " or " );
+            keyed += separator;
         }
     }
     keyed += key_bound_suf;
@@ -1716,13 +1754,136 @@ bool input_context::is_event_type_enabled( const input_event_t type ) const
         case input_event_t::timeout:
             return true;
         case input_event_t::keyboard_char:
-            return preferred_keyboard_mode == keyboard_mode::keychar || !is_keycode_mode_supported();
+            return input_manager::actual_keyboard_mode( preferred_keyboard_mode ) == keyboard_mode::keychar;
         case input_event_t::keyboard_code:
-            return preferred_keyboard_mode == keyboard_mode::keycode && is_keycode_mode_supported();
+            return input_manager::actual_keyboard_mode( preferred_keyboard_mode ) == keyboard_mode::keycode;
         case input_event_t::gamepad:
             return gamepad_available();
         case input_event_t::mouse:
             return true;
     }
     return true;
+}
+
+input_event input_context::first_unassigned_hotkey( const hotkey_queue &queue ) const
+{
+    input_event ret = queue.first( *this );
+    while( ret.type != input_event_t::error
+           && &input_to_action( ret ) != &CATA_ERROR ) {
+        ret = queue.next( ret );
+    }
+    return ret;
+}
+
+input_event input_context::next_unassigned_hotkey( const hotkey_queue &queue,
+        const input_event &prev ) const
+{
+    input_event ret = prev;
+    do {
+        ret = queue.next( ret );
+    } while( ret.type != input_event_t::error
+             && &input_to_action( ret ) != &CATA_ERROR );
+    return ret;
+}
+
+input_event hotkey_queue::first( const input_context &ctxt ) const
+{
+    if( ctxt.is_event_type_enabled( input_event_t::keyboard_code ) ) {
+        if( !codes_keycode.empty() && !modifiers_keycode.empty() ) {
+            return input_event( modifiers_keycode[0], codes_keycode[0], input_event_t::keyboard_code );
+        } else {
+            return input_event();
+        }
+    } else {
+        if( !codes_keychar.empty() ) {
+            return input_event( codes_keychar[0], input_event_t::keyboard_char );
+        } else {
+            return input_event();
+        }
+    }
+}
+
+input_event hotkey_queue::next( const input_event &prev ) const
+{
+    switch( prev.type ) {
+        default:
+            return input_event();
+        case input_event_t::keyboard_code: {
+            if( prev.sequence.size() != 1 ) {
+                return input_event();
+            }
+            const auto code_it = std::find( codes_keycode.begin(), codes_keycode.end(),
+                                            prev.get_first_input() );
+            const auto mod_it = std::find( modifiers_keycode.begin(), modifiers_keycode.end(), prev.modifiers );
+            if( code_it == codes_keycode.end() || mod_it == modifiers_keycode.end() ) {
+                return input_event();
+            }
+            if( std::next( code_it ) != codes_keycode.end() ) {
+                return input_event( prev.modifiers, *std::next( code_it ), prev.type );
+            } else if( std::next( mod_it ) != modifiers_keycode.end() ) {
+                return input_event( *std::next( mod_it ), codes_keycode[0], prev.type );
+            } else {
+                return input_event();
+            }
+            break;
+        }
+        case input_event_t::keyboard_char: {
+            if( prev.sequence.size() != 1 ) {
+                return input_event();
+            }
+            const auto code_it = std::find( codes_keychar.begin(), codes_keychar.end(),
+                                            prev.get_first_input() );
+            if( code_it == codes_keychar.end() ) {
+                return input_event();
+            }
+            if( std::next( code_it ) != codes_keychar.end() ) {
+                return input_event( *std::next( code_it ), prev.type );
+            } else {
+                return input_event();
+            }
+            break;
+        }
+    }
+}
+
+const hotkey_queue &hotkey_queue::alphabets()
+{
+    static std::unique_ptr<hotkey_queue> queue;
+    if( !queue ) {
+        queue = std::make_unique<hotkey_queue>();
+        for( int ch = 'a'; ch <= 'z'; ++ch ) {
+            queue->codes_keycode.emplace_back( ch );
+            queue->codes_keychar.emplace_back( ch );
+        }
+        for( int ch = 'A'; ch <= 'Z'; ++ch ) {
+            queue->codes_keychar.emplace_back( ch );
+        }
+        queue->modifiers_keycode.emplace_back();
+        queue->modifiers_keycode.emplace_back( std::set<keymod_t>( { keymod_t::shift } ) );
+    }
+    return *queue;
+}
+
+const hotkey_queue &hotkey_queue::alpha_digits()
+{
+    static std::unique_ptr<hotkey_queue> queue;
+    if( !queue ) {
+        queue = std::make_unique<hotkey_queue>();
+        for( int ch = '1'; ch <= '9'; ++ch ) {
+            queue->codes_keycode.emplace_back( ch );
+            queue->codes_keychar.emplace_back( ch );
+        }
+        queue->codes_keycode.emplace_back( '0' );
+        queue->codes_keychar.emplace_back( '0' );
+        for( int ch = 'a'; ch <= 'z'; ++ch ) {
+            queue->codes_keycode.emplace_back( ch );
+            queue->codes_keychar.emplace_back( ch );
+        }
+        for( int ch = 'A'; ch <= 'Z'; ++ch ) {
+            queue->codes_keychar.emplace_back( ch );
+        }
+        queue->modifiers_keycode.emplace_back();
+        queue->modifiers_keycode.emplace_back( std::set<keymod_t>( { keymod_t::shift } ) );
+    }
+    return *queue;
 }

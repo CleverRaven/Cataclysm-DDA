@@ -71,7 +71,7 @@
     "id": "cargo_rack",
     "name": { "str": "cargo carrier" },
     "description": "A heavy frame outfitted with tie-downs and attachment points for carrying cargo.",
-    "weight": "80000 g",
+    "weight": "85330 g",
     "to_hit": -4,
     "color": "cyan",
     "symbol": "]",
@@ -87,7 +87,7 @@
     "type": "GENERIC",
     "name": { "str": "floor trunk" },
     "description": "A section of flooring with a cargo-space beneath, and a hinged door for access.",
-    "weight": "18000 g",
+    "weight": "19200 g",
     "color": "cyan",
     "symbol": "]",
     "volume": "50 L",
@@ -113,7 +113,7 @@
     "looks_like": "cargo_rack",
     "properties": [ [ "creature_size_capacity", "HUGE" ] ],
     "use_action": [ "CAPTURE_MONSTER_VEH" ],
-    "flags": [ "TRADER_AVOID", "USE_PART_ITEM" ]
+    "flags": [ "TRADER_AVOID" ]
   },
   {
     "id": "mounted_spare_tire",

@@ -56,7 +56,7 @@
     "weight": "10 g",
     "color": "yellow",
     "healthy": 2,
-    "description": "An golden can of sundew, the leading soft drink of the world.  Staring at the can, you feel a craving so intense that you are unsure whether its genuine, or if it has been carefully engineered and implanted into your mind.",
+    "description": "A golden can of Sundew, the leading soft drink of the world.  Staring at the can, you feel a craving so intense that you are unsure whether it's genuine, or if it has been carefully engineered and implanted into your mind.",
     "price": 1000,
     "looks_like": "diesel",
     "container": "can_drink",
@@ -165,6 +165,22 @@
     "fun": 0,
     "freezing_point": -9999,
     "vitamins": [ [ "calcium", 1 ], [ "iron", 10 ], [ "vitC", 5 ], [ "vitB", 10 ], [ "vitA", 5 ], [ "bad_food", 1 ] ]
+  },
+  {
+    "id": "afs_escapepod_ration",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "landfall survival rations" },
+    "symbol": "o",
+    "container": "bag_plastic",
+    "copy-from": "protein_bar_evac",
+    "color": "white",
+    "calories": 500,
+    "healthy": 3,
+    "charges": 4,
+    "description": "Sealed emergency rations invariably found within an escape pod's inventory.  This particular pack should provide around a day's worth of nutrition.  Required by regulation but rarely ever used, the design of these \"meals\" prioritizes a long shelf life and a very low bulk-cost.  Which lends them their disgusting taste of greased sawdust.",
+    "fun": -2,
+    "freezing_point": -9999,
+    "vitamins": [ [ "vitC", 2 ], [ "bad_food", 1 ] ]
   },
   {
     "id": "afs_caffex",

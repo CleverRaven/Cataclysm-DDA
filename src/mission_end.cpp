@@ -26,6 +26,6 @@ void mission_end::deposit_box( mission *miss )
     } else if( one_in( 3 ) ) {
         itemName = "m4a1";
     }
-    get_player_character().i_add( item( itemName, 0 ) );
+    get_player_character().i_add( item( itemName, calendar::turn_zero ) );
     add_msg( m_good, _( "%s gave you an item from the deposit box." ), p->name );
 }

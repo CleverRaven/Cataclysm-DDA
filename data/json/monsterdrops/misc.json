@@ -21,5 +21,54 @@
       { "item": "cable", "charges-min": 20, "charges-max": 50 },
       { "item": "amplifier", "count": [ 0, 3 ] }
     ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "items for zombie reenactor",
+    "id": "zombie_reenactor_drops",
+    "entries": [
+      {
+        "distribution": [
+          { "item": "pockknife", "prob": 10 },
+          { "collection": [ { "item": "pipe_tobacco" }, { "item": "tobacco" } ], "prob": 10 },
+          { "item": "hatchet", "prob": 10 },
+          { "item": "hardtack", "prob": 10 },
+          { "item": "pipe_cleaner", "prob": 10 }
+        ],
+        "prob": 10
+      },
+      {
+        "collection": [
+          { "item": "knee_high_boots", "prob": 20 },
+          { "item": "breeches", "prob": 50 },
+          { "item": "waistcoat", "prob": 30 },
+          { "item": "peacoat", "prob": 50 },
+          { "item": "leather_belt", "prob": 10 },
+          { "item": "knit_scarf", "prob": 10 },
+          { "item": "tricorne", "prob": 30 },
+          { "item": "gloves_leather", "prob": 10 },
+          { "item": "stockings", "prob": 20 },
+          { "group": "underwear" }
+        ]
+      },
+      {
+        "distribution": [
+          {
+            "distribution": [
+              { "item": "rifle_flintlock", "contents-item": "shoulder_strap", "prob": 50 },
+              { "item": "pistol_flintlock", "prob": 20 },
+              { "item": "longrifle_flintlock", "contents-item": "shoulder_strap", "prob": 30 }
+            ],
+            "prob": 50
+          },
+          {
+            "collection": [ { "item": "flintlock_pouch" }, { "item": "flintlock_ammo", "charges-min": 0, "charges-max": 14 } ],
+            "prob": 30
+          },
+          { "item": "lamp_oil", "container-item": "bottle_plastic_small", "prob": 10 }
+        ]
+      }
+    ]
   }
 ]

@@ -1,6 +1,7 @@
 [
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_canteen_room_center_rammed_earth",
     "description": "Let's start building the central kitchen rammed earth walls.",
     "category": "CC_BUILDING",
@@ -38,6 +39,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_canteen_room2_center_rammed_earth",
     "description": "Let's finish the central kitchen rammed earth walls.",
     "category": "CC_BUILDING",
@@ -75,6 +77,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_canteen_smoking_area_rammed_earth",
     "description": "Let's get this rammed earth smoking area covered to protect the workers from the weather.",
     "category": "CC_BUILDING",
@@ -106,6 +109,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_canteen_pantry_rammed_earth",
     "description": "Let's build a rammed earth wall pantry west of the kitchen.",
     "category": "CC_BUILDING",
@@ -137,6 +141,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_canteen_dining_west_rammed_earth",
     "description": "Let's build the west rammed earth wall of the dining hall.",
     "category": "CC_BUILDING",
@@ -178,6 +183,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_canteen_dining_east_rammed_earth",
     "description": "Let's build the east rammed earth wall of the dining hall.",
     "category": "CC_BUILDING",
@@ -209,6 +215,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_canteen_dining_center_rammed_earth",
     "description": "Let's build the center of the rammed earth dining hall.",
     "category": "CC_BUILDING",

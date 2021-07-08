@@ -9,6 +9,7 @@ namespace monexamine
 bool pet_menu( monster &z );
 bool mech_hack( monster &z );
 bool pay_bot( monster &z );
+bool mfriend_menu( monster &z );
 void remove_battery( monster &z );
 void insert_battery( monster &z );
 void swap( monster &z );
@@ -22,7 +23,6 @@ bool add_armor( monster &z );
 void remove_armor( monster &z );
 void remove_harness( monster &z );
 void play_with( monster &z );
-void kill_zslave( monster &z );
 void tie_or_untie( monster &z );
 void shear_animal( monster &z );
 void mount_pet( monster &z );

@@ -1,39 +1,40 @@
 #include "inventory.h"
 
-#include <climits>
+#include <algorithm>
 #include <cmath>
 #include <cstdint>
 #include <cstdlib>
-#include <algorithm>
-#include <iterator>
-#include <memory>
+#include <string>
+#include <type_traits>
 
 #include "avatar.h"
+#include "calendar.h"
+#include "character.h"
+#include "colony.h"
+#include "damage.h"
 #include "debug.h"
-#include "game.h"
+#include "enums.h"
+#include "flag.h"
 #include "iexamine.h"
+#include "inventory_ui.h" // auto inventory blocking
+#include "item_contents.h"
+#include "item_pocket.h"
+#include "item_stack.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "messages.h" //for rust message
 #include "npc.h"
-#include "options.h"
-#include "translations.h"
-#include "vehicle.h"
-#include "vpart_position.h"
-#include "calendar.h"
-#include "character.h"
-#include "damage.h"
-#include "enums.h"
 #include "optional.h"
-#include "player.h"
-#include "rng.h"
-#include "material.h"
-#include "type_id.h"
-#include "colony.h"
-#include "flat_set.h"
+#include "options.h"
 #include "point.h"
-#include "inventory_ui.h" // auto inventory blocking
+#include "proficiency.h"
+#include "ret_val.h"
+#include "rng.h"
+#include "translations.h"
+#include "type_id.h"
+#include "units.h"
+#include "vpart_position.h"
 
 static const itype_id itype_aspirin( "aspirin" );
 static const itype_id itype_codeine( "codeine" );
@@ -42,11 +43,6 @@ static const itype_id itype_salt_water( "salt_water" );
 static const itype_id itype_tramadol( "tramadol" );
 static const itype_id itype_oxycodone( "oxycodone" );
 static const itype_id itype_water( "water" );
-
-static const std::string flag_LEAK_ALWAYS( "LEAK_ALWAYS" );
-static const std::string flag_LEAK_DAM( "LEAK_DAM" );
-static const std::string flag_WATERPROOF( "WATERPROOF" );
-static const std::string flag_WATERPROOF_GUN( "WATERPROOF_GUN" );
 
 struct itype;
 
@@ -263,7 +259,7 @@ char inventory::find_usable_cached_invlet( const itype_id &item_type )
 {
     Character &player_character = get_player_character();
     // Some of our preferred letters might already be used.
-    for( auto invlet : invlet_cache.invlets_for( item_type ) ) {
+    for( char invlet : invlet_cache.invlets_for( item_type ) ) {
         // Don't overwrite user assignments.
         if( assigned_invlet.count( invlet ) ) {
             continue;
@@ -321,12 +317,12 @@ item &inventory::add_item( item newit, bool keep_invlet, bool assign_invlet, boo
     return items.back().back();
 }
 
-void inventory::add_item_keep_invlet( item newit )
+void inventory::add_item_keep_invlet( const item &newit )
 {
     add_item( newit, true );
 }
 
-void inventory::push_back( item newit )
+void inventory::push_back( const item &newit )
 {
     add_item( newit );
 }
@@ -334,6 +330,40 @@ void inventory::push_back( item newit )
 #if defined(__ANDROID__)
 extern void remove_stale_inventory_quick_shortcuts();
 #endif
+
+item *inventory::provide_pseudo_item( const itype_id &id, int battery )
+{
+    if( id.is_empty() || !provisioned_pseudo_tools.insert( id ).second ) {
+        return nullptr; // empty itype_id or already provided tool -> bail out
+    }
+
+    item &it = add_item( item( id, calendar::turn, 0 ) );
+    it.set_flag( flag_PSEUDO );
+
+    // if tool doesn't need battery bail out early
+    if( battery <= 0 || it.magazine_default().is_null() ) {
+        return &it;
+    }
+    item it_batt( it.magazine_default() );
+    item it_ammo = item( it_batt.ammo_default(), calendar::turn_zero );
+    if( it_ammo.is_null() || it_ammo.typeId() != itype_id( "battery" ) ) {
+        return &it;
+    }
+
+    it_batt.ammo_set( it_batt.ammo_default(), battery );
+    it.put_in( it_batt, item_pocket::pocket_type::MAGAZINE_WELL );
+
+    return &it;
+}
+
+book_proficiency_bonuses inventory::get_book_proficiency_bonuses() const
+{
+    book_proficiency_bonuses ret;
+    for( const std::list<item> &it : this->items ) {
+        ret += it.front().get_book_proficiency_bonuses();
+    }
+    return ret;
+}
 
 void inventory::restack( Character &p )
 {
@@ -419,6 +449,7 @@ void inventory::form_from_zone( map &m, std::unordered_set<tripoint> &zone_pts, 
                                 bool assign_invlet )
 {
     std::vector<tripoint> pts;
+    pts.reserve( zone_pts.size() );
     for( const tripoint &elem : zone_pts ) {
         pts.push_back( m.getlocal( elem ) );
     }
@@ -448,26 +479,20 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
                                bool assign_invlet )
 {
     items.clear();
+    provisioned_pseudo_tools.clear();
+
     for( const tripoint &p : pts ) {
         // a temporary hack while trees are terrain
         if( m.ter( p )->has_flag( "TREE" ) ) {
-            item tree_pseudo( "butchery_tree_pseudo" );
-            tree_pseudo.item_tags.insert( "PSEUDO" );
-            add_item( tree_pseudo );
+            provide_pseudo_item( itype_id( "butchery_tree_pseudo" ), 0 );
         }
-        if( m.has_furn( p ) ) {
-            const furn_t &f = m.furn( p ).obj();
-            const itype *type = f.crafting_pseudo_item_type();
-            if( type != nullptr ) {
-                const itype *ammo = f.crafting_ammo_item_type();
-                item furn_item( type, calendar::turn, 0 );
-                if( furn_item.contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE ) ) {
-                    // NOTE: This only works if the pseudo item has a MAGAZINE pocket, not a MAGAZINE_WELL!
-                    item furn_ammo( ammo, calendar::turn, count_charges_in_list( ammo, m.i_at( p ) ) );
-                    furn_item.put_in( furn_ammo, item_pocket::pocket_type::MAGAZINE );
-                }
-                furn_item.item_tags.insert( "PSEUDO" );
-                add_item( furn_item );
+        const furn_t &f = m.furn( p ).obj();
+        if( item *furn_item = provide_pseudo_item( f.crafting_pseudo_item, 0 ) ) {
+            const itype *ammo = f.crafting_ammo_item_type();
+            if( furn_item->contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE ) ) {
+                // NOTE: This only works if the pseudo item has a MAGAZINE pocket, not a MAGAZINE_WELL!
+                item furn_ammo( ammo, calendar::turn, count_charges_in_list( ammo, m.i_at( p ) ) );
+                furn_item->put_in( furn_ammo, item_pocket::pocket_type::MAGAZINE );
             }
         }
         if( m.accessible_items( p ) ) {
@@ -484,9 +509,9 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
         }
         // Kludges for now!
         if( m.has_nearby_fire( p, 0 ) ) {
-            item fire( "fire", 0 );
-            fire.charges = 1;
-            add_item( fire );
+            if( item *fire = provide_pseudo_item( itype_id( "fire" ), 0 ) ) {
+                fire->charges = 1;
+            }
         }
         // Handle any water from infinite map sources.
         item water = m.water_from( p );
@@ -495,7 +520,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
         }
         // kludge that can probably be done better to check specifically for toilet water to use in
         // crafting
-        if( m.furn( p ).obj().examine == &iexamine::toilet ) {
+        if( m.furn( p )->has_examine( iexamine::toilet ) ) {
             // get water charges at location
             map_stack toilet = m.i_at( p );
             auto water = toilet.end();
@@ -511,7 +536,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
         }
 
         // keg-kludge
-        if( m.furn( p ).obj().examine == &iexamine::keg ) {
+        if( m.furn( p )->has_examine( iexamine::keg ) ) {
             map_stack liq_contained = m.i_at( p );
             for( auto &i : liq_contained ) {
                 if( i.made_of( phase_id::LIQUID ) ) {
@@ -520,94 +545,9 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
             }
         }
 
-        // WARNING: The part below has a bug that's currently quite minor
-        // When a vehicle has multiple faucets in range, available water is
-        //  multiplied by the number of faucets.
-        // Same thing happens for all other tools and resources, but not cargo
-        const optional_vpart_position vp = m.veh_at( p );
-        if( !vp ) {
-            continue;
-        }
-        vehicle *const veh = &vp->vehicle();
-
-        //Adds faucet to kitchen stuff; may be horribly wrong to do such....
-        //ShouldBreak into own variable
-        const cata::optional<vpart_reference> kpart = vp.part_with_feature( "KITCHEN", true );
-        const cata::optional<vpart_reference> faupart = vp.part_with_feature( "FAUCET", true );
-        const cata::optional<vpart_reference> weldpart = vp.part_with_feature( "WELDRIG", true );
-        const cata::optional<vpart_reference> craftpart = vp.part_with_feature( "CRAFTRIG", true );
-        const cata::optional<vpart_reference> forgepart = vp.part_with_feature( "FORGE", true );
-        const cata::optional<vpart_reference> kilnpart = vp.part_with_feature( "KILN", true );
-        const cata::optional<vpart_reference> chempart = vp.part_with_feature( "CHEMLAB", true );
-        const cata::optional<vpart_reference> cargo = vp.part_with_feature( "CARGO", true );
-
-        if( cargo ) {
-            const auto items = veh->get_items( cargo->part_index() );
-            *this += std::list<item>( items.begin(), items.end() );
-        }
-
-        if( faupart ) {
-            for( const auto &it : veh->fuels_left() ) {
-                item fuel( it.first, 0 );
-                if( fuel.made_of( phase_id::LIQUID ) ) {
-                    fuel.charges = it.second;
-                    add_item( fuel );
-                }
-            }
-        }
-        const auto item_with_battery = []( const std::string & id, const int qty ) {
-            item it( id );
-            item it_batt( it.magazine_default() );
-            it_batt.ammo_set( it_batt.ammo_default(), qty );
-            it.put_in( it_batt, item_pocket::pocket_type::MAGAZINE_WELL );
-            it.item_tags.insert( "PSEUDO" );
-            return it;
-        };
-        int veh_battery = veh->fuel_left( itype_id( "battery" ), true );
-        if( kpart ) {
-            item hotplate = item_with_battery( "hotplate", veh_battery );
-            add_item( hotplate );
-
-            item pot( "pot", 0 );
-            pot.item_tags.insert( "PSEUDO" );
-            add_item( pot );
-            item pan( "pan", 0 );
-            pan.item_tags.insert( "PSEUDO" );
-            add_item( pan );
-        }
-        if( weldpart ) {
-            item welder = item_with_battery( "welder", veh_battery );
-            add_item( welder );
-            item soldering_iron = item_with_battery( "soldering_iron", veh_battery );
-            add_item( soldering_iron );
-        }
-        if( craftpart ) {
-            item vac_sealer = item_with_battery( "vac_sealer", veh_battery );
-            add_item( vac_sealer );
-
-            item dehydrator = item_with_battery( "dehydrator", veh_battery );
-            add_item( dehydrator );
-
-            item food_processor = item_with_battery( "food_processor", veh_battery );
-            add_item( food_processor );
-
-            item press = item_with_battery( "press", veh_battery );
-            add_item( press );
-        }
-        if( forgepart ) {
-            item forge = item_with_battery( "forge", veh_battery );
-            add_item( forge );
-        }
-        if( kilnpart ) {
-            item kiln = item_with_battery( "kiln", veh_battery );
-            add_item( kiln );
-        }
-        if( chempart ) {
-            item chemistry_set = item_with_battery( "chemistry_set", veh_battery );
-            add_item( chemistry_set );
-
-            item electrolysis_kit = item_with_battery( "electrolysis_kit", veh_battery );
-            add_item( electrolysis_kit );
+        // form from vehicle
+        if( optional_vpart_position vp = m.veh_at( p ) ) {
+            vp->form_inventory( *this );
         }
     }
     pts.clear();
@@ -794,25 +734,7 @@ std::list<item> inventory::use_amount( const itype_id &it, int quantity,
     return ret;
 }
 
-bool inventory::has_tools( const itype_id &it, int quantity,
-                           const std::function<bool( const item & )> &filter ) const
-{
-    return has_amount( it, quantity, true, filter );
-}
-
-bool inventory::has_components( const itype_id &it, int quantity,
-                                const std::function<bool( const item & )> &filter ) const
-{
-    return has_amount( it, quantity, false, filter );
-}
-
-bool inventory::has_charges( const itype_id &it, int quantity,
-                             const std::function<bool( const item & )> &filter ) const
-{
-    return ( charges_of( it, INT_MAX, filter ) >= quantity );
-}
-
-int inventory::leak_level( const std::string &flag ) const
+int inventory::leak_level( const flag_id &flag ) const
 {
     int ret = 0;
 
@@ -822,7 +744,7 @@ int inventory::leak_level( const std::string &flag ) const
                 if( elem_stack_iter.has_flag( flag_LEAK_ALWAYS ) ) {
                     ret += elem_stack_iter.volume() / units::legacy_volume_factor;
                 } else if( elem_stack_iter.has_flag( flag_LEAK_DAM ) && elem_stack_iter.damage() > 0 ) {
-                    ret += elem_stack_iter.damage_level( 4 );
+                    ret += elem_stack_iter.damage_level();
                 }
             }
         }
@@ -905,7 +827,7 @@ void inventory::rust_iron_items()
                 //                       ^season length   ^14/5*0.75/pi (from volume of sphere)
                 //Freshwater without oxygen rusts slower than air
                 here.water_from( player_character.pos() ).typeId() == itype_salt_water ) {
-                elem_stack_iter.inc_damage( DT_ACID ); // rusting never completely destroys an item
+                elem_stack_iter.inc_damage( damage_type::ACID ); // rusting never completely destroys an item
                 add_msg( m_bad, _( "Your %s is damaged by rust." ), elem_stack_iter.tname() );
             }
         }
@@ -1032,6 +954,20 @@ enchantment inventory::get_active_enchantment_cache( const Character &owner ) co
     return temp_cache;
 }
 
+int inventory::count_item( const itype_id &item_type ) const
+{
+    int num = 0;
+    const itype_bin bin = get_binned_items();
+    if( bin.find( item_type ) == bin.end() ) {
+        return num;
+    }
+    const std::list<const item *> items = get_binned_items().find( item_type )->second;
+    for( const item *it : items ) {
+        num += it->count();
+    }
+    return num;
+}
+
 void inventory::assign_empty_invlet( item &it, const Character &p, const bool force )
 {
     const std::string auto_setting = get_option<std::string>( "AUTO_INV_ASSIGN" );
@@ -1057,7 +993,7 @@ void inventory::assign_empty_invlet( item &it, const Character &p, const bool fo
                 // don't overwrite assigned keys
                 continue;
             }
-            if( !selector.action_bound_to_key( inv_char ).empty() ) {
+            if( selector.action_bound_to_key( inv_char ) != "ERROR" ) {
                 // don't auto-assign bound keys
                 continue;
             }
@@ -1155,8 +1091,11 @@ const itype_bin &inventory::get_binned_items() const
 
     // HACK: Hack warning
     inventory *this_nonconst = const_cast<inventory *>( this );
-    this_nonconst->visit_items( [ this ]( item * e ) {
+    this_nonconst->visit_items( [ this ]( item * e, item * ) {
         binned_items[ e->typeId() ].push_back( e );
+        for( const item *it : e->softwares() ) {
+            binned_items[it->typeId()].push_back( it );
+        }
         return VisitResponse::NEXT;
     } );
 

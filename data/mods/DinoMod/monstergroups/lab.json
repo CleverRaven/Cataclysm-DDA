@@ -29,10 +29,8 @@
         "pack_size": [ 2, 3 ]
       },
       { "monster": "mon_dimorphodon_bio_op", "freq": 100, "cost_multiplier": 10 },
-      { "monster": "mon_zimorphodon_bio_op", "freq": 25, "cost_multiplier": 20, "starts": 72 },
-      { "monster": "mon_zimorphodon_bio_op", "freq": 25, "cost_multiplier": 20, "starts": 168 },
-      { "monster": "mon_zimorphodon_bio_op", "freq": 25, "cost_multiplier": 20, "starts": 672 },
-      { "monster": "mon_zimorphodon_bio_op", "freq": 25, "cost_multiplier": 20, "starts": 2160 }
+      { "monster": "mon_spinosaurus_bio_op", "freq": 25, "cost_multiplier": 40, "starts": 72 },
+      { "monster": "mon_zpinosaurus_bio_op", "freq": 25, "cost_multiplier": 40, "starts": 72 }
     ]
   },
   {
@@ -65,10 +63,31 @@
         "pack_size": [ 2, 3 ]
       },
       { "monster": "mon_dimorphodon_bio_op", "freq": 100, "cost_multiplier": 10 },
-      { "monster": "mon_zimorphodon_bio_op", "freq": 25, "cost_multiplier": 20, "starts": 72 },
-      { "monster": "mon_zimorphodon_bio_op", "freq": 25, "cost_multiplier": 20, "starts": 168 },
-      { "monster": "mon_zimorphodon_bio_op", "freq": 25, "cost_multiplier": 20, "starts": 672 },
-      { "monster": "mon_zimorphodon_bio_op", "freq": 25, "cost_multiplier": 20, "starts": 2160 }
+      {
+        "monster": "mon_qianzhousaurus",
+        "freq": 50,
+        "cost_multiplier": 0,
+        "pack_size": [ 4, 8 ],
+        "conditions": [ "DUSK", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_qianzhousaurus_juvenile",
+        "freq": 20,
+        "cost_multiplier": 10,
+        "pack_size": [ 4, 12 ],
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      { "monster": "mon_spinosaurus_bio_op", "freq": 25, "cost_multiplier": 40, "starts": 72 },
+      { "monster": "mon_zpinosaurus_bio_op", "freq": 25, "cost_multiplier": 40, "starts": 72 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_LAB_CYBORG",
+    "default": "mon_broken_cyborg",
+    "monsters": [
+      { "monster": "mon_spinosaurus_bio_op", "freq": 40, "cost_multiplier": 25, "starts": 72 },
+      { "monster": "mon_zpinosaurus_bio_op", "freq": 40, "cost_multiplier": 25, "starts": 72 }
     ]
   }
 ]

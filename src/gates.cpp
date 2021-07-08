@@ -4,9 +4,9 @@
 #include <array>
 #include <memory>
 #include <set>
-#include <string>
 #include <vector>
 
+#include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "character.h"
 #include "colony.h"
@@ -16,21 +16,19 @@
 #include "game.h" // TODO: This is a circular dependency
 #include "generic_factory.h"
 #include "iexamine.h"
-#include "int_id.h"
 #include "item.h"
 #include "json.h"
 #include "map.h"
 #include "mapdata.h"
 #include "messages.h"
 #include "optional.h"
-#include "player.h"
 #include "player_activity.h"
 #include "point.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
 #include "vehicle.h"
+#include "viewer.h"
 #include "vpart_position.h"
 
 // Gates namespace
@@ -100,12 +98,11 @@ void gate_data::load( const JsonObject &jo, const std::string & )
 
 void gate_data::check() const
 {
-    static const iexamine_function controls_gate( iexamine_function_from_string( "controls_gate" ) );
     const ter_str_id winch_tid( id.str() );
 
     if( !winch_tid.is_valid() ) {
         debugmsg( "Gates \"%s\" have no terrain of the same name, working as a winch.", id.c_str() );
-    } else if( winch_tid->examine != controls_gate ) {
+    } else if( !winch_tid->has_examine( iexamine::controls_gate ) ) {
         debugmsg( "Terrain \"%s\" can't control gates, but gates \"%s\" depend on it.",
                   winch_tid.c_str(), id.c_str() );
     }
@@ -218,7 +215,7 @@ void gates::open_gate( const tripoint &pos )
         }
     }
 
-    if( get_player_character().sees( pos ) ) {
+    if( get_player_view().sees( pos ) ) {
         if( open ) {
             add_msg( gate.open_message );
         } else if( close ) {
@@ -231,7 +228,7 @@ void gates::open_gate( const tripoint &pos )
     }
 }
 
-void gates::open_gate( const tripoint &pos, player &p )
+void gates::open_gate( const tripoint &pos, Character &p )
 {
     const gate_id gid = get_gate_id( pos );
 
@@ -251,7 +248,7 @@ void gates::open_gate( const tripoint &pos, player &p )
 
 // Doors namespace
 
-void doors::close_door( map &m, Character &who, const tripoint &closep )
+void doors::close_door( map &m, Creature &who, const tripoint &closep )
 {
     bool didit = false;
     const bool inside = !m.is_outside( who.pos() );
@@ -270,6 +267,7 @@ void doors::close_door( map &m, Character &who, const tripoint &closep )
     }
 
     if( optional_vpart_position vp = m.veh_at( closep ) ) {
+        // There is a vehicle part here; see if it has anything that can be closed
         vehicle *const veh = &vp->vehicle();
         const int vpart = vp->part_index();
         const int closable = veh->next_part_to_close( vpart,
@@ -280,8 +278,13 @@ void doors::close_door( map &m, Character &who, const tripoint &closep )
             if( !veh->handle_potential_theft( get_avatar() ) ) {
                 return;
             }
-            veh->close( closable );
-            didit = true;
+            Character *ch = who.as_character();
+            if( ch && veh->can_close( closable, *ch ) ) {
+                veh->close( closable );
+                //~ %1$s - vehicle name, %2$s - part name
+                who.add_msg_if_player( _( "You close the %1$s's %2$s." ), veh->name, veh->part( closable ).name() );
+                didit = true;
+            }
         } else if( inside_closable >= 0 ) {
             who.add_msg_if_player( m_info, _( "That %s can only be closed from the inside." ),
                                    veh->part( inside_closable ).name() );
@@ -333,7 +336,9 @@ void doors::close_door( map &m, Character &who, const tripoint &closep )
                 }
             }
         } else {
+            const std::string door_name = m.obstacle_name( closep );
             m.close_door( closep, inside, false );
+            who.add_msg_if_player( _( "You close the %s." ), door_name );
             didit = true;
         }
     }

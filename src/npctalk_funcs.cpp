@@ -2,11 +2,15 @@
 
 #include <algorithm>
 #include <cstddef>
+#include <iosfwd>
+#include <list>
 #include <memory>
+#include <new>
 #include <set>
 #include <string>
 #include <vector>
 
+#include "activity_type.h"
 #include "auto_pickup.h"
 #include "avatar.h"
 #include "basecamp.h"
@@ -14,8 +18,11 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
+#include "character.h"
 #include "character_id.h"
 #include "character_martial_arts.h"
+#include "coordinates.h"
+#include "creature.h"
 #include "debug.h"
 #include "dialogue_chatbin.h"
 #include "enums.h"
@@ -26,6 +33,7 @@
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "item.h"
+#include "item_contents.h"
 #include "item_location.h"
 #include "line.h"
 #include "magic.h"
@@ -43,14 +51,12 @@
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
-#include "player.h"
 #include "player_activity.h"
-#include "pldata.h"
 #include "point.h"
 #include "rng.h"
-#include "string_id.h"
 #include "translations.h"
 #include "ui.h"
+#include "viewer.h"
 
 static const activity_id ACT_FIND_MOUNT( "ACT_FIND_MOUNT" );
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
@@ -86,12 +92,9 @@ static const mtype_id mon_chicken( "mon_chicken" );
 static const mtype_id mon_cow( "mon_cow" );
 static const mtype_id mon_horse( "mon_horse" );
 
-static const bionic_id bio_power_storage( "bio_power_storage" );
-static const bionic_id bio_power_storage_mkII( "bio_power_storage_mkII" );
-
 struct itype;
 
-void spawn_animal( npc &p, const mtype_id &mon );
+static void spawn_animal( npc &p, const mtype_id &mon );
 
 void talk_function::nothing( npc & )
 {
@@ -204,7 +207,7 @@ void spawn_animal( npc &p, const mtype_id &mon )
         mon_ptr->add_effect( effect_pet, 1_turns, true );
     } else {
         // TODO: handle this gracefully (return the money, proper in-character message from npc)
-        add_msg( m_debug, "No space to spawn purchased pet" );
+        add_msg_debug( debugmode::DF_NPC, "No space to spawn purchased pet" );
     }
 }
 
@@ -324,7 +327,7 @@ void talk_function::goto_location( npc &p )
     selection_menu.addentry( i, true, MENU_AUTOASSIGN, _( "Cancel" ) );
     selection_menu.selected = 0;
     selection_menu.query();
-    auto index = selection_menu.ret;
+    int index = selection_menu.ret;
     if( index < 0 || index > static_cast<int>( camps.size() + 1 ) ||
         index == static_cast<int>( camps.size() + 1 ) ) {
         return;
@@ -487,15 +490,12 @@ void talk_function::bionic_remove( npc &p )
     for( const bionic &bio : all_bio ) {
         if( std::find( bionic_types.begin(), bionic_types.end(),
                        bio.info().itype() ) == bionic_types.end() ) {
-            if( bio.id != bio_power_storage ||
-                bio.id != bio_power_storage_mkII ) {
-                bionic_types.push_back( bio.info().itype() );
-                if( item::type_is_defined( bio.info().itype() ) ) {
-                    item tmp = item( bio.id.str(), 0 );
-                    bionic_names.push_back( tmp.tname() + " - " + format_money( 50000 + ( tmp.price( true ) / 4 ) ) );
-                } else {
-                    bionic_names.push_back( bio.id.str() + " - " + format_money( 50000 ) );
-                }
+            bionic_types.push_back( bio.info().itype() );
+            if( item::type_is_defined( bio.info().itype() ) ) {
+                item tmp = item( bio.id.str(), calendar::turn_zero );
+                bionic_names.push_back( tmp.tname() + " - " + format_money( 50000 + ( tmp.price( true ) / 4 ) ) );
+            } else {
+                bionic_names.push_back( bio.id.str() + " - " + format_money( 50000 ) );
             }
         }
     }
@@ -510,7 +510,7 @@ void talk_function::bionic_remove( npc &p )
 
     signed int price;
     if( item::type_is_defined( bionic_types[bionic_index] ) ) {
-        price = 50000 + ( item( bionic_types[bionic_index], 0 ).price( true ) / 4 );
+        price = 50000 + ( item( bionic_types[bionic_index], calendar::turn_zero ).price( true ) / 4 );
     } else {
         price = 50000;
     }
@@ -562,7 +562,8 @@ void talk_function::give_aid( npc &p )
 {
     p.add_effect( effect_currently_busy, 30_minutes );
     Character &player_character = get_player_character();
-    for( const bodypart_id &bp : player_character.get_all_body_parts( true ) ) {
+    for( const bodypart_id &bp :
+         player_character.get_all_body_parts( get_body_part_flags::only_main ) ) {
         player_character.heal( bp, 5 * rng( 2, 5 ) );
         if( player_character.has_effect( effect_bite, bp.id() ) ) {
             player_character.remove_effect( effect_bite, bp );
@@ -585,7 +586,8 @@ void talk_function::give_all_aid( npc &p )
     give_aid( p );
     for( npc &guy : g->all_npcs() ) {
         if( guy.is_walking_with() && rl_dist( guy.pos(), get_player_character().pos() ) < PICKUP_RANGE ) {
-            for( const bodypart_id &bp : guy.get_all_body_parts( true ) ) {
+            for( const bodypart_id &bp :
+                 guy.get_all_body_parts( get_body_part_flags::only_main ) ) {
                 guy.heal( bp, 5 * rng( 2, 5 ) );
                 if( guy.has_effect( effect_bite, bp.id() ) ) {
                     guy.remove_effect( effect_bite, bp );
@@ -793,6 +795,13 @@ void talk_function::flee( npc &p )
     p.set_attitude( NPCATT_FLEE );
 }
 
+void talk_function::lightning( npc & )
+{
+    if( get_player_character().posz() >= 0 ) {
+        get_weather().lightning_active = true;
+    }
+}
+
 void talk_function::leave( npc &p )
 {
     add_msg( _( "%s leaves." ), p.name );
@@ -833,17 +842,41 @@ void talk_function::stranger_neutral( npc &p )
     p.chatbin.first_topic = "TALK_STRANGER_NEUTRAL";
 }
 
-void talk_function::drop_stolen_item( npc &p )
+bool talk_function::drop_stolen_item( item &cur_item, npc &p )
 {
     Character &player_character = get_player_character();
     map &here = get_map();
-    for( auto &elem : player_character.inv_dump() ) {
-        if( elem->is_old_owner( p ) ) {
-            item to_drop = player_character.i_rem( elem );
-            to_drop.remove_old_owner();
-            to_drop.set_owner( p );
-            here.add_item_or_charges( player_character.pos(), to_drop );
+    bool dropped = false;
+    if( cur_item.is_old_owner( p ) ) {
+        item to_drop = player_character.i_rem( &cur_item );
+        to_drop.remove_old_owner();
+        to_drop.set_owner( p );
+        here.add_item_or_charges( player_character.pos(), to_drop );
+        dropped = true;
+    } else if( cur_item.is_container() ) {
+        bool changed = false;
+        for( item *contained : cur_item.all_items_top() ) {
+            changed |= drop_stolen_item( *contained, p );
         }
+        if( changed ) {
+            dropped = true;
+            cur_item.on_contents_changed();
+        }
+    }
+    return dropped;
+}
+
+void talk_function::drop_stolen_item( npc &p )
+{
+    bool dropped = false;
+    Character &player_character = get_player_character();
+    for( item *&elem : player_character.inv_dump() ) {
+        dropped |= drop_stolen_item( *elem, p );
+    }
+    if( dropped ) {
+        player_character.invalidate_weight_carried_cache();
+    } else {
+        debugmsg( "Failed to drop any stolen items." );
     }
     if( p.known_stolen_item ) {
         p.known_stolen_item = nullptr;
@@ -879,7 +912,8 @@ void talk_function::drop_weapon( npc &p )
     if( p.is_hallucination() ) {
         return;
     }
-    get_map().add_item_or_charges( p.pos(), p.remove_weapon() );
+    item weap = p.remove_weapon();
+    get_map().add_item_or_charges( p.pos(), weap );
 }
 
 void talk_function::player_weapon_away( npc &/*p*/ )
@@ -891,7 +925,8 @@ void talk_function::player_weapon_away( npc &/*p*/ )
 void talk_function::player_weapon_drop( npc &/*p*/ )
 {
     Character &player_character = get_player_character();
-    get_map().add_item_or_charges( player_character.pos(), player_character.remove_weapon() );
+    item weap = player_character.remove_weapon();
+    get_map().add_item_or_charges( player_character.pos(), weap );
 }
 
 void talk_function::lead_to_safety( npc &p )
@@ -930,19 +965,19 @@ void talk_function::start_training( npc &p )
         time = calc_skill_training_time( p, skill );
         name = skill.str();
     } else if( p.chatbin.style != matype_id() &&
-               !you.martial_arts_data.has_martialart( style ) ) {
+               !you.martial_arts_data->has_martialart( style ) ) {
         cost = calc_ma_style_training_cost( p, style );
         time = calc_ma_style_training_time( p, style );
         name = p.chatbin.style.str();
         // already checked if can learn this spell in npctalk.cpp
     } else if( p.chatbin.dialogue_spell != spell_id() ) {
-        const spell &temp_spell = p.magic.get_spell( sp_id );
-        const bool knows = you.magic.knows_spell( sp_id );
+        const spell &temp_spell = p.magic->get_spell( sp_id );
+        const bool knows = you.magic->knows_spell( sp_id );
         cost = p.calc_spell_training_cost( knows, temp_spell.get_difficulty(),
                                            temp_spell.get_level() );
         name = temp_spell.id().str();
         expert_multiplier = knows ? temp_spell.get_level() -
-                            you.magic.get_spell( sp_id ).get_level() : 1;
+                            you.magic->get_spell( sp_id ).get_level() : 1;
         // quicker to learn with instruction as opposed to books.
         // if this is a known spell, then there is a set time to gain some exp.
         // if player doesn't know this spell, then the NPC will teach all of it
@@ -952,7 +987,7 @@ void talk_function::start_training( npc &p )
         if( knows ) {
             time = 1_hours;
         } else {
-            const int time_int = you.magic.time_to_learn_spell( you, sp_id ) / 50;
+            const int time_int = you.magic->time_to_learn_spell( you, sp_id ) / 50;
             time = time_duration::from_seconds( clamp( time_int, 7200, 21600 ) );
         }
 
@@ -986,7 +1021,7 @@ npc *pick_follower()
     std::vector<tripoint> locations;
 
     for( npc &guy : g->all_npcs() ) {
-        if( guy.is_player_ally() && get_player_character().sees( guy ) ) {
+        if( guy.is_player_ally() && get_player_view().sees( guy ) ) {
             followers.push_back( &guy );
             locations.push_back( guy.pos() );
         }

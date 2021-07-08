@@ -1,6 +1,7 @@
 [
   {
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "result": "brandy",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREW",
@@ -17,6 +18,7 @@
   {
     "result": "gin",
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "id_suffix": "from_mash",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREW",
@@ -32,6 +34,7 @@
   {
     "result": "vodka",
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "id_suffix": "from_wash",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREW",
@@ -46,6 +49,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "result": "rum",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREW",
@@ -60,6 +64,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "result": "whiskey",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREW",
@@ -74,6 +79,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "result": "moonshine",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREW",

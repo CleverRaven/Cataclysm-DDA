@@ -2,18 +2,19 @@
 
 #include <algorithm>
 #include <climits>
-#include <memory>
 
-#include "avatar.h"
+#include "bodypart.h"
 #include "calendar.h"
-#include "coordinate_conversions.h"
+#include "character.h"
+#include "colony.h"
 #include "coordinates.h"
+#include "creature.h"
 #include "debug.h"
+#include "effect_source.h"
 #include "enum_conversions.h"
 #include "field_type.h"
 #include "game_constants.h"
 #include "generic_factory.h"
-#include "int_id.h"
 #include "json.h"
 #include "map.h"
 #include "map_extras.h"
@@ -23,10 +24,8 @@
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "player.h"
-#include "pldata.h"
 #include "point.h"
 #include "rng.h"
-#include "string_id.h"
 
 class item;
 
@@ -40,6 +39,13 @@ template<>
 const start_location &string_id<start_location>::obj() const
 {
     return all_start_locations.obj( *this );
+}
+
+/** @relates int_id */
+template<>
+int_id<start_location> string_id<start_location>::id() const
+{
+    return all_start_locations.convert( *this, int_id<start_location>( -1 ) );
 }
 
 /** @relates string_id */
@@ -237,7 +243,9 @@ static int rate_location( map &m, const tripoint &p, const bool must_be_inside,
 {
     if( ( must_be_inside && m.is_outside( p ) ) ||
         m.impassable( p ) ||
-        checked[p.x][p.y] > 0 ) {
+        m.is_divable( p ) ||
+        checked[p.x][p.y] > 0 ||
+        m.has_flag( TFLAG_NO_FLOOR, p ) ) {
         return 0;
     }
 
@@ -393,7 +401,7 @@ void start_location::add_map_extra( const tripoint_abs_omt &omtstart,
 
 void start_location::handle_heli_crash( player &u ) const
 {
-    for( const bodypart_id &bp : u.get_all_body_parts() ) {
+    for( const bodypart_id &bp : u.get_all_body_parts( get_body_part_flags::only_main ) ) {
         if( bp == bodypart_id( "head" ) || bp == bodypart_id( "torso" ) ) {
             continue;// Skip head + torso for balance reasons.
         }
@@ -402,7 +410,7 @@ void start_location::handle_heli_crash( player &u ) const
             // Damage + Bleed
             case 1:
             case 2:
-                u.make_bleed( bp, 6_minutes );
+                u.make_bleed( effect_source::empty(), bp, 6_minutes );
             /* fallthrough */
             case 3:
             case 4:

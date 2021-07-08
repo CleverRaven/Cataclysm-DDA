@@ -45,9 +45,24 @@
     "copy-from": "string_36",
     "type": "GENERIC",
     "name": { "str": "short rope" },
-    "description": "A 6-foot (or about 180 cm) long piece of rope.  Too small to be of much use.",
-    "armor_data": { "covers": [ "torso" ], "coverage": 5, "encumbrance": 3, "material_thickness": 2 },
+    "description": "A 6-foot (or about 180 cm) long piece of rope.  Wear it over a shoulder and tie items to it as a temporary carrying solution.",
+    "armor_data": { "material_thickness": 2, "armor": [ { "encumbrance": 3, "coverage": 5, "covers": [ "torso" ] } ] },
     "proportional": { "weight": 6, "volume": 6, "price": 6 },
+    "pocket_data": [
+      {
+        "//": "Universal pocket, can store almost anything sans liquid, at the price of high move and encumbrance cost.",
+        "max_contains_volume": "10 L",
+        "max_contains_weight": "5 kg",
+        "max_item_length": "110 cm",
+        "moves": 2000,
+        "holster": true
+      }
+    ],
+    "use_action": {
+      "type": "holster",
+      "holster_prompt": "Tie what to the rope?",
+      "holster_msg": "You use an elaborate knot to tie your %s to your %s"
+    },
     "extend": { "flags": [ "TIE_UP", "BELTED", "WATER_FRIENDLY", "OVERSIZE" ] }
   },
   {
@@ -55,17 +70,28 @@
     "copy-from": "rope_6",
     "type": "GENERIC",
     "name": { "str": "long rope" },
-    "description": "A 30-foot (or about 9 m) long rope.  Useful for keeping yourself safe from falls.",
-    "armor_data": { "covers": [ "torso" ], "coverage": 10, "encumbrance": 12, "material_thickness": 6 },
+    "description": "A 30-foot (or about 9 m) long rope.  Useful for keeping yourself safe from falls.  Wear it over a shoulder and tie items to it as a temporary carrying solution.",
+    "armor_data": { "material_thickness": 6, "armor": [ { "encumbrance": 12, "coverage": 10, "covers": [ "torso" ] } ] },
     "qualities": [ [ "ROPE", 2 ] ],
-    "proportional": { "weight": 5, "volume": 5, "price": 5 }
+    "proportional": { "weight": 5, "volume": 5, "price": 5 },
+    "pocket_data": [
+      {
+        "//": "Universal pocket, can store almost anything sans liquid and very small items, at the price of high move and encumbrance cost.",
+        "min_item_volume": "100 ml",
+        "max_contains_volume": "10 L",
+        "max_contains_weight": "10 kg",
+        "max_item_length": "110 cm",
+        "moves": 3000,
+        "holster": true
+      }
+    ]
   },
   {
     "id": "vine_6",
     "copy-from": "rope_6",
     "type": "GENERIC",
     "name": { "str": "short vine" },
-    "description": "A sturdy 6-foot (or about 180 cm) long vine.  Too small to be of much use.",
+    "description": "A sturdy 6-foot (or about 180 cm) long vine.  Wear it over a shoulder and tie items to it as a temporary carrying solution.",
     "material": [ "dry_plant" ],
     "color": "light_green",
     "proportional": { "price": 0.9 }
@@ -75,7 +101,7 @@
     "copy-from": "rope_30",
     "type": "GENERIC",
     "name": { "str": "long vine" },
-    "description": "A sturdy 30-foot (or about 9 m) long vine.  Could easily be used as a rope.  Strong enough to suspend a large corpse for butchering.",
+    "description": "A sturdy 30-foot (or about 9 m) long vine.  Could easily be used as a rope.  Strong enough to suspend a large corpse for butchering.  Wear it over a shoulder and tie items to it as a temporary carrying solution.",
     "material": [ "dry_plant" ],
     "color": "light_green",
     "qualities": [ [ "ROPE", 2 ] ],
@@ -86,7 +112,7 @@
     "copy-from": "vine_6",
     "type": "GENERIC",
     "name": { "str": "short cordage rope" },
-    "description": "A 6-foot (or about 180 cm) long piece of rough rope, woven from natural cordage.  Useful for some purposes, but not as strong or flexible as proper rope.",
+    "description": "A 6-foot (or about 180 cm) long piece of rough rope, woven from natural cordage.  Useful for some purposes, but not as strong or flexible as proper rope.  Wear it over a shoulder and tie items to it as a temporary carrying solution.",
     "proportional": { "price": 0.5 }
   },
   {
@@ -94,7 +120,7 @@
     "copy-from": "vine_30",
     "type": "GENERIC",
     "name": { "str": "long cordage rope" },
-    "description": "A 30-foot (or about 9 m) long rough rope, woven from natural cordage.  Not strong enough to hold up to falls, but still useful for some things, such as suspending large corpses for butchering.",
+    "description": "A 30-foot (or about 9 m) long rough rope, woven from natural cordage.  Not strong enough to hold up to falls, but still useful for some things, such as suspending large corpses for butchering.  Wear it over a shoulder and tie items to it as a temporary carrying solution.",
     "qualities": [ [ "ROPE", 2 ] ],
     "proportional": { "price": 0.5 }
   },
@@ -102,7 +128,7 @@
     "id": "stick_fiber",
     "type": "COMESTIBLE",
     "category": "spare_parts",
-    "name": "fibrous stalk",
+    "name": { "str": "fibrous stalk" },
     "symbol": "=",
     "material": [ "dry_plant" ],
     "description": "A rather green stick.  Very fibrous.",

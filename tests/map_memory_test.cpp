@@ -1,10 +1,9 @@
-#include "catch/catch.hpp"
-
 #include <bitset>
 #include <cstdio>
 #include <sstream>
-#include <string>
+#include <type_traits>
 
+#include "cata_catch.h"
 #include "game_constants.h"
 #include "json.h"
 #include "lru_cache.h"
@@ -158,8 +157,8 @@ static void check_quadrants( std::bitset<MAPSIZE *SEEX *MAPSIZE *SEEY> &test_cac
     }
 }
 
-constexpr size_t first_twelve = SEEX;
-constexpr size_t last_twelve = ( SEEX *MAPSIZE ) - SEEX;
+static constexpr size_t first_twelve = SEEX;
+static constexpr size_t last_twelve = ( SEEX *MAPSIZE ) - SEEX;
 
 TEST_CASE( "shift_map_memory_seen_cache" )
 {

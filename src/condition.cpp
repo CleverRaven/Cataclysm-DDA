@@ -5,6 +5,7 @@
 #include <functional>
 #include <map>
 #include <memory>
+#include <new>
 #include <set>
 #include <string>
 #include <unordered_map>
@@ -12,12 +13,11 @@
 #include <utility>
 #include <vector>
 
-#include "auto_pickup.h"
 #include "avatar.h"
 #include "calendar.h"
 #include "character.h"
+#include "coordinates.h"
 #include "debug.h"
-#include "dialogue.h"
 #include "enum_conversions.h"
 #include "game.h"
 #include "item.h"
@@ -31,14 +31,11 @@
 #include "optional.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
-#include "pimpl.h"
-#include "player.h"
-#include "player_activity.h"
 #include "point.h"
 #include "recipe_groups.h"
-#include "string_id.h"
 #include "talker.h"
 #include "type_id.h"
+#include "units.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 
@@ -119,10 +116,11 @@ template<class T>
 void conditional_t<T>::set_has_trait_flag( const JsonObject &jo, const std::string &member,
         bool is_npc )
 {
-    const std::string &trait_flag_to_check = jo.get_string( member );
+    const json_character_flag &trait_flag_to_check = json_character_flag( jo.get_string( member ) );
     condition = [trait_flag_to_check, is_npc]( const T & d ) {
         const talker *actor = d.actor( is_npc );
-        if( trait_flag_to_check == "MUTATION_THRESHOLD" ) {
+        static const json_character_flag thresh( "MUTATION_THRESHOLD" );
+        if( trait_flag_to_check == thresh ) {
             return actor->crossed_threshold();
         }
         return actor->has_trait_flag( trait_flag_to_check );
@@ -263,7 +261,7 @@ void conditional_t<T>::set_has_item_category( const JsonObject &jo, const std::s
     condition = [category_id, count, is_npc]( const T & d ) {
         const talker *actor = d.actor( is_npc );
         const auto items_with = actor->items_with( [category_id]( const item & it ) {
-            return it.get_category().get_id() == category_id;
+            return it.get_category_shallow().get_id() == category_id;
         } );
         return items_with.size() >= count;
     };
@@ -322,7 +320,8 @@ void conditional_t<T>::set_at_om_location( const JsonObject &jo, const std::stri
     const std::string &location = jo.get_string( member );
     condition = [location, is_npc]( const T & d ) {
         const tripoint_abs_omt omt_pos = d.actor( is_npc )->global_omt_location();
-        const oter_id &omt_ref = overmap_buffer.ter( omt_pos );
+        const oter_id &omt_ter = overmap_buffer.ter( omt_pos );
+        const std::string &omt_str = omt_ter.id().c_str();
 
         if( location == "FACTION_CAMP_ANY" ) {
             cata::optional<basecamp *> bcp = overmap_buffer.find_camp( omt_pos.xy() );
@@ -330,13 +329,11 @@ void conditional_t<T>::set_at_om_location( const JsonObject &jo, const std::stri
                 return true;
             }
             // legacy check
-            const std::string &omt_str = omt_ref.id().c_str();
             return omt_str.find( "faction_base_camp" ) != std::string::npos;
         } else if( location == "FACTION_CAMP_START" ) {
-            return !recipe_group::get_recipes_by_id( "all_faction_base_types",
-                    omt_ref.id().c_str() ).empty();
+            return !recipe_group::get_recipes_by_id( "all_faction_base_types", omt_str ).empty();
         } else {
-            return omt_ref == oter_id( oter_no_dir( oter_id( location ) ) );
+            return oter_no_dir( omt_ter ) == location;
         }
     };
 }
@@ -534,7 +531,7 @@ void conditional_t<T>::set_days_since( const JsonObject &jo )
 {
     const unsigned int days = jo.get_int( "days_since_cataclysm" );
     condition = [days]( const T & ) {
-        return to_turn<int>( calendar::turn ) >= calendar::start_of_cataclysm + 1_days * days;
+        return calendar::turn >= calendar::start_of_cataclysm + 1_days * days;
     };
 }
 
@@ -699,7 +696,7 @@ template<class T>
 void conditional_t<T>::set_at_safe_space()
 {
     condition = []( const T & d ) {
-        return overmap_buffer.is_safe( d.beta->global_omt_location() );
+        return overmap_buffer.is_safe( d.beta->global_omt_location() ) && d.beta->is_safe();
     };
 }
 
@@ -749,15 +746,75 @@ void conditional_t<T>::set_is_day()
 }
 
 template<class T>
-void conditional_t<T>::set_is_outside()
+void conditional_t<T>::set_is_outside( bool is_npc )
 {
-    condition = []( const T & d ) {
-        const map &here = get_map();
-        const tripoint &pos = here.getabs( d.beta->pos() );
-        return !here.has_flag( TFLAG_INDOORS, pos );
+    condition = [is_npc]( const T & d ) {
+        return is_creature_outside( *d.actor( is_npc )->get_character() );
     };
 }
 
+template<class T>
+void conditional_t<T>::set_one_in_chance( const JsonObject &jo, const std::string &member )
+{
+    const int one_in_chance = jo.get_int( member );
+    condition = [one_in_chance]( const T & ) {
+        return one_in( one_in_chance );
+    };
+}
+
+template<class T>
+void conditional_t<T>::set_is_temperature( const JsonObject &jo, const std::string &member )
+{
+    const int temp_min = jo.get_int( member );
+    condition = [temp_min]( const T & ) {
+        return get_weather().weather_precise->temperature >= temp_min;
+    };
+}
+
+template<class T>
+void conditional_t<T>::set_is_height( const JsonObject &jo, const std::string &member, bool is_npc )
+{
+    const int height_min = jo.get_int( member );
+    condition = [height_min, is_npc]( const T & d ) {
+        return d.actor( is_npc )->posz() >= height_min;
+    };
+}
+
+template<class T>
+void conditional_t<T>::set_is_windpower( const JsonObject &jo, const std::string &member )
+{
+    const int windpower_min = jo.get_int( member );
+    condition = [windpower_min]( const T & ) {
+        return get_weather().weather_precise->windpower >= windpower_min;
+    };
+}
+
+template<class T>
+void conditional_t<T>::set_is_humidity( const JsonObject &jo, const std::string &member )
+{
+    const int humidity_min = jo.get_int( member );
+    condition = [humidity_min]( const T & ) {
+        return get_weather().weather_precise->humidity >= humidity_min;
+    };
+}
+
+template<class T>
+void conditional_t<T>::set_is_pressure( const JsonObject &jo, const std::string &member )
+{
+    const int pressure_min = jo.get_int( member );
+    condition = [pressure_min]( const T & ) {
+        return get_weather().weather_precise->pressure >= pressure_min;
+    };
+}
+
+template<class T>
+void conditional_t<T>::set_is_weather( const JsonObject &jo )
+{
+    weather_type_id weather = weather_type_id( jo.get_string( "is_weather" ) );
+    condition = [weather]( const T & ) {
+        return get_weather().weather_id == weather;
+    };
+}
 template<class T>
 void conditional_t<T>::set_u_has_camp()
 {
@@ -828,6 +885,47 @@ void conditional_t<T>::set_mission_has_generic_rewards()
             return true;
         }
         return miss->has_generic_rewards();
+    };
+}
+
+template<class T>
+void conditional_t<T>::set_has_worn_with_flag( const JsonObject &jo, const std::string &member,
+        bool is_npc )
+{
+    const std::string flag( jo.get_string( member ) );
+    condition = [flag, is_npc]( const T & d ) {
+        return d.actor( is_npc )->worn_with_flag( flag_id( flag ) );
+    };
+}
+
+template<class T>
+void conditional_t<T>::set_has_wielded_with_flag( const JsonObject &jo, const std::string &member,
+        bool is_npc )
+{
+    const std::string flag( jo.get_string( member ) );
+    condition = [flag, is_npc]( const T & d ) {
+        return d.actor( is_npc )->wielded_with_flag( flag_id( flag ) );
+    };
+}
+
+template<class T>
+void conditional_t<T>::set_has_pain( const JsonObject &jo, const std::string &member,
+                                     bool is_npc )
+{
+    const int min_pain = jo.get_int( member );
+    condition = [min_pain, is_npc]( const T & d ) {
+        return d.actor( is_npc )->pain_cur() >= min_pain;
+    };
+}
+
+template<class T>
+void conditional_t<T>::set_has_power( const JsonObject &jo, const std::string &member,
+                                      bool is_npc )
+{
+    units::energy min_power;
+    assign( jo, member, min_power, false, 0_kJ );
+    condition = [min_power, is_npc]( const T & d ) {
+        return d.actor( is_npc )->power_cur() >= min_power;
     };
 }
 
@@ -1009,6 +1107,38 @@ conditional_t<T>::conditional_t( const JsonObject &jo )
         set_has_skill( jo, "npc_has_skill", is_npc );
     } else if( jo.has_member( "u_know_recipe" ) ) {
         set_u_know_recipe( jo, "u_know_recipe" );
+    } else if( jo.has_int( "one_in_chance" ) ) {
+        set_one_in_chance( jo, "one_in_chance" );
+    } else if( jo.has_int( "is_temperature" ) ) {
+        set_is_temperature( jo, "is_temperature" );
+    } else if( jo.has_int( "is_windpower" ) ) {
+        set_is_windpower( jo, "is_windpower" );
+    } else if( jo.has_int( "is_humidity" ) ) {
+        set_is_humidity( jo, "is_humidity" );
+    } else if( jo.has_member( "is_pressure" ) ) {
+        set_is_pressure( jo, "is_pressure" );
+    } else if( jo.has_int( "u_is_height" ) ) {
+        set_is_height( jo, "u_is_height" );
+    } else if( jo.has_int( "npc_is_height" ) ) {
+        set_is_height( jo, "npc_is_height", is_npc );
+    } else if( jo.has_string( "u_has_worn_with_flag" ) ) {
+        set_has_worn_with_flag( jo, "u_has_worn_with_flag" );
+    } else if( jo.has_string( "npc_has_worn_with_flag" ) ) {
+        set_has_worn_with_flag( jo, "npc_has_worn_with_flag", is_npc );
+    } else if( jo.has_string( "u_has_wielded_with_flag" ) ) {
+        set_has_wielded_with_flag( jo, "u_has_wielded_with_flag" );
+    } else if( jo.has_string( "npc_has_wielded_with_flag" ) ) {
+        set_has_wielded_with_flag( jo, "npc_has_wielded_with_flag", is_npc );
+    } else if( jo.has_member( "u_has_pain" ) ) {
+        set_has_pain( jo, "u_has_pain" );
+    } else if( jo.has_member( "npc_has_pain" ) ) {
+        set_has_pain( jo, "npc_has_pain", is_npc );
+    } else if( jo.has_member( "u_has_power" ) ) {
+        set_has_power( jo, "u_has_power" );
+    } else if( jo.has_member( "npc_has_power" ) ) {
+        set_has_power( jo, "npc_has_power", is_npc );
+    } else if( jo.has_string( "is_weather" ) ) {
+        set_is_weather( jo );
     } else {
         for( const std::string &sub_member : dialogue_data::simple_string_conds ) {
             if( jo.has_string( sub_member ) ) {
@@ -1090,8 +1220,10 @@ conditional_t<T>::conditional_t( const std::string &type )
         set_is_day();
     } else if( type == "u_has_stolen_item" ) {
         set_has_stolen_item( is_npc );
-    } else if( type == "is_outside" ) {
+    } else if( type == "u_is_outside" ) {
         set_is_outside();
+    } else if( type == "is_outside" || type == "npc_is_outside" ) {
+        set_is_outside( is_npc );
     } else if( type == "u_has_camp" ) {
         set_u_has_camp();
     } else if( type == "has_pickup_list" ) {

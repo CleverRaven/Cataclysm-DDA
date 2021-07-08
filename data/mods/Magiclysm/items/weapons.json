@@ -10,7 +10,7 @@
     "weight": "10 kg",
     "volume": "8 L",
     "price": 5000,
-    "flags": [ "UNBREAKABLE_MELEE", "ALWAYS_TWOHAND", "NO_PICKUP", "TRADER_AVOID", "SLOW_WIELD", "FIREWOOD", "NO_REPAIR" ],
+    "flags": [ "UNBREAKABLE_MELEE", "ALWAYS_TWOHAND", "TRADER_AVOID", "SLOW_WIELD", "FIREWOOD", "NO_REPAIR" ],
     "bashing": 22,
     "to_hit": 1
   },

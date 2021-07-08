@@ -1,6 +1,7 @@
 [
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_shelter_bedroom1_wad",
     "description": "Let's build some living quarters so we can expand.  We will start in the southeast corner.",
     "category": "CC_BUILDING",
@@ -32,6 +33,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_shelter_bedroom2_wad",
     "description": "Let's build some living quarters so we can expand.  We will continue along the same wall.",
     "category": "CC_BUILDING",
@@ -63,6 +65,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_shelter_bedroom3_wad",
     "description": "Let's build some living quarters so we can expand.  We will continue along the other wall.",
     "category": "CC_BUILDING",
@@ -94,6 +97,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_shelter_bedroom4_wad",
     "description": "Let's build some living quarters so we can expand.  We will continue along the other wall.",
     "category": "CC_BUILDING",
@@ -125,6 +129,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_shelter_bedroom5_wad",
     "description": "Let's build some living quarters so we can expand.  We will continue along the other wall.",
     "category": "CC_BUILDING",

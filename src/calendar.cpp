@@ -2,13 +2,13 @@
 
 #include <algorithm>
 #include <array>
-#include <cassert>
 #include <cmath>
-#include <cstddef>
+#include <cstdlib>
 #include <limits>
+#include <string>
 
+#include "cata_assert.h"
 #include "debug.h"
-#include "enum_conversions.h"
 #include "options.h"
 #include "rng.h"
 #include "string_formatter.h"
@@ -110,7 +110,7 @@ time_point sunrise( const time_point &p )
 
     static const std::array<int, 4> start_hours = { { sunrise_equinox, sunrise_summer, sunrise_equinox, sunrise_winter, } };
     const size_t season = static_cast<size_t>( season_of_year( p ) );
-    assert( season < start_hours.size() );
+    cata_assert( season < start_hours.size() );
 
     const double start_hour = start_hours[season];
     const double end_hour = start_hours[( season + 1 ) % 4];
@@ -130,7 +130,7 @@ time_point sunset( const time_point &p )
 
     static const std::array<int, 4> start_hours = { { sunset_equinox, sunset_summer, sunset_equinox, sunset_winter, } };
     const size_t season = static_cast<size_t>( season_of_year( p ) );
-    assert( season < start_hours.size() );
+    cata_assert( season < start_hours.size() );
 
     const double start_hour = start_hours[season];
     const double end_hour = start_hours[( season + 1 ) % 4];
@@ -297,6 +297,26 @@ static std::string to_string_clipped( const int num, const clipped_unit type,
                     //~ Right-aligned time string. should right-align with other strings with this same comment
                     return string_format( ngettext( "%3d    year", "%3d   years", num ), num );
             }
+        case clipped_align::compact:
+            switch( type ) {
+                default:
+                case clipped_unit::forever:
+                    return _( "forever" );
+                case clipped_unit::second:
+                    return string_format( ngettext( "%d sec", "%d secs", num ), num );
+                case clipped_unit::minute:
+                    return string_format( ngettext( "%d min", "%d mins", num ), num );
+                case clipped_unit::hour:
+                    return string_format( ngettext( "%d hr", "%d hrs", num ), num );
+                case clipped_unit::day:
+                    return string_format( ngettext( "%d day", "%d days", num ), num );
+                case clipped_unit::week:
+                    return string_format( ngettext( "%d wk", "%d wks", num ), num );
+                case clipped_unit::season:
+                    return string_format( ngettext( "%d seas", "%d seas", num ), num );
+                case clipped_unit::year:
+                    return string_format( ngettext( "%d yr", "%d yrs", num ), num );
+            }
     }
 }
 
@@ -343,7 +363,7 @@ std::string to_string_clipped( const time_duration &d,
     return to_string_clipped( time.first, time.second, align );
 }
 
-std::string to_string( const time_duration &d )
+std::string to_string( const time_duration &d, const bool compact )
 {
     if( d >= calendar::INDEFINITELY_LONG_DURATION ) {
         return _( "forever" );
@@ -369,10 +389,17 @@ std::string to_string( const time_duration &d )
     }
 
     if( d % divider != 0_turns ) {
-        //~ %1$s - greater units of time (e.g. 3 hours), %2$s - lesser units of time (e.g. 11 minutes).
-        return string_format( _( "%1$s and %2$s" ),
-                              to_string_clipped( d ),
-                              to_string_clipped( d % divider ) );
+        if( compact ) {
+            //~ %1$s - greater units of time (e.g. 3 hours), %2$s - lesser units of time (e.g. 11 minutes).
+            return string_format( pgettext( "time duration", "%1$s %2$s" ),
+                                  to_string_clipped( d, clipped_align::compact ),
+                                  to_string_clipped( d % divider, clipped_align::compact ) );
+        } else {
+            //~ %1$s - greater units of time (e.g. 3 hours), %2$s - lesser units of time (e.g. 11 minutes).
+            return string_format( _( "%1$s and %2$s" ),
+                                  to_string_clipped( d ),
+                                  to_string_clipped( d % divider ) );
+        }
     }
     return to_string_clipped( d );
 }
@@ -414,6 +441,19 @@ std::string to_string_approx( const time_duration &dur, const bool verbose )
     }
     //~ %s - time (e.g. 2 hours).
     return make_result( d, _( "about %s" ), "%s" );
+}
+
+std::string to_string_writable( const time_duration &dur )
+{
+    if( dur % 1_days == 0_seconds ) {
+        return string_format( "%d d", static_cast<int>( dur / 1_days ) );
+    } else if( dur % 1_hours == 0_seconds ) {
+        return string_format( "%d h", static_cast<int>( dur / 1_hours ) );
+    } else if( dur % 1_minutes == 0_seconds ) {
+        return string_format( "%d m", static_cast<int>( dur / 1_minutes ) );
+    } else {
+        return string_format( "%d s", static_cast<int>( dur / 1_seconds ) );
+    }
 }
 
 std::string to_string_time_of_day( const time_point &p )
@@ -460,7 +500,7 @@ weekdays day_of_week( const time_point &p )
      * <wito> Oh, I thought we were talking about week day numbering in general.
      * <wito> Day 5 is a thursday, I think.
      * <wito> Nah, Day 5 feels like a thursday. :P
-     * <wito> Which would put the apocalpyse on a saturday?
+     * <wito> Which would put the apocalypse on a saturday?
      * <Starfyre> must be a thursday.  I was never able to get the hang of those.
      * <ZChris13> wito: seems about right to me
      * <wito> kevingranade: add four for thursday. ;)

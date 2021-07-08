@@ -11,17 +11,6 @@
     "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED" ]
   },
   {
-    "id": "afs_bio_wind_turbine",
-    "type": "bionic",
-    "name": { "str": "Wind Turbines" },
-    "description": "Installed on your body is a set of small retractable wind turbines.  When activated, they will deploy and slowly harvest wind power to recharge your power level.",
-    "occupied_bodyparts": [ [ "torso", 10 ] ],
-    "fuel_options": [ "wind" ],
-    "fuel_efficiency": 0.25,
-    "time": 1,
-    "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED" ]
-  },
-  {
     "id": "afs_bio_missiles",
     "type": "bionic",
     "//": "Watch those wrist rockets!",
@@ -51,12 +40,56 @@
     "time": 200
   },
   {
+    "id": "afs_bio_melee_counteraction",
+    "type": "bionic",
+    "name": { "str": "Counteractive Reflexes" },
+    "description": "Cybernetic stimulators installed across your nervous system boost your reflexes whenever you are hit in melee, granting you an extra action.  This bionic must be active to function.",
+    "occupied_bodyparts": [ [ "head", 4 ], [ "arm_l", 5 ], [ "arm_r", 5 ], [ "leg_l", 6 ], [ "leg_r", 6 ] ],
+    "flags": [ "BIONIC_TOGGLED" ],
+    "enchantments": [ "melee_counteraction" ],
+    "act_cost": "12 kJ",
+    "react_cost": "12 kJ",
+    "time": 1
+  },
+  {
+    "id": "afs_bio_melee_optimization_unit",
+    "type": "bionic",
+    "name": { "str": "Melee Optimization Unit" },
+    "description": "An implanted AI module calculates the optimal followup to each of your melee strikes, allowing you to chain them with unnatural speed and grace.  This bionic must be active to function.",
+    "occupied_bodyparts": [ [ "head", 10 ], [ "arm_l", 5 ], [ "arm_r", 5 ], [ "leg_l", 10 ], [ "leg_r", 10 ] ],
+    "flags": [ "BIONIC_TOGGLED" ],
+    "enchantments": [ "melee_optimization" ],
+    "act_cost": "12 kJ",
+    "react_cost": "12 kJ",
+    "time": 1
+  },
+  {
+    "id": "afs_bio_neurosoft_aeronautics",
+    "type": "bionic",
+    "name": { "str": "Neurosoft: Aeronautics" },
+    "description": "A brain implant that grants instinctual knowledge about the operation of flying machines.",
+    "occupied_bodyparts": [ [ "head", 2 ] ],
+    "learned_proficiencies": [ "prof_helicopter_pilot" ]
+  },
+  {
     "id": "afs_bio_cranialbomb",
     "type": "bionic",
     "name": { "str": "Cranium Bomb" },
-    "description": "You've worked for some nasty people.  People who installed a bomb at the top of your spine.  They are all dead now but there is unfortunately a dead man switch if you don't check in roughly every thirty days.  You need this out and fast.",
+    "description": "You've worked for some nasty people.  People who installed a bomb at the top of your spine.  They are all dead now but there is unfortunately a dead man switch if you don't check in roughly every thirty days.  Those thirty days are almost up but you can't remember exactly how many are left.  You need this out and fast.",
     "occupied_bodyparts": [ [ "head", 2 ] ],
     "enchantments": [ "cranial_explosion" ]
+  },
+  {
+    "id": "bio_cold_absorber",
+    "type": "bionic",
+    "name": { "str": "Emergency Insulation" },
+    "description": "Described in design documents as emergency insulation to protect against exposure to hard vacuum, this CBM is also useful in any encounter that causes instant frostbite.",
+    "occupied_bodyparts": [ [ "torso", 5 ], [ "head", 1 ], [ "arm_l", 1 ], [ "arm_r", 1 ], [ "leg_l", 1 ], [ "leg_r", 1 ] ],
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
+    "enchantments": [ "protect_cold" ],
+    "act_cost": "1 kJ",
+    "react_cost": "1 kJ",
+    "time": 10
   },
   {
     "type": "bionic",
