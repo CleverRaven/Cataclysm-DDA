@@ -761,141 +761,111 @@ TEST_CASE( "crafting_skill_gain", "[skill],[crafting],[slow]" )
 {
     SECTION( "lvl 0 -> 1" ) {
         GIVEN( "nominal morale" ) {
-            test_skill_progression( recipe_id( "blanket" ), 175, 0, false );
             test_skill_progression( recipe_id( "blanket" ), 175, 0, true );
         }
         GIVEN( "high morale" ) {
-            test_skill_progression( recipe_id( "blanket" ), 173, 50, false );
             test_skill_progression( recipe_id( "blanket" ), 173, 50, true );
         }
         GIVEN( "very high morale" ) {
-            test_skill_progression( recipe_id( "blanket" ), 173, 100, false );
             test_skill_progression( recipe_id( "blanket" ), 173, 100, true );
         }
     }
     SECTION( "lvl 1 -> 2" ) {
         GIVEN( "nominal morale" ) {
-            test_skill_progression( recipe_id( "2byarm_guard" ), 2140, 0, false );
             test_skill_progression( recipe_id( "2byarm_guard" ), 2140, 0, true );
         }
         GIVEN( "high morale" ) {
-            test_skill_progression( recipe_id( "2byarm_guard" ), 1842, 50, false );
             test_skill_progression( recipe_id( "2byarm_guard" ), 1842, 50, true );
         }
         GIVEN( "very high morale" ) {
-            test_skill_progression( recipe_id( "2byarm_guard" ), 1737, 100, false );
             test_skill_progression( recipe_id( "2byarm_guard" ), 1737, 100, true );
         }
     }
     SECTION( "lvl 2 -> lvl 3" ) {
         GIVEN( "nominal morale" ) {
-            test_skill_progression( recipe_id( "vambrace_larmor" ), 12127, 0, false );
             test_skill_progression( recipe_id( "vambrace_larmor" ), 6291, 0, true );
         }
         GIVEN( "high morale" ) {
-            test_skill_progression( recipe_id( "vambrace_larmor" ), 9919, 50, false );
             test_skill_progression( recipe_id( "vambrace_larmor" ), 5230, 50, true );
         }
         GIVEN( "very high morale" ) {
-            test_skill_progression( recipe_id( "vambrace_larmor" ), 9160, 100, false );
             test_skill_progression( recipe_id( "vambrace_larmor" ), 4836, 100, true );
         }
     }
     SECTION( "lvl 3 -> lvl 4" ) {
         GIVEN( "nominal morale" ) {
-            test_skill_progression( recipe_id( "armguard_larmor" ), 22711, 0, false );
             test_skill_progression( recipe_id( "armguard_larmor" ), 12138, 0, true );
         }
         GIVEN( "high morale" ) {
-            test_skill_progression( recipe_id( "armguard_larmor" ), 18436, 50, false );
             test_skill_progression( recipe_id( "armguard_larmor" ), 10003, 50, true );
         }
         GIVEN( "very high morale" ) {
-            test_skill_progression( recipe_id( "armguard_larmor" ), 16951, 100, false );
             test_skill_progression( recipe_id( "armguard_larmor" ), 9203, 100, true );
         }
     }
     SECTION( "lvl 4 -> 5" ) {
         GIVEN( "nominal morale" ) {
-            test_skill_progression( recipe_id( "armguard_metal" ), 37537, 0, false );
             test_skill_progression( recipe_id( "armguard_metal" ), 19638, 0, true );
         }
         GIVEN( "high morale" ) {
-            test_skill_progression( recipe_id( "armguard_metal" ), 29872, 50, false );
             test_skill_progression( recipe_id( "armguard_metal" ), 16125, 50, true );
         }
         GIVEN( "very high morale" ) {
-            test_skill_progression( recipe_id( "armguard_metal" ), 27472, 100, false );
             test_skill_progression( recipe_id( "armguard_metal" ), 14805, 100, true );
         }
     }
     SECTION( "lvl 5 -> 6" ) {
         GIVEN( "nominal morale" ) {
-            test_skill_progression( recipe_id( "armguard_chitin" ), 100755, 0, false );
             test_skill_progression( recipe_id( "armguard_chitin" ), 28817, 0, true );
         }
         GIVEN( "high morale" ) {
-            test_skill_progression( recipe_id( "armguard_chitin" ), 79969, 50, false );
             test_skill_progression( recipe_id( "armguard_chitin" ), 23613, 50, true );
         }
         GIVEN( "very high morale" ) {
-            test_skill_progression( recipe_id( "armguard_chitin" ), 73091, 100, false );
             test_skill_progression( recipe_id( "armguard_chitin" ), 21651, 100, true );
         }
     }
     SECTION( "lvl 6 -> 7" ) {
         GIVEN( "nominal morale" ) {
-            test_skill_progression( recipe_id( "armguard_acidchitin" ), 137741, 0, false );
             test_skill_progression( recipe_id( "armguard_acidchitin" ), 39651, 0, true );
         }
         GIVEN( "high morale" ) {
-            test_skill_progression( recipe_id( "armguard_acidchitin" ), 109241, 50, false );
             test_skill_progression( recipe_id( "armguard_acidchitin" ), 32470, 50, true );
         }
         GIVEN( "very high morale" ) {
-            test_skill_progression( recipe_id( "armguard_acidchitin" ), 99810, 100, false );
             test_skill_progression( recipe_id( "armguard_acidchitin" ), 29755, 100, true );
         }
     }
     SECTION( "lvl 7 -> 8" ) {
         GIVEN( "nominal morale" ) {
-            test_skill_progression( recipe_id( "armguard_lightplate" ), 227023, 0, false );
             test_skill_progression( recipe_id( "armguard_lightplate" ), 52138, 0, true );
         }
         GIVEN( "high morale" ) {
-            test_skill_progression( recipe_id( "armguard_lightplate" ), 178077, 50, false );
             test_skill_progression( recipe_id( "armguard_lightplate" ), 42656, 50, true );
         }
         GIVEN( "very high morale" ) {
-            test_skill_progression( recipe_id( "armguard_lightplate" ), 162603, 100, false );
             test_skill_progression( recipe_id( "armguard_lightplate" ), 39078, 100, true );
         }
     }
     SECTION( "lvl 8 -> 9" ) {
         GIVEN( "nominal morale" ) {
-            test_skill_progression( recipe_id( "helmet_scavenger" ), 143457, 0, false );
             test_skill_progression( recipe_id( "helmet_scavenger" ), 66243, 0, true );
         }
         GIVEN( "high morale" ) {
-            test_skill_progression( recipe_id( "helmet_scavenger" ), 114137, 50, false );
             test_skill_progression( recipe_id( "helmet_scavenger" ), 54170, 50, true );
         }
         GIVEN( "very high morale" ) {
-            test_skill_progression( recipe_id( "helmet_scavenger" ), 105128, 100, false );
             test_skill_progression( recipe_id( "helmet_scavenger" ), 49609, 100, true );
         }
     }
     SECTION( "lvl 9 -> 10" ) {
         GIVEN( "nominal morale" ) {
-            test_skill_progression( recipe_id( "helmet_kabuto" ), 280299, 0, false );
             test_skill_progression( recipe_id( "helmet_kabuto" ), 82489, 0, true );
         }
         GIVEN( "high morale" ) {
-            test_skill_progression( recipe_id( "helmet_kabuto" ), 221512, 50, false );
             test_skill_progression( recipe_id( "helmet_kabuto" ), 67364, 50, true );
         }
         GIVEN( "very high morale" ) {
-            test_skill_progression( recipe_id( "helmet_kabuto" ), 202846, 100, false );
             test_skill_progression( recipe_id( "helmet_kabuto" ), 61584, 100, true );
         }
     }
@@ -915,15 +885,12 @@ TEST_CASE( "crafting_skill_gain", "[skill],[crafting],[slow]" )
     }
     SECTION( "extremely short craft" ) {
         GIVEN( "nominal morale" ) {
-            test_skill_progression( recipe_id( "fishing_hook_basic" ), 174, 0, false );
             test_skill_progression( recipe_id( "fishing_hook_basic" ), 174, 0, true );
         }
         GIVEN( "high morale" ) {
-            test_skill_progression( recipe_id( "fishing_hook_basic" ), 172, 50, false );
             test_skill_progression( recipe_id( "fishing_hook_basic" ), 172, 50, true );
         }
         GIVEN( "very high morale" ) {
-            test_skill_progression( recipe_id( "fishing_hook_basic" ), 172, 100, false );
             test_skill_progression( recipe_id( "fishing_hook_basic" ), 172, 100, true );
         }
     }
@@ -941,7 +908,7 @@ TEST_CASE( "book_proficiency_mitigation", "[crafting][proficiency]" )
     GIVEN( "a recipe with required proficiencies" ) {
         clear_avatar();
         clear_map();
-        const recipe &test_recipe = recipe_id( "leather_belt" ).obj();
+        const recipe &test_recipe = *recipe_id( "leather_belt" );
 
         grant_skills_to_character( get_player_character(), test_recipe );
         int unmitigated_time_taken = test_recipe.batch_time( get_player_character(), 1, 1, 0 );
@@ -951,6 +918,38 @@ TEST_CASE( "book_proficiency_mitigation", "[crafting][proficiency]" )
             books.emplace_back( "manual_tailor" );
             give_tools( books );
             get_player_character().invalidate_crafting_inventory();
+            int mitigated_time_taken = test_recipe.batch_time( get_player_character(), 1, 1, 0 );
+            THEN( "it takes less time to craft the recipe" ) {
+                CHECK( mitigated_time_taken < unmitigated_time_taken );
+            }
+            AND_WHEN( "player acquires missing proficiencies" ) {
+                grant_proficiencies_to_character( get_player_character(), test_recipe, true );
+                int proficient_time_taken = test_recipe.batch_time( get_player_character(), 1, 1, 0 );
+                THEN( "it takes even less time to craft the recipe" ) {
+                    CHECK( proficient_time_taken < mitigated_time_taken );
+                }
+            }
+        }
+    }
+}
+
+TEST_CASE( "partial_proficiency_mitigation", "[crafting][proficiency]" )
+{
+    GIVEN( "a recipe with required proficiencies" ) {
+        clear_avatar();
+        clear_map();
+        const recipe &test_recipe = *recipe_id( "leather_belt" );
+
+        grant_skills_to_character( get_player_character(), test_recipe );
+        int unmitigated_time_taken = test_recipe.batch_time( get_player_character(), 1, 1, 0 );
+
+        WHEN( "player acquires partial proficiency" ) {
+            int np = 0;
+            for( const proficiency_id &prof : test_recipe.assist_proficiencies() ) {
+                np++;
+                get_player_character().practice_proficiency( prof,
+                        get_player_character().proficiency_training_needed( prof ) / 2 );
+            }
             int mitigated_time_taken = test_recipe.batch_time( get_player_character(), 1, 1, 0 );
             THEN( "it takes less time to craft the recipe" ) {
                 CHECK( mitigated_time_taken < unmitigated_time_taken );

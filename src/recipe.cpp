@@ -614,15 +614,15 @@ static std::string profstring( const prof_penalty &prof,
     }
 
     if( prof.time_mult == 1.0f ) {
-        return string_format( _( "<color_%s>%s</color> (<color_%s>%gx\u00a0failure</color>%s)" ),
+        return string_format( _( "<color_%s>%s</color> (<color_%s>%.1fx\u00a0failure</color>%s)" ),
                               name_color, prof.id->name(), color, prof.failure_mult, mitigated_str );
     } else if( prof.failure_mult == 1.0f ) {
-        return string_format( _( "<color_%s>%s</color> (<color_%s>%gx\u00a0time</color>%s)" ),
+        return string_format( _( "<color_%s>%s</color> (<color_%s>%.1fx\u00a0time</color>%s)" ),
                               name_color, prof.id->name(), color, prof.time_mult, mitigated_str );
     }
 
     return string_format(
-               _( "<color_%s>%s</color> (<color_%s>%gx\u00a0time, %gx\u00a0failure</color>%s)" ),
+               _( "<color_%s>%s</color> (<color_%s>%.1fx\u00a0time, %.1fx\u00a0failure</color>%s)" ),
                name_color, prof.id->name(), color, prof.time_mult, prof.failure_mult, mitigated_str );
 }
 
@@ -648,39 +648,6 @@ std::string recipe::used_proficiencies_string( const Character *c ) const
     } );
 
     return used;
-}
-
-std::string recipe::missing_proficiencies_string( const Character *c ) const
-{
-    if( c == nullptr ) {
-        return { };
-    }
-    std::vector<prof_penalty> missing_profs;
-
-    const book_proficiency_bonuses book_bonuses =
-        c->crafting_inventory().get_book_proficiency_bonuses();
-    for( const recipe_proficiency &rec : proficiencies ) {
-        if( !rec.required ) {
-            if( !( c->has_proficiency( rec.id ) || helpers_have_proficiencies( *c, rec.id ) ) ) {
-                prof_penalty pen = { rec.id, rec.time_multiplier, rec.fail_multiplier };
-                if( book_bonuses.time_factor( pen.id ) != 0.0f || book_bonuses.fail_factor( pen.id ) != 0.0f ) {
-                    pen.time_mult = 1.0f + ( pen.time_mult - 1.0f ) * ( 1.0f - book_bonuses.time_factor( pen.id ) );
-                    pen.failure_mult = 1.0f + ( pen.failure_mult - 1.0f ) * ( 1.0f - book_bonuses.fail_factor(
-                                           pen.id ) );
-                    pen.mitigated = true;
-                }
-                missing_profs.push_back( pen );
-            }
-        }
-    }
-
-    std::string color = "yellow";
-    std::string missing = enumerate_as_string( missing_profs.begin(),
-    missing_profs.end(), [&]( const prof_penalty & prof ) {
-        return profstring( prof, color, c->has_prof_prereqs( prof.id ) ? "cyan" : "red" );
-    } );
-
-    return missing;
 }
 
 std::string recipe::recipe_proficiencies_string() const
@@ -730,32 +697,93 @@ std::set<proficiency_id> recipe::assist_proficiencies() const
     return ret;
 }
 
-float recipe::proficiency_time_maluses( const Character &guy ) const
+static float get_aided_proficiency_level( const Character &crafter, proficiency_id prof )
+{
+    float max_prof = crafter.get_proficiency_practice( prof );
+    for( const npc *helper : crafter.get_crafting_helpers() ) {
+        max_prof = std::max( max_prof, helper->get_proficiency_practice( prof ) );
+    }
+    return max_prof;
+}
+
+static float proficiency_time_malus( const Character &crafter, const recipe_proficiency &prof )
+{
+    if( !crafter.has_proficiency( prof.id ) &&
+        !helpers_have_proficiencies( crafter, prof.id ) && prof.time_multiplier > 1.0f ) {
+        double malus = prof.time_multiplier - 1.0;
+        malus *= 1.0 - crafter.crafting_inventory().get_book_proficiency_bonuses().time_factor( prof.id );
+        double pl = get_aided_proficiency_level( crafter, prof.id );
+        // Sigmoid function that mitigates 100% of the time malus as pl approaches 1.0
+        // but has little effect at pl < 0.5. See #49198
+        malus *= 1.0 - std::pow( 0.5 - 0.5 * std::cos( pl * M_PI ), 2 );
+        return static_cast<float>( 1.0 + malus );
+    }
+    return 1.0f;
+}
+
+float recipe::proficiency_time_maluses( const Character &crafter ) const
 {
     float total_malus = 1.0f;
     for( const recipe_proficiency &prof : proficiencies ) {
-        if( !guy.has_proficiency( prof.id ) &&
-            !helpers_have_proficiencies( guy, prof.id ) && prof.time_multiplier > 1.0f ) {
-            float malus = 1.0f + ( prof.time_multiplier - 1.0f ) *
-                          ( 1.0f - guy.crafting_inventory().get_book_proficiency_bonuses().time_factor( prof.id ) );
-            total_malus *= malus;
-        }
+        total_malus *= proficiency_time_malus( crafter, prof );
     }
     return total_malus;
 }
 
-float recipe::proficiency_failure_maluses( const Character &guy ) const
+static float proficiency_failure_malus( const Character &crafter, const recipe_proficiency &prof )
+{
+    if( !crafter.has_proficiency( prof.id ) &&
+        !helpers_have_proficiencies( crafter, prof.id ) && prof.fail_multiplier > 1.0f ) {
+        double malus =  prof.fail_multiplier - 1.0f;
+        malus *= 1.0 - crafter.crafting_inventory().get_book_proficiency_bonuses().fail_factor( prof.id );
+        double pl = get_aided_proficiency_level( crafter, prof.id );
+        // The failure malus is not completely eliminated until the proficiency is mastered.
+        // Most of the mitigation happens at higher pl. See #49198
+        malus *= 1.0 - ( 0.75 * std::pow( pl, 3 ) );
+        return static_cast<float>( 1.0 + malus );
+    }
+    return 1.0f;
+}
+
+float recipe::proficiency_failure_maluses( const Character &crafter ) const
 {
     float total_malus = 1.0f;
     for( const recipe_proficiency &prof : proficiencies ) {
-        if( !guy.has_proficiency( prof.id ) &&
-            !helpers_have_proficiencies( guy, prof.id ) && prof.fail_multiplier > 1.0f ) {
-            float malus = 1.0f + ( prof.fail_multiplier - 1.0f ) *
-                          ( 1.0f - guy.crafting_inventory().get_book_proficiency_bonuses().fail_factor( prof.id ) );
-            total_malus *= malus;
-        }
+        total_malus *= proficiency_failure_malus( crafter, prof );
     }
     return total_malus;
+}
+
+std::string recipe::missing_proficiencies_string( const Character *crafter ) const
+{
+    if( crafter == nullptr ) {
+        return { };
+    }
+    std::vector<prof_penalty> missing_profs;
+
+    const book_proficiency_bonuses book_bonuses =
+        crafter->crafting_inventory().get_book_proficiency_bonuses();
+    for( const recipe_proficiency &prof : proficiencies ) {
+        if( !prof.required ) {
+            if( !( crafter->has_proficiency( prof.id ) || helpers_have_proficiencies( *crafter, prof.id ) ) ) {
+                prof_penalty pen = { prof.id,
+                                     proficiency_time_malus( *crafter, prof ),
+                                     proficiency_failure_malus( *crafter, prof )
+                                   };
+                pen.mitigated = book_bonuses.time_factor( pen.id ) != 0.0f ||
+                                book_bonuses.fail_factor( pen.id ) != 0.0f;
+                missing_profs.push_back( pen );
+            }
+        }
+    }
+
+    std::string color = "yellow";
+    std::string missing = enumerate_as_string( missing_profs.begin(),
+    missing_profs.end(), [&]( const prof_penalty & prof ) {
+        return profstring( prof, color, crafter->has_prof_prereqs( prof.id ) ? "cyan" : "red" );
+    } );
+
+    return missing;
 }
 
 float recipe::exertion_level() const
