@@ -259,7 +259,7 @@
     "id": "cookbook_bloodforgood",
     "type": "BOOK",
     "name": { "str": "Blood for the Greater Good", "str_pl": "copies of Blood for the Greater Good" },
-    "description": "This recipe collection is compiled by blood-as-food advocate Alžbeta Bátoriová.  Although the consumption of blood is a taboo form of food for Abrahamic religions, but they're old now.",
+    "description": "A recipe book compiled by blood-as-food advocate Alžbeta Bátoriová. The consumption of blood is a taboo among members of many Abrahamic religions, but they aren't going to stop you now. This book has bonus material for those with particular tastes.",
     "weight": "600 g",
     "volume": "800 ml",
     "price": 1999,
