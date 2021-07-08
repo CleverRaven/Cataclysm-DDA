@@ -1,10 +1,10 @@
-#include "catch/catch.hpp"
-
+#include "cata_catch.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "monster.h"
 #include "point.h"
 #include "type_id.h"
+#include "units.h"
 
 TEST_CASE( "creature_in_field", "[monster],[field]" )
 {

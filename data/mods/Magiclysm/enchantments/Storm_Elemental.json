@@ -19,6 +19,6 @@
     "id": "STORM_ELEMENTAL",
     "condition": "ALWAYS",
     "values": [ { "value": "ARMOR_ELEC", "multiply": -0.4 } ],
-    "hit_me_effect": [ { "id": "STORM_ELEMENTAL_BURNBACK" } ]
+    "hit_me_effect": [ { "id": "STORM_ELEMENTAL_ZAPBACK" } ]
   }
 ]

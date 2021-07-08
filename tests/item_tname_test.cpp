@@ -1,15 +1,17 @@
-#include "catch/catch.hpp"
-
+#include <iosfwd>
 #include <memory>
 #include <set>
 #include <string>
 
 #include "calendar.h"
+#include "cata_catch.h"
 #include "character.h"
 #include "flag.h"
 #include "item.h"
+#include "item_pocket.h"
 #include "itype.h"
 #include "options_helpers.h"
+#include "ret_val.h"
 #include "type_id.h"
 #include "value_ptr.h"
 
@@ -432,3 +434,60 @@ TEST_CASE( "weapon fouling", "[item][tname][fouling][dirt]" )
     }
 }
 
+TEST_CASE( "nested_items_tname", "[item][tname]" )
+{
+    item backpack_hiking( itype_id( "backpack_hiking" ) );
+    item purse( itype_id( "purse" ) );
+    item rock( itype_id( "test_rock" ) );
+    item rock2( itype_id( "rock" ) );
+    const std::string color_pref = "<color_c_light_green>||\u00A0</color>";
+
+    const std::string nesting_sym = ">";
+
+    SECTION( "single stack inside" ) {
+
+        backpack_hiking.put_in( rock, item_pocket::pocket_type::CONTAINER );
+
+        SECTION( "single rock" ) {
+            CHECK( backpack_hiking.tname( 1 ) == color_pref + "hiking backpack " + nesting_sym + " TEST rock" );
+        }
+        SECTION( "several rocks" ) {
+            backpack_hiking.put_in( rock, item_pocket::pocket_type::CONTAINER );
+            CHECK( backpack_hiking.tname( 1 ) == color_pref + "hiking backpack " + nesting_sym +
+                   " TEST rocks" );
+        }
+        SECTION( "several stacks" ) {
+            backpack_hiking.put_in( rock, item_pocket::pocket_type::CONTAINER );
+            backpack_hiking.put_in( rock2, item_pocket::pocket_type::CONTAINER );
+            CHECK( backpack_hiking.tname( 1 ) == color_pref + "hiking backpack " + nesting_sym + " 2 items" );
+        }
+    }
+
+    SECTION( "multi-level nesting" ) {
+        purse.put_in( rock, item_pocket::pocket_type::CONTAINER );
+
+        SECTION( "single rock" ) {
+            backpack_hiking.put_in( purse, item_pocket::pocket_type::CONTAINER );
+            CHECK( backpack_hiking.tname( 1 ) ==
+                   color_pref + "hiking backpack " + nesting_sym + " " + color_pref + "purse " + nesting_sym +
+                   " 1 item" );
+        }
+
+        SECTION( "several rocks" ) {
+            purse.put_in( rock2, item_pocket::pocket_type::CONTAINER );
+
+            backpack_hiking.put_in( purse, item_pocket::pocket_type::CONTAINER );
+
+            CHECK( backpack_hiking.tname( 1 ) ==
+                   color_pref + "hiking backpack " + nesting_sym + " " + color_pref + "purse " + nesting_sym +
+                   " 2 items" );
+        }
+
+        SECTION( "several purses" ) {
+            backpack_hiking.put_in( purse, item_pocket::pocket_type::CONTAINER );
+            backpack_hiking.put_in( purse, item_pocket::pocket_type::CONTAINER );
+
+            CHECK( backpack_hiking.tname( 1 ) == color_pref + "hiking backpack " + nesting_sym + " 2 items" );
+        }
+    }
+}

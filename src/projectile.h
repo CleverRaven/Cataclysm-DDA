@@ -2,16 +2,17 @@
 #ifndef CATA_SRC_PROJECTILE_H
 #define CATA_SRC_PROJECTILE_H
 
+#include <iosfwd>
 #include <memory>
 #include <set>
-#include <string>
 
+#include "compatibility.h"
 #include "damage.h"
 #include "point.h"
 
 class Creature;
-struct explosion_data;
 class item;
+struct explosion_data;
 
 struct projectile {
         damage_instance impact;
@@ -37,9 +38,16 @@ struct projectile {
         void set_custom_explosion( const explosion_data &ex );
         void unset_custom_explosion();
 
+        // applies proj_effects to a damaged creature
+        void apply_effects_damage( Creature &target, Creature *source,
+                                   const dealt_damage_instance &dealt_dam,
+                                   bool critical ) const;
+        // pplies proj_effects to a creature that was hit but not damaged
+        void apply_effects_nodamage( Creature &target, Creature *source ) const;
+
         projectile();
         projectile( const projectile & );
-        projectile( projectile && );
+        projectile( projectile && ) noexcept( set_is_noexcept );
         projectile &operator=( const projectile & );
         ~projectile();
 

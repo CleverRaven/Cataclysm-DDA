@@ -2,13 +2,12 @@
 #ifndef CATA_SRC_ADDICTION_H
 #define CATA_SRC_ADDICTION_H
 
-#include <string>
+#include <iosfwd>
 
 #include "pldata.h"
 #include "type_id.h"
 
 class Character;
-class addiction;
 
 // Minimum intensity before effects are seen
 constexpr int MIN_ADDICTION_LEVEL = 3;

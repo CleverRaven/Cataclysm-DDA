@@ -75,6 +75,28 @@
     "multi_activity": true
   },
   {
+    "id": "ACT_BIKERACK_RACKING",
+    "type": "activity_type",
+    "activity_level": "MODERATE_EXERCISE",
+    "verb": "mounting a vehicle onto rack",
+    "rooted": true,
+    "based_on": "time",
+    "no_resume": true,
+    "refuel_fires": false,
+    "auto_needs": false
+  },
+  {
+    "id": "ACT_BIKERACK_UNRACKING",
+    "type": "activity_type",
+    "activity_level": "MODERATE_EXERCISE",
+    "verb": "taking a vehicle from rack",
+    "rooted": true,
+    "based_on": "time",
+    "no_resume": true,
+    "refuel_fires": false,
+    "auto_needs": false
+  },
+  {
     "id": "ACT_MULTIPLE_CHOP_PLANKS",
     "type": "activity_type",
     "activity_level": "EXTRA_EXERCISE",
@@ -161,6 +183,13 @@
     "based_on": "speed",
     "refuel_fires": true,
     "auto_needs": true
+  },
+  {
+    "id": "ACT_BLEED",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "bleeding",
+    "based_on": "speed"
   },
   {
     "id": "ACT_BUTCHER",
@@ -293,13 +322,6 @@
     "based_on": "speed"
   },
   {
-    "id": "ACT_BURROW",
-    "type": "activity_type",
-    "activity_level": "EXTRA_EXERCISE",
-    "verb": "burrowing",
-    "based_on": "speed"
-  },
-  {
     "id": "ACT_PULP",
     "type": "activity_type",
     "activity_level": "EXTRA_EXERCISE",
@@ -363,6 +385,15 @@
     "verb": "moving items",
     "suspendable": false,
     "based_on": "neither",
+    "no_resume": true
+  },
+  {
+    "id": "ACT_INSERT_ITEM",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "inserting",
+    "suspendable": false,
+    "based_on": "speed",
     "no_resume": true
   },
   {
@@ -902,5 +933,36 @@
     "activity_level": "LIGHT_EXERCISE",
     "verb": { "ctxt": "training", "str": "working out" },
     "based_on": "time"
+  },
+  {
+    "id": "ACT_FURNITURE_MOVE",
+    "type": "activity_type",
+    "activity_level": "ACTIVE_EXERCISE",
+    "verb": "moving",
+    "suspendable": false,
+    "based_on": "time",
+    "no_resume": true
+  },
+  {
+    "id": "ACT_TENT_PLACE",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "pitching a tent",
+    "rooted": true,
+    "based_on": "time",
+    "no_resume": true,
+    "refuel_fires": false,
+    "auto_needs": false
+  },
+  {
+    "id": "ACT_TENT_DECONSTRUCT",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "packing up a tent",
+    "rooted": true,
+    "based_on": "time",
+    "no_resume": true,
+    "refuel_fires": false,
+    "auto_needs": false
   }
 ]

@@ -2,32 +2,27 @@
 #ifndef CATA_SRC_BIONICS_H
 #define CATA_SRC_BIONICS_H
 
-#include <algorithm>
 #include <cstddef>
+#include <iosfwd>
 #include <map>
+#include <new>
 #include <set>
-#include <string>
-#include <utility>
 #include <vector>
 
-#include "bodypart.h"
 #include "calendar.h"
+#include "enums.h"
 #include "flat_set.h"
 #include "magic.h"
 #include "optional.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "value_ptr.h"
 
-class avatar;
 class Character;
 class JsonIn;
 class JsonObject;
 class JsonOut;
-class player;
 
 enum class character_stat : char;
 
@@ -38,23 +33,29 @@ struct bionic_data {
 
     translation name;
     translation description;
+
+    cata::optional<translation> cant_remove_reason;
     /** Power cost on activation */
     units::energy power_activate = 0_kJ;
     /** Power cost on deactivation */
     units::energy power_deactivate = 0_kJ;
     /** Power cost over time, does nothing without a non-zero charge_time */
     units::energy power_over_time = 0_kJ;
+    /** Power cost when the bionic's special effect is triggered */
+    units::energy power_trigger = 0_kJ;
     /** How often a bionic draws or produces power while active in turns */
     int charge_time = 0;
     /** Power bank size **/
     units::energy capacity = 0_kJ;
+    /** If true multiples of this can be installed */
+    bool dupes_allowed = false;
     /** Is true if a bionic is an active instead of a passive bionic */
     bool activated = false;
     /**
     * If true, this bionic is included with another.
     */
     bool included = false;
-    /**Factor modifiying weight capacity*/
+    /**Factor modifying weight capacity*/
     float weight_capacity_modifier = 1.0f;
     /**Bonus to weight capacity*/
     units::mass weight_capacity_bonus = 0_gram;
@@ -76,7 +77,7 @@ struct bionic_data {
     bool exothermic_power_gen = false;
     /**Type of field emitted by this bionic when it produces energy*/
     emit_id power_gen_emission = emit_id::NULL_ID();
-    /**Amount of environemental protection offered by this bionic*/
+    /**Amount of environmental protection offered by this bionic*/
     std::map<bodypart_str_id, size_t> env_protec;
 
     /**Amount of bash protection offered by this bionic*/
@@ -87,6 +88,9 @@ struct bionic_data {
     std::map<bodypart_str_id, size_t> bullet_protec;
 
     float vitamin_absorb_mod = 1.0f;
+
+    // Bonus or penalty to social checks (additive).  50 adds 50% to success, -25 subtracts 25%
+    social_modifiers social_mods;
 
     /** bionic enchantments */
     std::vector<enchantment_id> enchantments;
@@ -115,6 +119,10 @@ struct bionic_data {
      * E.g. enhanced optic bionic may cancel HYPEROPIC trait.
      */
     std::vector<trait_id> canceled_mutations;
+    /**
+     * Mutations/traits that prevent installing this CBM
+     */
+    std::set<trait_id> mutation_conflicts;
 
     /**
      * The spells you learn when you install this bionic, and what level you learn them at.
@@ -141,8 +149,12 @@ struct bionic_data {
     /**Requirement to bionic installation*/
     requirement_id installation_requirement;
 
-    cata::flat_set<std::string> flags;
-    bool has_flag( const std::string &flag ) const;
+    cata::flat_set<json_character_flag> flags;
+    cata::flat_set<json_character_flag> active_flags;
+    cata::flat_set<json_character_flag> inactive_flags;
+    bool has_flag( const json_character_flag &flag ) const;
+    bool has_active_flag( const json_character_flag &flag ) const;
+    bool has_inactive_flag( const json_character_flag &flag ) const;
 
     itype_id itype() const;
 
@@ -162,7 +174,7 @@ struct bionic {
         bool        powered = false;
         /* Ammunition actually loaded in this bionic gun in deactivated state */
         itype_id    ammo_loaded = itype_id::NULL_ID();
-        /* Ammount of ammo actually held inside by this bionic gun in deactivated state */
+        /* Amount of ammo actually held inside by this bionic gun in deactivated state */
         unsigned int         ammo_count = 0;
         /* An amount of time during which this bionic has been rendered inoperative. */
         time_duration        incapacitated_time;

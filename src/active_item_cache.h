@@ -2,7 +2,7 @@
 #ifndef CATA_SRC_ACTIVE_ITEM_CACHE_H
 #define CATA_SRC_ACTIVE_ITEM_CACHE_H
 
-#include <iosfwd>
+#include <cstddef>
 #include <list>
 #include <unordered_map>
 #include <vector>

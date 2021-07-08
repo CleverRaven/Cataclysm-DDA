@@ -1,18 +1,28 @@
-#include "catch/catch.hpp"
-
+#include <functional>
+#include <iosfwd>
+#include <map>
+#include <memory>
+#include <new>
 #include <string>
+#include <utility>
 #include <vector>
 
+#include "calendar.h"
+#include "cata_catch.h"
+#include "debug.h"
 #include "enums.h"
 #include "flag.h"
 #include "item.h"
 #include "item_category.h"
+#include "item_contents.h"
+#include "item_location.h"
 #include "item_pocket.h"
 #include "itype.h"
 #include "optional.h"
 #include "ret_val.h"
 #include "type_id.h"
 #include "units.h"
+#include "value_ptr.h"
 
 // Pocket Tests
 // ------------
@@ -1080,7 +1090,7 @@ TEST_CASE( "best pocket in item contents", "[pocket][item][best]" )
     SECTION( "item with one watertight pocket has best_pocket for liquid" ) {
         // Must have a CONTAINER pocket, first and foremost
         item skin( "test_waterskin" );
-        REQUIRE( skin.has_pockets() );
+        REQUIRE( skin.is_container() );
         REQUIRE( skin.contents.has_pocket_type( item_pocket::pocket_type::CONTAINER ) );
         // Prerequisite: It can contain water
         item liquid( "test_liquid" );
@@ -1094,7 +1104,7 @@ TEST_CASE( "best pocket in item contents", "[pocket][item][best]" )
     SECTION( "item with many different pockets can have best_pocket for different items" ) {
         // Utility belt has CONTAINER pockets
         item util_belt( "test_utility_belt" );
-        REQUIRE( util_belt.has_pockets() );
+        REQUIRE( util_belt.is_container() );
         REQUIRE( util_belt.contents.has_pocket_type( item_pocket::pocket_type::CONTAINER ) );
         // It can contain small and large tools
         item screwdriver( "test_screwdriver" );
@@ -1143,7 +1153,7 @@ TEST_CASE( "best pocket in item contents", "[pocket][item][best]" )
     SECTION( "sealed pockets cannot be best_pocket" ) {
         // Regular aluminum beverage can and something to fill it with
         item can( "test_can_drink" );
-        REQUIRE( can.has_pockets() );
+        REQUIRE( can.is_container() );
         REQUIRE( can.contents.has_pocket_type( item_pocket::pocket_type::CONTAINER ) );
         item liquid( "test_liquid" );
         REQUIRE( can.can_contain( liquid ) );
@@ -1271,9 +1281,9 @@ TEST_CASE( "pocket favorites allow or restrict items", "[pocket][item][best]" )
             item_pocket::favorite_settings settings;
             settings.whitelist_category( test_item.get_category_shallow().id );
             settings.whitelist_item( test_item.typeId() );
-            THEN( "both category and item must match" ) {
+            THEN( "either category or item must match" ) {
                 REQUIRE( settings.accepts_item( test_item ) );
-                REQUIRE_FALSE( settings.accepts_item( test_item_same_category ) );
+                REQUIRE( settings.accepts_item( test_item_same_category ) );
                 REQUIRE_FALSE( settings.accepts_item( test_item_different_category ) );
             }
         }
@@ -1285,21 +1295,23 @@ TEST_CASE( "pocket favorites allow or restrict items", "[pocket][item][best]" )
             THEN( "item allowance override category restrictions" ) {
                 REQUIRE( settings.accepts_item( test_item ) );
                 REQUIRE_FALSE( settings.accepts_item( test_item_same_category ) );
-                // Not blacklisted, but not whitelisted either
-                REQUIRE_FALSE( settings.accepts_item( test_item_different_category ) );
+                // Not blacklisted, there's no category whitelist
+                REQUIRE( settings.accepts_item( test_item_different_category ) );
             }
         }
 
         WHEN( "category blacklisted and item blacklisted" ) {
             item_pocket::favorite_settings settings;
-            settings.blacklist_category( test_item_different_category.get_category_shallow().id );
-            settings.blacklist_item( test_item_same_category.typeId() );
+            settings.blacklist_category( test_item.get_category_shallow().id );
+            settings.blacklist_item( test_item.typeId() );
             THEN( "both category and item are blocked" ) {
-                REQUIRE( settings.accepts_item( test_item ) );
+                REQUIRE_FALSE( settings.accepts_item( test_item ) );
                 REQUIRE_FALSE( settings.accepts_item( test_item_same_category ) );
-                REQUIRE_FALSE( settings.accepts_item( test_item_different_category ) );
+                // Not blacklisted
+                REQUIRE( settings.accepts_item( test_item_different_category ) );
             }
         }
+
     }
 }
 
@@ -1323,7 +1335,7 @@ TEST_CASE( "character best pocket", "[pocket][character][best]" )
 
 TEST_CASE( "guns and gunmods", "[pocket][gunmod]" )
 {
-    item m4a1( "m4a1" );
+    item m4a1( "nato_assault_rifle" );
     item strap( "shoulder_strap" );
     // Guns cannot "contain" gunmods, but gunmods can be inserted into guns
     CHECK_FALSE( m4a1.contents.can_contain( strap ).success() );

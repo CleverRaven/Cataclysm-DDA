@@ -1,11 +1,11 @@
-#include "catch/catch.hpp"
-
+#include <iosfwd>
 #include <set>
 #include <string>
 
+#include "calendar.h"
+#include "cata_catch.h"
 #include "character.h"
 #include "flag.h"
-#include "flat_set.h"
 #include "item.h"
 #include "item_pocket.h"
 #include "player_helpers.h"
@@ -150,6 +150,6 @@ TEST_CASE( "display name includes item contents", "[item][display_name][contents
     CHECK( quiver.ammo_remaining() == 10 );
     CHECK( quiver.display_name() ==
            "<color_c_light_green>||\u00A0</color>"
-           "test wooden broadhead arrow (test quiver) (10)" );
+           "test quiver > test wooden broadhead arrows (10)" );
 }
 

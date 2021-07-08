@@ -50,7 +50,8 @@
           { "item": "drugs_analgesic", "chance": 60, "repeat": [ 1, 3 ] },
           { "item": "drugs_rare", "chance": 60 },
           { "item": "surgery", "chance": 60 }
-        ]
+        ],
+        "?": { "item": "autodoc_supplies", "chance": 100 }
       },
       "monster": { "ö": { "monster": "mon_skitterbot" } },
       "vendingmachines": { "V": { "item_group": "afs_vending_medicine", "reinforced": true } }
@@ -130,7 +131,8 @@
           { "item": "drugs_analgesic", "chance": 60, "repeat": [ 1, 3 ] },
           { "item": "drugs_rare", "chance": 60 },
           { "item": "surgery", "chance": 60 }
-        ]
+        ],
+        "?": { "item": "autodoc_supplies", "chance": 100 }
       }
     }
   },
@@ -207,7 +209,8 @@
           { "item": "drugs_analgesic", "chance": 60, "repeat": [ 1, 3 ] },
           { "item": "drugs_rare", "chance": 60 },
           { "item": "surgery", "chance": 60 }
-        ]
+        ],
+        "?": { "item": "autodoc_supplies", "chance": 100 }
       }
     }
   },

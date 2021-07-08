@@ -50,7 +50,7 @@
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
     "difficulty": 2,
-    "//": "Increased recipe size, due to such miniscule amounts would have excessive loss in the straining step otherwise. Made it X8",
+    "//": "Increased recipe size, due to such minuscule amounts would have excessive loss in the straining step otherwise. Made it X8",
     "charges": 8,
     "book_learn": [ [ "cookbook_indian", 1 ] ],
     "time": "30 m",

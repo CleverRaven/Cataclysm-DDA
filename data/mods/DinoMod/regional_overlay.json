@@ -3,6 +3,9 @@
     "//": "Currently only used for T Rex nest same freq as dermatik nest",
     "type": "region_overlay",
     "regions": [ "all" ],
-    "map_extras": { "forest_water": { "chance": 20, "extras": { "mx_nest_tyrannosaurus": 10 } } }
+    "map_extras": {
+      "forest_water": { "chance": 20, "extras": { "mx_nest_tyrannosaurus": 10 } },
+      "forest": { "chance": 20, "extras": { "mx_nest_maiasaura": 20 } }
+    }
   }
 ]

@@ -41,7 +41,7 @@
         "L": [ { "item": "pasta", "chance": 50 }, { "item": "stash_food", "chance": 50 } ],
         "R": { "item": "produce", "chance": 75 },
         "U": { "item": "cannedfood", "chance": 75 },
-        "X": { "item": "stash_wood", "chance": 60, "count": 2 }
+        "X": { "item": "stash_wood", "chance": 60, "repeat": 2 }
       },
       "npcs": { "@": { "class": "bandit" } }
     }

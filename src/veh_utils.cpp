@@ -2,10 +2,12 @@
 
 #include <algorithm>
 #include <cmath>
+#include <functional>
 #include <list>
 #include <map>
-#include <string>
+#include <type_traits>
 #include <utility>
+#include <vector>
 
 #include "calendar.h"
 #include "character.h"
@@ -18,8 +20,8 @@
 #include "player.h"
 #include "point.h"
 #include "requirements.h"
-#include "string_id.h"
 #include "translations.h"
+#include "units_fwd.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
@@ -108,7 +110,7 @@ vehicle_part &most_repairable_part( vehicle &veh, Character &who, bool only_repa
     return high_damage_iterator->part();
 }
 
-bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c )
+bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c, const std::string &variant )
 {
     // TODO: Get rid of this cast after moving relevant functions down to Character
     player &who = static_cast<player &>( who_c );
@@ -164,7 +166,7 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c )
         auto replacement_id = pt.info().get_id();
         get_map().spawn_items( who.pos(), pt.pieces_for_broken_part() );
         veh.remove_part( part_index );
-        const int partnum = veh.install_part( loc, replacement_id, std::move( base ) );
+        const int partnum = veh.install_part( loc, replacement_id, std::move( base ), variant );
         veh.part( partnum ).direction = dir;
         veh.part_removal_cleanup();
     } else {

@@ -1,7 +1,10 @@
+#include "dialogue.h" // IWYU pragma: associated
+
 #include <algorithm>
 #include <array>
 #include <cmath>
 #include <cstddef>
+#include <iterator>
 #include <list>
 #include <map>
 #include <memory>
@@ -16,16 +19,14 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_utility.h"
+#include "catacharset.h"
 #include "character.h"
 #include "character_id.h"
-// needed for the workaround for the std::to_string bug in some compilers
 #include "clzones.h"
 #include "color.h"
-#include "compatibility.h" // IWYU pragma: keep
 #include "condition.h"
 #include "coordinates.h"
 #include "debug.h"
-#include "dialogue.h" // IWYU pragma: associated
 #include "enums.h"
 #include "faction.h"
 #include "faction_camp.h"
@@ -61,7 +62,6 @@
 #include "skill.h"
 #include "sounds.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "string_input_popup.h"
 #include "talker.h"
 #include "text_snippets.h"
@@ -80,6 +80,7 @@ static const activity_id ACT_WAIT_NPC( "ACT_WAIT_NPC" );
 
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_riding( "riding" );
+static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_under_operation( "under_operation" );
 
 static const itype_id fuel_type_animal( "animal" );
@@ -224,7 +225,7 @@ static int npc_select_menu( const std::vector<npc *> &npc_list, const std::strin
         uilist nmenu;
         nmenu.text = prompt;
         for( const npc *elem : npc_list ) {
-            nmenu.addentry( -1, true, MENU_AUTOASSIGN, elem->name );
+            nmenu.addentry( -1, true, MENU_AUTOASSIGN, elem->name_and_activity() );
         }
         if( npc_count > 1 && everyone ) {
             nmenu.addentry( -1, true, MENU_AUTOASSIGN, _( "Everyone" ) );
@@ -447,8 +448,9 @@ void game::chat()
     nmenu.text = std::string( _( "What do you want to do?" ) );
 
     if( !available.empty() ) {
+        const npc *guy = available.front();
         nmenu.addentry( NPC_CHAT_TALK, true, 't', available_count == 1 ?
-                        string_format( _( "Talk to %s" ), available.front()->name ) :
+                        string_format( _( "Talk to %s" ), guy->name_and_activity() ) :
                         _( "Talk to…" )
                       );
     }
@@ -630,7 +632,8 @@ void npc::handle_sound( const sounds::sound_t spriority, const std::string &desc
     const tripoint s_abs_pos = here.getabs( spos );
     const tripoint my_abs_pos = here.getabs( pos() );
 
-    add_msg_debug( "%s heard '%s', priority %d at volume %d from %d:%d, my pos %d:%d",
+    add_msg_debug( debugmode::DF_NPC,
+                   "%s heard '%s', priority %d at volume %d from %d:%d, my pos %d:%d",
                    disp_name(), description, static_cast<int>( spriority ), heard_volume,
                    s_abs_pos.x, s_abs_pos.y, my_abs_pos.x, my_abs_pos.y );
 
@@ -651,11 +654,11 @@ void npc::handle_sound( const sounds::sound_t spriority, const std::string &desc
     // but only for bantering purposes, not for investigating.
     if( spriority < sounds::sound_t::alarm ) {
         if( player_ally ) {
-            add_msg_debug( "Allied NPC ignored same faction %s", name );
+            add_msg_debug( debugmode::DF_NPC, "Allied NPC ignored same faction %s", name );
             return;
         }
         if( npc_ally ) {
-            add_msg_debug( "NPC ignored same faction %s", name );
+            add_msg_debug( debugmode::DF_NPC, "NPC ignored same faction %s", name );
             return;
         }
     }
@@ -663,7 +666,7 @@ void npc::handle_sound( const sounds::sound_t spriority, const std::string &desc
     // and listener is friendly and sound source is combat or alert only.
     if( spriority < sounds::sound_t::alarm && player_character.sees( spos ) ) {
         if( is_player_ally() ) {
-            add_msg_debug( "NPC %s ignored low priority noise that player can see", name );
+            add_msg_debug( debugmode::DF_NPC, "NPC %s ignored low priority noise that player can see", name );
             return;
             // discount if sound source is player, or seen by player,
             // listener is neutral and sound type is worth investigating.
@@ -702,7 +705,7 @@ void npc::handle_sound( const sounds::sound_t spriority, const std::string &desc
                 }
             }
             if( should_check ) {
-                add_msg_debug( "%s added noise at pos %d:%d", name, s_abs_pos.x, s_abs_pos.y );
+                add_msg_debug( debugmode::DF_NPC, "%s added noise at pos %d:%d", name, s_abs_pos.x, s_abs_pos.y );
                 dangerous_sound temp_sound;
                 temp_sound.abs_pos = s_abs_pos;
                 temp_sound.volume = heard_volume;
@@ -1094,7 +1097,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         }
         for( const skill_id &trained : trainable ) {
             const std::string &text = beta->skill_training_text( *alpha, trained );
-            if( !text.empty() ) {
+            if( !text.empty() && !trained->obsolete() ) {
                 add_response( text, "TALK_TRAIN_START", trained );
             }
         }
@@ -1340,7 +1343,7 @@ void parse_tags( std::string &phrase, const Character &u, const Character &me,
 
 void dialogue::add_topic( const std::string &topic_id )
 {
-    topic_stack.push_back( talk_topic( topic_id ) );
+    topic_stack.emplace_back( topic_id );
 }
 
 void dialogue::add_topic( const talk_topic &topic )
@@ -1450,6 +1453,13 @@ talk_topic dialogue::opt( dialogue_window &d_win, const std::string &npc_name,
 
     d_win.add_history_separator();
 
+    ui_adaptor ui;
+    const auto resize_cb = [&]( ui_adaptor & ui ) {
+        d_win.resize_dialogue( ui );
+    };
+    ui.on_screen_resize( resize_cb );
+    resize_cb( ui );
+
     // Number of lines to highlight
     const size_t hilight_lines = d_win.add_to_history( challenge );
 
@@ -1481,21 +1491,16 @@ talk_topic dialogue::opt( dialogue_window &d_win, const std::string &npc_name,
         response_hotkeys.clear();
         input_event evt = ctxt.first_unassigned_hotkey( queue );
         for( talk_response &response : responses ) {
-            response_lines.emplace_back( response.create_option_line( *this, evt ) );
+            const talk_data &td = response.create_option_line( *this, evt );
+            response_lines.emplace_back( td );
             response_hotkeys.emplace_back( evt );
 #if defined(__ANDROID__)
-            ctxt.register_manual_key( evt.get_first_input() );
+            ctxt.register_manual_key( evt.get_first_input(), td.text );
 #endif
             evt = ctxt.next_unassigned_hotkey( queue, evt );
         }
     };
     generate_response_lines();
-
-    ui_adaptor ui;
-    ui.on_screen_resize( [&]( ui_adaptor & ui ) {
-        d_win.resize_dialogue( ui );
-    } );
-    ui.mark_resize();
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         d_win.print_header( npc_name );
@@ -1762,7 +1767,7 @@ void talk_effect_fun_t::set_u_buy_item( const itype_id &item_name, int cost, int
 
     // Update structure used by mission descriptions.
     if( cost <= 0 ) {
-        likely_rewards.push_back( std::pair<int, itype_id>( count, item_name ) );
+        likely_rewards.emplace_back( count, item_name );
     }
 }
 
@@ -1948,21 +1953,31 @@ void talk_effect_fun_t::set_mapgen_update( const JsonObject &jo, const std::stri
     };
 }
 
-void talk_effect_fun_t::set_bulk_trade_accept( bool is_trade, bool is_npc )
+void talk_effect_fun_t::set_bulk_trade_accept( bool is_trade, int quantity, bool is_npc )
 {
-    function = [is_trade, is_npc]( const dialogue & d ) {
+    function = [is_trade, is_npc, quantity]( const dialogue & d ) {
         const std::unique_ptr<talker> &seller = is_npc ? d.beta : d.alpha;
         const std::unique_ptr<talker> &buyer = is_npc ? d.alpha : d.beta;
-        int seller_has = seller->charges_of( d.cur_item );
         item tmp( d.cur_item );
+        int seller_has = 0;
+        if( tmp.count_by_charges() ) {
+            seller_has = seller->charges_of( d.cur_item );
+        } else {
+            seller_has = seller->items_with( [&tmp]( const item & e ) {
+                return tmp.type == e.type;
+            } ).size();
+        }
+        seller_has = ( quantity == -1 ) ? seller_has : std::min( seller_has, quantity );
         tmp.charges = seller_has;
         if( is_trade ) {
-            int price = tmp.price( true ) * ( is_npc ? -1 : 1 ) + d.beta->debt();
+            const int npc_debt = d.beta->debt();
+            int price = tmp.price( true ) * ( is_npc ? -1 : 1 ) + npc_debt;
             if( d.beta->get_faction() && !d.beta->get_faction()->currency.is_empty() ) {
                 const itype_id &pay_in = d.beta->get_faction()->currency;
                 item pay( pay_in );
-                if( d.beta->value( pay ) > 0 ) {
-                    int required = price / d.beta->value( pay );
+                const int value = d.beta->value( pay );
+                if( value > 0 ) {
+                    int required = price / value;
                     int buyer_has = required;
                     if( is_npc ) {
                         buyer_has = std::min( buyer_has, buyer->charges_of( pay_in ) );
@@ -1980,13 +1995,24 @@ void talk_effect_fun_t::set_bulk_trade_accept( bool is_trade, bool is_npc )
                     }
                     for( int i = 0; i < buyer_has; i++ ) {
                         seller->i_add( pay );
-                        price -= d.beta->value( pay );
+                        price -= value;
                     }
+                } else {
+                    debugmsg( "%s pays in bulk_trade_accept with faction currency worth 0!",
+                              d.beta->disp_name() );
                 }
-                d.beta->add_debt( price );
+            } else {
+                debugmsg( "%s has no faction currency to pay with in bulk_trade_accept!",
+                          d.beta->disp_name() );
             }
+            d.beta->add_debt( -npc_debt );
+            d.beta->add_debt( price );
         }
-        seller->use_charges( d.cur_item, seller_has );
+        if( tmp.count_by_charges() ) {
+            seller->use_charges( d.cur_item, seller_has );
+        } else {
+            seller->use_amount( d.cur_item, seller_has );
+        }
         buyer->i_add( tmp );
     };
 }
@@ -2033,6 +2059,136 @@ void talk_effect_fun_t::set_npc_first_topic( const std::string &chat_topic )
 {
     function = [chat_topic]( const dialogue & d ) {
         d.beta->set_first_topic( chat_topic );
+    };
+}
+
+void talk_effect_fun_t::set_message( const JsonObject &jo, const std::string &member )
+{
+    std::string message = jo.get_string( member );
+    const bool snippet = jo.get_bool( "snippet", false );
+    const bool outdoor_only = jo.get_bool( "outdoor_only", false );
+    const bool sound = jo.get_bool( "sound", false );
+    const bool popup_msg = jo.get_bool( "popup", false );
+    game_message_type type = m_neutral;
+    std::string type_string = jo.get_string( "type", "neutral" );
+    if( type_string == "good" ) {
+        type = m_good;
+    } else if( type_string == "neutral" ) {
+        type = m_neutral;
+    } else if( type_string == "bad" ) {
+        type = m_bad;
+    } else if( type_string == "mixed" ) {
+        type = m_mixed;
+    } else if( type_string == "warning" ) {
+        type = m_warning;
+    } else if( type_string == "info" ) {
+        type = m_info;
+    } else if( type_string == "debug" ) {
+        type = m_debug;
+    } else if( type_string == "headshot" ) {
+        type = m_headshot;
+    } else if( type_string == "critical" ) {
+        type = m_critical;
+    } else if( type_string == "grazing" ) {
+        type = m_grazing;
+    } else {
+        jo.throw_error( "Invalid message type." );
+    }
+
+    function = [message, outdoor_only, sound, snippet, type, popup_msg]( const dialogue & d ) {
+        std::string translated_message;
+        if( snippet ) {
+            translated_message = SNIPPET.random_from_category( message ).value_or( translation() ).translated();
+        } else {
+            translated_message = _( message );
+        }
+        Character *target = d.alpha->get_character();
+        if( !target ) {
+            return;
+        }
+        if( sound ) {
+            bool display = false;
+            map &here = get_map();
+            if( !target->has_effect( effect_sleep ) && !target->is_deaf() ) {
+                if( !outdoor_only || here.get_abs_sub().z >= 0 ) {
+                    display = true;
+                } else if( one_in( std::max( roll_remainder( 2.0f * here.get_abs_sub().z /
+                                             target->mutation_value( "hearing_modifier" ) ), 1 ) ) ) {
+                    display = true;
+                }
+            }
+            if( !display ) {
+                return;
+            }
+        }
+        if( popup_msg ) {
+            popup( translated_message, PF_NONE );
+        } else {
+            target->add_msg_if_player( type, translated_message );
+        }
+
+    };
+}
+
+
+void talk_effect_fun_t::set_mod_pain( const JsonObject &jo, const std::string &member,
+                                      bool is_npc )
+{
+    int amount = jo.get_int( member );
+    function = [is_npc, amount]( const dialogue & d ) {
+        d.actor( is_npc )->mod_pain( amount );
+    };
+}
+
+void talk_effect_fun_t::set_add_wet( const JsonObject &jo, const std::string &member,
+                                     bool is_npc )
+{
+    int amount = jo.get_int( member );
+    function = [is_npc, amount]( const dialogue & d ) {
+        Character *target = d.actor( is_npc )->get_character();
+        if( target ) {
+            wet_character( *target, amount );
+        }
+    };
+}
+
+void talk_effect_fun_t::set_sound_effect( const JsonObject &jo, const std::string &member )
+{
+    std::string variant = jo.get_string( member );
+    std::string id = jo.get_string( "id" );
+    const bool outdoor_event = jo.get_bool( "outdoor_event", false );
+    const int volume = jo.get_int( "volume", -1 );
+    function = [variant, id, outdoor_event, volume]( const dialogue & d ) {
+        map &here = get_map();
+        int local_volume = volume;
+        Character *target = d.alpha->get_character();
+        if( target && !target->has_effect( effect_sleep ) && !target->is_deaf() ) {
+            if( !outdoor_event || here.get_abs_sub().z >= 0 ) {
+                if( local_volume == -1 ) {
+                    local_volume = 80;
+                }
+                sfx::play_variant_sound( id, variant, local_volume, random_direction() );
+            } else if( one_in( std::max( roll_remainder( 2.0f * here.get_abs_sub().z /
+                                         target->mutation_value( "hearing_modifier" ) ), 1 ) ) ) {
+                if( local_volume == -1 ) {
+                    local_volume = 80 * target->mutation_value( "hearing_modifier" );
+                }
+                sfx::play_variant_sound( id, variant, local_volume, random_direction() );
+            }
+        }
+    };
+}
+
+void talk_effect_fun_t::set_add_power( const JsonObject &jo, const std::string &member,
+                                       bool is_npc )
+{
+    units::energy amount;
+    assign( jo, member, amount, false );
+    function = [is_npc, amount]( const dialogue & d ) {
+        Character *target = d.actor( is_npc )->get_character();
+        if( target ) {
+            target->mod_power_level( amount );
+        }
     };
 }
 
@@ -2109,9 +2265,9 @@ talk_topic talk_effect_t::apply( dialogue &d ) const
     return next_topic;
 }
 
-talk_effect_t::talk_effect_t( const JsonObject &jo )
+talk_effect_t::talk_effect_t( const JsonObject &jo, const std::string &member_name )
 {
-    load_effect( jo );
+    load_effect( jo, member_name );
     if( jo.has_object( "topic" ) ) {
         next_topic = load_inline_topic( jo.get_object( "topic" ) );
     } else if( jo.has_string( "topic" ) ) {
@@ -2189,6 +2345,32 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         } else if( jo.has_string( "npc_remove_item_with" ) ) {
             subeffect_fun.set_remove_item_with( jo, "npc_remove_item_with", is_npc );
         }
+    } else if( jo.has_int( "u_bulk_trade_accept" ) || jo.has_int( "npc_bulk_trade_accept" ) ||
+               jo.has_int( "u_bulk_donate" ) || jo.has_int( "npc_bulk_donate" ) ) {
+        talk_effect_fun_t subeffect_fun;
+        int quantity = -1;
+        bool is_npc = false;
+        bool is_trade = false;
+        if( jo.has_int( "npc_bulk_trade_accept" ) ) {
+            is_npc = true;
+            is_trade = true;
+            quantity = jo.get_int( "npc_bulk_trade_accept" );
+        } else if( jo.has_int( "npc_bulk_donate" ) ) {
+            is_npc = true;
+            is_trade = false;
+            quantity = jo.get_int( "npc_bulk_donate" );
+        } else if( jo.has_int( "u_bulk_trade_accept" ) ) {
+            is_npc = false;
+            is_trade = true;
+            quantity = jo.get_int( "u_bulk_trade_accept" );
+        } else if( jo.has_int( "u_bulk_donate" ) ) {
+            is_npc = false;
+            is_trade = false;
+            quantity = jo.get_int( "u_bulk_donate" );
+        }
+        subeffect_fun.set_bulk_trade_accept( is_trade, quantity, is_npc );
+        set_effect( subeffect_fun );
+        return;
     } else if( jo.has_string( "npc_change_class" ) ) {
         std::string class_name = jo.get_string( "npc_change_class" );
         subeffect_fun.set_npc_change_class( class_name );
@@ -2247,6 +2429,22 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
     } else if( jo.has_string( "npc_first_topic" ) ) {
         const std::string chat_topic = jo.get_string( "npc_first_topic" );
         subeffect_fun.set_npc_first_topic( chat_topic );
+    } else if( jo.has_string( "sound_effect" ) ) {
+        subeffect_fun.set_sound_effect( jo, "sound_effect" );
+    } else if( jo.has_string( "message" ) ) {
+        subeffect_fun.set_message( jo, "message" );
+    } else if( jo.has_int( "u_mod_pain" ) ) {
+        subeffect_fun.set_mod_pain( jo, "u_mod_pain", false );
+    } else if( jo.has_int( "npc_mod_pain" ) ) {
+        subeffect_fun.set_mod_pain( jo, "npc_mod_pain", false );
+    } else if( jo.has_int( "u_add_wet" ) ) {
+        subeffect_fun.set_add_wet( jo, "u_add_wet", false );
+    } else if( jo.has_int( "npc_add_wet" ) ) {
+        subeffect_fun.set_add_wet( jo, "npc_add_wet", true );
+    } else if( jo.has_member( "u_add_power" ) ) {
+        subeffect_fun.set_add_power( jo, "u_add_power", false );
+    } else if( jo.has_member( "npc_add_power" ) ) {
+        subeffect_fun.set_add_power( jo, "npc_add_power", true );
     } else {
         jo.throw_error( "invalid sub effect syntax: " + jo.str() );
     }
@@ -2333,6 +2531,7 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
             WRAP( npc_die ),
             WRAP( npc_thankful ),
             WRAP( clear_overrides ),
+            WRAP( lightning ),
             WRAP( nothing )
 #undef WRAP
         }
@@ -2348,7 +2547,7 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
         effect_id == "u_bulk_donate" || effect_id == "npc_bulk_donate" ) {
         bool is_npc = effect_id == "npc_bulk_trade_accept" || effect_id == "npc_bulk_donate";
         bool is_trade = effect_id == "u_bulk_trade_accept" || effect_id == "npc_bulk_trade_accept";
-        subeffect_fun.set_bulk_trade_accept( is_trade, is_npc );
+        subeffect_fun.set_bulk_trade_accept( is_trade, -1, is_npc );
         set_effect( subeffect_fun );
         return;
     }
@@ -2363,7 +2562,7 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
     jo.throw_error( "unknown effect string", effect_id );
 }
 
-void talk_effect_t::load_effect( const JsonObject &jo )
+void talk_effect_t::load_effect( const JsonObject &jo, const std::string &member_name )
 {
     if( jo.has_member( "opinion" ) ) {
         JsonIn *ji = jo.get_raw( "opinion" );
@@ -2375,7 +2574,6 @@ void talk_effect_t::load_effect( const JsonObject &jo )
         // Same format as when saving a game (-:
         mission_opinion.deserialize( *ji );
     }
-    static const std::string member_name( "effect" );
     if( !jo.has_member( member_name ) ) {
         return;
     } else if( jo.has_string( member_name ) ) {
@@ -2436,11 +2634,11 @@ talk_response::talk_response( const JsonObject &jo )
     }
     if( jo.has_member( "success" ) ) {
         JsonObject success_obj = jo.get_object( "success" );
-        success = talk_effect_t( success_obj );
+        success = talk_effect_t( success_obj, "effect" );
     } else if( jo.has_string( "topic" ) ) {
         // This is for simple topic switching without a possible failure
         success.next_topic = talk_topic( jo.get_string( "topic" ) );
-        success.load_effect( jo );
+        success.load_effect( jo, "effect" );
     } else if( jo.has_object( "topic" ) ) {
         success.next_topic = load_inline_topic( jo.get_object( "topic" ) );
     }
@@ -2449,7 +2647,7 @@ talk_response::talk_response( const JsonObject &jo )
     }
     if( jo.has_member( "failure" ) ) {
         JsonObject failure_obj = jo.get_object( "failure" );
-        failure = talk_effect_t( failure_obj );
+        failure = talk_effect_t( failure_obj, "effect" );
     }
 
     // TODO: mission_selected
@@ -2499,6 +2697,7 @@ json_talk_response::json_talk_response( const JsonObject &jo )
 
 void json_talk_response::load_condition( const JsonObject &jo )
 {
+    has_condition_ = jo.has_member( "condition" );
     is_switch = jo.get_bool( "switch", false );
     is_default = jo.get_bool( "default", false );
     read_condition<dialogue>( jo, "condition", condition, true );
@@ -2510,6 +2709,11 @@ bool json_talk_response::test_condition( const dialogue &d ) const
         return condition( d );
     }
     return true;
+}
+
+const talk_response &json_talk_response::get_actual_response() const
+{
+    return actual_response;
 }
 
 bool json_talk_response::gen_responses( dialogue &d, bool switch_done ) const
@@ -2710,7 +2914,7 @@ json_dynamic_line_effect::json_dynamic_line_effect( const JsonObject &jo,
 {
     std::function<bool( const dialogue & )> tmp_condition;
     read_condition<dialogue>( jo, "condition", tmp_condition, true );
-    talk_effect_t tmp_effect = talk_effect_t( jo );
+    talk_effect_t tmp_effect = talk_effect_t( jo, "effect" );
     // if the topic has a sentinel, it means implicitly add a check for the sentinel value
     // and do not run the effects if it is set.  if it is not set, run the effects and
     // set the sentinel
@@ -2812,6 +3016,29 @@ bool json_talk_topic::gen_responses( dialogue &d ) const
     return replace_built_in_responses;
 }
 
+cata::flat_set<std::string> json_talk_topic::get_directly_reachable_topics(
+    bool only_unconditional ) const
+{
+    std::vector<std::string> result;
+
+    auto add_reachable_for_response = [&]( const json_talk_response & json_response ) {
+        const talk_response &response = json_response.get_actual_response();
+        if( !only_unconditional || !json_response.has_condition() ) {
+            result.push_back( response.success.next_topic.id );
+            result.push_back( response.failure.next_topic.id );
+        }
+    };
+
+    for( const json_talk_response &r : responses ) {
+        add_reachable_for_response( r );
+    }
+    for( const json_talk_repeat_response &r : repeat_responses ) {
+        add_reachable_for_response( r.response );
+    }
+
+    return cata::flat_set<std::string>( result.begin(), result.end() );
+}
+
 std::string json_talk_topic::get_dynamic_line( const dialogue &d ) const
 {
     return dynamic_line( d );
@@ -2908,4 +3135,13 @@ bool npc::item_whitelisted( const item &it )
 
     const auto to_match = it.tname( 1, false );
     return item_name_whitelisted( to_match );
+}
+
+const json_talk_topic *get_talk_topic( const std::string &id )
+{
+    auto it = json_talk_topics.find( id );
+    if( it == json_talk_topics.end() ) {
+        return nullptr;
+    }
+    return &it->second;
 }

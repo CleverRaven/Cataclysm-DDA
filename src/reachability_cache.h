@@ -1,12 +1,16 @@
 #ifndef CATA_SRC_REACHABILITY_CACHE_H
 #define CATA_SRC_REACHABILITY_CACHE_H
 
-#include "point.h"
+#include <bitset>
+#include <cstdint>
+#include <limits>
+
 #include "enums.h"
 #include "game_constants.h"
 
-struct level_cache;
 class reachability_cache_layer;
+struct level_cache;
+struct point;
 
 // Implementation note:
 // Code could be somewhat simpler if virtual inheritance was used, but cache is a performance-critical structure

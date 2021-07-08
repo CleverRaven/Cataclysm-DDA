@@ -4,9 +4,30 @@ on:
   push:
     branches:
     - master
+    - 0.F-dev
+    paths:
+    - '**.cpp'
+    - '**.h'
+    - '**.c'
+    - '**/CMakeLists.txt'
+    - '**/Makefile'
+    - '**.hpp'
+    - '**.cmake'
+    - '.github/workflows/CBA.yml'
   pull_request:
     branches:
     - master
+    - 0.F-dev
+    paths:
+    - '**.cpp'
+    - '**.h'
+    - '**.c'
+    - '**/CMakeLists.txt'
+    - '**/Makefile'
+    - '**.hpp'
+    - '**.cmake'
+    - '.github/workflows/CBA.yml'
+
 
 jobs:
   build:
@@ -17,7 +38,7 @@ jobs:
     - name: checkout repository
       uses: actions/checkout@v1
       with:
-        fetch-depth: 10
+        fetch-depth: 1
     - name: install dependencies
       run: sudo apt-get install libncursesw5-dev
     - name: Prepare Build Analyzer
@@ -34,7 +55,7 @@ jobs:
     - name: make
       run: |
         ClangBuildAnalyzer --start .
-        CLANG=clang++-9 CXXFLAGS=-ftime-trace make 
+        CLANG=clang++-10 CXXFLAGS=-ftime-trace make
         ClangBuildAnalyzer --stop . buildAnalysis
     - name: Analyze
       run: ClangBuildAnalyzer --analyze buildAnalysis

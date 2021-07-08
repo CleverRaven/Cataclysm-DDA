@@ -4,6 +4,7 @@
 #include <cmath>
 #include <cstdlib>
 #include <set>
+#include <string>
 
 #include "calendar.h"
 #include "character.h"
@@ -16,9 +17,11 @@
 #include "magic_enchantment.h"
 #include "map.h"
 #include "rng.h"
+#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "weather.h"
+#include "weather_type.h"
 
 /*
  * A little helper function to tell if you can load one ammo into a gun.
@@ -692,4 +695,23 @@ relic relic_procgen_data::generate( const relic_procgen_data::generation_rules &
     }
 
     return ret;
+}
+
+bool operator==( const relic &source_relic, const relic &target_relic )
+{
+    bool is_the_same = true;
+    is_the_same &= ( source_relic.charges() == target_relic.charges() );
+    is_the_same &= ( source_relic.charges_per_use() == target_relic.charges_per_use() );
+    is_the_same &= ( source_relic.has_activation() == target_relic.has_activation() );
+    is_the_same &= ( source_relic.has_recharge() == target_relic.has_recharge() );
+    is_the_same &= ( source_relic.max_charges() == target_relic.max_charges() );
+    is_the_same &= ( source_relic.name() == target_relic.name() );
+
+    is_the_same &= ( source_relic.get_enchantments().size() == target_relic.get_enchantments().size() );
+    if( is_the_same ) {
+        for( std::size_t i = 0; i < source_relic.get_enchantments().size(); i++ ) {
+            is_the_same &= source_relic.get_enchantments()[i] == target_relic.get_enchantments()[i];
+        }
+    }
+    return is_the_same;
 }

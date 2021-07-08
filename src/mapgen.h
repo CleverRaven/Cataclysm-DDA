@@ -3,26 +3,26 @@
 #define CATA_SRC_MAPGEN_H
 
 #include <cstddef>
+#include <iosfwd>
 #include <map>
 #include <memory>
 #include <string>
 #include <unordered_map>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
 #include "coordinates.h"
+#include "json.h"
 #include "memory_fast.h"
 #include "point.h"
 #include "regional_settings.h"
 #include "type_id.h"
+#include "weighted_list.h"
 
-class JsonArray;
-class JsonMember;
-class JsonObject;
 class map;
 class mapgendata;
 class mission;
-template <typename T> struct weighted_int_list;
 
 using building_gen_pointer = void ( * )( mapgendata & );
 
@@ -35,7 +35,7 @@ class mapgen_function
     public:
         int weight;
     protected:
-        mapgen_function( const int w ) : weight( w ) { }
+        explicit mapgen_function( const int w ) : weight( w ) { }
     public:
         virtual ~mapgen_function() = default;
         virtual void setup() { } // throws
@@ -49,7 +49,7 @@ class mapgen_function_builtin : public virtual mapgen_function
 {
     public:
         building_gen_pointer fptr;
-        mapgen_function_builtin( building_gen_pointer ptr, int w = 1000 ) : mapgen_function( w ),
+        explicit mapgen_function_builtin( building_gen_pointer ptr, int w = 1000 ) : mapgen_function( w ),
             fptr( ptr ) {
         }
         void generate( mapgendata &mgd ) override;
@@ -58,14 +58,14 @@ class mapgen_function_builtin : public virtual mapgen_function
 /////////////////////////////////////////////////////////////////////////////////
 ///// json mapgen (and friends)
 /*
- * Actually a pair of shorts that can rng, for numbers that will never exceed 32768
+ * Actually a pair of integers that can rng, for numbers that will never exceed INT_MAX
  */
 struct jmapgen_int {
-    short val;
-    short valmax;
-    jmapgen_int( int v ) : val( v ), valmax( v ) {}
+    int val;
+    int valmax;
+    explicit jmapgen_int( int v ) : val( v ), valmax( v ) {}
     jmapgen_int( int v, int v2 ) : val( v ), valmax( v2 ) {}
-    jmapgen_int( point p );
+    explicit jmapgen_int( point p );
     /**
      * Throws as usually if the json is invalid or missing.
      */
@@ -74,7 +74,8 @@ struct jmapgen_int {
      * Throws is the json is malformed (e.g. a string not an integer, but does not throw
      * if the member is just missing (the default values are used instead).
      */
-    jmapgen_int( const JsonObject &jo, const std::string &tag, short def_val, short def_valmax );
+    jmapgen_int( const JsonObject &jo, const std::string &tag, const int &def_val,
+                 const int &def_valmax );
 
     int get() const;
 };
@@ -130,6 +131,7 @@ struct jmapgen_setmap {
 
 struct spawn_data {
     std::map<itype_id, jmapgen_int> ammo;
+    std::vector<point> patrol_points_rel_ms;
 };
 
 /**
@@ -158,6 +160,9 @@ class jmapgen_piece
     protected:
         jmapgen_piece() : repeat( 1, 1 ) { }
     public:
+        virtual bool is_nop() const {
+            return false;
+        }
         /** Sanity-check this piece */
         virtual void check( const std::string &/*context*/ ) const { }
         /** Place something on the map from mapgendata &dat, at (x,y). */
@@ -177,8 +182,8 @@ class jmapgen_place
 {
     public:
         jmapgen_place() : x( 0, 0 ), y( 0, 0 ), repeat( 1, 1 ) { }
-        jmapgen_place( const point &p ) : x( p.x ), y( p.y ), repeat( 1, 1 ) { }
-        jmapgen_place( const JsonObject &jsi );
+        explicit jmapgen_place( const point &p ) : x( p.x ), y( p.y ), repeat( 1, 1 ) { }
+        explicit jmapgen_place( const JsonObject &jsi );
         void offset( const point & );
         jmapgen_int x;
         jmapgen_int y;
@@ -193,8 +198,8 @@ using palette_id = std::string;
 class map_key
 {
     public:
-        map_key( const std::string & );
-        map_key( const JsonMember & );
+        explicit map_key( const std::string & );
+        explicit map_key( const JsonMember & );
 
         friend bool operator==( const map_key &l, const map_key &r ) {
             return l.str == r.str;
@@ -225,8 +230,7 @@ class mapgen_palette
         using placing_map =
             std::unordered_map<map_key, std::vector< shared_ptr_fast<const jmapgen_piece>>>;
 
-        std::unordered_map<map_key, ter_id> format_terrain;
-        std::unordered_map<map_key, furn_id> format_furniture;
+        std::unordered_set<map_key> keys_with_terrain;
         placing_map format_placings;
 
         template<typename PieceType>
@@ -254,6 +258,8 @@ class mapgen_palette
         static const mapgen_palette &get( const palette_id &id );
 
         static void check_definitions();
+
+        static void reset();
     private:
         static mapgen_palette load_internal( const JsonObject &jo, const std::string &src, bool require_id,
                                              bool allow_recur );
@@ -319,11 +325,11 @@ class mapgen_function_json_base
         bool has_vehicle_collision( const mapgendata &dat, const point &offset ) const;
 
     private:
-        std::string jdata;
+        json_source_location jsrcloc;
         std::string context_;
 
     protected:
-        mapgen_function_json_base( const std::string &s, const std::string &context );
+        mapgen_function_json_base( const json_source_location &jsrcloc, const std::string &context );
         virtual ~mapgen_function_json_base();
 
         void setup_common();
@@ -335,14 +341,10 @@ class mapgen_function_json_base
 
         void check_common() const;
 
-        void formatted_set_incredibly_simple( map &m, const point &offset ) const;
-
-        bool do_format;
         bool is_ready;
 
         point mapgensize;
         point m_offset;
-        std::vector<ter_furn_id> format;
         std::vector<jmapgen_setmap> setmap_points;
 
         jmapgen_objects objects;
@@ -354,7 +356,7 @@ class mapgen_function_json : public mapgen_function_json_base, public virtual ma
         void setup() override;
         void check() const override;
         void generate( mapgendata & ) override;
-        mapgen_function_json( const std::string &s, int w, const std::string &context,
+        mapgen_function_json( const json_source_location &jsrcloc, int w, const std::string &context,
                               const point &grid_offset = point_zero );
         ~mapgen_function_json() override = default;
 
@@ -371,7 +373,7 @@ class mapgen_function_json : public mapgen_function_json_base, public virtual ma
 class update_mapgen_function_json : public mapgen_function_json_base
 {
     public:
-        update_mapgen_function_json( const std::string &s, const std::string &context );
+        update_mapgen_function_json( const json_source_location &jsrcloc, const std::string &context );
         ~update_mapgen_function_json() override = default;
 
         void setup();
@@ -392,7 +394,7 @@ class mapgen_function_json_nested : public mapgen_function_json_base
     public:
         void setup();
         void check() const;
-        mapgen_function_json_nested( const std::string &s, const std::string &context );
+        mapgen_function_json_nested( const json_source_location &jsrcloc, const std::string &context );
         ~mapgen_function_json_nested() override = default;
 
         void nest( const mapgendata &dat, const point &offset ) const;
@@ -456,11 +458,6 @@ enum room_type {
     room_bedroom,
     room_backyard,
     room_study,
-    room_mine_shaft,
-    room_mine_office,
-    room_mine_storage,
-    room_mine_fuel,
-    room_mine_housing,
     room_split
 };
 

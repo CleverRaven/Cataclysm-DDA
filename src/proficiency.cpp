@@ -1,11 +1,18 @@
 #include "proficiency.h"
 
 #include <algorithm>
+#include <cmath>
 #include <cstddef>
+#include <string>
 #include <utility>
 
 #include "debug.h"
 #include "generic_factory.h"
+#include "json.h"
+
+const float book_proficiency_bonus::default_time_factor = 0.5f;
+const float book_proficiency_bonus::default_fail_factor = 0.5f;
+const bool book_proficiency_bonus::default_include_prereqs = true;
 
 namespace
 {
@@ -113,11 +120,11 @@ std::vector<display_proficiency> proficiency_set::display() const
     std::vector<std::pair<std::string, proficiency_id>> sorted_learning;
 
     for( const proficiency_id &cur : known ) {
-        sorted_known.push_back( { cur->name(), cur } );
+        sorted_known.emplace_back( cur->name(), cur );
     }
 
     for( const learning_proficiency &cur : learning ) {
-        sorted_learning.push_back( { cur.id->name(), cur.id } );
+        sorted_learning.emplace_back( cur.id->name(), cur.id );
     }
 
     std::sort( sorted_known.begin(), sorted_known.end(), localized_compare );
@@ -163,7 +170,7 @@ bool proficiency_set::practice( const proficiency_id &practicing, const time_dur
         return false;
     }
     if( !has_practiced( practicing ) ) {
-        learning.push_back( learning_proficiency( practicing, 0_seconds ) );
+        learning.emplace_back( practicing, 0_seconds );
     }
 
     learning_proficiency &current = fetch_learning( practicing );
@@ -366,4 +373,79 @@ void learning_proficiency::deserialize( JsonIn &jsin )
 
     jo.read( "id", id );
     jo.read( "practiced", practiced );
+}
+
+void book_proficiency_bonus::deserialize( JsonIn &jsin )
+{
+    JsonObject jo = jsin.get_object();
+
+    mandatory( jo, was_loaded, "proficiency", id );
+    optional( jo, was_loaded, "fail_factor", fail_factor, default_fail_factor );
+    optional( jo, was_loaded, "time_factor", time_factor, default_time_factor );
+    optional( jo, was_loaded, "include_prereqs", include_prereqs, default_include_prereqs );
+    if( fail_factor < 0 || fail_factor >= 1 ) {
+        jo.throw_error( "fail_factor must be in range [0,1)" );
+    }
+    if( time_factor < 0 || time_factor >= 1 ) {
+        jo.throw_error( "time_factor must be in range [0,1)" );
+    }
+}
+
+void book_proficiency_bonuses::add( const book_proficiency_bonus &bonus )
+{
+    std::set<proficiency_id> ret;
+    add( bonus, ret );
+}
+
+void book_proficiency_bonuses::add( const book_proficiency_bonus &bonus,
+                                    std::set<proficiency_id> &already_included )
+{
+    bonuses.push_back( bonus );
+    if( bonus.include_prereqs ) {
+        for( const proficiency_id &prereqs : bonus.id->required_proficiencies() ) {
+            if( !already_included.count( prereqs ) ) {
+                already_included.emplace( prereqs );
+                book_proficiency_bonus inherited_bonus = bonus;
+                inherited_bonus.id = prereqs;
+                add( inherited_bonus );
+            }
+        }
+    }
+}
+
+book_proficiency_bonuses &book_proficiency_bonuses::operator+=( const book_proficiency_bonuses
+        &rhs )
+{
+    for( const book_proficiency_bonus &bonus : rhs.bonuses ) {
+        add( bonus );
+    }
+    return *this;
+}
+
+float book_proficiency_bonuses::fail_factor( const proficiency_id &id ) const
+{
+    double sum = 0;
+
+    for( const book_proficiency_bonus &bonus : bonuses ) {
+        if( id != bonus.id ) {
+            continue;
+        }
+        sum += std::pow( std::log( 1.0 - bonus.fail_factor ), 2 );
+    }
+
+    return static_cast<float>( 1.0 - std::exp( -std::sqrt( sum ) ) );
+}
+
+float book_proficiency_bonuses::time_factor( const proficiency_id &id ) const
+{
+    double sum = 0;
+
+    for( const book_proficiency_bonus &bonus : bonuses ) {
+        if( id != bonus.id ) {
+            continue;
+        }
+        sum += std::pow( std::log( 1.0 - bonus.time_factor ), 2 );
+    }
+
+    return static_cast<float>( 1.0 - std::exp( -std::sqrt( sum ) ) );
 }

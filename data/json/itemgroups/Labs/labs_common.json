@@ -1,0 +1,41 @@
+[
+  {
+    "id": "lab_glassware",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      { "item": "test_tube", "prob": 50, "count": [ 2, 6 ] },
+      { "item": "glass_prism", "prob": 5, "count": [ 1, 3 ] },
+      { "item": "bottle_glass", "prob": 20, "count": [ 1, 3 ] },
+      { "item": "glass_tube_small", "prob": 40, "count": [ 1, 6 ] },
+      { "item": "flask_glass", "prob": 60, "count": [ 1, 6 ] },
+      { "item": "canister_empty", "prob": 40, "count": [ 1, 6 ] },
+      { "item": "jar_3l_glass_sealed", "prob": 5, "count": [ 1, 3 ] }
+    ]
+  },
+  {
+    "id": "ID_supplies",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      {
+        "distribution": [
+          { "item": "camera", "prob": 70, "charges-min": 0, "charges-max": 50 },
+          { "item": "camera_pro", "prob": 30, "charges-min": 0, "charges-max": 50 }
+        ],
+        "prob": 10
+      },
+      { "item": "mobile_memory_card", "prob": 50, "count": [ 2, 6 ] },
+      { "item": "mobile_memory_card_encrypted", "prob": 5, "count": [ 1, 3 ] },
+      { "item": "id_science", "prob": 5, "count": [ 1, 3 ] },
+      { "item": "badge_doctor", "prob": 5, "count": [ 1, 3 ] },
+      { "item": "wrapped_rad_badge", "prob": 7, "count": [ 1, 3 ] },
+      { "item": "plastic_chunk", "prob": 30, "count": [ 1, 3 ] },
+      { "item": "vac_sealer", "prob": 20 },
+      { "item": "id_military", "prob": 1 },
+      { "item": "lanyard", "prob": 100, "count": [ 1, 6 ] },
+      { "item": "canister_empty", "prob": 30, "count": [ 1, 6 ] },
+      { "item": "string_36", "prob": 60, "count": [ 1, 3 ] }
+    ]
+  }
+]

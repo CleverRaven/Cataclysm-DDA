@@ -2,7 +2,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sausage_raw",
-    "name": "raw sausage",
+    "name": { "str": "raw sausage" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": "raw Mannwurst" },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": "raw killbasa" },
@@ -30,7 +30,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sausage",
-    "name": "smoked sausage",
+    "name": { "str": "smoked sausage" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": "smoked Mannwurst" },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": "smoked killbasa" },
@@ -48,7 +48,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sausage_cooked",
-    "name": "cooked sausage",
+    "name": { "str": "cooked sausage" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": "cooked Mannwurst" },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": "cooked killbasa" },
@@ -154,12 +154,10 @@
   },
   {
     "id": "sausage_wasteland",
-    "copy-from": "sausage_raw",
+    "copy-from": "sausage",
     "type": "COMESTIBLE",
-    "name": "wasteland sausage",
+    "name": { "str": "wasteland sausage" },
     "description": "Lean sausage made from heavily salt-cured offal, with natural gut casing.  Waste not, want not.",
-    "parasites": 0,
-    "healthy": 0,
     "spoils_in": 1176,
     "quench": -7,
     "fun": -3,
@@ -169,7 +167,7 @@
     "id": "sausage_wasteland_raw",
     "copy-from": "sausage_raw",
     "type": "COMESTIBLE",
-    "name": "raw wasteland sausage",
+    "name": { "str": "raw wasteland sausage" },
     "description": "Lean raw sausage made from heavily salt-cured offal, ready to be smoked.",
     "healthy": 0,
     "quench": -7,
@@ -200,6 +198,37 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "human_cracklins",
+    "name": { "str_sp": "cracklins" },
+    "copy-from": "cracklins",
+    "material": [ "hflesh" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mutant_cracklins",
+    "name": { "str_sp": "cracklins" },
+    "copy-from": "cracklins",
+    "material": [ "flesh" ],
+    "vitamins": [ [ "mutant_toxin", 52 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mutant_human_cracklins",
+    "name": { "str_sp": "cracklins" },
+    "copy-from": "cracklins",
+    "material": [ "hflesh" ],
+    "vitamins": [ [ "mutant_toxin", 52 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "demihuman_cracklins",
+    "name": { "str_sp": "cracklins" },
+    "copy-from": "cracklins",
+    "material": [ "flesh" ],
+    "flags": [ "STRICT_HUMANITARIANISM" ]
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "glazed_tenderloin",
     "name": { "str_sp": "glazed tenderloins" },
     "conditional_names": [ { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "grisly %s" } } ],
@@ -225,7 +254,7 @@
   {
     "type": "COMESTIBLE",
     "id": "currywurst",
-    "name": "currywurst",
+    "name": { "str": "currywurst" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "cheapskate %s" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "confusing %s" } },
@@ -325,6 +354,7 @@
     "description": "Low-sodium preserved fish.  It was boiled and canned.  Contains most of the nutrition, but little of the savor of cooked fish.",
     "price": 250,
     "price_postapoc": 250,
+    "sealed": true,
     "fun": 2
   },
   {
@@ -349,8 +379,35 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "crab_cakes",
+    "name": { "str": "crab cake" },
+    "copy-from": "fish_fried",
+    "weight": "150 g",
+    "calories": 572,
+    "description": "A delicious deep-fried biscuit loaded with crab meat.",
+    "//": "Currently only found in worldgen and is uncraftable. If crab gets added please make a recipe for crab cakes.",
+    "volume": "175 ml",
+    "looks_like": "fish_fried",
+    "fun": 13
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "stuffed_clams",
+    "name": { "str": "stuffed clam" },
+    "copy-from": "fish_fried",
+    "weight": "150 g",
+    "calories": 572,
+    "description": "Quahog clams stuffed with bread crumbs and fried.",
+    "volume": "175 ml",
+    "looks_like": "fish_fried",
+    "fun": 13,
+    "charges": 5,
+    "vitamins": [ [ "vitA", 6 ], [ "calcium", 2 ], [ "iron", 5 ], [ "vitB", 22 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "lunchmeat",
-    "name": "lunch meat",
+    "name": { "str": "lunch meat" },
     "conditional_names": [ { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "loathsome %s" } } ],
     "weight": "56 g",
     "color": "red",
@@ -397,7 +454,7 @@
   {
     "type": "COMESTIBLE",
     "id": "lutefisk",
-    "name": "lutefisk",
+    "name": { "str": "lutefisk" },
     "weight": "175 g",
     "color": "light_gray",
     "spoils_in": "360 days",
@@ -453,7 +510,7 @@
   {
     "type": "COMESTIBLE",
     "id": "can_sardine",
-    "name": "canned sardine",
+    "name": { "str": "canned sardine" },
     "weight": "200 g",
     "color": "light_gray",
     "spoils_in": "1 day",
@@ -528,7 +585,7 @@
   {
     "type": "COMESTIBLE",
     "id": "macaroni_helper",
-    "name": "hamburger helper",
+    "name": { "str": "hamburger helper" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "hobo helper" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "halfling helper" } },
@@ -555,7 +612,7 @@
   {
     "type": "COMESTIBLE",
     "id": "ravioli",
-    "name": "ravioli",
+    "name": { "str": "ravioli" },
     "weight": "170 g",
     "color": "light_red",
     "spoils_in": "2 days",
@@ -670,7 +727,7 @@
   {
     "type": "COMESTIBLE",
     "id": "can_chicken",
-    "name": "canned chicken",
+    "name": { "str": "canned chicken" },
     "weight": "217 g",
     "color": "pink",
     "spoils_in": "1 day",
@@ -730,7 +787,7 @@
   {
     "type": "COMESTIBLE",
     "id": "can_chowder",
-    "name": "clam chowder",
+    "name": { "str": "clam chowder" },
     "conditional_names": [
       { "type": "COMPONENT_ID", "condition": "meat", "name": "meat chowder" },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": "monster chowder" }
@@ -822,7 +879,7 @@
   {
     "type": "COMESTIBLE",
     "id": "pie_meat",
-    "name": "meat pie",
+    "name": { "str": "meat pie" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "prick pie" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "talking animal pie" } },
@@ -850,7 +907,7 @@
   {
     "type": "COMESTIBLE",
     "id": "pizza_meat",
-    "name": "meat pizza",
+    "name": { "str": "meat pizza" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "poser pizza" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "protesting pizza" } },
@@ -876,7 +933,7 @@
   {
     "type": "COMESTIBLE",
     "id": "pizza_supreme",
-    "name": "supreme pizza",
+    "name": { "str": "supreme pizza" },
     "copy-from": "pizza_meat",
     "color": "light_red",
     "weight": "300 g",
@@ -892,7 +949,11 @@
     "type": "COMESTIBLE",
     "id": "deluxe_eggs",
     "name": { "str_sp": "deluxe scrambled eggs" },
-    "conditional_names": [ { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "\"deluxe\" scrambled eggs" } } ],
+    "conditional_names": [
+      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "deluxe scrambled eggheads" } },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "birdman's scrambled eggs" } },
+      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "\"deluxe\" scrambled eggs" } }
+    ],
     "weight": "198 g",
     "color": "yellow",
     "spoils_in": "2 days",
@@ -913,7 +974,7 @@
   {
     "type": "COMESTIBLE",
     "id": "meat_canned",
-    "name": "canned meat",
+    "name": { "str": "canned meat" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "soylent slice" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "sapient slice" } },
@@ -927,12 +988,13 @@
     "price": 250,
     "price_postapoc": 250,
     "flags": [ "EATEN_HOT" ],
+    "sealed": true,
     "fun": 2
   },
   {
     "type": "COMESTIBLE",
     "id": "meat_salted",
-    "name": "salted meat slice",
+    "name": { "str": "salted meat slice" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "salted simpleton slice" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "salted sapient slice" } },
@@ -980,7 +1042,7 @@
   {
     "type": "COMESTIBLE",
     "id": "lasagne",
-    "name": "lasagne",
+    "name": { "str": "lasagne" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "Luigi %s" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "Lab %s" } },
@@ -1021,7 +1083,7 @@
   {
     "type": "COMESTIBLE",
     "id": "cheeseburger",
-    "name": "cheeseburger",
+    "name": { "str": "cheeseburger" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "chump %s" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "elf %s" } },
@@ -1047,7 +1109,7 @@
   {
     "type": "COMESTIBLE",
     "id": "hamburger",
-    "name": "hamburger",
+    "name": { "str": "hamburger" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "bobburger" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "Moreauburger" } },
@@ -1072,7 +1134,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sloppyjoe",
-    "name": "sloppy joe",
+    "name": { "str": "sloppy joe" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "manwich", "str_pl": "manwiches" } },
       {
@@ -1101,7 +1163,7 @@
   {
     "type": "COMESTIBLE",
     "id": "taco",
-    "name": "taco",
+    "name": { "str": "taco" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "tio %s" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "talking %s" } },
@@ -1126,7 +1188,7 @@
   {
     "type": "COMESTIBLE",
     "id": "meat_pickled",
-    "name": "pickled meat",
+    "name": { "str": "pickled meat" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "pickled punk" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "pickled anthro" } },
@@ -1146,7 +1208,7 @@
   {
     "type": "COMESTIBLE",
     "id": "dry_meat",
-    "name": "dehydrated meat",
+    "name": { "str": "dehydrated meat" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "%s, human" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "%s, demihuman" } },
@@ -1168,7 +1230,7 @@
   {
     "type": "COMESTIBLE",
     "id": "rehydrated_meat",
-    "name": "rehydrated meat",
+    "name": { "str": "rehydrated meat" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "%s, human" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "%s, demihuman" } },
@@ -1267,7 +1329,7 @@
   {
     "type": "COMESTIBLE",
     "id": "dry_meat_tainted",
-    "name": "dehydrated tainted meat",
+    "name": { "str": "dehydrated tainted meat" },
     "copy-from": "meat_tainted",
     "weight": "85 g",
     "color": "red",
@@ -1280,12 +1342,12 @@
     "material": [ "flesh" ],
     "volume": "125 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "fun": -4
+    "fun": -7
   },
   {
     "type": "COMESTIBLE",
     "id": "pelmeni",
-    "name": "pelmeni",
+    "name": { "str": "pelmeni" },
     "conditional_names": [ { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "perilous %s" } } ],
     "weight": "151 g",
     "color": "light_red",
@@ -1307,7 +1369,7 @@
   {
     "type": "COMESTIBLE",
     "id": "homemade_burrito",
-    "name": "homemade burrito",
+    "name": { "str": "homemade burrito" },
     "conditional_names": [ { "type": "COMPONENT_ID", "condition": "mutant", "name": "bone-chilling burrito" } ],
     "weight": "142 g",
     "color": "brown",
@@ -1325,5 +1387,48 @@
     "flags": [ "EATEN_HOT" ],
     "fun": 7,
     "vitamins": [ [ "vitC", 3 ], [ "calcium", 19 ], [ "iron", 12 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "meatball_raw",
+    "name": { "str": "raw meatball" },
+    "conditional_names": [
+      { "type": "FLAG", "condition": "CANNIBALISM", "name": "raw manball" },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": "raw murderball" },
+      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "sinister %s" } }
+    ],
+    "weight": "85g",
+    "color": "pink",
+    "spoils_in": "1 day",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "calories": 230,
+    "healthy": -1,
+    "parasites": 32,
+    "description": "A round, seasoned lump of meat, ready to fry.",
+    "price": 800,
+    "price_postapoc": 200,
+    "material": [ "flesh" ],
+    "volume": "85 ml",
+    "vitamins": [ [ "vitA", 2 ], [ "vitC", 2 ], [ "calcium", 8 ], [ "iron", 4 ] ],
+    "fun": -10
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "meatball",
+    "name": { "str": "meatball" },
+    "conditional_names": [
+      { "type": "FLAG", "condition": "CANNIBALISM", "name": "manball" },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": "murderball" },
+      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "sinister %s" } }
+    ],
+    "copy-from": "meatball_raw",
+    "parasites": 0,
+    "healthy": 0,
+    "spoils_in": "4 days",
+    "price_postapoc": 300,
+    "description": "A seasoned, fried, round lump of meat.  Just like mom used to make!",
+    "flags": [ "EATEN_HOT" ],
+    "fun": 6
   }
 ]

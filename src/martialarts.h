@@ -2,8 +2,8 @@
 #ifndef CATA_SRC_MARTIALARTS_H
 #define CATA_SRC_MARTIALARTS_H
 
-#include <algorithm>
 #include <cstddef>
+#include <iosfwd>
 #include <set>
 #include <string>
 #include <utility>
@@ -11,8 +11,6 @@
 
 #include "bonuses.h"
 #include "calendar.h"
-#include "input.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
@@ -297,7 +295,7 @@ void load_technique( const JsonObject &jo, const std::string &src );
 void load_martial_art( const JsonObject &jo, const std::string &src );
 void check_martialarts();
 void clear_techniques_and_martial_arts();
-void finialize_martial_arts();
+void finalize_martial_arts();
 std::string martialart_difficulty( const matype_id &mstyle );
 
 std::vector<matype_id> all_martialart_types();

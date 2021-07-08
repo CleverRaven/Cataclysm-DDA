@@ -51,7 +51,7 @@
         "v        2    __________________________________",
         "v vvvvv    *___________________________1 1  ____",
         "v vooov______________________   ____ 121   1   v",
-        "v voooV_____________ #.......#  ____ 1 1*1 1 1 v",
+        "v voGoV_____________ #.......#  ____ 1 1*1 1 1 v",
         "v vooov_________     #L.....L#* ____*  1 1 1 2 v",
         "v vvvvv   ______  * *wL.....Lw   ____1 1 1 1  *v",
         "v         1____ 2    #L.....L# * ____1 1*  1   v",
@@ -111,8 +111,7 @@
       ],
       "palettes": [ "lumberyard" ],
       "terrain": { "o": "t_concrete" },
-      "place_terrain": [ { "ter": "t_gas_pump", "x": 4, "y": 39 } ],
-      "place_liquids": [ { "liquid": "gasoline", "x": 4, "y": 39, "repeat": [ 200, 1075 ] } ],
+      "gaspumps": { "G": { "fuel": "gasoline", "amount": [ 50000, 268750 ] } },
       "place_vehicles": [
         { "vehicle": "flatbed_truck", "x": [ 43, 45 ], "y": 33, "chance": 30, "fuel": 25, "status": 1, "rotation": 90 },
         {

@@ -71,6 +71,8 @@ enum TILE_CATEGORY {
     C_BULLET,
     C_HIT_ENTITY,
     C_WEATHER,
+    C_OVERMAP_TERRAIN,
+    C_OVERMAP_NOTE
 };
 
 class tile_lookup_res
@@ -320,6 +322,7 @@ class cata_tiles
         void draw( const point &dest, const tripoint &center, int width, int height,
                    std::multimap<point, formatted_text> &overlay_strings,
                    color_block_overlay_container &color_blocks );
+        void draw_om( const point &dest, const tripoint_abs_omt &center_abs_omt, bool blink );
 
         /** Minimap functionality */
         void draw_minimap( const point &dest, const tripoint &center, int width, int height );
@@ -367,7 +370,7 @@ class cata_tiles
 
         /* Tile Picking */
         void get_tile_values( int t, const int *tn, int &subtile, int &rotation );
-        // as get_tile_values, but for unconnected tiles, infer rotation from surrouding walls
+        // as get_tile_values, but for unconnected tiles, infer rotation from surrounding walls
         void get_tile_values_with_ter( const tripoint &p, int t, const int *tn, int &subtile,
                                        int &rotation );
         void get_connect_values( const tripoint &p, int &subtile, int &rotation, int connect_group,
@@ -441,7 +444,7 @@ class cata_tiles
         void draw_hit_frame();
         void void_hit();
 
-        void draw_footsteps_frame();
+        void draw_footsteps_frame( const tripoint &center );
 
         // pseudo-animated layer, not really though.
         void init_draw_line( const tripoint &p, std::vector<tripoint> trajectory,
@@ -492,7 +495,7 @@ class cata_tiles
         void void_item_override();
 
         void init_draw_vpart_override( const tripoint &p, const vpart_id &id, int part_mod,
-                                       units::angle veh_dir, bool hilite, const point &mount );
+                                       const units::angle &veh_dir, bool hilite, const point &mount );
         void void_vpart_override();
 
         void init_draw_below_override( const tripoint &p, bool draw );
@@ -535,6 +538,8 @@ class cata_tiles
         point player_to_screen( const point & ) const;
         static std::vector<options_manager::id_and_option> build_renderer_list();
         static std::vector<options_manager::id_and_option> build_display_list();
+    private:
+        int get_omt_rotation( std::string &id );
     protected:
         template <typename maptype>
         void tile_loading_report( const maptype &tiletypemap, TILE_CATEGORY category,

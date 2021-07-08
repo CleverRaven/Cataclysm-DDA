@@ -111,13 +111,13 @@
     "points": 2,
     "description": "You are beginning to see a way off this planet.  Intelligence + 2",
     "prereqs": [ "NEURAL_IMPROVEMENT" ],
-    "changes_to": [ "UPLIFTED" ],
+    "changes_to": [ "UPLIFTED_CONSCIOUSNESS" ],
     "category": [ "MIGO" ],
     "passive_mods": { "int_mod": 2 }
   },
   {
     "type": "mutation",
-    "id": "UPLIFTED",
+    "id": "UPLIFTED_CONSCIOUSNESS",
     "name": "Extremely Smart",
     "points": 3,
     "visibility": 1,
@@ -136,7 +136,7 @@
     "visibility": 3,
     "ugliness": 6,
     "description": "You can see the connections from A to B to C to D.  You look at fellow survivors like you are imagining taking them apart.  Intelligence + 5",
-    "prereqs": [ "UPLIFTED" ],
+    "prereqs": [ "UPLIFTED_CONSCIOUSNESS" ],
     "category": [ "MIGO" ],
     "threshreq": [ "THRESH_YUGGOTH" ],
     "starting_trait": false,
@@ -269,7 +269,7 @@
     "id": "EERIE",
     "name": "Eerie",
     "points": 1,
-    "description": "You are offputting to others.  You're mannerisms have changed as if human interaction is becoming foreign.",
+    "description": "You are off-putting to others.  Your mannerisms have changed as if human interaction is becoming foreign.",
     "category": [ "MIGO" ],
     "social_modifiers": { "persuade": -15, "lie": -10 },
     "ugliness": 2
@@ -629,7 +629,7 @@
     "name": "Trumpeting Voice",
     "points": -1,
     "mixed_effect": true,
-    "description": "You have a trumpeting elephantine voice.  threatening NPCs will be easier, but lying will very hard.",
+    "description": "You have a trumpeting, elephantine voice.  Threatening NPCs will be easier, but lying will be very hard.",
     "changes_to": [ "SNARL" ],
     "category": [ "MASTODON" ],
     "social_modifiers": { "lie": -30, "intimidate": 10 }
@@ -662,5 +662,17 @@
     "id": "LEG_TENTACLES",
     "copy-from": "LEG_TENTACLES",
     "extend": { "allow_soft_gear": true }
+  },
+  {
+    "type": "mutation",
+    "id": "CHEMIMBALANCE",
+    "copy-from": "CHEMIMBALANCE",
+    "extend": { "category": [ "MIGO" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "SCHIZOPHRENIC",
+    "copy-from": "SCHIZOPHRENIC",
+    "extend": { "category": [ "MIGO" ] }
   }
 ]

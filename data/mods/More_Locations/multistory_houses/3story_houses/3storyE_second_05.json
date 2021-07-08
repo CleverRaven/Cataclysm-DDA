@@ -32,7 +32,7 @@
         "########################",
         "########################"
       ],
-      "palettes": [ "multistory_house" ],
+      "palettes": [ "multistory_house", "upper_level" ],
       "terrain": { "#": "t_open_air" },
       "toilets": { "&": { "amount": [ 0, 40 ] } }
     }

@@ -2,7 +2,7 @@
 #ifndef CATA_SRC_CALENDAR_H
 #define CATA_SRC_CALENDAR_H
 
-#include <string>
+#include <iosfwd>
 #include <utility>
 #include <vector>
 
@@ -203,6 +203,10 @@ class time_duration
             return time_duration( t );
         }
         template<typename T>
+        static constexpr time_duration from_moves( const T t ) {
+            return time_duration( t / 100 );
+        }
+        template<typename T>
         static constexpr time_duration from_seconds( const T t ) {
             return time_duration( t );
         }
@@ -373,12 +377,14 @@ constexpr time_duration operator"" _weeks( const unsigned long long int v )
  * (the 1 additional second is clipped). An input of 3601 will return "1 hour"
  * (the second is clipped again and the number of additional minutes would be
  * 0 so it's skipped).
+ * @param compact True for compact display of time. Example: 1 min 15 secs
  */
-std::string to_string( const time_duration &d );
+std::string to_string( const time_duration &d, bool compact = false );
 
 enum class clipped_align : int {
     none,
     right,
+    compact
 };
 
 enum class clipped_unit : int {
@@ -408,6 +414,7 @@ std::pair<int, clipped_unit> clipped_time( const time_duration &d );
  * The chosen unit will be the smallest unit, that is at least as much as the
  * given duration. E.g. an input of 60 minutes will return "1 hour", an input of
  * 59 minutes will return "59 minutes".
+ * @param align none, right, or compact.
  */
 std::string to_string_clipped( const time_duration &d, clipped_align align = clipped_align::none );
 /**
@@ -415,6 +422,10 @@ std::string to_string_clipped( const time_duration &d, clipped_align align = cli
  * @param verbose If true, 'less than' and 'more than' will be printed instead of '<' and '>' respectively.
  */
 std::string to_string_approx( const time_duration &dur, bool verbose = true );
+/**
+ * Returns a string that is writable to JSON that is also readable from JSON
+ */
+std::string to_string_writable( const time_duration &dur );
 
 /**
  * A point in the game time. Use `calendar::turn` to get the current point.

@@ -2,17 +2,21 @@
 #ifndef CATA_SRC_FLAG_H
 #define CATA_SRC_FLAG_H
 
+#include <iosfwd>
 #include <set>
 #include <string>
+#include <vector>
 
 #include "translations.h"
 #include "type_id.h"
 
 class JsonObject;
+template <typename T> class generic_factory;
 
 extern const flag_id flag_NULL;
 extern const flag_id flag_ACID;
 extern const flag_id flag_ACID_IMMUNE;
+extern const flag_id flag_ACTIVATE_ON_PLACE;
 extern const flag_id flag_ACTIVE_CLOAKING;
 extern const flag_id flag_ACT_IN_FIRE;
 extern const flag_id flag_ACT_ON_RANGED_HIT;
@@ -35,8 +39,10 @@ extern const flag_id flag_BASH_IMMUNE;
 extern const flag_id flag_BELTED;
 extern const flag_id flag_BELT_CLIP;
 extern const flag_id flag_BIO_IMMUNE;
+extern const flag_id flag_BIONIC_INSTALLATION_DATA;
 extern const flag_id flag_BIPOD;
 extern const flag_id flag_BIRD;
+extern const flag_id flag_BLED;
 extern const flag_id flag_BLIND;
 extern const flag_id flag_BLOCK_WHILE_WORN;
 extern const flag_id flag_BOMB;
@@ -78,19 +84,7 @@ extern const flag_id flag_DURABLE_MELEE;
 extern const flag_id flag_EATEN_COLD;
 extern const flag_id flag_EATEN_HOT;
 extern const flag_id flag_EDIBLE_FROZEN;
-extern const flag_id flag_EFFECT_ACID_IMMUNE;
-extern const flag_id flag_EFFECT_BASH_IMMUNE;
-extern const flag_id flag_EFFECT_BIO_IMMUNE;
-extern const flag_id flag_EFFECT_BULLET_IMMUNE;
-extern const flag_id flag_EFFECT_COLD_IMMUNE;
-extern const flag_id flag_EFFECT_CUT_IMMUNE;
-extern const flag_id flag_EFFECT_ELECTRIC_IMMUNE;
-extern const flag_id flag_EFFECT_FEATHER_FALL;
-extern const flag_id flag_EFFECT_HEAT_IMMUNE;
 extern const flag_id flag_EFFECT_IMPEDING;
-extern const flag_id flag_EFFECT_INVISIBLE;
-extern const flag_id flag_EFFECT_NIGHT_VISION;
-extern const flag_id flag_EFFECT_STAB_IMMUNE;
 extern const flag_id flag_ELECTRIC_IMMUNE;
 extern const flag_id flag_ETHEREAL_ITEM;
 extern const flag_id flag_FAKE_MILL;
@@ -210,6 +204,7 @@ extern const flag_id flag_POCKETS;
 extern const flag_id flag_POLEARM;
 extern const flag_id flag_POWERARMOR_COMPATIBLE;
 extern const flag_id flag_POWERED;
+extern const flag_id flag_PREDATOR_FUN;
 extern const flag_id flag_PRIMITIVE_RANGED_WEAPON;
 extern const flag_id flag_PROCESSING;
 extern const flag_id flag_PROCESSING_RESULT;
@@ -258,6 +253,7 @@ extern const flag_id flag_SHRUB;
 extern const flag_id flag_SKINNED;
 extern const flag_id flag_SKINTIGHT;
 extern const flag_id flag_SLEEP_AID;
+extern const flag_id flag_SLEEP_AID_CONTAINER;
 extern const flag_id flag_SLEEP_IGNORE;
 extern const flag_id flag_SLOWS_MOVEMENT;
 extern const flag_id flag_SLOWS_THIRST;
@@ -380,7 +376,7 @@ class json_flag
         }
 
         /** Is this a valid (non-null) flag */
-        operator bool() const;
+        explicit operator bool() const;
 
         void check() const;
 

@@ -66,5 +66,59 @@
     "description": "A bipedal dinosaur covered with tattered feathers, black goo, and crackling bionics.  Each foot has a large glowing sickle-like claw.",
     "special_when_hit": [ "ZAPBACK", 75 ],
     "harvest": "CBM_ZINO_FEATHER"
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zpinosaurus_bio_op",
+    "name": { "str": "Spinosaurus zombie bio-operator" },
+    "copy-from": "mon_zpinosaurus",
+    "diff": 5,
+    "proportional": { "hp": 2, "speed": 1.2 },
+    "relative": { "morale": 100, "melee_skill": 10, "melee_dice": 9, "dodge": 1, "armor_bash": 8, "armor_cut": 8, "armor_bullet": 8 },
+    "flags": [
+      "NO_BREATHE",
+      "ELECTRIC",
+      "SEES",
+      "SMELLS",
+      "HEARS",
+      "POISON",
+      "STUMBLES",
+      "BASHES",
+      "DESTROYS",
+      "NO_BREATHE",
+      "REVIVES",
+      "FILTHY",
+      "WARM",
+      "SWIMS",
+      "INTERIOR_AMMO"
+    ],
+    "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],
+    "vision_day": 100,
+    "vision_night": 100,
+    "luminance": 1,
+    "starting_ammo": { "battery": 10 },
+    "special_attacks": [
+      [ "BIO_OP_TAKEDOWN", 20 ],
+      {
+        "type": "gun",
+        "cooldown": 7,
+        "move_cost": 10,
+        "gun_type": "laser_rifle_dino2",
+        "fake_skills": [ [ "gun", 1 ], [ "rifle", 1 ] ],
+        "fake_dex": 1,
+        "ranges": [ [ 0, 30, "DEFAULT" ] ],
+        "require_targeting_npc": true,
+        "require_targeting_monster": true,
+        "laser_lock": false,
+        "targeting_cost": 1,
+        "targeting_timeout_extend": -1,
+        "targeting_sound": "\"TARGET *zZzZzz* ACQUIRED.\"",
+        "targeting_volume": 70,
+        "no_ammo_sound": "*zZzzz*-TARGET ACQUIRED.  *beeeeeeeeep*.  OUT OF AMMO.-*zZzZ*"
+      }
+    ],
+    "description": "A shiny finned dinosaur corpse covered with bloody armor and crackling bionics.  It shambles quickly as it hunts.  Is that a laser rifle on its head?",
+    "special_when_hit": [ "ZAPBACK", 20 ],
+    "harvest": "CBM_ZINO"
   }
 ]

@@ -1,24 +1,25 @@
 #include "editmap.h"
 
-#include <algorithm>
 #include <cstdlib>
-#include <cstring>
+#include <exception>
 #include <iosfwd>
 #include <map>
 #include <memory>
+#include <new>
+#include <ostream>
 #include <set>
 #include <string>
+#include <type_traits>
 #include <typeinfo>
 #include <utility>
 #include <vector>
 
 #include "avatar.h"
-#include "cached_options.h"
+#include "cached_options.h" // IWYU pragma: keep
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "colony.h"
-#include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "creature.h"
@@ -30,8 +31,8 @@
 #include "game.h"
 #include "game_constants.h"
 #include "input.h"
-#include "int_id.h"
 #include "item.h"
+#include "level_cache.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -45,7 +46,6 @@
 #include "scent_map.h"
 #include "shadowcasting.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "string_input_popup.h"
 #include "submap.h"
 #include "translations.h"
@@ -62,6 +62,7 @@ static constexpr tripoint editmap_boundary_max( MAPSIZE_X, MAPSIZE_Y, OVERMAP_HE
 static constexpr half_open_cuboid<tripoint> editmap_boundaries(
     editmap_boundary_min, editmap_boundary_max );
 
+// NOLINTNEXTLINE(cata-static-int_id-constants)
 static const ter_id undefined_ter_id( -1 );
 
 static std::vector<std::string> fld_string( const std::string &str, int width )
@@ -290,7 +291,7 @@ bool editmap::eget_direction( tripoint &p, const std::string &action ) const
 class editmap::game_draw_callback_t_container
 {
     public:
-        game_draw_callback_t_container( editmap *em ) : em( em ) {}
+        explicit game_draw_callback_t_container( editmap *em ) : em( em ) {}
         shared_ptr_fast<game::draw_callback_t> create_or_get();
     private:
         editmap *em;
@@ -686,11 +687,11 @@ void editmap::draw_main_ui_overlay()
         } else {
 #endif
             hilights["mapgentgt"].draw( *this, true );
-            tmpmap.reset_vehicle_cache( target.z );
             const tripoint center( SEEX - 1, SEEY - 1, target.z );
             for( const tripoint &p : tmpmap.points_on_zlevel() ) {
                 tmpmap.drawsq( g->w_terrain, player_character, p, false, true, center, false, true );
             }
+            tmpmap.rebuild_vehicle_level_caches();
 #ifdef TILES
         }
 #endif
@@ -1194,7 +1195,7 @@ void editmap::update_fmenu_entry( uilist &fmenu, field &field, const field_type_
         fmenu.entries[idx.to_i()].txt += " " + std::string( field_intensity, '*' );
     }
     fmenu.entries[idx.to_i()].text_color = fld != nullptr ? c_cyan : fmenu.text_color;
-    fmenu.entries[idx.to_i()].extratxt.color = ftype.get_color( field_intensity - 1 );
+    fmenu.entries[idx.to_i()].extratxt.color = ftype.get_intensity_level( field_intensity - 1 ).color;
     fmenu.entries[idx.to_i()].extratxt.txt = ftype.get_symbol( field_intensity - 1 );
 }
 
@@ -1486,7 +1487,7 @@ void editmap::edit_itm()
                         retval = popup
                                  .title( "set:" )
                                  .width( 20 )
-                                 .text( to_string( intval ) )
+                                 .text( std::to_string( intval ) )
                                  .query_int();
                     } else if( imenu.ret == imenu_tags ) {
                         strval = popup
@@ -1578,28 +1579,26 @@ void editmap::recalc_target( shapetype shape )
         }
         break;
         case editmap_rect_filled:
-        case editmap_rect:
-            int sx;
-            int sy;
-            int ex;
-            int ey;
+        case editmap_rect: {
+            point s;
+            point e;
             if( target.x < origin.x ) {
-                sx = target.x;
-                ex = origin.x;
+                s.x = target.x;
+                e.x = origin.x;
             } else {
-                sx = origin.x;
-                ex = target.x;
+                s.x = origin.x;
+                e.x = target.x;
             }
             if( target.y < origin.y ) {
-                sy = target.y;
-                ey = origin.y;
+                s.y = target.y;
+                e.y = origin.y;
             } else {
-                sy = origin.y;
-                ey = target.y;
+                s.y = origin.y;
+                e.y = target.y;
             }
-            for( int x = sx; x <= ex; x++ ) {
-                for( int y = sy; y <= ey; y++ ) {
-                    if( shape == editmap_rect_filled || x == sx || x == ex || y == sy || y == ey ) {
+            for( int x = s.x; x <= e.x; x++ ) {
+                for( int y = s.y; y <= e.y; y++ ) {
+                    if( shape == editmap_rect_filled || x == s.x || x == e.x || y == s.y || y == e.y ) {
                         const tripoint p( x, y, z );
                         if( editmap_boundaries.contains( p ) ) {
                             target_list.push_back( p );
@@ -1607,7 +1606,8 @@ void editmap::recalc_target( shapetype shape )
                     }
                 }
             }
-            break;
+        }
+        break;
         case editmap_line:
             target_list = line_to( origin, target, 0, 0 );
             break;
@@ -1912,7 +1912,7 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
             here.set_floor_cache_dirty( target.z );
             here.set_pathfinding_cache_dirty( target.z );
 
-            here.clear_vehicle_cache( target.z );
+            here.clear_vehicle_level_caches();
             here.clear_vehicle_list( target.z );
 
             for( int x = 0; x < 2; x++ ) {
@@ -1956,7 +1956,7 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
                 }
             }
 
-            here.reset_vehicle_cache( target.z );
+            here.rebuild_vehicle_level_caches();
         } else if( gpmenu.ret == 3 ) {
             popup( _( "Changed oter_id from '%s' (%s) to '%s' (%s)" ),
                    orig_oters->get_name(), orig_oters.id().str(),
@@ -2037,9 +2037,8 @@ bool editmap::mapgen_veh_destroy( const tripoint_abs_omt &omt_tgt, vehicle *car_
             for( auto &z : destsm->vehicles ) {
                 if( z.get() == car_target ) {
                     std::unique_ptr<vehicle> old_veh = target_bay.detach_vehicle( z.get() );
-                    here.clear_vehicle_cache( omt_tgt.z() );
-                    here.reset_vehicle_cache( omt_tgt.z() );
                     here.clear_vehicle_list( omt_tgt.z() );
+                    here.rebuild_vehicle_level_caches();
                     //Rebuild vehicle_list?
                     return true;
                 }
@@ -2095,7 +2094,7 @@ void editmap::mapgen_retarget()
                     for( int y = target.y - SEEY + 1; y < target.y + SEEY + 1; y++ ) {
                         if( x == target.x - SEEX + 1 || x == target.x + SEEX ||
                             y == target.y - SEEY + 1 || y == target.y + SEEY ) {
-                            target_list.push_back( tripoint( x, y, target.z ) );
+                            target_list.emplace_back( x, y, target.z );
                         }
                     }
                 }
@@ -2161,7 +2160,7 @@ void editmap::edit_mapgen()
             for( int y = target.y - SEEY + 1; y < target.y + SEEY + 1; y++ ) {
                 if( x == target.x - SEEX + 1 || x == target.x + SEEX ||
                     y == target.y - SEEY + 1 || y == target.y + SEEY ) {
-                    target_list.push_back( tripoint( x, y, target.z ) );
+                    target_list.emplace_back( x, y, target.z );
                 }
             }
         }
@@ -2203,8 +2202,7 @@ void editmap::cleartmpmap( tinymap &tmpmap )
     }
 
     auto &ch = tmpmap.get_cache( target.z );
-    std::memset( ch.veh_exists_at, 0, sizeof( ch.veh_exists_at ) );
-    ch.veh_cached_parts.clear();
+    ch.clear_vehicle_cache();
     ch.vehicle_list.clear();
     ch.zone_vehicles.clear();
 }

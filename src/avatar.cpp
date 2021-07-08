@@ -10,18 +10,21 @@
 #include <map>
 #include <memory>
 #include <set>
-#include <unordered_map>
+#include <string>
 #include <utility>
 
 #include "action.h"
+#include "activity_type.h"
 #include "bodypart.h"
 #include "calendar.h"
+#include "cata_assert.h"
 #include "catacharset.h"
 #include "character.h"
 #include "character_id.h"
 #include "character_martial_arts.h"
+#include "clzones.h"
 #include "color.h"
-#include "compatibility.h"
+#include "cursesdef.h"
 #include "debug.h"
 #include "effect.h"
 #include "enums.h"
@@ -33,7 +36,6 @@
 #include "help.h"
 #include "inventory.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_location.h"
 #include "itype.h"
 #include "iuse.h"
@@ -43,11 +45,9 @@
 #include "martialarts.h"
 #include "messages.h"
 #include "mission.h"
-#include "monster.h"
 #include "morale.h"
 #include "morale_types.h"
 #include "move_mode.h"
-#include "mtype.h"
 #include "npc.h"
 #include "optional.h"
 #include "options.h"
@@ -62,14 +62,12 @@
 #include "skill.h"
 #include "stomach.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "talker.h"
 #include "talker_avatar.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "value_ptr.h"
 #include "vehicle.h"
 #include "vpart_position.h"
@@ -77,13 +75,10 @@
 static const activity_id ACT_READ( "ACT_READ" );
 
 static const bionic_id bio_cloak( "bio_cloak" );
-static const bionic_id bio_eye_optic( "bio_eye_optic" );
 static const bionic_id bio_memory( "bio_memory" );
-static const bionic_id bio_watch( "bio_watch" );
 
 static const efftype_id effect_alarm_clock( "alarm_clock" );
 static const efftype_id effect_boomered( "boomered" );
-static const efftype_id effect_contacts( "contacts" );
 static const efftype_id effect_depressants( "depressants" );
 static const efftype_id effect_happy( "happy" );
 static const efftype_id effect_irradiated( "irradiated" );
@@ -107,8 +102,6 @@ static const trait_id trait_CHITIN3( "CHITIN3" );
 static const trait_id trait_CHITIN_FUR3( "CHITIN_FUR3" );
 static const trait_id trait_COMPOUND_EYES( "COMPOUND_EYES" );
 static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
-static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
-static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_INSECT_ARMS( "INSECT_ARMS" );
 static const trait_id trait_INSECT_ARMS_OK( "INSECT_ARMS_OK" );
 static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
@@ -119,6 +112,8 @@ static const trait_id trait_WEBBED( "WEBBED" );
 static const trait_id trait_WHISKERS( "WHISKERS" );
 static const trait_id trait_WHISKERS_RAT( "WHISKERS_RAT" );
 static const trait_id trait_MASOCHIST( "MASOCHIST" );
+
+static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
 
 avatar::avatar()
 {
@@ -209,7 +204,7 @@ mission *avatar::get_active_mission() const
     return active_mission;
 }
 
-void avatar::reset_all_misions()
+void avatar::reset_all_missions()
 {
     active_mission = nullptr;
     active_missions.clear();
@@ -266,128 +261,6 @@ void avatar::on_mission_finished( mission &cur_mission )
     }
 }
 
-const player *avatar::get_book_reader( const item &book, std::vector<std::string> &reasons ) const
-{
-    const player *reader = nullptr;
-
-    if( !book.is_book() ) {
-        reasons.push_back( string_format( _( "Your %s is not good reading material." ), book.tname() ) );
-        return nullptr;
-    }
-
-    const cata::value_ptr<islot_book> &type = book.type->book;
-    const skill_id &book_skill = type->skill;
-    const int book_skill_requirement = type->req;
-    const bool book_requires_intelligence = type->intel > 0;
-
-    // Check for conditions that immediately disqualify the player from reading:
-    const optional_vpart_position vp = get_map().veh_at( pos() );
-    if( vp && vp->vehicle().player_in_control( *this ) ) {
-        reasons.emplace_back( _( "It's a bad idea to read while driving!" ) );
-        return nullptr;
-    }
-    if( !fun_to_read( book ) && !has_morale_to_read() && has_identified( book.typeId() ) ) {
-        // Low morale still permits skimming
-        reasons.emplace_back( _( "What's the point of studying?  (Your morale is too low!)" ) );
-        return nullptr;
-    }
-    if( get_book_mastery( book ) == book_mastery::CANT_UNDERSTAND ) {
-        reasons.push_back( string_format( _( "%s %d needed to understand.  You have %d" ),
-                                          book_skill->name(), book_skill_requirement, get_skill_level( book_skill ) ) );
-        return nullptr;
-    }
-
-    // Check for conditions that disqualify us only if no NPCs can read to us
-    if( book_requires_intelligence && has_trait( trait_ILLITERATE ) ) {
-        reasons.emplace_back( _( "You're illiterate!" ) );
-    } else if( has_trait( trait_HYPEROPIC ) &&
-               !worn_with_flag( STATIC( flag_id( "FIX_FARSIGHT" ) ) ) &&
-               !has_effect( effect_contacts ) && !has_bionic( bio_eye_optic ) ) {
-        reasons.emplace_back( _( "Your eyes won't focus without reading glasses." ) );
-    } else if( fine_detail_vision_mod() > 4 ) {
-        // Too dark to read only applies if the player can read to himself
-        reasons.emplace_back( _( "It's too dark to read!" ) );
-        return nullptr;
-    } else {
-        return this;
-    }
-
-    //Check for NPCs to read for you, negates Illiterate and Far Sighted
-    //The fastest-reading NPC is chosen
-    if( is_deaf() ) {
-        reasons.emplace_back( _( "Maybe someone could read that to you, but you're deaf!" ) );
-        return nullptr;
-    }
-
-    int time_taken = INT_MAX;
-    auto candidates = get_crafting_helpers();
-
-    for( const npc *elem : candidates ) {
-        // Check for disqualifying factors:
-        if( book_requires_intelligence && elem->has_trait( trait_ILLITERATE ) ) {
-            reasons.push_back( string_format( _( "%s is illiterate!" ),
-                                              elem->disp_name() ) );
-        } else if( elem->get_book_mastery( book ) == book_mastery::CANT_UNDERSTAND ) {
-            reasons.push_back( string_format( _( "%s %d needed to understand.  %s has %d" ),
-                                              book_skill->name(), book_skill_requirement, elem->disp_name(),
-                                              elem->get_skill_level( book_skill ) ) );
-        } else if( elem->has_trait( trait_HYPEROPIC ) &&
-                   !elem->worn_with_flag( STATIC( flag_id( "FIX_FARSIGHT" ) ) ) &&
-                   !elem->has_effect( effect_contacts ) ) {
-            reasons.push_back( string_format( _( "%s needs reading glasses!" ),
-                                              elem->disp_name() ) );
-        } else if( std::min( fine_detail_vision_mod(), elem->fine_detail_vision_mod() ) > 4 ) {
-            reasons.push_back( string_format(
-                                   _( "It's too dark for %s to read!" ),
-                                   elem->disp_name() ) );
-        } else if( !elem->sees( *this ) ) {
-            reasons.push_back( string_format( _( "%s could read that to you, but they can't see you." ),
-                                              elem->disp_name() ) );
-        } else if( !elem->fun_to_read( book ) && !elem->has_morale_to_read() &&
-                   has_identified( book.typeId() ) ) {
-            // Low morale still permits skimming
-            reasons.push_back( string_format( _( "%s morale is too low!" ), elem->disp_name( true ) ) );
-        } else if( elem->is_blind() ) {
-            reasons.push_back( string_format( _( "%s is blind." ), elem->disp_name() ) );
-        } else {
-            int proj_time = time_to_read( book, *elem );
-            if( proj_time < time_taken ) {
-                reader = elem;
-                time_taken = proj_time;
-            }
-        }
-    }
-    //end for all candidates
-    return reader;
-}
-
-int avatar::time_to_read( const item &book, const player &reader, const player *learner ) const
-{
-    const auto &type = book.type->book;
-    const skill_id &skill = type->skill;
-    // The reader's reading speed has an effect only if they're trying to understand the book as they read it
-    // Reading speed is assumed to be how well you learn from books (as opposed to hands-on experience)
-    const bool try_understand = reader.fun_to_read( book ) ||
-                                reader.get_skill_level( skill ) < type->level;
-    int reading_speed = try_understand ? std::max( reader.read_speed(), read_speed() ) : read_speed();
-    if( learner ) {
-        reading_speed = std::max( reading_speed, learner->read_speed() );
-    }
-
-    int retval = type->time * reading_speed;
-    retval *= std::min( fine_detail_vision_mod(), reader.fine_detail_vision_mod() );
-
-    const int effective_int = std::min( { get_int(), reader.get_int(), learner ? learner->get_int() : INT_MAX } );
-    if( type->intel > effective_int && !reader.has_trait( trait_PROF_DICEMASTER ) ) {
-        retval += type->time * ( type->intel - effective_int ) * 100;
-    }
-    if( !has_identified( book.typeId() ) ) {
-        //skimming
-        retval /= 10;
-    }
-    return retval;
-}
-
 /**
  * Explanation of ACT_READ activity values:
  *
@@ -421,7 +294,7 @@ bool avatar::read( item &it, const bool continuous )
 
     const int time_taken = time_to_read( it, *reader );
 
-    add_msg_debug( "avatar::read: time_taken = %d", time_taken );
+    add_msg_debug( debugmode::DF_AVATAR, "avatar::read: time_taken = %d", time_taken );
     player_activity act( ACT_READ, time_taken, continuous ? activity.index : 0,
                          reader->getID().get_value() );
     act.targets.emplace_back( item_location( *this, &it ) );
@@ -441,7 +314,7 @@ bool avatar::read( item &it, const bool continuous )
         // special guidebook effect: print a misc. hint when read
         if( reader != this ) {
             add_msg( m_info, fail_messages[0] );
-            dynamic_cast<const npc *>( reader )->say( get_hint() );
+            dynamic_cast<const npc &>( *reader ).say( get_hint() );
         } else {
             add_msg( m_info, get_hint() );
         }
@@ -477,7 +350,8 @@ bool avatar::read( item &it, const bool continuous )
         } else if( mastery == book_mastery::LEARNING && morale_req ) {
             learners.insert( {elem, elem == reader ? _( " (reading aloud to you)" ) : ""} );
             const double penalty = static_cast<double>( time_taken ) / time_to_read( it, *reader, elem );
-            act.str_values.push_back( to_string( penalty ) );
+            act.values.push_back( elem->getID().get_value() );
+            act.str_values.push_back( std::to_string( penalty ) );
         } else {
             std::string reason = _( " (uninterested)" );
             if( !morale_req ) {
@@ -651,7 +525,7 @@ bool avatar::read( item &it, const bool continuous )
                  complex_player->disp_name() );
     }
 
-    // push an indentifier of martial art book to the action handling
+    // push an identifier of martial art book to the action handling
     if( it.type->use_methods.count( "MA_MANUAL" ) ) {
 
         if( get_stamina() < get_stamina_max() / 10 ) {
@@ -675,7 +549,7 @@ bool avatar::read( item &it, const bool continuous )
         apply_morale.insert( elem.first );
     }
     for( player *elem : apply_morale ) {
-        //Fun bonuses for spritual and To Serve Man are no longer calculated here.
+        //Fun bonuses for spiritual and To Serve Man are no longer calculated here.
         elem->add_morale( MORALE_BOOK, 0, book_fun_for( it, *elem ) * 15, decay_start + 30_minutes,
                           decay_start, false, it.type );
     }
@@ -685,6 +559,34 @@ bool avatar::read( item &it, const bool continuous )
 
 void avatar::grab( object_type grab_type, const tripoint &grab_point )
 {
+    const auto update_memory =
+    [this]( const object_type gtype, const tripoint & gpoint, const bool erase ) {
+        map &m = get_map();
+        if( gtype == object_type::VEHICLE ) {
+            const optional_vpart_position vp = m.veh_at( pos() + gpoint );
+            if( vp ) {
+                const vehicle &veh = vp->vehicle();
+                for( const tripoint &target : veh.get_points() ) {
+                    if( erase ) {
+                        clear_memorized_tile( m.getabs( target ) );
+                    }
+                    m.set_memory_seen_cache_dirty( target );
+                }
+            }
+        } else if( gtype != object_type::NONE ) {
+            if( erase ) {
+                clear_memorized_tile( m.getabs( pos() + gpoint ) );
+            }
+            m.set_memory_seen_cache_dirty( pos() + gpoint );
+        }
+    };
+    // Mark the area covered by the previous vehicle/furniture/etc for re-memorizing.
+    update_memory( this->grab_type, this->grab_point, false );
+    // Clear the map memory for the area covered by the vehicle/furniture/etc to
+    // eliminate ghost vehicles/furnitures/etc.
+    // FIXME: change map memory to memorize all memorizable objects and only erase vehicle part memory.
+    update_memory( grab_type, grab_point, true );
+
     this->grab_type = grab_type;
     this->grab_point = grab_point;
 
@@ -717,11 +619,11 @@ void avatar::do_read( item &book )
         player *n = g->find_npc( character_id( activity.values[i] ) );
         if( n != nullptr ) {
             const std::string &s = activity.get_str_value( i, "1" );
-            learners.push_back( { n, strtod( s.c_str(), nullptr ) } );
+            learners.emplace_back( n, strtod( s.c_str(), nullptr ) );
         }
         // Otherwise they must have died/teleported or something
     }
-    learners.push_back( { this, 1.0 } );
+    learners.emplace_back( this, 1.0 );
     //whether to continue reading or not
     bool continuous = false;
     // NPCs who learned a little about the skill
@@ -755,8 +657,8 @@ void avatar::do_read( item &book )
                 min_ex += 2;
             }
 
-            min_ex = adjust_for_focus( min_ex );
-            max_ex = adjust_for_focus( max_ex );
+            min_ex = adjust_for_focus( min_ex ) / 100;
+            max_ex = adjust_for_focus( max_ex ) / 100;
 
             if( max_ex < 2 ) {
                 max_ex = 2;
@@ -844,7 +746,7 @@ void avatar::do_read( item &book )
         skill_id skill_used = style_to_learn->primary_skill;
         int difficulty = std::max( 1, style_to_learn->learn_difficulty );
         difficulty = std::max( 1, 20 + difficulty * 2 - get_skill_level( skill_used ) * 2 );
-        add_msg_debug( _( "Chance to learn one in: %d" ), difficulty );
+        add_msg_debug( debugmode::DF_AVATAR, _( "Chance to learn one in: %d" ), difficulty );
 
         if( one_in( difficulty ) ) {
             m->second.call( *this, book, false, pos() );
@@ -965,6 +867,11 @@ void avatar::identify( const item &item )
     }
 }
 
+void avatar::clear_identified()
+{
+    items_identified.clear();
+}
+
 void avatar::wake_up()
 {
     if( has_effect( effect_sleep ) ) {
@@ -976,7 +883,7 @@ void avatar::wake_up()
             add_msg( _( "It looks like you woke up before your alarm." ) );
             remove_effect( effect_alarm_clock );
         } else if( has_effect( effect_slept_through_alarm ) ) {
-            if( has_bionic( bio_watch ) ) {
+            if( has_flag( json_flag_ALARMCLOCK ) ) {
                 add_msg( m_warning, _( "It looks like you've slept through your internal alarm…" ) );
             } else {
                 add_msg( m_warning, _( "It looks like you've slept through the alarm…" ) );
@@ -1030,8 +937,9 @@ nc_color avatar::basic_symbol_color() const
 
 int avatar::print_info( const catacurses::window &w, int vStart, int, int column ) const
 {
-    mvwprintw( w, point( column, vStart++ ), _( "You (%s)" ), name );
-    return vStart;
+    return vStart + fold_and_print( w, point( column, vStart ), getmaxx( w ) - column - 1, c_dark_gray,
+                                    _( "You (%s)" ),
+                                    name ) - 1;
 }
 
 void avatar::disp_morale()
@@ -1066,12 +974,12 @@ int avatar::calc_focus_equilibrium( bool ignore_pain ) const
     int focus_equilibrium = 100;
 
     if( activity.id() == ACT_READ ) {
-        const item &book = *activity.targets[0].get_item();
-        if( book.is_book() && get_item_position( &book ) != INT_MIN ) {
-            auto &bt = *book.type->book;
+        const item *book = activity.targets[0].get_item();
+        if( book && book->is_book() && get_item_position( book ) != INT_MIN ) {
+            auto &bt = book->type->book;
             // apply a penalty when we're actually learning something
-            const SkillLevel &skill_level = get_skill_level_object( bt.skill );
-            if( skill_level.can_train() && skill_level < bt.level ) {
+            const SkillLevel &skill_level = get_skill_level_object( bt->skill );
+            if( skill_level.can_train() && skill_level < bt->level ) {
                 focus_equilibrium -= 50;
             }
         }
@@ -1135,7 +1043,7 @@ int avatar::calc_focus_equilibrium( bool ignore_pain ) const
 
 int avatar::calc_focus_change() const
 {
-    int focus_gap = calc_focus_equilibrium() - focus_pool;
+    int focus_gap = calc_focus_equilibrium() - get_focus();
 
     // handle negative gain rates in a symmetric manner
     int base_change = 1;
@@ -1144,20 +1052,13 @@ int avatar::calc_focus_change() const
         focus_gap = -focus_gap;
     }
 
-    // for every 100 points, we have a flat gain of 1 focus.
-    // for every n points left over, we have an n% chance of 1 focus
-    int gain = focus_gap / 100;
-    if( rng( 1, 100 ) <= focus_gap % 100 ) {
-        gain++;
-    }
-
-    gain *= base_change;
+    int gain = focus_gap * base_change;
 
     // Fatigue will incrementally decrease any focus above related cap
-    if( ( get_fatigue() >= fatigue_levels::TIRED && focus_pool > 80 ) ||
-        ( get_fatigue() >= fatigue_levels::DEAD_TIRED && focus_pool > 60 ) ||
-        ( get_fatigue() >= fatigue_levels::EXHAUSTED && focus_pool > 40 ) ||
-        ( get_fatigue() >= fatigue_levels::MASSIVE_FATIGUE && focus_pool > 20 ) ) {
+    if( ( get_fatigue() >= fatigue_levels::TIRED && get_focus() > 80 ) ||
+        ( get_fatigue() >= fatigue_levels::DEAD_TIRED && get_focus() > 60 ) ||
+        ( get_fatigue() >= fatigue_levels::EXHAUSTED && get_focus() > 40 ) ||
+        ( get_fatigue() >= fatigue_levels::MASSIVE_FATIGUE && get_focus() > 20 ) ) {
 
         //it can fall faster then 1
         if( gain > -1 ) {
@@ -1169,8 +1070,9 @@ int avatar::calc_focus_change() const
 
 void avatar::update_mental_focus()
 {
-
-    focus_pool += calc_focus_change();
+    // calc_focus_change() returns percentile focus, applying it directly
+    // to focus pool is an implicit / 100.
+    focus_pool += 10 * calc_focus_change();
 
     // Moved from calc_focus_equilibrium, because it is now const
     if( activity.id() == ACT_READ ) {
@@ -1399,28 +1301,19 @@ int avatar::free_upgrade_points() const
     return lvl - str_upgrade - dex_upgrade - int_upgrade - per_upgrade;
 }
 
-static int xp_to_next( const avatar &you )
-{
-    const int cur_xp = you.kill_xp();
-    // Initialize to 'already max level' sentinel
-    int xp_next = -1;
-    // Iterate in reverse: { 405k, 355k, 305k, ..., 300 }
-    for( std::array<int, 20>::const_reverse_iterator iter = xp_cutoffs.crbegin();
-         iter != xp_cutoffs.crend(); ++iter ) {
-        if( cur_xp < *iter ) {
-            xp_next = *iter;
-        }
-    }
-    return xp_next;
-}
-
 void avatar::upgrade_stat_prompt( const character_stat &stat )
 {
     const int free_points = free_upgrade_points();
-    const int next_lvl_xp = xp_to_next( *this );
 
     if( free_points <= 0 ) {
-        popup( _( "No available stat points to spend.  Experience to next level: %d" ), next_lvl_xp );
+        std::array<int, 20>::const_iterator xp_next_level = std::lower_bound( xp_cutoffs.begin(),
+                xp_cutoffs.end(), kill_xp() );
+        if( xp_next_level == xp_cutoffs.end() ) {
+            popup( _( "You've already reached maximum level." ) );
+        } else {
+            popup( _( "Needs %d more experience to gain next level." ),
+                   *xp_next_level - kill_xp() );
+        }
         return;
     }
 
@@ -1466,6 +1359,7 @@ void avatar::upgrade_stat_prompt( const character_stat &stat )
                 break;
         }
     }
+    recalc_hp();
 }
 
 faction *avatar::get_faction() const
@@ -1475,28 +1369,16 @@ faction *avatar::get_faction() const
 
 void avatar::set_movement_mode( const move_mode_id &new_mode )
 {
-    steed_type steed;
-    if( is_mounted() ) {
-        if( mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
-            steed = steed_type::MECH;
-        } else {
-            steed = steed_type::ANIMAL;
-        }
-    } else {
-        steed = steed_type::NONE;
-    }
-
     if( can_switch_to( new_mode ) ) {
-        add_msg( new_mode->change_message( true, steed ) );
+        if( is_hauling() && new_mode->stop_hauling() ) {
+            stop_hauling();
+        }
+        add_msg( new_mode->change_message( true, get_steed_type() ) );
         move_mode = new_mode;
         // crouching affects visibility
         get_map().set_seen_cache_dirty( pos().z );
-
-        if( new_mode->stop_hauling() ) {
-            stop_hauling();
-        }
     } else {
-        add_msg( new_mode->change_message( false, steed ) );
+        add_msg( new_mode->change_message( false, get_steed_type() ) );
     }
 }
 
@@ -1514,6 +1396,13 @@ void avatar::toggle_crouch_mode()
     if( is_crouching() ) {
         set_movement_mode( move_mode_id( "walk" ) );
     } else {
+        set_movement_mode( move_mode_id( "crouch" ) );
+    }
+}
+
+void avatar::activate_crouch_mode()
+{
+    if( !is_crouching() ) {
         set_movement_mode( move_mode_id( "crouch" ) );
     }
 }
@@ -1585,7 +1474,7 @@ bool avatar::wield( item &target, const int obtain_cost )
         target.on_takeoff( *this );
     }
 
-    add_msg_debug( "wielding took %d moves", mv );
+    add_msg_debug( debugmode::DF_AVATAR, "wielding took %d moves", mv );
     moves -= mv;
 
     if( has_item( target ) ) {
@@ -1606,7 +1495,7 @@ bool avatar::wield( item &target, const int obtain_cost )
     last_item = weapon.typeId();
     recoil = MAX_RECOIL;
 
-    weapon.on_wield( *this, mv );
+    weapon.on_wield( *this );
 
     get_event_bus().send<event_type::character_wields_item>( getID(), last_item );
 
@@ -1616,7 +1505,7 @@ bool avatar::wield( item &target, const int obtain_cost )
     return true;
 }
 
-bool avatar::invoke_item( item *used, const tripoint &pt )
+bool avatar::invoke_item( item *used, const tripoint &pt, int pre_obtain_moves )
 {
     const std::map<std::string, use_function> &use_methods = used->type->use_methods;
     const int num_methods = use_methods.size();
@@ -1625,7 +1514,7 @@ bool avatar::invoke_item( item *used, const tripoint &pt )
     if( use_methods.empty() && !has_relic ) {
         return false;
     } else if( num_methods == 1 && !has_relic ) {
-        return invoke_item( used, use_methods.begin()->first, pt );
+        return invoke_item( used, use_methods.begin()->first, pt, pre_obtain_moves );
     } else if( num_methods == 0 && has_relic ) {
         return used->use_relic( *this, pt );
     }
@@ -1663,7 +1552,7 @@ bool avatar::invoke_item( item *used, const tripoint &pt )
 
     const std::string &method = std::next( use_methods.begin(), choice )->first;
 
-    return invoke_item( used, method, pt );
+    return invoke_item( used, method, pt, pre_obtain_moves );
 }
 
 bool avatar::invoke_item( item *used )
@@ -1671,9 +1560,13 @@ bool avatar::invoke_item( item *used )
     return Character::invoke_item( used );
 }
 
-bool avatar::invoke_item( item *used, const std::string &method, const tripoint &pt )
+bool avatar::invoke_item( item *used, const std::string &method, const tripoint &pt,
+                          int pre_obtain_moves )
 {
-    return Character::invoke_item( used, method, pt );
+    if( pre_obtain_moves == -1 ) {
+        pre_obtain_moves = moves;
+    }
+    return Character::invoke_item( used, method, pt, pre_obtain_moves );
 }
 
 bool avatar::invoke_item( item *used, const std::string &method )
@@ -1704,31 +1597,37 @@ void avatar::log_activity_level( float level )
     calorie_diary.front().activity_levels[level]++;
 }
 
-static const std::map<float, std::string> activity_levels_str = {
-    { NO_EXERCISE, "NO_EXERCISE" },
-    { LIGHT_EXERCISE, "LIGHT_EXERCISE" },
-    { MODERATE_EXERCISE, "MODERATE_EXERCISE" },
-    { BRISK_EXERCISE, "BRISK_EXERCISE" },
-    { ACTIVE_EXERCISE, "ACTIVE_EXERCISE" },
-    { EXTRA_EXERCISE, "EXTRA_EXERCISE" }
-};
 void avatar::daily_calories::save_activity( JsonOut &json ) const
 {
     json.member( "activity" );
-    json.start_object();
+    json.start_array();
     for( const std::pair<const float, int> &level : activity_levels ) {
-        json.member( activity_levels_str.at( level.first ), level.second );
+        if( level.second > 0 ) {
+            json.start_array();
+            json.write( level.first );
+            json.write( level.second );
+            json.end_array();
+        }
     }
-    json.end_object();
+    json.end_array();
 }
 
 void avatar::daily_calories::read_activity( JsonObject &data )
 {
+    if( data.has_array( "activity" ) ) {
+        double act_level;
+        for( JsonArray ja : data.get_array( "activity" ) ) {
+            act_level = ja.next_float();
+            activity_levels[ act_level ] = ja.next_int();
+        }
+        return;
+    }
+    // Fallback to legacy format for backward compatibility
     JsonObject jo = data.get_object( "activity" );
-    for( const std::pair<const float, std::string> &member : activity_levels_str ) {
+    for( const std::pair<const std::string, float> &member : activity_levels_map ) {
         int times;
-        jo.read( member.second, times );
-        activity_levels.at( member.first ) = times;
+        jo.read( member.first, times );
+        activity_levels.at( member.second ) = times;
     }
 }
 
@@ -1741,19 +1640,50 @@ std::string avatar::total_daily_calories_string() const
     const std::string format_string =
         " %4d  %4d  %4d     %4d  %4d   %4d  %4d    %6d %6d";
 
+    const float light_ex_thresh = ( NO_EXERCISE + LIGHT_EXERCISE ) / 2.0f;
+    const float mod_ex_thresh = ( LIGHT_EXERCISE + MODERATE_EXERCISE ) / 2.0f;
+    const float brisk_ex_thresh = ( MODERATE_EXERCISE + BRISK_EXERCISE ) / 2.0f;
+    const float active_ex_thresh = ( BRISK_EXERCISE + ACTIVE_EXERCISE ) / 2.0f;
+    const float extra_ex_thresh = ( ACTIVE_EXERCISE + EXTRA_EXERCISE ) / 2.0f;
+
     std::string ret = header_string;
 
     // Start with today in the first row, day number from start of cataclysm
     int today = day_of_season<int>( calendar::turn ) + 1;
     int day_offset = 0;
     for( const daily_calories &day : calorie_diary ) {
+        // Yes, this is clunky.
+        // Perhaps it should be done in log_activity_level? But that's called a lot more often.
+        int no_exercise = 0;
+        int light_exercise = 0;
+        int moderate_exercise = 0;
+        int brisk_exercise = 0;
+        int active_exercise = 0;
+        int extra_exercise = 0;
+        for( const std::pair<const float, int> &level : day.activity_levels ) {
+            if( level.second > 0 ) {
+                if( level.first < light_ex_thresh ) {
+                    no_exercise += level.second;
+                } else if( level.first < mod_ex_thresh ) {
+                    light_exercise += level.second;
+                } else if( level.first < brisk_ex_thresh ) {
+                    moderate_exercise += level.second;
+                } else if( level.first < active_ex_thresh ) {
+                    brisk_exercise += level.second;
+                } else if( level.first < extra_ex_thresh ) {
+                    active_exercise += level.second;
+                } else {
+                    extra_exercise += level.second;
+                }
+            }
+        }
         std::string row_data = string_format( format_string, today + day_offset--,
-                                              5 * day.activity_levels.at( NO_EXERCISE ),
-                                              5 * day.activity_levels.at( LIGHT_EXERCISE ),
-                                              5 * day.activity_levels.at( MODERATE_EXERCISE ),
-                                              5 * day.activity_levels.at( BRISK_EXERCISE ),
-                                              5 * day.activity_levels.at( ACTIVE_EXERCISE ),
-                                              5 * day.activity_levels.at( EXTRA_EXERCISE ),
+                                              5 * no_exercise,
+                                              5 * light_exercise,
+                                              5 * moderate_exercise,
+                                              5 * brisk_exercise,
+                                              5 * active_exercise,
+                                              5 * extra_exercise,
                                               day.gained, day.spent );
         // Alternate gray and white text for row data
         if( day_offset % 2 == 0 ) {

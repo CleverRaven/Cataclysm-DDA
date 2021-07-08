@@ -6,7 +6,7 @@
     "//": "used by house_31 and house_32",
     "weight": 250,
     "object": {
-      "fill_ter": "t_rock",
+      "fill_ter": "t_soil",
       "rotation": [ 0, 3 ],
       "rows": [
         "  --------------------  ",
@@ -35,15 +35,15 @@
         "                        "
       ],
       "terrain": {
-        "#": "t_rock_floor",
+        "#": "t_thconc_floor",
         "+": "t_door_c",
         "-": "t_wall",
-        ".": "t_rock_floor",
+        ".": "t_thconc_floor",
         "<": "t_stairs_up",
-        "]": "t_rock_floor",
-        "h": "t_rock_floor",
-        "s": "t_rock_floor",
-        "{": "t_rock_floor",
+        "]": "t_thconc_floor",
+        "h": "t_thconc_floor",
+        "s": "t_thconc_floor",
+        "{": "t_thconc_floor",
         "|": "t_wall"
       },
       "furniture": { "#": "f_counter", "]": "f_bookcase", "h": "f_chair", "s": "f_gunsafe_ml", "{": "f_rack" },

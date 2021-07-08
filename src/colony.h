@@ -152,7 +152,8 @@ class colony : private element_allocator_type
             size_type
             group_number;               // Used for comparison (> < >= <=) iterator operators (used by distance function and user)
 
-            group( const skipfield_type elements_per_group, group_pointer_type const previous = nullptr ):
+            explicit group( const skipfield_type elements_per_group,
+                            group_pointer_type const previous = nullptr ):
                 last_endpoint( reinterpret_cast<aligned_pointer_type>( COLONY_ALLOCATE_INITIALIZATION(
                                    uchar_allocator_type, ( ( elements_per_group * ( sizeof( aligned_element_type ) ) ) + ( (
                                                elements_per_group + 1u ) * sizeof( skipfield_type ) ) ),
@@ -396,6 +397,7 @@ class colony : private element_allocator_type
                     element_pointer( source.element_pointer ),
                     skipfield_pointer( source.skipfield_pointer ) {}
 
+                // NOLINTNEXTLINE(google-explicit-constructor)
                 inline colony_iterator( const colony_iterator < !is_const > &source ) noexcept:
                     group_pointer( source.group_pointer ),
                     element_pointer( source.element_pointer ),
@@ -407,6 +409,7 @@ class colony : private element_allocator_type
                     element_pointer( std::move( source.element_pointer ) ),
                     skipfield_pointer( std::move( source.skipfield_pointer ) ) {}
 
+                // NOLINTNEXTLINE(google-explicit-constructor)
                 inline colony_iterator( colony_iterator < !is_const > &&source ) noexcept:
                     group_pointer( std::move( source.group_pointer ) ),
                     element_pointer( std::move( source.element_pointer ) ),
@@ -562,6 +565,7 @@ class colony : private element_allocator_type
                 colony_reverse_iterator( const colony_reverse_iterator &source ) noexcept:
                     it( source.it ) {}
 
+                // NOLINTNEXTLINE(google-explicit-constructor)
                 colony_reverse_iterator( const typename colony::iterator &source ) noexcept:
                     it( source ) {}
 
@@ -577,6 +581,7 @@ class colony : private element_allocator_type
                 colony_reverse_iterator( colony_reverse_iterator &&source ) noexcept:
                     it( std::move( source.it ) ) {}
 
+                // NOLINTNEXTLINE(google-explicit-constructor)
                 colony_reverse_iterator( typename colony::iterator &&source ) noexcept:
                     it( std::move( source ) ) {}
 
@@ -2573,7 +2578,7 @@ class colony : private element_allocator_type
                 // For all subsequent groups, we follow this logic:
                 // 1. If distance is larger than the total number of non-erased elements in a group, we skip that group and subtract the number of elements in that group from distance
                 // 2. If distance is smaller than the total number of non-erased elements in a group, then:
-                //    a. if there're no erased elements in the group we simply add distance to group->elements to find the new location for the iterator
+                //    a. if there are no erased elements in the group we simply add distance to group->elements to find the new location for the iterator
                 //    b. if there are erased elements in the group, we manually iterate and subtract 1 from distance on each iteration, until the new iterator location is found ie. distance = 0
 
                 // Note: incrementing element_pointer is avoided until necessary to avoid needless calculations
@@ -3024,7 +3029,8 @@ class colony : private element_allocator_type
             using diff_type = typename iterator_type::difference_type;
             diff_type distance = 0;
 
-            iterator_type iterator1 = first, iterator2 = last;
+            iterator_type iterator1 = first;
+            iterator_type iterator2 = last;
             const bool swap = first > last;
 
             if( swap ) { // Less common case
@@ -3037,7 +3043,7 @@ class colony : private element_allocator_type
 
                 // Process initial group:
                 if( iterator1.group_pointer->free_list_head == std::numeric_limits<skipfield_type>::max() ) {
-                    // If no prior erasures have occured in this group we can do simple addition
+                    // If no prior erasures have occurred in this group we can do simple addition
                     distance += static_cast<diff_type>( iterator1.group_pointer->last_endpoint -
                                                         iterator1.element_pointer );
                 } else if( iterator1.element_pointer == iterator1.group_pointer->elements ) {

@@ -30,7 +30,7 @@ Vehicle prototypes do not currently accept copy-from
 "items": [                                 // Item spawn list
     { "x": 0, "y": 0, "items": "helmet_army" },   // individual item
     { "x": 0, "y": 0, "item_groups": "army_uniform" }, // item or items from an item_group
-    { "x": 0, "y": 1, "items": [ "matchbook", "two_by_four" ] }, // all items in the list spawn
+    { "x": 0, "y": 1, "items": [ "matchbook", "2x4" ] }, // all items in the list spawn
     { "x": 0, "y": 0, "item_groups": [ "army_uniform", "rare_guns" ] } all item_groups are processed
 ]
 ```
@@ -38,7 +38,7 @@ Vehicle prototypes do not currently accept copy-from
 .* Important! *. Vehicle parts must be defined in the same order you would install them in the game (ie, frames and mount points first).  You also cannot break the normal rules of installation (you can't stack non-stackable part flags).
 
 ### Parts list
-The part list contains an arbitary number of lines. Each line is of the form:
+The part list contains an arbitrary number of lines. Each line is of the form:
     { "x": X, "y": Y, "part": PARTID, ... }
 or
     { "x": X, "y": Y, "parts": [ PARTID1, ... ] }
@@ -69,5 +69,7 @@ TYPE and DATA may be one of:
 "item_groups": [ "groupid1", "groupid2" ... ]  // one or more items for each group
 ```
 the optional keyword "chance" provides an X in 100 chance that a particular item definition will spawn.
+
+If a single item is specified through `"items"`, a gun variant for it can be specified through `"variant"`.
 
 Multiple lines of items may share the same X and Y values.

@@ -2,7 +2,7 @@
 
 #include <algorithm>
 #include <cmath>
-#include <iterator>
+#include <limits>
 #include <memory>
 #include <numeric>
 #include <sstream>
@@ -13,13 +13,12 @@
 #include "cata_utility.h"
 #include "character.h"
 #include "color.h"
-#include "construction.h"
 #include "debug.h"
 #include "enum_traits.h"
 #include "flag.h"
-#include "flat_set.h"
 #include "game_constants.h"
 #include "generic_factory.h"
+#include "inventory.h"
 #include "item.h"
 #include "itype.h"
 #include "json.h"
@@ -30,7 +29,6 @@
 #include "proficiency.h"
 #include "skill.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "string_id_utils.h"
 #include "translations.h"
 #include "type_id.h"
@@ -39,6 +37,7 @@
 #include "value_ptr.h"
 
 static const itype_id itype_hotplate( "hotplate" );
+static const itype_id itype_atomic_coffeepot( "atomic_coffeepot" );
 
 recipe::recipe() : skill_used( skill_id::NULL_ID() ) {}
 
@@ -61,27 +60,19 @@ static bool helpers_have_proficiencies( const Character &guy, const proficiency_
 
 time_duration recipe::time_to_craft( const Character &guy, recipe_time_flag flags ) const
 {
-    return time_duration::from_seconds( time_to_craft_moves( guy, flags ) / 100 );
+    return time_duration::from_moves( time_to_craft_moves( guy, flags ) );
 }
 
-int recipe::time_to_craft_moves( const Character &guy, recipe_time_flag flags ) const
+int64_t recipe::time_to_craft_moves( const Character &guy, recipe_time_flag flags ) const
 {
     if( flags == recipe_time_flag::ignore_proficiencies ) {
         return time;
     }
-    int ret = time;
-    for( const recipe_proficiency &prof : proficiencies ) {
-        if( !prof.required ) {
-            if( !guy.has_proficiency( prof.id ) &&
-                !helpers_have_proficiencies( guy, prof.id ) ) {
-                ret *= prof.time_multiplier;
-            }
-        }
-    }
-    return ret;
+    return time * proficiency_time_maluses( guy );
 }
 
-int recipe::batch_time( const Character &guy, int batch, float multiplier, size_t assistants ) const
+int64_t recipe::batch_time( const Character &guy, int batch, float multiplier,
+                            size_t assistants ) const
 {
     // 1.0f is full speed
     // 0.33f is 1/3 speed
@@ -90,14 +81,14 @@ int recipe::batch_time( const Character &guy, int batch, float multiplier, size_
         multiplier = 1.0f;
     }
 
-    const float local_time = static_cast<float>( time_to_craft_moves( guy ) ) / multiplier;
+    const double local_time = static_cast<double>( time_to_craft_moves( guy ) ) / multiplier;
 
     // if recipe does not benefit from batching and we have no assistants, don't do unnecessary additional calculations
     if( batch_rscale == 0.0 && assistants == 0 ) {
-        return static_cast<int>( local_time ) * batch;
+        return static_cast<int64_t>( local_time ) * batch;
     }
 
-    float total_time = 0.0f;
+    double total_time = 0.0;
     // if recipe does not benefit from batching but we do have assistants, skip calculating the batching scale factor
     if( batch_rscale == 0.0f ) {
         total_time = local_time * batch;
@@ -122,7 +113,7 @@ int recipe::batch_time( const Character &guy, int batch, float multiplier, size_
         total_time = local_time;
     }
 
-    return static_cast<int>( total_time );
+    return static_cast<int64_t>( total_time );
 }
 
 bool recipe::has_flag( const std::string &flag_name ) const
@@ -226,8 +217,8 @@ void recipe::load( const JsonObject &jo, const std::string &src )
     if( exert == "fake" ) {
         exert = "MODERATE_EXERCISE";
     }
-    const auto it = activity_levels.find( exert );
-    if( it == activity_levels.end() ) {
+    const auto it = activity_levels_map.find( exert );
+    if( it == activity_levels_map.end() ) {
         jo.throw_error( string_format( "Invalid activity level %s", exert ), "activity_level" );
     }
     exertion = it->second;
@@ -503,6 +494,11 @@ std::string recipe::get_consistency_error() const
 item recipe::create_result() const
 {
     item newit( result_, calendar::turn, item::default_charges_tag{} );
+
+    if( newit.has_flag( flag_VARSIZE ) ) {
+        newit.set_flag( flag_FIT );
+    }
+
     if( charges ) {
         newit.charges = *charges;
     }
@@ -605,22 +601,29 @@ struct prof_penalty {
     proficiency_id id;
     float time_mult;
     float failure_mult;
+    bool mitigated = false;
 };
 
 static std::string profstring( const prof_penalty &prof,
-                               std::string &color )
+                               std::string &color,
+                               const std::string &name_color = "cyan" )
 {
+    std::string mitigated_str;
+    if( prof.mitigated ) {
+        mitigated_str = _( " (Mitigated)" );
+    }
+
     if( prof.time_mult == 1.0f ) {
-        return string_format( _( "<color_cyan>%s</color> (<color_%s>%gx\u00a0failure</color>)" ),
-                              prof.id->name(), color, prof.failure_mult );
+        return string_format( _( "<color_%s>%s</color> (<color_%s>%gx\u00a0failure</color>%s)" ),
+                              name_color, prof.id->name(), color, prof.failure_mult, mitigated_str );
     } else if( prof.failure_mult == 1.0f ) {
-        return string_format( _( "<color_cyan>%s</color> (<color_%s>%gx\u00a0time</color>)" ),
-                              prof.id->name(), color, prof.time_mult );
+        return string_format( _( "<color_%s>%s</color> (<color_%s>%gx\u00a0time</color>%s)" ),
+                              name_color, prof.id->name(), color, prof.time_mult, mitigated_str );
     }
 
     return string_format(
-               _( "<color_cyan>%s</color> (<color_%s>%gx\u00a0time, %gx\u00a0failure</color>)" ),
-               prof.id->name(), color, prof.time_mult, prof.failure_mult );
+               _( "<color_%s>%s</color> (<color_%s>%gx\u00a0time, %gx\u00a0failure</color>%s)" ),
+               name_color, prof.id->name(), color, prof.time_mult, prof.failure_mult, mitigated_str );
 }
 
 std::string recipe::used_proficiencies_string( const Character *c ) const
@@ -654,10 +657,19 @@ std::string recipe::missing_proficiencies_string( const Character *c ) const
     }
     std::vector<prof_penalty> missing_profs;
 
+    const book_proficiency_bonuses book_bonuses =
+        c->crafting_inventory().get_book_proficiency_bonuses();
     for( const recipe_proficiency &rec : proficiencies ) {
         if( !rec.required ) {
-            if( !( c->has_proficiency( rec.id ) || helpers_have_proficiencies( *c, rec.id ) ) )  {
-                missing_profs.push_back( { rec.id, rec.time_multiplier, rec.fail_multiplier } );
+            if( !( c->has_proficiency( rec.id ) || helpers_have_proficiencies( *c, rec.id ) ) ) {
+                prof_penalty pen = { rec.id, rec.time_multiplier, rec.fail_multiplier };
+                if( book_bonuses.time_factor( pen.id ) != 0.0f || book_bonuses.fail_factor( pen.id ) != 0.0f ) {
+                    pen.time_mult = 1.0f + ( pen.time_mult - 1.0f ) * ( 1.0f - book_bonuses.time_factor( pen.id ) );
+                    pen.failure_mult = 1.0f + ( pen.failure_mult - 1.0f ) * ( 1.0f - book_bonuses.fail_factor(
+                                           pen.id ) );
+                    pen.mitigated = true;
+                }
+                missing_profs.push_back( pen );
             }
         }
     }
@@ -665,7 +677,7 @@ std::string recipe::missing_proficiencies_string( const Character *c ) const
     std::string color = "yellow";
     std::string missing = enumerate_as_string( missing_profs.begin(),
     missing_profs.end(), [&]( const prof_penalty & prof ) {
-        return profstring( prof, color );
+        return profstring( prof, color, c->has_prof_prereqs( prof.id ) ? "cyan" : "red" );
     } );
 
     return missing;
@@ -720,26 +732,30 @@ std::set<proficiency_id> recipe::assist_proficiencies() const
 
 float recipe::proficiency_time_maluses( const Character &guy ) const
 {
-    float malus = 1.0f;
+    float total_malus = 1.0f;
     for( const recipe_proficiency &prof : proficiencies ) {
         if( !guy.has_proficiency( prof.id ) &&
-            !helpers_have_proficiencies( guy, prof.id ) ) {
-            malus *= prof.time_multiplier;
+            !helpers_have_proficiencies( guy, prof.id ) && prof.time_multiplier > 1.0f ) {
+            float malus = 1.0f + ( prof.time_multiplier - 1.0f ) *
+                          ( 1.0f - guy.crafting_inventory().get_book_proficiency_bonuses().time_factor( prof.id ) );
+            total_malus *= malus;
         }
     }
-    return malus;
+    return total_malus;
 }
 
 float recipe::proficiency_failure_maluses( const Character &guy ) const
 {
-    float malus = 1.0f;
+    float total_malus = 1.0f;
     for( const recipe_proficiency &prof : proficiencies ) {
         if( !guy.has_proficiency( prof.id ) &&
-            !helpers_have_proficiencies( guy, prof.id ) ) {
-            malus *= prof.fail_multiplier;
+            !helpers_have_proficiencies( guy, prof.id ) && prof.fail_multiplier > 1.0f ) {
+            float malus = 1.0f + ( prof.fail_multiplier - 1.0f ) *
+                          ( 1.0f - guy.crafting_inventory().get_book_proficiency_bonuses().fail_factor( prof.id ) );
+            total_malus *= malus;
         }
     }
-    return malus;
+    return total_malus;
 }
 
 float recipe::exertion_level() const
@@ -790,7 +806,7 @@ std::string recipe::primary_skill_string( const Character *c, bool print_skill_l
     std::vector< std::pair<skill_id, int> > skillList;
 
     if( !skill_used.is_null() ) {
-        skillList.push_back( std::pair<skill_id, int>( skill_used, difficulty ) );
+        skillList.emplace_back( skill_used, difficulty );
     }
 
     return required_skills_as_string( skillList.begin(), skillList.end(), c, print_skill_level );
@@ -821,7 +837,7 @@ std::string recipe::required_all_skills_string() const
 std::string recipe::batch_savings_string() const
 {
     return ( batch_rsize != 0 ) ?
-           string_format( _( "%s%% at >%s units" ), static_cast<int>( batch_rscale * 100 ), batch_rsize )
+           string_format( _( "%d%% at >%d units" ), static_cast<int>( batch_rscale * 100 ), batch_rsize )
            : _( "none" );
 }
 
@@ -990,6 +1006,11 @@ void recipe::check_blueprint_requirements()
     }
 }
 
+bool recipe::removes_raw() const
+{
+    return create_result().is_comestible() && !create_result().has_flag( flag_RAW );
+}
+
 bool recipe::hot_result() const
 {
     // Check if the recipe tools make this food item hot upon making it.
@@ -998,17 +1019,21 @@ bool recipe::hot_result() const
     // processing works, the "surface_heat" id gets nuked into an actual
     // list of tools, see data/json/recipes/cooking_tools.json.
     //
-    // Currently it's only checking for a hotplate because that's a
+    // Currently it's checking for a hotplate because that's a
     // suitable item in both the "surface_heat" and "water_boiling_heat"
     // tools, and it's usually the first item in a list of tools so if this
     // does get heated we'll find it right away.
+    //
+    // Atomic coffee is an outlier in that it is a hot drink that cannot be crafted
+    // with any of the usual tools except the atomic coffee maker, which is why
+    // the check includes this tool in addition to the hotplate.
     //
     // TODO: Make this less of a hack
     if( create_result().is_food() ) {
         const requirement_data::alter_tool_comp_vector &tool_lists = simple_requirements().get_tools();
         for( const std::vector<tool_comp> &tools : tool_lists ) {
             for( const tool_comp &t : tools ) {
-                if( t.type == itype_hotplate ) {
+                if( ( t.type == itype_hotplate ) || ( t.type == itype_atomic_coffeepot ) ) {
                     return true;
                 }
             }
@@ -1019,10 +1044,10 @@ bool recipe::hot_result() const
 
 int recipe::makes_amount() const
 {
-    int makes;
+    int makes = 0;
     if( charges.has_value() ) {
         makes = charges.value();
-    } else {
+    } else if( item::count_by_charges( result_ ) ) {
         makes = item::find_type( result_ )->charges_default();
     }
     // return either charges * mult or 1

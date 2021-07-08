@@ -1,12 +1,12 @@
-#include "catch/catch.hpp"
-#include "item_location.h"
-
+#include <functional>
 #include <functional>
 #include <list>
 
+#include "cata_catch.h"
 #include "character.h"
 #include "item.h"
 #include "item_contents.h"
+#include "item_location.h"
 #include "item_pocket.h"
 #include "map.h"
 #include "map_helpers.h"
@@ -32,7 +32,7 @@ TEST_CASE( "item_location_can_maintain_reference_despite_item_removal", "[item][
     m.add_item( pos, item( "jeans" ) );
     map_cursor cursor( pos );
     item *tshirt = nullptr;
-    cursor.visit_items( [&tshirt]( item * i ) {
+    cursor.visit_items( [&tshirt]( item * i, item * ) {
         if( i->typeId() == itype_id( "tshirt" ) ) {
             tshirt = i;
             return VisitResponse::ABORT;

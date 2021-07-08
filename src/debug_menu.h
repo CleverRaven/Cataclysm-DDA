@@ -2,11 +2,10 @@
 #ifndef CATA_SRC_DEBUG_MENU_H
 #define CATA_SRC_DEBUG_MENU_H
 
+#include <cstddef>
 #include <functional>
 #include <iosfwd>
-#include <string>
-
-#include "enum_traits.h"
+#include <string> // IWYU pragma: keep
 
 struct tripoint;
 template <typename E> struct enum_traits;
@@ -17,6 +16,7 @@ template<typename T>
 class optional;
 } // namespace cata
 
+class Character;
 class player;
 
 namespace debug_menu
@@ -43,6 +43,7 @@ enum class debug_menu_index : int {
     CHANGE_WEATHER,
     WIND_DIRECTION,
     WIND_SPEED,
+    GEN_SOUND,
     KILL_MONS,
     DISPLAY_HORDES,
     TEST_IT_GROUP,
@@ -68,6 +69,7 @@ enum class debug_menu_index : int {
     PRINT_NPC_MAGIC,
     QUIT_NOSAVE,
     TEST_WEATHER,
+    WRITE_EOCS,
     SAVE_SCREENSHOT,
     GAME_REPORT,
     DISPLAY_SCENTS_LOCAL,
@@ -80,13 +82,16 @@ enum class debug_menu_index : int {
     DISPLAY_REACHABILITY_ZONES,
     DISPLAY_RADIATION,
     HOUR_TIMER,
-    LEARN_SPELLS,
-    LEVEL_SPELLS,
+    CHANGE_SPELLS,
     TEST_MAP_EXTRA_DISTRIBUTION,
     NESTED_MAPGEN,
     VEHICLE_BATTERY_CHARGE,
+    GENERATE_EFFECT_LIST,
+    EDIT_CAMP_LARDER,
     last
 };
+
+void change_spells( Character &character );
 
 void teleport_short();
 void teleport_long();

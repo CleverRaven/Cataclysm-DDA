@@ -21,26 +21,26 @@ In `data/mods/Magiclysm` there is a template spell, copied here for your perusal
   "spell_class": "NONE",                                    //
 	"base_casting_time": 100,                                 // this is the casting time (in moves)
 	"base_energy_cost": 10,                                   // the amount of energy (of the requisite type) to cast the spell
-	"energy_source": "MANA",                                  // the type of energy used to cast the spell. types are: MANA, BIONIC, HP, STAMINA, FATIGUE, NONE (none will not use mana)
+	"energy_source": "MANA",                                  // the type of energy used to cast the spell. types are: MANA, BIONIC, HP, STAMINA, NONE (none will not use mana)
   "components": [requirement_id]                            // an id from a requirement, like the ones you use for crafting. spell components require to cast.
 	"difficulty": 12,                                         // the difficulty to learn/cast the spell
 	"max_level": 10,                                          // maximum level you can achieve in the spell
 	"min_damage": 0,                                          // minimum damage (or "starting" damage)
 	"max_damage": 100,                                        // maximum damage the spell can achieve
 	"damage_increment": 2.5,                                  // to get damage (and any of the other below stats) multiply this by spell's level and add to minimum damage
-	"min_aoe": 0,                                             // area of effect (currently not implemented)
+	"min_aoe": 0,                                             // area of effect, or range of variance
 	"max_aoe": 5,
 	"aoe_increment": 0.1,
 	"min_range": 1,                                           // range of the spell
 	"max_range": 10,
 	"range_increment": 2,
-	"min_dot": 0,                                             // damage over time (currently not implemented)
+	"min_dot": 0,                                             // damage over time
 	"max_dot": 2,
 	"dot_increment": 0.1,
-	"min_duration": 0,                                        // duration of spell effect (if the spell has a special effect)
+	"min_duration": 0,                                        // duration of spell effect in moves (if the spell has a special effect)
 	"max_duration": 1000,
 	"duration_increment": 4,
-	"min_pierce": 0,                                          // how much of the spell pierces armor (currently not implemented)
+	"min_pierce": 0,                                          // how much of the spell pierces armor
 	"max_pierce": 1,
 	"pierce_increment": 0.1,
 	"field_id": "fd_blood",                                   // the string id of the field (currently hardcoded)
@@ -108,7 +108,7 @@ Below is a table of currently implemented effects, along with special rules for 
 | `vomit` | any creature within its area of effect will instantly vomit, if it's able to do so.
 | `timed_event` | adds a timed event to the player only. valid timed events: "help", "wanted", "robot_attack", "spawn_wyrms", "amigara", "roots_die", "temple_open", "temple_flood", "temple_spawn", "dim", "artifact_light" NOTE: This was added only for artifact active effects. support is limited, use at your own risk.
 | `explosion` | an explosion is centered on the target, with power damage() and factor aoe()/10
-| `flashbang` | a flashbang effect is centered on the target, with poewr damage() and factor aoe()/10
+| `flashbang` | a flashbang effect is centered on the target, with power damage() and factor aoe()/10
 | `mod_moves` | adds damage() moves to the target. can be negative to "freeze" the target for that amount of time
 | `map` | maps the overmap centered on the player out to a radius of aoe()
 | `morale` | gives a morale effect to all npcs or avatar within aoe, with value damage(). decay_start is duration() / 10.
@@ -265,7 +265,7 @@ Spell types:
     "max_aoe": 3,
     "effect": "summon",                                        // effects are coded in C++. A list is provided in this document of possible effects that have been coded.
     "effect_str": "mon_test_monster",                          // varies, see table of implemented effects in this document
-    "min_duration": 6250,                                      // duration of spell effect (if the spell has a special effect)
+    "min_duration": 6250,                                      // duration of spell effect in moves (if the spell has a special effect)
     "max_duration": 6250
   }
   ```
@@ -285,7 +285,7 @@ Spell types:
     "min_range": 4,                                          // range of the spell
     "max_range": 4,
     "base_casting_time": 500,                                // this is the casting time (in moves)
-    "min_duration": 200,                                     // duration of spell effect (if the spell has a special effect)
+    "min_duration": 200,                                     // duration of spell effect in moves (if the spell has a special effect)
     "max_duration": 300,
     "duration_increment": 10,                              // How much longer the spell lasts per spell level
     "damage_type": "stab"                                    // type of damage
@@ -315,7 +315,7 @@ Spell types:
     "min_range": 10,                                         // range of the spell
     "max_range": 10,
     "base_casting_time": 750,                                // this is the casting time (in moves)
-    "min_duration": 325,                                     // duration of spell effect (if the spell has a special effect)
+    "min_duration": 325,                                     // duration of spell effect in moves (if the spell has a special effect)
     "max_duration": 325,
     "damage_type": "stab"                                    // type of damage
   } ;
@@ -366,7 +366,7 @@ Spell types:
     "damage_increment": 0.2                        // damage increase per spell level
     "min_range": 10,                                    // range of the spell
     "max_range": 10,
-    "min_duration": 1,                                  // duration of spell effect (if the spell has a special effect)
+    "min_duration": 1,                                  // duration of spell effect in moves (if the spell has a special effect)
     "max_duration": 1
   }
   ```
@@ -384,9 +384,9 @@ Spell types:
     "effect": "target_attack",                           // effects are coded in C++. A list is provided in this document of possible effects that have been coded.
     "extra_effects": [ { "id": "sacrifice_spell", "hit_self": true }, { "id": "test_attack" } ],     // this allows you to cast multiple spells with only one spell
     "effect_str": "eff_test_note",                       // varies, see table of implemented effects in this document
-	  "min_aoe": 6,                                       // area of effect (currently not implemented)
+	  "min_aoe": 6,                                        // area of effect, or range of variance
     "max_aoe": 6,
-    "min_duration": 1,                                   // duration of spell effect (if the spell has a special effect)
+    "min_duration": 1,                                   // duration of spell effect in moves (if the spell has a special effect)
     "max_duration": 1
   }
   ```
@@ -411,7 +411,7 @@ You can assign a spell as a special attack for a monster.
 |---                          |---
 | `id`                        | Unique ID. Must be one continuous word, use underscores if necessary.
 | `has`                       | How an enchantment determines if it is in the right location in order to qualify for being active. "WIELD" - when wielded in your hand * "WORN" - when worn as armor * "HELD" - when in your inventory
-| `condition`                 | How an enchantment determines if you are in the right environments in order for the enchantment to qualify for being active. * "ALWAYS" - Always and forevermore * "UNDERGROUND" - When the owner of the item is below Z-level 0 * "UNDERWATER" - When the owner is in swimmable terrain * "ACTIVE" - whenever the item, mutation, bionic, or whatever the enchantment is attached to is active.
+| `condition`                 | How an enchantment determines if you are in the right environments in order for the enchantment to qualify for being active. * "ALWAYS" - Always and forevermore * "UNDERGROUND" - When the owner of the item is below Z-level 0 * "UNDERWATER" - When the owner is in swimmable terrain * "ACTIVE" - whenever the item, mutation, bionic, or whatever the enchantment is attached to is active. * "INACTIVE" - whenever the item, mutation, bionic, or whatever the enchantment is attached to is inactive.
 | `hit_you_effect`            | A spell that activates when you melee_attack a creature.  The spell is centered on the location of the creature unless self = true, then it is centered on your location.  Follows the template for defining "fake_spell"
 | `hit_me_effect`             | A spell that activates when you are hit by a creature.  The spell is centered on your location.  Follows the template for defining "fake_spell"
 | `intermittent_activation`   | Spells that activate centered on you depending on the duration.  The spells follow the "fake_spell" template.
@@ -477,6 +477,7 @@ Effects for the character that has the enchantment:
 * REGEN_STAMINA
 * MAX_HP
 * REGEN_HP
+* HUNGER
 * THIRST
 * FATIGUE
 * PAIN
@@ -490,9 +491,12 @@ Effects for the character that has the enchantment:
 * SIGHT_RANGE
 * CARRY_WEIGHT
 * CARRY_VOLUME
+* WEAPON_DISPERSION
 * SOCIAL_LIE
 * SOCIAL_PERSUADE
 * SOCIAL_INTIMIDATE
+* SLEEPY : The higher this is the more easily you fall asleep.
+* LUMINATION : The character produces light
 * ARMOR_BASH
 * ARMOR_CUT
 * ARMOR_STAB
@@ -504,6 +508,7 @@ Effects for the character that has the enchantment:
 
 Effects for the item that has the enchantment:
 
+* ITEM_DAMAGE_PURE
 * ITEM_DAMAGE_BASH
 * ITEM_DAMAGE_CUT
 * ITEM_DAMAGE_STAB
@@ -516,6 +521,7 @@ Effects for the item that has the enchantment:
 The damage enchantment values are for melee only.
 
 * ITEM_DAMAGE_AP
+* ITEM_DAMAGE_PURE
 * ITEM_ARMOR_BASH
 * ITEM_ARMOR_CUT
 * ITEM_ARMOR_STAB
@@ -530,3 +536,12 @@ The damage enchantment values are for melee only.
 * ITEM_COVERAGE
 * ITEM_ATTACK_SPEED
 * ITEM_WET_PROTECTION
+
+Examples
+    { "value": "ARMOR_ELEC", "add": -20 } subtracts 20 points of electrical damage
+    { "value": "ATTACK_SPEED", "add": -60 } subtracts 60 moves from attacking making the attack faster
+    { "value": "ARMOR_COLD", "multiply": -0.4 } subtracts 40 percent of the any cold damage
+    { "value": "ARMOR_HEAT", "multiply": 0.4 } increases damage taken from fire by 40 percent
+    { "value": "ARMOR_CUT", "add": 2 } increases cut damage taken by 2
+    { "value": "ARMOR_BIO", "multiply": -1.4 } subtracts 140 percent of the any bio damage giving 40% of damage dealt as increased health
+    { "value": "ARMOR_ACID", "multiply": 1.4 } increases damage taken from acid by 140 percent

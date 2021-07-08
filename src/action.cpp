@@ -5,18 +5,21 @@
 #include <istream>
 #include <iterator>
 #include <memory>
+#include <new>
+#include <string>
 #include <utility>
 
 #include "avatar.h"
 #include "cached_options.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "colony.h"
 #include "creature.h"
 #include "debug.h"
 #include "flag.h"
 #include "game.h"
-#include "iexamine.h"
 #include "input.h"
+#include "inventory.h"
 #include "item.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -44,8 +47,6 @@ static const std::string flag_CONSOLE( "CONSOLE" );
 static const std::string flag_GOES_DOWN( "GOES_DOWN" );
 static const std::string flag_GOES_UP( "GOES_UP" );
 static const std::string flag_SWIMMABLE( "SWIMMABLE" );
-
-class inventory;
 
 static void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
                           std::set<action_id> &unbound_keymap );
@@ -653,9 +654,9 @@ bool can_examine_at( const tripoint &p )
     const furn_t &xfurn_t = here.furn( p ).obj();
     const ter_t &xter_t = here.ter( p ).obj();
 
-    if( here.has_furn( p ) && xfurn_t.examine != &iexamine::none ) {
+    if( here.has_furn( p ) && xfurn_t.can_examine() ) {
         return true;
-    } else if( xter_t.examine != &iexamine::none ) {
+    } else if( xter_t.can_examine() ) {
         return true;
     }
 

@@ -3,8 +3,8 @@
 #define CATA_SRC_MAPGEN_FUNCTIONS_H
 
 #include <functional>
+#include <iosfwd>
 #include <map>
-#include <string>
 #include <utility>
 
 #include "coordinates.h"
@@ -71,7 +71,9 @@ void mapgen_ants_straight( mapgendata &dat );
 void mapgen_ants_tee( mapgendata &dat );
 void mapgen_ants_food( mapgendata &dat );
 void mapgen_ants_larvae( mapgendata &dat );
+void mapgen_ants_larvae_acid( mapgendata &dat );
 void mapgen_ants_queen( mapgendata &dat );
+void mapgen_ants_queen_acid( mapgendata &dat );
 void mapgen_tutorial( mapgendata &dat );
 void mapgen_lake_shore( mapgendata &dat );
 void mapgen_ravine_edge( mapgendata &dat );

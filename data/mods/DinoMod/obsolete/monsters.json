@@ -18,7 +18,7 @@
     "armor_bullet": 1,
     "hp": 50,
     "description": "The raggedly flying corpse  of a feathered reptile over three feet long, with short wings and a big colorful beak.",
-    "upgrades": { "half_life": 14, "into": "mon_zimorphodon_brute" }
+    "upgrades": {  }
   },
   {
     "type": "MONSTER",
@@ -59,26 +59,5 @@
     "description": "The raggedly flying corpse of a feathered reptile, with short wings and a colorful glowing beak.  It has been implanted with crackling bionics and is dripping black goo.",
     "special_when_hit": [ "ZAPBACK", 75 ],
     "harvest": "CBM_ZINO_FEATHER"
-  },
-  {
-    "id": "mon_obsoletefaction1",
-    "type": "MONSTER",
-    "copy-from": "mon_compsognathus_hatchling",
-    "name": "mon_obsoletefaction1",
-    "default_faction": "gallimimus"
-  },
-  {
-    "id": "mon_obsoletefaction2",
-    "type": "MONSTER",
-    "copy-from": "mon_compsognathus_hatchling",
-    "name": "mon_obsoletefaction2",
-    "default_faction": "pachycephalosaurus"
-  },
-  {
-    "id": "mon_obsoletefaction3",
-    "type": "MONSTER",
-    "copy-from": "mon_compsognathus_hatchling",
-    "name": "mon_obsoletefaction3",
-    "default_faction": "camptosaurus"
   }
 ]

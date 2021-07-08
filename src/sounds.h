@@ -2,7 +2,7 @@
 #ifndef CATA_SRC_SOUNDS_H
 #define CATA_SRC_SOUNDS_H
 
-#include <string>
+#include <string> // IWYU pragma: keep
 #include <utility>
 #include <vector>
 

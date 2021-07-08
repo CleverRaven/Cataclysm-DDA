@@ -5,7 +5,7 @@
     "copy-from": "cestus",
     "looks_like": "cestus",
     "name": "cestus +1",
-    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "proportional": { "price": 3.0, "price_postapoc": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
     "relative": { "to_hit": 1 }
   },
   {
@@ -14,7 +14,7 @@
     "copy-from": "cestus",
     "looks_like": "cestus",
     "name": "cestus +2",
-    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "proportional": { "price": 6.0, "price_postapoc": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }
   },
   {

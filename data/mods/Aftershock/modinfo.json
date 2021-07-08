@@ -3,9 +3,9 @@
     "type": "MOD_INFO",
     "id": "aftershock",
     "name": "Aftershock",
-    "authors": [ "Esther", "Coolthulu", "Maleclypse", "Candlebury" ],
-    "maintainers": [ "Maleclypse", "Candlebury" ],
-    "description": "Drifts the game away from realism and more towards sci-fi.  Long term goal of being a significantly different experience that remains compatible with other mods.",
+    "authors": [ "Esther", "Coolthulu", "Maleclypse", "Candlebury", "Mom_Bun" ],
+    "maintainers": [ "Maleclypse", "Candlebury", "Mom_Bun" ],
+    "description": "Moving towards a survival horror full conversion mod set in a mostly abandoned extrasolar colony far from Earth hundreds of years from today.",
     "category": "content",
     "dependencies": [ "dda" ]
   },
