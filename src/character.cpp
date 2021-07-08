@@ -6998,7 +6998,7 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint &p )
                     }
                     if( items_it.has_flag( flag_SLEEP_AID_CONTAINER ) ) {
                         bool found = false;
-                        if( items_it.contents.num_item_stacks() > 1 ) {
+                        if( items_it.num_item_stacks() > 1 ) {
                             // Only one item is allowed, so we don't fill our pillowcase with nails
                             continue;
                         }
@@ -7055,7 +7055,7 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint &p )
                 }
                 if( items_it.has_flag( flag_SLEEP_AID_CONTAINER ) ) {
                     bool found = false;
-                    if( items_it.contents.num_item_stacks() > 1 ) {
+                    if( items_it.num_item_stacks() > 1 ) {
                         // Only one item is allowed, so we don't fill our pillowcase with nails
                         continue;
                     }

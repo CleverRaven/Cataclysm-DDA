@@ -2225,7 +2225,7 @@ int game::inventory_item_menu( item_location locThisItem,
         addentry( 'D', pgettext( "action", "disassemble" ), rate_action_disassemble( u, oThisItem ) );
         if( oThisItem.is_container() ) {
             addentry( 'i', pgettext( "action", "insert" ), rate_action_insert( u, locThisItem ) );
-            if( oThisItem.contents.num_item_stacks() > 0 ) {
+            if( oThisItem.num_item_stacks() > 0 ) {
                 addentry( 'o', pgettext( "action", "open" ), hint_rating::good );
             }
             addentry( 'v', pgettext( "action", "pocket autopickup settings" ), hint_rating::good );
@@ -2401,7 +2401,7 @@ int game::inventory_item_menu( item_location locThisItem,
                     }
                     break;
                 case 'o':
-                    if( oThisItem.is_container() && oThisItem.contents.num_item_stacks() > 0 ) {
+                    if( oThisItem.is_container() && oThisItem.num_item_stacks() > 0 ) {
                         game_menus::inv::common( locThisItem, u );
                     }
                     break;
@@ -9149,7 +9149,7 @@ void game::reload( item_location &loc, bool prompt, bool empty )
     }
 
     // for holsters and ammo pouches try to reload any contained item
-    if( it->type->can_use( "holster" ) && it->contents.num_item_stacks() == 1 ) {
+    if( it->type->can_use( "holster" ) && it->num_item_stacks() == 1 ) {
         it = &it->contents.only_item();
     }
 

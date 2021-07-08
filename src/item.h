@@ -2272,6 +2272,12 @@ class item : public visitable
         void clear_items();
         bool empty() const;
 
+        /**
+         * returns the number of items stacks in contents
+         * each item that is not count_by_charges,
+         * plus whole stacks of items that are
+         */
+        size_t num_item_stacks() const;
 
     private:
         /** migrates an item into this item. */

@@ -11084,3 +11084,8 @@ bool item::empty() const
 {
     return contents.empty();
 }
+
+size_t item::num_item_stacks() const
+{
+    return contents.num_item_stacks();
+}
