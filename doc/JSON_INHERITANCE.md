@@ -69,6 +69,8 @@ Missing mandatory fields do not result in errors as the ```abstract``` type is d
 
 Missing optional fields are set to the usual defaults for that type
 
+When making new abstract definitions, its best practice to place them in a separate file than its inheritors, as doing otherwise might result in load order errors.
+
 ## Support
 The following types currently support inheritance:
 ```
