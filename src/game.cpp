@@ -7593,6 +7593,27 @@ void game::reset_zoom()
 #endif // TILES
 }
 
+void game::set_zoom( const int level )
+{
+#if defined(TILES)
+    if( tileset_zoom != level ) {
+        tileset_zoom = level;
+        rescale_tileset( tileset_zoom );
+    }
+#else
+    static_cast<void>( level );
+#endif // TILES
+}
+
+int game::get_zoom() const
+{
+#if defined(TILES)
+    return tileset_zoom;
+#else
+    return DEFAULT_TILESET_ZOOM;
+#endif
+}
+
 int game::get_moves_since_last_save() const
 {
     return moves_since_last_save;
