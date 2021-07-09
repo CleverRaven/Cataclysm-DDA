@@ -267,11 +267,12 @@ TEST_CASE( "expected weapon dps", "[expected][dps]" )
     make_experienced_tester( test_guy );
 
     SECTION( "staves" ) { // typical value around 18
-        calc_expected_dps( test_guy, "i_staff", 18.0 );
-        calc_expected_dps( test_guy, "q_staff", 17.0 );
+        calc_expected_dps( test_guy, "i_staff", 22.75 );
+        calc_expected_dps( test_guy, "staff_sling", 17 );
+        calc_expected_dps( test_guy, "q_staff", 20.75 );
         calc_expected_dps( test_guy, "l-stick_on", 17.5 );
         calc_expected_dps( test_guy, "l-stick", 17.5 );
-        calc_expected_dps( test_guy, "shock_staff", 17.0 );
+        calc_expected_dps( test_guy, "shock_staff", 21.75 );
         calc_expected_dps( test_guy, "hockey_stick", 13.75 );
         calc_expected_dps( test_guy, "pool_cue", 10.0 );
         calc_expected_dps( test_guy, "broom", 3.25 );
