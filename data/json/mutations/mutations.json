@@ -6785,6 +6785,15 @@
   },
   {
     "type": "mutation",
+    "id": "DEBUG_STAMINA",
+    "name": { "str": "Debug Stamina" },
+    "points": 99,
+    "valid": false,
+    "description": "You can't run from the bugs, but you have enough stamina to at least try to.",
+    "debug": true
+  },
+  {
+    "type": "mutation",
     "id": "DEBUG_NOSCENT",
     "name": { "str": "Debug Deodorizer" },
     "points": 99,
