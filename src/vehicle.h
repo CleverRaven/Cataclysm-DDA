@@ -459,9 +459,11 @@ struct vehicle_part {
     private:
         /** What type of part is this? */
         vpart_id id;
+    public:
         /** If it's a part with variants, which variant it is */
         std::string variant;
 
+    private:
         /** As a performance optimization we cache the part information here on first lookup */
         mutable const vpart_info *info_cache = nullptr;
 

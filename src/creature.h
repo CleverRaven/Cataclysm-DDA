@@ -265,7 +265,7 @@ class Creature : public location, public viewer
         virtual const avatar *as_avatar() const {
             return nullptr;
         }
-        virtual const npc *as_npc() {
+        virtual npc *as_npc() {
             return nullptr;
         }
         virtual const npc *as_npc() const {

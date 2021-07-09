@@ -3195,6 +3195,11 @@ The contents of use_action fields can either be a string indicating a built-in f
         "kevlar_padded"
     ]
 }
+"use_action": {
+    "type" :"effect_on_conditions", // activate effect_on_conditions
+    "description" :"This debugs the game", // usage description
+    "effect_on_conditions" : ["test_cond"] // ids of the effect_on_conditions to activate
+    }
 ```
 
 ###random Descriptions

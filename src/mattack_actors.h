@@ -71,6 +71,10 @@ class melee_actor : public mattack_actor
         // If non-negative, the attack will use a different accuracy from mon's
         // regular melee attack.
         int accuracy = INT_MIN;
+        // Determines if a special attack can be dodged
+        bool dodgeable = true;
+        // Determines if a special attack can be blocked
+        bool blockable = true;
 
         /**
          * If empty, regular melee roll body part selection is used.

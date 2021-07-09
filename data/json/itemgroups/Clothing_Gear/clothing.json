@@ -539,8 +539,7 @@
     "//": "Various types of hazmat suits, without masks",
     "items": [
       { "collection": [ { "item": "cleansuit" }, { "item": "gloves_rubber" }, { "item": "boots_rubber" } ], "prob": 40 },
-      [ "hazmat_suit", 55 ],
-      [ "anbc_suit", 5 ]
+      [ "hazmat_suit", 60 ]
     ]
   },
   {
@@ -2237,7 +2236,7 @@
   {
     "type": "item_group",
     "id": "hazmat_full",
-    "items": [ [ "hazmat_suit", 80 ], [ "anbc_suit", 20 ] ]
+    "items": [ [ "hazmat_suit", 100 ] ]
   },
   {
     "type": "item_group",
@@ -2270,7 +2269,6 @@
       [ "armor_plarmor", 2 ],
       [ "armor_riot", 10 ],
       [ "swat_armor", 6 ],
-      [ "aep_suit", 4 ],
       [ "armor_scrapsuit", 12 ],
       [ "armor_chitin", 2 ],
       [ "armor_lightplate", 1 ],

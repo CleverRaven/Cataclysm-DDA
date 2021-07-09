@@ -17,6 +17,7 @@
 #include "mattack_common.h"
 #include "optional.h"
 #include "pathfinding.h"
+#include "shearing.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h" // IWYU pragma: keep
@@ -299,6 +300,7 @@ struct mtype {
 
         damage_instance melee_damage; // Basic melee attack damage
         harvest_id harvest;
+        shearing_data shearing;
         float luminance;           // 0 is default, >0 gives luminance to lightmap
 
         unsigned int def_chance; // How likely a special "defensive" move is to trigger (0-100%, default 0)
