@@ -11,7 +11,9 @@
     "hit_dmg_u": "The %1$s impales your torso!",
     "hit_dmg_npc": "The %1$s impales <npcname>'s torso!",
     "no_dmg_msg_u": "The %1$s tries to impale your torso, but fails to penetrate your armor!",
-    "no_dmg_msg_npc": "The %1$s tries to impale <npcname>'s torso, but fails to penetrate their armor!"
+    "no_dmg_msg_npc": "The %1$s tries to impale <npcname>'s torso, but fails to penetrate their armor!",
+    "dodgeable": true,
+    "blockable": true
   },
   {
     "type": "monster_attack",
@@ -37,7 +39,9 @@
     "hit_dmg_u": "The %1$s claws at you!",
     "hit_dmg_npc": "The %1$s claws at <npcname>!",
     "no_dmg_msg_u": "The %1$s claws at your %2$s, but fails to penetrate armor.",
-    "no_dmg_msg_npc": "The %1$s tries to claw at <npcname>, but fails to penetrate armor."
+    "no_dmg_msg_npc": "The %1$s tries to claw at <npcname>, but fails to penetrate armor.",
+    "dodgeable": true,
+    "blockable": true
   },
   {
     "type": "monster_attack",
@@ -63,7 +67,9 @@
     "hit_dmg_u": "The %1$s slams into you!",
     "hit_dmg_npc": "The %1$s slams into <npcname>!",
     "no_dmg_msg_u": "The %1$s tries to slam into you, but stumbles aside.",
-    "no_dmg_msg_npc": "The %1$s tries to slam into <npcname>, but fails to."
+    "no_dmg_msg_npc": "The %1$s tries to slam into <npcname>, but fails to.",
+    "dodgeable": true,
+    "blockable": false
   },
   {
     "type": "monster_attack",
@@ -79,7 +85,9 @@
     "miss_msg_u": "The %1$s tries to sting you, but you dodge!",
     "miss_msg_npc": "The %1$s tries to sting <npcname>, but they dodge!",
     "no_dmg_msg_u": "The %1$s tries to sting your %2$s, but it fails to penetrate your armor.",
-    "no_dmg_msg_npc": "The %1$s tries to sting <npcname>'s %2$s, but it fails to penetrate their armor."
+    "no_dmg_msg_npc": "The %1$s tries to sting <npcname>'s %2$s, but it fails to penetrate their armor.",
+    "dodgeable": true,
+    "blockable": true
   },
   {
     "id": "acid_spray",
