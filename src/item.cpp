@@ -5216,7 +5216,7 @@ int item::price( bool practical ) const
 }
 
 // TODO: MATERIALS add a density field to materials.json
-units::mass item::weight( bool, bool integral ) const
+units::mass item::weight( bool include_contents, bool integral ) const
 {
     if( is_null() ) {
         return 0_gram;
@@ -5276,13 +5276,10 @@ units::mass item::weight( bool, bool integral ) const
             ret *= 0.85;
         }
 
-    } else if( magazine_integral() && ( !is_magazine() || is_gun() ) ) {
-        if( ammo_current() == itype_plut_cell ) {
-            ret += ammo_remaining() * find_type( ammotype(
-                    *ammo_types().begin() )->default_ammotype() )->weight / PLUTONIUM_CHARGES;
-        } else if( ammo_data() ) {
-            ret += ammo_remaining() * ammo_data()->weight;
-        }
+    }
+
+    if( include_contents ) {
+        ret += contents.item_weight_modifier();
     }
 
     // if this is an ammo belt add the weight of any implicitly contained linkages
@@ -5299,17 +5296,6 @@ units::mass item::weight( bool, bool integral ) const
         const units::mass barrel_weight = units::from_gram( b.value() * type->weight.value() /
                                           type->volume.value() );
         ret -= std::min( max_barrel_weight, barrel_weight );
-    }
-
-    if( is_gun() ) {
-        for( const item *elem : gunmods() ) {
-            ret += elem->weight( true, true );
-        }
-        if( magazine_current() ) {
-            ret += magazine_current()->weight();
-        }
-    } else {
-        ret += contents.item_weight_modifier();
     }
 
     return ret;
