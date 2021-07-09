@@ -309,7 +309,7 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
                     item_pocket::pocket_type::MAGAZINE );
         }
 
-    } else if( has_temperature() || goes_bad() ) {
+    } else if( has_temperature() ) {
         active = true;
         last_temp_check = bday;
 
@@ -378,7 +378,7 @@ item::item( const recipe *rec, int qty, std::list<item> items, std::vector<item_
     components = items;
     craft_data_->comps_used = selections;
 
-    if( is_food() ) {
+    if( has_temperature() ) {
         active = true;
         last_temp_check = bday;
         if( goes_bad() ) {
@@ -412,7 +412,7 @@ item::item( const recipe *rec, item &component )
     std::list<item>items( { component } );
     components = items;
 
-    if( is_food() ) {
+    if( has_temperature() ) {
         active = true;
         last_temp_check = bday;
         if( goes_bad() ) {
@@ -4444,7 +4444,7 @@ nc_color item::color_in_inventory() const
         }
     } else if( has_flag( flag_LEAK_DAM ) && has_flag( flag_RADIOACTIVE ) && damage() > 0 ) {
         ret = c_light_green;
-    } else if( active && !is_food() &&  !is_corpse() ) {
+    } else if( active && !has_temperature() &&  !is_corpse() ) {
         // Active items show up as yellow
         ret = c_yellow;
     } else if( is_corpse() && can_revive() ) {
@@ -4983,7 +4983,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         tagtext += _( " (lit)" );
     } else if( has_flag( flag_IS_UPS ) && get_var( "cable" ) == "plugged_in" ) {
         tagtext += _( " (plugged in)" );
-    } else if( active && !is_food() && !is_corpse() &&
+    } else if( active && !has_temperature() && !is_corpse() &&
                !string_ends_with( typeId().str(), "_on" ) ) {
         // Usually the items whose ids end in "_on" have the "active" or "on" string already contained
         // in their name, also food is active while it rots.
@@ -5839,13 +5839,13 @@ bool item::goes_bad() const
         // Corpses rot only if they are made of rotting materials
         return made_of_any( materials::get_rotting() );
     }
-    return is_food() && get_comestible()->spoils != 0_turns;
+    return is_comestible() && get_comestible()->spoils != 0_turns;
 }
 
 time_duration item::get_shelf_life() const
 {
     if( goes_bad() ) {
-        if( is_food() ) {
+        if( is_comestible() ) {
             return get_comestible()->spoils;
         } else if( is_corpse() ) {
             return 24_hours;
@@ -6861,11 +6861,6 @@ bool item::reinforceable() const
     } );
 }
 
-bool item::destroyed_at_zero_charges() const
-{
-    return ( is_ammo() || is_food() );
-}
-
 bool item::is_gun() const
 {
     return !!type->gun;
@@ -7042,7 +7037,7 @@ bool item::is_food_container() const
 
 bool item::has_temperature() const
 {
-    return is_food() || is_corpse();
+    return is_comestible() || is_corpse();
 }
 
 bool item::is_corpse() const
@@ -9425,7 +9420,7 @@ bool item::has_rotten_away() const
     if( is_corpse() && !can_revive() ) {
         return get_rot() > 10_days;
     } else {
-        return is_food() && get_relative_rot() > 2.0;
+        return get_relative_rot() > 2.0;
     }
 }
 
@@ -9535,7 +9530,7 @@ bool item::needs_processing() const
     bool need_process = false;
     visit_items( [&need_process]( const item * it, item * ) {
         if( it->active || it->ethereal || it->has_flag( flag_RADIO_ACTIVATION ) ||
-            it->is_food() || it->has_relic_recharge() ) {
+            it->has_relic_recharge() ) {
             need_process = true;
             return VisitResponse::ABORT;
         }
@@ -9546,7 +9541,7 @@ bool item::needs_processing() const
 
 int item::processing_speed() const
 {
-    if( is_corpse() || is_food() ) {
+    if( is_corpse() || is_comestible() ) {
         return to_turns<int>( 10_minutes );
     }
     // Unless otherwise indicated, update every turn.
