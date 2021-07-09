@@ -14,6 +14,7 @@
 #include "damage.h"
 #include "enum_bitset.h"
 #include "enums.h"
+#include "magic.h"
 #include "mattack_common.h"
 #include "optional.h"
 #include "pathfinding.h"
@@ -202,6 +203,30 @@ struct mon_effect_data {
         chance( nchance ) {}
 };
 
+enum class mdeath_type {
+    NORMAL,
+    SPLATTER,
+    BROKEN,
+    NO_CORPSE,
+    LAST
+};
+
+template<>
+struct enum_traits<mdeath_type> {
+    static constexpr mdeath_type last = mdeath_type::LAST;
+};
+
+struct monster_death_effect {
+    bool was_loaded = false;
+    bool has_effect = false;
+    fake_spell sp;
+    translation death_message;
+    mdeath_type corpse_type = mdeath_type::NORMAL;
+
+    void load( const JsonObject &jo );
+    void deserialize( JsonIn &jsin );
+};
+
 struct mtype {
     private:
         friend class MonsterGenerator;
@@ -309,7 +334,7 @@ struct mtype {
         std::map<std::string, mtype_special_attack> special_attacks;
         std::vector<std::string> special_attacks_names; // names of attacks, in json load order
 
-        std::vector<mon_action_death>  dies;       // What happens when this monster dies
+        monster_death_effect mdeath_effect;
 
         // This monster's special "defensive" move that may trigger when the monster is attacked.
         // Note that this can be anything, and is not necessarily beneficial to the monster

@@ -341,9 +341,16 @@ Percent multiplier on all bleed effects' duration applied to the monster. Values
 An item group that is used to spawn items when the monster dies. This can be an inlined item group, see [ITEM_SPAWN.md](ITEM_SPAWN.md). The default subtype is "distribution".
 
 ## "death_function"
-(array of strings, optional)
+(object, optional)
 
-How the monster behaves on death. See [JSON_FLAGS.md](JSON_FLAGS.md) for a list of possible functions.
+How the monster behaves on death.
+```cpp
+{
+    "corpse_type": "NORMAL", // can be: BROKEN, NO_CORPSE, NORMAL (default)
+    "message": "The %s dies!", // substitute %s for the monster's name.
+    "effect": { "id": "death_boomer", "hit_self": true }  // the actual effect that gets called when the monster dies.  follows the syntax of fake_spell.
+}
+```
 
 ## "emit_field"
 (array of objects of emit_id and time_duration, optional)

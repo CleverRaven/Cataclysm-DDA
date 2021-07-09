@@ -97,10 +97,13 @@ Below is a table of currently implemented effects, along with special rules for 
 | Effect                   | Description
 |---                       |---
 | `pain_split` | makes all of your limbs' damage even out
-| `move_earth` | "digs" at the target location. some terrain is not diggable this way.
 | `attack` | "causes damage to targets in its aoe, and applies an effect to the targets named by `effect_str`
 | `spawn_item` | spawns an item that will disappear at the end of its duration.  Default duration is 0.
 | `summon` | summons a monster ID or group ID from `effect_str` that will disappear at the end of its duration.  Default duration is 0.
+| `summon_vehicle` | summons a vehicle ID from `effect_str` that will disappear at the end of its duration.  Default duration is 0.
+| `translocate` | Opens up a window that allows the caster to choose a translocation gate to teleport to.
+| `area_pull` | Pulls `valid_targets` in aoe toward the target location
+| `area_push` | Pushes `valid_targets` in aoe away from the target location
 | `teleport_random` | teleports the player randomly range spaces with aoe variation
 | `targeted_polymorph` | A targeted monster is permanently transformed into the monster ID specified by  `effect_str` if it has less HP than the spell's damage. If `effect_str` is left empty, the target will transform into a random monster with a similar difficulty rating, alternatively  the flag `"POLYMORPH_GROUP"` can be used to pick a weighted monster ID from a monster group. The player and NPCs are immune to this spell effect.
 | `recover_energy` | recovers an energy source equal to damage of the spell. The energy source recovered is defined in "effect_str" and may be one of "MANA", "STAMINA", "FATIGUE", "PAIN", "BIONIC"
@@ -115,6 +118,14 @@ Below is a table of currently implemented effects, along with special rules for 
 | `charm_monster` | charms a monster that has less hp than damage() for approximately duration()
 | `mutate` | mutates the target(s). if effect_str is defined, mutates toward that category instead of picking at random. the "MUTATE_TRAIT" flag allows effect_str to be a specific trait instead of a category. damage() / 100 is the percent chance the mutation will be successful (a value of 10000 represents 100.00%)
 | `bash` | bashes the terrain at the target. uses damage() as the strength of the bash.
+| `dash` | dashes forward up to range and hits targets in a cone at the target
+| `banishment` | kills monsters in the aoe up to damage hp. any overflow hp the monster has is taken from the caster; if it's more hp than the caster has it fails.
+| `revive` | Revives a monster like a zombie necromancer.  The monster must have the revives flag
+| `upgrade` | Immediately upgrades a target monster
+| `guilt` | The target gets the guilt morale as if it killed the caster
+| `remove_effect` | Removes `effect_str` effects from all creatures in aoe
+| `emit` | Causes an emit at the target
+| `fungalize` | Fungalizes the target
 
 Another mandatory member is spell "shape". This dictates how the area of effect works.
 
