@@ -1,6 +1,6 @@
 #include "avatar.h"
 #include "calendar.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "monster.h"
 #include "mtype.h"
 #include "type_id.h"
@@ -314,7 +314,7 @@ TEST_CASE( "has_effect_with_flag", "[creature][effect][has][flag]" )
 {
     const efftype_id effect_downed( "downed" );
     const efftype_id effect_invisibility( "invisibility" );
-    const flag_id invisibility_flag( "EFFECT_INVISIBLE" );
+    const flag_id invisibility_flag( "INVISIBLE" );
 
     monster mummy( mtype_id( "debug_mon" ) );
 
@@ -455,9 +455,10 @@ TEST_CASE( "monster is_immune_effect", "[creature][monster][effect][immune]" )
         fungaloid.clear_effects();
         REQUIRE_FALSE( fungaloid.made_of_any( Creature::cmat_flesh ) );
         REQUIRE( fungaloid.type->in_species( species_FUNGUS ) );
+        REQUIRE( fungaloid.type->bleed_rate == 0 );
 
-        THEN( "they bleed plant sap for now" ) {
-            CHECK_FALSE( fungaloid.is_immune_effect( effect_bleed ) );
+        THEN( "their zero bleed rate makes them immune to bleed" ) {
+            CHECK( fungaloid.is_immune_effect( effect_bleed ) );
         }
 
         THEN( "they can't be poisoned" ) {

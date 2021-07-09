@@ -29,7 +29,6 @@
     "path_settings": { "max_dist": 5 },
     "special_attacks": [ [ "scratch", 20 ] ],
     "death_drops": "mon_zombie_scientist_death_drops",
-    "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
     "upgrades": { "half_life": 28, "into_group": "GROUP_ZOMBIE_UPGRADE" },
     "flags": [
@@ -81,7 +80,6 @@
     "harvest": "zombie",
     "special_attacks": [ [ "GRAB", 10 ], [ "scratch", 10 ] ],
     "death_drops": "mon_zombie_labsecurity_death_drops",
-    "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 28, "into_group": "GROUP_SOLDIER_UPGRADE" },
     "burn_into": "mon_zombie_scorched",
     "flags": [
@@ -139,7 +137,7 @@
       }
     ],
     "death_drops": "phase_zombie_death_drops",
-    "death_function": [ "MELT" ],
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "NOGIB", "POISON", "FILTHY", "STUN_IMMUNE" ]
   },
   {
@@ -156,6 +154,7 @@
     "armor_bash": 40,
     "armor_cut": 40,
     "armor_bullet": 30,
+    "bleed_rate": 50,
     "vision_night": 5,
     "luminance": 16,
     "special_attacks": [

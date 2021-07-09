@@ -73,7 +73,7 @@
       ],
       "R": { "item": "office_supplies", "chance": 60, "repeat": [ 1, 2 ] }
     },
-    "vendingmachines": { "4": { "item_group": "vending_drink" }, "5": { "item_group": "vending_food" } }
+    "vendingmachines": { "4": { "item_group": "vending_drink", "lootable": true }, "5": { "item_group": "vending_food", "lootable": true } }
   },
   {
     "type": "mapgen",

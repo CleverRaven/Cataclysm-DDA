@@ -359,10 +359,8 @@ item *inventory::provide_pseudo_item( const itype_id &id, int battery )
 book_proficiency_bonuses inventory::get_book_proficiency_bonuses() const
 {
     book_proficiency_bonuses ret;
-    std::set<itype_id> ids_used;
     for( const std::list<item> &it : this->items ) {
         ret += it.front().get_book_proficiency_bonuses();
-        ids_used.emplace( it.front().typeId() );
     }
     return ret;
 }
@@ -451,6 +449,7 @@ void inventory::form_from_zone( map &m, std::unordered_set<tripoint> &zone_pts, 
                                 bool assign_invlet )
 {
     std::vector<tripoint> pts;
+    pts.reserve( zone_pts.size() );
     for( const tripoint &elem : zone_pts ) {
         pts.push_back( m.getlocal( elem ) );
     }

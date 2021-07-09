@@ -74,7 +74,11 @@
     "id": "corner_weapon",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "item": "tazer", "prob": 70, "charges": [ 0, 500 ] }, { "item": "knuckle_brass", "prob": 70 } ]
+    "entries": [
+      { "item": "tazer", "prob": 70, "charges": [ 0, 500 ] },
+      { "item": "knuckle_brass", "prob": 50 },
+      { "item": "knuckle_steel_forged", "prob": 20 }
+    ]
   },
   {
     "id": "displays",
@@ -661,7 +665,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "bread", "prob": 65 },
-      { "item": "brown_bread", "prob": 50 },
+      { "item": "brown_bread", "prob": 50, "container-item": "bag_plastic" },
       { "item": "cake2", "prob": 10 },
       { "item": "cake3", "prob": 10 },
       { "item": "cornbread", "prob": 35 },

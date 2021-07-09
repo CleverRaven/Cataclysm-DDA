@@ -76,6 +76,7 @@
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
+#include "talker.h"
 #include "translations.h"
 #include "trap.h"
 #include "ui.h"
@@ -1116,7 +1117,7 @@ void reveal_map_actor::load( const JsonObject &obj )
             ter_match_type = jo.get_enum_value<ot_match_type>( "om_terrain_match_type",
                              ot_match_type::contains );
         }
-        omt_types.push_back( std::make_pair( ter, ter_match_type ) );
+        omt_types.emplace_back( ter, ter_match_type );
     }
 }
 
@@ -1135,10 +1136,6 @@ cata::optional<int> reveal_map_actor::use( player &p, item &it, bool, const trip
 {
     if( it.already_used_by_player( p ) ) {
         p.add_msg_if_player( _( "There isn't anything new on the %s." ), it.tname() );
-        return cata::nullopt;
-    } else if( get_map().get_abs_sub().z < 0 ) {
-        p.add_msg_if_player( _( "You should read your %s when you get to the surface." ),
-                             it.tname() );
         return cata::nullopt;
     } else if( p.fine_detail_vision_mod() > 4 ) {
         p.add_msg_if_player( _( "It's too dark to read." ) );
@@ -1323,7 +1320,7 @@ cata::optional<int> firestarter_actor::use( player &p, item &it, bool t,
         moves_modifier + moves_cost_fast / 100.0 + 2;
     p.assign_activity( ACT_START_FIRE, moves, potential_skill_gain,
                        0, it.tname() );
-    p.activity.targets.push_back( item_location( p, &it ) );
+    p.activity.targets.emplace_back( p, &it );
     p.activity.values.push_back( g->natural_light_level( pos.z ) );
     p.activity.placement = pos;
     // charges to use are handled by the activity
@@ -2390,7 +2387,7 @@ cata::optional<int> holster_actor::use( player &p, item &it, bool, const tripoin
     std::string prompt = holster_prompt.empty() ? _( "Holster item" ) : holster_prompt.translated();
     opts.push_back( prompt );
     pos = -1;
-    std::list<item *> all_items = it.contents.all_items_top(
+    std::list<item *> all_items = it.all_items_top(
                                       item_pocket::pocket_type::CONTAINER );
     std::transform( all_items.begin(), all_items.end(), std::back_inserter( opts ),
     []( const item * elem ) {
@@ -2915,7 +2912,7 @@ static bool damage_item( player &pl, item_location &fix )
         if( fix.where() == item_location::type::character ) {
             pl.i_rem_keep_contents( fix.get_item() );
         } else {
-            for( const item *it : fix->contents.all_items_top() ) {
+            for( const item *it : fix->all_items_top() ) {
                 if( it->has_flag( flag_NO_DROP ) ) {
                     continue;
                 }
@@ -3140,7 +3137,7 @@ static player &get_patient( player &healer, const tripoint &pos )
     player *const person = g->critter_at<player>( pos );
     if( !person ) {
         // Default to heal self on failure not to break old functionality
-        add_msg_debug( "No heal target at position %d,%d,%d", pos.x, pos.y, pos.z );
+        add_msg_debug( debugmode::DF_IUSE, "No heal target at position %d,%d,%d", pos.x, pos.y, pos.z );
         return healer;
     }
 
@@ -3180,8 +3177,8 @@ cata::optional<int> heal_actor::use( player &p, item &it, bool, const tripoint &
         // Assign first aid long action.
         /** @EFFECT_FIRSTAID speeds up firstaid activity */
         p.assign_activity( ACT_FIRSTAID, cost, 0, 0, it.tname() );
-        p.activity.targets.push_back( item_location( p, &it ) );
-        p.activity.str_values.push_back( hpp.c_str() );
+        p.activity.targets.emplace_back( p, &it );
+        p.activity.str_values.emplace_back( hpp.c_str() );
         p.moves = 0;
         return 0;
     }
@@ -3450,11 +3447,13 @@ bodypart_id heal_actor::use_healing_item( player &healer, player &patient, item 
             if( ( !patient.has_effect( effect_bandaged, part_id ) && bandages_power > 0 ) ||
                 ( !patient.has_effect( effect_disinfected, part_id ) && disinfectant_power > 0 ) ) {
                 damage += patient.get_part_hp_max( part_id ) - patient.get_part_hp_cur( part_id );
-                damage += bite * patient.get_effect_dur( effect_bite, part_id ) / 10_minutes;
                 damage += infect * patient.get_effect_dur( effect_infected, part_id ) / 10_minutes;
             }
             if( patient.get_effect_int( effect_bleed, part_id ) > 5 && bleed > 0 ) {
                 damage += bleed * patient.get_effect_dur( effect_bleed, part_id ) / 5_minutes;
+            }
+            if( patient.has_effect( effect_bite, part_id ) && disinfectant_power > 0 ) {
+                damage += bite * patient.get_effect_dur( effect_bite, part_id ) / 1_minutes;
             }
             if( damage > highest_damage ) {
                 highest_damage = damage;
@@ -3929,9 +3928,13 @@ cata::optional<int> detach_gunmods_actor::use( player &p, item &it, bool, const 
     if( prompt.ret >= 0 ) {
         gun_copy.remove_item( *mods_copy[prompt.ret] );
 
-        if( game_menus::inv::compare_items( it, gun_copy, _( "Remove modification?" ) ) ) {
-            p.gunmod_remove( it, *mods[ prompt.ret ] );
-            return 0;
+        if( p.meets_requirements( *mods[prompt.ret], gun_copy ) ||
+            query_yn( _( "Are you sure?  You may be lacking the skills needed to reattach this modification." ) ) ) {
+
+            if( game_menus::inv::compare_items( it, gun_copy, _( "Remove modification?" ) ) ) {
+                p.gunmod_remove( it, *mods[prompt.ret] );
+                return 0;
+            }
         }
     }
 
@@ -4162,20 +4165,12 @@ cata::optional<int> deploy_tent_actor::use( player &p, item &it, bool, const tri
             return cata::nullopt;
         }
     }
-    // Make a square of floor surrounded by wall.
-    for( const tripoint &dest : here.points_in_radius( center, radius ) ) {
-        here.furn_set( dest, wall );
-    }
-    for( const tripoint &dest : here.points_in_radius( center, radius - 1 ) ) {
-        here.furn_set( dest, floor );
-    }
-    // Place the center floor and the door.
-    if( floor_center ) {
-        here.furn_set( center, *floor_center );
-    }
-    here.furn_set( p.pos() + direction, door_closed );
-    add_msg( m_info, _( "You set up the %s on the ground." ), it.tname() );
-    add_msg( m_info, _( "Examine the center square to pack it up again." ) );
+
+    //checks done start activity:
+    player_activity new_act = player_activity( tent_placement_activity_actor( to_moves<int>
+                              ( 20_minutes ), direction, radius, it, wall, floor, floor_center, door_closed ) );
+    get_player_character().assign_activity( new_act, false );
+
     return 1;
 }
 
@@ -4242,7 +4237,7 @@ void sew_advanced_actor::load( const JsonObject &obj )
         materials.emplace( line );
     }
     for( const std::string line : obj.get_array( "clothing_mods" ) ) {
-        clothing_mods.push_back( clothing_mod_id( line ) );
+        clothing_mods.emplace_back( line );
     }
 
     // TODO: Make skill non-mandatory while still erroring on invalid skill
@@ -4304,7 +4299,7 @@ cata::optional<int> sew_advanced_actor::use( player &p, item &it, bool, const tr
 
     // Cache available materials
     std::map< itype_id, bool > has_enough;
-    const int items_needed = mod.volume() / 750_ml + 1;
+    const int items_needed = mod.base_volume() / 750_ml + 1;
     const inventory &crafting_inv = p.crafting_inventory();
     const std::function<bool( const item & )> is_filthy_filter = is_crafting_component;
 
@@ -4320,7 +4315,7 @@ cata::optional<int> sew_advanced_actor::use( player &p, item &it, bool, const tr
     }
 
     // We need extra thread to lose it on bad rolls
-    const int thread_needed = mod.volume() / 125_ml + 10;
+    const int thread_needed = mod.base_volume() / 125_ml + 10;
 
     const auto valid_mods = mod.find_armor_data()->valid_mods;
 
@@ -4426,7 +4421,7 @@ cata::optional<int> sew_advanced_actor::use( player &p, item &it, bool, const tr
     const auto &repair_item = clothing_mods[choice].obj().item_string;
 
     std::vector<item_comp> comps;
-    comps.push_back( item_comp( repair_item, items_needed ) );
+    comps.emplace_back( repair_item, items_needed );
     p.moves -= to_moves<int>( 30_seconds * p.fine_detail_vision_mod() );
     p.practice( used_skill, items_needed * 3 + 3 );
     /** @EFFECT_TAILOR randomly improves clothing modification efforts */
@@ -4513,4 +4508,41 @@ cata::optional<int> change_scent_iuse::use( player &p, item &it, bool, const tri
 std::unique_ptr<iuse_actor> change_scent_iuse::clone() const
 {
     return std::make_unique<change_scent_iuse>( *this );
+}
+
+std::unique_ptr<iuse_actor> effect_on_conditons_actor::clone() const
+{
+    return std::make_unique<effect_on_conditons_actor>( *this );
+}
+
+void effect_on_conditons_actor::load( const JsonObject &obj )
+{
+    description = obj.get_string( "description" );
+    for( const std::string &eoc : obj.get_string_array( "effect_on_conditions" ) ) {
+        eocs.emplace_back( effect_on_condition_id( eoc ) );
+    }
+}
+
+void effect_on_conditons_actor::info( const item &, std::vector<iteminfo> &dump ) const
+{
+    dump.emplace_back( "DESCRIPTION", description );
+}
+
+cata::optional<int> effect_on_conditons_actor::use( player &p, item &it, bool,
+        const tripoint & ) const
+{
+    dialogue d;
+    standard_npc default_npc( "Default" );
+    if( avatar *u = p.as_avatar() ) {
+        d.alpha = get_talker_for( u );
+    } else if( npc *n = p.as_npc() ) {
+        d.alpha = get_talker_for( n );
+    }
+    ///TODO make this talker item
+    d.beta = get_talker_for( default_npc );
+
+    for( const effect_on_condition_id &eoc : eocs ) {
+        eoc->activate( d );
+    }
+    return it.type->charges_to_use();
 }

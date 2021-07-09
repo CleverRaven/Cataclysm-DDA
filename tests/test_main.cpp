@@ -17,7 +17,7 @@
 #include <vector>
 
 #include "calendar.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "coordinates.h"
 #ifndef _WIN32
 #include <unistd.h>

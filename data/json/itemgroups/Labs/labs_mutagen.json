@@ -1,0 +1,51 @@
+[
+  {
+    "id": "lab_mutagen_ingredients",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "bleach", "charges-min": 1, "prob": 40, "container-item": "jug_plastic", "sealed": false },
+      { "item": "ammonia", "charges-min": 1, "prob": 40, "container-item": "jug_plastic", "sealed": false },
+      {
+        "distribution": [ { "item": "honey_glassed", "prob": 20 }, { "item": "honey_bottled", "prob": 80 } ],
+        "prob": 30
+      },
+      { "item": "can_clams", "count": [ 1, 3 ], "prob": 30 },
+      { "item": "lye_powder", "prob": 30 },
+      { "item": "honeycomb", "prob": 30 },
+      { "item": "iodine", "prob": 30 },
+      { "item": "disinfectant", "prob": 30 },
+      { "item": "protein_powder", "prob": 30 },
+      { "item": "bee_sting", "prob": 20 },
+      { "item": "slime_scrap", "prob": 20 },
+      { "item": "datura_seed", "prob": 20 },
+      { "item": "chitin_piece", "prob": 20 },
+      { "item": "oxy_powder", "prob": 30 },
+      { "item": "heroin", "prob": 10 },
+      { "item": "lsd", "prob": 10 },
+      { "item": "oxycodone", "prob": 10 },
+      { "item": "tramadol", "prob": 10 },
+      { "item": "codeine", "prob": 10 },
+      { "item": "thorazine", "prob": 10 },
+      { "item": "pills_sleep", "prob": 20 },
+      { "item": "vitamins", "prob": 30 }
+    ]
+  },
+  {
+    "id": "lab_mutagen_ingredients_fridge",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "meat", "prob": 40, "count": [ 1, 3 ] },
+      { "item": "meat_tainted", "prob": 30, "count": [ 1, 3 ] },
+      { "item": "tallow", "prob": 30, "count": [ 1, 3 ] },
+      { "item": "fish", "prob": 40, "count": [ 1, 3 ] },
+      { "item": "tallow_tainted", "prob": 20, "count": [ 1, 2 ] },
+      { "item": "egg_bird_unfert", "prob": 30, "count-min": 1, "count-max": 12 },
+      { "item": "spider_egg", "prob": 20, "count-min": 1, "count-max": 12 },
+      { "item": "egg_reptile", "prob": 20, "count-min": 1, "count-max": 12 },
+      { "item": "water_clean", "container-item": "bottle_plastic", "prob": 65, "count": [ 1, 3 ], "sealed": false },
+      { "item": "water_mineral", "container-item": "bottle_plastic", "prob": 35, "count": [ 1, 2 ], "sealed": false }
+    ]
+  }
+]

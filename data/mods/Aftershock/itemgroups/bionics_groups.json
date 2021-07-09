@@ -4,25 +4,22 @@
     "type": "item_group",
     "items": [
       [ "bn_bio_solar", 10 ],
-      [ "afs_bio_wind_turbine", 5 ],
       [ "afs_bio_missiles", 10 ],
       [ "afs_bio_linguistic_coprocessor", 10 ],
       [ "afs_bio_dopamine_stimulators", 10 ],
       [ "afs_bio_neurosoft_aeronautics", 5 ],
-      [ "afs_bio_skullgun", 5 ],
-      [ "bio_blaster", 5 ]
+      [ "afs_bio_skullgun", 5 ]
     ]
   },
   {
     "id": "bionics_common",
     "type": "item_group",
-    "items": [ [ "bn_bio_solar", 10 ], [ "afs_bio_wind_turbine", 5 ], [ "afs_bio_linguistic_coprocessor", 8 ] ]
+    "items": [ [ "bn_bio_solar", 10 ], [ "afs_bio_linguistic_coprocessor", 8 ] ]
   },
   {
     "id": "bionics_mil",
     "type": "item_group",
     "items": [
-      [ "bio_blaster", 5 ],
       [ "afs_bio_neurosoft_aeronautics", 10 ],
       [ "afs_bio_melee_counteraction", 10 ],
       [ "afs_bio_melee_optimization_unit", 10 ],
@@ -32,14 +29,13 @@
   {
     "id": "bionics_sci",
     "type": "item_group",
-    "items": [ [ "bn_bio_solar", 5 ], [ "afs_bio_wind_turbine", 2 ] ]
+    "items": [ [ "bn_bio_solar", 5 ] ]
   },
   {
     "id": "bionics_op",
     "type": "item_group",
     "items": [
       [ "bn_bio_solar", 15 ],
-      [ "afs_bio_wind_turbine", 10 ],
       [ "afs_bio_missiles", 10 ],
       [ "afs_bio_melee_counteraction", 10 ],
       [ "afs_bio_melee_optimization_unit", 10 ],
@@ -62,5 +58,53 @@
     "id": "bionics_subs",
     "type": "item_group",
     "items": [ [ "afs_bio_missiles", 10 ], [ "afs_bio_dopamine_stimulators", 15 ] ]
+  },
+  {
+    "id": "CBM_SUBS",
+    "type": "harvest",
+    "entries": [
+      {
+        "drop": "bio_power_storage",
+        "type": "bionic",
+        "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
+        "faults": [ "fault_bionic_salvaged" ]
+      },
+      {
+        "drop": "bionics_subs",
+        "type": "bionic_group",
+        "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
+        "faults": [ "fault_bionic_salvaged" ]
+      },
+      {
+        "drop": "bionics_subs",
+        "type": "bionic_group",
+        "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
+        "faults": [ "fault_bionic_salvaged" ]
+      },
+      { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
+      { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
+      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 }
+    ]
+  },
+  {
+    "id": "CBM_CIV",
+    "type": "harvest",
+    "entries": [
+      {
+        "drop": "bio_power_storage",
+        "type": "bionic",
+        "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
+        "faults": [ "fault_bionic_salvaged" ]
+      },
+      {
+        "drop": "bionics_common",
+        "type": "bionic_group",
+        "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
+        "faults": [ "fault_bionic_salvaged" ]
+      },
+      { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
+      { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
+      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 }
+    ]
   }
 ]

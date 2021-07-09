@@ -154,6 +154,53 @@ bool debug_has_error_been_observed()
 
 bool debug_mode = false;
 
+namespace debugmode
+{
+std::list<debug_filter> enabled_filters;
+std::string filter_name( debug_filter value )
+{
+    // see debug.h for commentary
+    switch( value ) {
+        // *INDENT-OFF*
+        case DF_ACT_BUTCHER: return "DF_ACT_BUTCHER";
+        case DF_ACT_LOCKPICK: return "DF_ACT_LOCKPICK";
+        case DF_ACT_SHEARING: return "DF_ACT_SHEARING";
+        case DF_ACT_WORKOUT: return "DF_ACT_WORKOUT";
+        case DF_ANATOMY_BP: return "DF_ANATOMY_BP";
+        case DF_AVATAR: return "DF_AVATAR";
+        case DF_BALLISTIC: return "DF_BALLISTIC";
+        case DF_CHARACTER: return "DF_CHARACTER";
+        case DF_CHAR_CALORIES: return "DF_CHAR_CALORIES";
+        case DF_CHAR_HEALTH: return "DF_CHAR_HEALTH";
+        case DF_CREATURE: return "DF_CREATURE";
+        case DF_EFFECT: return "DF_EFFECT";
+        case DF_EXPLOSION: return "DF_EXPLOSION";
+        case DF_FOOD: return "DF_FOOD";
+        case DF_GAME: return "DF_GAME";
+        case DF_IEXAMINE: return "DF_IEXAMINE";
+        case DF_IUSE: return "DF_IUSE";
+        case DF_MAP: return "DF_MAP";
+        case DF_MATTACK: return "DF_MATTACK";
+        case DF_MELEE: return "DF_MELEE";
+        case DF_MONSTER: return "DF_MONSTER";
+        case DF_NPC: return "DF_NPC";
+        case DF_OVERMAP: return "DF_OVERMAP";
+        case DF_RANGED: return "DF_RANGED";
+        case DF_REQUIREMENTS_MAP: return "DF_REQUIREMENTS_MAP";
+        case DF_SOUND: return "DF_SOUND";
+        case DF_TALKER: return "DF_TALKER";
+        case DF_VEHICLE: return "DF_VEHICLE";
+        case DF_VEHICLE_DRAG: return "DF_VEHICLE_DRAG";
+        case DF_VEHICLE_MOVE: return "DF_VEHICLE_MOVE";
+        // *INDENT-ON*
+        case DF_LAST:
+        default:
+            debugmsg( "Invalid DF_FILTER : %d", value );
+            return "DF_INVALID";
+    }
+}
+} // namespace debugmode
+
 struct buffered_prompt_info {
     std::string filename;
     std::string line;
@@ -200,8 +247,9 @@ static void debug_error_prompt(
             " DEBUG    : %s\n\n"
             " FUNCTION : %s\n"
             " FILE     : %s\n"
-            " LINE     : %s\n",
-            text, funcname, filename, line
+            " LINE     : %s\n"
+            " VERSION  : %s\n",
+            text, funcname, filename, line, getVersionString()
         );
 
 #if defined(BACKTRACE)
@@ -375,7 +423,7 @@ struct time_info {
     }
 };
 
-#if defined(_MSC_VER)
+#if defined(_WIN32)
 static time_info get_time() noexcept
 {
     SYSTEMTIME time {};
@@ -393,9 +441,10 @@ static time_info get_time() noexcept
     gettimeofday( &tv, nullptr );
 
     const time_t tt      = time_t {tv.tv_sec};
-    struct tm *const current = localtime( &tt );
+    tm current;
+    localtime_r( &tt, &current );
 
-    return time_info { current->tm_hour, current->tm_min, current->tm_sec,
+    return time_info { current.tm_hour, current.tm_min, current.tm_sec,
                        static_cast<int>( std::lround( tv.tv_usec / 1000.0 ) )
                      };
 }
@@ -595,6 +644,9 @@ static std::ostream &operator<<( std::ostream &out, DebugClass cl )
         if( cl & D_SDL ) {
             out << "SDL ";
         }
+        if( cl & D_MMAP ) {
+            out << "MMAP ";
+        }
     }
     return out;
 }
@@ -638,11 +690,12 @@ static std::string debug_resolve_binary( const std::string &binary, std::ostream
         return binary;
     }
 
+    std::string suffix = "/" + binary;
     for( const std::string &path_elem : string_split( path, ':' ) ) {
         if( path_elem.empty() ) {
             continue;
         }
-        std::string candidate = path_elem + "/" + binary;
+        std::string candidate = path_elem + suffix;
         if( 0 == access( candidate.c_str(), X_OK ) ) {
             return candidate;
         }
