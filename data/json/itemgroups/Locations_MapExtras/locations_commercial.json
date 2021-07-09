@@ -197,16 +197,9 @@
     "type": "item_group",
     "id": "pawn",
     "items": [
-      {
-        "group": "mags_pawnshop",
-        "prob": 300
-      },
+      { "group": "mags_pawnshop", "prob": 300 },
       [ "mag_fieldrepair", 50 ],
-      {
-        "item": "oxylamp",
-        "prob": 50,
-        "charges-min": 0
-      },
+      { "item": "oxylamp", "prob": 50, "charges-min": 0 },
       [ "bathroom_scale", 50 ],
       [ "polisher", 6 ],
       [ "inflatable_boat", 10 ],
@@ -233,19 +226,11 @@
       [ "microwave", 5 ],
       [ "multi_cooker", 1 ],
       [ "pastaextruder", 8 ],
-      {
-        "item": "can_sealer",
-        "prob": 5,
-        "charges": [ 0, 500 ]
-      },
+      { "item": "can_sealer", "prob": 5, "charges": [ 0, 500 ] },
       [ "knuckle_brass", 10 ],
       [ "knuckle_steel_forged", 5 ],
       [ "platinum_small", 10 ],
-      {
-        "item": "foodperson_mask",
-        "prob": 1,
-        "charges": [ 0, 500 ]
-      },
+      { "item": "foodperson_mask", "prob": 1, "charges": [ 0, 500 ] },
       [ "gold_small", 10 ],
       [ "silver_small", 20 ],
       [ "cane", 10 ],
@@ -266,37 +251,17 @@
       [ "platinum_watch", 1 ],
       [ "tieclip", 3 ],
       [ "collarpin", 3 ],
-      {
-        "item": "mask_gas",
-        "prob": 10,
-        "charges": [ 0, 100 ]
-      },
+      { "item": "mask_gas", "prob": 10, "charges": [ 0, 100 ] },
       [ "goggles_welding", 70 ],
-      {
-        "item": "goggles_nv",
-        "prob": 1,
-        "charges": [ 0, 100 ]
-      },
-      {
-        "item": "goggles_ir",
-        "prob": 1,
-        "charges": [ 0, 100 ]
-      },
+      { "item": "goggles_nv", "prob": 1, "charges": [ 0, 100 ] },
+      { "item": "goggles_ir", "prob": 1, "charges": [ 0, 100 ] },
       [ "glasses_monocle", 2 ],
       [ "fancy_sunglasses", 15 ],
       [ "fc_hairpin", 5 ],
       [ "barrette", 5 ],
       [ "pearl_collar", 1 ],
-      {
-        "item": "cell_phone",
-        "prob": 15,
-        "charges": [ 0, 150 ]
-      },
-      {
-        "item": "smart_phone",
-        "prob": 20,
-        "charges-min": 0
-      },
+      { "item": "cell_phone", "prob": 15, "charges": [ 0, 150 ] },
+      { "item": "smart_phone", "prob": 20, "charges-min": 0 },
       [ "tophat", 10 ],
       [ "bullwhip", 3 ],
       [ "bowhat", 10 ],
@@ -304,27 +269,11 @@
       [ "10gal_hat", 5 ],
       [ "hat_chef", 5 ],
       [ "jacket_chef", 5 ],
-      {
-        "item": "eink_tablet_pc",
-        "prob": 12,
-        "charges": [ 0, 100 ]
-      },
-      {
-        "item": "smart_lamp",
-        "prob": 5,
-        "charges": [ 0, 100 ]
-      },
+      { "item": "eink_tablet_pc", "prob": 12, "charges": [ 0, 100 ] },
+      { "item": "smart_lamp", "prob": 5, "charges": [ 0, 100 ] },
       [ "mask_guy_fawkes", 5 ],
-      {
-        "item": "camera",
-        "prob": 10,
-        "charges": [ 0, 150 ]
-      },
-      {
-        "item": "camera_pro",
-        "prob": 5,
-        "charges": [ 0, 150 ]
-      },
+      { "item": "camera", "prob": 10, "charges": [ 0, 150 ] },
+      { "item": "camera_pro", "prob": 5, "charges": [ 0, 150 ] },
       [ "ruger_redhawk", 3 ],
       [ "deagle_44", 2 ],
       [ "lemat_revolver", 1 ],
@@ -332,43 +281,15 @@
       [ "mn_ebr_kit", 1 ],
       [ "match_trigger", 3 ],
       [ "autoclave", 1 ],
-      {
-        "item": "geiger_off",
-        "prob": 8,
-        "charges": [ 0, 100 ]
-      },
-      {
-        "item": "rad_monitor",
-        "prob": 1,
-        "charges": [ 0, 50 ]
-      },
+      { "item": "geiger_off", "prob": 8, "charges": [ 0, 100 ] },
+      { "item": "rad_monitor", "prob": 1, "charges": [ 0, 50 ] },
       [ "UPS_off", 5 ],
-      {
-        "item": "tazer",
-        "prob": 3,
-        "charges": [ 0, 100 ]
-      },
-      {
-        "item": "mp3",
-        "prob": 18,
-        "charges": [ 0, 100 ]
-      },
-      {
-        "item": "portable_game",
-        "prob": 8,
-        "charges": [ 0, 100 ]
-      },
-      {
-        "item": "game_watch",
-        "prob": 2,
-        "charges": [ 0, 50 ]
-      },
+      { "item": "tazer", "prob": 3, "charges": [ 0, 100 ] },
+      { "item": "mp3", "prob": 18, "charges": [ 0, 100 ] },
+      { "item": "portable_game", "prob": 8, "charges": [ 0, 100 ] },
+      { "item": "game_watch", "prob": 2, "charges": [ 0, 50 ] },
       [ "deck_of_cards", 2 ],
-      {
-        "item": "vibrator",
-        "prob": 5,
-        "charges": [ 0, 100 ]
-      },
+      { "item": "vibrator", "prob": 5, "charges": [ 0, 100 ] },
       [ "string_36", 40 ],
       [ "chain", 20 ],
       [ "steel_chunk", 30 ],
@@ -444,10 +365,7 @@
       [ "remington_700", 14 ],
       [ "m1903", 1 ],
       [ "garand", 2 ],
-      {
-        "group": "novels",
-        "prob": 378
-      },
+      { "group": "novels", "prob": 378 },
       [ "atomic_survival", 1 ],
       [ "survival_book", 10 ],
       [ "fun_survival", 10 ],
@@ -459,28 +377,12 @@
       [ "recipe_bows", 2 ],
       [ "recipe_arrows", 2 ],
       [ "recipe_caseless", 1 ],
-      {
-        "item": "extinguisher",
-        "prob": 20,
-        "charges": 100
-      },
+      { "item": "extinguisher", "prob": 20, "charges": 100 },
       [ "fan", 5 ],
-      {
-        "item": "radio",
-        "prob": 20,
-        "charges": [ 0, 100 ]
-      },
+      { "item": "radio", "prob": 20, "charges": [ 0, 100 ] },
       [ "chainsaw_off", 7 ],
-      {
-        "item": "elec_chainsaw_off",
-        "prob": 4,
-        "charges": [ 0, 500 ]
-      },
-      {
-        "item": "carver_off",
-        "prob": 7,
-        "charges": [ 0, 500 ]
-      },
+      { "item": "elec_chainsaw_off", "prob": 4, "charges": [ 0, 500 ] },
+      { "item": "carver_off", "prob": 7, "charges": [ 0, 500 ] },
       [ "jackhammer", 2 ],
       [ "elec_jackhammer", 1 ],
       [ "pickaxe", 1 ],
@@ -558,7 +460,6 @@
       [ "helmet_lobster", 2 ],
       [ "textbook_tailor", 12 ],
       [ "swage", 2 ],
-      [ "hotcut", 2 ],
       [ "forge", 5 ],
       [ "char_forge", 5 ],
       [ "char_kiln", 2 ],
@@ -575,11 +476,7 @@
       [ "cu_pipe", 5 ],
       [ "e_tool", 5 ],
       [ "knife_trench", 7 ],
-      {
-        "item": "sm_extinguisher",
-        "prob": 10,
-        "charges": 10
-      },
+      { "item": "sm_extinguisher", "prob": 10, "charges": 10 },
       [ "switchblade", 6 ],
       [ "atomic_light", 1 ],
       [ "atomic_lamp", 1 ],
@@ -656,10 +553,7 @@
       [ "rifle_flintlock", 1 ],
       [ "pistol_flintlock", 1 ],
       [ "survnote", 5 ],
-      {
-        "group": "toy_radio_car",
-        "prob": 1
-      },
+      { "group": "toy_radio_car", "prob": 1 },
       [ "radiocontrol", 3 ],
       [ "peephole", 1 ],
       [ "magnifying_glass", 2 ],
@@ -706,15 +600,8 @@
       [ "silver_medal", 2 ],
       [ "gold_medal", 1 ],
       [ "freeze_dried_meal", 5 ],
-      {
-        "group": "tinware",
-        "prob": 10
-      },
-      {
-        "item": "pen",
-        "prob": 10,
-        "charges": [ 0, 300 ]
-      }
+      { "group": "tinware", "prob": 10 },
+      { "item": "pen", "prob": 10, "charges": [ 0, 300 ] }
     ]
   },
   {
