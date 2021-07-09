@@ -347,7 +347,7 @@
     "//": "Reduce bullet armor when things are harder to hit or players miss more",
     "anger_triggers": [ "FIRE" ],
     "fear_triggers": [ "HURT" ],
-    "death_function": [ "MELT" ],
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
     "flags": [
       "SEES",
       "HEARS",
