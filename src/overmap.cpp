@@ -568,6 +568,14 @@ void oter_type_t::load( const JsonObject &jo, const std::string &src )
         for( const auto &elem : om_lines::mapgen_suffixes ) {
             load_overmap_terrain_mapgens( jo, id.str(), elem );
         }
+
+        if( symbol == NULL_UNICODE ) {
+            // Default the sym for linear terrains to a specific value which
+            // has special behaviour when using fallback ASCII tiles so as to
+            // cause it to draw using the box drawing characters (see
+            // load_ascii_set).
+            symbol = LINE_XOXO_C;
+        }
     } else {
         if( symbol == NULL_UNICODE && !jo.has_string( "abstract" ) ) {
             DebugLog( D_ERROR, D_MAP_GEN ) << "sym is not defined for overmap_terrain: "
