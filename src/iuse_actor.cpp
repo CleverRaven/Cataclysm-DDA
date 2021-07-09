@@ -4519,7 +4519,7 @@ void effect_on_conditons_actor::load( const JsonObject &obj )
 {
     description = obj.get_string( "description" );
     for( const std::string &eoc : obj.get_string_array( "effect_on_conditions" ) ) {
-        eocs.push_back( effect_on_condition_id( eoc ) );
+        eocs.emplace_back( effect_on_condition_id( eoc ) );
     }
 }
 
