@@ -5131,7 +5131,6 @@ units::mass item::weight( bool include_contents, bool integral ) const
         ret *= 0.75;
     }
 
-
     // if this is a gun apply all of its gunmods' weight multipliers
     if( type->gun ) {
         for( const item *mod : gunmods() ) {
