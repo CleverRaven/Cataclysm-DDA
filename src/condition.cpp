@@ -937,6 +937,7 @@ void conditional_t<T>::set_can_see( bool is_npc )
     };
 }
 
+template<class T>
 void conditional_t<T>::set_is_deaf( bool is_npc )
 {
     condition = [is_npc]( const T & d ) {
