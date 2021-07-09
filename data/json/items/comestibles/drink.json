@@ -39,7 +39,7 @@
     "description": "Milk some almonds?  Not quite, but blend them with water, yes!  A dairy-free alternative strong in calcium!  Rival to soy milk.",
     "price": 40,
     "price_postapoc": 50,
-    "material": [ "water" ],
+    "material": [ "water", "nut" ],
     "volume": "250 ml",
     "phase": "liquid",
     "vitamins": [ [ "vitA", 2 ], [ "calcium", 11 ] ],
@@ -62,7 +62,7 @@
     "description": "Milk some soybeans?  Not quite, but blend them with water, yes!  A dairy-free alternative strong in protein!  Rival to almond milk.",
     "price": 40,
     "price_postapoc": 50,
-    "material": [ "water" ],
+    "material": [ "water", "veggy" ],
     "volume": "250 ml",
     "phase": "liquid",
     "vitamins": [ [ "vitA", 2 ], [ "iron", 1 ], [ "calcium", 7 ] ],
@@ -102,7 +102,8 @@
     "description": "A healthy beverage made from bee balm steeped in boiling water.  Can be used to reduce negative effects of common cold or flu.",
     "price": 100,
     "price_postapoc": 25,
-    "fun": 1
+    "fun": 1,
+    "flags": [ "EATEN_HOT" ]
   },
   {
     "type": "COMESTIBLE",
@@ -157,15 +158,20 @@
     "name": { "str_sp": "chamomile tea" },
     "copy-from": "tea",
     "color": "green",
-    "use_action": [ "SLEEP" ],
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Can be used to treat insomnia.",
+      "effect_on_conditions": [ "EOC_MINOR_SLEEP" ]
+    },
     "stim": 0,
     "spoils_in": "10 days",
     "quench": 34,
     "healthy": 1,
-    "calories": 0,
+    "calories": 1,
     "description": "A healthy beverage made from chamomile flowers steeped in boiling water.  Can be used to treat insomnia.",
     "price": 100,
     "price_postapoc": 25,
+    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 1
   },
   {
@@ -388,14 +394,14 @@
     "symbol": "~",
     "quench": 48,
     "healthy": 1,
-    "calories": 26,
+    "calories": 1,
     "description": "A healthy beverage made from dandelion roots steeped in boiling water.",
     "price": 50,
     "price_postapoc": 25,
     "volume": "250 ml",
     "material": [ "water" ],
     "phase": "liquid",
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 2
   },
   {
@@ -496,14 +502,14 @@
     "symbol": "~",
     "quench": 44,
     "healthy": 1,
-    "calories": 9,
+    "calories": 1,
     "description": "A healthy beverage made from herbs steeped in boiling water.",
     "price": 100,
     "price_postapoc": 25,
     "volume": "250 ml",
     "material": [ "water" ],
     "phase": "liquid",
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 4
   },
   {
@@ -646,11 +652,11 @@
     "spoils_in": "10 days",
     "quench": 34,
     "healthy": 1,
-    "calories": 0,
     "description": "A healthy beverage made from lotus flowers steeped in boiling water.",
     "price": 100,
     "price_postapoc": 25,
-    "fun": 1
+    "fun": 1,
+    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ]
   },
   {
     "id": "mex_chocolate",
@@ -769,7 +775,8 @@
     "phase": "liquid",
     "charges": 2,
     "vitamins": [ [ "vitA", 5 ], [ "vitB", 3 ], [ "vitC", 2 ], [ "calcium", 12 ] ],
-    "fun": 10
+    "fun": 10,
+    "flags": [ "EATEN_HOT" ]
   },
   {
     "type": "COMESTIBLE",
@@ -832,6 +839,7 @@
     "price": 0,
     "price_postapoc": 25,
     "volume": "250 ml",
+    "calories": 1,
     "material": [ "water" ],
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
@@ -861,6 +869,31 @@
     "flags": [ "EATEN_COLD" ],
     "vitamins": [ [ "vitC", 50 ], [ "calcium", 3 ] ],
     "fun": 3
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mycus_juice",
+    "name": "mycus juice",
+    "weight": "263 g",
+    "color": "light_gray",
+    "use_action": [ "MYCUS" ],
+    "spoils_in": "5 days",
+    "container": "bottle_plastic",
+    "comestible_type": "DRINK",
+    "symbol": "~",
+    "quench": 100,
+    "healthy": 2,
+    "calories": 462,
+    "description": "Freshly-squeezed from the fruit of the mycus.",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "water", "mushroom" ],
+    "primary_material": "water",
+    "volume": "250 ml",
+    "phase": "liquid",
+    "flags": [ "EATEN_COLD", "MYCUS_OK", "NUTRIENT_OVERRIDE" ],
+    "vitamins": [ [ "vitA", 16 ], [ "vitB", 16 ], [ "vitC", 20 ], [ "calcium", 20 ], [ "iron", 16 ] ],
+    "fun": 30
   },
   {
     "type": "COMESTIBLE",
@@ -920,14 +953,14 @@
     "symbol": "~",
     "quench": 60,
     "calories": 66,
-    "description": "Consisting of a special blend of electrolytes and simple sugars, this beverage tastes like bottled sweat but rehydrates the body faster than water.",
+    "description": "A flavoured drink consisting of a special blend of electrolytes and simple sugars.  It tastes vaguely like fruit with a slight chemical aftertaste.",
     "price": 55,
     "price_postapoc": 50,
-    "material": [ "water" ],
+    "material": [ "water", "junk" ],
     "volume": "250 ml",
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "fun": -1,
+    "fun": 1,
     "vitamins": [ [ "vitC", 1 ] ]
   },
   {
@@ -939,11 +972,12 @@
     "spoils_in": "10 days",
     "quench": 34,
     "healthy": 1,
-    "calories": 0,
+    "calories": 1,
     "description": "A healthy beverage made from spurge flowers steeped in boiling water.  Can be used to prevent asthma attacks.",
     "price": 100,
     "price_postapoc": 25,
     "fun": 1,
+    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You no longer need to worry about asthma attacks, at least for a while.",
@@ -961,14 +995,15 @@
     "symbol": "~",
     "quench": 60,
     "calories": 12,
-    "description": "A basic oral rehydration therapy drink.  It will rehydrate you faster than water, but it tastes kind of strange.",
+    "description": "A basic oral rehydration therapy drink.  It will rehydrate you faster than water, but tastes like bottled sweat.",
     "price": 55,
     "price_postapoc": 50,
     "material": [ "water" ],
+    "flags": [ "EATEN_COLD" ],
     "volume": "250 ml",
     "looks_like": "sports_drink",
     "phase": "liquid",
-    "fun": -2
+    "fun": -1
   },
   {
     "type": "COMESTIBLE",
@@ -988,7 +1023,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "fun": 2,
-    "freezing_point": 22
+    "freezing_point": -5
   },
   {
     "type": "COMESTIBLE",
@@ -1002,7 +1037,7 @@
     "comestible_type": "DRINK",
     "symbol": "~",
     "quench": 40,
-    "calories": 2,
+    "calories": 1,
     "description": "The beverage of gentlemen everywhere, made from applying hot water to oxidized leaves of the tea plant /Camellia sinensis/.",
     "price": 90,
     "price_postapoc": 25,
@@ -1108,7 +1143,6 @@
     "color": "green",
     "fatigue_mod": 7,
     "stim": 2,
-    "calories": 2,
     "description": "Made from applying hot water to leaves of the tea plant /Camellia sinensis/.  Green tea has a lighter, fresher taste than black and is traditionally preferred in Asian cultures."
   },
   {
@@ -1117,7 +1151,6 @@
     "name": { "str": "fruit tea" },
     "copy-from": "tea",
     "color": "red",
-    "calories": 0,
     "fatigue_mod": 0,
     "stim": 0,
     "description": "A tasty beverage made with herbs and dried fruit from plants other than the tea plant.  While colloquially called 'tea', technically it's an infusion.",

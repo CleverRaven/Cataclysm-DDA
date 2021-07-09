@@ -16,6 +16,7 @@
 
 #include "calendar.h"
 #include "color.h"
+#include "compatibility.h"
 #include "damage.h"
 #include "optional.h"
 #include "point.h"
@@ -474,6 +475,8 @@ struct vehicle_item_spawn {
     /** Chance [0-100%] for items to spawn with their default magazine (if any) */
     int with_magazine = 0;
     std::vector<itype_id> item_ids;
+    // item_ids, but for items with variants specified
+    std::vector<std::pair<itype_id, std::string>> variant_ids;
     std::vector<item_group_id> item_groups;
 };
 
@@ -493,10 +496,10 @@ struct vehicle_prototype {
     };
 
     vehicle_prototype();
-    vehicle_prototype( vehicle_prototype && );
+    vehicle_prototype( vehicle_prototype && ) noexcept;
     ~vehicle_prototype();
 
-    vehicle_prototype &operator=( vehicle_prototype && );
+    vehicle_prototype &operator=( vehicle_prototype && ) noexcept( string_is_noexcept );
 
     translation name;
     std::vector<part_def> parts;

@@ -168,9 +168,20 @@
         "^": "t_concrete",
         "P": "t_concrete",
         "Y": "t_pavement_y",
+        "C": "t_floor",
+        "L": "t_floor",
+        "5": "t_floor",
         "Z": "t_door_bar_o"
       },
-      "furniture": { "X": "f_exercise", "C": "f_counter", "P": "f_rack", "2": "f_home_furnace", "4": "f_water_heater", "L": "f_locker" },
+      "furniture": {
+        "X": "f_exercise",
+        "C": "f_counter",
+        "5": "f_bench",
+        "P": "f_rack",
+        "2": "f_home_furnace",
+        "4": "f_water_heater",
+        "L": "f_locker"
+      },
       "items": {
         "l": [
           { "item": "prison_weapons", "chance": 30 },
@@ -1431,8 +1442,8 @@
       ],
       "palettes": [ "prison_palette" ],
       "terrain": {
-        " ": [ "t_rock" ],
-        "^": [ "t_rock_floor" ],
+        " ": [ "t_soil" ],
+        "^": [ "t_thconc_floor" ],
         "_": [ "t_grate" ],
         "~": [ "t_sewage" ],
         "'": [ "t_water_sh_murky_underground" ],

@@ -1,0 +1,85 @@
+[
+  {
+    "type": "snippet",
+    "category": "lab_access_signage",
+    "//": "signage for the civilian areas (public).",
+    "text": [
+      "***LAB***\nAuthorized Personnel Only",
+      "Restricted\nAccess\nArea",
+      "Be Prepared to present ID",
+      "No visitors beyond this point"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "lab_maintenance_signage",
+    "//": "signage for the maintenance areas (non-public).",
+    "text": [
+      "Restricted\nAccess\nArea",
+      "Be Prepared to present ID",
+      "Keep hands free from machinery",
+      "STOP\nFor Your\nSafety",
+      "NOTICE\nSafety Glasses Required",
+      "DANGER\nKeep Hands Clear\nWhen Equipment\nIs Running"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "lab_security_signage",
+    "//": "signage for the civilian security areas (non-public).",
+    "text": [
+      "Restricted\nAccess\nArea",
+      "Be Prepared to present ID",
+      "Keep guns holstered or locked up",
+      "Tasers Save Lives",
+      "STOP\nWhere's your gun?",
+      "NOTICE\nCheck in with your squad on the hour."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "lab_safety_snippet",
+    "//": "signage for research scientist levels (working lab areas).",
+    "text": [
+      "Keep Equipment Clean and Hygenic",
+      "PPE Required",
+      "<color_yellow_red>Biohazard</color>",
+      "Do not look into laser with remaining eye",
+      "There have been\n[4]\ndays without a life-threatening workplace accident",
+      "Be Alert, Don't get Hurt!",
+      "Safety First\nWork Safely",
+      "<color_white_red>THINK!</color>\n<color_white_red>DON'T CONTAMINATE!</color>\n<color_white>Don't store food in sample refrigerators!</color>",
+      "Report ALL Accidents",
+      "Think!\nDo it the safe way.\nDo it the right way.\nDo it everyday.",
+      "3 causes of accidents are\nI didn't think\nI didn't see\nI didn't know",
+      "Think Safety First!",
+      "Not to be operated by fuckwits",
+      "Stokey the Chemist says:\n'Only YOU can prevent lab fires.  Because you're the asshole who started the last three.'",
+      "<color_yellow_red>Biohazard</color>",
+      "<color_yellow_red>Biohazard</color>",
+      "<color_yellow_red>Biohazard</color>"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "lab_volunteer_snippet",
+    "//": "propaganda signage for the volunteer mutant level.",
+    "text": [
+      "<color_red>For Country</color>\n<color_white>    For</color>\n    <color_cyan>Mom</color>",
+      "<color_white_red>Report any unusual or new symptoms</color>",
+      "<color_white_red>Report any unusual or new manifestations</color>",
+      "  Thank You\n    For\nYour Service",
+      " <color_white_cyan> Remember:\nYou're our\n best hope</color>",
+      "<color_white>Go Boldly Into Your Future!</color>",
+      "<color_white_green>Metamorphosis Checks at 6:00, 12:00, 18:00</color>",
+      "<color_white>Bob palmed his midday dose.\nBob's in the infirmary now\nDon't be Bob: Take doses as advised.</color>",
+      "<color_light_blue>Dream Journals\n   Save\n    Lives</color>",
+      "<color_light_green>Who is your spirit animal?</color>",
+      "<color_yellow>Embrace the Wonder\nEmbrace the Unknown</color>",
+      "<color_red>Your best self is yearning to break free!</color>",
+      "<color_white>Humans only have 5 senses</color>",
+      "<color_yellow_red>Find your spirit animal guide!</color>\n      Group meditation\n      Wednesdays 13:00",
+      "<color_white>  Do Not\n   Share\n<color_white_red>Medications</color>"
+    ]
+  }
+]

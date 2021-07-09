@@ -47,6 +47,7 @@
 #include "item_pocket.h"
 #include "itype.h"
 #include "line.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -83,6 +84,7 @@
 
 static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_bleed( "bleed" );
+static const efftype_id effect_contacts( "contacts" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_masked_scent( "masked_scent" );
@@ -105,7 +107,9 @@ static const trait_id trait_CLUMSY( "CLUMSY" );
 static const trait_id trait_COLDBLOOD4( "COLDBLOOD4" );
 static const trait_id trait_DEBUG_BIONIC_POWER( "DEBUG_BIONIC_POWER" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
 static const trait_id trait_INT_SLIME( "INT_SLIME" );
+static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_LIGHTSTEP( "LIGHTSTEP" );
 static const trait_id trait_M_SKIN3( "M_SKIN3" );
 static const trait_id trait_MORE_PAIN( "MORE_PAIN" );
@@ -118,6 +122,7 @@ static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PAINRESIST( "PAINRESIST" );
 static const trait_id trait_PAINRESIST_TROGLO( "PAINRESIST_TROGLO" );
 static const trait_id trait_PARKOUR( "PARKOUR" );
+static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SUNLIGHT_DEPENDENT( "SUNLIGHT_DEPENDENT" );
 static const trait_id trait_THRESH_SPIDER( "THRESH_SPIDER" );
@@ -137,7 +142,8 @@ static const proficiency_id proficiency_prof_spotting( "prof_spotting" );
 static const bionic_id bio_cqb( "bio_cqb" );
 static const bionic_id bio_ground_sonar( "bio_ground_sonar" );
 static const bionic_id bio_soporific( "bio_soporific" );
-static const bionic_id bio_speed( "bio_speed" );
+
+static const json_character_flag json_flag_FEATHER_FALL( "FEATHER_FALL" );
 
 stat_mod player::get_pain_penalty() const
 {
@@ -224,8 +230,8 @@ player::player()
 }
 
 player::~player() = default;
-player::player( player && ) = default;
-player &player::operator=( player && ) = default;
+player::player( player && ) noexcept( map_is_noexcept ) = default;
+player &player::operator=( player && ) noexcept( list_is_noexcept ) = default;
 
 void player::normalize()
 {
@@ -461,12 +467,9 @@ void player::recalc_speed_bonus()
         }
     }
 
-    float speed_modifier = Character::mutation_value( "speed_modifier" );
+    float speed_modifier = static_cast<float>( enchantment_cache->modify_value(
+                               enchant_vals::mod::SPEED, 1 ) );
     set_speed_bonus( static_cast<int>( get_speed() * speed_modifier ) - get_speed_base() );
-
-    if( has_bionic( bio_speed ) ) { // multiply by 1.1
-        set_speed_bonus( static_cast<int>( get_speed() * 1.1 ) - get_speed_base() );
-    }
 
     // Speed cannot be less than 25% of base speed, so minimal speed bonus is -75% base speed.
     const int min_speed_bonus = static_cast<int>( -0.75 * get_speed_base() );
@@ -833,7 +836,7 @@ int player::get_perceived_pain() const
 
 float player::fall_damage_mod() const
 {
-    if( has_effect_with_flag( flag_EFFECT_FEATHER_FALL ) ) {
+    if( has_flag( json_flag_FEATHER_FALL ) ) {
         return 0.0f;
     }
     float ret = 1.0f;
@@ -1089,7 +1092,7 @@ void player::siphon( vehicle &veh, const itype_id &desired_liquid )
     }
 
     item liquid( desired_liquid, calendar::turn, qty );
-    if( liquid.is_food() ) {
+    if( liquid.has_temperature() ) {
         liquid.set_item_specific_energy( veh.fuel_specific_energy( desired_liquid ) );
     }
     if( liquid_handler::handle_liquid( liquid, nullptr, 1, nullptr, &veh ) ) {
@@ -1880,6 +1883,20 @@ player::wear( item_location item_wear, bool interactive )
         was_weapon = false;
     }
 
+    const bool item_one_per_layer = to_wear_copy.has_flag( flag_id( "ONE_PER_LAYER" ) );
+    for( const item &worn_item : worn ) {
+        const cata::optional<side> sidedness_conflict = to_wear_copy.covers_overlaps( worn_item );
+        if( sidedness_conflict && ( item_one_per_layer ||
+                                    worn_item.has_flag( flag_id( "ONE_PER_LAYER" ) ) ) ) {
+            // we can assume both isn't an option because it'll be caught in can_wear
+            if( *sidedness_conflict == side::LEFT ) {
+                to_wear_copy.set_side( side::RIGHT );
+            } else {
+                to_wear_copy.set_side( side::LEFT );
+            }
+        }
+    }
+
     auto result = wear_item( to_wear_copy, interactive );
     if( !result ) {
         if( was_weapon ) {
@@ -1947,8 +1964,11 @@ ret_val<bool> player::can_takeoff( const item &it, const std::list<item> *res )
     return ret_val<bool>::make_success();
 }
 
-bool player::takeoff( item &it, std::list<item> *res )
+bool player::takeoff( item_location loc, std::list<item> *res )
 {
+    item &it = *loc;
+
+
     const auto ret = can_takeoff( it, res );
     if( !ret.success() ) {
         add_msg( m_info, "%s", ret.c_str() );
@@ -1981,9 +2001,11 @@ bool player::takeoff( item &it, std::list<item> *res )
     return true;
 }
 
+
 bool player::takeoff( int pos )
 {
-    return takeoff( i_at( pos ) );
+    item_location loc = item_location( *this, &i_at( pos ) );
+    return takeoff( loc );
 }
 
 void player::use_wielded()
@@ -2014,12 +2036,6 @@ void player::use( item_location loc, int pre_obtain_moves )
     item &used = *loc;
     last_item = used.typeId();
 
-    if( ( *loc ).is_medication() && !can_use_heal_item( *loc ) ) {
-        add_msg_if_player( m_bad, _( "Your biology is not compatible with that healing item." ) );
-        moves = pre_obtain_moves;
-        return;
-    }
-
     if( used.is_tool() ) {
         if( !used.type->has_use() ) {
             add_msg_if_player( _( "You can't do anything interesting with your %s." ), used.tname() );
@@ -2036,6 +2052,13 @@ void player::use( item_location loc, int pre_obtain_moves )
 
     } else if( !used.is_craft() && ( used.is_medication() || ( !used.type->has_use() &&
                                      used.is_food() ) ) ) {
+
+        if( used.is_medication() && !can_use_heal_item( used ) ) {
+            add_msg_if_player( m_bad, _( "Your biology is not compatible with that healing item." ) );
+            moves = pre_obtain_moves;
+            return;
+        }
+
         if( avatar *u = as_avatar() ) {
             const ret_val<edible_rating> ret = u->will_eat( used, true );
             if( !ret.success() ) {
@@ -2235,8 +2258,8 @@ void player::gunmod_add( item &gun, item &mod )
     const int moves = !has_trait( trait_DEBUG_HS ) ? mod.type->gunmod->install_time : 0;
 
     assign_activity( activity_id( "ACT_GUNMOD_ADD" ), moves, -1, 0, tool );
-    activity.targets.push_back( item_location( *this, &gun ) );
-    activity.targets.push_back( item_location( *this, &mod ) );
+    activity.targets.emplace_back( *this, &gun );
+    activity.targets.emplace_back( *this, &mod );
     activity.values.push_back( 0 ); // dummy value
     activity.values.push_back( roll ); // chance of success (%)
     activity.values.push_back( risk ); // chance of damage (%)
@@ -2395,7 +2418,7 @@ bool player::wield_contents( item &container, item *internal_item, bool penaltie
     // if index not specified and container has multiple items then ask the player to choose one
     if( internal_item == nullptr ) {
         std::vector<std::string> opts;
-        std::list<item *> container_contents = container.contents.all_items_top();
+        std::list<item *> container_contents = container.all_items_top();
         std::transform( container_contents.begin(), container_contents.end(),
         std::back_inserter( opts ), []( const item * elem ) {
             return elem->display_name();
@@ -2538,11 +2561,23 @@ void player::add_msg_if_player( const game_message_params &params, const std::st
     Messages::add_msg( params, msg );
 }
 
+void player::add_msg_debug_if_player( debugmode::debug_filter type, const std::string &msg ) const
+{
+    Messages::add_msg_debug( type, msg );
+}
+
 void player::add_msg_player_or_npc( const game_message_params &params,
                                     const std::string &player_msg,
                                     const std::string &/*npc_msg*/ ) const
 {
     Messages::add_msg( params, player_msg );
+}
+
+void player::add_msg_debug_player_or_npc( debugmode::debug_filter type,
+        const std::string &player_msg,
+        const std::string &/*npc_msg*/ ) const
+{
+    Messages::add_msg_debug( type, player_msg );
 }
 
 void player::add_msg_player_or_say( const std::string &player_msg,
@@ -2561,4 +2596,142 @@ void player::add_msg_player_or_say( const game_message_params &params,
 bool player::query_yn( const std::string &mes ) const
 {
     return ::query_yn( mes );
+}
+
+const player *player::get_book_reader( const item &book, std::vector<std::string> &reasons ) const
+{
+    const player *reader = nullptr;
+
+    if( !book.is_book() ) {
+        reasons.push_back( is_player() ? string_format( _( "Your %s is not good reading material." ),
+                           book.tname() ) :
+                           string_format( _( "The %s is not good reading material." ), book.tname() )
+                         );
+        return nullptr;
+    }
+
+    const cata::value_ptr<islot_book> &type = book.type->book;
+    const skill_id &book_skill = type->skill;
+    const int book_skill_requirement = type->req;
+    const bool book_requires_intelligence = type->intel > 0;
+
+    // Check for conditions that immediately disqualify the player from reading:
+    const optional_vpart_position vp = get_map().veh_at( pos() );
+    if( vp && vp->vehicle().player_in_control( *this ) ) {
+        reasons.emplace_back( _( "It's a bad idea to read while driving!" ) );
+        return nullptr;
+    }
+    if( !fun_to_read( book ) && !has_morale_to_read() && has_identified( book.typeId() ) ) {
+        // Low morale still permits skimming
+        reasons.emplace_back( is_player() ?
+                              _( "What's the point of studying?  (Your morale is too low!)" )  :
+                              string_format( _( "What's the point of studying?  (%s)'s morale is too low!)" ), disp_name() ) );
+        return nullptr;
+    }
+    if( get_book_mastery( book ) == book_mastery::CANT_UNDERSTAND ) {
+        reasons.push_back( is_player() ? string_format( _( "%s %d needed to understand.  You have %d" ),
+                           book_skill->name(), book_skill_requirement, get_skill_level( book_skill ) ) :
+                           string_format( _( "%s %d needed to understand.  %s has %d" ), book_skill->name(),
+                                          book_skill_requirement, disp_name(), get_skill_level( book_skill ) ) );
+        return nullptr;
+    }
+
+    // Check for conditions that disqualify us only if no NPCs can read to us
+    if( book_requires_intelligence && has_trait( trait_ILLITERATE ) ) {
+        reasons.emplace_back( is_player() ? _( "You're illiterate!" ) : string_format(
+                                  _( "%s is illiterate!" ), disp_name() ) );
+    } else if( has_trait( trait_HYPEROPIC ) &&
+               !worn_with_flag( STATIC( flag_id( "FIX_FARSIGHT" ) ) ) &&
+               !has_effect( effect_contacts ) &&
+               !has_flag( STATIC( json_character_flag( "ENHANCED_VISION" ) ) ) ) {
+        reasons.emplace_back( is_player() ? _( "Your eyes won't focus without reading glasses." ) :
+                              string_format( _( "%s's eyes won't focus without reading glasses." ), disp_name() ) );
+    } else if( fine_detail_vision_mod() > 4 ) {
+        // Too dark to read only applies if the player can read to himself
+        reasons.emplace_back( _( "It's too dark to read!" ) );
+        return nullptr;
+    } else {
+        return this;
+    }
+
+    if( ! is_player() ) {
+        // NPCs are too proud to ask for help, perhaps someday they will not be
+        return nullptr;
+    }
+
+    //Check for NPCs to read for you, negates Illiterate and Far Sighted
+    //The fastest-reading NPC is chosen
+    if( is_deaf() ) {
+        reasons.emplace_back( _( "Maybe someone could read that to you, but you're deaf!" ) );
+        return nullptr;
+    }
+
+    int time_taken = INT_MAX;
+    auto candidates = get_crafting_helpers();
+
+    for( const npc *elem : candidates ) {
+        // Check for disqualifying factors:
+        if( book_requires_intelligence && elem->has_trait( trait_ILLITERATE ) ) {
+            reasons.push_back( string_format( _( "%s is illiterate!" ),
+                                              elem->disp_name() ) );
+        } else if( elem->get_book_mastery( book ) == book_mastery::CANT_UNDERSTAND ) {
+            reasons.push_back( string_format( _( "%s %d needed to understand.  %s has %d" ),
+                                              book_skill->name(), book_skill_requirement, elem->disp_name(),
+                                              elem->get_skill_level( book_skill ) ) );
+        } else if( elem->has_trait( trait_HYPEROPIC ) &&
+                   !elem->worn_with_flag( STATIC( flag_id( "FIX_FARSIGHT" ) ) ) &&
+                   !elem->has_effect( effect_contacts ) ) {
+            reasons.push_back( string_format( _( "%s needs reading glasses!" ),
+                                              elem->disp_name() ) );
+        } else if( std::min( fine_detail_vision_mod(), elem->fine_detail_vision_mod() ) > 4 ) {
+            reasons.push_back( string_format(
+                                   _( "It's too dark for %s to read!" ),
+                                   elem->disp_name() ) );
+        } else if( !elem->sees( *this ) ) {
+            reasons.push_back( string_format( _( "%s could read that to you, but they can't see you." ),
+                                              elem->disp_name() ) );
+        } else if( !elem->fun_to_read( book ) && !elem->has_morale_to_read() &&
+                   has_identified( book.typeId() ) ) {
+            // Low morale still permits skimming
+            reasons.push_back( string_format( _( "%s morale is too low!" ), elem->disp_name( true ) ) );
+        } else if( elem->is_blind() ) {
+            reasons.push_back( string_format( _( "%s is blind." ), elem->disp_name() ) );
+        } else {
+            int proj_time = time_to_read( book, *elem );
+            if( proj_time < time_taken ) {
+                reader = elem;
+                time_taken = proj_time;
+            }
+        }
+    }
+    //end for all candidates
+    return reader;
+}
+
+
+int player::time_to_read( const item &book, const player &reader, const player *learner ) const
+{
+    const auto &type = book.type->book;
+    const skill_id &skill = type->skill;
+    // The reader's reading speed has an effect only if they're trying to understand the book as they read it
+    // Reading speed is assumed to be how well you learn from books (as opposed to hands-on experience)
+    const bool try_understand = reader.fun_to_read( book ) ||
+                                reader.get_skill_level( skill ) < type->level;
+    int reading_speed = try_understand ? std::max( reader.read_speed(), read_speed() ) : read_speed();
+    if( learner ) {
+        reading_speed = std::max( reading_speed, learner->read_speed() );
+    }
+
+    int retval = type->time * reading_speed;
+    retval *= std::min( fine_detail_vision_mod(), reader.fine_detail_vision_mod() );
+
+    const int effective_int = std::min( { get_int(), reader.get_int(), learner ? learner->get_int() : INT_MAX } );
+    if( type->intel > effective_int && !reader.has_trait( trait_PROF_DICEMASTER ) ) {
+        retval += type->time * ( type->intel - effective_int ) * 100;
+    }
+    if( !has_identified( book.typeId() ) ) {
+        //skimming
+        retval /= 10;
+    }
+    return retval;
 }

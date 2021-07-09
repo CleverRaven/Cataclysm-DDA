@@ -211,6 +211,48 @@
   },
   {
     "type": "terrain",
+    "id": "t_earth_ramp_down_high",
+    "name": "earth ramp down (high end)",
+    "description": "The upper end of an earth ramp leading down.",
+    "symbol": ">",
+    "color": "brown",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "Z_TRANSPARENT" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_earth_ramp_down_low",
+    "name": "earth ramp down (low end)",
+    "description": "The lower end of an earth ramp leading down.",
+    "connects_to": "WALL",
+    "symbol": ">",
+    "color": "brown",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "RAMP_DOWN", "Z_TRANSPARENT" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_earth_ramp_up_high",
+    "name": "earth ramp up (high end)",
+    "connects_to": "WALL",
+    "description": "The upper end of an earth ramp leading up.",
+    "symbol": "<",
+    "color": "brown",
+    "move_cost": 2,
+    "flags": [ "RAMP_UP" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_earth_ramp_up_low",
+    "name": "earth ramp up (low end)",
+    "description": "The lower end of an earth ramp leading up.",
+    "symbol": "<",
+    "color": "brown",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT" ]
+  },
+  {
+    "type": "terrain",
     "id": "t_sidewalk_ramp_down_high",
     "name": "sidewalk ramp down (high end)",
     "connects_to": "PAVEMENT",

@@ -937,20 +937,13 @@ static void draw_speed_tab( const catacurses::window &w_speed,
         }
     }
 
-    int quick_bonus = static_cast<int>( newmoves - ( newmoves / 1.1 ) );
-    int bio_speed_bonus = quick_bonus;
-    if( you.has_trait( trait_id( "QUICK" ) ) && you.has_bionic( bionic_id( "bio_speed" ) ) ) {
-        bio_speed_bonus = static_cast<int>( newmoves / 1.1 - ( newmoves / 1.1 / 1.1 ) );
-        std::swap( quick_bonus, bio_speed_bonus );
-    }
-    if( you.has_trait( trait_id( "QUICK" ) ) ) {
+    float speed_modifier = static_cast<float>( you.enchantment_cache->modify_value(
+                               enchant_vals::mod::SPEED, 1 ) );
+
+    if( speed_modifier != 1.0f ) {
+        int misc_bonus = static_cast<int>( newmoves - ( newmoves / speed_modifier ) );
         mvwprintz( w_speed, point( 1, line ), c_green,
-                   pgettext( "speed bonus", "Quick               +%2d%%" ), quick_bonus );
-        line++;
-    }
-    if( you.has_bionic( bionic_id( "bio_speed" ) ) ) {
-        mvwprintz( w_speed, point( 1, line ), c_green,
-                   pgettext( "speed bonus", "Bionic Speed        +%2d%%" ), bio_speed_bonus );
+                   pgettext( "speed bonus", "Bio/Mut/Effects     +%2d%%" ), misc_bonus );
         line++;
     }
 
@@ -1192,7 +1185,7 @@ void player::disp_info()
             if( tmp.empty() ) {
                 continue;
             }
-            effect_name_and_text.push_back( { tmp, _effect_it.second.disp_desc() } );
+            effect_name_and_text.emplace_back( tmp, _effect_it.second.disp_desc() );
         }
     }
     if( get_perceived_pain() > 0 ) {
@@ -1208,7 +1201,7 @@ void player::disp_info()
         add_if( ppen.intelligence, _( "Intelligence -%d" ) );
         add_if( ppen.perception, _( "Perception -%d" ) );
         add_if( ppen.speed, _( "Speed -%d %%" ) );
-        effect_name_and_text.push_back( { _( "Pain" ), pain_text } );
+        effect_name_and_text.emplace_back( _( "Pain" ), pain_text );
     }
 
     const float bmi = get_bmi();
@@ -1237,30 +1230,30 @@ void player::disp_info()
                                str_penalty * 50.0f );
         }
 
-        effect_name_and_text.push_back( { starvation_name, starvation_text } );
+        effect_name_and_text.emplace_back( starvation_name, starvation_text );
     }
 
     if( has_trait( trait_id( "TROGLO" ) ) && g->is_in_sunlight( pos() ) &&
         get_weather().weather_id->sun_intensity >= sun_intensity_type::high ) {
-        effect_name_and_text.push_back( { _( "In Sunlight" ),
-                                          _( "The sunlight irritates you.\n"
-                                             "Strength - 1;    Dexterity - 1;    Intelligence - 1;    Perception - 1" )
-                                        } );
+        effect_name_and_text.emplace_back( _( "In Sunlight" ),
+                                           _( "The sunlight irritates you.\n"
+                                              "Strength - 1;    Dexterity - 1;    Intelligence - 1;    Perception - 1" )
+                                         );
     } else if( has_trait( trait_id( "TROGLO2" ) ) && g->is_in_sunlight( pos() ) ) {
-        effect_name_and_text.push_back( { _( "In Sunlight" ),
-                                          _( "The sunlight irritates you badly.\n"
-                                             "Strength - 2;    Dexterity - 2;    Intelligence - 2;    Perception - 2" )
-                                        } );
+        effect_name_and_text.emplace_back( _( "In Sunlight" ),
+                                           _( "The sunlight irritates you badly.\n"
+                                              "Strength - 2;    Dexterity - 2;    Intelligence - 2;    Perception - 2" )
+                                         );
     } else if( has_trait( trait_id( "TROGLO3" ) ) && g->is_in_sunlight( pos() ) ) {
-        effect_name_and_text.push_back( { _( "In Sunlight" ),
-                                          _( "The sunlight irritates you terribly.\n"
-                                             "Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" )
-                                        } );
+        effect_name_and_text.emplace_back( _( "In Sunlight" ),
+                                           _( "The sunlight irritates you terribly.\n"
+                                              "Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" )
+                                         );
     }
 
     for( auto &elem : addictions ) {
         if( elem.sated < 0_turns && elem.intensity >= MIN_ADDICTION_LEVEL ) {
-            effect_name_and_text.push_back( { addiction_name( elem ), addiction_text( elem ) } );
+            effect_name_and_text.emplace_back( addiction_name( elem ), addiction_text( elem ) );
         }
     }
 

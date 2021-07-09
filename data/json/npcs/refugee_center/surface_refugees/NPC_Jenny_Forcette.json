@@ -255,7 +255,10 @@
     "id": "TALK_REFUGEE_JENNY_Teach2",
     "dynamic_line": "All right, fine.  Grab some tools and do as I tell you.",
     "speaker_effect": { "effect": { "npc_add_var": "Jenny_teach", "type": "timer", "context": "flag", "time": true } },
-    "responses": [ { "text": "Just say the word, teach.", "topic": "TALK_TRAIN" } ]
+    "responses": [
+      { "text": "Just say the word, teach.", "topic": "TALK_TRAIN" },
+      { "text": "Actually, I'd better get going.  Let's do this later.", "topic": "TALK_DONE" }
+    ]
   },
   {
     "type": "talk_topic",

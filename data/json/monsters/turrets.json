@@ -44,7 +44,7 @@
     ],
     "special_when_hit": [ "RETURN_FIRE", 100 ],
     "death_drops": {  },
-    "death_function": [ "BROKEN" ],
+    "death_function": { "corpse_type": "BROKEN" },
     "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "COLDPROOF", "IMMOBILE", "NO_BREATHE", "DROPS_AMMO" ]
   },
   {
@@ -72,7 +72,11 @@
     "revert_to_itype": "bot_turret_searchlight",
     "special_attacks": [ [ "SEARCHLIGHT", 1 ] ],
     "death_drops": { "groups": [ [ "robots", 1 ], [ "turret_searchlight", 1 ] ] },
-    "death_function": [ "FOCUSEDBEAM" ],
+    "death_function": {
+      "effect": { "id": "death_focused_beam" },
+      "message": "As the final light is destroyed, it erupts in a blinding flare!",
+      "corpse_type": "NO_CORPSE"
+    },
     "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "COLDPROOF", "IMMOBILE", "NO_BREATHE", "PRIORITIZE_TARGETS" ]
   },
   {
@@ -121,7 +125,7 @@
     ],
     "special_when_hit": [ "RETURN_FIRE", 100 ],
     "death_drops": {  },
-    "death_function": [ "BROKEN" ],
+    "death_function": { "corpse_type": "BROKEN" },
     "flags": [
       "SEES",
       "NOHEAD",
@@ -180,7 +184,7 @@
     ],
     "special_when_hit": [ "RETURN_FIRE", 100 ],
     "death_drops": {  },
-    "death_function": [ "BROKEN" ],
+    "death_function": { "corpse_type": "BROKEN" },
     "flags": [
       "SEES",
       "NOHEAD",
@@ -239,7 +243,7 @@
     ],
     "special_when_hit": [ "RETURN_FIRE", 100 ],
     "death_drops": {  },
-    "death_function": [ "BROKEN" ],
+    "death_function": { "corpse_type": "BROKEN" },
     "flags": [
       "SEES",
       "NOHEAD",
@@ -300,7 +304,7 @@
       }
     ],
     "death_drops": {  },
-    "death_function": [ "BROKEN" ],
+    "death_function": { "corpse_type": "BROKEN" },
     "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "COLDPROOF", "IMMOBILE", "NO_BREATHE", "DROPS_AMMO" ]
   },
   {
@@ -328,7 +332,7 @@
     "vision_night": 50,
     "revert_to_itype": "bot_turret_speaker",
     "special_attacks": [ [ "SPEAKER", 10 ] ],
-    "death_function": [ "BROKEN" ],
+    "death_function": { "corpse_type": "BROKEN" },
     "death_drops": { "groups": [ [ "turret_speaker", 1 ] ] },
     "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE" ]
   },
@@ -376,7 +380,7 @@
     ],
     "special_when_hit": [ "RETURN_FIRE", 100 ],
     "death_drops": { "subtype": "collection", "groups": [ [ "robots", 80 ] ] },
-    "death_function": [ "BROKEN" ],
+    "death_function": { "corpse_type": "BROKEN" },
     "flags": [ "SEES", "HEARS", "GOODHEARING", "NOHEAD", "IMMOBILE", "NO_BREATHE", "PRIORITIZE_TARGETS", "INTERIOR_AMMO" ]
   }
 ]

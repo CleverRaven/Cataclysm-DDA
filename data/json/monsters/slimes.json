@@ -12,6 +12,7 @@
     "weight": "81500 g",
     "hp": 80,
     "speed": 70,
+    "material": [ "slime" ],
     "symbol": "O",
     "color": "dark_gray",
     "phase": "LIQUID",
@@ -24,9 +25,14 @@
     "armor_bash": 12,
     "armor_stab": 14,
     "armor_acid": 15,
+    "bleed_rate": 30,
     "harvest": "exempt",
     "special_attacks": [ [ "FORMBLOB", 30 ] ],
-    "death_function": [ "BLOBSPLIT" ],
+    "death_function": {
+      "message": "The %s splits in two!",
+      "corpse_type": "NO_CORPSE",
+      "effect": { "id": "death_blobsplit", "hit_self": true }
+    },
     "flags": [ "HEARS", "GOODHEARING", "NOHEAD", "POISON", "NO_BREATHE", "ACIDPROOF" ]
   },
   {
@@ -42,6 +48,7 @@
     "weight": "200 kg",
     "hp": 400,
     "speed": 50,
+    "material": [ "slime" ],
     "symbol": "O",
     "color": "black_green",
     "phase": "LIQUID",
@@ -52,9 +59,14 @@
     "melee_dice_sides": 4,
     "melee_cut": 0,
     "armor_bash": 12,
+    "bleed_rate": 20,
     "harvest": "exempt",
     "special_attacks": [ [ "CALLBLOBS", 0 ] ],
-    "death_function": [ "BRAINBLOB" ],
+    "death_function": {
+      "message": "The %s splits in two!",
+      "corpse_type": "NO_CORPSE",
+      "effect": { "id": "death_blob_brain", "hit_self": true }
+    },
     "flags": [ "SEES", "HEARS", "GOODHEARING", "NOHEAD", "POISON", "NO_BREATHE", "ACIDPROOF", "QUEEN" ]
   },
   {
@@ -70,6 +82,7 @@
     "weight": "120 kg",
     "hp": 160,
     "speed": 90,
+    "material": [ "slime" ],
     "symbol": "O",
     "color": "light_gray",
     "phase": "LIQUID",
@@ -84,9 +97,14 @@
     "armor_bullet": 3,
     "armor_stab": 20,
     "armor_acid": 20,
+    "bleed_rate": 30,
     "harvest": "exempt",
     "special_attacks": [ [ "FORMBLOB", 20 ] ],
-    "death_function": [ "BLOBSPLIT" ],
+    "death_function": {
+      "message": "The %s splits in two!",
+      "corpse_type": "NO_CORPSE",
+      "effect": { "id": "death_blobsplit_large", "hit_self": true }
+    },
     "flags": [ "HEARS", "GOODHEARING", "NOHEAD", "POISON", "NO_BREATHE", "ACIDPROOF" ]
   },
   {
@@ -102,6 +120,7 @@
     "weight": "40750 g",
     "hp": 40,
     "speed": 50,
+    "material": [ "slime" ],
     "symbol": "o",
     "color": "dark_gray",
     "phase": "LIQUID",
@@ -115,7 +134,8 @@
     "armor_stab": 10,
     "armor_acid": 10,
     "harvest": "exempt",
-    "death_function": [ "BLOBSPLIT" ],
+    "death_function": { "message": "The %s's body melts away.", "corpse_type": "NO_CORPSE" },
+    "death_drops": "mon_blob_small_deathdrops",
     "flags": [ "HEARS", "GOODHEARING", "NOHEAD", "POISON", "NO_BREATHE", "ACIDPROOF" ]
   },
   {
@@ -131,6 +151,7 @@
     "weight": "120 kg",
     "hp": 200,
     "speed": 40,
+    "material": [ "slime" ],
     "symbol": "O",
     "color": "light_gray",
     "phase": "LIQUID",
@@ -142,7 +163,7 @@
     "armor_bash": 10,
     "harvest": "exempt",
     "special_attacks": [ [ "FORMBLOB", 4 ] ],
-    "death_function": [ "MELT" ],
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
     "flags": [ "SMELLS", "HEARS", "PLASTIC", "NO_BREATHE", "NOHEAD", "NOGIB" ]
   },
   {
@@ -158,6 +179,7 @@
     "weight": "81500 g",
     "hp": 40,
     "speed": 100,
+    "material": [ "slime" ],
     "symbol": "O",
     "color": "light_green",
     "phase": "LIQUID",
@@ -172,7 +194,11 @@
     "vision_night": 5,
     "harvest": "exempt",
     "special_attacks": [ [ "SLIMESPRING", 15 ] ],
-    "death_function": [ "ACID" ],
+    "death_function": {
+      "message": "The %s's body dissolves into acid.",
+      "effect": { "id": "death_acid", "hit_self": true },
+      "corpse_type": "NO_CORPSE"
+    },
     "flags": [ "SEES", "HEARS", "SMELLS", "GOODHEARING", "NOHEAD", "POISON", "VENOM", "WARM", "GUILT" ]
   }
 ]

@@ -152,6 +152,7 @@
       { "item": "aspirin", "prob": 85, "charges": [ 1, 20 ] },
       { "item": "caffeine", "prob": 25, "charges": [ 1, 10 ] },
       { "item": "pills_sleep", "prob": 15, "charges": [ 1, 10 ] },
+      { "item": "melatonin_tablet", "prob": 10, "charges": [ 1, 30 ] },
       { "item": "iodine", "prob": 5, "charges": [ 1, 10 ] },
       { "item": "prussian_blue", "prob": 5, "charges": [ 1, 10 ] },
       { "item": "dayquil", "prob": 70, "charges": [ 1, 5 ] },

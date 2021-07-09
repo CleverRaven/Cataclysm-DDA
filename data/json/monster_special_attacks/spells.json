@@ -191,6 +191,22 @@
   },
   {
     "type": "SPELL",
+    "id": "hive_raptor_spawn",
+    "name": { "str": "Spawn Raptor" },
+    "description": "Summons a zombie-spawn raptor without killing the zombie.",
+    "flags": [ "HOSTILE_SUMMON", "RANDOM_DAMAGE", "PERMANENT" ],
+    "valid_targets": [ "ground", "self" ],
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_aoe": 3,
+    "max_aoe": 3,
+    "base_casting_time": 100,
+    "shape": "blast",
+    "effect": "summon",
+    "effect_str": "mon_spawn_raptor"
+  },
+  {
+    "type": "SPELL",
     "id": "shady_raptor_spawn",
     "name": { "str": "Spawn Shady Raptors" },
     "description": "Summons a few shady zombiespawn raptors.",

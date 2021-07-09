@@ -63,7 +63,6 @@ cata::optional<int> purifier( player *, item *, bool, const tripoint & );
 cata::optional<int> purify_iv( player *, item *, bool, const tripoint & );
 cata::optional<int> purify_smart( player *, item *, bool, const tripoint & );
 cata::optional<int> sewage( player *, item *, bool, const tripoint & );
-cata::optional<int> sleep( player *, item *, bool, const tripoint & );
 cata::optional<int> smoking( player *, item *, bool, const tripoint & );
 cata::optional<int> thorazine( player *, item *, bool, const tripoint & );
 cata::optional<int> vaccine( player *, item *, bool, const tripoint & );

@@ -539,6 +539,12 @@ void JsonArray::verify_index( const size_t i ) const
 
 /* iterative access */
 
+JsonValue JsonArray::next()
+{
+    verify_index( index );
+    return JsonValue( *jsin, positions[index++] );
+}
+
 bool JsonArray::next_bool()
 {
     verify_index( index );
@@ -744,6 +750,33 @@ void add_array_to_set( std::set<std::string> &s, const JsonObject &json, const s
 {
     for( const std::string line : json.get_array( name ) ) {
         s.insert( line );
+    }
+}
+
+JsonIn::JsonIn( std::istream &s ) : stream( &s )
+{
+    sanity_check_stream();
+}
+
+JsonIn::JsonIn( std::istream &s, const std::string &path )
+    : stream( &s )
+    , path( make_shared_fast<std::string>( path ) )
+{
+    sanity_check_stream();
+}
+
+JsonIn::JsonIn( std::istream &s, const json_source_location &loc )
+    : stream( &s ), path( loc.path )
+{
+    seek( loc.offset );
+    sanity_check_stream();
+}
+
+void JsonIn::sanity_check_stream()
+{
+    char c = stream->peek();
+    if( c == '\xef' ) {
+        error( _( "This JSON file looks like it starts with a Byte Order Mark (BOM) or is otherwise corrupted.  This can happen if you edit files in Windows Notepad.  See doc/CONTRIBUTING.md for more advice." ) );
     }
 }
 

@@ -12,6 +12,7 @@
 #include "vehicle.h"
 
 class time_duration;
+static const trait_id trait_SEESLEEP( "SEESLEEP" );
 
 std::string talker_character::disp_name() const
 {
@@ -291,4 +292,39 @@ bool talker_character::is_in_control_of( const vehicle &veh ) const
 void talker_character::shout( const std::string &speech, bool order )
 {
     me_chr->shout( speech, order );
+}
+
+int talker_character::pain_cur() const
+{
+    return me_chr->get_pain();
+}
+
+void talker_character::mod_pain( int amount )
+{
+    me_chr->mod_pain( amount );
+}
+
+bool talker_character::worn_with_flag( const flag_id &flag ) const
+{
+    return me_chr->worn_with_flag( flag );
+}
+
+bool talker_character::wielded_with_flag( const flag_id &flag ) const
+{
+    return me_chr->weapon.has_flag( flag );
+}
+
+units::energy talker_character::power_cur() const
+{
+    return me_chr->get_power_level();
+}
+
+bool talker_character::can_see() const
+{
+    return !me_chr->is_blind() && ( !me_chr->in_sleep_state() || me_chr->has_trait( trait_SEESLEEP ) );
+}
+
+void talker_character::mod_fatigue( int amount )
+{
+    me_chr->mod_fatigue( amount );
 }

@@ -5,7 +5,7 @@
 #include <vector>
 
 #include "avatar.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "creature.h"
 #include "explosion.h"
 #include "game.h"
@@ -23,11 +23,6 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
-
-static const vpart_id vpart_battery_car( "battery_car" );
-static const vpart_id vpart_headlight( "headlight" );
-static const vpart_id vpart_vehicle_clock( "vehicle_clock" );
-static const vpart_id vpart_windshield( "windshield" );
 
 enum class outcome_type {
     Kill, Casualty
@@ -108,7 +103,7 @@ static std::vector<int> get_part_hp( vehicle *veh )
 }
 
 static void check_vehicle_damage( const std::string &explosive_id, const std::string &vehicle_id,
-                                  const int range )
+                                  const int range, const double damage_lower_bound, const double damage_upper_bound = 1.0 )
 {
     // Clear map
     clear_map_and_put_player_underground();
@@ -131,19 +126,20 @@ static void check_vehicle_damage( const std::string &explosive_id, const std::st
 
     std::vector<int> after_hp = get_part_hp( target_vehicle );
 
+    // running sums of all parts, so we can do tests for hp range for the whole vehicle
+    int before_hp_total = 0;
+    int after_hp_total = 0;
+
     // We don't expect any destroyed parts.
     REQUIRE( before_hp.size() == after_hp.size() );
     for( size_t i = 0; i < before_hp.size(); ++i ) {
-        CAPTURE( i );
-        INFO( target_vehicle->part( i ).name() );
-        if( target_vehicle->part( i ).info().get_id() == vpart_battery_car ||
-            target_vehicle->part( i ).info().get_id() == vpart_headlight ||
-            target_vehicle->part( i ).info().get_id() == vpart_windshield ) {
-            CHECK( before_hp[ i ] >= after_hp[ i ] );
-        } else if( !( target_vehicle->part( i ).info().get_id() == vpart_vehicle_clock ) ) {
-            CHECK( before_hp[ i ] == after_hp[ i ] );
-        }
+        before_hp_total += before_hp[ i ];
+        after_hp_total += after_hp[ i ];
     }
+    CAPTURE( before_hp_total );
+    INFO( vehicle_id );
+    CHECK( after_hp_total >= floor( before_hp_total * damage_lower_bound ) );
+    CHECK( after_hp_total <= ceil( before_hp_total * damage_upper_bound ) );
 }
 
 TEST_CASE( "grenade_lethality", "[grenade],[explosion],[balance],[slow]" )
@@ -154,5 +150,24 @@ TEST_CASE( "grenade_lethality", "[grenade],[explosion],[balance],[slow]" )
 
 TEST_CASE( "grenade_vs_vehicle", "[grenade],[explosion],[balance]" )
 {
-    check_vehicle_damage( "grenade_act", "car", 5 );
+    /* as of test writing, car hp is 17653. 0.998 of that means the grenade
+     * has to do more than 36 points of damage to 'fail', which isn't remotely
+     * enough to disable a car even if it all happens to a single component
+     *
+     * also as of test writing:
+     * motorcycle = 3173 hp, 0.997 is 3163 (so <= 10 points of damage)
+     * at a range of 0, we expect motorcycles to take damage from a grenade.
+     * should be between 3093 and 3166 (or 7 to 80 damage)
+     *
+     * humvee absolutely does not believe in a grenade damaging it.
+     * this might change if we adjust the default armor loadout of a humvee,
+     * but i would still expect less damage than with the car due to
+     * heavy duty frames.
+     */
+    for( size_t i = 0; i <= 20 ; ++i ) {
+        check_vehicle_damage( "grenade_act", "car", 5, 0.998 );
+        check_vehicle_damage( "grenade_act", "motorcycle", 5, 0.997 );
+        check_vehicle_damage( "grenade_act", "motorcycle", 0, 0.975, 0.9975 );
+        check_vehicle_damage( "grenade_act", "humvee", 5, 1 );
+    }
 }
