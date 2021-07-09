@@ -7,6 +7,7 @@
 #include <utility>
 #include <vector>
 
+#include "calendar.h"
 #include "cata_assert.h"
 #include "character.h"
 #include "clzones.h"
@@ -178,4 +179,15 @@ void player_add_headlamp()
     battery.ammo_set( battery.ammo_default(), -1 );
     headlamp.put_in( battery, item_pocket::pocket_type::MAGAZINE_WELL );
     get_player_character().worn.push_back( headlamp );
+}
+
+void set_time( const time_point &time )
+{
+    calendar::turn = time;
+    g->reset_light_level();
+    int z = get_player_character().posz();
+    map &here = get_map();
+    here.update_visibility_cache( z );
+    here.invalidate_map_cache( z );
+    here.build_map_cache( z );
 }
