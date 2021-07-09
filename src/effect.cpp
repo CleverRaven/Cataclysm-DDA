@@ -40,7 +40,6 @@ static const itype_id itype_money_bundle( "money_bundle" );
 
 static const trait_id trait_LACTOSE( "LACTOSE" );
 static const trait_id trait_VEGETARIAN( "VEGETARIAN" );
-static const trait_id trait_SELFAWARE( "SELFAWARE" );
 
 namespace
 {
@@ -997,14 +996,7 @@ int effect::set_intensity( int val, bool alert )
                  eff_type->decay_msgs[ val - 1 ].first.translated() );
     }
 
-    //int old_intensity = intensity;
     intensity = val;
-    /*
-    if( old_intensity != intensity ) {
-        add_msg_debug( debugmode::DF_EFFECT, "%s intensity %d->%d", get_id().c_str(), old_intensity,
-                       intensity );
-    }
-    */
 
     return intensity;
 }
@@ -1664,4 +1656,3 @@ nc_color colorize_bleeding_intensity( const int intensity )
         return c_red_red;
     }
 }
-
