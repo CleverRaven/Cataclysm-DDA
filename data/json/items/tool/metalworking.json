@@ -265,6 +265,22 @@
     "flags": [ "DURABLE_MELEE" ]
   },
   {
+    "id": "swage",
+    "type": "TOOL",
+    "name": { "str": "swage and die set" },
+    "description": "These are a set of swages and dies for metalsmithing.  These loops and metal blocks are used in some metalworking fabrication recipes.",
+    "weight": "2620 g",
+    "volume": "2 L",
+    "price": 16000,
+    "price_postapoc": 250,    
+    "to_hit": 1,
+    "bashing": 10,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "flags": [ "DURABLE_MELEE" ]
+  },
+  {
     "id": "tongs",
     "type": "TOOL",
     "name": { "str": "pair of metal tongs", "str_pl": "pairs of metal tongs" },
