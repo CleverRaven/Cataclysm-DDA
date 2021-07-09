@@ -87,5 +87,15 @@
       { "sound_effect": "elec_crackle_low", "id": "bionics", "volume": 100 },
       { "u_add_power": "-25kJ" }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SLEEP",
+    "effect": [ { "message": "You feel very sleepy…" }, { "u_mod_fatigue": 40 } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MINOR_SLEEP",
+    "effect": [ { "message": "You feel sleepy…" }, { "u_mod_fatigue": 20 } ]
   }
 ]

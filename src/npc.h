@@ -773,7 +773,7 @@ class npc : public player
         bool is_npc() const override {
             return true;
         }
-        const npc *as_npc() override {
+        npc *as_npc() override {
             return this;
         }
         const npc *as_npc() const override {
