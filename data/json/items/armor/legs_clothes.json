@@ -13,19 +13,19 @@
     "symbol": "[",
     "looks_like": "kilt",
     "color": "brown",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 90,
-    "encumbrance": 7,
-    "max_encumbrance": 11,
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "165 mm",
+        "moves": 400
+      }
     ],
     "warmth": 8,
     "material_thickness": 0.3,
-    "flags": [ "VARSIZE", "POCKETS", "FANCY" ]
+    "flags": [ "VARSIZE", "POCKETS" ],
+    "armor": [ { "encumbrance": [ 7, 11 ], "coverage": 90, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "b_shorts",
@@ -42,15 +42,26 @@
     "symbol": "[",
     "looks_like": "shorts",
     "color": "cyan",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 50,
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 80 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1000 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "17 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1000 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "17 cm",
+        "moves": 80
+      }
     ],
     "warmth": 5,
     "material_thickness": 0.1,
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE" ],
+    "armor": [ { "coverage": 50, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "breeches",
@@ -66,12 +77,10 @@
     "symbol": "[",
     "looks_like": "pants",
     "color": "brown",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 80,
-    "encumbrance": 8,
     "warmth": 10,
     "material_thickness": 0.4,
-    "flags": [ "VARSIZE", "FANCY" ]
+    "flags": [ "VARSIZE" ],
+    "armor": [ { "encumbrance": 8, "coverage": 80, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "fishing_waders",
@@ -87,16 +96,19 @@
     "symbol": "[",
     "looks_like": "pants_ski",
     "color": "green",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 19, 23 ] },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 19, 21 ] },
       { "covers": [ "foot_l", "foot_r" ], "coverage": 100, "encumbrance": [ 19, 19 ] }
     ],
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1600 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "18 cm",
+        "moves": 80
+      }
     ],
     "warmth": 5,
     "material_thickness": 2,
@@ -116,10 +128,9 @@
     "symbol": "[",
     "looks_like": "boxer_briefs",
     "color": "light_red",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 15,
     "material_thickness": 0.1,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ],
+    "armor": [ { "coverage": 15, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "hot_pants_fur",
@@ -134,11 +145,10 @@
     "symbol": "[",
     "looks_like": "hot_pants_leather",
     "color": "brown",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 15,
     "warmth": 10,
     "material_thickness": 0.2,
-    "flags": [ "VARSIZE", "SKINTIGHT" ]
+    "flags": [ "VARSIZE", "SKINTIGHT" ],
+    "armor": [ { "coverage": 15, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "hot_pants_leather",
@@ -153,11 +163,10 @@
     "symbol": "[",
     "looks_like": "hot_pants",
     "color": "dark_gray",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 15,
     "warmth": 5,
     "material_thickness": 0.1,
-    "flags": [ "VARSIZE", "SKINTIGHT" ]
+    "flags": [ "VARSIZE", "SKINTIGHT" ],
+    "armor": [ { "coverage": 15, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "jeans",
@@ -173,19 +182,50 @@
     "symbol": "[",
     "looks_like": "pants",
     "color": "blue",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 95,
-    "encumbrance": 12,
-    "max_encumbrance": 16,
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      }
     ],
     "warmth": 10,
     "material_thickness": 0.25,
-    "flags": [ "VARSIZE", "POCKETS" ]
+    "flags": [ "VARSIZE", "POCKETS" ],
+    "snippet_category": [
+      { "id": "jeans1", "text": "A pair of black jeans with two deep pockets." },
+      { "id": "jeans2", "text": "A pair of black skinny jeans." },
+      { "id": "jeans3", "text": "A stylish pair of bleached denim jeans." },
+      { "id": "jeans4", "text": "A pair of old baggy jeans.  The heels are all ripped up." },
+      {
+        "id": "jeans5",
+        "text": "An old pair of blue jeans.  You are not sure if they are faded through age or stone washed."
+      }
+    ],
+    "armor": [ { "encumbrance": [ 12, 16 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "jeans_red",
@@ -202,19 +242,40 @@
     "symbol": "[",
     "looks_like": "jeans",
     "color": "red",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 95,
-    "encumbrance": 12,
-    "max_encumbrance": 16,
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      }
     ],
     "warmth": 10,
     "material_thickness": 0.25,
-    "flags": [ "VARSIZE", "POCKETS", "FANCY" ]
+    "flags": [ "VARSIZE", "POCKETS" ],
+    "armor": [ { "encumbrance": [ 12, 16 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "kilt",
@@ -229,12 +290,19 @@
     "symbol": "[",
     "looks_like": "skirt",
     "color": "dark_gray",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 50,
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 80 } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1000 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      }
+    ],
     "warmth": 20,
     "material_thickness": 0.3,
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE" ],
+    "armor": [ { "coverage": 50, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "kilt_leather",
@@ -249,12 +317,19 @@
     "symbol": "[",
     "looks_like": "kilt",
     "color": "dark_gray",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 50,
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 80 } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1000 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      }
+    ],
     "warmth": 10,
     "material_thickness": 1.5,
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE" ],
+    "armor": [ { "coverage": 50, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "leggings",
@@ -269,11 +344,10 @@
     "symbol": "[",
     "looks_like": "leg_warmers",
     "color": "dark_gray",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 100,
     "warmth": 20,
     "material_thickness": 0.1,
-    "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ],
+    "armor": [ { "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "loincloth",
@@ -288,10 +362,9 @@
     "symbol": "[",
     "looks_like": "briefs",
     "color": "brown",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 5,
     "material_thickness": 0.5,
-    "flags": [ "VARSIZE", "SKINTIGHT", "OVERSIZE" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "OVERSIZE" ],
+    "armor": [ { "coverage": 5, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "loincloth_fur",
@@ -306,11 +379,10 @@
     "symbol": "[",
     "looks_like": "loincloth_leather",
     "color": "brown",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 5,
     "warmth": 5,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT", "OVERSIZE" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "OVERSIZE" ],
+    "armor": [ { "coverage": 5, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "loincloth_leather",
@@ -325,10 +397,9 @@
     "symbol": "[",
     "looks_like": "loincloth",
     "color": "brown",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 5,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT", "OVERSIZE" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "OVERSIZE" ],
+    "armor": [ { "coverage": 5, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "loincloth_wool",
@@ -343,11 +414,10 @@
     "symbol": "[",
     "looks_like": "loincloth",
     "color": "blue",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 5,
     "warmth": 5,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT", "OVERSIZE" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "OVERSIZE" ],
+    "armor": [ { "coverage": 5, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "nanoskirt",
@@ -363,10 +433,9 @@
     "symbol": "[",
     "looks_like": "skirt",
     "color": "pink",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 7,
     "material_thickness": 0.5,
-    "flags": [ "VARSIZE", "FANCY" ]
+    "flags": [ "VARSIZE" ],
+    "armor": [ { "coverage": 7, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "pants",
@@ -383,19 +452,40 @@
     "symbol": "[",
     "looks_like": "jeans",
     "color": "brown",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 95,
-    "encumbrance": 7,
-    "max_encumbrance": 11,
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      }
     ],
     "warmth": 15,
     "material_thickness": 0.2,
-    "flags": [ "VARSIZE", "POCKETS" ]
+    "flags": [ "VARSIZE", "POCKETS" ],
+    "armor": [ { "encumbrance": [ 7, 11 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "pants_army",
@@ -411,21 +501,76 @@
     "symbol": "[",
     "looks_like": "pants_cargo",
     "color": "green",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 95,
-    "encumbrance": 9,
-    "max_encumbrance": 18,
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "3 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "3 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 100 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 100 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "3 kg", "moves": 120 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "3 kg", "moves": 120 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      }
+    ],
+    "snippet_category": [
+      {
+        "id": "apants_UCP",
+        "text": "A tough pair of pants Favored by the military.  This pair came in a grey, green and tan camouflage.  The pattern is notable for it's lack of black."
+      },
+      {
+        "id": "apants_desert",
+        "text": "A tough pair of military pants patterned in desert camouflage.  They are lined with deep pockets."
+      },
+      {
+        "id": "apants_MARPAT",
+        "text": "A tough pair of military pants with a black, green and tan pixel camouflage pattern.  Commonly seen worn by US Marines."
+      },
+      {
+        "id": "apants_BDU",
+        "text": "A tough pair of military pants with a black, brown, green and tan camouflage pattern.  They look old."
+      },
+      {
+        "id": "mil_pants_navy",
+        "text": "A tough pair of military pants with a predominantly dark blue camouflage.  Favored by the navy."
+      }
     ],
     "warmth": 20,
     "material_thickness": 0.25,
-    "flags": [ "VARSIZE", "POCKETS" ]
+    "flags": [ "VARSIZE", "POCKETS" ],
+    "armor": [ { "encumbrance": [ 9, 18 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "pants_cargo",
@@ -440,23 +585,54 @@
     "symbol": "[",
     "looks_like": "pants",
     "color": "light_gray",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 95,
-    "encumbrance": 8,
-    "max_encumbrance": 16,
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "3 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "3 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 100 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 100 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 100 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 100 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "3 kg", "moves": 120 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "3 kg", "moves": 120 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      }
     ],
     "warmth": 15,
     "material_thickness": 0.25,
-    "flags": [ "VARSIZE", "POCKETS" ]
+    "flags": [ "VARSIZE", "POCKETS" ],
+    "armor": [ { "encumbrance": [ 8, 16 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "pants_checkered",
@@ -472,19 +648,40 @@
     "symbol": "[",
     "looks_like": "pants",
     "color": "dark_gray",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 95,
-    "encumbrance": 2,
-    "max_encumbrance": 5,
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      }
     ],
     "warmth": 15,
     "material_thickness": 0.2,
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE" ],
+    "armor": [ { "encumbrance": [ 2, 5 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "pants_fur",
@@ -500,21 +697,42 @@
     "symbol": "[",
     "looks_like": "pants",
     "color": "brown",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 95,
-    "encumbrance": 16,
-    "max_encumbrance": 20,
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      }
     ],
     "warmth": 80,
     "material_thickness": 1,
     "valid_mods": [ "steel_padded" ],
     "environmental_protection": 3,
-    "flags": [ "VARSIZE", "POCKETS" ]
+    "flags": [ "VARSIZE", "POCKETS" ],
+    "armor": [ { "encumbrance": [ 16, 20 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "pants_faux_fur",
@@ -523,7 +741,6 @@
     "name": { "str_sp": "faux fur pants" },
     "description": "A pair of long cotton pants lined with warm imitation fur.",
     "material": [ "faux_fur", "cotton" ],
-    "covers": [ "leg_l", "leg_r" ],
     "warmth": 70
   },
   {
@@ -540,18 +757,27 @@
     "symbol": "[",
     "looks_like": "pants",
     "color": "dark_gray",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 95,
-    "encumbrance": 15,
-    "max_encumbrance": 17,
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      }
     ],
     "warmth": 25,
     "material_thickness": 0.75,
     "valid_mods": [ "steel_padded" ],
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE" ],
+    "armor": [ { "encumbrance": [ 15, 17 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "pants_ski",
@@ -567,20 +793,41 @@
     "symbol": "[",
     "looks_like": "pants",
     "color": "blue",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 95,
-    "encumbrance": 6,
-    "max_encumbrance": 10,
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      }
     ],
     "warmth": 70,
     "material_thickness": 1,
     "environmental_protection": 3,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER" ],
+    "armor": [ { "encumbrance": [ 6, 10 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "postman_shorts",
@@ -597,17 +844,40 @@
     "symbol": "[",
     "looks_like": "shorts_cargo",
     "color": "blue",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 40,
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      }
     ],
     "warmth": 5,
     "material_thickness": 0.2,
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE" ],
+    "armor": [ { "coverage": 40, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "shorts",
@@ -623,19 +893,40 @@
     "symbol": "[",
     "looks_like": "boxer_shorts",
     "color": "brown",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 40,
-    "encumbrance": 2,
-    "max_encumbrance": 5,
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      }
     ],
     "warmth": 5,
     "material_thickness": 0.2,
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE" ],
+    "armor": [ { "encumbrance": [ 2, 5 ], "coverage": 40, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "shorts_cargo",
@@ -651,21 +942,54 @@
     "symbol": "[",
     "looks_like": "shorts",
     "color": "light_gray",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 40,
-    "encumbrance": 2,
-    "max_encumbrance": 5,
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      }
     ],
     "warmth": 5,
     "material_thickness": 0.2,
-    "flags": [ "VARSIZE", "POCKETS" ]
+    "flags": [ "VARSIZE", "POCKETS" ],
+    "armor": [ { "encumbrance": [ 2, 5 ], "coverage": 40, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "shorts_denim",
@@ -681,17 +1005,31 @@
     "symbol": "[",
     "looks_like": "shorts",
     "color": "light_blue",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 40,
-    "encumbrance": 1,
-    "max_encumbrance": 2,
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      }
+    ],
+    "snippet_category": [
+      { "id": "denim_shorts1", "text": "A pair of stone wash denim shorts." },
+      { "id": "denim_shorts2", "text": "An old pair of denim jeans that have been cut down to shorts." },
+      { "id": "denim_shorts3", "text": "A pair of brand-name black denim shorts." }
     ],
     "warmth": 5,
     "material_thickness": 0.25,
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE" ],
+    "armor": [ { "encumbrance": [ 1, 2 ], "coverage": 40, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "skirt",
@@ -707,12 +1045,11 @@
     "symbol": "[",
     "looks_like": "kilt",
     "color": "dark_gray",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 50,
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 80 } ],
     "warmth": 5,
     "material_thickness": 0.1,
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE" ],
+    "armor": [ { "coverage": 50, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "skirt_grass",
@@ -727,10 +1064,9 @@
     "symbol": "[",
     "looks_like": "kilt",
     "color": "yellow",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 35,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "VARSIZE", "OVERSIZE", "WATER_FRIENDLY" ],
+    "armor": [ { "coverage": 35, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "skirt_leather",
@@ -746,12 +1082,10 @@
     "symbol": "[",
     "looks_like": "skirt",
     "color": "brown",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 35,
-    "encumbrance": 10,
     "warmth": 10,
     "material_thickness": 0.6,
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE" ],
+    "armor": [ { "encumbrance": 10, "coverage": 35, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "striped_pants",
@@ -768,19 +1102,40 @@
     "symbol": "[",
     "looks_like": "pants_checkered",
     "color": "white",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 95,
-    "encumbrance": 2,
-    "max_encumbrance": 5,
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      }
     ],
     "warmth": 15,
     "material_thickness": 0.2,
-    "flags": [ "VARSIZE", "POCKETS" ]
+    "flags": [ "VARSIZE", "POCKETS" ],
+    "armor": [ { "encumbrance": [ 2, 5 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "technician_pants_gray",
@@ -797,15 +1152,35 @@
     "symbol": "[",
     "looks_like": "pants",
     "color": "light_gray",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 95,
-    "encumbrance": 2,
-    "max_encumbrance": 5,
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "3 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "3 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      }
     ],
     "warmth": 15,
     "material_thickness": 0.3,
@@ -814,7 +1189,8 @@
       { "id": "technician_pants_gray", "text": "A pair of gray work pants." },
       { "id": "technician_pants_lightblue", "text": "A pair of light-blue work pants." }
     ],
-    "flags": [ "VARSIZE", "POCKETS" ]
+    "flags": [ "VARSIZE", "POCKETS" ],
+    "armor": [ { "encumbrance": [ 2, 5 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "winter_pants_army",
@@ -830,24 +1206,55 @@
     "symbol": "[",
     "looks_like": "pants_army",
     "color": "white",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 95,
-    "encumbrance": 11,
-    "max_encumbrance": 22,
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 100 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 100 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 100 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 100 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 120 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 120 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      }
     ],
     "warmth": 50,
     "material_thickness": 0.5,
     "valid_mods": [ "steel_padded" ],
-    "flags": [ "VARSIZE", "POCKETS" ]
+    "flags": [ "VARSIZE", "POCKETS" ],
+    "armor": [ { "encumbrance": [ 11, 22 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "zubon_gi",
@@ -862,10 +1269,9 @@
     "symbol": "[",
     "looks_like": "pants",
     "color": "white",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 80,
     "warmth": 5,
     "material_thickness": 0.5,
-    "flags": [ "VARSIZE", "STURDY" ]
+    "flags": [ "VARSIZE", "STURDY" ],
+    "armor": [ { "coverage": 80, "covers": [ "leg_l", "leg_r" ] } ]
   }
 ]

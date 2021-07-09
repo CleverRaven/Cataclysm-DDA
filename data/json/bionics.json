@@ -16,6 +16,7 @@
     "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
     "act_cost": 10,
     "react_cost": 10,
+    "trigger_cost": "25kJ",
     "time": 1
   },
   {
@@ -27,6 +28,7 @@
     "flags": [ "BIONIC_TOGGLED", "BIONIC_SLEEP_FRIENDLY" ],
     "act_cost": "1 J",
     "react_cost": "1 J",
+    "trigger_cost": "25 kJ",
     "time": 1
   },
   {
@@ -46,7 +48,78 @@
     "bash_protec": [ [ "arm_l", 3 ], [ "arm_r", 3 ] ],
     "cut_protec": [ [ "arm_l", 3 ], [ "arm_r", 3 ] ],
     "bullet_protec": [ [ "arm_l", 3 ], [ "arm_r", 3 ] ],
-    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
+    "mutation_conflicts": [
+      "THICKSKIN",
+      "THINSKIN",
+      "ALBINO",
+      "SKIN_ROUGH",
+      "M_SKIN",
+      "M_SKIN2",
+      "M_SKIN3",
+      "SCALES",
+      "THICK_SCALES",
+      "SLEEK_SCALES",
+      "FEATHERS",
+      "DOWN",
+      "LIGHTFUR",
+      "FUR",
+      "URSINE_FUR",
+      "LUPINE_FUR",
+      "FELINE_FUR",
+      "LYNX_FUR",
+      "CHITIN",
+      "CHITIN2",
+      "CHITIN3",
+      "CHITIN_FUR",
+      "CHITIN_FUR2",
+      "CHITIN_FUR3",
+      "CF_HAIR",
+      "SPINES",
+      "QUILLS",
+      "BARBS",
+      "PLANTSKIN",
+      "BARK",
+      "THORNS",
+      "LEAVES",
+      "LEAVES2",
+      "LEAVES3",
+      "SLIMY",
+      "VISCOUS",
+      "AMORPHOUS",
+      "BENDY1",
+      "BENDY2",
+      "BENDY3",
+      "WINGS_BIRD",
+      "WINGS_INSECT",
+      "LARGE",
+      "LARGE_OK",
+      "HUGE",
+      "HUGE_OK",
+      "SMALL",
+      "SMALL2",
+      "SMALL_OK",
+      "WINGS_STUB",
+      "WINGS_BAT",
+      "WINGS_BUTTERFLY",
+      "PALE",
+      "SPOTS",
+      "SUNBURN",
+      "SORES",
+      "CHLOROMORPH",
+      "ARM_FEATHERS",
+      "INSECT_ARMS",
+      "INSECT_ARMS_OK",
+      "ARACHNID_ARMS",
+      "ARACHNID_ARMS_OK",
+      "ARM_TENTACLES",
+      "ARM_TENTACLES_4",
+      "ARM_TENTACLES_8",
+      "CLAWS_TENTACLES",
+      "ACIDPROOF",
+      "TOXICFLESH",
+      "FRESHWATEROSMOSIS"
+    ]
   },
   {
     "id": "bio_armor_eyes",
@@ -58,7 +131,7 @@
     "bash_protec": [ [ "eyes", 3 ] ],
     "cut_protec": [ [ "eyes", 3 ] ],
     "bullet_protec": [ [ "eyes", 3 ] ],
-    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
+    "mutation_conflicts": [ "COMPOUND_EYES", "CEPH_VISION", "CEPH_EYES", "EYEBULGE" ],
     "social_modifiers": { "intimidate": 10 }
   },
   {
@@ -70,7 +143,85 @@
     "bash_protec": [ [ "head", 3 ] ],
     "cut_protec": [ [ "head", 3 ] ],
     "bullet_protec": [ [ "head", 3 ] ],
-    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
+    "mutation_conflicts": [
+      "THICKSKIN",
+      "THINSKIN",
+      "ALBINO",
+      "SKIN_ROUGH",
+      "M_SKIN",
+      "M_SKIN2",
+      "M_SKIN3",
+      "SCALES",
+      "THICK_SCALES",
+      "SLEEK_SCALES",
+      "FEATHERS",
+      "DOWN",
+      "LIGHTFUR",
+      "FUR",
+      "URSINE_FUR",
+      "LUPINE_FUR",
+      "FELINE_FUR",
+      "LYNX_FUR",
+      "CHITIN",
+      "CHITIN2",
+      "CHITIN3",
+      "CHITIN_FUR",
+      "CHITIN_FUR2",
+      "CHITIN_FUR3",
+      "CF_HAIR",
+      "SPINES",
+      "QUILLS",
+      "BARBS",
+      "PLANTSKIN",
+      "BARK",
+      "THORNS",
+      "LEAVES",
+      "LEAVES2",
+      "LEAVES3",
+      "SLIMY",
+      "VISCOUS",
+      "AMORPHOUS",
+      "LARGE",
+      "LARGE_OK",
+      "HUGE",
+      "HUGE_OK",
+      "SMALL",
+      "SMALL2",
+      "SMALL_OK",
+      "PALE",
+      "SPOTS",
+      "SUNBURN",
+      "SORES",
+      "CHLOROMORPH",
+      "ACIDPROOF",
+      "TOXICFLESH",
+      "FRESHWATEROSMOSIS",
+      "BIOLUM0",
+      "BIOLUM0_active",
+      "BIOLUM1",
+      "BIOLUM1_active",
+      "BIOLUM2",
+      "BIOLUM2_active",
+      "GILLS",
+      "GILLS_CEPH",
+      "FLOWERS",
+      "ROSEBUDS",
+      "HORNS",
+      "HORNS_CURLED",
+      "HORNS_POINTED",
+      "ANTLERS",
+      "ANTENNAE",
+      "HEADBUMPS",
+      "HAIRROOTS",
+      "SNOUT",
+      "MINOTAUR",
+      "MUZZLE",
+      "MUZZLE_BEAR",
+      "MUZZLE_RAT",
+      "MUZZLE_LONG",
+      "PROBISCIS"
+    ]
   },
   {
     "id": "bio_armor_legs",
@@ -81,7 +232,76 @@
     "bash_protec": [ [ "leg_l", 3 ], [ "leg_r", 3 ] ],
     "cut_protec": [ [ "leg_l", 3 ], [ "leg_r", 3 ] ],
     "bullet_protec": [ [ "leg_l", 3 ], [ "leg_r", 3 ] ],
-    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
+    "mutation_conflicts": [
+      "THICKSKIN",
+      "THINSKIN",
+      "ALBINO",
+      "SKIN_ROUGH",
+      "M_SKIN",
+      "M_SKIN2",
+      "M_SKIN3",
+      "SCALES",
+      "THICK_SCALES",
+      "SLEEK_SCALES",
+      "FEATHERS",
+      "DOWN",
+      "LIGHTFUR",
+      "FUR",
+      "URSINE_FUR",
+      "LUPINE_FUR",
+      "FELINE_FUR",
+      "LYNX_FUR",
+      "CHITIN",
+      "CHITIN2",
+      "CHITIN3",
+      "CHITIN_FUR",
+      "CHITIN_FUR2",
+      "CHITIN_FUR3",
+      "CF_HAIR",
+      "SPINES",
+      "QUILLS",
+      "BARBS",
+      "PLANTSKIN",
+      "BARK",
+      "THORNS",
+      "LEAVES",
+      "LEAVES2",
+      "LEAVES3",
+      "SLIMY",
+      "VISCOUS",
+      "AMORPHOUS",
+      "BENDY1",
+      "BENDY2",
+      "BENDY3",
+      "LARGE",
+      "LARGE_OK",
+      "HUGE",
+      "HUGE_OK",
+      "SMALL",
+      "SMALL2",
+      "SMALL_OK",
+      "PALE",
+      "SPOTS",
+      "SUNBURN",
+      "SORES",
+      "CHLOROMORPH",
+      "ACIDPROOF",
+      "TOXICFLESH",
+      "FRESHWATEROSMOSIS",
+      "TAIL_STUB",
+      "TAIL_FIN",
+      "TAIL_LONG",
+      "TAIL_CATTLE",
+      "TAIL_RAT",
+      "TAIL_THICK",
+      "TAIL_RAPTOR",
+      "TAIL_FLUFFY",
+      "TAIL_STING",
+      "TAIL_CLUB",
+      "LEG_TENTACLES",
+      "LEG_TENT_BRACE"
+    ]
   },
   {
     "id": "bio_armor_torso",
@@ -92,7 +312,73 @@
     "bash_protec": [ [ "torso", 3 ] ],
     "cut_protec": [ [ "torso", 3 ] ],
     "bullet_protec": [ [ "torso", 3 ] ],
-    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
+    "canceled_mutations": [ "VINES1", "VINES2", "VINES3" ],
+    "mutation_conflicts": [
+      "THICKSKIN",
+      "THINSKIN",
+      "ALBINO",
+      "SKIN_ROUGH",
+      "M_SKIN",
+      "M_SKIN2",
+      "M_SKIN3",
+      "SCALES",
+      "THICK_SCALES",
+      "SLEEK_SCALES",
+      "FEATHERS",
+      "DOWN",
+      "LIGHTFUR",
+      "FUR",
+      "URSINE_FUR",
+      "LUPINE_FUR",
+      "FELINE_FUR",
+      "LYNX_FUR",
+      "CHITIN",
+      "CHITIN2",
+      "CHITIN3",
+      "CHITIN_FUR",
+      "CHITIN_FUR2",
+      "CHITIN_FUR3",
+      "CF_HAIR",
+      "SPINES",
+      "QUILLS",
+      "BARBS",
+      "PLANTSKIN",
+      "BARK",
+      "THORNS",
+      "LEAVES",
+      "LEAVES2",
+      "LEAVES3",
+      "SLIMY",
+      "VISCOUS",
+      "AMORPHOUS",
+      "BENDY1",
+      "BENDY2",
+      "BENDY3",
+      "LARGE",
+      "LARGE_OK",
+      "HUGE",
+      "HUGE_OK",
+      "SMALL",
+      "SMALL2",
+      "SMALL_OK",
+      "PALE",
+      "SPOTS",
+      "SUNBURN",
+      "SORES",
+      "CHLOROMORPH",
+      "ACIDPROOF",
+      "TOXICFLESH",
+      "FRESHWATEROSMOSIS",
+      "INK_GLANDS",
+      "INSECT_ARMS",
+      "INSECT_ARMS_OK",
+      "ARACHNID_ARMS",
+      "ARACHNID_ARMS_OK",
+      "CLAWS_TENTACLES",
+      "SHELL",
+      "SHELL2"
+    ]
   },
   {
     "id": "bio_batteries",
@@ -258,7 +544,8 @@
     "act_cost": "100 J",
     "react_cost": "100 J",
     "time": 1,
-    "flags": [ "BIONIC_TOGGLED" ]
+    "flags": [ "BIONIC_TOGGLED" ],
+    "active_flags": [ "CLIMATE_CONTROL" ]
   },
   {
     "id": "bio_cloak",
@@ -280,7 +567,7 @@
     "act_cost": "30 kJ",
     "react_cost": "30 kJ",
     "time": 1,
-    "enchantments": [ "ENCH_INVISIBILITY" ],
+    "enchantments": [ { "condition": "ACTIVE", "ench_effects": [ { "effect": "invisibility", "intensity": 1 } ] } ],
     "flags": [ "BIONIC_TOGGLED" ]
   },
   {
@@ -335,7 +622,8 @@
     "name": { "str": "Electrical Discharge" },
     "description": "A malfunctioning bionic which occasionally discharges electricity through your body, causing pain and brief paralysis but no damage.",
     "occupied_bodyparts": [ [ "torso", 6 ] ],
-    "flags": [ "BIONIC_FAULTY" ]
+    "flags": [ "BIONIC_FAULTY" ],
+    "trigger_cost": "10 kJ"
   },
   {
     "id": "bio_drain",
@@ -421,6 +709,7 @@
     "description": "Much of the material in your inner eye has been surgically removed and replaced with an array of high-powered, auto-focusing lenses.  They function as integrated binoculars, letting you see much farther than before, and any vision problems you might have had are now gone.",
     "occupied_bodyparts": [ [ "eyes", 2 ] ],
     "flags": [ "ENHANCED_VISION" ],
+    "cant_remove_reason": "The Telescopic Lenses are part of %1$s eyes now.  Removing them would leave %2$s blind.",
     "canceled_mutations": [
       "HYPEROPIC",
       "MYOPIC",
@@ -480,7 +769,9 @@
     "type": "bionic",
     "name": { "str": "Fingerhack" },
     "description": "One of your fingers has an electrohack surgically embedded in it; an all-purpose hacking unit used to override control panels and the like (but not computers).  Skill in computers is important, and a failed use may damage your circuits.",
-    "occupied_bodyparts": [ [ "hand_r", 2 ] ]
+    "occupied_bodyparts": [ [ "hand_r", 2 ] ],
+    "fake_item": "electrohack",
+    "flags": [ "BIONIC_TOGGLED" ]
   },
   {
     "id": "bio_flashbang",
@@ -499,7 +790,8 @@
     "act_cost": "3 J",
     "react_cost": "3 J",
     "time": 1,
-    "flags": [ "BIONIC_TOGGLED" ]
+    "flags": [ "BIONIC_TOGGLED" ],
+    "enchantments": [ { "condition": "ACTIVE", "values": [ { "value": "LUMINATION", "add": 60 } ] } ]
   },
   {
     "id": "bio_tattoo_led",
@@ -509,14 +801,16 @@
     "act_cost": "1 J",
     "react_cost": "1 J",
     "time": 1,
-    "flags": [ "BIONIC_TOGGLED" ]
+    "flags": [ "BIONIC_TOGGLED" ],
+    "enchantments": [ { "condition": "ACTIVE", "values": [ { "value": "LUMINATION", "add": 5 } ] } ]
   },
   {
     "id": "bio_glowy",
     "type": "bionic",
     "name": { "str": "Glowy Thing" },
     "description": "You don't think that capacitor is *meant* to glow, but it does, and usually at bad times.  A malfunctioning bionic randomly turns on and off, causing you to glow and making you visible in the dark without improving how much you can see in the slightest.",
-    "flags": [ "BIONIC_FAULTY" ]
+    "flags": [ "BIONIC_FAULTY" ],
+    "trigger_cost": "1 kJ"
   },
   {
     "id": "bio_geiger",
@@ -532,7 +826,8 @@
     "name": { "str": "Respirator" },
     "description": "A complex respiration augmentation system.  Improves respiration ability in air and allows breathing water.  Will automatically turn on when drowning.  Turn on to recharge stamina faster, at moderate power cost.  Asthmatics may also use it to stop asthma attacks.",
     "occupied_bodyparts": [ [ "torso", 8 ], [ "head", 2 ], [ "mouth", 2 ] ],
-    "flags": [ "BIONIC_TOGGLED" ]
+    "flags": [ "BIONIC_TOGGLED" ],
+    "trigger_cost": "25 kJ"
   },
   {
     "id": "bio_ground_sonar",
@@ -562,7 +857,8 @@
       [ "foot_l", 2 ],
       [ "foot_r", 2 ]
     ],
-    "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ]
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
+    "trigger_cost": "3 kJ"
   },
   {
     "id": "bio_heatsink",
@@ -582,6 +878,7 @@
       [ "foot_r", 1 ]
     ],
     "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
+    "active_flags": [ "HEATSINK" ],
     "act_cost": "1 kJ",
     "react_cost": "1 kJ",
     "time": 1
@@ -662,7 +959,7 @@
     "description": "The index fingers of both hands have powerful fire starters which extend from the tip.",
     "occupied_bodyparts": [ [ "hand_l", 1 ], [ "hand_r", 1 ] ],
     "fake_item": "fake_firestarter",
-    "act_cost": "3 kJ"
+    "act_cost": "5 kJ"
   },
   {
     "id": "bio_lockpick",
@@ -697,6 +994,7 @@
     "flags": [ "BIONIC_TOGGLED", "BIONIC_SLEEP_FRIENDLY" ],
     "act_cost": "2 J",
     "react_cost": "2 J",
+    "trigger_cost": "25 J",
     "time": 1
   },
   {
@@ -716,7 +1014,8 @@
     "name": { "str": "Weather Reader" },
     "description": "A multitude of scientific instruments and sensors collect environmental data.  The data is compiled and presented as a simple readout of the current weather.  It also passively tells you the local air temperature.",
     "occupied_bodyparts": [ [ "torso", 1 ], [ "head", 1 ] ],
-    "act_cost": "10 J"
+    "act_cost": "10 J",
+    "flags": [ "THERMOMETER" ]
   },
   {
     "id": "bio_nanobots",
@@ -736,7 +1035,13 @@
     "description": "When active, this bionic eliminates all light within a 2 tile radius through destructive interference.",
     "occupied_bodyparts": [ [ "torso", 16 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
-    "enchantments": [ "ENCH_SHADOW_CLOUD" ],
+    "enchantments": [
+      {
+        "condition": "ACTIVE",
+        "ench_effects": [ { "effect": "invisibility", "intensity": 1 } ],
+        "emitter": "emit_shadow_field"
+      }
+    ],
     "act_cost": "9 kJ",
     "react_cost": "9 kJ",
     "time": 1
@@ -779,6 +1084,7 @@
     "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
     "act_cost": "10 kJ",
     "react_cost": "10 kJ",
+    "trigger_cost": "1 kJ",
     "time": 1
   },
   {
@@ -787,7 +1093,8 @@
     "name": { "str": "Sensory Dulling" },
     "description": "Your nervous system is wired to allow you to inhibit the signals of pain, allowing you to dull your senses at will.  However, the use of this system may cause delayed reaction time and drowsiness.",
     "occupied_bodyparts": [ [ "head", 2 ] ],
-    "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ]
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
+    "trigger_cost": "2 kJ"
   },
   {
     "id": "bio_pokedeye",
@@ -823,6 +1130,7 @@
     "type": "bionic",
     "name": { "str": "Power Storage" },
     "capacity": "100 kJ",
+    "dupes_allowed": true,
     "description": "A Compact Bionics Module that increases your power capacity by 100 kJ.  Having at least one of these is a prerequisite to using powered bionics.  You will also need a power supply, found in various CBMs.",
     "flags": [ "BIONIC_NPC_USABLE" ]
   },
@@ -831,6 +1139,7 @@
     "type": "bionic",
     "name": { "str": "Power Storage Mk. II" },
     "capacity": "250 kJ",
+    "dupes_allowed": true,
     "description": "A Compact Bionics Module that increases your power capacity by 250 kJ.",
     "flags": [ "BIONIC_NPC_USABLE" ]
   },
@@ -851,6 +1160,7 @@
     "flags": [ "BIONIC_TOGGLED" ],
     "act_cost": "3 J",
     "react_cost": "3 J",
+    "trigger_cost": "250 kJ",
     "time": 1
   },
   {
@@ -897,7 +1207,17 @@
     "name": { "str": "Recycler Unit" },
     "description": "Your digestive system has been outfitted with a series of filters and processors, allowing you to reclaim waste liquid and, to a lesser degree, nutrients.  The net effect is a greatly reduced need to eat and drink.",
     "occupied_bodyparts": [ [ "torso", 15 ] ],
-    "flags": [ "BIONIC_NPC_USABLE" ]
+    "flags": [ "BIONIC_NPC_USABLE" ],
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [
+          { "value": "HUNGER", "multiply": -0.5 },
+          { "value": "THIRST", "multiply": -0.5 },
+          { "value": "METABOLISM", "multiply": -0.5 }
+        ]
+      }
+    ]
   },
   {
     "id": "bio_remote",
@@ -935,7 +1255,8 @@
     "name": { "str": "Bionic Short Circuit" },
     "description": "A poorly-wired bionic which fails to serve its intended purpose, this malfunctioning device periodically short-circuits, causing systemic muscle tremors.",
     "occupied_bodyparts": [ [ "torso", 1 ], [ "arm_l", 2 ], [ "arm_r", 2 ], [ "leg_l", 3 ], [ "leg_r", 3 ] ],
-    "flags": [ "BIONIC_FAULTY" ]
+    "flags": [ "BIONIC_FAULTY" ],
+    "trigger_cost": "25 kJ"
   },
   {
     "id": "bio_synaptic_regen",
@@ -955,7 +1276,8 @@
     "name": { "str": "Electroshock Unit" },
     "description": "While fighting unarmed, or with a weapon that conducts electricity, there is a chance that a successful hit will shock your opponent, inflicting extra damage and disabling them temporarily at the cost of some energy.",
     "occupied_bodyparts": [ [ "torso", 8 ], [ "arm_l", 3 ], [ "arm_r", 3 ], [ "hand_l", 1 ], [ "hand_r", 1 ] ],
-    "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ]
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
+    "trigger_cost": "2 kJ"
   },
   {
     "id": "bio_shockwave",
@@ -997,6 +1319,7 @@
       [ "foot_l", 2 ],
       [ "foot_r", 2 ]
     ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SPEED", "multiply": 0.1 } ] } ],
     "flags": [ "BIONIC_NPC_USABLE" ]
   },
   {
@@ -1050,7 +1373,8 @@
     "name": { "str": "Targeting System" },
     "description": "Your eyes are surgically equipped with range finders, and their movement is synced with that of your arms, to a degree.  Shots you fire will be much more accurate, particularly at long range.",
     "occupied_bodyparts": [ [ "eyes", 1 ], [ "arm_l", 3 ], [ "arm_r", 3 ], [ "hand_l", 1 ], [ "hand_r", 1 ] ],
-    "flags": [ "BIONIC_NPC_USABLE" ]
+    "flags": [ "BIONIC_NPC_USABLE" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "WEAPON_DISPERSION", "multiply": -0.25 } ] } ]
   },
   {
     "id": "bio_teleport",
@@ -1122,9 +1446,15 @@
     "id": "bio_jointservo",
     "type": "bionic",
     "name": { "str": "Joint Servo" },
-    "description": "Your leg joints have been equipped with servomotors that provide power-assisted movement.  They are optimized for running, but walking also requires less effort when this bionic is online.  However, when it's offline it will hamper your movement, as you struggle against its moving parts.",
+    "description": "Your leg joints have been equipped with servomotors that provide power-assisted movement.  Movement takes less effort when this bionic is online.  However, when it's offline it will hamper your movement, as you struggle against its moving parts.",
     "occupied_bodyparts": [ [ "leg_l", 12 ], [ "leg_r", 12 ] ],
-    "flags": [ "BIONIC_TOGGLED" ]
+    "flags": [ "BIONIC_TOGGLED" ],
+    "mutation_conflicts": [ "LEG_TENTACLES", "LEG_TENT_BRACE" ],
+    "enchantments": [
+      { "condition": "ACTIVE", "values": [ { "value": "MOVE_COST", "multiply": -0.1 } ] },
+      { "condition": "INACTIVE", "values": [ { "value": "MOVE_COST", "multiply": 0.1 } ] }
+    ],
+    "trigger_cost": "35 J"
   },
   {
     "id": "bio_trip",
@@ -1143,6 +1473,7 @@
     "flags": [ "BIONIC_TOGGLED" ],
     "act_cost": "6 J",
     "react_cost": "6 J",
+    "trigger_cost": "75 kJ",
     "time": 1
   },
   {
@@ -1160,7 +1491,8 @@
     "description": "You will likely spend the rest of your days serving as a walking testament to why you don't opt for the Autodoc's 'Cyborg Identity Package'.  A remodulator unit jammed down your throat has given you a creepy robot voice.",
     "occupied_bodyparts": [ [ "torso", 2 ], [ "mouth", 1 ] ],
     "flags": [ "BIONIC_FAULTY" ],
-    "social_modifiers": { "persuade": -20, "lie": 10, "intimidate": 20 }
+    "social_modifiers": { "persuade": -20, "lie": 10, "intimidate": 20 },
+    "canceled_mutations": [ "GROWL", "SNARL", "HISS" ]
   },
   {
     "id": "bio_watch",
@@ -1223,6 +1555,7 @@
     "name": { "str": "Soporific Induction" },
     "description": "An electrode has been implanted into your brain's ventrolateral preoptic nucleus.  It turns on whenever you're trying to fall asleep, creating an artificial but effective sensation of fatigue.",
     "occupied_bodyparts": [ [ "head", 1 ] ],
-    "flags": [ "BIONIC_TOGGLED" ]
+    "flags": [ "BIONIC_TOGGLED" ],
+    "enchantments": [ { "condition": "ACTIVE", "values": [ { "value": "SLEEPY", "add": 30 } ] } ]
   }
 ]

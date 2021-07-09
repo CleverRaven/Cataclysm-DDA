@@ -14,13 +14,11 @@
     "symbol": "[",
     "looks_like": "gloves_leather",
     "color": "white",
-    "covers": [ "hand_l", "hand_r" ],
-    "coverage": 100,
-    "encumbrance": 10,
     "warmth": 30,
     "material_thickness": 2,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "SKINTIGHT" ]
+    "flags": [ "VARSIZE", "SKINTIGHT" ],
+    "armor": [ { "encumbrance": 10, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "boxing_gloves",
@@ -37,13 +35,11 @@
     "symbol": "[",
     "looks_like": "gloves_leather",
     "color": "red",
-    "covers": [ "hand_l", "hand_r" ],
-    "coverage": 100,
-    "encumbrance": 70,
     "warmth": 20,
     "material_thickness": 3,
     "environmental_protection": 3,
-    "flags": [ "VARSIZE", "OVERSIZE", "STURDY" ]
+    "flags": [ "VARSIZE", "OVERSIZE", "STURDY" ],
+    "armor": [ { "encumbrance": 70, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "chainmail_hands",
@@ -59,11 +55,9 @@
     "material": [ "iron", "cotton" ],
     "symbol": "[",
     "color": "light_red",
-    "covers": [ "hand_l", "hand_r" ],
-    "coverage": 100,
-    "encumbrance": 30,
     "material_thickness": 2,
-    "flags": [ "VARSIZE", "STURDY" ]
+    "flags": [ "VARSIZE", "STURDY" ],
+    "armor": [ { "encumbrance": 30, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "xl_chainmail_hands",
@@ -89,13 +83,11 @@
     "symbol": "[",
     "looks_like": "gloves_leather",
     "color": "dark_gray",
-    "covers": [ "hand_l", "hand_r" ],
-    "coverage": 100,
-    "encumbrance": 50,
     "warmth": 25,
     "material_thickness": 3,
     "environmental_protection": 6,
-    "flags": [ "VARSIZE", "STURDY", "WATERPROOF" ]
+    "flags": [ "VARSIZE", "STURDY", "WATERPROOF" ],
+    "armor": [ { "encumbrance": 50, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "gauntlets_chitin",
@@ -113,13 +105,11 @@
     "symbol": "[",
     "looks_like": "gauntlets_larmor",
     "color": "green",
-    "covers": [ "hand_l", "hand_r" ],
-    "coverage": 95,
-    "encumbrance": 12,
     "warmth": 20,
     "material_thickness": 4,
     "environmental_protection": 4,
-    "flags": [ "STURDY" ]
+    "flags": [ "STURDY" ],
+    "armor": [ { "encumbrance": 12, "coverage": 95, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "xl_gauntlets_chitin",
@@ -163,13 +153,11 @@
     "material": [ "leather", "cotton" ],
     "symbol": "[",
     "color": "white",
-    "covers": [ "hand_r" ],
-    "encumbrance": 4,
-    "coverage": 100,
     "warmth": 15,
     "material_thickness": 2.0,
     "environmental_protection": 1,
-    "flags": [ "STURDY" ]
+    "flags": [ "STURDY" ],
+    "armor": [ { "encumbrance": 4, "coverage": 100, "covers": [ "hand_r" ] } ]
   },
   {
     "id": "gauntlet_fencing_l",
@@ -185,13 +173,11 @@
     "material": [ "leather", "cotton" ],
     "symbol": "[",
     "color": "white",
-    "covers": [ "hand_l" ],
-    "encumbrance": 4,
-    "coverage": 100,
     "warmth": 15,
     "material_thickness": 2.0,
     "environmental_protection": 1,
-    "flags": [ "STURDY" ]
+    "flags": [ "STURDY" ],
+    "armor": [ { "encumbrance": 4, "coverage": 100, "covers": [ "hand_l" ] } ]
   },
   {
     "id": "gauntlets_larmor",
@@ -209,13 +195,11 @@
     "symbol": "[",
     "looks_like": "gloves_leather",
     "color": "brown",
-    "covers": [ "hand_l", "hand_r" ],
-    "coverage": 60,
-    "encumbrance": 4,
     "warmth": 15,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "STURDY", "ALLOWS_NATURAL_ATTACKS" ]
+    "flags": [ "VARSIZE", "STURDY", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ],
+    "armor": [ { "encumbrance": 4, "coverage": 60, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "xl_gauntlets_larmor",
@@ -239,11 +223,9 @@
     "symbol": "[",
     "looks_like": "gloves_wraps",
     "color": "light_blue",
-    "covers": [ "hand_l", "hand_r" ],
-    "coverage": 70,
-    "encumbrance": 7,
     "material_thickness": 0.01,
-    "flags": [ "WATERPROOF", "OVERSIZE", "OUTER" ]
+    "flags": [ "WATERPROOF", "OVERSIZE", "OUTER", "ALLOWS_TALONS" ],
+    "armor": [ { "encumbrance": 7, "coverage": 70, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "gloves_fingerless",
@@ -259,11 +241,10 @@
     "symbol": "[",
     "looks_like": "gloves_light",
     "color": "dark_gray",
-    "covers": [ "hand_l", "hand_r" ],
-    "coverage": 50,
     "warmth": 10,
     "material_thickness": 0.5,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ],
+    "armor": [ { "coverage": 50, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "gloves_fingerless_mod",
@@ -280,12 +261,10 @@
     "symbol": "[",
     "looks_like": "gloves_fingerless",
     "color": "dark_gray",
-    "covers": [ "hand_l", "hand_r" ],
-    "coverage": 50,
-    "encumbrance": 3,
     "warmth": 5,
     "material_thickness": 0.5,
-    "flags": [ "VARSIZE", "ALLOWS_NATURAL_ATTACKS" ]
+    "flags": [ "VARSIZE", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ],
+    "armor": [ { "encumbrance": 3, "coverage": 50, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "gloves_fsurvivor",
@@ -302,13 +281,11 @@
     "symbol": "[",
     "looks_like": "fire_gauntlets",
     "color": "light_gray",
-    "covers": [ "hand_l", "hand_r" ],
-    "coverage": 100,
-    "encumbrance": 30,
     "warmth": 15,
     "material_thickness": 3,
     "environmental_protection": 10,
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ],
+    "armor": [ { "encumbrance": 30, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "xl_gloves_fsurvivor",
@@ -332,11 +309,9 @@
     "symbol": "[",
     "looks_like": "fire_gauntlets",
     "color": "brown",
-    "covers": [ "hand_l", "hand_r" ],
-    "coverage": 95,
-    "encumbrance": 30,
     "warmth": 70,
-    "material_thickness": 3
+    "material_thickness": 3,
+    "armor": [ { "encumbrance": 30, "coverage": 95, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "xl_gloves_fur",
@@ -345,6 +320,29 @@
     "copy-from": "gloves_fur",
     "proportional": { "weight": 1.6, "volume": 1.6 },
     "flags": [ "WATERPROOF" ]
+  },
+  {
+    "id": "gloves_wsurvivor_nofur",
+    "type": "ARMOR",
+    "name": { "str": "pair of faux fur winter survivor gloves", "str_pl": "pairs of faux fur winter survivor gloves" },
+    "description": "A pair of customized, Kevlar armored faux fur gloves, modified to be easy to wear while providing maximum protection under extreme conditions.  While not quite as warm as real fur it's pretty good.",
+    "copy-from": "gloves_wsurvivor",
+    "material": [ "kevlar_layered", "faux_fur" ],
+    "symbol": "[",
+    "looks_like": "gloves_winter",
+    "color": "pink",
+    "warmth": 60
+  },
+  {
+    "id": "xl_gloves_wsurvivor_nofur",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL faux fur winter survivor gloves", "str_pl": "pairs of XL faux fur winter survivor gloves" },
+    "copy-from": "gloves_wsurvivor_nofur",
+    "material": [ "kevlar_layered", "faux_fur" ],
+    "description": "A pair of customized and oversized Kevlar armored faux fur gloves, modified to be easy to wear while providing maximum protection under extreme conditions.  While not quite as warm as real fur it's pretty good.",
+    "color": "pink",
+    "proportional": { "weight": 1.5, "volume": 1.5 },
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OVERSIZE" ]
   },
   {
     "id": "gloves_hsurvivor",
@@ -361,13 +359,11 @@
     "symbol": "[",
     "looks_like": "fire_gauntlets",
     "color": "dark_gray",
-    "covers": [ "hand_l", "hand_r" ],
-    "coverage": 100,
-    "encumbrance": 30,
     "warmth": 15,
     "material_thickness": 4,
     "environmental_protection": 5,
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ],
+    "armor": [ { "encumbrance": 30, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "xl_gloves_hsurvivor",
@@ -392,11 +388,10 @@
     "symbol": "[",
     "looks_like": "gloves_leather",
     "color": "white",
-    "covers": [ "hand_r" ],
-    "coverage": 95,
     "warmth": 20,
     "material_thickness": 0.5,
-    "flags": [ "WATER_FRIENDLY", "FANCY" ]
+    "flags": [ "WATER_FRIENDLY", "FANCY" ],
+    "armor": [ { "coverage": 95, "covers": [ "hand_r" ] } ]
   },
   {
     "id": "gloves_leather",
@@ -412,13 +407,11 @@
     "symbol": "[",
     "looks_like": "gloves_light",
     "color": "dark_gray",
-    "covers": [ "hand_l", "hand_r" ],
-    "coverage": 95,
-    "encumbrance": 10,
     "warmth": 25,
     "material_thickness": 0.5,
     "valid_mods": [ "steel_padded" ],
-    "flags": [ "VARSIZE", "WATERPROOF" ]
+    "flags": [ "VARSIZE", "WATERPROOF" ],
+    "armor": [ { "encumbrance": 10, "coverage": 95, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "xl_gloves_leather",
@@ -442,12 +435,10 @@
     "symbol": "[",
     "looks_like": "gloves_leather",
     "color": "light_blue",
-    "covers": [ "hand_l", "hand_r" ],
-    "coverage": 95,
-    "encumbrance": 2,
     "warmth": 20,
     "material_thickness": 0.2,
-    "flags": [ "WATER_FRIENDLY" ]
+    "flags": [ "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 2, "coverage": 95, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "xl_gloves_light",
@@ -471,12 +462,10 @@
     "symbol": "[",
     "looks_like": "gloves_light",
     "color": "light_gray",
-    "covers": [ "hand_l", "hand_r" ],
-    "coverage": 95,
-    "encumbrance": 1,
     "warmth": 15,
     "material_thickness": 0.1,
-    "flags": [ "WATER_FRIENDLY", "SKINTIGHT" ]
+    "flags": [ "WATER_FRIENDLY", "SKINTIGHT" ],
+    "armor": [ { "encumbrance": 1, "coverage": 95, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "xl_gloves_liner",
@@ -501,13 +490,11 @@
     "symbol": "[",
     "looks_like": "gloves_survivor",
     "color": "green",
-    "covers": [ "hand_l", "hand_r" ],
-    "coverage": 100,
-    "encumbrance": 10,
     "warmth": 15,
     "material_thickness": 1,
     "environmental_protection": 3,
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ],
+    "armor": [ { "encumbrance": 10, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "xl_gloves_lsurvivor",
@@ -518,11 +505,11 @@
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "WATERPROOF" ]
   },
   {
-    "id": "gloves_survivor_fingerless",
+    "id": "gloves_lsurvivor_fingerless",
     "type": "ARMOR",
     "looks_like": "gloves_lsurvivor",
     "category": "armor",
-    "name": { "str": "pair of fingerless survivor gloves", "str_pl": "pairs of fingerless survivor gloves" },
+    "name": { "str": "pair of fingerless light survivor gloves", "str_pl": "pairs of fingerless light survivor gloves" },
     "description": "A pair of customized, Kevlar armored cloth gloves with no fingers, modified to be easy to wear while providing maximum protection under extreme conditions.",
     "weight": "160 g",
     "volume": "700 ml",
@@ -532,13 +519,40 @@
     "material": [ "kevlar_layered", "cotton" ],
     "symbol": "[",
     "color": "green",
-    "covers": [ "hand_l", "hand_r" ],
-    "coverage": 85,
-    "encumbrance": 8,
     "warmth": 12,
-    "material_thickness": 2,
+    "material_thickness": 1,
     "environmental_protection": 3,
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "ALLOWS_NATURAL_ATTACKS" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "ALLOWS_NATURAL_ATTACKS" ],
+    "armor": [ { "encumbrance": 8, "coverage": 85, "covers": [ "hand_l", "hand_r" ] } ]
+  },
+  {
+    "id": "xl_gloves_lsurvivor_fingerless",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL fingerless light survivor gloves", "str_pl": "pairs of XL fingerless light survivor gloves" },
+    "copy-from": "gloves_lsurvivor_fingerless",
+    "proportional": { "weight": 1.5, "volume": 1.5 },
+    "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "WATERPROOF", "ALLOWS_NATURAL_ATTACKS" ]
+  },
+  {
+    "id": "gloves_survivor_fingerless",
+    "type": "ARMOR",
+    "looks_like": "gloves_survivor",
+    "category": "armor",
+    "name": { "str": "pair of fingerless survivor gloves", "str_pl": "pairs of fingerless survivor gloves" },
+    "description": "A pair of customized, Kevlar armored leather gloves with no fingers, modified to be easy to wear while providing maximum protection under extreme conditions.",
+    "weight": "200 g",
+    "volume": "700 ml",
+    "price": 16000,
+    "price_postapoc": 2000,
+    "to_hit": 2,
+    "material": [ "kevlar_layered", "leather" ],
+    "symbol": "[",
+    "color": "brown",
+    "warmth": 12,
+    "material_thickness": 3,
+    "environmental_protection": 3,
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ],
+    "armor": [ { "encumbrance": 16, "coverage": 85, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "xl_gloves_survivor_fingerless",
@@ -563,12 +577,10 @@
     "symbol": "[",
     "looks_like": "gloves_light",
     "color": "white",
-    "covers": [ "hand_l", "hand_r" ],
-    "coverage": 90,
-    "encumbrance": 1,
     "material_thickness": 0.1,
     "environmental_protection": 6,
-    "flags": [ "WATER_FRIENDLY", "WATERPROOF", "SKINTIGHT" ]
+    "flags": [ "WATER_FRIENDLY", "WATERPROOF", "SKINTIGHT" ],
+    "armor": [ { "encumbrance": 1, "coverage": 90, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "gloves_plate",
@@ -586,13 +598,11 @@
     "symbol": "[",
     "looks_like": "fire_gauntlets",
     "color": "light_gray",
-    "covers": [ "hand_l", "hand_r" ],
-    "coverage": 100,
-    "encumbrance": 20,
     "warmth": 20,
     "material_thickness": 4,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "STURDY" ]
+    "flags": [ "VARSIZE", "STURDY" ],
+    "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "xl_gloves_plate",
@@ -617,13 +627,11 @@
     "symbol": "[",
     "looks_like": "gloves_light",
     "color": "yellow",
-    "covers": [ "hand_l", "hand_r" ],
-    "coverage": 100,
-    "encumbrance": 4,
     "warmth": 10,
     "material_thickness": 0.35,
     "environmental_protection": 8,
-    "flags": [ "WATERPROOF" ]
+    "flags": [ "WATERPROOF" ],
+    "armor": [ { "encumbrance": 4, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "gloves_survivor",
@@ -640,13 +648,11 @@
     "symbol": "[",
     "looks_like": "fire_gauntlets",
     "color": "brown",
-    "covers": [ "hand_l", "hand_r" ],
-    "coverage": 100,
-    "encumbrance": 20,
     "warmth": 15,
     "material_thickness": 3,
     "environmental_protection": 3,
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ],
+    "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "gloves_tactical",
@@ -664,13 +670,11 @@
     "symbol": "[",
     "looks_like": "fire_gauntlets",
     "color": "dark_gray",
-    "covers": [ "hand_l", "hand_r" ],
-    "coverage": 100,
-    "encumbrance": 13,
     "warmth": 20,
     "material_thickness": 1.5,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "STURDY" ]
+    "flags": [ "VARSIZE", "STURDY" ],
+    "armor": [ { "encumbrance": 13, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "gloves_winter",
@@ -687,11 +691,9 @@
     "symbol": "[",
     "looks_like": "gloves_leather",
     "color": "light_blue",
-    "covers": [ "hand_l", "hand_r" ],
-    "coverage": 100,
-    "encumbrance": 40,
     "warmth": 70,
-    "material_thickness": 4
+    "material_thickness": 4,
+    "armor": [ { "encumbrance": 40, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "gloves_wool",
@@ -707,11 +709,9 @@
     "symbol": "[",
     "looks_like": "gloves_winter",
     "color": "blue",
-    "covers": [ "hand_l", "hand_r" ],
-    "coverage": 95,
-    "encumbrance": 20,
     "warmth": 60,
-    "material_thickness": 3
+    "material_thickness": 3,
+    "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "xl_gloves_wool",
@@ -735,13 +735,11 @@
     "symbol": "[",
     "looks_like": "gloves_leather",
     "color": "brown",
-    "covers": [ "hand_l", "hand_r" ],
-    "coverage": 95,
-    "encumbrance": 20,
     "warmth": 25,
     "material_thickness": 2,
     "environmental_protection": 5,
-    "flags": [ "WATERPROOF", "STURDY" ]
+    "flags": [ "WATERPROOF", "STURDY" ],
+    "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "gloves_cut_resistant",
@@ -758,13 +756,11 @@
     "symbol": "[",
     "looks_like": "gloves_work",
     "color": "light_gray",
-    "covers": [ "hand_l", "hand_r" ],
-    "coverage": 95,
-    "encumbrance": 40,
     "warmth": 10,
     "material_thickness": 2,
     "environmental_protection": 1,
-    "flags": [ "STURDY" ]
+    "flags": [ "STURDY" ],
+    "armor": [ { "encumbrance": 40, "coverage": 95, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "gloves_wraps",
@@ -780,11 +776,10 @@
     "symbol": "[",
     "looks_like": "gloves_light",
     "color": "white",
-    "covers": [ "hand_l", "hand_r" ],
-    "coverage": 50,
     "warmth": 5,
     "material_thickness": 2,
-    "flags": [ "SKINTIGHT", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ]
+    "flags": [ "SKINTIGHT", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ],
+    "armor": [ { "coverage": 50, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "gloves_wraps_fur",
@@ -800,12 +795,10 @@
     "symbol": "[",
     "looks_like": "gloves_wraps",
     "color": "white",
-    "covers": [ "hand_l", "hand_r" ],
-    "coverage": 50,
-    "encumbrance": 5,
     "warmth": 20,
     "material_thickness": 2,
-    "flags": [ "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ]
+    "flags": [ "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ],
+    "armor": [ { "encumbrance": 5, "coverage": 50, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "gloves_wraps_leather",
@@ -821,12 +814,10 @@
     "symbol": "[",
     "looks_like": "gloves_wraps",
     "color": "white",
-    "covers": [ "hand_l", "hand_r" ],
-    "coverage": 50,
-    "encumbrance": 5,
     "warmth": 10,
     "material_thickness": 2,
-    "flags": [ "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ]
+    "flags": [ "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ],
+    "armor": [ { "encumbrance": 5, "coverage": 50, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "gloves_wraps_wool",
@@ -842,12 +833,10 @@
     "symbol": "[",
     "looks_like": "gloves_wraps",
     "color": "blue",
-    "covers": [ "hand_l", "hand_r" ],
-    "coverage": 50,
-    "encumbrance": 2,
     "warmth": 15,
     "material_thickness": 2,
-    "flags": [ "SKINTIGHT", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ]
+    "flags": [ "SKINTIGHT", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ],
+    "armor": [ { "encumbrance": 2, "coverage": 50, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "gloves_wsurvivor",
@@ -864,13 +853,11 @@
     "symbol": "[",
     "looks_like": "gloves_winter",
     "color": "light_gray",
-    "covers": [ "hand_l", "hand_r" ],
-    "coverage": 100,
-    "encumbrance": 37,
     "warmth": 75,
     "material_thickness": 4,
     "environmental_protection": 5,
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ],
+    "armor": [ { "encumbrance": 37, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "xl_gloves_wsurvivor",
@@ -881,7 +868,7 @@
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OVERSIZE" ]
   },
   {
-    "id": "gloves_xlsurvivor",
+    "id": "xl_gloves_survivor",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of XL survivor gloves", "str_pl": "pairs of XL survivor gloves" },
@@ -895,13 +882,11 @@
     "symbol": "[",
     "looks_like": "gloves_survivor",
     "color": "brown",
-    "covers": [ "hand_l", "hand_r" ],
-    "coverage": 100,
-    "encumbrance": 30,
     "warmth": 15,
     "material_thickness": 2,
     "environmental_protection": 3,
-    "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY" ]
+    "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY" ],
+    "armor": [ { "encumbrance": 30, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "long_glove_white",
@@ -918,7 +903,7 @@
     "symbol": "[",
     "looks_like": "gloves_light",
     "color": "light_blue",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "hand_l", "hand_r" ], "coverage": 100, "encumbrance": 2 },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 50, "encumbrance": 2 }
     ],
@@ -940,12 +925,10 @@
     "symbol": "[",
     "looks_like": "gloves_wool",
     "color": "blue",
-    "covers": [ "hand_l", "hand_r" ],
-    "coverage": 100,
-    "encumbrance": 80,
     "warmth": 70,
     "material_thickness": 1,
-    "flags": [ "OVERSIZE", "OUTER" ]
+    "flags": [ "OVERSIZE", "OUTER" ],
+    "armor": [ { "encumbrance": 80, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "nomex_gloves",
@@ -961,13 +944,11 @@
     "symbol": "[",
     "looks_like": "gloves_light",
     "color": "light_gray",
-    "covers": [ "hand_l", "hand_r" ],
-    "coverage": 100,
-    "encumbrance": 6,
     "warmth": 5,
     "material_thickness": 1,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "STURDY" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "STURDY" ],
+    "armor": [ { "encumbrance": 6, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "sockmitts",
@@ -982,11 +963,10 @@
     "symbol": "[",
     "looks_like": "mittens",
     "color": "white",
-    "covers": [ "hand_l", "hand_r" ],
-    "coverage": 40,
     "warmth": 5,
     "material_thickness": 0.2,
-    "flags": [ "VARSIZE", "SKINTIGHT", "ALLOWS_NATURAL_ATTACKS" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ],
+    "armor": [ { "coverage": 40, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "stockings_tent_arms",
@@ -1001,12 +981,10 @@
     "symbol": "[",
     "looks_like": "arm_warmers",
     "color": "dark_gray",
-    "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
-    "coverage": 75,
-    "encumbrance": 10,
     "warmth": 10,
     "material_thickness": 0.2,
-    "flags": [ "VARSIZE", "SKINTIGHT", "OVERSIZE" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "OVERSIZE" ],
+    "armor": [ { "encumbrance": 10, "coverage": 75, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ]
   },
   {
     "id": "winter_gloves_army",
@@ -1023,11 +1001,9 @@
     "symbol": "[",
     "looks_like": "fire_gauntlets",
     "color": "white",
-    "covers": [ "hand_l", "hand_r" ],
-    "coverage": 100,
-    "encumbrance": 20,
     "warmth": 50,
-    "material_thickness": 2
+    "material_thickness": 2,
+    "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "gloves_golf",
@@ -1044,12 +1020,10 @@
     "symbol": "[",
     "looks_like": "gloves_light",
     "color": "dark_gray",
-    "covers": [ "hand_l", "hand_r" ],
-    "coverage": 90,
-    "encumbrance": 5,
     "warmth": 20,
     "material_thickness": 0.5,
-    "flags": [ "VARSIZE", "WATERPROOF", "SKINTIGHT" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "SKINTIGHT" ],
+    "armor": [ { "encumbrance": 5, "coverage": 90, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "gloves_eod",
@@ -1060,16 +1034,14 @@
     "weight": "800 g",
     "volume": "1500 ml",
     "price": 70000,
-    "covers": [ "hand_l", "hand_r" ],
-    "coverage": 100,
-    "encumbrance": 20,
     "warmth": 40,
     "material": [ "kevlar_layered", "nomex" ],
     "symbol": "[",
     "color": "light_gray",
     "environmental_protection": 2,
     "material_thickness": 5,
-    "flags": [ "STURDY", "OUTER", "RAINPROOF", "ONLY_ONE" ]
+    "flags": [ "STURDY", "OUTER", "RAINPROOF", "ONLY_ONE" ],
+    "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "gloves_studded",
@@ -1086,11 +1058,9 @@
     "symbol": "[",
     "looks_like": "gloves_leather",
     "color": "light_gray",
-    "covers": [ "hand_l", "hand_r" ],
-    "coverage": 100,
-    "encumbrance": 5,
     "warmth": 5,
     "material_thickness": 2,
-    "flags": [ "WATER_FRIENDLY", "STAB", "DURABLE_MELEE" ]
+    "flags": [ "WATER_FRIENDLY", "STAB", "DURABLE_MELEE" ],
+    "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
   }
 ]

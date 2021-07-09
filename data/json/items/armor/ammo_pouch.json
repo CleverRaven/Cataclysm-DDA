@@ -14,9 +14,6 @@
     "symbol": "[",
     "looks_like": "leather_pouch",
     "color": "brown",
-    "covers": [ "torso" ],
-    "coverage": 10,
-    "encumbrance": 5,
     "material_thickness": 1,
     "pocket_data": [
       {
@@ -69,7 +66,8 @@
         "moves": 35
       }
     ],
-    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 5, "coverage": 10, "covers": [ "torso" ] } ]
   },
   {
     "id": "ammo_satchel",
@@ -84,9 +82,6 @@
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "dark_gray",
-    "covers": [ "torso" ],
-    "coverage": 20,
-    "encumbrance": 4,
     "material_thickness": 2,
     "pocket_data": [
       {
@@ -99,7 +94,8 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
-    "flags": [ "WATER_FRIENDLY", "WAIST" ]
+    "flags": [ "WATER_FRIENDLY", "WAIST" ],
+    "armor": [ { "encumbrance": 4, "coverage": 20, "covers": [ "torso" ] } ]
   },
   {
     "id": "chestpouch",
@@ -114,8 +110,6 @@
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "dark_gray",
-    "covers": [ "torso" ],
-    "coverage": 15,
     "material_thickness": 2,
     "pocket_data": [
       {
@@ -128,7 +122,8 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
-    "flags": [ "WATER_FRIENDLY", "BELTED" ]
+    "flags": [ "WATER_FRIENDLY", "BELTED" ],
+    "armor": [ { "coverage": 15, "covers": [ "torso" ] } ]
   },
   {
     "id": "chestrig",
@@ -143,8 +138,6 @@
     "symbol": "[",
     "looks_like": "tool_belt",
     "color": "dark_gray",
-    "covers": [ "torso" ],
-    "coverage": 15,
     "material_thickness": 2,
     "pocket_data": [
       {
@@ -181,7 +174,8 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
-    "flags": [ "WATER_FRIENDLY", "BELTED" ]
+    "flags": [ "WATER_FRIENDLY", "BELTED" ],
+    "armor": [ { "coverage": 15, "covers": [ "torso" ] } ]
   },
   {
     "id": "xl_chestrig",
@@ -205,9 +199,6 @@
     "symbol": "[",
     "looks_like": "quiver",
     "color": "brown",
-    "covers": [ "torso" ],
-    "coverage": 30,
-    "encumbrance": 10,
     "material_thickness": 4,
     "pocket_data": [
       {
@@ -257,7 +248,8 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stash javelins", "holster_msg": "You stash your %s." },
-    "flags": [ "WATER_FRIENDLY", "OVERSIZE", "BELTED" ]
+    "flags": [ "WATER_FRIENDLY", "OVERSIZE", "BELTED" ],
+    "armor": [ { "encumbrance": 10, "coverage": 30, "covers": [ "torso" ] } ]
   },
   {
     "id": "legpouch",
@@ -272,10 +264,7 @@
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "dark_gray",
-    "covers": [ "foot_l", "foot_r" ],
     "sided": true,
-    "coverage": 5,
-    "encumbrance": 1,
     "material_thickness": 2,
     "pocket_data": [
       {
@@ -288,7 +277,8 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
-    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "NOT_FOOTWEAR" ]
+    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "NOT_FOOTWEAR" ],
+    "armor": [ { "encumbrance": 1, "coverage": 5, "covers": [ "foot_l", "foot_r" ] } ]
   },
   {
     "type": "ARMOR",
@@ -303,9 +293,7 @@
     "symbol": "[",
     "looks_like": "ammo_satchel",
     "color": "dark_gray",
-    "covers": [ "leg_l", "leg_r" ],
     "sided": true,
-    "coverage": 15,
     "material_thickness": 2,
     "pocket_data": [
       {
@@ -326,7 +314,8 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
-    "flags": [ "WATER_FRIENDLY", "BELTED" ]
+    "flags": [ "WATER_FRIENDLY", "BELTED" ],
+    "armor": [ { "coverage": 15, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "quiver",
@@ -342,13 +331,11 @@
     "symbol": "[",
     "looks_like": "bscabbard",
     "color": "brown",
-    "covers": [ "leg_l", "leg_r" ],
     "sided": true,
-    "coverage": 10,
-    "encumbrance": 3,
     "material_thickness": 1,
     "pocket_data": [ { "ammo_restriction": { "arrow": 20, "bolt": 20 }, "moves": 20 } ],
-    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 3, "coverage": 10, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "quiver_birchbark",
@@ -364,13 +351,11 @@
     "symbol": "[",
     "looks_like": "quiver",
     "color": "light_gray",
-    "covers": [ "leg_l", "leg_r" ],
     "sided": true,
-    "coverage": 10,
-    "encumbrance": 10,
     "material_thickness": 1,
     "pocket_data": [ { "ammo_restriction": { "arrow": 20, "bolt": 20 }, "moves": 20 } ],
-    "flags": [ "WAIST", "VARSIZE", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "VARSIZE", "OVERSIZE", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 10, "coverage": 10, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "quiver_large",
@@ -386,12 +371,10 @@
     "symbol": "[",
     "looks_like": "quiver",
     "color": "brown",
-    "covers": [ "torso" ],
-    "coverage": 15,
-    "encumbrance": 3,
     "material_thickness": 1,
     "pocket_data": [ { "ammo_restriction": { "arrow": 60, "bolt": 60 }, "moves": 20 } ],
-    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 3, "coverage": 15, "covers": [ "torso" ] } ]
   },
   {
     "id": "quiver_large_birchbark",
@@ -407,12 +390,10 @@
     "symbol": "[",
     "looks_like": "quiver_birchbark",
     "color": "light_gray",
-    "covers": [ "torso" ],
-    "coverage": 15,
-    "encumbrance": 14,
     "material_thickness": 1,
     "pocket_data": [ { "ammo_restriction": { "arrow": 60, "bolt": 60 }, "moves": 20 } ],
-    "flags": [ "BELTED", "VARSIZE", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "VARSIZE", "OVERSIZE", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 14, "coverage": 15, "covers": [ "torso" ] } ]
   },
   {
     "id": "tacvest",
@@ -427,9 +408,6 @@
     "material": [ "cotton" ],
     "symbol": "[",
     "color": "dark_gray",
-    "covers": [ "torso" ],
-    "coverage": 20,
-    "encumbrance": 2,
     "material_thickness": 2,
     "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
     "pocket_data": [
@@ -470,7 +448,8 @@
         "moves": 60
       }
     ],
-    "flags": [ "WATER_FRIENDLY", "WAIST" ]
+    "flags": [ "WATER_FRIENDLY", "WAIST" ],
+    "armor": [ { "encumbrance": 2, "coverage": 20, "covers": [ "torso" ] } ]
   },
   {
     "id": "xl_tacvest",
@@ -497,9 +476,6 @@
     "material": [ "kevlar_layered" ],
     "symbol": "[",
     "color": "light_gray",
-    "covers": [ "torso" ],
-    "coverage": 85,
-    "encumbrance": 17,
     "warmth": 15,
     "material_thickness": 4,
     "pocket_data": [
@@ -541,6 +517,7 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
-    "flags": [ "OVERSIZE", "STURDY", "OUTER" ]
+    "flags": [ "OVERSIZE", "STURDY", "OUTER" ],
+    "armor": [ { "encumbrance": 17, "coverage": 85, "covers": [ "torso" ] } ]
   }
 ]

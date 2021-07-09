@@ -36,8 +36,8 @@
     ],
     "hit_dmg_u": "The %1$s claws at you!",
     "hit_dmg_npc": "The %1$s claws at <npcname>!",
-    "no_dmg_msg_u": "The %1$s tries to claw at you, but fails to.",
-    "no_dmg_msg_npc": "The %1$s tries to claw <npcname>, but fails to."
+    "no_dmg_msg_u": "The %1$s claws at your %2$s, but fails to penetrate armor.",
+    "no_dmg_msg_npc": "The %1$s tries to claw at <npcname>, but fails to penetrate armor."
   },
   {
     "type": "monster_attack",
@@ -64,6 +64,22 @@
     "hit_dmg_npc": "The %1$s slams into <npcname>!",
     "no_dmg_msg_u": "The %1$s tries to slam into you, but stumbles aside.",
     "no_dmg_msg_npc": "The %1$s tries to slam into <npcname>, but fails to."
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "sting",
+    "cooldown": 20,
+    "move_cost": 260,
+    "damage_max_instance": [ { "damage_type": "stab", "amount": 10 } ],
+    "body_parts": [ [ "leg_l", 2 ], [ "leg_r", 2 ], [ "head", 1 ], [ "arm_l", 2 ], [ "arm_r", 2 ], [ "torso", 3 ] ],
+    "effects": [ { "id": "venom_weaken", "duration": 400, "chance": 50 } ],
+    "hit_dmg_u": "The %1$s stings your %2$s!",
+    "hit_dmg_npc": "The %1$s stings <npcname>'s %2$s!",
+    "miss_msg_u": "The %1$s tries to sting you, but you dodge!",
+    "miss_msg_npc": "The %1$s tries to sting <npcname>, but they dodge!",
+    "no_dmg_msg_u": "The %1$s tries to sting your %2$s, but it fails to penetrate your armor.",
+    "no_dmg_msg_npc": "The %1$s tries to sting <npcname>'s %2$s, but it fails to penetrate their armor."
   },
   {
     "id": "acid_spray",

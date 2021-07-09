@@ -1,7 +1,7 @@
 [
   {
     "type": "monstergroup",
-    "name": "GROUP_NECROMORPH",
+    "name": "GROUP_BIORECOMBINANT",
     "default": "mon_slasher_weak",
     "monsters": [
       { "monster": "mon_slasher_weak", "freq": 300, "cost_multiplier": 0, "pack_size": [ 2, 4 ] },

@@ -12,14 +12,12 @@
     "material": [ "neoprene", "kevlar" ],
     "symbol": "[",
     "color": "dark_gray",
-    "covers": [ "eyes", "mouth" ],
-    "coverage": 100,
-    "encumbrance": 20,
     "warmth": 30,
     "material_thickness": 2,
     "environmental_protection": 10,
     "qualities": [ [ "GLARE", 1 ] ],
-    "flags": [ "WATERPROOF", "STURDY", "SUN_GLASSES", "VARSIZE", "WATCH", "THERMOMETER" ]
+    "flags": [ "WATERPROOF", "STURDY", "SUN_GLASSES", "VARSIZE", "WATCH", "THERMOMETER" ],
+    "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "eyes", "mouth" ] } ]
   },
   {
     "id": "crt_boots",
@@ -31,9 +29,9 @@
     "weight": "1500 g",
     "price": 250000,
     "warmth": 40,
-    "encumbrance": 17,
     "material_thickness": 5,
-    "environmental_protection": 5
+    "environmental_protection": 5,
+    "armor": [ { "encumbrance": 17 } ]
   },
   {
     "id": "crt_la_boots",
@@ -49,13 +47,11 @@
     "material": [ "rubber", "superalloy", "nomex" ],
     "symbol": "[",
     "color": "dark_gray",
-    "covers": [ "foot_l", "foot_r" ],
-    "coverage": 100,
-    "encumbrance": 10,
     "warmth": 25,
     "material_thickness": 3,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ],
+    "armor": [ { "encumbrance": 10, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ]
   },
   {
     "id": "crt_gloves",
@@ -63,12 +59,11 @@
     "type": "ARMOR",
     "name": { "str": "pair of CRIT fingertip-less gloves", "str_pl": "pairs of CRIT fingertip-less gloves" },
     "description": "A pair of standard-issue gloves.  Made with superalloy mesh for those with gene-modding and/or mutations while still allowing greater manipulation of items and moderate protection.",
-    "encumbrance": 12,
-    "coverage": 85,
     "warmth": 20,
     "material": [ "kevlar", "superalloy" ],
     "material_thickness": 2,
-    "flags": [ "ALLOWS_NATURAL_ATTACKS", "STURDY", "WATERPROOF" ]
+    "flags": [ "ALLOWS_NATURAL_ATTACKS", "STURDY", "WATERPROOF" ],
+    "armor": [ { "encumbrance": 12, "coverage": 85, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "crt_gloves_liner",
@@ -76,12 +71,11 @@
     "type": "ARMOR",
     "name": { "str": "pair of CRIT fingertip-less liners", "str_pl": "pairs of CRIT fingertip-less liners" },
     "description": "A pair of standard-issue glove liners.  Made with neoprene and rubber mesh for warmth and fingertip-less for those with gene-modding and/or mutations while still allowing greater manipulation of items and moderate protection.",
-    "encumbrance": 3,
-    "coverage": 85,
     "warmth": 15,
     "material": [ "neoprene", "rubber" ],
     "material_thickness": 1,
-    "flags": [ "ALLOWS_NATURAL_ATTACKS", "SKINTIGHT" ]
+    "flags": [ "ALLOWS_NATURAL_ATTACKS", "SKINTIGHT" ],
+    "armor": [ { "encumbrance": 3, "coverage": 85, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "crt_backpack",
@@ -91,10 +85,10 @@
     "description": "A standard-issue pack.  Based on the MOLLE backpack's design, this smaller pack strikes a fine balance between storage space and encumbrance and allows a larger weapon to be holstered, drawing and holstering is still rather awkward even with the magnetized clips, but practice helps.",
     "color": "dark_gray",
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "9 L", "max_contains_weight": "27 kg", "moves": 200 } ],
-    "encumbrance": 3,
     "material_thickness": 3,
     "material": [ "leather", "kevlar" ],
-    "flags": [ "BELTED", "OVERSIZE", "NO_QUICKDRAW", "STURDY", "WATERPROOF" ]
+    "flags": [ "BELTED", "OVERSIZE", "NO_QUICKDRAW", "STURDY", "WATERPROOF" ],
+    "armor": [ { "encumbrance": [ 3, 20 ], "coverage": 20, "covers": [ "torso" ] } ]
   },
   {
     "id": "crt_chestrig",
@@ -134,13 +128,11 @@
     "material": [ "superalloy", "neoprene", "rubber" ],
     "symbol": "[",
     "color": "white",
-    "covers": [ "arm_l", "arm_r" ],
-    "coverage": 100,
-    "encumbrance": 20,
     "warmth": 17,
     "material_thickness": 4,
     "environmental_protection": 3,
-    "flags": [ "STURDY", "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ]
+    "flags": [ "STURDY", "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "arm_l", "arm_r" ] } ]
   },
   {
     "id": "crt_belt",
@@ -165,10 +157,6 @@
     "material": [ "neoprene", "rubber", "kevlar" ],
     "symbol": "[",
     "color": "black_green",
-    "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ],
-    "coverage": 100,
-    "encumbrance": 10,
-    "max_encumbrance": 20,
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
@@ -178,7 +166,8 @@
     "warmth": 20,
     "material_thickness": 3,
     "environmental_protection": 9,
-    "flags": [ "POCKETS", "OUTER", "COLLAR", "STURDY", "WATERPROOF", "RAINPROOF" ]
+    "flags": [ "POCKETS", "OUTER", "COLLAR", "STURDY", "WATERPROOF", "RAINPROOF" ],
+    "armor": [ { "encumbrance": [ 10, 20 ], "coverage": 100, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
   },
   {
     "id": "crt_aarmor",
@@ -194,10 +183,6 @@
     "material": [ "kevlar", "nomex", "plastic" ],
     "symbol": "[",
     "color": "light_green",
-    "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
-    "coverage": 100,
-    "encumbrance": 17,
-    "max_encumbrance": 25,
     "warmth": 25,
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
@@ -205,7 +190,8 @@
     ],
     "material_thickness": 5,
     "environmental_protection": 25,
-    "flags": [ "VARSIZE", "WATERPROOF", "HOOD", "COLLAR", "RAINPROOF", "STURDY", "RAD_RESIST", "OUTER" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "HOOD", "COLLAR", "RAINPROOF", "STURDY", "RAD_RESIST", "OUTER" ],
+    "armor": [ { "encumbrance": [ 17, 25 ], "coverage": 100, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ]
   },
   {
     "id": "crt_legrig",
@@ -218,16 +204,13 @@
     "material": [ "plastic", "cotton", "rubber" ],
     "symbol": "[",
     "color": "dark_gray",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 30,
-    "encumbrance": 1,
-    "max_encumbrance": 3,
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 }
     ],
     "material_thickness": 2,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "BELTED", "RAINPROOF", "ALLOWS_TAIL" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "BELTED", "RAINPROOF", "ALLOWS_TAIL" ],
+    "armor": [ { "encumbrance": [ 1, 3 ], "coverage": 30, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "crt_earmor",
@@ -243,10 +226,6 @@
     "material": [ "steel", "kevlar" ],
     "symbol": "[",
     "color": "cyan",
-    "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
-    "coverage": 90,
-    "encumbrance": 27,
-    "max_encumbrance": 35,
     "warmth": 20,
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
@@ -254,14 +233,15 @@
     ],
     "material_thickness": 4,
     "environmental_protection": 5,
-    "flags": [ "VARSIZE", "STURDY", "BELTED" ]
+    "flags": [ "VARSIZE", "STURDY", "BELTED" ],
+    "armor": [ { "encumbrance": [ 27, 35 ], "coverage": 90, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ]
   },
   {
     "id": "crt_earmor_boots",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of CRIT Enforcer docks", "str_pl": "pairs of CRIT Enforcer docks" },
-    "description": "CRIT Enforcer docks.  Metal plates vaguely molded into the shape of oversized feet which clamp down onto your own footwear keep your feet out of harms way.  It looks terrible and feels clunky unlike most of C.R.I.T's designs, but they do seem to be worth using if you were to be in the middle of a warzone.",
+    "description": "CRIT Enforcer docks.  Metal plates vaguely molded into the shape of oversized feet which clamp down onto your own footwear keep your feet out of harms way.  It looks terrible and feels clunky unlike most of C.R.I.T's designs, but they do seem to be worth using if you were to be in the middle of a war zone.",
     "weight": "2060 g",
     "volume": "1500 ml",
     "price": 100000,
@@ -270,13 +250,11 @@
     "material": [ "kevlar", "superalloy" ],
     "symbol": "[",
     "color": "dark_gray",
-    "covers": [ "foot_l", "foot_r" ],
-    "coverage": 100,
-    "encumbrance": 30,
     "warmth": 5,
     "material_thickness": 3,
     "environmental_protection": 4,
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER", "OVERSIZE" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER", "OVERSIZE" ],
+    "armor": [ { "encumbrance": 30, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ]
   },
   {
     "id": "crt_sarmor",
@@ -290,10 +268,6 @@
     "material": [ "neoprene", "kevlar", "superalloy" ],
     "symbol": "[",
     "color": "light_blue",
-    "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
-    "coverage": 100,
-    "encumbrance": 3,
-    "max_encumbrance": 7,
     "warmth": 20,
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
@@ -301,7 +275,8 @@
     ],
     "material_thickness": 2,
     "environmental_protection": 3,
-    "flags": [ "VARSIZE", "STURDY" ]
+    "flags": [ "VARSIZE", "STURDY" ],
+    "armor": [ { "encumbrance": [ 3, 7 ], "coverage": 100, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ]
   },
   {
     "id": "crt_warmor",
@@ -315,10 +290,6 @@
     "material": [ "hardsteel", "kevlar" ],
     "symbol": "[",
     "color": "light_green",
-    "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
-    "coverage": 100,
-    "encumbrance": 24,
-    "max_encumbrance": 40,
     "warmth": 25,
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "3 kg", "moves": 80 },
@@ -326,6 +297,7 @@
     ],
     "material_thickness": 3,
     "environmental_protection": 10,
-    "flags": [ "VARSIZE", "WATERPROOF", "OUTER", "OVERSIZE", "COLLAR", "STURDY", "NO_QUICKDRAW" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "OUTER", "OVERSIZE", "COLLAR", "STURDY", "NO_QUICKDRAW" ],
+    "armor": [ { "encumbrance": [ 24, 40 ], "coverage": 100, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ]
   }
 ]

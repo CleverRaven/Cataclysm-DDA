@@ -12,7 +12,8 @@
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "book_learn": [ [ "plastics_book", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
-    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 5, "LIST" ] ] ],
+    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "using": [ [ "plastic_molding", 2 ] ],
     "components": [
       [ [ "jug_plastic", 1 ], [ "bottle_plastic", 3 ], [ "bottle_plastic_small", 6 ] ],
       [ [ "lightstrip_inactive", 1 ] ],

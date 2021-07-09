@@ -1,0 +1,73 @@
+[
+  {
+    "id": "ds_monitor",
+    "type": "TOOL_ARMOR",
+    "category": "armor",
+    "name": "CRIT S-I G.E.A.R",
+    "description": "C.R.I.T standard issue General Engineering Assistance Rig.  Plugged into your spinal cord, this device improves your overall physique and provides basic information on your surroundings.",
+    "weight": "500 g",
+    "volume": "1 L",
+    "price": 25000000,
+    "to_hit": -3,
+    "material": [ "plastic", "steel" ],
+    "symbol": "[",
+    "color": "light_green",
+    "warmth": 0,
+    "//": "Legacy artifact data is set for all stats +2",
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "values": [
+            { "value": "STRENGTH", "add": 2 },
+            { "value": "INTELLIGENCE", "add": 2 },
+            { "value": "PERCEPTION", "add": 2 },
+            { "value": "DEXTERITY", "add": 2 }
+          ]
+        }
+      ]
+    },
+    "material_thickness": 10,
+    "environmental_protection": 0,
+    "flags": [ "ONLY_ONE", "TRADER_AVOID", "BELTED", "NO_TAKEOFF" ],
+    "armor": [ { "encumbrance": 0, "coverage": 0 } ]
+  },
+  {
+    "id": "ds_armor",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": "CRIT Engineering Suit",
+    "description": "An airtight, flexible suit of woven composite fibers complete with segmented plates of armor.  A complex system digitizes items in an individual pocket universe for storage while built in joint-torsion ratchets generate the necessary energy required to power the interface.",
+    "weight": "13460 g",
+    "volume": "14 L",
+    "price": 900000000,
+    "to_hit": -5,
+    "bashing": 8,
+    "material": [ "superalloy", "nomex", "kevlar" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "warmth": 15,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "12500 ml",
+        "max_contains_weight": "1000 kg",
+        "max_item_length": "500 cm",
+        "weight_multiplier": 0.01,
+        "moves": 200
+      }
+    ],
+    "material_thickness": 3,
+    "environmental_protection": 18,
+    "use_action": [ "WEATHER_TOOL" ],
+    "flags": [ "ELECTRIC_IMMUNE", "GAS_PROOF", "VARSIZE", "OVERSIZE", "STURDY", "ONLY_ONE", "WATERPROOF", "CLIMATE_CONTROL" ],
+    "armor": [
+      {
+        "encumbrance": 25,
+        "coverage": 100,
+        "covers": [ "head", "eyes", "mouth", "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "foot_l", "foot_r" ]
+      }
+    ]
+  }
+]

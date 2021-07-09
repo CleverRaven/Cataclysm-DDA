@@ -21,7 +21,7 @@ In `data/mods/Magiclysm` there is a template spell, copied here for your perusal
   "spell_class": "NONE",                                    //
 	"base_casting_time": 100,                                 // this is the casting time (in moves)
 	"base_energy_cost": 10,                                   // the amount of energy (of the requisite type) to cast the spell
-	"energy_source": "MANA",                                  // the type of energy used to cast the spell. types are: MANA, BIONIC, HP, STAMINA, FATIGUE, NONE (none will not use mana)
+	"energy_source": "MANA",                                  // the type of energy used to cast the spell. types are: MANA, BIONIC, HP, STAMINA, NONE (none will not use mana)
   "components": [requirement_id]                            // an id from a requirement, like the ones you use for crafting. spell components require to cast.
 	"difficulty": 12,                                         // the difficulty to learn/cast the spell
 	"max_level": 10,                                          // maximum level you can achieve in the spell
@@ -411,7 +411,7 @@ You can assign a spell as a special attack for a monster.
 |---                          |---
 | `id`                        | Unique ID. Must be one continuous word, use underscores if necessary.
 | `has`                       | How an enchantment determines if it is in the right location in order to qualify for being active. "WIELD" - when wielded in your hand * "WORN" - when worn as armor * "HELD" - when in your inventory
-| `condition`                 | How an enchantment determines if you are in the right environments in order for the enchantment to qualify for being active. * "ALWAYS" - Always and forevermore * "UNDERGROUND" - When the owner of the item is below Z-level 0 * "UNDERWATER" - When the owner is in swimmable terrain * "ACTIVE" - whenever the item, mutation, bionic, or whatever the enchantment is attached to is active.
+| `condition`                 | How an enchantment determines if you are in the right environments in order for the enchantment to qualify for being active. * "ALWAYS" - Always and forevermore * "UNDERGROUND" - When the owner of the item is below Z-level 0 * "UNDERWATER" - When the owner is in swimmable terrain * "ACTIVE" - whenever the item, mutation, bionic, or whatever the enchantment is attached to is active. * "INACTIVE" - whenever the item, mutation, bionic, or whatever the enchantment is attached to is inactive.
 | `hit_you_effect`            | A spell that activates when you melee_attack a creature.  The spell is centered on the location of the creature unless self = true, then it is centered on your location.  Follows the template for defining "fake_spell"
 | `hit_me_effect`             | A spell that activates when you are hit by a creature.  The spell is centered on your location.  Follows the template for defining "fake_spell"
 | `intermittent_activation`   | Spells that activate centered on you depending on the duration.  The spells follow the "fake_spell" template.
@@ -477,6 +477,7 @@ Effects for the character that has the enchantment:
 * REGEN_STAMINA
 * MAX_HP
 * REGEN_HP
+* HUNGER
 * THIRST
 * FATIGUE
 * PAIN
@@ -490,9 +491,12 @@ Effects for the character that has the enchantment:
 * SIGHT_RANGE
 * CARRY_WEIGHT
 * CARRY_VOLUME
+* WEAPON_DISPERSION
 * SOCIAL_LIE
 * SOCIAL_PERSUADE
 * SOCIAL_INTIMIDATE
+* SLEEPY : The higher this is the more easily you fall asleep.
+* LUMINATION : The character produces light
 * ARMOR_BASH
 * ARMOR_CUT
 * ARMOR_STAB

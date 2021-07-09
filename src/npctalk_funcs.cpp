@@ -92,9 +92,6 @@ static const mtype_id mon_chicken( "mon_chicken" );
 static const mtype_id mon_cow( "mon_cow" );
 static const mtype_id mon_horse( "mon_horse" );
 
-static const bionic_id bio_power_storage( "bio_power_storage" );
-static const bionic_id bio_power_storage_mkII( "bio_power_storage_mkII" );
-
 struct itype;
 
 static void spawn_animal( npc &p, const mtype_id &mon );
@@ -210,7 +207,7 @@ void spawn_animal( npc &p, const mtype_id &mon )
         mon_ptr->add_effect( effect_pet, 1_turns, true );
     } else {
         // TODO: handle this gracefully (return the money, proper in-character message from npc)
-        add_msg_debug( "No space to spawn purchased pet" );
+        add_msg_debug( debugmode::DF_NPC, "No space to spawn purchased pet" );
     }
 }
 
@@ -493,15 +490,12 @@ void talk_function::bionic_remove( npc &p )
     for( const bionic &bio : all_bio ) {
         if( std::find( bionic_types.begin(), bionic_types.end(),
                        bio.info().itype() ) == bionic_types.end() ) {
-            if( bio.id != bio_power_storage ||
-                bio.id != bio_power_storage_mkII ) {
-                bionic_types.push_back( bio.info().itype() );
-                if( item::type_is_defined( bio.info().itype() ) ) {
-                    item tmp = item( bio.id.str(), calendar::turn_zero );
-                    bionic_names.push_back( tmp.tname() + " - " + format_money( 50000 + ( tmp.price( true ) / 4 ) ) );
-                } else {
-                    bionic_names.push_back( bio.id.str() + " - " + format_money( 50000 ) );
-                }
+            bionic_types.push_back( bio.info().itype() );
+            if( item::type_is_defined( bio.info().itype() ) ) {
+                item tmp = item( bio.id.str(), calendar::turn_zero );
+                bionic_names.push_back( tmp.tname() + " - " + format_money( 50000 + ( tmp.price( true ) / 4 ) ) );
+            } else {
+                bionic_names.push_back( bio.id.str() + " - " + format_money( 50000 ) );
             }
         }
     }
@@ -801,6 +795,13 @@ void talk_function::flee( npc &p )
     p.set_attitude( NPCATT_FLEE );
 }
 
+void talk_function::lightning( npc & )
+{
+    if( get_player_character().posz() >= 0 ) {
+        get_weather().lightning_active = true;
+    }
+}
+
 void talk_function::leave( npc &p )
 {
     add_msg( _( "%s leaves." ), p.name );
@@ -854,7 +855,7 @@ bool talk_function::drop_stolen_item( item &cur_item, npc &p )
         dropped = true;
     } else if( cur_item.is_container() ) {
         bool changed = false;
-        for( item *contained : cur_item.contents.all_items_top() ) {
+        for( item *contained : cur_item.all_items_top() ) {
             changed |= drop_stolen_item( *contained, p );
         }
         if( changed ) {
@@ -911,7 +912,8 @@ void talk_function::drop_weapon( npc &p )
     if( p.is_hallucination() ) {
         return;
     }
-    get_map().add_item_or_charges( p.pos(), p.remove_weapon() );
+    item weap = p.remove_weapon();
+    get_map().add_item_or_charges( p.pos(), weap );
 }
 
 void talk_function::player_weapon_away( npc &/*p*/ )
@@ -923,7 +925,8 @@ void talk_function::player_weapon_away( npc &/*p*/ )
 void talk_function::player_weapon_drop( npc &/*p*/ )
 {
     Character &player_character = get_player_character();
-    get_map().add_item_or_charges( player_character.pos(), player_character.remove_weapon() );
+    item weap = player_character.remove_weapon();
+    get_map().add_item_or_charges( player_character.pos(), weap );
 }
 
 void talk_function::lead_to_safety( npc &p )
