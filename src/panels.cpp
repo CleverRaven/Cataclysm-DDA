@@ -1013,7 +1013,7 @@ static std::pair<translation, nc_color> weariness_description( size_t weariness 
     return weary_descriptions[weariness];
 }
 
-const std::string activity_level::activity_level_str( float level )
+std::string activity_level::activity_level_str( float level )
 {
     static const std::array<translation, 6> activity_descriptions { {
             to_translation( "activity description", "None" ),
