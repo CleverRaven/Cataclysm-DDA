@@ -1055,6 +1055,30 @@ struct tile_render_info {
     }
 };
 
+static std::map<tripoint, int> display_npc_attack_potential()
+{
+    avatar &you = get_avatar();
+    npc avatar_as_npc;
+    std::ostringstream os;
+    JsonOut jsout( os );
+    jsout.write( you );
+    std::istringstream is( os.str() );
+    JsonIn jsin( is );
+    jsin.read( avatar_as_npc );
+    avatar_as_npc.regen_ai_cache();
+    avatar_as_npc.evaluate_best_weapon( nullptr );
+    std::map<tripoint, int> effectiveness_map;
+    std::vector<npc_attack_rating> effectiveness =
+        avatar_as_npc.get_current_attack()->all_evaluations( avatar_as_npc, nullptr );
+    for( const npc_attack_rating &effectiveness_at_point : effectiveness ) {
+        if( !effectiveness_at_point.value() ) {
+            continue;
+        }
+        effectiveness_map[effectiveness_at_point.target()] = *effectiveness_at_point.value();
+    }
+    return effectiveness_map;
+}
+
 void cata_tiles::draw( const point &dest, const tripoint &center, int width, int height,
                        std::multimap<point, formatted_text> &overlay_strings,
                        color_block_overlay_container &color_blocks )
@@ -1109,6 +1133,22 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                              ( you.posy() % SEEY ) + ( MAPSIZE - 1 ) * SEEY );
 
     const level_cache &ch = here.access_cache( center.z );
+
+    // Map memory should be at least the size of the view range
+    // so that new tiles can be memorized, and at least the size of the display
+    // since at farthest zoom displayed area may be bigger than view range.
+    const point min_mm_reg = point(
+                                 std::min( o.x, min_visible.x ),
+                                 std::min( o.y, min_visible.y )
+                             );
+    const point max_mm_reg = point(
+                                 std::max( s.x + o.x, max_visible.x ),
+                                 std::max( s.y + o.y, max_visible.y )
+                             );
+    you.prepare_map_memory_region(
+        here.getabs( tripoint( min_mm_reg, center.z ) ),
+        here.getabs( tripoint( max_mm_reg, center.z ) )
+    );
 
     //set up a default tile for the edges outside the render area
     visibility_type offscreen_type = visibility_type::DARK;
@@ -1165,7 +1205,14 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                would_apply_vision_effects( here.get_visibility( ch.visibility_cache[np.x][np.y],
                                            cache ) );
     };
-
+    std::map<tripoint, int> npc_attack_rating_map;
+    int max_npc_effectiveness = 0;
+    if( g->display_overlay_state( ACTION_DISPLAY_NPC_ATTACK_POTENTIAL ) ) {
+        npc_attack_rating_map = display_npc_attack_potential();
+        for( const std::pair<const tripoint, int> &pair : npc_attack_rating_map ) {
+            max_npc_effectiveness = std::max( pair.second, max_npc_effectiveness );
+        }
+    }
     for( int row = min_row; row < max_row; row ++ ) {
         std::vector<tile_render_info> draw_points;
         draw_points.reserve( max_col );
@@ -1245,6 +1292,23 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                     overlay_strings.emplace( player_to_screen( point( x, y ) ) + half_tile,
                                              formatted_text( std::to_string( rad_value ),
                                                      8 + col, direction::NORTH ) );
+                }
+            }
+
+            if( g->display_overlay_state( ACTION_DISPLAY_NPC_ATTACK_POTENTIAL ) ) {
+                if( npc_attack_rating_map.count( pos ) ) {
+                    const int val = npc_attack_rating_map.at( pos );
+                    short color;
+                    if( val <= 0 ) {
+                        color = catacurses::red;
+                    } else if( val == max_npc_effectiveness ) {
+                        color = catacurses::cyan;
+                    } else {
+                        color = catacurses::white;
+                    }
+                    overlay_strings.emplace( player_to_screen( point( x, y ) ) + half_tile,
+                                             formatted_text( std::to_string( val ), color,
+                                                     direction::NORTH ) );
                 }
             }
 
@@ -1812,9 +1876,13 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
             col = tmp.color();
         } else if( category == C_OVERMAP_TERRAIN ) {
             const oter_str_id tmp( id );
+            const oter_type_str_id type_tmp( id );
             if( tmp.is_valid() ) {
-                sym = tmp->get_symbol().front();
+                sym = tmp->get_uint32_symbol();
                 col = tmp->get_color();
+            } else if( type_tmp.is_valid() ) {
+                sym = type_tmp->get_symbol().front();
+                col = type_tmp->color;
             }
         } else if( category == C_OVERMAP_NOTE ) {
             sym = id[5];
@@ -1823,42 +1891,54 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
         // Special cases for walls
         switch( sym ) {
             case LINE_XOXO:
+            case LINE_XOXO_UNICODE:
                 sym = LINE_XOXO_C;
                 break;
             case LINE_OXOX:
+            case LINE_OXOX_UNICODE:
                 sym = LINE_OXOX_C;
                 break;
             case LINE_XXOO:
+            case LINE_XXOO_UNICODE:
                 sym = LINE_XXOO_C;
                 break;
             case LINE_OXXO:
+            case LINE_OXXO_UNICODE:
                 sym = LINE_OXXO_C;
                 break;
             case LINE_OOXX:
+            case LINE_OOXX_UNICODE:
                 sym = LINE_OOXX_C;
                 break;
             case LINE_XOOX:
+            case LINE_XOOX_UNICODE:
                 sym = LINE_XOOX_C;
                 break;
             case LINE_XXXO:
+            case LINE_XXXO_UNICODE:
                 sym = LINE_XXXO_C;
                 break;
             case LINE_XXOX:
+            case LINE_XXOX_UNICODE:
                 sym = LINE_XXOX_C;
                 break;
             case LINE_XOXX:
+            case LINE_XOXX_UNICODE:
                 sym = LINE_XOXX_C;
                 break;
             case LINE_OXXX:
+            case LINE_OXXX_UNICODE:
                 sym = LINE_OXXX_C;
                 break;
             case LINE_XXXX:
+            case LINE_XXXX_UNICODE:
                 sym = LINE_XXXX_C;
                 break;
             default:
                 // sym goes unchanged
                 break;
         }
+
         if( sym != 0 && sym < 256 ) {
             // see cursesport.cpp, function wattron
             const int pairNumber = col.to_color_pair_index();
@@ -1872,7 +1952,6 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
             if( sym != LINE_XOXO_C && sym != LINE_OXOX_C ) {
                 rota = 0;
             }
-
             if( tileset_ptr->find_tile_type( generic_id ) ) {
                 return draw_from_id_string( generic_id, pos, subtile, rota,
                                             ll, apply_night_vision_goggles );

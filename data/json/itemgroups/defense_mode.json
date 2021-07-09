@@ -99,7 +99,7 @@
       { "item": "energy_drink" },
       { "item": "whiskey" },
       { "item": "can_beans" },
-      { "item": "mre_beef" },
+      { "group": "MRE" },
       { "item": "flour" },
       { "item": "inhaler" },
       { "item": "codeine" },

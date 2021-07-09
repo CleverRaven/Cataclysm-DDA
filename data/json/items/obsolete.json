@@ -19,6 +19,250 @@
     "obsolete": true
   },
   {
+    "abstract": "mre_box",
+    "type": "GENERIC",
+    "symbol": ")",
+    "color": "brown",
+    "name": { "str": "MRE" },
+    "category": "food",
+    "description": "A generic MRE box, you shouldn't see this.",
+    "price": 1500,
+    "price_postapoc": 1500,
+    "weight": "725 g",
+    "volume": "750 ml",
+    "material": [ "plastic" ],
+    "looks_like": "mre_beef_box",
+    "use_action": [ "DISASSEMBLE" ]
+  },
+  {
+    "abstract": "mre_smallbox",
+    "type": "GENERIC",
+    "symbol": ")",
+    "color": "brown",
+    "name": { "str": "MRE small box", "str_pl": "MRE small boxes" },
+    "category": "food",
+    "description": "A generic small MRE box, you shouldn't see this",
+    "price": 500,
+    "price_postapoc": 100,
+    "weight": "300 g",
+    "volume": "250 ml",
+    "material": [ "plastic" ],
+    "looks_like": "mre_beef_box",
+    "use_action": [ "DISASSEMBLE" ]
+  },
+  {
+    "id": "mre_accessory",
+    "type": "GENERIC",
+    "copy-from": "mre_smallbox",
+    "name": { "str": "MRE - Accessory Pack", "str_pl": "MREs - Accessory Packs" },
+    "description": "An MRE accessory pack containing a variety of utensils and drinks.  Activate or disassemble it to get to its contents."
+  },
+  {
+    "id": "mre_dessert",
+    "type": "GENERIC",
+    "copy-from": "mre_smallbox",
+    "name": { "str": "MRE - Dessert Pack", "str_pl": "MREs - Dessert Packs" },
+    "description": "A sealed plastic bag containing an array of desserts.  Activate or disassemble it to get to its contents."
+  },
+  {
+    "id": "mre_chilibeans_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Chili & Beans", "str_pl": "MREs - Chili & Beans" },
+    "description": "A 'Meal Ready to Eat' with a chili & beans entree and everything a vegetarian soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents."
+  },
+  {
+    "id": "mre_bbqbeef_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - BBQ Beef", "str_pl": "MREs - BBQ Beef" },
+    "description": "A 'Meal Ready to Eat' with a BBQ beef entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents."
+  },
+  {
+    "id": "mre_chickennoodle_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Chicken & Noodles", "str_pl": "MREs - Chicken & Noodles" },
+    "description": "A 'Meal Ready to Eat' with a chicken & noodles entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents."
+  },
+  {
+    "id": "mre_spaghetti_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Spaghetti", "str_pl": "MREs - Spaghetti" },
+    "description": "A 'Meal Ready to Eat' with a spaghetti entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
+    "looks_like": "mre_veggy_box"
+  },
+  {
+    "id": "mre_chicken_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Chicken Chunks", "str_pl": "MREs - Chicken Chunks" },
+    "description": "A 'Meal Ready to Eat' with a chicken chunk entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents."
+  },
+  {
+    "id": "mre_beeftaco_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Beef Taco", "str_pl": "MREs - Beef Taco" },
+    "description": "A 'Meal Ready to Eat' with a beef taco entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents."
+  },
+  {
+    "id": "mre_beef_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Beef Brisket", "str_pl": "MREs - Beef Brisket" },
+    "description": "A 'Meal Ready to Eat' with a beef brisket entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents."
+  },
+  {
+    "id": "mre_meatball_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Meatballs & Marinara", "str_pl": "MREs - Meatballs & Marinara" },
+    "description": "A 'Meal Ready to Eat' with a meatball entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents."
+  },
+  {
+    "id": "mre_beefstew_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Beef Stew", "str_pl": "MREs - Beef Stew" },
+    "description": "A 'Meal Ready to Eat' with a beef stew entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents."
+  },
+  {
+    "id": "mre_chilimac_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Chili & Macaroni", "str_pl": "MREs - Chili & Macaroni" },
+    "description": "A 'Meal Ready to Eat' with a chili & macaroni entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
+    "looks_like": "mre_veggy_box"
+  },
+  {
+    "id": "mre_veggy_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Vegetarian Taco", "str_pl": "MREs - Vegetarian Taco" },
+    "description": "A 'Meal Ready to Eat' with a vegetarian taco entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents."
+  },
+  {
+    "id": "mre_macaronimarinara_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Macaroni Marinara", "str_pl": "MREs - Macaroni Marinara" },
+    "description": "A 'Meal Ready to Eat' with a macaroni marinara entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
+    "looks_like": "mre_veggy_box"
+  },
+  {
+    "id": "mre_sfettuccine_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Spinach Fettuccine", "str_pl": "MREs - Spinach Fettuccine" },
+    "description": "A 'Meal Ready to Eat' with a creamy spinach fettuccine entree and everything a vegetarian soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
+    "looks_like": "mre_veggy_box"
+  },
+  {
+    "id": "mre_ratatouille_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Ratatouille", "str_pl": "MREs - Ratatouille" },
+    "description": "A 'Meal Ready to Eat' with a ratatouille entree and everything a vegetarian soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
+    "looks_like": "mre_veggy_box"
+  },
+  {
+    "id": "mre_cheesetort_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Cheese Tortellini", "str_pl": "MREs - Cheese Tortellini" },
+    "description": "A 'Meal Ready to Eat' with a cheese tortellini entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
+    "looks_like": "mre_veggy_box"
+  },
+  {
+    "id": "mre_mushroomfettuccine_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Mushroom Fettuccine", "str_pl": "MREs - Mushroom Fettuccine" },
+    "description": "A 'Meal Ready to Eat' with a mushroom fettuccine entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
+    "looks_like": "mre_veggy_box"
+  },
+  {
+    "id": "mre_mexicanchickenstew_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Mexican Chicken Stew", "str_pl": "MREs - Mexican Chicken Stew" },
+    "description": "A 'Meal Ready to Eat' with a Mexican chicken stew entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
+    "looks_like": "mre_beef_box"
+  },
+  {
+    "id": "mre_chickenburritobowl_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Chicken Burrito Bowl", "str_pl": "MREs - Chicken Burrito Bowl" },
+    "description": "A 'Meal Ready to Eat' with a chicken burrito bowl entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents."
+  },
+  {
+    "id": "mre_maplesausage_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Maple Sausage", "str_pl": "MREs - Maple Sausage" },
+    "description": "A 'Meal Ready to Eat' with a maple sausage entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents."
+  },
+  {
+    "id": "mre_ravioli_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Ravioli", "str_pl": "MREs - Ravioli" },
+    "description": "A 'Meal Ready to Eat' with a ravioli entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents."
+  },
+  {
+    "id": "mre_pepperjackbeef_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Pepper Jack Beef", "str_pl": "MREs - Pepper Jack Beef" },
+    "description": "A 'Meal Ready to Eat' with a pepper jack beef entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents."
+  },
+  {
+    "id": "mre_hashbrownbacon_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Hash Browns & Bacon", "str_pl": "MREs - Hash Browns & Bacon" },
+    "description": "A 'Meal Ready to Eat' with a hash browns & bacon entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents."
+  },
+  {
+    "id": "mre_lemontuna_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Lemon Pepper Tuna", "str_pl": "MREs - Lemon Pepper Tuna" },
+    "description": "A 'Meal Ready to Eat' with a lemon pepper tuna entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents."
+  },
+  {
+    "id": "mre_asianbeef_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Asian Beef & Vegetables", "str_pl": "MREs - Asian Beef & Vegetables" },
+    "description": "A 'Meal Ready to Eat' with an asian beef & vegetables entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents."
+  },
+  {
+    "id": "mre_chickenpesto_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Chicken Pesto & Pasta", "str_pl": "MREs - Chicken Pesto & Pasta" },
+    "description": "A 'Meal Ready to Eat' with a chicken pesto entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents."
+  },
+  {
+    "id": "mre_southwestbeef_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Southwest Beef & Beans", "str_pl": "MREs - Southwest Beef & Beans" },
+    "description": "A 'Meal Ready to Eat' with a southwest beef & beans entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents."
+  },
+  {
+    "id": "mre_hotdog_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Frankfurters & Beans", "str_pl": "MREs - Frankfurters & Beans" },
+    "description": "A vintage MRE, still perfectly preserved and edible.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
+    "price": 1000
+  },
+  {
     "id": "survival_kit",
     "type": "GENERIC",
     "category": "tools",
@@ -523,6 +767,86 @@
     "flags": [ "NO_UNLOAD" ]
   },
   {
+    "id": "aep_suit",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "AEP suit" },
+    "description": "An armored environmental protection suit.  Custom-built from a cleansuit and body armor, it provides excellent protection against both physical harm and ambient radiation.",
+    "weight": "7200 g",
+    "volume": "9 L",
+    "price": 140000,
+    "price_postapoc": 6000,
+    "material": [ "kevlar_layered", "plastic" ],
+    "symbol": "[",
+    "looks_like": "hazmat_suit",
+    "color": "light_red",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 10, 15 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 10, 15 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 10, 10 ] }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "18 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "18 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "18 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "18 cm",
+        "moves": 80
+      }
+    ],
+    "warmth": 35,
+    "material_thickness": 7,
+    "environmental_protection": 9,
+    "flags": [ "VARSIZE", "WATERPROOF", "HOOD", "RAINPROOF", "STURDY", "RAD_RESIST", "OUTER" ]
+  },
+  {
+    "id": "anbc_suit",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "ANBC suit" },
+    "description": "An armored, impermeable full-body suit that functions as body armor, as well as protecting from nuclear, biological, and chemical hazards.  It requires a separate gas mask for full protection.",
+    "weight": "8700 g",
+    "volume": "20 L",
+    "price": 400000,
+    "price_postapoc": 9000,
+    "material": [ "kevlar_layered", "plastic" ],
+    "symbol": "[",
+    "looks_like": "hazmat_suit",
+    "color": "light_red",
+    "warmth": 50,
+    "material_thickness": 7,
+    "environmental_protection": 20,
+    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "STURDY", "RAD_PROOF", "ELECTRIC_IMMUNE", "OUTER" ],
+    "armor": [
+      {
+        "encumbrance": 35,
+        "coverage": 100,
+        "covers": [ "head", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ]
+  },
+  {
     "id": "armguard_bone",
     "type": "ARMOR",
     "category": "armor",
@@ -535,13 +859,11 @@
     "material": [ "bone", "leather" ],
     "symbol": "[",
     "color": "white",
-    "covers": [ "arm_l", "arm_r" ],
-    "coverage": 95,
-    "encumbrance": 22,
     "warmth": 20,
     "material_thickness": 4,
     "environmental_protection": 1,
-    "flags": [ "STURDY", "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ]
+    "flags": [ "STURDY", "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 22, "coverage": 95, "covers": [ "arm_l", "arm_r" ] } ]
   },
   {
     "id": "armor_bone",
@@ -557,12 +879,10 @@
     "material": [ "bone", "leather" ],
     "symbol": "[",
     "color": "white",
-    "covers": [ "torso", "leg_l", "leg_r" ],
-    "coverage": 95,
-    "encumbrance": 24,
     "warmth": 20,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "STURDY" ]
+    "flags": [ "VARSIZE", "STURDY" ],
+    "armor": [ { "encumbrance": 24, "coverage": 95, "covers": [ "torso", "leg_l", "leg_r" ] } ]
   },
   {
     "id": "gauntlets_bone",
@@ -578,13 +898,11 @@
     "material": [ "bone", "leather" ],
     "symbol": "[",
     "color": "white",
-    "covers": [ "hand_l", "hand_r" ],
-    "coverage": 95,
-    "encumbrance": 15,
     "warmth": 20,
     "material_thickness": 4,
     "environmental_protection": 4,
-    "flags": [ "STURDY" ]
+    "flags": [ "STURDY" ],
+    "armor": [ { "encumbrance": 15, "coverage": 95, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "helmet_bone",
@@ -600,13 +918,11 @@
     "material": [ "bone" ],
     "symbol": "[",
     "color": "white",
-    "covers": [ "head", "eyes", "mouth" ],
-    "coverage": 100,
-    "encumbrance": 25,
     "warmth": 10,
     "material_thickness": 5,
     "environmental_protection": 3,
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ],
+    "armor": [ { "encumbrance": 25, "coverage": 100, "covers": [ "head", "eyes", "mouth" ] } ]
   },
   {
     "id": "matchbomb",
@@ -1708,14 +2024,12 @@
     "symbol": "[",
     "looks_like": "helmet_army",
     "color": "dark_gray",
-    "covers": [ "head" ],
-    "coverage": 100,
-    "encumbrance": 25,
     "warmth": 15,
     "material_thickness": 5,
     "environmental_protection": 3,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ],
+    "armor": [ { "encumbrance": 25, "coverage": 100, "covers": [ "head" ] } ]
   },
   {
     "id": "helmet_xlsurvivor",
@@ -1732,14 +2046,12 @@
     "symbol": "[",
     "looks_like": "helmet_survivor",
     "color": "dark_gray",
-    "covers": [ "head" ],
-    "coverage": 100,
-    "encumbrance": 50,
     "warmth": 15,
     "material_thickness": 4,
     "environmental_protection": 3,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY" ]
+    "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY" ],
+    "armor": [ { "encumbrance": 50, "coverage": 100, "covers": [ "head" ] } ]
   },
   {
     "id": "helmet_hsurvivor",
@@ -1756,14 +2068,12 @@
     "symbol": "[",
     "looks_like": "helmet_survivor",
     "color": "dark_gray",
-    "covers": [ "head" ],
-    "coverage": 100,
-    "encumbrance": 40,
     "warmth": 25,
     "material_thickness": 6,
     "environmental_protection": 5,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ],
+    "armor": [ { "encumbrance": 40, "coverage": 100, "covers": [ "head" ] } ]
   },
   {
     "id": "l_bak_223",
@@ -1991,12 +2301,10 @@
     "material": [ "glass", "steel" ],
     "symbol": "[",
     "color": "light_gray",
-    "covers": [ "torso" ],
-    "coverage": 40,
-    "encumbrance": 12,
     "material_thickness": 3,
     "use_action": [ "SOLARPACK" ],
-    "flags": [ "FRAGILE", "OUTER", "ONLY_ONE", "SOLARPACK" ]
+    "flags": [ "FRAGILE", "OUTER", "ONLY_ONE", "SOLARPACK" ],
+    "armor": [ { "encumbrance": 12, "coverage": 40, "covers": [ "torso" ] } ]
   },
   {
     "id": "q_solarpack_on",
@@ -2012,13 +2320,11 @@
     "material": [ "glass", "steel" ],
     "symbol": "[",
     "color": "blue",
-    "covers": [ "torso" ],
-    "coverage": 40,
-    "encumbrance": 20,
     "material_thickness": 1,
     "use_action": [ "SOLARPACK_OFF" ],
     "solar_efficiency": 0.3,
-    "flags": [ "FRAGILE", "OUTER", "ONLY_ONE", "SOLARPACK_ON" ]
+    "flags": [ "FRAGILE", "OUTER", "ONLY_ONE", "SOLARPACK_ON" ],
+    "armor": [ { "encumbrance": 20, "coverage": 40, "covers": [ "torso" ] } ]
   },
   {
     "id": "tihar",
@@ -2383,13 +2689,11 @@
     "symbol": "[",
     "looks_like": "modularvestkevlar",
     "color": "light_gray",
-    "covers": [ "torso" ],
-    "coverage": 85,
-    "encumbrance": 7,
     "warmth": 15,
     "material_thickness": 4,
     "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
-    "flags": [ "STURDY", "OUTER" ]
+    "flags": [ "STURDY", "OUTER" ],
+    "armor": [ { "encumbrance": 7, "coverage": 85, "covers": [ "torso" ] } ]
   },
   {
     "id": "modularvestceramic",
@@ -2407,13 +2711,11 @@
     "symbol": "[",
     "looks_like": "modularvestkevlar",
     "color": "light_gray",
-    "covers": [ "torso" ],
-    "coverage": 85,
-    "encumbrance": 15,
     "warmth": 15,
     "material_thickness": 9,
     "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
-    "flags": [ "STURDY", "OUTER" ]
+    "flags": [ "STURDY", "OUTER" ],
+    "armor": [ { "encumbrance": 15, "coverage": 85, "covers": [ "torso" ] } ]
   },
   {
     "id": "modularvesthard",
@@ -2431,13 +2733,11 @@
     "symbol": "[",
     "looks_like": "modularvestkevlar",
     "color": "light_cyan",
-    "covers": [ "torso" ],
-    "coverage": 85,
-    "encumbrance": 25,
     "warmth": 15,
     "material_thickness": 5,
     "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
-    "flags": [ "STURDY", "OUTER" ]
+    "flags": [ "STURDY", "OUTER" ],
+    "armor": [ { "encumbrance": 25, "coverage": 85, "covers": [ "torso" ] } ]
   },
   {
     "id": "modularvestkevlar",
@@ -2455,13 +2755,11 @@
     "symbol": "[",
     "looks_like": "vest",
     "color": "light_gray",
-    "covers": [ "torso" ],
-    "coverage": 85,
-    "encumbrance": 12,
     "warmth": 15,
     "material_thickness": 6,
     "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
-    "flags": [ "STURDY", "OUTER" ]
+    "flags": [ "STURDY", "OUTER" ],
+    "armor": [ { "encumbrance": 12, "coverage": 85, "covers": [ "torso" ] } ]
   },
   {
     "id": "modularveststeel",
@@ -2479,13 +2777,11 @@
     "symbol": "[",
     "looks_like": "modularvestkevlar",
     "color": "light_cyan",
-    "covers": [ "torso" ],
-    "coverage": 85,
-    "encumbrance": 20,
     "warmth": 15,
     "material_thickness": 7,
     "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
-    "flags": [ "STURDY", "OUTER" ]
+    "flags": [ "STURDY", "OUTER" ],
+    "armor": [ { "encumbrance": 20, "coverage": 85, "covers": [ "torso" ] } ]
   },
   {
     "id": "modularvestsuper",
@@ -2503,13 +2799,11 @@
     "symbol": "[",
     "looks_like": "modularvestkevlar",
     "color": "light_cyan",
-    "covers": [ "torso" ],
-    "coverage": 85,
-    "encumbrance": 15,
     "warmth": 15,
     "material_thickness": 6,
     "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
-    "flags": [ "STURDY", "OUTER" ]
+    "flags": [ "STURDY", "OUTER" ],
+    "armor": [ { "encumbrance": 15, "coverage": 85, "covers": [ "torso" ] } ]
   },
   {
     "type": "AMMO",
@@ -2841,7 +3135,7 @@
     "volume": "3500 ml",
     "price_postapoc": 5000,
     "bashing": 12,
-    "armor_data": { "covers": [ "torso" ], "coverage": 5, "material_thickness": 1, "encumbrance": 20 },
+    "armor_data": { "material_thickness": 1, "armor": [ { "encumbrance": 20, "coverage": 5, "covers": [ "torso" ] } ] },
     "reload_noise_volume": 3,
     "loudness": 8,
     "ranged_damage": { "damage_type": "stab", "amount": 10 },

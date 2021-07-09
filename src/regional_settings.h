@@ -238,7 +238,7 @@ struct region_terrain_and_furniture_settings {
  */
 struct regional_settings {
     std::string id;           //
-    oter_str_id default_oter; // 'field'
+    std::array<oter_str_id, OVERMAP_LAYERS> default_oter;
     double river_scale = 1;
     weighted_int_list<ter_id> default_groundcover; // i.e., 'grass_or_dirt'
     shared_ptr_fast<weighted_int_list<ter_str_id>> default_groundcover_str;
@@ -256,7 +256,7 @@ struct regional_settings {
 
     std::unordered_map<std::string, map_extras> region_extras;
 
-    regional_settings() : id( "null" ), default_oter( "field" ) {
+    regional_settings() : id( "null" ) {
         default_groundcover.add( t_null, 0 );
     }
     void finalize();

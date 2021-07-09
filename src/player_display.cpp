@@ -937,20 +937,13 @@ static void draw_speed_tab( const catacurses::window &w_speed,
         }
     }
 
-    int quick_bonus = static_cast<int>( newmoves - ( newmoves / 1.1 ) );
-    int bio_speed_bonus = quick_bonus;
-    if( you.has_trait( trait_id( "QUICK" ) ) && you.has_bionic( bionic_id( "bio_speed" ) ) ) {
-        bio_speed_bonus = static_cast<int>( newmoves / 1.1 - ( newmoves / 1.1 / 1.1 ) );
-        std::swap( quick_bonus, bio_speed_bonus );
-    }
-    if( you.has_trait( trait_id( "QUICK" ) ) ) {
+    float speed_modifier = static_cast<float>( you.enchantment_cache->modify_value(
+                               enchant_vals::mod::SPEED, 1 ) );
+
+    if( speed_modifier != 1.0f ) {
+        int misc_bonus = static_cast<int>( newmoves - ( newmoves / speed_modifier ) );
         mvwprintz( w_speed, point( 1, line ), c_green,
-                   pgettext( "speed bonus", "Quick               +%2d%%" ), quick_bonus );
-        line++;
-    }
-    if( you.has_bionic( bionic_id( "bio_speed" ) ) ) {
-        mvwprintz( w_speed, point( 1, line ), c_green,
-                   pgettext( "speed bonus", "Bionic Speed        +%2d%%" ), bio_speed_bonus );
+                   pgettext( "speed bonus", "Bio/Mut/Effects     +%2d%%" ), misc_bonus );
         line++;
     }
 

@@ -216,5 +216,23 @@
     "color": "i_pink",
     "see_cost": 2,
     "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "afs_shelter_1" ],
+    "name": "house",
+    "sym": "<",
+    "color": "green",
+    "spawns": { "group": "GROUP_ZOMBIE", "population": [ 1, 4 ], "chance": 50 },
+    "flags": [ "SIDEWALK" ],
+    "see_cost": 3
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "afs_shelter_1_roof" ],
+    "name": "house roof",
+    "sym": "<",
+    "color": "green",
+    "see_cost": 3
   }
 ]

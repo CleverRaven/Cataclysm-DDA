@@ -100,8 +100,6 @@
 
 enum class creature_size : int;
 
-static const efftype_id effect_sheared( "sheared" );
-
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
 static const activity_id ACT_ADV_INVENTORY( "ACT_ADV_INVENTORY" );
@@ -119,6 +117,7 @@ static const activity_id ACT_CLEAR_RUBBLE( "ACT_CLEAR_RUBBLE" );
 static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
 static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
 static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
+static const activity_id ACT_CONSUME_FUEL_MENU( "ACT_CONSUME_FUEL_MENU" );
 static const activity_id ACT_CRACKING( "ACT_CRACKING" );
 static const activity_id ACT_DISMEMBER( "ACT_DISMEMBER" );
 static const activity_id ACT_DISSECT( "ACT_DISSECT" );
@@ -274,6 +273,7 @@ activity_handlers::do_turn_functions = {
     { ACT_CONSUME_FOOD_MENU, consume_food_menu_do_turn },
     { ACT_CONSUME_DRINK_MENU, consume_drink_menu_do_turn },
     { ACT_CONSUME_MEDS_MENU, consume_meds_menu_do_turn },
+    { ACT_CONSUME_FUEL_MENU, consume_fuel_menu_do_turn },
     { ACT_MOVE_LOOT, move_loot_do_turn },
     { ACT_ADV_INVENTORY, adv_inventory_do_turn },
     { ACT_ARMOR_LAYERS, armor_layers_do_turn },
@@ -353,11 +353,11 @@ activity_handlers::finish_functions = {
     { ACT_CONSUME_FOOD_MENU, eat_menu_finish },
     { ACT_CONSUME_DRINK_MENU, eat_menu_finish },
     { ACT_CONSUME_MEDS_MENU, eat_menu_finish },
+    { ACT_CONSUME_FUEL_MENU, eat_menu_finish },
     { ACT_WASH, washing_finish },
     { ACT_HACKSAW, hacksaw_finish },
     { ACT_PRY_NAILS, pry_nails_finish },
     { ACT_CHOP_TREE, chop_tree_finish },
-    { activity_id( "ACT_SHEAR" ), shear_finish },
     { ACT_CHOP_LOGS, chop_logs_finish },
     { ACT_CHOP_PLANKS, chop_planks_finish },
     { ACT_JACKHAMMER, jackhammer_finish },
@@ -1411,40 +1411,6 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     act->index = true;
     // if its mutli-tile butchering,then restart the backlog.
     resume_for_multi_activities( *p );
-}
-
-void activity_handlers::shear_finish( player_activity *act, player *p )
-{
-    if( act->coords.empty() ) {
-        debugmsg( "shearing activity with no position of monster stored" );
-        return;
-    }
-    item_location &loc = act->targets[ 0 ];
-    item *shears = loc.get_item();
-    if( shears == nullptr ) {
-        debugmsg( "shearing item location lost" );
-        return;
-    }
-    map &here = get_map();
-    const tripoint source_pos = here.getlocal( act->coords.at( 0 ) );
-    monster *source_mon = g->critter_at<monster>( source_pos );
-    if( source_mon == nullptr ) {
-        debugmsg( "could not find source creature for shearing" );
-        return;
-    }
-    // 22 wool staples corresponds to an average wool-producing sheep yield of 10 lbs or so
-    for( int i = 0; i != 22; ++i ) {
-        item wool_staple( itype_wool_staple, calendar::turn );
-        here.add_item_or_charges( p->pos(), wool_staple );
-    }
-    source_mon->add_effect( effect_sheared, calendar::season_length() );
-    if( !act->str_values.empty() && act->str_values[0] == "temp_tie" ) {
-        source_mon->remove_effect( effect_tied );
-    }
-    act->set_to_null();
-    if( shears->type->can_have_charges() ) {
-        p->consume_charges( *shears, shears->type->charges_to_use() );
-    }
 }
 
 void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
@@ -2878,6 +2844,12 @@ void activity_handlers::consume_meds_menu_do_turn( player_activity *, player * )
 {
     avatar &player_character = get_avatar();
     avatar_action::eat( player_character, game_menus::inv::consume_meds( player_character ) );
+}
+
+void activity_handlers::consume_fuel_menu_do_turn( player_activity *, player * )
+{
+    avatar &player_character = get_avatar();
+    avatar_action::eat( player_character, game_menus::inv::consume_fuel( player_character ), true );
 }
 
 void activity_handlers::move_loot_do_turn( player_activity *act, player *p )

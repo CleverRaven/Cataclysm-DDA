@@ -52,6 +52,7 @@
 #include "mission.h"
 #include "monster.h"
 #include "mtype.h"
+#include "npc_attack.h"
 #include "npctalk.h"
 #include "omdata.h"
 #include "options.h"
@@ -149,6 +150,7 @@ enum npc_action : int {
     npc_escape_explosion,
     npc_noop,
     npc_reach_attack,
+    npc_do_attack,
     npc_aim,
     npc_investigate_sound,
     npc_return_to_guard_pos,
@@ -770,7 +772,7 @@ void npc::move()
     }
     regen_ai_cache();
     // NPCs under operation should just stay still
-    if( activity.id() == ACT_OPERATION ) {
+    if( activity.id() == ACT_OPERATION || activity.id() == activity_id( "ACT_SPELLCASTING" ) ) {
         execute_action( npc_player_activity );
         return;
     }
@@ -1023,6 +1025,11 @@ void npc::execute_action( npc_action action )
     Character &player_character = get_player_character();
     map &here = get_map();
     switch( action ) {
+        case npc_do_attack:
+            ai_cache.current_attack->use( *this, ai_cache.current_attack_evaluation.target() );
+            ai_cache.current_attack.reset();
+            ai_cache.current_attack_evaluation = npc_attack_rating{};
+            break;
         case npc_pause:
             move_pause();
             break;
@@ -1383,131 +1390,59 @@ npc_action npc::method_of_attack()
         return npc_pause;
     }
 
-    tripoint tar = critter->pos();
-    int dist = rl_dist( pos(), tar );
-    double danger = evaluate_enemy( *critter );
-    const bool has_los = clear_shot_reach( pos(), tar, false );
-    const bool same_z = tar.z == pos().z;
-
-    // TODO: Change the in_vehicle check to actual "are we driving" check
-    const bool dont_move = in_vehicle || rules.engagement == combat_engagement::NO_MOVE ||
-                           rules.engagement == combat_engagement::FREE_FIRE;
-    // NPCs engage in free fire can move to avoid allies, but not if they're in a vehicle
-    const bool dont_move_ff = in_vehicle || rules.engagement == combat_engagement::NO_MOVE;
-
     // if there's enough of a threat to be here, power up the combat CBMs
     activate_combat_cbms();
 
-    int ups_charges = charges_of( itype_UPS );
+    evaluate_best_weapon( critter );
 
-    // get any suitable modes excluding melee, any forbidden to NPCs and those without ammo
-    // if we require a silent weapon inappropriate modes are also removed
-    // except in emergency only fire bursts if danger > 0.5 and don't shoot at all at harmless targets
-    std::vector<std::pair<gun_mode_id, gun_mode>> modes;
-    if( rules.has_flag( ally_rule::use_guns ) || !is_player_ally() ) {
-        for( const auto &e : weapon.gun_all_modes() ) {
-            modes.emplace_back( e );
-        }
-
-        modes.erase( std::remove_if( modes.begin(), modes.end(),
-        [&]( const std::pair<gun_mode_id, gun_mode> &e ) {
-
-            const auto &m = e.second;
-            return m.melee() || m.flags.count( "NPC_AVOID" ) ||
-                   !m->ammo_sufficient( m.qty ) || !can_use( *m.target ) ||
-                   m->get_gun_ups_drain() > ups_charges ||
-                   ( ( danger <= ( m.qty == 1 ? 0.0 : 15 ) ) && !emergency() ) ||
-                   ( rules.has_flag( ally_rule::use_silent ) && is_player_ally() &&
-                     !m.target->is_silent() );
-
-        } ), modes.end() );
-    }
-
-    // prefer modes that result in more total damage
-    std::stable_sort( modes.begin(),
-                      modes.end(), [&]( const std::pair<gun_mode_id, gun_mode> &lhs,
-    const std::pair<gun_mode_id, gun_mode> &rhs ) {
-        return ( lhs.second->gun_damage().total_damage() * lhs.second.qty ) >
-               ( rhs.second->gun_damage().total_damage() * rhs.second.qty );
-    } );
-
-    const int cur_recoil = recoil_total();
-    // modes outside confident range should always be the last option(s)
-    std::stable_sort( modes.begin(),
-                      modes.end(), [&]( const std::pair<gun_mode_id, gun_mode> &lhs,
-    const std::pair<gun_mode_id, gun_mode> &rhs ) {
-        return ( confident_gun_mode_range( lhs.second, cur_recoil ) >= dist ) >
-               ( confident_gun_mode_range( rhs.second, cur_recoil ) >= dist );
-    } );
-
-    if( emergency() && alt_attack() ) {
-        add_msg_debug( debugmode::DF_NPC, "%s is trying an alternate attack", disp_name() );
-        return npc_noop;
-    }
-
-    // reach attacks are silent and consume no ammo so prefer these if available
-    int reach_range = weapon.reach_range( *this );
-    if( !trigdist ) {
-        if( reach_range > 1 && reach_range >= dist && clear_shot_reach( pos(), tar ) ) {
-            add_msg_debug( debugmode::DF_NPC, "%s is trying a reach attack", disp_name() );
-            return npc_reach_attack;
-        }
+    cata::optional<int> potential = ai_cache.current_attack_evaluation.value();
+    if( potential && *potential > 0 ) {
+        return npc_do_attack;
     } else {
-        if( reach_range > 1 && reach_range >= std::round( trig_dist( pos(), tar ) ) &&
-            clear_shot_reach( pos(), tar ) ) {
-            add_msg_debug( debugmode::DF_NPC, "%s is trying a reach attack", disp_name() );
-            return npc_reach_attack;
-        }
+        add_msg_debug( debugmode::debug_filter::DF_NPC, "%s can't figure out what to do", disp_name() );
+        return npc_undecided;
     }
+}
 
-    // if the best mode is within the confident range try for a shot
-    if( !modes.empty() && sees( *critter ) && has_los &&
-        confident_gun_mode_range( modes[ 0 ].second, cur_recoil ) >= dist ) {
-        if( cbm_weapon_index > 0 && !weapon.ammo_sufficient() && can_reload_current() ) {
-            add_msg_debug( debugmode::DF_NPC, "%s is reloading", disp_name() );
-            return npc_reload;
+void npc::evaluate_best_weapon( const Creature *target )
+{
+    std::shared_ptr<npc_attack> best_attack;
+    npc_attack_rating best_evaluated_attack;
+    const auto compare = [&best_attack, &best_evaluated_attack, this, &target]
+    ( const std::shared_ptr<npc_attack> &potential_attack ) {
+        const npc_attack_rating evaluated = potential_attack->evaluate( *this, target );
+        if( evaluated > best_evaluated_attack ) {
+            best_attack = potential_attack;
+            best_evaluated_attack = evaluated;
         }
+    };
 
-        if( wont_hit_friend( tar, weapon, false ) ) {
-            weapon.gun_set_mode( modes[ 0 ].first );
-            add_msg_debug( debugmode::DF_NPC, "%s is trying to shoot someone", disp_name() );
-            return npc_shoot;
-
-        } else {
-            if( !dont_move_ff ) {
-                add_msg_debug( debugmode::DF_NPC, "%s is trying to avoid friendly fire", disp_name() );
-                return npc_avoid_friendly_fire;
+    // punching things is always available
+    compare( std::make_shared<npc_attack_melee>( null_item_reference() ) );
+    const int ups_charges = charges_of( itype_UPS );
+    visit_items( [&compare, &ups_charges, this]( item * it, item * ) {
+        // you can theoretically melee with anything.
+        compare( std::make_shared<npc_attack_melee>( *it ) );
+        // ... you can also throw anything
+        compare( std::make_shared<npc_attack_throw>( *it ) );
+        if( !it->type->use_methods.empty() ) {
+            compare( std::make_shared<npc_attack_activate_item>( *it ) );
+        }
+        if( rules.has_flag( ally_rule::use_guns ) ) {
+            for( const std::pair<const gun_mode_id, gun_mode> &mode : it->gun_all_modes() ) {
+                if( !( mode.second.melee() || mode.second.flags.count( "NPC_AVOID" ) ||
+                       !can_use( *mode.second.target ) || mode.second->get_gun_ups_drain() > ups_charges ||
+                       ( rules.has_flag( ally_rule::use_silent ) && is_player_ally() &&
+                         !mode.second->is_silent() ) ) ) {
+                    compare( std::make_shared<npc_attack_gun>( mode.second ) );
+                }
             }
         }
-    }
+        return VisitResponse::NEXT;
+    } );
 
-    if( dist == 1 && same_z ) {
-        add_msg_debug( debugmode::DF_NPC, "%s is trying a melee attack", disp_name() );
-        return npc_melee;
-    }
-
-    // don't mess with CBM weapons
-    if( cbm_weapon_index < 0 ) {
-        // TODO: Add a time check now that wielding takes a lot of time
-        if( wield_better_weapon() ) {
-            add_msg_debug( debugmode::DF_NPC, "%s is changing weapons", disp_name() );
-            return npc_noop;
-        }
-
-        if( !weapon.ammo_sufficient() && can_reload_current() ) {
-            add_msg_debug( debugmode::DF_NPC, "%s is reloading", disp_name() );
-            return npc_reload;
-        }
-    }
-
-    // TODO: Needs a check for transparent but non-passable tiles on the way
-    if( !modes.empty() && sees( *critter ) && aim_per_move( weapon, recoil ) > 0 &&
-        confident_shoot_range( weapon, get_most_accurate_sight( weapon ) ) >= dist ) {
-        add_msg_debug( debugmode::DF_NPC, "%s is aiming" );
-        return npc_aim;
-    }
-    add_msg_debug( debugmode::DF_NPC, "%s can't figure out what to do", disp_name() );
-    return ( dont_move || !same_z ) ? npc_undecided : npc_melee;
+    ai_cache.current_attack = best_attack;
+    ai_cache.current_attack_evaluation = best_evaluated_attack;
 }
 
 npc_action npc::address_needs()

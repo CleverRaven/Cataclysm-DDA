@@ -892,6 +892,7 @@ Other monster flags.
 - ```BORES``` Tunnels through just about anything (15x bash multiplier: dark wyrms' bash skill 12->180)
 - ```CAN_DIG``` Can dig _and_ walk.
 - ```CAN_OPEN_DOORS``` Can open doors on its path.
+- ```CAMOUFLAGE``` Stays invisible up to (current Perception, + base Perception if the character has the Spotting proficiency) tiles away, even in broad daylight. Monsters see it from the lower of `vision_day` and `vision_night` ranges.
 - ```CANPLAY``` This creature can be played with if it's a pet.
 - ```CATFOOD``` Becomes friendly / tamed with cat food.
 - ```CATTLEFODDER``` Becomes friendly / tamed with cattle fodder.
@@ -954,6 +955,7 @@ Other monster flags.
 - ```PET_HARNESSABLE```Creature can be attached to an harness.
 - ```NULL``` Source use only.
 - ```PACIFIST``` Monster will never do melee attacks.
+- ```KEEP_DISTANCE``` Monster will try to keep `tracking_distance` number of tiles between it and its current target.
 - ```PARALYZE``` Attack may paralyze the player with venom.
 - ```PLASTIC``` Absorbs physical damage to a great degree.
 - ```POISON``` Poisonous to eat.
@@ -1144,6 +1146,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```FUNGAL``` Location is related to fungi. Used to classify location.
 - ```LAKE``` Location is is placed on a lake and will be ignored for placement if the overmap doesn't contain any lake terrain.
 - ```MI-GO``` Location is related to mi-go.
+- ```SAFE_AT_WORLDGEN``` Location will not spawn overmap monster groups during worldgen (does not affect monsters spawned by mapgen).
 - ```TRIFFID``` Location is related to triffids. Used to classify location.
 - ```UNIQUE``` Location is unique and will only occur once per overmap. `occurrences` is overridden to define a percent chance (e.g. `"occurrences" : [75, 100]` is 75%)
 - ```URBAN```
@@ -1226,7 +1229,6 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```INFECTED``` Player starts the game infected.
 - ```FUNGAL_INFECTION``` Player starts the game with a fungal infection.
 - ```LONE_START``` If starting NPC spawn option is switched to "Scenario-based", this scenario won't spawn a fellow NPC on game start.
-- ```SUR_START``` Surrounded start, zombies outside the starting location.
 
 #### Profession Flags
 
@@ -1529,3 +1531,5 @@ Gun fault flags:
 - ```DIMENSIONAL_ANCHOR``` You can't be teleported.
 - ```CLIMATE_CONTROL``` You are resistant to extreme temperatures.
 - ```HEATSINK``` You are resistant to extreme heat.
+- ```THERMOMETER``` You always know what temperature it is.
+

@@ -47,7 +47,7 @@
         "*": "t_linoleum_gray",
         ",": "t_linoleum_white",
         "6": "t_carpet_concrete_red",
-        ".": "t_rock",
+        ".": "t_soil",
         "{": "t_linoleum_gray",
         "Y": "t_linoleum_gray",
         "}": "t_linoleum_white",
@@ -107,7 +107,7 @@
         "#": "t_brick_wall",
         "*": "t_linoleum_gray",
         ",": "t_linoleum_white",
-        ".": "t_rock",
+        ".": "t_soil",
         "{": "t_linoleum_gray",
         "Y": "t_linoleum_gray",
         "}": "t_linoleum_white"

@@ -281,6 +281,10 @@ struct oter_t {
             return utf32_to_utf8( from_land_use_code ? symbol_alt : symbol );
         }
 
+        uint32_t get_uint32_symbol() const {
+            return symbol;
+        }
+
         nc_color get_color( const bool from_land_use_code = false ) const {
             return from_land_use_code ? type->land_use_code->color : type->color;
         }

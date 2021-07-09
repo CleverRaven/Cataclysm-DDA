@@ -629,6 +629,8 @@ class game
         void zoom_in();
         void zoom_out();
         void reset_zoom();
+        void set_zoom( int level );
+        int get_zoom() const;
         int get_moves_since_last_save() const;
         int get_user_action_counter() const;
 
