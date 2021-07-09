@@ -1139,7 +1139,7 @@ void draw(
     input_context *inp_ctxt, const draw_data_t &data )
 {
     draw_om_sidebar( wbar, center, orig, blink, fast_scroll, inp_ctxt, data );
-    if( !use_tiles ) {
+    if( !use_tiles || !use_tiles_overmap ) {
         draw_ascii( w, center, orig, blink, show_explored, fast_scroll, inp_ctxt, data );
     } else {
 #ifdef TILES

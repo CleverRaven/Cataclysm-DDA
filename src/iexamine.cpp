@@ -209,8 +209,6 @@ static const mtype_id mon_spider_widow_giant_s( "mon_spider_widow_giant_s" );
 static const bionic_id bio_lighter( "bio_lighter" );
 static const bionic_id bio_lockpick( "bio_lockpick" );
 static const bionic_id bio_painkiller( "bio_painkiller" );
-static const bionic_id bio_power_storage( "bio_power_storage" );
-static const bionic_id bio_power_storage_mkII( "bio_power_storage_mkII" );
 
 static const std::string flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
 static const std::string flag_BARRICADABLE_WINDOW_CURTAINS( "BARRICADABLE_WINDOW_CURTAINS" );
@@ -1310,7 +1308,6 @@ void iexamine::portable_structure( player &p, const tripoint &examp )
             name = string_format( _( "damaged %s" ), name );
         }
         radius = actor.radius;
-
     } else {
         radius = std::max( 1, fid->bash.collapse_radius );
     }
@@ -1320,12 +1317,9 @@ void iexamine::portable_structure( player &p, const tripoint &examp )
         return;
     }
 
-    p.moves -= to_moves<int>( 2_seconds );
-    for( const tripoint &pt : here.points_in_radius( examp, radius ) ) {
-        here.furn_set( pt, f_null );
-    }
-
-    here.add_item_or_charges( examp, item( dropped, calendar::turn ) );
+    player_activity new_act = player_activity( tent_deconstruct_activity_actor( to_moves<int>
+                              ( 20_minutes ), radius, examp, dropped ) );
+    p.assign_activity( new_act, false );
 }
 
 /**
@@ -4866,11 +4860,8 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             std::vector<bionic_id> bio_list;
             std::vector<std::string> bionic_names;
             for( const bionic &bio : installed_bionics ) {
-                if( bio.id != bio_power_storage ||
-                    bio.id != bio_power_storage_mkII ) {
-                    bio_list.emplace_back( bio.id );
-                    bionic_names.emplace_back( bio.info().name.translated() );
-                }
+                bio_list.emplace_back( bio.id );
+                bionic_names.emplace_back( bio.info().name.translated() );
             }
             int bionic_index = uilist( _( "Choose bionic to uninstall" ), bionic_names );
             if( bionic_index < 0 ) {

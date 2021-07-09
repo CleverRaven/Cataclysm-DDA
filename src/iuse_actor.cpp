@@ -2386,7 +2386,7 @@ cata::optional<int> holster_actor::use( player &p, item &it, bool, const tripoin
     std::string prompt = holster_prompt.empty() ? _( "Holster item" ) : holster_prompt.translated();
     opts.push_back( prompt );
     pos = -1;
-    std::list<item *> all_items = it.contents.all_items_top(
+    std::list<item *> all_items = it.all_items_top(
                                       item_pocket::pocket_type::CONTAINER );
     std::transform( all_items.begin(), all_items.end(), std::back_inserter( opts ),
     []( const item * elem ) {
@@ -2911,7 +2911,7 @@ static bool damage_item( player &pl, item_location &fix )
         if( fix.where() == item_location::type::character ) {
             pl.i_rem_keep_contents( fix.get_item() );
         } else {
-            for( const item *it : fix->contents.all_items_top() ) {
+            for( const item *it : fix->all_items_top() ) {
                 if( it->has_flag( flag_NO_DROP ) ) {
                     continue;
                 }
@@ -4164,20 +4164,12 @@ cata::optional<int> deploy_tent_actor::use( player &p, item &it, bool, const tri
             return cata::nullopt;
         }
     }
-    // Make a square of floor surrounded by wall.
-    for( const tripoint &dest : here.points_in_radius( center, radius ) ) {
-        here.furn_set( dest, wall );
-    }
-    for( const tripoint &dest : here.points_in_radius( center, radius - 1 ) ) {
-        here.furn_set( dest, floor );
-    }
-    // Place the center floor and the door.
-    if( floor_center ) {
-        here.furn_set( center, *floor_center );
-    }
-    here.furn_set( p.pos() + direction, door_closed );
-    add_msg( m_info, _( "You set up the %s on the ground." ), it.tname() );
-    add_msg( m_info, _( "Examine the center square to pack it up again." ) );
+
+    //checks done start activity:
+    player_activity new_act = player_activity( tent_placement_activity_actor( to_moves<int>
+                              ( 20_minutes ), direction, radius, it, wall, floor, floor_center, door_closed ) );
+    get_player_character().assign_activity( new_act, false );
+
     return 1;
 }
 

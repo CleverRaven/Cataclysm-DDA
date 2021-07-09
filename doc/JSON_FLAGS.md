@@ -954,6 +954,7 @@ Other monster flags.
 - ```PET_HARNESSABLE```Creature can be attached to an harness.
 - ```NULL``` Source use only.
 - ```PACIFIST``` Monster will never do melee attacks.
+- ```KEEP_DISTANCE``` Monster will try to keep `tracking_distance` number of tiles between it and its current target.
 - ```PARALYZE``` Attack may paralyze the player with venom.
 - ```PLASTIC``` Absorbs physical damage to a great degree.
 - ```POISON``` Poisonous to eat.
@@ -1226,7 +1227,6 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```INFECTED``` Player starts the game infected.
 - ```FUNGAL_INFECTION``` Player starts the game with a fungal infection.
 - ```LONE_START``` If starting NPC spawn option is switched to "Scenario-based", this scenario won't spawn a fellow NPC on game start.
-- ```SUR_START``` Surrounded start, zombies outside the starting location.
 
 #### Profession Flags
 
@@ -1529,3 +1529,5 @@ Gun fault flags:
 - ```DIMENSIONAL_ANCHOR``` You can't be teleported.
 - ```CLIMATE_CONTROL``` You are resistant to extreme temperatures.
 - ```HEATSINK``` You are resistant to extreme heat.
+- ```THERMOMETER``` You always know what temperature it is.
+

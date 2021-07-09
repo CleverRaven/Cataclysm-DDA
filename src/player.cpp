@@ -142,7 +142,6 @@ static const proficiency_id proficiency_prof_spotting( "prof_spotting" );
 static const bionic_id bio_cqb( "bio_cqb" );
 static const bionic_id bio_ground_sonar( "bio_ground_sonar" );
 static const bionic_id bio_soporific( "bio_soporific" );
-static const bionic_id bio_speed( "bio_speed" );
 
 static const json_character_flag json_flag_FEATHER_FALL( "FEATHER_FALL" );
 
@@ -468,12 +467,9 @@ void player::recalc_speed_bonus()
         }
     }
 
-    float speed_modifier = Character::mutation_value( "speed_modifier" );
+    float speed_modifier = static_cast<float>( enchantment_cache->modify_value(
+                               enchant_vals::mod::SPEED, 1 ) );
     set_speed_bonus( static_cast<int>( get_speed() * speed_modifier ) - get_speed_base() );
-
-    if( has_bionic( bio_speed ) ) { // multiply by 1.1
-        set_speed_bonus( static_cast<int>( get_speed() * 1.1 ) - get_speed_base() );
-    }
 
     // Speed cannot be less than 25% of base speed, so minimal speed bonus is -75% base speed.
     const int min_speed_bonus = static_cast<int>( -0.75 * get_speed_base() );
@@ -2422,7 +2418,7 @@ bool player::wield_contents( item &container, item *internal_item, bool penaltie
     // if index not specified and container has multiple items then ask the player to choose one
     if( internal_item == nullptr ) {
         std::vector<std::string> opts;
-        std::list<item *> container_contents = container.contents.all_items_top();
+        std::list<item *> container_contents = container.all_items_top();
         std::transform( container_contents.begin(), container_contents.end(),
         std::back_inserter( opts ), []( const item * elem ) {
             return elem->display_name();

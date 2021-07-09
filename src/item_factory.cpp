@@ -1779,6 +1779,7 @@ void gun_variant_data::deserialize( JsonIn &jsin )
 
 void gun_variant_data::load( const JsonObject &jo )
 {
+    brand_name.make_plural();
     mandatory( jo, false, "id", id );
     mandatory( jo, false, "name", brand_name );
     mandatory( jo, false, "description", alt_description );
@@ -1905,51 +1906,15 @@ std::string enum_to_string<layer_level>( layer_level data )
 
 void islot_armor::load( const JsonObject &jo )
 {
-    if( jo.has_array( "armor_portion_data" ) ) {
-        bool dont_add_first = false;
-        if( !data.empty() ) { // Uses copy-from
-            dont_add_first = true;
-            const JsonObject &obj = *jo.get_array( "armor_portion_data" ).begin();
-            armor_portion_data tempData;
+    if( jo.has_array( "armor_portion_data" ) || jo.has_array( "armor" ) ) {
+        const JsonArray &arr = jo.has_array( "armor" ) ? jo.get_array( "armor" ) :
+                               jo.get_array( "armor_portion_data" );
 
-            if( obj.has_array( "encumbrance" ) ) {
-                tempData.encumber = obj.get_array( "encumbrance" ).get_int( 0 );
-                tempData.max_encumber = obj.get_array( "encumbrance" ).get_int( 1 );
-            } else if( obj.has_int( "encumbrance" ) ) {
-                tempData.encumber = obj.get_int( "encumbrance" );
-                tempData.max_encumber = -1;
-            }
-            if( obj.has_int( "coverage" ) ) {
-                tempData.coverage = obj.get_int( "coverage" );
-            }
-            if( tempData.encumber != data[0].encumber ) {
-                data[0].encumber = tempData.encumber;
-            }
-            if( tempData.max_encumber != data[0].max_encumber ) {
-                data[0].max_encumber = tempData.max_encumber;
-            }
-            if( tempData.coverage != data[0].coverage ) {
-                data[0].coverage = tempData.coverage;
-            }
-            body_part_set temp_cover_data;
-            assign_coverage_from_json( obj, "covers", temp_cover_data );
-            optional( obj, was_loaded, "sided", sided, false );
-            if( temp_cover_data.any() ) {
-                data[0].covers = temp_cover_data;
-            }
-        }
-
-        for( const JsonObject obj : jo.get_array( "armor_portion_data" ) ) {
-            // If this item used copy-from, data[0] is already set, so skip adding first data
-            if( dont_add_first ) {
-                obj.allow_omitted_members();
-                dont_add_first = false;
-                continue;
-            }
+        data.clear();
+        for( const JsonObject obj : arr ) {
             armor_portion_data tempData;
             body_part_set temp_cover_data;
             assign_coverage_from_json( obj, "covers", temp_cover_data );
-            optional( obj, was_loaded, "sided", sided, false );
             tempData.covers = temp_cover_data;
 
             if( obj.has_array( "encumbrance" ) ) {
@@ -1985,7 +1950,6 @@ void islot_armor::load( const JsonObject &jo )
             optional( jo, was_loaded, "coverage", data[0].coverage, 0 );
             body_part_set temp_cover_data;
             assign_coverage_from_json( jo, "covers", temp_cover_data );
-            optional( jo, was_loaded, "sided", sided, false );
             data[0].covers = temp_cover_data;
         } else { // This item has copy-from and already has taken data from parent
             armor_portion_data child_data;
@@ -2012,12 +1976,13 @@ void islot_armor::load( const JsonObject &jo )
             }
             body_part_set temp_cover_data;
             assign_coverage_from_json( jo, "covers", temp_cover_data );
-            optional( jo, was_loaded, "sided", sided, false );
             if( temp_cover_data.any() ) {
                 data[0].covers = temp_cover_data;
             }
         }
     }
+
+    optional( jo, was_loaded, "sided", sided, false );
 
     optional( jo, was_loaded, "material_thickness", thickness, 0.0f );
     optional( jo, was_loaded, "environmental_protection", env_resist, 0 );
@@ -2631,7 +2596,7 @@ void Item_factory::check_and_create_magazine_pockets( itype &def )
         return;
     }
     // the item we're trying to migrate must actually have data for ammo
-    if( def.magazines.empty() && !( def.gun || def.magazine || def.tool ) ) {
+    if( def.magazines.empty() && !( def.magazine || def.tool ) ) {
         return;
     }
     if( def.tool && def.tool->ammo_id.empty() ) {
@@ -2676,11 +2641,6 @@ void Item_factory::check_and_create_magazine_pockets( itype &def )
         if( def.magazine ) {
             for( const ammotype &amtype : def.magazine->type ) {
                 mag_data.ammo_restriction.emplace( amtype, def.magazine->capacity );
-            }
-        }
-        if( def.gun ) {
-            for( const ammotype &amtype : def.gun->ammo ) {
-                mag_data.ammo_restriction.emplace( amtype, def.gun->clip );
             }
         }
         if( def.tool ) {
@@ -3118,6 +3078,11 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     } else {
         jo.read( "id", def.id, true );
     }
+
+    if( !def.src.empty() && def.src.back().first != def.id ) {
+        def.src.clear();
+    }
+    def.src.emplace_back( def.id, mod_id( src ) );
 
     if( def.magazines.empty() ) {
         migrate_mag_from_pockets( def );

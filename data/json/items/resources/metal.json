@@ -304,8 +304,9 @@
     "price": 1000,
     "price_postapoc": 10,
     "material": [ "copper" ],
-    "weight": "50 g",
-    "volume": "62 ml",
+    "//": "Density of 8.63g/cm³ = 431.5g/50ml ~ 432g",
+    "volume": "50 ml",
+    "weight": "432 g",
     "bashing": 1,
     "to_hit": -2
   },
@@ -343,5 +344,23 @@
     "//": "Density ~ 8g/cm³ ~ 2000kg/250ml @ stack 1000 = 2g/unit",
     "ammo_type": "components",
     "count": 200
+  },
+  {
+    "type": "AMMO",
+    "id": "copper_rod",
+    "category": "spare_parts",
+    "price": 2000,
+    "price_postapoc": 20,
+    "name": { "str": "copper rod" },
+    "symbol": "=",
+    "color": "light_gray",
+    "description": "A thin copper rod, ready to be made into copper wire.",
+    "material": [ "copper" ],
+    "//": "9mm in diameter and 1.572m long.",
+    "volume": "100 ml",
+    "weight": "863 g",
+    "longest_side": "1572 mm",
+    "ammo_type": "components",
+    "count": 1
   }
 ]

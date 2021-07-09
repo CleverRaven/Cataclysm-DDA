@@ -1234,6 +1234,7 @@ class Character : public Creature, public visitable
         /** Handles bionic activation effects of the entered bionic, returns if anything activated */
         bool activate_bionic( int b, bool eff_only = false, bool *close_bionics_ui = nullptr );
         std::vector<bionic_id> get_bionics() const;
+        std::vector<item> get_pseudo_items() const;
         /** Returns amount of Storage CBMs in the corpse **/
         std::pair<int, int> amount_of_storage_bionics() const;
         /** Returns true if the player has the entered bionic id */
@@ -1833,6 +1834,7 @@ class Character : public Creature, public visitable
 
         // --------------- Proficiency Stuff ----------------
         bool has_proficiency( const proficiency_id &prof ) const;
+        float get_proficiency_practice( const proficiency_id &prof ) const;
         bool has_prof_prereqs( const proficiency_id &prof ) const;
         void add_proficiency( const proficiency_id &prof, bool ignore_requirements = false );
         void lose_proficiency( const proficiency_id &prof, bool ignore_requirements = false );
@@ -1864,7 +1866,7 @@ class Character : public Creature, public visitable
         bool cast_spell( spell &sp, bool fake_spell, cata::optional<tripoint> target );
 
         void make_bleed( const effect_source &source, const bodypart_id &bp, time_duration duration,
-                         int intensity = 1, bool permanent = false, bool force = false, bool defferred = false );
+                         int intensity = 1, bool permanent = false, bool force = false, bool defferred = false ) override;
 
         /** Calls Creature::normalize()
          *  nulls out the player's weapon
@@ -2136,6 +2138,8 @@ class Character : public Creature, public visitable
         std::string height_string() const;
         // returns the height of the player character in cm
         int height() const;
+        // Randomizes characters' height
+        void randomize_height();
         // returns bodyweight of the Character
         units::mass bodyweight() const;
         // returns total weight of installed bionics
@@ -2655,6 +2659,9 @@ class Character : public Creature, public visitable
         /** Creates an auditory hallucination */
         void sound_hallu();
 
+        /** Checks if a Character is driving */
+        bool is_driving() const;
+
         /** Drenches the player with water, saturation is the percent gotten wet */
         void drench( int saturation, const body_part_set &flags, bool ignore_waterproof );
         /** Recalculates morale penalty/bonus from wetness based on mutations, equipment and temperature */
@@ -2905,9 +2912,6 @@ class Character : public Creature, public visitable
          */
         void burn_fuel( int b, const auto_toggle_bionic_result &result );
 
-        // a cache of all active enchantment values.
-        // is recalculated every turn in Character::recalculate_enchantment_cache
-        pimpl<enchantment> enchantment_cache;
         player_activity destination_activity;
         /// A unique ID number, assigned by the game class. Values should never be reused.
         character_id id;
@@ -2967,6 +2971,10 @@ class Character : public Creature, public visitable
     public:
         time_point next_climate_control_check;
         bool last_climate_control_ret;
+
+        // a cache of all active enchantment values.
+        // is recalculated every turn in Character::recalculate_enchantment_cache
+        pimpl<enchantment> enchantment_cache;
 };
 
 Character &get_player_character();

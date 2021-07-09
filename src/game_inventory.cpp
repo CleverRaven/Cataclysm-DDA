@@ -1794,6 +1794,7 @@ class bionic_install_preset: public inventory_selector_preset
         }
 
         std::string get_denial( const item_location &loc ) const override {
+
             const ret_val<bool> installable = pa.is_installable( loc, true );
             if( installable.success() && !p.has_enough_anesth( *loc.get_item()->type, pa ) ) {
                 const int weight = units::to_kilogram( pa.bodyweight() ) / 10;

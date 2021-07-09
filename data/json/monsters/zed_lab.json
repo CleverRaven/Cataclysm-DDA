@@ -156,6 +156,7 @@
     "armor_bash": 40,
     "armor_cut": 40,
     "armor_bullet": 30,
+    "bleed_rate": 50,
     "vision_night": 5,
     "luminance": 16,
     "special_attacks": [

@@ -12,8 +12,6 @@
     "material": [ "plastic", "steel" ],
     "symbol": "[",
     "color": "light_green",
-    "coverage": 0,
-    "encumbrance": 0,
     "warmth": 0,
     "//": "Legacy artifact data is set for all stats +2",
     "relic_data": {
@@ -32,7 +30,8 @@
     },
     "material_thickness": 10,
     "environmental_protection": 0,
-    "flags": [ "ONLY_ONE", "TRADER_AVOID", "BELTED", "NO_TAKEOFF" ]
+    "flags": [ "ONLY_ONE", "TRADER_AVOID", "BELTED", "NO_TAKEOFF" ],
+    "armor": [ { "encumbrance": 0, "coverage": 0 } ]
   },
   {
     "id": "ds_armor",
@@ -48,9 +47,6 @@
     "material": [ "superalloy", "nomex", "kevlar" ],
     "symbol": "[",
     "color": "light_gray",
-    "covers": [ "head", "eyes", "mouth", "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "foot_l", "foot_r" ],
-    "coverage": 100,
-    "encumbrance": 25,
     "warmth": 15,
     "pocket_data": [
       {
@@ -65,6 +61,13 @@
     "material_thickness": 3,
     "environmental_protection": 18,
     "use_action": [ "WEATHER_TOOL" ],
-    "flags": [ "ELECTRIC_IMMUNE", "GAS_PROOF", "VARSIZE", "OVERSIZE", "STURDY", "ONLY_ONE", "WATERPROOF", "CLIMATE_CONTROL" ]
+    "flags": [ "ELECTRIC_IMMUNE", "GAS_PROOF", "VARSIZE", "OVERSIZE", "STURDY", "ONLY_ONE", "WATERPROOF", "CLIMATE_CONTROL" ],
+    "armor": [
+      {
+        "encumbrance": 25,
+        "coverage": 100,
+        "covers": [ "head", "eyes", "mouth", "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "foot_l", "foot_r" ]
+      }
+    ]
   }
 ]
