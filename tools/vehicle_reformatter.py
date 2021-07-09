@@ -30,7 +30,7 @@ def get_data(argsDict, resource_name):
 def write_to_json(pathname, data):
     with open(pathname, "w", encoding="utf-8") as fp:
         try:
-            json.dump(data, fp)
+            json.dump(data, fp, ensure_ascii=False)
         except ValueError:
             fp.write(json.dumps(data))
 

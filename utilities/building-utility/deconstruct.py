@@ -188,7 +188,7 @@ def complete_json_file(template_file, all_cells, remove_template=True):
     with open("output_" + os.path.basename(template_file.name),
               "w", encoding="utf-8") as outfile:
         json.dump(json_output_list, outfile, indent=4, separators=(",", ": "),
-                  sort_keys=True)
+                  sort_keys=True, ensure_ascii=False)
 
 
 def cli_interface():

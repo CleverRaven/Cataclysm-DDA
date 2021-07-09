@@ -65,7 +65,7 @@ def write_to_json(pathname: str, data: Union[dict, list]) -> None:
     Write data to a JSON file
     '''
     with open(pathname, 'w', encoding="utf-8") as file:
-        json.dump(data, file)
+        json.dump(data, file, ensure_ascii=False)
 
     json_formatter = './tools/format/json_formatter.cgi'
     if os.path.isfile(json_formatter):

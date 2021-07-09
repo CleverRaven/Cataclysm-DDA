@@ -18,7 +18,7 @@ argsDict = vars(args.parse_args())
 
 def writeVehicleTemplates(templates):
     with open("vehicles.json", "w", encoding="utf-8") as vehicleDefJson:
-        json.dump(templates, vehicleDefJson, indent=4)
+        json.dump(templates, vehicleDefJson, indent=4, ensure_ascii=False)
         print("Vehicle defs written.")
 
 

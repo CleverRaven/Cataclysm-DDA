@@ -295,7 +295,7 @@ for otn in otc['tiles-new']:
 with open(new_tileset_name + '/tile_config.json', 'w', encoding="utf-8") as tile_config_json:
     json.dump(
         ntc, tile_config_json,
-        sort_keys=True, indent=2, separators=(',', ': '))
+        sort_keys=True, indent=2, separators=(',', ': '), ensure_ascii=False)
 
 #TODO: replace tiles.png with first filename from json
 with open(new_tileset_name + '/tileset.txt', 'w', encoding="utf-8") as new_tileset_txt_file:
