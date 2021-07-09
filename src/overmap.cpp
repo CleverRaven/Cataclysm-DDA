@@ -2341,8 +2341,6 @@ void overmap::place_forest_trailheads()
 void overmap::place_forests()
 {
     const oter_id default_oter_id( settings.default_oter[OVERMAP_DEPTH] );
-    const oter_id forest( "forest" );
-    const oter_id forest_thick( "forest_thick" );
 
     const om_noise::om_noise_layer_forest f( global_base_point(), g->get_seed() );
 
@@ -2521,7 +2519,6 @@ void overmap::place_rivers( const overmap *north, const overmap *east, const ove
 
     // Determine points where rivers & roads should connect w/ adjacent maps
     // optimized comparison.
-    const oter_id river_center( "river_center" );
 
     if( north != nullptr ) {
         for( int i = 2; i < OMAPX - 2; i++ ) {
@@ -2685,8 +2682,6 @@ void overmap::place_swamps()
         }
     }
 
-    const oter_id forest_water( "forest_water" );
-
     // Get a layer of noise to use in conjunction with our river buffered floodplain.
     const om_noise::om_noise_layer_floodplain f( global_base_point(), g->get_seed() );
 
@@ -2798,7 +2793,6 @@ void overmap::place_roads( const overmap *north, const overmap *east, const over
 
 void overmap::place_river( const point_om_omt &pa, const point_om_omt &pb )
 {
-    const oter_id river_center( "river_center" );
     int river_chance = static_cast<int>( std::max( 1.0, 1.0 / settings.river_scale ) );
     int river_scale = static_cast<int>( std::max( 1.0, settings.river_scale ) );
     point_om_omt p2( pa );
