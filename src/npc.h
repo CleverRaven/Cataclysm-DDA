@@ -35,6 +35,7 @@
 #include "line.h"
 #include "lru_cache.h"
 #include "memory_fast.h"
+#include "npc_attack.h"
 #include "optional.h"
 #include "pimpl.h"
 #include "player.h"
@@ -573,6 +574,9 @@ struct npc_short_term_cache {
     cata::optional<tripoint> guard_pos;
     double my_weapon_value = 0;
 
+    npc_attack_rating current_attack_evaluation;
+    std::shared_ptr<npc_attack> current_attack;
+
     // Use weak_ptr to avoid circular references between Creatures
     // attitude of creatures the npc can see
     std::vector<weak_ptr_fast<Creature>> hostile_guys;
@@ -1068,6 +1072,10 @@ class npc : public player
         // Functions which choose an action for a particular goal
         npc_action method_of_fleeing();
         npc_action method_of_attack();
+        // among the different attack methods the npc has available, what's the best one in the current situation?
+        // picks among melee, guns, spells, etc.
+        // updates the ai_cache
+        void evaluate_best_weapon( const Creature *target );
 
         static std::array<std::pair<std::string, overmap_location_str_id>, npc_need::num_needs> need_data;
 
@@ -1281,6 +1289,9 @@ class npc : public player
 
         npc_short_term_cache ai_cache;
     public:
+        const std::shared_ptr<npc_attack> &get_current_attack() const {
+            return ai_cache.current_attack;
+        }
         /**
          * Global position, expressed in map square coordinate system
          * (the most detailed coordinate system), used by the @ref map.

@@ -1055,6 +1055,30 @@ struct tile_render_info {
     }
 };
 
+static std::map<tripoint, int> display_npc_attack_potential()
+{
+    avatar &you = get_avatar();
+    npc avatar_as_npc;
+    std::ostringstream os;
+    JsonOut jsout( os );
+    jsout.write( you );
+    std::istringstream is( os.str() );
+    JsonIn jsin( is );
+    jsin.read( avatar_as_npc );
+    avatar_as_npc.regen_ai_cache();
+    avatar_as_npc.evaluate_best_weapon( nullptr );
+    std::map<tripoint, int> effectiveness_map;
+    std::vector<npc_attack_rating> effectiveness =
+        avatar_as_npc.get_current_attack()->all_evaluations( avatar_as_npc, nullptr );
+    for( const npc_attack_rating &effectiveness_at_point : effectiveness ) {
+        if( !effectiveness_at_point.value() ) {
+            continue;
+        }
+        effectiveness_map[effectiveness_at_point.target()] = *effectiveness_at_point.value();
+    }
+    return effectiveness_map;
+}
+
 void cata_tiles::draw( const point &dest, const tripoint &center, int width, int height,
                        std::multimap<point, formatted_text> &overlay_strings,
                        color_block_overlay_container &color_blocks )
@@ -1181,7 +1205,14 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                would_apply_vision_effects( here.get_visibility( ch.visibility_cache[np.x][np.y],
                                            cache ) );
     };
-
+    std::map<tripoint, int> npc_attack_rating_map;
+    int max_npc_effectiveness = 0;
+    if( g->display_overlay_state( ACTION_DISPLAY_NPC_ATTACK_POTENTIAL ) ) {
+        npc_attack_rating_map = display_npc_attack_potential();
+        for( const std::pair<const tripoint, int> &pair : npc_attack_rating_map ) {
+            max_npc_effectiveness = std::max( pair.second, max_npc_effectiveness );
+        }
+    }
     for( int row = min_row; row < max_row; row ++ ) {
         std::vector<tile_render_info> draw_points;
         draw_points.reserve( max_col );
@@ -1261,6 +1292,23 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                     overlay_strings.emplace( player_to_screen( point( x, y ) ) + half_tile,
                                              formatted_text( std::to_string( rad_value ),
                                                      8 + col, direction::NORTH ) );
+                }
+            }
+
+            if( g->display_overlay_state( ACTION_DISPLAY_NPC_ATTACK_POTENTIAL ) ) {
+                if( npc_attack_rating_map.count( pos ) ) {
+                    const int val = npc_attack_rating_map.at( pos );
+                    short color;
+                    if( val <= 0 ) {
+                        color = catacurses::red;
+                    } else if( val == max_npc_effectiveness ) {
+                        color = catacurses::cyan;
+                    } else {
+                        color = catacurses::white;
+                    }
+                    overlay_strings.emplace( player_to_screen( point( x, y ) ) + half_tile,
+                                             formatted_text( std::to_string( val ), color,
+                                                     direction::NORTH ) );
                 }
             }
 
