@@ -96,6 +96,7 @@ class talker
         }
         virtual void set_mutation( const trait_id & ) {}
         virtual void unset_mutation( const trait_id & ) {}
+        virtual void mod_fatigue( int ) {};
         virtual bool has_trait_flag( const json_character_flag & ) const {
             return false;
         }
@@ -322,7 +323,6 @@ class talker
         virtual int pain_cur() const {
             return 0;
         }
-        virtual void mod_fatigue( int ) {};
         virtual bool worn_with_flag( const flag_id & ) const {
             return false;
         }
