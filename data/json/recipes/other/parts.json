@@ -470,7 +470,6 @@
     "components": [ [ [ "copper_wire", 6 ] ], [ [ "duct_tape", 1 ] ] ]
 	},
 	{
-    "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "remotevehcontrol",
     "category": "CC_ELECTRONIC",
