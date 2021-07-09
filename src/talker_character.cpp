@@ -334,9 +334,6 @@ bool talker_character::can_see() const
 void talker_character::mod_fatigue( int amount )
 {
     me_chr->mod_fatigue( amount );
-void talker_character::mod_power_level( units::energy amount )
-{
-    me_chr->mod_power_level( amount );
 }
 
 void talker_character::mod_healthy_mod( int amount, int cap )

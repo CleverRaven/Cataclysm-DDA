@@ -2199,7 +2199,10 @@ void talk_effect_fun_t::set_add_power( const JsonObject &jo, const std::string &
     units::energy amount;
     assign( jo, member, amount, false );
     function = [is_npc, amount]( const dialogue & d ) {
-        d.actor( is_npc )->mod_power_level( amount );
+        Character *target = d.actor( is_npc )->get_character();
+        if( target ) {
+            target->mod_power_level( amount );
+        }
     };
 }
 

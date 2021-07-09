@@ -116,7 +116,6 @@ class talker_character: public talker
         void mod_fatigue( int amount ) override;
         void mod_pain( int amount ) override;
         bool can_see() const override;
-        void mod_power_level( units::energy ) override;
         void mod_healthy_mod( int, int ) override;
     protected:
         talker_character() = default;
