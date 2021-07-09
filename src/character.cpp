@@ -20,6 +20,7 @@
 #include "anatomy.h"
 #include "avatar.h"
 #include "bionics.h"
+#include "cached_options.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character_martial_arts.h"
@@ -12824,6 +12825,15 @@ std::vector<proficiency_id> Character::known_proficiencies() const
 std::vector<proficiency_id> Character::learning_proficiencies() const
 {
     return _proficiencies->learning_profs();
+}
+
+void Character::set_proficiency_practice( const proficiency_id &id, const time_duration &amount )
+{
+    if( !test_mode ) {
+        return;
+    }
+
+    _proficiencies->practice( id, amount, cata::nullopt );
 }
 
 bool Character::defer_move( const tripoint &next )
