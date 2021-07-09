@@ -77,6 +77,8 @@ static const efftype_id effect_zapped( "zapped" );
 
 static const species_id species_ROBOT( "ROBOT" );
 
+static const proficiency_id proficiency_prof_spotting( "prof_spotting" );
+
 const std::map<std::string, creature_size> Creature::size_map = {
     {"TINY",   creature_size::tiny},
     {"SMALL",  creature_size::small},
@@ -272,6 +274,7 @@ bool Creature::sees( const Creature &critter ) const
         return visible( ch );
     } else if( ( wanted_range > 1 && critter.digging() &&
                  here.has_flag( TFLAG_DIGGABLE, critter.pos() ) ) ||
+               ( critter.has_flag( MF_CAMOUFLAGE ) && wanted_range > this->get_eff_per() ) ||
                ( critter.has_flag( MF_NIGHT_INVISIBILITY ) && here.light_at( critter.pos() ) <= lit_level::LOW ) ||
                ( critter.is_underwater() && !is_underwater() && here.is_divable( critter.pos() ) ) ||
                ( here.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, critter.pos() ) &&
@@ -1648,6 +1651,12 @@ int Creature::get_speed() const
 {
     return get_speed_base() + get_speed_bonus();
 }
+
+int Creature::get_eff_per() const
+{
+    return 0;
+}
+
 float Creature::get_dodge() const
 {
     return get_dodge_base() + get_dodge_bonus();

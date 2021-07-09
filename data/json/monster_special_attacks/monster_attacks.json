@@ -18,6 +18,22 @@
   {
     "type": "monster_attack",
     "attack_type": "melee",
+    "id": "hunter_peck",
+    "cooldown": 15,
+    "move_cost": 100,
+    "damage_max_instance": [ { "damage_type": "stab", "amount": 12, "armor_penetration": 30 } ],
+    "body_parts": [ [ "head", 1 ], [ "torso", 2 ], [ "leg_r", 1 ], [ "leg_l", 1 ], [ "arm_r", 1 ], [ "arm_l", 1 ] ],
+    "effects": [ { "id": "venom_blind", "duration": 120 } ],
+    "hit_dmg_u": "The %1$s buries its beak in your %2$s!",
+    "hit_dmg_npc": "The %1$s buries its beak in <npcname>'s %2$s!",
+    "miss_msg_u": "The %1$s tries to peck you, but you dodge!",
+    "miss_msg_npc": "The %1$s tries to peck <npcname>, but they dodge!",
+    "no_dmg_msg_u": "The %1$s tries to peck your %2$s, but fails to penetrate your armor!",
+    "no_dmg_msg_npc": "The %1$s tries to peck <npcname>'s %2$s, but fails to penetrate their armor!"
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
     "id": "scratch",
     "cooldown": 20,
     "move_cost": 150,

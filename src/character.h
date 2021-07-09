@@ -428,6 +428,7 @@ class Character : public Creature, public visitable
         virtual int get_int_bonus() const;
 
         int get_speed() const override;
+        int get_eff_per() const override;
 
         // Penalty modifiers applied for ranged attacks due to low stats
         virtual int ranged_dex_mod() const;

@@ -590,6 +590,25 @@
   },
   {
     "type": "effect_type",
+    "id": "venom_blind",
+    "name": [ "Distracted", "Inattentive", "Dissociated" ],
+    "desc": [
+      "You find it hard to concentrate on your surroundings properly.",
+      "You're not even listening, are you?",
+      "Everything will be fine.  Just ignore all you see, and everything will be fine."
+    ],
+    "apply_message": "Your vision grows blurry.",
+    "miss_messages": [ [ "It was right here, wasn't it?", 2 ], [ "Are you sure there's something there?", 1 ] ],
+    "max_intensity": 3,
+    "int_add_val": 1,
+    "int_decay_step": -1,
+    "int_decay_tick": 90,
+    "resist_traits": [ "ELFA_NV" ],
+    "base_mods": { "per_mod": [ -3, 0 ] },
+    "scaling_mods": { "per_mod": [ -2, -1 ] }
+  },
+  {
+    "type": "effect_type",
     "id": "foodpoison",
     "name": [ "Food Poisoning" ],
     "desc": [ "Your stomach is extremely upset, and you are quite nauseated." ],

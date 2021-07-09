@@ -1270,6 +1270,11 @@ int monster::hp_percentage() const
     return get_hp( bodypart_id( "torso" ) ) * 100 / get_hp_max();
 }
 
+int monster::get_eff_per() const
+{
+    return std::min( type->vision_night, type->vision_day );
+}
+
 void monster::process_triggers()
 {
     process_trigger( mon_trigger::STALK, [this]() {
@@ -1522,6 +1527,8 @@ bool monster::melee_attack( Creature &target, float accuracy )
     }
 
     const bool u_see_me = player_character.sees( *this );
+    const bool u_see_my_spot = player_character.sees( this->pos() );
+    const bool u_see_target = player_character.sees( target );
 
     damage_instance damage = !is_hallucination() ? type->melee_damage : damage_instance();
     if( !is_hallucination() && type->melee_dice > 0 ) {
@@ -1538,32 +1545,32 @@ bool monster::melee_attack( Creature &target, float accuracy )
     if( hitspread < 0 ) {
         bool target_dodging = target.dodge_roll() > 0.0;
         // Miss
-        if( u_see_me && !target.in_sleep_state() ) {
+        if( u_see_my_spot && !target.in_sleep_state() ) {
             if( target.is_player() ) {
                 if( target_dodging ) {
-                    add_msg( _( "You dodge %s." ), disp_name() );
+                    add_msg( _( "You dodge %s." ), u_see_me ? disp_name() : "something" );
                 } else {
-                    add_msg( _( "The %s misses you." ), name() );
+                    add_msg( _( "%s misses you." ), u_see_me ? disp_name( false, true ) : "Something" );
                 }
             } else if( target.is_npc() && target_dodging ) {
                 add_msg( _( "%1$s dodges %2$s attack." ),
-                         target.disp_name(), name() );
+                         target.disp_name(), u_see_me ? name() : "something" );
             } else {
-                add_msg( _( "The %1$s misses %2$s!" ),
-                         name(), target.disp_name() );
+                add_msg( _( "%1$s misses %2$s!" ),
+                         u_see_me ? disp_name( false, true ) : "Something", target.disp_name() );
             }
         } else if( target.is_player() ) {
             add_msg( _( "You dodge an attack from an unseen source." ) );
         }
     } else if( is_hallucination() || total_dealt > 0 ) {
         // Hallucinations always produce messages but never actually deal damage
-        if( u_see_me ) {
+        if( u_see_my_spot ) {
             if( target.is_player() ) {
                 sfx::play_variant_sound( "melee_attack", "monster_melee_hit",
                                          sfx::get_heard_volume( target.pos() ) );
                 sfx::do_player_death_hurt( dynamic_cast<player &>( target ), false );
                 //~ 1$s is attacker name, 2$s is bodypart name in accusative.
-                add_msg( m_bad, _( "The %1$s hits your %2$s." ), name(),
+                add_msg( m_bad, _( "%1$s hits your %2$s." ), u_see_me ? disp_name( false, true ) : "Something",
                          body_part_name_accusative( dealt_dam.bp_hit ) );
             } else if( target.is_npc() ) {
                 if( has_effect( effect_ridden ) && has_flag( MF_RIDEABLE_MECH ) &&
@@ -1573,7 +1580,7 @@ bool monster::melee_attack( Creature &target, float accuracy )
                              total_dealt );
                 } else {
                     //~ %1$s: attacker name, %2$s: target NPC name, %3$s: bodypart name in accusative
-                    add_msg( _( "The %1$s hits %2$s %3$s." ), name(),
+                    add_msg( _( "%1$s hits %2$s %3$s." ), u_see_me ? disp_name( false, true ) : "Something",
                              target.disp_name( true ),
                              body_part_name_accusative( dealt_dam.bp_hit ) );
                 }
@@ -1583,6 +1590,11 @@ bool monster::melee_attack( Creature &target, float accuracy )
                     //~ %1$s: name of your mount, %2$s: target creature name, %3$d: damage value
                     add_msg( m_good, _( "Your %1$s hits %2$s for %3$d damage!" ), get_name(), target.disp_name(),
                              total_dealt );
+                }
+                if( !u_see_me && u_see_target ) {
+                    add_msg( _( "Something hits the %1$s!" ), target.disp_name() );
+                } else if( !u_see_target ) {
+                    add_msg( _( "The %1$s hits something!" ), name() );
                 } else {
                     //~ %1$s: attacker name, %2$s: target creature name
                     add_msg( _( "The %1$s hits %2$s!" ), name(), target.disp_name() );
@@ -1595,16 +1607,18 @@ bool monster::melee_attack( Creature &target, float accuracy )
         }
     } else {
         // No damage dealt
-        if( u_see_me ) {
+        if( u_see_my_spot ) {
             if( target.is_player() ) {
                 //~ 1$s is attacker name, 2$s is bodypart name in accusative, 3$s is armor name
-                add_msg( _( "The %1$s hits your %2$s, but your %3$s protects you." ), name(),
+                add_msg( _( "%1$s hits your %2$s, but your %3$s protects you." ), u_see_me ? disp_name( false,
+                         true ) : "Something",
                          body_part_name_accusative( dealt_dam.bp_hit ), target.skin_name() );
             } else if( target.is_npc() ) {
                 //~ $1s is monster name, %2$s is that monster target name,
                 //~ $3s is target bodypart name in accusative, $4s is the monster target name,
                 //~ 5$s is target armor name.
-                add_msg( _( "The %1$s hits %2$s %3$s but is stopped by %4$s %5$s." ), name(),
+                add_msg( _( "%1$s hits %2$s %3$s but is stopped by %4$s %5$s." ), u_see_me ? disp_name( false,
+                         true ) : "Something",
                          target.disp_name( true ),
                          body_part_name_accusative( dealt_dam.bp_hit ),
                          target.disp_name( true ),
@@ -1612,8 +1626,8 @@ bool monster::melee_attack( Creature &target, float accuracy )
             } else {
                 //~ $1s is monster name, %2$s is that monster target name,
                 //~ $3s is target armor name.
-                add_msg( _( "The %1$s hits %2$s but is stopped by its %3$s." ),
-                         name(),
+                add_msg( _( "%1$s hits %2$s but is stopped by its %3$s." ),
+                         u_see_me ? disp_name( false, true ) : "Something",
                          target.disp_name(),
                          target.skin_name() );
             }

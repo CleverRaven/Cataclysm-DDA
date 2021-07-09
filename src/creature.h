@@ -636,6 +636,7 @@ class Creature : public location, public viewer
         virtual float get_hit() const;
 
         virtual int get_speed() const;
+        virtual int get_eff_per() const;
         virtual creature_size get_size() const = 0;
         virtual int get_hp( const bodypart_id &bp ) const;
         virtual int get_hp() const;
