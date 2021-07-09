@@ -6384,7 +6384,7 @@ void Character::get_sick()
         base_diseases_per_year = 1;
     }
 
-    // This check runs once every 30 minutes, so double to get hours, *24 to get days.
+    // This check runs once every hour
     const int checks_per_year = 24 * 365;
 
     // Health is in the range [-200,200].
