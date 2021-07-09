@@ -78,10 +78,10 @@ using oter_type_str_id = string_id<oter_type_t>;
 
 ////////////////
 static oter_id ot_null;
-static const oter_str_id ot_forest( "ot_forest" );
-static const oter_str_id ot_forest_thick( "ot_forest_thick" );
-static const oter_str_id ot_forest_water( "ot_forest_water" );
-static const oter_str_id ot_river_center( "ot_river_center" );
+static const oter_str_id ot_forest( "forest" );
+static const oter_str_id ot_forest_thick( "forest_thick" );
+static const oter_str_id ot_forest_water( "forest_water" );
+static const oter_str_id ot_river_center( "river_center" );
 
 const oter_type_t oter_type_t::null_type{};
 
