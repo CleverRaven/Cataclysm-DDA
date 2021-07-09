@@ -95,6 +95,60 @@
     "price_postapoc": 300
   },
   {
+    "type": "TOOL",
+    "id": "test_shears",
+    "name": { "str_sp": "shears" },
+    "description": "This is a set of shears designed to obtain wool from sheep.",
+    "weight": "820 g",
+    "volume": "750 ml",
+    "price": 500,
+    "price_postapoc": 250,
+    "to_hit": -1,
+    "cutting": 3,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "qualities": [ [ "SHEAR", 1 ] ],
+    "flags": [ "STAB" ]
+  },
+  {
+    "type": "TOOL",
+    "id": "test_shears_off",
+    "copy-from": "test_shears",
+    "name": { "str": "electric shears (off)" },
+    "description": "This is a set of electric shears designed to obtain wool from sheep.",
+    "qualities": [  ],
+    "use_action": {
+      "type": "transform",
+      "msg": "Your %s activates.",
+      "target": "test_shears_on",
+      "active": true,
+      "need_charges": 1,
+      "need_charges_msg": "The shears batteries are dead."
+    },
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "rigid": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "test_battery_disposable" ]
+      }
+    ]
+  },
+  {
+    "type": "TOOL",
+    "id": "test_shears_on",
+    "copy-from": "test_shears_off",
+    "name": { "str": "electric shears (on)" },
+    "description": "This is a set of electric shears designed to obtain wool from sheep.  These shears have been turned on.",
+    "power_draw": 10000,
+    "revert_to": "test_shears_off",
+    "use_action": { "type": "transform", "msg": "Your %s deactivates.", "target": "test_shears_off" },
+    "qualities": [ [ "SHEAR", 3 ] ]
+  },
+  {
     "id": "test_tool_belt",
     "type": "ARMOR",
     "name": { "str": "tool belt" },

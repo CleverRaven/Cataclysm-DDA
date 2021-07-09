@@ -65,6 +65,7 @@
 #include "requirements.h"
 #include "ret_val.h"
 #include "rng.h"
+#include "shearing.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "timed_event.h"
@@ -77,8 +78,8 @@
 #include "vpart_position.h"
 
 static const efftype_id effect_pet( "pet" );
+static const efftype_id effect_sheared( "sheared" );
 static const efftype_id effect_sleep( "sleep" );
-
 static const efftype_id effect_tied( "tied" );
 
 static const itype_id itype_bone_human( "bone_human" );
@@ -100,6 +101,7 @@ static const mtype_id mon_skeleton( "mon_skeleton" );
 static const mtype_id mon_zombie_crawler( "mon_zombie_crawler" );
 
 static const quality_id qual_LOCKPICK( "LOCKPICK" );
+static const quality_id qual_SHEAR( "SHEAR" );
 
 std::string activity_actor::get_progress_message( const player_activity &act ) const
 {
@@ -2764,6 +2766,161 @@ std::unique_ptr<activity_actor> milk_activity_actor::deserialize( JsonIn &jsin )
     return actor.clone();
 }
 
+void shearing_activity_actor::start( player_activity &act, Character &who )
+{
+    monster *mon = g->critter_at<monster>( mon_coords );
+    if( !mon ) {
+        debugmsg( "shearing lost monster when starting" );
+        act.set_to_null();
+        return;
+    }
+
+    std::string pet_name_capitalized = mon->unique_name.empty() ? mon->disp_name( false,
+                                       true ) : mon->unique_name;
+
+    if( !mon->shearable() ) {
+        add_msg( _( "$1%s has nothing %2$s could shear." ), pet_name_capitalized, who.disp_name() );
+        if( shearing_tie ) {
+            mon->remove_effect( effect_tied );
+        }
+        act.set_to_null();
+        return;
+    }
+
+    const int shearing_quality = who.max_quality( qual_SHEAR );
+    if( !( shearing_quality > 0 ) ) {
+        if( who.is_player() ) {
+            add_msg( m_info, _( "%1$s don't have a shearing tool." ), who.disp_name( false, true ) );
+        } else { // who.is_npc
+            // npcs can't shear monsters yet, this is for when they are able to
+            add_msg_if_player_sees( who, _( "%1$s doesn't have a shearing tool." ), who.disp_name(),
+                                    mon->disp_name() );
+        }
+        if( shearing_tie ) {
+            mon->remove_effect( effect_tied );
+        }
+        act.set_to_null();
+        return;
+    }
+
+    const time_duration shearing_time = 30_minutes / shearing_quality;
+    add_msg_debug( debugmode::DF_ACT_SHEARING, "shearing_time time = %s", to_string( shearing_time ) );
+
+    if( who.is_player() ) {
+        add_msg( m_info,
+                 _( "%1$s start shearing %2$s." ), who.disp_name( false, true ), mon->disp_name() );
+    } else { // who.is_npc
+        // npcs can't shear monsters yet, this is for when they are able to
+        add_msg_if_player_sees( who, _( "%1$s starts shearing %2$s." ), who.disp_name(),
+                                mon->disp_name() );
+    }
+
+    act.moves_total = to_moves<int>( shearing_time );
+    act.moves_left = act.moves_total;
+}
+
+void shearing_activity_actor::do_turn( player_activity &, Character &who )
+{
+    if( !who.has_quality( qual_SHEAR ) ) {
+        if( who.is_player() ) {
+            add_msg(
+                m_bad,
+                _( "%1$s don't have a shearing tool anymore." ),
+                who.disp_name( false, true ) );
+        } else {
+            add_msg_if_player_sees(
+                who,
+                _( "%1$s doesn't have a shearing tool anymore." ),
+                who.disp_name() );
+        }
+        who.cancel_activity();
+    }
+}
+
+void shearing_activity_actor::finish( player_activity &act, Character &who )
+{
+    monster *mon = g->critter_at<monster>( mon_coords );
+    if( !mon ) {
+        debugmsg( "shearing monster at position disappeared" );
+        act.set_to_null();
+        return;
+    }
+
+    const shearing_data &shear_data = mon->type->shearing;
+    if( !shear_data.valid() ) {
+        debugmsg( "shearing monster does not have shearing_data" );
+        if( shearing_tie ) {
+            mon->remove_effect( effect_tied );
+        }
+        act.set_to_null();
+        return;
+    }
+
+    map &mp = get_map();
+
+    add_msg_if_player_sees( who,
+                            string_format(
+                                _( "%1$s finished shearing %2$s and got:" ),
+                                who.disp_name( false, true ),
+                                mon->unique_name.empty() ? mon->disp_name() : mon->unique_name ) );
+
+    const std::vector<shearing_roll> shear_roll = shear_data.roll_all( *mon );
+    for( const shearing_roll &roll : shear_roll ) {
+        if( roll.result->count_by_charges() ) {
+            item shear_item( roll.result, calendar::turn, roll.amount );
+            mp.add_item_or_charges( who.pos(), shear_item );
+            add_msg_if_player_sees( who, shear_item.display_name() );
+        } else {
+            item shear_item( roll.result, calendar::turn );
+            for( int i = 0; i < roll.amount; ++i ) {
+                mp.add_item_or_charges( who.pos(), shear_item );
+            }
+            add_msg_if_player_sees( who,
+                                    //~ %1$s - item, %2$d - amount
+                                    string_format( _( "%1$s x%2$d" ),
+                                                   shear_item.display_name(), roll.amount ) );
+        }
+    }
+
+    mon->add_effect( effect_sheared, calendar::season_length() );
+    if( shearing_tie ) {
+        mon->remove_effect( effect_tied );
+    }
+
+    act.set_to_null();
+}
+
+void shearing_activity_actor::canceled( player_activity &, Character & )
+{
+    monster *mon = g->critter_at<monster>( mon_coords );
+    if( !mon ) {
+        return;
+    }
+
+    if( shearing_tie ) {
+        // free the poor critter
+        mon->remove_effect( effect_tied );
+    }
+}
+
+void shearing_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "mon_coords", mon_coords );
+    jsout.member( "shearing_tie", shearing_tie );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> shearing_activity_actor::deserialize( JsonIn &jsin )
+{
+    shearing_activity_actor actor = shearing_activity_actor( {} );
+
+    JsonObject data = jsin.get_object();
+    data.read( "mon_coords", actor.mon_coords );
+    data.read( "shearing_tie", actor.shearing_tie );
+    return actor.clone();
+}
+
 static bool check_if_disassemble_okay( item_location target, Character &who )
 {
     item *disassembly = target.get_item();
@@ -3090,6 +3247,7 @@ deserialize_functions = {
     { activity_id( "ACT_PLAY_WITH_PET" ), &play_with_pet_activity_actor::deserialize },
     { activity_id( "ACT_RELOAD" ), &reload_activity_actor::deserialize },
     { activity_id( "ACT_SHAVE" ), &shave_activity_actor::deserialize },
+    { activity_id( "ACT_SHEARING" ), &shearing_activity_actor::deserialize },
     { activity_id( "ACT_STASH" ), &stash_activity_actor::deserialize },
     { activity_id( "ACT_TENT_DECONSTRUCT" ), &tent_deconstruct_activity_actor::deserialize },
     { activity_id( "ACT_TENT_PLACE" ), &tent_placement_activity_actor::deserialize },

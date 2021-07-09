@@ -2249,6 +2249,7 @@
     "dodge": 2,
     "starting_ammo": { "milk_raw": 5 },
     "anger_triggers": [  ],
+    "shearing": [ { "result": "wool_staple", "amount": 22 } ],
     "harvest": "mammal_large_wool",
     "reproduction": { "baby_monster": "mon_sheep_lamb", "baby_count": 1, "baby_timer": 275 },
     "//": "Sheep are seasonal breeders. The natural sexual season is positioned so that lambs will be born in the spring when the weather is warmer and grass is available.",
@@ -2258,18 +2259,7 @@
     "placate_triggers": [ "PLAYER_WEAK" ],
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_CROP", 120 ] ],
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "ANIMAL",
-      "SHEARABLE",
-      "PATH_AVOID_DANGER_1",
-      "WARM",
-      "CATTLEFODDER",
-      "PET_WONT_FOLLOW",
-      "MILKABLE"
-    ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CATTLEFODDER", "PET_WONT_FOLLOW", "MILKABLE" ]
   },
   {
     "id": "mon_squirrel",

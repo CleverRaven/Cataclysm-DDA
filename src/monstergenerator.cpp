@@ -834,6 +834,16 @@ void mtype::load( const JsonObject &jo, const std::string &src )
 
     assign( jo, "harvest", harvest );
 
+    if( jo.has_array( "shearing" ) ) {
+        std::vector<shearing_entry> entries;
+        for( JsonObject shearing_entry : jo.get_array( "shearing" ) ) {
+            struct shearing_entry entry {};
+            entry.load( shearing_entry );
+            entries.emplace_back( entry );
+        }
+        shearing = shearing_data( entries );
+    }
+
     const auto death_reader = make_flag_reader( gen.death_map, "monster death function" );
     optional( jo, was_loaded, "death_function", dies, death_reader );
     if( dies.empty() ) {
