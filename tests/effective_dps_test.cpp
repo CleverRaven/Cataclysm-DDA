@@ -268,7 +268,7 @@ TEST_CASE( "expected weapon dps", "[expected][dps]" )
 
     SECTION( "staves" ) { // typical value around 18
         calc_expected_dps( test_guy, "i_staff", 22.75 );
-        calc_expected_dps( test_guy, "staff_sling", 17 );
+        calc_expected_dps( test_guy, "staff_sling", 15 );
         calc_expected_dps( test_guy, "q_staff", 20.75 );
         calc_expected_dps( test_guy, "l-stick_on", 17.5 );
         calc_expected_dps( test_guy, "l-stick", 17.5 );

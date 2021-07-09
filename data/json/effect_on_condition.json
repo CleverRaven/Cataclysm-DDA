@@ -97,9 +97,9 @@
     "type": "effect_on_condition",
     "id": "EOC_MINOR_SLEEP",
     "effect": [ { "message": "You feel sleepy…" }, { "u_mod_fatigue": 20 } ]
-  }
+  },
   {
-  "type": "effect_on_condition",
+    "type": "effect_on_condition",
     "id": "night_messages",
     "recurrence_min": "4 hours",
     "recurrence_max": "8 hours",
