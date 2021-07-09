@@ -1182,7 +1182,7 @@
         { "item": "geiger_off", "x": 32, "y": 25, "chance": 50, "repeat": [ 10, 20 ] },
         { "item": "rad_monitor", "x": 32, "y": 25, "chance": 50, "repeat": [ 10, 20 ] },
         { "item": "cleansuit", "x": 32, "y": 25, "chance": 50, "repeat": [ 10, 20 ] },
-        { "item": "aep_suit", "x": 32, "y": 25, "chance": 50, "repeat": [ 5, 10 ] },
+        { "item": "hazmat_suit", "x": 32, "y": 25, "chance": 50, "repeat": [ 5, 10 ] },
         { "item": "oxygen_tank", "x": 32, "y": 25, "chance": 50, "repeat": [ 10, 20 ] },
         { "item": "wrapped_rad_badge", "x": 32, "y": 25, "chance": 50, "repeat": [ 20, 60 ] },
         { "item": "prussian_blue", "x": 32, "y": 25, "chance": 50, "repeat": [ 20, 60 ] },

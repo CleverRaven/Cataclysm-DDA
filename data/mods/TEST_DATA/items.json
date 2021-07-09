@@ -541,7 +541,7 @@
   },
   {
     "id": "test_hazmat_suit",
-    "repairs_like": "aep_suit",
+    "repairs_like": "fsurvivor_suit",
     "type": "ARMOR",
     "name": "TEST hazmat suit",
     "description": "An impermeable whole-body garment worn as protection against hazardous materials.  Though very restrictive and fragile, wearing it will provide complete protection against ambient radiation.  It requires a separate gas mask for full protection.",

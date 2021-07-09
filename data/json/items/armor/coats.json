@@ -1,7 +1,7 @@
 [
   {
     "id": "bunker_coat",
-    "repairs_like": "aep_suit",
+    "repairs_like": "fsurvivor_suit",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "turnout coat" },
