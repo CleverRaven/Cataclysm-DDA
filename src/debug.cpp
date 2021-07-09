@@ -643,6 +643,9 @@ static std::ostream &operator<<( std::ostream &out, DebugClass cl )
         if( cl & D_SDL ) {
             out << "SDL ";
         }
+        if( cl & D_MMAP ) {
+            out << "MMAP ";
+        }
     }
     return out;
 }
