@@ -20,6 +20,7 @@
 #include "anatomy.h"
 #include "avatar.h"
 #include "bionics.h"
+#include "cached_options.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character_martial_arts.h"
@@ -237,6 +238,8 @@ static const skill_id skill_smg( "smg" );
 static const skill_id skill_swimming( "swimming" );
 static const skill_id skill_throw( "throw" );
 
+static const proficiency_id proficiency_prof_spotting( "prof_spotting" );
+
 static const species_id species_HUMAN( "HUMAN" );
 static const species_id species_ROBOT( "ROBOT" );
 
@@ -274,12 +277,9 @@ static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
 static const bionic_id bio_ads( "bio_ads" );
 static const bionic_id bio_blaster( "bio_blaster" );
 static const bionic_id bio_voice( "bio_voice" );
-static const bionic_id bio_flashlight( "bio_flashlight" );
 static const bionic_id bio_gills( "bio_gills" );
 static const bionic_id bio_ground_sonar( "bio_ground_sonar" );
 static const bionic_id bio_hydraulics( "bio_hydraulics" );
-static const bionic_id bio_jointservo( "bio_jointservo" );
-static const bionic_id bio_leukocyte( "bio_leukocyte" );
 static const bionic_id bio_memory( "bio_memory" );
 static const bionic_id bio_railgun( "bio_railgun" );
 static const bionic_id bio_shock_absorber( "bio_shock_absorber" );
@@ -2262,6 +2262,18 @@ bool Character::has_any_bionic() const
     return !get_bionics().empty();
 }
 
+std::vector<item> Character::get_pseudo_items() const
+{
+    std::vector<item> result;
+    for( const bionic &bio : *my_bionics ) {
+        const bionic_data &bid = bio.info();
+        if( bid.fake_item && ( !bid.activated || bio.powered ) ) {
+            result.emplace_back( item( bid.fake_item ) );
+        }
+    }
+    return result;
+}
+
 bionic_id Character::get_remote_fueled_bionic() const
 {
     for( const bionic_id &bid : get_bionics() ) {
@@ -2358,8 +2370,8 @@ void Character::practice( const skill_id &id, int amount, int cap, bool suppress
     static const int INTMAX_SQRT = std::floor( std::sqrt( std::numeric_limits<int>::max() ) );
     SkillLevel &level = get_skill_level_object( id );
     const Skill &skill = id.obj();
-    if( !level.can_train() && !in_sleep_state() ) {
-        // If leveling is disabled, don't train, don't drain focus, don't print anything
+    if( !level.can_train() || in_sleep_state() || ( get_skill_level( id ) >= MAX_SKILL ) ) {
+        // Do not practice if: cannot train, asleep, or at effective skill cap
         // Leaving as a skill method rather than global for possible future skill cap setting
         return;
     }
@@ -4934,6 +4946,12 @@ int Character::get_speed() const
     return Creature::get_speed() + get_speedydex_bonus( get_dex() );
 }
 
+int Character::get_eff_per() const
+{
+    return Character::get_per() + int( Character::has_proficiency( proficiency_prof_spotting ) ) *
+           Character::get_per_base();
+}
+
 int Character::ranged_dex_mod() const
 {
     ///\EFFECT_DEX <20 increases ranged penalty
@@ -5532,12 +5550,14 @@ void Character::update_health( int external_modifiers )
     }
 
     // Active leukocyte breeder will keep your health near 100
-    int effective_healthy_mod = get_healthy_mod();
-    if( has_active_bionic( bio_leukocyte ) ) {
-        // Side effect: dependency
-        mod_healthy_mod( -50, -200 );
-        effective_healthy_mod = 100;
+    int effective_healthy_mod = enchantment_cache->modify_value(
+                                    enchant_vals::mod::EFFECTIVE_HEALTH_MOD, 0 );
+    if( effective_healthy_mod == 0 ) {
+        effective_healthy_mod = get_healthy_mod();
     }
+    int healthy_mod = enchantment_cache->modify_value( enchant_vals::mod::MOD_HEALTH, 0 );
+    int healthy_mod_cap = enchantment_cache->modify_value( enchant_vals::mod::MOD_HEALTH_CAP, 0 );
+    mod_healthy_mod( healthy_mod, healthy_mod_cap );
 
     // Health tends toward healthy_mod.
     // For small differences, it changes 4 points per day
@@ -7730,11 +7750,10 @@ float Character::active_light() const
 
     lumination = std::max( lumination, mut_lum );
 
-    if( lumination < 60 && has_active_bionic( bio_flashlight ) ) {
-        lumination = 60;
-    } else if( lumination < 5 && ( has_effect( effect_glowing ) ||
-                                   ( has_active_bionic( bio_tattoo_led ) ||
-                                     has_effect( effect_glowy_led ) ) ) ) {
+    lumination = std::max( lumination,
+                           static_cast<float>( enchantment_cache->modify_value( enchant_vals::mod::LUMINATION, 0 ) ) );
+
+    if( lumination < 5 && ( has_effect( effect_glowing ) || has_effect( effect_glowy_led ) ) ) {
         lumination = 5;
     }
     return lumination;
@@ -11848,15 +11867,6 @@ int Character::run_cost( int base_cost, bool diag ) const
         if( has_trait( trait_PADDED_FEET ) && !footwear_factor() ) {
             movecost *= .9f;
         }
-        if( has_active_bionic( bio_jointservo ) ) {
-            if( is_running() ) {
-                movecost *= 0.85f;
-            } else {
-                movecost *= 0.95f;
-            }
-        } else if( has_bionic( bio_jointservo ) ) {
-            movecost *= 1.1f;
-        }
 
         if( worn_with_flag( flag_SLOWS_MOVEMENT ) ) {
             movecost *= 1.1f;
@@ -12751,6 +12761,11 @@ bool Character::has_proficiency( const proficiency_id &prof ) const
     return _proficiencies->has_learned( prof );
 }
 
+float Character::get_proficiency_practice( const proficiency_id &prof ) const
+{
+    return _proficiencies->pct_practiced( prof );
+}
+
 bool Character::has_prof_prereqs( const proficiency_id &prof ) const
 {
     return _proficiencies->has_prereqs( prof );
@@ -12810,6 +12825,15 @@ std::vector<proficiency_id> Character::known_proficiencies() const
 std::vector<proficiency_id> Character::learning_proficiencies() const
 {
     return _proficiencies->learning_profs();
+}
+
+void Character::set_proficiency_practice( const proficiency_id &id, const time_duration &amount )
+{
+    if( !test_mode ) {
+        return;
+    }
+
+    _proficiencies->practice( id, amount, cata::nullopt );
 }
 
 bool Character::defer_move( const tripoint &next )

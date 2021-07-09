@@ -428,6 +428,7 @@ class Character : public Creature, public visitable
         virtual int get_int_bonus() const;
 
         int get_speed() const override;
+        int get_eff_per() const override;
 
         // Penalty modifiers applied for ranged attacks due to low stats
         virtual int ranged_dex_mod() const;
@@ -1234,6 +1235,9 @@ class Character : public Creature, public visitable
         /** Handles bionic activation effects of the entered bionic, returns if anything activated */
         bool activate_bionic( int b, bool eff_only = false, bool *close_bionics_ui = nullptr );
         std::vector<bionic_id> get_bionics() const;
+        std::vector<item> get_pseudo_items() const;
+        /** Returns amount of Storage CBMs in the corpse **/
+        std::pair<int, int> amount_of_storage_bionics() const;
         /** Returns true if the player has the entered bionic id */
         bool has_bionic( const bionic_id &b ) const;
         /** Returns true if the player has the entered bionic id and it is powered on */
@@ -1831,6 +1835,7 @@ class Character : public Creature, public visitable
 
         // --------------- Proficiency Stuff ----------------
         bool has_proficiency( const proficiency_id &prof ) const;
+        float get_proficiency_practice( const proficiency_id &prof ) const;
         bool has_prof_prereqs( const proficiency_id &prof ) const;
         void add_proficiency( const proficiency_id &prof, bool ignore_requirements = false );
         void lose_proficiency( const proficiency_id &prof, bool ignore_requirements = false );
@@ -1840,6 +1845,9 @@ class Character : public Creature, public visitable
         std::vector<display_proficiency> display_proficiencies() const;
         std::vector<proficiency_id> known_proficiencies() const;
         std::vector<proficiency_id> learning_proficiencies() const;
+
+        // tests only!
+        void set_proficiency_practice( const proficiency_id &id, const time_duration &amount );
 
         // --------------- Other Stuff ---------------
 
@@ -2361,6 +2369,8 @@ class Character : public Creature, public visitable
         int nutrition_for( const item &comest ) const;
         /** Can the food be [theoretically] eaten no matter the consequences? */
         ret_val<edible_rating> can_eat( const item &food ) const;
+        /** Can the fuel be [theoretically] eaten? */
+        ret_val<edible_rating> can_consume_fuel( const item &fuel ) const;
         /**
          * Same as @ref can_eat, but takes consequences into account.
          * Asks about them if @param interactive is true, refuses otherwise.

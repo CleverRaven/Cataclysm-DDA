@@ -27,7 +27,6 @@
     "vision_night": 12,
     "path_settings": { "max_dist": 21, "avoid_traps": true, "avoid_sharp": true },
     "harvest": "mammal_fur",
-    "death_function": [ "NORMAL" ],
     "reproduction": { "baby_monster": "mon_yulecat_cub", "baby_count": 6, "baby_timer": 234 },
     "baby_flags": [ "WINTER" ],
     "special_attacks": [ { "type": "bite", "cooldown": 10 }, [ "GRAB", 8 ], [ "scratch", 6 ] ],
@@ -81,7 +80,6 @@
     "armor_bullet": 3,
     "harvest": "demihuman",
     "path_settings": { "avoid_traps": true, "avoid_sharp": true },
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "WARM" ]
   },
   {
@@ -106,7 +104,6 @@
     "dodge": 6,
     "harvest": "demihuman",
     "path_settings": { "avoid_traps": true, "avoid_sharp": true },
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "WARM" ]
   }
 ]

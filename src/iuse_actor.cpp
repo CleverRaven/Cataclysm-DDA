@@ -76,6 +76,7 @@
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
+#include "talker.h"
 #include "translations.h"
 #include "trap.h"
 #include "ui.h"
@@ -4507,4 +4508,41 @@ cata::optional<int> change_scent_iuse::use( player &p, item &it, bool, const tri
 std::unique_ptr<iuse_actor> change_scent_iuse::clone() const
 {
     return std::make_unique<change_scent_iuse>( *this );
+}
+
+std::unique_ptr<iuse_actor> effect_on_conditons_actor::clone() const
+{
+    return std::make_unique<effect_on_conditons_actor>( *this );
+}
+
+void effect_on_conditons_actor::load( const JsonObject &obj )
+{
+    description = obj.get_string( "description" );
+    for( const std::string &eoc : obj.get_string_array( "effect_on_conditions" ) ) {
+        eocs.emplace_back( effect_on_condition_id( eoc ) );
+    }
+}
+
+void effect_on_conditons_actor::info( const item &, std::vector<iteminfo> &dump ) const
+{
+    dump.emplace_back( "DESCRIPTION", description );
+}
+
+cata::optional<int> effect_on_conditons_actor::use( player &p, item &it, bool,
+        const tripoint & ) const
+{
+    dialogue d;
+    standard_npc default_npc( "Default" );
+    if( avatar *u = p.as_avatar() ) {
+        d.alpha = get_talker_for( u );
+    } else if( npc *n = p.as_npc() ) {
+        d.alpha = get_talker_for( n );
+    }
+    ///TODO make this talker item
+    d.beta = get_talker_for( default_npc );
+
+    for( const effect_on_condition_id &eoc : eocs ) {
+        eoc->activate( d );
+    }
+    return it.type->charges_to_use();
 }

@@ -219,6 +219,8 @@ void melee_actor::load_internal( const JsonObject &obj, const std::string & )
     max_mul = obj.get_float( "max_mul", 1.0f );
     move_cost = obj.get_int( "move_cost", 100 );
     accuracy = obj.get_int( "accuracy", INT_MIN );
+    dodgeable = obj.get_bool( "dodgeable", true );
+    blockable = obj.get_bool( "blockable", true );
 
     optional( obj, was_loaded, "miss_msg_u", miss_msg_u,
               to_translation( "The %s lunges at you, but you dodge!" ) );
@@ -274,29 +276,42 @@ bool melee_actor::call( monster &z ) const
     add_msg_debug( debugmode::DF_MATTACK, "%s attempting to melee_attack %s", z.name(),
                    target->disp_name() );
 
+    // Dodge check
     const int acc = accuracy >= 0 ? accuracy : z.type->melee_skill;
     int hitspread = target->deal_melee_attack( &z, dice( acc, 10 ) );
-
-    if( hitspread < 0 ) {
-        game_message_type msg_type = target->is_avatar() ? m_warning : m_info;
-        sfx::play_variant_sound( "mon_bite", "bite_miss", sfx::get_heard_volume( z.pos() ),
-                                 sfx::get_heard_angle( z.pos() ) );
-        target->add_msg_player_or_npc( msg_type, miss_msg_u, miss_msg_npc, z.name() );
-        return true;
+    if( dodgeable ) {
+        if( hitspread < 0 ) {
+            game_message_type msg_type = target->is_avatar() ? m_warning : m_info;
+            sfx::play_variant_sound( "mon_bite", "bite_miss", sfx::get_heard_volume( z.pos() ),
+                                     sfx::get_heard_angle( z.pos() ) );
+            target->add_msg_player_or_npc( msg_type, miss_msg_u, miss_msg_npc, z.name() );
+            return true;
+        }
     }
 
+    // Damage instance calculation
     damage_instance damage = damage_max_instance;
-
     double multiplier = rng_float( min_mul, max_mul );
     damage.mult_damage( multiplier );
 
+    // Pick body part
     bodypart_str_id bp_hit = body_parts.empty() ?
                              target->select_body_part( &z, hitspread ).id() :
                              *body_parts.pick();
 
-    target->on_hit( &z, bp_hit.id() );
-    dealt_damage_instance dealt_damage = target->deal_damage( &z, bp_hit.id(), damage );
-    dealt_damage.bp_hit = bp_hit.id();
+    bodypart_id bp_id = bodypart_id( bp_hit );
+
+    // Block our hit
+    if( blockable ) {
+        target->block_hit( &z, bp_id, damage );
+    }
+
+    // Take damage
+    dealt_damage_instance dealt_damage = target->deal_damage( &z, bp_id, damage );
+    dealt_damage.bp_hit = bp_id;
+
+    // On hit effects
+    target->on_hit( &z, bp_id );
 
     int damage_total = dealt_damage.total_damage();
     add_msg_debug( debugmode::DF_MATTACK, "%s's melee_attack did %d damage", z.name(), damage_total );
@@ -306,7 +321,7 @@ bool melee_actor::call( monster &z ) const
         sfx::play_variant_sound( "mon_bite", "bite_miss", sfx::get_heard_volume( z.pos() ),
                                  sfx::get_heard_angle( z.pos() ) );
         target->add_msg_player_or_npc( m_neutral, no_dmg_msg_u, no_dmg_msg_npc, z.name(),
-                                       body_part_name_accusative( bp_hit.id() ) );
+                                       body_part_name_accusative( bp_id ) );
     }
 
     return true;

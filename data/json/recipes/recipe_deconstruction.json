@@ -5027,6 +5027,26 @@
     "components": [ [ [ "material_rocksalt", 10 ] ] ]
   },
   {
+    "result": "broketent",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "time": "10 m",
+    "difficulty": 1,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "tarp", 1 ] ], [ [ "tent_pole", 2 ] ], [ [ "plastic_sheet", 1 ] ], [ [ "bag_plastic", 1 ] ] ]
+  },
+  {
+    "result": "largebroketent",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "time": "30 m",
+    "difficulty": 1,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "tarp", 4 ] ], [ [ "tent_pole", 5 ] ], [ [ "plastic_sheet", 3 ] ], [ [ "bag_plastic", 3 ] ] ]
+  },
+  {
     "result": "knife_butter",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",

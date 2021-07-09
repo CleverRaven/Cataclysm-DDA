@@ -125,6 +125,7 @@ class monster : public Creature
         int get_hp_max( const bodypart_id & ) const override;
         int get_hp_max() const override;
         int hp_percentage() const override;
+        int get_eff_per() const override;
 
         float get_mountable_weight_ratio() const;
 
@@ -167,6 +168,10 @@ class monster : public Creature
         bool made_of( const material_id &m ) const override; // Returns true if it's made of m
         bool made_of_any( const std::set<material_id> &ms ) const override;
         bool made_of( phase_id p ) const; // Returns true if its phase is p
+
+        bool shearable() const {
+            return type->shearing.valid();
+        }
 
         bool avoid_trap( const tripoint &pos, const trap &tr ) const override;
 

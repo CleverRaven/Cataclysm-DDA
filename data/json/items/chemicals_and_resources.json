@@ -542,7 +542,7 @@
     "count": 100
   },
   {
-    "type": "AMMO",
+    "type": "COMESTIBLE",
     "id": "chem_sulphuric_acid",
     "category": "chems",
     "price": 250,
@@ -555,14 +555,13 @@
     "volume": "250 ml",
     "weight": "460 g",
     "bashing": 1,
-    "ammo_type": "components",
     "phase": "liquid",
     "container": "bottle_glass",
-    "//freezing_point": 25,
+    "freezing_point": -36,
     "drop_action": { "type": "emit_actor", "emits": [ "emit_acid_drop" ], "scale_qty": true }
   },
   {
-    "type": "AMMO",
+    "type": "COMESTIBLE",
     "id": "chem_muriatic_acid",
     "category": "chems",
     "price": 250,
@@ -575,10 +574,9 @@
     "volume": "250 ml",
     "weight": "460 g",
     "bashing": 1,
-    "ammo_type": "components",
     "phase": "liquid",
     "container": "bottle_glass",
-    "//freezing_point": 25,
+    "freezing_point": -50,
     "drop_action": { "type": "emit_actor", "emits": [ "emit_acid_drop" ], "scale_qty": true }
   },
   {
@@ -599,7 +597,7 @@
     "container": "bottle_glass"
   },
   {
-    "type": "AMMO",
+    "type": "COMESTIBLE",
     "id": "chem_nitric_acid",
     "category": "chems",
     "price": 300,
@@ -612,10 +610,9 @@
     "volume": "250 ml",
     "weight": "375 g",
     "bashing": 1,
-    "ammo_type": "components",
     "phase": "liquid",
     "container": "bottle_glass",
-    "//freezing_point": -44,
+    "freezing_point": -42,
     "drop_action": { "type": "emit_actor", "emits": [ "emit_acid_drop" ], "scale_qty": true }
   },
   {

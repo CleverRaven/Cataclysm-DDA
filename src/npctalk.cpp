@@ -2205,6 +2205,15 @@ void talk_effect_fun_t::set_assign_mission( const JsonObject &jo, const std::str
     };
 }
 
+void talk_effect_fun_t::set_mod_fatigue( const JsonObject &jo, const std::string &member,
+        bool is_npc )
+{
+    int amount = jo.get_int( member );
+    function = [is_npc, amount]( const dialogue & d ) {
+        d.actor( is_npc )->mod_fatigue( amount );
+    };
+}
+
 void talk_effect_t::set_effect_consequence( const talk_effect_fun_t &fun,
         dialogue_consequence con )
 {
@@ -2460,6 +2469,10 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_add_power( jo, "npc_add_power", true );
     } else if( jo.has_member( "assign_mission" ) ) {
         subeffect_fun.set_assign_mission( jo, "assign_mission" );
+    } else if( jo.has_int( "u_mod_fatigue" ) ) {
+        subeffect_fun.set_mod_fatigue( jo, "u_mod_fatigue", false );
+    } else if( jo.has_int( "npc_mod_fatigue" ) ) {
+        subeffect_fun.set_mod_fatigue( jo, "npc_mod_fatigue", true );
     } else {
         jo.throw_error( "invalid sub effect syntax: " + jo.str() );
     }

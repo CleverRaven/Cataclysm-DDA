@@ -44,7 +44,6 @@
         { "item": "longsword", "prob": 100 }
       ]
     },
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "WARM", "BASHES", "FILTHY", "PATH_AVOID_DANGER_1", "SWARMS", "GROUP_MORALE" ]
   },
   {

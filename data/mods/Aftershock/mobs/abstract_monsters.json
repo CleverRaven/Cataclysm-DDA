@@ -28,7 +28,7 @@
     "vision_day": 50,
     "path_settings": { "max_dist": 5 },
     "death_drops": { "groups": [ [ "broken_robots", 1 ] ] },
-    "death_function": [ "BROKEN" ],
+    "death_function": { "corpse_type": "BROKEN" },
     "flags": [ "SEES", "HEARS", "BASHES", "ELECTRONIC", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_1" ]
   },
   {
@@ -62,7 +62,7 @@
     "vision_day": 50,
     "path_settings": { "max_dist": 5 },
     "death_drops": { "groups": [ [ "broken_robots", 1 ] ] },
-    "death_function": [ "BROKEN" ],
+    "death_function": { "corpse_type": "BROKEN" },
     "flags": [ "SEES", "HEARS", "BASHES", "ELECTRONIC", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_1" ]
   },
   {

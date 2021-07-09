@@ -849,6 +849,8 @@ struct itype {
 
         using FlagsSetType = std::set<flag_id>;
 
+        std::vector<std::pair<itype_id, mod_id>> src;
+
         /**
          * Slots for various item type properties. Each slot may contain a valid pointer or null, check
          * this before using it.

@@ -681,6 +681,7 @@ For information about tools with option to export ASCII art in format ready to b
 | dupes_allowed               | (_optional_) Boolean to determine if multiple copies of this bionic can be installed.  Defaults to false.
 | cant_remove_reason          | (_optional_) String message to be displayed as the reason it can't be uninstalled.  Having any value other than `""` as this will prevent unistalling the bionic. Formatting includes two `%s` for example: `The Telescopic Lenses are part of %1$s eyes now. Removing them would leave %2$s blind.`  (default: `""`) 
 | social_modifiers			  | (_optional_) Json object with optional members: persuade, lie, and intimidate which add or subtract that amount from those types of social checks
+| dispersion_mod              | (_optional_) Modifier to change firearm disperation.
 
 ```C++
 {
@@ -3194,6 +3195,11 @@ The contents of use_action fields can either be a string indicating a built-in f
         "kevlar_padded"
     ]
 }
+"use_action": {
+    "type" :"effect_on_conditions", // activate effect_on_conditions
+    "description" :"This debugs the game", // usage description
+    "effect_on_conditions" : ["test_cond"] // ids of the effect_on_conditions to activate
+    }
 ```
 
 ###random Descriptions
@@ -3348,6 +3354,8 @@ itype_id of the item dropped as leftovers after butchery or when the monster is 
     "examine_action": "toilet",
     "close": "f_foo_closed",
     "open": "f_foo_open",
+    "lockpick_result": "f_safe_open",
+    "lockpick_message": "With a click, you unlock the safe.",
     "bash": "TODO",
     "deconstruct": "TODO",
     "max_volume": "1000 L",
@@ -3368,6 +3376,13 @@ Same as for terrain, see below in the chapter "Common to furniture and terrain".
 
 Movement cost modifier (`-10` = impassable, `0` = no change). This is added to the movecost of the underlying terrain.
 
+#### `lockpick_result`
+
+(Optional) When the furniture is successfully lockpicked, this is the furniture it will turn into.
+
+#### `lockpick_message`
+
+(Optional) When the furniture is successfully lockpicked, this is the message that will be printed to the player. When it is missing, a generic `"The lock opens…"` message will be printed instead.
 
 #### `light_emitted`
 
@@ -3413,6 +3428,8 @@ Strength required to move the furniture around. Negative values indicate an unmo
     "connects_to" : "WALL",
     "close": "t_foo_closed",
     "open": "t_foo_open",
+    "lockpick_result": "t_door_unlocked",
+    "lockpick_message": "With a click, you unlock the door.",
     "bash": "TODO",
     "deconstruct": "TODO",
     "harvestable": "blueberries",
@@ -3443,6 +3460,14 @@ Heat emitted for a terrain. A value of 0 means no fire (i.e, same as not having 
 
 How much light the terrain emits. 10 will light the tile it's on brightly, 15 will light that tile and the tiles around it brightly, as well as slightly lighting the tiles two tiles away from the source.
 For examples: An overhead light is 120, a utility light, 240, and a console, 10.
+
+#### `lockpick_result`
+
+(Optional) When the terrain is successfully lockpicked, this is the terrain it will turn into.
+
+#### `lockpick_message`
+
+(Optional) When the terrain is successfully lockpicked, this is the message that will be printed to the player. When it is missing, a generic `"The lock opens…"` message will be printed instead.
 
 #### `trap`
 
