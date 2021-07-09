@@ -804,7 +804,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
 #endif
 
     int width = ( TERMX - OVERMAP_LEGEND_WIDTH ) * font->width;
-    int height = OVERMAP_WINDOW_HEIGHT * font->height;
+    int height = TERMY * font->height;
 
     {
         //set clipping to prevent drawing over stuff we shouldn't
@@ -3555,8 +3555,8 @@ static window_dimensions get_window_dimensions( const catacurses::window &win,
         dim.scaled_font_size.x = map_font->width;
         dim.scaled_font_size.y = map_font->height;
     } else if( overmap_font && g && win == g->w_overmap ) {
-        dim.scaled_font_size.x = overmap_font->width;
-        dim.scaled_font_size.y = overmap_font->height;
+        dim.scaled_font_size.x = tilecontext->get_tile_width();
+        dim.scaled_font_size.y = tilecontext->get_tile_height();
     } else {
         dim.scaled_font_size.x = fontwidth;
         dim.scaled_font_size.y = fontheight;
@@ -3672,11 +3672,17 @@ static int map_font_height()
 
 static int overmap_font_width()
 {
+    if( use_tiles && tilecontext ) {
+        return tilecontext->get_tile_width();
+    }
     return ( overmap_font ? overmap_font.get() : font.get() )->width;
 }
 
 static int overmap_font_height()
 {
+    if( use_tiles && tilecontext ) {
+        return tilecontext->get_tile_height();
+    }
     return ( overmap_font ? overmap_font.get() : font.get() )->height;
 }
 
