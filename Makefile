@@ -928,6 +928,8 @@ ifeq ($(LTO), 1)
   endif
 endif
 
+LDFLAGS += -lz
+
 all: version $(CHECKS) $(TARGET) $(L10N) $(TESTS)
 	@
 
