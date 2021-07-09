@@ -5545,7 +5545,7 @@ void Character::update_health( int external_modifiers )
 
     // And healthy_mod decays over time.
     // Slowly near 0, but it's hard to overpower it near +/-100
-    set_healthy_mod( std::round( get_healthy_mod() * 0.95f ) );
+    set_healthy_mod( roll_remainder( get_healthy_mod() * 0.99f ) );
 
     add_msg_debug( debugmode::DF_CHAR_HEALTH, "Health: %d, Health mod: %d", get_healthy(),
                    get_healthy_mod() );
@@ -5597,8 +5597,8 @@ void Character::update_body( const time_point &from, const time_point &to )
         enforce_minimum_healing();
     }
 
-    const int thirty_mins = ticks_between( from, to, 30_minutes );
-    if( thirty_mins > 0 ) {
+    const int one_hour = ticks_between( from, to, 1_hours );
+    if( one_hour > 0 ) {
         // Radiation kills health even at low doses
         update_health( has_trait( trait_RADIOGENIC ) ? 0 : -get_rad() );
         get_sick();
@@ -6385,7 +6385,7 @@ void Character::get_sick()
     }
 
     // This check runs once every 30 minutes, so double to get hours, *24 to get days.
-    const int checks_per_year = 2 * 24 * 365;
+    const int checks_per_year = 24 * 365;
 
     // Health is in the range [-200,200].
     // Diseases are half as common for every 50 health you gain.
