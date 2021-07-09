@@ -2260,6 +2260,18 @@ bool Character::has_any_bionic() const
     return !get_bionics().empty();
 }
 
+std::vector<item> Character::get_pseudo_items() const
+{
+    std::vector<item> result;
+    for( const bionic &bio : *my_bionics ) {
+        const bionic_data &bid = bio.info();
+        if( bid.fake_item && ( !bid.activated || bio.powered ) ) {
+            result.emplace_back( item( bid.fake_item ) );
+        }
+    }
+    return result;
+}
+
 bionic_id Character::get_remote_fueled_bionic() const
 {
     for( const bionic_id &bid : get_bionics() ) {
