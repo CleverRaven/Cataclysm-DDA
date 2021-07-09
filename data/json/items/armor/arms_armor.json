@@ -4,7 +4,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of 2-by-arm guards", "str_pl": "pairs of 2-by-arm guards" },
-    "description": "A pair of improvised arm guards made from broken pieces of a two by four that are tied to your arms with rags and string.  They offer good protection, but are really uncomfortable to wear.",
+    "description": "A pair of improvised arm guards made from broken pieces of a plank that are tied to your arms with rags and string.  They offer good protection, but are really uncomfortable to wear.",
     "weight": "300 g",
     "volume": "1500 ml",
     "price": 500,
@@ -15,13 +15,11 @@
     "symbol": "[",
     "looks_like": "arm_splint",
     "color": "brown",
-    "covers": [ "arm_l", "arm_r" ],
-    "coverage": 75,
-    "encumbrance": 25,
     "warmth": 5,
     "material_thickness": 3,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "BELTED", "WATER_FRIENDLY", "BLOCK_WHILE_WORN" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY", "BLOCK_WHILE_WORN" ],
+    "armor": [ { "encumbrance": 25, "coverage": 75, "covers": [ "arm_l", "arm_r" ] } ]
   },
   {
     "id": "armguard_chitin",
@@ -38,13 +36,11 @@
     "symbol": "[",
     "looks_like": "armguard_hard",
     "color": "green",
-    "covers": [ "arm_l", "arm_r" ],
-    "coverage": 90,
-    "encumbrance": 10,
     "warmth": 10,
     "material_thickness": 3,
     "environmental_protection": 2,
-    "flags": [ "STURDY", "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ]
+    "flags": [ "STURDY", "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 10, "coverage": 90, "covers": [ "arm_l", "arm_r" ] } ]
   },
   {
     "id": "xl_armguard_chitin",
@@ -93,13 +89,11 @@
     "material": [ "plastic", "neoprene" ],
     "symbol": "[",
     "color": "dark_gray",
-    "covers": [ "arm_l", "arm_r" ],
-    "coverage": 80,
-    "encumbrance": 5,
     "warmth": 20,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "flags": [ "BELTED", "WATER_FRIENDLY", "BLOCK_WHILE_WORN" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY", "BLOCK_WHILE_WORN" ],
+    "armor": [ { "encumbrance": 5, "coverage": 80, "covers": [ "arm_l", "arm_r" ] } ]
   },
   {
     "id": "xl_armguard_hard",
@@ -126,13 +120,11 @@
     "symbol": "[",
     "looks_like": "arm_warmers",
     "color": "brown",
-    "covers": [ "arm_l", "arm_r" ],
-    "coverage": 90,
-    "encumbrance": 10,
     "warmth": 25,
     "material_thickness": 4,
     "valid_mods": [ "steel_padded" ],
-    "flags": [ "STURDY", "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ]
+    "flags": [ "STURDY", "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 10, "coverage": 90, "covers": [ "arm_l", "arm_r" ] } ]
   },
   {
     "id": "xl_armguard_larmor",
@@ -159,12 +151,10 @@
     "symbol": "[",
     "looks_like": "armguard_metal",
     "color": "light_gray",
-    "covers": [ "arm_l", "arm_r" ],
-    "coverage": 95,
-    "encumbrance": 20,
     "warmth": 20,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "BELTED", "STURDY", "BLOCK_WHILE_WORN" ]
+    "flags": [ "VARSIZE", "BELTED", "STURDY", "BLOCK_WHILE_WORN" ],
+    "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "arm_l", "arm_r" ] } ]
   },
   {
     "id": "xl_armguard_lightplate",
@@ -191,13 +181,11 @@
     "symbol": "[",
     "looks_like": "armguard_hard",
     "color": "light_gray",
-    "covers": [ "arm_l", "arm_r" ],
-    "coverage": 80,
-    "encumbrance": 15,
     "warmth": 20,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "flags": [ "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 15, "coverage": 80, "covers": [ "arm_l", "arm_r" ] } ]
   },
   {
     "id": "xl_armguard_metal",
@@ -224,12 +212,10 @@
     "symbol": "[",
     "looks_like": "armguard_larmor",
     "color": "blue",
-    "covers": [ "arm_l", "arm_r" ],
-    "coverage": 80,
-    "encumbrance": 10,
     "warmth": 5,
     "material_thickness": 3,
-    "flags": [ "BELTED", "BLOCK_WHILE_WORN" ]
+    "flags": [ "BELTED", "BLOCK_WHILE_WORN" ],
+    "armor": [ { "encumbrance": 10, "coverage": 80, "covers": [ "arm_l", "arm_r" ] } ]
   },
   {
     "id": "armguard_scrap",
@@ -248,12 +234,10 @@
     "symbol": "[",
     "looks_like": "armguard_metal",
     "color": "light_gray",
-    "covers": [ "arm_l", "arm_r" ],
-    "coverage": 80,
-    "encumbrance": 18,
     "warmth": 10,
     "material_thickness": 2,
-    "flags": [ "BELTED", "BLOCK_WHILE_WORN" ]
+    "flags": [ "BELTED", "BLOCK_WHILE_WORN" ],
+    "armor": [ { "encumbrance": 18, "coverage": 80, "covers": [ "arm_l", "arm_r" ] } ]
   },
   {
     "id": "xl_armguard_scrap",
@@ -280,13 +264,11 @@
     "symbol": "[",
     "looks_like": "arm_warmers",
     "color": "light_red",
-    "covers": [ "arm_l", "arm_r" ],
-    "coverage": 70,
-    "encumbrance": 5,
     "warmth": 20,
     "material_thickness": 2,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 5, "coverage": 70, "covers": [ "arm_l", "arm_r" ] } ]
   },
   {
     "id": "xl_armguard_soft",
@@ -313,11 +295,9 @@
     "symbol": "[",
     "looks_like": "armguard_metal",
     "color": "light_red",
-    "covers": [ "arm_l", "arm_r" ],
-    "coverage": 95,
-    "encumbrance": 20,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "STURDY" ]
+    "flags": [ "VARSIZE", "STURDY" ],
+    "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "arm_l", "arm_r" ] } ]
   },
   {
     "id": "xl_chainmail_arms",
@@ -344,10 +324,9 @@
     "symbol": "[",
     "looks_like": "armguard_hard",
     "color": "dark_gray",
-    "covers": [ "arm_l", "arm_r" ],
-    "coverage": 30,
     "material_thickness": 5,
-    "flags": [ "WATER_FRIENDLY", "BELTED" ]
+    "flags": [ "WATER_FRIENDLY", "BELTED" ],
+    "armor": [ { "coverage": 30, "covers": [ "arm_l", "arm_r" ] } ]
   },
   {
     "id": "vambrace_larmor",
@@ -364,13 +343,11 @@
     "symbol": "[",
     "looks_like": "armguard_larmor",
     "color": "brown",
-    "covers": [ "arm_l", "arm_r" ],
-    "coverage": 50,
-    "encumbrance": 8,
     "warmth": 10,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "flags": [ "STURDY", "BELTED", "WATER_FRIENDLY" ]
+    "flags": [ "STURDY", "BELTED", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 8, "coverage": 50, "covers": [ "arm_l", "arm_r" ] } ]
   },
   {
     "id": "xl_vambrace_larmor",

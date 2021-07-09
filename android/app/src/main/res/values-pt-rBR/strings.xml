@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="installTitle">Instalando dados do jogo...</string>
+    <string name="upgradeTitle">Melhorando dados do jogo...</string>
+    <string name="helpTitle">Controles</string>
+    <string name="helpMessage">\"Deslize\" para movimento direcional (mantenha pressionado para joystick virtual). \"Toque\" para confirmar a seleção no menu, ou Pausar um turno em jogo (mantenha pressionado para Pausar diversos turnos em jogo). \"Toque duas vezes\" para cancelar, ou voltar em menus (funciona como tecla Esc). \"Pince\" para aumentar e diminuir o zoom (em jogo). Use o botão de \"Voltar\" do dispositivo para ativar o teclado virtual (mantenha pressionado para alternar atalhos de teclado).</string>
+    <string name="softwareRendering">Renderização de software</string>
+    <string name="forceFullscreen">Forçar tela cheia</string>
+    <string name="trapBackButton">Manter botão de voltar </string>
+    <string name="settings">Configurações</string>
+    <string name="startGame">Iniciar jogo</string>
+    <string name="showHelp">Mostrar ajuda</string>
+    <string name="crashAlert">O jogo não foi encerrado corretamente na última vez</string>
+    <string name="crashMessage">O relatório de erro localizado em ./config/crash.log pode ajudar desenvolvedores a solucionarem erros no programa.</string>
+</resources>

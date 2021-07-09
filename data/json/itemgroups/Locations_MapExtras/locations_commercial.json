@@ -8,6 +8,7 @@
     "entries": [
       { "item": "aspirin", "prob": 85, "charges": [ 1, 10 ] },
       { "item": "caffeine", "prob": 25, "charges": [ 1, 10 ] },
+      { "item": "melatonin_tablet", "prob": 5, "charges": [ 1, 30 ] },
       { "group": "tobacco_products", "prob": 161 },
       { "item": "sponge", "prob": 10 },
       { "group": "ammo_pocket_batteries_full", "prob": 50 },
@@ -226,7 +227,8 @@
       [ "multi_cooker", 1 ],
       [ "pastaextruder", 8 ],
       { "item": "can_sealer", "prob": 5, "charges": [ 0, 500 ] },
-      [ "knuckle_brass", 15 ],
+      [ "knuckle_brass", 10 ],
+      [ "knuckle_steel_forged", 5 ],
       [ "platinum_small", 10 ],
       { "item": "foodperson_mask", "prob": 1, "charges": [ 0, 500 ] },
       [ "gold_small", 10 ],
@@ -629,6 +631,7 @@
     "items": [
       { "group": "mags_surplus", "prob": 400 },
       [ "freeze_dried_meal", 20 ],
+      [ "chocolate_military", 20 ],
       [ "knife_combat", 14 ],
       [ "knife_rm42", 1 ],
       [ "kukri", 2 ],
@@ -1190,6 +1193,7 @@
       { "item": "cordless_drill", "prob": 70, "charges": [ 0, 500 ] },
       [ "thermometer", 60 ],
       [ "saw", 90 ],
+      { "item": "bow_saw", "prob": 30 },
       { "item": "chainsaw_off", "prob": 10, "charges": [ 0, 450 ] },
       [ "bucket", 100 ],
       [ "tree_spile", 100 ],

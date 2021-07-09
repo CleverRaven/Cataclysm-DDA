@@ -77,6 +77,10 @@ class melee_actor : public mattack_actor
         int range = 1;
         // Attack fails if aimed at adjacent targets
         bool no_adjacent = false;
+        // Determines if a special attack can be dodged
+        bool dodgeable = true;
+        // Determines if a special attack can be blocked
+        bool blockable = true;
 
         /**
          * If empty, regular melee roll body part selection is used.

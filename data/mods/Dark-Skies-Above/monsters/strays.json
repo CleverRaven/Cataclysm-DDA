@@ -28,7 +28,6 @@
     "path_settings": { "max_dist": 4 },
     "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "GRAB", 7 ], [ "scratch", 20 ] ],
     "death_drops": "default_zombie_death_drops",
-    "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 21, "into_group": "DKS_GROUP_STRAY_UPGRADE" },
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "POISON", "FILTHY", "BASHES", "GROUP_BASH", "PUSH_MON", "REVIVES" ]
   },
@@ -67,14 +66,13 @@
     ],
     "death_drops": "mon_zombie_cop_death_drops",
     "upgrades": { "half_life": 60, "into": "dks_mon_crystal_baby" },
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "PUSH_MON", "FILTHY", "REVIVES" ]
   },
   {
     "id": "dks_mon_stray_soldier",
     "type": "MONSTER",
     "name": { "str": "stray soldier" },
-    "description": "A former soldier, no doubt deployed to assist with evacuations and drive off the aliens, dressed from head to toe in partially crystalized combat armor.  Though their training could not have prepared them for what they were up against, they still seem to remember enough to take you on.",
+    "description": "A former soldier, no doubt deployed to assist with evacuations and drive off the aliens, dressed from head to toe in partially crystallized combat armor.  Though their training could not have prepared them for what they were up against, they still seem to remember enough to take you on.",
     "looks_like": "mon_zombie_soldier",
     "default_faction": "stray",
     "bodytype": "human",
@@ -106,7 +104,6 @@
       { "id": "slam", "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] }
     ],
     "death_drops": "mon_zombie_soldier_death_drops",
-    "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 60, "into": "dks_mon_crystal_baby" },
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "PUSH_MON", "FILTHY", "REVIVES" ]
   },
@@ -143,7 +140,6 @@
     "path_settings": { "max_dist": 4 },
     "special_attacks": [ { "id": "slam" }, [ "GRAB", 7 ] ],
     "death_drops": "mon_zombie_fireman_death_drops",
-    "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 60, "into": "dks_mon_crystal_baby" },
     "flags": [
       "SEES",
@@ -191,7 +187,6 @@
     "path_settings": { "max_dist": 4 },
     "special_attacks": [ { "type": "bite", "cooldown": 5, "min_mul": 0.75, "no_infection_chance": 10 }, [ "GRAB", 6 ], [ "SHRIEK", 10 ] ],
     "death_drops": "default_zombie_death_drops",
-    "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 21, "into": "dks_mon_stray_eater" },
     "flags": [ "SEES", "HEARS", "SMELLS", "BASHES", "GROUP_BASH", "PUSH_MON", "STUMBLES", "WARM", "POISON", "FILTHY", "REVIVES" ]
   },
@@ -226,7 +221,7 @@
     "path_settings": { "max_dist": 4 },
     "special_attacks": [ [ "BOOMER", 20 ], { "type": "bite", "cooldown": 5, "min_mul": 0.75, "no_infection_chance": 10 }, [ "SHRIEK", 10 ] ],
     "death_drops": "default_zombie_death_drops",
-    "death_function": [ "BOOMER", "NORMAL" ],
+    "death_function": { "effect": { "id": "death_boomer", "hit_self": true }, "message": "A %s explode!" },
     "upgrades": { "half_life": 21, "into": "dks_mon_stray_tender" },
     "flags": [
       "SEES",
@@ -276,7 +271,7 @@
     "reproduction": { "baby_monster": "dks_mon_crystal_mite", "baby_count": 5, "baby_timer": 60 },
     "anger_triggers": [ "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
-    "death_function": [ "BOOMER_GLOW", "NORMAL" ],
+    "death_function": { "effect": { "id": "death_boomer_glow", "hit_self": true, "min_level": 1 }, "message": "A %s explode!" },
     "upgrades": { "half_life": 60, "into": "dks_mon_crystal_hive" },
     "flags": [
       "SEES",
@@ -322,7 +317,6 @@
     "path_settings": { "max_dist": 4 },
     "special_when_hit": [ "ZAPBACK", 100 ],
     "death_drops": "default_zombie_death_drops",
-    "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 10, "into": "dks_mon_stray_electric" },
     "flags": [
       "SEES",
@@ -370,7 +364,6 @@
     "special_attacks": [ [ "SHOCKSTORM", 25 ] ],
     "special_when_hit": [ "ZAPBACK", 100 ],
     "death_drops": "default_zombie_death_drops",
-    "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 60, "into": "dks_mon_crystal_zap" },
     "flags": [
       "SEES",
@@ -426,7 +419,6 @@
       }
     ],
     "death_drops": "default_zombie_death_drops",
-    "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 21, "into": "dks_mon_stray_prowler" },
     "flags": [
       "SEES",
@@ -479,7 +471,6 @@
       [ "LUNGE", 20 ]
     ],
     "death_drops": "default_zombie_death_drops",
-    "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 40, "into": "dks_mon_stray_predator" },
     "flags": [
       "SEES",
@@ -500,7 +491,7 @@
     "id": "dks_mon_stray_predator",
     "type": "MONSTER",
     "name": { "str": "stray guardian" },
-    "description": "Lithe muscle and pulsating crystal fused together into a mass that must be made up of multiple bodies, propelled forward by multiple grossly enlongated crystal limbs sharpened to dangerous points.  It strides about the streets, spearing those who dare intrude on its domain like some sort of horrid spider from beyond the stars.",
+    "description": "Lithe muscle and pulsating crystal fused together into a mass that must be made up of multiple bodies, propelled forward by multiple grossly elongated crystal limbs sharpened to dangerous points.  It strides about the streets, spearing those who dare intrude on its domain like some sort of horrid spider from beyond the stars.",
     "default_faction": "stray",
     "looks_like": "mon_zombie_predator",
     "bodytype": "human",
@@ -535,7 +526,6 @@
     ],
     "death_drops": "mon_zombie_hulk_death_drops",
     "upgrades": { "half_life": 60, "into": "dks_mon_crystal_baby" },
-    "death_function": [ "NORMAL" ],
     "flags": [
       "SEES",
       "HEARS",
@@ -587,7 +577,6 @@
     ],
     "death_drops": "default_zombie_death_drops",
     "upgrades": { "half_life": 21, "into_group": "DKS_GROUP_STRAY_UPGRADE" },
-    "death_function": [ "NORMAL" ],
     "flags": [
       "SEES",
       "HEARS",
@@ -640,7 +629,6 @@
     ],
     "death_drops": "mon_zombie_hulk_death_drops",
     "upgrades": { "half_life": 40, "into": "dks_mon_stray_titan" },
-    "death_function": [ "NORMAL" ],
     "flags": [
       "SEES",
       "HEARS",
@@ -691,7 +679,6 @@
     ],
     "death_drops": "mon_zombie_hulk_death_drops",
     "upgrades": { "half_life": 50, "into": "dks_mon_crystal_sprout" },
-    "death_function": [ "NORMAL" ],
     "flags": [
       "SEES",
       "HEARS",
@@ -740,7 +727,6 @@
     "path_settings": { "max_dist": 2 },
     "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "scratch", 10 ] ],
     "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_children_clothes", 100 ], [ "child_items", 65 ] ] },
-    "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 50, "into": "dks_mon_stray_wretch" },
     "flags": [ "SEES", "HEARS", "SMELLS", "BASHES", "GROUP_BASH", "STUMBLES", "WARM", "GUILT", "POISON", "FILTHY", "REVIVES" ]
   },
@@ -748,7 +734,7 @@
     "id": "dks_mon_stray_wretch_burnt",
     "type": "MONSTER",
     "name": { "str": "stray creep" },
-    "description": "A terrifying, hairy husk of a creature scrambling about on all fours, a mongrel housepet or the like covered in patches of crystal growths that jut from it like spikes.",
+    "description": "A terrifying, hairy husk of a creature scrambling about on all fours, a mongrel house pet or the like covered in patches of crystal growths that jut from it like spikes.",
     "default_faction": "stray",
     "looks_like": "mon_dog_zombie_rot",
     "bodytype": "dog",
@@ -772,7 +758,6 @@
     "harvest": "zombie_fur",
     "path_settings": { "max_dist": 3 },
     "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
-    "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 21, "into": "dks_mon_stray_wretch" },
     "flags": [
       "SEES",
@@ -793,7 +778,7 @@
     "id": "dks_mon_stray_wretch",
     "type": "MONSTER",
     "name": { "str": "stray wretch", "str_pl": "stray wretches" },
-    "description": "This blur of jagged, crystal-fused limbs and hair could have been anything from a housepet to a human at some point, but now it leaps and skitters around like something out of a nightmare.",
+    "description": "This blur of jagged, crystal-fused limbs and hair could have been anything from a house pet to a human at some point, but now it leaps and skitters around like something out of a nightmare.",
     "default_faction": "stray",
     "looks_like": "mon_zombie_dog",
     "bodytype": "dog",
@@ -825,7 +810,6 @@
         "damage_max_instance": [ { "damage_type": "stab", "amount": 10, "armor_multiplier": 0.7 } ]
       }
     ],
-    "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 23, "into_group": "DKS_WRETCH_UPGRADE" },
     "flags": [
       "SEES",
@@ -875,7 +859,6 @@
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 10, "armor_multiplier": 0.7 } ] },
       { "type": "leap", "cooldown": 5, "max_range": 5 }
     ],
-    "death_function": [ "NORMAL" ],
     "flags": [
       "SEES",
       "HEARS",
@@ -920,7 +903,6 @@
     "attack_effs": [ { "id": "paralyzepoison", "duration": 33 } ],
     "path_settings": { "max_dist": 5 },
     "special_attacks": [ { "type": "leap", "cooldown": 10, "max_range": 5 }, [ "RANGED_PULL", 20 ], [ "GRAB_DRAG", 3 ], [ "LONGSWIPE", 20 ] ],
-    "death_function": [ "NORMAL" ],
     "flags": [
       "SEES",
       "HEARS",
@@ -968,7 +950,6 @@
     "path_settings": { "max_dist": 10 },
     "special_attacks": [ { "type": "leap", "cooldown": 10, "max_range": 5 } ],
     "special_when_hit": [ "ZAPBACK", 100 ],
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "LOUDMOVES", "WARM", "BASHES", "POISON", "ELECTRIC", "FILTHY", "REVIVES" ]
   },
   {
@@ -1011,7 +992,6 @@
         "damage_max_instance": [ { "damage_type": "stab", "amount": 20, "armor_multiplier": 0.5 } ]
       }
     ],
-    "death_function": [ "NORMAL" ],
     "flags": [
       "SEES",
       "HEARS",
@@ -1048,7 +1028,7 @@
     "armor_stab": 20,
     "harvest": "exempt",
     "special_when_hit": [ "ZAPBACK", 100 ],
-    "death_function": [ "DISINTEGRATE" ],
+    "death_function": { "message": "The %s disintegrates!", "corpse_type": "NO_CORPSE" },
     "upgrades": { "half_life": 5, "into": "dks_mon_crystal_sprout" },
     "flags": [ "IMMOBILE", "NOGIB", "ELECTRIC", "WARM", "NO_BREATHE", "NOHEAD", "ARTHROPOD_BLOOD" ]
   },
@@ -1075,7 +1055,7 @@
     "armor_stab": 30,
     "harvest": "exempt",
     "special_when_hit": [ "ZAPBACK", 100 ],
-    "death_function": [ "DISINTEGRATE" ],
+    "death_function": { "message": "The %s disintegrates!", "corpse_type": "NO_CORPSE" },
     "upgrades": { "half_life": 5, "into_group": "MON_CRYSTAL_UPGRADE" },
     "flags": [ "IMMOBILE", "NOGIB", "ELECTRIC", "WARM", "NO_BREATHE", "NOHEAD", "ARTHROPOD_BLOOD" ]
   },
@@ -1105,14 +1085,14 @@
     "harvest": "exempt",
     "special_attacks": [ [ "SHRIEK_ALERT", 20 ], [ "SHRIEK_STUN", 1 ] ],
     "special_when_hit": [ "ZAPBACK", 100 ],
-    "death_function": [ "DISINTEGRATE" ],
+    "death_function": { "message": "The %s disintegrates!", "corpse_type": "NO_CORPSE" },
     "flags": [ "SEES", "IMMOBILE", "HARDTOSHOOT", "NOGIB", "ELECTRIC", "WARM", "NO_BREATHE", "NOHEAD", "ARTHROPOD_BLOOD" ]
   },
   {
     "id": "dks_mon_crystal_whip",
     "type": "MONSTER",
     "name": { "str": "flailing crystal mass", "str_pl": "flailing crystal masses" },
-    "description": "A tall, singular crystal, growing out of a sizable pile of debris that has sprouted a multitude of thin, whiplike tendrils that constantly snake around it like feelers.  It frequently grabs nearby objects and drags them into the pile beneath it, as if hoarding.",
+    "description": "A tall, singular crystal, growing out of a sizable pile of debris that has sprouted a multitude of thin, whip-like tendrils that constantly snake around it like feelers.  It frequently grabs nearby objects and drags them into the pile beneath it, as if hoarding.",
     "default_faction": "stray",
     "bodytype": "blob",
     "categories": [ "ALIEN" ],
@@ -1137,7 +1117,7 @@
     "harvest": "exempt",
     "special_attacks": [ [ "RANGED_PULL", 20 ], [ "STRETCH_ATTACK", 20 ] ],
     "special_when_hit": [ "ZAPBACK", 100 ],
-    "death_function": [ "DISINTEGRATE" ],
+    "death_function": { "message": "The %s disintegrates!", "corpse_type": "NO_CORPSE" },
     "flags": [ "SEES", "IMMOBILE", "NOGIB", "ELECTRIC", "WARM", "NO_BREATHE", "NOHEAD", "ARTHROPOD_BLOOD" ]
   },
   {
@@ -1167,7 +1147,7 @@
     "harvest": "exempt",
     "emit_fields": [ { "emit_id": "emit_shock_cloud", "delay": "3 s" } ],
     "special_when_hit": [ "ZAPBACK", 100 ],
-    "death_function": [ "DISINTEGRATE" ],
+    "death_function": { "message": "The %s disintegrates!", "corpse_type": "NO_CORPSE" },
     "flags": [ "IMMOBILE", "NOGIB", "ELECTRIC", "WARM", "NO_BREATHE", "NOHEAD", "ARTHROPOD_BLOOD" ]
   },
   {
@@ -1196,7 +1176,7 @@
     "luminance": 10,
     "harvest": "exempt",
     "special_when_hit": [ "ZAPBACK", 100 ],
-    "death_function": [ "DISINTEGRATE" ],
+    "death_function": { "message": "The %s disintegrates!", "corpse_type": "NO_CORPSE" },
     "flags": [ "IMMOBILE", "NOGIB", "ELECTRIC", "WARM", "NO_BREATHE", "NOHEAD", "ARTHROPOD_BLOOD" ]
   },
   {
@@ -1229,14 +1209,18 @@
     "reproduction": { "baby_monster": "dks_mon_crystal_mite", "baby_count": 4, "baby_timer": 60 },
     "special_attacks": [ [ "BOOMER_GLOW", 20 ], [ "STRETCH_ATTACK", 20 ], [ "LONGSWIPE", 20 ] ],
     "special_when_hit": [ "ZAPBACK", 100 ],
-    "death_function": [ "BOOMER_GLOW", "DISINTEGRATE" ],
+    "death_function": {
+      "effect": { "id": "death_boomer_glow", "hit_self": true, "min_level": 1 },
+      "message": "A %s explode!",
+      "corpse_type": "NO_CORPSE"
+    },
     "flags": [ "SEES", "IMMOBILE", "NOGIB", "ELECTRIC", "WARM", "NO_BREATHE", "NOHEAD", "ARTHROPOD_BLOOD" ]
   },
   {
     "id": "dks_mon_crystal_mite",
     "type": "MONSTER",
     "name": { "str": "crystal seed" },
-    "description": "A tiny, multilegged creature that appears to be made of a chunk of crystal.  It skitters around on wire-like legs, eating bits of organic leftovers to gain mass in hopes of one day seeding a crystal colony of its own.",
+    "description": "A tiny, multi-legged creature that appears to be made of a chunk of crystal.  It skitters around on wire-like legs, eating bits of organic leftovers.  Possibly to gain mass in hopes of one day seeding a crystal colony of its own.",
     "default_faction": "stray",
     "bodytype": "spider",
     "categories": [ "ALIEN" ],
@@ -1257,7 +1241,7 @@
     "harvest": "exempt",
     "upgrades": { "age_grow": 12, "into": "dks_mon_crystal_mite_fat" },
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "death_function": [ "DISINTEGRATE" ],
+    "death_function": { "message": "The %s disintegrates!", "corpse_type": "NO_CORPSE" },
     "flags": [
       "SEES",
       "HEARS",

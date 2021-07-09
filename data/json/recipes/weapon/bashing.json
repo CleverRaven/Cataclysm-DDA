@@ -89,7 +89,7 @@
     "reversible": true,
     "book_learn": [ [ "textbook_electronics", 3 ], [ "advanced_electronics", 3 ], [ "recipe_melee", 4 ] ],
     "using": [ [ "soldering_standard", 10 ] ],
-    "proficiencies": [ { "proficiency": "prof_elec_soldering", "fail_multiplier": 5 }, { "proficiency": "prof_shock_weapons" } ],
+    "proficiencies": [ { "proficiency": "prof_elec_soldering", "fail_multiplier": 1.5 }, { "proficiency": "prof_shock_weapons" } ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "i_staff", 1 ] ], [ [ "tazer", 1 ] ], [ [ "cable", 10 ] ] ]
   },
@@ -260,6 +260,28 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "result": "knuckle_steel_forged",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "skills_required": [ "bashing", 1 ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_toolsmithing" }
+    ],
+    "difficulty": 3,
+    "time": "1 h",
+    "autolearn": true,
+    "book_learn": [ [ "recipe_melee", 2 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ],
+    "components": [ [ [ "steel_chunk", 1 ], [ "scrap", 5 ] ] ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "knuckle_nail",
     "category": "CC_WEAPON",
@@ -288,7 +310,7 @@
     "time": "30 m",
     "book_learn": [ [ "recipe_melee", 1 ], [ "textbook_weapeast", 7 ] ],
     "using": [ [ "sewing_standard", 5 ] ],
-    "proficiencies": [ { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.5 } ],
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15 } ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "leather", 4 ] ], [ [ "scrap", 8 ] ] ]
   },
@@ -317,7 +339,8 @@
     "time": "1 h",
     "book_learn": [ [ "recipe_melee", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking", "fail_multiplier": 5 } ],
-    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+    "using": [ [ "plastic_molding", 1 ] ],
     "components": [ [ [ "plastic_chunk", 10 ] ] ]
   },
   {
@@ -346,13 +369,12 @@
     "difficulty": 6,
     "time": "2 h",
     "book_learn": [ [ "recipe_melee", 5 ] ],
-    "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 10 ] ],
+    "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 10 ], [ "plastic_molding", 1 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "tools": [ [ [ "mold_plastic", -1 ] ] ],
     "proficiencies": [
-      { "proficiency": "prof_elec_soldering", "fail_multiplier": 5 },
+      { "proficiency": "prof_elec_soldering", "fail_multiplier": 1.5 },
       { "proficiency": "prof_shock_weapons" },
-      { "proficiency": "prof_plasticworking", "fail_multiplier": 5 }
+      { "proficiency": "prof_plasticworking", "fail_multiplier": 1.5 }
     ],
     "components": [
       [ [ "plastic_chunk", 10 ] ],
@@ -395,7 +417,7 @@
     "time": "5 h 40 m",
     "book_learn": [ [ "textbook_weapeast", 6 ] ],
     "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "CUT", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_carving", "fail_multiplier": 5 } ],
+    "proficiencies": [ { "proficiency": "prof_carving", "fail_multiplier": 1.5 } ],
     "//": "Bokken is a single piece of wood, and the stout branch just isn't large enough.",
     "components": [
       [ [ "stick_long", 1 ] ],

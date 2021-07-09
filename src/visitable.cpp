@@ -39,16 +39,12 @@
 
 static const itype_id itype_apparatus( "apparatus" );
 static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
-static const itype_id itype_toolset( "toolset" );
 static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_UPS_off( "UPS_off" );
 
 static const quality_id qual_BUTCHER( "BUTCHER" );
 
-static const bionic_id bio_tools( "bio_tools" );
 static const bionic_id bio_ups( "bio_ups" );
-
-static const json_character_flag json_flag_BIONIC_TOGGLED( "BIONIC_TOGGLED" );
 
 /** @relates visitable */
 item *read_only_visitable::find_parent( const item &it ) const
@@ -132,11 +128,11 @@ static int has_quality_from_vpart( const vehicle &veh, int part, const quality_i
 {
     int qty = 0;
 
-    point pos = veh.cpart( part ).mount;
+    point pos = veh.part( part ).mount;
     for( const auto &n : veh.parts_at_relative( pos, true ) ) {
 
         // only unbroken parts can provide tool qualities
-        if( !veh.cpart( n ).is_broken() ) {
+        if( !veh.part( n ).is_broken() ) {
             auto tq = veh.part_info( n ).qualities;
             auto iter = tq.find( qual );
 
@@ -241,11 +237,11 @@ static int max_quality_from_vpart( const vehicle &veh, int part, const quality_i
 {
     int res = INT_MIN;
 
-    point pos = veh.cpart( part ).mount;
+    point pos = veh.part( part ).mount;
     for( const auto &n : veh.parts_at_relative( pos, true ) ) {
 
         // only unbroken parts can provide tool qualities
-        if( !veh.cpart( n ).is_broken() ) {
+        if( !veh.part( n ).is_broken() ) {
             auto tq = veh.part_info( n ).qualities;
             auto iter = tq.find( qual );
 
@@ -753,7 +749,7 @@ static int charges_of_internal( const T &self, const M &main, const itype_id &id
                         found_tool_with_UPS = true;
                     }
                 }
-                if( !e->has_pockets() ) {
+                if( !e->is_container() ) {
                     return qty < limit ? VisitResponse::SKIP : VisitResponse::ABORT;
                 }
 
@@ -828,11 +824,10 @@ int Character::charges_of( const itype_id &what, int limit,
 {
     const player *p = dynamic_cast<const player *>( this );
 
-    if( what == itype_toolset ) {
-        if( p && p->has_active_bionic( bio_tools ) ) {
+    for( const auto &bio : *this->my_bionics ) {
+        const bionic_data &bid = bio.info();
+        if( bid.fake_item == what && ( !bid.activated || bio.powered ) ) {
             return std::min( units::to_kilojoule( p->get_power_level() ), limit );
-        } else {
-            return 0;
         }
     }
 

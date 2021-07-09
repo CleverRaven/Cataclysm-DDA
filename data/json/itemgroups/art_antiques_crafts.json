@@ -194,7 +194,8 @@
       { "item": "coin_quarter", "prob": 1 },
       { "item": "bronze_medal", "prob": 1 },
       { "item": "silver_medal", "prob": 1 },
-      { "item": "gold_medal", "prob": 1 }
+      { "item": "gold_medal", "prob": 1 },
+      { "item": "bookstrap", "prob": 5 }
     ]
   },
   {
@@ -272,6 +273,24 @@
       { "item": "ceramic_bowl", "prob": 15 },
       { "item": "ceramic_cup", "prob": 15 },
       { "item": "jug_clay", "prob": 15 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "woodcrafts",
+    "items": [
+      [ "holy_symbol_wood", 20 ],
+      [ "hand_paddles", 10 ],
+      [ "pipe_tobacco", 10 ],
+      [ "ukulele", 10 ],
+      [ "clogs", 20 ],
+      [ "canteen_wood", 10 ],
+      [ "pet_carrier_wooden", 10 ],
+      [ "wooden_barrel", 10 ],
+      [ "wooden_bead", 5 ],
+      [ "bead_bracelet", 5 ],
+      [ "bead_ear", 5 ],
+      [ "bead_necklace", 5 ]
     ]
   }
 ]

@@ -49,9 +49,17 @@
     "name": "Large Building",
     "points": -2,
     "description": "Whether due to stubbornness, ignorance, or just plain bad luck, you missed the evacuation, and are stuck in a large building full of the risen dead.",
-    "allowed_locs": [ "sloc_mall_loading_area", "sloc_mall_food_court", "sloc_apartments_rooftop", "sloc_hospital" ],
+    "allowed_locs": [
+      "sloc_mall_loading_area",
+      "sloc_mall_food_court",
+      "sloc_apartments_rooftop",
+      "sloc_apartments_rooftop2",
+      "sloc_hospital",
+      "sloc_school"
+    ],
     "start_name": "In Large Building",
-    "flags": [ "SUR_START", "CITY_START", "LONE_START" ]
+    "surround_groups": [ [ "GROUP_BLACK_ROAD", 70.0 ] ],
+    "flags": [ "CITY_START", "LONE_START" ]
   },
   {
     "type": "scenario",
@@ -78,7 +86,8 @@
       "sloc_police"
     ],
     "start_name": "In Town",
-    "flags": [ "SUR_START", "CITY_START", "LONE_START" ]
+    "surround_groups": [ [ "GROUP_BLACK_ROAD", 70.0 ] ],
+    "flags": [ "CITY_START", "LONE_START" ]
   },
   {
     "type": "scenario",
@@ -95,7 +104,9 @@
       "sloc_horse_ranch",
       "sloc_lighthouse_ground",
       "sloc_cabin_lake",
-      "sloc_freshwater_research_station"
+      "sloc_lodge_ground",
+      "sloc_freshwater_research_station",
+      "sloc_light_industry_scen"
     ],
     "start_name": "Safe Building",
     "flags": [ "LONE_START" ]
@@ -285,6 +296,16 @@
   },
   {
     "type": "scenario",
+    "id": "bordered",
+    "name": "Challenge - Bordered",
+    "points": -2,
+    "description": "You have survived the initial wave of panic, and have achieved (relative) safety in one of the many government evac shelters.  The only thing that really bothers you is a mysterious sky-high wall seen in the distance.",
+    "allowed_locs": [ "sloc_shelter_a", "sloc_shelter_b", "sloc_shelter_c" ],
+    "start_name": "Evac Shelter",
+    "flags": [ "CHALLENGE", "CITY_START", "BORDERED" ]
+  },
+  {
+    "type": "scenario",
     "id": "ambushed",
     "name": "Ambush",
     "points": -3,
@@ -296,10 +317,12 @@
       "sloc_hermit_shack",
       "sloc_farm_survivalist",
       "sloc_campsite",
+      "sloc_lodge_ground",
       "sloc_campground"
     ],
     "start_name": "Outside Town",
-    "flags": [ "SUR_START", "LONE_START" ],
+    "surround_groups": [ [ "GROUP_BLACK_ROAD", 70.0 ] ],
+    "flags": [ "LONE_START" ],
     "custom_initial_date": { "season": "winter" },
     "add_professions": true,
     "professions": [ "sheltered_survivor", "sheltered_militia", "winter_scavenger", "winter_army" ]
@@ -314,6 +337,7 @@
       "sloc_field",
       "sloc_forest",
       "sloc_cabin",
+      "sloc_lodge_ground",
       "sloc_hermit_shack",
       "sloc_farm_survivalist",
       "sloc_campsite",
@@ -574,5 +598,16 @@
     "allowed_locs": [ "sloc_private_resort" ],
     "professions": [ "frat", "gangster", "lost_sub", "lawyer", "politician", "dancer" ],
     "flags": [ "CHALLENGE", "LONE_START" ]
+  },
+  {
+    "type": "scenario",
+    "id": "car_crash",
+    "name": "Car Crash",
+    "points": -2,
+    "description": "You decided the open road would be a better prospect than the zombie-filled cities.  While en route to your destination, you were involved in a wreck.  Injured and alone, death seems inevitable.",
+    "allowed_locs": [ "sloc_road" ],
+    "start_name": "Crash Site",
+    "map_extra": "mx_mayhem",
+    "flags": [ "CHALLENGE", "HELI_CRASH", "LONE_START" ]
   }
 ]

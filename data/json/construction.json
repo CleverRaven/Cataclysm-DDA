@@ -61,6 +61,18 @@
   },
   {
     "type": "construction",
+    "id": "constr_pit_underground",
+    "group": "underground_pit",
+    "category": "DIG",
+    "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
+    "required_skills": [ [ "survival", 3 ] ],
+    "time": "300 m",
+    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 7000 ] ] ],
+    "pre_terrain": "t_rock_floor",
+    "post_terrain": "t_pit"
+  },
+  {
+    "type": "construction",
     "id": "constr_chop_trunk",
     "group": "chop_tree_trunk_into_planks",
     "category": "FARM_WOOD",
@@ -646,6 +658,31 @@
   },
   {
     "type": "construction",
+    "id": "constr_wall_wattle_post",
+    "group": "build_woven_wattle_fence",
+    "//": "Step 1: narrow fence posts for a woven wattle wall",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 0 ], [ "survival", 1 ] ],
+    "time": "20 m",
+    "qualities": [ [ { "id": "CUT", "level": 1 } ], [ { "id": "HAMMER", "level": 1 } ], [ { "id": "DIG", "level": 1 } ] ],
+    "components": [ [ [ "stick", 4 ], [ "pointy_stick", 4 ] ] ],
+    "pre_flags": "DIGGABLE",
+    "post_terrain": "t_wattle_fence_posts"
+  },
+  {
+    "type": "construction",
+    "id": "constr_wall_wattle_woven",
+    "group": "build_woven_wattle_fence",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 2 ], [ "survival", 2 ] ],
+    "time": "50 m",
+    "qualities": [ [ { "id": "CUT", "level": 1 } ], [ { "id": "HAMMER", "level": 1 } ] ],
+    "components": [ [ [ "stick", 10 ] ] ],
+    "pre_terrain": "t_wattle_fence_posts",
+    "post_terrain": "t_wattle_fence"
+  },
+  {
+    "type": "construction",
     "id": "constr_wall_wattle_half",
     "group": "build_wattle_and_daub_wall",
     "//": "Step 1: half of a wall in an empty space",
@@ -680,6 +717,25 @@
       [ [ "water", 5 ], [ "water_clean", 5 ] ]
     ],
     "pre_terrain": "t_wall_wattle_half",
+    "post_terrain": "t_wall_wattle"
+  },
+  {
+    "type": "construction",
+    "id": "constr_wall_wattle_from_fence",
+    "group": "build_wattle_and_daub_wall",
+    "//": "Upgrade a woven wattle fence to a full wall",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 3 ], [ "survival", 3 ] ],
+    "time": "60 m",
+    "qualities": [ [ { "id": "CUT", "level": 1 } ], [ { "id": "HAMMER", "level": 1 } ] ],
+    "components": [
+      [ [ "2x4", 5 ], [ "stick", 10 ] ],
+      [ [ "material_quicklime", 8 ], [ "material_limestone", 8 ], [ "clay_lump", 8 ] ],
+      [ [ "pebble", 10 ], [ "material_sand", 10 ] ],
+      [ [ "straw_pile", 8 ], [ "cattail_stalk", 8 ], [ "dogbane", 8 ], [ "pine_bough", 8 ] ],
+      [ [ "water", 10 ], [ "water_clean", 10 ] ]
+    ],
+    "pre_terrain": "t_wattle_fence",
     "post_terrain": "t_wall_wattle"
   },
   {
@@ -845,6 +901,30 @@
   },
   {
     "type": "construction",
+    "id": "constr_gravelbag_half",
+    "group": "build_gravelbag_wall",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "16 m",
+    "components": [ [ [ "gravelbag", 16 ] ] ],
+    "pre_note": "Can be deconstructed without tools.",
+    "pre_special": "check_empty",
+    "post_terrain": "f_gravelbag_half"
+  },
+  {
+    "type": "construction",
+    "id": "constr_gravelbag_wall",
+    "group": "build_gravelbag_wall",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "20 m",
+    "components": [ [ [ "gravelbag", 20 ] ] ],
+    "pre_note": "Can be deconstructed without tools.",
+    "pre_terrain": "f_gravelbag_half",
+    "post_terrain": "f_gravelbag_wall"
+  },
+  {
+    "type": "construction",
     "id": "constr_earthbag_half",
     "group": "build_earthbag_wall",
     "//": "Step 1: Build earthbag barricade",
@@ -966,11 +1046,11 @@
     "type": "construction",
     "id": "constr_railroad_rubble",
     "group": "make_gravel_floor",
-    "//": "Covers the floor with pebbles. Used for constructing railroads.",
+    "//": "Covers the floor with gravel. Used for constructing railroads.",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "40 m",
-    "components": [ [ [ "pebble", 100 ] ] ],
+    "components": [ [ [ "material_gravel", 500 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "t_railroad_rubble"
   },
@@ -1047,7 +1127,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 6 ] ],
     "time": "120 m",
-    "qualities": [ [ { "id": "WELD", "level": 2 } ], [ { "id": "GLARE", "level": 2 } ] ],
+    "using": [ [ "welding_standard", 2 ] ],
     "components": [ [ [ "rebar", 16 ] ] ],
     "pre_terrain": "t_pit",
     "post_terrain": "t_reb_cage"
@@ -1088,7 +1168,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 6 ] ],
     "time": "120 m",
-    "qualities": [ [ { "id": "WELD", "level": 2 } ], [ { "id": "GLARE", "level": 2 } ] ],
+    "using": [ [ "welding_standard", 2 ] ],
     "components": [ [ [ "rebar", 16 ] ] ],
     "pre_terrain": "t_pit",
     "post_terrain": "t_reb_cage"
@@ -1143,7 +1223,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 5 ] ],
     "time": "120 m",
-    "qualities": [ [ { "id": "WELD", "level": 2 } ], [ { "id": "GLARE", "level": 2 } ] ],
+    "using": [ [ "welding_standard", 2 ] ],
     "components": [ [ [ "rebar", 8 ] ], [ [ "2x4", 12 ] ], [ [ "pipe", 4 ] ] ],
     "pre_terrain": "t_pit_shallow",
     "post_terrain": "t_ov_smreb_cage"
@@ -1170,7 +1250,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 6 ] ],
     "time": "180 m",
-    "qualities": [ [ { "id": "WELD", "level": 2 } ], [ { "id": "GLARE", "level": 2 } ] ],
+    "using": [ [ "welding_standard", 2 ] ],
     "components": [ [ [ "rebar", 12 ] ], [ [ "2x4", 12 ] ], [ [ "pipe", 4 ] ] ],
     "pre_terrain": "t_pit",
     "post_terrain": "t_ov_reb_cage"
@@ -2030,12 +2110,8 @@
     "category": "FURN",
     "required_skills": [ [ "fabrication", 2 ], [ "cooking", 1 ] ],
     "time": "180 m",
-    "qualities": [
-      [ { "id": "HAMMER", "level": 2 } ],
-      [ { "id": "SAW_M", "level": 1 } ],
-      [ { "id": "WELD", "level": 2 } ],
-      [ { "id": "GLARE", "level": 2 } ]
-    ],
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ] ],
+    "using": [ [ "welding_standard", 2 ] ],
     "components": [ [ [ "metal_tank", 4 ] ], [ [ "water_faucet", 1 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_standing_tank"
@@ -2593,6 +2669,7 @@
     "time": "60 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "2x4", 6 ] ], [ [ "nail", 20 ] ], [ [ "wood_panel", 3 ] ] ],
+    "pre_special": "check_nofloor_above",
     "pre_terrain": "t_wood_stairs_up_broken",
     "post_terrain": "t_wood_stairs_up",
     "post_special": "done_wood_stairs"
@@ -2620,6 +2697,7 @@
     "time": "360 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
     "components": [ [ [ "wood_panel", 4 ] ], [ [ "nail", 30 ] ] ],
+    "pre_special": "check_nofloor_above",
     "pre_terrain": "t_wood_stairs_up_half",
     "post_terrain": "t_wood_stairs_up",
     "post_special": "done_wood_stairs"
@@ -2668,7 +2746,6 @@
     "tools": [ [ [ "con_mix", 125 ] ] ],
     "qualities": [ [ { "id": "SMOOTH", "level": 1 } ] ],
     "components": [ [ [ "concrete", 5 ] ], [ [ "water", 5 ] ] ],
-    "pre_terrain": "t_pit_shallow",
     "pre_special": "check_ramp_low",
     "post_terrain": "t_ramp_up_low",
     "post_special": "done_ramp_low"
@@ -2685,7 +2762,6 @@
     "tools": [ [ [ "con_mix", 125 ] ] ],
     "qualities": [ [ { "id": "SMOOTH", "level": 1 } ] ],
     "components": [ [ [ "concrete", 5 ] ], [ [ "water", 5 ] ] ],
-    "pre_terrain": "t_pit_shallow",
     "pre_special": "check_ramp_high",
     "post_terrain": "t_ramp_up_high",
     "post_special": "done_ramp_high"
@@ -3674,10 +3750,10 @@
     "qualities": [
       [ { "id": "HAMMER", "level": 2 } ],
       [ { "id": "SAW_M", "level": 1 } ],
-      [ { "id": "WELD", "level": 2 } ],
       [ { "id": "DRILL", "level": 3 } ],
       [ { "id": "WRENCH", "level": 2 } ]
     ],
+    "using": [ [ "welding_standard", 2 ] ],
     "components": [
       [ [ "fire_brick", 40 ] ],
       [ [ "cu_pipe", 4 ] ],
@@ -4272,8 +4348,116 @@
     "required_skills": [ [ "survival", 0 ] ],
     "time": "60 m",
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
-    "byproducts": [ { "item": "pebble", "count": [ 70, 100 ] } ],
+    "byproducts": [ { "item": "material_gravel", "count": [ 350, 500 ] } ],
     "pre_terrain": "t_railroad_rubble",
     "post_terrain": "t_dirt"
+  },
+  {
+    "type": "construction",
+    "id": "constr_mechanical_winch",
+    "group": "build_mechanical_winch",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 5 ], [ "mechanics", 6 ] ],
+    "time": "60 m",
+    "tools": [ [ [ "oxy_torch", 4 ], [ "welder", 20 ], [ "welder_crude", 30 ], [ "toolset", 30 ] ] ],
+    "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "GLARE", "level": 2 } ] ],
+    "components": [ [ [ "chain", 16 ] ], [ [ "wheel_metal", 2 ] ], [ [ "pipe", 4 ] ] ],
+    "pre_note": "Must be adjacent to a reinforced concrete wall that is itself adjacent to a metal gate in order to open said gate.",
+    "pre_special": "check_empty",
+    "post_terrain": "t_gates_mech_control_lab"
+  },
+  {
+    "type": "construction",
+    "id": "constr_metal_gate",
+    "group": "build_metal_gate",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 4 ], [ "mechanics", 4 ] ],
+    "time": "120 m",
+    "tools": [ [ [ "oxy_torch", 10 ], [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ] ] ],
+    "qualities": [ [ { "id": "SAW_M", "level": 2 } ], [ { "id": "GLARE", "level": 2 } ] ],
+    "components": [
+      [ [ "steel_lump", 8 ], [ "steel_chunk", 24 ], [ "scrap", 72 ] ],
+      [ [ "sheet_metal", 16 ] ],
+      [ [ "frame", 4 ], [ "spike", 24 ] ]
+    ],
+    "pre_note": "Must be between reinforced concrete walls to function, and at least one wall must have an adjacent mechanical winch.",
+    "pre_special": "check_empty",
+    "post_terrain": "t_door_metal_locked"
+  },
+  {
+    "type": "construction",
+    "id": "constr_exercise_machine",
+    "group": "build_exercise_machine",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "180 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SCREW", "level": 1 } ] ],
+    "components": [ [ [ "pipe", 1 ] ], [ [ "steel_chunk", 1 ] ], [ [ "scrap", 6 ] ], [ [ "lead", 2000 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_exercise"
+  },
+  {
+    "type": "construction",
+    "id": "constr_ergometer_mechanical",
+    "group": "build_ergometer_mechanical",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 4 ] ],
+    "time": "240 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SCREW", "level": 1 } ], [ { "id": "WRENCH", "level": 1 } ] ],
+    "components": [
+      [ [ "foot_crank", 1 ] ],
+      [ [ "plastic_chunk", 10 ] ],
+      [ [ "scrap", 4 ] ],
+      [ [ "chain", 1 ] ],
+      [ [ "pipe", 5 ] ],
+      [ [ "saddle", 1 ] ],
+      [ [ "wheel_small", 1 ] ],
+      [ [ "nail", 8 ] ]
+    ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_ergometer_mechanical"
+  },
+  {
+    "type": "construction",
+    "id": "constr_treadmill_mechanical",
+    "group": "build_treadmill_mechanical",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 4 ] ],
+    "time": "240 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SCREW", "level": 1 } ], [ { "id": "WRENCH", "level": 1 } ] ],
+    "components": [ [ [ "plastic_chunk", 14 ] ], [ [ "scrap", 10 ] ], [ [ "pipe", 6 ] ], [ [ "nail", 8 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_treadmill_mechanical"
+  },
+  {
+    "type": "construction",
+    "id": "constr_glass_wall",
+    "group": "build_glass_wall",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "60 m",
+    "qualities": [ [ { "id": "HAMMER_SOFT", "level": 1 } ] ],
+    "components": [
+      [ [ "frame_wood", 1 ] ],
+      [ [ "chunk_rubber", 16 ] ],
+      [ [ "glass_sheet", 2 ] ],
+      [ [ "superglue", 2 ], [ "duct_tape", 10 ] ]
+    ],
+    "pre_note": "Must be supported on at least two sides.",
+    "pre_special": "check_support",
+    "post_terrain": "t_wall_glass"
+  },
+  {
+    "type": "construction",
+    "id": "constr_glass_wall_door",
+    "group": "build_glass_door",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "60 m",
+    "qualities": [ [ { "id": "HAMMER_SOFT", "level": 1 } ] ],
+    "components": [ [ [ "frame_wood", 1 ] ], [ [ "chunk_rubber", 16 ] ], [ [ "glass_sheet", 2 ] ], [ [ "rag", 8 ] ] ],
+    "pre_note": "Must be supported on at least two sides.",
+    "pre_special": "check_support",
+    "post_terrain": "t_door_glass_c"
   }
 ]

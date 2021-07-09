@@ -184,7 +184,7 @@
     "price": 600000,
     "to_hit": -3,
     "bashing": 8,
-    "material": [ "alien_resin" ],
+    "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "green",
     "use_action": {
@@ -193,6 +193,29 @@
       "difficulty": 4,
       "moves": 100,
       "skills": [ "computer" ]
+    }
+  },
+  {
+    "id": "bot_wraitheon_kaburaya",
+    "type": "TOOL",
+    "name": { "str": "inactive Kabura-ya drone" },
+    "description": "An inactive Karuba-ya hunter drone, folded for ease of storage.  If deployed, it will seek and fly to the closest enemy before detonating.  Unlike most robots, its activation depends on a successful throw, and not on your computer skill.",
+    "weight": "550 g",
+    "volume": "250 ml",
+    "price": 5000,
+    "to_hit": -3,
+    "bashing": 0,
+    "material": [ "aluminum", "plastic" ],
+    "symbol": ";",
+    "color": "green",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_wraitheon_kaburaya",
+      "friendly_msg": "The Kabura-ya emits a short IFF chirp as you throw it.",
+      "hostile_msg": "The Kabura-ya emits an warning whine after your botched throw!",
+      "difficulty": 1,
+      "moves": 100,
+      "skills": [ "throw" ]
     }
   },
   {

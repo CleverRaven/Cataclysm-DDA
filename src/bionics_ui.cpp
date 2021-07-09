@@ -7,6 +7,7 @@
 #include <string>
 
 #include "avatar.h"
+#include "avatar_action.h"
 #include "bionics.h"
 #include "bodypart.h"
 #include "calendar.h"
@@ -17,6 +18,7 @@
 #include "enums.h"
 #include "flat_set.h"
 #include "game.h"
+#include "game_inventory.h"
 #include "input.h"
 #include "inventory.h"
 #include "material.h"
@@ -268,9 +270,10 @@ static void draw_bionics_titlebar( const catacurses::window &window, avatar *p,
     std::string desc_append = string_format(
                                   _( "[<color_yellow>%s</color>] Reassign, [<color_yellow>%s</color>] Switch tabs, "
                                      "[<color_yellow>%s</color>] Toggle fuel saving mode, "
-                                     "[<color_yellow>%s</color>] Toggle auto start mode." ),
+                                     "[<color_yellow>%s</color>] Toggle auto start mode, "
+                                     "[<color_yellow>%s</color>] Open refueling menu." ),
                                   ctxt.get_desc( "REASSIGN" ), ctxt.get_desc( "NEXT_TAB" ), ctxt.get_desc( "TOGGLE_SAFE_FUEL" ),
-                                  ctxt.get_desc( "TOGGLE_AUTO_START" ) );
+                                  ctxt.get_desc( "TOGGLE_AUTO_START" ), ctxt.get_desc( "REFUEL" ) );
     desc_append += string_format( _( " [<color_yellow>%s</color>] Sort: %s" ), ctxt.get_desc( "SORT" ),
                                   sort_mode_str( uistate.bionic_sort_mode ) );
     std::string desc;
@@ -307,6 +310,10 @@ static std::string build_bionic_poweronly_string( const bionic &bio )
         properties.push_back( string_format( _( "%s deact" ),
                                              units::display( bio_data.power_deactivate ) ) );
     }
+    if( bio_data.power_trigger > 0_kJ ) {
+        properties.push_back( string_format( _( "%s trigger" ),
+                                             units::display( bio_data.power_trigger ) ) );
+    }
     if( bio_data.charge_time > 0 && bio_data.power_over_time > 0_kJ ) {
         properties.push_back( bio_data.charge_time == 1
                               ? string_format( _( "%s/turn" ), units::display( bio_data.power_over_time ) )
@@ -314,10 +321,10 @@ static std::string build_bionic_poweronly_string( const bionic &bio )
                                                bio_data.charge_time ) );
     }
     if( bio_data.has_flag( STATIC( json_character_flag( "BIONIC_TOGGLED" ) ) ) ) {
-        properties.push_back( bio.powered ? _( "ON" ) : _( "OFF" ) );
+        properties.emplace_back( bio.powered ? _( "ON" ) : _( "OFF" ) );
     }
     if( bio.incapacitated_time > 0_turns ) {
-        properties.push_back( _( "(incapacitated)" ) );
+        properties.emplace_back( _( "(incapacitated)" ) );
     }
     if( bio.get_safe_fuel_thresh() > 0 && ( !bio.info().fuel_opts.empty() ||
                                             bio.info().is_remote_fueled ) ) {
@@ -632,6 +639,7 @@ void avatar::power_bionics()
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "TOGGLE_SAFE_FUEL" );
+    ctxt.register_action( "REFUEL" );
     ctxt.register_action( "TOGGLE_AUTO_START" );
     ctxt.register_action( "SORT" );
 
@@ -831,6 +839,9 @@ void avatar::power_bionics()
                     popup( _( "You can't toggle fuel saving mode on a non-fueled CBM." ) );
                 }
             }
+        } else if( action == "REFUEL" ) {
+            avatar_action::eat( get_avatar(), game_menus::inv::consume_fuel( get_avatar() ), true );
+            break;
         } else if( action == "TOGGLE_AUTO_START" ) {
             auto &bio_list = tab_mode == TAB_ACTIVE ? active : passive;
             if( !current_bionic_list->empty() ) {

@@ -105,24 +105,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "mine_entrance",
-    "name": "mine entrance",
-    "sym": "M",
-    "color": "magenta",
-    "see_cost": 5,
-    "flags": [ "KNOWN_DOWN", "NO_ROTATE" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mine_shaft",
-    "name": "mine shaft",
-    "sym": "O",
-    "color": "dark_gray",
-    "see_cost": 5,
-    "flags": [ "KNOWN_UP", "KNOWN_DOWN", "NO_ROTATE" ]
-  },
-  {
-    "type": "overmap_terrain",
     "id": "mine",
     "name": "mine",
     "sym": "M",
@@ -145,24 +127,6 @@
     "name": "mine",
     "sym": "M",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "spiral_hub",
-    "name": "spiral cavern",
-    "sym": "@",
-    "color": "pink",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "spiral",
-    "name": "spiral cavern",
-    "sym": "@",
-    "color": "pink",
     "see_cost": 2,
     "flags": [ "NO_ROTATE" ]
   },
@@ -264,33 +228,6 @@
     "color": "light_green",
     "see_cost": 2,
     "flags": [ "KNOWN_DOWN", "NO_ROTATE" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "triffid_grove",
-    "name": "triffid grove",
-    "sym": "T",
-    "color": "light_red",
-    "see_cost": 5,
-    "flags": [ "KNOWN_DOWN", "NO_ROTATE", "RISK_HIGH" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "triffid_roots",
-    "name": "triffid roots",
-    "sym": "T",
-    "color": "light_red",
-    "see_cost": 5,
-    "flags": [ "KNOWN_UP", "KNOWN_DOWN", "NO_ROTATE" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "triffid_finale",
-    "name": "triffid heart",
-    "sym": "T",
-    "color": "red",
-    "see_cost": 5,
-    "flags": [ "KNOWN_UP", "NO_ROTATE" ]
   },
   {
     "type": "overmap_terrain",

@@ -214,7 +214,7 @@
     "id": "standard_domestic_basement_palette",
     "//": "Intended to be used in conjunction with standard_domestic_palette. Load the domestic palette first, then this one to overwrite certain common symbols with ones more appropriate for basements.  Symbols still open for use: ! $ % & _ = ~ - ? / , and more",
     "terrain": {
-      "^": "t_rock",
+      "^": "t_soil",
       "#": "t_concrete_wall",
       ".": "t_thconc_floor",
       "c": "t_thconc_floor",
@@ -223,8 +223,16 @@
     },
     "furniture": { "c": "f_exercise", "u": [ "f_ergometer", "f_ergometer_mechanical" ], "X": "f_punching_bag" },
     "monsters": {
-      "!": [ { "monster": "GROUP_ROACH", "chance": 70 }, { "monster": "GROUP_ZOMBIE", "chance": 100 } ],
-      ".": [ { "monster": "GROUP_ROACH", "chance": 80 }, { "monster": "GROUP_ZOMBIE", "chance": 60 } ]
+      "!": [
+        { "monster": "GROUP_ROACH", "chance": 70 },
+        { "monster": "GROUP_PLAGUE_ROACH", "chance": 50 },
+        { "monster": "GROUP_ZOMBIE", "chance": 100 }
+      ],
+      ".": [
+        { "monster": "GROUP_ROACH", "chance": 80 },
+        { "monster": "GROUP_PLAGUE_ROACH", "chance": 50 },
+        { "monster": "GROUP_ZOMBIE", "chance": 60 }
+      ]
     }
   },
   {

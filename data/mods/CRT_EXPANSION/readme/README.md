@@ -24,7 +24,7 @@ More techniques, more play styles. Tries to open up melee and offer more than "d
 
 I tried to keep the damage balanced and also added scaling damage and movecosts to make it so certain attacks or weapons carry different risks.
 
-# Dead Space
-Yeah, the suit is the R.I.G and many other things come from these games. Awesome series! Some Necromorphs will spawn in labs as well, so beware.
+# Lore
+The logic behind the C.R.T Expansion is that in this version of the Cataclysm is that there was a much longer build up of the dead rising and random portals appearing before the final Cataclysmic Portal Storm erupted.   Governments used this time to create special response forces similar to the Fringe universe.  Despite the extra time that the world had to prepare, the Cataclysm still mostly went off as basic DDA.  Eventually there will be more special locations showing off some of these preparations and the failures they experienced.
 
 Anyways, have fun and report any bugs you find.

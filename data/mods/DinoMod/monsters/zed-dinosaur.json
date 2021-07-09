@@ -17,8 +17,8 @@
     "armor_cut": 4,
     "armor_bullet": 2,
     "hp": 200,
-    "description": "The shuffling corpse of a medium dinosaur with sharp teeth and two prominent bony crests on its head with ragged strips of ripped flesh hanging down like a frill.",
-    "upgrades": { "half_life": 14, "into": "mon_zilophosaurus_brute" }
+    "description": "The shuffling corpse of a medium-sized dinosaur with sharp teeth and two prominent bony crests on its head, with ragged strips of ripped flesh hanging down like a frill.",
+    "upgrades": { "half_life": 14, "into_group": "GROUP_zilophosaurus_UPGRADE" }
   },
   {
     "type": "MONSTER",
@@ -64,7 +64,6 @@
     "armor_bash": 6,
     "armor_cut": 8,
     "hp": 670,
-    "death_function": [ "NORMAL" ],
     "description": "Enormous putrid dinosaur corpse with a ferocious crocodile-like head, oozing black eyes, and a tattered sail on its back.",
     "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
     "upgrades": { "half_life": 14, "into_group": "GROUP_zpinosaurus_UPGRADE" },
@@ -126,7 +125,8 @@
     "armor_bullet": 2,
     "hp": 1200,
     "special_attacks": [ [ "GRAB", 10 ], [ "LUNGE", 20 ] ],
-    "description": "The shambling corpse of a huge predatory bipedal dinosaur, with a tall ridge running down the length of its back covered with heavy muscles.  Its teeth are curved and serrated like sawblades.",
+    "description": "The shambling corpse of a huge, bipedal dinosaur predator, with a tall ridge running down the length of its back covered with heavy muscles.  Its teeth are curved and serrated like sawblades.",
+    "upgrades": { "half_life": 14, "into_group": "GROUP_zacrocanthosaurus_UPGRADE" },
     "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "BASHES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ]
   },
   {
@@ -147,8 +147,45 @@
     "armor_bullet": 2,
     "hp": 1000,
     "special_attacks": [ [ "BIO_OP_TAKEDOWN", 20 ], [ "RANGED_PULL", 20 ], [ "GRAB_DRAG", 10 ] ],
-    "description": "The shambling corpse of a huge predatory bipedal dinosaur with long claws and strong arms for grappling.",
+    "description": "The shambling corpse of a huge, bipedal dinosaur predator with long claws and strong arms for grappling.",
+    "upgrades": { "half_life": 14, "into_group": "GROUP_ziats_UPGRADE" },
     "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "BASHES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zalbertosaurus",
+    "name": { "str": "Albertosaurus zombie" },
+    "copy-from": "mon_zyrannosaurus",
+    "melee_dice_sides": 4,
+    "melee_cut": 10,
+    "armor_bash": 5,
+    "armor_cut": 5,
+    "armor_bullet": 3,
+    "hp": 330,
+    "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "GRAB", 7 ], [ "scratch", 20 ], [ "LUNGE", 5 ] ],
+    "description": "Massive jaws drooling black liquid, lifted over grasping claws by a huge shuffling dinosaur corpse.",
+    "upgrades": { "half_life": 14, "into_group": "GROUP_zalbertosaurus_UPGRADE" }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zianzhousaurus",
+    "name": { "str": "Qianz zombie" },
+    "copy-from": "mon_zyrannosaurus",
+    "looks_like": "mon_zyrannosaurus",
+    "volume": "550 L",
+    "weight": "770 kg",
+    "speed": 60,
+    "melee_skill": 10,
+    "melee_dice": 4,
+    "melee_dice_sides": 7,
+    "melee_cut": 6,
+    "armor_bash": 5,
+    "armor_cut": 5,
+    "armor_bullet": 3,
+    "hp": 230,
+    "description": "An undead Qianzhousaurus, looking at you with a furious rage in its eyes and seeming intent on eating you.",
+    "upgrades": { "half_life": 14, "into_group": "GROUP_zianzhousaurus_UPGRADE" },
+    "flags": [ "SEES", "SMELLS", "HEARS", "BASHES", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ]
   },
   {
     "type": "MONSTER",
@@ -173,7 +210,6 @@
     "armor_cut": 8,
     "armor_bullet": 1,
     "hp": 500,
-    "death_function": [ "NORMAL" ],
     "description": "Massive piles of ragged, stinking flesh lifting enormous teeth.",
     "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
     "upgrades": { "half_life": 14, "into_group": "GROUP_zyrannosaurus_UPGRADE" },
@@ -194,6 +230,16 @@
     "vision_night": 3,
     "harvest": "zed_dino_leather",
     "categories": [ "DINOSAUR", "CLASSIC" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zyrannosaurus_chain",
+    "//": "Special monster for Old Guard questline",
+    "name": { "str": "chained Tyrannosaurus zombie" },
+    "copy-from": "mon_zyrannosaurus",
+    "description": "A massive dinosaur corpse with enormous teeth wrapped with heavy chains to allow some control.",
+    "upgrades": {  },
+    "aggression": 0
   },
   {
     "type": "MONSTER",
@@ -234,10 +280,9 @@
     "armor_cut": 4,
     "armor_bullet": 2,
     "hp": 70,
-    "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
-    "description": "The shuffling corpse of a medium-sized bipedal dinosaur covered with tattered feathers and black putrid liquid.",
-    "upgrades": { "half_life": 14, "into": "mon_zallimimus_brute" },
+    "description": "The shuffling corpse of a medium-sized bipedal dinosaur, covered with tattered feathers and black, putrid liquid.",
+    "upgrades": { "half_life": 14, "into_group": "GROUP_zallimimus_UPGRADE" },
     "flags": [ "SEES", "SMELLS", "HEARS", "PET_MOUNTABLE", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ],
     "vision_night": 3,
     "harvest": "zed_dino_feather",
@@ -287,7 +332,6 @@
     "armor_cut": 4,
     "armor_bullet": 2,
     "hp": 100,
-    "death_function": [ "NORMAL" ],
     "special_attacks": [
       { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true },
       [ "scratch", 10 ],
@@ -318,8 +362,29 @@
     "armor_cut": 4,
     "armor_bullet": 2,
     "hp": 170,
-    "description": "The swaying, hopping corpse of a large bipedal dinosaur with feathered arms, a long tail, and long sharp scythe-like claws.",
+    "description": "The swaying, hopping corpse of a large bipedal dinosaur with feathered arms, a long tail, and long, sharp scythe-like claws.",
     "upgrades": { "half_life": 14, "into_group": "GROUP_zutahraptor_UPGRADE" }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zamargasaurus",
+    "name": { "str_sp": "Undead Amargasaurus" },
+    "copy-from": "mon_zapatosaurus",
+    "looks_like": "mon_zapatosaurus",
+    "volume": "1000 L",
+    "weight": "1000 kg",
+    "speed": 55,
+    "melee_skill": 10,
+    "melee_dice": 4,
+    "melee_dice_sides": 7,
+    "melee_cut": 4,
+    "armor_bash": 8,
+    "armor_cut": 8,
+    "armor_bullet": 6,
+    "hp": 720,
+    "description": "A zombie amargasaurus, it has begun using its spikes for hunting.",
+    "upgrades": { "half_life": 14, "into_group": "GROUP_zamargasaurus_UPGRADE" },
+    "flags": [ "SEES", "SMELLS", "HEARS", "BASHES", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ]
   },
   {
     "type": "MONSTER",
@@ -342,8 +407,8 @@
       { "id": "slam", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
       [ "SMASH", 30 ]
     ],
-    "description": "Massive, long-necked, four-legged dinosaur corpse with a long, whip-like tail.  The head is upright and the neck looks like it would still make a good strong club.",
-    "upgrades": { "half_life": 14, "into": "mon_zapatosaurus_brute" }
+    "description": "A massive, long-necked, four-legged dinosaur corpse with a long, whip-like tail.  The head is still upright and the neck looks like it would still make a good, strong club.",
+    "upgrades": { "half_life": 14, "into_group": "GROUP_zapatosaurus_UPGRADE" }
   },
   {
     "type": "MONSTER",
@@ -352,7 +417,8 @@
     "copy-from": "mon_zapatosaurus",
     "looks_like": "mon_apatosaurus",
     "hp": 530,
-    "description": "Massive, long-necked, four-legged dinosaur corpse with a bulky torso and a long, whip-like tail."
+    "description": "Massive, long-necked, four-legged dinosaur corpse with a bulky torso and a long, whip-like tail.",
+    "upgrades": { "half_life": 14, "into_group": "GROUP_zrontosaurus_UPGRADE" }
   },
   {
     "type": "MONSTER",
@@ -376,7 +442,7 @@
       [ "SMASH", 30 ]
     ],
     "description": "Huge, long-necked, four-legged dinosaur with a long, whip-like tail and a tiny head with vacant white eyes.  Sways and staggers.",
-    "upgrades": { "half_life": 14, "into": "mon_ziplodocus_brute" }
+    "upgrades": { "half_life": 14, "into_group": "GROUP_ziplodocus_UPGRADE" }
   },
   {
     "type": "MONSTER",
@@ -385,8 +451,8 @@
     "copy-from": "mon_zapatosaurus",
     "looks_like": "mon_apatosaurus",
     "speed": 50,
-    "description": "Massive, long-necked, four-legged dinosaur corpse with a long, whip-like tail.  The head is upright and the neck looks like it would still make a good strong club.",
-    "upgrades": { "half_life": 14, "into": "mon_zamarasaurus_brute" }
+    "description": "Massive, long-necked, four-legged dinosaur corpse with a long, whip-like tail.  The head is still upright and the neck looks like it would still make a good, strong club.",
+    "upgrades": { "half_life": 14, "into_group": "GROUP_zamarasaurus_UPGRADE" }
   },
   {
     "type": "MONSTER",
@@ -400,7 +466,8 @@
     "armor_cut": 8,
     "armor_bullet": 3,
     "hp": 2000,
-    "description": "Gigantic, long-necked, four-legged dinosaur corpse with longer forelegs and a whip-like tail."
+    "description": "Gigantic, long-necked, four-legged dinosaur corpse with longer forelegs and a whip-like tail.",
+    "upgrades": { "half_life": 14, "into_group": "GROUP_zrachiosaurus_UPGRADE" }
   },
   {
     "type": "MONSTER",
@@ -413,7 +480,8 @@
     "armor_cut": 19,
     "armor_bullet": 3,
     "hp": 1500,
-    "description": "Gigantic, long-necked, four-legged dinosaur corpse with a long neck and spiked tail protected by natural bone armor."
+    "description": "Gigantic, long-necked, four-legged dinosaur corpse, protected by natural bone armor and a spiked tail.",
+    "upgrades": { "half_life": 14, "into_group": "GROUP_zalamosaurus_UPGRADE" }
   },
   {
     "type": "MONSTER",
@@ -433,8 +501,8 @@
     "armor_cut": 4,
     "armor_bullet": 2,
     "hp": 250,
-    "description": "A large shambling quadruped dinosaur corpse dragging with the weight of the plates on its back, waving a much livelier looking spiked tail.",
-    "upgrades": { "half_life": 14, "into": "mon_ztegosaurus_brute" }
+    "description": "A large, shambling quadruped dinosaur corpse, dragging with the weight of the plates on its back - waving a much livelier-looking spiked tail.",
+    "upgrades": { "half_life": 14, "into_group": "GROUP_ztegosaurus_UPGRADE" }
   },
   {
     "type": "MONSTER",
@@ -449,7 +517,8 @@
       { "id": "slam", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 8 } ] },
       [ "SMASH", 30 ]
     ],
-    "description": "This armored dinosaur corpse looks like a giant prehistoric armadillo.  Its tail ends in a spiked club of bone."
+    "description": "This armored dinosaur corpse looks like a giant prehistoric armadillo.  Its tail ends in a spiked club of bone.",
+    "upgrades": { "half_life": 14, "into_group": "GROUP_zyoplosaurus_UPGRADE" }
   },
   {
     "type": "MONSTER",
@@ -475,7 +544,6 @@
     "armor_cut": 21,
     "armor_bullet": 7,
     "hp": 1000,
-    "death_function": [ "NORMAL" ],
     "special_attacks": [
       [ "scratch", 10 ],
       { "type": "bite", "cooldown": 5 },
@@ -500,7 +568,8 @@
     "armor_cut": 23,
     "armor_bullet": 11,
     "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
-    "description": "This heavily armored dinosaur corpse looks like a giant prehistoric armadillo."
+    "description": "This heavily-armored dinosaur corpse looks like a giant prehistoric armadillo.",
+    "upgrades": { "half_life": 14, "into_group": "GROUP_zodosaurus_UPGRADE" }
   },
   {
     "type": "MONSTER",
@@ -514,7 +583,8 @@
     "armor_cut": 23,
     "armor_bullet": 11,
     "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
-    "description": "This heavily armored dinosaur corpse looks like a giant prehistoric armadillo with long bony spikes."
+    "description": "This heavily-armored dinosaur corpse looks like a giant prehistoric armadillo with long, bony spikes.",
+    "upgrades": { "half_life": 14, "into_group": "GROUP_zedmontonia_UPGRADE" }
   },
   {
     "type": "MONSTER",
@@ -540,10 +610,9 @@
     "armor_cut": 4,
     "armor_bullet": 2,
     "hp": 130,
-    "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
-    "description": "The shuffling corpse of a large feathered bipedal dinosaur with strong legs, broad shoulders and a pointed beak.  Its tattered feathers are stained with black, sticky liquid.",
-    "upgrades": { "half_life": 14, "into": "mon_zamptosaurus_brute" },
+    "description": "The shuffling corpse of a large, feathered, bipedal dinosaur with strong legs, broad shoulders, and a pointed beak.  Its tattered feathers are stained with black, sticky liquid.",
+    "upgrades": { "half_life": 14, "into_group": "GROUP_zamptosaurus_UPGRADE" },
     "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM", "BASHES" ],
     "vision_night": 3,
     "harvest": "zed_dino_leather",
@@ -555,8 +624,8 @@
     "name": { "str": "Maiasaura zombie" },
     "copy-from": "mon_zarasaurolophus",
     "hp": 400,
-    "description": "A huge mottled dinosaur with hooves and heavy tail, dead and walking, eyes vacant and swollen.  Has a flat beak, thick nose, and small spiky head crest.",
-    "upgrades": { "half_life": 14, "into": "mon_zaiasaura_brute" }
+    "description": "A huge, mottled dinosaur with hooves and a heavy tail, dead but walking, eyes vacant and swollen.  Has a flat beak, thick nose, and a small but spiky head crest.",
+    "upgrades": { "half_life": 14, "into_group": "GROUP_zaiasaura_UPGRADE" }
   },
   {
     "type": "MONSTER",
@@ -575,8 +644,8 @@
     "armor_cut": 7,
     "armor_bullet": 4,
     "hp": 500,
-    "description": "A huge mottled dinosaur with a blunt head crest, dead and walking, eyes vacant and swollen.",
-    "upgrades": { "half_life": 14, "into": "mon_zarasaurolophus_brute" }
+    "description": "A huge, mottled dinosaur with a blunt head crest, dead but walking, eyes vacant and swollen.",
+    "upgrades": { "half_life": 14, "into_group": "GROUP_zarasaurolophus_UPGRADE" }
   },
   {
     "type": "MONSTER",
@@ -595,8 +664,8 @@
     "armor_cut": 6,
     "armor_bullet": 4,
     "hp": 500,
-    "description": "A huge scaly dinosaur with a short beak and a tall head crest, dead and walking, eyes vacant and swollen.",
-    "upgrades": { "half_life": 14, "into": "mon_zorythosaurus_brute" },
+    "description": "A huge, scaly dinosaur with a short beak and a tall head crest, dead but walking, eyes vacant and swollen.",
+    "upgrades": { "half_life": 14, "into_group": "GROUP_zorythosaurus_UPGRADE" },
     "special_attacks": [ [ "SHRIEK", 5 ] ]
   },
   {
@@ -616,8 +685,8 @@
     "armor_cut": 6,
     "armor_bullet": 4,
     "hp": 600,
-    "description": "A huge scaly dinosaur with a broad toothless beak, dead and walking, eyes vacant and swollen.",
-    "upgrades": { "half_life": 14, "into": "mon_zedmontosaurus_brute" }
+    "description": "A huge, scaly dinosaur with a broad, toothless beak, dead but walking, eyes vacant and swollen.",
+    "upgrades": { "half_life": 14, "into_group": "GROUP_zedmontosaurus_UPGRADE" }
   },
   {
     "type": "MONSTER",
@@ -642,10 +711,9 @@
     "armor_cut": 4,
     "armor_bullet": 1,
     "hp": 70,
-    "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
-    "description": "The shuffling corpse of a medium-sized bipedal dinosaur covered with tattered feathers and black putrid liquid.  It looks like a reptilian ostrich with a round hard-looking domed head.",
-    "upgrades": { "half_life": 14, "into": "mon_zachycephalosaurus_brute" },
+    "description": "The shuffling corpse of a medium-sized bipedal dinosaur covered with tattered feathers and black, putrid liquid.  It resembles a reptilian ostrich with a hard-looking domed head.",
+    "upgrades": { "half_life": 14, "into_group": "GROUP_zachycephalosaurus_UPGRADE" },
     "flags": [ "SEES", "SMELLS", "HEARS", "PET_MOUNTABLE", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ],
     "vision_night": 3,
     "harvest": "zed_dino_feather",
@@ -653,11 +721,23 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_zachycephalosaurus_chain",
+    "//": "Special monster for Old Guard questline",
+    "name": { "str": "chained Pachycephalosaurus zombie" },
+    "copy-from": "mon_zachycephalosaurus",
+    "description": "A feathered dinosaur corpse with a domed head with heavy chains to allow some control.",
+    "upgrades": {  },
+    "aggression": 0,
+    "speed": 80
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_zachyrhinosaurus",
     "name": { "str": "Pachyrhinosaurus zombie" },
     "copy-from": "mon_zriceratops",
     "hp": 400,
-    "description": "A massive shambling rhino-like dinosaur corpse with a tall bony crest from which four long horns and a short nose horn emerge.  Its black eyes ooze like tears.",
+    "description": "A massive, shambling, rhino-like dinosaur corpse with a tall, bony crest from which four long horns and a short nose horn emerge.  Its eyes ooze black, putrid tears.",
+    "upgrades": { "half_life": 14, "into_group": "GROUP_zachyrhinosaurus_UPGRADE" },
     "special_attacks": [
       { "id": "slam", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
       [ "SMASH", 30 ]
@@ -671,7 +751,29 @@
     "armor_cut": 9,
     "armor_bash": 8,
     "hp": 500,
-    "description": "A massive shambling rhino-like dinosaur corpse with a tall bony crest from which four long horns and a short nose horn emerge.  Its black eyes ooze like tears."
+    "description": "A massive, shambling, rhino-like dinosaur corpse with a tall, bony crest from which four long horns and a short nose horn emerge.  Its eyes ooze black, putrid tears.",
+    "upgrades": { "half_life": 14, "into_group": "GROUP_zentaceratops_UPGRADE" }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zosmoceratops",
+    "name": { "str_sp": "Undead Kosmoceratops" },
+    "copy-from": "mon_zriceratops",
+    "looks_like": "mon_zriceratops",
+    "volume": "1000 L",
+    "weight": "1000 kg",
+    "speed": 70,
+    "melee_skill": 9,
+    "melee_dice": 5,
+    "melee_dice_sides": 8,
+    "melee_cut": 10,
+    "armor_bash": 6,
+    "armor_cut": 7,
+    "armor_bullet": 4,
+    "hp": 630,
+    "description": "An undead Kosmoceratops, it seems to have forgotten its herbivorous diet and looks hungry for your flesh.",
+    "upgrades": { "half_life": 14, "into_group": "GROUP_zosmoceratops_UPGRADE" },
+    "flags": [ "SEES", "SMELLS", "HEARS", "BASHES", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ]
   },
   {
     "type": "MONSTER",
@@ -681,7 +783,8 @@
     "armor_cut": 9,
     "armor_bash": 8,
     "hp": 500,
-    "description": "A massive shambling rhino-like dinosaur corpse with a tall bony crest from which two wicked looking horns emerge.  Its black eyes ooze like tears.",
+    "description": "A massive, shambling, rhino-like dinosaur corpse with a tall, bony crest from which two wicked-looking horns emerge.  Its eyes ooze black, putrid tears.",
+    "upgrades": { "half_life": 14, "into_group": "GROUP_zorosaurus_UPGRADE" },
     "special_attacks": [ { "id": "impale" }, [ "STRETCH_ATTACK", 5 ] ]
   },
   {
@@ -702,19 +805,25 @@
     "armor_cut": 7,
     "armor_bullet": 3,
     "hp": 600,
-    "description": "A massive shambling rhino-like dinosaur corpse with a bony crest from which three wicked looking horns emerge.  Its black eyes ooze like tears.",
-    "upgrades": { "half_life": 14, "into": "mon_zriceratops_brute" },
+    "description": "A massive, shambling, rhino-like dinosaur corpse with a bony crest from which three wicked-looking horns emerge.  Its eyes ooze black, putrid tears.",
+    "upgrades": { "half_life": 14, "into_group": "GROUP_zriceratops_UPGRADE" },
     "special_attacks": [ { "id": "impale" } ]
   },
   {
     "type": "MONSTER",
     "id": "mon_zteranodon",
     "name": { "str": "Pteranodon zombie" },
-    "copy-from": "mon_zamptosaurus",
     "looks_like": "mon_pteranodon",
+    "species": [ "ZOMBIE" ],
+    "default_faction": "zombie",
+    "symbol": "Z",
+    "color": "green",
     "volume": "38 L",
     "weight": "50 kg",
     "bodytype": "bird",
+    "material": [ "flesh" ],
+    "aggression": 100,
+    "morale": 100,
     "speed": 150,
     "melee_skill": 5,
     "melee_dice": 2,
@@ -724,30 +833,38 @@
     "armor_cut": 4,
     "armor_bullet": 1,
     "hp": 70,
-    "description": "The raggedly flying corpse of a large feathered reptile with a long pointed toothless beak and a long pointy head crest.",
+    "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
+    "description": "The ragged but flying corpse of a large, feathered reptile with a long, pointy, toothless beak and a long, pointy head crest.",
     "upgrades": { "half_life": 14, "into": "mon_zteranodon_brute" },
-    "extend": { "flags": [ "FLIES", "HIT_AND_RUN" ] }
+    "flags": [
+      "SEES",
+      "SMELLS",
+      "HEARS",
+      "POISON",
+      "STUMBLES",
+      "NO_BREATHE",
+      "REVIVES",
+      "FILTHY",
+      "WARM",
+      "BASHES",
+      "FLIES",
+      "HIT_AND_RUN"
+    ],
+    "vision_night": 3,
+    "harvest": "zed_dino_feather",
+    "categories": [ "DINOSAUR", "CLASSIC" ]
   },
   {
     "type": "MONSTER",
     "id": "mon_zuetzalcoatlus",
     "name": { "str": "Quetzalcoatlus zombie" },
-    "copy-from": "mon_zamptosaurus",
-    "looks_like": "mon_pteranodon",
+    "copy-from": "mon_zteranodon",
     "volume": "190 L",
     "weight": "250 kg",
-    "bodytype": "bird",
     "speed": 120,
-    "melee_skill": 5,
-    "melee_dice": 2,
-    "melee_dice_sides": 6,
-    "melee_cut": 0,
-    "armor_bash": 4,
-    "armor_cut": 4,
-    "armor_bullet": 1,
     "hp": 332,
-    "description": "The raggedly flying corpse of a large feathered reptile with a long pointed toothless beak and a long rigid neck.",
-    "extend": { "flags": [ "FLIES", "HIT_AND_RUN" ] }
+    "description": "The ragged but flying corpse of a large, feathered reptile with a long, pointy, toothless beak and a long, rigid neck.",
+    "upgrades": {  }
   },
   {
     "type": "MONSTER",
@@ -787,15 +904,22 @@
     "type": "MONSTER",
     "id": "mon_zapatosaurus_juvenile",
     "name": { "str": "juvenile sauropod zombie" },
-    "copy-from": "mon_zamptosaurus",
     "looks_like": "mon_apatosaurus",
+    "species": [ "ZOMBIE" ],
+    "default_faction": "zombie",
+    "symbol": "Z",
+    "color": "green",
     "volume": "1000 L",
     "weight": "1000 kg",
     "bodytype": "elephant",
+    "material": [ "flesh" ],
+    "aggression": 100,
+    "morale": 100,
     "speed": 50,
     "melee_skill": 5,
     "melee_dice": 2,
     "melee_dice_sides": 4,
+    "melee_cut": 2,
     "armor_bash": 6,
     "armor_cut": 4,
     "armor_bullet": 2,
@@ -804,8 +928,12 @@
       { "id": "slam", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
       [ "SMASH", 30 ]
     ],
-    "description": "A small four-legged plant-eating dinosaur juvenile corpse, it could be from a number of different species.",
-    "upgrades": { "half_life": 14, "into": "mon_zapatosaurus" }
+    "description": "A small, four-legged, herbivorous dinosaur juvenile's corpse that could be from a number of different species.",
+    "upgrades": { "half_life": 14, "into": "mon_zapatosaurus" },
+    "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM", "BASHES" ],
+    "vision_night": 3,
+    "harvest": "zed_dino_leather",
+    "categories": [ "DINOSAUR", "CLASSIC" ]
   },
   {
     "type": "MONSTER",
@@ -848,72 +976,12 @@
     "type": "MONSTER",
     "id": "mon_zalamosaurus_juvenile",
     "name": { "str": "juvenile Alamosaurus zombie" },
-    "copy-from": "mon_zapatosaurus",
+    "copy-from": "mon_zapatosaurus_juvenile",
     "looks_like": "mon_apatosaurus",
     "armor_bash": 7,
     "armor_cut": 9,
     "armor_bullet": 1,
-    "description": "A small four-legged plant-eating dinosaur juvenile corpse with natural bone armor plates.",
+    "description": "The corpse of a small, four-legged, herbivorous dinosaur juvenile, with natural bone armor plates.",
     "upgrades": { "half_life": 14, "into": "mon_zalamosaurus" }
-  },
-  {
-    "type": "MONSTER",
-    "id": "mon_zianzhousaurus",
-    "name": { "str": "Qianz zombie" },
-    "copy-from": "mon_zyrannosaurus",
-    "looks_like": "mon_zyrannosaurus",
-    "volume": "550 L",
-    "weight": "770 kg",
-    "speed": 60,
-    "melee_skill": 10,
-    "melee_dice": 4,
-    "melee_dice_sides": 7,
-    "melee_cut": 6,
-    "armor_bash": 5,
-    "armor_cut": 5,
-    "armor_bullet": 3,
-    "hp": 230,
-    "description": "An undead Qianzhousaurus, looking at you with a furious rage in its eyes and seeming intent on eating you.",
-    "flags": [ "SEES", "SMELLS", "HEARS", "BASHES", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ]
-  },
-  {
-    "type": "MONSTER",
-    "id": "mon_zosmoceratops",
-    "name": { "str_sp": "Undead Kosmoceratops" },
-    "copy-from": "mon_zriceratops",
-    "looks_like": "mon_zriceratops",
-    "volume": "1000 L",
-    "weight": "1000 kg",
-    "speed": 70,
-    "melee_skill": 9,
-    "melee_dice": 5,
-    "melee_dice_sides": 8,
-    "melee_cut": 10,
-    "armor_bash": 6,
-    "armor_cut": 7,
-    "armor_bullet": 4,
-    "hp": 630,
-    "description": "An undead Kosmoceratops, it seems to have forgotten it's herbivore diet, and seems hungry for your flesh.",
-    "flags": [ "SEES", "SMELLS", "HEARS", "BASHES", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ]
-  },
-  {
-    "type": "MONSTER",
-    "id": "mon_zamargasaurus",
-    "name": { "str_sp": "Undead Amargasaurus" },
-    "copy-from": "mon_zapatosaurus",
-    "looks_like": "mon_zapatosaurus",
-    "volume": "1000 L",
-    "weight": "1000 kg",
-    "speed": 55,
-    "melee_skill": 10,
-    "melee_dice": 4,
-    "melee_dice_sides": 7,
-    "melee_cut": 4,
-    "armor_bash": 8,
-    "armor_cut": 8,
-    "armor_bullet": 6,
-    "hp": 720,
-    "description": "A zombie amargasaurus, it has begun using its spikes for hunting.",
-    "flags": [ "SEES", "SMELLS", "HEARS", "BASHES", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ]
   }
 ]

@@ -333,6 +333,19 @@
     "fun": 1
   },
   {
+    "abstract": "book_antho_tpl",
+    "type": "BOOK",
+    "name": { "str": "Generic Anthology Book" },
+    "description": "template for a collection of stories",
+    "intelligence": 5,
+    "symbol": "?",
+    "looks_like": "story_book",
+    "color": "yellow",
+    "time": "15 m",
+    "chapters": 16,
+    "fun": 2
+  },
+  {
     "abstract": "book_martial",
     "type": "BOOK",
     "name": { "str": "martial art manual" },

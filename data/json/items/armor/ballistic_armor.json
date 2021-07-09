@@ -14,12 +14,10 @@
     "symbol": "[",
     "looks_like": "modularvest",
     "color": "light_gray",
-    "covers": [ "torso" ],
-    "coverage": 85,
-    "encumbrance": 6,
     "warmth": 15,
     "material_thickness": 6,
-    "flags": [ "STURDY", "OUTER", "WATER_FRIENDLY" ]
+    "flags": [ "STURDY", "OUTER", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 6, "coverage": 85, "covers": [ "torso" ] } ]
   },
   {
     "id": "ballistic_vest_esapi",
@@ -35,12 +33,10 @@
     "symbol": "[",
     "looks_like": "modularvestceramic",
     "color": "light_gray",
-    "covers": [ "torso" ],
-    "coverage": 85,
-    "encumbrance": 10,
     "warmth": 15,
     "material_thickness": 16,
-    "flags": [ "STURDY", "OUTER", "WATER_FRIENDLY", "NO_REPAIR" ]
+    "flags": [ "STURDY", "OUTER", "WATER_FRIENDLY", "NO_REPAIR" ],
+    "armor": [ { "encumbrance": 10, "coverage": 85, "covers": [ "torso" ] } ]
   },
   {
     "id": "dragonskin",
@@ -58,13 +54,11 @@
     "symbol": "[",
     "looks_like": "kevlar",
     "color": "light_red",
-    "covers": [ "torso" ],
-    "coverage": 95,
-    "encumbrance": 8,
     "warmth": 12,
     "material_thickness": 3,
     "//": "Ceramic disks inside block addition of steel plating modification",
-    "flags": [ "STURDY", "OUTER", "NO_REPAIR" ]
+    "flags": [ "STURDY", "OUTER", "NO_REPAIR" ],
+    "armor": [ { "encumbrance": 8, "coverage": 95, "covers": [ "torso" ] } ]
   },
   {
     "id": "dragonskinempty",
@@ -83,11 +77,9 @@
     "symbol": "[",
     "looks_like": "dragonskin",
     "color": "light_red",
-    "covers": [ "torso" ],
-    "coverage": 25,
-    "encumbrance": 6,
     "warmth": 10,
     "material_thickness": 2,
-    "flags": [ "STURDY", "OUTER" ]
+    "flags": [ "STURDY", "OUTER" ],
+    "armor": [ { "encumbrance": 6, "coverage": 25, "covers": [ "torso" ] } ]
   }
 ]

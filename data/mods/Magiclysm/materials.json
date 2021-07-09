@@ -24,22 +24,50 @@
     "type": "material",
     "id": "black_dragon_hide",
     "name": "Black Dragon Hide",
-    "density": 20,
-    "specific_heat_liquid": 4.186,
-    "specific_heat_solid": 2.108,
+    "density": 9,
     "latent_heat": 333,
-    "bash_resist": 5,
-    "cut_resist": 8,
+    "bash_resist": 3,
+    "cut_resist": 7,
     "bullet_resist": 6,
     "acid_resist": 40,
     "fire_resist": 1,
-    "elec_resist": 1,
-    "chip_resist": 30,
+    "elec_resist": 2,
+    "chip_resist": 20,
+    "reinforces": true,
+    "soft": true,
+    "repaired_with": "black_dragon_tanned_hide",
+    "dmg_adj": [ "scratched", "cut", "ripped", "shredded" ],
+    "bash_dmg_verb": "ripped",
+    "cut_dmg_verb": "scratched",
+    "burn_data": [
+      { "fuel": 0, "smoke": 0, "burn": 0 },
+      { "fuel": 1, "smoke": 1, "burn": 1, "volume_per_turn": "100 ml" },
+      { "fuel": 2, "smoke": 4, "burn": 2 }
+    ]
+  },
+  {
+    "type": "material",
+    "id": "black_dragon_scales",
+    "name": "Black Dragon Scale",
+    "density": 15,
+    "latent_heat": 533,
+    "bash_resist": 8,
+    "cut_resist": 9,
+    "bullet_resist": 8,
+    "acid_resist": 40,
+    "fire_resist": 4,
+    "elec_resist": 3,
+    "chip_resist": 35,
     "reinforces": true,
     "repaired_with": "dragon_black_scale",
-    "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
+    "dmg_adj": [ "scratched", "marked", "cracked", "shattered" ],
     "bash_dmg_verb": "cracked",
-    "cut_dmg_verb": "chipped"
+    "cut_dmg_verb": "chipped",
+    "burn_data": [
+      { "fuel": 0, "smoke": 0, "burn": 0 },
+      { "fuel": 0, "smoke": 0, "burn": 0 },
+      { "fuel": 1, "smoke": 1, "burn": 1, "volume_per_turn": "100 ml" }
+    ]
   },
   {
     "type": "material",
@@ -86,8 +114,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
-    "burn_products": [ [ "scrap_bronze", 1 ] ],
-    "compacts_into": [ "orichalcum_lump", "orichalcum_sliver" ]
+    "burn_products": [ [ "scrap_bronze", 1 ] ]
   },
   {
     "type": "material",
@@ -107,8 +134,7 @@
     "repaired_with": "mithril_ingot",
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
-    "cut_dmg_verb": "scratched",
-    "compacts_into": [ "mithril_lump", "mithril_ingot" ]
+    "cut_dmg_verb": "scratched"
   },
   {
     "type": "material",
@@ -195,7 +221,7 @@
     "type": "material",
     "id": "alumentum",
     "name": "Alumentum",
-    "copy-from": "wood",
+    "copy-from": "charcoal",
     "fuel_data": { "energy": 150 }
   },
   {

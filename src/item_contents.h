@@ -41,7 +41,7 @@ class item_contents
           * only checks CONTAINER pocket type
           */
         std::pair<item_location, item_pocket *> best_pocket( const item &it, item_location &parent,
-                bool nested, bool allow_sealed = false );
+                bool nested, bool allow_sealed = false, bool ignore_settings = false );
 
         units::length max_containable_length() const;
         units::volume max_containable_volume() const;
@@ -65,26 +65,23 @@ class item_contents
         // number of pockets
         size_t size() const;
 
+    private:
+        /** returns a list of pointers to all top-level items from pockets that match the predicate */
+        std::list<item *> all_items_top( const std::function<bool( item_pocket & )> &filter );
+        /** returns a list of pointers to all top-level items from pockets that match the predicate */
+        std::list<const item *> all_items_top( const std::function<bool( const item_pocket & )> &filter )
+        const;
+
+    public:
         /** returns a list of pointers to all top-level items */
         std::list<item *> all_items_top( item_pocket::pocket_type pk_type );
         /** returns a list of pointers to all top-level items */
         std::list<const item *> all_items_top( item_pocket::pocket_type pk_type ) const;
 
-        // returns a list of pointers to all top level items that pass is_standard_type
-        std::list<const item *> all_standard_items_top() const;
-
         /** returns a list of pointers to all top-level items that are not mods */
         std::list<item *> all_items_top();
         /** returns a list of pointers to all top-level items that are not mods */
         std::list<const item *> all_items_top() const;
-
-        // returns a list of pointers to all items inside recursively
-        std::list<item *> all_items_ptr( item_pocket::pocket_type pk_type );
-        // returns a list of pointers to all items inside recursively
-        std::list<const item *> all_items_ptr( item_pocket::pocket_type pk_type ) const;
-        // returns a list of pointers to all items inside recursively
-        // includes mods.  used for item_location::unpack()
-        std::list<const item *> all_items_ptr() const;
 
         /** gets all gunmods in the item */
         std::vector<item *> gunmods();
@@ -282,11 +279,6 @@ class item_contents
 
         ret_val<const item_pocket *> find_pocket_for( const item &it,
                 item_pocket::pocket_type pk_type = item_pocket::pocket_type::CONTAINER ) const;
-
-        //called by all_items_ptr to recursively get all items without duplicating items in nested pockets
-        std::list<const item *> all_items_top_recursive( item_pocket::pocket_type pk_type ) const;
-        //called by all_items_ptr to recursively get all items without duplicating items in nested pockets
-        std::list<item *> all_items_top_recursive( item_pocket::pocket_type pk_type );
 
         std::list<item_pocket> contents;
 
