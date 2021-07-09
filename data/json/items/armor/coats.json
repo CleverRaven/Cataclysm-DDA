@@ -2009,7 +2009,7 @@
     "looks_like": "robe",
     "color": "white",
     "warmth": 20,
-    "material_thickness": 2,
+    "material_thickness": 0.2,
     "flags": [ "VARSIZE" ],
     "armor": [ { "encumbrance": 7, "coverage": 90, "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ] } ]
   },
