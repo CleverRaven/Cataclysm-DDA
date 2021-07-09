@@ -69,7 +69,7 @@
     "no_dmg_msg_u": "The %1$s tries to slam into you, but stumbles aside.",
     "no_dmg_msg_npc": "The %1$s tries to slam into <npcname>, but fails to.",
     "dodgeable": true,
-    "blockable": true
+    "blockable": false
   },
   {
     "type": "monster_attack",
