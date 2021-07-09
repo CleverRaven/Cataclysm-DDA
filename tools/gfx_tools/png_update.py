@@ -15,7 +15,7 @@ import subprocess
 
 def write_to_json(pathname, data):
     with open(pathname, "w", encoding="utf-8") as fp:
-        json.dump(data, fp)
+        json.dump(data, fp, ensure_ascii=False)
 
     json_formatter = "./tools/format/json_formatter.cgi"
     if os.path.isfile(json_formatter):
