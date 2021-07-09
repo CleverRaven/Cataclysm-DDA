@@ -1253,6 +1253,9 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "transforms_into", transforms_into, ter_str_id::NULL_ID() );
     optional( jo, was_loaded, "roof", roof, ter_str_id::NULL_ID() );
 
+    optional( jo, was_loaded, "lockpick_result", lockpick_result, ter_str_id::NULL_ID() );
+    optional( jo, was_loaded, "lockpick_message", lockpick_message, translation() );
+
     optional( jo, was_loaded, "emissions", emissions );
 
     bash.load( jo, "bash", map_bash_info::terrain, "terrain " + id.str() );
@@ -1392,6 +1395,10 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "open", open, string_id_reader<furn_t> {}, furn_str_id::NULL_ID() );
     optional( jo, was_loaded, "close", close, string_id_reader<furn_t> {}, furn_str_id::NULL_ID() );
+
+    optional( jo, was_loaded, "lockpick_result", lockpick_result, string_id_reader<furn_t> {},
+              furn_str_id::NULL_ID() );
+    optional( jo, was_loaded, "lockpick_message", lockpick_message, translation() );
 
     bash.load( jo, "bash", map_bash_info::furniture, "furniture " + id.str() );
     deconstruct.load( jo, "deconstruct", true, "furniture " + id.str() );
