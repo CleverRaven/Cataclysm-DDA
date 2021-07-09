@@ -6,7 +6,7 @@
     "description": "You know the basic principles of turning stones into more useful tools.",
     "can_learn": true,
     "default_time_multiplier": 1.5,
-    "default_fail_multiplier": 8,
+    "default_fail_multiplier": 1.8,
     "time_to_learn": "8 h"
   },
   {
@@ -16,7 +16,7 @@
     "description": "You've banged rocks together so much and for so long, you've become extremely fast at it.",
     "can_learn": true,
     "default_time_multiplier": 5,
-    "default_fail_multiplier": 1.5,
+    "default_fail_multiplier": 1.15,
     "time_to_learn": "12 h",
     "required_proficiencies": [ "prof_knapping" ]
   },
@@ -27,7 +27,7 @@
     "description": "Working with glass and heat without poisoning or perforating yourself.",
     "can_learn": true,
     "default_time_multiplier": 1.5,
-    "default_fail_multiplier": 5,
+    "default_fail_multiplier": 1.5,
     "time_to_learn": "8 h"
   },
   {
@@ -37,7 +37,7 @@
     "description": "Working with pipes and pipe fittings to transport fluids without leakage.",
     "can_learn": true,
     "default_time_multiplier": 2,
-    "default_fail_multiplier": 2.5,
+    "default_fail_multiplier": 1.25,
     "time_to_learn": "8 h"
   },
   {
@@ -47,7 +47,7 @@
     "description": "Basic pottery, from shaping to working with slip to fuse pieces.",
     "can_learn": true,
     "default_time_multiplier": 1.5,
-    "default_fail_multiplier": 5,
+    "default_fail_multiplier": 1.5,
     "time_to_learn": "6 h"
   },
   {
@@ -57,7 +57,7 @@
     "description": "The ability to make durable, effective bows.",
     "can_learn": true,
     "default_time_multiplier": 2.5,
-    "default_fail_multiplier": 5,
+    "default_fail_multiplier": 1.5,
     "time_to_learn": "10 h"
   },
   {
@@ -66,8 +66,8 @@
     "name": { "str": "Fletching" },
     "description": "The skill involved in making arrows that fly true.",
     "can_learn": true,
-    "default_time_multiplier": 1.5,
-    "default_fail_multiplier": 5,
+    "default_time_multiplier": 2,
+    "default_fail_multiplier": 1.25,
     "time_to_learn": "8 h"
   },
   {
@@ -77,7 +77,7 @@
     "description": "Forming coarse fibers into shapes.",
     "can_learn": true,
     "default_time_multiplier": 2.5,
-    "default_fail_multiplier": 2,
+    "default_fail_multiplier": 1.2,
     "time_to_learn": "6 h"
   },
   {
@@ -87,7 +87,7 @@
     "description": "Adding glazes to pottery to make them waterproof.",
     "can_learn": true,
     "default_time_multiplier": 2,
-    "default_fail_multiplier": 2,
+    "default_fail_multiplier": 1.2,
     "time_to_learn": "5 h"
   },
   {
@@ -97,7 +97,7 @@
     "description": "Working with plastic using your hands, including carving, molding, and gluing it.  You know how to identify thermoplastics that are suitable for mold casting, and how to identify the right plastic for the right job.",
     "can_learn": true,
     "default_time_multiplier": 1.5,
-    "default_fail_multiplier": 5,
+    "default_fail_multiplier": 1.5,
     "time_to_learn": "6 h"
   },
   {
@@ -107,7 +107,7 @@
     "description": "Shaping wood, bone, and similar materials with a cutting implement.",
     "can_learn": true,
     "default_time_multiplier": 2,
-    "default_fail_multiplier": 2,
+    "default_fail_multiplier": 1.2,
     "time_to_learn": "10 h"
   },
   {
@@ -131,8 +131,18 @@
     "description": "How to add gemstones to jewelry.",
     "can_learn": true,
     "default_time_multiplier": 2,
-    "default_fail_multiplier": 2,
+    "default_fail_multiplier": 1.2,
     "time_to_learn": "10 h",
     "required_proficiencies": [ "prof_fine_metalsmithing", "prof_redsmithing" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_handloading",
+    "name": { "str": "Handloading" },
+    "description": "You know how to accurately measure powder and projectile weights for reloading firearm cartridges.",
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_fail_multiplier": 5,
+    "time_to_learn": "8 h"
   }
 ]

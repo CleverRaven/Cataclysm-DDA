@@ -24,6 +24,7 @@
     "melee_cut": 2,
     "armor_bash": 90,
     "armor_cut": 90,
+    "armor_bullet": 100,
     "armor_acid": 10,
     "path_settings": { "max_dist": 30 },
     "death_drops": { "groups": [ [ "robots", 4 ], [ "eyebot", 1 ], [ "turret_searchlight", 1 ] ] },
@@ -51,7 +52,7 @@
         "no_ammo_sound": "a roar!"
       }
     ],
-    "death_function": [ "BROKEN" ],
+    "death_function": { "corpse_type": "BROKEN" },
     "flags": [
       "SEES",
       "HEARS",
@@ -93,6 +94,7 @@
     "melee_cut": 2,
     "armor_bash": 90,
     "armor_cut": 90,
+    "armor_bullet": 100,
     "armor_acid": 10,
     "path_settings": { "max_dist": 30 },
     "emit_fields": [ { "emit_id": "emit_toxic_leak", "delay": "1 s" } ],
@@ -119,7 +121,7 @@
         "no_ammo_sound": "a roar!"
       }
     ],
-    "death_function": [ "BROKEN" ],
+    "death_function": { "corpse_type": "BROKEN" },
     "flags": [
       "SEES",
       "HEARS",
@@ -161,6 +163,7 @@
     "melee_cut": 2,
     "armor_bash": 90,
     "armor_cut": 90,
+    "armor_bullet": 100,
     "armor_acid": 10,
     "path_settings": { "max_dist": 30 },
     "death_drops": { "groups": [ [ "robots", 4 ], [ "eyebot", 1 ], [ "turret_searchlight", 1 ] ] },
@@ -186,7 +189,7 @@
         "no_ammo_sound": "a roar!"
       }
     ],
-    "death_function": [ "BROKEN" ],
+    "death_function": { "corpse_type": "BROKEN" },
     "flags": [
       "SEES",
       "HEARS",
@@ -207,7 +210,7 @@
     "id": "dks_mon_lurker_rectified",
     "type": "MONSTER",
     "name": { "str": "recycler" },
-    "description": "A sleek mass of hairy tentacles originate from a metallic core that looks like a mix between a garbage disposal and a clamp, golden pinpoints of dim light dotting its chassis.  It seems adept at collecting small pieces of junk and debris and mulching them in its mouth for unknown purposes - you included.",
+    "description": "A sleek mass of hairy tentacles originate from a metallic core that looks like a mix between a garbage disposal and a clamp, golden pinpoints of dim light dotting its chassis.  It seems adept at collecting small pieces of junk and debris to mulch them into their bae parts - you included.",
     "default_faction": "invader_alien",
     "bodytype": "spider",
     "categories": [ "ALIEN" ],
@@ -241,14 +244,13 @@
       }
     ],
     "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK" ],
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "SWIMS", "AQUATIC", "POISON", "HARDTOSHOOT" ]
   },
   {
     "id": "dks_mon_bileworm_rectified",
     "type": "MONSTER",
     "name": { "str": "tunneler" },
-    "description": "A huge creature, encased in metal plating and covered in small golden \"eyes\".  Stocky robotic appendages covering its body allow it to smash through rock and propel itself forward with efficiency.  Its interior seems to have been replaced by some sort of whirring processing equipment that would be highly unpleasant to be caught up in.  Fortunately it doesn't seem very hostile.",
+    "description": "A huge creature, encased in metal plating and covered in small golden \"eyes\".  Stocky robotic appendages covering its body allow it to smash through rock and propel itself forward with efficiency.  Its interior seems to have been replaced by some sort of whirring processing equipment that would be highly unpleasant to be caught up in.  Fortunately it doesn't seem immediately interested in you.",
     "looks_like": "mon_worm",
     "default_faction": "invader_alien",
     "bodytype": "snake",
@@ -266,8 +268,9 @@
     "melee_skill": 4,
     "melee_dice": 4,
     "melee_dice_sides": 6,
-    "armor_bash": 4,
-    "armor_cut": 2,
+    "armor_bash": 12,
+    "armor_cut": 6,
+    "armor_bullet": 6,
     "vision_night": 15,
     "harvest": "mutant_meatslug",
     "special_attacks": [
@@ -284,7 +287,39 @@
       [ "SMASH", 20 ]
     ],
     "anger_triggers": [ "FRIEND_ATTACKED", "HURT" ],
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "BASHES", "DESTROYS", "ACIDPROOF", "CAN_DIG", "ARTHROPOD_BLOOD" ]
+  },
+  {
+    "id": "dks_mon_skirmsoldier",
+    "type": "MONSTER",
+    "name": { "str": "alien skirmisher" },
+    "description": "A slouched bipedal figure, slightly smaller than an average adult human.  Beneath woven full-body combat armor and a full suite of cybernetic modifications are glimpses of rubbery, abscessed flesh.  It is capable of short, boosted jumps using a device on its back, closing gaps to cause havoc with its wicked integrated melee weapons.  Severed organic parts dangle from its equipment, morbid trophies from past battles.",
+    "default_faction": "invader_alien",
+    "bodytype": "human",
+    "categories": [ "ALIEN" ],
+    "species": [ "ROBOT" ],
+    "volume": "52500 ml",
+    "weight": "71500 g",
+    "hp": 45,
+    "speed": 90,
+    "material": [ "steel" ],
+    "symbol": "$",
+    "aggression": 100,
+    "morale": 100,
+    "color": "light_gray",
+    "dodge": 1,
+    "melee_skill": 5,
+    "melee_dice": 4,
+    "melee_dice_sides": 3,
+    "armor_bash": 15,
+    "armor_stab": 25,
+    "armor_cut": 6,
+    "armor_fire": 15,
+    "armor_bullet": 35,
+    "vision_night": 5,
+    "special_attacks": [ { "type": "leap", "cooldown": 10, "max_range": 5 }, { "id": "melee_shock" } ],
+    "path_settings": { "max_dist": 5 },
+    "harvest": "dks_alien_hcyborg",
+    "flags": [ "SEES", "HEARS", "SMELLS", "SWARMS", "WARM", "BASHES", "GROUP_BASH", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_2" ]
   }
 ]

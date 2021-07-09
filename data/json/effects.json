@@ -495,6 +495,31 @@
     "blood_analysis_description": "Poison"
   },
   {
+    "type": "effect_type",
+    "id": "tpollen",
+    "name": [ "Hard of Breath" ],
+    "desc": [ "The pollen makes it hard to breathe!" ],
+    "miss_messages": [ [ "You cough out pollen.", 1 ] ],
+    "rating": "bad",
+    "harmful_cough": true,
+    "pain_sizing": true,
+    "hurt_sizing": true,
+    "main_parts_only": true,
+    "base_mods": {
+      "per_mod": [ -2, -1 ],
+      "dex_mod": [ -1, -1 ],
+      "str_mod": [ -2, 0 ],
+      "pain_min": [ 2 ],
+      "pain_chance": [ 150, 900 ],
+      "hurt_min": [ 2 ],
+      "hurt_chance": [ 450, 2700 ],
+      "speed_mod": [ -10 ],
+      "cough_chance": [ 10 ]
+    },
+    "show_in_info": true,
+    "blood_analysis_description": "Unknown Organic Toxin"
+  },
+  {
     "id": "venom_dmg",
     "type": "effect_type",
     "name": [ "Poisoned Wound" ],
@@ -562,6 +587,25 @@
       "stamina_chance": [ -0.021, -0.051 ],
       "speed_mod": [ -0.31, -0.21 ]
     }
+  },
+  {
+    "type": "effect_type",
+    "id": "venom_blind",
+    "name": [ "Distracted", "Inattentive", "Dissociated" ],
+    "desc": [
+      "You find it hard to concentrate on your surroundings properly.",
+      "You're not even listening, are you?",
+      "Everything will be fine.  Just ignore all you see, and everything will be fine."
+    ],
+    "apply_message": "Your vision grows blurry.",
+    "miss_messages": [ [ "It was right here, wasn't it?", 2 ], [ "Are you sure there's something there?", 1 ] ],
+    "max_intensity": 3,
+    "int_add_val": 1,
+    "int_decay_step": -1,
+    "int_decay_tick": 90,
+    "resist_traits": [ "ELFA_NV" ],
+    "base_mods": { "per_mod": [ -3, 0 ] },
+    "scaling_mods": { "per_mod": [ -2, -1 ] }
   },
   {
     "type": "effect_type",
@@ -747,7 +791,7 @@
     "id": "invisibility",
     "name": [ "Invisible" ],
     "desc": [ "You are invisible." ],
-    "flags": [ "EFFECT_INVISIBLE" ]
+    "flags": [ "INVISIBLE" ]
   },
   {
     "type": "effect_type",
@@ -1041,8 +1085,8 @@
     "apply_memorial_log": "Contracted a fungal infection.",
     "remove_memorial_log": "Cured the fungal infection.",
     "miss_messages": [ [ "You feel sick inside.", 1 ] ],
-    "speed_name": "Fungal infection",
-    "remove_message": "Tingling sensation in your skin fades away.",
+    "speed_name": "Itchy skin",
+    "remove_message": "The itching in your skin fades away.",
     "rating": "bad",
     "max_intensity": 3,
     "int_dur_factor": "6 h",
@@ -2433,7 +2477,7 @@
     "type": "effect_type",
     "id": "ignore_fall_damage",
     "//": "Used for translocation via teleporter_list as a way to avoid fall damage by teleporting Z levels",
-    "flags": [ "EFFECT_FEATHER_FALL" ]
+    "flags": [ "FEATHER_FALL" ]
   },
   {
     "type": "effect_type",

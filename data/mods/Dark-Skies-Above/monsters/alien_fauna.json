@@ -35,14 +35,13 @@
       }
     ],
     "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK" ],
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "SWIMS", "AQUATIC", "POISON", "HARDTOSHOOT" ]
   },
   {
     "id": "dks_mon_lurker",
     "type": "MONSTER",
     "name": { "str": "lurker" },
-    "description": "A long, serpentine body, dark and murky just like the waters it inhabits.  Tendrils trail behind it, framing innumerable teeth in a gnashing central mouth.  It prefers to lurk just below the surface, drifting and still like an unassuming piece of floatsam until something gets too close.",
+    "description": "A long, serpentine body, dark and murky just like the waters it inhabits.  Tendrils trail behind it, framing innumerable teeth in a gnashing central mouth.  It prefers to lurk just below the surface, drifting and still, like an unassuming piece of flotsam until something gets too close.",
     "looks_like": "dks_mon_lurker_sewer",
     "default_faction": "lurker",
     "bodytype": "spider",
@@ -76,7 +75,6 @@
       }
     ],
     "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK" ],
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "SWIMS", "AQUATIC", "POISON" ]
   },
   {
@@ -84,7 +82,7 @@
     "id": "dks_mon_mossliz",
     "type": "MONSTER",
     "name": "moss lizard",
-    "description": "A cow-sized reptoid, covered in what appears to be a thick layer of mossy vegetation and rocks.  It trudges about the landscape on sturdy legs, foraging whatever flora it can reach with sharp little teeth.  It doesn't seem to mind you too much.",
+    "description": "A cow-sized reptiloid, covered in what appears to be a thick layer of mossy vegetation and rocks.  It trudges about the landscape on sturdy legs, foraging whatever flora it can reach with sharp little teeth.  It doesn't seem to mind you too much.",
     "default_faction": "alien_herbivore",
     "bodytype": "gator",
     "categories": [ "ALIEN" ],
@@ -112,7 +110,6 @@
     "anger_triggers": [ "HURT" ],
     "fear_triggers": [ "FIRE" ],
     "placate_triggers": [ "MEAT", "PLAYER_WEAK" ],
-    "death_function": [ "NORMAL" ],
     "flags": [
       "SEES",
       "HEARS",
@@ -130,7 +127,7 @@
     "id": "dks_mon_packliz",
     "type": "MONSTER",
     "name": "pack lizard",
-    "description": "A slim reptoid about the size of a big dog, with a thick mane of what looks like rather pretty orange-blue 'feathers' around its head.  Frond-like protrusions grow from the top of its head down to the base of its tail, glowing faintly when in the presence of other members of its pack.",
+    "description": "A slim reptiloid about the size of a big dog, with a rather pretty, thick, orange-blue mane of what look like 'feathers' around its head.  Frond-like protrusions grow from the top of its head down to the base of its tail, glowing faintly when in the presence of other members of its pack.",
     "default_faction": "alien_packliz",
     "bodytype": "gator",
     "categories": [ "ALIEN" ],
@@ -157,7 +154,6 @@
     "anger_triggers": [ "PLAYER_CLOSE", "FRIEND_ATTACKED", "HURT" ],
     "fear_triggers": [ "FIRE" ],
     "placate_triggers": [ "MEAT" ],
-    "death_function": [ "NORMAL" ],
     "flags": [
       "SEES",
       "HEARS",
@@ -193,7 +189,7 @@
     "morale": 0,
     "dodge": 4,
     "fear_triggers": [ "SOUND", "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
-    "death_function": [ "MELT" ],
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
     "//": "will want sweets instead of birdfood if/when we can define animal food",
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "FLIES", "BIRDFOOD", "SWARMS" ]
   },
@@ -224,7 +220,6 @@
     "harvest": "mutant_meatslug",
     "special_attacks": [ [ "ACID_BARF", 10 ] ],
     "anger_triggers": [ "PLAYER_WEAK" ],
-    "death_function": [ "NORMAL" ],
     "flags": [ "KEENNOSE", "HEARS", "SMELLS", "BASHES", "DESTROYS", "ACIDPROOF", "CAN_DIG", "ARTHROPOD_BLOOD" ]
   }
 ]

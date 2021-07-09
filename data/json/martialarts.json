@@ -68,7 +68,7 @@
       "tec_aikido_dodgethrow",
       "tec_aikido_blockthrow"
     ],
-    "weapons": [ "bagh_nakha", "bio_claws_weapon", "cestus", "knuckle_brass", "knuckle_nail", "knuckle_steel" ]
+    "weapons": [ "bagh_nakha", "bio_claws_weapon", "cestus", "knuckle_brass", "knuckle_nail", "knuckle_steel", "knuckle_steel_forged" ]
   },
   {
     "type": "martial_art",
@@ -520,6 +520,7 @@
       "lucern_hammer",
       "lucern_hammerfake",
       "makeshift_halberd",
+      "makeshift_glaive",
       "pickaxe",
       "poleaxe",
       "primitive_axe"
@@ -544,7 +545,7 @@
       }
     ],
     "techniques": [ "tec_judo_backthrow", "tec_judo_counter", "tec_judo_disarm", "tec_judo_break", "tec_judo_throw" ],
-    "weapons": [ "bagh_nakha", "bio_claws_weapon", "cestus", "knuckle_brass", "knuckle_nail", "knuckle_steel" ]
+    "weapons": [ "bagh_nakha", "bio_claws_weapon", "cestus", "knuckle_brass", "knuckle_nail", "knuckle_steel", "knuckle_steel_forged" ]
   },
   {
     "type": "martial_art",
@@ -645,10 +646,8 @@
       "hptjhp",
       "m17",
       "m1911",
-      "m1911_MEU",
       "m1911a1_38super",
       "m9",
-      "mk23",
       "needlepistol",
       "sw_22",
       "p226_357sig",
@@ -665,7 +664,7 @@
       "walther_ppq_9mm",
       "walther_ppq_40",
       "walther_ppq_45",
-      "acr",
+      "nato_assault_rifle",
       "acr_300blk",
       "ak47",
       "ak74",
@@ -674,26 +673,22 @@
       "ar15",
       "ar15_retool_300blk",
       "fn_fal",
-      "h&k416a5",
       "hk417_13",
       "hk_g3",
-      "hk_g36",
       "iwi_tavor_x95_300blk",
       "m1a",
       "m110a1",
       "m14ebr",
       "m16a4",
-      "m27iar",
-      "m38dmr",
-      "m4a1",
       "rm51_assault_rifle",
       "rm88_battle_rifle",
       "ruger_mini",
-      "scar_l",
       "scar_h",
-      "sig552",
       "sks",
-      "steyr_aug"
+      "steyr_aug",
+      "tanto",
+      "tanto_inferior",
+      "tanto_fake"
     ]
   },
   {
@@ -892,9 +887,9 @@
         "melee_allowed": true,
         "buff_duration": 3,
         "mult_bonuses": [
-          { "stat": "damage", "type": "bash", "scale": 0.5 },
-          { "stat": "damage", "type": "cut", "scale": 0.5 },
-          { "stat": "damage", "type": "stab", "scale": 0.5 }
+          { "stat": "damage", "type": "bash", "scale": 0.67 },
+          { "stat": "damage", "type": "cut", "scale": 0.67 },
+          { "stat": "damage", "type": "stab", "scale": 0.67 }
         ]
       }
     ],
@@ -977,6 +972,7 @@
       "nodachi_inferior",
       "nodachi_fake",
       "q_staff",
+      "staff_sling",
       "scimitar",
       "scimitar_fake",
       "scimitar_inferior",
@@ -1193,6 +1189,7 @@
       "machete",
       "machete_gimmick",
       "makeshift_halberd",
+      "makeshift_glaive",
       "makeshift_knife",
       "makeshift_machete",
       "naginata",
@@ -1204,6 +1201,7 @@
       "PR24-extended",
       "primitive_knife",
       "q_staff",
+      "staff_sling",
       "rebar",
       "scimitar",
       "scimitar_inferior",
@@ -1324,6 +1322,7 @@
       "naginata_fake",
       "long_pole",
       "makeshift_halberd",
+      "makeshift_glaive",
       "pike",
       "pike_inferior",
       "pike_fake",
