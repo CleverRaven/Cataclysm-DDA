@@ -80,7 +80,7 @@
     "id": "bio_drain",
     "recurrence_min": "30 minutes",
     "recurrence_max": "1 hours 30 minutes",
-    "condition": { "and": [ { "u_has_bionics": "bio_drain" }, { "u_has_power": "25 kJ" } ] },
+    "condition": { "and": [ { "u_has_bionics": "bio_drain" }, { "u_has_power": "24 kJ" } ] },
     "deactivate_condition": { "not": { "u_has_bionics": "bio_drain" } },
     "effect": [
       { "message": "Your batteries discharge slightly.", "type": "bad" },
@@ -251,6 +251,7 @@
       {
         "set_queue_effect_on_condition": [
           {
+            "id": "bio_noise_hearing",
             "condition": { "not": "u_is_deaf" },
             "effect": [
               { "message": "Your faulty bionic emits a crackle of noise!", "type": "bad" },
@@ -258,6 +259,7 @@
             ]
           },
           {
+            "id": "bio_noise_deaf",
             "condition": "u_is_deaf",
             "effect": [
               { "message": "You feel your faulty bionic shuddering.", "type": "bad" },

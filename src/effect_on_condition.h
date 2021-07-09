@@ -46,8 +46,7 @@ struct effect_on_condition {
         time_duration recurrence_max = 1_seconds;
         bool activate( dialogue &d ) const;
         bool check_deactivate() const;
-        void load( const JsonObject &jo, const std::string &src,
-                   const cata::optional<std::string> &inline_id = cata::nullopt );
+        void load( const JsonObject &jo, const std::string &src );
         void finalize();
         void check() const;
         effect_on_condition() = default;

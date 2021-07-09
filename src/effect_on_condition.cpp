@@ -34,10 +34,9 @@ void effect_on_conditions::check_consistency()
 {
 }
 
-void effect_on_condition::load( const JsonObject &jo, const std::string &,
-                                const cata::optional<std::string> &inline_id )
+void effect_on_condition::load( const JsonObject &jo, const std::string & )
 {
-    optional( jo, was_loaded, "id", id, effect_on_condition_id( inline_id.value_or( "" ) ) );
+    mandatory( jo, was_loaded, "id", id );
     activate_only = true;
     if( jo.has_member( "recurrence_min" ) || jo.has_member( "recurrence_max" ) ) {
         activate_only = false;
@@ -69,16 +68,10 @@ effect_on_condition_id effect_on_conditions::load_inline_eoc( const JsonValue &j
     if( jv.test_string() ) {
         return effect_on_condition_id( jv.get_string() );
     } else if( jv.test_object() ) {
-        std::string inline_id = "INLINE_EOC_" + std::to_string( inline_count++ );
-        if( effect_on_condition_factory.is_valid( effect_on_condition_id( inline_id ) ) ) {
-            jv.throw_error( "Inline effect_on_condition " + inline_id +
-                            " cannot be created as an effect_on_condition already has this id." );
-        }
-
         effect_on_condition inline_eoc;
-        inline_eoc.load( jv.get_object(), src, inline_id );
+        inline_eoc.load( jv.get_object(), src );
         effect_on_condition_factory.insert( inline_eoc );
-        return effect_on_condition_id( inline_id );
+        return inline_eoc.id;
     } else {
         jv.throw_error( "effect_on_condition needs to be either a string or an effect_on_condition object." );
     }
