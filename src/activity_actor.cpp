@@ -1048,8 +1048,11 @@ void read_activity_actor::do_turn( player_activity &act, Character &who )
             who.mod_stamina( -1 );
         }
 
-        add_msg_debug( debugmode::DF_ACT_READ, "reading time = %s",
-                       to_string( time_duration::from_moves( moves_total ) ) );
+        // do not spam the message log
+        if( calendar::once_every( 5_minutes ) ) {
+            add_msg_debug( debugmode::DF_ACT_READ, "reading time = %s",
+                           to_string( time_duration::from_moves( act.moves_left ) ) );
+        }
     } else {
         who.moves = 0;
     }

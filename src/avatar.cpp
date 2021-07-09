@@ -286,7 +286,8 @@ bool avatar::read( item_location &book )
 
     bool continuous = false;
     const int time_taken = time_to_read( *book, *reader );
-    add_msg_debug( debugmode::DF_ACT_READ, "avatar::read: time_taken = %d", time_taken );
+    add_msg_debug( debugmode::DF_ACT_READ, "avatar::read time_taken = %s",
+                   to_string( time_duration::from_moves( time_taken ) ) );
 
     // If the player hasn't read this book before, skim it to get an idea of what's in it.
     if( !has_identified( book->typeId() ) ) {

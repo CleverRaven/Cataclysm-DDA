@@ -441,11 +441,13 @@ class read_activity_actor : public activity_actor
         bool player_readma( avatar &you );  // Martial arts book
         bool npc_read( npc &learner );
 
-        // TODO: RESUMABLE
-        // virtual bool can_resume_with_internal( const activity_actor &,
-        //                                        const Character & ) const {
-        //     return false;
-        // }
+        bool can_resume_with_internal( const activity_actor &other,
+                                       const Character & ) const override {
+            const read_activity_actor &actor = static_cast<const read_activity_actor &>( other );
+            return continuous == actor.continuous &&
+                   learner_id == actor.learner_id &&
+                   book->typeId() == actor.book->typeId();
+        }
 };
 
 class move_items_activity_actor : public activity_actor
