@@ -1876,9 +1876,13 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
             col = tmp.color();
         } else if( category == C_OVERMAP_TERRAIN ) {
             const oter_str_id tmp( id );
+            const oter_type_str_id type_tmp( id );
             if( tmp.is_valid() ) {
-                sym = tmp->get_symbol().front();
+                sym = tmp->get_uint32_symbol();
                 col = tmp->get_color();
+            } else if( type_tmp.is_valid() ) {
+                sym = type_tmp->get_symbol().front();
+                col = type_tmp->color;
             }
         } else if( category == C_OVERMAP_NOTE ) {
             sym = id[5];
@@ -1887,42 +1891,54 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
         // Special cases for walls
         switch( sym ) {
             case LINE_XOXO:
+            case LINE_XOXO_UNICODE:
                 sym = LINE_XOXO_C;
                 break;
             case LINE_OXOX:
+            case LINE_OXOX_UNICODE:
                 sym = LINE_OXOX_C;
                 break;
             case LINE_XXOO:
+            case LINE_XXOO_UNICODE:
                 sym = LINE_XXOO_C;
                 break;
             case LINE_OXXO:
+            case LINE_OXXO_UNICODE:
                 sym = LINE_OXXO_C;
                 break;
             case LINE_OOXX:
+            case LINE_OOXX_UNICODE:
                 sym = LINE_OOXX_C;
                 break;
             case LINE_XOOX:
+            case LINE_XOOX_UNICODE:
                 sym = LINE_XOOX_C;
                 break;
             case LINE_XXXO:
+            case LINE_XXXO_UNICODE:
                 sym = LINE_XXXO_C;
                 break;
             case LINE_XXOX:
+            case LINE_XXOX_UNICODE:
                 sym = LINE_XXOX_C;
                 break;
             case LINE_XOXX:
+            case LINE_XOXX_UNICODE:
                 sym = LINE_XOXX_C;
                 break;
             case LINE_OXXX:
+            case LINE_OXXX_UNICODE:
                 sym = LINE_OXXX_C;
                 break;
             case LINE_XXXX:
+            case LINE_XXXX_UNICODE:
                 sym = LINE_XXXX_C;
                 break;
             default:
                 // sym goes unchanged
                 break;
         }
+
         if( sym != 0 && sym < 256 ) {
             // see cursesport.cpp, function wattron
             const int pairNumber = col.to_color_pair_index();
@@ -1936,7 +1952,6 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
             if( sym != LINE_XOXO_C && sym != LINE_OXOX_C ) {
                 rota = 0;
             }
-
             if( tileset_ptr->find_tile_type( generic_id ) ) {
                 return draw_from_id_string( generic_id, pos, subtile, rota,
                                             ll, apply_night_vision_goggles );
