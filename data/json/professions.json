@@ -961,7 +961,8 @@
           { "item": "knife_combat", "container-item": "sheath" },
           { "item": "shot_00", "count": 2 },
           {
-            "item": "m1014",
+            "item": "mossberg_930",
+            "variant": "m1014",
             "ammo-item": "shot_00",
             "charges": 8,
             "contents-item": [ "shoulder_strap", "holo_sight" ]
