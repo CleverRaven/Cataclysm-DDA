@@ -338,8 +338,9 @@
     "difficulty": 6,
     "time": "1 h",
     "book_learn": [ [ "recipe_melee", 4 ] ],
-    "proficiencies": [ { "proficiency": "prof_plasticworking", "fail_multiplier": 1.5 } ],
-    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking", "fail_multiplier": 5 } ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+    "using": [ [ "plastic_molding", 1 ] ],
     "components": [ [ [ "plastic_chunk", 10 ] ] ]
   },
   {
@@ -368,9 +369,8 @@
     "difficulty": 6,
     "time": "2 h",
     "book_learn": [ [ "recipe_melee", 5 ] ],
-    "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 10 ] ],
+    "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 10 ], [ "plastic_molding", 1 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "tools": [ [ [ "mold_plastic", -1 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_elec_soldering", "fail_multiplier": 1.5 },
       { "proficiency": "prof_shock_weapons" },

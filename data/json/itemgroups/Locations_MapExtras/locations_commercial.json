@@ -1193,6 +1193,7 @@
       { "item": "cordless_drill", "prob": 70, "charges": [ 0, 500 ] },
       [ "thermometer", 60 ],
       [ "saw", 90 ],
+      { "item": "bow_saw", "prob": 30 },
       { "item": "chainsaw_off", "prob": 10, "charges": [ 0, 450 ] },
       [ "bucket", 100 ],
       [ "tree_spile", 100 ],

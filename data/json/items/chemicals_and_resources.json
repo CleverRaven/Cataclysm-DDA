@@ -542,7 +542,7 @@
     "count": 100
   },
   {
-    "type": "AMMO",
+    "type": "COMESTIBLE",
     "id": "chem_sulphuric_acid",
     "category": "chems",
     "price": 250,
@@ -555,14 +555,13 @@
     "volume": "250 ml",
     "weight": "460 g",
     "bashing": 1,
-    "ammo_type": "components",
     "phase": "liquid",
     "container": "bottle_glass",
-    "//freezing_point": 25,
+    "freezing_point": -36,
     "drop_action": { "type": "emit_actor", "emits": [ "emit_acid_drop" ], "scale_qty": true }
   },
   {
-    "type": "AMMO",
+    "type": "COMESTIBLE",
     "id": "chem_muriatic_acid",
     "category": "chems",
     "price": 250,
@@ -575,10 +574,9 @@
     "volume": "250 ml",
     "weight": "460 g",
     "bashing": 1,
-    "ammo_type": "components",
     "phase": "liquid",
     "container": "bottle_glass",
-    "//freezing_point": 25,
+    "freezing_point": -50,
     "drop_action": { "type": "emit_actor", "emits": [ "emit_acid_drop" ], "scale_qty": true }
   },
   {
@@ -599,7 +597,7 @@
     "container": "bottle_glass"
   },
   {
-    "type": "AMMO",
+    "type": "COMESTIBLE",
     "id": "chem_nitric_acid",
     "category": "chems",
     "price": 300,
@@ -612,10 +610,9 @@
     "volume": "250 ml",
     "weight": "375 g",
     "bashing": 1,
-    "ammo_type": "components",
     "phase": "liquid",
     "container": "bottle_glass",
-    "//freezing_point": -44,
+    "freezing_point": -42,
     "drop_action": { "type": "emit_actor", "emits": [ "emit_acid_drop" ], "scale_qty": true }
   },
   {
@@ -1634,6 +1631,16 @@
     "description": "This greyish, flexible vesicle is filled to the brim with the potent paralytic agent the triffids use to subdue still-moving fertilizer such as yourself.  If you know your way around poisons you might be able to find a use for it.",
     "material": [ "veggy" ],
     "color": "light_gray",
+    "fun": -50
+  },
+  {
+    "id": "triffid_fungicide",
+    "type": "COMESTIBLE",
+    "copy-from": "venom_gland",
+    "name": { "str": "sac of triffid fungicide", "str_pl": "sacs of triffid fungicide" },
+    "description": "This triffid sack is filled with what appears to be a triffid-produced antifungal agent.  It will likely already work as an antifungal compound for more offensive applications, but requires further refining before it can be used as a medical drug.",
+    "material": [ "veggy" ],
+    "color": "light_blue",
     "fun": -50
   },
   {

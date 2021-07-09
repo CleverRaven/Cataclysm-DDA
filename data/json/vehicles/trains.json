@@ -405,5 +405,16 @@
     "name": "Trolley",
     "blueprint": [ "O" ],
     "parts": [ { "x": 0, "y": 0, "parts": [ "frame_vertical", "cargo_space", "rail_wheel_small_pair" ] } ]
+  },
+  {
+    "id": "miniature_train_loco_steerable",
+    "type": "vehicle",
+    "name": "Miniature Train Locomotive",
+    "blueprint": [ "oo" ],
+    "parts": [
+      { "x": 1, "y": 0, "parts": [ "frame_vertical_2", "engine_steam_small", "rail_wheel_steerable" ] },
+      { "x": 0, "y": 0, "parts": [ "frame_vertical_2", "seat", "rail_wheel_steerable", "controls" ] },
+      { "x": 0, "y": 0, "parts": [ { "part": "fuel_bunker", "fuel": "coal_lump" } ] }
+    ]
   }
 ]

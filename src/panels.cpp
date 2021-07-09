@@ -34,6 +34,7 @@
 #include "input.h"
 #include "item.h"
 #include "json.h"
+#include "make_static.h"
 #include "magic.h"
 #include "map.h"
 #include "messages.h"
@@ -470,7 +471,7 @@ static std::string get_temp( const avatar &u )
 {
     std::string temp;
     if( u.has_item_with_flag( json_flag_THERMOMETER ) ||
-        u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
+        u.has_flag( STATIC( json_character_flag( "THERMOMETER" ) ) ) ) {
         temp = print_temperature( get_weather().get_temperature( u.pos() ) );
     }
     if( temp.empty() ) {
@@ -1676,7 +1677,7 @@ static void draw_env_compact( avatar &u, const catacurses::window &w )
                get_wind_desc( windpower ) + " " + get_wind_arrow( g->weather.winddirection ) );
 
     if( u.has_item_with_flag( json_flag_THERMOMETER ) ||
-        u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
+        u.has_flag( STATIC( json_character_flag( "THERMOMETER" ) ) ) ) {
         std::string temp = print_temperature( g->weather.get_temperature( u.pos() ) );
         mvwprintz( w, point( 31 - utf8_width( temp ), 5 ), c_light_gray, temp );
     }
@@ -2058,7 +2059,7 @@ static void draw_time_classic( const avatar &u, const catacurses::window &w )
     }
 
     if( u.has_item_with_flag( json_flag_THERMOMETER ) ||
-        u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
+        u.has_flag( STATIC( json_character_flag( "THERMOMETER" ) ) ) ) {
         std::string temp = print_temperature( get_weather().get_temperature( u.pos() ) );
         mvwprintz( w, point( 31, 0 ), c_light_gray, _( "Temp : " ) + temp );
     }

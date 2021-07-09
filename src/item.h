@@ -758,7 +758,8 @@ class item : public visitable
          */
         int fill_with( const item &contained, int amount = INFINITE_CHARGES,
                        bool unseal_pockets = false,
-                       bool allow_sealed = false );
+                       bool allow_sealed = false,
+                       bool ignore_settings = false );
 
         /**
          * How much more of this liquid (in charges) can be put in this container.
@@ -783,11 +784,6 @@ class item : public visitable
         // recursive function that checks pockets for remaining free space
         units::volume check_for_free_space() const;
         units::volume get_selected_stack_volume( const std::map<const item *, int> &without ) const;
-        // checks if the item can have things placed in it
-        bool has_pockets() const {
-            // what has it gots in them, precious
-            return contents.has_pocket_type( item_pocket::pocket_type::CONTAINER );
-        }
         /**
          * Puts the given item into this one.
          */
@@ -1198,7 +1194,6 @@ class item : public visitable
 
         void overwrite_relic( const relic &nrelic );
 
-        bool destroyed_at_zero_charges() const;
         // Most of the is_whatever() functions call the same function in our itype
         bool is_null() const; // True if type is NULL, or points to the null item (id == 0)
         bool is_comestible() const;
@@ -1282,7 +1277,7 @@ class item : public visitable
         bool can_contain_partial( const item &it ) const;
         /*@}*/
         std::pair<item_location, item_pocket *> best_pocket( const item &it, item_location &parent,
-                bool allow_sealed = false );
+                bool allow_sealed = false, bool ignore_settings = false );
 
         units::length max_containable_length() const;
         units::volume max_containable_volume() const;
@@ -2247,6 +2242,26 @@ class item : public visitable
         std::list<item> remove_items_with( const std::function<bool( const item & )> &filter,
                                            int count = INT_MAX ) override;
 
+        /** returns a list of pointers to all top-level items that are not mods */
+        std::list<const item *> all_items_top() const;
+        /** returns a list of pointers to all top-level items that are not mods */
+        std::list<item *> all_items_top();
+        /** returns a list of pointers to all top-level items */
+        std::list<const item *> all_items_top( item_pocket::pocket_type pk_type ) const;
+        /** returns a list of pointers to all top-level items */
+        std::list<item *> all_items_top( item_pocket::pocket_type pk_type );
+
+        /**
+         * returns a list of pointers to all items inside recursively
+         * includes mods.  used for item_location::unpack()
+         */
+        std::list<const item *> all_items_ptr() const;
+        /** returns a list of pointers to all items inside recursively */
+        std::list<const item *> all_items_ptr( item_pocket::pocket_type pk_type ) const;
+        /** returns a list of pointers to all items inside recursively */
+        std::list<item *> all_items_ptr( item_pocket::pocket_type pk_type );
+
+
     private:
         /** migrates an item into this item. */
         void migrate_content_item( const item &contained );
@@ -2276,6 +2291,9 @@ class item : public visitable
 
         /** Helper for checking reloadability. **/
         bool is_reloadable_helper( const itype_id &ammo, bool now ) const;
+
+        std::list<item *> all_items_top_recursive( item_pocket::pocket_type pk_type );
+        std::list<const item *> all_items_top_recursive( item_pocket::pocket_type pk_type ) const;
 
         void armor_encumbrance_info( std::vector<iteminfo> &info, int reduce_encumbrance_by = 0 ) const;
 

@@ -23,6 +23,7 @@
 #include "activity_actor_definitions.h"
 #include "activity_type.h"
 #include "avatar.h"
+#include "bionics.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
@@ -995,13 +996,6 @@ cata::optional<int> iuse::prozac( player *p, item *it, bool, const tripoint & )
         p->add_effect( effect_took_prozac_bad, p->get_effect_dur( effect_took_prozac ) );
     }
     p->add_effect( effect_took_prozac_visible, rng( 9_hours, 15_hours ) );
-    return it->type->charges_to_use();
-}
-
-cata::optional<int> iuse::sleep( player *p, item *it, bool, const tripoint & )
-{
-    p->mod_fatigue( 40 );
-    p->add_msg_if_player( m_warning, _( "You feel very sleepy…" ) );
     return it->type->charges_to_use();
 }
 
@@ -3727,7 +3721,8 @@ cata::optional<int> iuse::granade_act( player *p, item *it, bool t, const tripoi
                         /** @EFFECT_PER_MAX increases possible granade per buff */
                         buff_stat( player_character.per_max, rng( 0, player_character.per_max / 2 ) );
                         player_character.recalc_hp();
-                        for( const bodypart_id &bp : player_character.get_all_body_parts() ) {
+                        for( const bodypart_id &bp : player_character.get_all_body_parts(
+                                 get_body_part_flags::only_main ) ) {
                             player_character.set_part_hp_cur( bp, player_character.get_part_hp_cur( bp ) * rng_float( 1,
                                                               1.2 ) );
                             const int hp_max = player_character.get_part_hp_max( bp );
@@ -3768,7 +3763,8 @@ cata::optional<int> iuse::granade_act( player *p, item *it, bool t, const tripoi
                         /** @EFFECT_PER_MAX increases possible granade per debuff (NEGATIVE) */
                         player_character.per_max -= rng( 0, player_character.per_max / 2 );
                         player_character.recalc_hp();
-                        for( const bodypart_id &bp : player_character.get_all_body_parts() ) {
+                        for( const bodypart_id &bp : player_character.get_all_body_parts(
+                                 get_body_part_flags::only_main ) ) {
                             const int hp_cur = player_character.get_part_hp_cur( bp );
                             if( hp_cur > 0 ) {
                                 player_character.set_part_hp_cur( bp, rng( 1, hp_cur ) );
@@ -4757,8 +4753,7 @@ cata::optional<int> iuse::blood_draw( player *p, item *it, bool, const tripoint 
 
     if( acid_blood ) {
         item acid( "chem_sulphuric_acid", calendar::turn );
-        // Acid should have temperature. But it currently does not. So trying to set it crashes the game.
-        // When acid gets temperature just add acid.set_item_temperature( blood_temp ); here
+        acid.set_item_temperature( blood_temp );
         it->put_in( acid, item_pocket::pocket_type::CONTAINER );
         if( one_in( 3 ) ) {
             if( it->inc_damage( damage_type::ACID ) ) {
@@ -7772,9 +7767,9 @@ cata::optional<int> iuse::ehandcuffs( player *p, item *it, bool t, const tripoin
         }
 
         if( p->has_item( *it ) ) {
-            if( p->has_active_bionic( bio_shock ) && p->get_power_level() >= 2_kJ &&
+            if( p->has_active_bionic( bio_shock ) && p->get_power_level() >= bio_shock->power_trigger &&
                 one_in( 5 ) ) {
-                p->mod_power_level( -2_kJ );
+                p->mod_power_level( -bio_shock->power_trigger );
 
                 it->unset_flag( flag_NO_UNWIELD );
                 it->ammo_unset();

@@ -178,8 +178,6 @@ jobs:
           mv cataclysmdda-0.F.zip cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.zip
       - name: Build CDDA (osx)
         if: runner.os == 'macOS'
-        env:
-          USE_HOME_DIR: 1
         run: |
           cat >VERSION.txt <<EOL
           build type: ${{ matrix.artifact }}
@@ -187,7 +185,7 @@ jobs:
           commit sha: ${{ github.sha }}
           commit url: https://github.com/${{ github.repository }}/commit/${{ github.sha }}
           EOL
-          make -j3 TILES=${{ matrix.tiles }} SOUND=${{ matrix.tiles }} RELEASE=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=0 PCH=0 dmgdist
+          make -j3 TILES=${{ matrix.tiles }} SOUND=${{ matrix.tiles }} RELEASE=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=0 PCH=0 USE_HOME_DIR=1 OSX_MIN=10.12 dmgdist
           mv Cataclysm.dmg cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.dmg
       - name: Set up JDK 8 (android)
         if: runner.os == 'Linux' && matrix.android != 'none' && matrix.mxe == 'none'

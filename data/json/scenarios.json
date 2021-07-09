@@ -58,7 +58,8 @@
       "sloc_school"
     ],
     "start_name": "In Large Building",
-    "flags": [ "SUR_START", "CITY_START", "LONE_START" ]
+    "surround_groups": [ [ "GROUP_BLACK_ROAD", 70.0 ] ],
+    "flags": [ "CITY_START", "LONE_START" ]
   },
   {
     "type": "scenario",
@@ -85,7 +86,8 @@
       "sloc_police"
     ],
     "start_name": "In Town",
-    "flags": [ "SUR_START", "CITY_START", "LONE_START" ]
+    "surround_groups": [ [ "GROUP_BLACK_ROAD", 70.0 ] ],
+    "flags": [ "CITY_START", "LONE_START" ]
   },
   {
     "type": "scenario",
@@ -103,7 +105,8 @@
       "sloc_lighthouse_ground",
       "sloc_cabin_lake",
       "sloc_lodge_ground",
-      "sloc_freshwater_research_station"
+      "sloc_freshwater_research_station",
+      "sloc_light_industry_scen"
     ],
     "start_name": "Safe Building",
     "flags": [ "LONE_START" ]
@@ -318,7 +321,8 @@
       "sloc_campground"
     ],
     "start_name": "Outside Town",
-    "flags": [ "SUR_START", "LONE_START" ],
+    "surround_groups": [ [ "GROUP_BLACK_ROAD", 70.0 ] ],
+    "flags": [ "LONE_START" ],
     "custom_initial_date": { "season": "winter" },
     "add_professions": true,
     "professions": [ "sheltered_survivor", "sheltered_militia", "winter_scavenger", "winter_army" ]
@@ -594,5 +598,16 @@
     "allowed_locs": [ "sloc_private_resort" ],
     "professions": [ "frat", "gangster", "lost_sub", "lawyer", "politician", "dancer" ],
     "flags": [ "CHALLENGE", "LONE_START" ]
+  },
+  {
+    "type": "scenario",
+    "id": "car_crash",
+    "name": "Car Crash",
+    "points": -2,
+    "description": "You decided the open road would be a better prospect than the zombie-filled cities.  While en route to your destination, you were involved in a wreck.  Injured and alone, death seems inevitable.",
+    "allowed_locs": [ "sloc_road" ],
+    "start_name": "Crash Site",
+    "map_extra": "mx_mayhem",
+    "flags": [ "CHALLENGE", "HELI_CRASH", "LONE_START" ]
   }
 ]

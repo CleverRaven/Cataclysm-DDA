@@ -235,6 +235,7 @@ veh_interact::veh_interact( vehicle &veh, const point &p )
     main_context.register_action( "RENAME" );
     main_context.register_action( "SIPHON" );
     main_context.register_action( "UNLOAD" );
+    main_context.register_action( "CHANGE_SHAPE" );
     main_context.register_action( "ASSIGN_CREW" );
     main_context.register_action( "RELABEL" );
     main_context.register_action( "PREV_TAB" );
@@ -495,6 +496,9 @@ void veh_interact::do_main_loop()
             if( veh->handle_potential_theft( dynamic_cast<player &>( player_character ) ) ) {
                 finish = do_unload();
             }
+        } else if( action == "CHANGE_SHAPE" ) {
+            // purely comestic
+            do_change_shape();
         } else if( action == "ASSIGN_CREW" ) {
             if( owned_by_player ) {
                 do_assign_crew();
@@ -670,6 +674,9 @@ task_reason veh_interact::cant_do( char mode )
                 return e.part().is_seat();
             } ) ? task_reason::CAN_DO : task_reason::INVALID_TARGET;
 
+        case 'p':
+        // change part shape
+        // intentional fall-through
         case 'a':
             // relabel
             valid_target = cpart >= 0;
@@ -1937,6 +1944,110 @@ bool veh_interact::do_unload()
     return true;
 }
 
+void veh_interact::do_change_shape()
+{
+    if( cant_do( 'p' ) == task_reason::INVALID_TARGET ) {
+        msg = _( "No valid vehicle parts here." );
+        return;
+    }
+
+    restore_on_out_of_scope<cata::optional<std::string>> prev_title( title );
+    title = _( "Choose part to change shape:" );
+
+    shared_ptr_fast<ui_adaptor> current_ui = create_or_get_ui_adaptor();
+    restore_on_out_of_scope<int> prev_hilight_part( highlight_part );
+
+    int part_selected = 0;
+
+    while( true ) {
+        vehicle_part &part = veh->part( parts_here[part_selected] );
+        sel_vpart_info = &part.info();
+
+        highlight_part = part_selected;
+        overview_enable = [this, part_selected]( const vehicle_part & pt ) {
+            return &pt == &veh->part( part_selected );
+        };
+
+        ui_manager::redraw();
+        const std::string action = main_context.handle_input();
+
+        if( action == "QUIT" ) {
+            break;
+        } else if( action == "CONFIRM" || action == "CHANGE_SHAPE" ) {
+            using v_shapes = std::vector<const vpart_info *, std::allocator<const vpart_info *>>;
+            const v_shapes &shapes = vpart_shapes[ sel_vpart_info->name() + sel_vpart_info->base_item.str() ];
+            if( shapes.empty() ) {
+                break;
+            }
+
+            uilist smenu;
+            smenu.text = _( "Choose shape:" );
+            smenu.w_width_setup = [this]() {
+                return getmaxx( w_list );
+            };
+            smenu.w_x_setup = [this]( const int ) {
+                return getbegx( w_list );
+            };
+            smenu.w_y_setup = [this]( const int ) {
+                return getbegy( w_list );
+            };
+
+            int ret_code = 0;
+            int default_selection = 0;
+            std::vector<std::string> variants;
+            for( const vpart_info *const shape : shapes ) {
+                uilist_entry entry( shape->name() );
+                entry.retval = ret_code++;
+                entry.extratxt.left = 1;
+                entry.extratxt.sym = special_symbol( shape->sym );
+                entry.extratxt.color = shape->color;
+                variants.emplace_back( std::string() );
+                smenu.entries.emplace_back( entry );
+            }
+
+            for( const std::pair<const std::string, int> &vp_variant : sel_vpart_info->symbols ) {
+                std::string disp_name = sel_vpart_info->name();
+                // getting all the available shape variants from vpart_variants
+                std::size_t variants_offset = 0;
+                for( const std::pair<std::string, translation> &vp_variant_pair : vpart_variants ) {
+                    if( vp_variant_pair.first == vp_variant.first ) {
+                        disp_name += " " + vp_variant_pair.second;
+                        variants.emplace_back( vp_variant.first );
+                        if( vp_variant.first == part.variant ) {
+                            default_selection = ret_code;
+                        }
+                        break;
+                    }
+                    variants_offset += 1;
+                }
+                uilist_entry entry( disp_name );
+                entry.retval = ret_code++;
+                entry.extratxt.left = 1;
+                entry.extratxt.sym = special_symbol( vp_variant.second );
+                entry.extratxt.color = sel_vpart_info->color;
+                smenu.entries.emplace_back( entry );
+            }
+            sort_uilist_entries_by_line_drawing( smenu.entries );
+
+            // get default selection after sorting
+            for( std::size_t i = 0; i < smenu.entries.size(); ++i ) {
+                if( smenu.entries[i].retval == default_selection ) {
+                    default_selection = i;
+                    break;
+                }
+            }
+
+            smenu.selected = default_selection;
+            smenu.query();
+            if( smenu.ret >= 0 ) {
+                part.variant = variants[smenu.ret];
+            }
+        } else {
+            move_in_list( part_selected, action, parts_here.size() );
+        }
+    }
+}
+
 void veh_interact::do_assign_crew()
 {
     if( cant_do( 'w' ) != task_reason::CAN_DO ) {
@@ -2629,7 +2740,7 @@ void veh_interact::display_mode()
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         print_colored_text( w_mode, point( 1, 0 ), title_col, title_col, title.value() );
     } else {
-        constexpr size_t action_cnt = 11;
+        constexpr size_t action_cnt = 12;
         const std::array<std::string, action_cnt> actions = { {
                 veh_act_desc( main_context, "INSTALL",
                               pgettext( "veh_interact", "install" ),
@@ -2655,6 +2766,9 @@ void veh_interact::display_mode()
                 veh_act_desc( main_context, "ASSIGN_CREW",
                               pgettext( "veh_interact", "crew" ),
                               cant_do( 'w' ) ),
+                veh_act_desc( main_context, "CHANGE_SHAPE",
+                              pgettext( "veh_interact", "shape" ),
+                              cant_do( 'p' ) ),
                 veh_act_desc( main_context, "RENAME",
                               pgettext( "veh_interact", "rename" ),
                               task_reason::CAN_DO ),

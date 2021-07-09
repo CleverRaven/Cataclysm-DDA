@@ -334,20 +334,15 @@
   {
     "id": [
       "shotgun_410",
-      "browning_a5",
       "ksg",
       "ksg-25",
-      "m1014",
       "mossberg_500",
-      "mossberg_500_security",
       "mossberg_590",
       "mossberg_930",
       "remington_870",
       "remington_870_breacher",
       "remington_870_express",
-      "remington_1100",
-      "streetsweeper",
-      "SPAS_12"
+      "streetsweeper"
     ],
     "type": "MIGRATION",
     "replace": "shot_pump"

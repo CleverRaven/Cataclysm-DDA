@@ -880,6 +880,24 @@ void spell::use_components( Character &guy ) const
     }
 }
 
+bool spell::check_if_component_in_hand( Character &guy ) const
+{
+    if( type->spell_components.is_empty() ) {
+        return false;
+    }
+
+    const requirement_data &spell_components = type->spell_components.obj();
+
+    if( guy.has_weapon() ) {
+        if( spell_components.can_make_with_inventory( guy.weapon, return_true<item> ) ) {
+            return true;
+        }
+    }
+
+    // if it isn't in hand, return false
+    return false;
+}
+
 int spell::get_difficulty() const
 {
     return type->difficulty;
@@ -2330,6 +2348,11 @@ void spellbook_callback::refresh( uilist *menu )
         draw_spellbook_info( spells[menu->selected], menu );
     }
     wnoutrefresh( menu->window );
+}
+
+bool fake_spell::is_valid() const
+{
+    return id.is_valid() && !id.is_empty();
 }
 
 void fake_spell::load( const JsonObject &jo )
