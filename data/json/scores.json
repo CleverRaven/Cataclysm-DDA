@@ -128,5 +128,10 @@
     "id": "score_skill_levels_gained",
     "type": "score",
     "statistic": "num_gains_skill_level"
+  },
+  {
+    "id": "score_avatar_consumes_bacon",
+    "type": "score",
+    "statistic": "num_avatar_consumes_bacon"
   }
 ]

@@ -1756,5 +1756,19 @@
     "stat_type": "count",
     "event_transformation": "avatar_reads_book",
     "description": { "str_sp": "read a book" }
+  },
+  {
+    "id": "avatar_consumes_bacon",
+    "type": "event_transformation",
+    "event_transformation": "avatar_consumes_item",
+    "value_constraints": { "itype": { "equals": [ "itype_id", "bacon" ] } },
+    "drop_fields": [ "itype" ]
+  },
+  {
+    "id": "num_avatar_consumes_bacon",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_consumes_bacon",
+    "description": { "str": "piece of bacon consumed", "str_pl": "pieces of bacon consumed" }
   }
 ]
