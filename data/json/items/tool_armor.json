@@ -110,7 +110,7 @@
     "encumbrance": 10,
     "warmth": 0,
     "material_thickness": 0.1,
-    "environmental_protection": 1,
+    "environmental_protection": 0,
     "flags": [ "BLIND" ]
   },
   {
