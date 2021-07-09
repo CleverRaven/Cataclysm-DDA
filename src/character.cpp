@@ -4356,8 +4356,6 @@ void Character::do_skill_rust()
             continue;
         }
 
-        const bool charged_bio_mem = get_power_level() > bio_memory->power_trigger &&
-                                     has_active_bionic( bio_memory );
         const int rust_resist = enchantment_cache->modify_value( enchant_vals::mod::READING_EXP, 0 );
         const int oldSkillLevel = skill_level_obj.level();
         if( skill_level_obj.rust( rust_resist, rust_rate_tmp ) ) {
