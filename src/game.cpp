@@ -4280,7 +4280,7 @@ void game::mon_info( const catacurses::window &w, int hor_padding )
                 }
                 sym = "@";
             } else {
-                const mtype &mt = *unique_mons[i][j - typeshere_npc];
+                const mtype &mt = *unique_mons[i][j - typeshere_npc].first;
                 c = mt.color;
                 sym = mt.sym;
             }
@@ -4291,8 +4291,27 @@ void game::mon_info( const catacurses::window &w, int hor_padding )
     }
 
     // Now we print their full names!
-
-    std::set<const mtype *> listed_mons;
+    struct nearest_loc_and_cnt {
+        int nearest_loc;
+        int cnt;
+    };
+    std::map<const mtype *, nearest_loc_and_cnt> all_mons;
+    for( int loc = 0; loc < 9; loc++ ) {
+        for( const std::pair<const mtype *, int> &mon : unique_mons[loc] ) {
+            const auto mon_it = all_mons.find( mon.first );
+            if( mon_it == all_mons.end() ) {
+                all_mons.emplace( mon.first, nearest_loc_and_cnt{ loc, mon.second } );
+            } else {
+                // 8 being the nearest location (local monsters)
+                mon_it->second.nearest_loc = std::max( mon_it->second.nearest_loc, loc );
+                mon_it->second.cnt += mon.second;
+            }
+        }
+    }
+    std::vector<std::pair<const mtype *, int>> mons_at[9];
+    for( const std::pair<const mtype *const, nearest_loc_and_cnt> &mon : all_mons ) {
+        mons_at[mon.second.nearest_loc].emplace_back( mon.first, mon.second.cnt );
+    }
 
     // Start printing monster names on row 4. Rows 0-2 are for labels, and row 3
     // is blank.
@@ -4302,19 +4321,22 @@ void game::mon_info( const catacurses::window &w, int hor_padding )
     for( int j = 8; j >= 0 && pr.y < maxheight; j-- ) {
         // Separate names by some number of spaces (more for local monsters).
         int namesep = ( j == 8 ? 2 : 1 );
-        for( const mtype *type : unique_mons[j] ) {
+        for( const std::pair<const mtype *, int> &mon : mons_at[j] ) {
+            const mtype *const type = mon.first;
+            const int count = mon.second;
             if( pr.y >= maxheight ) {
                 // no space to print to anyway
                 break;
             }
-            if( listed_mons.count( type ) > 0 ) {
-                // this type is already printed.
-                continue;
-            }
-            listed_mons.insert( type );
 
             const mtype &mt = *type;
-            const std::string name = mt.nname();
+            std::string name = mt.nname( count );
+            // Some languages don't have plural forms, but we want to always
+            // omit 1.
+            if( count != 1 ) {
+                name = string_format( pgettext( "monster count and name", "%1$d %2$s" ),
+                                      count, name );
+            }
 
             // Move to the next row if necessary. (The +2 is for the "Z ").
             if( pr.x + 2 + utf8_width( name ) >= width ) {
@@ -4474,9 +4496,15 @@ void game::mon_info_update( )
                 }
             }
 
-            std::vector<const mtype *> &vec = unique_mons[index];
-            if( std::find( vec.begin(), vec.end(), critter.type ) == vec.end() ) {
-                vec.push_back( critter.type );
+            std::vector<std::pair<const mtype *, int>> &vec = unique_mons[index];
+            const auto mon_it = std::find_if( vec.begin(), vec.end(),
+            [&]( const std::pair<const mtype *, int> &elem ) {
+                return elem.first == critter.type;
+            } );
+            if( mon_it == vec.end() ) {
+                vec.emplace_back( critter.type, 1 );
+            } else {
+                mon_it->second++;
             }
         } else if( p != nullptr ) {
             //Safe mode NPC check
