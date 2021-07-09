@@ -772,29 +772,20 @@
     "activity_level": "LIGHT_EXERCISE",
     "result": "blood_rice_pudding",
     "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_VEGGI",
+    "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
     "difficulty": 3,
     "book_learn": [ [ "cookbook_bloodforgood", 2 ] ],
     "time": "45 m",
-    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+    "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CONTAIN", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "batch_time_factors": [ 50, 2 ],
-    "components": [ [ [ "dry_rice", 1 ] ], [ [ "edible_blood", 1, "LIST" ] ], [ [ "salt", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "blood_rice_pudding_fried",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_VEGGI",
-    "skill_used": "cooking",
-    "difficulty": 1,
-    "book_learn": [ [ "cookbook_bloodforgood", 2 ] ],
-    "time": "5 m",
-    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "blood_rice_pudding", 1 ] ] ]
+    "components": [
+      [ [ "dry_rice", 1 ] ],
+      [ [ "edible_blood", 1, "LIST" ] ],
+      [ [ "salt", 1 ] ],
+      [ [ "seasoning_mild", 1, "LIST" ], [ "peanut", 1 ], [ "chilly-p", 1 ], [ "curry_powder", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -1046,7 +1037,7 @@
     "skill_used": "cooking",
     "difficulty": 2,
     "time": "20 m",
-    "charges": 1,
+    "charges": 2,
     "book_learn": [ [ "cookbook_bloodforgood", 2 ] ],
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 } ],

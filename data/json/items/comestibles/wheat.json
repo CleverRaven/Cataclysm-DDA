@@ -291,13 +291,14 @@
     "copy-from": "pancakes",
     "name": { "str": "Blodplättar" },
     "weight": "80 g",
+    "spoils_in": "2 days 12 hours",
     "color": "black",
-    "calories": 113,
-    "description": "Blodplättar is not your average pancake. It does not taste blood at all and it is taste like a crispier black pudding.",
+    "calories": 243,
+    "description": "Blodplättar is not your average pancake. It does not taste blood at all and it tastes like a crispier black pudding.",
     "price": 550,
     "price_postapoc": 50,
-    "fun": 2,
-    "vitamins": [ [ "vitA", 1 ], [ "iron", 9 ] ]
+    "material": [ "wheat", "blood" ],
+    "primary_material": "wheat"
   },
   {
     "type": "COMESTIBLE",
