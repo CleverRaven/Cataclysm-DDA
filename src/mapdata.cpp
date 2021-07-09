@@ -411,7 +411,7 @@ bool map_data_common_t::has_examine( iexamine_function_ref func ) const
 
 bool map_data_common_t::has_examine( const std::string &action ) const
 {
-    return examine_actor->type == action;
+    return examine_actor && examine_actor->type == action;
 }
 
 void map_data_common_t::set_examine( iexamine_function_ref func )
