@@ -153,6 +153,9 @@ class talker
         virtual bool is_deaf() const {
             return false;
         }
+        virtual bool can_see() const {
+            return false;
+        }
         virtual bool is_mute() const {
             return false;
         }

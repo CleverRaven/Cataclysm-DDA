@@ -116,7 +116,7 @@ class talker_character: public talker
         void mod_fatigue( int amount ) override;
 
         void mod_pain( int amount ) override;
-
+        bool can_see() const override;
     protected:
         talker_character() = default;
         player *me_chr;

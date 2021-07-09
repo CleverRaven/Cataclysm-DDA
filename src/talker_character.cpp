@@ -12,6 +12,7 @@
 #include "vehicle.h"
 
 class time_duration;
+static const trait_id trait_SEESLEEP( "SEESLEEP" );
 
 std::string talker_character::disp_name() const
 {
@@ -316,6 +317,11 @@ bool talker_character::wielded_with_flag( const flag_id &flag ) const
 units::energy talker_character::power_cur() const
 {
     return me_chr->get_power_level();
+}
+
+bool talker_character::can_see() const
+{
+    return !me_chr->is_blind() && ( !me_chr->in_sleep_state() || me_chr->has_trait( trait_SEESLEEP ) );
 }
 
 void talker_character::mod_fatigue( int amount )
