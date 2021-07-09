@@ -1769,6 +1769,6 @@
     "type": "event_statistic",
     "stat_type": "count",
     "event_transformation": "avatar_consumes_bacon",
-    "description": { "str": "piece of bacon consumed", "str_pl": "pieces of bacon consumed" }
+    "description": { "str": "slab of bacon consumed", "str_pl": "slabs of bacon consumed" }
   }
 ]
