@@ -277,7 +277,6 @@ static const bionic_id bio_voice( "bio_voice" );
 static const bionic_id bio_gills( "bio_gills" );
 static const bionic_id bio_ground_sonar( "bio_ground_sonar" );
 static const bionic_id bio_hydraulics( "bio_hydraulics" );
-static const bionic_id bio_leukocyte( "bio_leukocyte" );
 static const bionic_id bio_memory( "bio_memory" );
 static const bionic_id bio_railgun( "bio_railgun" );
 static const bionic_id bio_shock_absorber( "bio_shock_absorber" );
@@ -5542,12 +5541,14 @@ void Character::update_health( int external_modifiers )
     }
 
     // Active leukocyte breeder will keep your health near 100
-    int effective_healthy_mod = get_healthy_mod();
-    if( has_active_bionic( bio_leukocyte ) ) {
-        // Side effect: dependency
-        mod_healthy_mod( -50, -200 );
-        effective_healthy_mod = 100;
+    int effective_healthy_mod = enchantment_cache->modify_value(
+                                    enchant_vals::mod::EFFECTIVE_HEALTH_MOD, 0 );
+    if( effective_healthy_mod == 0 ) {
+        effective_healthy_mod = get_healthy_mod();
     }
+    int healthy_mod = enchantment_cache->modify_value( enchant_vals::mod::MOD_HEALTH, 0 );
+    int healthy_mod_cap = enchantment_cache->modify_value( enchant_vals::mod::MOD_HEALTH_CAP, 0 );
+    mod_healthy_mod( healthy_mod, healthy_mod_cap );
 
     // Health tends toward healthy_mod.
     // For small differences, it changes 4 points per day

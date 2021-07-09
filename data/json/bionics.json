@@ -950,7 +950,17 @@
     "flags": [ "BIONIC_TOGGLED", "BIONIC_SLEEP_FRIENDLY", "BIONIC_NPC_USABLE" ],
     "act_cost": "5 J",
     "react_cost": "5 J",
-    "time": 1
+    "time": 1,
+    "enchantments": [
+      {
+        "condition": "ACTIVE",
+        "values": [
+          { "value": "EFFECTIVE_HEALTH_MOD", "add": 100 },
+          { "value": "MOD_HEALTH", "add": -50 },
+          { "value": "MOD_HEALTH_CAP", "add": -200 }
+        ]
+      }
+    ]
   },
   {
     "id": "bio_lighter",
