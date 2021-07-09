@@ -268,7 +268,6 @@
       { "id": "nail", "description": " Craft: Nail" },
       { "id": "wire", "description": " Craft: Wire" },
       { "id": "swage", "description": " Craft: Swage and Die Set" }
-    ]
   },
   {
     "type": "recipe_group",
