@@ -117,6 +117,7 @@ static const activity_id ACT_CLEAR_RUBBLE( "ACT_CLEAR_RUBBLE" );
 static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
 static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
 static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
+static const activity_id ACT_CONSUME_FUEL_MENU( "ACT_CONSUME_FUEL_MENU" );
 static const activity_id ACT_CRACKING( "ACT_CRACKING" );
 static const activity_id ACT_DISMEMBER( "ACT_DISMEMBER" );
 static const activity_id ACT_DISSECT( "ACT_DISSECT" );
@@ -272,6 +273,7 @@ activity_handlers::do_turn_functions = {
     { ACT_CONSUME_FOOD_MENU, consume_food_menu_do_turn },
     { ACT_CONSUME_DRINK_MENU, consume_drink_menu_do_turn },
     { ACT_CONSUME_MEDS_MENU, consume_meds_menu_do_turn },
+    { ACT_CONSUME_FUEL_MENU, consume_fuel_menu_do_turn },
     { ACT_MOVE_LOOT, move_loot_do_turn },
     { ACT_ADV_INVENTORY, adv_inventory_do_turn },
     { ACT_ARMOR_LAYERS, armor_layers_do_turn },
@@ -351,6 +353,7 @@ activity_handlers::finish_functions = {
     { ACT_CONSUME_FOOD_MENU, eat_menu_finish },
     { ACT_CONSUME_DRINK_MENU, eat_menu_finish },
     { ACT_CONSUME_MEDS_MENU, eat_menu_finish },
+    { ACT_CONSUME_FUEL_MENU, eat_menu_finish },
     { ACT_WASH, washing_finish },
     { ACT_HACKSAW, hacksaw_finish },
     { ACT_PRY_NAILS, pry_nails_finish },
@@ -2841,6 +2844,12 @@ void activity_handlers::consume_meds_menu_do_turn( player_activity *, player * )
 {
     avatar &player_character = get_avatar();
     avatar_action::eat( player_character, game_menus::inv::consume_meds( player_character ) );
+}
+
+void activity_handlers::consume_fuel_menu_do_turn( player_activity *, player * )
+{
+    avatar &player_character = get_avatar();
+    avatar_action::eat( player_character, game_menus::inv::consume_fuel( player_character ), true );
 }
 
 void activity_handlers::move_loot_do_turn( player_activity *act, player *p )

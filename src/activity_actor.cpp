@@ -1466,7 +1466,13 @@ void consume_activity_actor::start( player_activity &act, Character &guy )
     int moves;
     Character &player_character = get_player_character();
     if( consume_location ) {
-        const ret_val<edible_rating> ret = player_character.will_eat( *consume_location, true );
+        ret_val<edible_rating> ret = ret_val<edible_rating>::make_success();
+        if( refuel ) {
+            ret = player_character.can_consume_fuel( *consume_location );
+        } else {
+            ret = player_character.will_eat( *consume_location, true );
+        }
+
         if( !ret.success() ) {
             canceled = true;
             consume_menu_selections = std::vector<int>();
@@ -1476,7 +1482,12 @@ void consume_activity_actor::start( player_activity &act, Character &guy )
         }
         moves = to_moves<int>( guy.get_consume_time( *consume_location ) );
     } else if( !consume_item.is_null() ) {
-        const ret_val<edible_rating> ret = player_character.will_eat( consume_item, true );
+        ret_val<edible_rating> ret = ret_val<edible_rating>::make_success();
+        if( refuel ) {
+            ret = player_character.can_consume_fuel( consume_item );
+        } else {
+            ret = player_character.will_eat( consume_item, true );
+        }
         if( !ret.success() ) {
             canceled = true;
             consume_menu_selections = std::vector<int>();
@@ -1513,9 +1524,9 @@ void consume_activity_actor::finish( player_activity &act, Character & )
     avatar &player_character = get_avatar();
     if( !canceled ) {
         if( consume_loc ) {
-            player_character.consume( consume_loc, /*force=*/true );
+            player_character.consume( consume_loc, /*force=*/true, refuel );
         } else if( !consume_item.is_null() ) {
-            player_character.consume( consume_item, /*force=*/true );
+            player_character.consume( consume_item, /*force=*/true, refuel );
         } else {
             debugmsg( "Item location/name to be consumed should not be null." );
         }

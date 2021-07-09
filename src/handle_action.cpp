@@ -1545,6 +1545,7 @@ void game::open_consume_item_menu()
     as_m.entries.emplace_back( 0, true, 'f', _( "Food" ) );
     as_m.entries.emplace_back( 1, true, 'd', _( "Drink" ) );
     as_m.entries.emplace_back( 2, true, 'm', _( "Medication" ) );
+    as_m.entries.emplace_back( 3, true, 'u', _( "Fuel" ) );
     as_m.query();
 
     avatar &player_character = get_avatar();
@@ -1557,6 +1558,9 @@ void game::open_consume_item_menu()
             break;
         case 2:
             avatar_action::eat( player_character, game_menus::inv::consume_meds( player_character ) );
+            break;
+        case 3:
+            avatar_action::eat( player_character, game_menus::inv::consume_fuel( get_avatar() ), true );
             break;
         default:
             break;
