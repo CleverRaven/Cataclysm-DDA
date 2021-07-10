@@ -1417,11 +1417,6 @@
     "flags": [ "FILTHY" ]
   },
   {
-    "id": "gloves_survivor_fingerless",
-    "type": "MIGRATION",
-    "replace": "gloves_lsurvivor_fingerless"
-  },
-  {
     "id": "gloves_xlsurvivor",
     "type": "MIGRATION",
     "replace": "xl_gloves_survivor"
