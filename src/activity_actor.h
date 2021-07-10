@@ -8,11 +8,13 @@
 
 #include "activity_type.h"
 #include "clone_ptr.h"
+#include "point.h"
 #include "type_id.h"
 
 class Character;
 class JsonIn;
 class JsonOut;
+class monster;
 class player_activity;
 
 class activity_actor
