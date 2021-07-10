@@ -803,8 +803,8 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     }
 #endif
 
-    int width = ( TERMX - OVERMAP_LEGEND_WIDTH ) * font->width;
-    int height = TERMY * font->height;
+    int width = OVERMAP_WINDOW_TERM_WIDTH * font->width;
+    int height = OVERMAP_WINDOW_TERM_HEIGHT * font->height;
 
     {
         //set clipping to prevent drawing over stuff we shouldn't
@@ -3639,7 +3639,12 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
         p = view_offset + selected;
     } else {
         const point selected( screen_pos.x / fw, screen_pos.y / fh );
-        p = view_offset + selected - dim.window_size_cell / 2;
+        if( capture_win == g->w_overmap ) {
+            p = view_offset + selected - point( std::ceil( dim.window_size_cell.x / 2.0 ),
+                                                std::ceil( dim.window_size_cell.y / 2.0 ) );
+        } else {
+            p = view_offset + selected - dim.window_size_cell / 2;
+        }
     }
 
     return tripoint( p, get_map().get_abs_sub().z );

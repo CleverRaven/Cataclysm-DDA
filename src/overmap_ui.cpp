@@ -1531,12 +1531,13 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
         OVERMAP_LEGEND_WIDTH = clamp( TERMX / 5, 28, 55 );
         OVERMAP_WINDOW_HEIGHT = TERMY;
         OVERMAP_WINDOW_WIDTH = TERMX - OVERMAP_LEGEND_WIDTH;
+        OVERMAP_WINDOW_TERM_WIDTH = OVERMAP_WINDOW_WIDTH;
+        OVERMAP_WINDOW_TERM_HEIGHT = OVERMAP_WINDOW_HEIGHT;
+
         to_overmap_font_dimension( OVERMAP_WINDOW_WIDTH, OVERMAP_WINDOW_HEIGHT );
 
-        /* please do not change point( TERMX - OVERMAP_LEGEND_WIDTH, 0 ) to point( OVERMAP_WINDOW_WIDTH, 0 ) */
-        /* because overmap legend will be absent */
-        g->w_omlegend = catacurses::newwin( TERMY, OVERMAP_LEGEND_WIDTH,
-                                            point( TERMX - OVERMAP_LEGEND_WIDTH, 0 ) );
+        g->w_omlegend = catacurses::newwin( OVERMAP_WINDOW_TERM_HEIGHT, OVERMAP_LEGEND_WIDTH,
+                                            point( OVERMAP_WINDOW_TERM_WIDTH, 0 ) );
         g->w_overmap = catacurses::newwin( OVERMAP_WINDOW_HEIGHT, OVERMAP_WINDOW_WIDTH, point_zero );
 
         ui.position_from_window( catacurses::stdscr );
