@@ -916,6 +916,16 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                 }
             }
 
+            if( blink && overmap_buffer.has_vehicle( omp ) ) {
+                if( find_tile_looks_like( "overmap_remembered_vehicle", TILE_CATEGORY::C_OVERMAP_NOTE ) ) {
+                    draw_from_id_string( "overmap_remembered_vehicle", TILE_CATEGORY::C_OVERMAP_NOTE,
+                                         "overmap_note", pos, 0, 0, lit_level::LIT, false );
+                } else {
+                    draw_from_id_string( "note_c_cyan", TILE_CATEGORY::C_OVERMAP_NOTE,
+                                         "overmap_note", pos, 0, 0, lit_level::LIT, false );
+                }
+            }
+
             if( blink && uistate.overmap_show_map_notes && overmap_buffer.has_note( omp ) ) {
 
                 nc_color ter_color = c_black;
