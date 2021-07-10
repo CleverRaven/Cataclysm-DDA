@@ -78,10 +78,10 @@ using oter_type_str_id = string_id<oter_type_t>;
 
 ////////////////
 static oter_id ot_null;
-static const oter_str_id ot_forest( "ot_forest" );
-static const oter_str_id ot_forest_thick( "ot_forest_thick" );
-static const oter_str_id ot_forest_water( "ot_forest_water" );
-static const oter_str_id ot_river_center( "ot_river_center" );
+static const oter_str_id forest( "forest" );
+static const oter_str_id forest_thick( "forest_thick" );
+static const oter_str_id forest_water( "forest_water" );
+static const oter_str_id river_center( "river_center" );
 
 const oter_type_t oter_type_t::null_type{};
 
@@ -1966,11 +1966,11 @@ void overmap::move_hordes()
         // Decrease movement chance according to the terrain we're currently on.
         const oter_id &walked_into = ter( project_to<coords::omt>( mg.pos ) );
         int movement_chance = 1;
-        if( walked_into == ot_forest || walked_into == ot_forest_water ) {
+        if( walked_into == forest || walked_into == forest_water ) {
             movement_chance = 3;
-        } else if( walked_into == ot_forest_thick ) {
+        } else if( walked_into == forest_thick ) {
             movement_chance = 6;
-        } else if( walked_into == ot_river_center ) {
+        } else if( walked_into == river_center ) {
             movement_chance = 10;
         }
 
@@ -2341,8 +2341,6 @@ void overmap::place_forest_trailheads()
 void overmap::place_forests()
 {
     const oter_id default_oter_id( settings.default_oter[OVERMAP_DEPTH] );
-    const oter_id forest( "forest" );
-    const oter_id forest_thick( "forest_thick" );
 
     const om_noise::om_noise_layer_forest f( global_base_point(), g->get_seed() );
 
@@ -2521,7 +2519,6 @@ void overmap::place_rivers( const overmap *north, const overmap *east, const ove
 
     // Determine points where rivers & roads should connect w/ adjacent maps
     // optimized comparison.
-    const oter_id river_center( "river_center" );
 
     if( north != nullptr ) {
         for( int i = 2; i < OMAPX - 2; i++ ) {
@@ -2685,8 +2682,6 @@ void overmap::place_swamps()
         }
     }
 
-    const oter_id forest_water( "forest_water" );
-
     // Get a layer of noise to use in conjunction with our river buffered floodplain.
     const om_noise::om_noise_layer_floodplain f( global_base_point(), g->get_seed() );
 
@@ -2798,7 +2793,6 @@ void overmap::place_roads( const overmap *north, const overmap *east, const over
 
 void overmap::place_river( const point_om_omt &pa, const point_om_omt &pb )
 {
-    const oter_id river_center( "river_center" );
     int river_chance = static_cast<int>( std::max( 1.0, 1.0 / settings.river_scale ) );
     int river_scale = static_cast<int>( std::max( 1.0, settings.river_scale ) );
     point_om_omt p2( pa );
