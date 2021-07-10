@@ -1267,5 +1267,30 @@
     "color": "light_gray",
     "looks_like": "hand_drill",
     "qualities": [ [ "DRILL", 1 ] ]
+  },
+  {
+    "id": "wire_draw_machine",
+    "type": "TOOL",
+    "name": { "str": "wire draw machine" },
+    "description": "A machine designed specifically for turning metal rods into wire.",
+    "weight": "26 kg",
+    "volume": "20 L",
+    "price": 1000,
+    "price_postapoc": 10,
+    "to_hit": -3,
+    "bashing": 7,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "magazine_well": "200 ml",
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      }
+    ]
   }
 ]

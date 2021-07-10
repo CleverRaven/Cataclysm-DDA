@@ -367,9 +367,15 @@ struct map_data_common_t {
 * Short for terrain type. This struct defines all of the metadata for a given terrain id (an enum below).
 */
 struct ter_t : map_data_common_t {
+
+    std::vector<std::pair<ter_str_id, mod_id>> src;
+
     ter_str_id id;    // The terrain's ID. Must be set, must be unique.
     ter_str_id open;  // Open action: transform into terrain with matching id
     ter_str_id close; // Close action: transform into terrain with matching id
+
+    ter_str_id lockpick_result; // Lockpick action: transform when successfully lockpicked
+    translation lockpick_message; // Lockpick action: message when successfully lockpicked
 
     std::string trap_id_str;     // String storing the id string of the trap.
     ter_str_id transforms_into; // Transform into what terrain?
@@ -397,9 +403,14 @@ void reset_furn_ter();
  */
 
 struct furn_t : map_data_common_t {
+
+    std::vector<std::pair<furn_str_id, mod_id>> src;
+
     furn_str_id id;
     furn_str_id open;  // Open action: transform into furniture with matching id
     furn_str_id close; // Close action: transform into furniture with matching id
+    furn_str_id lockpick_result; // Lockpick action: transform when successfully lockpicked
+    translation lockpick_message; // Lockpick action: message when successfully lockpicked
     itype_id crafting_pseudo_item;
     units::volume keg_capacity = 0_ml;
     int comfort = 0;

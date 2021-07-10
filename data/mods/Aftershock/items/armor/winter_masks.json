@@ -25,7 +25,7 @@
       "need_charges": 1,
       "need_charges_msg": "The %s's batteries are dead."
     },
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "head" ], "coverage": 100, "encumbrance": 25 },
       { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 5 },
       { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 15 }
@@ -91,7 +91,7 @@
       "need_charges": 1,
       "need_charges_msg": "The %s's batteries are dead."
     },
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 15 },
       { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 20 }
     ],

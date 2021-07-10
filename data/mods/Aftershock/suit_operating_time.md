@@ -59,7 +59,7 @@ Consider the Magellan exosuit, which has the following definition:
       "need_charges": 1,
       "need_charges_msg": "The %s's batteries are dead."
     },
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 100, "encumbrance": 25 },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": 25 },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": 15 },

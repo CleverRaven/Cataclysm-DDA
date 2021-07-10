@@ -45,7 +45,7 @@ TEST_CASE( "simple_item_layers", "[item]" )
     CHECK( item( "arm_warmers" ).get_layer() == layer_level::UNDERWEAR );
     CHECK( item( "10gal_hat" ).get_layer() == layer_level::REGULAR );
     CHECK( item( "baldric" ).get_layer() == layer_level::WAIST );
-    CHECK( item( "aep_suit" ).get_layer() == layer_level::OUTER );
+    CHECK( item( "armor_lightplate" ).get_layer() == layer_level::OUTER );
     CHECK( item( "2byarm_guard" ).get_layer() == layer_level::BELTED );
 }
 

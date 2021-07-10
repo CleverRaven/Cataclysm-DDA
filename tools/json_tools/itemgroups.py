@@ -53,7 +53,7 @@ def load_json_data(data_directory):
         if filename.name in ignore_filenames:
             continue
         try:
-            with open(filename) as json_fp:
+            with open(filename, encoding="utf-8") as json_fp:
                 json_data = json.load(json_fp)
             for data in json_data:
                 if isinstance(data, str):

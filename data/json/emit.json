@@ -193,6 +193,13 @@
     "qty": 50
   },
   {
+    "id": "emit_pollen_stream",
+    "type": "emit",
+    "field": "fd_pollen_triffid",
+    "intensity": 2,
+    "qty": 24
+  },
+  {
     "id": "emit_hot_air2_blast",
     "type": "emit",
     "field": "fd_hot_air2",

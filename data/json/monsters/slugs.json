@@ -22,10 +22,11 @@
     "melee_cut": 0,
     "dodge": 12,
     "armor_bash": 4,
+    "bleed_rate": 30,
     "vision_day": 10,
     "vision_night": 30,
     "harvest": "exempt",
-    "death_function": [ "MELT" ],
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
     "regenerates": 50,
     "flags": [ "NOHEAD", "SEES", "POISON", "HEARS", "SMELLS", "SLUDGEPROOF", "SLUDGETRAIL", "SWIMS", "FLAMMABLE", "NOGIB" ]
   },
@@ -65,11 +66,11 @@
     "armor_bash": 8,
     "armor_cut": 2,
     "armor_bullet": 2,
+    "bleed_rate": 60,
     "vision_day": 30,
     "harvest": "mutant_meatslug",
     "special_attacks": [ [ "ACID", 10 ] ],
     "anger_triggers": [ "PLAYER_CLOSE" ],
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "BASHES", "ACIDPROOF", "ACIDTRAIL", "ARTHROPOD_BLOOD" ]
   }
 ]

@@ -244,6 +244,7 @@ struct tripoint {
     friend inline constexpr bool operator!=( const tripoint &a, const tripoint &b ) {
         return !( a == b );
     }
+
     friend inline bool operator<( const tripoint &a, const tripoint &b ) {
         if( a.x != b.x ) {
             return a.x < b.x;
