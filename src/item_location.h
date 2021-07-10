@@ -119,6 +119,11 @@ class item_location
         */
         units::mass weight_capacity() const;
 
+        /**
+        * true if the item is inside a not open watertight container
+        **/
+        bool protected_from_liquids() const;
+
         bool parents_can_contain_recursive( item *it ) const;
         int max_charges_by_parent_recursive( const item &it ) const;
 

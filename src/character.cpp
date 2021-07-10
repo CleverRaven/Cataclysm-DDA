@@ -8758,6 +8758,10 @@ bool Character::invoke_item( item *used, const std::string &method )
 bool Character::invoke_item( item *used, const std::string &method, const tripoint &pt,
                              int pre_obtain_moves )
 {
+    if( used->is_broken() ) {
+        add_msg_if_player( m_bad, _( "Your %s was broken and won't turn on." ), used->tname() );
+        return false;
+    }
     if( !has_enough_charges( *used, true ) ) {
         moves = pre_obtain_moves;
         return false;

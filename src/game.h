@@ -549,6 +549,9 @@ class game
          */
         std::vector<monster *> get_fishable_monsters( std::unordered_set<tripoint> &fishable_locations );
 
+        /** Destroy / dissolve character items when in water. */
+        void water_affect_items( Character &ch ) const;
+
         /** Flings the input creature in the given direction. */
         void fling_creature( Creature *c, const units::angle &dir, float flvel,
                              bool controlled = false );
