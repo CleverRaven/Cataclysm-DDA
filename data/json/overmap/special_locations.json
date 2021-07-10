@@ -63,7 +63,7 @@
   {
     "type": "overmap_location",
     "id": "subterranean",
-    "terrains": [ "cavern", "empty_rock", "rock", "slimepit", "sewer" ]
+    "terrains": [ "cavern", "empty_rock", "rock", "slimepit", "sewer", "solid_earth" ]
   },
   {
     "type": "overmap_location",

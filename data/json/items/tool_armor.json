@@ -87,6 +87,27 @@
     "flags": [ "WATER_FRIENDLY", "OUTER", "TOURNIQUET", "OVERSIZE" ]
   },
   {
+    "id": "makeshift_blindfold",
+    "type": "ARMOR",
+    "name": { "str": "makeshift blindfold" },
+    "description": "A crude eye covering woven from blades of grass with string attached to fasten it.  Useful for sleeping in bright areas.",
+    "weight": "32 g",
+    "volume": "200 ml",
+    "price": 5,
+    "price_postapoc": 1,
+    "material": [ "dry_plant" ],
+    "symbol": "[",
+    "looks_like": "scarf",
+    "color": "yellow",
+    "covers": [ "eyes" ],
+    "coverage": 95,
+    "encumbrance": 10,
+    "warmth": 0,
+    "material_thickness": 0.1,
+    "environmental_protection": 0,
+    "flags": [ "BLIND" ]
+  },
+  {
     "id": "blindfold",
     "type": "ARMOR",
     "name": { "str": "blindfold" },

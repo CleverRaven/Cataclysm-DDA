@@ -583,6 +583,7 @@ class consume_activity_actor : public activity_actor
         std::string consume_menu_filter;
         bool canceled = false;
         activity_id type;
+        bool refuel = false;
         /**
          * @pre @p other is a consume_activity_actor
          */
@@ -595,11 +596,11 @@ class consume_activity_actor : public activity_actor
         consume_activity_actor( const item_location &consume_location,
                                 std::vector<int> consume_menu_selections,
                                 const std::vector<item_location> &consume_menu_selected_items,
-                                const std::string &consume_menu_filter, activity_id type ) :
+                                const std::string &consume_menu_filter, activity_id type, bool refuel = false ) :
             consume_location( consume_location ), consume_menu_selections( consume_menu_selections ),
             consume_menu_selected_items( consume_menu_selected_items ),
             consume_menu_filter( consume_menu_filter ),
-            type( type ) {}
+            type( type ), refuel( refuel ) {}
 
         explicit consume_activity_actor( const item_location &consume_location ) :
             consume_location( consume_location ), consume_menu_selections( std::vector<int>() ) {}
@@ -928,6 +929,41 @@ class milk_activity_actor : public activity_actor
         std::vector<std::string> string_values {};
 };
 
+class shearing_activity_actor : public activity_actor
+{
+    private:
+        tripoint mon_coords;    // monster is tied for the duration
+        bool shearing_tie;      // was the monster tied due to shearing
+
+    public:
+        explicit shearing_activity_actor(
+            const tripoint &mon_coords, bool shearing_tie = true )
+            : mon_coords( mon_coords ), shearing_tie( shearing_tie ) {};
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_SHEARING" );
+        }
+
+        void start( player_activity &act, Character &who ) override;
+        void do_turn( player_activity &/*act*/, Character &who ) override;
+        void finish( player_activity &act, Character &who ) override;
+        void canceled( player_activity &/*act*/, Character &/*who*/ ) override;
+
+        bool can_resume_with_internal( const activity_actor &other,
+                                       const Character &/*who*/ ) const override {
+            const shearing_activity_actor &actor = static_cast<const shearing_activity_actor &>
+                                                   ( other );
+            return actor.mon_coords == mon_coords;
+        }
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<shearing_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+};
+
 class disassemble_activity_actor : public activity_actor
 {
     private:
@@ -1011,6 +1047,41 @@ class insert_item_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
 };
 
+class tent_placement_activity_actor : public activity_actor
+{
+    private:
+        int moves_total;
+        tripoint target;
+        int radius = 1;
+        item it;
+        string_id<furn_t> wall;
+        string_id<furn_t> floor;
+        cata::optional<string_id<furn_t>> floor_center;
+        string_id<furn_t> door_closed;
+
+    public:
+        tent_placement_activity_actor( int moves_total, tripoint target, int radius, item it,
+                                       string_id<furn_t> wall, string_id<furn_t> floor, cata::optional<string_id<furn_t>> floor_center,
+                                       string_id<furn_t> door_closed ) : moves_total( moves_total ), target( target ), radius( radius ),
+            it( it ), wall( wall ), floor( floor ), floor_center( floor_center ), door_closed( door_closed ) {}
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_TENT_PLACE" );
+        }
+
+        void start( player_activity &act, Character & ) override;
+        void do_turn( player_activity &, Character & ) override {}
+        void finish( player_activity &act, Character &p ) override;
+        void canceled( player_activity &, Character &p ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<tent_placement_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+};
+
 class meditate_activity_actor : public activity_actor
 {
     public:
@@ -1049,6 +1120,34 @@ class play_with_pet_activity_actor : public activity_actor
 
         std::unique_ptr<activity_actor> clone() const override {
             return std::make_unique<play_with_pet_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+};
+
+class tent_deconstruct_activity_actor : public activity_actor
+{
+    private:
+        int moves_total;
+        int radius;
+        tripoint target;
+        itype_id tent;
+
+    public:
+        tent_deconstruct_activity_actor( int moves_total, int radius, tripoint target,
+                                         itype_id tent ) : moves_total( moves_total ), radius( radius ), target( target ), tent( tent ) {}
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_TENT_DECONSTRUCT" );
+        }
+
+        void start( player_activity &act, Character & ) override;
+        void do_turn( player_activity &, Character & ) override {}
+        void finish( player_activity &act, Character & ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<tent_deconstruct_activity_actor>( *this );
         }
 
         void serialize( JsonOut &jsout ) const override;

@@ -304,7 +304,8 @@
       { "item": "polisher", "prob": 70, "charges": [ 0, 100 ] },
       { "item": "angle_grinder", "prob": 5, "charges": [ 0, 500 ] },
       { "item": "welder", "prob": 10, "charges": [ 0, 500 ] },
-      [ "clamp", 10 ]
+      [ "clamp", 10 ],
+      [ "goggles_welding", 80 ]
     ]
   },
   {

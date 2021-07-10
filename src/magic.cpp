@@ -2350,6 +2350,11 @@ void spellbook_callback::refresh( uilist *menu )
     wnoutrefresh( menu->window );
 }
 
+bool fake_spell::is_valid() const
+{
+    return id.is_valid() && !id.is_empty();
+}
+
 void fake_spell::load( const JsonObject &jo )
 {
     mandatory( jo, false, "id", id );

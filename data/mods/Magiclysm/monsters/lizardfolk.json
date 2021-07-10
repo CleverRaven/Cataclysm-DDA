@@ -28,7 +28,6 @@
     "armor_bullet": 10,
     "armor_stab": 6,
     "harvest": "lizardfolk",
-    "death_function": [ "NORMAL" ],
     "death_drops": [
       { "item": "lizardfolk_club", "prob": 30 },
       { "item": "loincloth", "prob": 40 },

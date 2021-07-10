@@ -20,6 +20,7 @@
 #include "anatomy.h"
 #include "avatar.h"
 #include "bionics.h"
+#include "cached_options.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character_martial_arts.h"
@@ -237,6 +238,8 @@ static const skill_id skill_smg( "smg" );
 static const skill_id skill_swimming( "swimming" );
 static const skill_id skill_throw( "throw" );
 
+static const proficiency_id proficiency_prof_spotting( "prof_spotting" );
+
 static const species_id species_HUMAN( "HUMAN" );
 static const species_id species_ROBOT( "ROBOT" );
 
@@ -274,16 +277,12 @@ static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
 static const bionic_id bio_ads( "bio_ads" );
 static const bionic_id bio_blaster( "bio_blaster" );
 static const bionic_id bio_voice( "bio_voice" );
-static const bionic_id bio_flashlight( "bio_flashlight" );
 static const bionic_id bio_gills( "bio_gills" );
 static const bionic_id bio_ground_sonar( "bio_ground_sonar" );
 static const bionic_id bio_hydraulics( "bio_hydraulics" );
-static const bionic_id bio_jointservo( "bio_jointservo" );
-static const bionic_id bio_leukocyte( "bio_leukocyte" );
 static const bionic_id bio_memory( "bio_memory" );
 static const bionic_id bio_railgun( "bio_railgun" );
 static const bionic_id bio_shock_absorber( "bio_shock_absorber" );
-static const bionic_id bio_tattoo_led( "bio_tattoo_led" );
 static const bionic_id bio_ups( "bio_ups" );
 // Aftershock stuff!
 static const bionic_id afs_bio_linguistic_coprocessor( "afs_bio_linguistic_coprocessor" );
@@ -308,7 +307,6 @@ static const trait_id trait_DOWN( "DOWN" );
 static const trait_id trait_ELECTRORECEPTORS( "ELECTRORECEPTORS" );
 static const trait_id trait_ELFA_FNV( "ELFA_FNV" );
 static const trait_id trait_ELFA_NV( "ELFA_NV" );
-static const trait_id trait_FASTLEARNER( "FASTLEARNER" );
 static const trait_id trait_FAST_REFLEXES( "FAST_REFLEXES" );
 static const trait_id trait_FEL_NV( "FEL_NV" );
 static const trait_id trait_GILLS( "GILLS" );
@@ -352,7 +350,6 @@ static const trait_id trait_SHOUT2( "SHOUT2" );
 static const trait_id trait_SHOUT3( "SHOUT3" );
 static const trait_id trait_SLIMESPAWNER( "SLIMESPAWNER" );
 static const trait_id trait_SLIMY( "SLIMY" );
-static const trait_id trait_SLOWLEARNER( "SLOWLEARNER" );
 static const trait_id trait_STRONGSTOMACH( "STRONGSTOMACH" );
 static const trait_id trait_THRESH_CEPHALOPOD( "THRESH_CEPHALOPOD" );
 static const trait_id trait_THRESH_INSECT( "THRESH_INSECT" );
@@ -2263,6 +2260,18 @@ bool Character::has_any_bionic() const
     return !get_bionics().empty();
 }
 
+std::vector<item> Character::get_pseudo_items() const
+{
+    std::vector<item> result;
+    for( const bionic &bio : *my_bionics ) {
+        const bionic_data &bid = bio.info();
+        if( bid.fake_item && ( !bid.activated || bio.powered ) ) {
+            result.emplace_back( item( bid.fake_item ) );
+        }
+    }
+    return result;
+}
+
 bionic_id Character::get_remote_fueled_bionic() const
 {
     for( const bionic_id &bid : get_bionics() ) {
@@ -2359,8 +2368,8 @@ void Character::practice( const skill_id &id, int amount, int cap, bool suppress
     static const int INTMAX_SQRT = std::floor( std::sqrt( std::numeric_limits<int>::max() ) );
     SkillLevel &level = get_skill_level_object( id );
     const Skill &skill = id.obj();
-    if( !level.can_train() && !in_sleep_state() ) {
-        // If leveling is disabled, don't train, don't drain focus, don't print anything
+    if( !level.can_train() || in_sleep_state() || ( get_skill_level( id ) >= MAX_SKILL ) ) {
+        // Do not practice if: cannot train, asleep, or at effective skill cap
         // Leaving as a skill method rather than global for possible future skill cap setting
         return;
     }
@@ -4345,10 +4354,9 @@ void Character::do_skill_rust()
             continue;
         }
 
-        const bool charged_bio_mem = get_power_level() > bio_memory->power_trigger &&
-                                     has_active_bionic( bio_memory );
+        const int rust_resist = enchantment_cache->modify_value( enchant_vals::mod::READING_EXP, 0 );
         const int oldSkillLevel = skill_level_obj.level();
-        if( skill_level_obj.rust( charged_bio_mem, rust_rate_tmp ) ) {
+        if( skill_level_obj.rust( rust_resist, rust_rate_tmp ) ) {
             add_msg_if_player( m_warning,
                                _( "Your knowledge of %s begins to fade, but your memory banks retain it!" ), aSkill.name() );
             mod_power_level( -bio_memory->power_trigger );
@@ -4933,6 +4941,12 @@ int Character::get_speed() const
                 get_speedydex_bonus( get_dex() ) );
     }
     return Creature::get_speed() + get_speedydex_bonus( get_dex() );
+}
+
+int Character::get_eff_per() const
+{
+    return Character::get_per() + int( Character::has_proficiency( proficiency_prof_spotting ) ) *
+           Character::get_per_base();
 }
 
 int Character::ranged_dex_mod() const
@@ -5533,12 +5547,14 @@ void Character::update_health( int external_modifiers )
     }
 
     // Active leukocyte breeder will keep your health near 100
-    int effective_healthy_mod = get_healthy_mod();
-    if( has_active_bionic( bio_leukocyte ) ) {
-        // Side effect: dependency
-        mod_healthy_mod( -50, -200 );
-        effective_healthy_mod = 100;
+    int effective_healthy_mod = enchantment_cache->modify_value(
+                                    enchant_vals::mod::EFFECTIVE_HEALTH_MOD, 0 );
+    if( effective_healthy_mod == 0 ) {
+        effective_healthy_mod = get_healthy_mod();
     }
+    int healthy_mod = enchantment_cache->modify_value( enchant_vals::mod::MOD_HEALTH, 0 );
+    int healthy_mod_cap = enchantment_cache->modify_value( enchant_vals::mod::MOD_HEALTH_CAP, 0 );
+    mod_healthy_mod( healthy_mod, healthy_mod_cap );
 
     // Health tends toward healthy_mod.
     // For small differences, it changes 4 points per day
@@ -5548,7 +5564,7 @@ void Character::update_health( int external_modifiers )
 
     // And healthy_mod decays over time.
     // Slowly near 0, but it's hard to overpower it near +/-100
-    set_healthy_mod( std::round( get_healthy_mod() * 0.95f ) );
+    set_healthy_mod( roll_remainder( get_healthy_mod() * 0.95f ) );
 
     add_msg_debug( debugmode::DF_CHAR_HEALTH, "Health: %d, Health mod: %d", get_healthy(),
                    get_healthy_mod() );
@@ -7731,11 +7747,10 @@ float Character::active_light() const
 
     lumination = std::max( lumination, mut_lum );
 
-    if( lumination < 60 && has_active_bionic( bio_flashlight ) ) {
-        lumination = 60;
-    } else if( lumination < 5 && ( has_effect( effect_glowing ) ||
-                                   ( has_active_bionic( bio_tattoo_led ) ||
-                                     has_effect( effect_glowy_led ) ) ) ) {
+    lumination = std::max( lumination,
+                           static_cast<float>( enchantment_cache->modify_value( enchant_vals::mod::LUMINATION, 0 ) ) );
+
+    if( lumination < 5 && ( has_effect( effect_glowing ) || has_effect( effect_glowy_led ) ) ) {
         lumination = 5;
     }
     return lumination;
@@ -8078,7 +8093,6 @@ mutation_value_map = {
     { "mana_regen_multiplier", calc_mutation_value_multiplicative<&mutation_branch::mana_regen_multiplier> },
     { "bionic_mana_penalty", calc_mutation_value_multiplicative<&mutation_branch::bionic_mana_penalty> },
     { "casting_time_multiplier", calc_mutation_value_multiplicative<&mutation_branch::casting_time_multiplier> },
-    { "speed_modifier", calc_mutation_value_multiplicative<&mutation_branch::speed_modifier> },
     { "movecost_modifier", calc_mutation_value_multiplicative<&mutation_branch::movecost_modifier> },
     { "movecost_flatground_modifier", calc_mutation_value_multiplicative<&mutation_branch::movecost_flatground_modifier> },
     { "movecost_obstacle_modifier", calc_mutation_value_multiplicative<&mutation_branch::movecost_obstacle_modifier> },
@@ -8090,7 +8104,6 @@ mutation_value_map = {
     { "noise_modifier", calc_mutation_value_multiplicative<&mutation_branch::noise_modifier> },
     { "overmap_sight", calc_mutation_value_additive<&mutation_branch::overmap_sight> },
     { "overmap_multiplier", calc_mutation_value_multiplicative<&mutation_branch::overmap_multiplier> },
-    { "map_memory_capacity_multiplier", calc_mutation_value_multiplicative<&mutation_branch::map_memory_capacity_multiplier> },
     { "reading_speed_multiplier", calc_mutation_value_multiplicative<&mutation_branch::reading_speed_multiplier> },
     { "skill_rust_multiplier", calc_mutation_value_multiplicative<&mutation_branch::skill_rust_multiplier> },
     { "crafting_speed_multiplier", calc_mutation_value_multiplicative<&mutation_branch::crafting_speed_multiplier> },
@@ -11702,15 +11715,8 @@ bool Character::has_opposite_trait( const trait_id &flag ) const
 int Character::adjust_for_focus( int amount ) const
 {
     int effective_focus = get_focus();
-    if( has_trait( trait_FASTLEARNER ) ) {
-        effective_focus += 15;
-    }
-    if( has_active_bionic( bio_memory ) ) {
-        effective_focus += 10;
-    }
-    if( has_trait( trait_SLOWLEARNER ) ) {
-        effective_focus -= 15;
-    }
+    effective_focus = enchantment_cache->modify_value( enchant_vals::mod::LEARNING_FOCUS,
+                      effective_focus );
     effective_focus += ( get_int() - get_option<int>( "INT_BASED_LEARNING_BASE_VALUE" ) ) *
                        get_option<int>( "INT_BASED_LEARNING_FOCUS_ADJUSTMENT" );
     effective_focus = std::max( effective_focus, 1 );
@@ -11850,15 +11856,6 @@ int Character::run_cost( int base_cost, bool diag ) const
         if( has_trait( trait_PADDED_FEET ) && !footwear_factor() ) {
             movecost *= .9f;
         }
-        if( has_active_bionic( bio_jointservo ) ) {
-            if( is_running() ) {
-                movecost *= 0.85f;
-            } else {
-                movecost *= 0.95f;
-            }
-        } else if( has_bionic( bio_jointservo ) ) {
-            movecost *= 1.1f;
-        }
 
         if( worn_with_flag( flag_SLOWS_MOVEMENT ) ) {
             movecost *= 1.1f;
@@ -11947,14 +11944,6 @@ void Character::place_corpse()
         }
     }
 
-    // Restore amount of installed pseudo-modules of Power Storage Units
-    std::pair<int, int> storage_modules = amount_of_storage_bionics();
-    for( int i = 0; i < storage_modules.first; ++i ) {
-        body.put_in( item( "bio_power_storage" ), item_pocket::pocket_type::CORPSE );
-    }
-    for( int i = 0; i < storage_modules.second; ++i ) {
-        body.put_in( item( "bio_power_storage_mkII" ), item_pocket::pocket_type::CORPSE );
-    }
     here.add_item_or_charges( pos(), body );
 }
 
@@ -11990,14 +11979,6 @@ void Character::place_corpse( const tripoint_abs_omt &om_target )
         }
     }
 
-    // Restore amount of installed pseudo-modules of Power Storage Units
-    std::pair<int, int> storage_modules = amount_of_storage_bionics();
-    for( int i = 0; i < storage_modules.first; ++i ) {
-        body.put_in( item( "bio_power_storage" ), item_pocket::pocket_type::CORPSE );
-    }
-    for( int i = 0; i < storage_modules.second; ++i ) {
-        body.put_in( item( "bio_power_storage_mkII" ), item_pocket::pocket_type::CORPSE );
-    }
     bay.add_item_or_charges( fin, body );
 }
 
@@ -12769,6 +12750,11 @@ bool Character::has_proficiency( const proficiency_id &prof ) const
     return _proficiencies->has_learned( prof );
 }
 
+float Character::get_proficiency_practice( const proficiency_id &prof ) const
+{
+    return _proficiencies->pct_practiced( prof );
+}
+
 bool Character::has_prof_prereqs( const proficiency_id &prof ) const
 {
     return _proficiencies->has_prereqs( prof );
@@ -12828,6 +12814,15 @@ std::vector<proficiency_id> Character::known_proficiencies() const
 std::vector<proficiency_id> Character::learning_proficiencies() const
 {
     return _proficiencies->learning_profs();
+}
+
+void Character::set_proficiency_practice( const proficiency_id &id, const time_duration &amount )
+{
+    if( !test_mode ) {
+        return;
+    }
+
+    _proficiencies->practice( id, amount, cata::nullopt );
 }
 
 bool Character::defer_move( const tripoint &next )

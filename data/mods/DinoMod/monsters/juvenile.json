@@ -134,7 +134,6 @@
     "melee_dice_sides": 1,
     "melee_cut": 1,
     "dodge": 2,
-    "death_function": [ "NORMAL" ],
     "upgrades": { "age_grow": 70, "into": "mon_gallimimus" },
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CATTLEFODDER", "GUILT", "NO_BREED", "CANPLAY" ],
     "harvest": "bird_small"

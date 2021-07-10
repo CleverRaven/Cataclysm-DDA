@@ -634,7 +634,7 @@
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
       [ [ "water", 4 ], [ "water_clean", 4 ] ],
-      [ [ "meal_bone", 2 ] ],
+      [ [ "meal_bone", 2 ], [ "meal_bone_tainted", 4 ] ],
       [ [ "meal_chitin_piece", 1 ] ],
       [ [ "feces_bird", 10 ], [ "feces_cow", 4 ], [ "feces_manure", 6 ] ]
     ]
@@ -668,7 +668,7 @@
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [
       [ [ "water", 4 ], [ "water_clean", 4 ] ],
-      [ [ "meal_bone", 2 ] ],
+      [ [ "meal_bone", 2 ], [ "meal_bone_tainted", 4 ] ],
       [ [ "meal_chitin_piece", 1 ] ],
       [ [ "ammonia", 1 ], [ "lye_powder", 100 ], [ "chem_saltpetre", 50 ] ]
     ]

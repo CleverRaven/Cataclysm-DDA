@@ -1172,6 +1172,7 @@ class JsonArray
         [[noreturn]] void string_error( const std::string &err, int idx, int offset );
 
         // iterative access
+        JsonValue next();
         bool next_bool();
         int next_int();
         double next_float();

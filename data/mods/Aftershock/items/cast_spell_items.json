@@ -10,11 +10,10 @@
     "material": [ "superalloy" ],
     "symbol": "[",
     "color": "light_red",
-    "covers": [ "torso" ],
     "charges_per_use": 1,
-    "coverage": 0,
     "warmth": 0,
-    "flags": [ "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "ONLY_ONE", "NO_UNLOAD", "NO_RELOAD" ]
+    "flags": [ "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "ONLY_ONE", "NO_UNLOAD", "NO_RELOAD" ],
+    "armor": [ { "coverage": 0, "covers": [ "torso" ] } ]
   },
   {
     "id": "afs_holo_transposition_caster",

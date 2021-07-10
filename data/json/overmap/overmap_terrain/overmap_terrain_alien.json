@@ -1,0 +1,11 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": [ "slimepit_bottom", "slimepit_top" ],
+    "name": "slime pit",
+    "sym": "~",
+    "color": "light_green",
+    "see_cost": 2,
+    "flags": [ "KNOWN_DOWN", "NO_ROTATE" ]
+  }
+]
