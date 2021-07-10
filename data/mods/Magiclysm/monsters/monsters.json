@@ -177,17 +177,7 @@
     "fear_triggers": [ "FRIEND_DIED" ],
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_CROP", 120 ] ],
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "ANIMAL",
-      "PATH_AVOID_DANGER_1",
-      "WARM",
-      "CATTLEFODDER",
-      "PET_WONT_FOLLOW",
-      "MILKABLE"
-    ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CATTLEFODDER", "PET_WONT_FOLLOW", "MILKABLE" ]
   },
   {
     "id": "mon_owlbear_cub",

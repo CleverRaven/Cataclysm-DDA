@@ -54,9 +54,7 @@
     "book_learn": [ [ "mag_tailor", 1 ], [ "manual_tailor", 1 ], [ "mag_beauty", 1 ] ],
     "reversible": true,
     "using": [ [ "sewing_standard", 20 ], [ "fastener_small", 1 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_closures" }
-    ],
+    "proficiencies": [ { "proficiency": "prof_closures" } ],
     "components": [ [ [ "parabolan_felt_patch", 20 ] ], [ [ "parabolan_yarn", 4 ] ] ]
   }
 ]
