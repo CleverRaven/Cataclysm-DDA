@@ -3164,7 +3164,6 @@ void options_manager::load()
     } );
 
     update_global_locale();
-
     update_options_cache();
 
 #if defined(SDL_SOUND)

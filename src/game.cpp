@@ -743,11 +743,18 @@ bool game::start_game()
     //Load NPCs. Set nearby npcs to active.
     load_npcs();
     // Spawn the monsters
-    const bool spawn_near =
-        get_option<bool>( "BLACK_ROAD" ) || get_scenario()->has_flag( "SUR_START" );
     // Surrounded start ones
+    std::vector<std::pair<mongroup_id, float>> surround_groups = get_scenario()->surround_groups();
+    const bool surrounded_start_scenario = !surround_groups.empty();
+    const bool surrounded_start_options = get_option<bool>( "BLACK_ROAD" );
+    if( surrounded_start_options && !surrounded_start_scenario ) {
+        surround_groups.emplace_back( mongroup_id( "GROUP_BLACK_ROAD" ), 70.0f );
+    }
+    const bool spawn_near = surrounded_start_options || surrounded_start_scenario;
     if( spawn_near ) {
-        start_loc.surround_with_monsters( omtstart, mongroup_id( "GROUP_ZOMBIE" ), 70 );
+        for( const std::pair<mongroup_id, float> &sg : surround_groups ) {
+            start_loc.surround_with_monsters( omtstart, sg.first, sg.second );
+        }
     }
 
     m.spawn_monsters( !spawn_near ); // Static monsters
@@ -2223,7 +2230,7 @@ int game::inventory_item_menu( item_location locThisItem,
         addentry( 'p', pgettext( "action", "part reload" ), u.rate_action_reload( oThisItem ) );
         addentry( 'm', pgettext( "action", "mend" ), rate_action_mend( u, oThisItem ) );
         addentry( 'D', pgettext( "action", "disassemble" ), rate_action_disassemble( u, oThisItem ) );
-        if( oThisItem.has_pockets() ) {
+        if( oThisItem.is_container() ) {
             addentry( 'i', pgettext( "action", "insert" ), rate_action_insert( u, locThisItem ) );
             if( oThisItem.contents.num_item_stacks() > 0 ) {
                 addentry( 'o', pgettext( "action", "open" ), hint_rating::good );
@@ -2391,17 +2398,17 @@ int game::inventory_item_menu( item_location locThisItem,
                     }
                     break;
                 case 'v':
-                    if( oThisItem.has_pockets() ) {
+                    if( oThisItem.is_container() ) {
                         oThisItem.contents.favorite_settings_menu( oThisItem.tname( 1, false ) );
                     }
                     break;
                 case 'i':
-                    if( oThisItem.has_pockets() ) {
+                    if( oThisItem.is_container() ) {
                         game_menus::inv::insert_items( u, locThisItem );
                     }
                     break;
                 case 'o':
-                    if( oThisItem.has_pockets() && oThisItem.contents.num_item_stacks() > 0 ) {
+                    if( oThisItem.is_container() && oThisItem.contents.num_item_stacks() > 0 ) {
                         game_menus::inv::common( locThisItem, u );
                     }
                     break;
@@ -2950,9 +2957,7 @@ bool game::load( const save_t &name )
         return false;
     }
 
-    read_from_file_optional_json( playerpath + SAVE_EXTENSION_MAP_MEMORY, [&]( JsonIn & jsin ) {
-        u.deserialize_map_memory( jsin );
-    } );
+    u.load_map_memory();
 
     const std::string log_filename = worldpath + name.base_path() + SAVE_EXTENSION_LOG;
     read_from_file_optional( log_filename,
@@ -3150,11 +3155,7 @@ bool game::save_player_data()
     const bool saved_data = write_to_file( playerfile + SAVE_EXTENSION, [&]( std::ostream & fout ) {
         serialize( fout );
     }, _( "player data" ) );
-    const bool saved_map_memory = write_to_file( playerfile + SAVE_EXTENSION_MAP_MEMORY, [&](
-    std::ostream & fout ) {
-        JsonOut jsout( fout );
-        u.serialize_map_memory( jsout );
-    }, _( "player map memory" ) );
+    const bool saved_map_memory = u.save_map_memory();
     const bool saved_log = write_to_file( playerfile + SAVE_EXTENSION_LOG, [&](
     std::ostream & fout ) {
         memorial().save( fout );
@@ -4279,7 +4280,7 @@ void game::mon_info( const catacurses::window &w, int hor_padding )
                 }
                 sym = "@";
             } else {
-                const mtype &mt = *unique_mons[i][j - typeshere_npc];
+                const mtype &mt = *unique_mons[i][j - typeshere_npc].first;
                 c = mt.color;
                 sym = mt.sym;
             }
@@ -4290,8 +4291,27 @@ void game::mon_info( const catacurses::window &w, int hor_padding )
     }
 
     // Now we print their full names!
-
-    std::set<const mtype *> listed_mons;
+    struct nearest_loc_and_cnt {
+        int nearest_loc;
+        int cnt;
+    };
+    std::map<const mtype *, nearest_loc_and_cnt> all_mons;
+    for( int loc = 0; loc < 9; loc++ ) {
+        for( const std::pair<const mtype *, int> &mon : unique_mons[loc] ) {
+            const auto mon_it = all_mons.find( mon.first );
+            if( mon_it == all_mons.end() ) {
+                all_mons.emplace( mon.first, nearest_loc_and_cnt{ loc, mon.second } );
+            } else {
+                // 8 being the nearest location (local monsters)
+                mon_it->second.nearest_loc = std::max( mon_it->second.nearest_loc, loc );
+                mon_it->second.cnt += mon.second;
+            }
+        }
+    }
+    std::vector<std::pair<const mtype *, int>> mons_at[9];
+    for( const std::pair<const mtype *const, nearest_loc_and_cnt> &mon : all_mons ) {
+        mons_at[mon.second.nearest_loc].emplace_back( mon.first, mon.second.cnt );
+    }
 
     // Start printing monster names on row 4. Rows 0-2 are for labels, and row 3
     // is blank.
@@ -4301,19 +4321,22 @@ void game::mon_info( const catacurses::window &w, int hor_padding )
     for( int j = 8; j >= 0 && pr.y < maxheight; j-- ) {
         // Separate names by some number of spaces (more for local monsters).
         int namesep = ( j == 8 ? 2 : 1 );
-        for( const mtype *type : unique_mons[j] ) {
+        for( const std::pair<const mtype *, int> &mon : mons_at[j] ) {
+            const mtype *const type = mon.first;
+            const int count = mon.second;
             if( pr.y >= maxheight ) {
                 // no space to print to anyway
                 break;
             }
-            if( listed_mons.count( type ) > 0 ) {
-                // this type is already printed.
-                continue;
-            }
-            listed_mons.insert( type );
 
             const mtype &mt = *type;
-            const std::string name = mt.nname();
+            std::string name = mt.nname( count );
+            // Some languages don't have plural forms, but we want to always
+            // omit 1.
+            if( count != 1 ) {
+                name = string_format( pgettext( "monster count and name", "%1$d %2$s" ),
+                                      count, name );
+            }
 
             // Move to the next row if necessary. (The +2 is for the "Z ").
             if( pr.x + 2 + utf8_width( name ) >= width ) {
@@ -4473,9 +4496,15 @@ void game::mon_info_update( )
                 }
             }
 
-            std::vector<const mtype *> &vec = unique_mons[index];
-            if( std::find( vec.begin(), vec.end(), critter.type ) == vec.end() ) {
-                vec.push_back( critter.type );
+            std::vector<std::pair<const mtype *, int>> &vec = unique_mons[index];
+            const auto mon_it = std::find_if( vec.begin(), vec.end(),
+            [&]( const std::pair<const mtype *, int> &elem ) {
+                return elem.first == critter.type;
+            } );
+            if( mon_it == vec.end() ) {
+                vec.emplace_back( critter.type, 1 );
+            } else {
+                mon_it->second++;
             }
         } else if( p != nullptr ) {
             //Safe mode NPC check
@@ -4635,12 +4664,13 @@ void game::monmove()
             m.creature_in_field( critter );
         }
 
+        const bionic_id bio_alarm( "bio_alarm" );
         if( !critter.is_dead() &&
-            u.has_active_bionic( bionic_id( "bio_alarm" ) ) &&
-            u.get_power_level() >= 25_kJ &&
+            u.has_active_bionic( bio_alarm ) &&
+            u.get_power_level() >= bio_alarm->power_trigger &&
             rl_dist( u.pos(), critter.pos() ) <= 5 &&
             !critter.is_hallucination() ) {
-            u.mod_power_level( -25_kJ );
+            u.mod_power_level( -bio_alarm->power_trigger );
             add_msg( m_warning, _( "Your motion alarm goes off!" ) );
             cancel_activity_or_ignore_query( distraction_type::motion_alarm,
                                              _( "Your motion alarm goes off!" ) );
@@ -6110,7 +6140,7 @@ void game::pickup( const tripoint &p )
 {
     // Highlight target
     shared_ptr_fast<game::draw_callback_t> hilite_cb = make_shared_fast<game::draw_callback_t>( [&]() {
-        m.drawsq( w_terrain, u, p, true, true, u.pos() + u.view_offset );
+        m.drawsq( w_terrain, p, drawsq_params().highlight( true ) );
     } );
     add_draw_callback( hilite_cb );
 
@@ -6204,7 +6234,7 @@ void game::draw_look_around_cursor( const tripoint &lp, const visibility_variabl
             if( creature != nullptr && u.sees( *creature ) ) {
                 creature->draw( w_terrain, view_center, true );
             } else {
-                m.drawsq( w_terrain, u, lp, true, true, view_center );
+                m.drawsq( w_terrain, lp, drawsq_params().highlight( true ).center( view_center ) );
             }
         } else {
             std::string visibility_indicator;
@@ -7561,6 +7591,27 @@ void game::reset_zoom()
     tileset_zoom = DEFAULT_TILESET_ZOOM;
     rescale_tileset( tileset_zoom );
 #endif // TILES
+}
+
+void game::set_zoom( const int level )
+{
+#if defined(TILES)
+    if( tileset_zoom != level ) {
+        tileset_zoom = level;
+        rescale_tileset( tileset_zoom );
+    }
+#else
+    static_cast<void>( level );
+#endif // TILES
+}
+
+int game::get_zoom() const
+{
+#if defined(TILES)
+    return tileset_zoom;
+#else
+    return DEFAULT_TILESET_ZOOM;
+#endif
 }
 
 int game::get_moves_since_last_save() const
@@ -10324,8 +10375,11 @@ void game::place_player_overmap( const tripoint_abs_omt &om_dest )
 
 bool game::phasing_move( const tripoint &dest_loc, const bool via_ramp )
 {
-    if( !u.has_active_bionic( bionic_id( "bio_probability_travel" ) ) ||
-        u.get_power_level() < 250_kJ ) {
+    const bionic_id bio_probability_travel( "bio_probability_travel" );
+    const units::energy trigger_cost = bio_probability_travel->power_trigger;
+
+    if( !u.has_active_bionic( bio_probability_travel ) ||
+        u.get_power_level() < trigger_cost ) {
         return false;
     }
 
@@ -10347,19 +10401,18 @@ bool game::phasing_move( const tripoint &dest_loc, const bool via_ramp )
         if( u.worn_with_flag( flag_DIMENSIONAL_ANCHOR ) ||
             u.has_flag( flag_DIMENSIONAL_ANCHOR ) ) {
             u.add_msg_if_player( m_info, _( "You are repelled by the barrier!" ) );
-            u.mod_power_level( -250_kJ ); //cost of tunneling one tile.
+            u.mod_power_level( -trigger_cost ); //cost of tunneling one tile.
             return false;
         }
-        if( tunneldist * 250_kJ >
+        if( tunneldist * trigger_cost >
             u.get_power_level() ) { //oops, not enough energy! Tunneling costs 250 bionic power per impassable tile
             add_msg( _( "You try to quantum tunnel through the barrier but are reflected!  Try again with more energy!" ) );
-            u.mod_power_level( -250_kJ );
+            u.mod_power_level( -trigger_cost );
             return false;
         }
-
         if( tunneldist > 24 ) {
             add_msg( m_info, _( "It's too dangerous to tunnel that far!" ) );
-            u.mod_power_level( -250_kJ );
+            u.mod_power_level( -trigger_cost );
             return false;
         }
 
@@ -10374,7 +10427,7 @@ bool game::phasing_move( const tripoint &dest_loc, const bool via_ramp )
 
         add_msg( _( "You quantum tunnel through the %d-tile wide barrier!" ), tunneldist );
         //tunneling costs 250 bionic power per impassable tile
-        u.mod_power_level( -( tunneldist * 250_kJ ) );
+        u.mod_power_level( -( tunneldist * trigger_cost ) );
         u.moves -= 100; //tunneling costs 100 moves
         u.setpos( dest );
 
@@ -10687,12 +10740,12 @@ void game::on_move_effects()
                 u.mod_power_level( units::from_kilojoule( muscle.fuel_energy() ) * bid->passive_fuel_efficiency );
             }
         }
-
-        if( u.has_active_bionic( bionic_id( "bio_jointservo" ) ) ) {
+        const bionic_id bio_jointservo( "bio_jointservo" );
+        if( u.has_active_bionic( bio_jointservo ) ) {
             if( u.is_running() ) {
-                u.mod_power_level( -55_J );
+                u.mod_power_level( -bio_jointservo->power_trigger * 1.55 );
             } else {
-                u.mod_power_level( -35_J );
+                u.mod_power_level( -bio_jointservo->power_trigger );
             }
         }
     }

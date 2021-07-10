@@ -726,14 +726,12 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ",",
     "color": "dark_gray",
-    "covers": [ "hand_l", "hand_r" ],
     "sided": true,
-    "coverage": 5,
-    "encumbrance": 40,
     "warmth": 0,
     "material_thickness": 1,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "ALLOWS_NATURAL_ATTACKS", "BELT_CLIP", "BELTED", "FRAGILE", "OVERSIZE", "RAIN_PROTECT" ]
+    "flags": [ "ALLOWS_NATURAL_ATTACKS", "BELT_CLIP", "BELTED", "FRAGILE", "OVERSIZE", "RAIN_PROTECT" ],
+    "armor": [ { "encumbrance": 40, "coverage": 5, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "testflames",

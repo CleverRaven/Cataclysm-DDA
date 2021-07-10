@@ -107,7 +107,6 @@ static const skill_id skill_launcher( "launcher" );
 static const skill_id skill_throw( "throw" );
 
 static const bionic_id bio_railgun( "bio_railgun" );
-static const bionic_id bio_targeting( "bio_targeting" );
 static const bionic_id bio_ups( "bio_ups" );
 
 static const std::string flag_MOUNTABLE( "MOUNTABLE" );
@@ -1833,8 +1832,10 @@ dispersion_sources Character::get_weapon_dispersion( const item &obj ) const
 
     dispersion.add_range( dispersion_from_skill( avgSkill, weapon_dispersion ) );
 
-    if( has_bionic( bio_targeting ) ) {
-        dispersion.add_multiplier( 0.75 );
+    float disperation_mod = enchantment_cache->modify_value( enchant_vals::mod::WEAPON_DISPERSION,
+                            1.0f );
+    if( disperation_mod != 1.0f ) {
+        dispersion.add_multiplier( disperation_mod );
     }
 
     // Range is effectively four times longer when shooting unflagged/flagged guns underwater/out of water.
@@ -2078,6 +2079,7 @@ target_handler::trajectory target_ui::run()
             activity->aif_duration += 1;
         }
     }
+
 
     // Event loop!
     ExitCode loop_exit_code;
@@ -2997,6 +2999,7 @@ void target_ui::draw_terrain_overlay()
 
     // Draw spell AOE
     if( mode == TargetMode::Spell ) {
+        drawsq_params params;
         for( const tripoint &tile : spell_aoe ) {
             if( tile.z != center.z ) {
                 continue;
@@ -3006,7 +3009,7 @@ void target_ui::draw_terrain_overlay()
                 g->draw_highlight( tile );
             } else {
 #endif
-                get_map().drawsq( g->w_terrain, *you, tile, true, true, center );
+                get_map().drawsq( g->w_terrain, tile, params );
 #ifdef TILES
             }
 #endif

@@ -736,5 +736,28 @@
       [ [ "spring", 2 ] ],
       [ [ "radio_car_wheel", 1 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "wire_draw_machine",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "mechanics", 2 ], [ "electronics", 1 ] ],
+    "difficulty": 4,
+    "time": "1 h",
+    "autolearn": true,
+    "using": [ [ "welding_standard", 10 ] ],
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_welding_basic" } ],
+    "components": [
+      [ [ "motor_small", 1 ] ],
+      [ [ "jerrycan", 1 ] ],
+      [ [ "sheet_metal_small", 4 ] ],
+      [ [ "scrap", 5 ] ],
+      [ [ "draw_plate", 1 ] ],
+      [ [ "cable", 10 ] ]
+    ]
   }
 ]

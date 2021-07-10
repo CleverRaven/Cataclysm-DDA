@@ -25,6 +25,7 @@
         "description": "Central Stairs Evac Shelter Base",
         "om_terrains": [ "shelter_2", "shelter_2_vandal" ]
       },
+      { "id": "faction_base_helipad_0", "description": "Military Helipad Base", "om_terrains": [ "helipad_nw" ] },
       {
         "id": "faction_base_outpost_normal_0",
         "description": "Normal Military Outpost Base",
@@ -90,6 +91,11 @@
       { "id": "faction_base_storehouse_0", "description": "Central Storage Building", "om_terrains": [ "field" ] },
       { "id": "faction_base_saltworks_0", "description": "Saltworks Area", "om_terrains": [ "field" ] },
       { "id": "faction_base_workshop_0", "description": "Fabrication Workshop", "om_terrains": [ "field" ] },
+      {
+        "id": "faction_base_helipad_garage_0",
+        "description": "Military Helipad Garage",
+        "om_terrains": [ "helipad_ne" ]
+      },
       { "id": "faction_base_mansion_e1", "description": "Mansion's Entrance", "om_terrains": [ "mansion_e1" ] },
       { "id": "faction_base_mansion_e2", "description": "Mansion's Entrance", "om_terrains": [ "mansion_e2" ] },
       { "id": "faction_base_mansion_t1", "description": "Mansion's Swimming Pool", "om_terrains": [ "mansion_t1" ] },

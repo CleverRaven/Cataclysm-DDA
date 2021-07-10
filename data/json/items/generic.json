@@ -810,6 +810,7 @@
     "weight": "10 g",
     "volume": "25 ml",
     "to_hit": -5,
+    "milling": { "into": "meal_bone_tainted", "conversion_rate": 0.16 },
     "qualities": [ [ "COOK", 1 ] ]
   },
   {
@@ -3390,9 +3391,6 @@
     "volume": "500 ml",
     "bashing": 1,
     "to_hit": -1,
-    "covers": [ "torso" ],
-    "encumbrance": 2,
-    "coverage": 10,
     "material_thickness": 2,
     "pocket_data": [
       {
@@ -3413,7 +3411,8 @@
           "robofac_test_data"
         ]
       }
-    ]
+    ],
+    "armor": [ { "encumbrance": 2, "coverage": 10, "covers": [ "torso" ] } ]
   },
   {
     "id": "lanyard",
@@ -3432,8 +3431,6 @@
     "longest_side": "5 cm",
     "bashing": 1,
     "to_hit": -1,
-    "covers": [ "torso" ],
-    "encumbrance": 0,
     "material_thickness": 1,
     "pocket_data": [
       {
@@ -3463,7 +3460,8 @@
           "condom"
         ]
       }
-    ]
+    ],
+    "armor": [ { "encumbrance": 0, "covers": [ "torso" ] } ]
   },
   {
     "type": "GENERIC",

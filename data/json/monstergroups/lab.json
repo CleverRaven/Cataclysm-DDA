@@ -20,7 +20,8 @@
       { "monster": "mon_zombie_static", "freq": 50, "cost_multiplier": 3 },
       { "monster": "mon_zombie_brute_shocker", "freq": 10, "cost_multiplier": 5 },
       { "monster": "mon_zombie_hulk", "freq": 1, "cost_multiplier": 50 },
-      { "monster": "mon_skeleton_hulk", "freq": 1, "cost_multiplier": 50 }
+      { "monster": "mon_skeleton_hulk", "freq": 1, "cost_multiplier": 50 },
+      { "monster": "mon_lab_rat", "freq": 30, "cost_multiplier": 20, "pack_size": [ 4, 8 ] }
     ]
   },
   {
@@ -56,9 +57,10 @@
       { "monster": "mon_zombie_armored", "freq": 5, "cost_multiplier": 5 },
       { "monster": "mon_zombie_electric", "freq": 50, "cost_multiplier": 3 },
       { "monster": "mon_zombie_necro", "freq": 15, "cost_multiplier": 15 },
-      { "monster": "mon_zombie_brute_shocker", "freq": 10, "cost_multiplier": 5 }
+      { "monster": "mon_zombie_brute_shocker", "freq": 10, "cost_multiplier": 5 },
+      { "monster": "mon_lab_rat", "freq": 30, "cost_multiplier": 20, "pack_size": [ 4, 8 ] }
     ],
-    "freq_total": 2592
+    "freq_total": 2622
   },
   {
     "type": "monstergroup",
@@ -92,9 +94,10 @@
       { "monster": "mon_zombie_bio_op", "freq": 50, "cost_multiplier": 5 },
       { "monster": "mon_zombie_bio_op2", "freq": 25, "cost_multiplier": 5, "starts": 1440 },
       { "monster": "mon_zombie_armored", "freq": 5, "cost_multiplier": 5 },
-      { "monster": "mon_zombie_brute_shocker", "freq": 5, "cost_multiplier": 5 }
+      { "monster": "mon_zombie_brute_shocker", "freq": 5, "cost_multiplier": 5 },
+      { "monster": "mon_lab_rat", "freq": 50, "cost_multiplier": 20, "pack_size": [ 4, 8 ] }
     ],
-    "freq_total": 2589
+    "freq_total": 2639
   },
   {
     "type": "monstergroup",
@@ -179,7 +182,8 @@
       { "monster": "mon_zombie_armored", "freq": 1, "cost_multiplier": 5 },
       { "monster": "mon_zombie_electric", "freq": 10, "cost_multiplier": 3 },
       { "monster": "mon_zombie_necro", "freq": 1, "cost_multiplier": 15 },
-      { "monster": "mon_zombie_brute_shocker", "freq": 1, "cost_multiplier": 5 }
+      { "monster": "mon_zombie_brute_shocker", "freq": 1, "cost_multiplier": 5 },
+      { "monster": "mon_lab_rat", "freq": 20, "cost_multiplier": 20, "pack_size": [ 2, 8 ] }
     ]
   }
 ]

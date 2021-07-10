@@ -23,6 +23,7 @@
 #include "activity_actor_definitions.h"
 #include "activity_type.h"
 #include "avatar.h"
+#include "bionics.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
@@ -995,13 +996,6 @@ cata::optional<int> iuse::prozac( player *p, item *it, bool, const tripoint & )
         p->add_effect( effect_took_prozac_bad, p->get_effect_dur( effect_took_prozac ) );
     }
     p->add_effect( effect_took_prozac_visible, rng( 9_hours, 15_hours ) );
-    return it->type->charges_to_use();
-}
-
-cata::optional<int> iuse::sleep( player *p, item *it, bool, const tripoint & )
-{
-    p->mod_fatigue( 40 );
-    p->add_msg_if_player( m_warning, _( "You feel very sleepy…" ) );
     return it->type->charges_to_use();
 }
 
@@ -4759,8 +4753,7 @@ cata::optional<int> iuse::blood_draw( player *p, item *it, bool, const tripoint 
 
     if( acid_blood ) {
         item acid( "chem_sulphuric_acid", calendar::turn );
-        // Acid should have temperature. But it currently does not. So trying to set it crashes the game.
-        // When acid gets temperature just add acid.set_item_temperature( blood_temp ); here
+        acid.set_item_temperature( blood_temp );
         it->put_in( acid, item_pocket::pocket_type::CONTAINER );
         if( one_in( 3 ) ) {
             if( it->inc_damage( damage_type::ACID ) ) {
@@ -7774,9 +7767,9 @@ cata::optional<int> iuse::ehandcuffs( player *p, item *it, bool t, const tripoin
         }
 
         if( p->has_item( *it ) ) {
-            if( p->has_active_bionic( bio_shock ) && p->get_power_level() >= 2_kJ &&
+            if( p->has_active_bionic( bio_shock ) && p->get_power_level() >= bio_shock->power_trigger &&
                 one_in( 5 ) ) {
-                p->mod_power_level( -2_kJ );
+                p->mod_power_level( -bio_shock->power_trigger );
 
                 it->unset_flag( flag_NO_UNWIELD );
                 it->ammo_unset();

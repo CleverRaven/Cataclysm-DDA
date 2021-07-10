@@ -1149,6 +1149,36 @@
     "replace": "nato_assault_rifle"
   },
   {
+    "id": "browning_a5",
+    "type": "MIGRATION",
+    "replace": "remington_870",
+    "variant": "browning_a5"
+  },
+  {
+    "id": "remington_1100",
+    "type": "MIGRATION",
+    "replace": "remington_870",
+    "variant": "remington_1100"
+  },
+  {
+    "id": "mossberg_500_security",
+    "type": "MIGRATION",
+    "replace": "mossberg_500",
+    "variant": "mossberg_500_security"
+  },
+  {
+    "id": "m1014",
+    "type": "MIGRATION",
+    "replace": "mossberg_930",
+    "variant": "m1014"
+  },
+  {
+    "id": "SPAS_12",
+    "type": "MIGRATION",
+    "replace": "mossberg_590",
+    "variant": "SPAS_12"
+  },
+  {
     "id": "acr",
     "type": "MIGRATION",
     "replace": "nato_assault_rifle",
