@@ -93,7 +93,7 @@
     "description": "a flying insect",
     "footsteps": "BZZZZZZZZZZZZZZZZZ",
     "anger_triggers": [ "FRIEND_DIED" ],
-    "fear_triggers": [ "HURT", "FIRE" ],
+    "flags": [ "LOUDMOVES" ],
     "bleeds": "fd_blood_insect"
   },
   {

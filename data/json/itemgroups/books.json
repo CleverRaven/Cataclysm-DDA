@@ -147,7 +147,8 @@
       { "item": "textbook_biodiesel", "prob": 10 },
       { "item": "manual_carpentry", "prob": 10 },
       { "item": "book_icef", "prob": 8 },
-      { "item": "carpentry_book", "prob": 5 }
+      { "item": "carpentry_book", "prob": 5 },
+      { "item": "theater_props", "prob": 2 }
     ]
   },
   {
@@ -288,6 +289,7 @@
       { "item": "cookbook_foodfashions", "prob": 10 },
       { "item": "cookbook_indian", "prob": 10 },
       { "item": "survnote", "prob": 1 },
+      { "item": "theater_props", "prob": 1 },
       { "item": "scots_cookbook", "prob": 8 },
       { "item": "offalcooking", "prob": 2 },
       { "item": "dnd_handbook", "prob": 2 },
@@ -336,7 +338,8 @@
       { "item": "manual_canning", "prob": 18 },
       { "item": "manual_sealing", "prob": 9 },
       { "item": "fermenting_book", "prob": 8 },
-      { "item": "distilling_cookbook", "prob": 8 }
+      { "item": "distilling_cookbook", "prob": 8 },
+      { "item": "theater_props", "prob": 5 }
     ]
   },
   {
@@ -453,7 +456,8 @@
       { "item": "fermenting_book", "prob": 8 },
       { "item": "distilling_cookbook", "prob": 8 },
       { "item": "textbook_arthropod", "prob": 5 },
-      { "item": "textbook_botany", "prob": 5 }
+      { "item": "textbook_botany", "prob": 5 },
+      { "item": "theater_props", "prob": 2 }
     ]
   },
   {
@@ -691,6 +695,27 @@
     ]
   },
   {
+    "id": "fabricationbooks",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "mag_fabrication", "prob": 50 },
+      { "item": "manual_fabrication", "prob": 35 },
+      { "item": "textbook_fabrication", "prob": 15 }
+    ]
+  },
+  {
+    "id": "carpentrybooks",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "mag_carpentry", "prob": 35 },
+      { "item": "101_carpentry", "prob": 30 },
+      { "item": "textbook_carpentry", "prob": 20 },
+      { "item": "carpentry_book", "prob": 5 }
+    ]
+  },
+  {
     "id": "magazines",
     "type": "item_group",
     "subtype": "distribution",
@@ -777,7 +802,11 @@
     "id": "newspaper",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "group": "newspaper_recent", "prob": 80 }, { "group": "newspaper_old", "prob": 20 } ]
+    "entries": [
+      { "group": "newspaper_recent", "prob": 79 },
+      { "group": "newspaper_old", "prob": 20 },
+      { "item": "valentine_card", "prob": 1 }
+    ]
   },
   {
     "id": "newspaper_recent",

@@ -6,12 +6,12 @@
     "items": [
       { "item": "glock_17", "prob": 35, "charges-min": 0, "charges-max": 15 },
       { "item": "glock_19", "prob": 50, "charges-min": 0, "charges-max": 15 },
-      { "item": "glock_20", "prob": 4, "charges-min": 0, "charges-max": 15 },
+      { "item": "glock_20", "variant": "glock_20", "prob": 4, "charges-min": 0, "charges-max": 15 },
       { "item": "glock_21", "prob": 8, "charges-min": 0, "charges-max": 15 },
       { "item": "glock_22", "prob": 35, "charges-min": 0, "charges-max": 15 },
       { "item": "glock_29", "prob": 2, "charges-min": 0, "charges-max": 10 },
       { "item": "glock_31", "prob": 15, "charges-min": 0, "charges-max": 15 },
-      { "item": "glock_40", "prob": 2, "charges-min": 0, "charges-max": 15 },
+      { "item": "glock_20", "variant": "glock_40", "prob": 2, "charges-min": 0, "charges-max": 15 },
       { "item": "m1911", "prob": 50, "charges-min": 0, "charges-max": 7 },
       { "item": "m1911_10", "prob": 15, "charges-min": 0, "charges-max": 7 },
       { "item": "m9", "prob": 30, "charges-min": 0, "charges-max": 15 },
@@ -56,9 +56,9 @@
       { "item": "glock_17", "prob": 35, "charges-min": 0, "charges-max": 0 },
       { "item": "glock_19", "prob": 50, "charges-min": 0, "charges-max": 0 },
       { "item": "glock_22", "prob": 35, "charges-min": 0, "charges-max": 0 },
-      { "item": "glock_20", "prob": 4, "charges-min": 0, "charges-max": 0 },
+      { "item": "glock_20", "variant": "glock_20", "prob": 4, "charges-min": 0, "charges-max": 0 },
       { "item": "glock_21", "prob": 8, "charges-min": 0, "charges-max": 15 },
-      { "item": "glock_40", "prob": 2, "charges-min": 0, "charges-max": 0 },
+      { "item": "glock_20", "variant": "glock_40", "prob": 2, "charges-min": 0, "charges-max": 0 },
       { "item": "glock_31", "prob": 15, "charges-min": 0, "charges-max": 0 },
       { "item": "m1911", "prob": 50, "charges-min": 0, "charges-max": 0 },
       { "item": "m1911_10", "prob": 15, "charges-min": 0, "charges-max": 0 },
@@ -145,9 +145,16 @@
     "items": [
       { "item": "m17", "prob": 100, "charges-min": 0, "charges-max": 17 },
       { "item": "glock_18c", "prob": 70, "charges-min": 0, "charges-max": 17 },
-      { "item": "mk23", "prob": 10, "charges-min": 0, "charges-max": 12 },
+      {
+        "item": "usp_45",
+        "variant": "mk23",
+        "contents-group": "mk23_mods",
+        "prob": 10,
+        "charges-min": 0,
+        "charges-max": 12
+      },
       { "item": "usp_45", "prob": 15, "charges-min": 0, "charges-max": 12 },
-      { "item": "m1911_MEU", "prob": 5, "charges-min": 0, "charges-max": 7 },
+      { "item": "m1911", "variant": "m1911_MEU", "prob": 5, "charges-min": 0, "charges-max": 7 },
       { "item": "glock_19", "prob": 20, "charges-min": 0, "charges-max": 15 },
       { "item": "needlepistol", "prob": 45, "charges-min": 0, "charges-max": 50 },
       { "item": "rm103a_pistol", "prob": 35, "charges-min": 0, "charges-max": 10 }
@@ -350,7 +357,7 @@
     "id": "guns_rifle_rare",
     "//": "Less common rifles including those only used by police/paramilitary forces.",
     "items": [
-      { "item": "acr", "prob": 25, "charges-min": 0, "charges-max": 30 },
+      { "item": "nato_assault_rifle", "variant": "acr", "prob": 25, "charges-min": 0, "charges-max": 30 },
       { "item": "colt_lightning", "prob": 15, "charges-min": 0, "charges-max": 10 },
       { "item": "fn_fal", "prob": 40, "charges-min": 0, "charges-max": 20 },
       { "item": "fs2000", "prob": 6, "charges-min": 0, "charges-max": 30 },
@@ -360,7 +367,7 @@
       { "item": "henry_big_boy", "prob": 10, "charges-min": 0, "charges-max": 10 },
       { "item": "m14ebr", "prob": 15, "charges-min": 0, "charges-max": 20 },
       { "item": "M24", "prob": 15, "charges-min": 0, "charges-max": 5 },
-      { "item": "m4a1", "prob": 45, "charges-min": 0, "charges-max": 30 },
+      { "item": "nato_assault_rifle", "variant": "m4a1", "prob": 45, "charges-min": 0, "charges-max": 30 },
       { "item": "m1903", "prob": 15, "charges-min": 0, "charges-max": 5 },
       { "item": "m1918", "prob": 30, "charges-min": 0, "charges-max": 20 },
       { "item": "mosin44_ebr", "prob": 10, "charges-min": 0, "charges-max": 5 },
@@ -379,7 +386,7 @@
     "id": "guns_rifle_rare_display",
     "//": "Less common rifles found exclusively in gun stores.",
     "items": [
-      { "item": "acr", "prob": 25, "charges-min": 0, "charges-max": 0 },
+      { "item": "nato_assault_rifle", "variant": "acr", "prob": 25, "charges-min": 0, "charges-max": 0 },
       { "item": "colt_lightning", "prob": 15, "charges-min": 0, "charges-max": 0 },
       { "item": "fn_fal", "prob": 40, "charges-min": 0, "charges-max": 0 },
       { "item": "m249_semi", "prob": 5, "charges-min": 0, "charges-max": 0 },
@@ -388,7 +395,7 @@
       { "item": "henry_big_boy", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "m14ebr", "prob": 15, "charges-min": 0, "charges-max": 0 },
       { "item": "M24", "prob": 15, "charges-min": 0, "charges-max": 0 },
-      { "item": "m4a1", "prob": 45, "charges-min": 0, "charges-max": 0 },
+      { "item": "nato_assault_rifle", "variant": "m4a1", "prob": 45, "charges-min": 0, "charges-max": 0 },
       { "item": "m1903", "prob": 15, "charges-min": 0, "charges-max": 0 },
       { "item": "m1918", "prob": 30, "charges-min": 0, "charges-max": 0 },
       { "item": "mosin44_ebr", "prob": 10, "charges-min": 0, "charges-max": 0 },
@@ -407,7 +414,7 @@
     "id": "guns_rifle_milspec",
     "//": "Military specification rifles only ever found at military sites.",
     "items": [
-      { "item": "h&k416a5", "prob": 50, "charges-min": 0, "charges-max": 30 },
+      { "item": "nato_assault_rifle", "variant": "h&k416a5", "prob": 50, "charges-min": 0, "charges-max": 30 },
       { "item": "m107a1", "prob": 30, "charges-min": 0, "charges-max": 10 },
       { "item": "m134", "prob": 10, "charges-min": 0, "charges-max": 100 },
       { "item": "m14ebr", "prob": 10, "charges-min": 0, "charges-max": 20 },
@@ -415,7 +422,7 @@
       { "item": "m2010", "prob": 20, "charges-min": 0, "charges-max": 5 },
       { "item": "m240", "prob": 15, "charges-min": 0, "charges-max": 100 },
       { "item": "m249", "prob": 25, "charges-min": 0, "charges-max": 10 },
-      { "item": "m27iar", "prob": 50, "charges-min": 0, "charges-max": 30 },
+      { "item": "nato_assault_rifle", "variant": "m27iar", "prob": 50, "charges-min": 0, "charges-max": 30 },
       { "item": "m60", "prob": 15, "charges-min": 0, "charges-max": 100 },
       { "item": "rm11b_sniper_rifle", "prob": 15, "charges-min": 0, "charges-max": 10 },
       { "item": "rm298", "prob": 10, "charges-min": 0, "charges-max": 100 },
@@ -423,7 +430,7 @@
       { "item": "rm614_lmg", "prob": 10, "charges-min": 0, "charges-max": 100 },
       { "item": "rm88_battle_rifle", "prob": 25, "charges-min": 0, "charges-max": 50 },
       { "item": "sig552", "prob": 100, "charges-min": 0, "charges-max": 30 },
-      { "item": "scar_l", "prob": 50, "charges-min": 0, "charges-max": 30 },
+      { "item": "nato_assault_rifle", "variant": "scar_l", "prob": 50, "charges-min": 0, "charges-max": 30 },
       { "item": "scar_h", "prob": 50, "charges-min": 0, "charges-max": 20 },
       { "item": "m110a1", "prob": 50, "charges-min": 0, "charges-max": 20 },
       { "item": "acr_300blk", "prob": 15, "charges-min": 0, "charges-max": 30 }
@@ -474,10 +481,10 @@
     "items": [
       { "item": "mossberg_500", "prob": 33, "charges-min": 0, "charges-max": 6 },
       { "item": "remington_870", "prob": 35, "charges-min": 0, "charges-max": 5 },
-      { "item": "mossberg_500_security", "prob": 17, "charges-min": 0, "charges-max": 6 },
+      { "item": "mossberg_500", "variant": "mossberg_500_security", "prob": 17, "charges-min": 0, "charges-max": 6 },
       { "item": "remington_870_express", "prob": 18, "charges-min": 0, "charges-max": 6 },
-      { "item": "browning_a5", "prob": 14, "charges-min": 0, "charges-max": 5 },
-      { "item": "remington_1100", "prob": 17, "charges-min": 0, "charges-max": 5 },
+      { "item": "remington_870", "variant": "browning_a5", "prob": 14, "charges-min": 0, "charges-max": 5 },
+      { "item": "remington_870", "variant": "remington_1100", "prob": 17, "charges-min": 0, "charges-max": 5 },
       { "item": "mossberg_930", "prob": 15, "charges-min": 0, "charges-max": 6 },
       { "item": "shotgun_410", "prob": 30, "charges-min": 0, "charges-max": 1 },
       { "item": "shotgun_d", "prob": 30, "charges-min": 0, "charges-max": 2 },
@@ -491,10 +498,10 @@
     "items": [
       { "item": "mossberg_500", "prob": 33, "charges-min": 0, "charges-max": 0 },
       { "item": "remington_870", "prob": 35, "charges-min": 0, "charges-max": 0 },
-      { "item": "mossberg_500_security", "prob": 17, "charges-min": 0, "charges-max": 0 },
+      { "item": "mossberg_500", "variant": "mossberg_500_security", "prob": 17, "charges-min": 0, "charges-max": 0 },
       { "item": "remington_870_express", "prob": 18, "charges-min": 0, "charges-max": 0 },
-      { "item": "browning_a5", "prob": 14, "charges-min": 0, "charges-max": 0 },
-      { "item": "remington_1100", "prob": 17, "charges-min": 0, "charges-max": 0 },
+      { "item": "remington_870", "variant": "browning_a5", "prob": 14, "charges-min": 0, "charges-max": 0 },
+      { "item": "remington_870", "variant": "remington_1100", "prob": 17, "charges-min": 0, "charges-max": 0 },
       { "item": "mossberg_930", "prob": 15, "charges-min": 0, "charges-max": 0 },
       { "item": "shotgun_410", "prob": 30, "charges-min": 0, "charges-max": 0 },
       { "item": "shotgun_d", "prob": 30, "charges-min": 0, "charges-max": 0 },
@@ -510,8 +517,8 @@
       { "item": "ksg", "prob": 50, "charges-min": 0, "charges-max": 7 },
       { "item": "ksg-25", "prob": 8, "charges-min": 0, "charges-max": 12 },
       { "item": "tavor_12", "prob": 5, "charges-min": 0, "charges-max": 5 },
-      { "item": "m1014", "prob": 10, "charges-min": 0, "charges-max": 8 },
-      { "item": "SPAS_12", "prob": 2, "charges-min": 0, "charges-max": 9 },
+      { "item": "mossberg_930", "variant": "m1014", "prob": 10, "charges-min": 0, "charges-max": 8 },
+      { "item": "mossberg_590", "variant": "SPAS_12", "prob": 2, "charges-min": 0, "charges-max": 9 },
       { "item": "rm120c", "prob": 5, "charges-min": 0, "charges-max": 5 },
       { "item": "rm228", "prob": 5, "charges-min": 0, "charges-max": 10 }
     ]
@@ -524,8 +531,8 @@
     "entries": [
       { "item": "ksg", "prob": 50, "charges-min": 0, "charges-max": 0 },
       { "item": "tavor_12", "prob": 5, "charges-min": 0, "charges-max": 0 },
-      { "item": "m1014", "prob": 10, "charges-min": 0, "charges-max": 0 },
-      { "item": "SPAS_12", "prob": 2, "charges-min": 0, "charges-max": 0 },
+      { "item": "mossberg_930", "variant": "m1014", "prob": 10, "charges-min": 0, "charges-max": 0 },
+      { "item": "mossberg_590", "variant": "SPAS_12", "prob": 2, "charges-min": 0, "charges-max": 0 },
       { "item": "rm120c", "prob": 5, "charges-min": 0, "charges-max": 0 },
       { "item": "rm228", "prob": 5, "charges-min": 0, "charges-max": 0 }
     ]
@@ -569,7 +576,7 @@
       { "item": "remington_870_express", "prob": 50, "charges-min": 0, "charges-max": 6 },
       { "item": "remington_870_breacher", "prob": 20, "charges-min": 0, "charges-max": 4 },
       { "item": "mossberg_590", "prob": 50, "charges-min": 0, "charges-max": 9 },
-      { "item": "m1014", "prob": 100, "charges-min": 0, "charges-max": 8 }
+      { "item": "mossberg_930", "variant": "m1014", "prob": 100, "charges-min": 0, "charges-max": 8 }
     ]
   },
   {
@@ -784,8 +791,8 @@
       { "item": "hk_mp5", "prob": 50, "charges-min": 0, "charges-max": 30 },
       { "item": "hk_mp5k", "prob": 10, "charges-min": 0, "charges-max": 30 },
       { "item": "hk_mp5sd", "prob": 5, "charges-min": 0, "charges-max": 30 },
-      { "item": "m1014", "prob": 10, "charges-min": 0, "charges-max": 8 },
-      { "item": "m4a1", "prob": 35, "charges-min": 0, "charges-max": 30 },
+      { "item": "mossberg_930", "variant": "m1014", "prob": 10, "charges-min": 0, "charges-max": 8 },
+      { "item": "nato_assault_rifle", "variant": "m4a1", "prob": 35, "charges-min": 0, "charges-max": 30 },
       { "item": "as50", "prob": 5, "charges-min": 0, "charges-max": 10 },
       { "item": "hk417_13", "prob": 30, "charges-min": 0, "charges-max": 20 }
     ]

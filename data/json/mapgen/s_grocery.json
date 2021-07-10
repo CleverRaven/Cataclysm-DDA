@@ -276,13 +276,13 @@
       "nested": {
         "|": { "chunks": [ [ "bile_field", 1 ], [ "shelter_graffiti", 10 ], [ "general_graffiti", 20 ], [ "null", 75 ] ] },
         "-": { "chunks": [ [ "bile_field", 1 ], [ "shelter_graffiti", 10 ], [ "general_graffiti", 20 ], [ "null", 75 ] ] },
-        "r": { "chunks": [ [ "destroyed_rack", 20 ], [ "null", 80 ] ] },
-        "]": { "chunks": [ [ "destroyed_rack", 20 ], [ "null", 80 ] ] },
-        "t": { "chunks": [ [ "destroyed_table", 20 ], [ "null", 80 ] ] },
-        "7": { "chunks": [ [ "destroyed_bookcase", 10 ], [ "null", 90 ] ] },
+        "r": { "chunks": [ [ "destroyed_furniture", 20 ], [ "null", 80 ] ] },
+        "]": { "chunks": [ [ "destroyed_furniture", 20 ], [ "null", 80 ] ] },
+        "t": { "chunks": [ [ "destroyed_furniture", 20 ], [ "null", 80 ] ] },
+        "7": { "chunks": [ [ "destroyed_furniture", 10 ], [ "null", 90 ] ] },
         "[": { "chunks": [ [ "destroyed_glass_door_wall", 80 ], [ "null", 20 ] ] },
         "=": { "chunks": [ [ "destroyed_glass_door_wall", 80 ], [ "null", 20 ] ] },
-        "f": { "chunks": [ [ "destroyed_glass_door_fridge", 20 ], [ "null", 80 ] ] }
+        "f": { "chunks": [ [ "destroyed_furniture", 20 ], [ "null", 80 ] ] }
       }
     }
   },
@@ -630,8 +630,8 @@
       "nested": {
         "|": { "chunks": [ [ "bile_field", 1 ], [ "shelter_graffiti", 10 ], [ "general_graffiti", 20 ], [ "null", 75 ] ] },
         "-": { "chunks": [ [ "bile_field", 1 ], [ "shelter_graffiti", 10 ], [ "general_graffiti", 20 ], [ "null", 75 ] ] },
-        "{": { "chunks": [ [ "destroyed_rack", 20 ], [ "null", 80 ] ] },
-        "&": { "chunks": [ [ "destroyed_glass_door_fridge", 20 ], [ "null", 80 ] ] }
+        "{": { "chunks": [ [ "destroyed_furniture", 20 ], [ "null", 80 ] ] },
+        "&": { "chunks": [ [ "destroyed_furniture", 20 ], [ "null", 80 ] ] }
       }
     }
   },

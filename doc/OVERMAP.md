@@ -332,8 +332,7 @@ level value and then only specify it for individual entries that differ.
 During generation of a new overmap, cities and their connecting roads will be generated before 
 specials are placed. Each city gets assigned a size at generation and will begin its life as a single 
 intersection. The city distance field specifies the minimum and maximum distance the special can be 
-placed from _this_ intersection, *not* from the edge of the city, meaning a special with a low minimum
-distance and a high or unbounded maximum city size may be placed on the outer border of a larger city.
+placed from the edge of the urban radius of a city, and not from the center of the city.
 Both city size and city distance requirements are only checked for the "nearest" city, measured from the 
 original intersection.
 
@@ -347,7 +346,7 @@ original intersection.
 | `overmaps`      | List of overmap terrains and their relative `[ x, y, z ]` location within the special.                |
 | `connections`   | List of overmap connections and their relative `[ x, y, z ]` location within the special.             |
 | `locations`     | List of `overmap_location` ids that the special may be placed on.                                     |
-| `city_distance` | Min/max distance from a city that the special may be placed. Use -1 for unbounded.                    |
+| `city_distance` | Min/max distance from a city edge that the special may be placed. Use -1 for unbounded.                    |
 | `city_sizes`    | Min/max city size for a city that the special may be placed near. Use -1 for unbounded.               |
 | `occurrences`   | Min/max number of occurrences when placing the special. If UNIQUE flag is set, becomes X of Y chance. |
 | `flags`         | See `Overmap specials` in [JSON_FLAGS.md](JSON_FLAGS.md).                                             |
@@ -393,7 +392,7 @@ original intersection.
 | `terrain`    | Will go away in favor of `connection` eventually. Use `road`, `subway`, `sewer`, etc.              |
 | `connection` | Id of the `overmap_connection` to build. Optional for now, but you should specify it explicitly.   |
 | `from`       | Optional point `[ x, y, z]` within the special to treat as the origin of the connection.           |
-| `existing`   | Boolean, default false. If the special requires a preexisting terrain to spawn.						|
+| `existing`   | Boolean, default false. If the special requires a preexisting terrain to spawn.					|
 
 ## City Building
 

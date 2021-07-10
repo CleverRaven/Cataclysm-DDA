@@ -517,7 +517,7 @@
         { "item": "dining", "chance": 5, "repeat": [ 1, 3 ] }
       ]
     },
-    "vendingmachines": { "8": { "item_group": "vending_drink" }, "9": { "item_group": "vending_food" } },
+    "vendingmachines": { "8": { "item_group": "vending_drink", "lootable": true }, "9": { "item_group": "vending_food", "lootable": true } },
     "computers": {
       "6": {
         "name": "School Bell Software 1.1",

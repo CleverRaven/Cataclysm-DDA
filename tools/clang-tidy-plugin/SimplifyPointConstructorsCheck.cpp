@@ -58,6 +58,9 @@ struct ExpressionCategory {
 
     ExpressionCategory( const MatchFinder::MatchResult &Result, const Expr *E ) :
         Replacement( getText( Result, E ) ) {
+        if( StringRef( Replacement ).endswith( "->" ) ) {
+            Replacement.erase( Replacement.end() - 2, Replacement.end() );
+        }
         QualType EType = E->getType();
         if( EType->isPointerType() ) {
             IsArrowRef = true;

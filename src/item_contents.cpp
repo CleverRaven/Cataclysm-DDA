@@ -31,12 +31,6 @@
 #include "ui.h"
 #include "units.h"
 
-static const std::vector<item_pocket::pocket_type> avail_types{
-    item_pocket::pocket_type::CONTAINER,
-    item_pocket::pocket_type::MAGAZINE,
-    item_pocket::pocket_type::MAGAZINE_WELL
-};
-
 class pocket_favorite_callback : public uilist_callback
 {
     private:
@@ -156,6 +150,8 @@ bool pocket_favorite_callback::key( const input_context &, const input_event &ev
 
         std::vector<std::pair<itype_id, std::string>> listed_names;
         std::vector<std::pair<itype_id, std::string>> nearby_names;
+        listed_names.reserve( listed_itypes.size() );
+        nearby_names.reserve( nearby_itypes.size() );
         for( const itype_id &id : listed_itypes ) {
             listed_names.emplace_back( id, id->nname( 1 ) );
         }
@@ -249,7 +245,7 @@ item_contents::item_contents( const std::vector<pocket_data> &pockets )
 {
 
     for( const pocket_data &data : pockets ) {
-        contents.push_back( item_pocket( &data ) );
+        contents.emplace_back( &data );
     }
 }
 
@@ -522,7 +518,7 @@ void item_contents::force_insert_item( const item &it, item_pocket::pocket_type 
 }
 
 std::pair<item_location, item_pocket *> item_contents::best_pocket( const item &it,
-        item_location &parent, bool nested, const bool allow_sealed )
+        item_location &parent, bool nested, const bool allow_sealed, const bool ignore_settings )
 {
     if( !can_contain( it ).success() ) {
         return { item_location(), nullptr };
@@ -546,7 +542,7 @@ std::pair<item_location, item_pocket *> item_contents::best_pocket( const item &
         if( !pocket.can_contain( it ).success() ) {
             continue;
         }
-        if( !pocket.settings.accepts_item( it ) ) {
+        if( !ignore_settings && !pocket.settings.accepts_item( it ) ) {
             // Item forbidden by whitelist / blacklist
             continue;
         }
@@ -1058,12 +1054,33 @@ void item_contents::remove_items_if( const std::function<bool( item & )> &filter
     }
 }
 
-std::list<item *> item_contents::all_items_top( item_pocket::pocket_type pk_type )
+std::list<item *> item_contents::all_items_top( const std::function<bool( item_pocket & )> &filter )
 {
     std::list<item *> all_items_internal;
     for( item_pocket &pocket : contents ) {
-        if( pocket.is_type( pk_type ) ) {
+        if( filter( pocket ) ) {
             std::list<item *> contained_items = pocket.all_items_top();
+            all_items_internal.insert( all_items_internal.end(), contained_items.begin(),
+                                       contained_items.end() );
+        }
+    }
+    return all_items_internal;
+}
+
+std::list<item *> item_contents::all_items_top( item_pocket::pocket_type pk_type )
+{
+    return all_items_top( [pk_type]( item_pocket & pocket ) {
+        return pocket.is_type( pk_type );
+    } );
+}
+
+std::list<const item *> item_contents::all_items_top( const
+        std::function<bool( const item_pocket & )> &filter ) const
+{
+    std::list<const item *> all_items_internal;
+    for( const item_pocket &pocket : contents ) {
+        if( filter( pocket ) ) {
+            std::list<const item *> contained_items = pocket.all_items_top();
             all_items_internal.insert( all_items_internal.end(), contained_items.begin(),
                                        contained_items.end() );
         }
@@ -1073,110 +1090,23 @@ std::list<item *> item_contents::all_items_top( item_pocket::pocket_type pk_type
 
 std::list<const item *> item_contents::all_items_top( item_pocket::pocket_type pk_type ) const
 {
-    std::list<const item *> all_items_internal;
-    for( const item_pocket &pocket : contents ) {
-        if( pocket.is_type( pk_type ) ) {
-            std::list<const item *> contained_items = pocket.all_items_top();
-            all_items_internal.insert( all_items_internal.end(), contained_items.begin(),
-                                       contained_items.end() );
-        }
-    }
-    return all_items_internal;
-}
-
-std::list<const item *> item_contents::all_standard_items_top() const
-{
-    std::list<const item *> all_items_internal;
-    for( const item_pocket &pocket : contents ) {
-        if( pocket.is_standard_type() ) {
-            std::list<const item *> contained_items = pocket.all_items_top();
-            all_items_internal.insert( all_items_internal.end(), contained_items.begin(),
-                                       contained_items.end() );
-        }
-    }
-    return all_items_internal;
+    return all_items_top( [pk_type]( const item_pocket & pocket ) {
+        return pocket.is_type( pk_type );
+    } );
 }
 
 std::list<item *> item_contents::all_items_top()
 {
-    std::list<item *> ret;
-    for( const item_pocket::pocket_type pk_type : avail_types ) {
-        std::list<item *> top{ all_items_top( pk_type ) };
-        ret.insert( ret.end(), top.begin(), top.end() );
-    }
-    return ret;
+    return all_items_top( []( const item_pocket & pocket ) {
+        return pocket.is_standard_type();
+    } );
 }
 
 std::list<const item *> item_contents::all_items_top() const
 {
-    std::list<const item *> ret;
-    for( const item_pocket::pocket_type pk_type : avail_types ) {
-        std::list<const item *> top{ all_items_top( pk_type ) };
-        ret.insert( ret.end(), top.begin(), top.end() );
-    }
-    return ret;
-}
-
-std::list<item *> item_contents::all_items_ptr( item_pocket::pocket_type pk_type )
-{
-    return all_items_top_recursive( pk_type );
-}
-
-std::list<const item *> item_contents::all_items_ptr( item_pocket::pocket_type pk_type ) const
-{
-    return all_items_top_recursive( pk_type );
-}
-
-std::list<const item *> item_contents::all_items_ptr() const
-{
-    std::list<const item *> all_items_internal;
-    for( int i = static_cast<int>( item_pocket::pocket_type::CONTAINER );
-         i < static_cast<int>( item_pocket::pocket_type::LAST ); i++ ) {
-        std::list<const item *> inserted{ all_items_top_recursive( static_cast<item_pocket::pocket_type>( i ) ) };
-        all_items_internal.insert( all_items_internal.end(), inserted.begin(), inserted.end() );
-    }
-    return all_items_internal;
-}
-
-std::list<const item *> item_contents::all_items_top_recursive( item_pocket::pocket_type pk_type )
-const
-{
-    std::list<const item *> all_items_internal;
-    for( const item_pocket &pocket : contents ) {
-        if( pocket.is_type( pk_type ) ) {
-            std::list<const item *> contained_items = pocket.all_items_top();
-            all_items_internal.insert( all_items_internal.end(), contained_items.begin(),
-                                       contained_items.end() );
-            std::list<const item *> recursion_items;
-            for( const item *it : contained_items ) {
-                recursion_items = it->contents.all_items_top_recursive( pk_type );
-                all_items_internal.insert( all_items_internal.end(), recursion_items.begin(),
-                                           recursion_items.end() );
-            }
-        }
-    }
-
-    return all_items_internal;
-}
-
-std::list<item *> item_contents::all_items_top_recursive( item_pocket::pocket_type pk_type )
-{
-    std::list< item *> all_items_internal;
-    for( item_pocket &pocket : contents ) {
-        if( pocket.is_type( pk_type ) ) {
-            std::list< item *> contained_items = pocket.all_items_top();
-            all_items_internal.insert( all_items_internal.end(), contained_items.begin(),
-                                       contained_items.end() );
-            std::list< item *> recursion_items;
-            for( item *it : contained_items ) {
-                recursion_items = it->contents.all_items_top_recursive( pk_type );
-                all_items_internal.insert( all_items_internal.end(), recursion_items.begin(),
-                                           recursion_items.end() );
-            }
-        }
-    }
-
-    return all_items_internal;
+    return all_items_top( []( const item_pocket & pocket ) {
+        return pocket.is_standard_type();
+    } );
 }
 
 item &item_contents::legacy_front()
@@ -1300,7 +1230,7 @@ void item_contents::update_modified_pockets(
                         // in case the debugmsg wasn't clear, this should never happen
                         debugmsg( "Oops!  deleted some items when updating pockets that were added via toolmods" );
                     }
-                    contents.push_back( item_pocket( *mag_or_mag_well ) );
+                    contents.emplace_back( *mag_or_mag_well );
                     pocket_iter = contents.erase( pocket_iter );
                 } else {
                     ++pocket_iter;
@@ -1316,7 +1246,7 @@ void item_contents::update_modified_pockets(
 
     // we've deleted all of the superfluous copies already, so time to add the new pockets
     for( const pocket_data *container_pocket : container_pockets ) {
-        contents.push_back( item_pocket( container_pocket ) );
+        contents.emplace_back( container_pocket );
     }
 
 }
@@ -1597,7 +1527,7 @@ int item_contents::best_quality( const quality_id &id ) const
 static void insert_separation_line( std::vector<iteminfo> &info )
 {
     if( info.empty() || info.back().sName != "--" ) {
-        info.push_back( iteminfo( "DESCRIPTION", "--" ) );
+        info.emplace_back( "DESCRIPTION", "--" );
     }
 }
 
@@ -1630,9 +1560,9 @@ void item_contents::info( std::vector<iteminfo> &info, const iteminfo_query *par
         if( found_pockets.size() > 1 || pocket_num[0] > 1 ) {
             insert_separation_line( info );
             info.emplace_back( "CONTAINER", _( "<bold>Total capacity</bold>:" ) );
-            info.push_back( vol_to_info( "CONTAINER", _( "Volume: " ), total_container_capacity() ) );
-            info.push_back( weight_to_info( "CONTAINER", _( "  Weight: " ),
-                                            total_container_weight_capacity() ) );
+            info.push_back( vol_to_info( "CONTAINER", _( "Volume: " ), total_container_capacity(), 2, false ) );
+            info.push_back( weight_to_info( "CONTAINER", _( "  Weight: " ), total_container_weight_capacity(),
+                                            2, false ) );
             info.back().bNewLine = true;
         }
 

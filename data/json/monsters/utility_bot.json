@@ -23,7 +23,7 @@
     "revert_to_itype": "bot_eyebot",
     "special_attacks": [ [ "PHOTOGRAPH", 30 ] ],
     "death_drops": { "groups": [ [ "robots", 4 ], [ "eyebot", 1 ] ] },
-    "death_function": [ "BROKEN" ],
+    "death_function": { "corpse_type": "BROKEN" },
     "flags": [ "SEES", "FLIES", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "NOHEAD", "PRIORITIZE_TARGETS" ]
   },
   {
@@ -49,7 +49,7 @@
     "revert_to_itype": "bot_grocerybot",
     "special_attacks": [ [ "PAID_BOT", 1 ] ],
     "death_drops": { "groups": [ [ "robots", 4 ] ] },
-    "death_function": [ "BROKEN" ],
+    "death_function": { "corpse_type": "BROKEN" },
     "flags": [
       "SEES",
       "ELECTRONIC",
@@ -87,7 +87,7 @@
     "revert_to_itype": "bot_grocerybot_busted",
     "special_attacks": [ [ "PAID_BOT", 1 ] ],
     "death_drops": { "groups": [ [ "robots", 4 ] ] },
-    "death_function": [ "BROKEN" ],
+    "death_function": { "corpse_type": "BROKEN" },
     "flags": [ "SEES", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "FIREPROOF", "PUSH_MON", "HEARS", "PACIFIST", "PAY_BOT" ]
   },
   {
@@ -112,7 +112,11 @@
     "armor_bullet": 10,
     "vision_day": 50,
     "revert_to_itype": "bot_hazmatbot",
-    "death_function": [ "EXPLODE" ],
+    "death_function": {
+      "corpse_type": "NO_CORPSE",
+      "effect": { "id": "death_explosion_mon_hazmatbot", "hit_self": true },
+      "message": "The %s explodes!"
+    },
     "flags": [ "SEES", "HEARS", "BASHES", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_1" ]
   },
   {
@@ -140,7 +144,7 @@
     "armor_bullet": 10,
     "revert_to_itype": "bot_molebot",
     "death_drops": { "groups": [ [ "robots", 4 ], [ "molebot", 1 ] ] },
-    "death_function": [ "BROKEN" ],
+    "death_function": { "corpse_type": "BROKEN" },
     "flags": [ "HEARS", "GOODHEARING", "DIGS", "NO_BREATHE", "ELECTRONIC", "COLDPROOF", "PATH_AVOID_DANGER_1" ]
   },
   {
@@ -170,7 +174,7 @@
     "revert_to_itype": "bot_nursebot",
     "special_attacks": [ [ "ASSIST", 30 ], [ "CHECK_UP", 120 ] ],
     "death_drops": { "groups": [ [ "robots", 4 ] ] },
-    "death_function": [ "BROKEN" ],
+    "death_function": { "corpse_type": "BROKEN" },
     "flags": [ "SEES", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "FIREPROOF", "PUSH_MON", "HEARS", "PACIFIST" ]
   },
   {
@@ -203,7 +207,7 @@
     "revert_to_itype": "bot_nursebot",
     "special_attacks": [ [ "OPERATE", 30 ], [ "PARROT", 20 ] ],
     "death_drops": { "groups": [ [ "robots", 4 ] ] },
-    "death_function": [ "BROKEN" ],
+    "death_function": { "corpse_type": "BROKEN" },
     "flags": [
       "SEES",
       "ELECTRONIC",

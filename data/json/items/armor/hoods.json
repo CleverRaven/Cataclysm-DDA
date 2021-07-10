@@ -13,7 +13,7 @@
     "symbol": "[",
     "looks_like": "cowboy_hat",
     "color": "white",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "head" ], "coverage": 100, "encumbrance": 20 },
       { "covers": [ "eyes", "mouth" ], "coverage": 100, "encumbrance": 5 }
     ],
@@ -37,11 +37,9 @@
     "symbol": "[",
     "looks_like": "balclava",
     "color": "light_red",
-    "covers": [ "head" ],
-    "coverage": 95,
-    "encumbrance": 10,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT" ]
+    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT" ],
+    "armor": [ { "encumbrance": 10, "coverage": 95, "covers": [ "head" ] } ]
   },
   {
     "id": "xl_chainmail_hood",
@@ -68,13 +66,11 @@
     "symbol": "[",
     "looks_like": "hood_survivor",
     "color": "light_gray",
-    "covers": [ "head" ],
-    "coverage": 100,
-    "encumbrance": 30,
     "warmth": 15,
     "material_thickness": 5,
     "environmental_protection": 10,
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER", "HELMET_COMPAT" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER", "HELMET_COMPAT" ],
+    "armor": [ { "encumbrance": 30, "coverage": 100, "covers": [ "head" ] } ]
   },
   {
     "id": "xl_hood_fsurvivor",
@@ -101,13 +97,11 @@
     "symbol": "[",
     "looks_like": "hood_survivor",
     "color": "green",
-    "covers": [ "head" ],
-    "coverage": 100,
-    "encumbrance": 15,
     "warmth": 10,
     "material_thickness": 4,
     "environmental_protection": 3,
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER", "HELMET_COMPAT" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER", "HELMET_COMPAT" ],
+    "armor": [ { "encumbrance": 15, "coverage": 100, "covers": [ "head" ] } ]
   },
   {
     "id": "xl_hood_lsurvivor",
@@ -115,6 +109,30 @@
     "copy-from": "hood_lsurvivor",
     "name": { "str": "XL light survivor hood" },
     "description": "A customized and oversized armored cloth and Kevlar hood, very light and durable.",
+    "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
+    "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "HELMET_COMPAT", "OUTER", "WATERPROOF" ]
+  },
+  {
+    "id": "hood_wsurvivor_nofur",
+    "type": "ARMOR",
+    "name": { "str": "winter faux fur survivor hood" },
+    "description": "A customized armored faux fur and Kevlar hood, warm and durable.  If not quite as warm as real fur.",
+    "copy-from": "hood_wsurvivor",
+    "material": [ "kevlar_layered", "faux_fur" ],
+    "symbol": "[",
+    "warmth": 65,
+    "looks_like": "hood_survivor",
+    "color": "pink"
+  },
+  {
+    "id": "xl_hood_wsurvivor_nofur",
+    "type": "ARMOR",
+    "copy-from": "hood_wsurvivor",
+    "material": [ "kevlar_layered", "faux_fur" ],
+    "color": "pink",
+    "warmth": 65,
+    "name": { "str": "XL faux fur winter survivor hood" },
+    "description": "A customized and oversized armored faux fur and Kevlar hood, warm and durable.  If not quite as warm as real fur.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "HELMET_COMPAT", "OUTER", "WATERPROOF" ]
   },
@@ -131,12 +149,11 @@
     "symbol": "[",
     "looks_like": "hat_cotton",
     "color": "yellow",
-    "covers": [ "head" ],
-    "coverage": 100,
     "warmth": 10,
     "material_thickness": 0.3,
     "environmental_protection": 1,
-    "flags": [ "WATERPROOF", "OUTER", "HELMET_COMPAT" ]
+    "flags": [ "WATERPROOF", "OUTER", "HELMET_COMPAT" ],
+    "armor": [ { "coverage": 100, "covers": [ "head" ] } ]
   },
   {
     "id": "hood_survivor",
@@ -154,14 +171,12 @@
     "symbol": "[",
     "looks_like": "hood_rain",
     "color": "brown",
-    "covers": [ "head" ],
-    "coverage": 100,
-    "encumbrance": 25,
     "warmth": 15,
     "material_thickness": 4,
     "environmental_protection": 3,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER", "HELMET_COMPAT" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER", "HELMET_COMPAT" ],
+    "armor": [ { "encumbrance": 25, "coverage": 100, "covers": [ "head" ] } ]
   },
   {
     "id": "hood_wsurvivor",
@@ -179,13 +194,11 @@
     "symbol": "[",
     "looks_like": "hood_survivor",
     "color": "light_gray",
-    "covers": [ "head" ],
-    "coverage": 100,
-    "encumbrance": 37,
     "warmth": 75,
     "material_thickness": 5,
     "environmental_protection": 5,
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER", "HELMET_COMPAT" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER", "HELMET_COMPAT" ],
+    "armor": [ { "encumbrance": 37, "coverage": 100, "covers": [ "head" ] } ]
   },
   {
     "id": "xl_hood_wsurvivor",
@@ -212,14 +225,12 @@
     "symbol": "[",
     "looks_like": "hood_survivor",
     "color": "brown",
-    "covers": [ "head" ],
-    "coverage": 100,
-    "encumbrance": 40,
     "warmth": 15,
     "material_thickness": 3,
     "environmental_protection": 3,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY", "OUTER", "HELMET_COMPAT" ]
+    "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY", "OUTER", "HELMET_COMPAT" ],
+    "armor": [ { "encumbrance": 40, "coverage": 100, "covers": [ "head" ] } ]
   },
   {
     "id": "nomex_hood",
@@ -235,13 +246,11 @@
     "symbol": "[",
     "looks_like": "hood_rain",
     "color": "light_gray",
-    "covers": [ "head" ],
-    "coverage": 100,
-    "encumbrance": 6,
     "warmth": 5,
     "material_thickness": 3,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "STURDY" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "STURDY" ],
+    "armor": [ { "encumbrance": 6, "coverage": 100, "covers": [ "head" ] } ]
   },
   {
     "id": "hood_gut",
@@ -256,11 +265,10 @@
     "symbol": "[",
     "looks_like": "hood_rain",
     "color": "light_gray",
-    "covers": [ "head" ],
-    "coverage": 95,
     "warmth": 10,
     "material_thickness": 0.1,
     "environmental_protection": 1,
-    "flags": [ "WATERPROOF", "RAINPROOF", "OUTER", "HELMET_COMPAT" ]
+    "flags": [ "WATERPROOF", "RAINPROOF", "OUTER", "HELMET_COMPAT" ],
+    "armor": [ { "coverage": 95, "covers": [ "head" ] } ]
   }
 ]

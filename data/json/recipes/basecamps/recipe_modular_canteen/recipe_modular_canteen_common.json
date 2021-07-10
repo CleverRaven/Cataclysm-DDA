@@ -175,19 +175,19 @@
     "blueprint_provides": [ { "id": "fbmk_pantry_furniture" }, { "id": "pantry" } ],
     "blueprint_excludes": [ { "id": "fbmk_pantry_furniture" } ],
     "blueprint_needs": {
-      "time": "1 d 4 h 20 m",
-      "skills": [ [ "cooking", 3 ], [ "fabrication", 4 ], [ "survival", 4 ] ],
+      "time": "1 d 9 h 20 m",
+      "skills": [ [ "survival", 4 ], [ "fabrication", 4 ], [ "cooking", 3 ] ],
       "inline": {
-        "tools": [  ],
+        "tools": [ [ [ "elec_jackhammer", 14000 ], [ "jackhammer", 280 ], [ "pickaxe", -1 ] ] ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W" } ] ],
         "components": [
           [ [ "2x4", 112 ] ],
-          [ [ "wood_sheet", 24 ], [ "wood_panel", 48 ] ],
+          [ [ "brick", 80 ], [ "rock", 80 ] ],
           [ [ "nail", 504 ] ],
           [ [ "sheet_metal_small", 24 ] ],
+          [ [ "straw_pile", 24 ], [ "withered", 24 ] ],
           [ [ "water_faucet", 2 ] ],
-          [ [ "rock", 80 ], [ "brick", 80 ] ],
-          [ [ "withered", 24 ], [ "straw_pile", 24 ] ]
+          [ [ "wood_panel", 48 ], [ "wood_sheet", 24 ] ]
         ]
       }
     }

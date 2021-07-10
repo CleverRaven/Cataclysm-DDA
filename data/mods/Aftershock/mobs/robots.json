@@ -32,7 +32,7 @@
       }
     ],
     "death_drops": {  },
-    "death_function": [ "BROKEN" ],
+    "death_function": { "corpse_type": "BROKEN" },
     "flags": [ "SEES", "ELECTRONIC", "IMMOBILE", "NO_BREATHE" ]
   },
   {
@@ -74,7 +74,7 @@
     "starting_ammo": { "40x46mm_m433": 100, "556": 1000 },
     "path_settings": { "max_dist": 10 },
     "special_attacks": [ [ "CHICKENBOT", 4 ] ],
-    "death_function": [ "BROKEN" ],
+    "death_function": { "corpse_type": "BROKEN" },
     "flags": [ "SEES", "HEARS", "BASHES", "NO_BREATHE", "ELECTRONIC", "PRIORITIZE_TARGETS", "DROPS_AMMO" ]
   },
   {
@@ -106,7 +106,7 @@
     "starting_ammo": { "40x46mm_m433": 200, "556": 3000 },
     "path_settings": { "max_dist": 20 },
     "special_attacks": [ [ "MULTI_ROBOT", 3 ] ],
-    "death_function": [ "BROKEN" ],
+    "death_function": { "corpse_type": "BROKEN" },
     "flags": [
       "SEES",
       "HEARS",
@@ -167,14 +167,14 @@
       }
     ],
     "death_drops": { "groups": [ [ "robots", 4 ], [ "tripod", 1 ] ] },
-    "death_function": [ "BROKEN" ],
+    "death_function": { "corpse_type": "BROKEN" },
     "flags": [ "SEES", "HEARS", "GOODHEARING", "BASHES", "NO_BREATHE", "ELECTRONIC", "CLIMBS", "PRIORITIZE_TARGETS", "FIREPROOF" ]
   },
   {
     "id": "afs_mon_sentinel_lx",
     "type": "MONSTER",
     "name": { "str": "Wraitheon Sentinel-lx" },
-    "description": "Its exterior plates sable and gold, this luxurious variant of a Wraitheon drone was once kept as a bodyguard by society's wealthiest.  Still with its wrist sword extended, it resembles an ancient knight, standing an eternal watch.",
+    "description": "Its exterior plates are sable and gold, this luxurious variant of a Wraitheon drone was once kept as a bodyguard by society's wealthiest.  Still with its wrist sword extended, it resembles an ancient knight, standing an eternal watch.",
     "default_faction": "WraitheonRobotics",
     "species": [ "ROBOT" ],
     "diff": 10,
@@ -210,7 +210,7 @@
         "targeting_sound": "\"Dispatching hostile with lethal force.\""
       }
     ],
-    "death_function": [ "BROKEN" ],
+    "death_function": { "corpse_type": "BROKEN" },
     "death_drops": { "groups": [ [ "mon_afs_sentinel_lx_drops", 1 ] ] },
     "flags": [
       "SEES",
@@ -245,7 +245,7 @@
     "armor_bullet": 6,
     "revert_to_itype": "bot_bloodhound_drone",
     "death_drops": { "groups": [ [ "robots", 4 ], [ "manhack", 1 ], [ "turret_searchlight", 1 ] ] },
-    "death_function": [ "BROKEN" ],
+    "death_function": { "corpse_type": "BROKEN" },
     "extend": { "flags": [ "HIT_AND_RUN" ] }
   },
   {
@@ -271,7 +271,7 @@
     "armor_fire": 4,
     "armor_acid": 6,
     "vision_day": 50,
-    "death_function": [ "BROKEN" ],
+    "death_function": { "corpse_type": "BROKEN" },
     "death_drops": { "groups": [ [ "broken_robots", 3 ] ] },
     "flags": [ "SEES", "HEARS", "ELECTRONIC", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_1" ]
   },
@@ -368,7 +368,7 @@
     "vision_day": 50,
     "special_attacks": [ { "id": "hypo_pkill" } ],
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE" ],
-    "death_function": [ "BROKEN" ],
+    "death_function": { "corpse_type": "BROKEN" },
     "death_drops": { "groups": [ [ "broken_robots", 3 ] ] },
     "flags": [ "SEES", "HEARS", "ELECTRONIC", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_1" ]
   },
@@ -456,7 +456,7 @@
         "type": "gun",
         "move_cost": 150,
         "cooldown": 2,
-        "gun_type": "m1014",
+        "gun_type": "mossberg_930",
         "ammo_type": "shot",
         "fake_skills": [ [ "gun", 2 ], [ "shotgun", 2 ] ],
         "fake_dex": 9,
@@ -465,38 +465,6 @@
       }
     ],
     "extend": { "flags": [ "DROPS_AMMO" ] }
-  },
-  {
-    "abstract": "mon_milbot_base",
-    "type": "MONSTER",
-    "looks_like": "mon_secubot",
-    "name": "military robot",
-    "description": "A military robot still operating due to its internal power core.  This one is armed with an electric prod and an integrated 5.56mm.",
-    "default_faction": "WraitheonRobotics",
-    "species": [ "ROBOT" ],
-    "volume": "62500 ml",
-    "weight": "81500 g",
-    "hp": 80,
-    "speed": 100,
-    "material": [ "steel" ],
-    "symbol": "R",
-    "color": "red_green",
-    "aggression": 50,
-    "morale": 100,
-    "melee_skill": 4,
-    "melee_dice": 2,
-    "melee_dice_sides": 4,
-    "dodge": 4,
-    "armor_bash": 12,
-    "armor_cut": 12,
-    "armor_stab": 6,
-    "armor_fire": 5,
-    "armor_acid": 12,
-    "vision_day": 50,
-    "path_settings": { "max_dist": 5 },
-    "death_drops": { "groups": [ [ "broken_robots", 1 ] ] },
-    "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "HEARS", "BASHES", "ELECTRONIC", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_1" ]
   },
   {
     "id": "mon_milbot_556",
@@ -534,7 +502,7 @@
     "type": "MONSTER",
     "copy-from": "mon_milbot_base",
     "name": "Wraitheon Hashashiyyin",
-    "description": "he Hashashiyyin is unorthodox in its design as a military humaniform.  While it keeps the strength of most Wraitheon humaniforms, it also prioritizes stealth.  It comes equipped with an integrated 5x50mm flechette gun.",
+    "description": "The Hashashiyyin is unorthodox in its design as a military humaniform.  While it keeps the strength of most Wraitheon humaniforms, it also prioritizes stealth.  It comes equipped with an integrated 5x50mm flechette gun.",
     "diff": 15,
     "melee_damage": [ { "damage_type": "electric", "amount": 6 } ],
     "starting_ammo": { "5x50dart": 1000 },
@@ -591,27 +559,6 @@
       }
     ],
     "extend": { "flags": [ "DROPS_AMMO" ] }
-  },
-  {
-    "abstract": "mon_advbot_base",
-    "type": "MONSTER",
-    "copy-from": "mon_defbot_base",
-    "looks_like": "mon_copbot",
-    "name": "advanced robot",
-    "description": "An advanced robot still functioning due to its internal fusion core.  This model is armed with a powerful laser-emitter.",
-    "default_faction": "defense_bot",
-    "species": [ "ROBOT" ],
-    "hp": 100,
-    "armor_bash": 8,
-    "armor_cut": 6,
-    "armor_stab": 6,
-    "armor_fire": 8,
-    "armor_acid": 12,
-    "vision_day": 50,
-    "speed": 110,
-    "color": "white_cyan",
-    "aggression": 100,
-    "dodge": 5
   },
   {
     "id": "mon_advbot_laser",
@@ -681,6 +628,50 @@
     ]
   },
   {
+    "id": "mon_wraitheon_isohypsa",
+    "type": "MONSTER",
+    "copy-from": "mon_advbot_base",
+    "name": "Wraitheon Isohypsa",
+    "description": "A bulky if not particularly large aerial drone, with an advanced AI overwatch unit and a bulbous carapace, mostly dedicated to mounting high-resolution sensors.  As an autonomous drone control platform, the Isohypsa is principally meant to coordinate and enhance the combat capabilities of simpler Wraitheon robots in lieu of human operators.",
+    "default_faction": "WraitheonRobotics",
+    "symbol": "y",
+    "diff": 20,
+    "speed": 100,
+    "color": "light_red",
+    "armor_bash": 20,
+    "armor_cut": 30,
+    "armor_fire": 15,
+    "armor_bullet": 35,
+    "morale": 20,
+    "luminance": 20,
+    "tracking_distance": 20,
+    "extend": { "flags": [ "FIREPROOF", "PACIFIST", "KEEP_DISTANCE", "FLIES" ] },
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "isohypsa_buff", "hit_self": true },
+        "cooldown": 5,
+        "monster_message": "The Isohypsa emits a rapid sequence of sibilant tones!"
+      }
+    ]
+  },
+  {
+    "id": "mon_wraitheon_kaburaya",
+    "copy-from": "base_drone",
+    "type": "MONSTER",
+    "name": "Wraitheon Kabura-ya",
+    "description": "A microplane drone designed to seek enemy personnel before detonating at close range.",
+    "default_faction": "WraitheonRobotics",
+    "diff": 10,
+    "speed": 250,
+    "color": "green",
+    "armor_cut": 4,
+    "armor_bullet": 3,
+    "revert_to_itype": "bot_wraitheon_kaburaya",
+    "starting_ammo": { "afs_kaburaya_bomb": 1 },
+    "special_attacks": [ [ "KAMIKAZE", 0 ] ]
+  },
+  {
     "id": "mon_advbot_emp",
     "type": "MONSTER",
     "copy-from": "mon_advbot_base",
@@ -706,39 +697,5 @@
         "targeting_volume": 10
       }
     ]
-  },
-  {
-    "abstract": "mon_defbot_base",
-    "type": "MONSTER",
-    "looks_like": "mon_secubot",
-    "name": "defense robot",
-    "description": "An automated defense robot still active due to its internal power source.  This one is armed with an electric prod and an integrated 9mm firearm.",
-    "default_faction": "cop_bot",
-    "species": [ "ROBOT" ],
-    "diff": 10,
-    "volume": "62500 ml",
-    "weight": "81500 g",
-    "hp": 80,
-    "speed": 100,
-    "material": [ "steel" ],
-    "symbol": "R",
-    "color": "light_blue",
-    "aggression": 100,
-    "morale": 100,
-    "luminance": 20,
-    "melee_skill": 4,
-    "melee_dice": 2,
-    "melee_dice_sides": 4,
-    "dodge": 4,
-    "armor_bash": 10,
-    "armor_cut": 10,
-    "armor_stab": 5,
-    "armor_fire": 5,
-    "armor_acid": 10,
-    "vision_day": 50,
-    "path_settings": { "max_dist": 5 },
-    "death_drops": { "groups": [ [ "broken_robots", 1 ] ] },
-    "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "HEARS", "BASHES", "ELECTRONIC", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_1" ]
   }
 ]

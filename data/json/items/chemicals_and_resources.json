@@ -73,6 +73,23 @@
   },
   {
     "type": "AMMO",
+    "id": "material_gravel",
+    "category": "spare_parts",
+    "price": 0,
+    "price_postapoc": 0,
+    "name": { "str_sp": "gravel" },
+    "symbol": "=",
+    "color": "dark_gray",
+    "description": "A handful of gravel, smaller than pebbles but larger than sand.",
+    "material": [ "stone" ],
+    "volume": "250 ml",
+    "weight": "6 g",
+    "bashing": 1,
+    "ammo_type": "components",
+    "count": 50
+  },
+  {
+    "type": "AMMO",
     "id": "material_limestone",
     "category": "spare_parts",
     "price": 50,
@@ -224,7 +241,7 @@
     "charges": 2,
     "category": "chems",
     "fun": -30,
-    "freezing_point": 17,
+    "freezing_point": -8,
     "conditional_names": [ { "type": "FLAG", "condition": "DIRTY", "name": "bleach spill" } ]
   },
   {
@@ -248,7 +265,7 @@
     "charges": 2,
     "category": "chems",
     "fun": -30,
-    "freezing_point": -108
+    "freezing_point": -78
   },
   {
     "type": "COMESTIBLE",
@@ -365,7 +382,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "category": "chems",
-    "freezing_point": 28,
+    "freezing_point": -2,
     "fun": -1
   },
   {
@@ -386,7 +403,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "category": "chems",
-    "freezing_point": 28,
+    "freezing_point": -2,
     "fun": -1
   },
   {
@@ -525,7 +542,7 @@
     "count": 100
   },
   {
-    "type": "AMMO",
+    "type": "COMESTIBLE",
     "id": "chem_sulphuric_acid",
     "category": "chems",
     "price": 250,
@@ -538,14 +555,13 @@
     "volume": "250 ml",
     "weight": "460 g",
     "bashing": 1,
-    "ammo_type": "components",
     "phase": "liquid",
     "container": "bottle_glass",
-    "//freezing_point": 25,
+    "freezing_point": -36,
     "drop_action": { "type": "emit_actor", "emits": [ "emit_acid_drop" ], "scale_qty": true }
   },
   {
-    "type": "AMMO",
+    "type": "COMESTIBLE",
     "id": "chem_muriatic_acid",
     "category": "chems",
     "price": 250,
@@ -558,10 +574,9 @@
     "volume": "250 ml",
     "weight": "460 g",
     "bashing": 1,
-    "ammo_type": "components",
     "phase": "liquid",
     "container": "bottle_glass",
-    "//freezing_point": 25,
+    "freezing_point": -50,
     "drop_action": { "type": "emit_actor", "emits": [ "emit_acid_drop" ], "scale_qty": true }
   },
   {
@@ -582,7 +597,7 @@
     "container": "bottle_glass"
   },
   {
-    "type": "AMMO",
+    "type": "COMESTIBLE",
     "id": "chem_nitric_acid",
     "category": "chems",
     "price": 300,
@@ -595,10 +610,9 @@
     "volume": "250 ml",
     "weight": "375 g",
     "bashing": 1,
-    "ammo_type": "components",
     "phase": "liquid",
     "container": "bottle_glass",
-    "//freezing_point": -44,
+    "freezing_point": -42,
     "drop_action": { "type": "emit_actor", "emits": [ "emit_acid_drop" ], "scale_qty": true }
   },
   {
@@ -1459,6 +1473,21 @@
     "looks_like": "bag_canvas"
   },
   {
+    "id": "gravelbag",
+    "type": "GENERIC",
+    "category": "other",
+    "name": { "str": "gravelbag" },
+    "description": "This is a canvas sack filled with gravel.  It can be used to construct simple barricades.",
+    "weight": "19200 g",
+    "volume": "16L",
+    "price": 0,
+    "price_postapoc": 10,
+    "material": [ "cotton", "powder" ],
+    "symbol": ")",
+    "color": "brown",
+    "looks_like": "bag_canvas"
+  },
+  {
     "id": "earthbag",
     "type": "GENERIC",
     "category": "other",
@@ -1602,6 +1631,16 @@
     "description": "This greyish, flexible vesicle is filled to the brim with the potent paralytic agent the triffids use to subdue still-moving fertilizer such as yourself.  If you know your way around poisons you might be able to find a use for it.",
     "material": [ "veggy" ],
     "color": "light_gray",
+    "fun": -50
+  },
+  {
+    "id": "triffid_fungicide",
+    "type": "COMESTIBLE",
+    "copy-from": "venom_gland",
+    "name": { "str": "sac of triffid fungicide", "str_pl": "sacs of triffid fungicide" },
+    "description": "This triffid sack is filled with what appears to be a triffid-produced antifungal agent.  It will likely already work as an antifungal compound for more offensive applications, but requires further refining before it can be used as a medical drug.",
+    "material": [ "veggy" ],
+    "color": "light_blue",
     "fun": -50
   },
   {

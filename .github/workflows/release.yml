@@ -162,7 +162,7 @@ jobs:
           commit url: https://github.com/${{ github.repository }}/commit/${{ github.sha }}
           EOL
           make -j$((`nproc`+0)) TILES=${{ matrix.tiles }} SOUND=${{ matrix.tiles }} RELEASE=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=0 PCH=0 bindist
-          mv cataclysmdda-0.E.tar.gz cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.tar.gz
+          mv cataclysmdda-0.F.tar.gz cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.tar.gz
       - name: Build CDDA (windows)
         if: matrix.mxe != 'none'
         env:
@@ -175,11 +175,9 @@ jobs:
           commit url: https://github.com/${{ github.repository }}/commit/${{ github.sha }}
           EOL
           make -j$((`nproc`+0)) CROSS="${PLATFORM}" TILES=1 SOUND=1 RELEASE=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=0 PCH=0 bindist
-          mv cataclysmdda-0.E.zip cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.zip
+          mv cataclysmdda-0.F.zip cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.zip
       - name: Build CDDA (osx)
         if: runner.os == 'macOS'
-        env:
-          USE_HOME_DIR: 1
         run: |
           cat >VERSION.txt <<EOL
           build type: ${{ matrix.artifact }}
@@ -187,7 +185,7 @@ jobs:
           commit sha: ${{ github.sha }}
           commit url: https://github.com/${{ github.repository }}/commit/${{ github.sha }}
           EOL
-          make -j3 TILES=${{ matrix.tiles }} SOUND=${{ matrix.tiles }} RELEASE=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=0 PCH=0 dmgdist
+          make -j3 TILES=${{ matrix.tiles }} SOUND=${{ matrix.tiles }} RELEASE=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=0 PCH=0 USE_HOME_DIR=1 OSX_MIN=10.12 dmgdist
           mv Cataclysm.dmg cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.dmg
       - name: Set up JDK 8 (android)
         if: runner.os == 'Linux' && matrix.android != 'none' && matrix.mxe == 'none'
@@ -243,9 +241,5 @@ jobs:
         run: |
           curl --fail --request POST \
             --url https://api.github.com/repos/${{ github.repository }}/pages/builds \
-            --header "Authorization: Bearer $USER_TOKEN" \
+            --header "Authorization: Bearer ${{ secrets.USER_TOKEN }}" \
             --header "Accept: application/vnd.github.v3+json"
-        env:
-          # You must create a personal token with repo access as GitHub does
-          # not yet support server-to-server page builds.
-          USER_TOKEN: ${{ secrets.USER_TOKEN }}
