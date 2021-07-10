@@ -18,7 +18,7 @@
     "melee_cut": 0,
     "vision_day": 1,
     "harvest": "exempt",
-    "death_function": [ "MELT" ],
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
     "regenerates": 50,
     "flags": [ "IMMOBILE", "NOT_HALLUCINATION", "FILTHY" ]
   },
@@ -44,7 +44,7 @@
     "vision_day": 50,
     "vision_night": 50,
     "harvest": "exempt",
-    "death_function": [ "DISINTEGRATE" ],
+    "death_function": { "message": "The %s disintegrates!", "corpse_type": "NO_CORPSE" },
     "death_drops": "mon_dragon_dummy_drops",
     "flags": [ "SEES" ]
   },
@@ -68,7 +68,7 @@
     "armor_bullet": 2,
     "harvest": "exempt",
     "special_attacks": [ [ "GENERATOR", 1 ] ],
-    "death_function": [ "GAMEOVER" ],
+    "death_function": { "effect": { "id": "death_gameover", "hit_self": true } },
     "flags": [ "NOHEAD", "ACIDPROOF", "IMMOBILE" ]
   },
   {
@@ -92,7 +92,7 @@
     "melee_cut": 0,
     "harvest": "exempt",
     "special_attacks": [ [ "DISAPPEAR", 20 ] ],
-    "death_function": [ "DISAPPEAR" ],
+    "death_function": { "message": "The %s disappears.", "corpse_type": "NO_CORPSE" },
     "flags": [ "SEES", "HEARS", "NO_BREATHE", "SMELLS", "GUILT" ]
   },
   {
@@ -115,7 +115,7 @@
     "melee_cut": 0,
     "harvest": "exempt",
     "special_attacks": [ [ "DISAPPEAR", 20 ] ],
-    "death_function": [ "DISAPPEAR" ],
+    "death_function": { "message": "The %s disappears.", "corpse_type": "NO_CORPSE" },
     "flags": [ "SEES", "HEARS", "NO_BREATHE" ]
   },
   {
@@ -138,7 +138,7 @@
     "melee_cut": 0,
     "harvest": "exempt",
     "special_attacks": [ [ "DISAPPEAR", 20 ] ],
-    "death_function": [ "DISAPPEAR" ],
+    "death_function": { "message": "The %s disappears.", "corpse_type": "NO_CORPSE" },
     "flags": [ "SEES", "HEARS", "NO_BREATHE" ]
   },
   {
@@ -160,7 +160,7 @@
     "dodge": 10,
     "harvest": "exempt",
     "fear_triggers": [ "PLAYER_CLOSE" ],
-    "death_function": [ "DISAPPEAR" ],
+    "death_function": { "message": "The %s disappears.", "corpse_type": "NO_CORPSE" },
     "path_settings": { "max_dist": 30 },
     "flags": [ "FLIES", "NO_BREATHE", "HARDTOSHOOT", "PET_WONT_FOLLOW" ]
   },
@@ -185,7 +185,7 @@
     "harvest": "exempt",
     "fear_triggers": [ "PLAYER_CLOSE" ],
     "special_attacks": [ [ "DISAPPEAR", 200 ] ],
-    "death_function": [ "DISAPPEAR" ],
+    "death_function": { "message": "The %s disappears.", "corpse_type": "NO_CORPSE" },
     "flags": [ "FLIES", "NO_BREATHE", "NOT_HALLUCINATION", "HARDTOSHOOT" ]
   },
   {
@@ -209,7 +209,7 @@
     "harvest": "exempt",
     "fear_triggers": [ "PLAYER_CLOSE" ],
     "special_attacks": [ [ "DISAPPEAR", 200 ] ],
-    "death_function": [ "DISAPPEAR" ],
+    "death_function": { "message": "The %s disappears.", "corpse_type": "NO_CORPSE" },
     "flags": [ "FLIES", "NO_BREATHE", "NOT_HALLUCINATION", "HARDTOSHOOT" ]
   }
 ]

@@ -260,7 +260,7 @@
     "description": "An empty corn cob.  It may seem useless, but it can be used to make stock, a delicious jelly, or as fuel.",
     "price": 1,
     "price_postapoc": 1,
-    "material": [ "veggy" ],
+    "material": [ "veggy", "wood" ],
     "volume": "465 ml",
     "fun": -8,
     "flags": [ "RAW" ]

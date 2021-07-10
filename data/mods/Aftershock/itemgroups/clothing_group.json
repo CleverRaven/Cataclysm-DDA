@@ -172,5 +172,19 @@
         "prob": 60
       }
     ]
+  },
+  {
+    "id": "wardrobe_unisex_afs",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "group": "shoes_unisex_afs", "prob": 50 },
+      { "group": "common_gloves_afs", "prob": 20 },
+      { "group": "pants_unisex_afs", "prob": 10 },
+      { "group": "coats_unisex_afs", "prob": 50 },
+      { "group": "hatstore_hats_afs", "prob": 20 },
+      { "group": "scarfs_unisex_afs", "prob": 20 },
+      { "group": "shirts_unisex_afs", "prob": 10 }
+    ]
   }
 ]

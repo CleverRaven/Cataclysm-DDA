@@ -64,8 +64,8 @@ def write_to_json(pathname: str, data: Union[dict, list]) -> None:
     '''
     Write data to a JSON file
     '''
-    with open(pathname, 'w') as file:
-        json.dump(data, file)
+    with open(pathname, 'w', encoding="utf-8") as file:
+        json.dump(data, file, ensure_ascii=False)
 
     json_formatter = './tools/format/json_formatter.cgi'
     if os.path.isfile(json_formatter):
@@ -95,7 +95,7 @@ def read_properties(filepath: str) -> dict:
     '''
     tileset.txt reader
     '''
-    with open(filepath, 'r') as file:
+    with open(filepath, 'r', encoding="utf-8") as file:
         pairs = {}
         for line in file.readlines():
             line = line.strip()
@@ -155,7 +155,7 @@ class Tileset:
         if not os.access(info_path, os.R_OK):
             raise ComposingException(f'Error: cannot open {info_path}')
 
-        with open(info_path, 'r') as file:
+        with open(info_path, 'r', encoding="utf-8") as file:
             self.info = json.load(file)
             self.sprite_width = self.info[0].get('width', self.sprite_width)
             self.sprite_height = self.info[0].get('height', self.sprite_height)
@@ -474,7 +474,7 @@ class Tilesheet:
         '''
         Load and store tile entries from the file
         '''
-        with open(filepath, 'r') as file:
+        with open(filepath, 'r', encoding="utf-8") as file:
             try:
                 tile_entries = json.load(file)
             except Exception:

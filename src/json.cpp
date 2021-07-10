@@ -539,6 +539,12 @@ void JsonArray::verify_index( const size_t i ) const
 
 /* iterative access */
 
+JsonValue JsonArray::next()
+{
+    verify_index( index );
+    return JsonValue( *jsin, positions[index++] );
+}
+
 bool JsonArray::next_bool()
 {
     verify_index( index );
