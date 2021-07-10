@@ -127,6 +127,7 @@
       { "proficiency": "prof_toolsmithing" }
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ]
+  },
   {
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
