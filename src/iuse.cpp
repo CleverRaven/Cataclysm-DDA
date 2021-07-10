@@ -2819,8 +2819,7 @@ cata::optional<int> iuse::dig( player *p, item *it, bool t, const tripoint & )
         p->add_msg_if_player(
             _( "There's already a pit here!" ) );
         return cata::nullopt;
-    }
-    else if( !can_dig_here ) {
+    } else if( !can_dig_here ) {
         p->add_msg_if_player(
             _( "You can't dig a pit in this location.  Ensure it is clear diggable ground with no items or obstacles." ) );
         return cata::nullopt;
