@@ -31,7 +31,9 @@ static void spawn_main_npc()
 static void respawn_main_npc()
 {
     npc *guy = g->critter_at<npc>( main_npc_start_tripoint );
-    guy->die( nullptr );
+    if( guy ) {
+        guy->die( nullptr );
+    }
     spawn_main_npc();
 }
 
