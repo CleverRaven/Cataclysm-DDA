@@ -29,5 +29,30 @@
     "max_level": 35,
     "base_casting_time": 350,
     "energy_source": "MANA"
+  },
+  {
+    "id": "sunmage_pocket_sun",
+    "type": "SPELL",
+    "name": "Pocket Sun",
+    "description": "You create a stable gap in the fabric of reality near the sun, through which you can draw on its light and temperature.",
+    "valid_targets": [ "self", "ally", "ground" ],
+    "flags": [ "NO_LEGS", "CONCENTRATE", "VERBAL", "NO_PROJECTILE" ],
+    "min_damage": 1,
+    "max_damage": 1,
+    "effect": "spawn_item",
+    "effect_str": "pocket_sun",
+    "shape": "blast",
+    "energy_source": "MANA",
+    "spell_class": "SUN_MAGE",
+    "min_range": 5,
+    "max_range": 35,
+    "range_increment": 1.0,
+    "difficulty": 6,
+    "max_level": 40,
+    "base_casting_time": 150,
+    "base_energy_cost": 600,
+    "min_duration": 1000000,
+    "max_duration": 10000000,
+    "duration_increment": 225000
   }
 ]
