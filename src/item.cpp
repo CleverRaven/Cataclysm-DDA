@@ -2170,10 +2170,11 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
             info.emplace_back( "AMMO", space + _( "Armor-pierce: " ), get_ranged_pierce( ammo ) );
         }
         if( parts->test( iteminfo_parts::AMMO_DAMAGE_RANGE ) ) {
-            info.emplace_back( "AMMO", _( "Range: " ), "", iteminfo::no_newline, ammo.range );
+            info.emplace_back( "AMMO", _( "Range: " ), "<num>" + space,
+                               iteminfo::no_newline, ammo.range );
         }
         if( ammo.range_multiplier != 1.0f && parts->test( iteminfo_parts::AMMO_DAMAGE_RANGE_MULTIPLIER ) ) {
-            info.emplace_back( "AMMO", space + _( "Range Multiplier: " ), "",
+            info.emplace_back( "AMMO", _( "Range Multiplier: " ), "<num>",
                                iteminfo::is_decimal, ammo.range_multiplier );
         }
         if( parts->test( iteminfo_parts::AMMO_DAMAGE_DISPERSION ) ) {
