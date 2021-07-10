@@ -8,6 +8,7 @@
 #include <vector>
 
 #include "enums.h"
+#include "flat_set.h"
 #include "optional.h"
 #include "omdata.h"
 #include "type_id.h"
@@ -142,6 +143,7 @@ class uistatedata
 
         std::set<recipe_id> hidden_recipes;
         std::set<recipe_id> favorite_recipes;
+        cata::flat_set<recipe_id> read_recipes;
         std::vector<recipe_id> recent_recipes;
 
         bionic_ui_sort_mode bionic_sort_mode = bionic_ui_sort_mode::POWER;
@@ -202,6 +204,7 @@ class uistatedata
             json.member( "list_item_priority_active", list_item_priority_active );
             json.member( "hidden_recipes", hidden_recipes );
             json.member( "favorite_recipes", favorite_recipes );
+            json.member( "read_recipes", read_recipes );
             json.member( "recent_recipes", recent_recipes );
             json.member( "bionic_ui_sort_mode", bionic_sort_mode );
             json.member( "overmap_debug_weather", overmap_debug_weather );
@@ -250,6 +253,7 @@ class uistatedata
             jo.read( "overmap_show_forest_trails", overmap_show_forest_trails );
             jo.read( "hidden_recipes", hidden_recipes );
             jo.read( "favorite_recipes", favorite_recipes );
+            jo.read( "read_recipes", read_recipes );
             jo.read( "recent_recipes", recent_recipes );
             jo.read( "bionic_ui_sort_mode", bionic_sort_mode );
             jo.read( "overmap_debug_weather", overmap_debug_weather );

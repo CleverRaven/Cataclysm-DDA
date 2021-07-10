@@ -415,6 +415,8 @@ const recipe *select_crafting_recipe( int &batch_size_out )
     ctxt.register_action( "CYCLE_BATCH" );
     ctxt.register_action( "RELATED_RECIPES" );
     ctxt.register_action( "HIDE_SHOW_RECIPE" );
+    ctxt.register_action( "TOGGLE_RECIPE_UNREAD" );
+    ctxt.register_action( "MARK_ALL_RECIPES_READ" );
 
     catacurses::window w_head;
     catacurses::window w_subhead;
@@ -450,6 +452,8 @@ const recipe *select_crafting_recipe( int &batch_size_out )
         add_action_desc( "HELP_RECIPE", pgettext( "crafting gui", "Describe" ) );
         add_action_desc( "FILTER", pgettext( "crafting gui", "Filter" ) );
         add_action_desc( "RESET_FILTER", pgettext( "crafting gui", "Reset filter" ) );
+        add_action_desc( "TOGGLE_RECIPE_UNREAD", pgettext( "crafting gui", "Read/unread" ) );
+        add_action_desc( "MARK_ALL_RECIPES_READ", pgettext( "crafting gui", "Mark all as read" ) );
         add_action_desc( "HIDE_SHOW_RECIPE", pgettext( "crafting gui", "Show/hide" ) );
         add_action_desc( "RELATED_RECIPES", pgettext( "crafting gui", "Related" ) );
         add_action_desc( "TOGGLE_FAVORITE", pgettext( "crafting gui", "Favorite" ) );
@@ -490,6 +494,7 @@ const recipe *select_crafting_recipe( int &batch_size_out )
     std::vector<const recipe *> current;
     std::vector<availability> available;
     int line = 0;
+    bool user_moved_line = false;
     bool recalc = true;
     bool keepline = false;
     bool done = false;
@@ -537,73 +542,49 @@ const recipe *select_crafting_recipe( int &batch_size_out )
         mvwputch( w_data, point( 0, dataHeight - 1 ), BORDER_COLOR, LINE_XXOO ); // |_
         mvwputch( w_data, point( width - 1, dataHeight - 1 ), BORDER_COLOR, LINE_XOOX ); // _|
 
+        const std::string new_recipe_str = pgettext( "crafting gui", "NEW!" );
+        const nc_color new_recipe_str_col = c_light_green;
+        const int new_recipe_str_width = utf8_width( new_recipe_str );
         const int max_recipe_name_width = 27;
         cata::optional<point> cursor_pos;
         int recmin = 0;
         int recmax = current.size();
+        int istart = 0;
+        int iend = 0;
         if( recmax > dataLines ) {
             if( line <= recmin + dataHalfLines ) {
-                for( int i = recmin; i < recmin + dataLines; ++i ) {
-                    std::string tmp_name = current[i]->result_name();
-                    if( batch ) {
-                        tmp_name = string_format( _( "%2dx %s" ), i + 1, tmp_name );
-                    }
-                    mvwprintz( w_data, point( 2, i - recmin ), c_dark_gray, "" ); // Clear the line
-                    const bool highlight = i == line;
-                    const nc_color col = highlight ? available[i].selected_color() : available[i].color();
-                    const point print_from( 2, i - recmin );
-                    if( highlight ) {
-                        cursor_pos = print_from;
-                    }
-                    mvwprintz( w_data, print_from, col, trim_by_length( tmp_name, max_recipe_name_width ) );
-                }
+                istart = recmin;
+                iend = recmin + dataLines;
             } else if( line >= recmax - dataHalfLines ) {
-                for( int i = recmax - dataLines; i < recmax; ++i ) {
-                    std::string tmp_name = current[i]->result_name();
-                    if( batch ) {
-                        tmp_name = string_format( _( "%2dx %s" ), i + 1, tmp_name );
-                    }
-                    mvwprintz( w_data, point( 2, dataLines + i - recmax ), c_light_gray, "" ); // Clear the line
-                    const bool highlight = i == line;
-                    const nc_color col = highlight ? available[i].selected_color() : available[i].color();
-                    const point print_from( 2, dataLines + i - recmax );
-                    if( highlight ) {
-                        cursor_pos = print_from;
-                    }
-                    mvwprintz( w_data, print_from, col,
-                               trim_by_length( tmp_name, max_recipe_name_width ) );
-                }
+                istart = recmax - dataLines;
+                iend = recmax;
             } else {
-                for( int i = line - dataHalfLines; i < line - dataHalfLines + dataLines; ++i ) {
-                    std::string tmp_name = current[i]->result_name();
-                    if( batch ) {
-                        tmp_name = string_format( _( "%2dx %s" ), i + 1, tmp_name );
-                    }
-                    mvwprintz( w_data, point( 2, dataHalfLines + i - line ), c_light_gray, "" ); // Clear the line
-                    const bool highlight = i == line;
-                    const nc_color col = highlight ? available[i].selected_color() : available[i].color();
-                    const point print_from( 2, dataHalfLines + i - line );
-                    if( highlight ) {
-                        cursor_pos = print_from;
-                    }
-                    mvwprintz( w_data, print_from, col,
-                               trim_by_length( tmp_name, max_recipe_name_width ) );
-                }
+                istart = line - dataHalfLines;
+                iend = line - dataHalfLines + dataLines;
             }
         } else {
-            for( int i = 0; i < static_cast<int>( current.size() ) && i < dataHeight + 1; ++i ) {
-                std::string tmp_name = current[i]->result_name();
-                if( batch ) {
-                    tmp_name = string_format( _( "%2dx %s" ), i + 1, tmp_name );
-                }
-                const bool highlight = i == line;
-                const nc_color col = highlight ? available[i].selected_color() : available[i].color();
-                const point print_from( 2, i );
-                if( highlight ) {
-                    cursor_pos = print_from;
-                }
-                mvwprintz( w_data, print_from, col, trim_by_length( tmp_name, max_recipe_name_width ) );
+            istart = 0;
+            iend = std::min<int>( current.size(), dataHeight + 1 );
+        }
+        for( int i = istart; i < iend; ++i ) {
+            std::string tmp_name = current[i]->result_name();
+            if( batch ) {
+                tmp_name = string_format( _( "%2dx %s" ), i + 1, tmp_name );
             }
+            const bool rcp_read = uistate.read_recipes.count( current[i]->ident() );
+            const bool highlight = i == line;
+            const nc_color col = highlight ? available[i].selected_color() : available[i].color();
+            const point print_from( 2, i - istart );
+            if( highlight ) {
+                cursor_pos = print_from;
+            }
+            int rcp_name_trim_width = max_recipe_name_width;
+            if( !rcp_read ) {
+                const point offset( max_recipe_name_width - new_recipe_str_width, 0 );
+                mvwprintz( w_data, print_from + offset, new_recipe_str_col, "%s", new_recipe_str );
+                rcp_name_trim_width -= new_recipe_str_width + 1;
+            }
+            mvwprintz( w_data, print_from, col, trim_by_length( tmp_name, rcp_name_trim_width ) );
         }
 
         const int batch_size = batch ? line + 1 : 1;
@@ -852,6 +833,14 @@ const recipe *select_crafting_recipe( int &batch_size_out )
             }
         }
 
+        if( !current.empty() && user_moved_line ) {
+            // only automatically mark as read when moving cursor up and down by
+            // on line, which means that the user is likely reading through the
+            // list.
+            user_moved_line = false;
+            uistate.read_recipes.insert( current[line]->ident() );
+        }
+
         ui_manager::redraw();
         const int scroll_item_info_lines = catacurses::getmaxy( w_iteminfo ) - 4;
         const std::string action = ctxt.handle_input();
@@ -891,8 +880,10 @@ const recipe *select_crafting_recipe( int &batch_size_out )
             recalc = true;
         } else if( action == "DOWN" ) {
             line++;
+            user_moved_line = true;
         } else if( action == "UP" ) {
             line--;
+            user_moved_line = true;
         } else if( action == "PAGE_DOWN" ) {
             if( line == recmax - 1 ) {
                 line = 0;
@@ -1061,6 +1052,22 @@ const recipe *select_crafting_recipe( int &batch_size_out )
             }
 
             recalc = true;
+        } else if( action == "TOGGLE_RECIPE_UNREAD" ) {
+            if( current.empty() ) {
+                continue;
+            }
+            const recipe_id rcp = current[line]->ident();
+            if( uistate.read_recipes.count( rcp ) ) {
+                uistate.read_recipes.erase( rcp );
+            } else {
+                uistate.read_recipes.insert( rcp );
+            }
+        } else if( action == "MARK_ALL_RECIPES_READ" ) {
+            if( query_yn( _( "Mark all recipes as read?  This cannot be undone." ) ) ) {
+                for( const recipe *const rcp : available_recipes ) {
+                    uistate.read_recipes.insert( rcp->ident() );
+                }
+            }
         } else if( action == "RELATED_RECIPES" ) {
             if( current.empty() ) {
                 popup( _( "Nothing selected!  Press [<color_yellow>ESC</color>]!" ) );
