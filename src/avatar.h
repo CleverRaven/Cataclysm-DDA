@@ -72,9 +72,11 @@ class avatar : public player
     public:
         avatar();
         avatar( const avatar & ) = delete;
+        // NOLINTNEXTLINE(performance-noexcept-move-constructor)
         avatar( avatar && );
         ~avatar();
         avatar &operator=( const avatar & ) = delete;
+        // NOLINTNEXTLINE(performance-noexcept-move-constructor)
         avatar &operator=( avatar && );
 
         void store( JsonOut &json ) const;
