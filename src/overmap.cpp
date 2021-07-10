@@ -575,6 +575,8 @@ void oter_type_t::load( const JsonObject &jo, const std::string &src )
     const auto flag_reader = make_flag_reader( oter_flags_map, "overmap terrain flag" );
     optional( jo, was_loaded, "flags", flags, flag_reader );
 
+    optional( jo, was_loaded, "connect_group", connect_group, string_reader{} );
+
     if( has_flag( oter_flags::line_drawing ) ) {
         if( has_flag( oter_flags::no_rotate ) ) {
             jo.throw_error( R"(Mutually exclusive flags: "NO_ROTATE" and "LINEAR".)" );
