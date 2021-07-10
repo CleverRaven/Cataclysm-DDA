@@ -2135,6 +2135,12 @@ void options_manager::add_options_world_default()
          0.0, 100, 4.0, 0.01
        );
 
+    add( "ALLOW_FILTHY", "world_default",
+         to_translation( "Allow filthy clothing" ),
+         to_translation( "Controls whether clothing dropped by zombies is allowed to be filthy." ),
+         true
+       );
+
     add_empty_line();
 
     add( "MONSTER_SPEED", "world_default", to_translation( "Monster speed" ),

@@ -2537,7 +2537,8 @@ void monster::drop_items_on_death()
     std::vector<item *> dropped = get_map().place_items( type->death_drops, 100, pos(), pos(), true,
                                   calendar::start_of_cataclysm );
 
-    if( has_flag( MF_FILTHY ) ) {
+    if( ( has_flag( MF_FILTHY ) ) && get_option<bool>( "ALLOW_FILTHY" ) ) {
+        // If the monster drops filthy clothing and the game option to allow filthy clothing is true
         for( const auto &it : dropped ) {
             if( ( it->is_armor() || it->is_pet_armor() ) && !it->is_gun() ) {
                 // handle wearable guns as a special case
