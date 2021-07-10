@@ -240,8 +240,8 @@
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted M1014 shotgun" },
-    "item": "m1014",
-    "breaks_into": [ { "item": "m1014", "prob": 50 } ],
+    "item": "mossberg_930",
+    "breaks_into": [ { "item": "mossberg_930", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {

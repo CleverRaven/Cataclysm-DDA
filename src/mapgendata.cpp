@@ -46,6 +46,13 @@ mapgendata::mapgendata( const mapgendata &other, const oter_id &other_id ) : map
     terrain_type_ = other_id;
 }
 
+mapgendata::mapgendata( const mapgendata &other,
+                        const std::unordered_map<std::string, cata_variant> &mapgen_params ) :
+    mapgendata( other )
+{
+    mapgen_params_ = mapgen_params;
+}
+
 void mapgendata::set_dir( int dir_in, int val )
 {
     switch( dir_in ) {

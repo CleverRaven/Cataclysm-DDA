@@ -55,10 +55,19 @@ enum class mod : int {
     FOOTSTEP_NOISE,
     SIGHT_RANGE,
     CARRY_WEIGHT,
+    WEAPON_DISPERSION,
     SOCIAL_LIE,
     SOCIAL_PERSUADE,
     SOCIAL_INTIMIDATE,
     SLEEPY,
+    LUMINATION,
+    EFFECTIVE_HEALTH_MOD,
+    MOD_HEALTH,
+    MOD_HEALTH_CAP,
+    MAP_MEMORY,
+    READING_EXP,
+    SKILL_RUST_RESIST,
+    LEARNING_FOCUS,
     ARMOR_BASH,
     ARMOR_CUT,
     ARMOR_STAB,
@@ -117,6 +126,7 @@ class enchantment
             UNDERGROUND,
             UNDERWATER,
             ACTIVE, // the item, mutation, etc. is active
+            INACTIVE, // the item, mutation, etc. is inactive
             NUM_CONDITION
         };
 

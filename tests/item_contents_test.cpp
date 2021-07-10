@@ -18,6 +18,10 @@ TEST_CASE( "item_contents" )
     const units::volume tool_belt_vol = tool_belt.volume();
     const units::mass tool_belt_weight = tool_belt.weight();
 
+    //check empty weight is consistent
+    CHECK( tool_belt.weight( true ) == tool_belt.type->weight );
+    CHECK( tool_belt.weight( false ) == tool_belt.type->weight );
+
     item hammer( "hammer" );
     item tongs( "tongs" );
     item wrench( "wrench" );
@@ -53,6 +57,8 @@ TEST_CASE( "item_contents" )
     // check that the tool belt's weight adds up all its contents properly
     CHECK( tool_belt.weight() == tool_belt_weight +
            hammer.weight() + tongs.weight() + wrench.weight() + crowbar.weight() );
+    // check that individual (not including contained items) weight is correct
+    CHECK( tool_belt.weight( false ) == tool_belt.type->weight );
     // check that the tool belt is "full"
     CHECK( !tool_belt.contents.can_contain( crowbar ).success() );
 

@@ -1390,6 +1390,8 @@
     "color": "brown",
     "move_cost": 0,
     "coverage": 95,
+    "lockpick_result": "t_door_c",
+    "lockpick_message": "With a satisfying click, the lock on the door opens.",
     "roof": "t_flat_roof",
     "flags": [
       "FLAMMABLE_ASH",
@@ -1428,6 +1430,8 @@
     "color": "brown",
     "move_cost": 0,
     "coverage": 95,
+    "lockpick_result": "t_door_c",
+    "lockpick_message": "With a satisfying click, the lock on the door opens.",
     "roof": "t_flat_roof",
     "flags": [
       "FLAMMABLE_ASH",
@@ -1468,6 +1472,8 @@
     "color": "brown",
     "move_cost": 0,
     "coverage": 95,
+    "lockpick_result": "t_door_c_peep",
+    "lockpick_message": "With a satisfying click, the lock on the door opens.",
     "roof": "t_flat_roof",
     "flags": [
       "FLAMMABLE_ASH",
@@ -1508,6 +1514,8 @@
     "color": "brown",
     "move_cost": 0,
     "coverage": 95,
+    "lockpick_result": "t_door_c",
+    "lockpick_message": "With a satisfying click, the lock on the door opens.",
     "roof": "t_flat_roof",
     "flags": [
       "FLAMMABLE_ASH",
@@ -2176,6 +2184,8 @@
     "color": "cyan",
     "move_cost": 0,
     "coverage": 95,
+    "lockpick_result": "t_door_metal_c",
+    "lockpick_message": "With a satisfying click, the lock on the door opens.",
     "roof": "t_flat_roof",
     "flags": [ "NOITEM", "REDUCE_SCENT", "OPENCLOSE_INSIDE", "CONNECT_TO_WALL", "LOCKED", "BLOCK_WIND", "PICKABLE" ],
     "open": "t_door_metal_o",
@@ -2259,6 +2269,8 @@
     "color": "cyan",
     "move_cost": 0,
     "roof": "t_flat_roof",
+    "lockpick_result": "t_door_bar_o",
+    "lockpick_message": "The door swings open…",
     "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "CONNECT_TO_WALL", "LOCKED", "THIN_OBSTACLE", "PICKABLE" ],
     "examine_action": "locked_object_pickable",
     "bash": {

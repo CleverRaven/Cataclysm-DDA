@@ -5,7 +5,7 @@
     "symbol": "*",
     "color": "light_gray",
     "name": { "str": "flaking rock" },
-    "description": "A rock the size of a baseball, which chips in a semi-predictable way if stuck, leaving a sharp edge.  Makes a decent melee weapon, and is also good for throwing at enemies.",
+    "description": "A rock the size of a baseball, which chips in a semi-predictable way if struck, leaving a sharp edge.  Makes a decent melee weapon, and is also good for throwing at enemies.",
     "category": "spare_parts",
     "material": [ "stone" ],
     "ammo_type": "rock",

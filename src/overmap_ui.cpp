@@ -1513,9 +1513,18 @@ static void place_ter_or_special( const ui_adaptor &om_ui, tripoint_abs_omt &cur
     }
 }
 
+static int overmap_zoom_level = DEFAULT_TILESET_ZOOM;
+
 static tripoint_abs_omt display( const tripoint_abs_omt &orig,
                                  const draw_data_t &data = draw_data_t() )
 {
+    const int previous_zoom = g->get_zoom();
+    g->set_zoom( overmap_zoom_level );
+    on_out_of_scope reset_zoom( [&]() {
+        overmap_zoom_level = g->get_zoom();
+        g->set_zoom( previous_zoom );
+    } );
+
     background_pane bg_pane;
 
     ui_adaptor ui;

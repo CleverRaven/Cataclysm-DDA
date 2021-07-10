@@ -17,6 +17,7 @@
 
 #include "avatar.h"
 #include "bodypart.h"
+#include "bionics.h"
 #include "cached_options.h"
 #include "calendar.h"
 #include "cata_utility.h"
@@ -68,7 +69,6 @@
 #include "weighted_list.h"
 
 static const bionic_id bio_cqb( "bio_cqb" );
-static const bionic_id bio_memory( "bio_memory" );
 
 static const itype_id itype_fur( "fur" );
 static const itype_id itype_leather( "leather" );
@@ -103,6 +103,7 @@ static const efftype_id effect_venom_weaken( "venom_weaken" );
 static const efftype_id effect_venom_player1( "venom_player1" );
 static const efftype_id effect_venom_player2( "venom_player2" );
 
+static const json_character_flag json_flag_CBQ_LEARN_BONUS( "CBQ_LEARN_BONUS" );
 static const json_character_flag json_flag_NEED_ACTIVE_TO_MELEE( "NEED_ACTIVE_TO_MELEE" );
 static const json_character_flag json_flag_UNARMED_BONUS( "UNARMED_BONUS" );
 
@@ -535,11 +536,13 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
         }
     }
 
-    if( cur_weapon->attack_time() > attack_speed( *cur_weapon ) * 20 ) {
+    int move_cost = attack_speed( cur_weapon->has_flag( flag_UNARMED_WEAPON ) ?
+                                  null_item_reference() : *cur_weapon );
+
+    if( cur_weapon->attack_time() > move_cost * 20 ) {
         add_msg( m_bad, _( "This weapon is too unwieldy to attack with!" ) );
         return false;
     }
-    int move_cost = attack_speed( *cur_weapon );
 
     if( is_avatar() && move_cost > 1000 && calendar::turn > melee_warning_turn ) {
         const auto &action = query_popup()
@@ -577,6 +580,9 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
     if( !hits ) {
         int stumble_pen = stumble( *this, *cur_weapon );
         sfx::generate_melee_sound( pos(), t.pos(), false, false );
+
+        const ma_technique miss_recovery = martial_arts_data->get_miss_recovery( *this );
+
         if( is_player() ) { // Only display messages if this is the player
 
             if( one_in( 2 ) ) {
@@ -586,9 +592,8 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
                 }
             }
 
-            if( can_miss_recovery( *cur_weapon ) ) {
-                ma_technique tec = martial_arts_data->get_miss_recovery_tec( *cur_weapon );
-                add_msg( tec.avatar_message.translated(), t.disp_name() );
+            if( miss_recovery.id != tec_none ) {
+                add_msg( miss_recovery.avatar_message.translated(), t.disp_name() );
             } else if( stumble_pen >= 60 ) {
                 add_msg( m_bad, _( "You miss and stumble with the momentum." ) );
             } else if( stumble_pen >= 10 ) {
@@ -597,7 +602,9 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
                 add_msg( _( "You miss." ) );
             }
         } else if( player_character.sees( *this ) ) {
-            if( stumble_pen >= 60 ) {
+            if( miss_recovery.id != tec_none ) {
+                add_msg( miss_recovery.npc_message.translated(), t.disp_name() );
+            } else if( stumble_pen >= 60 ) {
                 add_msg( _( "%s misses and stumbles with the momentum." ), name );
             } else if( stumble_pen >= 10 ) {
                 add_msg( _( "%s swings wildly and misses." ), name );
@@ -613,7 +620,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
 
         // Cap stumble penalty, heavy weapons are quite weak already
         move_cost += std::min( 60, stumble_pen );
-        if( martial_arts_data->has_miss_recovery_tec( *cur_weapon ) ) {
+        if( miss_recovery.id != tec_none ) {
             move_cost /= 2;
         }
 
@@ -670,8 +677,8 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
         if( has_active_bionic( bio_cqb ) && !martial_arts_data->knows_selected_style() ) {
             /** @EFFECT_INT slightly increases chance to learn techniques when using CQB bionic */
             // Enhanced Memory Banks bionic doubles chance to learn martial art
-            const int bionic_boost = has_active_bionic( bionic_id( bio_memory ) ) ? 2 : 1;
-            if( one_in( ( 1400 - ( get_int() * 50 ) ) / bionic_boost ) ) {
+            const int learn_boost = has_flag( json_flag_CBQ_LEARN_BONUS ) ? 2 : 1;
+            if( one_in( ( 1400 - ( get_int() * 50 ) ) / learn_boost ) ) {
                 martial_arts_data->learn_current_style_CQB( is_player() );
             }
         }
@@ -857,8 +864,12 @@ void Character::reach_attack( const tripoint &p )
 
     if( critter == nullptr ) {
         add_msg_if_player( _( "You swing at the air." ) );
-        if( martial_arts_data->has_miss_recovery_tec( weapon ) ) {
+
+        const ma_technique miss_recovery = martial_arts_data->get_miss_recovery( *this );
+
+        if( miss_recovery.id != tec_none ) {
             move_cost /= 3; // "Probing" is faster than a regular miss
+            // Communicate this with a different message?
         }
 
         mod_moves( -move_cost );
@@ -976,7 +987,7 @@ float Character::get_dodge() const
 {
     //If we're asleep or busy we can't dodge
     if( in_sleep_state() || has_effect( effect_narcosis ) ||
-        has_effect( efftype_id( "winded" ) ) ) {
+        has_effect( efftype_id( "winded" ) ) || is_driving() ) {
         return 0.0f;
     }
 
@@ -1774,7 +1785,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
 
     // Shouldn't block if player is asleep or winded
     if( in_sleep_state() || has_effect( effect_narcosis ) ||
-        has_effect( efftype_id( "winded" ) ) ) {
+        has_effect( efftype_id( "winded" ) ) || is_driving() ) {
         return false;
     }
 
@@ -2016,9 +2027,10 @@ std::string Character::melee_special_effects( Creature &t, damage_instance &d, i
 
     std::string target = t.disp_name();
 
-    if( has_active_bionic( bionic_id( "bio_shock" ) ) && get_power_level() >= 2_kJ &&
+    const bionic_id bio_shock( "bio_shock" );
+    if( has_active_bionic( bio_shock ) && get_power_level() >= bio_shock->power_trigger &&
         ( !is_armed() || weapon.conductive() ) ) {
-        mod_power_level( -2_kJ );
+        mod_power_level( -bio_shock->power_trigger );
         d.add_damage( damage_type::ELECTRIC, rng( 2, 10 ) );
 
         if( is_player() ) {
@@ -2028,8 +2040,9 @@ std::string Character::melee_special_effects( Creature &t, damage_instance &d, i
         }
     }
 
-    if( has_active_bionic( bionic_id( "bio_heat_absorb" ) ) && !is_armed() && t.is_warm() ) {
-        mod_power_level( 3_kJ );
+    const bionic_id bio_heat_absorb( "bio_heat_absorb" );
+    if( has_active_bionic( bio_heat_absorb ) && !is_armed() && t.is_warm() ) {
+        mod_power_level( bio_heat_absorb->power_trigger );
         d.add_damage( damage_type::COLD, 3 );
         if( is_player() ) {
             dump += string_format( _( "You drain %s's body heat." ), target ) + "\n";
