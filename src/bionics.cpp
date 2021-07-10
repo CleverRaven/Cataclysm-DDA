@@ -524,7 +524,7 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
 
     if( bio.info().has_flag( json_flag_BIONIC_GUN ) ) {
         if( bio.info().fake_item.is_empty() ) {
-            debugmsg( "tried to activate bionic %s that is missing its fake_item gun", bio.info().id.str() );
+            debugmsg( "tried to activate gun bionic %s that is missing its fake_item", bio.info().id.str() );
             return;
         }
 
@@ -551,7 +551,7 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
     } else if( bio.info().has_flag( json_flag_BIONIC_WEAPON ) && !weapon.has_flag( flag_NO_UNWIELD ) &&
                free_power > bio.info().power_activate ) {
         if( bio.info().fake_item.is_empty() ) {
-            debugmsg( "tried to activate bionic %s that is missing its fake_item weapon", bio.info().id.str() );
+            debugmsg( "tried to activate weapon bionic %s that is missing its fake_item", bio.info().id.str() );
             return;
         }
 
@@ -651,8 +651,8 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
                                            bio.info().power_activate );
     } else if( bio.info().has_flag( json_flag_BIONIC_WEAPON ) ) {
         if( bio.info().fake_item.is_empty() ) {
-            debugmsg( "tried to activate bionic %s that is missing its fake_item weapon", bio.info().id.str() );
-            return;
+            debugmsg( "tried to activate weapon bionic %s that is missing its fake_item", bio.info().id.str() );
+            return false;
         }
 
         if( weapon.has_flag( flag_NO_UNWIELD ) ) {
