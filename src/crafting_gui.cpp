@@ -417,6 +417,7 @@ const recipe *select_crafting_recipe( int &batch_size_out )
     ctxt.register_action( "HIDE_SHOW_RECIPE" );
     ctxt.register_action( "TOGGLE_RECIPE_UNREAD" );
     ctxt.register_action( "MARK_ALL_RECIPES_READ" );
+    ctxt.register_action( "TOGGLE_UNREAD_RECIPES_FIRST" );
 
     catacurses::window w_head;
     catacurses::window w_subhead;
@@ -454,6 +455,8 @@ const recipe *select_crafting_recipe( int &batch_size_out )
         add_action_desc( "RESET_FILTER", pgettext( "crafting gui", "Reset filter" ) );
         add_action_desc( "TOGGLE_RECIPE_UNREAD", pgettext( "crafting gui", "Read/unread" ) );
         add_action_desc( "MARK_ALL_RECIPES_READ", pgettext( "crafting gui", "Mark all as read" ) );
+        add_action_desc( "TOGGLE_UNREAD_RECIPES_FIRST",
+                         pgettext( "crafting gui", "Show unread recipes first" ) );
         add_action_desc( "HIDE_SHOW_RECIPE", pgettext( "crafting gui", "Show/hide" ) );
         add_action_desc( "RELATED_RECIPES", pgettext( "crafting gui", "Related" ) );
         add_action_desc( "TOGGLE_FAVORITE", pgettext( "crafting gui", "Favorite" ) );
@@ -494,6 +497,7 @@ const recipe *select_crafting_recipe( int &batch_size_out )
     std::vector<const recipe *> current;
     std::vector<availability> available;
     int line = 0;
+    bool unread_recipes_first = false;
     bool user_moved_line = false;
     bool recalc = true;
     bool keepline = false;
@@ -800,8 +804,21 @@ const recipe *select_crafting_recipe( int &batch_size_out )
                 }
 
                 if( subtab.cur() != "CSC_*_RECENT" ) {
-                    std::stable_sort( current.begin(), current.end(),
-                    [&player_character]( const recipe * a, const recipe * b ) {
+                    std::stable_sort( current.begin(), current.end(), [
+                       &player_character, &availability_cache, unread_recipes_first
+                    ]( const recipe * const a, const recipe * const b ) {
+                        if( unread_recipes_first ) {
+                            const bool a_read = uistate.read_recipes.count( a->ident() );
+                            const bool b_read = uistate.read_recipes.count( b->ident() );
+                            if( a_read != b_read ) {
+                                return !a_read;
+                            }
+                        }
+                        const bool can_craft_a = availability_cache.at( a ).can_craft;
+                        const bool can_craft_b = availability_cache.at( b ).can_craft;
+                        if( can_craft_a != can_craft_b ) {
+                            return can_craft_a;
+                        }
                         if( b->difficulty != a->difficulty ) {
                             return b->difficulty < a->difficulty;
                         }
@@ -810,12 +827,6 @@ const recipe *select_crafting_recipe( int &batch_size_out )
                         }
                         return b->time_to_craft( player_character ) <
                                a->time_to_craft( player_character );
-                    } );
-
-                    std::stable_sort( current.begin(), current.end(),
-                    [&]( const recipe * a, const recipe * b ) {
-                        return availability_cache.at( a ).can_craft &&
-                               !availability_cache.at( b ).can_craft;
                     } );
                 }
 
@@ -1068,6 +1079,9 @@ const recipe *select_crafting_recipe( int &batch_size_out )
                     uistate.read_recipes.insert( rcp->ident() );
                 }
             }
+        } else if( action == "TOGGLE_UNREAD_RECIPES_FIRST" ) {
+            unread_recipes_first = !unread_recipes_first;
+            recalc = true;
         } else if( action == "RELATED_RECIPES" ) {
             if( current.empty() ) {
                 popup( _( "Nothing selected!  Press [<color_yellow>ESC</color>]!" ) );
