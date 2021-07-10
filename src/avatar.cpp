@@ -126,7 +126,9 @@ avatar::avatar()
 }
 
 avatar::~avatar() = default;
+// NOLINTNEXTLINE(performance-noexcept-move-constructor)
 avatar::avatar( avatar && ) = default;
+// NOLINTNEXTLINE(performance-noexcept-move-constructor)
 avatar &avatar::operator=( avatar && ) = default;
 
 void avatar::toggle_map_memory()
