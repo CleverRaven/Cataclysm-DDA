@@ -1246,8 +1246,6 @@ void map::apply_light_arc( const tripoint &p, const units::angle &angle, float l
         return;
     }
 
-    bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y] {};
-
     apply_light_source( p, LIGHT_SOURCE_LOCAL );
 
     const point p2( p.xy() );
@@ -1258,8 +1256,6 @@ void map::apply_light_arc( const tripoint &p, const units::angle &angle, float l
 
     // Normalize (should work with negative values too)
     units::angle wangle = wideangle / 2.0;
-
-    units::angle nangle = normalize( angle );
     units::angle oangle = angle - wangle;
     units::angle cangle = angle + wangle;
 
@@ -1268,7 +1264,6 @@ void map::apply_light_arc( const tripoint &p, const units::angle &angle, float l
         if( fmod( oangle, 45_degrees ) != 0_degrees ) {
             units::angle preangle = oangle;
             oangle = 45_degrees * std::ceil( to_degrees( oangle ) / 45 );
-            units::angle preanglew = units::from_radians( std::abs( ( oangle - preangle ).value() ) );
             switch( static_cast<int>( std::lround( ( preangle + 360_degrees ) / 45_degrees ) ) % 8 ) {
                 case 0:
                     castLight < 0, -1, -1, 0, float, four_quadrants, light_calc, light_check,
