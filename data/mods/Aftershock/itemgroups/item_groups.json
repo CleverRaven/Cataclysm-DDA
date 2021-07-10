@@ -62,10 +62,7 @@
     "type": "item_group",
     "id": "mil_hw",
     "subtype": "distribution",
-    "entries": [
-      { "item": "iv_mutagen_mastodon", "prob": 3 },
-      { "item": "mutagen_mastodon", "prob": 6 }
-    ]
+    "entries": [ { "item": "iv_mutagen_mastodon", "prob": 3 }, { "item": "mutagen_mastodon", "prob": 6 } ]
   },
   {
     "id": "spider",
