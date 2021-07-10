@@ -1138,5 +1138,5 @@
     "autolearn": true,
     "tools": [ [ [ "cordless_drill", 20 ] ] ],
     "components": [ [ [ "sheet_metal_small", 1 ] ] ]
-    }
+  }
 ]
