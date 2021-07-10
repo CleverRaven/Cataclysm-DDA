@@ -16,6 +16,11 @@ class JsonOut;
 class avatar;
 struct point;
 
+namespace activity_level
+{
+const std::string activity_level_str( float level );
+} // namespace activity_level
+
 namespace catacurses
 {
 class window;
