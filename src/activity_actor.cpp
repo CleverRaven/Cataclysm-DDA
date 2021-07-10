@@ -65,6 +65,7 @@
 #include "requirements.h"
 #include "ret_val.h"
 #include "rng.h"
+#include "shearing.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "timed_event.h"
@@ -77,8 +78,8 @@
 #include "vpart_position.h"
 
 static const efftype_id effect_pet( "pet" );
+static const efftype_id effect_sheared( "sheared" );
 static const efftype_id effect_sleep( "sleep" );
-
 static const efftype_id effect_tied( "tied" );
 
 static const itype_id itype_bone_human( "bone_human" );
@@ -100,6 +101,7 @@ static const mtype_id mon_skeleton( "mon_skeleton" );
 static const mtype_id mon_zombie_crawler( "mon_zombie_crawler" );
 
 static const quality_id qual_LOCKPICK( "LOCKPICK" );
+static const quality_id qual_SHEAR( "SHEAR" );
 
 std::string activity_actor::get_progress_message( const player_activity &act ) const
 {
@@ -1182,6 +1184,9 @@ void lockpick_activity_actor::start( player_activity &act, Character & )
 {
     act.moves_left = moves_total;
     act.moves_total = moves_total;
+
+    const time_duration lockpicking_time = time_duration::from_moves( moves_total );
+    add_msg_debug( debugmode::DF_ACT_LOCKPICK, "lockpicking time = %s", to_string( lockpicking_time ) );
 }
 
 void lockpick_activity_actor::finish( player_activity &act, Character &who )
@@ -1206,30 +1211,28 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
     const furn_id furn_type = here.furn( target );
     ter_id new_ter_type;
     furn_id new_furn_type;
-    std::string open_message;
-    if( ter_type == t_chaingate_l ) {
-        new_ter_type = t_chaingate_c;
-        open_message = _( "With a satisfying click, the lock on the gate opens." );
-    } else if( ter_type == t_door_locked || ter_type == t_door_locked_alarm ||
-               ter_type == t_door_locked_interior ) {
-        new_ter_type = t_door_c;
-        open_message = _( "With a satisfying click, the lock on the door opens." );
-    } else if( ter_type == t_door_locked_peep ) {
-        new_ter_type = t_door_c_peep;
-        open_message = _( "With a satisfying click, the lock on the door opens." );
-    } else if( ter_type == t_retractable_gate_l ) {
-        new_ter_type = t_retractable_gate_c;
-        open_message = _( "With a satisfying click, the lock on the gate opens." );
-    } else if( ter_type == t_door_metal_pickable ) {
-        new_ter_type = t_door_metal_c;
-        open_message = _( "With a satisfying click, the lock on the door opens." );
-    } else if( ter_type == t_door_bar_locked ) {
-        new_ter_type = t_door_bar_o;
-        //Bar doors auto-open (and lock if closed again) so show a different message)
-        open_message = _( "The door swings open…" );
-    } else if( furn_type == f_gunsafe_ml ) {
-        new_furn_type = f_safe_o;
-        open_message = _( "With a satisfying click, the lock on the door opens." );
+    std::string open_message = _( "The lock opens…" );
+
+    if( here.has_furn( target ) ) {
+        if( furn_type->lockpick_result.is_null() ) {
+            debugmsg( "%s lockpick_result is null", furn_type.id().str() );
+            return;
+        }
+
+        new_furn_type = furn_type->lockpick_result;
+        if( !furn_type->lockpick_message.empty() ) {
+            open_message = furn_type->lockpick_message.translated();
+        }
+    } else {
+        if( ter_type->lockpick_result.is_null() ) {
+            debugmsg( "%s lockpick_result is null", ter_type.id().str() );
+            return;
+        }
+
+        new_ter_type = ter_type->lockpick_result;
+        if( !ter_type->lockpick_message.empty() ) {
+            open_message = ter_type->lockpick_message.translated();
+        }
     }
 
     bool perfect = it->has_flag( flag_PERFECT_LOCKPICK );
@@ -1464,7 +1467,13 @@ void consume_activity_actor::start( player_activity &act, Character &guy )
     int moves;
     Character &player_character = get_player_character();
     if( consume_location ) {
-        const ret_val<edible_rating> ret = player_character.will_eat( *consume_location, true );
+        ret_val<edible_rating> ret = ret_val<edible_rating>::make_success();
+        if( refuel ) {
+            ret = player_character.can_consume_fuel( *consume_location );
+        } else {
+            ret = player_character.will_eat( *consume_location, true );
+        }
+
         if( !ret.success() ) {
             canceled = true;
             consume_menu_selections = std::vector<int>();
@@ -1474,7 +1483,12 @@ void consume_activity_actor::start( player_activity &act, Character &guy )
         }
         moves = to_moves<int>( guy.get_consume_time( *consume_location ) );
     } else if( !consume_item.is_null() ) {
-        const ret_val<edible_rating> ret = player_character.will_eat( consume_item, true );
+        ret_val<edible_rating> ret = ret_val<edible_rating>::make_success();
+        if( refuel ) {
+            ret = player_character.can_consume_fuel( consume_item );
+        } else {
+            ret = player_character.will_eat( consume_item, true );
+        }
         if( !ret.success() ) {
             canceled = true;
             consume_menu_selections = std::vector<int>();
@@ -1511,9 +1525,9 @@ void consume_activity_actor::finish( player_activity &act, Character & )
     avatar &player_character = get_avatar();
     if( !canceled ) {
         if( consume_loc ) {
-            player_character.consume( consume_loc, /*force=*/true );
+            player_character.consume( consume_loc, /*force=*/true, refuel );
         } else if( !consume_item.is_null() ) {
-            player_character.consume( consume_item, /*force=*/true );
+            player_character.consume( consume_item, /*force=*/true, refuel );
         } else {
             debugmsg( "Item location/name to be consumed should not be null." );
         }
@@ -1679,7 +1693,7 @@ void unload_activity_actor::unload( Character &who, item_location &target )
     if( it.is_container() ) {
         contents_change_handler handler;
         bool changed = false;
-        for( item *contained : it.contents.all_items_top() ) {
+        for( item *contained : it.all_items_top() ) {
             int old_charges = contained->charges;
             const bool consumed = who.add_or_drop_with_msg( *contained, true, &it );
             if( consumed || contained->charges != old_charges ) {
@@ -1700,7 +1714,7 @@ void unload_activity_actor::unload( Character &who, item_location &target )
     }
 
     std::vector<item *> remove_contained;
-    for( item *contained : it.contents.all_items_top() ) {
+    for( item *contained : it.all_items_top() ) {
         if( contained->ammo_type() == ammotype( "plutonium" ) ) {
             contained->charges /= PLUTONIUM_CHARGES;
         }
@@ -2255,7 +2269,7 @@ static std::list<item> obtain_activity_items(
 
         // Take off the item or remove it from the player's inventory
         if( who.is_worn( *loc ) ) {
-            who.as_player()->takeoff( *loc, &res );
+            who.as_player()->takeoff( loc, &res );
         } else if( loc->count_by_charges() ) {
             res.push_back( who.as_player()->reduce_charges( &*loc, it->count() ) );
         } else {
@@ -2487,7 +2501,8 @@ void insert_item_activity_actor::finish( player_activity &act, Character &who )
             if( charges > 0 && holster->can_contain_partial( it ) ) {
                 int result = holster->fill_with( it, charges,
                                                  /*unseal_pockets=*/true,
-                                                 /*allow_sealed=*/true );
+                                                 /*allow_sealed=*/true,
+                                                 /*ignore_settings*/true );
                 success = result > 0;
 
                 if( success ) {
@@ -2763,6 +2778,161 @@ std::unique_ptr<activity_actor> milk_activity_actor::deserialize( JsonIn &jsin )
     return actor.clone();
 }
 
+void shearing_activity_actor::start( player_activity &act, Character &who )
+{
+    monster *mon = g->critter_at<monster>( mon_coords );
+    if( !mon ) {
+        debugmsg( "shearing lost monster when starting" );
+        act.set_to_null();
+        return;
+    }
+
+    std::string pet_name_capitalized = mon->unique_name.empty() ? mon->disp_name( false,
+                                       true ) : mon->unique_name;
+
+    if( !mon->shearable() ) {
+        add_msg( _( "$1%s has nothing %2$s could shear." ), pet_name_capitalized, who.disp_name() );
+        if( shearing_tie ) {
+            mon->remove_effect( effect_tied );
+        }
+        act.set_to_null();
+        return;
+    }
+
+    const int shearing_quality = who.max_quality( qual_SHEAR );
+    if( !( shearing_quality > 0 ) ) {
+        if( who.is_player() ) {
+            add_msg( m_info, _( "%1$s don't have a shearing tool." ), who.disp_name( false, true ) );
+        } else { // who.is_npc
+            // npcs can't shear monsters yet, this is for when they are able to
+            add_msg_if_player_sees( who, _( "%1$s doesn't have a shearing tool." ), who.disp_name(),
+                                    mon->disp_name() );
+        }
+        if( shearing_tie ) {
+            mon->remove_effect( effect_tied );
+        }
+        act.set_to_null();
+        return;
+    }
+
+    const time_duration shearing_time = 30_minutes / shearing_quality;
+    add_msg_debug( debugmode::DF_ACT_SHEARING, "shearing_time time = %s", to_string( shearing_time ) );
+
+    if( who.is_player() ) {
+        add_msg( m_info,
+                 _( "%1$s start shearing %2$s." ), who.disp_name( false, true ), mon->disp_name() );
+    } else { // who.is_npc
+        // npcs can't shear monsters yet, this is for when they are able to
+        add_msg_if_player_sees( who, _( "%1$s starts shearing %2$s." ), who.disp_name(),
+                                mon->disp_name() );
+    }
+
+    act.moves_total = to_moves<int>( shearing_time );
+    act.moves_left = act.moves_total;
+}
+
+void shearing_activity_actor::do_turn( player_activity &, Character &who )
+{
+    if( !who.has_quality( qual_SHEAR ) ) {
+        if( who.is_player() ) {
+            add_msg(
+                m_bad,
+                _( "%1$s don't have a shearing tool anymore." ),
+                who.disp_name( false, true ) );
+        } else {
+            add_msg_if_player_sees(
+                who,
+                _( "%1$s doesn't have a shearing tool anymore." ),
+                who.disp_name() );
+        }
+        who.cancel_activity();
+    }
+}
+
+void shearing_activity_actor::finish( player_activity &act, Character &who )
+{
+    monster *mon = g->critter_at<monster>( mon_coords );
+    if( !mon ) {
+        debugmsg( "shearing monster at position disappeared" );
+        act.set_to_null();
+        return;
+    }
+
+    const shearing_data &shear_data = mon->type->shearing;
+    if( !shear_data.valid() ) {
+        debugmsg( "shearing monster does not have shearing_data" );
+        if( shearing_tie ) {
+            mon->remove_effect( effect_tied );
+        }
+        act.set_to_null();
+        return;
+    }
+
+    map &mp = get_map();
+
+    add_msg_if_player_sees( who,
+                            string_format(
+                                _( "%1$s finished shearing %2$s and got:" ),
+                                who.disp_name( false, true ),
+                                mon->unique_name.empty() ? mon->disp_name() : mon->unique_name ) );
+
+    const std::vector<shearing_roll> shear_roll = shear_data.roll_all( *mon );
+    for( const shearing_roll &roll : shear_roll ) {
+        if( roll.result->count_by_charges() ) {
+            item shear_item( roll.result, calendar::turn, roll.amount );
+            mp.add_item_or_charges( who.pos(), shear_item );
+            add_msg_if_player_sees( who, shear_item.display_name() );
+        } else {
+            item shear_item( roll.result, calendar::turn );
+            for( int i = 0; i < roll.amount; ++i ) {
+                mp.add_item_or_charges( who.pos(), shear_item );
+            }
+            add_msg_if_player_sees( who,
+                                    //~ %1$s - item, %2$d - amount
+                                    string_format( _( "%1$s x%2$d" ),
+                                                   shear_item.display_name(), roll.amount ) );
+        }
+    }
+
+    mon->add_effect( effect_sheared, calendar::season_length() );
+    if( shearing_tie ) {
+        mon->remove_effect( effect_tied );
+    }
+
+    act.set_to_null();
+}
+
+void shearing_activity_actor::canceled( player_activity &, Character & )
+{
+    monster *mon = g->critter_at<monster>( mon_coords );
+    if( !mon ) {
+        return;
+    }
+
+    if( shearing_tie ) {
+        // free the poor critter
+        mon->remove_effect( effect_tied );
+    }
+}
+
+void shearing_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "mon_coords", mon_coords );
+    jsout.member( "shearing_tie", shearing_tie );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> shearing_activity_actor::deserialize( JsonIn &jsin )
+{
+    shearing_activity_actor actor = shearing_activity_actor( {} );
+
+    JsonObject data = jsin.get_object();
+    data.read( "mon_coords", actor.mon_coords );
+    data.read( "shearing_tie", actor.shearing_tie );
+    return actor.clone();
+}
+
 static bool check_if_disassemble_okay( item_location target, Character &who )
 {
     item *disassembly = target.get_item();
@@ -2852,6 +3022,110 @@ std::unique_ptr<activity_actor> disassemble_activity_actor::deserialize( JsonIn 
     return actor.clone();
 }
 
+void tent_placement_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = moves_total;
+    act.moves_left = moves_total;
+}
+
+void tent_placement_activity_actor::finish( player_activity &act, Character &p )
+{
+    map &here = get_map();
+    const tripoint center = p.pos() + tripoint( ( radius + 1 ) * target.x, ( radius + 1 ) * target.y,
+                            0 );
+
+    // Make a square of floor surrounded by wall.
+    for( const tripoint &dest : here.points_in_radius( center, radius ) ) {
+        here.furn_set( dest, wall );
+    }
+    for( const tripoint &dest : here.points_in_radius( center, radius - 1 ) ) {
+        here.furn_set( dest, floor );
+    }
+    // Place the center floor and the door.
+    if( floor_center ) {
+        here.furn_set( center, *floor_center );
+    }
+    here.furn_set( p.pos() + target, door_closed );
+
+    add_msg( m_info, _( "You set up the %s on the ground." ), it.tname() );
+    add_msg( m_info, _( "Examine the center square to pack it up again." ) );
+    act.set_to_null();
+}
+
+void tent_placement_activity_actor::canceled( player_activity &, Character &p )
+{
+    map &here = get_map();
+    here.add_item_or_charges( p.pos() + target, it, true );
+}
+
+void tent_placement_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "moves_total", moves_total );
+    jsout.member( "wall", wall );
+    jsout.member( "floor", floor );
+    jsout.member( "floor_center", floor_center );
+    jsout.member( "door_closed", door_closed );
+    jsout.member( "radius", radius );
+    jsout.member( "it", it );
+    jsout.member( "target", target );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> tent_placement_activity_actor::deserialize( JsonIn &jsin )
+{
+    item it;
+    tent_placement_activity_actor actor( 0, {}, 0, it, {}, {}, {}, {} );
+    JsonObject data = jsin.get_object();
+    data.read( "moves_total", actor.moves_total );
+    data.read( "wall", actor.wall );
+    data.read( "floor", actor.floor );
+    data.read( "floor_center", actor.floor_center );
+    data.read( "door_closed", actor.door_closed );
+    data.read( "radius", actor.radius );
+    data.read( "it", actor.it );
+    data.read( "target", actor.target );
+    return actor.clone();
+}
+
+void tent_deconstruct_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = moves_total;
+    act.moves_left = moves_total;
+}
+
+void tent_deconstruct_activity_actor::finish( player_activity &act, Character & )
+{
+    map &here = get_map();
+    for( const tripoint &pt : here.points_in_radius( target, radius ) ) {
+        here.furn_set( pt, f_null );
+    }
+    here.add_item_or_charges( target, item( tent, calendar::turn ) );
+    act.set_to_null();
+}
+
+void tent_deconstruct_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "moves_total", moves_total );
+    jsout.member( "radius", radius );
+    jsout.member( "target", target );
+    jsout.member( "tent", tent );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> tent_deconstruct_activity_actor::deserialize( JsonIn &jsin )
+{
+    tent_deconstruct_activity_actor actor( 0, 0, {}, {} );
+    JsonObject data = jsin.get_object();
+    data.read( "moves_total", actor.moves_total );
+    data.read( "radius", actor.radius );
+    data.read( "target", actor.target );
+    data.read( "tent", actor.tent );
+
+    return actor.clone();
+}
+
 void meditate_activity_actor::start( player_activity &act, Character & )
 {
     act.moves_total = to_moves<int>( 20_minutes );
@@ -2905,7 +3179,6 @@ std::unique_ptr<activity_actor> play_with_pet_activity_actor::deserialize( JsonI
     JsonObject data = jsin.get_object();
 
     data.read( "pet_name", actor.pet_name );
-
     return actor.clone();
 }
 
@@ -2986,7 +3259,10 @@ deserialize_functions = {
     { activity_id( "ACT_PLAY_WITH_PET" ), &play_with_pet_activity_actor::deserialize },
     { activity_id( "ACT_RELOAD" ), &reload_activity_actor::deserialize },
     { activity_id( "ACT_SHAVE" ), &shave_activity_actor::deserialize },
+    { activity_id( "ACT_SHEARING" ), &shearing_activity_actor::deserialize },
     { activity_id( "ACT_STASH" ), &stash_activity_actor::deserialize },
+    { activity_id( "ACT_TENT_DECONSTRUCT" ), &tent_deconstruct_activity_actor::deserialize },
+    { activity_id( "ACT_TENT_PLACE" ), &tent_placement_activity_actor::deserialize },
     { activity_id( "ACT_TRY_SLEEP" ), &try_sleep_activity_actor::deserialize },
     { activity_id( "ACT_UNLOAD" ), &unload_activity_actor::deserialize },
     { activity_id( "ACT_WORKOUT_HARD" ), &workout_activity_actor::deserialize },

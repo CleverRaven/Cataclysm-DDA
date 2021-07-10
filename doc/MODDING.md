@@ -83,7 +83,8 @@ Scenarios are what the game uses to determine your general situation when you cr
       "hospital_9"
     ],
     "start_name": "In Large Building",
-    "flags": [ "SUR_START", "CITY_START", "LONE_START" ]
+    "surround_groups": [ [ "GROUP_BLACK_ROAD", 70.0 ] ],
+    "flags": [ "CITY_START", "LONE_START" ]
   }
 ]
 ````

@@ -56,6 +56,7 @@
       { "item": "misc_repairkit", "prob": 25, "charges-min": 0 },
       [ "pliers", 60 ],
       [ "saw", 60 ],
+      { "item": "bow_saw", "prob": 50 },
       [ "screwdriver", 100 ],
       [ "screwdriver_set", 50 ],
       [ "wrench", 40 ],
@@ -110,6 +111,7 @@
       [ "sandpaper", 65 ],
       [ "hacksaw", 30 ],
       [ "saw", 65 ],
+      { "item": "bow_saw", "prob": 40 },
       [ "pin_reamer", 18 ],
       [ "clamp", 30 ],
       [ "boxcutter", 20 ],
@@ -140,6 +142,7 @@
       { "item": "dehydrator", "prob": 5, "charges": [ 0, 500 ] },
       [ "tongs", 1 ],
       [ "tourist_table", 1 ],
+      [ "vac_mold", 2 ],
       [ "sandpaper", 50 ],
       [ "plastic_sheet", 50 ],
       [ "shovel_snow", 10 ],
@@ -301,7 +304,8 @@
       { "item": "polisher", "prob": 70, "charges": [ 0, 100 ] },
       { "item": "angle_grinder", "prob": 5, "charges": [ 0, 500 ] },
       { "item": "welder", "prob": 10, "charges": [ 0, 500 ] },
-      [ "clamp", 10 ]
+      [ "clamp", 10 ],
+      [ "goggles_welding", 80 ]
     ]
   },
   {
@@ -617,6 +621,7 @@
       { "item": "extinguisher", "prob": 10, "charges": 100 },
       [ "magnifying_glass", 10 ],
       [ "multitool", 20 ],
+      [ "vac_mold", 2 ],
       [ "screwdriver_set", 20 ],
       { "item": "flashlight", "prob": 20, "charges": [ 0, 300 ] },
       [ "mobile_memory_card_science", 40 ],
@@ -640,6 +645,7 @@
       [ "wrench", 50 ],
       [ "hammer", 40 ],
       [ "saw", 50 ],
+      { "item": "bow_saw", "prob": 40 },
       [ "ax", 20 ],
       [ "hacksaw", 50 ],
       [ "chipper", 60 ],
@@ -671,6 +677,7 @@
       [ "ax", 100 ],
       { "item": "chainsaw_off", "prob": 80, "charges": [ 0, 400 ] },
       [ "saw", 100 ],
+      { "item": "bow_saw", "prob": 80 },
       { "item": "circsaw_off", "prob": 50, "charges": [ 0, 500 ] },
       [ "circsaw_blade", 10 ],
       { "item": "elec_chainsaw_off", "prob": 35, "charges": [ 0, 500 ] }

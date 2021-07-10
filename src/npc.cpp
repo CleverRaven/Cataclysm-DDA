@@ -110,8 +110,6 @@ static const skill_id skill_speech( "speech" );
 static const skill_id skill_stabbing( "stabbing" );
 static const skill_id skill_throw( "throw" );
 
-static const bionic_id bio_memory( "bio_memory" );
-
 static const trait_id trait_BEE( "BEE" );
 static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
@@ -969,9 +967,8 @@ void npc::finish_read( item &book )
         // Enhanced Memory Banks modestly boosts experience
         int min_ex = std::max( 1, reading->time / 10 + get_int() / 4 );
         int max_ex = reading->time / 5 + get_int() / 2 - originalSkillLevel;
-        if( has_active_bionic( bio_memory ) ) {
-            min_ex += 2;
-        }
+        min_ex = enchantment_cache->modify_value( enchant_vals::mod::READING_EXP, min_ex );
+
         if( max_ex < 2 ) {
             max_ex = 2;
         }
@@ -1126,7 +1123,9 @@ bool npc::wear_if_wanted( const item &it, std::string &reason )
                 return armor.covers( bp );
             } );
             if( iter != worn.end() && !( is_limb_broken( bp ) && iter->has_flag( flag_SPLINT ) ) ) {
-                took_off = takeoff( *iter );
+                //create an item_location for player::takeoff to handle.
+                item_location loc_for_takeoff = item_location( *this, &*iter );
+                took_off = takeoff( loc_for_takeoff );
                 break;
             }
         }

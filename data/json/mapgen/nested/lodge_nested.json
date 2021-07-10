@@ -163,12 +163,12 @@
           { "item": "bullwhip", "chance": 100 }
         ],
         "c": [
-          { "item": "bone", "chance": 80, "repeat": [ 4, 8 ] },
           { "item": "pants", "chance": 100 },
           { "item": "shirts", "chance": 100 },
           { "item": "leather_shop_accessories", "chance": 10 }
         ]
-      }
+      },
+      "place_fields": [ { "field": "fd_blood", "x": [ 2, 3 ], "y": [ 0, 1 ] }, { "field": "fd_gibs_flesh", "x": [ 2, 3 ], "y": [ 0, 1 ] } ]
     }
   },
   {

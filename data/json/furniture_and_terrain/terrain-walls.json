@@ -1243,6 +1243,27 @@
   },
   {
     "type": "terrain",
+    "id": "t_soil",
+    "name": "solid earth",
+    "description": "A wall of solid earth.",
+    "symbol": "#",
+    "color": "brown",
+    "move_cost": 0,
+    "coverage": 100,
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "MINEABLE", "BLOCK_WIND" ],
+    "roof": "t_dirt",
+    "bash": {
+      "str_min": 100,
+      "str_max": 400,
+      "sound": "wham!",
+      "sound_fail": "whump!",
+      "ter_set": "t_dirt",
+      "ter_set_bashed_from_above": "t_dirt",
+      "items": [ { "group": "digging_soil_loam_50L", "count": 20 } ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_rock",
     "name": "solid rock",
     "description": "It's solid rock, could be full of all kinds of interesting things.  Best grab your pickaxe or equivalent digging implement, and strike the earth!",

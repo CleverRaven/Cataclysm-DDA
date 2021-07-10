@@ -96,7 +96,6 @@
     "vision_night": 20,
     "path_settings": { "//min_dist": 8, "avoid_traps": true, "avoid_sharp": true },
     "harvest": "dragon_black",
-    "death_function": [ "NORMAL" ],
     "special_attacks": [
       { "type": "bite", "cooldown": 10 },
       [ "scratch", 7 ],

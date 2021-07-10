@@ -547,7 +547,8 @@
         "weight": 1
       }
     ],
-    "built_in_mods": [ "folding_stock" ]
+    "built_in_mods": [ "folding_stock" ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ], [ "AUTO", "auto", 4 ] ]
   },
   {
     "id": "steyr_aug",

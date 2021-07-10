@@ -24,7 +24,6 @@
     "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
     "fear_triggers": [ "PLAYER_CLOSE" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
-    "death_function": [ "NORMAL" ],
     "flags": [ "ANIMAL", "CLIMBS", "KEENNOSE", "SEES", "HEARS", "SMELLS", "BADVENOM" ]
   }
 ]

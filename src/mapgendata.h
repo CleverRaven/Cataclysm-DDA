@@ -3,7 +3,9 @@
 #define CATA_SRC_MAPGENDATA_H
 
 #include "calendar.h"
+#include "cata_variant.h"
 #include "coordinates.h"
+#include "json.h"
 #include "type_id.h"
 #include "weighted_list.h"
 
@@ -40,6 +42,7 @@ class mapgendata
         time_point when_;
         ::mission *mission_;
         int zlevel_;
+        std::unordered_map<std::string, cata_variant> mapgen_params_;
 
     public:
         oter_id t_nesw[8];
@@ -83,6 +86,12 @@ class mapgendata
          * @endcode
          */
         mapgendata( const mapgendata &other, const oter_id &other_id );
+
+        /**
+         * Creates a copy of this mapgendata, but stores new parameter values.
+         */
+        mapgendata( const mapgendata &other,
+                    const std::unordered_map<std::string, cata_variant> & );
 
         const oter_id &terrain_type() const {
             return terrain_type_;
@@ -139,6 +148,16 @@ class mapgendata
         void square_groundcover( const point &p1, const point &p2 ) const;
         ter_id groundcover() const;
         bool is_groundcover( const ter_id &iid ) const;
+
+        template<typename Result>
+        Result get_param( const std::string &name ) const {
+            auto it = mapgen_params_.find( name );
+            if( it == mapgen_params_.end() ) {
+                debugmsg( "No such parameter \"%s\"", name );
+                return Result();
+            }
+            return it->second.get<Result>();
+        }
 };
 
 #endif // CATA_SRC_MAPGENDATA_H

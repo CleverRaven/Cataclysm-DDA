@@ -930,6 +930,14 @@ void conditional_t<T>::set_has_power( const JsonObject &jo, const std::string &m
 }
 
 template<class T>
+void conditional_t<T>::set_can_see( bool is_npc )
+{
+    condition = [is_npc]( const T & d ) {
+        return d.actor( is_npc )->can_see();
+    };
+}
+
+template<class T>
 conditional_t<T>::conditional_t( const JsonObject &jo )
 {
     // improve the clarity of NPC setter functions
@@ -1234,6 +1242,8 @@ conditional_t<T>::conditional_t( const std::string &type )
         set_has_reason();
     } else if( type == "mission_has_generic_rewards" ) {
         set_mission_has_generic_rewards();
+    } else if( type == "u_can_see" || type == "npc_can_see" ) {
+        set_can_see( is_npc );
     } else {
         condition = []( const T & ) {
             return false;
