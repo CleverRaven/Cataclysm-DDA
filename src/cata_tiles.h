@@ -45,18 +45,6 @@ struct tile_type {
     std::vector<std::string> available_subtiles;
 };
 
-/* Enums */
-enum MULTITILE_TYPE {
-    center,
-    corner,
-    edge,
-    t_connection,
-    end_piece,
-    unconnected,
-    open_,
-    broken,
-    num_multitile_types
-};
 // Make sure to change TILE_CATEGORY_IDS if this changes!
 enum TILE_CATEGORY {
     C_NONE,
