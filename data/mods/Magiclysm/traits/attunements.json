@@ -176,7 +176,7 @@
     "spells_learned": [ [ "auroral_wave", 5 ], [ "borealmage_auroral_guard", 5 ] ],
     "cancels": [
       "ARTIFICER",
-      "ALCHEMIST",
+      "AURA_MAGE",
       "BIOTEK",
       "BOREAL_MAGE",
       "CRUSADER",
