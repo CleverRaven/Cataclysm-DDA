@@ -1074,9 +1074,35 @@ const recipe *select_crafting_recipe( int &batch_size_out )
                 uistate.read_recipes.insert( rcp );
             }
         } else if( action == "MARK_ALL_RECIPES_READ" ) {
-            if( query_yn( _( "Mark all recipes as read?  This cannot be undone." ) ) ) {
-                for( const recipe *const rcp : available_recipes ) {
-                    uistate.read_recipes.insert( rcp->ident() );
+            bool current_list_has_unread = false;
+            for( const recipe *const rcp : current ) {
+                if( !uistate.read_recipes.count( rcp->ident() ) ) {
+                    current_list_has_unread = true;
+                    break;
+                }
+            }
+            std::string query_str;
+            if( !current_list_has_unread ) {
+                query_str = _( "<color_yellow>/!\\</color> Mark all recipes as read?  "
+                               "This cannot be undone. <color_yellow>/!\\</color>" );
+            } else if( filterstring.empty() ) {
+                query_str = string_format( _( "Mark recipes in this tab as read?  This cannot be undone.  "
+                                              "You can mark all recipes by choosing yes and press %s again." ),
+                                           ctxt.get_desc( "MARK_ALL_RECIPES_READ" ) );
+            } else {
+                query_str = string_format( _( "Mark filtered recipes as read?  This cannot be undone.  "
+                                              "You can mark all recipes by choosing yes and press %s again." ),
+                                           ctxt.get_desc( "MARK_ALL_RECIPES_READ" ) );
+            }
+            if( query_yn( query_str ) ) {
+                if( current_list_has_unread ) {
+                    for( const recipe *const rcp : current ) {
+                        uistate.read_recipes.insert( rcp->ident() );
+                    }
+                } else {
+                    for( const recipe *const rcp : available_recipes ) {
+                        uistate.read_recipes.insert( rcp->ident() );
+                    }
                 }
             }
         } else if( action == "TOGGLE_UNREAD_RECIPES_FIRST" ) {
