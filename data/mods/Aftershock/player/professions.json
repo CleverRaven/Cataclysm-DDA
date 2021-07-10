@@ -137,6 +137,7 @@
             "contents-item": [ "shoulder_strap", "acog_scope" ]
           },
           { "item": "xlballistic_vest_esapi" },
+          { "item": "e_handcuffs", "container-item": "xlpolice_belt" },
           { "item": "legpouch_large", "contents-group": "afs_UICASTA30" }
         ]
       },
