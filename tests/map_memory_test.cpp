@@ -29,8 +29,8 @@ TEST_CASE( "map_memory_keeps_region", "[map_memory]" )
     CHECK( memory.prepare_region( p1, p4 ) );
     CHECK( !memory.prepare_region( p2, p3 ) );
     CHECK( memory.prepare_region(
-               tripoint( p2.x, p2.y, -p2.z ),
-               tripoint( p3.x, p3.y, -p3.z )
+               tripoint( p2.xy(), -p2.z ),
+               tripoint( p3.xy(), -p3.z )
            ) );
 }
 
