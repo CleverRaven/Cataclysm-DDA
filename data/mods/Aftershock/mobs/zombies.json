@@ -22,7 +22,6 @@
     "harvest": "zombie",
     "special_attacks": [ [ "GRAB", 7 ], [ "scratch", 20 ] ],
     "death_drops": "default_zombie_death_drops",
-    "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 28, "into": "mon_afs_headless_horror" },
     "flags": [
       "STUMBLES",
@@ -64,7 +63,6 @@
     "harvest": "zombie",
     "special_attacks": [ [ "GRAB", 3 ], [ "scratch", 3 ] ],
     "death_drops": "default_zombie_death_drops",
-    "death_function": [ "NORMAL" ],
     "flags": [
       "SEES",
       "HEARS",
@@ -114,7 +112,6 @@
       }
     ],
     "death_drops": "xl_uplift_death_drop",
-    "death_function": [ "NORMAL" ],
     "flags": [
       "SEES",
       "HEARS",
@@ -158,7 +155,6 @@
     "harvest": "zombie_meatslug",
     "death_drops": "xl_uplift_death_drop",
     "special_attacks": [ [ "SMASH", 20 ] ],
-    "death_function": [ "NORMAL" ],
     "flags": [
       "SEES",
       "HEARS",
@@ -204,7 +200,6 @@
     "harvest": "zombie",
     "special_attacks": [ [ "SMASH", 28 ] ],
     "death_drops": "xl_uplift_death_drop",
-    "death_function": [ "NORMAL" ],
     "flags": [
       "SEES",
       "HEARS",
@@ -249,7 +244,6 @@
     "harvest": "zombie_meatslug",
     "death_drops": "seabased_death_drop",
     "special_attacks": [ { "type": "bite", "cooldown": 5 } ],
-    "death_function": [ "NORMAL" ],
     "flags": [
       "SEES",
       "HEARS",
@@ -299,7 +293,6 @@
       { "type": "bite", "cooldown": 5 },
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 12 } ] }
     ],
-    "death_function": [ "NORMAL" ],
     "flags": [
       "SEES",
       "HEARS",
@@ -358,7 +351,6 @@
         ]
       }
     ],
-    "death_function": [ "NORMAL" ],
     "flags": [
       "SEES",
       "HEARS",
@@ -410,7 +402,6 @@
       { "type": "bite", "cooldown": 5 },
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 6 } ] }
     ],
-    "death_function": [ "NORMAL" ],
     "flags": [
       "SEES",
       "HEARS",
@@ -455,7 +446,6 @@
     "harvest": "frost_human",
     "death_drops": "default_moxie_human_death_drops",
     "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "GRAB", 20 ] ],
-    "death_function": [ "NORMAL" ],
     "flags": [
       "SEES",
       "HEARS",
@@ -499,7 +489,6 @@
     "harvest": "frost_human",
     "death_drops": "default_moxie_human_death_drops",
     "special_attacks": [ [ "PARROT", 0 ] ],
-    "death_function": [ "NORMAL" ],
     "flags": [
       "SEES",
       "HEARS",
@@ -558,7 +547,6 @@
         ]
       }
     ],
-    "death_function": [ "NORMAL" ],
     "flags": [
       "SEES",
       "HEARS",
@@ -610,7 +598,6 @@
       { "type": "bite", "cooldown": 5 },
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 6 } ] }
     ],
-    "death_function": [ "NORMAL" ],
     "flags": [
       "STUMBLES",
       "HEARS",
@@ -657,7 +644,7 @@
     "armor_cut": 5,
     "harvest": "alien_moxphore",
     "special_attacks": [ [ "ACID", 20 ], { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 6 } ] } ],
-    "death_function": [ "ACID", "NORMAL" ],
+    "death_function": { "message": "The %s's body leaks acid.", "effect": { "id": "death_acid", "hit_self": true } },
     "flags": [
       "SEES",
       "HEARS",

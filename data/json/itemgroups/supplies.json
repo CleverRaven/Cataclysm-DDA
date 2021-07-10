@@ -200,6 +200,11 @@
     ]
   },
   {
+    "type": "item_group",
+    "id": "supplies_woodcrafts",
+    "items": [ [ "superglue", 40 ], [ "sandpaper", 40 ], [ "screwdriver", 5 ], [ "chisel", 10 ], [ "hammer", 5 ] ]
+  },
+  {
     "id": "supplies_hardware",
     "type": "item_group",
     "//": "General purpose supplies for building / blue collar work.",

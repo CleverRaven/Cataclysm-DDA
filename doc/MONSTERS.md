@@ -90,6 +90,7 @@ Monsters may also have any of these optional properties:
 | `harvest`                | (string) ID of a "harvest" type describing what can be harvested from the corpse
 | `zombify_into`           | (string) mtype_id this monster zombifies into after it's death
 | `fungalize_into`         | (string) mtype_id this monster turns into when fungalized by spores
+| `shearing`               | (array of objects) Items produced when the monster is sheared
 
 Properties in the above tables are explained in more detail in the sections below.
 
@@ -340,9 +341,16 @@ Percent multiplier on all bleed effects' duration applied to the monster. Values
 An item group that is used to spawn items when the monster dies. This can be an inlined item group, see [ITEM_SPAWN.md](ITEM_SPAWN.md). The default subtype is "distribution".
 
 ## "death_function"
-(array of strings, optional)
+(object, optional)
 
-How the monster behaves on death. See [JSON_FLAGS.md](JSON_FLAGS.md) for a list of possible functions.
+How the monster behaves on death.
+```cpp
+{
+    "corpse_type": "NORMAL", // can be: BROKEN, NO_CORPSE, NORMAL (default)
+    "message": "The %s dies!", // substitute %s for the monster's name.
+    "effect": { "id": "death_boomer", "hit_self": true }  // the actual effect that gets called when the monster dies.  follows the syntax of fake_spell.
+}
+```
 
 ## "emit_field"
 (array of objects of emit_id and time_duration, optional)
@@ -427,6 +435,33 @@ The monster's reproduction cycle, if any. Supports:
 ## "baby_flags"
 (Array, optional)
 Designate seasons during which this monster is capable of reproduction. ie: `[ "SPRING", "SUMMER" ]`
+
+## "shearing
+(array of objects, optional)
+
+A set of items that are given to the player when they shear this monster. These entries can be duplicates and are one of these 4 types:
+```json
+"shearing": [
+    {
+        "result": "wool",
+        "amount": 100        // exact amount
+    },
+    {
+        "result": "rags",
+        "amount": [10, 100]  // random number in range ( inclusive )
+    },
+    {
+        "result": "leather",
+        "ratio_mass": 0.25   // amount from percentage of mass ( kilograms )
+    },
+    {
+        "result": "wool",
+        "ratio_volume": 0.60 // amount from percentage of volume ( liters )
+    }
+]
+```
+
+This means that when this monster is sheared, it will give: 100 units of wool, 10 to 100 pieces of rag, 25% of its body mass as leather and 60% of its volume as wool.
 
 ## "special_when_hit"
 (array, optional)

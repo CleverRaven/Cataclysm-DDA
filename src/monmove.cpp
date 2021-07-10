@@ -2018,14 +2018,14 @@ void monster::knock_back_to( const tripoint &to )
     }
 
     map &here = get_map();
+    // It's some kind of wall.
     if( here.impassable( to ) ) {
-
-        // It's some kind of wall.
-        apply_damage( nullptr, bodypart_id( "torso" ), static_cast<float>( type->size ) );
+        const int dam = static_cast<int>( type->size );
+        apply_damage( nullptr, bodypart_id( "torso" ), dam );
         add_effect( effect_stunned, 2_turns );
         if( u_see ) {
-            add_msg( _( "The %1$s bounces off a %2$s." ), name(),
-                     here.obstacle_name( to ) );
+            add_msg( _( "The %1$s bounces off a %2$s and takes %3$d damage." ), name(),
+                     here.obstacle_name( to ), dam );
         }
 
     } else { // It's no wall

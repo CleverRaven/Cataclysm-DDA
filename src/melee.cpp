@@ -69,7 +69,6 @@
 #include "weighted_list.h"
 
 static const bionic_id bio_cqb( "bio_cqb" );
-static const bionic_id bio_memory( "bio_memory" );
 
 static const itype_id itype_fur( "fur" );
 static const itype_id itype_leather( "leather" );
@@ -104,6 +103,7 @@ static const efftype_id effect_venom_weaken( "venom_weaken" );
 static const efftype_id effect_venom_player1( "venom_player1" );
 static const efftype_id effect_venom_player2( "venom_player2" );
 
+static const json_character_flag json_flag_CBQ_LEARN_BONUS( "CBQ_LEARN_BONUS" );
 static const json_character_flag json_flag_NEED_ACTIVE_TO_MELEE( "NEED_ACTIVE_TO_MELEE" );
 static const json_character_flag json_flag_UNARMED_BONUS( "UNARMED_BONUS" );
 
@@ -580,6 +580,9 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
     if( !hits ) {
         int stumble_pen = stumble( *this, *cur_weapon );
         sfx::generate_melee_sound( pos(), t.pos(), false, false );
+
+        const ma_technique miss_recovery = martial_arts_data->get_miss_recovery( *this );
+
         if( is_player() ) { // Only display messages if this is the player
 
             if( one_in( 2 ) ) {
@@ -589,9 +592,8 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
                 }
             }
 
-            if( can_miss_recovery( *cur_weapon ) ) {
-                ma_technique tec = martial_arts_data->get_miss_recovery_tec( *cur_weapon );
-                add_msg( tec.avatar_message.translated(), t.disp_name() );
+            if( miss_recovery.id != tec_none ) {
+                add_msg( miss_recovery.avatar_message.translated(), t.disp_name() );
             } else if( stumble_pen >= 60 ) {
                 add_msg( m_bad, _( "You miss and stumble with the momentum." ) );
             } else if( stumble_pen >= 10 ) {
@@ -600,7 +602,9 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
                 add_msg( _( "You miss." ) );
             }
         } else if( player_character.sees( *this ) ) {
-            if( stumble_pen >= 60 ) {
+            if( miss_recovery.id != tec_none ) {
+                add_msg( miss_recovery.npc_message.translated(), t.disp_name() );
+            } else if( stumble_pen >= 60 ) {
                 add_msg( _( "%s misses and stumbles with the momentum." ), name );
             } else if( stumble_pen >= 10 ) {
                 add_msg( _( "%s swings wildly and misses." ), name );
@@ -616,7 +620,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
 
         // Cap stumble penalty, heavy weapons are quite weak already
         move_cost += std::min( 60, stumble_pen );
-        if( martial_arts_data->has_miss_recovery_tec( *cur_weapon ) ) {
+        if( miss_recovery.id != tec_none ) {
             move_cost /= 2;
         }
 
@@ -673,8 +677,8 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
         if( has_active_bionic( bio_cqb ) && !martial_arts_data->knows_selected_style() ) {
             /** @EFFECT_INT slightly increases chance to learn techniques when using CQB bionic */
             // Enhanced Memory Banks bionic doubles chance to learn martial art
-            const int bionic_boost = has_active_bionic( bionic_id( bio_memory ) ) ? 2 : 1;
-            if( one_in( ( 1400 - ( get_int() * 50 ) ) / bionic_boost ) ) {
+            const int learn_boost = has_flag( json_flag_CBQ_LEARN_BONUS ) ? 2 : 1;
+            if( one_in( ( 1400 - ( get_int() * 50 ) ) / learn_boost ) ) {
                 martial_arts_data->learn_current_style_CQB( is_player() );
             }
         }
@@ -860,8 +864,12 @@ void Character::reach_attack( const tripoint &p )
 
     if( critter == nullptr ) {
         add_msg_if_player( _( "You swing at the air." ) );
-        if( martial_arts_data->has_miss_recovery_tec( weapon ) ) {
+
+        const ma_technique miss_recovery = martial_arts_data->get_miss_recovery( *this );
+
+        if( miss_recovery.id != tec_none ) {
             move_cost /= 3; // "Probing" is faster than a regular miss
+            // Communicate this with a different message?
         }
 
         mod_moves( -move_cost );

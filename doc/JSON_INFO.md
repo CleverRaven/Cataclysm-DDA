@@ -120,6 +120,8 @@ Use the `Home` key to return to the top.
     - [Furniture](#furniture)
       - [`type`](#type-1)
       - [`move_cost_mod`](#move_cost_mod)
+      - [`lockpick_result`](#lockpick_result)
+      - [`lockpick_message`](#lockpick_message)
       - [`light_emitted`](#light_emitted)
       - [`required_str`](#required_str)
       - [`crafting_pseudo_item`](#crafting_pseudo_item)
@@ -131,6 +133,8 @@ Use the `Home` key to return to the top.
       - [`move_cost`](#move_cost)
       - [`heat_radiation`](#heat_radiation)
       - [`light_emitted`](#light_emitted-1)
+      - [`lockpick_result`](#lockpick_result-1)
+      - [`lockpick_message`](#lockpick_message-1)
       - [`trap`](#trap)
       - [`transforms_into`](#transforms_into)
       - [`harvest_by_season`](#harvest_by_season)
@@ -3195,6 +3199,11 @@ The contents of use_action fields can either be a string indicating a built-in f
         "kevlar_padded"
     ]
 }
+"use_action": {
+    "type" :"effect_on_conditions", // activate effect_on_conditions
+    "description" :"This debugs the game", // usage description
+    "effect_on_conditions" : ["test_cond"] // ids of the effect_on_conditions to activate
+    }
 ```
 
 ###random Descriptions
@@ -3349,6 +3358,8 @@ itype_id of the item dropped as leftovers after butchery or when the monster is 
     "examine_action": "toilet",
     "close": "f_foo_closed",
     "open": "f_foo_open",
+    "lockpick_result": "f_safe_open",
+    "lockpick_message": "With a click, you unlock the safe.",
     "bash": "TODO",
     "deconstruct": "TODO",
     "max_volume": "1000 L",
@@ -3369,6 +3380,13 @@ Same as for terrain, see below in the chapter "Common to furniture and terrain".
 
 Movement cost modifier (`-10` = impassable, `0` = no change). This is added to the movecost of the underlying terrain.
 
+#### `lockpick_result`
+
+(Optional) When the furniture is successfully lockpicked, this is the furniture it will turn into.
+
+#### `lockpick_message`
+
+(Optional) When the furniture is successfully lockpicked, this is the message that will be printed to the player. When it is missing, a generic `"The lock opens…"` message will be printed instead.
 
 #### `light_emitted`
 
@@ -3414,6 +3432,8 @@ Strength required to move the furniture around. Negative values indicate an unmo
     "connects_to" : "WALL",
     "close": "t_foo_closed",
     "open": "t_foo_open",
+    "lockpick_result": "t_door_unlocked",
+    "lockpick_message": "With a click, you unlock the door.",
     "bash": "TODO",
     "deconstruct": "TODO",
     "harvestable": "blueberries",
@@ -3444,6 +3464,14 @@ Heat emitted for a terrain. A value of 0 means no fire (i.e, same as not having 
 
 How much light the terrain emits. 10 will light the tile it's on brightly, 15 will light that tile and the tiles around it brightly, as well as slightly lighting the tiles two tiles away from the source.
 For examples: An overhead light is 120, a utility light, 240, and a console, 10.
+
+#### `lockpick_result`
+
+(Optional) When the terrain is successfully lockpicked, this is the terrain it will turn into.
+
+#### `lockpick_message`
+
+(Optional) When the terrain is successfully lockpicked, this is the message that will be printed to the player. When it is missing, a generic `"The lock opens…"` message will be printed instead.
 
 #### `trap`
 

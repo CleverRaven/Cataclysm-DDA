@@ -34,7 +34,6 @@
       [ "PARROT", 800 ],
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] }
     ],
-    "death_function": [ "NORMAL" ],
     "flags": [
       "SEES",
       "SMELLS",
@@ -86,7 +85,6 @@
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] },
       { "type": "spell", "spell_data": { "id": "mi-go_slaver_beam", "min_level": 3 }, "cooldown": 100 }
     ],
-    "death_function": [ "NORMAL" ],
     "flags": [
       "SEES",
       "SMELLS",
@@ -137,7 +135,6 @@
       [ "PARROT", 800 ],
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 12, "armor_multiplier": 0.4 } ] }
     ],
-    "death_function": [ "NORMAL" ],
     "flags": [
       "SEES",
       "SMELLS",
@@ -192,7 +189,6 @@
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 35, "armor_multiplier": 0.7 } ] },
       { "type": "spell", "spell_data": { "id": "mi-go_slaver_beam", "min_level": 1 }, "cooldown": 100 }
     ],
-    "death_function": [ "NORMAL" ],
     "flags": [
       "SEES",
       "SMELLS",
@@ -246,7 +242,6 @@
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 30, "armor_multiplier": 0.7 } ] },
       { "type": "spell", "spell_data": { "id": "mi-go_slaver_beam", "min_level": 2 }, "cooldown": 100 }
     ],
-    "death_function": [ "NORMAL" ],
     "flags": [
       "SEES",
       "SMELLS",
@@ -307,7 +302,6 @@
         "ranges": [ [ 2, 30, "DEFAULT" ] ]
       }
     ],
-    "death_function": [ "NORMAL" ],
     "flags": [
       "SEES",
       "SMELLS",

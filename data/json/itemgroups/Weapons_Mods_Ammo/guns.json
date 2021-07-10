@@ -481,10 +481,10 @@
     "items": [
       { "item": "mossberg_500", "prob": 33, "charges-min": 0, "charges-max": 6 },
       { "item": "remington_870", "prob": 35, "charges-min": 0, "charges-max": 5 },
-      { "item": "mossberg_500_security", "prob": 17, "charges-min": 0, "charges-max": 6 },
+      { "item": "mossberg_500", "variant": "mossberg_500_security", "prob": 17, "charges-min": 0, "charges-max": 6 },
       { "item": "remington_870_express", "prob": 18, "charges-min": 0, "charges-max": 6 },
-      { "item": "browning_a5", "prob": 14, "charges-min": 0, "charges-max": 5 },
-      { "item": "remington_1100", "prob": 17, "charges-min": 0, "charges-max": 5 },
+      { "item": "remington_870", "variant": "browning_a5", "prob": 14, "charges-min": 0, "charges-max": 5 },
+      { "item": "remington_870", "variant": "remington_1100", "prob": 17, "charges-min": 0, "charges-max": 5 },
       { "item": "mossberg_930", "prob": 15, "charges-min": 0, "charges-max": 6 },
       { "item": "shotgun_410", "prob": 30, "charges-min": 0, "charges-max": 1 },
       { "item": "shotgun_d", "prob": 30, "charges-min": 0, "charges-max": 2 },
@@ -498,10 +498,10 @@
     "items": [
       { "item": "mossberg_500", "prob": 33, "charges-min": 0, "charges-max": 0 },
       { "item": "remington_870", "prob": 35, "charges-min": 0, "charges-max": 0 },
-      { "item": "mossberg_500_security", "prob": 17, "charges-min": 0, "charges-max": 0 },
+      { "item": "mossberg_500", "variant": "mossberg_500_security", "prob": 17, "charges-min": 0, "charges-max": 0 },
       { "item": "remington_870_express", "prob": 18, "charges-min": 0, "charges-max": 0 },
-      { "item": "browning_a5", "prob": 14, "charges-min": 0, "charges-max": 0 },
-      { "item": "remington_1100", "prob": 17, "charges-min": 0, "charges-max": 0 },
+      { "item": "remington_870", "variant": "browning_a5", "prob": 14, "charges-min": 0, "charges-max": 0 },
+      { "item": "remington_870", "variant": "remington_1100", "prob": 17, "charges-min": 0, "charges-max": 0 },
       { "item": "mossberg_930", "prob": 15, "charges-min": 0, "charges-max": 0 },
       { "item": "shotgun_410", "prob": 30, "charges-min": 0, "charges-max": 0 },
       { "item": "shotgun_d", "prob": 30, "charges-min": 0, "charges-max": 0 },
@@ -517,8 +517,8 @@
       { "item": "ksg", "prob": 50, "charges-min": 0, "charges-max": 7 },
       { "item": "ksg-25", "prob": 8, "charges-min": 0, "charges-max": 12 },
       { "item": "tavor_12", "prob": 5, "charges-min": 0, "charges-max": 5 },
-      { "item": "m1014", "prob": 10, "charges-min": 0, "charges-max": 8 },
-      { "item": "SPAS_12", "prob": 2, "charges-min": 0, "charges-max": 9 },
+      { "item": "mossberg_930", "variant": "m1014", "prob": 10, "charges-min": 0, "charges-max": 8 },
+      { "item": "mossberg_590", "variant": "SPAS_12", "prob": 2, "charges-min": 0, "charges-max": 9 },
       { "item": "rm120c", "prob": 5, "charges-min": 0, "charges-max": 5 },
       { "item": "rm228", "prob": 5, "charges-min": 0, "charges-max": 10 }
     ]
@@ -531,8 +531,8 @@
     "entries": [
       { "item": "ksg", "prob": 50, "charges-min": 0, "charges-max": 0 },
       { "item": "tavor_12", "prob": 5, "charges-min": 0, "charges-max": 0 },
-      { "item": "m1014", "prob": 10, "charges-min": 0, "charges-max": 0 },
-      { "item": "SPAS_12", "prob": 2, "charges-min": 0, "charges-max": 0 },
+      { "item": "mossberg_930", "variant": "m1014", "prob": 10, "charges-min": 0, "charges-max": 0 },
+      { "item": "mossberg_590", "variant": "SPAS_12", "prob": 2, "charges-min": 0, "charges-max": 0 },
       { "item": "rm120c", "prob": 5, "charges-min": 0, "charges-max": 0 },
       { "item": "rm228", "prob": 5, "charges-min": 0, "charges-max": 0 }
     ]
@@ -576,7 +576,7 @@
       { "item": "remington_870_express", "prob": 50, "charges-min": 0, "charges-max": 6 },
       { "item": "remington_870_breacher", "prob": 20, "charges-min": 0, "charges-max": 4 },
       { "item": "mossberg_590", "prob": 50, "charges-min": 0, "charges-max": 9 },
-      { "item": "m1014", "prob": 100, "charges-min": 0, "charges-max": 8 }
+      { "item": "mossberg_930", "variant": "m1014", "prob": 100, "charges-min": 0, "charges-max": 8 }
     ]
   },
   {
@@ -791,7 +791,7 @@
       { "item": "hk_mp5", "prob": 50, "charges-min": 0, "charges-max": 30 },
       { "item": "hk_mp5k", "prob": 10, "charges-min": 0, "charges-max": 30 },
       { "item": "hk_mp5sd", "prob": 5, "charges-min": 0, "charges-max": 30 },
-      { "item": "m1014", "prob": 10, "charges-min": 0, "charges-max": 8 },
+      { "item": "mossberg_930", "variant": "m1014", "prob": 10, "charges-min": 0, "charges-max": 8 },
       { "item": "nato_assault_rifle", "variant": "m4a1", "prob": 35, "charges-min": 0, "charges-max": 30 },
       { "item": "as50", "prob": 5, "charges-min": 0, "charges-max": 10 },
       { "item": "hk417_13", "prob": 30, "charges-min": 0, "charges-max": 20 }

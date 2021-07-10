@@ -78,10 +78,10 @@ using oter_type_str_id = string_id<oter_type_t>;
 
 ////////////////
 static oter_id ot_null;
-static const oter_str_id ot_forest( "ot_forest" );
-static const oter_str_id ot_forest_thick( "ot_forest_thick" );
-static const oter_str_id ot_forest_water( "ot_forest_water" );
-static const oter_str_id ot_river_center( "ot_river_center" );
+static const oter_str_id forest( "forest" );
+static const oter_str_id forest_thick( "forest_thick" );
+static const oter_str_id forest_water( "forest_water" );
+static const oter_str_id river_center( "river_center" );
 
 const oter_type_t oter_type_t::null_type{};
 
@@ -1712,13 +1712,13 @@ bool overmap::generate_sub( const int z )
         tripoint_om_sm sm_pos = project_to<coords::sm>( omt_pos );
         // Sewers and city subways are present at z == -1 and z == -2. Don't spawn CHUD on other z-levels.
         if( ( z == -1 || z == -2 ) && one_in( 3 ) ) {
-            add_mon_group( mongroup( GROUP_CHUD,
-                                     sm_pos, i.size, i.size * 20 ) );
+            spawn_mon_group( mongroup( GROUP_CHUD,
+                                       sm_pos, i.size, i.size * 20 ) );
         }
         // Sewers are present at z == -1. Don't spawn sewer monsters on other z-levels.
         if( z == -1 && !one_in( 8 ) ) {
-            add_mon_group( mongroup( GROUP_SEWER,
-                                     sm_pos, ( i.size * 7 ) / 2, i.size * 70 ) );
+            spawn_mon_group( mongroup( GROUP_SEWER,
+                                       sm_pos, ( i.size * 7 ) / 2, i.size * 70 ) );
         }
     }
 
@@ -1733,7 +1733,7 @@ bool overmap::generate_sub( const int z )
         }
         mongroup_id ant_group( ter( p_loc + tripoint_above ) == "anthill" ?
                                "GROUP_ANT" : "GROUP_ANT_ACID" );
-        add_mon_group(
+        spawn_mon_group(
             mongroup( ant_group, tripoint_om_sm( project_to<coords::sm>( i.pos ), z ),
                       ( i.size * 3 ) / 2, rng( 6000, 8000 ) ) );
         build_anthill( p_loc, i.size, ter( p_loc + tripoint_above ) == "anthill" );
@@ -1905,7 +1905,7 @@ void overmap::place_special_forced( const overmap_special_id &special_id, const 
                                     om_direction::type dir )
 {
     static city invalid_city;
-    place_special( *special_id, p, dir, invalid_city, false, false );
+    place_special( *special_id, p, dir, invalid_city, false, true );
 }
 
 void mongroup::wander( const overmap &om )
@@ -1966,11 +1966,11 @@ void overmap::move_hordes()
         // Decrease movement chance according to the terrain we're currently on.
         const oter_id &walked_into = ter( project_to<coords::omt>( mg.pos ) );
         int movement_chance = 1;
-        if( walked_into == ot_forest || walked_into == ot_forest_water ) {
+        if( walked_into == forest || walked_into == forest_water ) {
             movement_chance = 3;
-        } else if( walked_into == ot_forest_thick ) {
+        } else if( walked_into == forest_thick ) {
             movement_chance = 6;
-        } else if( walked_into == ot_river_center ) {
+        } else if( walked_into == river_center ) {
             movement_chance = 10;
         }
 
@@ -2341,8 +2341,6 @@ void overmap::place_forest_trailheads()
 void overmap::place_forests()
 {
     const oter_id default_oter_id( settings.default_oter[OVERMAP_DEPTH] );
-    const oter_id forest( "forest" );
-    const oter_id forest_thick( "forest_thick" );
 
     const om_noise::om_noise_layer_forest f( global_base_point(), g->get_seed() );
 
@@ -2521,7 +2519,6 @@ void overmap::place_rivers( const overmap *north, const overmap *east, const ove
 
     // Determine points where rivers & roads should connect w/ adjacent maps
     // optimized comparison.
-    const oter_id river_center( "river_center" );
 
     if( north != nullptr ) {
         for( int i = 2; i < OMAPX - 2; i++ ) {
@@ -2685,8 +2682,6 @@ void overmap::place_swamps()
         }
     }
 
-    const oter_id forest_water( "forest_water" );
-
     // Get a layer of noise to use in conjunction with our river buffered floodplain.
     const om_noise::om_noise_layer_floodplain f( global_base_point(), g->get_seed() );
 
@@ -2798,7 +2793,6 @@ void overmap::place_roads( const overmap *north, const overmap *east, const over
 
 void overmap::place_river( const point_om_omt &pa, const point_om_omt &pb )
 {
-    const oter_id river_center( "river_center" );
     int river_chance = static_cast<int>( std::max( 1.0, 1.0 / settings.river_scale ) );
     int river_scale = static_cast<int>( std::max( 1.0, settings.river_scale ) );
     point_om_omt p2( pa );
@@ -4077,6 +4071,7 @@ void overmap::place_special(
     }
 
     const bool blob = special.flags.count( "BLOB" ) > 0;
+    const bool is_safe_zone = special.flags.count( "SAFE_AT_WORLDGEN" ) > 0;
 
     for( const auto &elem : special.terrains ) {
         const tripoint_om_omt location = p + om_direction::rotate( elem.p, dir );
@@ -4084,6 +4079,9 @@ void overmap::place_special(
 
         overmap_special_placements[location] = special.id;
         ter_set( location, tid );
+        if( is_safe_zone ) {
+            safe_at_worldgen.emplace( location );
+        }
 
         if( blob ) {
             for( int x = -2; x <= 2; x++ ) {
@@ -4128,7 +4126,18 @@ void overmap::place_special(
         const overmap_special_spawns &spawns = special.spawns;
         const int pop = rng( spawns.population.min, spawns.population.max );
         const int rad = rng( spawns.radius.min, spawns.radius.max );
-        add_mon_group( mongroup( spawns.group, project_to<coords::sm>( p ), rad, pop ) );
+        spawn_mon_group( mongroup( spawns.group, project_to<coords::sm>( p ), rad, pop ) );
+    }
+    // If it's a safe zone, remove existing spawns
+    if( is_safe_zone ) {
+        for( auto it = zg.begin(); it != zg.end(); ) {
+            tripoint_om_omt pos = project_to<coords::omt>( it->second.pos );
+            if( safe_at_worldgen.find( pos ) != safe_at_worldgen.end() ) {
+                zg.erase( it++ );
+            } else {
+                ++it;
+            }
+        }
     }
 }
 
@@ -4364,8 +4373,8 @@ void overmap::place_mongroups()
                     }
                 }
                 if( swamp_count >= 25 ) {
-                    add_mon_group( mongroup( GROUP_SWAMP, tripoint( x * 2, y * 2, 0 ), 3,
-                                             rng( swamp_count * 8, swamp_count * 25 ) ) );
+                    spawn_mon_group( mongroup( GROUP_SWAMP, tripoint( x * 2, y * 2, 0 ), 3,
+                                               rng( swamp_count * 8, swamp_count * 25 ) ) );
                 }
             }
         }
@@ -4383,8 +4392,8 @@ void overmap::place_mongroups()
                 }
             }
             if( river_count >= 25 ) {
-                add_mon_group( mongroup( GROUP_RIVER, tripoint( x * 2, y * 2, 0 ), 3,
-                                         rng( river_count * 8, river_count * 25 ) ) );
+                spawn_mon_group( mongroup( GROUP_RIVER, tripoint( x * 2, y * 2, 0 ), 3,
+                                           rng( river_count * 8, river_count * 25 ) ) );
             }
         }
     }
@@ -4392,9 +4401,9 @@ void overmap::place_mongroups()
     // Place the "put me anywhere" groups
     int numgroups = rng( 0, 3 );
     for( int i = 0; i < numgroups; i++ ) {
-        add_mon_group( mongroup( GROUP_WORM, tripoint( rng( 0, OMAPX * 2 - 1 ), rng( 0,
-                                 OMAPY * 2 - 1 ), 0 ),
-                                 rng( 20, 40 ), rng( 30, 50 ) ) );
+        spawn_mon_group( mongroup( GROUP_WORM, tripoint( rng( 0, OMAPX * 2 - 1 ), rng( 0,
+                                   OMAPY * 2 - 1 ), 0 ),
+                                   rng( 20, 40 ), rng( 30, 50 ) ) );
     }
 }
 
@@ -4470,6 +4479,15 @@ void overmap::save() const
     write_to_file( overmapbuffer::terrain_filename( loc ), [&]( std::ostream & stream ) {
         serialize( stream );
     } );
+}
+
+void overmap::spawn_mon_group( const mongroup &group )
+{
+    tripoint_om_omt pos = project_to<coords::omt>( group.pos );
+    if( safe_at_worldgen.find( pos ) != safe_at_worldgen.end() ) {
+        return;
+    }
+    add_mon_group( group );
 }
 
 void overmap::add_mon_group( const mongroup &group )

@@ -569,6 +569,11 @@ class item : public visitable
          */
         bool merge_charges( const item &rhs );
 
+        /**
+        * Total weight of an item accounting for all contained/integrated items
+        * @param include_contents if true include weight of contained items
+        * @param integral if true return effective weight if this item was integrated into another
+        */
         units::mass weight( bool include_contents = true, bool integral = false ) const;
 
         /**
@@ -1194,7 +1199,6 @@ class item : public visitable
 
         void overwrite_relic( const relic &nrelic );
 
-        bool destroyed_at_zero_charges() const;
         // Most of the is_whatever() functions call the same function in our itype
         bool is_null() const; // True if type is NULL, or points to the null item (id == 0)
         bool is_comestible() const;

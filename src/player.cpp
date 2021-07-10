@@ -1092,7 +1092,7 @@ void player::siphon( vehicle &veh, const itype_id &desired_liquid )
     }
 
     item liquid( desired_liquid, calendar::turn, qty );
-    if( liquid.is_food() ) {
+    if( liquid.has_temperature() ) {
         liquid.set_item_specific_energy( veh.fuel_specific_energy( desired_liquid ) );
     }
     if( liquid_handler::handle_liquid( liquid, nullptr, 1, nullptr, &veh ) ) {

@@ -938,25 +938,25 @@ TEST_CASE( "partial_proficiency_mitigation", "[crafting][proficiency]" )
     GIVEN( "a recipe with required proficiencies" ) {
         clear_avatar();
         clear_map();
+        Character &tester = get_player_character();
         const recipe &test_recipe = *recipe_id( "leather_belt" );
 
-        grant_skills_to_character( get_player_character(), test_recipe );
-        int unmitigated_time_taken = test_recipe.batch_time( get_player_character(), 1, 1, 0 );
+        grant_skills_to_character( tester, test_recipe );
+        int unmitigated_time_taken = test_recipe.batch_time( tester, 1, 1, 0 );
 
         WHEN( "player acquires partial proficiency" ) {
             int np = 0;
             for( const proficiency_id &prof : test_recipe.assist_proficiencies() ) {
                 np++;
-                get_player_character().practice_proficiency( prof,
-                        get_player_character().proficiency_training_needed( prof ) / 2 );
+                tester.set_proficiency_practice( prof, tester.proficiency_training_needed( prof ) / 2 );
             }
-            int mitigated_time_taken = test_recipe.batch_time( get_player_character(), 1, 1, 0 );
+            int mitigated_time_taken = test_recipe.batch_time( tester, 1, 1, 0 );
             THEN( "it takes less time to craft the recipe" ) {
                 CHECK( mitigated_time_taken < unmitigated_time_taken );
             }
             AND_WHEN( "player acquires missing proficiencies" ) {
-                grant_proficiencies_to_character( get_player_character(), test_recipe, true );
-                int proficient_time_taken = test_recipe.batch_time( get_player_character(), 1, 1, 0 );
+                grant_proficiencies_to_character( tester, test_recipe, true );
+                int proficient_time_taken = test_recipe.batch_time( tester, 1, 1, 0 );
                 THEN( "it takes even less time to craft the recipe" ) {
                     CHECK( proficient_time_taken < mitigated_time_taken );
                 }

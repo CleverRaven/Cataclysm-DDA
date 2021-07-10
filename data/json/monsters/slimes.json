@@ -28,7 +28,11 @@
     "bleed_rate": 30,
     "harvest": "exempt",
     "special_attacks": [ [ "FORMBLOB", 30 ] ],
-    "death_function": [ "BLOBSPLIT" ],
+    "death_function": {
+      "message": "The %s splits in two!",
+      "corpse_type": "NO_CORPSE",
+      "effect": { "id": "death_blobsplit", "hit_self": true }
+    },
     "flags": [ "HEARS", "GOODHEARING", "NOHEAD", "POISON", "NO_BREATHE", "ACIDPROOF" ]
   },
   {
@@ -58,7 +62,11 @@
     "bleed_rate": 20,
     "harvest": "exempt",
     "special_attacks": [ [ "CALLBLOBS", 0 ] ],
-    "death_function": [ "BRAINBLOB" ],
+    "death_function": {
+      "message": "The %s splits in two!",
+      "corpse_type": "NO_CORPSE",
+      "effect": { "id": "death_blob_brain", "hit_self": true }
+    },
     "flags": [ "SEES", "HEARS", "GOODHEARING", "NOHEAD", "POISON", "NO_BREATHE", "ACIDPROOF", "QUEEN" ]
   },
   {
@@ -92,7 +100,11 @@
     "bleed_rate": 30,
     "harvest": "exempt",
     "special_attacks": [ [ "FORMBLOB", 20 ] ],
-    "death_function": [ "BLOBSPLIT" ],
+    "death_function": {
+      "message": "The %s splits in two!",
+      "corpse_type": "NO_CORPSE",
+      "effect": { "id": "death_blobsplit_large", "hit_self": true }
+    },
     "flags": [ "HEARS", "GOODHEARING", "NOHEAD", "POISON", "NO_BREATHE", "ACIDPROOF" ]
   },
   {
@@ -122,7 +134,8 @@
     "armor_stab": 10,
     "armor_acid": 10,
     "harvest": "exempt",
-    "death_function": [ "BLOBSPLIT" ],
+    "death_function": { "message": "The %s's body melts away.", "corpse_type": "NO_CORPSE" },
+    "death_drops": "mon_blob_small_deathdrops",
     "flags": [ "HEARS", "GOODHEARING", "NOHEAD", "POISON", "NO_BREATHE", "ACIDPROOF" ]
   },
   {
@@ -150,7 +163,7 @@
     "armor_bash": 10,
     "harvest": "exempt",
     "special_attacks": [ [ "FORMBLOB", 4 ] ],
-    "death_function": [ "MELT" ],
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
     "flags": [ "SMELLS", "HEARS", "PLASTIC", "NO_BREATHE", "NOHEAD", "NOGIB" ]
   },
   {
@@ -181,7 +194,11 @@
     "vision_night": 5,
     "harvest": "exempt",
     "special_attacks": [ [ "SLIMESPRING", 15 ] ],
-    "death_function": [ "ACID" ],
+    "death_function": {
+      "message": "The %s's body dissolves into acid.",
+      "effect": { "id": "death_acid", "hit_self": true },
+      "corpse_type": "NO_CORPSE"
+    },
     "flags": [ "SEES", "HEARS", "SMELLS", "GOODHEARING", "NOHEAD", "POISON", "VENOM", "WARM", "GUILT" ]
   }
 ]

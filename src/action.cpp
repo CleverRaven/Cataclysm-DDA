@@ -336,6 +336,8 @@ std::string action_ident( action_id act )
             return "debug_lighting";
         case ACTION_DISPLAY_RADIATION:
             return "debug_radiation";
+        case ACTION_DISPLAY_NPC_ATTACK_POTENTIAL:
+            return "debug_npc_attack_potential";
         case ACTION_TOGGLE_HOUR_TIMER:
             return "debug_hour_timer";
         case ACTION_TOGGLE_DEBUG_MODE:
@@ -448,6 +450,7 @@ bool can_action_change_worldstate( const action_id act )
         case ACTION_DISPLAY_VISIBILITY:
         case ACTION_DISPLAY_LIGHTING:
         case ACTION_DISPLAY_RADIATION:
+        case ACTION_DISPLAY_NPC_ATTACK_POTENTIAL:
         case ACTION_DISPLAY_TRANSPARENCY:
         case ACTION_DISPLAY_REACHABILITY_ZONES:
         case ACTION_ZOOM_OUT:
@@ -886,6 +889,7 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_DISPLAY_TRANSPARENCY );
             REGISTER_ACTION( ACTION_DISPLAY_REACHABILITY_ZONES );
             REGISTER_ACTION( ACTION_DISPLAY_RADIATION );
+            REGISTER_ACTION( ACTION_DISPLAY_NPC_ATTACK_POTENTIAL );
             REGISTER_ACTION( ACTION_TOGGLE_DEBUG_MODE );
         } else if( category == _( "Interact" ) ) {
             REGISTER_ACTION( ACTION_EXAMINE );

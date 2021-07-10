@@ -30,7 +30,6 @@
     "harvest": "zombie",
     "special_attacks": [ { "type": "bite", "cooldown": 5, "min_mul": 0.8 } ],
     "death_drops": "mon_zombie_soldier_death_drops",
-    "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 28, "into_group": "GROUP_SOLDIER_UPGRADE" },
     "burn_into": "mon_zombie_scorched",
     "fungalize_into": "mon_zombie_fungus",
@@ -74,7 +73,6 @@
       }
     ],
     "death_drops": "mon_zombie_soldier_death_drops",
-    "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 38, "into": "mon_zombie_soldier_blackops_2" },
     "burn_into": "mon_zombie_scorched",
     "flags": [
@@ -141,7 +139,11 @@
           "ranges": [ [ 2, 20, "DEFAULT" ] ]
         }
       ],
-      "death_function": [ "ACID" ],
+      "death_function": {
+        "message": "The %s's body dissolves into acid.",
+        "effect": { "id": "death_acid", "hit_self": true },
+        "corpse_type": "NO_CORPSE"
+      },
       "flags": [ "ACIDPROOF", "ACID_BLOOD" ]
     }
   },
@@ -173,7 +175,11 @@
           "ranges": [ [ 2, 8, "DEFAULT" ] ]
         }
       ],
-      "death_function": [ "ACID" ],
+      "death_function": {
+        "message": "The %s's body dissolves into acid.",
+        "effect": { "id": "death_acid", "hit_self": true },
+        "corpse_type": "NO_CORPSE"
+      },
       "flags": [ "ACIDPROOF", "ACID_BLOOD" ]
     }
   },
@@ -212,7 +218,6 @@
       [ "SMASH", 30 ]
     ],
     "death_drops": "mon_zombie_kevlar_death_drops",
-    "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 42, "into": "mon_zombie_kevlar_2" },
     "burn_into": "mon_zombie_scorched",
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
@@ -253,7 +258,6 @@
       [ "SMASH", 20 ]
     ],
     "death_drops": "mon_zombie_kevlar_death_drops",
-    "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
   },
@@ -288,7 +292,6 @@
     "harvest": "zombie",
     "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "GRAB", 7 ], [ "scratch", 20 ] ],
     "death_drops": "mon_zombie_military_pilot_death_drops",
-    "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
     "flags": [
       "SEES",
@@ -348,7 +351,7 @@
     "harvest": "zombie",
     "starting_ammo": { "pressurized_tank": 1000 },
     "death_drops": { "subtype": "collection", "groups": [ [ "mon_zombie_soldier_death_drops", 100 ], [ "mon_zombie_flamer", 100 ] ] },
-    "death_function": [ "FIREBALL" ],
+    "death_function": { "effect": { "id": "death_fireball", "hit_self": true } },
     "burn_into": "mon_zombie_scorched",
     "flags": [
       "SEES",
@@ -398,7 +401,6 @@
     "vision_night": 3,
     "harvest": "zombie",
     "death_drops": "mon_zombie_armored_death_drops",
-    "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
   },
@@ -436,7 +438,6 @@
     "special_attacks": [ [ "BIO_OP_TAKEDOWN", 20 ] ],
     "special_when_hit": [ "ZAPBACK", 75 ],
     "death_drops": "mon_zombie_bio_op_death_drops",
-    "death_function": [ "NORMAL" ],
     "fungalize_into": "mon_zombie_fungus",
     "flags": [
       "SEES",
