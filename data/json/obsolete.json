@@ -28,8 +28,7 @@
   {
     "type": "MONSTER_FACTION",
     "name": "otter",
-    "base_faction": "animal",
-    "by_mood": "fish"
+    "base_faction": "animal"
   },
   {
     "result": "plastic_shopping_bag",
@@ -120,7 +119,6 @@
     "name": { "str": "survivor utility belt" },
     "weight": "3390 g",
     "color": "brown",
-    "covers": [ "torso" ],
     "symbol": "[",
     "description": "A custom-built leather utility belt covered with straps and pouches containing many useful hand tools and a sheath to carry a smaller blade.  Durable and carefully crafted to be comfortable to wear.  Activate to sheathe/draw a weapon.",
     "price": 50000,
@@ -128,8 +126,6 @@
     "material": [ "leather", "iron" ],
     "volume": "4 L",
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY", "WAIST", "OVERSIZE" ],
-    "coverage": 15,
-    "encumbrance": 4,
     "material_thickness": 2,
     "pocket_data": [
       {
@@ -155,7 +151,8 @@
       [ "SAW_M_FINE", 1 ],
       [ "WRENCH_FINE", 1 ],
       [ "SCREW_FINE", 1 ]
-    ]
+    ],
+    "armor": [ { "encumbrance": 4, "coverage": 15, "covers": [ "torso" ] } ]
   },
   {
     "id": "combination_gun_shotgun_pipe",
@@ -552,7 +549,8 @@
     "occupied_bodyparts": [ [ "arm_l", 20 ], [ "hand_l", 5 ] ],
     "act_cost": 50,
     "fake_item": "bio_blaster_gun",
-    "flags": [ "BIONIC_GUN" ]
+    "flags": [ "BIONIC_GUN" ],
+    "cant_remove_reason": "Removing %1$s Fusion Blaster Arm would leave %2$s with a useless stump."
   },
   {
     "id": "fusion_gun",
@@ -767,7 +765,7 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "welding_standard", 5 ] ] }
     },
-    "flags": [ "WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_MEDIUM" ],
+    "flags": [ "WHEEL", "UNSTABLE_WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_MEDIUM" ],
     "damage_reduction": { "all": 66 }
   },
   {
@@ -1528,5 +1526,26 @@
     "price": 10000,
     "weight": "3000 g",
     "difficulty": 4
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "cable",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_COMPONENTS",
+    "skill_used": "fabrication",
+    "skills_required": [ "electronics", 2 ],
+    "difficulty": 5,
+    "time": "3 m",
+    "autolearn": true,
+    "charges": 1,
+    "qualities": [
+      { "id": "ANVIL", "level": 1 },
+      { "id": "HAMMER", "level": 2 },
+      { "id": "CHISEL", "level": 3 },
+      { "id": "CUT", "level": 1 }
+    ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "surface_heat", 1, "LIST" ], [ "forge", 1 ], [ "oxy_torch", 1 ] ] ],
+    "components": [ [ [ "copper", 1 ] ], [ [ "duct_tape", 1 ] ] ]
   }
 ]

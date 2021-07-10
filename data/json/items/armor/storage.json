@@ -12,10 +12,6 @@
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "green",
-    "covers": [ "torso" ],
-    "coverage": 30,
-    "encumbrance": 2,
-    "max_encumbrance": 25,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -27,7 +23,8 @@
     ],
     "warmth": 6,
     "material_thickness": 2,
-    "flags": [ "BELTED" ]
+    "flags": [ "BELTED" ],
+    "armor": [ { "encumbrance": [ 2, 25 ], "coverage": 30, "covers": [ "torso" ] } ]
   },
   {
     "id": "backpack_hiking",
@@ -42,10 +39,6 @@
     "symbol": "[",
     "looks_like": "backpack",
     "color": "brown",
-    "covers": [ "torso" ],
-    "coverage": 50,
-    "encumbrance": 10,
-    "max_encumbrance": 40,
     "warmth": 10,
     "material_thickness": 2,
     "pocket_data": [
@@ -99,7 +92,8 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Sheath blade", "holster_msg": "You sheath your %s" },
-    "flags": [ "BELTED", "WATERPROOF", "ONLY_ONE", "OVERSIZE" ]
+    "flags": [ "BELTED", "WATERPROOF", "ONLY_ONE", "OVERSIZE" ],
+    "armor": [ { "encumbrance": [ 10, 40 ], "coverage": 50, "covers": [ "torso" ] } ]
   },
   {
     "id": "backpack_giant",
@@ -115,10 +109,6 @@
     "symbol": "[",
     "looks_like": "backpack",
     "color": "green",
-    "covers": [ "torso", "leg_l", "leg_r" ],
-    "coverage": 75,
-    "encumbrance": 20,
-    "max_encumbrance": 60,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -131,7 +121,8 @@
     ],
     "warmth": 5,
     "material_thickness": 2,
-    "flags": [ "BELTED" ]
+    "flags": [ "BELTED" ],
+    "armor": [ { "encumbrance": [ 20, 60 ], "coverage": 75, "covers": [ "torso", "leg_l", "leg_r" ] } ]
   },
   {
     "id": "backpack_leather",
@@ -146,10 +137,6 @@
     "symbol": "[",
     "looks_like": "backpack",
     "color": "brown",
-    "covers": [ "torso" ],
-    "coverage": 30,
-    "encumbrance": 4,
-    "max_encumbrance": 26,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -161,7 +148,8 @@
     ],
     "warmth": 9,
     "material_thickness": 3,
-    "flags": [ "BELTED", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": [ 4, 26 ], "coverage": 30, "covers": [ "torso" ] } ]
   },
   {
     "id": "backpack_tactical_large",
@@ -176,10 +164,6 @@
     "symbol": "[",
     "looks_like": "backpack",
     "color": "green",
-    "covers": [ "torso" ],
-    "coverage": 50,
-    "encumbrance": 10,
-    "max_encumbrance": 55,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -216,7 +200,8 @@
     ],
     "warmth": 10,
     "material_thickness": 2,
-    "flags": [ "BELTED", "WATERPROOF", "ONLY_ONE", "OVERSIZE" ]
+    "flags": [ "BELTED", "WATERPROOF", "ONLY_ONE", "OVERSIZE" ],
+    "armor": [ { "encumbrance": [ 10, 55 ], "coverage": 50, "covers": [ "torso" ] } ]
   },
   {
     "id": "basket_laundry",
@@ -233,7 +218,7 @@
     "symbol": ")",
     "looks_like": "plastic_shopping_bag",
     "color": "light_gray",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "arm_l", "arm_r" ], "coverage": 5, "encumbrance": [ 50, 50 ] },
       { "covers": [ "hand_l", "hand_r" ], "coverage": 5, "encumbrance": [ 50, 50 ] }
     ],
@@ -263,10 +248,6 @@
     "symbol": "[",
     "looks_like": "rucksack",
     "color": "black",
-    "covers": [ "torso" ],
-    "coverage": 50,
-    "encumbrance": 16,
-    "max_encumbrance": 65,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -303,7 +284,8 @@
     ],
     "warmth": 10,
     "material_thickness": 2,
-    "flags": [ "BELTED", "WATERPROOF", "ONLY_ONE", "OVERSIZE" ]
+    "flags": [ "BELTED", "WATERPROOF", "ONLY_ONE", "OVERSIZE" ],
+    "armor": [ { "encumbrance": [ 16, 65 ], "coverage": 50, "covers": [ "torso" ] } ]
   },
   {
     "id": "bindle",
@@ -320,10 +302,10 @@
     "symbol": "[",
     "looks_like": "plastic_shopping_bag",
     "color": "light_gray",
-    "armor_portion_data": [
+    "sided": true,
+    "armor": [
       { "covers": [ "arm_l", "arm_r" ], "coverage": 4, "encumbrance": [ 30, 33 ] },
-      { "covers": [ "hand_l", "hand_r" ], "coverage": 4, "encumbrance": [ 30, 32 ] },
-      { "sided": true }
+      { "covers": [ "hand_l", "hand_r" ], "coverage": 4, "encumbrance": [ 30, 32 ] }
     ],
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "5 L", "max_contains_weight": "15 kg", "moves": 300 } ],
     "material_thickness": 1,
@@ -352,14 +334,12 @@
         "moves": 300
       }
     ],
-    "covers": [ "torso" ],
-    "coverage": 40,
-    "encumbrance": 20,
     "warmth": 5,
     "bashing": 16,
     "cutting": 4,
     "price": 3500,
-    "flags": [ "BELTED", "OVERSIZE", "NO_REPAIR" ]
+    "flags": [ "BELTED", "OVERSIZE", "NO_REPAIR" ],
+    "armor": [ { "encumbrance": 20, "coverage": 40, "covers": [ "torso" ] } ]
   },
   {
     "id": "briefcase",
@@ -377,10 +357,7 @@
     "symbol": "[",
     "looks_like": "plastic_shopping_bag",
     "color": "light_gray",
-    "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
     "sided": true,
-    "coverage": 10,
-    "encumbrance": 30,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -392,7 +369,8 @@
       }
     ],
     "material_thickness": 2,
-    "flags": [ "FANCY", "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
+    "flags": [ "FANCY", "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 30, "coverage": 10, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ]
   },
   {
     "id": "case_violin",
@@ -410,10 +388,7 @@
     "symbol": "&",
     "looks_like": "briefcase",
     "color": "dark_gray",
-    "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
     "sided": true,
-    "coverage": 10,
-    "encumbrance": 30,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -425,7 +400,8 @@
       }
     ],
     "material_thickness": 5,
-    "flags": [ "FANCY", "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
+    "flags": [ "FANCY", "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 30, "coverage": 10, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ]
   },
   {
     "id": "daypack",
@@ -442,11 +418,7 @@
     "price": 5500,
     "price_postapoc": 500,
     "material": [ "cotton", "plastic" ],
-    "covers": [ "torso" ],
-    "coverage": 50,
     "material_thickness": 1,
-    "encumbrance": 2,
-    "max_encumbrance": 18,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -458,7 +430,8 @@
       }
     ],
     "warmth": 5,
-    "flags": [ "BELTED", "OVERSIZE", "STURDY" ]
+    "flags": [ "BELTED", "OVERSIZE", "STURDY" ],
+    "armor": [ { "encumbrance": [ 2, 18 ], "coverage": 50, "covers": [ "torso" ] } ]
   },
   {
     "id": "dive_bag",
@@ -474,10 +447,6 @@
     "symbol": "[",
     "looks_like": "backpack",
     "color": "yellow",
-    "covers": [ "torso" ],
-    "coverage": 40,
-    "encumbrance": 2,
-    "max_encumbrance": 30,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -488,7 +457,8 @@
       }
     ],
     "material_thickness": 1,
-    "flags": [ "WATER_FRIENDLY", "BELTED" ]
+    "flags": [ "WATER_FRIENDLY", "BELTED" ],
+    "armor": [ { "encumbrance": [ 2, 30 ], "coverage": 40, "covers": [ "torso" ] } ]
   },
   {
     "id": "duffelbag",
@@ -503,10 +473,6 @@
     "symbol": "[",
     "looks_like": "rucksack",
     "color": "green",
-    "covers": [ "torso" ],
-    "coverage": 50,
-    "encumbrance": 5,
-    "max_encumbrance": 35,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -519,7 +485,8 @@
     ],
     "warmth": 10,
     "material_thickness": 2,
-    "flags": [ "BELTED", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": [ 5, 35 ], "coverage": 50, "covers": [ "torso" ] } ]
   },
   {
     "id": "dump_pouch",
@@ -536,10 +503,6 @@
     "symbol": "[",
     "looks_like": "holster",
     "color": "dark_gray",
-    "covers": [ "torso" ],
-    "coverage": 10,
-    "encumbrance": 1,
-    "max_encumbrance": 3,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -551,7 +514,8 @@
       }
     ],
     "material_thickness": 0.5,
-    "flags": [ "WAIST", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": [ 1, 3 ], "coverage": 10, "covers": [ "torso" ] } ]
   },
   {
     "id": "fanny",
@@ -568,10 +532,6 @@
     "symbol": "[",
     "looks_like": "holster",
     "color": "green",
-    "covers": [ "torso" ],
-    "coverage": 10,
-    "encumbrance": 1,
-    "max_encumbrance": 3,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -583,7 +543,8 @@
       }
     ],
     "material_thickness": 0.1,
-    "flags": [ "WAIST", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": [ 1, 3 ], "coverage": 10, "covers": [ "torso" ] } ]
   },
   {
     "id": "golf_bag",
@@ -599,10 +560,6 @@
     "symbol": "[",
     "looks_like": "quiver_large",
     "color": "green",
-    "covers": [ "torso" ],
-    "coverage": 35,
-    "encumbrance": 30,
-    "max_encumbrance": 35,
     "//": "The main section of the golf bag actually assumes things will stick out of it, but specifically contains them, so some extra wiggle room was added.",
     "pocket_data": [
       {
@@ -623,7 +580,8 @@
     "warmth": 5,
     "material_thickness": 3,
     "flags": [ "BELTED", "OVERSIZE" ],
-    "use_action": { "type": "holster", "holster_prompt": "Sheath golf club", "holster_msg": "You awkwardly sheath your %s" }
+    "use_action": { "type": "holster", "holster_prompt": "Sheath golf club", "holster_msg": "You awkwardly sheath your %s" },
+    "armor": [ { "encumbrance": [ 30, 35 ], "coverage": 35, "covers": [ "torso" ] } ]
   },
   {
     "id": "hide_bag",
@@ -637,12 +595,9 @@
     "color": "pink",
     "proportional": { "weight": 6.0, "volume": 6.0, "price": 6.0, "quench": 6.0, "calories": 6.0, "healthy": 6.0, "fun": 6.0 },
     "armor_data": {
-      "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
       "sided": true,
-      "coverage": 5,
-      "encumbrance": 10,
-      "max_encumbrance": 100,
-      "material_thickness": 0.1
+      "material_thickness": 0.1,
+      "armor": [ { "encumbrance": [ 10, 100 ], "coverage": 5, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ]
     },
     "pocket_data": [
       {
@@ -668,12 +623,9 @@
     "price_postapoc": 10,
     "proportional": { "weight": 6.0, "volume": 6.0, "price": 6.0, "quench": 6.0, "calories": 6.0, "healthy": 6.0, "fun": 6.0 },
     "armor_data": {
-      "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
       "sided": true,
-      "coverage": 5,
-      "encumbrance": 10,
-      "max_encumbrance": 100,
-      "material_thickness": 0.1
+      "material_thickness": 0.1,
+      "armor": [ { "encumbrance": [ 10, 100 ], "coverage": 5, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ]
     },
     "pocket_data": [
       {
@@ -724,9 +676,6 @@
     "symbol": "[",
     "looks_like": "backpack",
     "color": "green",
-    "covers": [ "torso" ],
-    "coverage": 40,
-    "encumbrance": 30,
     "warmth": 5,
     "material_thickness": 2,
     "pocket_data": [
@@ -738,7 +687,8 @@
         "rigid": true
       }
     ],
-    "flags": [ "OVERSIZE", "BELTED", "WATER_FRIENDLY" ]
+    "flags": [ "OVERSIZE", "BELTED", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 30, "coverage": 40, "covers": [ "torso" ] } ]
   },
   {
     "id": "leather_pouch",
@@ -755,10 +705,6 @@
     "symbol": "[",
     "looks_like": "holster",
     "color": "brown",
-    "covers": [ "torso" ],
-    "coverage": 15,
-    "encumbrance": 1,
-    "max_encumbrance": 3,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -769,7 +715,8 @@
       }
     ],
     "material_thickness": 0.1,
-    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": [ 1, 3 ], "coverage": 15, "covers": [ "torso" ] } ]
   },
   {
     "id": "legrig",
@@ -783,10 +730,6 @@
     "material": [ "cotton" ],
     "symbol": "[",
     "color": "dark_gray",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 20,
-    "encumbrance": 2,
-    "max_encumbrance": 5,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -806,7 +749,35 @@
       }
     ],
     "material_thickness": 0.2,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "BELTED" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "BELTED" ],
+    "armor": [ { "encumbrance": [ 2, 5 ], "coverage": 20, "covers": [ "leg_l", "leg_r" ] } ]
+  },
+  {
+    "id": "armrig",
+    "type": "ARMOR",
+    "name": { "str": "armband pouch", "str_pl": "armband pouches" },
+    "description": "A small pouch that can be worn on the upper arm using buckled straps.  This is a favoured item among sports & camping enthusiasts.",
+    "weight": "205 g",
+    "volume": "550 ml",
+    "price": 3000,
+    "price_postapoc": 250,
+    "material": [ "cotton", "plastic" ],
+    "symbol": "[",
+    "looks_like": "armguard_soft",
+    "color": "dark_gray",
+    "sided": true,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "15 cm",
+        "moves": 200
+      }
+    ],
+    "material_thickness": 2,
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "BELTED" ],
+    "armor": [ { "encumbrance": [ 2, 7 ], "coverage": 20, "covers": [ "arm_l", "arm_r" ] } ]
   },
   {
     "id": "makeshift_knapsack",
@@ -821,10 +792,6 @@
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "light_gray",
-    "covers": [ "torso" ],
-    "coverage": 30,
-    "encumbrance": 2,
-    "max_encumbrance": 9,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -836,7 +803,8 @@
     ],
     "warmth": 5,
     "material_thickness": 0.2,
-    "flags": [ "BELTED", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": [ 2, 9 ], "coverage": 30, "covers": [ "torso" ] } ]
   },
   {
     "id": "makeshift_sling",
@@ -852,10 +820,6 @@
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "light_gray",
-    "covers": [ "torso" ],
-    "coverage": 40,
-    "encumbrance": 4,
-    "max_encumbrance": 15,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -868,7 +832,8 @@
     ],
     "warmth": 10,
     "material_thickness": 1,
-    "flags": [ "OVERSIZE", "BELTED", "WATER_FRIENDLY" ]
+    "flags": [ "OVERSIZE", "BELTED", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": [ 4, 15 ], "coverage": 40, "covers": [ "torso" ] } ]
   },
   {
     "id": "mbag",
@@ -887,10 +852,6 @@
     "symbol": "[",
     "looks_like": "purse",
     "color": "green",
-    "covers": [ "torso" ],
-    "coverage": 30,
-    "encumbrance": 8,
-    "max_encumbrance": 12,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -902,7 +863,8 @@
       }
     ],
     "material_thickness": 1,
-    "flags": [ "BELTED", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": [ 8, 12 ], "coverage": 30, "covers": [ "torso" ] } ]
   },
   {
     "id": "molle_pack",
@@ -918,10 +880,6 @@
     "symbol": "[",
     "looks_like": "backpack",
     "color": "green",
-    "covers": [ "torso" ],
-    "coverage": 35,
-    "encumbrance": 5,
-    "max_encumbrance": 20,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -958,7 +916,8 @@
     ],
     "warmth": 10,
     "material_thickness": 2,
-    "flags": [ "BELTED", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": [ 5, 20 ], "coverage": 35, "covers": [ "torso" ] } ]
   },
   {
     "id": "net_backpack",
@@ -971,10 +930,6 @@
     "material": [ "cotton" ],
     "symbol": "[",
     "color": "green",
-    "covers": [ "torso" ],
-    "coverage": 20,
-    "encumbrance": 1,
-    "max_encumbrance": 25,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -986,7 +941,8 @@
       }
     ],
     "material_thickness": 1,
-    "flags": [ "BELTED", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": [ 1, 25 ], "coverage": 20, "covers": [ "torso" ] } ]
   },
   {
     "id": "petpack",
@@ -1001,9 +957,6 @@
     "symbol": "[",
     "looks_like": "backpack",
     "color": "blue",
-    "covers": [ "torso" ],
-    "coverage": 40,
-    "encumbrance": 35,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1017,8 +970,9 @@
     "warmth": 8,
     "material_thickness": 2,
     "properties": [ [ "creature_size_capacity", "SMALL" ] ],
-    "use_action": "CAPTURE_MONSTER_ACT",
-    "flags": [ "BELTED", "WATERPROOF" ]
+    "use_action": [ "CAPTURE_MONSTER_ACT" ],
+    "flags": [ "BELTED", "WATERPROOF" ],
+    "armor": [ { "encumbrance": 35, "coverage": 40, "covers": [ "torso" ] } ]
   },
   {
     "id": "plastic_shopping_bag",
@@ -1033,10 +987,10 @@
     "material": [ "plastic" ],
     "symbol": "[",
     "color": "white",
-    "armor_portion_data": [
+    "sided": true,
+    "armor": [
       { "covers": [ "arm_l", "arm_r" ], "coverage": 4, "encumbrance": [ 1, 30 ] },
-      { "covers": [ "hand_l", "hand_r" ], "coverage": 4, "encumbrance": [ 1, 30 ] },
-      { "sided": true }
+      { "covers": [ "hand_l", "hand_r" ], "coverage": 4, "encumbrance": [ 1, 30 ] }
     ],
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "5 L", "max_contains_weight": "3 kg", "moves": 150 } ],
     "material_thickness": 0.01,
@@ -1058,10 +1012,6 @@
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "dark_gray",
-    "covers": [ "torso" ],
-    "coverage": 10,
-    "encumbrance": 2,
-    "max_encumbrance": 7,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1072,7 +1022,8 @@
       }
     ],
     "material_thickness": 1,
-    "flags": [ "FANCY", "BELTED", "WATER_FRIENDLY" ]
+    "flags": [ "FANCY", "BELTED", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": [ 2, 7 ], "coverage": 10, "covers": [ "torso" ] } ]
   },
   {
     "id": "ragpouch",
@@ -1088,10 +1039,6 @@
     "material": [ "cotton" ],
     "symbol": "[",
     "color": "light_gray",
-    "covers": [ "torso" ],
-    "coverage": 15,
-    "encumbrance": 5,
-    "max_encumbrance": 10,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1102,7 +1049,8 @@
       }
     ],
     "material_thickness": 0.2,
-    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": [ 5, 10 ], "coverage": 15, "covers": [ "torso" ] } ]
   },
   {
     "id": "rucksack",
@@ -1118,10 +1066,6 @@
     "symbol": "[",
     "looks_like": "backpack",
     "color": "green",
-    "covers": [ "torso" ],
-    "coverage": 40,
-    "encumbrance": 10,
-    "max_encumbrance": 50,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1158,7 +1102,8 @@
     ],
     "warmth": 8,
     "material_thickness": 0.2,
-    "flags": [ "BELTED", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": [ 10, 50 ], "coverage": 40, "covers": [ "torso" ] } ]
   },
   {
     "id": "runner_bag",
@@ -1175,10 +1120,6 @@
     "symbol": "[",
     "looks_like": "backpack",
     "color": "green",
-    "covers": [ "torso" ],
-    "coverage": 20,
-    "encumbrance": 1,
-    "max_encumbrance": 6,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1191,7 +1132,8 @@
     ],
     "warmth": 2,
     "material_thickness": 0.1,
-    "flags": [ "BELTED", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": [ 1, 6 ], "coverage": 20, "covers": [ "torso" ] } ]
   },
   {
     "id": "slingpack",
@@ -1209,10 +1151,6 @@
     "symbol": "[",
     "looks_like": "purse",
     "color": "green",
-    "covers": [ "torso" ],
-    "coverage": 30,
-    "encumbrance": 2,
-    "max_encumbrance": 9,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1225,7 +1163,8 @@
     ],
     "warmth": 2,
     "material_thickness": 1,
-    "flags": [ "BELTED", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": [ 2, 9 ], "coverage": 30, "covers": [ "torso" ] } ]
   },
   {
     "id": "straw_basket",
@@ -1241,10 +1180,7 @@
     "symbol": "[",
     "looks_like": "plastic_shopping_bag",
     "color": "light_gray",
-    "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
     "sided": true,
-    "coverage": 4,
-    "encumbrance": 30,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1256,7 +1192,8 @@
       }
     ],
     "material_thickness": 2,
-    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 30, "coverage": 4, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ]
   },
   {
     "id": "suitcase_l",
@@ -1273,10 +1210,7 @@
     "symbol": "[",
     "looks_like": "suitcase_m",
     "color": "red",
-    "covers": [ "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r" ],
     "sided": true,
-    "coverage": 5,
-    "encumbrance": 70,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1288,7 +1222,8 @@
       }
     ],
     "material_thickness": 3,
-    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 70, "coverage": 5, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r" ] } ]
   },
   {
     "id": "suitcase_m",
@@ -1304,10 +1239,7 @@
     "symbol": "[",
     "looks_like": "briefcase",
     "color": "blue",
-    "covers": [ "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r" ],
     "sided": true,
-    "coverage": 5,
-    "encumbrance": 50,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1319,7 +1251,8 @@
       }
     ],
     "material_thickness": 3,
-    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 50, "coverage": 5, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r" ] } ]
   },
   {
     "id": "survivor_duffel_bag",
@@ -1334,10 +1267,6 @@
     "symbol": "[",
     "looks_like": "rucksack",
     "color": "dark_gray",
-    "covers": [ "torso" ],
-    "coverage": 40,
-    "encumbrance": 8,
-    "max_encumbrance": 30,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1350,7 +1279,8 @@
     ],
     "warmth": 10,
     "material_thickness": 2,
-    "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "OVERSIZE" ]
+    "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "OVERSIZE" ],
+    "armor": [ { "encumbrance": [ 8, 30 ], "coverage": 40, "covers": [ "torso" ] } ]
   },
   {
     "id": "survivor_pack",
@@ -1365,10 +1295,6 @@
     "symbol": "[",
     "looks_like": "backpack",
     "color": "brown",
-    "covers": [ "torso" ],
-    "coverage": 30,
-    "encumbrance": 3,
-    "max_encumbrance": 24,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1381,7 +1307,8 @@
     ],
     "warmth": 6,
     "material_thickness": 2,
-    "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED" ]
+    "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED" ],
+    "armor": [ { "encumbrance": [ 3, 24 ], "coverage": 30, "covers": [ "torso" ] } ]
   },
   {
     "id": "survivor_rucksack",
@@ -1396,10 +1323,6 @@
     "symbol": "[",
     "looks_like": "rucksack",
     "color": "dark_gray",
-    "covers": [ "torso" ],
-    "coverage": 40,
-    "encumbrance": 3,
-    "max_encumbrance": 28,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1412,7 +1335,8 @@
     ],
     "warmth": 8,
     "material_thickness": 2,
-    "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "OVERSIZE" ]
+    "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "OVERSIZE" ],
+    "armor": [ { "encumbrance": [ 3, 28 ], "coverage": 40, "covers": [ "torso" ] } ]
   },
   {
     "id": "survivor_runner_pack",
@@ -1427,10 +1351,6 @@
     "symbol": "[",
     "looks_like": "backpack",
     "color": "brown",
-    "covers": [ "torso" ],
-    "coverage": 30,
-    "encumbrance": 3,
-    "max_encumbrance": 12,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1443,7 +1363,8 @@
     ],
     "warmth": 2,
     "material_thickness": 2,
-    "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED" ]
+    "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED" ],
+    "armor": [ { "encumbrance": [ 3, 12 ], "coverage": 30, "covers": [ "torso" ] } ]
   },
   {
     "id": "swag_bag",
@@ -1459,10 +1380,10 @@
     "symbol": "[",
     "looks_like": "duffelbag",
     "color": "brown",
-    "armor_portion_data": [
+    "sided": true,
+    "armor": [
       { "covers": [ "hand_l", "hand_r" ], "coverage": 5, "encumbrance": [ 4, 48 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 5, "encumbrance": [ 4, 48 ] },
-      { "sided": true }
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 5, "encumbrance": [ 4, 48 ] }
     ],
     "pocket_data": [
       {
@@ -1489,10 +1410,6 @@
     "symbol": "[",
     "looks_like": "backpack",
     "color": "yellow",
-    "covers": [ "torso" ],
-    "coverage": 40,
-    "encumbrance": 3,
-    "max_encumbrance": 25,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1529,7 +1446,8 @@
     ],
     "warmth": 8,
     "material_thickness": 2,
-    "flags": [ "BELTED", "WATERPROOF" ]
+    "flags": [ "BELTED", "WATERPROOF" ],
+    "armor": [ { "encumbrance": [ 3, 25 ], "coverage": 40, "covers": [ "torso" ] } ]
   },
   {
     "id": "vest",
@@ -1545,10 +1463,6 @@
     "symbol": "[",
     "looks_like": "tank_top",
     "color": "light_gray",
-    "covers": [ "torso" ],
-    "coverage": 60,
-    "encumbrance": 2,
-    "max_encumbrance": 5,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1581,7 +1495,8 @@
     ],
     "warmth": 5,
     "material_thickness": 0.4,
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE" ],
+    "armor": [ { "encumbrance": [ 2, 5 ], "coverage": 60, "covers": [ "torso" ] } ]
   },
   {
     "id": "wicker_backpack",
@@ -1595,10 +1510,6 @@
     "material": [ "dry_plant" ],
     "symbol": "[",
     "color": "green",
-    "covers": [ "torso" ],
-    "coverage": 25,
-    "encumbrance": 5,
-    "max_encumbrance": 20,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1610,7 +1521,8 @@
       }
     ],
     "material_thickness": 2,
-    "flags": [ "BELTED", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": [ 5, 20 ], "coverage": 25, "covers": [ "torso" ] } ]
   },
   {
     "id": "debug_backpack",
@@ -1625,8 +1537,6 @@
     "symbol": "[",
     "looks_like": "backpack",
     "color": "yellow",
-    "encumbrance": 0,
-    "max_encumbrance": 0,
     "pocket_data": [
       {
         "rigid": true,
@@ -1639,7 +1549,8 @@
     ],
     "warmth": 0,
     "material_thickness": 0,
-    "flags": [ "BELTED", "WATER_FRIENDLY", "TARDIS" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY", "TARDIS" ],
+    "armor": [ { "encumbrance": [ 0, 0 ] } ]
   },
   {
     "id": "long_duffelbag",
@@ -1654,10 +1565,6 @@
     "symbol": "[",
     "looks_like": "rucksack",
     "color": "green",
-    "covers": [ "torso" ],
-    "coverage": 80,
-    "encumbrance": 8,
-    "max_encumbrance": 42,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1670,7 +1577,8 @@
     ],
     "warmth": 8,
     "material_thickness": 2,
-    "flags": [ "BELTED", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": [ 8, 42 ], "coverage": 80, "covers": [ "torso" ] } ]
   },
   {
     "id": "rifle_case_soft",
@@ -1685,10 +1593,6 @@
     "symbol": "[",
     "looks_like": "slingpack",
     "color": "green",
-    "covers": [ "torso" ],
-    "coverage": 10,
-    "encumbrance": 2,
-    "max_encumbrance": 6,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1708,7 +1612,8 @@
     ],
     "warmth": 1,
     "material_thickness": 2,
-    "flags": [ "BELTED", "OVERSIZE" ]
+    "flags": [ "BELTED", "OVERSIZE" ],
+    "armor": [ { "encumbrance": [ 2, 6 ], "coverage": 10, "covers": [ "torso" ] } ]
   },
   {
     "id": "rifle_case_soft_leather",
@@ -1723,10 +1628,6 @@
     "symbol": "[",
     "looks_like": "slingpack",
     "color": "brown",
-    "covers": [ "torso" ],
-    "coverage": 10,
-    "encumbrance": 2,
-    "max_encumbrance": 6,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1746,7 +1647,8 @@
     ],
     "warmth": 1,
     "material_thickness": 2,
-    "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "OVERSIZE" ]
+    "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "OVERSIZE" ],
+    "armor": [ { "encumbrance": [ 2, 6 ], "coverage": 10, "covers": [ "torso" ] } ]
   },
   {
     "id": "rifle_case_soft_2",
@@ -1761,10 +1663,6 @@
     "symbol": "[",
     "looks_like": "slingpack",
     "color": "green",
-    "covers": [ "torso" ],
-    "coverage": 15,
-    "encumbrance": 2,
-    "max_encumbrance": 14,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1800,7 +1698,8 @@
     ],
     "warmth": 1,
     "material_thickness": 2,
-    "flags": [ "BELTED", "OVERSIZE" ]
+    "flags": [ "BELTED", "OVERSIZE" ],
+    "armor": [ { "encumbrance": [ 2, 14 ], "coverage": 15, "covers": [ "torso" ] } ]
   },
   {
     "id": "rifle_case_soft_leather_2",
@@ -1815,10 +1714,6 @@
     "symbol": "[",
     "looks_like": "slingpack",
     "color": "brown",
-    "covers": [ "torso" ],
-    "coverage": 15,
-    "encumbrance": 2,
-    "max_encumbrance": 14,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1854,7 +1749,8 @@
     ],
     "warmth": 1,
     "material_thickness": 2,
-    "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "OVERSIZE" ]
+    "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "OVERSIZE" ],
+    "armor": [ { "encumbrance": [ 2, 14 ], "coverage": 15, "covers": [ "torso" ] } ]
   },
   {
     "id": "rifle_case_xl_soft_leather",
@@ -1869,10 +1765,6 @@
     "symbol": "[",
     "looks_like": "slingpack",
     "color": "brown",
-    "covers": [ "torso" ],
-    "coverage": 15,
-    "encumbrance": 2,
-    "max_encumbrance": 6,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1892,7 +1784,8 @@
     ],
     "warmth": 1,
     "material_thickness": 2,
-    "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "OVERSIZE" ]
+    "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "OVERSIZE" ],
+    "armor": [ { "encumbrance": [ 2, 6 ], "coverage": 15, "covers": [ "torso" ] } ]
   },
   {
     "id": "camera_bag",
@@ -1909,10 +1802,6 @@
     "symbol": "[",
     "looks_like": "slingpack",
     "color": "yellow",
-    "covers": [ "torso" ],
-    "coverage": 25,
-    "encumbrance": 3,
-    "max_encumbrance": 5,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1933,6 +1822,35 @@
     ],
     "warmth": 2,
     "material_thickness": 1,
-    "flags": [ "BELTED", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": [ 3, 5 ], "coverage": 25, "covers": [ "torso" ] } ]
+  },
+  {
+    "id": "bookstrap",
+    "type": "ARMOR",
+    "name": { "str": "bookstrap" },
+    "description": "An old-fashioned book strap carrier.  Guaranteed to make you feel like a proper scholar.",
+    "weight": "204 g",
+    "volume": "350 ml",
+    "price": 12000,
+    "price_postapoc": 450,
+    "material": [ "leather" ],
+    "symbol": "[",
+    "looks_like": "leather_belt",
+    "color": "brown",
+    "sided": true,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "min_item_volume": "500 ml",
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "40 cm",
+        "moves": 400
+      }
+    ],
+    "material_thickness": 1,
+    "flags": [ "BELTED", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": [ 0, 11 ], "coverage": 5, "covers": [ "leg_l", "leg_r" ] } ]
   }
 ]

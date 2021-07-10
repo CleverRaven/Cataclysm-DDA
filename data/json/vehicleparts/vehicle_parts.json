@@ -111,7 +111,17 @@
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
     },
     "breaks_into": "ig_vp_wood_plate",
-    "flags": [ "ENGINE", "BOARDABLE", "E_STARTS_INSTANTLY", "ANIMAL_CTRL", "HARNESS_any", "STEERABLE", "UNMOUNT_ON_DAMAGE", "WHEEL" ],
+    "flags": [
+      "ENGINE",
+      "BOARDABLE",
+      "E_STARTS_INSTANTLY",
+      "ANIMAL_CTRL",
+      "HARNESS_any",
+      "STEERABLE",
+      "UNMOUNT_ON_DAMAGE",
+      "UNSTABLE_WHEEL",
+      "WHEEL"
+    ],
     "damage_reduction": { "all": 2 }
   },
   {
@@ -191,7 +201,7 @@
     },
     "flags": [ "BED", "BOARDABLE", "CARGO", "MOUNTABLE", "NONBELTABLE" ],
     "breaks_into": "ig_vp_seat",
-    "damage_reduction": { "all": 3 }
+    "damage_reduction": { "all": 3, "bash": 5 }
   },
   {
     "type": "vehicle_part",
@@ -375,7 +385,7 @@
     },
     "flags": [ "ROOF" ],
     "breaks_into": "ig_vp_sheet_metal",
-    "damage_reduction": { "all": 28 }
+    "damage_reduction": { "all": 20 }
   },
   {
     "type": "vehicle_part",
@@ -397,7 +407,7 @@
     },
     "flags": [ "ROOF" ],
     "breaks_into": "ig_vp_steel_plate",
-    "damage_reduction": { "all": 75 }
+    "damage_reduction": { "all": 30 }
   },
   {
     "type": "vehicle_part",
@@ -420,7 +430,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
-    "flags": [ "SHARP", "FOLDABLE" ],
+    "flags": [ "SHARP", "PROTRUSION", "FOLDABLE" ],
     "breaks_into": [ { "item": "steel_chunk", "prob": 50 } ]
   },
   {
@@ -443,7 +453,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
-    "flags": [ "SHARP", "FOLDABLE" ],
+    "flags": [ "SHARP", "PROTRUSION", "FOLDABLE" ],
     "breaks_into": [ { "item": "steel_chunk", "count": [ 1, 2 ] } ],
     "damage_reduction": { "all": 12 }
   },
@@ -504,7 +514,7 @@
       { "item": "steel_chunk", "count": [ 1, 2 ] },
       { "item": "scrap", "count": [ 0, 3 ] }
     ],
-    "damage_reduction": { "all": 8 }
+    "damage_reduction": { "all": 8, "bash": 10 }
   },
   {
     "type": "vehicle_part",
@@ -762,7 +772,7 @@
       "install": { "time": "10 m", "using": [ [ "rope_natural_short", 1 ] ] },
       "repair": { "time": "5 m", "using": [ [ "adhesive", 1 ] ] }
     },
-    "damage_reduction": { "all": 18, "stab": 8, "cut": 8 }
+    "damage_reduction": { "all": 4 }
   },
   {
     "type": "vehicle_part",
@@ -786,7 +796,7 @@
     },
     "flags": [ "CARGO", "BOARDABLE", "COVERED", "LOCKABLE_CARGO" ],
     "breaks_into": [ { "item": "splinter", "count": [ 3, 5 ] }, { "item": "nail", "charges": [ 10, 15 ] } ],
-    "damage_reduction": { "all": 16, "stab": 6, "cut": 6 }
+    "damage_reduction": { "all": 5 }
   },
   {
     "type": "vehicle_part",
@@ -811,7 +821,7 @@
     },
     "flags": [ "CARGO", "BOARDABLE", "COVERED", "FOLDABLE", "LOCKABLE_CARGO" ],
     "breaks_into": [ { "item": "splinter", "count": [ 3, 5 ] }, { "item": "nail", "charges": [ 10, 15 ] } ],
-    "damage_reduction": { "all": 10, "stab": 4, "cut": 5 }
+    "damage_reduction": { "all": 4 }
   },
   {
     "type": "vehicle_part",
@@ -1127,8 +1137,8 @@
     "location": "engine_block",
     "folded_volume": "500 ml",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m" },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m" },
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "6 m" },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "6 m" },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m" }
     },
     "flags": [ "ENGINE", "CONTROLS", "FOLDABLE", "MUSCLE_ARMS", "E_STARTS_INSTANTLY" ],
@@ -1332,7 +1342,8 @@
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
     },
     "flags": [ "SEATBELT", "FOLDABLE", "SIMPLE_PART" ],
-    "breaks_into": [ { "item": "string_36", "count": [ 0, 3 ] } ]
+    "breaks_into": [ { "item": "string_36", "count": [ 0, 3 ] } ],
+    "damage_reduction": { "bash": 15 }
   },
   {
     "type": "vehicle_part",
@@ -1418,7 +1429,8 @@
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
     },
     "flags": [ "SEATBELT", "FOLDABLE", "SIMPLE_PART" ],
-    "breaks_into": [ { "item": "string_36", "count": [ 0, 3 ] } ]
+    "breaks_into": [ { "item": "string_36", "count": [ 0, 3 ] } ],
+    "damage_reduction": { "bash": 15 }
   },
   {
     "type": "vehicle_part",
@@ -1833,7 +1845,7 @@
       { "item": "scrap", "count": [ 4, 6 ] },
       { "item": "spike", "count": [ 0, 2 ] }
     ],
-    "damage_reduction": { "all": 58 }
+    "damage_reduction": { "all": 48 }
   },
   {
     "type": "vehicle_part",
@@ -1858,7 +1870,7 @@
       { "item": "steel_chunk", "count": [ 4, 6 ] },
       { "item": "scrap", "count": [ 4, 6 ] }
     ],
-    "damage_reduction": { "all": 75 }
+    "damage_reduction": { "all": 70 }
   },
   {
     "type": "vehicle_part",
@@ -1884,7 +1896,7 @@
       { "item": "scrap", "count": [ 4, 6 ] },
       { "item": "ceramic_armor", "count": [ 0, 4 ] }
     ],
-    "damage_reduction": { "all": 70, "cut": 95, "stab": 88 }
+    "damage_reduction": { "all": 60, "bullet": 105 }
   },
   {
     "type": "vehicle_part",
@@ -2008,7 +2020,7 @@
       "DOOR"
     ],
     "breaks_into": "ig_vp_frame",
-    "damage_reduction": { "all": 25 }
+    "damage_reduction": { "all": 20 }
   },
   {
     "type": "vehicle_part",
@@ -2032,7 +2044,7 @@
     },
     "flags": [ "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "LOW_FINAL_AIR_DRAG", "WINDOW", "SIMPLE_PART", "DOOR" ],
     "breaks_into": "ig_vp_hdframe",
-    "damage_reduction": { "all": 78 }
+    "damage_reduction": { "all": 30 }
   },
   {
     "type": "vehicle_part",
@@ -2056,7 +2068,7 @@
     },
     "flags": [ "OPAQUE", "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "SIMPLE_PART", "DOOR" ],
     "breaks_into": "ig_vp_sheet_metal",
-    "damage_reduction": { "all": 24 }
+    "damage_reduction": { "all": 7 }
   },
   {
     "type": "vehicle_part",
@@ -2080,7 +2092,7 @@
     },
     "flags": [ "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "SIMPLE_PART", "DOOR" ],
     "breaks_into": "ig_vp_frame",
-    "damage_reduction": { "all": 26 }
+    "damage_reduction": { "all": 20 }
   },
   {
     "type": "vehicle_part",
@@ -2213,6 +2225,7 @@
     "broken_color": "light_gray",
     "damage_modifier": 0,
     "durability": 60,
+    "damage_reduction": { "bash": 5 },
     "description": "A stereo system.  When turned on, it plays music, improving your mood.",
     "epower": -50,
     "bonus": 80,
@@ -2404,7 +2417,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
     },
-    "flags": [ "SHARP", "FOLDABLE" ],
+    "flags": [ "SHARP", "PROTRUSION", "FOLDABLE" ],
     "breaks_into": [ { "item": "splinter", "count": [ 3, 7 ] } ]
   },
   {
@@ -2486,7 +2499,7 @@
     "color": "yellow",
     "broken_symbol": ")",
     "broken_color": "light_gray",
-    "durability": 320,
+    "durability": 200,
     "item": "chitin_plate",
     "location": "armor",
     "requirements": {
@@ -2496,17 +2509,16 @@
     },
     "flags": [ "ARMOR" ],
     "breaks_into": [ { "item": "chitin_piece", "count": [ 5, 15 ] } ],
-    "damage_reduction": { "all": 58 }
+    "damage_reduction": { "all": 20 }
   },
   {
     "type": "vehicle_part",
     "id": "plating_acidchitin",
     "copy-from": "plating_chitin",
     "name": { "str": "biosilicified chitin plating" },
-    "proportional": { "durability": 1.5 },
     "item": "acidchitin_plate",
     "breaks_into": [ { "item": "acidchitin_piece", "count": [ 6, 19 ] } ],
-    "damage_reduction": { "all": 72 }
+    "damage_reduction": { "all": 24 }
   },
   {
     "type": "vehicle_part",
@@ -2648,7 +2660,8 @@
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
     },
     "flags": [ "WATCH", "ALARMCLOCK", "FOLDABLE" ],
-    "breaks_into": [ { "item": "scrap", "prob": 50 } ]
+    "breaks_into": [ { "item": "scrap", "prob": 50 } ],
+    "damage_reduction": { "bash": 5 }
   },
   {
     "type": "vehicle_part",

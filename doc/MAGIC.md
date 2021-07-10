@@ -21,7 +21,7 @@ In `data/mods/Magiclysm` there is a template spell, copied here for your perusal
   "spell_class": "NONE",                                    //
 	"base_casting_time": 100,                                 // this is the casting time (in moves)
 	"base_energy_cost": 10,                                   // the amount of energy (of the requisite type) to cast the spell
-	"energy_source": "MANA",                                  // the type of energy used to cast the spell. types are: MANA, BIONIC, HP, STAMINA, FATIGUE, NONE (none will not use mana)
+	"energy_source": "MANA",                                  // the type of energy used to cast the spell. types are: MANA, BIONIC, HP, STAMINA, NONE (none will not use mana)
   "components": [requirement_id]                            // an id from a requirement, like the ones you use for crafting. spell components require to cast.
 	"difficulty": 12,                                         // the difficulty to learn/cast the spell
 	"max_level": 10,                                          // maximum level you can achieve in the spell
@@ -97,10 +97,13 @@ Below is a table of currently implemented effects, along with special rules for 
 | Effect                   | Description
 |---                       |---
 | `pain_split` | makes all of your limbs' damage even out
-| `move_earth` | "digs" at the target location. some terrain is not diggable this way.
 | `attack` | "causes damage to targets in its aoe, and applies an effect to the targets named by `effect_str`
 | `spawn_item` | spawns an item that will disappear at the end of its duration.  Default duration is 0.
 | `summon` | summons a monster ID or group ID from `effect_str` that will disappear at the end of its duration.  Default duration is 0.
+| `summon_vehicle` | summons a vehicle ID from `effect_str` that will disappear at the end of its duration.  Default duration is 0.
+| `translocate` | Opens up a window that allows the caster to choose a translocation gate to teleport to.
+| `area_pull` | Pulls `valid_targets` in aoe toward the target location
+| `area_push` | Pushes `valid_targets` in aoe away from the target location
 | `teleport_random` | teleports the player randomly range spaces with aoe variation
 | `targeted_polymorph` | A targeted monster is permanently transformed into the monster ID specified by  `effect_str` if it has less HP than the spell's damage. If `effect_str` is left empty, the target will transform into a random monster with a similar difficulty rating, alternatively  the flag `"POLYMORPH_GROUP"` can be used to pick a weighted monster ID from a monster group. The player and NPCs are immune to this spell effect.
 | `recover_energy` | recovers an energy source equal to damage of the spell. The energy source recovered is defined in "effect_str" and may be one of "MANA", "STAMINA", "FATIGUE", "PAIN", "BIONIC"
@@ -115,6 +118,14 @@ Below is a table of currently implemented effects, along with special rules for 
 | `charm_monster` | charms a monster that has less hp than damage() for approximately duration()
 | `mutate` | mutates the target(s). if effect_str is defined, mutates toward that category instead of picking at random. the "MUTATE_TRAIT" flag allows effect_str to be a specific trait instead of a category. damage() / 100 is the percent chance the mutation will be successful (a value of 10000 represents 100.00%)
 | `bash` | bashes the terrain at the target. uses damage() as the strength of the bash.
+| `dash` | dashes forward up to range and hits targets in a cone at the target
+| `banishment` | kills monsters in the aoe up to damage hp. any overflow hp the monster has is taken from the caster; if it's more hp than the caster has it fails.
+| `revive` | Revives a monster like a zombie necromancer.  The monster must have the revives flag
+| `upgrade` | Immediately upgrades a target monster
+| `guilt` | The target gets the guilt morale as if it killed the caster
+| `remove_effect` | Removes `effect_str` effects from all creatures in aoe
+| `emit` | Causes an emit at the target
+| `fungalize` | Fungalizes the target
 
 Another mandatory member is spell "shape". This dictates how the area of effect works.
 
@@ -411,7 +422,7 @@ You can assign a spell as a special attack for a monster.
 |---                          |---
 | `id`                        | Unique ID. Must be one continuous word, use underscores if necessary.
 | `has`                       | How an enchantment determines if it is in the right location in order to qualify for being active. "WIELD" - when wielded in your hand * "WORN" - when worn as armor * "HELD" - when in your inventory
-| `condition`                 | How an enchantment determines if you are in the right environments in order for the enchantment to qualify for being active. * "ALWAYS" - Always and forevermore * "UNDERGROUND" - When the owner of the item is below Z-level 0 * "UNDERWATER" - When the owner is in swimmable terrain * "ACTIVE" - whenever the item, mutation, bionic, or whatever the enchantment is attached to is active.
+| `condition`                 | How an enchantment determines if you are in the right environments in order for the enchantment to qualify for being active. * "ALWAYS" - Always and forevermore * "UNDERGROUND" - When the owner of the item is below Z-level 0 * "UNDERWATER" - When the owner is in swimmable terrain * "ACTIVE" - whenever the item, mutation, bionic, or whatever the enchantment is attached to is active. * "INACTIVE" - whenever the item, mutation, bionic, or whatever the enchantment is attached to is inactive.
 | `hit_you_effect`            | A spell that activates when you melee_attack a creature.  The spell is centered on the location of the creature unless self = true, then it is centered on your location.  Follows the template for defining "fake_spell"
 | `hit_me_effect`             | A spell that activates when you are hit by a creature.  The spell is centered on your location.  Follows the template for defining "fake_spell"
 | `intermittent_activation`   | Spells that activate centered on you depending on the duration.  The spells follow the "fake_spell" template.
@@ -477,6 +488,7 @@ Effects for the character that has the enchantment:
 * REGEN_STAMINA
 * MAX_HP
 * REGEN_HP
+* HUNGER
 * THIRST
 * FATIGUE
 * PAIN
@@ -490,9 +502,19 @@ Effects for the character that has the enchantment:
 * SIGHT_RANGE
 * CARRY_WEIGHT
 * CARRY_VOLUME
+* WEAPON_DISPERSION
 * SOCIAL_LIE
 * SOCIAL_PERSUADE
 * SOCIAL_INTIMIDATE
+* SLEEPY : The higher this is the more easily you fall asleep.
+* LUMINATION : The character produces light
+* EFFECTIVE_HEALTH_MOD : If this is anything other than zero(which it defaults to) you will use it instead of your actual health mod
+* MOD_HEALTH : If this is anything other than zero(which it defaults to) you will to mod your health to a max/min of MOD_HEALTH_CAP every half hour
+* MOD_HEALTH_CAP : If this is anything other than zero(which it defaults to) you will cap your MOD_HEALTH gain/loss at this every half hour
+* MAP_MEMORY : How many map tiles you can remember.
+* READING_EXP : Changes the minimum you learn from each reading increment.
+* SKILL_RUST_RESIST : Chance out of 100 to resist skill rust.
+* LEARNING_FOCUS : Amount of bonus focus you have for learning purposes.
 * ARMOR_BASH
 * ARMOR_CUT
 * ARMOR_STAB

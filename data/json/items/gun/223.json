@@ -1,16 +1,63 @@
 [
   {
-    "id": "acr",
+    "id": "nato_assault_rifle",
     "copy-from": "rifle_auto",
     "looks_like": "ar15",
     "type": "GUN",
-    "name": { "str": "Remington ACR" },
-    "description": "This carbine was developed for military use in the early 21st century.  It is damaging and accurate, though its rate of fire is a bit slower than competing .223 carbines.",
-    "weight": "3719 g",
+    "name": { "str": "NATO assault rifle" },
+    "description": "An assault rifle used by a NATO member state.  As per NATO's STANAG agreement, it is chambered in 5.56x45mm.",
+    "//": "Weight, description, length modeled off of m4a1, price and gun stats average of some nato guns",
+    "weight": "2880g",
     "volume": "3310 ml",
-    "longest_side": "938 mm",
-    "price": 234300,
-    "price_postapoc": 6000,
+    "longest_side": "758 mm",
+    "price": "325 USD",
+    "price_postapoc": "48 USD",
+    "variants": [
+      {
+        "id": "acr",
+        "name": { "str": "Remington ACR" },
+        "description": "This carbine was developed for military use in the early 21st century.  It is damaging and accurate, though its rate of fire is a bit slower than competing .223 carbines."
+      },
+      {
+        "id": "h&k416a5",
+        "name": { "str": "HK416 A5" },
+        "description": "Designed to replace the M4A1, the Heckler and Koch 416A5 features most of the former's strengths, while being considerably more durable."
+      },
+      {
+        "id": "m27iar",
+        "name": { "str": "M27 IAR" },
+        "description": "A H&K416 carbine outfitted with a heavier barrel to enable higher amounts of suppressive fire while retaining a good degree of mobility.",
+        "ascii_picture": "m27_iar"
+      },
+      {
+        "id": "m4a1",
+        "name": { "str": "M4A1" },
+        "description": "A popular carbine, long used by the US military.  Though accurate, small, and lightweight, it is infamous for its unreliability when not properly maintained.",
+        "ascii_picture": "m4a1",
+        "weight": 1
+      },
+      {
+        "id": "m16a3",
+        "name": { "str": "M16A3" },
+        "description": "The M16 is a very common assault rifle descended from the AR-15, used by militaries across the world for over 50 years.  It is a gas operated, rotating bolt rifle known for its accuracy and controllable recoil.  This one is a relatively rare M16A3, with full auto capability."
+      },
+      {
+        "id": "scar_l",
+        "name": { "str": "FN SCAR-L" },
+        "description": "A highly accurate and modular assault rifle specially designed for the United States Special Operations Command.  The 'L' in its name stands for light, as it uses the lightweight .223 round.",
+        "ascii_picture": "scar-L"
+      },
+      {
+        "id": "m38dmr",
+        "name": { "str": "M38 DMR" },
+        "description": "The M38 Designated Marksman Rifle is an M27 IAR, itself derived from a H&K416, selected for accuracy, and outfitted with a variable power scope and a QDSS suppressor."
+      },
+      {
+        "id": "m4_cqbr",
+        "name": { "str": "MK 18 CQBR" },
+        "description": "This is a shorter M4 carbine with a 10.3 inch barrel, intended for confined spaces and close quarters battle situations."
+      }
+    ],
     "to_hit": -1,
     "bashing": 12,
     "material": [ "steel", "plastic" ],
@@ -18,7 +65,7 @@
     "color": "dark_gray",
     "ammo": [ "223" ],
     "ranged_damage": { "damage_type": "bullet", "amount": -1 },
-    "dispersion": 150,
+    "dispersion": 160,
     "durability": 8,
     "min_cycle_recoil": 1350,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
@@ -246,74 +293,20 @@
     ]
   },
   {
-    "id": "h&k416a5",
-    "copy-from": "rifle_auto",
-    "looks_like": "ar15",
-    "type": "GUN",
-    "name": { "str": "HK416 A5" },
-    "//": "*Current* milspec gear is now ridiculously overpriced, as seen with the M2010 IRL.",
-    "description": "Designed to replace the M4A1, the Heckler and Koch 416A5 features most of the former's strengths, while being considerably more durable.",
-    "weight": "3490 g",
-    "volume": "4957 ml",
-    "longest_side": "798 mm",
-    "price": 540000,
-    "price_postapoc": 2250,
-    "to_hit": -1,
-    "bashing": 12,
-    "material": [ "steel", "plastic" ],
-    "symbol": "(",
-    "color": "dark_gray",
-    "ammo": [ "223" ],
-    "ranged_damage": { "damage_type": "bullet", "amount": -2 },
-    "dispersion": 180,
-    "durability": 8,
-    "min_cycle_recoil": 1350,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [
-          "stanag30",
-          "stanag5",
-          "stanag10",
-          "stanag20",
-          "stanag40",
-          "stanag50",
-          "stanag60",
-          "stanag60drum",
-          "stanag90",
-          "stanag100",
-          "stanag100drum",
-          "stanag150",
-          "survivor223mag"
-        ]
-      }
-    ]
-  },
-  {
     "id": "hk_g36",
-    "copy-from": "rifle_auto",
+    "copy-from": "nato_assault_rifle",
     "looks_like": "ar15",
     "type": "GUN",
-    "name": { "str": "H&K G36" },
-    "description": "Designed as a replacement for the early H&K G3 battle rifle, the G36 is more accurate, and uses the much-lighter .223 round, allowing for a higher ammo capacity.",
-    "weight": "3630 g",
-    "volume": "4640 ml",
-    "longest_side": "1004 mm",
-    "price": 210000,
-    "price_postapoc": 6000,
-    "to_hit": -1,
-    "bashing": 12,
-    "material": [ "steel", "plastic" ],
-    "symbol": "(",
-    "color": "dark_gray",
-    "ammo": [ "223" ],
-    "dispersion": 150,
-    "durability": 8,
-    "min_cycle_recoil": 1350,
+    "name": { "str": "G36 assault rifle" },
+    "description": "An assault rifle chamber in 5.56x45mm and accepting G36 magazines.",
+    "variants": [
+      {
+        "id": "hk_g36",
+        "name": { "str": "H&K G36" },
+        "description": "Designed as a replacement for the early H&K G3 battle rifle, the G36 is more accurate, and uses the much-lighter .223 round, allowing for a higher ammo capacity.",
+        "weight": 1
+      }
+    ],
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "pocket_data": [
       {
@@ -397,163 +390,21 @@
     "modes": [ [ "DEFAULT", "semi-auto", 1 ] ]
   },
   {
-    "id": "m27iar",
-    "copy-from": "h&k416a5",
-    "type": "GUN",
-    "name": { "str": "M27 IAR" },
-    "description": "A H&K416 carbine outfitted with a heavier barrel to enable higher amounts of suppressive fire while retaining a good degree of mobility.",
-    "ascii_picture": "m27_iar",
-    "weight": "3710 g",
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "relative": { "ranged_damage": { "damage_type": "bullet", "amount": 1 }, "durability": 1 },
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [
-          "stanag30",
-          "stanag5",
-          "stanag10",
-          "stanag20",
-          "stanag40",
-          "stanag50",
-          "stanag60",
-          "stanag60drum",
-          "stanag90",
-          "stanag100",
-          "stanag100drum",
-          "stanag150",
-          "survivor223mag"
-        ]
-      }
-    ]
-  },
-  {
-    "id": "m38dmr",
-    "copy-from": "m27iar",
-    "name": { "str": "M38 DMR" },
-    "type": "GUN",
-    "description": "The M38 Designated Marksman Rifle is an M27 IAR, itself derived from a H&K416, selected for accuracy, and outfitted with a variable power scope and a QDSS suppressor.",
-    "dispersion": 125,
-    "price_postapoc": 3000,
-    "default_mods": [ "suppressor", "rifle_scope", "bipod" ]
-  },
-  {
-    "id": "m4a1",
-    "copy-from": "rifle_auto",
-    "looks_like": "ar15",
-    "type": "GUN",
-    "name": { "str": "M4A1" },
-    "description": "A popular carbine, long used by the US military.  Though accurate, small, and lightweight, it is infamous for its unreliability when not properly maintained.",
-    "ascii_picture": "m4a1",
-    "weight": "2880 g",
-    "volume": "3310 ml",
-    "longest_side": "758 mm",
-    "price": 240000,
-    "price_postapoc": 5000,
-    "to_hit": -1,
-    "bashing": 12,
-    "material": [ "steel", "plastic" ],
-    "symbol": "(",
-    "color": "dark_gray",
-    "ammo": [ "223" ],
-    "ranged_damage": { "damage_type": "bullet", "amount": -2 },
-    "dispersion": 180,
-    "durability": 6,
-    "min_cycle_recoil": 1350,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [
-          "stanag30",
-          "stanag5",
-          "stanag10",
-          "stanag20",
-          "stanag40",
-          "stanag50",
-          "stanag60",
-          "stanag60drum",
-          "stanag90",
-          "stanag100",
-          "stanag100drum",
-          "stanag150",
-          "survivor223mag"
-        ]
-      }
-    ]
-  },
-  {
-    "id": "m4_cqbr",
-    "copy-from": "m4a1",
-    "type": "GUN",
-    "name": { "str": "MK 18 CQBR" },
-    "description": "This is a shorter M4 carbine with a 10.3 inch barrel, intended for confined spaces and close quarters battle situations.",
-    "weight": "2720 g",
-    "volume": "3110 ml",
-    "longest_side": "682 mm",
-    "price": 260000,
-    "price_postapoc": 6000,
-    "ranged_damage": { "damage_type": "bullet", "amount": -3 }
-  },
-  {
     "id": "m16a4",
-    "copy-from": "rifle_semi",
+    "copy-from": "nato_assault_rifle",
     "looks_like": "ar15",
     "type": "GUN",
-    "name": { "str": "M16A4" },
-    "description": "The M16 is a very common assault rifle descended from the AR-15, used by militaries across the world for over 50 years.  It is a gas operated, rotating bolt rifle known for its accuracy and controllable recoil.",
-    "weight": "3260 g",
-    "volume": "5030 ml",
-    "longest_side": "1003 mm",
-    "price": 240000,
-    "price_postapoc": 5000,
-    "to_hit": -1,
-    "bashing": 12,
-    "material": [ "steel", "plastic" ],
-    "symbol": "(",
-    "color": "dark_gray",
-    "ammo": [ "223" ],
-    "dispersion": 150,
-    "durability": 7,
-    "min_cycle_recoil": 1350,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ] ],
-    "pocket_data": [
+    "name": { "str": "NATO burst rifle" },
+    "description": "An assault rifle used by a NATO member state.  Unlike other assault rifles, this one does not have an auto-fire mode, and instead has a burst fire mode.  As per NATO's STANAG agreement, it is chambered in 5.56x45mm.",
+    "variants": [
       {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [
-          "stanag30",
-          "stanag5",
-          "stanag10",
-          "stanag20",
-          "stanag40",
-          "stanag50",
-          "stanag60",
-          "stanag60drum",
-          "stanag90",
-          "stanag100",
-          "stanag100drum",
-          "stanag150",
-          "survivor223mag"
-        ]
+        "id": "m16a4",
+        "name": { "str": "M16A4" },
+        "description": "The M16 is a very common assault rifle descended from the AR-15, used by militaries across the world for over 50 years.  It is a gas operated, rotating bolt rifle known for its accuracy and controllable recoil.",
+        "weight": 1
       }
-    ]
-  },
-  {
-    "id": "m16a3",
-    "copy-from": "m16a4",
-    "type": "GUN",
-    "name": { "str": "M16A3" },
-    "description": "The M16 is a very common assault rifle descended from the AR-15, used by militaries across the world for over 50 years.  It is a gas operated, rotating bolt rifle known for its accuracy and controllable recoil.  This one is a relatively rare M16A3, with full auto capability.",
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ]
+    ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ] ]
   },
   {
     "id": "m231pfw",
@@ -681,120 +532,39 @@
     ]
   },
   {
-    "id": "scar_l",
-    "copy-from": "rifle_auto",
-    "looks_like": "ar15",
-    "type": "GUN",
-    "name": { "str": "FN SCAR-L" },
-    "description": "A highly accurate and modular assault rifle specially designed for the United States Special Operations Command.  The 'L' in its name stands for light, as it uses the lightweight .223 round.",
-    "ascii_picture": "scar-L",
-    "weight": "3500 g",
-    "volume": "4970 ml",
-    "longest_side": "850 mm",
-    "price": 280000,
-    "price_postapoc": 6000,
-    "to_hit": -1,
-    "bashing": 12,
-    "material": [ "steel", "plastic" ],
-    "symbol": "(",
-    "color": "dark_gray",
-    "ammo": [ "223" ],
-    "ranged_damage": { "damage_type": "bullet", "amount": -2 },
-    "dispersion": 150,
-    "durability": 8,
-    "min_cycle_recoil": 1350,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [
-          "stanag30",
-          "stanag5",
-          "stanag10",
-          "stanag20",
-          "stanag40",
-          "stanag50",
-          "stanag60",
-          "stanag60drum",
-          "stanag90",
-          "stanag100",
-          "stanag100drum",
-          "stanag150",
-          "survivor223mag"
-        ]
-      }
-    ]
-  },
-  {
     "id": "sig552",
-    "copy-from": "rifle_auto",
+    "copy-from": "nato_assault_rifle",
     "looks_like": "ar15",
     "type": "GUN",
-    "name": { "str": "SIG 552" },
-    "description": "A compact selective fire automatic rifle designed for the Swiss military.  It features a three-round burst mode and an integrated folding stock.",
-    "weight": "3200 g",
-    "volume": "2950 ml",
-    "longest_side": "741 mm",
-    "price": 320000,
-    "price_postapoc": 6000,
-    "to_hit": -1,
-    "bashing": 10,
-    "material": [ "steel", "plastic" ],
-    "ammo": [ "223" ],
-    "dispersion": 180,
-    "durability": 9,
-    "min_cycle_recoil": 1350,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ], [ "AUTO", "auto", 4 ] ],
-    "built_in_mods": [ "folding_stock" ],
-    "pocket_data": [
+    "//": "This could use a better name, I just wanted to differentiate it from assault rifles, as it also has a burst mode",
+    "name": { "str": "NATO assault rifle with burst", "str_pl": "NATO assault rifles with burst" },
+    "description": "An assault rifle used by a NATO member state.  Unlike other assault rifles, this one has a burst fire mode in addition to semi-automatic and fully-automatic modes.  As per NATO's STANAG agreement, it is chambered in 5.56x45mm.",
+    "variants": [
       {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [
-          "stanag30",
-          "stanag5",
-          "stanag10",
-          "stanag20",
-          "stanag40",
-          "stanag50",
-          "stanag60",
-          "stanag60drum",
-          "stanag90",
-          "stanag100",
-          "stanag100drum",
-          "stanag150",
-          "survivor223mag"
-        ]
+        "id": "sig552",
+        "name": { "str": "SIG 552" },
+        "description": "A compact selective fire automatic rifle designed for the Swiss military.  It features a three-round burst mode and an integrated folding stock.",
+        "weight": 1
       }
-    ]
+    ],
+    "built_in_mods": [ "folding_stock" ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ], [ "AUTO", "auto", 4 ] ]
   },
   {
     "id": "steyr_aug",
-    "copy-from": "rifle_auto",
+    "copy-from": "nato_assault_rifle",
     "looks_like": "ar15",
     "type": "GUN",
-    "name": { "str": "Steyr AUG" },
-    "description": "The Steyr AUG is an Austrian assault rifle that uses a bullpup design.  It is used in the armed forces and police forces of many nations, and enjoys low recoil and high accuracy.",
-    "weight": "3500 g",
-    "volume": "3520 ml",
-    "longest_side": "715 mm",
-    "price": 490000,
-    "price_postapoc": 6000,
-    "to_hit": -1,
-    "bashing": 12,
-    "material": [ "steel", "plastic" ],
-    "symbol": "(",
-    "color": "light_gray",
-    "ammo": [ "223" ],
-    "dispersion": 140,
-    "durability": 8,
-    "min_cycle_recoil": 1350,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
+    "name": { "str": "AUG assault rifle" },
+    "description": "An assault rifle chambered in 5.56x45mm and accepting AUG magazines",
+    "variants": [
+      {
+        "id": "steyr_aug",
+        "name": { "str": "Steyr AUG" },
+        "description": "The Steyr AUG is an Austrian assault rifle that uses a bullpup design.  It is used in the armed forces and police forces of many nations, and enjoys low recoil and high accuracy.",
+        "weight": 1
+      }
+    ],
     "built_in_mods": [ "grip" ],
     "valid_mod_locations": [
       [ "accessories", 4 ],

@@ -155,7 +155,7 @@ class SkillLevel
 
         void train( int amount, bool skip_scaling = false );
         bool isRusting() const;
-        bool rust( bool charged_bio_mem, int character_rate );
+        bool rust( int rust_resist, int character_rate );
         void practice();
         bool can_train() const;
 

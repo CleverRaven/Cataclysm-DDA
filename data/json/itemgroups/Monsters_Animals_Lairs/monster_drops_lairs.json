@@ -217,10 +217,10 @@
       { "item": "savage_111f", "prob": 10 },
       { "item": "ak47", "prob": 16 },
       { "item": "ak74", "prob": 4 },
-      { "item": "m4a1", "prob": 7 },
+      { "item": "nato_assault_rifle", "variant": "m4a1", "prob": 7 },
       { "item": "m16a4", "prob": 6 },
-      { "item": "h&k416a5", "prob": 3 },
-      { "item": "m1014", "prob": 1 },
+      { "item": "nato_assault_rifle", "variant": "h&k416a5", "prob": 3 },
+      { "item": "mossberg_930", "variant": "m1014", "prob": 1 },
       { "item": "steyr_aug", "prob": 6 },
       { "item": "v29", "prob": 1 },
       { "item": "flamethrower", "prob": 1 },
@@ -288,6 +288,85 @@
       { "item": "beekeeping_hood", "prob": 5 },
       { "item": "beekeeping_suit", "prob": 5 },
       { "item": "beekeeping_gloves", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "bug_parts",
+    "//": "Bug butchery remains",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "chitin_piece", "prob": 70 },
+      { "item": "acidchitin_piece", "prob": 30 },
+      { "item": "endochitin", "prob": 70 },
+      { "item": "mutant_bug_hydrogen_sacs", "prob": 30 },
+      { "item": "mutant_bug_lungs", "prob": 10 },
+      { "item": "mutant_bug_organs", "prob": 10 },
+      { "item": "sinew", "prob": 10 },
+      { "item": "bee_sting", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "vertebrate_parts",
+    "//": "Normal/mutated animal remains",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "bone", "prob": 80 },
+      { "item": "feather", "prob": 80 },
+      { "item": "raw_leather", "prob": 30 },
+      { "item": "raw_fur", "prob": 30 },
+      { "item": "wool_staple", "prob": 30 },
+      { "item": "sinew", "prob": 5 },
+      { "item": "brain", "prob": 5 },
+      { "item": "lung", "prob": 5 },
+      { "item": "liver", "prob": 5 },
+      { "item": "sweetbread", "prob": 5 },
+      { "item": "stomach", "prob": 5 },
+      { "item": "stomach_large", "prob": 5 },
+      { "item": "kidney", "prob": 5 },
+      { "item": "jabberwock_heart", "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "human_parts",
+    "//": "(demi)human remains",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "bone_human", "prob": 80 },
+      { "item": "raw_hleather", "prob": 30 },
+      { "item": "raw_demihumanleather", "prob": 5 },
+      { "item": "raw_hfur", "prob": 1 },
+      { "item": "sinew", "prob": 5 },
+      { "item": "hstomach", "prob": 5 },
+      { "item": "demihuman_stomach", "prob": 1 },
+      { "item": "hstomach_large", "prob": 5 },
+      { "item": "demihuman_stomach_large", "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "wasp_lair",
+    "//": "Damaged generic/military/science drops, nothing fancy",
+    "subtype": "distribution",
+    "ammo": 10,
+    "entries": [
+      { "group": "allclothes", "damage": [ 2, 4 ], "prob": 150 },
+      { "group": "clothing_outdoor_set", "damage": [ 2, 4 ], "prob": 10 },
+      { "group": "clothing_hunting", "damage": [ 2, 4 ], "prob": 10 },
+      { "group": "clothing_work_set", "damage": [ 2, 4 ], "prob": 10 },
+      { "group": "everyday_gear", "damage": [ 2, 4 ], "prob": 50 },
+      { "group": "gear_homeless", "damage": [ 2, 4 ], "prob": 30 },
+      { "group": "child_items", "damage": [ 2, 4 ], "prob": 30 },
+      { "group": "traveler", "damage": [ 2, 4 ], "prob": 10 },
+      { "group": "default_zombie_clothes", "damage": [ 2, 4 ], "prob": 30 },
+      { "group": "default_zombie_items_bags", "damage": [ 2, 4 ], "prob": 30 },
+      { "group": "default_zombie_items_pockets", "damage": [ 2, 4 ], "prob": 30 },
+      { "group": "mon_zombie_scientist_death_drops", "damage": [ 2, 4 ], "prob": 5 },
+      { "group": "mon_zombie_labsecurity_death_drops", "damage": [ 2, 4 ], "prob": 5 },
+      { "group": "mon_zombie_kevlar_death_drops", "damage": [ 2, 4 ], "prob": 15 },
+      { "group": "mon_zombie_military_pilot_death_drops", "damage": [ 2, 4 ], "prob": 5 }
     ]
   },
   {

@@ -4,6 +4,7 @@ on:
   push:
     branches:
     - master
+    - 0.F-dev
     paths-ignore:
     - 'android/**'
     - 'build-data/osx/**'
@@ -18,6 +19,7 @@ on:
   pull_request:
     branches:
     - master
+    - 0.F-dev
     paths-ignore:
     - 'android/**'
     - 'build-data/osx/**'
@@ -58,29 +60,40 @@ jobs:
             sanitize: address
             native: linux64
             title: GCC 8, Ubuntu, Tiles, ASan
-          - compiler: clang++-9
+          - compiler: clang++-12
             os: ubuntu-latest
             cmake: 0
             tiles: 1
             sanitize: address,undefined
             native: linux64
-            title: Clang 9, Ubuntu, Tiles, ASan, UBSan
+            title: Clang 12, Ubuntu, Tiles, ASan, UBSan
           - compiler: clang++
             os: macos-10.15
             cmake: 0
             tiles: 1
             native: osx
             title: Clang 12, macOS 10.15, Tiles
+          - compiler: g++
+            os: ubuntu-latest
+            cmake: 0
+            tiles: 1
+            title: GCC, Ubuntu cross-compile to MinGW-Win64, Tiles
+            ldflags: -static-libgcc -static-libstdc++
+            mxe_target: i686-w64-mingw32.static
+            wine: wine
     name: ${{ matrix.title }}
     runs-on: ${{ matrix.os }}
     env:
         CMAKE: ${{ matrix.cmake }}
         COMPILER: ${{ matrix.compiler }}
+        MXE_TARGET: ${{ matrix.mxe_target }}
+        WINE: ${{ matrix.wine }}
         OS: ${{ matrix.os }}
         TILES: ${{ matrix.tiles }}
         SOUND: ${{ matrix.tiles }}
         SANITIZE: ${{ matrix.sanitize }}
         TEST_STAGE: ${{ matrix.test-stage }}
+        LDFLAGS: ${{ matrix.ldflags }}
         EXTRA_TEST_OPTS: --error-format=github-action
         NATIVE: ${{ matrix.native }}
         GOLD: ${{ matrix.gold }}
@@ -132,8 +145,9 @@ jobs:
     - name: build and test
       run: bash ./build-scripts/build.sh
     - name: upload artifacts if failed
-      uses: actions/upload-artifact@v1
+      uses: actions/upload-artifact@v2
       if: failure()
       with:
         name: cata_test
         path: tests/cata_test
+        if-no-files-found: ignore

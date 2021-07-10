@@ -1,0 +1,62 @@
+[
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_mansion_+1",
+    "method": "json",
+    "object": { "set": [ { "point": "furniture", "id": "f_bulletin", "x": 9, "y": 9 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_mansion_+1_radio",
+    "method": "json",
+    "object": {
+      "set": [
+        { "point": "terrain", "id": "t_radio_tower", "x": 8, "y": 9 },
+        { "point": "terrain", "id": "t_radio_controls", "x": 8, "y": 10 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmc_mansion_+1_prefarm",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "dddd    dddd",
+        "d          d",
+        "d          d",
+        "d          d",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "d          d",
+        "d          d",
+        "d          d",
+        "dddd    dddd"
+      ],
+      "terrain": { "d": "t_dirt" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_mansion_+1_farm",
+    "method": "json",
+    "object": {
+      "place_nested": [
+        { "chunks": [ "fbmc_mansion_+1_prefarm" ], "x": 6, "y": 6 },
+        { "chunks": [ "fbmc_mansion_farm_field" ], "x": 6, "y": 5 },
+        { "chunks": [ "fbmc_mansion_farm_field" ], "x": 13, "y": 5 },
+        { "chunks": [ "fbmc_mansion_farm_field" ], "x": 1, "y": 17 },
+        { "chunks": [ "fbmc_mansion_farm_field" ], "x": 6, "y": 17 },
+        { "chunks": [ "fbmc_mansion_farm_field" ], "x": 1, "y": 20 },
+        { "chunks": [ "fbmc_mansion_farm_field" ], "x": 6, "y": 20 },
+        { "chunks": [ "fbmc_mansion_farm_field" ], "x": 13, "y": 17 },
+        { "chunks": [ "fbmc_mansion_farm_field" ], "x": 18, "y": 17 },
+        { "chunks": [ "fbmc_mansion_farm_field" ], "x": 13, "y": 20 },
+        { "chunks": [ "fbmc_mansion_farm_field" ], "x": 18, "y": 20 }
+      ]
+    }
+  }
+]

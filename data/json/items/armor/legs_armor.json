@@ -4,7 +4,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of 2-by-shin guards", "str_pl": "pairs of 2-by-shin guards" },
-    "description": "A pair of improvised shin guards made from broken pieces of a two by four that are tied to your shins with rags and string.  They offer good protection, but are really hard to run with.",
+    "description": "A pair of improvised shin guards made from broken pieces of a plank that are tied to your shins with rags and string.  They offer good protection, but are really hard to run with.",
     "weight": "300 g",
     "volume": "1500 ml",
     "price": 500,
@@ -15,12 +15,10 @@
     "symbol": "[",
     "looks_like": "leg_splint",
     "color": "brown",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 75,
-    "encumbrance": 25,
     "warmth": 5,
     "material_thickness": 3,
-    "flags": [ "BELTED", "WATER_FRIENDLY", "ALLOWS_TAIL" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY", "ALLOWS_TAIL" ],
+    "armor": [ { "encumbrance": 25, "coverage": 75, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "legguard_chitin",
@@ -37,13 +35,11 @@
     "symbol": "[",
     "looks_like": "legguard_hard",
     "color": "green",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 80,
-    "encumbrance": 4,
     "warmth": 10,
     "material_thickness": 4,
     "environmental_protection": 2,
-    "flags": [ "STURDY", "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ]
+    "flags": [ "STURDY", "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY", "ALLOWS_TAIL" ],
+    "armor": [ { "encumbrance": 4, "coverage": 80, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "legguard_acidchitin",
@@ -74,21 +70,42 @@
     "symbol": "[",
     "looks_like": "pants_cargo",
     "color": "dark_gray",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 100,
-    "encumbrance": 24,
-    "max_encumbrance": 30,
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "3250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "30 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "3250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "30 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "16 cm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "16 cm",
+        "moves": 100
+      }
     ],
     "warmth": 30,
     "material_thickness": 2,
     "valid_mods": [ "steel_padded" ],
     "environmental_protection": 6,
-    "flags": [ "VARSIZE", "POCKETS", "STURDY", "WATERPROOF", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "STURDY", "WATERPROOF", "OUTER" ],
+    "armor": [ { "encumbrance": [ 24, 30 ], "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "chainmail_legs",
@@ -105,11 +122,9 @@
     "symbol": "[",
     "looks_like": "legguard_hard",
     "color": "light_red",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 95,
-    "encumbrance": 20,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "STURDY" ]
+    "flags": [ "VARSIZE", "STURDY" ],
+    "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "xl_chainmail_legs",
@@ -134,18 +149,16 @@
     "symbol": "[",
     "looks_like": "pants_leather",
     "color": "dark_gray",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 65,
-    "encumbrance": 3,
     "warmth": 10,
     "material_thickness": 3,
-    "flags": [ "OUTER" ]
+    "flags": [ "OUTER" ],
+    "armor": [ { "encumbrance": 3, "coverage": 65, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "chaps_cut_resistant",
     "type": "ARMOR",
     "name": { "str_sp": "chainsaw chaps" },
-    "description": "A pair of tough chaps made of kevlar.  Chainsaw kickbacks are potentially fatal; personal protective equipment like these chaps help protect your femoral arteries.  The layered kevlar is designed to fray on contact with the chain and bind up the tool.",
+    "description": "A pair of tough chaps made of Kevlar.  Chainsaw kickbacks are potentially fatal; personal protective equipment like these chaps help protect your femoral arteries.  The layered Kevlar is designed to fray on contact with the chain and bind up the tool.",
     "weight": "1519 g",
     "copy-from": "chaps_leather",
     "price": 7800,
@@ -166,17 +179,26 @@
     "symbol": "[",
     "looks_like": "pants",
     "color": "white",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 95,
-    "encumbrance": 13,
-    "max_encumbrance": 15,
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "13 cm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "13 cm",
+        "moves": 100
+      }
     ],
     "warmth": 20,
     "material_thickness": 2,
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE" ],
+    "armor": [ { "encumbrance": [ 13, 15 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "knee_pads",
@@ -193,10 +215,9 @@
     "symbol": "[",
     "looks_like": "legguard_hard",
     "color": "dark_gray",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 30,
     "material_thickness": 5,
-    "flags": [ "WATER_FRIENDLY", "BELTED", "ALLOWS_TAIL" ]
+    "flags": [ "WATER_FRIENDLY", "BELTED", "ALLOWS_TAIL" ],
+    "armor": [ { "coverage": 30, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "legguard_bronze",
@@ -213,12 +234,10 @@
     "symbol": "[",
     "looks_like": "legguard_lightplate",
     "color": "yellow",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 70,
-    "encumbrance": 10,
     "warmth": 15,
     "material_thickness": 4,
-    "flags": [ "BELTED", "STURDY", "ALLOWS_TAIL" ]
+    "flags": [ "BELTED", "STURDY", "ALLOWS_TAIL" ],
+    "armor": [ { "encumbrance": 10, "coverage": 70, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "xl_legguard_bronze",
@@ -244,13 +263,11 @@
     "symbol": "[",
     "looks_like": "leg_warmers",
     "color": "dark_gray",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 75,
-    "encumbrance": 10,
     "warmth": 20,
     "material_thickness": 4,
     "environmental_protection": 1,
-    "flags": [ "BELTED", "WATER_FRIENDLY", "ALLOWS_TAIL" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY", "ALLOWS_TAIL" ],
+    "armor": [ { "encumbrance": 10, "coverage": 75, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "legguard_lightplate",
@@ -267,12 +284,10 @@
     "symbol": "[",
     "looks_like": "legguard_hard",
     "color": "light_gray",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 95,
-    "encumbrance": 20,
     "warmth": 20,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "BELTED", "STURDY", "ALLOWS_TAIL" ]
+    "flags": [ "VARSIZE", "BELTED", "STURDY", "ALLOWS_TAIL" ],
+    "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "xl_legguard_lightplate",
@@ -298,12 +313,10 @@
     "symbol": "[",
     "looks_like": "legguard_lightplate",
     "color": "light_gray",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 70,
-    "encumbrance": 6,
     "warmth": 10,
     "material_thickness": 4,
-    "flags": [ "BELTED", "WATER_FRIENDLY", "ALLOWS_TAIL" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY", "ALLOWS_TAIL" ],
+    "armor": [ { "encumbrance": 6, "coverage": 70, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "xl_legguard_metal",
@@ -329,12 +342,10 @@
     "symbol": "[",
     "looks_like": "legguard_hard",
     "color": "blue",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 80,
-    "encumbrance": 10,
     "warmth": 5,
     "material_thickness": 3,
-    "flags": [ "BELTED", "ALLOWS_TAIL" ]
+    "flags": [ "BELTED", "ALLOWS_TAIL" ],
+    "armor": [ { "encumbrance": 10, "coverage": 80, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "legguard_scrap",
@@ -353,12 +364,10 @@
     "symbol": "[",
     "looks_like": "legguard_metal",
     "color": "light_gray",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 80,
-    "encumbrance": 18,
     "warmth": 10,
     "material_thickness": 2,
-    "flags": [ "BELTED", "ALLOWS_TAIL" ]
+    "flags": [ "BELTED", "ALLOWS_TAIL" ],
+    "armor": [ { "encumbrance": 18, "coverage": 80, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "xl_legguard_scrap",
@@ -383,22 +392,55 @@
     "symbol": "[",
     "looks_like": "pants_survivor",
     "color": "green",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 95,
-    "encumbrance": 8,
-    "max_encumbrance": 16,
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 100 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 100 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1000 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "21 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1000 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "21 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "15 cm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "15 cm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "13 cm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "13 cm",
+        "moves": 100
+      }
     ],
     "warmth": 12,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "RAINPROOF", "STURDY" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "RAINPROOF", "STURDY" ],
+    "armor": [ { "encumbrance": [ 8, 16 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "xl_lsurvivor_pants",
@@ -423,13 +465,11 @@
     "symbol": "[",
     "looks_like": "pants_leather",
     "color": "dark_gray",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 100,
-    "encumbrance": 20,
     "warmth": 35,
     "material_thickness": 1.5,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "WATERPROOF" ]
+    "flags": [ "VARSIZE", "WATERPROOF" ],
+    "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "pants_survivor",
@@ -445,25 +485,70 @@
     "symbol": "[",
     "looks_like": "pants_army",
     "color": "green",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 100,
-    "encumbrance": 10,
-    "max_encumbrance": 20,
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "21 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "21 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "15 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "15 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "15 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "15 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "13 cm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "13 cm",
+        "moves": 100
+      }
     ],
     "warmth": 15,
     "material_thickness": 4,
     "valid_mods": [ "steel_padded" ],
     "environmental_protection": 3,
-    "flags": [ "VARSIZE", "POCKETS", "STURDY", "WATERPROOF" ]
+    "flags": [ "VARSIZE", "POCKETS", "STURDY", "WATERPROOF" ],
+    "armor": [ { "encumbrance": [ 10, 20 ], "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "xl_pants_survivor",
@@ -479,39 +564,35 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str_sp": "EOD trousers" },
-    "description": "Thick armored trousers constructed from kevlar and nomex for explosive ordnance disposal.  It is designed to protect against overpressure, fragmentation, impact and heat.",
+    "description": "Thick armored trousers constructed from Kevlar and Nomex for explosive ordnance disposal.  They are designed to protect against overpressure, fragmentation, impact, and heat.",
     "weight": "6400 g",
     "volume": "12 L",
     "price": 200000,
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 100,
-    "encumbrance": 80,
     "warmth": 65,
     "material": [ "kevlar_layered", "nomex" ],
     "symbol": "[",
     "color": "light_gray",
     "environmental_protection": 2,
     "material_thickness": 15,
-    "flags": [ "STURDY", "OUTER", "RAINPROOF", "ONLY_ONE" ]
+    "flags": [ "STURDY", "OUTER", "RAINPROOF", "ONLY_ONE" ],
+    "armor": [ { "encumbrance": 80, "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "trousers_eod_light",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str_sp": "light EOD trousers" },
-    "description": "Armored trousers constructed from kevlar and nomex designed to protect against overpressure, fragmentation, impact and heat in hostile environments.  It is lighter than normal EOD armor to provide more maneuverability.",
+    "description": "Armored trousers constructed from Kevlar and Nomex, designed to protect against overpressure, fragmentation, impact, and heat in hostile environments.  They are lighter than normal EOD armor to provide more maneuverability.",
     "weight": "3000 g",
     "volume": "12 L",
     "price": 200000,
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 100,
-    "encumbrance": 40,
     "warmth": 40,
     "material": [ "kevlar_layered", "nomex" ],
     "symbol": "[",
     "color": "light_gray",
     "environmental_protection": 2,
     "material_thickness": 7,
-    "flags": [ "STURDY", "OUTER", "RAINPROOF", "ONLY_ONE" ]
+    "flags": [ "STURDY", "OUTER", "RAINPROOF", "ONLY_ONE" ],
+    "armor": [ { "encumbrance": 40, "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
   }
 ]

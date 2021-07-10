@@ -127,7 +127,7 @@
         "bullet": 6
       }
     ],
-    "speed_modifier": 0.95
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SPEED", "multiply": -0.05 } ] } ]
   },
   {
     "type": "mutation",

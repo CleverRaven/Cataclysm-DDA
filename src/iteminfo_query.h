@@ -9,6 +9,7 @@
 
 enum class iteminfo_parts : size_t {
     BASE_CATEGORY = 0,
+    BASE_MOD_SRC,
     BASE_PRICE,
     BASE_BARTER,
     BASE_OWNER,

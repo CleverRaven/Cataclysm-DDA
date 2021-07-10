@@ -52,6 +52,7 @@ std::string enum_to_string<mon_trigger>( mon_trigger data )
         case mon_trigger::MEAT: return "MEAT";
         case mon_trigger::HOSTILE_WEAK: return "PLAYER_WEAK";
         case mon_trigger::HOSTILE_CLOSE: return "PLAYER_CLOSE";
+        case mon_trigger::HOSTILE_SEEN: return "HOSTILE_SEEN";
         case mon_trigger::HURT: return "HURT";
         case mon_trigger::FIRE: return "FIRE";
         case mon_trigger::FRIEND_DIED: return "FRIEND_DIED";
@@ -64,6 +65,25 @@ std::string enum_to_string<mon_trigger>( mon_trigger data )
             break;
     }
     debugmsg( "Invalid mon_trigger" );
+    abort();
+}
+
+template<>
+std::string enum_to_string<mdeath_type>( mdeath_type data )
+{
+    switch( data ) {
+        case mdeath_type::NORMAL:
+            return "NORMAL";
+        case mdeath_type::SPLATTER:
+            return "SPLATTER";
+        case mdeath_type::BROKEN:
+            return "BROKEN";
+        case mdeath_type::NO_CORPSE:
+            return "NO_CORPSE";
+        case mdeath_type::LAST:
+            break;
+    }
+    debugmsg( "Invalid mdeath_type" );
     abort();
 }
 
@@ -157,6 +177,7 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_REVIVES_HEALTHY: return "REVIVES_HEALTHY";
         case MF_NO_NECRO: return "NO_NECRO";
         case MF_PACIFIST: return "PACIFIST";
+        case MF_KEEP_DISTANCE: return "KEEP_DISTANCE";
         case MF_PUSH_MON: return "PUSH_MON";
         case MF_PUSH_VEH: return "PUSH_VEH";
         case MF_AVOID_DANGER_1: return "PATH_AVOID_DANGER_1";
@@ -175,6 +196,7 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_MILKABLE: return "MILKABLE";
         case MF_SHEARABLE: return "SHEARABLE";
         case MF_NO_BREED: return "NO_BREED";
+        case MF_NO_FUNG_DMG: return "NO_FUNG_DMG";
         case MF_PET_WONT_FOLLOW: return "PET_WONT_FOLLOW";
         case MF_DRIPS_NAPALM: return "DRIPS_NAPALM";
         case MF_DRIPS_GASOLINE: return "DRIPS_GASOLINE";
@@ -184,6 +206,7 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_DROPS_AMMO: return "DROPS_AMMO";
         case MF_INSECTICIDEPROOF: return "INSECTICIDEPROOF";
         case MF_RANGED_ATTACKER: return "RANGED_ATTACKER";
+        case MF_CAMOUFLAGE: return "CAMOUFLAGE";
         // *INDENT-ON*
         case m_flag::MF_MAX:
             break;
@@ -240,7 +263,6 @@ MonsterGenerator::MonsterGenerator()
     init_phases();
     init_attack();
     init_defense();
-    init_death();
 }
 
 MonsterGenerator::~MonsterGenerator() = default;
@@ -469,88 +491,6 @@ void MonsterGenerator::init_phases()
     phase_map["PLASMA"] = phase_id::PLASMA;
 }
 
-void MonsterGenerator::init_death()
-{
-    // Drop a body
-    death_map["NORMAL"] = &mdeath::normal;
-    // Explodes in gibs and chunks
-    death_map["SPLATTER"] = &mdeath::splatter;
-    // Acid instead of a body
-    death_map["ACID"] = &mdeath::acid;
-    // Explodes in vomit :3
-    death_map["BOOMER"] = &mdeath::boomer;
-    // Explodes in glowing vomit :3
-    death_map["BOOMER_GLOW"] = &mdeath::boomer_glow;
-    // Kill all nearby vines
-    death_map["KILL_VINES"] = &mdeath::kill_vines;
-    // Kill adjacent vine if it's cut
-    death_map["VINE_CUT"] = &mdeath::vine_cut;
-    // Destroy all roots
-    death_map["TRIFFID_HEART"] = &mdeath::triffid_heart;
-    // Explodes in spores D:
-    death_map["FUNGUS"] = &mdeath::fungus;
-    // Falls apart
-    death_map["DISINTEGRATE"] = &mdeath::disintegrate;
-    // Spawns 2 half-worms
-    death_map["WORM"] = &mdeath::worm;
-    // Hallucination disappears
-    death_map["DISAPPEAR"] = &mdeath::disappear;
-    // Morale penalty
-    death_map["GUILT"] = &mdeath::guilt;
-    // Frees blobs, redirects to brainblob()
-    death_map["BRAINBLOB"] = &mdeath::brainblob;
-    // Creates more blobs
-    death_map["BLOBSPLIT"] = &mdeath::blobsplit;
-    // Reverts dancers
-    death_map["JACKSON"] = &mdeath::jackson;
-    // Normal death, but melts
-    death_map["MELT"] = &mdeath::melt;
-    // Removes hypnosis if last one
-    death_map["AMIGARA"] = &mdeath::amigara;
-    // Turn into a full thing
-    death_map["THING"] = &mdeath::thing;
-    // Damaging explosion
-    death_map["EXPLODE"] = &mdeath::explode;
-    // Blinding ray
-    death_map["FOCUSEDBEAM"] = &mdeath::focused_beam;
-    // Spawns a broken robot.
-    death_map["BROKEN"] = &mdeath::broken;
-    // Cure verminitis
-    death_map["RATKING"] = &mdeath::ratking;
-    // Sight returns to normal
-    death_map["DARKMAN"] = &mdeath::darkman;
-    // Explodes in toxic gas
-    death_map["GAS"] = &mdeath::gas;
-    // All breathers die
-    death_map["KILL_BREATHERS"] = &mdeath::kill_breathers;
-    // Gives a message about destroying ammo and then calls "BROKEN"
-    death_map["BROKEN_AMMO"] = &mdeath::broken_ammo;
-    // Explode like a huge smoke bomb.
-    death_map["SMOKEBURST"] = &mdeath::smokeburst;
-    // Explode with a cloud of fungal haze.
-    death_map["FUNGALBURST"] = &mdeath::fungalburst;
-    // Snicker-snack!
-    death_map["JABBERWOCKY"] = &mdeath::jabberwock;
-    // Game over!  Defense mode
-    death_map["GAMEOVER"] = &mdeath::gameover;
-    // Spawn some cockroach nymphs
-    death_map["PREG_ROACH"] = &mdeath::preg_roach;
-    // Explode in a fireball
-    death_map["FIREBALL"] = &mdeath::fireball;
-    // Explode in a huge fireball
-    death_map["CONFLAGRATION"] = &mdeath::conflagration;
-    // resurrect all zombies in the area and upgrade all zombies in the area
-    death_map["NECRO_BOOMER"] = &mdeath::necro_boomer;
-
-    /* Currently Unimplemented */
-    // Screams loudly
-    //death_map["SHRIEK"] = &mdeath::shriek;
-    // Wolf's howling
-    //death_map["HOWL"] = &mdeath::howl;
-    // Rattles like a rattlesnake
-    //death_map["RATTLE"] = &mdeath::rattle;
-}
-
 void MonsterGenerator::init_attack()
 {
     add_hardcoded_attack( "NONE", mattack::none );
@@ -649,6 +589,7 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "GRAB", mattack::grab );
     add_hardcoded_attack( "GRAB_DRAG", mattack::grab_drag );
     add_hardcoded_attack( "DOOT", mattack::doot );
+    add_hardcoded_attack( "DSA_DRONE_SCAN", mattack::dsa_drone_scan );
     add_hardcoded_attack( "ZOMBIE_FUSE", mattack::zombie_fuse );
 }
 
@@ -718,6 +659,9 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     assign( jo, "ascii_picture", picture_id );
 
     optional( jo, was_loaded, "material", mat, auto_flags_reader<material_id> {} );
+    if( mat.empty() ) { // Assign a default "flesh" material to prevent crash (#48988)
+        mat.emplace_back( material_id( "flesh" ) );
+    }
     optional( jo, was_loaded, "species", species, auto_flags_reader<species_id> {} );
     optional( jo, was_loaded, "categories", categories, auto_flags_reader<> {} );
 
@@ -751,6 +695,8 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     assign( jo, "aggression", agro, strict, -100, 100 );
     assign( jo, "morale", morale, strict );
 
+    assign( jo, "tracking_distance", tracking_distance, strict, 8 );
+
     assign( jo, "mountable_weight_ratio", mountable_weight_ratio, strict );
 
     assign( jo, "attack_cost", attack_cost, strict, 0 );
@@ -768,6 +714,8 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     assign( jo, "armor_acid", armor_acid, strict, 0 );
     assign( jo, "armor_fire", armor_fire, strict, 0 );
 
+    optional( jo, was_loaded, "bleed_rate", bleed_rate, 100 );
+
     assign( jo, "vision_day", vision_day, strict, 0 );
     assign( jo, "vision_night", vision_night, strict, 0 );
 
@@ -784,6 +732,8 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "mech_battery", mech_battery, itype_id() );
 
     optional( jo, was_loaded, "zombify_into", zombify_into, auto_flags_reader<mtype_id> {},
+              mtype_id() );
+    optional( jo, was_loaded, "fungalize_into", fungalize_into, auto_flags_reader<mtype_id> {},
               mtype_id() );
 
     // TODO: make this work with `was_loaded`
@@ -819,12 +769,17 @@ void mtype::load( const JsonObject &jo, const std::string &src )
 
     assign( jo, "harvest", harvest );
 
-    const auto death_reader = make_flag_reader( gen.death_map, "monster death function" );
-    optional( jo, was_loaded, "death_function", dies, death_reader );
-    if( dies.empty() ) {
-        // TODO: really needed? Is an empty `dies` container not allowed?
-        dies.push_back( mdeath::normal );
+    if( jo.has_array( "shearing" ) ) {
+        std::vector<shearing_entry> entries;
+        for( JsonObject shearing_entry : jo.get_array( "shearing" ) ) {
+            struct shearing_entry entry {};
+            entry.load( shearing_entry );
+            entries.emplace_back( entry );
+        }
+        shearing = shearing_data( entries );
     }
+
+    optional( jo, was_loaded, "death_function", mdeath_effect );
 
     if( jo.has_array( "emit_fields" ) ) {
         JsonArray jar = jo.get_array( "emit_fields" );
@@ -1217,6 +1172,10 @@ void MonsterGenerator::check_monster_definitions() const
             debugmsg( "monster %s has unknown zombify_into: %s", mon.id.c_str(),
                       mon.zombify_into.c_str() );
         }
+        if( !mon.fungalize_into.is_empty() && !mon.fungalize_into.is_valid() ) {
+            debugmsg( "monster %s has unknown fungalize_into: %s", mon.id.c_str(),
+                      mon.fungalize_into.c_str() );
+        }
         if( !mon.picture_id.is_empty() && !mon.picture_id.is_valid() ) {
             debugmsg( "monster %s has unknown ascii_picture: %s", mon.id.c_str(),
                       mon.picture_id.c_str() );
@@ -1320,4 +1279,18 @@ void MonsterGenerator::check_monster_definitions() const
             }
         }
     }
+}
+
+void monster_death_effect::load( const JsonObject &jo )
+{
+    optional( jo, was_loaded, "message", death_message, to_translation( "The %s dies!" ) );
+    optional( jo, was_loaded, "effect", sp );
+    has_effect = sp.is_valid();
+    optional( jo, was_loaded, "corpse_type", corpse_type, mdeath_type::NORMAL );
+}
+
+void monster_death_effect::deserialize( JsonIn &jsin )
+{
+    JsonObject data = jsin.get_object();
+    load( data );
 }

@@ -119,7 +119,7 @@
     "healthy": -1,
     "fun": -10,
     "cooks_like": "meat_cooked",
-    "vitamins": [ [ "vitC", 13 ], [ "calcium", 2 ], [ "iron", 53 ], [ "vitB", 778 ] ],
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 12 ], [ "vitB", 80 ] ],
     "flags": [ "SMOKABLE", "RAW", "PREDATOR_FUN" ],
     "smoking_result": "meat_smoked"
   },
@@ -170,7 +170,7 @@
     "price_postapoc": 300,
     "spoils_in": "14 days",
     "healthy": -5,
-    "vitamins": [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ],
+    "vitamins": [ [ "vitA", 4 ], [ "vitC", 0 ], [ "calcium", 3 ], [ "iron", 22 ], [ "vitB", 136 ] ],
     "flags": [ "SMOKABLE", "RAW" ],
     "smoking_result": "bacon_uncut"
   },
@@ -188,7 +188,7 @@
     "spoils_in": "24 days",
     "healthy": -1,
     "fun": 5,
-    "vitamins": [ [ "vitC", 1 ], [ "calcium", 1 ], [ "iron", 3 ] ],
+    "vitamins": [ [ "vitA", 4 ], [ "vitC", 0 ], [ "calcium", 3 ], [ "iron", 22 ], [ "vitB", 136 ] ],
     "flags": [ "EATEN_HOT", "SMOKED" ]
   },
   {
@@ -209,7 +209,7 @@
     "flags": [  ],
     "use_action": {
       "target": "raw_cured_fatty_meat",
-      "msg": "You pat off a bit of extra brine from the slice, this piece of meat is now fully cured.",
+      "msg": "You pat off a bit of extra brine from the slice; this piece of meat is now fully cured.",
       "moves": 150,
       "type": "delayed_transform",
       "transform_age": 4800,
@@ -226,7 +226,7 @@
     "cooks_like": "meat_scrap_cooked",
     "proportional": { "weight": 0.1, "volume": 0.1, "price": 0.1, "calories": 0.1 },
     "delete": { "flags": [ "SMOKABLE" ] },
-    "vitamins": [ [ "vitA", 0 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ], [ "vitB", 0 ] ]
+    "vitamins": [ [ "calcium", 0 ], [ "iron", 1 ], [ "vitB", 8 ] ]
   },
   {
     "id": "mutant_meat",
@@ -238,7 +238,7 @@
     "looks_like": "meat",
     "cooks_like": "mutant_meat_cooked",
     "proportional": { "price": 0.2, "calories": 0.5 },
-    "vitamins": [ [ "vitC", 6 ], [ "calcium", 1 ], [ "iron", 26 ], [ "vitB", 389 ], [ "mutant_toxin", 25 ] ],
+    "vitamins": [ [ "vitC", 2 ], [ "calcium", 1 ], [ "iron", 6 ], [ "vitB", 40 ], [ "mutant_toxin", 25 ] ],
     "flags": [ "SMOKABLE", "BAD_TASTE", "RAW", "PREDATOR_FUN" ]
   },
   {
@@ -340,7 +340,7 @@
     "price_postapoc": 100,
     "parasites": 0,
     "calories": 402,
-    "vitamins": [ [ "vitC", 16 ], [ "calcium", 2 ], [ "iron", 69 ], [ "vitB", 778 ] ],
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 12 ], [ "vitB", 80 ] ],
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ]
   },
   {
@@ -515,7 +515,8 @@
     "quench": -5,
     "fun": 4,
     "calories": 348,
-    "vitamins": [ [ "vitA", 0 ], [ "vitC", 0 ], [ "calcium", 2 ], [ "iron", 26 ], [ "vitB", 35 ] ]
+    "vitamins": [ [ "vitA", 0 ], [ "vitC", 0 ], [ "calcium", 2 ], [ "iron", 26 ], [ "vitB", 35 ] ],
+    "delete": { "flags": [ "RAW" ] }
   },
   {
     "id": "salted_fish",
@@ -618,7 +619,7 @@
     "price_postapoc": 25,
     "quench": -4,
     "calories": 92,
-    "vitamins": [ [ "vitA", 75 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 8 ], [ "vitB", 336 ] ]
+    "vitamins": [ [ "vitA", 635 ], [ "vitC", 0 ], [ "calcium", 1 ], [ "iron", 28 ], [ "vitB", 1632 ] ]
   },
   {
     "id": "liver_cooked",
@@ -626,7 +627,7 @@
     "copy-from": "liver",
     "looks_like": "meat_cooked",
     "name": { "str": "cooked liver" },
-    "description": "Chock-full of B-Vitamins!  Cooked liver isn't all that bad, depending on how you feel about the texture, but this is probably the least fancy way to do it.",
+    "description": "Chock-full of A- and B-Vitamins!  Cooked liver isn't all that bad, depending on how you feel about the texture, but this is probably the least fancy way to do it.",
     "parasites": 0,
     "price_postapoc": 50,
     "fun": -2,
@@ -647,7 +648,7 @@
     "fun": -20,
     "parasites": 15,
     "calories": 78,
-    "vitamins": [ [ "vitA", 0 ], [ "vitC", 2 ], [ "calcium", 1 ], [ "iron", 8 ], [ "vitB", 54 ] ]
+    "vitamins": [ [ "vitA", 0 ], [ "vitC", 3 ], [ "calcium", 0 ], [ "iron", 10 ], [ "vitB", 233 ] ]
   },
   {
     "id": "brain_cooked",
@@ -674,7 +675,7 @@
     "price_postapoc": 25,
     "quench": -5,
     "calories": 54,
-    "vitamins": [ [ "vitA", 6 ], [ "vitC", 2 ], [ "calcium", 0 ], [ "iron", 8 ], [ "vitB", 155 ] ]
+    "vitamins": [ [ "vitA", 0 ], [ "vitC", 0 ], [ "calcium", 1 ], [ "iron", 25 ], [ "vitB", 576 ] ]
   },
   {
     "id": "kidney_cooked",
@@ -702,7 +703,7 @@
     "price_postapoc": 25,
     "quench": 0,
     "calories": 133,
-    "vitamins": [ [ "vitA", 0 ], [ "vitC", 32 ], [ "calcium", 0 ], [ "iron", 6 ], [ "vitB", 20 ] ]
+    "vitamins": [ [ "vitA", 0 ], [ "vitC", 11 ], [ "calcium", 0 ], [ "iron", 5 ], [ "vitB", 66 ] ]
   },
   {
     "id": "sweetbread_cooked",
@@ -902,6 +903,7 @@
     "description": "A rotten and brittle bone from some unnatural creature or other.  Could be used to make some stuff, like charcoal or glue.  You could eat it, but it will poison you.",
     "price": 0,
     "price_postapoc": 5,
+    "milling": { "into": "meal_bone_tainted", "conversion_rate": 4 },
     "//": "Not for use in edible recipes, and should require ~200% as much as normal for applicable inedible recipes except for charcoal.",
     "material": [ "bone" ],
     "volume": "250 ml",

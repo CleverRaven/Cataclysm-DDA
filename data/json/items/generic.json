@@ -810,6 +810,7 @@
     "weight": "10 g",
     "volume": "25 ml",
     "to_hit": -5,
+    "milling": { "into": "meal_bone_tainted", "conversion_rate": 0.16 },
     "qualities": [ [ "COOK", 1 ] ]
   },
   {
@@ -1838,6 +1839,7 @@
   {
     "type": "GENERIC",
     "id": "mobile_memory_card_used",
+    "looks_like": "mobile_memory_card",
     "symbol": ",",
     "color": "white",
     "name": { "str": "SD-Memory card (clean)", "str_pl": "SD-Memory cards (clean)" },
@@ -1853,6 +1855,7 @@
   {
     "type": "GENERIC",
     "id": "mobile_memory_card_encrypted",
+    "looks_like": "mobile_memory_card",
     "symbol": ",",
     "color": "white",
     "name": { "str": "SD-Memory card (encrypted)", "str_pl": "SD-Memory cards (encrypted)" },
@@ -1867,6 +1870,7 @@
   {
     "type": "GENERIC",
     "id": "mobile_memory_card_science",
+    "looks_like": "mobile_memory_card",
     "symbol": ",",
     "color": "white",
     "name": { "str": "Science SD-Memory card" },
@@ -2402,6 +2406,15 @@
   },
   {
     "type": "GENERIC",
+    "id": "bodypillow_makeshift",
+    "copy-from": "bodypillow",
+    "name": { "str": "makeshift body pillow" },
+    "description": "A big, body-sized pillow.  Someone drew a vaguely humanoid figure on it.  Its heartwarming smile fills you with joy.",
+    "price": 100,
+    "price_postapoc": 50
+  },
+  {
+    "type": "GENERIC",
     "id": "down_pillow",
     "symbol": ",",
     "color": "blue",
@@ -2714,6 +2727,15 @@
     "to_hit": -3
   },
   {
+    "type": "GENERIC",
+    "//": "Item for meteorologist mission.",
+    "id": "module_meteorologist",
+    "name": { "str": "drone memory bank" },
+    "description": "Allows for storage and recovery of information.  Found in meteorologist drone.",
+    "copy-from": "robot_module_abstract",
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
     "id": "gasdiscount_silver",
     "type": "TOOL",
     "symbol": ",",
@@ -2769,6 +2791,7 @@
     "name": { "str": "science ID card" },
     "description": "This ID card once belonged to a scientist.  The reverse side describes protocol for using it; this could grant access at one control panel, if you can find one.",
     "price": 60000,
+    "flags": [ "SCIENCE_CARD" ],
     "price_postapoc": 250,
     "material": [ "plastic" ],
     "weight": "6 g",
@@ -2783,6 +2806,7 @@
     "name": { "str": "military ID card" },
     "description": "This ID card once belonged to a military officer.  The reverse side describes protocol for using it; this could grant access at one control panel, if you can find one.",
     "price": 120000,
+    "flags": [ "MILITARY_CARD" ],
     "price_postapoc": 500,
     "material": [ "plastic" ],
     "weight": "6 g",
@@ -2798,6 +2822,7 @@
     "name": { "str": "industrial ID card" },
     "description": "This ID card once belonged to a high level technician.  The reverse side describes protocol for using it; this could grant access at one control panel, if you can find one.",
     "price": 120000,
+    "flags": [ "INDUSTRIAL_CARD" ],
     "price_postapoc": 100,
     "material": [ "plastic" ],
     "weight": "6 g",
@@ -3366,9 +3391,6 @@
     "volume": "500 ml",
     "bashing": 1,
     "to_hit": -1,
-    "covers": [ "torso" ],
-    "encumbrance": 2,
-    "coverage": 10,
     "material_thickness": 2,
     "pocket_data": [
       {
@@ -3389,6 +3411,74 @@
           "robofac_test_data"
         ]
       }
-    ]
+    ],
+    "armor": [ { "encumbrance": 2, "coverage": 10, "covers": [ "torso" ] } ]
+  },
+  {
+    "id": "lanyard",
+    "type": "TOOL_ARMOR",
+    "category": "clothing",
+    "symbol": "[",
+    "color": "white",
+    "name": { "str": "lanyard" },
+    "description": "A flat clear plastic sleeve for identification documents, laminated cards, and other small items.  It has a neck strap attached.",
+    "price": 10,
+    "price_postapoc": 1,
+    "material": [ "plastic" ],
+    "flags": [ "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "TARDIS" ],
+    "weight": "250 g",
+    "volume": "250 ml",
+    "longest_side": "5 cm",
+    "bashing": 1,
+    "to_hit": -1,
+    "material_thickness": 1,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": false,
+        "max_contains_weight": "60 g",
+        "max_contains_volume": "150 ml",
+        "moves": 100,
+        "item_restriction": [
+          "cash_card",
+          "gasdiscount_silver",
+          "gasdiscount_gold",
+          "gasdiscount_platinum",
+          "id_science",
+          "id_military",
+          "id_industrial",
+          "fp_loyalty_card",
+          "robofac_test_data",
+          "icon",
+          "labmap",
+          "FMCNote",
+          "signed_chit",
+          "family_photo",
+          "money_one",
+          "money_ten",
+          "money_twenty",
+          "condom"
+        ]
+      }
+    ],
+    "armor": [ { "encumbrance": 0, "covers": [ "torso" ] } ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_tazer_hack",
+    "symbol": ",",
+    "color": "green",
+    "name": { "str": "broken tazer hack" },
+    "category": "other",
+    "description": "A broken tazer hack, with its propellers still and tazer inert.  Could be gutted for parts.",
+    "price": 1000,
+    "price_postapoc": 10,
+    "material": [ "steel", "plastic" ],
+    "weight": "100 kg",
+    "volume": "65 L",
+    "bashing": 4,
+    "cutting": 4,
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   }
 ]

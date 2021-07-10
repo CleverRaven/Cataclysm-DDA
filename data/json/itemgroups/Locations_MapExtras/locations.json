@@ -449,7 +449,7 @@
       [ "frame", 20 ],
       [ "hdframe", 20 ],
       [ "cu_pipe", 25 ],
-      [ "scrap_copper", 50 ]
+      [ "scrap_copper", 62 ]
     ]
   },
   {
@@ -1220,6 +1220,26 @@
   },
   {
     "type": "item_group",
+    "id": "mine_materials",
+    "subtype": "collection",
+    "entries": [
+      { "item": "coal_lump", "prob": 20, "count": [ 1, 10 ] },
+      { "item": "rock", "prob": 40, "count": [ 1, 10 ] },
+      { "item": "rock_large", "prob": 10, "count": [ 1, 10 ] },
+      { "item": "rock_flaking", "prob": 20, "count": [ 1, 10 ] },
+      { "item": "material_shrd_limestone", "prob": 40, "count": [ 1, 10 ] },
+      { "item": "material_limestone", "prob": 40, "count": [ 1, 10 ] },
+      { "item": "material_niter", "prob": 5, "count": [ 1, 10 ] },
+      { "item": "material_sand", "prob": 50, "charges": 500, "container-item": "bag_canvas" },
+      { "item": "material_soil", "prob": 50, "charges": 500, "container-item": "bag_canvas" },
+      { "item": "chunk_sulfur", "prob": 5, "count": [ 1, 10 ] },
+      { "item": "material_rocksalt", "prob": 5, "count": [ 1, 10 ] },
+      { "item": "material_rhodonite", "prob": 5, "count": [ 1, 10 ] },
+      { "item": "material_zincite", "prob": 5, "count": [ 1, 10 ] }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "mine_equipment",
     "ammo": 80,
     "magazine": 100,
@@ -1389,7 +1409,7 @@
       { "item": "3006", "prob": 5, "charges": [ 1, 20 ] },
       { "item": "ksg", "prob": 8, "charges": [ 0, 7 ] },
       { "item": "remington_870_express", "prob": 8, "charges": [ 0, 7 ] },
-      { "item": "mossberg_500_security", "prob": 8, "charges": [ 0, 6 ] },
+      { "item": "mossberg_500", "variant": "mossberg_500_security", "prob": 8, "charges": [ 0, 6 ] },
       { "item": "shot_beanbag", "prob": 25, "charges": [ 1, 10 ] },
       { "item": "rm120c", "prob": 2, "charges": [ 0, 5 ] },
       { "item": "rm20", "prob": 1, "charges": [ 0, 20 ] },
@@ -1514,7 +1534,8 @@
       { "item": "chain", "prob": 10 },
       { "item": "glass_shiv", "prob": 30 },
       { "item": "bottle_glass", "prob": 5 },
-      { "item": "knuckle_brass", "prob": 10 },
+      { "item": "knuckle_brass", "prob": 7 },
+      { "item": "knuckle_steel_forged", "prob": 3 },
       { "item": "switchblade", "prob": 4 },
       { "item": "throwing_knife", "prob": 5 },
       { "item": "tazer", "prob": 1, "charges": [ 0, 100 ] },
@@ -2236,6 +2257,7 @@
       [ "rollmat", 40 ],
       [ "tent_kit", 17 ],
       [ "large_tent_kit", 17 ],
+      [ "tent_pole", 17 ],
       { "distribution": [ { "group": "full_survival_kit" }, { "group": "used_survival_kit" } ], "prob": 10 },
       [ "canteen", 15 ],
       [ "2lcanteen", 10 ],
@@ -2432,7 +2454,8 @@
       { "item": "rag", "prob": 60, "custom-flags": [ "FILTHY" ] },
       { "item": "coat_lab", "prob": 20 },
       { "item": "blanket", "prob": 20 },
-      { "item": "sheet", "prob": 20 }
+      { "item": "sheet", "prob": 20 },
+      { "item": "tent_pole", "prob": 20 }
     ]
   },
   {

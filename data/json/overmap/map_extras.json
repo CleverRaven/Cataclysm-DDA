@@ -24,7 +24,7 @@
     "type": "map_extra",
     "name": { "str": "Drug Deal" },
     "description": "Several corpses of drug dealers are here.",
-    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_drugdeal" },
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_drugdeal" },
     "sym": "d",
     "color": "light_red",
     "autonote": true
@@ -237,6 +237,12 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_trees_map" }
   },
   {
+    "id": "mx_trees2",
+    "type": "map_extra",
+    "copy-from": "mx_trees",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_trees2_map" }
+  },
+  {
     "id": "mx_grass",
     "type": "map_extra",
     "name": { "str": "Tall grass" },
@@ -244,11 +250,20 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_grass_map" }
   },
   {
+    "id": "mx_grass2",
+    "type": "map_extra",
+    "copy-from": "mx_grass",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_grass2_map" }
+  },
+  {
     "id": "mx_fallen_shed",
     "type": "map_extra",
     "name": { "str": "Derelict shed" },
     "description": "A collapsed shed.",
-    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_fallen_shed_map" }
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_fallen_shed_map" },
+    "sym": "^",
+    "color": "dark_gray",
+    "autonote": true
   },
   {
     "id": "mx_clay_deposit",
@@ -287,7 +302,7 @@
     "description": "Burned ground is here.",
     "generator": { "generator_method": "map_extra_function", "generator_id": "mx_burned_ground" },
     "sym": ".",
-    "color": "yellow",
+    "color": "light_gray",
     "autonote": true
   },
   {
@@ -297,7 +312,7 @@
     "description": "Burned ground is here.",
     "generator": { "generator_method": "map_extra_function", "generator_id": "mx_point_burned_ground" },
     "sym": ".",
-    "color": "yellow",
+    "color": "light_gray",
     "autonote": true
   },
   {

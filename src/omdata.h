@@ -281,6 +281,10 @@ struct oter_t {
             return utf32_to_utf8( from_land_use_code ? symbol_alt : symbol );
         }
 
+        uint32_t get_uint32_symbol() const {
+            return symbol;
+        }
+
         nc_color get_color( const bool from_land_use_code = false ) const {
             return from_land_use_code ? type->land_use_code->color : type->color;
         }
@@ -292,6 +296,7 @@ struct oter_t {
         size_t get_line() const {
             return line;
         }
+        void get_rotation_and_subtile( int &rotation, int &subtile ) const;
 
         unsigned char get_see_cost() const {
             return type->see_cost;
