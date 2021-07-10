@@ -823,7 +823,7 @@ const recipe *select_crafting_recipe( int &batch_size_out )
                         if( a->result_name() != b->result_name() ) {
                             return localized_compare( a->result_name(), b->result_name() );
                         }
-                        return a->time_to_craft( player_character ) <
+                        return b->time_to_craft( player_character ) <
                                a->time_to_craft( player_character );
                     } );
 
