@@ -763,7 +763,7 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
                         }
                     }
 
-                    // Because the @item_pricing of the container includes price and weigth of the individual items,
+                    // Because the @item_pricing of the container includes price and weight of the individual items,
                     // after deselecting the container itself, go through once more and add the @item_pricing of the remaining selected items.
                     // We want to find orphaned containers, that are marked for trade, and we want to SELECT them too. If we treat them as regular items,
                     // their price will be used to calculate the balance, and then the price of their contents is going to be duplicately calculated, leading to problems.
