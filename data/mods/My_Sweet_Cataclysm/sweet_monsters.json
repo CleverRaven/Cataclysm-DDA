@@ -555,7 +555,6 @@
     "vision_night": 32,
     "reproduction": { "baby_monster": "mon_pumpkin_kid", "baby_count": 12, "baby_timer": 325 },
     "harvest": "pumpkin",
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "STUMBLES", "BASHES" ]
   },
   {
@@ -591,7 +590,6 @@
     "vision_day": 65,
     "vision_night": 24,
     "harvest": "cane_hulk",
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "STUMBLES", "BASHES", "HEARS", "SMELLS" ]
   }
 ]
