@@ -91,6 +91,8 @@ namespace om_lines
 struct type {
     uint32_t symbol;
     size_t mapgen;
+    MULTITILE_TYPE subtile;
+    int rotation;
     std::string suffix;
 };
 
@@ -100,22 +102,22 @@ const std::array<std::string, 5> mapgen_suffixes = {{
 };
 
 const std::array < type, 1 + om_direction::bits > all = {{
-        { UTF8_getch( LINE_XXXX_S ), 4, "_isolated"  }, // 0  ----
-        { UTF8_getch( LINE_XOXO_S ), 2, "_end_south" }, // 1  ---n
-        { UTF8_getch( LINE_OXOX_S ), 2, "_end_west"  }, // 2  --e-
-        { UTF8_getch( LINE_XXOO_S ), 1, "_ne"        }, // 3  --en
-        { UTF8_getch( LINE_XOXO_S ), 2, "_end_north" }, // 4  -s--
-        { UTF8_getch( LINE_XOXO_S ), 0, "_ns"        }, // 5  -s-n
-        { UTF8_getch( LINE_OXXO_S ), 1, "_es"        }, // 6  -se-
-        { UTF8_getch( LINE_XXXO_S ), 3, "_nes"       }, // 7  -sen
-        { UTF8_getch( LINE_OXOX_S ), 2, "_end_east"  }, // 8  w---
-        { UTF8_getch( LINE_XOOX_S ), 1, "_wn"        }, // 9  w--n
-        { UTF8_getch( LINE_OXOX_S ), 0, "_ew"        }, // 10 w-e-
-        { UTF8_getch( LINE_XXOX_S ), 3, "_new"       }, // 11 w-en
-        { UTF8_getch( LINE_OOXX_S ), 1, "_sw"        }, // 12 ws--
-        { UTF8_getch( LINE_XOXX_S ), 3, "_nsw"       }, // 13 ws-n
-        { UTF8_getch( LINE_OXXX_S ), 3, "_esw"       }, // 14 wse-
-        { UTF8_getch( LINE_XXXX_S ), 4, "_nesw"      }  // 15 wsen
+        { UTF8_getch( LINE_XXXX_S ), 4, unconnected,  0, "_isolated"  }, // 0  ----
+        { UTF8_getch( LINE_XOXO_S ), 2, end_piece,    2, "_end_south" }, // 1  ---n
+        { UTF8_getch( LINE_OXOX_S ), 2, end_piece,    1, "_end_west"  }, // 2  --e-
+        { UTF8_getch( LINE_XXOO_S ), 1, corner,       1, "_ne"        }, // 3  --en
+        { UTF8_getch( LINE_XOXO_S ), 2, end_piece,    0, "_end_north" }, // 4  -s--
+        { UTF8_getch( LINE_XOXO_S ), 0, edge,         0, "_ns"        }, // 5  -s-n
+        { UTF8_getch( LINE_OXXO_S ), 1, corner,       0, "_es"        }, // 6  -se-
+        { UTF8_getch( LINE_XXXO_S ), 3, t_connection, 1, "_nes"       }, // 7  -sen
+        { UTF8_getch( LINE_OXOX_S ), 2, end_piece,    3, "_end_east"  }, // 8  w---
+        { UTF8_getch( LINE_XOOX_S ), 1, corner,       2, "_wn"        }, // 9  w--n
+        { UTF8_getch( LINE_OXOX_S ), 0, edge,         1, "_ew"        }, // 10 w-e-
+        { UTF8_getch( LINE_XXOX_S ), 3, t_connection, 2, "_new"       }, // 11 w-en
+        { UTF8_getch( LINE_OOXX_S ), 1, corner,       3, "_sw"        }, // 12 ws--
+        { UTF8_getch( LINE_XOXX_S ), 3, t_connection, 3, "_nsw"       }, // 13 ws-n
+        { UTF8_getch( LINE_OXXX_S ), 3, t_connection, 0, "_esw"       }, // 14 wse-
+        { UTF8_getch( LINE_XXXX_S ), 4, center,       0, "_nesw"      }  // 15 wsen
     }
 };
 
@@ -568,6 +570,14 @@ void oter_type_t::load( const JsonObject &jo, const std::string &src )
         for( const auto &elem : om_lines::mapgen_suffixes ) {
             load_overmap_terrain_mapgens( jo, id.str(), elem );
         }
+
+        if( symbol == NULL_UNICODE ) {
+            // Default the sym for linear terrains to a specific value which
+            // has special behaviour when using fallback ASCII tiles so as to
+            // cause it to draw using the box drawing characters (see
+            // load_ascii_set).
+            symbol = LINE_XOXO_C;
+        }
     } else {
         if( symbol == NULL_UNICODE && !jo.has_string( "abstract" ) ) {
             DebugLog( D_ERROR, D_MAP_GEN ) << "sym is not defined for overmap_terrain: "
@@ -686,6 +696,21 @@ oter_id oter_t::get_rotated( om_direction::type dir ) const
     return type->has_flag( oter_flags::line_drawing )
            ? type->get_linear( om_lines::rotate( this->line, dir ) )
            : type->get_rotated( om_direction::add( this->dir, dir ) );
+}
+
+void oter_t::get_rotation_and_subtile( int &rotation, int &subtile ) const
+{
+    if( is_linear() ) {
+        const om_lines::type &t = om_lines::all[line];
+        rotation = t.rotation;
+        subtile = t.subtile;
+    } else if( is_rotatable() ) {
+        rotation = static_cast<int>( get_dir() );
+        subtile = -1;
+    } else {
+        rotation = 0;
+        subtile = -1;
+    }
 }
 
 bool oter_t::type_is( const int_id<oter_type_t> &type_id ) const

@@ -755,38 +755,20 @@ static cata::optional<std::pair<tripoint_abs_omt, std::string>> get_mission_arro
     return std::make_pair( tripoint_abs_omt( *prev ), mission_arrow_variant );
 }
 
-int cata_tiles::get_omt_rotation( std::string &id )
+std::string cata_tiles::get_omt_id_rotation_and_subtile(
+    const tripoint_abs_omt &omp, int &rota, int &subtile )
 {
-    if( id.length() < 5 ) {
-        return 0;
+    oter_id ot_id = overmap_buffer.ter( omp );
+
+    if( !uistate.overmap_show_forest_trails &&
+        is_ot_match( "forest_trail", ot_id, ot_match_type::type ) ) {
+        ot_id = oter_id( "forest" );
     }
-    // save the id for later just in case we don't have a tile
-    const std::string first_id = id;
-    int rotation = 0;
-    std::string suffix = id.substr( id.length() - 5, id.length() - 1 );
-    if( suffix == "_east" ) {
-        id = id.substr( 0, id.length() - 5 );
-        rotation = 1;
-    } else if( suffix == "_west" ) {
-        id = id.substr( 0, id.length() - 5 );
-        rotation = 3;
-    }
-    if( id.length() < 6 ) {
-        return rotation;
-    }
-    suffix = id.substr( id.length() - 6, id.length() - 1 );
-    if( suffix == "_north" ) {
-        id = id.substr( 0, id.length() - 6 );
-        rotation = 0;
-    } else if( suffix == "_south" ) {
-        id = id.substr( 0, id.length() - 6 );
-        rotation = 2;
-    }
-    if( !find_tile_looks_like( id, TILE_CATEGORY::C_OVERMAP_TERRAIN ) ) {
-        //fallback tiles
-        id = first_id;
-    }
-    return rotation;
+
+    const oter_t &ot = *ot_id;
+    oter_type_id ot_type_id = ot.get_type_id();
+    ot.get_rotation_and_subtile( rota, subtile );
+    return ot_type_id.id().str();
 }
 
 void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_omt, bool blink )
@@ -861,9 +843,10 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
 
             const bool see = overmap_buffer.seen( omp );
             const bool los = see && you.overmap_los( omp, sight_points );
-            const oter_id &cur_ter = overmap_buffer.ter( omp );
             // the full string from the ter_id including _north etc.
             std::string id;
+            int rotation = 0;
+            int subtile = -1;
 
             if( viewing_weather ) {
                 const tripoint_abs_omt omp_sky( omp.xy(), OVERMAP_HEIGHT );
@@ -873,21 +856,16 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                 } else {
                     id = "unexplored_terrain";
                 }
+            } else if( !see ) {
+                id = "unknown_terrain";
             } else {
-                id = see ? cur_ter->id.c_str() : "unknown_terrain";
-
-                if( !uistate.overmap_show_forest_trails &&
-                    is_ot_match( "forest_trail", cur_ter, ot_match_type::type ) ) {
-                    id = "forest";
-                }
+                id = get_omt_id_rotation_and_subtile( omp, rotation, subtile );
             }
-
-            const int rotation = get_omt_rotation( id );
 
             const lit_level ll = overmap_buffer.is_explored( omp ) ? lit_level::LOW : lit_level::LIT;
             // light level is now used for choosing between grayscale filter and normal lit tiles.
-            draw_from_id_string( id, TILE_CATEGORY::C_OVERMAP_TERRAIN, "overmap_terrain", pos, -1, rotation,
-                                 ll, false, height_3d );
+            draw_from_id_string( id, TILE_CATEGORY::C_OVERMAP_TERRAIN, "overmap_terrain", pos,
+                                 subtile, rotation, ll, false, height_3d );
 
             if( see ) {
                 if( blink && uistate.overmap_debug_mongroup ) {
@@ -954,10 +932,13 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     }
 
     if( uistate.place_terrain ) {
-        const oter_str_id &terrain = uistate.place_terrain->id;
-        std::string id = terrain.c_str();
-        const int rotation = get_omt_rotation( id );
-        draw_from_id_string( id, global_omt_to_draw_position( center_abs_omt ), 0, rotation,
+        const oter_str_id &terrain_id = uistate.place_terrain->id;
+        const oter_t &terrain = *terrain_id;
+        std::string id = terrain.get_type_id().str();
+        int rotation;
+        int subtile;
+        terrain.get_rotation_and_subtile( rotation, subtile );
+        draw_from_id_string( id, global_omt_to_draw_position( center_abs_omt ), subtile, rotation,
                              lit_level::LOW, true );
     }
     if( uistate.place_special ) {
@@ -965,8 +946,12 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
             if( s_ter.p.z == 0 ) {
                 // TODO: fix point types
                 const point_rel_omt rp( om_direction::rotate( s_ter.p.xy(), uistate.omedit_rotation ) );
-                std::string id = s_ter.terrain->get_rotated( uistate.omedit_rotation ).id().c_str();
-                const int rotation = get_omt_rotation( id );
+                oter_id rotated_id = s_ter.terrain->get_rotated( uistate.omedit_rotation );
+                const oter_t &terrain = *rotated_id;
+                std::string id = terrain.get_type_id().str();
+                int rotation;
+                int subtile;
+                terrain.get_rotation_and_subtile( rotation, subtile );
 
                 draw_from_id_string( id, TILE_CATEGORY::C_OVERMAP_TERRAIN, "overmap_terrain",
                                      global_omt_to_draw_position( center_abs_omt + rp ), 0, rotation, lit_level::LOW, true );

@@ -1881,7 +1881,7 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
                 sym = tmp->get_uint32_symbol();
                 col = tmp->get_color();
             } else if( type_tmp.is_valid() ) {
-                sym = type_tmp->get_symbol().front();
+                sym = type_tmp->symbol;
                 col = type_tmp->color;
             }
         } else if( category == C_OVERMAP_NOTE ) {

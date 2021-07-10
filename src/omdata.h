@@ -296,6 +296,7 @@ struct oter_t {
         size_t get_line() const {
             return line;
         }
+        void get_rotation_and_subtile( int &rotation, int &subtile ) const;
 
         unsigned char get_see_cost() const {
             return type->see_cost;
