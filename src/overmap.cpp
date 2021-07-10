@@ -2126,7 +2126,7 @@ void overmap::signal_hordes( const tripoint_rel_sm &p_rel, const int sig_power )
 void overmap::signal_nemesis( const tripoint_rel_sm &p_rel, const int sig_power )
 {
     tripoint_om_sm p( p_rel.raw() );
-    for( auto &elem : zg ) {
+    for( std::pair<const tripoint_om_sm, mongroup> &elem : zg ) {
         mongroup &mg = elem.second;
 
         if( mg.horde_behaviour == "nemesis" ) {
@@ -4420,7 +4420,11 @@ void overmap::place_mongroups()
 void overmap::place_nemesis( const tripoint_abs_omt p )
 {
             tripoint_abs_sm pos_sm = project_to<coords::sm>( p );
-            mongroup nemesis = mongroup( GROUP_NEMESIS, pos_sm.raw(), 1, 1 );
+            point_abs_om omp;
+            tripoint_om_sm local_sm;
+            std::tie( omp, local_sm ) = project_remain<coords::om>( pos_sm );
+
+            mongroup nemesis = mongroup( GROUP_NEMESIS, local_sm, 1, 1 );
             nemesis.horde = true;
             nemesis.horde_behaviour = "nemesis";
             add_mon_group( nemesis );

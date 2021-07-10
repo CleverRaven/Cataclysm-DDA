@@ -402,9 +402,9 @@ class overmapbuffer
          */
         void signal_nemesis( const tripoint_abs_sm &p, int sig_power );
         /**
-         * adds a nemesis horde into the hordes list of the overmap where the Kill Nemesis mision is targeted
+         * adds a nemesis horde into the hordes list of the overmap where the kill_nemesis mision is targeted
          */
-        void overmapbuffer::add_nemesis( const tripoint_abs_omt &p );
+        void add_nemesis( const tripoint_abs_omt &p );
         /**
          * Let hordes move a step. Note that this may move monster groups inside the reality bubble,
          * therefore you should probably call @ref map::spawn_monsters to spawn them.

@@ -110,11 +110,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\src\messages.h" />
-    <ClInclude Include="..\tools\format\*.h" />
+    <ClInclude Include="..\tools\format\format.h" />
+    <ClInclude Include="..\tools\format\getpost.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\messages.cpp" />
-    <ClCompile Include="..\tools\format\*.cpp" Exclude="..\tools\format\format_main.cpp" />
+    <ClCompile Include="..\tools\format\format.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\msvc-full-features\Cataclysm-lib-vcpkg-static.vcxproj">

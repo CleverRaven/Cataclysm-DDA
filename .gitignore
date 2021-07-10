@@ -204,3 +204,7 @@ Xcode/
 /tests/pch/tests-pch.hpp.pch
 /tests/catch/catch.hpp.gch
 /tests/catch/catch.hpp.pch
+msvc-full-features/Cataclysm-lib-vcpkg-static.vcxproj
+msvc-full-features/Cataclysm-test-vcpkg-static.vcxproj
+msvc-full-features/JsonFormatter-lib-vcpkg-static.vcxproj
+msvc-full-features/JsonFormatter-vcpkg-static.vcxproj

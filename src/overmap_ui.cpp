@@ -788,16 +788,18 @@ static void draw_ascii(
                             // Don't flood the map with forest creatures.
                             continue;
                         }
-                        if( mgp->type == GROUP_NEMESIS) {
-                            // nemesis horde shows as &
-                            ter_sym = "&";
-                            ter_color = c_red;
-                            break;
-                        } 
                         if( mgp->horde ) {
                             // Hordes show as +
                             ter_sym = "+";
+
+                            if( mgp->type == GROUP_NEMESIS) {
+                            // nemesis horde shows as &
+                                ter_sym = "&";
+                                ter_color = c_red;
+                            } 
+                            
                             break;
+                            
                         } else {
                             // Regular groups show as -
                             ter_sym = "-";

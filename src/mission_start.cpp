@@ -130,8 +130,8 @@ void mission_start::kill_horde_master( mission *miss )
 void mission_start::kill_nemesis( mission *miss )
 {
     // Pick an area for the nemesis to spawn
-    const auto center = get_player_character().global_omt_location();
-    tripoint_abs_omt site = mission_util::random_house_in_closest_city();
+    const tripoint_abs_omt center = get_player_character().global_omt_location();
+    tripoint_abs_omt site = overmap_buffer.find_random( center, "field", rng( 40, 80 ), false );
     overmap_buffer.add_nemesis(site);
 }
 

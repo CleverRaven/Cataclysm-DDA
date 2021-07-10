@@ -404,7 +404,7 @@
     "volume": "875000 ml",
     "weight": "200 kg",
     "hp": 480,
-    "speed": 50,
+    "speed": 80,
     "material": [ "flesh" ],
     "symbol": "N",
     "color": "white_magenta",
@@ -423,6 +423,7 @@
     "special_attacks": [ [ "SMASH", 20 ] ],
     "death_drops": "mon_zombie_hulk_death_drops",
     "death_function": [ "NORMAL" ],
+    "regenerates": 15,
     "flags": [
       "SEES",
       "HEARS",
