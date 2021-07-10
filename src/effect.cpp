@@ -371,6 +371,16 @@ bool effect_type::load_mod_data( const JsonObject &jo, const std::string &member
         extract_effect( j, mod_data, "thirst_chance_bot", member, "THIRST",   "chance_bot" );
         extract_effect( j, mod_data, "thirst_tick",      member, "THIRST",   "tick" );
 
+        // Then thirst
+        extract_effect( j, mod_data, "perspiration_amount",    member, "PERSPIRATION",   "amount" );
+        extract_effect( j, mod_data, "perspiration_min",       member, "PERSPIRATION",   "min" );
+        extract_effect( j, mod_data, "perspiration_max",       member, "PERSPIRATION",   "max" );
+        extract_effect( j, mod_data, "perspiration_min_val",   member, "PERSPIRATION",   "min_val" );
+        extract_effect( j, mod_data, "perspiration_max_val",   member, "PERSPIRATION",   "max_val" );
+        extract_effect( j, mod_data, "perspiration_chance",    member, "PERSPIRATION",   "chance_top" );
+        extract_effect( j, mod_data, "perspiration_chance_bot", member, "PERSPIRATION",   "chance_bot" );
+        extract_effect( j, mod_data, "perspiration_tick",      member, "PERSPIRATION",   "tick" );
+
         // Then fatigue
         extract_effect( j, mod_data, "fatigue_amount",    member, "FATIGUE",  "amount" );
         extract_effect( j, mod_data, "fatigue_min",       member, "FATIGUE",  "min" );
@@ -679,6 +689,9 @@ std::string effect::disp_desc( bool reduced ) const
     val = get_avg_mod( "THIRST", reduced );
     values.emplace_back( get_percentage( "THIRST", val, reduced ), val, _( "thirst" ),
                          _( "quench" ) );
+    val = get_avg_mod( "PERSPIRATION", reduced );
+    values.emplace_back( desc_freq( get_percentage( "PERSPIRATION", val, reduced ), val,
+                                 _( "perspiration" ), _( "dryness" ) ) );
     val = get_avg_mod( "HUNGER", reduced );
     values.emplace_back( get_percentage( "HUNGER", val, reduced ), val, _( "hunger" ),
                          _( "sate" ) );

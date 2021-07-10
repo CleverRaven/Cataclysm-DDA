@@ -22,7 +22,7 @@
     "fire_warmth_bonus": 150,
     "squeamish_penalty": 6,
     "base_hp": 60,
-    "drench_capacity": 40,
+    "drench_capacity": 4000,
     "smash_message": "You smash the %s with a powerful shoulder-check.",
     "bionic_slots": 80
   },
@@ -49,7 +49,7 @@
     "fire_warmth_bonus": 150,
     "squeamish_penalty": 7,
     "base_hp": 60,
-    "drench_capacity": 7,
+    "drench_capacity": 700,
     "smash_message": "You smash the %s with a firm headbutt.",
     "smash_efficiency": 0.25,
     "bionic_slots": 18
@@ -72,7 +72,7 @@
     "stylish_bonus": 2,
     "squeamish_penalty": 8,
     "base_hp": 60,
-    "drench_capacity": 1,
+    "drench_capacity": 100,
     "flags": [ "IGNORE_TEMP" ],
     "smash_message": "You use your flippin' face to smash the %s.  EXTREME.",
     "smash_efficiency": 0.25,
@@ -98,7 +98,7 @@
     "cold_morale_mod": 2,
     "squeamish_penalty": 9,
     "base_hp": 60,
-    "drench_capacity": 1,
+    "drench_capacity": 100,
     "smash_message": "You use your flippin' face to smash the %s.  EXTREME.",
     "smash_efficiency": 0.25,
     "bionic_slots": 4
@@ -129,7 +129,7 @@
     "squeamish_penalty": 5,
     "is_limb": true,
     "base_hp": 60,
-    "drench_capacity": 10,
+    "drench_capacity": 1000,
     "smash_message": "You elbow-smash the %s.",
     "bionic_slots": 20
   },
@@ -158,7 +158,7 @@
     "squeamish_penalty": 5,
     "is_limb": true,
     "base_hp": 60,
-    "drench_capacity": 10,
+    "drench_capacity": 1000,
     "smash_message": "You elbow-smash the %s.",
     "bionic_slots": 20
   },
@@ -185,7 +185,7 @@
     "fire_warmth_bonus": 1500,
     "squeamish_penalty": 3,
     "base_hp": 60,
-    "drench_capacity": 3,
+    "drench_capacity": 300,
     "smash_message": "You smash the %s with your fist.",
     "bionic_slots": 5
   },
@@ -212,7 +212,7 @@
     "fire_warmth_bonus": 1500,
     "squeamish_penalty": 3,
     "base_hp": 60,
-    "drench_capacity": 3,
+    "drench_capacity": 300,
     "smash_message": "You smash the %s with your fist.",
     "bionic_slots": 5
   },
@@ -242,7 +242,7 @@
     "squeamish_penalty": 5,
     "is_limb": true,
     "base_hp": 60,
-    "drench_capacity": 11,
+    "drench_capacity": 1100,
     "smash_message": "You bring your knee down on the %s, smashing it.",
     "bionic_slots": 30
   },
@@ -272,7 +272,7 @@
     "squeamish_penalty": 5,
     "is_limb": true,
     "base_hp": 60,
-    "drench_capacity": 11,
+    "drench_capacity": 1100,
     "smash_message": "You bring your knee down on the %s, smashing it.",
     "bionic_slots": 30
   },
@@ -299,7 +299,7 @@
     "fire_warmth_bonus": 300,
     "squeamish_penalty": 3,
     "base_hp": 60,
-    "drench_capacity": 3,
+    "drench_capacity": 300,
     "smash_message": "You kick down the %s, smashing it.",
     "bionic_slots": 7
   },
@@ -326,7 +326,7 @@
     "fire_warmth_bonus": 300,
     "squeamish_penalty": 3,
     "base_hp": 60,
-    "drench_capacity": 3,
+    "drench_capacity": 300,
     "smash_message": "You kick down the %s, smashing it.",
     "bionic_slots": 7
   }

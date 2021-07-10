@@ -71,6 +71,8 @@ class material_type
         int _bullet_resist = 0;
         int _chip_resist = 0;                         // Resistance to physical damage of the item itself
         int _density = 1;                             // relative to "powder", which is 1
+        // ability of a fabric to allow moisture vapor to be transmitted through the material
+        int _breathability = 0;
         float _specific_heat_liquid = 4.186f;
         float _specific_heat_solid = 2.108f;
         float _latent_heat = 334.0f;
@@ -125,6 +127,7 @@ class material_type
         float latent_heat() const;
         float freeze_point() const;
         int density() const;
+        int breathability() const;
         bool edible() const;
         bool rotting() const;
         bool soft() const;
