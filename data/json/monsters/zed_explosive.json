@@ -25,8 +25,9 @@
     "harvest": "exempt",
     "special_attacks": [ [ "BOOMER", 20 ], [ "scratch", 20 ] ],
     "death_drops": "default_zombie_items",
-    "death_function": [ "BOOMER" ],
+    "death_function": { "effect": { "id": "death_boomer", "hit_self": true }, "message": "A %s explode!", "corpse_type": "NO_CORPSE" },
     "upgrades": { "half_life": 14, "into": "mon_boomer_huge" },
+    "fungalize_into": "mon_boomer_fungus",
     "flags": [
       "SEES",
       "HEARS",
@@ -69,11 +70,17 @@
     "armor_bash": 5,
     "armor_cut": 5,
     "armor_bullet": 4,
+    "bleed_rate": 50,
     "vision_night": 3,
     "harvest": "zombie",
+    "fungalize_into": "mon_boomer_fungus",
     "special_attacks": [ [ "BOOMER_GLOW", 20 ], [ "scratch", 20 ] ],
     "death_drops": "default_zombie_items",
-    "death_function": [ "BOOMER_GLOW" ],
+    "death_function": {
+      "effect": { "id": "death_boomer_glow", "hit_self": true, "min_level": 1 },
+      "message": "A %s explode!",
+      "corpse_type": "NO_CORPSE"
+    },
     "flags": [
       "SEES",
       "GOODHEARING",
@@ -118,7 +125,7 @@
     "harvest": "exempt",
     "special_attacks": [ [ "scratch", 20 ] ],
     "death_drops": "default_zombie_items",
-    "death_function": [ "CONFLAGRATION" ],
+    "death_function": { "effect": { "id": "death_conflagration", "hit_self": true }, "message": "A %s explodes!", "corpse_type": "NO_CORPSE" },
     "flags": [
       "SEES",
       "HEARS",
@@ -161,7 +168,8 @@
     "emit_fields": [ { "emit_id": "emit_toxic_leak", "delay": "1 s" } ],
     "special_attacks": [ [ "SUICIDE", 20 ], [ "scratch", 15 ] ],
     "death_drops": "default_zombie_items",
-    "death_function": [ "GAS" ],
+    "death_function": { "message": "A %s explodes!", "effect": { "id": "death_gas", "hit_self": true }, "corpse_type": "NO_CORPSE" },
+    "fungalize_into": "mon_zombie_gasbag_fungus",
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
   }
 ]

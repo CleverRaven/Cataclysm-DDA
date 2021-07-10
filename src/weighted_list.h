@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_WEIGHTED_LIST_H
 #define CATA_SRC_WEIGHTED_LIST_H
 
+#include "json.h"
 #include "rng.h"
 
 #include <climits>
@@ -19,6 +20,10 @@ template <typename W, typename T> struct weighted_object {
 template <typename W, typename T> struct weighted_list {
         weighted_list() : total_weight( 0 ) { }
 
+        weighted_list( const weighted_list & ) = default;
+        weighted_list( weighted_list && ) noexcept = default;
+        weighted_list &operator=( const weighted_list & ) = default;
+        weighted_list &operator=( weighted_list && ) noexcept = default;
         virtual ~weighted_list() = default;
 
         /**
@@ -145,6 +150,10 @@ template <typename W, typename T> struct weighted_list {
             return total_weight;
         }
 
+        bool is_valid() const {
+            return get_weight() > 0;
+        }
+
         typename std::vector<weighted_object<W, T> >::iterator begin() {
             return objects.begin();
         }
@@ -169,8 +178,6 @@ template <typename W, typename T> struct weighted_list {
         bool empty() const noexcept {
             return objects.empty();
         }
-
-        void precalc();
 
     protected:
         W total_weight;
@@ -224,6 +231,8 @@ template <typename T> struct weighted_int_list : public weighted_list<int, T> {
         std::vector<int> precalc_array;
 };
 
+static_assert( std::is_nothrow_move_constructible<weighted_int_list<int>>::value, "" );
+
 template <typename T> struct weighted_float_list : public weighted_list<double, T> {
 
         // TODO: precalc using alias method
@@ -244,5 +253,21 @@ template <typename T> struct weighted_float_list : public weighted_list<double, 
         }
 
 };
+
+template<typename W, typename T>
+void load_weighted_list( const JsonValue &jsv, weighted_list<W, T> &list, W default_weight )
+{
+    for( const JsonValue entry : jsv.get_array() ) {
+        if( entry.test_array() ) {
+            std::pair<T, W> p;
+            entry.read( p, true );
+            list.add( p.first, p.second );
+        } else {
+            T val;
+            entry.read( val );
+            list.add( val, default_weight );
+        }
+    }
+}
 
 #endif // CATA_SRC_WEIGHTED_LIST_H

@@ -1,0 +1,84 @@
+[
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_fire_lookout_tower_log_shack_0",
+    "method": "json",
+    "object": {
+      "place_nested": [ { "chunks": [ "fbmc_log_wall_vertical" ], "x": 1, "y": 3 }, { "chunks": [ "fbmc_log_shack_south" ], "x": 2, "y": 3 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_fire_lookout_tower_log_shack_1",
+    "method": "json",
+    "object": {
+      "place_nested": [ { "chunks": [ "fbmc_log_wall_vertical" ], "x": 7, "y": 1 }, { "chunks": [ "fbmc_log_shack_south" ], "x": 8, "y": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_fire_lookout_tower_log_shack_2",
+    "method": "json",
+    "object": {
+      "place_nested": [
+        { "chunks": [ "fbmc_log_wall_horizontal" ], "x": 15, "y": 1 },
+        { "chunks": [ "fbmc_log_shack_west" ], "x": 15, "y": 2 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_fire_lookout_tower_log_shack_3",
+    "method": "json",
+    "object": {
+      "place_nested": [
+        { "chunks": [ "fbmc_log_wall_horizontal" ], "x": 17, "y": 7 },
+        { "chunks": [ "fbmc_log_shack_west" ], "x": 17, "y": 8 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_fire_lookout_tower_log_shack_4",
+    "method": "json",
+    "object": {
+      "place_nested": [
+        { "chunks": [ "fbmc_log_wall_vertical" ], "x": 17, "y": 15 },
+        { "chunks": [ "fbmc_log_shack_north" ], "x": 18, "y": 15 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_fire_lookout_tower_log_shack_5",
+    "method": "json",
+    "object": {
+      "place_nested": [
+        { "chunks": [ "fbmc_log_wall_vertical" ], "x": 11, "y": 17 },
+        { "chunks": [ "fbmc_log_shack_north" ], "x": 12, "y": 17 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_fire_lookout_tower_log_shack_6",
+    "method": "json",
+    "object": {
+      "place_nested": [
+        { "chunks": [ "fbmc_log_wall_horizontal" ], "x": 3, "y": 17 },
+        { "chunks": [ "fbmc_log_shack_east" ], "x": 3, "y": 18 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_fire_lookout_tower_log_shack_7",
+    "method": "json",
+    "object": {
+      "place_nested": [
+        { "chunks": [ "fbmc_log_wall_horizontal" ], "x": 1, "y": 11 },
+        { "chunks": [ "fbmc_log_shack_east" ], "x": 1, "y": 12 }
+      ]
+    }
+  }
+]

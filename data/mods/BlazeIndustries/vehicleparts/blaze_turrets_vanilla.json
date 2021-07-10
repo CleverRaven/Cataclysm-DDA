@@ -9,12 +9,12 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "mounted_acr",
+    "id": "mounted_nato_assault_rifle",
     "copy-from": "turret",
     "type": "vehicle_part",
-    "name": { "str": "mounted Remington ACR" },
-    "item": "acr",
-    "breaks_into": [ { "item": "acr", "prob": 50 } ],
+    "name": { "str": "mounted assault rifle" },
+    "item": "nato_assault_rifle",
+    "breaks_into": [ { "item": "nato_assault_rifle", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
@@ -155,15 +155,6 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "mounted_h&k416a5",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "mounted H&K 416A5" },
-    "item": "h&k416a5",
-    "breaks_into": [ { "item": "h&k416a5", "prob": 50 } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
-  },
-  {
     "id": "mounted_hk_g3",
     "copy-from": "turret",
     "type": "vehicle_part",
@@ -249,8 +240,8 @@
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted M1014 shotgun" },
-    "item": "m1014",
-    "breaks_into": [ { "item": "m1014", "prob": 50 } ],
+    "item": "mossberg_930",
+    "breaks_into": [ { "item": "mossberg_930", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
@@ -290,15 +281,6 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "mounted_m27iar",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "mounted M27 IAR" },
-    "item": "m27iar",
-    "breaks_into": [ { "item": "m27iar", "prob": 50 } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
-  },
-  {
     "id": "mounted_m2browning_sawn",
     "copy-from": "turret",
     "type": "vehicle_part",
@@ -315,15 +297,6 @@
     "item": "m320",
     "breaks_into": [ { "item": "m320", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
-  },
-  {
-    "id": "mounted_m4a1",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "mounted M4A1" },
-    "item": "m4a1",
-    "breaks_into": [ { "item": "m4a1", "prob": 50 } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "mounted_m60",
@@ -571,15 +544,6 @@
     "name": { "str": "mounted FN SCAR-H" },
     "item": "scar_h",
     "breaks_into": [ { "item": "scar_h", "prob": 50 } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
-  },
-  {
-    "id": "mounted_scar_l",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "mounted FN SCAR-L" },
-    "item": "scar_l",
-    "breaks_into": [ { "item": "scar_l", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {

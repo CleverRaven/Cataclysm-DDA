@@ -378,6 +378,18 @@ struct social_modifiers {
     }
 };
 
+enum MULTITILE_TYPE {
+    center,
+    corner,
+    edge,
+    t_connection,
+    end_piece,
+    unconnected,
+    open_,
+    broken,
+    num_multitile_types
+};
+
 enum class reachability_cache_quadrant : int {
     NE, SE, NW, SW
 };

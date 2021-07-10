@@ -25,7 +25,7 @@
         "max_contains_weight": "5 kg"
       }
     ],
-    "armor_data": { "covers": [ "torso" ], "coverage": 10, "encumbrance": 4, "material_thickness": 2 },
+    "armor_data": { "material_thickness": 2, "armor": [ { "encumbrance": 4, "coverage": 10, "covers": [ "torso" ] } ] },
     "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
@@ -162,7 +162,7 @@
     "flags": [ "TRADER_AVOID" ]
   },
   {
-    "id": "bag_paper_powder_small",
+    "id": "bag_paper_powder",
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "small powder paper bag" },
@@ -177,7 +177,7 @@
       {
         "pocket_type": "CONTAINER",
         "watertight": false,
-        "max_contains_volume": "2 L",
+        "max_contains_volume": "2500 ml",
         "max_contains_weight": "2 kg",
         "moves": 200
       }
@@ -231,7 +231,6 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "watertight": true,
         "max_contains_volume": "100 L",
         "max_contains_weight": "100 kg",
         "max_item_length": "200 cm",
@@ -303,7 +302,7 @@
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "plastic bottle" },
-    "description": "A watertight plastic bottle, holds 500 ml of liquid.  Some may be factory sealed to preserve content from rot until opened.",
+    "description": "A watertight plastic bottle, holds 500 ml of liquid.  Some may be factory-sealed to increase shelf life.",
     "weight": "13 g",
     "volume": "502 ml",
     "pocket_data": [
@@ -582,7 +581,7 @@
         "max_contains_weight": "20 kg"
       }
     ],
-    "armor_data": { "covers": [ "torso" ], "coverage": 15, "material_thickness": 1 },
+    "armor_data": { "material_thickness": 1, "armor": [ { "coverage": 15, "covers": [ "torso" ] } ] },
     "flags": [ "BELTED" ]
   },
   {
@@ -634,7 +633,8 @@
         "rigid": true,
         "watertight": true,
         "max_contains_volume": "2 L",
-        "max_contains_weight": "5 kg"
+        "max_contains_weight": "5 kg",
+        "sealed_data": { "spoil_multiplier": 0.5 }
       }
     ]
   },
@@ -762,7 +762,11 @@
         "max_contains_weight": "3 kg"
       }
     ],
-    "armor_data": { "covers": [ "leg_l", "leg_r" ], "sided": true, "coverage": 5, "encumbrance": 2, "material_thickness": 2 },
+    "armor_data": {
+      "sided": true,
+      "material_thickness": 2,
+      "armor": [ { "encumbrance": 2, "coverage": 5, "covers": [ "leg_l", "leg_r" ] } ]
+    },
     "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
@@ -1061,7 +1065,7 @@
         "max_contains_weight": "1 kg"
       }
     ],
-    "armor_data": { "covers": [ "leg_l", "leg_r" ], "sided": true, "coverage": 2, "material_thickness": 1 },
+    "armor_data": { "sided": true, "material_thickness": 1, "armor": [ { "coverage": 2, "covers": [ "leg_l", "leg_r" ] } ] },
     "qualities": [ [ "BOIL", 1 ] ],
     "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
@@ -1205,7 +1209,7 @@
     "category": "container",
     "name": { "str": "gallon jug" },
     "looks_like": "bottle_plastic",
-    "description": "A standard plastic jug used for milk and household cleaning chemicals.  Some may be factory sealed to preserve content from rot until opened.",
+    "description": "A standard plastic jug used for milk and household cleaning chemicals.  Some may be factory-sealed to increase shelf life.",
     "weight": "190 g",
     "volume": "3752 ml",
     "price": 0,
@@ -1386,7 +1390,7 @@
         "max_contains_weight": "3 kg"
       }
     ],
-    "armor_data": { "covers": [ "torso" ], "coverage": 5, "encumbrance": 5, "material_thickness": 2 },
+    "armor_data": { "material_thickness": 2, "armor": [ { "encumbrance": 5, "coverage": 5, "covers": [ "torso" ] } ] },
     "flags": [ "WAIST", "WATER_FRIENDLY" ]
   },
   {
@@ -1439,7 +1443,7 @@
         "max_contains_weight": "3 kg"
       }
     ],
-    "armor_data": { "covers": [ "leg_l", "leg_r" ], "sided": true, "coverage": 5, "material_thickness": 2 },
+    "armor_data": { "sided": true, "material_thickness": 2, "armor": [ { "coverage": 5, "covers": [ "leg_l", "leg_r" ] } ] },
     "flags": [ "WAIST", "WATER_FRIENDLY" ]
   },
   {
@@ -1467,7 +1471,7 @@
         "max_contains_weight": "6 kg"
       }
     ],
-    "armor_data": { "covers": [ "torso" ], "coverage": 10, "material_thickness": 2 },
+    "armor_data": { "material_thickness": 2, "armor": [ { "coverage": 10, "covers": [ "torso" ] } ] },
     "flags": [ "WAIST", "WATER_FRIENDLY" ]
   },
   {
@@ -1495,7 +1499,7 @@
         "max_contains_weight": "10 kg"
       }
     ],
-    "armor_data": { "covers": [ "torso" ], "coverage": 15, "material_thickness": 2 },
+    "armor_data": { "material_thickness": 2, "armor": [ { "coverage": 15, "covers": [ "torso" ] } ] },
     "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
@@ -1782,6 +1786,90 @@
     ],
     "symbol": ")",
     "color": "red"
+  },
+  {
+    "id": "mre_bag_small",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "small MRE bag" },
+    "looks_like": "mre_beef_box",
+    "description": "A small, sturdy, plastic and aluminum container of multi-layered construction, with detailed nutritional information about its contents.",
+    "weight": "70 g",
+    "volume": "100 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "to_hit": -1,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "1500 g",
+        "airtight": true,
+        "moves": 200,
+        "sealed_data": { "spoil_multiplier": 0.0 },
+        "watertight": true
+      }
+    ],
+    "material": [ "plastic", "aluminum" ],
+    "symbol": ")",
+    "color": "light_gray",
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "id": "mre_bag",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "MRE bag" },
+    "looks_like": "mre_beef_box",
+    "description": "A sturdy plastic and aluminum container of multi-layered construction, with detailed nutritional information about its contents.",
+    "weight": "180 g",
+    "volume": "250 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "to_hit": -1,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "510 ml",
+        "max_contains_weight": "3 kg",
+        "airtight": true,
+        "moves": 200,
+        "sealed_data": { "spoil_multiplier": 0.0 },
+        "watertight": true
+      }
+    ],
+    "material": [ "plastic", "aluminum" ],
+    "symbol": ")",
+    "color": "light_gray",
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "id": "mre_package",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "MRE package" },
+    "looks_like": "mre_beef_box",
+    "description": "The Meal, Ready-to-Eat - also known as the MRE - is an individual field ration.  It is in a lightweight yet sturdy multi-layered plastic and aluminum foil container - essentially a flexible can.",
+    "weight": "320 g",
+    "volume": "450 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "to_hit": -1,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2831 ml",
+        "max_contains_weight": "4 kg",
+        "airtight": true,
+        "moves": 200,
+        "sealed_data": { "spoil_multiplier": 0.0 },
+        "watertight": true
+      }
+    ],
+    "material": [ "plastic", "aluminum" ],
+    "symbol": ")",
+    "color": "light_gray",
+    "flags": [ "TRADER_AVOID" ]
   },
   {
     "id": "beverage_bag",

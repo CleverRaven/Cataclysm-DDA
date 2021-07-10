@@ -375,17 +375,10 @@ int Character::available_assistant_count( const recipe &rec ) const
     } );
 }
 
-int64_t Character::base_time_to_craft( const recipe &rec, int batch_size ) const
+int64_t Character::expected_time_to_craft( const recipe &rec, int batch_size ) const
 {
     const size_t assistants = available_assistant_count( rec );
-    return rec.batch_time( *this, batch_size, 1.0f, assistants );
-}
-
-int64_t Character::expected_time_to_craft( const recipe &rec, int batch_size,
-        bool in_progress ) const
-{
-    const size_t assistants = available_assistant_count( rec );
-    float modifier = crafting_speed_multiplier( rec, in_progress );
+    float modifier = crafting_speed_multiplier( rec );
     return rec.batch_time( *this, batch_size, modifier, assistants );
 }
 
@@ -460,7 +453,7 @@ static std::vector<const item *> get_eligible_containers_recursive( const item &
     if( is_container_eligible_for_crafting( cont, allow_bucket ) ) {
         ret.push_back( &cont );
     }
-    for( const item *it : cont.contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+    for( const item *it : cont.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
         //buckets are never allowed when inside another container
         std::vector<const item *> inside = get_eligible_containers_recursive( *it, false );
         ret.insert( ret.end(), inside.begin(), inside.end() );
@@ -536,61 +529,62 @@ bool Character::can_start_craft( const recipe *rec, recipe_filter_flags flags, i
                inv, rec->get_component_filter( flags ), batch_size, craft_flags::start_only );
 }
 
-const inventory &Character::crafting_inventory( bool clear_path )
+const inventory &Character::crafting_inventory( bool clear_path ) const
 {
     return crafting_inventory( tripoint_zero, PICKUP_RANGE, clear_path );
 }
 
 const inventory &Character::crafting_inventory( const tripoint &src_pos, int radius,
-        bool clear_path )
+        bool clear_path ) const
 {
     tripoint inv_pos = src_pos;
     if( src_pos == tripoint_zero ) {
         inv_pos = pos();
     }
-    static int radius_mem = radius;
-    if( cached_moves == moves
-        && radius_mem == radius
-        && cached_time == calendar::turn
-        && cached_position == inv_pos ) {
-        return *cached_crafting_inventory;
+    if( moves == crafting_cache.moves
+        && radius == crafting_cache.radius
+        && calendar::turn == crafting_cache.time
+        && inv_pos == crafting_cache.position ) {
+        return *crafting_cache.crafting_inventory;
     }
-    radius_mem = radius;
-    cached_crafting_inventory->clear();
+    crafting_cache.crafting_inventory->clear();
     if( radius >= 0 ) {
-        cached_crafting_inventory->form_from_map( inv_pos, radius, this, false, clear_path );
+        crafting_cache.crafting_inventory->form_from_map( inv_pos, radius, this, false, clear_path );
     }
 
-    for( const item_location &it : all_items_loc() ) {
+    // TODO: Add a const overload of all_items_loc() that returns something like
+    // vector<const_item_location> in order to get rid of the const_cast here.
+    for( const item_location &it : const_cast<Character *>( this )->all_items_loc() ) {
         // can't craft with containers that have items in them
         if( !it->contents.empty_container() ) {
             continue;
         }
-        cached_crafting_inventory->add_item( *it );
+        crafting_cache.crafting_inventory->add_item( *it );
     }
 
     for( const bionic &bio : *my_bionics ) {
         const bionic_data &bio_data = bio.info();
         if( ( !bio_data.activated || bio.powered ) &&
             !bio_data.fake_item.is_empty() ) {
-            *cached_crafting_inventory += item( bio.info().fake_item,
-                                                calendar::turn, units::to_kilojoule( get_power_level() ) );
+            *crafting_cache.crafting_inventory += item( bio.info().fake_item,
+                                                  calendar::turn, units::to_kilojoule( get_power_level() ) );
         }
     }
     if( has_trait( trait_BURROW ) ) {
-        *cached_crafting_inventory += item( "pickaxe", calendar::turn );
-        *cached_crafting_inventory += item( "shovel", calendar::turn );
+        *crafting_cache.crafting_inventory += item( "pickaxe", calendar::turn );
+        *crafting_cache.crafting_inventory += item( "shovel", calendar::turn );
     }
 
-    cached_moves = moves;
-    cached_time = calendar::turn;
-    cached_position = inv_pos;
-    return *cached_crafting_inventory;
+    crafting_cache.moves = moves;
+    crafting_cache.time = calendar::turn;
+    crafting_cache.position = inv_pos;
+    crafting_cache.radius = radius;
+    return *crafting_cache.crafting_inventory;
 }
 
 void Character::invalidate_crafting_inventory()
 {
-    cached_time = calendar::before_time_starts;
+    crafting_cache.time = calendar::before_time_starts;
 }
 
 void Character::make_craft( const recipe_id &id_to_make, int batch_size,
@@ -914,7 +908,9 @@ void Character::craft_proficiency_gain( const item &craft, const time_duration &
     // The proficiency, and the multiplier on the time we learn it for
     std::vector<std::tuple<proficiency_id, float, cata::optional<time_duration>>> subjects;
     for( const recipe_proficiency &prof : making.proficiencies ) {
-        if( prof.id->can_learn() && _proficiencies->has_prereqs( prof.id ) ) {
+        if( !_proficiencies->has_learned( prof.id ) &&
+            prof.id->can_learn() &&
+            _proficiencies->has_prereqs( prof.id ) ) {
             std::tuple<proficiency_id, float, cata::optional<time_duration>> subject( prof.id,
                     prof.learning_time_mult / prof.time_multiplier, prof.max_experience );
             subjects.push_back( subject );
@@ -1020,14 +1016,7 @@ double Character::crafting_success_roll( const recipe &making ) const
         return 2;
     }
 
-    float prof_multiplier = 1.0f;
-    for( const recipe_proficiency &recip : making.proficiencies ) {
-        if( !recip.required && !has_proficiency( recip.id ) ) {
-            prof_multiplier *= recip.fail_multiplier;
-        }
-    }
-
-    return ( skill_roll / diff_roll ) * prof_multiplier;
+    return ( skill_roll / diff_roll ) / making.proficiency_failure_maluses( *this );
 }
 
 int item::get_next_failure_point() const
@@ -1046,8 +1035,8 @@ void item::set_next_failure_point( const Character &crafter )
         return;
     }
 
-    const int percent_left = 10000000 - item_counter;
-    const int failure_point_delta = crafter.crafting_success_roll( get_making() ) * percent_left;
+    const int percent = 10000000;
+    const int failure_point_delta = crafter.crafting_success_roll( get_making() ) * percent;
 
     craft_data_->next_failure_point = item_counter + failure_point_delta;
 }
@@ -1092,14 +1081,16 @@ bool item::handle_craft_failure( Character &crafter )
         return true;
     }
 
-    // Minimum 25% progress lost, average 35%.  Falls off exponentially
+    // If a loss happens, minimum 25% progress lost, average 35%.  Falls off exponentially
     // Loss is scaled by the success roll
-    const double percent_progress_loss = rng_exponential( 0.25, 0.35 ) *
-                                         ( 1.0 - std::min( success_roll, 1.0 ) );
-    const int progess_loss = item_counter * percent_progress_loss;
-    crafter.add_msg_player_or_npc( _( "You mess up and lose %d%% progress." ),
-                                   _( "<npcname> messes up and loses %d%% progress." ), progess_loss / 100000 );
-    item_counter = clamp( item_counter - progess_loss, 0, 10000000 );
+    const double percent_progress_loss = rng_exponential( 0.25, 0.35 ) * ( 1.0 - success_roll );
+    // Ensure only positive losses have an effect on progress
+    if( percent_progress_loss > 0.0 ) {
+        const int progress_loss = item_counter * percent_progress_loss;
+        crafter.add_msg_player_or_npc( _( "You mess up and lose %d%% progress." ),
+                                       _( "<npcname> messes up and loses %d%% progress." ), progress_loss / 100000 );
+        item_counter = clamp( item_counter - progress_loss, 0, 10000000 );
+    }
 
     set_next_failure_point( crafter );
 
@@ -1170,6 +1161,7 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
     std::vector<item> newits = making.create_results( batch_size );
 
     const bool should_heat = making.hot_result();
+    const bool remove_raw = making.removes_raw();
 
     bool first = true;
     size_t newit_counter = 0;
@@ -1232,7 +1224,7 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
                     comp = item( comp.get_comestible()->cooks_like, comp.birthday(), comp.charges );
                 }
                 // If this recipe is cooked, components are no longer raw.
-                if( should_heat ) {
+                if( should_heat || remove_raw ) {
                     comp.set_flag_recursive( flag_COOKED );
                 }
             }
@@ -1666,7 +1658,7 @@ static void empty_buckets( Character &p )
         return it.is_bucket_nonempty() && &it != &p.weapon;
     }, INT_MAX );
     for( auto &it : buckets ) {
-        for( const item *in : it.contents.all_items_top() ) {
+        for( const item *in : it.all_items_top() ) {
             drop_or_handle( *in, p );
         }
 
@@ -2314,7 +2306,7 @@ void Character::disassemble_all( bool one_pass )
     bool found_any = false;
     std::vector<item_location> to_disassemble;
     for( item &it : get_map().i_at( pos() ) ) {
-        to_disassemble.push_back( item_location( map_cursor( pos() ), &it ) );
+        to_disassemble.emplace_back( map_cursor( pos() ), &it );
     }
     for( item_location &it_loc : to_disassemble ) {
         // Prevent disassembling an in process disassembly because it could have been created by a previous iteration of this loop

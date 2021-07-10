@@ -72,6 +72,7 @@ const requirement_data &string_id<requirement_data>::obj() const
 std::vector<requirement_data> requirement_data::get_all()
 {
     std::vector<requirement_data> ret;
+    ret.reserve( requirements_all.size() );
     for( const std::pair<const requirement_id, requirement_data> &pair : requirements_all ) {
         ret.push_back( pair.second );
     }
@@ -638,6 +639,7 @@ std::vector<std::string> requirement_data::get_folded_list( int width,
     for( const auto &comp_list : objs ) {
         const bool has_one = any_marked_available( comp_list );
         std::vector<std::string> list_as_string;
+        std::vector<std::string> list_as_string_unavailable;
         std::vector<std::string> buffer_has;
         for( const T &component : comp_list ) {
             nc_color color = component.get_color( has_one, crafting_inv, filter, batch );
@@ -661,12 +663,19 @@ std::vector<std::string> requirement_data::get_folded_list( int width,
                 color = yellow_background( color );
             }
 
-            if( !no_unavailable || component.has( crafting_inv, filter, batch ) ) {
+            if( component.has( crafting_inv, filter, batch ) ) {
                 list_as_string.push_back( colorize( text, color ) );
+            } else if( !no_unavailable ) {
+                list_as_string_unavailable.push_back( colorize( text, color ) );
             }
             buffer_has.push_back( text + color_tag );
         }
+
         std::sort( list_as_string.begin(), list_as_string.end(), localized_compare );
+        std::sort( list_as_string_unavailable.begin(), list_as_string_unavailable.end(),
+                   localized_compare );
+        list_as_string.insert( list_as_string.end(), list_as_string_unavailable.begin(),
+                               list_as_string_unavailable.end() );
 
         const std::string separator = colorize( _( " OR " ), c_white );
         const std::string unfolded = join( list_as_string, separator );
@@ -736,17 +745,21 @@ bool requirement_data::has_comps( const read_only_visitable &crafting_inv,
 {
     bool retval = true;
     int total_UPS_charges_used = 0;
-    for( const auto &set_of_tools : vec ) {
+    for( const std::vector<T> &set_of_tools : vec ) {
         bool has_tool_in_set = false;
         int UPS_charges_used = std::numeric_limits<int>::max();
         const std::function<void( int )> use_ups = [ &UPS_charges_used ]( int charges ) {
             UPS_charges_used = std::min( UPS_charges_used, charges );
         };
 
-        for( const auto &tool : set_of_tools ) {
+        for( const T &tool : set_of_tools ) {
             if( tool.has( crafting_inv, filter, batch, flags, use_ups ) ) {
                 tool.available = available_status::a_true;
             } else {
+                // Trying to track down why the crafting tests are failing?
+                // Uncomment the below to see the group of requirements that are lacking satisfaction
+                // Add a printf("\n") to the loop above this to separate different groups onto a separate line
+                // printf( "T: %s ", tool.type.str().c_str() );
                 tool.available = available_status::a_false;
             }
             has_tool_in_set = has_tool_in_set || tool.available == available_status::a_true;

@@ -13,15 +13,12 @@
     "material": [ "glass", "superalloy", "platinum" ],
     "symbol": "[",
     "color": "cyan",
-    "covers": [ "torso" ],
     "looks_like": "molle_pack",
-    "coverage": 30,
-    "encumbrance": 5,
-    "max_encumbrance": 10,
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "100 L", "max_contains_weight": "500 kg", "moves": 300 } ],
     "warmth": 5,
     "material_thickness": 2,
-    "flags": [ "BELTED", "ONLY_ONE", "LEAK_DAM" ]
+    "flags": [ "BELTED", "ONLY_ONE", "LEAK_DAM" ],
+    "armor": [ { "encumbrance": [ 5, 10 ], "coverage": 30, "covers": [ "torso" ] } ]
   },
   {
     "id": "afs_titanium_vest",
@@ -36,10 +33,8 @@
     "symbol": "[",
     "looks_like": "armor_scrapsuit",
     "color": "white",
-    "covers": [ "torso" ],
-    "coverage": 80,
-    "encumbrance": 4,
-    "material_thickness": 2
+    "material_thickness": 2,
+    "armor": [ { "encumbrance": 4, "coverage": 80, "covers": [ "torso" ] } ]
   },
   {
     "id": "afs_holo_cloak_mk2",
@@ -64,13 +59,11 @@
     "material": [ "graphene_weave" ],
     "symbol": "[",
     "color": "dark_gray",
-    "covers": [ "torso", "head", "arm_l", "arm_r", "leg_l", "leg_r" ],
-    "coverage": 85,
-    "encumbrance": 4,
     "warmth": 30,
     "material_thickness": 3,
     "flags": [ "OVERSIZE", "HOOD", "OUTER", "NO_REPAIR", "SUPER_FANCY", "STURDY" ],
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "BONUS_DODGE", "add": 1 } ] } ] }
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "BONUS_DODGE", "add": 1 } ] } ] },
+    "armor": [ { "encumbrance": 4, "coverage": 85, "covers": [ "torso", "head", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
   },
   {
     "id": "xl_jeans",
@@ -131,12 +124,10 @@
     "material": [ "glass", "steel" ],
     "symbol": "[",
     "color": "light_gray",
-    "covers": [ "torso" ],
-    "coverage": 40,
-    "encumbrance": 12,
     "material_thickness": 3,
     "use_action": [ "SOLARPACK" ],
-    "flags": [ "FRAGILE", "OUTER", "ONLY_ONE", "SOLARPACK" ]
+    "flags": [ "FRAGILE", "OUTER", "ONLY_ONE", "SOLARPACK" ],
+    "armor": [ { "encumbrance": 12, "coverage": 40, "covers": [ "torso" ] } ]
   },
   {
     "id": "q_solarpack_on",
@@ -152,13 +143,11 @@
     "material": [ "glass", "steel" ],
     "symbol": "[",
     "color": "blue",
-    "covers": [ "torso" ],
-    "coverage": 40,
-    "encumbrance": 20,
     "material_thickness": 1,
     "use_action": [ "SOLARPACK_OFF" ],
     "solar_efficiency": 0.3,
-    "flags": [ "FRAGILE", "OUTER", "ONLY_ONE", "SOLARPACK_ON" ]
+    "flags": [ "FRAGILE", "OUTER", "ONLY_ONE", "SOLARPACK_ON" ],
+    "armor": [ { "encumbrance": 20, "coverage": 40, "covers": [ "torso" ] } ]
   },
   {
     "id": "xlswat_armor",
@@ -177,9 +166,6 @@
     "symbol": "[",
     "looks_like": "touring_suit",
     "color": "dark_gray",
-    "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ],
-    "coverage": 95,
-    "encumbrance": 25,
     "warmth": 35,
     "material_thickness": 9,
     "valid_mods": [ "steel_padded" ],
@@ -188,7 +174,8 @@
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "750 ml", "max_contains_weight": "2 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "750 ml", "max_contains_weight": "2 kg", "moves": 80 }
-    ]
+    ],
+    "armor": [ { "encumbrance": 25, "coverage": 95, "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ] } ]
   },
   {
     "id": "xlballistic_vest_empty",
@@ -203,12 +190,10 @@
     "material": [ "nylon" ],
     "symbol": "[",
     "color": "light_gray",
-    "covers": [ "torso" ],
-    "coverage": 85,
-    "encumbrance": 6,
     "warmth": 15,
     "material_thickness": 8,
-    "flags": [ "OVERSIZE", "STURDY", "OUTER", "WATER_FRIENDLY" ]
+    "flags": [ "OVERSIZE", "STURDY", "OUTER", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 6, "coverage": 85, "covers": [ "torso" ] } ]
   },
   {
     "id": "xlballistic_vest_esapi",
@@ -222,12 +207,10 @@
     "material": [ "nylon", "ceramic" ],
     "symbol": "[",
     "color": "light_gray",
-    "covers": [ "torso" ],
-    "coverage": 85,
-    "encumbrance": 10,
     "warmth": 15,
     "material_thickness": 26,
-    "flags": [ "OVERSIZE", "STURDY", "OUTER", "WATER_FRIENDLY", "NO_REPAIR" ]
+    "flags": [ "OVERSIZE", "STURDY", "OUTER", "WATER_FRIENDLY", "NO_REPAIR" ],
+    "armor": [ { "encumbrance": 10, "coverage": 85, "covers": [ "torso" ] } ]
   },
   {
     "id": "xlboots_combat",
@@ -246,13 +229,11 @@
     "symbol": "[",
     "looks_like": "boots",
     "color": "dark_gray",
-    "covers": [ "foot_l", "foot_r" ],
-    "coverage": 100,
-    "encumbrance": 25,
     "warmth": 25,
     "material_thickness": 5,
     "environmental_protection": 2,
-    "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY" ]
+    "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY" ],
+    "armor": [ { "encumbrance": 25, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ]
   },
   {
     "id": "xlgloves_tactical",
@@ -269,12 +250,10 @@
     "symbol": "[",
     "looks_like": "fire_gauntlets",
     "color": "dark_gray",
-    "covers": [ "hand_l", "hand_r" ],
-    "coverage": 100,
-    "encumbrance": 13,
     "warmth": 20,
     "material_thickness": 5,
-    "flags": [ "OVERSIZE", "VARSIZE", "STURDY" ]
+    "flags": [ "OVERSIZE", "VARSIZE", "STURDY" ],
+    "armor": [ { "encumbrance": 13, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "tripaw_xlgloves_tactical",
@@ -291,12 +270,10 @@
     "symbol": "[",
     "looks_like": "fire_gauntlets",
     "color": "dark_gray",
-    "covers": [ "hand_l", "hand_r" ],
-    "coverage": 100,
-    "encumbrance": 5,
     "warmth": 20,
     "material_thickness": 3,
-    "flags": [ "OVERSIZE", "VARSIZE", "STURDY" ]
+    "flags": [ "OVERSIZE", "VARSIZE", "STURDY" ],
+    "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "xlleather_belt",
@@ -334,7 +311,7 @@
     "type": "ARMOR",
     "id": "xllegpouch_large",
     "name": { "str": "XL leg ammo pouch", "str_pl": "XL leg ammo pouches" },
-    "description": "An XL fabric ammo pouch that can be strapped to your leg and capable of holding two magazine close at hand.",
+    "description": "An XL fabric ammo pouch that can be strapped to your leg; capable of holding two magazines close at hand.",
     "weight": "120 g",
     "volume": "250 ml",
     "copy-from": "legpouch_large",
@@ -360,7 +337,7 @@
     "flags": [ "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "PARTIAL_DEAF" ],
     "name": { "str": "communications cap" },
     "description": "A padded cotton cap built around an augmented reality headset.  During normal operation it would provide visual information about a ship subsystems and a communications link with the rest of the crew, but severed from a spaceship, only their hearing protection function retains any utility.",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "eyes" ], "coverage": 33, "encumbrance": 0 },
       { "covers": [ "head" ], "coverage": 100, "encumbrance": 2 }
     ],
@@ -379,10 +356,6 @@
     "material": [ "steel", "plastic" ],
     "symbol": "[",
     "color": "dark_gray",
-    "covers": [ "torso" ],
-    "coverage": 20,
-    "encumbrance": 2,
-    "max_encumbrance": 15,
     "material_thickness": 2,
     "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
     "pocket_data": [
@@ -425,7 +398,8 @@
         "moves": 60
       }
     ],
-    "flags": [ "WATER_FRIENDLY", "BELTED" ]
+    "flags": [ "WATER_FRIENDLY", "BELTED" ],
+    "armor": [ { "encumbrance": [ 2, 15 ], "coverage": 20, "covers": [ "torso" ] } ]
   },
   {
     "id": "wetsuit_cecalia",
@@ -441,10 +415,6 @@
     "symbol": "[",
     "looks_like": "wetsuit",
     "color": "light_gray",
-    "covers": [ "torso", "arm_l", "arm_r" ],
-    "coverage": 90,
-    "encumbrance": 2,
-    "max_encumbrance": 5,
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
@@ -454,7 +424,8 @@
     "warmth": 30,
     "material_thickness": 1,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ],
+    "armor": [ { "encumbrance": [ 2, 5 ], "coverage": 90, "covers": [ "torso", "arm_l", "arm_r" ] } ]
   },
   {
     "id": "combat_wetsuit_cecalia",
@@ -470,10 +441,6 @@
     "symbol": "[",
     "looks_like": "wetsuit",
     "color": "light_gray",
-    "covers": [ "torso", "arm_l", "arm_r" ],
-    "coverage": 90,
-    "encumbrance": 2,
-    "max_encumbrance": 5,
     "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
@@ -509,6 +476,7 @@
     "warmth": 30,
     "material_thickness": 2,
     "environmental_protection": 3,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ],
+    "armor": [ { "encumbrance": [ 2, 5 ], "coverage": 90, "covers": [ "torso", "arm_l", "arm_r" ] } ]
   }
 ]

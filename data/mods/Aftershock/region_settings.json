@@ -15,8 +15,32 @@
         "afs_astrobiology_lab": 300,
         "mall": 700
       },
-      "houses": { "afs_city_ruinfield": 400, "afs_formless_ruins_dynamic": 600 }
+      "houses": { "afs_city_ruinfield": 200, "afs_formless_ruins_dynamic": 300, "afs_house_1": 100 }
     },
-    "overmap_lake_settings": { "noise_threshold_lake": 0.12 }
+    "overmap_lake_settings": { "noise_threshold_lake": 0.12 },
+    "map_extras": {
+      "road": {
+        "chance": 75,
+        "extras": {
+          "mx_helicopter": 1,
+          "mx_military": 25,
+          "mx_science": 40,
+          "mx_collegekids": 50,
+          "mx_wraitheon_droneswarm": 10,
+          "mx_roadblock": 100,
+          "mx_bandits_block": 80,
+          "mx_drugdeal": 30,
+          "mx_supplydrop": 10,
+          "mx_portal": 5,
+          "mx_crater": 10,
+          "mx_portal_in": 4,
+          "mx_roadworks": 100,
+          "mx_mayhem": 50,
+          "mx_casings": 100,
+          "mx_corpses": 30,
+          "mx_prison_bus": 15
+        }
+      }
+    }
   }
 ]

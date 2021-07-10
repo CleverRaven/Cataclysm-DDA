@@ -495,6 +495,31 @@
     "blood_analysis_description": "Poison"
   },
   {
+    "type": "effect_type",
+    "id": "tpollen",
+    "name": [ "Hard of Breath" ],
+    "desc": [ "The pollen makes it hard to breathe!" ],
+    "miss_messages": [ [ "You cough out pollen.", 1 ] ],
+    "rating": "bad",
+    "harmful_cough": true,
+    "pain_sizing": true,
+    "hurt_sizing": true,
+    "main_parts_only": true,
+    "base_mods": {
+      "per_mod": [ -2, -1 ],
+      "dex_mod": [ -1, -1 ],
+      "str_mod": [ -2, 0 ],
+      "pain_min": [ 2 ],
+      "pain_chance": [ 150, 900 ],
+      "hurt_min": [ 2 ],
+      "hurt_chance": [ 450, 2700 ],
+      "speed_mod": [ -10 ],
+      "cough_chance": [ 10 ]
+    },
+    "show_in_info": true,
+    "blood_analysis_description": "Unknown Organic Toxin"
+  },
+  {
     "id": "venom_dmg",
     "type": "effect_type",
     "name": [ "Poisoned Wound" ],
@@ -562,6 +587,25 @@
       "stamina_chance": [ -0.021, -0.051 ],
       "speed_mod": [ -0.31, -0.21 ]
     }
+  },
+  {
+    "type": "effect_type",
+    "id": "venom_blind",
+    "name": [ "Distracted", "Inattentive", "Dissociated" ],
+    "desc": [
+      "You find it hard to concentrate on your surroundings properly.",
+      "You're not even listening, are you?",
+      "Everything will be fine.  Just ignore all you see, and everything will be fine."
+    ],
+    "apply_message": "Your vision grows blurry.",
+    "miss_messages": [ [ "It was right here, wasn't it?", 2 ], [ "Are you sure there's something there?", 1 ] ],
+    "max_intensity": 3,
+    "int_add_val": 1,
+    "int_decay_step": -1,
+    "int_decay_tick": 90,
+    "resist_traits": [ "ELFA_NV" ],
+    "base_mods": { "per_mod": [ -3, 0 ] },
+    "scaling_mods": { "per_mod": [ -2, -1 ] }
   },
   {
     "type": "effect_type",
@@ -650,6 +694,8 @@
     "id": "melatonin",
     "name": [ "Melatonin Supplements" ],
     "desc": [ "You took some melatonin supplements.  These will help with sleep deprivation." ],
+    "max_duration": 100800,
+    "dur_add_perc": 60,
     "rating": "good",
     "blood_analysis_description": "Melatonin"
   },
@@ -745,17 +791,20 @@
     "id": "invisibility",
     "name": [ "Invisible" ],
     "desc": [ "You are invisible." ],
-    "flags": [ "EFFECT_INVISIBLE" ]
+    "flags": [ "INVISIBLE" ]
   },
   {
     "type": "effect_type",
     "id": "took_flumed",
     "rating": "good",
-    "blood_analysis_description": "Antihistamines"
+    "blood_analysis_description": "Antihistamines",
+    "max_duration": 57600,
+    "dur_add_perc": 30
   },
   {
     "type": "effect_type",
     "id": "took_xanax",
+    "max_duration": 14400,
     "dur_add_perc": 22,
     "base_mods": { "stim_tick": [ 150 ], "stim_min": [ -1 ], "stim_min_val": [ -1 ] },
     "rating": "good",
@@ -765,13 +814,17 @@
     "type": "effect_type",
     "id": "took_xanax_visible",
     "name": [ "Took fast-acting sedative" ],
-    "desc": [ "You took a fast-acting sedative some time ago and you might still be under its influence." ]
+    "desc": [ "You took a fast-acting sedative some time ago and you might still be under its influence." ],
+    "max_duration": 18000,
+    "dur_add_perc": 20
   },
   {
     "type": "effect_type",
     "id": "took_prozac",
     "rating": "good",
-    "blood_analysis_description": "Antidepressants"
+    "blood_analysis_description": "Antidepressants",
+    "max_duration": 64800,
+    "dur_add_perc": 40
   },
   {
     "type": "effect_type",
@@ -781,7 +834,9 @@
     "type": "effect_type",
     "id": "took_prozac_visible",
     "name": [ "Took antidepressant" ],
-    "desc": [ "You took an antidepressant some time ago and you might still be under its influence." ]
+    "desc": [ "You took an antidepressant some time ago and you might still be under its influence." ],
+    "max_duration": 72000,
+    "dur_add_perc": 35
   },
   {
     "type": "effect_type",
@@ -794,7 +849,9 @@
     "type": "effect_type",
     "id": "took_thorazine",
     "rating": "good",
-    "blood_analysis_description": "Antipsychotics"
+    "blood_analysis_description": "Antipsychotics",
+    "max_duration": 64800,
+    "dur_add_perc": 50
   },
   {
     "type": "effect_type",
@@ -804,7 +861,9 @@
     "type": "effect_type",
     "id": "took_thorazine_visible",
     "name": [ "Took antipsychotic" ],
-    "desc": [ "You took an antipsychotic some time ago and you might still be under its influence." ]
+    "desc": [ "You took an antipsychotic some time ago and you might still be under its influence." ],
+    "max_duration": 72000,
+    "dur_add_perc": 35
   },
   {
     "type": "effect_type",
@@ -1026,8 +1085,8 @@
     "apply_memorial_log": "Contracted a fungal infection.",
     "remove_memorial_log": "Cured the fungal infection.",
     "miss_messages": [ [ "You feel sick inside.", 1 ] ],
-    "speed_name": "Fungal infection",
-    "remove_message": "Tingling sensation in your skin fades away.",
+    "speed_name": "Itchy skin",
+    "remove_message": "The itching in your skin fades away.",
     "rating": "bad",
     "max_intensity": 3,
     "int_dur_factor": "6 h",
@@ -1083,6 +1142,8 @@
     "type": "effect_type",
     "id": "pblue",
     "base_mods": { "rad_chance": [ 600 ], "rad_min": [ -1 ] },
+    "max_duration": 10800,
+    "dur_add_perc": 35,
     "blood_analysis_description": "Prussian Blue",
     "rating": "good"
   },
@@ -1400,7 +1461,9 @@
     "desc": [ "You have been vaccinated for the flu recently." ],
     "blocks_effects": [ "flu" ],
     "rating": "good",
-    "blood_analysis_description": "Antivirals"
+    "blood_analysis_description": "Antivirals",
+    "max_duration": 14515200,
+    "dur_add_perc": 50
   },
   {
     "type": "effect_type",
@@ -1695,7 +1758,9 @@
     "removes_effects": [ "shakes" ],
     "base_mods": { "stim_tick": [ 150 ], "stim_chance": [ 2 ], "stim_min": [ 1 ], "stim_min_val": [ -1 ] },
     "rating": "good",
-    "blood_analysis_description": "Benzodiazepines"
+    "blood_analysis_description": "Benzodiazepines",
+    "max_duration": 64800,
+    "dur_add_perc": 45
   },
   {
     "type": "effect_type",
@@ -1705,7 +1770,9 @@
       "You took anticonvulsant drugs some time ago and you might still be under its influence.\nPrescription note says its effect duration may vary, so your estimate may be inaccurate."
     ],
     "rating": "good",
-    "blood_analysis_description": "Anticonvulsants"
+    "blood_analysis_description": "Anticonvulsants",
+    "max_duration": 64800,
+    "dur_add_perc": 40
   },
   {
     "type": "effect_type",
@@ -2223,7 +2290,9 @@
     "name": [ "Took weak antibiotic" ],
     "desc": [
       "You consumed mild antibiotic some time ago to fight off infection.\nIf you don't recover you may want to take another dose, but beware overdosage."
-    ]
+    ],
+    "max_duration": 54000,
+    "dur_add_perc": 35
   },
   {
     "type": "effect_type",
@@ -2231,7 +2300,9 @@
     "name": [ "Took antibiotic" ],
     "desc": [
       "You consumed antibiotic some time ago to fight off infection.\nIf you don't recover you may want to take another dose, but beware overdosage."
-    ]
+    ],
+    "max_duration": 54000,
+    "dur_add_perc": 25
   },
   {
     "type": "effect_type",
@@ -2239,25 +2310,33 @@
     "name": [ "Took strong antibiotic" ],
     "desc": [
       "You consumed prescription-grade antibiotic some time ago to fight off infection.\nIf you don't recover you may want to take another dose, but beware overdosage."
-    ]
+    ],
+    "max_duration": 54000,
+    "dur_add_perc": 25
   },
   {
     "type": "effect_type",
     "id": "weak_antibiotic",
     "rating": "good",
-    "blood_analysis_description": "Antibiotics"
+    "blood_analysis_description": "Antibiotics",
+    "max_duration": 43200,
+    "dur_add_perc": 25
   },
   {
     "type": "effect_type",
     "id": "antibiotic",
     "rating": "good",
-    "blood_analysis_description": "Antibiotics"
+    "blood_analysis_description": "Antibiotics",
+    "max_duration": 43200,
+    "dur_add_perc": 25
   },
   {
     "type": "effect_type",
     "id": "strong_antibiotic",
     "rating": "good",
-    "blood_analysis_description": "Antibiotics"
+    "blood_analysis_description": "Antibiotics",
+    "max_duration": 43200,
+    "dur_add_perc": 25
   },
   {
     "type": "effect_type",
@@ -2275,7 +2354,9 @@
     "int_add_val": 1,
     "max_intensity": 3,
     "base_mods": { "vomit_tick": [ 60 ], "health_chance": [ 1500 ], "health_min": [ 1 ] },
-    "scaling_mods": { "health_min": [ -1.5 ], "health_min_val": [ -2 ], "vomit_tick": [ 120 ] }
+    "scaling_mods": { "health_min": [ -1.5 ], "health_min_val": [ -2 ], "vomit_tick": [ 120 ] },
+    "max_duration": 14400,
+    "dur_add_perc": 70
   },
   {
     "type": "effect_type",
@@ -2283,7 +2364,9 @@
     "name": [ "Antifungals" ],
     "desc": [ "You are under the effects of an antifungal medicine or chemicals." ],
     "rating": "good",
-    "blood_analysis_description": "Antifungals"
+    "blood_analysis_description": "Antifungals",
+    "max_duration": 28800,
+    "dur_add_perc": 50
   },
   {
     "//": "This effect is a dummy effect for disabling certain things for a few turns after an electromagnetic pulse and does nothing on its own",
@@ -2394,7 +2477,7 @@
     "type": "effect_type",
     "id": "ignore_fall_damage",
     "//": "Used for translocation via teleporter_list as a way to avoid fall damage by teleporting Z levels",
-    "flags": [ "EFFECT_FEATHER_FALL" ]
+    "flags": [ "FEATHER_FALL" ]
   },
   {
     "type": "effect_type",

@@ -10,4 +10,6 @@
     <string name="settings">Configuración</string>
     <string name="startGame">Empezar juego</string>
     <string name="showHelp">Mostrar ayuda</string>
+    <string name="crashAlert">El juego no fue cerrado correctamente la última vez</string>
+    <string name="crashMessage">El registro del error localizado en ./config/crash.log puede ayudar a los desarrolladores a solucionar errores.</string>
 </resources>

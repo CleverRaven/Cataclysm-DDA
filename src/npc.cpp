@@ -22,6 +22,7 @@
 #include "cursesdef.h"
 #include "damage.h"
 #include "debug.h"
+#include "dialogue.h"
 #include "dialogue_chatbin.h"
 #include "effect.h"
 #include "enums.h"
@@ -50,6 +51,7 @@
 #include "mtype.h"
 #include "mutation.h"
 #include "npc_class.h"
+#include "npctalk.h"
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
@@ -107,8 +109,6 @@ static const skill_id skill_smg( "smg" );
 static const skill_id skill_speech( "speech" );
 static const skill_id skill_stabbing( "stabbing" );
 static const skill_id skill_throw( "throw" );
-
-static const bionic_id bio_memory( "bio_memory" );
 
 static const trait_id trait_BEE( "BEE" );
 static const trait_id trait_CANNIBAL( "CANNIBAL" );
@@ -202,8 +202,8 @@ standard_npc::standard_npc( const std::string &name, const tripoint &pos,
     }
 }
 
-npc::npc( npc && ) = default;
-npc &npc::operator=( npc && ) = default;
+npc::npc( npc && ) noexcept( map_is_noexcept ) = default;
+npc &npc::operator=( npc && ) noexcept( list_is_noexcept ) = default;
 
 static std::map<string_id<npc_template>, npc_template> npc_templates;
 
@@ -258,6 +258,18 @@ void npc_template::check_consistency()
         const auto &guy = e.second.guy;
         if( !guy.myclass.is_valid() ) {
             debugmsg( "Invalid NPC class %s", guy.myclass.c_str() );
+        }
+        std::string first_topic = guy.chatbin.first_topic;
+        if( const json_talk_topic *topic = get_talk_topic( first_topic ) ) {
+            cata::flat_set<std::string> reachable_topics =
+                topic->get_directly_reachable_topics( true );
+            if( reachable_topics.count( "TALK_MISSION_OFFER" ) ) {
+                debugmsg(
+                    "NPC template \"%s\" has dialogue \"%s\" which leads unconditionally to "
+                    "\"TALK_MISSION_OFFER\", which doesn't check for an available mission.  "
+                    "You should probably prefer \"TALK_MISSION_LIST\"",
+                    e.first.str(), first_topic );
+            }
         }
     }
 }
@@ -955,9 +967,8 @@ void npc::finish_read( item &book )
         // Enhanced Memory Banks modestly boosts experience
         int min_ex = std::max( 1, reading->time / 10 + get_int() / 4 );
         int max_ex = reading->time / 5 + get_int() / 2 - originalSkillLevel;
-        if( has_active_bionic( bio_memory ) ) {
-            min_ex += 2;
-        }
+        min_ex = enchantment_cache->modify_value( enchant_vals::mod::READING_EXP, min_ex );
+
         if( max_ex < 2 ) {
             max_ex = 2;
         }
@@ -1112,7 +1123,9 @@ bool npc::wear_if_wanted( const item &it, std::string &reason )
                 return armor.covers( bp );
             } );
             if( iter != worn.end() && !( is_limb_broken( bp ) && iter->has_flag( flag_SPLINT ) ) ) {
-                took_off = takeoff( *iter );
+                //create an item_location for player::takeoff to handle.
+                item_location loc_for_takeoff = item_location( *this, &*iter );
+                took_off = takeoff( loc_for_takeoff );
                 break;
             }
         }
@@ -1342,7 +1355,8 @@ void npc::form_opinion( const player &u )
         set_attitude( NPCATT_FLEE_TEMP );
     }
 
-    add_msg_debug( "%s formed an opinion of u: %s", name, npc_attitude_id( attitude ) );
+    add_msg_debug( debugmode::DF_NPC, "%s formed an opinion of u: %s", name,
+                   npc_attitude_id( attitude ) );
 }
 
 void npc::mutiny()
@@ -2135,6 +2149,26 @@ bool npc::is_travelling() const
 
 Creature::Attitude npc::attitude_to( const Creature &other ) const
 {
+    const auto same_as = []( const Creature * lhs, const Creature * rhs ) {
+        return &lhs == &rhs;
+    };
+
+    for( const weak_ptr_fast<Creature> &buddy : ai_cache.friends ) {
+        if( same_as( &other, buddy.lock().get() ) ) {
+            return Creature::Attitude::FRIENDLY;
+        }
+    }
+    for( const weak_ptr_fast<Creature> &enemy : ai_cache.hostile_guys ) {
+        if( same_as( &other, enemy.lock().get() ) ) {
+            return Creature::Attitude::HOSTILE;
+        }
+    }
+    for( const weak_ptr_fast<Creature> &neutral : ai_cache.neutral_guys ) {
+        if( same_as( &other, neutral.lock().get() ) ) {
+            return Creature::Attitude::NEUTRAL;
+        }
+    }
+
     if( other.is_npc() || other.is_player() ) {
         const player &guy = dynamic_cast<const player &>( other );
         // check faction relationships first
@@ -2186,7 +2220,8 @@ Creature::Attitude npc::attitude_to( const Creature &other ) const
 void npc::npc_dismount()
 {
     if( !mounted_creature || !has_effect( effect_riding ) ) {
-        add_msg_debug( "NPC %s tried to dismount, but they have no mount, or they are not riding",
+        add_msg_debug( debugmode::DF_NPC,
+                       "NPC %s tried to dismount, but they have no mount, or they are not riding",
                        disp_name() );
         return;
     }
@@ -2198,7 +2233,7 @@ void npc::npc_dismount()
         }
     }
     if( !pnt ) {
-        add_msg_debug( "NPC %s could not find a place to dismount.", disp_name() );
+        add_msg_debug( debugmode::DF_NPC, "NPC %s could not find a place to dismount.", disp_name() );
         return;
     }
     remove_effect( effect_riding );
@@ -2632,6 +2667,11 @@ std::string npc_attitude_id( npc_attitude att )
     return iter->second;
 }
 
+int npc::closest_enemy_to_friendly_distance() const
+{
+    return ai_cache.closest_enemy_to_friendly_distance();
+}
+
 std::string npc_attitude_name( npc_attitude att )
 {
     switch( att ) {
@@ -2704,12 +2744,26 @@ void npc::add_msg_if_npc( const game_message_params &params, const std::string &
     add_msg( params, replace_with_npc_name( msg ) );
 }
 
+void npc::add_msg_debug_if_npc( debugmode::debug_filter type, const std::string &msg ) const
+{
+    add_msg_debug( type, replace_with_npc_name( msg ) );
+}
+
 void npc::add_msg_player_or_npc( const game_message_params &params,
                                  const std::string &/*player_msg*/,
                                  const std::string &npc_msg ) const
 {
     if( get_player_view().sees( *this ) ) {
         add_msg( params, replace_with_npc_name( npc_msg ) );
+    }
+}
+
+void npc::add_msg_debug_player_or_npc( debugmode::debug_filter type,
+                                       const std::string &/*player_msg*/,
+                                       const std::string &npc_msg ) const
+{
+    if( get_player_view().sees( *this ) ) {
+        add_msg_debug( type, replace_with_npc_name( npc_msg ) );
     }
 }
 
@@ -2765,7 +2819,7 @@ void npc::on_load()
     // TODO: Sleeping, healing etc.
     last_updated = calendar::turn;
     time_point cur = calendar::turn - dt;
-    add_msg_debug( "on_load() by %s, %d turns", name, to_turns<int>( dt ) );
+    add_msg_debug( debugmode::DF_NPC, "on_load() by %s, %d turns", name, to_turns<int>( dt ) );
     // First update with 30 minute granularity, then 5 minutes, then turns
     for( ; cur < calendar::turn - 30_minutes; cur += 30_minutes + 1_turns ) {
         update_body( cur, cur + 30_minutes );
@@ -2807,7 +2861,8 @@ void npc::on_load()
         if( const monster *const mon = g->critter_at<monster>( pos() ) ) {
             mounted_creature = g->shared_from( *mon );
         } else {
-            add_msg_debug( "NPC is meant to be riding, though the mount is not found when %s is loaded",
+            add_msg_debug( debugmode::DF_NPC,
+                           "NPC is meant to be riding, though the mount is not found when %s is loaded",
                            disp_name() );
         }
     }
@@ -3193,7 +3248,7 @@ void npc::set_attitude( npc_attitude new_attitude )
         add_effect( effect_npc_flee_player, 24_hours );
     }
 
-    add_msg_debug( "%s changes attitude from %s to %s",
+    add_msg_debug( debugmode::DF_NPC, "%s changes attitude from %s to %s",
                    name, npc_attitude_id( attitude ), npc_attitude_id( new_attitude ) );
     attitude_group new_group = get_attitude_group( new_attitude );
     attitude_group old_group = get_attitude_group( attitude );

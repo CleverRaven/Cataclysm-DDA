@@ -149,9 +149,7 @@
       { "item": "rollmat" },
       { "item": "sleeping_bag_roll" },
       { "item": "ear_plugs" },
-      { "item": "mre_hashbrownbacon_box" },
-      { "item": "mre_macaronimarinara_box" },
-      { "item": "mre_meatball_box" },
+      { "group": "MRE", "count": 3 },
       { "item": "water_clean", "count": 2, "charges": 2, "container-item": "bottle_plastic", "sealed": false }
     ]
   },
@@ -188,12 +186,12 @@
     "type": "item_group",
     "id": "tobacco_products",
     "items": [
-      [ "cig", 60 ],
-      [ "tobacco", 20 ],
-      [ "chaw", 20 ],
-      [ "cigar", 10 ],
-      [ "ecig", 10 ],
-      [ "advanced_ecig", 8 ],
+      { "item": "cig", "prob": 60, "charges": [ 1, 20 ] },
+      { "item": "tobacco", "prob": 20, "charges": [ 1, 20 ] },
+      { "item": "chaw", "prob": 20, "charges": [ 1, 20 ] },
+      { "item": "cigar", "prob": 10, "charges": [ 1, 5 ] },
+      { "item": "ecig", "prob": 10, "charges": [ 1, 40 ] },
+      { "item": "advanced_ecig", "prob": 8, "charges": [ 1, 100 ] },
       [ "nicotine_liquid", 15 ],
       [ "pipe_tobacco", 10 ]
     ]

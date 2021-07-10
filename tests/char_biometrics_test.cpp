@@ -4,7 +4,7 @@
 
 #include "avatar.h"
 #include "calendar.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "creature.h"
 #include "game_constants.h"
 #include "options.h"
@@ -453,21 +453,22 @@ TEST_CASE( "activity levels and calories in daily diary", "[avatar][biometrics][
 
     SECTION( "shows time at each activity level for the current day" ) {
         dummy.reset_activity_level();
-        test_activity_duration( dummy, NO_EXERCISE, 1_hours );
+        test_activity_duration( dummy, NO_EXERCISE, 59_minutes );
         test_activity_duration( dummy, LIGHT_EXERCISE, 45_minutes );
         test_activity_duration( dummy, MODERATE_EXERCISE, 30_minutes );
         test_activity_duration( dummy, BRISK_EXERCISE, 20_minutes );
         test_activity_duration( dummy, ACTIVE_EXERCISE, 15_minutes );
         test_activity_duration( dummy, EXTRA_EXERCISE, 10_minutes );
+        test_activity_duration( dummy, NO_EXERCISE, 1_minutes );
 
-        int expect_gained_kcal = 1283;
-        int expect_net_kcal = 551;
-        int expect_spent_kcal = 732;
+        int expect_gained_kcal = 1282;
+        int expect_net_kcal = 552;
+        int expect_spent_kcal = 730;
 
         CHECK( condensed_spaces( dummy.total_daily_calories_string() ) == string_format(
                    "<color_c_white> Minutes at each exercise level Calories per day</color>\n"
                    "<color_c_yellow> Day None Light Moderate Brisk Active Extra Gained Spent Total</color>\n"
-                   "<color_c_light_gray> 61 60 45 30 20 15 10 %d %d</color><color_c_light_blue> %d</color>\n",
+                   "<color_c_light_gray> 61 60 45 30 20 20 5 %d %d</color><color_c_light_blue> %d</color>\n",
                    expect_gained_kcal, expect_spent_kcal, expect_net_kcal ) );
     }
 }

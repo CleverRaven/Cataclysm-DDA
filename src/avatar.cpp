@@ -41,7 +41,9 @@
 #include "iuse.h"
 #include "kill_tracker.h"
 #include "make_static.h"
+#include "magic_enchantment.h"
 #include "map.h"
+#include "map_memory.h"
 #include "martialarts.h"
 #include "messages.h"
 #include "mission.h"
@@ -75,11 +77,9 @@
 static const activity_id ACT_READ( "ACT_READ" );
 
 static const bionic_id bio_cloak( "bio_cloak" );
-static const bionic_id bio_memory( "bio_memory" );
 
 static const efftype_id effect_alarm_clock( "alarm_clock" );
 static const efftype_id effect_boomered( "boomered" );
-static const efftype_id effect_contacts( "contacts" );
 static const efftype_id effect_depressants( "depressants" );
 static const efftype_id effect_happy( "happy" );
 static const efftype_id effect_irradiated( "irradiated" );
@@ -103,8 +103,6 @@ static const trait_id trait_CHITIN3( "CHITIN3" );
 static const trait_id trait_CHITIN_FUR3( "CHITIN_FUR3" );
 static const trait_id trait_COMPOUND_EYES( "COMPOUND_EYES" );
 static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
-static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
-static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_INSECT_ARMS( "INSECT_ARMS" );
 static const trait_id trait_INSECT_ARMS_OK( "INSECT_ARMS_OK" );
 static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
@@ -120,11 +118,16 @@ static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
 
 avatar::avatar()
 {
+    player_map_memory = std::make_unique<map_memory>();
     show_map_memory = true;
     active_mission = nullptr;
     grab_type = object_type::NONE;
     calorie_diary.push_front( daily_calories{} );
 }
+
+avatar::~avatar() = default;
+avatar::avatar( avatar && ) = default;
+avatar &avatar::operator=( avatar && ) = default;
 
 void avatar::toggle_map_memory()
 {
@@ -136,55 +139,45 @@ bool avatar::should_show_map_memory()
     return show_map_memory;
 }
 
-void avatar::serialize_map_memory( JsonOut &jsout ) const
+bool avatar::save_map_memory()
 {
-    player_map_memory.store( jsout );
+    return player_map_memory->save( get_map().getabs( pos() ) );
 }
 
-void avatar::deserialize_map_memory( JsonIn &jsin )
+void avatar::load_map_memory()
 {
-    player_map_memory.load( jsin );
+    player_map_memory->load( get_map().getabs( pos() ) );
 }
 
-memorized_terrain_tile avatar::get_memorized_tile( const tripoint &pos ) const
+void avatar::prepare_map_memory_region( const tripoint &p1, const tripoint &p2 )
 {
-    return player_map_memory.get_tile( pos );
+    player_map_memory->prepare_region( p1, p2 );
+}
+
+const memorized_terrain_tile &avatar::get_memorized_tile( const tripoint &pos ) const
+{
+    return player_map_memory->get_tile( pos );
 }
 
 void avatar::memorize_tile( const tripoint &pos, const std::string &ter, const int subtile,
                             const int rotation )
 {
-    player_map_memory.memorize_tile( max_memorized_tiles(), pos, ter, subtile, rotation );
+    player_map_memory->memorize_tile( pos, ter, subtile, rotation );
 }
 
 void avatar::memorize_symbol( const tripoint &pos, const int symbol )
 {
-    player_map_memory.memorize_symbol( max_memorized_tiles(), pos, symbol );
+    player_map_memory->memorize_symbol( pos, symbol );
 }
 
 int avatar::get_memorized_symbol( const tripoint &p ) const
 {
-    return player_map_memory.get_symbol( p );
-}
-
-size_t avatar::max_memorized_tiles() const
-{
-    // Only check traits once a turn since this is called a huge number of times.
-    if( current_map_memory_turn != calendar::turn ) {
-        current_map_memory_turn = calendar::turn;
-        float map_memory_capacity_multiplier =
-            mutation_value( "map_memory_capacity_multiplier" );
-        if( has_active_bionic( bio_memory ) ) {
-            map_memory_capacity_multiplier = 50;
-        }
-        current_map_memory_capacity = 2 * SEEX * 2 * SEEY * 100 * map_memory_capacity_multiplier;
-    }
-    return current_map_memory_capacity;
+    return player_map_memory->get_symbol( p );
 }
 
 void avatar::clear_memorized_tile( const tripoint &pos )
 {
-    player_map_memory.clear_memorized_tile( pos );
+    player_map_memory->clear_memorized_tile( pos );
 }
 
 std::vector<mission *> avatar::get_active_missions() const
@@ -264,129 +257,6 @@ void avatar::on_mission_finished( mission &cur_mission )
     }
 }
 
-const player *avatar::get_book_reader( const item &book, std::vector<std::string> &reasons ) const
-{
-    const player *reader = nullptr;
-
-    if( !book.is_book() ) {
-        reasons.push_back( string_format( _( "Your %s is not good reading material." ), book.tname() ) );
-        return nullptr;
-    }
-
-    const cata::value_ptr<islot_book> &type = book.type->book;
-    const skill_id &book_skill = type->skill;
-    const int book_skill_requirement = type->req;
-    const bool book_requires_intelligence = type->intel > 0;
-
-    // Check for conditions that immediately disqualify the player from reading:
-    const optional_vpart_position vp = get_map().veh_at( pos() );
-    if( vp && vp->vehicle().player_in_control( *this ) ) {
-        reasons.emplace_back( _( "It's a bad idea to read while driving!" ) );
-        return nullptr;
-    }
-    if( !fun_to_read( book ) && !has_morale_to_read() && has_identified( book.typeId() ) ) {
-        // Low morale still permits skimming
-        reasons.emplace_back( _( "What's the point of studying?  (Your morale is too low!)" ) );
-        return nullptr;
-    }
-    if( get_book_mastery( book ) == book_mastery::CANT_UNDERSTAND ) {
-        reasons.push_back( string_format( _( "%s %d needed to understand.  You have %d" ),
-                                          book_skill->name(), book_skill_requirement, get_skill_level( book_skill ) ) );
-        return nullptr;
-    }
-
-    // Check for conditions that disqualify us only if no NPCs can read to us
-    if( book_requires_intelligence && has_trait( trait_ILLITERATE ) ) {
-        reasons.emplace_back( _( "You're illiterate!" ) );
-    } else if( has_trait( trait_HYPEROPIC ) &&
-               !worn_with_flag( STATIC( flag_id( "FIX_FARSIGHT" ) ) ) &&
-               !has_effect( effect_contacts ) &&
-               !has_flag( STATIC( json_character_flag( "ENHANCED_VISION" ) ) ) ) {
-        reasons.emplace_back( _( "Your eyes won't focus without reading glasses." ) );
-    } else if( fine_detail_vision_mod() > 4 ) {
-        // Too dark to read only applies if the player can read to himself
-        reasons.emplace_back( _( "It's too dark to read!" ) );
-        return nullptr;
-    } else {
-        return this;
-    }
-
-    //Check for NPCs to read for you, negates Illiterate and Far Sighted
-    //The fastest-reading NPC is chosen
-    if( is_deaf() ) {
-        reasons.emplace_back( _( "Maybe someone could read that to you, but you're deaf!" ) );
-        return nullptr;
-    }
-
-    int time_taken = INT_MAX;
-    auto candidates = get_crafting_helpers();
-
-    for( const npc *elem : candidates ) {
-        // Check for disqualifying factors:
-        if( book_requires_intelligence && elem->has_trait( trait_ILLITERATE ) ) {
-            reasons.push_back( string_format( _( "%s is illiterate!" ),
-                                              elem->disp_name() ) );
-        } else if( elem->get_book_mastery( book ) == book_mastery::CANT_UNDERSTAND ) {
-            reasons.push_back( string_format( _( "%s %d needed to understand.  %s has %d" ),
-                                              book_skill->name(), book_skill_requirement, elem->disp_name(),
-                                              elem->get_skill_level( book_skill ) ) );
-        } else if( elem->has_trait( trait_HYPEROPIC ) &&
-                   !elem->worn_with_flag( STATIC( flag_id( "FIX_FARSIGHT" ) ) ) &&
-                   !elem->has_effect( effect_contacts ) ) {
-            reasons.push_back( string_format( _( "%s needs reading glasses!" ),
-                                              elem->disp_name() ) );
-        } else if( std::min( fine_detail_vision_mod(), elem->fine_detail_vision_mod() ) > 4 ) {
-            reasons.push_back( string_format(
-                                   _( "It's too dark for %s to read!" ),
-                                   elem->disp_name() ) );
-        } else if( !elem->sees( *this ) ) {
-            reasons.push_back( string_format( _( "%s could read that to you, but they can't see you." ),
-                                              elem->disp_name() ) );
-        } else if( !elem->fun_to_read( book ) && !elem->has_morale_to_read() &&
-                   has_identified( book.typeId() ) ) {
-            // Low morale still permits skimming
-            reasons.push_back( string_format( _( "%s morale is too low!" ), elem->disp_name( true ) ) );
-        } else if( elem->is_blind() ) {
-            reasons.push_back( string_format( _( "%s is blind." ), elem->disp_name() ) );
-        } else {
-            int proj_time = time_to_read( book, *elem );
-            if( proj_time < time_taken ) {
-                reader = elem;
-                time_taken = proj_time;
-            }
-        }
-    }
-    //end for all candidates
-    return reader;
-}
-
-int avatar::time_to_read( const item &book, const player &reader, const player *learner ) const
-{
-    const auto &type = book.type->book;
-    const skill_id &skill = type->skill;
-    // The reader's reading speed has an effect only if they're trying to understand the book as they read it
-    // Reading speed is assumed to be how well you learn from books (as opposed to hands-on experience)
-    const bool try_understand = reader.fun_to_read( book ) ||
-                                reader.get_skill_level( skill ) < type->level;
-    int reading_speed = try_understand ? std::max( reader.read_speed(), read_speed() ) : read_speed();
-    if( learner ) {
-        reading_speed = std::max( reading_speed, learner->read_speed() );
-    }
-
-    int retval = type->time * reading_speed;
-    retval *= std::min( fine_detail_vision_mod(), reader.fine_detail_vision_mod() );
-
-    const int effective_int = std::min( { get_int(), reader.get_int(), learner ? learner->get_int() : INT_MAX } );
-    if( type->intel > effective_int && !reader.has_trait( trait_PROF_DICEMASTER ) ) {
-        retval += type->time * ( type->intel - effective_int ) * 100;
-    }
-    if( !has_identified( book.typeId() ) ) {
-        //skimming
-        retval /= 10;
-    }
-    return retval;
-}
-
 /**
  * Explanation of ACT_READ activity values:
  *
@@ -420,7 +290,7 @@ bool avatar::read( item &it, const bool continuous )
 
     const int time_taken = time_to_read( it, *reader );
 
-    add_msg_debug( "avatar::read: time_taken = %d", time_taken );
+    add_msg_debug( debugmode::DF_AVATAR, "avatar::read: time_taken = %d", time_taken );
     player_activity act( ACT_READ, time_taken, continuous ? activity.index : 0,
                          reader->getID().get_value() );
     act.targets.emplace_back( item_location( *this, &it ) );
@@ -440,7 +310,7 @@ bool avatar::read( item &it, const bool continuous )
         // special guidebook effect: print a misc. hint when read
         if( reader != this ) {
             add_msg( m_info, fail_messages[0] );
-            dynamic_cast<const npc *>( reader )->say( get_hint() );
+            dynamic_cast<const npc &>( *reader ).say( get_hint() );
         } else {
             add_msg( m_info, get_hint() );
         }
@@ -745,11 +615,11 @@ void avatar::do_read( item &book )
         player *n = g->find_npc( character_id( activity.values[i] ) );
         if( n != nullptr ) {
             const std::string &s = activity.get_str_value( i, "1" );
-            learners.push_back( { n, strtod( s.c_str(), nullptr ) } );
+            learners.emplace_back( n, strtod( s.c_str(), nullptr ) );
         }
         // Otherwise they must have died/teleported or something
     }
-    learners.push_back( { this, 1.0 } );
+    learners.emplace_back( this, 1.0 );
     //whether to continue reading or not
     bool continuous = false;
     // NPCs who learned a little about the skill
@@ -779,9 +649,7 @@ void avatar::do_read( item &book )
             // Enhanced Memory Banks modestly boosts experience
             int min_ex = std::max( 1, reading->time / 10 + learner->get_int() / 4 );
             int max_ex = reading->time /  5 + learner->get_int() / 2 - originalSkillLevel;
-            if( has_active_bionic( bio_memory ) ) {
-                min_ex += 2;
-            }
+            min_ex = enchantment_cache->modify_value( enchant_vals::mod::READING_EXP, min_ex );
 
             min_ex = adjust_for_focus( min_ex ) / 100;
             max_ex = adjust_for_focus( max_ex ) / 100;
@@ -872,7 +740,7 @@ void avatar::do_read( item &book )
         skill_id skill_used = style_to_learn->primary_skill;
         int difficulty = std::max( 1, style_to_learn->learn_difficulty );
         difficulty = std::max( 1, 20 + difficulty * 2 - get_skill_level( skill_used ) * 2 );
-        add_msg_debug( _( "Chance to learn one in: %d" ), difficulty );
+        add_msg_debug( debugmode::DF_AVATAR, _( "Chance to learn one in: %d" ), difficulty );
 
         if( one_in( difficulty ) ) {
             m->second.call( *this, book, false, pos() );
@@ -1526,6 +1394,13 @@ void avatar::toggle_crouch_mode()
     }
 }
 
+void avatar::activate_crouch_mode()
+{
+    if( !is_crouching() ) {
+        set_movement_mode( move_mode_id( "crouch" ) );
+    }
+}
+
 void avatar::reset_move_mode()
 {
     if( !is_walking() ) {
@@ -1593,7 +1468,7 @@ bool avatar::wield( item &target, const int obtain_cost )
         target.on_takeoff( *this );
     }
 
-    add_msg_debug( "wielding took %d moves", mv );
+    add_msg_debug( debugmode::DF_AVATAR, "wielding took %d moves", mv );
     moves -= mv;
 
     if( has_item( target ) ) {
@@ -1759,19 +1634,50 @@ std::string avatar::total_daily_calories_string() const
     const std::string format_string =
         " %4d  %4d  %4d     %4d  %4d   %4d  %4d    %6d %6d";
 
+    const float light_ex_thresh = ( NO_EXERCISE + LIGHT_EXERCISE ) / 2.0f;
+    const float mod_ex_thresh = ( LIGHT_EXERCISE + MODERATE_EXERCISE ) / 2.0f;
+    const float brisk_ex_thresh = ( MODERATE_EXERCISE + BRISK_EXERCISE ) / 2.0f;
+    const float active_ex_thresh = ( BRISK_EXERCISE + ACTIVE_EXERCISE ) / 2.0f;
+    const float extra_ex_thresh = ( ACTIVE_EXERCISE + EXTRA_EXERCISE ) / 2.0f;
+
     std::string ret = header_string;
 
     // Start with today in the first row, day number from start of cataclysm
     int today = day_of_season<int>( calendar::turn ) + 1;
     int day_offset = 0;
     for( const daily_calories &day : calorie_diary ) {
+        // Yes, this is clunky.
+        // Perhaps it should be done in log_activity_level? But that's called a lot more often.
+        int no_exercise = 0;
+        int light_exercise = 0;
+        int moderate_exercise = 0;
+        int brisk_exercise = 0;
+        int active_exercise = 0;
+        int extra_exercise = 0;
+        for( const std::pair<const float, int> &level : day.activity_levels ) {
+            if( level.second > 0 ) {
+                if( level.first < light_ex_thresh ) {
+                    no_exercise += level.second;
+                } else if( level.first < mod_ex_thresh ) {
+                    light_exercise += level.second;
+                } else if( level.first < brisk_ex_thresh ) {
+                    moderate_exercise += level.second;
+                } else if( level.first < active_ex_thresh ) {
+                    brisk_exercise += level.second;
+                } else if( level.first < extra_ex_thresh ) {
+                    active_exercise += level.second;
+                } else {
+                    extra_exercise += level.second;
+                }
+            }
+        }
         std::string row_data = string_format( format_string, today + day_offset--,
-                                              5 * day.activity_levels.at( NO_EXERCISE ),
-                                              5 * day.activity_levels.at( LIGHT_EXERCISE ),
-                                              5 * day.activity_levels.at( MODERATE_EXERCISE ),
-                                              5 * day.activity_levels.at( BRISK_EXERCISE ),
-                                              5 * day.activity_levels.at( ACTIVE_EXERCISE ),
-                                              5 * day.activity_levels.at( EXTRA_EXERCISE ),
+                                              5 * no_exercise,
+                                              5 * light_exercise,
+                                              5 * moderate_exercise,
+                                              5 * brisk_exercise,
+                                              5 * active_exercise,
+                                              5 * extra_exercise,
                                               day.gained, day.spent );
         // Alternate gray and white text for row data
         if( day_offset % 2 == 0 ) {

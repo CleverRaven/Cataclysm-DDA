@@ -1,13 +1,13 @@
 [
   {
-    "id": "door",
+    "abstract": "door_abstract",
     "breaks_into": "ig_vp_frame",
     "broken_color": "cyan",
     "broken_symbol": "&",
     "categories": [ "hull" ],
     "color": "cyan",
     "damage_modifier": 80,
-    "damage_reduction": { "all": 21 },
+    "damage_reduction": { "all": 20 },
     "description": "A door.  Has a window so you can see out of it, even when closed.",
     "durability": 225,
     "flags": [ "CARGO", "OBSTACLE", "OPENABLE", "BOARDABLE", "WINDOW", "DOOR" ],
@@ -22,18 +22,29 @@
     },
     "size": 10,
     "symbol": "+",
-    "symbols": { "ne": "u", "nw": "y", "se": "b", "sw": "n", "vertical_left": "L", "vertical_right": "n", "front": "T", "rear": "B" },
+    "symbols": { "ne": "+", "nw": "+", "se": "+", "sw": "+", "vertical_left": "+", "vertical_right": "+", "front": "+", "rear": "+" },
     "type": "vehicle_part"
   },
   {
-    "id": "door_opaque",
+    "copy-from": "door_abstract",
+    "id": "door",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "door_abstract",
+    "id": "door_full",
+    "looks_like": "door",
+    "type": "vehicle_part"
+  },
+  {
+    "abstract": "door_opaque_abstract",
     "breaks_into": "ig_vp_frame",
     "broken_color": "cyan",
     "broken_symbol": "&",
     "categories": [ "hull" ],
     "color": "cyan",
     "damage_modifier": 80,
-    "damage_reduction": { "all": 28 },
+    "damage_reduction": { "all": 20 },
     "description": "A door.  Solid construction means you can't see through it when closed.",
     "durability": 240,
     "flags": [ "CARGO", "OBSTACLE", "OPAQUE", "OPENABLE", "BOARDABLE", "DOOR" ],
@@ -52,14 +63,25 @@
     "type": "vehicle_part"
   },
   {
-    "id": "hddoor",
+    "copy-from": "door_opaque_abstract",
+    "id": "door_opaque",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "door_opaque_abstract",
+    "id": "door_opaque_full",
+    "looks_like": "door_opaque",
+    "type": "vehicle_part"
+  },
+  {
+    "abstract": "hddoor_abstract",
     "breaks_into": "ig_vp_hdframe",
     "broken_color": "cyan",
     "broken_symbol": "&",
     "categories": [ "hull" ],
     "color": "cyan",
     "damage_modifier": 80,
-    "damage_reduction": { "all": 68 },
+    "damage_reduction": { "all": 30 },
     "description": "A strong door.  Has a window so you can see out of it, even when closed.",
     "durability": 600,
     "flags": [ "CARGO", "OBSTACLE", "OPENABLE", "BOARDABLE", "WINDOW", "DOOR" ],
@@ -78,14 +100,25 @@
     "type": "vehicle_part"
   },
   {
-    "id": "hddoor_opaque",
+    "copy-from": "hddoor_abstract",
+    "id": "hddoor",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "hddoor_abstract",
+    "id": "hddoor_full",
+    "looks_like": "hddoor",
+    "type": "vehicle_part"
+  },
+  {
+    "abstract": "hddoor_opaque_abstract",
     "breaks_into": "ig_vp_hdframe",
     "broken_color": "cyan",
     "broken_symbol": "&",
     "categories": [ "hull" ],
     "color": "cyan",
     "damage_modifier": 80,
-    "damage_reduction": { "all": 75 },
+    "damage_reduction": { "all": 30 },
     "description": "A strong door.  Solid construction means you can't see through it when closed.",
     "durability": 660,
     "flags": [ "CARGO", "OBSTACLE", "OPAQUE", "OPENABLE", "BOARDABLE", "DOOR" ],
@@ -104,6 +137,17 @@
     "type": "vehicle_part"
   },
   {
+    "copy-from": "hddoor_opaque_abstract",
+    "id": "hddoor_opaque",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "hddoor_opaque_abstract",
+    "id": "hddoor_opaque_full",
+    "looks_like": "hddoor_opaque",
+    "type": "vehicle_part"
+  },
+  {
     "id": "door_internal",
     "breaks_into": "ig_vp_frame",
     "broken_color": "cyan",
@@ -111,7 +155,7 @@
     "categories": [ "hull" ],
     "color": "cyan",
     "damage_modifier": 75,
-    "damage_reduction": { "all": 28 },
+    "damage_reduction": { "all": 20 },
     "description": "An interior door.  Solid construction means you can't see through it when closed.",
     "durability": 240,
     "flags": [ "OBSTACLE", "OPAQUE", "OPENABLE", "ROOF", "BOARDABLE", "DOOR" ],
@@ -136,7 +180,7 @@
     "categories": [ "hull" ],
     "color": "light_gray",
     "damage_modifier": 80,
-    "damage_reduction": { "all": 30 },
+    "damage_reduction": { "all": 20 },
     "description": "A strong door.  A window lets you see through it when closed.",
     "durability": 420,
     "flags": [ "CARGO", "LOCKABLE_CARGO", "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "COVERED", "DOOR", "WINDOW" ],
@@ -162,7 +206,7 @@
     "categories": [ "hull" ],
     "color": "light_gray",
     "damage_modifier": 80,
-    "damage_reduction": { "all": 34 },
+    "damage_reduction": { "all": 20 },
     "description": "A strong door.  Solid construction means you can't see through it when closed.",
     "durability": 450,
     "flags": [ "CARGO", "LOCKABLE_CARGO", "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "COVERED", "OPAQUE", "DOOR" ],
@@ -188,7 +232,7 @@
     "categories": [ "hull" ],
     "color": "dark_gray",
     "damage_modifier": 80,
-    "damage_reduction": { "all": 78 },
+    "damage_reduction": { "all": 30 },
     "description": "A very strong door.  A window lets you see through it when closed.",
     "durability": 900,
     "flags": [ "CARGO", "LOCKABLE_CARGO", "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "COVERED", "DOOR", "WINDOW" ],
@@ -214,7 +258,7 @@
     "categories": [ "hull" ],
     "color": "dark_gray",
     "damage_modifier": 80,
-    "damage_reduction": { "all": 80 },
+    "damage_reduction": { "all": 30 },
     "description": "A very strong door.  Solid construction means you can't see through it when closed.",
     "durability": 1000,
     "flags": [ "CARGO", "LOCKABLE_CARGO", "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "COVERED", "OPAQUE", "DOOR" ],

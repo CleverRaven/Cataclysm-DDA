@@ -25,14 +25,13 @@
     "armor_cut": 1,
     "armor_bullet": 4,
     "vision_night": 12,
-    "path_settings": { "max_dist": 21 },
+    "path_settings": { "max_dist": 21, "avoid_traps": true, "avoid_sharp": true },
     "harvest": "mammal_fur",
-    "death_function": [ "NORMAL" ],
     "reproduction": { "baby_monster": "mon_yulecat_cub", "baby_count": 6, "baby_timer": 234 },
     "baby_flags": [ "WINTER" ],
     "special_attacks": [ { "type": "bite", "cooldown": 10 }, [ "GRAB", 8 ], [ "scratch", 6 ] ],
     "anger_triggers": [ "PLAYER_NEAR_BABY" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_2", "WARM", "GRABS" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "WARM", "GRABS" ]
   },
   {
     "id": "mon_yulecat_cub",
@@ -80,8 +79,8 @@
     "armor_cut": 2,
     "armor_bullet": 3,
     "harvest": "demihuman",
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_2", "WARM" ]
+    "path_settings": { "avoid_traps": true, "avoid_sharp": true },
+    "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "WARM" ]
   },
   {
     "id": "mon_leprechaun",
@@ -104,7 +103,7 @@
     "melee_dice_sides": 7,
     "dodge": 6,
     "harvest": "demihuman",
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_2", "WARM" ]
+    "path_settings": { "avoid_traps": true, "avoid_sharp": true },
+    "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "WARM" ]
   }
 ]

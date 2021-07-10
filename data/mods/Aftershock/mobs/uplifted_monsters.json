@@ -3,7 +3,7 @@
     "id": "mon_uplifted_bear",
     "type": "MONSTER",
     "name": { "str": "Schwarz Walder" },
-    "description": "Schwarz Walders were originally developed by a German company as forest rangers for the expanded Black Forest Conservation Area.  Shortly afterwards it was determined that they also made excellent long range reconnaissance units that could operate independently indefinitely.  Pre-Cataclysm they lived on every continent in a variety of jobs.",
+    "description": "Schwarz Walders are an uplfited animal originally developed by a German company as forest rangers for the expanded Black Forest Conservation Area.  Like all Uplifts they have a human level of intelligence and are indentured laborers to the corporation that grew and raised them, until they reach age of enfranchisement dictated by UICA regulations or they earn their citizenship early.  Shortly afterward the creation of the first Schwarz Walders it was determined that they also made excellent long range reconnaissance units that could operate independently indefinitely.  This was one of the most popular Uplift models before the Discontinuity, and many frontier planet still retain significant feral and otherwise independent populations.  They are skilled marksmen and this one appears to be armed with an smg.",
     "default_faction": "UPLIFT",
     "bodytype": "bear",
     "categories": [ "WILDLIFE" ],
@@ -27,7 +27,7 @@
     "special_attacks": [
       {
         "type": "gun",
-        "cooldown": 10,
+        "cooldown": 1,
         "move_cost": 150,
         "gun_type": "hk_mp5",
         "ammo_type": "9mm",
@@ -48,7 +48,6 @@
     "vision_night": 10,
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "HURT", "PLAYER_NEAR_BABY" ],
-    "death_function": [ "NORMAL" ],
     "zombify_into": "mon_zombie_upliftedbear",
     "death_drops": "xl_uplift_death_drop",
     "harvest": "demihuman_large_fur",
@@ -106,7 +105,6 @@
     "death_drops": "xl_uplift_death_drop",
     "harvest": "demihuman_large_fur",
     "special_attacks": [ [ "scratch", 20 ] ],
-    "death_function": [ "NORMAL" ],
     "zombify_into": "mon_uplifted_ape_zed",
     "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "BASHES", "GROUP_BASH", "ANIMAL", "PATH_AVOID_DANGER_1", "PATH_AVOID_DANGER_1" ]
   },
@@ -159,7 +157,6 @@
     "vision_night": 7,
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "HURT", "PLAYER_NEAR_BABY" ],
-    "death_function": [ "NORMAL" ],
     "zombify_into": "mon_zombie_upliftedoctopus",
     "death_drops": "seabased_death_drop",
     "harvest": "demihuman",

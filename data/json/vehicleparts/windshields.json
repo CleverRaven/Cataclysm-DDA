@@ -1,6 +1,6 @@
 [
   {
-    "id": "windshield",
+    "abstract": "windshield_abstract",
     "type": "vehicle_part",
     "breaks_into": [ { "count": [ 25, 50 ], "item": "glass_shard" } ],
     "symbol": "\"",
@@ -16,9 +16,9 @@
       "vertical": "j",
       "vertical_left": "j",
       "vertical_right": "H",
-      "horizontal_front": "T",
+      "horizontal_front": "h",
       "horizontal_front_edge": "^",
-      "horizontal_rear": "B",
+      "horizontal_rear": "h",
       "horizontal_rear_edge": "="
     },
     "broken_color": "light_gray",
@@ -40,7 +40,18 @@
     }
   },
   {
-    "id": "reinforced_windshield",
+    "copy-from": "windshield_abstract",
+    "id": "windshield",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "windshield_abstract",
+    "id": "windshield_full",
+    "looks_like": "windshield",
+    "type": "vehicle_part"
+  },
+  {
+    "abstract": "reinforced_windshield_abstract",
     "type": "vehicle_part",
     "breaks_into": [ { "count": [ 25, 50 ], "item": "glass_shard" }, { "count": [ 4, 8 ], "item": "wire" } ],
     "symbol": "\"",
@@ -56,9 +67,9 @@
       "vertical": "j",
       "vertical_left": "j",
       "vertical_right": "H",
-      "horizontal_front": "T",
+      "horizontal_front": "h",
       "horizontal_front_edge": "^",
-      "horizontal_rear": "B",
+      "horizontal_rear": "h",
       "horizontal_rear_edge": "="
     },
     "broken_color": "light_gray",
@@ -79,5 +90,16 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     }
+  },
+  {
+    "copy-from": "reinforced_windshield_abstract",
+    "id": "reinforced_windshield",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "reinforced_windshield_abstract",
+    "id": "reinforced_windshield_full",
+    "looks_like": "reinforced_windshield",
+    "type": "vehicle_part"
   }
 ]

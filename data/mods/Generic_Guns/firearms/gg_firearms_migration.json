@@ -86,7 +86,6 @@
       "sig_40",
       "hptjcp",
       "m1911",
-      "m1911_MEU",
       "walther_ppq_45",
       "hptjhp",
       "tokarev",
@@ -111,7 +110,6 @@
       "walther_ppq_40",
       "tommygun",
       "usp_45",
-      "mk23",
       "fn57",
       "glock_17",
       "kpf9",
@@ -201,18 +199,12 @@
   },
   {
     "id": [
-      "h&k416a5",
       "m1918",
       "acr_300blk",
       "hk417_13",
-      "acr",
-      "m4a1",
-      "m16a3",
       "m16a4",
-      "m38dmr",
-      "m4_cqbr",
+      "nato_assault_rifle",
       "m231pfw",
-      "scar_l",
       "scar_h",
       "sig_mcx_rattler_sbr",
       "rm51_assault_rifle",
@@ -238,7 +230,7 @@
     "replace": "rifle_huge_hmg"
   },
   {
-    "id": [ "m134", "m249", "m27iar", "m240", "m60", "rm614_lmg", "rm298" ],
+    "id": [ "m134", "m249", "m240", "m60", "rm614_lmg", "rm298" ],
     "type": "MIGRATION",
     "replace": "rifle_lmg"
   },
@@ -342,20 +334,15 @@
   {
     "id": [
       "shotgun_410",
-      "browning_a5",
       "ksg",
       "ksg-25",
-      "m1014",
       "mossberg_500",
-      "mossberg_500_security",
       "mossberg_590",
       "mossberg_930",
       "remington_870",
       "remington_870_breacher",
       "remington_870_express",
-      "remington_1100",
-      "streetsweeper",
-      "SPAS_12"
+      "streetsweeper"
     ],
     "type": "MIGRATION",
     "replace": "shot_pump"

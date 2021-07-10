@@ -28,5 +28,100 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT" ],
     "emissions": [ "emit_fog_plume" ]
+  },
+  {
+    "type": "furniture",
+    "id": "f_vent_cold_air2_stream",
+    "name": "metal grate",
+    "description": "This is a metal vent, you can feel cool air seeping out of it.",
+    "looks_like": "t_grate",
+    "symbol": "~",
+    "color": "blue",
+    "move_cost_mod": 0,
+    "coverage": 0,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT" ],
+    "emissions": [ "emit_cold_air2_stream" ]
+  },
+  {
+    "type": "furniture",
+    "id": "f_vent_cold_air2_blast",
+    "description": "This is a metal vent, you can feel cold air blasting out of it.",
+    "copy-from": "f_vent_cold_air2_stream",
+    "symbol": "~",
+    "color": "blue",
+    "emissions": [ "emit_cold_air2_blast" ]
+  },
+  {
+    "type": "furniture",
+    "id": "f_vent_hot_air2_stream",
+    "description": "This is a metal vent, you can feel hot air seeping out of it.",
+    "copy-from": "f_vent_cold_air2_stream",
+    "symbol": "~",
+    "color": "red",
+    "emissions": [ "emit_hot_air2_stream" ]
+  },
+  {
+    "type": "furniture",
+    "id": "f_vent_hot_air2_blast",
+    "copy-from": "f_vent_cold_air2_stream",
+    "description": "This is a metal vent, you can feel hot air seeping out of it.",
+    "symbol": "~",
+    "color": "red",
+    "emissions": [ "emit_hot_air2_blast" ]
+  },
+  {
+    "type": "furniture",
+    "id": "f_vent_smoke_plume",
+    "description": "This is a metal vent, you can see smoke seeping from it.",
+    "copy-from": "f_vent_cold_air2_stream",
+    "symbol": "~",
+    "color": "white",
+    "emissions": [ "emit_smoke_plume" ]
+  },
+  {
+    "type": "furniture",
+    "id": "f_vent_smoke_stream",
+    "description": "This is a metal vent, you can see smoke streaming out of it.",
+    "copy-from": "f_vent_cold_air2_stream",
+    "symbol": "~",
+    "color": "white",
+    "emissions": [ "emit_smoke_stream" ]
+  },
+  {
+    "type": "furniture",
+    "id": "f_vent_toxic_leak",
+    "description": "This is a metal vent, toxic looking clouds seep from it.",
+    "copy-from": "f_vent_cold_air2_stream",
+    "symbol": "~",
+    "color": "green",
+    "emissions": [ "emit_toxic_leak" ]
+  },
+  {
+    "type": "furniture",
+    "id": "f_vent_toxic_belch",
+    "description": "This is a metal vent, toxic looking clouds emerge from it.",
+    "copy-from": "f_vent_cold_air2_stream",
+    "symbol": "~",
+    "color": "green",
+    "emissions": [ "emit_toxic_belch" ]
+  },
+  {
+    "type": "furniture",
+    "id": "f_vent_rad_leak",
+    "description": "This is a metal vent.",
+    "copy-from": "f_vent_cold_air2_stream",
+    "symbol": "~",
+    "color": "green",
+    "emissions": [ "emit_rad_leak" ]
+  },
+  {
+    "type": "furniture",
+    "id": "f_vent_rad_cloud",
+    "description": "This is a metal vent.",
+    "copy-from": "f_vent_cold_air2_stream",
+    "symbol": "~",
+    "color": "green",
+    "emissions": [ "emit_rad_cloud" ]
   }
 ]

@@ -19,6 +19,8 @@
     "text": [
       "Yeah, this summer heat is hitting me hard, you know?",
       "Enjoying the summer.",
+      "Not quite like the summers from before, huh?",
+      "Can't wait for this summer to be over.",
       "Kinda wishing it would cool off a bit, to be honest."
     ]
   },
@@ -29,6 +31,8 @@
     "text": [
       "OK, maybe it'll stop me from freezing in this weather.",
       "Gotta say, I'm not minding the snow.",
+      "Not quite like the winters from before, huh?",
+      "Can't wait for this winter to be over.",
       "It's weird the zombies don't freeze."
     ]
   },
@@ -36,7 +40,13 @@
     "type": "snippet",
     "category": "<chitchat_prefix_infected>",
     "//": "A sentence about being sick to go before a more general chitchat message.",
-    "text": [ "Well, I'm feeling pretty sick… but sure." ]
+    "text": [
+      "A nice chat might improve my health somewhat.",
+      "Alright, but I'm feeling a bit under the weather.",
+      "I'm not feeling too well, but I can still talk for a bit.",
+      "We can talk, even though I'm not feeling too well.",
+      "Well, I'm feeling pretty sick… but sure."
+    ]
   },
   {
     "type": "snippet",
@@ -58,7 +68,7 @@
       "What the heck.  How's life been treating you?",
       "So, how about that weather, eh?",
       "Nice of you to make time.  How's it been for you lately?",
-      "My dogs’ve been barkin’ lately, you know?",
+      "My dogs've been barkin' lately, you know?",
       "I feel great today.  Not sure what it is, just one of those days."
     ]
   },
@@ -70,11 +80,11 @@
       "I just can't believe it's over.  I keep running my head back to the days it all fell apart.  The riots.  The lies.  The psychos.  It never really felt like it was going to go like this.",
       "You ever think there's any truth to the crap they were spouting before the world ended?  Mind control drugs in the water, bio-terrorism?  Some of it would make sense, but it seems so far-fetched.  Then again, we're dealing with actual zombies.",
       "I wonder if I should be getting more religious now, or less.  You know what I'm sayin', <name_g>?",
-      "I been thinkin’ about rearranging my gear.  It’s a real mess.  Don’t wanna go for my weapon and accidentally pull out a granola bar, right?",
-      "You ever wonder why we even bother?  We’re all just gonna be zombies eventually anyway.  I mean, not that I’m gonna stop fighting, but what’s the damn point?",
+      "I been thinkin' about rearranging my gear.  It's a real mess.  Don't wanna go for my weapon and accidentally pull out a granola bar, right?",
+      "You ever wonder why we even bother?  We're all just gonna be zombies eventually anyway.  I mean, not that I'm gonna stop fighting, but what's the damn point?",
       "I wish I could go bust a cap in one of those zombies right now, without all the fuss about being scared for my life.",
       "Every time I close my eyes, I can still see the riots.  Do you get that, or is it just me?",
-      "You ever feel like the whole time before the apocalypse was just a dream you’re waking up from?",
+      "You ever feel like the whole time before the apocalypse was just a dream you're waking up from?",
       "When do you think you realized the world was ending?  For me, it was that damned YouTube video with the lady killing the baby.  Holy shit, you know?",
       "I wonder if the government's still out there, holed up in some bunker.",
       "Remember some of the crazy news from the end of the world?  The stuff that got drowned out by the riot coverage I mean.  Like, didn't the governor of Rhode Island secede from the Union or something?",
@@ -89,9 +99,9 @@
     "text": [
       "I can't stop wondering who fucked up to make all this happen.  Obviously we can't trust the news, they claimed the zombies were \"rioters\" for weeks.  Why?  Where did this come from?",
       "If what they told us about the Chinese was even partly true, do you think it's like this in China?  Or maybe the US is some kind of quarantine zone, and at least some of the world is still out there.",
-      "Have you noticed injuries aren’t healing the same as usual?  I started spotting it before the world ended, but it’s become more pronounced.  There’s hardly even a granulation step after a cut closes.",
-      "I still don’t understand how these zombies are powered.  They’re like perpetual motion machines.",
-      "So many parts of this still don't fit together.  Who created the zombies?  What powers them?  Maybe the rumours of mind control drugs were true all along, and someone found a way to bioengineer living dead."
+      "Have you noticed injuries aren't healing the same as usual?  I started spotting it before the world ended, but it's become more pronounced.  There's hardly even a granulation step after a cut closes.",
+      "I still don't understand how these zombies are powered.  They're like perpetual motion machines.",
+      "So many parts of this still don't fit together.  Who created the zombies?  What powers them?  Maybe the rumors of mind control drugs were true all along, and someone found a way to bioengineer living dead."
     ]
   },
   {
@@ -103,7 +113,7 @@
       "<thoughtfulchitchat>",
       "How do these zombies even keep going?  What are they eating?  Do you think they'll ever rot away?",
       "I been thinkin', one of these days, we're gonna run out of toilet paper.  What then?",
-      "Do you think it’s weird how we’ll, like, open a locked building and find a lone zombie inside?  How’d it even get there?",
+      "Do you think it's weird how we'll, like, open a locked building and find a lone zombie inside?  How'd it even get there?",
       "Sometimes I wonder if we're all psychos, not just the ones that went crazy and rioted.  I never would have thought I could do the things I've done since the world ended.",
       "You read any good books lately?  I'm glad we still got books.",
       "You know what I miss?  Movie theaters.  You think Hollywood survived this?  Maybe there's a bunch of zombie actors out there, filmin' shit out of reflex.  Hah, I'd watch that shit."

@@ -38,6 +38,13 @@ int get_current_language_version();
 #endif
 
 #if defined(LOCALIZE)
+// Detect system language, returns a supported game language code (eg. "fr"),
+// or empty string if detection failed or system language is not supported by the game
+std::string getSystemLanguage();
+
+// Same as above but returns "en" in the case that the above one returns empty string
+std::string getSystemLanguageOrEnglish();
+void select_language();
 
 // MingW flips out if you don't define this before you try to statically link libintl.
 // This should prevent 'undefined reference to `_imp__libintl_gettext`' errors.
@@ -85,12 +92,16 @@ class local_translation_cache<std::string>
         std::string cached_translation;
     public:
         const std::string &operator()( const std::string &arg ) {
+#ifndef CATA_IN_TOOL
             if( cached_lang_version != get_current_language_version() || cached_arg != arg ) {
                 cached_lang_version = get_current_language_version();
                 cached_arg = arg;
                 cached_translation = _translate_internal( arg );
             }
             return cached_translation;
+#else
+            return arg;
+#endif
         }
 };
 
@@ -104,6 +115,7 @@ class local_translation_cache<const char *>
         const char *cached_translation = nullptr;
     public:
         const char *operator()( const char *arg ) {
+#ifndef CATA_IN_TOOL
             if( cached_lang_version != get_current_language_version() || cached_arg != arg ) {
                 cached_lang_version = get_current_language_version();
                 cached_translation = _translate_internal( arg );
@@ -113,6 +125,9 @@ class local_translation_cache<const char *>
             // mimic gettext() behavior: return `arg` if no translation is found
             // `same_as_arg` is needed to ensure that the current `arg` is returned (not a cached one)
             return same_as_arg ? arg : cached_translation;
+#else
+            return arg;
+#endif
         }
 };
 
@@ -197,10 +212,7 @@ using GenderMap = std::map<std::string, std::vector<std::string>>;
  */
 std::string gettext_gendered( const GenderMap &genders, const std::string &msg );
 
-bool isValidLanguage( const std::string &lang );
-std::string getLangFromLCID( const int &lcid );
 std::string locale_dir();
-void select_language();
 void set_language();
 
 class JsonIn;

@@ -56,6 +56,8 @@ class scenario
 
         vproto_id _starting_vehicle = vproto_id::NULL_ID();
 
+        std::vector<std::pair<mongroup_id, float>> _surround_groups;
+
         void load( const JsonObject &jo, const std::string &src );
         bool scenario_traits_conflict_with_profession_traits( const profession &p ) const;
 
@@ -128,6 +130,7 @@ class scenario
         bool can_pick( const scenario &current_scenario, int points ) const;
 
         const std::vector<mission_type_id> &missions() const;
+        const std::vector<std::pair<mongroup_id, float>> &surround_groups() const;
 
 };
 

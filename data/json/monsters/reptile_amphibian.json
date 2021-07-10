@@ -38,7 +38,6 @@
     "upgrades": { "half_life": 50, "into": "mon_frog_mother" },
     "special_attacks": [ { "type": "leap", "cooldown": 10, "move_cost": 0, "max_range": 10, "min_consider_range": 2 } ],
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE" ],
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "SWIMS" ]
   },
   {
@@ -87,8 +86,7 @@
     "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK" ],
     "fear_triggers": [ "FIRE", "HURT" ],
     "placate_triggers": [ "MEAT" ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "ANIMAL", "ATTACKMON", "SWIMS" ]
+    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "ANIMAL", "PUSH_MON", "SWIMS" ]
   },
   {
     "id": "mon_rattlesnake",
@@ -121,7 +119,6 @@
     "anger_triggers": [ "HURT" ],
     "fear_triggers": [ "PLAYER_CLOSE" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
-    "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 14, "into": "mon_rattlesnake_giant" },
     "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "SWIMS" ]
   },
@@ -165,7 +162,6 @@
     ],
     "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
-    "death_function": [ "NORMAL" ],
     "reproduction": { "baby_egg": "egg_reptile", "baby_count": 3, "baby_timer": 10 },
     "baby_flags": [ "SPRING" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "SWIMS" ]
@@ -197,7 +193,6 @@
     "vision_night": 30,
     "harvest": "mutant_animal_large_noskin",
     "path_settings": { "max_dist": 5 },
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "WARM", "VENOM", "SWIMS" ]
   }
 ]

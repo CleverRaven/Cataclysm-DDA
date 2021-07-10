@@ -415,6 +415,9 @@ struct vehicle_part {
         /** parts are considered broken at zero health */
         bool is_broken() const;
 
+        /** Is this an enabled autoclave, dishwasher, or washing machine? */
+        bool is_cleaner_on() const;
+
         /** parts are unavailable if broken or if carried is true, if they have the CARRIED flag */
         bool is_unavailable( bool carried = true ) const;
         /** parts are available if they aren't unavailable */
@@ -456,9 +459,11 @@ struct vehicle_part {
     private:
         /** What type of part is this? */
         vpart_id id;
+    public:
         /** If it's a part with variants, which variant it is */
         std::string variant;
 
+    private:
         /** As a performance optimization we cache the part information here on first lookup */
         mutable const vpart_info *info_cache = nullptr;
 
@@ -907,7 +912,8 @@ class vehicle
                           const std::string &variant = "", bool force = false );
 
         // find a single tile wide vehicle adjacent to a list of part indices
-        bool try_to_rack_nearby_vehicle( std::vector<std::vector<int>> &list_of_racks );
+        bool try_to_rack_nearby_vehicle( std::vector<std::vector<int>> &list_of_racks,
+                                         bool do_not_rack = false );
         // merge a previously found single tile vehicle into this vehicle
         bool merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int> &rack_parts );
 
@@ -1780,6 +1786,7 @@ class vehicle
         void use_dishwasher( int p );
         void use_monster_capture( int part, const tripoint &pos );
         void use_bike_rack( int part );
+        void clear_bike_racks( std::vector<int> &racks );
         void use_harness( int part, const tripoint &pos );
 
         void interact_with( const vpart_position &vp );
@@ -1829,8 +1836,7 @@ class vehicle
         int part_count() const;
         // Returns the vehicle_part with the given part number
         vehicle_part &part( int part_num );
-        // Same as vehicle::part() except with const binding
-        const vehicle_part &cpart( int part_num ) const;
+        const vehicle_part &part( int part_num ) const;
         // Determines whether the given part_num is valid for this vehicle
         bool valid_part( int part_num ) const;
         // Forcibly removes a part from this vehicle. Only exists to support faction_camp.cpp
