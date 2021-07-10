@@ -1147,7 +1147,7 @@
     "charges_per_use": 100,
     "price_postapoc": 1250,
     "use_action": [ "TAZER" ],
-    "extend": { "flags": [ "NONCONDUCTIVE" ] },
+    "extend": { "flags": [ "NONCONDUCTIVE", "WATER_BREAK" ] },
     "relative": { "volume": "250 ml", "weight": "151 g" },
     "pocket_data": [
       {
@@ -1171,7 +1171,7 @@
     "price_postapoc": 1250,
     "charges_per_use": 100,
     "use_action": [ "TAZER" ],
-    "extend": { "flags": [ "NONCONDUCTIVE" ] },
+    "extend": { "flags": [ "NONCONDUCTIVE", "WATER_BREAK" ] },
     "relative": { "volume": "250 ml", "weight": "151 g" },
     "pocket_data": [
       {
@@ -1195,7 +1195,7 @@
     "price_postapoc": 1250,
     "charges_per_use": 100,
     "use_action": [ "TAZER" ],
-    "extend": { "flags": [ "NONCONDUCTIVE" ] },
+    "extend": { "flags": [ "NONCONDUCTIVE", "WATER_BREAK" ] },
     "relative": { "volume": "250 ml", "weight": "151 g" },
     "pocket_data": [
       {
@@ -1705,7 +1705,7 @@
     "charges_per_use": 5,
     "use_action": [ "E_COMBATSAW_OFF" ],
     "techniques": [ "WBLOCK_1", "SWEEP" ],
-    "flags": [ "ALWAYS_TWOHAND", "FRAGILE_MELEE" ],
+    "flags": [ "ALWAYS_TWOHAND", "FRAGILE_MELEE", "WATER_BREAK" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",

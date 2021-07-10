@@ -152,7 +152,7 @@
       "need_charges": 1,
       "need_charges_msg": "The lantern has no batteries."
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "ALLOWS_REMOTE_USE" ],
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -196,6 +196,7 @@
     "price": 500,
     "price_postapoc": 100,
     "charges_per_use": 1,
+    "flags": [ "WATER_BREAK" ],
     "ammo": [ "battery" ],
     "flags": [ "BELT_CLIP" ],
     "use_action": {
@@ -382,6 +383,7 @@
     "price_postapoc": 200,
     "bashing": 8,
     "material": [ "aluminum" ],
+    "flags": [ "WATER_BREAK" ],
     "symbol": ";",
     "color": "blue",
     "charges_per_use": 1,
@@ -584,6 +586,7 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "white",
+    "flags": [ "WATER_BREAK" ],
     "ammo": [ "battery" ],
     "charges_per_use": 1,
     "use_action": {
@@ -640,7 +643,7 @@
       "need_charges_msg": "The smart lamp batteries are dead.",
       "type": "transform"
     },
-    "flags": [ "ALLOWS_REMOTE_USE", "RADIO_ACTIVATION", "RADIO_INVOKE_PROC", "RADIOSIGNAL_2" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "RADIO_ACTIVATION", "RADIO_INVOKE_PROC", "RADIOSIGNAL_2", "WATER_BREAK" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
