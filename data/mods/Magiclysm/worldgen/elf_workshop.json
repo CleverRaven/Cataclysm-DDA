@@ -2,7 +2,7 @@
   {
     "type": "palette",
     "id": "elf_palette",
-    "terrain": { "3": "t_rdoor_c", "1": "t_strconc_wall", ".": "t_metal_floor_olight" },
+    "terrain": { "3": "t_rdoor_c", "1": "t_strconc_wall", ".": "t_metal_floor" },
     "furniture": {
       "a": "f_anvil",
       "t": "f_table",
@@ -16,7 +16,7 @@
       "s": "f_stool",
       "f": "f_demon_forge"
     },
-    "items": {
+    "place_loot": {
       "a": [
         { "item": "tools_anvil", "chance": 75, "repeat": [ 1, 2 ] },
         { "item": "mithril_ingot", "chance": 10 },
@@ -74,21 +74,18 @@
       ],
       "palettes": [ "elf_palette" ],
       "place_monsters": [
-        { "monster": "GROUP_WORKSHOP", "x": [ 3, 5 ], "y": [ 4, 23 ], "density": 0.2, "repeat": [ 1, 6 ] },
-        { "monster": "GROUP_WORKSHOP", "x": [ 3, 21 ], "y": [ 4, 23 ], "density": 0.2, "repeat": [ 1, 5 ] },
-        { "monster": "GROUP_WORKSHOP", "x": [ 3, 21 ], "y": [ 4, 23 ], "density": 0.2, "repeat": [ 1, 5 ] },
-        { "monster": "GROUP_WORKSHOP", "x": [ 3, 21 ], "y": [ 4, 23 ], "density": 0.2, "repeat": [ 1, 5 ] }
+        { "monster": "GROUP_WORKSHOP", "x": [ 3, 5 ], "y": [ 4, 23 ], "density": 0.5, "repeat": [ 1, 6 ] }
       ]
     }
   },
   {
     "type": "overmap_special",
     "id": "elf_workshop",
-    "overmaps": [ { "point": [ 4, 7, 3 ], "overmap": "elf_workshop_north" } ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "elf_workshop_north" } ],
     "locations": [ "wilderness" ],
     "city_distance": [ 20, -5 ],
     "city_sizes": [ 0, 13 ],
-    "occurrences": [ 0, 9 ]
+    "occurrences": [ 0, 2 ]
   },
   {
     "type": "overmap_terrain",
