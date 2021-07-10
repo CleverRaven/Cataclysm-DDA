@@ -444,8 +444,6 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "vomit_multiplier", vomit_multiplier, cata::nullopt );
     optional( jo, was_loaded, "overmap_sight", overmap_sight, cata::nullopt );
     optional( jo, was_loaded, "overmap_multiplier", overmap_multiplier, cata::nullopt );
-    optional( jo, was_loaded, "map_memory_capacity_multiplier", map_memory_capacity_multiplier,
-              cata::nullopt );
     optional( jo, was_loaded, "reading_speed_multiplier", reading_speed_multiplier, cata::nullopt );
     optional( jo, was_loaded, "skill_rust_multiplier", skill_rust_multiplier, cata::nullopt );
     optional( jo, was_loaded, "consume_time_modifier", consume_time_modifier, cata::nullopt );

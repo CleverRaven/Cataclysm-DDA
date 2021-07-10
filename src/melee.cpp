@@ -69,7 +69,6 @@
 #include "weighted_list.h"
 
 static const bionic_id bio_cqb( "bio_cqb" );
-static const bionic_id bio_memory( "bio_memory" );
 
 static const itype_id itype_fur( "fur" );
 static const itype_id itype_leather( "leather" );
@@ -104,6 +103,7 @@ static const efftype_id effect_venom_weaken( "venom_weaken" );
 static const efftype_id effect_venom_player1( "venom_player1" );
 static const efftype_id effect_venom_player2( "venom_player2" );
 
+static const json_character_flag json_flag_CBQ_LEARN_BONUS( "CBQ_LEARN_BONUS" );
 static const json_character_flag json_flag_NEED_ACTIVE_TO_MELEE( "NEED_ACTIVE_TO_MELEE" );
 static const json_character_flag json_flag_UNARMED_BONUS( "UNARMED_BONUS" );
 
@@ -673,8 +673,8 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
         if( has_active_bionic( bio_cqb ) && !martial_arts_data->knows_selected_style() ) {
             /** @EFFECT_INT slightly increases chance to learn techniques when using CQB bionic */
             // Enhanced Memory Banks bionic doubles chance to learn martial art
-            const int bionic_boost = has_active_bionic( bionic_id( bio_memory ) ) ? 2 : 1;
-            if( one_in( ( 1400 - ( get_int() * 50 ) ) / bionic_boost ) ) {
+            const int learn_boost = has_flag( json_flag_CBQ_LEARN_BONUS ) ? 2 : 1;
+            if( one_in( ( 1400 - ( get_int() * 50 ) ) / learn_boost ) ) {
                 martial_arts_data->learn_current_style_CQB( is_player() );
             }
         }
