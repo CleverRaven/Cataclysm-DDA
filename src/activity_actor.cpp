@@ -2482,7 +2482,7 @@ bool disable_activity_actor::can_disable_or_reprogram( const monster &monster )
         return false;
     }
 
-    return ( ( monster.friendly != 0 || critter.has_effect( effect_sensor_stun ) ) &&
+    return ( ( monster.friendly != 0 || monster.has_effect( effect_sensor_stun ) ) &&
              !monster.has_flag( MF_RIDEABLE_MECH ) &&
              !( monster.has_flag( MF_PAY_BOT ) && monster.has_effect( efftype_id( "paid" ) ) ) ) &&
            ( !monster.type->revert_to_itype.is_empty() || monster.type->id == mon_manhack );
@@ -2511,6 +2511,8 @@ std::unique_ptr<activity_actor> disable_activity_actor::deserialize( JsonIn &jsi
 
     data.read( "target", actor.target );
     data.read( "reprogram", actor.reprogram );
+
+    return actor.clone();
 }
 
 void move_furniture_activity_actor::start( player_activity &act, Character & )
