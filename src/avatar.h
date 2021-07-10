@@ -72,10 +72,10 @@ class avatar : public player
     public:
         avatar();
         avatar( const avatar & ) = delete;
-        avatar( avatar && );
+        avatar( avatar && ) noexcept;
         ~avatar();
         avatar &operator=( const avatar & ) = delete;
-        avatar &operator=( avatar && );
+        avatar &operator=( avatar && ) noexcept;
 
         void store( JsonOut &json ) const;
         void load( const JsonObject &data );

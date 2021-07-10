@@ -126,8 +126,8 @@ avatar::avatar()
 }
 
 avatar::~avatar() = default;
-avatar::avatar( avatar && ) = default;
-avatar &avatar::operator=( avatar && ) = default;
+avatar::avatar( avatar && ) noexcept = default;
+avatar &avatar::operator=( avatar && ) noexcept = default;
 
 void avatar::toggle_map_memory()
 {
