@@ -5816,7 +5816,7 @@ void map::draw( const catacurses::window &w, const tripoint &center )
             if( draw_maptile( w, p, curr_maptile, params ) ) {
                 continue;
             }
-            const maptile tile_below = maptile_at_internal( p - tripoint( 0, 0, 1 ) );
+            const maptile tile_below = maptile_at_internal( p - tripoint_above );
             draw_from_above( w, tripoint( p.xy(), p.z - 1 ), tile_below, params );
         }
     }

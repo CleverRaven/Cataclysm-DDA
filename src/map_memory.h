@@ -116,7 +116,7 @@ class map_memory
             tripoint sm;
             point loc;
 
-            coord_pair( const tripoint &p );
+            explicit coord_pair( const tripoint &p );
         };
 
     public:
