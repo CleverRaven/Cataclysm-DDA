@@ -1193,7 +1193,6 @@
       "ter_set": "t_floor_paper"
     },
     "shoot": { "reduce_damage": [ 2, 12 ], "reduce_damage_laser": [ 4, 16 ], "destroy_damage": [ 10, 40 ] }
-    }
   },
   {
     "type": "terrain",
