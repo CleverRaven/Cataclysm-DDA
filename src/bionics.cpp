@@ -523,8 +523,9 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
     bionic &bio = ( *my_bionics )[index];
 
     if( bio.info().has_flag( json_flag_BIONIC_GUN ) ) {
-        if( bio.info().fake_item.is_empty() ) {
-            debugmsg( "tried to activate gun bionic %s that is missing its fake_item", bio.info().id.str() );
+        if( !bio.info().fake_item.is_valid() ) {
+            debugmsg( "tried to activate gun bionic \"%s\" with invalid fake_item \"%s\"", bio.info().id.str(),
+                      bio.info().fake_item.str() );
             return;
         }
 
@@ -550,8 +551,9 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
         }
     } else if( bio.info().has_flag( json_flag_BIONIC_WEAPON ) && !weapon.has_flag( flag_NO_UNWIELD ) &&
                free_power > bio.info().power_activate ) {
-        if( bio.info().fake_item.is_empty() ) {
-            debugmsg( "tried to activate weapon bionic %s that is missing its fake_item", bio.info().id.str() );
+        if( !bio.info().fake_item.is_valid() ) {
+            debugmsg( "tried to activate weapon bionic \"%s\" with invalid fake_item \"%s\"",
+                      bio.info().id.str(), bio.info().fake_item.str() );
             return;
         }
 
@@ -642,6 +644,12 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
     map &here = get_map();
     // On activation effects go here
     if( bio.info().has_flag( json_flag_BIONIC_GUN ) ) {
+        if( !bio.info().fake_item.is_valid() ) {
+            debugmsg( "tried to activate gun bionic \"%s\" with invalid fake_item \"%s\"",
+                      bio.info().id.str(), bio.info().fake_item.str() );
+            return false;
+        }
+
         add_msg_activate();
         refund_power(); // Power usage calculated later, in avatar_action::fire
         if( close_bionics_ui ) {
@@ -650,8 +658,9 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
         avatar_action::fire_ranged_bionic( player_character, item( bio.info().fake_item ),
                                            bio.info().power_activate );
     } else if( bio.info().has_flag( json_flag_BIONIC_WEAPON ) ) {
-        if( bio.info().fake_item.is_empty() ) {
-            debugmsg( "tried to activate weapon bionic %s that is missing its fake_item", bio.info().id.str() );
+        if( !bio.info().fake_item.is_valid() ) {
+            debugmsg( "tried to activate weapon bionic \"%s\" with invalid fake_item \"%s\"",
+                      bio.info().id.str(), bio.info().fake_item.str() );
             return false;
         }
 
