@@ -88,7 +88,7 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "copper", 25 ] ] ]
+    "components": [ [ [ "copper", 50 ] ] ]
   },
   {
     "type": "recipe",

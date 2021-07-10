@@ -247,5 +247,91 @@
       { "x": 0, "y": 0, "chance": 40, "item_groups": [ "pants" ] },
       { "x": 0, "y": 0, "chance": 20, "item_groups": [ "underwear" ] }
     ]
+  },
+  {
+    "id": "cart_livestock_stall",
+    "type": "vehicle",
+    "name": "Large Animal Transport Cart",
+    "blueprint": [
+      [ "o|o" ],
+      [ "o|o" ]
+    ],
+    "parts": [
+      { "x": 0, "y": 0, "parts": [ "frame_vertical_T_left", "seat", "roof", "engine_electric" ] },
+      { "x": 0, "y": 0, "part": "controls" },
+      { "x": 0, "y": 1, "parts": [ "frame_vertical_T_right", "seat", "roof" ] },
+      { "x": 0, "y": 1, "part": "storage_battery" },
+      { "x": 1, "y": 0, "parts": [ "frame_nw", "halfboard_nw", "wheel_mount_light_steerable" ] },
+      { "x": 1, "y": 0, "part": "wheel_small" },
+      { "x": 1, "y": 1, "parts": [ "frame_ne", "halfboard_ne", "wheel_mount_light_steerable" ] },
+      { "x": 1, "y": 1, "part": "wheel_small" },
+      { "x": -1, "y": 0, "parts": [ "frame_sw", "livestock_stall", "wheel_mount_light", "wheel_small" ] },
+      { "x": -1, "y": 1, "parts": [ "frame_se", "livestock_stall", "wheel_mount_light", "wheel_small" ] }
+    ],
+    "items": [
+      { "x": -1, "y": 0, "chance": 25, "//repeat": 2, "item_groups": [ "snacks" ] },
+      { "x": -1, "y": 1, "chance": 25, "//repeat": 2, "item_groups": [ "snacks" ] }
+    ]
+  },
+  {
+    "id": "cart_animal_compartment",
+    "type": "vehicle",
+    "name": "Animal Transport Cart",
+    "blueprint": [
+      [ "o|o" ],
+      [ "o|o" ]
+    ],
+    "parts": [
+      { "x": 0, "y": 0, "parts": [ "frame_vertical_T_left", "seat", "roof", "engine_electric" ] },
+      { "x": 0, "y": 0, "part": "controls" },
+      { "x": 0, "y": 1, "parts": [ "frame_vertical_T_right", "seat", "roof" ] },
+      { "x": 0, "y": 1, "part": "storage_battery" },
+      { "x": 1, "y": 0, "parts": [ "frame_nw", "halfboard_nw", "wheel_mount_light_steerable" ] },
+      { "x": 1, "y": 0, "part": "wheel_small" },
+      { "x": 1, "y": 1, "parts": [ "frame_ne", "halfboard_ne", "wheel_mount_light_steerable" ] },
+      { "x": 1, "y": 1, "part": "wheel_small" },
+      { "x": -1, "y": 0, "parts": [ "frame_sw", "animal_compartment", "wheel_mount_light", "wheel_small" ] },
+      { "x": -1, "y": 1, "parts": [ "frame_se", "animal_compartment", "wheel_mount_light", "wheel_small" ] }
+    ],
+    "items": [
+      { "x": -1, "y": 0, "chance": 25, "//repeat": 2, "item_groups": [ "snacks" ] },
+      { "x": -1, "y": 1, "chance": 25, "//repeat": 2, "item_groups": [ "snacks" ] }
+    ]
+  },
+  {
+    "id": "cart_chassis",
+    "type": "vehicle",
+    "name": "Cart Chassis",
+    "blueprint": [
+      [ "o|o" ],
+      [ "o|o" ]
+    ],
+    "parts": [
+      { "x": 0, "y": 0, "part": "frame_vertical_left" },
+      { "x": 0, "y": 1, "part": "frame_vertical_right" },
+      { "x": 1, "y": 0, "parts": [ "frame_nw", "wheel_mount_light_steerable" ] },
+      { "x": 1, "y": 0, "part": "wheel_small" },
+      { "x": 1, "y": 1, "parts": [ "frame_ne", "wheel_mount_light_steerable" ] },
+      { "x": 1, "y": 1, "part": "wheel_small" },
+      { "x": -1, "y": 0, "parts": [ "frame_sw", "wheel_mount_light", "wheel_small" ] },
+      { "x": -1, "y": 1, "parts": [ "frame_se", "wheel_mount_light", "wheel_small" ] }
+    ]
+  },
+  {
+    "id": "cart_chassis_2",
+    "type": "vehicle",
+    "name": "Cart Chassis",
+    "blueprint": [
+      [ "o|o" ],
+      [ "o|o" ]
+    ],
+    "parts": [
+      { "x": 0, "y": 0, "part": "frame_vertical_left" },
+      { "x": 0, "y": 1, "part": "frame_vertical_right" },
+      { "x": 1, "y": 0, "part": "frame_nw" },
+      { "x": 1, "y": 1, "part": "frame_ne" },
+      { "x": -1, "y": 0, "part": "frame_sw" },
+      { "x": -1, "y": 1, "part": "frame_se" }
+    ]
   }
 ]

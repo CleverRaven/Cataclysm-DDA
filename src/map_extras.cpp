@@ -78,7 +78,7 @@ static const itype_id itype_223_casing( "223_casing" );
 static const itype_id itype_762_51_casing( "762_51_casing" );
 static const itype_id itype_9mm_casing( "9mm_casing" );
 static const itype_id itype_acoustic_guitar( "acoustic_guitar" );
-static const itype_id itype_anbc_suit( "anbc_suit" );
+static const itype_id itype_hazmat_suit( "hazmat_suit" );
 static const itype_id itype_ash( "ash" );
 static const itype_id itype_bag_canvas( "bag_canvas" );
 static const itype_id itype_bottle_glass( "bottle_glass" );
@@ -2867,7 +2867,7 @@ static bool mx_grave( map &m, const tripoint &abs_sub )
             case 2: {
                 m.ter_set( point( SEEX, SEEY ), t_grave_new );
                 m.spawn_item( point( SEEX, SEEY ), itype_glasses_eye );
-                m.spawn_item( point( SEEX, SEEY ), itype_anbc_suit );
+                m.spawn_item( point( SEEX, SEEY ), itype_hazmat_suit );
                 m.spawn_item( point( SEEX, SEEY ), itype_crowbar );
                 m.furn_set( point( SEEX, SEEY - 1 ), f_sign );
                 m.set_signage( tripoint( SEEX, SEEY - 1, abs_sub.z ),

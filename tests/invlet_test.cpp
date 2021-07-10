@@ -397,7 +397,7 @@ static void move_item( player &p, const int id, const inventory_location from,
                     drop_at_feet( p, id );
                     break;
                 case INVENTORY:
-                    p.takeoff( item_at( p, id, from ) );
+                    p.takeoff( item_location( p, &item_at( p, id, from ) ) );;
                     break;
                 case WORN:
                 case WIELDED_OR_WORN:
@@ -419,7 +419,7 @@ static void move_item( player &p, const int id, const inventory_location from,
                     if( p.is_wielding( item_at( p, id, from ) ) ) {
                         p.i_add( p.i_rem( &item_at( p, id, from ) ) );
                     } else {
-                        p.takeoff( item_at( p, id, from ) );
+                        p.takeoff( item_location( p, &item_at( p, id, from ) ) );
                     }
                     if( !p.is_armed() && !p.worn.empty() ) {
                         // wield the first worn item

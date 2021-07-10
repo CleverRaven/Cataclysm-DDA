@@ -877,8 +877,13 @@ void player::sort_armor()
             if( leftListIndex < leftListSize ) {
                 if( player_character.query_yn( _( "Remove selected armor?" ) ) ) {
                     do_return_entry();
+
+                    //create an item_location for player::takeoff to handle.
+                    item &item_for_takeoff = *tmp_worn[leftListIndex];
+                    item_location loc_for_takeoff = item_location( *this, &item_for_takeoff );
+
                     // remove the item, asking to drop it if necessary
-                    takeoff( *tmp_worn[leftListIndex] );
+                    takeoff( loc_for_takeoff );
                     if( !player_character.has_activity( ACT_ARMOR_LAYERS ) ) {
                         // An activity has been created to take off the item;
                         // we must surrender control until it is done.

@@ -9,6 +9,7 @@
 
 #include "debug.h"
 #include "enum_conversions.h"
+#include "generic_factory.h"
 #include "json.h"
 #include "options.h"
 #include "output.h"
@@ -436,9 +437,9 @@ void load_region_settings( const JsonObject &jo )
         jo.throw_error( "No 'id' field." );
     }
     bool strict = new_region.id == "default";
-    if( !jo.read( "default_oter", new_region.default_oter ) && strict ) {
-        jo.throw_error( "default_oter required for default ( though it should probably remain 'field' )" );
-    }
+    mandatory( jo, false, "default_oter", new_region.default_oter );
+    // So the data definition goes from z = OVERMAP_HEIGHT to z = OVERMAP_DEPTH
+    std::reverse( new_region.default_oter.begin(), new_region.default_oter.end() );
     if( !jo.read( "river_scale", new_region.river_scale ) && strict ) {
         jo.throw_error( "river_scale required for default" );
     }
@@ -602,7 +603,7 @@ void check_region_settings()
         const std::string &region_name = p.first;
         const regional_settings &region = p.second;
         for( const std::pair<const std::string, map_extras> &p2 : region.region_extras ) {
-            const std::string extras_name = p.first;
+            const std::string extras_name = p2.first;
             const map_extras &extras = p2.second;
             if( extras.chance == 0 ) {
                 continue;
@@ -734,17 +735,25 @@ void apply_region_overlay( const JsonObject &jo, regional_settings &region )
             continue;
         }
         JsonObject zonejo = zone.get_object();
+        map_extras &extras = region.region_extras[zone.name()];
 
         int tmpval = 0;
         if( zonejo.read( "chance", tmpval ) ) {
-            region.region_extras[zone.name()].chance = tmpval;
+            extras.chance = tmpval;
         }
 
         for( const JsonMember member : zonejo.get_object( "extras" ) ) {
             if( member.is_comment() ) {
                 continue;
             }
-            region.region_extras[zone.name()].values.add_or_replace( member.name(), member.get_int() );
+            extras.values.add_or_replace( member.name(), member.get_int() );
+        }
+
+        // It's possible that all the entries of the weighted list have their
+        // weights set to zero by this overlay.  In that case we want to reset
+        // the chance to zero.
+        if( !extras.values.is_valid() ) {
+            extras.chance = 0;
         }
     }
 

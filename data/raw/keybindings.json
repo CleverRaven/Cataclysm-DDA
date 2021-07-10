@@ -1401,6 +1401,13 @@
   },
   {
     "type": "keybinding",
+    "id": "CHANGE_SHAPE",
+    "category": "VEH_INTERACT",
+    "name": "Change part shape",
+    "bindings": [ { "input_method": "keyboard_any", "key": "p" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "ASSIGN_CREW",
     "category": "VEH_INTERACT",
     "name": "Assign crew",
@@ -1678,6 +1685,13 @@
     "category": "BIONICS",
     "name": "Toggle safe fuel mod",
     "bindings": [ { "input_method": "keyboard_char", "key": "S" }, { "input_method": "keyboard_code", "key": "s", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "REFUEL",
+    "category": "BIONICS",
+    "name": "Open refuel menu",
+    "bindings": [ { "input_method": "keyboard_char", "key": "R" }, { "input_method": "keyboard_code", "key": "r", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",

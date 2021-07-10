@@ -12,12 +12,10 @@
     "material": [ "steel", "leather" ],
     "symbol": "[",
     "color": "light_gray",
-    "covers": [ "arm_l", "arm_r" ],
-    "coverage": 45,
-    "encumbrance": 10,
     "warmth": 10,
     "material_thickness": 5,
-    "flags": [ "BELTED", "STURDY", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "STURDY", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 10, "coverage": 45, "covers": [ "arm_l", "arm_r" ] } ]
   },
   {
     "copy-from": "mbracer_steel_pair",
@@ -26,7 +24,6 @@
     "name": { "str": "steel bracer" },
     "weight": "770 g",
     "volume": "1250 ml",
-    "covers": [ "arm_l", "arm_r" ],
     "sided": true
   },
   {

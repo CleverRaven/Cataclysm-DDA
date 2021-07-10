@@ -69,6 +69,25 @@ std::string enum_to_string<mon_trigger>( mon_trigger data )
 }
 
 template<>
+std::string enum_to_string<mdeath_type>( mdeath_type data )
+{
+    switch( data ) {
+        case mdeath_type::NORMAL:
+            return "NORMAL";
+        case mdeath_type::SPLATTER:
+            return "SPLATTER";
+        case mdeath_type::BROKEN:
+            return "BROKEN";
+        case mdeath_type::NO_CORPSE:
+            return "NO_CORPSE";
+        case mdeath_type::LAST:
+            break;
+    }
+    debugmsg( "Invalid mdeath_type" );
+    abort();
+}
+
+template<>
 std::string enum_to_string<m_flag>( m_flag data )
 {
     // see mtype.h for commentary
@@ -158,6 +177,7 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_REVIVES_HEALTHY: return "REVIVES_HEALTHY";
         case MF_NO_NECRO: return "NO_NECRO";
         case MF_PACIFIST: return "PACIFIST";
+        case MF_KEEP_DISTANCE: return "KEEP_DISTANCE";
         case MF_PUSH_MON: return "PUSH_MON";
         case MF_PUSH_VEH: return "PUSH_VEH";
         case MF_AVOID_DANGER_1: return "PATH_AVOID_DANGER_1";
@@ -186,6 +206,7 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_DROPS_AMMO: return "DROPS_AMMO";
         case MF_INSECTICIDEPROOF: return "INSECTICIDEPROOF";
         case MF_RANGED_ATTACKER: return "RANGED_ATTACKER";
+        case MF_CAMOUFLAGE: return "CAMOUFLAGE";
         // *INDENT-ON*
         case m_flag::MF_MAX:
             break;
@@ -242,7 +263,6 @@ MonsterGenerator::MonsterGenerator()
     init_phases();
     init_attack();
     init_defense();
-    init_death();
 }
 
 MonsterGenerator::~MonsterGenerator() = default;
@@ -471,90 +491,6 @@ void MonsterGenerator::init_phases()
     phase_map["PLASMA"] = phase_id::PLASMA;
 }
 
-void MonsterGenerator::init_death()
-{
-    // Drop a body
-    death_map["NORMAL"] = &mdeath::normal;
-    // Explodes in gibs and chunks
-    death_map["SPLATTER"] = &mdeath::splatter;
-    // Acid instead of a body
-    death_map["ACID"] = &mdeath::acid;
-    // Explodes in vomit :3
-    death_map["BOOMER"] = &mdeath::boomer;
-    // Explodes in glowing vomit :3
-    death_map["BOOMER_GLOW"] = &mdeath::boomer_glow;
-    // Kill all nearby vines
-    death_map["KILL_VINES"] = &mdeath::kill_vines;
-    // Kill adjacent vine if it's cut
-    death_map["VINE_CUT"] = &mdeath::vine_cut;
-    // Destroy all roots
-    death_map["TRIFFID_HEART"] = &mdeath::triffid_heart;
-    // Explodes in spores D:
-    death_map["FUNGUS"] = &mdeath::fungus;
-    // Falls apart
-    death_map["DISINTEGRATE"] = &mdeath::disintegrate;
-    // Spawns 2 half-worms
-    death_map["WORM"] = &mdeath::worm;
-    // Hallucination disappears
-    death_map["DISAPPEAR"] = &mdeath::disappear;
-    // Morale penalty
-    death_map["GUILT"] = &mdeath::guilt;
-    // Frees blobs, redirects to brainblob()
-    death_map["BRAINBLOB"] = &mdeath::brainblob;
-    // Creates more blobs
-    death_map["BLOBSPLIT"] = &mdeath::blobsplit;
-    // Reverts dancers
-    death_map["JACKSON"] = &mdeath::jackson;
-    // Normal death, but melts
-    death_map["MELT"] = &mdeath::melt;
-    // Removes hypnosis if last one
-    death_map["AMIGARA"] = &mdeath::amigara;
-    // Turn into a full thing
-    death_map["THING"] = &mdeath::thing;
-    // Damaging explosion
-    death_map["EXPLODE"] = &mdeath::explode;
-    // Blinding ray
-    death_map["FOCUSEDBEAM"] = &mdeath::focused_beam;
-    // Spawns a broken robot.
-    death_map["BROKEN"] = &mdeath::broken;
-    // Cure verminitis
-    death_map["RATKING"] = &mdeath::ratking;
-    // Sight returns to normal
-    death_map["DARKMAN"] = &mdeath::darkman;
-    // Explodes in toxic gas
-    death_map["GAS"] = &mdeath::gas;
-    // All breathers die
-    death_map["KILL_BREATHERS"] = &mdeath::kill_breathers;
-    // Gives a message about destroying ammo and then calls "BROKEN"
-    death_map["BROKEN_AMMO"] = &mdeath::broken_ammo;
-    // Explode like a huge smoke bomb.
-    death_map["SMOKEBURST"] = &mdeath::smokeburst;
-    // Explode like a huge tear gas bomb.
-    death_map["TEARBURST"] = &mdeath::tearburst;
-    // Explode with a cloud of fungal haze.
-    death_map["FUNGALBURST"] = &mdeath::fungalburst;
-    // Snicker-snack!
-    death_map["JABBERWOCKY"] = &mdeath::jabberwock;
-    // Game over!  Defense mode
-    death_map["GAMEOVER"] = &mdeath::gameover;
-    // Spawn some cockroach nymphs
-    death_map["PREG_ROACH"] = &mdeath::preg_roach;
-    // Explode in a fireball
-    death_map["FIREBALL"] = &mdeath::fireball;
-    // Explode in a huge fireball
-    death_map["CONFLAGRATION"] = &mdeath::conflagration;
-    // resurrect all zombies in the area and upgrade all zombies in the area
-    death_map["NECRO_BOOMER"] = &mdeath::necro_boomer;
-
-    /* Currently Unimplemented */
-    // Screams loudly
-    //death_map["SHRIEK"] = &mdeath::shriek;
-    // Wolf's howling
-    //death_map["HOWL"] = &mdeath::howl;
-    // Rattles like a rattlesnake
-    //death_map["RATTLE"] = &mdeath::rattle;
-}
-
 void MonsterGenerator::init_attack()
 {
     add_hardcoded_attack( "NONE", mattack::none );
@@ -759,6 +695,8 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     assign( jo, "aggression", agro, strict, -100, 100 );
     assign( jo, "morale", morale, strict );
 
+    assign( jo, "tracking_distance", tracking_distance, strict, 8 );
+
     assign( jo, "mountable_weight_ratio", mountable_weight_ratio, strict );
 
     assign( jo, "attack_cost", attack_cost, strict, 0 );
@@ -775,6 +713,8 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     assign( jo, "armor_stab", armor_stab, strict, 0 );
     assign( jo, "armor_acid", armor_acid, strict, 0 );
     assign( jo, "armor_fire", armor_fire, strict, 0 );
+
+    optional( jo, was_loaded, "bleed_rate", bleed_rate, 100 );
 
     assign( jo, "vision_day", vision_day, strict, 0 );
     assign( jo, "vision_night", vision_night, strict, 0 );
@@ -829,12 +769,17 @@ void mtype::load( const JsonObject &jo, const std::string &src )
 
     assign( jo, "harvest", harvest );
 
-    const auto death_reader = make_flag_reader( gen.death_map, "monster death function" );
-    optional( jo, was_loaded, "death_function", dies, death_reader );
-    if( dies.empty() ) {
-        // TODO: really needed? Is an empty `dies` container not allowed?
-        dies.push_back( mdeath::normal );
+    if( jo.has_array( "shearing" ) ) {
+        std::vector<shearing_entry> entries;
+        for( JsonObject shearing_entry : jo.get_array( "shearing" ) ) {
+            struct shearing_entry entry {};
+            entry.load( shearing_entry );
+            entries.emplace_back( entry );
+        }
+        shearing = shearing_data( entries );
     }
+
+    optional( jo, was_loaded, "death_function", mdeath_effect );
 
     if( jo.has_array( "emit_fields" ) ) {
         JsonArray jar = jo.get_array( "emit_fields" );
@@ -1334,4 +1279,18 @@ void MonsterGenerator::check_monster_definitions() const
             }
         }
     }
+}
+
+void monster_death_effect::load( const JsonObject &jo )
+{
+    optional( jo, was_loaded, "message", death_message, to_translation( "The %s dies!" ) );
+    optional( jo, was_loaded, "effect", sp );
+    has_effect = sp.is_valid();
+    optional( jo, was_loaded, "corpse_type", corpse_type, mdeath_type::NORMAL );
+}
+
+void monster_death_effect::deserialize( JsonIn &jsin )
+{
+    JsonObject data = jsin.get_object();
+    load( data );
 }

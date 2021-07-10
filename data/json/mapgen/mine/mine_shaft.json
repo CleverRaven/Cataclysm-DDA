@@ -4,7 +4,7 @@
     "method": "json",
     "om_terrain": "mine_shaft_middle",
     "object": {
-      "fill_ter": "t_rock",
+      "fill_ter": "t_soil",
       "rows": [
         "                      <#",
         "                       #",

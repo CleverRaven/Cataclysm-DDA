@@ -87,6 +87,7 @@ static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_pacified( "pacified" );
 static const efftype_id effect_paralyzepoison( "paralyzepoison" );
 static const efftype_id effect_poison( "poison" );
+static const efftype_id effect_tpollen( "tpollen" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_run( "run" );
 static const efftype_id effect_stunned( "stunned" );
@@ -109,6 +110,7 @@ static const species_id species_MAMMAL( "MAMMAL" );
 static const species_id species_MOLLUSK( "MOLLUSK" );
 static const species_id species_NETHER( "NETHER" );
 static const species_id species_ROBOT( "ROBOT" );
+static const species_id species_PLANT( "PLANT" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
 
 static const trait_id trait_ANIMALDISCORD( "ANIMALDISCORD" );
@@ -119,7 +121,6 @@ static const trait_id trait_BEE( "BEE" );
 static const trait_id trait_FLOWERS( "FLOWERS" );
 static const trait_id trait_KILLER( "KILLER" );
 static const trait_id trait_MYCUS_FRIEND( "MYCUS_FRIEND" );
-static const trait_id trait_PACIFIST( "PACIFIST" );
 static const trait_id trait_PHEROMONE_INSECT( "PHEROMONE_INSECT" );
 static const trait_id trait_PHEROMONE_MAMMAL( "PHEROMONE_MAMMAL" );
 static const trait_id trait_TERRIFYING( "TERRIFYING" );
@@ -1256,12 +1257,21 @@ monster_attitude monster::attitude( const Character *u ) const
         return MATT_FOLLOW;
     }
 
+    if( has_flag( MF_KEEP_DISTANCE ) && rl_dist( pos(), goal ) < type->tracking_distance ) {
+        return MATT_FLEE;
+    }
+
     return MATT_ATTACK;
 }
 
 int monster::hp_percentage() const
 {
     return get_hp( bodypart_id( "torso" ) ) * 100 / get_hp_max();
+}
+
+int monster::get_eff_per() const
+{
+    return std::min( type->vision_night, type->vision_day );
 }
 
 void monster::process_triggers()
@@ -1376,7 +1386,7 @@ bool monster::is_immune_effect( const efftype_id &effect ) const
     }
 
     if( effect == effect_bleed ) {
-        return type->bloodType() == fd_null;
+        return ( type->bloodType() == fd_null || type->bleed_rate == 0 );
     }
 
     if( effect == effect_venom_dmg ||
@@ -1392,6 +1402,10 @@ bool monster::is_immune_effect( const efftype_id &effect ) const
         effect == effect_poison ) {
         return type->in_species( species_ZOMBIE ) || type->in_species( species_NETHER ) ||
                !made_of_any( Creature::cmat_flesh ) || type->in_species( species_LEECH_PLANT );
+    }
+
+    if( effect == effect_tpollen ) {
+        return type->in_species( species_PLANT );
     }
 
     if( effect == effect_stunned ) {
@@ -1438,6 +1452,21 @@ bool monster::is_immune_damage( const damage_type dt ) const
             return false;
         default:
             return true;
+    }
+}
+
+void monster::make_bleed( const effect_source &source, const bodypart_id &bp,
+                          time_duration duration, int intensity, bool permanent, bool force, bool defferred )
+{
+    if( type->bleed_rate == 0 ) {
+        return;
+    }
+
+    duration = ( duration * type->bleed_rate ) / 100;
+    if( type->in_species( species_ROBOT ) ) {
+        add_effect( source, effect_dripping_mechanical_fluid, duration, bp );
+    } else {
+        add_effect( source, effect_bleed, duration, bp, permanent, intensity, force, defferred );
     }
 }
 
@@ -1497,6 +1526,8 @@ bool monster::melee_attack( Creature &target, float accuracy )
     }
 
     const bool u_see_me = player_character.sees( *this );
+    const bool u_see_my_spot = player_character.sees( this->pos() );
+    const bool u_see_target = player_character.sees( target );
 
     damage_instance damage = !is_hallucination() ? type->melee_damage : damage_instance();
     if( !is_hallucination() && type->melee_dice > 0 ) {
@@ -1513,32 +1544,32 @@ bool monster::melee_attack( Creature &target, float accuracy )
     if( hitspread < 0 ) {
         bool target_dodging = target.dodge_roll() > 0.0;
         // Miss
-        if( u_see_me && !target.in_sleep_state() ) {
+        if( u_see_my_spot && !target.in_sleep_state() ) {
             if( target.is_player() ) {
                 if( target_dodging ) {
-                    add_msg( _( "You dodge %s." ), disp_name() );
+                    add_msg( _( "You dodge %s." ), u_see_me ? disp_name() : "something" );
                 } else {
-                    add_msg( _( "The %s misses you." ), name() );
+                    add_msg( _( "%s misses you." ), u_see_me ? disp_name( false, true ) : "Something" );
                 }
             } else if( target.is_npc() && target_dodging ) {
                 add_msg( _( "%1$s dodges %2$s attack." ),
-                         target.disp_name(), name() );
+                         target.disp_name(), u_see_me ? name() : "something" );
             } else {
-                add_msg( _( "The %1$s misses %2$s!" ),
-                         name(), target.disp_name() );
+                add_msg( _( "%1$s misses %2$s!" ),
+                         u_see_me ? disp_name( false, true ) : "Something", target.disp_name() );
             }
         } else if( target.is_player() ) {
             add_msg( _( "You dodge an attack from an unseen source." ) );
         }
     } else if( is_hallucination() || total_dealt > 0 ) {
         // Hallucinations always produce messages but never actually deal damage
-        if( u_see_me ) {
+        if( u_see_my_spot ) {
             if( target.is_player() ) {
                 sfx::play_variant_sound( "melee_attack", "monster_melee_hit",
                                          sfx::get_heard_volume( target.pos() ) );
                 sfx::do_player_death_hurt( dynamic_cast<player &>( target ), false );
                 //~ 1$s is attacker name, 2$s is bodypart name in accusative.
-                add_msg( m_bad, _( "The %1$s hits your %2$s." ), name(),
+                add_msg( m_bad, _( "%1$s hits your %2$s." ), u_see_me ? disp_name( false, true ) : "Something",
                          body_part_name_accusative( dealt_dam.bp_hit ) );
             } else if( target.is_npc() ) {
                 if( has_effect( effect_ridden ) && has_flag( MF_RIDEABLE_MECH ) &&
@@ -1548,7 +1579,7 @@ bool monster::melee_attack( Creature &target, float accuracy )
                              total_dealt );
                 } else {
                     //~ %1$s: attacker name, %2$s: target NPC name, %3$s: bodypart name in accusative
-                    add_msg( _( "The %1$s hits %2$s %3$s." ), name(),
+                    add_msg( _( "%1$s hits %2$s %3$s." ), u_see_me ? disp_name( false, true ) : "Something",
                              target.disp_name( true ),
                              body_part_name_accusative( dealt_dam.bp_hit ) );
                 }
@@ -1558,6 +1589,11 @@ bool monster::melee_attack( Creature &target, float accuracy )
                     //~ %1$s: name of your mount, %2$s: target creature name, %3$d: damage value
                     add_msg( m_good, _( "Your %1$s hits %2$s for %3$d damage!" ), get_name(), target.disp_name(),
                              total_dealt );
+                }
+                if( !u_see_me && u_see_target ) {
+                    add_msg( _( "Something hits the %1$s!" ), target.disp_name() );
+                } else if( !u_see_target ) {
+                    add_msg( _( "The %1$s hits something!" ), name() );
                 } else {
                     //~ %1$s: attacker name, %2$s: target creature name
                     add_msg( _( "The %1$s hits %2$s!" ), name(), target.disp_name() );
@@ -1570,16 +1606,18 @@ bool monster::melee_attack( Creature &target, float accuracy )
         }
     } else {
         // No damage dealt
-        if( u_see_me ) {
+        if( u_see_my_spot ) {
             if( target.is_player() ) {
                 //~ 1$s is attacker name, 2$s is bodypart name in accusative, 3$s is armor name
-                add_msg( _( "The %1$s hits your %2$s, but your %3$s protects you." ), name(),
+                add_msg( _( "%1$s hits your %2$s, but your %3$s protects you." ), u_see_me ? disp_name( false,
+                         true ) : "Something",
                          body_part_name_accusative( dealt_dam.bp_hit ), target.skin_name() );
             } else if( target.is_npc() ) {
                 //~ $1s is monster name, %2$s is that monster target name,
                 //~ $3s is target bodypart name in accusative, $4s is the monster target name,
                 //~ 5$s is target armor name.
-                add_msg( _( "The %1$s hits %2$s %3$s but is stopped by %4$s %5$s." ), name(),
+                add_msg( _( "%1$s hits %2$s %3$s but is stopped by %4$s %5$s." ), u_see_me ? disp_name( false,
+                         true ) : "Something",
                          target.disp_name( true ),
                          body_part_name_accusative( dealt_dam.bp_hit ),
                          target.disp_name( true ),
@@ -1587,8 +1625,8 @@ bool monster::melee_attack( Creature &target, float accuracy )
             } else {
                 //~ $1s is monster name, %2$s is that monster target name,
                 //~ $3s is target armor name.
-                add_msg( _( "The %1$s hits %2$s but is stopped by its %3$s." ),
-                         name(),
+                add_msg( _( "%1$s hits %2$s but is stopped by its %3$s." ),
+                         u_see_me ? disp_name( false, true ) : "Something",
                          target.disp_name(),
                          target.skin_name() );
             }
@@ -2313,22 +2351,19 @@ void monster::die( Creature *nkiller )
     if( death_drops && !no_extra_death_drops ) {
         drop_items_on_death();
     }
-    // TODO: should actually be class Character
-    player *ch = dynamic_cast<player *>( get_killer() );
-    if( !is_hallucination() && ch != nullptr ) {
-        if( ( has_flag( MF_GUILT ) && ch->is_player() ) || ( ch->has_trait( trait_PACIFIST ) &&
-                has_flag( MF_HUMAN ) ) ) {
-            // has guilt flag or player is pacifist && monster is humanoid
-            mdeath::guilt( *this );
-        }
-        get_event_bus().send<event_type::character_kills_monster>( ch->getID(), type->id );
-        if( ch->is_player() && ch->has_trait( trait_KILLER ) ) {
-            if( one_in( 4 ) ) {
-                const translation snip = SNIPPET.random_from_category( "killer_on_kill" ).value_or( translation() );
-                ch->add_msg_if_player( m_good, "%s", snip );
+    if( nkiller != nullptr ) {
+        // TODO: should actually be class Character
+        Character *ch = get_killer()->as_character();
+        if( !is_hallucination() && ch != nullptr ) {
+            get_event_bus().send<event_type::character_kills_monster>( ch->getID(), type->id );
+            if( ch->is_player() && ch->has_trait( trait_KILLER ) ) {
+                if( one_in( 4 ) ) {
+                    const translation snip = SNIPPET.random_from_category( "killer_on_kill" ).value_or( translation() );
+                    ch->add_msg_if_player( m_good, "%s", snip );
+                }
+                ch->add_morale( MORALE_KILLER_HAS_KILLED, 5, 10, 6_hours, 4_hours );
+                ch->rem_morale( MORALE_KILLER_NEED_TO_KILL );
             }
-            ch->add_morale( MORALE_KILLER_HAS_KILLED, 5, 10, 6_hours, 4_hours );
-            ch->rem_morale( MORALE_KILLER_NEED_TO_KILL );
         }
     }
     if( death_drops ) {
@@ -2395,6 +2430,7 @@ void monster::die( Creature *nkiller )
         }
     }
     mission::on_creature_death( *this );
+
     // Also, perform our death function
     if( is_hallucination() || summon_time_limit ) {
         //Hallucinations always just disappear
@@ -2402,9 +2438,32 @@ void monster::die( Creature *nkiller )
         return;
     }
 
-    //Not a hallucination, go process the death effects.
-    for( const auto &deathfunction : type->dies ) {
-        deathfunction( *this );
+    add_msg_if_player_sees( *this, m_good, type->mdeath_effect.death_message.translated(), name() );
+
+    // drop a corpse, or not
+    switch( type->mdeath_effect.corpse_type ) {
+        case mdeath_type::NORMAL:
+            mdeath::normal( *this );
+            break;
+        case mdeath_type::BROKEN:
+            mdeath::broken( *this );
+            break;
+        case mdeath_type::SPLATTER:
+            mdeath::splatter( *this );
+            break;
+        default:
+            break;
+    }
+
+    if( type->mdeath_effect.has_effect ) {
+        //Not a hallucination, go process the death effects.
+        spell death_spell = type->mdeath_effect.sp.get_spell();
+        if( killer != nullptr && type->mdeath_effect.sp.self &&
+            death_spell.is_target_in_range( *this, killer->pos() ) ) {
+            death_spell.cast_all_effects( *this, killer->pos() );
+        } else if( type->mdeath_effect.sp.self ) {
+            death_spell.cast_all_effects( *this, pos() );
+        }
     }
 
     // If our species fears seeing one of our own die, process that

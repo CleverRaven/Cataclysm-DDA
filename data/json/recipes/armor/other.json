@@ -222,7 +222,8 @@
     "difficulty": 4,
     "time": "60 m",
     "book_learn": [ [ "textbook_fabrication", 4 ], [ "welding_book", 4 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 1 }, { "id": "WELD", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "ANVIL", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "using": [ [ "welding_standard", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "plastic_chunk", 20 ] ] ]

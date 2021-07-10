@@ -93,7 +93,7 @@
       "terrain": {
         " ": "t_floor",
         "r": "t_floor",
-        "#": "t_rock",
+        "#": "t_soil",
         "+": "t_door_metal_locked",
         "6": "t_card_military",
         "<": "t_stairs_up",

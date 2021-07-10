@@ -28,7 +28,7 @@
     "mech_battery": "huge_atomic_battery_cell",
     "mech_weapon": "recon_mech_laser",
     "revert_to_itype": "broken_mech_recon",
-    "death_function": [ "BROKEN" ],
+    "death_function": { "corpse_type": "BROKEN" },
     "death_drops": { "groups": [ [ "robots", 20 ] ] },
     "flags": [
       "SEES",
@@ -74,7 +74,7 @@
     "mech_battery": "huge_atomic_battery_cell",
     "mech_weapon": "gatling_mech_laser",
     "revert_to_itype": "broken_mech_combat",
-    "death_function": [ "BROKEN" ],
+    "death_function": { "corpse_type": "BROKEN" },
     "death_drops": { "groups": [ [ "robots", 20 ] ] },
     "flags": [
       "SEES",
@@ -121,7 +121,7 @@
     "attack_cost": 150,
     "revert_to_itype": "broken_mech_lifter",
     "special_attacks": [ [ "SMASH", 40 ] ],
-    "death_function": [ "BROKEN" ],
+    "death_function": { "corpse_type": "BROKEN" },
     "death_drops": { "groups": [ [ "robots", 20 ] ] },
     "flags": [
       "SEES",

@@ -524,6 +524,62 @@
     "looks_like": "fd_nuke_gas"
   },
   {
+    "id": "fd_pollen_triffid",
+    "type": "field_type",
+    "legacy_enum_id": 51,
+    "intensity_levels": [
+      {
+        "name": "hazy cloud",
+        "sym": "8",
+        "dangerous": true,
+        "translucency": 1,
+        "effects": [
+          {
+            "effect_id": "tpollen",
+            "body_part": "mouth",
+            "intensity": 2,
+            "min_duration": "2 minutes",
+            "max_duration": "2 minutes",
+            "immune_inside_vehicle": true,
+            "message": "You feel sick from inhaling the hazy cloud.",
+            "message_type": "bad"
+          }
+        ]
+      },
+      {
+        "name": "triffid pollen",
+        "color": "light_green",
+        "transparent": false,
+        "translucency": 10,
+        "effects": [
+          {
+            "effect_id": "tpollen",
+            "body_part": "mouth",
+            "intensity": 5,
+            "min_duration": "3 minutes",
+            "max_duration": "3 minutes",
+            "immune_inside_vehicle": true,
+            "message": "You feel sick from inhaling the triffid pollen.",
+            "message_type": "bad"
+          }
+        ]
+      }
+    ],
+    "decay_amount_factor": 5,
+    "gas_absorption_factor": 15,
+    "percent_spread": 30,
+    "outdoor_age_speedup": "3 minutes",
+    "dirty_transparency_cache": true,
+    "has_fume": true,
+    "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ] },
+    "priority": 8,
+    "half_life": "10 minutes",
+    "phase": "gas",
+    "display_items": false,
+    "display_field": true,
+    "looks_like": "fd_nuke_gas"
+  },
+  {
     "id": "fd_tear_gas",
     "type": "field_type",
     "legacy_enum_id": 14,
