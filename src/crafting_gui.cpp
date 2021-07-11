@@ -26,6 +26,7 @@
 #include "itype.h"
 #include "json.h"
 #include "optional.h"
+#include "options.h"
 #include "output.h"
 #include "panels.h"
 #include "point.h"
@@ -394,6 +395,7 @@ const recipe *select_crafting_recipe( int &batch_size_out )
     int dataHalfLines = 0;
     int dataHeight = 0;
     int item_info_width = 0;
+    const bool highlight_unread_recipes = get_option<bool>( "HIGHLIGHT_UNREAD_RECIPES" );
 
     input_context ctxt( "CRAFTING" );
     ctxt.register_cardinal();
@@ -415,9 +417,11 @@ const recipe *select_crafting_recipe( int &batch_size_out )
     ctxt.register_action( "CYCLE_BATCH" );
     ctxt.register_action( "RELATED_RECIPES" );
     ctxt.register_action( "HIDE_SHOW_RECIPE" );
-    ctxt.register_action( "TOGGLE_RECIPE_UNREAD" );
-    ctxt.register_action( "MARK_ALL_RECIPES_READ" );
-    ctxt.register_action( "TOGGLE_UNREAD_RECIPES_FIRST" );
+    if( highlight_unread_recipes ) {
+        ctxt.register_action( "TOGGLE_RECIPE_UNREAD" );
+        ctxt.register_action( "MARK_ALL_RECIPES_READ" );
+        ctxt.register_action( "TOGGLE_UNREAD_RECIPES_FIRST" );
+    }
 
     catacurses::window w_head;
     catacurses::window w_subhead;
@@ -453,10 +457,12 @@ const recipe *select_crafting_recipe( int &batch_size_out )
         add_action_desc( "HELP_RECIPE", pgettext( "crafting gui", "Describe" ) );
         add_action_desc( "FILTER", pgettext( "crafting gui", "Filter" ) );
         add_action_desc( "RESET_FILTER", pgettext( "crafting gui", "Reset filter" ) );
-        add_action_desc( "TOGGLE_RECIPE_UNREAD", pgettext( "crafting gui", "Read/unread" ) );
-        add_action_desc( "MARK_ALL_RECIPES_READ", pgettext( "crafting gui", "Mark all as read" ) );
-        add_action_desc( "TOGGLE_UNREAD_RECIPES_FIRST",
-                         pgettext( "crafting gui", "Show unread recipes first" ) );
+        if( highlight_unread_recipes ) {
+            add_action_desc( "TOGGLE_RECIPE_UNREAD", pgettext( "crafting gui", "Read/unread" ) );
+            add_action_desc( "MARK_ALL_RECIPES_READ", pgettext( "crafting gui", "Mark all as read" ) );
+            add_action_desc( "TOGGLE_UNREAD_RECIPES_FIRST",
+                             pgettext( "crafting gui", "Show unread recipes first" ) );
+        }
         add_action_desc( "HIDE_SHOW_RECIPE", pgettext( "crafting gui", "Show/hide" ) );
         add_action_desc( "RELATED_RECIPES", pgettext( "crafting gui", "Related" ) );
         add_action_desc( "TOGGLE_FAVORITE", pgettext( "crafting gui", "Favorite" ) );
@@ -517,6 +523,10 @@ const recipe *select_crafting_recipe( int &batch_size_out )
     const auto &available_recipes = player_character.get_available_recipes( crafting_inv, &helpers );
     std::map<const recipe *, availability> availability_cache;
 
+    const std::string new_recipe_str = pgettext( "crafting gui", "NEW!" );
+    const nc_color new_recipe_str_col = c_light_green;
+    const int new_recipe_str_width = utf8_width( new_recipe_str );
+
     ui.on_redraw( [&]( const ui_adaptor & ) {
         const TAB_MODE m = ( batch ) ? BATCH : ( filterstring.empty() ) ? NORMAL : FILTERED;
         draw_recipe_tabs( w_head, tab.cur(), m );
@@ -546,9 +556,6 @@ const recipe *select_crafting_recipe( int &batch_size_out )
         mvwputch( w_data, point( 0, dataHeight - 1 ), BORDER_COLOR, LINE_XXOO ); // |_
         mvwputch( w_data, point( width - 1, dataHeight - 1 ), BORDER_COLOR, LINE_XOOX ); // _|
 
-        const std::string new_recipe_str = pgettext( "crafting gui", "NEW!" );
-        const nc_color new_recipe_str_col = c_light_green;
-        const int new_recipe_str_width = utf8_width( new_recipe_str );
         const int max_recipe_name_width = 27;
         cata::optional<point> cursor_pos;
         int recmin = 0;
@@ -575,7 +582,8 @@ const recipe *select_crafting_recipe( int &batch_size_out )
             if( batch ) {
                 tmp_name = string_format( _( "%2dx %s" ), i + 1, tmp_name );
             }
-            const bool rcp_read = uistate.read_recipes.count( current[i]->ident() );
+            const bool rcp_read = !highlight_unread_recipes ||
+                                  uistate.read_recipes.count( current[i]->ident() );
             const bool highlight = i == line;
             const nc_color col = highlight ? available[i].selected_color() : available[i].color();
             const point print_from( 2, i - istart );
@@ -805,9 +813,10 @@ const recipe *select_crafting_recipe( int &batch_size_out )
 
                 if( subtab.cur() != "CSC_*_RECENT" ) {
                     std::stable_sort( current.begin(), current.end(), [
-                       &player_character, &availability_cache, unread_recipes_first
+                       &player_character, &availability_cache, unread_recipes_first,
+                       highlight_unread_recipes
                     ]( const recipe * const a, const recipe * const b ) {
-                        if( unread_recipes_first ) {
+                        if( highlight_unread_recipes && unread_recipes_first ) {
                             const bool a_read = uistate.read_recipes.count( a->ident() );
                             const bool b_read = uistate.read_recipes.count( b->ident() );
                             if( a_read != b_read ) {
@@ -844,7 +853,7 @@ const recipe *select_crafting_recipe( int &batch_size_out )
             }
         }
 
-        if( !current.empty() && user_moved_line ) {
+        if( highlight_unread_recipes && !current.empty() && user_moved_line ) {
             // only automatically mark as read when moving cursor up and down by
             // on line, which means that the user is likely reading through the
             // list.
@@ -891,10 +900,10 @@ const recipe *select_crafting_recipe( int &batch_size_out )
             recalc = true;
         } else if( action == "DOWN" ) {
             line++;
-            user_moved_line = true;
+            user_moved_line = highlight_unread_recipes;
         } else if( action == "UP" ) {
             line--;
-            user_moved_line = true;
+            user_moved_line = highlight_unread_recipes;
         } else if( action == "PAGE_DOWN" ) {
             if( line == recmax - 1 ) {
                 line = 0;
@@ -1084,6 +1093,7 @@ const recipe *select_crafting_recipe( int &batch_size_out )
             std::string query_str;
             if( !current_list_has_unread ) {
                 query_str = _( "<color_yellow>/!\\</color> Mark all recipes as read?  "
+                               // NOLINTNEXTLINE(cata-text-style): single spaced for symmetry
                                "This cannot be undone. <color_yellow>/!\\</color>" );
             } else if( filterstring.empty() ) {
                 query_str = string_format( _( "Mark recipes in this tab as read?  This cannot be undone.  "
