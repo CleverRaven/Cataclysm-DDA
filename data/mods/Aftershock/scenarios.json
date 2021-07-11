@@ -103,7 +103,7 @@
     "start_name": "Augmentation Clinic",
     "flags": [ "LONE_START", "CHALLENGE" ],
     "traits": [
-      "MARTIAL_ARTS_CF",
+      "MARTIAL_ARTS",
       "URSINE_EYE",
       "MIGO_BREATHE",
       "FANGS",
