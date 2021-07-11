@@ -1752,7 +1752,7 @@ bool overmap::generate_sub( const int z )
         // Normal subways are present at z == -2, but filtering for the terrain would be much nicer
         if( z == -2 ) {
             spawn_mon_group( mongroup( GROUP_SUBWAY_CITY,
-                                     sm_pos, i.size * 2, i.size * i.size * 2 ) );
+                                       sm_pos, i.size * 2, i.size * i.size * 2 ) );
         }
     }
 
