@@ -3505,6 +3505,11 @@ shared_ptr_fast<ui_adaptor> game::create_or_get_main_ui_adaptor()
     return ui;
 }
 
+void game::swap_main_ui_adaptor( weak_ptr_fast<ui_adaptor> &ui )
+{
+    main_ui_adaptor.swap( ui );
+}
+
 void game::invalidate_main_ui_adaptor() const
 {
     shared_ptr_fast<ui_adaptor> ui = main_ui_adaptor.lock();
