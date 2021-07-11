@@ -99,13 +99,11 @@
     "symbol": "[",
     "looks_like": "scarf",
     "color": "yellow",
-    "covers": [ "eyes" ],
-    "coverage": 95,
-    "encumbrance": 10,
     "warmth": 0,
     "material_thickness": 0.1,
     "environmental_protection": 0,
-    "flags": [ "BLIND" ]
+    "flags": [ "BLIND" ],
+    "armor": [ { "encumbrance": 10, "coverage": 95, "covers": [ "eyes" ] } ]
   },
   {
     "id": "blindfold",
