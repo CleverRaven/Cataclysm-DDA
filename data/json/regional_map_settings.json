@@ -17,13 +17,13 @@
       "solid_earth",
       "empty_rock",
       "empty_rock",
-      "empty_rock",
-      "empty_rock",
-      "empty_rock",
-      "empty_rock",
-      "empty_rock",
-      "empty_rock",
-      "empty_rock"
+      "deep_rock",
+      "deep_rock",
+      "deep_rock",
+      "deep_rock",
+      "deep_rock",
+      "deep_rock",
+      "deep_rock"
     ],
     "default_groundcover": [ [ "t_region_groundcover", 1 ] ],
     "region_terrain_and_furniture": {

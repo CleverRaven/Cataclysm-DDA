@@ -73,7 +73,7 @@
   {
     "type": "overmap_location",
     "id": "lab_subway",
-    "terrains": [ "rock" ]
+    "terrains": [ "deep_rock" ]
   },
   {
     "type": "overmap_location",
