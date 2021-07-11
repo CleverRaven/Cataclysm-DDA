@@ -492,6 +492,9 @@ Effect | Description
 `u_mod_fatigue: fatigue_int`<br/>`npc_mod_fatigue: fatigue_int` | Your character or the NPC will have `fatigue_int` added or subtracted from its fatigue.
 `u_make_sound, npc_make_sound: message_string`, `volume: volume_int`, `type: type_string`,  | A sound of description `message_string` will be made at your character or the NPC's location of volume `volume_int` and type `type_string`. Possible types are: background, weather, music, movement, speech, electronic_speech, activity, destructive_activity, alarm, combat,    alert, or order
 `u_mod_healthy, npc_mod_healthy : amount_int, cap: cap_int` | Your character or the NPC will have `amount_int` added or subtracted from its health value, but not beyond `cap_int`.
+`u_add_morale: morale_string`, (*optional* `bonus: bonus_int` ), (*optional* `max_bonus: max_bonus_int` ), (*optional* `duration: duration_int`), (*optional* `decay_start` : `decay_int`), (*optional* `capped`: `capped_bool`)<br/> `npc_add_morale: morale_string`, (*optional* `bonus: bonus_int` ), (*optional* `max_bonus: max_bonus_int` ), (*optional* `duration: duration_int`), (*optional*`decay_start` : `decay_int`), (*optional* `capped`: `capped_bool`)| Your character of the NPC will gain a morale bonus of type `morale_string`. The Morale bonus will be for 1 or `bonus_int` amount up to 1 or `max_bonus_int`. It will last for `duration: duration_int` seconds or 1 hour. It will begin to decay after `decay_int` seconds or a half hour. `capped_bool` Whether this morale is capped or not, defaults to false.
+`u_lose_morale: morale_string`<br/>`npc_lose_morale: morale_string` | Your character or the NPC will lose any morale of type `morale_string`.
+`u_mod_focus: focus_int`<br/>`npc_mod_focus: focus_int` | Your character or the NPC will have `focus_int` added or subtracted from its focus.
 
 #### Trade / Items
 
@@ -644,6 +647,8 @@ Condition | Type | Description
 `"u_has_power"`<br/>`"npc_has_power"` | int | `true` if the player character's or NPC's bionic power is at least the value of `u_has_power` or `npc_has_power`.
 `"u_can_see"`<br/>`"npc_can_see"` | simple string | `true` if the player character or NPC is not blind and is either not sleeping or has the see_sleep trait.
 `"u_is_deaf"`<br/>`"npc_is_deaf"` | int | `true` if the player character or NPC can't hear.
+`"u_has_focus"`<br/>`"npc_has_focus"` | int | `true` if the player character's or NPC's focus is at least the value of `u_has_focus` or `npc_has_focus`.
+`"u_has_morale"`<br/>`"npc_has_morale"` | int | `true` if the player character's or NPC's morale is at least the value of `u_has_morale` or `npc_has_morale`.
 
 #### Player Only conditions
 

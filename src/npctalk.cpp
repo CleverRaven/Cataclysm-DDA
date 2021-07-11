@@ -2316,6 +2316,39 @@ void talk_effect_fun_t::set_queue_effect_on_condition( const JsonObject &jo,
         }
     };
 }
+void talk_effect_fun_t::set_add_morale( const JsonObject &jo, const std::string &member,
+                                        bool is_npc )
+{
+    std::string new_type = jo.get_string( member );
+    int bonus = jo.get_int( "bonus" );
+    int max_bonus = jo.get_int( "max_bonus", 0 );
+    time_duration duration = time_duration::from_seconds( jo.get_int( "duration", 3600 ) );
+    time_duration decay_start = time_duration::from_seconds( jo.get_int( "decay_start", 1800 ) );
+    const bool capped = jo.get_bool( "capped", false );
+    function = [is_npc, new_type, bonus, max_bonus, duration, decay_start,
+            capped]( const dialogue & d ) {
+        d.actor( is_npc )->add_morale( morale_type( new_type ), bonus, max_bonus, duration, decay_start,
+                                       capped );
+    };
+}
+
+void talk_effect_fun_t::set_lose_morale( const JsonObject &jo, const std::string &member,
+        bool is_npc )
+{
+    std::string old_morale = jo.get_string( member );
+    function = [is_npc, old_morale]( const dialogue & d ) {
+        d.actor( is_npc )->remove_morale( morale_type( old_morale ) );
+    };
+}
+
+void talk_effect_fun_t::set_mod_focus( const JsonObject &jo, const std::string &member,
+                                       bool is_npc )
+{
+    int amount = jo.get_int( member );
+    function = [is_npc, amount]( const dialogue & d ) {
+        d.actor( is_npc )->mod_focus( amount );
+    };
+}
 
 void talk_effect_t::set_effect_consequence( const talk_effect_fun_t &fun,
         dialogue_consequence con )
@@ -2586,6 +2619,18 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_mod_healthy( jo, "u_mod_healthy", false );
     } else if( jo.has_member( "npc_mod_healthy" ) ) {
         subeffect_fun.set_mod_healthy( jo, "npc_mod_healthy", true );
+    } else if( jo.has_int( "u_mod_focus" ) ) {
+        subeffect_fun.set_mod_focus( jo, "u_mod_focus", false );
+    } else if( jo.has_int( "npc_mod_focus" ) ) {
+        subeffect_fun.set_mod_focus( jo, "npc_mod_focus", true );
+    } else if( jo.has_string( "u_add_morale" ) ) {
+        subeffect_fun.set_add_morale( jo, "u_add_morale", false );
+    } else if( jo.has_string( "npc_add_morale" ) ) {
+        subeffect_fun.set_add_morale( jo, "npc_add_morale", true );
+    } else if( jo.has_string( "u_lose_morale" ) ) {
+        subeffect_fun.set_lose_morale( jo, "u_lose_morale", false );
+    } else if( jo.has_string( "npc_lose_morale" ) ) {
+        subeffect_fun.set_lose_morale( jo, "npc_lose_morale", true );
     } else {
         jo.throw_error( "invalid sub effect syntax: " + jo.str() );
     }
