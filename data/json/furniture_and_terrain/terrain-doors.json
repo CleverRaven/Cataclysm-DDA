@@ -2070,8 +2070,8 @@
   {
     "type": "terrain",
     "id": "t_secretdoor_concrete_c",
-    "name": "metal wall",
-    "description": "An faux concrete wall positioned and joined seamlessly with the wall, this wall is capable of resisting extreme elements as well as hostile forces.  Blast load rated and extremely fire-retardant, breaching will require specialized tools or industrial vehicles.",
+    "name": "concrete wall",
+    "description": "A faux concrete wall positioned and joined seamlessly with the wall, this wall is capable of resisting extreme elements as well as hostile forces.  Blast load rated and extremely fire-retardant, breaching will require specialized tools or industrial vehicles.",
     "symbol": "LINE_OXOX",
     "looks_like": "t_concrete_wall",
     "color": "light_gray",
