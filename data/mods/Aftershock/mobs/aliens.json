@@ -155,7 +155,7 @@
   {
     "type": "MONSTER",
     "id": "afs_titanis",
-    "name": { "str": "titanis" },
+    "name": { "str": "terror bird" },
     "species": "BIRD",
     "default_faction": "bear",
     "bodytype": "ostrich",
