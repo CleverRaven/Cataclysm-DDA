@@ -3656,13 +3656,13 @@ units::volume Character::volume_carried_with_tweaks( const item_tweaks &tweaks )
     units::volume ret = 0_ml;
     for( const item &i : worn ) {
         if( !without.count( &i ) ) {
-            ret += i.contents.get_contents_volume_with_tweaks( without );
+            ret += i.get_contents_volume_with_tweaks( without );
         }
     }
 
     // Wielded item
     if( !without.count( &weapon ) ) {
-        ret += weapon.contents.get_contents_volume_with_tweaks( without );
+        ret += weapon.get_contents_volume_with_tweaks( without );
     }
 
     return ret;

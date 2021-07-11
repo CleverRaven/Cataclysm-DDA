@@ -1383,7 +1383,7 @@ units::volume item_contents::get_contents_volume_with_tweaks( const std::map<con
                     ret += i->volume() - i->get_selected_stack_volume( without );
                 } else if( !without.count( i ) ) {
                     ret += i->volume();
-                    ret -= i->contents.get_nested_content_volume_recursive( without );
+                    ret -= i->get_nested_content_volume_recursive( without );
                 }
             }
         }
@@ -1411,7 +1411,7 @@ units::volume item_contents::get_nested_content_volume_recursive( const
                 } else if( without.count( i ) ) {
                     ret += i->volume();
                 } else {
-                    ret += i->contents.get_nested_content_volume_recursive( without );
+                    ret += i->get_nested_content_volume_recursive( without );
                 }
             }
 

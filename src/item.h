@@ -800,6 +800,10 @@ class item : public visitable
         // recursive function that checks pockets for remaining free space
         units::volume check_for_free_space() const;
         units::volume get_selected_stack_volume( const std::map<const item *, int> &without ) const;
+        units::volume get_contents_volume_with_tweaks( const std::map<const item *, int> &without ) const;
+        units::volume get_nested_content_volume_recursive( const std::map<const item *, int> &without )
+        const;
+
         /**
          * Puts the given item into this one.
          */

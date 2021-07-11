@@ -11001,6 +11001,19 @@ units::volume item::get_selected_stack_volume( const std::map<const item *, int>
     return 0_ml;
 }
 
+units::volume item::get_contents_volume_with_tweaks( const std::map<const item *, int> &without )
+const
+{
+    return contents.get_contents_volume_with_tweaks( without );
+}
+
+units::volume item::get_nested_content_volume_recursive( const std::map<const item *, int>
+        &without )
+const
+{
+    return contents.get_nested_content_volume_recursive( without );
+}
+
 int item::get_recursive_disassemble_moves( const Character &guy ) const
 {
     int moves = recipe_dictionary::get_uncraft( type->get_id() ).time_to_craft_moves( guy,
