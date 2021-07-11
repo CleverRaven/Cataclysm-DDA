@@ -87,6 +87,7 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "ATOMIC_LIGHT", VPFLAG_ATOMIC_LIGHT },
     { "ALTERNATOR", VPFLAG_ALTERNATOR },
     { "ENGINE", VPFLAG_ENGINE },
+    { "GENERATOR", VPFLAG_GENERATOR },
     { "FRIDGE", VPFLAG_FRIDGE },
     { "FREEZER", VPFLAG_FREEZER },
     { "LIGHT", VPFLAG_LIGHT },
@@ -777,7 +778,7 @@ void vpart_info::check()
         }
         // Parts with non-zero epower must have a flag that affects epower usage
         static const std::vector<std::string> handled = {{
-                "ENABLED_DRAINS_EPOWER", "SECURITY", "ENGINE",
+                "ENABLED_DRAINS_EPOWER", "SECURITY", "ENGINE", "GENERATOR",
                 "ALTERNATOR", "SOLAR_PANEL", "POWER_TRANSFER",
                 "REACTOR", "WIND_TURBINE", "WATER_WHEEL"
             }
@@ -966,12 +967,14 @@ int vpart_info::repair_time( const player &p ) const
  */
 float vpart_info::engine_backfire_threshold() const
 {
-    return has_flag( VPFLAG_ENGINE ) ? engine_info->backfire_threshold : false;
+    return ( has_flag( VPFLAG_ENGINE ) ||
+             has_flag( VPFLAG_GENERATOR ) ) ? engine_info->backfire_threshold : false;
 }
 
 int vpart_info::engine_backfire_freq() const
 {
-    return has_flag( VPFLAG_ENGINE ) ? engine_info->backfire_freq : false;
+    return ( has_flag( VPFLAG_ENGINE ) ||
+             has_flag( VPFLAG_GENERATOR ) ) ? engine_info->backfire_freq : false;
 }
 
 int vpart_info::engine_muscle_power_factor() const
@@ -981,17 +984,20 @@ int vpart_info::engine_muscle_power_factor() const
 
 float vpart_info::engine_damaged_power_factor() const
 {
-    return has_flag( VPFLAG_ENGINE ) ? engine_info->damaged_power_factor : false;
+    return ( has_flag( VPFLAG_ENGINE ) ||
+             has_flag( VPFLAG_GENERATOR ) ) ? engine_info->damaged_power_factor : false;
 }
 
 int vpart_info::engine_noise_factor() const
 {
-    return has_flag( VPFLAG_ENGINE ) ? engine_info->noise_factor : false;
+    return ( has_flag( VPFLAG_ENGINE ) ||
+             has_flag( VPFLAG_GENERATOR ) ) ? engine_info->noise_factor : false;
 }
 
 int vpart_info::engine_m2c() const
 {
-    return has_flag( VPFLAG_ENGINE ) ? engine_info->m2c : 0;
+    return ( has_flag( VPFLAG_ENGINE ) ||
+             has_flag( VPFLAG_GENERATOR ) ) ? engine_info->m2c : 0;
 }
 
 std::vector<std::string> vpart_info::engine_excludes() const
@@ -1001,7 +1007,8 @@ std::vector<std::string> vpart_info::engine_excludes() const
 
 std::vector<itype_id> vpart_info::engine_fuel_opts() const
 {
-    return has_flag( VPFLAG_ENGINE ) ? engine_info->fuel_opts : std::vector<itype_id>();
+    return ( has_flag( VPFLAG_ENGINE ) ||
+             has_flag( VPFLAG_GENERATOR ) )  ? engine_info->fuel_opts : std::vector<itype_id>();
 }
 
 bool vpart_info::has_category( const std::string &category ) const

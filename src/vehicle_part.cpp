@@ -187,7 +187,7 @@ bool vehicle_part::is_available( const bool carried ) const
 
 itype_id vehicle_part::fuel_current() const
 {
-    if( is_engine() ) {
+    if( is_engine() || is_generator() ) {
         if( ammo_pref.is_null() ) {
             return info().fuel_type != itype_muscle ? info().fuel_type : itype_id::NULL_ID();
         } else {
@@ -200,7 +200,7 @@ itype_id vehicle_part::fuel_current() const
 
 bool vehicle_part::fuel_set( const itype_id &fuel )
 {
-    if( is_engine() ) {
+    if( is_engine() || is_generator() ) {
         for( const itype_id &avail : info().engine_fuel_opts() ) {
             if( fuel == avail ) {
                 ammo_pref = fuel;
@@ -511,6 +511,11 @@ void vehicle_part::reset_target( const tripoint &pos )
 bool vehicle_part::is_engine() const
 {
     return info().has_flag( VPFLAG_ENGINE );
+}
+
+bool vehicle_part::is_generator() const
+{
+    return info().has_flag( VPFLAG_GENERATOR );
 }
 
 bool vehicle_part::is_light() const

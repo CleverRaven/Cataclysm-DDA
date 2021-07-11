@@ -1413,6 +1413,11 @@ void veh_interact::calc_overview()
         trim_and_print( w, point( 1, y ), getmaxx( w ) - 2, c_light_gray, _( "Seats" ) );
         right_print( w, y, 1, c_light_gray, _( "Who" ) );
     };
+    overview_headers["7_GENERATOR"] = []( const catacurses::window & w, int y ) {
+        trim_and_print( w, point( 1, y ), getmaxx( w ) - 2, c_light_gray,
+                        string_format( _( "Generators" ) ) );
+        right_print( w, y, 1, c_light_gray, _( "Fuel     Use" ) );
+    };
 
     input_event hotkey = main_context.first_unassigned_hotkey( hotkeys );
 
@@ -1421,7 +1426,7 @@ void veh_interact::calc_overview()
             continue;
         }
 
-        if( vpr.part().is_engine() ) {
+        if( vpr.part().is_engine() || vpr.part().is_generator() ) {
             // if tank contains something then display the contents in milliliters
             auto details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
                 right_print(
@@ -1441,8 +1446,13 @@ void veh_interact::calc_overview()
                                                        colorize( e->description(), c_light_gray ) );
                 }
             };
-            overview_opts.emplace_back( "1_ENGINE", &vpr.part(), next_hotkey( vpr.part(), hotkey ), details,
-                                        msg_cb );
+            if( vpr.part().is_engine() ) {
+                overview_opts.emplace_back( "1_ENGINE", &vpr.part(), next_hotkey( vpr.part(), hotkey ), details,
+                                            msg_cb );
+            } else {
+                overview_opts.emplace_back( "7_GENERATOR", &vpr.part(), next_hotkey( vpr.part(), hotkey ), details,
+                                            msg_cb );
+            }
         }
 
         if( vpr.part().is_tank() || ( vpr.part().is_fuel_store() &&

@@ -352,6 +352,9 @@ struct vehicle_part {
         /** Can this part provide power or propulsion? */
         bool is_engine() const;
 
+        /** Can this part provide power or propulsion? */
+        bool is_generator() const;
+
         /** Is this any type of vehicle light? */
         bool is_light() const;
 
@@ -724,20 +727,27 @@ class vehicle
 
         units::volume total_folded_volume() const;
 
+        struct fuel_consumption_data {
+            std::list<int> fuel_per_sec;
+            unsigned int total_fuel = 0;
+            //"dirty bit" for counting fuel consumption of both generators and engines
+            bool fuel_consumption_dirty = false;
+        };
+        std::map<itype_id, fuel_consumption_data> fuel_used;
+
+        // Trim the map, leave only values for fuel types being currently used by any engine
+        std::map<itype_id, fuel_consumption_data> get_fuel_used();
+
         // Vehicle fuel indicator (by fuel)
         void print_fuel_indicator( const catacurses::window &w, const point &p,
                                    const itype_id &fuel_type,
                                    bool verbose = false, bool desc = false );
-        void print_fuel_indicator( const catacurses::window &w, const point &p,
-                                   const itype_id &fuel_type,
-                                   std::map<itype_id, float> fuel_usages,
-                                   bool verbose = false, bool desc = false );
 
         // Calculate how long it takes to attempt to start an engine
-        int engine_start_time( int e ) const;
+        int engine_start_time( int e, bool for_generators = false ) const;
 
         // How much does the temperature effect the engine starting (0.0 - 1.0)
-        double engine_cold_factor( int e ) const;
+        double engine_cold_factor( int e, bool for_generators = false ) const;
 
         // refresh pivot_cache, clear pivot_dirty
         void refresh_pivot() const;
@@ -879,16 +889,17 @@ class vehicle
         bool fold_up();
 
         // Try select any fuel for engine, returns true if some fuel is available
-        bool auto_select_fuel( int e );
+        bool auto_select_fuel( int e, bool for_generators = false );
         // Attempt to start an engine
-        bool start_engine( int e );
+        bool start_engine( int e, bool for_generators = false );
         // stop all engines
         void stop_engines();
-        // Attempt to start the vehicle's active engines
-        void start_engines( bool take_control = false, bool autodrive = false );
+        // Attempt to start the vehicle's active engines or generators
+        void start_engines( bool take_control = false, bool autodrive = false,
+                            bool for_generators = false );
 
         // Engine backfire, making a loud noise
-        void backfire( int e ) const;
+        void backfire( int e, bool for_generators = false ) const;
 
         // get vpart type info for part number (part at given vector index)
         const vpart_info &part_info( int index, bool include_removed = false ) const;
@@ -1170,7 +1181,7 @@ class vehicle
         // Checks how much of the part p's current fuel is left
         int fuel_left( int p, bool recurse = false ) const;
         // Checks how much of an engine's current fuel is left in the tanks.
-        int engine_fuel_left( int e, bool recurse = false ) const;
+        int engine_fuel_left( int e, bool recurse = false, bool for_generators = false ) const;
         int fuel_capacity( const itype_id &ftype ) const;
 
         // Returns the total specific energy of this fuel type. Frozen is ignored.
@@ -1190,17 +1201,18 @@ class vehicle
 
         // fuel consumption of vehicle engines of given type
         int basic_consumption( const itype_id &ftype ) const;
-        int consumption_per_hour( const itype_id &ftype, int fuel_rate ) const;
 
-        void consume_fuel( int load, bool idling );
+        int consumption_per_hour( const itype_id &ftype, fuel_consumption_data &fcd ) const;
+
+        void consume_fuel( int load, bool idling, bool for_generators = false );
 
         /**
          * Maps used fuel to its basic (unscaled by load/strain) consumption.
          */
-        std::map<itype_id, int> fuel_usage() const;
+        std::map<itype_id, int> fuel_usage( bool for_generators = false ) const;
 
-        // current fuel usage for specific engine
-        int engine_fuel_usage( int e ) const;
+        // current fuel usage for specific engine or generator
+        int engine_fuel_usage( int e, bool for_generators = false ) const;
         /**
          * Get all vehicle lights (excluding any that are destroyed)
          * @param active if true return only lights which are enabled
@@ -1208,9 +1220,11 @@ class vehicle
         std::vector<vehicle_part *> lights( bool active = false );
 
         void update_alternator_load();
+        int get_alternator_load( bool for_generators ) const;
 
         // Total drain or production of electrical power from engines.
         int total_engine_epower_w() const;
+        int total_engine_epower_w( bool for_generators ) const;
         // Total production of electrical power from alternators.
         int total_alternator_epower_w() const;
         // Total power currently being produced by all solar panels.
@@ -1270,7 +1284,7 @@ class vehicle
         // Get combined power of all engines. If fueled == true, then only engines which
         // vehicle have fuel for are accounted.  If safe == true, then limit engine power to
         // their safe power.
-        int total_power_w( bool fueled = true, bool safe = false ) const;
+        int total_power_w( bool fueled = true, bool safe = false, bool for_generators = false ) const;
 
         // Get ground acceleration gained by combined power of all engines. If fueled == true,
         // then only engines which the vehicle has fuel for are included
@@ -1323,6 +1337,8 @@ class vehicle
 
         // Loop through engines and generate noise and smoke for each one
         void noise_and_smoke( int load, time_duration time = 1_turns );
+        // Loop through provided parts and generate noise and smoke for each one
+        void noise_and_smoke( int load, bool for_generators, time_duration time = 1_turns );
 
         /**
          * Calculates the sum of the area under the wheels of the vehicle.
@@ -1436,8 +1452,10 @@ class vehicle
          */
         static void enumerate_vehicles( std::map<vehicle *, bool> &connected_vehicles,
                                         std::set<vehicle *> &vehicle_list );
-        // idle fuel consumption
+        // idle operations, planting, power calculations
         void idle( bool on_map = true );
+        // idle fuel consumption
+        void idle_fuel_consumption( bool on_map, bool for_generators = false );
         // continuous processing for running vehicle alarms
         void alarm();
         // leak from broken tanks
@@ -1705,41 +1723,44 @@ class vehicle
                                            std::vector<std::function<void()>> &actions );
         //main method for the control of multiple electronics
         void control_electronics();
-        //main method for the control of individual engines
-        void control_engines();
-        // shows ui menu to select an engine
-        int select_engine();
+        //main method for the control of individual engines or generators
+        void control_engines( bool for_generators = false );
+        // shows ui menu to select an engine or generator
+        int select_engine( bool for_generators = false );
         //returns whether the engine is enabled or not, and has fueltype
         bool is_engine_type_on( int e, const itype_id &ft ) const;
-        //returns whether the engine is enabled or not
-        bool is_engine_on( int e ) const;
+        //returns whether the engine or generator is enabled or not
+        bool is_engine_on( int e, bool for_generators = false ) const;
         //returns whether the part is enabled or not
         bool is_part_on( int p ) const;
-        //returns whether the engine uses specified fuel type
-        bool is_engine_type( int e, const itype_id &ft ) const;
+        //returns whether the engine or generator uses specified fuel type
+        bool is_engine_type( int e, const itype_id &ft, bool for_generators = false ) const;
         //returns whether the engine uses one of specific "combustion" fuel types (gas, diesel and diesel substitutes)
         bool is_combustion_engine_type( int e ) const;
-        //returns whether the alternator is operational
+        //returns whether the alternator on vehicle is operational
         bool is_alternator_on( int a ) const;
+        //returns whether the alternator mounted on collection of parts is operational
+        bool is_alternator_on( int a, bool for_generators ) const;
         //turn engine as on or off (note: doesn't perform checks if engine can start)
-        void toggle_specific_engine( int e, bool on );
+        void toggle_specific_engine( int e, bool on, bool for_generators = false );
         // try to turn engine on or off
         // (tries to start it and toggles it on if successful, shutdown is always a success)
         // returns true if engine status was changed
-        bool start_engine( int e, bool turn_on );
+        bool start_engine( int e, bool turn_on, bool for_generators );
         void toggle_specific_part( int p, bool on );
         //true if an engine exists with specified type
         //If enabled true, this engine must be enabled to return true
-        bool has_engine_type( const itype_id &ft, bool enabled ) const;
+        bool has_engine_type( const itype_id &ft, bool enabled, bool for_generators = false ) const;
         bool has_harnessed_animal() const;
         //true if an engine exists without the specified type
         //If enabled true, this engine must be enabled to return true
-        bool has_engine_type_not( const itype_id &ft, bool enabled ) const;
+        //If for_generators searches for generator instead of engine
+        bool has_engine_type_not( const itype_id &ft, bool enabled, bool for_generators = false ) const;
         //returns true if there's another engine with the same exclusion list; conflict_type holds
         //the exclusion
         bool has_engine_conflict( const vpart_info *possible_conflict, std::string &conflict_type ) const;
         //returns true if the engine doesn't consume fuel
-        bool is_perpetual_type( int e ) const;
+        bool is_perpetual_type( int e, bool for_generators = false ) const;
         //if necessary, damage this engine
         void do_engine_damage( size_t e, int strain );
         //remotely open/close doors
@@ -1852,6 +1873,7 @@ class vehicle
         std::vector<tripoint_abs_omt> omt_path; // route for overmap-scale auto-driving
         std::vector<int> alternators;      // List of alternator indices
         std::vector<int> engines;          // List of engine indices
+        std::vector<int> generators;       // List of generator indices
         std::vector<int> reactors;         // List of reactor indices
         std::vector<int> solar_panels;     // List of solar panel indices
         std::vector<int> wind_turbines;     // List of wind turbine indices
@@ -1888,7 +1910,6 @@ class vehicle
         std::set<std::string> tags;        // Properties of the vehicle
         // After fuel consumption, this tracks the remainder of fuel < 1, and applies it the next time.
         std::map<itype_id, float> fuel_remainder;
-        std::map<itype_id, float> fuel_used_last_turn;
         std::unordered_multimap<point, zone_data> loot_zones;
         active_item_cache active_items;
         // a magic vehicle, powered by magic.gif
@@ -1932,8 +1953,10 @@ class vehicle
          */
         tripoint sm_pos;
 
-        // alternator load as a percentage of engine power, in units of 0.1% so 1000 is 100.0%
-        int alternator_load = 0;
+        // alternator load of engines as a percentage of engine power, in units of 0.1% so 1000 is 100.0%
+        int alternator_load_engines = 0;
+        // alternator load of generators as a percentage of engine power, in units of 0.1% so 1000 is 100.0%
+        int alternator_load_generators = 0;
         // Turn the vehicle was last processed
         time_point last_update = calendar::before_time_starts;
         // save values
@@ -2023,6 +2046,8 @@ class vehicle
         bool cruise_on = true;
         // at least one engine is on, of any type
         bool engine_on = false;
+        // at least one generator is on, of any type
+        bool generator_on = false;
         // vehicle tracking on/off
         bool tracking_on = false;
         // vehicle has no key

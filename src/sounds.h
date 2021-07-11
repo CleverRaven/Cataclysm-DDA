@@ -15,6 +15,7 @@ class item;
 class monster;
 class player;
 class translation;
+class vehicle;
 struct tripoint;
 template <typename E> struct enum_traits;
 
@@ -153,6 +154,8 @@ void do_danger_music();
 void do_ambient();
 void do_vehicle_engine_sfx();
 void do_vehicle_exterior_engine_sfx();
+std::pair<std::string, std::string> get_engine_sound( std::string variant_sound, vehicle *veh,
+        bool for_generators = false );
 void fade_audio_group( group group, int duration );
 void fade_audio_channel( channel channel, int duration );
 bool is_channel_playing( channel channel );

@@ -223,7 +223,7 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
     int opt_safe_vel = is_stationary ? 1 : safe_ground_velocity( true );
     float cur_load_approx = static_cast<float>( std::min( accel_demand,
                             opt_accel ) )  / std::max( opt_accel, 1 );
-    float cur_load_alternator = std::min( 0.01f, static_cast<float>( alternator_load ) / 1000 );
+    float cur_load_alternator = std::min( 0.01f, static_cast<float>( alternator_load_engines ) / 1000 );
 
     for( size_t i = 0; i < c_engines.size(); ++i ) {
         if( is_engine_on( c_engines[i] ) ) {
@@ -290,7 +290,8 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
         int net_echarge_rate = net_battery_charge_rate_w();
         float load_approx = static_cast<float>( std::min( accel_demand, accel ) ) / std::max( accel, 1 );
         update_alternator_load();
-        float load_approx_alternator  = std::min( 0.01f, static_cast<float>( alternator_load ) / 1000 );
+        float load_approx_alternator  = std::min( 0.01f,
+                                        static_cast<float>( alternator_load_engines ) / 1000 );
 
         for( int e : c_engines ) {
             bool is_electric = is_engine_type( e, fuel_type_battery );
@@ -342,7 +343,7 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
         for( size_t i = 0; i < c_engines.size(); ++i ) {
             // ..0.. < ..1..  was off, new state on
             if( ( prev_mask & ( 1 << i ) ) < ( opt_mask & ( 1 << i ) ) ) {
-                if( !start_engine( c_engines[i], true ) ) {
+                if( !start_engine( c_engines[i], true, false ) ) {
                     failed_to_start = true;
                 }
                 turned_on_gas_engine |= !is_engine_type( c_engines[i], fuel_type_battery );
@@ -367,7 +368,7 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
             for( size_t i = 0; i < c_engines.size(); ++i ) {
                 // was on, needs to be off
                 if( ( prev_mask & ( 1 << i ) ) > ( opt_mask & ( 1 << i ) ) ) {
-                    start_engine( c_engines[i], false );
+                    start_engine( c_engines[i], false, false );
                 }
             }
             if( turned_on_gas_engine ) {

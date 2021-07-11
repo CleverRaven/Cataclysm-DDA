@@ -1359,6 +1359,7 @@ Those flags are added by the game code to specific items (for example, that spec
 - ```DOME_LIGHT```
 - ```DOOR_MOTOR``` Can only be installed on a part with ```OPENABLE``` flag.
 - ```ENGINE``` Is an engine and contributes towards vehicle mechanical power.
+- ```GENERATOR``` Is an engine and doesn't contribute towards vehicle mechanical power.
 - ```EVENTURN``` Only on during even turns.
 - ```EXTRA_DRAG``` tells the vehicle that the part exerts engine power reduction.
 - ```E_ALTERNATOR``` Is an engine that can power an alternator.

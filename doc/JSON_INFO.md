@@ -73,7 +73,7 @@ Use the `Home` key to return to the top.
     - [Vehicle Parts](#vehicle-parts)
       - [Symbols and Variants](#symbols-and-variants)
       - [The following optional fields are specific to CARGO or FLUIDTANK parts.](#the-following-optional-fields-are-specific-to-cargo-or-fluidtank-parts)
-      - [The following optional fields are specific to ENGINEs.](#the-following-optional-fields-are-specific-to-engines)
+      - [The following optional fields are specific to ENGINEs and GENERATORs.](#the-following-optional-fields-are-specific-to-engines-and-generators)
       - [The following optional fields are specific to WHEELs.](#the-following-optional-fields-are-specific-to-wheels)
       - [The following optional fields are specific to ROTORs.](#the-following-optional-fields-are-specific-to-rotors)
       - [The following optional fields are specific to WORKBENCHes.](#the-following-optional-fields-are-specific-to-workbenches)
@@ -2119,7 +2119,7 @@ Unless specified as optional, the following fields are mandatory for parts with 
 "cargo_weight_modifier": 33,  // (Optional, default = 100) Multiplies cargo weight by this percentage.
 ```
 
-#### The following optional fields are specific to ENGINEs.
+#### The following optional fields are specific to ENGINEs and GENERATORs.
 ```c++
 "power": 15000                // Engine motive power in watts.
 "energy_consumption": 17500   // Engine power consumption at maximum power in watts.  Defaults to
