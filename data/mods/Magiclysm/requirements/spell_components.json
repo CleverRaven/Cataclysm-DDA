@@ -88,5 +88,5 @@
     "id": "spell_components_manatrap",
     "type": "requirement",
     "components": [ [ [ "potion_starter", 6 ], [ "alchemist_bomb", 2 ] ], [ [ "rune_technomancer", 2 ] ] ]
-	}
+  }
 ]
