@@ -1,5 +1,6 @@
 [
   {
+    "type": "proficiency",
     "id": "prof_intro_chemistry",
     "name": { "str": "Principles of Chemistry" },
     "description": "You are beginning to grasp a general idea of how elements and compounds react with each other.",
