@@ -352,6 +352,16 @@
     "wheel_type": "off-road"
   },
   {
+    "id": "wheel_bicycle_or_rear",
+    "copy-from": "wheel_bicycle_abstract",
+    "type": "vehicle_part",
+    "looks_like": "wheel_bicycle_rear",
+    "name": { "str": "off-road bicycle wheel" },
+    "item": "wheel_bicycle_or",
+    "contact_area": 36,
+    "wheel_type": "off-road"
+  },
+  {
     "id": "wheel_bicycle_pair",
     "copy-from": "wheel_bicycle_abstract",
     "type": "vehicle_part",
