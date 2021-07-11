@@ -438,7 +438,7 @@ bool Character::check_eligible_containers_for_crafting( const recipe &rec, int b
 
 static bool is_container_eligible_for_crafting( const item &cont, bool allow_bucket )
 {
-    if( cont.is_watertight_container() && cont.contents.num_item_stacks() <= 1 && ( allow_bucket ||
+    if( cont.is_watertight_container() && cont.num_item_stacks() <= 1 && ( allow_bucket ||
             !cont.will_spill() ) ) {
         return !cont.is_container_full( allow_bucket );
     }
@@ -1169,7 +1169,7 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
 
         // Points to newit unless newit is a non-empty container, then it points to newit's contents.
         // Necessary for things like canning soup; sometimes we want to operate on the soup, not the can.
-        item &food_contained = !newit.contents.empty() ? newit.contents.only_item() : newit;
+        item &food_contained = !newit.empty() ? newit.contents.only_item() : newit;
 
         // messages, learning of recipe, food spoilage calculation only once
         if( first ) {
@@ -1662,7 +1662,7 @@ static void empty_buckets( Character &p )
             drop_or_handle( *in, p );
         }
 
-        it.contents.clear_items();
+        it.clear_items();
         drop_or_handle( it, p );
     }
 }

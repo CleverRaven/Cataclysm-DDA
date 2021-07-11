@@ -2182,7 +2182,7 @@ cata::optional<int> iuse::water_purifier( player *p, item *it, bool, const tripo
         return cata::nullopt;
     }
     item_location obj = g->inv_map_splice( []( const item & e ) {
-        return !e.contents.empty() && e.has_item_with( []( const item & it ) {
+        return !e.empty() && e.has_item_with( []( const item & it ) {
             return it.typeId() == itype_water;
         } );
     }, _( "Purify what?" ), 1, _( "You don't have water to purify." ) );
@@ -4710,7 +4710,7 @@ cata::optional<int> iuse::blood_draw( player *p, item *it, bool, const tripoint 
         p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return cata::nullopt;
     }
-    if( !it->contents.empty() ) {
+    if( !it->empty() ) {
         p->add_msg_if_player( m_info, _( "That %s is full!" ), it->tname() );
         return cata::nullopt;
     }

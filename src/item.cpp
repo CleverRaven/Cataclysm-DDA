@@ -7195,6 +7195,33 @@ bool item::is_container() const
     return contents.has_pocket_type( item_pocket::pocket_type::CONTAINER );
 }
 
+
+bool item::has_pocket_type( item_pocket::pocket_type pk_type ) const
+{
+    return contents.has_pocket_type( pk_type );
+}
+
+bool item::has_any_with( const std::function<bool( const item & )> &filter,
+                         item_pocket::pocket_type pk_type ) const
+{
+    return contents.has_any_with( filter, pk_type );
+}
+
+bool item::all_pockets_rigid() const
+{
+    return contents.all_pockets_rigid();
+}
+
+ret_val<std::vector<const item_pocket *>> item::get_all_contained_pockets() const
+{
+    return contents.get_all_contained_pockets();
+}
+
+ret_val<std::vector<item_pocket *>> item::get_all_contained_pockets()
+{
+    return contents.get_all_contained_pockets();
+}
+
 item_pocket *item::contained_where( const item &contained )
 {
     return contents.contained_where( contained );
@@ -7549,6 +7576,12 @@ bool item::spill_contents( const tripoint &pos )
         return true;
     }
     return contents.spill_contents( pos );
+}
+
+
+bool item::spill_open_pockets( Character &guy, const item *avoid )
+{
+    return contents.spill_open_pockets( guy, avoid );
 }
 
 book_proficiency_bonuses item::get_book_proficiency_bonuses() const
@@ -9428,9 +9461,9 @@ bool item::has_rotten_away() const
 
 bool item_ptr_compare_by_charges( const item *left, const item *right )
 {
-    if( left->contents.empty() ) {
+    if( left->empty() ) {
         return false;
-    } else if( right->contents.empty() ) {
+    } else if( right->empty() ) {
         return true;
     } else {
         return right->contents.only_item().charges < left->contents.only_item().charges;
@@ -11055,4 +11088,29 @@ std::list<item *> item::all_items_top_recursive( item_pocket::pocket_type pk_typ
     }
 
     return all_items_internal;
+}
+
+void item::clear_items()
+{
+    contents.clear_items();
+}
+
+bool item::empty() const
+{
+    return contents.empty();
+}
+
+size_t item::num_item_stacks() const
+{
+    return contents.num_item_stacks();
+}
+
+item &item::legacy_front()
+{
+    return contents.legacy_front();
+}
+
+const item &item::legacy_front() const
+{
+    return contents.legacy_front();
 }

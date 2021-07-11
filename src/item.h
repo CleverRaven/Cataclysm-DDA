@@ -735,6 +735,17 @@ class item : public visitable
         /** Whether this is container. Note that container does not necessarily means it's
          * suitable for liquids. */
         bool is_container() const;
+        // whether the contents has a pocket with the associated type
+        bool has_pocket_type( item_pocket::pocket_type pk_type ) const;
+        bool has_any_with( const std::function<bool( const item & )> &filter,
+                           item_pocket::pocket_type pk_type ) const;
+
+        /** True if every pocket is rigid or we have no pockets */
+        bool all_pockets_rigid() const;
+
+        // gets all pockets contained in this item
+        ret_val<std::vector<const item_pocket *>> get_all_contained_pockets() const;
+        ret_val<std::vector<item_pocket *>> get_all_contained_pockets();
 
         /**
          * Updates the pockets of this item to be correct based on the mods that are installed.
@@ -1347,6 +1358,7 @@ class item : public visitable
          * @return If the item is now empty.
          */
         bool spill_contents( const tripoint &pos );
+        bool spill_open_pockets( Character &guy, const item *avoid = nullptr );
 
         /** Checks if item is a holster and currently capable of storing obj
          *  @param obj object that we want to holster
@@ -2266,6 +2278,22 @@ class item : public visitable
         /** returns a list of pointers to all items inside recursively */
         std::list<item *> all_items_ptr( item_pocket::pocket_type pk_type );
 
+        void clear_items();
+        bool empty() const;
+
+        /**
+         * returns the number of items stacks in contents
+         * each item that is not count_by_charges,
+         * plus whole stacks of items that are
+         */
+        size_t num_item_stacks() const;
+        /**
+         * This function is to aid migration to using nested containers.
+         * The call sites of this function need to be updated to search the
+         * pockets of the item, or not assume there is only one pocket or item.
+         */
+        item &legacy_front();
+        const item &legacy_front() const;
 
     private:
         /** migrates an item into this item. */

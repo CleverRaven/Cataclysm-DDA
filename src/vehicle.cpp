@@ -3306,8 +3306,8 @@ int vehicle::fuel_left( const itype_id &ftype, bool recurse ) const
         const vehicle_part &part = parts[i];
         if( part.ammo_current() != ftype ||
             // don't count frozen liquid
-            ( !part.base.contents.empty() && part.is_tank() &&
-              part.base.contents.legacy_front().made_of( phase_id::SOLID ) ) ) {
+            ( !part.base.empty() && part.is_tank() &&
+              part.base.legacy_front().made_of( phase_id::SOLID ) ) ) {
             continue;
         }
         fl += part.ammo_remaining();
@@ -3380,9 +3380,9 @@ float vehicle::fuel_specific_energy( const itype_id &ftype ) const
     float total_mass = 0.0f;
     for( const vehicle_part &vp : parts ) {
         if( vp.is_tank() && vp.ammo_current() == ftype &&
-            vp.base.contents.legacy_front().made_of( phase_id::LIQUID ) ) {
-            float energy = vp.base.contents.legacy_front().specific_energy;
-            float mass = to_gram( vp.base.contents.legacy_front().weight() );
+            vp.base.legacy_front().made_of( phase_id::LIQUID ) ) {
+            float energy = vp.base.legacy_front().specific_energy;
+            float mass = to_gram( vp.base.legacy_front().weight() );
             total_energy += energy * mass;
             total_mass += mass;
         }
@@ -6851,7 +6851,7 @@ std::list<item> vehicle::use_charges( const vpart_position &vp, const itype_id &
     const auto tool_wants_battery = []( const itype_id & type ) {
         item tool( type, calendar::turn_zero );
         item mag( tool.magazine_default() );
-        mag.contents.clear_items();
+        mag.clear_items();
 
         return tool.contents.insert_item( mag, item_pocket::pocket_type::MAGAZINE_WELL ).success() &&
                tool.ammo_capacity( ammotype( "battery" ) ) > 0;
