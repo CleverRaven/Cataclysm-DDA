@@ -2265,7 +2265,7 @@ std::vector<item> Character::get_pseudo_items() const
     std::vector<item> result;
     for( const bionic &bio : *my_bionics ) {
         const bionic_data &bid = bio.info();
-        if( bid.fake_item && ( !bid.activated || bio.powered ) ) {
+        if( ( !bid.activated || bio.powered ) && bid.fake_item.is_valid() ) {
             result.emplace_back( item( bid.fake_item ) );
         }
     }
