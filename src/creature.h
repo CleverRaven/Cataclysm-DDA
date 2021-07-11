@@ -265,7 +265,7 @@ class Creature : public location, public viewer
         virtual const avatar *as_avatar() const {
             return nullptr;
         }
-        virtual const npc *as_npc() {
+        virtual npc *as_npc() {
             return nullptr;
         }
         virtual const npc *as_npc() const {
@@ -438,6 +438,11 @@ class Creature : public location, public viewer
         // accrue? mutates damage and pain
         virtual void deal_damage_handle_type( const effect_source &source, const damage_unit &du,
                                               bodypart_id bp, int &damage, int &pain );
+
+        // Pass handling bleed to creature/character
+        virtual void make_bleed( const effect_source &source, const bodypart_id &bp, time_duration duration,
+                                 int intensity = 1, bool permanent = false, bool force = false, bool defferred = false ) = 0;
+
         // directly decrements the damage. ONLY handles damage, doesn't
         // increase pain, apply effects, etc
         virtual void apply_damage( Creature *source, bodypart_id bp, int amount,
@@ -631,6 +636,7 @@ class Creature : public location, public viewer
         virtual float get_hit() const;
 
         virtual int get_speed() const;
+        virtual int get_eff_per() const;
         virtual creature_size get_size() const = 0;
         virtual int get_hp( const bodypart_id &bp ) const;
         virtual int get_hp() const;

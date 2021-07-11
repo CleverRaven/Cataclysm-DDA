@@ -229,7 +229,7 @@ static bool get_liquid_target( item &liquid, const item *const source, const int
         }
         // Sometimes the cont parameter is omitted, but the liquid is still within a container that counts
         // as valid target for the liquid. So check for that.
-        if( cont == source || ( !cont->contents.empty() && cont->has_item( liquid ) ) ) {
+        if( cont == source || ( !cont->empty() && cont->has_item( liquid ) ) ) {
             add_msg( m_info, _( "That's the same container!" ) );
             return; // The user has intended to do something, but mistyped.
         }

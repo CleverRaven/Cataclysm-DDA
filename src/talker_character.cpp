@@ -12,6 +12,7 @@
 #include "vehicle.h"
 
 class time_duration;
+static const trait_id trait_SEESLEEP( "SEESLEEP" );
 
 std::string talker_character::disp_name() const
 {
@@ -149,9 +150,16 @@ bool talker_character::has_effect( const efftype_id &effect_id ) const
 }
 
 void talker_character::add_effect( const efftype_id &new_effect, const time_duration &dur,
-                                   bool permanent )
+                                   std::string bp, bool permanent, bool force, int intensity )
 {
-    me_chr->add_effect( new_effect, dur, permanent );
+    bodypart_id target_part;
+    if( "RANDOM" == bp ) {
+        target_part = get_player_character().random_body_part( true );
+    } else {
+        target_part = bodypart_str_id( bp );
+    }
+
+    me_chr->add_effect( new_effect, dur, target_part, permanent, intensity, force );
 }
 
 void talker_character::remove_effect( const efftype_id &old_effect )
@@ -318,3 +326,12 @@ units::energy talker_character::power_cur() const
     return me_chr->get_power_level();
 }
 
+bool talker_character::can_see() const
+{
+    return !me_chr->is_blind() && ( !me_chr->in_sleep_state() || me_chr->has_trait( trait_SEESLEEP ) );
+}
+
+void talker_character::mod_fatigue( int amount )
+{
+    me_chr->mod_fatigue( amount );
+}

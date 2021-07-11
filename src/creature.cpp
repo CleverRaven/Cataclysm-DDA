@@ -57,11 +57,9 @@ struct mutation_branch;
 
 static const anatomy_id anatomy_human_anatomy( "human_anatomy" );
 
-static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_bounced( "bounced" );
 static const efftype_id effect_downed( "downed" );
-static const efftype_id effect_dripping_mechanical_fluid( "dripping_mechanical_fluid" );
 static const efftype_id effect_foamcrete_slow( "foamcrete_slow" );
 static const efftype_id effect_lying_down( "lying_down" );
 static const efftype_id effect_no_sight( "no_sight" );
@@ -274,6 +272,7 @@ bool Creature::sees( const Creature &critter ) const
         return visible( ch );
     } else if( ( wanted_range > 1 && critter.digging() &&
                  here.has_flag( TFLAG_DIGGABLE, critter.pos() ) ) ||
+               ( critter.has_flag( MF_CAMOUFLAGE ) && wanted_range > this->get_eff_per() ) ||
                ( critter.has_flag( MF_NIGHT_INVISIBILITY ) && here.light_at( critter.pos() ) <= lit_level::LOW ) ||
                ( critter.is_underwater() && !is_underwater() && here.is_divable( critter.pos() ) ) ||
                ( here.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, critter.pos() ) &&
@@ -1068,13 +1067,7 @@ void Creature::deal_damage_handle_type( const effect_source &source, const damag
         case damage_type::STAB:
         case damage_type::BULLET:
             // these are bleed inducing damage types
-            if( is_avatar() || is_npc() ) {
-                as_character()->make_bleed( source, bp, 1_minutes * rng( 1, adjusted_damage ) );
-            } else if( in_species( species_ROBOT ) ) {
-                add_effect( source, effect_dripping_mechanical_fluid, 1_seconds * rng( 1, adjusted_damage ), bp );
-            } else {
-                add_effect( source, effect_bleed, 1_minutes * rng( 1, adjusted_damage ), bp );
-            }
+            make_bleed( source, bp, 1_minutes * rng( 1, adjusted_damage ) );
 
         default:
             break;
@@ -1656,6 +1649,12 @@ int Creature::get_speed() const
 {
     return get_speed_base() + get_speed_bonus();
 }
+
+int Creature::get_eff_per() const
+{
+    return 0;
+}
+
 float Creature::get_dodge() const
 {
     return get_dodge_base() + get_dodge_bonus();

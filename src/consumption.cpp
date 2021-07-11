@@ -358,8 +358,8 @@ std::pair<nutrients, nutrients> Character::compute_nutrient_range(
         nutrients this_max;
 
         item result_it = rec->create_result();
-        if( result_it.contents.num_item_stacks() == 1 ) {
-            const item alt_result = result_it.contents.legacy_front();
+        if( result_it.num_item_stacks() == 1 ) {
+            const item alt_result = result_it.legacy_front();
             if( alt_result.typeId() == comest_it.typeId() ) {
                 result_it = alt_result;
             }
@@ -635,22 +635,8 @@ morale_type Character::allergy_type( const item &food ) const
 
 ret_val<edible_rating> Character::can_eat( const item &food ) const
 {
-    bool can_fuel_cbm = can_fuel_bionic_with( food );
-    if( !food.is_comestible() && !can_fuel_cbm ) {
+    if( !food.is_comestible() ) {
         return ret_val<edible_rating>::make_failure( _( "That doesn't look edible." ) );
-    } else if( can_fuel_cbm ) {
-        std::string item_name = food.tname();
-        material_id mat_type = food.get_base_material().id;
-        if( food.type->magazine ) {
-            const item ammo = item( food.ammo_current() );
-            item_name = ammo.tname();
-            mat_type = ammo.get_base_material().id;
-        }
-        if( get_fuel_capacity( mat_type ) <= 0 ) {
-            return ret_val<edible_rating>::make_failure( _( "No space to store more %s" ), item_name );
-        } else {
-            return ret_val<edible_rating>::make_success();
-        }
     }
 
     const auto &comest = food.get_comestible();
@@ -768,6 +754,26 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
     return ret_val<edible_rating>::make_success();
 }
 
+ret_val<edible_rating> Character::can_consume_fuel( const item &fuel ) const
+{
+    if( !can_fuel_bionic_with( fuel ) ) {
+        return ret_val<edible_rating>::make_failure( _( "That doesn't look useable as fuel." ) );
+    } else {
+        std::string item_name = fuel.tname();
+        material_id mat_type = fuel.get_base_material().id;
+        if( fuel.type->magazine ) {
+            const item ammo = item( fuel.ammo_current() );
+            item_name = ammo.tname();
+            mat_type = ammo.get_base_material().id;
+        }
+        if( get_fuel_capacity( mat_type ) <= 0 ) {
+            return ret_val<edible_rating>::make_failure( _( "No space to store more %s" ), item_name );
+        }
+
+    }
+    return ret_val<edible_rating>::make_success();
+}
+
 ret_val<edible_rating> Character::will_eat( const item &food, bool interactive ) const
 {
     const auto ret = can_eat( food );
@@ -778,7 +784,7 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
         return ret;
     }
 
-    // exit early for cbm fuel as we've already tested everything in can_eat
+    // exit early as we've already tested everything in can_eat
     if( !food.is_comestible() ) {
         return ret_val<edible_rating>::make_success();
     }
@@ -1528,7 +1534,7 @@ bool Character::fuel_bionic_with( item &it )
                            ngettext( "<npcname> load %1$i charge of %2$s in their %3$s.",
                                      "<npcname> load %1$i charges of %2$s in their %3$s.", loadable ), loadable, mat->name(),
                            bio->name );
-    mod_moves( -250 );
+
     // Return false for magazines because only their ammo is consumed
     return !is_magazine;
 }
@@ -1729,18 +1735,7 @@ static bool consume_med( item &target, player &you )
     return true;
 }
 
-static bool cbm_is_full( const player &guy, const item &fuel )
-{
-    material_id fuel_mat;
-    if( fuel.is_magazine() ) {
-        fuel_mat = item( fuel.ammo_current() ).get_base_material().id;
-    } else {
-        fuel_mat = fuel.get_base_material().id;
-    }
-    return guy.get_fuel_capacity( fuel_mat ) > 0;
-}
-
-trinary player::consume( item &target, bool force )
+trinary player::consume( item &target, bool force, bool refuel )
 {
     if( target.is_null() ) {
         add_msg_if_player( m_info, _( "You do not have that item." ) );
@@ -1761,10 +1756,13 @@ trinary player::consume( item &target, bool force )
     if( is_player() && !query_consume_ownership( target, *this ) ) {
         return trinary::NONE;
     }
-    if( consume_med( target, *this ) ||
-        ( has_max_power() && get_power_level() < get_max_power_level() &&
-          cbm_is_full( *this, target ) && fuel_bionic_with( target ) ) ||
-        eat( target, *this, force ) ) {
+
+    if( refuel ) {
+        fuel_bionic_with( target );
+        return target.charges <= 0 ? trinary::ALL : trinary::SOME;
+    }
+
+    if( consume_med( target, *this ) || eat( target, *this, force ) ) {
 
         get_event_bus().send<event_type::character_consumes_item>( getID(), target.typeId() );
 
@@ -1775,7 +1773,7 @@ trinary player::consume( item &target, bool force )
     return trinary::NONE;
 }
 
-trinary player::consume( item_location loc, bool force )
+trinary player::consume( item_location loc, bool force, bool refuel )
 {
     if( !loc ) {
         debugmsg( "Null loc to consume." );
@@ -1783,7 +1781,7 @@ trinary player::consume( item_location loc, bool force )
     }
     contents_change_handler handler;
     item &target = *loc;
-    trinary result = consume( target, force );
+    trinary result = consume( target, force, refuel );
     if( result != trinary::NONE ) {
         handler.unseal_pocket_containing( loc );
     }

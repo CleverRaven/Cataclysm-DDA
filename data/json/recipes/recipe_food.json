@@ -4780,7 +4780,7 @@
     "batch_time_factors": [ 83, 3 ],
     "flags": [ "BLIND_EASY" ],
     "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ] ] ],
-    "components": [ [ [ "bone_tainted", 1 ] ] ]
+    "components": [ [ [ "bone_tainted", 1 ], [ "skewer_bone", 25 ] ] ]
   },
   {
     "type": "recipe",
@@ -5455,7 +5455,7 @@
     "charges": 1,
     "autolearn": true,
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "toastem4", 1 ] ], [ [ "buttercream", 1 ] ] ]
+    "components": [ [ [ "toastem4", 1 ] ], [ [ "any_frosting", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -6680,7 +6680,7 @@
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
     "tools": [ [ [ "food_processor", 20 ] ] ],
-    "components": [ [ [ "bone_tainted", 1 ] ] ]
+    "components": [ [ [ "bone_tainted", 1 ], [ "skewer_bone", 25 ] ] ]
   },
   {
     "result": "cattlefodder",
@@ -6993,7 +6993,7 @@
     "batch_time_factors": [ 83, 3 ],
     "flags": [ "BLIND_EASY" ],
     "tools": [ [ [ "mortar_pestle", -1 ] ] ],
-    "components": [ [ [ "bone_tainted", 1 ] ] ]
+    "components": [ [ [ "bone_tainted", 1 ], [ "skewer_bone", 25 ] ] ]
   },
   {
     "type": "recipe",

@@ -226,6 +226,7 @@ class game
         /** MAIN GAME LOOP. Returns true if game is over (death, saved, quit, etc.). */
         bool do_turn();
         shared_ptr_fast<ui_adaptor> create_or_get_main_ui_adaptor();
+        void swap_main_ui_adaptor( weak_ptr_fast<ui_adaptor> &ui );
         void invalidate_main_ui_adaptor() const;
         void mark_main_ui_adaptor_resize() const;
         void draw();
@@ -629,6 +630,8 @@ class game
         void zoom_in();
         void zoom_out();
         void reset_zoom();
+        void set_zoom( int level );
+        int get_zoom() const;
         int get_moves_since_last_save() const;
         int get_user_action_counter() const;
 

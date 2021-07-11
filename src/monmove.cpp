@@ -73,8 +73,6 @@ static const species_id species_ZOMBIE( "ZOMBIE" );
 static const std::string flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
 static const std::string flag_LIQUID( "LIQUID" );
 
-static constexpr int MONSTER_FOLLOW_DIST = 8;
-
 bool monster::wander()
 {
     return ( goal == pos() && patrol_route_abs_ms.empty() );
@@ -851,7 +849,9 @@ void monster::move()
     }
 
     if( ( current_attitude == MATT_IGNORE && patrol_route_abs_ms.empty() ) ||
-        ( current_attitude == MATT_FOLLOW && rl_dist( pos(), goal ) <= MONSTER_FOLLOW_DIST ) ) {
+        ( ( current_attitude == MATT_FOLLOW ||
+            ( has_flag( MF_KEEP_DISTANCE ) && !( current_attitude == MATT_FLEE ) ) )
+          && rl_dist( pos(), goal ) <= type->tracking_distance ) ) {
         moves = 0;
         stumble();
         return;
@@ -2018,14 +2018,14 @@ void monster::knock_back_to( const tripoint &to )
     }
 
     map &here = get_map();
+    // It's some kind of wall.
     if( here.impassable( to ) ) {
-
-        // It's some kind of wall.
-        apply_damage( nullptr, bodypart_id( "torso" ), static_cast<float>( type->size ) );
+        const int dam = static_cast<int>( type->size );
+        apply_damage( nullptr, bodypart_id( "torso" ), dam );
         add_effect( effect_stunned, 2_turns );
         if( u_see ) {
-            add_msg( _( "The %1$s bounces off a %2$s." ), name(),
-                     here.obstacle_name( to ) );
+            add_msg( _( "The %1$s bounces off a %2$s and takes %3$d damage." ), name(),
+                     here.obstacle_name( to ), dam );
         }
 
     } else { // It's no wall

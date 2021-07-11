@@ -9,6 +9,7 @@
 
 enum class iteminfo_parts : size_t {
     BASE_CATEGORY = 0,
+    BASE_MOD_SRC,
     BASE_PRICE,
     BASE_BARTER,
     BASE_OWNER,
@@ -57,6 +58,7 @@ enum class iteminfo_parts : size_t {
     AMMO_DAMAGE_CRIT_MULTIPLIER,
     AMMO_DAMAGE_AP,
     AMMO_DAMAGE_RANGE,
+    AMMO_DAMAGE_RANGE_MULTIPLIER,
     AMMO_DAMAGE_DISPERSION,
     AMMO_DAMAGE_RECOIL,
     AMMO_FX_RECYCLED,
@@ -111,6 +113,8 @@ enum class iteminfo_parts : size_t {
     GUNMOD_AIMSPEED,
     GUNMOD_DAMAGE,
     GUNMOD_ARMORPIERCE,
+    GUNMOD_RANGE,
+    GUNMOD_RANGE_MULTIPLIER,
     GUNMOD_HANDLING,
     GUNMOD_AMMO,
     GUNMOD_RELOAD,

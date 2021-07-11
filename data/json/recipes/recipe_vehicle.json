@@ -380,9 +380,8 @@
     "difficulty": 5,
     "time": "90 m",
     "autolearn": true,
-    "using": [ [ "welding_standard", 4 ], [ "steel_tiny", 4 ] ],
+    "using": [ [ "welding_standard", 4 ], [ "steel_tiny", 4 ], [ "plastic_molding", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
-    "tools": [ [ [ "mold_plastic", -1 ] ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 } ],
     "components": [ [ [ "plastic_chunk", 4 ] ] ]
   },
@@ -442,7 +441,8 @@
     "time": "1 h",
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
-    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 50, "LIST" ] ] ],
+    "tools": [ [ [ "surface_heat", 50, "LIST" ] ] ],
+    "using": [ [ "plastic_molding", 1 ] ],
     "components": [ [ [ "plastic_chunk", 50 ] ] ]
   },
   {
@@ -515,13 +515,9 @@
     "difficulty": 2,
     "time": "30 m",
     "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_carpentry_basic" }, { "proficiency": "prof_metalworking" } ],
-    "qualities": [ { "id": "DRILL", "level": 2 }, { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ],
-    "components": [ [ [ "nail", 50 ] ], [ [ "2x4", 5 ] ], [ [ "cordage_36", 1 ] ], [ [ "scrap", 5 ], [ "steel_chunk", 4 ] ] ],
-    "tools": [
-      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
-      [ [ "welder", 30 ], [ "welder_crude", 40 ], [ "toolset", 40 ], [ "forge", 20 ], [ "oxy_torch", 5 ] ]
-    ]
+    "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
+    "qualities": [ { "id": "DRILL", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ],
+    "components": [ [ [ "nail", 12 ] ], [ [ "2x4", 2 ] ], [ [ "wire", 1 ] ] ]
   },
   {
     "type": "recipe",

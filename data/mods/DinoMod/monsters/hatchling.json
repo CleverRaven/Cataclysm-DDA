@@ -22,7 +22,6 @@
     "melee_dice_sides": 1,
     "melee_cut": 1,
     "dodge": 1,
-    "death_function": [ "NORMAL" ],
     "upgrades": { "age_grow": 14, "into": "mon_compsognathus" },
     "flags": [
       "SEES",

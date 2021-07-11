@@ -34,6 +34,7 @@ void effect_on_conditions::check_consistency()
 
 void effect_on_condition::load( const JsonObject &jo, const std::string & )
 {
+    mandatory( jo, was_loaded, "id", id );
     activate_only = true;
     if( jo.has_member( "recurrence_min" ) || jo.has_member( "recurrence_max" ) ) {
         activate_only = false;
@@ -56,6 +57,21 @@ void effect_on_condition::load( const JsonObject &jo, const std::string & )
     if( jo.has_member( "false_effect" ) ) {
         false_effect.load_effect( jo, "false_effect" );
         has_false_effect = true;
+    }
+}
+
+effect_on_condition_id effect_on_conditions::load_inline_eoc( const JsonValue &jv,
+        const std::string &src )
+{
+    if( jv.test_string() ) {
+        return effect_on_condition_id( jv.get_string() );
+    } else if( jv.test_object() ) {
+        effect_on_condition inline_eoc;
+        inline_eoc.load( jv.get_object(), src );
+        effect_on_condition_factory.insert( inline_eoc );
+        return inline_eoc.id;
+    } else {
+        jv.throw_error( "effect_on_condition needs to be either a string or an effect_on_condition object." );
     }
 }
 

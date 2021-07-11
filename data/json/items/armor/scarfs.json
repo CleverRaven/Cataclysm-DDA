@@ -13,12 +13,10 @@
     "symbol": "[",
     "looks_like": "scarf",
     "color": "white",
-    "covers": [ "mouth" ],
-    "coverage": 70,
-    "encumbrance": 20,
     "warmth": 40,
     "material_thickness": 1,
-    "flags": [ "OVERSIZE", "HOOD", "FANCY", "ALLOWS_NATURAL_ATTACKS" ]
+    "flags": [ "OVERSIZE", "HOOD", "FANCY", "ALLOWS_NATURAL_ATTACKS" ],
+    "armor": [ { "encumbrance": 20, "coverage": 70, "covers": [ "mouth" ] } ]
   },
   {
     "id": "headscarf",
@@ -35,12 +33,10 @@
     "symbol": "[",
     "looks_like": "scarf",
     "color": "yellow",
-    "covers": [ "head" ],
-    "coverage": 70,
-    "encumbrance": 4,
     "warmth": 7,
     "material_thickness": 0.1,
-    "flags": [ "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ]
+    "flags": [ "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ],
+    "armor": [ { "encumbrance": 4, "coverage": 70, "covers": [ "head" ] } ]
   },
   {
     "id": "keffiyeh",
@@ -56,13 +52,11 @@
     "symbol": "[",
     "looks_like": "scarf",
     "color": "white",
-    "covers": [ "mouth" ],
-    "coverage": 85,
-    "encumbrance": 10,
     "warmth": 30,
     "material_thickness": 1,
     "environmental_protection": 2,
-    "flags": [ "OVERSIZE", "HOOD", "ALLOWS_NATURAL_ATTACKS" ]
+    "flags": [ "OVERSIZE", "HOOD", "ALLOWS_NATURAL_ATTACKS" ],
+    "armor": [ { "encumbrance": 10, "coverage": 85, "covers": [ "mouth" ] } ]
   },
   {
     "id": "marloss_scarf",
@@ -71,7 +65,6 @@
     "looks_like": "scarf",
     "name": { "str": "cyan scarf" },
     "description": "A simple cloth scarf worn by Marloss Voices.  Wherever the Voices go, long sought peace soon follows, for better or for worse.",
-    "color": "cyan",
-    "covers": [ "mouth" ]
+    "color": "cyan"
   }
 ]

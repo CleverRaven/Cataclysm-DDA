@@ -20,6 +20,7 @@
     "melee_dice": 2,
     "melee_dice_sides": 2,
     "melee_cut": 0,
+    "bleed_rate": 50,
     "vision_night": 3,
     "harvest": "zombie",
     "special_attacks": [
@@ -29,7 +30,6 @@
       { "type": "leap", "cooldown": 10, "max_range": 5 }
     ],
     "death_drops": "default_zombie_death_drops",
-    "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
     "upgrades": { "half_life": 28, "into": "mon_zombie_brute_winged" },
     "flags": [
@@ -73,6 +73,7 @@
     "armor_bash": 2,
     "armor_cut": 2,
     "armor_bullet": 2,
+    "bleed_rate": 0,
     "vision_night": 7,
     "harvest": "zombie",
     "special_attacks": [
@@ -84,7 +85,6 @@
       }
     ],
     "death_drops": "default_zombie_death_drops",
-    "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_fiend",
     "flags": [
       "SEES",
@@ -126,7 +126,6 @@
     "vision_night": 5,
     "harvest": "zombie",
     "special_attacks": [ { "id": "impale", "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_multiplier": 0.6 } ] } ],
-    "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 28, "into_group": "GROUP_ZOMBIE_RAPTOR_UPGRADES" },
     "flags": [
       "SEES",
@@ -168,7 +167,11 @@
       [ "SUICIDE", 20 ],
       { "id": "impale", "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_multiplier": 0.6 } ] }
     ],
-    "death_function": [ "EXPLODE" ],
+    "death_function": {
+      "effect": { "id": "death_explosion_mon_spawn_raptor_unstable", "hit_self": true },
+      "corpse_type": "NO_CORPSE",
+      "message": "The %s explodes!"
+    },
     "upgrades": {  }
   },
   {
