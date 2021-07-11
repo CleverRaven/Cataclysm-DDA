@@ -214,7 +214,7 @@
       }
     ],
     "death_drops": "default_zombie_items",
-     "death_function": { "effect": { "id": "death_boomer", "hit_self": true }, "message": "A %s explode!", "corpse_type": "NO_CORPSE" },
+    "death_function": { "effect": { "id": "death_boomer", "hit_self": true }, "message": "A %s explode!", "corpse_type": "NO_CORPSE" },
     "flags": [
       "SEES",
       "HEARS",
