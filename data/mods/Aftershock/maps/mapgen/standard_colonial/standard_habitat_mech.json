@@ -1,0 +1,207 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "afs_mech_standard_habitat" ],
+    "weight": 500,
+    "object": {
+      "fill_ter": "t_metal_floor",
+      "rows": [
+        "1                       ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { "/": "t_wall_prefab_metal" },
+      "place_nested": [
+        {
+          "chunks": [ "habitat_connection_chunk_n" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": { "north": [ "standard_habitat_north", "ruin" ] }
+        },
+        {
+          "chunks": [ "habitat_connection_chunk_e" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": { "east": [ "standard_habitat_north", "ruin" ] }
+        },
+        {
+          "chunks": [ "habitat_connection_chunk_s" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": { "south": [ "standard_habitat_north", "ruin" ] }
+        },
+        {
+          "chunks": [ "habitat_connection_chunk_w" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": { "west": [ "standard_habitat_north", "ruin" ] }
+        },
+        {
+          "chunks": [ "habitat_connection_chunk_w" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": { "north": [ "standard_habitat_east", "ruin" ] }
+        },
+        {
+          "chunks": [ "habitat_connection_chunk_n" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": { "east": [ "standard_habitat_east", "ruin" ] }
+        },
+        {
+          "chunks": [ "habitat_connection_chunk_e" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": { "south": [ "standard_habitat_east", "ruin" ] }
+        },
+        {
+          "chunks": [ "habitat_connection_chunk_s" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": { "west": [ "standard_habitat_east", "ruin" ] }
+        },
+        {
+          "chunks": [ "habitat_connection_chunk_s" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": { "north": [ "standard_habitat_south", "ruin" ] }
+        },
+        {
+          "chunks": [ "habitat_connection_chunk_w" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": { "east": [ "standard_habitat_south", "ruin" ] }
+        },
+        {
+          "chunks": [ "habitat_connection_chunk_n" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": { "south": [ "standard_habitat_south", "ruin" ] }
+        },
+        {
+          "chunks": [ "habitat_connection_chunk_e" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": { "west": [ "standard_habitat_south", "ruin" ] }
+        },
+        {
+          "chunks": [ "habitat_connection_chunk_e" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": { "north": [ "standard_habitat_west", "ruin" ] }
+        },
+        {
+          "chunks": [ "habitat_connection_chunk_n" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": { "west": [ "standard_habitat_west", "ruin" ] }
+        },
+        {
+          "chunks": [ "habitat_connection_chunk_w" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": { "south": [ "standard_habitat_west", "ruin" ] }
+        },
+        {
+          "chunks": [ "habitat_connection_chunk_s" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": { "east": [ "standard_habitat_west", "ruin" ] }
+        }
+      ],
+      "nested": { "1": { "chunks": [ [ "habitat_mech_reactor_chunk", 20 ], [ "habitat_mech_solar_chunk", 20 ] ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "habitat_mech_reactor_chunk",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                /  /    ",
+        "               //:://   ",
+        "               /^..^/   ",
+        "               /^..^/   ",
+        "               /^..^/   ",
+        "               //::///  ",
+        "  //////////////....=   ",
+        "  /|||||||//4.i/..k.=   ",
+        "  /|-----||/4.i/..kh=   ",
+        "  /|-...----/!//..k///  ",
+        "  /|-.N.1..1..!....B/   ",
+        "  /|-.6.---2==//...B/   ",
+        "  /|-----||/..hk...B/   ",
+        "  /||||||||/.kkk...B/   ",
+        "  //////////.......//   ",
+        "    /S.+........fh.S/   ",
+        "    /S.+.....h..f..S/   ",
+        "    /SS/..B/ff.B/////   ",
+        "    ////BBB/h..B/99     ",
+        "       //=///==//9      ",
+        "       /   /    /       ",
+        "                        "
+      ],
+      "palettes": [ "afs_habitat_structure", "afs_habitat_habitation_furnishing" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "habitat_mech_solar_chunk",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                ////    ",
+        "               //..//   ",
+        "              //....//  ",
+        "              //....//  ",
+        "               //:://   ",
+        "                =..=    ",
+        "                =..=    ",
+        "                =..=    ",
+        "                =..=    ",
+        "               //:://   ",
+        "  //////////////..../   ",
+        "   =................/   ",
+        "   =................/   ",
+        "  //................/   ",
+        "   ///////........../   ",
+        "   /................/   ",
+        "   /................/   ",
+        "   /...../....../.../   ",
+        "  ////////....../////   ",
+        "         /==//==0m      ",
+        "         /      /       ",
+        "                        "
+      ],
+      "palettes": [ "afs_habitat_structure", "afs_habitat_mech_segment" ]
+    }
+  }
+]
