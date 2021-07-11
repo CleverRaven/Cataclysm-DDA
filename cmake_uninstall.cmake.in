@@ -1,22 +1,23 @@
-IF(NOT EXISTS "@CMAKE_CURRENT_BINARY_DIR@/install_manifest.txt")
-	MESSAGE(FATAL_ERROR "Cannot find install manifest: \"@CMAKE_CURRENT_BINARY_DIR@/install_manifest.txt\"")
-ENDIF(NOT EXISTS "@CMAKE_CURRENT_BINARY_DIR@/install_manifest.txt")
+if (NOT EXISTS "@CMAKE_CURRENT_BINARY_DIR@/install_manifest.txt")
+    message(FATAL_ERROR
+            "Cannot find install manifest: \"@CMAKE_CURRENT_BINARY_DIR@/install_manifest.txt\"")
+endif ()
 
-FILE(READ "@CMAKE_CURRENT_BINARY_DIR@/install_manifest.txt" files)
-STRING(REGEX REPLACE "\n" ";" files "${files}")
-FOREACH(file ${files})
-	MESSAGE(STATUS "Uninstalling \"$ENV{DESTDIR}${file}\"")
-	IF(EXISTS "$ENV{DESTDIR}${file}")
-		EXEC_PROGRAM(
-			"@CMAKE_COMMAND@" ARGS "-E remove \"$ENV{DESTDIR}${file}\""
-			OUTPUT_VARIABLE rm_out
-			RETURN_VALUE rm_retval
-		)
-		IF("${rm_retval}" STREQUAL 0)
-		ELSE("${rm_retval}" STREQUAL 0)
-			MESSAGE(FATAL_ERROR "Problem when removing \"$ENV{DESTDIR}${file}\"")
-		ENDIF("${rm_retval}" STREQUAL 0)
-	ELSE(EXISTS "$ENV{DESTDIR}${file}")
-		MESSAGE(STATUS "File \"$ENV{DESTDIR}${file}\" does not exist.")
-	ENDIF(EXISTS "$ENV{DESTDIR}${file}")
-ENDFOREACH(file)
+file(READ "@CMAKE_CURRENT_BINARY_DIR@/install_manifest.txt" FILE_LIST)
+string(REGEX REPLACE "\n" ";" FILE_LIST "${FILE_LIST}")
+foreach (FILE_NAME ${FILE_LIST})
+    message(STATUS "Uninstalling \"$ENV{DESTDIR}${FILE_NAME}\"")
+    if (EXISTS "$ENV{DESTDIR}${FILE_NAME}")
+        exec_program(
+                "@CMAKE_COMMAND@" ARGS "-E remove \"$ENV{DESTDIR}${FILE_NAME}\""
+                OUTPUT_VARIABLE RM_OUT
+                RETURN_VALUE RM_RETVAL)
+        if ("${RM_RETVAL}" STREQUAL 0)
+        else ()
+            message(FATAL_ERROR "Problem when removing \"$ENV{DESTDIR}${FILE_NAME}\"")
+        endif ()
+    else ()
+        message(STATUS "File \"$ENV{DESTDIR}${FILE_NAME}\" does not exist.")
+    endif ()
+endforeach ()
+

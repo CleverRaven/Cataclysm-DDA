@@ -1,6 +1,8 @@
 #include "mtype.h"
 
 #include <algorithm>
+#include <array>
+#include <cmath>
 #include <unordered_map>
 
 #include "behavior_strategy.h"
@@ -10,7 +12,6 @@
 #include "itype.h"
 #include "mondeath.h"
 #include "monstergenerator.h"
-#include "string_id.h"
 #include "translations.h"
 #include "units.h"
 
@@ -52,7 +53,6 @@ mtype::mtype()
     biosig_item = itype_id::NULL_ID();
 
     burn_into = mtype_id::NULL_ID();
-    dies.push_back( &mdeath::normal );
     sp_defense = nullptr;
     harvest = harvest_id( "human" );
     luminance = 0;

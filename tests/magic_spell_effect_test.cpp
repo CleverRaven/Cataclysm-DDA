@@ -1,9 +1,7 @@
-#include "catch/catch.hpp"
-
-#include <algorithm>
 #include <set>
 #include <sstream>
 
+#include "cata_catch.h"
 #include "json.h"
 #include "magic.h"
 #include "magic_spell_effect_helpers.h"

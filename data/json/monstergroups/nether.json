@@ -35,7 +35,8 @@
       { "monster": "mon_flying_polyp", "freq": 100, "cost_multiplier": 0 },
       { "monster": "mon_hunting_horror", "freq": 100, "cost_multiplier": 0 },
       { "monster": "mon_mi_go", "freq": 100, "cost_multiplier": 0 },
-      { "monster": "mon_mi_go_scout", "freq": 100, "cost_multiplier": 0, "starts": 840 },
+      { "monster": "mon_unseen_hunter", "freq": 100, "cost_multiplier": 1, "starts": 180 },
+      { "monster": "mon_mi_go_scout", "freq": 100, "cost_multiplier": 0, "starts": 360 },
       { "monster": "mon_yugg", "freq": 100, "cost_multiplier": 0 },
       { "monster": "mon_gelatin", "freq": 100, "cost_multiplier": 0 },
       { "monster": "mon_flaming_eye", "freq": 100, "cost_multiplier": 0 },
@@ -51,6 +52,7 @@
     "monsters": [
       { "monster": "mon_flying_polyp", "freq": 25, "cost_multiplier": 0 },
       { "monster": "mon_hunting_horror", "freq": 240, "cost_multiplier": 0 },
+      { "monster": "mon_unseen_hunter", "freq": 50, "cost_multiplier": 0, "starts": 720 },
       { "monster": "mon_yugg", "freq": 70, "cost_multiplier": 0 },
       { "monster": "mon_gelatin", "freq": 120, "cost_multiplier": 0 },
       { "monster": "mon_flaming_eye", "freq": 120, "cost_multiplier": 0 },
@@ -66,7 +68,7 @@
     "monsters": [
       { "monster": "mon_gelatin", "freq": 250, "cost_multiplier": 0 },
       { "monster": "mon_mi_go", "freq": 250, "cost_multiplier": 0 },
-      { "monster": "mon_mi_go_scout", "freq": 250, "cost_multiplier": 0, "starts": 840 },
+      { "monster": "mon_mi_go_scout", "freq": 250, "cost_multiplier": 0, "starts": 360 },
       { "monster": "mon_kreck", "freq": 250, "cost_multiplier": 0 },
       { "monster": "mon_gracke", "freq": 250, "cost_multiplier": 0 }
     ]
@@ -80,6 +82,7 @@
       { "monster": "mon_flaming_eye", "freq": 200, "cost_multiplier": 0 },
       { "monster": "mon_kreck", "freq": 200, "cost_multiplier": 0 },
       { "monster": "mon_gracke", "freq": 200, "cost_multiplier": 0 },
+      { "monster": "mon_unseen_hunter", "freq": 100, "cost_multiplier": 0, "starts": 720 },
       { "monster": "mon_blank", "freq": 200, "cost_multiplier": 0 }
     ]
   },

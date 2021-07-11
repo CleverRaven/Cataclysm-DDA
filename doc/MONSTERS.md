@@ -47,8 +47,8 @@ Monsters may also have any of these optional properties:
 | `phase`                  | (string) Monster's body matter state, ex. SOLID, LIQUID, GAS, PLASMA, NULL
 | `attack_cost`            | (integer) Number of moves per regular attack (??)
 | `diff`                   | (integer) Additional monster difficulty for special and ranged attacks
-| `aggression`             | (integer) From totally passive `-99` to guaranteed hostile `100`
-| `morale`                 | (integer) From lemming `-50` to bear `60` to most zombies and monsters `100`
+| `aggression`             | (integer) Starting aggression, the monster will become hostile when it reaches 10
+| `morale`                 | (integer) Starting morale, monster will flee when (current aggression + current morale) < 0 
 | `mountable_weight_ratio` | (float) For mounts, max ratio of mount to rider weight, ex. `0.2` for `<=20%`
 | `melee_skill`            | (integer) Monster skill in melee combat, from `0-10`, with `4` being an average mob
 | `dodge`                  | (integer) Monster's skill at dodging attacks
@@ -65,6 +65,7 @@ Monsters may also have any of these optional properties:
 | `armor_fire`             | (integer) Monster's protection from fire damage
 | `vision_day`             | (integer) Vision range in full daylight, with `50` being the typical maximum
 | `vision_night`           | (integer) Vision range in total darkness, ex. coyote `5`, bear `10`, sewer rat `30`, flaming eye `40`
+| `tracking_distance`      | (integer) Amount of tiles the monster will keep between itself and its current tracked enemy or followed leader. Defaults to `8`.
 | `luminance`              | (integer) Amount of light passively emitted by the monster, from `0-10`
 | `death_drops`            | (string or item group) Item group to spawn when the monster dies
 | `death_function`         | (array of strings) How the monster behaves on death. See JSON_FLAGS
@@ -74,9 +75,9 @@ Monsters may also have any of these optional properties:
 | `regen_morale`           | (bool) True if monster will stop fleeing at max HP to regenerate anger and morale
 | `special_attacks`        | (array of objects) Special attacks the monster has
 | `flags`                  | (array of strings) Any number of attributes like SEES, HEARS, SMELLS, STUMBLES, REVIVES
-| `fear_triggers`          | (array of strings) What makes the monster afraid, ex. FIRE, HURT, PLAYER_CLOSE, SOUND
-| `anger_triggers`         | (array of strings) What makes the monster angry (same flags as fear)
-| `placate_triggers`       | (array of strings) What calms the monster (same flags as fear)
+| `fear_triggers`          | (array of strings) Triggers that lower monster morale (see JSON_FLAGS.md) 
+| `anger_triggers`         | (array of strings) Triggers that raise monster aggression (same flags as fear)
+| `placate_triggers`       | (array of strings) Triggers that lower monster aggression (same flags as fear)
 | `revert_to_itype`        | (string) Item monster can be converted to when friendly (ex. to deconstruct turrets)
 | `starting_ammo`          | (object) Ammo that newly spawned monsters start with
 | `upgrades`               | (boolean or object) False if monster does not upgrade, or an object do define an upgrade
@@ -87,6 +88,9 @@ Monsters may also have any of these optional properties:
 | `path_settings`          | (object) How monster may find a path, open doors, avoid traps, or bash obstacles
 | `biosignature`           | (object) Droppings or feces left by the animal or monster
 | `harvest`                | (string) ID of a "harvest" type describing what can be harvested from the corpse
+| `zombify_into`           | (string) mtype_id this monster zombifies into after it's death
+| `fungalize_into`         | (string) mtype_id this monster turns into when fungalized by spores
+| `shearing`               | (array of objects) Items produced when the monster is sheared
 
 Properties in the above tables are explained in more detail in the sections below.
 
@@ -326,15 +330,27 @@ Amount of light passively output by monster. Ranges from 0 to 10.
 
 Monster hit points.
 
+## "bleed_rate"
+(integer, optional)
+
+Percent multiplier on all bleed effects' duration applied to the monster. Values below the default of 100 mean a resistance to bleed, values above 100 make the monster bleed longer and more intensive. 0 translates to bleed immunity.
+
 ## "death_drops"
 (string or item group, optional)
 
 An item group that is used to spawn items when the monster dies. This can be an inlined item group, see [ITEM_SPAWN.md](ITEM_SPAWN.md). The default subtype is "distribution".
 
 ## "death_function"
-(array of strings, optional)
+(object, optional)
 
-How the monster behaves on death. See [JSON_FLAGS.md](JSON_FLAGS.md) for a list of possible functions.
+How the monster behaves on death.
+```cpp
+{
+    "corpse_type": "NORMAL", // can be: BROKEN, NO_CORPSE, NORMAL (default)
+    "message": "The %s dies!", // substitute %s for the monster's name.
+    "effect": { "id": "death_boomer", "hit_self": true }  // the actual effect that gets called when the monster dies.  follows the syntax of fake_spell.
+}
+```
 
 ## "emit_field"
 (array of objects of emit_id and time_duration, optional)
@@ -399,10 +415,10 @@ The upgrades object may have the following members:
 
 | field        | description
 | ---          | ---
-| `half_life`  | (int) Time in which half of the monsters upgrade according to an approximated exponential progression. It is scaled with the evolution scaling factor which defaults to 4 days.
-| `into_group` | (string, optional) The upgraded monster's type is taken from the specified group. The cost in these groups is for an upgrade in the spawn process (related to the rare "replace_monster_group" and "new_monster_group_id" attributes of spawning groups).
+| `half_life`  | (int) Days in which half of the monsters upgrade according to an approximated exponential progression. It is multiplied with the evolution scaling factor (at the time of this writing, 4).
+| `into_group` | (string, optional) The upgraded monster's type is taken from the specified group. 
 | `into`       | (string, optional) The upgraded monster's type.
-| `age_grow`   | (int, optional) Number of days needed for monster to change into another monster.
+| `age_grow`   | (int, optional) Number of days needed for monster to change into another monster. Does not scale with the evolution factor.
 
 ## "reproduction"
 (dictionary, optional)
@@ -419,6 +435,33 @@ The monster's reproduction cycle, if any. Supports:
 ## "baby_flags"
 (Array, optional)
 Designate seasons during which this monster is capable of reproduction. ie: `[ "SPRING", "SUMMER" ]`
+
+## "shearing
+(array of objects, optional)
+
+A set of items that are given to the player when they shear this monster. These entries can be duplicates and are one of these 4 types:
+```json
+"shearing": [
+    {
+        "result": "wool",
+        "amount": 100        // exact amount
+    },
+    {
+        "result": "rags",
+        "amount": [10, 100]  // random number in range ( inclusive )
+    },
+    {
+        "result": "leather",
+        "ratio_mass": 0.25   // amount from percentage of mass ( kilograms )
+    },
+    {
+        "result": "wool",
+        "ratio_volume": 0.60 // amount from percentage of volume ( liters )
+    }
+]
+```
+
+This means that when this monster is sheared, it will give: 100 units of wool, 10 to 100 pieces of rag, 25% of its body mass as leather and 60% of its volume as wool.
 
 ## "special_when_hit"
 (array, optional)
@@ -473,13 +516,13 @@ Each element of the array should be an object containing the following members:
 
 Monster's special attacks. This should be an array, each element of it should be an object (new style) or an array (old style).
 
-The old style array should contain 2 elements: the id of the attack (see [JSON_FLAGS.md](JSON_FLAGS.md) for a list) and the cooldown for that attack. Example (grab attack every 10 turns):
+The old style array should contain 2 elements: the id of the attack (see [JSON_FLAGS.md](JSON_FLAGS.md) for a list) and the cooldown for that attack. Example:
 
 ```JSON
 "special_attacks": [ [ "GRAB", 10 ] ]
 ```
 
-The new style object can contain a "type" member (string) - "cooldown" member (integer) pair for the three types listed below, the "id" of an explicitly defined monster attack (from monster_attacks.json) or a spell (see MAGIC.md). It may contain additional members as required by the specific attack. Possible types are listed below. Example:
+The new style object can contain a "type" member (string) - "cooldown" member (integer) pair for the three types listed below, the "id" of an explicitly defined monster attack (from monster_attacks.json) or a spell (see [MAGIC.md]). It may contain additional members as required by the specific attack. Possible types are listed below. Example:
 
 ```JSON
 "special_attacks": [
@@ -494,34 +537,37 @@ In the case of separately defined attacks the object has to contain at least an 
 ]
 ```
 
-
 "special_attacks" may contain any mixture of old and new style entries:
 
 ```JSON
 "special_attacks": [
     [ "GRAB", 10 ],
-    { "type": "leap", "cooldown": 10, "max_range": 4 }
+    { "type": "leap", "cooldown": 8, "max_range": 4 },
+    { "id": "impale", "cooldown": 5, "min_mul": 1, "max_mul": 3 }
 ]
 ```
+This monster can attempt a grab every ten turns, a leap with a maximum range of 4 every eight and an impale attack with 1-3x damage multiplier every five turns.
 
 # Monster special attack types
 The listed attack types can be as monster special attacks (see "special_attacks").
 
 ## "monster_attack"
 
-The common type for JSON-defined attacks. Note, you don't have to declare it in the monster attack data, use the "id" of the desired attack instead.
+The common type for JSON-defined attacks. Note, you don't have to declare it in the monster attack data, use the "id" of the desired attack instead. All fields beyond `id` are optional.
 
 | field                 | description
 | ---                   | ---
 | `cooldown`			| Integer, amount of turns between uses.
 | `damage_max_instance` | Array of objects, see ## "melee_damage" 
 | `min_mul`, `max_mul`  | Sets the bounds on the range of damage done. For each attack, the above defined amount of damage will be multiplied by a 
-|						| randomly rolled mulltiplier between the values min_mul and max_mul. 
-| `move_cost`           | Turns needed to complete special attack. 100 move_cost with 100 speed is equal to 1 second/turn.
+|						| randomly rolled mulltiplier between the values min_mul and max_mul. Default 0.5 and 1.0, meaning each attack will do at least half of the defined damage.
+| `move_cost`           | Integer, moves needed to complete special attack. Default 100.
 | `accuracy`            | Integer, if defined the attack will use a different accuracy from monster's regular melee attack.
 | `body_parts`			| List, If empty the regular melee roll body part selection is used. If non-empty, a body part is selected from the map to be
-|						| targeted.
-|						| with a chance proportional to the value.
+|						| targeted with a chance proportional to the value.
+| `attack_chance`		| Integer, percent chance of the attack being successfully used if a monster attempts it. Default 100.
+| `range`       		| Integer, range of the attack in tiles (Default 1, this equals melee range). Melee attacks require unobstructed straight paths.
+| `no_adjacent`			| Boolean, default false. Attack can't target adjacent creatures.
 | `effects`				| Array, defines additional effects for the attack to add.
 | `miss_msg_u`			| String, message for missed attack against the player.
 | `miss_msg_npc`		| String, message for missed attack against an NPC.

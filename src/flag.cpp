@@ -1,7 +1,5 @@
 #include "flag.h"
 
-#include <unordered_map>
-
 #include "debug.h"
 #include "generic_factory.h"
 #include "json.h"
@@ -11,6 +9,7 @@ const flag_id flag_NULL = flag_id( "null" ); // intentionally invalid flag
 
 const flag_id flag_ACID( "ACID" );
 const flag_id flag_ACID_IMMUNE( "ACID_IMMUNE" );
+const flag_id flag_ACTIVATE_ON_PLACE( "ACTIVATE_ON_PLACE" );
 const flag_id flag_ACTIVE_CLOAKING( "ACTIVE_CLOAKING" );
 const flag_id flag_ACT_IN_FIRE( "ACT_IN_FIRE" );
 const flag_id flag_ACT_ON_RANGED_HIT( "ACT_ON_RANGED_HIT" );
@@ -33,6 +32,7 @@ const flag_id flag_BASH_IMMUNE( "BASH_IMMUNE" );
 const flag_id flag_BELTED( "BELTED" );
 const flag_id flag_BELT_CLIP( "BELT_CLIP" );
 const flag_id flag_BIO_IMMUNE( "BIO_IMMUNE" );
+const flag_id flag_BIONIC_INSTALLATION_DATA( "BIONIC_INSTALLATION_DATA" );
 const flag_id flag_BIPOD( "BIPOD" );
 const flag_id flag_BIRD( "BIRD" );
 const flag_id flag_BLED( "BLED" );
@@ -78,19 +78,7 @@ const flag_id flag_DURABLE_MELEE( "DURABLE_MELEE" );
 const flag_id flag_EATEN_COLD( "EATEN_COLD" );
 const flag_id flag_EATEN_HOT( "EATEN_HOT" );
 const flag_id flag_EDIBLE_FROZEN( "EDIBLE_FROZEN" );
-const flag_id flag_EFFECT_ACID_IMMUNE( "EFFECT_ACID_IMMUNE" );
-const flag_id flag_EFFECT_BASH_IMMUNE( "EFFECT_BASH_IMMUNE" );
-const flag_id flag_EFFECT_BIO_IMMUNE( "EFFECT_BIO_IMMUNE" );
-const flag_id flag_EFFECT_BULLET_IMMUNE( "EFFECT_BULLET_IMMUNE" );
-const flag_id flag_EFFECT_COLD_IMMUNE( "EFFECT_COLD_IMMUNE" );
-const flag_id flag_EFFECT_CUT_IMMUNE( "EFFECT_CUT_IMMUNE" );
-const flag_id flag_EFFECT_ELECTRIC_IMMUNE( "EFFECT_ELECTRIC_IMMUNE" );
-const flag_id flag_EFFECT_FEATHER_FALL( "EFFECT_FEATHER_FALL" );
-const flag_id flag_EFFECT_HEAT_IMMUNE( "EFFECT_HEAT_IMMUNE" );
 const flag_id flag_EFFECT_IMPEDING( "EFFECT_IMPEDING" );
-const flag_id flag_EFFECT_INVISIBLE( "EFFECT_INVISIBLE" );
-const flag_id flag_EFFECT_NIGHT_VISION( "EFFECT_NIGHT_VISION" );
-const flag_id flag_EFFECT_STAB_IMMUNE( "EFFECT_STAB_IMMUNE" );
 const flag_id flag_ELECTRIC_IMMUNE( "ELECTRIC_IMMUNE" );
 const flag_id flag_ETHEREAL_ITEM( "ETHEREAL_ITEM" );
 const flag_id flag_FAKE_MILL( "FAKE_MILL" );

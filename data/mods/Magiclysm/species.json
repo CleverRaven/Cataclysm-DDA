@@ -30,6 +30,11 @@
   },
   {
     "type": "SPECIES",
+    "id": "GOLEM",
+    "anger_triggers": [ "HURT", "PLAYER_CLOSE" ]
+  },
+  {
+    "type": "SPECIES",
     "id": "OGRE",
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_WEAK" ]
   }

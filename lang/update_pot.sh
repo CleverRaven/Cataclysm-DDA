@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 if [ ! -d lang/po ]
 then
@@ -69,7 +69,8 @@ then
 fi
 
 # convert line endings to unix
-if [[ $(uname -s) =~ ^\(CYGWIN|MINGW\)* ]]
+os="$(uname -s)"
+if (! [ "${os##CYGWIN*}" ]) || (! [ "${os##MINGW*}" ])
 then
     echo "> Converting line endings to Unix"
     if ! sed -i -e 's/\r$//' lang/po/cataclysm-dda.pot

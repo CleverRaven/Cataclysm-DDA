@@ -72,7 +72,7 @@ def main(args):
     json_tags_lines = [make_tags_line(*d) for d in definitions]
     existing_tags_lines = []
     try:
-        with open(TAGS_FILE, 'rb') as tags_file:
+        with open(TAGS_FILE, 'rb', encoding="utf-8") as tags_file:
             existing_tags_lines = tags_file.readlines()
     except FileNotFoundError:
         pass
@@ -83,7 +83,7 @@ def main(args):
 
     all_tags_lines = sorted(json_tags_lines + existing_tags_lines)
 
-    with open(TAGS_FILE, 'wb') as tags_file:
+    with open(TAGS_FILE, 'wb', encoding="utf-8") as tags_file:
         tags_file.write(b'\n'.join(all_tags_lines))
 
 

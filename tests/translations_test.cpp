@@ -1,5 +1,8 @@
-#include "catch/catch.hpp"
+#include <iosfwd>
+#include <string>
+#include <vector>
 
+#include "cata_catch.h"
 #include "translations.h"
 
 // wrapping in another macro to prevent collection of the test string for translation

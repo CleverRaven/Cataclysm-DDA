@@ -2,13 +2,12 @@
 #ifndef CATA_SRC_SCENARIO_H
 #define CATA_SRC_SCENARIO_H
 
-#include <algorithm>
+#include <iosfwd>
 #include <set>
 #include <string>
 #include <vector>
 
-#include "pldata.h"
-#include "string_id.h"
+#include "calendar.h"
 #include "translations.h"
 #include "type_id.h"
 
@@ -56,6 +55,8 @@ class scenario
         int _initial_year = 1;
 
         vproto_id _starting_vehicle = vproto_id::NULL_ID();
+
+        std::vector<std::pair<mongroup_id, float>> _surround_groups;
 
         void load( const JsonObject &jo, const std::string &src );
         bool scenario_traits_conflict_with_profession_traits( const profession &p ) const;
@@ -129,6 +130,7 @@ class scenario
         bool can_pick( const scenario &current_scenario, int points ) const;
 
         const std::vector<mission_type_id> &missions() const;
+        const std::vector<std::pair<mongroup_id, float>> &surround_groups() const;
 
 };
 

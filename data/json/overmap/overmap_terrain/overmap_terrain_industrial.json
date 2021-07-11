@@ -116,6 +116,7 @@
     "name": "lumberyard",
     "sym": "L",
     "color": "i_green",
+    "spawns": { "group": "GROUP_WASP_FORAGER", "population": [ 1, 3 ], "chance": 10 },
     "extend": { "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ] }
   },
   {
@@ -133,6 +134,7 @@
     "name": "lumbermill",
     "sym": "L",
     "color": "i_green",
+    "spawns": { "group": "GROUP_WASP_FORAGER", "population": [ 1, 3 ], "chance": 10 },
     "extend": { "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ] }
   },
   {
@@ -354,6 +356,95 @@
     "name": "helicopter pad",
     "sym": "H",
     "color": "i_cyan",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "mine_entrance", "mine_entrance_loading_zone" ],
+    "name": "mine entrance",
+    "sym": "M",
+    "color": "magenta",
+    "see_cost": 5,
+    "flags": [ "KNOWN_DOWN" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "mine_entrance_roof", "mine_entrance_loading_zone_roof" ],
+    "name": "mine entrance roof",
+    "sym": "M",
+    "color": "magenta",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mine_shaft_middle",
+    "name": "mine shaft",
+    "sym": "O",
+    "color": "dark_gray",
+    "see_cost": 5,
+    "flags": [ "KNOWN_UP", "KNOWN_DOWN" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "mine_shaft_lower", "mine_shaft_lower_east" ],
+    "name": "mine shaft",
+    "sym": "O",
+    "color": "dark_gray",
+    "see_cost": 5,
+    "flags": [ "KNOWN_UP" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "mine_spiral_west",
+      "mine_spiral_central",
+      "mine_spiral_east",
+      "mine_spiral_-1_nw",
+      "mine_spiral_-1_n",
+      "mine_spiral_-1_ne",
+      "mine_spiral_-1_sw",
+      "mine_spiral_-1_s",
+      "mine_spiral_-1_se",
+      "mine_spiral_finale_nw",
+      "mine_spiral_finale_n",
+      "mine_spiral_finale_ne",
+      "mine_spiral_finale_sw",
+      "mine_spiral_finale_s",
+      "mine_spiral_finale_se"
+    ],
+    "name": "mine tunnels",
+    "sym": "O",
+    "color": "dark_gray",
+    "see_cost": 5,
+    "flags": [ "KNOWN_UP" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_lightindustry_scen_road_0", "s_lightindustry_scen_road_1" ],
+    "name": "light industry",
+    "sym": "─",
+    "color": "dark_gray",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "s_lightindustry_scen_00",
+      "s_lightindustry_scen_00_roof",
+      "s_lightindustry_scen_01",
+      "s_lightindustry_scen_01_roof",
+      "s_lightindustry_scen_10",
+      "s_lightindustry_scen_10_roof",
+      "s_lightindustry_scen_11",
+      "s_lightindustry_scen_11_roof"
+    ],
+    "name": "light industry",
+    "sym": "I",
+    "color": "light_blue",
     "see_cost": 5,
     "extras": "build",
     "mondensity": 2

@@ -50,7 +50,7 @@
     "time": "2 h",
     "reversible": true,
     "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_fibers", "fail_multiplier": 5 }, { "proficiency": "prof_fibers_rope" } ],
+    "proficiencies": [ { "proficiency": "prof_fibers", "fail_multiplier": 1.5 }, { "proficiency": "prof_fibers_rope" } ],
     "components": [ [ [ "filament", 1800, "LIST" ] ] ]
   },
   {
@@ -79,7 +79,7 @@
     "reversible": true,
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_fibers_rope", "required": false, "time_multiplier": 1.5 } ],
-    "components": [ [ [ "rope_6", 5 ], [ "string_36", 30 ] ] ]
+    "components": [ [ [ "rope_6", 5 ] ] ]
   },
   {
     "type": "recipe",
@@ -121,7 +121,7 @@
     "time": "10 h",
     "reversible": true,
     "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_fibers", "fail_multiplier": 5 }, { "proficiency": "prof_fibers_rope" } ],
+    "proficiencies": [ { "proficiency": "prof_fibers", "fail_multiplier": 1.5 }, { "proficiency": "prof_fibers_rope" } ],
     "components": [ [ [ "filament", 10800, "LIST" ] ] ]
   },
   {

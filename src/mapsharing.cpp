@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include <fstream>
 #include <stdexcept>
+#include <string>
 
 #include "filesystem.h"
 #include "ofstream_wrapper.h"

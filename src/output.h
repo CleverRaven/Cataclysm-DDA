@@ -2,13 +2,15 @@
 #ifndef CATA_SRC_OUTPUT_H
 #define CATA_SRC_OUTPUT_H
 
+#include <functional>
+#include <clocale>
 #include <algorithm>
 #include <cstddef>
 #include <cstdint>
 #include <forward_list>
 #include <functional>
+#include <iosfwd>
 #include <iterator>
-#include <locale>
 #include <map>
 #include <string>
 #include <type_traits>
@@ -401,7 +403,7 @@ class border_helper
 
                 friend class border_helper;
             private:
-                border_info( border_helper &helper );
+                explicit border_info( border_helper &helper );
 
                 point pos;
                 point size;
@@ -409,7 +411,7 @@ class border_helper
         };
 
         border_info &add_border();
-        void draw_border( const catacurses::window &win );
+        void draw_border( const catacurses::window &win, nc_color border_color = BORDER_COLOR );
 
         friend class border_info;
     private:
@@ -670,7 +672,8 @@ inline std::string get_labeled_bar( const double val, const int width, const std
 enum class enumeration_conjunction : int {
     none,
     and_,
-    or_
+    or_,
+    arrow
 };
 
 /**
@@ -690,9 +693,20 @@ std::string enumerate_as_string( const _Container &values,
                 return ( values.size() > 2 ? _( ", and " ) : _( " and " ) );
             case enumeration_conjunction::or_:
                 return ( values.size() > 2 ? _( ", or " ) : _( " or " ) );
+            case enumeration_conjunction::arrow:
+                return _( " > " );
         }
         debugmsg( "Unexpected conjunction" );
         return _( ", " );
+    }
+    ();
+    const std::string separator = [&conj]() {
+        switch( conj ) {
+            case enumeration_conjunction::arrow:
+                return _( " > " );
+            default:
+                return _( ", " );
+        }
     }
     ();
     std::string res;
@@ -701,7 +715,7 @@ std::string enumerate_as_string( const _Container &values,
             if( std::next( iter ) == values.end() ) {
                 res += final_separator;
             } else {
-                res += _( ", " );
+                res += separator;
             }
         }
         res += *iter;
@@ -866,7 +880,7 @@ class scrollbar
 class scrolling_text_view
 {
     public:
-        scrolling_text_view( catacurses::window &w ) : w_( w ) {}
+        explicit scrolling_text_view( catacurses::window &w ) : w_( w ) {}
 
         void set_text( const std::string & );
         void scroll_up();

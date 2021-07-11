@@ -1,5 +1,6 @@
-#include <algorithm>
+#include <iosfwd>
 #include <map>
+#include <new>
 #include <set>
 #include <string>
 #include <utility>
@@ -13,7 +14,6 @@
 #include "map.h"
 #include "mapdata.h"
 #include "optional.h"
-#include "string_id.h"
 #include "type_id.h"
 
 struct tripoint;
@@ -64,14 +64,7 @@ static void load_transform_results( const JsonObject &jsi, const std::string &js
         list.add( T( jsi.get_string( json_key ) ), 1 );
         return;
     }
-    for( const JsonValue entry : jsi.get_array( json_key ) ) {
-        if( entry.test_array() ) {
-            JsonArray inner = entry.get_array();
-            list.add( T( inner.get_string( 0 ) ), inner.get_int( 1 ) );
-        } else {
-            list.add( T( entry.get_string() ), 1 );
-        }
-    }
+    load_weighted_list( jsi.get_member( json_key ), list, 1 );
 }
 
 template<class T>

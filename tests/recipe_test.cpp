@@ -1,8 +1,13 @@
-#include "catch/catch.hpp"
-#include "character.h"
-#include "recipe.h"
-#include "type_id.h"
 #include <sstream>
+#include <string>
+
+#include "calendar.h"
+#include "cata_catch.h"
+#include "character.h"
+#include "json.h"
+#include "recipe.h"
+#include "requirements.h"
+#include "type_id.h"
 
 static std::string reqs_to_json_string( const requirement_data &reqs )
 {

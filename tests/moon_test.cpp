@@ -1,8 +1,8 @@
-#include "catch/catch.hpp"
-
+#include <iosfwd>
 #include <string>
 
 #include "calendar.h"
+#include "cata_catch.h"
 #include "enum_conversions.h"
 
 // MOON TESTS

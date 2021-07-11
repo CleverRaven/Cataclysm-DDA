@@ -1,6 +1,7 @@
 #include "name.h"
 
 #include <cstddef>
+#include <functional>
 #include <map>
 #include <string>
 #include <utility>

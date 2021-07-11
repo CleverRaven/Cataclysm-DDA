@@ -64,6 +64,8 @@
     "symbol": "+",
     "color": "cyan",
     "move_cost": 0,
+    "lockpick_result": "t_chaingate_c",
+    "lockpick_message": "With a satisfying click, the lock on the gate opens.",
     "flags": [ "TRANSPARENT", "PERMEABLE", "LOCKED", "PICKABLE", "THIN_OBSTACLE", "BURROWABLE" ],
     "connects_to": "CHAINFENCE",
     "examine_action": "locked_object_pickable",
@@ -115,6 +117,84 @@
     "flags": [ "TRANSPARENT", "FLAT", "ROAD", "BURROWABLE" ],
     "connects_to": "CHAINFENCE",
     "close": "t_chaingate_c",
+    "bash": {
+      "str_min": 5,
+      "str_max": 150,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_null",
+      "items": [
+        { "item": "wire", "count": [ 6, 15 ] },
+        { "item": "pipe", "count": [ 6, 15 ] },
+        { "item": "scrap", "count": [ 0, 12 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_retractable_gate_l",
+    "name": "locked retractable gate",
+    "description": "A retractable security gate.  The latch on this one is locked.  With the right tools, you could cut the metal fence or disable the lock.",
+    "symbol": "+",
+    "color": "cyan",
+    "move_cost": 0,
+    "flags": [ "TRANSPARENT", "PERMEABLE", "LOCKED", "PICKABLE", "THIN_OBSTACLE" ],
+    "connects_to": "WALL",
+    "examine_action": "locked_object_pickable",
+    "lockpick_result": "t_retractable_gate_c",
+    "lockpick_message": "With a satisfying click, the lock on the gate opens.",
+    "bash": {
+      "str_min": 17,
+      "str_max": 175,
+      "str_min_blocked": 15,
+      "str_max_blocked": 175,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_null",
+      "items": [
+        { "item": "wire", "count": [ 8, 20 ] },
+        { "item": "chain", "count": [ 1, 2 ] },
+        { "item": "scrap", "count": [ 0, 12 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_retractable_gate_c",
+    "name": "closed retractable gate",
+    "description": "A retractable security gate with a latch system to stay closed.",
+    "symbol": "+",
+    "color": "cyan",
+    "move_cost": 0,
+    "flags": [ "TRANSPARENT", "DOOR", "PERMEABLE", "THIN_OBSTACLE" ],
+    "connects_to": "WALL",
+    "open": "t_retractable_gate_o",
+    "bash": {
+      "str_min": 17,
+      "str_max": 175,
+      "str_min_blocked": 20,
+      "str_max_blocked": 100,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_null",
+      "items": [
+        { "item": "wire", "count": [ 6, 15 ] },
+        { "item": "chain", "count": [ 1, 2 ] },
+        { "item": "scrap", "count": [ 0, 12 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_retractable_gate_o",
+    "name": "open retractable gate",
+    "description": "A retractable security gate with a latch system to stay closed.  The latch is undone, so the gate has retracted up.",
+    "symbol": ".",
+    "color": "cyan",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD" ],
+    "connects_to": "WALL",
+    "close": "t_retractable_gate_c",
     "bash": {
       "str_min": 5,
       "str_max": 150,
@@ -365,6 +445,60 @@
   },
   {
     "type": "terrain",
+    "id": "t_wattle_fence",
+    "alias": [ "t_wattle_fence_h", "t_wattle_fence_v" ],
+    "name": "woven wattle fence",
+    "description": "A flimsy barrier made of woven sticks.  Suitable for small animals.",
+    "symbol": "LINE_OXOX",
+    "color": "brown",
+    "looks_like": "t_fence",
+    "move_cost": 0,
+    "examine_action": "chainfence",
+    "flags": [
+      "TRANSPARENT",
+      "DIGGABLE",
+      "FLAMMABLE_ASH",
+      "THIN_OBSTACLE",
+      "SHORT",
+      "NOITEM",
+      "PERMEABLE",
+      "UNSTABLE",
+      "CLIMBABLE",
+      "AUTO_WALL_SYMBOL",
+      "BURROWABLE"
+    ],
+    "connects_to": "WOODFENCE",
+    "deconstruct": { "ter_set": "t_fence_post", "items": [ { "item": "splinter", "count": 20 } ] },
+    "bash": {
+      "str_min": 4,
+      "str_max": 20,
+      "sound": "crack.",
+      "sound_fail": "wham.",
+      "ter_set": "t_null",
+      "items": [ { "item": "pointy_stick", "count": [ 0, 2 ] }, { "item": "splinter", "count": [ 5, 15 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_wattle_fence_posts",
+    "name": "narrow fence posts",
+    "description": "A set of narrow wooden posts for a woven wattle fence.",
+    "symbol": "#",
+    "color": "brown",
+    "looks_like": "t_fence_post",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "THIN_OBSTACLE", "SHORT" ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 20,
+      "sound": "crack.",
+      "sound_fail": "wham.",
+      "ter_set": "t_null",
+      "items": [ { "item": "stick", "count": [ 1, 4 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_chainfence",
     "alias": [ "t_chainfence_h", "t_chainfence_v" ],
     "name": "chain link fence",
@@ -442,7 +576,6 @@
     "looks_like": "t_chickenwire_fence",
     "move_cost": 0,
     "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "AUTO_WALL_SYMBOL", "BURROWABLE", "AUTO_WALL_SYMBOL" ],
-    "examine_action": "chainfence",
     "deconstruct": {
       "ter_set": "t_floor",
       "items": [ { "item": "screen_mesh", "count": 1 }, { "item": "nail", "charges": 10 }, { "item": "2x4", "charges": 4 } ]
@@ -650,6 +783,21 @@
         { "item": "nail", "charges": 12 },
         { "item": "hinge", "count": [ 1, 2 ] }
       ]
+    },
+    "bash": {
+      "str_min": 4,
+      "str_max": 20,
+      "str_min_blocked": 6,
+      "str_max_blocked": 30,
+      "sound": "crack.",
+      "sound_fail": "wham.",
+      "ter_set": "t_null",
+      "items": [
+        { "item": "2x4", "count": [ 1, 4 ] },
+        { "item": "nail", "charges": [ 2, 8 ] },
+        { "item": "splinter", "count": [ 1, 2 ] },
+        { "item": "hinge", "count": [ 1, 2 ] }
+      ]
     }
   },
   {
@@ -778,17 +926,14 @@
     "examine_action": "chainfence",
     "flags": [ "NOITEM", "CLIMBABLE", "PERMEABLE", "AUTO_WALL_SYMBOL", "FLAMMABLE_ASH", "THIN_OBSTACLE", "BURROWABLE" ],
     "connects_to": "WOODFENCE",
-    "deconstruct": {
-      "ter_set": "t_fence_post",
-      "items": [ { "item": "2x4", "count": 10 }, { "item": "nail", "charges": 20 }, { "item": "hinge", "count": [ 1, 2 ] } ]
-    },
+    "deconstruct": { "ter_set": "t_fence_post", "items": [ { "item": "2x4", "count": 8 }, { "item": "nail", "charges": 20 } ] },
     "bash": {
       "str_min": 5,
       "str_max": 12,
       "sound": "whump!",
       "sound_fail": "whack!",
       "ter_set": "t_fence_post",
-      "items": [ { "item": "2x4", "count": [ 4, 10 ] } ]
+      "items": [ { "item": "2x4", "count": [ 4, 8 ] } ]
     }
   },
   {
@@ -838,7 +983,7 @@
     "color": "brown",
     "looks_like": "t_fencegate_o",
     "move_cost": 1,
-    "flags": [ "FLAMMABLE_ASH", "FLAT", "ROAD", "BURROWABLE" ],
+    "flags": [ "FLAMMABLE_ASH", "FLAT", "ROAD", "BURROWABLE", "TRANSPARENT" ],
     "connects_to": "WOODFENCE",
     "close": "t_privacy_fencegate_c",
     "deconstruct": {
@@ -847,6 +992,21 @@
         { "item": "2x4", "count": 8 },
         { "item": "pointy_stick", "count": 2 },
         { "item": "nail", "charges": 20 },
+        { "item": "hinge", "count": [ 1, 2 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 4,
+      "str_max": 20,
+      "str_min_blocked": 6,
+      "str_max_blocked": 30,
+      "sound": "crack.",
+      "sound_fail": "wham.",
+      "ter_set": "t_null",
+      "items": [
+        { "item": "2x4", "count": [ 4, 8 ] },
+        { "item": "nail", "charges": [ 10, 20 ] },
+        { "item": "splinter", "count": [ 4, 6 ] },
         { "item": "hinge", "count": [ 1, 2 ] }
       ]
     }

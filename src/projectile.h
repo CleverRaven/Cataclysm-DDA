@@ -2,16 +2,17 @@
 #ifndef CATA_SRC_PROJECTILE_H
 #define CATA_SRC_PROJECTILE_H
 
+#include <iosfwd>
 #include <memory>
 #include <set>
-#include <string>
 
+#include "compatibility.h"
 #include "damage.h"
 #include "point.h"
 
 class Creature;
-struct explosion_data;
 class item;
+struct explosion_data;
 
 struct projectile {
         damage_instance impact;
@@ -46,7 +47,7 @@ struct projectile {
 
         projectile();
         projectile( const projectile & );
-        projectile( projectile && );
+        projectile( projectile && ) noexcept( set_is_noexcept );
         projectile &operator=( const projectile & );
         ~projectile();
 

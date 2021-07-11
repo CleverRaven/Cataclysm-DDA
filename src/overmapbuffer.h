@@ -4,9 +4,10 @@
 
 #include <array>
 #include <functional>
+#include <iosfwd>
 #include <memory>
+#include <new>
 #include <set>
-#include <string>
 #include <unordered_map>
 #include <utility>
 #include <vector>
@@ -16,10 +17,7 @@
 #include "memory_fast.h"
 #include "omdata.h"
 #include "optional.h"
-#include "overmap.h"
 #include "overmap_types.h"
-#include "point.h"
-#include "string_id.h"
 #include "type_id.h"
 
 class basecamp;
@@ -51,7 +49,7 @@ struct radio_tower_reference {
     point_abs_sm abs_sm_pos;
     /** Perceived signal strength (tower output strength minus distance) */
     int signal_strength;
-    operator bool() const {
+    explicit operator bool() const {
         return tower != nullptr;
     }
 };
@@ -65,7 +63,7 @@ struct city_reference {
     /** Distance to center of the search */
     int distance;
 
-    operator bool() const {
+    explicit operator bool() const {
         return city != nullptr;
     }
 
@@ -81,7 +79,7 @@ struct camp_reference {
     /** Distance to center of the search */
     int distance;
 
-    operator bool() const {
+    explicit operator bool() const {
         return camp != nullptr;
     }
 

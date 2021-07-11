@@ -1,11 +1,12 @@
-#include "catch/catch.hpp"
-
+#include <functional>
 #include <list>
 #include <memory>
 #include <set>
 #include <vector>
 
 #include "avatar.h"
+#include "calendar.h"
+#include "cata_catch.h"
 #include "game.h"
 #include "item.h"
 #include "item_contents.h"
@@ -17,8 +18,10 @@
 #include "player.h"
 #include "player_activity.h"
 #include "player_helpers.h"
+#include "point.h"
 #include "ret_val.h"
 #include "type_id.h"
+#include "units.h"
 #include "value_ptr.h"
 
 TEST_CASE( "reload_gun_with_integral_magazine", "[reload],[gun]" )
@@ -147,7 +150,7 @@ static void reload_a_revolver( player &dummy, item &gun, item &ammo )
         process_activity( dummy );
         CAPTURE( dummy.weapon.typeId() );
         CAPTURE( ammo.typeId() );
-        CHECK( !dummy.weapon.contents.empty() );
+        CHECK( !dummy.weapon.empty() );
         CHECK( dummy.weapon.ammo_current() == ammo.type->get_id() );
     }
 }
@@ -208,7 +211,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
 
     GIVEN( "a player wielding an unloaded gun, carrying an unloaded magazine, and carrying ammo for the magazine" ) {
         dummy.worn.clear();
-        dummy.worn.push_back( item( "backpack" ) );
+        dummy.worn.emplace_back( "backpack" );
         item &ammo = dummy.i_add( item( "9mm", calendar::turn_zero, 50 ) );
         const cata::value_ptr<islot_ammo> &ammo_type = ammo.type->ammo;
         REQUIRE( ammo_type );
@@ -232,7 +235,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
                     return it.typeId() == itype_id( "glockmag" );
                 } );
                 REQUIRE( mags.size() == 1 );
-                REQUIRE( !mags.front()->contents.empty() );
+                REQUIRE( !mags.front()->empty() );
                 CHECK( mags.front()->contents.first_ammo().type == ammo.type );
             }
             WHEN( "the player triggers auto reload again" ) {
@@ -268,7 +271,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
                         return it.typeId() == itype_id( "glockmag" );
                     } );
                     REQUIRE( mags.size() == 1 );
-                    REQUIRE( !mags.front()->contents.empty() );
+                    REQUIRE( !mags.front()->empty() );
                     CHECK( mags.front()->contents.first_ammo().type == ammo.type );
                 }
                 WHEN( "the player triggers auto reload again" ) {
@@ -289,7 +292,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
                                 return it.typeId() == itype_id( "glockbigmag" );
                             } );
                             REQUIRE( mags.size() == 1 );
-                            REQUIRE( !mags.front()->contents.empty() );
+                            REQUIRE( !mags.front()->empty() );
                             CHECK( mags.front()->contents.first_ammo().type == ammo.type );
                         }
                         WHEN( "the player triggers auto reload again" ) {

@@ -1,27 +1,38 @@
-#include "catch/catch.hpp"
-
 #include <array>
+#include <iosfwd>
+#include <map>
+#include <memory>
+#include <set>
+#include <string>
+#include <utility>
+#include <vector>
 
-#include "avatar.h"
-#include "cata_utility.h"
+#include "activity_type.h"
+#include "calendar.h"
+#include "cata_catch.h"
 #include "character.h"
-#include "creature.h"
 #include "damage.h"
 #include "game.h"
 #include "inventory.h"
 #include "item.h"
-#include "item_pocket.h"
 #include "itype.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "optional.h"
+#include "player_activity.h"
 #include "player_helpers.h"
+#include "point.h"
+#include "recipe.h"
+#include "requirements.h"
 #include "type_id.h"
+#include "units.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "vpart_position.h"
 #include "vpart_range.h"
 
-static time_point midnight = calendar::turn_zero + 0_hours;
-static time_point midday = calendar::turn_zero + 12_hours;
+static time_point midnight = calendar::turn_zero;
+static time_point midday = midnight + 12_hours;
 
 static void set_time( const time_point &time )
 {
@@ -185,19 +196,19 @@ TEST_CASE( "craft_available_via_vehicle_rig", "[vehicle][vehicle_craft]" )
     }
     SECTION( "cook oatmeal without battery" ) {
         std::vector<item> items;
-        items.push_back( item( itype_id( "oatmeal" ) ) );
+        items.emplace_back( itype_id( "oatmeal" ) );
 
         test_craft_via_rig( items, 0, 0, 1, 1, recipe_id( "oatmeal_cooked" ).obj(), false );
     }
     SECTION( "cook oatmeal without water" ) {
         std::vector<item> items;
-        items.push_back( item( itype_id( "oatmeal" ) ) );
+        items.emplace_back( itype_id( "oatmeal" ) );
 
         test_craft_via_rig( items, 2, 2, 0, 0, recipe_id( "oatmeal_cooked" ).obj(), false );
     }
     SECTION( "cook oatmeal successfully" ) {
         std::vector<item> items;
-        items.push_back( item( itype_id( "oatmeal" ) ) );
+        items.emplace_back( itype_id( "oatmeal" ) );
 
         test_craft_via_rig( items, 2, 0, 1, 0, recipe_id( "oatmeal_cooked" ).obj(), true );
     }
