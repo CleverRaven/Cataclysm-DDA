@@ -672,6 +672,22 @@
     "relative": { "to_hit": 2 }
   },
   {
+    "type": "GENERIC",
+    "id": "lucerne_plus_one",
+    "copy-from": "lucern_hammer",
+    "name": "lucerne hammer +1",
+    "proportional": { "price": 3.0, "price_postapoc": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "relative": { "to_hit": 1 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "lucerne_plus_two",
+    "copy-from": "lucern_hammer",
+    "name": "lucerne hammer +2",
+    "proportional": { "price": 6.0, "price_postapoc": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "relative": { "to_hit": 2 }
+  },
+  {
     "id": "rune_biomancer_weapon",
     "type": "GENERIC",
     "name": { "str": "Biomancer spear" },
