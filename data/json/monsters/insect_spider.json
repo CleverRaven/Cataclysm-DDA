@@ -583,7 +583,7 @@
     "id": "mon_dragonfly_naiad",
     "type": "MONSTER",
     "name": { "str": "huge dragonfly naiad" },
-    "description": "The predatory, aquatic larva of a dragonfly, normally barely a centimeter long and feeding on small fishes, grown to the size of a catfish.  Underneath its sharp mandibles you can see that its folded lower jaw changed into something resemblig a barbed spear.",
+    "description": "The predatory, aquatic larva of a dragonfly, normally barely a centimeter long and feeding on small fishes, grown to the size of a catfish.  Underneath its sharp mandibles you can see that its folded lower jaw changed into something resembling a barbed spear.",
     "species": [ "INSECT" ],
     "bodytype": "insect",
     "material": [ "iflesh" ],
