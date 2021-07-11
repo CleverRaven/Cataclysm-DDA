@@ -516,13 +516,13 @@ Each element of the array should be an object containing the following members:
 
 Monster's special attacks. This should be an array, each element of it should be an object (new style) or an array (old style).
 
-The old style array should contain 2 elements: the id of the attack (see [JSON_FLAGS.md](JSON_FLAGS.md) for a list) and the cooldown for that attack. Example (grab attack every 10 turns):
+The old style array should contain 2 elements: the id of the attack (see [JSON_FLAGS.md](JSON_FLAGS.md) for a list) and the cooldown for that attack. Example:
 
 ```JSON
 "special_attacks": [ [ "GRAB", 10 ] ]
 ```
 
-The new style object can contain a "type" member (string) - "cooldown" member (integer) pair for the three types listed below, the "id" of an explicitly defined monster attack (from monster_attacks.json) or a spell (see MAGIC.md). It may contain additional members as required by the specific attack. Possible types are listed below. Example:
+The new style object can contain a "type" member (string) - "cooldown" member (integer) pair for the three types listed below, the "id" of an explicitly defined monster attack (from monster_attacks.json) or a spell (see [MAGIC.md]). It may contain additional members as required by the specific attack. Possible types are listed below. Example:
 
 ```JSON
 "special_attacks": [
@@ -537,34 +537,37 @@ In the case of separately defined attacks the object has to contain at least an 
 ]
 ```
 
-
 "special_attacks" may contain any mixture of old and new style entries:
 
 ```JSON
 "special_attacks": [
     [ "GRAB", 10 ],
-    { "type": "leap", "cooldown": 10, "max_range": 4 }
+    { "type": "leap", "cooldown": 8, "max_range": 4 },
+    { "id": "impale", "cooldown": 5, "min_mul": 1, "max_mul": 3 }
 ]
 ```
+This monster can attempt a grab every ten turns, a leap with a maximum range of 4 every eight and an impale attack with 1-3x damage multiplier every five turns.
 
 # Monster special attack types
 The listed attack types can be as monster special attacks (see "special_attacks").
 
 ## "monster_attack"
 
-The common type for JSON-defined attacks. Note, you don't have to declare it in the monster attack data, use the "id" of the desired attack instead.
+The common type for JSON-defined attacks. Note, you don't have to declare it in the monster attack data, use the "id" of the desired attack instead. All fields beyond `id` are optional.
 
 | field                 | description
 | ---                   | ---
 | `cooldown`			| Integer, amount of turns between uses.
 | `damage_max_instance` | Array of objects, see ## "melee_damage" 
 | `min_mul`, `max_mul`  | Sets the bounds on the range of damage done. For each attack, the above defined amount of damage will be multiplied by a 
-|						| randomly rolled mulltiplier between the values min_mul and max_mul. 
-| `move_cost`           | Turns needed to complete special attack. 100 move_cost with 100 speed is equal to 1 second/turn.
+|						| randomly rolled mulltiplier between the values min_mul and max_mul. Default 0.5 and 1.0, meaning each attack will do at least half of the defined damage.
+| `move_cost`           | Integer, moves needed to complete special attack. Default 100.
 | `accuracy`            | Integer, if defined the attack will use a different accuracy from monster's regular melee attack.
 | `body_parts`			| List, If empty the regular melee roll body part selection is used. If non-empty, a body part is selected from the map to be
-|						| targeted.
-|						| with a chance proportional to the value.
+|						| targeted with a chance proportional to the value.
+| `attack_chance`		| Integer, percent chance of the attack being successfully used if a monster attempts it. Default 100.
+| `range`       		| Integer, range of the attack in tiles (Default 1, this equals melee range). Melee attacks require unobstructed straight paths.
+| `no_adjacent`			| Boolean, default false. Attack can't target adjacent creatures.
 | `effects`				| Array, defines additional effects for the attack to add.
 | `miss_msg_u`			| String, message for missed attack against the player.
 | `miss_msg_npc`		| String, message for missed attack against an NPC.

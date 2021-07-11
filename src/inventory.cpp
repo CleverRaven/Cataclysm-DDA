@@ -489,7 +489,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
         const furn_t &f = m.furn( p ).obj();
         if( item *furn_item = provide_pseudo_item( f.crafting_pseudo_item, 0 ) ) {
             const itype *ammo = f.crafting_ammo_item_type();
-            if( furn_item->contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE ) ) {
+            if( furn_item->has_pocket_type( item_pocket::pocket_type::MAGAZINE ) ) {
                 // NOTE: This only works if the pseudo item has a MAGAZINE pocket, not a MAGAZINE_WELL!
                 item furn_ammo( ammo, calendar::turn, count_charges_in_list( ammo, m.i_at( p ) ) );
                 furn_item->put_in( furn_ammo, item_pocket::pocket_type::MAGAZINE );

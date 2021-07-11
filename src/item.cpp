@@ -139,7 +139,6 @@ static const itype_id itype_cigar_lit( "cigar_lit" );
 static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_hand_crossbow( "hand_crossbow" );
 static const itype_id itype_joint_roach( "joint_roach" );
-static const itype_id itype_plut_cell( "plut_cell" );
 static const itype_id itype_rad_badge( "rad_badge" );
 static const itype_id itype_tuned_mechanism( "tuned_mechanism" );
 static const itype_id itype_UPS( "UPS" );
@@ -2179,10 +2178,15 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
             info.emplace_back( "AMMO", space + _( "Armor-pierce: " ), get_ranged_pierce( ammo ) );
         }
         if( parts->test( iteminfo_parts::AMMO_DAMAGE_RANGE ) ) {
-            info.emplace_back( "AMMO", _( "Range: " ), "", iteminfo::no_newline, ammo.range );
+            info.emplace_back( "AMMO", _( "Range: " ), "<num>" + space,
+                               iteminfo::no_newline, ammo.range );
+        }
+        if( ammo.range_multiplier != 1.0f && parts->test( iteminfo_parts::AMMO_DAMAGE_RANGE_MULTIPLIER ) ) {
+            info.emplace_back( "AMMO", _( "Range Multiplier: " ), "<num>",
+                               iteminfo::is_decimal, ammo.range_multiplier );
         }
         if( parts->test( iteminfo_parts::AMMO_DAMAGE_DISPERSION ) ) {
-            info.emplace_back( "AMMO", space + _( "Dispersion: " ), "",
+            info.emplace_back( "AMMO", _( "Dispersion: " ), "",
                                iteminfo::lower_is_better, ammo.dispersion );
         }
         if( parts->test( iteminfo_parts::AMMO_DAMAGE_RECOIL ) ) {
@@ -2655,6 +2659,14 @@ void item::gunmod_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     if( get_ranged_pierce( mod ) != 0 && parts->test( iteminfo_parts::GUNMOD_ARMORPIERCE ) ) {
         info.emplace_back( "GUNMOD", _( "Armor-pierce: " ), "", iteminfo::show_plus,
                            pierce );
+    }
+    if( mod.range != 0 && parts->test( iteminfo_parts::GUNMOD_RANGE ) ) {
+        info.emplace_back( "GUNMOD", _( "Range: " ), "",
+                           iteminfo::show_plus | iteminfo::no_newline, mod.range );
+    }
+    if( mod.range_multiplier != 1.0f && parts->test( iteminfo_parts::GUNMOD_RANGE_MULTIPLIER ) ) {
+        info.emplace_back( "GUNMOD", _( "Range Multiplier: " ), "",
+                           iteminfo::is_decimal, mod.range_multiplier );
     }
     if( mod.handling != 0 && parts->test( iteminfo_parts::GUNMOD_HANDLING ) ) {
         info.emplace_back( "GUNMOD", _( "Handling modifier: " ), "",
@@ -7183,6 +7195,33 @@ bool item::is_container() const
     return contents.has_pocket_type( item_pocket::pocket_type::CONTAINER );
 }
 
+
+bool item::has_pocket_type( item_pocket::pocket_type pk_type ) const
+{
+    return contents.has_pocket_type( pk_type );
+}
+
+bool item::has_any_with( const std::function<bool( const item & )> &filter,
+                         item_pocket::pocket_type pk_type ) const
+{
+    return contents.has_any_with( filter, pk_type );
+}
+
+bool item::all_pockets_rigid() const
+{
+    return contents.all_pockets_rigid();
+}
+
+ret_val<std::vector<const item_pocket *>> item::get_all_contained_pockets() const
+{
+    return contents.get_all_contained_pockets();
+}
+
+ret_val<std::vector<item_pocket *>> item::get_all_contained_pockets()
+{
+    return contents.get_all_contained_pockets();
+}
+
 item_pocket *item::contained_where( const item &contained )
 {
     return contents.contained_where( contained );
@@ -7539,6 +7578,12 @@ bool item::spill_contents( const tripoint &pos )
     return contents.spill_contents( pos );
 }
 
+
+bool item::spill_open_pockets( Character &guy, const item *avoid )
+{
+    return contents.spill_open_pockets( guy, avoid );
+}
+
 book_proficiency_bonuses item::get_book_proficiency_bonuses() const
 {
     book_proficiency_bonuses ret;
@@ -7819,12 +7864,16 @@ int item::gun_range( bool with_ammo ) const
         return 0;
     }
     int ret = type->gun->range;
+    float range_multiplier = 1.0;
     for( const item *mod : gunmods() ) {
         ret += mod->type->gunmod->range;
+        range_multiplier *= mod->type->gunmod->range_multiplier;
     }
     if( with_ammo && ammo_data() ) {
         ret += ammo_data()->ammo->range;
+        range_multiplier *= ammo_data()->ammo->range_multiplier;
     }
+    ret *= range_multiplier;
     return std::min( std::max( 0, ret ), RANGE_HARD_CAP );
 }
 
@@ -9412,9 +9461,9 @@ bool item::has_rotten_away() const
 
 bool item_ptr_compare_by_charges( const item *left, const item *right )
 {
-    if( left->contents.empty() ) {
+    if( left->empty() ) {
         return false;
-    } else if( right->contents.empty() ) {
+    } else if( right->empty() ) {
         return true;
     } else {
         return right->contents.only_item().charges < left->contents.only_item().charges;
@@ -11039,4 +11088,29 @@ std::list<item *> item::all_items_top_recursive( item_pocket::pocket_type pk_typ
     }
 
     return all_items_internal;
+}
+
+void item::clear_items()
+{
+    contents.clear_items();
+}
+
+bool item::empty() const
+{
+    return contents.empty();
+}
+
+size_t item::num_item_stacks() const
+{
+    return contents.num_item_stacks();
+}
+
+item &item::legacy_front()
+{
+    return contents.legacy_front();
+}
+
+const item &item::legacy_front() const
+{
+    return contents.legacy_front();
 }

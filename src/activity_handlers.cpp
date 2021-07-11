@@ -186,7 +186,6 @@ static const efftype_id effect_controlled( "controlled" );
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_sleep( "sleep" );
-static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_under_operation( "under_operation" );
 
 static const itype_id itype_2x4( "2x4" );
@@ -209,7 +208,6 @@ static const itype_id itype_steel_plate( "steel_plate" );
 static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_wire( "wire" );
 static const itype_id itype_chain( "chain" );
-static const itype_id itype_wool_staple( "wool_staple" );
 
 static const zone_type_id zone_type_FARM_PLOT( "FARM_PLOT" );
 
@@ -4327,6 +4325,6 @@ void activity_handlers::mind_splicer_finish( player_activity *act, player *p )
     item &data_card = *act->targets[0];
     p->add_msg_if_player( m_info, _( "…you finally find the memory banks." ) );
     p->add_msg_if_player( m_info, _( "The kit makes a copy of the data inside the bionic." ) );
-    data_card.contents.clear_items();
+    data_card.clear_items();
     data_card.put_in( item( itype_mind_scan_robofac ), item_pocket::pocket_type::SOFTWARE );
 }

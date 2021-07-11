@@ -535,7 +535,7 @@ void activity_tracker::deserialize( JsonIn &jsin )
 // remove this migration funciton after 0.F
 static void migrate_item_charges( item &it )
 {
-    if( it.charges != 0 && it.contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE ) ) {
+    if( it.charges != 0 && it.has_pocket_type( item_pocket::pocket_type::MAGAZINE ) ) {
         it.ammo_set( it.ammo_default(), it.charges );
         it.charges = 0;
     }

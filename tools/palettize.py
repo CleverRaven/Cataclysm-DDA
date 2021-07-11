@@ -75,7 +75,7 @@ palette_source = \
     argsDict.get("palette_path", "") + "/" + palette_name + ".json"
 if mapgen_source.endswith(".json"):
     try:
-        with open(mapgen_source) as mapgen_file:
+        with open(mapgen_source, encoding="utf-8") as mapgen_file:
             mapgen += json.load(mapgen_file)
     except FileNotFoundError:
         exit("Failed: could not find {}".format(mapgen_source))
@@ -130,7 +130,7 @@ for om_tile in mapgen:
         else:
             del om_object["terrain"]
 
-with open(mapgen_source, 'w') as mapgen_file:
+with open(mapgen_source, 'w', encoding="utf-8") as mapgen_file:
     mapgen_file.write(json.dumps(mapgen, indent=2))
 
 palette_json = [
@@ -142,7 +142,7 @@ palette_json = [
     }
 ]
 
-with open(palette_source, 'w') as palette_file:
+with open(palette_source, 'w', encoding="utf-8") as palette_file:
     palette_file.write(json.dumps(palette_json, indent=2))
 
 #print("furniture palette {}".format(json.dumps(furn_pal, indent=2)))

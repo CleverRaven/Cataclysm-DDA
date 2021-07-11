@@ -14,8 +14,8 @@ import subprocess
 
 
 def write_to_json(pathname, data):
-    with open(pathname, "w") as fp:
-        json.dump(data, fp)
+    with open(pathname, "w", encoding="utf-8") as fp:
+        json.dump(data, fp, ensure_ascii=False)
 
     json_formatter = "./tools/format/json_formatter.cgi"
     if os.path.isfile(json_formatter):
@@ -95,7 +95,7 @@ def convert_tile_entry_file(file_path, old_name, new_name):
     changed = False
     tile_data = []
     new_tile_data = []
-    with open(file_path, "r") as fp:
+    with open(file_path, "r", encoding="utf-8") as fp:
         tile_data = json.load(fp)
     if not isinstance(tile_data, list):
         tile_data = [tile_data]

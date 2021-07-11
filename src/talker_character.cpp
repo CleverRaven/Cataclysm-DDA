@@ -150,9 +150,16 @@ bool talker_character::has_effect( const efftype_id &effect_id ) const
 }
 
 void talker_character::add_effect( const efftype_id &new_effect, const time_duration &dur,
-                                   bool permanent )
+                                   std::string bp, bool permanent, bool force, int intensity )
 {
-    me_chr->add_effect( new_effect, dur, permanent );
+    bodypart_id target_part;
+    if( "RANDOM" == bp ) {
+        target_part = get_player_character().random_body_part( true );
+    } else {
+        target_part = bodypart_str_id( bp );
+    }
+
+    me_chr->add_effect( new_effect, dur, target_part, permanent, intensity, force );
 }
 
 void talker_character::remove_effect( const efftype_id &old_effect )

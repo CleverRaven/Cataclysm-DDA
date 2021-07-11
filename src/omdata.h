@@ -211,6 +211,7 @@ struct oter_type_t {
         uint32_t symbol = 0;
         nc_color color = c_black;
         overmap_land_use_code_id land_use_code = overmap_land_use_code_id::NULL_ID();
+        std::vector<std::string> looks_like;
         unsigned char see_cost = 0;     // Affects how far the player can see in the overmap
         unsigned char travel_cost = 5;  // Affects the pathfinding and travel times
         std::string extras = "none";
@@ -296,6 +297,7 @@ struct oter_t {
         size_t get_line() const {
             return line;
         }
+        void get_rotation_and_subtile( int &rotation, int &subtile ) const;
 
         unsigned char get_see_cost() const {
             return type->see_cost;

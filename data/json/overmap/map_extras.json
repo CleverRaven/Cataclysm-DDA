@@ -140,6 +140,26 @@
     "autonote": true
   },
   {
+    "id": "mx_exocrash_1",
+    "type": "map_extra",
+    "name": { "str": "Crashed pod" },
+    "description": "There is some kind of crashed metal pod here.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_exodii_crash_big_1" },
+    "sym": "x",
+    "color": "light_gray",
+    "autonote": true
+  },
+  {
+    "id": "mx_exocrash_2",
+    "type": "map_extra",
+    "name": { "str": "Crashed pod" },
+    "description": "There is some kind of crashed metal pod here.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_exodii_crash_big_2" },
+    "sym": "x",
+    "color": "light_gray",
+    "autonote": true
+  },
+  {
     "id": "mx_house_spider",
     "type": "map_extra",
     "name": { "str": "Spider Nest" },
@@ -260,7 +280,10 @@
     "type": "map_extra",
     "name": { "str": "Derelict shed" },
     "description": "A collapsed shed.",
-    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_fallen_shed_map" }
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_fallen_shed_map" },
+    "sym": "^",
+    "color": "dark_gray",
+    "autonote": true
   },
   {
     "id": "mx_clay_deposit",
@@ -299,7 +322,7 @@
     "description": "Burned ground is here.",
     "generator": { "generator_method": "map_extra_function", "generator_id": "mx_burned_ground" },
     "sym": ".",
-    "color": "yellow",
+    "color": "light_gray",
     "autonote": true
   },
   {
@@ -309,7 +332,7 @@
     "description": "Burned ground is here.",
     "generator": { "generator_method": "map_extra_function", "generator_id": "mx_point_burned_ground" },
     "sym": ".",
-    "color": "yellow",
+    "color": "light_gray",
     "autonote": true
   },
   {

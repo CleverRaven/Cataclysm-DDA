@@ -810,7 +810,7 @@ void computer_session::action_download_software()
         get_player_character().moves -= 30;
         item software( miss->get_item_id(), calendar::turn_zero );
         software.mission_id = comp.mission_id;
-        usb->contents.clear_items();
+        usb->clear_items();
         usb->put_in( software, item_pocket::pocket_type::SOFTWARE );
         print_line( _( "Software downloaded." ) );
     } else {
@@ -831,12 +831,12 @@ void computer_session::action_blood_anal()
                 print_error( _( "ERROR: Please place sample in centrifuge." ) );
             } else if( items.size() > 1 ) {
                 print_error( _( "ERROR: Please remove all but one sample from centrifuge." ) );
-            } else if( items.only_item().contents.empty() ) {
+            } else if( items.only_item().empty() ) {
                 print_error( _( "ERROR: Please only use container with blood sample." ) );
-            } else if( items.only_item().contents.legacy_front().typeId() != itype_blood ) {
+            } else if( items.only_item().legacy_front().typeId() != itype_blood ) {
                 print_error( _( "ERROR: Please only use blood samples." ) );
             } else { // Success!
-                const item &blood = items.only_item().contents.legacy_front();
+                const item &blood = items.only_item().legacy_front();
                 const mtype *mt = blood.get_mtype();
                 if( mt == nullptr || mt->id == mtype_id::NULL_ID() ) {
                     print_line( _( "Result: Human blood, no pathogens found." ) );
@@ -850,7 +850,7 @@ void computer_session::action_blood_anal()
                     if( query_bool( _( "Download data?" ) ) ) {
                         if( item *const usb = pick_usb() ) {
                             item software( "software_blood_data", calendar::turn_zero );
-                            usb->contents.clear_items();
+                            usb->clear_items();
                             usb->put_in( software, item_pocket::pocket_type::SOFTWARE );
                             print_line( _( "Software downloaded." ) );
                         } else {
@@ -883,7 +883,7 @@ void computer_session::action_data_anal()
                        items.only_item().typeId() != itype_black_box ) {
                 print_error( _( "ERROR: Memory bank destroyed or not present." ) );
             } else if( items.only_item().typeId() == itype_usb_drive &&
-                       items.only_item().contents.empty() ) {
+                       items.only_item().empty() ) {
                 print_error( _( "ERROR: Memory bank is empty." ) );
             } else { // Success!
                 if( items.only_item().typeId() == itype_black_box ) {
@@ -1512,9 +1512,9 @@ void computer_session::failure_destroy_blood()
                 print_error( _( "ERROR: Please remove all but one sample from centrifuge." ) );
             } else if( items.only_item().typeId() != itype_vacutainer ) {
                 print_error( _( "ERROR: Please use blood-contained samples." ) );
-            } else if( items.only_item().contents.empty() ) {
+            } else if( items.only_item().empty() ) {
                 print_error( _( "ERROR: Blood draw kit, empty." ) );
-            } else if( items.only_item().contents.legacy_front().typeId() != itype_blood ) {
+            } else if( items.only_item().legacy_front().typeId() != itype_blood ) {
                 print_error( _( "ERROR: Please only use blood samples." ) );
             } else {
                 print_error( _( "ERROR: Blood sample destroyed." ) );
@@ -1538,7 +1538,7 @@ void computer_session::failure_destroy_data()
                 print_error( _( "ERROR: Please only scan one item at a time." ) );
             } else if( items.only_item().typeId() != itype_usb_drive ) {
                 print_error( _( "ERROR: Memory bank destroyed or not present." ) );
-            } else if( items.only_item().contents.empty() ) {
+            } else if( items.only_item().empty() ) {
                 print_error( _( "ERROR: Memory bank is empty." ) );
             } else {
                 print_error( _( "ERROR: Data bank destroyed." ) );

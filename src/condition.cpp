@@ -938,6 +938,14 @@ void conditional_t<T>::set_can_see( bool is_npc )
 }
 
 template<class T>
+void conditional_t<T>::set_is_deaf( bool is_npc )
+{
+    condition = [is_npc]( const T & d ) {
+        return d.actor( is_npc )->is_deaf();
+    };
+}
+
+template<class T>
 conditional_t<T>::conditional_t( const JsonObject &jo )
 {
     // improve the clarity of NPC setter functions
@@ -1244,6 +1252,10 @@ conditional_t<T>::conditional_t( const std::string &type )
         set_mission_has_generic_rewards();
     } else if( type == "u_can_see" || type == "npc_can_see" ) {
         set_can_see( is_npc );
+    } else if( type == "u_is_deaf" ) {
+        set_is_deaf();
+    } else if( type == "npc_is_deaf" ) {
+        set_is_deaf( is_npc );
     } else {
         condition = []( const T & ) {
             return false;

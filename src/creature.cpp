@@ -77,8 +77,6 @@ static const efftype_id effect_zapped( "zapped" );
 
 static const species_id species_ROBOT( "ROBOT" );
 
-static const proficiency_id proficiency_prof_spotting( "prof_spotting" );
-
 const std::map<std::string, creature_size> Creature::size_map = {
     {"TINY",   creature_size::tiny},
     {"SMALL",  creature_size::small},

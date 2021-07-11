@@ -13,6 +13,48 @@
 
 namespace auto_notes
 {
+
+class custom_symbol
+{
+    private:
+        cata::optional<uint32_t> symbol;
+
+        cata::optional<nc_color> color;
+
+    public:
+        std::string get_symbol_string() const {
+            return symbol ? utf32_to_utf8( *symbol ) : "";
+        };
+
+        std::string get_color_string() const {
+            return color ? get_all_colors().get_name( *color ) : "";
+        };
+
+        uint32_t get_symbol() const {
+            return symbol ? *symbol : UTF8_getch( "N" );
+        };
+
+        nc_color get_color() const {
+            return color ? *color : c_yellow;
+        };
+
+        void set_symbol( const std::string &str ) {
+            if( !str.empty() ) {
+                symbol = UTF8_getch( str );
+            } else {
+                symbol.reset();
+            }
+        };
+
+        void set_color( const std::string &col ) {
+            if( !col.empty() ) {
+                color = get_all_colors().name_to_color( col );
+            } else {
+                color.reset();
+            }
+        };
+};
+
 /**
  * Class implementing the user interface for the auto note configuration.
  */
@@ -25,6 +67,8 @@ class auto_note_manager_gui
 
         bool was_changed() const;
 
+        void set_cached_custom_symbol( const string_id<map_extra> &mapExtId, const custom_symbol &symbol );
+
     private:
         /// The map extra type cache. This is initialized with all known map extra types
         /// and their auto note status with every call of initialize(). All changes to this
@@ -34,6 +78,10 @@ class auto_note_manager_gui
 
         /// All map extra types that will be displayed in the GUI.
         std::vector<string_id<map_extra>> displayCache;
+
+        std::unordered_map<string_id<map_extra>, custom_symbol> custom_symbol_cache;
+
+        void fill_custom_symbols_cache();
 
         bool wasChanged{false};
 };
@@ -60,6 +108,13 @@ class auto_note_settings
         bool was_discovered( const string_id<map_extra> &mapExtId ) const;
 
     public:
+        cata::optional<custom_symbol> get_custom_symbol( const string_id<map_extra> &mapExtId ) const;
+
+        void set_custom_symbol( const string_id<map_extra> &mapExtId, const custom_symbol &symbol );
+
+        void clear_all_custom_symbols();
+
+    public:
         void load();
 
         bool save();
@@ -83,6 +138,9 @@ class auto_note_settings
         /// This set contains the ID strings of all map extras that were already encountered by the player.
         /// This is used in order to avoid spoilers in the GUI.
         std::unordered_set<string_id<map_extra>> discovered;
+
+        /// User-defined symbols and colors for the auto notes.
+        std::unordered_map<string_id<map_extra>, custom_symbol> custom_symbols;
 };
 } // namespace auto_notes
 

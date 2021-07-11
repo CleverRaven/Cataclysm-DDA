@@ -89,6 +89,10 @@ namespace io
             case enchant_vals::mod::EFFECTIVE_HEALTH_MOD: return "EFFECTIVE_HEALTH_MOD";
             case enchant_vals::mod::MOD_HEALTH: return "MOD_HEALTH";
             case enchant_vals::mod::MOD_HEALTH_CAP: return "MOD_HEALTH_CAP";
+            case enchant_vals::mod::MAP_MEMORY: return "MAP_MEMORY";
+            case enchant_vals::mod::READING_EXP: return "READING_EXP";
+            case enchant_vals::mod::SKILL_RUST_RESIST: return "SKILL_RUST_RESIST";
+            case enchant_vals::mod::LEARNING_FOCUS: return "LEARNING_FOCUS";
             case enchant_vals::mod::ARMOR_ACID: return "ARMOR_ACID";
             case enchant_vals::mod::ARMOR_BASH: return "ARMOR_BASH";
             case enchant_vals::mod::ARMOR_BIO: return "ARMOR_BIO";

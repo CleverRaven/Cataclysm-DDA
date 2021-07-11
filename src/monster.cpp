@@ -2440,7 +2440,18 @@ void monster::die( Creature *nkiller )
 
     add_msg_if_player_sees( *this, m_good, type->mdeath_effect.death_message.translated(), name() );
 
-    // drop a corpse, or not
+    if( type->mdeath_effect.has_effect ) {
+        //Not a hallucination, go process the death effects.
+        spell death_spell = type->mdeath_effect.sp.get_spell();
+        if( killer != nullptr && type->mdeath_effect.sp.self &&
+            death_spell.is_target_in_range( *this, killer->pos() ) ) {
+            death_spell.cast_all_effects( *this, killer->pos() );
+        } else if( type->mdeath_effect.sp.self ) {
+            death_spell.cast_all_effects( *this, pos() );
+        }
+    }
+
+    // drop a corpse, or not - this needs to happen after the spell, for e.g. revivification effects
     switch( type->mdeath_effect.corpse_type ) {
         case mdeath_type::NORMAL:
             mdeath::normal( *this );
@@ -2453,17 +2464,6 @@ void monster::die( Creature *nkiller )
             break;
         default:
             break;
-    }
-
-    if( type->mdeath_effect.has_effect ) {
-        //Not a hallucination, go process the death effects.
-        spell death_spell = type->mdeath_effect.sp.get_spell();
-        if( killer != nullptr && type->mdeath_effect.sp.self &&
-            death_spell.is_target_in_range( *this, killer->pos() ) ) {
-            death_spell.cast_all_effects( *this, killer->pos() );
-        } else if( type->mdeath_effect.sp.self ) {
-            death_spell.cast_all_effects( *this, pos() );
-        }
     }
 
     // If our species fears seeing one of our own die, process that

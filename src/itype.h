@@ -228,6 +228,8 @@ struct armor_portion_data {
     // What layer does it cover if any
     // TODO: Not currently supported, we still use flags for this
     //cata::optional<layer_level> layer;
+
+    void deserialize( JsonIn &jsin );
 };
 
 struct islot_armor {
@@ -424,6 +426,10 @@ struct common_ranged_data {
      * Range bonus from gun.
      */
     int range = 0;
+    /**
+     * Range multiplier from gunmods or ammo.
+     */
+    float range_multiplier = 1.0;
     /**
      * Dispersion "bonus" from gun.
      */

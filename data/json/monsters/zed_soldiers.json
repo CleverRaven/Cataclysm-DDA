@@ -254,7 +254,8 @@
     "harvest": "zombie_kevlar",
     "special_attacks": [
       { "id": "slam", "cooldown": 12, "damage_max_instance": [ { "damage_type": "bash", "amount": 35 } ] },
-      [ "LONGSWIPE", 20 ],
+      { "id": "longswipe" },
+      { "id": "cut_throat" },
       [ "SMASH", 20 ]
     ],
     "death_drops": "mon_zombie_kevlar_death_drops",

@@ -2937,5 +2937,10 @@
     "type": "recipe",
     "result": "bodypillow",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "gloves_xlsurvivor",
+    "obsolete": true
   }
 ]

@@ -307,7 +307,6 @@ static const trait_id trait_DOWN( "DOWN" );
 static const trait_id trait_ELECTRORECEPTORS( "ELECTRORECEPTORS" );
 static const trait_id trait_ELFA_FNV( "ELFA_FNV" );
 static const trait_id trait_ELFA_NV( "ELFA_NV" );
-static const trait_id trait_FASTLEARNER( "FASTLEARNER" );
 static const trait_id trait_FAST_REFLEXES( "FAST_REFLEXES" );
 static const trait_id trait_FEL_NV( "FEL_NV" );
 static const trait_id trait_GILLS( "GILLS" );
@@ -351,7 +350,6 @@ static const trait_id trait_SHOUT2( "SHOUT2" );
 static const trait_id trait_SHOUT3( "SHOUT3" );
 static const trait_id trait_SLIMESPAWNER( "SLIMESPAWNER" );
 static const trait_id trait_SLIMY( "SLIMY" );
-static const trait_id trait_SLOWLEARNER( "SLOWLEARNER" );
 static const trait_id trait_STRONGSTOMACH( "STRONGSTOMACH" );
 static const trait_id trait_THRESH_CEPHALOPOD( "THRESH_CEPHALOPOD" );
 static const trait_id trait_THRESH_INSECT( "THRESH_INSECT" );
@@ -2267,7 +2265,7 @@ std::vector<item> Character::get_pseudo_items() const
     std::vector<item> result;
     for( const bionic &bio : *my_bionics ) {
         const bionic_data &bid = bio.info();
-        if( bid.fake_item && ( !bid.activated || bio.powered ) ) {
+        if( ( !bid.activated || bio.powered ) && bid.fake_item.is_valid() ) {
             result.emplace_back( item( bid.fake_item ) );
         }
     }
@@ -3149,7 +3147,7 @@ void Character::handle_contents_changed( const std::vector<item_location> &conta
         loc->on_contents_changed();
         const bool handle_drop = loc.where() != item_location::type::map && !is_wielding( *loc );
         bool drop_unhandled = false;
-        for( item_pocket *const pocket : loc->contents.get_all_contained_pockets().value() ) {
+        for( item_pocket *const pocket : loc->get_all_contained_pockets().value() ) {
             if( pocket && !pocket->sealed() ) {
                 // pockets are unsealed but on_contents_changed is not called
                 // in contents_change_handler::unseal_pocket_containing
@@ -4356,10 +4354,9 @@ void Character::do_skill_rust()
             continue;
         }
 
-        const bool charged_bio_mem = get_power_level() > bio_memory->power_trigger &&
-                                     has_active_bionic( bio_memory );
+        const int rust_resist = enchantment_cache->modify_value( enchant_vals::mod::READING_EXP, 0 );
         const int oldSkillLevel = skill_level_obj.level();
-        if( skill_level_obj.rust( charged_bio_mem, rust_rate_tmp ) ) {
+        if( skill_level_obj.rust( rust_resist, rust_rate_tmp ) ) {
             add_msg_if_player( m_warning,
                                _( "Your knowledge of %s begins to fade, but your memory banks retain it!" ), aSkill.name() );
             mod_power_level( -bio_memory->power_trigger );
@@ -5567,7 +5564,7 @@ void Character::update_health( int external_modifiers )
 
     // And healthy_mod decays over time.
     // Slowly near 0, but it's hard to overpower it near +/-100
-    set_healthy_mod( std::round( get_healthy_mod() * 0.95f ) );
+    set_healthy_mod( roll_remainder( get_healthy_mod() * 0.95f ) );
 
     add_msg_debug( debugmode::DF_CHAR_HEALTH, "Health: %d, Health mod: %d", get_healthy(),
                    get_healthy_mod() );
@@ -7017,7 +7014,7 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint &p )
                     }
                     if( items_it.has_flag( flag_SLEEP_AID_CONTAINER ) ) {
                         bool found = false;
-                        if( items_it.contents.num_item_stacks() > 1 ) {
+                        if( items_it.num_item_stacks() > 1 ) {
                             // Only one item is allowed, so we don't fill our pillowcase with nails
                             continue;
                         }
@@ -7074,7 +7071,7 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint &p )
                 }
                 if( items_it.has_flag( flag_SLEEP_AID_CONTAINER ) ) {
                     bool found = false;
-                    if( items_it.contents.num_item_stacks() > 1 ) {
+                    if( items_it.num_item_stacks() > 1 ) {
                         // Only one item is allowed, so we don't fill our pillowcase with nails
                         continue;
                     }
@@ -7928,7 +7925,7 @@ hint_rating Character::rate_action_reload( const item &it ) const
 
 hint_rating Character::rate_action_unload( const item &it ) const
 {
-    if( it.is_container() && !it.contents.empty() &&
+    if( it.is_container() && !it.empty() &&
         it.can_unload_liquid() ) {
         return hint_rating::good;
     }
@@ -8107,7 +8104,6 @@ mutation_value_map = {
     { "noise_modifier", calc_mutation_value_multiplicative<&mutation_branch::noise_modifier> },
     { "overmap_sight", calc_mutation_value_additive<&mutation_branch::overmap_sight> },
     { "overmap_multiplier", calc_mutation_value_multiplicative<&mutation_branch::overmap_multiplier> },
-    { "map_memory_capacity_multiplier", calc_mutation_value_multiplicative<&mutation_branch::map_memory_capacity_multiplier> },
     { "reading_speed_multiplier", calc_mutation_value_multiplicative<&mutation_branch::reading_speed_multiplier> },
     { "skill_rust_multiplier", calc_mutation_value_multiplicative<&mutation_branch::skill_rust_multiplier> },
     { "crafting_speed_multiplier", calc_mutation_value_multiplicative<&mutation_branch::crafting_speed_multiplier> },
@@ -8826,7 +8822,7 @@ bool Character::dispose_item( item_location &&obj, const std::string &prompt )
         can_stash( *obj ), '1',
         item_handling_cost( *obj ),
         [this, bucket, &obj] {
-            if( bucket && !obj->contents.spill_open_pockets( *this, obj.get_item() ) )
+            if( bucket && !obj->spill_open_pockets( *this, obj.get_item() ) )
             {
                 return false;
             }
@@ -10609,7 +10605,7 @@ units::volume Character::free_space() const
 {
     units::volume volume_capacity = 0_ml;
     volume_capacity += weapon.get_total_capacity();
-    for( const item_pocket *pocket : weapon.contents.get_all_contained_pockets().value() ) {
+    for( const item_pocket *pocket : weapon.get_all_contained_pockets().value() ) {
         if( pocket->contains_phase( phase_id::SOLID ) ) {
             for( const item *it : pocket->all_items_top() ) {
                 volume_capacity -= it->volume();
@@ -10621,7 +10617,7 @@ units::volume Character::free_space() const
     volume_capacity += weapon.check_for_free_space();
     for( const item &w : worn ) {
         volume_capacity += w.get_total_capacity();
-        for( const item_pocket *pocket : w.contents.get_all_contained_pockets().value() ) {
+        for( const item_pocket *pocket : w.get_all_contained_pockets().value() ) {
             if( pocket->contains_phase( phase_id::SOLID ) ) {
                 for( const item *it : pocket->all_items_top() ) {
                     volume_capacity -= it->volume();
@@ -11719,15 +11715,8 @@ bool Character::has_opposite_trait( const trait_id &flag ) const
 int Character::adjust_for_focus( int amount ) const
 {
     int effective_focus = get_focus();
-    if( has_trait( trait_FASTLEARNER ) ) {
-        effective_focus += 15;
-    }
-    if( has_active_bionic( bio_memory ) ) {
-        effective_focus += 10;
-    }
-    if( has_trait( trait_SLOWLEARNER ) ) {
-        effective_focus -= 15;
-    }
+    effective_focus = enchantment_cache->modify_value( enchant_vals::mod::LEARNING_FOCUS,
+                      effective_focus );
     effective_focus += ( get_int() - get_option<int>( "INT_BASED_LEARNING_BASE_VALUE" ) ) *
                        get_option<int>( "INT_BASED_LEARNING_FOCUS_ADJUSTMENT" );
     effective_focus = std::max( effective_focus, 1 );
@@ -12895,7 +12884,7 @@ bool Character::unload( item_location &loc, bool bypass_activity )
     item &it = *loc;
     // Unload a container consuming moves per item successfully removed
     if( it.is_container() ) {
-        if( it.contents.empty() ) {
+        if( it.empty() ) {
             add_msg( m_info, _( "The %s is already empty!" ), it.tname() );
             return false;
         }
