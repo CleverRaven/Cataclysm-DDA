@@ -8,6 +8,7 @@
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
     "difficulty": 5,
+    "batch_time_factors": [ 95, 2 ],
     "time": "30 m",
     "qualities": [ { "id": "CHURN", "level": 1 } ],
     "book_learn": [ [ "dairy_book", 3 ] ],
