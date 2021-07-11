@@ -117,7 +117,7 @@
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
         "magazine_well": "75 ml",
-        "item_restriction": [ "afs_cartridge", "afs_bootleg_cartridge" ]
+        "item_restriction": [ "afs_cartridge", "afs_bootleg_cartridge", "afs_archeotech_cartridge" ]
       }
     ]
   },
@@ -154,7 +154,7 @@
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
         "magazine_well": "75 ml",
-        "item_restriction": [ "afs_cartridge", "afs_compact_cartridge", "afs_bootleg_cartridge" ]
+        "item_restriction": [ "afs_cartridge", "afs_compact_cartridge", "afs_bootleg_cartridge", "afs_archeotech_cartridge" ]
       }
     ]
   },
@@ -194,7 +194,7 @@
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
         "magazine_well": "75 ml",
-        "item_restriction": [ "afs_cartridge", "afs_compact_cartridge", "afs_bootleg_cartridge" ]
+        "item_restriction": [ "afs_archeotech_cartridge" ]
       }
     ]
   },
@@ -229,7 +229,7 @@
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
         "magazine_well": "75 ml",
-        "item_restriction": [ "afs_cartridge", "afs_compact_cartridge", "afs_bootleg_cartridge" ]
+        "item_restriction": [ "afs_cartridge", "afs_compact_cartridge", "afs_bootleg_cartridge", "afs_archeotech_cartridge" ]
       }
     ]
   },
@@ -253,7 +253,7 @@
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
         "magazine_well": "75 ml",
-        "item_restriction": [ "afs_cartridge", "afs_compact_cartridge", "afs_bootleg_cartridge" ]
+        "item_restriction": [ "afs_cartridge", "afs_compact_cartridge", "afs_bootleg_cartridge", "afs_archeotech_cartridge" ]
       }
     ]
   },
@@ -275,7 +275,7 @@
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
         "magazine_well": "75 ml",
-        "item_restriction": [ "afs_cartridge", "afs_compact_cartridge", "afs_bootleg_cartridge" ]
+        "item_restriction": [ "afs_cartridge", "afs_compact_cartridge", "afs_bootleg_cartridge", "afs_archeotech_cartridge" ]
       }
     ]
   }

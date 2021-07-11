@@ -120,5 +120,43 @@
         "targeting_volume": 10
       }
     ]
+  },
+  {
+    "id": "mon_afs_headless_zombie",
+    "type": "MONSTER",
+    "name": { "str": "headless zombie" },
+    "description": "Despite lacking a head, this zombie appears to have not gotten the memo, and shambles aimlessly around without functioning senses.  Black ooze pulses out of its neck, and it stumbles around listlessly.",
+    "default_faction": "zombie",
+    "species": [ "ZOMBIE", "HUMAN" ],
+    "volume": "60000 ml",
+    "weight": "78500 g",
+    "hp": 60,
+    "speed": 50,
+    "material": [ "flesh" ],
+    "symbol": "Z",
+    "color": "brown",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 3,
+    "melee_dice": 1,
+    "melee_dice_sides": 3,
+    "melee_cut": 0,
+    "harvest": "zombie",
+    "special_attacks": [ [ "GRAB", 7 ], [ "scratch", 20 ] ],
+    "death_drops": "default_zombie_death_drops",
+    "upgrades": { "half_life": 28, "into": "mon_afs_headless_horror" },
+    "flags": [
+      "STUMBLES",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "POISON",
+      "NO_BREATHE",
+      "REVIVES",
+      "PUSH_MON",
+      "FILTHY",
+      "NOHEAD",
+      "LOUDMOVES"
+    ]
   }
 ]

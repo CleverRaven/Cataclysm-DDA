@@ -785,8 +785,8 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     }
 #endif
 
-    int width = ( TERMX - OVERMAP_LEGEND_WIDTH ) * font->width;
-    int height = OVERMAP_WINDOW_HEIGHT * font->height;
+    int width = OVERMAP_WINDOW_TERM_WIDTH * font->width;
+    int height = OVERMAP_WINDOW_TERM_HEIGHT * font->height;
 
     {
         //set clipping to prevent drawing over stuff we shouldn't
@@ -881,7 +881,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                 if( showhordes && los && horde_size >= HORDE_VISIBILITY_SIZE ) {
                     // a little bit of hardcoded fallbacks for hordes
                     if( find_tile_with_season( id ) ) {
-                        draw_from_id_string( string_format( "overmap_horde_%d", HORDE_VISIBILITY_SIZE ),
+                        draw_from_id_string( string_format( "overmap_horde_%d", horde_size ),
                                              pos, 0, 0, lit_level::LIT, false );
                     } else {
                         switch( horde_size ) {
@@ -913,6 +913,16 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                 // TODO: fix point types
                 if( MAPBUFFER.lookup_submap( project_to<coords::sm>( omp ).raw() ) ) {
                     draw_from_id_string( "highlight", pos, 0, 0, lit_level::LIT, false );
+                }
+            }
+
+            if( blink && overmap_buffer.has_vehicle( omp ) ) {
+                if( find_tile_looks_like( "overmap_remembered_vehicle", TILE_CATEGORY::C_OVERMAP_NOTE ) ) {
+                    draw_from_id_string( "overmap_remembered_vehicle", TILE_CATEGORY::C_OVERMAP_NOTE,
+                                         "overmap_note", pos, 0, 0, lit_level::LIT, false );
+                } else {
+                    draw_from_id_string( "note_c_cyan", TILE_CATEGORY::C_OVERMAP_NOTE,
+                                         "overmap_note", pos, 0, 0, lit_level::LIT, false );
                 }
             }
 
@@ -3540,8 +3550,14 @@ static window_dimensions get_window_dimensions( const catacurses::window &win,
         dim.scaled_font_size.x = map_font->width;
         dim.scaled_font_size.y = map_font->height;
     } else if( overmap_font && g && win == g->w_overmap ) {
-        dim.scaled_font_size.x = overmap_font->width;
-        dim.scaled_font_size.y = overmap_font->height;
+        if( use_tiles && use_tiles_overmap ) {
+            // tiles might have different dimensions than standard font
+            dim.scaled_font_size.x = tilecontext->get_tile_width();
+            dim.scaled_font_size.y = tilecontext->get_tile_height();
+        } else {
+            dim.scaled_font_size.x = overmap_font->width;
+            dim.scaled_font_size.y = overmap_font->height;
+        }
     } else {
         dim.scaled_font_size.x = fontwidth;
         dim.scaled_font_size.y = fontheight;
@@ -3618,7 +3634,12 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
         p = view_offset + selected;
     } else {
         const point selected( screen_pos.x / fw, screen_pos.y / fh );
-        p = view_offset + selected - dim.window_size_cell / 2;
+        if( capture_win == g->w_overmap ) {
+            p = view_offset + selected - point( std::ceil( dim.window_size_cell.x / 2.0 ),
+                                                std::ceil( dim.window_size_cell.y / 2.0 ) );
+        } else {
+            p = view_offset + selected - dim.window_size_cell / 2;
+        }
     }
 
     return tripoint( p, get_map().get_abs_sub().z );
@@ -3657,11 +3678,17 @@ static int map_font_height()
 
 static int overmap_font_width()
 {
+    if( use_tiles && tilecontext && use_tiles_overmap ) {
+        return tilecontext->get_tile_width();
+    }
     return ( overmap_font ? overmap_font.get() : font.get() )->width;
 }
 
 static int overmap_font_height()
 {
+    if( use_tiles && tilecontext && use_tiles_overmap ) {
+        return tilecontext->get_tile_height();
+    }
     return ( overmap_font ? overmap_font.get() : font.get() )->height;
 }
 

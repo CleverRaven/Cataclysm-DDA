@@ -18,7 +18,9 @@ namespace npc_attack_setup
 {
 static void spawn_main_npc()
 {
+    get_player_character().setpos( { main_npc_start, -1 } );
     const string_id<npc_template> blank_template( "test_talker" );
+    REQUIRE( g->critter_at<Creature>( main_npc_start_tripoint ) == nullptr );
     const character_id model_id = get_map().place_npc( main_npc_start, blank_template );
 
     npc &model_npc = *g->find_npc( model_id );
@@ -26,12 +28,16 @@ static void spawn_main_npc()
     model_npc.setpos( main_npc_start_tripoint );
 
     g->load_npcs();
+
+    REQUIRE( g->critter_at<npc>( main_npc_start_tripoint ) != nullptr );
 }
 
 static void respawn_main_npc()
 {
     npc *guy = g->critter_at<npc>( main_npc_start_tripoint );
-    guy->die( nullptr );
+    if( guy ) {
+        guy->die( nullptr );
+    }
     spawn_main_npc();
 }
 
@@ -69,7 +75,6 @@ static void test_melee_attacks( const npc_attack_melee_test_data &data )
     clear_map_and_put_player_underground();
     clear_vehicles();
     scoped_weather_override sunny_weather( weather_type_id( "sunny" ) );
-    g->weather.set_nextweather( calendar::turn );
     npc_attack_setup::spawn_main_npc();
     npc_attack_setup::spawn_zombie_at_range( 1 );
     monster *zomble = g->critter_at<monster>( main_npc_start_tripoint + tripoint_east );
@@ -148,7 +153,6 @@ static void test_gun_attacks( const npc_attack_gun_test_data &data )
     clear_map_and_put_player_underground();
     clear_vehicles();
     scoped_weather_override sunny_weather( weather_type_id( "sunny" ) );
-    g->weather.set_nextweather( calendar::turn );
     npc_attack_setup::spawn_main_npc();
     npc &main_npc = npc_attack_setup::get_main_npc();
     arm_shooter( main_npc, data.weapon_id );
@@ -278,7 +282,7 @@ TEST_CASE( "Test NPC attack variants' potential", "[npc_attack]" )
         SECTION( "m16a4" ) {
             const npc_attack_gun_test_data gun{
                 "m16a4",
-                345, 375
+                336, 366
             };
             test_gun_attacks( gun );
         }

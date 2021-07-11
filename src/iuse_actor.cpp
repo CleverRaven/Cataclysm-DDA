@@ -1412,7 +1412,7 @@ bool salvage_actor::valid_to_cut_up( const item &it ) const
     if( !it.only_made_of( material_whitelist ) ) {
         return false;
     }
-    if( !it.contents.empty() ) {
+    if( !it.empty() ) {
         return false;
     }
     if( it.weight() < minimal_weight_to_cut( it ) ) {
@@ -1445,7 +1445,7 @@ bool salvage_actor::try_to_cut_up( player &p, item &it ) const
         add_msg( m_info, _( "The %s is made of material that cannot be cut up." ), it.tname() );
         return false;
     }
-    if( !it.contents.empty() ) {
+    if( !it.empty() ) {
         add_msg( m_info, _( "Please empty the %s before cutting it up." ), it.tname() );
         return false;
     }
@@ -1488,7 +1488,7 @@ int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
         add_msg( m_info, _( "You can not cut the %s with itself." ), it.tname() );
         return 0;
     }
-    if( !cut.get_item()->contents.empty() ) {
+    if( !cut.get_item()->empty() ) {
         // Should have been ensured by try_to_cut_up
         debugmsg( "tried to cut a non-empty item %s", cut.get_item()->tname() );
         return 0;
@@ -2401,7 +2401,7 @@ cata::optional<int> holster_actor::use( player &p, item &it, bool, const tripoin
             pos = -2;
         } else {
             pos += ret;
-            if( opts.size() != it.contents.num_item_stacks() ) {
+            if( opts.size() != it.num_item_stacks() ) {
                 ret--;
             }
             auto iter = std::next( all_items.begin(), ret );

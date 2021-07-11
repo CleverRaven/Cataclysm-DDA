@@ -2465,7 +2465,7 @@ void insert_item_activity_actor::start( player_activity &act, Character &who )
         act.set_to_null();
     }
 
-    all_pockets_rigid = holster->contents.all_pockets_rigid();
+    all_pockets_rigid = holster->all_pockets_rigid();
 
     const int total_moves = item_move_cost( who, items.front().first );
     act.moves_left = total_moves;

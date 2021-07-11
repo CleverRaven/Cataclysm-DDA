@@ -23,7 +23,6 @@ static const efftype_id effect_tied( "tied" );
 static const itype_id itype_test_battery_disposable( "test_battery_disposable" );
 static const itype_id itype_test_shears( "test_shears" );
 static const itype_id itype_test_shears_off( "test_shears_off" );
-static const itype_id itype_test_shears_on( "test_shears_on" );
 
 static const mtype_id mon_test_shearable( "mon_test_shearable" );
 static const mtype_id mon_test_non_shearable( "mon_test_non_shearable" );

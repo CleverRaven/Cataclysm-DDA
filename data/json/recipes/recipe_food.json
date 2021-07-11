@@ -5455,7 +5455,7 @@
     "charges": 1,
     "autolearn": true,
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "toastem4", 1 ] ], [ [ "buttercream", 1 ] ] ]
+    "components": [ [ [ "toastem4", 1 ] ], [ [ "any_frosting", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
