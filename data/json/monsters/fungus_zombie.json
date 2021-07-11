@@ -221,7 +221,7 @@
       "//": "cloth as any other zombie (always), additional items from child_items (sometimes)"
     },
     "burn_into": "mon_zombie_child_scorched",
-    "flags": [ "SEES", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "GUILT", "NO_BREATHE", "FILTHY" ]
+    "flags": [ "SEES", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "FILTHY" ]
   },
   {
     "id": "mon_boomer_fungus",
