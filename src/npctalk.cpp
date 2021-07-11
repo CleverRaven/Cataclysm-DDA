@@ -1641,19 +1641,33 @@ void talk_effect_fun_t::set_add_effect( const JsonObject &jo, const std::string 
 {
     std::string new_effect = jo.get_string( member );
     bool permanent = false;
+    bool force = false;
     time_duration duration = 1000_turns;
+    int intensity = 0;
     if( jo.has_string( "duration" ) ) {
         const std::string dur_string = jo.get_string( "duration" );
         if( dur_string == "PERMANENT" ) {
             permanent = true;
-        } else if( !dur_string.empty() && std::stoi( dur_string ) > 0 ) {
+        } else if( !dur_string.empty() && std::stoi( dur_string ) > 0 &&
+                   dur_string.find_first_not_of( "0123456789" ) == std::string::npos ) {
             duration = time_duration::from_turns( std::stoi( dur_string ) );
+        } else {
+            mandatory( jo, false, "duration", duration );
         }
     } else {
         duration = time_duration::from_turns( jo.get_int( "duration" ) );
     }
-    function = [is_npc, new_effect, duration, permanent]( const dialogue & d ) {
-        d.actor( is_npc )->add_effect( efftype_id( new_effect ), duration, permanent );
+    if( jo.has_int( "intensity" ) ) {
+        intensity = jo.get_int( "intensity" );
+    }
+    if( jo.has_bool( "force" ) ) {
+        force = jo.get_bool( "force" );
+    }
+    std::string target = jo.get_string( "target_part", "bp_null" );
+    function = [is_npc, new_effect, duration, target, permanent, force,
+            intensity]( const dialogue & d ) {
+        d.actor( is_npc )->add_effect( efftype_id( new_effect ), duration, target, permanent, force,
+                                       intensity );
     };
 }
 

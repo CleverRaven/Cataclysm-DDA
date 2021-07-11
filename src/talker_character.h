@@ -74,7 +74,7 @@ class talker_character: public talker
         bool is_deaf() const override;
         bool is_mute() const override;
         void add_effect( const efftype_id &new_effect, const time_duration &dur,
-                         bool permanent ) override;
+                         std::string bp, bool permanent, bool force, int intensity ) override;
         void remove_effect( const efftype_id &old_effect ) override;
         std::string get_value( const std::string &var_name ) const override;
         void set_value( const std::string &var_name, const std::string &value ) override;
