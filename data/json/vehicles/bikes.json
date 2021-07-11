@@ -283,18 +283,28 @@
     "parts": [
       { "x": 0, "y": 0, "parts": [ "xlframe_vertical_2", "saddle_pedal", "horn_bicycle", "foot_pedals" ] },
       { "x": 1, "y": 0, "parts": [ "xlframe_vertical", "wheel_mount_light_steerable", "wheel_bicycle" ] },
-      { "x": -1, "y": 0, "parts": [ "xlframe_horizontal", "wheel_mount_light", "wheel_bicycle_pair", "basketsm_bike" ] }
+      {
+        "x": -1,
+        "y": 0,
+        "parts": [ "xlframe_horizontal", "wheel_mount_light", "wheel_bicycle_pair", "basketsm_bike" ]
+      }
     ]
   },
   {
     "id": "tricycle_delta",
     "type": "vehicle",
     "name": "Delta Trike",
-    "blueprint": [ "#-o" ],
+    "blueprint": [
+      [ "o" ],
+      [ "#-o" ],
+      [ "o" ]
+    ],
     "parts": [
       { "x": 0, "y": 0, "parts": [ "xlframe_vertical" ] },
       { "x": 1, "y": 0, "parts": [ "xlframe_vertical", "wheel_mount_light_steerable", "wheel_bicycle" ] },
-      { "x": -1, "y": 0, "parts": [ "xlframe_cross", "reclining_seat", "foot_pedals", "wheel_mount_light", "wheel_bicycle_pair" ] }
+      { "x": -1, "y": 0, "parts": [ "xlframe_cross", "reclining_seat", "foot_pedals" ] },
+      { "x": -1, "y": -1, "parts": [ "xlframe_horizontal", "wheel_mount_light", "wheel_bicycle_rear" ] },
+      { "x": -1, "y": 1, "parts": [ "xlframe_horizontal", "wheel_mount_light", "wheel_bicycle_rear" ] }
     ]
   },
   {
@@ -314,11 +324,17 @@
     "id": "tricycle_tadpole",
     "type": "vehicle",
     "name": "Tadpole Trike",
-    "blueprint": [ "o#H" ],
+    "blueprint": [
+      [ "  o" ],
+      [ "o#|" ],
+      [ "  o" ]
+    ],
     "parts": [
       { "x": 0, "y": 0, "parts": [ "xlframe_vertical_2", "reclining_seat", "foot_pedals" ] },
-      { "x": 1, "y": 0, "parts": [ "xlframe_cross", "wheel_mount_light_steerable", "wheel_bicycle_or_pair" ] },
-      { "x": -1, "y": 0, "parts": [ "xlframe_vertical", "wheel_mount_light", "wheel_bicycle_or_rear" ] }
+      { "x": 1, "y": 0, "parts": [ "xlframe_horizontal" ] },
+      { "x": -1, "y": 0, "parts": [ "xlframe_vertical", "wheel_mount_light", "wheel_bicycle_or_rear" ] },
+      { "x": 1, "y": -1, "parts": [ "xlframe_horizontal", "wheel_mount_light_steerable", "wheel_bicycle_or" ] },
+      { "x": 1, "y": 1, "parts": [ "xlframe_horizontal", "wheel_mount_light_steerable", "wheel_bicycle_or" ] }
     ]
   },
   {
