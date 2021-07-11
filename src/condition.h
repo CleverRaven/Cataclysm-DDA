@@ -93,6 +93,7 @@ struct conditional_t {
         void set_has_perception( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_pain( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_power( const JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_is_deaf( bool is_npc = false );
         void set_one_in_chance( const JsonObject &jo, const std::string &member );
         void set_is_temperature( const JsonObject &jo, const std::string &member );
         void set_is_height( const JsonObject &jo, const std::string &member, bool is_npc = false );

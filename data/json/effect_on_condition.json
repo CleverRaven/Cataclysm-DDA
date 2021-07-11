@@ -80,7 +80,7 @@
     "id": "bio_drain",
     "recurrence_min": "30 minutes",
     "recurrence_max": "1 hours 30 minutes",
-    "condition": { "and": [ { "u_has_bionics": "bio_drain" }, { "u_has_power": "25 kJ" } ] },
+    "condition": { "and": [ { "u_has_bionics": "bio_drain" }, { "u_has_power": "24 kJ" } ] },
     "deactivate_condition": { "not": { "u_has_bionics": "bio_drain" } },
     "effect": [
       { "message": "Your batteries discharge slightly.", "type": "bad" },
@@ -236,6 +236,38 @@
     "effect": [
       { "message": "Your malfunctioning bionic itches!", "type": "bad" },
       { "u_add_effect": "formication", "duration": "10 minutes", "target_part": "RANDOM" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "bio_noise",
+    "recurrence_min": "30 minutes",
+    "recurrence_max": "1 hours 30 minutes",
+    "condition": { "and": [ { "u_has_bionics": "bio_noise" }, { "not": { "u_has_effect": "narcosis" } } ] },
+    "deactivate_condition": { "not": { "u_has_bionics": "bio_noise" } },
+    "effect": [
+      { "message": "bio noise test.", "type": "bad" },
+      { "u_make_sound": "Crackle!", "volume": 60, "type": "movement" },
+      {
+        "set_queue_effect_on_condition": [
+          {
+            "id": "bio_noise_hearing",
+            "condition": { "not": "u_is_deaf" },
+            "effect": [
+              { "message": "Your faulty bionic emits a crackle of noise!", "type": "bad" },
+              { "sound_effect": "elec_blast", "id": "bionics", "volume": 100 }
+            ]
+          },
+          {
+            "id": "bio_noise_deaf",
+            "condition": "u_is_deaf",
+            "effect": [
+              { "message": "You feel your faulty bionic shuddering.", "type": "bad" },
+              { "sound_effect": "elec_blast_muffled", "id": "bionics", "volume": 100 }
+            ]
+          }
+        ]
+      }
     ]
   }
 ]

@@ -2228,6 +2228,82 @@ void talk_effect_fun_t::set_mod_fatigue( const JsonObject &jo, const std::string
     };
 }
 
+void talk_effect_fun_t::set_make_sound( const JsonObject &jo, const std::string &member,
+                                        bool is_npc )
+{
+    std::string message = jo.get_string( member );
+
+    int volume;
+    mandatory( jo, false, "volume", volume );
+
+    sounds::sound_t type = sounds::sound_t::background;
+    std::string type_string = jo.get_string( "type", "background" );
+    if( type_string == "background" ) {
+        type = sounds::sound_t::background;
+    } else if( type_string == "weather" ) {
+        type = sounds::sound_t::weather;
+    } else if( type_string == "music" ) {
+        type = sounds::sound_t::music;
+    } else if( type_string == "movement" ) {
+        type = sounds::sound_t::movement;
+    } else if( type_string == "speech" ) {
+        type = sounds::sound_t::speech;
+    } else if( type_string == "electronic_speech" ) {
+        type = sounds::sound_t::electronic_speech;
+    } else if( type_string == "activity" ) {
+        type = sounds::sound_t::activity;
+    } else if( type_string == "destructive_activity" ) {
+        type = sounds::sound_t::destructive_activity;
+    } else if( type_string == "alarm" ) {
+        type = sounds::sound_t::alarm;
+    } else if( type_string == "combat" ) {
+        type = sounds::sound_t::combat;
+    } else if( type_string == "alert" ) {
+        type = sounds::sound_t::alert;
+    } else if( type_string == "order" ) {
+        type = sounds::sound_t::order;
+    } else {
+        jo.throw_error( "Invalid message type." );
+    }
+
+    function = [is_npc, message, volume, type]( const dialogue & d ) {
+
+        sounds::sound( d.actor( is_npc )->pos(), volume, type, _( message ) );
+    };
+}
+
+void talk_effect_fun_t::set_queue_effect_on_condition( const JsonObject &jo,
+        const std::string &member )
+{
+    std::vector<effect_on_condition_id> eocs;
+    for( JsonValue jv : jo.get_array( member ) ) {
+        eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+    }
+    time_duration time_in_future_min;
+    time_duration time_in_future_max;
+    optional( jo, false, "time_in_future_min", time_in_future_min, 0_seconds );
+    optional( jo, false, "time_in_future_max", time_in_future_max, 0_seconds );
+    if( time_in_future_max < time_in_future_min ) {
+        jo.throw_error( "time_in_future_max cannot be smaller than time_in_future_min." );
+    }
+    function = [time_in_future_min, time_in_future_max, eocs]( const dialogue & ) {
+        if( time_in_future_max > 0_seconds ) {
+            time_duration time_in_future = rng( time_in_future_min, time_in_future_max );
+            for( const effect_on_condition_id &eoc : eocs ) {
+                effect_on_conditions::queue_effect_on_condition( time_in_future, eoc );
+            }
+        } else {
+            dialogue d;
+            standard_npc default_npc( "Default" );
+            d.alpha = get_talker_for( get_avatar() );
+            d.beta = get_talker_for( default_npc );
+            for( const effect_on_condition_id &eoc : eocs ) {
+                eoc->activate( d );
+            }
+        }
+    };
+}
+
 void talk_effect_t::set_effect_consequence( const talk_effect_fun_t &fun,
         dialogue_consequence con )
 {
@@ -2487,6 +2563,12 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_mod_fatigue( jo, "u_mod_fatigue", false );
     } else if( jo.has_int( "npc_mod_fatigue" ) ) {
         subeffect_fun.set_mod_fatigue( jo, "npc_mod_fatigue", true );
+    } else if( jo.has_member( "u_make_sound" ) ) {
+        subeffect_fun.set_make_sound( jo, "u_make_sound", false );
+    } else if( jo.has_member( "npc_make_sound" ) ) {
+        subeffect_fun.set_make_sound( jo, "npc_make_sound", true );
+    } else if( jo.has_array( "set_queue_effect_on_condition" ) ) {
+        subeffect_fun.set_queue_effect_on_condition( jo, "set_queue_effect_on_condition" );
     } else {
         jo.throw_error( "invalid sub effect syntax: " + jo.str() );
     }
