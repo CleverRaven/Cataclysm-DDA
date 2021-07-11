@@ -2360,6 +2360,7 @@ See `GAME_BALANCE.md`'s `MELEE_WEAPONS` section for the criteria for selecting e
 "prop_damage": 2,     // Multiplies the damage of weapon by amount (overrides damage field)
 "pierce" : 0,         // Armor piercing ability when fired
 "range" : 5,          // Range when fired
+"range_multiplier": 2,// Optional field multiplying base gun range
 "dispersion" : 0,     // Inaccuracy of ammo, measured in quarter-degrees
 "recoil" : 18,        // Recoil caused when firing
 "count" : 25,         // Number of rounds that spawn together
@@ -2743,6 +2744,7 @@ Gun mods can be defined like this:
 "dispersion_modifier": 15,     // Optional field increasing or decreasing base gun dispersion
 "loudness_modifier": 4,        // Optional field increasing or decreasing base guns loudness
 "range_modifier": 2,           // Optional field increasing or decreasing base gun range
+"range_multiplier": 1.2,       // Optional field multiplying base gun range
 "recoil_modifier": -100,       // Optional field increasing or decreasing base gun recoil
 "ups_charges_modifier": 200,   // Optional field increasing or decreasing base gun UPS consumption (per shot) by adding given value
 "ups_charges_multiplier": 2.5, // Optional field increasing or decreasing base gun UPS consumption (per shot) by multiplying by given value
