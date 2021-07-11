@@ -680,7 +680,7 @@
     "id": "MARK_ALL_RECIPES_READ",
     "category": "CRAFTING",
     "name": "Mark all recipes as read",
-    "bindings": [ { "input_method": "keyboard_char", "key": "v" }, { "input_method": "keyboard_code", "key": "v", "mod": [ "shift" ] } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": "V" }, { "input_method": "keyboard_code", "key": "v", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
