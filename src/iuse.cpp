@@ -2814,8 +2814,12 @@ cata::optional<int> iuse::dig( player *p, item *it, bool t, const tripoint & )
                               !here.can_see_trap_at( dig_point, *p ) &&
                               ( here.ter( dig_point ) == t_grave_new || here.i_at( dig_point ).empty() ) &&
                               !here.veh_at( dig_point );
-
-    if( !can_dig_here ) {
+    const bool here_is_pit = here.ter( dig_point ) == t_pit;
+    if( here_is_pit ) {
+        p->add_msg_if_player(
+            _( "There's already a pit here!" ) );
+        return cata::nullopt;
+    } else if( !can_dig_here ) {
         p->add_msg_if_player(
             _( "You can't dig a pit in this location.  Ensure it is clear diggable ground with no items or obstacles." ) );
         return cata::nullopt;
