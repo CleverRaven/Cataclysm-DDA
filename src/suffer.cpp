@@ -236,7 +236,7 @@ void Character::suffer_while_underwater()
     if( !has_flag( json_flag_GILLS ) ) {
         oxygen--;
     }
-    if( oxygen < 12 && ( worn_with_flag( flag_REBREATHER ) || has_flag( json_flag_GILLS ) ) ) {
+    if( oxygen < 12 && ( worn_with_flag( flag_REBREATHER ) ) ) {
         oxygen += 12;
     }
     if( oxygen <= 5 ) {
