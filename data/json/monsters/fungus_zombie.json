@@ -132,7 +132,6 @@
     "color": "white",
     "material": [ "bone" ],
     "description": "Fungi bloom from the crevices in the twisted bone growths that cover this creature.  Spores linger in the air around it.",
-    "diff": 2,
     "proportional": { "hp": 1.5, "speed": 1.5 },
     "relative": { "melee_dice": 1, "melee_dice_sides": 5, "melee_cut": 2, "armor_bash": 4, "armor_cut": 6, "armor_bullet": 5 },
     "special_attacks": [ [ "SMASH", 30 ], [ "FUNGUS", 200 ] ],
