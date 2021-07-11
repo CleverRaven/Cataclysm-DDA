@@ -1,0 +1,91 @@
+name: ObjectCreator Windows build
+
+on:
+  push:
+    branches:
+    - master
+    - 0.F-dev
+    paths-ignore:
+    - 'android/**'
+    - 'build-data/osx/**'
+    - 'doc/**'
+    - 'doxygen_doc/**'
+    - 'lgtm/**'
+    - 'tools/**'
+    - 'utilities/**'
+  pull_request:
+    branches:
+    - master
+    - 0.F-dev
+    paths-ignore:
+    - 'android/**'
+    - 'build-data/osx/**'
+    - 'doc/**'
+    - 'doxygen_doc/**'
+    - 'lgtm/**'
+    - 'tools/**'
+    - 'utilities/**'
+
+jobs:
+  build_object_creator:
+    name: Build
+    runs-on: windows-2019
+
+    steps:
+    - name: checkout repository
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 1
+
+    - name: Add msbuild to PATH
+      uses: microsoft/setup-msbuild@v1.0.2
+
+    - name: Restore artifacts, or run vcpkg, build and cache artifacts
+      uses: lukka/run-vcpkg@main
+      id: runvcpkg
+      with:
+        setupOnly: true
+        vcpkgDirectory: '${{ runner.workspace }}/b/vcpkg'
+        vcpkgGitCommitId: '5568f110b509a9fd90711978a7cb76bae75bb092'
+
+    # There's not enough disk space to build both release and debug versions of
+    # our dependencies, so we hack the triplet file to build only release
+    # versions
+    - name: Disable debug builds for vcpkg
+      run: |
+        Get-ChildItem "${{ runner.workspace }}/b/vcpkg/triplets" -File |
+        Foreach-Object {
+          Add-Content $_.FullName "set(VCPKG_BUILD_TYPE release)`n"
+        }
+
+    - name: Integrate vcpkg
+      run: |
+        vcpkg integrate install
+
+    # We have to install packages in two passes because the x86 yasm-tool
+    # is required for the later packages, but vcpkg builds them in an
+    # unhelpful order
+    - name: Install more vcpkg packages
+      run: |
+        vcpkg.exe --version
+        vcpkg.exe install yasm-tool:x86-windows
+        vcpkg.exe install --triplet x64-windows-static sdl2 sdl2-image sdl2-mixer[dynamic-load,libflac,mpg123,libmodplug,libvorbis] sdl2-ttf gettext
+
+    - name: Dump vcpkg logs if vcpkg build failed
+      if: failure()
+      run: |
+        Get-ChildItem "${{ runner.workspace }}/b/vcpkg/buildtrees" |
+        Foreach-Object {
+            Get-ChildItem $_.FullName -Filter *.log |
+            Foreach-Object {
+              echo =================================================
+              echo $_.FullName
+              echo =================================================
+              type $_.FullName
+            }
+        }
+
+    - name: Build
+      run: |
+          cd msvc-object_creator
+          msbuild -m -p:Configuration=Release -p:Platform=x64 ObjectCreator-vcpkg-static.sln
