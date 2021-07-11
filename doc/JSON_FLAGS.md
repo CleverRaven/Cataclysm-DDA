@@ -1533,5 +1533,4 @@ Gun fault flags:
 - ```HEATSINK``` You are resistant to extreme heat.
 - ```THERMOMETER``` You always know what temperature it is.
 - ```CBQ_LEARN_BONUS``` You learn CBQ from the bionic bio_cqb faster.
-- ```GILLS``` You can breath underwater.
 - ```GILLS``` You can breathe underwater.

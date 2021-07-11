@@ -278,8 +278,6 @@ static const bionic_id bio_ads( "bio_ads" );
 static const bionic_id bio_blaster( "bio_blaster" );
 static const bionic_id bio_voice( "bio_voice" );
 static const bionic_id bio_gills( "bio_gills" );
-static const bionic_id bio_flashlight( "bio_flashlight" );
-static const bionic_id bio_gills( "bio_gills" );
 static const bionic_id bio_ground_sonar( "bio_ground_sonar" );
 static const bionic_id bio_hydraulics( "bio_hydraulics" );
 static const bionic_id bio_memory( "bio_memory" );
@@ -8734,6 +8732,7 @@ void Character::update_stamina( int turns )
             mod_power_level( units::from_kilojoule( -bonus ) );
         }
     }
+
     mod_stamina( roll_remainder( stamina_recovery * turns ) );
     add_msg_debug( debugmode::DF_CHARACTER, "Stamina recovery: %d",
                    roll_remainder( stamina_recovery * turns ) );
