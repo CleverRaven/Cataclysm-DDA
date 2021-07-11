@@ -131,6 +131,16 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "afs_mech_standard_habitat" ],
+    "name": "Habitat mech module",
+    "spawns": { "group": "GROUP_ZOMBIE", "population": [ 1, 4 ], "chance": 50 },
+    "sym": "o",
+    "color": "pink",
+    "flags": [ "SIDEWALK" ],
+    "see_cost": 3
+  },
+  {
+    "type": "overmap_terrain",
     "id": "mortuary_2story",
     "name": "county mortuary",
     "sym": "M",
