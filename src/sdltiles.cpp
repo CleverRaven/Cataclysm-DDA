@@ -881,7 +881,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                 if( showhordes && los && horde_size >= HORDE_VISIBILITY_SIZE ) {
                     // a little bit of hardcoded fallbacks for hordes
                     if( find_tile_with_season( id ) ) {
-                        draw_from_id_string( string_format( "overmap_horde_%d", HORDE_VISIBILITY_SIZE ),
+                        draw_from_id_string( string_format( "overmap_horde_%d", horde_size ),
                                              pos, 0, 0, lit_level::LIT, false );
                     } else {
                         switch( horde_size ) {
@@ -913,6 +913,16 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                 // TODO: fix point types
                 if( MAPBUFFER.lookup_submap( project_to<coords::sm>( omp ).raw() ) ) {
                     draw_from_id_string( "highlight", pos, 0, 0, lit_level::LIT, false );
+                }
+            }
+
+            if( blink && overmap_buffer.has_vehicle( omp ) ) {
+                if( find_tile_looks_like( "overmap_remembered_vehicle", TILE_CATEGORY::C_OVERMAP_NOTE ) ) {
+                    draw_from_id_string( "overmap_remembered_vehicle", TILE_CATEGORY::C_OVERMAP_NOTE,
+                                         "overmap_note", pos, 0, 0, lit_level::LIT, false );
+                } else {
+                    draw_from_id_string( "note_c_cyan", TILE_CATEGORY::C_OVERMAP_NOTE,
+                                         "overmap_note", pos, 0, 0, lit_level::LIT, false );
                 }
             }
 
