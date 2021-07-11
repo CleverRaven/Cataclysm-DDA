@@ -559,6 +559,19 @@ void oter_type_t::load( const JsonObject &jo, const std::string &src )
     assign( jo, "color", color, strict );
     assign( jo, "land_use_code", land_use_code, strict );
 
+    if( jo.has_member( "looks_like" ) ) {
+        std::vector<std::string> ll;
+        if( jo.has_array( "looks_like" ) ) {
+            jo.read( "looks_like", ll );
+        } else if( jo.has_string( "looks_like" ) ) {
+            const std::string one_look = jo.get_string( "looks_like" );
+            ll.push_back( one_look );
+        }
+        looks_like = ll;
+    } else if( jo.has_member( "copy-from" ) ) {
+        looks_like.insert( looks_like.begin(), jo.get_string( "copy-from" ) );
+    }
+
     const auto flag_reader = make_flag_reader( oter_flags_map, "overmap terrain flag" );
     optional( jo, was_loaded, "flags", flags, flag_reader );
 

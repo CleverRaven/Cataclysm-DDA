@@ -109,6 +109,7 @@
     "name": "island",
     "sym": "F",
     "color": "green",
+    "looks_like": "forest",
     "see_cost": 1
   },
   {
@@ -117,6 +118,7 @@
     "name": "island",
     "sym": "F",
     "color": "cyan",
+    "looks_like": "forest_water",
     "see_cost": 1
   },
   {
@@ -125,6 +127,7 @@
     "name": "island",
     "sym": ".",
     "color": "brown",
+    "looks_like": "field",
     "see_cost": 1
   },
   {
