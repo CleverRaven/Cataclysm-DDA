@@ -151,5 +151,18 @@
       { "monster": "mon_zombie_pupa_decoy_shady", "freq": 250, "cost_multiplier": 0 },
       { "monster": "mon_zombie_pupa_shady", "freq": 250, "cost_multiplier": 10 }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ZOMBIE_BOOMER_UPGRADE",
+    "default": "mon_boomer",
+    "//": "Boomer upgrades.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
+    "monsters": [
+      { "monster": "mon_boomer_glutton", "freq": 235, "cost_multiplier": 5 },
+      { "monster": "mon_boomer_huge", "freq": 300, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_necro_boomer", "freq": 15, "cost_multiplier": 27 },
+      { "monster": "mon_gas_zombie", "freq": 100, "cost_multiplier": 10 },
+      { "monster": "mon_zombie_gasbag", "freq": 300, "cost_multiplier": 2 }
+    ]
   }
 ]
