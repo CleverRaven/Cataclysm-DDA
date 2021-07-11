@@ -1079,26 +1079,24 @@ cata::optional<int> iuse::blech( player *p, item *it, bool, const tripoint & )
         }
     }
 
-    if( it->has_flag( flag_ACID ) ) {
-        if( ( p->has_trait( trait_ACIDPROOF ) ||
-              p->has_trait( trait_ACIDBLOOD ) ) ) {
-            p->add_msg_if_player( m_bad, _( "Blech, that tastes gross!" ) );
-            //reverse the harmful values of drinking this acid.
-            double multiplier = -1;
-            p->stomach.mod_nutr( -p->nutrition_for( *it ) * multiplier );
-            p->mod_thirst( -it->get_comestible()->quench * multiplier );
-            p->stomach.mod_quench( 20 ); //acidproof people can drink acids like diluted water.
-            p->mod_healthy_mod( it->get_comestible()->healthy * multiplier,
-                                it->get_comestible()->healthy * multiplier );
-            p->add_morale( MORALE_FOOD_BAD, it->get_comestible_fun() * multiplier, 60, 1_hours, 30_minutes,
-                           false, it->type );
-        } else {
-            p->add_msg_if_player( m_bad, _( "Blech, that burns your throat!" ) );
-            p->mod_pain( rng( 32, 64 ) );
-            p->add_effect( effect_poison, 1_hours );
-            p->apply_damage( nullptr, bodypart_id( "torso" ), rng( 4, 12 ) );
-            p->vomit();
-        }
+    if( it->has_flag( flag_ACID ) && ( p->has_trait( trait_ACIDPROOF ) ||
+                                       p->has_trait( trait_ACIDBLOOD ) ) ) {
+        p->add_msg_if_player( m_bad, _( "Blech, that tastes gross!" ) );
+        //reverse the harmful values of drinking this acid.
+        double multiplier = -1;
+        p->stomach.mod_nutr( -p->nutrition_for( *it ) * multiplier );
+        p->mod_thirst( -it->get_comestible()->quench * multiplier );
+        p->stomach.mod_quench( 20 ); //acidproof people can drink acids like diluted water.
+        p->mod_healthy_mod( it->get_comestible()->healthy * multiplier,
+                            it->get_comestible()->healthy * multiplier );
+        p->add_morale( MORALE_FOOD_BAD, it->get_comestible_fun() * multiplier, 60, 1_hours, 30_minutes,
+                       false, it->type );
+    } else if( it->has_flag( flag_ACID ) || it->has_flag( flag_CORROSIVE ) ) {
+        p->add_msg_if_player( m_bad, _( "Blech, that burns your throat!" ) );
+        p->mod_pain( rng( 32, 64 ) );
+        p->add_effect( effect_poison, 1_hours );
+        p->apply_damage( nullptr, bodypart_id( "torso" ), rng( 4, 12 ) );
+        p->vomit();
     } else {
         p->add_msg_if_player( m_bad, _( "Blech, you don't feel you can stomach much of that." ) );
         p->add_effect( effect_nausea, 3_minutes );

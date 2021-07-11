@@ -407,6 +407,7 @@
     "description": "A stalk of dogbane.  It has very fibrous stems and is mildly poisonous.",
     "comestible_type": "FOOD",
     "use_action": [ "BLECH" ],
+    "flags": [ "CORROSIVE" ],
     "calories": 9,
     "fun": -15,
     "healthy": -2,
