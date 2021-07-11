@@ -398,25 +398,6 @@
     "flags": [ "WHEEL", "NEEDS_JACKING", "STABLE", "FOLDABLE", "NEEDS_WHEEL_MOUNT_LIGHT" ]
   },
   {
-    "id": "wheel_bicycle_or_pair",
-	"copy-from": "wheel_bicycle_abstract",
-	"type": "vehicle_part",
-	"looks_like": "wheel_wheelchair",
-    "name": { "str": "pair of off-road bicycle wheels" },
-	"item": "wheel_bicycle_or_pair",
-	"contact_area": 36,
-	"wheel_type": "off-road",
-    "symbol": "H",
-    "description": "A pair of off-road bicycle wheels.",
-	"folded_volume": "7000 ml",
-	"breaks_into": [
-      { "item": "steel_lump", "prob": 50 },
-      { "item": "steel_chunk", "count": [ 2, 3 ] },
-      { "item": "scrap", "count": [ 2, 3 ] }
-    ],
-	"flags": [ "WHEEL", "NEEDS_JACKING", "STABLE", "FOLDABLE", "NEEDS_WHEEL_MOUNT_LIGHT" ]
-  },
-  {
     "id": "wheel_caster",
     "type": "vehicle_part",
     "name": { "str": "casters" },
