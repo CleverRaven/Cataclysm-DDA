@@ -179,7 +179,6 @@
     "death_drops": "default_zombie_death_drops",
     "burn_into": "mon_zombie_scorched",
     "upgrades": { "half_life": 8, "into_group": "GROUP_ZOMBIE_BRAINLESS_UPGRADE" },
-    "upgrades": { "half_life": 8, "into": "mon_zombie_ears" },
     "flags": [
       "HEARS",
       "STUMBLES",
