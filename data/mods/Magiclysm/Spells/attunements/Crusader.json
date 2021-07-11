@@ -9,9 +9,9 @@
     "longest_side": "100 cm",
     "price": 1560000,
     "price_postapoc": 7200,
-	"to_hit": 3,
+    "to_hit": 3,
     "bashing": 14,
-	"material": [ "steel" ],
+    "material": [ "steel" ],
     "symbol": "[",
     "color": "light_gray",
     "armor_portion_data": [
@@ -20,8 +20,19 @@
       { "sided": true }
     ],
     "material_thickness": 6,
-    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN", "ONLY_ONE", "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE", "TRADER_AVOID" ],
-	"relic_data": {
+    "flags": [
+      "OVERSIZE",
+      "BELTED",
+      "RESTRICT_HANDS",
+      "BLOCK_WHILE_WORN",
+      "ONLY_ONE",
+      "UNBREAKABLE_MELEE",
+      "NONCONDUCTIVE",
+      "NO_REPAIR",
+      "NO_SALVAGE",
+      "TRADER_AVOID"
+    ],
+    "relic_data": {
       "passive_effects": [
         {
           "has": "WORN",
@@ -31,13 +42,13 @@
             { "value": "ARMOR_BASH", "add": -6 },
             { "value": "ARMOR_STAB", "add": -6 },
             { "value": "ARMOR_BULLET", "add": -3 }
-		  ]
-		}
-	  ]
-	}
+          ]
+        }
+      ]
+    }
   },
   {
-	"id": "holy_shield",
+    "id": "holy_shield",
     "type": "SPELL",
     "name": "Holy Shield",
     "description": "Crusaders have the ability to summon a magically enhanced shield to their arm to protect them in armed combat.",
