@@ -132,12 +132,12 @@
   {
     "id": "morale_vegetarian",
     "type": "morale_type",
-    "text": "Ate Meat"
+    "text": "Ate Vegetables"
   },
   {
     "id": "morale_meatarian",
     "type": "morale_type",
-    "text": "Ate Vegetables"
+    "text": "Ate Meat"
   },
   {
     "id": "morale_antifruit",
