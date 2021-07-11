@@ -73,9 +73,7 @@
         "111111111111111111111111"
       ],
       "palettes": [ "elf_palette" ],
-      "place_monsters": [
-        { "monster": "GROUP_WORKSHOP", "x": [ 3, 5 ], "y": [ 4, 23 ], "density": 0.5, "repeat": [ 1, 6 ] }
-      ]
+      "place_monsters": [ { "monster": "GROUP_WORKSHOP", "x": [ 3, 5 ], "y": [ 4, 23 ], "density": 0.5, "repeat": [ 1, 6 ] } ]
     }
   },
   {
