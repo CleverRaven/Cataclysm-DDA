@@ -272,7 +272,7 @@
     "weight": "800 g",
     "volume": "500 ml",
     "price": 1600,
-    "price_postapoc": 25,    
+    "price_postapoc": 25,
     "to_hit": 1,
     "bashing": 10,
     "material": [ "steel" ],
