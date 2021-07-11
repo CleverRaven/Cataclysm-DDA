@@ -322,7 +322,7 @@
     "vision_day": 5,
     "vision_night": 40,
     "harvest": "zombie",
-    "special_attacks": [ [ "SMASH", 40 ], [ "STRETCH_ATTACK", 20 ], [ "LONGSWIPE", 20 ] ],
+    "special_attacks": [ [ "SMASH", 40 ], { "id": "stretch_attack", "cooldown": 40 }, { "id": "longswipe" }, { "id": "cut_throat" } ],
     "death_drops": "default_zombie_death_drops",
     "burn_into": "mon_zombie_fiend",
     "flags": [
@@ -512,7 +512,7 @@
     "vision_day": 30,
     "vision_night": 3,
     "harvest": "zombie",
-    "special_attacks": [ [ "STRETCH_BITE", 10 ], [ "STRETCH_ATTACK", 5 ] ],
+    "special_attacks": [ { "id": "stretch_bite" }, { "id": "stretch_attack", "cooldown": 5 } ],
     "death_function": {
       "message": "The %s splits in two!",
       "corpse_type": "NO_CORPSE",

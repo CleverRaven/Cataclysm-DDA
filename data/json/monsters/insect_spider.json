@@ -599,7 +599,18 @@
     "melee_dice": 1,
     "melee_dice_sides": 6,
     "melee_cut": 5,
-    "special_attacks": [ [ "STRETCH_ATTACK", 25 ] ],
+    "special_attacks": [
+      {
+        "id": "stretch_attack",
+        "range": 2,
+        "hit_dmg_u": "The %1$s's mouthpart shoots out at you, and it pierces your %2$s!",
+        "hit_dmg_npc": "The %1$s's mouthpart shoots out at <npcname>, and it pierces their %2$s!",
+        "no_dmg_msg_u": "The %1$s's mouthpart hits your %2$s, but it glances off your armor!",
+        "no_dmg_msg_npc": "The %1$s's mouthpart hits <npcname>'s %2$s, but it glances off their armor!",
+        "miss_msg_u": "The %s thrusts its mouthpart at you, but you dodge!",
+        "miss_msg_npc": "The %s's thrusts its mouthpart at <npcname>, but they dodge!"
+      }
+    ],
     "dodge": 3,
     "vision_day": 10,
     "vision_night": 5,
