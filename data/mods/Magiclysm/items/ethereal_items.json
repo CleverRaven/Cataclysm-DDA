@@ -420,7 +420,7 @@
     "armor": [
       {
         "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
-    }
+      }
     ]
   },
   {
@@ -440,7 +440,7 @@
     "armor": [
       {
         "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
-    }
+      }
     ]
   },
   {
@@ -759,7 +759,7 @@
         "encumbrance": 0,
         "coverage": 100,
         "covers": [ "head", "mouth", "eyes", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
-    }
+      }
     ]
   },
   {
