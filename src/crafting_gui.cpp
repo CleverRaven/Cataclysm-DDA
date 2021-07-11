@@ -1049,7 +1049,6 @@ const recipe *select_crafting_recipe( int &batch_size_out )
             recalc = true;
         } else if( action == "TOGGLE_FAVORITE" ) {
             keepline = true;
-            recalc = true;
             if( current.empty() ) {
                 popup( _( "Nothing selected!  Press [<color_yellow>ESC</color>]!" ) );
                 continue;
