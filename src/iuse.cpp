@@ -6491,7 +6491,7 @@ cata::optional<int> iuse::einktabletpc( player *p, item *it, bool t, const tripo
 
                 const auto &recipe = *candidate_recipes.back();
                 if( recipe ) {
-                    rmenu.addentry( k++, true, -1, recipe.result_name() );
+                    rmenu.addentry( k++, true, -1, recipe.result_name( /*decorated=*/true ) );
                 }
             }
 
@@ -8639,7 +8639,7 @@ cata::optional<int> iuse::multicooker( player *p, item *it, bool t, const tripoi
                     const bool can_make = r->deduped_requirements().can_make_with_inventory(
                                               crafting_inv, r->get_component_filter() );
 
-                    dmenu.addentry( counter++, can_make, -1, r->result_name() );
+                    dmenu.addentry( counter++, can_make, -1, r->result_name( /*decorated=*/true ) );
                 }
             }
 

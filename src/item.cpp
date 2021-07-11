@@ -3353,7 +3353,7 @@ void item::book_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                 if( knows_it ) {
                     // In case the recipe is known, but has a different name in the book, use the
                     // real name to avoid confusing the player.
-                    const std::string name = elem.recipe->result_name();
+                    const std::string name = elem.recipe->result_name( /*decorated=*/true );
                     recipe_list.push_back( "<bold>" + name + "</bold>" );
                 } else if( !can_learn ) {
                     recipe_list.push_back( "<color_brown>" + elem.name() + "</color>" );
@@ -4248,7 +4248,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 [&crafting_inv]( const recipe * r ) {
                     bool can_make = r->deduped_requirements().can_make_with_inventory(
                                         crafting_inv, r->get_component_filter() );
-                    return std::make_pair( r->result_name(), can_make );
+                    return std::make_pair( r->result_name( /*decorated=*/true ), can_make );
                 } );
                 std::sort( result_names.begin(), result_names.end(), localized_compare );
                 const std::string recipes =
