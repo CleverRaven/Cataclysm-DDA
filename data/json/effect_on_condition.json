@@ -153,7 +153,7 @@
     "effect": [ { "message": "NIGHT_MESSAGES_3", "snippet": true } ]
   },
   {
-  "type": "effect_on_condition",
+    "type": "effect_on_condition",
     "id": "bio_trip",
     "recurrence_min": "25 minutes",
     "recurrence_max": "1 hours 15 minutes",
