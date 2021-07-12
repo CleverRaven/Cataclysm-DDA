@@ -37,7 +37,7 @@
       { "collection": [ [ "bio_armor_arms", 100 ], [ "bio_armor_torso", 60 ], [ "bio_armor_head", 30 ] ], "prob": 20 },
       [ "bio_armor_legs", 60 ],
       [ "bio_armor_arms", 60 ],
-	  [ "bio_armor_head", 30 ],
+      [ "bio_armor_head", 30 ],
       [ "bio_armor_torso", 20 ]
     ]
   },
