@@ -892,10 +892,10 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
         // QUICK BUTCHERY
         if( action == butcher_type::QUICK ) {
             if( entry.type == "flesh" ) {
-                roll = roll / 4;
-            } else if( entry.type == "bone" ) {
+                roll /= 4;
+            } else if( entry.type == "bone" ) { // NOLINT(bugprone-branch-clone)
                 roll /= 2;
-            } else if( corpse_item->get_mtype()->size >= creature_size::medium && ( entry.type == "skin" ) ) {
+            } else if( corpse_item->get_mtype()->size >= creature_size::medium && entry.type == "skin" ) {
                 roll /= 2;
             } else if( entry.type == "offal" ) {
                 roll /= 5;

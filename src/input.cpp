@@ -1354,9 +1354,7 @@ action_id input_context::display_menu( const bool permit_execute_action )
                 // We're trying to add a global, but this action has a local
                 // defined, so gray out the invlet.
                 mvwprintz( w_help, point( 2, i + 10 ), c_dark_gray, "%c ", invlet );
-            } else if( status == s_add || status == s_add_global ) {
-                mvwprintz( w_help, point( 2, i + 10 ), c_light_blue, "%c ", invlet );
-            } else if( status == s_remove ) {
+            } else if( status == s_add || status == s_add_global || status == s_remove ) {
                 mvwprintz( w_help, point( 2, i + 10 ), c_light_blue, "%c ", invlet );
             } else if( status == s_execute ) {
                 mvwprintz( w_help, point( 2, i + 10 ), c_white, "%c ", invlet );
@@ -1565,7 +1563,6 @@ void input_manager::wait_for_any_key()
                 }
                 break;
             case input_event_t::keyboard_code:
-                return;
             // errors are accepted as well to avoid an infinite loop
             case input_event_t::error:
                 return;

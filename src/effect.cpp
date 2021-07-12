@@ -556,7 +556,10 @@ bool effect_type::load_decay_msgs( const JsonObject &jo, const std::string &memb
             } else if( r == "mixed" ) {
                 rate = m_mixed;
             } else {
-                rate = m_neutral;
+                inner.throw_error(
+                    string_format( "Unexpected message type \"%s\"; expected \"good\", "
+                                   "\"neutral\", " "\"bad\", or \"mixed\"", r ),
+                    1 );
             }
             decay_msgs.emplace_back( msg, rate );
         }
@@ -1396,7 +1399,10 @@ void load_effect_type( const JsonObject &jo )
         } else if( r == "mixed" ) {
             new_etype.rating = e_mixed;
         } else {
-            new_etype.rating = e_neutral;
+            jo.throw_error(
+                string_format( "Unexpected rating \"%s\"; expected \"good\", \"neutral\", "
+                               "\"bad\", or \"mixed\"", r ),
+                "rating" );
         }
     } else {
         new_etype.rating = e_neutral;

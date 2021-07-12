@@ -2539,9 +2539,7 @@ void mapgen_tutorial( mapgendata &dat )
     map *const m = &dat.m;
     for( int i = 0; i < SEEX * 2; i++ ) {
         for( int j = 0; j < SEEY * 2; j++ ) {
-            if( j == 0 || j == SEEY * 2 - 1 ) {
-                m->ter_set( point( i, j ), t_wall );
-            } else if( i == 0 || i == SEEX * 2 - 1 ) {
+            if( j == 0 || j == SEEY * 2 - 1 || i == 0 || i == SEEX * 2 - 1 ) {
                 m->ter_set( point( i, j ), t_wall );
             } else if( j == SEEY ) {
                 if( i % 4 == 2 ) {

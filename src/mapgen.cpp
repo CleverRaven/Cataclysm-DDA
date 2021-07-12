@@ -3177,9 +3177,8 @@ void map::draw_lab( mapgendata &dat )
             for( int i = 0; i < SEEX * 2; i++ ) {
                 for( int j = 0; j < SEEY * 2; j++ ) {
                     if( i <= 1 || i >= SEEX * 2 - 2 ||
-                        ( j > 1 && j < SEEY * 2 - 2 && ( i == SEEX - 2 || i == SEEX + 1 ) ) ) {
-                        ter_set( point( i, j ), t_concrete_wall );
-                    } else if( j <= 1 || j >= SEEY * 2 - 2 ) {
+                        j <= 1 || j >= SEEY * 2 - 2 ||
+                        i == SEEX - 2 || i == SEEX + 1 ) {
                         ter_set( point( i, j ), t_concrete_wall );
                     } else {
                         ter_set( point( i, j ), t_floor );
@@ -3348,11 +3347,10 @@ void map::draw_lab( mapgendata &dat )
                                 for( int j = 0; j < SEEY * 2; j++ ) {
                                     if( ( i < lw || i > EAST_EDGE - rw ) ||
                                         ( ( j < SEEY - 1 || j > SEEY ) &&
-                                          ( i == SEEX - 2 || i == SEEX + 1 ) ) ) {
-                                        ter_set( point( i, j ), t_concrete_wall );
-                                    } else if( ( j < tw || j > SOUTH_EDGE - bw ) ||
-                                               ( ( i < SEEX - 1 || i > SEEX ) &&
-                                                 ( j == SEEY - 2 || j == SEEY + 1 ) ) ) {
+                                          ( i == SEEX - 2 || i == SEEX + 1 ) ) ||
+                                        ( j < tw || j > SOUTH_EDGE - bw ) ||
+                                        ( ( i < SEEX - 1 || i > SEEX ) &&
+                                          ( j == SEEY - 2 || j == SEEY + 1 ) ) ) {
                                         ter_set( point( i, j ), t_concrete_wall );
                                     } else {
                                         ter_set( point( i, j ), t_thconc_floor );
@@ -3453,11 +3451,10 @@ void map::draw_lab( mapgendata &dat )
                             // tic-tac-toe # layout
                             for( int i = 0; i < SEEX * 2; i++ ) {
                                 for( int j = 0; j < SEEY * 2; j++ ) {
-                                    if( i < lw || i > EAST_EDGE - rw || i == SEEX - 4 ||
-                                        i == SEEX + 3 ) {
-                                        ter_set( point( i, j ), t_concrete_wall );
-                                    } else if( j < tw || j > SOUTH_EDGE - bw || j == SEEY - 4 ||
-                                               j == SEEY + 3 ) {
+                                    if( i < lw || i > EAST_EDGE - rw ||
+                                        i == SEEX - 4 || i == SEEX + 3 ||
+                                        j < tw || j > SOUTH_EDGE - bw ||
+                                        j == SEEY - 4 || j == SEEY + 3 ) {
                                         ter_set( point( i, j ), t_concrete_wall );
                                     } else {
                                         ter_set( point( i, j ), t_thconc_floor );
@@ -3514,9 +3511,8 @@ void map::draw_lab( mapgendata &dat )
                             // Big room
                             for( int i = 0; i < SEEX * 2; i++ ) {
                                 for( int j = 0; j < SEEY * 2; j++ ) {
-                                    if( i < lw || i >= EAST_EDGE - rw ) {
-                                        ter_set( point( i, j ), t_concrete_wall );
-                                    } else if( j < tw || j >= SOUTH_EDGE - bw ) {
+                                    if( i < lw || i >= EAST_EDGE - rw ||
+                                        j < tw || j >= SOUTH_EDGE - bw ) {
                                         ter_set( point( i, j ), t_concrete_wall );
                                     } else {
                                         ter_set( point( i, j ), t_thconc_floor );
@@ -3881,9 +3877,7 @@ void map::draw_lab( mapgendata &dat )
             // Start by setting up a large, empty room.
             for( int i = 0; i < SEEX * 2; i++ ) {
                 for( int j = 0; j < SEEY * 2; j++ ) {
-                    if( i < lw || i > EAST_EDGE - rw ) {
-                        ter_set( point( i, j ), t_concrete_wall );
-                    } else if( j < tw || j > SOUTH_EDGE - bw ) {
+                    if( i < lw || i > EAST_EDGE - rw || j < tw || j > SOUTH_EDGE - bw ) {
                         ter_set( point( i, j ), t_concrete_wall );
                     } else {
                         ter_set( point( i, j ), t_thconc_floor );
@@ -3997,9 +3991,7 @@ void map::draw_lab( mapgendata &dat )
                                     } else {
                                         ter_set( point( i, j ), t_reinforced_glass );
                                     }
-                                } else if( ( i - lw ) % 2 == 0 ) {
-                                    ter_set( point( i, j ), t_concrete_wall );
-                                } else if( j == tw + 2 ) {
+                                } else if( ( i - lw ) % 2 == 0 || j == tw + 2 ) {
                                     ter_set( point( i, j ), t_concrete_wall );
                                 } else { // Empty space holds monsters!
                                     place_spawns( GROUP_NETHER, 1, point( i, j ), point( i, j ), 1, true );
