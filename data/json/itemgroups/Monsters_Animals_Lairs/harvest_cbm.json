@@ -4,7 +4,7 @@
     "type": "item_group",
     "subtype": "collection",
     "entries": [
-      { "group": "Zomborg_CBM_harvest_power", "prob": 100 },
+      { "group": "Zomborg_CBM_harvest_power", "prob": 90 },
       { "group": "Zomborg_CBM_harvest_structural", "prob": 70 },
       { "group": "Zomborg_CBM_harvest_utility", "prob": 50 },
       { "group": "Zomborg_CBM_harvest_combat", "prob": 30 },
@@ -30,14 +30,15 @@
   {
     "id": "Zomborg_CBM_harvest_structural",
     "type": "item_group",
-    "subtype": "collection",
+    "subtype": "distribution",
     "entries": [
-      [ "bio_armor_arms", 40 ],
-      [ "bio_armor_eyes", 10 ],
-      [ "bio_armor_head", 60 ],
-      [ "bio_armor_legs", 80 ],
-      [ "bio_armor_torso", 50 ],
-      [ "bio_carbon", 1 ]
+      { "collection": [ [ "bio_armor_eyes", 30 ], [ "bio_armor_torso", 10 ], [ "bio_armor_head", 100 ] ], "prob": 20 },
+      { "collection": [ [ "bio_armor_torso", 30 ], [ "bio_armor_legs", 100 ], [ "bio_armor_head", 10 ] ], "prob": 20 },
+      { "collection": [ [ "bio_armor_arms", 100 ], [ "bio_armor_torso", 60 ], [ "bio_armor_head", 30 ] ], "prob": 20 },
+      [ "bio_armor_legs", 60 ],
+      [ "bio_armor_arms", 60 ],
+	  [ "bio_armor_head", 30 ],
+      [ "bio_armor_torso", 20 ]
     ]
   },
   {
@@ -49,17 +50,28 @@
       { "group": "Zomborg_CBM_harvest_stat_enhancements", "prob": 10 },
       { "group": "Zomborg_CBM_harvest_sensors", "prob": 40 },
       { "group": "Zomborg_CBM_harvest_sensors", "prob": 5 },
-      { "group": "Zomborg_CBM_harvest_expensive_utilities", "prob": 5 },
-      [ "bio_alarm", 40 ],
-      [ "bio_flashlight", 30 ],
-      [ "bio_geiger", 10 ],
-      [ "bio_jointservo", 15 ],
-      [ "bio_lockpick", 10 ],
-      [ "bio_magnet", 15 ],
-      [ "bio_soporific", 20 ],
-      [ "bio_sunglasses", 15 ],
-      [ "bio_syringe", 5 ],
-      [ "bio_tattoo_led", 40 ]
+      { "group": "Zomborg_CBM_harvest_expensive_utilities", "prob": 2 },
+      {
+        "distribution": [
+          [ "bio_alarm", 20 ],
+          [ "bio_flashlight", 30 ],
+          [ "bio_geiger", 10 ],
+          [ "bio_jointservo", 15 ],
+          [ "bio_lockpick", 10 ],
+          [ "bio_tattoo_led", 40 ]
+        ],
+        "prob": 30
+      },
+      {
+        "distribution": [
+          [ "bio_magnet", 15 ],
+          [ "bio_soporific", 20 ],
+          [ "bio_sunglasses", 15 ],
+          [ "bio_syringe", 5 ],
+          [ "bio_tattoo_led", 40 ]
+        ],
+        "prob": 30
+      }
     ]
   },
   {
@@ -67,10 +79,15 @@
     "type": "item_group",
     "subtype": "collection",
     "entries": [
-      { "group": "Zomborg_CBM_harvest_expensive_combat_systems", "prob": 5 },
-      { "group": "Zomborg_CBM_harvest_fancy_defense", "prob": 1 },
-      { "group": "Zomborg_CBM_harvest_melee_weapons", "prob": 200 },
-      { "group": "Zomborg_CBM_harvest_ranged_weapons", "prob": 100 }
+      {
+        "distribution": [
+          { "group": "Zomborg_CBM_harvest_expensive_combat_systems", "prob": 50 },
+          { "group": "Zomborg_CBM_harvest_fancy_defense", "prob": 50 }
+        ],
+        "prob": 2
+      },
+      { "group": "Zomborg_CBM_harvest_melee_weapons", "prob": 70 },
+      { "group": "Zomborg_CBM_harvest_ranged_weapons", "prob": 40 }
     ]
   },
   {
@@ -108,25 +125,26 @@
     "id": "Zomborg_CBM_harvest_fancy_defense",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [
-      [ "bio_heatsink", 20 ],
-      [ "bio_painkiller", 10 ],
-      [ "bio_scent_mask", 30 ],
-      [ "bio_shock", 10 ],
-      [ "bio_synaptic_regen", 20 ]
-    ]
+    "entries": [ [ "bio_heatsink", 20 ], [ "bio_painkiller", 5 ], [ "bio_scent_mask", 30 ], [ "bio_shock", 5 ], [ "bio_carbon", 10 ] ]
   },
   {
     "id": "Zomborg_CBM_harvest_melee_weapons",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ [ "bio_blade", 1 ], [ "bio_claws", 20 ], [ "bio_razors", 20 ] ]
+    "entries": [ [ "bio_blade", 1 ], [ "bio_claws", 30 ], [ "bio_razors", 30 ] ]
   },
   {
     "id": "Zomborg_CBM_harvest_ranged_weapons",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ [ "bio_flashbang", 50 ], [ "bio_laser", 20 ], [ "bio_railgun", 10 ], [ "bio_shotgun", 50 ], [ "bio_shockwave", 1 ] ]
+    "entries": [
+      [ "bio_flashbang", 50 ],
+      [ "bio_laser", 20 ],
+      [ "bio_railgun", 10 ],
+      [ "bio_shotgun", 50 ],
+      [ "bio_shockwave", 1 ],
+      [ "bio_emp", 3 ]
+    ]
   },
   {
     "id": "Zomborg_CBM_harvest_sensors",
@@ -149,13 +167,12 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      [ "bio_dex_enhancer", 20 ],
-      [ "bio_hydraulics", 1 ],
-      [ "bio_int_enhancer", 10 ],
-      [ "bio_memory", 10 ],
-      [ "bio_speed", 1 ],
-      [ "bio_str_enhancer", 20 ],
-      [ "bio_weight", 20 ]
+      { "distribution": [ [ "bio_speed", 50 ], [ "bio_hydraulics", 50 ] ], "prob": 1 },
+      [ "bio_dex_enhancer", 40 ],
+      [ "bio_int_enhancer", 40 ],
+      [ "bio_memory", 20 ],
+      [ "bio_str_enhancer", 30 ],
+      [ "bio_weight", 30 ]
     ]
   }
 ]
