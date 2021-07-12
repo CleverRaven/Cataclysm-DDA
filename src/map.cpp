@@ -3659,9 +3659,9 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
             // lasers can't destroy some types of furn/ter you can shoot through
             if( !laser || !shoot.no_laser_destroy ) {
                 // important to use initial damage, energy from reduction has gone into the furn/ter
-                const int x = int( initial_damage ) - shoot.destroy_dmg_min;
-                const int y = shoot.destroy_dmg_max - shoot.destroy_dmg_min;
-                if( x_in_y( x, y ) ) {
+                const int min_damage = int( initial_damage ) - shoot.destroy_dmg_min;
+                const int max_damage = shoot.destroy_dmg_max - shoot.destroy_dmg_min;
+                if( x_in_y( min_damage, max_damage ) ) {
                     // don't need to duplicate all the destruction logic here
                     bash_params bsh{ 0, false, true, false, 0.0, false, false, false, false };
                     bash_ter_furn( p, bsh );
