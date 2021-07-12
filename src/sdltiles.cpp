@@ -831,7 +831,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     const bool viewing_weather = uistate.overmap_debug_weather || uistate.overmap_visible_weather;
     o = corner_NW.raw().xy();
 
-    const auto global_omt_to_draw_position = [&corner_NW]( const tripoint_abs_omt & omp ) {
+    const auto global_omt_to_draw_position = []( const tripoint_abs_omt & omp ) {
         // z position is hardcoded to 0 because the things this will be used to draw should not be skipped
         return tripoint( omp.raw().xy(), 0 );
     };
