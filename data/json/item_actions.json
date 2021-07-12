@@ -61,11 +61,6 @@
   },
   {
     "type": "item_action",
-    "id": "BURROW",
-    "name": { "str": "Burrow through rock" }
-  },
-  {
-    "type": "item_action",
     "id": "GEIGER",
     "name": { "str": "Use geiger counter" }
   },
@@ -851,11 +846,6 @@
   },
   {
     "type": "item_action",
-    "id": "SLEEP",
-    "name": { "str": "Take" }
-  },
-  {
-    "type": "item_action",
     "id": "SMOKING",
     "name": { "ctxt": "SMOKING", "str": "Smoke" }
   },
@@ -1078,5 +1068,10 @@
     "type": "item_action",
     "id": "CRAFT",
     "name": { "str": "Work on craft" }
+  },
+  {
+    "type": "item_action",
+    "id": "effect_on_conditions",
+    "name": { "str": "Activate item" }
   }
 ]

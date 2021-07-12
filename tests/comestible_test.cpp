@@ -8,7 +8,7 @@
 #include <utility>
 #include <vector>
 
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "character.h"
 #include "item.h"
 #include "item_contents.h"
@@ -114,7 +114,7 @@ static all_stats run_stats( const std::vector<std::vector<item_comp>> &permutati
 static item food_or_food_container( const item &it )
 {
     // if it contains an item, it's a food container. it will also contain only one item.
-    return it.contents.num_item_stacks() > 0 ? it.contents.only_item() : it;
+    return it.num_item_stacks() > 0 ? it.contents.only_item() : it;
 }
 
 TEST_CASE( "recipe_permutations", "[recipe]" )

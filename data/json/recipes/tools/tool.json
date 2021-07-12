@@ -14,7 +14,7 @@
     "using": [ [ "welding_standard", 10 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_welding_basic", "fail_multiplier": 5 },
+      { "proficiency": "prof_welding_basic", "fail_multiplier": 1.5 },
       { "proficiency": "prof_welding" }
     ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
@@ -52,7 +52,7 @@
       { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 1.5 }
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ]
+    "tools": [ [ [ "hotcut", -1 ] ] ]
   },
   {
     "type": "recipe",
@@ -69,7 +69,7 @@
     "using": [ [ "welding_standard", 10 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_welding_basic", "fail_multiplier": 5 },
+      { "proficiency": "prof_welding_basic", "fail_multiplier": 1.5 },
       { "proficiency": "prof_welding" }
     ],
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
@@ -91,8 +91,13 @@
     "time": "3 h",
     "autolearn": true,
     "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_toolsmithing" }
+    ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "tools": [ [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ] ]
   },
   {
@@ -121,6 +126,7 @@
     "time": "40 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_carving" } ],
     "components": [ [ [ "2x4", 4 ], [ "stick", 4 ] ], [ [ "cordage_short", 4, "LIST" ] ] ]
   },
   {
@@ -161,6 +167,7 @@
     "difficulty": 1,
     "time": "10 m",
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_carving" } ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 1 ], [ "splinter", 1 ] ] ]
   },
@@ -196,7 +203,7 @@
         "proficiency": "prof_lockpicking",
         "required": false,
         "time_multiplier": 2,
-        "fail_multiplier": 5,
+        "fail_multiplier": 1.5,
         "learning_time_multiplier": 0
       }
     ],
@@ -218,7 +225,7 @@
         "proficiency": "prof_lockpicking",
         "required": false,
         "time_multiplier": 2,
-        "fail_multiplier": 5,
+        "fail_multiplier": 1.5,
         "learning_time_multiplier": 0
       }
     ],
@@ -246,10 +253,10 @@
         "learning_time_multiplier": 0.1
       }
     ],
-    "using": [ [ "forging_standard", 4 ] ],
+    "using": [ [ "forging_standard", 4 ], [ "plastic_molding", 1 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "mold_plastic", -1 ] ] ],
-    "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "steel_lump", 1 ] ] ]
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ],
+    "components": [ [ [ "plastic_chunk", 2 ] ], [ [ "steel_lump", 2 ] ] ]
   },
   {
     "result": "steel_pan",
@@ -269,7 +276,7 @@
       { "proficiency": "prof_toolsmithing" }
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ]
+    "tools": [ [ [ "hotcut", -1 ] ] ]
   },
   {
     "result": "awl_bone",
@@ -295,7 +302,7 @@
     "difficulty": 4,
     "time": "120 m",
     "autolearn": true,
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ],
     "using": [ [ "forging_standard", 1 ], [ "steel_tiny", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
@@ -332,7 +339,7 @@
       { "proficiency": "prof_plasticworking" }
     ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "scrap", 2 ] ] ]
   },
   {
@@ -379,6 +386,7 @@
     "time": "300 m",
     "reversible": true,
     "book_learn": [ [ "family_cookbook", 4 ], [ "textbook_survival", 4 ] ],
+    "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "2x4", 18 ] ],
@@ -491,7 +499,7 @@
     "difficulty": 4,
     "time": "200 m",
     "reversible": true,
-    "book_learn": [ [ "textbook_chemistry", 4 ], [ "brewing_cookbook", 3 ] ],
+    "book_learn": [ [ "textbook_chemistry", 4 ], [ "distilling_cookbook", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
     "tools": [ [ [ "material_sand", 1 ] ] ],
     "qualities": [ { "id": "DRILL", "level": 2 }, { "id": "HAMMER", "level": 2 } ],
@@ -548,7 +556,7 @@
     "components": [
       [ [ "rock", 2 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ], [ "water_sewage", 1 ], [ "salt_water", 1 ], [ "saline", 5 ] ],
-      [ [ "material_sand", 1 ] ]
+      [ [ "material_sand", 1 ], [ "material_gravel", 1 ] ]
     ]
   },
   {
@@ -638,7 +646,7 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ], [ "forge", 10 ], [ "oxy_torch", 2 ] ] ],
-    "components": [ [ [ "copper_scrap_equivalent", 16, "LIST" ] ] ]
+    "components": [ [ [ "copper_scrap_equivalent", 20, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -944,7 +952,8 @@
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "book_learn": [ [ "plastics_book", 1 ], [ "textbook_extraction", 2 ], [ "textbook_fabrication", 2 ] ],
-    "tools": [ [ [ "surface_heat", 5, "LIST" ] ], [ [ "mold_plastic", -1 ] ] ],
+    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "using": [ [ "plastic_molding", 1 ] ],
     "components": [ [ [ "plastic_chunk", 1 ] ] ]
   },
   {

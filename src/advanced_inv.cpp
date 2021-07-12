@@ -336,7 +336,14 @@ void advanced_inventory::print_items( const advanced_inventory_pane &pane, bool 
         const item &it = *sitem.items.front();
         const bool selected = active && index == static_cast<int>( i );
 
-        nc_color thiscolor = active ? it.color_in_inventory() : norm;
+        nc_color thiscolor;
+        if( !active ) {
+            thiscolor = norm;
+        } else if( it.is_food_container() && !it.is_craft() && it.num_item_stacks() == 1 ) {
+            thiscolor = it.contents.all_items_top().front()->color_in_inventory();
+        } else {
+            thiscolor = it.color_in_inventory();
+        }
         nc_color thiscolordark = c_dark_gray;
         nc_color print_color;
 
@@ -838,7 +845,9 @@ bool advanced_inventory::move_all_items()
     if( dpane.get_area() == AIM_DRAGGED && sarea.pos == darea.pos &&
         spane.in_vehicle() == dpane.in_vehicle() ) {
         return false;
-    } else if( spane.get_area() == dpane.get_area() && spane.in_vehicle() == dpane.in_vehicle() ) {
+    }
+
+    if( spane.get_area() == dpane.get_area() && spane.in_vehicle() == dpane.in_vehicle() ) {
         return false;
     }
 
@@ -871,7 +880,7 @@ bool advanced_inventory::move_all_items()
         if( spane.get_area() == AIM_INVENTORY ) {
             //add all solid top level items
             for( item &cloth :  player_character.worn ) {
-                for( item *it : cloth.contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+                for( item *it : cloth.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
                     if( !it->made_of_from_type( phase_id::SOLID ) ) {
                         continue;
                     }
@@ -932,7 +941,8 @@ bool advanced_inventory::move_all_items()
             std::vector<item_location> target_items;
             std::vector<item_location> target_items_favorites;
             std::vector<int> quantities;
-            item_stack::iterator stack_begin, stack_end;
+            item_stack::iterator stack_begin;
+            item_stack::iterator stack_end;
             if( panes[src].in_vehicle() ) {
                 vehicle_stack targets = sarea.veh->get_items( sarea.vstor );
                 stack_begin = targets.begin();
@@ -1008,7 +1018,8 @@ bool advanced_inventory::move_all_items()
 
             std::vector<int> quantities;
 
-            item_stack::iterator stack_begin, stack_end;
+            item_stack::iterator stack_begin;
+            item_stack::iterator stack_end;
             if( panes[src].in_vehicle() ) {
                 vehicle_stack targets = sarea.veh->get_items( sarea.vstor );
                 stack_begin = targets.begin();
@@ -1785,7 +1796,7 @@ bool advanced_inventory::move_content( item &src_container, item &dest_container
         return false;
     }
 
-    item &src_contents = src_container.contents.legacy_front();
+    item &src_contents = src_container.legacy_front();
 
     if( !src_contents.made_of( phase_id::LIQUID ) ) {
         popup( _( "You can unload only liquids into target container." ) );
@@ -1805,9 +1816,9 @@ bool advanced_inventory::move_content( item &src_container, item &dest_container
     src_container.on_contents_changed();
     get_avatar().flag_encumbrance();
 
-    uistate.adv_inv_container_content_type = dest_container.contents.legacy_front().typeId();
+    uistate.adv_inv_container_content_type = dest_container.legacy_front().typeId();
     if( src_contents.charges <= 0 ) {
-        src_container.contents.clear_items();
+        src_container.clear_items();
     }
 
     return true;

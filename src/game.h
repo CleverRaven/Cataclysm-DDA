@@ -9,6 +9,7 @@
 #include <iosfwd>
 #include <list>
 #include <memory>
+#include <queue>
 #include <new>
 #include <set>
 #include <unordered_set>
@@ -20,6 +21,7 @@
 #include "coordinates.h"
 #include "creature.h"
 #include "cursesdef.h"
+#include "effect_on_condition.h"
 #include "enums.h"
 #include "game_constants.h"
 #include "item_location.h"
@@ -29,6 +31,7 @@
 #include "pimpl.h"
 #include "point.h"
 #include "type_id.h"
+#include "uistate.h"
 #include "units_fwd.h"
 #include "weather.h"
 
@@ -53,8 +56,6 @@ static const std::string SAVE_EXTENSION_SHORTCUTS( ".shortcuts" );
 class game;
 
 extern std::unique_ptr<game> g;
-
-extern const int core_version;
 
 extern const int savegame_version;
 extern int savegame_loading_version;
@@ -124,6 +125,14 @@ enum peek_act : int {
 struct look_around_result {
     cata::optional<tripoint> position;
     cata::optional<peek_act> peek_action;
+};
+struct look_around_params {
+    const bool show_window;
+    tripoint &center;
+    const tripoint &start_point;
+    bool has_first_point;
+    bool select_zone;
+    bool peeking;
 };
 
 struct w_map {
@@ -200,7 +209,7 @@ class game
         void setup();
         /** Saving and loading functions. */
         void serialize( std::ostream &fout ); // for save
-        void unserialize( std::istream &fin ); // for load
+        void unserialize( std::istream &fin, const std::string &path ); // for load
         void unserialize_master( std::istream &fin ); // for load
 
         /** write statistics to stdout and @return true if successful */
@@ -217,6 +226,7 @@ class game
         /** MAIN GAME LOOP. Returns true if game is over (death, saved, quit, etc.). */
         bool do_turn();
         shared_ptr_fast<ui_adaptor> create_or_get_main_ui_adaptor();
+        void swap_main_ui_adaptor( weak_ptr_fast<ui_adaptor> &ui );
         void invalidate_main_ui_adaptor() const;
         void mark_main_ui_adaptor_resize() const;
         void draw();
@@ -572,6 +582,7 @@ class game
         cata::optional<tripoint> look_around();
         look_around_result look_around( bool show_window, tripoint &center,
                                         const tripoint &start_point, bool has_first_point, bool select_zone, bool peeking );
+        look_around_result look_around( look_around_params );
 
         // Shared method to print "look around" info
         void pre_print_all_tile_info( const tripoint &lp, const catacurses::window &w_info,
@@ -619,6 +630,8 @@ class game
         void zoom_in();
         void zoom_out();
         void reset_zoom();
+        void set_zoom( int level );
+        int get_zoom() const;
         int get_moves_since_last_save() const;
         int get_user_action_counter() const;
 
@@ -741,7 +754,7 @@ class game
         bool load( const save_t &name ); // Load a player-specific save file
         void load_master(); // Load the master data file, with factions &c
 #if defined(__ANDROID__)
-        void load_shortcuts( std::istream &fin );
+        void load_shortcuts( std::istream &fin, const std::string &path );
 #endif
         bool start_game(); // Starts a new game in the active world
 
@@ -876,6 +889,8 @@ class game
         void process_activity(); // Processes and enacts the player's activity
         void handle_key_blocking_activity(); // Abort reading etc.
         void open_consume_item_menu(); // Custom menu for consuming specific group of items
+        bool do_regular_action( action_id &act, avatar &player_character,
+                                const cata::optional<tripoint> &mouse_target );
         bool handle_action();
         bool try_get_right_click_action( action_id &act, const tripoint &mouse_target );
         bool try_get_left_click_action( action_id &act, const tripoint &mouse_target );
@@ -1035,6 +1050,9 @@ class game
         time_duration turnssincelastmon = 0_turns; // needed for auto run mode
 
         weather_manager weather;
+
+        std::vector<effect_on_condition_id> inactive_effect_on_condition_vector;
+        std::priority_queue<queued_eoc, std::vector<queued_eoc>, eoc_compare> queued_effect_on_conditions;
 
         int mostseen = 0; // # of mons seen last turn; if this increases, set safe_mode to SAFE_MODE_STOP
     private:

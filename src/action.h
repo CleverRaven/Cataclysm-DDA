@@ -322,6 +322,7 @@ enum action_id : int {
     ACTION_DISPLAY_TRANSPARENCY,
     /** Toggle reachability zones map */
     ACTION_DISPLAY_REACHABILITY_ZONES,
+    ACTION_DISPLAY_NPC_ATTACK_POTENTIAL,
     /** Toggle timing of the game hours */
     ACTION_TOGGLE_HOUR_TIMER,
     /** Not an action, serves as count of enumerated actions */

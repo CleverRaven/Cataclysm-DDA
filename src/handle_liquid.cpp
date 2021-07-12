@@ -86,7 +86,7 @@ static void serialize_liquid_target( player_activity &act, const item_location &
     act.values.push_back( static_cast<int>( liquid_target_type::CONTAINER ) );
     act.values.push_back( 0 ); // dummy
     act.targets.push_back( container_item );
-    act.coords.push_back( tripoint() ); // dummy
+    act.coords.emplace_back( ); // dummy
 }
 
 static void serialize_liquid_target( player_activity &act, const tripoint &pos )
@@ -147,7 +147,7 @@ bool handle_liquid_from_container( item &container, int radius )
 {
     std::vector<item *> remove;
     bool handled = false;
-    for( item *contained : container.contents.all_items_top() ) {
+    for( item *contained : container.all_items_top() ) {
         if( handle_liquid_from_container( contained, container, radius ) ) {
             remove.push_back( contained );
             handled = true;
@@ -229,7 +229,7 @@ static bool get_liquid_target( item &liquid, const item *const source, const int
         }
         // Sometimes the cont parameter is omitted, but the liquid is still within a container that counts
         // as valid target for the liquid. So check for that.
-        if( cont == source || ( !cont->contents.empty() && cont->has_item( liquid ) ) ) {
+        if( cont == source || ( !cont->empty() && cont->has_item( liquid ) ) ) {
             add_msg( m_info, _( "That's the same container!" ) );
             return; // The user has intended to do something, but mistyped.
         }
@@ -239,22 +239,35 @@ static bool get_liquid_target( item &liquid, const item *const source, const int
     std::set<vehicle *> opts;
     for( const tripoint &e : here.points_in_radius( player_character.pos(), 1 ) ) {
         vehicle *veh = veh_pointer_or_null( here.veh_at( e ) );
-        vehicle_part_range vpr = veh->get_all_parts();
-        if( veh && std::any_of( vpr.begin(), vpr.end(), [&liquid]( const vpart_reference & pt ) {
-        return pt.part().can_reload( liquid );
-        } ) ) {
-            opts.insert( veh );
+        if( veh ) {
+            vehicle_part_range vpr = veh->get_all_parts();
+            const auto veh_accepts_liquid = [&liquid]( const vpart_reference & pt ) {
+                return pt.part().can_reload( liquid );
+            };
+            if( std::any_of( vpr.begin(), vpr.end(), veh_accepts_liquid ) ) {
+                opts.insert( veh );
+            }
         }
     }
     for( vehicle *veh : opts ) {
-        if( veh == source_veh ) {
-            continue;
+        if( veh == source_veh && veh->has_part( "FLUIDTANK", false ) ) {
+            for( const vpart_reference &vp : veh->get_avail_parts( "FLUIDTANK" ) ) {
+                if( vp.part().get_base().is_reloadable_with( liquid.typeId() ) ) {
+                    menu.addentry( -1, true, MENU_AUTOASSIGN, _( "Fill avaliable tank" ) );
+                    actions.emplace_back( [ &, veh]() {
+                        target.veh = veh;
+                        target.dest_opt = LD_VEH;
+                    } );
+                    break;
+                }
+            }
+        } else {
+            menu.addentry( -1, true, MENU_AUTOASSIGN, _( "Fill nearby vehicle %s" ), veh->name );
+            actions.emplace_back( [ &, veh]() {
+                target.veh = veh;
+                target.dest_opt = LD_VEH;
+            } );
         }
-        menu.addentry( -1, true, MENU_AUTOASSIGN, _( "Fill nearby vehicle %s" ), veh->name );
-        actions.emplace_back( [ &, veh]() {
-            target.veh = veh;
-            target.dest_opt = LD_VEH;
-        } );
     }
 
     for( const tripoint &target_pos : here.points_in_radius( player_character.pos(), 1 ) ) {
@@ -324,7 +337,7 @@ static bool get_liquid_target( item &liquid, const item *const source, const int
 
 static bool perform_liquid_transfer( item &liquid, const tripoint *const source_pos,
                                      const vehicle *const source_veh, const int part_num,
-                                     const monster *const source_mon, liquid_dest_opt &target )
+                                     const monster *const /*source_mon*/, liquid_dest_opt &target )
 {
     if( !liquid.made_of_from_type( phase_id::LIQUID ) ) {
         dbg( D_ERROR ) << "game:handle_liquid: Tried to handle_liquid a non-liquid!";
@@ -343,8 +356,6 @@ static bool perform_liquid_transfer( item &liquid, const tripoint *const source_
             player_character.assign_activity( activity_id( "ACT_FILL_LIQUID" ) );
             serialize_liquid_source( player_character.activity, *source_pos, liquid );
             return true;
-        } else if( source_mon != nullptr ) {
-            return false;
         } else {
             return false;
         }

@@ -40,6 +40,17 @@
   },
   {
     "type": "monstergroup",
+    "name": "GROUP_ZOMBIE_BRAINLESS_UPGRADE",
+    "default": "mon_zombie_brainless",
+    "//": "No bionics or fungal",
+    "monsters": [
+      { "monster": "mon_zombie_brainless", "freq": 45, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_ears", "freq": 245, "cost_multiplier": 2 },
+      { "monster": "mon_afs_headless_horror", "freq": 40, "cost_multiplier": 5 }
+    ]
+  },
+  {
+    "type": "monstergroup",
     "name": "GROUP_ZOMBIE_FAT",
     "default": "mon_zombie_gasbag",
     "//": "fat zombie upgrades",
@@ -68,13 +79,30 @@
   },
   {
     "type": "monstergroup",
+    "name": "GROUP_MEDICAL_UPGRADE",
+    "default": "mon_zombie_medical_brute",
+    "//": "Masters pick from here when upgrading.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
+    "monsters": [
+      { "monster": "mon_zombie_medical_brute", "freq": 300, "cost_multiplier": 2 },
+      { "monster": "mon_boomer", "freq": 200, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_hollow", "freq": 100, "cost_multiplier": 1 },
+      { "monster": "mon_skeleton_medical", "freq": 200, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_medical_acidic", "freq": 100, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_medical_pupa", "freq": 50, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_pupa_medical_decoy", "freq": 50, "cost_multiplier": 2 }
+    ]
+  },
+  {
+    "type": "monstergroup",
     "name": "GROUP_ZOMBIE_BRUTE",
     "default": "mon_zombie_brute",
     "//": "Brute upgrades.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
     "monsters": [
-      { "monster": "mon_zombie_brute_grappler", "freq": 330, "cost_multiplier": 10 },
-      { "monster": "mon_zombie_brute_ninja", "freq": 265, "cost_multiplier": 10 },
-      { "monster": "mon_zombie_hulk", "freq": 265, "cost_multiplier": 50 },
+      { "monster": "mon_zombie_brute_grappler", "freq": 240, "cost_multiplier": 10 },
+      { "monster": "mon_zombie_brute_ninja", "freq": 175, "cost_multiplier": 10 },
+      { "monster": "mon_brute_pupa", "freq": 100, "cost_multiplier": 10 },
+      { "monster": "mon_brute_pupa_decoy", "freq": 100, "cost_multiplier": 10 },
+      { "monster": "mon_zombie_hulk", "freq": 245, "cost_multiplier": 50 },
       { "monster": "mon_gas_zombie", "freq": 140, "cost_multiplier": 10 }
     ]
   },
@@ -90,6 +118,16 @@
       { "monster": "mon_zombie_creepy", "freq": 50, "cost_multiplier": 7 },
       { "monster": "mon_zombie_snotgobbler", "freq": 300, "cost_multiplier": 5 },
       { "monster": "mon_zombie_waif", "freq": 200, "cost_multiplier": 7 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_BRUTE_PUPA",
+    "default": "mon_null",
+    "//": "this is a sub-group of pupating zombies that can only evolve from pupating zombie brutes.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
+    "monsters": [
+      { "monster": "mon_hulk_pupa", "freq": 500, "cost_multiplier": 50 },
+      { "monster": "mon_hulk_pupa_decoy", "freq": 500, "cost_multiplier": 50 }
     ]
   },
   {
@@ -123,6 +161,19 @@
       { "monster": "mon_zombie_brute_ninja", "freq": 500, "cost_multiplier": 10 },
       { "monster": "mon_zombie_pupa_decoy_shady", "freq": 250, "cost_multiplier": 0 },
       { "monster": "mon_zombie_pupa_shady", "freq": 250, "cost_multiplier": 10 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ZOMBIE_BOOMER_UPGRADE",
+    "default": "mon_boomer",
+    "//": "Boomer upgrades.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
+    "monsters": [
+      { "monster": "mon_boomer_glutton", "freq": 235, "cost_multiplier": 5 },
+      { "monster": "mon_boomer_huge", "freq": 300, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_necro_boomer", "freq": 15, "cost_multiplier": 27 },
+      { "monster": "mon_gas_zombie", "freq": 100, "cost_multiplier": 10 },
+      { "monster": "mon_zombie_gasbag", "freq": 300, "cost_multiplier": 2 }
     ]
   }
 ]

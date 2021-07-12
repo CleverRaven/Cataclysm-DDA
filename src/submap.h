@@ -14,6 +14,7 @@
 #include "active_item_cache.h"
 #include "calendar.h"
 #include "colony.h"
+#include "compatibility.h"
 #include "computer.h"
 #include "construction.h"
 #include "field.h"
@@ -65,10 +66,10 @@ class submap : maptile_soa<SEEX, SEEY>
 {
     public:
         submap();
-        submap( submap && );
+        submap( submap && ) noexcept( map_is_noexcept );
         ~submap();
 
-        submap &operator=( submap && );
+        submap &operator=( submap && ) noexcept;
 
         trap_id get_trap( const point &p ) const {
             return trp[p.x][p.y];

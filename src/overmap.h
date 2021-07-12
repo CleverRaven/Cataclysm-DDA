@@ -137,7 +137,13 @@ class overmap_special_batch
         std::vector<overmap_special_placement>::iterator begin() {
             return placements.begin();
         }
+        std::vector<overmap_special_placement>::const_iterator begin() const {
+            return placements.begin();
+        }
         std::vector<overmap_special_placement>::iterator end() {
+            return placements.end();
+        }
+        std::vector<overmap_special_placement>::const_iterator end() const {
             return placements.end();
         }
         std::vector<overmap_special_placement>::iterator erase(
@@ -359,6 +365,8 @@ class overmap
         // can be used after placement to lookup whether a given location was created
         // as part of a special.
         std::unordered_map<tripoint_om_omt, overmap_special_id> overmap_special_placements;
+        // Records location where mongroups are not allowed to spawn during worldgen.
+        std::unordered_set<tripoint_om_omt> safe_at_worldgen;
 
         regional_settings settings;
 
@@ -431,8 +439,9 @@ class overmap
                                 om_direction::type dir, const city &town, int block_width = 2 );
         bool build_lab( const tripoint_om_omt &p, int s, std::vector<point_om_omt> *lab_train_points,
                         const std::string &prefix, int train_odds );
-        void build_anthill( const tripoint_om_omt &p, int s );
-        void build_tunnel( const tripoint_om_omt &p, int s, om_direction::type dir );
+        void build_anthill( const tripoint_om_omt &p, int s, bool ordinary_ants = true );
+        void build_tunnel( const tripoint_om_omt &p, int s, om_direction::type dir,
+                           bool ordinary_ants = true );
         bool build_slimepit( const tripoint_om_omt &origin, int s );
         void build_mine( const tripoint_om_omt &origin, int s );
         void place_ravines();
@@ -502,6 +511,8 @@ class overmap
         void place_radios();
 
         void add_mon_group( const mongroup &group );
+        // Spawns a new mongroup (to be called by worldgen code)
+        void spawn_mon_group( const mongroup &group );
 
         void load_monster_groups( JsonIn &jsin );
         void load_legacy_monstergroups( JsonIn &jsin );

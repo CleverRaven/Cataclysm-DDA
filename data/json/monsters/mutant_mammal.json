@@ -24,6 +24,7 @@
     "dodge": 3,
     "armor_bash": 8,
     "armor_cut": 12,
+    "bleed_rate": 80,
     "vision_day": 30,
     "vision_night": 10,
     "path_settings": { "max_dist": 10 },
@@ -37,9 +38,8 @@
     "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
     "fear_triggers": [ "SOUND" ],
     "placate_triggers": [ "MEAT" ],
-    "death_function": [ "NORMAL" ],
     "harvest": "mutant_mammal_large_fur",
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "BASHES", "ATTACKMON", "STUMBLES", "KEENNOSE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "BASHES", "PUSH_MON", "STUMBLES", "KEENNOSE" ]
   },
   {
     "id": "mon_beaver_mutant_huge",
@@ -68,7 +68,6 @@
     "harvest": "mutant_mammal_fur",
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "SOUND" ],
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "SWIMS", "WARM" ]
   },
   {
@@ -97,7 +96,6 @@
     "harvest": "bird_large",
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "SOUND" ],
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "SWIMS", "WARM" ]
   },
   {
@@ -128,7 +126,6 @@
     "special_attacks": [ [ "scratch", 10 ] ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
     "placate_triggers": [ "MEAT" ],
-    "death_function": [ "NORMAL" ],
     "harvest": "mammal_tiny",
     "reproduction": { "baby_monster": "mon_cat_mutant_kitten_prism", "baby_count": 2, "baby_timer": 80 },
     "flags": [
@@ -166,7 +163,6 @@
     "special_attacks": [ [ "scratch", 10 ] ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
     "placate_triggers": [ "MEAT" ],
-    "death_function": [ "NORMAL" ],
     "harvest": "mammal_tiny",
     "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "CATFOOD", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN" ],
     "upgrades": { "age_grow": 120, "into": "mon_cat_mutant_prism" }
@@ -209,7 +205,6 @@
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_WEAK" ],
     "fear_triggers": [ "SOUND" ],
     "placate_triggers": [ "MEAT" ],
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "GROUP_MORALE" ]
   },
   {
@@ -242,7 +237,6 @@
     "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "PLAYER_WEAK", "HURT" ],
     "fear_triggers": [ "SOUND" ],
     "placate_triggers": [ "MEAT" ],
-    "death_function": [ "NORMAL" ],
     "harvest": "mutant_mammal_fur",
     "flags": [
       "SEES",
@@ -283,6 +277,7 @@
     "dodge": 2,
     "armor_bash": 8,
     "armor_cut": 10,
+    "bleed_rate": 60,
     "vision_day": 50,
     "vision_night": 5,
     "harvest": "mutant_mammal_large_fur",
@@ -296,7 +291,6 @@
     ],
     "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "placate_triggers": [ "MEAT" ],
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE" ]
   },
   {
@@ -327,7 +321,6 @@
     "harvest": "mutant_mammal_large_leather",
     "path_settings": { "max_dist": 10 },
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "death_function": [ "NORMAL" ],
     "zombify_into": "mon_zeer",
     "reproduction": { "baby_monster": "mon_deer_mutant_spider_fawn", "baby_count": 1, "baby_timer": 330 },
     "//": " 201 days gestation period. The fawn will stay with its mother for approximately one year, suckling for three to four months.",
@@ -364,7 +357,6 @@
     "harvest": "mutant_mammal_leather",
     "path_settings": { "max_dist": 10 },
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "death_function": [ "NORMAL" ],
     "upgrades": { "age_grow": 330, "into": "mon_deer_mutant_spider" },
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "STUMBLES" ]
   },
@@ -401,7 +393,6 @@
     "biosignature": { "biosig_item": "feces_dog", "biosig_timer": 6 },
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "FRIEND_DIED" ],
     "placate_triggers": [ "MEAT" ],
-    "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_FOOD", 100 ], [ "PARROT_AT_DANGER", 0 ] ],
     "flags": [
       "ANIMAL",

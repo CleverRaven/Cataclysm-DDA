@@ -17,6 +17,7 @@
 #include "character.h"
 #include "color.h"
 #include "debug.h"
+#include "effect.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
@@ -357,8 +358,8 @@ std::pair<nutrients, nutrients> Character::compute_nutrient_range(
         nutrients this_max;
 
         item result_it = rec->create_result();
-        if( result_it.contents.num_item_stacks() == 1 ) {
-            const item alt_result = result_it.contents.legacy_front();
+        if( result_it.num_item_stacks() == 1 ) {
+            const item alt_result = result_it.legacy_front();
             if( alt_result.typeId() == comest_it.typeId() ) {
                 result_it = alt_result;
             }
@@ -486,6 +487,40 @@ time_duration Character::vitamin_rate( const vitamin_id &vit ) const
     return res;
 }
 
+void Character::clear_vitamins()
+{
+    vitamin_levels.clear();
+}
+
+std::map<vitamin_id, int> Character::effect_vitamin_mod( const std::map<vitamin_id, int> &vits )
+{
+    std::vector<std::pair<vitamin_id, float>> mods;
+    // Yuck!
+    // Construct mods, for easy iteration over to modify vitamins
+    for( const std::pair<const efftype_id, std::map<bodypart_id, effect>> &elem : *effects ) {
+        for( const std::pair<const bodypart_id, effect> &veffect : elem.second ) {
+            const bool reduced = resists_effect( veffect.second );
+            for( const vitamin_applied_effect &rate_mod : veffect.second.vit_effects( reduced ) ) {
+                if( !rate_mod.absorb_mult ) {
+                    continue;
+                }
+                mods.emplace_back( rate_mod.vitamin, *rate_mod.absorb_mult );
+            }
+        }
+    }
+
+    std::map<vitamin_id, int> ret = vits;
+    for( std::pair<const vitamin_id, int> &value : ret ) {
+        for( const std::pair<vitamin_id, float> &mod : mods ) {
+            if( value.first == mod.first ) {
+                value.second *= mod.second;
+            }
+        }
+    }
+
+    return ret;
+}
+
 int Character::vitamin_mod( const vitamin_id &vit, int qty, bool capped )
 {
     if( !vit.is_valid() ) {
@@ -600,22 +635,8 @@ morale_type Character::allergy_type( const item &food ) const
 
 ret_val<edible_rating> Character::can_eat( const item &food ) const
 {
-    bool can_fuel_cbm = can_fuel_bionic_with( food );
-    if( !food.is_comestible() && !can_fuel_cbm ) {
+    if( !food.is_comestible() ) {
         return ret_val<edible_rating>::make_failure( _( "That doesn't look edible." ) );
-    } else if( can_fuel_cbm ) {
-        std::string item_name = food.tname();
-        material_id mat_type = food.get_base_material().id;
-        if( food.type->magazine ) {
-            const item ammo = item( food.ammo_current() );
-            item_name = ammo.tname();
-            mat_type = ammo.get_base_material().id;
-        }
-        if( get_fuel_capacity( mat_type ) <= 0 ) {
-            return ret_val<edible_rating>::make_failure( _( "No space to store more %s" ), item_name );
-        } else {
-            return ret_val<edible_rating>::make_success();
-        }
     }
 
     const auto &comest = food.get_comestible();
@@ -733,6 +754,26 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
     return ret_val<edible_rating>::make_success();
 }
 
+ret_val<edible_rating> Character::can_consume_fuel( const item &fuel ) const
+{
+    if( !can_fuel_bionic_with( fuel ) ) {
+        return ret_val<edible_rating>::make_failure( _( "That doesn't look useable as fuel." ) );
+    } else {
+        std::string item_name = fuel.tname();
+        material_id mat_type = fuel.get_base_material().id;
+        if( fuel.type->magazine ) {
+            const item ammo = item( fuel.ammo_current() );
+            item_name = ammo.tname();
+            mat_type = ammo.get_base_material().id;
+        }
+        if( get_fuel_capacity( mat_type ) <= 0 ) {
+            return ret_val<edible_rating>::make_failure( _( "No space to store more %s" ), item_name );
+        }
+
+    }
+    return ret_val<edible_rating>::make_success();
+}
+
 ret_val<edible_rating> Character::will_eat( const item &food, bool interactive ) const
 {
     const auto ret = can_eat( food );
@@ -743,7 +784,7 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
         return ret;
     }
 
-    // exit early for cbm fuel as we've already tested everything in can_eat
+    // exit early as we've already tested everything in can_eat
     if( !food.is_comestible() ) {
         return ret_val<edible_rating>::make_success();
     }
@@ -866,6 +907,10 @@ static bool eat( item &food, player &you, bool force )
     // Note: the block below assumes we decided to eat it
     // No coming back from here
 
+    if( food.is_container() ) {
+        food.spill_contents( you );
+    }
+
     const bool hibernate = you.has_active_mutation( trait_HIBERNATE );
     const int nutr = you.nutrition_for( food );
     const int quench = food.get_comestible()->quench;
@@ -902,6 +947,7 @@ static bool eat( item &food, player &you, bool force )
         // Already consumed by using `food.type->invoke`?
         if( charges_used > 0 ) {
             food.mod_charges( -charges_used );
+            return true;
         }
         return false;
     }
@@ -1033,15 +1079,15 @@ void Character::modify_health( const islot_comestible &comest )
 
 void Character::modify_stimulation( const islot_comestible &comest )
 {
+    if( comest.stim == 0 ) {
+        return;
+    }
     const int current_stim = get_stim();
-    if( comest.stim != 0 &&
-        ( std::abs( current_stim ) < ( std::abs( comest.stim ) * 3 ) ||
-          sgn( current_stim ) != sgn( comest.stim ) ) ) {
-        if( comest.stim < 0 ) {
-            set_stim( std::max( comest.stim * 3, current_stim + comest.stim ) );
-        } else {
-            set_stim( std::min( comest.stim * 3, current_stim + comest.stim ) );
-        }
+    if( ( std::abs( comest.stim ) * 3 ) > std::abs( current_stim ) ) {
+        mod_stim( comest.stim );
+    } else {
+        comest.stim > 0 ? mod_stim( std::max( comest.stim / 2, 1 ) ) : mod_stim( std::min( comest.stim / 2,
+                -1 ) );
     }
     if( has_trait( trait_STIMBOOST ) && ( current_stim > 30 ) &&
         ( ( comest.add == add_type::CAFFEINE ) || ( comest.add == add_type::SPEED ) ||
@@ -1257,7 +1303,7 @@ void Character::modify_morale( item &food, const int nutr )
 double Character::compute_effective_food_volume_ratio( const item &food ) const
 {
     const nutrients food_nutrients = compute_effective_nutrients( food );
-    units::mass food_weight = ( food.weight() / food.count() );
+    units::mass food_weight = ( food.weight() / std::max( 1, food.count() ) );
     double ratio = 1.0f;
     if( units::to_gram( food_weight ) != 0 ) {
         ratio = std::max( static_cast<double>( food_nutrients.kcal() ) / units::to_gram( food_weight ),
@@ -1277,8 +1323,9 @@ units::volume Character::masticated_volume( const item &food ) const
     units::volume water_vol = ( food.get_comestible()->quench > 0 ) ? food.get_comestible()->quench *
                               5_ml : 0_ml;
     units::mass water_weight = units::from_gram( units::to_milliliter( water_vol ) );
-    units::mass food_dry_weight = food.weight() / food.count() - water_weight;
-    units::volume food_dry_volume = food.volume() / food.count() - water_vol ;
+    // handle the division by zero exception when the food count is 0 with std::max()
+    units::mass food_dry_weight = food.weight() / std::max( 1, food.count() ) - water_weight;
+    units::volume food_dry_volume = food.volume() / std::max( 1, food.count() ) - water_vol;
 
     if( units::to_milliliter( food_dry_volume ) != 0 &&
         units::to_gram( food_dry_weight ) < units::to_milliliter( food_dry_volume ) ) {
@@ -1337,7 +1384,7 @@ bool Character::consume_effects( item &food )
         // But always round down
         int h_loss = -rottedness * comest.get_default_nutr();
         mod_healthy_mod( h_loss, -200 );
-        add_msg_debug( "%d health from %0.2f%% rotten food", h_loss, rottedness );
+        add_msg_debug( debugmode::DF_FOOD, "%d health from %0.2f%% rotten food", h_loss, rottedness );
     }
 
     // Used in hibernation messages.
@@ -1423,10 +1470,10 @@ bool Character::consume_effects( item &food )
         food_vol * ratio,
         food_nutrients
     };
-    add_msg_debug(
-        "Effective volume: %d (solid) %d (liquid)\n multiplier: %g calories: %d, weight: %d",
-        units::to_milliliter( ingested.solids ), units::to_milliliter( ingested.water ), ratio,
-        food_nutrients.kcal(), units::to_gram( food_weight ) );
+    add_msg_debug( debugmode::DF_FOOD,
+                   "Effective volume: %d (solid) %d (liquid)\n multiplier: %g calories: %d, weight: %d",
+                   units::to_milliliter( ingested.solids ), units::to_milliliter( ingested.water ), ratio,
+                   food_nutrients.kcal(), units::to_gram( food_weight ) );
     // Maybe move tapeworm to digestion
     if( has_effect( effect_tapeworm ) ) {
         ingested.nutr /= 2;
@@ -1487,7 +1534,7 @@ bool Character::fuel_bionic_with( item &it )
                            ngettext( "<npcname> load %1$i charge of %2$s in their %3$s.",
                                      "<npcname> load %1$i charges of %2$s in their %3$s.", loadable ), loadable, mat->name(),
                            bio->name );
-    mod_moves( -250 );
+
     // Return false for magazines because only their ammo is consumed
     return !is_magazine;
 }
@@ -1594,10 +1641,9 @@ time_duration Character::get_consume_time( const item &it )
             }
         } else if( smoking != nullptr ) {
             time = time_duration::from_minutes( 1 );//about five minutes for a cig or joint so 1 minute a charge
-        } else if( adrenaline_injector != nullptr ) {
-            time = time_duration::from_seconds( 15 );//epi-pens are fairly quick
-        } else if( heal != nullptr ) {
-            time = time_duration::from_seconds( 15 );//bandages and disinfectant are fairly quick
+        } else if( adrenaline_injector != nullptr || heal != nullptr ) {
+            //epi-pens, bandages and disinfectant are fairly quick
+            time = time_duration::from_seconds( 15 );
         } else {
             time = time_duration::from_seconds( 5 ); //probably pills so quick
         }
@@ -1689,7 +1735,7 @@ static bool consume_med( item &target, player &you )
     return true;
 }
 
-trinary player::consume( item &target, bool force )
+trinary player::consume( item &target, bool force, bool refuel )
 {
     if( target.is_null() ) {
         add_msg_if_player( m_info, _( "You do not have that item." ) );
@@ -1710,9 +1756,13 @@ trinary player::consume( item &target, bool force )
     if( is_player() && !query_consume_ownership( target, *this ) ) {
         return trinary::NONE;
     }
-    if( consume_med( target, *this ) ||
-        eat( target, *this, force ) ||
-        fuel_bionic_with( target ) ) {
+
+    if( refuel ) {
+        fuel_bionic_with( target );
+        return target.charges <= 0 ? trinary::ALL : trinary::SOME;
+    }
+
+    if( consume_med( target, *this ) || eat( target, *this, force ) ) {
 
         get_event_bus().send<event_type::character_consumes_item>( getID(), target.typeId() );
 
@@ -1723,7 +1773,7 @@ trinary player::consume( item &target, bool force )
     return trinary::NONE;
 }
 
-trinary player::consume( item_location loc, bool force )
+trinary player::consume( item_location loc, bool force, bool refuel )
 {
     if( !loc ) {
         debugmsg( "Null loc to consume." );
@@ -1731,7 +1781,7 @@ trinary player::consume( item_location loc, bool force )
     }
     contents_change_handler handler;
     item &target = *loc;
-    trinary result = consume( target, force );
+    trinary result = consume( target, force, refuel );
     if( result != trinary::NONE ) {
         handler.unseal_pocket_containing( loc );
     }

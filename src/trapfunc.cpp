@@ -171,11 +171,9 @@ bool trapfunc::beartrap( const tripoint &p, Creature *c, item * )
         c->deal_damage( nullptr, hit, d );
 
         player *n = dynamic_cast<player *>( c );
-        if( n != nullptr ) {
-            if( ( n->has_trait( trait_INFRESIST ) ) && ( one_in( 512 ) ) ) {
-                n->add_effect( effect_tetanus, 1_turns, true );
-            } else if( ( !n->has_trait( trait_INFIMMUNE ) || !n->has_trait( trait_INFRESIST ) ) &&
-                       ( one_in( 128 ) ) ) {
+        if( n != nullptr && !n->has_trait( trait_INFIMMUNE ) ) {
+            const int chance_in = n->has_trait( trait_INFRESIST ) ? 512 : 128;
+            if( one_in( chance_in ) ) {
                 n->add_effect( effect_tetanus, 1_turns, true );
             }
         }
@@ -215,11 +213,11 @@ bool trapfunc::board( const tripoint &, Creature *c, item * )
                         10 ) ) );
         c->deal_damage( nullptr, bodypart_id( "foot_r" ), damage_instance( damage_type::CUT, rng( 6,
                         10 ) ) );
-        if( ( n->has_trait( trait_INFRESIST ) ) && ( one_in( 256 ) ) ) {
-            n->add_effect( effect_tetanus, 1_turns, true );
-        } else if( ( !n->has_trait( trait_INFIMMUNE ) || !n->has_trait( trait_INFRESIST ) ) &&
-                   ( one_in( 35 ) ) ) {
-            n->add_effect( effect_tetanus, 1_turns, true );
+        if( !n->has_trait( trait_INFIMMUNE ) ) {
+            const int chance_in = n->has_trait( trait_INFRESIST ) ? 256 : 35;
+            if( one_in( chance_in ) ) {
+                n->add_effect( effect_tetanus, 1_turns, true );
+            }
         }
     }
     c->check_dead_state();
@@ -889,11 +887,11 @@ bool trapfunc::pit_spikes( const tripoint &p, Creature *c, item * )
             n->add_msg_if_player( m_bad, _( "The spikes impale your %s!" ),
                                   body_part_name_accusative( hit ) );
             n->deal_damage( nullptr, hit, damage_instance( damage_type::CUT, damage ) );
-            if( ( n->has_trait( trait_INFRESIST ) ) && ( one_in( 256 ) ) ) {
-                n->add_effect( effect_tetanus, 1_turns, true );
-            } else if( ( !n->has_trait( trait_INFIMMUNE ) || !n->has_trait( trait_INFRESIST ) ) &&
-                       ( one_in( 35 ) ) ) {
-                n->add_effect( effect_tetanus, 1_turns, true );
+            if( !n->has_trait( trait_INFIMMUNE ) ) {
+                const int chance_in = n->has_trait( trait_INFRESIST ) ? 256 : 35;
+                if( one_in( chance_in ) ) {
+                    n->add_effect( effect_tetanus, 1_turns, true );
+                }
             }
         }
     } else if( z != nullptr ) {
@@ -977,11 +975,11 @@ bool trapfunc::pit_glass( const tripoint &p, Creature *c, item * )
             n->add_msg_if_player( m_bad, _( "The glass shards slash your %s!" ),
                                   body_part_name_accusative( hit ) );
             n->deal_damage( nullptr, hit, damage_instance( damage_type::CUT, damage ) );
-            if( ( n->has_trait( trait_INFRESIST ) ) && ( one_in( 256 ) ) ) {
-                n->add_effect( effect_tetanus, 1_turns, true );
-            } else if( ( !n->has_trait( trait_INFIMMUNE ) || !n->has_trait( trait_INFRESIST ) ) &&
-                       ( one_in( 35 ) ) ) {
-                n->add_effect( effect_tetanus, 1_turns, true );
+            if( !n->has_trait( trait_INFIMMUNE ) ) {
+                const int chance_in = n->has_trait( trait_INFRESIST ) ? 256 : 35;
+                if( one_in( chance_in ) ) {
+                    n->add_effect( effect_tetanus, 1_turns, true );
+                }
             }
         }
     } else if( z != nullptr ) {

@@ -92,6 +92,7 @@ static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
 static const std::string flag_FLAT( "FLAT" );
 static const std::string flag_INITIAL_PART( "INITIAL_PART" );
 static const std::string flag_SUPPORTS_ROOF( "SUPPORTS_ROOF" );
+static const std::string flag_NO_FLOOR( "NO_FLOOR" );
 
 static bool finalized = false;
 
@@ -105,6 +106,9 @@ static bool check_nothing( const tripoint & )
 }
 bool check_empty( const tripoint & ); // tile is empty
 bool check_support( const tripoint & ); // at least two orthogonal supports
+bool check_stable( const tripoint & ); // tile below has a flag SUPPORTS_ROOF
+bool check_empty_stable( const tripoint & ); // tile is empty, tile below has a flag SUPPORTS_ROOF
+bool check_nofloor_above( const tripoint & ); // tile above has a flag NO_FLOOR
 bool check_deconstruct( const tripoint & ); // either terrain or furniture must be deconstructible
 bool check_empty_up_OK( const tripoint & ); // tile is empty and below OVERMAP_HEIGHT
 bool check_up_OK( const tripoint & ); // tile is below OVERMAP_HEIGHT
@@ -519,7 +523,7 @@ construction_id construction_menu( const bool blueprint )
                 }
                 current_buffer_location += construct_buffers[i].size();
                 if( i < construct_buffers.size() - 1 ) {
-                    full_construct_buffer.push_back( std::string() );
+                    full_construct_buffer.emplace_back( );
                     current_buffer_location++;
                 }
             }
@@ -945,8 +949,7 @@ void place_construction( const construction_group_str_id &group )
     shared_ptr_fast<game::draw_callback_t> draw_valid = make_shared_fast<game::draw_callback_t>( [&]() {
         map &here = get_map();
         for( auto &elem : valid ) {
-            here.drawsq( g->w_terrain, player_character, elem.first, true, false,
-                         player_character.pos() + player_character.view_offset );
+            here.drawsq( g->w_terrain, elem.first, drawsq_params().highlight( true ).show_items( true ) );
         }
     } );
     g->add_draw_callback( draw_valid );
@@ -1071,6 +1074,16 @@ void complete_construction( player *p )
             here.furn_set( terp, furn_str_id( built.post_terrain ) );
         } else {
             here.ter_set( terp, ter_str_id( built.post_terrain ) );
+            // Make a roof if constructed terrain should have it and it's an open air
+            if( construct::check_up_OK( terp ) ) {
+                const int_id<ter_t> post_terrain = ter_id( built.post_terrain );
+                if( post_terrain->roof ) {
+                    const tripoint top = terp + tripoint_above;
+                    if( here.ter( top ) == t_open_air ) {
+                        here.ter_set( top, ter_id( post_terrain->roof ) );
+                    }
+                }
+            }
         }
     }
 
@@ -1131,6 +1144,21 @@ bool construct::check_support( const tripoint &p )
     return num_supports >= 2;
 }
 
+bool construct::check_stable( const tripoint &p )
+{
+    return get_map().has_flag( flag_SUPPORTS_ROOF, p + tripoint_below );
+}
+
+bool construct::check_empty_stable( const tripoint &p )
+{
+    return check_empty( p ) && check_stable( p );
+}
+
+bool construct::check_nofloor_above( const tripoint &p )
+{
+    return get_map().has_flag( flag_NO_FLOOR, p + tripoint_above );
+}
+
 bool construct::check_deconstruct( const tripoint &p )
 {
     map &here = get_map();
@@ -1165,7 +1193,7 @@ bool construct::check_no_trap( const tripoint &p )
 
 bool construct::check_ramp_high( const tripoint &p )
 {
-    if( check_up_OK( p ) && check_up_OK( p + tripoint_above ) ) {
+    if( check_empty_stable( p ) && check_up_OK( p ) && check_nofloor_above( p ) ) {
         for( const point &car_d : four_cardinal_directions ) {
             // check adjacent points on the z-level above for a completed down ramp
             if( get_map().has_flag( TFLAG_RAMP_DOWN, p + car_d + tripoint_above ) ) {
@@ -1178,7 +1206,7 @@ bool construct::check_ramp_high( const tripoint &p )
 
 bool construct::check_ramp_low( const tripoint &p )
 {
-    return check_up_OK( p ) && check_up_OK( p + tripoint_above );
+    return check_empty_stable( p ) && check_up_OK( p ) && check_nofloor_above( p );
 }
 
 void construct::done_trunk_plank( const tripoint &/*p*/ )
@@ -1195,7 +1223,7 @@ void construct::done_grave( const tripoint &p )
     Character &player_character = get_player_character();
     map &here = get_map();
     map_stack its = here.i_at( p );
-    for( item it : its ) {
+    for( const item &it : its ) {
         if( it.is_corpse() ) {
             if( it.get_corpse_name().empty() ) {
                 if( it.get_mtype()->has_flag( MF_HUMAN ) ) {
@@ -1619,6 +1647,9 @@ void load_construction( const JsonObject &jo )
             { "", construct::check_nothing },
             { "check_empty", construct::check_empty },
             { "check_support", construct::check_support },
+            { "check_stable", construct::check_stable },
+            { "check_empty_stable", construct::check_empty_stable },
+            { "check_nofloor_above", construct::check_nofloor_above },
             { "check_deconstruct", construct::check_deconstruct },
             { "check_empty_up_OK", construct::check_empty_up_OK },
             { "check_up_OK", construct::check_up_OK },
@@ -1781,7 +1812,7 @@ void finalize_constructions()
         if( !vp.has_flag( flag_INITIAL_PART ) ) {
             continue;
         }
-        frame_items.push_back( item_comp( vp.base_item, 1 ) );
+        frame_items.emplace_back( vp.base_item, 1 );
     }
 
     if( frame_items.empty() ) {
@@ -1902,9 +1933,8 @@ build_reqs get_build_reqs_for_furn_ter_ids(
         }
         total_reqs.reqs[build.requirements] += count;
         for( const auto &req_skill : build.required_skills ) {
-            if( total_reqs.skills.find( req_skill.first ) == total_reqs.skills.end() ) {
-                total_reqs.skills[req_skill.first] = req_skill.second;
-            } else if( total_reqs.skills[req_skill.first] < req_skill.second ) {
+            auto it = total_reqs.skills.find( req_skill.first );
+            if( it == total_reqs.skills.end() || it->second < req_skill.second ) {
                 total_reqs.skills[req_skill.first] = req_skill.second;
             }
         }

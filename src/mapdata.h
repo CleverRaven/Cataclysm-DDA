@@ -11,6 +11,7 @@
 #include <vector>
 
 #include "calendar.h"
+#include "clone_ptr.h"
 #include "color.h"
 #include "translations.h"
 #include "type_id.h"
@@ -23,6 +24,7 @@ using ter_str_id = string_id<ter_t>;
 
 class JsonObject;
 class player;
+struct iexamine_actor;
 struct furn_t;
 struct itype;
 struct tripoint;
@@ -74,6 +76,25 @@ struct map_deconstruct_info {
     map_deconstruct_info();
     bool load( const JsonObject &jsobj, const std::string &member, bool is_furniture,
                const std::string &context );
+};
+struct map_shoot_info {
+    // Base chance to hit the object at all (defaults to 100%)
+    int chance_to_hit = 0;
+    // Minimum damage reduction to apply to shot when hit
+    int reduce_dmg_min = 0;
+    // Maximum damage reduction to apply to shot when hit
+    int reduce_dmg_max = 0;
+    // Minimum damage reduction to apply to laser shots when hit
+    int reduce_dmg_min_laser = 0;
+    // Maximum damage reduction to apply to laser shots when hit
+    int reduce_dmg_max_laser = 0;
+    // Damage required to have a chance to destroy
+    int destroy_dmg_min = 0;
+    // Damage required to guarentee destruction
+    int destroy_dmg_max = 0;
+    // Are lasers incapable of destroying the object (defaults to false)
+    bool no_laser_destroy = false;
+    bool load( const JsonObject &jsobj, const std::string &member, bool was_loaded );
 };
 struct furn_workbench_info {
     // Base multiplier applied for crafting here
@@ -192,7 +213,6 @@ enum ter_bitflags : int {
     TFLAG_WALL,
     TFLAG_DEEP_WATER,
     TFLAG_SHALLOW_WATER,
-    TFLAG_NO_SHOOT,
     TFLAG_CURRENT,
     TFLAG_HARVESTED,
     TFLAG_PERMEABLE,
@@ -237,9 +257,12 @@ enum ter_connects : int {
     TERCONN_CANVAS_WALL,
 };
 
+void init_mapdata();
+
 struct map_data_common_t {
         map_bash_info        bash;
         map_deconstruct_info deconstruct;
+        cata::value_ptr<map_shoot_info> shoot;
 
     public:
         virtual ~map_data_common_t() = default;
@@ -252,6 +275,8 @@ struct map_data_common_t {
 
         // Hardcoded examination function
         iexamine_function examine_func; // What happens when the terrain/furniture is examined
+        // Data-driven examine actor
+        cata::clone_ptr<iexamine_actor> examine_actor;
 
     private:
         std::set<std::string> flags;    // string flags which possibly refer to what's documented above.
@@ -277,6 +302,7 @@ struct map_data_common_t {
 
         bool can_examine() const;
         bool has_examine( iexamine_function_ref func ) const;
+        bool has_examine( const std::string &action ) const;
         void set_examine( iexamine_function_ref func );
         void examine( player &, const tripoint & ) const;
 
@@ -360,9 +386,15 @@ struct map_data_common_t {
 * Short for terrain type. This struct defines all of the metadata for a given terrain id (an enum below).
 */
 struct ter_t : map_data_common_t {
+
+    std::vector<std::pair<ter_str_id, mod_id>> src;
+
     ter_str_id id;    // The terrain's ID. Must be set, must be unique.
     ter_str_id open;  // Open action: transform into terrain with matching id
     ter_str_id close; // Close action: transform into terrain with matching id
+
+    ter_str_id lockpick_result; // Lockpick action: transform when successfully lockpicked
+    translation lockpick_message; // Lockpick action: message when successfully lockpicked
 
     std::string trap_id_str;     // String storing the id string of the trap.
     ter_str_id transforms_into; // Transform into what terrain?
@@ -390,9 +422,14 @@ void reset_furn_ter();
  */
 
 struct furn_t : map_data_common_t {
+
+    std::vector<std::pair<furn_str_id, mod_id>> src;
+
     furn_str_id id;
     furn_str_id open;  // Open action: transform into furniture with matching id
     furn_str_id close; // Close action: transform into furniture with matching id
+    furn_str_id lockpick_result; // Lockpick action: transform when successfully lockpicked
+    translation lockpick_message; // Lockpick action: message when successfully lockpicked
     itype_id crafting_pseudo_item;
     units::volume keg_capacity = 0_ml;
     int comfort = 0;
@@ -441,6 +478,7 @@ provided for terrains added by mods. A string equivalent is always present, i.e.
 t_basalt
 "t_basalt"
 */
+// NOLINTNEXTLINE(cata-static-int_id-constants)
 extern ter_id t_null,
        t_hole, // Real nothingness; makes you fall a z-level
        // Ground
@@ -466,6 +504,8 @@ extern ter_id t_null,
        t_wall_half, t_wall_wood, t_wall_wood_chipped, t_wall_wood_broken,
        t_wall, t_concrete_wall, t_brick_wall,
        t_wall_metal,
+       t_scrap_wall,
+       t_scrap_wall_halfway,
        t_wall_glass,
        t_wall_glass_alarm,
        t_reinforced_glass, t_reinforced_glass_shutter, t_reinforced_glass_shutter_open,
@@ -476,6 +516,7 @@ extern ter_id t_null,
        t_door_c, t_door_c_peep, t_door_b, t_door_b_peep, t_door_o, t_door_o_peep,
        t_door_locked_interior, t_door_locked, t_door_locked_peep, t_door_locked_alarm, t_door_frame,
        t_chaingate_l, t_fencegate_c, t_fencegate_o, t_chaingate_c, t_chaingate_o,
+       t_retractable_gate_l, t_retractable_gate_c, t_retractable_gate_o,
        t_door_boarded, t_door_boarded_damaged, t_door_boarded_peep, t_rdoor_boarded,
        t_rdoor_boarded_damaged, t_door_boarded_damaged_peep,
        t_door_metal_c, t_door_metal_o, t_door_metal_locked, t_door_metal_pickable,
@@ -564,6 +605,7 @@ runtime index: furn_id
 furn_id refers to a position in the furnlist[] where the furn_t struct is stored. See note
 about ter_id above.
 */
+// NOLINTNEXTLINE(cata-static-int_id-constants)
 extern furn_id f_null,
        f_hay, f_cattails, f_lotus, f_lilypad,
        f_rubble, f_rubble_rock, f_wreckage, f_ash,
@@ -605,7 +647,8 @@ extern furn_id f_null,
        f_camp_chair,
        f_sign,
        f_gunsafe_ml, f_gunsafe_mj, f_gun_safe_el,
-       f_street_light, f_traffic_light;
+       f_street_light, f_traffic_light,
+       f_console, f_console_broken;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //// These are on their way OUT and only used in certain switch statements until they are rewritten.

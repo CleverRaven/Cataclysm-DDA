@@ -405,12 +405,21 @@ void computer_session::action_unlock()
     query_any( _( "Lock disabled.  Press any key…" ) );
 }
 
-//Toll is required for the church computer/mechanism to function
+//Toll is required for the church/school computer/mechanism to function
 void computer_session::action_toll()
 {
-    sounds::sound( get_player_character().pos(), 120, sounds::sound_t::music,
-                   //~ the sound of a church bell ringing
-                   _( "Bohm…  Bohm…  Bohm…" ), true, "environment", "church_bells" );
+    if( calendar::turn < comp.next_attempt ) {
+        print_error( _( "[Bellsystem 1.2] is currently in use." ) );
+        query_any( _( "Please wait for at least one minute." ) );
+        reset_terminal();
+    } else {
+        comp.next_attempt = calendar::turn + 1_minutes;
+        sounds::sound( get_player_character().pos(), 120, sounds::sound_t::music,
+                       //~ the sound of a church bell ringing
+                       _( "Bohm…  Bohm…  Bohm…" ), true, "environment", "church_bells" );
+
+        query_any( _( "[Bellsystem 1.2] activated.  Have a nice day." ) );
+    }
 }
 
 void computer_session::action_sample()
@@ -771,8 +780,8 @@ void computer_session::action_repeater_mod()
     avatar &player_character = get_avatar();
     if( player_character.has_amount( itype_radio_repeater_mod, 1 ) ) {
         for( mission *miss : player_character.get_active_missions() ) {
-            static const mission_type_id commo_3 = mission_type_id( "MISSION_OLD_GUARD_NEC_COMMO_3" ),
-                                         commo_4 = mission_type_id( "MISSION_OLD_GUARD_NEC_COMMO_4" );
+            static const mission_type_id commo_3 = mission_type_id( "MISSION_OLD_GUARD_NEC_COMMO_3" );
+            static const mission_type_id commo_4 = mission_type_id( "MISSION_OLD_GUARD_NEC_COMMO_4" );
             if( miss->mission_id() == commo_3 || miss->mission_id() == commo_4 ) {
                 miss->step_complete( 1 );
                 print_error( _( "Repeater mod installed…" ) );
@@ -801,7 +810,7 @@ void computer_session::action_download_software()
         get_player_character().moves -= 30;
         item software( miss->get_item_id(), calendar::turn_zero );
         software.mission_id = comp.mission_id;
-        usb->contents.clear_items();
+        usb->clear_items();
         usb->put_in( software, item_pocket::pocket_type::SOFTWARE );
         print_line( _( "Software downloaded." ) );
     } else {
@@ -822,12 +831,12 @@ void computer_session::action_blood_anal()
                 print_error( _( "ERROR: Please place sample in centrifuge." ) );
             } else if( items.size() > 1 ) {
                 print_error( _( "ERROR: Please remove all but one sample from centrifuge." ) );
-            } else if( items.only_item().contents.empty() ) {
+            } else if( items.only_item().empty() ) {
                 print_error( _( "ERROR: Please only use container with blood sample." ) );
-            } else if( items.only_item().contents.legacy_front().typeId() != itype_blood ) {
+            } else if( items.only_item().legacy_front().typeId() != itype_blood ) {
                 print_error( _( "ERROR: Please only use blood samples." ) );
             } else { // Success!
-                const item &blood = items.only_item().contents.legacy_front();
+                const item &blood = items.only_item().legacy_front();
                 const mtype *mt = blood.get_mtype();
                 if( mt == nullptr || mt->id == mtype_id::NULL_ID() ) {
                     print_line( _( "Result: Human blood, no pathogens found." ) );
@@ -841,7 +850,7 @@ void computer_session::action_blood_anal()
                     if( query_bool( _( "Download data?" ) ) ) {
                         if( item *const usb = pick_usb() ) {
                             item software( "software_blood_data", calendar::turn_zero );
-                            usb->contents.clear_items();
+                            usb->clear_items();
                             usb->put_in( software, item_pocket::pocket_type::SOFTWARE );
                             print_line( _( "Software downloaded." ) );
                         } else {
@@ -874,7 +883,7 @@ void computer_session::action_data_anal()
                        items.only_item().typeId() != itype_black_box ) {
                 print_error( _( "ERROR: Memory bank destroyed or not present." ) );
             } else if( items.only_item().typeId() == itype_usb_drive &&
-                       items.only_item().contents.empty() ) {
+                       items.only_item().empty() ) {
                 print_error( _( "ERROR: Memory bank is empty." ) );
             } else { // Success!
                 if( items.only_item().typeId() == itype_black_box ) {
@@ -1503,9 +1512,9 @@ void computer_session::failure_destroy_blood()
                 print_error( _( "ERROR: Please remove all but one sample from centrifuge." ) );
             } else if( items.only_item().typeId() != itype_vacutainer ) {
                 print_error( _( "ERROR: Please use blood-contained samples." ) );
-            } else if( items.only_item().contents.empty() ) {
+            } else if( items.only_item().empty() ) {
                 print_error( _( "ERROR: Blood draw kit, empty." ) );
-            } else if( items.only_item().contents.legacy_front().typeId() != itype_blood ) {
+            } else if( items.only_item().legacy_front().typeId() != itype_blood ) {
                 print_error( _( "ERROR: Please only use blood samples." ) );
             } else {
                 print_error( _( "ERROR: Blood sample destroyed." ) );
@@ -1529,7 +1538,7 @@ void computer_session::failure_destroy_data()
                 print_error( _( "ERROR: Please only scan one item at a time." ) );
             } else if( items.only_item().typeId() != itype_usb_drive ) {
                 print_error( _( "ERROR: Memory bank destroyed or not present." ) );
-            } else if( items.only_item().contents.empty() ) {
+            } else if( items.only_item().empty() ) {
                 print_error( _( "ERROR: Memory bank is empty." ) );
             } else {
                 print_error( _( "ERROR: Data bank destroyed." ) );

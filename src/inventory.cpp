@@ -359,10 +359,8 @@ item *inventory::provide_pseudo_item( const itype_id &id, int battery )
 book_proficiency_bonuses inventory::get_book_proficiency_bonuses() const
 {
     book_proficiency_bonuses ret;
-    std::set<itype_id> ids_used;
     for( const std::list<item> &it : this->items ) {
         ret += it.front().get_book_proficiency_bonuses();
-        ids_used.emplace( it.front().typeId() );
     }
     return ret;
 }
@@ -451,6 +449,7 @@ void inventory::form_from_zone( map &m, std::unordered_set<tripoint> &zone_pts, 
                                 bool assign_invlet )
 {
     std::vector<tripoint> pts;
+    pts.reserve( zone_pts.size() );
     for( const tripoint &elem : zone_pts ) {
         pts.push_back( m.getlocal( elem ) );
     }
@@ -490,7 +489,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
         const furn_t &f = m.furn( p ).obj();
         if( item *furn_item = provide_pseudo_item( f.crafting_pseudo_item, 0 ) ) {
             const itype *ammo = f.crafting_ammo_item_type();
-            if( furn_item->contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE ) ) {
+            if( furn_item->has_pocket_type( item_pocket::pocket_type::MAGAZINE ) ) {
                 // NOTE: This only works if the pseudo item has a MAGAZINE pocket, not a MAGAZINE_WELL!
                 item furn_ammo( ammo, calendar::turn, count_charges_in_list( ammo, m.i_at( p ) ) );
                 furn_item->put_in( furn_ammo, item_pocket::pocket_type::MAGAZINE );

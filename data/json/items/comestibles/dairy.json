@@ -142,6 +142,7 @@
     "description": "Clarified butter, free from milk solids and water.  Will last a very long time.",
     "price": 420,
     "price_postapoc": 50,
+    "material": [ "oil" ],
     "phase": "liquid"
   },
   {
@@ -295,6 +296,28 @@
     "charges": 20,
     "vitamins": [ [ "vitA", 2 ], [ "vitB", 1 ], [ "vitC", 1 ], [ "calcium", 7 ] ],
     "fun": 3
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "milk_cream_whipped",
+    "name": { "str_sp": "whipped cream" },
+    "weight": "120 g",
+    "color": "white",
+    "spoils_in": "1 day",
+    "comestible_type": "FOOD",
+    "symbol": "~",
+    "quench": 3,
+    "calories": 250,
+    "description": "Cream that has been whipped, perfect for frosting cakes and pies.  Either store-bought or homemade.",
+    "price": 70,
+    "price_postapoc": 150,
+    "looks_like": "milk",
+    "material": [ "milk" ],
+    "volume": "250 ml",
+    "phase": "liquid",
+    "vitamins": [ [ "vitA", 2 ], [ "calcium", 7 ] ],
+    "flags": [ "NUTRIENT_OVERRIDE" ],
+    "fun": 4
   },
   {
     "type": "COMESTIBLE",

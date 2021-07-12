@@ -48,12 +48,8 @@ static const trait_id trait_DEBUG_BIONIC_POWER( "DEBUG_BIONIC_POWER" );
 static const trait_id trait_DEBUG_BIONIC_POWERGEN( "DEBUG_BIONIC_POWERGEN" );
 static const trait_id trait_DEX_ALPHA( "DEX_ALPHA" );
 static const trait_id trait_GLASSJAW( "GLASSJAW" );
-static const trait_id trait_HUGE( "HUGE" );
-static const trait_id trait_HUGE_OK( "HUGE_OK" );
 static const trait_id trait_INT_ALPHA( "INT_ALPHA" );
 static const trait_id trait_INT_SLIME( "INT_SLIME" );
-static const trait_id trait_LARGE( "LARGE" );
-static const trait_id trait_LARGE_OK( "LARGE_OK" );
 static const trait_id trait_M_BLOOM( "M_BLOOM" );
 static const trait_id trait_M_BLOSSOMS( "M_BLOSSOMS" );
 static const trait_id trait_M_FERTILE( "M_FERTILE" );
@@ -68,15 +64,17 @@ static const trait_id trait_ROOTS2( "ROOTS2" );
 static const trait_id trait_ROOTS3( "ROOTS3" );
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_SLIMESPAWNER( "SLIMESPAWNER" );
-static const trait_id trait_SMALL( "SMALL" );
-static const trait_id trait_SMALL2( "SMALL2" );
-static const trait_id trait_SMALL_OK( "SMALL_OK" );
 static const trait_id trait_STR_ALPHA( "STR_ALPHA" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 static const trait_id trait_TREE_COMMUNION( "TREE_COMMUNION" );
 static const trait_id trait_VOMITOUS( "VOMITOUS" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
+
+static const json_character_flag json_flag_TINY( "TINY" );
+static const json_character_flag json_flag_SMALL( "SMALL" );
+static const json_character_flag json_flag_LARGE( "LARGE" );
+static const json_character_flag json_flag_HUGE( "HUGE" );
 
 namespace io
 {
@@ -158,17 +156,19 @@ void Character::toggle_trait( const trait_id &trait_ )
     }
 }
 
-void Character::set_mutations( const std::vector<trait_id> &traits )
+void Character::set_mutation_unsafe( const trait_id &trait )
 {
-    for( const trait_id &trait : traits ) {
-        const auto iter = my_mutations.find( trait );
-        if( iter != my_mutations.end() ) {
-            continue;
-        }
-        my_mutations.emplace( trait, trait_data{} );
-        cached_mutations.push_back( &trait.obj() );
-        mutation_effect( trait, false );
+    const auto iter = my_mutations.find( trait );
+    if( iter != my_mutations.end() ) {
+        return;
     }
+    my_mutations.emplace( trait, trait_data{} );
+    cached_mutations.push_back( &trait.obj() );
+    mutation_effect( trait, false );
+}
+
+void Character::do_mutation_updates()
+{
     recalc_sight_limits();
     calc_encumbrance();
 
@@ -178,22 +178,18 @@ void Character::set_mutations( const std::vector<trait_id> &traits )
     }
 }
 
+void Character::set_mutations( const std::vector<trait_id> &traits )
+{
+    for( const trait_id &trait : traits ) {
+        set_mutation_unsafe( trait );
+    }
+    do_mutation_updates();
+}
+
 void Character::set_mutation( const trait_id &trait )
 {
-    const auto iter = my_mutations.find( trait );
-    if( iter != my_mutations.end() ) {
-        return;
-    }
-    my_mutations.emplace( trait, trait_data{} );
-    cached_mutations.push_back( &trait.obj() );
-    mutation_effect( trait, false );
-    recalc_sight_limits();
-    calc_encumbrance();
-
-    // If the stamina is higher than the max (Languorous), set it back to max
-    if( get_stamina() > get_stamina_max() ) {
-        set_stamina( get_stamina_max() );
-    }
+    set_mutation_unsafe( trait );
+    do_mutation_updates();
 }
 
 void Character::unset_mutation( const trait_id &trait_ )
@@ -379,13 +375,13 @@ const resistances &mutation_branch::damage_resistance( const bodypart_id &bp ) c
 
 void Character::recalculate_size()
 {
-    if( has_trait( trait_SMALL2 ) || has_trait( trait_SMALL_OK ) ) {
+    if( has_trait_flag( json_flag_TINY ) ) {
         size_class = creature_size::tiny;
-    } else if( has_trait( trait_SMALL ) ) {
+    } else if( has_trait_flag( json_flag_SMALL ) ) {
         size_class = creature_size::small;
-    } else if( has_trait( trait_LARGE ) || has_trait( trait_LARGE_OK ) ) {
+    } else if( has_trait_flag( json_flag_LARGE ) ) {
         size_class = creature_size::large;
-    } else if( has_trait( trait_HUGE ) || has_trait( trait_HUGE_OK ) ) {
+    } else if( has_trait_flag( json_flag_HUGE ) ) {
         size_class = creature_size::huge;
     } else {
         size_class = creature_size::medium;
@@ -856,6 +852,10 @@ bool Character::mutation_ok( const trait_id &mutation, bool force_good, bool for
                 return false;
             }
         }
+
+        if( bid->mutation_conflicts.count( mutation ) != 0 ) {
+            return false;
+        }
     }
 
     const mutation_branch &mdata = mutation.obj();
@@ -1184,6 +1184,14 @@ bool Character::mutate_towards( const trait_id &mut )
         return false;
     }
 
+    // Just prevent it when it conflicts with a CBM, for now
+    // TODO: Consequences?
+    for( const bionic_id &bid : get_bionics() ) {
+        if( bid->mutation_conflicts.count( mut ) != 0 ) {
+            return false;
+        }
+    }
+
     for( size_t i = 0; !has_threshreq && i < threshreq.size(); i++ ) {
         if( has_trait( threshreq[i] ) ) {
             has_threshreq = true;
@@ -1280,10 +1288,8 @@ bool Character::mutate_towards( const trait_id &mut )
             rating = m_bad;
         } else if( mdata.points > cancel_mdata.points ) {
             rating = m_good;
-        } else if( mdata.points == cancel_mdata.points ) {
-            rating = m_neutral;
         } else {
-            rating = m_mixed;
+            rating = m_neutral;
         }
         // If this new mutation cancels a base trait, remove it and add the mutation at the same time
         add_msg_player_or_npc( rating,

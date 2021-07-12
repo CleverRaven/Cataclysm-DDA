@@ -4,6 +4,11 @@ Certain features of the game can be modified without rebuilding the game from so
 
 The majority of modding is done by editing JSON files. An in-depth review of all json files and their appropriate fields is available in [JSON_INFO.md](JSON_INFO.md).
 
+## Other guides
+
+You might want to read the [Guide to adding new content to CDDA for first time
+contributors](https://github.com/CleverRaven/Cataclysm-DDA/wiki/Guide-to-adding-new-content-to-CDDA-for-first-time-contributors) on the CDDA wiki.
+
 ## The basics
 
 ### Creating a barebones mod
@@ -26,7 +31,8 @@ A barebones `modinfo.json` file looks like this:
 ]
 ````
 The `category` attribute denotes where the mod will appear in the mod selection menu. These are the available categories to choose from, with some examples chosen from mods that existed when this document was written. Pick whichever one applies best to your mod when writing your modinfo file.
- - `content` - A mod that adds a lot of stuff. Typically reserved for very large mods or complete game overhauls (eg: Core game files, Aftershock)
+ - `content` - A mod that adds a lot of stuff. Typically reserved for large mods (eg: Core game files, Aftershock)
+ - `total_conversion` - A mod that fundamentally changes the game.  In particular, the assumption is that a player should not use two total conversion mods at the same time, and so they will not be tested together.  However, nothing prevents players from using more than one if they wish. (eg: Dark Skies Above)
  - `items` - A mod that adds new items and recipes to the game (eg: More survival tools)
  - `creatures` - A mod that adds new creatures or NPCs to the game (eg: Modular turrets)
  - `misc_additions` - Miscellaneous content additions to the game (eg: Alternative map key, Crazy cataclysm)
@@ -77,7 +83,8 @@ Scenarios are what the game uses to determine your general situation when you cr
       "hospital_9"
     ],
     "start_name": "In Large Building",
-    "flags": [ "SUR_START", "CITY_START", "LONE_START" ]
+    "surround_groups": [ [ "GROUP_BLACK_ROAD", 70.0 ] ],
+    "flags": [ "CITY_START", "LONE_START" ]
   }
 ]
 ````
@@ -135,7 +142,7 @@ Items are where you really want to read the [JSON_INFO.md](JSON_INFO.md) file, j
 ````
 
 ### Preventing monsters from spawning
-This kind of mod is relatively simple, but very useful. If you don't want to deal with certain types of monsters in your world, this is how you do it. There are two ways to go about this, and both will be detailed below. You can blacklist entire monster groups, or you can blacklist certain monsters. In order to do either of those things, you need that monster's ID. These can be found in the relevant data files. For the core game, these are in the `data/json/monsters` directory.
+This kind of mod is relatively simple, but very useful. If you don't want to deal with certain types of monsters in your world, this is how you do it. There are two ways to go about this, and both will be detailed below. You can blacklist entire monster groups, blacklist monsters by their specified species, or you can blacklist individual monsters. In order to do any of those things, you need that monster's ID or SPECIES data. These can be found in the relevant data files. For the core game, these are in the `data/json/monsters` directory.
 The example below is from the `No Ants` mod, and will stop any kind of ant from spawning in-game.
 ````json
 [
@@ -155,6 +162,15 @@ The example below is from the `No Ants` mod, and will stop any kind of ant from 
       "mon_ant_acid",
       "mon_ant"
     ]
+  }
+]
+````
+The following is an example of how to blacklist monsters by species. In this case, it would remove all fungaloids from the game.
+````json
+[
+  {
+    "type": "MONSTER_BLACKLIST",
+    "species": [ "FUNGUS" ]
   }
 ]
 ````
@@ -217,6 +233,23 @@ You can't edit existing dialog, but you can add new dialogue by adding a new res
     ]
   }
 ```
+## Adjusting monster stats
+Monster stats can be adjusted using the `monster_adjustment` JSON element.
+```json
+  {
+    "type": "monster_adjustment",
+    "species": "ZOMBIE",
+    "flag": { "name": "REVIVES", "value": false },
+	"stat": { "name": "speed", "modifier": 0.9 }
+  }
+```
+Using this syntax allows modification of the following things:
+**stat**: `speed` and `hp` are supported.  Modifier is a multiplier of the base speed or HP stat.
+**flag**: add or remove a monster flag.
+**special**: currently only supports `nightvision` which makes the specified monster species gain nightvision equal to its dayvision.
+
+Currently, adjusting multiple stats or flags requires separate `monster_adjustment` entries.
+
 
 ## Important note on json files
 
@@ -238,27 +271,3 @@ Many editors have features that let you track `{ [` and `] }` to see if they're 
 Almost everything in this game can be modded. Almost. This section is intended to chart those areas not supported for modding to save time and headaches.
 
 The Names folder and contents (EN etcetera) confirmed 5/23/20
-
-## Addendum
-<!-- I really don't know if this should be here or not. Please let me know. -->
-### No Zombie Revival
-This mod is very simple, but it's worth a special section because it does things a little differently than other mods, and documentation on it is tricky to find.
-
-The entire mod can fit into fifteen lines of JSON, and it's presented below. Just copy/paste that into a modinfo.json file, and put it in a new folder in your mods directory.
-````json
-[
-  {
-    "type": "MOD_INFO",
-    "id": "no_reviving_zombies",
-    "name": "Prevent Zombie Revivication",
-    "description": "Disables zombie revival.",
-    "category": "rebalance",
-    "dependencies": [ "dda" ]
-  },
-  {
-    "type": "monster_adjustment",
-    "species": "ZOMBIE",
-    "flag": { "name": "REVIVES", "value": false }
-  }
-]
-````

@@ -265,6 +265,22 @@
     "flags": [ "DURABLE_MELEE" ]
   },
   {
+    "id": "hotcut",
+    "type": "TOOL",
+    "name": { "str": "hotcut" },
+    "description": "This is a hardened chisel like object for metalsmithing.  This is used to cut lengths of metal in some metalworking fabrication recipes.",
+    "weight": "800 g",
+    "volume": "500 ml",
+    "price": 1600,
+    "price_postapoc": 25,
+    "to_hit": 1,
+    "bashing": 10,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "flags": [ "DURABLE_MELEE" ]
+  },
+  {
     "id": "tongs",
     "type": "TOOL",
     "name": { "str": "pair of metal tongs", "str_pl": "pairs of metal tongs" },
@@ -294,5 +310,20 @@
     "symbol": "`",
     "color": "brown",
     "qualities": [ [ "FILE", 1 ] ]
+  },
+  {
+    "id": "draw_plate",
+    "type": "TOOL",
+    "name": { "str": "draw plate" },
+    "description": "A piece of metal with holes of varying size drilled into it.  Used as part of wire drawing.",
+    "weight": "200 g",
+    "volume": "250 ml",
+    "price": 1000,
+    "price_postapoc": 10,
+    "bashing": 5,
+    "to_hit": -3,
+    "material": [ "steel" ],
+    "symbol": "]",
+    "color": "light_cyan"
   }
 ]

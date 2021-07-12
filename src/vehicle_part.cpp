@@ -167,6 +167,14 @@ bool vehicle_part::is_broken() const
     return base.damage() >= base.max_damage();
 }
 
+bool vehicle_part::is_cleaner_on() const
+{
+    const bool is_cleaner = info().has_flag( VPFLAG_AUTOCLAVE ) ||
+                            info().has_flag( VPFLAG_DISHWASHER ) ||
+                            info().has_flag( VPFLAG_WASHING_MACHINE );
+    return is_cleaner && enabled;
+}
+
 bool vehicle_part::is_unavailable( const bool carried ) const
 {
     return is_broken() || ( has_flag( carried_flag ) && carried );
@@ -209,8 +217,8 @@ itype_id vehicle_part::ammo_current() const
         return itype_battery;
     }
 
-    if( is_tank() && !base.contents.empty() ) {
-        return base.contents.legacy_front().typeId();
+    if( is_tank() && !base.empty() ) {
+        return base.legacy_front().typeId();
     }
 
     if( is_fuel_store( false ) || is_turret() ) {
@@ -236,7 +244,7 @@ int vehicle_part::ammo_capacity( const ammotype &ammo ) const
 int vehicle_part::ammo_remaining() const
 {
     if( is_tank() ) {
-        return base.contents.empty() ? 0 : base.contents.legacy_front().charges;
+        return base.empty() ? 0 : base.legacy_front().charges;
     }
     if( is_fuel_store( false ) || is_turret() ) {
         return base.ammo_remaining();
@@ -256,7 +264,7 @@ int vehicle_part::ammo_set( const itype_id &ammo, int qty )
 
     // We often check if ammo is set to see if tank is empty, if qty == 0 don't set ammo
     if( is_tank() && liquid->phase >= phase_id::LIQUID && qty != 0 ) {
-        base.contents.clear_items();
+        base.clear_items();
         const auto stack = units::legacy_volume_factor / std::max( liquid->stack_size, 1 );
         const int limit = units::from_milliliter( ammo_capacity( item::find_type(
                               ammo )->ammo->type ) ) / stack;
@@ -287,7 +295,7 @@ int vehicle_part::ammo_set( const itype_id &ammo, int qty )
 void vehicle_part::ammo_unset()
 {
     if( is_tank() ) {
-        base.contents.clear_items();
+        base.clear_items();
     } else if( is_fuel_store() ) {
         base.ammo_unset();
     }
@@ -295,12 +303,12 @@ void vehicle_part::ammo_unset()
 
 int vehicle_part::ammo_consume( int qty, const tripoint &pos )
 {
-    if( is_tank() && !base.contents.empty() ) {
+    if( is_tank() && !base.empty() ) {
         const int res = std::min( ammo_remaining(), qty );
-        item &liquid = base.contents.legacy_front();
+        item &liquid = base.legacy_front();
         liquid.charges -= res;
         if( liquid.charges == 0 ) {
-            base.contents.clear_items();
+            base.clear_items();
         }
         return res;
     }
@@ -309,11 +317,11 @@ int vehicle_part::ammo_consume( int qty, const tripoint &pos )
 
 double vehicle_part::consume_energy( const itype_id &ftype, double energy_j )
 {
-    if( base.contents.empty() || !is_fuel_store() ) {
+    if( base.empty() || !is_fuel_store() ) {
         return 0.0f;
     }
 
-    item &fuel = base.contents.legacy_front();
+    item &fuel = base.legacy_front();
     if( fuel.typeId() == ftype ) {
         cata_assert( fuel.is_fuel() );
         // convert energy density in MJ/L to J/ml
@@ -326,7 +334,7 @@ double vehicle_part::consume_energy( const itype_id &ftype, double energy_j )
         }
         if( charges_to_use > fuel.charges ) {
             charges_to_use = fuel.charges;
-            base.contents.clear_items();
+            base.clear_items();
         } else {
             fuel.charges -= charges_to_use;
         }
@@ -354,7 +362,7 @@ bool vehicle_part::can_reload( const item &obj ) const
             return false;
         }
         // forbid putting liquids, gasses, and plasma in things that aren't tanks
-        else if( !obj.made_of( phase_id::SOLID ) && !is_tank() ) {
+        if( !obj.made_of( phase_id::SOLID ) && !is_tank() ) {
             return false;
         }
         // prevent mixing of different ammo
@@ -532,7 +540,7 @@ bool vehicle_part::is_tank() const
 
 bool vehicle_part::contains_liquid() const
 {
-    return is_tank() && !base.contents.empty() &&
+    return is_tank() && !base.empty() &&
            base.contents.only_item().made_of( phase_id::LIQUID );
 }
 

@@ -14,6 +14,15 @@
   {
     "type": "item_group",
     "subtype": "collection",
+    "id": "ranger_mags",
+    "entries": [
+      { "item": "p320mag_13rd_357sig", "ammo-item": "357sig_fmj", "charges": 13 },
+      { "item": "p320mag_13rd_357sig", "ammo-item": "357sig_fmj", "charges": 13 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "charged_cell_phone",
     "entries": [ { "item": "light_plus_battery_cell", "ammo-item": "battery", "charges": 150, "container-item": "cell_phone" } ]
   },
@@ -134,6 +143,15 @@
       { "item": "38_speedloader", "ammo-item": "357mag_fmj", "charges": 7 },
       { "item": "38_speedloader", "ammo-item": "357mag_fmj", "charges": 7 },
       { "item": "38_speedloader", "ammo-item": "357mag_fmj", "charges": 7 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "m1911_10_magazines_reloaded",
+    "entries": [
+      { "item": "m1911_10mag", "ammo-item": "reloaded_10mm_fmj", "charges": 8 },
+      { "item": "m1911_10mag", "ammo-item": "reloaded_10mm_fmj", "charges": 8 }
     ]
   },
   {
@@ -749,6 +767,7 @@
       "both": {
         "items": [ "pants_army", "undershirt", "jacket_army", "gloves_liner", "socks", "boots", "beret", "wristwatch", "binoculars" ],
         "entries": [
+          { "item": "water_clean", "container-item": "canteen" },
           { "item": "m17", "ammo-item": "9mm", "container-item": "holster", "charges": 17 },
           { "item": "p320mag_17rd_9x19mm", "ammo-item": "9mm", "charges": 17, "count": 2 },
           { "item": "militarymap" }
@@ -792,10 +811,17 @@
         ],
         "entries": [
           { "group": "charged_two_way_radio" },
+          { "item": "water_clean", "container-item": "canteen" },
           { "item": "legpouch_large", "contents-group": "army_mags_m4" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_combat", "container-item": "sheath" },
-          { "item": "m4a1", "ammo-item": "556", "charges": 30, "contents-item": [ "shoulder_strap", "holo_sight" ] }
+          {
+            "item": "nato_assault_rifle",
+            "variant": "m4a1",
+            "ammo-item": "556",
+            "charges": 30,
+            "contents-item": [ "shoulder_strap", "holo_sight" ]
+          }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -836,6 +862,7 @@
           "molle_pack"
         ],
         "entries": [
+          { "item": "water_clean", "container-item": "canteen" },
           { "item": "wrench" },
           { "item": "hacksaw" },
           { "item": "pliers" },
@@ -884,6 +911,7 @@
         ],
         "entries": [
           { "group": "charged_two_way_radio" },
+          { "item": "water_clean", "container-item": "canteen" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "c4", "count": 3 }
         ]
@@ -928,11 +956,13 @@
         ],
         "entries": [
           { "group": "charged_two_way_radio" },
+          { "item": "water_clean", "container-item": "canteen" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_combat", "container-item": "sheath" },
           { "item": "shot_00", "count": 2 },
           {
-            "item": "m1014",
+            "item": "mossberg_930",
+            "variant": "m1014",
             "ammo-item": "shot_00",
             "charges": 8,
             "contents-item": [ "shoulder_strap", "holo_sight" ]
@@ -977,10 +1007,17 @@
         ],
         "entries": [
           { "group": "charged_two_way_radio" },
+          { "item": "water_clean", "container-item": "canteen" },
           { "item": "legpouch_large", "contents-group": "army_mags_m4" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_combat", "container-item": "sheath" },
-          { "item": "m4a1", "ammo-item": "556", "charges": 30, "contents-item": [ "shoulder_strap", "holo_sight" ] }
+          {
+            "item": "nato_assault_rifle",
+            "variant": "m4a1",
+            "ammo-item": "556",
+            "charges": 30,
+            "contents-item": [ "shoulder_strap", "holo_sight" ]
+          }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -1023,6 +1060,7 @@
           "diving_watch"
         ],
         "entries": [
+          { "item": "water_clean", "container-item": "canteen" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "kukri", "container-item": "sheath" },
           { "item": "chestrig", "contents-group": "army_mags_mp5" },
@@ -1077,7 +1115,13 @@
         "items": [ "armor_farmor", "socks", "boots_fur", "hat_fur", "gloves_fur", "vest", "wristwatch" ],
         "entries": [
           { "item": "knife_combat", "container-item": "sheath" },
-          { "item": "m4a1", "ammo-item": "556", "charges": 30, "contents-item": "shoulder_strap" },
+          {
+            "item": "nato_assault_rifle",
+            "variant": "m4a1",
+            "ammo-item": "556",
+            "charges": 30,
+            "contents-item": "shoulder_strap"
+          },
           { "item": "stanag30", "ammo-item": "556", "charges": 30 },
           { "item": "stanag30", "ammo-item": "556", "charges": 30 },
           { "item": "stanag30", "ammo-item": "556", "charges": 30 }
@@ -1540,12 +1584,7 @@
           { "item": "legpouch_large", "contents-group": "army_mags_usp9" },
           { "item": "usp_9mm", "ammo-item": "9mmfmj", "charges": 15, "container-item": "holster" },
           { "item": "baton-extended", "container-item": "police_belt" },
-          {
-            "item": "ksg",
-            "ammo-item": "shot_00",
-            "charges": 7,
-            "contents-item": [ "shoulder_strap", "ksg_aux_shotgun" ]
-          }
+          { "item": "ksg", "ammo-item": "shot_00", "charges": 7, "contents-item": [ "shoulder_strap" ] }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -1786,6 +1825,231 @@
     }
   },
   {
+    "id": "car_survivor",
+    "type": "profession",
+    "name": "Day Driver",
+    "description": "You love driving and making a living with it.  On your way to pick up someone with your car, you start to notice all the chaos happening around you.  Not wanting to be a part of it, you took a long detour to safety, only to find yourself in a different place.  All that's left is your car.",
+    "points": 4,
+    "skills": [ { "level": 1, "name": "barter" }, { "level": 4, "name": "driving" } ],
+    "vehicle": "car",
+    "items": {
+      "both": {
+        "items": [ "sneakers", "socks", "jeans", "tshirt", "wristwatch", "jacket_light", "water_clean" ],
+        "entries": [ { "group": "charged_cell_phone" } ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "panties", "bra" ]
+    }
+  },
+  {
+    "id": "emt_firefighter",
+    "type": "profession",
+    "name": "EMT Firefighter",
+    "description": "You love driving as much as you love extinguishing fire and helping the wounded, where every second counts.  On your way to respond to an emergency call with your firetruck, you encounter chaos in the city, recklessness and violence are plentiful.  Not wanting to use of the streets covered in burning trash and debris, you took a long detour to your fire station, only to find yourself unsure of the route back.  Looks like the only emergency you will respond to will be your own.",
+    "points": 5,
+    "skills": [ { "level": 3, "name": "firstaid" }, { "level": 3, "name": "driving" }, { "level": 1, "name": "electronics" } ],
+    "vehicle": "fire_engine",
+    "items": {
+      "both": {
+        "items": [
+          "boots_bunker",
+          "bunker_coat",
+          "bunker_pants",
+          "dress_shirt",
+          "fire_gauntlets",
+          "firehelmet",
+          "glasses_safety",
+          "mbag",
+          "nomex_socks",
+          "water_clean",
+          "wristwatch"
+        ],
+        "entries": [
+          { "group": "full_1st_aid" },
+          { "group": "charged_cell_phone" },
+          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "halligan", "container-item": "fireman_belt" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "panties", "bra" ]
+    }
+  },
+  {
+    "id": "handymanservice",
+    "type": "profession",
+    "name": "Serviceman",
+    "description": "Employed by a large company, you performed services directly at annoying customer's homes and also troubleshoot problems with their devices.  After you finally finished replacing the 'wifi-cable' you finally were able to go back to your company, along the road back you notice all the chaos happening around you.  Not wanting to get in the way of angry looking protesters, you took an old neglected side road, only to find yourself low on gas in a truly deserted place.  Couldn't this all just happen before you finished your work?",
+    "points": 4,
+    "skills": [ { "level": 3, "name": "electronics" }, { "level": 2, "name": "driving" }, { "level": 1, "name": "mechanics" } ],
+    "vehicle": "cube_van_cheap",
+    "items": {
+      "both": {
+        "items": [
+          "dress_shirt",
+          "socks",
+          "boots",
+          "pants",
+          "multitool",
+          "wristwatch",
+          "mbag",
+          "water_clean",
+          "gloves_work",
+          "hammer",
+          "hat_ball"
+        ],
+        "entries": [ { "group": "charged_cell_phone" } ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "panties", "bra" ]
+    }
+  },
+  {
+    "id": "bus_driver",
+    "type": "profession",
+    "name": "Bus Driver",
+    "description": "You are making a living with delivering noisy brats to their schools, where you wish with every delivery, that they don't break a seat or window for you.  On your way to pick up the first row of brats, you start to notice all the chaos happening around you.  By the time you arrive at the station, all the brats look like zombies, so you took a long detour to safety, only to find yourself in a different place.  At last you have been freed of the hellish noises they release, but new ones are on the merge.",
+    "points": 4,
+    "skills": [ { "level": 1, "name": "barter" }, { "level": 3, "name": "driving" } ],
+    "vehicle": "schoolbus",
+    "items": {
+      "both": {
+        "items": [ "sneakers", "socks", "jeans", "tshirt", "wristwatch", "jacket_light", "water_clean", "hat_ball" ],
+        "entries": [ { "group": "charged_cell_phone" } ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "panties", "bra" ]
+    }
+  },
+  {
+    "id": "cop_car",
+    "type": "profession",
+    "name": "Police Interceptor",
+    "description": "As on-duty officer, you received the call and got ready to respond to the robbery with your patrol car.  After arriving at the scene, it was soon you who needed rescuing, and you were lucky to escape with your life and car.  No one responds on the radio anymore either.  Who's going to respect your authority when the government this badge represents might not even exist anymore?",
+    "points": 6,
+    "skills": [ { "level": 3, "name": "gun" }, { "level": 3, "name": "pistol" }, { "level": 3, "name": "driving" } ],
+    "vehicle": "policecar",
+    "traits": [ "PROF_POLICE" ],
+    "items": {
+      "both": {
+        "items": [ "pants_army", "socks", "badge_deputy", "sheriffshirt", "police_belt", "boots", "whistle", "kevlar", "wristwatch" ],
+        "entries": [
+          { "group": "charged_cell_phone" },
+          { "group": "charged_two_way_radio" },
+          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
+          { "item": "legpouch_large", "contents-group": "army_mags_usp45" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "boy_shorts" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "militia_car",
+    "name": "Militia",
+    "description": "You’ve long since prepared yourself for this outcome.  You, alongside a band of compatriots, started a hideout in the woods from which to launch looting raids on a jury-rigged pickup.  The last run went poorly, leaving you last alive amongst your former comrades.  Every breath you take now is an act of rebellion against the cruelty of this doomed world.  Do not let that flame of hope perish inside you.",
+    "points": 8,
+    "skills": [
+      { "level": 2, "name": "gun" },
+      { "level": 2, "name": "rifle" },
+      { "level": 3, "name": "driving" },
+      { "level": 1, "name": "mechanics" }
+    ],
+    "vehicle": "pickup_technical",
+    "items": {
+      "both": {
+        "items": [
+          "pants_army",
+          "jacket_army",
+          "socks",
+          "sweatshirt",
+          "boots",
+          "cig",
+          "elbow_pads",
+          "slingpack",
+          "kevlar",
+          "balclava",
+          "knee_pads",
+          "beret",
+          "wristwatch",
+          "water_clean"
+        ],
+        "entries": [
+          { "group": "charged_cell_phone" },
+          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "knife_combat", "container-item": "sheath" },
+          { "item": "m9", "ammo-item": "9mm", "charges": 15, "container-item": "holster" },
+          { "item": "chestrig", "contents-group": "army_mags_m4" },
+          { "item": "lighter", "charges": 100 },
+          { "item": "ar15", "ammo-item": "556", "charges": 30, "contents-item": [ "shoulder_strap" ] }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "boy_shorts" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "park_ranger",
+    "name": "Park Ranger",
+    "description": "As a park ranger, most things you usually do is maintain the park, teach people how to not start a fire in the forest, patrol, and check out stuff on your daily to-do list.  After arriving at a deserted camp with notes left from survivors, you took upon heeding their warning, and packed at your station with some supplies alongside your pickup, just before the station was overrun as well.",
+    "points": 9,
+    "skills": [
+      { "level": 1, "name": "gun" },
+      { "level": 1, "name": "pistol" },
+      { "level": 3, "name": "driving" },
+      { "level": 2, "name": "firstaid" },
+      { "level": 1, "name": "fabrication" },
+      { "level": 2, "name": "swimming" },
+      { "level": 2, "name": "survival" }
+    ],
+    "vehicle": "pickup",
+    "items": {
+      "both": {
+        "items": [
+          "boots_hiking",
+          "cowboy_hat",
+          "diving_watch",
+          "e_tool",
+          "hammer",
+          "knife_folding",
+          "multitool",
+          "pants_army",
+          "police_belt",
+          "rollmat",
+          "sheriffshirt",
+          "socks",
+          "travelpack",
+          "vest",
+          "water_clean",
+          "whistle_multitool"
+        ],
+        "entries": [
+          { "group": "charged_cell_phone" },
+          { "group": "charged_flashlight" },
+          { "group": "charged_two_way_radio" },
+          { "group": "full_1st_aid" },
+          { "item": "black_pen", "charges": 100 },
+          { "item": "coat_rain", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "file" },
+          { "item": "legpouch_large", "contents-group": "ranger_mags" },
+          { "item": "lighter", "charges": 100 },
+          { "item": "p320_357sig", "ammo-item": "357sig_fmj", "charges": 13, "container-item": "holster" },
+          { "item": "paper", "charges": 20, "container-item": "leather_journal" },
+          { "item": "permanent_marker", "charges": 500 },
+          { "item": "roadmap" },
+          { "item": "sm_extinguisher", "charges": 10 },
+          { "item": "trailmap" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "boy_shorts" ]
+    }
+  },
+  {
     "type": "profession",
     "id": "lumberjack",
     "name": "Lumberjack",
@@ -1870,7 +2134,7 @@
     "type": "profession",
     "id": "student",
     "name": "Student",
-    "description": "Just an average high school student, you find yourself facing a test you never studied for, and the stakes are a bit higher than geometry.  Maybe there'll be something useful in one of these books you've been lugging around all year.",
+    "description": "Just an average student, you find yourself facing a test you never studied for, and the stakes are a bit higher than geometry.  Maybe there'll be something useful in one of these books you've been lugging around all year.",
     "points": 1,
     "items": {
       "both": {
@@ -1884,8 +2148,7 @@
           "wristwatch",
           "textbook_speech",
           "story_book",
-          "howto_computer",
-          "novel_coa"
+          "howto_computer"
         ],
         "entries": [ { "group": "charged_cell_phone" } ]
       },
@@ -2741,6 +3004,7 @@
           "wristwatch"
         ],
         "entries": [
+          { "item": "water_clean", "container-item": "canteen" },
           { "item": "scar_h", "ammo-item": "762_51", "contents-item": "shoulder_strap" },
           { "item": "katana", "container-item": "scabbard" }
         ]
@@ -2781,9 +3045,10 @@
           "quikclot"
         ],
         "entries": [
+          { "item": "water_clean", "container-item": "canteen" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_combat", "container-item": "sheath" },
-          { "item": "m4a1", "ammo-item": "556", "contents-item": "shoulder_strap" },
+          { "item": "nato_assault_rifle", "variant": "m4a1", "ammo-item": "556", "contents-item": "shoulder_strap" },
           {
             "item": "medium_plus_battery_cell",
             "ammo-item": "battery",
@@ -3668,6 +3933,7 @@
         ],
         "entries": [
           { "group": "charged_two_way_radio" },
+          { "item": "water_clean", "container-item": "canteen" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "m17", "ammo-item": "9mm", "container-item": "holster", "charges": 17 },
           { "item": "p320mag_17rd_9x19mm", "ammo-item": "9mm", "charges": 17 },
@@ -3767,18 +4033,28 @@
           "scalpel",
           "syringe",
           "morphine",
+          "aspirin",
+          "antibiotics",
+          "disinfectant",
+          "pepto",
           "molle_pack"
         ],
         "entries": [
           { "group": "charged_two_way_radio" },
           { "group": "full_ifak" },
+          { "item": "water_clean", "container-item": "canteen" },
           { "item": "legpouch_large", "contents-group": "army_mags_m4" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "gloves_medical", "custom-flags": [ "no_auto_equip" ] },
           { "item": "mask_dust", "custom-flags": [ "no_auto_equip" ] },
           { "item": "stethoscope", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_combat", "container-item": "sheath" },
-          { "item": "m4a1", "ammo-item": "556", "charges": 30, "contents-item": [ "shoulder_strap", "holo_sight" ] }
+          {
+            "item": "nato_assault_rifle",
+            "variant": "m4a1",
+            "ammo-item": "556",
+            "charges": 30,
+            "contents-item": [ "shoulder_strap", "holo_sight" ]
+          }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -3885,6 +4161,7 @@
         "entries": [
           { "group": "charged_two_way_radio" },
           { "group": "full_gasmask" },
+          { "item": "water_clean", "container-item": "canteen" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "flamethrower", "ammo-item": "napalm", "charges": 3000, "custom-flags": [ "auto_wield" ] },
           { "item": "m17", "ammo-item": "9mm", "container-item": "holster", "charges": 17 },
@@ -3912,5 +4189,56 @@
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
     }
+  },
+  {
+    "type": "profession",
+    "id": "local_drug_dealer",
+    "name": "Drug Dealer",
+    "description": "You were about to make your biggest sale yet, but when you met the buyer he tried to bite you.  To top it off, it seems that this wasn't some sort of bad high for the user, as the whole town tried going for your throat too.",
+    "points": 2,
+    "skills": [ { "level": 1, "name": "melee" }, { "level": 2, "name": "stabbing" }, { "level": 2, "name": "speech" } ],
+    "items": {
+      "both": {
+        "items": [ "hoodie", "jeans", "mbag", "socks", "sneakers", "bandana", "gloves_medical", "switchblade" ],
+        "entries": [ { "item": "crack", "charges": 25, "container-item": "bag_zipper" } ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "sports_bra", "boy_shorts" ]
+    },
+    "traits": [ "LIAR" ]
+  },
+  {
+    "type": "profession",
+    "id": "handloader",
+    "name": "Hobby Handloader",
+    "description": "Out of financial concerns and an appreciation for power, you took up handloading for your mighty handgun.  Now that the gunstores are closed, your skills ensure you won't be running out of ammo anytime soon.",
+    "points": 5,
+    "proficiencies": [ "prof_handloading" ],
+    "items": {
+      "both": {
+        "items": [
+          "pants",
+          "dress_shirt",
+          "wristwatch",
+          "socks",
+          "boots",
+          "jacket_light",
+          "gloves_fingerless",
+          "press",
+          "puller",
+          "slingpack",
+          "hat_ball"
+        ],
+        "entries": [
+          { "group": "charged_cell_phone" },
+          { "group": "m1911_10_magazines_reloaded" },
+          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "m1911_10", "ammo-item": "reloaded_10mm_fmj", "charges": 8, "container-item": "holster" }
+        ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    },
+    "skills": [ { "level": 3, "name": "fabrication" }, { "level": 3, "name": "gun" }, { "level": 3, "name": "pistol" } ]
   }
 ]

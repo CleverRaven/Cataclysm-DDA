@@ -306,6 +306,13 @@
   },
   {
     "type": "keybinding",
+    "id": "CHANGE_MAPEXTRA_CHARACTER",
+    "category": "AUTO_NOTES",
+    "name": "Change a symbol for map extra",
+    "bindings": [ { "input_method": "keyboard_any", "key": "=" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "ADD_RULE",
     "category": "AUTO_PICKUP",
     "name": "Add rule",
@@ -860,6 +867,20 @@
   },
   {
     "type": "keybinding",
+    "id": "ZOOM_OUT",
+    "category": "OVERMAP",
+    "name": "Zoom Out",
+    "bindings": [ { "input_method": "keyboard_char", "key": "Z" }, { "input_method": "keyboard_code", "key": "z", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "ZOOM_IN",
+    "category": "OVERMAP",
+    "name": "Zoom In",
+    "bindings": [ { "input_method": "keyboard_any", "key": "z" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "DELETE_NOTE",
     "category": "OVERMAP_NOTES",
     "name": "Delete Note",
@@ -941,6 +962,13 @@
     "category": "OVERMAP",
     "name": "Toggle Hordes",
     "bindings": [ { "input_method": "keyboard_char", "key": "H" }, { "input_method": "keyboard_code", "key": "h", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TOGGLE_OVERMAP_WEATHER",
+    "category": "OVERMAP",
+    "name": "Toggle Visible Weather",
+    "bindings": [ { "input_method": "keyboard_any", "key": "w" } ]
   },
   {
     "type": "keybinding",
@@ -1380,6 +1408,13 @@
   },
   {
     "type": "keybinding",
+    "id": "CHANGE_SHAPE",
+    "category": "VEH_INTERACT",
+    "name": "Change part shape",
+    "bindings": [ { "input_method": "keyboard_any", "key": "p" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "ASSIGN_CREW",
     "category": "VEH_INTERACT",
     "name": "Assign crew",
@@ -1657,6 +1692,13 @@
     "category": "BIONICS",
     "name": "Toggle safe fuel mod",
     "bindings": [ { "input_method": "keyboard_char", "key": "S" }, { "input_method": "keyboard_code", "key": "s", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "REFUEL",
+    "category": "BIONICS",
+    "name": "Open refuel menu",
+    "bindings": [ { "input_method": "keyboard_char", "key": "R" }, { "input_method": "keyboard_code", "key": "r", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
@@ -2242,6 +2284,27 @@
     "name": "View Radiation Map",
     "category": "DEFAULTMODE",
     "id": "debug_radiation"
+  },
+  {
+    "type": "keybinding",
+    "category": "DEBUG_SPELLS",
+    "id": "TOGGLE_ALL_SPELL",
+    "name": "Toggle all spells",
+    "bindings": [ { "input_method": "keyboard_any", "key": "t" } ]
+  },
+  {
+    "type": "keybinding",
+    "category": "DEBUG_SPELLS",
+    "id": "UNLEARN_SPELL",
+    "name": "Unlearn a spell",
+    "bindings": [ { "input_method": "keyboard_any", "key": "u" } ]
+  },
+  {
+    "type": "keybinding",
+    "category": "DEBUG_SPELLS",
+    "id": "SHOW_ONLY_LEARNED",
+    "name": "Show only learned",
+    "bindings": [ { "input_method": "keyboard_any", "key": "a" } ]
   },
   {
     "type": "keybinding",

@@ -39,6 +39,7 @@
       { "item": "dry_meat", "prob": 10 },
       { "item": "dry_fish", "prob": 10 },
       { "item": "dry_veggy", "prob": 10 },
+      { "item": "dry_corn", "prob": 1 },
       { "item": "dry_fruit", "prob": 10 },
       { "item": "oatmeal", "prob": 40 },
       { "item": "fruit_leather", "prob": 15 },
@@ -46,7 +47,10 @@
       { "item": "dry_beans", "prob": 40 },
       { "item": "dry_lentils", "prob": 30 },
       { "item": "dry_rice", "prob": 40 },
-      { "item": "freeze_dried_meal", "prob": 10 }
+      { "item": "freeze_dried_meal", "prob": 10 },
+      { "item": "gelatin_powder", "prob": 40 },
+      { "item": "chem_agar", "prob": 15 },
+      { "item": "gelatin_dessert_powder", "prob": 40 }
     ]
   },
   {
@@ -131,6 +135,7 @@
       { "item": "apple_canned", "prob": 1 },
       { "item": "can_cheese", "prob": 1 },
       { "item": "fish_canned", "prob": 1 },
+      { "item": "brown_bread", "prob": 1 },
       { "item": "can_spam", "prob": 1 },
       { "item": "can_sardine", "prob": 1 },
       { "item": "ravioli", "prob": 1 },
@@ -186,6 +191,7 @@
       { "item": "can_chowder", "prob": 35 },
       { "item": "can_herring", "prob": 30 },
       { "item": "can_chicken", "prob": 40 },
+      { "item": "brown_bread", "prob": 20 },
       { "item": "broth", "prob": 15 },
       { "item": "crackers", "prob": 10 },
       { "item": "oyster_crackers", "prob": 10 },
@@ -216,6 +222,7 @@
       { "item": "dry_meat", "prob": 10 },
       { "item": "dry_fish", "prob": 10 },
       { "item": "dry_veggy", "prob": 10 },
+      { "item": "dry_corn", "prob": 1 },
       { "item": "dry_fruit", "prob": 10 },
       { "item": "oatmeal", "prob": 40 },
       { "item": "toastem", "prob": 30 },
@@ -426,6 +433,7 @@
       { "item": "candy", "prob": 70 },
       { "item": "candy2", "prob": 70 },
       { "item": "candy3", "prob": 70 },
+      { "item": "candy4", "prob": 70 },
       { "item": "cow_candy", "prob": 20 },
       { "item": "maltballs", "prob": 60 },
       { "item": "mintpatties", "prob": 60 },
@@ -553,7 +561,8 @@
       { "item": "pie", "prob": 20 },
       { "item": "pie_veggy", "prob": 18 },
       { "item": "pie_meat", "prob": 18 },
-      { "item": "pie_maple", "prob": 9 }
+      { "item": "pie_maple", "prob": 9 },
+      { "item": "gelatin_dessert_processed", "prob": 40 }
     ]
   },
   {
@@ -577,38 +586,6 @@
       { "item": "pie_veggy", "prob": 15 },
       { "item": "pie_meat", "prob": 15 },
       { "item": "pie_maple", "prob": 10 }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "MRE",
-    "subtype": "distribution",
-    "entries": [
-      { "item": "mre_chilibeans_box" },
-      { "item": "mre_bbqbeef_box" },
-      { "item": "mre_chickennoodle_box" },
-      { "item": "mre_spaghetti_box" },
-      { "item": "mre_chicken_box" },
-      { "item": "mre_beeftaco_box" },
-      { "item": "mre_beef_box" },
-      { "item": "mre_meatball_box" },
-      { "item": "mre_beefstew_box" },
-      { "item": "mre_chilimac_box" },
-      { "item": "mre_veggy_box" },
-      { "item": "mre_macaronimarinara_box" },
-      { "item": "mre_sfettuccine_box" },
-      { "item": "mre_ratatouille_box" },
-      { "item": "mre_cheesetort_box" },
-      { "item": "mre_mushroomfettuccine_box" },
-      { "item": "mre_mexicanchickenstew_box" },
-      { "item": "mre_maplesausage_box" },
-      { "item": "mre_ravioli_box" },
-      { "item": "mre_hashbrownbacon_box" },
-      { "item": "mre_lemontuna_box" },
-      { "item": "mre_asianbeef_box" },
-      { "item": "mre_chickenpesto_box" },
-      { "item": "mre_southwestbeef_box" },
-      { "item": "mre_hotdog_box" }
     ]
   },
   {
@@ -770,6 +747,8 @@
       { "item": "hamburger", "count": [ 0, 3 ] },
       { "item": "sloppyjoe", "count": [ 0, 3 ] },
       { "item": "fries", "count": [ 0, 3 ] },
+      { "item": "hotdogs_cooked", "count": [ 0, 3 ] },
+      { "item": "corndogs_cooked", "count": [ 0, 3 ] },
       { "item": "bacon", "count": [ 0, 3 ] }
     ]
   },

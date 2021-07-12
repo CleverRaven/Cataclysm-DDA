@@ -58,10 +58,10 @@ void move_mode::load( const JsonObject &jo, const std::string &src )
     assign( jo, "symbol_color", _symbol_color, strict );
 
     std::string exert = jo.get_string( "exertion_level" );
-    if( !activity_levels.count( exert ) ) {
+    if( !activity_levels_map.count( exert ) ) {
         jo.throw_error( "Invalid activity level for move mode %s", id.str() );
     }
-    _exertion_level = activity_levels.at( exert );
+    _exertion_level = activity_levels_map.at( exert );
 
     mandatory( jo, was_loaded, "change_good_none", change_messages_success[steed_type::NONE] );
     mandatory( jo, was_loaded, "change_good_animal", change_messages_success[steed_type::ANIMAL] );

@@ -52,6 +52,7 @@
 #include "mission.h"
 #include "monster.h"
 #include "mtype.h"
+#include "npc_attack.h"
 #include "npctalk.h"
 #include "omdata.h"
 #include "options.h"
@@ -149,6 +150,7 @@ enum npc_action : int {
     npc_escape_explosion,
     npc_noop,
     npc_reach_attack,
+    npc_do_attack,
     npc_aim,
     npc_investigate_sound,
     npc_return_to_guard_pos,
@@ -228,7 +230,8 @@ static bool clear_shot_reach( const tripoint &from, const tripoint &to, bool che
         Creature *inter = g->critter_at( p );
         if( check_ally && inter != nullptr ) {
             return false;
-        } else if( get_map().impassable( p ) ) {
+        }
+        if( get_map().impassable( p ) ) {
             return false;
         }
     }
@@ -371,6 +374,23 @@ static bool too_close( const tripoint &critter_pos, const tripoint &ally_pos, co
     return rl_dist( critter_pos, ally_pos ) <= def_radius;
 }
 
+int npc_short_term_cache::closest_enemy_to_friendly_distance() const
+{
+    int distance = INT_MAX;
+    for( const weak_ptr_fast<Creature> &buddy : friends ) {
+        if( buddy.expired() ) {
+            continue;
+        }
+        for( const weak_ptr_fast<Creature> &enemy : hostile_guys ) {
+            if( enemy.expired() ) {
+                continue;
+            }
+            distance = std::min( distance, rl_dist( buddy.lock()->pos(), enemy.lock()->pos() ) );
+        }
+    }
+    return distance;
+}
+
 void npc::assess_danger()
 {
     float assessment = 0.0f;
@@ -421,7 +441,6 @@ void npc::assess_danger()
             case combat_engagement::HIT:
                 return c.has_effect( effect_hit_by_player );
             case combat_engagement::NO_MOVE:
-                return dist <= max_range;
             case combat_engagement::FREE_FIRE:
                 return dist <= max_range;
             case combat_engagement::ALL:
@@ -454,7 +473,6 @@ void npc::assess_danger()
     }
 
     // find our Character friends and enemies
-    std::vector<weak_ptr_fast<Creature>> hostile_guys;
     const bool clairvoyant = clairvoyance();
     for( const npc &guy : g->all_npcs() ) {
         if( &guy == this ) {
@@ -467,12 +485,12 @@ void npc::assess_danger()
         if( has_faction_relationship( guy, npc_factions::watch_your_back ) ) {
             ai_cache.friends.emplace_back( g->shared_from( guy ) );
         } else if( attitude_to( guy ) != Attitude::NEUTRAL && sees( guy.pos() ) ) {
-            hostile_guys.emplace_back( g->shared_from( guy ) );
+            ai_cache.hostile_guys.emplace_back( g->shared_from( guy ) );
         }
     }
     if( sees( player_character.pos() ) ) {
         if( is_enemy() ) {
-            hostile_guys.emplace_back( g->shared_from( player_character ) );
+            ai_cache.hostile_guys.emplace_back( g->shared_from( player_character ) );
         } else if( is_friendly( player_character ) ) {
             ai_cache.friends.emplace_back( g->shared_from( player_character ) );
         }
@@ -488,11 +506,14 @@ void npc::assess_danger()
             continue;
         }
         if( att != Attitude::HOSTILE && ( critter.friendly || !is_enemy() ) ) {
+            ai_cache.neutral_guys.emplace_back( g->shared_from( critter ) );
             continue;
         }
         if( !sees( critter ) ) {
             continue;
         }
+
+        ai_cache.hostile_guys.emplace_back( g->shared_from( critter ) );
         float critter_threat = evaluate_enemy( critter );
         // warn and consider the odds for distant enemies
         int dist = rl_dist( pos(), critter.pos() );
@@ -548,7 +569,7 @@ void npc::assess_danger()
         }
     }
 
-    if( assessment == 0.0 && hostile_guys.empty() ) {
+    if( assessment == 0.0 && ai_cache.hostile_guys.empty() ) {
         ai_cache.danger_assessment = assessment;
         return;
     }
@@ -594,7 +615,7 @@ void npc::assess_danger()
         return foe_threat;
     };
 
-    for( const weak_ptr_fast<Creature> &guy : hostile_guys ) {
+    for( const weak_ptr_fast<Creature> &guy : ai_cache.hostile_guys ) {
         player *foe = dynamic_cast<player *>( guy.lock().get() );
         if( foe && foe->is_npc() ) {
             assessment += handle_hostile( *foe, evaluate_enemy( *foe ), translate_marker( "bandit" ),
@@ -603,11 +624,10 @@ void npc::assess_danger()
     }
 
     for( const weak_ptr_fast<Creature> &guy : ai_cache.friends ) {
-        player *ally = dynamic_cast<player *>( guy.lock().get() );
-        if( !( ally && ally->is_npc() ) ) {
+        if( !( guy.lock() && guy.lock()->is_npc() ) ) {
             continue;
         }
-        float guy_threat = evaluate_enemy( *ally );
+        float guy_threat = evaluate_enemy( *guy.lock() );
         float min_danger = assessment >= NPC_DANGER_VERY_LOW ? NPC_DANGER_VERY_LOW : -10.0f;
         assessment = std::max( min_danger, assessment - guy_threat * 0.5f );
     }
@@ -674,7 +694,7 @@ float npc::character_danger( const Character &uc ) const
 
     ret *= std::max( 0.5, u.get_speed() / 100.0 );
 
-    add_msg_debug( "%s danger: %1f", u.disp_name(), ret );
+    add_msg_debug( debugmode::DF_NPC, "%s danger: %1f", u.disp_name(), ret );
     return ret;
 }
 
@@ -702,6 +722,8 @@ void npc::regen_ai_cache()
     }
     float old_assessment = ai_cache.danger_assessment;
     ai_cache.friends.clear();
+    ai_cache.hostile_guys.clear();
+    ai_cache.neutral_guys.clear();
     ai_cache.target = shared_ptr_fast<Creature>();
     ai_cache.ally = shared_ptr_fast<Creature>();
     ai_cache.can_heal.clear_all();
@@ -750,7 +772,7 @@ void npc::move()
     }
     regen_ai_cache();
     // NPCs under operation should just stay still
-    if( activity.id() == ACT_OPERATION ) {
+    if( activity.id() == ACT_OPERATION || activity.id() == activity_id( "ACT_SPELLCASTING" ) ) {
         execute_action( npc_player_activity );
         return;
     }
@@ -760,7 +782,7 @@ void npc::move()
     static const std::string no_target_str = "none";
     const Creature *target = current_target();
     const std::string &target_name = target != nullptr ? target->disp_name() : no_target_str;
-    add_msg_debug( "NPC %s: target = %s, danger = %.1f, range = %d",
+    add_msg_debug( debugmode::DF_NPC, "NPC %s: target = %s, danger = %.1f, range = %d",
                    name, target_name, ai_cache.danger, weapon.is_gun() ? confident_shoot_range( weapon,
                            recoil_total() ) : weapon.reach_range( *this ) );
 
@@ -770,7 +792,7 @@ void npc::move()
         if( is_player_ally() ) {
             mutiny();
         }
-        add_msg_debug( "NPC %s turning hostile because is guaranteed_hostile()", name );
+        add_msg_debug( debugmode::DF_NPC, "NPC %s turning hostile because is guaranteed_hostile()", name );
         if( op_of_u.fear > 10 + personality.aggression + personality.bravery ) {
             set_attitude( NPCATT_FLEE_TEMP );    // We don't want to take u on!
         } else {
@@ -809,9 +831,8 @@ void npc::move()
     map &here = get_map();
     if( !ai_cache.dangerous_explosives.empty() ) {
         action = npc_escape_explosion;
-    } else if( target == &player_character && attitude == NPCATT_FLEE_TEMP ) {
-        action = method_of_fleeing();
-    } else if( has_effect( effect_npc_run_away ) ) {
+    } else if( ( target == &player_character && attitude == NPCATT_FLEE_TEMP ) ||
+               has_effect( effect_npc_run_away ) ) {
         action = method_of_fleeing();
     } else if( has_effect( effect_asthma ) && ( has_charges( itype_inhaler, 1 ) ||
                has_charges( itype_oxygen_tank, 1 ) ||
@@ -845,12 +866,12 @@ void npc::move()
             }
         }
         if( action == npc_investigate_sound ) {
-            add_msg_debug( "NPC %s: investigating sound at x(%d) y(%d)", name,
+            add_msg_debug( debugmode::DF_NPC, "NPC %s: investigating sound at x(%d) y(%d)", name,
                            ai_cache.s_abs_pos.x, ai_cache.s_abs_pos.y );
         }
     } else if( ai_cache.sound_alerts.empty() && ai_cache.guard_pos ) {
         tripoint return_guard_pos = *ai_cache.guard_pos;
-        add_msg_debug( "NPC %s: returning to guard spot at x(%d) y(%d)", name,
+        add_msg_debug( debugmode::DF_NPC, "NPC %s: returning to guard spot at x(%d) y(%d)", name,
                        return_guard_pos.x, return_guard_pos.y );
         action = npc_return_to_guard_pos;
     } else {
@@ -981,7 +1002,7 @@ void npc::move()
         action = method_of_attack();
     }
 
-    add_msg_debug( "%s chose action %s.", name, npc_action_name( action ) );
+    add_msg_debug( debugmode::DF_NPC, "%s chose action %s.", name, npc_action_name( action ) );
     execute_action( action );
 }
 
@@ -1003,6 +1024,11 @@ void npc::execute_action( npc_action action )
     Character &player_character = get_player_character();
     map &here = get_map();
     switch( action ) {
+        case npc_do_attack:
+            ai_cache.current_attack->use( *this, ai_cache.current_attack_evaluation.target() );
+            ai_cache.current_attack.reset();
+            ai_cache.current_attack_evaluation = npc_attack_rating{};
+            break;
         case npc_pause:
             move_pause();
             break;
@@ -1175,13 +1201,13 @@ void npc::execute_action( npc_action action )
         }
         case npc_follow_player:
             update_path( player_character.pos() );
-            if( static_cast<int>( path.size() ) <= follow_distance() &&
-                player_character.posz() == posz() ) { // We're close enough to u.
+            if( path.empty() ||
+                ( static_cast<int>( path.size() ) <= follow_distance() &&
+                  player_character.posz() == posz() ) ) {
+                // We're close enough to u.
                 move_pause();
-            } else if( !path.empty() ) {
-                move_to_next();
             } else {
-                move_pause();
+                move_to_next();
             }
             // TODO: Make it only happen when it's safe
             complain();
@@ -1247,7 +1273,7 @@ void npc::execute_action( npc_action action )
                     my_spot = priority;
                 }
 
-                seats.push_back( std::make_pair( priority, static_cast<int>( vp.part_index() ) ) );
+                seats.emplace_back( priority, static_cast<int>( vp.part_index() ) );
             }
 
             if( my_spot >= 3 ) {
@@ -1323,7 +1349,7 @@ void npc::execute_action( npc_action action )
             break;
 
         case npc_noop:
-            add_msg_debug( "%s skips turn (noop)", disp_name() );
+            add_msg_debug( debugmode::DF_NPC, "%s skips turn (noop)", disp_name() );
             return;
 
         default:
@@ -1331,7 +1357,7 @@ void npc::execute_action( npc_action action )
     }
 
     if( oldmoves == moves ) {
-        add_msg_debug( "NPC didn't use its moves.  Action %s (%d).",
+        add_msg_debug( debugmode::DF_NPC, "NPC didn't use its moves.  Action %s (%d).",
                        npc_action_name( action ), action );
     }
 }
@@ -1363,131 +1389,59 @@ npc_action npc::method_of_attack()
         return npc_pause;
     }
 
-    tripoint tar = critter->pos();
-    int dist = rl_dist( pos(), tar );
-    double danger = evaluate_enemy( *critter );
-    const bool has_los = clear_shot_reach( pos(), tar, false );
-    const bool same_z = tar.z == pos().z;
-
-    // TODO: Change the in_vehicle check to actual "are we driving" check
-    const bool dont_move = in_vehicle || rules.engagement == combat_engagement::NO_MOVE ||
-                           rules.engagement == combat_engagement::FREE_FIRE;
-    // NPCs engage in free fire can move to avoid allies, but not if they're in a vehicle
-    const bool dont_move_ff = in_vehicle || rules.engagement == combat_engagement::NO_MOVE;
-
     // if there's enough of a threat to be here, power up the combat CBMs
     activate_combat_cbms();
 
-    int ups_charges = charges_of( itype_UPS );
+    evaluate_best_weapon( critter );
 
-    // get any suitable modes excluding melee, any forbidden to NPCs and those without ammo
-    // if we require a silent weapon inappropriate modes are also removed
-    // except in emergency only fire bursts if danger > 0.5 and don't shoot at all at harmless targets
-    std::vector<std::pair<gun_mode_id, gun_mode>> modes;
-    if( rules.has_flag( ally_rule::use_guns ) || !is_player_ally() ) {
-        for( const auto &e : weapon.gun_all_modes() ) {
-            modes.push_back( e );
-        }
-
-        modes.erase( std::remove_if( modes.begin(), modes.end(),
-        [&]( const std::pair<gun_mode_id, gun_mode> &e ) {
-
-            const auto &m = e.second;
-            return m.melee() || m.flags.count( "NPC_AVOID" ) ||
-                   !m->ammo_sufficient( m.qty ) || !can_use( *m.target ) ||
-                   m->get_gun_ups_drain() > ups_charges ||
-                   ( ( danger <= ( m.qty == 1 ? 0.0 : 15 ) ) && !emergency() ) ||
-                   ( rules.has_flag( ally_rule::use_silent ) && is_player_ally() &&
-                     !m.target->is_silent() );
-
-        } ), modes.end() );
-    }
-
-    // prefer modes that result in more total damage
-    std::stable_sort( modes.begin(),
-                      modes.end(), [&]( const std::pair<gun_mode_id, gun_mode> &lhs,
-    const std::pair<gun_mode_id, gun_mode> &rhs ) {
-        return ( lhs.second->gun_damage().total_damage() * lhs.second.qty ) >
-               ( rhs.second->gun_damage().total_damage() * rhs.second.qty );
-    } );
-
-    const int cur_recoil = recoil_total();
-    // modes outside confident range should always be the last option(s)
-    std::stable_sort( modes.begin(),
-                      modes.end(), [&]( const std::pair<gun_mode_id, gun_mode> &lhs,
-    const std::pair<gun_mode_id, gun_mode> &rhs ) {
-        return ( confident_gun_mode_range( lhs.second, cur_recoil ) >= dist ) >
-               ( confident_gun_mode_range( rhs.second, cur_recoil ) >= dist );
-    } );
-
-    if( emergency() && alt_attack() ) {
-        add_msg_debug( "%s is trying an alternate attack", disp_name() );
-        return npc_noop;
-    }
-
-    // reach attacks are silent and consume no ammo so prefer these if available
-    int reach_range = weapon.reach_range( *this );
-    if( !trigdist ) {
-        if( reach_range > 1 && reach_range >= dist && clear_shot_reach( pos(), tar ) ) {
-            add_msg_debug( "%s is trying a reach attack", disp_name() );
-            return npc_reach_attack;
-        }
+    cata::optional<int> potential = ai_cache.current_attack_evaluation.value();
+    if( potential && *potential > 0 ) {
+        return npc_do_attack;
     } else {
-        if( reach_range > 1 && reach_range >= std::round( trig_dist( pos(), tar ) ) &&
-            clear_shot_reach( pos(), tar ) ) {
-            add_msg_debug( "%s is trying a reach attack", disp_name() );
-            return npc_reach_attack;
-        }
+        add_msg_debug( debugmode::debug_filter::DF_NPC, "%s can't figure out what to do", disp_name() );
+        return npc_undecided;
     }
+}
 
-    // if the best mode is within the confident range try for a shot
-    if( !modes.empty() && sees( *critter ) && has_los &&
-        confident_gun_mode_range( modes[ 0 ].second, cur_recoil ) >= dist ) {
-        if( cbm_weapon_index > 0 && !weapon.ammo_sufficient() && can_reload_current() ) {
-            add_msg_debug( "%s is reloading", disp_name() );
-            return npc_reload;
+void npc::evaluate_best_weapon( const Creature *target )
+{
+    std::shared_ptr<npc_attack> best_attack;
+    npc_attack_rating best_evaluated_attack;
+    const auto compare = [&best_attack, &best_evaluated_attack, this, &target]
+    ( const std::shared_ptr<npc_attack> &potential_attack ) {
+        const npc_attack_rating evaluated = potential_attack->evaluate( *this, target );
+        if( evaluated > best_evaluated_attack ) {
+            best_attack = potential_attack;
+            best_evaluated_attack = evaluated;
         }
+    };
 
-        if( wont_hit_friend( tar, weapon, false ) ) {
-            weapon.gun_set_mode( modes[ 0 ].first );
-            add_msg_debug( "%s is trying to shoot someone", disp_name() );
-            return npc_shoot;
-
-        } else {
-            if( !dont_move_ff ) {
-                add_msg_debug( "%s is trying to avoid friendly fire", disp_name() );
-                return npc_avoid_friendly_fire;
+    // punching things is always available
+    compare( std::make_shared<npc_attack_melee>( null_item_reference() ) );
+    const int ups_charges = charges_of( itype_UPS );
+    visit_items( [&compare, &ups_charges, this]( item * it, item * ) {
+        // you can theoretically melee with anything.
+        compare( std::make_shared<npc_attack_melee>( *it ) );
+        // ... you can also throw anything
+        compare( std::make_shared<npc_attack_throw>( *it ) );
+        if( !it->type->use_methods.empty() ) {
+            compare( std::make_shared<npc_attack_activate_item>( *it ) );
+        }
+        if( rules.has_flag( ally_rule::use_guns ) ) {
+            for( const std::pair<const gun_mode_id, gun_mode> &mode : it->gun_all_modes() ) {
+                if( !( mode.second.melee() || mode.second.flags.count( "NPC_AVOID" ) ||
+                       !can_use( *mode.second.target ) || mode.second->get_gun_ups_drain() > ups_charges ||
+                       ( rules.has_flag( ally_rule::use_silent ) && is_player_ally() &&
+                         !mode.second->is_silent() ) ) ) {
+                    compare( std::make_shared<npc_attack_gun>( mode.second ) );
+                }
             }
         }
-    }
+        return VisitResponse::NEXT;
+    } );
 
-    if( dist == 1 && same_z ) {
-        add_msg_debug( "%s is trying a melee attack", disp_name() );
-        return npc_melee;
-    }
-
-    // don't mess with CBM weapons
-    if( cbm_weapon_index < 0 ) {
-        // TODO: Add a time check now that wielding takes a lot of time
-        if( wield_better_weapon() ) {
-            add_msg_debug( "%s is changing weapons", disp_name() );
-            return npc_noop;
-        }
-
-        if( !weapon.ammo_sufficient() && can_reload_current() ) {
-            add_msg_debug( "%s is reloading", disp_name() );
-            return npc_reload;
-        }
-    }
-
-    // TODO: Needs a check for transparent but non-passable tiles on the way
-    if( !modes.empty() && sees( *critter ) && aim_per_move( weapon, recoil ) > 0 &&
-        confident_shoot_range( weapon, get_most_accurate_sight( weapon ) ) >= dist ) {
-        add_msg_debug( "%s is aiming" );
-        return npc_aim;
-    }
-    add_msg_debug( "%s can't figure out what to do", disp_name() );
-    return ( dont_move || !same_z ) ? npc_undecided : npc_melee;
+    ai_cache.current_attack = best_attack;
+    ai_cache.current_attack_evaluation = best_evaluated_attack;
 }
 
 npc_action npc::address_needs()
@@ -1905,8 +1859,9 @@ npc_action npc::address_needs( float danger )
         if( danger <= 0.01 ) {
             if( get_fatigue() >= fatigue_levels::TIRED ) {
                 return true;
-            } else if( is_walking_with() && player_character.in_sleep_state() &&
-                       get_fatigue() > ( fatigue_levels::TIRED / 2 ) ) {
+            }
+            if( is_walking_with() && player_character.in_sleep_state() &&
+                get_fatigue() > ( fatigue_levels::TIRED / 2 ) ) {
                 return true;
             }
         }
@@ -1920,9 +1875,11 @@ npc_action npc::address_needs( float danger )
             return npc_undecided;
         }
 
-        if( rules.has_flag( ally_rule::allow_sleep ) || get_fatigue() > fatigue_levels::MASSIVE_FATIGUE ) {
+        if( rules.has_flag( ally_rule::allow_sleep ) ||
+            get_fatigue() > fatigue_levels::MASSIVE_FATIGUE ) {
             return npc_sleep;
-        } else if( player_character.in_sleep_state() ) {
+        }
+        if( player_character.in_sleep_state() ) {
             // TODO: "Guard me while I sleep" command
             return npc_sleep;
         }
@@ -1995,7 +1952,7 @@ npc_action npc::address_player()
 
 npc_action npc::long_term_goal_action()
 {
-    add_msg_debug( "long_term_goal_action()" );
+    add_msg_debug( debugmode::DF_NPC, "long_term_goal_action()" );
 
     if( mission == NPC_MISSION_SHOPKEEP || mission == NPC_MISSION_SHELTER || ( is_player_ally() &&
             mission != NPC_MISSION_TRAVELLING ) ) {
@@ -2063,7 +2020,7 @@ int npc::confident_gun_mode_range( const gun_mode &gun, int at_recoil ) const
     double max_dispersion = get_weapon_dispersion( *( gun.target ) ).max() + at_recoil;
     double even_chance_range = range_with_even_chance_of_good_hit( max_dispersion );
     double confident_range = even_chance_range * confidence_mult();
-    add_msg_debug( "confident_gun (%s<=%.2f) at %.1f", gun.tname(), confident_range,
+    add_msg_debug( debugmode::DF_NPC, "confident_gun (%s<=%.2f) at %.1f", gun.tname(), confident_range,
                    max_dispersion );
     return std::max<int>( confident_range, 1 );
 }
@@ -2074,7 +2031,8 @@ int npc::confident_throw_range( const item &thrown, Creature *target ) const
     double even_chance_range = ( target == nullptr ? 0.5 : target->ranged_target_size() ) /
                                average_dispersion;
     double confident_range = even_chance_range * confidence_mult();
-    add_msg_debug( "confident_throw_range == %d", static_cast<int>( confident_range ) );
+    add_msg_debug( debugmode::DF_NPC, "confident_throw_range == %d",
+                   static_cast<int>( confident_range ) );
     return static_cast<int>( confident_range );
 }
 
@@ -2191,10 +2149,10 @@ bool npc::update_path( const tripoint &p, const bool no_bashing, bool force )
     if( new_path.empty() ) {
         if( !ai_cache.sound_alerts.empty() ) {
             ai_cache.sound_alerts.erase( ai_cache.sound_alerts.begin() );
-            add_msg_debug( "failed to path to sound alert %d,%d,%d->%d,%d,%d",
+            add_msg_debug( debugmode::DF_NPC, "failed to path to sound alert %d,%d,%d->%d,%d,%d",
                            posx(), posy(), posz(), p.x, p.y, p.z );
         }
-        add_msg_debug( "Failed to path %d,%d,%d->%d,%d,%d",
+        add_msg_debug( debugmode::DF_NPC, "Failed to path %d,%d,%d->%d,%d,%d",
                        posx(), posy(), posz(), p.x, p.y, p.z );
     }
 
@@ -2460,7 +2418,7 @@ void npc::move_to_next()
     }
 
     if( path.empty() ) {
-        add_msg_debug( "npc::move_to_next() called with an empty path or path "
+        add_msg_debug( debugmode::DF_NPC, "npc::move_to_next() called with an empty path or path "
                        "containing only current position" );
         move_pause();
         return;
@@ -2960,7 +2918,7 @@ void npc::pick_up_item()
     }
 
     if( !rules.has_flag( ally_rule::allow_pick_up ) && is_player_ally() ) {
-        add_msg_debug( "%s::pick_up_item(); Canceling on player's request", name );
+        add_msg_debug( debugmode::DF_NPC, "%s::pick_up_item(); Canceling on player's request", name );
         fetching_item = false;
         moves -= 1;
         return;
@@ -2978,11 +2936,11 @@ void npc::pick_up_item()
         // Or player who is leading us doesn't want us to pick it up
         fetching_item = false;
         move_pause();
-        add_msg_debug( "Canceling pickup - no items or new zone" );
+        add_msg_debug( debugmode::DF_NPC, "Canceling pickup - no items or new zone" );
         return;
     }
 
-    add_msg_debug( "%s::pick_up_item(); [%d, %d, %d] => [%d, %d, %d]", name,
+    add_msg_debug( debugmode::DF_NPC, "%s::pick_up_item(); [ % d, % d, % d] => [ % d, % d, % d]", name,
                    posx(), posy(), posz(), wanted_item_pos.x, wanted_item_pos.y, wanted_item_pos.z );
     if( const cata::optional<tripoint> dest = nearest_passable( wanted_item_pos, pos() ) ) {
         update_path( *dest );
@@ -2990,13 +2948,13 @@ void npc::pick_up_item()
 
     const int dist_to_pickup = rl_dist( pos(), wanted_item_pos );
     if( dist_to_pickup > 1 && !path.empty() ) {
-        add_msg_debug( "Moving; [%d, %d, %d] => [%d, %d, %d]",
+        add_msg_debug( debugmode::DF_NPC, "Moving; [%d, %d, %d] => [%d, %d, %d]",
                        posx(), posy(), posz(), path[0].x, path[0].y, path[0].z );
 
         move_to_next();
         return;
     } else if( dist_to_pickup > 1 && path.empty() ) {
-        add_msg_debug( "Can't find path" );
+        add_msg_debug( debugmode::DF_NPC, "Can't find path" );
         // This can happen, always do something
         fetching_item = false;
         move_pause();
@@ -3093,7 +3051,8 @@ void npc::drop_items( const units::mass &drop_weight, const units::volume &drop_
     /* Remove this when someone debugs it back to functionality */
     return;
 
-    add_msg_debug( "%s is dropping items-%3.2f kg, %3.2f L (%d items, wgt %3.2f/%3.2f kg, "
+    add_msg_debug( debugmode::DF_NPC,
+                   "%s is dropping items-%3.2f kg, %3.2f L (%d items, wgt %3.2f/%3.2f kg, "
                    "vol %3.2f/%3.2f L)",
                    name, units::to_kilogram( drop_weight ), units::to_liter( drop_volume ), inv->size(),
                    units::to_kilogram( weight_carried() ), units::to_kilogram( weight_capacity() ),
@@ -3101,7 +3060,9 @@ void npc::drop_items( const units::mass &drop_weight, const units::volume &drop_
 
     units::mass weight_dropped = units::from_gram( 0 );
     units::volume volume_dropped = units::from_liter( 0 );
-    std::vector<ratio_index> rWgt, rVol; // Weight/Volume to value ratios
+    // Weight/Volume to value ratios
+    std::vector<ratio_index> rWgt;
+    std::vector<ratio_index> rVol;
 
     // First fill our ratio vectors, so we know which things to drop first
     invslice slice = inv->slice();
@@ -3125,7 +3086,7 @@ void npc::drop_items( const units::mass &drop_weight, const units::volume &drop_
             }
         }
         if( !added_wgt ) {
-            rWgt.push_back( ratio_index( wgt_ratio, i ) );
+            rWgt.emplace_back( wgt_ratio, i );
         }
         for( size_t j = 0; j < rVol.size() && !added_vol; j++ ) {
             if( vol_ratio > rVol[j].ratio ) {
@@ -3134,7 +3095,7 @@ void npc::drop_items( const units::mass &drop_weight, const units::volume &drop_
             }
         }
         if( !added_vol ) {
-            rVol.push_back( ratio_index( vol_ratio, i ) );
+            rVol.emplace_back( vol_ratio, i );
         }
     }
 
@@ -3394,7 +3355,7 @@ bool npc::wield_better_weapon()
         if( node->is_melee() || node->is_gun() ) {
             compare_weapon( *node );
             return VisitResponse::SKIP;
-        } else if( node->get_use( "holster" ) && !node->contents.empty() ) {
+        } else if( node->get_use( "holster" ) && !node->empty() ) {
             // we just recur to the next farther down
             return VisitResponse::NEXT;
         }
@@ -3406,12 +3367,14 @@ bool npc::wield_better_weapon()
     // Until then, the NPCs should reload the guns as a last resort
 
     if( best == &weapon ) {
-        add_msg_debug( "Wielded %s is best at %.1f, not switching", best->type->get_id().str(),
+        add_msg_debug( debugmode::DF_NPC, "Wielded %s is best at %.1f, not switching",
+                       best->type->get_id().str(),
                        best_value );
         return false;
     }
 
-    add_msg_debug( "Wielding %s at value %.1f", best->type->get_id().str(), best_value );
+    add_msg_debug( debugmode::DF_NPC, "Wielding %s at value %.1f", best->type->get_id().str(),
+                   best_value );
 
     wield( *best );
     return true;
@@ -3419,7 +3382,7 @@ bool npc::wield_better_weapon()
 
 bool npc::scan_new_items()
 {
-    add_msg_debug( "%s scanning new items", name );
+    add_msg_debug( debugmode::DF_NPC, "%s scanning new items", name );
     if( wield_better_weapon() ) {
         return true;
     } else {
@@ -4192,7 +4155,7 @@ void npc::go_to_omt_destination()
         }
     }
     if( goal == no_goal_point || omt_path.empty() ) {
-        add_msg_debug( "npc::go_to_destination with no goal" );
+        add_msg_debug( debugmode::DF_NPC, "npc::go_to_destination with no goal" );
         move_pause();
         reach_omt_destination();
         return;
@@ -4240,7 +4203,7 @@ void npc::go_to_omt_destination()
         }
     }
     path = here.route( pos(), centre_sub, get_pathfinding_settings(), get_path_avoid() );
-    add_msg_debug( "%s going %s->%s", name, omt_pos.to_string(), goal.to_string() );
+    add_msg_debug( debugmode::DF_NPC, "%s going %s->%s", name, omt_pos.to_string(), goal.to_string() );
 
     if( !path.empty() ) {
         move_to_next();
@@ -4318,7 +4281,7 @@ std::string npc_action_name( npc_action action )
 void print_action( const char *prepend, npc_action action )
 {
     if( action != npc_undecided ) {
-        add_msg_debug( prepend, npc_action_name( action ) );
+        add_msg_debug( debugmode::DF_NPC, prepend, npc_action_name( action ) );
     }
 }
 
@@ -4629,8 +4592,10 @@ bool npc::adjust_worn()
 
         if( !covers_broken( elem, elem.get_side() ) ) {
             const bool needs_change = covers_broken( elem, opposite_side( elem.get_side() ) );
+            //create an item_location for takeoff() to handle.
+            item_location loc_for_takeoff = item_location( *this, &elem );
             // Try to change side (if it makes sense), or take off.
-            if( ( needs_change && change_side( elem ) ) || takeoff( elem ) ) {
+            if( ( needs_change && change_side( elem ) ) || takeoff( loc_for_takeoff ) ) {
                 return true;
             }
         }
