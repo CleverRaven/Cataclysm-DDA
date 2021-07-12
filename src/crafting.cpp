@@ -556,7 +556,7 @@ const inventory &Character::crafting_inventory( const tripoint &src_pos, int rad
     // vector<const_item_location> in order to get rid of the const_cast here.
     for( const item_location &it : const_cast<Character *>( this )->all_items_loc() ) {
         // can't craft with containers that have items in them
-        if( !it->contents.empty_container() ) {
+        if( !it->empty_container() ) {
             continue;
         }
         crafting_cache.crafting_inventory->add_item( *it );

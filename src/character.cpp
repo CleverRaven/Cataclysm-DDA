@@ -4015,9 +4015,9 @@ void Character::drop_invalid_inventory()
         add_msg_if_player( m_bad, _( "Liquid from your inventory has leaked onto the ground." ) );
     }
 
-    weapon.contents.overflow( pos() );
+    weapon.overflow( pos() );
     for( item &w : worn ) {
-        w.contents.overflow( pos() );
+        w.overflow( pos() );
     }
 
     cache_inventory_is_valid = true;

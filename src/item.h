@@ -1370,6 +1370,8 @@ class item : public visitable
          */
         bool spill_contents( const tripoint &pos );
         bool spill_open_pockets( Character &guy, const item *avoid = nullptr );
+        // spill items that don't fit in the container
+        void overflow( const tripoint &pos );
 
         /** Checks if item is a holster and currently capable of storing obj
          *  @param obj object that we want to holster
@@ -2291,6 +2293,8 @@ class item : public visitable
 
         void clear_items();
         bool empty() const;
+        // ignores all pockets except CONTAINER pockets to check if this contents is empty.
+        bool empty_container() const;
 
         /**
          * returns the number of items stacks in contents

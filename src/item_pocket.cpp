@@ -1196,7 +1196,7 @@ void item_pocket::overflow( const tripoint &pos )
 
     // overflow recursively
     for( item &it : contents ) {
-        it.contents.overflow( pos );
+        it.overflow( pos );
     }
 
     map &here = get_map();

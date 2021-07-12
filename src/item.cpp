@@ -7594,6 +7594,11 @@ bool item::spill_open_pockets( Character &guy, const item *avoid )
     return contents.spill_open_pockets( guy, avoid );
 }
 
+void item::overflow( const tripoint &pos )
+{
+    contents.overflow( pos );
+}
+
 book_proficiency_bonuses item::get_book_proficiency_bonuses() const
 {
     book_proficiency_bonuses ret;
@@ -11121,6 +11126,11 @@ void item::clear_items()
 bool item::empty() const
 {
     return contents.empty();
+}
+
+bool item::empty_container() const
+{
+    return contents.empty_container();
 }
 
 size_t item::num_item_stacks() const

@@ -7983,7 +7983,7 @@ static void sendRadioSignal( player &p, const flag_id &signal )
                     // Invoke to transform a radio-modded explosive into its active form
                     it.type->invoke( p, it, loc );
                 }
-            } else if( !it.contents.empty_container() ) {
+            } else if( !it.empty_container() ) {
                 item *itm = it.contents.get_item_with( [&signal]( const item & c ) {
                     return c.has_flag( signal );
                 } );
