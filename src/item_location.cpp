@@ -654,7 +654,7 @@ class item_location::impl::item_in_container : public item_location::impl
                 obj = *target();
             }
 
-            const int container_mv = container->contents.obtain_cost( *target() );
+            const int container_mv = container->obtain_cost( *target() );
             if( container_mv == 0 ) {
                 debugmsg( "ERROR: %s does not contain %s", container->tname(), target()->tname() );
                 return 0;

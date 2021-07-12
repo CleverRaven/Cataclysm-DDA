@@ -1159,6 +1159,16 @@ bool item::merge_charges( const item &rhs )
     return true;
 }
 
+int item::obtain_cost( const item &it ) const
+{
+    return contents.obtain_cost( it );
+}
+
+int item::insert_cost( const item &it ) const
+{
+    return contents.insert_cost( it );
+}
+
 ret_val<bool> item::put_in( const item &payload, item_pocket::pocket_type pk_type,
                             const bool unseal_pockets )
 {

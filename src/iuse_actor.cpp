@@ -2369,7 +2369,7 @@ bool holster_actor::store( player &p, item &holster, item &obj ) const
                          obj.tname(), holster.tname() );
 
     // holsters ignore penalty effects (e.g. GRABBED) when determining number of moves to consume
-    p.store( holster, obj, false, holster.contents.obtain_cost( obj ),
+    p.store( holster, obj, false, holster.obtain_cost( obj ),
              item_pocket::pocket_type::CONTAINER );
     return true;
 }
@@ -2419,7 +2419,7 @@ cata::optional<int> holster_actor::use( player &p, item &it, bool, const tripoin
     if( pos >= 0 ) {
         // worn holsters ignore penalty effects (e.g. GRABBED) when determining number of moves to consume
         if( p.is_worn( it ) ) {
-            p.wield_contents( it, internal_item, false, it.contents.obtain_cost( *internal_item ) );
+            p.wield_contents( it, internal_item, false, it.obtain_cost( *internal_item ) );
         } else {
             p.wield_contents( it, internal_item );
         }

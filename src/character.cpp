@@ -8863,7 +8863,7 @@ bool Character::dispose_item( item_location &&obj, const std::string &prompt )
                                        ( e.type->get_use( "holster" )->get_actor_ptr() );
             opts.emplace_back( dispose_option{
                 string_format( _( "Store in %s" ), e.tname() ), true, e.invlet,
-                item_store_cost( *obj, e, false, e.contents.insert_cost( *obj ) ),
+                item_store_cost( *obj, e, false, e.insert_cost( *obj ) ),
                 [this, ptr, &e, &obj] {
                     return ptr->store( *this->as_player(), e, *obj );
                 }
@@ -13087,7 +13087,7 @@ int Character::item_reload_cost( const item &it, const item &ammo, int qty ) con
     } else if( it.type->magazine ) {
         cost = it.type->magazine->reload_time * qty;
     } else {
-        cost = it.contents.obtain_cost( ammo );
+        cost = it.obtain_cost( ammo );
     }
 
     skill_id sk = it.is_gun() ? it.type->gun->skill_used : skill_gun;
