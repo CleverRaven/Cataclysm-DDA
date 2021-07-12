@@ -10591,14 +10591,14 @@ bool game::grabbed_furn_move( const tripoint &dp )
                !u.has_trait( trait_id( "MASOCHIST_MED" ) ) ) {
         add_msg( m_bad, _( "You are in too much pain to try moving the heavy %s!" ),
                  furntype.name() );
-        return false;
+        return true;
 
     } else if( str_req > u.get_str() && u.get_perceived_pain() > 50 &&
                ( u.has_trait( trait_id( "MASOCHIST" ) ) || u.has_trait( trait_id( "MASOCHIST_MED" ) ) ) ) {
         add_msg( m_bad,
                  _( "Even with your appetite for pain, you are in too much pain to try moving the heavy %s!" ),
                  furntype.name() );
-        return false;
+        return true;
 
         ///\EFFECT_STR determines ability to drag furniture
     } else if( str_req > u.get_str() &&
