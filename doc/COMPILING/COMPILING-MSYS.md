@@ -165,35 +165,34 @@ You'll find the file in the `.vscode` folder.
 
 Add this (if it throw errors, check the brackets, it has to be included, not just at the end): 
 
-```json
- "terminal.integrated.profiles.windows": {
-
-        "PowerShell": {
+```javascript
+"terminal.integrated.profiles.windows": {
+    "PowerShell": {
         "source": "PowerShell",
         "icon": "terminal-powershell"
-        },
-        "Command Prompt": {
+    },
+    "Command Prompt": {
         "path": [
-        "${env:windir}\\Sysnative\\cmd.exe",
-        "${env:windir}\\System32\\cmd.exe"
+            "${env:windir}\\Sysnative\\cmd.exe",
+            "${env:windir}\\System32\\cmd.exe"
         ],
         "args": [],
         "icon": "terminal-cmd"
-        },
-        "Bash": {
+    },
+    "Bash": {
         "path": ["D:\\Git\\bin\\bash.exe"]
-        },
-        "MSYS2": {
+    },
+    "MSYS2": {
         "path": "D:\\MSYS2\\usr\\bin\\bash.exe",
         "label": "MSYS2",
         "args": ["--login", "-i"],
         "env": {
-        "MSYSTEM": "MINGW64",
-        "CHERE_INVOKING": "1",
-        "MSYS2_PATH_TYPE": "inherit"
-        }
+            "MSYSTEM": "MINGW64",
+            "CHERE_INVOKING": "1",
+            "MSYS2_PATH_TYPE": "inherit"
         }
     }
+}
 ```
 
 Of course, adapt the paths to your needs.
