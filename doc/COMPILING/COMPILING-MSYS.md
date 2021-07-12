@@ -245,7 +245,7 @@ Paste:
 Change `miDebuggerPath` to the path of gdb you previously installed.
 (`stopAtEntry` can also be set to true.)
 
-It will create a debug profile. The debug button is the 4th, at the left. The name you choose should now appears.
+It will create a debug profile. The debug button is the 4th, at the left. The name you choose should now appear.
 ![where is the debug tab](https://cdn.discordapp.com/attachments/823936842814586880/863907995767537684/unknown.png)
 
 5. `Make` debug flags:
