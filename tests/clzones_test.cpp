@@ -1,7 +1,7 @@
 #include <iosfwd>
 #include <vector>
 
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "clzones.h"
 #include "item.h"
 #include "item_category.h"
@@ -12,7 +12,6 @@
 #include "ret_val.h"
 #include "type_id.h"
 
-static const zone_type_id zone_type_LOOT_UNSORTED( "LOOT_UNSORTED" );
 static const zone_type_id zone_type_LOOT_FOOD( "LOOT_FOOD" );
 static const zone_type_id zone_type_LOOT_PFOOD( "LOOT_PFOOD" );
 static const zone_type_id zone_type_LOOT_DRINK( "LOOT_DRINK" );
@@ -110,7 +109,7 @@ TEST_CASE( "zone sorting comestibles ", "[zones][items][food][activities]" )
                 item container( "test_watertight_open_sealed_container_250ml" );
                 REQUIRE( container.put_in( nonperishable_food, item_pocket::pocket_type::CONTAINER ).success() );
                 REQUIRE( container.seal() );
-                REQUIRE( container.contents.get_all_contained_pockets().value().front()->spoil_multiplier() ==
+                REQUIRE( container.get_all_contained_pockets().value().front()->spoil_multiplier() ==
                          0.0f );
                 REQUIRE( container.contents.get_sealed_summary() == item_contents::sealed_summary::all_sealed );
 
@@ -144,7 +143,7 @@ TEST_CASE( "zone sorting comestibles ", "[zones][items][food][activities]" )
                 item container( "test_watertight_open_sealed_container_250ml" );
                 REQUIRE( container.put_in( nonperishable_drink, item_pocket::pocket_type::CONTAINER ).success() );
                 REQUIRE( container.seal() );
-                REQUIRE( container.contents.get_all_contained_pockets().value().front()->spoil_multiplier() ==
+                REQUIRE( container.get_all_contained_pockets().value().front()->spoil_multiplier() ==
                          0.0f );
                 REQUIRE( container.contents.get_sealed_summary() == item_contents::sealed_summary::all_sealed );
 
@@ -178,7 +177,7 @@ TEST_CASE( "zone sorting comestibles ", "[zones][items][food][activities]" )
                 item container( "test_watertight_open_sealed_container_250ml" );
                 REQUIRE( container.put_in( perishable_food, item_pocket::pocket_type::CONTAINER ).success() );
                 REQUIRE( container.seal() );
-                REQUIRE( container.contents.get_all_contained_pockets().value().front()->spoil_multiplier() ==
+                REQUIRE( container.get_all_contained_pockets().value().front()->spoil_multiplier() ==
                          0.0f );
                 REQUIRE( container.contents.get_sealed_summary() == item_contents::sealed_summary::all_sealed );
 
@@ -212,7 +211,7 @@ TEST_CASE( "zone sorting comestibles ", "[zones][items][food][activities]" )
                 item container( "test_watertight_open_sealed_container_250ml" );
                 REQUIRE( container.put_in( perishable_drink, item_pocket::pocket_type::CONTAINER ).success() );
                 REQUIRE( container.seal() );
-                REQUIRE( container.contents.get_all_contained_pockets().value().front()->spoil_multiplier() ==
+                REQUIRE( container.get_all_contained_pockets().value().front()->spoil_multiplier() ==
                          0.0f );
                 REQUIRE( container.contents.get_sealed_summary() == item_contents::sealed_summary::all_sealed );
 

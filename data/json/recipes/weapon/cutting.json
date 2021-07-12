@@ -17,7 +17,7 @@
     ],
     "using": [ [ "forging_standard", 2 ], [ "steel_standard", 2 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
   },
   {
@@ -125,13 +125,14 @@
     ],
     "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "tools": [ [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "stick_long", 1 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
   },
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "makeshift_halberd",
+    "//": "this makes the simple makeshift glaive, but changing the id would break e.g.  tilesets.",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_CUTTING",
     "skill_used": "fabrication",
@@ -139,7 +140,31 @@
     "reversible": true,
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.5, "fail_multiplier": 1 } ],
-    "components": [ [ [ "duct_tape", 100 ] ], [ [ "blade", 1 ] ], [ [ "stick_long", 1 ] ] ]
+    "components": [
+      [ [ "duct_tape", 100 ] ],
+      [ [ "blade", 1 ], [ "knife_meat_cleaver", 1 ], [ "knife_vegetable_cleaver", 1 ] ],
+      [ [ "stick_long", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "makeshift_glaive",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "45 m",
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "DRILL", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.5, "fail_multiplier": 1.5 } ],
+    "components": [
+      [ [ "duct_tape", 100 ] ],
+      [ [ "blade", 1 ], [ "knife_meat_cleaver", 1 ], [ "knife_vegetable_cleaver", 1 ] ],
+      [ [ "stick_long", 1 ] ],
+      [ [ "cordage", 2, "LIST" ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -176,7 +201,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 24 ], [ "steel_standard", 6 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "tools": [ [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "stick_long", 1 ] ] ]
   },
   {
@@ -245,7 +270,7 @@
     "book_learn": [ [ "welding_book", 7 ], [ "recipe_melee", 5 ] ],
     "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "tools": [ [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "plastic_chunk", 4 ] ] ]
   },
   {
@@ -253,7 +278,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "result": "knuckle_katar",
     "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_CUTTING",
+    "subcategory": "CSC_WEAPON_PIERCING",
     "skill_used": "fabrication",
     "skills_required": [ "bashing", 1 ],
     "difficulty": 4,
@@ -286,7 +311,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "tools": [ [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "plastic_chunk", 2 ] ] ]
   },
   {
@@ -308,7 +333,7 @@
     "using": [ [ "blacksmithing_standard", 20 ], [ "steel_standard", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "//": "basically 2.5x the resources of a single machete to cover the fact that it's two weapons, each with a hand guard",
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "tools": [ [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "2x4", 2 ], [ "stick", 4 ] ], [ [ "fur", 4 ], [ "leather", 4 ] ] ]
   },
   {
@@ -355,7 +380,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "tools": [ [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "fur", 1 ], [ "leather", 1 ] ] ]
   },
   {
@@ -376,7 +401,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "tools": [ [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "fur", 1 ], [ "leather", 1 ] ] ]
   },
   {
@@ -397,7 +422,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "tools": [ [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "fur", 1 ], [ "leather", 1 ] ] ]
   },
   {
@@ -418,7 +443,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "tools": [ [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "2x4", 2 ], [ "stick", 4 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
   },
   {
@@ -439,7 +464,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "tools": [ [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "filament", 100, "LIST" ] ], [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "fur", 1 ], [ "leather", 1 ] ] ]
   },
   {
@@ -460,7 +485,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "tools": [ [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "fur", 1 ], [ "leather", 1 ] ] ]
   },
   {
@@ -481,7 +506,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 16 ], [ "steel_standard", 4 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "tools": [ [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "fur", 1 ], [ "leather", 1 ] ] ]
   },
   {
@@ -502,7 +527,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 16 ], [ "steel_standard", 4 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "tools": [ [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "fur", 1 ], [ "leather", 1 ] ] ]
   },
   {
@@ -523,7 +548,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 16 ], [ "steel_standard", 4 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "tools": [ [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "2x4", 2 ], [ "stick", 4 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
   },
   {
@@ -544,7 +569,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 8 ], [ "steel_standard", 2 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "tools": [ [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
   },
   {
@@ -565,7 +590,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 8 ], [ "steel_standard", 2 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "tools": [ [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "2x4", 2 ], [ "stick", 4 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
   },
   {
@@ -586,7 +611,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 20 ], [ "steel_standard", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "tools": [ [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "2x4", 3 ], [ "stick", 6 ] ], [ [ "fur", 3 ], [ "leather", 3 ] ] ]
   },
   {
@@ -606,7 +631,7 @@
       { "proficiency": "prof_bladesmith" }
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ]
+    "tools": [ [ [ "hotcut", -1 ] ] ]
   },
   {
     "type": "recipe",
@@ -625,7 +650,7 @@
       { "proficiency": "prof_bladesmith" }
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "tools": [ [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "q_staff", 1 ] ] ]
   },
   {
@@ -660,7 +685,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "tools": [ [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "stick_long", 1 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
   },
   {
@@ -681,7 +706,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 8 ], [ "steel_standard", 2 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "tools": [ [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "stick_long", 1 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
   },
   {
@@ -702,7 +727,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 8 ], [ "steel_standard", 2 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "tools": [ [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "stick_long", 1 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
   },
   {
@@ -724,7 +749,7 @@
       { "proficiency": "prof_carving", "time_multiplier": 1.5, "fail_multiplier": 1 }
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "tools": [ [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "katana", 1 ], [ "wakizashi", 1 ] ], [ [ "stick_long", 1 ] ] ]
   },
   {

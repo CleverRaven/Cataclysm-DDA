@@ -191,6 +191,22 @@
   },
   {
     "type": "SPELL",
+    "id": "hive_raptor_spawn",
+    "name": { "str": "Spawn Raptor" },
+    "description": "Summons a zombie-spawn raptor without killing the zombie.",
+    "flags": [ "HOSTILE_SUMMON", "RANDOM_DAMAGE", "PERMANENT" ],
+    "valid_targets": [ "ground", "self" ],
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_aoe": 3,
+    "max_aoe": 3,
+    "base_casting_time": 100,
+    "shape": "blast",
+    "effect": "summon",
+    "effect_str": "mon_spawn_raptor"
+  },
+  {
+    "type": "SPELL",
     "id": "shady_raptor_spawn",
     "name": { "str": "Spawn Shady Raptors" },
     "description": "Summons a few shady zombiespawn raptors.",
@@ -294,5 +310,25 @@
     "effect": "summon",
     "effect_str": "mon_dermatik_larva",
     "extra_effects": [ { "id": "frog_mother_hurt_self", "hit_self": true } ]
+  },
+  {
+    "type": "SPELL",
+    "id": "spread_sludge",
+    "name": { "str": "Spread Sludge" },
+    "description": "Splatters sludge along the ground in a cone.",
+    "valid_targets": [ "hostile", "ground" ],
+    "max_level": 1,
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "min_aoe": 45,
+    "max_aoe": 45,
+    "base_casting_time": 75,
+    "min_range": 4,
+    "max_range": 4,
+    "effect": "attack",
+    "shape": "cone",
+    "field_id": "fd_sludge",
+    "field_chance": 2,
+    "min_field_intensity": 2,
+    "max_field_intensity": 2
   }
 ]

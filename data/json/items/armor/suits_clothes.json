@@ -14,7 +14,7 @@
     "symbol": "[",
     "looks_like": "armor_larmor",
     "color": "dark_gray",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 90, "encumbrance": 20 },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 75, "encumbrance": 20 },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 75, "encumbrance": 20 }
@@ -39,7 +39,7 @@
     "symbol": "[",
     "looks_like": "touring_suit",
     "color": "pink",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 17, 30 ] },
       { "covers": [ "arm_l", "arm_r", "leg_l", "leg_r" ], "coverage": 95, "encumbrance": [ 17, 20 ] }
     ],
@@ -50,7 +50,7 @@
     ],
     "warmth": 10,
     "material_thickness": 0.1,
-    "flags": [ "VARSIZE", "FANCY", "POCKETS", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
   },
   {
     "id": "dinosuit",
@@ -67,7 +67,7 @@
     "symbol": "[",
     "looks_like": "wolfsuit",
     "color": "light_green",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 26, 30 ] },
       { "covers": [ "mouth", "eyes" ], "coverage": 95, "encumbrance": [ 26, 26 ] },
       { "covers": [ "head" ], "coverage": 100, "encumbrance": [ 26, 26 ] }
@@ -92,7 +92,7 @@
     "symbol": "[",
     "looks_like": "touring_suit",
     "color": "yellow",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 1, 2 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 50, "encumbrance": [ 1, 1 ] },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 80, "encumbrance": [ 1, 2 ] }
@@ -121,7 +121,7 @@
     "symbol": "[",
     "looks_like": "jumpsuit",
     "color": "yellow",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 1, 2 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 50, "encumbrance": [ 1, 1 ] },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 80, "encumbrance": [ 1, 2 ] }
@@ -161,7 +161,7 @@
     "symbol": "[",
     "looks_like": "jumpsuit",
     "color": "yellow",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 3, 7 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 50, "encumbrance": [ 2, 2 ] },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 60, "encumbrance": [ 2, 5 ] }
@@ -187,7 +187,7 @@
     "symbol": "[",
     "looks_like": "jumpsuit",
     "color": "light_gray",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso" ], "coverage": 95, "encumbrance": 3 },
       { "covers": [ "arm_l", "arm_r", "leg_l", "leg_r" ], "coverage": 90, "encumbrance": 3 }
     ],
@@ -222,7 +222,7 @@
     "symbol": "[",
     "looks_like": "touring_suit",
     "color": "dark_gray",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso", "leg_l", "leg_r" ], "coverage": 100, "encumbrance": 20 },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": 20 },
       { "covers": [ "head" ], "coverage": 60, "encumbrance": 15 },
@@ -244,10 +244,14 @@
     "material": [ "lycra" ],
     "symbol": "[",
     "color": "dark_gray",
-    "covers": [ "head", "mouth", "eyes", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
-    "coverage": 100,
     "warmth": 20,
     "material_thickness": 0.1,
-    "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ],
+    "armor": [
+      {
+        "coverage": 100,
+        "covers": [ "head", "mouth", "eyes", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ]
   }
 ]

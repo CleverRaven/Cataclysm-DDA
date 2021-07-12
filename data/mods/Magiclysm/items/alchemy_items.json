@@ -61,13 +61,11 @@
     "material": [ "copper", "wood" ],
     "symbol": "[",
     "color": "brown",
-    "covers": [ "head" ],
-    "coverage": 5,
-    "encumbrance": 1,
     "warmth": 0,
     "material_thickness": 1,
     "flags": [ "BELTED" ],
-    "qualities": [ [ "MANA_FOCUS", 1 ] ]
+    "qualities": [ [ "MANA_FOCUS", 1 ] ],
+    "armor": [ { "encumbrance": 1, "coverage": 5, "covers": [ "head" ] } ]
   },
   {
     "id": "potion_starter",
@@ -176,7 +174,7 @@
     "container": "flask_glass",
     "charges": 1,
     "phase": "liquid",
-    "freezing_point": -100
+    "freezing_point": -73
   },
   {
     "id": "stirge_proboscis",
@@ -208,6 +206,15 @@
     "bashing": 1,
     "flags": [ "TRADER_AVOID" ],
     "to_hit": -2
+  },
+  {
+    "id": "bundle_demon_chitin_piece",
+    "type": "GENERIC",
+    "copy-from": "demon_chitin_piece",
+    "symbol": "=",
+    "name": { "str": "bundle of demon chitin chunks", "str_pl": "bundles of demon chitin chunks" },
+    "proportional": { "price": 10, "weight": 10, "volume": 10 },
+    "description": "Pieces of demon spider exoskeleton, bundled tightly together for storage.  Disassemble to unpack."
   },
   {
     "type": "GENERIC",

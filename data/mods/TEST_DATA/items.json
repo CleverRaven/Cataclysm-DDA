@@ -30,14 +30,13 @@
     "material": [ "copper" ],
     "symbol": "[",
     "color": "light_red",
-    "covers": [ "hand_l", "hand_r" ],
     "sided": true,
-    "coverage": 0,
     "warmth": 0,
     "flags": [ "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "FANCY", "ONLY_ONE", "SKINTIGHT" ],
     "name": { "str": "ring of strength +1", "str_pl": "rings of strength +1" },
     "description": "A copper ring that makes you a little stronger when you wear it.",
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "STRENGTH", "add": 1 } ] } ] }
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "STRENGTH", "add": 1 } ] } ] },
+    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "test_rag",
@@ -96,6 +95,60 @@
     "price_postapoc": 300
   },
   {
+    "type": "TOOL",
+    "id": "test_shears",
+    "name": { "str_sp": "shears" },
+    "description": "This is a set of shears designed to obtain wool from sheep.",
+    "weight": "820 g",
+    "volume": "750 ml",
+    "price": 500,
+    "price_postapoc": 250,
+    "to_hit": -1,
+    "cutting": 3,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "qualities": [ [ "SHEAR", 1 ] ],
+    "flags": [ "STAB" ]
+  },
+  {
+    "type": "TOOL",
+    "id": "test_shears_off",
+    "copy-from": "test_shears",
+    "name": { "str": "electric shears (off)" },
+    "description": "This is a set of electric shears designed to obtain wool from sheep.",
+    "qualities": [  ],
+    "use_action": {
+      "type": "transform",
+      "msg": "Your %s activates.",
+      "target": "test_shears_on",
+      "active": true,
+      "need_charges": 1,
+      "need_charges_msg": "The shears batteries are dead."
+    },
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "rigid": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "test_battery_disposable" ]
+      }
+    ]
+  },
+  {
+    "type": "TOOL",
+    "id": "test_shears_on",
+    "copy-from": "test_shears_off",
+    "name": { "str": "electric shears (on)" },
+    "description": "This is a set of electric shears designed to obtain wool from sheep.  These shears have been turned on.",
+    "power_draw": 10000,
+    "revert_to": "test_shears_off",
+    "use_action": { "type": "transform", "msg": "Your %s deactivates.", "target": "test_shears_off" },
+    "qualities": [ [ "SHEAR", 3 ] ]
+  },
+  {
     "id": "test_tool_belt",
     "type": "ARMOR",
     "name": { "str": "tool belt" },
@@ -109,9 +162,6 @@
     "symbol": "[",
     "looks_like": "holster",
     "color": "brown",
-    "covers": [ "torso" ],
-    "coverage": 20,
-    "encumbrance": 2,
     "material_thickness": 2,
     "pocket_data": [
       {
@@ -119,7 +169,7 @@
         "min_item_volume": "50 ml",
         "max_item_length": "70 cm",
         "max_contains_volume": "1500 ml",
-        "max_contains_weight": "1000 g",
+        "max_contains_weight": "1200 g",
         "moves": 50,
         "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
       },
@@ -128,7 +178,7 @@
         "min_item_volume": "50 ml",
         "max_item_length": "70 cm",
         "max_contains_volume": "1500 ml",
-        "max_contains_weight": "1000 g",
+        "max_contains_weight": "1200 g",
         "moves": 50,
         "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
       },
@@ -137,7 +187,7 @@
         "min_item_volume": "50 ml",
         "max_item_length": "70 cm",
         "max_contains_volume": "1500 ml",
-        "max_contains_weight": "1000 g",
+        "max_contains_weight": "1200 g",
         "moves": 50,
         "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
       },
@@ -146,13 +196,14 @@
         "min_item_volume": "50 ml",
         "max_item_length": "70 cm",
         "max_contains_volume": "1500 ml",
-        "max_contains_weight": "1000 g",
+        "max_contains_weight": "1200 g",
         "moves": 50,
         "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Store tool or blade", "holster_msg": "You put your %1$s in your %2$s" },
-    "flags": [ "WAIST", "NO_QUICKDRAW", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "NO_QUICKDRAW", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 2, "coverage": 20, "covers": [ "torso" ] } ]
   },
   {
     "id": "test_utility_belt",
@@ -168,9 +219,6 @@
     "symbol": "[",
     "looks_like": "holster",
     "color": "yellow",
-    "covers": [ "TORSO" ],
-    "coverage": 30,
-    "encumbrance": 5,
     "material_thickness": 4,
     "pocket_data": [
       {
@@ -239,7 +287,8 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Store tool or blade", "holster_msg": "You put your %1$s in your %2$s" },
-    "flags": [ "WAIST", "NO_QUICKDRAW", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "NO_QUICKDRAW", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 5, "coverage": 30, "covers": [ "TORSO" ] } ]
   },
   {
     "type": "GENERIC",
@@ -490,11 +539,10 @@
     "symbol": "[",
     "looks_like": "socks_wool",
     "color": "white",
-    "covers": [ "foot_l", "foot_r" ],
-    "coverage": 100,
     "warmth": 5,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT" ]
+    "flags": [ "VARSIZE", "SKINTIGHT" ],
+    "armor": [ { "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ]
   },
   {
     "id": "test_croc_socks",
@@ -508,11 +556,10 @@
     "symbol": "[",
     "looks_like": "socks_wool",
     "color": "green",
-    "covers": [ "foot_l", "foot_r" ],
-    "coverage": 50,
     "warmth": 2,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT" ]
+    "flags": [ "VARSIZE", "SKINTIGHT" ],
+    "armor": [ { "coverage": 50, "covers": [ "foot_l", "foot_r" ] } ]
   },
   {
     "id": "test_longshirt",
@@ -526,12 +573,10 @@
     "symbol": "[",
     "looks_like": "dress_shirt",
     "color": "blue",
-    "covers": [ "torso", "arm_l", "arm_r" ],
-    "coverage": 90,
-    "encumbrance": 3,
     "warmth": 5,
     "material_thickness": 0.2,
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE" ],
+    "armor": [ { "encumbrance": 3, "coverage": 90, "covers": [ "torso", "arm_l", "arm_r" ] } ]
   },
   {
     "id": "test_ear_plugs",
@@ -544,13 +589,13 @@
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "coverage": 1,
     "material_thickness": 1,
-    "flags": [ "DEAF", "OVERSIZE", "POWERARMOR_COMPATIBLE" ]
+    "flags": [ "DEAF", "OVERSIZE", "POWERARMOR_COMPATIBLE" ],
+    "armor": [ { "coverage": 1 } ]
   },
   {
     "id": "test_hazmat_suit",
-    "repairs_like": "aep_suit",
+    "repairs_like": "fsurvivor_suit",
     "type": "ARMOR",
     "name": "TEST hazmat suit",
     "description": "An impermeable whole-body garment worn as protection against hazardous materials.  Though very restrictive and fragile, wearing it will provide complete protection against ambient radiation.  It requires a separate gas mask for full protection.",
@@ -561,13 +606,17 @@
     "symbol": "[",
     "looks_like": "beekeeping_suit",
     "color": "yellow",
-    "covers": [ "head", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
-    "coverage": 100,
-    "encumbrance": 37,
     "warmth": 40,
     "material_thickness": 2,
     "environmental_protection": 20,
-    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "RAD_PROOF", "ELECTRIC_IMMUNE", "OUTER" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "RAD_PROOF", "ELECTRIC_IMMUNE", "OUTER" ],
+    "armor": [
+      {
+        "encumbrance": 37,
+        "coverage": 100,
+        "covers": [ "head", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ]
   },
   {
     "id": "test_zentai",
@@ -581,11 +630,15 @@
     "material": [ "lycra" ],
     "symbol": "[",
     "color": "dark_gray",
-    "covers": [ "head", "mouth", "eyes", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
-    "coverage": 100,
     "warmth": 20,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ],
+    "armor": [
+      {
+        "coverage": 100,
+        "covers": [ "head", "mouth", "eyes", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ]
   },
   {
     "id": "test_sunglasses",
@@ -602,13 +655,11 @@
     "symbol": "[",
     "looks_like": "glasses_eye",
     "color": "dark_gray",
-    "covers": [ "eyes" ],
-    "coverage": 85,
-    "encumbrance": 1,
     "material_thickness": 1,
     "environmental_protection": 1,
     "qualities": [ [ "GLARE", 1 ] ],
-    "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "FRAGILE" ]
+    "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "FRAGILE" ],
+    "armor": [ { "encumbrance": 1, "coverage": 85, "covers": [ "eyes" ] } ]
   },
   {
     "id": "test_umbrella",
@@ -808,7 +859,7 @@
     "material": [ "leather" ],
     "symbol": ")",
     "color": "brown",
-    "armor_data": { "covers": [ "leg_l", "leg_r" ], "sided": true, "coverage": 5, "material_thickness": 2 },
+    "armor_data": { "sided": true, "material_thickness": 2, "armor": [ { "coverage": 5, "covers": [ "leg_l", "leg_r" ] } ] },
     "pocket_data": [
       {
         "max_item_volume": "15 ml",
@@ -887,14 +938,11 @@
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "green",
-    "covers": [ "torso" ],
-    "coverage": 30,
-    "encumbrance": 2,
-    "max_encumbrance": 15,
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "15 L", "max_contains_weight": "30 kg", "moves": 300 } ],
     "warmth": 6,
     "material_thickness": 2,
-    "flags": [ "BELTED" ]
+    "flags": [ "BELTED" ],
+    "armor": [ { "encumbrance": [ 2, 15 ], "coverage": 30, "covers": [ "torso" ] } ]
   },
   {
     "id": "test_briefcase",
@@ -911,10 +959,7 @@
     "symbol": "[",
     "looks_like": "plastic_shopping_bag",
     "color": "light_gray",
-    "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
     "sided": true,
-    "coverage": 10,
-    "encumbrance": 30,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -925,7 +970,8 @@
       }
     ],
     "material_thickness": 2,
-    "flags": [ "FANCY", "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
+    "flags": [ "FANCY", "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 30, "coverage": 10, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ]
   },
   {
     "id": "test_quiver",
@@ -941,13 +987,11 @@
     "symbol": "[",
     "looks_like": "bscabbard",
     "color": "brown",
-    "covers": [ "leg_l", "leg_r" ],
     "sided": true,
-    "coverage": 10,
-    "encumbrance": 3,
     "material_thickness": 1,
     "pocket_data": [ { "ammo_restriction": { "arrow": 20, "bolt": 20 }, "moves": 20 } ],
-    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 3, "coverage": 10, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "test_arrow_wood",
@@ -1043,6 +1087,41 @@
     "cutting": 32,
     "price": 7500,
     "price_postapoc": 300
+  },
+  {
+    "id": "test_bullwhip",
+    "type": "GENERIC",
+    "symbol": "/",
+    "color": "brown",
+    "name": { "str": "TEST bullwhip" },
+    "description": "A long strip of braided leather with a handle on one end.  Originally developed to settle disagreements with cattle, it's better used now for flaying the rotten flesh off of walking corpses.  Great for when a problem comes along.",
+    "weight": "3460 g",
+    "volume": "2 L",
+    "price": 3500,
+    "price_postapoc": 500,
+    "material": [ "leather" ],
+    "flags": [ "REACH_ATTACK", "REACH3", "WHIP" ],
+    "cutting": 3,
+    "category": "weapons"
+  },
+  {
+    "id": "test_glaive",
+    "type": "GENERIC",
+    "symbol": "/",
+    "color": "light_gray",
+    "name": { "str": "TEST glaive" },
+    "description": "A sturdy polearm with a sizable, single-edged blade on the end.",
+    "price": 50000,
+    "material": [ "steel", "wood" ],
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -28 ] ],
+    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
+    "techniques": [ "WIDE", "WBLOCK_1" ],
+    "weight": "2100 g",
+    "volume": "2500 ml",
+    "longest_side": "180 cm",
+    "bashing": 17,
+    "cutting": 40,
+    "price_postapoc": 8000
   },
   {
     "id": "test_glock",
@@ -1341,7 +1420,7 @@
     "charges": 7,
     "flags": [ "EATEN_COLD" ],
     "fun": -5,
-    "freezing_point": 20
+    "freezing_point": -7
   },
   {
     "id": "test_nuclear_carafe",
@@ -1432,9 +1511,6 @@
     "symbol": "[",
     "looks_like": "depowered_armor",
     "color": "light_gray",
-    "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
-    "coverage": 100,
-    "encumbrance": 50,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1448,7 +1524,28 @@
     "power_armor": true,
     "material_thickness": 14,
     "environmental_protection": 16,
-    "flags": [ "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE" ]
+    "use_action": { "type": "transform", "msg": "The %s engages.", "target": "test_power_armor_on", "active": true },
+    "flags": [ "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE" ],
+    "armor": [
+      {
+        "encumbrance": 50,
+        "coverage": 100,
+        "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ]
+  },
+  {
+    "id": "test_power_armor_on",
+    "copy-from": "test_power_armor",
+    "repairs_like": "test_power_armor",
+    "looks_like": "test_power_armor",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "test power armor (on)" },
+    "description": "This is a prototype power armor just for testing.",
+    "flags": [ "USE_UPS", "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE", "TRADER_AVOID", "CLIMATE_CONTROL" ],
+    "power_draw": 4000000,
+    "revert_to": "test_power_armor",
+    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s armor disengages.", "target": "test_power_armor" }
   },
   {
     "id": "test_meower_armor",
@@ -1537,7 +1634,7 @@
     "symbol": "[",
     "looks_like": "touring_suit",
     "color": "dark_gray",
-    "armor_portion_data": [ { "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 12, 25 ] } ],
+    "armor": [ { "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 12, 25 ] } ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
@@ -1564,10 +1661,6 @@
     "symbol": "[",
     "looks_like": "pants",
     "color": "brown",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 95,
-    "encumbrance": 16,
-    "max_encumbrance": 20,
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
@@ -1578,7 +1671,8 @@
     "material_thickness": 3,
     "valid_mods": [ "steel_padded" ],
     "environmental_protection": 3,
-    "flags": [ "VARSIZE", "POCKETS" ]
+    "flags": [ "VARSIZE", "POCKETS" ],
+    "armor": [ { "encumbrance": [ 16, 20 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "test_pants_faux_fur",
@@ -1587,7 +1681,6 @@
     "name": { "str_sp": "faux fur pants" },
     "description": "A pair of long cotton pants lined with warm imitation fur.",
     "material": [ "faux_fur", "cotton" ],
-    "covers": [ "leg_l", "leg_r" ],
     "warmth": 70
   },
   {
@@ -1597,7 +1690,7 @@
     "name": { "str_sp": "faux fur pants suit test thing" },
     "description": "A TEST OBJECT SHOULD NOT BE IN GAME",
     "material": [ "faux_fur", "cotton" ],
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "torso", "leg_r", "arm_r" ], "coverage": 100, "encumbrance": [ 10, 25 ] },
       { "covers": [ "arm_l", "leg_l", "head" ], "coverage": 50, "encumbrance": 5 }
     ],
@@ -1650,7 +1743,7 @@
         "sealed_data": { "spoil_multiplier": 0.0 }
       }
     ],
-    "armor_data": { "covers": [ "torso" ], "coverage": 10, "encumbrance": 4, "material_thickness": 2 },
+    "armor_data": { "material_thickness": 2, "armor": [ { "encumbrance": 4, "coverage": 10, "covers": [ "torso" ] } ] },
     "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
@@ -1708,7 +1801,7 @@
         "sealed_data": { "spoil_multiplier": 0.0 }
       }
     ],
-    "armor_data": { "covers": [ "torso" ], "coverage": 10, "encumbrance": 4, "material_thickness": 2 },
+    "armor_data": { "material_thickness": 2, "armor": [ { "encumbrance": 4, "coverage": 10, "covers": [ "torso" ] } ] },
     "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
@@ -1745,7 +1838,7 @@
         "item_restriction": [ "test_watertight_open_sealed_multipocket_container_2x250ml", "test_solid_1ml" ]
       }
     ],
-    "armor_data": { "covers": [ "torso" ], "coverage": 10, "encumbrance": 4, "material_thickness": 2 },
+    "armor_data": { "material_thickness": 2, "armor": [ { "encumbrance": 4, "coverage": 10, "covers": [ "torso" ] } ] },
     "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
@@ -1769,7 +1862,25 @@
         ]
       }
     ],
-    "armor_data": { "covers": [ "torso" ], "coverage": 10, "encumbrance": 4, "material_thickness": 2 },
+    "armor_data": { "material_thickness": 2, "armor": [ { "encumbrance": 4, "coverage": 10, "covers": [ "torso" ] } ] },
     "flags": [ "BELTED" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "test_vitfood",
+    "name": { "str": "Vitamin Food" },
+    "weight": "250 g",
+    "color": "red",
+    "spoils_in": "1 day",
+    "comestible_type": "FOOD",
+    "symbol": "O",
+    "calories": 250,
+    "description": "Delicious vitamin food.",
+    "price": 1600,
+    "price_postapoc": 200,
+    "material": [ "flesh" ],
+    "volume": "250 ml",
+    "vitamins": [ [ "test_vitx", 200 ] ],
+    "fun": -10
   }
 ]

@@ -7,7 +7,7 @@
 #include <type_traits>
 #include <vector>
 
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "cuboid_rectangle.h"
 #include "game_constants.h"
 #include "level_cache.h"

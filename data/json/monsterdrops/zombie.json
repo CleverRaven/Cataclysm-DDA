@@ -54,6 +54,12 @@
   {
     "type": "item_group",
     "subtype": "collection",
+    "id": "mon_blob_small_deathdrops",
+    "entries": [ { "item": "slime_scrap", "count": 1 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "mon_zombie_fireman_death_drops",
     "entries": [
       { "group": "fireman_torso", "damage": [ 1, 4 ] },

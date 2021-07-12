@@ -29,7 +29,6 @@
     "harvest": "owlbear",
     "reproduction": { "baby_egg": "egg_owlbear_rock", "baby_count": 1, "baby_timer": 20 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ],
-    "death_function": [ "NORMAL" ],
     "special_attacks": [ { "type": "bite", "cooldown": 10 }, [ "GRAB", 7 ], [ "scratch", 7 ] ],
     "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "WARM", "GRABS", "SWARMS" ]
   },
@@ -60,7 +59,7 @@
     "armor_acid": 15,
     "harvest": "exempt",
     "path_settings": { "avoid_traps": true, "avoid_sharp": true },
-    "death_function": [ "MELT" ],
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
     "special_attacks": [
       {
         "type": "spell",
@@ -98,7 +97,6 @@
     "vision_night": 30,
     "vision_day": 30,
     "path_settings": { "max_dist": 35 },
-    "death_function": [ "NORMAL" ],
     "anger_triggers": [ "HURT", "PLAYER_CLOSE", "PLAYER_WEAK" ],
     "special_attacks": [
       {
@@ -161,7 +159,6 @@
     "armor_bullet": 24,
     "harvest": "bulette",
     "anger_triggers": [ "SOUND" ],
-    "death_function": [ "NORMAL" ],
     "special_attacks": [
       {
         "id": "scratch",
@@ -205,7 +202,7 @@
     "harvest": "exempt",
     "death_drops": "wisp_death",
     "anger_triggers": [ "PLAYER_CLOSE" ],
-    "death_function": [ "DISINTEGRATE" ],
+    "death_function": { "message": "The %s disintegrates!", "corpse_type": "NO_CORPSE" },
     "flags": [
       "SEES",
       "HEARS",
@@ -246,7 +243,6 @@
     "vision_day": 40,
     "vision_night": 3,
     "harvest": "human_large_leather",
-    "death_function": [ "NORMAL" ],
     "special_attacks": [ { "type": "bite", "cooldown": 30 }, [ "GRAB", 15 ], [ "scratch", 15 ], [ "slam", 10 ], [ "SMASH", 30 ] ],
     "regenerates": 1,
     "flags": [ "SEES", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "WARM", "GRABS", "FLAMMABLE" ]
@@ -278,7 +274,6 @@
     "harvest": "stirge",
     "special_attacks": [ { "type": "spell", "spell_data": { "id": "blood_suck", "min_level": 3 }, "cooldown": 3 } ],
     "anger_triggers": [ "PLAYER_CLOSE" ],
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "FLIES", "HIT_AND_RUN", "PATH_AVOID_FIRE", "SWARMS" ]
   },
   {
@@ -305,7 +300,6 @@
     "harvest": "shrieker",
     "special_attacks": [ [ "SHRIEK_ALERT", 1 ] ],
     "anger_triggers": [ "PLAYER_CLOSE" ],
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "NOHEAD", "POISON", "IMMOBILE", "NO_BREATHE", "PACIFIST" ]
   },
   {
@@ -327,7 +321,6 @@
     "harvest": "mammal_tiny",
     "special_attacks": [ { "type": "leap", "cooldown": 10, "max_range": 5 } ],
     "fear_triggers": [ "PLAYER_CLOSE" ],
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "SWIMS" ]
   },
   {
@@ -357,7 +350,6 @@
     "vision_night": 40,
     "harvest": "lemure",
     "anger_triggers": [ "PLAYER_CLOSE" ],
-    "death_function": [ "NORMAL" ],
     "regenerates": 1,
     "flags": [ "SEES", "SMELLS", "HEARS", "STUMBLES", "PATH_AVOID_FIRE", "REVIVES" ]
   },
@@ -392,7 +384,6 @@
     "special_attacks": [ { "type": "spell", "spell_data": { "id": "cone_cold", "min_level": 4 }, "cooldown": 25 } ],
     "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "placate_triggers": [ "MEAT" ],
-    "death_function": [ "NORMAL" ],
     "zombify_into": "mon_zolf",
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "COLDPROOF" ]
   },
@@ -426,7 +417,6 @@
     "harvest": "demihuman_fur",
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK", "PLAYER_CLOSE" ],
-    "death_function": [ "NORMAL" ],
     "zombify_into": "mon_were_zolf",
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE" ]
   }

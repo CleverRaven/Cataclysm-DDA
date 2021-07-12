@@ -22,7 +22,7 @@
       "SHEATH_BOW"
     ],
     "min_strength": 9,
-    "armor_data": { "covers": [ "torso" ], "coverage": 5, "material_thickness": 1, "encumbrance": 13 },
+    "armor_data": { "material_thickness": 1, "armor": [ { "encumbrance": 13, "coverage": 5, "covers": [ "torso" ] } ] },
     "valid_mod_locations": [ [ "sights", 1 ], [ "accessories", 1 ], [ "dampening", 1 ] ],
     "ranged_damage": { "damage_type": "stab", "amount": 9 },
     "range": 13,

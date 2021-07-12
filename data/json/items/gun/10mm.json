@@ -4,8 +4,16 @@
     "copy-from": "pistol_revolver",
     "looks_like": "sw_619",
     "type": "GUN",
-    "name": { "str_sp": "S&W 610" },
-    "description": "The Smith and Wesson 610 is a classic six-shooter revolver chambered for 10mm rounds, or for S&W's own .40 round.",
+    "name": { "str": "10mm/.40 revolver" },
+    "description": "A classic six-shooter revolver chambered for 10mm and .40 rounds.",
+    "variants": [
+      {
+        "id": "sw_610",
+        "name": { "str_sp": "S&W 610" },
+        "description": "The Smith and Wesson 610 is a classic six-shooter revolver chambered for 10mm rounds, or for S&W's own .40 round.",
+        "weight": 1
+      }
+    ],
     "ascii_picture": "sw_610",
     "weight": "1420 g",
     "volume": "754 ml",
@@ -18,7 +26,6 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": [ "10mm", "40" ],
-    "ranged_damage": { "damage_type": "bullet", "amount": -7 },
     "dispersion": 320,
     "durability": 8,
     "blackpowder_tolerance": 56,
@@ -37,8 +44,16 @@
     "copy-from": "pistol_base",
     "looks_like": "glock_19",
     "type": "GUN",
-    "name": { "str": "Glock 29" },
-    "description": "A modestly sized version of the highly successful Glock, chambered in hard-hitting 10mm Auto.  It is easy to carry because of its small size, but also recoils fiercely.",
+    "name": { "str": "compact Glock pistol" },
+    "description": "A small pistol accepting Glock magazines and chambered in 10mm.  Because of it size, it is easy to carry, but it has rather fierce recoil.",
+    "variants": [
+      {
+        "id": "glock_29",
+        "name": { "str": "Glock 29" },
+        "description": "A modestly sized version of the highly successful Glock, chambered in hard-hitting 10mm Auto.  It is easy to carry because of its small size, but also recoils fiercely.",
+        "weight": 1
+      }
+    ],
     "ascii_picture": "glock_19",
     "weight": "690 g",
     "volume": "410 ml",
@@ -51,7 +66,6 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": "10mm",
-    "ranged_damage": { "damage_type": "bullet", "amount": -7 },
     "dispersion": 510,
     "durability": 8,
     "blackpowder_tolerance": 48,
@@ -72,8 +86,23 @@
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
     "type": "GUN",
-    "name": { "str": "Glock 20" },
-    "description": "A full-sized version of the highly successful Glock, chambered in hard-hitting 10mm Auto.  The third model of Glock designed, all other full-sized, large framed Glocks are adaptations of this one.",
+    "name": { "str": "Glock pistol" },
+    "description": "This is a semi-automatic pistol chambered in 10mm, and accepting Glock magazines.",
+    "variants": [
+      {
+        "id": "glock_20",
+        "name": { "str": "Glock 20" },
+        "description": "A full-sized version of the highly successful Glock, chambered in hard-hitting 10mm Auto.  The third model of Glock designed, all other full-sized, large framed Glocks are adaptations of this one.",
+        "weight": 1
+      },
+      {
+        "id": "glock_40",
+        "name": { "str": "Glock 40 MOS" },
+        "description": "A full-sized, long-slide version of the highly successful Glock, chambered in hard-hitting 10mm Auto.  The extra barrel length makes for slightly even harder hitting ammo, and the extra slide length means the sights are a little easier to use.  It also features Glock's Modular Optic System, making aftermarket optics much easier to mount.",
+        "ascii_picture": "glock_40mos",
+        "weight": 1
+      }
+    ],
     "ascii_picture": "glock_20",
     "weight": "780 g",
     "volume": "480 ml",
@@ -86,44 +115,7 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": "10mm",
-    "ranged_damage": { "damage_type": "bullet", "amount": -6 },
     "dispersion": 480,
-    "durability": 8,
-    "blackpowder_tolerance": 48,
-    "min_cycle_recoil": 570,
-    "pocket_data": [
-      {
-        "magazine_well": "103 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "glock_20mag", "tdi_10mm_mag" ]
-      }
-    ]
-  },
-  {
-    "id": "glock_40",
-    "copy-from": "pistol_base",
-    "looks_like": "glock_17",
-    "type": "GUN",
-    "name": { "str": "Glock 40 MOS" },
-    "description": "A full-sized, long-slide version of the highly successful Glock, chambered in hard-hitting 10mm Auto.  The extra barrel length makes for slightly even harder hitting ammo, and the extra slide length means the sights are a little easier to use.  It also features Glock's Modular Optic System, making aftermarket optics much easier to mount.",
-    "ascii_picture": "glock_40mos",
-    "weight": "915 g",
-    "volume": "528 ml",
-    "longest_side": "241 mm",
-    "price": 59200,
-    "price_postapoc": 2500,
-    "to_hit": -2,
-    "bashing": 8,
-    "material": [ "plastic", "steel" ],
-    "symbol": "(",
-    "color": "dark_gray",
-    "ammo": "10mm",
-    "ranged_damage": { "damage_type": "bullet", "amount": -4 },
-    "dispersion": 440,
-    "sight_dispersion": 440,
     "durability": 8,
     "blackpowder_tolerance": 48,
     "min_cycle_recoil": 570,
@@ -143,8 +135,16 @@
     "copy-from": "hk_mp5_semi_pistol",
     "looks_like": "hk_mp5",
     "type": "GUN",
-    "name": { "str": "BA10" },
-    "description": "The MP5/10 served the FBI briefly alongside their 10mm Auto pistols, adding to the caliber's overall mystique.  Though the guns' usage was shortlived, a handful of clones were made and sold occasionally.  This semi-automatic clone manufactured by Brethren Arms features a welded on M1913 rail and a collapsible arm brace.",
+    "name": { "str": "BA10 rifle" },
+    "description": "A semi-automatic rifle, chambered in 10mm, accepting BA10 magazines.",
+    "variants": [
+      {
+        "id": "hk_mp5_10_semi",
+        "name": { "str": "BA10" },
+        "description": "The MP5/10 served the FBI briefly alongside their 10mm Auto pistols, adding to the caliber's overall mystique.  Though the guns' usage was shortlived, a handful of clones were made and sold occasionally.  This semi-automatic clone manufactured by Brethren Arms features a welded on M1913 rail and a collapsible arm brace.",
+        "weight": 1
+      }
+    ],
     "weight": "2667 g",
     "volume": "2411 ml",
     "longest_side": "498 mm",
@@ -154,7 +154,7 @@
     "min_cycle_recoil": 675,
     "ammo": "10mm",
     "skill": "rifle",
-    "ranged_damage": { "damage_type": "bullet", "amount": -1 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "built_in_mods": [ "folding_stock" ],
     "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
     "pocket_data": [
@@ -173,8 +173,16 @@
     "copy-from": "pistol_classic",
     "looks_like": "m1911",
     "type": "GUN",
-    "name": { "str": "Colt Delta Elite" },
-    "description": "A modernized, match-grade variant of the venerable M1911 chambered in hard-hitting 10mm Auto.  Early variants were known to crack frames; modern 1911's, like this one, are slotted to prevent such crack formation.",
+    "name": { "str": "Colt Delta Elite pistol" },
+    "description": "A semi-automatic pistol chambered in 10mm.  It accepts Colt Delta Elite magazines.",
+    "variants": [
+      {
+        "id": "m1911_10",
+        "name": { "str": "Colt Delta Elite" },
+        "description": "A modernized, match-grade variant of the venerable M1911 chambered in hard-hitting 10mm Auto.  Early variants were known to crack frames; modern 1911's, like this one, are slotted to prevent such crack formation.",
+        "weight": 1
+      }
+    ],
     "weight": "1077 g",
     "volume": "413 ml",
     "longest_side": "210 mm",
@@ -186,7 +194,6 @@
     "symbol": "(",
     "color": "light_gray",
     "ammo": "10mm",
-    "ranged_damage": { "damage_type": "bullet", "amount": -5 },
     "dispersion": 480,
     "built_in_mods": [ "match_trigger" ],
     "durability": 6,
@@ -208,8 +215,16 @@
     "copy-from": "pistol_classic",
     "looks_like": "cz75",
     "type": "GUN",
-    "name": { "str": "EAA Witness 10mm" },
-    "description": "The EAA Witness is a modified variant of the CZ-75, produced in Italy by Tanfoglio.  This is the standard steel framed version chambered in 10mm Auto.",
+    "name": { "str": "EAA Witness pistol" },
+    "description": "A semi-automatic pistol chambered in 10mm, and accepting EAA Witness magazines.",
+    "variants": [
+      {
+        "id": "witness_10",
+        "name": { "str": "EAA Witness 10mm" },
+        "description": "The EAA Witness is a modified variant of the CZ-75, produced in Italy by Tanfoglio.  This is the standard steel framed version chambered in 10mm Auto.",
+        "weight": 1
+      }
+    ],
     "weight": "936 g",
     "volume": "459 ml",
     "longest_side": "203 mm",
@@ -220,7 +235,6 @@
     "material": [ "steel" ],
     "color": "dark_gray",
     "ammo": "10mm",
-    "ranged_damage": { "damage_type": "bullet", "amount": -6 },
     "dispersion": 480,
     "durability": 7,
     "min_cycle_recoil": 675,
@@ -240,8 +254,16 @@
     "copy-from": "pistol_base",
     "looks_like": "p226_357sig",
     "type": "GUN",
-    "name": { "str": "SIG P220 10mm" },
-    "description": "The Sig Sauer P220 was developed for the Swiss military in 1975, and its simplified action was later used in most other Sig Sauer designs, including the P226.  The all-steel construction adds heft to this model, which is chambered in hard-hitting 10mm Auto.",
+    "name": { "str": "SIG pistol" },
+    "description": "A semi-automatic pistol chambered in 10mmm, and accepting SIG magazines.",
+    "variants": [
+      {
+        "id": "p220_10",
+        "name": { "str": "SIG P220 10mm" },
+        "description": "The Sig Sauer P220 was developed for the Swiss military in 1975, and its simplified action was later used in most other Sig Sauer designs, including the P226.  The all-steel construction adds heft to this model, which is chambered in hard-hitting 10mm Auto.",
+        "weight": 1
+      }
+    ],
     "weight": "964 g",
     "volume": "549 ml",
     "longest_side": "224 mm",
@@ -253,7 +275,6 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": "10mm",
-    "ranged_damage": { "damage_type": "bullet", "amount": -5 },
     "dispersion": 410,
     "durability": 7,
     "min_cycle_recoil": 675,
@@ -273,8 +294,16 @@
     "copy-from": "pistol_base",
     "looks_like": "glock_19",
     "type": "GUN",
-    "name": { "str": "XD(M) Competition 10mm" },
-    "description": "Designed by HS Produkt in Croatia, the HS2000 has become a commercial success for Springfield Armory, who imports and markets it as the eXtreme Duty.  The XD has since been offered in a variety of chamberings and sizes, including this full-sized match grade variant in 10mm Auto.",
+    "name": { "str": "XD(M) pistol" },
+    "description": "A semi-automatic pistol chambered in 10mm, and accepting XD(M) magazines",
+    "variants": [
+      {
+        "id": "xd_10",
+        "name": { "str": "XD(M) Competition 10mm" },
+        "description": "Designed by HS Produkt in Croatia, the HS2000 has become a commercial success for Springfield Armory, who imports and markets it as the eXtreme Duty.  The XD has since been offered in a variety of chamberings and sizes, including this full-sized match grade variant in 10mm Auto.",
+        "weight": 1
+      }
+    ],
     "weight": "930 g",
     "volume": "549 ml",
     "longest_side": "211 mm",
@@ -286,7 +315,6 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": "10mm",
-    "ranged_damage": { "damage_type": "bullet", "amount": -5 },
     "dispersion": 480,
     "durability": 8,
     "min_cycle_recoil": 675,
@@ -306,8 +334,21 @@
     "copy-from": "TDI",
     "looks_like": "TDI",
     "type": "GUN",
-    "name": { "str": "Vector SDP 10mm" },
-    "description": "The Vector SDP is a delayed blowback \"pistol\" with a unique, downward reciprocating bolt that helps combat muzzle climb.  This one is chambered in 10mm Auto.",
+    "//": [
+      "Yes, I know it's not really a glock smg.",
+      "It takes glock magazines, and it's own special one that I am also renaming to a glock magazine",
+      "so, I'm calling it a glock smg."
+    ],
+    "name": { "str": "Glock SMG" },
+    "description": "This is a submachine gun chambered in 10mm, accepting Glock magazines.",
+    "variants": [
+      {
+        "id": "TDI_10",
+        "name": { "str": "Vector SDP 10mm" },
+        "description": "The Vector SDP is a delayed blowback \"pistol\" with a unique, downward reciprocating bolt that helps combat muzzle climb.  This one is chambered in 10mm Auto.",
+        "weight": 1
+      }
+    ],
     "weight": "2867 g",
     "volume": "4386 ml",
     "longest_side": "429 mm",
@@ -315,7 +356,6 @@
     "price_postapoc": 2300,
     "skill": "pistol",
     "ammo": "10mm",
-    "ranged_damage": { "damage_type": "bullet", "amount": -4 },
     "min_cycle_recoil": 675,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
     "pocket_data": [

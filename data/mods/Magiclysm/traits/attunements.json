@@ -100,7 +100,6 @@
       "CLEANSING_FLAME",
       "EARTH_ELEMENTAL",
       "FIRE_ELEMENTAL",
-      "FORCE_MAGE",
       "GAIAS_CHOSEN",
       "GLACIER_MAGE",
       "GOLEMANCER",
@@ -256,6 +255,7 @@
     "valid": false,
     "description": "The Crusader attunement is a clashing dichotomy of Man and Nature.  Utilizing man's propensity for tools and nature's resilience, the Crusader is a juggernaut in armed combat.",
     "prereqs": [ "DRUID", "TECHNOMANCER" ],
+    "spells_learned": [ [ "holy_shield", 5 ] ],
     "passive_mods": { "dex_mod": 5 },
     "hp_modifier": 1,
     "cancels": [
@@ -382,7 +382,6 @@
     "description": "Force = Mass x Acceleration.  This is the typical thing that people think of nowadays when the word is used, but Force Mages have a different meaning, coming from traditional roots: untyped magical damage appears to be a ghostly \"force.\"  This might be the effect of the attunement, but the cause is even more intriguing: they appear to turn Newton's Third Law on its head.  Magical scholars of the 21st century have theorized that this isn't really the case; instead of the opposite reaction happening on this plane of existence, a Force Mage uses the Aetherium's alternate Laws to rebound the force back upon itself, effectively doubling the force in the same direction instead.  However this ability comes with limitations, as the Force Mage can only do this for melee damage.",
     "prereqs": [ "MAGUS", "STORMSHAPER" ],
     "spells_learned": [ [ "force_blade", 5 ], [ "force_magical_armor", 5 ] ],
-    "speed_modifier": 1.2,
     "cancels": [
       "ARTIFICER",
       "AURA_MAGE",
@@ -411,7 +410,8 @@
       "SOULFIRE",
       "WITHER_MAGE"
     ],
-    "flags": [ "ATTUNEMENT" ]
+    "flags": [ "ATTUNEMENT" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SPEED", "multiply": 0.2 } ] } ]
   },
   {
     "id": "GAIAS_CHOSEN",
@@ -503,7 +503,7 @@
     "valid": false,
     "description": "The Golemancer is the ancient myth of the clay golem, made reality from constant use of Animist summons and Earthshaper self-strengthening spells.  Takes some traits from the golems they create, such as immunity to slowing effects.",
     "prereqs": [ "ANIMIST", "EARTHSHAPER" ],
-    "spells_learned": [ [ "golem_push", 5 ] ],
+    "spells_learned": [ [ "golem_push", 5 ], [ "summon_golem_clay", 5 ] ],
     "cancels": [
       "ARTIFICER",
       "AURA_MAGE",

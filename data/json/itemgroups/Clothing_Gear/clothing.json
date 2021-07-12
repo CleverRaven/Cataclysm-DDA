@@ -249,6 +249,18 @@
     "entries": [ { "item": "tshirt" } ]
   },
   {
+    "id": "clothing_military_headwear",
+    "type": "item_group",
+    "subtype": "distribution",
+    "//": "add in field caps when they are added to the game.",
+    "items": [
+      { "item": "beret", "prob": 60 },
+      { "item": "hat_boonie", "prob": 38 },
+      { "item": "turban", "prob": 1 },
+      { "item": "headscarf", "prob": 1 }
+    ]
+  },
+  {
     "id": "clothing_outdoor_pants",
     "type": "item_group",
     "//": "Standard (non-winter) pants suitable for wearing outdoors.",
@@ -527,8 +539,7 @@
     "//": "Various types of hazmat suits, without masks",
     "items": [
       { "collection": [ { "item": "cleansuit" }, { "item": "gloves_rubber" }, { "item": "boots_rubber" } ], "prob": 40 },
-      [ "hazmat_suit", 55 ],
-      [ "anbc_suit", 5 ]
+      [ "hazmat_suit", 60 ]
     ]
   },
   {
@@ -544,7 +555,7 @@
     "id": "boxing_clothes",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [
+    "items": [
       { "item": "tank_top", "prob": 40 },
       { "item": "shorts", "prob": 40 },
       { "item": "boxing_gloves", "prob": 50 },
@@ -2225,7 +2236,7 @@
   {
     "type": "item_group",
     "id": "hazmat_full",
-    "items": [ [ "hazmat_suit", 80 ], [ "anbc_suit", 20 ] ]
+    "items": [ [ "hazmat_suit", 100 ] ]
   },
   {
     "type": "item_group",
@@ -2258,7 +2269,6 @@
       [ "armor_plarmor", 2 ],
       [ "armor_riot", 10 ],
       [ "swat_armor", 6 ],
-      [ "aep_suit", 4 ],
       [ "armor_scrapsuit", 12 ],
       [ "armor_chitin", 2 ],
       [ "armor_lightplate", 1 ],
@@ -3015,6 +3025,7 @@
       {
         "distribution": [
           { "item": "case_violin", "prob": 5 },
+          { "item": "bookstrap", "prob": 5 },
           { "item": "quiver", "prob": 20 },
           { "item": "quiver_large", "prob": 15 },
           { "item": "solarpack", "prob": 5 },

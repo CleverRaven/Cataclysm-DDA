@@ -24,6 +24,15 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "solid_earth",
+    "name": "solid earth",
+    "sym": "#",
+    "color": "brown",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": "park",
     "name": "park",
     "sym": "O",
@@ -100,6 +109,7 @@
     "name": "island",
     "sym": "F",
     "color": "green",
+    "looks_like": "forest",
     "see_cost": 1
   },
   {
@@ -108,6 +118,7 @@
     "name": "island",
     "sym": "F",
     "color": "cyan",
+    "looks_like": "forest_water",
     "see_cost": 1
   },
   {
@@ -116,6 +127,7 @@
     "name": "island",
     "sym": ".",
     "color": "brown",
+    "looks_like": "field",
     "see_cost": 1
   },
   {
@@ -221,6 +233,34 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "lodge_ground1", "lodge_ground2" ],
+    "name": "hunting lodge",
+    "sym": "L",
+    "copy-from": "generic_forest",
+    "color": "light_green",
+    "see_cost": 4,
+    "extend": { "flags": [ "SOURCE_GUN", "SOURCE_AMMO" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "lodge_2ndfloor1", "lodge_2ndfloor2" ],
+    "name": "second floor hunting lodge",
+    "copy-from": "generic_forest",
+    "sym": "L",
+    "see_cost": 4,
+    "color": "light_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "lodge_basement_residential1", "lodge_basement_residential2", "lodge_basement_laboratory_entrance" ],
+    "name": "hunting lodge basement",
+    "copy-from": "generic_forest",
+    "sym": "L",
+    "see_cost": 4,
+    "color": "light_green"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "dirtroad1_aban1",
     "name": "forest",
     "sym": "F",
@@ -284,6 +324,25 @@
     "sym": "X",
     "color": "light_gray",
     "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "wasp_tower",
+      "wasp_tower_1",
+      "wasp_tower_roof_1",
+      "wasp_tower_odd_1",
+      "wasp_tower_odd_2",
+      "wasp_tower_even_1",
+      "wasp_tower_even_2",
+      "wasp_tower_top"
+    ],
+    "name": "radio tower",
+    "sym": "X",
+    "color": "light_gray",
+    "see_cost": 2,
+    "mondensity": 2,
+    "spawns": { "group": "GROUP_WASP_GUARD", "population": [ 3, 8 ], "chance": 100 }
   },
   {
     "type": "overmap_terrain",
@@ -580,7 +639,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "airliner_2a_1", "airliner_2c_1" ],
+    "id": [ "airliner_2a_1", "airliner_2c_1", "wasp_tower_roof" ],
     "name": "open air",
     "sym": ".",
     "color": "blue",
@@ -606,7 +665,16 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "lab_subway_vent_shaft-1", "lab_subway_vent_shaft-2", "lab_subway_vent_shaft-3", "lab_subway_vent_shaft-4" ],
+    "id": "lab_subway_vent_shaft-1",
+    "name": "ventilation shaft",
+    "sym": "#",
+    "color": "brown",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "lab_subway_vent_shaft-2", "lab_subway_vent_shaft-3", "lab_subway_vent_shaft-4" ],
     "name": "ventilation shaft",
     "sym": "%",
     "color": "dark_gray",
@@ -683,5 +751,14 @@
     "sym": "O",
     "color": "brown",
     "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "rock_border",
+    "name": "rock border",
+    "sym": "#",
+    "color": "white",
+    "flags": [ "NO_ROTATE" ],
+    "see_cost": 5
   }
 ]

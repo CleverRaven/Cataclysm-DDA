@@ -27,6 +27,7 @@
 #include "json.h"
 #include "optional.h"
 #include "output.h"
+#include "panels.h"
 #include "point.h"
 #include "popup.h"
 #include "recipe.h"
@@ -226,6 +227,9 @@ static std::vector<std::string> recipe_info(
 
     oss << string_format( _( "Batch time savings: <color_cyan>%s</color>\n" ),
                           recp.batch_savings_string() );
+
+    oss << string_format( _( "Activity level: <color_cyan>%s</color>\n" ),
+                          activity_level::activity_level_str( recp.exertion_level() ) );
 
     const int makes = recp.makes_amount();
     if( makes > 1 ) {
@@ -535,7 +539,8 @@ const recipe *select_crafting_recipe( int &batch_size_out )
 
         const int max_recipe_name_width = 27;
         cata::optional<point> cursor_pos;
-        int recmin = 0, recmax = current.size();
+        int recmin = 0;
+        int recmax = current.size();
         if( recmax > dataLines ) {
             if( line <= recmin + dataHalfLines ) {
                 for( int i = recmin; i < recmin + dataLines; ++i ) {
@@ -679,7 +684,7 @@ const recipe *select_crafting_recipe( int &batch_size_out )
                 current.clear();
                 for( int i = 1; i <= 50; i++ ) {
                     current.push_back( chosen );
-                    available.push_back( availability( chosen, i ) );
+                    available.emplace_back( chosen, i );
                 }
             } else {
                 static_popup popup;
@@ -765,6 +770,11 @@ const recipe *select_crafting_recipe( int &batch_size_out )
                                                        recipe_subset::search_type::proficiency, progress_callback );
                                     break;
 
+                                case 'l':
+                                    filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
+                                                       recipe_subset::search_type::difficulty, progress_callback );
+                                    break;
+
                                 default:
                                     current.clear();
                             }
@@ -810,8 +820,15 @@ const recipe *select_crafting_recipe( int &batch_size_out )
 
                 if( subtab.cur() != "CSC_*_RECENT" ) {
                     std::stable_sort( current.begin(), current.end(),
-                    []( const recipe * a, const recipe * b ) {
-                        return b->difficulty < a->difficulty;
+                    [&player_character]( const recipe * a, const recipe * b ) {
+                        if( b->difficulty != a->difficulty ) {
+                            return b->difficulty < a->difficulty;
+                        }
+                        if( a->result_name() != b->result_name() ) {
+                            return localized_compare( a->result_name(), b->result_name() );
+                        }
+                        return b->time_to_craft( player_character ) <
+                               a->time_to_craft( player_character );
                     } );
 
                     std::stable_sort( current.begin(), current.end(),
@@ -929,13 +946,14 @@ const recipe *select_crafting_recipe( int &batch_size_out )
                 //~ Example result description search term
                 { 'q', _( "metal sawing" ), _( "<color_cyan>quality</color> of resulting item" ) },
                 { 'd', _( "reach attack" ), _( "<color_cyan>full description</color> of resulting item (slow)" ) },
-                { 'c', _( "two by four" ), _( "<color_cyan>component</color> required to craft" ) },
+                { 'c', _( "plank" ), _( "<color_cyan>component</color> required to craft" ) },
                 { 'p', _( "tailoring" ), _( "<color_cyan>primary skill</color> used to craft" ) },
                 { 's', _( "cooking" ), _( "<color_cyan>any skill</color> used to craft" ) },
                 { 'Q', _( "fine bolt turning" ), _( "<color_cyan>quality</color> required to craft" ) },
                 { 't', _( "soldering iron" ), _( "<color_cyan>tool</color> required to craft" ) },
                 { 'm', _( "yes" ), _( "recipes which are <color_cyan>memorized</color> or not" ) },
                 { 'P', _( "Blacksmithing" ), _( "<color_cyan>proficiency</color> used to craft" ) },
+                { 'l', _( "5" ), _( "<color_cyan>difficulty</color> of the recipe as a number or range" ) },
             };
             int max_example_length = 0;
             for( const auto &prefix : prefixes ) {
@@ -947,6 +965,8 @@ const recipe *select_crafting_recipe( int &batch_size_out )
                 _( "The default is to search result names.  Some single-character prefixes "
                    "can be used with a colon <color_red>:</color> to search in other ways.  Additional filters "
                    "are separated by commas <color_red>,</color>.\n"
+                   "Filtering by difficulty can accept range; "
+                   "<color_yellow>l</color><color_white>:5~10</color> for all recipes from difficulty 5 to 10.\n"
                    "\n\n"
                    "<color_white>Examples:</color>\n" );
 
@@ -1082,7 +1102,7 @@ std::string peek_related_recipe( const recipe *current, const recipe_subset &ava
     const requirement_data &req = current->simple_requirements();
     for( const std::vector<item_comp> &comp_list : req.get_components() ) {
         for( const item_comp &a : comp_list ) {
-            related_components.push_back( { a.type, item::nname( a.type, 1 ) } );
+            related_components.emplace_back( a.type, item::nname( a.type, 1 ) );
         }
     }
     std::sort( related_components.begin(), related_components.end(), compare_second );
@@ -1095,7 +1115,7 @@ std::string peek_related_recipe( const recipe *current, const recipe_subset &ava
         get_player_character().get_learned_recipes().of_component( tid );
     for( const auto &b : known_recipes ) {
         if( available.contains( b ) ) {
-            related_results.push_back( { b->result(), b->result_name() } );
+            related_results.emplace_back( b->result(), b->result_name() );
         }
     }
     std::stable_sort( related_results.begin(), related_results.end(), compare_second );

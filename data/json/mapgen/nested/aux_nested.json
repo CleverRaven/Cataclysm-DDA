@@ -8,109 +8,11 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "destroyed_rack",
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "place_furniture": [ { "furn": "f_null", "x": 0, "y": 0 } ],
-      "place_item": [
-        { "item": "scrap", "x": 0, "y": 0, "repeat": [ 2, 8 ], "chance": 100 },
-        { "item": "steel_chunk", "x": 0, "y": 0, "repeat": [ 2, 4 ], "chance": 100 },
-        { "item": "sheet_metal_small", "x": 0, "y": 0, "repeat": [ 6, 10 ], "chance": 100 },
-        { "item": "pipe", "x": 0, "y": 0, "chance": 100 }
-      ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "destroyed_glass_fridge",
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "place_furniture": [ { "furn": "f_null", "x": 0, "y": 0 } ],
-      "place_item": [
-        { "item": "sheet_metal", "x": 0, "y": 0, "repeat": [ 1, 3 ], "chance": 100 },
-        { "item": "sheet_metal_small", "x": 0, "y": 0, "repeat": [ 6, 9 ], "chance": 100 },
-        { "item": "steel_chunk", "x": 0, "y": 0, "repeat": [ 0, 3 ], "chance": 100 },
-        { "item": "scrap", "x": 0, "y": 0, "repeat": [ 2, 8 ], "chance": 100 },
-        { "item": "pipe_fittings", "x": 0, "y": 0, "repeat": [ 1, 3 ], "chance": 100 },
-        { "item": "cable", "x": 0, "y": 0, "repeat": [ 1, 3 ], "chance": 100 },
-        { "item": "hose", "x": 0, "y": 0, "chance": 100 },
-        { "item": "cu_pipe", "x": 0, "y": 0, "repeat": [ 1, 4 ], "chance": 100 },
-        { "item": "scrap_copper", "x": 0, "y": 0, "repeat": [ 0, 2 ], "chance": 100 },
-        { "item": "glass_shard", "x": 0, "y": 0, "repeat": [ 25, 50 ], "chance": 100 },
-        { "item": "motor_tiny", "x": 0, "y": 0, "chance": 25 }
-      ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "destroyed_table",
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "place_furniture": [ { "furn": "f_null", "x": 0, "y": 0 } ],
-      "place_item": [
-        { "item": "2x4", "x": 0, "y": 0, "repeat": [ 2, 4 ], "chance": 100 },
-        { "item": "wood_panel", "x": 0, "y": 0, "repeat": [ 0, 1 ], "chance": 100 },
-        { "item": "nail", "x": 0, "y": 0, "repeat": [ 4, 8 ], "chance": 100 },
-        { "item": "splinter", "x": 0, "y": 0, "chance": 100 }
-      ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "destroyed_bookcase",
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "place_furniture": [ { "furn": "f_null", "x": 0, "y": 0 } ],
-      "place_item": [
-        { "item": "2x4", "x": 0, "y": 0, "repeat": [ 2, 6 ], "chance": 100 },
-        { "item": "nail", "x": 0, "y": 0, "repeat": [ 4, 12 ], "chance": 100 },
-        { "item": "splinter", "x": 0, "y": 0, "chance": 100 }
-      ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "destroyed_glass_door_wall",
     "object": {
       "mapgensize": [ 1, 1 ],
       "place_ter_furn_transforms": [ { "transform": "glass_door_wall_2_floor", "x": 0, "y": 0 } ],
       "place_item": [ { "item": "glass_shard", "x": 0, "y": 0, "repeat": [ 42, 84 ], "chance": 100 } ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "destroyed_glass_door_fridge",
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "place_furniture": [ { "furn": "f_null", "x": 0, "y": 0 } ],
-      "place_item": [
-        { "item": "sheet_metal", "x": 0, "y": 0, "repeat": [ 1, 3 ], "chance": 100 },
-        { "item": "sheet_metal_small", "x": 0, "y": 0, "repeat": [ 6, 9 ], "chance": 100 },
-        { "item": "steel_chunk", "x": 0, "y": 0, "repeat": [ 0, 3 ], "chance": 100 },
-        { "item": "scrap", "x": 0, "y": 0, "repeat": [ 2, 8 ], "chance": 100 },
-        { "item": "pipe_fittings", "x": 0, "y": 0, "repeat": [ 1, 3 ], "chance": 100 },
-        { "item": "cable", "x": 0, "y": 0, "repeat": [ 1, 3 ], "chance": 100 },
-        { "item": "hose", "x": 0, "y": 0, "chance": 100 },
-        { "item": "cu_pipe", "x": 0, "y": 0, "repeat": [ 1, 4 ], "chance": 100 },
-        { "item": "scrap_copper", "x": 0, "y": 0, "repeat": [ 0, 2 ], "chance": 100 },
-        { "item": "glass_shard", "x": 0, "y": 0, "repeat": [ 25, 50 ], "chance": 100 },
-        { "item": "motor_tiny", "x": 0, "y": 0, "chance": 25 }
-      ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "destroyed_mannequin",
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "place_furniture": [ { "furn": "f_null", "x": 0, "y": 0 } ],
-      "place_item": [ { "item": "splinter", "repeat": [ 9, 12 ], "x": 0, "y": 0, "chance": 100 } ]
     }
   },
   {
@@ -144,16 +46,8 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "destroyed_chair",
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "place_furniture": [ { "furn": "f_null", "x": 0, "y": 0 } ],
-      "place_item": [
-        { "item": "2x4", "x": 0, "y": 0, "chance": 100 },
-        { "item": "nail", "x": 0, "y": 0, "repeat": [ 1, 5 ], "chance": 100 },
-        { "item": "splinter", "x": 0, "y": 0, "repeat": 3, "chance": 100 }
-      ]
-    }
+    "nested_mapgen_id": "destroyed_furniture",
+    "object": { "mapgensize": [ 1, 1 ], "place_rubble": [ { "x": 0, "y": 0, "rubble_type": "f_null", "items": true } ] }
   },
   {
     "type": "mapgen",

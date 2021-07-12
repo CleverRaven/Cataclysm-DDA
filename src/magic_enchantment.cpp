@@ -41,6 +41,7 @@ namespace io
         case enchantment::condition::UNDERGROUND: return "UNDERGROUND";
         case enchantment::condition::UNDERWATER: return "UNDERWATER";
         case enchantment::condition::ACTIVE: return "ACTIVE";
+        case enchantment::condition::INACTIVE: return "INACTIVE";
         case enchantment::condition::NUM_CONDITION: break;
         }
         debugmsg( "Invalid enchantment::condition" );
@@ -67,6 +68,7 @@ namespace io
             case enchant_vals::mod::REGEN_STAMINA: return "REGEN_STAMINA";
             case enchant_vals::mod::MAX_HP: return "MAX_HP";
             case enchant_vals::mod::REGEN_HP: return "REGEN_HP";
+            case enchant_vals::mod::HUNGER: return "HUNGER";
             case enchant_vals::mod::THIRST: return "THIRST";
             case enchant_vals::mod::FATIGUE: return "FATIGUE";
             case enchant_vals::mod::PAIN: return "PAIN";
@@ -78,9 +80,19 @@ namespace io
             case enchant_vals::mod::FOOTSTEP_NOISE: return "FOOTSTEP_NOISE";
             case enchant_vals::mod::SIGHT_RANGE: return "SIGHT_RANGE";
             case enchant_vals::mod::CARRY_WEIGHT: return "CARRY_WEIGHT";
+            case enchant_vals::mod::WEAPON_DISPERSION: return "WEAPON_DISPERSION";
             case enchant_vals::mod::SOCIAL_LIE: return "SOCIAL_LIE";
             case enchant_vals::mod::SOCIAL_PERSUADE: return "SOCIAL_PERSUADE";
             case enchant_vals::mod::SOCIAL_INTIMIDATE: return "SOCIAL_INTIMIDATE";
+            case enchant_vals::mod::SLEEPY: return "SLEEPY";
+            case enchant_vals::mod::LUMINATION: return "LUMINATION";
+            case enchant_vals::mod::EFFECTIVE_HEALTH_MOD: return "EFFECTIVE_HEALTH_MOD";
+            case enchant_vals::mod::MOD_HEALTH: return "MOD_HEALTH";
+            case enchant_vals::mod::MOD_HEALTH_CAP: return "MOD_HEALTH_CAP";
+            case enchant_vals::mod::MAP_MEMORY: return "MAP_MEMORY";
+            case enchant_vals::mod::READING_EXP: return "READING_EXP";
+            case enchant_vals::mod::SKILL_RUST_RESIST: return "SKILL_RUST_RESIST";
+            case enchant_vals::mod::LEARNING_FOCUS: return "LEARNING_FOCUS";
             case enchant_vals::mod::ARMOR_ACID: return "ARMOR_ACID";
             case enchant_vals::mod::ARMOR_BASH: return "ARMOR_BASH";
             case enchant_vals::mod::ARMOR_BIO: return "ARMOR_BIO";
@@ -146,6 +158,34 @@ void enchantment::load_enchantment( const JsonObject &jo, const std::string &src
     spell_factory.load( jo, src );
 }
 
+void enchantment::reset()
+{
+    spell_factory.reset();
+}
+
+enchantment_id enchantment::load_inline_enchantment( const JsonValue &jv, const std::string &src,
+        std::string &inline_id )
+{
+    if( jv.test_string() ) {
+        return enchantment_id( jv.get_string() );
+    } else if( jv.test_object() ) {
+        if( inline_id.empty() ) {
+            jv.throw_error( "Inline enchantment cannot be created without an id." );
+        }
+        if( spell_factory.is_valid( enchantment_id( inline_id ) ) ) {
+            jv.throw_error( "Inline enchantment " + inline_id +
+                            " cannot be created as an enchantment already has this id." );
+        }
+
+        enchantment inline_enchant;
+        inline_enchant.load( jv.get_object(), src, inline_id );
+        spell_factory.insert( inline_enchant );
+        return enchantment_id( inline_id );
+    } else {
+        jv.throw_error( "Enchantment needs to be either string or enchantment object." );
+    }
+}
+
 bool enchantment::is_active( const Character &guy, const item &parent ) const
 {
     if( !guy.has_item( parent ) ) {
@@ -172,6 +212,10 @@ bool enchantment::is_active( const Character &guy, const bool active ) const
         return active;
     }
 
+    if( active_conditions.second == condition::INACTIVE ) {
+        return !active;
+    }
+
     if( active_conditions.second == condition::ALWAYS ) {
         return true;
     }
@@ -196,9 +240,10 @@ void enchantment::add_activation( const time_duration &dur, const fake_spell &fa
     intermittent_activation[dur].emplace_back( fake );
 }
 
-void enchantment::load( const JsonObject &jo, const std::string & )
+void enchantment::load( const JsonObject &jo, const std::string &,
+                        const cata::optional<std::string> &inline_id )
 {
-    optional( jo, was_loaded, "id", id, enchantment_id( "" ) );
+    optional( jo, was_loaded, "id", id, enchantment_id( inline_id.value_or( "" ) ) );
 
     jo.read( "hit_you_effect", hit_you_effect );
     jo.read( "hit_me_effect", hit_me_effect );
@@ -278,11 +323,28 @@ void enchantment::serialize( JsonOut &jsout ) const
     if( !intermittent_activation.empty() ) {
         jsout.member( "intermittent_activation" );
         jsout.start_object();
+        jsout.member( "effects" );
+        jsout.start_array();
         for( const std::pair<time_duration, std::vector<fake_spell>> pair : intermittent_activation ) {
-            jsout.member( "frequency", pair.first );
+            jsout.start_object();
+            jsout.member( "frequency", to_string_writable( pair.first ) );
             jsout.member( "spell_effects", pair.second );
+            jsout.end_object();
         }
+        jsout.end_array();
         jsout.end_object();
+    }
+
+    if( !ench_effects.empty() ) {
+        jsout.member( "ench_effects" );
+        jsout.start_array();
+        for( const std::pair<const efftype_id, int> &eff : ench_effects ) {
+            jsout.start_object();
+            jsout.member( "effect", eff.first );
+            jsout.member( "intensity", eff.second );
+            jsout.end_object();
+        }
+        jsout.end_array();
     }
 
     jsout.member( "mutations", mutations );
@@ -440,9 +502,6 @@ void enchantment::activate_passive( Character &guy ) const
 
     guy.mod_int_bonus( get_value_add( enchant_vals::mod::INTELLIGENCE ) );
     guy.mod_int_bonus( mult_bonus( enchant_vals::mod::INTELLIGENCE, guy.get_int_base() ) );
-
-    guy.mod_speed_bonus( get_value_add( enchant_vals::mod::SPEED ) );
-    guy.mod_speed_bonus( mult_bonus( enchant_vals::mod::SPEED, guy.get_speed_base() ) );
 
     guy.mod_num_dodges_bonus( get_value_add( enchant_vals::mod::BONUS_DODGE ) );
     guy.mod_num_dodges_bonus( mult_bonus( enchant_vals::mod::BONUS_DODGE, guy.get_num_dodges_base() ) );

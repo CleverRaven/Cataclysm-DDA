@@ -13,12 +13,10 @@
     "symbol": "[",
     "color": "light_gray",
     "armor_data": {
-      "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
-      "coverage": 100,
-      "encumbrance": 0,
       "warmth": 20,
       "material_thickness": 4,
-      "environmental_protection": 10
+      "environmental_protection": 10,
+      "armor": [ { "encumbrance": 0, "coverage": 100, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ]
     },
     "qualities": [ [ "HAMMER", 1 ] ],
     "flags": [ "VARSIZE", "STURDY", "UNARMED_WEAPON", "DURABLE_MELEE", "NONCONDUCTIVE", "MAGIC_FOCUS" ],
@@ -51,15 +49,13 @@
     "material": [ "superalloy" ],
     "symbol": "[",
     "color": "light_gray",
-    "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
-    "coverage": 100,
-    "encumbrance": 0,
     "warmth": 20,
     "material_thickness": 4,
     "environmental_protection": 10,
     "qualities": [ [ "HAMMER", 1 ] ],
     "flags": [ "VARSIZE", "STURDY", "UNARMED_WEAPON", "DURABLE_MELEE", "NONCONDUCTIVE", "MAGIC_FOCUS" ],
-    "techniques": [ "WBLOCK_3" ]
+    "techniques": [ "WBLOCK_3" ],
+    "armor": [ { "encumbrance": 0, "coverage": 100, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ]
   },
   {
     "id": "magic_lamp",
@@ -74,8 +70,8 @@
     "bashing": 8,
     "symbol": ",",
     "color": "light_green",
-    "covers": [ "head" ],
-    "flags": [ "LIGHT_300", "AURA", "SEMITANGIBLE" ]
+    "flags": [ "LIGHT_300", "AURA", "SEMITANGIBLE" ],
+    "armor": [ { "covers": [ "head" ] } ]
   },
   {
     "id": "magic_light",
@@ -88,8 +84,8 @@
     "price": 0,
     "symbol": ",",
     "color": "light_green",
-    "covers": [ "head" ],
-    "flags": [ "LIGHT_8", "AURA", "SEMITANGIBLE" ]
+    "flags": [ "LIGHT_8", "AURA", "SEMITANGIBLE" ],
+    "armor": [ { "covers": [ "head" ] } ]
   },
   {
     "id": "shield_ice",
@@ -105,13 +101,11 @@
     "material": [ "steel" ],
     "symbol": "[",
     "color": "light_gray",
-    "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
     "sided": true,
-    "coverage": 70,
-    "encumbrance": 15,
     "material_thickness": 3,
     "techniques": [ "WBLOCK_3" ],
-    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN" ]
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN" ],
+    "armor": [ { "encumbrance": 15, "coverage": 70, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ]
   },
   {
     "id": "ice_gliders",
@@ -126,14 +120,12 @@
     "material": [ "steel" ],
     "symbol": "[",
     "color": "brown",
-    "covers": [ "foot_l", "foot_r" ],
-    "coverage": 100,
-    "encumbrance": 0,
     "warmth": 30,
     "material_thickness": 3,
     "environmental_protection": 2,
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MOVE_COST", "add": -5 } ] } ] },
-    "flags": [ "WATERPROOF", "ROLLER_QUAD", "BELTED" ]
+    "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "ROLLER_QUAD", "BELTED" ],
+    "armor": [ { "encumbrance": 0, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ]
   },
   {
     "type": "GENERIC",
@@ -276,13 +268,10 @@
     "material": [ "flesh" ],
     "symbol": "[",
     "color": "green",
-    "covers": [ "torso" ],
-    "coverage": 40,
-    "encumbrance": 5,
-    "max_encumbrance": 10,
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "25 L", "max_contains_weight": "75 kg", "moves": 60 } ],
     "material_thickness": 3,
-    "flags": [ "BELTED", "TRADER_AVOID", "WATERPROOF", "STURDY", "NO_UNWIELD", "ONLY_ONE", "NO_REPAIR", "NO_SALVAGE" ]
+    "flags": [ "BELTED", "TRADER_AVOID", "WATERPROOF", "STURDY", "NO_UNWIELD", "ONLY_ONE", "NO_REPAIR", "NO_SALVAGE" ],
+    "armor": [ { "encumbrance": [ 5, 10 ], "coverage": 40, "covers": [ "torso" ] } ]
   },
   {
     "id": "bonespear",
@@ -379,6 +368,24 @@
     "use_action": [ "WATER_PURIFIER" ]
   },
   {
+    "type": "COMESTIBLE",
+    "id": "druid_fertilizer",
+    "name": { "str": "seed of growth", "str_pl": "seeds of growth" },
+    "weight": "27 g",
+    "color": "white",
+    "flags": [ "TRADER_AVOID", "FERTILIZER" ],
+    "comestible_type": "FOOD",
+    "symbol": "°",
+    "quench": -10,
+    "healthy": -2,
+    "description": "A magical powder that can be scattered on growing crops and make them grow faster.",
+    "material": [ "powder" ],
+    "volume": "2 L",
+    "charges": 60,
+    "category": "chems",
+    "fun": -15
+  },
+  {
     "id": "obfuscating_aura",
     "type": "ARMOR",
     "name": "obfuscating aura",
@@ -388,9 +395,13 @@
     "price": 3646,
     "symbol": "o",
     "color": "white",
-    "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ],
     "flags": [ "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "BONUS_DODGE", "add": 2 } ] } ] }
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "BONUS_DODGE", "add": 2 } ] } ] },
+    "armor": [
+      {
+        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
+      }
+    ]
   },
   {
     "id": "acid_res_aura",
@@ -402,11 +413,15 @@
     "price": 3646,
     "symbol": "o",
     "color": "green",
-    "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ],
     "flags": [ "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
     "relic_data": {
       "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ARMOR_ACID", "multiply": -0.25 } ] } ]
-    }
+    },
+    "armor": [
+      {
+        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
+      }
+    ]
   },
   {
     "id": "acid_res_aura_greater",
@@ -418,11 +433,15 @@
     "price": 3646,
     "symbol": "o",
     "color": "green",
-    "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ],
     "flags": [ "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
     "relic_data": {
       "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ARMOR_ACID", "multiply": -0.6 } ] } ]
-    }
+    },
+    "armor": [
+      {
+        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
+      }
+    ]
   },
   {
     "id": "armor_frost",
@@ -435,13 +454,17 @@
     "material": [ "steel" ],
     "symbol": "[",
     "color": "light_gray",
-    "covers": [ "head", "mouth", "eyes", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
-    "coverage": 100,
-    "encumbrance": 10,
     "warmth": 0,
     "material_thickness": 2,
     "environmental_protection": 2,
-    "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "STURDY" ]
+    "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "STURDY" ],
+    "armor": [
+      {
+        "encumbrance": 10,
+        "coverage": 100,
+        "covers": [ "head", "mouth", "eyes", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ]
   },
   {
     "id": "aura_stoneskin",
@@ -454,13 +477,17 @@
     "material": [ "stone" ],
     "symbol": "[",
     "color": "light_gray",
-    "covers": [ "head", "mouth", "eyes", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
-    "coverage": 100,
-    "encumbrance": 20,
     "warmth": 5,
     "material_thickness": 2,
     "environmental_protection": 2,
-    "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "STURDY" ]
+    "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "STURDY" ],
+    "armor": [
+      {
+        "encumbrance": 20,
+        "coverage": 100,
+        "covers": [ "head", "mouth", "eyes", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ]
   },
   {
     "id": "burn_scar",
@@ -484,10 +511,9 @@
     "volume": "1 ml",
     "symbol": "~",
     "color": "light_red",
-    "covers": [ "eyes", "mouth" ],
-    "encumbrance": 18,
     "relic_data": { "passive_effects": [ { "id": "ench_overcharge_burn_scar" } ] },
-    "flags": [ "NO_TAKEOFF", "TRADER_AVOID", "BLIND" ]
+    "flags": [ "NO_TAKEOFF", "TRADER_AVOID", "BLIND" ],
+    "armor": [ { "encumbrance": 18, "covers": [ "eyes", "mouth" ] } ]
   },
   {
     "id": "protect_env",
@@ -499,8 +525,12 @@
     "symbol": "o",
     "color": "blue",
     "environmental_protection": 15,
-    "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ],
-    "flags": [ "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ]
+    "flags": [ "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
+    "armor": [
+      {
+        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
+      }
+    ]
   },
   {
     "id": "thorns_electric",
@@ -619,8 +649,7 @@
       "TRADER_AVOID",
       "NO_UNLOAD",
       "NO_REPAIR",
-      "WATERPROOF_GUN",
-      "NEVER_JAMS"
+      "WATERPROOF_GUN"
     ],
     "ammo_effects": [ "NEVER_MISFIRES" ],
     "weight": "86 g",
@@ -710,11 +739,8 @@
     "weight": "1 g",
     "volume": "1 ml",
     "material": [ "steel" ],
-    "covers": [ "head", "mouth", "eyes", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
     "symbol": "o",
     "color": "green",
-    "coverage": 100,
-    "encumbrance": 0,
     "warmth": 0,
     "material_thickness": 2,
     "environmental_protection": 2,
@@ -727,7 +753,14 @@
           "hit_me_effect": [ { "id": "dragon_shell_retaliation_black", "hit_self": false } ]
         }
       ]
-    }
+    },
+    "armor": [
+      {
+        "encumbrance": 0,
+        "coverage": 100,
+        "covers": [ "head", "mouth", "eyes", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ]
   },
   {
     "id": "subzero_talons",
@@ -756,6 +789,58 @@
     "techniques": [ "WBLOCK_2", "RAPID" ],
     "relic_data": {
       "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_COLD", "add": 6 } ] } ]
+    }
+  },
+  {
+    "id": "armor_spirit",
+    "type": "ARMOR",
+    "category": "armor",
+    "copy-from": "armor_lightplate",
+    "name": { "str_sp": "spiritual armor" },
+    "description": "A summoned medieval armor.  It glows softly and looks sturdy.",
+    "material": [ "superalloy" ],
+    "//": "I added a helmet to the summon",
+    "warmth": 0,
+    "material_thickness": 4,
+    "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "VARSIZE", "STURDY", "NO_REPAIR", "NO_SALVAGE", "LIGHT_2", "TRADER_AVOID" ],
+    "armor": [
+      {
+        "encumbrance": 5,
+        "coverage": 100,
+        "covers": [ "head", "mouth", "eyes", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ]
+  },
+  {
+    "id": "jar_3l_force",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "jar of force", "str_pl": "jars of force" },
+    "looks_like": "jar_glass_sealed",
+    "description": "A three-liter container made out of transparent force.  Can be used to store liquids.",
+    "weight": "1 g",
+    "volume": "3050 ml",
+    "longest_side": "298 mm",
+    "price": 0,
+    "price_postapoc": 0,
+    "to_hit": -1,
+    "bashing": 1,
+    "material": [  ],
+    "symbol": ")",
+    "color": "light_cyan",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "6 kg"
+      }
+    ],
+    "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS", "TRADER_AVOID" ],
+    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 1 ] ],
+    "relic_data": {
+      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_PURE", "add": 3 } ] } ]
     }
   },
   {

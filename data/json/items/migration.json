@@ -1136,7 +1136,7 @@
   {
     "id": [ "l_base_223", "l_car_223", "l_car_223_kit", "l_mbr_223", "l_mbr_223_kit" ],
     "type": "MIGRATION",
-    "replace": "h&k416a5"
+    "replace": "nato_assault_rifle"
   },
   {
     "id": [ "l_lmg_223", "l_lmg_223_kit" ],
@@ -1146,7 +1146,91 @@
   {
     "id": [ "l_dsr_223", "l_dsr_223_kit" ],
     "type": "MIGRATION",
-    "replace": "m16a4"
+    "replace": "nato_assault_rifle"
+  },
+  {
+    "id": "browning_a5",
+    "type": "MIGRATION",
+    "replace": "remington_870",
+    "variant": "browning_a5"
+  },
+  {
+    "id": "remington_1100",
+    "type": "MIGRATION",
+    "replace": "remington_870",
+    "variant": "remington_1100"
+  },
+  {
+    "id": "mossberg_500_security",
+    "type": "MIGRATION",
+    "replace": "mossberg_500",
+    "variant": "mossberg_500_security"
+  },
+  {
+    "id": "m1014",
+    "type": "MIGRATION",
+    "replace": "mossberg_930",
+    "variant": "m1014"
+  },
+  {
+    "id": "SPAS_12",
+    "type": "MIGRATION",
+    "replace": "mossberg_590",
+    "variant": "SPAS_12"
+  },
+  {
+    "id": "acr",
+    "type": "MIGRATION",
+    "replace": "nato_assault_rifle",
+    "variant": "acr"
+  },
+  {
+    "id": "h&k416a5",
+    "type": "MIGRATION",
+    "replace": "nato_assault_rifle",
+    "variant": "h&k416a5"
+  },
+  {
+    "id": "m27iar",
+    "type": "MIGRATION",
+    "replace": "nato_assault_rifle",
+    "variant": "m27iar"
+  },
+  {
+    "id": "m4a1",
+    "type": "MIGRATION",
+    "replace": "nato_assault_rifle",
+    "variant": "m4a1"
+  },
+  {
+    "id": "m16a3",
+    "type": "MIGRATION",
+    "replace": "nato_assault_rifle",
+    "variant": "m16a3"
+  },
+  {
+    "id": "scar_l",
+    "type": "MIGRATION",
+    "replace": "nato_assault_rifle",
+    "variant": "scar_l"
+  },
+  {
+    "id": "m38dmr",
+    "type": "MIGRATION",
+    "replace": "nato_assault_rifle",
+    "variant": "m38dmr"
+  },
+  {
+    "id": "m4_cqbr",
+    "type": "MIGRATION",
+    "replace": "nato_assault_rifle",
+    "variant": "m4_cqbr"
+  },
+  {
+    "id": "glock_40",
+    "type": "MIGRATION",
+    "replace": "glock_20",
+    "variant": "glock_40"
   },
   {
     "id": "lw223bigmag",
@@ -1162,6 +1246,18 @@
     "id": "lw12mag",
     "type": "MIGRATION",
     "replace": "m1911mag"
+  },
+  {
+    "id": "m1911_MEU",
+    "type": "MIGRATION",
+    "replace": "m1911",
+    "variant": "m1911_MEU"
+  },
+  {
+    "id": "mk23",
+    "type": "MIGRATION",
+    "replace": "usp_45",
+    "variant": "mk23"
   },
   {
     "id": "solar_panel_v3",
@@ -1319,5 +1415,10 @@
     "type": "MIGRATION",
     "replace": "towel",
     "flags": [ "FILTHY" ]
+  },
+  {
+    "id": "gloves_xlsurvivor",
+    "type": "MIGRATION",
+    "replace": "xl_gloves_survivor"
   }
 ]

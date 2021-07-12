@@ -31,7 +31,7 @@
     "path_settings": { "avoid_traps": true, "avoid_sharp": true },
     "special_attacks": [ { "type": "spell", "spell_data": { "id": "manatouched_seeker_bolts", "min_level": 5 }, "cooldown": 60 } ],
     "anger_triggers": [ "FRIEND_ATTACKED", "HURT" ],
-    "death_function": [ "BROKEN" ],
+    "death_function": { "corpse_type": "BROKEN" },
     "flags": [ "SEES", "NO_BREATHE", "PATH_AVOID_DANGER_1", "LOUDMOVES" ]
   },
   {
@@ -95,7 +95,6 @@
     "armor_fire": 50,
     "harvest": "demihuman_large_fur",
     "special_attacks": [ { "type": "spell", "spell_data": { "id": "demon_breath_fire", "min_level": 7 }, "cooldown": 10 }, [ "scratch", 15 ] ],
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "BASHES", "ANIMAL", "PATH_AVOID_DANGER_1", "NO_BREATHE" ]
   },
   {
@@ -127,13 +126,12 @@
     "harvest": "demihuman",
     "path_settings": { "avoid_traps": true, "avoid_sharp": true },
     "death_drops": { "subtype": "collection", "groups": [ [ "forge_life", 40 ], [ "bedroom", 1 ], [ "dresser", 5 ], [ "ammo", 18 ] ] },
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "PATH_AVOID_DANGER_1" ]
   },
   {
     "id": "mon_forgehounds",
     "type": "MONSTER",
-    "name": { "str": "forge hounds" },
+    "name": { "str_sp": "forge hounds" },
     "description": "A metallic hound steps out of a nearby angle and growls at you.  Run!!!",
     "default_faction": "wonder_forge",
     "copy-from": "mon_hound_tindalos"

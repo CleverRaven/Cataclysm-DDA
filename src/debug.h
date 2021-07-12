@@ -3,6 +3,7 @@
 #define CATA_SRC_DEBUG_H
 
 #include "string_formatter.h"
+#include <list>
 
 /**
  *      debugmsg(msg, ...)
@@ -161,6 +162,8 @@ enum DebugClass {
     D_NPC     = 1 << 5,
     /** SDL & tiles & anything graphical */
     D_SDL     = 1 << 6,
+    /** Related to tile memory (map_memory.cpp) */
+    D_MMAP    = 1 << 7,
 
     DC_ALL    = ( 1 << 30 ) - 1
 };
@@ -220,6 +223,47 @@ std::ostream &DebugLog( DebugLevel, DebugClass );
  * and other windows might have verbose display (e.g. vehicle window).
  */
 extern bool debug_mode;
+
+namespace debugmode
+{
+// Please try to keep this alphabetically sorted
+enum debug_filter : int {
+    DF_ACT_BUTCHER = 0, // butcher activity handler
+    DF_ACT_LOCKPICK, // lockpicking activity actor
+    DF_ACT_SHEARING, // shearing activity actor
+    DF_ACT_WORKOUT, // workout activity actor
+    DF_ANATOMY_BP, // anatomy::select_body_part()
+    DF_AVATAR, // avatar generic
+    DF_BALLISTIC, // ballistic generic
+    DF_CHARACTER, // character generic
+    DF_CHAR_CALORIES, // character stomach and calories
+    DF_CHAR_HEALTH, // character health related
+    DF_CREATURE, // creature generic
+    DF_EFFECT, // effects generic
+    DF_EXPLOSION, // explosion generic
+    DF_FOOD, // food generic
+    DF_GAME, // game generic
+    DF_IEXAMINE, // iexamine generic
+    DF_IUSE, // iuse generic
+    DF_MAP, // map generic
+    DF_MATTACK, // monster attack generic
+    DF_MELEE, // melee generic
+    DF_MONSTER, // monster generic
+    DF_NPC, // npc generic
+    DF_OVERMAP, // overmap generic
+    DF_RANGED, // ranged generic
+    DF_REQUIREMENTS_MAP, // activity_item_handler requirements_map()
+    DF_SOUND, // sound generic
+    DF_TALKER, // talker generic
+    DF_VEHICLE, // vehicle generic
+    DF_VEHICLE_DRAG, // vehicle coeff_air_drag()
+    DF_VEHICLE_MOVE, // vehicle move generic
+    DF_LAST // This is always the last entry
+};
+
+extern std::list<debug_filter> enabled_filters;
+std::string filter_name( debug_filter value );
+} // namespace debugmode
 
 #if defined(BACKTRACE)
 /**

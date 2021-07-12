@@ -3,7 +3,7 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "holster_supp_MEU",
-    "entries": [ { "item": "m1911_MEU", "ammo-item": "45_acp", "charges": 7, "contents-item": [ "suppressor" ] } ]
+    "entries": [ { "item": "m1911", "variant": "m1911_MEU", "ammo-item": "45_acp", "charges": 7, "contents-item": [ "suppressor" ] } ]
   },
   {
     "type": "item_group",
