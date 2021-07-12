@@ -101,11 +101,7 @@
 #include "weighted_list.h"
 
 static const itype_id itype_battery( "battery" );
-static const itype_id itype_glass_shard( "glass_shard" );
 static const itype_id itype_nail( "nail" );
-static const itype_id itype_sheet( "sheet" );
-static const itype_id itype_stick( "stick" );
-static const itype_id itype_string_36( "string_36" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
 
