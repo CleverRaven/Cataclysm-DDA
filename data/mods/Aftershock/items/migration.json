@@ -2,6 +2,7 @@
   {
     "id": "adv_UPS_off",
     "type": "MIGRATION",
-    "replace": "adv_UPS_off"
+    "replace": "adv_UPS_off",
+    "//": "Overrides migration from CDDA."
   }
 ]
