@@ -114,7 +114,7 @@ You will receive warnings about unterminated character constants; they do not im
 pacman -S --needed base-devel mingw-w64-x86_64-toolchain
 ```
 
-You'll see a repository. The number associated with gdb depends on wich packages you already have installed.
+You'll see a repository. The number associated with gdb depends on which packages you already have installed.
 Enter the number corresponding to gdb. (if gdb is already installed, it won't appear on the list.)
 
 ```bash
