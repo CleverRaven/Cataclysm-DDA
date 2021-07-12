@@ -1417,7 +1417,7 @@ void npc::evaluate_best_weapon( const Creature *target )
 
     // punching things is always available
     compare( std::make_shared<npc_attack_melee>( null_item_reference() ) );
-    const int ups_charges = charges_of( itype_UPS );
+    const int ups_charges = available_ups();
     visit_items( [&compare, &ups_charges, this]( item * it, item * ) {
         // you can theoretically melee with anything.
         compare( std::make_shared<npc_attack_melee>( *it ) );
@@ -1436,31 +1436,8 @@ void npc::evaluate_best_weapon( const Creature *target )
                 }
             }
         }
-<<<<<<< HEAD
         return VisitResponse::NEXT;
     } );
-=======
-    }
-
-    if( dist == 1 && same_z ) {
-        add_msg_debug( debugmode::DF_NPC, "%s is trying a melee attack", disp_name() );
-        return npc_melee;
-    }
-
-    // don't mess with CBM weapons
-    if( cbm_weapon_index < 0 ) {
-        // TODO: Add a time check now that wielding takes a lot of time
-        if( wield_better_weapon() ) {
-            add_msg_debug( debugmode::DF_NPC, "%s is changing weapons", disp_name() );
-            return npc_noop;
-        }
-
-        if( !weapon.ammo_sufficient( this ) && can_reload_current() ) {
-            add_msg_debug( debugmode::DF_NPC, "%s is reloading", disp_name() );
-            return npc_reload;
-        }
-    }
->>>>>>> 18ee21eab5 (mandatory carrier for ammo_sufficient)
 
     ai_cache.current_attack = best_attack;
     ai_cache.current_attack_evaluation = best_evaluated_attack;
