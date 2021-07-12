@@ -281,6 +281,22 @@
     "flags": [ "DURABLE_MELEE" ]
   },
   {
+    "id": "drift",
+    "type": "TOOL",
+    "name": { "str": "drift" },
+    "description": "This is a hardened spike like object for metalsmithing.  This is used to make holes in metal in some metalworking fabrication recipes.",
+    "weight": "1200 g",
+    "volume": "750 ml",
+    "price": 2400,
+    "price_postapoc": 40,
+    "to_hit": 1,
+    "bashing": 10,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "flags": [ "DURABLE_MELEE" ]
+  },
+  {
     "id": "tongs",
     "type": "TOOL",
     "name": { "str": "pair of metal tongs", "str_pl": "pairs of metal tongs" },
