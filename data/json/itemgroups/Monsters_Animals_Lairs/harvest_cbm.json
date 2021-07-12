@@ -117,8 +117,7 @@
       [ "bio_recycler", 20 ],
       [ "bio_tools", 30 ],
       [ "bio_taste_blocker", 50 ],
-      [ "bio_water_extractor", 40 ],
-      [ "bio_surgical_razor", 2 ]
+      [ "bio_water_extractor", 40 ]
     ]
   },
   {
