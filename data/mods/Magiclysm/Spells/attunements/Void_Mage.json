@@ -213,7 +213,7 @@
     "id": "horizon_vortex_stab",
     "type": "SPELL",
     "name": "Horizon Vortex stab damage",
-    "description": "Give some damage for Horizon Vortex spell.  Subspell; you aren't allowed to see it except in debug mode.",
+    "description": "Causes a random amount of stab damage in the Horizon Vortex spell.  Subspell; you aren't allowed to see it except in debug mode.",
     "valid_targets": [ "hostile" ],
     "flags": [ "NO_PROJECTILE", "LOUD", "RANDOM_TARGET" ],
     "message": "",
