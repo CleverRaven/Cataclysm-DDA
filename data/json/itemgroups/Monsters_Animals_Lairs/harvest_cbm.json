@@ -50,7 +50,7 @@
       { "group": "Zomborg_CBM_harvest_stat_enhancements", "prob": 10 },
       { "group": "Zomborg_CBM_harvest_sensors", "prob": 40 },
       { "group": "Zomborg_CBM_harvest_sensors", "prob": 5 },
-      { "group": "Zomborg_CBM_harvest_expensive_utilities", "prob": 2 },
+      { "group": "Zomborg_CBM_harvest_expensive_utilities", "prob": 1 },
       {
         "distribution": [
           [ "bio_alarm", 20 ],
