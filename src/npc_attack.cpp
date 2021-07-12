@@ -189,7 +189,7 @@ npc_attack_rating npc_attack_melee::evaluate_critter( const npc &source,
 void npc_attack_gun::use( npc &source, const tripoint &location ) const
 {
     const item &weapon = *gunmode;
-    if( !weapon.ammo_sufficient( &source) ) {
+    if( !weapon.ammo_sufficient( &source ) ) {
         source.do_reload( weapon );
         add_msg_debug( debugmode::debug_filter::DF_NPC, "%s is reloading %s", source.disp_name(),
                        weapon.display_name() );
@@ -223,7 +223,7 @@ int npc_attack_gun::base_time_penalty( const npc &source ) const
         time_penalty += npc_attack_constants::base_time_penalty;
     }
     // we want the need to reload a gun cumulative with needing to wield the gun
-    if( !weapon.ammo_sufficient( &source) ) {
+    if( !weapon.ammo_sufficient( &source ) ) {
         time_penalty += npc_attack_constants::base_time_penalty;
     }
     int recoil_penalty = 0;
