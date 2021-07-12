@@ -71,16 +71,16 @@ then
         cmake_extra_opts+=("-DCATA_CLANG_TIDY_PLUGIN=ON")
         # Need to specify the particular LLVM / Clang versions to use, lest it
         # use the llvm-7 that comes by default on the Travis Xenial image.
-        cmake_extra_opts+=("-DLLVM_DIR=/usr/lib/llvm-8/lib/cmake/llvm")
-        cmake_extra_opts+=("-DClang_DIR=/usr/lib/llvm-8/lib/cmake/clang")
+        cmake_extra_opts+=("-DLLVM_DIR=/usr/lib/llvm-12/lib/cmake/llvm")
+        cmake_extra_opts+=("-DClang_DIR=/usr/lib/llvm-12/lib/cmake/clang")
     fi
 
-    if [ "$COMPILER" = "clang++-8" -a -n "$GITHUB_WORKFLOW" -a -n "$CATA_CLANG_TIDY" ]
+    if [ "$COMPILER" = "clang++-12" -a -n "$GITHUB_WORKFLOW" -a -n "$CATA_CLANG_TIDY" ]
     then
         # This is a hacky workaround for the fact that the custom clang-tidy we are
         # using is built for Travis CI, so it's not using the correct include directories
         # for GitHub workflows.
-        cmake_extra_opts+=("-DCMAKE_CXX_FLAGS=-isystem /usr/include/clang/8.0.0/include")
+        cmake_extra_opts+=("-DCMAKE_CXX_FLAGS=-isystem /usr/include/clang/12.0.0/include")
     fi
 
     mkdir build
@@ -195,11 +195,15 @@ else
 
     if [ -n "$TEST_STAGE" ]
     then
-        # Run the tests one more time, without actually running any tests, just to verify that all
-        # the mod data can be successfully loaded
+        # Run the tests with all the mods, without actually running any tests,
+        # just to verify that all the mod data can be successfully loaded.
+        # Because some mods might be mutually incompatible we might need to run a few times.
 
-        mods="$(./build-scripts/get_all_mods.py)"
-        run_test './tests/cata_test --user-dir=all_modded --mods='"${mods}" '~*' ''
+        ./build-scripts/get_all_mods.py | \
+            while read mods
+            do
+                run_test './tests/cata_test --user-dir=all_modded --mods='"${mods}" '~*' ''
+            done
     fi
 fi
 ccache --show-stats

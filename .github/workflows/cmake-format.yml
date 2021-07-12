@@ -4,6 +4,7 @@ on:
   push:
     branches:
     - master
+    - 0.F-dev
     paths:
     - '**/CMakeLists.txt'
     - '**.cmake'
@@ -11,6 +12,7 @@ on:
   pull_request:
     branches:
     - master
+    - 0.F-dev
     paths:
     - '**/CMakeLists.txt'
     - '**.cmake'

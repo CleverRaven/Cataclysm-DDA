@@ -72,6 +72,7 @@ const requirement_data &string_id<requirement_data>::obj() const
 std::vector<requirement_data> requirement_data::get_all()
 {
     std::vector<requirement_data> ret;
+    ret.reserve( requirements_all.size() );
     for( const std::pair<const requirement_id, requirement_data> &pair : requirements_all ) {
         ret.push_back( pair.second );
     }
@@ -744,17 +745,21 @@ bool requirement_data::has_comps( const read_only_visitable &crafting_inv,
 {
     bool retval = true;
     int total_UPS_charges_used = 0;
-    for( const auto &set_of_tools : vec ) {
+    for( const std::vector<T> &set_of_tools : vec ) {
         bool has_tool_in_set = false;
         int UPS_charges_used = std::numeric_limits<int>::max();
         const std::function<void( int )> use_ups = [ &UPS_charges_used ]( int charges ) {
             UPS_charges_used = std::min( UPS_charges_used, charges );
         };
 
-        for( const auto &tool : set_of_tools ) {
+        for( const T &tool : set_of_tools ) {
             if( tool.has( crafting_inv, filter, batch, flags, use_ups ) ) {
                 tool.available = available_status::a_true;
             } else {
+                // Trying to track down why the crafting tests are failing?
+                // Uncomment the below to see the group of requirements that are lacking satisfaction
+                // Add a printf("\n") to the loop above this to separate different groups onto a separate line
+                // printf( "T: %s ", tool.type.str().c_str() );
                 tool.available = available_status::a_false;
             }
             has_tool_in_set = has_tool_in_set || tool.available == available_status::a_true;

@@ -3,7 +3,7 @@
 #include <iostream>
 
 #include "avatar.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "item.h"
 #include "melee.h"
 #include "monster.h"
@@ -267,11 +267,12 @@ TEST_CASE( "expected weapon dps", "[expected][dps]" )
     make_experienced_tester( test_guy );
 
     SECTION( "staves" ) { // typical value around 18
-        calc_expected_dps( test_guy, "i_staff", 18.0 );
-        calc_expected_dps( test_guy, "q_staff", 17.0 );
+        calc_expected_dps( test_guy, "i_staff", 22.75 );
+        calc_expected_dps( test_guy, "staff_sling", 15 );
+        calc_expected_dps( test_guy, "q_staff", 20.75 );
         calc_expected_dps( test_guy, "l-stick_on", 17.5 );
         calc_expected_dps( test_guy, "l-stick", 17.5 );
-        calc_expected_dps( test_guy, "shock_staff", 17.0 );
+        calc_expected_dps( test_guy, "shock_staff", 21.75 );
         calc_expected_dps( test_guy, "hockey_stick", 13.75 );
         calc_expected_dps( test_guy, "pool_cue", 10.0 );
         calc_expected_dps( test_guy, "broom", 3.25 );
@@ -466,13 +467,15 @@ TEST_CASE( "expected weapon dps", "[expected][dps]" )
     }
     SECTION( "knives" ) { // expected value 19
         calc_expected_dps( test_guy, "bio_blade_weapon", 24.5 ); // much better than any other knife
-        calc_expected_dps( test_guy, "knife_trench", 18.0 );
-        calc_expected_dps( test_guy, "kirpan", 18.0 );
         calc_expected_dps( test_guy, "knife_combat", 19.0 );
+        calc_expected_dps( test_guy, "knife_trench", 18.0 );
+        calc_expected_dps( test_guy, "knife_baselard", 18.0 );
+        calc_expected_dps( test_guy, "kirpan", 18.0 );
         calc_expected_dps( test_guy, "tanto", 18.0 );
         calc_expected_dps( test_guy, "kris", 18.0 );
         calc_expected_dps( test_guy, "knife_rambo", 17.0 );
         calc_expected_dps( test_guy, "tanto_inferior", 15.0 );
+        calc_expected_dps( test_guy, "bone_knife", 12.0 );
         calc_expected_dps( test_guy, "knife_hunting", 11.0 );
         calc_expected_dps( test_guy, "kirpan_cheap", 11.0 );
         calc_expected_dps( test_guy, "switchblade", 10.5 );

@@ -23,7 +23,7 @@ const std::unordered_set<std::string> simple_string_conds = { {
         "mission_complete", "mission_incomplete", "mission_has_generic_rewards",
         "npc_available", "npc_following", "npc_friend", "npc_hostile",
         "npc_train_skills", "npc_train_styles", "npc_train_spells",
-        "at_safe_space", "is_day", "npc_has_activity", "is_outside", "u_has_camp",
+        "at_safe_space", "is_day", "npc_has_activity", "is_outside", "u_is_outside", "npc_is_outside", "u_has_camp",
         "u_can_stow_weapon", "npc_can_stow_weapon", "u_has_weapon", "npc_has_weapon",
         "u_driving", "npc_driving",
         "has_pickup_list", "is_by_radio", "has_reason"
@@ -43,7 +43,10 @@ const std::unordered_set<std::string> complex_conds = { {
         "npc_cbm_reserve_rule", "npc_cbm_recharge_rule",
         "days_since_cataclysm", "is_season", "mission_goal", "u_has_var", "npc_has_var",
         "u_has_skill", "npc_has_skill", "u_know_recipe", "u_compare_var", "npc_compare_var",
-        "u_compare_time_since_var", "npc_compare_time_since_var"
+        "u_compare_time_since_var", "npc_compare_time_since_var", "is_weather", "one_in_chance",
+        "is_temperature", "is_windpower", "is_humidity", "is_pressure", "u_is_height", "npc_is_height",
+        "u_has_worn_with_flag", "npc_has_worn_with_flag", "u_has_wielded_with_flag", "npc_has_wielded_with_flag",
+        "u_has_pain", "npc_has_pain", "u_has_power", "npc_has_power"
     }
 };
 } // namespace dialogue_data
@@ -88,6 +91,18 @@ struct conditional_t {
         void set_has_dexterity( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_intelligence( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_perception( const JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_has_pain( const JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_has_power( const JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_is_deaf( bool is_npc = false );
+        void set_one_in_chance( const JsonObject &jo, const std::string &member );
+        void set_is_temperature( const JsonObject &jo, const std::string &member );
+        void set_is_height( const JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_is_windpower( const JsonObject &jo, const std::string &member );
+        void set_has_worn_with_flag( const JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_is_humidity( const JsonObject &jo, const std::string &member );
+        void set_is_pressure( const JsonObject &jo, const std::string &member );
+        void set_has_wielded_with_flag( const JsonObject &jo, const std::string &member,
+                                        bool is_npc = false );
         void set_is_wearing( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_item( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_items( const JsonObject &jo, const std::string &member, bool is_npc = false );
@@ -108,6 +123,7 @@ struct conditional_t {
         void set_npc_override( const JsonObject &jo );
         void set_days_since( const JsonObject &jo );
         void set_is_season( const JsonObject &jo );
+        void set_is_weather( const JsonObject &jo );
         void set_mission_goal( const JsonObject &jo );
         void set_no_assigned_mission();
         void set_has_assigned_mission();
@@ -130,7 +146,7 @@ struct conditional_t {
         void set_is_driving( bool is_npc = false );
         void set_is_day();
         void set_has_stolen_item( bool is_npc = false );
-        void set_is_outside();
+        void set_is_outside( bool is_npc = false );
         void set_is_by_radio();
         void set_u_has_camp();
         void set_has_pickup_list();
@@ -139,6 +155,7 @@ struct conditional_t {
         void set_has_skill( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_u_know_recipe( const JsonObject &jo, const std::string &member );
         void set_mission_has_generic_rewards();
+        void set_can_see( bool is_npc = false );
 
         bool operator()( const T &d ) const {
             if( !condition ) {

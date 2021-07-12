@@ -22,12 +22,13 @@
     "melee_dice_sides": 6,
     "melee_cut": 0,
     "armor_bash": 2,
+    "bleed_rate": 0,
     "vision_day": 30,
     "vision_night": 3,
     "harvest": "zombie",
     "special_attacks": [ [ "FUNGUS", 100 ], [ "BOOMER", 20 ], [ "scratch", 20 ] ],
     "death_drops": "default_zombie_items",
-    "death_function": [ "FUNGUS", "NORMAL" ],
+    "death_function": { "effect": { "id": "death_fungus", "hit_self": true } },
     "burn_into": "mon_zombie_scorched",
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "PUSH_MON", "FILTHY" ]
   },
@@ -52,10 +53,11 @@
     "armor_bash": 4,
     "armor_cut": 4,
     "armor_bullet": 3,
+    "bleed_rate": 0,
     "luminance": 40,
     "harvest": "exempt",
     "special_attacks": [ [ "FUNGUS_HAZE", 25 ] ],
-    "death_function": [ "FUNGUS" ],
+    "death_function": { "corpse_type": "NO_CORPSE", "effect": { "id": "death_fungus", "hit_self": true } },
     "flags": [ "HEARS", "GOODHEARING", "NOHEAD", "POISON", "IMMOBILE", "NO_BREATHE" ]
   },
   {
@@ -82,9 +84,10 @@
     "armor_bash": 10,
     "armor_cut": 10,
     "armor_bullet": 8,
+    "bleed_rate": 0,
     "harvest": "exempt",
     "special_attacks": [ [ "FUNGUS_BRISTLE", 10 ] ],
-    "death_function": [ "DISINTEGRATE" ],
+    "death_function": { "message": "The %s disintegrates!", "corpse_type": "NO_CORPSE" },
     "flags": [ "NOHEAD", "POISON", "NO_BREATHE", "IMMOBILE" ]
   },
   {
@@ -112,9 +115,10 @@
     "armor_bash": 10,
     "armor_cut": 4,
     "armor_bullet": 3,
+    "bleed_rate": 0,
     "harvest": "exempt",
     "special_attacks": [ [ "FUNGUS_INJECT", 10 ] ],
-    "death_function": [ "FUNGUS" ],
+    "death_function": { "corpse_type": "NO_CORPSE", "effect": { "id": "death_fungus", "hit_self": true } },
     "flags": [ "HEARS", "GOODHEARING", "NOHEAD", "POISON", "IMMOBILE", "NO_BREATHE", "HARDTOSHOOT" ]
   },
   {
@@ -141,9 +145,10 @@
     "armor_bash": 10,
     "armor_cut": 10,
     "armor_bullet": 8,
+    "bleed_rate": 0,
     "harvest": "exempt",
     "special_attacks": [ [ "FUNGUS", 10 ] ],
-    "death_function": [ "DISINTEGRATE" ],
+    "death_function": { "message": "The %s disintegrates!", "corpse_type": "NO_CORPSE" },
     "flags": [ "NOHEAD", "POISON", "NO_BREATHE", "IMMOBILE" ]
   },
   {
@@ -169,10 +174,45 @@
     "melee_dice_sides": 4,
     "melee_cut": 0,
     "armor_bash": 4,
+    "bleed_rate": 0,
     "harvest": "fungaloid",
     "special_attacks": [ [ "FUNGUS", 30 ] ],
-    "death_function": [ "FUNGUS", "NORMAL" ],
+    "death_function": { "effect": { "id": "death_fungus", "hit_self": true } },
+    "upgrades": { "half_life": 14, "into": "mon_fungaloid_shambler" },
     "flags": [ "STUMBLES", "POISON", "NO_BREATHE", "NOHEAD" ]
+  },
+  {
+    "id": "mon_fungaloid_shambler",
+    "type": "MONSTER",
+    "name": { "str": "fungaloid shambler" },
+    "description": "A large white fungus, a bulging gray stalk supporting a bloom at the top.  Spores float from its gills and tendrils extend from the base.  Chunks of rock, metal, bone, and wood are held by tendrils as a kind of armor.",
+    "copy-from": "mon_fungaloid",
+    "volume": "12 L",
+    "weight": "160 kg",
+    "hp": 150,
+    "speed": 20,
+    "armor_cut": 10,
+    "armor_bullet": 20,
+    "armor_stab": 20,
+    "armor_acid": 3,
+    "bleed_rate": 0,
+    "special_attacks": [
+      [ "FUNGUS", 20 ],
+      {
+        "type": "gun",
+        "cooldown": 5,
+        "move_cost": 150,
+        "gun_type": "feral_human_thrown_rock",
+        "fake_skills": [ [ "gun", 2 ], [ "throw", 2 ] ],
+        "fake_dex": 6,
+        "fake_per": 6,
+        "require_targeting_player": false,
+        "ranges": [ [ 2, 5, "DEFAULT" ] ],
+        "description": "The fungaloid shambler throws a rock!"
+      }
+    ],
+    "death_drops": [ { "group": "wreckage", "count": 5 }, { "group": "trash_forest", "count": 5 } ],
+    "upgrades": {  }
   },
   {
     "id": "mon_fungaloid_queen",
@@ -196,7 +236,7 @@
     "armor_cut": 10,
     "armor_bullet": 8,
     "special_attacks": [ [ "FUNGUS_SPROUT", 10 ] ],
-    "death_function": [ "FUNGUS", "NORMAL" ],
+    "death_function": { "effect": { "id": "death_fungus", "hit_self": true } },
     "harvest": "fungaloid_mass",
     "flags": [ "NOHEAD", "POISON", "IMMOBILE", "NO_BREATHE", "QUEEN" ]
   },
@@ -223,7 +263,7 @@
     "armor_bullet": 8,
     "luminance": 200,
     "special_attacks": [ [ "FUNGUS_BIG_BLOSSOM", 10 ] ],
-    "death_function": [ "FUNGUS", "NORMAL" ],
+    "death_function": { "effect": { "id": "death_fungus", "hit_self": true } },
     "harvest": "fungaloid_mass",
     "flags": [ "NOHEAD", "POISON", "IMMOBILE", "NO_BREATHE", "QUEEN" ]
   },
@@ -254,7 +294,7 @@
     "armor_bullet": 12,
     "special_attacks": [ [ "FUNGUS_FORTIFY", 10 ] ],
     "death_drops": "marloss_yellow_drops",
-    "death_function": [ "FUNGUS", "NORMAL" ],
+    "death_function": { "effect": { "id": "death_fungus", "hit_self": true } },
     "harvest": "fungaloid_mass",
     "flags": [ "NOHEAD", "POISON", "IMMOBILE", "HARDTOSHOOT", "NO_BREATHE", "QUEEN" ]
   },
@@ -283,9 +323,9 @@
     "armor_bash": 4,
     "armor_cut": 4,
     "armor_bullet": 3,
+    "bleed_rate": 0,
     "harvest": "fungaloid",
     "special_attacks": [ [ "FUNGUS_GROWTH", 10000 ] ],
-    "death_function": [ "NORMAL" ],
     "flags": [ "HEARS", "POISON", "NO_BREATHE", "NOHEAD" ]
   },
   {
@@ -307,9 +347,10 @@
     "morale": 75,
     "melee_cut": 0,
     "dodge": 2,
+    "bleed_rate": 0,
     "harvest": "exempt",
     "special_attacks": [ [ "PLANT", 100 ] ],
-    "death_function": [ "DISINTEGRATE" ],
+    "death_function": { "message": "The %s disintegrates!", "corpse_type": "NO_CORPSE" },
     "upgrades": { "half_life": 10, "into": "mon_fungaloid" },
     "flags": [ "STUMBLES", "FLIES", "POISON", "NO_BREATHE", "NOHEAD", "NOGIB" ]
   },
@@ -336,12 +377,12 @@
     "melee_dice_sides": 6,
     "melee_cut": 0,
     "armor_bash": 3,
+    "bleed_rate": 0,
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "zombie",
     "special_attacks": [ [ "FUNGUS", 200 ], { "type": "bite", "cooldown": 5 } ],
     "death_drops": "default_zombie_death_drops",
-    "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
     "flags": [ "SEES", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "PUSH_MON", "FILTHY" ]
   },
@@ -368,13 +409,14 @@
     "melee_dice": 2,
     "melee_dice_sides": 4,
     "melee_cut": 0,
+    "bleed_rate": 0,
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "exempt",
     "emit_fields": [ { "emit_id": "emit_fungal_leak", "delay": "1 s" } ],
     "special_attacks": [ [ "SUICIDE", 20 ], [ "scratch", 15 ] ],
     "death_drops": "default_zombie_items",
-    "death_function": [ "FUNGALBURST" ],
+    "death_function": { "effect": { "id": "death_fungalburst", "hit_self": true } },
     "flags": [ "SEES", "STUMBLES", "WARM", "POISON", "NO_BREATHE", "FILTHY" ]
   },
   {
@@ -402,12 +444,13 @@
     "melee_cut": 2,
     "dodge": 4,
     "armor_fire": 5,
+    "bleed_rate": 0,
     "vision_day": 5,
     "vision_night": 3,
     "harvest": "zombie",
     "emit_fields": [ { "emit_id": "emit_fungal_haze_plume", "delay": "1 s" } ],
     "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "scratch", 15 ] ],
-    "death_function": [ "FUNGUS" ],
+    "death_function": { "corpse_type": "NO_CORPSE", "effect": { "id": "death_fungus", "hit_self": true } },
     "flags": [ "SEES", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "HARDTOSHOOT", "NO_BREATHE", "PUSH_MON", "FILTHY" ]
   },
   {
@@ -436,12 +479,13 @@
     "armor_bash": 20,
     "armor_cut": 45,
     "armor_bullet": 36,
+    "bleed_rate": 0,
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "mr_bones",
     "special_attacks": [ [ "SMASH", 20 ] ],
     "death_drops": "mon_zombie_hulk_death_drops",
-    "death_function": [ "FUNGUS" ],
+    "death_function": { "corpse_type": "NO_CORPSE", "effect": { "id": "death_fungus", "hit_self": true } },
     "burn_into": "mon_zombie_fiend",
     "flags": [
       "HEARS",
@@ -450,7 +494,6 @@
       "BASHES",
       "DESTROYS",
       "POISON",
-      "ATTACKMON",
       "NO_BREATHE",
       "PUSH_MON",
       "PUSH_VEH",
@@ -481,6 +524,7 @@
     "melee_dice_sides": 6,
     "melee_cut": 2,
     "dodge": 2,
+    "bleed_rate": 0,
     "vision_day": 30,
     "vision_night": 5,
     "harvest": "zombie",
@@ -490,7 +534,6 @@
       "groups": [ [ "default_zombie_clothes", 100 ], [ "child_items", 65 ] ],
       "//": "cloth as any other zombie (always), additional items from child_items (sometimes)"
     },
-    "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_child_scorched",
     "flags": [ "SEES", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "GUILT", "NO_BREATHE", "FILTHY" ]
   },
@@ -520,11 +563,12 @@
     "armor_bash": 1,
     "armor_cut": 1,
     "armor_bullet": 1,
+    "bleed_rate": 0,
     "vision_day": 3,
     "vision_night": 3,
     "harvest": "arachnid",
     "special_attacks": [ [ "FUNGUS", 200 ] ],
-    "death_function": [ "NORMAL", "FUNGUS" ],
+    "death_function": { "effect": { "id": "death_fungus", "hit_self": true } },
     "flags": [ "SEES", "SMELLS", "POISON", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
   },
   {
@@ -553,11 +597,12 @@
     "armor_bash": 2,
     "armor_cut": 6,
     "armor_bullet": 5,
+    "bleed_rate": 0,
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "arachnid",
     "special_attacks": [ [ "FUNGAL_TRAIL", 3 ] ],
-    "death_function": [ "NORMAL", "FUNGUS" ],
+    "death_function": { "effect": { "id": "death_fungus", "hit_self": true } },
     "flags": [ "SEES", "SMELLS", "VENOM", "WEBWALK", "CLIMBS", "PATH_AVOID_FIRE", "INSECTICIDEPROOF" ]
   }
 ]

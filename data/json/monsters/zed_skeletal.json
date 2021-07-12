@@ -25,13 +25,13 @@
     "armor_bullet": 24,
     "armor_stab": 30,
     "armor_acid": 3,
+    "bleed_rate": 50,
     "vision_day": 30,
     "vision_night": 3,
     "harvest": "mr_bones",
     "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
     "upgrades": { "half_life": 15, "into": "mon_skeleton_brute" },
     "death_drops": "default_zombie_clothes",
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "POISON", "FILTHY" ]
   },
   {
@@ -61,6 +61,7 @@
     "armor_bullet": 30,
     "armor_bash": 12,
     "armor_acid": 1,
+    "bleed_rate": 0,
     "vision_day": 35,
     "vision_night": 3,
     "harvest": "mr_bones",
@@ -70,7 +71,6 @@
     ],
     "upgrades": { "half_life": 12, "into": "mon_skeleton_hulk" },
     "death_drops": "default_zombie_clothes",
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "POISON", "FILTHY" ]
   },
   {
@@ -101,12 +101,12 @@
     "armor_bullet": 30,
     "armor_stab": 30,
     "armor_acid": 3,
+    "bleed_rate": 0,
     "vision_day": 30,
     "vision_night": 3,
-    "harvest": "CBM_CIV",
+    "harvest": "mr_bones",
     "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 }, [ "SHOCKSTORM", 25 ] ],
     "death_drops": "default_zombie_clothes",
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "ELECTRIC", "REVIVES", "NO_BREATHE", "POISON", "FILTHY" ]
   },
   {
@@ -134,17 +134,18 @@
     "armor_bash": 20,
     "armor_cut": 45,
     "armor_bullet": 36,
+    "bleed_rate": 0,
     "vision_day": 50,
     "vision_night": 4,
     "harvest": "mr_bones",
     "special_attacks": [
       [ "SMASH", 20 ],
-      [ "STRETCH_ATTACK", 20 ],
-      [ "LONGSWIPE", 20 ],
+      { "id": "stretch_attack" },
+      { "id": "longswipe" },
+      { "id": "cut_throat" },
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] }
     ],
     "death_drops": "mon_zombie_hulk_death_drops",
-    "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_fiend",
     "flags": [
       "SEES",
@@ -154,7 +155,6 @@
       "BASHES",
       "DESTROYS",
       "POISON",
-      "ATTACKMON",
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",

@@ -134,6 +134,62 @@
     "color": "brown"
   },
   {
+    "id": "makeshift_vacuum_mold",
+    "type": "TOOL",
+    "name": { "str": "makeshift vacuum mold" },
+    "description": "This is a homemade vacuum forming machine with an air pump.  It's used for creating plastic molds.",
+    "weight": "2000 g",
+    "volume": "5 L",
+    "longest_side": "35 cm",
+    "price": 1000,
+    "price_postapoc": 250,
+    "to_hit": -1,
+    "bashing": 8,
+    "material": [ "plastic", "wood" ],
+    "symbol": ";",
+    "color": "white",
+    "ammo": [ "battery" ],
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      }
+    ]
+  },
+  {
+    "id": "vac_mold",
+    "type": "TOOL",
+    "name": { "str": "vacuum molder" },
+    "description": "This is a portable vacuum forming machine with an air pump.  It's used for creating plastic molds.",
+    "weight": "1770 g",
+    "volume": "4100 ml",
+    "longest_side": "35 cm",
+    "price": 2500,
+    "price_postapoc": 2000,
+    "to_hit": -1,
+    "bashing": 8,
+    "material": [ "aluminum", "plastic" ],
+    "symbol": ";",
+    "color": "white",
+    "ammo": [ "battery" ],
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      }
+    ]
+  },
+  {
     "id": "chipper",
     "type": "TOOL",
     "name": { "str": "paint chipper" },
@@ -309,7 +365,7 @@
     "id": "hammer",
     "type": "TOOL",
     "name": { "str": "hammer" },
-    "description": "This is a demagnetized steel claw hammer with a wooden grip.  With a hammer, nails, and two by fours in your inventory, you could board up adjacent doors and windows.  It has myriad other uses as well.",
+    "description": "This is a demagnetized steel claw hammer with a wooden grip.  With a hammer, nails, and planks in your inventory, you could board up adjacent doors and windows.  It has myriad other uses as well.",
     "ascii_picture": "hammer",
     "longest_side": "25 cm",
     "weight": "566 g",
@@ -596,7 +652,7 @@
     "id": "mold_plastic",
     "type": "TOOL",
     "name": { "str": "plastic mold" },
-    "description": "This is a plastic mold.  It could be shaped and used to craft items made of plastic.",
+    "description": "This is a plastic mold.  It can be used to form plastic chunks.",
     "weight": "320 g",
     "volume": "2500 ml",
     "longest_side": "36 cm",
@@ -1211,5 +1267,30 @@
     "color": "light_gray",
     "looks_like": "hand_drill",
     "qualities": [ [ "DRILL", 1 ] ]
+  },
+  {
+    "id": "wire_draw_machine",
+    "type": "TOOL",
+    "name": { "str": "wire draw machine" },
+    "description": "A machine designed specifically for turning metal rods into wire.",
+    "weight": "26 kg",
+    "volume": "20 L",
+    "price": 1000,
+    "price_postapoc": 10,
+    "to_hit": -3,
+    "bashing": 7,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "magazine_well": "200 ml",
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      }
+    ]
   }
 ]

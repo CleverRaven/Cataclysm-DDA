@@ -39,7 +39,7 @@
     "id": "copper_scrap_equivalent",
     "type": "requirement",
     "//": "Material used for equivalence between one unit of scrap copper and corresponding amount of elemental copper.",
-    "components": [ [ [ "scrap_copper", 1 ], [ "copper", 25 ] ] ]
+    "components": [ [ [ "scrap_copper", 1 ], [ "copper", 50 ] ] ]
   },
   {
     "id": "plant_cordage",

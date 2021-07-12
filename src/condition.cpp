@@ -746,15 +746,75 @@ void conditional_t<T>::set_is_day()
 }
 
 template<class T>
-void conditional_t<T>::set_is_outside()
+void conditional_t<T>::set_is_outside( bool is_npc )
 {
-    condition = []( const T & d ) {
-        const map &here = get_map();
-        const tripoint &pos = here.getabs( d.beta->pos() );
-        return !here.has_flag( TFLAG_INDOORS, pos );
+    condition = [is_npc]( const T & d ) {
+        return is_creature_outside( *d.actor( is_npc )->get_character() );
     };
 }
 
+template<class T>
+void conditional_t<T>::set_one_in_chance( const JsonObject &jo, const std::string &member )
+{
+    const int one_in_chance = jo.get_int( member );
+    condition = [one_in_chance]( const T & ) {
+        return one_in( one_in_chance );
+    };
+}
+
+template<class T>
+void conditional_t<T>::set_is_temperature( const JsonObject &jo, const std::string &member )
+{
+    const int temp_min = jo.get_int( member );
+    condition = [temp_min]( const T & ) {
+        return get_weather().weather_precise->temperature >= temp_min;
+    };
+}
+
+template<class T>
+void conditional_t<T>::set_is_height( const JsonObject &jo, const std::string &member, bool is_npc )
+{
+    const int height_min = jo.get_int( member );
+    condition = [height_min, is_npc]( const T & d ) {
+        return d.actor( is_npc )->posz() >= height_min;
+    };
+}
+
+template<class T>
+void conditional_t<T>::set_is_windpower( const JsonObject &jo, const std::string &member )
+{
+    const int windpower_min = jo.get_int( member );
+    condition = [windpower_min]( const T & ) {
+        return get_weather().weather_precise->windpower >= windpower_min;
+    };
+}
+
+template<class T>
+void conditional_t<T>::set_is_humidity( const JsonObject &jo, const std::string &member )
+{
+    const int humidity_min = jo.get_int( member );
+    condition = [humidity_min]( const T & ) {
+        return get_weather().weather_precise->humidity >= humidity_min;
+    };
+}
+
+template<class T>
+void conditional_t<T>::set_is_pressure( const JsonObject &jo, const std::string &member )
+{
+    const int pressure_min = jo.get_int( member );
+    condition = [pressure_min]( const T & ) {
+        return get_weather().weather_precise->pressure >= pressure_min;
+    };
+}
+
+template<class T>
+void conditional_t<T>::set_is_weather( const JsonObject &jo )
+{
+    weather_type_id weather = weather_type_id( jo.get_string( "is_weather" ) );
+    condition = [weather]( const T & ) {
+        return get_weather().weather_id == weather;
+    };
+}
 template<class T>
 void conditional_t<T>::set_u_has_camp()
 {
@@ -825,6 +885,63 @@ void conditional_t<T>::set_mission_has_generic_rewards()
             return true;
         }
         return miss->has_generic_rewards();
+    };
+}
+
+template<class T>
+void conditional_t<T>::set_has_worn_with_flag( const JsonObject &jo, const std::string &member,
+        bool is_npc )
+{
+    const std::string flag( jo.get_string( member ) );
+    condition = [flag, is_npc]( const T & d ) {
+        return d.actor( is_npc )->worn_with_flag( flag_id( flag ) );
+    };
+}
+
+template<class T>
+void conditional_t<T>::set_has_wielded_with_flag( const JsonObject &jo, const std::string &member,
+        bool is_npc )
+{
+    const std::string flag( jo.get_string( member ) );
+    condition = [flag, is_npc]( const T & d ) {
+        return d.actor( is_npc )->wielded_with_flag( flag_id( flag ) );
+    };
+}
+
+template<class T>
+void conditional_t<T>::set_has_pain( const JsonObject &jo, const std::string &member,
+                                     bool is_npc )
+{
+    const int min_pain = jo.get_int( member );
+    condition = [min_pain, is_npc]( const T & d ) {
+        return d.actor( is_npc )->pain_cur() >= min_pain;
+    };
+}
+
+template<class T>
+void conditional_t<T>::set_has_power( const JsonObject &jo, const std::string &member,
+                                      bool is_npc )
+{
+    units::energy min_power;
+    assign( jo, member, min_power, false, 0_kJ );
+    condition = [min_power, is_npc]( const T & d ) {
+        return d.actor( is_npc )->power_cur() >= min_power;
+    };
+}
+
+template<class T>
+void conditional_t<T>::set_can_see( bool is_npc )
+{
+    condition = [is_npc]( const T & d ) {
+        return d.actor( is_npc )->can_see();
+    };
+}
+
+template<class T>
+void conditional_t<T>::set_is_deaf( bool is_npc )
+{
+    condition = [is_npc]( const T & d ) {
+        return d.actor( is_npc )->is_deaf();
     };
 }
 
@@ -1006,6 +1123,38 @@ conditional_t<T>::conditional_t( const JsonObject &jo )
         set_has_skill( jo, "npc_has_skill", is_npc );
     } else if( jo.has_member( "u_know_recipe" ) ) {
         set_u_know_recipe( jo, "u_know_recipe" );
+    } else if( jo.has_int( "one_in_chance" ) ) {
+        set_one_in_chance( jo, "one_in_chance" );
+    } else if( jo.has_int( "is_temperature" ) ) {
+        set_is_temperature( jo, "is_temperature" );
+    } else if( jo.has_int( "is_windpower" ) ) {
+        set_is_windpower( jo, "is_windpower" );
+    } else if( jo.has_int( "is_humidity" ) ) {
+        set_is_humidity( jo, "is_humidity" );
+    } else if( jo.has_member( "is_pressure" ) ) {
+        set_is_pressure( jo, "is_pressure" );
+    } else if( jo.has_int( "u_is_height" ) ) {
+        set_is_height( jo, "u_is_height" );
+    } else if( jo.has_int( "npc_is_height" ) ) {
+        set_is_height( jo, "npc_is_height", is_npc );
+    } else if( jo.has_string( "u_has_worn_with_flag" ) ) {
+        set_has_worn_with_flag( jo, "u_has_worn_with_flag" );
+    } else if( jo.has_string( "npc_has_worn_with_flag" ) ) {
+        set_has_worn_with_flag( jo, "npc_has_worn_with_flag", is_npc );
+    } else if( jo.has_string( "u_has_wielded_with_flag" ) ) {
+        set_has_wielded_with_flag( jo, "u_has_wielded_with_flag" );
+    } else if( jo.has_string( "npc_has_wielded_with_flag" ) ) {
+        set_has_wielded_with_flag( jo, "npc_has_wielded_with_flag", is_npc );
+    } else if( jo.has_member( "u_has_pain" ) ) {
+        set_has_pain( jo, "u_has_pain" );
+    } else if( jo.has_member( "npc_has_pain" ) ) {
+        set_has_pain( jo, "npc_has_pain", is_npc );
+    } else if( jo.has_member( "u_has_power" ) ) {
+        set_has_power( jo, "u_has_power" );
+    } else if( jo.has_member( "npc_has_power" ) ) {
+        set_has_power( jo, "npc_has_power", is_npc );
+    } else if( jo.has_string( "is_weather" ) ) {
+        set_is_weather( jo );
     } else {
         for( const std::string &sub_member : dialogue_data::simple_string_conds ) {
             if( jo.has_string( sub_member ) ) {
@@ -1087,8 +1236,10 @@ conditional_t<T>::conditional_t( const std::string &type )
         set_is_day();
     } else if( type == "u_has_stolen_item" ) {
         set_has_stolen_item( is_npc );
-    } else if( type == "is_outside" ) {
+    } else if( type == "u_is_outside" ) {
         set_is_outside();
+    } else if( type == "is_outside" || type == "npc_is_outside" ) {
+        set_is_outside( is_npc );
     } else if( type == "u_has_camp" ) {
         set_u_has_camp();
     } else if( type == "has_pickup_list" ) {
@@ -1099,6 +1250,12 @@ conditional_t<T>::conditional_t( const std::string &type )
         set_has_reason();
     } else if( type == "mission_has_generic_rewards" ) {
         set_mission_has_generic_rewards();
+    } else if( type == "u_can_see" || type == "npc_can_see" ) {
+        set_can_see( is_npc );
+    } else if( type == "u_is_deaf" ) {
+        set_is_deaf();
+    } else if( type == "npc_is_deaf" ) {
+        set_is_deaf( is_npc );
     } else {
         condition = []( const T & ) {
             return false;
