@@ -399,7 +399,7 @@
     "effect": "summon",
     "effect_str": "mon_wolf"
   },
-  }
+  {
     "id": "druid_natures_commune",
     "type": "SPELL",
     "name": "Nature's Commune",
