@@ -397,7 +397,7 @@ cata::optional<int> unpack_actor::use( player &p, item &it, bool, const tripoint
             last_armor = content;
         }
 
-        if( content.contents.total_container_capacity() >= filthy_vol_threshold &&
+        if( content.get_total_capacity() >= filthy_vol_threshold &&
             it.has_flag( flag_FILTHY ) ) {
             content.set_flag( flag_FILTHY );
         }
