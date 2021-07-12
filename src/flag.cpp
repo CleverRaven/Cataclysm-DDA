@@ -73,6 +73,7 @@ const flag_id flag_DIMENSIONAL_ANCHOR( "DIMENSIONAL_ANCHOR" );
 const flag_id flag_DIRTY( "DIRTY" );
 const flag_id flag_DISABLE_SIGHTS( "DISABLE_SIGHTS" );
 const flag_id flag_DROP_ACTION_ONLY_IF_LIQUID( "DROP_ACTION_ONLY_IF_LIQUID" );
+const flag_id flag_DULLABLE( "DULLABLE" );
 const flag_id flag_DURABLE_MELEE( "DURABLE_MELEE" );
 const flag_id flag_EATEN_COLD( "EATEN_COLD" );
 const flag_id flag_EATEN_HOT( "EATEN_HOT" );

@@ -5660,7 +5660,7 @@ item *Character::best_quality_item( const quality_id &qual )
     } );
     item *best_qual = random_entry( qual_inv );
     for( item *elem : qual_inv ) {
-        if( elem->get_quality( qual ) > best_qual->get_quality( qual ) ) {
+        if( elem->get_intrinsic_quality( qual ) > best_qual->get_intrinsic_quality( qual ) ) {
             best_qual = elem;
         }
     }

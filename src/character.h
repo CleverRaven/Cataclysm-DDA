@@ -612,7 +612,10 @@ class Character : public Creature, public visitable
         /// called once per 24 hours to enforce the minimum of 1 hp healed per day
         /// @todo Move to Character once heal() is moved
         void enforce_minimum_healing();
-        /** get best quality item that this character has */
+        /**
+         * Get best quality item that this character has
+         * Guaranteed to return the exact item providing the quality
+         */
         item *best_quality_item( const quality_id &qual );
         /** Handles health fluctuations over time */
         virtual void update_health( int external_modifiers = 0 );

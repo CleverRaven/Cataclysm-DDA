@@ -16,7 +16,7 @@
     "symbol": ";",
     "color": "brown",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 11 ] ],
-    "flags": [ "STAB", "SHEATH_KNIFE" ]
+    "flags": [ "STAB", "SHEATH_KNIFE", "DULLABLE" ]
   },
   {
     "id": "diveknife",
@@ -36,7 +36,7 @@
     "color": "yellow",
     "qualities": [ [ "CUT", 1 ], [ "PRY", 1 ], [ "BUTCHER", 15 ] ],
     "use_action": [ "CROWBAR" ],
-    "flags": [ "SHEATH_KNIFE" ]
+    "flags": [ "SHEATH_KNIFE", "DULLABLE" ]
   },
   {
     "id": "honey_scraper",

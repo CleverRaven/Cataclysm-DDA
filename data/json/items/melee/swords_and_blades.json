@@ -1624,7 +1624,7 @@
     "color": "dark_gray",
     "techniques": [ "WBLOCK_2" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "DULLABLE" ]
   },
   {
     "type": "GENERIC",

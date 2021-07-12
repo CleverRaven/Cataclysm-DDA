@@ -634,7 +634,8 @@ static void set_up_butchery( player_activity &act, player &u, butcher_type actio
         }
     }
 
-    act.moves_left = butcher_time_to_cut( u, corpse_item, action ) * butchery_requirements.first;
+    act.moves_total = butcher_time_to_cut( u, corpse_item, action ) * butchery_requirements.first;
+    act.moves_left = act.moves_total;
 
     // We have a valid target, so preform the full finish function
     // instead of just selecting the next valid target
@@ -1170,8 +1171,15 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     }
 
     int skill_level = p->get_skill_level( skill_survival );
-    int factor = p->max_quality( action == butcher_type::DISSECT ? qual_CUT_FINE :
-                                 qual_BUTCHER );
+    const quality_id using_quality = (action == butcher_type::DISSECT ? qual_CUT_FINE : qual_BUTCHER);
+    int factor = p->max_quality( using_quality );
+
+    // determine which tool was used to butcher, for blade dulling later
+    item *butcher_tool = p->best_quality_item( using_quality );
+    if( butcher_tool != nullptr && butcher_tool->get_quality( using_quality) != factor ) {
+        // the thing provideing the butchering is not a blade in the player's inventory, can't track dullness
+        butcher_tool = nullptr;
+    }
 
     // DISSECT has special case factor calculation and results.
     if( action == butcher_type::DISSECT ) {
@@ -1403,6 +1411,12 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         case butcher_type::NUM_TYPES:
             debugmsg( "ERROR: Invalid butcher_type" );
             break;
+    }
+
+    // attempt to apply dullness to the tool used
+    if( butcher_tool != nullptr && butcher_tool->has_flag( flag_DULLABLE )) {
+        const float base_dullness_per_move = 1.0 / 600.0; // 10 per minute
+        butcher_tool->inc_dullness( static_cast<int>( base_dullness_per_move * act->moves_total ) );
     }
 
     // Ready to move on to the next item, if there is one (for example if multibutchering)
@@ -2719,6 +2733,11 @@ void activity_handlers::mend_item_finish( player_activity *act, player *p )
     }
     if( act->name == "fault_gun_blackpowder" || act->name == "fault_gun_dirt" ) {
         target->set_var( "dirt", 0 );
+    }
+    if( method->id == "mend_dull_blade" || method->id == "mend_full_sharpen" ) {
+        target->set_var( "dullness", 0 );
+    } else if (method -> id == "mend_blunt_blade" ) {
+        target->set_var( "dullness", 2500 );
     }
 
     //get skill list from mending method, iterate through and give xp

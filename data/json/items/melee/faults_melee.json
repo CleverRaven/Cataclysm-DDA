@@ -1,0 +1,57 @@
+[
+  {
+    "id": "fault_blade_dull",
+    "type": "fault",
+    "name": { "str": "Dull" },
+    "description": "The cutting edge on this item has become dull from repeated use, and its effectiveness has been somewhat reduced.",
+    "mending_methods": [
+      {
+        "id": "mend_dull_blade",
+        "name": "Sharpen blade",
+        "success_msg": "You fully sharpen your %s.",
+        "time": "15 m",
+        "skills": [ { "id": "survival", "level": 3 } ],
+        "requirements": {
+          "qualities": [ { "id": "GRIND", "level": 2 } ],
+          "tools": [  ],
+          "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+        }
+      }
+    ],
+    "flags": [ "SILENT" ]
+  },
+  {
+    "id": "fault_blade_blunt",
+    "type": "fault",
+    "name": { "str": "Blunt" },
+    "description": "The cutting edge on this item has become blunted from repeated use, and its effectiveness has been significantly reduced.",
+    "mending_methods": [
+      {
+        "id": "mend_blunt_blade",
+        "name": "Sharpen blade",
+        "success_msg": "You sharpen your %s as well as you can, but the edge is still somewhat worn.",
+        "time": "15 m",
+        "skills": [ { "id": "survival", "level": 2 } ],
+        "turns_into": "fault_blade_dull",
+        "requirements": {
+          "qualities": [ { "id": "GRIND", "level": 1 } ],
+          "tools": [  ],
+          "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+        }
+      },
+      {
+        "id": "mend_full_sharpen",
+        "name": "Fully sharpen blade",
+        "success_msg": "You fully sharpen your %s.",
+        "time": "30 m",
+        "skills": [ { "id": "survival", "level": 3 } ],
+        "requirements": {
+          "qualities": [ { "id": "GRIND", "level": 2 } ],
+          "tools": [  ],
+          "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+        }
+      }
+    ],
+    "flags": [ "SILENT" ]
+  }
+]

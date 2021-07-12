@@ -152,6 +152,10 @@ static const skill_id skill_weapon( "weapon" );
 
 static const quality_id qual_JACK( "JACK" );
 static const quality_id qual_LIFT( "LIFT" );
+
+static const fault_id fault_blade_dull( "fault_blade_dull" );
+static const fault_id fault_blade_blunt( "fault_blade_blunt" );
+
 static const species_id species_ROBOT( "ROBOT" );
 
 static const json_character_flag json_flag_CANNIBAL( "CANNIBAL" );
@@ -5544,6 +5548,14 @@ int item::damage_melee( damage_type dt ) const
             if( has_flag( flag_DIAMOND ) ) {
                 res *= 1.3;
             }
+            if( has_flag( flag_DULLABLE ) ) {
+                int dullness = get_var( "dullness", 0 );
+                if( dullness > 7500 ) {
+                    res *= 0.8;
+                } else if ( dullness > 2000 ) {
+                    res *= 0.9;
+                }
+            }
             break;
 
         default:
@@ -5743,6 +5755,11 @@ int64_t item::get_property_int64_t( const std::string &prop, int64_t def ) const
 
 int item::get_quality( const quality_id &id ) const
 {
+    return std::max( get_intrinsic_quality( id ), contents.best_quality( id ) );;
+}
+
+int item::get_intrinsic_quality( const quality_id &id ) const
+{
     int return_quality = INT_MIN;
 
     /**
@@ -5757,9 +5774,27 @@ int item::get_quality( const quality_id &id ) const
             return_quality = quality.second;
         }
     }
-    return_quality = std::max( return_quality, contents.best_quality( id ) );
-
     return return_quality;
+}
+
+void item::inc_dullness( const int dullness ) {
+    if( !has_flag( flag_DULLABLE ) || dullness <= 0 ) {
+        return;
+    }
+    const int dull_threshold = 2000;
+    const int blunted_threshold = 7500;
+    const int max_dullness = 10000;
+    int current_dullness = get_var( "dullness", 0 );
+    float material_factor = 20.0 / chip_resistance();
+    int dulladder = static_cast<int>( material_factor * dullness );
+    int new_dullness = std::min( current_dullness + dulladder, max_dullness );
+    set_var( "dullness", new_dullness );
+    if( new_dullness >= dull_threshold && current_dullness < dull_threshold ) {
+        faults.insert( fault_blade_dull );
+    } else if ( new_dullness >= blunted_threshold && current_dullness < blunted_threshold ) {
+        faults.erase( fault_blade_dull );
+        faults.insert( fault_blade_blunt );
+    }
 }
 
 bool item::has_technique( const matec_id &tech ) const
