@@ -80,6 +80,37 @@
     "flags": [ "FRAGILE_MELEE", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "REACH_ATTACK", "ALWAYS_TWOHAND" ]
   },
   {
+    "id": "makeshift_halberd",
+    "type": "GENERIC",
+    "name": { "str": "simple makeshift glaive" },
+    "//": "Name changed to simple makeshift glaive, but changing the id would break e.g.  tilesets.",
+    "description": "This is a large blade attached to a stout section of tree branch.  It could do a considerable amount of damage.",
+    "weight": "1800 g",
+    "volume": "3 L",
+    "longest_side": "180 cm",
+    "price": 5000,
+    "price_postapoc": 250,
+    "to_hit": -1,
+    "bashing": 13,
+    "cutting": 31,
+    "material": [ "steel", "wood" ],
+    "symbol": "/",
+    "color": "light_gray",
+    "techniques": [ "WBLOCK_1" ],
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -42 ] ],
+    "flags": [ "REACH_ATTACK", "POLEARM", "NONCONDUCTIVE", "SHEATH_SPEAR", "FRAGILE_MELEE" ]
+  },
+  {
+    "id": "makeshift_glaive",
+    "type": "GENERIC",
+    "copy-from": "makeshift_halberd",
+    "name": { "str": "makeshift glaive" },
+    "description": "A stout tree branch that has been carefully split and reinforced.  At the split point, a sharp blade has been bolted into place and reinforced with layers of sturdy wrapped bindings.",
+    "price_postapoc": 400,
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -28 ] ],
+    "delete": { "flags": [ "FRAGILE_MELEE" ] }
+  },
+  {
     "id": "spear_spike",
     "type": "TOOL",
     "category": "weapons",
@@ -102,23 +133,13 @@
   {
     "id": "spear_knife",
     "type": "TOOL",
-    "category": "weapons",
     "name": { "str": "simple knife spear" },
+    "copy-from": "spear_knife_superior",
     "description": "A flimsy pole made of wood with a knife bound to the end.  It's long enough to slice from a distance, but the knife isn't that well attached.  You could take a bit more time to carefully split the shaft and attach the knife blade more permanently.",
-    "weight": "1487 g",
-    "volume": "1250 ml",
-    "longest_side": "130 cm",
     "price": 700,
     "price_postapoc": 150,
-    "to_hit": 1,
-    "bashing": 5,
-    "cutting": 19,
-    "material": [ "wood", "iron" ],
-    "symbol": "/",
-    "color": "brown",
-    "techniques": [ "WBLOCK_1" ],
-    "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ] ],
-    "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "FRAGILE_MELEE", "SHEATH_SPEAR" ]
+    "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ], [ "BUTCHER", -42 ] ],
+    "extend": { "flags": [ "FRAGILE_MELEE" ] }
   },
   {
     "id": "spear_knife_superior",
@@ -138,7 +159,7 @@
     "symbol": "/",
     "color": "brown",
     "techniques": [ "WBLOCK_1" ],
-    "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ] ],
+    "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ], [ "BUTCHER", -28 ] ],
     "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ]
   },
   {

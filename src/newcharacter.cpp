@@ -1,6 +1,7 @@
+#include "avatar.h" // IWYU pragma: associated
+
 #include <algorithm>
 #include <climits>
-#include <cmath>
 #include <cstdlib>
 #include <functional>
 #include <iosfwd>
@@ -8,6 +9,7 @@
 #include <list>
 #include <map>
 #include <memory>
+#include <new>
 #include <set>
 #include <tuple>
 #include <unordered_map>
@@ -15,9 +17,7 @@
 #include <vector>
 
 #include "addiction.h"
-#include "avatar.h" // IWYU pragma: associated
 #include "bionics.h"
-#include "bodypart.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
@@ -27,7 +27,6 @@
 #include "enum_conversions.h"
 #include "game_constants.h"
 #include "input.h"
-#include "int_id.h"
 #include "inventory.h"
 #include "item.h"
 #include "json.h"
@@ -54,7 +53,6 @@
 #include "skill.h"
 #include "start_location.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "string_input_popup.h"
 #include "translations.h"
 #include "type_id.h"
@@ -71,9 +69,12 @@ static const std::string flag_SECRET( "SECRET" );
 static const std::string type_hair_style( "hair_style" );
 static const std::string type_skin_tone( "skin_tone" );
 static const std::string type_facial_hair( "facial_hair" );
+static const std::string type_eye_color( "eye_color" );
 
 static const flag_id json_flag_no_auto_equip( "no_auto_equip" );
 static const flag_id json_flag_auto_wield( "auto_wield" );
+
+static const json_character_flag json_flag_BIONIC_TOGGLED( "BIONIC_TOGGLED" );
 
 static const trait_id trait_SMELLY( "SMELLY" );
 static const trait_id trait_WEAKSCENT( "WEAKSCENT" );
@@ -198,14 +199,13 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
     }
     // if adjusting min and max age from 16 and 55, make sure to see set_description()
     init_age = rng( 16, 55 );
-    // if adjusting min and max height from 145 and 200, make sure to see set_description()
-    init_height = rng( 145, 200 );
+    randomize_height();
     randomize_blood();
     bool cities_enabled = world_generator->active_world->WORLD_OPTIONS["CITY_SIZE"].getValue() != "0";
     if( random_scenario ) {
         std::vector<const scenario *> scenarios;
         for( const auto &scen : scenario::get_all() ) {
-            if( !scen.has_flag( flag_CHALLENGE ) &&
+            if( !scen.has_flag( flag_CHALLENGE ) && !scen.scen_is_blacklisted() &&
                 ( !scen.has_flag( flag_CITY_START ) || cities_enabled ) ) {
                 scenarios.emplace_back( &scen );
             }
@@ -229,6 +229,8 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
     // Values below give points back, values above require points. The line above has removed
     // to many points, therefore they are added back.
     points.stat_points += 8 * 4;
+
+    set_body();
 
     int num_gtraits = 0;
     int num_btraits = 0;
@@ -382,12 +384,12 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
 
     randomize_cosmetic_trait( type_hair_style );
     randomize_cosmetic_trait( type_skin_tone );
+    randomize_cosmetic_trait( type_eye_color );
     //arbitrary 50% chance to add beard to male characters
     if( male && one_in( 2 ) ) {
         randomize_cosmetic_trait( type_facial_hair );
     }
 
-    set_body();
 }
 
 void avatar::add_profession_items()
@@ -1049,6 +1051,13 @@ tab_direction set_stats( avatar &u, points_left &points )
     } while( true );
 }
 
+static struct {
+    /** @related player */
+    bool operator()( const trait_id *a, const trait_id *b ) {
+        return std::abs( a->obj().points ) > std::abs( b->obj().points );
+    }
+} traits_sorter;
+
 tab_direction set_traits( avatar &u, points_left &points )
 {
     const int max_trait_points = get_option<int>( "MAX_TRAIT_POINTS" );
@@ -1056,7 +1065,9 @@ tab_direction set_traits( avatar &u, points_left &points )
     // Track how many good / bad POINTS we have; cap both at MAX_TRAIT_POINTS
     int num_good = 0;
     int num_bad = 0;
-
+    // 0 -> traits that take points ( positive traits )
+    // 1 -> traits that give points ( negative traits )
+    // 2 -> neutral traits ( facial hair, skin color, etc )
     std::vector<trait_id> vStartingTraits[3];
 
     for( const mutation_branch &traits_iter : mutation_branch::get_all() ) {
@@ -1111,12 +1122,56 @@ tab_direction set_traits( avatar &u, points_left &points )
     int iStartPos[3] = { 0, 0, 0 };
     int iCurrentLine[3] = { 0, 0, 0 };
     size_t traits_size[3];
+    bool recalc_traits = false;
+    std::vector<const trait_id *> sorted_traits[3];
+    std::string filterstring;
+
     for( int i = 0; i < 3; i++ ) {
-        traits_size[i] = vStartingTraits[i].size();
+        const size_t size = vStartingTraits[i].size();
+        traits_size[i] = size;
+        sorted_traits[i].reserve( size );
+        for( size_t j = 0; j < size; j++ ) {
+            sorted_traits[i].emplace_back( &vStartingTraits[i][j] );
+        }
     }
 
     size_t iContentHeight = 0;
     size_t page_width = 0;
+
+    const auto pos_calc = [&]() {
+        for( int i = 0; i < 3; i++ ) {
+            // Shift start position to avoid iterating beyond end
+            traits_size[i] = sorted_traits[i].size();
+            int total = static_cast<int>( traits_size[i] );
+            int height = static_cast<int>( iContentHeight );
+            iStartPos[i] = std::min( iStartPos[i], std::max( 0, total - height ) );
+        }
+    };
+
+    // this will return the next non empty page
+    // there will always be at least one non-empty page
+    // iCurWorkingPage will always be a non-empty page
+    const auto next_avail_page = [&traits_size, &iCurWorkingPage]( bool invert_direction ) -> int {
+        int prev_page = iCurWorkingPage < 1 ? 2 : iCurWorkingPage - 1;
+        if( !traits_size[prev_page] )
+        {
+            prev_page = prev_page < 1 ? 2 : prev_page - 1;
+            if( !traits_size[prev_page] ) {
+                prev_page = prev_page < 1 ? 2 : prev_page - 1;
+            }
+        }
+
+        int next_page = iCurWorkingPage > 1 ? 0 : iCurWorkingPage + 1;
+        if( !traits_size[next_page] )
+        {
+            next_page = next_page > 1 ? 0 : next_page + 1;
+            if( !traits_size[next_page] ) {
+                next_page = next_page > 1 ? 0 : next_page + 1;
+            }
+        }
+
+        return invert_direction ? prev_page : next_page;
+    };
 
     ui_adaptor ui;
     catacurses::window w;
@@ -1128,12 +1183,7 @@ tab_direction set_traits( avatar &u, points_left &points )
         page_width = std::min( ( TERMX - 4 ) / used_pages, 38 );
         iContentHeight = TERMY - 9;
 
-        for( int i = 0; i < 3; i++ ) {
-            // Shift start position to avoid iterating beyond end
-            int total = static_cast<int>( traits_size[i] );
-            int height = static_cast<int>( iContentHeight );
-            iStartPos[i] = std::min( iStartPos[i], std::max( 0, total - height ) );
-        }
+        pos_calc();
     };
     init_windows( ui );
     ui.on_screen_resize( init_windows );
@@ -1146,13 +1196,26 @@ tab_direction set_traits( avatar &u, points_left &points )
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
+    ctxt.register_action( "FILTER" );
+    ctxt.register_action( "SORT" );
     ctxt.register_action( "QUIT" );
+
+    bool unsorted = true;
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w );
         werase( w_description );
 
         draw_character_tabs( w, _( "TRAITS" ) );
+
+        const std::string filter_indicator = filterstring.empty() ?
+                                             _( "no filter" ) : filterstring;
+        const std::string sortstring = string_format( "[%1$s] %2$s: %3$s", ctxt.get_desc( "SORT" ),
+                                       _( "sort" ), unsorted ? _( "unsorted" ) : _( "points" ) );
+
+        mvwprintz( w, point( 2, getmaxy( w ) - 1 ), c_light_gray, "<%s>", filter_indicator );
+        mvwprintz( w, point( getmaxx( w ) - sortstring.size() - 4, getmaxy( w ) - 1 ),
+                   c_light_gray, "<%s>", sortstring );
 
         draw_points( w, points );
         int full_string_length = 0;
@@ -1169,7 +1232,11 @@ tab_direction set_traits( avatar &u, points_left &points )
         }
 
         for( int iCurrentPage = 0; iCurrentPage < 3; iCurrentPage++ ) {
-            nc_color col_on_act, col_off_act, col_on_pas, col_off_pas, hi_on, hi_off, col_tr;
+            nc_color col_on_act;
+            nc_color col_off_act;
+            nc_color col_on_pas;
+            nc_color col_off_pas;
+            nc_color col_tr;
             switch( iCurrentPage ) {
                 case 0:
                     col_on_act = COL_TR_GOOD_ON_ACT;
@@ -1177,8 +1244,6 @@ tab_direction set_traits( avatar &u, points_left &points )
                     col_on_pas = COL_TR_GOOD_ON_PAS;
                     col_off_pas = COL_TR_GOOD_OFF_PAS;
                     col_tr = COL_TR_GOOD;
-                    hi_on = hilite( col_on_act );
-                    hi_off = hilite( col_off_act );
                     break;
                 case 1:
                     col_on_act = COL_TR_BAD_ON_ACT;
@@ -1186,8 +1251,6 @@ tab_direction set_traits( avatar &u, points_left &points )
                     col_on_pas = COL_TR_BAD_ON_PAS;
                     col_off_pas = COL_TR_BAD_OFF_PAS;
                     col_tr = COL_TR_BAD;
-                    hi_on = hilite( col_on_act );
-                    hi_off = hilite( col_off_act );
                     break;
                 default:
                     col_on_act = COL_TR_NEUT_ON_ACT;
@@ -1195,10 +1258,10 @@ tab_direction set_traits( avatar &u, points_left &points )
                     col_on_pas = COL_TR_NEUT_ON_PAS;
                     col_off_pas = COL_TR_NEUT_OFF_PAS;
                     col_tr = COL_TR_NEUT;
-                    hi_on = hilite( col_on_act );
-                    hi_off = hilite( col_off_act );
                     break;
             }
+            nc_color hi_on = hilite( col_on_act );
+            nc_color hi_off = hilite( col_off_act );
 
             int &start = iStartPos[iCurrentPage];
             int current = iCurrentLine[iCurrentPage];
@@ -1206,7 +1269,7 @@ tab_direction set_traits( avatar &u, points_left &points )
             int end = start + static_cast<int>( std::min( traits_size[iCurrentPage], iContentHeight ) );
 
             for( int i = start; i < end; i++ ) {
-                const trait_id &cur_trait = vStartingTraits[iCurrentPage][i];
+                const trait_id &cur_trait = *sorted_traits[iCurrentPage][i];
                 const mutation_branch &mdata = cur_trait.obj();
                 if( current == i && iCurrentPage == iCurWorkingPage ) {
                     int points = mdata.points;
@@ -1265,18 +1328,66 @@ tab_direction set_traits( avatar &u, points_left &points )
     } );
 
     do {
+        if( recalc_traits ) {
+            for( int i = 0; i < 3; i++ ) {
+                const size_t size = vStartingTraits[i].size();
+                sorted_traits[i].clear();
+                for( size_t j = 0; j < size; j++ ) {
+                    sorted_traits[i].emplace_back( &vStartingTraits[i][j] );
+                }
+            }
+
+            if( !filterstring.empty() ) {
+                for( std::vector<const trait_id *> &traits : sorted_traits ) {
+                    const auto new_end_iter = std::remove_if(
+                                                  traits.begin(),
+                                                  traits.end(),
+                    [&filterstring]( const trait_id * trait ) {
+                        return !lcmatch( trait->obj().name(), filterstring );
+                    } );
+
+                    traits.erase( new_end_iter, traits.end() );
+                }
+            }
+
+            if( !filterstring.empty() && sorted_traits[0].empty() && sorted_traits[1].empty() &&
+                sorted_traits[2].empty() ) {
+                popup( _( "Nothing found." ) ); // another case of black box in tiles
+                filterstring.clear();
+                continue;
+            }
+
+            if( !unsorted ) {
+                std::stable_sort( sorted_traits[0].begin(), sorted_traits[0].end(), traits_sorter );
+                std::stable_sort( sorted_traits[1].begin(), sorted_traits[1].end(), traits_sorter );
+            }
+
+            // Select the current page, if not empty
+            // There should always be atleast one not empty page
+            iCurrentLine[0] = 0;
+            iCurrentLine[1] = 0;
+            iCurrentLine[2] = 0;
+            if( sorted_traits[iCurWorkingPage].empty() ) {
+                iCurWorkingPage = 0;
+                if( !sorted_traits[0].empty() ) {
+                    iCurWorkingPage = 0;
+                } else if( !sorted_traits[1].empty() ) {
+                    iCurWorkingPage = 1;
+                } else if( !sorted_traits[2].empty() ) {
+                    iCurWorkingPage = 2;
+                }
+            }
+
+            pos_calc();
+            recalc_traits = false;
+        }
+
         ui_manager::redraw();
         const std::string action = ctxt.handle_input();
         if( action == "LEFT" ) {
-            iCurWorkingPage--;
-            if( iCurWorkingPage < 0 ) {
-                iCurWorkingPage = used_pages - 1;
-            }
+            iCurWorkingPage = next_avail_page( true );
         } else if( action == "RIGHT" ) {
-            iCurWorkingPage++;
-            if( iCurWorkingPage > used_pages - 1 ) {
-                iCurWorkingPage = 0;
-            }
+            iCurWorkingPage = next_avail_page( false );
         } else if( action == "UP" ) {
             if( iCurrentLine[iCurWorkingPage] == 0 ) {
                 iCurrentLine[iCurWorkingPage] = traits_size[iCurWorkingPage] - 1;
@@ -1308,7 +1419,7 @@ tab_direction set_traits( avatar &u, points_left &points )
             }
         } else if( action == "CONFIRM" ) {
             int inc_type = 0;
-            const trait_id cur_trait = vStartingTraits[iCurWorkingPage][iCurrentLine[iCurWorkingPage]];
+            const trait_id cur_trait = *sorted_traits[iCurWorkingPage][iCurrentLine[iCurWorkingPage]];
             const mutation_branch &mdata = cur_trait.obj();
 
             // Look through the profession bionics, and see if any of them conflict with this trait
@@ -1338,6 +1449,7 @@ tab_direction set_traits( avatar &u, points_left &points )
                 // Grab a list of the names of the bionics that block this trait
                 // So that the player know what is preventing them from taking it
                 std::vector<std::string> conflict_names;
+                conflict_names.reserve( cbms_blocking_trait.size() );
                 for( const bionic_id &conflict : cbms_blocking_trait ) {
                     conflict_names.emplace_back( conflict->name.translated() );
                 }
@@ -1375,6 +1487,16 @@ tab_direction set_traits( avatar &u, points_left &points )
             return tab_direction::FORWARD;
         } else if( action == "QUIT" && query_yn( _( "Return to main menu?" ) ) ) {
             return tab_direction::QUIT;
+        } else if( action == "SORT" ) {
+            unsorted = !unsorted;
+            recalc_traits = true;
+        } else if( action == "FILTER" ) {
+            string_input_popup()
+            .title( _( "Search:" ) )
+            .width( 10 )
+            .description( _( "Search by trait name." ) )
+            .edit( filterstring );
+            recalc_traits = true;
         }
     } while( true );
 }
@@ -1615,7 +1737,7 @@ tab_direction set_profession( avatar &u, points_left &points,
             } else {
                 for( const auto &b : prof_CBMs ) {
                     const auto &cbm = b.obj();
-                    if( cbm.activated && cbm.has_flag( "BIONIC_TOGGLED" ) ) {
+                    if( cbm.activated && cbm.has_flag( json_flag_BIONIC_TOGGLED ) ) {
                         buffer += string_format( _( "%s (toggled)" ), cbm.name ) + "\n";
                     } else if( cbm.activated ) {
                         buffer += string_format( _( "%s (activated)" ), cbm.name ) + "\n";
@@ -1773,6 +1895,20 @@ tab_direction set_profession( avatar &u, points_left &points,
             }
             const int netPointCost = sorted_profs[cur_id]->point_cost() - u.prof->point_cost();
             u.prof = &sorted_profs[cur_id].obj();
+            // Remove pre-selected traits that conflict
+            // with the new profession's traits
+            for( const trait_id &new_trait : u.prof->get_locked_traits() ) {
+                if( u.has_conflicting_trait( new_trait ) ) {
+                    for( const trait_id &suspect_trait : u.get_mutations() ) {
+                        if( are_conflicting_traits( new_trait, suspect_trait ) ) {
+                            u.toggle_trait( suspect_trait );
+                            points.trait_points += suspect_trait->points;
+                            popup( _( "Your trait %1$s has been removed since it conflicts with the %2$s's %3$s trait." ),
+                                   suspect_trait->name(), u.prof->gender_appropriate_name( u.male ), new_trait->name() );
+                        }
+                    }
+                }
+            }
             // Add traits for the new profession (and perhaps scenario, if, for example,
             // both the scenario and old profession require the same trait)
             u.add_traits( points );
@@ -1947,7 +2083,7 @@ tab_direction set_skills( avatar &u, points_left &points )
             } );
 
             if( elem.first == currentSkill->name() ) {
-                rec_disp = "\n\n" + colorize( rec_temp, c_brown ) + rec_disp;
+                rec_disp = "\n\n" + colorize( rec_temp, c_brown ) + std::move( rec_disp );
             } else {
                 rec_disp += "\n\n" + colorize( "[" + elem.first + "]\n" + rec_temp, c_light_gray );
             }
@@ -2115,7 +2251,7 @@ tab_direction set_scenario( avatar &u, points_left &points,
         iContentHeight = TERMY - 10;
         w = catacurses::newwin( TERMY, TERMX, point_zero );
         w_description = catacurses::newwin( 4, TERMX - 2, point( 1, TERMY - 5 ) );
-        const int second_column_w =  TERMX / 2 - 1;
+        const int second_column_w = TERMX / 2 - 1;
         point origin = point( second_column_w + 1, 5 );
         const int w_sorting_h = 2;
         const int w_profession_h = 4;
@@ -2323,18 +2459,18 @@ tab_direction set_scenario( avatar &u, points_left &points,
             wprintz( w_initial_date, c_light_gray, ( "\n" ) );
             if( sorted_scens[cur_id]->custom_initial_date() ) {
                 wprintz( w_initial_date, c_light_gray,
-                         _( sorted_scens[cur_id]->is_random_year() ? "Year:   Random" : "Year:   %s" ),
+                         sorted_scens[cur_id]->is_random_year() ? _( "Year:   Random" ) : _( "Year:   %s" ),
                          sorted_scens[cur_id]->initial_year() );
                 wprintz( w_initial_date, c_light_gray, ( "\n" ) );
                 wprintz( w_initial_date, c_light_gray, _( "Season: %s" ),
                          calendar::name_season( sorted_scens[cur_id]->initial_season() ) );
                 wprintz( w_initial_date, c_light_gray, ( "\n" ) );
                 wprintz( w_initial_date, c_light_gray,
-                         _( sorted_scens[cur_id]->is_random_day() ? "Day:    Random" : "Day:    %d" ),
+                         sorted_scens[cur_id]->is_random_day() ? _( "Day:    Random" ) : _( "Day:    %d" ),
                          sorted_scens[cur_id]->initial_day() );
                 wprintz( w_initial_date, c_light_gray, ( "\n" ) );
                 wprintz( w_initial_date, c_light_gray,
-                         _( sorted_scens[cur_id]->is_random_hour() ? "Hour:   Random" : "Hour:   %d" ),
+                         sorted_scens[cur_id]->is_random_hour() ? _( "Hour:   Random" ) : _( "Hour:   %d" ),
                          sorted_scens[cur_id]->initial_hour() );
                 wprintz( w_initial_date, c_light_gray, ( "\n" ) );
             } else {
@@ -2371,6 +2507,10 @@ tab_direction set_scenario( avatar &u, points_left &points,
             }
             if( sorted_scens[cur_id]->has_flag( "LONE_START" ) ) {
                 wprintz( w_flags, c_light_gray, _( "No starting NPC" ) );
+                wprintz( w_flags, c_light_gray, ( "\n" ) );
+            }
+            if( sorted_scens[cur_id]->has_flag( "BORDERED" ) ) {
+                wprintz( w_flags, c_light_gray, _( "Starting location is bordered by an immense wall" ) );
                 wprintz( w_flags, c_light_gray, ( "\n" ) );
             }
         }
@@ -2728,10 +2868,10 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
 
         std::vector<std::string> vStatNames;
         mvwprintz( w_stats, point_zero, COL_HEADER, _( "Stats:" ) );
-        vStatNames.push_back( _( "Strength:" ) );
-        vStatNames.push_back( _( "Dexterity:" ) );
-        vStatNames.push_back( _( "Intelligence:" ) );
-        vStatNames.push_back( _( "Perception:" ) );
+        vStatNames.emplace_back( _( "Strength:" ) );
+        vStatNames.emplace_back( _( "Dexterity:" ) );
+        vStatNames.emplace_back( _( "Intelligence:" ) );
+        vStatNames.emplace_back( _( "Perception:" ) );
         int pos = 0;
         for( size_t i = 0; i < vStatNames.size(); i++ ) {
             pos = ( utf8_width( vStatNames[i] ) > pos ?
@@ -2816,7 +2956,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                 for( const auto &b : prof_CBMs ) {
                     const auto &cbm = b.obj();
 
-                    if( cbm.activated && cbm.has_flag( "BIONIC_TOGGLED" ) ) {
+                    if( cbm.activated && cbm.has_flag( json_flag_BIONIC_TOGGLED ) ) {
                         wprintz( w_bionics, c_light_gray, string_format( _( "\n%s (toggled)" ), cbm.name ) );
                     } else if( cbm.activated ) {
                         wprintz( w_bionics, c_light_gray, string_format( _( "\n%s (activated)" ), cbm.name ) );
@@ -3165,7 +3305,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                 no_name_entered = you.name.empty();
             }
             you.set_base_age( rng( 16, 55 ) );
-            you.set_base_height( rng( 145, 200 ) );
+            you.randomize_height();
             you.randomize_blood();
         } else if( action == "CHANGE_GENDER" ) {
             you.male = !you.male;
@@ -3513,6 +3653,12 @@ bool avatar::load_template( const std::string &template_name, points_left &point
         }
 
         deserialize( jsin );
+
+        // If stored_calories the template is under a million (kcals < 1000), assume it predates the
+        // kilocalorie-to-literal-calorie conversion and is off by a factor of 1000.
+        if( get_stored_kcal() < 1000 ) {
+            set_stored_kcal( 1000 * get_stored_kcal() );
+        }
 
         if( MAP_SHARING::isSharing() ) {
             // just to make sure we have the right name

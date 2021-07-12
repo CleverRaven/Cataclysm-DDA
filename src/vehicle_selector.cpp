@@ -1,7 +1,5 @@
 #include "vehicle_selector.h"
 
-#include <algorithm>
-
 #include "map.h"
 #include "optional.h"
 #include "point.h"
@@ -28,9 +26,7 @@ vehicle_selector::vehicle_selector( const tripoint &pos, int radius, bool access
     for( const tripoint &e : closest_points_first( pos, radius ) ) {
         if( !accessible || here.clear_path( pos, e, radius, 1, 100 ) ) {
             if( const optional_vpart_position vp = here.veh_at( e ) ) {
-                if( &vp->vehicle() != &ignore ) {
-                    data.emplace_back( vp->vehicle(), vp->part_index() );
-                }
+                data.emplace_back( vp->vehicle(), vp->part_index(), &vp->vehicle() == &ignore );
             }
         }
     }

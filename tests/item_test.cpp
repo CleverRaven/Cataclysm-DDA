@@ -1,4 +1,4 @@
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "item.h"
 
 #include <cmath>
@@ -45,7 +45,7 @@ TEST_CASE( "simple_item_layers", "[item]" )
     CHECK( item( "arm_warmers" ).get_layer() == layer_level::UNDERWEAR );
     CHECK( item( "10gal_hat" ).get_layer() == layer_level::REGULAR );
     CHECK( item( "baldric" ).get_layer() == layer_level::WAIST );
-    CHECK( item( "aep_suit" ).get_layer() == layer_level::OUTER );
+    CHECK( item( "armor_lightplate" ).get_layer() == layer_level::OUTER );
     CHECK( item( "2byarm_guard" ).get_layer() == layer_level::BELTED );
 }
 
@@ -248,4 +248,52 @@ TEST_CASE( "corpse length sanity check", "[item]" )
         const item sample = item::make_corpse( type.id );
         assert_minimum_length_to_volume_ratio( sample );
     }
+}
+
+static void check_spawning_in_container( const std::string &item_type )
+{
+    item test_item{ itype_id( item_type ) };
+    REQUIRE( test_item.type->default_container );
+    item container_item = test_item.in_its_container( 1 );
+    CHECK( container_item.typeId() == *test_item.type->default_container );
+    if( container_item.is_container() ) {
+        CHECK( container_item.has_item_with( [&test_item]( const item & it ) {
+            return it.typeId() == test_item.typeId();
+        } ) );
+    } else if( test_item.is_software() ) {
+        REQUIRE( container_item.is_software_storage() );
+        const std::vector<const item *> softwares = container_item.softwares();
+        CHECK( !softwares.empty() );
+        for( const item *itm : softwares ) {
+            CHECK( itm->typeId() == test_item.typeId() );
+        }
+    } else {
+        FAIL( "Not container or software storage." );
+    }
+}
+
+TEST_CASE( "items spawn in their default containers", "[item]" )
+{
+    check_spawning_in_container( "water" );
+    check_spawning_in_container( "gunpowder" );
+    check_spawning_in_container( "nitrox" );
+    check_spawning_in_container( "ammonia" );
+    check_spawning_in_container( "detergent" );
+    check_spawning_in_container( "pale_ale" );
+    check_spawning_in_container( "single_malt_whiskey" );
+    check_spawning_in_container( "rocuronium" );
+    check_spawning_in_container( "chem_muriatic_acid" );
+    check_spawning_in_container( "chem_black_powder" );
+    check_spawning_in_container( "software_useless" );
+}
+
+TEST_CASE( "item variables round-trip accurately", "[item]" )
+{
+    item i( "water" );
+    i.set_var( "A", 17 );
+    CHECK( i.get_var( "A", 0 ) == 17 );
+    i.set_var( "B", 0.125 );
+    CHECK( i.get_var( "B", 0.0 ) == 0.125 );
+    i.set_var( "C", tripoint( 2, 3, 4 ) );
+    CHECK( i.get_var( "C", tripoint() ) == tripoint( 2, 3, 4 ) );
 }

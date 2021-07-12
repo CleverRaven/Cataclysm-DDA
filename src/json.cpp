@@ -1,16 +1,17 @@
 #include "json.h"
 
+#include <clocale>
 #include <algorithm>
 #include <bitset>
 #include <cmath> // IWYU pragma: keep
 #include <cstdint>
 #include <cstdio>
-#include <cstdlib> // strtoul: keep
 #include <cstring> // strcmp
 #include <exception>
+#include <functional>
 #include <iterator>
 #include <limits>
-#include <locale> // ensure user's locale doesn't interfere with output
+#include <memory>
 #include <set>
 #include <sstream> // IWYU pragma: keep
 #include <string>
@@ -116,7 +117,7 @@ void JsonObject::report_unvisited() const
             const std::string &name = p.first;
             if( !visited_members.count( name ) && !string_starts_with( name, "//" ) ) {
                 try {
-                    throw_error( string_format( "Failed to visit member %s in JsonObject", name ), name );
+                    throw_error( string_format( "Invalid or misplaced field name \"%s\" in JSON data", name ), name );
                 } catch( const JsonError &e ) {
                     debugmsg( "(json-error)\n%s", e.what() );
                 }
@@ -538,6 +539,12 @@ void JsonArray::verify_index( const size_t i ) const
 
 /* iterative access */
 
+JsonValue JsonArray::next()
+{
+    verify_index( index );
+    return JsonValue( *jsin, positions[index++] );
+}
+
 bool JsonArray::next_bool()
 {
     verify_index( index );
@@ -746,6 +753,33 @@ void add_array_to_set( std::set<std::string> &s, const JsonObject &json, const s
     }
 }
 
+JsonIn::JsonIn( std::istream &s ) : stream( &s )
+{
+    sanity_check_stream();
+}
+
+JsonIn::JsonIn( std::istream &s, const std::string &path )
+    : stream( &s )
+    , path( make_shared_fast<std::string>( path ) )
+{
+    sanity_check_stream();
+}
+
+JsonIn::JsonIn( std::istream &s, const json_source_location &loc )
+    : stream( &s ), path( loc.path )
+{
+    seek( loc.offset );
+    sanity_check_stream();
+}
+
+void JsonIn::sanity_check_stream()
+{
+    char c = stream->peek();
+    if( c == '\xef' ) {
+        error( _( "This JSON file looks like it starts with a Byte Order Mark (BOM) or is otherwise corrupted.  This can happen if you edit files in Windows Notepad.  See doc/CONTRIBUTING.md for more advice." ) );
+    }
+}
+
 int JsonIn::tell()
 {
     return stream->tellg();
@@ -802,7 +836,7 @@ void JsonIn::skip_separator()
     signed char ch = peek();
     if( ch == ',' ) {
         if( ate_separator ) {
-            error( "duplicate separator" );
+            error( "duplicate comma" );
         }
         stream->get();
         ate_separator = true;
@@ -810,7 +844,7 @@ void JsonIn::skip_separator()
         // okay
         if( ate_separator ) {
             std::stringstream err;
-            err << "separator should not be found before '" << ch << "'";
+            err << "comma should not be found before '" << ch << "'";
             uneat_whitespace();
             error( err.str() );
         }
@@ -819,13 +853,13 @@ void JsonIn::skip_separator()
         // that's okay too... probably
         if( ate_separator ) {
             uneat_whitespace();
-            error( "separator at end of file not strictly allowed" );
+            error( "comma at end of file not allowed" );
         }
         ate_separator = false;
     } else {
         // not okay >:(
         uneat_whitespace();
-        error( "missing separator", 1 );
+        error( "missing comma", 1 );
     }
 }
 
@@ -839,7 +873,7 @@ void JsonIn::skip_pair_separator()
         err << "expected pair separator ':', not '" << ch << "'";
         error( err.str(), -1 );
     } else if( ate_separator ) {
-        error( "duplicate separator not strictly allowed", -1 );
+        error( "duplicate pair separator ':' not allowed", -1 );
     }
     ate_separator = true;
 }
@@ -1308,7 +1342,7 @@ number_sci_notation JsonIn::get_any_number()
         // allow a single leading zero in front of a '.' or 'e'/'E'
         stream->get( ch );
         if( ch >= '0' && ch <= '9' ) {
-            error( "leading zeros not strictly allowed", -1 );
+            error( "leading zeros not allowed", -1 );
         }
     }
     while( ch >= '0' && ch <= '9' ) {
@@ -1412,7 +1446,7 @@ bool JsonIn::end_array()
     if( peek() == ']' ) {
         if( ate_separator ) {
             uneat_whitespace();
-            error( "separator not strictly allowed at end of array" );
+            error( "comma not allowed at end of array" );
         }
         stream->get();
         end_value();
@@ -1445,7 +1479,7 @@ bool JsonIn::end_object()
     if( peek() == '}' ) {
         if( ate_separator ) {
             uneat_whitespace();
-            error( "separator not strictly allowed at end of object" );
+            error( "comma not allowed at end of object" );
         }
         stream->get();
         end_value();
@@ -2219,7 +2253,7 @@ JsonValue JsonObject::get_member( const std::string &name ) const
 {
     const auto iter = positions.find( name );
     if( !jsin || iter == positions.end() ) {
-        throw_error( "requested non-existing member \"" + name + "\" in " + str() );
+        throw_error( "missing required field \"" + name + "\" in object: " + str() );
     }
     mark_visited( name );
     return JsonValue( *jsin, iter->second );

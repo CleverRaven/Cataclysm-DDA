@@ -1,22 +1,27 @@
-#include "catch/catch.hpp"
-
-#include <iomanip>
+#include <functional>
+#include <list>
 #include <memory>
-#include <utility>
+#include <new>
+#include <sstream>
+#include <string>
 #include <vector>
 
 #include "cached_options.h"
 #include "calendar.h"
+#include "cata_catch.h"
 #include "character.h"
-#include "field.h"
 #include "game.h"
-#include "game_constants.h"
+#include "item.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "map_test_case.h"
+#include "mapdata.h"
+#include "optional.h"
 #include "point.h"
 #include "type_id.h"
+#include "units.h"
 #include "vehicle.h"
+#include "vpart_position.h"
 #include "vpart_range.h"
 
 static int get_actual_light_level( const map_test_case::tile &t )
@@ -141,6 +146,7 @@ struct vision_test_case {
         }
 
         // test both 2d and 3d cases
+        restore_on_out_of_scope<bool> restore_fov_3d( fov_3d );
         fov_3d = GENERATE( false, true );
 
         std::stringstream section_name;

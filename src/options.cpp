@@ -3,9 +3,10 @@
 #include <clocale>
 #include <cfloat>
 #include <climits>
+#include <clocale>
 #include <iterator>
+#include <new>
 #include <stdexcept>
-#include <type_traits>
 
 #include "cached_options.h"
 #include "calendar.h"
@@ -13,7 +14,7 @@
 #include "catacharset.h"
 #include "color.h"
 #include "cursesdef.h"
-#include "cursesport.h"
+#include "cursesport.h" // IWYU pragma: keep
 #include "debug.h"
 #include "filesystem.h"
 #include "game.h"
@@ -26,12 +27,13 @@
 #include "path_info.h"
 #include "point.h"
 #include "popup.h"
+#include "sdltiles.h" // IWYU pragma: keep
 #include "sdlsound.h"
-#include "sdltiles.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
+#include "try_parse_integer.h"
 #include "ui_manager.h"
 #include "worldfactory.h"
 
@@ -45,7 +47,6 @@
 
 #include <algorithm>
 #include <cstdlib>
-#include <locale>
 #include <memory>
 #include <sstream>
 #include <string>
@@ -852,17 +853,36 @@ void options_manager::cOpt::setValue( const std::string &sSetIn )
         bSet = sSetIn == "True" || sSetIn == "true" || sSetIn == "T" || sSetIn == "t";
 
     } else if( sType == "int" ) {
-        iSet = atoi( sSetIn.c_str() );
+        // Some integer values are stored with a '%', e.g. "100%".
+        std::string without_percent = sSetIn;
+        if( string_ends_with( without_percent, "%" ) ) {
+            without_percent.erase( without_percent.end() - 1 );
+        }
+        ret_val<int> val = try_parse_integer<int>( without_percent, false );
 
-        if( iSet < iMin || iSet > iMax ) {
+        if( val.success() ) {
+            iSet = val.value();
+
+            if( iSet < iMin || iSet > iMax ) {
+                iSet = iDefault;
+            }
+        } else {
+            debugmsg( "Error parsing option as integer: %s", val.str() );
             iSet = iDefault;
         }
 
     } else if( sType == "int_map" ) {
-        iSet = atoi( sSetIn.c_str() );
+        ret_val<int> val = try_parse_integer<int>( sSetIn, false );
 
-        auto item = findInt( iSet );
-        if( !item ) {
+        if( val.success() ) {
+            iSet = val.value();
+
+            auto item = findInt( iSet );
+            if( !item ) {
+                iSet = iDefault;
+            }
+        } else {
+            debugmsg( "Error parsing option as integer: %s", val.str() );
             iSet = iDefault;
         }
 
@@ -893,9 +913,10 @@ static std::vector<options_manager::id_and_option> build_resource_list(
 
     resource_option.clear();
     const auto resource_dirs = get_directories_with( filename, dirname, true );
+    const std::string slash_filename = "/" + filename;
 
     for( const std::string &resource_dir : resource_dirs ) {
-        read_from_file( resource_dir + "/" + filename, [&]( std::istream & fin ) {
+        read_from_file( resource_dir + slash_filename, [&]( std::istream & fin ) {
             std::string resource_name;
             std::string view_name;
             // should only have 2 values inside it, otherwise is going to only load the last 2 values
@@ -1399,6 +1420,16 @@ void options_manager::add_options_interface()
 
     add_empty_line();
 
+    add( "SHOW_GUN_VARIANTS", "interface", to_translation( "Show gun brand names" ),
+         to_translation( "Show brand names for guns, intead of generic functional names - 'm4a1' or 'h&k416a5' instead of 'NATO assault rifle'." ),
+         false );
+    add( "AMMO_IN_NAMES", "interface", to_translation( "Add ammo to weapon/magazine names" ),
+         to_translation( "If true, the default ammo is added to weapon and magazine names.  For example \"Mosin-Nagant M44 (4/5)\" becomes \"Mosin-Nagant M44 (4/5 7.62x54mm)\"." ),
+         true
+       );
+
+    add_empty_line();
+
     add( "SDL_KEYBOARD_MODE", "interface", to_translation( "Use key code input mode" ),
          to_translation( "Use key code or symbol input on SDL.  "
                          "Symbol is recommended for non-qwerty layouts since currently "
@@ -1651,10 +1682,6 @@ void options_manager::add_options_interface()
          to_translation( "If true, show item symbols in inventory and pick up menu." ),
          false
        );
-    add( "AMMO_IN_NAMES", "interface", to_translation( "Add ammo to weapon/magazine names" ),
-         to_translation( "If true, the default ammo is added to weapon and magazine names.  For example \"Mosin-Nagant M44 (4/5)\" becomes \"Mosin-Nagant M44 (4/5 7.62x54mm)\"." ),
-         true
-       );
 
     add_empty_line();
 
@@ -1838,6 +1865,13 @@ void options_manager::add_options_graphics()
 
     get_option( "TILES" ).setPrerequisite( "USE_TILES" );
 
+    add( "USE_TILES_OVERMAP", "graphics", to_translation( "Use tiles to display overmap" ),
+         to_translation( "If true, replaces some TTF-rendered text with tiles for overmap display." ),
+         false, COPT_CURSES_HIDE
+       );
+
+    get_option( "USE_TILES_OVERMAP" ).setPrerequisite( "USE_TILES" );
+
     add_empty_line();
 
     add( "MEMORY_MAP_MODE", "graphics", to_translation( "Memory map overlay preset" ),
@@ -1970,7 +2004,12 @@ void options_manager::add_options_graphics()
     add( "FULLSCREEN", "graphics", to_translation( "Fullscreen" ),
          to_translation( "Starts Cataclysm in one of the fullscreen modes.  Requires restart." ),
     { { "no", to_translation( "No" ) }, { "maximized", to_translation( "Maximized" ) }, { "fullscreen", to_translation( "Fullscreen" ) }, { "windowedbl", to_translation( "Windowed borderless" ) } },
+    // Borderless window is bad for debugging in Visual Studio
+#if defined(_MSC_VER)
+    "maximized", COPT_CURSES_HIDE
+#else
     "windowedbl", COPT_CURSES_HIDE
+#endif
        );
 #endif
 
@@ -1982,9 +2021,18 @@ void options_manager::add_options_graphics()
     "software", COPT_CURSES_HIDE );
 #   else
     std::vector<options_manager::id_and_option> renderer_list = cata_tiles::build_renderer_list();
+    std::string default_renderer = renderer_list.front().first;
+#   if defined(_WIN32)
+    for( const id_and_option &renderer : renderer_list ) {
+        if( renderer.first == "direct3d11" ) {
+            default_renderer = renderer.first;
+            break;
+        }
+    }
+#   endif
     add( "RENDERER", "graphics", to_translation( "Renderer" ),
          to_translation( "Set which renderer to use.  Requires restart." ), renderer_list,
-         renderer_list.front().first, COPT_CURSES_HIDE );
+         default_renderer, COPT_CURSES_HIDE );
 #   endif
 
 #else
@@ -2047,13 +2095,6 @@ void options_manager::add_options_world_default()
         world_default_page_.items_.emplace_back();
     };
 
-    add( "CORE_VERSION", "world_default", to_translation( "Core version data" ),
-         to_translation( "Controls what migrations are applied for legacy worlds" ),
-         1, core_version, core_version, COPT_ALWAYS_HIDE
-       );
-
-    add_empty_line();
-
     add( "WORLD_END", "world_default", to_translation( "World end handling" ),
     to_translation( "Handling of game world when last character dies." ), {
         { "reset", to_translation( "Reset" ) }, { "delete", to_translation( "Delete" ) },
@@ -2076,11 +2117,6 @@ void options_manager::add_options_world_default()
     add( "SPAWN_DENSITY", "world_default", to_translation( "Spawn rate scaling factor" ),
          to_translation( "A scaling factor that determines density of monster spawns.  A higher number means more monsters." ),
          0.0, 50.0, 1.0, 0.1
-       );
-
-    add( "CARRION_SPAWNRATE", "world_default", to_translation( "Carrion spawn rate scaling factor" ),
-         to_translation( "A scaling factor that determines how often creatures spawn from rotting material.  A higher number means more carrion spawned." ),
-         0.0, 10.0, 1.0, 0.01, COPT_NO_HIDE
        );
 
     add( "ITEM_SPAWNRATE", "world_default", to_translation( "Item spawn scaling factor" ),
@@ -2524,6 +2560,7 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
         } catch( const std::exception &err ) {
             popup( _( "Loading the tileset failed: %s" ), err.what() );
             use_tiles = false;
+            use_tiles_overmap = false;
         }
     } else if( ingame && pixel_minimap_option && pixel_minimap_height_changed ) {
         g->mark_main_ui_adaptor_resize();
@@ -2606,7 +2643,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
 
     const int iWorldOffset = world_options_only ? 2 : 0;
     int iMinScreenWidth = 0;
-    const int iTooltipHeight = 5;
+    const int iTooltipHeight = 6;
     int iContentHeight = 0;
 
     catacurses::window w_options_border;
@@ -2800,7 +2837,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
         }
 
         if( ingame && iCurrentPage == iWorldOptPage ) {
-            mvwprintz( w_options_tooltip, point( 3, 3 ), c_light_red, "%s", _( "Note: " ) );
+            mvwprintz( w_options_tooltip, point( 3, 5 ), c_light_red, "%s", _( "Note: " ) );
             wprintz( w_options_tooltip, c_white, "%s",
                      _( "Some of these options may produce unexpected results if changed." ) );
         }
@@ -3011,12 +3048,11 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
 #if !defined(__ANDROID__) && (defined(TILES) || defined(_WIN32))
     if( terminal_size_changed ) {
         int scaling_factor = get_scaling_factor();
-        int TERMX = ::get_option<int>( "TERMINAL_X" );
-        int TERMY = ::get_option<int>( "TERMINAL_Y" );
-        TERMX -= TERMX % scaling_factor;
-        TERMY -= TERMY % scaling_factor;
-        get_option( "TERMINAL_X" ).setValue( std::max( FULL_SCREEN_WIDTH * scaling_factor, TERMX ) );
-        get_option( "TERMINAL_Y" ).setValue( std::max( FULL_SCREEN_HEIGHT * scaling_factor, TERMY ) );
+        point TERM( ::get_option<int>( "TERMINAL_X" ), ::get_option<int>( "TERMINAL_Y" ) );
+        TERM.x -= TERM.x % scaling_factor;
+        TERM.y -= TERM.y % scaling_factor;
+        get_option( "TERMINAL_X" ).setValue( std::max( FULL_SCREEN_WIDTH * scaling_factor, TERM.x ) );
+        get_option( "TERMINAL_Y" ).setValue( std::max( FULL_SCREEN_HEIGHT * scaling_factor, TERM.y ) );
         save();
 
         resize_term( ::get_option<int>( "TERMINAL_X" ), ::get_option<int>( "TERMINAL_Y" ) );
@@ -3097,6 +3133,7 @@ static void update_options_cache()
     // cache to global due to heavy usage.
     trigdist = ::get_option<bool>( "CIRCLEDIST" );
     use_tiles = ::get_option<bool>( "USE_TILES" );
+    use_tiles_overmap = ::get_option<bool>( "USE_TILES_OVERMAP" );
     log_from_top = ::get_option<std::string>( "LOG_FLOW" ) == "new_top";
     message_ttl = ::get_option<int>( "MESSAGE_TTL" );
     message_cooldown = ::get_option<int>( "MESSAGE_COOLDOWN" );
@@ -3127,7 +3164,6 @@ void options_manager::load()
     } );
 
     update_global_locale();
-
     update_options_cache();
 
 #if defined(SDL_SOUND)

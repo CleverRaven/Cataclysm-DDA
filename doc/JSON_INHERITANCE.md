@@ -74,17 +74,27 @@ The following types currently support inheritance:
 ```
 GENERIC
 AMMO
+ARMOR
+BOOK
+COMESTIBLE
+ENGINE
+furniture
 GUN
 GUNMOD
 MAGAZINE
-TOOL (but not TOOL_ARMOR)
-COMESTIBLE
-BOOK
-ENGINE
 MATERIAL
+MONSTER
+MONSTER_FACTION
+mutation
+overmap_terrain
+recipe
+terrain
+TOOL
+uncraft
+vehicle_part
 ```
 
-To find out if a types supports copy-from, you need to know if it has implemented generic_factory. To find out if this is the case, do the following:
+To find out if a type supports copy-from, you need to know if it has implemented generic_factory. To find out if this is the case, do the following:
 * Open [init.cpp](https://github.com/CleverRaven/Cataclysm-DDA/tree/master/src/init.cpp)
 * Find the line that mentions your type, for example `add( "gate", &gates::load );`
 * Copy the load function, in this case it would be *gates::load*

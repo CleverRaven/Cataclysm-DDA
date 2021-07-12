@@ -2,8 +2,7 @@
 #ifndef CATA_SRC_SKILL_BOOST_H
 #define CATA_SRC_SKILL_BOOST_H
 
-#include <algorithm>
-#include <string>
+#include <iosfwd>
 #include <vector>
 
 #include "optional.h"

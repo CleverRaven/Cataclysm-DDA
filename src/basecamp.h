@@ -3,6 +3,7 @@
 #define CATA_SRC_BASECAMP_H
 
 #include <cstddef>
+#include <iosfwd>
 #include <list>
 #include <map>
 #include <memory>

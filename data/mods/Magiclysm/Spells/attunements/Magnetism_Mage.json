@@ -185,7 +185,7 @@
     "type": "SPELL",
     "name": "Railgun",
     "description": "Magnetize a bullet, and fire it at supersonic speeds by applying an opposite magnetic force to the bullet.  Leaves a trail of sparks",
-    "flags": [ "LOUD", "SOMATIC", "NO_LEGS" ],
+    "flags": [ "LOUD", "SOMATIC", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
     "valid_targets": [ "hostile" ],
     "spell_class": "MAGNETISM_MAGE",
     "energy_source": "MANA",

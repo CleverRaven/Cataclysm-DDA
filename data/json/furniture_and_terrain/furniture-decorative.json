@@ -143,7 +143,7 @@
     "color": "light_gray",
     "move_cost_mod": -1,
     "required_str": 10,
-    "flags": [ "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "LIQUIDCONT" ],
+    "flags": [ "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "LIQUIDCONT", "TRANSPARENT" ],
     "bash": {
       "str_min": 16,
       "str_max": 40,

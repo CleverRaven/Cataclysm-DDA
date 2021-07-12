@@ -2,7 +2,6 @@
 #ifndef CATA_SRC_DISPERSION_H
 #define CATA_SRC_DISPERSION_H
 
-#include <algorithm>
 #include <iosfwd>
 #include <vector>
 

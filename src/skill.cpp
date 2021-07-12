@@ -4,7 +4,6 @@
 #include <array>
 #include <cstddef>
 #include <iterator>
-#include <memory>
 #include <utility>
 
 #include "cata_utility.h"
@@ -14,7 +13,6 @@
 #include "options.h"
 #include "recipe.h"
 #include "rng.h"
-#include "string_id.h"
 #include "translations.h"
 
 // TODO: a map, for Barry's sake make this a map.
@@ -251,7 +249,7 @@ bool SkillLevel::isRusting() const
            calendar::turn - _lastPracticed > rustRate( _level );
 }
 
-bool SkillLevel::rust( bool charged_bio_mem, int character_rate )
+bool SkillLevel::rust( int rust_resist, int character_rate )
 {
     const time_duration delta = calendar::turn - _lastPracticed;
     const float char_rate = character_rate / 100.0f;
@@ -261,8 +259,8 @@ bool SkillLevel::rust( bool charged_bio_mem, int character_rate )
         return false;
     }
 
-    if( charged_bio_mem ) {
-        return one_in( 5 );
+    if( rust_resist > 0 ) {
+        return x_in_y( rust_resist, 100 );
     }
 
     _exercise -= _level * 100;

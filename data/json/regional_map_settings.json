@@ -2,7 +2,29 @@
   {
     "type": "region_settings",
     "id": "default",
-    "default_oter": "field",
+    "default_oter": [
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "field",
+      "solid_earth",
+      "empty_rock",
+      "empty_rock",
+      "empty_rock",
+      "empty_rock",
+      "empty_rock",
+      "empty_rock",
+      "empty_rock",
+      "empty_rock",
+      "empty_rock"
+    ],
     "default_groundcover": [ [ "t_region_groundcover", 1 ] ],
     "region_terrain_and_furniture": {
       "terrain": {
@@ -389,8 +411,10 @@
           "mx_crater": 10,
           "mx_portal_in": 3,
           "mx_grass": 20,
+          "mx_grass2": 40,
           "mx_fallen_shed": 30,
           "mx_spider": 200,
+          "mx_nest_wasp": 100,
           "mx_grove": 500,
           "mx_shrubbery": 500,
           "mx_clearcut": 125,
@@ -400,7 +424,9 @@
           "mx_point_burned_ground": 500,
           "mx_casings": 30,
           "mx_corpses": 30,
-          "mx_mass_grave": 5
+          "mx_mass_grave": 5,
+          "mx_exocrash_1": 1,
+          "mx_exocrash_2": 1
         }
       },
       "forest_thick": {
@@ -416,9 +442,11 @@
           "mx_crater": 10,
           "mx_portal_in": 3,
           "mx_grass": 10,
+          "mx_grass2": 20,
           "mx_fallen_shed": 20,
           "mx_shia": 1,
           "mx_spider": 200,
+          "mx_nest_wasp": 100,
           "mx_jabberwock": 1,
           "mx_grove": 500,
           "mx_shrubbery": 500,
@@ -429,7 +457,9 @@
           "mx_point_burned_ground": 500,
           "mx_casings": 30,
           "mx_corpses": 30,
-          "mx_mass_grave": 5
+          "mx_mass_grave": 5,
+          "mx_exocrash_1": 1,
+          "mx_exocrash_2": 1
         }
       },
       "forest_water": {
@@ -446,12 +476,16 @@
           "mx_portal_in": 7,
           "mx_fallen_shed": 10,
           "mx_spider": 200,
+          "mx_grass": 10,
+          "mx_grass2": 20,
           "mx_pond": 240,
           "mx_clay_deposit": 140,
           "mx_point_dead_vegetation": 60,
           "mx_casings": 60,
           "mx_corpses": 80,
-          "mx_nest_dermatik": 50
+          "mx_nest_dermatik": 50,
+          "mx_exocrash_1": 1,
+          "mx_exocrash_2": 1
         }
       },
       "field": {
@@ -467,16 +501,20 @@
           "mx_crater": 15,
           "mx_portal_in": 1,
           "mx_point_dead_vegetation": 50,
-          "mx_grass": 700,
-          "mx_trees": 100,
+          "mx_grass": 350,
+          "mx_grass2": 350,
+          "mx_trees": 50,
+          "mx_trees2": 80,
           "mx_fallen_shed": 20,
           "mx_pond": 20,
           "mx_point_burned_ground": 50,
           "mx_casings": 20,
           "mx_corpses": 3,
-          "mx_nest_wasp": 2,
+          "mx_nest_wasp": 5,
           "mx_mass_grave": 5,
-          "mx_grave": 5
+          "mx_grave": 5,
+          "mx_exocrash_1": 1,
+          "mx_exocrash_2": 1
         }
       },
       "road": {
@@ -497,7 +535,9 @@
           "mx_mayhem": 50,
           "mx_casings": 100,
           "mx_corpses": 30,
-          "mx_prison_bus": 15
+          "mx_prison_bus": 15,
+          "mx_exocrash_1": 1,
+          "mx_exocrash_2": 1
         }
       },
       "bridgehead_ground": { "chance": 5, "extras": { "mx_minefield": 100 } },
@@ -534,7 +574,9 @@
           "mx_crater": 180,
           "mx_portal_in": 30,
           "mx_point_burned_ground": 100,
-          "mx_casings": 30
+          "mx_casings": 30,
+          "mx_exocrash_1": 1,
+          "mx_exocrash_2": 1
         }
       },
       "research_facility_interior": {

@@ -2,18 +2,18 @@
 #ifndef CATA_SRC_ITEM_LOCATION_H
 #define CATA_SRC_ITEM_LOCATION_H
 
+#include <iosfwd>
 #include <memory>
-#include <string>
 
-#include "map_selector.h"
 #include "units_fwd.h"
 
-struct tripoint;
-class item;
 class Character;
-class vehicle_cursor;
 class JsonIn;
 class JsonOut;
+class item;
+class map_cursor;
+class vehicle_cursor;
+struct tripoint;
 
 /**
  * A lightweight handle to an item independent of it's location
@@ -58,6 +58,10 @@ class item_location
         /** Returns the type of location where the item is found */
         type where() const;
 
+        /** Returns the type of location where the topmost container of the item is found.
+         *  Therefore can not return item_location::type::container */
+        type where_recursive() const;
+
         /** Returns the position where the item is found */
         tripoint position() const;
 
@@ -66,6 +70,7 @@ class item_location
         std::string describe( const Character *ch = nullptr ) const;
 
         /** Move an item from the location to the character inventory
+         *  If the player fails to obtain the item (likely due to a menu) returns item_location{}
          *  @param ch Character who's inventory gets the item
          *  @param qty if specified limits maximum obtained charges
          *  @warning caller should restack inventory if item is to remain in it
@@ -116,6 +121,11 @@ class item_location
 
         bool parents_can_contain_recursive( item *it ) const;
         int max_charges_by_parent_recursive( const item &it ) const;
+
+        /**
+         * Returns whether another item is eventually contained by this item
+         */
+        bool eventually_contains( item_location loc ) const;
 
     private:
         class impl;

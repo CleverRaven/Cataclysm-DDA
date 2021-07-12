@@ -4,6 +4,7 @@
 #include <cmath>
 #include <cstdlib>
 #include <set>
+#include <string>
 
 #include "calendar.h"
 #include "character.h"
@@ -16,9 +17,11 @@
 #include "magic_enchantment.h"
 #include "map.h"
 #include "rng.h"
+#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "weather.h"
+#include "weather_type.h"
 
 /*
  * A little helper function to tell if you can load one ammo into a gun.

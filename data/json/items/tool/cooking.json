@@ -685,6 +685,15 @@
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
         "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "35 cm",
+        "moves": 50
       }
     ]
   },
@@ -864,7 +873,7 @@
     "type": "GENERIC",
     "category": "tools",
     "name": { "str": "sieve" },
-    "description": "This is no mere strainer for noodles; it's a sieve used to separate particles of certain sizes.  You could use this to do a really good job sifting flour, remove dust and soil from grain, or perhaps conduct gradiation tests for any civil engineers you might know.  This one has been constructed from steel mesh.",
+    "description": "This is no mere strainer for noodles; it's a sieve used to separate particles of certain sizes.  You could use this to do a really good job sifting flour, remove dust and soil from grain, or perhaps conduct gradation tests for any civil engineers you might know.  This one has been constructed from steel mesh.",
     "volume": "500 ml",
     "weight": "318 g",
     "price": 700,
@@ -878,7 +887,7 @@
     "id": "still",
     "type": "TOOL",
     "name": { "str": "still" },
-    "description": "This is a still.  It's useful for creating distillation of alcohol and other, more curious substances.",
+    "description": "This is a still.  It's useful for creating distillations of alcohol and other, more curious substances.  Features a slot for a thermometer.",
     "weight": "10000 g",
     "volume": "10 L",
     "price": 30000,

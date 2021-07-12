@@ -1,9 +1,7 @@
-#include "catch/catch.hpp"
-
-#include "monster.h"
-
+#include <algorithm>
 #include <cmath>
 #include <fstream>
+#include <functional>
 #include <map>
 #include <memory>
 #include <sstream>
@@ -11,17 +9,23 @@
 #include <utility>
 #include <vector>
 
+#include "cata_utility.h"
+#include "cata_catch.h"
 #include "character.h"
 #include "game.h"
 #include "game_constants.h"
 #include "line.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "monster.h"
 #include "monstergenerator.h"
+#include "mtype.h"
+#include "optional.h"
 #include "options.h"
 #include "options_helpers.h"
 #include "point.h"
 #include "test_statistics.h"
+#include "type_id.h"
 
 class item;
 
@@ -357,12 +361,8 @@ TEST_CASE( "monster_broken_verify", "[monster]" )
     // verify monsters with death_function = BROKEN
     // actually have appropriate broken_name items
     const MonsterGenerator &generator = MonsterGenerator::generator();
-    const mon_action_death func = generator.get_death_function( "BROKEN" ).value();
     for( const mtype &montype : generator.get_all_mtypes() ) {
-        const std::vector<mon_action_death> &die_funcs = montype.dies;
-        const auto broken_func_it = std::find( die_funcs.cbegin(), die_funcs.cend(), func );
-
-        if( broken_func_it == die_funcs.cend() ) {
+        if( montype.mdeath_effect.corpse_type != mdeath_type::BROKEN ) {
             continue;
         }
 

@@ -11,7 +11,7 @@
     "material": [ "steel" ],
     "bashing": 2,
     "cutting": 15,
-    "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE" ],
+    "flags": [ "DURABLE_MELEE" ],
     "price": 20000,
     "price_postapoc": 250,
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 14 ] ]
@@ -29,10 +29,8 @@
     "bashing": 2,
     "price_postapoc": 250,
     "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE", "NONCONDUCTIVE" ],
-    "covers": [ "hand_l", "hand_r" ],
-    "coverage": 50,
-    "encumbrance": 5,
-    "material_thickness": 1
+    "material_thickness": 1,
+    "armor": [ { "encumbrance": 5, "coverage": 50, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "type": "GENERIC",
@@ -63,7 +61,7 @@
     "cutting": 14,
     "price_postapoc": 500,
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
-    "flags": [ "UNARMED_WEAPON", "STAB" ],
+    "flags": [ "STAB" ],
     "techniques": [ "WBLOCK_1" ]
   },
   {
@@ -100,6 +98,23 @@
   },
   {
     "type": "GENERIC",
+    "id": "knuckle_steel_forged",
+    "symbol": "3",
+    "color": "light_gray",
+    "name": { "str": "pair of steel knuckles", "str_pl": "pairs of steel knuckles" },
+    "looks_like": "knuckle_brass",
+    "description": "A pair of knuckles forged from steel, designed to be gripped in the palm and cause punches to do more damage.  A good, quick weapon - but you have to get within punching range to use it.",
+    "category": "weapons",
+    "material": [ "steel" ],
+    "volume": "250 ml",
+    "weight": "240 g",
+    "bashing": 4,
+    "price_postapoc": 180,
+    "qualities": [ [ "HAMMER", 1 ] ],
+    "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE" ]
+  },
+  {
+    "type": "GENERIC",
     "id": "punch_dagger",
     "name": { "str": "punch dagger" },
     "description": "A short and sharp double-edged dagger made to be gripped in the palm, with the blade protruding between the fingers.",
@@ -112,7 +127,7 @@
     "volume": "250 ml",
     "bashing": 2,
     "cutting": 14,
-    "flags": [ "STAB", "UNARMED_WEAPON", "DURABLE_MELEE", "SHEATH_KNIFE" ],
+    "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE" ],
     "price": 10000,
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 14 ] ]
   }

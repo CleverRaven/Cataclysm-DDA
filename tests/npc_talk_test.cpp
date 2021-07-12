@@ -1,6 +1,6 @@
-#include "catch/catch.hpp"
-
 #include <cstdio>
+#include <functional>
+#include <iosfwd>
 #include <list>
 #include <memory>
 #include <string>
@@ -8,6 +8,7 @@
 
 #include "avatar.h"
 #include "calendar.h"
+#include "cata_catch.h"
 #include "character.h"
 #include "character_id.h"
 #include "coordinate_conversions.h"
@@ -17,6 +18,7 @@
 #include "effect.h"
 #include "faction.h"
 #include "game.h"
+#include "input.h"
 #include "item.h"
 #include "item_category.h"
 #include "map.h"
@@ -614,7 +616,7 @@ TEST_CASE( "npc_talk_items", "[npc_talk]" )
     };
     player_character.cash = 1000;
     player_character.int_cur = 8;
-    player_character.worn.push_back( item( "backpack" ) );
+    player_character.worn.emplace_back( "backpack" );
     d.add_topic( "TALK_TEST_EFFECTS" );
     gen_response_lines( d, 19 );
     // add and remove effect
