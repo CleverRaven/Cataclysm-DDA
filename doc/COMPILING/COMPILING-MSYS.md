@@ -252,7 +252,7 @@ It will create a debug profile. The debug button is the 4th, at the left. The na
 
 First, run a `make clean` within the VSCode MSYS2 console.
 
-Then, when compiling, add `DEBUG_SYMBOLS=1 STRING_ID_DEBUG=1`. If you followed this guide, it looks like this : 
+Then, when compiling, add `DEBUG_SYMBOLS=1 STRING_ID_DEBUG=1`. If you followed this guide, it looks like this:
 
 ```bash
 make -j$((`nproc`+0)) CCACHE=1 RELEASE=1 MSYS2=1 DEBUG_SYMBOLS=1 STRING_ID_DEBUG=1 DYNAMIC_LINKING=1 SDL=1 TILES=1 SOUND=1 LOCALIZE=1 LANGUAGES=all LINTJSON=0 ASTYLE=0 RUNTESTS=0
