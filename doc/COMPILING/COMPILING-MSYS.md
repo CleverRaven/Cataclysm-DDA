@@ -209,7 +209,7 @@ You'll find the file in the `.vscode` folder, or alternatively, in the menu `Run
 
 Paste:
 
-```json
+```javascript
 {
     // Use IntelliSense to learn about possible attributes.
     // Hover to view descriptions of existing attributes.
