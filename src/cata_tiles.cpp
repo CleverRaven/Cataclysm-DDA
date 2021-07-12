@@ -2089,13 +2089,14 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
             }
         }
         break;
+        case C_OVERMAP_TERRAIN:
+            seed = simple_point_hash( pos );
         case C_ITEM:
         case C_TRAP:
         case C_NONE:
         case C_BULLET:
         case C_HIT_ENTITY:
         case C_WEATHER:
-        case C_OVERMAP_TERRAIN:
             // TODO: come up with ways to make random sprites consistent for these types
             break;
         case C_MONSTER:
