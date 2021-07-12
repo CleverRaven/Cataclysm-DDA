@@ -193,8 +193,8 @@
   {
     "id": "horizon_vortex_electric",
     "type": "SPELL",
-    "name": "Horizon Vortex electric damage",
-    "description": "Give some damage for Horizon Vortex spell.  Subspell; you aren't allowed to see it except in debug mode.",
+    "name": "Horizon Vortex electrical damage",
+    "description": "Causes a random amount of electrical damage in the Horizon Vortex spell.  Subspell; you aren't allowed to see it except in debug mode.",
     "valid_targets": [ "hostile" ],
     "flags": [ "NO_PROJECTILE", "LOUD", "RANDOM_TARGET" ],
     "message": "",
