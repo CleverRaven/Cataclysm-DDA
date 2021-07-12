@@ -117,7 +117,7 @@ pacman -S --needed base-devel mingw-w64-x86_64-toolchain
 You'll see a repository. The number associated with gdb depends on which packages you already have installed.
 Enter the number corresponding to gdb. (if gdb is already installed, it won't appear on the list.)
 
-```bash
+```
 warning: file-5.39-2 is up to date -- skipping
 warning: gawk-5.1.0-1 is up to date -- skipping
 warning: gdb-9.2-3 is up to date -- skipping
