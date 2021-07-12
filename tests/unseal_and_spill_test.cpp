@@ -413,7 +413,7 @@ void test_scenario::run()
             INFO( ret.str() );
             REQUIRE( ret.success() );
             item_location worn_loc = item_location( guy, & **worn );
-            it_loc = item_location( worn_loc, &worn_loc->contents.only_item() );
+            it_loc = item_location( worn_loc, &worn_loc->only_item() );
             break;
         }
         case container_location::worn: {

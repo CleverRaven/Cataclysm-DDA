@@ -9481,7 +9481,7 @@ bool item_ptr_compare_by_charges( const item *left, const item *right )
     } else if( right->empty() ) {
         return true;
     } else {
-        return right->contents.only_item().charges < left->contents.only_item().charges;
+        return right->only_item().charges < left->only_item().charges;
     }
 }
 
@@ -11133,6 +11133,16 @@ bool item::empty_container() const
     return contents.empty_container();
 }
 
+item &item::only_item()
+{
+    return contents.only_item();
+}
+
+const item &item::only_item() const
+{
+    return contents.only_item();
+}
+
 size_t item::num_item_stacks() const
 {
     return contents.num_item_stacks();
@@ -11146,4 +11156,9 @@ item &item::legacy_front()
 const item &item::legacy_front() const
 {
     return contents.legacy_front();
+}
+
+void item::favorite_settings_menu( const std::string &item_name )
+{
+    contents.favorite_settings_menu( item_name );
 }

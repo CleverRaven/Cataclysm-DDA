@@ -85,7 +85,7 @@ TEST_CASE( "item_in_container", "[item][item_location]" )
 
     REQUIRE( dummy.has_item( *backpack_loc ) );
 
-    item_location jeans_loc( backpack_loc, &backpack_loc->contents.only_item() );
+    item_location jeans_loc( backpack_loc, &backpack_loc->only_item() );
 
     REQUIRE( backpack_loc.where() == item_location::type::character );
     REQUIRE( jeans_loc.where() == item_location::type::container );

@@ -2296,6 +2296,10 @@ class item : public visitable
         // ignores all pockets except CONTAINER pockets to check if this contents is empty.
         bool empty_container() const;
 
+        // gets the item contained IFF one item is contained (CONTAINER pocket), otherwise a null item reference
+        item &only_item();
+        const item &only_item() const;
+
         /**
          * returns the number of items stacks in contents
          * each item that is not count_by_charges,
@@ -2309,6 +2313,11 @@ class item : public visitable
          */
         item &legacy_front();
         const item &legacy_front() const;
+
+        /**
+         * Open a menu for the player to set pocket favorite settings for the pockets in this item_contents
+         */
+        void favorite_settings_menu( const std::string &item_name );
 
     private:
         /** migrates an item into this item. */
