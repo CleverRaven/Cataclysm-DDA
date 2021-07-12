@@ -107,7 +107,7 @@
       "bio_night_vision",
       "bio_metabolics",
       "bio_power_storage_mkII",
-      "afs_bionic_rocket"
+      "afs_bio_missiles"
     ],
     "proficiencies": [ "prof_gunsmithing_basic", "prof_traps", "prof_disarming" ],
     "skills": [
@@ -132,12 +132,12 @@
           { "item": "sheath", "contents-item": "kukri" },
           {
             "item": "afs_gibrifle",
-            "ammo-item": "afs_7.50mm",
+            "ammo-item": "afs_7.50mm_caseless",
             "charges": 30,
             "contents-item": [ "shoulder_strap", "acog_scope" ]
           },
           { "item": "xlballistic_vest_esapi" },
-          { "item": "e_handcuffs", "container-item": "xlpolice_belt" },
+          { "item": "xlpolice_belt" },
           { "item": "legpouch_large", "contents-group": "afs_UICASTA30" }
         ]
       },
