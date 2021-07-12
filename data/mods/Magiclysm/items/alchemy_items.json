@@ -367,7 +367,7 @@
     "volume": "400 ml",
     "to_hit": -1,
     "bashing": 5,
-    "material": [ "steel" ],
+    "material": [ "crystallized_mana", "concentrated_mana" ],
     "symbol": ";",
     "color": "dark_gray",
     "use_action": {
