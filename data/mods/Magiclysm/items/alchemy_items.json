@@ -314,7 +314,7 @@
     "price_postapoc": 0,
     "to_hit": -1,
     "bashing": 14,
-    "material": [ "steel", "plastic" ],
+    "material": [ "crystallized_mana", "concentrated_mana" ],
     "symbol": "*",
     "color": "green",
     "use_action": {
