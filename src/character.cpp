@@ -3708,11 +3708,11 @@ units::mass Character::weight_capacity() const
 
 bool Character::can_pickVolume( const item &it, bool, const item *avoid ) const
 {
-    if( weapon.can_contain( it ) && ( avoid == nullptr || &weapon != avoid ) ) {
+    if( weapon.can_contain( it ).success() && ( avoid == nullptr || &weapon != avoid ) ) {
         return true;
     }
     for( const item &w : worn ) {
-        if( w.can_contain( it ) ) {
+        if( w.can_contain( it ).success() ) {
             return true;
         }
     }

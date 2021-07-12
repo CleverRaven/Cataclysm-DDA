@@ -60,7 +60,7 @@ TEST_CASE( "item_contents" )
     // check that individual (not including contained items) weight is correct
     CHECK( tool_belt.weight( false ) == tool_belt.type->weight );
     // check that the tool belt is "full"
-    CHECK( !tool_belt.contents.can_contain( crowbar ).success() );
+    CHECK( !tool_belt.can_contain( crowbar ).success() );
 
     tool_belt.contents.force_insert_item( crowbar, item_pocket::pocket_type::CONTAINER );
     CHECK( tool_belt.num_item_stacks() == 5 );

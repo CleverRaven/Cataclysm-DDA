@@ -442,7 +442,7 @@ void computer_session::action_sample()
                     continue;
                 }
                 sewage.charges = std::min( sewage.charges, capa );
-                if( elem.can_contain( sewage ) ) {
+                if( elem.can_contain( sewage ).success() ) {
                     elem.put_in( sewage, item_pocket::pocket_type::CONTAINER );
                 }
                 found_item = true;

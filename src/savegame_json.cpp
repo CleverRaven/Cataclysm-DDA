@@ -2611,7 +2611,7 @@ void item::migrate_content_item( const item &contained )
         // left intentionally blank
     } else if( is_corpse() ) {
         put_in( contained, item_pocket::pocket_type::CORPSE );
-    } else if( can_contain( contained ) ) {
+    } else if( can_contain( contained ).success() ) {
         put_in( contained, item_pocket::pocket_type::CONTAINER );
     } else {
         // we want this to silently fail - the contents will fall out later

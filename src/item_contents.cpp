@@ -553,7 +553,8 @@ std::pair<item_location, item_pocket *> item_contents::best_pocket( const item &
             // check all pockets within to see if they are better
             for( item *contained : all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
                 std::pair<item_location, item_pocket *> internal_pocket =
-                    contained->contents.best_pocket( it, parent, true );
+                    contained->best_pocket( it, parent, /*allow_sealed=*/false, /*ignore_settings=*/false,
+                                            /*nested=*/true );
                 if( internal_pocket.second != nullptr && ret.second->better_pocket( pocket, it ) ) {
                     ret = internal_pocket;
                 }

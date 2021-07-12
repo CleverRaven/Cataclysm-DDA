@@ -2340,13 +2340,13 @@ void holster_actor::load( const JsonObject &obj )
 
 bool holster_actor::can_holster( const item &holster, const item &obj ) const
 {
-    if( !holster.contents.can_contain( obj ).success() ) {
+    if( !holster.can_contain( obj ).success() ) {
         return false;
     }
     if( obj.active ) {
         return false;
     }
-    return holster.contents.can_contain( obj ).success();
+    return holster.can_contain( obj ).success();
 }
 
 bool holster_actor::store( player &p, item &holster, item &obj ) const
@@ -2356,7 +2356,7 @@ bool holster_actor::store( player &p, item &holster, item &obj ) const
         return false;
     }
 
-    const ret_val<bool> contain = holster.contents.can_contain( obj );
+    const ret_val<bool> contain = holster.can_contain( obj );
     if( !contain.success() ) {
         p.add_msg_if_player( m_bad, contain.str(), holster.tname(), obj.tname() );
     }

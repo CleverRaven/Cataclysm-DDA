@@ -8466,7 +8466,7 @@ cata::optional<int> iuse::multicooker( player *p, item *it, bool t, const tripoi
             it->active = false;
             it->erase_var( "COOKTIME" );
             it->convert( itype_multi_cooker );
-            if( it->can_contain( meal ) ) {
+            if( it->can_contain( meal ).success() ) {
                 it->put_in( meal, item_pocket::pocket_type::CONTAINER );
             } else {
                 add_msg( m_info,
