@@ -98,6 +98,7 @@ static const efftype_id effect_venom_player1( "venom_player1" );
 static const efftype_id effect_venom_player2( "venom_player2" );
 static const efftype_id effect_venom_weaken( "venom_weaken" );
 static const efftype_id effect_webbed( "webbed" );
+static const efftype_id effect_natures_commune( "natures_commune" );
 
 static const itype_id itype_corpse( "corpse" );
 static const itype_id itype_milk( "milk" );
@@ -1194,6 +1195,12 @@ monster_attitude monster::attitude( const Character *u ) const
         }
 
         if( has_flag( MF_ANIMAL ) ) {
+            if( u->has_effect( effect_natures_commune ) ) {
+                effective_anger -= 10;
+                if( effective_anger < 10 ) {
+                    effective_morale += 55;
+                }
+            }
             if( u->has_trait( trait_ANIMALEMPATH ) ) {
                 effective_anger -= 10;
                 if( effective_anger < 10 ) {
