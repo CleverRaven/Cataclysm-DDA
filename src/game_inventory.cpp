@@ -890,9 +890,7 @@ class fuel_inventory_preset : public inventory_selector_preset
 
     protected:
         int get_order( const item_location &loc, const time_duration &time ) const {
-            if( loc->rotten() ) {
-                return 2;
-            } else if( time == 0_turns ) {
+            if( loc->rotten() || time == 0_turns ) {
                 return 2;
             } else {
                 return 1;
