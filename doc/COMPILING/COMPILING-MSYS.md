@@ -262,7 +262,7 @@ make -j$((`nproc`+0)) CCACHE=1 RELEASE=1 MSYS2=1 DEBUG_SYMBOLS=1 STRING_ID_DEBUG
 
 Use the menu `Terminal -> Configure Tasks`, or open `task.json`, in the `.vscode` folder.
 
-```json
+```javascript
 {
     // See https://go.microsoft.com/fwlink/?LinkId=733558
     // for the documentation about the tasks.json format
