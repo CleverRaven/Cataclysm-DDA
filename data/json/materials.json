@@ -23,6 +23,7 @@
     "id": "thermo_resin",
     "name": { "str_sp": "Thermoplastic resin" },
     "copy-from": "generic_polymer_resin",
+    "//": "This material ID is for plastics that can be reshaped and moulded by application of heat and return to their original properties when cooled, and these specific ones are quite hard and durable when in solid state.",
     "repaired_with": "thermo_resin_chunk",
     "salvaged_into": "thermo_resin_chunk",
     "burn_data": [
