@@ -488,15 +488,14 @@ void overmapbuffer::signal_hordes( const tripoint_abs_sm &center, const int sig_
     }
 }
 
-void overmapbuffer::signal_nemesis( const tripoint_abs_sm &p, const int sig_power )
+void overmapbuffer::signal_nemesis( const tripoint_abs_sm p )
 {
 
-    const int radius = sig_power;
-    for( auto &om : get_overmaps_near( p, radius ) ) {
-        const point_abs_sm abs_pos_om = project_to<coords::sm>( om->pos() );
-        const tripoint_rel_sm rel_pos = p - abs_pos_om;
-        om->signal_nemesis( rel_pos, sig_power );
+    for( auto &omp : overmaps ) {
+        // Note: this may throw io errors from std::ofstream
+        omp.second->signal_nemesis( p );
     }
+
 }
 
 void overmapbuffer::add_nemesis( const tripoint_abs_omt &p)
@@ -526,8 +525,17 @@ void overmapbuffer::move_hordes()
     const int radius = MAPSIZE * 2;
     // TODO: fix point types
     const tripoint_abs_sm center( get_player_character().global_sm_location() );
-    for( auto &om : get_overmaps_near( center, radius ) ) {
+    for( overmap* om : get_overmaps_near( center, radius ) ) {
         om->move_hordes();
+        fix_mongroups( *om );
+    }
+}
+
+void overmapbuffer::move_nemesis()
+{
+   for( auto &omp : overmaps ) {
+        // Note: this may throw io errors from std::ofstream
+        omp.second->move_nemesis();
     }
 }
 

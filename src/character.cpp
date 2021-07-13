@@ -9226,7 +9226,8 @@ void Character::shout( std::string msg, bool order )
 void Character::signal_nemesis()
 {
     const tripoint_abs_omt ompos = global_omt_location();
-    overmap_buffer.signal_nemesis(project_to<coords::sm>( ompos ), 1000);
+    const tripoint_abs_sm smpos = project_to<coords::sm>( ompos );
+    overmap_buffer.signal_nemesis( smpos );
 }
 
 void Character::vomit()

@@ -1948,7 +1948,8 @@ void overmap::move_hordes()
     //MOVE ZOMBIE GROUPS
     for( auto it = zg.begin(); it != zg.end(); ) {
         mongroup &mg = it->second;
-        if( !mg.horde ) {
+        if( !mg.horde || mg.horde_behaviour == "nemesis") {
+            //nemesis hordes have their own move function
             ++it;
             continue;
         }
@@ -2077,6 +2078,71 @@ void overmap::move_hordes()
     }
 }
 
+void overmap::move_nemesis()
+{
+    // Prevent hordes to be moved twice by putting them in here after moving.
+    decltype( zg ) tmpzg;
+    //MOVE ZOMBIE GROUPS
+    for( auto it = zg.begin(); it != zg.end(); ) {
+        mongroup &mg = it->second;
+        if( !mg.horde || mg.horde_behaviour != "nemesis" ) {
+            ++it;
+            continue;
+        }
+
+        add_msg( m_info, _( "move_nemesis: %d, %d in OM_SM" ),
+            mg.pos.x(), mg.pos.y() );
+        
+        
+
+        // Decrease movement chance according to the terrain we're currently on.
+        const oter_id &walked_into = ter( project_to<coords::omt>( mg.pos ) );
+        int movement_chance = 1;
+        if( walked_into == ot_forest || walked_into == ot_forest_water ) {
+            movement_chance = 3;
+        } else if( walked_into == ot_forest_thick ) {
+            movement_chance = 6;
+        } else if( walked_into == ot_river_center ) {
+            movement_chance = 10;
+        }
+
+        // If the average horde speed is 50% that of normal, then the chance to
+        // move should be 1/2 what it would be if the speed was 100%.
+        // Since the max speed for a horde is one map space per 2.5 minutes,
+        // choose that to be the speed of the fastest horde monster, which is
+        // roughly 200 at the time of writing. So a horde with average speed
+        // 200 or over will move at max speed, and slower hordes will move less
+        // frequently. The average horde speed for regular Z's is around 100,
+        // or one space per 5 minutes.
+        if( one_in( movement_chance ) && rng( 0, 200 ) < mg.avg_speed() ) {
+            // TODO: Handle moving to adjacent overmaps.
+            if( mg.pos.x() > mg.target.x() ) {
+                mg.pos.x()--;
+            }
+            if( mg.pos.x() < mg.target.x() ) {
+                mg.pos.x()++;
+            }
+            if( mg.pos.y() > mg.target.y() ) {
+                mg.pos.y()--;
+            }
+            if( mg.pos.y() < mg.target.y() ) {
+                mg.pos.y()++;
+            }
+
+            // Erase the group at it's old location, add the group with the new location
+            tmpzg.insert( std::pair<tripoint_om_sm, mongroup>( mg.pos, mg ) );
+            zg.erase( it++ );
+            //there is only one nemesis horde, so we can stop looping after we move it
+            break;
+        } else {
+            ++it;
+        }
+    }
+    // and now back into the monster group map.
+    zg.insert( tmpzg.begin(), tmpzg.end() );
+
+}
+
 /**
 * @param p location of signal relative to this overmap origin
 * @param sig_power - power of signal or max distance for reaction of zombies
@@ -2123,16 +2189,23 @@ void overmap::signal_hordes( const tripoint_rel_sm &p_rel, const int sig_power )
     }
 }
 
-void overmap::signal_nemesis( const tripoint_rel_sm &p_rel, const int sig_power )
+void overmap::signal_nemesis( const tripoint_abs_sm p_abs_sm )
 {
-    tripoint_om_sm p( p_rel.raw() );
+    //CONVERT ABS SM TO OM_SM
+    point_abs_om omp;
+    tripoint_om_sm local_sm;
+    std::tie( omp, local_sm ) = project_remain<coords::om>( p_abs_sm );
+    // convert tripoint_om_sm to const point_om_sm !!!
+    const point_om_sm posom = local_sm.xy();
+    
     for( std::pair<const tripoint_om_sm, mongroup> &elem : zg ) {
         mongroup &mg = elem.second;
 
         if( mg.horde_behaviour == "nemesis" ) {
             // if the horde is a nemesis, we set its target directly on the player
-            mg.set_target( p.xy() );
-            mg.set_interest( sig_power );
+            mg.set_target( posom );
+            add_msg( m_info, _( "nemesis signeled to %d, %d in OM_SM" ),
+                 posom.x(), posom.y() );
         }
     }
 }

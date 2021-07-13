@@ -338,7 +338,7 @@ void Character::suffer_while_awake( const int current_stim )
         vomit();
     }
 
-    if( has_trait( trait_HAS_NEMESIS ) ) {
+    if( has_trait( trait_HAS_NEMESIS ) && one_turn_in( 2_hours ) ) {
         signal_nemesis();
     }
 
