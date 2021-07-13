@@ -612,8 +612,8 @@ Tiles builds will also require SDL2:
 Then you should be able to build with something like this:
 
 ```
-gmake # ncurses builds
-gmake TILES=1 # tiles builds
+gmake RELEASE=1 # ncurses builds
+gmake RELEASE=1 TILES=1 # tiles builds
 ```
 
 ### Building on OpenBSD/amd64 5.8 with GCC 4.9.2 from ports/packages
