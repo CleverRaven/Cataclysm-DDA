@@ -825,6 +825,16 @@ class item : public visitable
         /*@}*/
 
         int get_quality( const quality_id &id ) const;
+        /**
+         * Like get_quality, but only returns qualities for the item itself, not any of its contents
+         */
+        int get_intrinsic_quality( const quality_id &id ) const;
+
+        /**
+         * Increase the dullness of the blade and modify the faults/effects
+         */
+        void inc_dullness( const int dullness );
+
         bool count_by_charges() const;
 
         /**

@@ -126,6 +126,12 @@
     "info": "While wielded, this item allows you to mine through rocks and other hard obstacles by moving into tiles with them.  Note that automatic mining option should be set to true for this to work."
   },
   {
+    "id": "DULLABLE",
+    "type": "json_flag",
+    "context": [ "GENERIC", "TOOL" ],
+    "info": "This item <info>requires regular sharpening</info> in order to maintain its usefulness."
+  },
+  {
     "id": "DURABLE_MELEE",
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ],

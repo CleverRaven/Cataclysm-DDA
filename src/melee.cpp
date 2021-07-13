@@ -179,6 +179,11 @@ bool Character::handle_melee_wear( item &shield, float wear_multiplier )
         return false;
     }
 
+    // If the item is a blade, increase its dullness
+    if( shield.has_flag( flag_DULLABLE )) {
+        shield.inc_dullness( static_cast<int>( wear_multiplier * 30 ) );
+    }
+
     // UNBREAKABLE_MELEE items can't be damaged through melee combat usage.
     if( shield.has_flag( flag_UNBREAKABLE_MELEE ) ) {
         return false;
