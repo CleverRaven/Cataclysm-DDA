@@ -19,7 +19,7 @@
     "type": "TOOL",
     "category": "spare_parts",
     "name": { "str": "epoxy chunk" },
-    "description": "This piece of epoxy is hardy and durable.  You could potentially craft or reinforce items with it.",
+    "description": "This piece of epoxy is hardy and durable.  You could potentially craft items with it.",
     "weight": "50 g",
     "volume": "250 ml",
     "price": 0,
