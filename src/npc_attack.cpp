@@ -39,9 +39,7 @@ static bool has_obstruction( const tripoint &from, const tripoint &to, bool chec
     line.pop_back();
     const map &here = get_map();
     for( const tripoint &line_point : line ) {
-        if( check_ally && g->critter_at( line_point ) ) {
-            return true;
-        } else if( here.impassable( line_point ) ) {
+        if( here.impassable( line_point ) || ( check_ally && g->critter_at( line_point ) ) ) {
             return true;
         }
     }
@@ -609,7 +607,7 @@ npc_attack_rating npc_attack_throw::evaluate_tripoint(
     const int distance_penalty = std::max( std::min( distance_to_me,
                                            source.closest_enemy_to_friendly_distance() ) - 3, 0 );
     const float suitable_item_mult = thrown_item.has_flag( flag_NPC_THROWN ) ? 0.2f : -0.15f;
-    const float distance_mult = -distance_penalty / 10;
+    const float distance_mult = -distance_penalty / 10.0f;
 
     double potential = dps * ( 1.0f + distance_mult + suitable_item_mult );
     if( critter && damage >= critter->get_hp() ) {
