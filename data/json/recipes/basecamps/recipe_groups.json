@@ -375,6 +375,7 @@
     ]
   },
   {
+    "type": "recipe_group",
     "id": "fishing_recipes",
     "building_type": "COOK",
     "recipes": [
