@@ -37,6 +37,7 @@
     "id": "epoxy",
     "name": { "str_sp": "Epoxy" },
     "copy-from": "generic_polymer_resin",
+    "//": "'epoxy' is a general catch-all for strong, brittle polymers that cannot be reshaped with application of heat.  Not all of these are necessarily going to be literally epoxy, but it's close enough.",
     "repaired_with": "epoxy_chunk",
     "salvaged_into": "epoxy_chunk",
     "burn_data": [
