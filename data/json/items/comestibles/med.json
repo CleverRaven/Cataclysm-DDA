@@ -2025,10 +2025,10 @@
     "use_action": { "type": "heal", "bleed": 20, "move_cost": 100, "effects": [ { "id": "pkill1", "duration": 720 } ] }
   },
   {
-    "id": "hemostatic_chushion",
+    "id": "hemostatic_cushion",
     "type": "COMESTIBLE",
     "comestible_type": "MED",
-    "name": { "str": "hemostatic chushion" },
+    "name": { "str": "hemostatic cushion" },
     "description": "Haemostatic pad attached to a simple cloth bandages.  Used for stopping heavy bloodloss as a substitute for manual compression.",
     "weight": "112 g",
     "volume": "400 ml",
