@@ -315,7 +315,7 @@
     "symbol": "[",
     "looks_like": "helmet_motor",
     "color": "yellow",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "head" ], "coverage": 95, "encumbrance": 50 },
       { "covers": [ "eyes" ], "coverage": 75, "encumbrance": 5 },
       { "covers": [ "mouth" ], "coverage": 85, "encumbrance": 0 }
