@@ -136,7 +136,8 @@ static constexpr float NPC_DANGER_VERY_LOW = 5.0f;
 static constexpr float NPC_DANGER_MAX = 150.0f;
 static constexpr float MAX_FLOAT = 5000000000.0f;
 
-enum npc_action : int {
+enum npc_action : int
+{
     npc_undecided = 0,
     npc_pause,
     npc_reload, npc_sleep,
@@ -1434,7 +1435,7 @@ void npc::evaluate_best_weapon( const Creature *target )
                        !can_use( *mode.second.target ) || mode.second->get_gun_ups_drain() > ups_charges ||
                        ( rules.has_flag( ally_rule::use_silent ) && is_player_ally() &&
                          !mode.second->is_silent() ) ) ) {
-                    compare( std::make_shared<npc_attack_gun>( mode.second ) );
+                    compare( std::make_shared<npc_attack_gun>( *it, mode.second ) );
                 }
             }
         }
