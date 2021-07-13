@@ -698,31 +698,19 @@ int get_local_windchill( double temperature_f, double humidity, double wind_mph 
 nc_color get_wind_color( double windpower )
 {
     nc_color windcolor;
-    if( windpower < 1 ) {
+    if( windpower < 3 ) {
         windcolor = c_dark_gray;
-    } else if( windpower < 3 ) {
-        windcolor = c_dark_gray;
-    } else if( windpower < 7 ) {
-        windcolor = c_light_gray;
     } else if( windpower < 12 ) {
         windcolor = c_light_gray;
-    } else if( windpower < 18 ) {
-        windcolor = c_blue;
     } else if( windpower < 24 ) {
         windcolor = c_blue;
-    } else if( windpower < 31 ) {
-        windcolor = c_light_blue;
     } else if( windpower < 38 ) {
         windcolor = c_light_blue;
-    } else if( windpower < 46 ) {
-        windcolor = c_cyan;
     } else if( windpower < 54 ) {
         windcolor = c_cyan;
-    } else if( windpower < 63 ) {
-        windcolor = c_light_cyan;
     } else if( windpower < 72 ) {
         windcolor = c_light_cyan;
-    } else if( windpower > 72 ) {
+    } else {
         windcolor = c_white;
     }
     return windcolor;

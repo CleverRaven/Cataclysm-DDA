@@ -2336,10 +2336,14 @@ static std::unordered_set<tripoint> generic_multi_activity_locations( player &p,
         const tripoint set_pt = here.getlocal( *it2 );
         if( here.dangerous_field_at( set_pt ) ) {
             it2 = src_set.erase( it2 );
-            // remove tiles in darkness, if we aren't lit-up ourselves
-        } else if( !dark_capable && p.fine_detail_vision_mod( set_pt ) > 4.0 ) {
+            continue;
+        }
+        // remove tiles in darkness, if we aren't lit-up ourselves
+        if( !dark_capable && p.fine_detail_vision_mod( set_pt ) > 4.0 ) {
             it2 = src_set.erase( it2 );
-        } else if( act_id == ACT_MULTIPLE_FISH ) {
+            continue;
+        }
+        if( act_id == ACT_MULTIPLE_FISH ) {
             const ter_id terrain_id = here.ter( set_pt );
             if( !terrain_id.obj().has_flag( TFLAG_DEEP_WATER ) ) {
                 it2 = src_set.erase( it2 );

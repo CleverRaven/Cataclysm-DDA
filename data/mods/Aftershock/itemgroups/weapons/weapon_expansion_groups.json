@@ -56,6 +56,11 @@
   },
   {
     "type": "item_group",
+    "id": "afs_UICASTA30",
+    "items": [ [ "afs_UICASTA30", 40 ] ]
+  },
+  {
+    "type": "item_group",
     "id": "mags_shotgun_rare",
     "items": [ [ "afs_25mm_mag", 50 ] ]
   },

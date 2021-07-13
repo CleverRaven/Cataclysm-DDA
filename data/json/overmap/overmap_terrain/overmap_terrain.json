@@ -758,6 +758,7 @@
     "name": "rock border",
     "sym": "#",
     "color": "white",
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE" ],
+    "see_cost": 5
   }
 ]

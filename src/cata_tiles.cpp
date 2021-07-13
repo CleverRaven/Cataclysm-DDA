@@ -327,15 +327,10 @@ static void get_tile_information( const std::string &config_path, std::string &j
             std::string sOption;
             fin >> sOption;
 
-            if( sOption.empty() ) {
-                getline( fin, sOption );
-            } else if( sOption[0] == '#' ) {
-                // Skip comment
-                getline( fin, sOption );
-            } else if( sOption.find( "JSON" ) != std::string::npos ) {
+            if( string_starts_with( sOption, "JSON" ) ) {
                 fin >> json_path;
                 dbg( D_INFO ) << "JSON path set to [" << json_path << "].";
-            } else if( sOption.find( "TILESET" ) != std::string::npos ) {
+            } else if( string_starts_with( sOption, "TILESET" ) ) {
                 fin >> tileset_path;
                 dbg( D_INFO ) << "TILESET path set to [" << tileset_path << "].";
             } else {
@@ -2395,25 +2390,20 @@ bool cata_tiles::draw_terrain_below( const tripoint &p, const lit_level, int &,
     const furn_t &curr_furn = here.furn( pbelow ).obj();
     int part_below;
     int sizefactor = 2;
-    const vehicle *veh;
-    //        const vehicle *veh;
-    if( curr_furn.has_flag( TFLAG_SEEN_FROM_ABOVE ) ) {
+    if( curr_furn.has_flag( TFLAG_SEEN_FROM_ABOVE ) || curr_furn.movecost < 0 ) {
         tercol = curses_color_to_SDL( curr_furn.color() );
-    } else if( curr_furn.movecost < 0 ) {
-        tercol = curses_color_to_SDL( curr_furn.color() );
-    } else if( ( veh = here.veh_at_internal( pbelow, part_below ) ) != nullptr ) {
+    } else if( const vehicle *veh = here.veh_at_internal( pbelow, part_below ) ) {
         const int roof = veh->roof_at_part( part_below );
         const auto vpobst = vpart_position( const_cast<vehicle &>( *veh ),
                                             part_below ).obstacle_at_part();
         tercol = curses_color_to_SDL( ( roof >= 0 ||
                                         vpobst ) ? c_light_gray : c_magenta );
         sizefactor = ( roof >= 0 || vpobst ) ? 4 : 2;
-    } else if( curr_ter.has_flag( TFLAG_SEEN_FROM_ABOVE ) || curr_ter.movecost == 0 ) {
-        tercol = curses_color_to_SDL( curr_ter.color() );
-    } else if( !curr_ter.has_flag( TFLAG_NO_FLOOR ) ) {
-        sizefactor = 4;
+    } else if( curr_ter.has_flag( TFLAG_SEEN_FROM_ABOVE ) || curr_ter.has_flag( TFLAG_NO_FLOOR ) ||
+               curr_ter.movecost == 0 ) {
         tercol = curses_color_to_SDL( curr_ter.color() );
     } else {
+        sizefactor = 4;
         tercol = curses_color_to_SDL( curr_ter.color() );
     }
 
@@ -3546,8 +3536,6 @@ void cata_tiles::draw_custom_explosion_frame()
                 rotation = 3;
                 break;
             case N_NO_NEIGHBORS:
-                subtile = edge;
-                break;
             case N_WEST | N_EAST | N_NORTH | N_SOUTH:
                 // Needs some special tile
                 subtile = edge;

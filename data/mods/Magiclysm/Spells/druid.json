@@ -400,6 +400,28 @@
     "effect_str": "mon_wolf"
   },
   {
+    "id": "druid_natures_commune",
+    "type": "SPELL",
+    "name": "Nature's Commune",
+    "description": "You concentrate on the nature around you and commune with it, improving your health and calming the nearby wildlife.",
+    "valid_targets": [ "self" ],
+    "effect": "attack",
+    "effect_str": "natures_commune",
+    "shape": "blast",
+    "flags": [ "CONCENTRATE", "SOMATIC", "VERBAL", "NO_LEGS", "NO_HANDS" ],
+    "energy_source": "MANA",
+    "spell_class": "DRUID",
+    "difficulty": 4,
+    "base_casting_time": 12000,
+    "base_energy_cost": 250,
+    "final_energy_cost": 400,
+    "energy_increment": 10,
+    "max_level": 20,
+    "min_duration": 10000,
+    "max_duration": 40000,
+    "duration_increment": 2000
+  },
+  {
     "id": "druid_growth",
     "type": "SPELL",
     "spell_class": "DRUID",

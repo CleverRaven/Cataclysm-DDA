@@ -724,9 +724,7 @@ double Character::aim_cap_from_volume( const item &gun ) const
 
     double aim_cap = std::min( 49.0, 49.0 - static_cast<float>( wielded_volume / 75_ml ) );
     // TODO: also scale with skill level.
-    if( gun_skill == skill_smg ) {
-        aim_cap = std::max( 12.0, aim_cap );
-    } else if( gun_skill == skill_shotgun ) {
+    if( gun_skill == skill_smg || gun_skill == skill_shotgun ) {
         aim_cap = std::max( 12.0, aim_cap );
     } else if( gun_skill == skill_pistol ) {
         aim_cap = std::max( 15.0, aim_cap * 1.25 );
@@ -2298,7 +2296,8 @@ bool Character::can_fuel_bionic_with( const item &it ) const
         for( const material_id &fuel : bid->fuel_opts ) {
             if( fuel == it.get_base_material().id ) {
                 return true;
-            } else if( it.type->magazine && fuel == item( it.ammo_current() ).get_base_material().id ) {
+            }
+            if( it.type->magazine && fuel == item( it.ammo_current() ).get_base_material().id ) {
                 return true;
             }
         }
@@ -2313,9 +2312,8 @@ std::vector<bionic_id> Character::get_bionic_fueled_with( const item &it ) const
 
     for( const bionic_id &bid : get_bionics() ) {
         for( const material_id &fuel : bid->fuel_opts ) {
-            if( fuel == it.get_base_material().id ) {
-                bionics.emplace_back( bid );
-            } else if( it.type->magazine && fuel == item( it.ammo_current() ).get_base_material().id ) {
+            if( fuel == it.get_base_material().id ||
+                ( it.type->magazine && fuel == item( it.ammo_current() ).get_base_material().id ) ) {
                 bionics.emplace_back( bid );
             }
         }
@@ -6997,7 +6995,7 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint &p )
 
     // Some mutants have different comfort needs
     if( !plantsleep && !webforce ) {
-        if( in_shell ) {
+        if( in_shell ) { // NOLINT(bugprone-branch-clone)
             comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
             // Note: shelled individuals can still use sleeping aids!
         } else if( vp ) {
@@ -7091,9 +7089,8 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint &p )
                 }
             }
         }
-        if( fungaloid_cosplay && here.has_flag_ter_or_furn( "FUNGUS", pos() ) ) {
-            comfort += static_cast<int>( comfort_level::very_comfortable );
-        } else if( watersleep && here.has_flag_ter( "SWIMMABLE", pos() ) ) {
+        if( ( fungaloid_cosplay && here.has_flag_ter_or_furn( "FUNGUS", pos() ) ) ||
+            ( watersleep && here.has_flag_ter( "SWIMMABLE", pos() ) ) ) {
             comfort += static_cast<int>( comfort_level::very_comfortable );
         }
     } else if( plantsleep ) {
@@ -7227,11 +7224,9 @@ bodypart_id Character::body_window( const std::string &menu_header,
         const bool limb_is_broken = is_limb_broken( bp );
         const bool limb_is_mending = worn_with_flag( flag_SPLINT, bp );
 
-        if( show_all ) {
+        if( show_all || has_curable_effect ) { // NOLINT(bugprone-branch-clone)
             e.allowed = true;
-        } else if( has_curable_effect ) {
-            e.allowed = true;
-        } else if( limb_is_broken ) {
+        } else if( limb_is_broken ) { // NOLINT(bugprone-branch-clone)
             e.allowed = false;
         } else if( current_hp < maximal_hp && ( e.bonus != 0 || bandage_power > 0.0f  ||
                                                 disinfectant_power > 0.0f ) ) {
@@ -9044,9 +9039,6 @@ int Character::item_wear_cost( const item &it ) const
     double mv = item_handling_cost( it );
 
     switch( it.get_layer() ) {
-        case layer_level::PERSONAL:
-            break;
-
         case layer_level::UNDERWEAR:
             mv *= 1.5;
             break;
@@ -9063,9 +9055,8 @@ int Character::item_wear_cost( const item &it ) const
             mv /= 2.0;
             break;
 
+        case layer_level::PERSONAL:
         case layer_level::AURA:
-            break;
-
         default:
             break;
     }
@@ -11239,13 +11230,11 @@ int Character::temp_corrected_by_climate_control( int temperature ) const
             temperature = BODYTEMP_VERY_HOT;
         } else if( temperature > BODYTEMP_VERY_HOT ) {
             temperature = BODYTEMP_HOT;
-        } else if( temperature > BODYTEMP_HOT ) {
-            temperature = BODYTEMP_NORM;
         } else if( temperature < BODYTEMP_FREEZING ) {
             temperature = BODYTEMP_VERY_COLD;
         } else if( temperature < BODYTEMP_VERY_COLD ) {
             temperature = BODYTEMP_COLD;
-        } else if( temperature < BODYTEMP_COLD ) {
+        } else {
             temperature = BODYTEMP_NORM;
         }
     }
@@ -11448,11 +11437,14 @@ bool Character::has_fire( const int quantity ) const
 
     if( get_map().has_nearby_fire( pos() ) ) {
         return true;
-    } else if( has_item_with_flag( flag_FIRE ) ) {
+    }
+    if( has_item_with_flag( flag_FIRE ) ) {
         return true;
-    } else if( !find_firestarter_with_charges( quantity ).is_null() ) {
+    }
+    if( !find_firestarter_with_charges( quantity ).is_null() ) {
         return true;
-    } else if( is_npc() ) {
+    }
+    if( is_npc() ) {
         // HACK: A hack to make NPCs use their Molotovs
         return true;
     }
@@ -11497,21 +11489,22 @@ void Character::use_fire( const int quantity )
 
     if( get_map().has_nearby_fire( pos() ) ) {
         return;
-    } else if( has_item_with_flag( flag_FIRE ) ) {
+    }
+    if( has_item_with_flag( flag_FIRE ) ) {
         return;
-    } else {
-        const item firestarter = find_firestarter_with_charges( quantity );
-        if( firestarter.is_null() ) {
-            return;
-        }
-        if( firestarter.type->has_flag( flag_USES_BIONIC_POWER ) ) {
-            mod_power_level( -quantity * 5_kJ );
-            return;
-        }
-        if( firestarter.typeId()->can_have_charges() ) {
-            use_charges( firestarter.typeId(), quantity );
-            return;
-        }
+    }
+
+    const item firestarter = find_firestarter_with_charges( quantity );
+    if( firestarter.is_null() ) {
+        return;
+    }
+    if( firestarter.type->has_flag( flag_USES_BIONIC_POWER ) ) {
+        mod_power_level( -quantity * 5_kJ );
+        return;
+    }
+    if( firestarter.typeId()->can_have_charges() ) {
+        use_charges( firestarter.typeId(), quantity );
+        return;
     }
 }
 

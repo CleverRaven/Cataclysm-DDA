@@ -697,6 +697,7 @@ void npc::handle_sound( const sounds::sound_t spriority, const std::string &desc
             bool should_check = rl_dist( pos(), spos ) < investigate_dist;
             if( should_check ) {
                 const zone_manager &mgr = zone_manager::get_manager();
+                // NOLINTNEXTLINE(bugprone-branch-clone)
                 if( mgr.has( zone_type_NPC_NO_INVESTIGATE, s_abs_pos, fac_id ) ) {
                     should_check = false;
                 } else if( mgr.has( zone_type_NPC_INVESTIGATE_ONLY, my_abs_pos, fac_id ) &&
@@ -2124,10 +2125,9 @@ void talk_effect_fun_t::set_message( const JsonObject &jo, const std::string &me
             bool display = false;
             map &here = get_map();
             if( !target->has_effect( effect_sleep ) && !target->is_deaf() ) {
-                if( !outdoor_only || here.get_abs_sub().z >= 0 ) {
-                    display = true;
-                } else if( one_in( std::max( roll_remainder( 2.0f * here.get_abs_sub().z /
-                                             target->mutation_value( "hearing_modifier" ) ), 1 ) ) ) {
+                if( !outdoor_only || here.get_abs_sub().z >= 0 ||
+                    one_in( std::max( roll_remainder( 2.0f * here.get_abs_sub().z /
+                                                      target->mutation_value( "hearing_modifier" ) ), 1 ) ) ) {
                     display = true;
                 }
             }
