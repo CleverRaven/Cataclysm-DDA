@@ -528,7 +528,7 @@ npc_attack_rating npc_attack_throw::evaluate(
     }
     const int penalty = base_penalty( source );
     // TODO: Should this be a field to cache the result?
-    bool avoids_friendly_fire = source.rules.has_flag( ally_rule::avoid_friendly_fire );
+    const bool avoids_friendly_fire = source.rules.has_flag( ally_rule::avoid_friendly_fire );
     for( const tripoint &potential : targetable_points( source ) ) {
 
         // hot potato! HOT POTATO!
