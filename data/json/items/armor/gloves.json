@@ -1042,25 +1042,5 @@
     "material_thickness": 5,
     "flags": [ "STURDY", "OUTER", "RAINPROOF", "ONLY_ONE" ],
     "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
-  },
-  {
-    "id": "gloves_studded",
-    "type": "ARMOR",
-    "name": { "str": "pair of studded gloves", "str_pl": "pairs of studded gloves" },
-    "description": "A pair of gloves with studded metal knuckles.",
-    "weight": "218 g",
-    "volume": "250 ml",
-    "price": 1100,
-    "price_postapoc": 250,
-    "bashing": 2,
-    "cutting": 1,
-    "material": [ "steel", "leather", "cotton" ],
-    "symbol": "[",
-    "looks_like": "gloves_leather",
-    "color": "light_gray",
-    "warmth": 5,
-    "material_thickness": 2,
-    "flags": [ "WATER_FRIENDLY", "STAB", "DURABLE_MELEE" ],
-    "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
   }
 ]
