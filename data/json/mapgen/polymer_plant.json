@@ -286,9 +286,9 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [
-      [ "irradiator_1_3_roof", "irradiator_1_2_roof", "irradiator_1_1_roof" ],
-      [ "irradiator_1_6_roof", "irradiator_1_5_roof", "irradiator_1_4_roof" ],
-      [ "irradiator_1_9_roof", "irradiator_1_8_roof", "irradiator_1_7_roof" ]
+      [ "polymer_1_3_roof", "polymer_1_2_roof", "polymer_1_1_roof" ],
+      [ "polymerr_1_6_roof", "polymer_1_5_roof", "polymer_1_4_roof" ],
+      [ "polymer_1_9_roof", "polymer_1_8_roof", "polymer_1_7_roof" ]
     ],
     "weight": 250,
     "object": {
