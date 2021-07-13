@@ -141,6 +141,7 @@ class uistatedata
         const overmap_special *place_special = nullptr;
         om_direction::type omedit_rotation = om_direction::type::none;
 
+        // crafting gui
         std::set<recipe_id> hidden_recipes;
         std::set<recipe_id> favorite_recipes;
         cata::flat_set<recipe_id> read_recipes;

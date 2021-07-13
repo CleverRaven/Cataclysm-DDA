@@ -596,7 +596,7 @@ const recipe *select_crafting_recipe( int &batch_size_out )
                 mvwprintz( w_data, print_from + offset, new_recipe_str_col, "%s", new_recipe_str );
                 rcp_name_trim_width -= new_recipe_str_width + 1;
             }
-            mvwprintz( w_data, print_from, col, trim_by_length( tmp_name, rcp_name_trim_width ) );
+            mvwprintz( w_data, print_from, col, "%s", trim_by_length( tmp_name, rcp_name_trim_width ) );
         }
 
         const int batch_size = batch ? line + 1 : 1;
@@ -831,8 +831,10 @@ const recipe *select_crafting_recipe( int &batch_size_out )
                         if( b->difficulty != a->difficulty ) {
                             return b->difficulty < a->difficulty;
                         }
-                        if( a->result_name() != b->result_name() ) {
-                            return localized_compare( a->result_name(), b->result_name() );
+                        const std::string a_name = a->result_name();
+                        const std::string b_name = b->result_name();
+                        if( a_name != b_name ) {
+                            return localized_compare( a_name, b_name );
                         }
                         return b->time_to_craft( player_character ) <
                                a->time_to_craft( player_character );
@@ -854,8 +856,8 @@ const recipe *select_crafting_recipe( int &batch_size_out )
         }
 
         if( highlight_unread_recipes && !current.empty() && user_moved_line ) {
-            // only automatically mark as read when moving cursor up and down by
-            // on line, which means that the user is likely reading through the
+            // only automatically mark as read when moving cursor up or down by
+            // one line, which means that the user is likely reading through the
             // list.
             user_moved_line = false;
             uistate.read_recipes.insert( current[line]->ident() );
@@ -871,6 +873,9 @@ const recipe *select_crafting_recipe( int &batch_size_out )
         } else if( action == "SCROLL_RECIPE_INFO_DOWN" ) {
             recipe_info_scroll += dataLines;
         } else if( action == "LEFT" ) {
+            if( !filterstring.empty() ) {
+                continue;
+            }
             std::string start = subtab.cur();
             do {
                 subtab.prev();
@@ -887,6 +892,9 @@ const recipe *select_crafting_recipe( int &batch_size_out )
             subtab = list_circularizer<std::string>( craft_subcat_list[tab.cur()] );
             recalc = true;
         } else if( action == "RIGHT" ) {
+            if( !filterstring.empty() ) {
+                continue;
+            }
             std::string start = subtab.cur();
             do {
                 subtab.next();
@@ -1096,11 +1104,11 @@ const recipe *select_crafting_recipe( int &batch_size_out )
                                "This cannot be undone. <color_yellow>/!\\</color>" );
             } else if( filterstring.empty() ) {
                 query_str = string_format( _( "Mark recipes in this tab as read?  This cannot be undone.  "
-                                              "You can mark all recipes by choosing yes and press %s again." ),
+                                              "You can mark all recipes by choosing yes and pressing %s again." ),
                                            ctxt.get_desc( "MARK_ALL_RECIPES_READ" ) );
             } else {
                 query_str = string_format( _( "Mark filtered recipes as read?  This cannot be undone.  "
-                                              "You can mark all recipes by choosing yes and press %s again." ),
+                                              "You can mark all recipes by choosing yes and pressing %s again." ),
                                            ctxt.get_desc( "MARK_ALL_RECIPES_READ" ) );
             }
             if( query_yn( query_str ) ) {
