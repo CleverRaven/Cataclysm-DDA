@@ -8,10 +8,11 @@
       { "group": "Zomborg_CBM_harvest_structural", "prob": 70 },
       { "group": "Zomborg_CBM_harvest_utility", "prob": 50 },
       { "group": "Zomborg_CBM_harvest_combat", "prob": 30 },
-      {
-        "collection": [ { "item": "scrap", "count": [ 1, 5 ] }, { "item": "sheet_metal_small", "count": [ 1, 3 ] } ],
-        "prob": 80
-      }
+      { "item": "scrap", "count": [ 1, 5 ], "prob": 95 },
+      { "item": "sheet_metal_small", "count": [ 1, 3 ], "prob": 80 },
+      { "item": "escrap", "count": [ 1, 3 ], "prob": 70 },
+      { "item": "cable", "count": [ 1, 3 ], "prob": 50 },
+      { "item": "burnt_out_bionic", "prob": 80 }
     ]
   },
   {
@@ -20,11 +21,12 @@
     "subtype": "collection",
     "entries": [
       { "group": "Zomborg_CBM_harvest_charging_tools", "prob": 10 },
-      [ "bio_power_storage", 70 ],
-      [ "bio_power_storage", 20 ],
-      [ "bio_power_storage", 2 ],
-      [ "bio_power_storage_mkII", 10 ],
-      [ "bio_cable", 50 ]
+      { "item": "bio_power_storage", "prob": 70 },
+      { "item": "bio_power_storage", "prob": 20 },
+      { "item": "bio_power_storage", "prob": 2 },
+      { "item": "bio_power_storage_mkII", "prob": 10 },
+      { "item": "bio_cable", "prob": 50 },
+      { "item": "burnt_out_bionic", "prob": 50 }
     ]
   },
   {
@@ -35,10 +37,10 @@
       { "collection": [ [ "bio_armor_eyes", 30 ], [ "bio_armor_torso", 10 ], [ "bio_armor_head", 100 ] ], "prob": 20 },
       { "collection": [ [ "bio_armor_torso", 30 ], [ "bio_armor_legs", 100 ], [ "bio_armor_head", 10 ] ], "prob": 20 },
       { "collection": [ [ "bio_armor_arms", 100 ], [ "bio_armor_torso", 60 ], [ "bio_armor_head", 30 ] ], "prob": 20 },
-      [ "bio_armor_legs", 60 ],
-      [ "bio_armor_arms", 60 ],
-      [ "bio_armor_head", 30 ],
-      [ "bio_armor_torso", 20 ]
+      { "item": "bio_armor_legs", "prob": 60 },
+      { "item": "bio_armor_arms", "prob": 60 },
+      { "item": "bio_armor_head", "prob": 30 },
+      { "item": "bio_armor_torso", "prob": 20 }
     ]
   },
   {
@@ -71,7 +73,8 @@
           [ "bio_tattoo_led", 40 ]
         ],
         "prob": 30
-      }
+      },
+      { "item": "burnt_out_bionic", "prob": 50 }
     ]
   },
   {
@@ -87,7 +90,8 @@
         "prob": 2
       },
       { "group": "Zomborg_CBM_harvest_melee_weapons", "prob": 70 },
-      { "group": "Zomborg_CBM_harvest_ranged_weapons", "prob": 40 }
+      { "group": "Zomborg_CBM_harvest_ranged_weapons", "prob": 40 },
+      { "item": "burnt_out_bionic", "prob": 50 }
     ]
   },
   {
@@ -167,11 +171,11 @@
     "subtype": "distribution",
     "entries": [
       { "distribution": [ [ "bio_speed", 50 ], [ "bio_hydraulics", 50 ] ], "prob": 1 },
-      [ "bio_dex_enhancer", 40 ],
-      [ "bio_int_enhancer", 40 ],
-      [ "bio_memory", 20 ],
-      [ "bio_str_enhancer", 30 ],
-      [ "bio_weight", 30 ]
+      { "item": "bio_dex_enhancer", "prob": 40 },
+      { "item": "bio_int_enhancer", "prob": 40 },
+      { "item": "bio_memory", "prob": 20 },
+      { "item": "bio_str_enhancer", "prob": 30 },
+      { "item": "bio_weight", "prob": 30 }
     ]
   }
 ]
