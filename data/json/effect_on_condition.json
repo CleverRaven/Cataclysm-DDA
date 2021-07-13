@@ -271,7 +271,7 @@
     ]
   },
   {
-  "type": "effect_on_condition",
+    "type": "effect_on_condition",
     "id": "bio_leaky",
     "recurrence_min": "3 minutes",
     "recurrence_max": "9 minutes",
