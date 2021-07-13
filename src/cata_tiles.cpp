@@ -1893,14 +1893,10 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
             sym = tmp.symbol().empty() ? ' ' : tmp.symbol().front();
             col = tmp.color();
         } else if( category == C_OVERMAP_TERRAIN ) {
-            const oter_str_id tmp( id );
-            const oter_type_str_id type_tmp( id );
+            const oter_type_str_id tmp( id );
             if( tmp.is_valid() ) {
-                sym = tmp->get_uint32_symbol();
-                col = tmp->get_color();
-            } else if( type_tmp.is_valid() ) {
-                sym = type_tmp->symbol;
-                col = type_tmp->color;
+                sym = tmp->symbol;
+                col = tmp->color;
             }
         } else if( category == C_OVERMAP_NOTE ) {
             sym = id[5];

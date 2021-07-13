@@ -758,16 +758,49 @@ static cata::optional<std::pair<tripoint_abs_omt, std::string>> get_mission_arro
 std::string cata_tiles::get_omt_id_rotation_and_subtile(
     const tripoint_abs_omt &omp, int &rota, int &subtile )
 {
-    oter_id ot_id = overmap_buffer.ter( omp );
+    auto oter_at = []( const tripoint_abs_omt & p ) {
+        const oter_id &cur_ter = overmap_buffer.ter( p );
 
-    if( !uistate.overmap_show_forest_trails &&
-        is_ot_match( "forest_trail", ot_id, ot_match_type::type ) ) {
-        ot_id = oter_id( "forest" );
-    }
+        if( !uistate.overmap_show_forest_trails &&
+            is_ot_match( "forest_trail", cur_ter, ot_match_type::type ) ) {
+            return oter_id( "forest" );
+        }
 
+        return cur_ter;
+    };
+
+    oter_id ot_id = oter_at( omp );
     const oter_t &ot = *ot_id;
     oter_type_id ot_type_id = ot.get_type_id();
-    ot.get_rotation_and_subtile( rota, subtile );
+    oter_type_t ot_type = *ot_type_id;
+
+    if( ot_type.has_connections() ) {
+        // This would be for connected terrain
+
+        // get terrain neighborhood
+        const oter_type_id neighborhood[4] = {
+            oter_at( omp + point_south )->get_type_id(),
+            oter_at( omp + point_east )->get_type_id(),
+            oter_at( omp + point_west )->get_type_id(),
+            oter_at( omp + point_north )->get_type_id()
+        };
+
+        char val = 0;
+
+        // populate connection information
+        for( int i = 0; i < 4; ++i ) {
+            if( ot_type.connects_to( neighborhood[i] ) ) {
+                val += 1 << i;
+            }
+        }
+
+        get_rotation_and_subtile( val, rota, subtile );
+    } else {
+        // 'Regular', nonlinear terrain only needs to worry about rotation, not
+        // subtile
+        ot.get_rotation_and_subtile( rota, subtile );
+    }
+
     return ot_type_id.id().str();
 }
 
