@@ -1304,7 +1304,7 @@
     "volume": "30 L",
     "weight": "35 kg",
     "hp": 35,
-    "harvest": "arachnid_wasp",
+    "harvest": "arachnid",
     "upgrades": { "age_grow": 16, "into": "mon_wasp_pupa" },
     "//": "30 days of development from egg to adult.",
     "flags": [ "IMMOBILE" ]
