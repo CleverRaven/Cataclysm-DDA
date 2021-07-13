@@ -645,6 +645,57 @@
     "color": "light_green",
     "see_cost": 5
   },
+   {
+    "type": "overmap_terrain",
+    "id": [
+      "polymer_1_1",
+      "polymer_1_2",
+      "polymer_1_3",
+      "polymer_1_4",
+      "polymer_1_5",
+      "polymer_1_6",
+      "polymer_1_7",
+      "polymer_1_9"
+    ],
+    "name": "polymer plant",
+    "sym": "p",
+    "color": "light_green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "polymer_1_8",
+    "name": "polymern plant",
+    "sym": "P",
+    "color": "light_green",
+    "see_cost": 5,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "polymer_1_1_roof",
+      "polymer_1_2_roof",
+      "polymer_1_3_roof",
+      "polymer_1_4_roof",
+      "polymer_1_5_roof",
+      "polymer_1_6_roof",
+      "polymer_1_7_roof",
+      "polymer_1_9_roof"
+    ],
+    "name": "polymer plant",
+    "sym": "p",
+    "color": "light_green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "polymer_1_8_roof",
+    "name": "polymer plant",
+    "sym": "P",
+    "color": "light_green",
+    "see_cost": 5
+  },
   {
     "type": "overmap_terrain",
     "id": [
