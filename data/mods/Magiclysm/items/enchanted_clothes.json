@@ -19,7 +19,7 @@
     "symbol": "[",
     "color": "brown",
     "armor": [
-      { "encumbrance": [ 1 ], "coverage": 95, "covers": [ "torso" ] },
+      { "encumbrance": 1, "coverage": 95, "covers": [ "torso" ] },
       { "encumbrance": 1, "coverage": 85, "covers": [ "arm_r", "arm_l" ] }
     ],
     "material": [ "parabolan_wool" ],
@@ -40,7 +40,7 @@
     "symbol": "[",
     "looks_like": "pants",
     "color": "brown",
-    "armor": [ { "encumbrance": [ 2 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ],
+    "armor": [ { "encumbrance": 2, "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ],
     "material_thickness": 0.5,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "RAINPROOF", "SUPER_FANCY", "STURDY", "TRADER_KEEP_EQUIPPED" ],
     "relic_data": {
@@ -66,7 +66,7 @@
     "symbol": "[",
     "color": "brown",
     "armor": [
-      { "encumbrance": [ 1 ], "coverage": 95, "covers": [ "torso" ] },
+      { "encumbrance": 1, "coverage": 95, "covers": [ "torso" ] },
       { "encumbrance": 1, "coverage": 85, "covers": [ "arm_r", "arm_l" ] }
     ],
     "material": [ "parabolan_wool" ],
@@ -86,7 +86,7 @@
     "symbol": "[",
     "looks_like": "pants",
     "color": "brown",
-    "armor": [ { "encumbrance": [ 2 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ],
+    "armor": [ { "encumbrance": 2, "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ],
     "material_thickness": 0.5,
     "flags": [ "VARSIZE", "FANCY", "WATER_FRIENDLY" ]
   }

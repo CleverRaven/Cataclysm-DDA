@@ -137,7 +137,6 @@
     "anger_triggers": [  ],
     "harvest": "mammal_small_parabolan_wool",
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
-    "death_function": [ "NORMAL" ],
     "upgrades": { "age_grow": 240, "into": "mon_sheep" },
     "//": "Puberty reached in 6-9 months.",
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 7 },
@@ -175,7 +174,6 @@
     "baby_flags": [ "SPRING" ],
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 3 },
     "fear_triggers": [ "FRIEND_DIED" ],
-    "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_CROP", 120 ] ],
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CATTLEFODDER", "PET_WONT_FOLLOW", "MILKABLE" ]
   },
