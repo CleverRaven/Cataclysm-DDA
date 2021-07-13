@@ -34,9 +34,9 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "collection": [ [ "bio_armor_eyes", 30 ], [ "bio_armor_torso", 10 ], [ "bio_armor_head", 100 ] ], "prob": 20 },
-      { "collection": [ [ "bio_armor_torso", 30 ], [ "bio_armor_legs", 100 ], [ "bio_armor_head", 10 ] ], "prob": 20 },
-      { "collection": [ [ "bio_armor_arms", 100 ], [ "bio_armor_torso", 60 ], [ "bio_armor_head", 30 ] ], "prob": 20 },
+      { "collection": [ { "item": "bio_armor_eyes", 30 }, { "item": "bio_armor_torso", 10 }, { "item": "bio_armor_head", 100 } ], "prob": 20 },
+      { "collection": [ { "item": "bio_armor_torso", 30 }, { "item": "bio_armor_legs", 100 }, { "item": "bio_armor_head", 10 } ], "prob": 20 },
+      { "collection": [ { "item": "bio_armor_arms", 100 }, { "item": "bio_armor_torso", 60 }, { "item": "bio_armor_head", 30 } ], "prob": 20 },
       { "item": "bio_armor_legs", "prob": 60 },
       { "item": "bio_armor_arms", "prob": 60 },
       { "item": "bio_armor_head", "prob": 30 },
@@ -55,22 +55,22 @@
       { "group": "Zomborg_CBM_harvest_expensive_utilities", "prob": 1 },
       {
         "distribution": [
-          [ "bio_alarm", 20 ],
-          [ "bio_flashlight", 30 ],
-          [ "bio_geiger", 10 ],
-          [ "bio_jointservo", 15 ],
-          [ "bio_lockpick", 10 ],
-          [ "bio_tattoo_led", 40 ]
+          { "item": "bio_alarm", 20 },
+          { "item": "bio_flashlight", 30 },
+          { "item": "bio_geiger", 10 },
+          { "item": "bio_jointservo", 15 },
+          { "item": "bio_lockpick", 10 },
+          { "item": "bio_tattoo_led", 40 }
         ],
         "prob": 30
       },
       {
         "distribution": [
-          [ "bio_magnet", 15 ],
-          [ "bio_soporific", 20 ],
-          [ "bio_sunglasses", 15 ],
-          [ "bio_syringe", 5 ],
-          [ "bio_tattoo_led", 40 ]
+          { "item": "bio_magnet", 15 },
+          { "item": "bio_soporific", 20 },
+          { "item": "bio_sunglasses", 15 },
+          { "item": "bio_syringe", 5 },
+          { "item": "bio_tattoo_led", 40 }
         ],
         "prob": 30
       },
@@ -98,13 +98,13 @@
     "id": "Zomborg_CBM_harvest_charging_tools",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ [ "bio_ethanol", 50 ], [ "bio_fuel_cell_gasoline", 50 ], [ "bio_torsionratchet", 100 ] ]
+    "entries": [ { "item": "bio_ethanol", 50 }, { "item": "bio_fuel_cell_gasoline", 50 }, { "item": "bio_torsionratchet", 100 } ]
   },
   {
     "id": "Zomborg_CBM_harvest_expensive_combat_systems",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ [ "bio_cqb", 25 ], [ "bio_heat_absorb", 5 ], [ "bio_targeting", 5 ], [ "bio_adrenaline", 5 ] ]
+    "entries": [ { "item": "bio_cqb", 25 }, { "item": "bio_heat_absorb", 5 }, { "item": "bio_targeting", 5 }, { "item": "bio_adrenaline", 5 } ]
   },
   {
     "id": "Zomborg_CBM_harvest_expensive_utilities",
@@ -128,13 +128,13 @@
     "id": "Zomborg_CBM_harvest_fancy_defense",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ [ "bio_heatsink", 20 ], [ "bio_painkiller", 5 ], [ "bio_scent_mask", 30 ], [ "bio_shock", 5 ], [ "bio_carbon", 10 ] ]
+    "entries": [ { "item": "bio_heatsink", 20 }, { "item": "bio_painkiller", 5 }, { "item": "bio_scent_mask", 30 }, { "item": "bio_shock", 5 }, { "item": "bio_carbon", 10 } ]
   },
   {
     "id": "Zomborg_CBM_harvest_melee_weapons",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ [ "bio_blade", 1 ], [ "bio_claws", 30 ], [ "bio_razors", 30 ] ]
+    "entries": [ { "item": "bio_blade", 1 }, { "item": "bio_claws", 30 }, { "item": "bio_razors", 30 } ]
   },
   {
     "id": "Zomborg_CBM_harvest_ranged_weapons",
@@ -170,7 +170,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "distribution": [ [ "bio_speed", 50 ], [ "bio_hydraulics", 50 ] ], "prob": 1 },
+      { "distribution": [ { "item": "bio_speed", 50 }, { "item": "bio_hydraulics", 50 } ], "prob": 1 },
       { "item": "bio_dex_enhancer", "prob": 40 },
       { "item": "bio_int_enhancer", "prob": 40 },
       { "item": "bio_memory", "prob": 20 },
