@@ -26,6 +26,11 @@
         "om_terrains": [ "shelter_2", "shelter_2_vandal" ]
       },
       {
+        "id": "faction_base_sealab_small_0",
+        "description": "Freshwater Research Station Base",
+        "om_terrains": [ "sealab_small_-3" ]
+      },
+      {
         "id": "faction_base_lightindustry_0",
         "description": "Light Industry Office Base",
         "om_terrains": [ "s_lightindustry_00", "s_lightindustry_scen_00" ]
