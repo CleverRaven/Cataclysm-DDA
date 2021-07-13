@@ -319,7 +319,6 @@
     "symbol": "[",
     "looks_like": "chestguard_hard",
     "color": "light_gray",
-    "covers": [ "torso" ],
     "warmth": 10,
     "material_thickness": 6,
     "flags": [ "BELTED" ],
