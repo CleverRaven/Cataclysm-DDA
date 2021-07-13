@@ -315,7 +315,7 @@
     "volume": "7 L",
     "price": 11000,
     "price_postapoc": 250,
-    "material": [ "epoxy", "cotton" ],
+    "material": [ "thermo_resin", "cotton" ],
     "symbol": "[",
     "looks_like": "chestguard_hard",
     "color": "light_gray",
