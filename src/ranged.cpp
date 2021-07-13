@@ -104,7 +104,6 @@ static const skill_id skill_launcher( "launcher" );
 static const skill_id skill_throw( "throw" );
 
 static const bionic_id bio_railgun( "bio_railgun" );
-static const bionic_id bio_ups( "bio_ups" );
 
 static const std::string flag_MOUNTABLE( "MOUNTABLE" );
 
