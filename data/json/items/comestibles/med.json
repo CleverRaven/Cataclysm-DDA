@@ -2023,5 +2023,22 @@
     "addiction_type": "cocaine",
     "flags": [ "NO_INGEST" ],
     "use_action": { "type": "heal", "bleed": 20, "move_cost": 100, "effects": [ { "id": "pkill1", "duration": 720 } ] }
+  },
+  {
+    "id": "hemostatic_chushion",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str": "hemostatic chushion" },
+    "description": "Haemostatic pad attached to a simple cloth bandages.  Used for stopping heavy bloodloss as a substitute for manual compression.",
+    "weight": "112 g",
+    "volume": "400 ml",
+    "price": 800,
+    "price_postapoc": 300,
+    "material": [ "cotton" ],
+    "symbol": "!",
+    "color": "white",
+    "charges": 1,
+    "flags": [ "NO_INGEST" ],
+    "use_action": { "type": "heal", "bandages_power": 4, "bleed": 25, "move_cost": 500 }
   }
 ]
