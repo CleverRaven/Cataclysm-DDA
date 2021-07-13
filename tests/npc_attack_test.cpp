@@ -160,7 +160,7 @@ static void test_gun_attacks( const npc_attack_gun_test_data &data )
     npc_attack_setup::spawn_zombie_at_range( 1 );
     monster *near_zombie = g->critter_at<monster>( main_npc_start_tripoint + tripoint_east );
 
-    const npc_attack_gun gun_default( main_npc.weapon.gun_get_mode( gun_mode_id( "DEFAULT" ) ) );
+    const npc_attack_gun gun_default( main_npc.weapon, main_npc.weapon.gun_get_mode( gun_mode_id( "DEFAULT" ) ) );
     npc_attack_rating gun_effectiveness = gun_default.evaluate( main_npc, near_zombie );
     CHECK( *gun_effectiveness.value() == data.point_blank_hip_shot_default );
     main_npc.recoil = main_npc.aim_cap_from_volume( main_npc.weapon );
