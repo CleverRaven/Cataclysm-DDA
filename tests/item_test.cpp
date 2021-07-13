@@ -383,7 +383,7 @@ TEST_CASE( "water affect items while swimming check", "[item][water][swimming]" 
 
             item aspirin( "aspirin" );
             item backpack( "backpack" );
-            item body_bag( "bag_body_bag" );
+            item body_bag( "test_waterproof_bag" );
 
             backpack.put_in( aspirin, item_pocket::pocket_type::CONTAINER );
             body_bag.put_in( backpack, item_pocket::pocket_type::CONTAINER );
@@ -474,7 +474,7 @@ TEST_CASE( "water affect items while swimming check", "[item][water][swimming]" 
 
             item mp3( "mp3" );
             item backpack( "backpack" );
-            item body_bag( "bag_body_bag" );
+            item body_bag( "test_waterproof_bag" );
 
             backpack.put_in( mp3, item_pocket::pocket_type::CONTAINER );
             body_bag.put_in( backpack, item_pocket::pocket_type::CONTAINER );
@@ -540,7 +540,7 @@ TEST_CASE( "water affect items while swimming check", "[item][water][swimming]" 
             guy.worn.clear();
 
             item towel( "towel" );
-            item body_bag( "bag_body_bag" );
+            item body_bag( "test_waterproof_bag" );
 
             body_bag.put_in( towel, item_pocket::pocket_type::CONTAINER );
 
