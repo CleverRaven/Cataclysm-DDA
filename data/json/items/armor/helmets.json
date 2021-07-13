@@ -306,7 +306,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "football helmet" },
-    "description": "A heavy epoxy helmet normally worn by football players.",
+    "description": "A heavy polycarbonate helmet normally worn by football players.",
     "weight": "1360 g",
     "volume": "2250 ml",
     "price": 19800,
