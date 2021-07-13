@@ -2392,7 +2392,6 @@ Armor can be defined like this:
 "type" : "ARMOR",     // Defines this as armor
 ...                   // same entries as above for the generic item.
                       // additional some armor specific entries:
-"covers" : [ "foot_l", "foot_r" ],  // Where it covers.  Use bodypart_id defined in body_parts.json
 "warmth" : 10,        //  (Optional, default = 0) How much warmth clothing provides
 "environmental_protection" : 0,  //  (Optional, default = 0) How much environmental protection it affords
 "encumbrance" : 0,    // Base encumbrance (unfitted value)
@@ -2402,19 +2401,56 @@ Armor can be defined like this:
 "coverage" : 80,      // What percentage of body part
 "material_thickness" : 1,  // Thickness of material, in millimeter units (approximately).  Ordinary clothes range from 0.1 to 0.5. Particularly rugged cloth may reach as high as 1-2mm, and armor or protective equipment can range as high as 10 or rarely more.
 "power_armor" : false, // If this is a power armor item (those are special).
-"valid_mods" : ["steel_padded"] // List of valid clothing mods. Note that if the clothing mod doesn't have "restricted" listed, this isn't needed.
+"valid_mods" : ["steel_padded"], // List of valid clothing mods. Note that if the clothing mod doesn't have "restricted" listed, this isn't needed.
+"armor": [ ... ]
 ```
+
+#### Armor Portion Data
+Encumbrance and coverage can be defined on a piece of armor as such:
+
+```json
+"armor": [
+  {
+    "encumbrance": [ 2, 8 ],
+    "coverage": 95,
+    "covers": [ "torso" ]
+  },
+  {
+    "encumbrance": 2,
+    "coverage": 80,
+    "covers": [ "arm_r", "arm_l" ]
+  }
+]
+```
+
+##### Encumbrance
+(integer, or array of 2 integers)
+The value of this field (or, if it is an array, the first value in the array) is the base encumbrance (unfitted) of this item.
+When specified as an array, the second value is the max encumbrance - when the pockets of this armor are completely full of items, the encumbrance of a non-rigid item will be set to this. Otherwise it'll be between the first value and the second value following this the equation: first value + (second value - first value) * non-rigid volume / non-rigid capacity.  By default, the max encumbrance is the encumbrance + (non-rigid volume / 250ml).
+
+##### Coverage
+(integer)
+What percentage of time this piece of armor will be hit (and thus used as armor) when an attack hits the body parts in `covers`.
+
+##### Covers
+(array of strings)
+What body parts this section of the armor covers. See the bodypart_ids defined in body_parts.json for valid values.
+
 Alternately, every item (book, tool, gun, even food) can be used as armor if it has armor_data:
 ```C++
 "type" : "TOOL",      // Or any other item type
 ...                   // same entries as for the type (e.g. same entries as for any tool),
 "armor_data" : {      // additionally the same armor data like above
-    "covers" : [ "foot_l", "foot_r" ],
     "warmth" : 10,
     "environmental_protection" : 0,
-    "encumbrance" : 0,
-    "coverage" : 80,
     "material_thickness" : 1,
+    "armor": [
+      {
+        "covers" : [ "foot_l", "foot_r" ],
+        "encumbrance" : 0,
+        "coverage" : 80,
+      }
+    ],
     "power_armor" : false
 }
 ```
