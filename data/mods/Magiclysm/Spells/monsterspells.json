@@ -108,14 +108,7 @@
     "damage_increment": 10,
     "damage_type": "bash",
     "min_range": 8,
-    "max_range": 8,
-    "field_id": "fd_fire",
-    "min_field_intensity": 2,
-    "max_field_intensity": 2,
-    "spell_class": "BIOTEK",
-    "base_casting_time": 300,
-    "base_energy_cost": 350,
-    "max_level": 35
+    "max_range": 8
   },
   {
     "id": "prank",
