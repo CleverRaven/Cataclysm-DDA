@@ -39,25 +39,23 @@ static bool has_obstruction( const tripoint &from, const tripoint &to, bool chec
     line.pop_back();
     const map &here = get_map();
     for( const tripoint &line_point : line ) {
-        if (check_ally && g->critter_at(line_point))
-        {
+        if( check_ally && g->critter_at( line_point ) ) {
             return true;
-        }
-        else if( here.impassable( line_point ) ) {
+        } else if( here.impassable( line_point ) ) {
             return true;
         }
     }
     return false;
 }
 
-static bool can_move(const npc& source)
+static bool can_move( const npc &source )
 {
     return !source.in_vehicle && source.rules.engagement != combat_engagement::NO_MOVE;
 }
 
-static bool can_move_melee(const npc& source)
+static bool can_move_melee( const npc &source )
 {
-    return can_move(source) && source.rules.engagement != combat_engagement::FREE_FIRE;
+    return can_move( source ) && source.rules.engagement != combat_engagement::FREE_FIRE;
 }
 
 bool npc_attack_rating::operator>( const npc_attack_rating &rhs ) const
@@ -97,11 +95,9 @@ npc_attack_rating npc_attack_rating::operator-=( const int rhs )
 
 void npc_attack_melee::use( npc &source, const tripoint &location ) const
 {
-    if (!source.is_wielding(weapon))
-    {
-        if (!source.wield(weapon))
-        {
-            debugmsg("ERROR: npc tried to equip a weapon it couldn't wield");
+    if( !source.is_wielding( weapon ) ) {
+        if( !source.wield( weapon ) ) {
+            debugmsg( "ERROR: npc tried to equip a weapon it couldn't wield" );
         }
         return;
     }
@@ -111,43 +107,30 @@ void npc_attack_melee::use( npc &source, const tripoint &location ) const
         return;
     }
     if( !source.is_adjacent( critter, true ) ) {
-        if (rl_dist(source.pos(), location) <= weapon.reach_range(source))
-        {
-            add_msg_debug(debugmode::debug_filter::DF_NPC, "%s is attempting a reach attack",
-                source.disp_name());
+        if( rl_dist( source.pos(), location ) <= weapon.reach_range( source ) ) {
+            add_msg_debug( debugmode::debug_filter::DF_NPC, "%s is attempting a reach attack",
+                           source.disp_name() );
             // TODO: Avoid friendly fire
-            source.reach_attack(location);
-        }
-        else
-        {
-            source.update_path(location);
-            if (source.path.size() > 1)
-            {
-                if (can_move(source))
-                {
+            source.reach_attack( location );
+        } else {
+            source.update_path( location );
+            if( source.path.size() > 1 ) {
+                if( can_move( source ) ) {
                     source.move_to_next();
+                } else {
+                    source.look_for_player( get_player_character() );
                 }
-                else
-                {
-                    source.look_for_player(get_player_character());
-                }
-            }
-            else if (source.path.size() == 1)
-            {
-                if (critter != nullptr)
-                {
-                    if (source.can_use_offensive_cbm())
-                    {
-                        source.activate_bionic_by_id(bionic_id("bio_hydraulics"));
+            } else if( source.path.size() == 1 ) {
+                if( critter != nullptr ) {
+                    if( source.can_use_offensive_cbm() ) {
+                        source.activate_bionic_by_id( bionic_id( "bio_hydraulics" ) );
                     }
-                    add_msg_debug(debugmode::debug_filter::DF_NPC, "%s is attempting a melee attack",
-                        source.disp_name());
-                    source.melee_attack(*critter, true);
+                    add_msg_debug( debugmode::debug_filter::DF_NPC, "%s is attempting a melee attack",
+                                   source.disp_name() );
+                    source.melee_attack( *critter, true );
                 }
-            }
-            else
-            {
-                source.look_for_player(get_player_character());
+            } else {
+                source.look_for_player( get_player_character() );
             }
         }
     } else {
@@ -231,9 +214,9 @@ npc_attack_rating npc_attack_melee::evaluate_critter( const npc &source,
     double potential = damage * npc_attack_constants::attitude_multiplier.at( att ) -
                        ( distance_to_me - 1 );
 
-    const int reach_range{ weapon.reach_range(source) };
-    const int distance = rl_dist(source.pos(), critter->pos());
-    int range_penalty = std::max(0, distance - reach_range);
+    const int reach_range{ weapon.reach_range( source ) };
+    const int distance = rl_dist( source.pos(), critter->pos() );
+    int range_penalty = std::max( 0, distance - reach_range );
     potential *= range_penalty ? 0.7f : 1.5f;
 
     if( damage >= critter->get_hp() ) {
@@ -248,30 +231,26 @@ npc_attack_rating npc_attack_melee::evaluate_critter( const npc &source,
 
 void npc_attack_gun::use( npc &source, const tripoint &location ) const
 {
-    if (!source.is_wielding(gun))
-    {
-        if (!source.wield(gun))
-        {
-            debugmsg("ERROR: npc tried to equip a weapon it couldn't wield");
+    if( !source.is_wielding( gun ) ) {
+        if( !source.wield( gun ) ) {
+            debugmsg( "ERROR: npc tried to equip a weapon it couldn't wield" );
         }
         return;
     }
 
     if( !gun.ammo_sufficient() ) {
-        source.do_reload(gun);
+        source.do_reload( gun );
         add_msg_debug( debugmode::debug_filter::DF_NPC, "%s is reloading %s", source.disp_name(),
-            gun.display_name() );
+                       gun.display_name() );
         return;
     }
-    
-    if (has_obstruction(source.pos(), location, false) || source.rules.has_flag(ally_rule::avoid_friendly_fire) && !source.wont_hit_friend(location, gun, false))
-    {
-        if (can_move(source))
-        {
+
+    if( has_obstruction( source.pos(), location, false ) ||
+        source.rules.has_flag( ally_rule::avoid_friendly_fire ) &&
+        !source.wont_hit_friend( location, gun, false ) ) {
+        if( can_move( source ) ) {
             source.avoid_friendly_fire();
-        }
-        else
-        {
+        } else {
             source.move_pause();
         }
         return;
@@ -281,14 +260,15 @@ void npc_attack_gun::use( npc &source, const tripoint &location ) const
 
     // Only aim if we aren't in risk of being hit
     // TODO: Get distance to closest enemy
-    if( dist > 1 && source.aim_per_move(gun, source.recoil ) > 0 &&
-        /*source.confident_shoot_range(gun, source.get_most_accurate_sight(gun) ) >= dist*/ source.confident_gun_mode_range(gunmode, source.recoil) < dist) {
+    if( dist > 1 && source.aim_per_move( gun, source.recoil ) > 0 &&
+        /*source.confident_shoot_range(gun, source.get_most_accurate_sight(gun) ) >= dist*/
+        source.confident_gun_mode_range( gunmode, source.recoil ) < dist ) {
         add_msg_debug( debugmode::debug_filter::DF_NPC, "%s is aiming", source.disp_name() );
         source.aim();
     } else {
         source.fire_gun( location );
         add_msg_debug( debugmode::debug_filter::DF_NPC, "%s fires %s", source.disp_name(),
-            gun.display_name() );
+                       gun.display_name() );
     }
 }
 
@@ -386,23 +366,19 @@ npc_attack_rating npc_attack_gun::evaluate_tripoint(
     int attitude_mult = npc_attack_constants::attitude_multiplier.at( att );*/
 
 
-    if (att != Creature::Attitude::HOSTILE)
-    {
+    if( att != Creature::Attitude::HOSTILE ) {
         // No point in throwing stuff at neutral/friendly targets
-        return npc_attack_rating(cata::nullopt, location);
+        return npc_attack_rating( cata::nullopt, location );
     }
 
-    bool avoids_friendly_fire = source.rules.has_flag(ally_rule::avoid_friendly_fire);
+    bool avoids_friendly_fire = source.rules.has_flag( ally_rule::avoid_friendly_fire );
 
     double potential = damage;
 
     // Make attacks that involve moving to find clear LOS slightly less likely
-    if (has_obstruction(source.pos(), location, avoids_friendly_fire))
-    {
+    if( has_obstruction( source.pos(), location, avoids_friendly_fire ) ) {
         potential *= 0.9f;
-    }
-    else if (avoids_friendly_fire && !source.wont_hit_friend(location, gun, false))
-    {
+    } else if( avoids_friendly_fire && !source.wont_hit_friend( location, gun, false ) ) {
         potential *= 0.95f;
     }
 
@@ -429,12 +405,12 @@ void npc_attack_activate_item::use( npc &source, const tripoint &/*location*/ ) 
 
 bool npc_attack_activate_item::can_use( const npc &source ) const
 {
-    if (!activatable_item.has_flag(flag_NPC_ACTIVATE)) {
+    if( !activatable_item.has_flag( flag_NPC_ACTIVATE ) ) {
         //TODO: make this more complete. only does BOMB type items
         return false;
     }
     const bool can_use_grenades = !source.is_hallucination() && ( !source.is_player_ally() ||
-                                    source.rules.has_flag( ally_rule::use_grenades ) );
+                                  source.rules.has_flag( ally_rule::use_grenades ) );
     return can_use_grenades;
 }
 
@@ -464,30 +440,26 @@ std::vector<npc_attack_rating> npc_attack_activate_item::all_evaluations( const 
 
 void npc_attack_throw::use( npc &source, const tripoint &location ) const
 {
-    if (!source.is_wielding(source.weapon))
-    {
-        if (!source.wield(source.weapon))
-        {
-            debugmsg("ERROR: npc tried to equip a weapon it couldn't wield");
+    if( !source.is_wielding( source.weapon ) ) {
+        if( !source.wield( source.weapon ) ) {
+            debugmsg( "ERROR: npc tried to equip a weapon it couldn't wield" );
         }
         return;
     }
 
-    if (has_obstruction(source.pos(), location, false) || (source.rules.has_flag(ally_rule::avoid_friendly_fire) && !source.wont_hit_friend(location, thrown_item, false)))
-    {
-        if (can_move(source))
-        {
+    if( has_obstruction( source.pos(), location, false ) ||
+        ( source.rules.has_flag( ally_rule::avoid_friendly_fire ) &&
+          !source.wont_hit_friend( location, thrown_item, false ) ) ) {
+        if( can_move( source ) ) {
             source.avoid_friendly_fire();
-        }
-        else
-        {
+        } else {
             source.move_pause();
         }
         return;
     }
 
     add_msg_debug( debugmode::debug_filter::DF_NPC, "%s throws the %s", source.disp_name(),
-                    source.weapon.display_name() );
+                   source.weapon.display_name() );
     item thrown( source.weapon );
     if( source.weapon.count_by_charges() && source.weapon.charges > 1 ) {
         source.weapon.mod_charges( -1 );
@@ -504,14 +476,16 @@ bool npc_attack_throw::can_use( const npc &source ) const
     if( single_item.count_by_charges() ) {
         single_item.charges = 1;
     }
-    if (thrown_item.has_flag(flag_NPC_THROW_NOW) || thrown_item.has_flag(flag_NPC_THROWN))
-    {
+    if( thrown_item.has_flag( flag_NPC_THROW_NOW ) || thrown_item.has_flag( flag_NPC_THROWN ) ) {
         //Always allow throwing items that are flagged as throw now or npc_thrown
         return true;
     }
 
-    bool throwable = source.throw_range(single_item) > 0 && !source.is_worn(thrown_item) && !thrown_item.has_flag(flag_NPC_ACTIVATE);
-    throwable = throwable && !thrown_item.is_gun() && !thrown_item.is_armor() && !thrown_item.is_comestible() && !thrown_item.is_magazine() && !thrown_item.is_tool() && !thrown_item.is_unarmed_weapon();
+    bool throwable = source.throw_range( single_item ) > 0 && !source.is_worn( thrown_item ) &&
+                     !thrown_item.has_flag( flag_NPC_ACTIVATE );
+    throwable = throwable && !thrown_item.is_gun() && !thrown_item.is_armor() &&
+                !thrown_item.is_comestible() && !thrown_item.is_magazine() && !thrown_item.is_tool() &&
+                !thrown_item.is_unarmed_weapon();
     // TODO: Better choose what should be thrown
     return throwable;
 }
@@ -548,22 +522,20 @@ npc_attack_rating npc_attack_throw::evaluate(
     }
     const int penalty = base_penalty( source );
     // TODO: Should this be a field to cache the result?
-    bool avoids_friendly_fire = source.rules.has_flag(ally_rule::avoid_friendly_fire);
+    bool avoids_friendly_fire = source.rules.has_flag( ally_rule::avoid_friendly_fire );
     for( const tripoint &potential : targetable_points( source ) ) {
 
         // hot potato! HOT POTATO!
         // Calculated for all targetable points, not just those with targets
-        if (thrown_item.has_flag(flag_NPC_THROW_NOW))
-        {
+        if( thrown_item.has_flag( flag_NPC_THROW_NOW ) ) {
             // TODO: Take into account distance to allies too
-            const int distance_to_me = rl_dist(potential, source.pos());
+            const int distance_to_me = rl_dist( potential, source.pos() );
             int result = npc_attack_constants::base_throw_now + distance_to_me;
-            if (!has_obstruction(source.pos(), potential, avoids_friendly_fire))
-            {
+            if( !has_obstruction( source.pos(), potential, avoids_friendly_fire ) ) {
                 // More likely to pick a target tile that isn't obstructed
                 result += 100;
             }
-            return npc_attack_rating(result, potential);
+            return npc_attack_rating( result, potential );
         }
 
         if( Creature *critter = g->critter_at( potential ) ) {
@@ -630,28 +602,28 @@ npc_attack_rating npc_attack_throw::evaluate_tripoint(
         // if friendly fire is on, we don't care too much, though if an available hit doesn't damage them it would be better.
         attitude_mult = npc_attack_constants::attitude_multiplier.at( Creature::Attitude::NEUTRAL );
     }*/
-    if (att != Creature::Attitude::HOSTILE)
-    {
+    if( att != Creature::Attitude::HOSTILE ) {
         // No point in throwing stuff at neutral/friendly targets
-        return npc_attack_rating(cata::nullopt, location);
+        return npc_attack_rating( cata::nullopt, location );
     }
 
-    if (source.rules.has_flag(ally_rule::avoid_friendly_fire) && !source.wont_hit_friend(location, thrown_item, false))
-    {
+    if( source.rules.has_flag( ally_rule::avoid_friendly_fire ) &&
+        !source.wont_hit_friend( location, thrown_item, false ) ) {
         // Avoid friendy fire
-        return npc_attack_rating(cata::nullopt, location);
+        return npc_attack_rating( cata::nullopt, location );
     }
 
     const float throw_mult = throw_cost( source, single_item ) * source.speed_rating() / 100.0f;
     const int damage = source.thrown_item_total_damage_raw( single_item );
     float dps = damage / throw_mult;
     const int distance_to_me = rl_dist( location, source.pos() );
-    const int distance_penalty = std::max(std::min( distance_to_me, source.closest_enemy_to_friendly_distance()) - 3, 0);
-    const float suitable_item_mult = thrown_item.has_flag(flag_NPC_THROWN) ? 0.2f : -0.15f;
-    const int max_range = std::max(1, source.throw_range(single_item));
+    const int distance_penalty = std::max( std::min( distance_to_me,
+                                           source.closest_enemy_to_friendly_distance() ) - 3, 0 );
+    const float suitable_item_mult = thrown_item.has_flag( flag_NPC_THROWN ) ? 0.2f : -0.15f;
+    const int max_range = std::max( 1, source.throw_range( single_item ) );
     const float distance_mult = -distance_penalty / 10;
 
-    double potential = dps * (1.0f + distance_mult + suitable_item_mult);
+    double potential = dps * ( 1.0f + distance_mult + suitable_item_mult );
     if( critter && damage >= critter->get_hp() ) {
         potential *= npc_attack_constants::kill_modifier;
     }
