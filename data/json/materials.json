@@ -1,5 +1,50 @@
 [
   {
+	"abstract": "generic_polymer_resin",
+	"type": "material",
+	"name": { "str_sp": "Polymer resin" },
+	"specific_heat_liquid": 1.25,
+    "specific_heat_solid": 1.25,
+	"density": 1,
+    "latent_heat": 18,
+    "bash_resist": 4,
+    "cut_resist": 6,
+    "bullet_resist": 6,
+    "acid_resist": 10,
+    "fire_resist": 6,
+    "elec_resist": 6,
+    "chip_resist": 8,
+	"dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
+    "bash_dmg_verb": "dented",
+    "cut_dmg_verb": "gouged"
+  },
+  {
+    "type": "material",
+    "id": "thermo_resin",
+    "name": { "str_sp": "Thermoplastic resin" },
+	"copy-from": "generic_polymer_resin",
+	"repaired_with": "thermo_resin_chunk",
+    "salvaged_into": "thermo_resin_chunk",
+	"burn_data": [
+      { "fuel": 1, "smoke": 2, "burn": 1, "volume_per_turn": "750 ml" },
+      { "fuel": 1, "smoke": 3, "burn": 2 },
+      { "fuel": 1, "smoke": 5, "burn": 5 }
+		]
+	},
+	{
+	"type": "material",
+    "id": "epoxy",
+    "name": { "str_sp": "Epoxy" },
+	"copy-from": "generic_polymer_resin",
+	"repaired_with": "epoxy_chunk",
+    "salvaged_into": "epoxy_chunk",
+	"burn_data": [
+      { "fuel": 1, "smoke": 2, "burn": 1, "volume_per_turn": "750 ml" },
+      { "fuel": 1, "smoke": 3, "burn": 2 },
+      { "fuel": 1, "smoke": 5, "burn": 5 }
+		]
+	},
+  {
     "type": "material",
     "id": "pseudo_fuel",
     "name": "Pseudo fuel",

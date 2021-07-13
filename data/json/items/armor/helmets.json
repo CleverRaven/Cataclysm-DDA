@@ -306,16 +306,16 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "football helmet" },
-    "description": "A heavy plastic helmet normally worn by football players.",
+    "description": "A heavy epoxy helmet normally worn by football players.",
     "weight": "1360 g",
     "volume": "2250 ml",
     "price": 19800,
     "price_postapoc": 250,
-    "material": [ "plastic" ],
+    "material": [ "epoxy" ],
     "symbol": "[",
     "looks_like": "helmet_motor",
     "color": "yellow",
-    "armor": [
+    "armor_portion_data": [
       { "covers": [ "head" ], "coverage": 95, "encumbrance": 50 },
       { "covers": [ "eyes" ], "coverage": 75, "encumbrance": 5 },
       { "covers": [ "mouth" ], "coverage": 85, "encumbrance": 0 }
