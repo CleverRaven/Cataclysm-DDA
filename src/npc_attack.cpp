@@ -361,10 +361,6 @@ npc_attack_rating npc_attack_gun::evaluate_tripoint(
     }
     const int distance_to_me = rl_dist( location, source.pos() );
     const Creature::Attitude att = source.attitude_to( *critter );
-    /*const bool friendly_fire = att == Creature::Attitude::FRIENDLY &&
-                               !source.rules.has_flag( ally_rule::avoid_friendly_fire );
-    int attitude_mult = npc_attack_constants::attitude_multiplier.at( att );*/
-
 
     if( att != Creature::Attitude::HOSTILE ) {
         // No point in throwing stuff at neutral/friendly targets
@@ -594,14 +590,7 @@ npc_attack_rating npc_attack_throw::evaluate_tripoint(
     if( critter ) {
         att = source.attitude_to( *critter );
     }
-    /*const bool friendly_fire = att == Creature::Attitude::FRIENDLY &&
-                               !source.rules.has_flag( ally_rule::avoid_friendly_fire );
-    int attitude_mult = npc_attack_constants::attitude_multiplier.at( att );
-    if( friendly_fire ) {
-        // hitting a neutral creature isn't exactly desired, but it's a lot less than a friendly.
-        // if friendly fire is on, we don't care too much, though if an available hit doesn't damage them it would be better.
-        attitude_mult = npc_attack_constants::attitude_multiplier.at( Creature::Attitude::NEUTRAL );
-    }*/
+
     if( att != Creature::Attitude::HOSTILE ) {
         // No point in throwing stuff at neutral/friendly targets
         return npc_attack_rating( cata::nullopt, location );
