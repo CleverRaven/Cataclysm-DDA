@@ -150,7 +150,7 @@
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" }
-	]
+    ]
   },
   {
     "type": "recipe",
