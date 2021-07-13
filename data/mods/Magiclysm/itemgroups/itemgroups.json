@@ -95,7 +95,7 @@
       [ "cauldron_demon_chitin", 3 ],
       [ "manatouched_serum", 3 ],
       [ "wolfsbane", 2 ],
-      [ "wolfshead_cufflinks", 1 ]
+      [ "wolfshead_cufflinks", 3 ]
     ]
   },
   {
@@ -229,6 +229,7 @@
         "prob": 15
       },
       { "item": "bone_human", "prob": 60, "count-min": 1, "count-max": 5 },
+      { "item": "denarius", "prob": 40, "count-min": 2, "count-max": 5 },
       [ "cauldron_orichalcum", 10 ],
       { "group": "tools_toolbox", "prob": 10 }
     ]
@@ -244,7 +245,8 @@
       { "group": "enchanted_rings_uncommon", "prob": 5 },
       { "group": "enchanted_combat_items", "prob": 10 },
       { "group": "enchanted_belts", "prob": 2 },
-      { "group": "magical_reagents", "prob": 8 }
+      { "group": "magical_reagents", "prob": 8 },
+      { "item": "denarius", "prob": 40, "count-min": 11, "count-max": 67 }
     ]
   },
   {
@@ -300,7 +302,8 @@
     "items": [
       { "group": "jewelry_safe", "prob": 30 },
       { "group": "jewelry_front", "prob": 8 },
-      { "item": "bone_human", "prob": 60, "count-min": 1, "count-max": 5 }
+      { "item": "bone_human", "prob": 60, "count-min": 1, "count-max": 5 },
+      { "item": "denarius", "prob": 40, "count-min": 7, "count-max": 32 }
     ]
   },
   {
@@ -319,7 +322,8 @@
       { "group": "medieval", "prob": 1, "count-min": 1, "count-max": 2 },
       { "group": "medieval", "prob": 1, "count-min": 1, "count-max": 2 },
       { "group": "magical_reagents", "prob": 2 },
-      { "group": "enchanted_combat_items", "prob": 1 }
+      { "group": "enchanted_combat_items", "prob": 1 },
+      { "item": "denarius", "prob": 40, "count-min": 17, "count-max": 53 }
     ]
   },
   {
@@ -345,7 +349,8 @@
       { "group": "enchanted_belts", "prob": 15 },
       { "group": "spellbook_loot_2", "prob": 20 },
       { "group": "enchanted_misc", "prob": 5 },
-      { "group": "enchanted_cloaks_rare", "prob": 10 }
+      { "group": "enchanted_cloaks_rare", "prob": 10 },
+      { "item": "denarius", "prob": 40, "count-min": 27, "count-max": 98 }
     ]
   },
   {
@@ -681,7 +686,10 @@
     "items": [
       { "group": "enchanted_bracers_lesser", "prob": 25 },
       { "group": "enchanted_boots", "prob": 7 },
-      { "group": "enchanted_belts", "prob": 7 }
+      { "group": "enchanted_belts", "prob": 7 },
+      { "item": "wolfshead_cufflinks", "prob": 1 },
+      { "item": "parabolan_breeches", "prob": 30 },
+      { "item": "parabolan_blouse", "prob": 30 }
     ]
   },
   {
@@ -1129,7 +1137,8 @@
       { "group": "trash", "prob": 80 },
       { "group": "trash_forest", "prob": 70 },
       { "group": "trash", "prob": 50 },
-      { "group": "trash_forest", "prob": 25 }
+      { "group": "trash_forest", "prob": 25 },
+      { "item": "denarius", "prob": 15 }
     ]
   },
   {
@@ -1238,6 +1247,7 @@
       { "item": "signed_chit", "prob": 20, "count": [ 12, 39 ] },
       { "item": "icon", "prob": 30, "count": [ 1, 13 ] },
       { "item": "gold_small", "prob": 20, "count": [ 120, 390 ] },
+      { "item": "denarius", "prob": 20, "count": [ 20, 90 ] },
       { "item": "silver_small", "prob": 5, "count": [ 68, 560 ] }
     ]
   },

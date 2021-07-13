@@ -1,0 +1,93 @@
+[
+  {
+    "id": "ench_parabolan_blouse",
+    "type": "enchantment",
+    "has": "WORN",
+    "condition": "ALWAYS",
+    "values": [ { "value": "DEXTERITY", "add": 2 }, { "value": "BONUS_DODGE", "add": 3 }, { "value": "SOCIAL_LIE", "add": 3 } ],
+    "mutations": [ "MIRROR_DISPLACEMENT" ]
+  },
+  {
+    "id": "enchanted_pirate_blouse",
+    "type": "ARMOR",
+    "name": { "str_sp": "enchanted parabolan wool blouse" },
+    "description": "A loose iridescent blouse in a style most often associated with pirates and renfaires.  It shimmers as you look at it.  Made of parabolan wool, it sometimes dimly shows reflections of things here and not.  This particular one has piratical flairs and glitters with enchantment.",
+    "looks_like": "dress_shirt",
+    "weight": "60 g",
+    "volume": "750 ml",
+    "price": 200000,
+    "symbol": "[",
+    "color": "brown",
+    "armor": [
+      { "encumbrance": 1, "coverage": 95, "covers": [ "torso" ] },
+      { "encumbrance": 1, "coverage": 85, "covers": [ "arm_r", "arm_l" ] }
+    ],
+    "material": [ "parabolan_wool" ],
+    "material_thickness": 0.5,
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "RAINPROOF", "SUPER_FANCY", "STURDY", "TRADER_KEEP_EQUIPPED" ],
+    "relic_data": { "passive_effects": [ { "id": "ench_parabolan_blouse" } ] }
+  },
+  {
+    "id": "parabolan_enchanted_breeches",
+    "type": "ARMOR",
+    "name": { "str_sp": "enchanted parabolan wool breeches" },
+    "description": "A well-made pair of old-fashioned pants, made of iridescent material.  Comfortable, but lacks pockets.  It shimmers as you look at it.  Made of parabolan wool, it sometimes dimly shows reflections of things here and not.  This particular one has piratical flairs and gliters with enchantment.",
+    "weight": "52 g",
+    "volume": "1750 ml",
+    "price": 490000,
+    "price_postapoc": 50000,
+    "material": [ "parabolan_wool" ],
+    "symbol": "[",
+    "looks_like": "pants",
+    "color": "brown",
+    "armor": [ { "encumbrance": 2, "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ],
+    "material_thickness": 0.5,
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "RAINPROOF", "SUPER_FANCY", "STURDY", "TRADER_KEEP_EQUIPPED" ],
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "values": [ { "value": "ARMOR_BULLET", "add": 8 }, { "value": "ARMOR_STAB", "add": 3 }, { "value": "ARMOR_CUT", "add": 3 } ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "parabolan_blouse",
+    "type": "ARMOR",
+    "name": "parabolan wool blouse",
+    "description": "A loose iridescent blouse in a style most often associated with pirates and renfaires.  It shimmers as you look at it.  Made of parabolan wool, it sometimes dimly shows reflections of things here and not.",
+    "looks_like": "dress_shirt",
+    "weight": "60 g",
+    "volume": "750 ml",
+    "price": 2000,
+    "price_postapoc": 500,
+    "symbol": "[",
+    "color": "brown",
+    "armor": [
+      { "encumbrance": 1, "coverage": 95, "covers": [ "torso" ] },
+      { "encumbrance": 1, "coverage": 85, "covers": [ "arm_r", "arm_l" ] }
+    ],
+    "material": [ "parabolan_wool" ],
+    "material_thickness": 0.5,
+    "flags": [ "VARSIZE", "FANCY", "WATER_FRIENDLY" ]
+  },
+  {
+    "id": "parabolan_breeches",
+    "type": "ARMOR",
+    "name": { "str_sp": "parabolan wool breeches" },
+    "description": "A well-made pair of old-fashioned pants, made of iridescent material.  Comfortable, but lacks pockets.  It shimmers as you look at it.  Made of parabolan wool, it sometimes dimly shows reflections of things here and not.",
+    "weight": "52 g",
+    "volume": "1750 ml",
+    "price": 4900,
+    "price_postapoc": 500,
+    "material": [ "parabolan_wool" ],
+    "symbol": "[",
+    "looks_like": "pants",
+    "color": "brown",
+    "armor": [ { "encumbrance": 2, "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ],
+    "material_thickness": 0.5,
+    "flags": [ "VARSIZE", "FANCY", "WATER_FRIENDLY" ]
+  }
+]

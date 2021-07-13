@@ -1,0 +1,27 @@
+[
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "feral_humans_death_drops_axe",
+    "entries": [ { "item": "denarius", "prob": 5 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "feral_humans_death_drops_pipe",
+    "entries": [ { "item": "denarius", "prob": 7 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "feral_humans_death_drops_crowbar",
+    "entries": [ { "item": "denarius", "prob": 7 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "items people could have carried in their pockets prior to zombification",
+    "id": "default_zombie_items_pockets",
+    "entries": [ { "item": "denarius", "prob": 7 } ]
+  }
+]

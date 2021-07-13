@@ -64,6 +64,38 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "9mm": 6, "380": 6, "357mag": 6, "38": 6 } } ]
   },
   {
+    "id": "enchanted_blackpowder_pistol",
+    "copy-from": "pistol_flintlock",
+    "type": "GUN",
+    "name": { "str": "Pistolet modèle Gardes de la Marine", "str_pl": "several Pistolet modèle Gardes de la Marine" },
+    "description": "These beautifully-made enchanted flintlock pistols were specially made for young noble scions in the Gardes de la Marine.  They still exist today as unspeakably-rare heirlooms that remain combat-worthy due to their magical nature.",
+    "price": 74000,
+    "price_postapoc": 25750,
+    "to_hit": -1,
+    "bashing": 7,
+    "material": [ "iron", "wood" ],
+    "symbol": "(",
+    "color": "brown",
+    "ammo": [ "flintlock" ],
+    "skill": "pistol",
+    "range": 3,
+    "ranged_damage": { "damage_type": "bullet", "amount": 13, "armor_penetration": 9 },
+    "dispersion": 340,
+    "durability": 7,
+    "loudness": 23,
+    "reload": 600,
+    "valid_mod_locations": [
+      [ "accessories", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "flags": [ "NEVER_JAMS" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "flintlock": 1 } } ]
+  },
+  {
     "id": "gunblade",
     "type": "GUN",
     "name": "gunblade",
