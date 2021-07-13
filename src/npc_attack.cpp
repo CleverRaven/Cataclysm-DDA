@@ -115,7 +115,7 @@ void npc_attack_melee::use( npc &source, const tripoint &location ) const
         } else {
             source.update_path( location );
             if( source.path.size() > 1 ) {
-                if( can_move( source ) ) {
+                if( can_move_melee( source ) ) {
                     source.move_to_next();
                 } else {
                     source.look_for_player( get_player_character() );
@@ -246,8 +246,8 @@ void npc_attack_gun::use( npc &source, const tripoint &location ) const
     }
 
     if( has_obstruction( source.pos(), location, false ) ||
-        source.rules.has_flag( ally_rule::avoid_friendly_fire ) &&
-        !source.wont_hit_friend( location, gun, false ) ) {
+        ( source.rules.has_flag( ally_rule::avoid_friendly_fire ) &&
+          !source.wont_hit_friend( location, gun, false ) ) ) {
         if( can_move( source ) ) {
             source.avoid_friendly_fire();
         } else {
@@ -609,7 +609,6 @@ npc_attack_rating npc_attack_throw::evaluate_tripoint(
     const int distance_penalty = std::max( std::min( distance_to_me,
                                            source.closest_enemy_to_friendly_distance() ) - 3, 0 );
     const float suitable_item_mult = thrown_item.has_flag( flag_NPC_THROWN ) ? 0.2f : -0.15f;
-    const int max_range = std::max( 1, source.throw_range( single_item ) );
     const float distance_mult = -distance_penalty / 10;
 
     double potential = dps * ( 1.0f + distance_mult + suitable_item_mult );
