@@ -140,7 +140,7 @@
     "id": "Zomborg_CBM_harvest_expensive_utilities",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [
+    "items": [
       [ "bio_climate", 5 ],
       [ "bio_digestion", 15 ],
       [ "bio_evap", 15 ],
@@ -176,7 +176,7 @@
     "id": "Zomborg_CBM_harvest_ranged_weapons",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [
+    "items": [
       [ "bio_flashbang", 50 ],
       [ "bio_laser", 20 ],
       [ "bio_railgun", 10 ],
@@ -189,7 +189,7 @@
     "id": "Zomborg_CBM_harvest_sensors",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [
+    "items": [
       [ "bio_blood_anal", 20 ],
       [ "bio_ears", 20 ],
       [ "bio_eye_enhancer", 20 ],
