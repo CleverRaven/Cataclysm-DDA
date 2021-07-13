@@ -2791,7 +2791,7 @@ void shearing_activity_actor::start( player_activity &act, Character &who )
                                        true ) : mon->unique_name;
 
     if( !mon->shearable() ) {
-        add_msg( _( "$1%s has nothing %2$s could shear." ), pet_name_capitalized, who.disp_name() );
+        add_msg( _( "%1$s has nothing %2$s could shear." ), pet_name_capitalized, who.disp_name() );
         if( shearing_tie ) {
             mon->remove_effect( effect_tied );
         }
