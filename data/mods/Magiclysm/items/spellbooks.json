@@ -225,7 +225,7 @@
     "id": "druid_spellbook",
     "type": "BOOK",
     "name": { "str": "The Book of Trees", "str_pl": "copies of The Book of Trees" },
-    "//": "4 Druid spells",
+    "//": "5 Druid spells",
     "description": "A bark covered book.",
     "weight": "355 g",
     "volume": "500 ml",
@@ -233,7 +233,10 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "green",
-    "use_action": { "type": "learn_spell", "spells": [ "druid_woodshaft", "druid_veggrasp", "druid_rootstrike", "druid_naturebow1" ] }
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [ "druid_woodshaft", "druid_veggrasp", "druid_rootstrike", "druid_naturebow1", "druid_natures_commune" ]
+    }
   },
   {
     "id": "recovery_spellbook",

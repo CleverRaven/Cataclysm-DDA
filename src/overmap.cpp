@@ -1581,7 +1581,8 @@ bool overmap::generate_sub( const int z )
                 ter_set( p, oter_id( "cavern" ) );
                 chip_rock( p );
             } else if( oter_above == "lab_core" ||
-                       ( z == -1 && oter_above == "lab_stairs" ) ) {
+                       ( z == -1 && oter_above == "lab_stairs" ) ||
+                       is_ot_match( "hidden_lab_stairs", oter_above, ot_match_type::contains ) ) {
                 lab_points.emplace_back( p.xy(), rng( 1, 5 + z ) );
             } else if( oter_above == "lab_stairs" ) {
                 ter_set( p, oter_id( "lab" ) );
@@ -1594,8 +1595,6 @@ bool overmap::generate_sub( const int z )
                 central_lab_points.emplace_back( p.xy(), rng( std::max( 1, 7 + z ), 9 + z ) );
             } else if( oter_above == "central_lab_stairs" ) {
                 ter_set( p, oter_id( "central_lab" ) );
-            } else if( is_ot_match( "hidden_lab_stairs", oter_above, ot_match_type::contains ) ) {
-                lab_points.emplace_back( p.xy(), rng( 1, 5 + z ) );
             } else if( is_ot_match( "mine_entrance", oter_ground, ot_match_type::prefix ) && z == -2 ) {
                 mine_points.emplace_back( ( p + tripoint_west ).xy(), rng( 6 + z, 10 + z ) );
                 requires_sub = true;
@@ -4688,23 +4687,15 @@ std::string enum_to_string<ot_match_type>( ot_match_type data )
 } // namespace io
 
 constexpr tripoint_abs_omt overmap::invalid_tripoint;
+static const std::array<std::string, 4> suffixes = {{ "_north", "_west", "_south", "_east" }};
 
 std::string oter_no_dir( const oter_id &oter )
 {
-    std::string base_oter_id = oter.id().c_str();
-    size_t oter_len = base_oter_id.size();
-    if( oter_len > 7 ) {
-        if( base_oter_id.substr( oter_len - 6, 6 ) == "_south" ) {
-            return base_oter_id.substr( 0, oter_len - 6 );
-        } else if( base_oter_id.substr( oter_len - 6, 6 ) == "_north" ) {
-            return base_oter_id.substr( 0, oter_len - 6 );
-        }
-    }
-    if( oter_len > 6 ) {
-        if( base_oter_id.substr( oter_len - 5, 5 ) == "_west" ) {
-            return base_oter_id.substr( 0, oter_len - 5 );
-        } else if( base_oter_id.substr( oter_len - 5, 5 ) == "_east" ) {
-            return base_oter_id.substr( 0, oter_len - 5 );
+    std::string base_oter_id = oter.id().str();
+    for( const std::string &suffix : suffixes ) {
+        if( string_ends_with( base_oter_id, suffix ) ) {
+            base_oter_id.erase( base_oter_id.end() - suffix.size(), base_oter_id.end() );
+            break;
         }
     }
     return base_oter_id;
@@ -4713,19 +4704,9 @@ std::string oter_no_dir( const oter_id &oter )
 int oter_get_rotation( const oter_id &oter )
 {
     std::string base_oter_id = oter.id().c_str();
-    size_t oter_len = base_oter_id.size();
-    if( oter_len > 7 ) {
-        if( base_oter_id.substr( oter_len - 6, 6 ) == "_south" ) {
-            return 2;
-        } else if( base_oter_id.substr( oter_len - 6, 6 ) == "_north" ) {
-            return 0;
-        }
-    }
-    if( oter_len > 6 ) {
-        if( base_oter_id.substr( oter_len - 5, 5 ) == "_west" ) {
-            return 1;
-        } else if( base_oter_id.substr( oter_len - 5, 5 ) == "_east" ) {
-            return 3;
+    for( size_t i = 0; i < suffixes.size(); ++i ) {
+        if( string_ends_with( base_oter_id, suffixes[i] ) ) {
+            return i;
         }
     }
     return 0;
@@ -4734,19 +4715,9 @@ int oter_get_rotation( const oter_id &oter )
 std::string oter_get_rotation_string( const oter_id &oter )
 {
     std::string base_oter_id = oter.id().c_str();
-    size_t oter_len = base_oter_id.size();
-    if( oter_len > 7 ) {
-        if( base_oter_id.substr( oter_len - 6, 6 ) == "_south" ) {
-            return "_south";
-        } else if( base_oter_id.substr( oter_len - 6, 6 ) == "_north" ) {
-            return "_north";
-        }
-    }
-    if( oter_len > 6 ) {
-        if( base_oter_id.substr( oter_len - 5, 5 ) == "_west" ) {
-            return "_west";
-        } else if( base_oter_id.substr( oter_len - 5, 5 ) == "_east" ) {
-            return "_east";
+    for( const std::string &suffix : suffixes ) {
+        if( string_ends_with( base_oter_id, suffix ) ) {
+            return suffix;
         }
     }
     return "";

@@ -3527,15 +3527,13 @@ bool mattack::searchlight( monster *z )
             if( !one_in( 5 ) ) {
                 settings.set_var( "SL_DIR", rng_dir );
             } else {
-                const int rng_pref = rng( 0, 3 ) * 2;
-                if( rng_pref == 0 && settings.get_var( "SL_PREFER_UP" ) == "TRUE" ) {
-                    settings.set_var( "SL_DIR", rng_pref );
-                } else            if( rng_pref == 2 && settings.get_var( "SL_PREFER_RIGHT" ) == "TRUE" ) {
-                    settings.set_var( "SL_DIR", rng_pref );
-                } else            if( rng_pref == 4 && settings.get_var( "SL_PREFER_DOWN" ) == "TRUE" ) {
-                    settings.set_var( "SL_DIR", rng_pref );
-                } else            if( rng_pref == 6 && settings.get_var( "SL_PREFER_LEFT" ) == "TRUE" ) {
-                    settings.set_var( "SL_DIR", rng_pref );
+                const int rng_pref = rng( 0, 3 );
+                static const std::array<std::string, 4> settings_names = {{
+                        "SL_PREFER_UP", "SL_PREFER_RIGHT", "SL_PREFER_DOWN", "SL_PREFER_LEFT"
+                    }
+                };
+                if( settings.get_var( settings_names[rng_pref] ) == "TRUE" ) {
+                    settings.set_var( "SL_DIR", rng_pref * 2 );
                 }
             }
         }

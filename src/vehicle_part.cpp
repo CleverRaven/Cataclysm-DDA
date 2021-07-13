@@ -362,7 +362,7 @@ bool vehicle_part::can_reload( const item &obj ) const
             return false;
         }
         // forbid putting liquids, gasses, and plasma in things that aren't tanks
-        else if( !obj.made_of( phase_id::SOLID ) && !is_tank() ) {
+        if( !obj.made_of( phase_id::SOLID ) && !is_tank() ) {
             return false;
         }
         // prevent mixing of different ammo
