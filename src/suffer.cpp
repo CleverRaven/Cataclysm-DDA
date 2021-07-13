@@ -109,8 +109,6 @@ static const trait_id trait_CHAOTIC_BAD( "CHAOTIC_BAD" );
 static const trait_id trait_CHEMIMBALANCE( "CHEMIMBALANCE" );
 static const trait_id trait_DEBUG_NOTEMP( "DEBUG_NOTEMP" );
 static const trait_id trait_FRESHWATEROSMOSIS( "FRESHWATEROSMOSIS" );
-static const trait_id trait_GILLS( "GILLS" );
-static const trait_id trait_GILLS_CEPH( "GILLS_CEPH" );
 static const trait_id trait_JITTERY( "JITTERY" );
 static const trait_id trait_KILLER( "KILLER" );
 static const trait_id trait_LEAVES( "LEAVES" );
@@ -152,6 +150,7 @@ static const mtype_id mon_zombie_fat( "mon_zombie_fat" );
 static const mtype_id mon_zombie_fireman( "mon_zombie_fireman" );
 static const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
 
+static const json_character_flag json_flag_GILLS( "GILLS" );
 static const json_character_flag json_flag_GLARE_RESIST( "GLARE_RESIST" );
 
 static float addiction_scaling( float at_min, float at_max, float add_lvl )
@@ -231,7 +230,7 @@ void Character::suffer_mutation_power( const trait_id &mut_id )
 
 void Character::suffer_while_underwater()
 {
-    if( !has_trait( trait_GILLS ) && !has_trait( trait_GILLS_CEPH ) ) {
+    if( !has_flag( json_flag_GILLS ) ) {
         oxygen--;
     }
     if( oxygen < 12 && worn_with_flag( flag_REBREATHER ) ) {
