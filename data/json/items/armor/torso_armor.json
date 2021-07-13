@@ -310,7 +310,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "football armor" },
-    "description": "Heavy epoxy armor for your upper torso.  Normally worn by football players.",
+    "description": "Heavy polycarbonate armor for your upper torso.  Normally worn by football players.",
     "weight": "2810 g",
     "volume": "7 L",
     "price": 11000,
