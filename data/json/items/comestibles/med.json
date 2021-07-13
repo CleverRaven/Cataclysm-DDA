@@ -2037,7 +2037,7 @@
     "material": [ "cotton" ],
     "symbol": "!",
     "color": "white",
-    "charges": 1,
+    "charges": 3,
     "flags": [ "NO_INGEST" ],
     "use_action": { "type": "heal", "bandages_power": 4, "bleed": 25, "move_cost": 500 }
   }
