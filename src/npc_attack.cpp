@@ -470,8 +470,20 @@ bool npc_attack_throw::can_use( const npc &source ) const
     if( single_item.count_by_charges() ) {
         single_item.charges = 1;
     }
-    if( thrown_item.has_flag( flag_NPC_THROW_NOW ) || thrown_item.has_flag( flag_NPC_THROWN ) ) {
-        //Always allow throwing items that are flagged as throw now or npc_thrown
+
+
+    // Always allow throwing items that are flagged as throw now to
+    // get rid of dangerous items ASAP, even if ranged attacks aren't allowed
+    if( thrown_item.has_flag( flag_NPC_THROW_NOW ) ) {
+        return true;
+    }
+
+    if( source.is_player_ally() && !source.rules.has_flag( ally_rule::use_guns ) ) {
+        return false;
+    }
+
+    // Items flagged as NPC_THROWN are always allowed
+    if( thrown_item.has_flag( flag_NPC_THROWN ) ) {
         return true;
     }
 
