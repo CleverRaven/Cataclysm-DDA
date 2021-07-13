@@ -120,7 +120,7 @@
   {
     "id": "knuckle_skewer",
     "type": "ARMOR",
-    "name": { "str": "skewer knuckles" },
+    "name": { "str_sp": "skewer knuckles" },
     "description": "A single sturdy spike protrudes 5cm from the back of your hand.  They are strapped to your hands with metal braces.",
     "weight": "250 g",
     "volume": "300 ml",
