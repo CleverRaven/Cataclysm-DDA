@@ -102,7 +102,7 @@
   {
     "id": "knuckle_impact",
     "type": "ARMOR",
-    "name": { "str": "impact knuckles" },
+    "name": { "str_sp": "impact knuckles" },
     "description": "A pair of thick steel plates covering your proximal phalange.  They are strapped to your hands with metal braces.",
     "weight": "500 g",
     "volume": "300 ml",
