@@ -2027,6 +2027,10 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
     // translate from player-relative to screen relative tile position
     const point screen_pos = player_to_screen( pos.xy() );
 
+    auto simple_point_hash = []( const auto & p ) {
+        return p.x + p.y * 65536;
+    };
+
     // seed the PRNG to get a reproducible random int
     // TODO: faster solution here
     unsigned int seed = 0;
@@ -2037,7 +2041,7 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
         case C_FIELD:
         case C_LIGHTING:
             // stationary map tiles, seed based on map coordinates
-            seed = here.getabs( pos ).x + here.getabs( pos ).y * 65536;
+            seed = simple_point_hash( here.getabs( pos ) );
             break;
         case C_VEHICLE_PART:
             // vehicle parts, seed based on coordinates within the vehicle
@@ -2050,12 +2054,12 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
                 const vpart_id &vp_id = std::get<0>( vp_override->second );
                 if( vp_id ) {
                     const point &mount = std::get<4>( vp_override->second );
-                    seed = mount.x + mount.y * 65536;
+                    seed = simple_point_hash( mount );
                 }
             } else {
                 const optional_vpart_position vp = here.veh_at( pos );
                 if( vp ) {
-                    seed = vp->mount().x + vp->mount().y * 65536;
+                    seed = simple_point_hash( vp->mount() );
                 }
             }
 
@@ -2075,18 +2079,19 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
             if( fid.is_valid() ) {
                 const furn_t &f = fid.obj();
                 if( !f.is_movable() ) {
-                    seed = here.getabs( pos ).x + here.getabs( pos ).y * 65536;
+                    seed = simple_point_hash( here.getabs( pos ) );
                 }
             }
         }
         break;
+        case C_OVERMAP_TERRAIN:
+            seed = simple_point_hash( pos );
         case C_ITEM:
         case C_TRAP:
         case C_NONE:
         case C_BULLET:
         case C_HIT_ENTITY:
         case C_WEATHER:
-        case C_OVERMAP_TERRAIN:
             // TODO: come up with ways to make random sprites consistent for these types
             break;
         case C_MONSTER:
