@@ -276,11 +276,7 @@
     "id_suffix": "with_power_saw",
     "time": "30 m",
     "using": [ [ "soldering_standard", 35 ], [ "power_saw_short", 20 ] ],
-    "qualities": [
-      { "id": "SCREW", "level": 1 },
-      { "id": "HAMMER", "level": 2 },
-      { "id": "SAW_M", "level": 2 }
-    ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
     "components": [
       [ [ "motor_small", 1 ], [ "alternator_bicycle", 1 ], [ "alternator_motorbike", 1 ] ],
       [ [ "2x4", 20 ], [ "frame_wood", 3 ] ],
@@ -339,11 +335,7 @@
     "id_suffix": "with_power_saw",
     "time": "2 h",
     "using": [ [ "soldering_standard", 85 ], [ "power_saw_short", 50 ] ],
-    "qualities": [
-      { "id": "SCREW", "level": 1 },
-      { "id": "HAMMER", "level": 2 },
-      { "id": "SAW_M", "level": 2 }
-    ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
     "components": [
       [ [ "2x4", 50 ], [ "frame_wood", 9 ] ],
       [ [ "sheet_metal_small", 18 ] ],
