@@ -1850,7 +1850,7 @@
       { "group": "supplies_mechanics", "count": 10 },
       { "group": "supplies_metal", "count": 10 }
     ],
-    "death_function": [ "FIREBALL" ]
+    "death_function": { "effect": { "id": "death_fireball", "hit_self": true } }
   },
   {
     "type": "MONSTER",
@@ -1873,7 +1873,7 @@
       { "group": "mil_hw", "count": 10 },
       { "group": "supplies_metal", "count": 10 }
     ],
-    "death_function": [ "FIREBALL" ]
+    "death_function": { "effect": { "id": "death_fireball", "hit_self": true } }
   },
   {
     "type": "MONSTER",

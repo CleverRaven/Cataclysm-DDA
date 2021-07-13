@@ -375,5 +375,13 @@
     "field": "fd_nuke_gas",
     "intensity": 3,
     "qty": 100
+  },
+  {
+    "id": "emit_sludge_puddle",
+    "type": "emit",
+    "//": "Infrequent emission of sludge along the ground, made because sludge trail is too frequent",
+    "field": "fd_sludge",
+    "intensity": 3,
+    "chance": 20
   }
 ]

@@ -2170,7 +2170,7 @@ void vehicle::interact_with( const vpart_position &vp )
     auto tool_wants_battery = []( const itype_id & type ) {
         item tool( type, calendar::turn_zero );
         item mag( tool.magazine_default() );
-        mag.contents.clear_items();
+        mag.clear_items();
 
         return tool.contents.insert_item( mag, item_pocket::pocket_type::MAGAZINE_WELL ).success() &&
                tool.ammo_capacity( ammotype( "battery" ) ) > 0;
@@ -2188,7 +2188,7 @@ void vehicle::interact_with( const vpart_position &vp )
         }
         // TODO: Figure out this comment: Pseudo items don't have a magazine in it, and they don't need it anymore.
         item pseudo_magazine( pseudo.magazine_default() );
-        pseudo_magazine.contents.clear_items(); // no initial ammo
+        pseudo_magazine.clear_items(); // no initial ammo
         pseudo.put_in( pseudo_magazine, item_pocket::pocket_type::MAGAZINE_WELL );
         const int capacity = pseudo.ammo_capacity( ammotype( "battery" ) );
         const int qty = capacity - discharge_battery( capacity );

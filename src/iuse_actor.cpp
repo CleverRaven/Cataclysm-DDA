@@ -76,6 +76,7 @@
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
+#include "talker.h"
 #include "translations.h"
 #include "trap.h"
 #include "ui.h"
@@ -1411,7 +1412,7 @@ bool salvage_actor::valid_to_cut_up( const item &it ) const
     if( !it.only_made_of( material_whitelist ) ) {
         return false;
     }
-    if( !it.contents.empty() ) {
+    if( !it.empty() ) {
         return false;
     }
     if( it.weight() < minimal_weight_to_cut( it ) ) {
@@ -1444,7 +1445,7 @@ bool salvage_actor::try_to_cut_up( player &p, item &it ) const
         add_msg( m_info, _( "The %s is made of material that cannot be cut up." ), it.tname() );
         return false;
     }
-    if( !it.contents.empty() ) {
+    if( !it.empty() ) {
         add_msg( m_info, _( "Please empty the %s before cutting it up." ), it.tname() );
         return false;
     }
@@ -1487,7 +1488,7 @@ int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
         add_msg( m_info, _( "You can not cut the %s with itself." ), it.tname() );
         return 0;
     }
-    if( !cut.get_item()->contents.empty() ) {
+    if( !cut.get_item()->empty() ) {
         // Should have been ensured by try_to_cut_up
         debugmsg( "tried to cut a non-empty item %s", cut.get_item()->tname() );
         return 0;
@@ -2400,7 +2401,7 @@ cata::optional<int> holster_actor::use( player &p, item &it, bool, const tripoin
             pos = -2;
         } else {
             pos += ret;
-            if( opts.size() != it.contents.num_item_stacks() ) {
+            if( opts.size() != it.num_item_stacks() ) {
                 ret--;
             }
             auto iter = std::next( all_items.begin(), ret );
@@ -4507,4 +4508,41 @@ cata::optional<int> change_scent_iuse::use( player &p, item &it, bool, const tri
 std::unique_ptr<iuse_actor> change_scent_iuse::clone() const
 {
     return std::make_unique<change_scent_iuse>( *this );
+}
+
+std::unique_ptr<iuse_actor> effect_on_conditons_actor::clone() const
+{
+    return std::make_unique<effect_on_conditons_actor>( *this );
+}
+
+void effect_on_conditons_actor::load( const JsonObject &obj )
+{
+    description = obj.get_string( "description" );
+    for( const std::string &eoc : obj.get_string_array( "effect_on_conditions" ) ) {
+        eocs.emplace_back( effect_on_condition_id( eoc ) );
+    }
+}
+
+void effect_on_conditons_actor::info( const item &, std::vector<iteminfo> &dump ) const
+{
+    dump.emplace_back( "DESCRIPTION", description );
+}
+
+cata::optional<int> effect_on_conditons_actor::use( player &p, item &it, bool,
+        const tripoint & ) const
+{
+    dialogue d;
+    standard_npc default_npc( "Default" );
+    if( avatar *u = p.as_avatar() ) {
+        d.alpha = get_talker_for( u );
+    } else if( npc *n = p.as_npc() ) {
+        d.alpha = get_talker_for( n );
+    }
+    ///TODO make this talker item
+    d.beta = get_talker_for( default_npc );
+
+    for( const effect_on_condition_id &eoc : eocs ) {
+        eoc->activate( d );
+    }
+    return it.type->charges_to_use();
 }

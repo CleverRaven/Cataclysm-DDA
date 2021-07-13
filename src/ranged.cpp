@@ -2080,6 +2080,7 @@ target_handler::trajectory target_ui::run()
         }
     }
 
+
     // Event loop!
     ExitCode loop_exit_code;
     std::string timed_out_action;
@@ -2563,12 +2564,13 @@ bool target_ui::try_reacquire_target( bool critter, tripoint &new_dst )
 void target_ui::update_status()
 {
     std::vector<std::string> msgbuf;
-    if( mode == TargetMode::Turrets && turrets_in_range.empty() ) {
+    if( mode == TargetMode::Turrets && turrets_in_range.empty() ) { // NOLINT(bugprone-branch-clone)
         // None of the turrets are in range
         status = Status::OutOfRange;
     } else if( mode == TargetMode::Fire &&
                ( !gunmode_checks_common( *you, get_map(), msgbuf, relevant->gun_current_mode() ) ||
-                 !gunmode_checks_weapon( *you, get_map(), msgbuf, relevant->gun_current_mode() ) ) ) {
+                 !gunmode_checks_weapon( *you, get_map(), msgbuf, relevant->gun_current_mode() ) )
+             ) { // NOLINT(bugprone-branch-clone)
         // Selected gun mode is empty
         // TODO: it might be some other error, but that's highly unlikely to happen, so a catch-all 'Out of ammo' is fine
         status = Status::OutOfAmmo;
@@ -2998,6 +3000,7 @@ void target_ui::draw_terrain_overlay()
 
     // Draw spell AOE
     if( mode == TargetMode::Spell ) {
+        drawsq_params params;
         for( const tripoint &tile : spell_aoe ) {
             if( tile.z != center.z ) {
                 continue;
@@ -3007,7 +3010,7 @@ void target_ui::draw_terrain_overlay()
                 g->draw_highlight( tile );
             } else {
 #endif
-                get_map().drawsq( g->w_terrain, *you, tile, true, true, center );
+                get_map().drawsq( g->w_terrain, tile, params );
 #ifdef TILES
             }
 #endif

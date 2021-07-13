@@ -229,7 +229,7 @@ static bool get_liquid_target( item &liquid, const item *const source, const int
         }
         // Sometimes the cont parameter is omitted, but the liquid is still within a container that counts
         // as valid target for the liquid. So check for that.
-        if( cont == source || ( !cont->contents.empty() && cont->has_item( liquid ) ) ) {
+        if( cont == source || ( !cont->empty() && cont->has_item( liquid ) ) ) {
             add_msg( m_info, _( "That's the same container!" ) );
             return; // The user has intended to do something, but mistyped.
         }
@@ -337,7 +337,7 @@ static bool get_liquid_target( item &liquid, const item *const source, const int
 
 static bool perform_liquid_transfer( item &liquid, const tripoint *const source_pos,
                                      const vehicle *const source_veh, const int part_num,
-                                     const monster *const source_mon, liquid_dest_opt &target )
+                                     const monster *const /*source_mon*/, liquid_dest_opt &target )
 {
     if( !liquid.made_of_from_type( phase_id::LIQUID ) ) {
         dbg( D_ERROR ) << "game:handle_liquid: Tried to handle_liquid a non-liquid!";
@@ -356,8 +356,6 @@ static bool perform_liquid_transfer( item &liquid, const tripoint *const source_
             player_character.assign_activity( activity_id( "ACT_FILL_LIQUID" ) );
             serialize_liquid_source( player_character.activity, *source_pos, liquid );
             return true;
-        } else if( source_mon != nullptr ) {
-            return false;
         } else {
             return false;
         }

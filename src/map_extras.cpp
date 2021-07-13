@@ -78,7 +78,7 @@ static const itype_id itype_223_casing( "223_casing" );
 static const itype_id itype_762_51_casing( "762_51_casing" );
 static const itype_id itype_9mm_casing( "9mm_casing" );
 static const itype_id itype_acoustic_guitar( "acoustic_guitar" );
-static const itype_id itype_anbc_suit( "anbc_suit" );
+static const itype_id itype_hazmat_suit( "hazmat_suit" );
 static const itype_id itype_ash( "ash" );
 static const itype_id itype_bag_canvas( "bag_canvas" );
 static const itype_id itype_bottle_glass( "bottle_glass" );
@@ -487,7 +487,6 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
             case 7:
             // Empty clown car
             case 8:
-                break;
             default:
                 break;
         }
@@ -2867,7 +2866,7 @@ static bool mx_grave( map &m, const tripoint &abs_sub )
             case 2: {
                 m.ter_set( point( SEEX, SEEY ), t_grave_new );
                 m.spawn_item( point( SEEX, SEEY ), itype_glasses_eye );
-                m.spawn_item( point( SEEX, SEEY ), itype_anbc_suit );
+                m.spawn_item( point( SEEX, SEEY ), itype_hazmat_suit );
                 m.spawn_item( point( SEEX, SEEY ), itype_crowbar );
                 m.furn_set( point( SEEX, SEEY - 1 ), f_sign );
                 m.set_signage( tripoint( SEEX, SEEY - 1, abs_sub.z ),
@@ -3075,24 +3074,30 @@ void apply_function( const string_id<map_extra> &id, map &m, const tripoint &abs
     // TODO: fix point types
     overmap_buffer.add_extra( tripoint_abs_omt( sm_to_omt_copy( abs_sub ) ), id );
 
-    auto_notes::auto_note_settings &autoNoteSettings = get_auto_notes_settings();
+    auto_notes::auto_note_settings &auto_note_settings = get_auto_notes_settings();
 
     // The player has discovered a map extra of this type.
-    autoNoteSettings.set_discovered( id );
+    auto_note_settings.set_discovered( id );
 
     if( get_option<bool>( "AUTO_NOTES" ) && get_option<bool>( "AUTO_NOTES_MAP_EXTRAS" ) ) {
 
         // Only place note if the user has not disabled it via the auto note manager
-        if( autoNoteSettings.has_auto_note_enabled( id ) ) {
-            const std::string mx_note =
-                string_format( "%s:%s;<color_yellow>%s</color>: <color_white>%s</color>",
-                               extra.get_symbol(),
-                               get_note_string_from_color( extra.color ),
-                               extra.name(),
-                               extra.description() );
-            // TODO: fix point types
-            overmap_buffer.add_note( tripoint_abs_omt( sm_to_omt_copy( abs_sub ) ), mx_note );
+        if( !auto_note_settings.has_auto_note_enabled( id ) ) {
+            return;
         }
+
+        const cata::optional<auto_notes::custom_symbol> &symbol =
+            auto_note_settings.get_custom_symbol( extra.id );
+        const std::string note_symbol = symbol ? ( *symbol ).get_symbol_string() : extra.get_symbol();
+        const nc_color note_color = symbol ? ( *symbol ).get_color() : extra.color;
+        const std::string mx_note =
+            string_format( "%s:%s;<color_yellow>%s</color>: <color_white>%s</color>",
+                           note_symbol,
+                           get_note_string_from_color( note_color ),
+                           extra.name(),
+                           extra.description() );
+        // TODO: fix point types
+        overmap_buffer.add_note( tripoint_abs_omt( sm_to_omt_copy( abs_sub ) ), mx_note );
     }
 }
 

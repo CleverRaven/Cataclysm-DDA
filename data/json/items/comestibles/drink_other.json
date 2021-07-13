@@ -168,6 +168,7 @@
     "comestible_type": "DRINK",
     "symbol": "~",
     "quench": -1,
+    "healthy": -2,
     "calories": 127,
     "description": "Thin yellow vegetable oil used for cooking.",
     "price": 40,

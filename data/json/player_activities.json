@@ -506,13 +506,13 @@
     "no_resume": true
   },
   {
-    "id": "ACT_SHEAR",
+    "id": "ACT_SHEARING",
     "type": "activity_type",
     "activity_level": "MODERATE_EXERCISE",
     "verb": "shearing an animal",
     "suspendable": false,
     "rooted": true,
-    "based_on": "time",
+    "based_on": "speed",
     "no_resume": true
   },
   {
@@ -868,6 +868,15 @@
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
     "verb": "using drugs",
+    "suspendable": false,
+    "based_on": "neither",
+    "no_resume": true
+  },
+  {
+    "id": "ACT_CONSUME_FUEL_MENU",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "consuming fuel",
     "suspendable": false,
     "based_on": "neither",
     "no_resume": true

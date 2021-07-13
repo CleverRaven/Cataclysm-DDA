@@ -168,11 +168,11 @@ static bool same_type( const std::list<item> &items )
 static bool handle_spillable_contents( Character &c, item &it, map &m )
 {
     if( it.is_bucket_nonempty() ) {
-        it.contents.spill_open_pockets( c, /*avoid=*/&it );
+        it.spill_open_pockets( c, /*avoid=*/&it );
 
         // If bucket is still not empty then player opted not to handle the
         // rest of the contents
-        if( !it.contents.empty() ) {
+        if( !it.empty() ) {
             c.add_msg_player_or_npc(
                 _( "To avoid spilling its contents, you set your %1$s on the %2$s." ),
                 _( "To avoid spilling its contents, <npcname> sets their %1$s on the %2$s." ),
@@ -2336,10 +2336,14 @@ static std::unordered_set<tripoint> generic_multi_activity_locations( player &p,
         const tripoint set_pt = here.getlocal( *it2 );
         if( here.dangerous_field_at( set_pt ) ) {
             it2 = src_set.erase( it2 );
-            // remove tiles in darkness, if we aren't lit-up ourselves
-        } else if( !dark_capable && p.fine_detail_vision_mod( set_pt ) > 4.0 ) {
+            continue;
+        }
+        // remove tiles in darkness, if we aren't lit-up ourselves
+        if( !dark_capable && p.fine_detail_vision_mod( set_pt ) > 4.0 ) {
             it2 = src_set.erase( it2 );
-        } else if( act_id == ACT_MULTIPLE_FISH ) {
+            continue;
+        }
+        if( act_id == ACT_MULTIPLE_FISH ) {
             const ter_id terrain_id = here.ter( set_pt );
             if( !terrain_id.obj().has_flag( TFLAG_DEEP_WATER ) ) {
                 it2 = src_set.erase( it2 );

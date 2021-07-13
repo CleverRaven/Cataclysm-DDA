@@ -426,6 +426,11 @@ void bionic_data::check_bionic_consistency()
         if( bio.has_flag( json_flag_BIONIC_GUN ) && bio.has_flag( json_flag_BIONIC_WEAPON ) ) {
             debugmsg( "Bionic %s specified as both gun and weapon bionic", bio.id.c_str() );
         }
+        if( ( bio.has_flag( json_flag_BIONIC_GUN ) || bio.has_flag( json_flag_BIONIC_WEAPON ) ) &&
+            bio.fake_item.is_empty() ) {
+            debugmsg( "Bionic %s specified as gun or weapon bionic is missing its fake_item id",
+                      bio.id.c_str() );
+        }
         if( !bio.fake_item.is_empty() &&
             !item::type_is_defined( bio.fake_item ) ) {
             debugmsg( "Bionic %s has unknown fake_item %s",
@@ -518,6 +523,12 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
     bionic &bio = ( *my_bionics )[index];
 
     if( bio.info().has_flag( json_flag_BIONIC_GUN ) ) {
+        if( !bio.info().fake_item.is_valid() ) {
+            debugmsg( "tried to activate gun bionic \"%s\" with invalid fake_item \"%s\"", bio.info().id.str(),
+                      bio.info().fake_item.str() );
+            return;
+        }
+
         const item cbm_weapon = item( bio.info().fake_item );
         bool not_allowed = !rules.has_flag( ally_rule::use_guns ) ||
                            ( rules.has_flag( ally_rule::use_silent ) && !cbm_weapon.is_silent() );
@@ -540,6 +551,12 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
         }
     } else if( bio.info().has_flag( json_flag_BIONIC_WEAPON ) && !weapon.has_flag( flag_NO_UNWIELD ) &&
                free_power > bio.info().power_activate ) {
+        if( !bio.info().fake_item.is_valid() ) {
+            debugmsg( "tried to activate weapon bionic \"%s\" with invalid fake_item \"%s\"",
+                      bio.info().id.str(), bio.info().fake_item.str() );
+            return;
+        }
+
         if( is_armed() ) {
             stow_item( weapon );
         }
@@ -627,6 +644,12 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
     map &here = get_map();
     // On activation effects go here
     if( bio.info().has_flag( json_flag_BIONIC_GUN ) ) {
+        if( !bio.info().fake_item.is_valid() ) {
+            debugmsg( "tried to activate gun bionic \"%s\" with invalid fake_item \"%s\"",
+                      bio.info().id.str(), bio.info().fake_item.str() );
+            return false;
+        }
+
         add_msg_activate();
         refund_power(); // Power usage calculated later, in avatar_action::fire
         if( close_bionics_ui ) {
@@ -635,6 +658,12 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
         avatar_action::fire_ranged_bionic( player_character, item( bio.info().fake_item ),
                                            bio.info().power_activate );
     } else if( bio.info().has_flag( json_flag_BIONIC_WEAPON ) ) {
+        if( !bio.info().fake_item.is_valid() ) {
+            debugmsg( "tried to activate weapon bionic \"%s\" with invalid fake_item \"%s\"",
+                      bio.info().id.str(), bio.info().fake_item.str() );
+            return false;
+        }
+
         if( weapon.has_flag( flag_NO_UNWIELD ) ) {
             cata::optional<int> active_bio_weapon_index = active_bionic_weapon_index();
             if( active_bio_weapon_index && deactivate_bionic( *active_bio_weapon_index, eff_only ) ) {

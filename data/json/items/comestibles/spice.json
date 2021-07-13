@@ -22,7 +22,6 @@
     "calories": 5,
     "symbol": "~",
     "color": "red",
-    "use_action": { "type": "cast_spell", "spell_id": "sauce_pain", "no_fail": true, "level": 1 },
     "primary_material": "water",
     "freezing_point": -30,
     "phase": "liquid"

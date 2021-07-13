@@ -918,7 +918,7 @@ std::function<bool( const item & )> recipe::get_component_filter(
     // EDIBLE_FROZEN components ( e.g. flour, chocolate ) are allowed as well
     // Otherwise forbid them
     std::function<bool( const item & )> frozen_filter = return_true<item>;
-    if( result.is_food() && !hot_result() ) {
+    if( result.has_temperature() && !hot_result() ) {
         frozen_filter = []( const item & component ) {
             return !component.has_flag( flag_FROZEN ) || component.has_flag( flag_EDIBLE_FROZEN );
         };
@@ -1057,7 +1057,7 @@ bool recipe::hot_result() const
     // the check includes this tool in addition to the hotplate.
     //
     // TODO: Make this less of a hack
-    if( create_result().is_food() ) {
+    if( create_result().has_temperature() ) {
         const requirement_data::alter_tool_comp_vector &tool_lists = simple_requirements().get_tools();
         for( const std::vector<tool_comp> &tools : tool_lists ) {
             for( const tool_comp &t : tools ) {

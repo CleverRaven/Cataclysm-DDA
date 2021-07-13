@@ -810,6 +810,7 @@
     "weight": "10 g",
     "volume": "25 ml",
     "to_hit": -5,
+    "milling": { "into": "meal_bone_tainted", "conversion_rate": 0.16 },
     "qualities": [ [ "COOK", 1 ] ]
   },
   {

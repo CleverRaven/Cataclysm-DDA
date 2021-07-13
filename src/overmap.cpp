@@ -79,10 +79,10 @@ using oter_type_str_id = string_id<oter_type_t>;
 
 ////////////////
 static oter_id ot_null;
-static const oter_str_id ot_forest( "ot_forest" );
-static const oter_str_id ot_forest_thick( "ot_forest_thick" );
-static const oter_str_id ot_forest_water( "ot_forest_water" );
-static const oter_str_id ot_river_center( "ot_river_center" );
+static const oter_str_id forest( "forest" );
+static const oter_str_id forest_thick( "forest_thick" );
+static const oter_str_id forest_water( "forest_water" );
+static const oter_str_id river_center( "river_center" );
 
 const oter_type_t oter_type_t::null_type{};
 
@@ -92,6 +92,8 @@ namespace om_lines
 struct type {
     uint32_t symbol;
     size_t mapgen;
+    MULTITILE_TYPE subtile;
+    int rotation;
     std::string suffix;
 };
 
@@ -101,22 +103,22 @@ const std::array<std::string, 5> mapgen_suffixes = {{
 };
 
 const std::array < type, 1 + om_direction::bits > all = {{
-        { UTF8_getch( LINE_XXXX_S ), 4, "_isolated"  }, // 0  ----
-        { UTF8_getch( LINE_XOXO_S ), 2, "_end_south" }, // 1  ---n
-        { UTF8_getch( LINE_OXOX_S ), 2, "_end_west"  }, // 2  --e-
-        { UTF8_getch( LINE_XXOO_S ), 1, "_ne"        }, // 3  --en
-        { UTF8_getch( LINE_XOXO_S ), 2, "_end_north" }, // 4  -s--
-        { UTF8_getch( LINE_XOXO_S ), 0, "_ns"        }, // 5  -s-n
-        { UTF8_getch( LINE_OXXO_S ), 1, "_es"        }, // 6  -se-
-        { UTF8_getch( LINE_XXXO_S ), 3, "_nes"       }, // 7  -sen
-        { UTF8_getch( LINE_OXOX_S ), 2, "_end_east"  }, // 8  w---
-        { UTF8_getch( LINE_XOOX_S ), 1, "_wn"        }, // 9  w--n
-        { UTF8_getch( LINE_OXOX_S ), 0, "_ew"        }, // 10 w-e-
-        { UTF8_getch( LINE_XXOX_S ), 3, "_new"       }, // 11 w-en
-        { UTF8_getch( LINE_OOXX_S ), 1, "_sw"        }, // 12 ws--
-        { UTF8_getch( LINE_XOXX_S ), 3, "_nsw"       }, // 13 ws-n
-        { UTF8_getch( LINE_OXXX_S ), 3, "_esw"       }, // 14 wse-
-        { UTF8_getch( LINE_XXXX_S ), 4, "_nesw"      }  // 15 wsen
+        { UTF8_getch( LINE_XXXX_S ), 4, unconnected,  0, "_isolated"  }, // 0  ----
+        { UTF8_getch( LINE_XOXO_S ), 2, end_piece,    2, "_end_south" }, // 1  ---n
+        { UTF8_getch( LINE_OXOX_S ), 2, end_piece,    1, "_end_west"  }, // 2  --e-
+        { UTF8_getch( LINE_XXOO_S ), 1, corner,       1, "_ne"        }, // 3  --en
+        { UTF8_getch( LINE_XOXO_S ), 2, end_piece,    0, "_end_north" }, // 4  -s--
+        { UTF8_getch( LINE_XOXO_S ), 0, edge,         0, "_ns"        }, // 5  -s-n
+        { UTF8_getch( LINE_OXXO_S ), 1, corner,       0, "_es"        }, // 6  -se-
+        { UTF8_getch( LINE_XXXO_S ), 3, t_connection, 1, "_nes"       }, // 7  -sen
+        { UTF8_getch( LINE_OXOX_S ), 2, end_piece,    3, "_end_east"  }, // 8  w---
+        { UTF8_getch( LINE_XOOX_S ), 1, corner,       2, "_wn"        }, // 9  w--n
+        { UTF8_getch( LINE_OXOX_S ), 0, edge,         1, "_ew"        }, // 10 w-e-
+        { UTF8_getch( LINE_XXOX_S ), 3, t_connection, 2, "_new"       }, // 11 w-en
+        { UTF8_getch( LINE_OOXX_S ), 1, corner,       3, "_sw"        }, // 12 ws--
+        { UTF8_getch( LINE_XOXX_S ), 3, t_connection, 3, "_nsw"       }, // 13 ws-n
+        { UTF8_getch( LINE_OXXX_S ), 3, t_connection, 0, "_esw"       }, // 14 wse-
+        { UTF8_getch( LINE_XXXX_S ), 4, center,       0, "_nesw"      }  // 15 wsen
     }
 };
 
@@ -558,6 +560,19 @@ void oter_type_t::load( const JsonObject &jo, const std::string &src )
     assign( jo, "color", color, strict );
     assign( jo, "land_use_code", land_use_code, strict );
 
+    if( jo.has_member( "looks_like" ) ) {
+        std::vector<std::string> ll;
+        if( jo.has_array( "looks_like" ) ) {
+            jo.read( "looks_like", ll );
+        } else if( jo.has_string( "looks_like" ) ) {
+            const std::string one_look = jo.get_string( "looks_like" );
+            ll.push_back( one_look );
+        }
+        looks_like = ll;
+    } else if( jo.has_member( "copy-from" ) ) {
+        looks_like.insert( looks_like.begin(), jo.get_string( "copy-from" ) );
+    }
+
     const auto flag_reader = make_flag_reader( oter_flags_map, "overmap terrain flag" );
     optional( jo, was_loaded, "flags", flags, flag_reader );
 
@@ -568,6 +583,14 @@ void oter_type_t::load( const JsonObject &jo, const std::string &src )
 
         for( const auto &elem : om_lines::mapgen_suffixes ) {
             load_overmap_terrain_mapgens( jo, id.str(), elem );
+        }
+
+        if( symbol == NULL_UNICODE ) {
+            // Default the sym for linear terrains to a specific value which
+            // has special behaviour when using fallback ASCII tiles so as to
+            // cause it to draw using the box drawing characters (see
+            // load_ascii_set).
+            symbol = LINE_XOXO_C;
         }
     } else {
         if( symbol == NULL_UNICODE && !jo.has_string( "abstract" ) ) {
@@ -687,6 +710,21 @@ oter_id oter_t::get_rotated( om_direction::type dir ) const
     return type->has_flag( oter_flags::line_drawing )
            ? type->get_linear( om_lines::rotate( this->line, dir ) )
            : type->get_rotated( om_direction::add( this->dir, dir ) );
+}
+
+void oter_t::get_rotation_and_subtile( int &rotation, int &subtile ) const
+{
+    if( is_linear() ) {
+        const om_lines::type &t = om_lines::all[line];
+        rotation = t.rotation;
+        subtile = t.subtile;
+    } else if( is_rotatable() ) {
+        rotation = static_cast<int>( get_dir() );
+        subtile = -1;
+    } else {
+        rotation = 0;
+        subtile = -1;
+    }
 }
 
 bool oter_t::type_is( const int_id<oter_type_t> &type_id ) const
@@ -1544,7 +1582,8 @@ bool overmap::generate_sub( const int z )
                 ter_set( p, oter_id( "cavern" ) );
                 chip_rock( p );
             } else if( oter_above == "lab_core" ||
-                       ( z == -1 && oter_above == "lab_stairs" ) ) {
+                       ( z == -1 && oter_above == "lab_stairs" ) ||
+                       is_ot_match( "hidden_lab_stairs", oter_above, ot_match_type::contains ) ) {
                 lab_points.emplace_back( p.xy(), rng( 1, 5 + z ) );
             } else if( oter_above == "lab_stairs" ) {
                 ter_set( p, oter_id( "lab" ) );
@@ -1557,8 +1596,6 @@ bool overmap::generate_sub( const int z )
                 central_lab_points.emplace_back( p.xy(), rng( std::max( 1, 7 + z ), 9 + z ) );
             } else if( oter_above == "central_lab_stairs" ) {
                 ter_set( p, oter_id( "central_lab" ) );
-            } else if( is_ot_match( "hidden_lab_stairs", oter_above, ot_match_type::contains ) ) {
-                lab_points.emplace_back( p.xy(), rng( 1, 5 + z ) );
             } else if( is_ot_match( "mine_entrance", oter_ground, ot_match_type::prefix ) && z == -2 ) {
                 mine_points.emplace_back( ( p + tripoint_west ).xy(), rng( 6 + z, 10 + z ) );
                 requires_sub = true;
@@ -1713,13 +1750,13 @@ bool overmap::generate_sub( const int z )
         tripoint_om_sm sm_pos = project_to<coords::sm>( omt_pos );
         // Sewers and city subways are present at z == -1 and z == -2. Don't spawn CHUD on other z-levels.
         if( ( z == -1 || z == -2 ) && one_in( 3 ) ) {
-            add_mon_group( mongroup( GROUP_CHUD,
-                                     sm_pos, i.size, i.size * 20 ) );
+            spawn_mon_group( mongroup( GROUP_CHUD,
+                                       sm_pos, i.size, i.size * 20 ) );
         }
         // Sewers are present at z == -1. Don't spawn sewer monsters on other z-levels.
         if( z == -1 && !one_in( 8 ) ) {
-            add_mon_group( mongroup( GROUP_SEWER,
-                                     sm_pos, ( i.size * 7 ) / 2, i.size * 70 ) );
+            spawn_mon_group( mongroup( GROUP_SEWER,
+                                       sm_pos, ( i.size * 7 ) / 2, i.size * 70 ) );
         }
     }
 
@@ -1734,7 +1771,7 @@ bool overmap::generate_sub( const int z )
         }
         mongroup_id ant_group( ter( p_loc + tripoint_above ) == "anthill" ?
                                "GROUP_ANT" : "GROUP_ANT_ACID" );
-        add_mon_group(
+        spawn_mon_group(
             mongroup( ant_group, tripoint_om_sm( project_to<coords::sm>( i.pos ), z ),
                       ( i.size * 3 ) / 2, rng( 6000, 8000 ) ) );
         build_anthill( p_loc, i.size, ter( p_loc + tripoint_above ) == "anthill" );
@@ -1906,7 +1943,7 @@ void overmap::place_special_forced( const overmap_special_id &special_id, const 
                                     om_direction::type dir )
 {
     static city invalid_city;
-    place_special( *special_id, p, dir, invalid_city, false, false );
+    place_special( *special_id, p, dir, invalid_city, false, true );
 }
 
 void mongroup::wander( const overmap &om )
@@ -1968,11 +2005,11 @@ void overmap::move_hordes()
         // Decrease movement chance according to the terrain we're currently on.
         const oter_id &walked_into = ter( project_to<coords::omt>( mg.pos ) );
         int movement_chance = 1;
-        if( walked_into == ot_forest || walked_into == ot_forest_water ) {
+        if( walked_into == forest || walked_into == forest_water ) {
             movement_chance = 3;
-        } else if( walked_into == ot_forest_thick ) {
+        } else if( walked_into == forest_thick ) {
             movement_chance = 6;
-        } else if( walked_into == ot_river_center ) {
+        } else if( walked_into == river_center ) {
             movement_chance = 10;
         }
 
@@ -2433,8 +2470,6 @@ void overmap::place_forest_trailheads()
 void overmap::place_forests()
 {
     const oter_id default_oter_id( settings.default_oter[OVERMAP_DEPTH] );
-    const oter_id forest( "forest" );
-    const oter_id forest_thick( "forest_thick" );
 
     const om_noise::om_noise_layer_forest f( global_base_point(), g->get_seed() );
 
@@ -2613,7 +2648,6 @@ void overmap::place_rivers( const overmap *north, const overmap *east, const ove
 
     // Determine points where rivers & roads should connect w/ adjacent maps
     // optimized comparison.
-    const oter_id river_center( "river_center" );
 
     if( north != nullptr ) {
         for( int i = 2; i < OMAPX - 2; i++ ) {
@@ -2777,8 +2811,6 @@ void overmap::place_swamps()
         }
     }
 
-    const oter_id forest_water( "forest_water" );
-
     // Get a layer of noise to use in conjunction with our river buffered floodplain.
     const om_noise::om_noise_layer_floodplain f( global_base_point(), g->get_seed() );
 
@@ -2890,7 +2922,6 @@ void overmap::place_roads( const overmap *north, const overmap *east, const over
 
 void overmap::place_river( const point_om_omt &pa, const point_om_omt &pb )
 {
-    const oter_id river_center( "river_center" );
     int river_chance = static_cast<int>( std::max( 1.0, 1.0 / settings.river_scale ) );
     int river_scale = static_cast<int>( std::max( 1.0, settings.river_scale ) );
     point_om_omt p2( pa );
@@ -4169,6 +4200,7 @@ void overmap::place_special(
     }
 
     const bool blob = special.flags.count( "BLOB" ) > 0;
+    const bool is_safe_zone = special.flags.count( "SAFE_AT_WORLDGEN" ) > 0;
 
     for( const auto &elem : special.terrains ) {
         const tripoint_om_omt location = p + om_direction::rotate( elem.p, dir );
@@ -4176,6 +4208,9 @@ void overmap::place_special(
 
         overmap_special_placements[location] = special.id;
         ter_set( location, tid );
+        if( is_safe_zone ) {
+            safe_at_worldgen.emplace( location );
+        }
 
         if( blob ) {
             for( int x = -2; x <= 2; x++ ) {
@@ -4220,7 +4255,18 @@ void overmap::place_special(
         const overmap_special_spawns &spawns = special.spawns;
         const int pop = rng( spawns.population.min, spawns.population.max );
         const int rad = rng( spawns.radius.min, spawns.radius.max );
-        add_mon_group( mongroup( spawns.group, project_to<coords::sm>( p ), rad, pop ) );
+        spawn_mon_group( mongroup( spawns.group, project_to<coords::sm>( p ), rad, pop ) );
+    }
+    // If it's a safe zone, remove existing spawns
+    if( is_safe_zone ) {
+        for( auto it = zg.begin(); it != zg.end(); ) {
+            tripoint_om_omt pos = project_to<coords::omt>( it->second.pos );
+            if( safe_at_worldgen.find( pos ) != safe_at_worldgen.end() ) {
+                zg.erase( it++ );
+            } else {
+                ++it;
+            }
+        }
     }
 }
 
@@ -4456,8 +4502,8 @@ void overmap::place_mongroups()
                     }
                 }
                 if( swamp_count >= 25 ) {
-                    add_mon_group( mongroup( GROUP_SWAMP, tripoint( x * 2, y * 2, 0 ), 3,
-                                             rng( swamp_count * 8, swamp_count * 25 ) ) );
+                    spawn_mon_group( mongroup( GROUP_SWAMP, tripoint( x * 2, y * 2, 0 ), 3,
+                                               rng( swamp_count * 8, swamp_count * 25 ) ) );
                 }
             }
         }
@@ -4475,8 +4521,8 @@ void overmap::place_mongroups()
                 }
             }
             if( river_count >= 25 ) {
-                add_mon_group( mongroup( GROUP_RIVER, tripoint( x * 2, y * 2, 0 ), 3,
-                                         rng( river_count * 8, river_count * 25 ) ) );
+                spawn_mon_group( mongroup( GROUP_RIVER, tripoint( x * 2, y * 2, 0 ), 3,
+                                           rng( river_count * 8, river_count * 25 ) ) );
             }
         }
     }
@@ -4484,9 +4530,9 @@ void overmap::place_mongroups()
     // Place the "put me anywhere" groups
     int numgroups = rng( 0, 3 );
     for( int i = 0; i < numgroups; i++ ) {
-        add_mon_group( mongroup( GROUP_WORM, tripoint( rng( 0, OMAPX * 2 - 1 ), rng( 0,
-                                 OMAPY * 2 - 1 ), 0 ),
-                                 rng( 20, 40 ), rng( 30, 50 ) ) );
+        spawn_mon_group( mongroup( GROUP_WORM, tripoint( rng( 0, OMAPX * 2 - 1 ), rng( 0,
+                                   OMAPY * 2 - 1 ), 0 ),
+                                   rng( 20, 40 ), rng( 30, 50 ) ) );
     }
 }
 
@@ -4575,6 +4621,15 @@ void overmap::save() const
     write_to_file( overmapbuffer::terrain_filename( loc ), [&]( std::ostream & stream ) {
         serialize( stream );
     } );
+}
+
+void overmap::spawn_mon_group( const mongroup &group )
+{
+    tripoint_om_omt pos = project_to<coords::omt>( group.pos );
+    if( safe_at_worldgen.find( pos ) != safe_at_worldgen.end() ) {
+        return;
+    }
+    add_mon_group( group );
 }
 
 void overmap::add_mon_group( const mongroup &group )
@@ -4737,23 +4792,15 @@ std::string enum_to_string<ot_match_type>( ot_match_type data )
 } // namespace io
 
 constexpr tripoint_abs_omt overmap::invalid_tripoint;
+static const std::array<std::string, 4> suffixes = {{ "_north", "_west", "_south", "_east" }};
 
 std::string oter_no_dir( const oter_id &oter )
 {
-    std::string base_oter_id = oter.id().c_str();
-    size_t oter_len = base_oter_id.size();
-    if( oter_len > 7 ) {
-        if( base_oter_id.substr( oter_len - 6, 6 ) == "_south" ) {
-            return base_oter_id.substr( 0, oter_len - 6 );
-        } else if( base_oter_id.substr( oter_len - 6, 6 ) == "_north" ) {
-            return base_oter_id.substr( 0, oter_len - 6 );
-        }
-    }
-    if( oter_len > 6 ) {
-        if( base_oter_id.substr( oter_len - 5, 5 ) == "_west" ) {
-            return base_oter_id.substr( 0, oter_len - 5 );
-        } else if( base_oter_id.substr( oter_len - 5, 5 ) == "_east" ) {
-            return base_oter_id.substr( 0, oter_len - 5 );
+    std::string base_oter_id = oter.id().str();
+    for( const std::string &suffix : suffixes ) {
+        if( string_ends_with( base_oter_id, suffix ) ) {
+            base_oter_id.erase( base_oter_id.end() - suffix.size(), base_oter_id.end() );
+            break;
         }
     }
     return base_oter_id;
@@ -4762,19 +4809,9 @@ std::string oter_no_dir( const oter_id &oter )
 int oter_get_rotation( const oter_id &oter )
 {
     std::string base_oter_id = oter.id().c_str();
-    size_t oter_len = base_oter_id.size();
-    if( oter_len > 7 ) {
-        if( base_oter_id.substr( oter_len - 6, 6 ) == "_south" ) {
-            return 2;
-        } else if( base_oter_id.substr( oter_len - 6, 6 ) == "_north" ) {
-            return 0;
-        }
-    }
-    if( oter_len > 6 ) {
-        if( base_oter_id.substr( oter_len - 5, 5 ) == "_west" ) {
-            return 1;
-        } else if( base_oter_id.substr( oter_len - 5, 5 ) == "_east" ) {
-            return 3;
+    for( size_t i = 0; i < suffixes.size(); ++i ) {
+        if( string_ends_with( base_oter_id, suffixes[i] ) ) {
+            return i;
         }
     }
     return 0;
@@ -4783,19 +4820,9 @@ int oter_get_rotation( const oter_id &oter )
 std::string oter_get_rotation_string( const oter_id &oter )
 {
     std::string base_oter_id = oter.id().c_str();
-    size_t oter_len = base_oter_id.size();
-    if( oter_len > 7 ) {
-        if( base_oter_id.substr( oter_len - 6, 6 ) == "_south" ) {
-            return "_south";
-        } else if( base_oter_id.substr( oter_len - 6, 6 ) == "_north" ) {
-            return "_north";
-        }
-    }
-    if( oter_len > 6 ) {
-        if( base_oter_id.substr( oter_len - 5, 5 ) == "_west" ) {
-            return "_west";
-        } else if( base_oter_id.substr( oter_len - 5, 5 ) == "_east" ) {
-            return "_east";
+    for( const std::string &suffix : suffixes ) {
+        if( string_ends_with( base_oter_id, suffix ) ) {
+            return suffix;
         }
     }
     return "";

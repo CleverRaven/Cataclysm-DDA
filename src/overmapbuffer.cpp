@@ -136,7 +136,7 @@ void overmapbuffer::fix_mongroups( overmap &new_overmap )
         }
         overmap &om = get( omp );
         mg.pos = tripoint_om_sm( sm_rem, mg.pos.z() );
-        om.add_mon_group( mg );
+        om.spawn_mon_group( mg );
         new_overmap.zg.erase( it++ );
     }
 }
