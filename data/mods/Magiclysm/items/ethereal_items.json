@@ -878,7 +878,7 @@
     "material_thickness": 1.7,
     "environmental_protection": 8,
     "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "STURDY" ]
-  }, 
+  },
   {
     "id": "pocket_sun",
     "type": "TOOL",
