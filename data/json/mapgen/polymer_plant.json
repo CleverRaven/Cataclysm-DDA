@@ -56,9 +56,9 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [
-      [ "irradiator_1_3", "irradiator_1_2", "irradiator_1_1" ],
-      [ "irradiator_1_6", "irradiator_1_5", "irradiator_1_4" ],
-      [ "irradiator_1_9", "irradiator_1_8", "irradiator_1_7" ]
+      [ "polymer_1_3", "polymer_1_2", "polymer_1_1" ],
+      [ "polymer_1_6", "polymer_1_5", "polymer_1_4" ],
+      [ "polymer_1_9", "polymer_1_8", "polymer_1_7" ]
     ],
     "weight": 250,
     "object": {
