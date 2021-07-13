@@ -365,7 +365,7 @@ npc_attack_rating npc_attack_gun::evaluate_tripoint(
         return npc_attack_rating( cata::nullopt, location );
     }
 
-    bool avoids_friendly_fire = source.rules.has_flag( ally_rule::avoid_friendly_fire );
+    const bool avoids_friendly_fire = source.rules.has_flag( ally_rule::avoid_friendly_fire );
 
     double potential = damage;
 
