@@ -2352,7 +2352,7 @@ void monster::die( Creature *nkiller )
     if( death_drops && !no_extra_death_drops ) {
         drop_items_on_death();
     }
-    if( nkiller != nullptr ) {
+    if( get_killer() != nullptr ) {
         // TODO: should actually be class Character
         Character *ch = get_killer()->as_character();
         if( !is_hallucination() && ch != nullptr ) {
