@@ -4,7 +4,7 @@
     "id": "cestus_plus_one",
     "copy-from": "cestus",
     "looks_like": "cestus",
-    "name": "cestus +1",
+    "name": { "str": "cestus +1", "str_pl": "cestuses +1" },
     "proportional": { "price": 3.0, "price_postapoc": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
     "relative": { "to_hit": 1 }
   },
@@ -13,7 +13,7 @@
     "id": "cestus_plus_two",
     "copy-from": "cestus",
     "looks_like": "cestus",
-    "name": "cestus +2",
+    "name": { "str": "cestus +2", "str_pl": "cestuses +2" },
     "proportional": { "price": 6.0, "price_postapoc": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }
   },
@@ -38,7 +38,7 @@
     "id": "flaming_fist_plus_one",
     "copy-from": "flaming_fist",
     "looks_like": "flaming_fist",
-    "name": "flaming fist +1",
+    "name": { "str": "flaming fist +1", "str_pl": "flaming fists +1" },
     "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
     "relative": { "to_hit": 1 }
   },
@@ -47,7 +47,7 @@
     "id": "flaming_fist_plus_two",
     "copy-from": "flaming_fist",
     "looks_like": "flaming_fist",
-    "name": "flaming fist +2",
+    "name": { "str": "flaming fist +2", "str_pl": "flaming fists +2" },
     "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }
   },
