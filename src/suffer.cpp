@@ -66,7 +66,6 @@ static const bionic_id bio_dis_acid( "bio_dis_acid" );
 static const bionic_id bio_dis_shock( "bio_dis_shock" );
 static const bionic_id bio_geiger( "bio_geiger" );
 static const bionic_id bio_gills( "bio_gills" );
-static const bionic_id bio_leaky( "bio_leaky" );
 static const bionic_id bio_power_weakness( "bio_power_weakness" );
 
 static const efftype_id effect_adrenaline( "adrenaline" );
@@ -1189,9 +1188,6 @@ void Character::suffer_from_bad_bionics()
     if( has_bionic( bio_power_weakness ) && has_max_power() &&
         get_power_level() >= get_max_power_level() * .75 ) {
         mod_str_bonus( -3 );
-    }
-    if( has_bionic( bio_leaky ) && one_turn_in( 6_minutes ) ) {
-        mod_healthy_mod( -1, -200 );
     }
 }
 
