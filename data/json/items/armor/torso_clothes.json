@@ -842,7 +842,7 @@
     "id": "wool_hoodie",
     "type": "ARMOR",
     "name": { "str": "wool hoodie" },
-    "description": "A wool hooded shirt with a kangaroo pocket in the front.",
+    "description": "A hooded wool shirt with a kangaroo pocket in the front.",
     "weight": "580 g",
     "volume": "3250 ml",
     "price": 3500,

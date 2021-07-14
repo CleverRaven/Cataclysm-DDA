@@ -1525,7 +1525,7 @@
     "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": { "str": "samghati" },
-    "description": "A traditional, double layered Buddhist coat.  Used as an outer cloak for various occasions.",
+    "description": "A traditional, double-layered Buddhist coat.  Used as an outer cloak for various occasions.",
     "weight": "800 g",
     "volume": "2250 ml",
     "price": 6500,
