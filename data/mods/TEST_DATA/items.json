@@ -926,6 +926,34 @@
     ]
   },
   {
+    "type": "GENERIC",
+    "id": "test_waterproof_bag",
+    "category": "container",
+    "name": { "str": "body bag" },
+    "looks_like": "bag_canvas",
+    "description": "A large, human size, rectangular bag made of strong plastic, with a zipper in the middle.  Used to hold a dead body.",
+    "weight": "1500 g",
+    "volume": "1 L",
+    "longest_side": "40 cm",
+    "price": 0,
+    "price_postapoc": 10,
+    "to_hit": -5,
+    "material": [ "plastic" ],
+    "symbol": ")",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "max_contains_volume": "100 L",
+        "max_contains_weight": "100 kg",
+        "max_item_length": "200 cm",
+        "moves": 400
+      }
+    ],
+    "color": "dark_gray",
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
     "id": "test_backpack",
     "type": "ARMOR",
     "name": "TEST backpack",

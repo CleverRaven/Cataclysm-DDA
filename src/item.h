@@ -1248,6 +1248,9 @@ class item : public visitable
         bool is_faulty() const;
         bool is_irremovable() const;
 
+        /** Returns true if the item is broken and can't be activated or used in crafting */
+        bool is_broken() const;
+
         bool is_unarmed_weapon() const; //Returns true if the item should be considered unarmed
 
         bool has_temperature() const;

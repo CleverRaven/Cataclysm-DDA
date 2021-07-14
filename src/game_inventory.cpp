@@ -1139,6 +1139,10 @@ class activatable_inventory_preset : public pickup_inventory_preset
                 return _( "Your biology is not compatible with that item." );
             }
 
+            if( it.is_broken() ) {
+                return string_format( _( "Your %s was broken and won't turn on." ), it.tname() );
+            }
+
             if( !p.has_enough_charges( it, false ) ) {
                 return string_format(
                            ngettext( "Needs at least %d charge",
