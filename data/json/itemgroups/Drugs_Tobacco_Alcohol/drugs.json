@@ -22,7 +22,8 @@
       [ "pepto", 20 ],
       [ "saline", 10 ],
       [ "weak_antibiotic", 30 ],
-      [ "homeopathic_pills", 10 ]
+      [ "homeopathic_pills", 10 ],
+      [ "hemostatic_cushion", 10 ]
     ]
   },
   {
