@@ -21,7 +21,7 @@
   {
     "type": "material",
     "id": "thermo_resin",
-    "name": { "str_sp": "Thermoplastic resin" },
+    "name": "Thermoplastic resin",
     "copy-from": "generic_polymer_resin",
     "//": "This material ID is for plastics that can be reshaped and moulded by application of heat and return to their original properties when cooled, and these specific ones are quite hard and durable when in solid state.",
     "repaired_with": "thermo_resin_chunk",
@@ -35,7 +35,7 @@
   {
     "type": "material",
     "id": "epoxy",
-    "name": { "str_sp": "Epoxy" },
+    "name": "Epoxy",
     "copy-from": "generic_polymer_resin",
     "//": "'epoxy' is a general catch-all for strong, brittle polymers that cannot be reshaped with application of heat.  Not all of these are necessarily going to be literally epoxy, but it's close enough.",
     "repaired_with": "epoxy_chunk",
