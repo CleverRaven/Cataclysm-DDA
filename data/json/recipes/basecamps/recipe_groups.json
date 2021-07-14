@@ -369,12 +369,13 @@
     "building_type": "SMITH",
     "recipes": [
       { "id": "water_wheel_with_power_saw", "description": " Craft: Water Wheel, Power Saw" },
-      { "id": "x1_water_wheel_with_power_saw", "description": " Craft: Large Water Wheel, Power Saw" },
+      { "id": "xl_water_wheel_with_power_saw", "description": " Craft: Large Water Wheel, Power Saw" },
       { "id": "wood_beam_with_planer", "description": " Craft: Wooden Beam, Planer" },
       { "id": "2x4_with_power_saw", "description": " Craft: Planks, Power Saw" }
     ]
   },
   {
+    "type": "recipe_group",
     "id": "fishing_recipes",
     "building_type": "COOK",
     "recipes": [
