@@ -1,9 +1,6 @@
 name: JSON Validation
 
-on:
-  pull_request:
-    paths:
-    - '**.json'
+on: pull_request
 
 jobs:
   skip-duplicates:
