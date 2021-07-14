@@ -10,9 +10,10 @@
       { "group": "Zomborg_CBM_harvest_combat", "prob": 30 },
       { "item": "scrap", "count": [ 1, 5 ], "prob": 95 },
       { "item": "sheet_metal_small", "count": [ 1, 3 ], "prob": 80 },
-      { "item": "escrap", "count": [ 1, 3 ], "prob": 70 },
+      { "item": "e_scrap", "count": [ 1, 3 ], "prob": 70 },
       { "item": "cable", "count": [ 1, 3 ], "prob": 50 },
-      { "item": "burnt_out_bionic", "prob": 80 }
+      { "item": "burnt_out_bionic", "prob": 80 },
+      { "item": "xlframe", "prob": 30 }
     ]
   },
   {
@@ -38,7 +39,8 @@
         "collection": [
           { "item": "bio_armor_eyes", "prob": 30 },
           { "item": "bio_armor_torso", "prob": 10 },
-          { "item": "bio_armor_head", "prob": 100 }
+          { "item": "bio_armor_head", "prob": 100 },
+          { "item": "xlframe", "prob": 1 }
         ],
         "prob": 20
       },
@@ -46,7 +48,8 @@
         "collection": [
           { "item": "bio_armor_torso", "prob": 30 },
           { "item": "bio_armor_legs", "prob": 100 },
-          { "item": "bio_armor_head", "prob": 10 }
+          { "item": "bio_armor_head", "prob": 10 },
+          { "item": "xlframe", "prob": 1 }
         ],
         "prob": 20
       },
@@ -54,14 +57,16 @@
         "collection": [
           { "item": "bio_armor_arms", "prob": 100 },
           { "item": "bio_armor_torso", "prob": 60 },
-          { "item": "bio_armor_head", "prob": 30 }
+          { "item": "bio_armor_head", "prob": 30 },
+          { "item": "xlframe", "prob": 1 }
         ],
         "prob": 20
       },
       { "item": "bio_armor_legs", "prob": 60 },
       { "item": "bio_armor_arms", "prob": 60 },
       { "item": "bio_armor_head", "prob": 30 },
-      { "item": "bio_armor_torso", "prob": 20 }
+      { "item": "bio_armor_torso", "prob": 20 },
+      { "item": "xlframe", "prob": 5 }
     ]
   },
   {
