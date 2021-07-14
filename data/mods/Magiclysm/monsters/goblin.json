@@ -59,18 +59,13 @@
     "extend": {
       "special_attacks": [
         {
-          "type": "gun",
+          "type": "throw",
           "cooldown": 15,
           "move_cost": 90,
-          "gun_type": "sling",
-          "ammo_type": "rock",
-          "fake_skills": [ [ "gun", 4 ], [ "rifle", 4 ] ],
-          "fake_dex": 8,
-          "fake_per": 8,
-          "require_targeting_player": false,
-          "description": "The goblin slings a rock at you!",
-          "ranges": [ [ 2, 10, "DEFAULT" ] ],
-          "no_ammo_sound": "grunting"
+          "range": 10,
+          "speed": 90,
+          "damage_max_instance": [ { "damage_type": "bash", "amount": 4 } ],
+          "description": "The goblin slings a rock at you!"
         }
       ]
     }

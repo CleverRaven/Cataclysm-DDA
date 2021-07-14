@@ -3324,5 +3324,16 @@
     "initial_charges": 3,
     "max_charges": 3,
     "charges_per_use": 1
+  },
+  {
+    "id": "feral_human_thrown_rock",
+    "type": "GUN",
+    "symbol": "%",
+    "color": "red",
+    "name": { "str": "hurled rubble" },
+    "description": "Stone at the ready to crush that which isn't part of the blob.",
+    "skill": "throw",
+    "weight": "540 g",
+    "volume": "210 ml"
   }
 ]
