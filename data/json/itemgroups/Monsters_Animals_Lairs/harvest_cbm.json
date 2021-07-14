@@ -4,7 +4,6 @@
     "type": "item_group",
     "subtype": "collection",
     "entries": [
-      { "group": "Zomborg_CBM_harvest_power", "prob": 90 },
       { "group": "Zomborg_CBM_harvest_utility", "prob": 80 },
       { "group": "Zomborg_CBM_harvest_structural", "prob": 50 },
       { "group": "Zomborg_CBM_harvest_combat", "prob": 30 }
