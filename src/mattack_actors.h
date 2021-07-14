@@ -81,8 +81,7 @@ class melee_actor : public mattack_actor
         bool dodgeable = true;
         // Determines if a special attack can be blocked
         bool blockable = true;
-        // Hopefully flings you, side*dice*3, hulk =92
-        // If non-zero, the attack will fling targets side*dice*3, hulk =92
+        // If non-zero, the attack will fling targets, 10 throw_strength = 1 tile range
         int throw_strength = 0;
 
         /**
