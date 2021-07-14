@@ -114,9 +114,9 @@ class talker_character: public talker
         bool wielded_with_flag( const flag_id &flag ) const override;
 
         void mod_fatigue( int amount ) override;
-
         void mod_pain( int amount ) override;
         bool can_see() const override;
+        void mod_healthy_mod( int, int ) override;
     protected:
         talker_character() = default;
         player *me_chr;

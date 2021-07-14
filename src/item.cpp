@@ -4953,6 +4953,9 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     if( is_filthy() ) {
         tagtext += _( " (filthy)" );
     }
+    if( is_broken() ) {
+        tagtext += _( " (broken)" );
+    }
     if( is_bionic() && !has_flag( flag_NO_PACKED ) ) {
         if( !has_flag( flag_NO_STERILE ) ) {
             tagtext += _( " (sterile)" );
@@ -7271,6 +7274,11 @@ bool item::is_faulty() const
 bool item::is_irremovable() const
 {
     return has_flag( flag_IRREMOVABLE );
+}
+
+bool item::is_broken() const
+{
+    return has_flag( flag_ITEM_BROKEN );
 }
 
 std::set<fault_id> item::faults_potential() const

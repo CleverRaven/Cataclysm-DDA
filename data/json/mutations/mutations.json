@@ -1835,6 +1835,7 @@
     "description": "You've grown a set of gills in your neck, allowing you to breathe underwater.  Slightly increases wet benefits.",
     "category": [ "FISH" ],
     "cancels": [ "GILLS_CEPH" ],
+    "flags": [ "GILLS" ],
     "wet_protection": [ { "part": "head", "good": 1 } ]
   },
   {
@@ -1847,6 +1848,7 @@
     "description": "You've grown a set of gills, running from your neck up behind your ears.  They allow you to breathe underwater and slightly increase wet benefits.",
     "category": [ "CEPHALOPOD" ],
     "cancels": [ "GILLS" ],
+    "flags": [ "GILLS" ],
     "wet_protection": [ { "part": "head", "good": 1 } ]
   },
   {
