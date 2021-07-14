@@ -869,8 +869,15 @@ class fuel_inventory_preset : public inventory_selector_preset
                 return _( "Can't use spilt liquids." );
             }
 
-            if( p.get_fuel_capacity( loc->get_base_material().id ) <= 0 ) {
-                return ( _( "No space to store more" ) );
+            std::string item_name = loc->tname();
+            material_id mat_type = loc->get_base_material().id;
+            if( loc->type->magazine ) {
+                const item ammo = item( loc->ammo_current() );
+                item_name = ammo.tname();
+                mat_type = ammo.get_base_material().id;
+            }
+            if( p.get_fuel_capacity( mat_type ) <= 0 ) {
+                return ( _( "No space to store more %s" ), item_name );
             }
 
             return inventory_selector_preset::get_denial( loc );
@@ -1071,11 +1078,9 @@ item_location game_menus::inv::consume_fuel( player &p )
     }
     std::string none_message = player_character.activity.str_values.size() == 2 ?
                                _( "You have no more fuel to consume." ) : _( "You have no fuel to consume." );
-    return inv_internal( p, fuel_filtered_inventory_preset( p, []( const item & it ) {
-        return it.is_fuel();
-    } ),
-    _( "Consume fuel" ), 1,
-    none_message );
+    return inv_internal( p, fuel_inventory_preset( p ),
+                         _( "Consume fuel" ), 1,
+                         none_message );
 }
 
 class activatable_inventory_preset : public pickup_inventory_preset
