@@ -616,13 +616,13 @@ npc_attack_rating npc_attack_throw::evaluate_tripoint(
     const int damage = source.thrown_item_total_damage_raw( single_item );
     float dps = damage / throw_mult;
     const int distance_to_me = rl_dist( location, source.pos() );
-    const int distance_penalty = std::max( std::min( distance_to_me,
-                                           source.closest_enemy_to_friendly_distance() ) - 3, 0 );
+    const int distance_to_closest_friendly = std::min(distance_to_me, source.closest_enemy_to_friendly_distance());
+    const int distance_penalty = std::max(distance_to_closest_friendly - 3, 0 );
     const float suitable_item_mult = thrown_item.has_flag( flag_NPC_THROWN ) ? 0.2f : -0.15f;
     const float distance_mult = -distance_penalty / 10.0f;
 
-    double potential = dps * ( 1.0f + distance_mult + suitable_item_mult );
-    if( critter && damage >= critter->get_hp() ) {
+    double potential = dps * ( 1.0 + distance_mult + suitable_item_mult );
+    if( potential > 0.0f && critter && damage >= critter->get_hp() ) {
         potential *= npc_attack_constants::kill_modifier;
     }
     if( !target || !critter ) {
@@ -630,7 +630,7 @@ npc_attack_rating npc_attack_throw::evaluate_tripoint(
         potential = -100;
         // ... we'd rather throw it farther away from ourselves.
         potential += distance_to_me;
-    } else if( target->pos() == critter->pos() ) {
+    } else if( potential > 0.0f && target->pos() == critter->pos() ) {
         potential *= npc_attack_constants::target_modifier;
     }
     return npc_attack_rating( std::round( potential ), location );
