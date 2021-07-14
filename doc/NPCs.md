@@ -491,6 +491,7 @@ Effect | Description
 `u_add_power: power_energy`<br/>`npc_add_power: power_energy` | Your character or the NPC will have `power_energy` added or subtracted from its bionic power.
 `u_mod_fatigue: fatigue_int`<br/>`npc_mod_fatigue: fatigue_int` | Your character or the NPC will have `fatigue_int` added or subtracted from its fatigue.
 `u_make_sound, npc_make_sound: message_string`, `volume: volume_int`, `type: type_string`,  | A sound of description `message_string` will be made at your character or the NPC's location of volume `volume_int` and type `type_string`. Possible types are: background, weather, music, movement, speech, electronic_speech, activity, destructive_activity, alarm, combat,    alert, or order
+`u_mod_healthy, npc_mod_healthy : amount_int, cap: cap_int` | Your character or the NPC will have `amount_int` added or subtracted from its health value, but not beyond `cap_int`.
 
 #### Trade / Items
 

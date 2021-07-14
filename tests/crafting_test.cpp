@@ -568,7 +568,44 @@ TEST_CASE( "tool_use", "[crafting][tool]" )
 
         prep_craft( recipe_id( "water_clean" ), tools, false );
     }
+    SECTION( "clean_water with broken tool" ) {
+        std::vector<item> tools;
+        tools.push_back( tool_with_ammo( "hotplate", 20 ) );
+        item plastic_bottle( "bottle_plastic" );
+        plastic_bottle.put_in(
+            item( "water", calendar::turn_zero, 2 ), item_pocket::pocket_type::CONTAINER );
+        tools.push_back( plastic_bottle );
+        tools.emplace_back( "pot" );
+
+        tools.front().set_flag( flag_id( "ITEM_BROKEN" ) );
+        REQUIRE( tools.front().is_broken() );
+
+        prep_craft( recipe_id( "water_clean" ), tools, false );
+    }
 }
+
+TEST_CASE( "broken component", "[crafting][component]" )
+{
+    GIVEN( "a recipe with its required components" ) {
+        recipe_id test_recipe( "flashlight" );
+
+        std::vector<item> tools;
+        tools.emplace_back( "amplifier" );
+        tools.emplace_back( "bottle_glass" );
+        tools.emplace_back( "light_bulb" );
+        tools.insert( tools.end(), 10, item( "cable" ) );
+
+        WHEN( "one of its components is broken" ) {
+            tools.front().set_flag( flag_id( "ITEM_BROKEN" ) );
+            REQUIRE( tools.front().is_broken() );
+
+            THEN( "it should not be able to craft it" ) {
+                prep_craft( test_recipe, tools, false );
+            }
+        }
+    }
+}
+
 
 // Resume the first in progress craft found in the player's inventory
 static int resume_craft()

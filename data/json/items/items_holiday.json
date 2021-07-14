@@ -16,6 +16,7 @@
     "initial_charges": 100,
     "max_charges": 100,
     "charges_per_use": 1,
+    "flags": [ "WATER_BREAK" ],
     "ammo": [ "battery" ],
     "use_action": {
       "target": "plastic_jack_o_lantern_lit",

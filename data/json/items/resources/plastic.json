@@ -1,5 +1,35 @@
 [
   {
+    "id": "thermo_resin_chunk",
+    "type": "TOOL",
+    "category": "spare_parts",
+    "name": { "str": "thermoplastic resin chunk" },
+    "description": "This piece of tough thermoplastic resin could allow you to fabricate, repair, or reinforce items.",
+    "weight": "50 g",
+    "volume": "250 ml",
+    "price": 0,
+    "price_postapoc": 10,
+    "material": [ "thermo_resin" ],
+    "symbol": ",",
+    "color": "light_blue",
+    "flags": [ "NO_SALVAGE" ]
+  },
+  {
+    "id": "epoxy_chunk",
+    "type": "TOOL",
+    "category": "spare_parts",
+    "name": { "str": "epoxy chunk" },
+    "description": "This piece of epoxy is hardy and durable.  You could potentially craft items with it.",
+    "weight": "50 g",
+    "volume": "250 ml",
+    "price": 0,
+    "price_postapoc": 10,
+    "material": [ "epoxy" ],
+    "symbol": ",",
+    "color": "light_blue",
+    "flags": [ "NO_SALVAGE" ]
+  },
+  {
     "id": "plastic_chunk",
     "type": "TOOL",
     "category": "spare_parts",
