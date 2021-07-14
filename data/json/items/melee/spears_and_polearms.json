@@ -381,7 +381,7 @@
     "type": "GENERIC",
     "name": { "str_sp": "naginata" },
     "description": "A sturdy polearm with a curved blade, made in the same manner as the katana and other Japanese blades.  This one has a bit of wiggle to its blade and feels a bit shoddily made.",
-    "proportional": { "bashing": 3, "cutting": 0.25 },
+    "proportional": { "bashing": 4.14, "cutting": 0.25 },
     "delete": { "flags": [ "DURABLE_MELEE" ] },
     "material": [ "budget_steel", "wood" ],
     "price": 8000,
