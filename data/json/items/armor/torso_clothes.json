@@ -311,10 +311,7 @@
     "warmth": 25,
     "material_thickness": 0.3,
     "snippet_category": [
-      {
-        "id": "decatur",
-        "text": "A pro thunderball jersey made of cotton, imprinted with the logo of the Decatur Fist."
-      },
+      { "id": "decatur", "text": "A pro thunderball jersey made of cotton, imprinted with the logo of the Decatur Fist." },
       {
         "id": "squamish",
         "text": "A 43-man squamish jersey made of cotton, imprinted with the logo of the Gainesville Veeblefetzers."
@@ -327,10 +324,7 @@
         "id": "endsville",
         "text": "A football jersey made of cotton, imprinted with the logo of the Endsville Fluffycats."
       },
-      {
-        "id": "tokyo",
-        "text": "A baseball jersey made of cotton, imprinted with the logo of the Tokyo Samurai."
-      },
+      { "id": "tokyo", "text": "A baseball jersey made of cotton, imprinted with the logo of the Tokyo Samurai." },
       {
         "id": "basin",
         "text": "A basketball jersey made of cotton, imprinted with the logo of the Basin City Blues."
@@ -347,10 +341,7 @@
         "id": "monroeville",
         "text": "A hockey jersey made of cotton, imprinted with the logo of the Monroeville Zombies."
       },
-      {
-        "id": "rugby",
-        "text": "A rugby jersey made of cotton, imprinted with the logo of the Canberra Drop Bears."
-      },
+      { "id": "rugby", "text": "A rugby jersey made of cotton, imprinted with the logo of the Canberra Drop Bears." },
       {
         "id": "volleyball",
         "text": "A volleyball jersey made of cotton, imprinted with the logo of the Ooarai Ducks."
