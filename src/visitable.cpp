@@ -740,7 +740,7 @@ static int charges_of_internal( const T &self, const M &main, const itype_id &id
 
     bool found_tool_with_UPS = false;
     self.visit_items( [&]( const item * e, item * ) {
-        if( filter( *e ) ) {
+        if( !e->is_broken() && filter( *e ) ) {
             if( e->is_tool() ) {
                 if( e->typeId() == id ) {
                     // includes charges from any included magazine.
@@ -856,7 +856,8 @@ static int amount_of_internal( const T &self, const itype_id &id, bool pseudo, i
 {
     int qty = 0;
     self.visit_items( [&qty, &id, &pseudo, &limit, &filter]( const item * e, item * ) {
-        if( ( id == STATIC( itype_id( "any" ) ) || e->typeId() == id ) && filter( *e ) &&
+        if( !e->has_flag( STATIC( flag_id( "ITEM_BROKEN" ) ) ) &&
+            ( id == STATIC( itype_id( "any" ) ) || e->typeId() == id ) && filter( *e ) &&
             ( pseudo || !e->has_flag( STATIC( flag_id( "PSEUDO" ) ) ) ) ) {
             qty = sum_no_wrap( qty, 1 );
         }
