@@ -2,7 +2,7 @@
   {
     "abstract": "generic_polymer_resin",
     "type": "material",
-    "name": { "str_sp": "Polymer resin" },
+    "name": "Polymer resin",
     "specific_heat_liquid": 1.25,
     "specific_heat_solid": 1.25,
     "density": 1,
