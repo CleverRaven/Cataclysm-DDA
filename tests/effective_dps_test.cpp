@@ -247,7 +247,7 @@ static void make_experienced_tester( avatar &test_guy )
     REQUIRE( test_guy.get_skill_level( skill_id( "unarmed" ) ) == 4 );
     REQUIRE( test_guy.get_skill_level( skill_id( "melee" ) ) == 4 );
 }
-static void 	_expected_dps( avatar &test_guy, const std::string &weapon_id, double target )
+static void calc_expected_dps( avatar &test_guy, const std::string &weapon_id, double target )
 {
     item weapon( weapon_id );
     CHECK( test_guy.melee_value( weapon ) == Approx( target ).margin( 0.5 ) );
