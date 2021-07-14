@@ -2119,7 +2119,7 @@ void overmap::move_nemesis()
 {
     // Prevent hordes to be moved twice by putting them in here after moving.
     decltype( zg ) tmpzg;
-    //MOVE ZOMBIE GROUPS
+    //cycle through zombie groups, skip non-nemesis hordes
     for( auto it = zg.begin(); it != zg.end(); ) {
         mongroup &mg = it->second;
         if( !mg.horde || mg.horde_behaviour != "nemesis" ) {
@@ -2127,52 +2127,62 @@ void overmap::move_nemesis()
             continue;
         }
 
-        add_msg( m_info, _( "move_nemesis: %d, %d in OM_SM" ),
-            mg.pos.x(), mg.pos.y() );
         
         
+
 
         // Decrease movement chance according to the terrain we're currently on.
         const oter_id &walked_into = ter( project_to<coords::omt>( mg.pos ) );
         int movement_chance = 1;
-        if( walked_into == ot_forest || walked_into == ot_forest_water ) {
+        if( walked_into == forest || walked_into == forest_water ) {
             movement_chance = 3;
-        } else if( walked_into == ot_forest_thick ) {
+        } else if( walked_into == forest_thick ) {
             movement_chance = 6;
-        } else if( walked_into == ot_river_center ) {
+        } else if( walked_into == river_center ) {
             movement_chance = 10;
         }
 
-        // If the average horde speed is 50% that of normal, then the chance to
-        // move should be 1/2 what it would be if the speed was 100%.
-        // Since the max speed for a horde is one map space per 2.5 minutes,
-        // choose that to be the speed of the fastest horde monster, which is
-        // roughly 200 at the time of writing. So a horde with average speed
-        // 200 or over will move at max speed, and slower hordes will move less
-        // frequently. The average horde speed for regular Z's is around 100,
-        // or one space per 5 minutes.
         if( one_in( movement_chance ) && rng( 0, 200 ) < mg.avg_speed() ) {
-            // TODO: Handle moving to adjacent overmaps.
-            if( mg.pos.x() > mg.target.x() ) {
-                mg.pos.x()--;
+            if( mg.abs_pos.x() > mg.nemesis_target.x() ) {
+                mg.abs_pos.x()--;
             }
-            if( mg.pos.x() < mg.target.x() ) {
-                mg.pos.x()++;
+            if( mg.abs_pos.x() < mg.nemesis_target.x() ) {
+                mg.abs_pos.x()++;
             }
-            if( mg.pos.y() > mg.target.y() ) {
-                mg.pos.y()--;
+            if( mg.abs_pos.y() > mg.nemesis_target.y() ) {
+                mg.abs_pos.y()--;
             }
-            if( mg.pos.y() < mg.target.y() ) {
-                mg.pos.y()++;
+            if( mg.abs_pos.y() < mg.nemesis_target.y() ) {
+                mg.abs_pos.y()++;
             }
 
-            // Erase the group at it's old location, add the group with the new location
-            tmpzg.insert( std::pair<tripoint_om_sm, mongroup>( mg.pos, mg ) );
-            zg.erase( it++ );
-            //there is only one nemesis horde, so we can stop looping after we move it
-            break;
+            
+            //if the nemesis horde is on the same overmap as its target
+            //update the horde's om_sm coords so it can spawn in correctly
+            if (project_to<coords::om>( mg.abs_pos ) == project_to<coords::om>( mg.nemesis_target ) ) {
+
+                point_abs_om omp;
+                tripoint_om_sm local_sm;
+                std::tie( omp, local_sm ) = project_remain<coords::om>( mg.abs_pos );
+
+                mg.pos.y() = local_sm.y();
+                mg.pos.x() = local_sm.x();
+
+                // Erase the group at it's old location, add the group with the new location
+                tmpzg.insert( std::pair<tripoint_om_sm, mongroup>( mg.pos, mg ) );
+                zg.erase( it++ );
+                //there is only one nemesis horde, so we can stop looping after we move it
+                break;
+
+            }
+            
+        add_msg( m_info, _( "nemesis moved: %d, %d in abs_SM" ),
+            mg.abs_pos.x(), mg.abs_pos.y() );
+        add_msg( m_info, _( "and: %d, %d in om_SM" ),
+            mg.pos.x(), mg.pos.y() );
+            
         } else {
-            ++it;
+            break;
         }
     }
     // and now back into the monster group map.
@@ -2233,16 +2243,18 @@ void overmap::signal_nemesis( const tripoint_abs_sm p_abs_sm )
     tripoint_om_sm local_sm;
     std::tie( omp, local_sm ) = project_remain<coords::om>( p_abs_sm );
     // convert tripoint_om_sm to const point_om_sm !!!
-    const point_om_sm posom = local_sm.xy();
+    const point_om_sm pos_om = local_sm.xy();
     
     for( std::pair<const tripoint_om_sm, mongroup> &elem : zg ) {
         mongroup &mg = elem.second;
 
         if( mg.horde_behaviour == "nemesis" ) {
             // if the horde is a nemesis, we set its target directly on the player
-            mg.set_target( posom );
-            add_msg( m_info, _( "nemesis signeled to %d, %d in OM_SM" ),
-                 posom.x(), posom.y() );
+            mg.set_target( pos_om );
+            mg.set_nemesis_target ( p_abs_sm );
+            add_msg( m_info, _( "nemesis signeled to %d, %d in abs_SM" ),
+                 pos_om.x(), pos_om.y() );
+
         }
     }
 }
@@ -4546,6 +4558,7 @@ void overmap::place_nemesis( const tripoint_abs_omt p )
             mongroup nemesis = mongroup( GROUP_NEMESIS, local_sm, 1, 1 );
             nemesis.horde = true;
             nemesis.horde_behaviour = "nemesis";
+            nemesis.abs_pos = pos_sm;
             add_mon_group( nemesis );
 }
 
