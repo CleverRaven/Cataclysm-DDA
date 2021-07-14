@@ -1,4 +1,4 @@
-name: General build matrix
+name: Basic Build
 
 on:
   push:
