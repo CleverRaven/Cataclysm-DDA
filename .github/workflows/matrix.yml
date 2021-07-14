@@ -26,15 +26,6 @@ jobs:
     strategy:
       matrix:
         include:
-          - compiler: g++-9
-            os: ubuntu-latest
-            cmake: 0
-            tiles: 0
-            test-stage: 1
-            native: linux64
-            gold: 1
-            lto: 1
-            title: GCC 9, Ubuntu, Curses, LTO
           - compiler: g++-7
             os: ubuntu-latest
             cmake: 1
