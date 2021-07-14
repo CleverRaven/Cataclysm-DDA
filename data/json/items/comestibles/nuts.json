@@ -486,7 +486,7 @@
     "symbol": "%",
     "quench": -5,
     "calories": 114,
-    "description": "A handful of acorns, still in their shells.  Squirrels like them, but they're not very good for you to eat in this state.",
+    "description": "A handful of acorns, still in their shells.  Squirrels like them, but they taste terribly bitter when raw.",
     "price": 0,
     "price_postapoc": 200,
     "material": [ "nut" ],
