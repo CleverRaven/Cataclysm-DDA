@@ -485,7 +485,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -5,
-    "healthy": -5,
+    "healthy": -1,
     "calories": 114,
     "description": "A handful of acorns, still in their shells.  Squirrels like them, but they're not very good for you to eat in this state.",
     "price": 0,
@@ -495,7 +495,7 @@
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "RAW" ],
     "charges": 4,
     "vitamins": [ [ "calcium", 1 ], [ "iron", 2 ] ],
-    "fun": -20
+    "fun": -15
   },
   {
     "type": "COMESTIBLE",
