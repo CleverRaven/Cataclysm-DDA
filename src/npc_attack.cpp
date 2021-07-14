@@ -616,8 +616,9 @@ npc_attack_rating npc_attack_throw::evaluate_tripoint(
     const int damage = source.thrown_item_total_damage_raw( single_item );
     float dps = damage / throw_mult;
     const int distance_to_me = rl_dist( location, source.pos() );
-    const int distance_to_closest_friendly = std::min(distance_to_me, source.closest_enemy_to_friendly_distance());
-    const int distance_penalty = std::max(distance_to_closest_friendly - 3, 0 );
+    const int distance_to_closest_friendly = std::min( distance_to_me,
+            source.closest_enemy_to_friendly_distance() );
+    const int distance_penalty = std::max( distance_to_closest_friendly - 3, 0 );
     const float suitable_item_mult = thrown_item.has_flag( flag_NPC_THROWN ) ? 0.2f : -0.15f;
     const float distance_mult = -distance_penalty / 10.0f;
 
