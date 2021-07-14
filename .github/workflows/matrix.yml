@@ -4,37 +4,25 @@ on:
   push:
     branches:
     - master
-    - 0.F-dev
-    paths-ignore:
-    - 'android/**'
-    - 'build-data/osx/**'
-    - 'doc/**'
-    - 'doxygen_doc/**'
-    - 'lgtm/**'
-    - 'msvc-full-features/**'
-    - 'msvc-object_creator/**'
-    - 'object_creator/**'
-    - 'tools/**'
-    - 'utilities/**'
   pull_request:
     branches:
     - master
-    - 0.F-dev
-    paths-ignore:
-    - 'android/**'
-    - 'build-data/osx/**'
-    - 'doc/**'
-    - 'doxygen_doc/**'
-    - 'lgtm/**'
-    - 'msvc-full-features/**'
-    - 'msvc-object_creator/**'
-    - 'object_creator/**'
-    - 'tools/**'
-    - 'utilities/**'
-
 
 jobs:
+  skip-duplicates:
+    continue-on-error: false
+    runs-on: ubuntu-latest
+    # Map a step output to a job output
+    outputs:
+      should_skip: ${{ steps.skip_check.outputs.should_skip }}
+    steps:
+      - id: skip_check
+        uses: fkirc/skip-duplicate-actions@master
+        with:
+          paths-ignore: '["android/**", "build-data/osx/**", "doc/**", "doxygen_doc/**", "lgtm/**", "msvc-**", "object_creator/**", "tools/**", "utilities/**"]'
   varied_builds:
+    needs: skip-duplicates
+    if: ${{ needs.skip-duplicates.outputs.should_skip != 'true' }}
     strategy:
       matrix:
         include:
