@@ -485,8 +485,9 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -5,
+    "healthy": -1,
     "calories": 114,
-    "description": "A handful of acorns, still in their shells.  Squirrels like them, but they taste terribly bitter when raw.",
+    "description": "A handful of acorns, still in their shells.  Squirrels like them, but they taste terribly bitter and can upset your stomach.",
     "price": 0,
     "price_postapoc": 200,
     "material": [ "nut" ],
@@ -494,7 +495,7 @@
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "RAW" ],
     "charges": 4,
     "vitamins": [ [ "calcium", 1 ], [ "iron", 2 ] ],
-    "fun": -15
+    "fun": -20
   },
   {
     "type": "COMESTIBLE",
