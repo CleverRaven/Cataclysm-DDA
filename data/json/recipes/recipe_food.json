@@ -6068,6 +6068,8 @@
     "components": [
       [ [ "bread_sandwich", 2, "LIST" ] ],
       [
+        [ "cooking_oil", 1 ],
+        [ "cooking_oil2", 1 ],
         [ "mayonnaise", 1 ],
         [ "ketchup", 1 ],
         [ "sauce_pesto", 1 ],
