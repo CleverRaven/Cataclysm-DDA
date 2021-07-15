@@ -191,7 +191,7 @@
     "id": "fake_drill_press",
     "type": "TOOL",
     "copy-from": "fake_power_tool",
-    "name": { "str": "drill press" }
+    "name": { "str": "drill press", "str_pl": "drill presses" }
   },
   {
     "id": "fake_tablesaw",
@@ -233,7 +233,7 @@
     "id": "fake_hydraulic_press",
     "type": "TOOL",
     "copy-from": "fake_power_tool",
-    "name": { "str": "hydraulic press" }
+    "name": { "str": "hydraulic press", "str_pl": "hydraulic presses" }
   },
   {
     "id": "fake_power_lathe",

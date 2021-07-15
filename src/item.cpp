@@ -4953,6 +4953,9 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     if( is_filthy() ) {
         tagtext += _( " (filthy)" );
     }
+    if( is_broken() ) {
+        tagtext += _( " (broken)" );
+    }
     if( is_bionic() && !has_flag( flag_NO_PACKED ) ) {
         if( !has_flag( flag_NO_STERILE ) ) {
             tagtext += _( " (sterile)" );
@@ -6880,6 +6883,37 @@ void item::select_gun_variant()
     set_gun_variant( *selected );
 }
 
+bool item::can_have_gun_variant() const
+{
+    if( is_gun() ) {
+        return !type->gun->variants.empty();
+    } else if( !!type->magazine ) {
+        return !type->magazine->variants.empty();
+    }
+    return false;
+}
+
+bool item::possible_gun_variant( const std::string &test ) const
+{
+    if( !can_have_gun_variant() ) {
+        return false;
+    }
+
+    const auto variant_looking_for = [&test]( const gun_variant_data & variant ) {
+        return variant.id == test;
+    };
+
+    if( is_gun() ) {
+        return std::find_if( type->gun->variants.begin(), type->gun->variants.end(),
+                             variant_looking_for ) != type->gun->variants.end();
+    } else if( !!type->magazine ) {
+        return std::find_if( type->magazine->variants.begin(), type->magazine->variants.end(),
+                             variant_looking_for ) != type->magazine->variants.end();
+    }
+
+    return false;
+}
+
 bool item::has_gun_variant( bool check_option ) const
 {
     return  _gun_variant != nullptr &&
@@ -7271,6 +7305,11 @@ bool item::is_faulty() const
 bool item::is_irremovable() const
 {
     return has_flag( flag_IRREMOVABLE );
+}
+
+bool item::is_broken() const
+{
+    return has_flag( flag_ITEM_BROKEN );
 }
 
 std::set<fault_id> item::faults_potential() const

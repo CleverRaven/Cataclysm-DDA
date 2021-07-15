@@ -940,3 +940,23 @@ units::mass item_location::weight_capacity() const
 {
     return ptr->weight_capacity();
 }
+
+bool item_location::protected_from_liquids() const
+{
+    // check if inside a watertight which is not an open_container
+    if( has_parent() ) {
+        item_location parent = parent_item();
+
+        // parent can protect the item against water
+        if( parent->is_watertight_container() && !parent->will_spill() ) {
+            return true;
+        }
+
+        // check the parent's parent
+        return parent.protected_from_liquids();
+    }
+
+    // we recursively checked all containers
+    // none are closed watertight containers
+    return false;
+}

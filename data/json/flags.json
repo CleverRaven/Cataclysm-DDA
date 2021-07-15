@@ -828,6 +828,24 @@
     "info": "This clothing <good>performs well</good> even when <info>soaking wet</info>.  This can feel good."
   },
   {
+    "id": "ITEM_BROKEN",
+    "type": "json_flag",
+    "context": [  ],
+    "info": "This item was broken and <bad>won't activate anymore</bad>."
+  },
+  {
+    "id": "WATER_BREAK",
+    "type": "json_flag",
+    "context": [  ],
+    "info": "This item <bad>will get broken</bad> by water."
+  },
+  {
+    "id": "WATER_DISSOLVE",
+    "type": "json_flag",
+    "context": [  ],
+    "info": "This item <bad>will get dissolved</bad> in water."
+  },
+  {
     "id": "WET",
     "type": "json_flag",
     "context": [ "GENERIC", "ARMOR", "TOOL_ARMOR" ]

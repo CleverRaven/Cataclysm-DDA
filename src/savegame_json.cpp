@@ -2675,6 +2675,14 @@ void item::deserialize( JsonIn &jsin )
             }
         }
     }
+
+    if( !has_gun_variant( false ) && can_have_gun_variant() ) {
+        if( possible_gun_variant( typeId().str() ) ) {
+            set_gun_variant( typeId().str() );
+        } else {
+            select_gun_variant();
+        }
+    }
 }
 
 void item::serialize( JsonOut &json ) const
