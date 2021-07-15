@@ -16,7 +16,7 @@
     "color": "light_gray",
     "qualities": [ [ "AXE", 2 ], [ "BUTCHER", -36 ] ],
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
-    "flags": [ "NONCONDUCTIVE", "SHEATH_AXE", "DURABLE_MELEE"]
+    "flags": [ "NONCONDUCTIVE", "SHEATH_AXE", "DURABLE_MELEE" ]
   },
   {
     "id": "bow_saw",
