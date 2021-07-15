@@ -4529,7 +4529,7 @@ void effect_on_conditons_actor::info( const item &, std::vector<iteminfo> &dump 
 }
 
 cata::optional<int> effect_on_conditons_actor::use( player &p, item &it, bool,
-        const tripoint & ) const
+        const tripoint &t ) const
 {
     dialogue d;
     standard_npc default_npc( "Default" );
@@ -4538,8 +4538,9 @@ cata::optional<int> effect_on_conditons_actor::use( player &p, item &it, bool,
     } else if( npc *n = p.as_npc() ) {
         d.alpha = get_talker_for( n );
     }
-    ///TODO make this talker item
-    d.beta = get_talker_for( default_npc );
+
+    item_location loc( *( p.as_character() ), &it );
+    d.beta = get_talker_for( loc );
 
     for( const effect_on_condition_id &eoc : eocs ) {
         eoc->activate( d );
