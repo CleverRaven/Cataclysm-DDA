@@ -474,7 +474,7 @@ TEST_CASE( "expected weapon dps", "[expected][dps]" )
         calc_expected_dps( test_guy, "tanto", 18.0 );
         calc_expected_dps( test_guy, "kris", 18.0 );
         calc_expected_dps( test_guy, "knife_rambo", 17.0 );
-        calc_expected_dps( test_guy, "tanto_inferior", 16.5 );
+        calc_expected_dps( test_guy, "tanto_inferior", 15.0 );
         calc_expected_dps( test_guy, "bone_knife", 12.0 );
         calc_expected_dps( test_guy, "knife_hunting", 11.0 );
         calc_expected_dps( test_guy, "kirpan_cheap", 10.5 );
@@ -484,7 +484,7 @@ TEST_CASE( "expected weapon dps", "[expected][dps]" )
         calc_expected_dps( test_guy, "copper_knife", 8.0 );
         calc_expected_dps( test_guy, "knife_butcher", 7.5 );
         calc_expected_dps( test_guy, "throwing_knife", 7.0 );
-        calc_expected_dps( test_guy, "tanto_fake", 7.5 );
+        calc_expected_dps( test_guy, "tanto_fake", 6.5 );
         calc_expected_dps( test_guy, "pockknife", 4.5 );
         calc_expected_dps( test_guy, "spike", 4.0 );
         calc_expected_dps( test_guy, "kris_fake", 2.5 );
