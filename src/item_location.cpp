@@ -26,6 +26,7 @@
 #include "ret_val.h"
 #include "safe_reference.h"
 #include "string_formatter.h"
+#include "talker_item.h"
 #include "translations.h"
 #include "units.h"
 #include "vehicle.h"
@@ -959,3 +960,13 @@ bool item_location::protected_from_liquids() const
     // none are closed watertight containers
     return false;
 }
+
+std::unique_ptr<talker> get_talker_for( item_location &it )
+{
+    return std::make_unique<talker_item>( &it );
+}
+std::unique_ptr<talker> get_talker_for( item_location *it )
+{
+    return std::make_unique<talker_item>( it );
+}
+
