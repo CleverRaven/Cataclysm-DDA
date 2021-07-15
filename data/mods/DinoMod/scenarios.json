@@ -3,7 +3,7 @@
     "type": "scenario",
     "id": "dm_wilderness",
     "name": "Hunted by Dinosaurs",
-    "points": 2,
+    "points": 0,
     "description": "You find yourself among trees.  The screaming and moaning is fainter, but it sounds like something bigger and more dangerous is close by.",
     "start_name": "Wilderness",
     "allowed_locs": [ "sloc_field", "sloc_forest", "sloc_campsite", "sloc_campground", "sloc_desert_island", "sloc_river" ],
