@@ -825,12 +825,13 @@
     "result": "steel_plate",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
-    "skill_used": "fabrication", "blacksmithing",
+    "skill_used": "fabrication",
     "difficulty": 5,
     "time": "10 h",
     "reversible": true,
     "//": "sawing it down doesn't teach anything useful",
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "qualities": [ { "id": "GLARE", "level": 2 }, { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
     "tools": [ [ [ "welder", 100 ], [ "welder_crude", 150 ], [ "toolset", 150 ], [ "forge", 100 ], [ "oxy_torch", 20 ] ] ],
     "components": [ [ [ "steel_lump", 8 ] ] ]
@@ -847,6 +848,7 @@
     "reversible": true,
     "//": "sawing it down doesn't teach anything useful",
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "qualities": [ { "id": "GLARE", "level": 2 }, { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
     "tools": [ [ [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ], [ "forge", 50 ], [ "oxy_torch", 10 ] ] ],
     "components": [ [ [ "steel_lump", 4 ] ] ]
@@ -862,6 +864,7 @@
     "time": "10 h",
     "reversible": true,
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "welding_book", 3 ], [ "textbook_mechanics", 4 ] ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "qualities": [ { "id": "GLARE", "level": 2 }, { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
     "tools": [ [ [ "welder", 100 ], [ "welder_crude", 150 ], [ "toolset", 150 ], [ "forge", 100 ], [ "oxy_torch", 20 ] ] ],
     "components": [ [ [ "steel_lump", 8 ], [ "steel_plate", 1 ] ], [ [ "steel_chunk", 4 ], [ "scrap", 12 ], [ "spike", 4 ] ] ]
@@ -878,6 +881,7 @@
     "time": "12 h",
     "reversible": true,
     "book_learn": [ [ "textbook_fabrication", 5 ], [ "adv_chemistry", 6 ], [ "welding_book", 5 ] ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "qualities": [ { "id": "GLARE", "level": 2 }, { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
     "tools": [ [ [ "welder", 100 ], [ "welder_crude", 150 ], [ "toolset", 150 ], [ "forge", 200 ], [ "oxy_torch", 20 ] ] ],
     "components": [ [ [ "steel_lump", 24 ] ] ]
