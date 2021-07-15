@@ -2284,6 +2284,62 @@ item_location inventory_pick_selector::execute()
     }
 }
 
+inventory_reload_selector::inventory_reload_selector(Character& p, bool& reloadAll, const inventory_selector_preset& preset) : reloadAll(reloadAll), inventory_pick_selector(p, preset)
+{
+    ctxt.register_action("TOGGLE_RELOADALL", to_translation("Toggle Reload Once/All"));
+}
+
+item_location inventory_reload_selector::execute() {
+    shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
+    while (true) {
+        ui_manager::redraw();
+        const inventory_input input = get_input();
+
+        if (input.entry != nullptr) {
+            if (select(input.entry->any_item())) {
+                ui_manager::redraw();
+            }
+            return input.entry->any_item();
+        }
+        else if (input.action == "QUIT") {
+            return item_location();
+        }
+        else if (input.action == "CONFIRM") {
+            const inventory_entry& selected = get_active_column().get_selected();
+            if (selected) {
+                return selected.any_item();
+            }
+        }
+        else if (input.action == "INVENTORY_FILTER") {
+            set_filter();
+        }
+        else if (input.action == "EXAMINE") {
+            const inventory_entry& selected = get_active_column().get_selected();
+            if (selected) {
+                const item* sitem = selected.any_item().get_item();
+                action_examine(sitem);
+            }
+        }
+        else if (input.action == "TOGGLE_RELOADALL") {
+            reloadAll = !reloadAll;
+        }
+        else {
+            on_input(input);
+        }
+    }
+}
+
+void inventory_reload_selector::draw_header(const catacurses::window& w) const
+{
+    trim_and_print(w, point(border + 1, border), getmaxx(w) - 2 * (border + 1), c_white, title);
+    fold_and_print(w, point(border + 1, border + 1), getmaxx(w) - 2 * (border + 1), c_dark_gray,
+        hint);
+
+    mvwhline(w, point(border, border + get_header_height()), LINE_OXOX, getmaxx(w) - 2 * border);
+
+    right_print(w, border, border + 1, c_dark_gray, reloadAll ? "Reload Once / <color_h_green>Reload All</color>" : "<color_h_green>Reload Once</color> / Reload All");
+}
+
 void inventory_selector::action_examine( const item *sitem )
 {
     // Code below pulled from the action_examine function in advanced_inv.cpp

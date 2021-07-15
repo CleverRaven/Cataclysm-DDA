@@ -614,7 +614,7 @@ class inventory_selector
         void resize_window( int width, int height );
         void refresh_window();
 
-        void draw_header( const catacurses::window &w ) const;
+        virtual void draw_header( const catacurses::window &w ) const;
         void draw_footer( const catacurses::window &w ) const;
         void draw_columns( const catacurses::window &w );
         void draw_frame( const catacurses::window &w ) const;
@@ -684,7 +684,7 @@ class inventory_selector
 
         const navigation_mode_data &get_navigation_data( navigation_mode m ) const;
 
-    private:
+    //private:
         catacurses::window w_inv;
 
         weak_ptr_fast<ui_adaptor> ui;
@@ -724,6 +724,17 @@ class inventory_pick_selector : public inventory_selector
             inventory_selector( p, preset ) {}
 
         item_location execute();
+};
+
+class inventory_reload_selector : public inventory_pick_selector {
+    public:
+        explicit inventory_reload_selector(Character& p, bool& reloadAll, const inventory_selector_preset& preset = default_preset);
+
+        item_location execute();
+
+        void draw_header(const catacurses::window& w) const override;
+
+        bool& reloadAll;
 };
 
 class inventory_multiselector : public inventory_selector

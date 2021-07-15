@@ -119,6 +119,67 @@ static item_location_filter convert_filter( const item_filter &filter )
     };
 }
 
+static item_location inv_reload(Character& u, bool& reloadAll, const inventory_selector_preset& preset,
+    const std::string& title, int radius,
+    const std::string& none_message,
+    const std::string& hint = std::string())
+{
+    inventory_reload_selector inv_s(u, reloadAll, preset);
+
+    inv_s.set_title(title);
+    inv_s.set_hint(hint);
+    inv_s.set_display_stats(false);
+
+    const std::vector<activity_id> consuming{
+        ACT_EAT_MENU,
+        ACT_CONSUME_FOOD_MENU,
+        ACT_CONSUME_DRINK_MENU,
+        ACT_CONSUME_MEDS_MENU,
+        ACT_CONSUME_FUEL_MENU };
+
+    u.inv->restack(u);
+
+    inv_s.clear_items();
+    inv_s.add_character_items(u);
+    inv_s.add_nearby_items(radius);
+
+    if (u.has_activity(consuming)) {
+        if (!u.activity.str_values.empty()) {
+            inv_s.set_filter(u.activity.str_values[0]);
+        }
+        // Set position after filter to keep cursor at the right position
+        bool position_set = false;
+        if (!u.activity.targets.empty()) {
+            position_set = inv_s.select_one_of(u.activity.targets);
+        }
+        if (!position_set && u.activity.values.size() >= 2) {
+            inv_s.select_position(std::make_pair(u.activity.values[0], u.activity.values[1]));
+        }
+    }
+
+    if (inv_s.empty()) {
+        const std::string msg = none_message.empty()
+            ? _("You don't have the necessary item at hand.")
+            : none_message;
+        popup(msg, PF_GET_KEY);
+        return item_location();
+    }
+
+    item_location location = inv_s.execute();
+
+    if (u.has_activity(consuming)) {
+        u.activity.values.clear();
+        const auto init_pair = inv_s.get_selection_position();
+        u.activity.values.push_back(init_pair.first);
+        u.activity.values.push_back(init_pair.second);
+        u.activity.str_values.clear();
+        u.activity.str_values.emplace_back(inv_s.get_filter());
+        u.activity.targets = inv_s.get_selected().locations;
+    }
+
+    return location;
+}
+
 static item_location inv_internal( Character &u, const inventory_selector_preset &preset,
                                    const std::string &title, int radius,
                                    const std::string &none_message,
@@ -392,6 +453,13 @@ item_location game_menus::inv::take_off( avatar &you )
 {
     return inv_internal( you, take_off_inventory_preset( you, "color_red" ), _( "Take off item" ), 1,
                          _( "You're not wearing anything." ) );
+}
+
+item_location game::inv_reload_splice(bool& reloadAll, const item_filter& filter, const std::string& title, int radius,
+    const std::string& none_message)
+{
+    return inv_reload(u, reloadAll, inventory_filter_preset(convert_filter(filter)),
+        title, radius, none_message);
 }
 
 item_location game::inv_map_splice( const item_filter &filter, const std::string &title, int radius,
