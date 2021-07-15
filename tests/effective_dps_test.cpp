@@ -454,7 +454,7 @@ TEST_CASE( "expected weapon dps", "[expected][dps]" )
         calc_expected_dps( test_guy, "cutlass_inferior", 17.5 );
         calc_expected_dps( test_guy, "scimitar_inferior", 14.5 );
         calc_expected_dps( test_guy, "sword_crude", 14.0 );
-        calc_expected_dps( test_guy, "wakizashi_inferior", 14.5 );
+        calc_expected_dps( test_guy, "wakizashi_inferior", 15.0 );
         calc_expected_dps( test_guy, "makeshift_machete", 11.0 );
         calc_expected_dps( test_guy, "cavalry_sabre_fake", 7.5 );
         calc_expected_dps( test_guy, "cutlass_fake", 7.75 );
