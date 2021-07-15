@@ -1000,6 +1000,7 @@ const recipe *select_crafting_recipe( int &batch_size_out )
                 chosen = current[line];
                 batch_size_out = ( batch ) ? line + 1 : 1;
                 done = true;
+                uistate.read_recipes.insert( chosen->ident() );
             }
         } else if( action == "HELP_RECIPE" ) {
             if( current.empty() ) {
@@ -1114,6 +1115,8 @@ const recipe *select_crafting_recipe( int &batch_size_out )
             if( batch ) {
                 batch_line = line;
                 chosen = current[batch_line];
+                uistate.read_recipes.insert( chosen->ident() );
+                recalc_unread = highlight_unread_recipes;
             } else {
                 line = batch_line;
                 keepline = true;
