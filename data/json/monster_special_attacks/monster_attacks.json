@@ -120,6 +120,7 @@
     "move_cost": 400,
     "cooldown": 20,
     "damage_max_instance": [ { "damage_type": "bash", "amount": 30 } ],
+    "body_parts": [ [ "torso", 3 ], [ "leg_r", 1 ], [ "leg_l", 1 ], [ "arm_r", 1 ], [ "arm_l", 1 ] ],
     "throw_strength": 100,
     "hit_dmg_u": "The %s takes a powerful swing at your %2$s, pulverizing it!",
     "hit_dmg_npc": "The %s takes a powerful swing at <npcname>'s %2$s!",
