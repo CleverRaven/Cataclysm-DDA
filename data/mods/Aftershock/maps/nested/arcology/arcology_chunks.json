@@ -31,7 +31,7 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "palettes": [ "afs_arcology_tbd" ]
+      "palettes": [ "arcology_mall_chunks" ]
     }
   },
   {
@@ -41,10 +41,12 @@
     "//": "Goes to 9x9 arcology stores",
     "object": {
       "mapgensize": [ 2, 2 ],
-      "rows": [ "//",
-                "/ "],
-      "terrain": { "/": [ "t_retractable_gates_locked", "t_retractable_gates_locked", "t_retractable_gates_locked", "t_retractable_gates" ] }
-        }
+      "rows": [
+        "//",
+        "/ "
+      ],
+      "terrain": {
+        "/": [ "t_retractable_gates_locked", "t_retractable_gates_locked", "t_retractable_gates_locked", "t_retractable_gates" ]
       }
     }
   },
@@ -68,9 +70,7 @@
         "| VVV    "
       ],
       "terrain": { " ": "t_floor", "|": "t_wall_p" },
-      "nested": {
-        "1": { "chunks": [ [ "arcology_2x2_gate" ] ] }
-      },
+      "nested": { "1": { "chunks": [ [ "arcology_2x2_gate" ] ] } },
       "furniture": {
         "?": "f_console_broken",
         "L": "f_table",
@@ -289,21 +289,20 @@
   {
     "type": "mapgen",
     "method": "json",
-    "//": "designed for 9x9 electronics shop.",
-    "nested_mapgen_id": "city_block_9x9_electronics_shop_front",
+    "//": "designed for 9x9 electronics shop.  needs aftershocking",
+    "nested_mapgen_id": "arcology_8x8_electronic",
     "object": {
-      "mapgensize": [ 9, 9 ],
+      "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 3 ],
       "rows": [
-        "HHHy yHHH",
-        " ....... ",
-        "V.LL.LL.V",
-        "V.GG.GG.V",
-        "V.BB.BB.V",
-        " .......V",
-        "MMMM?M  y",
-        "    A    ",
-        "y MMMM  Y"
+        "HHHy yHH",
+        " .......",
+        "V.LL.LL.",
+        "V.GG.GG.",
+        "V.BB.BB.",
+        " .......",
+        "MMMM?M  ",
+        "    A   "
       ],
       "terrain": {
         " ": "t_floor",
@@ -342,21 +341,20 @@
   {
     "type": "mapgen",
     "method": "json",
-    "//": "designed for 9x9 pizza shop.",
-    "nested_mapgen_id": "city_block_9x9_pizza_shop_front",
+    "//": "designed for 8x8 pizza shop. Make foodplace shop.",
+    "nested_mapgen_id": "arcology_8x8_foodplace",
     "object": {
-      "mapgensize": [ 9, 9 ],
+      "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 3 ],
       "rows": [
-        "AAAY YMMM",
-        "MMM   AAA",
-        "V ?      ",
-        "B M  R RR",
-        "i G  L LL",
-        "B G  R RR",
-        "s M      ",
-        "F M  R RR",
-        "Q   RLyLL"
+        "AAAY YMM",
+        "MMM   AA",
+        "V ?     ",
+        "B M  R R",
+        "i G  L L",
+        "B G  R R",
+        "s M     ",
+        "Q   RLyL"
       ],
       "terrain": {
         " ": "t_linoleum_gray",

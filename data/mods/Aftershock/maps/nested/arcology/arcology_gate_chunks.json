@@ -76,8 +76,8 @@
     "nested_mapgen_id": "arcology_8x8_gate_w_4",
     "//": "Working Console, open gate",
     "object": {
-      ""mapgensize": [ 8, 8 ],
-"rotation": [ 0, 3 ],": [ 8, 8 ],
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
       "rows": [
         ",,,,,,||",
         ",,,,,,OO",
@@ -105,8 +105,8 @@
     "nested_mapgen_id": "arcology_8x8_gate_w_5",
     "//": "Broken Console, broke gate",
     "object": {
-      ""mapgensize": [ 8, 8 ],
-"rotation": [ 0, 3 ],": [ 8, 8 ],
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
       "rows": [
         ",,,,,,||",
         ",,,,,,.C",
@@ -132,8 +132,8 @@
     "nested_mapgen_id": "arcology_8x8_gate_w_6",
     "//": "Working Console, broken gate",
     "object": {
-      ""mapgensize": [ 8, 8 ],
-"rotation": [ 0, 3 ],": [ 8, 8 ],
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
       "rows": [
         ",,,,,,||",
         ",,,,,,.C",
@@ -168,8 +168,8 @@
     "//": "Working Console, closed gate",
     "//2": "Go back and make interior consoles have their own 1x1 nested chunk for broken and working consoles.",
     "object": {
-      ""mapgensize": [ 8, 8 ],
-"rotation": [ 0, 3 ],": [ 8, 8 ],
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
       "rows": [
         "________",
         "________",
@@ -200,8 +200,8 @@
     "nested_mapgen_id": "arcology_8x8_gate_s_2",
     "//": "Broken Console, closed gate",
     "object": {
-      ""mapgensize": [ 8, 8 ],
-"rotation": [ 0, 3 ],": [ 8, 8 ],
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
       "rows": [
         "________",
         "________",
@@ -222,8 +222,8 @@
     "nested_mapgen_id": "arcology_8x8_gate_s_3",
     "//": "Broken Console, open gate",
     "object": {
-      ""mapgensize": [ 8, 8 ],
-"rotation": [ 0, 3 ],": [ 8, 8 ],
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
       "rows": [
         "________",
         "________",
@@ -244,8 +244,8 @@
     "nested_mapgen_id": "arcology_8x8_gate_s_4",
     "//": "Working Console, open gate",
     "object": {
-      ""mapgensize": [ 8, 8 ],
-"rotation": [ 0, 3 ],": [ 8, 8 ],
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
       "rows": [
         "________",
         "________",
@@ -276,8 +276,8 @@
     "nested_mapgen_id": "arcology_8x8_gate_s_5",
     "//": "Broken Console, broke gate",
     "object": {
-      ""mapgensize": [ 8, 8 ],
-"rotation": [ 0, 3 ],": [ 8, 8 ],
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
       "rows": [
         "________",
         "________",
@@ -306,8 +306,8 @@
     "nested_mapgen_id": "arcology_8x8_gate_s_6",
     "//": "Working Console, broken gate",
     "object": {
-      ""mapgensize": [ 8, 8 ],
-"rotation": [ 0, 3 ],": [ 8, 8 ],
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
       "rows": [
         "________",
         "________",
@@ -345,8 +345,8 @@
     "//": "Working Console, closed gate",
     "//2": "Go back and make interior consoles have their own 1x1 nested chunk for broken and working consoles.",
     "object": {
-      ""mapgensize": [ 8, 8 ],
-"rotation": [ 0, 3 ],": [ 8, 8 ],
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
       "rows": [
         "__||,5,,",
         "__..,,,,",
@@ -377,8 +377,8 @@
     "nested_mapgen_id": "arcology_8x8_gate_e_2",
     "//": "Broken Console, closed gate",
     "object": {
-      ""mapgensize": [ 8, 8 ],
-"rotation": [ 0, 3 ],": [ 8, 8 ],
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
       "rows": [
         "__||,%,,",
         "__..,,,,",
@@ -399,8 +399,8 @@
     "nested_mapgen_id": "arcology_8x8_gate_e_3",
     "//": "Broken Console, open gate",
     "object": {
-      ""mapgensize": [ 8, 8 ],
-"rotation": [ 0, 3 ],": [ 8, 8 ],
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
       "rows": [
         "__||,%,,",
         "__OO,,,,",
@@ -421,8 +421,8 @@
     "nested_mapgen_id": "arcology_8x8_gate_e_4",
     "//": "Working Console, open gate",
     "object": {
-      ""mapgensize": [ 8, 8 ],
-"rotation": [ 0, 3 ],": [ 8, 8 ],
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
       "rows": [
         "__||,5,,",
         "__OO,,,,",
@@ -453,8 +453,8 @@
     "nested_mapgen_id": "arcology_8x8_gate_e_5",
     "//": "Broken Console, broke gate",
     "object": {
-      ""mapgensize": [ 8, 8 ],
-"rotation": [ 0, 3 ],": [ 8, 8 ],
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
       "rows": [
         "__||,%,,",
         "__..,,,,",
@@ -481,8 +481,8 @@
     "nested_mapgen_id": "arcology_8x8_gate_e_6",
     "//": "Working Console, broken gate",
     "object": {
-      ""mapgensize": [ 8, 8 ],
-"rotation": [ 0, 3 ],": [ 8, 8 ],
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
       "rows": [
         "__||,5,,",
         "__..,,,,",
@@ -518,8 +518,8 @@
     "//": "Working Console, closed gate",
     "//2": "Go back and make interior consoles have their own 1x1 nested chunk for broken and working consoles.",
     "object": {
-      ""mapgensize": [ 8, 8 ],
-"rotation": [ 0, 3 ],": [ 8, 8 ],
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
       "rows": [
         ",,,,,,,,",
         "5,,,,,,,",
@@ -548,8 +548,8 @@
     "nested_mapgen_id": "arcology_8x8_gate_n_2",
     "//": "Broken Console, closed gate",
     "object": {
-      ""mapgensize": [ 8, 8 ],
-"rotation": [ 0, 3 ],": [ 8, 8 ],
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
       "rows": [
         ",,,,,,,,",
         "%,,,,,,,",
@@ -570,8 +570,8 @@
     "nested_mapgen_id": "arcology_8x8_gate_n_3",
     "//": "Broken Console, open gate",
     "object": {
-      ""mapgensize": [ 8, 8 ],
-"rotation": [ 0, 3 ],": [ 8, 8 ],
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
       "rows": [
         ",,,,,,,,",
         "%,,,,,,,",
@@ -592,8 +592,8 @@
     "nested_mapgen_id": "arcology_8x8_gate_n_4",
     "//": "Working Console, open gate",
     "object": {
-      ""mapgensize": [ 8, 8 ],
-"rotation": [ 0, 3 ],": [ 8, 8 ],
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
       "rows": [
         ",,,,,,,,",
         "5,,,,,,,",
@@ -622,8 +622,8 @@
     "nested_mapgen_id": "arcology_8x8_gate_n_5",
     "//": "Broken Console, broke gate",
     "object": {
-      ""mapgensize": [ 8, 8 ],
-"rotation": [ 0, 3 ],": [ 8, 8 ],
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
       "rows": [
         ",,,,,,,,",
         "%,,,,,,,",
