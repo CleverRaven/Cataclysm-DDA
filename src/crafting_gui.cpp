@@ -685,10 +685,10 @@ const recipe *select_crafting_recipe( int &batch_size_out )
         if( recalc ) {
             // When we switch tabs, redraw the header
             recalc = false;
-            if( !keepline ) {
-                line = 0;
-            } else {
-                keepline = false;
+            const recipe *prev_rcp = nullptr;
+            if( keepline && line >= 0
+                && static_cast<size_t>( line ) < current.size() ) {
+                prev_rcp = current[line];
             }
 
             show_hidden = false;
@@ -868,13 +868,20 @@ const recipe *select_crafting_recipe( int &batch_size_out )
                 } );
             }
 
-            // current/available have been rebuilt, make sure our cursor is still in range
-            if( current.empty() ) {
-                line = 0;
-            } else {
-                line = std::min( line, static_cast<int>( current.size() ) - 1 );
+            line = 0;
+            if( keepline && prev_rcp ) {
+                // point to previously selected recipe
+                int rcp_idx = 0;
+                for( const recipe *const rcp : current ) {
+                    if( rcp == prev_rcp ) {
+                        line = rcp_idx;
+                        break;
+                    }
+                    ++rcp_idx;
+                }
             }
         }
+        keepline = false;
 
         if( highlight_unread_recipes && !current.empty() && user_moved_line ) {
             // only automatically mark as read when moving cursor up or down by
@@ -1118,18 +1125,25 @@ const recipe *select_crafting_recipe( int &batch_size_out )
                 uistate.read_recipes.insert( chosen->ident() );
                 recalc_unread = highlight_unread_recipes;
             } else {
-                line = batch_line;
                 keepline = true;
             }
             recalc = true;
         } else if( action == "TOGGLE_FAVORITE" ) {
             keepline = true;
+            recalc = filterstring.empty() && subtab.cur() == "CSC_*_FAVORITE";
             if( current.empty() ) {
                 popup( _( "Nothing selected!  Press [<color_yellow>ESC</color>]!" ) );
                 continue;
             }
             if( uistate.favorite_recipes.find( current[line]->ident() ) != uistate.favorite_recipes.end() ) {
                 uistate.favorite_recipes.erase( current[line]->ident() );
+                if( recalc ) {
+                    if( static_cast<size_t>( line + 1 ) < current.size() ) {
+                        line++;
+                    } else {
+                        line--;
+                    }
+                }
             } else {
                 uistate.favorite_recipes.insert( current[line]->ident() );
             }
@@ -1148,6 +1162,12 @@ const recipe *select_crafting_recipe( int &batch_size_out )
 
             recalc = true;
             recalc_unread = highlight_unread_recipes;
+            keepline = true;
+            if( static_cast<size_t>( line + 1 ) < current.size() ) {
+                line++;;
+            } else {
+                line--;
+            }
         } else if( action == "TOGGLE_RECIPE_UNREAD" ) {
             if( current.empty() ) {
                 continue;
@@ -1196,6 +1216,7 @@ const recipe *select_crafting_recipe( int &batch_size_out )
         } else if( action == "TOGGLE_UNREAD_RECIPES_FIRST" ) {
             unread_recipes_first = !unread_recipes_first;
             recalc = true;
+            keepline = true;
         } else if( action == "RELATED_RECIPES" ) {
             if( current.empty() ) {
                 popup( _( "Nothing selected!  Press [<color_yellow>ESC</color>]!" ) );
