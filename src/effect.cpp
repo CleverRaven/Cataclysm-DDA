@@ -839,7 +839,7 @@ void effect::set_duration( const time_duration &dur, bool alert )
     }
 
     add_msg_debug( debugmode::DF_EFFECT, "ID: %s, Duration %s", get_id().c_str(),
-                   to_string( duration ) );
+                   to_string_writable( duration ) );
 }
 void effect::mod_duration( const time_duration &dur, bool alert )
 {
