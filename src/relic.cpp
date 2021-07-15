@@ -60,6 +60,7 @@ std::string enum_to_string<relic_recharge>( relic_recharge type )
         case relic_recharge::none: return "none";
         case relic_recharge::periodic: return "periodic";
         case relic_recharge::solar_sunny: return "solar_sunny";
+        case relic_recharge::worn: return "worn";
         case relic_recharge::num: break;
     }
     // *INDENT-ON*
@@ -441,6 +442,12 @@ void relic::try_recharge( item &parent, Character *carrier, const tripoint &pos 
         case relic_recharge::solar_sunny: {
             if( can_recharge_solar( parent, carrier, pos ) &&
                 get_weather().weather_id->light_modifier >= 0 ) {
+                charge.accumulate_charge( parent );
+            }
+            return;
+        }
+        case relic_recharge::worn: {
+            if( carrier->is_worn( parent ) || carrier->is_wielding( parent ) ) {
                 charge.accumulate_charge( parent );
             }
             return;

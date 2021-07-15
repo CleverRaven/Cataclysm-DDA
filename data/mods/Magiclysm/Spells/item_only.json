@@ -51,7 +51,7 @@
     "extra_effects": [ { "id": "light_healing" }, { "id": "pain_damage" }, { "id": "stamina_damage" }, { "id": "stamina_damage" } ]
   },
   {
-    "id": "conj_throwing_blade1",
+    "id": "conj_throwing_blade3",
     "type": "SPELL",
     "name": "Conjure Throwing Blade I",
     "description": "conjures 3 throwing knives",
@@ -67,6 +67,25 @@
     "min_duration": 1500,
     "max_duration": 1500,
     "base_casting_time": 20
+  },
+  {
+    "id": "conj_mag_throw_blade1",
+    "type": "SPELL",
+    "//": "In future summoned knives will give temp buff to throwing skill",
+    "name": "Conjure Magical Throwing Blade I",
+    "description": "conjures 1 magical throwing knife",
+    "valid_targets": [ "self" ],
+    "effect": "spawn_item",
+    "effect_str": "magical_throwing_knife",
+    "shape": "blast",
+    "message": "You activate your bag and a throwing knife appears, ready to throw!",
+    "spell_class": "NONE",
+    "max_level": 1,
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_duration": 700,
+    "max_duration": 700,
+    "base_casting_time": 30
   },
   {
     "id": "potion_recover_mana",
