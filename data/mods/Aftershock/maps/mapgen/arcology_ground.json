@@ -37,8 +37,8 @@
       ],
       "palettes": [ "arcology_exterior" ],
       "nested": { "1": { "chunks": [ [ "arcology_8x8_foodplace", 20 ], [ "arcology_8x8_electronic", 20 ] ] } },
-      "place_loot": [ { "group": "TBD", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
-      "place_monsters": [ { "monster": "AFS_GROUP_ARCOLOGY_EXTERIOR", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
+      "place_loot": [ { "group": "office_mess", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
+      "place_monsters": [ { "monster": "AFS_GROUP_AFS_GROUP_ROBOT_LOW_RISK_EXTERIOR", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
     }
   },
   {
@@ -76,8 +76,8 @@
       ],
       "palettes": [ "arcology_exterior" ],
       "nested": { "1": { "chunks": [ [ "room_10x10_junk_S", 20 ], [ "room_10x10_junk_N", 20 ] ] } },
-      "place_loot": [ { "group": "TBD", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
-      "place_monsters": [ { "monster": "AFS_GROUP_ARCOLOGY_EXTERIOR", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
+      "place_loot": [ { "group": "office_mess", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
+      "place_monsters": [ { "monster": "AFS_GROUP_AFS_GROUP_ROBOT_LOW_RISK_EXTERIOR", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
     }
   },
   {
@@ -129,8 +129,8 @@
           ]
         }
       },
-      "place_loot": [ { "group": "TBD", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
-      "place_monsters": [ { "monster": "AFS_GROUP_ARCOLOGY_EXTERIOR", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
+      "place_loot": [ { "group": "office_mess", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
+      "place_monsters": [ { "monster": "AFS_GROUP_AFS_GROUP_ROBOT_LOW_RISK_EXTERIOR", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
     }
   },
   {
@@ -171,8 +171,8 @@
         "1": { "chunks": [ [ "arcology_8x8_electronic", 20 ], [ "arcology_8x8_foodplace", 20 ] ] },
         "2": { "chunks": [ [ "lab_spawn_7x7", 20 ], [ "lab_spawn_7x7_crossdoors", 20 ] ] }
       },
-      "place_loot": [ { "group": "TBD", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
-      "place_monsters": [ { "monster": "AFS_GROUP_ARCOLOGY_EXTERIOR", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
+      "place_loot": [ { "group": "office_mess", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
+      "place_monsters": [ { "monster": "AFS_GROUP_AFS_GROUP_ROBOT_LOW_RISK_EXTERIOR", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
     }
   },
   {
@@ -210,8 +210,8 @@
       ],
       "palettes": [ "arcology_exterior" ],
       "nested": { "1": { "chunks": [ [ "arcology_24x24_s", 20 ], [ "arcology_24x24_s", 20 ] ] } },
-      "place_loot": [ { "group": "TBD", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
-      "place_monsters": [ { "monster": "AFS_GROUP_ARCOLOGY_EXTERIOR", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
+      "place_loot": [ { "group": "office_mess", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
+      "place_monsters": [ { "monster": "AFS_GROUP_AFS_GROUP_ROBOT_LOW_RISK_EXTERIOR", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
     }
   },
   {
@@ -262,8 +262,8 @@
           ]
         }
       },
-      "place_loot": [ { "group": "TBD", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
-      "place_monsters": [ { "monster": "AFS_GROUP_ARCOLOGY_EXTERIOR", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
+      "place_loot": [ { "group": "office_mess", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
+      "place_monsters": [ { "monster": "AFS_GROUP_AFS_GROUP_ROBOT_LOW_RISK_EXTERIOR", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
     }
   },
   {
@@ -305,8 +305,8 @@
         "2": { "chunks": [ [ "arcology_9x9_candy_shop", 20 ], [ "city_block_9x9_beauty_shop", 20 ], [ "arcology_9x9_vitamin_shop", 20 ] ] },
         "3": { "chunks": [ [ "lab_spawn_7x7", 20 ], [ "lab_spawn_7x7_crossdoors", 20 ] ] }
       },
-      "place_loot": [ { "group": "TBD", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
-      "place_monsters": [ { "monster": "AFS_GROUP_ARCOLOGY_EXTERIOR", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
+      "place_loot": [ { "group": "office_mess", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
+      "place_monsters": [ { "monster": "AFS_GROUP_AFS_GROUP_ROBOT_LOW_RISK_EXTERIOR", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
     }
   },
   {
@@ -344,8 +344,8 @@
       ],
       "palettes": [ "arcology_exterior" ],
       "nested": { "1": { "chunks": [ [ "workoutroom_12x12", 20 ], [ "tvroom_12x12", 20 ] ] } },
-      "place_loot": [ { "group": "TBD", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
-      "place_monsters": [ { "monster": "AFS_GROUP_ARCOLOGY_EXTERIOR", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
+      "place_loot": [ { "group": "office_mess", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
+      "place_monsters": [ { "monster": "AFS_GROUP_AFS_GROUP_ROBOT_LOW_RISK_EXTERIOR", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
     }
   },
   {
@@ -383,8 +383,8 @@
       ],
       "palettes": [ "arcology_exterior" ],
       "nested": { "1": { "chunks": [ [ "lab_spawn_7x7", 20 ], [ "lab_spawn_7x7_crossdoors", 20 ] ] } },
-      "place_loot": [ { "group": "TBD", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
-      "place_monsters": [ { "monster": "AFS_GROUP_ARCOLOGY_EXTERIOR", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
+      "place_loot": [ { "group": "office_mess", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
+      "place_monsters": [ { "monster": "AFS_GROUP_AFS_GROUP_ROBOT_LOW_RISK_EXTERIOR", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
     }
   },
   {
@@ -425,8 +425,8 @@
         "1": { "chunks": [ [ "arcology_8x8_foodplace", 20 ], [ "arcology_8x8_electronic", 20 ] ] },
         "2": { "chunks": [ [ "room_10x10_junk_S", 20 ], [ "room_10x10_junk_N", 20 ] ] }
       },
-      "place_loot": [ { "group": "TBD", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
-      "place_monsters": [ { "monster": "AFS_GROUP_ARCOLOGY_EXTERIOR", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
+      "place_loot": [ { "group": "office_mess", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
+      "place_monsters": [ { "monster": "AFS_GROUP_AFS_GROUP_ROBOT_LOW_RISK_EXTERIOR", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
     }
   },
   {
@@ -477,8 +477,8 @@
           ]
         }
       },
-      "place_loot": [ { "group": "TBD", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
-      "place_monsters": [ { "monster": "AFS_GROUP_ARCOLOGY_EXTERIOR", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
+      "place_loot": [ { "group": "office_mess", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
+      "place_monsters": [ { "monster": "AFS_GROUP_AFS_GROUP_ROBOT_LOW_RISK_EXTERIOR", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
     }
   },
   {
@@ -516,8 +516,8 @@
       ],
       "palettes": [ "arcology_exterior" ],
       "nested": { "1": { "chunks": [ [ "arcology_24x24_s", 20 ], [ "arcology_24x24_s", 20 ] ] } },
-      "place_loot": [ { "group": "TBD", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
-      "place_monsters": [ { "monster": "AFS_GROUP_ARCOLOGY_EXTERIOR", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
+      "place_loot": [ { "group": "office_mess", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
+      "place_monsters": [ { "monster": "AFS_GROUP_AFS_GROUP_ROBOT_LOW_RISK_EXTERIOR", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
     }
   },
   {
@@ -553,8 +553,8 @@
         "________________________",
         "________________________"
       ],
-      "place_loot": [ { "group": "TBD", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
-      "place_monsters": [ { "monster": "AFS_GROUP_ARCOLOGY_INTERIOR", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
+      "place_loot": [ { "group": "office_mess", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
+      "place_monsters": [ { "monster": "AFS_GROUP_AFS_GROUP_ROBOT_LOW_RISK_INTERIOR", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
     }
   },
   {
@@ -590,8 +590,8 @@
         "________________________",
         "________________________"
       ],
-      "place_loot": [ { "group": "TBD", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
-      "place_monsters": [ { "monster": "AFS_GROUP_ARCOLOGY_INTERIOR", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
+      "place_loot": [ { "group": "office_mess", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
+      "place_monsters": [ { "monster": "AFS_GROUP_AFS_GROUP_ROBOT_LOW_RISK_INTERIOR", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
     }
   },
   {
@@ -627,8 +627,8 @@
         "________________________",
         "________________________"
       ],
-      "place_loot": [ { "group": "TBD", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
-      "place_monsters": [ { "monster": "AFS_GROUP_ARCOLOGY_INTERIOR", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
+      "place_loot": [ { "group": "office_mess", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
+      "place_monsters": [ { "monster": "AFS_GROUP_AFS_GROUP_ROBOT_LOW_RISK_INTERIOR", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
     }
   },
   {
@@ -664,8 +664,8 @@
         "________________________",
         "________________________"
       ],
-      "place_loot": [ { "group": "TBD", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
-      "place_monsters": [ { "monster": "AFS_GROUP_ARCOLOGY_INTERIOR", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
+      "place_loot": [ { "group": "office_mess", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
+      "place_monsters": [ { "monster": "AFS_GROUP_AFS_GROUP_ROBOT_LOW_RISK_INTERIOR", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
     }
   },
   {
@@ -701,8 +701,8 @@
         "________________________",
         "________________________"
       ],
-      "place_loot": [ { "group": "TBD", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
-      "place_monsters": [ { "monster": "AFS_GROUP_ARCOLOGY_INTERIOR", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
+      "place_loot": [ { "group": "office_mess", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
+      "place_monsters": [ { "monster": "AFS_GROUP_AFS_GROUP_ROBOT_LOW_RISK_INTERIOR", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
     }
   },
   {
@@ -738,8 +738,8 @@
         "________________________",
         "________________________"
       ],
-      "place_loot": [ { "group": "TBD", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
-      "place_monsters": [ { "monster": "AFS_GROUP_ARCOLOGY_INTERIOR", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
+      "place_loot": [ { "group": "office_mess", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
+      "place_monsters": [ { "monster": "AFS_GROUP_AFS_GROUP_ROBOT_LOW_RISK_INTERIOR", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
     }
   },
   {
@@ -775,8 +775,8 @@
         "________________________",
         "________________________"
       ],
-      "place_loot": [ { "group": "TBD", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
-      "place_monsters": [ { "monster": "AFS_GROUP_ARCOLOGY_INTERIOR", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
+      "place_loot": [ { "group": "office_mess", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
+      "place_monsters": [ { "monster": "AFS_GROUP_AFS_GROUP_ROBOT_LOW_RISK_INTERIOR", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
     }
   },
   {
@@ -812,8 +812,8 @@
         "________________________",
         "________________________"
       ],
-      "place_loot": [ { "group": "TBD", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
-      "place_monsters": [ { "monster": "AFS_GROUP_ARCOLOGY_INTERIOR", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
+      "place_loot": [ { "group": "office_mess", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
+      "place_monsters": [ { "monster": "AFS_GROUP_AFS_GROUP_ROBOT_LOW_RISK_INTERIOR", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
     }
   },
   {
@@ -849,8 +849,8 @@
         "________________________",
         "________________________"
       ],
-      "place_loot": [ { "group": "TBD", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
-      "place_monsters": [ { "monster": "AFS_GROUP_ARCOLOGY_INTERIOR", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
+      "place_loot": [ { "group": "office_mess", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
+      "place_monsters": [ { "monster": "AFS_GROUP_AFS_GROUP_ROBOT_LOW_RISK_INTERIOR", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
     }
   }
 ]
