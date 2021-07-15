@@ -8,6 +8,7 @@
     "//2": "There 19 rows vertically and 16 horizontally inside the walls this tile. This will house 2 8x8 nested chunks.",
     "//3": "Once dev master becomes 0.F experimental convert reinforced glass to whatever glass we are using for prepnet orchard.",
     "object": {
+      "fill_ter": "t_thconc_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -46,6 +47,7 @@
     "om_terrain": [ "arcology_exterior_w_side_robots", "arcology_exterior_w_side_uplifts" ],
     "weight": 100,
     "object": {
+      "fill_ter": "t_thconc_floor",
       "rows": [
         ",,,,,,óó________________",
         ",,,,,,||1_______________",
@@ -85,6 +87,7 @@
     "weight": 100,
     "//": "Turn gate into a 8x8 nested chunk that can be a closed gate working console, closed gate broken console, broken gate working console, broken gate broken console, open gate working console, open gate broken console.",
     "object": {
+      "fill_ter": "t_thconc_floor",
       "rows": [
         ",,,,,,||________________",
         ",,,,,,||1_______________",
@@ -136,6 +139,7 @@
     "om_terrain": [ "arcology_exterior_sw_corner_robots", "arcology_exterior_sw_corner_uplifts" ],
     "weight": 100,
     "object": {
+      "fill_ter": "t_thconc_floor",
       "rows": [
         ",,,,,,||________________",
         ",,,,,,||1_______________",
@@ -177,6 +181,7 @@
     "om_terrain": [ "arcology_exterior_s_side_robots", "arcology_exterior_s_side_uplifts" ],
     "weight": 100,
     "object": {
+      "fill_ter": "t_thconc_floor",
       "rows": [
         "1_______________________",
         "________________________",
@@ -215,6 +220,7 @@
     "om_terrain": [ "arcology_exterior_s_side_entrance_robots", "arcology_exterior_s_side_entrance_uplifts" ],
     "weight": 100,
     "object": {
+      "fill_ter": "t_thconc_floor",
       "rows": [
         "2_____________2_________",
         "________________________",
@@ -266,6 +272,7 @@
     "om_terrain": [ "arcology_exterior_se_corner_robots", "arcology_exterior_se_corner_uplifts" ],
     "weight": 100,
     "object": {
+      "fill_ter": "t_thconc_floor",
       "rows": [
         "________________||,,,,,,",
         "________1_______||,,,,,,",
@@ -308,6 +315,7 @@
     "om_terrain": [ "arcology_exterior_e_side_robots", "arcology_exterior_e_side_uplifts" ],
     "weight": 100,
     "object": {
+      "fill_ter": "t_thconc_floor",
       "rows": [
         "____1___________óó,,,,,,",
         "________________||,,,,,,",
@@ -346,6 +354,7 @@
     "om_terrain": [ "arcology_exterior_e_side_entrance_robots", "arcology_exterior_e_side_entrance_uplifts" ],
     "weight": 100,
     "object": {
+      "fill_ter": "t_thconc_floor",
       "rows": [
         "________________óó,,,,,,",
         "_________1______||,,,,,,",
@@ -384,6 +393,7 @@
     "om_terrain": [ "arcology_exterior_ne_corner_robots", "arcology_exterior_ne_corner_uplifts" ],
     "weight": 100,
     "object": {
+      "fill_ter": "t_thconc_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -425,6 +435,7 @@
     "om_terrain": [ "arcology_exterior_n_entrance_robots", "arcology_exterior_n_entrance_uplifts" ],
     "weight": 100,
     "object": {
+      "fill_ter": "t_thconc_floor",
       "rows": [
         ",,,,,,,,3,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -476,6 +487,7 @@
     "om_terrain": [ "arcology_exterior_n_side_robots", "arcology_exterior_n_side_uplifts" ],
     "weight": 100,
     "object": {
+      "fill_ter": "t_thconc_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -514,6 +526,7 @@
     "om_terrain": [ "arcology_interior_ne_corner_robots", "arcology_interior_ne_corner_uplifts" ],
     "weight": 100,
     "object": {
+      "fill_ter": "t_thconc_floor",
       "rows": [
         "________________________",
         "________________________",
@@ -550,6 +563,7 @@
     "om_terrain": [ "arcology_interior_n_side_robots", "arcology_interior_n_side_uplifts" ],
     "weight": 100,
     "object": {
+      "fill_ter": "t_thconc_floor",
       "rows": [
         "________________________",
         "________________________",
@@ -586,6 +600,7 @@
     "om_terrain": [ "arcology_interior_nw_corner_robots", "arcology_interior_nw_corner_uplifts" ],
     "weight": 100,
     "object": {
+      "fill_ter": "t_thconc_floor",
       "rows": [
         "________________________",
         "________________________",
@@ -622,6 +637,7 @@
     "om_terrain": [ "arcology_interior_w_side_robots", "arcology_interior_w_side_uplifts" ],
     "weight": 100,
     "object": {
+      "fill_ter": "t_thconc_floor",
       "rows": [
         "________________________",
         "________________________",
@@ -658,6 +674,7 @@
     "om_terrain": [ "arcology_interior_sw_corner_robots", "arcology_interior_sw_corner_uplifts" ],
     "weight": 100,
     "object": {
+      "fill_ter": "t_thconc_floor",
       "rows": [
         "________________________",
         "________________________",
@@ -694,6 +711,7 @@
     "om_terrain": [ "arcology_interior_s_side_robots", "arcology_interior_s_side_uplifts" ],
     "weight": 100,
     "object": {
+      "fill_ter": "t_thconc_floor",
       "rows": [
         "________________________",
         "________________________",
@@ -730,6 +748,7 @@
     "om_terrain": [ "arcology_interior_se_corner_robots", "arcology_interior_se_corner_uplifts" ],
     "weight": 100,
     "object": {
+      "fill_ter": "t_thconc_floor",
       "rows": [
         "________________________",
         "________________________",
@@ -766,6 +785,7 @@
     "om_terrain": [ "arcology_interior_e_side_robots", "arcology_interior_e_side_uplifts" ],
     "weight": 100,
     "object": {
+      "fill_ter": "t_thconc_floor",
       "rows": [
         "________________________",
         "________________________",
@@ -802,6 +822,7 @@
     "om_terrain": [ "arcology_interior_center_robots", "arcology_interior_center_uplifts" ],
     "weight": 100,
     "object": {
+      "fill_ter": "t_thconc_floor",
       "rows": [
         "________________________",
         "________________________",
