@@ -3455,17 +3455,17 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
             }
 
             // ammo is inside some sort of a container
-            if (parent != nullptr && parent->is_container()) {
-                for (const ammotype& at : ammo) {
-                    if (node->ammo_type() == at) {
-                        out = item_location(item_location(src, parent), node);
+            if( parent != nullptr && parent->is_container() ) {
+                for( const ammotype &at : ammo ) {
+                    if( node->ammo_type() == at ) {
+                        out = item_location( item_location( src, parent ), node );
                     }
                 }
-                if (node->is_magazine() &&
-                    (parent == nullptr || node != parent->magazine_current()) &&
-                    node->has_flag(flag_SPEEDLOADER)) {
-                    if (node->ammo_remaining()) {
-                        out = item_location(item_location(src, parent), node);
+                if( node->is_magazine() &&
+                    ( parent == nullptr || node != parent->magazine_current() ) &&
+                    node->has_flag( flag_SPEEDLOADER ) ) {
+                    if( node->ammo_remaining() ) {
+                        out = item_location( item_location( src, parent ), node );
                     }
                 }
                 return VisitResponse::NEXT;
@@ -3492,10 +3492,10 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
 
         src.visit_items( [&src, &nested, &out, mags, empty]( item * node, item * parent ) {
             // magazine is inside some sort of a container
-            if (node->is_magazine() &&
-                (parent != nullptr && node != parent->magazine_current() && parent->is_container())) {
-                if (mags.count(node->typeId()) && (node->ammo_remaining() || empty)) {
-                    out = item_location(item_location(src, parent), node);
+            if( node->is_magazine() &&
+                ( parent != nullptr && node != parent->magazine_current() && parent->is_container() ) ) {
+                if( mags.count( node->typeId() ) && ( node->ammo_remaining() || empty ) ) {
+                    out = item_location( item_location( src, parent ), node );
                 }
                 return VisitResponse::SKIP;
             }
