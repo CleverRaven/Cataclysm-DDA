@@ -5374,7 +5374,7 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
     if( needs_smashing ) {
         veh->smash( *this );
     }
-
+    veh->refresh();
     return veh;
 }
 
