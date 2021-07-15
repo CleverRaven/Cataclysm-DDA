@@ -487,6 +487,12 @@
     "//": "Designates a food that is usually undesirable but gives a morale bonus to characters with predator mutations."
   },
   {
+    "id": "PRESERVE_SPAWN_OMT",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "//": "This item will store the OMT it spawned in in the 'spawn_location_omt' var"
+  },
+  {
     "id": "STAB",
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ]
