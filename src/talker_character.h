@@ -39,6 +39,12 @@ class talker_character: public talker
         player *get_character() const override {
             return me_chr;
         }
+        Creature *get_creature() override {
+            return me_chr;
+        }
+        Creature *get_creature() const override {
+            return me_chr;
+        }
         // identity and location
         std::string disp_name() const override;
         character_id getID() const override;
