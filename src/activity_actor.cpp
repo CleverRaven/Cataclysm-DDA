@@ -1186,7 +1186,8 @@ void lockpick_activity_actor::start( player_activity &act, Character & )
     act.moves_total = moves_total;
 
     const time_duration lockpicking_time = time_duration::from_moves( moves_total );
-    add_msg_debug( debugmode::DF_ACT_LOCKPICK, "lockpicking time = %s", to_string( lockpicking_time ) );
+    add_msg_debug( debugmode::DF_ACT_LOCKPICK, "lockpicking time = %s",
+                   to_string_writable( lockpicking_time ) );
 }
 
 void lockpick_activity_actor::finish( player_activity &act, Character &who )
@@ -1275,8 +1276,7 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
     int lock_roll = rng( 0, 4 ) + rng( 0, 4 ) + rng( 0, 4 );
 
     add_msg_debug( debugmode::DF_ACT_LOCKPICK, "Rolled %i. Mean_roll %g. Difficulty %i.",
-                   pick_roll,
-                   mean_roll, lock_roll );
+                   pick_roll, mean_roll, lock_roll );
 
     // Your base skill XP gain is derived from the lock difficulty (which is currently random but shouldn't be).
     int xp_gain = 3 * lock_roll;
@@ -2816,7 +2816,8 @@ void shearing_activity_actor::start( player_activity &act, Character &who )
     }
 
     const time_duration shearing_time = 30_minutes / shearing_quality;
-    add_msg_debug( debugmode::DF_ACT_SHEARING, "shearing_time time = %s", to_string( shearing_time ) );
+    add_msg_debug( debugmode::DF_ACT_SHEARING, "shearing_time time = %s",
+                   to_string_writable( shearing_time ) );
 
     if( who.is_player() ) {
         add_msg( m_info,

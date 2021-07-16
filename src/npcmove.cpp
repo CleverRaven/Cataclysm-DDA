@@ -4203,7 +4203,8 @@ void npc::go_to_omt_destination()
         }
     }
     path = here.route( pos(), centre_sub, get_pathfinding_settings(), get_path_avoid() );
-    add_msg_debug( debugmode::DF_NPC, "%s going %s->%s", name, omt_pos.to_string(), goal.to_string() );
+    add_msg_debug( debugmode::DF_NPC, "%s going %s->%s", name, omt_pos.to_string_writable(),
+                   goal.to_string_writable() );
 
     if( !path.empty() ) {
         move_to_next();
