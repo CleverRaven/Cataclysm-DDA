@@ -348,6 +348,10 @@ void spell_type::load( const JsonObject &jo, const std::string & )
     for( const JsonMember member : jo.get_object( "learn_spells" ) ) {
         learn_spells.insert( std::pair<std::string, int>( member.name(), member.get_int() ) );
     }
+
+    for( JsonValue jv : jo.get_array( "effect_on_conditions" ) ) {
+        effect_on_conditions.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+    }
 }
 
 void spell_type::serialize( JsonOut &json ) const
@@ -419,6 +423,8 @@ void spell_type::serialize( JsonOut &json ) const
     json.member( "base_casting_time", base_casting_time, base_casting_time_default );
     json.member( "final_casting_time", final_casting_time, base_casting_time );
     json.member( "casting_time_increment", casting_time_increment, casting_time_increment_default );
+    json.member( "effect_on_conditions", effect_on_conditions, std::vector<effect_on_condition_id> {} );
+
     if( !learn_spells.empty() ) {
         json.member( "learn_spells" );
         json.start_object();
@@ -1369,6 +1375,11 @@ std::string spell::list_targeted_monster_names() const
 damage_type spell::dmg_type() const
 {
     return type->dmg_type;
+}
+
+std::vector<effect_on_condition_id> spell::effect_on_conditions() const
+{
+    return type->effect_on_conditions;
 }
 
 damage_instance spell::get_damage_instance() const

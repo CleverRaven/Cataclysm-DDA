@@ -2077,7 +2077,7 @@ void talk_effect_fun_t::set_npc_first_topic( const std::string &chat_topic )
     };
 }
 
-void talk_effect_fun_t::set_message( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_message( const JsonObject &jo, const std::string &member, bool is_npc )
 {
     std::string message = jo.get_string( member );
     const bool snippet = jo.get_bool( "snippet", false );
@@ -2110,14 +2110,14 @@ void talk_effect_fun_t::set_message( const JsonObject &jo, const std::string &me
         jo.throw_error( "Invalid message type." );
     }
 
-    function = [message, outdoor_only, sound, snippet, type, popup_msg]( const dialogue & d ) {
+    function = [message, outdoor_only, sound, snippet, type, popup_msg, is_npc]( const dialogue & d ) {
         std::string translated_message;
         if( snippet ) {
             translated_message = SNIPPET.random_from_category( message ).value_or( translation() ).translated();
         } else {
             translated_message = _( message );
         }
-        Character *target = d.alpha->get_character();
+        Character *target = d.actor( is_npc )->get_character();
         if( !target ) {
             return;
         }
@@ -2589,8 +2589,10 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_npc_first_topic( chat_topic );
     } else if( jo.has_string( "sound_effect" ) ) {
         subeffect_fun.set_sound_effect( jo, "sound_effect" );
-    } else if( jo.has_string( "message" ) ) {
-        subeffect_fun.set_message( jo, "message" );
+    } else if( jo.has_string( "u_message" ) ) {
+        subeffect_fun.set_message( jo, "u_message" );
+    } else if( jo.has_string( "npc_message" ) ) {
+        subeffect_fun.set_message( jo, "npc_message", true );
     } else if( jo.has_int( "u_mod_pain" ) ) {
         subeffect_fun.set_mod_pain( jo, "u_mod_pain", false );
     } else if( jo.has_int( "npc_mod_pain" ) ) {
