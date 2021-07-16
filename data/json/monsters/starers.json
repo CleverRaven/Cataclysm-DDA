@@ -42,7 +42,7 @@
   {
     "id": "mon_starer_crowbar",
     "type": "MONSTER",
-    "description": "Burned creature that still reeks of charred flesh.  The flesh has mended into a leathery shell with wide open eyes.  The pupils are dilated and the iris and sclera are bloodshot.  Somehow it still breathes.",
+    "description": "Burned creature that still reeks of charred flesh.  The flesh has mended into a leathery shell with wide open eyes.  The pupils are dilated and the iris and sclera are bloodshot.  Somehow it breathes again, in deep ragged gulps.",
     "copy-from": "mon_starer_pipe",
     "melee_dice": 2,
     "melee_dice_sides": 6,
