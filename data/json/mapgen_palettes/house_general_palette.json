@@ -13,7 +13,7 @@
             [ "t_wall_p", 1 ],
             [ "t_wall_P", 1 ],
             [ "t_wall_r", 1 ],
-            [ "t_wall_w", 5 ],
+            [ "t_wall_w", 6 ],
             [ "t_wall_y", 1 ]
           ]
         }

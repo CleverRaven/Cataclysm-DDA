@@ -896,7 +896,7 @@ class mapgen_value
                 const value_source &o, const std::string &context ) const override {
                 if( const id_source *other = dynamic_cast<const id_source *>( &o ) ) {
                     if( id != other->id ) {
-                        debugmsg( "inconsistent defualt values for %s (%s vs %s)",
+                        debugmsg( "inconsistent default values for %s (%s vs %s)",
                                   context, cata_variant( id ).get_string(),
                                   cata_variant( other->id ).get_string() );
                     }
@@ -951,7 +951,7 @@ class mapgen_value
                 const value_source &o, const std::string &context ) const override {
                 if( const param_source *other = dynamic_cast<const param_source *>( &o ) ) {
                     if( param_name != other->param_name ) {
-                        debugmsg( "inconsistent defualt values for %s (%s vs %s)",
+                        debugmsg( "inconsistent default values for %s (%s vs %s)",
                                   context, param_name, other->param_name );
                     }
                 } else {
@@ -985,7 +985,7 @@ class mapgen_value
                 if( const distribution_source *other =
                         dynamic_cast<const distribution_source *>( &o ) ) {
                     if( list != other->list ) {
-                        debugmsg( "inconsistent defualt value distributions for %s", context );
+                        debugmsg( "inconsistent default value distributions for %s", context );
                     }
                 } else {
                     debugmsg( "inconsistent default types for %s", context );
