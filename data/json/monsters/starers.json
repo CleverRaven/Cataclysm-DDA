@@ -3,7 +3,7 @@
     "id": "mon_starer_pipe",
     "type": "MONSTER",
     "name": { "str": "starer" },
-    "description": "Burned creature that still reeks of charred flesh.  The flesh has mended into a leathery shell with wide open eyes.  The pupils are dilated and the iris and sclera are bloodshot.  Somehow it still breathes.",
+    "description": "Burned creature that still reeks of charred flesh.  The flesh has mended into a leathery shell with wide open eyes.  The pupils are dilated and the iris and sclera are bloodshot.  Somehow it breathes again, in deep ragged gulps.",
     "copy-from": "mon_feral_human_pipe",
     "looks_like": "mon_zombie_scorched",
     "special_attacks": [
