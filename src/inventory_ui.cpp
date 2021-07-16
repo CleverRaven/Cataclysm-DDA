@@ -2285,8 +2285,8 @@ item_location inventory_pick_selector::execute()
 }
 
 inventory_reload_selector::inventory_reload_selector( Character &p, bool &reloadAll,
-        const inventory_selector_preset &preset ) : reloadAll( reloadAll ), inventory_pick_selector( p,
-                    preset )
+        const inventory_selector_preset &preset ) : inventory_pick_selector( p,
+                    preset ), reloadAll( reloadAll )
 {
     ctxt.register_action( "TOGGLE_RELOADALL", to_translation( "Toggle Reload Once/All" ) );
 }

@@ -2374,6 +2374,7 @@ int game::inventory_item_menu( item_location locThisItem,
                     break;
                 case 'F':
                     reload( locThisItem, false, true, true );
+                    break;
                 case 'p':
                     reload( locThisItem, true );
                     break;
