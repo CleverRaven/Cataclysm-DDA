@@ -2243,7 +2243,7 @@ void options_manager::add_options_debug()
 
     add( "ENCODING_CONV", "debug", to_translation( "Experimental path name encoding conversion" ),
          to_translation( "If true, file path names are going to be transcoded from system encoding to UTF-8 when reading and will be transcoded back when writing.  Mainly for CJK Windows users." ),
-         false
+         true
        );
 }
 
