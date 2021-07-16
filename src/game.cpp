@@ -9218,7 +9218,11 @@ void game::reload( item_location &loc, bool prompt, bool empty, bool reloadAll )
     }
 
     if( opt ) {
+        
+        const bool load_once = !reloadAll && it->has_flag(flag_RELOAD_ONE) && !opt.ammo->has_flag(flag_SPEEDLOADER);
+
         int moves = opt.moves();
+        if (load_once) moves /= opt.qty();
         if( it->get_var( "dirt", 0 ) > 7800 ) {
             add_msg( m_warning, _( "You struggle to reload the fouled %s." ), it->tname() );
             moves += 2500;
@@ -9232,7 +9236,7 @@ void game::reload( item_location &loc, bool prompt, bool empty, bool reloadAll )
         }
         targets.push_back( std::move( opt.ammo ) );
 
-        u.assign_activity(player_activity(reload_activity_actor(moves, reloadAll ? (targets[0]->ammo_capacity(targets[1]->ammo_type()) - targets[0]->ammo_remaining()) : opt.qty(), targets)));
+        u.assign_activity(player_activity(reload_activity_actor(moves, load_once ? 1 : opt.qty(), targets)));
     }
 }
 

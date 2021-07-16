@@ -2679,8 +2679,69 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
     }
 }
 
-void reload_activity_actor::canceled( player_activity &act, Character &/*who*/ )
+void reload_activity_actor::canceled( player_activity &act, Character & who )
 {
+    item& reloadable = *reload_targets[0];
+    item& ammo = *reload_targets[1];
+    const bool ammo_uses_speedloader = ammo.has_flag(flag_SPEEDLOADER);
+    const bool reloadable_loads_one = reloadable.has_flag(flag_RELOAD_ONE);
+
+    const int num_loaded = (act.moves_total - act.moves_left) / (act.moves_total / quantity);
+
+    if (can_reload() && ammo_uses_speedloader && reloadable_loads_one && num_loaded > 0) {
+
+
+        
+        const std::string reloadable_name = reloadable.tname();
+        // cache check results because reloading deletes the ammo item
+        const std::string ammo_name = ammo.tname();
+        const bool ammo_is_filthy = ammo.is_filthy();
+
+        if (!reloadable.reload(who, std::move(reload_targets[1]), num_loaded)) {
+            add_msg(m_info, _("Can't reload the %s."), reloadable_name);
+            return;
+        }
+
+        if (ammo_is_filthy) {
+            reloadable.set_flag(flag_FILTHY);
+        }
+
+        if (reloadable.get_var("dirt", 0) > 7800) {
+            add_msg(m_neutral, _("You manage to loosen some debris and make your %s somewhat operational."),
+                reloadable_name);
+            reloadable.set_var("dirt", (reloadable.get_var("dirt", 0) - rng(790, 2750)));
+        }
+
+        add_msg(m_neutral, _("You insert %dx %s into the %s."), num_loaded, ammo_name, reloadable_name);
+        make_reload_sound(who, reloadable);
+        item_location loc = reload_targets[0];
+        // Reload may have caused the item to increase in size more than the pocket/location can contain.
+        // We want to avoid this because items will be deleted on a save/load.
+        if (loc.volume_capacity() < units::volume() ||
+            loc.weight_capacity() < units::mass()) {
+            // In player inventory and player is wielding nothing.
+            if (!who.is_armed() && loc.held_by(who)) {
+                add_msg(m_neutral, _("The %s no longer fits in your inventory so you wield it instead."),
+                    reloadable_name);
+                who.wield(reloadable);
+            }
+            else {
+                // In player inventory and player is wielding something.
+                if (loc.held_by(who)) {
+                    add_msg(m_neutral, _("The %s no longer fits in your inventory so you drop it instead."),
+                        reloadable_name);
+                    // Default handling message.
+                }
+                else {
+                    add_msg(m_neutral, _("The %s no longer fits its location so you drop it instead."),
+                        reloadable_name);
+                }
+                get_map().add_item_or_charges(loc.position(), reloadable);
+                loc.remove_item();
+            }
+        }
+    }
+
     act.moves_total = 0;
     act.moves_left = 0;
 }
