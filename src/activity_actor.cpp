@@ -2369,18 +2369,29 @@ void safecracking_activity_actor::do_turn( player_activity &act, Character &who 
         add_msg_debug( debugmode::DF_ACT_SAFECRACKING, "safecracking time left = %s",
                        to_string_writable( time_duration::from_moves( act.moves_left ) ) );
     }
+
+    /* Split experience gain in 20 parts, each giving 5% of the total*/
+    const int current_step =
+        ( 100 * ( act.moves_total - act.moves_left ) / act.moves_total ) / 5;
+    const int difference = current_step - exp_step ;
+    if( difference > 0 ) {
+        exp_step += difference;
+        if( !who.has_proficiency( proficiency_prof_safecracking ) ) {
+            who.practice_proficiency( proficiency_prof_safecracking, 3_minutes * difference );
+            // player gained the proficiency mid-way through cracking
+            if( who.has_proficiency( proficiency_prof_safecracking ) ) {
+                int new_time = to_moves<int>( safecracking_time( who ) );
+                act.moves_total = act.moves_total > new_time ? new_time : act.moves_total;
+                act.moves_left = act.moves_left > new_time ? new_time : act.moves_left;
+            }
+        }
+    }
 }
 
 void safecracking_activity_actor::finish( player_activity &act, Character &who )
 {
     who.add_msg_if_player( m_good, _( "With a satisfying click, the lock on the safe opens!" ) );
     get_map().furn_set( safe, f_safe_c );
-    if( !who.has_proficiency( proficiency_prof_safecracking ) ) {
-        // proficiency experience is capped at 1000_seconds
-        for( int i = 0; i < 4; ++i ) {
-            who.practice_proficiency( proficiency_prof_safecracking, 15_minutes );
-        }
-    }
     act.set_to_null();
 }
 
@@ -2388,6 +2399,7 @@ void safecracking_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
     jsout.member( "safe", safe );
+    jsout.member( "exp_step", exp_step );
     jsout.end_object();
 }
 
@@ -2397,6 +2409,7 @@ std::unique_ptr<activity_actor> safecracking_activity_actor::deserialize( JsonIn
 
     JsonObject data = jsin.get_object();
     data.read( "safe", actor.safe );
+    data.read( "exp_step", actor.exp_step );
     return actor.clone();
 }
 

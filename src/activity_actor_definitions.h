@@ -811,6 +811,7 @@ class safecracking_activity_actor : public activity_actor
 
     private:
         tripoint safe;
+        int exp_step = 0;
 
         bool can_resume_with_internal( const activity_actor &other,
                                        const Character &/*who*/ ) const override {
