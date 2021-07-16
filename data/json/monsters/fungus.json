@@ -29,7 +29,7 @@
     "special_attacks": [ [ "FUNGUS", 100 ], [ "BOOMER", 20 ], [ "scratch", 20 ] ],
     "death_drops": "default_zombie_items",
     "death_function": { "effect": { "id": "death_fungus", "hit_self": true } },
-    "burn_into": "mon_zombie_scorched",
+    "burn_into": "mon_starer_pipe",
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "PUSH_MON", "FILTHY" ]
   },
   {
@@ -383,7 +383,7 @@
     "harvest": "zombie",
     "special_attacks": [ [ "FUNGUS", 200 ], { "type": "bite", "cooldown": 5 } ],
     "death_drops": "default_zombie_death_drops",
-    "burn_into": "mon_zombie_scorched",
+    "burn_into": "mon_starer_pipe",
     "flags": [ "SEES", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "PUSH_MON", "FILTHY" ]
   },
   {
@@ -486,7 +486,7 @@
     "special_attacks": [ [ "SMASH", 20 ] ],
     "death_drops": "mon_zombie_hulk_death_drops",
     "death_function": { "corpse_type": "NO_CORPSE", "effect": { "id": "death_fungus", "hit_self": true } },
-    "burn_into": "mon_zombie_fiend",
+    "burn_into": "mon_starer_axe",
     "flags": [
       "HEARS",
       "STUMBLES",
@@ -534,7 +534,7 @@
       "groups": [ [ "default_zombie_clothes", 100 ], [ "child_items", 65 ] ],
       "//": "cloth as any other zombie (always), additional items from child_items (sometimes)"
     },
-    "burn_into": "mon_zombie_child_scorched",
+    "burn_into": "mon_starer_crowbar",
     "flags": [ "SEES", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "GUILT", "NO_BREATHE", "FILTHY" ]
   },
   {
