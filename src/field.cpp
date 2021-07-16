@@ -240,6 +240,12 @@ description_affix field::displayed_description_affix() const
     return _displayed_field_type.obj().desc_affix;
 }
 
+int field::displayed_intensity() const
+{
+    auto it = _field_type_list.find( _displayed_field_type );
+    return it->second.get_field_intensity();
+}
+
 int field::total_move_cost() const
 {
     int current_cost = 0;

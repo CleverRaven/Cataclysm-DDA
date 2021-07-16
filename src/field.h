@@ -156,6 +156,11 @@ class field
          */
         field_type_id displayed_field_type() const;
 
+        /**
+         * Returns the intensity of the drawn tile
+         */
+        int displayed_intensity() const;
+
         description_affix displayed_description_affix() const;
 
         //Returns the vector iterator to begin searching through the list.
