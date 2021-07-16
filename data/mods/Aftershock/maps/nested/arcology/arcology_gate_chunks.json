@@ -122,13 +122,12 @@
         ",,,,,,..",
         ",,,,%,||"
       ],
-      "palettes": [ "arcology_exterior" ]
-    },
-    "terrain": { "P": "t_metal_floor", "C": "t_metal_floor", "W": "t_metal_floor" },
-    "items": {
-      "W": [ { "item": "building_rubble", "chance": 80, "repeat": [ 1, 3 ] } ],
-      "C": [ { "item": "wreckage", "chance": 100, "repeat": [ 1, 2 ] } ],
-      "P": [ { "item": "ash", "chance": 80, "repeat": [ 1, 3 ] } ]
+      "terrain": { "P": "t_metal_floor", "C": "t_metal_floor", "W": "t_metal_floor" },
+      "items": {
+        "W": [ { "item": "building_rubble", "chance": 80, "repeat": [ 1, 3 ] } ],
+        "C": [ { "item": "wreckage", "chance": 100, "repeat": [ 1, 2 ] } ],
+        "P": [ { "item": "ash", "chance": 80, "repeat": [ 1, 3 ] } ]
+      }
     }
   },
   {
@@ -188,15 +187,13 @@
         ",,,,,,,,"
       ],
       "palettes": [ "arcology_exterior" ],
-      "nested": {
-        "6": { "chunks": [ [ "arcology_1x1_gate", 50 ], [ "arcology_1x1_gate_broken", 50 ] ] },
-        "computers": {
-          "5": {
-            "name": "South Entrance Gate Controls",
-            "security": 0,
-            "options": [ { "name": "EMERGENCY OVERRIDE - OPEN GATES", "action": "open", "security": 3 } ],
-            "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
-          }
+      "nested": { "6": { "chunks": [ [ "arcology_1x1_gate", 50 ], [ "arcology_1x1_gate_broken", 50 ] ] } },
+      "computers": {
+        "5": {
+          "name": "South Entrance Gate Controls",
+          "security": 0,
+          "options": [ { "name": "EMERGENCY OVERRIDE - OPEN GATES", "action": "open", "security": 3 } ],
+          "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
         }
       }
     }
@@ -268,7 +265,8 @@
       ],
       "palettes": [ "arcology_exterior" ],
       "nested": {
-        "6": { "chunks": [ [ "arcology_1x1_gate", 50 ], [ "arcology_1x1_gate_broken", 50 ] ] },
+        "6": { "chunks": [ [ "arcology_1x1_gate", 50 ], [ "arcology_1x1_gate_broken", 50 ] ] }
+      },
         "computers": {
           "5": {
             "name": "South Entrance Gate Controls",
@@ -278,7 +276,6 @@
           }
         }
       }
-    }
   },
   {
     "type": "mapgen",
@@ -299,15 +296,15 @@
         ",,,,,,,,",
         ",,,,,,,,"
       ],
-      "palettes": [ "arcology_exterior" ]
-    },
-    "nested": {
-      "6": { "chunks": [ [ "arcology_1x1_gate", 50 ], [ "arcology_1x1_gate_broken", 50 ] ] },
-      "terrain": { "P": "t_metal_floor", "C": "t_metal_floor", "W": "t_metal_floor" },
-      "items": {
-        "W": [ { "item": "building_rubble", "chance": 80, "repeat": [ 1, 3 ] } ],
-        "C": [ { "item": "wreckage", "chance": 100, "repeat": [ 1, 2 ] } ],
-        "P": [ { "item": "ash", "chance": 80, "repeat": [ 1, 3 ] } ]
+      "palettes": [ "arcology_exterior" ],
+      "nested": {
+        "6": { "chunks": [ [ "arcology_1x1_gate", 50 ], [ "arcology_1x1_gate_broken", 50 ] ] },
+        "terrain": { "P": "t_metal_floor", "C": "t_metal_floor", "W": "t_metal_floor" },
+        "items": {
+          "W": [ { "item": "building_rubble", "chance": 80, "repeat": [ 1, 3 ] } ],
+          "C": [ { "item": "wreckage", "chance": 100, "repeat": [ 1, 2 ] } ],
+          "P": [ { "item": "ash", "chance": 80, "repeat": [ 1, 3 ] } ]
+    }
       }
     }
   },
@@ -371,15 +368,13 @@
         "_6||,,,,"
       ],
       "palettes": [ "arcology_exterior" ],
-      "nested": {
-        "6": { "chunks": [ [ "arcology_1x1_gate", 50 ], [ "arcology_1x1_gate_broken", 50 ] ] },
-        "computers": {
-          "5": {
-            "name": "East Entrance Gate Controls",
-            "security": 0,
-            "options": [ { "name": "EMERGENCY OVERRIDE - OPEN GATES", "action": "open", "security": 3 } ],
-            "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
-          }
+      "nested": { "6": { "chunks": [ [ "arcology_1x1_gate", 50 ], [ "arcology_1x1_gate_broken", 50 ] ] } },
+      "computers": {
+        "5": {
+          "name": "East Entrance Gate Controls",
+          "security": 0,
+          "options": [ { "name": "EMERGENCY OVERRIDE - OPEN GATES", "action": "open", "security": 3 } ],
+          "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
         }
       }
     }
@@ -450,15 +445,13 @@
         "_6||,,,,"
       ],
       "palettes": [ "arcology_exterior" ],
-      "nested": {
-        "6": { "chunks": [ [ "arcology_1x1_gate", 50 ], [ "arcology_1x1_gate_broken", 50 ] ] },
-        "computers": {
-          "5": {
-            "name": "East Entrance Gate Controls",
-            "security": 0,
-            "options": [ { "name": "EMERGENCY OVERRIDE - OPEN GATES", "action": "open", "security": 3 } ],
-            "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
-          }
+      "nested": { "6": { "chunks": [ [ "arcology_1x1_gate", 50 ], [ "arcology_1x1_gate_broken", 50 ] ] } },
+      "computers": {
+        "5": {
+          "name": "East Entrance Gate Controls",
+          "security": 0,
+          "options": [ { "name": "EMERGENCY OVERRIDE - OPEN GATES", "action": "open", "security": 3 } ],
+          "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
         }
       }
     }
@@ -657,14 +650,14 @@
         "________",
         "________"
       ],
-      "palettes": [ "arcology_exterior" ]
-    },
-    "nested": { "6": { "chunks": [ [ "arcology_1x1_gate", 50 ], [ "arcology_1x1_gate_broken", 50 ] ] } },
-    "terrain": { "P": "t_metal_floor", "C": "t_metal_floor", "W": "t_metal_floor" },
-    "items": {
-      "W": [ { "item": "building_rubble", "chance": 80, "repeat": [ 1, 3 ] } ],
-      "C": [ { "item": "wreckage", "chance": 100, "repeat": [ 1, 2 ] } ],
-      "P": [ { "item": "ash", "chance": 80, "repeat": [ 1, 3 ] } ]
+      "palettes": [ "arcology_exterior" ],
+      "nested": { "6": { "chunks": [ [ "arcology_1x1_gate", 50 ], [ "arcology_1x1_gate_broken", 50 ] ] } },
+      "terrain": { "P": "t_metal_floor", "C": "t_metal_floor", "W": "t_metal_floor" },
+      "items": {
+        "W": [ { "item": "building_rubble", "chance": 80, "repeat": [ 1, 3 ] } ],
+        "C": [ { "item": "wreckage", "chance": 100, "repeat": [ 1, 2 ] } ],
+        "P": [ { "item": "ash", "chance": 80, "repeat": [ 1, 3 ] } ]
+      }
     }
   },
   {
@@ -673,7 +666,6 @@
     "nested_mapgen_id": "arcology_8x8_gate_n_6",
     "//": "Working Console, broken gate",
     "object": {
-      "fill_ter": "t_thconc_floor",
       "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 3 ],
       "rows": [
@@ -686,21 +678,21 @@
         "________",
         "________"
       ],
-      "palettes": [ "arcology_exterior" ]
-    },
-    "nested": { "6": { "chunks": [ [ "arcology_1x1_gate", 50 ], [ "arcology_1x1_gate_broken", 50 ] ] } },
-    "terrain": { "P": "t_metal_floor", "C": "t_metal_floor", "W": "t_metal_floor" },
-    "items": {
-      "W": [ { "item": "building_rubble", "chance": 80, "repeat": [ 1, 3 ] } ],
-      "C": [ { "item": "wreckage", "chance": 100, "repeat": [ 1, 2 ] } ],
-      "P": [ { "item": "ash", "chance": 80, "repeat": [ 1, 3 ] } ]
-    },
-    "computers": {
-      "5": {
-        "name": "North Entrance Gate Controls",
-        "security": 0,
-        "options": [ { "name": "EMERGENCY OVERRIDE - OPEN GATES", "action": "open", "security": 3 } ],
-        "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
+      "palettes": [ "arcology_exterior" ],
+      "nested": { "6": { "chunks": [ [ "arcology_1x1_gate", 50 ], [ "arcology_1x1_gate_broken", 50 ] ] } },
+      "terrain": { "P": "t_metal_floor", "C": "t_metal_floor", "W": "t_metal_floor" },
+      "items": {
+        "W": [ { "item": "building_rubble", "chance": 80, "repeat": [ 1, 3 ] } ],
+        "C": [ { "item": "wreckage", "chance": 100, "repeat": [ 1, 2 ] } ],
+        "P": [ { "item": "ash", "chance": 80, "repeat": [ 1, 3 ] } ]
+      },
+      "computers": {
+        "5": {
+          "name": "North Entrance Gate Controls",
+          "security": 0,
+          "options": [ { "name": "EMERGENCY OVERRIDE - OPEN GATES", "action": "open", "security": 3 } ],
+          "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
+        }
       }
     }
   },

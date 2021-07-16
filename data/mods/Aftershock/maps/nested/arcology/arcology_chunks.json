@@ -35,7 +35,7 @@
         "| VVV    "
       ],
       "terrain": { " ": "t_floor", "|": "t_wall_p" },
-      "nested": { "1": { "chunks": [ [ "arcology_2x2_gate" ] ] } },
+      "nested": { "1": { "chunks": [ "arcology_2x2_gate" ] } },
       "furniture": {
         "?": "f_console_broken",
         "L": "f_table",
