@@ -532,13 +532,14 @@ npc_attack_rating npc_attack_throw::evaluate(
         return effectiveness;
     }
     const int penalty = base_penalty( source );
+    const bool throw_now = thrown_item.has_flag( flag_NPC_THROW_NOW );
     // TODO: Should this be a field to cache the result?
     const bool avoids_friendly_fire = source.rules.has_flag( ally_rule::avoid_friendly_fire );
     for( const tripoint &potential : targetable_points( source ) ) {
 
         // hot potato! HOT POTATO!
         // Calculated for all targetable points, not just those with targets
-        if( thrown_item.has_flag( flag_NPC_THROW_NOW ) ) {
+        if( throw_now ) {
             // TODO: Take into account distance to allies too
             const int distance_to_me = rl_dist( potential, source.pos() );
             int result = npc_attack_constants::base_throw_now + distance_to_me;
@@ -621,20 +622,22 @@ npc_attack_rating npc_attack_throw::evaluate_tripoint(
     const int damage = source.thrown_item_total_damage_raw( single_item );
     float dps = damage / throw_mult;
     const int distance_to_me = rl_dist( location, source.pos() );
-    const float suitable_item_mult = thrown_item.has_flag( flag_NPC_THROWN ) ? 0.4f : -0.15f;
-    const int distance_penalty = clamp( distance_to_me - 3, 0, 5 );
-    const float distance_mult = -distance_penalty * 0.1f;
+    float suitable_item_mult = -0.15f;
+    if( distance_to_me > 1 ) {
+        if( thrown_item.has_flag( flag_NPC_THROWN ) ) {
+            suitable_item_mult = 0.08f * std::min( distance_to_me - 1, 5 );
+        }
+    } else {
+        suitable_item_mult = -0.35f;
+    }
+    //const int distance_penalty = clamp( distance_to_me - 3, 0, 5 );
+    //const float distance_mult = -distance_penalty * 0.1f;
 
-    double potential = dps * ( 1.0 + distance_mult + suitable_item_mult );
+    double potential = dps * ( 1.0 + suitable_item_mult );
     if( potential > 0.0f && critter && damage >= critter->get_hp() ) {
         potential *= npc_attack_constants::kill_modifier;
     }
-    if( !target || !critter ) {
-        // not great to throw here but if we have a grenade...
-        potential = -100;
-        // ... we'd rather throw it farther away from ourselves.
-        potential += distance_to_me;
-    } else if( potential > 0.0f && target->pos() == critter->pos() ) {
+    if( potential > 0.0f && target->pos() == critter->pos() ) {
         potential *= npc_attack_constants::target_modifier;
     }
     return npc_attack_rating( std::round( potential ), location );

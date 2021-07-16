@@ -1293,6 +1293,11 @@ class npc : public player
         const std::shared_ptr<npc_attack> &get_current_attack() const {
             return ai_cache.current_attack;
         }
+
+        const npc_attack_rating &get_current_attack_evaluation() const {
+            return ai_cache.current_attack_evaluation;
+        }
+
         /**
          * Global position, expressed in map square coordinate system
          * (the most detailed coordinate system), used by the @ref map.
