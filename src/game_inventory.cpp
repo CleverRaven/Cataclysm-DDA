@@ -1005,21 +1005,6 @@ class comestible_filtered_inventory_preset : public comestible_inventory_preset
         bool( *predicate )( const item &it );
 };
 
-class fuel_filtered_inventory_preset : public fuel_inventory_preset
-{
-    public:
-        fuel_filtered_inventory_preset( const player &p, bool( *predicate )( const item &it ) ) :
-            fuel_inventory_preset( p ), predicate( predicate ) {}
-
-        bool is_shown( const item_location &loc ) const override {
-            return fuel_inventory_preset::is_shown( loc ) &&
-                   predicate( *loc );
-        }
-
-    private:
-        bool( *predicate )( const item &it );
-};
-
 item_location game_menus::inv::consume_food( player &p )
 {
     Character &player_character = get_player_character();
