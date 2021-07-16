@@ -8038,7 +8038,6 @@ bool item::ammo_sufficient( const Character *carrier, int qty ) const
         return ammo_remaining( carrier ) >= get_gun_ups_drain() * qty;
     }
     return true;
-
 }
 
 int item::ammo_consume( int qty, const tripoint &pos, Character *carrier )

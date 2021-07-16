@@ -8760,7 +8760,23 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
         add_msg_if_player( m_bad, _( "Your %s was broken and won't turn on." ), used->tname() );
         return false;
     }
-    if( !has_enough_charges( *used, true ) ) {
+    if( !used->ammo_sufficient( this ) ) {
+        int ammo_req = used->ammo_required();
+        std::string it_name = used->tname();
+        if( used->has_flag( flag_USE_UPS ) ) {
+            add_msg_if_player( m_info,
+                               ngettext( "Your %s needs %d charge from some UPS.",
+                                         "Your %s needs %d charges from some UPS.",
+                                         ammo_req ),
+                               it_name, ammo_req );
+        } else {
+            int ammo_rem = used->ammo_remaining();
+            add_msg_if_player( m_info,
+                               ngettext( "Your %s has %d charge, but needs %d.",
+                                         "Your %s has %d charges, but needs %d.",
+                                         ammo_rem ),
+                               it_name, ammo_rem, ammo_req );
+        }
         moves = pre_obtain_moves;
         return false;
     }
@@ -8890,33 +8906,6 @@ bool Character::dispose_item( item_location &&obj, const std::string &prompt )
         return opts[menu.ret].action();
     }
     return false;
-}
-
-bool Character::has_enough_charges( const item &it, bool show_msg ) const
-{
-    if( !it.is_tool() || !it.ammo_required() ) {
-        return true;
-    }
-
-    if( it.ammo_sufficient( this ) ) {
-        return true;
-    } else {
-        if( show_msg && it.has_flag( flag_USE_UPS ) ) {
-            add_msg_if_player( m_info,
-                               ngettext( "Your %s needs %d charge from some UPS.",
-                                         "Your %s needs %d charges from some UPS.",
-                                         it.ammo_required() ),
-                               it.tname(), it.ammo_required() );
-        } else if( show_msg ) {
-            add_msg_if_player( m_info,
-                               ngettext( "Your %s has %d charge, but needs %d.",
-                                         "Your %s has %d charges, but needs %d.",
-                                         it.ammo_remaining() ),
-                               it.tname(), it.ammo_remaining(), it.ammo_required() );
-        }
-        return false;
-    }
-    return true;
 }
 
 bool Character::consume_charges( item &used, int qty )

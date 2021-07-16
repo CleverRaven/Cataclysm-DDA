@@ -2299,8 +2299,7 @@ cata::optional<int> iuse::radio_on( player *p, item *it, bool t, const tripoint 
         }
     } else { // Activated
         int ch = 1;
-        if( it->ammo_remaining() > 0 || ( it->has_flag( flag_USE_UPS ) &&
-                                          p->has_enough_charges( *it, false ) ) ) {
+        if( it->ammo_sufficient( p ) ) {
             ch = uilist( _( "Radio:" ), {
                 _( "Scan" ), _( "Turn off" )
             } );
@@ -3326,7 +3325,7 @@ cata::optional<int> iuse::jackhammer( player *p, item *it, bool, const tripoint 
 {
     // use has_enough_charges to check for UPS availability
     // p is assumed to exist for iuse cases
-    if( !p->has_enough_charges( *it, false ) ) {
+    if( !it->ammo_sufficient( p ) ) {
         return cata::nullopt;
     }
     if( p->is_mounted() ) {
@@ -4117,8 +4116,7 @@ cata::optional<int> iuse::shocktonfa_off( player *p, item *it, bool t, const tri
             return iuse::tazer2( p, it, t, pos );
         }
         case 1: {
-            if( !it->units_sufficient( *p ) && !( it->has_flag( flag_USE_UPS ) &&
-                                                  p->has_enough_charges( *it, false ) ) ) {
+            if( !it->units_sufficient( *p ) ) {
                 p->add_msg_if_player( m_info, _( "The batteries are dead." ) );
                 return cata::nullopt;
             } else {
@@ -4136,8 +4134,7 @@ cata::optional<int> iuse::shocktonfa_on( player *p, item *it, bool t, const trip
     if( t ) { // Effects while simply on
 
     } else {
-        if( !it->units_sufficient( *p ) && !( it->has_flag( flag_USE_UPS ) &&
-                                              p->has_enough_charges( *it, false ) ) ) {
+        if( !it->units_sufficient( *p ) ) {
             p->add_msg_if_player( m_info, _( "Your tactical tonfa is out of power." ) );
             it->convert( itype_shocktonfa_off ).active = false;
         } else {
@@ -4162,8 +4159,7 @@ cata::optional<int> iuse::shocktonfa_on( player *p, item *it, bool t, const trip
 cata::optional<int> iuse::mp3( player *p, item *it, bool, const tripoint & )
 {
     // TODO: avoid item id hardcoding to make this function usable for pure json-defined devices.
-    if( !it->units_sufficient( *p ) && !( it->has_flag( flag_USE_UPS ) &&
-                                          p->has_enough_charges( *it, false ) ) ) {
+    if( !it->units_sufficient( *p ) ) {
         p->add_msg_if_player( m_info, _( "The device's batteries are dead." ) );
     } else if( p->has_active_item( itype_mp3_on ) || p->has_active_item( itype_smartphone_music ) ||
                p->has_active_item( itype_afs_atomic_smartphone_music ) ||
@@ -6305,8 +6301,7 @@ cata::optional<int> iuse::einktabletpc( player *p, item *it, bool t, const tripo
 {
     if( t ) {
         if( !it->get_var( "EIPC_MUSIC_ON" ).empty() &&
-            ( it->ammo_remaining() > 0  || ( it->has_flag( flag_USE_UPS ) &&
-                                             p->has_enough_charges( *it, false ) ) ) ) {
+            it->ammo_sufficient( p ) ) {
             if( calendar::once_every( 5_minutes ) ) {
                 it->ammo_consume( 1, p->pos(), p );
             }

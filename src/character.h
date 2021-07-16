@@ -1415,12 +1415,6 @@ class Character : public Creature, public visitable
          */
         virtual bool dispose_item( item_location &&obj, const std::string &prompt = std::string() );
 
-        /**
-         * Has the item enough charges to invoke its use function?
-         * Also checks if UPS from this player is used instead of item charges.
-         */
-        bool has_enough_charges( const item &it, bool show_msg ) const;
-
         /** Consume charges of a tool or comestible item, potentially destroying it in the process
          *  @param used item consuming the charges
          *  @param qty number of charges to consume which must be non-zero
