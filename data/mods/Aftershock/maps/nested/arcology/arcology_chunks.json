@@ -2,53 +2,16 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "arcology_24x24_s",
-    "object": {
-      "fill_ter": "t_thconc_floor",
-      "mapgensize": [ 24, 24 ],
-      "rows": [
-        "________________________",
-        "________________________",
-        "________________________",
-        "________________________",
-        "________________________",
-        "________________________",
-        "________________________",
-        "________________________",
-        "________________________",
-        "________________________",
-        "________________________",
-        "________________________",
-        "________________________",
-        "________________________",
-        "________________________",
-        "________________________",
-        "________________________",
-        "________________________",
-        "________________________",
-        "ó||||||||||||||||||||||ó",
-        "ó||||||||||||||||||||||ó",
-        ",,,,,,,,,,,,,,,,,,,,,,,,",
-        ",,,,,,,,,,,,,,,,,,,,,,,,",
-        ",,,,,,,,,,,,,,,,,,,,,,,,"
-      ],
-      "palettes": [ "arcology_mall_chunks" ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "arcology_2x2_gate",
     "//": "Goes to 9x9 arcology stores",
     "object": {
-      "fill_ter": "t_thconc_floor",
       "mapgensize": [ 2, 2 ],
       "rows": [
         "//",
         "/ "
       ],
       "terrain": {
-        "/": [ "t_retractable_gates_locked", "t_retractable_gates_locked", "t_retractable_gates_locked", "t_retractable_gates" ]
+        "/": [ "t_retractable_gate_l", "t_retractable_gate_l", "t_retractable_gate_l", "t_retractable_gate_c" ]
       }
     }
   },
@@ -58,7 +21,6 @@
     "//": "designed for spaces 9x9.  Add walls around it and entrances.",
     "nested_mapgen_id": "arcology_9x9_candy_shop",
     "object": {
-      "fill_ter": "t_thconc_floor",
       "mapgensize": [ 9, 9 ],
       "rotation": [ 0, 3 ],
       "rows": [
@@ -108,7 +70,6 @@
     "//": "designed for spaces 9x9.  Beauty and cosmetics shop.",
     "nested_mapgen_id": "arcology_9x9_beauty_shop",
     "object": {
-      "fill_ter": "t_thconc_floor",
       "mapgensize": [ 9, 9 ],
       "rotation": [ 0, 3 ],
       "rows": [
@@ -151,7 +112,6 @@
     "//": "designed for 9x9 vitamin shop.",
     "nested_mapgen_id": "arcology_9x9_vitamin_shop",
     "object": {
-      "fill_ter": "t_thconc_floor",
       "mapgensize": [ 9, 9 ],
       "rotation": [ 0, 3 ],
       "rows": [
@@ -203,7 +163,6 @@
     "//": "designed for 9x9 cellphone shop.",
     "nested_mapgen_id": "city_block_9x9_cellphone_shop_front",
     "object": {
-      "fill_ter": "t_thconc_floor",
       "mapgensize": [ 9, 9 ],
       "rotation": [ 0, 3 ],
       "rows": [
@@ -257,7 +216,6 @@
     "//": "designed for 9x9 music shop.",
     "nested_mapgen_id": "city_block_9x9_music_shop_front",
     "object": {
-      "fill_ter": "t_thconc_floor",
       "mapgensize": [ 9, 9 ],
       "rotation": [ 0, 3 ],
       "rows": [
@@ -299,7 +257,6 @@
     "//": "designed for 9x9 electronics shop.  needs aftershocking",
     "nested_mapgen_id": "arcology_8x8_electronic",
     "object": {
-      "fill_ter": "t_thconc_floor",
       "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 3 ],
       "rows": [
@@ -352,7 +309,6 @@
     "//": "designed for 8x8 pizza shop. Make foodplace shop.",
     "nested_mapgen_id": "arcology_8x8_foodplace",
     "object": {
-      "fill_ter": "t_thconc_floor",
       "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 3 ],
       "rows": [

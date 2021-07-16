@@ -34,21 +34,10 @@
       "&": "f_toilet",
       "%": "f_console_broken",
       "5": "f_console",
-      "B": "blank",
-      "?": "blank",
-      "S": "blank",
-      "b": "blank",
       "c": "f_counter",
-      "d": "blank",
-      "h": "blank",
       "H": "f_utility_shelf",
       "l": "f_locker",
-      "k": "blank",
-      "r": "f_trashcan",
-      "s": "blank",
-      "t": "blank",
-      "f": "blank",
-      "^": "blank"
+      "r": "f_trashcan"
     },
     "toilets": { "&": {  } }
   },
@@ -86,21 +75,10 @@
       "&": "f_toilet",
       "%": "f_console_broken",
       "5": "f_console",
-      "B": "blank",
-      "?": "blank",
-      "S": "blank",
-      "b": "blank",
       "c": "f_counter",
-      "d": "blank",
-      "h": "blank",
       "H": "f_utility_shelf",
       "l": "f_locker",
-      "k": "blank",
-      "r": "f_trashcan",
-      "s": "blank",
-      "t": "blank",
-      "f": "blank",
-      "^": "blank"
+      "r": "f_trashcan"
     },
     "toilets": { "&": {  } }
   }
