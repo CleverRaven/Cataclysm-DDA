@@ -23,7 +23,20 @@
       }
     ],
     "death_drops": "starer_death_drops_pipe",
-    "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" }
+    "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "HUMAN",
+      "CAN_OPEN_DOORS",
+      "PATH_AVOID_DANGER_1",
+      "DROPS_AMMO",
+      "NO_FUNG_DMG"
+    ]
   },
   {
     "id": "mon_starer_crowbar",
