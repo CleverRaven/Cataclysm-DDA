@@ -210,7 +210,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "//": "A nested map for mutagen research areas.  Haress for cages.",
+    "//": "A nested map for mutagen research areas.  Hares for cages.",
     "nested_mapgen_id": "lab_hares_1x1",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -287,7 +287,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "//": "A nested map for mutagen research areas.  Raccoons for cages.",
+    "//": "A nested map for mutagen research areas.  Animal cages.",
     "nested_mapgen_id": "lab_small_animal_1x1",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -730,7 +730,7 @@
       ],
       "terrain": { " ": "t_null" },
       "furniture": { "%": "f_standing_tank" },
-      "liquids": { "%": { "liquid": "mutagen", "amount": [ 2, 100 ] } }
+      "liquids": { "%": { "liquid": "mutagen", "amount": [ 2, 20 ] } }
     }
   },
   {
@@ -748,7 +748,7 @@
       ],
       "terrain": { " ": "t_null" },
       "furniture": { "%": "f_standing_tank" },
-      "liquids": { "%": { "liquid": "purifier", "amount": [ 2, 100 ] } }
+      "liquids": { "%": { "liquid": "purifier", "amount": [ 2, 20 ] } }
     }
   },
   {
