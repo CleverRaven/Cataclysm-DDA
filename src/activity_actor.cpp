@@ -876,7 +876,7 @@ void bookbinder_copy_activity_actor::finish( player_activity &act, Character &p 
         std::vector<tool_comp> writing_tools;
         writing_tools.reserve( writing_tools_filter.size() );
         for( const item *tool : writing_tools_filter ) {
-            writing_tools.push_back( tool_comp( tool->typeId(), 1 ) );
+            writing_tools.emplace_back( tool_comp( tool->typeId(), 1 ) );
         }
 
         p.consume_tools( writing_tools, pages );
