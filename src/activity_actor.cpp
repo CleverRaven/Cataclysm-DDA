@@ -2712,7 +2712,8 @@ void reload_activity_actor::canceled( player_activity &act, Character &who )
             reloadable.set_var( "dirt", ( reloadable.get_var( "dirt", 0 ) - rng( 790, 2750 ) ) );
         }
 
-        add_msg( m_neutral, _( "You insert %dx %s into the %s." ), num_loaded, ammo_name, reloadable_name );
+        add_msg( m_neutral, _( "You insert %1$dx %2$s into the %3$s." ), num_loaded, ammo_name,
+                 reloadable_name );
         make_reload_sound( who, reloadable );
         item_location loc = reload_targets[0];
         // Reload may have caused the item to increase in size more than the pocket/location can contain.
