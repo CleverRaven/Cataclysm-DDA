@@ -627,7 +627,7 @@ class inventory_selector
          */
         bool select( const item_location &loc );
 
-        const inventory_entry &get_selected() {
+        const inventory_entry &get_selected() const {
             return get_active_column().get_selected();
         }
 
@@ -684,7 +684,6 @@ class inventory_selector
 
         const navigation_mode_data &get_navigation_data( navigation_mode m ) const;
 
-    //private:
         catacurses::window w_inv;
 
         weak_ptr_fast<ui_adaptor> ui;
@@ -726,15 +725,17 @@ class inventory_pick_selector : public inventory_selector
         item_location execute();
 };
 
-class inventory_reload_selector : public inventory_pick_selector {
+class inventory_reload_selector : public inventory_pick_selector
+{
     public:
-        explicit inventory_reload_selector(Character& p, bool& reloadAll, const inventory_selector_preset& preset = default_preset);
+        explicit inventory_reload_selector( Character &p, bool &reloadAll,
+                                            const inventory_selector_preset &preset = default_preset );
 
         item_location execute();
 
-        void draw_header(const catacurses::window& w) const override;
+        void draw_header( const catacurses::window &w ) const override;
 
-        bool& reloadAll;
+        bool &reloadAll;
 };
 
 class inventory_multiselector : public inventory_selector

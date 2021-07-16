@@ -2223,7 +2223,9 @@ int game::inventory_item_menu( item_location locThisItem,
         addentry( 'd', pgettext( "action", "drop" ), rate_drop_item );
         addentry( 'U', pgettext( "action", "unload" ), u.rate_action_unload( oThisItem ) );
         addentry( 'r', pgettext( "action", "reload" ), u.rate_action_reload( oThisItem ) );
-        if (oThisItem.has_flag(flag_RELOAD_ONE)) addentry('F', pgettext("action", "full reload"), u.rate_action_reload(oThisItem));
+        if( oThisItem.has_flag( flag_RELOAD_ONE ) ) {
+            addentry( 'F', pgettext( "action", "full reload" ), u.rate_action_reload( oThisItem ) );
+        }
         addentry( 'p', pgettext( "action", "part reload" ), u.rate_action_reload( oThisItem ) );
         addentry( 'm', pgettext( "action", "mend" ), rate_action_mend( u, oThisItem ) );
         addentry( 'D', pgettext( "action", "disassemble" ), rate_action_disassemble( u, oThisItem ) );
@@ -2371,7 +2373,7 @@ int game::inventory_item_menu( item_location locThisItem,
                     reload( locThisItem );
                     break;
                 case 'F':
-                    reload(locThisItem, false, true, true);
+                    reload( locThisItem, false, true, true );
                 case 'p':
                     reload( locThisItem, true );
                     break;
@@ -9218,11 +9220,14 @@ void game::reload( item_location &loc, bool prompt, bool empty, bool reloadAll )
     }
 
     if( opt ) {
-        
-        const bool load_once = !reloadAll && it->has_flag(flag_RELOAD_ONE) && !opt.ammo->has_flag(flag_SPEEDLOADER);
+
+        const bool load_once = !reloadAll && it->has_flag( flag_RELOAD_ONE ) &&
+                               !opt.ammo->has_flag( flag_SPEEDLOADER );
 
         int moves = opt.moves();
-        if (load_once) moves /= opt.qty();
+        if( load_once ) {
+            moves /= opt.qty();
+        }
         if( it->get_var( "dirt", 0 ) > 7800 ) {
             add_msg( m_warning, _( "You struggle to reload the fouled %s." ), it->tname() );
             moves += 2500;
@@ -9236,7 +9241,8 @@ void game::reload( item_location &loc, bool prompt, bool empty, bool reloadAll )
         }
         targets.push_back( std::move( opt.ammo ) );
 
-        u.assign_activity(player_activity(reload_activity_actor(moves, load_once ? 1 : opt.qty(), targets)));
+        u.assign_activity( player_activity( reload_activity_actor( moves, load_once ? 1 : opt.qty(),
+                                            targets ) ) );
     }
 }
 
@@ -9244,13 +9250,9 @@ void game::reload( item_location &loc, bool prompt, bool empty, bool reloadAll )
 void game::reload_item()
 {
     bool reloadAll;
-    item_location item_loc = inv_reload_splice(reloadAll, [&](const item& it) {
-        return u.rate_action_reload(it) == hint_rating::good;
-        }, _("Reload item"), 1 , _("You have nothing to reload."));
-        /*inv_map_splice( [&]( const item & it ) {
+    item_location item_loc = inv_reload_splice( reloadAll, [&]( const item & it ) {
         return u.rate_action_reload( it ) == hint_rating::good;
     }, _( "Reload item" ), 1, _( "You have nothing to reload." ) );
-    */
     if( !item_loc ) {
         add_msg( _( "Never mind." ) );
         return;
