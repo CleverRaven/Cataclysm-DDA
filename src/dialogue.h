@@ -99,7 +99,7 @@ struct talk_effect_fun_t {
         void set_remove_effect( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_add_trait( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_remove_trait( const JsonObject &jo, const std::string &member, bool is_npc = false );
-        void set_message( const JsonObject &jo, const std::string &member );
+        void set_message( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_mod_pain( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_add_wet( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_add_power( const JsonObject &jo, const std::string &member, bool is_npc );
