@@ -9803,6 +9803,9 @@ ret_val<bool> use_function::can_call( const Character &p, const item &it, bool t
     if( actor == nullptr ) {
         return ret_val<bool>::make_failure( _( "You can't do anything interesting with your %s." ),
                                             it.tname() );
+    } else if( it.is_broken() ) {
+        return ret_val<bool>::make_failure( _( "Your %s is broken and won't activate." ),
+                                            it.tname() );
     }
 
     return actor->can_use( p, it, t, pos );

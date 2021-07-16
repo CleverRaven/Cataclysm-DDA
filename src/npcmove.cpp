@@ -230,7 +230,8 @@ static bool clear_shot_reach( const tripoint &from, const tripoint &to, bool che
         Creature *inter = g->critter_at( p );
         if( check_ally && inter != nullptr ) {
             return false;
-        } else if( get_map().impassable( p ) ) {
+        }
+        if( get_map().impassable( p ) ) {
             return false;
         }
     }
@@ -440,7 +441,6 @@ void npc::assess_danger()
             case combat_engagement::HIT:
                 return c.has_effect( effect_hit_by_player );
             case combat_engagement::NO_MOVE:
-                return dist <= max_range;
             case combat_engagement::FREE_FIRE:
                 return dist <= max_range;
             case combat_engagement::ALL:
@@ -831,9 +831,8 @@ void npc::move()
     map &here = get_map();
     if( !ai_cache.dangerous_explosives.empty() ) {
         action = npc_escape_explosion;
-    } else if( target == &player_character && attitude == NPCATT_FLEE_TEMP ) {
-        action = method_of_fleeing();
-    } else if( has_effect( effect_npc_run_away ) ) {
+    } else if( ( target == &player_character && attitude == NPCATT_FLEE_TEMP ) ||
+               has_effect( effect_npc_run_away ) ) {
         action = method_of_fleeing();
     } else if( has_effect( effect_asthma ) && ( has_charges( itype_inhaler, 1 ) ||
                has_charges( itype_oxygen_tank, 1 ) ||
@@ -1202,13 +1201,13 @@ void npc::execute_action( npc_action action )
         }
         case npc_follow_player:
             update_path( player_character.pos() );
-            if( static_cast<int>( path.size() ) <= follow_distance() &&
-                player_character.posz() == posz() ) { // We're close enough to u.
+            if( path.empty() ||
+                ( static_cast<int>( path.size() ) <= follow_distance() &&
+                  player_character.posz() == posz() ) ) {
+                // We're close enough to u.
                 move_pause();
-            } else if( !path.empty() ) {
-                move_to_next();
             } else {
-                move_pause();
+                move_to_next();
             }
             // TODO: Make it only happen when it's safe
             complain();
@@ -1860,8 +1859,9 @@ npc_action npc::address_needs( float danger )
         if( danger <= 0.01 ) {
             if( get_fatigue() >= fatigue_levels::TIRED ) {
                 return true;
-            } else if( is_walking_with() && player_character.in_sleep_state() &&
-                       get_fatigue() > ( fatigue_levels::TIRED / 2 ) ) {
+            }
+            if( is_walking_with() && player_character.in_sleep_state() &&
+                get_fatigue() > ( fatigue_levels::TIRED / 2 ) ) {
                 return true;
             }
         }
@@ -1875,9 +1875,11 @@ npc_action npc::address_needs( float danger )
             return npc_undecided;
         }
 
-        if( rules.has_flag( ally_rule::allow_sleep ) || get_fatigue() > fatigue_levels::MASSIVE_FATIGUE ) {
+        if( rules.has_flag( ally_rule::allow_sleep ) ||
+            get_fatigue() > fatigue_levels::MASSIVE_FATIGUE ) {
             return npc_sleep;
-        } else if( player_character.in_sleep_state() ) {
+        }
+        if( player_character.in_sleep_state() ) {
             // TODO: "Guard me while I sleep" command
             return npc_sleep;
         }

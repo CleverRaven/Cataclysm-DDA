@@ -1274,7 +1274,7 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
     // In the meantime, let's roll 3d5-3, giving us a range of 0-12.
     int lock_roll = rng( 0, 4 ) + rng( 0, 4 ) + rng( 0, 4 );
 
-    add_msg_debug( debugmode::DF_ACT_LOCKPICK, _( "Rolled %i. Mean_roll %g. Difficulty %i." ),
+    add_msg_debug( debugmode::DF_ACT_LOCKPICK, "Rolled %i. Mean_roll %g. Difficulty %i.",
                    pick_roll,
                    mean_roll, lock_roll );
 
@@ -2791,7 +2791,7 @@ void shearing_activity_actor::start( player_activity &act, Character &who )
                                        true ) : mon->unique_name;
 
     if( !mon->shearable() ) {
-        add_msg( _( "$1%s has nothing %2$s could shear." ), pet_name_capitalized, who.disp_name() );
+        add_msg( _( "%1$s has nothing %2$s could shear." ), pet_name_capitalized, who.disp_name() );
         if( shearing_tie ) {
             mon->remove_effect( effect_tied );
         }

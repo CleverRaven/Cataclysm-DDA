@@ -758,16 +758,49 @@ static cata::optional<std::pair<tripoint_abs_omt, std::string>> get_mission_arro
 std::string cata_tiles::get_omt_id_rotation_and_subtile(
     const tripoint_abs_omt &omp, int &rota, int &subtile )
 {
-    oter_id ot_id = overmap_buffer.ter( omp );
+    auto oter_at = []( const tripoint_abs_omt & p ) {
+        const oter_id &cur_ter = overmap_buffer.ter( p );
 
-    if( !uistate.overmap_show_forest_trails &&
-        is_ot_match( "forest_trail", ot_id, ot_match_type::type ) ) {
-        ot_id = oter_id( "forest" );
-    }
+        if( !uistate.overmap_show_forest_trails &&
+            is_ot_match( "forest_trail", cur_ter, ot_match_type::type ) ) {
+            return oter_id( "forest" );
+        }
 
+        return cur_ter;
+    };
+
+    oter_id ot_id = oter_at( omp );
     const oter_t &ot = *ot_id;
     oter_type_id ot_type_id = ot.get_type_id();
-    ot.get_rotation_and_subtile( rota, subtile );
+    oter_type_t ot_type = *ot_type_id;
+
+    if( ot_type.has_connections() ) {
+        // This would be for connected terrain
+
+        // get terrain neighborhood
+        const oter_type_id neighborhood[4] = {
+            oter_at( omp + point_south )->get_type_id(),
+            oter_at( omp + point_east )->get_type_id(),
+            oter_at( omp + point_west )->get_type_id(),
+            oter_at( omp + point_north )->get_type_id()
+        };
+
+        char val = 0;
+
+        // populate connection information
+        for( int i = 0; i < 4; ++i ) {
+            if( ot_type.connects_to( neighborhood[i] ) ) {
+                val += 1 << i;
+            }
+        }
+
+        get_rotation_and_subtile( val, rota, subtile );
+    } else {
+        // 'Regular', nonlinear terrain only needs to worry about rotation, not
+        // subtile
+        ot.get_rotation_and_subtile( rota, subtile );
+    }
+
     return ot_type_id.id().str();
 }
 
@@ -829,16 +862,15 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                              100;
     const bool showhordes = uistate.overmap_show_hordes;
     const bool viewing_weather = uistate.overmap_debug_weather || uistate.overmap_visible_weather;
-    o = dest;
+    o = corner_NW.raw().xy();
 
-    const auto global_omt_to_draw_position = [&corner_NW]( const tripoint_abs_omt & omp ) {
+    const auto global_omt_to_draw_position = []( const tripoint_abs_omt & omp ) {
         // z position is hardcoded to 0 because the things this will be used to draw should not be skipped
-        return tripoint( ( omp - corner_NW ).raw().xy(), 0 );
+        return tripoint( omp.raw().xy(), 0 );
     };
 
     for( int row = min_row; row < max_row; row++ ) {
         for( int col = min_col; col < max_col; col++ ) {
-            const tripoint pos( col + o.x, row + o.y, center_abs_omt.z() );
             const tripoint_abs_omt omp = corner_NW + point( col, row );
 
             const bool see = overmap_buffer.seen( omp );
@@ -864,7 +896,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
 
             const lit_level ll = overmap_buffer.is_explored( omp ) ? lit_level::LOW : lit_level::LIT;
             // light level is now used for choosing between grayscale filter and normal lit tiles.
-            draw_from_id_string( id, TILE_CATEGORY::C_OVERMAP_TERRAIN, "overmap_terrain", pos,
+            draw_from_id_string( id, TILE_CATEGORY::C_OVERMAP_TERRAIN, "overmap_terrain", omp.raw(),
                                  subtile, rotation, ll, false, height_3d );
 
             if( see ) {
@@ -873,8 +905,8 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                     if( !mgroups.empty() ) {
                         auto mgroup_iter = mgroups.begin();
                         std::advance( mgroup_iter, rng( 0, mgroups.size() - 1 ) );
-                        draw_from_id_string( ( *mgroup_iter )->type->defaultMonster.str(), pos, 0, 0, lit_level::LIT,
-                                             false );
+                        draw_from_id_string( ( *mgroup_iter )->type->defaultMonster.str(),
+                                             omp.raw(), 0, 0, lit_level::LIT, false );
                     }
                 }
                 const int horde_size = overmap_buffer.get_horde_size( omp );
@@ -882,26 +914,32 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                     // a little bit of hardcoded fallbacks for hordes
                     if( find_tile_with_season( id ) ) {
                         draw_from_id_string( string_format( "overmap_horde_%d", horde_size ),
-                                             pos, 0, 0, lit_level::LIT, false );
+                                             omp.raw(), 0, 0, lit_level::LIT, false );
                     } else {
                         switch( horde_size ) {
                             case HORDE_VISIBILITY_SIZE:
-                                draw_from_id_string( "mon_zombie", pos, 0, 0, lit_level::LIT, false );
+                                draw_from_id_string( "mon_zombie", omp.raw(), 0, 0, lit_level::LIT,
+                                                     false );
                                 break;
                             case HORDE_VISIBILITY_SIZE + 1:
-                                draw_from_id_string( "mon_zombie_tough", pos, 0, 0, lit_level::LIT, false );
+                                draw_from_id_string( "mon_zombie_tough", omp.raw(), 0, 0,
+                                                     lit_level::LIT, false );
                                 break;
                             case HORDE_VISIBILITY_SIZE + 2:
-                                draw_from_id_string( "mon_zombie_brute", pos, 0, 0, lit_level::LIT, false );
+                                draw_from_id_string( "mon_zombie_brute", omp.raw(), 0, 0,
+                                                     lit_level::LIT, false );
                                 break;
                             case HORDE_VISIBILITY_SIZE + 3:
-                                draw_from_id_string( "mon_zombie_hulk", pos, 0, 0, lit_level::LIT, false );
+                                draw_from_id_string( "mon_zombie_hulk", omp.raw(), 0, 0,
+                                                     lit_level::LIT, false );
                                 break;
                             case HORDE_VISIBILITY_SIZE + 4:
-                                draw_from_id_string( "mon_zombie_necro", pos, 0, 0, lit_level::LIT, false );
+                                draw_from_id_string( "mon_zombie_necro", omp.raw(), 0, 0,
+                                                     lit_level::LIT, false );
                                 break;
                             default:
-                                draw_from_id_string( "mon_zombie_master", pos, 0, 0, lit_level::LIT, false );
+                                draw_from_id_string( "mon_zombie_master", omp.raw(), 0, 0,
+                                                     lit_level::LIT, false );
                                 break;
                         }
                     }
@@ -912,17 +950,17 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                 // Highlight areas that already have been generated
                 // TODO: fix point types
                 if( MAPBUFFER.lookup_submap( project_to<coords::sm>( omp ).raw() ) ) {
-                    draw_from_id_string( "highlight", pos, 0, 0, lit_level::LIT, false );
+                    draw_from_id_string( "highlight", omp.raw(), 0, 0, lit_level::LIT, false );
                 }
             }
 
             if( blink && overmap_buffer.has_vehicle( omp ) ) {
                 if( find_tile_looks_like( "overmap_remembered_vehicle", TILE_CATEGORY::C_OVERMAP_NOTE ) ) {
                     draw_from_id_string( "overmap_remembered_vehicle", TILE_CATEGORY::C_OVERMAP_NOTE,
-                                         "overmap_note", pos, 0, 0, lit_level::LIT, false );
+                                         "overmap_note", omp.raw(), 0, 0, lit_level::LIT, false );
                 } else {
                     draw_from_id_string( "note_c_cyan", TILE_CATEGORY::C_OVERMAP_NOTE,
-                                         "overmap_note", pos, 0, 0, lit_level::LIT, false );
+                                         "overmap_note", omp.raw(), 0, 0, lit_level::LIT, false );
                 }
             }
 
@@ -935,8 +973,8 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                     overmap_ui::get_note_display_info( overmap_buffer.note( omp ) );
 
                 std::string note_name = "note_" + ter_sym + "_" + string_from_color( ter_color );
-                draw_from_id_string( note_name, TILE_CATEGORY::C_OVERMAP_NOTE, "overmap_note", pos, 0, 0,
-                                     lit_level::LIT, false );
+                draw_from_id_string( note_name, TILE_CATEGORY::C_OVERMAP_NOTE, "overmap_note",
+                                     omp.raw(), 0, 0, lit_level::LIT, false );
             }
         }
     }
@@ -999,7 +1037,8 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     if( !viewing_weather && uistate.overmap_show_city_labels ) {
 
         const auto abs_sm_to_draw_label = [&]( const tripoint_abs_sm & city_pos, const int label_length ) {
-            const tripoint tile_draw_pos = global_omt_to_draw_position( project_to<coords::omt>( city_pos ) );
+            const tripoint tile_draw_pos = global_omt_to_draw_position( project_to<coords::omt>
+                                           ( city_pos ) ) - o;
             point draw_point( tile_draw_pos.x * width / max_col, tile_draw_pos.y * height / max_row );
             draw_point.x -= label_length * font->width;
             draw_point.x += width / max_col;

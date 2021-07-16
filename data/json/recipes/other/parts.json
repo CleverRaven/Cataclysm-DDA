@@ -197,7 +197,7 @@
     "using": [ [ "blacksmithing_standard", 32 ], [ "steel_standard", 8 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "swage", -1 ] ] ]
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "hotcut", -1 ] ] ]
   },
   {
     "result": "circsaw_blade",
@@ -235,7 +235,7 @@
       { "proficiency": "prof_bladesmith" }
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ]
+    "tools": [ [ [ "hotcut", -1 ] ] ]
   },
   {
     "type": "recipe",
@@ -433,7 +433,7 @@
     "qualities": [ { "id": "ANVIL", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_wiremaking" } ],
     "//": "Requires annealing 4 times from the copper rod.",
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 40 ], [ "oxy_torch", 40 ] ], [ [ "draw_plate", -1 ] ] ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "forge", 40 ], [ "oxy_torch", 40 ] ], [ [ "draw_plate", -1 ] ] ],
     "components": [ [ [ "copper_rod", 1 ] ] ]
   },
   {
@@ -451,7 +451,12 @@
     "qualities": [ { "id": "ANVIL", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
     "//": "Requires annealing 4 times from the copper rod.",
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 40 ], [ "oxy_torch", 40 ] ], [ [ "wire_draw_machine", 100 ] ] ],
+    "tools": [
+      [ [ "tongs", -1 ] ],
+      [ [ "hotcut", -1 ] ],
+      [ [ "forge", 40 ], [ "oxy_torch", 40 ] ],
+      [ [ "wire_draw_machine", 100 ] ]
+    ],
     "components": [ [ [ "copper_rod", 1 ] ] ]
   },
   {

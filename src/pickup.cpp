@@ -529,7 +529,8 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
         // Bail out if this square cannot be auto-picked-up
         if( g->check_zone( zone_type_id( "NO_AUTO_PICKUP" ), p ) ) {
             return;
-        } else if( local.has_flag( "SEALED", p ) ) {
+        }
+        if( local.has_flag( "SEALED", p ) ) {
             return;
         }
     }

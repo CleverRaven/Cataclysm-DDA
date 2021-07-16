@@ -1523,10 +1523,8 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
             if( player_inv ) {
                 bool found = false;
                 const item item_sought( type );
-                if( item_sought.is_software() && count_softwares( type ) > 0 ) {
-                    player_has.push_back( component );
-                    found = true;
-                } else if( has_amount( type, count, false, filter ) ) {
+                if( ( item_sought.is_software() && count_softwares( type ) > 0 ) ||
+                    has_amount( type, count, false, filter ) ) {
                     player_has.push_back( component );
                     found = true;
                 }

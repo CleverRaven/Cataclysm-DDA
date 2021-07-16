@@ -2440,7 +2440,7 @@ void Creature::process_damage_over_time()
 void Creature::check_dead_state()
 {
     if( is_dead_state() ) {
-        die( nullptr );
+        die( killer );
     }
 }
 

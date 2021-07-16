@@ -329,7 +329,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zapatosaurus_brute",
-    "name": { "str": "Anabolic Apatosaurus" },
+    "name": { "str_sp": "Anabolic Apatosaurus" },
     "copy-from": "mon_zapatosaurus",
     "description": "Massive, long-necked, four-legged dinosaur corpse with a long, whip-like tail.  Its entire body bulges with distended muscles and swollen, festering wounds.",
     "diff": 2,
@@ -444,7 +444,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zalamosaurus_brute",
-    "name": { "str": "Anabolic Alamosaurus" },
+    "name": { "str_sp": "Anabolic Alamosaurus" },
     "copy-from": "mon_zalamosaurus",
     "description": "Gigantic, four-legged dinosaur corpse with a long neck and a spiked whip-like tail.  Its entire body bulges with distended muscles and swollen, festering wounds.",
     "diff": 2,
@@ -743,7 +743,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zentaceratops_brute",
-    "name": { "str": "Five Horn Death Punch" },
+    "name": { "str": "Five Horn Death Punch", "str_pl": "Five Horn Death Punches" },
     "copy-from": "mon_zentaceratops",
     "description": "A massive, shambling, rhino-like dinosaur corpse with a tall bony crest from which four long horns and a short nose horn emerge.  Its entire body bulges with distended muscles and swollen, festering wounds.",
     "diff": 2,
@@ -1357,7 +1357,7 @@
   {
     "type": "MONSTER",
     "id": "mon_srontosaurus",
-    "name": { "str": "armored Brontosaurus" },
+    "name": { "str_sp": "armored Brontosaurus" },
     "copy-from": "mon_sapatosaurus",
     "proportional": { "hp": 0.8 },
     "description": "This zombified Brontosaurus has grown dense bone armor, completely covering the massive, four-legged body and long, whip-like tail."
@@ -1390,7 +1390,7 @@
   {
     "type": "MONSTER",
     "id": "mon_samarasaurus",
-    "name": { "str": "armored Camarasaurus" },
+    "name": { "str_sp": "armored Camarasaurus" },
     "copy-from": "mon_sapatosaurus",
     "proportional": { "speed": 0.8 },
     "description": "This zombified Camarasaurus has grown dense body armor, completely covering the massive, long-necked, four-legged body."
@@ -1398,7 +1398,7 @@
   {
     "type": "MONSTER",
     "id": "mon_srachiosaurus",
-    "name": { "str": "armored Brachiosaurus" },
+    "name": { "str_sp": "armored Brachiosaurus" },
     "copy-from": "mon_sapatosaurus",
     "proportional": { "speed": 0.6, "hp": 3 },
     "description": "This zombified Brachiosaurus has grown dense body armor, completely covering the gigantic, long-necked, four-legged body."

@@ -248,7 +248,7 @@
       "menu_text": "Activate bomb",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE", "WATER_BREAK" ]
   },
   {
     "id": "EMPbomb_act",
@@ -280,7 +280,7 @@
       "explosion": { "power": 600, "shrapnel": { "casing_mass": 3214, "fragment_mass": 0.5 } },
       "no_deactivate_msg": "You've already activated the %s, try throwing it instead."
     },
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "WATER_BREAK" ]
   },
   {
     "id": "primitive_demolition_charge",
@@ -703,7 +703,7 @@
       "menu_text": "Pull pin",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE", "WATER_BREAK" ]
   },
   {
     "id": "grenade_emp_act",
@@ -734,7 +734,7 @@
       "sound_msg": "Tick.",
       "no_deactivate_msg": "You've already pulled the %s's pin, try throwing it instead."
     },
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "WATER_BREAK" ]
   },
   {
     "id": "grenade_inc",

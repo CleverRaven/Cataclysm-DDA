@@ -697,6 +697,7 @@ void npc::handle_sound( const sounds::sound_t spriority, const std::string &desc
             bool should_check = rl_dist( pos(), spos ) < investigate_dist;
             if( should_check ) {
                 const zone_manager &mgr = zone_manager::get_manager();
+                // NOLINTNEXTLINE(bugprone-branch-clone)
                 if( mgr.has( zone_type_NPC_NO_INVESTIGATE, s_abs_pos, fac_id ) ) {
                     should_check = false;
                 } else if( mgr.has( zone_type_NPC_INVESTIGATE_ONLY, my_abs_pos, fac_id ) &&
@@ -2124,10 +2125,9 @@ void talk_effect_fun_t::set_message( const JsonObject &jo, const std::string &me
             bool display = false;
             map &here = get_map();
             if( !target->has_effect( effect_sleep ) && !target->is_deaf() ) {
-                if( !outdoor_only || here.get_abs_sub().z >= 0 ) {
-                    display = true;
-                } else if( one_in( std::max( roll_remainder( 2.0f * here.get_abs_sub().z /
-                                             target->mutation_value( "hearing_modifier" ) ), 1 ) ) ) {
+                if( !outdoor_only || here.get_abs_sub().z >= 0 ||
+                    one_in( std::max( roll_remainder( 2.0f * here.get_abs_sub().z /
+                                                      target->mutation_value( "hearing_modifier" ) ), 1 ) ) ) {
                     display = true;
                 }
             }
@@ -2203,6 +2203,19 @@ void talk_effect_fun_t::set_add_power( const JsonObject &jo, const std::string &
         if( target ) {
             target->mod_power_level( amount );
         }
+    };
+}
+
+void talk_effect_fun_t::set_mod_healthy( const JsonObject &jo, const std::string &member,
+        bool is_npc )
+{
+    int amount;
+    int cap;
+    mandatory( jo, false, member, amount );
+    mandatory( jo, false, "cap", cap );
+
+    function = [is_npc, amount, cap]( const dialogue & d ) {
+        d.actor( is_npc )->mod_healthy_mod( amount, cap );
     };
 }
 
@@ -2569,6 +2582,10 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_make_sound( jo, "npc_make_sound", true );
     } else if( jo.has_array( "set_queue_effect_on_condition" ) ) {
         subeffect_fun.set_queue_effect_on_condition( jo, "set_queue_effect_on_condition" );
+    } else if( jo.has_member( "u_mod_healthy" ) ) {
+        subeffect_fun.set_mod_healthy( jo, "u_mod_healthy", false );
+    } else if( jo.has_member( "npc_mod_healthy" ) ) {
+        subeffect_fun.set_mod_healthy( jo, "npc_mod_healthy", true );
     } else {
         jo.throw_error( "invalid sub effect syntax: " + jo.str() );
     }

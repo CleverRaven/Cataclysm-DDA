@@ -366,13 +366,7 @@ void npc::randomize( const npc_class_id &type )
     }
 
     if( type.is_null() ) { // Untyped; no particular specialization
-    } else if( type == NC_EVAC_SHOPKEEP ) {
-        personality.collector += rng( 1, 5 );
-
-    } else if( type == NC_BARTENDER ) {
-        personality.collector += rng( 1, 5 );
-
-    } else if( type == NC_JUNK_SHOPKEEP ) {
+    } else if( type == NC_EVAC_SHOPKEEP || type == NC_BARTENDER || type == NC_JUNK_SHOPKEEP ) {
         personality.collector += rng( 1, 5 );
 
     } else if( type == NC_ARSONIST ) {
@@ -409,11 +403,7 @@ void npc::randomize( const npc_class_id &type )
         personality.bravery -= rng( 2, 8 );
         personality.collector += rng( 0, 2 );
 
-    } else if( type == NC_BOUNTY_HUNTER ) {
-        personality.aggression += rng( 1, 6 );
-        personality.bravery += rng( 0, 5 );
-
-    } else if( type == NC_THUG ) {
+    } else if( type == NC_BOUNTY_HUNTER || type == NC_THUG ) {
         personality.aggression += rng( 1, 6 );
         personality.bravery += rng( 0, 5 );
 
@@ -2048,8 +2038,9 @@ bool npc::is_ally( const Character &p ) const
             Character &player_character = get_player_character();
             if( is_ally( player_character ) && guy.is_ally( player_character ) ) {
                 return true;
-            } else if( get_attitude_group( get_attitude() ) ==
-                       guy.get_attitude_group( guy.get_attitude() ) ) {
+            }
+            if( get_attitude_group( get_attitude() ) ==
+                guy.get_attitude_group( guy.get_attitude() ) ) {
                 return true;
             }
         }
@@ -2315,7 +2306,7 @@ int npc::follow_distance() const
 
 nc_color npc::basic_symbol_color() const
 {
-    if( attitude == NPCATT_KILL ) {
+    if( attitude == NPCATT_KILL ) { // NOLINT(bugprone-branch-clone)
         return c_red;
     } else if( attitude == NPCATT_FLEE || attitude == NPCATT_FLEE_TEMP ) {
         return c_light_red;

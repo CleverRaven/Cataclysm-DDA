@@ -571,8 +571,6 @@ class comestible_inventory_preset : public inventory_selector_preset
                     return "<bad>!!!</bad>";
                 } else if( health < 0 ) {
                     return "<bad>-</bad>";
-                } else if( loc->is_medication() ) {
-                    return "";
                 } else {
                     return "";
                 }
@@ -892,9 +890,7 @@ class fuel_inventory_preset : public inventory_selector_preset
 
     protected:
         int get_order( const item_location &loc, const time_duration &time ) const {
-            if( loc->rotten() ) {
-                return 2;
-            } else if( time == 0_turns ) {
+            if( loc->rotten() || time == 0_turns ) {
                 return 2;
             } else {
                 return 1;
@@ -1141,6 +1137,10 @@ class activatable_inventory_preset : public pickup_inventory_preset
 
             if( it.is_medication() && !p.can_use_heal_item( it ) && !it.is_craft() ) {
                 return _( "Your biology is not compatible with that item." );
+            }
+
+            if( it.is_broken() ) {
+                return string_format( _( "Your %s was broken and won't turn on." ), it.tname() );
             }
 
             if( !p.has_enough_charges( it, false ) ) {

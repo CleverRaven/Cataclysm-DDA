@@ -1248,6 +1248,9 @@ class item : public visitable
         bool is_faulty() const;
         bool is_irremovable() const;
 
+        /** Returns true if the item is broken and can't be activated or used in crafting */
+        bool is_broken() const;
+
         bool is_unarmed_weapon() const; //Returns true if the item should be considered unarmed
 
         bool has_temperature() const;
@@ -2387,6 +2390,11 @@ class item : public visitable
         // Select a random variant from the possibilities
         // Intended to be called when no explicit variant is set
         void select_gun_variant();
+
+        bool can_have_gun_variant() const;
+
+        // Does this have a variant with this id?
+        bool possible_gun_variant( const std::string &test ) const;
 
         // If the item has a gun variant, this points to it
         const gun_variant_data *_gun_variant = nullptr;

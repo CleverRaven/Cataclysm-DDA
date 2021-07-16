@@ -4441,7 +4441,7 @@ nc_color item::color_in_inventory() const
         }
     } else if( has_flag( flag_WET ) ) {
         ret = c_cyan;
-    } else if( has_flag( flag_LITCIG ) ) {
+    } else if( has_flag( flag_LITCIG ) ) { // NOLINT(bugprone-branch-clone)
         ret = c_red;
     } else if( is_armor() && player_character.has_trait( trait_WOOLALLERGY ) &&
                ( made_of( material_id( "wool" ) ) || has_own_flag( flag_wooled ) ) ) {
@@ -4456,11 +4456,8 @@ nc_color item::color_in_inventory() const
         }
     } else if( has_flag( flag_LEAK_DAM ) && has_flag( flag_RADIOACTIVE ) && damage() > 0 ) {
         ret = c_light_green;
-    } else if( active && !has_temperature() &&  !is_corpse() ) {
-        // Active items show up as yellow
-        ret = c_yellow;
-    } else if( is_corpse() && can_revive() ) {
-        // Only reviving corpses are yellow
+    } else if( ( active && !has_temperature() &&  !is_corpse() ) || ( is_corpse() && can_revive() ) ) {
+        // Active items show up as yellow (corpses only if reviving)
         ret = c_yellow;
     } else if( const item *food = get_food() ) {
         // Give color priority to allergy (allergy > inedible by freeze or other conditions)
@@ -4563,7 +4560,8 @@ nc_color item::color_in_inventory() const
             if( tmp.skill && // Book can improve skill: blue
                 player_character.get_skill_level_object( tmp.skill ).can_train() &&
                 player_character.get_skill_level( tmp.skill ) >= tmp.req &&
-                player_character.get_skill_level( tmp.skill ) < tmp.level ) {
+                player_character.get_skill_level( tmp.skill ) < tmp.level
+              ) { //NOLINT(bugprone-branch-clone)
                 ret = c_light_blue;
             } else if( type->can_use( "MA_MANUAL" ) &&
                        !player_character.martial_arts_data->has_martialart( martial_art_learned_from( *type ) ) ) {
@@ -4954,6 +4952,9 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
 
     if( is_filthy() ) {
         tagtext += _( " (filthy)" );
+    }
+    if( is_broken() ) {
+        tagtext += _( " (broken)" );
     }
     if( is_bionic() && !has_flag( flag_NO_PACKED ) ) {
         if( !has_flag( flag_NO_STERILE ) ) {
@@ -6364,13 +6365,7 @@ int item::count() const
 
 bool item::craft_has_charges()
 {
-    if( count_by_charges() ) {
-        return true;
-    } else if( ammo_types().empty() ) {
-        return true;
-    }
-
-    return false;
+    return count_by_charges() || ammo_types().empty();
 }
 
 #if defined(_MSC_VER)
@@ -6888,6 +6883,37 @@ void item::select_gun_variant()
     set_gun_variant( *selected );
 }
 
+bool item::can_have_gun_variant() const
+{
+    if( is_gun() ) {
+        return !type->gun->variants.empty();
+    } else if( !!type->magazine ) {
+        return !type->magazine->variants.empty();
+    }
+    return false;
+}
+
+bool item::possible_gun_variant( const std::string &test ) const
+{
+    if( !can_have_gun_variant() ) {
+        return false;
+    }
+
+    const auto variant_looking_for = [&test]( const gun_variant_data & variant ) {
+        return variant.id == test;
+    };
+
+    if( is_gun() ) {
+        return std::find_if( type->gun->variants.begin(), type->gun->variants.end(),
+                             variant_looking_for ) != type->gun->variants.end();
+    } else if( !!type->magazine ) {
+        return std::find_if( type->magazine->variants.begin(), type->magazine->variants.end(),
+                             variant_looking_for ) != type->magazine->variants.end();
+    }
+
+    return false;
+}
+
 bool item::has_gun_variant( bool check_option ) const
 {
     return  _gun_variant != nullptr &&
@@ -7279,6 +7305,11 @@ bool item::is_faulty() const
 bool item::is_irremovable() const
 {
     return has_flag( flag_IRREMOVABLE );
+}
+
+bool item::is_broken() const
+{
+    return has_flag( flag_ITEM_BROKEN );
 }
 
 std::set<fault_id> item::faults_potential() const

@@ -86,7 +86,7 @@
     "ammo": [ "battery" ],
     "charges_per_use": 5,
     "use_action": [ "CARVER_OFF" ],
-    "flags": [ "SHEATH_SWORD", "NONCONDUCTIVE" ],
+    "flags": [ "SHEATH_SWORD", "NONCONDUCTIVE", "WATER_BREAK" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -245,6 +245,7 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "battery" ],
+    "flags": [ "WATER_BREAK" ],
     "charges_per_use": 10,
     "qualities": [ [ "BOIL", 1 ] ],
     "use_action": [ "HOTPLATE" ],
@@ -274,7 +275,7 @@
     "symbol": ";",
     "color": "blue",
     "ammo": [ "battery" ],
-    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -377,7 +378,7 @@
     "symbol": "%",
     "color": "white",
     "ammo": [ "battery" ],
-    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -480,6 +481,7 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "green",
+    "flags": [ "WATER_BREAK" ],
     "ammo": [ "battery" ],
     "charges_per_use": 5,
     "use_action": [ "HOTPLATE" ],
@@ -510,7 +512,7 @@
     "symbol": ";",
     "color": "white",
     "ammo": [ "battery" ],
-    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -538,6 +540,7 @@
     "symbol": ";",
     "color": "green",
     "ammo": [ "battery" ],
+    "flags": [ "WATER_BREAK" ],
     "sub": "hotplate",
     "charges_per_use": 5,
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
@@ -674,6 +677,7 @@
     "symbol": ";",
     "color": "red",
     "ammo": [ "battery" ],
+    "flags": [ "WATER_BREAK" ],
     "power_draw": 1500000,
     "qualities": [ [ "CONTAIN", 1 ] ],
     "use_action": [ "MULTICOOKER" ],
@@ -956,7 +960,7 @@
     "symbol": ";",
     "color": "white",
     "ammo": [ "battery" ],
-    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",

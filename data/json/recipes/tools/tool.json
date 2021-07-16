@@ -52,7 +52,7 @@
       { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 1.5 }
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ]
+    "tools": [ [ [ "hotcut", -1 ] ] ]
   },
   {
     "type": "recipe",
@@ -97,7 +97,7 @@
       { "proficiency": "prof_toolsmithing" }
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "tools": [ [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ] ]
   },
   {
@@ -255,7 +255,7 @@
     ],
     "using": [ [ "forging_standard", 4 ], [ "plastic_molding", 1 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "plastic_chunk", 2 ] ], [ [ "steel_lump", 2 ] ] ]
   },
   {
@@ -276,7 +276,7 @@
       { "proficiency": "prof_toolsmithing" }
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ]
+    "tools": [ [ [ "hotcut", -1 ] ] ]
   },
   {
     "result": "awl_bone",
@@ -302,7 +302,7 @@
     "difficulty": 4,
     "time": "120 m",
     "autolearn": true,
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ],
     "using": [ [ "forging_standard", 1 ], [ "steel_tiny", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
@@ -339,7 +339,7 @@
       { "proficiency": "prof_plasticworking" }
     ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "scrap", 2 ] ] ]
   },
   {
