@@ -25,13 +25,6 @@
   },
   {
     "type": "GENERIC",
-    "id": "afs_metal_rig",
-    "copy-from": "vehicle_rig",
-    "name": { "str": "MetalMaster forge buddy", "str_pl": "MetalMaster forge buddies" },
-    "description": "From the makers of the best-selling* FOODCO kitchen buddy comes the MetalMaster forge buddy, for all your metalworking, firing, and welding needs!  It's just as clunky and awkward as the thing it's spinning off, and still requires a vehicle battery to function."
-  },
-  {
-    "type": "GENERIC",
     "id": "afs_kitchen_rig",
     "copy-from": "vehicle_rig",
     "name": { "str": "KitchenMaster cooking buddy", "str_pl": "KitchenMaster cooking buddies" },
