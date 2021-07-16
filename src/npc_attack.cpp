@@ -1,5 +1,6 @@
 #include "npc_attack.h"
 
+#include "cata_utility.h"
 #include "character.h"
 #include "flag.h"
 #include "game.h"
@@ -54,6 +55,17 @@ static bool can_move( const npc &source )
 static bool can_move_melee( const npc &source )
 {
     return can_move( source ) && source.rules.engagement != combat_engagement::FREE_FIRE;
+}
+
+static bool enemy_distance_to_ally( const npc &source, const Creature &target )
+{
+    int distance = rl_dist( target.pos(), source.pos() );
+    for( const weak_ptr_fast<Creature> &buddy : source.get_cached_friends() ) {
+        if( !buddy.expired() ) {
+            distance = std::min( distance, rl_dist( target.pos(), buddy.lock()->pos() ) );
+        }
+    }
+    return distance;
 }
 
 bool npc_attack_rating::operator>( const npc_attack_rating &rhs ) const
@@ -206,16 +218,13 @@ npc_attack_rating npc_attack_melee::evaluate_critter( const npc &source,
     if( !critter ) {
         return npc_attack_rating{};
     }
-    const int distance_to_me = rl_dist( source.pos(), critter->pos() );
-    const double damage{ weapon.effective_dps( source, *critter ) };
-    const Creature::Attitude att = source.attitude_to( *critter );
-    double potential = damage * npc_attack_constants::attitude_multiplier.at( att ) -
-                       ( distance_to_me - 1 );
 
+    const double damage{ weapon.effective_dps( source, *critter ) };
     const int reach_range{ weapon.reach_range( source ) };
-    const int distance = rl_dist( source.pos(), critter->pos() );
-    int range_penalty = std::max( 0, distance - reach_range );
-    potential *= range_penalty ? 0.7f : 1.5f;
+    const int distance_to_me = clamp( rl_dist( source.pos(), critter->pos() ) - reach_range, 0, 10 );
+    // Multiplier of 0.5f to 1.5f based on distance
+    const float distance_multiplier = 1.5f - distance_to_me * 0.1f;
+    double potential = damage * distance_multiplier;
 
     if( damage >= critter->get_hp() ) {
         potential *= npc_attack_constants::kill_modifier;
@@ -348,26 +357,22 @@ npc_attack_rating npc_attack_gun::evaluate_tripoint(
 {
     const item &gun = *gunmode.target;
     const int damage = gun.gun_damage().total_damage() * gunmode.qty;
-    if( has_obstruction( source.pos(), location ) ) {
-        return npc_attack_rating( cata::nullopt, location );
-    }
+    double potential = damage;
 
     const Creature *critter = g->critter_at( location );
     if( !critter ) {
         // TODO: AOE ammo effects
         return npc_attack_rating( cata::nullopt, location );
     }
-    const int distance_to_me = rl_dist( location, source.pos() );
-    const Creature::Attitude att = source.attitude_to( *critter );
 
+    const Creature::Attitude att = source.attitude_to( *critter );
     if( att != Creature::Attitude::HOSTILE ) {
-        // No point in throwing stuff at neutral/friendly targets
+        // No point in attacking neutral/friendly targets
         return npc_attack_rating( cata::nullopt, location );
     }
 
     const bool avoids_friendly_fire = source.rules.has_flag( ally_rule::avoid_friendly_fire );
-
-    double potential = damage;
+    const int distance_to_me = rl_dist( location, source.pos() );
 
     // Make attacks that involve moving to find clear LOS slightly less likely
     if( has_obstruction( source.pos(), location, avoids_friendly_fire ) ) {
@@ -607,7 +612,7 @@ npc_attack_rating npc_attack_throw::evaluate_tripoint(
     }
 
     if( source.rules.has_flag( ally_rule::avoid_friendly_fire ) &&
-        !source.wont_hit_friend( location, thrown_item, false ) ) {
+        !source.wont_hit_friend( location, thrown_item, true ) ) {
         // Avoid friendy fire
         return npc_attack_rating( cata::nullopt, location );
     }
@@ -616,11 +621,9 @@ npc_attack_rating npc_attack_throw::evaluate_tripoint(
     const int damage = source.thrown_item_total_damage_raw( single_item );
     float dps = damage / throw_mult;
     const int distance_to_me = rl_dist( location, source.pos() );
-    const int distance_to_closest_friendly = std::min( distance_to_me,
-            source.closest_enemy_to_friendly_distance() );
-    const int distance_penalty = std::max( distance_to_closest_friendly - 3, 0 );
-    const float suitable_item_mult = thrown_item.has_flag( flag_NPC_THROWN ) ? 0.2f : -0.15f;
-    const float distance_mult = -distance_penalty / 10.0f;
+    const float suitable_item_mult = thrown_item.has_flag( flag_NPC_THROWN ) ? 0.4f : -0.15f;
+    const int distance_penalty = clamp( distance_to_me - 3, 0, 5 );
+    const float distance_mult = -distance_penalty * 0.1f;
 
     double potential = dps * ( 1.0 + distance_mult + suitable_item_mult );
     if( potential > 0.0f && critter && damage >= critter->get_hp() ) {

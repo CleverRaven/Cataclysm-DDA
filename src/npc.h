@@ -1270,6 +1270,7 @@ class npc : public player
 
         // accessors to ai_cache functions
         int closest_enemy_to_friendly_distance() const;
+        const std::vector<weak_ptr_fast<Creature>> &get_cached_friends() const;
 
     private:
         npc_attitude attitude = NPCATT_NULL; // What we want to do to the player
