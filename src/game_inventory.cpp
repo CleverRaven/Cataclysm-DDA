@@ -877,7 +877,7 @@ class fuel_inventory_preset : public inventory_selector_preset
                 mat_type = ammo.get_base_material().id;
             }
             if( p.get_fuel_capacity( mat_type ) <= 0 ) {
-                return ( _( "No space to store more %s" ), item_name );
+                return ( _( "No space to store more" ) );
             }
 
             return inventory_selector_preset::get_denial( loc );
