@@ -9149,7 +9149,7 @@ void game::butcher()
     }
 }
 
-void game::reload( item_location &loc, bool prompt, bool empty, bool reloadAll )
+void game::reload( item_location &loc, bool prompt, bool empty, bool fullReload )
 {
     item *it = loc.get_item();
 
@@ -9212,8 +9212,8 @@ void game::reload( item_location &loc, bool prompt, bool empty, bool reloadAll )
     }
 
     item::reload_option opt = u.ammo_location && it->can_reload_with( u.ammo_location->typeId() ) ?
-                              item::reload_option( &u, it, it, u.ammo_location ) :
-                              u.select_ammo( *it, prompt, empty );
+                              item::reload_option( &u, it, it, u.ammo_location, fullReload ) :
+                              u.select_ammo( *it, prompt, empty, fullReload );
 
     if( opt.ammo.get_item() == nullptr || ( opt.ammo.get_item()->is_frozen_liquid() &&
                                             !u.crush_frozen_liquid( opt.ammo ) ) ) {
@@ -9222,13 +9222,7 @@ void game::reload( item_location &loc, bool prompt, bool empty, bool reloadAll )
 
     if( opt ) {
 
-        const bool load_once = !reloadAll && it->has_flag( flag_RELOAD_ONE ) &&
-                               !opt.ammo->has_flag( flag_SPEEDLOADER );
-
         int moves = opt.moves();
-        if( load_once ) {
-            moves /= opt.qty();
-        }
         if( it->get_var( "dirt", 0 ) > 7800 ) {
             add_msg( m_warning, _( "You struggle to reload the fouled %s." ), it->tname() );
             moves += 2500;
@@ -9242,7 +9236,7 @@ void game::reload( item_location &loc, bool prompt, bool empty, bool reloadAll )
         }
         targets.push_back( std::move( opt.ammo ) );
 
-        u.assign_activity( player_activity( reload_activity_actor( moves, load_once ? 1 : opt.qty(),
+        u.assign_activity( player_activity( reload_activity_actor( moves, opt.qty(),
                                             targets ) ) );
     }
 }
@@ -9250,8 +9244,8 @@ void game::reload( item_location &loc, bool prompt, bool empty, bool reloadAll )
 // Reload something.
 void game::reload_item()
 {
-    bool reloadAll;
-    item_location item_loc = inv_reload_splice( reloadAll, [&]( const item & it ) {
+    bool fullReload;
+    item_location item_loc = inv_reload_splice( fullReload, [&]( const item & it ) {
         return u.rate_action_reload( it ) == hint_rating::good;
     }, _( "Reload item" ), 1, _( "You have nothing to reload." ) );
     if( !item_loc ) {
@@ -9259,7 +9253,7 @@ void game::reload_item()
         return;
     }
 
-    reload( item_loc, false, true, reloadAll );
+    reload( item_loc, false, true, fullReload );
 }
 
 void game::reload_wielded( bool prompt )

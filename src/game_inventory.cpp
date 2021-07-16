@@ -119,13 +119,13 @@ static item_location_filter convert_filter( const item_filter &filter )
     };
 }
 
-static item_location inv_reload( Character &u, bool &reloadAll,
+static item_location inv_reload( Character &u, bool &fullReload,
                                  const inventory_selector_preset &preset,
                                  const std::string &title, int radius,
                                  const std::string &none_message,
                                  const std::string &hint = std::string() )
 {
-    inventory_reload_selector inv_s( u, reloadAll, preset );
+    inventory_reload_selector inv_s( u, fullReload, preset );
 
     inv_s.set_title( title );
     inv_s.set_hint( hint );
@@ -456,11 +456,11 @@ item_location game_menus::inv::take_off( avatar &you )
                          _( "You're not wearing anything." ) );
 }
 
-item_location game::inv_reload_splice( bool &reloadAll, const item_filter &filter,
+item_location game::inv_reload_splice( bool &fullReload, const item_filter &filter,
                                        const std::string &title, int radius,
                                        const std::string &none_message )
 {
-    return inv_reload( u, reloadAll, inventory_filter_preset( convert_filter( filter ) ),
+    return inv_reload( u, fullReload, inventory_filter_preset( convert_filter( filter ) ),
                        title, radius, none_message );
 }
 

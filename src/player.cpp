@@ -1491,7 +1491,7 @@ item::reload_option player::select_ammo( const item &base,
 }
 
 bool player::list_ammo( const item &base, std::vector<item::reload_option> &ammo_list,
-                        bool empty ) const
+                        bool empty, bool fullReload ) const
 {
     std::vector<const item *> opts = base.gunmods();
     opts.push_back( &base );
@@ -1530,17 +1530,18 @@ bool player::list_ammo( const item &base, std::vector<item::reload_option> &ammo
                   e->loaded_ammo().stacks_with( *ammo ) ||
                   ( ammo->made_of_from_type( phase_id::LIQUID ) &&
                     e->contents.remaining_capacity_for_liquid( *ammo ) > 0 ) ) ) {
-                ammo_list.emplace_back( this, e, &base, std::move( ammo ) );
+                ammo_list.emplace_back( this, e, &base, std::move( ammo ), fullReload );
             }
         }
     }
     return ammo_match_found;
 }
 
-item::reload_option player::select_ammo( const item &base, bool prompt, bool empty ) const
+item::reload_option player::select_ammo( const item &base, bool prompt, bool empty,
+        bool fullReload ) const
 {
     std::vector<item::reload_option> ammo_list;
-    bool ammo_match_found = list_ammo( base, ammo_list, empty );
+    bool ammo_match_found = list_ammo( base, ammo_list, empty, fullReload );
 
     if( ammo_list.empty() ) {
         if( !is_npc() ) {

@@ -728,14 +728,14 @@ class inventory_pick_selector : public inventory_selector
 class inventory_reload_selector : public inventory_pick_selector
 {
     public:
-        explicit inventory_reload_selector( Character &p, bool &reloadAll,
+        explicit inventory_reload_selector( Character &p, bool &fullReload,
                                             const inventory_selector_preset &preset = default_preset );
 
         item_location execute();
 
         void draw_header( const catacurses::window &w ) const override;
 
-        bool &reloadAll;
+        bool &fullReload;
 };
 
 class inventory_multiselector : public inventory_selector

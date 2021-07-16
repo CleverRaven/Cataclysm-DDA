@@ -2284,11 +2284,11 @@ item_location inventory_pick_selector::execute()
     }
 }
 
-inventory_reload_selector::inventory_reload_selector( Character &p, bool &reloadAll,
+inventory_reload_selector::inventory_reload_selector( Character &p, bool &fullReload,
         const inventory_selector_preset &preset ) : inventory_pick_selector( p,
-                    preset ), reloadAll( reloadAll )
+                    preset ), fullReload( fullReload )
 {
-    ctxt.register_action( "TOGGLE_RELOADALL", to_translation( "Toggle Reload Once/All" ) );
+    ctxt.register_action( "TOGGLE_FULLRELOAD", to_translation( "Toggle Reload Once/All" ) );
 }
 
 item_location inventory_reload_selector::execute()
@@ -2318,9 +2318,9 @@ item_location inventory_reload_selector::execute()
                 const item *sitem = selected.any_item().get_item();
                 action_examine( sitem );
             }
-        } else if( input.action == "TOGGLE_RELOADALL" ) {
+        } else if( input.action == "TOGGLE_FULLRELOAD" ) {
             if( get_selected().any_item()->has_flag( STATIC( flag_id( "RELOAD_ONE" ) ) ) ) {
-                reloadAll = !reloadAll;
+                fullReload = !fullReload;
             }
         } else {
             on_input( input );
@@ -2338,7 +2338,7 @@ void inventory_reload_selector::draw_header( const catacurses::window &w ) const
 
     if( get_selected().any_item()->has_flag( STATIC( flag_id( "RELOAD_ONE" ) ) ) ) {
         right_print( w, border, border + 1, c_dark_gray,
-                     reloadAll ? _( "Reload Once / <color_h_white>Full Reload</color>" ) :
+                     fullReload ? _( "Reload Once / <color_h_white>Full Reload</color>" ) :
                      _( "<color_h_white>Reload Once</color> / Full Reload" ) );
     }
 }

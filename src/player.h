@@ -223,7 +223,7 @@ class player : public Character
         int get_lift_assist() const;
 
         bool list_ammo( const item &base, std::vector<item::reload_option> &ammo_list,
-                        bool empty = true ) const;
+                        bool empty = true, bool fullReload = false ) const;
         /**
          * Select suitable ammo with which to reload the item
          * @param base Item to select ammo for
@@ -231,7 +231,7 @@ class player : public Character
          * @param empty allow selection of empty magazines
          */
         item::reload_option select_ammo( const item &base, bool prompt = false,
-                                         bool empty = true ) const;
+                                         bool empty = true, bool fullReload = false ) const;
 
         /** Select ammo from the provided options */
         item::reload_option select_ammo( const item &base, std::vector<item::reload_option> opts ) const;
