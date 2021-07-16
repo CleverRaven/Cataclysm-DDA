@@ -74,6 +74,38 @@
   },
   {
     "type": "vehicle_part",
+    "id": "afs_metal_rig",
+    "name": { "str": "MetalMaster forge buddy" },
+    "symbol": "&",
+    "categories": [ "utility" ],
+    "color": "red",
+    "broken_symbol": "x",
+    "broken_color": "red",
+    "looks_like": "welding_rig",
+    "damage_modifier": 10,
+    "durability": 200,
+    "description": "A welding and metalworking station, powered by the vehicle's battery.  'e'xamine the forge rig to utilize its welder or soldering iron; you'll still need glare protection.",
+    "size": 200,
+    "item": "afs_metal_rig",
+    "location": "center",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "flags": [ "CARGO", "OBSTACLE", "COVERED" ],
+    "pseudo_tools": [ { "id": "welder", "hotkey": "w" }, { "id": "soldering_iron", "hotkey": "s" }, { "id": "forge" }, { "id": "kiln" } ],
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 3, 6 ] },
+      { "item": "steel_chunk", "count": [ 3, 6 ] },
+      { "item": "scrap", "count": [ 3, 6 ] },
+      { "item": "welder", "charges": 0, "prob": 50 },
+      { "item": "forge", "charges": 0, "prob": 50 },
+      { "item": "kiln", "charges": 0, "prob": 50 }
+    ]
+  },
+  {
+    "type": "vehicle_part",
     "id": "afs_cooking_rig",
     "name": { "str": "cooking rig" },
     "symbol": "&",
@@ -171,6 +203,13 @@
     "copy-from": "afs_fridge",
     "description": "This refurbished refrigerator has been stripped of much of its internal components and converted to run at a much lower temperature, causing it to serve as a freezer for more power.  Like its predecessor, it runs on vehicle power.",
     "color": "light_blue"
+  },
+  {
+    "type": "GENERIC",
+    "id": "afs_metal_rig",
+    "copy-from": "vehicle_rig",
+    "name": { "str": "MetalMaster forge buddy", "str_pl": "MetalMaster forge buddies" },
+    "description": "From the makers of the best-selling* FOODCO kitchen buddy comes the MetalMaster forge buddy, for all your metalworking, firing, and welding needs!  It's just as clunky and awkward as the thing it's spinning off, and still requires a vehicle battery to function."
   },
   {
     "type": "GENERIC",
