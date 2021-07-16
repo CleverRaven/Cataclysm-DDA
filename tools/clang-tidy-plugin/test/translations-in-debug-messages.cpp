@@ -3,8 +3,9 @@
 #include "mock-translation.h"
 
 // dummy messages interface
-class tripoint;
 class Creature;
+class time_duration;
+class tripoint;
 
 namespace debugmode
 {
@@ -75,9 +76,14 @@ template<typename ...Args>
 void add_msg_debug_if_player_sees( const Creature &target, debugmode::debug_filter type,
                                    const char *const msg, Args &&... args );
 
-static void f()
+std::string to_string( const time_duration &d, bool compact = false );
+
+static void f( const time_duration &duration )
 {
     char *skill_level;
     add_msg_debug( debugmode::DF_ACT_BUTCHER, _( "Skill: %s" ), skill_level );
     // CHECK-MESSAGES: [[@LINE-1]]:47: warning: string arguments to debug message functions should not be translated, because this is an unnecessary performance cost. [cata-translations-in-debug-messages]
+
+    add_msg_debug( debugmode::DF_ACT_BUTCHER, "Duration %s", to_string( duration ) );
+    // CHECK-MESSAGES: [[@LINE-1]]:62: warning: string arguments to debug message functions should not be translated, because this is an unnecessary performance cost.  This call to to_string might involve a translation; consider using to_string_writable instead. [cata-translations-in-debug-messages]
 }
