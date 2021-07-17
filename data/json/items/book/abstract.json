@@ -168,6 +168,23 @@
     "relative": { "price": 400, "price_postapoc": -2600, "intelligence": 3 }
   },
   {
+    "abstract": "book_pulp_newage_tpl",
+    "type": "BOOK",
+    "name": { "str": "Generic New-Age Book" },
+    "description": "This is a template for pulp new-age books. They're theoretically nonfiction.",
+    "copy-from": "book_fict_soft_pulp_tpl",
+    "relative": {"chapters": -6, "price": 2500, "price_postapoc": -1000 }
+  },
+    {
+    "abstract": "book_fict_soft_pulp_tpl",
+    "type": "BOOK",
+    "name": { "str": "Generic Pulp Book" },
+    "description": "This is a template for pulp books.  Which really all ought to be paperbacks, right?",
+    "looks_like": "novel_pulp",
+    "copy-from": "book_fict_soft_tpl",
+    "relative": { "intelligence": -1, "chapters": -2, "fun": 1, "price": -200, "price_postapoc": -1000 }
+  },
+  {
     "abstract": "book_nonf_hard_sports_tpl",
     "type": "BOOK",
     "name": { "str": "Hardcover Nonfiction Sports Book" },
