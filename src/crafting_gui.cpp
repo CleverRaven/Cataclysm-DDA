@@ -942,7 +942,7 @@ const recipe *select_crafting_recipe( int &batch_size_out )
         } else if( action == "SCROLL_RECIPE_INFO_DOWN" ) {
             recipe_info_scroll += dataLines;
         } else if( action == "LEFT" ) {
-            if( !filterstring.empty() ) {
+            if( batch || !filterstring.empty() ) {
                 continue;
             }
             std::string start = subtab.cur();
@@ -961,7 +961,7 @@ const recipe *select_crafting_recipe( int &batch_size_out )
             subtab = list_circularizer<std::string>( craft_subcat_list[tab.cur()] );
             recalc = true;
         } else if( action == "RIGHT" ) {
-            if( !filterstring.empty() ) {
+            if( batch || !filterstring.empty() ) {
                 continue;
             }
             std::string start = subtab.cur();
