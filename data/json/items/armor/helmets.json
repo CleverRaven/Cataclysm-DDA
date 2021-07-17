@@ -615,7 +615,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "kettle helmet" },
-    "description": "A wide brimmed helmet that looks somewhat like a metal cowboy hat. Sadly, it won't help protect your eyes from the sun.",
+    "description": "A wide brimmed helmet that looks somewhat like a metal cowboy hat.  Sadly, it won't help protect your eyes from the sun.",
     "weight": "2555 g",
     "volume": "2050 ml",
     "price": 30000,
