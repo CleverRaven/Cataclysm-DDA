@@ -264,7 +264,6 @@ void npc_attack_gun::use( npc &source, const tripoint &location ) const
     // Only aim if we aren't in risk of being hit
     // TODO: Get distance to closest enemy
     if( dist > 1 && source.aim_per_move( gun, source.recoil ) > 0 &&
-        /*source.confident_shoot_range(gun, source.get_most_accurate_sight(gun) ) >= dist*/
         source.confident_gun_mode_range( gunmode, source.recoil ) < dist ) {
         add_msg_debug( debugmode::debug_filter::DF_NPC, "%s is aiming", source.disp_name() );
         source.aim();
@@ -626,8 +625,6 @@ npc_attack_rating npc_attack_throw::evaluate_tripoint(
     } else {
         suitable_item_mult = -0.35f;
     }
-    //const int distance_penalty = clamp( distance_to_me - 3, 0, 5 );
-    //const float distance_mult = -distance_penalty * 0.1f;
 
     double potential = dps * ( 1.0 + suitable_item_mult );
     if( potential > 0.0f && critter && damage >= critter->get_hp() ) {
