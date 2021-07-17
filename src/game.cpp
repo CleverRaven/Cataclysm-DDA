@@ -221,13 +221,11 @@ static const efftype_id effect_laserlocked( "laserlocked" );
 static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_npc_suspend( "npc_suspend" );
 static const efftype_id effect_onfire( "onfire" );
-static const efftype_id effect_paid( "paid" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_stunned( "stunned" );
-static const efftype_id effect_sensor_stun( "sensor_stun" );
 static const efftype_id effect_tetanus( "tetanus" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_winded( "winded" );
@@ -9512,27 +9510,17 @@ bool game::disable_robot( const tripoint &p )
         return false;
     }
     monster &critter = *mon_ptr;
-    if( ( critter.friendly == 0 && !critter.has_effect( effect_sensor_stun ) ) ||
-        critter.has_flag( MF_RIDEABLE_MECH ) ||
-        ( critter.has_flag( MF_PAY_BOT ) && critter.has_effect( effect_paid ) ) ) {
-        // Can only disable / reprogram friendly or stunned monsters
+    if( !disable_activity_actor::can_disable_or_reprogram( critter ) ) {
         return false;
     }
+
     const mtype_id mid = critter.type->id;
     const itype_id mon_item_id = critter.type->revert_to_itype;
     if( !mon_item_id.is_empty() &&
         query_yn( _( "Deactivate the %s?" ), critter.name() ) ) {
 
-        u.moves -= 100;
-        m.add_item_or_charges( p, critter.to_item() );
-        if( !critter.has_flag( MF_INTERIOR_AMMO ) ) {
-            for( std::pair<const itype_id, int> &ammodef : critter.ammo ) {
-                if( ammodef.second > 0 ) {
-                    m.spawn_item( p.xy(), ammodef.first, 1, ammodef.second, calendar::turn );
-                }
-            }
-        }
-        remove_zombie( critter );
+        u.assign_activity( player_activity( disable_activity_actor( p,
+                                            disable_activity_actor::get_disable_turns(), false ) ) );
         return true;
     }
     // Manhacks are special, they have their own menu here.
@@ -9543,25 +9531,10 @@ bool game::disable_robot( const tripoint &p )
         } else {
             choice = uilist( _( "Reprogram the manhack?" ), { _( "Follow me." ) } );
         }
-        switch( choice ) {
-            case 0:
-                if( critter.has_effect( effect_docile ) ) {
-                    critter.remove_effect( effect_docile );
-                    if( one_in( 3 ) ) {
-                        add_msg( _( "The %s hovers momentarily as it surveys the area." ),
-                                 critter.name() );
-                    }
-                } else {
-                    critter.add_effect( effect_docile, 1_turns, true );
-                    if( one_in( 3 ) ) {
-                        add_msg( _( "The %s lets out a whirring noise and starts to follow you." ),
-                                 critter.name() );
-                    }
-                }
-                u.moves -= 100;
-                return true;
-            default:
-                break;
+
+        if( choice == 0 ) {
+            u.assign_activity( player_activity( disable_activity_actor( p,
+                                                disable_activity_actor::get_disable_turns(), true ) ) );
         }
     }
     return false;

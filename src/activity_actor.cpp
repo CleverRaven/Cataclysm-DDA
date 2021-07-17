@@ -77,9 +77,12 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 
+static const efftype_id effect_docile( "docile" );
 static const efftype_id effect_pet( "pet" );
+static const efftype_id effect_sensor_stun( "sensor_stun" );
 static const efftype_id effect_sheared( "sheared" );
 static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_worked_on( "worked_on" );
 static const efftype_id effect_tied( "tied" );
 
 static const itype_id itype_bone_human( "bone_human" );
@@ -88,12 +91,15 @@ static const itype_id itype_electrohack( "electrohack" );
 static const itype_id itype_pseudo_bio_picklock( "pseudo_bio_picklock" );
 
 static const skill_id skill_computer( "computer" );
+static const skill_id skill_electronics( "electronics" );
 static const skill_id skill_mechanics( "mechanics" );
 static const skill_id skill_traps( "traps" );
 
 static const proficiency_id proficiency_prof_lockpicking( "prof_lockpicking" );
 static const proficiency_id proficiency_prof_lockpicking_expert( "prof_lockpicking_expert" );
 
+
+static const mtype_id mon_manhack( "mon_manhack" );
 static const mtype_id mon_zombie( "mon_zombie" );
 static const mtype_id mon_zombie_fat( "mon_zombie_fat" );
 static const mtype_id mon_zombie_rot( "mon_zombie_rot" );
@@ -2408,6 +2414,108 @@ std::unique_ptr<activity_actor> stash_activity_actor::deserialize( JsonIn &jsin 
     return actor.clone();
 }
 
+void disable_activity_actor::start( player_activity &act, Character &/*who*/ )
+{
+    act.moves_total = moves_total;
+    act.moves_left = moves_total;
+    monster &critter = *( g->critter_at<monster>( target ) );
+    critter.add_effect( effect_worked_on, 1_turns );
+}
+
+void disable_activity_actor::do_turn( player_activity &, Character &who )
+{
+    monster *const mon_ptr = g->critter_at<monster>( target );
+    if( !mon_ptr ) {
+        who.add_msg_if_player( _( "The robot has moved somewhere else." ) );
+        who.cancel_activity();
+        return;
+    }
+
+    monster &critter = *mon_ptr;
+    if( !can_disable_or_reprogram( critter ) ) {
+        // I think recovery from stunned is the only reason this could happen
+        who.add_msg_if_player( _( "The %s recovers before you can finish." ), critter.name() );
+        who.cancel_activity();
+        return;
+    }
+
+    critter.add_effect( effect_worked_on, 1_turns );
+}
+
+void disable_activity_actor::finish( player_activity &act, Character &/*who*/ )
+{
+    // Should never be null as we just checked in do_turn
+    monster &critter = *( g->critter_at<monster>( target ) );
+
+    if( reprogram ) {
+        if( critter.has_effect( effect_docile ) ) {
+            critter.remove_effect( effect_docile );
+            if( one_in( 3 ) ) {
+                add_msg( _( "The %s hovers momentarily as it surveys the area." ),
+                         critter.name() );
+            }
+        } else {
+            critter.add_effect( effect_docile, 1_turns, true );
+            if( one_in( 3 ) ) {
+                add_msg( _( "The %s lets out a whirring noise and starts to follow you." ),
+                         critter.name() );
+            }
+        }
+    } else {
+        get_map().add_item_or_charges( target, critter.to_item() );
+        if( !critter.has_flag( MF_INTERIOR_AMMO ) ) {
+            for( std::pair<const itype_id, int> &ammodef : critter.ammo ) {
+                if( ammodef.second > 0 ) {
+                    get_map().spawn_item( target.xy(), ammodef.first, 1, ammodef.second, calendar::turn );
+                }
+            }
+        }
+        g->remove_zombie( critter );
+    }
+
+    act.set_to_null();
+}
+
+bool disable_activity_actor::can_disable_or_reprogram( const monster &monster )
+{
+    if( get_avatar().get_skill_level( skill_electronics ) + get_avatar().get_skill_level(
+            skill_mechanics ) <= 0 ) {
+        return false;
+    }
+
+    return ( ( monster.friendly != 0 || monster.has_effect( effect_sensor_stun ) ) &&
+             !monster.has_flag( MF_RIDEABLE_MECH ) &&
+             !( monster.has_flag( MF_PAY_BOT ) && monster.has_effect( efftype_id( "paid" ) ) ) ) &&
+           ( !monster.type->revert_to_itype.is_empty() || monster.type->id == mon_manhack );
+}
+
+int disable_activity_actor::get_disable_turns()
+{
+    return 2000 / ( get_avatar().get_skill_level( skill_electronics ) + get_avatar().get_skill_level(
+                        skill_mechanics ) );
+}
+
+void disable_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "target", target );
+    jsout.member( "reprogram", reprogram );
+    jsout.member( "moves_total", moves_total );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> disable_activity_actor::deserialize( JsonIn &jsin )
+{
+    disable_activity_actor actor = disable_activity_actor();
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "target", actor.target );
+    data.read( "reprogram", actor.reprogram );
+
+    return actor.clone();
+}
+
 void move_furniture_activity_actor::start( player_activity &act, Character & )
 {
     int moves = g->grabbed_furn_move_time( dp );
@@ -3243,6 +3351,7 @@ deserialize_functions = {
     { activity_id( "ACT_CRAFT" ), &craft_activity_actor::deserialize },
     { activity_id( "ACT_DIG" ), &dig_activity_actor::deserialize },
     { activity_id( "ACT_DIG_CHANNEL" ), &dig_channel_activity_actor::deserialize },
+    { activity_id( "ACT_DISABLE" ), &disable_activity_actor::deserialize },
     { activity_id( "ACT_DISASSEMBLE" ), &disassemble_activity_actor::deserialize },
     { activity_id( "ACT_DROP" ), &drop_activity_actor::deserialize },
     { activity_id( "ACT_GUNMOD_REMOVE" ), &gunmod_remove_activity_actor::deserialize },
