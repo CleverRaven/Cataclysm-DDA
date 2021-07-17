@@ -311,7 +311,7 @@
     "id": "tec_bojutsu_disarm",
     "name": "Hooking Disarm",
     "messages": [ "You're able to disarm %s by hooking their weapon", "<npcname> hooks %s's weapon and casts it away" ],
-    "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
+    "skill_requirements": [ { "name": "melee", "level": 5 } ],
     "melee_allowed": true,
     "crit_ok": true,
     "disarms": true,
