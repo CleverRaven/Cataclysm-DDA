@@ -12,9 +12,6 @@
     "symbol": "[",
     "looks_like": "sheath",
     "color": "brown",
-    "covers": [ "torso" ],
-    "coverage": 5,
-    "encumbrance": 2,
     "material_thickness": 1,
     "pocket_data": [
       {
@@ -27,7 +24,8 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Sheath axe", "holster_msg": "You sheath your %s" },
-    "flags": [ "NONCONDUCTIVE", "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "NONCONDUCTIVE", "WAIST", "OVERSIZE", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 2, "coverage": 5, "covers": [ "torso" ] } ]
   },
   {
     "id": "baldric",
@@ -43,10 +41,6 @@
     "symbol": "[",
     "looks_like": "sheath",
     "color": "brown",
-    "covers": [ "torso" ],
-    "coverage": 10,
-    "encumbrance": 3,
-    "max_encumbrance": 5,
     "material_thickness": 1,
     "pocket_data": [
       {
@@ -60,7 +54,8 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Sheath sword", "holster_msg": "You sheath your %s" },
-    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": [ 3, 5 ], "coverage": 10, "covers": [ "torso" ] } ]
   },
   {
     "id": "bootsheath",
@@ -76,11 +71,7 @@
     "symbol": "[",
     "looks_like": "sheath",
     "color": "brown",
-    "covers": [ "foot_l", "foot_r" ],
     "sided": true,
-    "coverage": 5,
-    "encumbrance": 2,
-    "max_encumbrance": 3,
     "material_thickness": 1,
     "pocket_data": [
       {
@@ -94,7 +85,8 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Sheath knife", "holster_msg": "You sheath your %s" },
-    "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "NOT_FOOTWEAR" ]
+    "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "NOT_FOOTWEAR" ],
+    "armor": [ { "encumbrance": [ 2, 3 ], "coverage": 5, "covers": [ "foot_l", "foot_r" ] } ]
   },
   {
     "id": "bootsheath_birchbark",
@@ -110,11 +102,7 @@
     "symbol": "[",
     "looks_like": "bootsheath",
     "color": "brown",
-    "covers": [ "foot_l", "foot_r" ],
     "sided": true,
-    "coverage": 5,
-    "encumbrance": 2,
-    "max_encumbrance": 3,
     "material_thickness": 1,
     "pocket_data": [
       {
@@ -128,7 +116,8 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Sheath knife", "holster_msg": "You sheath your %s" },
-    "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "NOT_FOOTWEAR" ]
+    "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "NOT_FOOTWEAR" ],
+    "armor": [ { "encumbrance": [ 2, 3 ], "coverage": 5, "covers": [ "foot_l", "foot_r" ] } ]
   },
   {
     "id": "bscabbard",
@@ -144,10 +133,6 @@
     "symbol": "[",
     "looks_like": "baldric",
     "color": "brown",
-    "covers": [ "torso" ],
-    "coverage": 10,
-    "encumbrance": 6,
-    "max_encumbrance": 10,
     "material_thickness": 1,
     "pocket_data": [
       {
@@ -161,7 +146,8 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Sheath sword", "holster_msg": "You sheath your %s" },
-    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": [ 6, 10 ], "coverage": 10, "covers": [ "torso" ] } ]
   },
   {
     "id": "scabbard",
@@ -177,11 +163,7 @@
     "symbol": "[",
     "looks_like": "holster",
     "color": "brown",
-    "covers": [ "leg_l", "leg_r" ],
     "sided": true,
-    "coverage": 15,
-    "encumbrance": 3,
-    "max_encumbrance": 4,
     "material_thickness": 1,
     "pocket_data": [
       {
@@ -195,7 +177,8 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Sheath sword", "holster_msg": "You sheath your %s" },
-    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": [ 3, 4 ], "coverage": 15, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "sheath",
@@ -210,10 +193,7 @@
     "symbol": "|",
     "looks_like": "scabbard",
     "color": "brown",
-    "covers": [ "leg_l", "leg_r" ],
     "sided": true,
-    "coverage": 5,
-    "max_encumbrance": 1,
     "material_thickness": 1,
     "pocket_data": [
       {
@@ -227,7 +207,8 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Sheath knife", "holster_msg": "You sheath your %s" },
-    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ],
+    "armor": [ { "coverage": 5, "covers": [ "leg_l", "leg_r" ], "encumbrance": [ 0, 1 ] } ]
   },
   {
     "id": "sheath_birchbark",
@@ -242,10 +223,7 @@
     "symbol": "|",
     "looks_like": "sheath",
     "color": "brown",
-    "covers": [ "leg_l", "leg_r" ],
     "sided": true,
-    "coverage": 5,
-    "max_encumbrance": 1,
     "material_thickness": 1,
     "pocket_data": [
       {
@@ -259,7 +237,8 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Sheath knife", "holster_msg": "You sheath your %s" },
-    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ],
+    "armor": [ { "coverage": 5, "covers": [ "leg_l", "leg_r" ], "encumbrance": [ 0, 1 ] } ]
   },
   {
     "id": "spearsling",
@@ -275,9 +254,6 @@
     "symbol": "[",
     "looks_like": "bscabbard",
     "color": "brown",
-    "covers": [ "torso" ],
-    "coverage": 5,
-    "encumbrance": 2,
     "material_thickness": 1,
     "pocket_data": [
       {
@@ -290,6 +266,7 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Holster spear", "holster_msg": "You holster your %s." },
-    "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 2, "coverage": 5, "covers": [ "torso" ] } ]
   }
 ]

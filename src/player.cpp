@@ -142,7 +142,6 @@ static const proficiency_id proficiency_prof_spotting( "prof_spotting" );
 static const bionic_id bio_cqb( "bio_cqb" );
 static const bionic_id bio_ground_sonar( "bio_ground_sonar" );
 static const bionic_id bio_soporific( "bio_soporific" );
-static const bionic_id bio_speed( "bio_speed" );
 
 static const json_character_flag json_flag_FEATHER_FALL( "FEATHER_FALL" );
 
@@ -468,12 +467,9 @@ void player::recalc_speed_bonus()
         }
     }
 
-    float speed_modifier = Character::mutation_value( "speed_modifier" );
+    float speed_modifier = static_cast<float>( enchantment_cache->modify_value(
+                               enchant_vals::mod::SPEED, 1 ) );
     set_speed_bonus( static_cast<int>( get_speed() * speed_modifier ) - get_speed_base() );
-
-    if( has_bionic( bio_speed ) ) { // multiply by 1.1
-        set_speed_bonus( static_cast<int>( get_speed() * 1.1 ) - get_speed_base() );
-    }
 
     // Speed cannot be less than 25% of base speed, so minimal speed bonus is -75% base speed.
     const int min_speed_bonus = static_cast<int>( -0.75 * get_speed_base() );
@@ -1096,7 +1092,7 @@ void player::siphon( vehicle &veh, const itype_id &desired_liquid )
     }
 
     item liquid( desired_liquid, calendar::turn, qty );
-    if( liquid.is_food() ) {
+    if( liquid.has_temperature() ) {
         liquid.set_item_specific_energy( veh.fuel_specific_energy( desired_liquid ) );
     }
     if( liquid_handler::handle_liquid( liquid, nullptr, 1, nullptr, &veh ) ) {
@@ -1559,7 +1555,7 @@ item::reload_option player::select_ammo( const item &base, bool prompt, bool emp
                 if( base.ammo_data() ) {
                     name = base.ammo_data()->nname( 1 );
                 } else if( base.is_watertight_container() ) {
-                    name = base.is_container_empty() ? "liquid" : base.contents.legacy_front().tname();
+                    name = base.is_container_empty() ? "liquid" : base.legacy_front().tname();
                 } else {
                     const std::set<ammotype> types_of_ammo = base.ammo_types();
                     name = enumerate_as_string( types_of_ammo.begin(),
@@ -2051,7 +2047,7 @@ void player::use( item_location loc, int pre_obtain_moves )
     } else if( used.type->can_use( "DOGFOOD" ) ||
                used.type->can_use( "CATFOOD" ) ||
                used.type->can_use( "BIRDFOOD" ) ||
-               used.type->can_use( "CATTLEFODDER" ) ) {
+               used.type->can_use( "CATTLEFODDER" ) ) { // NOLINT(bugprone-branch-clone)
         invoke_item( &used, loc.position(), pre_obtain_moves );
 
     } else if( !used.is_craft() && ( used.is_medication() || ( !used.type->has_use() &&

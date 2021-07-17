@@ -595,7 +595,7 @@ void test_scenario::run()
                         {}
                     }
                 };
-            } else if( !will_spill_outer && !do_spill ) {
+            } else if( !do_spill ) {
                 original_location = final_result {
                     test_watertight_open_sealed_container_1L,
                     false,
@@ -623,7 +623,7 @@ void test_scenario::run()
                         }
                     }
                 };
-            } else if( do_spill ) {
+            } else {
                 original_location = final_result {
                     test_watertight_open_sealed_container_1L,
                     false,
@@ -642,34 +642,6 @@ void test_scenario::run()
                         false,
                         false,
                         {}
-                    }
-                };
-            } else {
-                original_location = final_result {
-                    test_watertight_open_sealed_container_1L,
-                    false,
-                    false,
-                    {}
-                };
-                ground = {
-                    final_result {
-                        test_watertight_open_sealed_multipocket_container_2x250ml,
-                        false,
-                        false,
-                        {
-                            final_result {
-                                test_liquid_1ml,
-                                false,
-                                false,
-                                {}
-                            },
-                            final_result {
-                                test_liquid_1ml,
-                                false,
-                                false,
-                                {}
-                            }
-                        }
                     }
                 };
             }

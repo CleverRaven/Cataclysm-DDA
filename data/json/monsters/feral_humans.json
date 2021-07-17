@@ -44,7 +44,6 @@
       }
     ],
     "death_drops": "feral_humans_death_drops_pipe",
-    "death_function": [ "NORMAL" ],
     "zombify_into": "mon_zombie",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
     "flags": [
@@ -107,7 +106,6 @@
     "vision_day": 50,
     "vision_night": 3,
     "death_drops": "feral_scientists_death_drops_scalpel",
-    "death_function": [ "NORMAL" ],
     "zombify_into": "mon_zombie_scientist",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT", "PLAYER_CLOSE" ],
     "flags": [
@@ -172,7 +170,6 @@
       }
     ],
     "death_drops": "feral_security_death_drops_9mm",
-    "death_function": [ "NORMAL" ],
     "zombify_into": "mon_zombie_labsecurity",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT", "PLAYER_WEAK" ],
     "flags": [

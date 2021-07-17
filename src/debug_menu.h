@@ -65,6 +65,7 @@ enum class debug_menu_index : int {
     CRASH_GAME,
     MAP_EXTRA,
     DISPLAY_NPC_PATH,
+    DISPLAY_NPC_ATTACK,
     PRINT_FACTION_INFO,
     PRINT_NPC_MAGIC,
     QUIT_NOSAVE,

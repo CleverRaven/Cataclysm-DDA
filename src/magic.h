@@ -169,6 +169,7 @@ struct fake_spell {
     // gets the spell with an additional override for minimum level (default 0)
     spell get_spell( int min_level_override = 0 ) const;
 
+    bool is_valid() const;
     void load( const JsonObject &jo );
     void serialize( JsonOut &json ) const;
     void deserialize( JsonIn &jsin );
@@ -697,6 +698,14 @@ void mutate( const spell &sp, Creature &caster, const tripoint &target );
 void bash( const spell &sp, Creature &caster, const tripoint &target );
 void dash( const spell &sp, Creature &caster, const tripoint &target );
 void banishment( const spell &sp, Creature &caster, const tripoint &target );
+// revives a monster into some kind of zombie if the monster has the revives flag
+void revive( const spell &sp, Creature &caster, const tripoint &target );
+void upgrade( const spell &sp, Creature &caster, const tripoint &target );
+// causes guilt to the target as if it killed the caster
+void guilt( const spell &sp, Creature &caster, const tripoint &target );
+void remove_effect( const spell &sp, Creature &caster, const tripoint &target );
+void emit( const spell &sp, Creature &caster, const tripoint &target );
+void fungalize( const spell &sp, Creature &caster, const tripoint &target );
 void none( const spell &sp, Creature &, const tripoint &target );
 
 static const std::map<spell_shape, std::function<std::set<tripoint>
@@ -735,6 +744,12 @@ effect_map{
     { "bash", spell_effect::bash },
     { "dash", spell_effect::dash },
     { "banishment", spell_effect::banishment },
+    { "revive", spell_effect::revive },
+    { "upgrade", spell_effect::upgrade },
+    { "guilt", spell_effect::guilt },
+    { "remove_effect", spell_effect::remove_effect },
+    { "emit", spell_effect::emit },
+    { "fungalize", spell_effect::fungalize },
     { "none", spell_effect::none }
 };
 } // namespace spell_effect

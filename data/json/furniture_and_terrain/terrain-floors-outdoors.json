@@ -84,6 +84,18 @@
   },
   {
     "type": "terrain",
+    "id": "t_glassed_sand",
+    "name": "glassed sand",
+    "description": "A patch of sand that has a crust of natural glass atop it, after exposure to intense heat.",
+    "looks_like": "t_sand",
+    "symbol": "~",
+    "color": "brown",
+    "move_cost": 3,
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT" ],
+    "bash": { "sound": "crunch", "ter_set": "t_sand", "str_min": 25, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
     "id": "t_dirtmound",
     "name": "mound of dirt",
     "description": "An area of heaped dirt, not easily traversable.  If examined more closely, it's quite favorable for planting seeds and the like.",

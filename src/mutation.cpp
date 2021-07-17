@@ -73,7 +73,6 @@ static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 
 static const json_character_flag json_flag_TINY( "TINY" );
 static const json_character_flag json_flag_SMALL( "SMALL" );
-static const json_character_flag json_flag_MEDIUM( "MEDIUM" );
 static const json_character_flag json_flag_LARGE( "LARGE" );
 static const json_character_flag json_flag_HUGE( "HUGE" );
 
@@ -380,8 +379,6 @@ void Character::recalculate_size()
         size_class = creature_size::tiny;
     } else if( has_trait_flag( json_flag_SMALL ) ) {
         size_class = creature_size::small;
-    } else if( has_trait_flag( json_flag_MEDIUM ) ) {
-        size_class = creature_size::medium;
     } else if( has_trait_flag( json_flag_LARGE ) ) {
         size_class = creature_size::large;
     } else if( has_trait_flag( json_flag_HUGE ) ) {
@@ -1291,10 +1288,8 @@ bool Character::mutate_towards( const trait_id &mut )
             rating = m_bad;
         } else if( mdata.points > cancel_mdata.points ) {
             rating = m_good;
-        } else if( mdata.points == cancel_mdata.points ) {
-            rating = m_neutral;
         } else {
-            rating = m_mixed;
+            rating = m_neutral;
         }
         // If this new mutation cancels a base trait, remove it and add the mutation at the same time
         add_msg_player_or_npc( rating,

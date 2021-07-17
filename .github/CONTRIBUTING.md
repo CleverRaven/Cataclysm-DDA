@@ -111,12 +111,13 @@ Helpful pages:
 
 3. Set commit message template.
 
+        $ cd Cataclysm-DDA
+        # Changes the active directory in the prompt to the newly cloned "Cataclysm-DDA" directory
         $ git config --local commit.template .gitmessage
+        # Set commit message template to the custom one in the repo
 
 4. Add this repository as a remote.
 
-        $ cd Cataclysm-DDA
-        # Changes the active directory in the prompt to the newly cloned "Cataclysm-DDA" directory
         $ git remote add -f upstream https://github.com/CleverRaven/Cataclysm-DDA.git
         # Assigns the original repository to a remote called "upstream"
 
