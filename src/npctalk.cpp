@@ -2219,6 +2219,21 @@ void talk_effect_fun_t::set_mod_healthy( const JsonObject &jo, const std::string
     };
 }
 
+void talk_effect_fun_t::set_cast_spell( const JsonObject &jo, const std::string &member,
+                                        bool is_npc )
+{
+    fake_spell fake;
+    mandatory( jo, false, member, fake );
+    function = [is_npc, fake]( const dialogue & d ) {
+        Creature *caster = d.actor( is_npc )->get_creature();
+        if( !caster ) {
+            debugmsg( "No valid caster for spell." );
+        } else {
+            fake.get_spell( 0 ).cast_all_effects( *caster, caster->pos() );
+        }
+    };
+}
+
 void talk_effect_fun_t::set_assign_mission( const JsonObject &jo, const std::string &member )
 {
     std::string mission_name = jo.get_string( member );
@@ -2633,6 +2648,10 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_lose_morale( jo, "u_lose_morale", false );
     } else if( jo.has_string( "npc_lose_morale" ) ) {
         subeffect_fun.set_lose_morale( jo, "npc_lose_morale", true );
+    } else if( jo.has_member( "u_cast_spell" ) ) {
+        subeffect_fun.set_cast_spell( jo, "u_cast_spell", false );
+    } else if( jo.has_member( "npc_cast_spell" ) ) {
+        subeffect_fun.set_mod_healthy( jo, "npc_cast_spell", true );
     } else {
         jo.throw_error( "invalid sub effect syntax: " + jo.str() );
     }
