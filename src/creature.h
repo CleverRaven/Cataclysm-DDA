@@ -980,7 +980,6 @@ class Creature : public location, public viewer
 
         virtual void add_msg_debug_if_player( debugmode::debug_filter /*type*/,
                                               const std::string &/*msg*/ ) const {}
-        void add_msg_debug_if_player( debugmode::debug_filter /*type*/, const translation &/*msg*/ ) const;
         template<typename ...Args>
         void add_msg_debug_if_player( debugmode::debug_filter type, const char *const msg,
                                       Args &&... args ) const {
@@ -996,17 +995,9 @@ class Creature : public location, public viewer
                 return add_msg_debug_if_player( type, string_format( msg, std::forward<Args>( args )... ) );
             }
         }
-        template<typename ...Args>
-        void add_msg_debug_if_player( debugmode::debug_filter type, const translation &msg,
-                                      Args &&... args ) const {
-            if( debug_mode ) {
-                return add_msg_debug_if_player( type, string_format( msg, std::forward<Args>( args )... ) );
-            }
-        }
 
         virtual void add_msg_debug_if_npc( debugmode::debug_filter /*type*/,
                                            const std::string &/*msg*/ ) const {}
-        void add_msg_debug_if_npc( debugmode::debug_filter /*type*/, const translation &/*msg*/ ) const;
         template<typename ...Args>
         void add_msg_debug_if_npc( debugmode::debug_filter type, const char *const msg,
                                    Args &&... args ) const {
@@ -1017,13 +1008,6 @@ class Creature : public location, public viewer
         }
         template<typename ...Args>
         void add_msg_debug_if_npc( debugmode::debug_filter type, const std::string &msg,
-                                   Args &&... args ) const {
-            if( debug_mode ) {
-                return add_msg_debug_if_npc( type, string_format( msg, std::forward<Args>( args )... ) );
-            }
-        }
-        template<typename ...Args>
-        void add_msg_debug_if_npc( debugmode::debug_filter type, const translation &msg,
                                    Args &&... args ) const {
             if( debug_mode ) {
                 return add_msg_debug_if_npc( type, string_format( msg, std::forward<Args>( args )... ) );
@@ -1049,15 +1033,6 @@ class Creature : public location, public viewer
         template<typename ...Args>
         void add_msg_debug_player_or_npc( debugmode::debug_filter type, const std::string &player_msg,
                                           const std::string &npc_msg, Args &&... args ) const {
-            if( debug_mode ) {
-                return add_msg_debug_player_or_npc( type, string_format( player_msg,
-                                                    std::forward<Args>( args )... ),
-                                                    string_format( npc_msg, std::forward<Args>( args )... ) );
-            }
-        }
-        template<typename ...Args>
-        void add_msg_debug_player_or_npc( debugmode::debug_filter type, const translation &player_msg,
-                                          const translation &npc_msg, Args &&... args ) const {
             if( debug_mode ) {
                 return add_msg_debug_player_or_npc( type, string_format( player_msg,
                                                     std::forward<Args>( args )... ),
