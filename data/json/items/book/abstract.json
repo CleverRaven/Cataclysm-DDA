@@ -173,9 +173,10 @@
     "name": { "str": "Generic New-Age Book" },
     "description": "This is a template for pulp new-age books. They're theoretically nonfiction.",
     "copy-from": "book_fict_soft_pulp_tpl",
-    "relative": {"chapters": -6, "price": 2500, "price_postapoc": -1000 }
+    "weight": "250 g",
+    "relative": { "chapters": -6, "price": 2500, "price_postapoc": -100 }
   },
-    {
+  {
     "abstract": "book_fict_soft_pulp_tpl",
     "type": "BOOK",
     "name": { "str": "Generic Pulp Book" },
