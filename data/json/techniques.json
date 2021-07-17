@@ -270,6 +270,7 @@
     "id": "tec_bojutsu_thrust",
     "name": "Front Thrust",
     "messages": [ "You thrust at the %s", "<npcname> thrusts at %s" ],
+    "skill_requirements": [ { "name": "melee", "level": 1 } ],
     "melee_allowed": true,
     "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.2 } ]
   },
@@ -289,7 +290,7 @@
     "id": "tec_bojutsu_frontstrike",
     "name": "Overhead Front Strike",
     "messages": [ "You block %s's attack and counter with a Overhead Front Strike!" ],
-    "skill_requirements": [ { "name": "melee", "level": 1 } ],
+    "skill_requirements": [ { "name": "melee", "level": 3 } ],
     "melee_allowed": true,
     "block_counter": true,
     "crit_ok": true,
