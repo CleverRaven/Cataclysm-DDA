@@ -3462,36 +3462,17 @@ int vehicle::basic_consumption( const itype_id &ftype ) const
     return fcon;
 }
 
-int vehicle::consumption_per_hour( const itype_id &ftype, int fuel_rate_w ) const
+int vehicle::consumption_per_hour( const itype_id &ftype, fuel_consumption_data &fcd ) const
 {
     item fuel = item( ftype );
-    if( fuel_rate_w == 0 || fuel.has_flag( flag_PERPETUAL ) || !engine_on ) {
+    if( fcd.total_fuel == 0 || fcd.fuel_per_sec.empty() || fuel.has_flag( flag_PERPETUAL ) ||
+        !engine_on ) {
         return 0;
     }
-    // consume this fuel type's share of alternator load for 3600 seconds
-    int amount_pct = 3600 * alternator_load / 1000;
 
-    // calculate fuel consumption for the lower of safe speed or 70 mph
-    // or 0 if the vehicle is idling
-    if( is_moving() ) {
-        int target_v = std::min( safe_velocity(), 70 * 100 );
-        int vslowdown = slowdown( target_v );
-        // add 3600 seconds worth of fuel consumption for the engine
-        // HACK: engines consume 1 second worth of fuel per turn, even though a turn is 6 seconds
-        if( vslowdown > 0 ) {
-            int accel = acceleration( true, target_v );
-            if( accel == 0 ) {
-                // FIXME: Long-term plan is to change the fuel consumption
-                // computation entirely; for now just warn if this would
-                // otherwise have been division-by-zero
-                debugmsg( "Vehicle unexpectedly has zero acceleration" );
-            } else {
-                amount_pct += 600 * vslowdown / accel;
-            }
-        }
-    }
-    int energy_j_per_mL = fuel.fuel_energy() * 1000;
-    return -amount_pct * fuel_rate_w / energy_j_per_mL;
+    int average = fcd.total_fuel / fcd.fuel_per_sec.size();
+    //Fuel energy is in 'kJ', consumption is per 's' so multiply by 3600, then divide by 1000
+    return -36 * average / fuel.fuel_energy() / 10 ;
 }
 
 int vehicle::total_power_w( const bool fueled, const bool safe ) const
@@ -4626,16 +4607,27 @@ double vehicle::drain_energy( const itype_id &ftype, double energy_j )
 void vehicle::consume_fuel( int load, bool idling )
 {
     double st = strain();
+    std::map<itype_id, fuel_consumption_data> fuel_used_tmp;
     for( const auto &fuel_pr : fuel_usage() ) {
         const itype_id &ft = fuel_pr.first;
         if( idling && ft == fuel_type_battery ) {
             continue;
         }
 
+        fuel_used_tmp[ft] = fuel_used[ ft ];
+        fuel_consumption_data &fcd = fuel_used_tmp[ ft ];
+
         double amnt_precise_j = static_cast<double>( fuel_pr.second );
         amnt_precise_j *= load / 1000.0 * ( 1.0 + st * st * 100.0 );
-        auto inserted = fuel_used_last_turn.insert( { ft, 0.0f } );
-        inserted.first->second += amnt_precise_j;
+
+        fcd.fuel_per_sec.push_front( amnt_precise_j );
+        fcd.total_fuel += amnt_precise_j;
+
+        if( fcd.fuel_per_sec.size() > 60 ) {
+            fcd.total_fuel -= fcd.fuel_per_sec.back();
+            fcd.fuel_per_sec.pop_back();
+        }
+
         double remainder = fuel_remainder[ ft ];
         amnt_precise_j -= remainder;
 
@@ -4649,6 +4641,7 @@ void vehicle::consume_fuel( int load, bool idling )
     if( idling ) {
         return;
     }
+    fuel_used = fuel_used_tmp;
     Character &player_character = get_player_character();
     if( load > 0 && fuel_left( fuel_type_muscle ) > 0 &&
         player_character.has_effect( effect_winded ) ) {
@@ -5537,7 +5530,6 @@ void vehicle::place_spawn_items()
 
 void vehicle::gain_moves()
 {
-    fuel_used_last_turn.clear();
     check_falling_or_floating();
     const bool pl_control = player_in_control( get_player_character() );
     if( is_moving() || is_falling ) {
