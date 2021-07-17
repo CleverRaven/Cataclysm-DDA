@@ -49,7 +49,7 @@ static monster *spawn_zombie_at_range( const int range )
 }
 } // namespace npc_attack_setup
 
-SCENARIO( "NPC faces zombies", "[npc_attack]" )
+TEST_CASE( "NPC faces zombies", "[npc_attack]" )
 {
     clear_map_and_put_player_underground();
     clear_vehicles();
