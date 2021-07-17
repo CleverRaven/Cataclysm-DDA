@@ -35,7 +35,7 @@
     "id": "conversion_field_flash",
     "type": "SPELL",
     "name": "Conversion Field Flash",
-    "description": "Flashbang effect onhit against shield.",
+    "description": "Flashbang effect on hit against shield.",
     "effect": "flashbang",
     "shape": "blast",
     "valid_targets": [ "self" ],
