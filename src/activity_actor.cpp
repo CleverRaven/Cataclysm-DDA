@@ -1070,9 +1070,7 @@ void read_activity_actor::read_book( Character &learner,
     int min_ex = std::max( 1, islotbook->time / 10 + learner.get_int() / 4 );
     int max_ex = islotbook->time / 5 + learner.get_int() / 2 - originalSkillLevel;
 
-    if( learner.has_active_bionic( bio_memory ) ) {
-        min_ex += 2;
-    }
+    min_ex = learner.enchantment_cache->modify_value( enchant_vals::mod::READING_EXP, min_ex );
 
     min_ex = learner.adjust_for_focus( min_ex ) / 100;
     max_ex = learner.adjust_for_focus( max_ex ) / 100;
