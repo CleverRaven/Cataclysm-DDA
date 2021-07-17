@@ -10,21 +10,21 @@
     "id": "book_newage_inpsychic",
     "type": "BOOK",
     "name": { "str": "Your Inner Psychic", "str_pl": "copies of Your Inner Psychic" },
-    "description": "Could you secretly have psychic powers? Learn to see auras, attune to your chakras, and get down and dirty with your astral self.",
+    "description": "Could you secretly have psychic powers?  Learn to see auras, attune to your chakras, and get down and dirty with your astral self.",
     "copy-from": "book_pulp_newage_tpl"
   },
   {
     "id": "book_newage_healcrystals",
     "type": "BOOK",
     "name": { "str": "The Healing Power of Crystals", "str_pl": "copies of The Healing Power of Crystals" },
-    "description": "Why waste time with 'doctors' or 'medicine'? This guide will teach you to harness the innate healing power of crystals and nurture your soul.",
+    "description": "Why waste time with 'doctors' or 'medicine'?  This guide will teach you to harness the innate healing power of crystals and nurture your soul.",
     "copy-from": "book_pulp_newage_tpl"
   },
   {
     "id": "book_newage_oilsecrets",
     "type": "BOOK",
     "name": { "str": "Essential Secrets", "str_pl": "copies of Essential Secrets" },
-    "description": "The secret to happiness is simple: aromatherapy. Surround yourself with products from our line of essential oils, using the discount code HAPPY for 10 percent off your first purchase, and you too can have it all.",
+    "description": "The secret to happiness is simple: aromatherapy.  Surround yourself with products from our line of essential oils, using the discount code HAPPY for 10 percent off your first purchase, and you too can have it all.",
     "copy-from": "book_pulp_newage_tpl"
   },
   {
@@ -38,7 +38,7 @@
     "id": "book_newage_witchcraftadv",
     "type": "BOOK",
     "name": { "str": "Advanced Witchcraft", "str_pl": "copies of Advanced Witchcraft" },
-    "description": "This book apparently contains instructions for summoning and battling powerful spirits from other realms. It doesn't say anything about zombies, though.",
+    "description": "This book apparently contains instructions for summoning and battling powerful spirits from other realms.  It doesn't say anything about zombies, though.",
     "copy-from": "book_pulp_newage_tpl"
   },
   {
@@ -59,14 +59,14 @@
     "id": "book_newage_aliens",
     "type": "BOOK",
     "name": { "str": "Ancient Alien Secrets", "str_pl": "copies of Ancient Alien Secrets" },
-    "description": "Who made the Bermuda Triangle? How did they build Stonehenge? What did the alien king whisper in Cleopatra's ear that passionate night in the dunes? These answers and more in the Alien Theorists' latest exposé.",
+    "description": "Who made the Bermuda Triangle?  How did they build Stonehenge?  What did the alien king whisper in Cleopatra's ear that passionate night in the dunes?  These answers and more in the Alien Theorists' latest exposé.",
     "copy-from": "book_pulp_newage_tpl"
   },
   {
     "id": "book_newage_horoscopes",
     "type": "BOOK",
     "name": { "str": "Your Year in Horoscopes", "str_pl": "copies of Your Year in Horoscopes" },
-    "description": "A long, thorough list of horoscopes, sorted by date and by zodiac sign. Today, you should \"take a minute to relax - It's not the end of the world.\"",
+    "description": "A long, thorough list of horoscopes, sorted by date and by zodiac sign.  Today, you should \"take a minute to relax - It's not the end of the world.\"",
     "copy-from": "book_pulp_newage_tpl",
     "chapters": 40,
     "relative": { "fun": -1, "volume": "200 ml", "weight": "200 g" }
