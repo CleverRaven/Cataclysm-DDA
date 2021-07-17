@@ -692,18 +692,18 @@
     "id": "f_trashcan",
     "name": "trash can",
     "symbol": "&",
-    "description": "A plastic bin for storing discarded waste as to be disposed of later.  Although, considering the circumstances, it might be worth seeing what's inside.",
+    "description": "A plastic bin for storing discarded waste as to be disposed of later.  Although, considering the circumstances, you could also use this to store items.",
     "color": "light_cyan",
     "move_cost_mod": 1,
     "required_str": 5,
     "max_volume": "20 L",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "MOUNTABLE", "SHORT" ],
+    "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "MOUNTABLE", "SHORT" ],
     "bash": {
       "str_min": 8,
       "str_max": 30,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [ { "item": "plastic_chunk", "count": [ 1, 2 ] } ]
+      "items": [ { "item": "steel_chunk", "count": [ 3, 6 ] } ]
     }
   },
   {
