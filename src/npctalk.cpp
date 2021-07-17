@@ -697,6 +697,7 @@ void npc::handle_sound( const sounds::sound_t spriority, const std::string &desc
             bool should_check = rl_dist( pos(), spos ) < investigate_dist;
             if( should_check ) {
                 const zone_manager &mgr = zone_manager::get_manager();
+                // NOLINTNEXTLINE(bugprone-branch-clone)
                 if( mgr.has( zone_type_NPC_NO_INVESTIGATE, s_abs_pos, fac_id ) ) {
                     should_check = false;
                 } else if( mgr.has( zone_type_NPC_INVESTIGATE_ONLY, my_abs_pos, fac_id ) &&
@@ -1641,19 +1642,33 @@ void talk_effect_fun_t::set_add_effect( const JsonObject &jo, const std::string 
 {
     std::string new_effect = jo.get_string( member );
     bool permanent = false;
+    bool force = false;
     time_duration duration = 1000_turns;
+    int intensity = 0;
     if( jo.has_string( "duration" ) ) {
         const std::string dur_string = jo.get_string( "duration" );
         if( dur_string == "PERMANENT" ) {
             permanent = true;
-        } else if( !dur_string.empty() && std::stoi( dur_string ) > 0 ) {
+        } else if( !dur_string.empty() && std::stoi( dur_string ) > 0 &&
+                   dur_string.find_first_not_of( "0123456789" ) == std::string::npos ) {
             duration = time_duration::from_turns( std::stoi( dur_string ) );
+        } else {
+            mandatory( jo, false, "duration", duration );
         }
     } else {
         duration = time_duration::from_turns( jo.get_int( "duration" ) );
     }
-    function = [is_npc, new_effect, duration, permanent]( const dialogue & d ) {
-        d.actor( is_npc )->add_effect( efftype_id( new_effect ), duration, permanent );
+    if( jo.has_int( "intensity" ) ) {
+        intensity = jo.get_int( "intensity" );
+    }
+    if( jo.has_bool( "force" ) ) {
+        force = jo.get_bool( "force" );
+    }
+    std::string target = jo.get_string( "target_part", "bp_null" );
+    function = [is_npc, new_effect, duration, target, permanent, force,
+            intensity]( const dialogue & d ) {
+        d.actor( is_npc )->add_effect( efftype_id( new_effect ), duration, target, permanent, force,
+                                       intensity );
     };
 }
 
@@ -2110,10 +2125,9 @@ void talk_effect_fun_t::set_message( const JsonObject &jo, const std::string &me
             bool display = false;
             map &here = get_map();
             if( !target->has_effect( effect_sleep ) && !target->is_deaf() ) {
-                if( !outdoor_only || here.get_abs_sub().z >= 0 ) {
-                    display = true;
-                } else if( one_in( std::max( roll_remainder( 2.0f * here.get_abs_sub().z /
-                                             target->mutation_value( "hearing_modifier" ) ), 1 ) ) ) {
+                if( !outdoor_only || here.get_abs_sub().z >= 0 ||
+                    one_in( std::max( roll_remainder( 2.0f * here.get_abs_sub().z /
+                                                      target->mutation_value( "hearing_modifier" ) ), 1 ) ) ) {
                     display = true;
                 }
             }
@@ -2192,12 +2206,114 @@ void talk_effect_fun_t::set_add_power( const JsonObject &jo, const std::string &
     };
 }
 
+void talk_effect_fun_t::set_mod_healthy( const JsonObject &jo, const std::string &member,
+        bool is_npc )
+{
+    int amount;
+    int cap;
+    mandatory( jo, false, member, amount );
+    mandatory( jo, false, "cap", cap );
+
+    function = [is_npc, amount, cap]( const dialogue & d ) {
+        d.actor( is_npc )->mod_healthy_mod( amount, cap );
+    };
+}
+
+void talk_effect_fun_t::set_assign_mission( const JsonObject &jo, const std::string &member )
+{
+    std::string mission_name = jo.get_string( member );
+    function = [mission_name]( const dialogue & ) {
+        avatar &player_character = get_avatar();
+
+        const mission_type_id &mission_type = mission_type_id( mission_name );
+        std::vector<mission *> missions = player_character.get_active_missions();
+        mission *new_mission = mission::reserve_new( mission_type, character_id() );
+        new_mission->assign( player_character );
+    };
+}
+
 void talk_effect_fun_t::set_mod_fatigue( const JsonObject &jo, const std::string &member,
         bool is_npc )
 {
     int amount = jo.get_int( member );
     function = [is_npc, amount]( const dialogue & d ) {
         d.actor( is_npc )->mod_fatigue( amount );
+    };
+}
+
+void talk_effect_fun_t::set_make_sound( const JsonObject &jo, const std::string &member,
+                                        bool is_npc )
+{
+    std::string message = jo.get_string( member );
+
+    int volume;
+    mandatory( jo, false, "volume", volume );
+
+    sounds::sound_t type = sounds::sound_t::background;
+    std::string type_string = jo.get_string( "type", "background" );
+    if( type_string == "background" ) {
+        type = sounds::sound_t::background;
+    } else if( type_string == "weather" ) {
+        type = sounds::sound_t::weather;
+    } else if( type_string == "music" ) {
+        type = sounds::sound_t::music;
+    } else if( type_string == "movement" ) {
+        type = sounds::sound_t::movement;
+    } else if( type_string == "speech" ) {
+        type = sounds::sound_t::speech;
+    } else if( type_string == "electronic_speech" ) {
+        type = sounds::sound_t::electronic_speech;
+    } else if( type_string == "activity" ) {
+        type = sounds::sound_t::activity;
+    } else if( type_string == "destructive_activity" ) {
+        type = sounds::sound_t::destructive_activity;
+    } else if( type_string == "alarm" ) {
+        type = sounds::sound_t::alarm;
+    } else if( type_string == "combat" ) {
+        type = sounds::sound_t::combat;
+    } else if( type_string == "alert" ) {
+        type = sounds::sound_t::alert;
+    } else if( type_string == "order" ) {
+        type = sounds::sound_t::order;
+    } else {
+        jo.throw_error( "Invalid message type." );
+    }
+
+    function = [is_npc, message, volume, type]( const dialogue & d ) {
+
+        sounds::sound( d.actor( is_npc )->pos(), volume, type, _( message ) );
+    };
+}
+
+void talk_effect_fun_t::set_queue_effect_on_condition( const JsonObject &jo,
+        const std::string &member )
+{
+    std::vector<effect_on_condition_id> eocs;
+    for( JsonValue jv : jo.get_array( member ) ) {
+        eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+    }
+    time_duration time_in_future_min;
+    time_duration time_in_future_max;
+    optional( jo, false, "time_in_future_min", time_in_future_min, 0_seconds );
+    optional( jo, false, "time_in_future_max", time_in_future_max, 0_seconds );
+    if( time_in_future_max < time_in_future_min ) {
+        jo.throw_error( "time_in_future_max cannot be smaller than time_in_future_min." );
+    }
+    function = [time_in_future_min, time_in_future_max, eocs]( const dialogue & ) {
+        if( time_in_future_max > 0_seconds ) {
+            time_duration time_in_future = rng( time_in_future_min, time_in_future_max );
+            for( const effect_on_condition_id &eoc : eocs ) {
+                effect_on_conditions::queue_effect_on_condition( time_in_future, eoc );
+            }
+        } else {
+            dialogue d;
+            standard_npc default_npc( "Default" );
+            d.alpha = get_talker_for( get_avatar() );
+            d.beta = get_talker_for( default_npc );
+            for( const effect_on_condition_id &eoc : eocs ) {
+                eoc->activate( d );
+            }
+        }
     };
 }
 
@@ -2454,10 +2570,22 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_add_power( jo, "u_add_power", false );
     } else if( jo.has_member( "npc_add_power" ) ) {
         subeffect_fun.set_add_power( jo, "npc_add_power", true );
+    } else if( jo.has_member( "assign_mission" ) ) {
+        subeffect_fun.set_assign_mission( jo, "assign_mission" );
     } else if( jo.has_int( "u_mod_fatigue" ) ) {
         subeffect_fun.set_mod_fatigue( jo, "u_mod_fatigue", false );
     } else if( jo.has_int( "npc_mod_fatigue" ) ) {
         subeffect_fun.set_mod_fatigue( jo, "npc_mod_fatigue", true );
+    } else if( jo.has_member( "u_make_sound" ) ) {
+        subeffect_fun.set_make_sound( jo, "u_make_sound", false );
+    } else if( jo.has_member( "npc_make_sound" ) ) {
+        subeffect_fun.set_make_sound( jo, "npc_make_sound", true );
+    } else if( jo.has_array( "set_queue_effect_on_condition" ) ) {
+        subeffect_fun.set_queue_effect_on_condition( jo, "set_queue_effect_on_condition" );
+    } else if( jo.has_member( "u_mod_healthy" ) ) {
+        subeffect_fun.set_mod_healthy( jo, "u_mod_healthy", false );
+    } else if( jo.has_member( "npc_mod_healthy" ) ) {
+        subeffect_fun.set_mod_healthy( jo, "npc_mod_healthy", true );
     } else {
         jo.throw_error( "invalid sub effect syntax: " + jo.str() );
     }

@@ -1555,7 +1555,7 @@ item::reload_option player::select_ammo( const item &base, bool prompt, bool emp
                 if( base.ammo_data() ) {
                     name = base.ammo_data()->nname( 1 );
                 } else if( base.is_watertight_container() ) {
-                    name = base.is_container_empty() ? "liquid" : base.contents.legacy_front().tname();
+                    name = base.is_container_empty() ? "liquid" : base.legacy_front().tname();
                 } else {
                     const std::set<ammotype> types_of_ammo = base.ammo_types();
                     name = enumerate_as_string( types_of_ammo.begin(),
@@ -2047,7 +2047,7 @@ void player::use( item_location loc, int pre_obtain_moves )
     } else if( used.type->can_use( "DOGFOOD" ) ||
                used.type->can_use( "CATFOOD" ) ||
                used.type->can_use( "BIRDFOOD" ) ||
-               used.type->can_use( "CATTLEFODDER" ) ) {
+               used.type->can_use( "CATTLEFODDER" ) ) { // NOLINT(bugprone-branch-clone)
         invoke_item( &used, loc.position(), pre_obtain_moves );
 
     } else if( !used.is_craft() && ( used.is_medication() || ( !used.type->has_use() &&

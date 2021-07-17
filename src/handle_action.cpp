@@ -107,6 +107,7 @@ static const efftype_id effect_alarm_clock( "alarm_clock" );
 static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_laserlocked( "laserlocked" );
 static const efftype_id effect_relax_gas( "relax_gas" );
+static const efftype_id effect_stunned( "stunned" );
 
 static const itype_id itype_radiocontrol( "radiocontrol" );
 static const itype_id itype_shoulder_strap( "shoulder_strap" );
@@ -1486,6 +1487,12 @@ static bool assign_spellcasting( Character &you, spell &sp, bool fake_spell )
         return false;
     }
 
+    if( !sp.has_flag( spell_flag::NO_HANDS ) && you.has_effect( effect_stunned ) ) {
+        add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
+                 _( "You can't focus enough to cast spell." ) );
+        return false;
+    }
+
     if( sp.energy_source() == magic_energy_type::hp && !you.has_quality( qual_CUT ) ) {
         add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
                  _( "You cannot cast Blood Magic without a cutting implement." ) );
@@ -1734,10 +1741,7 @@ static void do_deathcam_action( const action_id &act, avatar &player_character )
             g->look_around();
             break;
 
-        case ACTION_KEYBINDINGS:
-            // already handled by input context
-            break;
-
+        case ACTION_KEYBINDINGS: // already handled by input context
         default:
             break;
     }
@@ -1747,13 +1751,12 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                               const cata::optional<tripoint> &mouse_target )
 {
     switch( act ) {
-        case ACTION_NULL:
-        case NUM_ACTIONS:
-            break; // dummy entries
-        case ACTION_ACTIONMENU:
+        case ACTION_NULL: // dummy entry
+        case NUM_ACTIONS: // dummy entry
+        case ACTION_ACTIONMENU: // handled above
         case ACTION_MAIN_MENU:
         case ACTION_KEYBINDINGS:
-            break; // handled above
+            break;
 
         case ACTION_TIMEOUT:
             if( check_safe_mode_allowed( false ) ) {
@@ -2499,12 +2502,6 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_DISPLAY_SCENT:
-            if( MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger() ) {
-                break;    //don't do anything when sharing and not debugger
-            }
-            display_scent();
-            break;
-
         case ACTION_DISPLAY_SCENT_TYPE:
             if( MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger() ) {
                 break;    //don't do anything when sharing and not debugger
@@ -2695,7 +2692,8 @@ bool game::handle_action()
             const cata::optional<tripoint> mouse_pos = ctxt.get_coordinates( w_terrain );
             if( !mouse_pos ) {
                 return false;
-            } else if( !player_character.sees( *mouse_pos ) ) {
+            }
+            if( !player_character.sees( *mouse_pos ) ) {
                 // Not clicked in visible terrain
                 return false;
             }

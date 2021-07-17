@@ -358,8 +358,8 @@ std::pair<nutrients, nutrients> Character::compute_nutrient_range(
         nutrients this_max;
 
         item result_it = rec->create_result();
-        if( result_it.contents.num_item_stacks() == 1 ) {
-            const item alt_result = result_it.contents.legacy_front();
+        if( result_it.num_item_stacks() == 1 ) {
+            const item alt_result = result_it.legacy_front();
             if( alt_result.typeId() == comest_it.typeId() ) {
                 result_it = alt_result;
             }
@@ -1641,10 +1641,9 @@ time_duration Character::get_consume_time( const item &it )
             }
         } else if( smoking != nullptr ) {
             time = time_duration::from_minutes( 1 );//about five minutes for a cig or joint so 1 minute a charge
-        } else if( adrenaline_injector != nullptr ) {
-            time = time_duration::from_seconds( 15 );//epi-pens are fairly quick
-        } else if( heal != nullptr ) {
-            time = time_duration::from_seconds( 15 );//bandages and disinfectant are fairly quick
+        } else if( adrenaline_injector != nullptr || heal != nullptr ) {
+            //epi-pens, bandages and disinfectant are fairly quick
+            time = time_duration::from_seconds( 15 );
         } else {
             time = time_duration::from_seconds( 5 ); //probably pills so quick
         }

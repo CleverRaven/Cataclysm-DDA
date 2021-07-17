@@ -1002,10 +1002,22 @@
     "description": "Your memory has been enhanced with small quantum storage drives.  While active, you learn - both through reading and practice - more quickly.  Additionally, you can't forget skills you've already learned, and the layout of terrain you've explored will remain in your memory for an incredibly long time.",
     "occupied_bodyparts": [ [ "head", 3 ] ],
     "flags": [ "BIONIC_TOGGLED", "BIONIC_SLEEP_FRIENDLY" ],
+    "active_flags": [ "CBQ_LEARN_BONUS" ],
     "act_cost": "2 J",
     "react_cost": "2 J",
     "trigger_cost": "25 J",
-    "time": 1
+    "time": 1,
+    "enchantments": [
+      {
+        "condition": "ACTIVE",
+        "values": [
+          { "value": "MAP_MEMORY", "add": 49 },
+          { "value": "READING_EXP", "add": 2 },
+          { "value": "SKILL_RUST_RESIST", "add": 20 },
+          { "value": "LEARNING_FOCUS", "add": 10 }
+        ]
+      }
+    ]
   },
   {
     "id": "bio_metabolics",

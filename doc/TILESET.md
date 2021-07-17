@@ -1,5 +1,14 @@
 # TILESETS
 
+## Including tilesets with the distribution
+
+In order to be included in the distribution of the game, a tileset must meet the following criteria:
+
+- Licensing: ALL ART must be distributed under a CC-BY-SA 3.0 license or compatible.  Any exceptions cannot be tolerated.  If an art item's license is unclear it cannot be included.
+- Crediting: Appropriate crediting as requested by artists must be met.  You probably don't need to be told this, adding a credits.txt costs you nothing.
+- Maintenance: A tileset must have had at least one PR updating its art since the previous stable release to be included in subsequent stable releases.  While a formal maintainer isn't required for a tileset, it's much more likely that sets will not be marked obsolete if they have someone to speak up for them.
+- Imagery: in general we do not have rules about imagery and content in tilesets, but we may request changes or refuse admission if a set includes overt hate imagery (swastikas for example).
+
 ## Terminology
 
 ##### Tileset

@@ -479,8 +479,8 @@ bool options_manager::cOpt::is_hidden() const
             return false;
 #endif
 
-        case COPT_CURSES_HIDE:
-#if !defined(TILES) // If not defined.  it's curses interface.
+        case COPT_CURSES_HIDE: // NOLINT(bugprone-branch-clone)
+#if !defined(TILES) // If not defined, it's the curses interface.
             return true;
 #else
             return false;
@@ -924,10 +924,8 @@ static std::vector<options_manager::id_and_option> build_resource_list(
                 std::string sOption;
                 fin >> sOption;
 
-                if( sOption.empty() ) {
-                    getline( fin, sOption );    // Empty line, chomp it
-                } else if( sOption[0] == '#' ) { // # indicates a comment
-                    getline( fin, sOption );
+                if( sOption.empty() || sOption[0] == '#' ) {
+                    getline( fin, sOption );    // Empty line or comment, chomp it
                 } else {
                     if( sOption.find( "NAME" ) != std::string::npos ) {
                         resource_name.clear();

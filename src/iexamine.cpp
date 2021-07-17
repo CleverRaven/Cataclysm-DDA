@@ -3764,7 +3764,7 @@ void trap::examine( const tripoint &examp ) const
 
         int roll = std::round( normal_roll( mean_roll, 3 ) );
 
-        add_msg_debug( debugmode::DF_IEXAMINE, _( "Rolled %i, mean_roll %g. difficulty %i." ), roll,
+        add_msg_debug( debugmode::DF_IEXAMINE, "Rolled %i, mean_roll %g. difficulty %i.", roll,
                        mean_roll, difficulty );
 
         //Difficulty 0 traps should succeed regardless of proficiencies. (i.e caltrops and nailboards)
@@ -4843,7 +4843,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 patient.install_bionics( ( *itemtype ), installer, true, has_install_program ? 10 : -1 );
 
                 if( has_install_program ) {
-                    patient.consume_items( progs );
+                    p.consume_items( progs );
                 }
             }
             break;

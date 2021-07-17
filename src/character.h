@@ -766,8 +766,6 @@ class Character : public Creature, public visitable
 
         std::string custom_profession;
 
-        /** Returns true if the player is able to use a miss recovery technique */
-        bool can_miss_recovery( const item &weap ) const;
         /** Returns true if the player has quiet melee attacks */
         bool is_quiet() const;
 
@@ -863,8 +861,6 @@ class Character : public Creature, public visitable
         float stability_roll() const override;
         /** Returns true if the player can learn the entered martial art */
         bool can_autolearn( const matype_id &ma_id ) const;
-        /** Returns true if the player is able to use a grab breaking technique */
-        bool can_grab_break( const item &weap ) const;
     private:
         /** Check if an area-of-effect technique has valid targets */
         bool valid_aoe_technique( Creature &t, const ma_technique &technique );
@@ -1377,7 +1373,7 @@ class Character : public Creature, public visitable
         struct has_mission_item_filter {
             int mission_id;
             bool operator()( const item &it ) {
-                return it.mission_id == mission_id || it.contents.has_any_with( [&]( const item & it ) {
+                return it.mission_id == mission_id || it.has_any_with( [&]( const item & it ) {
                     return it.mission_id == mission_id;
                 }, item_pocket::pocket_type::SOFTWARE );
             }
@@ -1845,6 +1841,9 @@ class Character : public Creature, public visitable
         std::vector<display_proficiency> display_proficiencies() const;
         std::vector<proficiency_id> known_proficiencies() const;
         std::vector<proficiency_id> learning_proficiencies() const;
+
+        // tests only!
+        void set_proficiency_practice( const proficiency_id &id, const time_duration &amount );
 
         // --------------- Other Stuff ---------------
 

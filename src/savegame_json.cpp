@@ -535,7 +535,7 @@ void activity_tracker::deserialize( JsonIn &jsin )
 // remove this migration funciton after 0.F
 static void migrate_item_charges( item &it )
 {
-    if( it.charges != 0 && it.contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE ) ) {
+    if( it.charges != 0 && it.has_pocket_type( item_pocket::pocket_type::MAGAZINE ) ) {
         it.ammo_set( it.ammo_default(), it.charges );
         it.charges = 0;
     }
@@ -2605,9 +2605,8 @@ void item::migrate_content_item( const item &contained )
     } else if( typeId() == itype_usb_drive ) {
         // as of this migration, only usb_drive has any software in it.
         put_in( contained, item_pocket::pocket_type::SOFTWARE );
-    } else if( contents.insert_item( contained, item_pocket::pocket_type::MAGAZINE ).success() ) {
-        // left intentionally blank
-    } else if( contents.insert_item( contained, item_pocket::pocket_type::MAGAZINE_WELL ).success() ) {
+    } else if( contents.insert_item( contained, item_pocket::pocket_type::MAGAZINE ).success() ||
+               contents.insert_item( contained, item_pocket::pocket_type::MAGAZINE_WELL ).success() ) {
         // left intentionally blank
     } else if( is_corpse() ) {
         put_in( contained, item_pocket::pocket_type::CORPSE );
@@ -2674,6 +2673,14 @@ void item::deserialize( JsonIn &jsin )
             for( const item *it : temp_migrate.all_items_top() ) {
                 contents.insert_item( *it, item_pocket::pocket_type::MIGRATION );
             }
+        }
+    }
+
+    if( !has_gun_variant( false ) && can_have_gun_variant() ) {
+        if( possible_gun_variant( typeId().str() ) ) {
+            set_gun_variant( typeId().str() );
+        } else {
+            select_gun_variant();
         }
     }
 }

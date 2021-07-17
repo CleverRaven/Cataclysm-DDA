@@ -28,11 +28,11 @@ TEST_CASE( "rectangle_containment_raw", "[point]" )
 
 TEST_CASE( "rectangle_overlapping_inclusive", "[point]" )
 {
-    inclusive_rectangle<point> r1( point( 0, 0 ), point( 2,
-                                   2 ) ); // NOLINT(cata-use-named-point-constants)
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    inclusive_rectangle<point> r1( point( 0, 0 ), point( 2, 2 ) );
     inclusive_rectangle<point> r2( point( 2, 2 ), point( 3, 3 ) );
-    inclusive_rectangle<point> r3( point( 0, 0 ), point( 2,
-                                   1 ) ); // NOLINT(cata-use-named-point-constants)
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    inclusive_rectangle<point> r3( point( 0, 0 ), point( 2, 1 ) );
     inclusive_rectangle<point> r4( point( -2, -4 ), point( 4, -1 ) );
     inclusive_rectangle<point> r5( point( -1, -3 ), point( 0, -2 ) );
 
@@ -64,11 +64,11 @@ TEST_CASE( "rectangle_overlapping_inclusive", "[point]" )
 
 TEST_CASE( "rectangle_overlapping_half_open", "[point]" )
 {
-    half_open_rectangle<point> r1( point( 0, 0 ), point( 2,
-                                   2 ) ); // NOLINT(cata-use-named-point-constants)
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    half_open_rectangle<point> r1( point( 0, 0 ), point( 2, 2 ) );
     half_open_rectangle<point> r2( point( 2, 2 ), point( 3, 3 ) );
-    half_open_rectangle<point> r3( point( 0, 0 ), point( 2,
-                                   1 ) ); // NOLINT(cata-use-named-point-constants)
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    half_open_rectangle<point> r3( point( 0, 0 ), point( 2, 1 ) );
     half_open_rectangle<point> r4( point( -2, -4 ), point( 4, -1 ) );
     half_open_rectangle<point> r5( point( -1, -3 ), point( 0, -2 ) );
 

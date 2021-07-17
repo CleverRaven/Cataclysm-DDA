@@ -2182,7 +2182,7 @@ cata::optional<int> iuse::water_purifier( player *p, item *it, bool, const tripo
         return cata::nullopt;
     }
     item_location obj = g->inv_map_splice( []( const item & e ) {
-        return !e.contents.empty() && e.has_item_with( []( const item & it ) {
+        return !e.empty() && e.has_item_with( []( const item & it ) {
             return it.typeId() == itype_water;
         } );
     }, _( "Purify what?" ), 1, _( "You don't have water to purify." ) );
@@ -2814,8 +2814,12 @@ cata::optional<int> iuse::dig( player *p, item *it, bool t, const tripoint & )
                               !here.can_see_trap_at( dig_point, *p ) &&
                               ( here.ter( dig_point ) == t_grave_new || here.i_at( dig_point ).empty() ) &&
                               !here.veh_at( dig_point );
-
-    if( !can_dig_here ) {
+    const bool here_is_pit = here.ter( dig_point ) == t_pit;
+    if( here_is_pit ) {
+        p->add_msg_if_player(
+            _( "There's already a pit here!" ) );
+        return cata::nullopt;
+    } else if( !can_dig_here ) {
         p->add_msg_if_player(
             _( "You can't dig a pit in this location.  Ensure it is clear diggable ground with no items or obstacles." ) );
         return cata::nullopt;
@@ -4710,7 +4714,7 @@ cata::optional<int> iuse::blood_draw( player *p, item *it, bool, const tripoint 
         p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return cata::nullopt;
     }
-    if( !it->contents.empty() ) {
+    if( !it->empty() ) {
         p->add_msg_if_player( m_info, _( "That %s is full!" ), it->tname() );
         return cata::nullopt;
     }
@@ -9798,6 +9802,9 @@ ret_val<bool> use_function::can_call( const Character &p, const item &it, bool t
 {
     if( actor == nullptr ) {
         return ret_val<bool>::make_failure( _( "You can't do anything interesting with your %s." ),
+                                            it.tname() );
+    } else if( it.is_broken() ) {
+        return ret_val<bool>::make_failure( _( "Your %s is broken and won't activate." ),
                                             it.tname() );
     }
 

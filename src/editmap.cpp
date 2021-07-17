@@ -1005,7 +1005,6 @@ void apply<ter_t>( const ter_t &t, const shapetype editshape, const tripoint &ta
                    const tripoint &origin, const std::vector<tripoint> &target_list )
 {
     bool isvert = false;
-    bool ishori = false;
     bool doalt = false;
     ter_id teralt = undefined_ter_id;
     int alta = -1;
@@ -1016,7 +1015,6 @@ void apply<ter_t>( const ter_t &t, const shapetype editshape, const tripoint &ta
             isvert = true;
             teralt = get_alt_ter( isvert, sel_ter );
         } else if( t.symbol() == LINE_OXOX || t.symbol() == '-' ) {
-            ishori = true;
             teralt = get_alt_ter( isvert, sel_ter );
         }
         if( teralt != undefined_ter_id ) {
@@ -1035,9 +1033,8 @@ void apply<ter_t>( const ter_t &t, const shapetype editshape, const tripoint &ta
     for( const tripoint &elem : target_list ) {
         ter_id wter = sel_ter;
         if( doalt ) {
-            if( isvert && ( elem.y == alta || elem.y == altb ) ) {
-                wter = teralt;
-            } else if( ishori && ( elem.x == alta || elem.x == altb ) ) {
+            int coord = isvert ? elem.y : elem.x;
+            if( coord == alta || coord == altb ) {
                 wter = teralt;
             }
         }

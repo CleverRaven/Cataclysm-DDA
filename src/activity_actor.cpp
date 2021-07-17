@@ -1190,6 +1190,9 @@ void lockpick_activity_actor::start( player_activity &act, Character & )
 {
     act.moves_left = moves_total;
     act.moves_total = moves_total;
+
+    const time_duration lockpicking_time = time_duration::from_moves( moves_total );
+    add_msg_debug( debugmode::DF_ACT_LOCKPICK, "lockpicking time = %s", to_string( lockpicking_time ) );
 }
 
 void lockpick_activity_actor::finish( player_activity &act, Character &who )
@@ -1214,30 +1217,28 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
     const furn_id furn_type = here.furn( target );
     ter_id new_ter_type;
     furn_id new_furn_type;
-    std::string open_message;
-    if( ter_type == t_chaingate_l ) {
-        new_ter_type = t_chaingate_c;
-        open_message = _( "With a satisfying click, the lock on the gate opens." );
-    } else if( ter_type == t_door_locked || ter_type == t_door_locked_alarm ||
-               ter_type == t_door_locked_interior ) {
-        new_ter_type = t_door_c;
-        open_message = _( "With a satisfying click, the lock on the door opens." );
-    } else if( ter_type == t_door_locked_peep ) {
-        new_ter_type = t_door_c_peep;
-        open_message = _( "With a satisfying click, the lock on the door opens." );
-    } else if( ter_type == t_retractable_gate_l ) {
-        new_ter_type = t_retractable_gate_c;
-        open_message = _( "With a satisfying click, the lock on the gate opens." );
-    } else if( ter_type == t_door_metal_pickable ) {
-        new_ter_type = t_door_metal_c;
-        open_message = _( "With a satisfying click, the lock on the door opens." );
-    } else if( ter_type == t_door_bar_locked ) {
-        new_ter_type = t_door_bar_o;
-        //Bar doors auto-open (and lock if closed again) so show a different message)
-        open_message = _( "The door swings open…" );
-    } else if( furn_type == f_gunsafe_ml ) {
-        new_furn_type = f_safe_o;
-        open_message = _( "With a satisfying click, the lock on the door opens." );
+    std::string open_message = _( "The lock opens…" );
+
+    if( here.has_furn( target ) ) {
+        if( furn_type->lockpick_result.is_null() ) {
+            debugmsg( "%s lockpick_result is null", furn_type.id().str() );
+            return;
+        }
+
+        new_furn_type = furn_type->lockpick_result;
+        if( !furn_type->lockpick_message.empty() ) {
+            open_message = furn_type->lockpick_message.translated();
+        }
+    } else {
+        if( ter_type->lockpick_result.is_null() ) {
+            debugmsg( "%s lockpick_result is null", ter_type.id().str() );
+            return;
+        }
+
+        new_ter_type = ter_type->lockpick_result;
+        if( !ter_type->lockpick_message.empty() ) {
+            open_message = ter_type->lockpick_message.translated();
+        }
     }
 
     bool perfect = it->has_flag( flag_PERFECT_LOCKPICK );
@@ -1279,7 +1280,7 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
     // In the meantime, let's roll 3d5-3, giving us a range of 0-12.
     int lock_roll = rng( 0, 4 ) + rng( 0, 4 ) + rng( 0, 4 );
 
-    add_msg_debug( debugmode::DF_ACT_LOCKPICK, _( "Rolled %i. Mean_roll %g. Difficulty %i." ),
+    add_msg_debug( debugmode::DF_ACT_LOCKPICK, "Rolled %i. Mean_roll %g. Difficulty %i.",
                    pick_roll,
                    mean_roll, lock_roll );
 
@@ -2572,7 +2573,7 @@ void insert_item_activity_actor::start( player_activity &act, Character &who )
         act.set_to_null();
     }
 
-    all_pockets_rigid = holster->contents.all_pockets_rigid();
+    all_pockets_rigid = holster->all_pockets_rigid();
 
     const int total_moves = item_move_cost( who, items.front().first );
     act.moves_left = total_moves;
@@ -2898,7 +2899,7 @@ void shearing_activity_actor::start( player_activity &act, Character &who )
                                        true ) : mon->unique_name;
 
     if( !mon->shearable() ) {
-        add_msg( _( "$1%s has nothing %2$s could shear." ), pet_name_capitalized, who.disp_name() );
+        add_msg( _( "%1$s has nothing %2$s could shear." ), pet_name_capitalized, who.disp_name() );
         if( shearing_tie ) {
             mon->remove_effect( effect_tied );
         }

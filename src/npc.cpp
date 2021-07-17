@@ -110,8 +110,6 @@ static const skill_id skill_speech( "speech" );
 static const skill_id skill_stabbing( "stabbing" );
 static const skill_id skill_throw( "throw" );
 
-static const bionic_id bio_memory( "bio_memory" );
-
 static const trait_id trait_BEE( "BEE" );
 static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
@@ -368,13 +366,7 @@ void npc::randomize( const npc_class_id &type )
     }
 
     if( type.is_null() ) { // Untyped; no particular specialization
-    } else if( type == NC_EVAC_SHOPKEEP ) {
-        personality.collector += rng( 1, 5 );
-
-    } else if( type == NC_BARTENDER ) {
-        personality.collector += rng( 1, 5 );
-
-    } else if( type == NC_JUNK_SHOPKEEP ) {
+    } else if( type == NC_EVAC_SHOPKEEP || type == NC_BARTENDER || type == NC_JUNK_SHOPKEEP ) {
         personality.collector += rng( 1, 5 );
 
     } else if( type == NC_ARSONIST ) {
@@ -411,11 +403,7 @@ void npc::randomize( const npc_class_id &type )
         personality.bravery -= rng( 2, 8 );
         personality.collector += rng( 0, 2 );
 
-    } else if( type == NC_BOUNTY_HUNTER ) {
-        personality.aggression += rng( 1, 6 );
-        personality.bravery += rng( 0, 5 );
-
-    } else if( type == NC_THUG ) {
+    } else if( type == NC_BOUNTY_HUNTER || type == NC_THUG ) {
         personality.aggression += rng( 1, 6 );
         personality.bravery += rng( 0, 5 );
 
@@ -969,9 +957,8 @@ void npc::finish_read( item &book )
         // Enhanced Memory Banks modestly boosts experience
         int min_ex = std::max( 1, reading->time / 10 + get_int() / 4 );
         int max_ex = reading->time / 5 + get_int() / 2 - originalSkillLevel;
-        if( has_active_bionic( bio_memory ) ) {
-            min_ex += 2;
-        }
+        min_ex = enchantment_cache->modify_value( enchant_vals::mod::READING_EXP, min_ex );
+
         if( max_ex < 2 ) {
             max_ex = 2;
         }
@@ -2051,8 +2038,9 @@ bool npc::is_ally( const Character &p ) const
             Character &player_character = get_player_character();
             if( is_ally( player_character ) && guy.is_ally( player_character ) ) {
                 return true;
-            } else if( get_attitude_group( get_attitude() ) ==
-                       guy.get_attitude_group( guy.get_attitude() ) ) {
+            }
+            if( get_attitude_group( get_attitude() ) ==
+                guy.get_attitude_group( guy.get_attitude() ) ) {
                 return true;
             }
         }
@@ -2318,7 +2306,7 @@ int npc::follow_distance() const
 
 nc_color npc::basic_symbol_color() const
 {
-    if( attitude == NPCATT_KILL ) {
+    if( attitude == NPCATT_KILL ) { // NOLINT(bugprone-branch-clone)
         return c_red;
     } else if( attitude == NPCATT_FLEE || attitude == NPCATT_FLEE_TEMP ) {
         return c_light_red;

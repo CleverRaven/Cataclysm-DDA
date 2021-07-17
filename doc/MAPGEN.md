@@ -223,8 +223,7 @@ apartments_mod_tower overmap terrain ids specified.
 ### Define mapgen "weight"
 
 (optional) When the game randomly picks mapgen functions, each function's weight value determines how rare it is. 1000
-is the default, so adding something with weight '500' will make it appear 1/3 times, unless more functions are added.
-(An insanely high value like 10000000 is useful for testing)
+is the default, so adding something with weight '500' will make it appear about half as often as others using the default weight. (An insanely high value like 10000000 is useful for testing.)
 
 Values: number - *0 disables*
 

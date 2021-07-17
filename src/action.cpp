@@ -69,8 +69,8 @@ void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
     while( !keymap_txt.eof() ) {
         std::string id;
         keymap_txt >> id;
-        if( id.empty() ) {
-            // Empty line, chomp it
+        if( id.empty() || id[0] == '#' ) {
+            // Empty line or comment, chomp it
             getline( keymap_txt, id );
         } else if( id == "unbind" ) {
             keymap_txt >> id;
@@ -79,7 +79,7 @@ void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
                 unbound_keymap.insert( act );
             }
             break;
-        } else if( id[0] != '#' ) {
+        } else {
             const action_id act = look_up_action( id );
             if( act == ACTION_NULL ) {
                 debugmsg( "Warning!  keymap.txt contains an unknown action, \"%s\"\n"
@@ -101,9 +101,6 @@ void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
                     }
                 }
             }
-        } else {
-            // Clear the whole line
-            getline( keymap_txt, id );
         }
     }
 }
@@ -659,7 +656,8 @@ bool can_examine_at( const tripoint &p )
 
     if( here.has_furn( p ) && xfurn_t.can_examine() ) {
         return true;
-    } else if( xter_t.can_examine() ) {
+    }
+    if( xter_t.can_examine() ) {
         return true;
     }
 

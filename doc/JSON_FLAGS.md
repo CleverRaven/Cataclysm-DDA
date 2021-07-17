@@ -649,6 +649,7 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 - ```FIREWOOD``` ... This item can serve as a firewood. Items with this flag are sorted out to "Loot: Wood" zone
 - ```FRAGILE_MELEE``` ... Fragile items that fall apart easily when used as a weapon due to poor construction quality and will break into components when broken.
 - ```GAS_DISCOUNT``` ... Discount cards for the automated gas stations.
+- ```ITEM_BROKEN``` ... Item was broken and won't activate anymore.
 - ```IS_PET_ARMOR``` ... Is armor for a pet monster, not armor for a person
 - ```LEAK_ALWAYS``` ... Leaks (may be combined with "RADIOACTIVE").
 - ```LEAK_DAM``` ... Leaks when damaged (may be combined with "RADIOACTIVE").
@@ -681,6 +682,8 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 - ```TRADER_KEEP_EQUIPPED``` ... NPCs will only trade this item if they aren't currently wearing or wielding it.
 - ```UNBREAKABLE_MELEE``` ... Never gets damaged when used as melee weapon.
 - ```UNRECOVERABLE``` ... Cannot be recovered from a disassembly.
+- ```WATER_BREAK``` ... Item is broken in water.
+- ```WATER_DISSOLVE``` ... Item is dissolved in water.
 - ```ZERO_WEIGHT``` Normally items with zero weight will generate an error.
   Use this flag to indicate that zero weight is intentional and suppress that
   error.
@@ -1058,7 +1061,7 @@ Also see `monster_attacks.json` for more special attacks, for example, impale an
 - ```LASER``` Laser turret fires.
 - ```LEAP``` leap away to an unobstructed tile.
 - ```LEECH_SPAWNER``` Spawns root runners or root drones, low chance of upgrading itself into a leech stalk.
-- ```LONGSWIPE``` Claw attack with 3-10 cut damage, which can even hit 3 tiles away. If targeting an adjacent enemy it always hits the head and causes heavy bleeding.
+- ```LONGSWIPE``` Claw attack with 3-10 cut damage, which can even hit 3 tiles away. If targeting an adjacent enemy it always hits the head and causes heavy bleeding. JSON equivalents of the two elements are `"id": "longswipe"` and `"id": "cut_throat"` respectively.
 - ```LUNGE``` Perform a jumping attack from some distance away, which can down the target.
 - ```MON_LEECH_EVOLUTION``` Evolves a leech plant into a leech blossom if no other blossoms are in sight.
 - ```MULTI_ROBOT``` Robot can attack with tazer, flamethrower, M4, MGL, or 120mm cannon depending on distance.
@@ -1087,11 +1090,11 @@ Also see `monster_attacks.json` for more special attacks, for example, impale an
 - ```SMASH``` Smashes the target for massive damage, sending it flying for a number of tiles equal to `("melee_dice" * "melee_dice_sides" * 3) / 10`.
 - ```SPIT_SAP``` Spit sap (acid damage, 12 range).
 - ```STARE``` Stare at the player and inflict ramping debuffs (`taint>tindrift`).
-- ```STRETCH_ATTACK``` Ranged (3 tiles) piercing attack, doing 5-10 damage.
-- ```STRETCH_BITE``` Ranged (3 tiles) bite attack, doing stab damage and potentially infecting without grabbing.
+- ```STRETCH_ATTACK``` Ranged (3 tiles) piercing attack, doing 5-10 damage. JSON equivalent is `id: stretch_attack`
+- ```STRETCH_BITE``` Ranged (3 tiles) bite attack, doing stab damage and potentially infecting without grabbing. JSON equivalent (without the chance of deep bites) is `id: stretch_bite`.
 - ```SUICIDE``` Dies after attacking.
 - ```TAZER``` Shock the player.
-- ```TENTACLE``` Lashes a tentacle at an enemy, doing bash damage at 3 tiles range.
+- ```TENTACLE``` Lashes a tentacle at an enemy, doing bash damage at 3 tiles range. JSON equivalent is `id: tentacle`.
 - ```TINDALOS_TELEPORT``` Spawns afterimages, teleports to corners nearer to its target.
 - ```TRIFFID_GROWTH``` Young triffid grows into an adult.
 - ```TRIFFID_HEARTBEAT``` Grows and crumbles root walls around the player, and spawns more monsters.
@@ -1532,4 +1535,5 @@ Gun fault flags:
 - ```CLIMATE_CONTROL``` You are resistant to extreme temperatures.
 - ```HEATSINK``` You are resistant to extreme heat.
 - ```THERMOMETER``` You always know what temperature it is.
-
+- ```CBQ_LEARN_BONUS``` You learn CBQ from the bionic bio_cqb faster.
+- ```GILLS``` You can breathe underwater.

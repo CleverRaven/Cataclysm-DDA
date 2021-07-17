@@ -82,6 +82,7 @@ static const efftype_id effect_hit_by_player( "hit_by_player" );
 static const efftype_id effect_in_pit( "in_pit" );
 static const efftype_id effect_lightsnare( "lightsnare" );
 static const efftype_id effect_monster_armor( "monster_armor" );
+static const efftype_id effect_natures_commune( "natures_commune" );
 static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_pacified( "pacified" );
@@ -1098,6 +1099,7 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
             // Friendly (to player) monsters are friendly to each other
             // Unfriendly monsters go by faction attitude
             return Attitude::FRIENDLY;
+            // NOLINTNEXTLINE(bugprone-branch-clone)
         } else if( ( friendly == 0 && m->friendly == 0 && faction_att == MFA_HATE ) ) {
             // Stuff that hates a specific faction will always attack that faction
             return Attitude::HOSTILE;
@@ -1194,6 +1196,12 @@ monster_attitude monster::attitude( const Character *u ) const
         }
 
         if( has_flag( MF_ANIMAL ) ) {
+            if( u->has_effect( effect_natures_commune ) ) {
+                effective_anger -= 10;
+                if( effective_anger < 10 ) {
+                    effective_morale += 55;
+                }
+            }
             if( u->has_trait( trait_ANIMALEMPATH ) ) {
                 effective_anger -= 10;
                 if( effective_anger < 10 ) {
@@ -1425,21 +1433,15 @@ bool monster::is_immune_effect( const efftype_id &effect ) const
 bool monster::is_immune_damage( const damage_type dt ) const
 {
     switch( dt ) {
-        case damage_type::NONE:
-            return true;
         case damage_type::PURE:
-            return false;
-        case damage_type::BIOLOGICAL:
-            // NOTE: Unused
-            return false;
+        case damage_type::BIOLOGICAL: // NOTE: Unused
         case damage_type::BASH:
-            return false;
         case damage_type::CUT:
+        case damage_type::STAB:
+        case damage_type::BULLET:
             return false;
         case damage_type::ACID:
             return has_flag( MF_ACIDPROOF );
-        case damage_type::STAB:
-            return false;
         case damage_type::HEAT:
             // Ugly hardcode - remove later
             return made_of( material_id( "steel" ) ) || made_of( material_id( "stone" ) );
@@ -1449,8 +1451,7 @@ bool monster::is_immune_damage( const damage_type dt ) const
             return type->sp_defense == &mdefense::zapback ||
                    has_flag( MF_ELECTRIC ) ||
                    has_flag( MF_ELECTRIC_FIELD );
-        case damage_type::BULLET:
-            return false;
+        case damage_type::NONE:
         default:
             return true;
     }
@@ -2355,7 +2356,7 @@ void monster::die( Creature *nkiller )
     if( death_drops && !no_extra_death_drops ) {
         drop_items_on_death();
     }
-    if( nkiller != nullptr ) {
+    if( get_killer() != nullptr ) {
         // TODO: should actually be class Character
         Character *ch = get_killer()->as_character();
         if( !is_hallucination() && ch != nullptr ) {
@@ -2444,7 +2445,18 @@ void monster::die( Creature *nkiller )
 
     add_msg_if_player_sees( *this, m_good, type->mdeath_effect.death_message.translated(), name() );
 
-    // drop a corpse, or not
+    if( type->mdeath_effect.has_effect ) {
+        //Not a hallucination, go process the death effects.
+        spell death_spell = type->mdeath_effect.sp.get_spell();
+        if( killer != nullptr && type->mdeath_effect.sp.self &&
+            death_spell.is_target_in_range( *this, killer->pos() ) ) {
+            death_spell.cast_all_effects( *this, killer->pos() );
+        } else if( type->mdeath_effect.sp.self ) {
+            death_spell.cast_all_effects( *this, pos() );
+        }
+    }
+
+    // drop a corpse, or not - this needs to happen after the spell, for e.g. revivification effects
     switch( type->mdeath_effect.corpse_type ) {
         case mdeath_type::NORMAL:
             mdeath::normal( *this );
@@ -2457,17 +2469,6 @@ void monster::die( Creature *nkiller )
             break;
         default:
             break;
-    }
-
-    if( type->mdeath_effect.has_effect ) {
-        //Not a hallucination, go process the death effects.
-        spell death_spell = type->mdeath_effect.sp.get_spell();
-        if( killer != nullptr && type->mdeath_effect.sp.self &&
-            death_spell.is_target_in_range( *this, killer->pos() ) ) {
-            death_spell.cast_all_effects( *this, killer->pos() );
-        } else if( type->mdeath_effect.sp.self ) {
-            death_spell.cast_all_effects( *this, pos() );
-        }
     }
 
     // If our species fears seeing one of our own die, process that
@@ -3047,16 +3048,18 @@ bool monster::will_join_horde( int size )
     const monster_horde_attraction mha = get_horde_attraction();
     if( mha == MHA_NEVER ) {
         return false;
-    } else if( mha == MHA_ALWAYS ) {
-        return true;
-    } else if( get_map().has_flag( TFLAG_INDOORS, pos() ) && ( mha == MHA_OUTDOORS ||
-               mha == MHA_OUTDOORS_AND_LARGE ) ) {
-        return false;
-    } else if( size < 3 && ( mha == MHA_LARGE || mha == MHA_OUTDOORS_AND_LARGE ) ) {
-        return false;
-    } else {
+    }
+    if( mha == MHA_ALWAYS ) {
         return true;
     }
+    if( get_map().has_flag( TFLAG_INDOORS, pos() ) &&
+        ( mha == MHA_OUTDOORS || mha == MHA_OUTDOORS_AND_LARGE ) ) {
+        return false;
+    }
+    if( size < 3 && ( mha == MHA_LARGE || mha == MHA_OUTDOORS_AND_LARGE ) ) {
+        return false;
+    }
+    return true;
 }
 
 void monster::on_unload()

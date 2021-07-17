@@ -529,7 +529,8 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
         // Bail out if this square cannot be auto-picked-up
         if( g->check_zone( zone_type_id( "NO_AUTO_PICKUP" ), p ) ) {
             return;
-        } else if( local.has_flag( "SEALED", p ) ) {
+        }
+        if( local.has_flag( "SEALED", p ) ) {
             return;
         }
     }
@@ -714,7 +715,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
 
                     nc_color icolor;
                     if( this_item.is_food_container() && !this_item.is_craft() &&
-                        this_item.contents.num_item_stacks() == 1 ) {
+                        this_item.num_item_stacks() == 1 ) {
                         icolor = this_item.contents.all_items_top().front()->color_in_inventory();
                     } else {
                         icolor = this_item.color_in_inventory();

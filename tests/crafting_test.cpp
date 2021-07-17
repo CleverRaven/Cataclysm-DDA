@@ -568,7 +568,44 @@ TEST_CASE( "tool_use", "[crafting][tool]" )
 
         prep_craft( recipe_id( "water_clean" ), tools, false );
     }
+    SECTION( "clean_water with broken tool" ) {
+        std::vector<item> tools;
+        tools.push_back( tool_with_ammo( "hotplate", 20 ) );
+        item plastic_bottle( "bottle_plastic" );
+        plastic_bottle.put_in(
+            item( "water", calendar::turn_zero, 2 ), item_pocket::pocket_type::CONTAINER );
+        tools.push_back( plastic_bottle );
+        tools.emplace_back( "pot" );
+
+        tools.front().set_flag( flag_id( "ITEM_BROKEN" ) );
+        REQUIRE( tools.front().is_broken() );
+
+        prep_craft( recipe_id( "water_clean" ), tools, false );
+    }
 }
+
+TEST_CASE( "broken component", "[crafting][component]" )
+{
+    GIVEN( "a recipe with its required components" ) {
+        recipe_id test_recipe( "flashlight" );
+
+        std::vector<item> tools;
+        tools.emplace_back( "amplifier" );
+        tools.emplace_back( "bottle_glass" );
+        tools.emplace_back( "light_bulb" );
+        tools.insert( tools.end(), 10, item( "cable" ) );
+
+        WHEN( "one of its components is broken" ) {
+            tools.front().set_flag( flag_id( "ITEM_BROKEN" ) );
+            REQUIRE( tools.front().is_broken() );
+
+            THEN( "it should not be able to craft it" ) {
+                prep_craft( test_recipe, tools, false );
+            }
+        }
+    }
+}
+
 
 // Resume the first in progress craft found in the player's inventory
 static int resume_craft()
@@ -938,25 +975,25 @@ TEST_CASE( "partial_proficiency_mitigation", "[crafting][proficiency]" )
     GIVEN( "a recipe with required proficiencies" ) {
         clear_avatar();
         clear_map();
+        Character &tester = get_player_character();
         const recipe &test_recipe = *recipe_id( "leather_belt" );
 
-        grant_skills_to_character( get_player_character(), test_recipe );
-        int unmitigated_time_taken = test_recipe.batch_time( get_player_character(), 1, 1, 0 );
+        grant_skills_to_character( tester, test_recipe );
+        int unmitigated_time_taken = test_recipe.batch_time( tester, 1, 1, 0 );
 
         WHEN( "player acquires partial proficiency" ) {
             int np = 0;
             for( const proficiency_id &prof : test_recipe.assist_proficiencies() ) {
                 np++;
-                get_player_character().practice_proficiency( prof,
-                        get_player_character().proficiency_training_needed( prof ) / 2 );
+                tester.set_proficiency_practice( prof, tester.proficiency_training_needed( prof ) / 2 );
             }
-            int mitigated_time_taken = test_recipe.batch_time( get_player_character(), 1, 1, 0 );
+            int mitigated_time_taken = test_recipe.batch_time( tester, 1, 1, 0 );
             THEN( "it takes less time to craft the recipe" ) {
                 CHECK( mitigated_time_taken < unmitigated_time_taken );
             }
             AND_WHEN( "player acquires missing proficiencies" ) {
-                grant_proficiencies_to_character( get_player_character(), test_recipe, true );
-                int proficient_time_taken = test_recipe.batch_time( get_player_character(), 1, 1, 0 );
+                grant_proficiencies_to_character( tester, test_recipe, true );
+                int proficient_time_taken = test_recipe.batch_time( tester, 1, 1, 0 );
                 THEN( "it takes even less time to craft the recipe" ) {
                     CHECK( proficient_time_taken < mitigated_time_taken );
                 }

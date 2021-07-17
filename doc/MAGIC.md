@@ -511,6 +511,10 @@ Effects for the character that has the enchantment:
 * EFFECTIVE_HEALTH_MOD : If this is anything other than zero(which it defaults to) you will use it instead of your actual health mod
 * MOD_HEALTH : If this is anything other than zero(which it defaults to) you will to mod your health to a max/min of MOD_HEALTH_CAP every half hour
 * MOD_HEALTH_CAP : If this is anything other than zero(which it defaults to) you will cap your MOD_HEALTH gain/loss at this every half hour
+* MAP_MEMORY : How many map tiles you can remember.
+* READING_EXP : Changes the minimum you learn from each reading increment.
+* SKILL_RUST_RESIST : Chance out of 100 to resist skill rust.
+* LEARNING_FOCUS : Amount of bonus focus you have for learning purposes.
 * ARMOR_BASH
 * ARMOR_CUT
 * ARMOR_STAB

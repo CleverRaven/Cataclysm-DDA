@@ -933,7 +933,7 @@ TEST_CASE( "sealed containers", "[pocket][seal]" )
         item can( "test_can_drink" );
 
         // Ensure it has exactly one contained pocket, and get that pocket for testing
-        ret_val<std::vector<item_pocket *>> can_pockets = can.contents.get_all_contained_pockets();
+        ret_val<std::vector<item_pocket *>> can_pockets = can.get_all_contained_pockets();
         REQUIRE( can_pockets.success() );
         REQUIRE( can_pockets.value().size() == 1 );
         item_pocket &pocket = *can_pockets.value().front();
@@ -983,7 +983,7 @@ TEST_CASE( "sealed containers", "[pocket][seal]" )
         item jug( "test_jug_plastic" );
 
         // Ensure it has exactly one contained pocket, and get that pocket for testing
-        ret_val<std::vector<item_pocket *>> jug_pockets = jug.contents.get_all_contained_pockets();
+        ret_val<std::vector<item_pocket *>> jug_pockets = jug.get_all_contained_pockets();
         REQUIRE( jug_pockets.success() );
         REQUIRE( jug_pockets.value().size() == 1 );
         item_pocket &pocket = *jug_pockets.value().front();
@@ -1077,7 +1077,7 @@ static bool has_best_pocket( item &container, const item &thing )
 /** Returns the only pocket for an item. */
 static item_pocket *get_only_pocket( item &container )
 {
-    ret_val<std::vector<item_pocket *>> pockets = container.contents.get_all_contained_pockets();
+    ret_val<std::vector<item_pocket *>> pockets = container.get_all_contained_pockets();
     REQUIRE( pockets.value().size() == 1 );
     return pockets.value()[0];
 }
@@ -1091,7 +1091,6 @@ TEST_CASE( "best pocket in item contents", "[pocket][item][best]" )
         // Must have a CONTAINER pocket, first and foremost
         item skin( "test_waterskin" );
         REQUIRE( skin.is_container() );
-        REQUIRE( skin.contents.has_pocket_type( item_pocket::pocket_type::CONTAINER ) );
         // Prerequisite: It can contain water
         item liquid( "test_liquid" );
         REQUIRE( skin.can_contain( liquid ) );
@@ -1105,7 +1104,6 @@ TEST_CASE( "best pocket in item contents", "[pocket][item][best]" )
         // Utility belt has CONTAINER pockets
         item util_belt( "test_utility_belt" );
         REQUIRE( util_belt.is_container() );
-        REQUIRE( util_belt.contents.has_pocket_type( item_pocket::pocket_type::CONTAINER ) );
         // It can contain small and large tools
         item screwdriver( "test_screwdriver" );
         item halligan( "test_halligan" );
@@ -1130,10 +1128,10 @@ TEST_CASE( "best pocket in item contents", "[pocket][item][best]" )
     SECTION( "non-container pockets cannot be best_pocket" ) {
         // Gun that accepts magazines
         item glock( "test_glock" );
-        REQUIRE( glock.contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE_WELL ) );
+        REQUIRE( glock.has_pocket_type( item_pocket::pocket_type::MAGAZINE_WELL ) );
         // Empty magazine
         item glockmag( "test_glockmag", calendar::turn, 0 );
-        REQUIRE( glockmag.contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE ) );
+        REQUIRE( glockmag.has_pocket_type( item_pocket::pocket_type::MAGAZINE ) );
         REQUIRE( glockmag.ammo_remaining() == 0 );
         // A single 9mm bullet
         item glockammo( "test_9mm_ammo", calendar::turn, 1 );
@@ -1154,7 +1152,6 @@ TEST_CASE( "best pocket in item contents", "[pocket][item][best]" )
         // Regular aluminum beverage can and something to fill it with
         item can( "test_can_drink" );
         REQUIRE( can.is_container() );
-        REQUIRE( can.contents.has_pocket_type( item_pocket::pocket_type::CONTAINER ) );
         item liquid( "test_liquid" );
         REQUIRE( can.can_contain( liquid ) );
 

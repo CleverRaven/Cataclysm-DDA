@@ -39,12 +39,13 @@ struct reg_coord_pair {
     tripoint reg;
     point sm_loc;
 
-    reg_coord_pair( const tripoint &p ) : sm_loc( p.xy() ) {
+    explicit reg_coord_pair( const tripoint &p ) : sm_loc( p.xy() ) {
         reg = tripoint( sm_to_mmr_remain( sm_loc.x, sm_loc.y ), p.z );
     }
 };
 
-mm_submap::mm_submap() {}
+mm_submap::mm_submap() = default;
+mm_submap::mm_submap( bool make_valid ) : valid( make_valid ) {}
 
 mm_region::mm_region() : submaps {{ nullptr }} {}
 
@@ -82,6 +83,9 @@ void map_memory::memorize_tile( const tripoint &pos, const std::string &ter,
 {
     coord_pair p( pos );
     mm_submap &sm = get_submap( p.sm );
+    if( !sm.is_valid() ) {
+        return;
+    }
     sm.set_tile( p.loc, memorized_terrain_tile{ ter, subtile, rotation } );
 }
 
@@ -96,6 +100,9 @@ void map_memory::memorize_symbol( const tripoint &pos, const int symbol )
 {
     coord_pair p( pos );
     mm_submap &sm = get_submap( p.sm );
+    if( !sm.is_valid() ) {
+        return;
+    }
     sm.set_symbol( p.loc, symbol );
 }
 
@@ -103,6 +110,9 @@ void map_memory::clear_memorized_tile( const tripoint &pos )
 {
     coord_pair p( pos );
     mm_submap &sm = get_submap( p.sm );
+    if( !sm.is_valid() ) {
+        return;
+    }
     sm.set_symbol( p.loc, mm_submap::default_symbol );
     sm.set_tile( p.loc, mm_submap::default_tile );
 }
@@ -112,8 +122,8 @@ bool map_memory::prepare_region( const tripoint &p1, const tripoint &p2 )
     cata_assert( p1.z == p2.z );
     cata_assert( p1.x <= p2.x && p1.y <= p2.y );
 
-    tripoint sm_p1 = coord_pair( p1 ).sm - point( 1, 1 );
-    tripoint sm_p2 = coord_pair( p2 ).sm + point( 1, 1 );
+    tripoint sm_p1 = coord_pair( p1 ).sm + point_north_west;
+    tripoint sm_p2 = coord_pair( p2 ).sm + point_south_east;
 
     tripoint sm_pos = sm_p1;
     point sm_size = sm_p2.xy() - sm_p1.xy();
@@ -235,10 +245,15 @@ shared_ptr_fast<mm_submap> map_memory::load_submap( const tripoint &sm_pos )
 }
 
 static mm_submap null_mz_submap;
+static mm_submap invalid_mz_submap{ false };
 
 const mm_submap &map_memory::get_submap( const tripoint &sm_pos ) const
 {
-    point idx = ( sm_pos - cache_pos ).xy();
+    if( cache_pos == tripoint_min ) {
+        debugmsg( "Called map_memory with an " );
+        return invalid_mz_submap;
+    }
+    const point idx = ( sm_pos - cache_pos ).xy();
     if( idx.x > 0 && idx.y > 0 && idx.x < cache_size.x && idx.y < cache_size.y ) {
         return *cached[idx.y * cache_size.x + idx.x];
     } else {
@@ -248,7 +263,10 @@ const mm_submap &map_memory::get_submap( const tripoint &sm_pos ) const
 
 mm_submap &map_memory::get_submap( const tripoint &sm_pos )
 {
-    point idx = ( sm_pos - cache_pos ).xy();
+    if( cache_pos == tripoint_min ) {
+        return invalid_mz_submap;
+    }
+    const point idx = ( sm_pos - cache_pos ).xy();
     if( idx.x > 0 && idx.y > 0 && idx.x < cache_size.x && idx.y < cache_size.y ) {
         return *cached[idx.y * cache_size.x + idx.x];
     } else {

@@ -20,6 +20,7 @@
 #include "anatomy.h"
 #include "avatar.h"
 #include "bionics.h"
+#include "cached_options.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character_martial_arts.h"
@@ -306,7 +307,6 @@ static const trait_id trait_DOWN( "DOWN" );
 static const trait_id trait_ELECTRORECEPTORS( "ELECTRORECEPTORS" );
 static const trait_id trait_ELFA_FNV( "ELFA_FNV" );
 static const trait_id trait_ELFA_NV( "ELFA_NV" );
-static const trait_id trait_FASTLEARNER( "FASTLEARNER" );
 static const trait_id trait_FAST_REFLEXES( "FAST_REFLEXES" );
 static const trait_id trait_FEL_NV( "FEL_NV" );
 static const trait_id trait_GILLS( "GILLS" );
@@ -350,7 +350,6 @@ static const trait_id trait_SHOUT2( "SHOUT2" );
 static const trait_id trait_SHOUT3( "SHOUT3" );
 static const trait_id trait_SLIMESPAWNER( "SLIMESPAWNER" );
 static const trait_id trait_SLIMY( "SLIMY" );
-static const trait_id trait_SLOWLEARNER( "SLOWLEARNER" );
 static const trait_id trait_STRONGSTOMACH( "STRONGSTOMACH" );
 static const trait_id trait_THRESH_CEPHALOPOD( "THRESH_CEPHALOPOD" );
 static const trait_id trait_THRESH_INSECT( "THRESH_INSECT" );
@@ -725,9 +724,7 @@ double Character::aim_cap_from_volume( const item &gun ) const
 
     double aim_cap = std::min( 49.0, 49.0 - static_cast<float>( wielded_volume / 75_ml ) );
     // TODO: also scale with skill level.
-    if( gun_skill == skill_smg ) {
-        aim_cap = std::max( 12.0, aim_cap );
-    } else if( gun_skill == skill_shotgun ) {
+    if( gun_skill == skill_smg || gun_skill == skill_shotgun ) {
         aim_cap = std::max( 12.0, aim_cap );
     } else if( gun_skill == skill_pistol ) {
         aim_cap = std::max( 15.0, aim_cap * 1.25 );
@@ -2266,7 +2263,7 @@ std::vector<item> Character::get_pseudo_items() const
     std::vector<item> result;
     for( const bionic &bio : *my_bionics ) {
         const bionic_data &bid = bio.info();
-        if( bid.fake_item && ( !bid.activated || bio.powered ) ) {
+        if( ( !bid.activated || bio.powered ) && bid.fake_item.is_valid() ) {
             result.emplace_back( item( bid.fake_item ) );
         }
     }
@@ -2299,7 +2296,8 @@ bool Character::can_fuel_bionic_with( const item &it ) const
         for( const material_id &fuel : bid->fuel_opts ) {
             if( fuel == it.get_base_material().id ) {
                 return true;
-            } else if( it.type->magazine && fuel == item( it.ammo_current() ).get_base_material().id ) {
+            }
+            if( it.type->magazine && fuel == item( it.ammo_current() ).get_base_material().id ) {
                 return true;
             }
         }
@@ -2314,9 +2312,8 @@ std::vector<bionic_id> Character::get_bionic_fueled_with( const item &it ) const
 
     for( const bionic_id &bid : get_bionics() ) {
         for( const material_id &fuel : bid->fuel_opts ) {
-            if( fuel == it.get_base_material().id ) {
-                bionics.emplace_back( bid );
-            } else if( it.type->magazine && fuel == item( it.ammo_current() ).get_base_material().id ) {
+            if( fuel == it.get_base_material().id ||
+                ( it.type->magazine && fuel == item( it.ammo_current() ).get_base_material().id ) ) {
                 bionics.emplace_back( bid );
             }
         }
@@ -3148,7 +3145,7 @@ void Character::handle_contents_changed( const std::vector<item_location> &conta
         loc->on_contents_changed();
         const bool handle_drop = loc.where() != item_location::type::map && !is_wielding( *loc );
         bool drop_unhandled = false;
-        for( item_pocket *const pocket : loc->contents.get_all_contained_pockets().value() ) {
+        for( item_pocket *const pocket : loc->get_all_contained_pockets().value() ) {
             if( pocket && !pocket->sealed() ) {
                 // pockets are unsealed but on_contents_changed is not called
                 // in contents_change_handler::unseal_pocket_containing
@@ -3457,6 +3454,24 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
                 return VisitResponse::SKIP;
             }
 
+            // ammo is inside some sort of a container
+            if( parent != nullptr && parent->is_container() ) {
+                for( const ammotype &at : ammo ) {
+                    if( node->ammo_type() == at ) {
+                        out = item_location( item_location( src, parent ), node );
+                    }
+                }
+                if( node->is_magazine() &&
+                    ( parent == nullptr || node != parent->magazine_current() ) &&
+                    node->has_flag( flag_SPEEDLOADER ) ) {
+                    if( node->ammo_remaining() ) {
+                        out = item_location( item_location( src, parent ), node );
+                    }
+                }
+                return VisitResponse::NEXT;
+            }
+
+            // everything else, probably?
             for( const ammotype &at : ammo ) {
                 if( node->ammo_type() == at ) {
                     out = item_location( src, node );
@@ -3476,6 +3491,15 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
         const auto mags = obj.magazine_compatible();
 
         src.visit_items( [&src, &nested, &out, mags, empty]( item * node, item * parent ) {
+            // magazine is inside some sort of a container
+            if( node->is_magazine() &&
+                ( parent != nullptr && node != parent->magazine_current() && parent->is_container() ) ) {
+                if( mags.count( node->typeId() ) && ( node->ammo_remaining() || empty ) ) {
+                    out = item_location( item_location( src, parent ), node );
+                }
+                return VisitResponse::SKIP;
+            }
+            //everything else, probably?
             if( node->is_magazine() &&
                 ( parent == nullptr || node != parent->magazine_current() ) ) {
                 if( mags.count( node->typeId() ) && ( node->ammo_remaining() || empty ) ) {
@@ -4355,10 +4379,9 @@ void Character::do_skill_rust()
             continue;
         }
 
-        const bool charged_bio_mem = get_power_level() > bio_memory->power_trigger &&
-                                     has_active_bionic( bio_memory );
+        const int rust_resist = enchantment_cache->modify_value( enchant_vals::mod::READING_EXP, 0 );
         const int oldSkillLevel = skill_level_obj.level();
-        if( skill_level_obj.rust( charged_bio_mem, rust_rate_tmp ) ) {
+        if( skill_level_obj.rust( rust_resist, rust_rate_tmp ) ) {
             add_msg_if_player( m_warning,
                                _( "Your knowledge of %s begins to fade, but your memory banks retain it!" ), aSkill.name() );
             mod_power_level( -bio_memory->power_trigger );
@@ -5566,7 +5589,7 @@ void Character::update_health( int external_modifiers )
 
     // And healthy_mod decays over time.
     // Slowly near 0, but it's hard to overpower it near +/-100
-    set_healthy_mod( std::round( get_healthy_mod() * 0.95f ) );
+    set_healthy_mod( roll_remainder( get_healthy_mod() * 0.95f ) );
 
     add_msg_debug( debugmode::DF_CHAR_HEALTH, "Health: %d, Health mod: %d", get_healthy(),
                    get_healthy_mod() );
@@ -6999,7 +7022,7 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint &p )
 
     // Some mutants have different comfort needs
     if( !plantsleep && !webforce ) {
-        if( in_shell ) {
+        if( in_shell ) { // NOLINT(bugprone-branch-clone)
             comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
             // Note: shelled individuals can still use sleeping aids!
         } else if( vp ) {
@@ -7016,7 +7039,7 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint &p )
                     }
                     if( items_it.has_flag( flag_SLEEP_AID_CONTAINER ) ) {
                         bool found = false;
-                        if( items_it.contents.num_item_stacks() > 1 ) {
+                        if( items_it.num_item_stacks() > 1 ) {
                             // Only one item is allowed, so we don't fill our pillowcase with nails
                             continue;
                         }
@@ -7073,7 +7096,7 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint &p )
                 }
                 if( items_it.has_flag( flag_SLEEP_AID_CONTAINER ) ) {
                     bool found = false;
-                    if( items_it.contents.num_item_stacks() > 1 ) {
+                    if( items_it.num_item_stacks() > 1 ) {
                         // Only one item is allowed, so we don't fill our pillowcase with nails
                         continue;
                     }
@@ -7093,9 +7116,8 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint &p )
                 }
             }
         }
-        if( fungaloid_cosplay && here.has_flag_ter_or_furn( "FUNGUS", pos() ) ) {
-            comfort += static_cast<int>( comfort_level::very_comfortable );
-        } else if( watersleep && here.has_flag_ter( "SWIMMABLE", pos() ) ) {
+        if( ( fungaloid_cosplay && here.has_flag_ter_or_furn( "FUNGUS", pos() ) ) ||
+            ( watersleep && here.has_flag_ter( "SWIMMABLE", pos() ) ) ) {
             comfort += static_cast<int>( comfort_level::very_comfortable );
         }
     } else if( plantsleep ) {
@@ -7229,11 +7251,9 @@ bodypart_id Character::body_window( const std::string &menu_header,
         const bool limb_is_broken = is_limb_broken( bp );
         const bool limb_is_mending = worn_with_flag( flag_SPLINT, bp );
 
-        if( show_all ) {
+        if( show_all || has_curable_effect ) { // NOLINT(bugprone-branch-clone)
             e.allowed = true;
-        } else if( has_curable_effect ) {
-            e.allowed = true;
-        } else if( limb_is_broken ) {
+        } else if( limb_is_broken ) { // NOLINT(bugprone-branch-clone)
             e.allowed = false;
         } else if( current_hp < maximal_hp && ( e.bonus != 0 || bandage_power > 0.0f  ||
                                                 disinfectant_power > 0.0f ) ) {
@@ -7927,7 +7947,7 @@ hint_rating Character::rate_action_reload( const item &it ) const
 
 hint_rating Character::rate_action_unload( const item &it ) const
 {
-    if( it.is_container() && !it.contents.empty() &&
+    if( it.is_container() && !it.empty() &&
         it.can_unload_liquid() ) {
         return hint_rating::good;
     }
@@ -8106,7 +8126,6 @@ mutation_value_map = {
     { "noise_modifier", calc_mutation_value_multiplicative<&mutation_branch::noise_modifier> },
     { "overmap_sight", calc_mutation_value_additive<&mutation_branch::overmap_sight> },
     { "overmap_multiplier", calc_mutation_value_multiplicative<&mutation_branch::overmap_multiplier> },
-    { "map_memory_capacity_multiplier", calc_mutation_value_multiplicative<&mutation_branch::map_memory_capacity_multiplier> },
     { "reading_speed_multiplier", calc_mutation_value_multiplicative<&mutation_branch::reading_speed_multiplier> },
     { "skill_rust_multiplier", calc_mutation_value_multiplicative<&mutation_branch::skill_rust_multiplier> },
     { "crafting_speed_multiplier", calc_mutation_value_multiplicative<&mutation_branch::crafting_speed_multiplier> },
@@ -8766,6 +8785,10 @@ bool Character::invoke_item( item *used, const std::string &method )
 bool Character::invoke_item( item *used, const std::string &method, const tripoint &pt,
                              int pre_obtain_moves )
 {
+    if( used->is_broken() ) {
+        add_msg_if_player( m_bad, _( "Your %s was broken and won't turn on." ), used->tname() );
+        return false;
+    }
     if( !has_enough_charges( *used, true ) ) {
         moves = pre_obtain_moves;
         return false;
@@ -8825,7 +8848,7 @@ bool Character::dispose_item( item_location &&obj, const std::string &prompt )
         can_stash( *obj ), '1',
         item_handling_cost( *obj ),
         [this, bucket, &obj] {
-            if( bucket && !obj->contents.spill_open_pockets( *this, obj.get_item() ) )
+            if( bucket && !obj->spill_open_pockets( *this, obj.get_item() ) )
             {
                 return false;
             }
@@ -9047,9 +9070,6 @@ int Character::item_wear_cost( const item &it ) const
     double mv = item_handling_cost( it );
 
     switch( it.get_layer() ) {
-        case layer_level::PERSONAL:
-            break;
-
         case layer_level::UNDERWEAR:
             mv *= 1.5;
             break;
@@ -9066,9 +9086,8 @@ int Character::item_wear_cost( const item &it ) const
             mv /= 2.0;
             break;
 
+        case layer_level::PERSONAL:
         case layer_level::AURA:
-            break;
-
         default:
             break;
     }
@@ -10608,7 +10627,7 @@ units::volume Character::free_space() const
 {
     units::volume volume_capacity = 0_ml;
     volume_capacity += weapon.get_total_capacity();
-    for( const item_pocket *pocket : weapon.contents.get_all_contained_pockets().value() ) {
+    for( const item_pocket *pocket : weapon.get_all_contained_pockets().value() ) {
         if( pocket->contains_phase( phase_id::SOLID ) ) {
             for( const item *it : pocket->all_items_top() ) {
                 volume_capacity -= it->volume();
@@ -10620,7 +10639,7 @@ units::volume Character::free_space() const
     volume_capacity += weapon.check_for_free_space();
     for( const item &w : worn ) {
         volume_capacity += w.get_total_capacity();
-        for( const item_pocket *pocket : w.contents.get_all_contained_pockets().value() ) {
+        for( const item_pocket *pocket : w.get_all_contained_pockets().value() ) {
             if( pocket->contains_phase( phase_id::SOLID ) ) {
                 for( const item *it : pocket->all_items_top() ) {
                     volume_capacity -= it->volume();
@@ -11242,13 +11261,11 @@ int Character::temp_corrected_by_climate_control( int temperature ) const
             temperature = BODYTEMP_VERY_HOT;
         } else if( temperature > BODYTEMP_VERY_HOT ) {
             temperature = BODYTEMP_HOT;
-        } else if( temperature > BODYTEMP_HOT ) {
-            temperature = BODYTEMP_NORM;
         } else if( temperature < BODYTEMP_FREEZING ) {
             temperature = BODYTEMP_VERY_COLD;
         } else if( temperature < BODYTEMP_VERY_COLD ) {
             temperature = BODYTEMP_COLD;
-        } else if( temperature < BODYTEMP_COLD ) {
+        } else {
             temperature = BODYTEMP_NORM;
         }
     }
@@ -11451,11 +11468,14 @@ bool Character::has_fire( const int quantity ) const
 
     if( get_map().has_nearby_fire( pos() ) ) {
         return true;
-    } else if( has_item_with_flag( flag_FIRE ) ) {
+    }
+    if( has_item_with_flag( flag_FIRE ) ) {
         return true;
-    } else if( !find_firestarter_with_charges( quantity ).is_null() ) {
+    }
+    if( !find_firestarter_with_charges( quantity ).is_null() ) {
         return true;
-    } else if( is_npc() ) {
+    }
+    if( is_npc() ) {
         // HACK: A hack to make NPCs use their Molotovs
         return true;
     }
@@ -11500,21 +11520,22 @@ void Character::use_fire( const int quantity )
 
     if( get_map().has_nearby_fire( pos() ) ) {
         return;
-    } else if( has_item_with_flag( flag_FIRE ) ) {
+    }
+    if( has_item_with_flag( flag_FIRE ) ) {
         return;
-    } else {
-        const item firestarter = find_firestarter_with_charges( quantity );
-        if( firestarter.is_null() ) {
-            return;
-        }
-        if( firestarter.type->has_flag( flag_USES_BIONIC_POWER ) ) {
-            mod_power_level( -quantity * 5_kJ );
-            return;
-        }
-        if( firestarter.typeId()->can_have_charges() ) {
-            use_charges( firestarter.typeId(), quantity );
-            return;
-        }
+    }
+
+    const item firestarter = find_firestarter_with_charges( quantity );
+    if( firestarter.is_null() ) {
+        return;
+    }
+    if( firestarter.type->has_flag( flag_USES_BIONIC_POWER ) ) {
+        mod_power_level( -quantity * 5_kJ );
+        return;
+    }
+    if( firestarter.typeId()->can_have_charges() ) {
+        use_charges( firestarter.typeId(), quantity );
+        return;
     }
 }
 
@@ -11718,15 +11739,8 @@ bool Character::has_opposite_trait( const trait_id &flag ) const
 int Character::adjust_for_focus( int amount ) const
 {
     int effective_focus = get_focus();
-    if( has_trait( trait_FASTLEARNER ) ) {
-        effective_focus += 15;
-    }
-    if( has_active_bionic( bio_memory ) ) {
-        effective_focus += 10;
-    }
-    if( has_trait( trait_SLOWLEARNER ) ) {
-        effective_focus -= 15;
-    }
+    effective_focus = enchantment_cache->modify_value( enchant_vals::mod::LEARNING_FOCUS,
+                      effective_focus );
     effective_focus += ( get_int() - get_option<int>( "INT_BASED_LEARNING_BASE_VALUE" ) ) *
                        get_option<int>( "INT_BASED_LEARNING_FOCUS_ADJUSTMENT" );
     effective_focus = std::max( effective_focus, 1 );
@@ -12826,6 +12840,15 @@ std::vector<proficiency_id> Character::learning_proficiencies() const
     return _proficiencies->learning_profs();
 }
 
+void Character::set_proficiency_practice( const proficiency_id &id, const time_duration &amount )
+{
+    if( !test_mode ) {
+        return;
+    }
+
+    _proficiencies->practice( id, amount, cata::nullopt );
+}
+
 bool Character::defer_move( const tripoint &next )
 {
     // next must be adjacent to current pos
@@ -12885,7 +12908,7 @@ bool Character::unload( item_location &loc, bool bypass_activity )
     item &it = *loc;
     // Unload a container consuming moves per item successfully removed
     if( it.is_container() ) {
-        if( it.contents.empty() ) {
+        if( it.empty() ) {
             add_msg( m_info, _( "The %s is already empty!" ), it.tname() );
             return false;
         }

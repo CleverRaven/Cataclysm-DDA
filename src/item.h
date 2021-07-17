@@ -569,6 +569,11 @@ class item : public visitable
          */
         bool merge_charges( const item &rhs );
 
+        /**
+        * Total weight of an item accounting for all contained/integrated items
+        * @param include_contents if true include weight of contained items
+        * @param integral if true return effective weight if this item was integrated into another
+        */
         units::mass weight( bool include_contents = true, bool integral = false ) const;
 
         /**
@@ -730,6 +735,17 @@ class item : public visitable
         /** Whether this is container. Note that container does not necessarily means it's
          * suitable for liquids. */
         bool is_container() const;
+        // whether the contents has a pocket with the associated type
+        bool has_pocket_type( item_pocket::pocket_type pk_type ) const;
+        bool has_any_with( const std::function<bool( const item & )> &filter,
+                           item_pocket::pocket_type pk_type ) const;
+
+        /** True if every pocket is rigid or we have no pockets */
+        bool all_pockets_rigid() const;
+
+        // gets all pockets contained in this item
+        ret_val<std::vector<const item_pocket *>> get_all_contained_pockets() const;
+        ret_val<std::vector<item_pocket *>> get_all_contained_pockets();
 
         /**
          * Updates the pockets of this item to be correct based on the mods that are installed.
@@ -1232,6 +1248,9 @@ class item : public visitable
         bool is_faulty() const;
         bool is_irremovable() const;
 
+        /** Returns true if the item is broken and can't be activated or used in crafting */
+        bool is_broken() const;
+
         bool is_unarmed_weapon() const; //Returns true if the item should be considered unarmed
 
         bool has_temperature() const;
@@ -1342,6 +1361,7 @@ class item : public visitable
          * @return If the item is now empty.
          */
         bool spill_contents( const tripoint &pos );
+        bool spill_open_pockets( Character &guy, const item *avoid = nullptr );
 
         /** Checks if item is a holster and currently capable of storing obj
          *  @param obj object that we want to holster
@@ -2261,6 +2281,22 @@ class item : public visitable
         /** returns a list of pointers to all items inside recursively */
         std::list<item *> all_items_ptr( item_pocket::pocket_type pk_type );
 
+        void clear_items();
+        bool empty() const;
+
+        /**
+         * returns the number of items stacks in contents
+         * each item that is not count_by_charges,
+         * plus whole stacks of items that are
+         */
+        size_t num_item_stacks() const;
+        /**
+         * This function is to aid migration to using nested containers.
+         * The call sites of this function need to be updated to search the
+         * pockets of the item, or not assume there is only one pocket or item.
+         */
+        item &legacy_front();
+        const item &legacy_front() const;
 
     private:
         /** migrates an item into this item. */
@@ -2354,6 +2390,11 @@ class item : public visitable
         // Select a random variant from the possibilities
         // Intended to be called when no explicit variant is set
         void select_gun_variant();
+
+        bool can_have_gun_variant() const;
+
+        // Does this have a variant with this id?
+        bool possible_gun_variant( const std::string &test ) const;
 
         // If the item has a gun variant, this points to it
         const gun_variant_data *_gun_variant = nullptr;
