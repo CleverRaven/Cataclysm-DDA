@@ -463,7 +463,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "//": "A nested m ap for general lab security areas, door to the north, wall to the east.",
+    "//": "A nested map for general lab security areas, door to the north, wall to the east.",
     "nested_mapgen_id": "lab_security_10x10_N",
     "object": {
       "mapgensize": [ 10, 10 ],

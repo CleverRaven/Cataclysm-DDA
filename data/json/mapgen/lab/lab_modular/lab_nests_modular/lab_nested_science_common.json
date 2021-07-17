@@ -209,7 +209,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "//": "A nested map for lab common research areas.  Includes hot/cold fields.",
+    "//": "A nested map for lab common research areas.  Includes cold fields.",
     "nested_mapgen_id": "lab_common_5x5",
     "object": {
       "mapgensize": [ 5, 5 ],
