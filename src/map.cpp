@@ -6745,7 +6745,7 @@ void map::loadn( const tripoint &grid, const bool update_vehicles, bool _actuali
     static const oter_str_id rock( "empty_rock" );
     static const oter_str_id air( "open_air" );
     static const oter_str_id earth( "solid_earth" );
-    static const oter_str_id deep_rock( "deep_rock");
+    static const oter_str_id deep_rock( "deep_rock" );
     static const ter_str_id t_soil( "t_soil" );
 
     dbg( D_INFO ) << "map::loadn(game[" << g.get() << "], worldx[" << abs_sub.x
