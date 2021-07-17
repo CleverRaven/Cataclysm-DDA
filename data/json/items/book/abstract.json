@@ -171,7 +171,7 @@
     "abstract": "book_pulp_newage_tpl",
     "type": "BOOK",
     "name": { "str": "Generic New-Age Book" },
-    "description": "This is a template for pulp new-age books. They're theoretically nonfiction.",
+    "description": "This is a template for pulp new-age books.  They're theoretically nonfiction.",
     "copy-from": "book_fict_soft_pulp_tpl",
     "weight": "250 g",
     "relative": { "chapters": -6, "price": 2500, "price_postapoc": -100 }
