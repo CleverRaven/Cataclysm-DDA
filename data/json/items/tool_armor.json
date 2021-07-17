@@ -2946,7 +2946,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "armet helm (raised)" },
-    "description": "An iconic knightly helm of the late middle ages. When you think of a knight's helmet, it looks something like this. Activate it to toggle the visor.",
+    "description": "An iconic knightly helm of the late middle ages.  When you think of a knight's helmet, it looks something like this.  Activate it to toggle the visor.",
     "weight": "2300 g",
     "volume": "2050 ml",
     "price": 55000,
