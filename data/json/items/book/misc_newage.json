@@ -2,7 +2,7 @@
   {
     "id": "book_newage_generic",
     "type": "BOOK",
-    "name": { "str": "new-age book", "str_pl": "new-age books" },
+    "name": { "str": "new-age book" },
     "description": "A mishmash of self-contradictory advice on spirits, auras, chakras, crystals, and psychic powers.",
     "copy-from": "book_pulp_newage_tpl"
   },
