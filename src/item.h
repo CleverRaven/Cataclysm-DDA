@@ -2391,6 +2391,11 @@ class item : public visitable
         // Intended to be called when no explicit variant is set
         void select_gun_variant();
 
+        bool can_have_gun_variant() const;
+
+        // Does this have a variant with this id?
+        bool possible_gun_variant( const std::string &test ) const;
+
         // If the item has a gun variant, this points to it
         const gun_variant_data *_gun_variant = nullptr;
 

@@ -28,6 +28,13 @@ std::string point::to_string() const
     return os.str();
 }
 
+std::string point::to_string_writable() const
+{
+    // This is supposed to be a non-translated version of to_string, but we can
+    // just use regular to_string
+    return to_string();
+}
+
 tripoint tripoint::from_string( const std::string &s )
 {
     std::istringstream is( s );
@@ -47,6 +54,13 @@ std::string tripoint::to_string() const
     os.imbue( std::locale::classic() );
     os << *this;
     return os.str();
+}
+
+std::string tripoint::to_string_writable() const
+{
+    // This is supposed to be a non-translated version of to_string, but we can
+    // just use regular to_string
+    return to_string();
 }
 
 std::ostream &operator<<( std::ostream &os, const point &pos )

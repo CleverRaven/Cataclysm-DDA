@@ -251,7 +251,8 @@ void game::item_action_menu()
     const action_map &item_actions = gen.get_item_action_map();
 
     std::vector<item> pseudo_items = get_player_character().get_pseudo_items();
-    std::vector<item *> pseudos( pseudo_items.size() );
+    std::vector<item *> pseudos;
+    pseudos.reserve( pseudo_items.size() );
     for( item &pseudo : pseudo_items ) {
         pseudos.push_back( &pseudo );
     }
