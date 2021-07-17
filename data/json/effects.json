@@ -251,6 +251,7 @@
     "desc": [ "AI tag used for robots being disabled.  This is a bug if you have it." ]
   },
   {
+    "type": "effect_type",
     "id": "venom_player1",
     "name": [ "Weak Player Venom" ],
     "desc": [ "Don't worry, you shouldn't get this." ],
