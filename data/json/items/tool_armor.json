@@ -2890,7 +2890,7 @@
     "id": "helmet_sallet_raised",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "sallet helm (raised)" },
+    "name": { "str": "sallet helm (raised)", "str_pl": "sallet helms (raised)" },
     "description": "A popular german helmet of the late medieval era, the sallet covers the head and eyes.  Activate it to toggle the visor.",
     "weight": "1800 g",
     "volume": "2050 ml",
