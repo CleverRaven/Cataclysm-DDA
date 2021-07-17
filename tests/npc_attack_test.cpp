@@ -43,12 +43,6 @@ static npc &respawn_main_npc()
     return spawn_main_npc();
 }
 
-// will seg fault if the main npc wasn't spawned yet
-static npc &get_main_npc()
-{
-    return *g->critter_at<npc>( main_npc_start_tripoint );
-}
-
 static monster *spawn_zombie_at_range( const int range )
 {
     return g->place_critter_at( mon_zombie, main_npc_start_tripoint + tripoint( range, 0, 0 ) );
@@ -77,7 +71,7 @@ SCENARIO( "NPC faces zombies", "[npc_attack]" )
                 const std::shared_ptr<npc_attack> &attack = main_npc.get_current_attack();
                 npc_attack_melee *melee_attack = dynamic_cast<npc_attack_melee *>( attack.get() );
                 CHECK( melee_attack );
-                const npc_attack_rating rating = main_npc.get_current_attack_evaluation();
+                const npc_attack_rating &rating = main_npc.get_current_attack_evaluation();
                 CHECK( rating.value() );
                 CHECK( *rating.value() > 0 );
                 CHECK( rating.target() == zombie->pos() );
@@ -97,7 +91,7 @@ SCENARIO( "NPC faces zombies", "[npc_attack]" )
                     const std::shared_ptr<npc_attack> &attack = main_npc.get_current_attack();
                     npc_attack_gun *ranged_attack = dynamic_cast<npc_attack_gun *>( attack.get() );
                     CHECK( ranged_attack );
-                    const npc_attack_rating rating = main_npc.get_current_attack_evaluation();
+                    const npc_attack_rating &rating = main_npc.get_current_attack_evaluation();
                     CHECK( rating.value() );
                     CHECK( *rating.value() > 0 );
                     CHECK( rating.target() == zombie->pos() );
@@ -152,7 +146,7 @@ SCENARIO( "NPC faces zombies", "[npc_attack]" )
                 const std::shared_ptr<npc_attack> &attack = main_npc.get_current_attack();
                 npc_attack_melee *melee_attack = dynamic_cast<npc_attack_melee *>( attack.get() );
                 CHECK( melee_attack );
-                const npc_attack_rating rating = main_npc.get_current_attack_evaluation();
+                const npc_attack_rating &rating = main_npc.get_current_attack_evaluation();
                 CHECK( rating.value() );
                 CHECK( *rating.value() > 0 );
                 CHECK( rating.target() == zombie->pos() );
@@ -188,7 +182,7 @@ SCENARIO( "NPC faces zombies", "[npc_attack]" )
                     const std::shared_ptr<npc_attack> &attack = main_npc.get_current_attack();
                     npc_attack_melee *melee_attack = dynamic_cast<npc_attack_melee *>( attack.get() );
                     CHECK( melee_attack );
-                    const npc_attack_rating rating = main_npc.get_current_attack_evaluation();
+                    const npc_attack_rating &rating = main_npc.get_current_attack_evaluation();
                     CHECK( rating.value() );
                     CHECK( *rating.value() > 0 );
                     CHECK( rating.target() == zombie->pos() );
@@ -202,7 +196,7 @@ SCENARIO( "NPC faces zombies", "[npc_attack]" )
                         const std::shared_ptr<npc_attack> &attack = main_npc.get_current_attack();
                         npc_attack_melee *melee_attack = dynamic_cast<npc_attack_melee *>( attack.get() );
                         CHECK( melee_attack );
-                        const npc_attack_rating rating = main_npc.get_current_attack_evaluation();
+                        const npc_attack_rating &rating = main_npc.get_current_attack_evaluation();
                         CHECK( rating.value() );
                         CHECK( *rating.value() > 0 );
                         CHECK( rating.target() == zombie->pos() );
@@ -216,7 +210,7 @@ SCENARIO( "NPC faces zombies", "[npc_attack]" )
                         const std::shared_ptr<npc_attack> &attack = main_npc.get_current_attack();
                         npc_attack_melee *melee_attack = dynamic_cast<npc_attack_melee *>( attack.get() );
                         CHECK( melee_attack );
-                        const npc_attack_rating rating = main_npc.get_current_attack_evaluation();
+                        const npc_attack_rating &rating = main_npc.get_current_attack_evaluation();
                         CHECK( rating.value() );
                         CHECK( *rating.value() > 0 );
                         CHECK( rating.target() == zombie_far->pos() );

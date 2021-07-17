@@ -14,11 +14,6 @@
 
 namespace npc_attack_constants
 {
-const std::map<Creature::Attitude, int> attitude_multiplier = {
-    { Creature::Attitude::FRIENDLY, -10 },
-    { Creature::Attitude::HOSTILE, 3 },
-    { Creature::Attitude::NEUTRAL, -1 }
-};
 // if you are attacking your target, multiply potential by this number
 const float target_modifier = 1.5f;
 // if you kill the creature, multiply the potential by this number
@@ -57,7 +52,8 @@ static bool can_move_melee( const npc &source )
     return can_move( source ) && source.rules.engagement != combat_engagement::FREE_FIRE;
 }
 
-static bool enemy_distance_to_ally( const npc &source, const Creature &target )
+// TODO: Uncomment when distance checks to allies are added. Clang-tidy doesn't like dead code
+/*static bool enemy_distance_to_ally( const npc &source, const Creature &target )
 {
     int distance = rl_dist( target.pos(), source.pos() );
     for( const weak_ptr_fast<Creature> &buddy : source.get_cached_friends() ) {
@@ -66,7 +62,7 @@ static bool enemy_distance_to_ally( const npc &source, const Creature &target )
         }
     }
     return distance;
-}
+}*/
 
 bool npc_attack_rating::operator>( const npc_attack_rating &rhs ) const
 {
