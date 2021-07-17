@@ -38,7 +38,7 @@
   {
     "type": "material",
     "id": "vacuum_carbide",
-    "name": "Vacuum Cast Carbide",
+    "name": "Vacuum-cast carbide",
     "density": 18,
     "bash_resist": 8,
     "cut_resist": 14,
@@ -67,7 +67,7 @@
     "dmg_adj": [ "marked", "dented", "scarred", "broken" ],
     "bash_dmg_verb": "ripped",
     "cut_dmg_verb": "cut",
-    "//": "lightweight high protection value armors that degrade easily."
+    "//": "lightweight high-protection-value armors that degrade easily."
   },
   {
     "type": "material",

@@ -14,7 +14,7 @@
     "symbol": "[",
     "looks_like": "helmet_barbute",
     "color": "light_gray",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "head" ], "coverage": 100, "encumbrance": 40 },
       { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 30 },
       { "covers": [ "eyes" ], "coverage": 80, "encumbrance": 20 }
@@ -31,7 +31,7 @@
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str": "UICAS Tip of the Spear helmet" },
-    "description": "An all environment combat helmet issued to UICA espatiers.  Commonly known as 'the jar'  due to its unusual, clear polymer canopy that leaves its wearers face visible.",
+    "description": "An all-environment combat helmet issued to UICA espatiers.  Commonly known as 'the jar' due to its unusual clear polymer canopy that leaves its wearer's face visible.",
     "weight": "1324 g",
     "volume": "2 L",
     "price": 50000,
@@ -42,7 +42,7 @@
     "symbol": "[",
     "looks_like": "helmet_motor",
     "color": "dark_gray",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "head" ], "coverage": 100, "encumbrance": 20 },
       { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 5 },
       { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 8 }
