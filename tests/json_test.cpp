@@ -815,3 +815,23 @@ TEST_CASE( "item_colony_ser_deser", "[json][item]" )
         }
     }
 }
+
+TEST_CASE( "serialize_optional", "[json]" )
+{
+    SECTION( "simple_empty_optional" ) {
+        cata::optional<int> o;
+        test_serialization( o, "null" );
+    }
+    SECTION( "optional_of_int" ) {
+        cata::optional<int> o( 7 );
+        test_serialization( o, "7" );
+    }
+    SECTION( "vector_of_empty_optional" ) {
+        std::vector<cata::optional<int>> v( 3 );
+        test_serialization( v, "[null,null,null]" );
+    }
+    SECTION( "vector_of_optional_of_int" ) {
+        std::vector<cata::optional<int>> v{ { 1 }, { 2 }, { 3 } };
+        test_serialization( v, "[1,2,3]" );
+    }
+}
