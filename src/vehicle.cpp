@@ -908,9 +908,8 @@ autodrive_result vehicle::do_autodrive( Character &driver )
     // TODO: fix point types
     tripoint_abs_omt veh_omt_pos( ms_to_omt_copy( here.getabs( vehpos ) ) );
     // we're at or close to the waypoint, pop it out and look for the next one.
-    if( ( is_autodriving && !driver.omt_path.empty() && !omt_path.empty() ) &&
+    if( ( is_autodriving && !omt_path.empty() ) &&
         veh_omt_pos == omt_path.back() ) {
-        driver.omt_path.pop_back();
         omt_path.pop_back();
     }
     if( omt_path.empty() ) {
