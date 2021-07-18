@@ -5934,7 +5934,6 @@ static float calc_hourly_rotpoints_at_temp( const int temp )
     // ~3 C ditch our fancy equation and do a linear approach to 0 rot from 3 C -> 0 C
     const int max_rot_temp = 105; // ~41 C Maximum rotting rate is at this temperature
     const int safe_temp = 145; // ~63 C safe temperature above which food stops rotting
-    // temperatures::freezing = 32 F ( 0 C)
 
     if( temp <= temperatures::freezing || temp > safe_temp ) {
         return 0.0;
