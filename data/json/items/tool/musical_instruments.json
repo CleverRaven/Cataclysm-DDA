@@ -276,7 +276,7 @@
     "category": "tools",
     "weight": "2200 g",
     "color": "brown",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "long", "surface": "any", "balance": "clumsy" },
     "use_action": {
       "type": "musical_instrument",
       "speed_penalty": 15,
