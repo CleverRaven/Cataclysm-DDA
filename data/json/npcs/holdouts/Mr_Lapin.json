@@ -49,7 +49,8 @@
       { "text": "Anything I can help with?", "topic": "TALK_MISSION_LIST" },
       { "text": "Do you need any resources?", "topic": "TALK_LAPIN_RESOURCES" },
       { "text": "Well, bye.", "topic": "TALK_DONE" }
-    ]
+    ],
+    "effect": { "u_add_var": "u_met_lapin", "type": "general", "context": "meeting", "value": "yes" }
   },
   {
     "type": "talk_topic",
