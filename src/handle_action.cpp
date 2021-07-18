@@ -1304,12 +1304,8 @@ static void read()
             spell_book.get_use( "learn_spell" )->call( player_character, spell_book,
                     spell_book.active, player_character.pos() );
         } else {
-            item_location obtained = loc.obtain( player_character );
-            if( obtained ) {
-                player_character.read( *obtained );
-            } else {
-                add_msg( _( "You can't pick up the book!" ) );
-            }
+            loc = loc.obtain( player_character );
+            player_character.read( loc );
         }
     } else {
         add_msg( _( "Never mind." ) );

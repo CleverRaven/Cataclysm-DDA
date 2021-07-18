@@ -2074,9 +2074,7 @@ void player::use( item_location loc, int pre_obtain_moves )
     } else if( used.is_book() ) {
         // TODO: Handle this with dynamic dispatch.
         if( avatar *u = as_avatar() ) {
-            if( !u->read( used ) ) {
-                moves = pre_obtain_moves;
-            }
+            u->read( loc );
         }
     } else if( used.type->has_use() ) {
         invoke_item( &used, loc.position(), pre_obtain_moves );

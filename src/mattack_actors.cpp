@@ -289,6 +289,12 @@ bool melee_actor::call( monster &z ) const
         return false;
     }
 
+    // If we are biting, make sure the target is grabbed if our z is humanoid
+    if( dynamic_cast<const bite_actor *>( this ) && z.type->bodytype == "human" &&
+        !target->has_effect( effect_grabbed ) ) {
+        return false;
+    }
+
     z.mod_moves( -move_cost );
 
     add_msg_debug( debugmode::DF_MATTACK, "%s attempting to melee_attack %s", z.name(),
@@ -376,14 +382,16 @@ bite_actor::bite_actor() = default;
 
 void bite_actor::load_internal( const JsonObject &obj, const std::string &src )
 {
+    // Infection chance is a % (i.e. 5/100)
     melee_actor::load_internal( obj, src );
-    no_infection_chance = obj.get_int( "no_infection_chance", 14 );
+    infection_chance = obj.get_int( "infection_chance", 5 );
 }
 
 void bite_actor::on_damage( monster &z, Creature &target, dealt_damage_instance &dealt ) const
 {
     melee_actor::on_damage( z, target, dealt );
-    if( target.has_effect( effect_grabbed ) && one_in( no_infection_chance - dealt.total_damage() ) ) {
+
+    if( x_in_y( infection_chance, 100 ) ) {
         const bodypart_id &hit = dealt.bp_hit;
         if( target.has_effect( effect_bite, hit.id() ) ) {
             target.add_effect( effect_bite, 40_minutes, hit, true );
@@ -393,6 +401,7 @@ void bite_actor::on_damage( monster &z, Creature &target, dealt_damage_instance 
             target.add_effect( effect_bite, 1_turns, hit, true );
         }
     }
+
     if( target.has_trait( trait_TOXICFLESH ) ) {
         z.add_effect( effect_poison, 5_minutes );
         z.add_effect( effect_badpoison, 5_minutes );

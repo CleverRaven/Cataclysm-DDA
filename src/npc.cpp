@@ -10,6 +10,7 @@
 #include <ostream>
 
 #include "activity_type.h"
+#include "activity_actor_definitions.h"
 #include "auto_pickup.h"
 #include "basecamp.h"
 #include "bodypart.h"
@@ -924,145 +925,47 @@ int npc::time_to_read( const item &book, const player &reader ) const
     return retval;
 }
 
-void npc::finish_read( item &book )
-{
-    const auto &reading = book.type->book;
-    if( !reading ) {
-        revert_after_activity();
-        return;
-    }
-    const skill_id &skill = reading->skill;
-    // NPCs don't need to identify the book or learn recipes yet.
-    // NPCs don't read to other NPCs yet.
-    const bool display_messages = my_fac->id == faction_id( "your_followers" ) &&
-                                  get_player_view().sees( pos() );
-    bool continuous = false; //whether to continue reading or not
-
-    if( book_fun_for( book, *this ) != 0 ) {
-        //Fun bonus is no longer calculated here.
-        add_morale( MORALE_BOOK, book_fun_for( book, *this ) * 5, book_fun_for( book,
-                    *this ) * 15, 1_hours, 30_minutes, true,
-                    book.type );
-    }
-
-    book.mark_chapter_as_read( *this );
-
-    if( skill && get_skill_level( skill ) < reading->level &&
-        get_skill_level_object( skill ).can_train() ) {
-        SkillLevel &skill_level = get_skill_level_object( skill );
-        const int originalSkillLevel = skill_level.level();
-
-        // Calculate experience gained
-        /** @EFFECT_INT increases reading comprehension */
-        // Enhanced Memory Banks modestly boosts experience
-        int min_ex = std::max( 1, reading->time / 10 + get_int() / 4 );
-        int max_ex = reading->time / 5 + get_int() / 2 - originalSkillLevel;
-        min_ex = enchantment_cache->modify_value( enchant_vals::mod::READING_EXP, min_ex );
-
-        if( max_ex < 2 ) {
-            max_ex = 2;
-        }
-        if( max_ex > 10 ) {
-            max_ex = 10;
-        }
-        if( max_ex < min_ex ) {
-            max_ex = min_ex;
-        }
-        const std::string &s = activity.get_str_value( 0, "1" );
-        double penalty = strtod( s.c_str(), nullptr );
-        min_ex *= ( originalSkillLevel + 1 ) * penalty;
-        min_ex = std::max( min_ex, 1 );
-        max_ex *= ( originalSkillLevel + 1 ) * penalty;
-        max_ex = std::max( min_ex, max_ex );
-
-        skill_level.readBook( min_ex, max_ex, reading->level );
-        const std::string skill_name = skill.obj().name();
-        if( skill_level != originalSkillLevel ) {
-            get_event_bus().send<event_type::gains_skill_level>( getID(), skill, skill_level.level() );
-            if( display_messages ) {
-                add_msg( m_good, _( "%s increases their %s level." ), disp_name(), skill_name );
-                // NPC reads until they gain a level, then stop.
-                revert_after_activity();
-                return;
-            }
-        } else {
-            continuous = true;
-            if( display_messages ) {
-                add_msg( m_info, _( "%s learns a little about %s!" ), disp_name(), skill_name );
-            }
-        }
-
-        if( ( skill_level == reading->level || !skill_level.can_train() ) ||
-            ( has_trait( trait_SCHIZOPHRENIC ) && one_in( 25 ) ) ) {
-            if( display_messages ) {
-                add_msg( m_info, _( "%s can no longer learn from %s." ), disp_name(), book.type_name() );
-            }
-        }
-    } else if( skill ) {
-        if( display_messages ) {
-            add_msg( m_info, _( "%s can no longer learn from %s." ), disp_name(), book.type_name() );
-        }
-    }
-
-    // NPCs can't learn martial arts from manuals (yet)
-
-    if( continuous ) {
-        activity.set_to_null();
-        player *pl = dynamic_cast<player *>( this );
-        if( pl ) {
-            start_read( book, pl );
-        }
-        if( activity ) {
-            return;
-        }
-    }
-    activity.set_to_null();
-    revert_after_activity();
-}
-
-void npc::start_read( item &chosen, player *pl )
-{
-    const int time_taken = time_to_read( chosen, *pl );
-    const double penalty = static_cast<double>( time_taken ) / time_to_read( chosen, *pl );
-    player_activity act( ACT_READ, time_taken, 0, pl->getID().get_value() );
-    act.targets.emplace_back( item_location( *this, &chosen ) );
-    act.str_values.push_back( std::to_string( penalty ) );
-    // push an identifier of martial art book to the action handling
-    if( chosen.type->use_methods.count( "MA_MANUAL" ) ) {
-        act.str_values.clear();
-        act.str_values.emplace_back( "martial_art" );
-    }
-    assign_activity( act );
-}
-
 void npc::do_npc_read()
 {
     // Can read items from inventory or within one tile (including in vehicles)
-    player *pl = dynamic_cast<player *>( this );
-    if( !pl ) {
+    player *npc_player = as_player();
+    if( !npc_player ) {
         return;
     }
-    item_location loc = game_menus::inv::read( *pl );
 
-    if( loc ) {
-        std::vector<std::string> fail_reasons;
-        Character *ch = dynamic_cast<Character *>( pl );
-        if( !ch ) {
-            return;
-        }
-        item &chosen = *loc.obtain( *ch );
-        if( can_read( chosen, fail_reasons ) ) {
-            if( get_player_view().sees( pos() ) ) {
-                add_msg( m_info, _( "%s starts reading." ), disp_name() );
-            }
-            start_read( chosen, pl );
-        } else {
-            for( const auto &elem : fail_reasons ) {
-                say( elem );
-            }
-        }
-    } else {
+    item_location book = game_menus::inv::read( *npc_player );
+    if( !book ) {
         add_msg( _( "Never mind." ) );
+        return;
+    }
+
+    std::vector<std::string> fail_reasons;
+    Character *npc_character = as_character();
+    if( !npc_character ) {
+        return;
+    }
+
+    book = book.obtain( *npc_character );
+    if( can_read( *book, fail_reasons ) ) {
+        add_msg_if_player_sees( pos(), _( "%s starts reading." ), disp_name() );
+
+        // NPCs can't read to other NPCs yet
+        const int time_taken = time_to_read( *book, *this );
+
+        // NPCs read until they gain a level
+        assign_activity(
+            player_activity(
+                read_activity_actor(
+                    time_taken,
+                    book,
+                    true,
+                    getID().get_value()
+                ) ) );
+
+    } else {
+        for( const std::string &reason : fail_reasons ) {
+            say( reason );
+        }
     }
 }
 

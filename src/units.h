@@ -860,6 +860,16 @@ inline units::angle atan2( double y, double x )
     return from_radians( std::atan2( y, x ) );
 }
 
+inline units::angle asin( double x )
+{
+    return from_radians( std::asin( x ) );
+}
+
+inline units::angle acos( double x )
+{
+    return from_radians( std::acos( x ) );
+}
+
 static const std::vector<std::pair<std::string, energy>> energy_units = { {
         { "mJ", 1_mJ },
         { "J", 1_J },

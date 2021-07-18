@@ -366,7 +366,7 @@
     "melee_cut": 0,
     "vision_night": 3,
     "harvest": "zombie",
-    "special_attacks": [ { "type": "bite", "cooldown": 2, "accuracy": 3, "no_infection_chance": 10 }, [ "GRAB", 7 ], [ "scratch", 20 ] ],
+    "special_attacks": [ { "type": "bite", "cooldown": 2, "accuracy": 3, "infection_chance": 10 }, [ "GRAB", 7 ], [ "scratch", 20 ] ],
     "death_drops": "default_zombie_death_drops",
     "burn_into": "mon_zombie_scorched",
     "fungalize_into": "mon_zombie_fungus",
