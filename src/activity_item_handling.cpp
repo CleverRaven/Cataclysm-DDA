@@ -612,7 +612,7 @@ static int move_cost( const item &it, const tripoint &src, const tripoint &dest 
 
         if( const cata::optional<vpart_reference> vp = get_map().veh_at(
                     cart_position ).part_with_feature( "CARGO", false ) ) {
-            vehicle veh = vp->vehicle();
+            const vehicle &veh = vp->vehicle();
             size_t vstor = vp->part_index();
             units::volume capacity = veh.free_volume( vstor );
 
