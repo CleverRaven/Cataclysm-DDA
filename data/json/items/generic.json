@@ -966,7 +966,7 @@
     "symbol": "{",
     "color": "white",
     "name": { "str": "household washing machine" },
-    "description": "An old appliance used to do laundry, not of much use nowadays. You could probably scrap it for parts.",
+    "description": "An appliance used to do laundry, not of much use without power and plumbing.  You could probably scrap it for parts.",
     "price": 0,
     "price_postapoc": 10,
     "material": [ "steel" ],
