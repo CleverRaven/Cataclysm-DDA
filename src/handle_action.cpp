@@ -1786,7 +1786,11 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             player_character.toggle_crouch_mode();
             break;
 
-        case ACTION_OPEN_MOVEMENT:
+         case ACTION_TOGGLE_PRONE:
+            player_character.toggle_prone_mode();
+            break;
+
+         case ACTION_OPEN_MOVEMENT:
             open_movement_mode_menu();
             break;
 
