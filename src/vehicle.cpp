@@ -769,11 +769,8 @@ void vehicle::stop_autodriving()
         return;
     }
     if( velocity > 0 ) {
-        if( is_patrolling || is_following ) {
-            autodrive( point( 0, 10 ) );
-        } else {
-            pldrive( point( 0, 10 ) );
-        }
+        cruise_on = true;
+        cruise_velocity = 0;
     }
     is_autodriving = false;
     is_patrolling = false;
@@ -843,10 +840,6 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
                            string_format( _( "the %s emitting a beep and saying \"Obstacle detected!\"" ),
                                           name ) );
         }
-        if( velocity > 0 ) {
-            follow_protocol ||
-            is_patrolling ? autodrive( point( 0, 10 ) ) : pldrive( point( 0, 10 ) );
-        }
         stop_autodriving();
         return;
     }
@@ -883,7 +876,8 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
         }
     }
     follow_protocol ||
-    is_patrolling ? autodrive( point( turn_x, accel_y ) ) : pldrive( point( turn_x, accel_y ) );
+    is_patrolling ? autodrive( point( turn_x, accel_y ) ) : pldrive( player_character, point( turn_x,
+            accel_y ) );
 }
 
 units::angle vehicle::get_angle_from_targ( const tripoint &targ )
@@ -900,20 +894,19 @@ units::angle vehicle::get_angle_from_targ( const tripoint &targ )
     return units::atan2( crossy, dotx );
 }
 
-void vehicle::do_autodrive()
+void vehicle::do_autodrive( Character &driver )
 {
     if( omt_path.empty() ) {
         stop_autodriving();
     }
-    Character &player_character = get_player_character();
     map &here = get_map();
     tripoint vehpos = global_pos3();
     // TODO: fix point types
     tripoint_abs_omt veh_omt_pos( ms_to_omt_copy( here.getabs( vehpos ) ) );
     // we're at or close to the waypoint, pop it out and look for the next one.
-    if( ( is_autodriving && !player_character.omt_path.empty() && !omt_path.empty() ) &&
+    if( ( is_autodriving && !driver.omt_path.empty() && !omt_path.empty() ) &&
         veh_omt_pos == omt_path.back() ) {
-        player_character.omt_path.pop_back();
+        driver.omt_path.pop_back();
         omt_path.pop_back();
     }
     if( omt_path.empty() ) {
