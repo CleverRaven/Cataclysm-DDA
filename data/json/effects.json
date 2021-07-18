@@ -1137,6 +1137,13 @@
   },
   {
     "type": "effect_type",
+    "id": "virtual_reality_monsters",
+    "name": [ "Virtual reality" ],
+    "desc": [ "You see computer generated things that are not real." ],
+    "rating": "neutral"
+  },
+  {
+    "type": "effect_type",
     "id": "rat",
     "name": [ "Ratting" ],
     "desc": [ "You feel nauseated and rat-like." ],
