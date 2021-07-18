@@ -1240,8 +1240,8 @@ TEST_CASE( "book info", "[iteminfo][book]" )
 
     WHEN( "book has been identified" ) {
         avatar &player_character = get_avatar();
-        player_character.do_read( cmdline );
-        player_character.do_read( dragon );
+        player_character.identify( cmdline );
+        player_character.identify( dragon );
 
         THEN( "some basic book info is shown" ) {
             CHECK( item_info_str( cmdline, summary ) ==
@@ -2380,7 +2380,7 @@ TEST_CASE( "show available recipes with item as an ingredient", "[iteminfo][reci
 
             WHEN( "they have the recipe in a book, but not memorized" ) {
                 item &textbook = player_character.i_add( item( "textbook_chemistry" ) );
-                player_character.do_read( textbook );
+                player_character.identify( textbook );
                 REQUIRE( player_character.has_identified( itype_id( "textbook_chemistry" ) ) );
                 // update the crafting inventory cache
                 player_character.moves++;

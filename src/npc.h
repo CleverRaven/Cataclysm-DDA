@@ -930,8 +930,6 @@ class npc : public player
         int value( const item &it ) const;
         int value( const item &it, int market_price ) const;
         bool wear_if_wanted( const item &it, std::string &reason );
-        void start_read( item &chosen, player *pl );
-        void finish_read( item &book );
         bool can_read( const item &book, std::vector<std::string> &fail_reasons );
         int time_to_read( const item &book, const player &reader ) const;
         void do_npc_read();
