@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "//": "A nested map for walls variety.",
+    "//": "A nested map for general lab variety.",
     "nested_mapgen_id": "lab_generic_3x3_EW_open",
     "object": {
       "mapgensize": [ 3, 3 ],
@@ -18,7 +18,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "//": "A nested map for walls variety.",
+    "//": "A nested map for general lab variety.",
     "nested_mapgen_id": "lab_generic_3x3_EW_open",
     "object": {
       "mapgensize": [ 3, 3 ],
@@ -34,7 +34,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "//": "A nested map for walls variety.",
+    "//": "A nested map for general lab variety.",
     "nested_mapgen_id": "lab_generic_3x3_EW_open",
     "object": {
       "mapgensize": [ 3, 3 ],
