@@ -692,7 +692,7 @@
     "id": "f_trashcan",
     "name": "trash can",
     "symbol": "&",
-    "description": "A plastic bin for storing discarded waste as to be disposed of later.  Although, considering the circumstances, you could also use this to store items.",
+    "description": "A metal bin for storing discarded waste as to be disposed of later.  Although, considering the circumstances, you could also use this to store items.",
     "color": "light_cyan",
     "move_cost_mod": 1,
     "required_str": 5,
