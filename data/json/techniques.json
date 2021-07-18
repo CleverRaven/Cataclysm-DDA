@@ -315,7 +315,7 @@
     "skill_requirements": [ { "name": "melee", "level": 5 } ],
     "melee_allowed": true,
     "crit_ok": true,
-    "disarms": true,
+    "disarms": true
   },
   {
     "type": "technique",
