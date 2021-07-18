@@ -215,7 +215,7 @@ class spell_type
         // the spell shape found in the json
         spell_shape spell_area = spell_shape::line;
         // extra information about spell effect. allows for combinations for effects
-        std::string effect_str;
+        std::vector<std::string> effect_str;
         // list of additional "spell effects"
         std::vector<fake_spell> additional_spells;
 
@@ -325,8 +325,6 @@ class spell_type
 
         enum_bitset<spell_flag> spell_tags;
 
-        std::vector<effect_on_condition_id> effect_on_conditions;
-
         static void load_spell( const JsonObject &jo, const std::string &src );
         void load( const JsonObject &jo, const std::string & );
         void serialize( JsonOut &json ) const;
@@ -421,8 +419,6 @@ class spell
 
         // sets the message to be different than the spell_type specifies
         void set_message( const translation &msg );
-        // what effect on conditions does this cause
-        std::vector<effect_on_condition_id> effect_on_conditions() const;
 
         static int exp_for_level( int level );
         // how much exp you need for the spell to gain a level
@@ -513,6 +509,8 @@ class spell
         std::string effect() const;
         // get spell effect_str data
         std::string effect_data() const;
+        // get the whole effect data array
+        std::vector<std::string> effect_data_array() const;
         // get spell summon vehicle id
         vproto_id summon_vehicle_id() const;
         // name of spell (translated)
