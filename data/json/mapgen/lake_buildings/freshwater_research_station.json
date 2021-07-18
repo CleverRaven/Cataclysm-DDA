@@ -44,6 +44,7 @@
         { "vehicle": "boat_motor_single", "x": 11, "y": 9, "rotation": 270, "chance": 70 },
         { "vehicle": "lake", "x": 20, "y": 1, "rotation": 0, "chance": 30 },
         { "vehicle": "lake", "x": 2, "y": 22, "rotation": 180, "chance": 30 },
+        { "vehicle": "lake", "x": 2, "y": 10, "rotation": 270, "chance": 30 },
         { "vehicle": "lake", "x": 17, "y": 10, "rotation": 270, "chance": 30 },
         { "vehicle": "lake", "x": 6, "y": 15, "rotation": 90, "chance": 30 },
         { "vehicle": "lake", "x": 21, "y": 15, "rotation": 90, "chance": 30 },
