@@ -15,6 +15,16 @@ void mapgen_arguments::merge( const mapgen_arguments &other )
     }
 }
 
+void mapgen_arguments::serialize( JsonOut &jo ) const
+{
+    jo.write( map );
+}
+
+void mapgen_arguments::deserialize( JsonIn &ji )
+{
+    ji.read( map, true );
+}
+
 mapgendata::mapgendata( oter_id north, oter_id east, oter_id south, oter_id west,
                         oter_id northeast, oter_id southeast, oter_id southwest, oter_id northwest,
                         oter_id up, oter_id down, int z, const regional_settings &rsettings,
