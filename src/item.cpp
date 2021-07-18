@@ -5941,7 +5941,7 @@ static float calc_hourly_rotpoints_at_temp( const int temp )
         // Linear progress from 32 F (0 C) to 38 F (3 C)
         return 600.0 * std::pow( 2.0, -27.0 / 16.0 ) * ( temp - temperatures::freezing );
     } else if( temp < max_rot_temp ) {
-        // Exponential progress from 48 F (3 C) to 105 F (41 C)
+        // Exponential progress from 38 F (3 C) to 105 F (41 C)
         return 3600.0 * std::pow( 2.0, ( temp - 65.0 ) / 16.0 );
     } else {
         // Constant rot from 105 F (41 C) to 145 F (63 C)
