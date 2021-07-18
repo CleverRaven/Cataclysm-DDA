@@ -59,7 +59,7 @@
     "type": "enchantment",
     "id": "forcefield_ballistic_piercing_medium",
     "condition": "ACTIVE",
-    "intermittent_activation": [
+    "hit_me_effect": [
       {
         "id": "static_field",
         "hit_self": true,

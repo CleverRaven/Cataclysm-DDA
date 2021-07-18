@@ -25,7 +25,7 @@
     "flags": [ "WATCH", "ALARMCLOCK", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
-    "type": "TOOL",
+    "type": "AMMO",
     "id": "clearcrete_chunk",
     "copy-from": "rock",
     "name": { "str": "clearcrete chunk" },
