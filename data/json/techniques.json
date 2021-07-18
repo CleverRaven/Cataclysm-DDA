@@ -283,7 +283,7 @@
     "melee_allowed": true,
     "block_counter": true,
     "crit_ok": true,
-    "down_dur": 1,
+    "down_dur": 1
   },
   {
     "type": "technique",
