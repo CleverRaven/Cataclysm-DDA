@@ -1096,10 +1096,6 @@ class vehicle
         // should be faster than previous call for repeated translations
         void coord_translate( tileray tdir, const point &pivot, const point &p, tripoint &q ) const;
 
-        // Rotates mount coordinates "p" from old_dir to new_dir along pivot
-        point rotate_mount( units::angle old_dir, units::angle new_dir, const point &pivot,
-                            const point &p ) const;
-
         tripoint mount_to_tripoint( const point &mount ) const;
         tripoint mount_to_tripoint( const point &mount, const point &offset ) const;
 
