@@ -894,10 +894,14 @@ units::angle vehicle::get_angle_from_targ( const tripoint &targ )
     return units::atan2( crossy, dotx );
 }
 
-void vehicle::do_autodrive( Character &driver )
+autodrive_result vehicle::do_autodrive( Character &driver )
 {
+    if( !is_autodriving ) {
+        return autodrive_result::abort;
+    }
     if( omt_path.empty() ) {
         stop_autodriving();
+        return autodrive_result::finished;
     }
     map &here = get_map();
     tripoint vehpos = global_pos3();
@@ -911,14 +915,14 @@ void vehicle::do_autodrive( Character &driver )
     }
     if( omt_path.empty() ) {
         stop_autodriving();
-        return;
+        return autodrive_result::finished;
     }
 
     point_rel_omt omt_diff = omt_path.back().xy() - veh_omt_pos.xy();
     if( omt_diff.x() > 3 || omt_diff.x() < -3 || omt_diff.y() > 3 || omt_diff.y() < -3 ) {
         // we've gone walkabout somehow, call off the whole thing
         stop_autodriving();
-        return;
+        return autodrive_result::abort;
     }
     point side;
     if( omt_diff.x() > 0 ) {
@@ -942,6 +946,10 @@ void vehicle::do_autodrive( Character &driver )
                                        sm_pos.z ) - here.getabs( vehpos ) ) + vehpos;
     autodrive_local_target = here.getabs( autodrive_temp_target );
     drive_to_local_target( autodrive_local_target, false );
+    if( !is_autodriving ) {
+        return autodrive_result::abort;
+    }
+    return autodrive_result::ok;
 }
 
 /**
