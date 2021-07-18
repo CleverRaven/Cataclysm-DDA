@@ -23,6 +23,8 @@ struct mapgen_arguments {
     std::unordered_map<std::string, cata_variant> map;
 
     void merge( const mapgen_arguments & );
+    void serialize( JsonOut & ) const;
+    void deserialize( JsonIn & );
 };
 
 /**
