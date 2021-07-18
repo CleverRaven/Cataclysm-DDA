@@ -318,11 +318,7 @@
     "required_str": 12,
     "max_volume": "125 L",
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "MINEABLE", "EASY_DECONSTRUCT" ],
-    "deconstruct": {
-      "items": [
-        { "item": "household_washing_machine", "count": 1 }
-      ]
-    },
+    "deconstruct": { "items": [ { "item": "household_washing_machine", "count": 1 } ] },
     "bash": {
       "str_min": 18,
       "str_max": 50,
