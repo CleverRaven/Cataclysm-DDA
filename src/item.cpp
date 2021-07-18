@@ -5928,12 +5928,12 @@ int item::spoilage_sort_order() const
  * Rot maxes out at 105 F
  * Rot stops below 32 F (0C) and above 145 F (63 C)
  */
-static float calc_hourly_rotpoints_at_temp( const double temp )
+static float calc_hourly_rotpoints_at_temp( const int temp )
 {
-    const double dropoff = 38;
+    const int dropoff = 38;
     // ~3 C ditch our fancy equation and do a linear approach to 0 rot from 3 C -> 0 C
-    const double max_rot_temp = 105; // ~41 C Maximum rotting rate is at this temperature
-    const double safe_temp = 145; // ~63 C safe temperature above which food stops rotting
+    const int max_rot_temp = 105; // ~41 C Maximum rotting rate is at this temperature
+    const int safe_temp = 145; // ~63 C safe temperature above which food stops rotting
     // temperatures::freezing = 32 F ( 0 C)
 
     if( temp <= temperatures::freezing || temp > safe_temp ) {
