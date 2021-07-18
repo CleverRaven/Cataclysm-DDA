@@ -318,7 +318,7 @@
     "om_terrain": "lab_security_z-4",
     "type": "mapgen",
     "weight": 200,
-    "//": "TODO: possible mechanics area for trains."
+    "//": "TODO: possible mechanics area for trains.",
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -365,7 +365,7 @@
   {
     "method": "json",
     "om_terrain": "lab_security_z-5",
-    "//": "TODO: add nested rooms to right side."
+    "//": "TODO: add nested rooms to right side.",
     "type": "mapgen",
     "weight": 200,
     "object": {
