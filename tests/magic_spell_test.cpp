@@ -624,7 +624,7 @@ TEST_CASE( "spell effect - recover_energy", "[magic][spell][effect][recover_ener
 
         // This spell recovers stamina
         REQUIRE( montage_type.effect_name == "recover_energy" );
-        REQUIRE( montage_type.effect_str == "STAMINA" );
+        REQUIRE( montage_type.effect_str[0] == "STAMINA" );
         // at the cost of a substantial amount of mana
         REQUIRE( montage_type.base_energy_cost == 800 );
         REQUIRE( montage_type.energy_source == magic_energy_type::mana );
@@ -652,7 +652,7 @@ TEST_CASE( "spell effect - recover_energy", "[magic][spell][effect][recover_ener
         const spell_type &kiss_type = kiss_id.obj();
 
         REQUIRE( kiss_type.effect_name == "recover_energy" );
-        REQUIRE( kiss_type.effect_str == "PAIN" );
+        REQUIRE( kiss_type.effect_str[0] == "PAIN" );
         // Positive "damage" for pain gives relief from pain
         REQUIRE( kiss_type.min_damage == 1 );
         REQUIRE( kiss_type.max_damage == 10 );
