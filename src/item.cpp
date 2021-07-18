@@ -5956,7 +5956,7 @@ static std::vector<float> calc_rot_array()
     // Includes temperatures from 0 F ( -18C) to 145 F (63 F)
     std::vector<float> ret;
     ret.reserve( 146 );
-    for( size_t i = 0; i < 146; ++i ) {
+    for( int i = 0; i < 146; ++i ) {
         ret.push_back( calc_hourly_rotpoints_at_temp( i ) );
     }
     return ret;
