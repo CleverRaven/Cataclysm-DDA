@@ -181,7 +181,7 @@
     "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ],
     "qualities": [ [ "PRY", 1 ], [ "PRESSURIZATION", 1 ] ]
   },
-  {						  
+  {
     "id": "fake_power_tool",
     "type": "TOOL",
     "copy-from": "fake_item",

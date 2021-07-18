@@ -59,7 +59,7 @@
         "T": "f_toilet",
         "S": "f_sink",
         "r": "f_rack",
-		"m": "f_manual_tire_changer",
+        "m": "f_manual_tire_changer",
         "v": "f_vending_c",
         "V": "f_vending_c",
         "t": "f_table",

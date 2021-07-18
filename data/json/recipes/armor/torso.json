@@ -681,7 +681,12 @@
     "reversible": true,
     "book_learn": [ [ "dieselpunk_tailor", 2 ] ],
     "using": [ [ "sewing_standard", 30 ], [ "fastener_large", 1 ], [ "cordage", 4 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 2 }, {"id": "CUT", "level": 1 }, { "id": "LEATHER_AWL", "level": 1 }, { "id": "SEW_CURVED", "level": 1 } ],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "CUT", "level": 1 },
+      { "id": "LEATHER_AWL", "level": 1 },
+      { "id": "SEW_CURVED", "level": 1 }
+    ],
     "components": [ [ [ "jacket_leather", 1 ], [ "jacket_leather_red", 1 ] ], [ [ "rubber_tire_chunk", 8 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic" },

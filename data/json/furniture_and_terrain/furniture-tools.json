@@ -918,7 +918,7 @@
     "crafting_pseudo_item": "fake_tire_changer"
   },
   {
-    "type": "furniture",							  
+    "type": "furniture",
     "id": "f_fvat_empty",
     "name": "fermenting vat",
     "looks_like": "f_standing_tank",

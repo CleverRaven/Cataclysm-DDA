@@ -123,7 +123,7 @@
     "flags": [ "BELTED", "NONCONDUCTIVE" ],
     "armor": [ { "encumbrance": 20, "coverage": 80, "covers": [ "torso" ] } ]
   },
-  {					  
+  {
     "id": "chainmail_vest",
     "type": "ARMOR",
     "category": "armor",
@@ -258,7 +258,7 @@
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "flags": [ "OVERSIZE", "OUTER", "NONCONDUCTIVE" ]
   },
-  {						 
+  {
     "id": "fencing_jacket",
     "repairs_like": "armor_larmor",
     "type": "ARMOR",
@@ -345,7 +345,7 @@
       { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 }
     ]
   },
-  {								
+  {
     "id": "lame_foil",
     "repairs_like": "armor_larmor",
     "type": "ARMOR",
