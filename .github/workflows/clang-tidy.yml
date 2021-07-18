@@ -11,7 +11,7 @@ on:
 
 jobs:
   skip-duplicates:
-    continue-on-error: false
+    continue-on-error: true
     runs-on: ubuntu-latest
     # Map a step output to a job output
     outputs:
