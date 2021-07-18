@@ -778,6 +778,7 @@ void vehicle::stop_autodriving()
     autopilot_on = false;
     autodrive_local_target = tripoint_zero;
     collision_check_points.clear();
+    omt_path.clear();
 }
 
 void vehicle::drive_to_local_target( const tripoint &target, bool follow_protocol )
