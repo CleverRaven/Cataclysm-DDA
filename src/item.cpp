@@ -5930,29 +5930,24 @@ int item::spoilage_sort_order() const
  */
 static float calc_hourly_rotpoints_at_temp( const double temp )
 {
-    const double dropoff =
-        38;  // ~3 C ditch our fancy equation and do a linear approach to 0 rot from 3 C -> 0 C
+    const double dropoff = 38;
+    // ~3 C ditch our fancy equation and do a linear approach to 0 rot from 3 C -> 0 C
     const double max_rot_temp = 105; // ~41 C Maximum rotting rate is at this temperature
     const double safe_temp = 145; // ~63 C safe temperature above which food stops rotting
     // temperatures::freezing = 32 F ( 0 C)
-
-    // This multiplier makes sure the rot at 65 F (18.3 C) C is 3600 rot/hour (1 rot/second).
-    // This is approximately 215.5
-    const double multiplier = 3600.0 / std::pow( 2.0, 65.0 / 16.0 );
 
     if( temp <= temperatures::freezing || temp > safe_temp ) {
         return 0.0;
     } else if( temp < dropoff ) {
         // Linear progress from 32 F (0 C) to 38 F (3 C)
-        // Constant makes sure that rot function is continuous at 38 F
-        // The constand 186.28 = ( multiplier * 2^( 38F / 16F ) ) / 6
-        return 186.27867 * ( temp - temperatures::freezing );
+        return 600.0 * std::pow( 2.0, -27.0 / 16.0 ) * ( temp - temperatures::freezing );
     } else if( temp < max_rot_temp ) {
-        return multiplier * std::pow( 2.0, temp / 16.0 );
+        // Exponential progress from 48 F (3 C) to 105 F (41 C)
+        return 3600.0 * std::pow( 2.0, ( temp - 65.0 ) / 16.0 );
     } else {
-        // stop torturing the player at max_rot_temp (105 F, 41 C). No higher rot at higher temp.
+        // Constant rot from 105 F (41 C) to 145 F (63 C)
         // This is approximately 20364.67 rot/hour
-        return multiplier * std::pow( 2.0, max_rot_temp / 16.0 );
+        return 3600.0 * std::pow( 2.0, ( max_rot_temp - 65.0 ) / 16.0 );
     }
 }
 
