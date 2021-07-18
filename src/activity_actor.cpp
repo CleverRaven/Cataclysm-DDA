@@ -387,7 +387,7 @@ void autodrive_activity_actor::do_turn( player_activity &act, Character &who )
 {
     if( who.in_vehicle && who.controlling_vehicle && player_vehicle && player_vehicle->is_autodriving &&
         !who.omt_path.empty() && !player_vehicle->omt_path.empty() ) {
-        player_vehicle->do_autodrive();
+        player_vehicle->do_autodrive( who );
         if( who.global_omt_location() == who.omt_path.back() ) {
             who.omt_path.pop_back();
         }
