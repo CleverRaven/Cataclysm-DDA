@@ -2353,6 +2353,17 @@ For additional clarity, an item's `to_hit` bonus can be encoded as string of 4 f
 ```
 See `GAME_BALANCE.md`'s `MELEE_WEAPONS` section for the criteria for selecting each value.
 
+Possible values are:
+
+**grip**: `"bad"`, `"none"`, `"solid"`, `"weapon"`
+
+**length**: `"hand"`, `"short"`, `"long"`
+
+**surface**: `"point"`, `"line"`, `"any"`, `"every"`
+
+**balance**: `"clumsy"`, `"uneven"`, `"neutral"`, `"good"`
+
+
 ### Ammo
 
 ```C++
