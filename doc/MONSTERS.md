@@ -582,7 +582,7 @@ Makes monster use teeth to bite opponent, uses the same fields as "monster_attac
 
 | field                 | description
 | ---                   | ---
-| `no_infection_chance` | Chance to not give infection. The exact chance to infect is 1-in-( no_infection_chance - damage dealt). 
+| `infection_chance`    | Chance to give infection in a percentage. Exact chance is infection_chance / 100. 
 
 
 ## "leap"

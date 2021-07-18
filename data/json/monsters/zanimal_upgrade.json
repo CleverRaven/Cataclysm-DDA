@@ -52,7 +52,7 @@
     },
     "bleed_rate": 50,
     "upgrades": { "half_life": 21, "into": "mon_dog_zombie_hulk" },
-    "special_attacks": [ [ "SMASH", 30 ], { "type": "bite", "move_cost": 150, "cooldown": 2, "accuracy": 4, "no_infection_chance": 12 } ],
+    "special_attacks": [ [ "SMASH", 30 ], { "type": "bite", "move_cost": 150, "cooldown": 2, "accuracy": 4, "infection_chance": 8 } ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_VEH" ] }
   },
   {
@@ -72,7 +72,7 @@
     "armor_bullet": 10,
     "bleed_rate": 0,
     "upgrades": {  },
-    "special_attacks": [ [ "SMASH", 20 ], { "type": "bite", "move_cost": 188, "cooldown": 2, "accuracy": 4, "no_infection_chance": 12 } ],
+    "special_attacks": [ [ "SMASH", 20 ], { "type": "bite", "move_cost": 188, "cooldown": 2, "accuracy": 4, "infection_chance": 8 } ],
     "extend": { "flags": [ "DESTROYS" ] }
   },
   {

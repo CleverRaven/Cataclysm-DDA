@@ -470,7 +470,7 @@
         "damage_max_instance": [ { "damage_type": "stab", "amount": 10, "armor_penetration": 12 } ],
         "min_mul": 1,
         "max_mul": 2.1,
-        "no_infection_chance": 25,
+        "infection_chance": 4,
         "effects": [ { "id": "venom_dmg", "duration": 500, "affect_hit_bp": true } ]
       }
     ],
@@ -513,7 +513,7 @@
         "damage_max_instance": [ { "damage_type": "stab", "amount": 10, "armor_penetration": 12 } ],
         "min_mul": 1,
         "max_mul": 2.1,
-        "no_infection_chance": 25,
+        "infection_chance": 4,
         "effects": [ { "id": "venom_dmg", "duration": 500, "affect_hit_bp": true } ]
       },
       {
@@ -563,7 +563,7 @@
         "damage_max_instance": [ { "damage_type": "stab", "amount": 20, "armor_penetration": 110 } ],
         "min_mul": 0.8,
         "max_mul": 1.1,
-        "no_infection_chance": 30,
+        "infection_chance": 3,
         "effects": [ { "id": "venom_dmg", "duration": 750, "affect_hit_bp": true } ]
       }
     ],

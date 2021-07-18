@@ -2657,6 +2657,11 @@ bool mattack::grab( monster *z )
         return false;
     }
 
+    // Do not attempt to grab while z is already grabbing target. Do something else
+    if( z->has_effect( effect_grabbing ) && target->has_effect( effect_grabbed ) ) {
+        return false;
+    }
+
     z->moves -= 80;
 
     const game_message_type msg_type = target->is_avatar() ? m_warning : m_info;
