@@ -1673,8 +1673,12 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
                     continue;
                 }
                 player_veh = &vp->vehicle();
-                if( player_veh->can_float() && player_veh->is_watercraft() && player_veh->is_in_water() ) {
-                    ptype.only_water = true;
+                if( player_veh->can_float() ) {
+                    if( player_veh->valid_wheel_config() ) {
+                        ptype.amphibious = true;
+                    } else if( player_veh->is_watercraft() && player_veh->is_in_water() ) {
+                        ptype.only_water = true;
+                    }
                 } else if( player_veh->is_rotorcraft() && player_veh->is_flying_in_air() ) {
                     ptype.only_air = true;
                 } else {
