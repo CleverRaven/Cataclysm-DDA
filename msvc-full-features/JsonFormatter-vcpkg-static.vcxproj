@@ -108,8 +108,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\src\messages.h" />
-    <ClInclude Include="..\tools\format\format.h" />
-    <ClInclude Include="..\tools\format\getpost.h" />
+    <ClInclude Include="..\tools\format\*.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\tools\format\format_main.cpp" />
