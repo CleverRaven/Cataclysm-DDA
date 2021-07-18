@@ -27,7 +27,7 @@ os: linux
 branches:
   only:
   - master
-  - development
+  - 0.F-dev
 
 # Overall strategy for what sorts of builds to include:
 # We want a build for each compiler and each platform.

@@ -207,7 +207,6 @@ static const mtype_id mon_spider_cellar_giant_s( "mon_spider_cellar_giant_s" );
 static const mtype_id mon_spider_web_s( "mon_spider_web_s" );
 static const mtype_id mon_spider_widow_giant_s( "mon_spider_widow_giant_s" );
 
-static const bionic_id bio_fingerhack( "bio_fingerhack" );
 static const bionic_id bio_lighter( "bio_lighter" );
 static const bionic_id bio_lockpick( "bio_lockpick" );
 static const bionic_id bio_painkiller( "bio_painkiller" );
@@ -1057,37 +1056,12 @@ static bool try_start_hacking( player &p, const tripoint &examp )
         return false;
     }
     const bool has_item = p.has_charges( itype_electrohack, 25 );
-    const bool has_bionic = p.has_bionic( bio_fingerhack ) && p.get_power_level() >= 25_kJ;
-    if( !has_item && !has_bionic ) {
+    if( !has_item ) {
         add_msg( _( "You don't have a hacking tool with enough charges!" ) );
         return false;
     }
-    bool use_bionic = has_bionic;
-    if( has_item && has_bionic ) {
-        uilist menu;
-        menu.settext( _( "Use which hacking tool?" ) );
-        menu.addentry( 0, true, MENU_AUTOASSIGN, "%s", itype_electrohack->nname( 1 ) );
-        menu.addentry( 1, true, MENU_AUTOASSIGN, "%s", bio_fingerhack->name );
-        menu.query();
-        switch( menu.ret ) {
-            case 0:
-                use_bionic = false;
-                break;
-            case 1:
-                use_bionic = true;
-                break;
-            default:
-                return false;
-        }
-    }
-    if( use_bionic ) {
-        p.mod_power_level( -25_kJ );
-        p.assign_activity( player_activity( hacking_activity_actor(
-                                                hacking_activity_actor::use_bionic {} ) ) );
-    } else {
-        p.use_charges( itype_electrohack, 25 );
-        p.assign_activity( player_activity( hacking_activity_actor() ) );
-    }
+    p.use_charges( itype_electrohack, 25 );
+    p.assign_activity( player_activity( hacking_activity_actor() ) );
     p.activity.placement = examp;
     return true;
 }
@@ -3760,116 +3734,6 @@ void iexamine::shrub_wildveggies( player &p, const tripoint &examp )
     p.activity.auto_resume = true;
 }
 
-void iexamine::recycle_compactor( player &, const tripoint &examp )
-{
-    // choose what metal to recycle
-    auto metals = materials::get_compactable();
-    uilist choose_metal;
-    choose_metal.text = _( "Recycle what metal?" );
-    for( auto &m : metals ) {
-        choose_metal.addentry( m.name() );
-    }
-    choose_metal.query();
-    int m_idx = choose_metal.ret;
-    if( m_idx < 0 || m_idx >= static_cast<int>( metals.size() ) ) {
-        add_msg( _( "Never mind." ) );
-        return;
-    }
-    material_type m = metals.at( m_idx );
-
-    map &here = get_map();
-    // check inputs and tally total mass
-    map_stack inputs = here.i_at( examp );
-    units::mass sum_weight = 0_gram;
-    auto ca = m.compact_accepts();
-    std::set<material_id> accepts( ca.begin(), ca.end() );
-    accepts.insert( m.id );
-    for( auto &input : inputs ) {
-        if( !input.only_made_of( accepts ) ) {
-            //~ %1$s: an item in the compactor , %2$s: desired compactor output material
-            add_msg( _( "You realize this isn't going to work because %1$s is not made purely of %2$s." ),
-                     input.tname(), m.name() );
-            return;
-        }
-        if( input.is_container() && !input.is_container_empty() ) {
-            //~ %1$s: an item in the compactor
-            add_msg( _( "You realize this isn't going to work because %1$s has not been emptied of its contents." ),
-                     input.tname() );
-            return;
-        }
-        sum_weight += input.weight();
-    }
-    if( sum_weight <= 0_gram ) {
-        //~ %1$s: desired compactor output material
-        add_msg( _( "There is no %1$s in the compactor.  Drop some metal items onto it and try again." ),
-                 m.name() );
-        return;
-    }
-
-    // See below for recover_factor (rng(6,9)/10), this
-    // is the normal value of that recover factor.
-    static const double norm_recover_factor = 8.0 / 10.0;
-    const units::mass norm_recover_weight = sum_weight * norm_recover_factor;
-
-    // choose output
-    uilist choose_output;
-    //~ %1$.3f: total mass of material in compactor, %2$s: weight units , %3$s: compactor output material
-    choose_output.text = string_format( _( "Compact %1$.3f %2$s of %3$s into:" ),
-                                        convert_weight( sum_weight ), weight_units(), m.name() );
-    for( const itype_id &ci : m.compacts_into() ) {
-        item it = item( ci, calendar::turn_zero, item::solitary_tag{} );
-        const int amount = norm_recover_weight / it.weight();
-        //~ %1$d: number of, %2$s: output item
-        choose_output.addentry( string_format( _( "about %1$d %2$s" ), amount,
-                                               it.tname( amount ) ) );
-    }
-    choose_output.query();
-    int o_idx = choose_output.ret;
-    if( o_idx < 0 || o_idx >= static_cast<int>( m.compacts_into().size() ) ) {
-        add_msg( _( "Never mind." ) );
-        return;
-    }
-
-    // remove items
-    for( auto it = inputs.begin(); it != inputs.end(); ) {
-        it = inputs.erase( it );
-    }
-
-    // produce outputs
-    double recover_factor = rng( 6, 9 ) / 10.0;
-    sum_weight = sum_weight * recover_factor;
-    sounds::sound( examp, 80, sounds::sound_t::combat, _( "Ka-klunk!" ), true, "tool", "compactor" );
-    bool out_desired = false;
-    bool out_any = false;
-    for( auto it = m.compacts_into().begin() + o_idx; it != m.compacts_into().end(); ++it ) {
-        const units::mass ow = item( *it, calendar::turn_zero, item::solitary_tag{} ).weight();
-        int count = sum_weight / ow;
-        sum_weight -= count * ow;
-        if( count > 0 ) {
-            here.spawn_item( examp, *it, count, 1, calendar::turn );
-            if( !out_any ) {
-                out_any = true;
-                if( it == m.compacts_into().begin() + o_idx ) {
-                    out_desired = true;
-                }
-            }
-        }
-    }
-
-    // feedback to user
-    if( !out_any ) {
-        add_msg( _( "The compactor chews up all the items in its hopper." ) );
-        //~ %1$s: compactor output material
-        add_msg( _( "The compactor beeps: \"No %1$s to process!\"" ), m.name() );
-        return;
-    }
-    if( !out_desired ) {
-        //~ %1$s: compactor output material
-        add_msg( _( "The compactor beeps: \"Insufficient %1$s!\"" ), m.name() );
-        add_msg( _( "It spits out an assortment of smaller pieces instead." ) );
-    }
-}
-
 void trap::examine( const tripoint &examp ) const
 {
     avatar &player_character = get_avatar();
@@ -3945,7 +3809,8 @@ void trap::examine( const tripoint &examp ) const
 
         int roll = std::round( normal_roll( mean_roll, 3 ) );
 
-        add_msg( m_debug, _( "Rolled %i, mean_roll %g. difficulty %i." ), roll, mean_roll, difficulty );
+        add_msg_debug( debugmode::DF_IEXAMINE, _( "Rolled %i, mean_roll %g. difficulty %i." ), roll,
+                       mean_roll, difficulty );
 
         //Difficulty 0 traps should succeed regardless of proficiencies. (i.e caltrops and nailboards)
         if( roll >= difficulty || difficulty == 0 ) {
@@ -4125,11 +3990,7 @@ void iexamine::curtains( player &p, const tripoint &examp )
     } else if( choice == 1 ) {
         // Mr. Gorbachev, tear down those curtains!
         if( here.ter( examp )->has_curtains() ) {
-            bool is_open = here.ter( examp )->open.is_empty() || here.ter( examp )->open.is_null();
             here.ter_set( examp, here.ter( examp )->curtain_transform );
-            if( is_open ) {
-                here.ter_set( examp, here.ter( examp )->open );
-            }
         }
 
         here.spawn_item( p.pos(), itype_nail, 1, 4, calendar::turn );
@@ -4461,9 +4322,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
 
     int pricePerUnit = getGasPricePerLiter( discount );
 
-    bool can_hack = ( !p.has_trait( trait_ILLITERATE ) &&
-                      ( ( p.has_charges( itype_electrohack, 25 ) ) ||
-                        ( p.has_bionic( bio_fingerhack ) && p.get_power_level() > 24_kJ ) ) );
+    bool can_hack = ( !p.has_trait( trait_ILLITERATE ) && p.has_charges( itype_electrohack, 25 ) );
 
     uilist amenu;
     amenu.selected = 1;
@@ -4643,7 +4502,7 @@ void iexamine::ledge( player &p, const tripoint &examp )
                 add_msg( m_warning, _( "You are not going to jump over an obstacle only to fall down." ) );
             } else {
                 add_msg( m_info, _( "You jump over an obstacle." ) );
-                p.increase_activity_level( LIGHT_EXERCISE );
+                p.set_activity_level( LIGHT_EXERCISE );
                 g->place_player( dest );
             }
             break;
@@ -4684,7 +4543,7 @@ void iexamine::ledge( player &p, const tripoint &examp )
                 return;
             } else if( height == 1 ) {
                 const char *query;
-                p.increase_activity_level( MODERATE_EXERCISE );
+                p.set_activity_level( MODERATE_EXERCISE );
                 weary_mult = 1.0f / p.exertion_adjusted_move_multiplier( MODERATE_EXERCISE );
 
                 if( !has_grapnel ) {
@@ -5073,7 +4932,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         }
 
         case BONESETTING: {
-            if( !arm_splints.empty() && !leg_splints.empty() ) {
+            if( arm_splints.empty() && leg_splints.empty() ) {
                 popup( _( "Internal supply of splints exhausted.  Operation impossible.  Exiting." ) );
                 return;
             }
@@ -5094,7 +4953,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 // TODO: fail here if unable to perform the action, i.e. can't wear more, trait mismatch.
                 int quantity = 1;
                 if( part == bodypart_id( "arm_l" ) || part == bodypart_id( "arm_r" ) ) {
-                    if( arm_splints.empty() ) {
+                    if( !arm_splints.empty() ) {
                         for( const item &it : get_map().use_amount( examp, 1, itype_arm_splint, quantity ) ) {
                             patient.wear_item( it, false );
                         }
@@ -5103,7 +4962,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                         continue;
                     }
                 } else if( part == bodypart_id( "leg_l" ) || part == bodypart_id( "leg_r" ) ) {
-                    if( leg_splints.empty() ) {
+                    if( !leg_splints.empty() ) {
                         for( const item &it : get_map().use_amount( examp, 1, itype_leg_splint, quantity ) ) {
                             patient.wear_item( it, false );
                         }
@@ -6363,7 +6222,6 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
             { "tree_maple", &iexamine::tree_maple },
             { "tree_maple_tapped", &iexamine::tree_maple_tapped },
             { "shrub_wildveggies", &iexamine::shrub_wildveggies },
-            { "recycle_compactor", &iexamine::recycle_compactor },
             { "water_source", &iexamine::water_source },
             { "clean_water_source", &iexamine::clean_water_source },
             { "reload_furniture", &iexamine::reload_furniture },

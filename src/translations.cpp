@@ -32,13 +32,19 @@
 #include "rng.h"
 #include "text_style_check.h"
 
-#if defined(MACOSX)
+#if defined(__APPLE__)
 #include <CoreFoundation/CFLocale.h>
 #include <CoreFoundation/CoreFoundation.h>
 
 #include "cata_utility.h"
 
-std::string getOSXSystemLang();
+std::string getAppleSystemLang();
+#endif
+
+#if defined(__ANDROID__)
+#include <jni.h>
+#include "sdl_wrappers.h" // for SDL_AndroidGetJNIEnv()
+std::string getAndroidSystemLang();
 #endif
 
 // Names depend on the language settings. They are loaded from different files
@@ -205,39 +211,41 @@ std::string locale_dir()
 
 void set_language()
 {
-    std::string win_or_mac_lang;
+    std::string system_lang;
 #if defined(_WIN32)
-    win_or_mac_lang = getLangFromLCID( GetUserDefaultLCID() );
-#endif
-#if defined(MACOSX)
-    win_or_mac_lang = getOSXSystemLang();
+    system_lang = getLangFromLCID( GetUserDefaultUILanguage() );
+#elif defined(__APPLE__)
+    system_lang = getAppleSystemLang(); // macOS and iOS
+#elif defined(__ANDROID__)
+    system_lang = getAndroidSystemLang();
 #endif
     // Step 1. Setup locale settings.
-    std::string lang_opt = get_option<std::string>( "USE_LANG" ).empty() ? win_or_mac_lang :
+    std::string lang_opt = get_option<std::string>( "USE_LANG" ).empty() ? system_lang :
                            get_option<std::string>( "USE_LANG" );
+    DebugLog( D_INFO, D_MAIN ) << "Setting language to: '" << lang_opt << '\'';
     if( !lang_opt.empty() ) {
         // Not 'System Language'
         // Overwrite all system locale settings. Use CDDA settings. User wants this.
-#if defined(_WIN32)
-        std::string lang_env = "LANGUAGE=" + lang_opt;
-        if( _putenv( lang_env.c_str() ) != 0 ) {
-            DebugLog( D_WARNING, D_MAIN ) << "Can't set 'LANGUAGE' environment variable";
-        }
-#else
         // LANGUAGE is ignored if LANG is set to C or unset
         // in this case we need to set LANG to something other than C to activate localization
         // Reference: https://www.gnu.org/software/gettext/manual/html_node/The-LANGUAGE-variable.html#The-LANGUAGE-variable
         const char *env_lang = getenv( "LANG" );
         if( env_lang == nullptr || strcmp( env_lang, "C" ) == 0 ) {
+#if defined(_WIN32)
+            if( _putenv( ( std::string( "LANG=" ) + lang_opt ).c_str() ) != 0 ) {
+#else
             if( setenv( "LANG", lang_opt.c_str(), true ) != 0 ) {
+#endif
                 DebugLog( D_WARNING, D_MAIN ) << "Can't set 'LANG' environment variable";
             }
         }
+#if defined(_WIN32)
+        if( _putenv( ( std::string( "LANGUAGE=" ) + lang_opt ).c_str() ) != 0 ) {
+#else
         if( setenv( "LANGUAGE", lang_opt.c_str(), true ) != 0 ) {
-            DebugLog( D_WARNING, D_MAIN ) << "Can't set 'LANGUAGE' environment variable";
-        }
 #endif
-        else {
+            DebugLog( D_WARNING, D_MAIN ) << "Can't set 'LANGUAGE' environment variable";
+        } else {
             const char *env = getenv( "LANGUAGE" );
             if( env != nullptr ) {
                 DebugLog( D_INFO, D_MAIN ) << "Language is set to: '" << env << '\'';
@@ -280,8 +288,8 @@ void set_language()
     } while( current_language_version == INVALID_LANGUAGE_VERSION );
 }
 
-#if defined(MACOSX)
-std::string getOSXSystemLang()
+#if defined(__APPLE__)
+std::string getAppleSystemLang()
 {
     // Get the user's language list (in order of preference)
     CFArrayRef langs = CFLocaleCopyPreferredLanguages();
@@ -320,6 +328,41 @@ std::string getOSXSystemLang()
     }
 
     return isValidLanguage( lang_code ) ? lang_code : "en_US";
+}
+#endif
+
+#if defined(__ANDROID__)
+std::string getAndroidSystemLang()
+{
+    JNIEnv *env = ( JNIEnv * )SDL_AndroidGetJNIEnv();
+    jobject activity = ( jobject )SDL_AndroidGetActivity();
+    jclass clazz( env->GetObjectClass( activity ) );
+    jmethodID method_id = env->GetMethodID( clazz, "getSystemLang", "()Ljava/lang/String;" );
+    jstring ans = ( jstring )env->CallObjectMethod( activity, method_id, 0 );
+    const char *ans_c_str = env->GetStringUTFChars( ans, 0 );
+    if( ans_c_str == nullptr ) {
+        // fail-safe if retrieving Java string failed
+        return std::string();
+    }
+    const std::string lang( ans_c_str );
+    env->ReleaseStringUTFChars( ans, ans_c_str );
+    env->DeleteLocalRef( activity );
+    env->DeleteLocalRef( clazz );
+    DebugLog( D_INFO, D_MAIN ) << "Read Android system language: '" << lang << '\'';
+    if( string_starts_with( lang, "zh_Hans" ) ) {
+        return "zh_CN";
+    } else if( string_starts_with( lang, "zh_Hant" ) ) {
+        return "zh_TW";
+    }
+    const std::vector<options_manager::id_and_option> available_languages =
+        get_options().get_option( "USE_LANG" ).getItems();
+    for( const options_manager::id_and_option &available_language : available_languages ) {
+        if( !available_language.first.empty() && string_starts_with( lang, available_language.first ) ) {
+            return available_language.first;
+        }
+    }
+    DebugLog( D_WARNING, D_MAIN ) << "Unrecognised language: '" << lang << "', fallback to English";
+    return std::string();
 }
 #endif
 
@@ -781,7 +824,7 @@ bool localized_comparator::operator()( const std::string &l, const std::string &
     // expected on regular strings; no workarounds needed.
     // See https://github.com/CleverRaven/Cataclysm-DDA/pull/40041 for further
     // discussion.
-#if defined(MACOSX)
+#if defined(__APPLE__) // macOS and iOS
     CFStringRef lr = CFStringCreateWithCStringNoCopy( kCFAllocatorDefault, l.c_str(),
                      kCFStringEncodingUTF8, kCFAllocatorNull );
     CFStringRef rr = CFStringCreateWithCStringNoCopy( kCFAllocatorDefault, r.c_str(),
@@ -799,7 +842,7 @@ bool localized_comparator::operator()( const std::string &l, const std::string &
 
 bool localized_comparator::operator()( const std::wstring &l, const std::wstring &r ) const
 {
-#if defined(MACOSX)
+#if defined(__APPLE__) // macOS and iOS
     return ( *this )( wstr_to_utf8( l ), wstr_to_utf8( r ) );
 #else
     return std::locale()( l, r );

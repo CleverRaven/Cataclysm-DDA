@@ -623,8 +623,9 @@ size_t item_contents::num_item_stacks() const
 {
     size_t num = 0;
     for( const item_pocket &pocket : contents ) {
-        if( pocket.is_type( item_pocket::pocket_type::MOD ) ) {
-            // mods aren't really a contained item, which this function gets
+        if( pocket.is_type( item_pocket::pocket_type::MOD ) ||
+            pocket.is_type( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
+            // mods and magazine wells aren't really a contained item, which this function gets
             continue;
         }
         num += pocket.size();
@@ -1580,9 +1581,9 @@ void item_contents::info( std::vector<iteminfo> &info, const iteminfo_query *par
         if( found_pockets.size() > 1 || pocket_num[0] > 1 ) {
             insert_separation_line( info );
             info.emplace_back( "CONTAINER", _( "<bold>Total capacity</bold>:" ) );
-            info.push_back( vol_to_info( "CONTAINER", _( "Volume: " ), total_container_capacity() ) );
-            info.push_back( weight_to_info( "CONTAINER", _( "  Weight: " ),
-                                            total_container_weight_capacity() ) );
+            info.push_back( vol_to_info( "CONTAINER", _( "Volume: " ), total_container_capacity(), 2, false ) );
+            info.push_back( weight_to_info( "CONTAINER", _( "  Weight: " ), total_container_weight_capacity(),
+                                            2, false ) );
             info.back().bNewLine = true;
         }
 

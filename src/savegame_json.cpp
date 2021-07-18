@@ -496,9 +496,16 @@ void consumption_event::deserialize( JsonIn &jsin )
     jo.read( "component_hash", component_hash );
 }
 
-void weariness_tracker::serialize( JsonOut &json ) const
+void activity_tracker::serialize( JsonOut &json ) const
 {
     json.start_object();
+    json.member( "current_activity", current_activity );
+    json.member( "accumulated_activity", accumulated_activity );
+    json.member( "previous_activity", previous_activity );
+    json.member( "current_turn", current_turn );
+    json.member( "activity_reset", activity_reset );
+    json.member( "num_events", num_events );
+
     json.member( "tracker", tracker );
     json.member( "intake", intake );
     json.member( "low_activity_ticks", low_activity_ticks );
@@ -506,10 +513,18 @@ void weariness_tracker::serialize( JsonOut &json ) const
     json.end_object();
 }
 
-void weariness_tracker::deserialize( JsonIn &jsin )
+void activity_tracker::deserialize( JsonIn &jsin )
 {
     JsonObject jo = jsin.get_object();
+
     jo.allow_omitted_members();
+    jo.read( "current_activity", current_activity );
+    jo.read( "accumulated_activity", accumulated_activity );
+    jo.read( "previous_activity", previous_activity );
+    jo.read( "current_turn", current_turn );
+    jo.read( "activity_reset", activity_reset );
+    jo.read( "num_events", num_events );
+
     jo.read( "tracker", tracker );
     jo.read( "intake", intake );
     jo.read( "low_activity_ticks", low_activity_ticks );
@@ -570,7 +585,9 @@ void Character::load( const JsonObject &data )
     data.read( "thirst", thirst );
     data.read( "hunger", hunger );
     data.read( "fatigue", fatigue );
-    data.read( "weary", weary );
+    // Legacy read, remove after 0.F
+    data.read( "weary", activity_history );
+    data.read( "activity_history", activity_history );
     data.read( "sleep_deprivation", sleep_deprivation );
     data.read( "stored_calories", stored_calories );
     // stored_calories was changed from being in kcal to being in just cal
@@ -908,10 +925,12 @@ void Character::load( const JsonObject &data )
     }
 
     // remove after 0.F
-    visit_items( []( item * it, item * ) {
-        migrate_item_charges( *it );
-        return VisitResponse::NEXT;
-    } );
+    if( savegame_loading_version < 33 ) {
+        visit_items( []( item * it, item * ) {
+            migrate_item_charges( *it );
+            return VisitResponse::NEXT;
+        } );
+    }
 }
 
 /**
@@ -957,7 +976,7 @@ void Character::store( JsonOut &json ) const
     json.member( "thirst", thirst );
     json.member( "hunger", hunger );
     json.member( "fatigue", fatigue );
-    json.member( "weary", weary );
+    json.member( "activity_history", activity_history );
     json.member( "sleep_deprivation", sleep_deprivation );
     json.member( "stored_calories", stored_calories );
     json.member( "radiation", radiation );
@@ -2085,6 +2104,10 @@ void monster::load( const JsonObject &data )
     if( data.read( "wandz", wander_pos.z ) ) {
         wander_pos.z = position.z;
     }
+    if( data.has_int( "next_patrol_point" ) ) {
+        data.read( "next_patrol_point", next_patrol_point );
+        data.read( "patrol_route", patrol_route_abs_ms );
+    }
     if( data.has_object( "tied_item" ) ) {
         JsonIn *tied_item_json = data.get_raw( "tied_item" );
         item newitem;
@@ -2239,6 +2262,10 @@ void monster::store( JsonOut &json ) const
     json.member( "wandy", wander_pos.y );
     json.member( "wandz", wander_pos.z );
     json.member( "wandf", wandf );
+    if( !patrol_route_abs_ms.empty() ) {
+        json.member( "patrol_route", patrol_route_abs_ms );
+        json.member( "next_patrol_point", next_patrol_point );
+    }
     json.member( "hp", hp );
     json.member( "special_attacks", special_attacks );
     json.member( "friendly", friendly );
@@ -2459,6 +2486,13 @@ void item::io( Archive &archive )
         return i.id.str();
     } );
     archive.io( "craft_data", craft_data_, decltype( craft_data_ )() );
+    const auto gvload = [this]( const std::string & variant ) {
+        set_gun_variant( variant );
+    };
+    const auto gvsave = []( const gun_variant_data * gv ) {
+        return gv->id;
+    };
+    archive.io( "variant", _gun_variant, gvload, gvsave, false );
     archive.io( "light", light.luminance, nolight.luminance );
     archive.io( "light_width", light.width, nolight.width );
     archive.io( "light_dir", light.direction, nolight.direction );
@@ -2970,7 +3004,9 @@ void vehicle::deserialize( JsonIn &jsin )
                 active_items.add( *it, vp.mount() );
             }
             // remove after 0.F
-            migrate_item_charges( *it );
+            if( savegame_loading_version < 33 ) {
+                migrate_item_charges( *it );
+            }
         }
     }
 

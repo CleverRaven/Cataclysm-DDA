@@ -645,7 +645,7 @@ void game::setup()
     // reset follower list
     follower_ids.clear();
     scent.reset();
-
+    effect_on_conditions::clear();
     remoteveh_cache_time = calendar::before_time_starts;
     remoteveh_cache = nullptr;
     // back to menu for save loading, new game etc
@@ -828,7 +828,7 @@ bool game::start_game()
             mon->friendly = -1;
             mon->add_effect( effect_pet, 1_turns, true );
         } else {
-            add_msg_debug( "cannot place starting pet, no space!" );
+            add_msg_debug( debugmode::DF_GAME, "cannot place starting pet, no space!" );
         }
     }
     if( u.starting_vehicle &&
@@ -849,6 +849,8 @@ bool game::start_game()
     tripoint_abs_omt abs_omt = u.global_omt_location();
     const oter_id &cur_ter = overmap_buffer.ter( abs_omt );
     get_event_bus().send<event_type::avatar_enters_omt>( abs_omt.raw(), cur_ter );
+
+    effect_on_conditions::load_new_character();
     return true;
 }
 
@@ -935,7 +937,7 @@ void game::load_npcs()
             continue;
         }
 
-        add_msg_debug( "game::load_npcs: Spawning static NPC, %d:%d:%d (%d:%d:%d)",
+        add_msg_debug( debugmode::DF_NPC, "game::load_npcs: Spawning static NPC, %d:%d:%d (%d:%d:%d)",
                        abs_sub.x, abs_sub.y, abs_sub.z, sm_loc.x, sm_loc.y, sm_loc.z );
         temp->place_on_map();
         if( !m.inbounds( temp->pos() ) ) {
@@ -1611,6 +1613,7 @@ bool game::do_turn()
         ui_manager::redraw();
         refresh_display();
     }
+    effect_on_conditions::process_effect_on_conditions();
 
     if( levz >= 0 && !u.is_underwater() ) {
         handle_weather_effects( weather.weather_id );
@@ -1675,12 +1678,6 @@ bool game::do_turn()
     // reset player noise
     u.volume = 0;
 
-    // This is a hack! Remove this when we have per-turn activity tracking
-    // This prevents the display from erroneously updating when we use more
-    // than our allotted moves in a single turn
-    if( u.moves < 0 ) {
-        u.increase_activity_level( NO_EXERCISE );
-    }
     return false;
 }
 
@@ -1874,10 +1871,11 @@ int get_heat_radiation( const tripoint &location, bool direct )
 
 int get_convection_temperature( const tripoint &location )
 {
+    static const flag_id trap_convects( "CONVECTS_TEMPERATURE" );
     int temp_mod = 0;
     map &here = get_map();
     // Directly on lava tiles
-    int lava_mod = here.tr_at( location ) == tr_lava ?
+    int lava_mod = here.tr_at( location ).has_flag( trap_convects ) ?
                    fd_fire->get_intensity_level().convection_temperature_mod : 0;
     // Modifier from fields
     for( auto fd : here.field_at( location ) ) {
@@ -4581,7 +4579,8 @@ void game::monmove()
                            << " can't move to its location!  (" << critter.posx()
                            << ":" << critter.posy() << ":" << critter.posz() << "), "
                            << m.tername( critter.pos() );
-            add_msg_debug( "%s can't move to its location!  (%d,%d,%d), %s", critter.name(),
+            add_msg_debug( debugmode::DF_MONSTER, "%s can't move to its location!  (%d,%d,%d), %s",
+                           critter.name(),
                            critter.posx(), critter.posy(), critter.posz(), m.tername( critter.pos() ) );
             bool okay = false;
             for( const tripoint &dest : m.points_in_radius( critter.pos(), 3 ) ) {
@@ -4679,6 +4678,12 @@ void game::monmove()
                 debugmsg( "NPC %s entered infinite loop.  Turning on debug mode",
                           guy.name );
                 debug_mode = true;
+                // make sure the filter is active
+                if( std::find(
+                        debugmode::enabled_filters.begin(), debugmode::enabled_filters.end(),
+                        debugmode::DF_NPC ) == debugmode::enabled_filters.end() ) {
+                    debugmode::enabled_filters.emplace_back( debugmode::DF_NPC );
+                }
             }
         }
 
@@ -6136,10 +6141,20 @@ void game::peek( const tripoint &p )
     u.moves -= 200;
     tripoint prev = u.pos();
     u.setpos( p );
+    const bool is_same_pos = u.pos() == prev;
+    const bool is_standup_peek = is_same_pos && u.is_crouching();
     tripoint center = p;
-    const look_around_result result = look_around( /*show_window=*/true, center, center, false, false,
-                                      true );
-    u.setpos( prev );
+
+    look_around_result result;
+    const look_around_params looka_params = { true, center, center, false, false, true };
+    if( is_standup_peek ) {   // Non moving peek from crouch is a standup peek
+        u.reset_move_mode();
+        result = look_around( looka_params );
+        u.activate_crouch_mode();
+    } else {                // Else is normal peek
+        result = look_around( looka_params );
+        u.setpos( prev );
+    }
 
     if( result.peek_action && *result.peek_action == PA_BLIND_THROW ) {
         item_location loc;
@@ -6147,6 +6162,7 @@ void game::peek( const tripoint &p )
     }
     m.invalidate_map_cache( p.z );
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////
 cata::optional<tripoint> game::look_debug()
 {
@@ -7057,6 +7073,8 @@ cata::optional<tripoint> game::look_around()
     return result.position;
 }
 
+//look_around_result game::look_around( const bool show_window, tripoint &center,
+//                                      const tripoint &start_point, bool has_first_point, bool select_zone, bool peeking )
 look_around_result game::look_around( const bool show_window, tripoint &center,
                                       const tripoint &start_point, bool has_first_point, bool select_zone, bool peeking )
 {
@@ -7247,7 +7265,7 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
             lz = clamp( lz + dz, min_levz, max_levz );
             center.z = clamp( center.z + dz, min_levz, max_levz );
 
-            add_msg_debug( "levx: %d, levy: %d, levz: %d",
+            add_msg_debug( debugmode::DF_GAME, "levx: %d, levy: %d, levz: %d",
                            get_map().get_abs_sub().x, get_map().get_abs_sub().y, center.z );
             u.view_offset.z = center.z - u.posz();
             m.invalidate_map_cache( center.z );
@@ -7373,6 +7391,13 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
     }
 
     return result;
+}
+
+look_around_result game::look_around( look_around_params looka_params )
+{
+    return look_around( looka_params.show_window, looka_params.center, looka_params.start_point,
+                        looka_params.has_first_point,
+                        looka_params.select_zone, looka_params.peeking );
 }
 
 std::vector<map_item_stack> game::find_nearby_items( int iRadius )
@@ -10308,7 +10333,7 @@ bool game::phasing_move( const tripoint &dest_loc, const bool via_ramp )
         tunneldist += 1;
         //Being dimensionally anchored prevents quantum shenanigans.
         if( u.worn_with_flag( flag_DIMENSIONAL_ANCHOR ) ||
-            u.has_effect_with_flag( flag_DIMENSIONAL_ANCHOR ) ) {
+            u.has_flag( flag_DIMENSIONAL_ANCHOR ) ) {
             u.add_msg_if_player( m_info, _( "You are repelled by the barrier!" ) );
             u.mod_power_level( -250_kJ ); //cost of tunneling one tile.
             return false;
@@ -10491,6 +10516,20 @@ bool game::grabbed_furn_move( const tripoint &dp )
         // TODO: What is something?
         add_msg( _( "The %s collides with something." ), furntype.name() );
         return true;
+    } else if( str_req > u.get_str() && u.get_perceived_pain() > 40 &&
+               !u.has_trait( trait_id( "CENOBITE" ) ) && !u.has_trait( trait_id( "MASOCHIST" ) ) &&
+               !u.has_trait( trait_id( "MASOCHIST_MED" ) ) ) {
+        add_msg( m_bad, _( "You are in too much pain to try moving the heavy %s!" ),
+                 furntype.name() );
+        return false;
+
+    } else if( str_req > u.get_str() && u.get_perceived_pain() > 50 &&
+               ( u.has_trait( trait_id( "MASOCHIST" ) ) || u.has_trait( trait_id( "MASOCHIST_MED" ) ) ) ) {
+        add_msg( m_bad,
+                 _( "Even with your appetite for pain, you are in too much pain to try moving the heavy %s!" ),
+                 furntype.name() );
+        return false;
+
         ///\EFFECT_STR determines ability to drag furniture
     } else if( str_req > u.get_str() &&
                one_in( std::max( 20 - str_req - u.get_str(), 2 ) ) ) {

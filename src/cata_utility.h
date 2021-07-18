@@ -6,6 +6,7 @@
 #include <cstddef>
 #include <functional>
 #include <iosfwd>
+#include <map>
 #include <string> // IWYU pragma: keep
 #include <type_traits>
 #include <utility>
@@ -197,6 +198,13 @@ double temp_to_celsius( double fahrenheit );
  * @return Temperature in degrees K.
  */
 double temp_to_kelvin( double fahrenheit );
+
+/**
+ * Convert a temperature from degrees Celsius to Kelvin.
+ *
+ * @return Temperature in degrees K.
+ */
+double celsius_to_kelvin( double celsius );
 
 /**
  * Convert a temperature from Kelvin to degrees Fahrenheit.
@@ -501,6 +509,19 @@ bool equal_ignoring_elements( const Set &set, const Set &set2, const Set &ignore
     // compare the range after the last element of ignored_elements: [ignored_elements.back() .. set.end()]
     return static_cast<bool>( std::equal( set.upper_bound( *prev ), set.end(),
                                           set2.upper_bound( *prev ), set2.end() ) );
+}
+
+/**
+ * Return a copy of a std::map with some keys removed.
+ */
+template<typename K, typename V>
+std::map<K, V> map_without_keys( const std::map<K, V> &original, const std::vector<K> &remove_keys )
+{
+    std::map<K, V> filtered( original );
+    for( const K &key : remove_keys ) {
+        filtered.erase( key );
+    }
+    return filtered;
 }
 
 int modulo( int v, int m );

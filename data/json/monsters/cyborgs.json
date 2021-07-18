@@ -26,7 +26,7 @@
     "armor_bullet": 8,
     "vision_day": 50,
     "revert_to_itype": "bot_broken_cyborg",
-    "special_attacks": [ [ "PARROT", 80 ] ],
+    "special_attacks": [ [ "PARROT", 800 ] ],
     "death_function": [ "NORMAL" ],
     "harvest": "mon_broken_cyborg",
     "flags": [
@@ -70,7 +70,7 @@
     "armor_bullet": 5,
     "vision_day": 50,
     "revert_to_itype": "bot_prototype_cyborg",
-    "special_attacks": [ [ "PARROT", 80 ] ],
+    "special_attacks": [ [ "PARROT", 800 ] ],
     "death_function": [ "NORMAL" ],
     "harvest": "mon_broken_cyborg",
     "flags": [

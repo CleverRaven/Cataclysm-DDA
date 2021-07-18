@@ -29,7 +29,7 @@
     "copy-from": "fake_item",
     "type": "TOOL",
     "name": { "str": "integrated toolset" },
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID", "FIRESTARTER", "USES_BIONIC_POWER" ],
     "max_charges": 10000,
     "use_action": [ "HAMMER", "CROWBAR" ],
     "qualities": [
@@ -97,7 +97,8 @@
     "description": "A test item that is both a ranged weapon and a reach weapon",
     "price": 16000,
     "material": [ "steel" ],
-    "flags": [ "REACH_ATTACK" ],
+    "flags": [ "REACH_ATTACK", "WATERPROOF_GUN", "NEVER_JAMS" ],
+    "ammo_effects": [ "NEVER_MISFIRES" ],
     "skill": "archery",
     "ammo": [ "arrow" ],
     "weight": "340 g",
@@ -141,7 +142,7 @@
     "copy-from": "fake_item",
     "type": "TOOL",
     "name": { "str": "bionic firestarter" },
-    "flags": [ "FIRESTARTER" ]
+    "flags": [ "FIRESTARTER", "USES_BIONIC_POWER" ]
   },
   {
     "id": "migo_bio_gun",

@@ -159,7 +159,6 @@ cata::optional<int> oxygen_bottle( player *, item *, bool, const tripoint & );
 cata::optional<int> oxytorch( player *, item *, bool, const tripoint & );
 cata::optional<int> pack_cbm( player *p, item *it, bool, const tripoint & );
 cata::optional<int> pack_item( player *, item *, bool, const tripoint & );
-cata::optional<int> pheromone( player *, item *, bool, const tripoint & );
 cata::optional<int> pick_lock( player *p, item *it, bool, const tripoint &pos );
 cata::optional<int> pickaxe( player *, item *, bool, const tripoint & );
 cata::optional<int> play_game( player *, item *, bool, const tripoint & );
@@ -233,6 +232,8 @@ bool robotcontrol_can_target( player *, const monster & );
 cata::optional<int> handle_ground_graffiti( Character &p, item *it, const std::string &prefix,
         const tripoint &where );
 
+//helper for lit cigs
+cata::optional<std::string> can_smoke( const player &u );
 } // namespace iuse
 
 void remove_radio_mod( item &it, Character &p );

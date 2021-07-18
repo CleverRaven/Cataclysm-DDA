@@ -585,20 +585,6 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "pheromone",
-    "category": "CC_CHEM",
-    "subcategory": "CSC_CHEM_CHEMICALS",
-    "skill_used": "chemistry",
-    "skills_required": [ "survival", 1 ],
-    "difficulty": 4,
-    "time": "1 m 12 s",
-    "book_learn": [ [ "adv_chemistry", 5 ], [ "textbook_chemistry", 5 ], [ "recipe_labchem", 3 ] ],
-    "tools": [ [ [ "surface_heat", 18, "LIST" ] ] ],
-    "components": [ [ [ "meat_tainted", 1 ], [ "dry_meat_tainted", 1 ] ], [ [ "ammonia", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
     "result": "fertilizer_liquid",
     "id_suffix": "simple",
     "category": "CC_CHEM",

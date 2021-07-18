@@ -4,6 +4,7 @@ on:
   push:
     branches:
     - master
+    - 0.F-dev
     paths-ignore:
     - 'android/**'
     - 'build-data/osx/**'
@@ -18,6 +19,7 @@ on:
   pull_request:
     branches:
     - master
+    - 0.F-dev
     paths-ignore:
     - 'android/**'
     - 'build-data/osx/**'
@@ -97,6 +99,10 @@ jobs:
           sudo apt-get update
           sudo apt-get install libncursesw5-dev libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev \
             libsdl2-mixer-dev libpulse-dev ccache gettext parallel
+    - name: install old GCC (ubuntu)
+      if: runner.os == 'Linux' && (matrix.compiler == 'g++-7' || matrix.compiler == 'g++-8')
+      run: |
+          sudo apt-get install g++-7 g++-8
     - name: install dependencies (mac)
       if: runner.os == 'macOS'
       run: |

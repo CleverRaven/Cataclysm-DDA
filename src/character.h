@@ -21,6 +21,7 @@
 #include <utility>
 #include <vector>
 
+#include "activity_tracker.h"
 #include "activity_type.h"
 #include "bodypart.h"
 #include "calendar.h"
@@ -294,20 +295,6 @@ struct consumption_event {
     void deserialize( JsonIn &jsin );
 };
 
-struct weariness_tracker {
-    int tracker = 0;
-    int intake = 0;
-
-    // Semi-consecutive 5 minute ticks of low activity (or 2.5 if we're sleeping)
-    int low_activity_ticks = 0;
-    // How many ticks since we've decreased intake
-    int tick_counter = 0;
-
-    void clear();
-    void serialize( JsonOut &json ) const;
-    void deserialize( JsonIn &jsin );
-};
-
 inline social_modifiers operator+( social_modifiers lhs, const social_modifiers &rhs )
 {
     lhs += rhs;
@@ -489,7 +476,7 @@ class Character : public Creature, public visitable
         std::pair<std::string, nc_color> get_pain_description() const override;
 
         /** Modifiers for need values exclusive to characters */
-        virtual void mod_stored_kcal( int nkcal );
+        virtual void mod_stored_kcal( int nkcal, bool ignore_weariness = false );
         virtual void mod_stored_nutr( int nnutr );
         virtual void mod_hunger( int nhunger );
         virtual void mod_thirst( int nthirst );
@@ -507,14 +494,14 @@ class Character : public Creature, public visitable
     protected:
 
         // These accept values in calories, 1/1000s of kcals (or Calories)
-        virtual void mod_stored_calories( int ncal );
+        virtual void mod_stored_calories( int ncal, bool ignore_weariness = false );
         virtual void set_stored_calories( int cal );
 
     public:
 
         void mod_stat( const std::string &stat, float modifier ) override;
 
-        int get_standard_stamina_cost( item *thrown_item = nullptr );
+        int get_standard_stamina_cost( const item *thrown_item = nullptr ) const;
 
         /**Get bonus to max_hp from excess stored fat*/
         int get_fat_to_hp() const;
@@ -977,7 +964,7 @@ class Character : public Creature, public visitable
         bool has_bionic_with_flag( const json_character_flag &flag ) const;
         /** This is to prevent clang complaining about overloading a virtual function, the creature version uses monster flags so confusion is unlikely. */
         using Creature::has_flag;
-        /** Returns true if player has a trait or bionic with a flag */
+        /** Returns true if player has a trait, bionic or effect with a flag */
         bool has_flag( const json_character_flag &flag ) const;
         /** Returns the trait id with the given invlet, or an empty string if no trait has that invlet */
         trait_id trait_by_invlet( int ch ) const;
@@ -987,6 +974,13 @@ class Character : public Creature, public visitable
         /** Add or removes a mutation on the player, but does not trigger mutation loss/gain effects. */
         void set_mutations( const std::vector<trait_id> &traits );
         void set_mutation( const trait_id & );
+    protected:
+        // Set a mutation, but don't do any of the necessary updates
+        // Only call this from one of the above two functions
+        void set_mutation_unsafe( const trait_id & );
+    public:
+        // Do the mutation updates necessary when adding a mutation (nonspecific cache updates)
+        void do_mutation_updates();
         void unset_mutation( const trait_id & );
         /**Unset switched mutation and set target mutation instead*/
         void switch_mutations( const trait_id &switched, const trait_id &target, bool start_powered );
@@ -1316,6 +1310,9 @@ class Character : public Creature, public visitable
         /**Is the installation possible*/
         bool can_install_bionics( const itype &type, Character &installer, bool autodoc = false,
                                   int skill_level = -1 );
+        /** Is this bionic elligible to be installed in the player? */
+        // Should be ret_val<void>, but ret_val.h doesn't like it
+        ret_val<bool> is_installable( const item_location &loc, bool by_autodoc ) const;
         std::map<bodypart_id, int> bionic_installation_issues( const bionic_id &bioid );
         /** Initialize all the values needed to start the operation player_activity */
         bool install_bionics( const itype &type, player &installer, bool autodoc = false,
@@ -1648,6 +1645,10 @@ class Character : public Creature, public visitable
          */
         int item_reload_cost( const item &it, const item &ammo, int qty ) const;
 
+        projectile thrown_item_projectile( const item &thrown ) const;
+        int thrown_item_adjusted_damage( const item &thrown ) const;
+        // calculates the total damage possible from a thrown item, without resistances and such.
+        int thrown_item_total_damage_raw( const item &thrown ) const;
         /** Maximum thrown range with a given item, taking all active effects into account. */
         int throw_range( const item & ) const;
         /** Dispersion of a thrown item, against a given target, taking into account whether or not the throw was blind. */
@@ -1860,6 +1861,7 @@ class Character : public Creature, public visitable
         // gets all the spells known by this character that have this spell class
         // spells returned are a copy, do not try to edit them from here, instead use known_magic::get_spell
         std::vector<spell> spells_known_of_class( const trait_id &spell_class ) const;
+        bool cast_spell( spell &sp, bool fake_spell, cata::optional<tripoint> target );
 
         void make_bleed( const effect_source &source, const bodypart_id &bp, time_duration duration,
                          int intensity = 1, bool permanent = false, bool force = false, bool defferred = false );
@@ -2070,7 +2072,7 @@ class Character : public Creature, public visitable
         std::list<item> use_charges( const itype_id &what, int qty, int radius,
                                      const std::function<bool( const item & )> &filter = return_true<item> );
 
-        const item *find_firestarter_with_charges( int quantity ) const;
+        item find_firestarter_with_charges( int quantity ) const;
         bool has_fire( int quantity ) const;
         void use_fire( int quantity );
         void assign_stashed_activity();
@@ -2138,24 +2140,16 @@ class Character : public Creature, public visitable
         units::mass bodyweight() const;
         // returns total weight of installed bionics
         units::mass bionics_weight() const;
-        // increases the activity level to the next level
+        // increases the activity level to the specified level
         // does not decrease activity level
-        void increase_activity_level( float new_level );
-        // decreases the activity level to the previous level
+        void set_activity_level( float new_level );
+        // decreases activity level to the specified level
         // does not increase activity level
         void decrease_activity_level( float new_level );
         // sets activity level to NO_EXERCISE
         void reset_activity_level();
         // outputs player activity level to a printable string
         std::string activity_level_str() const;
-        // NOT SUITABLE FOR USE OTHER THAN DISPLAY
-        // The activity level this turn
-        float instantaneous_activity_level() const;
-        // Basically, advance this display one turn
-        void reset_activity_cursor();
-        // When we log an activity for metabolic purposes
-        // log it in our cursor too
-        void log_instant_activity( float );
 
         /** Returns overall bashing resistance for the body_part */
         int get_armor_bash( bodypart_id bp ) const override;
@@ -2593,10 +2587,10 @@ class Character : public Creature, public visitable
         /**
          * Handle skill gain for player and followers during crafting
          * @param craft the currently in progress craft
-         * @param multiplier what factor to multiply the base skill gain by.  This is used to apply
+         * @param num_practice_ticks to trigger.  This is used to apply
          * multiple steps of incremental skill gain simultaneously if needed.
          */
-        void craft_skill_gain( const item &craft, const int &multiplier );
+        void craft_skill_gain( const item &craft, const int &num_practice_ticks );
         /**
          * Handle proficiency practice for player and followers while crafting
          * @param craft - the in progress craft
@@ -2719,9 +2713,10 @@ class Character : public Creature, public visitable
         int weary_threshold() const;
         int weariness() const;
         float activity_level() const;
+        float instantaneous_activity_level() const;
         float exertion_adjusted_move_multiplier( float level = -1.0f ) const;
-        void try_reduce_weariness( float exertion );
         float maximum_exertion_level() const;
+        std::string activity_level_str( float level ) const;
         std::string debug_weary_info() const;
         // returns empty because this is avatar specific
         void add_pain_msg( int, const bodypart_id & ) const {}
@@ -2782,7 +2777,6 @@ class Character : public Creature, public visitable
         int healthy = 0;
         int healthy_mod = 0;
 
-        weariness_tracker weary;
         // Our bmr at no activity level
         int base_bmr() const;
 
@@ -2794,11 +2788,7 @@ class Character : public Creature, public visitable
         creature_size size_class = creature_size::medium;
 
         // the player's activity level for metabolism calculations
-        float attempted_activity_level = NO_EXERCISE;
-        // Display purposes only - the highest activity this turn and last
-        float act_cursor = NO_EXERCISE;
-        float last_act = NO_EXERCISE;
-        time_point act_turn = calendar::turn_zero;
+        activity_tracker activity_history;
 
         trap_map known_traps;
         mutable std::map<std::string, double> cached_info;
@@ -2958,6 +2948,7 @@ class Character : public Creature, public visitable
         tripoint cached_position;
         pimpl<inventory> cached_crafting_inventory;
 
+        time_point melee_warning_turn = calendar::turn_zero;
     protected:
         /** Subset of learned recipes. Needs to be mutable for lazy initialization. */
         mutable pimpl<recipe_subset> learned_recipes;

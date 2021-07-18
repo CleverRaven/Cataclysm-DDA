@@ -716,7 +716,7 @@
     "armor_bullet": 24,
     "harvest": "exempt",
     "path_settings": { "max_dist": 5 },
-    "special_attacks": [ [ "PARROT", 40 ] ],
+    "special_attacks": [ [ "PARROT", 400 ] ],
     "death_function": [ "MELT" ],
     "regenerates": 50,
     "regen_morale": true,

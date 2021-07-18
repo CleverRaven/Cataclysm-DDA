@@ -103,14 +103,14 @@ weariness_events do_activity( tasklist tasks )
         // How many turn's we've been at it
         time_duration turns = 0_seconds;
         while( turns <= task.interval && !task.instantaneous() ) {
-            // Start each turn with a fresh set of moves
-            guy.moves = 100;
-            task.do_turn( guy );
             // Advance a turn
             calendar::turn += 1_turns;
             turns += 1_seconds;
             // Consume food, become weary, etc
             guy.update_body();
+            // Start each turn with a fresh set of moves
+            guy.moves = 100;
+            task.do_turn( guy );
         }
         // Cancel our activity, now that we're done
         guy.cancel_activity();

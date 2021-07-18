@@ -43,7 +43,6 @@
 #include "mtype.h"
 #include "npc.h"
 #include "optional.h"
-#include "options.h"
 #include "output.h"
 #include "point.h"
 #include "projectile.h"
@@ -252,7 +251,7 @@ bool Creature::sees( const Creature &critter ) const
         return is_player();
     }
 
-    if( !fov_3d && !debug_mode && posz() != critter.posz() ) {
+    if( !fov_3d && posz() != critter.posz() ) {
         return false;
     }
 
@@ -685,7 +684,8 @@ void projectile::apply_effects_damage( Creature &target, Creature *source,
                 target.add_effect( effect_source( source ), effect_tied, 1_turns, true );
                 target.as_monster()->tied_item = cata::make_value<item>( drop_item );
             } else {
-                add_msg_debug( "projectile with TANGLE effect, but no drop item specified" );
+                add_msg_debug( debugmode::DF_CREATURE,
+                               "projectile with TANGLE effect, but no drop item specified" );
             }
         } else if( ( target.is_npc() || target.is_avatar() ) &&
                    !target.is_immune_effect( effect_downed ) ) {
@@ -808,18 +808,17 @@ projectile_attack_results Creature::select_body_part_projectile_attack(
     }
 
     const float crit_multiplier = proj.critical_multiplier;
-    float world_multiplier = get_option<int>( "MONSTER_RESILIENCE" ) / 100.0f;
     if( magic ) {
         ret.damage_mult *= rng_float( 0.9, 1.1 );
     } else if( goodhit < accuracy_headshot &&
-               ret.max_damage * crit_multiplier > get_hp_max( bodypart_id( "head" ) ) / world_multiplier ) {
+               ret.max_damage * crit_multiplier > get_hp_max( bodypart_id( "head" ) ) ) {
         ret.message = _( "Headshot!" );
         ret.gmtSCTcolor = m_headshot;
         ret.damage_mult *= rng_float( 0.95, 1.05 );
         ret.damage_mult *= crit_multiplier;
         ret.bp_hit = bodypart_id( "head" ); // headshot hits the head, of course
     } else if( goodhit < accuracy_critical &&
-               ret.max_damage * crit_multiplier > get_hp_max( bodypart_id( "torso" ) ) / world_multiplier ) {
+               ret.max_damage * crit_multiplier > get_hp_max( bodypart_id( "torso" ) ) ) {
         ret.message = _( "Critical!" );
         ret.gmtSCTcolor = m_critical;
         ret.damage_mult *= rng_float( 0.75, 1.0 );
@@ -1175,7 +1174,7 @@ void Creature::add_effect( const effect_source &source, const efftype_id &eff_id
 
             // Bound intensity by [1, max intensity]
             if( e.get_intensity() < 1 ) {
-                add_msg_debug( "Bad intensity, ID: %s", e.get_id().c_str() );
+                add_msg_debug( debugmode::DF_CREATURE, "Bad intensity, ID: %s", e.get_id().c_str() );
                 e.set_intensity( 1 );
             } else if( e.get_intensity() > e.get_max_intensity() ) {
                 e.set_intensity( e.get_max_intensity() );
@@ -1215,7 +1214,7 @@ void Creature::add_effect( const effect_source &source, const efftype_id &eff_id
         }
         // Bound new effect intensity by [1, max intensity]
         if( e.get_intensity() < 1 ) {
-            add_msg_debug( "Bad intensity, ID: %s", e.get_id().c_str() );
+            add_msg_debug( debugmode::DF_CREATURE, "Bad intensity, ID: %s", e.get_id().c_str() );
             e.set_intensity( 1 );
         } else if( e.get_intensity() > e.get_max_intensity() ) {
             e.set_intensity( e.get_max_intensity() );
@@ -2380,10 +2379,10 @@ bodypart_id Creature::select_body_part( Creature *source, int hit_roll ) const
 {
     int szdif = source->get_size() - get_size();
 
-    add_msg_debug( "hit roll = %d", hit_roll );
-    add_msg_debug( "source size = %d", source->get_size() );
-    add_msg_debug( "target size = %d", get_size() );
-    add_msg_debug( "difference = %d", szdif );
+    add_msg_debug( debugmode::DF_CREATURE, "hit roll = %d", hit_roll );
+    add_msg_debug( debugmode::DF_CREATURE, "source size = %d", source->get_size() );
+    add_msg_debug( debugmode::DF_CREATURE, "target size = %d", get_size() );
+    add_msg_debug( debugmode::DF_CREATURE, "difference = %d", szdif );
 
     return anatomy_human_anatomy->select_body_part( szdif, hit_roll );
 }
@@ -2502,6 +2501,11 @@ void Creature::add_msg_if_player( const game_message_params &params, const trans
     return add_msg_if_player( params, msg.translated() );
 }
 
+void Creature::add_msg_debug_if_player( debugmode::debug_filter type, const translation &msg ) const
+{
+    return add_msg_debug_if_player( type, msg.translated() );
+}
+
 void Creature::add_msg_if_npc( const translation &msg ) const
 {
     return add_msg_if_npc( msg.translated() );
@@ -2510,6 +2514,11 @@ void Creature::add_msg_if_npc( const translation &msg ) const
 void Creature::add_msg_if_npc( const game_message_params &params, const translation &msg ) const
 {
     return add_msg_if_npc( params, msg.translated() );
+}
+
+void Creature::add_msg_debug_if_npc( debugmode::debug_filter type, const translation &msg ) const
+{
+    return add_msg_debug_if_npc( type, msg.translated() );
 }
 
 void Creature::add_msg_player_or_npc( const translation &pc, const translation &npc ) const
@@ -2521,6 +2530,12 @@ void Creature::add_msg_player_or_npc( const game_message_params &params, const t
                                       const translation &npc ) const
 {
     return add_msg_player_or_npc( params, pc.translated(), npc.translated() );
+}
+
+void Creature::add_msg_debug_player_or_npc( debugmode::debug_filter type, const translation &pc,
+        const translation &npc ) const
+{
+    return add_msg_debug_player_or_npc( type, pc.translated(), npc.translated() );
 }
 
 void Creature::add_msg_player_or_say( const translation &pc, const translation &npc ) const

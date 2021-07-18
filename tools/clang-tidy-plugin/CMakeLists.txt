@@ -20,6 +20,7 @@ add_library(CataAnalyzerPlugin MODULE
         StaticStringIdConstantsCheck.cpp
         StringLiteralIterator.cpp
         TestFilenameCheck.cpp
+        TestsMustRestoreGlobalStateCheck.cpp
         TextStyleCheck.cpp
         TranslatorCommentsCheck.cpp
         UseLocalizedSortingCheck.cpp

@@ -172,7 +172,7 @@
     "flags": [ "BLOCKSDOOR", "TRANSPARENT" ],
     "deconstruct": {
       "items": [
-        { "item": "scrap", "count": [ 4, 6 ] },
+        { "item": "spring", "count": [ 4, 6 ] },
         { "item": "plastic_chunk", "count": [ 3, 5 ] },
         { "item": "circuit", "count": 1 },
         { "item": "2x4", "count": 4 },

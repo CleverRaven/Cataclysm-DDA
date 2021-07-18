@@ -1041,9 +1041,8 @@ TEST_CASE( "armor fit and sizing", "[iteminfo][armor][fit]" )
            "* This item can be worn on <color_c_cyan>either side</color> of the body.\n" );
 
     item power_armor( "test_power_armor" );
-    CHECK( item_info_str( power_armor, powerarmor ) ==
-           "--\n"
-           "* This gear is a part of power armor.\n" );
+    CHECK_THAT( item_info_str( power_armor, powerarmor ),
+                Catch::EndsWith( "* This gear is a part of power armor.\n" ) );
 }
 
 static void expected_armor_values( const item &armor, float bash, float cut, float stab,
@@ -2461,10 +2460,10 @@ TEST_CASE( "pocket info for a multi-pocket item", "[iteminfo][pocket][multiple]"
     CHECK( item_info_str( test_belt, pockets ) ==
            "--\n"
            "<color_c_white>Total capacity</color>:\n"
-           "Volume: <color_c_yellow>6.00</color> L  Weight: <color_c_yellow>4.00</color> kg\n"
+           "Volume: <color_c_yellow>6.00</color> L  Weight: <color_c_yellow>4.80</color> kg\n"
            "--\n"
            "<color_c_white>4 Pockets</color> with capacity:\n"
-           "Volume: <color_c_yellow>1.50</color> L  Weight: <color_c_yellow>1.00</color> kg\n"
+           "Volume: <color_c_yellow>1.50</color> L  Weight: <color_c_yellow>1.20</color> kg\n"
            "Maximum item length: <color_c_yellow>70</color> cm\n"
            "Minimum item volume: <color_c_yellow>0.050 L</color>\n"
            "Base moves to remove item: <color_c_yellow>50</color>\n"
@@ -2583,7 +2582,7 @@ TEST_CASE( "final info", "[iteminfo][final]" )
 
             CHECK( item_info_str( socks, { iteminfo_parts::DESCRIPTION_ALLERGEN } ) ==
                    "--\n"
-                   "* This clothing will give you an <color_c_red>allergic reaction</color>.\n" );
+                   "<color_c_red>Can't wear that, it's made of wool!</color>\n" );
         }
     }
 

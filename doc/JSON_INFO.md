@@ -655,6 +655,7 @@ For information about tools with option to export ASCII art in format ready to b
 | weight_capacity_bonus       | (_optional_) Bonus to weight carrying capacity in grams, can be negative.  Strings can be used - "5000 g" or "5 kg" (default: `0`)
 | weight_capacity_modifier    | (_optional_) Factor modifying base weight carrying capacity. (default: `1`)
 | canceled_mutations          | (_optional_) A list of mutations/traits that are removed when this bionic is installed (e.g. because it replaces the fault biological part).
+| mutation_conflicts          | (_optional_) A list of mutations that prevent this bionic from being installed.
 | included_bionics            | (_optional_) Additional bionics that are installed automatically when this bionic is installed. This can be used to install several bionics from one CBM item, which is useful as each of those can be activated independently.
 | included                    | (_optional_) Whether this bionic is included with another. If true this bionic does not require a CBM item to be defined. (default: `false`)
 | env_protec                  | (_optional_) How much environmental protection does this bionic provide on the specified body parts.
@@ -692,6 +693,7 @@ For information about tools with option to export ASCII art in format ready to b
     "encumbrance"  : [ [ "torso", 10 ], [ "arm_l", 10 ], [ "arm_r", 10 ], [ "leg_l", 10 ], [ "leg_r", 10 ], [ "foot_l", 10 ], [ "foot_r", 10 ] ],
     "description"  : "You have a battery draining attachment, and thus can make use of the energy contained in normal, everyday batteries. Use 'E' to consume batteries.",
     "canceled_mutations": ["HYPEROPIC"],
+    "mutation_conflicts": [ "HUGE" ],
     "installation_requirement": "sewing_standard",
     "included_bionics": ["bio_blindfold"]
 },
@@ -826,10 +828,10 @@ When you sort your inventory by category, these are the categories that are disp
 | `dmg_adj`        | Adjectives used to describe damage states of a material.
 | `density`        | Affects vehicle collision damage, with denser parts having the advantage over less-dense parts.
 | `vitamins`       | Vitamins in a material. Usually overridden by item specific values.  An integer percentage of ideal daily value.
-| `specific_heat_liquid` | Specific heat of a material when not frozen (J/(g K)). Default 4.186.
-| `specific_heat_solid`  | Specific heat of a material when frozen (J/(g K)). Default 2.108.
+| `specific_heat_liquid` | Specific heat of a material when not frozen (J/(g K)). Default 4.186 - water.
+| `specific_heat_solid`  | Specific heat of a material when frozen (J/(g K)). Default 2.108 - water.
 | `latent_heat`    | Latent heat of fusion for a material (J/g). Default 334.
-| `freeze_point`   | Freezing point of this material (F). Default 32 F ( 0 C ).
+| `freezing_point`   | Freezing point of this material (C). Default 0 C ( 32 F ).
 | `edible`   | Optional boolean. Default is false.
 | `rotting`   | Optional boolean. Default is false.
 | `soft`   | Optional boolean. Default is false.
@@ -1485,9 +1487,22 @@ request](https://github.com/CleverRaven/Cataclysm-DDA/pull/36657) and the
 "required_skills": [ [ "survival", 1 ] ],                           // Skill levels required to undertake construction
 "time": "30 m",                                                     // Time required to complete construction. Integers will be read as minutes or a time string can be used.
 "components": [ [ [ "spear_wood", 4 ], [ "pointy_stick", 4 ] ] ],   // Items used in construction
-"pre_terrain": "t_pit",                                             // Required terrain to build on
+"pre_special": "check_empty",                                       // Required something that isn't terrain
+"pre_terrain": "t_pit",                                             // Alternative to pre_special; Required terrain to build on
 "post_terrain": "t_pit_spiked"                                      // Terrain type after construction is complete
 ```
+
+| pre_special            | Description
+|---                     |---
+| `check_empty`          | Tile is empty
+| `check_support`        | Must have at least two solid walls/obstructions nearby on orthogonals (non-diagonal directions only) to support the tile
+| `check_deconstruction` | The furniture (or tile, if no furniture) in the target tile must have a "deconstruct" entry
+| `check_empty_up_OK`    | Tile is empty and is below the maximum possible elevation (can build up here)
+| `check_up_OK`          | Tile is below the maximum possible elevation (can build up here)
+| `check_down_OK`        | Tile is above the lowest possible elevation (can dig down here)
+| `check_no_trap`        | There is no trap object in this tile
+| `check_ramp_low`       | Both this and the next level above can be built up one additional Z level
+| `check_ramp_high`      | There is a complete downramp on the next higher level, and both this and next level above can be built up one additional Z level
 
 ### Scent_types
 
@@ -1960,6 +1975,7 @@ it is present to help catch errors.
     "spell_data": { "id": "bear_trap" },   // data required for trapfunc::spell()
     "trigger_weight": "200 g",  // If an item with this weight or more is thrown onto the trap, it triggers. TODO: what is the default?
     "drops": [ "beartrap" ],  // For disassembly?
+    "flags": [ "EXAMPLE_FLAG" ], // A set of valid flags for this trap
     "vehicle_data": {
       "damage": 300,
       "sound_volume": 8,
@@ -2579,7 +2595,7 @@ CBMs can be defined like this:
 "charges" : 4,              // Number of uses when spawned
 "stack_size" : 8,           // (Optional) How many uses are in the above-defined volume. If omitted, is the same as 'charges'
 "fun" : 50                  // Morale effects when used
-"freezing_point": 32,       // (Optional) Temperature in F at which item freezes, default is water (32F/0C)
+"freezing_point": 32,       // (Optional) Temperature in C at which item freezes, default is water (32F/0C)
 "cooks_like": "meat_cooked",         // (Optional) If the item is used in a recipe, replaces it with its cooks_like
 "parasites": 10,            // (Optional) Probability of becoming parasitised when eating
 "contamination": [ { "disease": "bad_food", "probability": 5 } ],         // (Optional) List of diseases carried by this comestible and their associated probability. Values must be in the [0, 100] range.
@@ -2664,6 +2680,15 @@ Guns can be defined like this:
 "blackpowder_tolerance": 8,// One in X chance to get clogged up (per shot) when firing blackpowder ammunition (higher is better). Optional, default is 8.
 "min_cycle_recoil": 0,     // Minimum ammo recoil for gun to be able to fire more than once per attack.
 "burst": 5,                // Number of shots fired in burst mode
+"variants": [              // Cosmetic variants this gun can have
+  {
+    "id": "varianta",                           // id used in spawning to spawn this variant specifically
+    "name": { "str": "Variant A pistol" },      // The name used instead of the default name when this variant is selected
+    "description": "A fancy variant A pistol",  // The description used instead of the default when this variant is selected
+    "ascii_picture": "valid_ascii_art_id",      // An ASCII art picture used when this variant is selected. If there is none, the default (if it exists) is used.
+    "weight": 2                                 // The relative chance of this variant being selected over other variants when this item is spawned with no explicit variant. Defaults to 0. If it is 0, this variant will not be selected
+  }
+],
 "clip_size": 100,          // Maximum amount of ammo that can be loaded
 "ups_charges": 0,          // Additionally to the normal ammo (if any), a gun can require some charges from an UPS. This also works on mods. Attaching a mod with ups_charges will add/increase ups drain on the weapon.
 "ammo_to_fire" 1,          // Amount of ammo used

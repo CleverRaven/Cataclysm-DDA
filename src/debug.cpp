@@ -151,6 +151,52 @@ bool debug_has_error_been_observed()
 
 bool debug_mode = false;
 
+namespace debugmode
+{
+std::list<debug_filter> enabled_filters;
+std::string filter_name( debug_filter value )
+{
+    // see debug.h for commentary
+    switch( value ) {
+        // *INDENT-OFF*
+        case DF_ACT_BUTCHER: return "DF_ACT_BUTCHER";
+        case DF_ACT_LOCKPICK: return "DF_ACT_LOCKPICK";
+        case DF_ACT_WORKOUT: return "DF_ACT_WORKOUT";
+        case DF_ANATOMY_BP: return "DF_ANATOMY_BP";
+        case DF_AVATAR: return "DF_AVATAR";
+        case DF_BALLISTIC: return "DF_BALLISTIC";
+        case DF_CHARACTER: return "DF_CHARACTER";
+        case DF_CHAR_CALORIES: return "DF_CHAR_CALORIES";
+        case DF_CHAR_HEALTH: return "DF_CHAR_HEALTH";
+        case DF_CREATURE: return "DF_CREATURE";
+        case DF_EFFECT: return "DF_EFFECT";
+        case DF_EXPLOSION: return "DF_EXPLOSION";
+        case DF_FOOD: return "DF_FOOD";
+        case DF_GAME: return "DF_GAME";
+        case DF_IEXAMINE: return "DF_IEXAMINE";
+        case DF_IUSE: return "DF_IUSE";
+        case DF_MAP: return "DF_MAP";
+        case DF_MATTACK: return "DF_MATTACK";
+        case DF_MELEE: return "DF_MELEE";
+        case DF_MONSTER: return "DF_MONSTER";
+        case DF_NPC: return "DF_NPC";
+        case DF_OVERMAP: return "DF_OVERMAP";
+        case DF_RANGED: return "DF_RANGED";
+        case DF_REQUIREMENTS_MAP: return "DF_REQUIREMENTS_MAP";
+        case DF_SOUND: return "DF_SOUND";
+        case DF_TALKER: return "DF_TALKER";
+        case DF_VEHICLE: return "DF_VEHICLE";
+        case DF_VEHICLE_DRAG: return "DF_VEHICLE_DRAG";
+        case DF_VEHICLE_MOVE: return "DF_VEHICLE_MOVE";
+        // *INDENT-ON*
+        case DF_LAST:
+        default:
+            debugmsg( "Invalid DF_FILTER : %d", value );
+            return "DF_INVALID";
+    }
+}
+} // namespace debugmode
+
 struct buffered_prompt_info {
     std::string filename;
     std::string line;
@@ -795,13 +841,7 @@ static constexpr int bt_cnt = 20;
 static void *bt[bt_cnt];
 #endif
 
-#if defined(__GNUC__) || defined(__clang__)
-#define MAYBE_UNUSED __attribute__((unused))
-#else
-#define MAYBE_UNUSED
-#endif
-static const char *demangle( const char *symbol ) MAYBE_UNUSED;
-static const char *demangle( const char *symbol )
+static std::string demangle( const char *symbol )
 {
 #if defined(_MSC_VER)
     // TODO: implement demangling on MSVC
@@ -809,10 +849,25 @@ static const char *demangle( const char *symbol )
     int status = -1;
     char *demangled = abi::__cxa_demangle( symbol, nullptr, nullptr, &status );
     if( status == 0 ) {
-        return demangled;
+        std::string demangled_str( demangled );
+        free( demangled );
+        return demangled_str;
+    }
+#if defined(_WIN32)
+    // https://stackoverflow.com/questions/54333608/boost-stacktrace-not-demangling-names-when-cross-compiled
+    // libbacktrace may strip leading underscore character in the symbol name returned
+    // so if demangling failed, try again with an underscore prepended
+    std::string prepend_underscore( "_" );
+    prepend_underscore = prepend_underscore + symbol;
+    demangled = abi::__cxa_demangle( prepend_underscore.c_str(), nullptr, nullptr, &status );
+    if( status == 0 ) {
+        std::string demangled_str( demangled );
+        free( demangled );
+        return demangled_str;
     }
 #endif // defined(_WIN32)
-    return symbol;
+#endif // compiler macros
+    return std::string( symbol );
 }
 
 #if !defined(_WIN32)
@@ -843,6 +898,19 @@ static void write_demangled_frame( std::ostream &out, const char *frame )
         std::csub_match offset = match_result[4];
         out << "\n    " << prefix.str() << address.str() << ' ' << demangle( raw_symbol_name.str().c_str() )
             << " + " << offset.str();
+    } else {
+        out << "\n    " << frame;
+    }
+#elif defined(BSD)
+    static const std::regex symbol_regex( R"(^(0x[a-f0-9]+)\s<(.*)\+(0?x?[a-f0-9]*)>\sat\s(.*)$)" );
+    std::cmatch match_result;
+    if( std::regex_search( frame, match_result, symbol_regex ) && match_result.size() == 5 ) {
+        std::csub_match address = match_result[1];
+        std::csub_match raw_symbol_name = match_result[2];
+        std::csub_match offset = match_result[3];
+        std::csub_match file_name = match_result[4];
+        out << "\n    " << address.str() << " <" << demangle( raw_symbol_name.str().c_str() ) << "+" <<
+            offset.str() << "> at " << file_name.str();
     } else {
         out << "\n    " << frame;
     }

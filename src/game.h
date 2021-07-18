@@ -9,6 +9,7 @@
 #include <iosfwd>
 #include <list>
 #include <memory>
+#include <queue>
 #include <new>
 #include <set>
 #include <unordered_set>
@@ -20,6 +21,7 @@
 #include "coordinates.h"
 #include "creature.h"
 #include "cursesdef.h"
+#include "effect_on_condition.h"
 #include "enums.h"
 #include "game_constants.h"
 #include "item_location.h"
@@ -124,6 +126,14 @@ enum peek_act : int {
 struct look_around_result {
     cata::optional<tripoint> position;
     cata::optional<peek_act> peek_action;
+};
+struct look_around_params {
+    const bool show_window;
+    tripoint &center;
+    const tripoint &start_point;
+    bool has_first_point;
+    bool select_zone;
+    bool peeking;
 };
 
 struct w_map {
@@ -572,6 +582,7 @@ class game
         cata::optional<tripoint> look_around();
         look_around_result look_around( bool show_window, tripoint &center,
                                         const tripoint &start_point, bool has_first_point, bool select_zone, bool peeking );
+        look_around_result look_around( look_around_params );
 
         // Shared method to print "look around" info
         void pre_print_all_tile_info( const tripoint &lp, const catacurses::window &w_info,
@@ -1035,6 +1046,9 @@ class game
         time_duration turnssincelastmon = 0_turns; // needed for auto run mode
 
         weather_manager weather;
+
+        std::vector<effect_on_condition_id> inactive_effect_on_condition_vector;
+        std::priority_queue<queued_eoc, std::vector<queued_eoc>, eoc_compare> queued_effect_on_conditions;
 
         int mostseen = 0; // # of mons seen last turn; if this increases, set safe_mode to SAFE_MODE_STOP
     private:

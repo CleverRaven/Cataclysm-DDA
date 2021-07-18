@@ -7,8 +7,7 @@
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
-      { "drop": "afs_titanium_implant", "type": "bionic", "flags": [ "FILTHY", "NO_STERILE" ], "max": 1 },
-      { "drop": "pheromone", "type": "bionic", "max": 1 }
+      { "drop": "afs_titanium_implant", "type": "bionic", "flags": [ "FILTHY", "NO_STERILE" ], "max": 1 }
     ]
   },
   {

@@ -59,7 +59,6 @@ static const species_id species_ZOMBIE( "ZOMBIE" );
 static const mongroup_id GROUP_CHUD( "GROUP_CHUD" );
 static const mongroup_id GROUP_RIVER( "GROUP_RIVER" );
 static const mongroup_id GROUP_SEWER( "GROUP_SEWER" );
-static const mongroup_id GROUP_SPIRAL( "GROUP_SPIRAL" );
 static const mongroup_id GROUP_SWAMP( "GROUP_SWAMP" );
 static const mongroup_id GROUP_WORM( "GROUP_WORM" );
 static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
@@ -744,9 +743,7 @@ bool oter_t::is_hardcoded() const
         "looted_building",  // pseudo-terrain
         "mine",
         "mine_down",
-        "mine_entrance",
         "mine_finale",
-        "mine_shaft",
         "office_tower_1",
         "office_tower_1_entrance",
         "office_tower_b",
@@ -754,8 +751,6 @@ bool oter_t::is_hardcoded() const
         "slimepit",
         "slimepit_down",
         "spider_pit_under",
-        "spiral",
-        "spiral_hub",
         "temple",
         "temple_finale",
         "temple_stairs",
@@ -1513,7 +1508,6 @@ bool overmap::generate_sub( const int z )
     std::vector<city> central_lab_points;
     std::vector<point_om_omt> lab_train_points;
     std::vector<point_om_omt> central_lab_train_points;
-    std::vector<point_om_omt> shaft_points;
     std::vector<city> mine_points;
     // These are so common that it's worth checking first as int.
     const oter_id skip_above[5] = {
@@ -1583,21 +1577,15 @@ bool overmap::generate_sub( const int z )
                 ter_set( p, oter_id( "central_lab" ) );
             } else if( is_ot_match( "hidden_lab_stairs", oter_above, ot_match_type::contains ) ) {
                 lab_points.push_back( city( p.xy(), rng( 1, 5 + z ) ) );
-            } else if( oter_above == "mine_entrance" ) {
-                shaft_points.push_back( p.xy() );
-            } else if( oter_above == "mine_shaft" ||
-                       oter_above == "mine_down" ) {
+            } else if( is_ot_match( "mine_entrance", oter_ground, ot_match_type::prefix ) && z == -2 ) {
+                mine_points.push_back( city( ( p + tripoint_west ).xy(), rng( 6 + z, 10 + z ) ) );
+                requires_sub = true;
+            } else if( oter_above == "mine_down" ) {
                 ter_set( p, oter_id( "mine" ) );
                 mine_points.push_back( city( p.xy(), rng( 6 + z, 10 + z ) ) );
                 // technically not all finales need a sub level,
                 // but at this point we don't know
                 requires_sub = true;
-            } else if( oter_above == "mine_finale" ) {
-                for( const tripoint_om_omt &q : points_in_radius( p, 1, 0 ) ) {
-                    ter_set( q, oter_id( "spiral" ) );
-                }
-                ter_set( p, oter_id( "spiral_hub" ) );
-                add_mon_group( mongroup( GROUP_SPIRAL, tripoint( i * 2, j * 2, z ), 2, 200 ) );
             }
         }
     }
@@ -1746,10 +1734,6 @@ bool overmap::generate_sub( const int z )
         build_mine( tripoint_om_omt( i.pos, z ), i.size );
     }
 
-    for( auto &i : shaft_points ) {
-        ter_set( tripoint_om_omt( i, z ), oter_id( "mine_shaft" ) );
-        requires_sub = true;
-    }
     for( auto &i : ant_points ) {
         const tripoint_om_omt p_loc( i.pos, z );
         if( ter( p_loc ) != "empty_rock" ) {
@@ -2132,11 +2116,11 @@ void overmap::signal_hordes( const tripoint_rel_sm &p_rel, const int sig_power )
                 const int min_inc_inter = 3; // Min interest increase to already targeted source
                 const int inc_roll = rng( min_inc_inter, calculated_inter );
                 mg.inc_interest( inc_roll );
-                add_msg_debug( "horde inc interest %d dist %d", inc_roll, dist );
+                add_msg_debug( debugmode::DF_OVERMAP, "horde inc interest %d dist %d", inc_roll, dist );
             } else { // New signal source
                 mg.set_target( p.xy() );
                 mg.set_interest( min_capped_inter );
-                add_msg_debug( "horde set interest %d dist %d", min_capped_inter, dist );
+                add_msg_debug( debugmode::DF_OVERMAP, "horde set interest %d dist %d", min_capped_inter, dist );
             }
         }
     }

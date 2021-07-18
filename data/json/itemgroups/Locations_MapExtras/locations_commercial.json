@@ -629,6 +629,7 @@
     "items": [
       { "group": "mags_surplus", "prob": 400 },
       [ "freeze_dried_meal", 20 ],
+      [ "chocolate_military", 20 ],
       [ "knife_combat", 14 ],
       [ "knife_rm42", 1 ],
       [ "kukri", 2 ],

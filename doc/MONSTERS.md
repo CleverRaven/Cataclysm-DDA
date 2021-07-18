@@ -47,8 +47,8 @@ Monsters may also have any of these optional properties:
 | `phase`                  | (string) Monster's body matter state, ex. SOLID, LIQUID, GAS, PLASMA, NULL
 | `attack_cost`            | (integer) Number of moves per regular attack (??)
 | `diff`                   | (integer) Additional monster difficulty for special and ranged attacks
-| `aggression`             | (integer) From totally passive `-99` to guaranteed hostile `100`
-| `morale`                 | (integer) From lemming `-50` to bear `60` to most zombies and monsters `100`
+| `aggression`             | (integer) Starting aggression, the monster will become hostile when it reaches 10
+| `morale`                 | (integer) Starting morale, monster will flee when (current aggression + current morale) < 0 
 | `mountable_weight_ratio` | (float) For mounts, max ratio of mount to rider weight, ex. `0.2` for `<=20%`
 | `melee_skill`            | (integer) Monster skill in melee combat, from `0-10`, with `4` being an average mob
 | `dodge`                  | (integer) Monster's skill at dodging attacks
@@ -74,9 +74,9 @@ Monsters may also have any of these optional properties:
 | `regen_morale`           | (bool) True if monster will stop fleeing at max HP to regenerate anger and morale
 | `special_attacks`        | (array of objects) Special attacks the monster has
 | `flags`                  | (array of strings) Any number of attributes like SEES, HEARS, SMELLS, STUMBLES, REVIVES
-| `fear_triggers`          | (array of strings) What makes the monster afraid, ex. FIRE, HURT, PLAYER_CLOSE, SOUND
-| `anger_triggers`         | (array of strings) What makes the monster angry (same flags as fear)
-| `placate_triggers`       | (array of strings) What calms the monster (same flags as fear)
+| `fear_triggers`          | (array of strings) Triggers that lower monster morale (see JSON_FLAGS.md) 
+| `anger_triggers`         | (array of strings) Triggers that raise monster aggression (same flags as fear)
+| `placate_triggers`       | (array of strings) Triggers that lower monster aggression (same flags as fear)
 | `revert_to_itype`        | (string) Item monster can be converted to when friendly (ex. to deconstruct turrets)
 | `starting_ammo`          | (object) Ammo that newly spawned monsters start with
 | `upgrades`               | (boolean or object) False if monster does not upgrade, or an object do define an upgrade

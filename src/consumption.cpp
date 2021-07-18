@@ -686,6 +686,15 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
             }
         }
     }
+
+    const use_function *smoking = food.type->get_use( "SMOKING" );
+    if( smoking != nullptr ) {
+        cata::optional<std::string> litcig = iuse::can_smoke( *this->as_player() );
+        if( litcig.has_value() ) {
+            return ret_val<edible_rating>::make_failure( NO_TOOL, _( litcig.value_or( "" ) ) );
+        }
+    }
+
     if( !comest->tool.is_null() ) {
         const bool has = item::count_by_charges( comest->tool )
                          ? has_charges( comest->tool, 1 )
@@ -1328,7 +1337,7 @@ bool Character::consume_effects( item &food )
         // But always round down
         int h_loss = -rottedness * comest.get_default_nutr();
         mod_healthy_mod( h_loss, -200 );
-        add_msg_debug( "%d health from %0.2f%% rotten food", h_loss, rottedness );
+        add_msg_debug( debugmode::DF_FOOD, "%d health from %0.2f%% rotten food", h_loss, rottedness );
     }
 
     // Used in hibernation messages.
@@ -1414,10 +1423,10 @@ bool Character::consume_effects( item &food )
         food_vol * ratio,
         food_nutrients
     };
-    add_msg_debug(
-        "Effective volume: %d (solid) %d (liquid)\n multiplier: %g calories: %d, weight: %d",
-        units::to_milliliter( ingested.solids ), units::to_milliliter( ingested.water ), ratio,
-        food_nutrients.kcal(), units::to_gram( food_weight ) );
+    add_msg_debug( debugmode::DF_FOOD,
+                   "Effective volume: %d (solid) %d (liquid)\n multiplier: %g calories: %d, weight: %d",
+                   units::to_milliliter( ingested.solids ), units::to_milliliter( ingested.water ), ratio,
+                   food_nutrients.kcal(), units::to_gram( food_weight ) );
     // Maybe move tapeworm to digestion
     if( has_effect( effect_tapeworm ) ) {
         ingested.nutr /= 2;

@@ -204,6 +204,8 @@ cata::optional<int> iuse_transform::use( player &p, item &it, bool t, const trip
         return cata::nullopt; // invoked from active item processing, do nothing.
     }
 
+    int result = 0;
+
     const bool possess = p.has_item( it ) ||
                          ( it.has_flag( flag_ALLOWS_REMOTE_USE ) && square_dist( p.pos(), pos ) == 1 );
 
@@ -245,6 +247,9 @@ cata::optional<int> iuse_transform::use( player &p, item &it, bool t, const trip
     item *obj;
     // defined here to allow making a new item assigned to the pointer
     item obj_it;
+    if( it.is_tool() ) {
+        result = it.type->charges_to_use();
+    }
     if( container.is_empty() ) {
         obj = &it.convert( target );
         if( ammo_qty >= 0 || !random_ammo_qty.empty() ) {
@@ -282,7 +287,7 @@ cata::optional<int> iuse_transform::use( player &p, item &it, bool t, const trip
     obj->item_counter = countdown > 0 ? countdown : obj->type->countdown_interval;
     obj->active = active || obj->item_counter;
 
-    return 0;
+    return result;
 }
 
 ret_val<bool> iuse_transform::can_use( const Character &p, const item &, bool,
@@ -3135,7 +3140,7 @@ static player &get_patient( player &healer, const tripoint &pos )
     player *const person = g->critter_at<player>( pos );
     if( !person ) {
         // Default to heal self on failure not to break old functionality
-        add_msg_debug( "No heal target at position %d,%d,%d", pos.x, pos.y, pos.z );
+        add_msg_debug( debugmode::DF_IUSE, "No heal target at position %d,%d,%d", pos.x, pos.y, pos.z );
         return healer;
     }
 
@@ -3924,9 +3929,13 @@ cata::optional<int> detach_gunmods_actor::use( player &p, item &it, bool, const 
     if( prompt.ret >= 0 ) {
         gun_copy.remove_item( *mods_copy[prompt.ret] );
 
-        if( game_menus::inv::compare_items( it, gun_copy, _( "Remove modification?" ) ) ) {
-            p.gunmod_remove( it, *mods[ prompt.ret ] );
-            return 0;
+        if( p.meets_requirements( *mods[prompt.ret], gun_copy ) ||
+            query_yn( _( "Are you sure?  You may be lacking the skills needed to reattach this modification." ) ) ) {
+
+            if( game_menus::inv::compare_items( it, gun_copy, _( "Remove modification?" ) ) ) {
+                p.gunmod_remove( it, *mods[prompt.ret] );
+                return 0;
+            }
         }
     }
 

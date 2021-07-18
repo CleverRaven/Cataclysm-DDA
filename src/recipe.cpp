@@ -225,8 +225,8 @@ void recipe::load( const JsonObject &jo, const std::string &src )
     if( exert == "fake" ) {
         exert = "MODERATE_EXERCISE";
     }
-    const auto it = activity_levels.find( exert );
-    if( it == activity_levels.end() ) {
+    const auto it = activity_levels_map.find( exert );
+    if( it == activity_levels_map.end() ) {
         jo.throw_error( string_format( "Invalid activity level %s", exert ), "activity_level" );
     }
     exertion = it->second;

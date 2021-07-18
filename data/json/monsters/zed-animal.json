@@ -223,6 +223,7 @@
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "fear_triggers": [ "FIRE" ],
     "death_function": [ "NORMAL" ],
+    "upgrades": { "half_life": 20, "into_group": "GROUP_ZOMBIE_PIG_UPGRADE" },
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "KEENNOSE", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ],
     "//": "1d8->2d5, minor bonus over 1d9"
   },

@@ -126,8 +126,7 @@
     "repaired_with": "material_aluminium_ingot",
     "dmg_adj": [ "dented", "bent", "smashed", "destroyed" ],
     "bash_dmg_verb": "dented",
-    "cut_dmg_verb": "scratched",
-    "compacts_into": [ "material_aluminium_ingot", "aluminum_foil" ]
+    "cut_dmg_verb": "scratched"
   },
   {
     "type": "material",
@@ -219,8 +218,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
-    "burn_products": [ [ "scrap_bronze", 1 ] ],
-    "compacts_into": [ "scrap_bronze" ]
+    "burn_products": [ [ "scrap_bronze", 1 ] ]
   },
   {
     "type": "material",
@@ -365,8 +363,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
-    "burn_products": [ [ "scrap_copper", 1 ] ],
-    "compacts_into": [ "scrap_copper", "copper" ]
+    "burn_products": [ [ "scrap_copper", 1 ] ]
   },
   {
     "type": "material",
@@ -654,8 +651,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
-    "burn_products": [ [ "gold_small", 1 ] ],
-    "compacts_into": [ "gold_small" ]
+    "burn_products": [ [ "gold_small", 1 ] ]
   },
   {
     "type": "material",
@@ -988,8 +984,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
-    "burn_products": [ [ "lead", 1 ] ],
-    "compacts_into": [ "lead" ]
+    "burn_products": [ [ "lead", 1 ] ]
   },
   {
     "type": "material",
@@ -1325,8 +1320,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
-    "burn_products": [ [ "silver_small", 1 ] ],
-    "compacts_into": [ "silver_small" ]
+    "burn_products": [ [ "silver_small", 1 ] ]
   },
   {
     "type": "material",
@@ -1347,8 +1341,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
-    "burn_products": [ [ "platinum_small", 1 ] ],
-    "compacts_into": [ "platinum_small" ]
+    "burn_products": [ [ "platinum_small", 1 ] ]
   },
   {
     "type": "material",
@@ -1398,9 +1391,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
-    "burn_products": [ [ "scrap", 1 ] ],
-    "compact_accepts": [ "budget_steel", "hardsteel", "iron" ],
-    "compacts_into": [ "sheet_metal", "steel_lump", "steel_chunk", "scrap" ]
+    "burn_products": [ [ "scrap", 1 ] ]
   },
   {
     "type": "material",
@@ -1489,8 +1480,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
-    "burn_products": [ [ "alloy_sheet", 1 ] ],
-    "compacts_into": [ "alloy_sheet" ]
+    "burn_products": [ [ "alloy_sheet", 1 ] ]
   },
   {
     "type": "material",
@@ -1564,8 +1554,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
-    "burn_products": [ [ "tin", 1 ] ],
-    "compacts_into": [ "tin" ]
+    "burn_products": [ [ "tin", 1 ] ]
   },
   {
     "type": "material",
@@ -2051,7 +2040,6 @@
     "repaired_with": "zinc_metal",
     "dmg_adj": [ "dented", "bent", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
-    "cut_dmg_verb": "scratched",
-    "compacts_into": [ "zinc_metal" ]
+    "cut_dmg_verb": "scratched"
   }
 ]

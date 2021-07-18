@@ -42,6 +42,7 @@ enum class mon_trigger : int {
     MEAT,               // Meat or a corpse nearby
     HOSTILE_WEAK,       // Hurt hostile player/npc/monster seen
     HOSTILE_CLOSE,      // Hostile creature within a few tiles
+    HOSTILE_SEEN,       // Hostile creature in visual range
     HURT,               // We are hurt
     FIRE,               // Fire nearby
     FRIEND_DIED,        // A monster of the same type died

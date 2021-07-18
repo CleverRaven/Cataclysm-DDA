@@ -765,6 +765,11 @@ const recipe *select_crafting_recipe( int &batch_size_out )
                                                        recipe_subset::search_type::proficiency, progress_callback );
                                     break;
 
+                                case 'l':
+                                    filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
+                                                       recipe_subset::search_type::difficulty, progress_callback );
+                                    break;
+
                                 default:
                                     current.clear();
                             }
@@ -929,13 +934,14 @@ const recipe *select_crafting_recipe( int &batch_size_out )
                 //~ Example result description search term
                 { 'q', _( "metal sawing" ), _( "<color_cyan>quality</color> of resulting item" ) },
                 { 'd', _( "reach attack" ), _( "<color_cyan>full description</color> of resulting item (slow)" ) },
-                { 'c', _( "two by four" ), _( "<color_cyan>component</color> required to craft" ) },
+                { 'c', _( "plank" ), _( "<color_cyan>component</color> required to craft" ) },
                 { 'p', _( "tailoring" ), _( "<color_cyan>primary skill</color> used to craft" ) },
                 { 's', _( "cooking" ), _( "<color_cyan>any skill</color> used to craft" ) },
                 { 'Q', _( "fine bolt turning" ), _( "<color_cyan>quality</color> required to craft" ) },
                 { 't', _( "soldering iron" ), _( "<color_cyan>tool</color> required to craft" ) },
                 { 'm', _( "yes" ), _( "recipes which are <color_cyan>memorized</color> or not" ) },
                 { 'P', _( "Blacksmithing" ), _( "<color_cyan>proficiency</color> used to craft" ) },
+                { 'l', _( "5" ), _( "<color_cyan>difficulty</color> of the recipe as a number or range" ) },
             };
             int max_example_length = 0;
             for( const auto &prefix : prefixes ) {
@@ -947,6 +953,8 @@ const recipe *select_crafting_recipe( int &batch_size_out )
                 _( "The default is to search result names.  Some single-character prefixes "
                    "can be used with a colon <color_red>:</color> to search in other ways.  Additional filters "
                    "are separated by commas <color_red>,</color>.\n"
+                   "Filtering by difficulty can accept range; "
+                   "<color_yellow>l</color><color_white>:5~10</color> for all recipes from difficulty 5 to 10.\n"
                    "\n\n"
                    "<color_white>Examples:</color>\n" );
 

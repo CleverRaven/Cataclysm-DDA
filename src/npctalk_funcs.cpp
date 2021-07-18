@@ -210,7 +210,7 @@ void spawn_animal( npc &p, const mtype_id &mon )
         mon_ptr->add_effect( effect_pet, 1_turns, true );
     } else {
         // TODO: handle this gracefully (return the money, proper in-character message from npc)
-        add_msg_debug( "No space to spawn purchased pet" );
+        add_msg_debug( debugmode::DF_NPC, "No space to spawn purchased pet" );
     }
 }
 
@@ -799,6 +799,13 @@ void talk_function::flee( npc &p )
 {
     add_msg( _( "%s turns to flee!" ), p.name );
     p.set_attitude( NPCATT_FLEE );
+}
+
+void talk_function::lightning( npc & )
+{
+    if( get_player_character().posz() >= 0 ) {
+        get_weather().lightning_active = true;
+    }
 }
 
 void talk_function::leave( npc &p )

@@ -1075,7 +1075,8 @@ bool map::displace_vehicle( vehicle &veh, const tripoint &dp, const bool adjust_
                                  ( dp + tripoint( 0, 0, ramp_offset ) ) : tripoint_zero );
 
     if( !inbounds( src ) ) {
-        add_msg_debug( "map::displace_vehicle: coordinates out of bounds %d,%d,%d->%d,%d,%d",
+        add_msg_debug( debugmode::DF_MAP,
+                       "map::displace_vehicle: coordinates out of bounds %d,%d,%d->%d,%d,%d",
                        src.x, src.y, src.z, dst.x, dst.y, dst.z );
         return false;
     }
@@ -1109,7 +1110,7 @@ bool map::displace_vehicle( vehicle &veh, const tripoint &dp, const bool adjust_
     }
 
     if( !found ) {
-        add_msg_debug( "displace_vehicle [%s] failed", veh.name );
+        add_msg_debug( debugmode::DF_MAP, "displace_vehicle [%s] failed", veh.name );
         return false;
     }
 
@@ -1158,7 +1159,7 @@ bool map::displace_vehicle( vehicle &veh, const tripoint &dp, const bool adjust_
             }
 
             if( psg->pos() != part_pos ) {
-                add_msg_debug( "Part/passenger position mismatch: part #%d at %d,%d,%d "
+                add_msg_debug( debugmode::DF_MAP, "Part/passenger position mismatch: part #%d at %d,%d,%d "
                                "passenger at %d,%d,%d", prt, part_pos.x, part_pos.y, part_pos.z,
                                psg->posx(), psg->posy(), psg->posz() );
             }
@@ -2313,7 +2314,7 @@ void map::process_falling()
     }
 
     if( !support_cache_dirty.empty() ) {
-        add_msg_debug( "Checking %d tiles for falling objects",
+        add_msg_debug( debugmode::DF_MAP, "Checking %d tiles for falling objects",
                        support_cache_dirty.size() );
         // We want the cache to stay constant, but falling can change it
         std::set<tripoint> last_cache = std::move( support_cache_dirty );
@@ -2816,7 +2817,7 @@ bool map::has_nearby_table( const tripoint &p, int radius )
         if( has_flag( "FLAT_SURF", pt ) ) {
             return true;
         }
-        const optional_vpart_position vp = veh_at( p );
+        const optional_vpart_position vp = veh_at( pt );
         if( vp && vp->part_with_feature( "FLAT_SURF", true ) ) {
             return true;
         }
@@ -3029,7 +3030,7 @@ void map::smash_items( const tripoint &p, const int power, const std::string &ca
         const float volume_factor = std::max<float>( 40, i->volume() / units::legacy_volume_factor );
         float damage_chance = 10.0f * power / volume_factor;
         // Example:
-        // Power 40 (just below C4 epicenter) vs two-by-four
+        // Power 40 (just below C4 epicenter) vs plank
         // damage_chance = 10 * 40 / 40 = 10, material_factor = 8
         // Will deal 1 damage, then 20% chance for another point
         // Power 20 (grenade minus shrapnel) vs glass bottle
@@ -4282,9 +4283,9 @@ void map::spawn_artifact( const tripoint &p, const relic_procgen_id &id )
     add_item_or_charges( p, id->create_item( rules ) );
 }
 
-void map::spawn_item( const tripoint &p, const itype_id &type_id,
-                      const unsigned quantity, const int charges,
-                      const time_point &birthday, const int damlevel, const std::set<flag_id> &flags )
+void map::spawn_item( const tripoint &p, const itype_id &type_id, const unsigned quantity,
+                      const int charges, const time_point &birthday, const int damlevel, const std::set<flag_id> &flags,
+                      const std::string &variant )
 {
     if( type_id.is_null() ) {
         return;
@@ -4299,6 +4300,7 @@ void map::spawn_item( const tripoint &p, const itype_id &type_id,
     }
     // spawn the item
     item new_item( type_id, birthday );
+    new_item.set_gun_variant( variant );
     if( one_in( 3 ) && new_item.has_flag( flag_VARSIZE ) ) {
         new_item.set_flag( flag_FIT );
     }
@@ -4484,6 +4486,10 @@ item &map::add_item( const tripoint &p, item new_item )
         new_item.set_var( "reveal_map_center_omt", ms_to_omt_copy( getabs( p ) ) );
     }
 
+    if( new_item.has_flag( flag_ACTIVATE_ON_PLACE ) ) {
+        new_item.activate();
+    }
+
     current_submap->is_uniform = false;
     invalidate_max_populated_zlev( p.z );
 
@@ -4610,6 +4616,7 @@ static bool process_map_items( item_stack &items, safe_reference<item> &item_ref
         // Item is to be destroyed so erase it from the map stack
         // unless it was already destroyed by processing.
         if( item_ref ) {
+            items.get_iterator_from_pointer( item_ref.get() )->spill_contents( location );
             items.erase( items.get_iterator_from_pointer( item_ref.get() ) );
         }
         return true;
@@ -6987,17 +6994,13 @@ void map::rotten_item_spawn( const item &item, const tripoint &pnt )
     if( mgroup.is_null() ) {
         return;
     }
-    const int chance = static_cast<int>( comest->rot_spawn_chance *
-                                         get_option<float>( "CARRION_SPAWNRATE" ) );
-    if( rng( 0, 100 ) < chance ) {
-        MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( mgroup );
-        add_spawn( spawn_details, pnt );
-        if( get_player_view().sees( pnt ) ) {
-            if( item.is_seed() ) {
-                add_msg( m_warning, _( "Something has crawled out of the %s plants!" ), item.get_plant_name() );
-            } else {
-                add_msg( m_warning, _( "Something has crawled out of the %s!" ), item.tname() );
-            }
+    MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( mgroup );
+    add_spawn( spawn_details, pnt );
+    if( get_player_view().sees( pnt ) ) {
+        if( item.is_seed() ) {
+            add_msg( m_warning, _( "Something has crawled out of the %s plants!" ), item.get_plant_name() );
+        } else {
+            add_msg( m_warning, _( "Something has crawled out of the %s!" ), item.tname() );
         }
     }
 }
@@ -7526,7 +7529,7 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
                                            point( rng( 0, SEEX ), rng( 0, SEEY ) );
                 const int turns = rl_dist( p, rand_dest ) + group.interest;
                 tmp.wander_to( rand_dest, turns );
-                add_msg_debug( "%s targeting %d,%d,%d", tmp.disp_name(),
+                add_msg_debug( debugmode::DF_MAP, "%s targeting %d,%d,%d", tmp.disp_name(),
                                tmp.wander_pos.x, tmp.wander_pos.y, tmp.wander_pos.z );
             }
 
@@ -7592,6 +7595,9 @@ void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight )
 
             const auto place_it = [&]( const tripoint & p ) {
                 monster *const placed = g->place_critter_at( make_shared_fast<monster>( tmp ), p );
+                if( !i.data.patrol_points_rel_ms.empty() ) {
+                    placed->set_patrol_route( i.data.patrol_points_rel_ms );
+                }
                 if( placed ) {
                     placed->on_load();
                 }

@@ -128,7 +128,7 @@ std::string find_translated_file( const std::string &base_path, const std::strin
     std::string loc_name;
     if( get_option<std::string>( "USE_LANG" ).empty() ) {
 #if defined(_WIN32)
-        loc_name = getLangFromLCID( GetUserDefaultLCID() );
+        loc_name = getLangFromLCID( GetUserDefaultUILanguage() );
         if( !loc_name.empty() ) {
             const std::string local_path = base_path + loc_name + extension;
             if( file_exist( local_path ) ) {

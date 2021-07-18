@@ -99,7 +99,7 @@
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
-    "diff": 5,
+    "diff": 20,
     "volume": "102500 ml",
     "weight": "160 kg",
     "hp": 90,

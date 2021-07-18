@@ -1,0 +1,39 @@
+[
+  {
+    "id": "spellcraft_theory",
+    "type": "BOOK",
+    "name": { "str": "Spellcraft Theory", "str_pl": "copies of Spellcraft Theory" },
+    "description": "A intermediate textbook on magical theories.",
+    "weight": "1587 g",
+    "volume": "1750 ml",
+    "longest_side": "22 cm",
+    "price": 8200,
+    "price_postapoc": 750,
+    "bashing": 5,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "blue",
+    "skill": "spellcraft",
+    "required_level": 2,
+    "max_level": 4,
+    "intelligence": 12,
+    "time": "60 m",
+    "fun": -1
+  },
+  {
+    "id": "spellcraft_theory_basic",
+    "type": "BOOK",
+    "copy-from": "spellcraft_theory",
+    "name": { "str": "Basic Spellcraft Theory", "str_pl": "copies of Basic Spellcraft Theory" },
+    "description": "A beginner textbook on magical theories.",
+    "weight": "1087 g",
+    "volume": "1450 ml",
+    "price": 5200,
+    "price_postapoc": 550,
+    "required_level": 0,
+    "max_level": 2,
+    "intelligence": 9,
+    "time": "45 m",
+    "fun": 0
+  }
+]
