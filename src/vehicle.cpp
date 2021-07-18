@@ -3131,14 +3131,6 @@ void vehicle::coord_translate( tileray tdir, const point &pivot, const point &p,
     q.y = tdir.dy() + tdir.ortho_dy( p.y - pivot.y );
 }
 
-point vehicle::rotate_mount( units::angle old_dir, units::angle new_dir, const point &pivot,
-                             const point &p ) const
-{
-    tripoint q;
-    coord_translate( new_dir - old_dir, pivot, p, q );
-    return q.xy();
-}
-
 tripoint vehicle::mount_to_tripoint( const point &mount ) const
 {
     return mount_to_tripoint( mount, point_zero );
