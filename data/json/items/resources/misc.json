@@ -163,6 +163,36 @@
     "ammo_type": "components"
   },
   {
+    "id": "rubber_tire_chunk",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "rubber tire chunk" },
+    "description": "This is a chunk of thick, semi-rigid rubber from a tire.",
+    "weight": "600 g",
+    "volume": "1 L",
+    "longest_side": "25 cm",
+    "price": 100,
+    "price_postapoc": 10,
+    "material": [ "rubber" ],
+    "symbol": "=",
+    "color": "dark_gray"
+  },
+  {
+    "id": "rubber_tire_strip",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "rubber tire strip" },
+    "description": "This is a long curled strip of thick, semi-rigid rubber cut from a tire.",
+    "weight": "3000 g",
+    "volume": "5 L",
+    "longest_side": "40 cm",
+    "price": 500,
+    "price_postapoc": 50,
+    "material": [ "rubber" ],
+    "symbol": "=",
+    "color": "dark_gray"
+  },
+  {
     "id": "esapi_plate",
     "type": "GENERIC",
     "category": "spare_parts",
