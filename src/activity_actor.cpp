@@ -396,6 +396,7 @@ void autodrive_activity_actor::do_turn( player_activity &act, Character &who )
                     // equivalent to player pressing the "pause" button
                     who.moves = 0;
                 }
+                sounds::reset_markers();
                 break;
             case autodrive_result::abort:
                 who.cancel_activity();
