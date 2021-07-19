@@ -264,7 +264,7 @@
     "bleed_rate": 50,
     "vision_night": 4,
     "harvest": "zombie",
-    "special_attacks": [ [ "SMASH", 30 ], [ "GRAB", 7 ] ],
+    "special_attacks": [ { "id": "smash", "throw_strength": 72, "cooldown": 30 }, [ "GRAB", 7 ] ],
     "death_drops": "default_zombie_death_drops",
     "burn_into": "mon_zombie_fiend",
     "upgrades": { "half_life": 21, "into_group": "GROUP_ZOMBIE_BRUTE" },
@@ -315,7 +315,12 @@
     "bleed_rate": 50,
     "vision_night": 3,
     "harvest": "zombie",
-    "special_attacks": [ [ "SMASH", 30 ], [ "BIO_OP_TAKEDOWN", 20 ], [ "RANGED_PULL", 20 ], [ "GRAB_DRAG", 10 ] ],
+    "special_attacks": [
+      { "id": "smash", "throw_strength": 72, "cooldown": 30 },
+      [ "BIO_OP_TAKEDOWN", 20 ],
+      [ "RANGED_PULL", 20 ],
+      [ "GRAB_DRAG", 10 ]
+    ],
     "death_drops": "default_zombie_death_drops",
     "burn_into": "mon_zombie_fiend",
     "flags": [
@@ -365,7 +370,12 @@
     "vision_day": 5,
     "vision_night": 40,
     "harvest": "zombie",
-    "special_attacks": [ [ "SMASH", 40 ], { "id": "stretch_attack", "cooldown": 40 }, { "id": "longswipe" }, { "id": "cut_throat" } ],
+    "special_attacks": [
+      { "id": "smash", "throw_strength": 48, "cooldown": 40 },
+      { "id": "stretch_attack", "cooldown": 40 },
+      { "id": "longswipe" },
+      { "id": "cut_throat" }
+    ],
     "death_drops": "default_zombie_death_drops",
     "burn_into": "mon_zombie_fiend",
     "flags": [
@@ -592,7 +602,7 @@
     "vision_day": 83,
     "vision_night": 4,
     "harvest": "zombie",
-    "special_attacks": [ [ "SMASH", 20 ] ],
+    "special_attacks": [ { "id": "smash", "throw_strength": 96 } ],
     "death_drops": "mon_zombie_hulk_death_drops",
     "fungalize_into": "mon_zombie_fungus",
     "flags": [
@@ -1218,8 +1228,14 @@
     "vision_night": 3,
     "harvest": "exempt",
     "emit_fields": [ { "emit_id": "emit_smoke_stream", "delay": "1 s" } ],
-    "special_attacks": [ [ "SMASH", 30 ], { "type": "bite", "cooldown": 5 }, [ "scratch", 15 ], [ "RANGED_PULL", 20 ], [ "GRAB_DRAG", 10 ] ],
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explode!" },
+    "special_attacks": [
+      { "id": "smash", "throw_strength": 48, "cooldown": 30 },
+      { "type": "bite", "cooldown": 5 },
+      [ "scratch", 15 ],
+      [ "RANGED_PULL", 20 ],
+      [ "GRAB_DRAG", 10 ]
+    ],
     "flags": [
       "SEES",
       "HEARS",

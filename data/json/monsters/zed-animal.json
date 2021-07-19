@@ -437,7 +437,7 @@
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "FIRE" ],
     "harvest": "zombie_leather",
-    "special_attacks": [ [ "SMASH", 20 ] ],
+    "special_attacks": [ { "id": "smash", "throw_strength": 72 } ],
     "flags": [
       "SEES",
       "HEARS",

@@ -81,6 +81,8 @@ class melee_actor : public mattack_actor
         bool dodgeable = true;
         // Determines if a special attack can be blocked
         bool blockable = true;
+        // If non-zero, the attack will fling targets, 10 throw_strength = 1 tile range
+        int throw_strength = 0;
 
         /**
          * If empty, regular melee roll body part selection is used.
@@ -98,6 +100,8 @@ class melee_actor : public mattack_actor
         translation no_dmg_msg_u;
         /** Message for damaging hit against the player. */
         translation hit_dmg_u;
+        /** Message for throwing the player. */
+        translation throw_msg_u;
 
         /** Message for missed attack against a non-player. */
         translation miss_msg_npc;
@@ -105,6 +109,8 @@ class melee_actor : public mattack_actor
         translation no_dmg_msg_npc;
         /** Message for damaging hit against a non-player. */
         translation hit_dmg_npc;
+        /** Message for throwing a non-player. */
+        translation throw_msg_npc;
 
         melee_actor();
         ~melee_actor() override = default;

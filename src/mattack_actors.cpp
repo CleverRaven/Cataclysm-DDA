@@ -225,6 +225,9 @@ void melee_actor::load_internal( const JsonObject &obj, const std::string & )
     optional( obj, was_loaded, "dodgeable", dodgeable, true );
     optional( obj, was_loaded, "blockable", blockable, true );
 
+    optional( obj, was_loaded, "range", range, 1 );
+    optional( obj, was_loaded, "throw_strength", throw_strength, 0 );
+
     optional( obj, was_loaded, "miss_msg_u", miss_msg_u,
               to_translation( "The %s lunges at you, but you dodge!" ) );
     optional( obj, was_loaded, "no_dmg_msg_u", no_dmg_msg_u,
@@ -237,6 +240,10 @@ void melee_actor::load_internal( const JsonObject &obj, const std::string & )
               to_translation( "The %1$s bites <npcname>'s %2$s, but fails to penetrate armor!" ) );
     optional( obj, was_loaded, "hit_dmg_npc", hit_dmg_npc,
               to_translation( "The %1$s bites <npcname>'s %2$s!" ) );
+    optional( obj, was_loaded, "throw_msg_u", throw_msg_u,
+              to_translation( "The force of the %s's attack sends you flying!" ) );
+    optional( obj, was_loaded, "throw_msg_npc", throw_msg_npc,
+              to_translation( "The force of the %s's attack sends <npcname> flying!" ) );
 
     if( obj.has_array( "body_parts" ) ) {
         for( JsonArray sub : obj.get_array( "body_parts" ) ) {
@@ -346,6 +353,11 @@ bool melee_actor::call( monster &z ) const
                                  sfx::get_heard_angle( z.pos() ) );
         target->add_msg_player_or_npc( m_neutral, no_dmg_msg_u, no_dmg_msg_npc, z.name(),
                                        body_part_name_accusative( bp_id ) );
+    }
+    if( throw_strength > 0 ) {
+        g->fling_creature( target, coord_to_angle( z.pos(), target->pos() ),
+                           throw_strength );
+        target->add_msg_player_or_npc( m_bad, throw_msg_u, throw_msg_npc, z.name() );
     }
 
     return true;

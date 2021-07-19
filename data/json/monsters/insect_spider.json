@@ -1919,7 +1919,12 @@
     "weight": "815 kg",
     "melee_dice": 2,
     "bleed_rate": 60,
-    "special_attacks": [ [ "SMASH", 30 ], [ "BIO_OP_TAKEDOWN", 20 ], [ "RANGED_PULL", 20 ], [ "GRAB", 5 ] ],
+    "special_attacks": [
+      { "id": "smash", "throw_strength": 48, "cooldown": 30 },
+      [ "BIO_OP_TAKEDOWN", 20 ],
+      [ "RANGED_PULL", 20 ],
+      [ "GRAB", 5 ]
+    ],
     "extend": { "flags": [ "DESTROYS", "PUSH_MON", "PUSH_VEH", "RANGED_ATTACKER" ] }
   },
   {
@@ -1979,7 +1984,11 @@
     "volume": "625 L",
     "weight": "815 kg",
     "melee_dice": 2,
-    "special_attacks": [ { "type": "leap", "cooldown": 2, "max_range": 4, "allow_no_target": true }, [ "EAT_CROP", 3 ], [ "SMASH", 30 ] ],
+    "special_attacks": [
+      { "type": "leap", "cooldown": 2, "max_range": 4, "allow_no_target": true },
+      [ "EAT_CROP", 3 ],
+      { "id": "smash", "throw_strength": 36, "cooldown": 30 }
+    ],
     "extend": { "flags": [ "DESTROYS", "PUSH_MON", "PUSH_VEH" ] }
   },
   {

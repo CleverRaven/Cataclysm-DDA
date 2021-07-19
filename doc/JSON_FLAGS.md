@@ -1087,7 +1087,7 @@ Also see `monster_attacks.json` for more special attacks, for example, impale an
 - ```SHRIEK_STUN``` "a stunning shriek!", causes a small bash, can cause a stun.
 - ```SHRIEK``` "a terrible shriek!"
 - ```SLIMESPRING``` Can provide a morale boost to the player, and cure bite and bleed effects.
-- ```SMASH``` Smashes the target for massive damage, sending it flying for a number of tiles equal to `("melee_dice" * "melee_dice_sides" * 3) / 10`.
+- ```SMASH``` Smashes the target, sending it flying for a number of tiles equal to `("melee_dice" * "melee_dice_sides" * 3) / 10`. JSON equivalent is `id: smash`.
 - ```SPIT_SAP``` Spit sap (acid damage, 12 range).
 - ```STARE``` Stare at the player and inflict ramping debuffs (`taint>tindrift`).
 - ```STRETCH_ATTACK``` Ranged (3 tiles) piercing attack, doing 5-10 damage. JSON equivalent is `id: stretch_attack`
