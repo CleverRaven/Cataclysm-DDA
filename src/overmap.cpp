@@ -2254,8 +2254,10 @@ void overmap::signal_nemesis( const tripoint_abs_sm p_abs_sm )
             // if the horde is a nemesis, we set its target directly on the player
             mg.set_target( pos_om );
             mg.set_nemesis_target ( p_abs_sm );
-            add_msg( m_info, _( "nemesis signeled to %d, %d in abs_SM" ),
+            add_msg( m_info, _( "nemesis signeled to %d, %d in om_SM" ),
                  pos_om.x(), pos_om.y() );
+            add_msg( m_info, _( "nemesis signeled to %d, %d in abs_SM" ),
+                 p_abs_sm.x(), p_abs_sm.y() );
 
         }
     }
