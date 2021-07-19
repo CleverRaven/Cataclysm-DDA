@@ -7,20 +7,6 @@ on:
   pull_request:
     branches:
     - master
-<<<<<<< HEAD
-=======
-    - 0.F-dev
-    paths-ignore:
-    - 'android/**'
-    - 'build-data/osx/**'
-    - 'doc/**'
-    - 'doxygen_doc/**'
-    - 'lgtm/**'
-    - 'msvc-full-features/**'
-    - 'msvc-object_creator/**'
-    - 'object_creator/**'
-    - 'tools/**'
-    - 'utilities/**'
 
 # Overall strategy for what sorts of builds to include:
 # We want a build for the newest and oldest supported version of each compiler.
@@ -41,7 +27,6 @@ on:
 # To see what toolchains are available, the following may be useful:
 # https://launchpad.net/%7Eubuntu-toolchain-r/+archive/ubuntu/test/+index
 # https://apt.llvm.org/
->>>>>>> 3dc1162de4 (Expand GitHub matrix workflow to more compilers)
 
 jobs:
   skip-duplicates:
