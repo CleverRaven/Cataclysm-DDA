@@ -85,7 +85,7 @@
       { "group": "gunmod_energy", "prob": 40 },
       { "item": "plut_cell", "prob": 30, "charges": [ 1, 5 ] },
       [ "plasma", 30 ],
-      [ "adv_UPS_off", 20 ]
+      [ "UPS_off", 20 ]
     ]
   },
   {

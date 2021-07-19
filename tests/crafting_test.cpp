@@ -407,8 +407,7 @@ TEST_CASE( "UPS shows as a crafting component", "[crafting][ups]" )
     item &ups = dummy.i_add( item( "UPS_off", calendar::turn_zero, 500 ) );
     REQUIRE( dummy.has_item( ups ) );
     REQUIRE( ups.charges == 500 );
-    REQUIRE( dummy.charges_of( itype_id( "UPS_off" ) ) == 500 );
-    REQUIRE( dummy.charges_of( itype_id( "UPS" ) ) == 500 );
+    REQUIRE( dummy.available_ups() == 500 );
 }
 
 TEST_CASE( "tools use charge to craft", "[crafting][charge]" )

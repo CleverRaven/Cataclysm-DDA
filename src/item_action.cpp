@@ -40,8 +40,6 @@ class Character;
 
 static const std::string errstring( "ERROR" );
 
-static const itype_id itype_UPS( "UPS" );
-
 struct tripoint;
 
 static item_action nullaction;
@@ -153,9 +151,7 @@ item_action_map item_action_generator::map_actions_to_items( player &p,
                    func->get_actor_ptr()->can_use( p, *actual_item, false, p.pos() ).success() ) ) {
                 continue;
             }
-            if( !actual_item->ammo_sufficient() &&
-                ( !actual_item->has_flag( STATIC( flag_id( "USE_UPS" ) ) ) ||
-                  p.charges_of( itype_UPS ) < actual_item->ammo_required() ) ) {
+            if( !actual_item->ammo_sufficient( &p ) ) {
                 continue;
             }
 

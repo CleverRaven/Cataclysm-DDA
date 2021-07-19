@@ -206,7 +206,7 @@ monster::monster( const mtype_id &id ) : monster()
         const itype &type = *item::find_type( mech_bat );
         int max_charge = type.magazine->capacity;
         item mech_bat_item = item( mech_bat, calendar::turn_zero );
-        mech_bat_item.ammo_consume( rng( 0, max_charge ), tripoint_zero );
+        mech_bat_item.ammo_consume( rng( 0, max_charge ), tripoint_zero, nullptr );
         battery_item = cata::make_value<item>( mech_bat_item );
     }
 }
@@ -2505,7 +2505,7 @@ bool monster::use_mech_power( int amt )
         return false;
     }
     amt = -amt;
-    battery_item->ammo_consume( amt, pos() );
+    battery_item->ammo_consume( amt, pos(), nullptr );
     return battery_item->ammo_remaining() > 0;
 }
 

@@ -1419,7 +1419,8 @@
   {
     "id": "IS_UPS",
     "type": "json_flag",
-    "context": [  ]
+    "context": [  ],
+    "info": "This item provides power to <info>UPS compatible items</info>."
   },
   {
     "id": "LEAK_DAM",

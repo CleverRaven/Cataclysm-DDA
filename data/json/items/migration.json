@@ -77,7 +77,7 @@
   {
     "id": "adv_UPS_on",
     "type": "MIGRATION",
-    "replace": "adv_UPS_off"
+    "replace": "UPS_off"
   },
   {
     "id": "battery_truck",
@@ -1420,5 +1420,10 @@
     "id": "gloves_xlsurvivor",
     "type": "MIGRATION",
     "replace": "xl_gloves_survivor"
+  },
+  {
+    "id": "adv_UPS_off",
+    "type": "MIGRATION",
+    "replace": "UPS_off"
   }
 ]

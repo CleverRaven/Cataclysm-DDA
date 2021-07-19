@@ -216,7 +216,6 @@ static const efftype_id effect_winded( "winded" );
 
 static const field_type_str_id field_fd_clairvoyant( "fd_clairvoyant" );
 
-static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
 static const itype_id itype_apparatus( "apparatus" );
 static const itype_id itype_beartrap( "beartrap" );
 static const itype_id itype_e_handcuffs( "e_handcuffs" );
@@ -226,7 +225,6 @@ static const itype_id itype_rope_6( "rope_6" );
 static const itype_id itype_snare_trigger( "snare_trigger" );
 static const itype_id itype_string_36( "string_36" );
 static const itype_id itype_UPS( "UPS" );
-static const itype_id itype_UPS_off( "UPS_off" );
 
 static const skill_id skill_archery( "archery" );
 static const skill_id skill_dodge( "dodge" );
@@ -7898,7 +7896,7 @@ int Character::ammo_count_for( const item &gun )
 
     int ups_drain = gun.get_gun_ups_drain();
     if( ups_drain > 0 ) {
-        ret = std::min( ret, charges_of( itype_UPS ) / ups_drain );
+        ret = std::min( ret, available_ups() / ups_drain );
     }
 
     return ret;
@@ -8789,7 +8787,23 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
         add_msg_if_player( m_bad, _( "Your %s was broken and won't turn on." ), used->tname() );
         return false;
     }
-    if( !has_enough_charges( *used, true ) ) {
+    if( !used->ammo_sufficient( this ) ) {
+        int ammo_req = used->ammo_required();
+        std::string it_name = used->tname();
+        if( used->has_flag( flag_USE_UPS ) ) {
+            add_msg_if_player( m_info,
+                               ngettext( "Your %s needs %d charge from some UPS.",
+                                         "Your %s needs %d charges from some UPS.",
+                                         ammo_req ),
+                               it_name, ammo_req );
+        } else {
+            int ammo_rem = used->ammo_remaining();
+            add_msg_if_player( m_info,
+                               ngettext( "Your %s has %d charge, but needs %d.",
+                                         "Your %s has %d charges, but needs %d.",
+                                         ammo_rem ),
+                               it_name, ammo_rem, ammo_req );
+        }
         moves = pre_obtain_moves;
         return false;
     }
@@ -8921,36 +8935,6 @@ bool Character::dispose_item( item_location &&obj, const std::string &prompt )
     return false;
 }
 
-bool Character::has_enough_charges( const item &it, bool show_msg ) const
-{
-    if( !it.is_tool() || !it.ammo_required() ) {
-        return true;
-    }
-    if( it.has_flag( flag_USE_UPS ) ) {
-        if( has_charges( itype_UPS, it.ammo_required() ) || it.ammo_sufficient() ) {
-            return true;
-        }
-        if( show_msg ) {
-            add_msg_if_player( m_info,
-                               ngettext( "Your %s needs %d charge from some UPS.",
-                                         "Your %s needs %d charges from some UPS.",
-                                         it.ammo_required() ),
-                               it.tname(), it.ammo_required() );
-        }
-        return false;
-    } else if( !it.ammo_sufficient() ) {
-        if( show_msg ) {
-            add_msg_if_player( m_info,
-                               ngettext( "Your %s has %d charge, but needs %d.",
-                                         "Your %s has %d charges, but needs %d.",
-                                         it.ammo_remaining() ),
-                               it.tname(), it.ammo_remaining(), it.ammo_required() );
-        }
-        return false;
-    }
-    return true;
-}
-
 bool Character::consume_charges( item &used, int qty )
 {
     if( qty < 0 ) {
@@ -8993,19 +8977,7 @@ bool Character::consume_charges( item &used, int qty )
         return true;
     }
 
-    // USE_UPS never occurs on base items but is instead added by the UPS tool mod
-    if( used.has_flag( flag_USE_UPS ) ) {
-        // With the new UPS system, we'll want to use any charges built up in the tool before pulling from the UPS
-        // The usage of the item was already approved, so drain item if possible, otherwise use UPS
-        if( used.charges >= qty || ( used.magazine_integral() &&
-                                     !used.has_flag( flag_id( "USES_BIONIC_POWER" ) ) && used.ammo_remaining() >= qty ) ) {
-            used.ammo_consume( qty, pos() );
-        } else {
-            use_charges( itype_UPS, qty );
-        }
-    } else {
-        used.ammo_consume( std::min( qty, used.ammo_remaining() ), pos() );
-    }
+    used.ammo_consume( qty, pos(), this );
     return false;
 }
 
@@ -11301,11 +11273,6 @@ bool Character::has_charges( const itype_id &it, int quantity,
     if( it == itype_fire || it == itype_apparatus ) {
         return has_fire( quantity );
     }
-    if( it == itype_UPS && is_mounted() &&
-        mounted_creature.get()->has_flag( MF_RIDEABLE_MECH ) ) {
-        auto *mons = mounted_creature.get();
-        return quantity <= mons->battery_item->ammo_remaining();
-    }
     return charges_of( it, quantity, filter ) == quantity;
 }
 
@@ -11341,6 +11308,65 @@ bool Character::use_charges_if_avail( const itype_id &it, int quantity )
     return false;
 }
 
+int Character::available_ups() const
+{
+    int available_charges = 0;
+    if( is_mounted() && mounted_creature.get()->has_flag( MF_RIDEABLE_MECH ) ) {
+        auto *mons = mounted_creature.get();
+        available_charges += mons->battery_item->ammo_remaining();
+    }
+    if( has_active_bionic( bio_ups ) ) {
+        available_charges += units::to_kilojoule( get_power_level() );
+    }
+
+    for( const item *i : all_items_with_flag( flag_IS_UPS ) ) {
+        available_charges += i->ammo_remaining();
+    }
+
+    return available_charges;
+}
+
+int Character::consume_ups( int qty, const int radius )
+{
+    const int wanted_qty = qty;
+
+    // UPS from mounted mech
+    if( qty != 0 && is_mounted() && mounted_creature.get()->has_flag( MF_RIDEABLE_MECH ) &&
+        mounted_creature.get()->battery_item ) {
+        auto *mons = mounted_creature.get();
+        int power_drain = std::min( mons->battery_item->ammo_remaining(), qty );
+        mons->use_mech_power( -power_drain );
+        qty -= std::min( qty, power_drain );
+    }
+
+    // UPS from bionic
+    if( qty != 0 && has_power() && has_active_bionic( bio_ups ) ) {
+        int bio = std::min( units::to_kilojoule( get_power_level() ), qty );
+        mod_power_level( units::from_kilojoule( -bio ) );
+        qty -= std::min( qty, bio );
+    }
+
+    // UPS from inventory
+    if( qty != 0 ) {
+        std::vector<const item *> ups_items = all_items_with_flag( flag_IS_UPS );
+        for( const item *i : ups_items ) {
+            qty -= const_cast<item *>( i )->ammo_consume( qty, tripoint_zero, nullptr );
+        }
+    }
+
+    // UPS from nearby map
+    if( qty != 0 && radius > 0 ) {
+        inventory inv = crafting_inventory( pos(), radius, true );
+
+        int ups = inv.charges_of( itype_UPS, qty );
+        if( qty != 0 && ups > 0 ) {
+            qty -= get_map().consume_ups( pos(), radius, ups );
+        }
+    }
+
+    return wanted_qty - qty;
+}
+
 std::list<item> Character::use_charges( const itype_id &what, int qty, const int radius,
                                         const std::function<bool( const item & )> &filter )
 {
@@ -11363,33 +11389,9 @@ std::list<item> Character::use_charges( const itype_id &what, int qty, const int
         return res;
 
     } else if( what == itype_UPS ) {
-        if( is_mounted() && mounted_creature.get()->has_flag( MF_RIDEABLE_MECH ) &&
-            mounted_creature.get()->battery_item ) {
-            auto *mons = mounted_creature.get();
-            int power_drain = std::min( mons->battery_item->ammo_remaining(), qty );
-            mons->use_mech_power( -power_drain );
-            qty -= std::min( qty, power_drain );
-            return res;
-        }
-        if( has_power() && has_active_bionic( bio_ups ) ) {
-            int bio = std::min( units::to_kilojoule( get_power_level() ), qty );
-            mod_power_level( units::from_kilojoule( -bio ) );
-            qty -= std::min( qty, bio );
-        }
-
-        int adv = inv.charges_of( itype_adv_UPS_off, static_cast<int>( std::ceil( qty * 0.6 ) ) );
-        if( adv > 0 ) {
-            std::list<item> found = use_charges( itype_adv_UPS_off, adv, radius );
-            res.splice( res.end(), found );
-            qty -= std::min( qty, static_cast<int>( adv / 0.6 ) );
-        }
-
-        int ups = inv.charges_of( itype_UPS_off, qty );
-        if( ups > 0 ) {
-            std::list<item> found = use_charges( itype_UPS_off, ups, radius );
-            res.splice( res.end(), found );
-            qty -= std::min( qty, ups );
-        }
+        // Fairly sure that nothing comes here. But handle it anyways.
+        debugmsg( _( "This UPS use needs updating.  Create issue on github." ) );
+        consume_ups( qty, radius );
         return res;
     }
 
@@ -11422,7 +11424,7 @@ std::list<item> Character::use_charges( const itype_id &what, int qty, const int
     }
 
     if( has_tool_with_UPS ) {
-        use_charges( itype_UPS, qty, radius );
+        consume_ups( qty, radius );
     }
 
     return res;

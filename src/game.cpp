@@ -2116,7 +2116,7 @@ static hint_rating rate_action_use( const avatar &you, const item &it )
     if( it.is_broken() ) {
         return hint_rating::iffy;
     } else if( it.is_tool() ) {
-        return it.ammo_sufficient() ? hint_rating::good : hint_rating::iffy;
+        return it.ammo_sufficient( &you ) ? hint_rating::good : hint_rating::iffy;
     } else if( it.is_gunmod() ) {
         /** @EFFECT_GUN >0 allows rating estimates for gun modifications */
         if( you.get_skill_level( skill_gun ) == 0 ) {

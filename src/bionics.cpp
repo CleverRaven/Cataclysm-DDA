@@ -129,12 +129,9 @@ static const material_id fuel_type_muscle( "muscle" );
 static const material_id fuel_type_sun_light( "sunlight" );
 static const material_id fuel_type_wind( "wind" );
 
-static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
 static const itype_id itype_anesthetic( "anesthetic" );
 static const itype_id itype_radiocontrol( "radiocontrol" );
 static const itype_id itype_remotevehcontrol( "remotevehcontrol" );
-static const itype_id itype_UPS( "UPS" );
-static const itype_id itype_UPS_off( "UPS_off" );
 static const itype_id itype_water_clean( "water_clean" );
 
 static const fault_id fault_bionic_salvaged( "fault_bionic_salvaged" );
@@ -536,11 +533,10 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
             return;
         }
 
-        const int ups_charges = charges_of( itype_UPS );
-        int ammo_count = weapon.ammo_remaining();
+        int ammo_count = weapon.ammo_remaining( this );
         const int ups_drain = weapon.get_gun_ups_drain();
         if( ups_drain > 0 ) {
-            ammo_count = std::min( ammo_count, ups_charges / ups_drain );
+            ammo_count = ammo_count / ups_drain;
         }
         const int cbm_ammo = free_power /  bio.info().power_activate;
 
@@ -1507,19 +1503,15 @@ material_id Character::find_remote_fuel( bool look_only )
             }
 
             if( cable->get_var( "state" ) == "UPS_link" ) {
-                static const item_filter used_ups = [&]( const item & itm ) {
-                    return itm.get_var( "cable" ) == "plugged_in";
-                };
                 if( !look_only ) {
-                    if( has_charges( itype_UPS_off, 1, used_ups ) ) {
-                        set_value( "rem_battery", std::to_string( charges_of( itype_UPS_off,
-                                   units::to_kilojoule( max_power_level ), used_ups ) ) );
-                    } else if( has_charges( itype_adv_UPS_off, 1, used_ups ) ) {
-                        set_value( "rem_battery", std::to_string( charges_of( itype_adv_UPS_off,
-                                   units::to_kilojoule( max_power_level ), used_ups ) ) );
-                    } else {
-                        set_value( "rem_battery", std::to_string( 0 ) );
+                    int remote_battery = 0;
+                    for( const item *i : all_items_with_flag( flag_IS_UPS ) ) {
+                        if( i->get_var( "cable" ) == "plugged_in" ) {
+                            remote_battery = i->ammo_remaining();
+                        }
                     }
+                    remote_battery = std::min( remote_battery, units::to_kilojoule( max_power_level ) );
+                    set_value( "rem_battery", std::to_string( remote_battery ) );
                 }
                 remote_fuel = fuel_type_battery;
             }
@@ -1559,15 +1551,12 @@ int Character::consume_remote_fuel( int amount )
     }
 
     if( unconsumed_amount > 0 ) {
-        static const item_filter used_ups = [&]( const item & itm ) {
-            return itm.get_var( "cable" ) == "plugged_in";
-        };
-        if( has_charges( itype_UPS_off, unconsumed_amount, used_ups ) ) {
-            use_charges( itype_UPS_off, unconsumed_amount, used_ups );
-            unconsumed_amount -= 1;
-        } else if( has_charges( itype_adv_UPS_off, unconsumed_amount, used_ups ) ) {
-            use_charges( itype_adv_UPS_off, roll_remainder( unconsumed_amount * 0.6 ), used_ups );
-            unconsumed_amount -= 1;
+        for( const item *i : all_items_with_flag( flag_IS_UPS ) ) {
+            if( i->get_var( "cable" ) == "plugged_in" ) {
+                unconsumed_amount -= const_cast<item *>( i )->ammo_consume( unconsumed_amount, tripoint_zero,
+                                     nullptr );
+            }
+            break;
         }
     }
 

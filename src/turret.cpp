@@ -245,7 +245,7 @@ turret_data::status turret_data::query() const
         }
 
     } else {
-        if( !part->base.ammo_sufficient() ) {
+        if( !part->base.ammo_sufficient( nullptr ) ) {
             return status::no_ammo;
         }
     }
