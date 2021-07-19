@@ -212,7 +212,7 @@ py -m pip install --user pyvips
  * Alternatively go to `Control Panel > System > Advanced System Settings > Environment Variables`
  * In the `User variables` section, select `Path` and click `Edit`.
  * Select an empty line and press `New`
- * Copy and paste the path to `vips\bin` folder, it should look something like `C:\Users\username\AppData\Roaming\Python\Python39\site-packages\pyvips\vips-dev-8.10\bin`
+ * Copy and paste the path to the extracted `vips-dev-#.##\bin` folder, it should look something like `C:\Users\username\Downloads\vips-dev-8.10\bin`
  * If you have the Console open, close it so the changes take effect.
 
 #### Launching scripts
