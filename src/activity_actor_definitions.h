@@ -525,6 +525,39 @@ class pickup_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
 };
 
+class boltcutting_activity_actor : public activity_actor
+{
+    public:
+        explicit boltcutting_activity_actor( const tripoint &target,
+                                             const item_location &tool ) : target( target ), tool( tool ) {};
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_BOLTCUTTING" );
+        }
+
+        void start( player_activity &act, Character &/*who*/ ) override;
+        void do_turn( player_activity &act, Character &who ) override;
+        void finish( player_activity &act, Character &who ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<boltcutting_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+
+    private:
+        tripoint target;
+        item_location tool;
+
+        bool can_resume_with_internal( const activity_actor &other,
+                                       const Character &/*who*/ ) const override {
+            const boltcutting_activity_actor &actor = static_cast<const boltcutting_activity_actor &>
+                    ( other );
+            return actor.target == target && actor.tool == tool;
+        }
+};
+
 class lockpick_activity_actor : public activity_actor
 {
     private:
