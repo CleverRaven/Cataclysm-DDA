@@ -3543,6 +3543,7 @@ void disassemble_activity_actor::start( player_activity &act, Character &who )
         target = who.create_in_progress_disassembly( act.targets.back() );
     } else {
         target = act.targets.back();
+        act.position = target->charges;
     }
     act.targets.pop_back();
 
