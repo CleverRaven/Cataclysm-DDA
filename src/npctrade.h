@@ -32,12 +32,24 @@ class item_pricing
         }
         void set_values( int ip_count );
         void adjust_values( double adjust, const faction *fac );
+        // recursively fetches all contents of the item depth first
+        std::vector<item_pricing *> get_contents_rec();
+        static void populate_container_pointers( std::vector<item_pricing> &trading );
 
         item_location loc;
         int price = 0;
-        // Whether this is selected for trading
+        // Whether this is selected for trading. Item's price, volume and weight impact
+        // will be calculated. Item will be transferred after trading is done.
         bool selected = false;
+        // Items inside selected containers are marked but not selected.
+        // This way they are highlighted in the UI, but their price is not calculated
+        // and don't get duplicately transferred after the trade has been done.
+        // Core assumption is, that the container price includes the combined prices of all items inside.
+        bool marked = false;
         bool is_container = false;
+        // top-level contents, i.e doesn't return contents of contents, but you can manually get these.
+        std::vector<item_pricing *> contents;
+        item_pricing *parent;
         int count = 0;
         int charges = 0;
         int u_has = 0;
@@ -64,6 +76,8 @@ class trading_window
         void setup_win( ui_adaptor &ui );
         void update_win( npc &np, const std::string &deal );
         void show_item_data( size_t offset, std::vector<item_pricing> &target_list );
+        void adjust_balance( item_pricing &ip, npc &np, int change_amount );
+        int get_change_amount( item_pricing &ip, bool manual );
 
         catacurses::window w_head;
         catacurses::window w_them;
