@@ -1033,9 +1033,9 @@
   },
   {
     "type": "technique",
-    "id": "tec_swordsmanship_unterhau",
-    "name": "Sweeping Strike",
-    "messages": [ "You trip %s with a sweeping strike", "<npcname> trips %s with a sweeping strike" ],
+    "id": "tec_swordsmanship_ringen",
+    "name": "Throw",
+    "messages": [ "You throw %s to the ground", "<npcname> throws %s to the ground" ],
     "skill_requirements": [ { "name": "melee", "level": 1 } ],
     "melee_allowed": true,
     "req_buffs": [ "buff_swordsmanship_onblock" ],
