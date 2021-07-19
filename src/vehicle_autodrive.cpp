@@ -211,14 +211,14 @@ struct auto_navigation_data {
     const vehicle_profile &profile( orientation dir ) const {
         return profiles.at( static_cast<int>( dir ) );
     }
-    bool &valid_position( orientation dir, int x, int y ) {
-        return valid_positions[static_cast<int>( dir )][x][y];
+    bool &valid_position( orientation dir, point p ) {
+        return valid_positions[static_cast<int>( dir )][p.x][p.y];
     }
-    bool valid_position( orientation dir, int x, int y ) const {
-        return valid_positions[static_cast<int>( dir )][x][y];
+    bool valid_position( orientation dir, point p ) const {
+        return valid_positions[static_cast<int>( dir )][p.x][p.y];
     }
     bool valid_position( const node_address &addr ) const {
-        return valid_position( addr.facing_dir, addr.x, addr.y );
+        return valid_position( addr.facing_dir, point( addr.x, addr.y ) );
     }
 };
 
@@ -378,15 +378,9 @@ static quad_rotation to_quad_rotation( const point &pt )
     }
 }
 
-static node_address make_node_address( int x, int y, orientation dir )
-{
-    return node_address { static_cast<int16_t>( x ), static_cast<int16_t>( y ),
-                          dir };
-}
-
 static node_address make_node_address( point pos, orientation dir )
 {
-    return make_node_address( pos.x, pos.y, dir );
+    return { static_cast<int16_t>( pos.x ), static_cast<int16_t>( pos.y ), dir };
 }
 
 /*
@@ -662,7 +656,7 @@ void vehicle::autodrive_controller::compute_valid_positions()
                         break;
                     }
                 }
-                data.valid_position( facing, mx, my ) = valid;
+                data.valid_position( facing, nav_pt ) = valid;
             }
         }
     }
@@ -769,7 +763,7 @@ scored_address vehicle::autodrive_controller::compute_node_score( const node_add
     static const point neighbor_deltas[4] = { point_east, point_south, point_west, point_north };
     for( const point &neighbor_delta : neighbor_deltas ) {
         const point p = addr.get_point() + neighbor_delta;
-        if( !data.nav_bounds.contains( p ) || !data.valid_position( addr.facing_dir, p.x, p.y ) ) {
+        if( !data.nav_bounds.contains( p ) || !data.valid_position( addr.facing_dir, p ) ) {
             ret.score += nearness_penalty;
         }
     }
@@ -1062,9 +1056,10 @@ std::vector<std::tuple<point, int, std::string>> vehicle::get_debug_overlay_data
             const orientation tdir = data.nav_to_map.inverse().transform( dir );
             for( int dx = 0; dx < NAV_MAP_SIZE_X; dx++ ) {
                 for( int dy = 0; dy < NAV_MAP_SIZE_Y; dy++ ) {
-                    const bool valid = data.valid_position( tdir, dx, dy );
+                    const point nav_pt( dx, dy );
+                    const bool valid = data.valid_position( tdir, nav_pt );
                     const int color = valid ? catacurses::green : catacurses::red;
-                    const point pt = data.nav_to_map.transform( point( dx, dy ) ) - veh_pos.raw().xy();
+                    const point pt = data.nav_to_map.transform( nav_pt ) - veh_pos.raw().xy();
                     ret.emplace_back( pt, color, to_string( dir ) );
                 }
             }
