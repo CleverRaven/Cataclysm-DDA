@@ -321,7 +321,7 @@
     "repairs_like": "jacket_leather",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "tire leather armour" },
+    "name": { "str_sp": "tire leather armor" },
     "description": "A jacket reinforced with chunks of thick rubber tire on the shoulders, back and front.  Bulky and heavy, but thick and electric proof.",
     "weight": "6250 g",
     "volume": "7 L",
