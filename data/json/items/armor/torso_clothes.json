@@ -3,7 +3,7 @@
     "id": "apron_leather",
     "type": "ARMOR",
     "name": { "str": "leather apron" },
-    "description": "An apron made of thick leather.",
+    "description": "An apron made of leather.",
     "weight": "1950 g",
     "volume": "2250 ml",
     "price": 1500,
@@ -43,7 +43,7 @@
     "repairs_like": "apron_leather",
     "type": "ARMOR",
     "name": { "str": "cut-resistant apron" },
-    "description": "An apron made of Kevlar fabric which provides excellent protection from cuts.",
+    "description": "An apron made of Kevlar fabric.",
     "copy-from": "apron_leather",
     "price": 3800,
     "material": [ "kevlar" ]
@@ -52,7 +52,7 @@
     "id": "blazer",
     "type": "ARMOR",
     "name": { "str": "blazer" },
-    "description": "A professional-looking wool blazer.  Quite cumbersome.",
+    "description": "A professional-looking wool blazer.",
     "weight": "680 g",
     "volume": "3500 ml",
     "price": 12000,
@@ -98,7 +98,7 @@
     "repairs_like": "jeans",
     "type": "ARMOR",
     "name": { "str": "dress", "str_pl": "dresses" },
-    "description": "A long cotton dress.  Though comfortable to wear, it lacks any storage space.",
+    "description": "A long cotton dress.",
     "weight": "680 g",
     "volume": "3500 ml",
     "price": 18000,
@@ -248,7 +248,7 @@
     "repairs_like": "tshirt",
     "type": "ARMOR",
     "name": { "str": "halter top" },
-    "description": "A short top made from cotton.  It is light and easy to wear.",
+    "description": "A short top made from cotton.",
     "weight": "42 g",
     "volume": "500 ml",
     "price": 2000,
@@ -299,7 +299,7 @@
     "type": "ARMOR",
     "name": { "str": "sports jersey" },
     "//": "Genuine team merch, and priced like it!",
-    "description": "A shirt made of thick material imprinted with the name and logo of a sports team.",
+    "description": "A shirt made of cotton, imprinted with the name and logo of a sports team.",
     "weight": "480 g",
     "volume": "2250 ml",
     "price": 8900,
@@ -311,49 +311,40 @@
     "warmth": 25,
     "material_thickness": 0.3,
     "snippet_category": [
-      {
-        "id": "decatur",
-        "text": "A pro thunderball jersey made of thick material imprinted with the logo of the Decatur Fist."
-      },
+      { "id": "decatur", "text": "A pro thunderball jersey made of cotton, imprinted with the logo of the Decatur Fist." },
       {
         "id": "squamish",
-        "text": "A 43-man squamish jersey made of thick material imprinted with the logo of the Gainesville Veeblefetzers."
+        "text": "A 43-man squamish jersey made of cotton, imprinted with the logo of the Gainesville Veeblefetzers."
       },
       {
         "id": "london",
-        "text": "A zero-G football jersey made of thick material imprinted with the logo of the London Jets."
+        "text": "A zero-G football jersey made of cotton, imprinted with the logo of the London Jets."
       },
       {
         "id": "endsville",
-        "text": "A football jersey made of thick material imprinted with the logo of the Endsville Fluffycats."
+        "text": "A football jersey made of cotton, imprinted with the logo of the Endsville Fluffycats."
       },
-      {
-        "id": "tokyo",
-        "text": "A baseball jersey made of thick material imprinted with the logo of the Tokyo Samurai."
-      },
+      { "id": "tokyo", "text": "A baseball jersey made of cotton, imprinted with the logo of the Tokyo Samurai." },
       {
         "id": "basin",
-        "text": "A basketball jersey made of thick material imprinted with the logo of the Basin City Blues."
+        "text": "A basketball jersey made of cotton, imprinted with the logo of the Basin City Blues."
       },
       {
         "id": "deathrace",
-        "text": "A death race jersey made of thick material imprinted with Frankenstein's logo and signature."
+        "text": "A death race jersey made of cotton, imprinted with Frankenstein's logo and signature."
       },
       {
         "id": "houston",
-        "text": "A rollerball jersey made of thick material imprinted with the logo of the Houston Energy Corporation."
+        "text": "A rollerball jersey made of cotton, imprinted with the logo of the Houston Energy Corporation."
       },
       {
         "id": "monroeville",
-        "text": "A hockey jersey made of thick material imprinted with the logo of the Monroeville Zombies."
+        "text": "A hockey jersey made of cotton, imprinted with the logo of the Monroeville Zombies."
       },
-      {
-        "id": "rugby",
-        "text": "A rugby jersey made of thick material imprinted with the logo of the Canberra Drop Bears."
-      },
+      { "id": "rugby", "text": "A rugby jersey made of cotton, imprinted with the logo of the Canberra Drop Bears." },
       {
         "id": "volleyball",
-        "text": "A volleyball jersey made of thick material imprinted with the logo of the Ooarai Ducks."
+        "text": "A volleyball jersey made of cotton, imprinted with the logo of the Ooarai Ducks."
       }
     ],
     "flags": [ "VARSIZE" ],
@@ -608,7 +599,7 @@
     "id": "sundress",
     "type": "ARMOR",
     "name": { "str": "sundress", "str_pl": "sundresses" },
-    "description": "A light and breezy cotton dress.  Though cool and comfortable to wear, it lacks any storage space.",
+    "description": "A light and breezy cotton dress.",
     "weight": "60 g",
     "volume": "1 L",
     "price": 4000,
@@ -626,7 +617,7 @@
     "id": "sweater",
     "type": "ARMOR",
     "name": { "str": "sweater" },
-    "description": "A wool shirt.  Provides warmth.",
+    "description": "A warm wool sweater.",
     "weight": "550 g",
     "volume": "2 L",
     "price": 4500,
@@ -646,7 +637,7 @@
     "repairs_like": "tshirt",
     "type": "ARMOR",
     "name": { "str": "sweatshirt" },
-    "description": "A thick cotton shirt.  Provides warmth and a bit of padding.",
+    "description": "A thick cotton shirt.",
     "weight": "244 g",
     "volume": "3500 ml",
     "price": 1800,
@@ -851,7 +842,7 @@
     "id": "wool_hoodie",
     "type": "ARMOR",
     "name": { "str": "wool hoodie" },
-    "description": "A wool hooded shirt.  It offers decent protection against the cold.  The front pocket offers both storage room and shelter for your hands.",
+    "description": "A hooded wool shirt with a kangaroo pocket in the front.",
     "weight": "580 g",
     "volume": "3250 ml",
     "price": 3500,

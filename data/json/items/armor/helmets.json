@@ -285,7 +285,7 @@
     "looks_like": "helmet_chitin",
     "type": "ARMOR",
     "name": { "str": "biosilicified chitin helmet" },
-    "description": "A helmet crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Covers the entire head; acid-resistant and very durable.",
+    "description": "A helmet crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.",
     "price_postapoc": 1750,
     "material": [ "acidchitin" ],
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "warmth": 1.5 },
@@ -672,7 +672,7 @@
     "type": "ARMOR",
     "copy-from": "helmet_scrap",
     "name": { "str": "XL scrap helmet" },
-    "description": "An oversized helmet made from scraps of metal secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.",
+    "description": "An oversized helmet made from scraps of metal secured by simple strings.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "flags": [ "OUTER", "OVERSIZE" ]
   },
