@@ -8,7 +8,7 @@ To that end, we aim to support gcc and clang up to the newest stable versions
 and back to those shipping in any supported version of a popular distribution
 or relevant development environment, including Ubuntu, Debian, MSYS, and XCode.
 
-At time of writing:
+At the time of writing:
 * Bionic is the oldest Ubuntu LTS, and [defaults to g++ 7.3 or
   7.5](https://packages.ubuntu.com/bionic/g++), depending on the platform, and
   [clang 6.0](https://packages.ubuntu.com/bionic/clang).
