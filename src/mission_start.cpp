@@ -135,6 +135,7 @@ void mission_start::kill_nemesis( mission *miss )
     overmap_buffer.add_nemesis(site);
 }
 
+
 /*
  * Find a location to place a computer.  In order, prefer:
  * 1) Broken consoles.
