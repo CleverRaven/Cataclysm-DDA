@@ -1268,6 +1268,7 @@ class npc : public player
 
         // accessors to ai_cache functions
         int closest_enemy_to_friendly_distance() const;
+        const std::vector<weak_ptr_fast<Creature>> &get_cached_friends() const;
 
     private:
         npc_attitude attitude = NPCATT_NULL; // What we want to do to the player
@@ -1290,6 +1291,11 @@ class npc : public player
         const std::shared_ptr<npc_attack> &get_current_attack() const {
             return ai_cache.current_attack;
         }
+
+        const npc_attack_rating &get_current_attack_evaluation() const {
+            return ai_cache.current_attack_evaluation;
+        }
+
         /**
          * Global position, expressed in map square coordinate system
          * (the most detailed coordinate system), used by the @ref map.
