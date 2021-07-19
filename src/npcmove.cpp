@@ -383,7 +383,7 @@ static bool too_close( const tripoint &critter_pos, const tripoint &ally_pos, co
     return rl_dist( critter_pos, ally_pos ) <= def_radius;
 }
 
-int npc_short_term_cache::closest_enemy_to_friendly_distance() const
+cata::optional<int> npc_short_term_cache::closest_enemy_to_friendly_distance() const
 {
     int distance = INT_MAX;
     for( const weak_ptr_fast<Creature> &buddy : friends ) {
@@ -396,6 +396,9 @@ int npc_short_term_cache::closest_enemy_to_friendly_distance() const
             }
             distance = std::min( distance, rl_dist( buddy.lock()->pos(), enemy.lock()->pos() ) );
         }
+    }
+    if( distance == INT_MAX ) {
+        return cata::nullopt;
     }
     return distance;
 }

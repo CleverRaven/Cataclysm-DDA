@@ -586,9 +586,10 @@ struct npc_short_term_cache {
     std::map<direction, float> threat_map;
     // Cache of locations the NPC has searched recently in npc::find_item()
     lru_cache<tripoint, int> searched_tiles;
-    // returns the value of the distance between a friendly creature and the closest enemy to that friendly creature.
-    // returns -1 if not applicable
-    int closest_enemy_to_friendly_distance() const;
+    // returns the value of the distance between a friendly creature and the closest enemy to that
+    // friendly creature.
+    // returns nullopt if not applicable
+    cata::optional<int> closest_enemy_to_friendly_distance() const;
 };
 
 // DO NOT USE! This is old, use strings as talk topic instead, e.g. "TALK_AGREE_FOLLOW" instead of
@@ -1267,7 +1268,7 @@ class npc : public player
         cata::optional<tripoint_abs_omt> assigned_camp = cata::nullopt;
 
         // accessors to ai_cache functions
-        int closest_enemy_to_friendly_distance() const;
+        cata::optional<int> closest_enemy_to_friendly_distance() const;
 
     private:
         npc_attitude attitude = NPCATT_NULL; // What we want to do to the player

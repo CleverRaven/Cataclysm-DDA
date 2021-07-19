@@ -2559,7 +2559,7 @@ std::string npc_attitude_id( npc_attitude att )
     return iter->second;
 }
 
-int npc::closest_enemy_to_friendly_distance() const
+cata::optional<int> npc::closest_enemy_to_friendly_distance() const
 {
     return ai_cache.closest_enemy_to_friendly_distance();
 }
