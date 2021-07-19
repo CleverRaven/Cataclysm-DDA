@@ -607,7 +607,7 @@ static void set_up_butchery( player_activity &act, player &u, butcher_type actio
                        u.has_trait_flag( json_flag_PSYCHOPATH ) ||
                        u.has_trait_flag( json_flag_SAPIOVORE ) ) ) {
 
-        if( u.is_player() ) {
+        if( u.is_avatar() ) {
             if( query_yn( _( "Would you dare desecrate the mortal remains of a fellow human being?" ) ) ) {
                 switch( rng( 1, 3 ) ) {
                     case 1:
@@ -3032,7 +3032,7 @@ void activity_handlers::wait_weather_finish( player_activity *act, player *p )
 void activity_handlers::find_mount_do_turn( player_activity *act, player *p )
 {
     //npc only activity
-    if( p->is_player() ) {
+    if( p->is_avatar() ) {
         act->set_to_null();
         return;
     }

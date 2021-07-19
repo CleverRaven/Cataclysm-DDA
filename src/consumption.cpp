@@ -886,7 +886,7 @@ static bool eat( item &food, player &you, bool force )
         return false;
     }
 
-    const auto ret = force ? you.can_eat( food ) : you.will_eat( food, you.is_player() );
+    const auto ret = force ? you.can_eat( food ) : you.will_eat( food, you.is_avatar() );
     if( !ret.success() ) {
         return false;
     }
@@ -977,7 +977,7 @@ static bool eat( item &food, player &you, bool force )
                                    food.tname() );
     } else if( drinkable ) {
         if( you.has_trait( trait_SCHIZOPHRENIC ) &&
-            one_in( 50 ) && !spoiled && food.goes_bad() && you.is_player() ) {
+            one_in( 50 ) && !spoiled && food.goes_bad() && you.is_avatar() ) {
 
             add_msg( m_bad, _( "Ick, this %s (rotten) doesn't taste so good…" ), food.tname() );
             add_msg( _( "You drink your %s (rotten)." ), food.tname() );
@@ -987,7 +987,7 @@ static bool eat( item &food, player &you, bool force )
         }
     } else if( chew ) {
         if( you.has_trait( trait_SCHIZOPHRENIC ) &&
-            one_in( 50 ) && !spoiled && food.goes_bad() && you.is_player() ) {
+            one_in( 50 ) && !spoiled && food.goes_bad() && you.is_avatar() ) {
 
             add_msg( m_bad, _( "Ick, this %s (rotten) doesn't taste so good…" ), food.tname() );
             add_msg( _( "You eat your %s (rotten)." ), food.tname() );
@@ -1753,7 +1753,7 @@ trinary player::consume( item &target, bool force, bool refuel )
         }
         return trinary::NONE;
     }
-    if( is_player() && !query_consume_ownership( target, *this ) ) {
+    if( is_avatar() && !query_consume_ownership( target, *this ) ) {
         return trinary::NONE;
     }
 

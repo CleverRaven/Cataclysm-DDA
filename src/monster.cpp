@@ -1517,7 +1517,7 @@ bool monster::melee_attack( Creature &target, float accuracy )
     }
 
     Character &player_character = get_player_character();
-    if( target.is_player() ||
+    if( target.is_avatar() ||
         ( target.is_npc() && player_character.attitude_to( target ) == Attitude::FRIENDLY ) ) {
         // Make us a valid target for a few turns
         add_effect( effect_hit_by_player, 3_turns );
@@ -1547,7 +1547,7 @@ bool monster::melee_attack( Creature &target, float accuracy )
         bool target_dodging = target.dodge_roll() > 0.0;
         // Miss
         if( u_see_my_spot && !target.in_sleep_state() ) {
-            if( target.is_player() ) {
+            if( target.is_avatar() ) {
                 if( target_dodging ) {
                     add_msg( _( "You dodge %s." ), u_see_me ? disp_name() : "something" );
                 } else {
@@ -1560,13 +1560,13 @@ bool monster::melee_attack( Creature &target, float accuracy )
                 add_msg( _( "%1$s misses %2$s!" ),
                          u_see_me ? disp_name( false, true ) : "Something", target.disp_name() );
             }
-        } else if( target.is_player() ) {
+        } else if( target.is_avatar() ) {
             add_msg( _( "You dodge an attack from an unseen source." ) );
         }
     } else if( is_hallucination() || total_dealt > 0 ) {
         // Hallucinations always produce messages but never actually deal damage
         if( u_see_my_spot ) {
-            if( target.is_player() ) {
+            if( target.is_avatar() ) {
                 sfx::play_variant_sound( "melee_attack", "monster_melee_hit",
                                          sfx::get_heard_volume( target.pos() ) );
                 sfx::do_player_death_hurt( dynamic_cast<player &>( target ), false );
@@ -1601,7 +1601,7 @@ bool monster::melee_attack( Creature &target, float accuracy )
                     add_msg( _( "The %1$s hits %2$s!" ), name(), target.disp_name() );
                 }
             }
-        } else if( target.is_player() ) {
+        } else if( target.is_avatar() ) {
             //~ %s is bodypart name in accusative.
             add_msg( m_bad, _( "Something hits your %s." ),
                      body_part_name_accusative( dealt_dam.bp_hit ) );
@@ -1609,7 +1609,7 @@ bool monster::melee_attack( Creature &target, float accuracy )
     } else {
         // No damage dealt
         if( u_see_my_spot ) {
-            if( target.is_player() ) {
+            if( target.is_avatar() ) {
                 //~ 1$s is attacker name, 2$s is bodypart name in accusative, 3$s is armor name
                 add_msg( _( "%1$s hits your %2$s, but your %3$s protects you." ), u_see_me ? disp_name( false,
                          true ) : "Something",
@@ -1632,7 +1632,7 @@ bool monster::melee_attack( Creature &target, float accuracy )
                          target.disp_name(),
                          target.skin_name() );
             }
-        } else if( target.is_player() ) {
+        } else if( target.is_avatar() ) {
             //~ 1$s is bodypart name in accusative, 2$s is armor name.
             add_msg( _( "Something hits your %1$s, but your %2$s protects you." ),
                      body_part_name_accusative( dealt_dam.bp_hit ), target.skin_name() );
@@ -2361,7 +2361,7 @@ void monster::die( Creature *nkiller )
         Character *ch = get_killer()->as_character();
         if( !is_hallucination() && ch != nullptr ) {
             get_event_bus().send<event_type::character_kills_monster>( ch->getID(), type->id );
-            if( ch->is_player() && ch->has_trait( trait_KILLER ) ) {
+            if( ch->is_avatar() && ch->has_trait( trait_KILLER ) ) {
                 if( one_in( 4 ) ) {
                     const translation snip = SNIPPET.random_from_category( "killer_on_kill" ).value_or( translation() );
                     ch->add_msg_if_player( m_good, "%s", snip );

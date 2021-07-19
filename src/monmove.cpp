@@ -1010,7 +1010,7 @@ void monster::move()
                     next_step = candidate_abs;
                     break;
                 }
-                if( att == Attitude::FRIENDLY && ( target->is_player() || target->is_npc() ||
+                if( att == Attitude::FRIENDLY && ( target->is_avatar() || target->is_npc() ||
                                                    target->has_flag( MF_QUEEN ) ) ) {
                     // Friendly firing the player or an NPC is illegal for gameplay reasons.
                     // Monsters should instinctively avoid attacking queens that regenerate their own population.

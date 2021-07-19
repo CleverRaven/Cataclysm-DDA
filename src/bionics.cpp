@@ -1903,7 +1903,7 @@ void Character::bionics_uninstall_failure( monster &installer, player &patient, 
 
     bool u_see = sees( patient );
 
-    if( u_see || patient.is_player() ) {
+    if( u_see || patient.is_avatar() ) {
         if( fail_type <= 0 ) {
             add_msg( m_neutral, _( "The removal fails without incident." ) );
             return;
@@ -2296,7 +2296,7 @@ bool Character::uninstall_bionic( const bionic &target_cbm, monster &installer, 
         installer.add_effect( effect_operating, duration + 5_turns );
     }
 
-    if( patient.is_player() ) {
+    if( patient.is_avatar() ) {
         add_msg( m_bad,
                  _( "You feel a tiny pricking sensation in your right arm, and lose all sensation before abruptly blacking out." ) );
     } else {
@@ -2310,7 +2310,7 @@ bool Character::uninstall_bionic( const bionic &target_cbm, monster &installer, 
     patient.add_effect( effect_narcosis, duration );
     patient.add_effect( effect_sleep, duration );
 
-    if( patient.is_player() ) {
+    if( patient.is_avatar() ) {
         add_msg( _( "You fall asleep and %1$s starts operating." ), installer.disp_name() );
     } else {
         add_msg_if_player_sees( patient, _( "%1$s falls asleep and %2$s starts operating." ),
@@ -2319,7 +2319,7 @@ bool Character::uninstall_bionic( const bionic &target_cbm, monster &installer, 
 
     if( success > 0 ) {
 
-        if( patient.is_player() ) {
+        if( patient.is_avatar() ) {
             add_msg( m_neutral, _( "Your parts are jiggled back into their familiar places." ) );
             add_msg( m_mixed, _( "Successfully removed %s." ), target_cbm.info().name );
         } else if( patient.is_npc() && player_view.sees( patient ) ) {
@@ -2626,7 +2626,7 @@ void Character::bionics_install_failure( const bionic_id &bid, const std::string
                         add_msg( m_bad, _( "%s lose power capacity!" ), disp_name() );
                         set_max_power_level( units::from_kilojoule( rng( 0,
                                              units::to_kilojoule( get_max_power_level() ) - 25 ) ) );
-                        if( is_player() ) {
+                        if( is_avatar() ) {
                             get_memorial().add(
                                 pgettext( "memorial_male", "Lost %d units of power capacity." ),
                                 pgettext( "memorial_female", "Lost %d units of power capacity." ),

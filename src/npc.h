@@ -772,7 +772,7 @@ class npc : public player
         npc &operator=( npc && ) noexcept( list_is_noexcept );
         ~npc() override;
 
-        bool is_player() const override {
+        bool is_avatar() const override {
             return false;
         }
         bool is_npc() const override {
