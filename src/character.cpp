@@ -2906,11 +2906,9 @@ item *Character::try_add( item it, const item *avoid, const bool allow_wield )
     } else {
         // this will set ret to either it, or to stack where it was placed
         pocket.second->add( it, &ret );
-        
-        if (!keep_invlet && (!it.count_by_charges() || (it.charges == ret->charges))) {
+        if( !keep_invlet && ( !it.count_by_charges() || it.charges == ret->charges ) ) {
             inv->update_invlet( *ret );
         }
-        
         pocket.first.on_contents_changed();
         pocket.second->on_contents_changed();
     }
@@ -3321,10 +3319,10 @@ invlets_bitset Character::allocated_invlets() const
 {
     invlets_bitset invlets = inv->allocated_invlets();
 
-    visit_items([&invlets] (item * i, item *) -> VisitResponse {
-        invlets.set(i->invlet);
+    visit_items( [&invlets] ( item * i, item * ) -> VisitResponse {
+        invlets.set( i->invlet );
         return VisitResponse::NEXT;
-    });
+    } );
 
     invlets[0] = false;
 
