@@ -100,6 +100,7 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_KEENNOSE: return "KEENNOSE";
         case MF_STUMBLES: return "STUMBLES";
         case MF_WARM: return "WARM";
+        case MF_NEMESIS: return "NEMESIS";
         case MF_NOHEAD: return "NOHEAD";
         case MF_HARDTOSHOOT: return "HARDTOSHOOT";
         case MF_GRABS: return "GRABS";

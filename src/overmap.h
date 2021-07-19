@@ -406,8 +406,10 @@ class overmap
         const city &get_nearest_city( const tripoint_om_omt &p ) const;
 
         void signal_hordes( const tripoint_rel_sm &p, int sig_power );
+        void signal_nemesis( const tripoint_abs_sm p );
         void process_mongroups();
         void move_hordes();
+        void move_nemesis();
 
         static bool obsolete_terrain( const std::string &ter );
         void convert_terrain(
@@ -508,6 +510,7 @@ class overmap
             bool place_optional, bool must_be_unexplored );
 
         void place_mongroups();
+        void place_nemesis( const tripoint_abs_omt p );
         void place_radios();
 
         void add_mon_group( const mongroup &group );

@@ -135,6 +135,12 @@
   },
   {
     "type": "SPECIES",
+    "id": "NEMESIS",
+    "description": "a demonic doppelganger",
+    "footsteps": "shuffling."
+  },
+  {
+    "type": "SPECIES",
     "id": "ROBOT",
     "description": "a robot",
     "footsteps": "mechanical whirring.",

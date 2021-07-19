@@ -259,6 +259,7 @@ static const trait_id trait_VINES3( "VINES3" );
 static const trait_id trait_THICKSKIN( "THICKSKIN" );
 static const trait_id trait_NPC_STATIC_NPC( "NPC_STATIC_NPC" );
 static const trait_id trait_NPC_STARTING_NPC( "NPC_STARTING_NPC" );
+static const trait_id trait_HAS_NEMESIS( "HAS_NEMESIS" );
 
 static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
@@ -854,6 +855,13 @@ bool game::start_game()
     for( const mission_type_id &m : scen->missions() ) {
         mission *new_mission = mission::reserve_new( m, character_id() );
         new_mission->assign( u );
+    }
+
+    // Assign nemesis kill mission if character has the 'hunted' trait
+    if( u.has_trait( trait_id( "HAS_NEMESIS" ) ) ) {
+        const auto mission = mission::reserve_new( mission_type_id( "MISSION_KILL_NEMESIS" ), 
+                                                    character_id() );
+        mission->assign( u );
     }
 
     get_event_bus().send<event_type::game_start>( u.getID(), u.name, u.male, u.prof->ident(),
@@ -1470,6 +1478,7 @@ bool game::do_turn()
     // Move hordes every 2.5 min
     if( calendar::once_every( time_duration::from_minutes( 2.5 ) ) ) {
         overmap_buffer.move_hordes();
+        overmap_buffer.move_nemesis();
         // Hordes that reached the reality bubble need to spawn,
         // make them spawn in invisible areas only.
         m.spawn_monsters( false );
