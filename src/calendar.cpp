@@ -39,8 +39,7 @@ season_type calendar::initial_season = SPRING;
 static constexpr units::angle astronomical_dawn = -18_degrees;
 static constexpr units::angle nautical_dawn = -12_degrees;
 static constexpr units::angle civil_dawn = -6_degrees;
-static constexpr units::angle sunrise_angle = 0_degrees;
-static constexpr units::angle max_sun_angle_for_twilight = 1_degrees;
+static constexpr units::angle c = 0_degrees;
 
 double default_daylight_level()
 {
@@ -330,7 +329,7 @@ bool is_day( const time_point &p )
 static bool is_twilight( const time_point &p )
 {
     units::angle altitude = sun_altitude( p );
-    return altitude >= astronomical_dawn && altitude <= max_sun_angle_for_twilight;
+    return altitude >= astronomical_dawn && altitude <= sunrise_angle;
 }
 
 bool is_dusk( const time_point &p )
