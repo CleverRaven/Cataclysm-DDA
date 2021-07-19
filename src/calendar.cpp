@@ -373,11 +373,11 @@ float sun_light_at( const time_point &p )
         return ( 5.0f - 3.7f ) * ( std::exp2( to_degrees( solar_alt - nautical_dawn ) / 6.f ) - 1 ) + 3.7f;
     } else if( solar_alt <= sunrise_angle ) {
         // Sunlight rises exponentially from 5.0f to 60 as sun rises from -6° to 0°
-        return light_at_zero_altitude * ( std::exp2( to_degrees( solar_alt - civil_dawn ) / 6.f ) - 1 ) +
+        return ( light_at_zero_altitude - 5.0f ) * ( std::exp2( to_degrees( solar_alt - civil_dawn ) / 6.f ) - 1 ) +
                5.0f;
     } else {
-        // Linear increase from 0° to 70° degrees light increases from 60 to 125 brightness.
-        const double lerp_param = solar_alt / 70_degrees;
+        // Linear increase from 0° to 60° degrees light increases from 60 to 125 brightness.
+        const double lerp_param = solar_alt / 60_degrees;
         return lerp_clamped( light_at_zero_altitude, max_light, lerp_param );
     }
 }

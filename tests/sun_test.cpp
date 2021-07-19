@@ -119,7 +119,7 @@ TEST_CASE( "sunlight and moonlight", "[sun][sunlight][moonlight]" )
     CHECK( today_sunset > today_sunrise );
     CHECK( today_sunrise > midnight );
 
-    // Expected numbers below assume 100.0f maximum daylight level
+    // Expected numbers below assume 110.0f maximum daylight level
     // (maximum daylight is different at other times of year - see [daylight] tests)
     REQUIRE( 100.0f == default_daylight_level() );
 
@@ -128,16 +128,16 @@ TEST_CASE( "sunlight and moonlight", "[sun][sunlight][moonlight]" )
         CHECK( 1.0f == sun_moon_light_at( midnight ) );
         // Dawn
         CHECK( sun_moon_light_at( today_sunrise - 2_hours ) == 1.0f );
-        CHECK( sun_moon_light_at( today_sunrise - 1_hours ) == Approx( 20 ).margin( 2 ) );
+        CHECK( sun_moon_light_at( today_sunrise - 1_hours ) == Approx( 5 ).margin( 2 ) );
         CHECK( sun_moon_light_at( today_sunrise ) == Approx( 60 ).margin( 2 ) );
-        CHECK( sun_moon_light_at( today_sunrise + 1_hours ) == Approx( 70 ).margin( 2 ) );
+        CHECK( sun_moon_light_at( today_sunrise + 1_hours ) == Approx( 73 ).margin( 2 ) );
         // Light gets brighter towards noon
         CHECK( sun_moon_light_at( today_sunrise + 2_hours ) >
                sun_moon_light_at( today_sunrise + 1_hours ) );
         CHECK( sun_moon_light_at( today_sunrise + 3_hours ) >
                sun_moon_light_at( today_sunrise + 2_hours ) );
         // Noon
-        CHECK( sun_moon_light_at( midnight + 12_hours ) == Approx( 100 ).margin( 10 ) );
+        CHECK( sun_moon_light_at( midnight + 12_hours ) == Approx( 110 ).margin( 10 ) );
         CHECK( sun_moon_light_at( midnight + 13_hours ) <
                sun_moon_light_at( midnight + 12_hours ) );
         CHECK( sun_moon_light_at( midnight + 14_hours ) <
@@ -186,18 +186,18 @@ TEST_CASE( "noon sunlight levels", "[sun][daylight][equinox][solstice]" )
     const time_point autumn = summer + one_season;
     const time_point winter = autumn + one_season;
 
-    SECTION( "baseline 100 daylight on the spring and autumn equinoxes" ) {
+    SECTION( "baseline 110 daylight on the spring and autumn equinoxes" ) {
         float spring_light = sun_light_at( spring + 12_hours );
-        CHECK( spring_light == Approx( 100.0f ).margin( 10 ) );
+        CHECK( spring_light == Approx( 110.0f ).margin( 10 ) );
         CHECK( sun_light_at( autumn + 12_hours ) == Approx( spring_light ).margin( 1 ) );
     }
 
-    SECTION( "25 percent more daylight on the summer solstice" ) {
+    SECTION( "125 daylight on the summer solstice" ) {
         CHECK( sun_light_at( summer + 12_hours ) == 125.0f );
     }
 
-    SECTION( "25 percent less daylight on the winter solstice" ) {
-        CHECK( sun_light_at( winter + 12_hours ) == Approx( 75.0f ).margin( 10 ) );
+    SECTION( "90 daylight on the winter solstice" ) {
+        CHECK( sun_light_at( winter + 12_hours ) == Approx( 87.0f ).margin( 10 ) );
     }
 
     // Many other times of day have peak daylight level, but noon is for sure
@@ -430,8 +430,8 @@ TEST_CASE( "sunrise_sunset_consistency", "[sun]" )
             units::angle azimuth;
             units::angle altitude;
             std::tie( azimuth, altitude ) =
-                sun_azimuth_altitude( this_daylight );
-            CHECK( to_degrees( altitude ) == Approx( -12 ).margin( 0.01 ) );
+                sun_azimuth_altitude( this_daylight, location_boston );
+            CHECK( to_degrees( altitude ) == Approx( -6 ).margin( 0.01 ) );
         }
     }
 }
