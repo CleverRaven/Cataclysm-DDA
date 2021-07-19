@@ -1905,7 +1905,7 @@ void item::med_info( const item *med_item, std::vector<iteminfo> &info, const it
     }
 
     if( med_com->healthy != 0 ) {
-        info.push_back( iteminfo( "MED", _( "Health: " ), healthy_bar( med_com->healthy ) ) );
+        info.emplace_back( "MED", _( "Health: " ), healthy_bar( med_com->healthy ) );
     }
 
     if( med_com->stim != 0 && parts->test( iteminfo_parts::MED_STIMULATION ) ) {
@@ -1992,8 +1992,8 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
     }
 
     if( food_item->get_comestible()->healthy != 0 ) {
-        info.push_back( iteminfo( "MED", _( "Health: " ),
-                                  healthy_bar( food_item->get_comestible()->healthy ) ) );
+        info.emplace_back( "MED", _( "Health: " ),
+                           healthy_bar( food_item->get_comestible()->healthy ) );
     }
 
     if( parts->test( iteminfo_parts::FOOD_PORTIONS ) ) {
