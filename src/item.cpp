@@ -3368,7 +3368,7 @@ void item::book_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                                 unlearnable_recipe_list.size();
 
             if( ( !known_recipe_list.empty() || !learnable_recipe_list.empty() ||
-                !unlearnable_recipe_list.empty() ) &&
+                  !unlearnable_recipe_list.empty() ) &&
                 parts->test( iteminfo_parts::DESCRIPTION_BOOK_RECIPES ) ) {
                 std::string recipe_line =
                     string_format( ngettext( "This book contains %1$d crafting recipe:",
@@ -3382,7 +3382,7 @@ void item::book_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                     std::string recipe_line =
                         string_format( ngettext( "\nYou already know %1$d recipe:\n%2$s",
                                                  "\nYou already know %1$d recipes:\n%2$s",
-                                                  known_recipe_list.size() ),
+                                                 known_recipe_list.size() ),
                                        known_recipe_list.size(),
                                        enumerate_as_string( known_recipe_list ) );
 
@@ -3393,7 +3393,7 @@ void item::book_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                     std::string recipe_line =
                         string_format( ngettext( "\nYou have the skills to craft %1$d recipe:\n%2$s",
                                                  "\nYou have the skills to craft %1$d recipes:\n%2$s",
-                                                  learnable_recipe_list.size() ),
+                                                 learnable_recipe_list.size() ),
                                        learnable_recipe_list.size(),
                                        enumerate_as_string( learnable_recipe_list ) );
 
@@ -3404,7 +3404,7 @@ void item::book_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                     std::string recipe_line =
                         string_format( ngettext( "\nYou lack the skills to craft %1$d recipe:\n%2$s",
                                                  "\nYou lack the skills to craft %1$d recipes:\n%2$s",
-                                                  unlearnable_recipe_list.size() ),
+                                                 unlearnable_recipe_list.size() ),
                                        unlearnable_recipe_list.size(),
                                        enumerate_as_string( unlearnable_recipe_list ) );
 
@@ -3416,7 +3416,7 @@ void item::book_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                 parts->test( iteminfo_parts::DESCRIPTION_BOOK_ADDITIONAL_RECIPES ) ) {
                 info.emplace_back( iteminfo( "DESCRIPTION",
                                              _( "It might help you figuring out some <good>more "
-                                             "recipes</good>." ) ) );
+                                                "recipes</good>." ) ) );
             }
         }
 
