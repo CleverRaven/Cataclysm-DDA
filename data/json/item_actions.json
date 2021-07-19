@@ -1073,5 +1073,10 @@
     "type": "item_action",
     "id": "effect_on_conditions",
     "name": { "str": "Activate item" }
+  },
+  {
+    "type": "item_action",
+    "id": "LUX_METER",
+    "name": { "str": "Measure light level" }
   }
 ]

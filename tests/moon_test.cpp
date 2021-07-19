@@ -218,7 +218,7 @@ TEST_CASE( "moonlight at dawn and dusk", "[calendar][moon][moonlight][dawn][dusk
 
         // Daylight level should be ~100 at first new moon
         float daylight_level = sun_moon_light_at( new_noon );
-        CHECK( daylight_level == Approx( 100 ).margin( 10 ) );
+        CHECK( daylight_level == Approx( 110 ).margin( 10 ) );
         float moonlight_level = 1.0f;
 
         THEN( "at night, light is only moonlight" ) {
