@@ -4,14 +4,18 @@
 
 ```JSON
 {
-  "id": "prof_knapping",
-  "type": "proficiency",
-  "name": { "str": "Knapping" },
-  "description": "The ability to turn stones into usable tools.",
-  "can_learn": true,
-  "time_to_learn": "10 h",
-  "required_proficiencies": [ "prof_foo" ]
-},
+"type": "proficiency",
+"id": "prof_bow_master",
+"name": { "str": "Master Archer's Form" },
+"description": "You are a master at the art of Archery.",
+"can_learn": true,
+"time_to_learn": "20 h",
+"default_time_multiplier": 1.5,
+"default_fail_multiplier": 1.2,
+"required_proficiencies": [ "prof_bow_expert" ],
+"category": "Archery",
+"str_bonus": 1
+}
 ```
 ### `id`
 Mandatory. String  
@@ -48,3 +52,11 @@ The (optimal) time required to learn this proficiency.
 ### `required_proficiencies`
 Optional. Array of strings  
 The proficiencies that must be obtained before this one can.  You cannot gain experience in a proficiency without the necessary prerequisites.
+
+### `category`
+Optional. String
+The category is used to apply bonuses to certain activities given the player has a particular proficiency. The bonuses applied must be hardcoded to the activity in question.
+
+### `str_bonus` and `dex_bonus` and `int_bonus` and `per_bonus`
+Optional. Int
+These values define how much of a stat increase is given to a certain activity when paired with a category.
