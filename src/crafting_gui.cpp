@@ -325,6 +325,36 @@ static std::vector<std::string> recipe_info(
     return result;
 }
 
+static input_context make_crafting_context( bool highlight_unread_recipes )
+{
+    input_context ctxt( "CRAFTING" );
+    ctxt.register_cardinal();
+    ctxt.register_action( "QUIT" );
+    ctxt.register_action( "CONFIRM" );
+    ctxt.register_action( "SCROLL_RECIPE_INFO_UP" );
+    ctxt.register_action( "SCROLL_RECIPE_INFO_DOWN" );
+    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
+    ctxt.register_action( "SCROLL_ITEM_INFO_UP" );
+    ctxt.register_action( "SCROLL_ITEM_INFO_DOWN" );
+    ctxt.register_action( "PREV_TAB" );
+    ctxt.register_action( "NEXT_TAB" );
+    ctxt.register_action( "FILTER" );
+    ctxt.register_action( "RESET_FILTER" );
+    ctxt.register_action( "TOGGLE_FAVORITE" );
+    ctxt.register_action( "HELP_RECIPE" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
+    ctxt.register_action( "CYCLE_BATCH" );
+    ctxt.register_action( "RELATED_RECIPES" );
+    ctxt.register_action( "HIDE_SHOW_RECIPE" );
+    if( highlight_unread_recipes ) {
+        ctxt.register_action( "TOGGLE_RECIPE_UNREAD" );
+        ctxt.register_action( "MARK_ALL_RECIPES_READ" );
+        ctxt.register_action( "TOGGLE_UNREAD_RECIPES_FIRST" );
+    }
+    return ctxt;
+}
+
 const recipe *select_crafting_recipe( int &batch_size_out )
 {
     struct {
@@ -399,31 +429,7 @@ const recipe *select_crafting_recipe( int &batch_size_out )
     int item_info_width = 0;
     const bool highlight_unread_recipes = get_option<bool>( "HIGHLIGHT_UNREAD_RECIPES" );
 
-    input_context ctxt( "CRAFTING" );
-    ctxt.register_cardinal();
-    ctxt.register_action( "QUIT" );
-    ctxt.register_action( "CONFIRM" );
-    ctxt.register_action( "SCROLL_RECIPE_INFO_UP" );
-    ctxt.register_action( "SCROLL_RECIPE_INFO_DOWN" );
-    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
-    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
-    ctxt.register_action( "SCROLL_ITEM_INFO_UP" );
-    ctxt.register_action( "SCROLL_ITEM_INFO_DOWN" );
-    ctxt.register_action( "PREV_TAB" );
-    ctxt.register_action( "NEXT_TAB" );
-    ctxt.register_action( "FILTER" );
-    ctxt.register_action( "RESET_FILTER" );
-    ctxt.register_action( "TOGGLE_FAVORITE" );
-    ctxt.register_action( "HELP_RECIPE" );
-    ctxt.register_action( "HELP_KEYBINDINGS" );
-    ctxt.register_action( "CYCLE_BATCH" );
-    ctxt.register_action( "RELATED_RECIPES" );
-    ctxt.register_action( "HIDE_SHOW_RECIPE" );
-    if( highlight_unread_recipes ) {
-        ctxt.register_action( "TOGGLE_RECIPE_UNREAD" );
-        ctxt.register_action( "MARK_ALL_RECIPES_READ" );
-        ctxt.register_action( "TOGGLE_UNREAD_RECIPES_FIRST" );
-    }
+    input_context ctxt = make_crafting_context( highlight_unread_recipes );
 
     catacurses::window w_head;
     catacurses::window w_subhead;
