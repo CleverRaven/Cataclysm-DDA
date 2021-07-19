@@ -34,6 +34,7 @@ static const efftype_id effect_lightsnare( "lightsnare" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_webbed( "webbed" );
 static const efftype_id effect_weed_high( "weed_high" );
+static const efftype_id effect_worked_on( "worked_on" );
 
 static const itype_id itype_holybook_bible( "holybook_bible" );
 static const itype_id itype_money_bundle( "money_bundle" );
@@ -839,7 +840,7 @@ void effect::set_duration( const time_duration &dur, bool alert )
     }
 
     add_msg_debug( debugmode::DF_EFFECT, "ID: %s, Duration %s", get_id().c_str(),
-                   to_string( duration ) );
+                   to_string_writable( duration ) );
 }
 void effect::mod_duration( const time_duration &dur, bool alert )
 {
@@ -1354,6 +1355,7 @@ static const std::unordered_set<efftype_id> hardcoded_movement_impairing = {{
         effect_lightsnare,
         effect_tied,
         effect_webbed,
+        effect_worked_on,
     }
 };
 

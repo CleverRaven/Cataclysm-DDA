@@ -3454,6 +3454,24 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
                 return VisitResponse::SKIP;
             }
 
+            // ammo is inside some sort of a container
+            if( parent != nullptr && parent->is_container() ) {
+                for( const ammotype &at : ammo ) {
+                    if( node->ammo_type() == at ) {
+                        out = item_location( item_location( src, parent ), node );
+                    }
+                }
+                if( node->is_magazine() &&
+                    ( parent == nullptr || node != parent->magazine_current() ) &&
+                    node->has_flag( flag_SPEEDLOADER ) ) {
+                    if( node->ammo_remaining() ) {
+                        out = item_location( item_location( src, parent ), node );
+                    }
+                }
+                return VisitResponse::NEXT;
+            }
+
+            // everything else, probably?
             for( const ammotype &at : ammo ) {
                 if( node->ammo_type() == at ) {
                     out = item_location( src, node );
@@ -3473,6 +3491,15 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
         const auto mags = obj.magazine_compatible();
 
         src.visit_items( [&src, &nested, &out, mags, empty]( item * node, item * parent ) {
+            // magazine is inside some sort of a container
+            if( node->is_magazine() &&
+                ( parent != nullptr && node != parent->magazine_current() && parent->is_container() ) ) {
+                if( mags.count( node->typeId() ) && ( node->ammo_remaining() || empty ) ) {
+                    out = item_location( item_location( src, parent ), node );
+                }
+                return VisitResponse::SKIP;
+            }
+            //everything else, probably?
             if( node->is_magazine() &&
                 ( parent == nullptr || node != parent->magazine_current() ) ) {
                 if( mags.count( node->typeId() ) && ( node->ammo_remaining() || empty ) ) {
@@ -11986,14 +12013,17 @@ bool Character::sees_with_infrared( const Creature &critter ) const
     }
 
     map &here = get_map();
+    // Use range based on default daylight, not actual current light, since
+    // we're seeing in infra red not via light.
+    int range = sight_range( default_daylight_level() );
+
     if( is_player() || critter.is_player() ) {
         // Players should not use map::sees
         // Likewise, players should not be "looked at" with map::sees, not to break symmetry
-        return here.pl_line_of_sight( critter.pos(),
-                                      sight_range( current_daylight_level( calendar::turn ) ) );
+        return here.pl_line_of_sight( critter.pos(), range );
     }
 
-    return here.sees( pos(), critter.pos(), sight_range( current_daylight_level( calendar::turn ) ) );
+    return here.sees( pos(), critter.pos(), range );
 }
 
 bool Character::is_visible_in_range( const Creature &critter, const int range ) const

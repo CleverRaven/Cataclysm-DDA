@@ -1,0 +1,25 @@
+[
+  {
+    "type": "overmap_special",
+    "id": "Lab_Parking_Lot",
+    "//": "A secure parking lot and concrete wall.",
+    "overmaps": [
+      { "point": [ -2, -2, 0 ], "overmap": "lab_surface_parking_blockE1_west" },
+      { "point": [ -3, -2, 0 ], "overmap": "lab_surface_parking_blockE0_west" },
+      { "point": [ -2, -1, 0 ], "overmap": "lab_surface_parking_blockD1_west" },
+      { "point": [ -3, -1, 0 ], "overmap": "lab_surface_parking_blockD0_west" },
+      { "point": [ -1, -2, 0 ], "overmap": "lab_surface_parking_blockE2_west" },
+      { "point": [ -1, 2, 0 ], "overmap": "lab_surface_parking_blockA2_west" },
+      { "point": [ -2, 0, 0 ], "overmap": "lab_surface_parking_blockC1_west" },
+      { "point": [ -3, 0, 0 ], "overmap": "lab_surface_parking_blockC0_west" },
+      { "point": [ -2, 1, 0 ], "overmap": "lab_surface_parking_blockB1_west" },
+      { "point": [ -3, 1, 0 ], "overmap": "lab_surface_parking_blockB0_west" },
+      { "point": [ -2, 2, 0 ], "overmap": "lab_surface_parking_blockA1_west" },
+      { "point": [ -3, 2, 0 ], "overmap": "lab_surface_parking_blockA0_west" }
+    ],
+    "locations": [ "land" ],
+    "city_distance": [ 3, -1 ],
+    "city_sizes": [ 1, 16 ],
+    "occurrences": [ 0, 0 ]
+  }
+]

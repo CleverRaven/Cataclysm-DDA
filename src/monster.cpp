@@ -82,6 +82,7 @@ static const efftype_id effect_hit_by_player( "hit_by_player" );
 static const efftype_id effect_in_pit( "in_pit" );
 static const efftype_id effect_lightsnare( "lightsnare" );
 static const efftype_id effect_monster_armor( "monster_armor" );
+static const efftype_id effect_natures_commune( "natures_commune" );
 static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_pacified( "pacified" );
@@ -98,7 +99,7 @@ static const efftype_id effect_venom_player1( "venom_player1" );
 static const efftype_id effect_venom_player2( "venom_player2" );
 static const efftype_id effect_venom_weaken( "venom_weaken" );
 static const efftype_id effect_webbed( "webbed" );
-static const efftype_id effect_natures_commune( "natures_commune" );
+static const efftype_id effect_worked_on( "worked_on" );
 
 static const itype_id itype_corpse( "corpse" );
 static const itype_id itype_milk( "milk" );
@@ -1922,6 +1923,9 @@ bool monster::move_effects( bool )
                 add_msg( _( "The %s frees itself from the rubble!" ), name() );
             }
         }
+        return false;
+    }
+    if( has_effect( effect_worked_on ) ) {
         return false;
     }
 

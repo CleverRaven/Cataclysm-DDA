@@ -54,7 +54,7 @@
     "upgrades": { "half_life": 21, "into": "mon_dog_zombie_hulk" },
     "special_attacks": [
       { "id": "smash", "throw_strength": 48, "cooldown": 30 },
-      { "type": "bite", "move_cost": 150, "cooldown": 2, "accuracy": 4, "no_infection_chance": 12 }
+      { "type": "bite", "move_cost": 150, "cooldown": 2, "accuracy": 4, "infection_chance": 8 }
     ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_VEH" ] }
   },
@@ -77,7 +77,7 @@
     "upgrades": {  },
     "special_attacks": [
       { "id": "smash", "throw_strength": 81 },
-      { "type": "bite", "move_cost": 188, "cooldown": 2, "accuracy": 4, "no_infection_chance": 12 }
+      { "type": "bite", "move_cost": 188, "cooldown": 2, "accuracy": 4, "infection_chance": 8 }
     ],
     "extend": { "flags": [ "DESTROYS" ] }
   },

@@ -172,7 +172,7 @@ TEST_CASE( "available_recipes", "[recipes]" )
         REQUIRE_FALSE( dummy.knows_recipe( r ) );
 
         WHEN( "the player read it and has an appropriate skill" ) {
-            dummy.do_read( craftbook );
+            dummy.identify( craftbook );
             dummy.set_skill_level( r->skill_used, 2 );
             // Secondary skills are just set to be what the autolearn requires
             // but the primary is not
