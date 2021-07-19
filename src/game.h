@@ -619,6 +619,10 @@ class game
         inventory_item_menu_position position = RIGHT_OF_INFO );
 
         /** Custom-filtered menu for inventory and nearby items and those that within specified radius */
+        item_location inv_reload_splice( bool &fullReload, const item_filter &filter,
+                                         const std::string &title, int radius = 0,
+                                         const std::string &none_message = "" );
+
         item_location inv_map_splice( const item_filter &filter, const std::string &title, int radius = 0,
                                       const std::string &none_message = "" );
 
@@ -812,7 +816,7 @@ class game
 
         void butcher(); // Butcher a corpse  'B'
 
-        void reload( item_location &loc, bool prompt = false, bool empty = true );
+        void reload( item_location &loc, bool prompt = false, bool empty = true, bool fullReload = false );
     public:
         int grabbed_furn_move_time( const tripoint &dp );
         bool grabbed_furn_move( const tripoint &dp );

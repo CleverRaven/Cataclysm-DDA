@@ -492,7 +492,7 @@ class item : public visitable
                 reload_option &operator=( const reload_option & );
 
                 reload_option( const player *who, const item *target, const item *parent,
-                               const item_location &ammo );
+                               const item_location &ammo, const bool fullReload = false );
 
                 const player *who = nullptr;
                 const item *target = nullptr;
@@ -513,6 +513,7 @@ class item : public visitable
                 int qty_ = 0;
                 int max_qty = INT_MAX;
                 const item *parent = nullptr;
+                bool fullReload = false;
         };
 
         /**

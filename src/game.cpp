@@ -2225,6 +2225,9 @@ int game::inventory_item_menu( item_location locThisItem,
         addentry( 'd', pgettext( "action", "drop" ), rate_drop_item );
         addentry( 'U', pgettext( "action", "unload" ), u.rate_action_unload( oThisItem ) );
         addentry( 'r', pgettext( "action", "reload" ), u.rate_action_reload( oThisItem ) );
+        if( oThisItem.has_flag( flag_RELOAD_ONE ) ) {
+            addentry( 'F', pgettext( "action", "full reload" ), u.rate_action_reload( oThisItem ) );
+        }
         addentry( 'p', pgettext( "action", "part reload" ), u.rate_action_reload( oThisItem ) );
         addentry( 'm', pgettext( "action", "mend" ), rate_action_mend( u, oThisItem ) );
         addentry( 'D', pgettext( "action", "disassemble" ), rate_action_disassemble( u, oThisItem ) );
@@ -2370,6 +2373,9 @@ int game::inventory_item_menu( item_location locThisItem,
                     break;
                 case 'r':
                     reload( locThisItem );
+                    break;
+                case 'F':
+                    reload( locThisItem, false, true, true );
                     break;
                 case 'p':
                     reload( locThisItem, true );
@@ -9146,7 +9152,7 @@ void game::butcher()
     }
 }
 
-void game::reload( item_location &loc, bool prompt, bool empty )
+void game::reload( item_location &loc, bool prompt, bool empty, bool fullReload )
 {
     item *it = loc.get_item();
 
@@ -9209,8 +9215,8 @@ void game::reload( item_location &loc, bool prompt, bool empty )
     }
 
     item::reload_option opt = u.ammo_location && it->can_reload_with( u.ammo_location->typeId() ) ?
-                              item::reload_option( &u, it, it, u.ammo_location ) :
-                              u.select_ammo( *it, prompt, empty );
+                              item::reload_option( &u, it, it, u.ammo_location, fullReload ) :
+                              u.select_ammo( *it, prompt, empty, fullReload );
 
     if( opt.ammo.get_item() == nullptr || ( opt.ammo.get_item()->is_frozen_liquid() &&
                                             !u.crush_frozen_liquid( opt.ammo ) ) ) {
@@ -9218,6 +9224,7 @@ void game::reload( item_location &loc, bool prompt, bool empty )
     }
 
     if( opt ) {
+
         int moves = opt.moves();
         if( it->get_var( "dirt", 0 ) > 7800 ) {
             add_msg( m_warning, _( "You struggle to reload the fouled %s." ), it->tname() );
@@ -9232,24 +9239,24 @@ void game::reload( item_location &loc, bool prompt, bool empty )
         }
         targets.push_back( std::move( opt.ammo ) );
 
-        u.assign_activity( player_activity( reload_activity_actor( moves, opt.qty(), targets ) ) );
-
+        u.assign_activity( player_activity( reload_activity_actor( moves, opt.qty(),
+                                            targets ) ) );
     }
 }
 
 // Reload something.
 void game::reload_item()
 {
-    item_location item_loc = inv_map_splice( [&]( const item & it ) {
+    bool fullReload;
+    item_location item_loc = inv_reload_splice( fullReload, [&]( const item & it ) {
         return u.rate_action_reload( it ) == hint_rating::good;
     }, _( "Reload item" ), 1, _( "You have nothing to reload." ) );
-
     if( !item_loc ) {
         add_msg( _( "Never mind." ) );
         return;
     }
 
-    reload( item_loc );
+    reload( item_loc, false, true, fullReload );
 }
 
 void game::reload_wielded( bool prompt )

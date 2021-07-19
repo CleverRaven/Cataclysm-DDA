@@ -8555,11 +8555,14 @@ item::reload_option::reload_option( const reload_option & ) = default;
 item::reload_option &item::reload_option::operator=( const reload_option & ) = default;
 
 item::reload_option::reload_option( const player *who, const item *target, const item *parent,
-                                    const item_location &ammo ) :
-    who( who ), target( target ), ammo( ammo ), parent( parent )
+                                    const item_location &ammo, const bool fullReload ) :
+    who( who ), target( target ), ammo( ammo ), parent( parent ), fullReload( fullReload )
 {
     if( this->target->is_ammo_belt() && this->target->type->magazine->linkage ) {
         max_qty = this->who->charges_of( * this->target->type->magazine->linkage );
+    }
+    if( !target->has_flag( flag_RELOAD_ONE ) || ammo->has_flag( flag_SPEEDLOADER ) ) {
+        this->fullReload = false;
     }
     qty( max_qty );
 }
@@ -8596,7 +8599,7 @@ void item::reload_option::qty( int val )
     int remaining_capacity = target->is_watertight_container() ?
                              target->get_remaining_capacity_for_liquid( ammo_obj, true ) :
                              target->remaining_ammo_capacity();
-    if( target->has_flag( flag_RELOAD_ONE ) && !ammo->has_flag( flag_SPEEDLOADER ) ) {
+    if( target->has_flag( flag_RELOAD_ONE ) && !ammo->has_flag( flag_SPEEDLOADER ) && !fullReload ) {
         remaining_capacity = 1;
     }
     if( ammo_obj.type->ammo ) {
