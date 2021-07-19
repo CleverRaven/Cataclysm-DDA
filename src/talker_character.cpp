@@ -340,3 +340,29 @@ void talker_character::mod_healthy_mod( int amount, int cap )
 {
     me_chr->mod_healthy_mod( amount, cap );
 }
+
+int talker_character::morale_cur() const
+{
+    return me_chr->get_morale_level();
+}
+
+void talker_character::add_morale( const morale_type &new_morale, int bonus, int max_bonus,
+                                   time_duration duration, time_duration decay_start, bool capped )
+{
+    me_chr->add_morale( new_morale, bonus, max_bonus, duration, decay_start, capped );
+}
+
+void talker_character::remove_morale( const morale_type &old_morale )
+{
+    me_chr->rem_morale( old_morale );
+}
+
+int talker_character::focus_cur() const
+{
+    return me_chr->get_focus();
+}
+
+void talker_character::mod_focus( int amount )
+{
+    me_chr->mod_focus( amount );
+}

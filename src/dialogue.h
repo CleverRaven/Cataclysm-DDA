@@ -139,7 +139,9 @@ struct talk_effect_fun_t {
                                 const translation &name );
         void set_u_learn_recipe( const std::string &learned_recipe_id );
         void set_npc_first_topic( const std::string &chat_topic );
-
+        void set_mod_focus( const JsonObject &jo, const std::string &member, bool is_npc );
+        void set_add_morale( const JsonObject &jo, const std::string &member, bool is_npc );
+        void set_lose_morale( const JsonObject &jo, const std::string &member, bool is_npc );
         void operator()( const dialogue &d ) const {
             if( !function ) {
                 return;

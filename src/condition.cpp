@@ -292,6 +292,26 @@ void conditional_t<T>::set_has_effect( const JsonObject &jo, const std::string &
 }
 
 template<class T>
+void conditional_t<T>::set_has_morale( const JsonObject &jo, const std::string &member,
+                                       bool is_npc )
+{
+    const int min_morale = jo.get_int( member );
+    condition = [min_morale, is_npc]( const T & d ) {
+        return d.actor( is_npc )->morale_cur() >= min_morale;
+    };
+}
+
+template<class T>
+void conditional_t<T>::set_has_focus( const JsonObject &jo, const std::string &member,
+                                      bool is_npc )
+{
+    const int min_focus = jo.get_int( member );
+    condition = [min_focus, is_npc]( const T & d ) {
+        return d.actor( is_npc )->focus_cur() >= min_focus;
+    };
+}
+
+template<class T>
 void conditional_t<T>::set_need( const JsonObject &jo, const std::string &member, bool is_npc )
 {
     const std::string &need = jo.get_string( member );
@@ -1149,10 +1169,18 @@ conditional_t<T>::conditional_t( const JsonObject &jo )
         set_has_pain( jo, "u_has_pain" );
     } else if( jo.has_member( "npc_has_pain" ) ) {
         set_has_pain( jo, "npc_has_pain", is_npc );
+    } else if( jo.has_int( "u_has_morale" ) ) {
+        set_has_morale( jo, "u_has_morale" );
+    } else if( jo.has_int( "npc_has_morale" ) ) {
+        set_has_morale( jo, "npc_has_morale", is_npc );
     } else if( jo.has_member( "u_has_power" ) ) {
         set_has_power( jo, "u_has_power" );
     } else if( jo.has_member( "npc_has_power" ) ) {
         set_has_power( jo, "npc_has_power", is_npc );
+    } else if( jo.has_int( "u_has_focus" ) ) {
+        set_has_focus( jo, "u_has_focus" );
+    } else if( jo.has_int( "npc_has_focus" ) ) {
+        set_has_focus( jo, "npc_has_focus", is_npc );
     } else if( jo.has_string( "is_weather" ) ) {
         set_is_weather( jo );
     } else {
