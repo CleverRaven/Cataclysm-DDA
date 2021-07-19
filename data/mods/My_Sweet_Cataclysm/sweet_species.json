@@ -37,5 +37,19 @@
     "anger_triggers": [ "FRIEND_DIED" ],
     "fear_triggers": [ "HURT", "FIRE" ],
     "footsteps": "Shlop."
+  },
+  {
+    "type": "SPECIES",
+    "id": "PUMPKIN",
+    "anger_triggers": [ "FRIEND_DIED", "HURT" ],
+    "fear_triggers": [ "FIRE" ],
+    "footsteps": "pat."
+  },
+  {
+    "type": "SPECIES",
+    "id": "CANE",
+    "anger_triggers": [ "FRIEND_DIED", "HURT" ],
+    "fear_triggers": [ "FIRE" ],
+    "footsteps": "tac."
   }
 ]

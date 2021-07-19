@@ -128,6 +128,7 @@
     "items": [
       { "group": "candy_chocolate", "prob": 45 },
       { "item": "licorice", "prob": 15 },
+      { "item": "candy_cane", "prob": 10 },
       { "group": "salty_snacks", "prob": 80 },
       [ "peanut_unshelled", 20 ],
       [ "almond_unshelled", 20 ],
