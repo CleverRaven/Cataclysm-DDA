@@ -100,6 +100,22 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "ambient_subway",
+    "recurrence_min": "2 hours",
+    "recurrence_max": "4 hours",
+    "condition": { "or": [ { "u_at_om_location": "subway_ns" }, { "u_at_om_location": "subway_ew" } ] },
+    "effect": [ { "message": "AMBIENT_SUBWAY", "snippet": true, "sound": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "ambient_lab_subway",
+    "recurrence_min": "2 hours",
+    "recurrence_max": "4 hours",
+    "condition": { "or": [ { "u_at_om_location": "lab_subway_ns" }, { "u_at_om_location": "lab_subway_ew" } ] },
+    "effect": [ { "message": "AMBIENT_LAB_SUBWAY", "snippet": true, "sound": true } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "night_messages",
     "recurrence_min": "4 hours",
     "recurrence_max": "8 hours",
