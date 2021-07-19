@@ -1013,6 +1013,7 @@ void Item_factory::init()
     add_iuse( "RADIO_MOD", &iuse::radio_mod );
     add_iuse( "RADIO_OFF", &iuse::radio_off );
     add_iuse( "RADIO_ON", &iuse::radio_on );
+    add_iuse( "BINDER_ADD_RECIPE", &iuse::binder_add_recipe );
     add_iuse( "REMOTEVEH", &iuse::remoteveh );
     add_iuse( "REMOVE_ALL_MODS", &iuse::remove_all_mods );
     add_iuse( "RM13ARMOR_OFF", &iuse::rm13armor_off );

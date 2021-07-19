@@ -351,6 +351,11 @@
   },
   {
     "type": "item_action",
+    "id": "BINDER_ADD_RECIPE",
+    "name": { "str": "Copy a recipe" }
+  },
+  {
+    "type": "item_action",
     "id": "COKE",
     "name": { "str": "Snort coke" }
   },

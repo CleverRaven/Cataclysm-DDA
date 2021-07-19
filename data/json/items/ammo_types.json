@@ -649,6 +649,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "paper",
+    "name": "paper",
+    "default": "paper"
+  },
+  {
+    "type": "ammunition_type",
     "id": "extinguishing_agent",
     "name": "extinguishing agent",
     "default": "extinguishing_agent"

@@ -16,7 +16,7 @@
     "subtype": "collection",
     "id": "mon_dragon_dummy_drops",
     "entries": [
-      { "item": "paper", "charges-min": 100, "charges-max": 300 },
+      { "item": "paper", "count": [ 100, 300 ] },
       { "item": "stick", "count": [ 5, 8 ] },
       { "item": "cable", "charges-min": 20, "charges-max": 50 },
       { "item": "amplifier", "count": [ 0, 3 ] }

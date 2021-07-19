@@ -205,6 +205,7 @@
         "rigid": false,
         "max_contains_weight": "2 kg",
         "max_contains_volume": "2500 ml",
+        "max_item_length": "300 mm",
         "moves": 150,
         "item_restriction": [
           "paper",
