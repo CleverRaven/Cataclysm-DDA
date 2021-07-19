@@ -276,9 +276,9 @@
       "lab_surface_brick_basementE3",
       "lab_surface_brick_basementE4"
     ],
-    "name": "solid rock",
-    "sym": "%",
-    "color": "dark_gray",
+    "name": "solid earth",
+    "sym": "#",
+    "color": "brown",
     "see_cost": 5
   },
   {
@@ -311,6 +311,29 @@
     "color": "dark_gray",
     "spawns": { "group": "GROUP_LAB_SURFACE", "population": [ 5, 20 ], "chance": 50 },
     "extras": "research_facility_lot",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "lab_surface_parking_blockA2",
+      "lab_surface_parking_blockE2",
+      "lab_surface_parking_blockA0",
+      "lab_surface_parking_blockB0",
+      "lab_surface_parking_blockC0",
+      "lab_surface_parking_blockD0",
+      "lab_surface_parking_blockE0",
+      "lab_surface_parking_blockA1",
+      "lab_surface_parking_blockB1",
+      "lab_surface_parking_blockC1",
+      "lab_surface_parking_blockD1",
+      "lab_surface_parking_blockE1"
+    ],
+    "name": "parking lot",
+    "sym": "_",
+    "color": "dark_gray",
+    "spawns": { "group": "GROUP_VANILLA", "population": [ 5, 20 ], "chance": 30 },
     "see_cost": 5,
     "mondensity": 2
   },

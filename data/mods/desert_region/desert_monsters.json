@@ -33,7 +33,6 @@
     ],
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "fear_triggers": [ "FIRE" ],
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY", "SWIMS" ]
   },
   {
@@ -53,7 +52,7 @@
     "melee_dice_sides": 3,
     "armor_bash": 3,
     "armor_cut": 1,
-    "death_function": [ "NORMAL", "FUNGUS" ],
+    "death_function": { "effect": { "id": "death_fungus", "hit_self": true } },
     "special_attacks": [ [ "FUNGUS", 200 ], [ "SMASH", 15 ], [ "FUNGUS_BRISTLE", 20 ], [ "FUNGUS_BIG_BLOSSOM", 30 ] ],
     "extend": { "flags": [ "POISON", "NO_BREATHE" ] },
     "delete": {

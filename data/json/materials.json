@@ -1,5 +1,52 @@
 [
   {
+    "abstract": "generic_polymer_resin",
+    "type": "material",
+    "name": "Polymer resin",
+    "specific_heat_liquid": 1.25,
+    "specific_heat_solid": 1.25,
+    "density": 1,
+    "latent_heat": 18,
+    "bash_resist": 4,
+    "cut_resist": 6,
+    "bullet_resist": 6,
+    "acid_resist": 10,
+    "fire_resist": 6,
+    "elec_resist": 6,
+    "chip_resist": 8,
+    "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
+    "bash_dmg_verb": "dented",
+    "cut_dmg_verb": "gouged"
+  },
+  {
+    "type": "material",
+    "id": "thermo_resin",
+    "name": "Thermoplastic resin",
+    "copy-from": "generic_polymer_resin",
+    "//": "This material ID is for plastics that can be reshaped and moulded by application of heat and return to their original properties when cooled, and these specific ones are quite hard and durable when in solid state.",
+    "repaired_with": "thermo_resin_chunk",
+    "salvaged_into": "thermo_resin_chunk",
+    "burn_data": [
+      { "fuel": 1, "smoke": 2, "burn": 1, "volume_per_turn": "750 ml" },
+      { "fuel": 1, "smoke": 3, "burn": 2 },
+      { "fuel": 1, "smoke": 5, "burn": 5 }
+    ]
+  },
+  {
+    "type": "material",
+    "id": "epoxy",
+    "name": "Epoxy",
+    "copy-from": "generic_polymer_resin",
+    "//": "'epoxy' is a general catch-all for strong, brittle polymers that cannot be reshaped with application of heat.  Not all of these are necessarily going to be literally epoxy, but it's close enough.",
+    "repaired_with": "epoxy_chunk",
+    "salvaged_into": "epoxy_chunk",
+    "burn_data": [
+      { "fuel": 1, "smoke": 2, "burn": 1, "volume_per_turn": "750 ml" },
+      { "fuel": 1, "smoke": 3, "burn": 2 },
+      { "fuel": 1, "smoke": 5, "burn": 5 }
+    ]
+  },
+  {
     "type": "material",
     "id": "pseudo_fuel",
     "name": "Pseudo fuel",

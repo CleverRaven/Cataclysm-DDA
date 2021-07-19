@@ -11,14 +11,13 @@
     "material": [ "leather" ],
     "symbol": "[",
     "color": "brown",
-    "covers": [ "torso" ],
-    "coverage": 5,
     "material_thickness": 2,
     "pocket_data": [
       { "max_contains_volume": "500 ml", "max_contains_weight": "400 g", "moves": 60, "flag_restriction": [ "BELT_CLIP" ] }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stick what into your belt", "holster_msg": "You tuck your %s into your %s" },
-    "flags": [ "WAIST", "WATER_FRIENDLY", "STURDY" ]
+    "flags": [ "WAIST", "WATER_FRIENDLY", "STURDY" ],
+    "armor": [ { "coverage": 5, "covers": [ "torso" ] } ]
   },
   {
     "type": "TOOL_ARMOR",
@@ -50,9 +49,6 @@
     "id": "mbelt_pockets_lesser",
     "name": { "str": "lesser dimensional toolbelt" },
     "description": "A sturdy workman's belt that fits around your waist, covered in easy to access pouches.  Like all dimensional spaces, they hold more than they should with a fair weight reduction.",
-    "coverage": 10,
-    "encumbrance": 4,
-    "max_encumbrance": 10,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -90,7 +86,8 @@
         "weight_multiplier": 0.5,
         "volume_multiplier": 0.35
       }
-    ]
+    ],
+    "armor": [ { "encumbrance": [ 4, 10 ], "coverage": 10, "covers": [ "torso" ] } ]
   },
   {
     "type": "TOOL_ARMOR",
@@ -98,9 +95,6 @@
     "id": "mbelt_pockets_greater",
     "name": { "str": "greater dimensional toolbelt" },
     "description": "A heavy duty workman's belt that fits around your waist, covered in easy to access pouches.  Like all dimensional spaces, they hold far more than they should with a substantial weight reduction.",
-    "coverage": 10,
-    "encumbrance": 6,
-    "max_encumbrance": 8,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -138,7 +132,8 @@
         "weight_multiplier": 0.3,
         "volume_multiplier": 0.2
       }
-    ]
+    ],
+    "armor": [ { "encumbrance": [ 6, 8 ], "coverage": 10, "covers": [ "torso" ] } ]
   },
   {
     "type": "TOOL_ARMOR",
@@ -146,9 +141,6 @@
     "id": "mbelt_weaponry",
     "name": { "str": "Belt of Weaponry", "str_pl": "Belts of Weaponry" },
     "description": "A wide girdle that fits around your waist, you can sheath or holster any weapon into it in the blink of an eye, and it seemingly stores them somewhere else.",
-    "coverage": 10,
-    "encumbrance": 3,
-    "max_encumbrance": 3,
     "pocket_data": [
       {
         "holster": true,
@@ -183,7 +175,8 @@
         "weight_multiplier": 0.0
       }
     ],
-    "use_action": { "type": "holster", "holster_prompt": "Stick what into your belt", "holster_msg": "You tuck your %s into your %s" }
+    "use_action": { "type": "holster", "holster_prompt": "Stick what into your belt", "holster_msg": "You tuck your %s into your %s" },
+    "armor": [ { "encumbrance": [ 3, 3 ], "coverage": 10, "covers": [ "torso" ] } ]
   },
   {
     "type": "ARMOR",
@@ -191,7 +184,6 @@
     "name": { "str": "technomancer's toolbelt" },
     "weight": "2000 g",
     "color": "brown",
-    "covers": [ "torso" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -208,8 +200,6 @@
     "material": [ "leather", "steel" ],
     "volume": "4 L",
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY", "WAIST", "OVERSIZE" ],
-    "coverage": 10,
-    "encumbrance": 4,
     "material_thickness": 4,
     "use_action": [ { "type": "holster", "holster_prompt": "Sheath blade", "holster_msg": "You sheath your %s" }, "CROWBAR" ],
     "qualities": [
@@ -224,7 +214,8 @@
       [ "SAW_M_FINE", 1 ],
       [ "WRENCH_FINE", 1 ],
       [ "SCREW_FINE", 1 ]
-    ]
+    ],
+    "armor": [ { "encumbrance": 4, "coverage": 10, "covers": [ "torso" ] } ]
   },
   {
     "type": "TOOL_ARMOR",

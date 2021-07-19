@@ -199,8 +199,7 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
     }
     // if adjusting min and max age from 16 and 55, make sure to see set_description()
     init_age = rng( 16, 55 );
-    // if adjusting min and max height from 145 and 200, make sure to see set_description()
-    init_height = rng( 145, 200 );
+    randomize_height();
     randomize_blood();
     bool cities_enabled = world_generator->active_world->WORLD_OPTIONS["CITY_SIZE"].getValue() != "0";
     if( random_scenario ) {
@@ -1707,7 +1706,7 @@ tab_direction set_profession( avatar &u, points_left &points,
                 std::string buffer_worn;
                 std::string buffer_inventory;
                 for( const auto &it : prof_items ) {
-                    if( it.has_flag( json_flag_no_auto_equip ) ) {
+                    if( it.has_flag( json_flag_no_auto_equip ) ) { // NOLINT(bugprone-branch-clone)
                         buffer_inventory += it.display_name() + "\n";
                     } else if( it.has_flag( json_flag_auto_wield ) ) {
                         buffer_wielded += it.display_name() + "\n";
@@ -2095,9 +2094,7 @@ tab_direction set_skills( avatar &u, points_left &points )
         const auto vFolded = foldstring( rec_disp, getmaxx( w_description ) );
         int iLines = vFolded.size();
 
-        if( selected < 0 ) {
-            selected = 0;
-        } else if( iLines < iContentHeight ) {
+        if( selected < 0 || iLines < iContentHeight ) {
             selected = 0;
         } else if( selected >= iLines - iContentHeight ) {
             selected = iLines - iContentHeight;
@@ -3157,10 +3154,12 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                     popup( _( "Too many points allocated, change some features and try again." ) );
                 }
                 continue;
-            } else if( points.has_spare() &&
-                       !query_yn( _( "Remaining points will be discarded, are you sure you want to proceed?" ) ) ) {
+            }
+            if( points.has_spare() &&
+                !query_yn( _( "Remaining points will be discarded, are you sure you want to proceed?" ) ) ) {
                 continue;
-            } else if( you.name.empty() ) {
+            }
+            if( you.name.empty() ) {
                 no_name_entered = true;
                 ui_manager::redraw();
                 if( !query_yn( _( "Are you SURE you're finished?  Your name will be randomly generated." ) ) ) {
@@ -3169,11 +3168,11 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                     you.pick_name();
                     return tab_direction::FORWARD;
                 }
-            } else if( query_yn( _( "Are you SURE you're finished?" ) ) ) {
-                return tab_direction::FORWARD;
-            } else {
-                continue;
             }
+            if( query_yn( _( "Are you SURE you're finished?" ) ) ) {
+                return tab_direction::FORWARD;
+            }
+            continue;
         } else if( action == "PREV_TAB" ) {
             return tab_direction::BACKWARD;
         } else if( action == "DOWN" ) {
@@ -3306,7 +3305,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                 no_name_entered = you.name.empty();
             }
             you.set_base_age( rng( 16, 55 ) );
-            you.set_base_height( rng( 145, 200 ) );
+            you.randomize_height();
             you.randomize_blood();
         } else if( action == "CHANGE_GENDER" ) {
             you.male = !you.male;

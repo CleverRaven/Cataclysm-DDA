@@ -844,9 +844,7 @@ static void eff_fun_redcells_anemia( Character &u, effect &it )
                 u.mod_fatigue( intense * 3 );
                 break;
             case 7: // 7-9 empty for variability, as messages stack on higher intensity
-                break;
             case 8:
-                break;
             case 9:
                 break;
         }
@@ -876,9 +874,7 @@ static void eff_fun_redcells_anemia( Character &u, effect &it )
                     u.mod_pain( intense * 9 );
                     break;
                 case 7: // 7-9 empty for variability, as messages stack on higher intensity
-                    break;
                 case 8:
-                    break;
                 case 9:
                     break;
             }
@@ -912,9 +908,7 @@ static void eff_fun_redcells_anemia( Character &u, effect &it )
                     u.add_effect( effect_downed, rng( 1_minutes, 2_minutes ) );
                     break;
                 case 7: // 7-9 empty for variability, as messages stack on higher intensity
-                    break;
                 case 8:
-                    break;
                 case 9:
                     break;
             }

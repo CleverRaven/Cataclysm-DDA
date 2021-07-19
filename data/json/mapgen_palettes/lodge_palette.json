@@ -65,7 +65,9 @@
       "a": { "item": "livingroom", "chance": 20 },
       "A": [
         { "item": "homebooks", "chance": 60, "repeat": [ 1, 3 ] },
-        { "item": "magazines", "chance": 60, "repeat": [ 1, 8 ] },
+        { "item": "magazines", "chance": 30, "repeat": [ 0, 4 ] },
+        { "item": "novels", "chance": 60, "repeat": [ 1, 8 ] },
+        { "item": "religious_books", "chance": 60, "repeat": [ 0, 3 ] },
         { "item": "manuals", "chance": 30 }
       ],
       "B": { "item": "bed", "chance": 60 },
@@ -92,7 +94,7 @@
       "s": { "item": "SUS_bathroom_sink", "chance": 60 },
       "t": { "item": "dining", "chance": 30, "repeat": [ 1, 2 ] },
       "U": { "item": "camping", "chance": 30, "repeat": [ 1, 4 ] },
-      "u": { "item": "SUS_pantry", "chance": 50 },
+      "u": [ { "item": "SUS_breakfast_cupboard", "chance": 30 }, { "item": "SUS_coffee_cupboard", "chance": 50 } ],
       "V": { "item": "SUS_oven", "chance": 70 },
       "Y": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] },
       "1": [ { "item": "SUS_dishes", "chance": 35 }, { "item": "SUS_silverware", "chance": 35 } ],

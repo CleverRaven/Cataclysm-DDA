@@ -100,8 +100,6 @@
 
 enum class creature_size : int;
 
-static const efftype_id effect_sheared( "sheared" );
-
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
 static const activity_id ACT_ADV_INVENTORY( "ACT_ADV_INVENTORY" );
@@ -119,6 +117,7 @@ static const activity_id ACT_CLEAR_RUBBLE( "ACT_CLEAR_RUBBLE" );
 static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
 static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
 static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
+static const activity_id ACT_CONSUME_FUEL_MENU( "ACT_CONSUME_FUEL_MENU" );
 static const activity_id ACT_CRACKING( "ACT_CRACKING" );
 static const activity_id ACT_DISMEMBER( "ACT_DISMEMBER" );
 static const activity_id ACT_DISSECT( "ACT_DISSECT" );
@@ -157,7 +156,6 @@ static const activity_id ACT_PLANT_SEED( "ACT_PLANT_SEED" );
 static const activity_id ACT_PRY_NAILS( "ACT_PRY_NAILS" );
 static const activity_id ACT_PULP( "ACT_PULP" );
 static const activity_id ACT_QUARTER( "ACT_QUARTER" );
-static const activity_id ACT_READ( "ACT_READ" );
 static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
 static const activity_id ACT_ROBOT_CONTROL( "ACT_ROBOT_CONTROL" );
 static const activity_id ACT_SKIN( "ACT_SKIN" );
@@ -187,7 +185,6 @@ static const efftype_id effect_controlled( "controlled" );
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_sleep( "sleep" );
-static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_under_operation( "under_operation" );
 
 static const itype_id itype_2x4( "2x4" );
@@ -210,7 +207,6 @@ static const itype_id itype_steel_plate( "steel_plate" );
 static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_wire( "wire" );
 static const itype_id itype_chain( "chain" );
-static const itype_id itype_wool_staple( "wool_staple" );
 
 static const zone_type_id zone_type_FARM_PLOT( "FARM_PLOT" );
 
@@ -274,6 +270,7 @@ activity_handlers::do_turn_functions = {
     { ACT_CONSUME_FOOD_MENU, consume_food_menu_do_turn },
     { ACT_CONSUME_DRINK_MENU, consume_drink_menu_do_turn },
     { ACT_CONSUME_MEDS_MENU, consume_meds_menu_do_turn },
+    { ACT_CONSUME_FUEL_MENU, consume_fuel_menu_do_turn },
     { ACT_MOVE_LOOT, move_loot_do_turn },
     { ACT_ADV_INVENTORY, adv_inventory_do_turn },
     { ACT_ARMOR_LAYERS, armor_layers_do_turn },
@@ -306,7 +303,6 @@ activity_handlers::do_turn_functions = {
     { ACT_ROBOT_CONTROL, robot_control_do_turn },
     { ACT_TREE_COMMUNION, tree_communion_do_turn },
     { ACT_STUDY_SPELL, study_spell_do_turn},
-    { ACT_READ, read_do_turn},
     { ACT_WAIT_STAMINA, wait_stamina_do_turn }
 };
 
@@ -340,7 +336,6 @@ activity_handlers::finish_functions = {
     { ACT_GUNMOD_ADD, gunmod_add_finish },
     { ACT_TOOLMOD_ADD, toolmod_add_finish },
     { ACT_CLEAR_RUBBLE, clear_rubble_finish },
-    { ACT_READ, read_finish },
     { ACT_WAIT, wait_finish },
     { ACT_WAIT_WEATHER, wait_weather_finish },
     { ACT_WAIT_NPC, wait_npc_finish },
@@ -353,11 +348,11 @@ activity_handlers::finish_functions = {
     { ACT_CONSUME_FOOD_MENU, eat_menu_finish },
     { ACT_CONSUME_DRINK_MENU, eat_menu_finish },
     { ACT_CONSUME_MEDS_MENU, eat_menu_finish },
+    { ACT_CONSUME_FUEL_MENU, eat_menu_finish },
     { ACT_WASH, washing_finish },
     { ACT_HACKSAW, hacksaw_finish },
     { ACT_PRY_NAILS, pry_nails_finish },
     { ACT_CHOP_TREE, chop_tree_finish },
-    { activity_id( "ACT_SHEAR" ), shear_finish },
     { ACT_CHOP_LOGS, chop_logs_finish },
     { ACT_CHOP_PLANKS, chop_planks_finish },
     { ACT_JACKHAMMER, jackhammer_finish },
@@ -411,8 +406,8 @@ static bool check_butcher_cbm( const int roll )
     // 90% at roll 0, 72% at roll 1, 60% at roll 2, 51% @ 3, 45% @ 4, 40% @ 5, ... , 25% @ 10
     // Roll is roughly a rng(0, -3 + 1st_aid + fine_cut_quality + 1/2 electronics + small_dex_bonus)
     // Roll is reduced by corpse damage level, but to no less then 0
-    add_msg_debug( debugmode::DF_ACT_BUTCHER, _( "Roll = %i" ), roll );
-    add_msg_debug( debugmode::DF_ACT_BUTCHER, _( "Failure chance = %f%%" ),
+    add_msg_debug( debugmode::DF_ACT_BUTCHER, "Roll = %i", roll );
+    add_msg_debug( debugmode::DF_ACT_BUTCHER, "Failure chance = %f%%",
                    ( 9.0f / ( 10.0f + roll * 2.5f ) ) * 100.0f );
     const bool failed = x_in_y( 9, ( 10 + roll * 2.5 ) );
     return !failed;
@@ -489,7 +484,8 @@ static void butcher_cbm_group(
 
 static void set_up_butchery( player_activity &act, player &u, butcher_type action )
 {
-    const int factor = u.max_quality( action == butcher_type::DISSECT ? qual_CUT_FINE : qual_BUTCHER );
+    const int factor = u.max_quality( action == butcher_type::DISSECT ? qual_CUT_FINE : qual_BUTCHER,
+                                      PICKUP_RANGE );
 
     const item &corpse_item = *act.targets.back();
     const mtype &corpse = *corpse_item.get_mtype();
@@ -643,10 +639,11 @@ static void set_up_butchery( player_activity &act, player &u, butcher_type actio
     act.index = false;
 }
 
-int butcher_time_to_cut( const player &u, const item &corpse_item, const butcher_type action )
+int butcher_time_to_cut( player &u, const item &corpse_item, const butcher_type action )
 {
     const mtype &corpse = *corpse_item.get_mtype();
-    const int factor = u.max_quality( action == butcher_type::DISSECT ? qual_CUT_FINE : qual_BUTCHER );
+    const int factor = u.max_quality( action == butcher_type::DISSECT ? qual_CUT_FINE : qual_BUTCHER,
+                                      PICKUP_RANGE );
 
     int time_to_cut;
     switch( corpse.size ) {
@@ -871,7 +868,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
             int roll = roll_butchery() - corpse_item->damage_level();
             roll = roll < 0 ? 0 : roll;
             roll = std::min( entry.max, roll );
-            add_msg_debug( debugmode::DF_ACT_BUTCHER, _( "Roll penalty for corpse damage = %s" ),
+            add_msg_debug( debugmode::DF_ACT_BUTCHER, "Roll penalty for corpse damage = %s",
                            0 - corpse_item->damage_level() );
             if( entry.type == "bionic" ) {
                 butcher_cbm_item( drop_id, p.pos(), calendar::turn, roll, entry.flags, entry.faults );
@@ -894,10 +891,10 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
         // QUICK BUTCHERY
         if( action == butcher_type::QUICK ) {
             if( entry.type == "flesh" ) {
-                roll = roll / 4;
-            } else if( entry.type == "bone" ) {
+                roll /= 4;
+            } else if( entry.type == "bone" ) { // NOLINT(bugprone-branch-clone)
                 roll /= 2;
-            } else if( corpse_item->get_mtype()->size >= creature_size::medium && ( entry.type == "skin" ) ) {
+            } else if( corpse_item->get_mtype()->size >= creature_size::medium && entry.type == "skin" ) {
                 roll /= 2;
             } else if( entry.type == "offal" ) {
                 roll /= 5;
@@ -1173,14 +1170,14 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
 
     int skill_level = p->get_skill_level( skill_survival );
     int factor = p->max_quality( action == butcher_type::DISSECT ? qual_CUT_FINE :
-                                 qual_BUTCHER );
+                                 qual_BUTCHER, PICKUP_RANGE );
 
     // DISSECT has special case factor calculation and results.
     if( action == butcher_type::DISSECT ) {
         skill_level = p->get_skill_level( skill_firstaid );
-        skill_level += p->max_quality( qual_CUT_FINE );
+        skill_level += p->max_quality( qual_CUT_FINE, PICKUP_RANGE );
         skill_level += p->get_skill_level( skill_electronics ) / 2;
-        add_msg_debug( debugmode::DF_ACT_BUTCHER, _( "Skill: %s" ), skill_level );
+        add_msg_debug( debugmode::DF_ACT_BUTCHER, "Skill: %s", skill_level );
     }
 
     const auto roll_butchery = [&]() {
@@ -1249,7 +1246,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     // reveal hidden items / hidden content
     if( action != butcher_type::FIELD_DRESS && action != butcher_type::SKIN &&
         action != butcher_type::BLEED ) {
-        for( item *content : corpse_item.contents.all_items_top() ) {
+        for( item *content : corpse_item.all_items_top() ) {
             if( ( roll_butchery() + 10 ) * 5 > rng( 0, 100 ) ) {
                 //~ %1$s - item name, %2$s - monster name
                 p->add_msg_if_player( m_good, _( "You discover a %1$s in the %2$s!" ), content->tname(),
@@ -1411,40 +1408,6 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     act->index = true;
     // if its mutli-tile butchering,then restart the backlog.
     resume_for_multi_activities( *p );
-}
-
-void activity_handlers::shear_finish( player_activity *act, player *p )
-{
-    if( act->coords.empty() ) {
-        debugmsg( "shearing activity with no position of monster stored" );
-        return;
-    }
-    item_location &loc = act->targets[ 0 ];
-    item *shears = loc.get_item();
-    if( shears == nullptr ) {
-        debugmsg( "shearing item location lost" );
-        return;
-    }
-    map &here = get_map();
-    const tripoint source_pos = here.getlocal( act->coords.at( 0 ) );
-    monster *source_mon = g->critter_at<monster>( source_pos );
-    if( source_mon == nullptr ) {
-        debugmsg( "could not find source creature for shearing" );
-        return;
-    }
-    // 22 wool staples corresponds to an average wool-producing sheep yield of 10 lbs or so
-    for( int i = 0; i != 22; ++i ) {
-        item wool_staple( itype_wool_staple, calendar::turn );
-        here.add_item_or_charges( p->pos(), wool_staple );
-    }
-    source_mon->add_effect( effect_sheared, calendar::season_length() );
-    if( !act->str_values.empty() && act->str_values[0] == "temp_tie" ) {
-        source_mon->remove_effect( effect_tied );
-    }
-    act->set_to_null();
-    if( shears->type->can_have_charges() ) {
-        p->consume_charges( *shears, shears->type->charges_to_use() );
-    }
 }
 
 void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
@@ -2880,6 +2843,12 @@ void activity_handlers::consume_meds_menu_do_turn( player_activity *, player * )
     avatar_action::eat( player_character, game_menus::inv::consume_meds( player_character ) );
 }
 
+void activity_handlers::consume_fuel_menu_do_turn( player_activity *, player * )
+{
+    avatar &player_character = get_avatar();
+    avatar_action::eat( player_character, game_menus::inv::consume_fuel( player_character ), true );
+}
+
 void activity_handlers::move_loot_do_turn( player_activity *act, player *p )
 {
     activity_on_turn_move_loot( *act, *p );
@@ -3046,50 +3015,6 @@ void activity_handlers::repair_item_do_turn( player_activity *act, player *p )
 void activity_handlers::butcher_do_turn( player_activity * /*act*/, player *p )
 {
     p->mod_stamina( -20 );
-}
-
-void activity_handlers::read_do_turn( player_activity *act, player *p )
-{
-    if( p->is_player() ) {
-        // next check doesn't work for NPCs because it is counted for player's submap and z-level only
-        if( p->fine_detail_vision_mod() > 4 ) {
-            //It got too dark during the process of reading, bail out.
-            act->set_to_null();
-            p->add_msg_if_player( m_bad, _( "It's too dark to read!" ) );
-            return;
-        }
-
-        if( !act->str_values.empty() && act->str_values[0] == "martial_art" && one_in( 3 ) ) {
-            if( act->values.empty() ) {
-                act->values.push_back( p->get_stamina() );
-            }
-            p->set_stamina( act->values[0] - 1 );
-            act->values[0] = p->get_stamina();
-        }
-    } else {
-        p->moves = 0;
-    }
-}
-
-void activity_handlers::read_finish( player_activity *act, player *p )
-{
-    if( !act || !act->targets.front() ) {
-        debugmsg( "Lost target of ACT_READ" );
-        return;
-    }
-    if( p->is_npc() ) {
-        npc *guy = dynamic_cast<npc *>( p );
-        guy->finish_read( * act->targets.front().get_item() );
-    } else {
-        if( avatar *u = p->as_avatar() ) {
-            u->do_read( *act->targets.front().get_item() );
-        } else {
-            act->set_to_null();
-        }
-        if( !act ) {
-            p->add_msg_if_player( m_info, _( "You finish reading." ) );
-        }
-    }
 }
 
 void activity_handlers::wait_finish( player_activity *act, player *p )
@@ -4355,6 +4280,6 @@ void activity_handlers::mind_splicer_finish( player_activity *act, player *p )
     item &data_card = *act->targets[0];
     p->add_msg_if_player( m_info, _( "…you finally find the memory banks." ) );
     p->add_msg_if_player( m_info, _( "The kit makes a copy of the data inside the bionic." ) );
-    data_card.contents.clear_items();
+    data_card.clear_items();
     data_card.put_in( item( itype_mind_scan_robofac ), item_pocket::pocket_type::SOFTWARE );
 }

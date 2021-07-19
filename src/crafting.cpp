@@ -438,7 +438,7 @@ bool Character::check_eligible_containers_for_crafting( const recipe &rec, int b
 
 static bool is_container_eligible_for_crafting( const item &cont, bool allow_bucket )
 {
-    if( cont.is_watertight_container() && cont.contents.num_item_stacks() <= 1 && ( allow_bucket ||
+    if( cont.is_watertight_container() && cont.num_item_stacks() <= 1 && ( allow_bucket ||
             !cont.will_spill() ) ) {
         return !cont.is_container_full( allow_bucket );
     }
@@ -453,7 +453,7 @@ static std::vector<const item *> get_eligible_containers_recursive( const item &
     if( is_container_eligible_for_crafting( cont, allow_bucket ) ) {
         ret.push_back( &cont );
     }
-    for( const item *it : cont.contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+    for( const item *it : cont.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
         //buckets are never allowed when inside another container
         std::vector<const item *> inside = get_eligible_containers_recursive( *it, false );
         ret.insert( ret.end(), inside.begin(), inside.end() );
@@ -1169,7 +1169,7 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
 
         // Points to newit unless newit is a non-empty container, then it points to newit's contents.
         // Necessary for things like canning soup; sometimes we want to operate on the soup, not the can.
-        item &food_contained = !newit.contents.empty() ? newit.contents.only_item() : newit;
+        item &food_contained = !newit.empty() ? newit.contents.only_item() : newit;
 
         // messages, learning of recipe, food spoilage calculation only once
         if( first ) {
@@ -1523,10 +1523,8 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
             if( player_inv ) {
                 bool found = false;
                 const item item_sought( type );
-                if( item_sought.is_software() && count_softwares( type ) > 0 ) {
-                    player_has.push_back( component );
-                    found = true;
-                } else if( has_amount( type, count, false, filter ) ) {
+                if( ( item_sought.is_software() && count_softwares( type ) > 0 ) ||
+                    has_amount( type, count, false, filter ) ) {
                     player_has.push_back( component );
                     found = true;
                 }
@@ -1658,11 +1656,11 @@ static void empty_buckets( Character &p )
         return it.is_bucket_nonempty() && &it != &p.weapon;
     }, INT_MAX );
     for( auto &it : buckets ) {
-        for( const item *in : it.contents.all_items_top() ) {
+        for( const item *in : it.all_items_top() ) {
             drop_or_handle( *in, p );
         }
 
-        it.contents.clear_items();
+        it.clear_items();
         drop_or_handle( it, p );
     }
 }

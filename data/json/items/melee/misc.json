@@ -70,6 +70,7 @@
     "symbol": ";",
     "color": "dark_gray",
     "ammo": [ "battery" ],
+    "flags": [ "WATER_BREAK" ],
     "charges_per_use": 100,
     "use_action": [ "TAZER" ],
     "pocket_data": [

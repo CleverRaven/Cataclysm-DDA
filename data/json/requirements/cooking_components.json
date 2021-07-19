@@ -84,6 +84,12 @@
     "components": [ [ [ "milk", 1 ], [ "milk_reconstituted", 1 ], [ "milk_UHT", 1 ] ] ]
   },
   {
+    "id": "any_frosting",
+    "type": "requirement",
+    "//": "Frosting for cakes and treats",
+    "components": [ [ [ "buttercream", 2 ], [ "milk_cream_whipped", 2 ] ] ]
+  },
+  {
     "id": "any_butter",
     "type": "requirement",
     "//": "Butter of all types and other future butter substitutes",
@@ -726,9 +732,14 @@
     ]
   },
   {
+    "id": "veggy_any_corn_uncooked",
+    "type": "requirement",
+    "components": [ [ [ "corn", 1 ], [ "corn_kernels", 1 ], [ "rehydrated_corn_kernels", 1 ], [ "can_corn", 1 ] ] ]
+  },
+  {
     "id": "veggy_any_uncooked",
     "type": "requirement",
-    "components": [ [ [ "rehydrated_veggy", 1 ], [ "rehydrated_corn_kernels", 1 ], [ "veggy_any_fresh_uncooked", 1, "LIST" ] ] ]
+    "components": [ [ [ "rehydrated_veggy", 1 ], [ "veggy_any_corn_uncooked", 1, "LIST" ], [ "veggy_any_fresh_uncooked", 1, "LIST" ] ] ]
   },
   {
     "id": "veggy_any_fresh_uncooked",

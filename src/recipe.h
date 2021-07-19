@@ -184,9 +184,9 @@ class recipe
         // Helpful proficiencies
         std::set<proficiency_id> assist_proficiencies() const;
         // The time malus due to proficiencies lacking
-        float proficiency_time_maluses( const Character &guy ) const;
+        float proficiency_time_maluses( const Character &crafter ) const;
         // The failure malus due to proficiencies lacking
-        float proficiency_failure_maluses( const Character &guy ) const;
+        float proficiency_failure_maluses( const Character &crafter ) const;
 
         // How active of exercise this recipe is
         float exertion_level() const;

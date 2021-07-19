@@ -27,7 +27,6 @@
     "vision_night": 12,
     "path_settings": { "max_dist": 21, "avoid_traps": true, "avoid_sharp": true },
     "harvest": "mammal_fur",
-    "death_function": [ "NORMAL" ],
     "reproduction": { "baby_monster": "mon_yulecat_cub", "baby_count": 6, "baby_timer": 234 },
     "baby_flags": [ "WINTER" ],
     "special_attacks": [ { "type": "bite", "cooldown": 10 }, [ "GRAB", 8 ], [ "scratch", 6 ] ],
@@ -81,7 +80,6 @@
     "armor_bullet": 3,
     "harvest": "demihuman",
     "path_settings": { "avoid_traps": true, "avoid_sharp": true },
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "WARM" ]
   },
   {
@@ -93,20 +91,21 @@
     "bodytype": "human",
     "volume": "145 ml",
     "weight": "168 kg",
-    "hp": 125,
+    "hp": 45,
     "speed": 124,
     "material": [ "flesh" ],
     "symbol": "L",
     "color": "green",
     "aggression": 45,
-    "morale": 100,
-    "melee_skill": 6,
-    "melee_dice": 7,
-    "melee_dice_sides": 7,
+    "morale": 5,
+    "melee_skill": 4,
+    "melee_dice": 3,
+    "melee_dice_sides": 2,
     "dodge": 6,
     "harvest": "demihuman",
     "path_settings": { "avoid_traps": true, "avoid_sharp": true },
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "WARM" ]
+    "fear_triggers": [ "HURT", "FIRE" ],
+    "special_attacks": [ { "type": "spell", "spell_data": { "id": "prank", "min_level": 5 }, "cooldown": 80 }, [ "PULL_METAL_WEAPON", 25 ] ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "KEEP_DISTANCE", "WARM" ]
   }
 ]

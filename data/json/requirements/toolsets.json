@@ -33,14 +33,14 @@
     "id": "forging_standard",
     "type": "requirement",
     "//": "Forging of steel items (per steel chunk), charcoal forge is already a substitute for forge",
-    "tools": [ [ [ "forge", 20 ], [ "oxy_torch", 20 ] ] ]
+    "tools": [ [ [ "forge", 20 ], [ "oxy_torch", 20 ], [ "fake_arc_furnace", 10 ] ] ]
   },
   {
     "id": "blacksmithing_standard",
     "type": "requirement",
     "//": "Includes forging resources as well as tools needed for most blacksmithing",
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
-    "tools": [ [ [ "forge", 20 ], [ "oxy_torch", 20 ] ], [ [ "tongs", -1 ] ] ]
+    "tools": [ [ [ "forge", 20 ], [ "oxy_torch", 20 ], [ "fake_arc_furnace", 10 ] ], [ [ "tongs", -1 ] ] ]
   },
   {
     "id": "mutagen_production_standard",
@@ -78,7 +78,7 @@
     "tools": [
       [ [ "pliers", -1 ], [ "multitool", -1 ] ],
       [ [ "boltcutters", -1 ], [ "toolset", -1 ] ],
-      [ [ "cordless_drill", 10 ] ]
+      [ [ "cordless_drill", 10 ], [ "fake_drill_press", 5 ] ]
     ]
   },
   {
@@ -87,6 +87,12 @@
     "//": "Soldering metal items",
     "tools": [ [ [ "soldering_iron", 1 ], [ "toolset", 1 ] ] ],
     "components": [ [ [ "solder_wire", 1 ] ] ]
+  },
+  {
+    "id": "drilling_standard",
+    "type": "requirement",
+    "//": "Drilling holes in various materials, including metal",
+    "tools": [ [ [ "cordless_drill", 2 ], [ "toolset", 2 ], [ "fake_drill_press", 1 ] ] ]
   },
   {
     "id": "anesthetic",
@@ -118,5 +124,17 @@
     "type": "requirement",
     "//": "should contain all the ink pens",
     "tools": [ [ [ "pen", 1 ], [ "black_pen", 1 ], [ "blue_pen", 1 ], [ "green_pen", 1 ], [ "red_pen", 1 ] ] ]
+  },
+  {
+    "id": "power_saw_long",
+    "type": "requirement",
+    "//": "Power tools able to make long, straigth cuts",
+    "tools": [ [ [ "fake_tablesaw", 50 ], [ "circsaw_off", 100 ], [ "fake_bandsaw", 50 ] ] ]
+  },
+  {
+    "id": "power_saw_short",
+    "type": "requirement",
+    "//": "Power tools able to make short, precise cuts",
+    "tools": [ [ [ "fake_mitresaw", 10 ], [ "circsaw_off", 20 ], [ "fake_bandsaw", 10 ] ] ]
   }
 ]
