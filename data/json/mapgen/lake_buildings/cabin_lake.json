@@ -168,7 +168,7 @@
         "//..////......9........."
       ],
       "place_vehicles": [
-        { "vehicle": "boat_motor_single", "x": 4, "y": 5, "rotation": 180, "chance": 10, "status": 3 },
+        { "vehicle": "boat_motor_single", "x": 12, "y": 5, "rotation": 180, "chance": 10, "status": 3 },
         { "vehicle": "kayak_racing", "x": 11, "y": 2, "rotation": 180, "chance": 30, "status": 0 },
         { "vehicle": "canoe", "x": 2, "y": 5, "rotation": 180, "chance": 100, "status": 0 }
       ],
