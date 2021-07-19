@@ -40,7 +40,7 @@ static constexpr float VISIBILITY_FULL = 1.0f;
 
 constexpr inline int LIGHT_RANGE( float b )
 {
-    if( b == 0.0f ) {
+    if( b <= LIGHT_AMBIENT_LOW ) {
         return 0;
     }
     return static_cast<int>( -std::log( LIGHT_AMBIENT_LOW / b ) * ( 1.0 /
