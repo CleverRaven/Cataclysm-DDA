@@ -764,6 +764,10 @@ class Character : public Creature, public visitable
 
         double recoil = MAX_RECOIL;
 
+        // Keep a count of moves passed in which resets every 100 turns as a result of practicing archery proficiency
+        // This is done this way in order to not destroy focus since `do_aim` is on a per-move basis.
+        int archery_aim_counter = 0;
+
         std::string custom_profession;
 
         /** Returns true if the player has quiet melee attacks */
@@ -1841,6 +1845,7 @@ class Character : public Creature, public visitable
         std::vector<display_proficiency> display_proficiencies() const;
         std::vector<proficiency_id> known_proficiencies() const;
         std::vector<proficiency_id> learning_proficiencies() const;
+        int get_proficiency_bonus( std::string category, int prof_bonus ) const;
 
         // tests only!
         void set_proficiency_practice( const proficiency_id &id, const time_duration &amount );

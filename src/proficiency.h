@@ -6,6 +6,7 @@
 #include <set>
 #include <vector>
 
+#include <string>
 #include "calendar.h"
 #include "color.h"
 #include "flat_set.h"
@@ -21,6 +22,13 @@ struct display_proficiency;
 struct learning_proficiency;
 template<typename T>
 class generic_factory;
+
+enum class proficiency_bonus_list : int {
+    str_bonus,
+    dex_bonus,
+    int_bonus,
+    per_bonus
+};
 
 class proficiency
 {
@@ -40,6 +48,13 @@ class proficiency
         time_duration _time_to_learn = 9999_hours;
         std::set<proficiency_id> _required;
 
+        std::string _category;
+
+        int _str_bonus = 0;
+        int _dex_bonus = 0;
+        int _int_bonus = 0;
+        int _per_bonus = 0;
+
     public:
         static void load_proficiencies( const JsonObject &jo, const std::string &src );
         static void reset();
@@ -56,6 +71,13 @@ class proficiency
 
         time_duration time_to_learn() const;
         std::set<proficiency_id> required_proficiencies() const;
+
+        std::string category() const;
+
+        int str_bonus() const;
+        int dex_bonus() const;
+        int int_bonus() const;
+        int per_bonus() const;
 };
 
 // The proficiencies you know, and the ones you're learning.
@@ -90,6 +112,8 @@ class proficiency_set
         time_duration training_time_needed( const proficiency_id &query ) const;
         std::vector<proficiency_id> known_profs() const;
         std::vector<proficiency_id> learning_profs() const;
+
+        float get_proficiency_bonus( std::string category, int proficiency_bonus ) const;
 
         void serialize( JsonOut &jsout ) const;
         void deserialize( JsonIn &jsin );

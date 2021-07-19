@@ -9,6 +9,7 @@
 #include "debug.h"
 #include "generic_factory.h"
 #include "json.h"
+#include "enums.h"
 
 const float book_proficiency_bonus::default_time_factor = 0.5f;
 const float book_proficiency_bonus::default_fail_factor = 0.5f;
@@ -51,6 +52,13 @@ void proficiency::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "default_fail_multiplier", _default_fail_multiplier );
     optional( jo, was_loaded, "time_to_learn", _time_to_learn );
     optional( jo, was_loaded, "required_proficiencies", _required );
+
+    optional( jo, was_loaded, "category", _category );
+
+    optional( jo, was_loaded, "str_bonus", _str_bonus );
+    optional( jo, was_loaded, "dex_bonus", _dex_bonus );
+    optional( jo, was_loaded, "int_bonus", _int_bonus );
+    optional( jo, was_loaded, "per_bonus", _per_bonus );
 }
 
 const std::vector<proficiency> &proficiency::get_all()
@@ -96,6 +104,61 @@ time_duration proficiency::time_to_learn() const
 std::set<proficiency_id> proficiency::required_proficiencies() const
 {
     return _required;
+}
+
+std::string proficiency::category() const
+{
+    return _category;
+}
+
+int proficiency::str_bonus() const
+{
+    return _str_bonus;
+}
+
+int proficiency::dex_bonus() const
+{
+    return _dex_bonus;
+}
+
+int proficiency::int_bonus() const
+{
+    return _int_bonus;
+}
+
+int proficiency::per_bonus() const
+{
+    return _per_bonus;
+}
+
+// For new bonuses, add property name along with getter function in this method along with adding an entry to proficiency_bonus_list.
+float proficiency_bonus_from_json_property_name( proficiency prof, int prof_bonus )
+{
+    proficiency_bonus_list prof_bonus_enum = proficiency_bonus_list( prof_bonus );
+    switch( prof_bonus_enum ) {
+        case proficiency_bonus_list::str_bonus:
+            return prof.str_bonus();
+        case proficiency_bonus_list::dex_bonus:
+            return prof.dex_bonus();
+        case proficiency_bonus_list::int_bonus:
+            return prof.int_bonus();
+        case proficiency_bonus_list::per_bonus:
+            return prof.per_bonus();
+        default:
+            return 0;
+    }
+}
+
+float proficiency_set::get_proficiency_bonus( std::string category, int prof_bonus ) const
+{
+    int stat_bonus = 0;
+    for( const proficiency_id &knows : known ) {
+        proficiency prof = knows.obj();
+        if( prof.category() == category ) {
+            stat_bonus += proficiency_bonus_from_json_property_name( prof, prof_bonus );
+        }
+    }
+    return stat_bonus;
 }
 
 learning_proficiency &proficiency_set::fetch_learning( const proficiency_id &target )
