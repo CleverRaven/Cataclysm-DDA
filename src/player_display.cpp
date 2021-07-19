@@ -1192,8 +1192,8 @@ void player::disp_info()
         const stat_mod ppen = get_pain_penalty();
         std::pair<std::string, nc_color> pain_desc = get_pain_description();
         std::string pain_text;
-        pain_desc.first = string_format(_("You are in %s\n"), pain_desc.first);
-        pain_text += colorize(pain_desc.first, pain_desc.second);
+        pain_desc.first = string_format( _( "You are in %s\n" ), pain_desc.first );
+        pain_text += colorize( pain_desc.first, pain_desc.second );
         const auto add_if = [&]( const int amount, const char *const name ) {
             if( amount > 0 ) {
                 pain_text += string_format( name, amount ) + "   ";
