@@ -1326,5 +1326,21 @@
     "looks_like": "scrap",
     "symbol": "[",
     "color": "light_gray"
+  },
+  {
+    "id": "sextant",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str": "sextant" },
+    "description": "A tool for measuring angles of distant objects.  It can be used for measuring the altitude of the Sun.",
+    "weight": "500 g",
+    "volume": "500 ml",
+    "price": 100,
+    "price_postapoc": 10,
+    "to_hit": -3,
+    "material": [ "plastic" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "use_action": [ "SEXTANT" ]
   }
 ]

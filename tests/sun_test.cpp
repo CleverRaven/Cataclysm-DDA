@@ -412,7 +412,7 @@ TEST_CASE( "sunrise_sunset_consistency", "[sun]" )
             units::angle azimuth;
             units::angle altitude;
             std::tie( azimuth, altitude ) =
-                sun_azimuth_altitude( this_sunrise, location_boston );
+                sun_azimuth_altitude( this_sunrise );
             CHECK( to_degrees( altitude ) == Approx( 0 ).margin( 0.01 ) );
         }
         {
@@ -421,7 +421,7 @@ TEST_CASE( "sunrise_sunset_consistency", "[sun]" )
             units::angle azimuth;
             units::angle altitude;
             std::tie( azimuth, altitude ) =
-                sun_azimuth_altitude( this_sunset, location_boston );
+                sun_azimuth_altitude( this_sunset );
             CHECK( to_degrees( altitude ) == Approx( 0 ).margin( 0.01 ) );
         }
         {
@@ -430,7 +430,7 @@ TEST_CASE( "sunrise_sunset_consistency", "[sun]" )
             units::angle azimuth;
             units::angle altitude;
             std::tie( azimuth, altitude ) =
-                sun_azimuth_altitude( this_daylight, location_boston );
+                sun_azimuth_altitude( this_daylight );
             CHECK( to_degrees( altitude ) == Approx( -12 ).margin( 0.01 ) );
         }
     }
@@ -448,7 +448,7 @@ static PointSet sun_positions_regular( time_point start, time_point end, time_du
         CAPTURE( to_minutes<int>( t - start ) );
         units::angle azimuth;
         units::angle altitude;
-        std::tie( azimuth, altitude ) = sun_azimuth_altitude( t, location_boston );
+        std::tie( azimuth, altitude ) = sun_azimuth_altitude( t );
         if( altitude < 0_degrees ) {
             continue;
         }
