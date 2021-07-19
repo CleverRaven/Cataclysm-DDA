@@ -355,7 +355,7 @@
     "id": "f_oven",
     "name": "oven",
     "symbol": "#",
-    "description": "A standard convection-based oven, commonly used for heating and cooking food.  Despite it no longer working, you could safely light a fire inside.",
+    "description": "A standard convection-based oven, commonly used for heating and cooking food.  You could safely light a fire inside or power it with UPS.",
     "color": "dark_gray",
     "move_cost_mod": 2,
     "coverage": 60,
@@ -389,7 +389,8 @@
         { "item": "cable", "charges": [ 1, 3 ] },
         { "item": "pilot_light", "count": 1 }
       ]
-    }
+    },
+    "crafting_pseudo_item": "fake_oven"
   },
   {
     "type": "furniture",
@@ -546,7 +547,7 @@
     "id": "f_satellite",
     "name": "large satellite dish",
     "looks_like": "t_radio_tower",
-    "description": "A large concave metal panel with simple electronics used to receive signals from sattelites.  While the hundreds of expensive machines orbitting the planet will likely continue to function indefinately, their various purposes have all been lost.",
+    "description": "A large, concave metal panel with simple electronics used to receive signals from satellites.  While the hundreds of expensive machines orbiting the planet will likely continue to function indefinitely, their various purposes have all been lost.",
     "symbol": ")",
     "color": "white_green",
     "move_cost_mod": -1,

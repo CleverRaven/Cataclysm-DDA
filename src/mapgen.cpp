@@ -67,6 +67,7 @@
 #include "submap.h"
 #include "text_snippets.h"
 #include "tileray.h"
+#include "to_string_id.h"
 #include "translations.h"
 #include "trap.h"
 #include "units.h"
@@ -90,10 +91,6 @@ static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
 static const mongroup_id GROUP_ROBOT_SECUBOT( "GROUP_ROBOT_SECUBOT" );
 static const mongroup_id GROUP_SEWER( "GROUP_SEWER" );
 static const mongroup_id GROUP_SLIME( "GROUP_SLIME" );
-static const mongroup_id GROUP_SPIDER( "GROUP_SPIDER" );
-static const mongroup_id GROUP_TRIFFID( "GROUP_TRIFFID" );
-static const mongroup_id GROUP_TRIFFID_HEART( "GROUP_TRIFFID_HEART" );
-static const mongroup_id GROUP_TRIFFID_OUTER( "GROUP_TRIFFID_OUTER" );
 static const mongroup_id GROUP_TURRET( "GROUP_TURRET" );
 
 static const trait_id trait_NPC_STATIC_NPC( "NPC_STATIC_NPC" );
@@ -103,8 +100,6 @@ static const trait_id trait_NPC_STATIC_NPC( "NPC_STATIC_NPC" );
 static constexpr int MON_RADIUS = 3;
 
 static void science_room( map *m, const point &p1, const point &p2, int z, int rotate );
-static void build_mine_room( room_type type, const point &p1, const point &p2,
-                             const mapgendata &dat );
 
 // (x,y,z) are absolute coordinates of a submap
 // x%2 and y%2 must be 0!
@@ -593,7 +588,6 @@ mapgen_function_json_base::mapgen_function_json_base(
     const json_source_location &jsrcloc, const std::string &context )
     : jsrcloc( jsrcloc )
     , context_( context )
-    , do_format( false )
     , is_ready( false )
     , mapgensize( SEEX * 2, SEEY * 2 )
     , objects( m_offset, mapgensize )
@@ -786,6 +780,16 @@ void mapgen_function_json_base::setup_setmap( const JsonArray &parray )
 
 }
 
+std::unordered_map<std::string, cata_variant>
+mapgen_function_json_base::get_param_values( const mapgendata &md ) const
+{
+    std::unordered_map<std::string, cata_variant> result;
+    for( const std::pair<const std::string, mapgen_parameter> &param : parameters ) {
+        result.emplace( param.first, param.second.get( md ) );
+    }
+    return result;
+}
+
 jmapgen_place::jmapgen_place( const JsonObject &jsi )
     : x( jsi, "x" )
     , y( jsi, "y" )
@@ -813,6 +817,168 @@ map_key::map_key( const JsonMember &member ) : str( member.name() )
     if( utf8_width( str ) != 1 ) {
         member.throw_error( "format map key must be 1 column" );
     }
+}
+
+template<typename T>
+static bool is_null_helper( const string_id<T> &id )
+{
+    return id.is_null();
+}
+
+template<typename T>
+static bool is_null_helper( const int_id<T> &id )
+{
+    return id.id().is_null();
+}
+
+static bool is_null_helper( const std::string & )
+{
+    return false;
+}
+
+template<typename T>
+static bool is_valid_helper( const string_id<T> &id )
+{
+    return id.is_valid();
+}
+
+static bool is_valid_helper( const std::string & )
+{
+    return true;
+}
+
+// Mapgen often uses various id values.  Usually these are specified verbatim
+// as strings, but they can also be parameterized.  This class encapsulates
+// such a value.  It records how the value was specified so that it can be
+// calculated later based on the parameters chosen for a particular instance of
+// the mapgen.
+template<typename Id>
+class mapgen_value
+{
+    public:
+        using StringId = to_string_id_t<Id>;
+
+        struct value_source {
+            virtual ~value_source() = default;
+            virtual Id get( const mapgendata & ) const = 0;
+            virtual void check( const std::string &/*oter_name*/,
+                                const std::unordered_map<std::string, mapgen_parameter> &
+                              ) const {};
+        };
+
+        struct id_source : value_source {
+            Id id;
+
+            explicit id_source( const std::string &s ) :
+                id( s ) {
+            }
+
+            Id get( const mapgendata & ) const override {
+                return id;
+            }
+        };
+
+        struct param_source : value_source {
+            std::string param_name;
+
+            explicit param_source( const JsonObject &jo ) :
+                param_name( jo.get_string( "param" ) ) {
+            }
+
+            Id get( const mapgendata &dat ) const override {
+                return Id( dat.get_param<StringId>( param_name ) );
+            }
+
+            void check( const std::string &oter_name,
+                        const std::unordered_map<std::string, mapgen_parameter> &parameters
+                      ) const override {
+                auto param = parameters.find( param_name );
+                if( param == parameters.end() ) {
+                    debugmsg( "mapgen '%s' uses undefined parameter '%s'", oter_name, param_name );
+                } else {
+                    constexpr cata_variant_type req_type = cata_variant_type_for<StringId>();
+                    cata_variant_type param_type = param->second.type();
+                    if( param_type != req_type ) {
+                        debugmsg( "mapgen '%s' uses parameter '%s' of type '%s' in a context "
+                                  "expecting type '%s'", oter_name, param_name,
+                                  io::enum_to_string( param_type ),
+                                  io::enum_to_string( req_type ) );
+                    }
+                }
+            }
+        };
+
+        struct distribution_source : value_source {
+            weighted_int_list<StringId> list;
+
+            explicit distribution_source( const JsonObject &jo ) {
+                load_weighted_list( jo.get_member( "distribution" ), list, 1 );
+            }
+
+            Id get( const mapgendata & ) const override {
+                return *list.pick();
+            }
+
+            void check( const std::string &oter_name,
+                        const std::unordered_map<std::string, mapgen_parameter> & ) const override {
+                for( const weighted_object<int, StringId> &wo : list ) {
+                    if( !is_valid_helper( wo.obj ) ) {
+                        debugmsg( "mapgen '%s' uses invalid entry '%s' in weighted list",
+                                  oter_name, cata_variant( wo.obj ).get_string() );
+                    }
+                }
+            }
+        };
+
+        explicit mapgen_value( const JsonValue &jv ) {
+            if( jv.test_string() ) {
+                std::string id = jv.get_string();
+                source_ = make_shared_fast<id_source>( id );
+                is_null_ = is_null_helper( id );
+            } else {
+                JsonObject jo = jv.get_object();
+                if( jo.has_member( "param" ) ) {
+                    source_ = make_shared_fast<param_source>( jo );
+                } else if( jo.has_member( "distribution" ) ) {
+                    source_ = make_shared_fast<distribution_source>( jo );
+                } else {
+                    jo.throw_error( R"(Expected member "param" or "distribution" in object)" );
+                }
+            }
+        }
+
+        bool is_null() const {
+            return is_null_;
+        }
+
+        void check( const std::string &oter_name,
+                    const std::unordered_map<std::string, mapgen_parameter> &params ) const {
+            source_->check( oter_name, params );
+        }
+
+        Id get( const mapgendata &dat ) const {
+            return source_->get( dat );
+        }
+    private:
+        bool is_null_ = false;
+        shared_ptr_fast<const value_source> source_;
+};
+
+void mapgen_parameter::deserialize( JsonIn &jsin )
+{
+    JsonObject jo = jsin.get_object();
+    jo.read( "type", type_, true );
+    default_ = std::make_unique<mapgen_value<std::string>>( jo.get_member( "default" ) );
+}
+
+cata_variant_type mapgen_parameter::type() const
+{
+    return type_;
+}
+
+cata_variant mapgen_parameter::get( const mapgendata &md ) const
+{
+    return cata_variant::from_string( type_, default_->get( md ) );
 }
 
 /**
@@ -1030,9 +1196,11 @@ class jmapgen_vending_machine : public jmapgen_piece
     public:
         bool reinforced;
         item_group_id group_id;
+        bool lootable;
         jmapgen_vending_machine( const JsonObject &jsi, const std::string &/*context*/ ) :
             reinforced( jsi.get_bool( "reinforced", false ) )
-            , group_id( jsi.get_string( "item_group", "default_vending_machine" ) ) {
+            , group_id( jsi.get_string( "item_group", "default_vending_machine" ) )
+            , lootable( jsi.get_bool( "lootable", false ) ) {
             if( !item_group::group_is_defined( group_id ) ) {
                 set_mapgen_defer( jsi, "item_group", "no such item group" );
             }
@@ -1041,7 +1209,7 @@ class jmapgen_vending_machine : public jmapgen_piece
                   ) const override {
             const point r( x.get(), y.get() );
             dat.m.furn_set( r, f_null );
-            dat.m.place_vending( r, group_id, reinforced );
+            dat.m.place_vending( r, group_id, reinforced, lootable );
         }
         bool has_vehicle_collision( const mapgendata &dat, const point &p ) const override {
             return dat.m.veh_at( tripoint( p, dat.zlevel() ) ).has_value();
@@ -1088,7 +1256,7 @@ class jmapgen_gaspump : public jmapgen_piece
                 fuel = jsi.get_string( "fuel" );
 
                 // may want to not force this, if we want to support other fuels for some reason
-                if( fuel != "gasoline" && fuel != "diesel" && fuel != "jp8" ) {
+                if( fuel != "gasoline" && fuel != "diesel" && fuel != "jp8" && fuel != "avgas" ) {
                     jsi.throw_error( "invalid fuel", "fuel" );
                 }
             }
@@ -1200,7 +1368,11 @@ class jmapgen_loot : public jmapgen_piece
             if( group.is_empty() ) {
                 // Migrations are applied to item *groups* on load, but single item spawns must be
                 // migrated individually
-                result_group.add_item_entry( item_controller->migrate_id( ity ), 100 );
+                std::string variant;
+                if( jsi.has_string( "variant" ) ) {
+                    variant = jsi.get_string( "variant" );
+                }
+                result_group.add_item_entry( item_controller->migrate_id( ity ), 100, variant );
             } else {
                 result_group.add_group_entry( group, 100 );
             }
@@ -1276,7 +1448,8 @@ class jmapgen_monster : public jmapgen_piece
             chance( jsi, "chance", 100, 100 )
             , pack_size( jsi, "pack_size", 1, 1 )
             , one_or_none( jsi.get_bool( "one_or_none",
-                                         !( jsi.has_member( "repeat" ) || jsi.has_member( "pack_size" ) ) ) )
+                                         !( jsi.has_member( "repeat" ) ||
+                                            jsi.has_member( "pack_size" ) ) ) )
             , friendly( jsi.get_bool( "friendly", false ) )
             , name( jsi.get_string( "name", "NONE" ) )
             , target( jsi.get_bool( "target", false ) ) {
@@ -1317,7 +1490,16 @@ class jmapgen_monster : public jmapgen_piece
                 if( sd.has_array( "ammo" ) ) {
                     const JsonArray &ammos = sd.get_array( "ammo" );
                     for( const JsonObject adata : ammos ) {
-                        data.ammo.emplace( itype_id( adata.get_string( "ammo_id" ) ), jmapgen_int( adata, "qty" ) );
+                        data.ammo.emplace( itype_id( adata.get_string( "ammo_id" ) ),
+                                           jmapgen_int( adata, "qty" ) );
+                    }
+                }
+                if( sd.has_array( "patrol" ) ) {
+                    const JsonArray &patrol_pts = sd.get_array( "patrol" );
+                    for( const JsonObject p_pt : patrol_pts ) {
+                        jmapgen_int ptx = jmapgen_int( p_pt, "x" );
+                        jmapgen_int pty = jmapgen_int( p_pt, "y" );
+                        data.patrol_points_rel_ms.emplace_back( ptx.get(), pty.get() );
                     }
                 }
             }
@@ -1327,7 +1509,8 @@ class jmapgen_monster : public jmapgen_piece
 
             int raw_odds = chance.get();
 
-            // Handle spawn density: Increase odds, but don't let the odds of absence go below half the odds at density 1.
+            // Handle spawn density: Increase odds, but don't let the odds of absence go below
+            // half the odds at density 1.
             // Instead, apply a multiplier to the number of monsters for really high densities.
             // For example, a 50% chance at spawn density 4 becomes a 75% chance of ~2.7 monsters.
             int odds_after_density = raw_odds * get_option<float>( "SPAWN_DENSITY" );
@@ -1345,10 +1528,12 @@ class jmapgen_monster : public jmapgen_piece
 
             int spawn_count = roll_remainder( density_multiplier );
 
-            if( one_or_none ) { // don't let high spawn density alone cause more than 1 to spawn.
+            // don't let high spawn density alone cause more than 1 to spawn.
+            if( one_or_none ) {
                 spawn_count = std::min( spawn_count, 1 );
             }
-            if( raw_odds == 100 ) { // don't spawn less than 1 if odds were 100%, even with low spawn density.
+            // don't spawn less than 1 if odds were 100%, even with low spawn density.
+            if( raw_odds == 100 ) {
                 spawn_count = std::max( spawn_count, 1 );
             } else {
                 if( !x_in_y( odds_after_density, 100 ) ) {
@@ -1426,6 +1611,7 @@ class jmapgen_spawn_item : public jmapgen_piece
 {
     public:
         itype_id type;
+        std::string variant;
         jmapgen_int amount;
         jmapgen_int chance;
         std::set<flag_id> flags;
@@ -1434,6 +1620,9 @@ class jmapgen_spawn_item : public jmapgen_piece
             , amount( jsi, "amount", 1, 1 )
             , chance( jsi, "chance", 100, 100 )
             , flags( jsi.get_tags<flag_id>( "custom-flags" ) ) {
+            if( jsi.has_string( "variant" ) ) {
+                variant = jsi.get_string( "variant" );
+            }
             // Itemgroups apply migrations when being loaded, but we need to migrate
             // individual items here.
             type = item_controller->migrate_id( type );
@@ -1451,7 +1640,7 @@ class jmapgen_spawn_item : public jmapgen_piece
             int spawn_count = ( c == 100 ) ? 1 : roll_remainder( c * spawn_rate / 100.0f );
             for( int i = 0; i < spawn_count; i++ ) {
                 dat.m.spawn_item( point( x.get(), y.get() ), type, amount.get(),
-                                  0, calendar::start_of_cataclysm, 0, flags );
+                                  0, calendar::start_of_cataclysm, 0, flags, variant );
             }
         }
 };
@@ -1465,16 +1654,19 @@ class jmapgen_trap : public jmapgen_piece
         trap_id id;
         jmapgen_trap( const JsonObject &jsi, const std::string &/*context*/ ) :
             id( 0 ) {
-            const trap_str_id sid( jsi.get_string( "trap" ) );
-            if( !sid.is_valid() ) {
-                set_mapgen_defer( jsi, "trap", "no such trap" );
-            }
-            id = sid.id();
+            init( jsi );
         }
 
-        explicit jmapgen_trap( const std::string &tid ) :
+        explicit jmapgen_trap( const JsonValue &tid ) :
             id( 0 ) {
-            const trap_str_id sid( tid );
+            if( tid.test_object() ) {
+                JsonObject jo = tid.get_object();
+                if( jo.has_member( "trap" ) ) {
+                    init( jo );
+                    return;
+                }
+            }
+            const trap_str_id sid( tid.get_string() );
             if( !sid.is_valid() ) {
                 throw std::runtime_error( "unknown trap type" );
             }
@@ -1488,6 +1680,14 @@ class jmapgen_trap : public jmapgen_piece
         bool has_vehicle_collision( const mapgendata &dat, const point &p ) const override {
             return dat.m.veh_at( tripoint( p, dat.zlevel() ) ).has_value();
         }
+    private:
+        void init( const JsonObject &jsi ) {
+            const trap_str_id sid( jsi.get_string( "trap" ) );
+            if( !sid.is_valid() ) {
+                set_mapgen_defer( jsi, "trap", "no such trap" );
+            }
+            id = sid.id();
+        }
 };
 /**
  * Place a furniture.
@@ -1498,8 +1698,8 @@ class jmapgen_furniture : public jmapgen_piece
     public:
         furn_id id;
         jmapgen_furniture( const JsonObject &jsi, const std::string &/*context*/ ) :
-            jmapgen_furniture( jsi.get_string( "furn" ) ) {}
-        explicit jmapgen_furniture( const std::string &fid ) : id( furn_id( fid ) ) {}
+            jmapgen_furniture( jsi.get_member( "furn" ) ) {}
+        explicit jmapgen_furniture( const JsonValue &fid ) : id( furn_id( fid.get_string() ) ) {}
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
                   ) const override {
             dat.m.furn_set( point( x.get(), y.get() ), id );
@@ -1515,13 +1715,22 @@ class jmapgen_furniture : public jmapgen_piece
 class jmapgen_terrain : public jmapgen_piece
 {
     public:
-        ter_id id;
+        mapgen_value<ter_id> id;
         jmapgen_terrain( const JsonObject &jsi, const std::string &/*context*/ ) :
-            jmapgen_terrain( jsi.get_string( "ter" ) ) {}
-        explicit jmapgen_terrain( const std::string &tid ) : id( ter_id( tid ) ) {}
+            jmapgen_terrain( jsi.get_member( "ter" ) ) {}
+        explicit jmapgen_terrain( const JsonValue &tid ) : id( mapgen_value<ter_id>( tid ) ) {}
+
+        bool is_nop() const override {
+            return id.is_null();
+        }
+
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
                   ) const override {
-            dat.m.ter_set( point( x.get(), y.get() ), id );
+            ter_id chosen_id = id.get( dat );
+            if( chosen_id.id().is_null() ) {
+                return;
+            }
+            dat.m.ter_set( point( x.get(), y.get() ), chosen_id );
             // Delete furniture if a wall was just placed over it. TODO: need to do anything for fluid, monsters?
             if( dat.m.has_flag_ter( "WALL", point( x.get(), y.get() ) ) ) {
                 dat.m.furn_set( point( x.get(), y.get() ), f_null );
@@ -1533,6 +1742,12 @@ class jmapgen_terrain : public jmapgen_piece
         }
         bool has_vehicle_collision( const mapgendata &dat, const point &p ) const override {
             return dat.m.veh_at( tripoint( p, dat.zlevel() ) ).has_value();
+        }
+
+        void check( const std::string &oter_name,
+                    const std::unordered_map<std::string, mapgen_parameter> &parameters
+                  ) const override {
+            id.check( oter_name, parameters );
         }
 };
 /**
@@ -1662,7 +1877,8 @@ class jmapgen_sealed_item : public jmapgen_piece
             }
         }
 
-        void check( const std::string &context ) const override {
+        void check( const std::string &context,
+                    const std::unordered_map<std::string, mapgen_parameter> & ) const override {
             const furn_t &furn = furniture.obj();
             std::string summary =
                 string_format(
@@ -1813,19 +2029,6 @@ class jmapgen_zone : public jmapgen_piece
         }
 };
 
-static void load_weighted_entries( const JsonObject &jsi, const std::string &json_key,
-                                   weighted_int_list<std::string> &list )
-{
-    for( const JsonValue entry : jsi.get_array( json_key ) ) {
-        if( entry.test_array() ) {
-            JsonArray inner = entry.get_array();
-            list.add( inner.get_string( 0 ), inner.get_int( 1 ) );
-        } else {
-            list.add( entry.get_string(), 100 );
-        }
-    }
-}
-
 /**
  * Calls another mapgen call inside the current one.
  * Note: can't use regular overmap ids.
@@ -1893,8 +2096,12 @@ class jmapgen_nested : public jmapgen_piece
         neighborhood_check neighbors;
         jmapgen_nested( const JsonObject &jsi, const std::string &/*context*/ ) :
             neighbors( jsi.get_object( "neighbors" ) ) {
-            load_weighted_entries( jsi, "chunks", entries );
-            load_weighted_entries( jsi, "else_chunks", else_entries );
+            if( jsi.has_member( "chunks" ) ) {
+                load_weighted_list( jsi.get_member( "chunks" ), entries, 100 );
+            }
+            if( jsi.has_member( "else_chunks" ) ) {
+                load_weighted_list( jsi.get_member( "else_chunks" ), else_entries, 100 );
+            }
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
                   ) const override {
@@ -2053,20 +2260,18 @@ void load_place_mapings_string(
     const JsonValue &value, mapgen_palette::placing_map::mapped_type &vect,
     const std::string &context )
 {
-    if( value.test_string() ) {
+    if( value.test_string() || value.test_object() ) {
         try {
-            vect.push_back( make_shared_fast<PieceType>( value.get_string() ) );
+            vect.push_back( make_shared_fast<PieceType>( value ) );
         } catch( const std::runtime_error &err ) {
             // Using the json object here adds nice formatting and context information
             value.throw_error( err.what() );
         }
-    } else if( value.test_object() ) {
-        load_place_mapings<PieceType>( value.get_object(), vect, context );
     } else {
         for( const JsonValue entry : value.get_array() ) {
             if( entry.test_string() ) {
                 try {
-                    vect.push_back( make_shared_fast<PieceType>( entry.get_string() ) );
+                    vect.push_back( make_shared_fast<PieceType>( entry ) );
                 } catch( const std::runtime_error &err ) {
                     // Using the json object here adds nice formatting and context information
                     entry.throw_error( err.what() );
@@ -2094,7 +2299,7 @@ void load_place_mapings_alternatively(
         for( const JsonValue entry : value.get_array() ) {
             if( entry.test_string() ) {
                 try {
-                    alter->alternatives.emplace_back( entry.get_string() );
+                    alter->alternatives.emplace_back( entry );
                 } catch( const std::runtime_error &err ) {
                     // Using the json object here adds nice formatting and context information
                     entry.throw_error( err.what() );
@@ -2110,15 +2315,12 @@ void load_place_mapings_alternatively(
                 }
 
                 // Test if this is a string or object, and then just emplace it.
-                if( piece_and_count_jarr.test_string() ) {
+                if( piece_and_count_jarr.test_string() || piece_and_count_jarr.test_object() ) {
                     try {
-                        alter->alternatives.emplace_back( piece_and_count_jarr.next_string() );
+                        alter->alternatives.emplace_back( piece_and_count_jarr.next() );
                     } catch( const std::runtime_error &err ) {
                         piece_and_count_jarr.throw_error( err.what() );
                     }
-                } else if( piece_and_count_jarr.test_object() ) {
-                    JsonObject jsi = piece_and_count_jarr.next_object();
-                    alter->alternatives.emplace_back( jsi, context );
                 } else {
                     piece_and_count_jarr.throw_error( "First entry must be a string or object." );
                 }
@@ -2174,56 +2376,33 @@ void mapgen_palette::load_place_mapings( const JsonObject &jo, const std::string
                 continue;
             }
             auto &vect = format_placings[ key ];
-            ::load_place_mapings<PieceType>( sub.get_member( member_name ), vect,
-                                             member_name + " in mapping in " + context );
+            std::string this_context = string_format( "%s in mapping in %s", member_name, context );
+            ::load_place_mapings<PieceType>( sub.get_member( member_name ), vect, this_context );
         }
     }
     if( !jo.has_object( member_name ) ) {
         return;
     }
-    /* This is kind of a hack. Loading furniture/terrain from `jo` is already done in
-     * mapgen_palette::load_temp, continuing here would load it again and cause trouble.
-     */
-    if( member_name == "terrain" || member_name == "furniture" ) {
-        return;
-    }
     for( const JsonMember member : jo.get_object( member_name ) ) {
         const map_key key( member );
         auto &vect = format_placings[ key ];
-        ::load_place_mapings<PieceType>(
-            member, vect, member_name + " " + member.name() + " in " + context );
+        std::string this_context =
+            string_format( "%s %s in %s", member_name, member.name(), context );
+        ::load_place_mapings<PieceType>( member, vect, this_context );
     }
 }
 
 static std::map<std::string, mapgen_palette> palettes;
 
-static bool check_furn( const furn_id &id, const std::string &context )
-{
-    const furn_t &furn = id.obj();
-    if( furn.has_flag( "PLANT" ) ) {
-        debugmsg( "json mapgen for %s specifies furniture %s, which has flag "
-                  "PLANT.  Such furniture must be specified in a \"sealed_item\" special.",
-                  context, furn.id.str() );
-        // Only report once per mapgen object, otherwise the reports are
-        // very repetitive
-        return true;
-    }
-    return false;
-}
-
 void mapgen_palette::check()
 {
     std::string context = "palette " + id;
-    for( const std::pair<const map_key, furn_id> &p : format_furniture ) {
-        if( check_furn( p.second, context ) ) {
-            return;
-        }
-    }
-
     for( const std::pair<const map_key, std::vector<shared_ptr_fast<const jmapgen_piece>>> &p :
          format_placings ) {
         for( const shared_ptr_fast<const jmapgen_piece> &j : p.second ) {
-            j->check( context );
+            // TODO: palettes should have their own parameters, but don't as
+            // yet
+            j->check( context, {} );
         }
     }
 }
@@ -2275,13 +2454,12 @@ void mapgen_palette::add( const palette_id &rh )
 void mapgen_palette::add( const mapgen_palette &rh )
 {
     for( const auto &placing : rh.format_placings ) {
-        format_placings[ placing.first ] = placing.second;
+        std::vector<shared_ptr_fast<const jmapgen_piece>> &these_placings =
+                    format_placings[placing.first];
+        these_placings.insert( these_placings.end(), placing.second.begin(), placing.second.end() );
     }
-    for( const auto &placing : rh.format_terrain ) {
-        format_terrain[ placing.first ] = placing.second;
-    }
-    for( const auto &placing : rh.format_furniture ) {
-        format_furniture[ placing.first ] = placing.second;
+    for( const auto &placing : rh.keys_with_terrain ) {
+        keys_with_terrain.insert( placing );
     }
 }
 
@@ -2290,8 +2468,7 @@ mapgen_palette mapgen_palette::load_internal( const JsonObject &jo, const std::s
 {
     mapgen_palette new_pal;
     auto &format_placings = new_pal.format_placings;
-    auto &format_terrain = new_pal.format_terrain;
-    auto &format_furniture = new_pal.format_furniture;
+    auto &keys_with_terrain = new_pal.keys_with_terrain;
     if( require_id ) {
         new_pal.id = jo.get_string( "id" );
     }
@@ -2308,39 +2485,17 @@ mapgen_palette mapgen_palette::load_internal( const JsonObject &jo, const std::s
     }
 
     // mandatory: every character in rows must have matching entry, unless fill_ter is set
-    // "terrain": { "a": "t_grass", "b": "t_lava" }
+    // "terrain": { "a": "t_grass", "b": "t_lava" }.  To help enforce this we
+    // keep track of everything in the "terrain" object
     if( jo.has_member( "terrain" ) ) {
         for( const JsonMember member : jo.get_object( "terrain" ) ) {
-            const map_key key( member );
-            if( member.test_string() ) {
-                format_terrain[key] = ter_id( member.get_string() );
-            } else {
-                auto &vect = format_placings[ key ];
-                ::load_place_mapings<jmapgen_terrain>(
-                    member, vect, "terrain " + member.name() + " in palette " + new_pal.id );
-                if( !vect.empty() ) {
-                    // Dummy entry to signal that this terrain is actually defined, because
-                    // the code below checks that each square on the map has a valid terrain
-                    // defined somehow.
-                    format_terrain[key] = t_null;
-                }
-            }
+            keys_with_terrain.insert( map_key( member ) );
         }
     }
 
-    if( jo.has_object( "furniture" ) ) {
-        for( const JsonMember member : jo.get_object( "furniture" ) ) {
-            const map_key key( member );
-            if( member.test_string() ) {
-                format_furniture[key] = furn_id( member.get_string() );
-            } else {
-                auto &vect = format_placings[ key ];
-                ::load_place_mapings<jmapgen_furniture>(
-                    member, vect, "furniture " + member.name() + " in palette " + new_pal.id );
-            }
-        }
-    }
     std::string c = "palette " + new_pal.id;
+    new_pal.load_place_mapings<jmapgen_terrain>( jo, "terrain", format_placings, c );
+    new_pal.load_place_mapings<jmapgen_furniture>( jo, "furniture", format_placings, c );
     new_pal.load_place_mapings<jmapgen_field>( jo, "fields", format_placings, c );
     new_pal.load_place_mapings<jmapgen_npc>( jo, "npcs", format_placings, c );
     new_pal.load_place_mapings<jmapgen_sign>( jo, "signs", format_placings, c );
@@ -2368,6 +2523,15 @@ mapgen_palette mapgen_palette::load_internal( const JsonObject &jo, const std::s
     new_pal.load_place_mapings<jmapgen_ter_furn_transform>( jo, "ter_furn_transforms",
             format_placings, c );
     new_pal.load_place_mapings<jmapgen_faction>( jo, "faction_owner_character", format_placings, c );
+
+    for( mapgen_palette::placing_map::value_type &p : format_placings ) {
+        p.second.erase(
+            std::remove_if(
+                p.second.begin(), p.second.end(),
+        []( const shared_ptr_fast<const jmapgen_piece> &placing ) {
+            return placing->is_nop();
+        } ), p.second.end() );
+    }
     return new_pal;
 }
 
@@ -2467,15 +2631,15 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
     JsonArray sparray;
     JsonObject pjo;
 
-    format.resize( static_cast<size_t>( mapgensize.x * mapgensize.y ) );
+    jo.read( "parameters", parameters );
+
     // just like mapf::basic_bind("stuff",blargle("foo", etc) ), only json input and faster when applying
     if( jo.has_array( "rows" ) ) {
         mapgen_palette palette = mapgen_palette::load_temp( jo, "dda" );
-        auto &format_terrain = palette.format_terrain;
-        auto &format_furniture = palette.format_furniture;
+        auto &keys_with_terrain = palette.keys_with_terrain;
         auto &format_placings = palette.format_placings;
 
-        if( format_terrain.empty() ) {
+        if( palette.keys_with_terrain.empty() ) {
             return false;
         }
 
@@ -2505,12 +2669,10 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
             for( int i = m_offset.x; i < expected_dim.x; i++ ) {
                 const point p = point( i, c ) - m_offset;
                 const map_key key = row_keys[i];
-                const auto iter_ter = format_terrain.find( key );
-                const auto iter_furn = format_furniture.find( key );
+                const auto iter_ter = keys_with_terrain.find( key );
                 const auto fpi = format_placings.find( key );
 
-                const bool has_terrain = iter_ter != format_terrain.end();
-                const bool has_furn = iter_furn != format_furniture.end();
+                const bool has_terrain = iter_ter != keys_with_terrain.end();
                 const bool has_placing = fpi != format_placings.end();
 
                 if( !has_terrain && !fallback_terrain_exists ) {
@@ -2519,8 +2681,7 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
                                        "'%s' is not in 'terrain', and no 'fill_ter' is set!",
                                        c + 1, i + 1, key.str ), c, i + 1 );
                 }
-                if( !has_terrain && !has_furn && !has_placing &&
-                    key.str != " " && key.str != "." ) {
+                if( !has_terrain && !has_placing && key.str != " " && key.str != "." ) {
                     try {
                         parray.string_error(
                             string_format( "format: rows: row %d column %d: "
@@ -2529,12 +2690,6 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
                     } catch( const JsonError &e ) {
                         debugmsg( "(json-error)\n%s", e.what() );
                     }
-                }
-                if( has_terrain ) {
-                    format[ calc_index( p ) ].ter = iter_ter->second;
-                }
-                if( has_furn ) {
-                    format[ calc_index( p ) ].furn = iter_furn->second;
                 }
                 if( has_placing ) {
                     jmapgen_place where( p );
@@ -2545,7 +2700,6 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
             }
         }
         fallback_terrain_exists = true;
-        do_format = true;
     }
 
     // No fill_ter? No format? GTFO.
@@ -2603,14 +2757,22 @@ void mapgen_function_json_nested::check() const
     check_common();
 }
 
+static bool check_furn( const furn_id &id, const std::string &context )
+{
+    const furn_t &furn = id.obj();
+    if( furn.has_flag( "PLANT" ) ) {
+        debugmsg( "json mapgen for %s specifies furniture %s, which has flag "
+                  "PLANT.  Such furniture must be specified in a \"sealed_item\" special.",
+                  context, furn.id.str() );
+        // Only report once per mapgen object, otherwise the reports are
+        // very repetitive
+        return true;
+    }
+    return false;
+}
+
 void mapgen_function_json_base::check_common() const
 {
-    for( const ter_furn_id &id : format ) {
-        if( check_furn( id.furn, context_ ) ) {
-            return;
-        }
-    }
-
     for( const jmapgen_setmap &setmap : setmap_points ) {
         if( setmap.op != JMAPGEN_SETMAP_FURN &&
             setmap.op != JMAPGEN_SETMAP_LINE_FURN &&
@@ -2623,13 +2785,14 @@ void mapgen_function_json_base::check_common() const
         }
     }
 
-    objects.check( context_ );
+    objects.check( context_, parameters );
 }
 
-void jmapgen_objects::check( const std::string &context ) const
+void jmapgen_objects::check( const std::string &context,
+                             const std::unordered_map<std::string, mapgen_parameter> &parameters ) const
 {
     for( const jmapgen_obj &obj : objects ) {
-        obj.second->check( context );
+        obj.second->check( context, parameters );
     }
 }
 
@@ -2733,12 +2896,11 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const point &offset ) const
             }
             break;
             case JMAPGEN_SETMAP_SQUARE_RADIATION: {
-                const int cx = x_get();
-                const int cy = y_get();
+                const point c2( x_get(), y_get() );
                 const int cx2 = x2_get();
                 const int cy2 = y2_get();
-                for( int tx = cx; tx <= cx2; tx++ ) {
-                    for( int ty = cy; ty <= cy2; ty++ ) {
+                for( int tx = c2.x; tx <= cx2; tx++ ) {
+                    for( int ty = c2.y; ty <= cy2; ty++ ) {
                         m.set_radiation( point( tx, ty ), static_cast<int>( val.get() ) );
                     }
                 }
@@ -2791,44 +2953,9 @@ bool jmapgen_setmap::has_vehicle_collision( const mapgendata &dat, const point &
     return false;
 }
 
-void mapgen_function_json_base::formatted_set_incredibly_simple( map &m, const point &offset ) const
+bool mapgen_function_json_base::has_vehicle_collision(
+    const mapgendata &dat, const point &offset ) const
 {
-    for( int y = 0; y < mapgensize.y; y++ ) {
-        for( int x = 0; x < mapgensize.x; x++ ) {
-            point p( x, y );
-            const size_t index = calc_index( p );
-            const ter_furn_id &tdata = format[index];
-            const point map_pos = p + offset;
-            if( tdata.furn != f_null ) {
-                if( tdata.ter != t_null ) {
-                    m.set( map_pos, tdata.ter, tdata.furn );
-                } else {
-                    m.furn_set( map_pos, tdata.furn );
-                }
-            } else if( tdata.ter != t_null ) {
-                m.ter_set( map_pos, tdata.ter );
-            }
-        }
-    }
-}
-
-bool mapgen_function_json_base::has_vehicle_collision( const mapgendata &dat,
-        const point &offset ) const
-{
-    if( do_format ) {
-        for( int y = 0; y < mapgensize.y; y++ ) {
-            for( int x = 0; x < mapgensize.x; x++ ) {
-                const point p( x, y );
-                const ter_furn_id &tdata = format[calc_index( p )];
-                const point map_pos = p + offset;
-                if( ( tdata.furn != f_null || tdata.ter != t_null ) &&
-                    dat.m.veh_at( tripoint( map_pos, dat.zlevel() ) ).has_value() ) {
-                    return true;
-                }
-            }
-        }
-    }
-
     for( const jmapgen_setmap &elem : setmap_points ) {
         if( elem.has_vehicle_collision( dat, offset ) ) {
             return true;
@@ -2865,16 +2992,16 @@ void mapgen_function_json::generate( mapgendata &md )
             m->rotate( ( -static_cast<int>( md.terrain_type()->get_dir() ) + 4 ) % 4 );
         }
     }
-    if( do_format ) {
-        formatted_set_incredibly_simple( *m, point_zero );
-    }
+
+    mapgendata md_with_params( md, get_param_values( md ) );
+
     for( auto &elem : setmap_points ) {
-        elem.apply( md, point_zero );
+        elem.apply( md_with_params, point_zero );
     }
 
-    objects.apply( md, point_zero );
+    objects.apply( md_with_params, point_zero );
 
-    resolve_regional_terrain_and_furniture( md );
+    resolve_regional_terrain_and_furniture( md_with_params );
 
     m->rotate( rotation.get() );
 
@@ -2883,22 +3010,20 @@ void mapgen_function_json::generate( mapgendata &md )
     }
 }
 
-void mapgen_function_json_nested::nest( const mapgendata &dat, const point &offset ) const
+void mapgen_function_json_nested::nest( const mapgendata &md, const point &offset ) const
 {
     // TODO: Make rotation work for submaps, then pass this value into elem & objects apply.
     //int chosen_rotation = rotation.get() % 4;
 
-    if( do_format ) {
-        formatted_set_incredibly_simple( dat.m, offset );
-    }
+    mapgendata md_with_params( md, get_param_values( md ) );
 
     for( const jmapgen_setmap &elem : setmap_points ) {
-        elem.apply( dat, offset );
+        elem.apply( md, offset );
     }
 
-    objects.apply( dat, offset );
+    objects.apply( md, offset );
 
-    resolve_regional_terrain_and_furniture( dat );
+    resolve_regional_terrain_and_furniture( md );
 }
 
 /*
@@ -2966,12 +3091,8 @@ void map::draw_map( mapgendata &dat )
         if( is_ot_match( "slimepit", terrain_type, ot_match_type::prefix ) ||
             is_ot_match( "slime_pit", terrain_type, ot_match_type::prefix ) ) {
             draw_slimepit( dat );
-        } else if( is_ot_match( "triffid", terrain_type, ot_match_type::prefix ) ) {
-            draw_triffid( dat );
         } else if( is_ot_match( "spider", terrain_type, ot_match_type::prefix ) ) {
             draw_spider_pit( dat );
-        } else if( is_ot_match( "spiral", terrain_type, ot_match_type::prefix ) ) {
-            draw_spiral( dat );
         } else if( is_ot_match( "temple", terrain_type, ot_match_type::prefix ) ) {
             draw_temple( dat );
         } else if( is_ot_match( "mine", terrain_type, ot_match_type::prefix ) ) {
@@ -2999,6 +3120,7 @@ void map::draw_map( mapgendata &dat )
 static const int SOUTH_EDGE = 2 * SEEY - 1;
 static const int EAST_EDGE = 2 * SEEX  - 1;
 
+// NOLINTNEXTLINE(readability-function-size)
 void map::draw_lab( mapgendata &dat )
 {
     const oter_id &terrain_type = dat.terrain_type();
@@ -3055,9 +3177,8 @@ void map::draw_lab( mapgendata &dat )
             for( int i = 0; i < SEEX * 2; i++ ) {
                 for( int j = 0; j < SEEY * 2; j++ ) {
                     if( i <= 1 || i >= SEEX * 2 - 2 ||
-                        ( j > 1 && j < SEEY * 2 - 2 && ( i == SEEX - 2 || i == SEEX + 1 ) ) ) {
-                        ter_set( point( i, j ), t_concrete_wall );
-                    } else if( j <= 1 || j >= SEEY * 2 - 2 ) {
+                        j <= 1 || j >= SEEY * 2 - 2 ||
+                        i == SEEX - 2 || i == SEEX + 1 ) {
                         ter_set( point( i, j ), t_concrete_wall );
                     } else {
                         ter_set( point( i, j ), t_floor );
@@ -3226,11 +3347,10 @@ void map::draw_lab( mapgendata &dat )
                                 for( int j = 0; j < SEEY * 2; j++ ) {
                                     if( ( i < lw || i > EAST_EDGE - rw ) ||
                                         ( ( j < SEEY - 1 || j > SEEY ) &&
-                                          ( i == SEEX - 2 || i == SEEX + 1 ) ) ) {
-                                        ter_set( point( i, j ), t_concrete_wall );
-                                    } else if( ( j < tw || j > SOUTH_EDGE - bw ) ||
-                                               ( ( i < SEEX - 1 || i > SEEX ) &&
-                                                 ( j == SEEY - 2 || j == SEEY + 1 ) ) ) {
+                                          ( i == SEEX - 2 || i == SEEX + 1 ) ) ||
+                                        ( j < tw || j > SOUTH_EDGE - bw ) ||
+                                        ( ( i < SEEX - 1 || i > SEEX ) &&
+                                          ( j == SEEY - 2 || j == SEEY + 1 ) ) ) {
                                         ter_set( point( i, j ), t_concrete_wall );
                                     } else {
                                         ter_set( point( i, j ), t_thconc_floor );
@@ -3290,37 +3410,37 @@ void map::draw_lab( mapgendata &dat )
                             if( is_ot_match( "stairs", terrain_type, ot_match_type::contains ) ) { // Stairs going down
                                 std::vector<point> stair_points;
                                 if( tw != 0 ) {
-                                    stair_points.push_back( point( SEEX - 1, 2 ) );
-                                    stair_points.push_back( point( SEEX - 1, 2 ) );
-                                    stair_points.push_back( point( SEEX, 2 ) );
-                                    stair_points.push_back( point( SEEX, 2 ) );
+                                    stair_points.emplace_back( SEEX - 1, 2 );
+                                    stair_points.emplace_back( SEEX - 1, 2 );
+                                    stair_points.emplace_back( SEEX, 2 );
+                                    stair_points.emplace_back( SEEX, 2 );
                                 }
                                 if( rw != 1 ) {
-                                    stair_points.push_back( point( SEEX * 2 - 3, SEEY - 1 ) );
-                                    stair_points.push_back( point( SEEX * 2 - 3, SEEY - 1 ) );
-                                    stair_points.push_back( point( SEEX * 2 - 3, SEEY ) );
-                                    stair_points.push_back( point( SEEX * 2 - 3, SEEY ) );
+                                    stair_points.emplace_back( SEEX * 2 - 3, SEEY - 1 );
+                                    stair_points.emplace_back( SEEX * 2 - 3, SEEY - 1 );
+                                    stair_points.emplace_back( SEEX * 2 - 3, SEEY );
+                                    stair_points.emplace_back( SEEX * 2 - 3, SEEY );
                                 }
                                 if( bw != 1 ) {
-                                    stair_points.push_back( point( SEEX - 1, SEEY * 2 - 3 ) );
-                                    stair_points.push_back( point( SEEX - 1, SEEY * 2 - 3 ) );
-                                    stair_points.push_back( point( SEEX, SEEY * 2 - 3 ) );
-                                    stair_points.push_back( point( SEEX, SEEY * 2 - 3 ) );
+                                    stair_points.emplace_back( SEEX - 1, SEEY * 2 - 3 );
+                                    stair_points.emplace_back( SEEX - 1, SEEY * 2 - 3 );
+                                    stair_points.emplace_back( SEEX, SEEY * 2 - 3 );
+                                    stair_points.emplace_back( SEEX, SEEY * 2 - 3 );
                                 }
                                 if( lw != 0 ) {
-                                    stair_points.push_back( point( 2, SEEY - 1 ) );
-                                    stair_points.push_back( point( 2, SEEY - 1 ) );
-                                    stair_points.push_back( point( 2, SEEY ) );
-                                    stair_points.push_back( point( 2, SEEY ) );
+                                    stair_points.emplace_back( 2, SEEY - 1 );
+                                    stair_points.emplace_back( 2, SEEY - 1 );
+                                    stair_points.emplace_back( 2, SEEY );
+                                    stair_points.emplace_back( 2, SEEY );
                                 }
-                                stair_points.push_back( point( static_cast<int>( SEEX / 2 ), SEEY ) );
-                                stair_points.push_back( point( static_cast<int>( SEEX / 2 ), SEEY - 1 ) );
-                                stair_points.push_back( point( static_cast<int>( SEEX / 2 ) + SEEX, SEEY ) );
-                                stair_points.push_back( point( static_cast<int>( SEEX / 2 ) + SEEX, SEEY - 1 ) );
-                                stair_points.push_back( point( SEEX, static_cast<int>( SEEY / 2 ) ) );
-                                stair_points.push_back( point( SEEX + 2, static_cast<int>( SEEY / 2 ) ) );
-                                stair_points.push_back( point( SEEX, static_cast<int>( SEEY / 2 ) + SEEY ) );
-                                stair_points.push_back( point( SEEX + 2, static_cast<int>( SEEY / 2 ) + SEEY ) );
+                                stair_points.emplace_back( static_cast<int>( SEEX / 2 ), SEEY );
+                                stair_points.emplace_back( static_cast<int>( SEEX / 2 ), SEEY - 1 );
+                                stair_points.emplace_back( static_cast<int>( SEEX / 2 ) + SEEX, SEEY );
+                                stair_points.emplace_back( static_cast<int>( SEEX / 2 ) + SEEX, SEEY - 1 );
+                                stair_points.emplace_back( SEEX, static_cast<int>( SEEY / 2 ) );
+                                stair_points.emplace_back( SEEX + 2, static_cast<int>( SEEY / 2 ) );
+                                stair_points.emplace_back( SEEX, static_cast<int>( SEEY / 2 ) + SEEY );
+                                stair_points.emplace_back( SEEX + 2, static_cast<int>( SEEY / 2 ) + SEEY );
                                 const point p = random_entry( stair_points );
                                 ter_set( p, t_stairs_down );
                             }
@@ -3331,11 +3451,10 @@ void map::draw_lab( mapgendata &dat )
                             // tic-tac-toe # layout
                             for( int i = 0; i < SEEX * 2; i++ ) {
                                 for( int j = 0; j < SEEY * 2; j++ ) {
-                                    if( i < lw || i > EAST_EDGE - rw || i == SEEX - 4 ||
-                                        i == SEEX + 3 ) {
-                                        ter_set( point( i, j ), t_concrete_wall );
-                                    } else if( j < tw || j > SOUTH_EDGE - bw || j == SEEY - 4 ||
-                                               j == SEEY + 3 ) {
+                                    if( i < lw || i > EAST_EDGE - rw ||
+                                        i == SEEX - 4 || i == SEEX + 3 ||
+                                        j < tw || j > SOUTH_EDGE - bw ||
+                                        j == SEEY - 4 || j == SEEY + 3 ) {
                                         ter_set( point( i, j ), t_concrete_wall );
                                     } else {
                                         ter_set( point( i, j ), t_thconc_floor );
@@ -3392,9 +3511,8 @@ void map::draw_lab( mapgendata &dat )
                             // Big room
                             for( int i = 0; i < SEEX * 2; i++ ) {
                                 for( int j = 0; j < SEEY * 2; j++ ) {
-                                    if( i < lw || i >= EAST_EDGE - rw ) {
-                                        ter_set( point( i, j ), t_concrete_wall );
-                                    } else if( j < tw || j >= SOUTH_EDGE - bw ) {
+                                    if( i < lw || i >= EAST_EDGE - rw ||
+                                        j < tw || j >= SOUTH_EDGE - bw ) {
                                         ter_set( point( i, j ), t_concrete_wall );
                                     } else {
                                         ter_set( point( i, j ), t_thconc_floor );
@@ -3633,15 +3751,14 @@ void map::draw_lab( mapgendata &dat )
                                   center.xy() + point_west, 1, true );
 
                     // damaged mininuke/plut thrown past edge of rubble so the player can see it.
-                    int marker_x = center.x - 2 + 4 * rng( 0, 1 );
-                    int marker_y = center.y + rng( -2, 2 );
+                    point marker( center.xy() + point( -2 + 4 * rng( 0, 1 ), rng( -2, 2 ) ) );
                     if( one_in( 4 ) ) {
-                        spawn_item( point( marker_x, marker_y ),
+                        spawn_item( marker,
                                     "mininuke", 1, 1, calendar::turn_zero, rng( 2, 4 ) );
                     } else {
                         item newliquid( "plut_slurry_dense", calendar::start_of_cataclysm );
                         newliquid.charges = 1;
-                        add_item_or_charges( tripoint( marker_x, marker_y, get_abs_sub().z ),
+                        add_item_or_charges( tripoint( marker, get_abs_sub().z ),
                                              newliquid );
                     }
                     break;
@@ -3760,9 +3877,7 @@ void map::draw_lab( mapgendata &dat )
             // Start by setting up a large, empty room.
             for( int i = 0; i < SEEX * 2; i++ ) {
                 for( int j = 0; j < SEEY * 2; j++ ) {
-                    if( i < lw || i > EAST_EDGE - rw ) {
-                        ter_set( point( i, j ), t_concrete_wall );
-                    } else if( j < tw || j > SOUTH_EDGE - bw ) {
+                    if( i < lw || i > EAST_EDGE - rw || j < tw || j > SOUTH_EDGE - bw ) {
                         ter_set( point( i, j ), t_concrete_wall );
                     } else {
                         ter_set( point( i, j ), t_thconc_floor );
@@ -3876,9 +3991,7 @@ void map::draw_lab( mapgendata &dat )
                                     } else {
                                         ter_set( point( i, j ), t_reinforced_glass );
                                     }
-                                } else if( ( i - lw ) % 2 == 0 ) {
-                                    ter_set( point( i, j ), t_concrete_wall );
-                                } else if( j == tw + 2 ) {
+                                } else if( ( i - lw ) % 2 == 0 || j == tw + 2 ) {
                                     ter_set( point( i, j ), t_concrete_wall );
                                 } else { // Empty space holds monsters!
                                     place_spawns( GROUP_NETHER, 1, point( i, j ), point( i, j ), 1, true );
@@ -4157,26 +4270,27 @@ void map::draw_temple( const mapgendata &dat )
                     square( this, t_rock, point( SEEX + 2, 0 ), point( EAST_EDGE, 1 ) );
                     square( this, t_rock, point( SEEX + 2, SEEY * 2 - 2 ), point( EAST_EDGE, SOUTH_EDGE ) );
                     square( this, t_rock, point( SEEX + 5, 2 ), point( EAST_EDGE, SEEY * 2 - 3 ) );
-                    int x = rng( SEEX - 1, SEEX + 2 ), y = 2;
+                    point p2( rng( SEEX - 1, SEEX + 2 ), 2 );
                     std::vector<point> path; // Path, from end to start
-                    while( x < SEEX - 1 || x > SEEX + 2 || y < SEEY * 2 - 2 ) {
+                    while( p2.x < SEEX - 1 || p2.x > SEEX + 2 || p2.y < SEEY * 2 - 2 ) {
                         static const std::vector<ter_id> terrains = {
                             t_floor_red, t_floor_green, t_floor_blue,
                         };
-                        path.push_back( point( x, y ) );
-                        ter_set( point( x, y ), random_entry( terrains ) );
-                        if( y == SEEY * 2 - 2 ) {
-                            if( x < SEEX - 1 ) {
-                                x++;
-                            } else if( x > SEEX + 2 ) {
-                                x--;
+                        path.emplace_back( p2 );
+                        ter_set( p2, random_entry( terrains ) );
+                        if( p2.y == SEEY * 2 - 2 ) {
+                            if( p2.x < SEEX - 1 ) {
+                                p2.x++;
+                            } else if( p2.x > SEEX + 2 ) {
+                                p2.x--;
+
                             }
                         } else {
                             std::vector<point> next;
-                            for( int nx = x - 1; nx <= x + 1; nx++ ) {
-                                for( int ny = y; ny <= y + 1; ny++ ) {
+                            for( int nx = p2.x - 1; nx <= p2.x + 1; nx++ ) {
+                                for( int ny = p2.y; ny <= p2.y + 1; ny++ ) {
                                     if( ter( point( nx, ny ) ) == t_rock_floor ) {
-                                        next.push_back( point( nx, ny ) );
+                                        next.emplace_back( nx, ny );
                                     }
                                 }
                             }
@@ -4184,8 +4298,8 @@ void map::draw_temple( const mapgendata &dat )
                                 break;
                             } else {
                                 const point p = random_entry( next );
-                                x = p.x;
-                                y = p.y;
+                                p2.x = p.x;
+                                p2.y = p.y;
                             }
                         }
                     }
@@ -4254,48 +4368,7 @@ void map::draw_temple( const mapgendata &dat )
 void map::draw_mine( mapgendata &dat )
 {
     const oter_id &terrain_type = dat.terrain_type();
-    if( terrain_type == "mine_entrance" ) {
-        dat.fill_groundcover();
-        int tries = 0;
-        bool build_shaft = true;
-        do {
-            point p1( rng( 1, 2 * SEEX - 10 ), rng( 1, 2 * SEEY - 10 ) );
-            point p2( p1 + point( rng( 4, 9 ), rng( 4, 9 ) ) );
-            if( build_shaft ) {
-                build_mine_room( room_mine_shaft, p1, p2, dat );
-                build_shaft = false;
-            } else {
-                bool okay = true;
-                for( int x = p1.x - 1; x <= p2.x + 1 && okay; x++ ) {
-                    for( int y = p1.y - 1; y <= p2.y + 1 && okay; y++ ) {
-                        okay = dat.is_groundcover( ter( point( x, y ) ) );
-                    }
-                }
-                if( okay ) {
-                    room_type type = static_cast<room_type>( rng( room_mine_office, room_mine_housing ) );
-                    build_mine_room( type, p1, p2, dat );
-                    tries = 0;
-                } else {
-                    tries++;
-                }
-            }
-        } while( tries < 5 );
-        int ladderx = rng( 0, EAST_EDGE ), laddery = rng( 0, SOUTH_EDGE );
-        while( !dat.is_groundcover( ter( point( ladderx, laddery ) ) ) ) {
-            ladderx = rng( 0, EAST_EDGE );
-            laddery = rng( 0, SOUTH_EDGE );
-        }
-        ter_set( point( ladderx, laddery ), t_manhole_cover );
-    } else if( terrain_type == "mine_shaft" ) {
-        // Not intended to actually be inhabited!
-        fill_background( this, t_rock );
-        square( this, t_hole, point( SEEX - 3, SEEY - 3 ), point( SEEX + 2, SEEY + 2 ) );
-        line( this, t_grate, point( SEEX - 3, SEEY - 4 ), point( SEEX + 2, SEEY - 4 ) );
-        ter_set( point( SEEX - 3, SEEY - 5 ), t_ladder_up );
-        ter_set( point( SEEX + 2, SEEY - 5 ), t_ladder_down );
-        rotate( rng( 0, 3 ) );
-    } else if( terrain_type == "mine" ||
-               terrain_type == "mine_down" ) {
+    if( terrain_type == "mine" || terrain_type == "mine_down" ) {
         if( is_ot_match( "mine", dat.north(), ot_match_type::prefix ) ) {
             dat.n_fac = ( one_in( 10 ) ? 0 : -2 );
         } else {
@@ -4329,140 +4402,105 @@ void map::draw_mine( mapgendata &dat )
             }
         }
 
-        if( dat.above() == "mine_shaft" ) { // We need the entrance room
-            square( this, t_floor, point( 10, 10 ), point( 15, 15 ) );
-            line( this, t_wall,  point( 9, 9 ), point( 16, 9 ) );
-            line( this, t_wall,  point( 9, 16 ), point( 16, 16 ) );
-            line( this, t_wall,  point( 9, 10 ),  point( 9, 15 ) );
-            line( this, t_wall, point( 16, 10 ), point( 16, 15 ) );
-            line( this, t_wall, point( 10, 11 ), point( 12, 11 ) );
-            ter_set( point( 10, 10 ), t_elevator_control );
-            ter_set( point( 11, 10 ), t_elevator );
-            ter_set( point( 10, 12 ), t_ladder_up );
-            line_furn( this, f_counter, point( 10, 15 ), point( 15, 15 ) );
-            place_items( item_group_id( "mine_equipment" ), 86, point( 10, 15 ), point( 15, 15 ),
-                         false, calendar::start_of_cataclysm );
-            if( one_in( 2 ) ) {
-                ter_set( point( 9, 12 ), t_door_c );
-            } else {
-                ter_set( point( 16, 12 ), t_door_c );
+        // Not an entrance; maybe some hazards!
+        switch( rng( 0, 6 ) ) {
+            case 0:
+                break; // Nothing!  Lucky!
+
+            case 1: { // Toxic gas
+                point gas_vent_location( rng( 9, 14 ), rng( 9, 14 ) );
+                ter_set( point( gas_vent_location ), t_rock );
+                add_field( { gas_vent_location, abs_sub.z}, fd_gas_vent, 2 );
             }
+            break;
 
-        } else { // Not an entrance; maybe some hazards!
-            switch( rng( 0, 6 ) ) {
-                case 0:
-                    break; // Nothing!  Lucky!
-
-                case 1: { // Toxic gas
-                    int cx = rng( 9, 14 );
-                    int cy = rng( 9, 14 );
-                    ter_set( point( cx, cy ), t_rock );
-                    add_field( {cx, cy, abs_sub.z}, fd_gas_vent, 2 );
+            case 2: { // Lava
+                point start_location( rng( 6, SEEX ), rng( 6, SEEY ) );
+                point end_location( rng( SEEX + 1, SEEX * 2 - 7 ), rng( SEEY + 1, SEEY * 2 - 7 ) );
+                const int num = rng( 2, 4 );
+                for( int i = 0; i < num; i++ ) {
+                    int lx1 = start_location.x + rng( -1, 1 );
+                    int lx2 = end_location.x + rng( -1, 1 );
+                    int ly1 = start_location.y + rng( -1, 1 );
+                    int ly2 = end_location.y + rng( -1, 1 );
+                    line( this, t_lava, point( lx1, ly1 ), point( lx2, ly2 ) );
                 }
-                break;
-
-                case 2: { // Lava
-                    int x1 = rng( 6, SEEX );
-                    int y1 = rng( 6, SEEY );
-                    int x2 = rng( SEEX + 1, SEEX * 2 - 7 );
-                    int y2 = rng( SEEY + 1, SEEY * 2 - 7 );
-                    int num = rng( 2, 4 );
-                    for( int i = 0; i < num; i++ ) {
-                        int lx1 = x1 + rng( -1, 1 ), lx2 = x2 + rng( -1, 1 ),
-                            ly1 = y1 + rng( -1, 1 ), ly2 = y2 + rng( -1, 1 );
-                        line( this, t_lava, point( lx1, ly1 ), point( lx2, ly2 ) );
-                    }
-                }
-                break;
-
-                case 3: { // Wrecked equipment
-                    int x = rng( 9, 14 );
-                    int y = rng( 9, 14 );
-                    for( int i = x - 3; i < x + 3; i++ ) {
-                        for( int j = y - 3; j < y + 3; j++ ) {
-                            if( !one_in( 4 ) ) {
-                                make_rubble( tripoint( i,  j, abs_sub.z ), f_wreckage, true );
-                            }
-                        }
-                    }
-                    place_items( item_group_id( "wreckage" ), 70, point( x - 3, y - 3 ),
-                                 point( x + 2, y + 2 ), false, calendar::start_of_cataclysm );
-                }
-                break;
-
-                case 4: { // Dead miners
-                    int num_bodies = rng( 4, 8 );
-                    for( int i = 0; i < num_bodies; i++ ) {
-                        if( const auto body = random_point( *this, [this]( const tripoint & p ) {
-                        return move_cost( p ) == 2;
-                        } ) ) {
-                            add_item( *body, item::make_corpse() );
-                            place_items( item_group_id( "mine_equipment" ), 60, *body, *body,
-                                         false, calendar::start_of_cataclysm );
-                        }
-                    }
-                }
-                break;
-
-                case 5: { // Dark worm!
-                    int num_worms = rng( 1, 5 );
-                    for( int i = 0; i < num_worms; i++ ) {
-                        std::vector<direction> sides;
-                        if( dat.n_fac == 6 ) {
-                            sides.push_back( direction::NORTH );
-                        }
-                        if( dat.e_fac == 6 ) {
-                            sides.push_back( direction::EAST );
-                        }
-                        if( dat.s_fac == 6 ) {
-                            sides.push_back( direction::SOUTH );
-                        }
-                        if( dat.w_fac == 6 ) {
-                            sides.push_back( direction::WEST );
-                        }
-                        if( sides.empty() ) {
-                            place_spawns( GROUP_DARK_WYRM, 1, point( SEEX, SEEY ), point( SEEX, SEEY ), 1, true );
-                            i = num_worms;
-                        } else {
-                            point p;
-                            switch( random_entry( sides ) ) {
-                                case direction::NORTH:
-                                    p = point( rng( 1, SEEX * 2 - 2 ), rng( 1, 5 ) );
-                                    break;
-                                case direction::EAST:
-                                    p = point( SEEX * 2 - rng( 2, 6 ), rng( 1, SEEY * 2 - 2 ) );
-                                    break;
-                                case direction::SOUTH:
-                                    p = point( rng( 1, SEEX * 2 - 2 ), SEEY * 2 - rng( 2, 6 ) );
-                                    break;
-                                case direction::WEST:
-                                    p = point( rng( 1, 5 ), rng( 1, SEEY * 2 - 2 ) );
-                                    break;
-                                default:
-                                    break;
-                            }
-                            ter_set( p, t_rock_floor );
-                            place_spawns( GROUP_DARK_WYRM, 1, p, p, 1, true );
-                        }
-                    }
-                }
-                break;
-
-                case 6: { // Spiral
-                    int orx = rng( SEEX - 4, SEEX ), ory = rng( SEEY - 4, SEEY );
-                    line( this, t_rock, point( orx, ory ), point( orx + 5, ory ) );
-                    line( this, t_rock, point( orx + 5, ory ), point( orx + 5, ory + 5 ) );
-                    line( this, t_rock, point( orx + 1, ory + 5 ), point( orx + 5, ory + 5 ) );
-                    line( this, t_rock, point( orx + 1, ory + 2 ), point( orx + 1, ory + 4 ) );
-                    line( this, t_rock, point( orx + 1, ory + 2 ), point( orx + 3, ory + 2 ) );
-                    ter_set( point( orx + 3, ory + 3 ), t_rock );
-                    add_item( point( orx + 2, ory + 3 ), item::make_corpse() );
-                    place_items( item_group_id( "mine_equipment" ), 60, point( orx + 2, ory + 3 ),
-                                 point( orx + 2, ory + 3 ), false, calendar::start_of_cataclysm );
-                }
-                break;
             }
+            break;
+
+            case 3: { // Wrecked equipment
+                point wreck_location( rng( 9, 14 ), rng( 9, 14 ) );
+                for( int i = wreck_location.x - 3; i < wreck_location.x + 3; i++ ) {
+                    for( int j = wreck_location.y - 3; j < wreck_location.y + 3; j++ ) {
+                        if( !one_in( 4 ) ) {
+                            make_rubble( tripoint( i,  j, abs_sub.z ), f_wreckage, true );
+                        }
+                    }
+                }
+                place_items( item_group_id( "wreckage" ), 70, wreck_location + point( -3, -3 ),
+                             wreck_location + point( 2, 2 ), false, calendar::start_of_cataclysm );
+            }
+            break;
+
+            case 4: { // Dead miners
+                const int num_bodies = rng( 4, 8 );
+                for( int i = 0; i < num_bodies; i++ ) {
+                    if( const auto body = random_point( *this, [this]( const tripoint & p ) {
+                    return move_cost( p ) == 2;
+                    } ) ) {
+                        add_item( *body, item::make_corpse() );
+                        place_items( item_group_id( "mine_equipment" ), 60, *body, *body,
+                                     false, calendar::start_of_cataclysm );
+                    }
+                }
+            }
+            break;
+
+            case 5: { // Dark worm!
+                const int num_worms = rng( 1, 5 );
+                for( int i = 0; i < num_worms; i++ ) {
+                    std::vector<direction> sides;
+                    if( dat.n_fac == 6 ) {
+                        sides.push_back( direction::NORTH );
+                    }
+                    if( dat.e_fac == 6 ) {
+                        sides.push_back( direction::EAST );
+                    }
+                    if( dat.s_fac == 6 ) {
+                        sides.push_back( direction::SOUTH );
+                    }
+                    if( dat.w_fac == 6 ) {
+                        sides.push_back( direction::WEST );
+                    }
+                    if( sides.empty() ) {
+                        place_spawns( GROUP_DARK_WYRM, 1, point( SEEX, SEEY ), point( SEEX, SEEY ), 1, true );
+                        i = num_worms;
+                    } else {
+                        point p;
+                        switch( random_entry( sides ) ) {
+                            case direction::NORTH:
+                                p = point( rng( 1, SEEX * 2 - 2 ), rng( 1, 5 ) );
+                                break;
+                            case direction::EAST:
+                                p = point( SEEX * 2 - rng( 2, 6 ), rng( 1, SEEY * 2 - 2 ) );
+                                break;
+                            case direction::SOUTH:
+                                p = point( rng( 1, SEEX * 2 - 2 ), SEEY * 2 - rng( 2, 6 ) );
+                                break;
+                            case direction::WEST:
+                                p = point( rng( 1, 5 ), rng( 1, SEEY * 2 - 2 ) );
+                                break;
+                            default:
+                                break;
+                        }
+                        ter_set( p, t_rock_floor );
+                        place_spawns( GROUP_DARK_WYRM, 1, p, p, 1, true );
+                    }
+                }
+            }
+            break;
         }
+
         if( terrain_type == "mine_down" ) { // Don't forget to build a slope down!
             std::vector<direction> open;
             if( dat.n_fac == 4 ) {
@@ -4626,28 +4664,27 @@ void map::draw_mine( mapgendata &dat )
         // Now, pick and generate a type of finale!
         int rn = 0;
         if( face.empty() ) {
-            rn = rng( 1, 3 );  // Amigara fault is not valid
+            rn = rng( 1, 2 );  // Amigara fault is not valid
         } else {
-            rn = rng( 1, 4 );
+            rn = rng( 1, 3 );
         }
 
         computer *tmpcomp = nullptr;
         switch( rn ) {
             case 1: { // Wyrms
-                int x = rng( SEEX, SEEX + 1 ), y = rng( SEEY, SEEY + 1 );
-                ter_set( point( x, y ), t_pedestal_wyrm );
-                spawn_item( point( x, y ), "petrified_eye" );
+                const point p2( rng( SEEX, SEEX + 1 ), rng( SEEY, SEEY + 1 ) );
+                ter_set( p2, t_pedestal_wyrm );
+                spawn_item( p2, "petrified_eye" );
             }
             break; // That's it!  game::examine handles the pedestal/wyrm spawns
 
             case 2: { // The Thing dog
-                int num_bodies = rng( 4, 8 );
+                const int num_bodies = rng( 4, 8 );
                 for( int i = 0; i < num_bodies; i++ ) {
-                    int x = rng( 4, SEEX * 2 - 5 );
-                    int y = rng( 4, SEEX * 2 - 5 );
-                    add_item( point( x, y ), item::make_corpse() );
-                    place_items( item_group_id( "mine_equipment" ), 60, point( x, y ),
-                                 point( x, y ), false, calendar::start_of_cataclysm );
+                    point p3( rng( 4, SEEX * 2 - 5 ), rng( 4, SEEX * 2 - 5 ) );
+                    add_item( p3, item::make_corpse() );
+                    place_items( item_group_id( "mine_equipment" ), 60, p3,
+                                 p3, false, calendar::start_of_cataclysm );
                 }
                 place_spawns( GROUP_DOG_THING, 1, point( SEEX, SEEX ), point( SEEX + 1, SEEX + 1 ), 1, true, true );
                 spawn_artifact( tripoint( rng( SEEX, SEEX + 1 ), rng( SEEY, SEEY + 1 ), abs_sub.z ),
@@ -4655,25 +4692,7 @@ void map::draw_mine( mapgendata &dat )
             }
             break;
 
-            case 3: { // Spiral down
-                line( this, t_rock,  point( 5, 5 ),  point( 5, 18 ) );
-                line( this, t_rock,  point( 5, 5 ), point( 18, 5 ) );
-                line( this, t_rock, point( 18, 5 ), point( 18, 18 ) );
-                line( this, t_rock,  point( 8, 18 ), point( 18, 18 ) );
-                line( this, t_rock,  point( 8, 8 ),  point( 8, 18 ) );
-                line( this, t_rock,  point( 8, 8 ), point( 15, 8 ) );
-                line( this, t_rock, point( 15, 8 ), point( 15, 15 ) );
-                line( this, t_rock, point( 10, 15 ), point( 15, 15 ) );
-                line( this, t_rock, point( 10, 10 ), point( 10, 15 ) );
-                line( this, t_rock, point( 10, 10 ), point( 13, 10 ) );
-                line( this, t_rock, point( 13, 10 ), point( 13, 13 ) );
-                ter_set( point( 12, 13 ), t_rock );
-                ter_set( point( 12, 12 ), t_slope_down );
-                ter_set( point( 12, 11 ), t_slope_down );
-            }
-            break;
-
-            case 4: { // Amigara fault
+            case 3: { // Amigara fault
                 // Construct the fault on the appropriate face
                 switch( random_entry( face ) ) {
                     case direction::NORTH:
@@ -4705,63 +4724,6 @@ void map::draw_mine( mapgendata &dat )
             break;
         }
 
-    }
-}
-
-void map::draw_spiral( const mapgendata &dat )
-{
-    const oter_id &terrain_type = dat.terrain_type();
-    if( terrain_type == "spiral_hub" ) {
-        fill_background( this, t_rock_floor );
-        line( this, t_rock, point( 23, 0 ), point( 23, 23 ) );
-        line( this, t_rock,  point( 2, 23 ), point( 23, 23 ) );
-        line( this, t_rock,  point( 2, 4 ),  point( 2, 23 ) );
-        line( this, t_rock,  point( 2, 4 ), point( 18, 4 ) );
-        line( this, t_rock, point( 18, 4 ), point( 18, 18 ) ); // bad
-        line( this, t_rock,  point( 6, 18 ), point( 18, 18 ) );
-        line( this, t_rock,  point( 6, 7 ),  point( 6, 18 ) );
-        line( this, t_rock,  point( 6, 7 ), point( 15, 7 ) );
-        line( this, t_rock, point( 15, 7 ), point( 15, 15 ) );
-        line( this, t_rock,  point( 8, 15 ), point( 15, 15 ) );
-        line( this, t_rock,  point( 8, 9 ),  point( 8, 15 ) );
-        line( this, t_rock,  point( 8, 9 ), point( 13, 9 ) );
-        line( this, t_rock, point( 13, 9 ), point( 13, 13 ) );
-        line( this, t_rock, point( 10, 13 ), point( 13, 13 ) );
-        line( this, t_rock, point( 10, 11 ), point( 10, 13 ) );
-        square( this, t_slope_up, point( 11, 11 ), point( 12, 12 ) );
-        rotate( rng( 0, 3 ) );
-    } else if( terrain_type == "spiral" ) {
-        fill_background( this, t_rock_floor );
-        const int num_spiral = rng( 1, 4 );
-        std::list<point> offsets;
-        const int spiral_width = 8;
-        // Divide the room into quadrants, and place a spiral origin
-        // at a random offset within each quadrant.
-        for( int x = 0; x < 2; ++x ) {
-            for( int y = 0; y < 2; ++y ) {
-                const int x_jitter = rng( 0, SEEX - spiral_width );
-                const int y_jitter = rng( 0, SEEY - spiral_width );
-                offsets.push_back( point( ( x * SEEX ) + x_jitter,
-                                          ( y * SEEY ) + y_jitter ) );
-            }
-        }
-
-        // Randomly place from 1 - 4 of the spirals at the chosen offsets.
-        for( int i = 0; i < num_spiral; i++ ) {
-            const point chosen_point = random_entry_removed( offsets );
-            const int orx = chosen_point.x;
-            const int ory = chosen_point.y;
-
-            line( this, t_rock, point( orx, ory ), point( orx + 5, ory ) );
-            line( this, t_rock, point( orx + 5, ory ), point( orx + 5, ory + 5 ) );
-            line( this, t_rock, point( orx + 1, ory + 5 ), point( orx + 5, ory + 5 ) );
-            line( this, t_rock, point( orx + 1, ory + 2 ), point( orx + 1, ory + 4 ) );
-            line( this, t_rock, point( orx + 1, ory + 2 ), point( orx + 3, ory + 2 ) );
-            ter_set( point( orx + 3, ory + 3 ), t_rock );
-            ter_set( point( orx + 2, ory + 3 ), t_rock_floor );
-            place_items( item_group_id( "spiral" ), 60, point( orx + 2, ory + 3 ),
-                         point( orx + 2, ory + 3 ), false, calendar::turn_zero );
-        }
     }
 }
 
@@ -4843,158 +4805,13 @@ void map::draw_slimepit( const mapgendata &dat )
                 case 4:
                     ter_set( point( SEEX * 2 - rng( 1, 3 ), SEEY * 2 - rng( 1, 3 ) ), t_slope_up );
             }
+        } else if( dat.above() == "slimepit_bottom" ) {
+            // Align the stairs
+            ter_set( point( 7, 9 ), t_slope_up );
         }
         place_spawns( GROUP_SLIME, 1, point( SEEX, SEEY ), point( SEEX, SEEY ), 0.15 );
         place_items( item_group_id( "sewer" ), 40, point_zero, point( EAST_EDGE, SOUTH_EDGE ), true,
                      calendar::start_of_cataclysm );
-    }
-}
-
-void map::draw_triffid( const mapgendata &dat )
-{
-    const oter_id &terrain_type = dat.terrain_type();
-    if( terrain_type == "triffid_roots" ) {
-        fill_background( this, t_root_wall );
-        int node = 0;
-        int step = 0;
-        bool node_built[16];
-        bool done = false;
-        for( auto &elem : node_built ) {
-            elem = false;
-        }
-        do {
-            node_built[node] = true;
-            step++;
-            point node2( 1 + 6 * ( node % 4 ), 1 + 6 * static_cast<int>( node / 4 ) );
-            // Clear a 4x4 dirt square
-            square( this, t_dirt, node2, node2 + point( 3, 3 ) );
-            // Spawn a monster in there
-            if( step > 2 ) { // First couple of chambers are safe
-                int monrng = rng( 1, 25 );
-                point spawn( node2 + point( rng( 0, 3 ), rng( 0, 3 ) ) );
-                if( monrng <= 24 ) {
-                    place_spawns( GROUP_TRIFFID_OUTER, 1, node2,
-                                  node2 + point( 3, 3 ), 1, true );
-                } else {
-                    for( int webx = node2.x; webx <= node2.x + 3; webx++ ) {
-                        for( int weby = node2.y; weby <= node2.y + 3; weby++ ) {
-                            add_field( {webx, weby, abs_sub.z}, fd_web, rng( 1, 3 ) );
-                        }
-                    }
-                    place_spawns( GROUP_SPIDER, 1, spawn, spawn, 1, true );
-                }
-            }
-            // TODO: Non-monster hazards?
-            // Next, pick a cell to move to
-            std::vector<direction> move;
-            if( node % 4 > 0 && !node_built[node - 1] ) {
-                move.push_back( direction::WEST );
-            }
-            if( node % 4 < 3 && !node_built[node + 1] ) {
-                move.push_back( direction::EAST );
-            }
-            if( static_cast<int>( node / 4 ) > 0 && !node_built[node - 4] ) {
-                move.push_back( direction::NORTH );
-            }
-            if( static_cast<int>( node / 4 ) < 3 && !node_built[node + 4] ) {
-                move.push_back( direction::SOUTH );
-            }
-
-            if( move.empty() ) { // Nowhere to go!
-                square( this, t_slope_down, node2 + point_south_east, node2 + point( 2, 2 ) );
-                done = true;
-            } else {
-                switch( random_entry( move ) ) {
-                    case direction::NORTH:
-                        square( this, t_dirt, node2 + point( 1, -2 ), node2 + point( 2, -1 ) );
-                        node -= 4;
-                        break;
-                    case direction::EAST:
-                        square( this, t_dirt, node2 + point( 4, 1 ), node2 + point( 5, 2 ) );
-                        node++;
-                        break;
-                    case direction::SOUTH:
-                        square( this, t_dirt, node2 + point( 1, 4 ), node2 + point( 2, 5 ) );
-                        node += 4;
-                        break;
-                    case direction::WEST:
-                        square( this, t_dirt, node2 + point( -2, 1 ), node2 + point( -1, 2 ) );
-                        node--;
-                        break;
-                    default:
-                        break;
-                }
-            }
-        } while( !done );
-        square( this, t_slope_up, point( 2, 2 ), point( 3, 3 ) );
-        rotate( rng( 0, 3 ) );
-    } else if( terrain_type == "triffid_finale" ) {
-        fill_background( this, t_root_wall );
-        // NOLINTNEXTLINE(cata-use-named-point-constants)
-        square( this, t_dirt, point( 1, 1 ), point( 4, 4 ) );
-        square( this, t_dirt, point( 19, 19 ), point( 22, 22 ) );
-        // Drunken walk until we reach the heart (lower right, [19, 19])
-        // Chance increases by 1 each turn, and gives the % chance of forcing a move
-        // to the right or down.
-        int chance = 0;
-        int x = 4;
-        int y = 4;
-        do {
-            ter_set( point( x, y ), t_dirt );
-
-            if( chance >= 10 && one_in( 10 ) ) { // Add a spawn
-                place_spawns( GROUP_TRIFFID, 1, point( x, y ), point( x, y ), 1, true );
-            }
-
-            if( rng( 0, 99 ) < chance ) { // Force movement down or to the right
-                if( x >= 19 ) {
-                    y++;
-                } else if( y >= 19 ) {
-                    x++;
-                } else {
-                    if( one_in( 2 ) ) {
-                        x++;
-                    } else {
-                        y++;
-                    }
-                }
-            } else {
-                chance++; // Increase chance of forced movement down/right
-                // Weigh movement towards directions with lots of existing walls
-                int chance_west = 0;
-                int chance_east = 0;
-                int chance_north = 0;
-                int chance_south = 0;
-                for( int dist = 1; dist <= 5; dist++ ) {
-                    if( ter( point( x - dist, y ) ) == t_root_wall ) {
-                        chance_west++;
-                    }
-                    if( ter( point( x + dist, y ) ) == t_root_wall ) {
-                        chance_east++;
-                    }
-                    if( ter( point( x, y - dist ) ) == t_root_wall ) {
-                        chance_north++;
-                    }
-                    if( ter( point( x, y + dist ) ) == t_root_wall ) {
-                        chance_south++;
-                    }
-                }
-                int roll = rng( 0, chance_west + chance_east + chance_north + chance_south );
-                if( roll < chance_west && x > 0 ) {
-                    x--;
-                } else if( roll < chance_west + chance_east && x < EAST_EDGE ) {
-                    x++;
-                } else if( roll < chance_west + chance_east + chance_north && y > 0 ) {
-                    y--;
-                } else if( y < SOUTH_EDGE ) {
-                    y++;
-                }
-            } // Done with drunken walk
-        } while( x < 19 || y < 19 );
-        // NOLINTNEXTLINE(cata-use-named-point-constants)
-        square( this, t_slope_up, point( 1, 1 ), point( 2, 2 ) );
-        place_spawns( GROUP_TRIFFID_HEART, 1, point( 21, 21 ), point( 21, 21 ), 1, true );
-
     }
 }
 
@@ -5114,7 +4931,7 @@ void map::draw_connections( const mapgendata &dat )
     } else if( is_ot_match( "ants", terrain_type, ot_match_type::type ) ) {
         if( dat.above() == "anthill" ) {
             if( const auto p = random_point( *this, [this]( const tripoint & n ) {
-            return ter( n ) == t_rock_floor;
+            return ter( n ) == t_dirt;
             } ) ) {
                 ter_set( *p, t_slope_up );
             }
@@ -5217,14 +5034,16 @@ void map::place_toilet( const point &p, int charges )
     furn_set( p, f_toilet );
 }
 
-void map::place_vending( const point &p, const item_group_id &type, bool reinforced )
+void map::place_vending( const point &p, const item_group_id &type, bool reinforced, bool lootable )
 {
     if( reinforced ) {
         furn_set( p, f_vending_reinforced );
         place_items( type, 100, p, p, false, calendar::start_of_cataclysm );
     } else {
-        // The chance to find a non-ransacked vending machine reduces greatly with every day after the cataclysm
-        if( !one_in( std::max( to_days<int>( calendar::turn - calendar::start_of_cataclysm ), 0 ) + 4 ) ) {
+        // The chance to find a non-ransacked vending machine reduces greatly with every day after the cataclysm,
+        // unless it's hidden somewhere far away from everyone's eyes (e.g. deep in the lab)
+        if( lootable &&
+            !one_in( std::max( to_days<int>( calendar::turn - calendar::start_of_cataclysm ), 0 ) + 4 ) ) {
             furn_set( p, f_vending_o );
             for( const auto &loc : points_in_radius( { p, abs_sub.z }, 1 ) ) {
                 if( one_in( 4 ) ) {
@@ -5970,19 +5789,18 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
 
         case room_bionics:
             if( rotate % 2 == 0 ) {
-                int biox = p1.x + 2;
-                int bioy = static_cast<int>( ( p1.y + p2.y ) / 2 );
-                mapf::formatted_set_simple( m, point( biox - 1, bioy - 1 ),
+                point bio( p1.x + 2, static_cast<int>( ( p1.y + p2.y ) / 2 ) );
+                mapf::formatted_set_simple( m, bio + point_north_west,
                                             "---\n"
                                             "|c|\n"
                                             "-=-\n",
                                             mapf::ter_bind( "- | =", t_concrete_wall, t_concrete_wall, t_reinforced_glass ),
                                             mapf::furn_bind( "c", f_counter ) );
-                m->place_items( item_group_id( "bionics_common" ), 70, point( biox, bioy ),
-                                point( biox, bioy ), false, calendar::start_of_cataclysm );
+                m->place_items( item_group_id( "bionics_common" ), 70, bio,
+                                bio, false, calendar::start_of_cataclysm );
 
-                m->furn_set( point( biox, bioy + 2 ), furn_str_id( "f_console" ) );
-                computer *tmpcomp = m->add_computer( tripoint( biox,  bioy + 2, z ), _( "Bionic access" ), 2 );
+                m->furn_set( bio + point( 0, 2 ), furn_str_id( "f_console" ) );
+                computer *tmpcomp = m->add_computer( tripoint( bio.x,  bio.y + 2, z ), _( "Bionic access" ), 2 );
                 tmpcomp->add_option( _( "Manifest" ), COMPACT_LIST_BIONICS, 0 );
                 tmpcomp->add_option( _( "Open Chambers" ), COMPACT_RELEASE_BIONICS, 3 );
                 tmpcomp->add_failure( COMPFAIL_MANHACKS );
@@ -5990,18 +5808,18 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
                 tmpcomp->set_access_denied_msg(
                     _( "ERROR!  Access denied!  Unauthorized access will be met with lethal force!" ) );
 
-                biox = p2.x - 2;
-                mapf::formatted_set_simple( m, point( biox - 1, bioy - 1 ),
+                bio.x = p2.x - 2;
+                mapf::formatted_set_simple( m, bio + point_north_west,
                                             "-=-\n"
                                             "|c|\n"
                                             "---\n",
                                             mapf::ter_bind( "- | =", t_concrete_wall, t_concrete_wall, t_reinforced_glass ),
                                             mapf::furn_bind( "c", f_counter ) );
-                m->place_items( item_group_id( "bionics_common" ), 70, point( biox, bioy ),
-                                point( biox, bioy ), false, calendar::start_of_cataclysm );
+                m->place_items( item_group_id( "bionics_common" ), 70, bio,
+                                bio, false, calendar::start_of_cataclysm );
 
-                m->furn_set( point( biox, bioy - 2 ), furn_str_id( "f_console" ) );
-                computer *tmpcomp2 = m->add_computer( tripoint( biox,  bioy - 2, z ), _( "Bionic access" ), 2 );
+                m->furn_set( bio + point( 0, -2 ), furn_str_id( "f_console" ) );
+                computer *tmpcomp2 = m->add_computer( tripoint( bio.x,  bio.y - 2, z ), _( "Bionic access" ), 2 );
                 tmpcomp2->add_option( _( "Manifest" ), COMPACT_LIST_BIONICS, 0 );
                 tmpcomp2->add_option( _( "Open Chambers" ), COMPACT_RELEASE_BIONICS, 3 );
                 tmpcomp2->add_failure( COMPFAIL_MANHACKS );
@@ -6123,191 +5941,6 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
             break;
         default:
             break;
-    }
-}
-
-void build_mine_room( room_type type, const point &p1, const point &p2, const mapgendata &dat )
-{
-    map *const m = &dat.m;
-    std::vector<direction> possibilities;
-    point mid( static_cast<int>( ( p1.x + p2.x ) / 2 ), static_cast<int>( ( p1.y + p2.y ) / 2 ) );
-    if( p2.x < SEEX ) {
-        possibilities.push_back( direction::EAST );
-    }
-    if( p1.x > SEEX + 1 ) {
-        possibilities.push_back( direction::WEST );
-    }
-    if( p1.y > SEEY + 1 ) {
-        possibilities.push_back( direction::NORTH );
-    }
-    if( p2.y < SEEY ) {
-        possibilities.push_back( direction::SOUTH );
-    }
-
-    if( possibilities.empty() ) { // We're in the middle of the map!
-        if( mid.x <= SEEX ) {
-            possibilities.push_back( direction::EAST );
-        } else {
-            possibilities.push_back( direction::WEST );
-        }
-        if( mid.y <= SEEY ) {
-            possibilities.push_back( direction::SOUTH );
-        } else {
-            possibilities.push_back( direction::NORTH );
-        }
-    }
-
-    const direction door_side = random_entry( possibilities );
-    point door_point;
-    switch( door_side ) {
-        case direction::NORTH:
-            door_point.x = mid.x;
-            door_point.y = p1.y;
-            break;
-        case direction::EAST:
-            door_point.x = p2.x;
-            door_point.y = mid.y;
-            break;
-        case direction::SOUTH:
-            door_point.x = mid.x;
-            door_point.y = p2.y;
-            break;
-        case direction::WEST:
-            door_point.x = p1.x;
-            door_point.y = mid.y;
-            break;
-        default:
-            break;
-    }
-    square( m, t_floor, p1, p2 );
-    line( m, t_wall, p1, point( p2.x, p1.y ) );
-    line( m, t_wall, point( p1.x, p2.y ), p2 );
-    line( m, t_wall, p1 + point_south, point( p1.x, p2.y - 1 ) );
-    line( m, t_wall, point( p2.x, p1.y + 1 ), p2 + point_north );
-    // Main build switch!
-    switch( type ) {
-        case room_mine_shaft: {
-            m->furn_set( p1 + point_south_east, furn_str_id( "f_console" ) );
-            line( m, t_wall, point( p2.x - 2, p1.y + 2 ), point( p2.x - 1, p1.y + 2 ) );
-            m->ter_set( point( p2.x - 2, p1.y + 1 ), t_elevator );
-            m->ter_set( point( p2.x - 1, p1.y + 1 ), t_elevator_control_off );
-            computer *tmpcomp = m->add_computer( p1 + tripoint( 1, 1, m->get_abs_sub().z ),
-                                                 _( "NEPowerOS" ), 2 );
-            tmpcomp->add_option( _( "Divert power to elevator" ), COMPACT_ELEVATOR_ON, 0 );
-            tmpcomp->add_failure( COMPFAIL_ALARM );
-        }
-        break;
-
-        case room_mine_office:
-            line_furn( m, f_counter, point( mid.x, p1.y + 2 ), point( mid.x, p2.y - 2 ) );
-            line( m, t_window, point( mid.x - 1, p1.y ), point( mid.x + 1, p1.y ) );
-            line( m, t_window, point( mid.x - 1, p2.y ), point( mid.x + 1, p2.y ) );
-            line( m, t_window, point( p1.x, mid.y - 1 ), point( p1.x, mid.y + 1 ) );
-            line( m, t_window, point( p2.x, mid.y - 1 ), point( p2.x, mid.y + 1 ) );
-            m->place_items( item_group_id( "office" ), 80, p1 + point_south_east,
-                            p2 + point_north_west, false, calendar::start_of_cataclysm );
-            break;
-
-        case room_mine_storage:
-            m->place_items( item_group_id( "mine_storage" ), 85, p1 + point( 2, 2 ),
-                            p2 + point( -2, -2 ), false, calendar::start_of_cataclysm );
-            break;
-
-        case room_mine_fuel: {
-            int spacing = rng( 2, 4 );
-            if( door_side == direction::NORTH || door_side == direction::SOUTH ) {
-                int y = ( door_side == direction::NORTH ? p1.y + 2 : p2.y - 2 );
-                for( int x = p1.x + 1; x <= p2.x - 1; x += spacing ) {
-                    m->place_gas_pump( point( x, y ), rng( 10000, 50000 ) );
-                }
-            } else {
-                int x = ( door_side == direction::EAST ? p2.x - 2 : p1.x + 2 );
-                for( int y = p1.y + 1; y <= p2.y - 1; y += spacing ) {
-                    m->place_gas_pump( point( x, y ), rng( 10000, 50000 ) );
-                }
-            }
-        }
-        break;
-
-        case room_mine_housing:
-            if( door_side == direction::NORTH || door_side == direction::SOUTH ) {
-                for( int y = p1.y + 2; y <= p2.y - 2; y += 2 ) {
-                    m->ter_set( point( p1.x, y ), t_window );
-                    m->furn_set( point( p1.x + 1, y ), f_bed );
-                    m->place_items( item_group_id( "bed" ), 60, point( p1.x + 1, y ),
-                                    point( p1.x + 1, y ), false, calendar::start_of_cataclysm );
-                    m->furn_set( point( p1.x + 2, y ), f_bed );
-                    m->place_items( item_group_id( "bed" ), 60, point( p1.x + 2, y ),
-                                    point( p1.x + 2, y ), false, calendar::start_of_cataclysm );
-                    m->ter_set( point( p2.x, y ), t_window );
-                    m->furn_set( point( p2.x - 1, y ), f_bed );
-                    m->place_items( item_group_id( "bed" ), 60, point( p2.x - 1, y ),
-                                    point( p2.x - 1, y ), false, calendar::start_of_cataclysm );
-                    m->furn_set( point( p2.x - 2, y ), f_bed );
-                    m->place_items( item_group_id( "bed" ), 60, point( p2.x - 2, y ),
-                                    point( p2.x - 2, y ), false, calendar::start_of_cataclysm );
-                    m->furn_set( point( p1.x + 1, y + 1 ), f_dresser );
-                    m->place_items( item_group_id( "dresser" ), 78, point( p1.x + 1, y + 1 ),
-                                    point( p1.x + 1, y + 1 ), false, calendar::start_of_cataclysm );
-                    m->furn_set( point( p2.x - 1, y + 1 ), f_dresser );
-                    m->place_items( item_group_id( "dresser" ), 78, point( p2.x - 1, y + 1 ),
-                                    point( p2.x - 1, y + 1 ), false, calendar::start_of_cataclysm );
-                }
-            } else {
-                for( int x = p1.x + 2; x <= p2.x - 2; x += 2 ) {
-                    m->ter_set( point( x, p1.y ), t_window );
-                    m->furn_set( point( x, p1.y + 1 ), f_bed );
-                    m->place_items( item_group_id( "bed" ), 60, point( x, p1.y + 1 ),
-                                    point( x, p1.y + 1 ), false, calendar::start_of_cataclysm );
-                    m->furn_set( point( x, p1.y + 2 ), f_bed );
-                    m->place_items( item_group_id( "bed" ), 60, point( x, p1.y + 2 ),
-                                    point( x, p1.y + 2 ), false, calendar::start_of_cataclysm );
-                    m->ter_set( point( x, p2.y ), t_window );
-                    m->furn_set( point( x, p2.y - 1 ), f_bed );
-                    m->place_items( item_group_id( "bed" ), 60, point( x, p2.y - 1 ),
-                                    point( x, p2.y - 1 ), false, calendar::start_of_cataclysm );
-                    m->furn_set( point( x, p2.y - 2 ), f_bed );
-                    m->place_items( item_group_id( "bed" ), 60, point( x, p2.y - 2 ),
-                                    point( x, p2.y - 2 ), false, calendar::start_of_cataclysm );
-                    m->furn_set( point( x + 1, p1.y + 1 ), f_dresser );
-                    m->place_items( item_group_id( "dresser" ), 78, point( x + 1, p1.y + 1 ),
-                                    point( x + 1, p1.y + 1 ), false, calendar::start_of_cataclysm );
-                    m->furn_set( point( x + 1, p2.y - 1 ), f_dresser );
-                    m->place_items( item_group_id( "dresser" ), 78, point( x + 1, p2.y - 1 ),
-                                    point( x + 1, p2.y - 1 ), false, calendar::start_of_cataclysm );
-                }
-            }
-            m->place_items( item_group_id( "bedroom" ), 65, p1 + point_south_east,
-                            p2 + point_north_west, false, calendar::start_of_cataclysm );
-            break;
-        default:
-            //Suppress warnings
-            break;
-    }
-
-    if( type == room_mine_fuel ) { // Fuel stations are open on one side
-        switch( door_side ) {
-            case direction::NORTH:
-                line( m, t_floor, p1, point( p2.x, p1.y ) );
-                break;
-            case direction::EAST:
-                line( m, t_floor, point( p2.x, p1.y + 1 ), p2 + point_north );
-                break;
-            case direction::SOUTH:
-                line( m, t_floor, point( p1.x, p2.y ), p2 );
-                break;
-            case direction::WEST:
-                line( m, t_floor, p1 + point_south, point( p1.x, p2.y - 1 ) );
-                break;
-            default:
-                break;
-        }
-    } else {
-        if( type == room_mine_storage ) { // Storage has a locked door
-            m->ter_set( door_point, t_door_locked );
-        } else {
-            m->ter_set( door_point, t_door_c );
-        }
     }
 }
 
@@ -6546,6 +6179,8 @@ bool update_mapgen_function_json::update_map( const tripoint_abs_omt &omt_pos, c
 bool update_mapgen_function_json::update_map( const mapgendata &md, const point &offset,
         const bool verify ) const
 {
+    mapgendata md_with_params( md, get_param_values( md ) );
+
     class rotation_guard
     {
         public:
@@ -6569,21 +6204,21 @@ bool update_mapgen_function_json::update_map( const mapgendata &md, const point 
             const mapgendata &md;
             const int rotation;
     };
-    rotation_guard rot( md );
+    rotation_guard rot( md_with_params );
 
     for( const jmapgen_setmap &elem : setmap_points ) {
-        if( verify && elem.has_vehicle_collision( md, offset ) ) {
+        if( verify && elem.has_vehicle_collision( md_with_params, offset ) ) {
             return false;
         }
-        elem.apply( md, offset );
+        elem.apply( md_with_params, offset );
     }
 
-    if( verify && objects.has_vehicle_collision( md, offset ) ) {
+    if( verify && objects.has_vehicle_collision( md_with_params, offset ) ) {
         return false;
     }
-    objects.apply( md, offset );
+    objects.apply( md_with_params, offset );
 
-    resolve_regional_terrain_and_furniture( md );
+    resolve_regional_terrain_and_furniture( md_with_params );
 
     return true;
 }

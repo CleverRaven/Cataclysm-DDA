@@ -2,7 +2,7 @@
 #include <string>
 
 #include "calendar.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "enum_conversions.h"
 
 // MOON TESTS
@@ -216,30 +216,20 @@ TEST_CASE( "moonlight at dawn and dusk", "[calendar][moon][moonlight][dawn][dusk
         time_point new_sunset = sunset( new_midnight );
         time_point new_noon = new_midnight + 12_hours;
 
-        // Daylight level should be 100 at first new moon
-        float daylight_level = current_daylight_level( new_noon );
-        float half_twilight = ( daylight_level + 1.0f ) / 2.0f;
+        // Daylight level should be ~100 at first new moon
+        float daylight_level = sun_moon_light_at( new_noon );
+        CHECK( daylight_level == Approx( 100 ).margin( 10 ) );
         float moonlight_level = 1.0f;
 
         THEN( "at night, light is only moonlight" ) {
-            CHECK( sunlight( new_sunset + 61_minutes ) == moonlight_level );
-            CHECK( sunlight( new_midnight ) == moonlight_level );
-            CHECK( sunlight( new_sunrise - 1_minutes ) == moonlight_level );
+            CHECK( sun_moon_light_at( new_sunset + 2_hours ) == moonlight_level );
+            CHECK( sun_moon_light_at( new_midnight ) == moonlight_level );
+            CHECK( sun_moon_light_at( new_sunrise - 2_hours ) == moonlight_level );
         }
         THEN( "at dawn, light increases from moonlight to daylight" ) {
-            CHECK( sunlight( new_sunrise ) == moonlight_level );
-            CHECK( sunlight( new_sunrise + 30_minutes ) == Approx( half_twilight ) );
-            CHECK( sunlight( new_sunrise + 1_hours ) == daylight_level );
-        }
-        THEN( "after dawn, until dusk, light is full daylight" ) {
-            CHECK( sunlight( new_sunrise + 61_minutes ) == daylight_level );
-            CHECK( sunlight( new_noon ) == daylight_level );
-            CHECK( sunlight( new_sunset - 1_minutes ) == daylight_level );
-        }
-        THEN( "at dusk, light decreases from daylight to moonlight" ) {
-            CHECK( sunlight( new_sunset ) == daylight_level );
-            CHECK( sunlight( new_sunset + 30_minutes ) == Approx( half_twilight ) );
-            CHECK( sunlight( new_sunset + 1_hours ) == moonlight_level );
+            CHECK( sun_moon_light_at( new_sunrise ) > sun_moon_light_at( new_sunrise - 2_hours ) );
+            CHECK( sun_moon_light_at( new_sunrise + 1_hours ) ==
+                   sun_light_at( new_sunrise + 1_hours ) + moonlight_level );
         }
     }
 
@@ -252,29 +242,20 @@ TEST_CASE( "moonlight at dawn and dusk", "[calendar][moon][moonlight][dawn][dusk
         time_point full_noon = full_midnight + 12_hours;
 
         // Daylight level is higher, later in the season (~104 at first full moon)
-        float daylight_level = current_daylight_level( full_noon );
-        float half_twilight = ( daylight_level + 10.0f ) / 2.0f;
+        float daylight_level = sun_moon_light_at( full_noon );
+        CHECK( daylight_level == Approx( 120 ).margin( 10 ) );
         float moonlight_level = 10.0f;
 
         THEN( "at night, light is only moonlight" ) {
-            CHECK( sunlight( full_sunset + 61_minutes ) == moonlight_level );
-            CHECK( sunlight( full_midnight ) == moonlight_level );
-            CHECK( sunlight( full_sunrise - 1_minutes ) == moonlight_level );
+            CHECK( sun_moon_light_at( full_sunset + 2_hours ) == moonlight_level );
+            CHECK( sun_moon_light_at( full_midnight ) == moonlight_level );
+            CHECK( sun_moon_light_at( full_sunrise - 2_hours ) == moonlight_level );
         }
         THEN( "at dawn, light increases from moonlight to daylight" ) {
-            CHECK( sunlight( full_sunrise ) == moonlight_level );
-            CHECK( sunlight( full_sunrise + 30_minutes ) == Approx( half_twilight ) );
-            CHECK( sunlight( full_sunrise + 1_hours ) == daylight_level );
-        }
-        THEN( "after dawn, until dusk, light is full daylight" ) {
-            CHECK( sunlight( full_sunrise + 61_minutes ) == daylight_level );
-            CHECK( sunlight( full_noon ) == daylight_level );
-            CHECK( sunlight( full_sunset - 1_minutes ) == daylight_level );
-        }
-        THEN( "at dusk, light decreases from daylight to moonlight" ) {
-            CHECK( sunlight( full_sunset ) == daylight_level );
-            CHECK( sunlight( full_sunset + 30_minutes ) == Approx( half_twilight ) );
-            CHECK( sunlight( full_sunset + 1_hours ) == moonlight_level );
+            CHECK( sun_moon_light_at( full_sunrise ) >
+                   sun_moon_light_at( full_sunrise - 2_hours ) );
+            CHECK( sun_moon_light_at( full_sunrise + 1_hours ) ==
+                   sun_light_at( full_sunrise + 1_hours ) + moonlight_level );
         }
     }
 }
@@ -314,7 +295,7 @@ static float phase_moonlight( const float phase_scale, const moon_phase expect_p
                expect_phase_enum ) );
 
     // Finally, get the amount of moonlight
-    return sunlight( this_night );
+    return sun_moon_light_at( this_night );
 }
 
 // Moonlight level varies with moon phase, from 1.0 at new moon to 10.0 at full moon.

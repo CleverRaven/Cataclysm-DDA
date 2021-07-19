@@ -189,7 +189,6 @@ struct mutation_branch {
         std::pair<int, int> rand_bash_bonus;
         // Additional bonuses
         cata::optional<float> dodge_modifier = cata::nullopt;
-        cata::optional<float> speed_modifier = cata::nullopt;
         cata::optional<float> movecost_modifier = cata::nullopt;
         cata::optional<float> movecost_flatground_modifier = cata::nullopt;
         cata::optional<float> movecost_obstacle_modifier = cata::nullopt;
@@ -256,9 +255,6 @@ struct mutation_branch {
 
         // Multiplier for sight range, defaulting to 1.
         cata::optional<float> overmap_multiplier = cata::nullopt;
-
-        // Multiplier for map memory capacity, defaulting to 1.
-        cata::optional<float> map_memory_capacity_multiplier = cata::nullopt;
 
         // Multiplier for reading speed, defaulting to 1.
         cata::optional<float> reading_speed_multiplier = cata::nullopt;

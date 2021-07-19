@@ -1,0 +1,311 @@
+[
+  {
+    "type": "npc",
+    "id": "NPC_meteorologist",
+    "class": "NC_meteorologist",
+    "name_suffix": "meteorologist",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_meteorologist_1",
+    "faction": "no_faction",
+    "mission_offered": "MISSION_meteorologist_1"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_meteorologist",
+    "name": { "str": "Meteorologist" },
+    "job_description": "Meteorologist.",
+    "common": false,
+    "bonus_str": { "rng": [ -2, 2 ] },
+    "bonus_dex": { "rng": [ -2, 2 ] },
+    "bonus_int": { "rng": [ 2, 5 ] },
+    "bonus_per": { "rng": [ -1, 3 ] },
+    "worn_override": "NC_meteorologist_worn",
+    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" }, { "trait": "BGSS_METEOROLOGIST" } ],
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -4 } ] } ] } },
+      { "skill": "computer", "bonus": { "rng": [ 2, 3 ] } },
+      { "skill": "electronics", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "chemistry", "bonus": { "rng": [ 2, 3 ] } }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_meteorologist_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "briefs" },
+      { "item": "coat_lab" },
+      { "item": "dress_shirt" },
+      { "item": "pants" },
+      { "item": "socks" },
+      { "item": "boots" },
+      { "item": "gloves_rubber" },
+      { "item": "wristwatch" },
+      { "item": "glasses_safety" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": [ "TALK_meteorologist_1" ],
+    "dynamic_line": {
+      "npc_has_var": "u_helped_meteorologist",
+      "type": "flag",
+      "context": "mission",
+      "value": "yes",
+      "yes": "Run, I need to run, where to run…",
+      "no": {
+        "npc_has_var": "u_met_meteorologist",
+        "type": "general",
+        "context": "meeting",
+        "value": "yes",
+        "yes": "Air temperature, precipitation, but what about… oh, I'm sorry, I didn't notice you.  Hello.",
+        "no": "I have not seen living people for a long time.  Glad to see another survivor.  Greetings, <name_g>."
+      }
+    },
+    "speaker_effect": {
+      "sentinel": "u_met_meteorologist",
+      "effect": [ { "npc_add_var": "u_met_meteorologist", "type": "general", "context": "meeting", "value": "yes" } ]
+    },
+    "responses": [
+      { "text": "About that job…", "condition": "has_assigned_mission", "topic": "TALK_MISSION_INQUIRE" },
+      { "text": "<BGSS_intro_question>", "topic": "TALK_meteorologist_Background" },
+      {
+        "text": "Maybe I can help you with your problem?",
+        "topic": "TALK_meteorologist_safety",
+        "condition": { "npc_has_var": "u_helped_meteorologist", "type": "flag", "context": "mission", "value": "yes" },
+        "switch": true
+      },
+      {
+        "text": "Do you need any help?",
+        "switch": true,
+        "trial": {
+          "type": "CONDITION",
+          "condition": {
+            "not": {
+              "npc_compare_time_since_var": "meteorologist_wait",
+              "type": "time",
+              "context": "mission",
+              "op": "<",
+              "time": "2 days"
+            }
+          }
+        },
+        "success": {
+          "effect": [ { "npc_lose_var": "meteorologist_wait", "type": "time", "context": "mission" } ],
+          "topic": "TALK_MISSION_LIST"
+        },
+        "failure": { "topic": "TALK_meteorologist_wait" }
+      },
+      { "text": "Goodbye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_meteorologist_wait",
+    "dynamic_line": "I need more time.  Come back later.",
+    "responses": [ { "text": "No problem.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_meteorologist_safety",
+    "dynamic_line": "Help?  Help with what?  Oh, yes, yes.  If you know a place with many survivors, can you take me there?  I doubt I can survive alone…",
+    "responses": [
+      {
+        "text": "Let's go.",
+        "topic": "TALK_DONE",
+        "effect": [ "follow_only", { "npc_first_topic": "TALK_meteorologist_safety_lead" } ]
+      },
+      { "text": "Want to travel with me?", "topic": "TALK_SUGGEST_FOLLOW" },
+      { "text": "Maybe later.", "topic": "TALK_NONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_meteorologist_safety_lead",
+    "dynamic_line": "Are we there yet, <name_g>?",
+    "responses": [
+      {
+        "text": "Yes, you can relax now.",
+        "topic": "TALK_meteorologist_safety_done",
+        "condition": {
+          "or": [
+            { "npc_at_om_location": "FACTION_CAMP_ANY" },
+            { "npc_at_om_location": "evac_center_18" },
+            { "npc_at_om_location": "robofachq_surface_entrance" }
+          ]
+        }
+      },
+      { "text": "Don't worry, we're getting there soon.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_meteorologist_safety_done",
+    "dynamic_line": "Thank you.  I will never forget your kindness, <name_g>.  Take this book as token of my gratitude.",
+    "responses": [
+      {
+        "text": "Bye.",
+        "topic": "TALK_DONE",
+        "effect": [ { "u_buy_item": "adv_chemistry" }, "stop_following", { "npc_first_topic": "TALK_meteorologist_safe" } ]
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_meteorologist_safe",
+    "dynamic_line": "I'm glad you still alive.",
+    "responses": [ { "text": "Me too.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_meteorologist_Background",
+    "dynamic_line": "I'm just a regular meteorologist.  In recent years I have worked at a weather station, monitored the weather, state of air, read and wrote reports, drew up schedules… in general, complete boredom.  In my free time I was studying electronics and radio engineering, making various devices, some for work, some just for fun.  When the first riots began, I gathered all my things that I managed to take with me and settled here.  Since then I've been sitting here, wasting my time doing all sorts of nonsense.",
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_NONE" } ]
+  },
+  {
+    "id": "MISSION_meteorologist_1",
+    "type": "mission_definition",
+    "has_generic_rewards": false,
+    "name": { "str": "Find scrap for the meteorologist" },
+    "description": "The meteorologist asked to bring him 50 pieces of scrap.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "scrap",
+    "count": 50,
+    "difficulty": 0,
+    "value": 100,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_meteorologist_2",
+    "dialogue": {
+      "describe": "We need scrap metal to assemble a drone…",
+      "offer": "I've been sitting here for a long time, and all that time I was wondering how bad everything is outside.  I want to build a drone that I can use to fly over New England, check the air condition, take a few pictures from above to get a glimpse of how is it.  There were a lot of things in our back room that could be useful, but still I'm missing a lot of things.  You look like an experienced survivalist.  Can you help me?",
+      "accepted": "Good.  I just need a little stuff: 50 scrap, 6 medium batteries, 5 small high-quality lenses and a radio remote control.  Bring the scrap for now, but don't forget about the rest.",
+      "rejected": "Maybe another time…",
+      "advice": "I don't think this is a difficult task.  Surely there is a lot of it underfoot.",
+      "inquire": "How's it going?",
+      "success": "Great, I'm starting to work on it…",
+      "success_lie": "Why do you say that?",
+      "failure": "…"
+    }
+  },
+  {
+    "id": "MISSION_meteorologist_2",
+    "type": "mission_definition",
+    "has_generic_rewards": false,
+    "name": { "str": "Find batteries for the meteorologist" },
+    "description": "The meteorologist asked to bring him 6 medium batteries.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "medium_battery_cell",
+    "count": 6,
+    "difficulty": 0,
+    "value": 100,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_meteorologist_3",
+    "dialogue": {
+      "describe": "We need batteries to assemble a drone…",
+      "offer": "Well, what's next on the list… yeah, batteries.  6 medium batteries would be enough.",
+      "accepted": "I'm waiting for you.",
+      "rejected": "Maybe another time…",
+      "advice": "Try looking for some battery-powered trinkets and take them apart.",
+      "inquire": "How's it going?",
+      "success": "Great, I'm continue to work on it…",
+      "success_lie": "Why do you say that?",
+      "failure": "…"
+    }
+  },
+  {
+    "id": "MISSION_meteorologist_3",
+    "type": "mission_definition",
+    "has_generic_rewards": false,
+    "name": { "str": "Find lens_small 5" },
+    "description": "The meteorologist asked to bring him 5 little high-quality lenses.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "lens_small",
+    "count": 6,
+    "difficulty": 0,
+    "value": 100,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_meteorologist_4",
+    "dialogue": {
+      "describe": "We need high quality lenses for our drone…",
+      "offer": "Well, what's next on the list… yeah, lenses.  5 small high-quality lenses would be enough.",
+      "accepted": "I'm waiting for you.",
+      "rejected": "Maybe another time…",
+      "advice": "Try looking for cameras to dismantle.  Telescopes or microscopes would also work.",
+      "inquire": "How's it going?",
+      "success": "Great, I'm continue to work on it…",
+      "success_lie": "Why do you say that?",
+      "failure": "…"
+    }
+  },
+  {
+    "id": "MISSION_meteorologist_4",
+    "type": "mission_definition",
+    "name": { "str": "Find radiocontrol" },
+    "description": "The meteorologist asked to bring him a radio controller.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "radiocontrol",
+    "count": 1,
+    "difficulty": 0,
+    "value": 100,
+    "end": {
+      "effect": [
+        { "npc_add_var": "meteorologist_wait", "type": "time", "context": "mission", "time": true },
+        { "u_buy_item": "textbook_electronics" }
+      ]
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_meteorologist_5",
+    "dialogue": {
+      "describe": "We need an RC to assemble a drone…",
+      "offer": "Well, what's next on the list… yeah, radio control.  Any kind will do, but the simplest one is better, so I can easily reconfigure it for my drone.",
+      "accepted": "I'm waiting for you.",
+      "rejected": "Maybe another time…",
+      "advice": "I advise you to search in a store, such as electronics or toy store.",
+      "inquire": "How's it going?",
+      "success": "Great, very little work left.  I need a few days to finish all this, and to try it in work.  I hope everything will work fine!  While I'm working on the drone, you can read this book.  Maybe you can learn something new from it.",
+      "success_lie": "Why do you say that?",
+      "failure": "…"
+    }
+  },
+  {
+    "id": "MISSION_meteorologist_5",
+    "type": "mission_definition",
+    "has_generic_rewards": false,
+    "name": { "str": "Find crashed drone" },
+    "description": "The meteorologist asked to bring him his crashed drone.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "module_meteorologist",
+    "count": 1,
+    "difficulty": 0,
+    "value": 100,
+    "start": {
+      "assign_mission_target": { "om_terrain": "field", "reveal_radius": 1, "search_range": 50, "min_distance": 15, "random": true },
+      "update_mapgen": {
+        "place_item": [
+          { "item": "module_meteorologist", "x": [ 5, 15 ], "y": [ 5, 15 ] },
+          { "item": "scrap", "x": [ 5, 15 ], "y": [ 5, 15 ], "repeat": [ 5, 30 ] },
+          { "item": "lens_small", "x": [ 5, 15 ], "y": [ 5, 15 ], "chance": 45, "repeat": [ 1, 3 ] },
+          { "item": "cable", "x": [ 5, 15 ], "y": [ 5, 15 ], "amount": 10, "repeat": [ 3, 10 ] }
+        ],
+        "place_monster": [ { "monster": "mon_mi_go", "x": [ 5, 15 ], "y": [ 5, 15 ], "repeat": [ 2, 5 ] } ]
+      }
+    },
+    "end": {
+      "effect": [ { "npc_add_var": "u_helped_meteorologist", "type": "flag", "context": "mission", "value": "yes" } ],
+      "opinion": { "trust": 4 }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "I've lost the drone, we should find out what happened…",
+      "offer": "I'm glad that you are alive and that you haven't forgot about me.  The drone turned out to be great, it managed to take off and even was able to fly several hundred meters!  Unfortunately, after that, I lost control of it… I don't know what happened to it, though.  Maybe you can check?  I'm a little afraid to go out there…",
+      "accepted": "I'm waiting for you.",
+      "rejected": "Maybe another time…",
+      "advice": "I don't know quite what happened.  Maybe something noticed my drone and tried to bring it down.  Be careful.",
+      "inquire": "How's it going?",
+      "success": "Hmm, I see that the drone is not with you.  Maybe at least the memory module remains?  Okay, show it to me… hmm, situation is worse than I expected, much, much worse… I'm not feeling good.  I don't feel safe in this place anymore.  I have to run, run somewhere.  But where to run if these <monster>s are everywhere…",
+      "success_lie": "Why do you say that?",
+      "failure": "…"
+    }
+  }
+]

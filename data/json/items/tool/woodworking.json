@@ -19,6 +19,24 @@
     "flags": [ "NONCONDUCTIVE", "SHEATH_AXE" ]
   },
   {
+    "id": "bow_saw",
+    "type": "TOOL",
+    "name": { "str": "bow saw" },
+    "description": "The bow saw is more at home outdoors than inside.  Bow saws are used for trimming trees, pruning, and cutting firewood, but may be used for other rough cuts as well.",
+    "weight": "800 g",
+    "volume": "900 ml",
+    "longest_side": "40 cm",
+    "price": "30 USD",
+    "price_postapoc": "1 USD",
+    "to_hit": -2,
+    "cutting": 1,
+    "material": [ "steel", "plastic" ],
+    "symbol": "(",
+    "color": "red",
+    "qualities": [ [ "AXE", 2 ], [ "SAW_W", 2 ], [ "BUTCHER", -90 ] ],
+    "flags": [ "NONCONDUCTIVE", "BELT_CLIP" ]
+  },
+  {
     "id": "chainsaw_off",
     "type": "TOOL",
     "name": { "str": "chainsaw (off)", "str_pl": "chainsaws (off)" },
@@ -262,7 +280,7 @@
     "id": "saw",
     "type": "TOOL",
     "name": { "str": "wood saw" },
-    "description": "This is a thin saw, useful for cutting through wood objects.",
+    "description": "This is a thin saw, useful for cutting through wood objects.  Can turn pre-cut logs into planks by activation.",
     "weight": "283 g",
     "volume": "1 L",
     "longest_side": "46 cm",

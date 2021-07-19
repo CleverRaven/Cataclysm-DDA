@@ -36,8 +36,8 @@
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 16 } ] }
     ],
     "death_drops": "mon_zombie_survivor_death_drops",
-    "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
+    "fungalize_into": "mon_zombie_fungus",
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
   },
   {

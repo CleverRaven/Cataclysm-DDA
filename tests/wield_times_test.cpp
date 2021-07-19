@@ -1,4 +1,4 @@
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 
 #include <list>
 
@@ -27,7 +27,7 @@ static void wield_check_from_inv( avatar &guy, const itype_id &item_name, const 
 
     item_location backpack_loc( guy, &guy.worn.back() );
     backpack_loc->put_in( spawned_item, item_pocket::pocket_type::CONTAINER );
-    REQUIRE( backpack_loc->contents.num_item_stacks() == 1 );
+    REQUIRE( backpack_loc->num_item_stacks() == 1 );
     item_location item_loc( backpack_loc, &backpack_loc->contents.only_item() );
     CAPTURE( item_name );
     CAPTURE( item_loc->typeId() );
@@ -67,20 +67,20 @@ TEST_CASE( "Wield time test", "[wield]" )
         guy.worn.push_back( backpack );
         item_location backpack_loc( guy, &guy.worn.back() );
         backpack_loc->put_in( plastic_bag, item_pocket::pocket_type::CONTAINER );
-        REQUIRE( backpack_loc->contents.num_item_stacks() == 1 );
+        REQUIRE( backpack_loc->num_item_stacks() == 1 );
         REQUIRE( guy.mutation_value( "obtain_cost_multiplier" ) == 1.0 );
 
         item_location plastic_bag_loc( backpack_loc, &backpack_loc->contents.only_item() );
         plastic_bag_loc->put_in( cargo_pants, item_pocket::pocket_type::CONTAINER );
-        REQUIRE( plastic_bag_loc->contents.num_item_stacks() == 1 );
+        REQUIRE( plastic_bag_loc->num_item_stacks() == 1 );
 
         item_location cargo_pants_loc( plastic_bag_loc, &plastic_bag_loc->contents.only_item() );
         cargo_pants_loc->put_in( sheath, item_pocket::pocket_type::CONTAINER );
-        REQUIRE( cargo_pants_loc->contents.num_item_stacks() == 1 );
+        REQUIRE( cargo_pants_loc->num_item_stacks() == 1 );
 
         item_location sheath_loc( cargo_pants_loc, &cargo_pants_loc->contents.only_item() );
         sheath_loc->put_in( knife, item_pocket::pocket_type::CONTAINER );
-        REQUIRE( sheath_loc->contents.num_item_stacks() == 1 );
+        REQUIRE( sheath_loc->num_item_stacks() == 1 );
 
         item_location knife_loc( sheath_loc, &sheath_loc->contents.only_item() );
 

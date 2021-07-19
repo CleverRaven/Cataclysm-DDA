@@ -1,0 +1,20 @@
+[
+  {
+    "id": "mon_zombie_milbase_personnel_death_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "magazine": 100,
+    "ammo": 60,
+    "entries": [
+      { "group": "clothing_military", "damage": [ 0, 4 ] },
+      { "group": "clothing_military_headwear", "prob": 40, "damage": [ 0, 4 ] },
+      { "group": "gear_soldier_sidearm", "prob": 10 },
+      { "item": "two_way_radio", "charges": [ 0, 300 ], "prob": 25 },
+      { "group": "wallets_military", "prob": 5 },
+      { "group": "clothing_glasses", "damage": [ 0, 4 ], "prob": 5 },
+      { "item": "wristwatch", "damage": [ 0, 4 ], "prob": 33 },
+      { "group": "mil_food_nodrugs", "prob": 15 },
+      { "group": "misc_smoking", "prob": 10 }
+    ]
+  }
+]

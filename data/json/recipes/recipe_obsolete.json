@@ -6,6 +6,151 @@
   },
   {
     "type": "recipe",
+    "result": "mre_accessory",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mre_dessert",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mre_chilibeans_box",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mre_bbqbeef_box",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mre_chickennoodle_box",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mre_spaghetti_box",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mre_chicken_box",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mre_beeftaco_box",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mre_beef_box",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mre_meatball_box",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mre_beefstew_box",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mre_chilimac_box",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mre_veggy_box",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mre_macaronimarinara_box",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mre_sfettuccine_box",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mre_ratatouille_box",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mre_cheesetort_box",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mre_mushroomfettuccine_box",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mre_mexicanchickenstew_box",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mre_chickenburritobowl_box",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mre_maplesausage_box",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mre_ravioli_box",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mre_pepperjackbeef_box",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mre_hashbrownbacon_box",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mre_lemontuna_box",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mre_asianbeef_box",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mre_chickenpesto_box",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mre_southwestbeef_box",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mre_hotdog_box",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "jar_3l_glass",
     "obsolete": true
   },
@@ -68,6 +213,16 @@
   {
     "type": "recipe",
     "result": "survivor_belt",
+    "obsolete": true
+  },
+  {
+    "result": "aep_suit",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "anbc_suit",
+    "type": "recipe",
     "obsolete": true
   },
   {
@@ -2754,6 +2909,12 @@
   },
   {
     "type": "recipe",
+    "result": "blindfold",
+    "id_suffix": "from_tape",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "towel",
     "obsolete": true
   },
@@ -2770,6 +2931,16 @@
   {
     "type": "recipe",
     "result": "rifle_223",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bodypillow",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "gloves_xlsurvivor",
     "obsolete": true
   }
 ]

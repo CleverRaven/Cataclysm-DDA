@@ -998,14 +998,14 @@
     "type": "harvest",
     "message": "<arachnid_flying_harvest>",
     "entries": [
-      { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.1 },
+      { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.3 },
       { "drop": "mutant_blood", "type": "blood", "mass_ratio": 0.1 },
-      { "drop": "sinew", "type": "bone", "mass_ratio": 0.01 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.003 },
       { "drop": "endochitin", "type": "bone", "mass_ratio": 0.01 },
-      { "drop": "mutant_bug_hydrogen_sacs", "type": "flesh", "mass_ratio": 0.2 },
-      { "drop": "mutant_bug_lungs", "type": "flesh", "mass_ratio": 0.0035 },
-      { "drop": "mutant_bug_organs", "type": "offal", "mass_ratio": 0.015 },
-      { "drop": "chitin_piece", "type": "bone", "mass_ratio": 0.01 }
+      { "drop": "mutant_bug_hydrogen_sacs", "type": "flesh", "mass_ratio": 0.1 },
+      { "drop": "mutant_bug_lungs", "type": "flesh", "mass_ratio": 0.01 },
+      { "drop": "mutant_bug_organs", "type": "offal", "mass_ratio": 0.03 },
+      { "drop": "chitin_piece", "type": "bone", "mass_ratio": 0.1 }
     ]
   },
   {
@@ -1073,17 +1073,36 @@
   {
     "id": "arachnid_wasp",
     "type": "harvest",
-    "message": "There's a faintly hairy, skin-like membrane, covered in blood vessels, beneath the chitin of this creature.  Inside it is a bundle of bubble-like tissue sacs that appear to be floating, which doesn't fit with what you know about pre-Cataclysm wasps.",
+    "message": "<wasp_harvest>",
     "entries": [
-      { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.33 },
-      { "drop": "sinew", "type": "bone", "mass_ratio": 0.01 },
-      { "drop": "endochitin", "type": "bone", "mass_ratio": 0.1 },
+      { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.3 },
+      { "drop": "mutant_blood", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.003 },
+      { "drop": "endochitin", "type": "bone", "mass_ratio": 0.01 },
       { "drop": "mutant_bug_hydrogen_sacs", "type": "flesh", "mass_ratio": 0.1 },
-      { "drop": "mutant_bug_lungs", "type": "flesh", "mass_ratio": 0.0035 },
-      { "drop": "mutant_bug_organs", "type": "offal", "mass_ratio": 0.015 },
+      { "drop": "mutant_bug_lungs", "type": "flesh", "mass_ratio": 0.01 },
+      { "drop": "mutant_bug_organs", "type": "offal", "mass_ratio": 0.03 },
       { "drop": "wasp_sting", "base_num": [ 0, 1 ], "type": "bone" },
       { "drop": "chitin_piece", "type": "bone", "mass_ratio": 0.1 },
-      { "drop": "venom_wasp", "type": "offal", "mass_ratio": 0.005 }
+      { "drop": "venom_wasp", "type": "offal", "base_num": [ 0, 3 ], "scale_num": [ 0, 2 ] }
+    ]
+  },
+  {
+    "id": "arachnid_wasp_queen",
+    "type": "harvest",
+    "message": "<wasp_queen_harvest>",
+    "entries": [
+      { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.2 },
+      { "drop": "mutant_blood", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.003 },
+      { "drop": "endochitin", "type": "bone", "mass_ratio": 0.01 },
+      { "drop": "mutant_bug_hydrogen_sacs", "type": "flesh", "mass_ratio": 0.1 },
+      { "drop": "mutant_bug_lungs", "type": "flesh", "mass_ratio": 0.01 },
+      { "drop": "mutant_bug_organs", "type": "offal", "mass_ratio": 0.03 },
+      { "drop": "wasp_sting", "base_num": [ 0, 1 ], "type": "bone" },
+      { "drop": "chitin_piece", "type": "bone", "mass_ratio": 0.1 },
+      { "drop": "egg_wasp", "type": "offal", "base_num": [ 10, 30 ], "scale_num": [ 5, 5 ] },
+      { "drop": "venom_wasp", "type": "offal", "base_num": [ 5, 25 ], "scale_num": [ 5, 2 ] }
     ]
   },
   {
@@ -1259,27 +1278,6 @@
     ]
   },
   {
-    "id": "CBM_CIV",
-    "type": "harvest",
-    "entries": [
-      {
-        "drop": "bio_power_storage",
-        "type": "bionic",
-        "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
-        "faults": [ "fault_bionic_salvaged" ]
-      },
-      {
-        "drop": "bionics_common",
-        "type": "bionic_group",
-        "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
-        "faults": [ "fault_bionic_salvaged" ]
-      },
-      { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
-      { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
-      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 }
-    ]
-  },
-  {
     "id": "CBM_SCI",
     "type": "harvest",
     "entries": [
@@ -1295,6 +1293,25 @@
     ]
   },
   {
+    "id": "CBM_SCI_FERAL",
+    "type": "harvest",
+    "entries": [
+      {
+        "drop": "bionics_sci",
+        "type": "bionic_group",
+        "flags": [ "NO_STERILE", "NO_PACKED" ],
+        "faults": [ "fault_bionic_salvaged" ]
+      },
+      { "drop": "human_flesh", "type": "flesh", "mass_ratio": 0.2 },
+      { "drop": "hstomach", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
+      { "drop": "human_fat", "type": "flesh", "mass_ratio": 0.1 },
+      { "drop": "blood", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "bone_human", "type": "bone", "mass_ratio": 0.12 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.001 },
+      { "drop": "raw_hleather", "type": "skin", "mass_ratio": 0.01 }
+    ]
+  },
+  {
     "id": "CBM_TECH",
     "type": "harvest",
     "entries": [
@@ -1306,33 +1323,6 @@
       },
       {
         "drop": "bionics_tech",
-        "type": "bionic_group",
-        "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
-        "faults": [ "fault_bionic_salvaged" ]
-      },
-      { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
-      { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
-      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 }
-    ]
-  },
-  {
-    "id": "CBM_SUBS",
-    "type": "harvest",
-    "entries": [
-      {
-        "drop": "bio_power_storage",
-        "type": "bionic",
-        "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
-        "faults": [ "fault_bionic_salvaged" ]
-      },
-      {
-        "drop": "bionics_subs",
-        "type": "bionic_group",
-        "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
-        "faults": [ "fault_bionic_salvaged" ]
-      },
-      {
-        "drop": "bionics_subs",
         "type": "bionic_group",
         "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
         "faults": [ "fault_bionic_salvaged" ]
@@ -1450,6 +1440,18 @@
       { "drop": "veggy", "type": "offal", "mass_ratio": 0.05 },
       { "drop": "stick", "type": "bone", "mass_ratio": 0.05 },
       { "drop": "venom_paralytic", "type": "offal", "mass_ratio": 0.0075 }
+    ]
+  },
+  {
+    "id": "triffid_fungal_fighter",
+    "type": "harvest",
+    "entries": [
+      { "drop": "stick_fiber", "type": "bone", "mass_ratio": 0.4 },
+      { "drop": "veggy", "type": "flesh", "mass_ratio": 0.2 },
+      { "drop": "veggy", "type": "offal", "mass_ratio": 0.05 },
+      { "drop": "stick", "type": "bone", "mass_ratio": 0.05 },
+      { "drop": "venom_paralytic", "type": "offal", "mass_ratio": 0.0075 },
+      { "drop": "triffid_fungicide", "type": "offal", "mass_ratio": 0.0075 }
     ]
   },
   {

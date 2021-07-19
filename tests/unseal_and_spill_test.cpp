@@ -9,7 +9,7 @@
 
 #include "avatar.h"
 #include "cached_options.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "character.h"
 #include "colony.h"
 #include "item.h"
@@ -150,7 +150,7 @@ class test_scenario
 void unseal_items_containing( contents_change_handler &handler, item_location &root,
                               const std::set<itype_id> &types )
 {
-    for( item *it : root->contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+    for( item *it : root->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
         if( it ) {
             item_location content( root, it );
             if( types.count( it->typeId() ) ) {
@@ -267,7 +267,7 @@ void match( item_location loc, const final_result &result )
     REQUIRE( loc->typeId() == result.id );
     CHECK( result.sealed == ( loc->contents.get_sealed_summary() !=
                               item_contents::sealed_summary::unsealed ) );
-    match( loc, loc->contents.all_items_top( item_pocket::pocket_type::CONTAINER ), result.contents );
+    match( loc, loc->all_items_top( item_pocket::pocket_type::CONTAINER ), result.contents );
 }
 
 void test_scenario::run()
@@ -595,7 +595,7 @@ void test_scenario::run()
                         {}
                     }
                 };
-            } else if( !will_spill_outer && !do_spill ) {
+            } else if( !do_spill ) {
                 original_location = final_result {
                     test_watertight_open_sealed_container_1L,
                     false,
@@ -623,7 +623,7 @@ void test_scenario::run()
                         }
                     }
                 };
-            } else if( do_spill ) {
+            } else {
                 original_location = final_result {
                     test_watertight_open_sealed_container_1L,
                     false,
@@ -642,34 +642,6 @@ void test_scenario::run()
                         false,
                         false,
                         {}
-                    }
-                };
-            } else {
-                original_location = final_result {
-                    test_watertight_open_sealed_container_1L,
-                    false,
-                    false,
-                    {}
-                };
-                ground = {
-                    final_result {
-                        test_watertight_open_sealed_multipocket_container_2x250ml,
-                        false,
-                        false,
-                        {
-                            final_result {
-                                test_liquid_1ml,
-                                false,
-                                false,
-                                {}
-                            },
-                            final_result {
-                                test_liquid_1ml,
-                                false,
-                                false,
-                                {}
-                            }
-                        }
                     }
                 };
             }

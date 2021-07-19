@@ -96,6 +96,7 @@ class talker
         }
         virtual void set_mutation( const trait_id & ) {}
         virtual void unset_mutation( const trait_id & ) {}
+        virtual void mod_fatigue( int ) {};
         virtual bool has_trait_flag( const json_character_flag & ) const {
             return false;
         }
@@ -152,10 +153,14 @@ class talker
         virtual bool is_deaf() const {
             return false;
         }
+        virtual bool can_see() const {
+            return false;
+        }
         virtual bool is_mute() const {
             return false;
         }
-        virtual void add_effect( const efftype_id &, const time_duration &, bool ) {}
+        virtual void add_effect( const efftype_id &, const time_duration &, std::string, bool, bool,
+                                 int ) {}
         virtual void remove_effect( const efftype_id & ) {}
         virtual std::string get_value( const std::string & ) const {
             return "";
@@ -314,5 +319,19 @@ class talker
         virtual bool is_safe() const {
             return true;
         }
+        virtual void mod_pain( int ) {}
+        virtual int pain_cur() const {
+            return 0;
+        }
+        virtual bool worn_with_flag( const flag_id & ) const {
+            return false;
+        }
+        virtual bool wielded_with_flag( const flag_id & ) const {
+            return false;
+        }
+        virtual units::energy power_cur() const {
+            return 0_kJ;
+        }
+        virtual void mod_healthy_mod( int, int ) {};
 };
 #endif // CATA_SRC_TALKER_H

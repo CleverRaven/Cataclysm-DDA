@@ -4,47 +4,29 @@ on:
   push:
     branches:
     - master
-    paths-ignore:
-    - 'android/**'
-    - 'build-data/osx/**'
-    - 'doc/**'
-    - 'doxygen_doc/**'
-    - 'lgtm/**'
-    - 'msvc-full-features/**'
-    - 'msvc-object_creator/**'
-    - 'object_creator/**'
-    - 'tools/**'
-    - 'utilities/**'
   pull_request:
     branches:
     - master
-    paths-ignore:
-    - 'android/**'
-    - 'build-data/osx/**'
-    - 'doc/**'
-    - 'doxygen_doc/**'
-    - 'lgtm/**'
-    - 'msvc-full-features/**'
-    - 'msvc-object_creator/**'
-    - 'object_creator/**'
-    - 'tools/**'
-    - 'utilities/**'
-
 
 jobs:
+  skip-duplicates:
+    continue-on-error: true
+    runs-on: ubuntu-latest
+    # Map a step output to a job output
+    outputs:
+      should_skip: ${{ steps.skip_check.outputs.should_skip }}
+    steps:
+      - id: skip_check
+        uses: fkirc/skip-duplicate-actions@master
+        with:
+          cancel_others: 'true'
+          paths_ignore: '["android/**", "build-data/osx/**", "doc/**", "doxygen_doc/**", "lgtm/**", "msvc-**", "object_creator/**", "tools/**", "utilities/**"]'
   varied_builds:
+    needs: skip-duplicates
+    if: ${{ needs.skip-duplicates.outputs.should_skip != 'true' }}
     strategy:
       matrix:
         include:
-          - compiler: g++-9
-            os: ubuntu-latest
-            cmake: 0
-            tiles: 0
-            test-stage: 1
-            native: linux64
-            gold: 1
-            lto: 1
-            title: GCC 9, Ubuntu, Curses, LTO
           - compiler: g++-7
             os: ubuntu-latest
             cmake: 1
@@ -71,16 +53,27 @@ jobs:
             tiles: 1
             native: osx
             title: Clang 12, macOS 10.15, Tiles
+          - compiler: g++
+            os: ubuntu-latest
+            cmake: 0
+            tiles: 1
+            title: GCC, Ubuntu cross-compile to MinGW-Win64, Tiles
+            ldflags: -static-libgcc -static-libstdc++
+            mxe_target: i686-w64-mingw32.static
+            wine: wine
     name: ${{ matrix.title }}
     runs-on: ${{ matrix.os }}
     env:
         CMAKE: ${{ matrix.cmake }}
         COMPILER: ${{ matrix.compiler }}
+        MXE_TARGET: ${{ matrix.mxe_target }}
+        WINE: ${{ matrix.wine }}
         OS: ${{ matrix.os }}
         TILES: ${{ matrix.tiles }}
         SOUND: ${{ matrix.tiles }}
         SANITIZE: ${{ matrix.sanitize }}
         TEST_STAGE: ${{ matrix.test-stage }}
+        LDFLAGS: ${{ matrix.ldflags }}
         EXTRA_TEST_OPTS: --error-format=github-action
         NATIVE: ${{ matrix.native }}
         GOLD: ${{ matrix.gold }}
@@ -132,8 +125,9 @@ jobs:
     - name: build and test
       run: bash ./build-scripts/build.sh
     - name: upload artifacts if failed
-      uses: actions/upload-artifact@v1
+      uses: actions/upload-artifact@v2
       if: failure()
       with:
         name: cata_test
         path: tests/cata_test
+        if-no-files-found: ignore

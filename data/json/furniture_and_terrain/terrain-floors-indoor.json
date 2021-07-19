@@ -48,6 +48,18 @@
   },
   {
     "type": "terrain",
+    "id": "t_thconc_r",
+    "name": "concrete floor",
+    "description": "A bare and cold concrete floor with a streak of red paint, could still insulate from the outdoors but roof collapse is possible if supporting walls are broken down.",
+    "symbol": ".",
+    "color": "red",
+    "looks_like": "t_floor_red",
+    "move_cost": 2,
+    "roof": "t_flat_roof",
+    "copy-from": "t_thconc_floor"
+  },
+  {
+    "type": "terrain",
     "id": "t_thconc_floor_olight",
     "name": "concrete floor, overhead light",
     "description": "A bare and cold concrete floor with a still-functioning light attached to the ceiling above.",
@@ -66,7 +78,8 @@
       "sound_fail_vol": 10,
       "ter_set": "t_thconc_floor",
       "items": [ { "item": "glass_shard", "count": [ 8, 16 ] } ]
-    }
+    },
+    "shoot": { "chance_to_hit": 0, "reduce_damage": [ 0, 0 ], "reduce_damage_laser": [ 0, 0 ], "destroy_damage": [ 2, 8 ] }
   },
   {
     "type": "terrain",
@@ -865,7 +878,82 @@
       "sound_fail": "slap!",
       "sound_vol": 8,
       "sound_fail_vol": 4,
-      "ter_set": "t_dirt"
+      "ter_set": "t_null"
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_floor_paper_noroof",
+    "name": "paper floor",
+    "description": "Floor made of pulpy mass, covered in sticky wasp saliva.",
+    "symbol": ".",
+    "looks_like": "t_dirt",
+    "color": "white",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "INDOORS", "FLAT", "ROAD" ],
+    "bash": {
+      "str_min": 1,
+      "str_max": 6,
+      "sound": "rrrrip!",
+      "sound_fail": "slap!",
+      "sound_vol": 8,
+      "sound_fail_vol": 4,
+      "ter_set": "t_open_air"
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_floor_paper_hard",
+    "name": "hard paper floor",
+    "description": "Hardened cardboard floor made of chewed up trees and resin mixed with wasp saliva.",
+    "symbol": ".",
+    "looks_like": "t_floor_paper",
+    "color": "light_gray",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "INDOORS", "FLAT" ],
+    "bash": {
+      "str_min": 15,
+      "str_max": 150,
+      "str_min_supported": 30,
+      "sound": "rrrrip!",
+      "sound_fail": "slap!",
+      "sound_vol": 10,
+      "sound_fail_vol": 6,
+      "ter_set": "t_open_air"
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_floor_brood_wasp",
+    "name": "paper brood cap",
+    "description": "A thin paper floor, protecting the pupatig wasp larva until it's ready to emerge.",
+    "looks_like": "t_floor_paper",
+    "symbol": ".",
+    "color": "white",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "INDOORS", "NO_FLOOR" ],
+    "bash": {
+      "str_min": 1,
+      "str_max": 6,
+      "sound": "rrrrip!",
+      "sound_fail": "slap!",
+      "sound_vol": 8,
+      "sound_fail_vol": 4,
+      "ter_set": "t_open_air"
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_floor_brood_fake",
+    "name": "open air",
+    "description": "This is open air.",
+    "//": "Actually, this is a thin membrane of bullshit to keep wasp eggs levitating.",
+    "symbol": " ",
+    "looks_like": "t_open_air",
+    "color": "i_cyan",
+    "move_cost": 2,
+    "trap": "tr_ledge",
+    "flags": [ "TRANSPARENT" ],
+    "examine_action": "ledge"
   }
 ]

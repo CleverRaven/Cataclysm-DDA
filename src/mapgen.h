@@ -8,9 +8,11 @@
 #include <memory>
 #include <string>
 #include <unordered_map>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
+#include "cata_variant.h"
 #include "coordinates.h"
 #include "json.h"
 #include "memory_fast.h"
@@ -20,6 +22,7 @@
 #include "weighted_list.h"
 
 class map;
+template <typename Id> class mapgen_value;
 class mapgendata;
 class mission;
 
@@ -130,6 +133,21 @@ struct jmapgen_setmap {
 
 struct spawn_data {
     std::map<itype_id, jmapgen_int> ammo;
+    std::vector<point> patrol_points_rel_ms;
+};
+
+class mapgen_parameter
+{
+    public:
+        void deserialize( JsonIn & );
+
+        cata_variant_type type() const;
+        cata_variant get( const mapgendata &md ) const;
+    private:
+        cata_variant_type type_;
+        // Using a pointer here mostly to move the definition of mapgen_value to the
+        // cpp file
+        std::shared_ptr<const mapgen_value<std::string>> default_;
 };
 
 /**
@@ -158,8 +176,12 @@ class jmapgen_piece
     protected:
         jmapgen_piece() : repeat( 1, 1 ) { }
     public:
+        virtual bool is_nop() const {
+            return false;
+        }
         /** Sanity-check this piece */
-        virtual void check( const std::string &/*context*/ ) const { }
+        virtual void check( const std::string &/*context*/,
+                            const std::unordered_map<std::string, mapgen_parameter> & ) const { }
         /** Place something on the map from mapgendata &dat, at (x,y). */
         virtual void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
                           ) const = 0;
@@ -217,6 +239,7 @@ class mapgen_palette
 {
     public:
         palette_id id;
+
         /**
          * The mapping from character (key) to a list of things that should be placed. This is
          * similar to objects, but it uses key to get the actual position where to place things
@@ -225,8 +248,7 @@ class mapgen_palette
         using placing_map =
             std::unordered_map<map_key, std::vector< shared_ptr_fast<const jmapgen_piece>>>;
 
-        std::unordered_map<map_key, ter_id> format_terrain;
-        std::unordered_map<map_key, furn_id> format_furniture;
+        std::unordered_set<map_key> keys_with_terrain;
         placing_map format_placings;
 
         template<typename PieceType>
@@ -292,7 +314,8 @@ struct jmapgen_objects {
         void load_objects( const JsonObject &jsi, const std::string &member_name,
                            const std::string &context );
 
-        void check( const std::string &context ) const;
+        void check( const std::string &context,
+                    const std::unordered_map<std::string, mapgen_parameter> & ) const;
 
         void apply( const mapgendata &dat ) const;
         void apply( const mapgendata &dat, const point &offset ) const;
@@ -324,6 +347,7 @@ class mapgen_function_json_base
         json_source_location jsrcloc;
         std::string context_;
 
+        std::unordered_map<std::string, mapgen_parameter> parameters;
     protected:
         mapgen_function_json_base( const json_source_location &jsrcloc, const std::string &context );
         virtual ~mapgen_function_json_base();
@@ -337,14 +361,13 @@ class mapgen_function_json_base
 
         void check_common() const;
 
-        void formatted_set_incredibly_simple( map &m, const point &offset ) const;
+        std::unordered_map<std::string, cata_variant>
+        get_param_values( const mapgendata &md ) const;
 
-        bool do_format;
         bool is_ready;
 
         point mapgensize;
         point m_offset;
-        std::vector<ter_furn_id> format;
         std::vector<jmapgen_setmap> setmap_points;
 
         jmapgen_objects objects;
@@ -397,7 +420,7 @@ class mapgen_function_json_nested : public mapgen_function_json_base
         mapgen_function_json_nested( const json_source_location &jsrcloc, const std::string &context );
         ~mapgen_function_json_nested() override = default;
 
-        void nest( const mapgendata &dat, const point &offset ) const;
+        void nest( const mapgendata &md, const point &offset ) const;
     protected:
         bool setup_internal( const JsonObject &jo ) override;
 
@@ -458,11 +481,6 @@ enum room_type {
     room_bedroom,
     room_backyard,
     room_study,
-    room_mine_shaft,
-    room_mine_office,
-    room_mine_storage,
-    room_mine_fuel,
-    room_mine_housing,
     room_split
 };
 

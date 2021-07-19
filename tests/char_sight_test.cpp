@@ -2,7 +2,7 @@
 #include <memory>
 
 #include "calendar.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "character.h"
 #include "flag.h"
 #include "game.h"
@@ -56,8 +56,8 @@ TEST_CASE( "light and fine_detail_vision_mod", "[character][sight][light][vision
         // Build map cache including lightmap
         here.build_map_cache( 0, false );
         REQUIRE( g->is_in_sunlight( dummy.pos() ) );
-        // ambient_light_at is 100.0 in full sun (this fails if lightmap cache is not built)
-        REQUIRE( here.ambient_light_at( dummy.pos() ) == Approx( 100.0f ) );
+        // ambient_light_at is ~100.0 in full sun (this fails if lightmap cache is not built)
+        REQUIRE( here.ambient_light_at( dummy.pos() ) == Approx( 100.0f ).margin( 10 ) );
 
         // 1.0 is LIGHT_AMBIENT_LIT or brighter
         CHECK( dummy.fine_detail_vision_mod() == Approx( 1.0f ) );
@@ -263,7 +263,7 @@ TEST_CASE( "ursine vision", "[character][ursine][vision]" )
             here.build_map_cache( 0, false );
             light_here = here.ambient_light_at( dummy.pos() );
             REQUIRE( g->is_in_sunlight( dummy.pos() ) );
-            REQUIRE( light_here == Approx( 100.0f ) );
+            REQUIRE( light_here == Approx( 100.0f ).margin( 10 ) );
 
             THEN( "impaired sight, with 4 tiles of range" ) {
                 dummy.recalc_sight_limits();
@@ -281,7 +281,7 @@ TEST_CASE( "ursine vision", "[character][ursine][vision]" )
                     dummy.recalc_sight_limits();
                     CHECK_FALSE( dummy.sight_impaired() );
                     CHECK( dummy.unimpaired_range() == 60 );
-                    CHECK( dummy.sight_range( light_here ) == 87 );
+                    CHECK( dummy.sight_range( light_here ) == 88 );
                 }
             }
         }

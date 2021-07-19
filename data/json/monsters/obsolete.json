@@ -21,7 +21,6 @@
     "dodge": 2,
     "harvest": "mammal_tiny",
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1", "VERMIN" ]
   },
   {
@@ -46,7 +45,6 @@
     "harvest": "arachnid",
     "anger_triggers": [ "PLAYER_WEAK" ],
     "fear_triggers": [ "PLAYER_CLOSE" ],
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "FLIES", "VERMIN" ]
   },
   {
@@ -68,7 +66,6 @@
     "harvest": "mammal_tiny",
     "special_attacks": [ { "type": "leap", "cooldown": 10, "max_range": 5 } ],
     "fear_triggers": [ "PLAYER_CLOSE" ],
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "SWIMS" ]
   },
   {
@@ -88,7 +85,6 @@
     "melee_cut": 0,
     "dodge": 6,
     "harvest": "mammal_tiny",
-    "death_function": [ "NORMAL" ],
     "flags": [ "SMELLS", "HEARS", "STUMBLES", "VERMIN", "FLIES" ]
   },
   {
@@ -112,7 +108,6 @@
     "dodge": 2,
     "harvest": "mammal_tiny",
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "VERMIN" ]
   },
   {
@@ -133,7 +128,6 @@
     "dodge": 6,
     "harvest": "mammal_tiny",
     "fear_triggers": [ "PLAYER_CLOSE" ],
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "VERMIN", "ACIDPROOF", "ARTHROPOD_BLOOD" ]
   },
   {
@@ -154,7 +148,6 @@
     "melee_cut": 0,
     "dodge": 2,
     "harvest": "mammal_tiny",
-    "death_function": [ "NORMAL" ],
     "flags": [ "SMELLS", "HEARS", "VERMIN", "CLIMBS" ]
   },
   {
@@ -174,7 +167,6 @@
     "melee_cut": 0,
     "dodge": 2,
     "harvest": "mammal_tiny",
-    "death_function": [ "NORMAL" ],
     "flags": [ "SMELLS", "HEARS", "VERMIN", "WEBWALK", "CLIMBS" ]
   },
   {
@@ -194,7 +186,6 @@
     "melee_cut": 0,
     "dodge": 2,
     "harvest": "arachnid",
-    "death_function": [ "NORMAL" ],
     "flags": [ "SMELLS", "HEARS", "VERMIN", "BADVENOM", "CLIMBS" ]
   },
   {
@@ -214,7 +205,6 @@
     "melee_cut": 0,
     "dodge": 2,
     "harvest": "mammal_tiny",
-    "death_function": [ "NORMAL" ],
     "flags": [ "SMELLS", "HEARS", "VERMIN", "CLIMBS" ]
   },
   {
@@ -245,7 +235,7 @@
     "revert_to_itype": "bot_tripod",
     "special_attacks": [ [ "FLAMETHROWER", 10 ] ],
     "death_drops": { "groups": [ [ "robots", 4 ], [ "tripod", 1 ] ] },
-    "death_function": [ "BROKEN" ],
+    "death_function": { "corpse_type": "BROKEN" },
     "flags": [ "SEES", "HEARS", "GOODHEARING", "BASHES", "NO_BREATHE", "ELECTRONIC", "CLIMBS", "PRIORITIZE_TARGETS" ]
   },
   {
@@ -277,7 +267,7 @@
     "starting_ammo": { "40x46mm_m433": 200, "556": 3000 },
     "path_settings": { "max_dist": 20 },
     "special_attacks": [ [ "MULTI_ROBOT", 3 ] ],
-    "death_function": [ "BROKEN" ],
+    "death_function": { "corpse_type": "BROKEN" },
     "flags": [
       "SEES",
       "HEARS",
@@ -321,7 +311,7 @@
     "starting_ammo": { "40x46mm_m433": 100, "556": 1000 },
     "path_settings": { "max_dist": 10 },
     "special_attacks": [ [ "CHICKENBOT", 4 ] ],
-    "death_function": [ "BROKEN" ],
+    "death_function": { "corpse_type": "BROKEN" },
     "flags": [ "SEES", "HEARS", "BASHES", "NO_BREATHE", "ELECTRONIC", "PRIORITIZE_TARGETS", "DROPS_AMMO" ]
   },
   {
@@ -358,7 +348,7 @@
     ],
     "special_when_hit": [ "RETURN_FIRE", 100 ],
     "death_drops": {  },
-    "death_function": [ "BROKEN" ],
+    "death_function": { "corpse_type": "BROKEN" },
     "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "COLDPROOF", "IMMOBILE", "NO_BREATHE" ]
   }
 ]

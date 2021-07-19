@@ -546,13 +546,13 @@ class item_location::impl::item_in_container : public item_location::impl
         // note: could be a better way of handling this?
         int calc_index() const {
             int idx = 0;
-            for( const item *it : container->contents.all_items_top() ) {
+            for( const item *it : container->all_items_top() ) {
                 if( target() == it ) {
                     return idx;
                 }
                 idx++;
             }
-            if( container->contents.empty() ) {
+            if( container->empty() ) {
                 return -1;
             }
             return idx;
@@ -574,10 +574,10 @@ class item_location::impl::item_in_container : public item_location::impl
         }
 
         item *unpack( int idx ) const override {
-            if( idx < 0 || static_cast<size_t>( idx ) >= target()->contents.num_item_stacks() ) {
+            if( idx < 0 || static_cast<size_t>( idx ) >= target()->num_item_stacks() ) {
                 return nullptr;
             }
-            std::list<const item *> all_items = container->contents.all_items_ptr();
+            std::list<const item *> all_items = container->all_items_ptr();
             auto iter = all_items.begin();
             std::advance( iter, idx );
             if( iter != all_items.end() ) {
@@ -783,7 +783,7 @@ void item_location::deserialize( JsonIn &js )
             ptr.reset( new impl::item_on_map( map_cursor( pos ), idx ) ); // drop on ground
             return;
         }
-        const std::list<item *> parent_contents = parent->contents.all_items_top();
+        const std::list<item *> parent_contents = parent->all_items_top();
         if( idx > -1 && idx < static_cast<int>( parent_contents.size() ) ) {
             auto iter = parent_contents.begin();
             std::advance( iter, idx );
@@ -939,4 +939,24 @@ units::volume item_location::volume_capacity() const
 units::mass item_location::weight_capacity() const
 {
     return ptr->weight_capacity();
+}
+
+bool item_location::protected_from_liquids() const
+{
+    // check if inside a watertight which is not an open_container
+    if( has_parent() ) {
+        item_location parent = parent_item();
+
+        // parent can protect the item against water
+        if( parent->is_watertight_container() && !parent->will_spill() ) {
+            return true;
+        }
+
+        // check the parent's parent
+        return parent.protected_from_liquids();
+    }
+
+    // we recursively checked all containers
+    // none are closed watertight containers
+    return false;
 }
