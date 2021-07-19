@@ -9243,7 +9243,7 @@ cata::optional<int> iuse::sextant( player *p, item *, bool, const tripoint & )
     if( debug_mode ) {
         // Debug mode always shows all sun angles
         const float azimuth = to_degrees( sun_position.first );
-        p->add_msg_if_player( m_neutral, _( "Sun altitude %.1f°, azimuth %.1f" ), altitude, azimuth );
+        p->add_msg_if_player( m_neutral, _( "Sun altitude %.1f°, azimuth %.1f°" ), altitude, azimuth );
     } else if( altitude > 0 ) {
         p->add_msg_if_player( m_neutral, _( "The Sun is at altitude of %.1f°." ), altitude );
     } else {
