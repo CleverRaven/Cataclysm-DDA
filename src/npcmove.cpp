@@ -136,6 +136,15 @@ static constexpr float NPC_DANGER_VERY_LOW = 5.0f;
 static constexpr float NPC_DANGER_MAX = 150.0f;
 static constexpr float MAX_FLOAT = 5000000000.0f;
 
+// TODO: These would be much better using common code or constants from character.cpp,
+// which handles the player formatting of thirst/hunger levels. Right now we
+// have magic numbers all over the place. ;(
+
+static constexpr int NPC_THIRST_CONSUME  = 40;  // "Thirsty"
+static constexpr int NPC_THIRST_COMPLAIN = 80;  // "Very thirsty"
+static constexpr int NPC_HUNGER_CONSUME  = 80;  // 50% of what's needed to refuse training.
+static constexpr int NPC_HUNGER_COMPLAIN = 160; // The level at which we refuse to do some tasks.
+
 enum npc_action : int {
     npc_undecided = 0,
     npc_pause,
@@ -1830,8 +1839,8 @@ npc_action npc::address_needs( float danger )
         return npc_undecided;
     }
 
-    if( one_in( 3 ) && ( get_thirst() > 40 ||
-                         get_stored_kcal() + stomach.get_calories() < get_healthy_kcal() * 0.95 ) ) {
+    if( one_in( 3 ) && ( get_thirst() > NPC_THIRST_CONSUME ||
+                         get_hunger() > NPC_HUNGER_CONSUME ) ) {
         if( consume_food_from_camp() ) {
             return npc_noop;
         }
@@ -3671,6 +3680,8 @@ void npc::use_painkiller()
 // Not be unhealthy
 // Not have side effects
 // Be eaten before it rots (favor soon-to-rot perishables)
+//
+// TODO: Cache the results of this, *especially* if there's nothing we want to eat.
 static float rate_food( const item &it, int want_nutr, int want_quench )
 {
     const auto &food = it.get_comestible();
@@ -3678,10 +3689,12 @@ static float rate_food( const item &it, int want_nutr, int want_quench )
         return 0.0f;
     }
 
+    // Don't eat it if it's filled with parasites
     if( food->parasites && !it.has_flag( flag_NO_PARASITES ) ) {
         return 0.0;
     }
 
+    // TODO: Use the actual nutrition for this food, rather than the default?
     int nutr = food->get_default_nutr();
     int quench = food->quench;
 
@@ -3709,23 +3722,35 @@ static float rate_food( const item &it, int want_nutr, int want_quench )
     }
 
     double relative_rot = it.get_relative_rot();
+
+    // Don't eat rotten food.
     if( relative_rot >= 1.0f ) {
         // TODO: Allow sapro mutants to eat it anyway and make them prefer it
         return 0.0f;
     }
 
+    // For non-rotten food, we have a starting weight in the range 1-10
+    // The closer it is to expiring, the more we should aim to eat it.
     float weight = std::max( 1.0, 10.0 * relative_rot );
+
+    // TODO: I feel like we should exclude *really* un-fun foods (flour, hot sauce, etc)
+    //       rather than discount them. Eating cooked liver is fine, eating raw flour... :/
+    //       Likewise, *fun* foods should be boosted in attractiveness.
     if( it.get_comestible_fun() < 0 ) {
         // This helps to avoid eating stuff like flour
         weight /= ( -it.get_comestible_fun() ) + 1;
     }
 
+    // NPCs will avoid unhealthy foods.
     if( food->healthy < 0 ) {
         weight /= ( -food->healthy ) + 1;
     }
 
     // Avoid wasting quench values unless it's about to rot away
     if( relative_rot < 0.9f && quench > want_quench ) {
+        // TODO: This can remove a food as a candidate entirely, which means
+        //       an NPC could avoid eating a slightly hydrating but calorie-dense
+        //       food because they're "not thirsty".
         weight -= ( 1.0f - relative_rot ) * ( quench - want_quench );
     }
 
@@ -3735,16 +3760,14 @@ static float rate_food( const item &it, int want_nutr, int want_quench )
     }
 
     if( nutr > want_nutr ) {
-        // TODO: Allow overeating in some cases
-        if( nutr >= 5 ) {
-            return 0.0f;
-        }
 
+        // Discount fresh foods that are bigger than our hunger.
         if( relative_rot < 0.9f ) {
             weight /= nutr - want_nutr;
         }
     }
 
+    // NPCs won't eat poison food unless it's only a little poisoned
     if( it.poison > 0 ) {
         weight -= it.poison;
     }
@@ -3855,6 +3878,9 @@ bool npc::consume_food()
             const time_duration &consume_time = get_consume_time( *best_food );
             consumed = consume( item_location( *this, best_food ) ) != trinary::NONE;
             if( consumed ) {
+                // TODO: Message that "X begins eating Y?" Right now it appears to the player
+                //       that "Urist eats a carp roast" and then stands still doing nothing
+                //       for a while.
                 moves -= to_moves<int>( consume_time );
             } else {
                 debugmsg( "%s failed to consume %s", name, best_food->tname() );
@@ -4486,7 +4512,7 @@ bool npc::complain()
 
     // Hunger every 3-6 hours
     // Since NPCs can't starve to death, respect the rules
-    if( get_hunger() > 160 &&
+    if( get_hunger() > NPC_HUNGER_COMPLAIN &&
         complain_about( hunger_string, std::max( 3_hours,
                         time_duration::from_minutes( 60 * 8 - get_hunger() ) ), _( "<hungry>" ) ) ) {
         return true;
@@ -4494,7 +4520,8 @@ bool npc::complain()
 
     // Thirst every 2 hours
     // Since NPCs can't dry to death, respect the rules
-    if( get_thirst() > 80 && complain_about( thirst_string, 2_hours, _( "<thirsty>" ) ) ) {
+    if( get_thirst() > NPC_THIRST_COMPLAIN &&
+        complain_about( thirst_string, 2_hours, _( "<thirsty>" ) ) ) {
         return true;
     }
 
