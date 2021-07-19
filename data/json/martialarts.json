@@ -770,7 +770,7 @@
       {
         "id": "buff_swordsmanship_onblock",
         "name": "Deflection",
-        "description": "You deflected your enemy's attack and now they are open to a counterattack!\nEnables \"Sweeping Strike\" and \"Deathblow\" techniques.\nLasts 1 turn.",
+        "description": "You deflected your enemy's attack and now they are open to a counterattack!\nEnables \"Throw\" and \"Mordhau\" techniques.\nLasts 1 turn.",
         "skill_requirements": [ { "name": "melee", "level": 1 } ],
         "melee_allowed": true,
         "buff_duration": 1
@@ -779,8 +779,8 @@
     "oncrit_buffs": [
       {
         "id": "buff_swordsmanship_oncrit",
-        "name": "Manslayer",
-        "description": "Your powerful attack has given you the chance to end this fight right now!\nEnables \"Vicious Strike\" techniques.\nLasts 1 turn.",
+        "name": "Half Swording",
+        "description": "Your powerful attack has given you an opening. You use one hand to grip the blade for greater control. \nEnables \"Vicious Strike\" techniques.\nLasts 1 turn.",
         "skill_requirements": [ { "name": "melee", "level": 5 } ],
         "melee_allowed": true,
         "buff_duration": 1
@@ -789,8 +789,8 @@
     "techniques": [
       "tec_swordsmanship_grab",
       "tec_swordsmanship_break",
-      "tec_swordsmanship_zornhau",
-      "tec_swordsmanship_unterhau",
+      "tec_swordsmanship_vicious",
+      "tec_swordsmanship_ringen",
       "tec_swordsmanship_mordhau"
     ],
     "weapons": [
