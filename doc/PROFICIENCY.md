@@ -4,17 +4,17 @@
 
 ```JSON
 {
-"type": "proficiency",
-"id": "prof_bow_master",
-"name": { "str": "Master Archer's Form" },
-"description": "You are a master at the art of Archery.",
-"can_learn": true,
-"time_to_learn": "20 h",
-"default_time_multiplier": 1.5,
-"default_fail_multiplier": 1.2,
-"required_proficiencies": [ "prof_bow_expert" ],
-"category": "Archery",
-"str_bonus": 1
+  "type": "proficiency",
+  "id": "prof_bow_master",
+  "name": { "str": "Master Archer's Form" },
+  "description": "You are a master at the art of Archery.",
+  "can_learn": true,
+  "time_to_learn": "20 h",
+  "default_time_multiplier": 1.5,
+  "default_fail_multiplier": 1.2,
+  "required_proficiencies": [ "prof_bow_expert" ],
+  "category": "Archery",
+  "str_bonus": 1
 }
 ```
 ### `id`
