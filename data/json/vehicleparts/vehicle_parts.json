@@ -143,7 +143,7 @@
     "description": "A metal handle, a creature with hands could use it to push a vehicle.",
     "power": 0,
     "location": "structure",
-    "requirements":
+    "requirements": {
       "install": { "skills": [ [ "fabrication", 1 ] ], "time": "100 s", "using": [ [ "welding_standard", 5 ] ] },
       "removal": { "skills": [ [ "fabrication", 1 ] ], "time": "100 s", "using": [ [ "vehicle_weld_removal", 1 ] ] },
       "repair": { "skills": [ [ "fabrication", 1 ] ], "time": "20 s", "using": [ [ "welding_standard", 5 ] ] }
