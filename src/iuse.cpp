@@ -9238,12 +9238,11 @@ cata::optional<int> iuse::weather_tool( player *p, item *it, bool, const tripoin
 
 cata::optional<int> iuse::sextant( player *p, item *, bool, const tripoint & )
 {
-    const std::pair<units::angle, units::angle> sun_position = sun_azimuth_altitude( calendar::turn,
-            location_boston );
+    const std::pair<units::angle, units::angle> sun_position = sun_azimuth_altitude( calendar::turn );
     const float altitude = to_degrees( sun_position.second );
-    const float azimuth = to_degrees( sun_position.first );
     if( debug_mode ) {
-        // Debug mode shows all sun angles
+        // Debug mode always shows all sun angles
+        const float azimuth = to_degrees( sun_position.first );
         p->add_msg_if_player( m_neutral, _( "Sun altitude %.1f°, azimuth %.1f" ), altitude, azimuth );
     } else if( altitude > 0 ) {
         p->add_msg_if_player( m_neutral, _( "The Sun is at altitude of %.1f°." ), altitude );

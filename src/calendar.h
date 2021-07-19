@@ -593,7 +593,7 @@ float sun_moon_light_at( const time_point &p );
 /** How much light is provided at the solar noon nearest to given time */
 double sun_moon_light_at_noon_near( const time_point &p );
 
-std::pair<units::angle, units::angle> sun_azimuth_altitude( time_point, lat_long );
+std::pair<units::angle, units::angle> sun_azimuth_altitude( time_point );
 
 /** Returns the offset by which a ray of sunlight would move when shifting down
  * one z-level, or nullopt if the sun is below the horizon.
