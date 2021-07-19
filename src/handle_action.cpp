@@ -1429,8 +1429,6 @@ static void open_movement_mode_menu()
     }
 }
 
-static bool assign_spellcasting( Character &you, spell &sp, bool fake_spell );
-
 static void cast_spell()
 {
     Character &player_character = get_player_character();
@@ -1463,51 +1461,52 @@ static void cast_spell()
 
     spell &sp = *player_character.magic->get_spells()[spell_index];
 
-    assign_spellcasting( player_character, sp, false );
+    player_character.cast_spell( sp, false, cata::nullopt );
 }
 
-// returns if the spell was assigned
-static bool assign_spellcasting( Character &you, spell &sp, bool fake_spell )
+// returns true if the spell was assigned
+bool Character::cast_spell( spell &sp, bool fake_spell,
+                            const cata::optional<tripoint> target = cata::nullopt )
 {
-    if( you.is_armed() && !sp.has_flag( spell_flag::NO_HANDS ) &&
-        !you.weapon.has_flag( flag_MAGIC_FOCUS ) && !sp.check_if_component_in_hand( you ) ) {
+    if( is_armed() && !sp.has_flag( spell_flag::NO_HANDS ) &&
+        !weapon.has_flag( flag_MAGIC_FOCUS ) && !sp.check_if_component_in_hand( *this ) ) {
         add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
                  _( "You need your hands free to cast this spell!" ) );
         return false;
     }
 
-    if( !you.magic->has_enough_energy( you, sp ) ) {
+    if( !magic->has_enough_energy( *this, sp ) ) {
         add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
                  _( "You don't have enough %s to cast the spell." ),
                  sp.energy_string() );
         return false;
     }
 
-    if( !sp.has_flag( spell_flag::NO_HANDS ) && you.has_effect( effect_stunned ) ) {
+    if( !sp.has_flag( spell_flag::NO_HANDS ) && has_effect( effect_stunned ) ) {
         add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
                  _( "You can't focus enough to cast spell." ) );
         return false;
     }
 
-    if( sp.energy_source() == magic_energy_type::hp && !you.has_quality( qual_CUT ) ) {
+    if( sp.energy_source() == magic_energy_type::hp && !has_quality( qual_CUT ) ) {
         add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
                  _( "You cannot cast Blood Magic without a cutting implement." ) );
         return false;
     }
 
-    player_activity cast_spell( ACT_SPELLCASTING, sp.casting_time( you ) );
+    player_activity spell_act( ACT_SPELLCASTING, sp.casting_time( *this ) );
     // [0] this is used as a spell level override for items casting spells
     if( fake_spell ) {
-        cast_spell.values.emplace_back( sp.get_level() );
+        spell_act.values.emplace_back( sp.get_level() );
     } else {
-        cast_spell.values.emplace_back( -1 );
+        spell_act.values.emplace_back( -1 );
     }
     // [1] if this value is 1, the spell never fails
-    cast_spell.values.emplace_back( 0 );
+    spell_act.values.emplace_back( 0 );
     // [2] this value overrides the mana cost if set to 0
-    cast_spell.values.emplace_back( 1 );
-    cast_spell.name = sp.id().c_str();
-    if( you.magic->casting_ignore ) {
+    spell_act.values.emplace_back( 1 );
+    spell_act.name = sp.id().c_str();
+    if( magic->casting_ignore ) {
         const std::vector<distraction_type> ignored_distractions = {
             distraction_type::noise,
             distraction_type::pain,
@@ -1520,10 +1519,13 @@ static bool assign_spellcasting( Character &you, spell &sp, bool fake_spell )
             distraction_type::weather_change
         };
         for( const distraction_type ignored : ignored_distractions ) {
-            cast_spell.ignore_distraction( ignored );
+            spell_act.ignore_distraction( ignored );
         }
     }
-    you.assign_activity( cast_spell, false );
+    if( target ) {
+        spell_act.coords.emplace_back( get_map().getabs( *target ) );
+    }
+    assign_activity( spell_act, false );
     return true;
 }
 
@@ -1535,7 +1537,7 @@ bool bionic::activate_spell( Character &caster )
         return true;
     }
     spell sp = id->spell_on_activate->get_spell();
-    return assign_spellcasting( *caster.as_avatar(), sp, true );
+    return caster.cast_spell( sp, true );
 }
 
 void game::open_consume_item_menu()
