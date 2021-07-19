@@ -556,7 +556,7 @@ const inventory &Character::crafting_inventory( const tripoint &src_pos, int rad
     // vector<const_item_location> in order to get rid of the const_cast here.
     for( const item_location &it : const_cast<Character *>( this )->all_items_loc() ) {
         // can't craft with containers that have items in them
-        if( !it->contents.empty_container() ) {
+        if( !it->empty_container() ) {
             continue;
         }
         crafting_cache.crafting_inventory->add_item( *it );
@@ -1169,7 +1169,7 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
 
         // Points to newit unless newit is a non-empty container, then it points to newit's contents.
         // Necessary for things like canning soup; sometimes we want to operate on the soup, not the can.
-        item &food_contained = !newit.empty() ? newit.contents.only_item() : newit;
+        item &food_contained = !newit.empty() ? newit.only_item() : newit;
 
         // messages, learning of recipe, food spoilage calculation only once
         if( first ) {

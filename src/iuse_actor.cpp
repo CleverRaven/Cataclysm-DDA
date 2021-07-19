@@ -397,7 +397,7 @@ cata::optional<int> unpack_actor::use( player &p, item &it, bool, const tripoint
             last_armor = content;
         }
 
-        if( content.contents.total_container_capacity() >= filthy_vol_threshold &&
+        if( content.get_total_capacity() >= filthy_vol_threshold &&
             it.has_flag( flag_FILTHY ) ) {
             content.set_flag( flag_FILTHY );
         }
@@ -2340,13 +2340,13 @@ void holster_actor::load( const JsonObject &obj )
 
 bool holster_actor::can_holster( const item &holster, const item &obj ) const
 {
-    if( !holster.contents.can_contain( obj ).success() ) {
+    if( !holster.can_contain( obj ).success() ) {
         return false;
     }
     if( obj.active ) {
         return false;
     }
-    return holster.contents.can_contain( obj ).success();
+    return holster.can_contain( obj ).success();
 }
 
 bool holster_actor::store( player &p, item &holster, item &obj ) const
@@ -2356,7 +2356,7 @@ bool holster_actor::store( player &p, item &holster, item &obj ) const
         return false;
     }
 
-    const ret_val<bool> contain = holster.contents.can_contain( obj );
+    const ret_val<bool> contain = holster.can_contain( obj );
     if( !contain.success() ) {
         p.add_msg_if_player( m_bad, contain.str(), holster.tname(), obj.tname() );
     }
@@ -2369,7 +2369,7 @@ bool holster_actor::store( player &p, item &holster, item &obj ) const
                          obj.tname(), holster.tname() );
 
     // holsters ignore penalty effects (e.g. GRABBED) when determining number of moves to consume
-    p.store( holster, obj, false, holster.contents.obtain_cost( obj ),
+    p.store( holster, obj, false, holster.obtain_cost( obj ),
              item_pocket::pocket_type::CONTAINER );
     return true;
 }
@@ -2419,7 +2419,7 @@ cata::optional<int> holster_actor::use( player &p, item &it, bool, const tripoin
     if( pos >= 0 ) {
         // worn holsters ignore penalty effects (e.g. GRABBED) when determining number of moves to consume
         if( p.is_worn( it ) ) {
-            p.wield_contents( it, internal_item, false, it.contents.obtain_cost( *internal_item ) );
+            p.wield_contents( it, internal_item, false, it.obtain_cost( *internal_item ) );
         } else {
             p.wield_contents( it, internal_item );
         }

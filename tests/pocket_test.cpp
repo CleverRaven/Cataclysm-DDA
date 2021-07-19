@@ -1093,7 +1093,7 @@ TEST_CASE( "best pocket in item contents", "[pocket][item][best]" )
         REQUIRE( skin.is_container() );
         // Prerequisite: It can contain water
         item liquid( "test_liquid" );
-        REQUIRE( skin.can_contain( liquid ) );
+        REQUIRE( skin.can_contain( liquid ).success() );
 
         // Has a best pocket for liquid
         CHECK( has_best_pocket( skin, liquid ) );
@@ -1107,13 +1107,13 @@ TEST_CASE( "best pocket in item contents", "[pocket][item][best]" )
         // It can contain small and large tools
         item screwdriver( "test_screwdriver" );
         item halligan( "test_halligan" );
-        REQUIRE( util_belt.can_contain( screwdriver ) );
-        REQUIRE( util_belt.can_contain( halligan ) );
+        REQUIRE( util_belt.can_contain( screwdriver ).success() );
+        REQUIRE( util_belt.can_contain( halligan ).success() );
         // It can contain liquid and gas
         item liquid( "test_liquid" );
         item gas( "test_gas", calendar::turn_zero, item::default_charges_tag{} );
-        REQUIRE( util_belt.can_contain( liquid ) );
-        REQUIRE( util_belt.can_contain( gas ) );
+        REQUIRE( util_belt.can_contain( liquid ).success() );
+        REQUIRE( util_belt.can_contain( gas ).success() );
 
         // Utility belt has best_pocket for all these things
         CHECK( has_best_pocket( util_belt, screwdriver ) );
@@ -1139,8 +1139,8 @@ TEST_CASE( "best pocket in item contents", "[pocket][item][best]" )
         REQUIRE( glockammo.charges == 1 );
 
         // Although gun can contain magazine, and magazine can contain bullet...
-        REQUIRE( glock.can_contain( glockmag ) );
-        REQUIRE( glockmag.can_contain( glockammo ) );
+        REQUIRE( glock.can_contain( glockmag ).success() );
+        REQUIRE( glockmag.can_contain( glockammo ).success() );
         // Gun is not best_pocket for magazine, and magazine is not best_pocket for bullet.
         CHECK_FALSE( has_best_pocket( glock, glockmag ) );
         CHECK_FALSE( has_best_pocket( glockmag, glockammo ) );
@@ -1153,7 +1153,7 @@ TEST_CASE( "best pocket in item contents", "[pocket][item][best]" )
         item can( "test_can_drink" );
         REQUIRE( can.is_container() );
         item liquid( "test_liquid" );
-        REQUIRE( can.can_contain( liquid ) );
+        REQUIRE( can.can_contain( liquid ).success() );
 
         // Before being sealed, it can be best pocket for liquid
         CHECK( has_best_pocket( can, liquid ) );
@@ -1335,7 +1335,7 @@ TEST_CASE( "guns and gunmods", "[pocket][gunmod]" )
     item m4a1( "nato_assault_rifle" );
     item strap( "shoulder_strap" );
     // Guns cannot "contain" gunmods, but gunmods can be inserted into guns
-    CHECK_FALSE( m4a1.contents.can_contain( strap ).success() );
+    CHECK_FALSE( m4a1.can_contain( strap ).success() );
     CHECK( m4a1.contents.insert_item( strap, item_pocket::pocket_type::MOD ).success() );
 }
 
@@ -1344,7 +1344,7 @@ TEST_CASE( "usb drives and software", "[pocket][software]" )
     item usb( "usb_drive" );
     item software( "software_math" );
     // USB drives aren't containers, and cannot "contain" software, but software can be inserted
-    CHECK_FALSE( usb.contents.can_contain( software ).success() );
+    CHECK_FALSE( usb.can_contain( software ).success() );
     CHECK( usb.contents.insert_item( software, item_pocket::pocket_type::SOFTWARE ).success() );
 }
 

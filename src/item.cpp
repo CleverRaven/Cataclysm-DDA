@@ -1159,6 +1159,16 @@ bool item::merge_charges( const item &rhs )
     return true;
 }
 
+int item::obtain_cost( const item &it ) const
+{
+    return contents.obtain_cost( it );
+}
+
+int item::insert_cost( const item &it ) const
+{
+    return contents.insert_cost( it );
+}
+
 ret_val<bool> item::put_in( const item &payload, item_pocket::pocket_type pk_type,
                             const bool unseal_pockets )
 {
@@ -7544,29 +7554,29 @@ units::volume item::max_containable_volume() const
     return contents.max_containable_volume();
 }
 
-bool item::can_contain( const item &it ) const
+ret_val<bool> item::can_contain( const item &it ) const
 {
     if( this == &it ) {
         // does the set of all sets contain itself?
-        return false;
+        return ret_val<bool>::make_failure();
     }
     // disallow putting portable holes into bags of holding
     if( contents.bigger_on_the_inside( volume() ) &&
         it.contents.bigger_on_the_inside( it.volume() ) ) {
-        return false;
+        return ret_val<bool>::make_failure();
     }
     for( const item *internal_it : contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
         if( internal_it->contents.can_contain_rigid( it ).success() ) {
-            return true;
+            return ret_val<bool>::make_success();
         }
     }
 
-    return contents.can_contain( it ).success();
+    return contents.can_contain( it );
 }
 
 bool item::can_contain( const itype &tp ) const
 {
-    return can_contain( item( &tp ) );
+    return can_contain( item( &tp ) ).success();
 }
 
 bool item::can_contain_partial( const item &it ) const
@@ -7575,14 +7585,14 @@ bool item::can_contain_partial( const item &it ) const
     if( i_copy.count_by_charges() ) {
         i_copy.charges = 1;
     }
-    return can_contain( i_copy );
+    return can_contain( i_copy ).success();
 }
 
 std::pair<item_location, item_pocket *> item::best_pocket( const item &it, item_location &parent,
-        const bool allow_sealed, const bool ignore_settings )
+        const bool allow_sealed, const bool ignore_settings, bool nested )
 {
     item_location nested_location( parent, this );
-    return contents.best_pocket( it, nested_location, false, allow_sealed, ignore_settings );
+    return contents.best_pocket( it, nested_location, nested, allow_sealed, ignore_settings );
 }
 
 bool item::spill_contents( Character &c )
@@ -7613,6 +7623,11 @@ bool item::spill_contents( const tripoint &pos )
 bool item::spill_open_pockets( Character &guy, const item *avoid )
 {
     return contents.spill_open_pockets( guy, avoid );
+}
+
+void item::overflow( const tripoint &pos )
+{
+    contents.overflow( pos );
 }
 
 book_proficiency_bonuses item::get_book_proficiency_bonuses() const
@@ -9497,7 +9512,7 @@ bool item_ptr_compare_by_charges( const item *left, const item *right )
     } else if( right->empty() ) {
         return true;
     } else {
-        return right->contents.only_item().charges < left->contents.only_item().charges;
+        return right->only_item().charges < left->only_item().charges;
     }
 }
 
@@ -11032,6 +11047,19 @@ units::volume item::get_selected_stack_volume( const std::map<const item *, int>
     return 0_ml;
 }
 
+units::volume item::get_contents_volume_with_tweaks( const std::map<const item *, int> &without )
+const
+{
+    return contents.get_contents_volume_with_tweaks( without );
+}
+
+units::volume item::get_nested_content_volume_recursive( const std::map<const item *, int>
+        &without )
+const
+{
+    return contents.get_nested_content_volume_recursive( without );
+}
+
 int item::get_recursive_disassemble_moves( const Character &guy ) const
 {
     int moves = recipe_dictionary::get_uncraft( type->get_id() ).time_to_craft_moves( guy,
@@ -11131,6 +11159,21 @@ bool item::empty() const
     return contents.empty();
 }
 
+bool item::empty_container() const
+{
+    return contents.empty_container();
+}
+
+item &item::only_item()
+{
+    return contents.only_item();
+}
+
+const item &item::only_item() const
+{
+    return contents.only_item();
+}
+
 size_t item::num_item_stacks() const
 {
     return contents.num_item_stacks();
@@ -11144,4 +11187,9 @@ item &item::legacy_front()
 const item &item::legacy_front() const
 {
     return contents.legacy_front();
+}
+
+void item::favorite_settings_menu( const std::string &item_name )
+{
+    contents.favorite_settings_menu( item_name );
 }

@@ -3060,8 +3060,8 @@ void insert_item_activity_actor::finish( player_activity &act, Character &who )
     if( holstered_item.first ) {
         item &it = *holstered_item.first;
         if( !it.count_by_charges() ) {
-            if( holster->can_contain( it ) && ( all_pockets_rigid ||
-                                                holster.parents_can_contain_recursive( &it ) ) ) {
+            if( holster->can_contain( it ).success() && ( all_pockets_rigid ||
+                    holster.parents_can_contain_recursive( &it ) ) ) {
 
                 success = holster->put_in( it, item_pocket::pocket_type::CONTAINER,
                                            /*unseal_pockets=*/true ).success();

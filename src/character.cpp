@@ -3681,13 +3681,13 @@ units::volume Character::volume_carried_with_tweaks( const item_tweaks &tweaks )
     units::volume ret = 0_ml;
     for( const item &i : worn ) {
         if( !without.count( &i ) ) {
-            ret += i.contents.get_contents_volume_with_tweaks( without );
+            ret += i.get_contents_volume_with_tweaks( without );
         }
     }
 
     // Wielded item
     if( !without.count( &weapon ) ) {
-        ret += weapon.contents.get_contents_volume_with_tweaks( without );
+        ret += weapon.get_contents_volume_with_tweaks( without );
     }
 
     return ret;
@@ -3733,11 +3733,11 @@ units::mass Character::weight_capacity() const
 
 bool Character::can_pickVolume( const item &it, bool, const item *avoid ) const
 {
-    if( weapon.can_contain( it ) && ( avoid == nullptr || &weapon != avoid ) ) {
+    if( weapon.can_contain( it ).success() && ( avoid == nullptr || &weapon != avoid ) ) {
         return true;
     }
     for( const item &w : worn ) {
-        if( w.can_contain( it ) ) {
+        if( w.can_contain( it ).success() ) {
             return true;
         }
     }
@@ -4040,9 +4040,9 @@ void Character::drop_invalid_inventory()
         add_msg_if_player( m_bad, _( "Liquid from your inventory has leaked onto the ground." ) );
     }
 
-    weapon.contents.overflow( pos() );
+    weapon.overflow( pos() );
     for( item &w : worn ) {
-        w.contents.overflow( pos() );
+        w.overflow( pos() );
     }
 
     cache_inventory_is_valid = true;
@@ -8889,7 +8889,7 @@ bool Character::dispose_item( item_location &&obj, const std::string &prompt )
                                        ( e.type->get_use( "holster" )->get_actor_ptr() );
             opts.emplace_back( dispose_option{
                 string_format( _( "Store in %s" ), e.tname() ), true, e.invlet,
-                item_store_cost( *obj, e, false, e.contents.insert_cost( *obj ) ),
+                item_store_cost( *obj, e, false, e.insert_cost( *obj ) ),
                 [this, ptr, &e, &obj] {
                     return ptr->store( *this->as_player(), e, *obj );
                 }
@@ -10656,9 +10656,9 @@ units::volume Character::free_space() const
 units::volume Character::volume_capacity() const
 {
     units::volume volume_capacity = 0_ml;
-    volume_capacity += weapon.contents.total_container_capacity();
+    volume_capacity += weapon.get_total_capacity();
     for( const item &w : worn ) {
-        volume_capacity += w.contents.total_container_capacity();
+        volume_capacity += w.get_total_capacity();
     }
     return volume_capacity;
 }
@@ -13114,7 +13114,7 @@ int Character::item_reload_cost( const item &it, const item &ammo, int qty ) con
     } else if( it.type->magazine ) {
         cost = it.type->magazine->reload_time * qty;
     } else {
-        cost = it.contents.obtain_cost( ammo );
+        cost = it.obtain_cost( ammo );
     }
 
     skill_id sk = it.is_gun() ? it.type->gun->skill_used : skill_gun;
