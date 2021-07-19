@@ -1270,7 +1270,7 @@ item::reload_option player::select_ammo( const item &base,
         } else if( e.ammo->is_watertight_container() ||
                    ( e.ammo->is_ammo_container() && is_worn( *e.ammo ) ) ) {
             // worn ammo containers should be named by their ammo contents with their location also updated below
-            return e.ammo->contents.first_ammo().display_name();
+            return e.ammo->first_ammo().display_name();
 
         } else {
             return ( ammo_location && ammo_location == e.ammo ? "* " : "" ) + e.ammo->display_name();
@@ -1331,7 +1331,7 @@ item::reload_option player::select_ammo( const item &base,
         row += string_format( " %-7d ", sel.moves() );
 
         if( base.is_gun() || base.is_magazine() ) {
-            const itype *ammo = sel.ammo->is_ammo_container() ? sel.ammo->contents.first_ammo().ammo_data() :
+            const itype *ammo = sel.ammo->is_ammo_container() ? sel.ammo->first_ammo().ammo_data() :
                                 sel.ammo->ammo_data();
             if( ammo ) {
                 const damage_instance &dam = ammo->ammo->damage;
@@ -1360,7 +1360,7 @@ item::reload_option player::select_ammo( const item &base,
     }
 
     for( int i = 0; i < static_cast<int>( opts.size() ); ++i ) {
-        const item &ammo = opts[ i ].ammo->is_ammo_container() ? opts[ i ].ammo->contents.first_ammo() :
+        const item &ammo = opts[ i ].ammo->is_ammo_container() ? opts[ i ].ammo->first_ammo() :
                            *opts[ i ].ammo;
 
         char hotkey = -1;
@@ -1455,7 +1455,7 @@ item::reload_option player::select_ammo( const item &base,
     const item_location &sel = opts[ menu.ret ].ammo;
     uistate.lastreload[ base_ammotype ] = sel->is_ammo_container() ?
                                           // get first item in all magazine pockets
-                                          sel->contents.first_ammo().typeId() :
+                                          sel->first_ammo().typeId() :
                                           sel->typeId();
     return opts[ menu.ret ];
 }

@@ -8054,6 +8054,16 @@ int item::ammo_required() const
     return 0;
 }
 
+item &item::first_ammo()
+{
+    return contents.first_ammo();
+}
+
+const item &item::first_ammo() const
+{
+    return contents.first_ammo();
+}
+
 bool item::ammo_sufficient( const Character *carrier, int qty ) const
 {
     if( ammo_required() ) {
@@ -8665,7 +8675,7 @@ bool item::reload( Character &u, item_location ammo, int qty )
     if( ammo->has_flag( flag_SPEEDLOADER ) ) {
         container = ammo;
         // if the thing passed in is a speed loader, we want the ammo
-        ammo = item_location( ammo, &ammo->contents.first_ammo() );
+        ammo = item_location( ammo, &ammo->first_ammo() );
     }
 
     if( !is_reloadable_with( ammo->typeId() ) ) {
@@ -8701,9 +8711,9 @@ bool item::reload( Character &u, item_location ammo, int qty )
 
         if( ammo->has_flag( flag_SPEEDLOADER ) ) {
             // sets curammo to one of the ammo types contained
-            curammo = ammo->contents.first_ammo().type;
+            curammo = ammo->first_ammo().type;
             qty = std::min( qty, ammo->ammo_remaining() );
-            item ammo_copy( ammo->contents.first_ammo() );
+            item ammo_copy( ammo->first_ammo() );
             ammo_copy.charges = qty;
             put_in( ammo_copy, item_pocket::pocket_type::MAGAZINE );
             ammo->ammo_consume( qty, tripoint_zero, &u );
@@ -11174,6 +11184,11 @@ item &item::only_item()
 const item &item::only_item() const
 {
     return contents.only_item();
+}
+
+item *item::get_item_with( const std::function<bool( const item & )> &filter )
+{
+    return contents.get_item_with( filter );
 }
 
 size_t item::num_item_stacks() const

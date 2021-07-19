@@ -236,7 +236,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
                 } );
                 REQUIRE( mags.size() == 1 );
                 REQUIRE( !mags.front()->empty() );
-                CHECK( mags.front()->contents.first_ammo().type == ammo.type );
+                CHECK( mags.front()->first_ammo().type == ammo.type );
             }
             WHEN( "the player triggers auto reload again" ) {
                 g->reload_weapon( false );
@@ -272,7 +272,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
                     } );
                     REQUIRE( mags.size() == 1 );
                     REQUIRE( !mags.front()->empty() );
-                    CHECK( mags.front()->contents.first_ammo().type == ammo.type );
+                    CHECK( mags.front()->first_ammo().type == ammo.type );
                 }
                 WHEN( "the player triggers auto reload again" ) {
                     g->reload_weapon( false );
@@ -293,7 +293,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
                             } );
                             REQUIRE( mags.size() == 1 );
                             REQUIRE( !mags.front()->empty() );
-                            CHECK( mags.front()->contents.first_ammo().type == ammo.type );
+                            CHECK( mags.front()->first_ammo().type == ammo.type );
                         }
                         WHEN( "the player triggers auto reload again" ) {
                             g->reload_weapon( false );

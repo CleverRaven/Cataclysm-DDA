@@ -1881,6 +1881,12 @@ class item : public visitable
 
         /** Quantity of ammunition consumed per usage of tool or with each shot of gun */
         int ammo_required() const;
+        // gets the first ammo in all magazine pockets
+        // does not support multiple magazine pockets!
+        item &first_ammo();
+        // gets the first ammo in all magazine pockets
+        // does not support multiple magazine pockets!
+        const item &first_ammo() const;
 
         /**
          * Check if sufficient ammo is loaded for given number of uses.
@@ -2313,6 +2319,7 @@ class item : public visitable
         // gets the item contained IFF one item is contained (CONTAINER pocket), otherwise a null item reference
         item &only_item();
         const item &only_item() const;
+        item *get_item_with( const std::function<bool( const item & )> &filter );
 
         /**
          * returns the number of items stacks in contents
