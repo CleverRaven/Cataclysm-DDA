@@ -107,7 +107,6 @@ static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
 static const trait_id trait_INSECT_ARMS( "INSECT_ARMS" );
 static const trait_id trait_INSECT_ARMS_OK( "INSECT_ARMS_OK" );
 static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
-static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 static const trait_id trait_STIMBOOST( "STIMBOOST" );
 static const trait_id trait_THICK_SCALES( "THICK_SCALES" );
 static const trait_id trait_WEBBED( "WEBBED" );
@@ -287,7 +286,7 @@ bool avatar::read( item_location &book )
     bool continuous = false;
     const int time_taken = time_to_read( *book, *reader );
     add_msg_debug( debugmode::DF_ACT_READ, "avatar::read time_taken = %s",
-                   to_string( time_duration::from_moves( time_taken ) ) );
+                   to_string_writable( time_duration::from_moves( time_taken ) ) );
 
     // If the player hasn't read this book before, skim it to get an idea of what's in it.
     if( !has_identified( book->typeId() ) ) {

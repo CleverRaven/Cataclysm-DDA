@@ -80,7 +80,6 @@
 #include "vpart_position.h"
 #include "vpart_range.h"
 
-static const activity_id ACT_READ( "ACT_READ" );
 
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_contacts( "contacts" );
@@ -121,7 +120,6 @@ static const trait_id trait_MUTE( "MUTE" );
 static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
-static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 static const trait_id trait_TERRIFYING( "TERRIFYING" );
 
 class monfaction;

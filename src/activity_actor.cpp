@@ -1025,7 +1025,7 @@ void read_activity_actor::start( player_activity &act, Character &who )
     act.targets.push_back( book );
 
     add_msg_debug( debugmode::DF_ACT_READ, "reading time = %s",
-                   to_string( time_duration::from_moves( moves_total ) ) );
+                   to_string_writable( time_duration::from_moves( moves_total ) ) );
 
     act.moves_total = moves_total;
     act.moves_left = moves_total;
@@ -1055,7 +1055,7 @@ void read_activity_actor::do_turn( player_activity &act, Character &who )
         // do not spam the message log
         if( calendar::once_every( 5_minutes ) ) {
             add_msg_debug( debugmode::DF_ACT_READ, "reading time = %s",
-                           to_string( time_duration::from_moves( act.moves_left ) ) );
+                           to_string_writable( time_duration::from_moves( act.moves_left ) ) );
         }
     } else {
         who.moves = 0;
@@ -1410,7 +1410,7 @@ void read_activity_actor::finish( player_activity &act, Character &who )
 
             time_taken = who.as_avatar()->time_to_read( *book, *reader );
             add_msg_debug( debugmode::DF_ACT_READ, "reading time = %s",
-                           to_string( time_duration::from_moves( time_taken ) ) );
+                           to_string_writable( time_duration::from_moves( time_taken ) ) );
         }
 
         // restart the activity
