@@ -288,8 +288,6 @@ void spell_type::load( const JsonObject &jo, const std::string & )
     const auto flag_reader = enum_flags_reader<spell_flag> { "flags" };
     optional( jo, was_loaded, "flags", spell_tags, flag_reader );
 
-    optional( jo, was_loaded, "effect_str", effect_str, effect_str_default );
-
     std::string field_input;
     optional( jo, was_loaded, "field_id", field_input, "none" );
     if( field_input != "none" ) {
@@ -345,6 +343,21 @@ void spell_type::load( const JsonObject &jo, const std::string & )
     for( const JsonMember member : jo.get_object( "learn_spells" ) ) {
         learn_spells.insert( std::pair<std::string, int>( member.name(), member.get_int() ) );
     }
+
+    if( jo.has_member( "effect_str" ) ) {
+        if( jo.has_string( "effect_str" ) ) {
+            effect_str.push_back( jo.get_string( "effect_str" ) );
+        } else if( effect_name == "effect_on_condition" ) {
+            for( JsonValue jv : jo.get_array( "effect_str" ) ) {
+                effect_str.push_back( effect_on_conditions::load_inline_eoc( jv, "" ).c_str() );
+            }
+        } else {
+            mandatory( jo, was_loaded, "effect_str", effect_str );
+        }
+    }
+    if( effect_str.empty() ) {
+        effect_str.push_back( effect_str_default );
+    }
 }
 
 void spell_type::serialize( JsonOut &json ) const
@@ -358,7 +371,7 @@ void spell_type::serialize( JsonOut &json ) const
     json.member( "effect", effect_name );
     json.member( "shape", io::enum_to_string( spell_area ) );
     json.member( "valid_targets", valid_targets, enum_bitset<spell_target> {} );
-    json.member( "effect_str", effect_str, effect_str_default );
+    json.member( "effect_str", effect_str, std::vector<std::string> {} );
     json.member( "skill", skill, skill_default );
     json.member( "components", spell_components, spell_components_default );
     json.member( "message", message.translated(), message_default.translated() );
@@ -416,6 +429,7 @@ void spell_type::serialize( JsonOut &json ) const
     json.member( "base_casting_time", base_casting_time, base_casting_time_default );
     json.member( "final_casting_time", final_casting_time, base_casting_time );
     json.member( "casting_time_increment", casting_time_increment, casting_time_increment_default );
+
     if( !learn_spells.empty() ) {
         json.member( "learn_spells" );
         json.start_object();
@@ -486,9 +500,9 @@ void spell_type::check_consistency()
                       sp_t.id.c_str() );
         }
         if( sp_t.effect_name == "summon_vehicle" ) {
-            if( !sp_t.effect_str.empty() && !vproto_id( sp_t.effect_str ).is_valid() ) {
+            if( !sp_t.effect_str.empty() && !vproto_id( sp_t.effect_str[0] ).is_valid() ) {
                 debugmsg( "ERROR %s specifies a vehicle to summon, but vehicle %s is not valid", sp_t.id.c_str(),
-                          sp_t.effect_str );
+                          sp_t.effect_str[0] );
             }
         }
         std::set<spell_id> spell_effect_list;
@@ -1401,12 +1415,17 @@ dealt_projectile_attack spell::get_projectile_attack( const tripoint &target,
 
 std::string spell::effect_data() const
 {
+    return type->effect_str[0];
+}
+
+std::vector<std::string> spell::effect_data_array() const
+{
     return type->effect_str;
 }
 
 vproto_id spell::summon_vehicle_id() const
 {
-    return vproto_id( type->effect_str );
+    return vproto_id( type->effect_str[0] );
 }
 
 int spell::heal( const tripoint &target ) const

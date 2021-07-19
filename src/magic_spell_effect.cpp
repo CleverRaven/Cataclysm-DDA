@@ -1490,3 +1490,21 @@ void spell_effect::banishment( const spell &sp, Creature &caster, const tripoint
         mon->die( &caster );
     }
 }
+
+void spell_effect::effect_on_condition( const spell &sp, Creature &caster, const tripoint &target )
+{
+    const std::set<tripoint> area = spell_effect_area( sp, target, caster );
+
+    dialogue d;
+    d.beta = get_talker_for( caster );
+
+    for( const tripoint &potential_target : area ) {
+        if( !sp.is_valid_target( caster, potential_target ) ) {
+            continue;
+        }
+        d.alpha = get_talker_for( g->critter_at<Creature>( potential_target ) );
+        for( const std::string &eoc : sp.effect_data_array() ) {
+            effect_on_condition_id( eoc )->activate( d );
+        }
+    }
+}
