@@ -1044,9 +1044,9 @@
   },
   {
     "type": "technique",
-    "id": "tec_swordsmanship_zornhau",
+    "id": "tec_swordsmanship_vicious",
     "name": "Vicious Strike",
-    "messages": [ "You hack at %s with a vicious strike", "<npcname> hack at %s with a vicious strike" ],
+    "messages": [ "You drive the point of your blade into %s", "<npcname> drives their blade into %s" ],
     "skill_requirements": [ { "name": "melee", "level": 5 } ],
     "melee_allowed": true,
     "req_buffs": [ "buff_swordsmanship_oncrit" ],
