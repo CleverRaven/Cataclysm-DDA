@@ -251,8 +251,8 @@
   },
   {
     "type": "construction_group",
-    "id": "build_trashcan",
-    "name": "Build Trash Can"
+    "id": "build_metal_trashcan",
+    "name": "Build Metal Trash Can"
   },
   {
     "type": "construction_group",
