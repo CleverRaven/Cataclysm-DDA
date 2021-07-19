@@ -542,7 +542,7 @@
         { "item": "3006", "x": 12, "y": 15 },
         { "item": "3006", "x": 12, "y": 15, "chance": 50 },
         { "item": "3006", "x": 12, "y": 15, "chance": 33 },
-        { "item": "pillow", "x": 6, "y": 15 },
+        { "item": "makeshift_pillow", "x": 6, "y": 15 },
         { "item": "sheet", "x": 6, "y": 16 },
         { "item": "sheet", "x": 9, "y": 15 },
         { "item": "mess_kit", "x": 17, "y": 15 },
