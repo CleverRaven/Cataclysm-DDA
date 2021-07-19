@@ -85,7 +85,7 @@
         "name": "Bōjutsu Stance",
         "description": "A agile stance that allows your blocks to reduce incoming damage.\n\nBlocked damage reduced by 100% of Dexterity.",
         "melee_allowed": true,
-        "flat_bonuses": [ { "stat": "block", "scaling-stat": "dex", "scale": 1 }]
+        "flat_bonuses": [ { "stat": "block", "scaling-stat": "dex", "scale": 1 } ]
       },
       {
         "id": "buff_bojutsu_static2",
@@ -104,11 +104,11 @@
         "skill_requirements": [ { "name": "melee", "level": 3 } ],
         "melee_allowed": true,
         "buff_duration": 1,
-        "flat_bonuses": [ { "stat": "movecost", "scale": 0.75 }]
+        "flat_bonuses": [ { "stat": "movecost", "scale": 0.75 } ]
       }
     ],
     "techniques": [ "tec_bojutsu_thrust", "tec_bojutsu_kneestrike", "tec_bojutsu_frontstrike", "tec_bojutsu_feint", "tec_bojutsu_disarm" ],
-    "weapons": ["stick_long", "long_pole", "q_staff", "i_staff", "shock_staff" ]
+    "weapons": [ "stick_long", "l-stick", "long_pole", "q_staff", "i_staff", "shock_staff" ]
   },
   {
     "type": "martial_art",
