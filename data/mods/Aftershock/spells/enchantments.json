@@ -25,6 +25,12 @@
   },
   {
     "type": "enchantment",
+    "id": "protect_cold",
+    "condition": "ACTIVE",
+    "values": [ { "value": "ARMOR_COLD", "add": -15 } ]
+  },
+  {
+    "type": "enchantment",
     "id": "forcefield_bash_cut_weak",
     "condition": "ACTIVE",
     "values": [ { "value": "ARMOR_BASH", "add": -5 }, { "value": "ARMOR_CUT", "add": -5 } ]
