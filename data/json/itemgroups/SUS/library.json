@@ -515,6 +515,7 @@
     "entries": [
       { "group": "SUS_book_nonf_soft_occult", "prob": 2 },
       { "group": "SUS_book_nonf_soft_psych", "prob": 6 },
+      { "group": "SUS_book_nonf_pulp_newage", "prob": 3 },
       { "group": "SUS_book_nonf_soft_sports", "prob": 3 },
       { "item": "book_nonf_soft_wedding_coolring", "prob": 1 },
       { "item": "book_nonf_soft_parent_howtogen", "prob": 1 },
@@ -691,6 +692,25 @@
       { "item": "book_nonf_soft_psych_adrugds", "prob": 1 },
       { "item": "book_nonf_soft_psych_arteatds", "prob": 1 },
       { "item": "book_nonf_soft_psych_cggamers", "prob": 1 }
+    ]
+  },
+  {
+    "id": "SUS_book_nonf_pulp_newage",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "returns a single new-age pulp book",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "book_newage_generic", "prob": 1 },
+      { "item": "book_newage_inpsychic", "prob": 1 },
+      { "item": "book_newage_healcrystals", "prob": 1 },
+      { "item": "book_newage_oilsecrets", "prob": 1 },
+      { "item": "book_newage_witchcraftbeg", "prob": 1 },
+      { "item": "book_newage_witchcraftadv", "prob": 1 },
+      { "item": "book_newage_beyondveil", "prob": 1 },
+      { "item": "book_newage_weapcrys", "prob": 1 },
+      { "item": "book_newage_aliens", "prob": 1 },
+      { "item": "book_newage_horoscopes", "prob": 1 }
     ]
   },
   {
