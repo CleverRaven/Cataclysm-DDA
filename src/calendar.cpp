@@ -229,7 +229,7 @@ static units::angle sun_altitude( time_point t )
     return sun_azimuth_altitude( t ).second;
 }
 
-cata::optional<rl_vec2d> sunlight_angle( const time_point &t, lat_long location )
+cata::optional<rl_vec2d> sunlight_angle( const time_point &t )
 {
     units::angle azimuth;
     units::angle altitude;
@@ -242,11 +242,6 @@ cata::optional<rl_vec2d> sunlight_angle( const time_point &t, lat_long location 
     rl_vec3d direction( horizontal_direction * cos( altitude ), sin( altitude ) );
     direction /= -direction.z;
     return direction.xy();
-}
-
-cata::optional<rl_vec2d> sunlight_angle( const time_point &t )
-{
-    return sunlight_angle( t, location_boston );
 }
 
 static time_point solar_noon_near( const time_point &t )
