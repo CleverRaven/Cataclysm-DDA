@@ -2101,7 +2101,7 @@ cata::optional<int> musical_instrument_actor::use( player &p, item &it, bool t,
     /** @EFFECT_PER increases morale bonus when playing an instrument */
     const int morale_effect = fun + fun_bonus * p.per_cur;
     if( morale_effect >= 0 && calendar::once_every( description_frequency ) ) {
-        if( !player_descriptions.empty() && p.is_player() ) {
+        if( !player_descriptions.empty() && p.is_avatar() ) {
             desc = random_entry( player_descriptions ).translated();
         } else if( !npc_descriptions.empty() && p.is_npc() ) {
             desc = string_format( _( "%1$s %2$s" ), p.disp_name( false ),
@@ -2109,7 +2109,7 @@ cata::optional<int> musical_instrument_actor::use( player &p, item &it, bool t,
         }
     } else if( morale_effect < 0 && calendar::once_every( 1_minutes ) ) {
         // No musical skills = possible morale penalty
-        if( p.is_player() ) {
+        if( p.is_avatar() ) {
             desc = _( "You produce an annoying sound" );
         } else {
             desc = string_format( _( "%s produces an annoying sound" ), p.disp_name( false ) );
@@ -2126,7 +2126,7 @@ cata::optional<int> musical_instrument_actor::use( player &p, item &it, bool t,
 
     if( !p.has_effect( effect_music ) && p.can_hear( p.pos(), volume ) ) {
         // Sound code doesn't describe noises at the player position
-        if( p.is_player() && desc != "music" ) {
+        if( p.is_avatar() && desc != "music" ) {
             add_msg( m_info, desc );
         }
         p.add_effect( effect_music, 1_turns );
@@ -3280,9 +3280,9 @@ int heal_actor::finish_using( player &healer, player &patient, item &it, bodypar
     }
 
     Character &player_character = get_player_character();
-    const bool u_see = healer.is_player() || patient.is_player() ||
+    const bool u_see = healer.is_avatar() || patient.is_avatar() ||
                        player_character.sees( healer ) || player_character.sees( patient );
-    const bool player_healing_player = healer.is_player() && patient.is_player();
+    const bool player_healing_player = healer.is_avatar() && patient.is_avatar();
     // Need a helper here - messages are from healer's point of view
     // but it would be cool if NPCs could use this function too
     const auto heal_msg = [&]( game_message_type msg_type,
@@ -3481,7 +3481,7 @@ bodypart_id heal_actor::use_healing_item( player &healer, player &patient, item 
                 healed = part_id;
             }
         }
-    } else if( patient.is_player() ) {
+    } else if( patient.is_avatar() ) {
         // Player healing self - let player select
         if( healer.activity.id() != ACT_FIRSTAID ) {
             const std::string menu_header = _( "Select a body part for: " ) + it.tname();
@@ -4087,8 +4087,8 @@ cata::optional<int> mutagen_iv_actor::use( player &p, item &it, bool, const trip
     // try to cross the threshold to be able to get post-threshold mutations this iv.
     test_crossing_threshold( p, m_category );
 
-    // TODO: Remove the "is_player" part, implement NPC screams
-    if( p.is_player() && !( p.has_trait( trait_NOPAIN ) ) && m_category.iv_sound ) {
+    // TODO: Remove the "is_avatar" part, implement NPC screams
+    if( p.is_avatar() && !( p.has_trait( trait_NOPAIN ) ) && m_category.iv_sound ) {
         p.mod_pain( m_category.iv_pain );
         /** @EFFECT_STR increases volume of painful shouting when using IV mutagen */
         sounds::sound( p.pos(), m_category.iv_noise + p.str_cur, sounds::sound_t::alert,

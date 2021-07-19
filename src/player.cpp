@@ -964,11 +964,11 @@ int player::impact( const int force, const tripoint &p )
         }
     }
 
-    if( total_dealt > 0 && is_player() ) {
+    if( total_dealt > 0 && is_avatar() ) {
         // "You slam against the dirt" is fine
         add_msg( m_bad, _( "You are slammed against %1$s for %2$d damage." ),
                  target_name, total_dealt );
-    } else if( is_player() && shock_absorbers ) {
+    } else if( is_avatar() && shock_absorbers ) {
         add_msg( m_bad, _( "You are slammed against %s!" ),
                  target_name, total_dealt );
         add_msg( m_good, _( "…but your shock absorbers negate the damage!" ) );
@@ -1222,7 +1222,7 @@ bool player::add_faction_warning( const faction_id &id )
         warning_record[id] = std::make_pair( 1, calendar::turn );
     }
     faction *fac = g->faction_manager_ptr->get( id );
-    if( fac != nullptr && is_player() && fac->id != faction_id( "no_faction" ) ) {
+    if( fac != nullptr && is_avatar() && fac->id != faction_id( "no_faction" ) ) {
         fac->likes_u -= 1;
         fac->respects_u -= 1;
     }
@@ -2587,7 +2587,7 @@ const player *player::get_book_reader( const item &book, std::vector<std::string
     const player *reader = nullptr;
 
     if( !book.is_book() ) {
-        reasons.push_back( is_player() ? string_format( _( "Your %s is not good reading material." ),
+        reasons.push_back( is_avatar() ? string_format( _( "Your %s is not good reading material." ),
                            book.tname() ) :
                            string_format( _( "The %s is not good reading material." ), book.tname() )
                          );
@@ -2607,13 +2607,13 @@ const player *player::get_book_reader( const item &book, std::vector<std::string
     }
     if( !fun_to_read( book ) && !has_morale_to_read() && has_identified( book.typeId() ) ) {
         // Low morale still permits skimming
-        reasons.emplace_back( is_player() ?
+        reasons.emplace_back( is_avatar() ?
                               _( "What's the point of studying?  (Your morale is too low!)" )  :
                               string_format( _( "What's the point of studying?  (%s)'s morale is too low!)" ), disp_name() ) );
         return nullptr;
     }
     if( get_book_mastery( book ) == book_mastery::CANT_UNDERSTAND ) {
-        reasons.push_back( is_player() ? string_format( _( "%s %d needed to understand.  You have %d" ),
+        reasons.push_back( is_avatar() ? string_format( _( "%s %d needed to understand.  You have %d" ),
                            book_skill->name(), book_skill_requirement, get_skill_level( book_skill ) ) :
                            string_format( _( "%s %d needed to understand.  %s has %d" ), book_skill->name(),
                                           book_skill_requirement, disp_name(), get_skill_level( book_skill ) ) );
@@ -2622,13 +2622,13 @@ const player *player::get_book_reader( const item &book, std::vector<std::string
 
     // Check for conditions that disqualify us only if no NPCs can read to us
     if( book_requires_intelligence && has_trait( trait_ILLITERATE ) ) {
-        reasons.emplace_back( is_player() ? _( "You're illiterate!" ) : string_format(
+        reasons.emplace_back( is_avatar() ? _( "You're illiterate!" ) : string_format(
                                   _( "%s is illiterate!" ), disp_name() ) );
     } else if( has_trait( trait_HYPEROPIC ) &&
                !worn_with_flag( STATIC( flag_id( "FIX_FARSIGHT" ) ) ) &&
                !has_effect( effect_contacts ) &&
                !has_flag( STATIC( json_character_flag( "ENHANCED_VISION" ) ) ) ) {
-        reasons.emplace_back( is_player() ? _( "Your eyes won't focus without reading glasses." ) :
+        reasons.emplace_back( is_avatar() ? _( "Your eyes won't focus without reading glasses." ) :
                               string_format( _( "%s's eyes won't focus without reading glasses." ), disp_name() ) );
     } else if( fine_detail_vision_mod() > 4 ) {
         // Too dark to read only applies if the player can read to himself
@@ -2638,7 +2638,7 @@ const player *player::get_book_reader( const item &book, std::vector<std::string
         return this;
     }
 
-    if( ! is_player() ) {
+    if( ! is_avatar() ) {
         // NPCs are too proud to ask for help, perhaps someday they will not be
         return nullptr;
     }

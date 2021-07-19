@@ -710,7 +710,7 @@ void player::sort_armor()
 
     bool exit = false;
     while( !exit ) {
-        if( is_player() ) {
+        if( is_avatar() ) {
             // Totally hoisted this from advanced_inv
             if( player_character.moves < 0 ) {
                 do_return_entry();

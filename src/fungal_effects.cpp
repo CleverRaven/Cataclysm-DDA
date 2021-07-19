@@ -105,7 +105,7 @@ void fungal_effects::fungalize( const tripoint &p, Creature *origin, double spor
             monster *origin_mon = dynamic_cast<monster *>( origin );
             if( origin_mon != nullptr ) {
                 spore->make_ally( *origin_mon );
-            } else if( origin != nullptr && origin->is_player() &&
+            } else if( origin != nullptr && origin->is_avatar() &&
                        player_character.has_trait( trait_THRESH_MYCUS ) ) {
                 spore->friendly = 1000;
             }

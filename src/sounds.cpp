@@ -595,7 +595,7 @@ void sounds::process_sound_markers( player *p )
             sound_markers.emplace( random_entry( unseen_points ), sound );
         }
     }
-    if( p->is_player() ) {
+    if( p->is_avatar() ) {
         sounds_since_last_turn.clear();
     }
 }

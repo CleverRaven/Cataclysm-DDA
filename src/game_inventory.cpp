@@ -1405,7 +1405,7 @@ class read_inventory_preset: public pickup_inventory_preset
 
 item_location game_menus::inv::read( player &pl )
 {
-    const std::string msg = pl.is_player() ? _( "You have nothing to read." ) :
+    const std::string msg = pl.is_avatar() ? _( "You have nothing to read." ) :
                             string_format( _( "%s has nothing to read." ), pl.disp_name() );
     return inv_internal( pl, read_inventory_preset( pl ), _( "Read" ), 1, msg );
 }

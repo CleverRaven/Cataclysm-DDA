@@ -370,7 +370,7 @@ float npc::evaluate_enemy( const Creature &target ) const
         const monster &mon = dynamic_cast<const monster &>( target );
         float diff = static_cast<float>( mon.type->difficulty );
         return std::min( diff, NPC_DANGER_MAX );
-    } else if( target.is_npc() || target.is_player() ) {
+    } else if( target.is_npc() || target.is_avatar() ) {
         return std::min( character_danger( dynamic_cast<const player &>( target ) ),
                          NPC_DANGER_MAX );
     } else {
@@ -2112,7 +2112,7 @@ bool npc::enough_time_to_reload( const item &gun ) const
     const int distance = rl_dist( pos(), target->pos() );
     const float target_speed = target->speed_rating();
     const float turns_til_reached = distance / target_speed;
-    if( target->is_player() || target->is_npc() ) {
+    if( target->is_avatar() || target->is_npc() ) {
         const auto &c = dynamic_cast<const Character &>( *target );
         // TODO: Allow reloading if the player has a low accuracy gun
         if( sees( c ) && c.weapon.is_gun() && rltime > 200 &&

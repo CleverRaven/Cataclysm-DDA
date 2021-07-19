@@ -90,9 +90,6 @@ class player : public Character
 
         void normalize() override;
 
-        bool is_player() const override {
-            return true;
-        }
         player *as_player() override {
             return this;
         }

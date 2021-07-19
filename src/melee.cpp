@@ -489,7 +489,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
 {
     melee::melee_stats.attack_count += 1;
     int hit_spread = t.deal_melee_attack( this, hit_roll() );
-    if( !t.is_player() ) {
+    if( !t.is_avatar() ) {
         // TODO: Per-NPC tracking? Right now monster hit by either npc or player will draw aggro...
         t.add_effect( effect_hit_by_player, 10_minutes ); // Flag as attacked by us for AI
     }
@@ -583,7 +583,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
 
         const ma_technique miss_recovery = martial_arts_data->get_miss_recovery( *this );
 
-        if( is_player() ) { // Only display messages if this is the player
+        if( is_avatar() ) { // Only display messages if this is the player
 
             if( one_in( 2 ) ) {
                 const std::string reason_for_miss = get_miss_reason();
@@ -679,7 +679,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
             // Enhanced Memory Banks bionic doubles chance to learn martial art
             const int learn_boost = has_flag( json_flag_CBQ_LEARN_BONUS ) ? 2 : 1;
             if( one_in( ( 1400 - ( get_int() * 50 ) ) / learn_boost ) ) {
-                martial_arts_data->learn_current_style_CQB( is_player() );
+                martial_arts_data->learn_current_style_CQB( is_avatar() );
             }
         }
 
@@ -1694,7 +1694,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
     player *p = dynamic_cast<player *>( &t );
 
     if( technique.take_weapon && !has_weapon() && p != nullptr && p->is_armed() ) {
-        if( p->is_player() ) {
+        if( p->is_avatar() ) {
             add_msg_if_npc( _( "<npcname> disarms you and takes your weapon!" ) );
         } else {
             add_msg_player_or_npc( _( "You disarm %s and take their weapon!" ),
@@ -1708,7 +1708,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
     if( technique.disarms && p != nullptr && p->is_armed() ) {
         item weap = p->remove_weapon();
         here.add_item_or_charges( p->pos(), weap );
-        if( p->is_player() ) {
+        if( p->is_avatar() ) {
             add_msg_if_npc( _( "<npcname> disarms you!" ) );
         } else {
             add_msg_player_or_npc( _( "You disarm %s!" ),
@@ -2033,7 +2033,7 @@ std::string Character::melee_special_effects( Creature &t, damage_instance &d, i
         mod_power_level( -bio_shock->power_trigger );
         d.add_damage( damage_type::ELECTRIC, rng( 2, 10 ) );
 
-        if( is_player() ) {
+        if( is_avatar() ) {
             dump += string_format( _( "You shock %s." ), target ) + "\n";
         } else {
             add_msg_if_npc( _( "<npcname> shocks %s." ), target );
@@ -2044,7 +2044,7 @@ std::string Character::melee_special_effects( Creature &t, damage_instance &d, i
     if( has_active_bionic( bio_heat_absorb ) && !is_armed() && t.is_warm() ) {
         mod_power_level( bio_heat_absorb->power_trigger );
         d.add_damage( damage_type::COLD, 3 );
-        if( is_player() ) {
+        if( is_avatar() ) {
             dump += string_format( _( "You drain %s's body heat." ), target ) + "\n";
         } else {
             add_msg_if_npc( _( "<npcname> drains %s's body heat!" ), target );
@@ -2054,7 +2054,7 @@ std::string Character::melee_special_effects( Creature &t, damage_instance &d, i
     if( weapon.has_flag( flag_FLAMING ) ) {
         d.add_damage( damage_type::HEAT, rng( 1, 8 ) );
 
-        if( is_player() ) {
+        if( is_avatar() ) {
             dump += string_format( _( "You burn %s." ), target ) + "\n";
         } else {
             add_msg_player_or_npc( _( "<npcname> burns %s." ), target );
@@ -2077,7 +2077,7 @@ std::string Character::melee_special_effects( Creature &t, damage_instance &d, i
     if( weap.made_of( material_id( "glass" ) ) &&
         /** @EFFECT_STR increases chance of breaking glass weapons (NEGATIVE) */
         rng( 0, vol + 8 ) < vol + str_cur ) {
-        if( is_player() ) {
+        if( is_avatar() ) {
             dump += string_format( _( "Your %s shatters!" ), weap.tname() ) + "\n";
         } else {
             add_msg_player_or_npc( m_bad, _( "Your %s shatters!" ),
@@ -2213,7 +2213,7 @@ std::vector<special_attack> Character::mutation_attacks( Creature &t ) const
             // Ugly special case: player's strings have only 1 variable, NPC have 2
             // Can't use <npcname> here
             // TODO: Fix
-            if( is_player() ) {
+            if( is_avatar() ) {
                 tmp.text = string_format( mut_atk.attack_text_u.translated(), target );
             } else {
                 tmp.text = string_format( mut_atk.attack_text_npc.translated(), name, target );
@@ -2399,7 +2399,7 @@ void player_hit_message( Character *attacker, const std::string &message,
         }
     }
 
-    if( dam > 0 && attacker->is_player() ) {
+    if( dam > 0 && attacker->is_avatar() ) {
         //player hits monster melee
         SCT.add( point( t.posx(), t.posy() ),
                  direction_from( point_zero, point( t.posx() - attacker->posx(), t.posy() - attacker->posy() ) ),

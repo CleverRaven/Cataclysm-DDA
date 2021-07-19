@@ -365,7 +365,7 @@ bool melee_actor::call( monster &z ) const
 
 void melee_actor::on_damage( monster &z, Creature &target, dealt_damage_instance &dealt ) const
 {
-    if( target.is_player() ) {
+    if( target.is_avatar() ) {
         sfx::play_variant_sound( "mon_bite", "bite_hit", sfx::get_heard_volume( z.pos() ),
                                  sfx::get_heard_angle( z.pos() ) );
         sfx::do_player_death_hurt( dynamic_cast<player &>( target ), false );
@@ -539,7 +539,7 @@ void gun_actor::shoot( monster &z, Creature &target, const gun_mode_id &mode ) c
         return;
     }
 
-    const bool require_targeting = ( require_targeting_player && target.is_player() ) ||
+    const bool require_targeting = ( require_targeting_player && target.is_avatar() ) ||
                                    ( require_targeting_npc && target.is_npc() ) ||
                                    ( require_targeting_monster && target.is_monster() );
     const bool not_targeted = require_targeting && !z.has_effect( effect_targeted );

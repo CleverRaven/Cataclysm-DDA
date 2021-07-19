@@ -5347,8 +5347,8 @@ bool game::swap_critters( Creature &a, Creature &b )
     // Simplify by "sorting" the arguments
     // Only the first argument can be u
     // If swapping player/npc with a monster, monster is second
-    bool a_first = a.is_player() ||
-                   ( a.is_npc() && !b.is_player() );
+    bool a_first = a.is_avatar() ||
+                   ( a.is_npc() && !b.is_avatar() );
     Creature &first  = a_first ? a : b;
     Creature &second = a_first ? b : a;
     // Possible options:
@@ -5382,7 +5382,7 @@ bool game::swap_critters( Creature &a, Creature &b )
     tripoint temp = second.pos();
     second.setpos( first.pos() );
 
-    if( first.is_player() ) {
+    if( first.is_avatar() ) {
         walk_move( temp );
     } else {
         first.setpos( temp );
@@ -5569,7 +5569,7 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
         }
         if( npc_or_player->is_npc() && can_see ) {
             add_msg( _( "The %1$s hits the %2$s." ), door_name, npc_or_player->name );
-        } else if( npc_or_player->is_player() ) {
+        } else if( npc_or_player->is_avatar() ) {
             add_msg( m_bad, _( "The %s hits you." ), door_name );
         }
         if( npc_or_player->activity ) {
@@ -12170,7 +12170,7 @@ void game::display_visibility()
             creature_menu.addentry( num_creatures++, true, MENU_AUTOASSIGN, "%s", _( "You" ) );
             locations.emplace_back( get_player_character().pos() ); // add player first.
             for( const Creature &critter : g->all_creatures() ) {
-                if( critter.is_player() ) {
+                if( critter.is_avatar() ) {
                     continue;
                 }
                 creature_menu.addentry( num_creatures++, true, MENU_AUTOASSIGN, critter.disp_name() );
