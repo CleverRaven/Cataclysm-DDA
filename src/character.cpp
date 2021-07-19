@@ -13231,3 +13231,17 @@ bool Character::is_driving() const
     const optional_vpart_position vp = get_map().veh_at( pos() );
     return vp && vp->vehicle().is_moving() && vp->vehicle().player_in_control( *this );
 }
+
+time_duration Character::estimate_effect_dur( const skill_id &relevant_skill,
+        const efftype_id &target_effect, const time_duration &error_magnitude,
+        const time_duration &minimum_error, int threshold, const Creature &target ) const
+{
+    const time_duration zero_duration = 0_turns;
+
+    int skill_lvl = get_skill_level( relevant_skill );
+
+    time_duration estimate = std::max( zero_duration, target.get_effect_dur( target_effect ) +
+                                       rng_float( -1, 1 ) * ( minimum_error + ( error_magnitude - minimum_error ) *
+                                               std::max( 0.0, static_cast<double>( threshold - skill_lvl ) / threshold ) ) );
+    return estimate;
+}

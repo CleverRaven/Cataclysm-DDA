@@ -825,7 +825,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
                                  "off in %2$s." ),
                               beta->disp_name(),
                               to_string_approx( player_character.estimate_effect_dur( skill_id( "firstaid" ),
-                                                effect_narcosis, 15_minutes, 6,
+                                                effect_narcosis, 90_minutes, 60_minutes, 6,
                                                 *beta->get_npc() ) ) );
     }
 

@@ -626,6 +626,24 @@ struct desc_freq {
 std::string effect::disp_desc( bool reduced ) const
 {
     std::string ret;
+
+    std::string timestr;
+    time_duration effect_dur_elapsed = ( calendar::turn - start_time );
+    if( to_turns<int>( effect_dur_elapsed ) == 0 ) {
+        timestr = _( "just now" );
+    } else {
+        timestr = string_format( _( "%s ago" ),
+                                 debug_mode ? to_string( effect_dur_elapsed ) : to_string_clipped( effect_dur_elapsed ) );
+    }
+    ret += string_format( _( "Effect started: <color_white>%s</color>    " ), timestr );
+    if( debug_mode ) {
+        ret += string_format( _( "Effect ends in <color_white>%s</color>" ), to_string( duration ) );
+    }
+    //Newline if necessary
+    if( !ret.empty() && ret.back() != '\n' ) {
+        ret += "\n";
+    }
+
     // First print stat changes, adding + if value is positive
     int tmp = get_avg_mod( "STR", reduced );
     if( tmp > 0 ) {
@@ -769,6 +787,12 @@ std::string effect::disp_desc( bool reduced ) const
         if( !tmp_str.empty() ) {
             ret += tmp_str;
         }
+    }
+
+    if( debug_mode ) {
+        ret += string_format(
+                   _( "\nDEBUG: ID: <color_white>%s</color> Intensity: <color_white>%d</color>" ),
+                   eff_type->id.c_str(), intensity );
     }
 
     return ret;
@@ -976,12 +1000,7 @@ int effect::set_intensity( int val, bool alert )
                  eff_type->decay_msgs[ val - 1 ].first.translated() );
     }
 
-    int old_intensity = intensity;
     intensity = val;
-    if( old_intensity != intensity ) {
-        add_msg_debug( debugmode::DF_EFFECT, "%s intensity %d->%d", get_id().c_str(), old_intensity,
-                       intensity );
-    }
 
     return intensity;
 }
@@ -1645,4 +1664,3 @@ nc_color colorize_bleeding_intensity( const int intensity )
         return c_red_red;
     }
 }
-

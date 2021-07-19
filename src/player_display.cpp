@@ -1181,16 +1181,19 @@ void player::disp_info()
     std::vector<std::pair<std::string, std::string>> effect_name_and_text;
     for( auto &elem : *effects ) {
         for( auto &_effect_it : elem.second ) {
-            const std::string tmp = _effect_it.second.disp_name();
-            if( tmp.empty() ) {
+            const std::string name = _effect_it.second.disp_name();
+            if( name.empty() ) {
                 continue;
             }
-            effect_name_and_text.emplace_back( tmp, _effect_it.second.disp_desc() );
+            effect_name_and_text.emplace_back( name, _effect_it.second.disp_desc() );
         }
     }
     if( get_perceived_pain() > 0 ) {
         const stat_mod ppen = get_pain_penalty();
+        std::pair<std::string, nc_color> pain_desc = get_pain_description();
         std::string pain_text;
+        pain_desc.first = string_format(_("You are in %s\n"), pain_desc.first);
+        pain_text += colorize(pain_desc.first, pain_desc.second);
         const auto add_if = [&]( const int amount, const char *const name ) {
             if( amount > 0 ) {
                 pain_text += string_format( name, amount ) + "   ";
