@@ -870,7 +870,7 @@
     "requirements": {
       "install": { "skills": [ [ "fabrication", 1 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "fabrication", 2 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": { "skills": [ [ "fabrication , 2 ] ], "time": "15 m", "using": [ [ "adhesive", 2 ] ] }
+      "repair": { "skills": [ [ "fabrication", 2 ] ], "time": "15 m", "using": [ [ "adhesive", 2 ] ] }
     },
     "flags": [ "CARGO", "OBSTACLE", "FLAT_SURF", "WORKBENCH" ],
     "breaks_into": [
