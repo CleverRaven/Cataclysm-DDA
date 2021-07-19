@@ -78,5 +78,10 @@
     "type": "requirement",
     "//": "Empower your chilling touch spell with the power of ice cream!",
     "components": [ [ [ "icecream_choc", 1 ], [ "icecream", 1 ], [ "icecream_fruit", 1 ], [ "icecream_candy", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_samsara",
+    "type": "requirement",
+    "components": [ [ [ "rune_druid", 1 ] ] ]
   }
 ]
