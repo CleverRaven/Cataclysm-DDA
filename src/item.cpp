@@ -3383,8 +3383,8 @@ void item::book_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                         string_format( ngettext( "\nYou already know %1$d recipe:\n%2$s",
                                                  "\nYou already know %1$d recipes:\n%2$s",
                                                   known_recipe_list.size() ),
-                                                  known_recipe_list.size(),
-                                                  enumerate_as_string( known_recipe_list ) );
+                                       known_recipe_list.size(),
+                                       enumerate_as_string( known_recipe_list ) );
 
                     info.emplace_back( iteminfo( "DESCRIPTION", recipe_line ) );
                 }
@@ -3394,8 +3394,8 @@ void item::book_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                         string_format( ngettext( "\nYou have the skills to craft %1$d recipe:\n%2$s",
                                                  "\nYou have the skills to craft %1$d recipes:\n%2$s",
                                                   learnable_recipe_list.size() ),
-                                                  learnable_recipe_list.size(),
-                                                  enumerate_as_string( learnable_recipe_list ) );
+                                       learnable_recipe_list.size(),
+                                       enumerate_as_string( learnable_recipe_list ) );
 
                     info.emplace_back( iteminfo( "DESCRIPTION", recipe_line ) );
                 }
@@ -3405,8 +3405,8 @@ void item::book_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                         string_format( ngettext( "\nYou lack the skills to craft %1$d recipe:\n%2$s",
                                                  "\nYou lack the skills to craft %1$d recipes:\n%2$s",
                                                   unlearnable_recipe_list.size() ),
-                                                  unlearnable_recipe_list.size(),
-                                                  enumerate_as_string( unlearnable_recipe_list ) );
+                                       unlearnable_recipe_list.size(),
+                                       enumerate_as_string( unlearnable_recipe_list ) );
 
                     info.emplace_back( iteminfo( "DESCRIPTION", recipe_line ) );
                 }
