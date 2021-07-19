@@ -8064,6 +8064,11 @@ const item &item::first_ammo() const
     return contents.first_ammo();
 }
 
+void item::handle_liquid_or_spill( Character &guy, const item *avoid )
+{
+    contents.handle_liquid_or_spill( guy, avoid );
+}
+
 bool item::ammo_sufficient( const Character *carrier, int qty ) const
 {
     if( ammo_required() ) {
@@ -9018,6 +9023,11 @@ int item::get_remaining_capacity_for_liquid( const item &liquid, const Character
     }
 
     return res;
+}
+
+units::volume item::total_contained_volume() const
+{
+    return contents.total_contained_volume();
 }
 
 bool item::use_amount( const itype_id &it, int &quantity, std::list<item> &used,

@@ -1087,7 +1087,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     // Item will burst upon landing, destroying the item, and spilling its contents
     const bool burst = thrown.has_property( "burst_when_filled" ) && thrown.is_container() &&
                        thrown.get_property_int64_t( "burst_when_filled" ) <= static_cast<double>
-                       ( thrown.contents.total_contained_volume().value() ) / thrown.get_total_capacity().value() *
+                       ( thrown.total_contained_volume().value() ) / thrown.get_total_capacity().value() *
                        100;
 
     // Add some flags to the projectile

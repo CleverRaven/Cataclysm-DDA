@@ -8578,7 +8578,7 @@ cata::optional<int> iuse::multicooker( player *p, item *it, bool t, const tripoi
 
         // Empty the cooker before it can be activated.
         if( mc_empty == choice ) {
-            it->contents.handle_liquid_or_spill( *p );
+            it->handle_liquid_or_spill( *p );
         }
 
         if( mc_start == choice ) {

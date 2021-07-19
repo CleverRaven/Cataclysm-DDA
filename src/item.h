@@ -790,6 +790,9 @@ class item : public visitable
                                                std::string *err = nullptr ) const;
         int get_remaining_capacity_for_liquid( const item &liquid, const Character &p,
                                                std::string *err = nullptr ) const;
+
+        units::volume total_contained_volume() const;
+
         /**
          * It returns the maximum volume of any contents, including liquids,
          * ammo, magazines, weapons, etc.
@@ -1887,6 +1890,10 @@ class item : public visitable
         // gets the first ammo in all magazine pockets
         // does not support multiple magazine pockets!
         const item &first_ammo() const;
+        // spills liquid and other contents from the container. contents may remain
+        // in the container if the player cancels spilling. removing liquid from
+        // a magazine requires unload logic.
+        void handle_liquid_or_spill( Character &guy, const item *avoid = nullptr );
 
         /**
          * Check if sufficient ammo is loaded for given number of uses.
