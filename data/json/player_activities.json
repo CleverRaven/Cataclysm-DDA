@@ -944,6 +944,14 @@
     "based_on": "time"
   },
   {
+    "id": "ACT_DISABLE",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "disabling",
+    "suspendable": false,
+    "based_on": "speed"
+  },
+  {
     "id": "ACT_FURNITURE_MOVE",
     "type": "activity_type",
     "activity_level": "ACTIVE_EXERCISE",

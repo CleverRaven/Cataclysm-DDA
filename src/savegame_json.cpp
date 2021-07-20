@@ -2605,13 +2605,12 @@ void item::migrate_content_item( const item &contained )
     } else if( typeId() == itype_usb_drive ) {
         // as of this migration, only usb_drive has any software in it.
         put_in( contained, item_pocket::pocket_type::SOFTWARE );
-    } else if( contents.insert_item( contained, item_pocket::pocket_type::MAGAZINE ).success() ) {
-        // left intentionally blank
-    } else if( contents.insert_item( contained, item_pocket::pocket_type::MAGAZINE_WELL ).success() ) {
+    } else if( contents.insert_item( contained, item_pocket::pocket_type::MAGAZINE ).success() ||
+               contents.insert_item( contained, item_pocket::pocket_type::MAGAZINE_WELL ).success() ) {
         // left intentionally blank
     } else if( is_corpse() ) {
         put_in( contained, item_pocket::pocket_type::CORPSE );
-    } else if( can_contain( contained ) ) {
+    } else if( can_contain( contained ).success() ) {
         put_in( contained, item_pocket::pocket_type::CONTAINER );
     } else {
         // we want this to silently fail - the contents will fall out later
@@ -2674,6 +2673,14 @@ void item::deserialize( JsonIn &jsin )
             for( const item *it : temp_migrate.all_items_top() ) {
                 contents.insert_item( *it, item_pocket::pocket_type::MIGRATION );
             }
+        }
+    }
+
+    if( !has_gun_variant( false ) && can_have_gun_variant() ) {
+        if( possible_gun_variant( typeId().str() ) ) {
+            set_gun_variant( typeId().str() );
+        } else {
+            select_gun_variant();
         }
     }
 }

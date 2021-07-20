@@ -379,7 +379,7 @@
     "symbol": ";",
     "color": "brown",
     "ammo": [ "battery" ],
-    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "use_action": {
       "target": "large_space_heater_on",
       "msg": "You turn on the heater.",
@@ -568,7 +568,7 @@
     "symbol": ";",
     "color": "brown",
     "ammo": [ "battery" ],
-    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "use_action": {
       "target": "small_space_heater_on",
       "msg": "You turn on the heater.",

@@ -101,11 +101,7 @@
 #include "weighted_list.h"
 
 static const itype_id itype_battery( "battery" );
-static const itype_id itype_glass_shard( "glass_shard" );
 static const itype_id itype_nail( "nail" );
-static const itype_id itype_sheet( "sheet" );
-static const itype_id itype_stick( "stick" );
-static const itype_id itype_string_36( "string_36" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
 
@@ -3190,7 +3186,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
     // Only allow bashing floors when we want to bash floors and we're in z-level mode
     // Unless we're destroying, then it gets a little weird
     if( smash_ter && bash->bash_below && ( !zlevels || !params.bash_floor ) ) {
-        if( !params.destroy ) {
+        if( !params.destroy ) { // NOLINT(bugprone-branch-clone)
             smash_ter = false;
             bash = nullptr;
         } else if( !bash->ter_set && zlevels ) {
@@ -3663,9 +3659,9 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
             // lasers can't destroy some types of furn/ter you can shoot through
             if( !laser || !shoot.no_laser_destroy ) {
                 // important to use initial damage, energy from reduction has gone into the furn/ter
-                const int x = int( initial_damage ) - shoot.destroy_dmg_min;
-                const int y = shoot.destroy_dmg_max - shoot.destroy_dmg_min;
-                if( x_in_y( x, y ) ) {
+                const int min_damage = int( initial_damage ) - shoot.destroy_dmg_min;
+                const int max_damage = shoot.destroy_dmg_max - shoot.destroy_dmg_min;
+                if( x_in_y( min_damage, max_damage ) ) {
                     // don't need to duplicate all the destruction logic here
                     bash_params bsh{ 0, false, true, false, 0.0, false, false, false, false };
                     bash_ter_furn( p, bsh );
@@ -4339,8 +4335,8 @@ item &map::add_item( const tripoint &p, item new_item )
     }
 
     // Process foods and temperature tracked items when they are added to the map, here instead of add_item_at()
-    // to avoid double processing food and corpses during active item processing.
-    if( new_item.has_temperature() ) {
+    // to avoid double processing food during active item processing.
+    if( new_item.has_temperature() && !new_item.is_corpse() ) {
         new_item.process( nullptr, p );
     }
 
@@ -4520,7 +4516,7 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                 washing_machine_finished = true;
                 cur_veh.part( part ).enabled = false;
             } else if( calendar::once_every( 15_minutes ) ) {
-                add_msg( _( "It should take %d minutes to finish washing items in the %s." ),
+                add_msg( _( "It should take %1$d minutes to finish washing items in the %2$s." ),
                          to_minutes<int>( time_left ) + 1, cur_veh.name );
                 break;
             }
@@ -5695,7 +5691,7 @@ void map::draw( const catacurses::window &w, const tripoint &center )
             if( draw_maptile( w, p, curr_maptile, params ) ) {
                 continue;
             }
-            const maptile tile_below = maptile_at_internal( p - tripoint_above );
+            const maptile tile_below = maptile_at_internal( p + tripoint_below );
             draw_from_above( w, tripoint( p.xy(), p.z - 1 ), tile_below, params );
         }
     }
@@ -5927,9 +5923,7 @@ bool map::draw_maptile( const catacurses::window &w, const tripoint &p,
         tercol = c_magenta;
     } else if( u_vision[NV_GOGGLES] ) {
         tercol = param.bright_light() ? c_white : c_light_green;
-    } else if( param.low_light() ) {
-        tercol = c_dark_gray;
-    } else if( u_vision[DARKNESS] ) {
+    } else if( param.low_light() || u_vision[DARKNESS] ) {
         tercol = c_dark_gray;
     }
 
@@ -6021,9 +6015,7 @@ void map::draw_from_above( const catacurses::window &w, const tripoint &p,
         tercol = c_magenta;
     } else if( u_vision[NV_GOGGLES] ) {
         tercol = params.bright_light() ? c_white : c_light_green;
-    } else if( params.low_light() ) {
-        tercol = c_dark_gray;
-    } else if( u_vision[DARKNESS] ) {
+    } else if( params.low_light() || u_vision[DARKNESS] ) {
         tercol = c_dark_gray;
     }
 
@@ -7677,7 +7669,7 @@ int map::determine_wall_corner( const tripoint &p ) const
             return LINE_XXXO;
         case 0 | 2 | 1 | 0:
             return LINE_OXXO;
-        case 8 | 0 | 1 | 0:
+        case 8 | 0 | 1 | 0: // NOLINT(bugprone-branch-clone)
             return LINE_XOXO;
         case 0 | 0 | 1 | 0:
             return LINE_XOXO; // LINE_OOXO would be better

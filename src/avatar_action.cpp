@@ -82,6 +82,61 @@ static const std::string flag_SWIMMABLE( "SWIMMABLE" );
 
 #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
+static bool check_water_affect_items( avatar &you )
+{
+    std::vector<item_location> dissolved;
+    std::vector<item_location> destroyed;
+
+    for( item_location &loc : you.all_items_loc() ) {
+        if( loc->has_flag( flag_WATER_DISSOLVE ) && !loc.protected_from_liquids() ) {
+            dissolved.emplace_back( loc );
+        } else if( loc->has_flag( flag_WATER_BREAK ) && !loc->is_broken()
+                   && !loc.protected_from_liquids() ) {
+            destroyed.emplace_back( loc );
+        }
+    }
+
+    if( dissolved.empty() && destroyed.empty() ) {
+        return query_yn( _( "Dive into the water?" ) );
+    }
+
+    uilist menu;
+    menu.title = _( "Diving will destroy the following items.  Proceed?" );
+    menu.text = _( "These items are not inside a waterproof container." );
+
+    menu.addentry( 0, true, 'N', _( "No" ) );
+    menu.addentry( 1, true, 'Y', _( "Yes" ) );
+
+    auto add_header = [&menu]( const std::string & str ) {
+        menu.addentry( -1, false, -1, "" );
+        uilist_entry header( -1, false, -1, str, c_yellow, c_yellow );
+        header.force_color = true;
+        menu.entries.push_back( header );
+    };
+
+    if( !dissolved.empty() ) {
+        add_header( _( "Will be dissolved:" ) );
+        for( item_location &it : dissolved ) {
+            menu.addentry( -1, false, -1, it->display_name() );
+        }
+    }
+
+    if( !destroyed.empty() ) {
+        add_header( _( "Will be destroyed:" ) );
+        for( item_location &it : destroyed ) {
+            menu.addentry( -1, false, -1, it->display_name() );
+        }
+    }
+
+    menu.query();
+    if( menu.ret != 1 ) {
+        you.add_msg_if_player( _( "You back away from the water." ) );
+        return false;
+    }
+
+    return true;
+}
+
 bool avatar_action::move( avatar &you, map &m, const tripoint &d )
 {
     if( ( !g->check_safe_mode_allowed() ) || you.has_active_mutation( trait_SHELL2 ) ) {
@@ -350,7 +405,8 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
                 return false;
             }
         }
-        if( ( fromSwimmable && fromDeepWater && !fromBoat ) || query_yn( _( "Dive into the water?" ) ) ) {
+        if( ( fromSwimmable && fromDeepWater && !fromBoat ) ||
+            check_water_affect_items( you ) ) {
             if( ( !fromDeepWater || fromBoat ) && you.swim_speed() < 500 ) {
                 add_msg( _( "You start swimming." ) );
                 add_msg( m_info, _( "%s to dive underwater." ),
@@ -515,6 +571,9 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
         add_msg( _( "The water washes off the glowing goo!" ) );
         you.remove_effect( effect_glowing );
     }
+
+    g->water_affect_items( you );
+
     int movecost = you.swim_speed();
     you.practice( skill_swimming, you.is_underwater() ? 2 : 1 );
     if( movecost >= 500 ) {

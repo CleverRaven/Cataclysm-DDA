@@ -136,6 +136,15 @@ static constexpr float NPC_DANGER_VERY_LOW = 5.0f;
 static constexpr float NPC_DANGER_MAX = 150.0f;
 static constexpr float MAX_FLOAT = 5000000000.0f;
 
+// TODO: These would be much better using common code or constants from character.cpp,
+// which handles the player formatting of thirst/hunger levels. Right now we
+// have magic numbers all over the place. ;(
+
+static constexpr int NPC_THIRST_CONSUME  = 40;  // "Thirsty"
+static constexpr int NPC_THIRST_COMPLAIN = 80;  // "Very thirsty"
+static constexpr int NPC_HUNGER_CONSUME  = 80;  // 50% of what's needed to refuse training.
+static constexpr int NPC_HUNGER_COMPLAIN = 160; // The level at which we refuse to do some tasks.
+
 enum npc_action : int {
     npc_undecided = 0,
     npc_pause,
@@ -230,7 +239,8 @@ static bool clear_shot_reach( const tripoint &from, const tripoint &to, bool che
         Creature *inter = g->critter_at( p );
         if( check_ally && inter != nullptr ) {
             return false;
-        } else if( get_map().impassable( p ) ) {
+        }
+        if( get_map().impassable( p ) ) {
             return false;
         }
     }
@@ -360,7 +370,7 @@ float npc::evaluate_enemy( const Creature &target ) const
         const monster &mon = dynamic_cast<const monster &>( target );
         float diff = static_cast<float>( mon.type->difficulty );
         return std::min( diff, NPC_DANGER_MAX );
-    } else if( target.is_npc() || target.is_player() ) {
+    } else if( target.is_npc() || target.is_avatar() ) {
         return std::min( character_danger( dynamic_cast<const player &>( target ) ),
                          NPC_DANGER_MAX );
     } else {
@@ -373,7 +383,7 @@ static bool too_close( const tripoint &critter_pos, const tripoint &ally_pos, co
     return rl_dist( critter_pos, ally_pos ) <= def_radius;
 }
 
-int npc_short_term_cache::closest_enemy_to_friendly_distance() const
+cata::optional<int> npc_short_term_cache::closest_enemy_to_friendly_distance() const
 {
     int distance = INT_MAX;
     for( const weak_ptr_fast<Creature> &buddy : friends ) {
@@ -386,6 +396,9 @@ int npc_short_term_cache::closest_enemy_to_friendly_distance() const
             }
             distance = std::min( distance, rl_dist( buddy.lock()->pos(), enemy.lock()->pos() ) );
         }
+    }
+    if( distance == INT_MAX ) {
+        return cata::nullopt;
     }
     return distance;
 }
@@ -440,7 +453,6 @@ void npc::assess_danger()
             case combat_engagement::HIT:
                 return c.has_effect( effect_hit_by_player );
             case combat_engagement::NO_MOVE:
-                return dist <= max_range;
             case combat_engagement::FREE_FIRE:
                 return dist <= max_range;
             case combat_engagement::ALL:
@@ -831,9 +843,8 @@ void npc::move()
     map &here = get_map();
     if( !ai_cache.dangerous_explosives.empty() ) {
         action = npc_escape_explosion;
-    } else if( target == &player_character && attitude == NPCATT_FLEE_TEMP ) {
-        action = method_of_fleeing();
-    } else if( has_effect( effect_npc_run_away ) ) {
+    } else if( ( target == &player_character && attitude == NPCATT_FLEE_TEMP ) ||
+               has_effect( effect_npc_run_away ) ) {
         action = method_of_fleeing();
     } else if( has_effect( effect_asthma ) && ( has_charges( itype_inhaler, 1 ) ||
                has_charges( itype_oxygen_tank, 1 ) ||
@@ -1202,13 +1213,13 @@ void npc::execute_action( npc_action action )
         }
         case npc_follow_player:
             update_path( player_character.pos() );
-            if( static_cast<int>( path.size() ) <= follow_distance() &&
-                player_character.posz() == posz() ) { // We're close enough to u.
+            if( path.empty() ||
+                ( static_cast<int>( path.size() ) <= follow_distance() &&
+                  player_character.posz() == posz() ) ) {
+                // We're close enough to u.
                 move_pause();
-            } else if( !path.empty() ) {
-                move_to_next();
             } else {
-                move_pause();
+                move_to_next();
             }
             // TODO: Make it only happen when it's safe
             complain();
@@ -1831,8 +1842,8 @@ npc_action npc::address_needs( float danger )
         return npc_undecided;
     }
 
-    if( one_in( 3 ) && ( get_thirst() > 40 ||
-                         get_stored_kcal() + stomach.get_calories() < get_healthy_kcal() * 0.95 ) ) {
+    if( one_in( 3 ) && ( get_thirst() > NPC_THIRST_CONSUME ||
+                         get_hunger() > NPC_HUNGER_CONSUME ) ) {
         if( consume_food_from_camp() ) {
             return npc_noop;
         }
@@ -1860,8 +1871,9 @@ npc_action npc::address_needs( float danger )
         if( danger <= 0.01 ) {
             if( get_fatigue() >= fatigue_levels::TIRED ) {
                 return true;
-            } else if( is_walking_with() && player_character.in_sleep_state() &&
-                       get_fatigue() > ( fatigue_levels::TIRED / 2 ) ) {
+            }
+            if( is_walking_with() && player_character.in_sleep_state() &&
+                get_fatigue() > ( fatigue_levels::TIRED / 2 ) ) {
                 return true;
             }
         }
@@ -1875,9 +1887,11 @@ npc_action npc::address_needs( float danger )
             return npc_undecided;
         }
 
-        if( rules.has_flag( ally_rule::allow_sleep ) || get_fatigue() > fatigue_levels::MASSIVE_FATIGUE ) {
+        if( rules.has_flag( ally_rule::allow_sleep ) ||
+            get_fatigue() > fatigue_levels::MASSIVE_FATIGUE ) {
             return npc_sleep;
-        } else if( player_character.in_sleep_state() ) {
+        }
+        if( player_character.in_sleep_state() ) {
             // TODO: "Guard me while I sleep" command
             return npc_sleep;
         }
@@ -2098,7 +2112,7 @@ bool npc::enough_time_to_reload( const item &gun ) const
     const int distance = rl_dist( pos(), target->pos() );
     const float target_speed = target->speed_rating();
     const float turns_til_reached = distance / target_speed;
-    if( target->is_player() || target->is_npc() ) {
+    if( target->is_avatar() || target->is_npc() ) {
         const auto &c = dynamic_cast<const Character &>( *target );
         // TODO: Allow reloading if the player has a low accuracy gun
         if( sees( c ) && c.weapon.is_gun() && rltime > 200 &&
@@ -3669,6 +3683,8 @@ void npc::use_painkiller()
 // Not be unhealthy
 // Not have side effects
 // Be eaten before it rots (favor soon-to-rot perishables)
+//
+// TODO: Cache the results of this, *especially* if there's nothing we want to eat.
 static float rate_food( const item &it, int want_nutr, int want_quench )
 {
     const auto &food = it.get_comestible();
@@ -3676,10 +3692,12 @@ static float rate_food( const item &it, int want_nutr, int want_quench )
         return 0.0f;
     }
 
+    // Don't eat it if it's filled with parasites
     if( food->parasites && !it.has_flag( flag_NO_PARASITES ) ) {
         return 0.0;
     }
 
+    // TODO: Use the actual nutrition for this food, rather than the default?
     int nutr = food->get_default_nutr();
     int quench = food->quench;
 
@@ -3707,23 +3725,35 @@ static float rate_food( const item &it, int want_nutr, int want_quench )
     }
 
     double relative_rot = it.get_relative_rot();
+
+    // Don't eat rotten food.
     if( relative_rot >= 1.0f ) {
         // TODO: Allow sapro mutants to eat it anyway and make them prefer it
         return 0.0f;
     }
 
+    // For non-rotten food, we have a starting weight in the range 1-10
+    // The closer it is to expiring, the more we should aim to eat it.
     float weight = std::max( 1.0, 10.0 * relative_rot );
+
+    // TODO: I feel like we should exclude *really* un-fun foods (flour, hot sauce, etc)
+    //       rather than discount them. Eating cooked liver is fine, eating raw flour... :/
+    //       Likewise, *fun* foods should be boosted in attractiveness.
     if( it.get_comestible_fun() < 0 ) {
         // This helps to avoid eating stuff like flour
         weight /= ( -it.get_comestible_fun() ) + 1;
     }
 
+    // NPCs will avoid unhealthy foods.
     if( food->healthy < 0 ) {
         weight /= ( -food->healthy ) + 1;
     }
 
     // Avoid wasting quench values unless it's about to rot away
     if( relative_rot < 0.9f && quench > want_quench ) {
+        // TODO: This can remove a food as a candidate entirely, which means
+        //       an NPC could avoid eating a slightly hydrating but calorie-dense
+        //       food because they're "not thirsty".
         weight -= ( 1.0f - relative_rot ) * ( quench - want_quench );
     }
 
@@ -3733,16 +3763,14 @@ static float rate_food( const item &it, int want_nutr, int want_quench )
     }
 
     if( nutr > want_nutr ) {
-        // TODO: Allow overeating in some cases
-        if( nutr >= 5 ) {
-            return 0.0f;
-        }
 
+        // Discount fresh foods that are bigger than our hunger.
         if( relative_rot < 0.9f ) {
             weight /= nutr - want_nutr;
         }
     }
 
+    // NPCs won't eat poison food unless it's only a little poisoned
     if( it.poison > 0 ) {
         weight -= it.poison;
     }
@@ -3853,6 +3881,9 @@ bool npc::consume_food()
             const time_duration &consume_time = get_consume_time( *best_food );
             consumed = consume( item_location( *this, best_food ) ) != trinary::NONE;
             if( consumed ) {
+                // TODO: Message that "X begins eating Y?" Right now it appears to the player
+                //       that "Urist eats a carp roast" and then stands still doing nothing
+                //       for a while.
                 moves -= to_moves<int>( consume_time );
             } else {
                 debugmsg( "%s failed to consume %s", name, best_food->tname() );
@@ -4201,7 +4232,8 @@ void npc::go_to_omt_destination()
         }
     }
     path = here.route( pos(), centre_sub, get_pathfinding_settings(), get_path_avoid() );
-    add_msg_debug( debugmode::DF_NPC, "%s going %s->%s", name, omt_pos.to_string(), goal.to_string() );
+    add_msg_debug( debugmode::DF_NPC, "%s going %s->%s", name, omt_pos.to_string_writable(),
+                   goal.to_string_writable() );
 
     if( !path.empty() ) {
         move_to_next();
@@ -4483,7 +4515,7 @@ bool npc::complain()
 
     // Hunger every 3-6 hours
     // Since NPCs can't starve to death, respect the rules
-    if( get_hunger() > 160 &&
+    if( get_hunger() > NPC_HUNGER_COMPLAIN &&
         complain_about( hunger_string, std::max( 3_hours,
                         time_duration::from_minutes( 60 * 8 - get_hunger() ) ), _( "<hungry>" ) ) ) {
         return true;
@@ -4491,7 +4523,8 @@ bool npc::complain()
 
     // Thirst every 2 hours
     // Since NPCs can't dry to death, respect the rules
-    if( get_thirst() > 80 && complain_about( thirst_string, 2_hours, _( "<thirsty>" ) ) ) {
+    if( get_thirst() > NPC_THIRST_COMPLAIN &&
+        complain_about( thirst_string, 2_hours, _( "<thirsty>" ) ) ) {
         return true;
     }
 

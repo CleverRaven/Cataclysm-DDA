@@ -101,7 +101,7 @@
     "harvest": "human_large_fur",
     "special_attacks": [
       [ "PARROT", 80 ],
-      [ "SMASH", 20 ],
+      { "id": "smash", "throw_strength": 96 },
       { "type": "leap", "cooldown": 10, "max_range": 5 },
       {
         "type": "bite",

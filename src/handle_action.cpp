@@ -1304,12 +1304,8 @@ static void read()
             spell_book.get_use( "learn_spell" )->call( player_character, spell_book,
                     spell_book.active, player_character.pos() );
         } else {
-            item_location obtained = loc.obtain( player_character );
-            if( obtained ) {
-                player_character.read( *obtained );
-            } else {
-                add_msg( _( "You can't pick up the book!" ) );
-            }
+            loc = loc.obtain( player_character );
+            player_character.read( loc );
         }
     } else {
         add_msg( _( "Never mind." ) );
@@ -1741,10 +1737,7 @@ static void do_deathcam_action( const action_id &act, avatar &player_character )
             g->look_around();
             break;
 
-        case ACTION_KEYBINDINGS:
-            // already handled by input context
-            break;
-
+        case ACTION_KEYBINDINGS: // already handled by input context
         default:
             break;
     }
@@ -1754,13 +1747,12 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                               const cata::optional<tripoint> &mouse_target )
 {
     switch( act ) {
-        case ACTION_NULL:
-        case NUM_ACTIONS:
-            break; // dummy entries
-        case ACTION_ACTIONMENU:
+        case ACTION_NULL: // dummy entry
+        case NUM_ACTIONS: // dummy entry
+        case ACTION_ACTIONMENU: // handled above
         case ACTION_MAIN_MENU:
         case ACTION_KEYBINDINGS:
-            break; // handled above
+            break;
 
         case ACTION_TIMEOUT:
             if( check_safe_mode_allowed( false ) ) {
@@ -2506,12 +2498,6 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_DISPLAY_SCENT:
-            if( MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger() ) {
-                break;    //don't do anything when sharing and not debugger
-            }
-            display_scent();
-            break;
-
         case ACTION_DISPLAY_SCENT_TYPE:
             if( MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger() ) {
                 break;    //don't do anything when sharing and not debugger
@@ -2702,7 +2688,8 @@ bool game::handle_action()
             const cata::optional<tripoint> mouse_pos = ctxt.get_coordinates( w_terrain );
             if( !mouse_pos ) {
                 return false;
-            } else if( !player_character.sees( *mouse_pos ) ) {
+            }
+            if( !player_character.sees( *mouse_pos ) ) {
                 // Not clicked in visible terrain
                 return false;
             }

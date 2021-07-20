@@ -7983,7 +7983,7 @@ static void sendRadioSignal( player &p, const flag_id &signal )
                     // Invoke to transform a radio-modded explosive into its active form
                     it.type->invoke( p, it, loc );
                 }
-            } else if( !it.contents.empty_container() ) {
+            } else if( !it.empty_container() ) {
                 item *itm = it.contents.get_item_with( [&signal]( const item & c ) {
                     return c.has_flag( signal );
                 } );
@@ -8466,7 +8466,7 @@ cata::optional<int> iuse::multicooker( player *p, item *it, bool t, const tripoi
             it->active = false;
             it->erase_var( "COOKTIME" );
             it->convert( itype_multi_cooker );
-            if( it->can_contain( meal ) ) {
+            if( it->can_contain( meal ).success() ) {
                 it->put_in( meal, item_pocket::pocket_type::CONTAINER );
             } else {
                 add_msg( m_info,
@@ -9802,6 +9802,9 @@ ret_val<bool> use_function::can_call( const Character &p, const item &it, bool t
 {
     if( actor == nullptr ) {
         return ret_val<bool>::make_failure( _( "You can't do anything interesting with your %s." ),
+                                            it.tname() );
+    } else if( it.is_broken() ) {
+        return ret_val<bool>::make_failure( _( "Your %s is broken and won't activate." ),
                                             it.tname() );
     }
 

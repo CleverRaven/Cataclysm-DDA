@@ -40,6 +40,17 @@
   },
   {
     "type": "monstergroup",
+    "name": "GROUP_ZOMBIE_BRAINLESS_UPGRADE",
+    "default": "mon_zombie_brainless",
+    "//": "No bionics or fungal",
+    "monsters": [
+      { "monster": "mon_zombie_brainless", "freq": 45, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_ears", "freq": 245, "cost_multiplier": 2 },
+      { "monster": "mon_afs_headless_horror", "freq": 40, "cost_multiplier": 5 }
+    ]
+  },
+  {
+    "type": "monstergroup",
     "name": "GROUP_ZOMBIE_FAT",
     "default": "mon_zombie_gasbag",
     "//": "fat zombie upgrades",

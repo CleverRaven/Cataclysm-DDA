@@ -1676,7 +1676,7 @@ void character_edit_menu()
         case D_TELE: {
             if( const cata::optional<tripoint> newpos = g->look_around() ) {
                 p.setpos( *newpos );
-                if( p.is_player() ) {
+                if( p.is_avatar() ) {
                     if( p.is_mounted() ) {
                         p.mounted_creature->setpos( *newpos );
                     }
@@ -1794,7 +1794,7 @@ static void add_header( uilist &mmenu, const std::string &str )
 
 void mission_debug::edit( player &who )
 {
-    if( who.is_player() ) {
+    if( who.is_avatar() ) {
         edit_player();
     } else if( who.is_npc() ) {
         edit_npc( dynamic_cast<npc &>( who ) );

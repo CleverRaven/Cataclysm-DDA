@@ -171,11 +171,9 @@ bool trapfunc::beartrap( const tripoint &p, Creature *c, item * )
         c->deal_damage( nullptr, hit, d );
 
         player *n = dynamic_cast<player *>( c );
-        if( n != nullptr ) {
-            if( ( n->has_trait( trait_INFRESIST ) ) && ( one_in( 512 ) ) ) {
-                n->add_effect( effect_tetanus, 1_turns, true );
-            } else if( ( !n->has_trait( trait_INFIMMUNE ) || !n->has_trait( trait_INFRESIST ) ) &&
-                       ( one_in( 128 ) ) ) {
+        if( n != nullptr && !n->has_trait( trait_INFIMMUNE ) ) {
+            const int chance_in = n->has_trait( trait_INFRESIST ) ? 512 : 128;
+            if( one_in( chance_in ) ) {
                 n->add_effect( effect_tetanus, 1_turns, true );
             }
         }
@@ -215,11 +213,11 @@ bool trapfunc::board( const tripoint &, Creature *c, item * )
                         10 ) ) );
         c->deal_damage( nullptr, bodypart_id( "foot_r" ), damage_instance( damage_type::CUT, rng( 6,
                         10 ) ) );
-        if( ( n->has_trait( trait_INFRESIST ) ) && ( one_in( 256 ) ) ) {
-            n->add_effect( effect_tetanus, 1_turns, true );
-        } else if( ( !n->has_trait( trait_INFIMMUNE ) || !n->has_trait( trait_INFRESIST ) ) &&
-                   ( one_in( 35 ) ) ) {
-            n->add_effect( effect_tetanus, 1_turns, true );
+        if( !n->has_trait( trait_INFIMMUNE ) ) {
+            const int chance_in = n->has_trait( trait_INFRESIST ) ? 256 : 35;
+            if( one_in( chance_in ) ) {
+                n->add_effect( effect_tetanus, 1_turns, true );
+            }
         }
     }
     c->check_dead_state();
@@ -889,11 +887,11 @@ bool trapfunc::pit_spikes( const tripoint &p, Creature *c, item * )
             n->add_msg_if_player( m_bad, _( "The spikes impale your %s!" ),
                                   body_part_name_accusative( hit ) );
             n->deal_damage( nullptr, hit, damage_instance( damage_type::CUT, damage ) );
-            if( ( n->has_trait( trait_INFRESIST ) ) && ( one_in( 256 ) ) ) {
-                n->add_effect( effect_tetanus, 1_turns, true );
-            } else if( ( !n->has_trait( trait_INFIMMUNE ) || !n->has_trait( trait_INFRESIST ) ) &&
-                       ( one_in( 35 ) ) ) {
-                n->add_effect( effect_tetanus, 1_turns, true );
+            if( !n->has_trait( trait_INFIMMUNE ) ) {
+                const int chance_in = n->has_trait( trait_INFRESIST ) ? 256 : 35;
+                if( one_in( chance_in ) ) {
+                    n->add_effect( effect_tetanus, 1_turns, true );
+                }
             }
         }
     } else if( z != nullptr ) {
@@ -977,11 +975,11 @@ bool trapfunc::pit_glass( const tripoint &p, Creature *c, item * )
             n->add_msg_if_player( m_bad, _( "The glass shards slash your %s!" ),
                                   body_part_name_accusative( hit ) );
             n->deal_damage( nullptr, hit, damage_instance( damage_type::CUT, damage ) );
-            if( ( n->has_trait( trait_INFRESIST ) ) && ( one_in( 256 ) ) ) {
-                n->add_effect( effect_tetanus, 1_turns, true );
-            } else if( ( !n->has_trait( trait_INFIMMUNE ) || !n->has_trait( trait_INFRESIST ) ) &&
-                       ( one_in( 35 ) ) ) {
-                n->add_effect( effect_tetanus, 1_turns, true );
+            if( !n->has_trait( trait_INFIMMUNE ) ) {
+                const int chance_in = n->has_trait( trait_INFRESIST ) ? 256 : 35;
+                if( one_in( chance_in ) ) {
+                    n->add_effect( effect_tetanus, 1_turns, true );
+                }
             }
         }
     } else if( z != nullptr ) {
@@ -1058,7 +1056,7 @@ bool trapfunc::portal( const tripoint &p, Creature *c, item *i )
 // Don't ask NPCs - they always want to do the first thing that comes to their minds
 static bool query_for_item( const player *pl, const itype_id &itemname, const char *que )
 {
-    return pl->has_amount( itemname, 1 ) && ( !pl->is_player() || query_yn( que ) );
+    return pl->has_amount( itemname, 1 ) && ( !pl->is_avatar() || query_yn( que ) );
 }
 
 static tripoint random_neighbor( tripoint center )
@@ -1206,7 +1204,7 @@ bool trapfunc::ledge( const tripoint &p, Creature *c, item * )
         height++;
     }
 
-    if( height == 0 && c->is_player() ) {
+    if( height == 0 && c->is_avatar() ) {
         // For now just special case player, NPCs don't "zedwalk"
         Creature *critter = g->critter_at( below, true );
         if( critter == nullptr || !critter->is_monster() ) {
@@ -1241,7 +1239,7 @@ bool trapfunc::ledge( const tripoint &p, Creature *c, item * )
         return true;
     }
 
-    if( pl->is_player() ) {
+    if( pl->is_avatar() ) {
         add_msg( m_bad, ngettext( "You fall down %d story!", "You fall down %d stories!", height ),
                  height );
         g->vertical_move( -height, true );

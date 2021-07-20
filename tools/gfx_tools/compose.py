@@ -484,7 +484,8 @@ class Tilesheet:
             if not isinstance(tile_entries, list):
                 tile_entries = [tile_entries]
             for input_entry in tile_entries:
-                self.tile_entries.append(TileEntry(self, input_entry))
+                self.tile_entries.append(
+                    TileEntry(self, input_entry, filepath))
 
     def write_composite_png(self) -> bool:
         '''
@@ -520,9 +521,10 @@ class TileEntry:
     '''
     Tile entry handling
     '''
-    def __init__(self, tilesheet: Tilesheet, data) -> None:
+    def __init__(self, tilesheet: Tilesheet, data, filepath) -> None:
         self.tilesheet = tilesheet
         self.data = data
+        self.filepath = filepath
 
     def convert(
             self,
@@ -548,7 +550,9 @@ class TileEntry:
                 full_id = f'{prefix}{an_id}'
                 if full_id in self.tilesheet.tileset.processed_ids:
                     if self.tilesheet.tileset.obsolete_fillers:
-                        print(f'Warning: skipping filler for {full_id}')
+                        print(
+                            f'Warning: skipping filler for {full_id} '
+                            f'from {self.filepath}')
                     skipping_filler = True
         fg_layer = entry.get('fg', None)
         if fg_layer:
@@ -576,12 +580,15 @@ class TileEntry:
                     self.tilesheet.tileset.processed_ids.append(full_id)
                 else:
                     if not skipping_filler:
-                        print(f'Error: {full_id} encountered more than once')
+                        print(
+                            f'Error: {full_id} encountered more than once, '
+                            f'last time in {self.filepath}')
                         self.tilesheet.tileset.error_logged = True
             if skipping_filler:
                 return None
             return entry
-        print(f'skipping empty entry for {prefix}{tile_id}')
+        print(
+            f'skipping empty entry for {prefix}{tile_id} in {self.filepath}')
         return None
 
     def convert_entry_layer(self, entry_layer: Union[list, str]) -> list:
@@ -648,8 +655,8 @@ class TileEntry:
                 entry.append(sprite_index)
                 return True
 
-            print(f'Error: sprite {sprite_name} has no matching PNG file.'
-                  ' It will not be added to '
+            print(f'Error: sprite {sprite_name} from {self.filepath} '
+                  'has no matching PNG file. It will not be added to '
                   f'{self.tilesheet.tileset.output_conf_file}')
             self.tilesheet.tileset.error_logged = True
         return False

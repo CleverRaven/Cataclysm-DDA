@@ -8,6 +8,8 @@
       [ "chisel", 90 ],
       [ "crucible", 30 ],
       [ "swage", 60 ],
+      [ "drift", 70 ],
+      [ "hotcut", 90 ],
       [ "tongs", 90 ],
       [ "hammer", 90 ],
       [ "sandpaper", 90 ]

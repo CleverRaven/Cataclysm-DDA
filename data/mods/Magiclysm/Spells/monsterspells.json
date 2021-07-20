@@ -75,6 +75,20 @@
     "effect": "attack"
   },
   {
+    "id": "prank",
+    "type": "SPELL",
+    "name": "Leprechaun prank",
+    "description": "Pranks the PC.  Gag humor.",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "NO_LEGS" ],
+    "max_level": 5,
+    "min_range": 1,
+    "max_range": 5,
+    "range_increment": 1,
+    "shape": "blast",
+    "effect": "vomit"
+  },
+  {
     "id": "gas_attack",
     "type": "SPELL",
     "name": "Gas Attack",
