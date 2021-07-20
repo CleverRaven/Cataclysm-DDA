@@ -4,7 +4,7 @@
     "type": "SPELL",
     "spell_class": "GAIAS_CHOSEN",
     "name": "Samsara",
-    "description": "You let your mana spin in the world's life flow, renewing your body as if prematurely reincarnated.",
+    "description": "You tie your leylines to the world, renewing your flesh as if reborn.",
     "valid_targets": [ "self" ],
     "effect": "attack",
     "shape": "blast",
