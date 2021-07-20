@@ -258,6 +258,11 @@
     "type": "json_flag"
   },
   {
+    "id": "CORROSIVE",
+    "context": [ "COMESTIBLE" ],
+    "type": "json_flag"
+  },
+  {
     "id": "ONLY_ONE",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],

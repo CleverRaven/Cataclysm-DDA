@@ -673,14 +673,14 @@
   {
     "type": "effect_type",
     "id": "nausea",
-    "name": [ "Nausea" ],
-    "desc": [ "You feel nauseated.  Even a thought of food makes you feel sick." ],
-    "remove_message": "You no longer feel nauseated.",
+    "name": [ "Slightly Nauseous", "Mildly Nauseous", "Nauseous", "Very Nauseous", "Extremely Nauseous" ],
+    "desc": [ "You are nauseous and may lead to vomiting." ],
+    "remove_message": "You no longer feel nauseous.",
     "rating": "bad",
-    "int_dur_factor": "5 m",
-    "max_intensity": 3,
+    "int_dur_factor": "3 m",
+    "max_intensity": 5,
     "max_duration": "15 m",
-    "base_mods": { "vomit_chance": [ 60 ] }
+    "base_mods": { "vomit_chance": [ 500 ] }
   },
   {
     "type": "effect_type",
