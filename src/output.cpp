@@ -2009,6 +2009,22 @@ std::string satiety_bar( const int calpereffv )
     return result;
 }
 
+std::string healthy_bar( const int healthy )
+{
+    if( healthy > 3 ) {
+        return "<good>+++</good>";
+    } else if( healthy > 0 ) {
+        return "<good>+</good>";
+    } else if( healthy < -3 ) {
+        return "<bad>!!!</bad>";
+    } else if( healthy < 0 ) {
+        return "<bad>-</bad>";
+    } else {
+        return "";
+    }
+}
+
+
 scrollingcombattext::cSCT::cSCT( const point &p_pos, const direction p_oDir,
                                  const std::string &p_sText, const game_message_type p_gmt,
                                  const std::string &p_sText2, const game_message_type p_gmt2,
