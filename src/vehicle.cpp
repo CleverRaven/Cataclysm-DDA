@@ -5405,7 +5405,7 @@ cata::optional<vehicle_stack::iterator> vehicle::add_item( int part, const item 
     if( itm_copy.is_bucket_nonempty() ) {
         // this is a vehicle, so there is only one pocket.
         // so if it will spill, spill all of it
-        itm_copy.contents.spill_contents( global_part_pos3( part ) );
+        itm_copy.spill_contents( global_part_pos3( part ) );
     }
 
     const vehicle_stack::iterator new_pos = p.items.insert( itm_copy );

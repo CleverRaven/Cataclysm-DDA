@@ -819,7 +819,7 @@ bool item_location::parents_can_contain_recursive( item *it ) const
     }
 
     item_location parent = parent_item();
-    item_pocket *pocket = parent->contents.contained_where( *get_item() );
+    item_pocket *pocket = parent->contained_where( *get_item() );
 
     if( pocket->can_contain( *it ).success() ) {
         return parent.parents_can_contain_recursive( it );
@@ -835,7 +835,7 @@ int item_location::max_charges_by_parent_recursive( const item &it ) const
     }
 
     item_location parent = parent_item();
-    item_pocket *pocket = parent->contents.contained_where( *get_item() );
+    item_pocket *pocket = parent->contained_where( *get_item() );
 
     return std::min( { it.charges_per_volume( pocket->remaining_volume() ),
                        it.charges_per_weight( pocket->remaining_weight() ),
