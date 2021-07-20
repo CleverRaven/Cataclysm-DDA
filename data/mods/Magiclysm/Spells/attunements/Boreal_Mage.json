@@ -53,7 +53,7 @@
     "id": "borealmage_auroral_guard",
     "type": "SPELL",
     "name": { "str": "Auroral Guard" },
-    "description": "Create a sturdy shell that wraps your body, gaining a much better defense.",
+    "description": "Create a sturdy shell that wraps around your body, gaining a sturdy defense.",
     "valid_targets": [ "self" ],
     "effect": "spawn_item",
     "effect_str": "aura_auroral_guard",
