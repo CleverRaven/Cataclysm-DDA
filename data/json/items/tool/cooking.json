@@ -133,7 +133,7 @@
     "max_charges": 75,
     "charges_per_use": 1,
     "use_action": [ "WATER_PURIFIER" ],
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE", "NO_UNLOAD" ]
   },
   {
     "id": "char_purifier_clay",
@@ -156,7 +156,7 @@
     "max_charges": 300,
     "charges_per_use": 1,
     "use_action": [ "WATER_PURIFIER" ],
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE", "NO_UNLOAD" ]
   },
   {
     "id": "char_smoker",
