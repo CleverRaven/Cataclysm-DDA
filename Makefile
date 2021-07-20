@@ -1206,7 +1206,7 @@ endif
 style-json: json_blacklist $(JSON_FORMATTER_BIN)
 ifndef CROSS
 	find data gfx -name "*.json" -print0 | grep -v -z -F -f json_blacklist | \
-	  xargs -0 -L 1 $(JSON_FORMATTER_BIN)
+	  xargs -P 0 -0 -L 1 $(JSON_FORMATTER_BIN)
 else
 	@echo Cannot run json formatter in cross compiles.
 endif
