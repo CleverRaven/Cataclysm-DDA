@@ -40,10 +40,21 @@ jobs:
         uses: fkirc/skip-duplicate-actions@master
         with:
           cancel_others: 'true'
+          paths_ignore: '["android/**", "build-data/osx/**", "doc/**", "doxygen_doc/**", "lgtm/**", "msvc-**", "object_creator/**", "tools/**", "utilities/**", "data/**"]'
+  skip-duplicates-mods:
+    continue-on-error: true
+    runs-on: ubuntu-latest
+    # Map a step output to a job output
+    outputs:
+      should_skip_mods: ${{ steps.skip_check.outputs.should_skip }}
+    steps:
+      - id: skip_check
+        uses: fkirc/skip-duplicate-actions@master
+        with:
+          cancel_others: 'true'
           paths_ignore: '["android/**", "build-data/osx/**", "doc/**", "doxygen_doc/**", "lgtm/**", "msvc-**", "object_creator/**", "tools/**", "utilities/**"]'
   varied_builds:
     needs: skip-duplicates
-    if: ${{ needs.skip-duplicates.outputs.should_skip != 'true' }}
     strategy:
       matrix:
         release: [0]
@@ -117,44 +128,48 @@ jobs:
         GOLD: ${{ matrix.gold }}
         LTO: ${{ matrix.lto }}
         RELEASE: ${{ matrix.release }}
+        SKIP: ${{ needs.skip-duplicates.outputs.should_skip == 'true' || ( matrix.mods != 0 && needs.skip-duplicates-mods.outputs.should_skip_mods == 'true' ) }}
     steps:
     - name: checkout repository
+      if: ${{ env.SKIP == 'false' }}
       uses: actions/checkout@v1
       with:
         fetch-depth: 1
     - name: install dependencies (ubuntu)
-      if: runner.os == 'Linux'
+      if: ${{ env.SKIP == 'false' && runner.os == 'Linux' }}
       run: |
           sudo apt-get update
           sudo apt-get install libncursesw5-dev libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev \
             libsdl2-mixer-dev libpulse-dev ccache gettext parallel
     - name: install old GCC (Ubuntu)
-      if: runner.os == 'Linux' && (matrix.compiler == 'g++-7' || matrix.compiler == 'g++-8')
+      if: ${{ env.SKIP == 'false' && runner.os == 'Linux' && (matrix.compiler == 'g++-7' || matrix.compiler == 'g++-8') }}
       run: |
           sudo apt-get install g++-7 g++-8
     - name: install new GCC (Ubuntu)
-      if: runner.os == 'Linux' && (matrix.compiler == 'g++-11')
+      if: ${{ env.SKIP == 'false' && runner.os == 'Linux' && (matrix.compiler == 'g++-11') }}
       run: |
           sudo add-apt-repository ppa:ubuntu-toolchain-r/test
           sudo apt-get update
           sudo apt-get install g++-11
     - name: install old Clang (Ubuntu)
-      if: runner.os == 'Linux' && (matrix.compiler == 'clang++-6.0')
+      if: ${{ env.SKIP == 'false' && runner.os == 'Linux' && (matrix.compiler == 'clang++-6.0') }}
       run: |
           sudo apt-get install clang-6.0
     - name: install dependencies (mac)
-      if: runner.os == 'macOS'
+      if: ${{ env.SKIP == 'false' && runner.os == 'macOS' }}
       run: |
           HOMEBREW_NO_AUTO_UPDATE=yes HOMEBREW_NO_INSTALL_CLEANUP=yes brew install sdl2 sdl2_image sdl2_ttf sdl2_mixer gettext ccache parallel
     - name: prepare
+      if: ${{ env.SKIP == 'false' }}
       run: bash ./build-scripts/requirements.sh
     - name: Get Date
       id: get-date
+      if: ${{ env.SKIP == 'false' }}
       run: |
         echo "::set-output name=date::$(/bin/date -u "+%Y%m%d%H%M")"
       shell: bash
     - name: ccache cache files (ubuntu)
-      if: runner.os == 'Linux'
+      if: ${{ env.SKIP == 'false' && runner.os == 'Linux' }}
       uses: actions/cache@v2
       with:
         path: ~/.ccache
@@ -162,7 +177,7 @@ jobs:
         restore-keys: |
           ccache-linux-${{ matrix.compiler }}-
     - name: ccache cache files (mac)
-      if: runner.os == 'macOS'
+      if: ${{ env.SKIP == 'false' && runner.os == 'macOS' }}
       uses: actions/cache@v2
       with:
         path: /Users/runner/Library/Caches/ccache
@@ -171,6 +186,7 @@ jobs:
           ccache-mac-${{ matrix.compiler }}-
     - uses: ammaraskar/gcc-problem-matcher@master
     - name: build and test
+      if: ${{ env.SKIP == 'false' }}
       run: bash ./build-scripts/build.sh
     - name: upload artifacts if failed
       uses: actions/upload-artifact@v2
