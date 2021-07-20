@@ -884,7 +884,7 @@
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "Pocket Sun" },
-    "description": "A small, capsule-shaped field containing a gap in reality that lets through solar energy.",
+    "description": "A small, capsule-shaped field containing a stable portal to the sun.",
     "weight": "1 g",
     "volume": "1 ml",
     "material": [ "sunlight" ],
