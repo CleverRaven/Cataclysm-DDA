@@ -124,8 +124,6 @@ struct vision_test_case {
         REQUIRE( !player_character.is_blind() );
         REQUIRE( !player_character.in_sleep_state() );
         REQUIRE( !player_character.has_effect( effectNarcosis ) );
-        light_here = here.ambient_light_at( player_character.pos() );
-        REQUIRE( light_here == Approx( 100.0f ).margin( 1 ) );
 
         player_character.recalc_sight_limits();
 

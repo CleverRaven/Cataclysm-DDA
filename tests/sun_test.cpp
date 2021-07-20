@@ -91,11 +91,6 @@ TEST_CASE( "daily solar cycle", "[sun][night][dawn][day][dusk]" )
     }
 
     SECTION( "Dusk" ) {
-        // Sun setting down is both "day" and "dusk"
-        CHECK( is_day( today_sunset ) );
-        CHECK( is_dusk( today_sunset ) );
-
-        // Dusk
         CHECK_FALSE( is_day( today_sunset + 1_seconds ) );
         CHECK( is_dusk( today_sunset + 1_seconds ) );
         CHECK( is_dusk( today_sunset + 30_minutes ) );
