@@ -1,0 +1,282 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "thunder",
+    "recurrence_min": 1,
+    "recurrence_max": 1,
+    "condition": {
+      "and": [
+        { "or": [ { "is_weather": "thunder" }, { "is_weather": "lightning" } ] },
+        { "one_in_chance": 50 },
+        { "u_is_height": 0 }
+      ]
+    },
+    "deactivate_condition": { "not": { "or": [ { "is_weather": "thunder" }, { "is_weather": "lightning" } ] } },
+    "effect": [
+      { "message": "You hear a distant rumble of thunder.", "sound": true },
+      { "sound_effect": "thunder_far", "outdoor_event": true, "id": "environment" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "lightning",
+    "recurrence_min": 1,
+    "recurrence_max": 1,
+    "condition": { "and": [ { "is_weather": "lightning" }, { "one_in_chance": 600 }, { "u_is_height": 0 } ] },
+    "deactivate_condition": { "not": { "is_weather": "lightning" } },
+    "effect": [
+      { "message": "A flash of lightning illuminates your surroundings!" },
+      { "sound_effect": "thunder_near", "id": "environment" },
+      "lightning"
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "acid_drizzle",
+    "recurrence_min": 1,
+    "recurrence_max": 1,
+    "condition": { "and": [ { "is_weather": "acid_drizzle" }, "u_is_outside", { "not": { "u_has_pain": 30 } } ] },
+    "deactivate_condition": { "not": { "is_weather": "acid_drizzle" } },
+    "effect": [ { "message": "The acid rain stings, but is mostly harmless for now…" }, { "u_mod_pain": 1 } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "acid_rain",
+    "recurrence_min": 1,
+    "recurrence_max": 1,
+    "condition": {
+      "and": [
+        { "is_weather": "acid_rain" },
+        "u_is_outside",
+        { "not": { "u_has_pain": 100 } },
+        {
+          "not": { "or": [ { "u_has_wielded_with_flag": "RAIN_PROTECT" }, { "u_has_worn_with_flag": "RAINPROOF" } ] }
+        }
+      ]
+    },
+    "deactivate_condition": { "not": { "is_weather": "acid_rain" } },
+    "effect": [ { "message": "The acid rain burns!" }, { "u_mod_pain": 3 } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "snow",
+    "recurrence_min": 6,
+    "recurrence_max": 6,
+    "condition": { "and": [ { "is_weather": "snowing" }, "u_is_outside" ] },
+    "deactivate_condition": { "not": { "is_weather": "snowing" } },
+    "effect": [ { "u_add_wet": 10 } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "snowstorm",
+    "recurrence_min": 6,
+    "recurrence_max": 6,
+    "condition": { "and": [ { "is_weather": "snowstorm" }, "u_is_outside" ] },
+    "deactivate_condition": { "not": { "is_weather": "snowstorm" } },
+    "effect": [ { "u_add_wet": 40 } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "bio_drain",
+    "recurrence_min": "30 minutes",
+    "recurrence_max": "1 hours 30 minutes",
+    "condition": { "and": [ { "u_has_bionics": "bio_drain" }, { "u_has_power": "24 kJ" } ] },
+    "deactivate_condition": { "not": { "u_has_bionics": "bio_drain" } },
+    "effect": [
+      { "message": "Your batteries discharge slightly.", "type": "bad" },
+      { "sound_effect": "elec_crackle_low", "id": "bionics", "volume": 100 },
+      { "u_add_power": "-25kJ" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SLEEP",
+    "effect": [ { "message": "You feel very sleepy…" }, { "u_mod_fatigue": 40 } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MINOR_SLEEP",
+    "effect": [ { "message": "You feel sleepy…" }, { "u_mod_fatigue": 20 } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "night_messages",
+    "recurrence_min": "4 hours",
+    "recurrence_max": "8 hours",
+    "condition": {
+      "and": [
+        { "one_in_chance": 3 },
+        { "not": "is_day" },
+        "u_can_see",
+        { "is_weather": "clear" },
+        { "not": { "days_since_cataclysm": 14 } },
+        "u_is_outside"
+      ]
+    },
+    "deactivate_condition": { "days_since_cataclysm": 14 },
+    "effect": [ { "message": "NIGHT_MESSAGES_1", "snippet": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "night_messages2",
+    "recurrence_min": "4 hours",
+    "recurrence_max": "8 hours",
+    "condition": {
+      "and": [
+        { "one_in_chance": 3 },
+        { "not": "is_day" },
+        "u_can_see",
+        { "is_weather": "clear" },
+        { "days_since_cataclysm": 14 },
+        { "not": { "days_since_cataclysm": 50 } },
+        "u_is_outside"
+      ]
+    },
+    "deactivate_condition": { "days_since_cataclysm": 50 },
+    "effect": [ { "message": "NIGHT_MESSAGES_2", "snippet": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "night_messages3",
+    "recurrence_min": "4 hours",
+    "recurrence_max": "8 hours",
+    "condition": {
+      "and": [
+        { "one_in_chance": 3 },
+        { "not": "is_day" },
+        "u_can_see",
+        { "is_weather": "clear" },
+        { "days_since_cataclysm": 50 },
+        "u_is_outside"
+      ]
+    },
+    "effect": [ { "message": "NIGHT_MESSAGES_3", "snippet": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "bio_trip",
+    "recurrence_min": "25 minutes",
+    "recurrence_max": "1 hours 15 minutes",
+    "condition": {
+      "and": [
+        { "u_has_bionics": "bio_trip" },
+        { "not": { "or": [ { "u_has_effect": "visuals" }, { "u_has_effect": "narcosis" } ] } }
+      ]
+    },
+    "deactivate_condition": { "not": { "u_has_bionics": "bio_trip" } },
+    "effect": [
+      { "message": "Your vision pixelates!", "type": "bad" },
+      { "sound_effect": "pixelated", "id": "bionics", "volume": 100 },
+      { "u_add_effect": "visuals", "duration": "10 minutes" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "bio_spasm",
+    "recurrence_min": "2 hours 30 minutes",
+    "recurrence_max": "7 hours 30 minutes",
+    "condition": {
+      "and": [
+        { "u_has_bionics": "bio_spasm" },
+        { "not": { "or": [ { "u_has_effect": "downed" }, { "u_has_effect": "narcosis" } ] } }
+      ]
+    },
+    "deactivate_condition": { "not": { "u_has_bionics": "bio_spasm" } },
+    "effect": [
+      { "message": "Your malfunctioning bionic causes you to spasm and fall to the floor!", "type": "bad" },
+      { "sound_effect": "elec_crackle_high", "id": "bionics", "volume": 100 },
+      { "u_mod_pain": 1 },
+      { "u_add_effect": "stunned", "duration": "1" },
+      { "u_add_effect": "downed", "duration": "1", "force": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "bio_shakes",
+    "recurrence_min": "1 hours",
+    "recurrence_max": "3 hours",
+    "condition": { "and": [ { "u_has_bionics": "bio_shakes" }, { "u_has_power": "25 kJ" } ] },
+    "deactivate_condition": { "not": { "u_has_bionics": "bio_shakes" } },
+    "effect": [
+      { "message": "Your bionics short-circuit, causing you to tremble and shiver.", "type": "bad" },
+      { "sound_effect": "elec_crackle_med", "id": "bionics", "volume": 100 },
+      { "u_add_effect": "shakes", "duration": "5 minutes" },
+      { "u_add_power": "-25kJ" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "bio_glowy",
+    "recurrence_min": "25 minutes",
+    "recurrence_max": "1 hours 15 minutes",
+    "condition": { "and": [ { "u_has_bionics": "bio_glowy" }, { "not": { "u_has_effect": "glowy_led" } }, { "u_has_power": "1 kJ" } ] },
+    "deactivate_condition": { "not": { "u_has_bionics": "bio_glowy" } },
+    "effect": [
+      { "message": "Your malfunctioning bionic starts to glow!", "type": "bad" },
+      { "u_add_effect": "glowy_led", "duration": "5 minutes" },
+      { "u_add_power": "-1kJ" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "bio_sleepy",
+    "recurrence_min": "25 minutes",
+    "recurrence_max": "1 hours 15 minutes",
+    "condition": { "and": [ { "u_has_bionics": "bio_sleepy" }, { "not": { "u_has_effect": "sleep" } } ] },
+    "deactivate_condition": { "not": { "u_has_bionics": "bio_sleepy" } },
+    "effect": [ { "u_mod_fatigue": 1 } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "bio_itchy",
+    "recurrence_min": "25 minutes",
+    "recurrence_max": "1 hours 15 minutes",
+    "condition": { "and": [ { "u_has_bionics": "bio_itchy" }, { "not": { "u_has_effect": "formication" } } ] },
+    "deactivate_condition": { "not": { "u_has_bionics": "bio_itchy" } },
+    "effect": [
+      { "message": "Your malfunctioning bionic itches!", "type": "bad" },
+      { "u_add_effect": "formication", "duration": "10 minutes", "target_part": "RANDOM" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "bio_noise",
+    "recurrence_min": "30 minutes",
+    "recurrence_max": "1 hours 30 minutes",
+    "condition": { "and": [ { "u_has_bionics": "bio_noise" }, { "not": { "u_has_effect": "narcosis" } } ] },
+    "deactivate_condition": { "not": { "u_has_bionics": "bio_noise" } },
+    "effect": [
+      { "message": "bio noise test.", "type": "bad" },
+      { "u_make_sound": "Crackle!", "volume": 60, "type": "movement" },
+      {
+        "set_queue_effect_on_condition": [
+          {
+            "id": "bio_noise_hearing",
+            "condition": { "not": "u_is_deaf" },
+            "effect": [
+              { "message": "Your faulty bionic emits a crackle of noise!", "type": "bad" },
+              { "sound_effect": "elec_blast", "id": "bionics", "volume": 100 }
+            ]
+          },
+          {
+            "id": "bio_noise_deaf",
+            "condition": "u_is_deaf",
+            "effect": [
+              { "message": "You feel your faulty bionic shuddering.", "type": "bad" },
+              { "sound_effect": "elec_blast_muffled", "id": "bionics", "volume": 100 }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "bio_leaky",
+    "recurrence_min": "3 minutes",
+    "recurrence_max": "9 minutes",
+    "condition": { "u_has_bionics": "bio_leaky" },
+    "deactivate_condition": { "not": { "u_has_bionics": "bio_leaky" } },
+    "effect": [ { "u_mod_healthy": -1, "cap": -200 } ]
+  }
+]

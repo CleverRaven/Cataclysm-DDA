@@ -85,6 +85,11 @@ static const itype_id fuel_type_battery( "battery" );
 
 static const itype_id itype_weapon_fire_suppressed( "weapon_fire_suppressed" );
 
+struct monster_sound_event {
+    int volume;
+    bool provocative;
+};
+
 struct sound_event {
     int volume;
     sounds::sound_t category;
@@ -102,6 +107,7 @@ struct centroid {
     float z;
     float volume;
     float weight;
+    bool provocative;
 };
 
 namespace io
@@ -133,7 +139,7 @@ std::string enum_to_string<sounds::sound_t>( sounds::sound_t data )
 
 // Static globals tracking sounds events of various kinds.
 // The sound events since the last monster turn.
-static std::vector<std::pair<tripoint, int>> recent_sounds;
+static std::vector<std::pair<tripoint, monster_sound_event>> recent_sounds;
 // The sound events since the last interactive player turn. (doesn't count sleep etc)
 static std::vector<std::pair<tripoint, sound_event>> sounds_since_last_turn;
 // The sound events currently displayed to the player.
@@ -163,6 +169,30 @@ static int sound_distance( const tripoint &source, const tripoint &sink )
     return rl_dist( source.xy(), sink.xy() ) + vertical_attenuation;
 }
 
+static bool is_provocative( sounds::sound_t category )
+{
+    switch( category ) {
+        case sounds::sound_t::background:
+        case sounds::sound_t::weather:
+        case sounds::sound_t::music:
+        case sounds::sound_t::activity:
+        case sounds::sound_t::destructive_activity:
+        case sounds::sound_t::alarm:
+        case sounds::sound_t::combat:
+            return false;
+        case sounds::sound_t::movement:
+        case sounds::sound_t::speech:
+        case sounds::sound_t::electronic_speech:
+        case sounds::sound_t::alert:
+        case sounds::sound_t::order:
+            return true;
+        case sounds::sound_t::_LAST:
+            break;
+    }
+    debugmsg( "Invalid sound_t category" );
+    abort();
+}
+
 void sounds::ambient_sound( const tripoint &p, int vol, sound_t category,
                             const std::string &description )
 {
@@ -181,7 +211,7 @@ void sounds::sound( const tripoint &p, int vol, sound_t category, const std::str
     if( description.empty() ) {
         debugmsg( "Sound at %d:%d has no description!", p.x, p.y );
     }
-    recent_sounds.emplace_back( std::make_pair( p, vol ) );
+    recent_sounds.emplace_back( std::make_pair( p, monster_sound_event{ vol, is_provocative( category ) } ) );
     sounds_since_last_turn.emplace_back( std::make_pair( p,
                                          sound_event {vol, category, description, ambient,
                                                  false, id, variant} ) );
@@ -211,7 +241,8 @@ static void vector_quick_remove( std::vector<C> &source, int index )
     source.pop_back();
 }
 
-static std::vector<centroid> cluster_sounds( std::vector<std::pair<tripoint, int>> input_sounds )
+static std::vector<centroid> cluster_sounds( std::vector<std::pair<tripoint, monster_sound_event>>
+        input_sounds )
 {
     // If there are too many monsters and too many noise sources (which can be monsters, go figure),
     // applying sound events to monsters can dominate processing time for the whole game,
@@ -236,7 +267,8 @@ static std::vector<centroid> cluster_sounds( std::vector<std::pair<tripoint, int
         {
             static_cast<float>( input_sounds[index].first.x ), static_cast<float>( input_sounds[index].first.y ),
             static_cast<float>( input_sounds[index].first.z ),
-            static_cast<float>( input_sounds[index].second ), static_cast<float>( input_sounds[index].second )
+            static_cast<float>( input_sounds[index].second.volume ), static_cast<float>( input_sounds[index].second.volume ),
+            input_sounds[index].second.provocative
         } );
         vector_quick_remove( input_sounds, index );
     }
@@ -254,19 +286,25 @@ static std::vector<centroid> cluster_sounds( std::vector<std::pair<tripoint, int
                 dist_factor = dist * dist;
             }
         }
-        const float volume_sum = static_cast<float>( sound_event_pair.second ) + found_centroid->weight;
+        const float volume_sum = static_cast<float>( sound_event_pair.second.volume ) +
+                                 found_centroid->weight;
         // Set the centroid location to the average of the two locations, weighted by volume.
-        found_centroid->x = static_cast<float>( ( sound_event_pair.first.x * sound_event_pair.second ) +
+        found_centroid->x = static_cast<float>( ( sound_event_pair.first.x *
+                                                sound_event_pair.second.volume ) +
                                                 ( found_centroid->x * found_centroid->weight ) ) / volume_sum;
-        found_centroid->y = static_cast<float>( ( sound_event_pair.first.y * sound_event_pair.second ) +
+        found_centroid->y = static_cast<float>( ( sound_event_pair.first.y *
+                                                sound_event_pair.second.volume ) +
                                                 ( found_centroid->y * found_centroid->weight ) ) / volume_sum;
-        found_centroid->z = static_cast<float>( ( sound_event_pair.first.z * sound_event_pair.second ) +
+        found_centroid->z = static_cast<float>( ( sound_event_pair.first.z *
+                                                sound_event_pair.second.volume ) +
                                                 ( found_centroid->z * found_centroid->weight ) ) / volume_sum;
         // Set the centroid volume to the larger of the volumes.
         found_centroid->volume = std::max( found_centroid->volume,
-                                           static_cast<float>( sound_event_pair.second ) );
+                                           static_cast<float>( sound_event_pair.second.volume ) );
         // Set the centroid weight to the sum of the weights.
         found_centroid->weight = volume_sum;
+        // Set and keep provocative if any sound in the centroid is provocative
+        found_centroid->provocative |= sound_event_pair.second.provocative;
     }
     return sound_clusters;
 }
@@ -290,7 +328,8 @@ static int get_signal_for_hordes( const centroid &centr )
         sig_power = std::max( sig_power, min_sig_cap );
         //Capping extremely high signal to hordes
         sig_power = std::min( sig_power, max_sig_cap );
-        add_msg_debug( "vol %d  vol_hordes %d sig_power %d ", vol, vol_hordes, sig_power );
+        add_msg_debug( debugmode::DF_SOUND, "vol %d  vol_hordes %d sig_power %d ", vol, vol_hordes,
+                       sig_power );
         return sig_power;
     }
     return 0;
@@ -323,7 +362,7 @@ void sounds::process_sounds()
             const int dist = sound_distance( source, critter.pos() );
             if( vol * 2 > dist ) {
                 // Exclude monsters that certainly won't hear the sound
-                critter.hear_sound( source, vol, dist );
+                critter.hear_sound( source, vol, dist, this_centroid.provocative );
             }
         }
     }
@@ -681,7 +720,7 @@ void sfx::do_vehicle_engine_sfx()
     const Character &player_character = get_player_character();
     if( !player_character.in_vehicle ) {
         fade_audio_channel( ch, 300 );
-        add_msg_debug( "STOP interior_engine_sound, OUT OF CAR" );
+        add_msg_debug( debugmode::DF_SOUND, "STOP interior_engine_sound, OUT OF CAR" );
         return;
     }
     if( player_character.in_sleep_state() && !audio_muted ) {
@@ -700,7 +739,7 @@ void sfx::do_vehicle_engine_sfx()
     }
     if( !veh->engine_on ) {
         fade_audio_channel( ch, 100 );
-        add_msg_debug( "STOP interior_engine_sound" );
+        add_msg_debug( debugmode::DF_SOUND, "STOP interior_engine_sound" );
         return;
     }
 
@@ -727,9 +766,9 @@ void sfx::do_vehicle_engine_sfx()
     if( !is_channel_playing( ch ) ) {
         play_ambient_variant_sound( id_and_variant.first, id_and_variant.second,
                                     sfx::get_heard_volume( player_character.pos() ), ch, 1000 );
-        add_msg_debug( "START %s %s", id_and_variant.first, id_and_variant.second );
+        add_msg_debug( debugmode::DF_SOUND, "START %s %s", id_and_variant.first, id_and_variant.second );
     } else {
-        add_msg_debug( "PLAYING" );
+        add_msg_debug( debugmode::DF_SOUND, "PLAYING" );
     }
     int current_speed = veh->velocity;
     bool in_reverse = false;
@@ -765,11 +804,11 @@ void sfx::do_vehicle_engine_sfx()
     if( current_gear > previous_gear ) {
         play_variant_sound( "vehicle", "gear_shift", get_heard_volume( player_character.pos() ),
                             0_degrees, 0.8, 0.8 );
-        add_msg_debug( "GEAR UP" );
+        add_msg_debug( debugmode::DF_SOUND, "GEAR UP" );
     } else if( current_gear < previous_gear ) {
         play_variant_sound( "vehicle", "gear_shift", get_heard_volume( player_character.pos() ),
                             0_degrees, 1.2, 1.2 );
-        add_msg_debug( "GEAR DOWN" );
+        add_msg_debug( debugmode::DF_SOUND, "GEAR DOWN" );
     }
     if( ( safe_speed != 0 ) ) {
         if( current_gear == 0 ) {
@@ -786,10 +825,10 @@ void sfx::do_vehicle_engine_sfx()
 
     if( current_speed != previous_speed ) {
         Mix_HaltChannel( static_cast<int>( ch ) );
-        add_msg_debug( "STOP speed %d =/= %d", current_speed, previous_speed );
+        add_msg_debug( debugmode::DF_SOUND, "STOP speed %d =/= %d", current_speed, previous_speed );
         play_ambient_variant_sound( id_and_variant.first, id_and_variant.second,
                                     sfx::get_heard_volume( player_character.pos() ), ch, 1000, pitch );
-        add_msg_debug( "PITCH %f", pitch );
+        add_msg_debug( debugmode::DF_SOUND, "PITCH %f", pitch );
     }
     previous_speed = current_speed;
     previous_gear = current_gear;
@@ -807,7 +846,7 @@ void sfx::do_vehicle_exterior_engine_sfx()
     // early bail-outs for efficiency
     if( player_character.in_vehicle ) {
         fade_audio_channel( ch, 300 );
-        add_msg_debug( "STOP exterior_engine_sound, IN CAR" );
+        add_msg_debug( debugmode::DF_SOUND, "STOP exterior_engine_sound, IN CAR" );
         return;
     }
     if( player_character.in_sleep_state() && !audio_muted ) {
@@ -835,7 +874,7 @@ void sfx::do_vehicle_exterior_engine_sfx()
     }
     if( !noise_factor || !veh ) {
         fade_audio_channel( ch, 300 );
-        add_msg_debug( "STOP exterior_engine_sound, NO NOISE" );
+        add_msg_debug( debugmode::DF_SOUND, "STOP exterior_engine_sound, NO NOISE" );
         return;
     }
 
@@ -864,26 +903,29 @@ void sfx::do_vehicle_exterior_engine_sfx()
         if( engine_external_id_and_variant == id_and_variant ) {
             Mix_SetPosition( ch_int, to_degrees( get_heard_angle( veh->global_pos3() ) ), 0 );
             set_channel_volume( ch, vol );
-            add_msg_debug( "PLAYING exterior_engine_sound, vol: ex:%d true:%d", vol, Mix_Volume( ch_int,
-                           -1 ) );
+            add_msg_debug( debugmode::DF_SOUND, "PLAYING exterior_engine_sound, vol: ex:%d true:%d", vol,
+                           Mix_Volume( ch_int,
+                                       -1 ) );
         } else {
             engine_external_id_and_variant = id_and_variant;
             Mix_HaltChannel( ch_int );
-            add_msg_debug( "STOP exterior_engine_sound, change id/var" );
+            add_msg_debug( debugmode::DF_SOUND, "STOP exterior_engine_sound, change id/var" );
             play_ambient_variant_sound( id_and_variant.first, id_and_variant.second, 128, ch, 0 );
             Mix_SetPosition( ch_int, to_degrees( get_heard_angle( veh->global_pos3() ) ), 0 );
             set_channel_volume( ch, vol );
-            add_msg_debug( "START exterior_engine_sound %s %s vol: %d", id_and_variant.first,
+            add_msg_debug( debugmode::DF_SOUND, "START exterior_engine_sound %s %s vol: %d",
+                           id_and_variant.first,
                            id_and_variant.second,
                            Mix_Volume( ch_int, -1 ) );
         }
     } else {
         play_ambient_variant_sound( id_and_variant.first, id_and_variant.second, 128, ch, 0 );
-        add_msg_debug( "Vol: %d %d", vol, Mix_Volume( ch_int, -1 ) );
+        add_msg_debug( debugmode::DF_SOUND, "Vol: %d %d", vol, Mix_Volume( ch_int, -1 ) );
         Mix_SetPosition( ch_int, to_degrees( get_heard_angle( veh->global_pos3() ) ), 0 );
-        add_msg_debug( "Vol: %d %d", vol, Mix_Volume( ch_int, -1 ) );
+        add_msg_debug( debugmode::DF_SOUND, "Vol: %d %d", vol, Mix_Volume( ch_int, -1 ) );
         set_channel_volume( ch, vol );
-        add_msg_debug( "START exterior_engine_sound NEW %s %s vol: ex:%d true:%d", id_and_variant.first,
+        add_msg_debug( debugmode::DF_SOUND, "START exterior_engine_sound NEW %s %s vol: ex:%d true:%d",
+                       id_and_variant.first,
                        id_and_variant.second, vol, Mix_Volume( ch_int, -1 ) );
     }
 }
@@ -1195,13 +1237,10 @@ void sfx::do_projectile_hit( const Creature &target )
             return mon.made_of( m );
         } );
 
-        if( is_fleshy ) {
-            play_variant_sound( "bullet_hit", "hit_flesh", heard_volume, angle, 0.8, 1.2 );
-            return;
-        } else if( mon.made_of( material_id( "stone" ) ) ) {
+        if( !is_fleshy && mon.made_of( material_id( "stone" ) ) ) {
             play_variant_sound( "bullet_hit", "hit_wall", heard_volume, angle, 0.8, 1.2 );
             return;
-        } else if( mon.made_of( material_id( "steel" ) ) ) {
+        } else if( !is_fleshy && mon.made_of( material_id( "steel" ) ) ) {
             play_variant_sound( "bullet_hit", "hit_metal", heard_volume, angle, 0.8, 1.2 );
             return;
         } else {

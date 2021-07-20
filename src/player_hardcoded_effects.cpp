@@ -491,6 +491,643 @@ static void eff_fun_frostbite( Character &u, effect &it )
     }
 }
 
+static void eff_fun_teleglow( Character &u, effect &it )
+{
+    // Default we get around 300 duration points per teleport (possibly more
+    // depending on the source).
+    // TODO: Include a chance to teleport to the nether realm.
+    // TODO: This with regards to NPCS
+    if( !u.is_player() ) {
+        // NO, no teleporting around the player because an NPC has teleglow!
+        return;
+    }
+    const time_duration dur = it.get_duration();
+    Character &player_character = get_player_character();
+    map &here = get_map();
+    if( dur > 10_hours ) {
+        // 20 teleports (no decay; in practice at least 21)
+        if( one_in( 6000 - ( ( dur - 600_minutes ) / 1_minutes ) ) ) {
+            if( !u.is_npc() ) {
+                add_msg( _( "Glowing lights surround you, and you teleport." ) );
+            }
+            teleport::teleport( u );
+            get_event_bus().send<event_type::teleglow_teleports>( u.getID() );
+            if( one_in( 10 ) ) {
+                // Set ourselves up for removal
+                it.set_duration( 0_turns );
+            }
+        }
+    }
+    if( one_in( 7200 - ( dur - 360_minutes ) / 4_turns ) ) {
+        //Spawn a tindalos rift via effect_tindrift rather than it being hard-coded to teleglow
+        u.add_effect( effect_tindrift, 5_turns );
+
+        if( one_in( 2 ) ) {
+            // Set ourselves up for removal
+            it.set_duration( 0_turns );
+        }
+    }
+    if( one_in( 7200 - ( ( dur - 600_minutes ) / 30_seconds ) ) && one_in( 20 ) ) {
+        u.add_msg_if_player( m_bad, _( "You pass out." ) );
+        u.fall_asleep( 2_hours );
+        if( one_in( 6 ) ) {
+            // Set ourselves up for removal
+            it.set_duration( 0_turns );
+        }
+    }
+    if( dur > 6_hours ) {
+        // 12 teleports
+        if( one_in( 24000 - ( dur - 360_minutes ) / 4_turns ) ) {
+            tripoint dest( 0, 0, u.posz() );
+            int &x = dest.x;
+            int &y = dest.y;
+            int tries = 0;
+            do {
+                x = u.posx() + rng( -4, 4 );
+                y = u.posy() + rng( -4, 4 );
+                tries++;
+                if( tries >= 10 ) {
+                    break;
+                }
+            } while( g->critter_at( dest ) );
+            if( tries < 10 ) {
+                if( here.impassable( dest ) ) {
+                    here.make_rubble( dest, f_rubble_rock, true );
+                }
+                MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup(
+                                                       GROUP_NETHER );
+                g->place_critter_at( spawn_details.name, dest );
+                if( player_character.sees( dest ) ) {
+                    g->cancel_activity_or_ignore_query( distraction_type::hostile_spotted_far,
+                                                        _( "A monster appears nearby!" ) );
+                    add_msg( m_warning, _( "A portal opens nearby, and a monster crawls through!" ) );
+                }
+                if( one_in( 2 ) ) {
+                    // Set ourselves up for removal
+                    it.set_duration( 0_turns );
+                }
+            }
+        }
+        if( one_in( 21000 - ( dur - 360_minutes ) / 4_turns ) ) {
+            u.add_msg_if_player( m_bad, _( "You shudder suddenly." ) );
+            u.mutate();
+            if( one_in( 4 ) ) {
+                // Set ourselves up for removal
+                it.set_duration( 0_turns );
+            }
+        }
+    }
+    if( dur > 4_hours ) {
+        // 8 teleports
+        if( one_turn_in( 1000_minutes - dur ) && !u.has_effect( effect_valium ) ) {
+            u.add_effect( effect_shakes, rng( 4_minutes, 8_minutes ) );
+        }
+        if( one_turn_in( 1200_minutes - dur ) ) {
+            u.add_msg_if_player( m_bad, _( "Your vision is filled with bright lights…" ) );
+            u.add_effect( effect_blind, rng( 1_minutes, 2_minutes ) );
+            if( one_in( 8 ) ) {
+                // Set ourselves up for removal
+                it.set_duration( 0_turns );
+            }
+        }
+        if( one_in( 5000 ) && !u.has_effect( effect_hallu ) ) {
+            u.add_effect( effect_hallu, 6_hours );
+            if( one_in( 5 ) ) {
+                // Set ourselves up for removal
+                it.set_duration( 0_turns );
+            }
+        }
+    }
+    if( one_in( 4000 ) ) {
+        u.add_msg_if_player( m_bad, _( "You're suddenly covered in ectoplasm." ) );
+        u.add_effect( effect_boomered, 10_minutes );
+        if( one_in( 4 ) ) {
+            // Set ourselves up for removal
+            it.set_duration( 0_turns );
+        }
+    }
+    if( one_in( 10000 ) ) {
+        if( !u.has_trait( trait_M_IMMUNE ) ) {
+            u.add_effect( effect_fungus, 1_turns, true );
+        } else {
+            u.add_msg_if_player( m_info, _( "We have many colonists awaiting passage." ) );
+        }
+        // Set ourselves up for removal
+        it.set_duration( 0_turns );
+    }
+}
+
+static void eff_fun_datura( Character &u, effect &it )
+{
+    const time_duration dur = it.get_duration();
+    if( dur > 100_minutes && u.get_focus() >= 1 && one_in( 24 ) ) {
+        u.mod_focus( -1 );
+    }
+    if( dur > 200_minutes && one_in( 48 ) && u.get_stim() < 20 ) {
+        u.mod_stim( 1 );
+    }
+    if( dur > 300_minutes && u.get_focus() >= 1 && one_in( 12 ) ) {
+        u.mod_focus( -1 );
+    }
+    if( dur > 400_minutes && one_in( 384 ) ) {
+        u.mod_pain( rng( -1, -8 ) );
+    }
+    if( ( !u.has_effect( effect_hallu ) ) && ( dur > 500_minutes && one_in( 24 ) ) ) {
+        u.add_effect( effect_hallu, 6_hours );
+    }
+    if( dur > 600_minutes && one_in( 768 ) ) {
+        u.mod_pain( rng( -3, -24 ) );
+        if( dur > 800_minutes && one_in( 16 ) ) {
+            u.add_msg_if_player( m_bad,
+                                 _( "You're experiencing loss of basic motor skills and blurred vision.  Your mind recoils in horror, unable to communicate with your spinal column." ) );
+            u.add_msg_if_player( m_bad, _( "You stagger and fall!" ) );
+            u.add_effect( effect_downed, rng( 1_turns, 4_turns ), false, 0, true );
+            if( one_in( 8 ) || x_in_y( u.vomit_mod(), 10 ) ) {
+                u.vomit();
+            }
+        }
+    }
+    if( dur > 700_minutes && u.get_focus() >= 1 ) {
+        u.mod_focus( -1 );
+    }
+    if( dur > 800_minutes && one_in( 1536 ) ) {
+        u.add_effect( effect_visuals, rng( 4_minutes, 20_minutes ) );
+        u.mod_pain( rng( -8, -40 ) );
+    }
+    if( dur > 1200_minutes && one_in( 1536 ) ) {
+        u.add_msg_if_player( m_bad, _( "There's some kind of big machine in the sky." ) );
+        u.add_effect( effect_visuals, rng( 8_minutes, 40_minutes ) );
+        if( one_in( 32 ) ) {
+            u.add_msg_if_player( m_bad, _( "It's some kind of electric snake, coming right at you!" ) );
+            u.mod_pain( rng( 4, 40 ) );
+            u.vomit();
+        }
+    }
+    if( dur > 1400_minutes && one_in( 768 ) ) {
+        u.add_msg_if_player( m_bad,
+                             _( "Order us some golf shoes, otherwise we'll never get out of this place alive." ) );
+        u.add_effect( effect_visuals, rng( 40_minutes, 200_minutes ) );
+        if( one_in( 8 ) ) {
+            u.add_msg_if_player( m_bad,
+                                 _( "The possibility of physical and mental collapse is now very real." ) );
+            if( one_in( 2 ) || x_in_y( u.vomit_mod(), 10 ) ) {
+                u.add_msg_if_player( m_bad, _( "No one should be asked to handle this trip." ) );
+                u.vomit();
+                u.mod_pain( rng( 8, 40 ) );
+            }
+        }
+    }
+
+    if( dur > 1800_minutes && one_in( 300 * 512 ) ) {
+        if( !u.has_trait( trait_NOPAIN ) ) {
+            u.add_msg_if_player( m_bad,
+                                 _( "Your heart spasms painfully and stops, dragging you back to reality as you die." ) );
+        } else {
+            u.add_msg_if_player(
+                _( "You dissolve into beautiful paroxysms of energy.  Life fades from your nebulae and you are no more." ) );
+        }
+        get_event_bus().send<event_type::dies_from_drug_overdose>( u.getID(), it.get_id() );
+        u.set_part_hp_cur( bodypart_id( "torso" ), 0 );
+    }
+}
+
+static void eff_fun_hypovolemia( Character &u, effect &it )
+{
+    // hypovolemia and dehydration are closely related so it will pull water
+    // from your system to replenish blood quantity
+    int intense = it.get_intensity();
+
+    if( calendar::once_every( -u.vitamin_rate( vitamin_blood ) ) && one_in( 5 ) &&
+        u.get_thirst() <= 240 ) {
+        u.mod_thirst( rng( 0, intense ) );
+    }
+    // bleed out lambda
+    auto bleed_out = [&] {
+        if( u.has_effect( effect_bleed ) )
+        {
+            u.add_msg_player_or_npc( m_bad,
+                                     _( "You bleed to death!" ),
+                                     _( "<npcname> bleeds to death!" ) );
+            get_event_bus().send<event_type::dies_from_bleeding>( u.getID() );
+        } else
+        {
+            u.add_msg_player_or_npc( m_bad,
+                                     _( "Your heart can't keep up the pace and fails!" ),
+                                     _( "<npcname> has a sudden heart attack!" ) );
+            get_event_bus().send<event_type::dies_from_hypovolemia>( u.getID() );
+        }
+        u.set_part_hp_cur( bodypart_id( "torso" ), 0 );
+    };
+    // this goes first because beyond minimum threshold you just die without delay,
+    // while stage 4 is on a timer check with an rng grace period
+
+    if( u.vitamin_get( vitamin_blood ) == vitamin_blood->min() ) {
+        bleed_out();
+    }
+
+    // Hypovolemic shock
+    // stage 1 - early symptoms include headache, fatigue, weakness, thirst, and dizziness.
+    // stage 2 - person may begin sweating and feeling more anxious and restless.
+    // stage 3 - heart rate will increase to over 120 bpm; rapid breathing
+    // mental distress, including anxiety and agitation; skin is pale and cold + cyanosis, sweating
+    // stage 4 is a life threatening condition; extremely rapid heart rate, breathing very fast and difficult
+    // drifting in and out of consciousness, sweating heavily, feeling cool to the touch, looking extremely pale
+
+    if( one_in( 1200 / intense ) && !u.in_sleep_state() ) {
+        std::string warning;
+
+        if( one_in( 5 ) ) {
+            // no-effect message block
+            if( intense == 1 ) {
+                warning = _( "Your skin looks pale and you feel anxious and thirsty.  Blood loss?" );
+            } else if( intense == 2 ) {
+                warning = _( "Your pale skin is sweating, your heart is beating fast, and you feel restless.  Maybe you lost too much blood?" );
+            } else if( intense == 3 ) {
+                warning = _( "You're unsettlingly white, but your fingertips are bluish.  You are agitated and your heart is racing.  Your blood loss must be serious." );
+            } else { //intense == 4
+                warning = _( "You are pale as a ghost, dripping wet from the sweat, and sluggish - despite your heart racing like a train.  You are on the brink of collapse from the effects of blood loss." );
+            }
+            u.add_msg_if_player( m_bad, warning );
+        } else {
+            // effect dice, with progression of effects, 3 possible effects per tier
+            int dice_roll = rng( 0, 2 ) + intense;
+            switch( dice_roll ) {
+                case 1:
+                    warning = _( "You feel dizzy and lightheaded." );
+                    u.add_effect( effect_stunned, rng( 5_seconds * intense, 2_minutes * intense ) );
+                    break;
+                case 2:
+                    warning = _( "You feel tired and you breathe heavily." );
+                    u.mod_fatigue( 3 * intense );
+                    break;
+                case 3:
+                    warning = _( "You are anxious and cannot collect your thoughts." );
+                    u.mod_focus( -rng( 1, u.get_focus() * intense / it.get_max_intensity() ) );
+                    break;
+                case 4:
+                    warning = _( "You are sweating profusely, but you feel cold." );
+                    u.mod_part_temp_conv( bodypart_id( "hand_l" ), - 1000 * intense );
+                    u.mod_part_temp_conv( bodypart_id( "hand_r" ), -1000 * intense );
+                    u.mod_part_temp_conv( bodypart_id( "foot_l" ), -1000 * intense );
+                    u.mod_part_temp_conv( bodypart_id( "foot_r" ), -1000 * intense );
+                    break;
+                case 5:
+                    warning = _( "You huff and puff.  Your breath is rapid and shallow." );
+                    u.mod_stamina( -500 * intense );
+                    break;
+                case 6:
+                    if( one_in( 2 ) ) {
+                        warning = _( "You drop to the ground, fighting to keep yourself conscious." );
+                        u.add_effect( effect_downed, rng( 1_minutes, 2_minutes ) );
+                        break;
+                    } else {
+                        warning = _( "Your mind slips away." );
+                        u.fall_asleep( rng( 2_minutes, 5_minutes ) );
+                        break;
+                    }
+            }
+            u.add_msg_if_player( m_bad, warning );
+        }
+    }
+    // this goes last because we don't want in_sleep_state to prevent you from dying
+    if( intense == 4 && one_in( 900 ) &&
+        rng( 1, -vitamin_blood->min() * 3 / 5 ) > ( -vitamin_blood->min() + u.vitamin_get(
+                    vitamin_blood ) ) ) {
+        bleed_out();
+    }
+}
+
+static void eff_fun_redcells_anemia( Character &u, effect &it )
+{
+    // Lack of iron impairs production of hemoglobin and therefore ability to carry
+    // oxygen by red blood cells. Alternatively hemorrhage causes physical loss of red blood cells.
+    // This triggers variety of symptoms, focusing on weakness,
+    // fatigue, cold limbs, later in dizziness, soreness, breathlessness,
+    // and severe malaise and lethargy.
+    // Base anemia symptoms: fatigue, loss of stamina, loss of strength, impact on health
+    // are placed in effect JSON
+
+    int intense = it.get_intensity();
+
+    // you can only lose as much red blood cells before your body fails to function
+    if( u.vitamin_get( vitamin_redcells ) <= vitamin_redcells->min() + 5 ) {
+        u.add_msg_player_or_npc( m_bad,
+                                 _( "You cannot breathe and your body gives out!" ),
+                                 _( "<npcname> gasps for air and dies!" ) );
+        get_event_bus().send<event_type::dies_from_redcells_loss>( u.getID() );
+        u.set_part_hp_cur( bodypart_id( "torso" ), 0 );
+    }
+    if( one_in( 900 / intense ) && !u.in_sleep_state() ) {
+        // level 1 symptoms are cold limbs, pale skin, and weakness
+        switch( dice( 1, 9 ) ) {
+            case 1:
+                u.add_msg_if_player( m_bad, _( "Your hands feel unusually cold." ) );
+                u.mod_part_temp_conv( bodypart_id( "hand_l" ), -2000 );
+                u.mod_part_temp_conv( bodypart_id( "hand_r" ), -2000 );
+                break;
+            case 2:
+                u.add_msg_if_player( m_bad, _( "Your feet feel unusually cold." ) );
+                u.mod_part_temp_conv( bodypart_id( "foot_l" ), -2000 );
+                u.mod_part_temp_conv( bodypart_id( "foot_r" ), -2000 );
+                break;
+            case 3:
+                u.add_msg_if_player( m_bad, _( "Your skin looks very pale." ) );
+                break;
+            case 4:
+                u.add_msg_if_player( m_bad, _( "You feel weak.  Where has your strength gone?" ) );
+                break;
+            case 5:
+                u.add_msg_if_player( m_bad, _( "You feel feeble.  A gust of wind could make you stumble." ) );
+                break;
+            case 6:
+                u.add_msg_if_player( m_bad, _( "There is an overwhelming aura of tiredness inside of you." ) );
+                u.mod_fatigue( intense * 3 );
+                break;
+            case 7: // 7-9 empty for variability, as messages stack on higher intensity
+            case 8:
+            case 9:
+                break;
+        }
+        // level 2 anemia introduces dizziness, shakes, headaches, cravings for non-comestibles,
+        // mouth and tongue soreness
+        if( intense > 1 ) {
+            switch( dice( 1, 9 ) ) {
+                case 1:
+                    u.add_msg_if_player( m_bad, _( "Rest is what you want.  Rest is what you need." ) );
+                    break;
+                case 2:
+                    u.add_msg_if_player( m_bad, _( "You feel dizzy and can't coordinate the movement of your feet." ) );
+                    u.add_effect( effect_stunned, rng( 1_minutes, 2_minutes ) );
+                    break;
+                case 3:
+                    u.add_msg_if_player( m_bad, _( "Your muscles are quivering." ) );
+                    u.add_effect( effect_shakes, rng( 4_minutes, 8_minutes ) );
+                    break;
+                case 4:
+                    u.add_msg_if_player( m_bad, _( "You crave for ice.  The dirt under your feet looks tasty too." ) );
+                    break;
+                case 5:
+                    u.add_msg_if_player( m_bad, _( "Your whole mouth is sore, and your tongue is swollen." ) );
+                    break;
+                case 6:
+                    u.add_msg_if_player( m_bad, _( "You feel lightheaded.  A migraine follows." ) );
+                    u.mod_pain( intense * 9 );
+                    break;
+                case 7: // 7-9 empty for variability, as messages stack on higher intensity
+                case 8:
+                case 9:
+                    break;
+            }
+        }
+        // level 3 anemia introduces restless legs, severe tiredness, breathlessness
+        if( intense > 2 ) {
+            switch( dice( 1, 9 ) ) {
+                case 1:
+                    u.add_msg_if_player( m_bad, _( "Your legs are restless.  The urge to move them is so strong." ) );
+                    break;
+                case 2:
+                    u.add_msg_if_player( m_bad, _( "You feel like you could sleep on a rock." ) );
+                    u.mod_fatigue( intense * 3 );
+                    break;
+                case 3:
+                    u.add_msg_if_player( m_bad, _( "You gasp for air!" ) );
+                    u.set_stamina( 0 );
+                    u.add_effect( effect_winded, rng( 30_seconds, 3_minutes ) );
+                    break;
+                case 4:
+                    u.add_msg_if_player( m_bad, _( "Can't breathe.  Must rest." ) );
+                    u.set_stamina( 0 );
+                    break;
+                case 5:
+                    u.add_msg_if_player( m_bad,
+                                         _( "You can't take it any more.  Rest first; everything else later." ) );
+                    u.add_effect( effect_lying_down, rng( 2_minutes, 5_minutes ) );
+                    break;
+                case 6:
+                    u.add_msg_if_player( m_bad, _( "You must sit down for a moment.  Just a moment." ) );
+                    u.add_effect( effect_downed, rng( 1_minutes, 2_minutes ) );
+                    break;
+                case 7: // 7-9 empty for variability, as messages stack on higher intensity
+                case 8:
+                case 9:
+                    break;
+            }
+        }
+    }
+}
+
+static void eff_fun_sleep( Character &u, effect &it )
+{
+    int intense = it.get_intensity();
+    map &here = get_map();
+
+    u.set_moves( 0 );
+#if defined(TILES)
+    if( u.is_player() ) {
+        SDL_PumpEvents();
+    }
+#endif // TILES
+
+    if( intense < 1 ) {
+        it.set_intensity( 1 );
+    } else if( intense < 24 ) {
+        it.mod_intensity( 1 );
+    }
+
+    if( u.has_effect( effect_narcosis ) && u.get_fatigue() <= 25 ) {
+        u.set_fatigue( 25 ); //Prevent us from waking up naturally while under anesthesia
+    }
+
+    if( u.get_fatigue() < -25 && it.get_duration() > 3_minutes && !u.has_effect( effect_narcosis ) ) {
+        it.set_duration( 1_turns * dice( 3, 10 ) );
+    }
+
+    if( u.get_fatigue() <= 0 && u.get_fatigue() > -20 && !u.has_effect( effect_narcosis ) ) {
+        u.mod_fatigue( -25 );
+        if( u.get_sleep_deprivation() < SLEEP_DEPRIVATION_HARMLESS ) {
+            u.add_msg_if_player( m_good, _( "You feel well rested." ) );
+        } else {
+            u.add_msg_if_player( m_warning,
+                                 _( "You feel physically rested, but you haven't been able to catch up on your missed sleep yet." ) );
+        }
+        it.set_duration( 1_turns * dice( 3, 100 ) );
+    }
+
+    // TODO: Move this to update_needs when NPCs can mutate
+    if( calendar::once_every( 10_minutes ) && ( u.has_trait( trait_CHLOROMORPH ) ||
+            u.has_trait( trait_M_SKIN3 ) || u.has_trait( trait_WATERSLEEP ) ) &&
+        here.is_outside( u.pos() ) ) {
+        if( u.has_trait( trait_CHLOROMORPH ) ) {
+            // Hunger and thirst fall before your Chloromorphic physiology!
+            if( g->natural_light_level( u.posz() ) >= 12 &&
+                get_weather().weather_id->sun_intensity >= sun_intensity_type::light ) {
+                if( u.get_hunger() >= -30 ) {
+                    u.mod_hunger( -5 );
+                    // photosynthesis warrants absorbing kcal directly
+                    u.mod_stored_nutr( -5 );
+                }
+                if( u.get_thirst() >= -30 ) {
+                    u.mod_thirst( -5 );
+                }
+            }
+        }
+        if( u.has_trait( trait_M_SKIN3 ) ) {
+            // Spores happen!
+            if( here.has_flag_ter_or_furn( "FUNGUS", u.pos() ) ) {
+                if( u.get_fatigue() >= 0 ) {
+                    u.mod_fatigue( -5 ); // Local guides need less sleep on fungal soil
+                }
+                if( calendar::once_every( 1_hours ) ) {
+                    u.spores(); // spawn some P O O F Y   B O I S
+                }
+            }
+        }
+        if( u.has_trait( trait_WATERSLEEP ) ) {
+            u.mod_fatigue( -3 ); // Fish sleep less in water
+        }
+    }
+
+    // Check mutation category strengths to see if we're mutated enough to get a dream
+    mutation_category_id highcat = u.get_highest_category();
+    int highest = u.mutation_category_level[highcat];
+
+    // Determine the strength of effects or dreams based upon category strength
+    int strength = 0; // Category too weak for any effect or dream
+    if( u.crossed_threshold() ) {
+        strength = 4; // Post-human.
+    } else if( highest >= 20 && highest < 35 ) {
+        strength = 1; // Low strength
+    } else if( highest >= 35 && highest < 50 ) {
+        strength = 2; // Medium strength
+    } else if( highest >= 50 ) {
+        strength = 3; // High strength
+    }
+
+    // Get a dream if category strength is high enough.
+    if( strength != 0 ) {
+        //Once every 6 / 3 / 2 hours, with a bit of randomness
+        if( calendar::once_every( 6_hours / strength ) && one_in( 3 ) ) {
+            // Select a dream
+            std::string dream = u.get_category_dream( highcat, strength );
+            if( !dream.empty() ) {
+                u.add_msg_if_player( dream );
+            }
+            // Mycus folks upgrade in their sleep.
+            if( u.has_trait( trait_THRESH_MYCUS ) ) {
+                if( one_in( 8 ) ) {
+                    u.mutate_category( mutation_category_id( "MYCUS" ) );
+                    u.mod_stored_nutr( 10 );
+                    u.mod_thirst( 10 );
+                    u.mod_fatigue( 5 );
+                }
+            }
+        }
+    }
+
+    bool woke_up = false;
+    int tirednessVal = rng( 5, 200 ) + rng( 0, std::abs( u.get_fatigue() * 2 * 5 ) );
+    if( !u.is_blind() && !u.has_effect( effect_narcosis ) ) {
+        // People who can see while sleeping are acclimated to the light.
+        if( !u.has_trait( trait_SEESLEEP ) ) {
+            if( u.has_trait( trait_HEAVYSLEEPER2 ) && !u.has_trait( trait_HIBERNATE ) ) {
+                // So you can too sleep through noon
+                if( ( tirednessVal * 1.25 ) < here.ambient_light_at( u.pos() ) && ( u.get_fatigue() < 10 ||
+                        one_in( u.get_fatigue() / 2 ) ) ) {
+                    u.add_msg_if_player( _( "It's too bright to sleep." ) );
+                    // Set ourselves up for removal
+                    it.set_duration( 0_turns );
+                    woke_up = true;
+                }
+                // Ursine hibernators would likely do so indoors.  Plants, though, might be in the sun.
+            } else if( u.has_trait( trait_HIBERNATE ) ) {
+                if( ( tirednessVal * 5 ) < here.ambient_light_at( u.pos() ) && ( u.get_fatigue() < 10 ||
+                        one_in( u.get_fatigue() / 2 ) ) ) {
+                    u.add_msg_if_player( _( "It's too bright to sleep." ) );
+                    // Set ourselves up for removal
+                    it.set_duration( 0_turns );
+                    woke_up = true;
+                }
+            } else if( tirednessVal < here.ambient_light_at( u.pos() ) && ( u.get_fatigue() < 10 ||
+                       one_in( u.get_fatigue() / 2 ) ) ) {
+                u.add_msg_if_player( _( "It's too bright to sleep." ) );
+                // Set ourselves up for removal
+                it.set_duration( 0_turns );
+                woke_up = true;
+            }
+        } else if( u.has_active_mutation( trait_SEESLEEP ) ) {
+            Creature *hostile_critter = g->is_hostile_very_close();
+            if( hostile_critter != nullptr ) {
+                u.add_msg_if_player( _( "You see %s approaching!" ),
+                                     hostile_critter->disp_name() );
+                it.set_duration( 0_turns );
+                woke_up = true;
+            }
+        }
+    }
+
+    // Have we already woken up?
+    if( !woke_up && !u.has_effect( effect_narcosis ) ) {
+        // Cold or heat may wake you up.
+        // Player will sleep through cold or heat if fatigued enough
+        for( const bodypart_id &bp : u.get_all_body_parts() ) {
+            const int curr_temp = u.get_part_temp_cur( bp );
+            if( curr_temp < BODYTEMP_VERY_COLD - u.get_fatigue() / 2 ) {
+                if( one_in( 30000 ) ) {
+                    u.add_msg_if_player( _( "You toss and turn trying to keep warm." ) );
+                }
+                if( curr_temp < BODYTEMP_FREEZING - u.get_fatigue() / 2 ||
+                    one_in( curr_temp * 6 + 30000 ) ) {
+                    u.add_msg_if_player( m_bad, _( "It's too cold to sleep." ) );
+                    // Set ourselves up for removal
+                    it.set_duration( 0_turns );
+                    woke_up = true;
+                    break;
+                }
+            } else if( curr_temp > BODYTEMP_VERY_HOT + u.get_fatigue() / 2 ) {
+                if( one_in( 30000 ) ) {
+                    u.add_msg_if_player( _( "You toss and turn in the heat." ) );
+                }
+                if( curr_temp > BODYTEMP_SCORCHING + u.get_fatigue() / 2 ||
+                    one_in( 90000 - curr_temp ) ) {
+                    u.add_msg_if_player( m_bad, _( "It's too hot to sleep." ) );
+                    // Set ourselves up for removal
+                    it.set_duration( 0_turns );
+                    woke_up = true;
+                    break;
+                }
+            }
+        }
+        if( u.has_trait( trait_SCHIZOPHRENIC ) && one_in( 43200 ) && u.is_player() ) {
+            if( one_in( 2 ) ) {
+                u.sound_hallu();
+            } else {
+                int max_count = rng( 1, 3 );
+                int count = 0;
+                for( const tripoint &mp : here.points_in_radius( u.pos(), 1 ) ) {
+                    if( mp == u.pos() ) {
+                        continue;
+                    }
+                    if( here.has_flag( "FLAT", mp ) &&
+                        here.pl_sees( mp, 2 ) ) {
+                        g->spawn_hallucination( mp );
+                        if( ++count > max_count ) {
+                            break;
+                        }
+                    }
+                }
+            }
+            it.set_duration( 0_turns );
+            woke_up = true;
+        }
+    }
+
+    // A bit of a hack: check if we are about to wake up for any reason, including regular
+    // timing out of sleep
+    if( it.get_duration() == 1_turns || woke_up ) {
+        u.wake_up();
+    }
+}
+
 void Character::hardcoded_effects( effect &it )
 {
     if( const ma_buff *buff = ma_buff::from_effect( it ) ) {
@@ -513,6 +1150,11 @@ void Character::hardcoded_effects( effect &it )
             { effect_cold, eff_fun_cold },
             { effect_hot, eff_fun_hot },
             { effect_frostbite, eff_fun_frostbite },
+            { effect_teleglow, eff_fun_teleglow },
+            { effect_datura, eff_fun_datura },
+            { effect_hypovolemia, eff_fun_hypovolemia },
+            { effect_redcells_anemia, eff_fun_redcells_anemia },
+            { effect_sleep, eff_fun_sleep },
         }
     };
     const efftype_id &id = it.get_id();
@@ -651,126 +1293,6 @@ void Character::hardcoded_effects( effect &it )
                 remove_effect( effect_tindrift );
             }
         }
-    } else if( id == effect_teleglow ) {
-        // Default we get around 300 duration points per teleport (possibly more
-        // depending on the source).
-        // TODO: Include a chance to teleport to the nether realm.
-        // TODO: This with regards to NPCS
-        if( !is_player() ) {
-            // NO, no teleporting around the player because an NPC has teleglow!
-            return;
-        }
-        if( dur > 10_hours ) {
-            // 20 teleports (no decay; in practice at least 21)
-            if( one_in( 6000 - ( ( dur - 600_minutes ) / 1_minutes ) ) ) {
-                if( !is_npc() ) {
-                    add_msg( _( "Glowing lights surround you, and you teleport." ) );
-                }
-                teleport::teleport( *this );
-                get_event_bus().send<event_type::teleglow_teleports>( getID() );
-                if( one_in( 10 ) ) {
-                    // Set ourselves up for removal
-                    it.set_duration( 0_turns );
-                }
-            }
-        }
-        if( one_in( 7200 - ( dur - 360_minutes ) / 4_turns ) ) {
-            //Spawn a tindalos rift via effect_tindrift rather than it being hard-coded to teleglow
-            add_effect( effect_tindrift, 5_turns );
-
-            if( one_in( 2 ) ) {
-                // Set ourselves up for removal
-                it.set_duration( 0_turns );
-            }
-        }
-        if( one_in( 7200 - ( ( dur - 600_minutes ) / 30_seconds ) ) && one_in( 20 ) ) {
-            add_msg_if_player( m_bad, _( "You pass out." ) );
-            fall_asleep( 2_hours );
-            if( one_in( 6 ) ) {
-                // Set ourselves up for removal
-                it.set_duration( 0_turns );
-            }
-        }
-        if( dur > 6_hours ) {
-            // 12 teleports
-            if( one_in( 24000 - ( dur - 360_minutes ) / 4_turns ) ) {
-                tripoint dest( 0, 0, posz() );
-                int &x = dest.x;
-                int &y = dest.y;
-                int tries = 0;
-                do {
-                    x = posx() + rng( -4, 4 );
-                    y = posy() + rng( -4, 4 );
-                    tries++;
-                    if( tries >= 10 ) {
-                        break;
-                    }
-                } while( g->critter_at( dest ) );
-                if( tries < 10 ) {
-                    if( here.impassable( dest ) ) {
-                        here.make_rubble( dest, f_rubble_rock, true );
-                    }
-                    MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup(
-                                                           GROUP_NETHER );
-                    g->place_critter_at( spawn_details.name, dest );
-                    if( player_character.sees( dest ) ) {
-                        g->cancel_activity_or_ignore_query( distraction_type::hostile_spotted_far,
-                                                            _( "A monster appears nearby!" ) );
-                        add_msg( m_warning, _( "A portal opens nearby, and a monster crawls through!" ) );
-                    }
-                    if( one_in( 2 ) ) {
-                        // Set ourselves up for removal
-                        it.set_duration( 0_turns );
-                    }
-                }
-            }
-            if( one_in( 21000 - ( dur - 360_minutes ) / 4_turns ) ) {
-                add_msg_if_player( m_bad, _( "You shudder suddenly." ) );
-                mutate();
-                if( one_in( 4 ) ) {
-                    // Set ourselves up for removal
-                    it.set_duration( 0_turns );
-                }
-            }
-        }
-        if( dur > 4_hours ) {
-            // 8 teleports
-            if( one_turn_in( 1000_minutes - dur ) && !has_effect( effect_valium ) ) {
-                add_effect( effect_shakes, rng( 4_minutes, 8_minutes ) );
-            }
-            if( one_turn_in( 1200_minutes - dur ) ) {
-                add_msg_if_player( m_bad, _( "Your vision is filled with bright lights…" ) );
-                add_effect( effect_blind, rng( 1_minutes, 2_minutes ) );
-                if( one_in( 8 ) ) {
-                    // Set ourselves up for removal
-                    it.set_duration( 0_turns );
-                }
-            }
-            if( one_in( 5000 ) && !has_effect( effect_hallu ) ) {
-                add_effect( effect_hallu, 6_hours );
-                if( one_in( 5 ) ) {
-                    // Set ourselves up for removal
-                    it.set_duration( 0_turns );
-                }
-            }
-        }
-        if( one_in( 4000 ) ) {
-            add_msg_if_player( m_bad, _( "You're suddenly covered in ectoplasm." ) );
-            add_effect( effect_boomered, 10_minutes );
-            if( one_in( 4 ) ) {
-                // Set ourselves up for removal
-                it.set_duration( 0_turns );
-            }
-        }
-        if( one_in( 10000 ) ) {
-            if( !has_trait( trait_M_IMMUNE ) ) {
-                add_effect( effect_fungus, 1_turns, true );
-            } else {
-                add_msg_if_player( m_info, _( "We have many colonists awaiting passage." ) );
-            }
-            // Set ourselves up for removal
-            it.set_duration( 0_turns );
-        }
     } else if( id == effect_asthma ) {
         if( has_effect( effect_adrenaline ) || has_effect( effect_datura ) ) {
             add_msg_if_player( m_good, _( "Your asthma attack stops." ) );
@@ -831,299 +1353,10 @@ void Character::hardcoded_effects( effect &it )
                 }
             }
         }
-    } else if( id == effect_datura ) {
-        if( dur > 100_minutes && get_focus() >= 1 && one_in( 24 ) ) {
-            mod_focus( -1 );
-        }
-        if( dur > 200_minutes && one_in( 48 ) && get_stim() < 20 ) {
-            mod_stim( 1 );
-        }
-        if( dur > 300_minutes && get_focus() >= 1 && one_in( 12 ) ) {
-            mod_focus( -1 );
-        }
-        if( dur > 400_minutes && one_in( 384 ) ) {
-            mod_pain( rng( -1, -8 ) );
-        }
-        if( ( !has_effect( effect_hallu ) ) && ( dur > 500_minutes && one_in( 24 ) ) ) {
-            add_effect( effect_hallu, 6_hours );
-        }
-        if( dur > 600_minutes && one_in( 768 ) ) {
-            mod_pain( rng( -3, -24 ) );
-            if( dur > 800_minutes && one_in( 16 ) ) {
-                add_msg_if_player( m_bad,
-                                   _( "You're experiencing loss of basic motor skills and blurred vision.  Your mind recoils in horror, unable to communicate with your spinal column." ) );
-                add_msg_if_player( m_bad, _( "You stagger and fall!" ) );
-                add_effect( effect_downed, rng( 1_turns, 4_turns ), false, 0, true );
-                if( one_in( 8 ) || x_in_y( vomit_mod(), 10 ) ) {
-                    vomit();
-                }
-            }
-        }
-        if( dur > 700_minutes && get_focus() >= 1 ) {
-            mod_focus( -1 );
-        }
-        if( dur > 800_minutes && one_in( 1536 ) ) {
-            add_effect( effect_visuals, rng( 4_minutes, 20_minutes ) );
-            mod_pain( rng( -8, -40 ) );
-        }
-        if( dur > 1200_minutes && one_in( 1536 ) ) {
-            add_msg_if_player( m_bad, _( "There's some kind of big machine in the sky." ) );
-            add_effect( effect_visuals, rng( 8_minutes, 40_minutes ) );
-            if( one_in( 32 ) ) {
-                add_msg_if_player( m_bad, _( "It's some kind of electric snake, coming right at you!" ) );
-                mod_pain( rng( 4, 40 ) );
-                vomit();
-            }
-        }
-        if( dur > 1400_minutes && one_in( 768 ) ) {
-            add_msg_if_player( m_bad,
-                               _( "Order us some golf shoes, otherwise we'll never get out of this place alive." ) );
-            add_effect( effect_visuals, rng( 40_minutes, 200_minutes ) );
-            if( one_in( 8 ) ) {
-                add_msg_if_player( m_bad,
-                                   _( "The possibility of physical and mental collapse is now very real." ) );
-                if( one_in( 2 ) || x_in_y( vomit_mod(), 10 ) ) {
-                    add_msg_if_player( m_bad, _( "No one should be asked to handle this trip." ) );
-                    vomit();
-                    mod_pain( rng( 8, 40 ) );
-                }
-            }
-        }
-
-        if( dur > 1800_minutes && one_in( 300 * 512 ) ) {
-            if( !has_trait( trait_NOPAIN ) ) {
-                add_msg_if_player( m_bad,
-                                   _( "Your heart spasms painfully and stops, dragging you back to reality as you die." ) );
-            } else {
-                add_msg_if_player(
-                    _( "You dissolve into beautiful paroxysms of energy.  Life fades from your nebulae and you are no more." ) );
-            }
-            get_event_bus().send<event_type::dies_from_drug_overdose>( getID(), id );
-            set_part_hp_cur( bodypart_id( "torso" ), 0 );
-        }
-    } else if( id == effect_hypovolemia ) {
-        // hypovolemia and dehydration are closely related so it will pull water
-        // from your system to replenish blood quantity
-        if( calendar::once_every( -vitamin_rate( vitamin_blood ) ) && one_in( 5 ) && get_thirst() <= 240 ) {
-            mod_thirst( rng( 0, intense ) );
-        }
-        // bleed out lambda
-        auto bleed_out = [&] {
-            if( has_effect( effect_bleed ) )
-            {
-                add_msg_player_or_npc( m_bad,
-                                       _( "You bleed to death!" ),
-                                       _( "<npcname> bleeds to death!" ) );
-                get_event_bus().send<event_type::dies_from_bleeding>( getID() );
-            } else
-            {
-                add_msg_player_or_npc( m_bad,
-                                       _( "Your heart can't keep up the pace and fails!" ),
-                                       _( "<npcname> has a sudden heart attack!" ) );
-                get_event_bus().send<event_type::dies_from_hypovolemia>( getID() );
-            }
-            set_part_hp_cur( bodypart_id( "torso" ), 0 );
-        };
-        // this goes first because beyond minimum threshold you just die without delay,
-        // while stage 4 is on a timer check with an rng grace period
-
-        if( vitamin_get( vitamin_blood ) == vitamin_blood->min() ) {
-            bleed_out();
-        }
-
-        // Hypovolemic shock
-        // stage 1 - early symptoms include headache, fatigue, weakness, thirst, and dizziness.
-        // stage 2 - person may begin sweating and feeling more anxious and restless.
-        // stage 3 - heart rate will increase to over 120 bpm; rapid breathing
-        // mental distress, including anxiety and agitation; skin is pale and cold + cyanosis, sweating
-        // stage 4 is a life threatening condition; extremely rapid heart rate, breathing very fast and difficult
-        // drifting in and out of consciousness, sweating heavily, feeling cool to the touch, looking extremely pale
-
-        if( one_in( 1200 / intense ) && !in_sleep_state() ) {
-            std::string warning;
-
-            if( one_in( 5 ) ) {
-                // no-effect message block
-                if( intense == 1 ) {
-                    warning = _( "Your skin looks pale and you feel anxious and thirsty.  Blood loss?" );
-                } else if( intense == 2 ) {
-                    warning = _( "Your pale skin is sweating, your heart is beating fast, and you feel restless.  Maybe you lost too much blood?" );
-                } else if( intense == 3 ) {
-                    warning = _( "You're unsettlingly white, but your fingertips are bluish.  You are agitated and your heart is racing.  Your blood loss must be serious." );
-                } else { //intense == 4
-                    warning = _( "You are pale as a ghost, dripping wet from the sweat, and sluggish - despite your heart racing like a train.  You are on the brink of collapse from the effects of blood loss." );
-                }
-                add_msg_if_player( m_bad, warning );
-            } else {
-                // effect dice, with progression of effects, 3 possible effects per tier
-                int dice_roll = rng( 0, 2 ) + intense;
-                switch( dice_roll ) {
-                    case 1:
-                        warning = _( "You feel dizzy and lightheaded." );
-                        add_effect( effect_stunned, rng( 5_seconds * intense, 2_minutes * intense ) );
-                        break;
-                    case 2:
-                        warning = _( "You feel tired and you breathe heavily." );
-                        mod_fatigue( 3 * intense );
-                        break;
-                    case 3:
-                        warning = _( "You are anxious and cannot collect your thoughts." );
-                        mod_focus( -rng( 1, get_focus() * intense / it.get_max_intensity() ) );
-                        break;
-                    case 4:
-                        warning = _( "You are sweating profusely, but you feel cold." );
-                        mod_part_temp_conv( bodypart_id( "hand_l" ), - 1000 * intense );
-                        mod_part_temp_conv( bodypart_id( "hand_r" ), -1000 * intense );
-                        mod_part_temp_conv( bodypart_id( "foot_l" ), -1000 * intense );
-                        mod_part_temp_conv( bodypart_id( "foot_r" ), -1000 * intense );
-                        break;
-                    case 5:
-                        warning = _( "You huff and puff.  Your breath is rapid and shallow." );
-                        mod_stamina( -500 * intense );
-                        break;
-                    case 6:
-                        if( one_in( 2 ) ) {
-                            warning = _( "You drop to the ground, fighting to keep yourself conscious." );
-                            add_effect( effect_downed, rng( 1_minutes, 2_minutes ) );
-                            break;
-                        } else {
-                            warning = _( "Your mind slips away." );
-                            fall_asleep( rng( 2_minutes, 5_minutes ) );
-                            break;
-                        }
-                }
-                add_msg_if_player( m_bad, warning );
-            }
-        }
-        // this goes last because we don't want in_sleep_state to prevent you from dying
-        if( intense == 4 && one_in( 900 ) &&
-            rng( 1, -vitamin_blood->min() * 3 / 5 ) > ( -vitamin_blood->min() + vitamin_get(
-                        vitamin_blood ) ) ) {
-            bleed_out();
-        }
     } else if( id == effect_anemia ) {
         // effects: reduces effective redcells regen and depletes redcells at high intensity
         if( calendar::once_every( vitamin_rate( vitamin_redcells ) ) ) {
             vitamin_mod( vitamin_redcells, -rng( 0, intense ) );
-        }
-    } else if( id == effect_redcells_anemia ) {
-        // Lack of iron impairs production of hemoglobin and therefore ability to carry
-        // oxygen by red blood cells. Alternatively hemorrhage causes physical loss of red blood cells.
-        // This triggers variety of symptoms, focusing on weakness,
-        // fatigue, cold limbs, later in dizziness, soreness, breathlessness,
-        // and severe malaise and lethargy.
-        // Base anemia symptoms: fatigue, loss of stamina, loss of strength, impact on health
-        // are placed in effect JSON
-
-        // you can only lose as much red blood cells before your body fails to function
-        if( vitamin_get( vitamin_redcells ) <= vitamin_redcells->min() + 5 ) {
-            add_msg_player_or_npc( m_bad,
-                                   _( "You cannot breathe and your body gives out!" ),
-                                   _( "<npcname> gasps for air and dies!" ) );
-            get_event_bus().send<event_type::dies_from_redcells_loss>( getID() );
-            set_part_hp_cur( bodypart_id( "torso" ), 0 );
-        }
-        if( one_in( 900 / intense ) && !in_sleep_state() ) {
-            // level 1 symptoms are cold limbs, pale skin, and weakness
-            switch( dice( 1, 9 ) ) {
-                case 1:
-                    add_msg_if_player( m_bad, _( "Your hands feel unusually cold." ) );
-                    mod_part_temp_conv( bodypart_id( "hand_l" ), -2000 );
-                    mod_part_temp_conv( bodypart_id( "hand_r" ), -2000 );
-                    break;
-                case 2:
-                    add_msg_if_player( m_bad, _( "Your feet feel unusually cold." ) );
-                    mod_part_temp_conv( bodypart_id( "foot_l" ), -2000 );
-                    mod_part_temp_conv( bodypart_id( "foot_r" ), -2000 );
-                    break;
-                case 3:
-                    add_msg_if_player( m_bad, _( "Your skin looks very pale." ) );
-                    break;
-                case 4:
-                    add_msg_if_player( m_bad, _( "You feel weak.  Where has your strength gone?" ) );
-                    break;
-                case 5:
-                    add_msg_if_player( m_bad, _( "You feel feeble.  A gust of wind could make you stumble." ) );
-                    break;
-                case 6:
-                    add_msg_if_player( m_bad, _( "There is an overwhelming aura of tiredness inside of you." ) );
-                    mod_fatigue( intense * 3 );
-                    break;
-                case 7: // 7-9 empty for variability, as messages stack on higher intensity
-                    break;
-                case 8:
-                    break;
-                case 9:
-                    break;
-            }
-            // level 2 anemia introduces dizziness, shakes, headaches, cravings for non-comestibles,
-            // mouth and tongue soreness
-            if( intense > 1 ) {
-                switch( dice( 1, 9 ) ) {
-                    case 1:
-                        add_msg_if_player( m_bad, _( "Rest is what you want.  Rest is what you need." ) );
-                        break;
-                    case 2:
-                        add_msg_if_player( m_bad, _( "You feel dizzy and can't coordinate the movement of your feet." ) );
-                        add_effect( effect_stunned, rng( 1_minutes, 2_minutes ) );
-                        break;
-                    case 3:
-                        add_msg_if_player( m_bad, _( "Your muscles are quivering." ) );
-                        add_effect( effect_shakes, rng( 4_minutes, 8_minutes ) );
-                        break;
-                    case 4:
-                        add_msg_if_player( m_bad, _( "You crave for ice.  The dirt under your feet looks tasty too." ) );
-                        break;
-                    case 5:
-                        add_msg_if_player( m_bad, _( "Your whole mouth is sore, and your tongue is swollen." ) );
-                        break;
-                    case 6:
-                        add_msg_if_player( m_bad, _( "You feel lightheaded.  A migraine follows." ) );
-                        mod_pain( intense * 9 );
-                        break;
-                    case 7: // 7-9 empty for variability, as messages stack on higher intensity
-                        break;
-                    case 8:
-                        break;
-                    case 9:
-                        break;
-                }
-            }
-            // level 3 anemia introduces restless legs, severe tiredness, breathlessness
-            if( intense > 2 ) {
-                switch( dice( 1, 9 ) ) {
-                    case 1:
-                        add_msg_if_player( m_bad, _( "Your legs are restless.  The urge to move them is so strong." ) );
-                        break;
-                    case 2:
-                        add_msg_if_player( m_bad, _( "You feel like you could sleep on a rock." ) );
-                        mod_fatigue( intense * 3 );
-                        break;
-                    case 3:
-                        add_msg_if_player( m_bad, _( "You gasp for air!" ) );
-                        set_stamina( 0 );
-                        add_effect( effect_winded, rng( 30_seconds, 3_minutes ) );
-                        break;
-                    case 4:
-                        add_msg_if_player( m_bad, _( "Can't breathe.  Must rest." ) );
-                        set_stamina( 0 );
-                        break;
-                    case 5:
-                        add_msg_if_player( m_bad, _( "You can't take it any more.  Rest first; everything else later." ) );
-                        add_effect( effect_lying_down, rng( 2_minutes, 5_minutes ) );
-                        break;
-                    case 6:
-                        add_msg_if_player( m_bad, _( "You must sit down for a moment.  Just a moment." ) );
-                        add_effect( effect_downed, rng( 1_minutes, 2_minutes ) );
-                        break;
-                    case 7: // 7-9 empty for variability, as messages stack on higher intensity
-                        break;
-                    case 8:
-                        break;
-                    case 9:
-                        break;
-                }
-            }
         }
     } else if( id == effect_grabbed ) {
         set_num_blocks_bonus( get_num_blocks_bonus() - 1 );
@@ -1273,212 +1506,6 @@ void Character::hardcoded_effects( effect &it )
         }
         if( dur == 1_turns && !sleeping ) {
             add_msg_if_player( _( "You try to sleep, but can't…" ) );
-        }
-    } else if( id == effect_sleep ) {
-        set_moves( 0 );
-#if defined(TILES)
-        if( is_player() ) {
-            SDL_PumpEvents();
-        }
-#endif // TILES
-
-        if( intense < 1 ) {
-            it.set_intensity( 1 );
-        } else if( intense < 24 ) {
-            it.mod_intensity( 1 );
-        }
-
-        if( has_effect( effect_narcosis ) && get_fatigue() <= 25 ) {
-            set_fatigue( 25 ); //Prevent us from waking up naturally while under anesthesia
-        }
-
-        if( get_fatigue() < -25 && it.get_duration() > 3_minutes && !has_effect( effect_narcosis ) ) {
-            it.set_duration( 1_turns * dice( 3, 10 ) );
-        }
-
-        if( get_fatigue() <= 0 && get_fatigue() > -20 && !has_effect( effect_narcosis ) ) {
-            mod_fatigue( -25 );
-            if( get_sleep_deprivation() < SLEEP_DEPRIVATION_HARMLESS ) {
-                add_msg_if_player( m_good, _( "You feel well rested." ) );
-            } else {
-                add_msg_if_player( m_warning,
-                                   _( "You feel physically rested, but you haven't been able to catch up on your missed sleep yet." ) );
-            }
-            it.set_duration( 1_turns * dice( 3, 100 ) );
-        }
-
-        // TODO: Move this to update_needs when NPCs can mutate
-        if( calendar::once_every( 10_minutes ) && ( has_trait( trait_CHLOROMORPH ) ||
-                has_trait( trait_M_SKIN3 ) || has_trait( trait_WATERSLEEP ) ) &&
-            here.is_outside( pos() ) ) {
-            if( has_trait( trait_CHLOROMORPH ) ) {
-                // Hunger and thirst fall before your Chloromorphic physiology!
-                if( g->natural_light_level( posz() ) >= 12 &&
-                    get_weather().weather_id->sun_intensity >= sun_intensity_type::light ) {
-                    if( get_hunger() >= -30 ) {
-                        mod_hunger( -5 );
-                        // photosynthesis warrants absorbing kcal directly
-                        mod_stored_nutr( -5 );
-                    }
-                    if( get_thirst() >= -30 ) {
-                        mod_thirst( -5 );
-                    }
-                }
-            }
-            if( has_trait( trait_M_SKIN3 ) ) {
-                // Spores happen!
-                if( here.has_flag_ter_or_furn( "FUNGUS", pos() ) ) {
-                    if( get_fatigue() >= 0 ) {
-                        mod_fatigue( -5 ); // Local guides need less sleep on fungal soil
-                    }
-                    if( calendar::once_every( 1_hours ) ) {
-                        spores(); // spawn some P O O F Y   B O I S
-                    }
-                }
-            }
-            if( has_trait( trait_WATERSLEEP ) ) {
-                mod_fatigue( -3 ); // Fish sleep less in water
-            }
-        }
-
-        // Check mutation category strengths to see if we're mutated enough to get a dream
-        mutation_category_id highcat = get_highest_category();
-        int highest = mutation_category_level[highcat];
-
-        // Determine the strength of effects or dreams based upon category strength
-        int strength = 0; // Category too weak for any effect or dream
-        if( crossed_threshold() ) {
-            strength = 4; // Post-human.
-        } else if( highest >= 20 && highest < 35 ) {
-            strength = 1; // Low strength
-        } else if( highest >= 35 && highest < 50 ) {
-            strength = 2; // Medium strength
-        } else if( highest >= 50 ) {
-            strength = 3; // High strength
-        }
-
-        // Get a dream if category strength is high enough.
-        if( strength != 0 ) {
-            //Once every 6 / 3 / 2 hours, with a bit of randomness
-            if( calendar::once_every( 6_hours / strength ) && one_in( 3 ) ) {
-                // Select a dream
-                std::string dream = get_category_dream( highcat, strength );
-                if( !dream.empty() ) {
-                    add_msg_if_player( dream );
-                }
-                // Mycus folks upgrade in their sleep.
-                if( has_trait( trait_THRESH_MYCUS ) ) {
-                    if( one_in( 8 ) ) {
-                        mutate_category( mutation_category_id( "MYCUS" ) );
-                        mod_stored_nutr( 10 );
-                        mod_thirst( 10 );
-                        mod_fatigue( 5 );
-                    }
-                }
-            }
-        }
-
-        bool woke_up = false;
-        int tirednessVal = rng( 5, 200 ) + rng( 0, std::abs( get_fatigue() * 2 * 5 ) );
-        if( !is_blind() && !has_effect( effect_narcosis ) ) {
-            if( !has_trait(
-                    trait_SEESLEEP ) ) { // People who can see while sleeping are acclimated to the light.
-                if( has_trait( trait_HEAVYSLEEPER2 ) && !has_trait( trait_HIBERNATE ) ) {
-                    // So you can too sleep through noon
-                    if( ( tirednessVal * 1.25 ) < here.ambient_light_at( pos() ) && ( get_fatigue() < 10 ||
-                            one_in( get_fatigue() / 2 ) ) ) {
-                        add_msg_if_player( _( "It's too bright to sleep." ) );
-                        // Set ourselves up for removal
-                        it.set_duration( 0_turns );
-                        woke_up = true;
-                    }
-                    // Ursine hibernators would likely do so indoors.  Plants, though, might be in the sun.
-                } else if( has_trait( trait_HIBERNATE ) ) {
-                    if( ( tirednessVal * 5 ) < here.ambient_light_at( pos() ) && ( get_fatigue() < 10 ||
-                            one_in( get_fatigue() / 2 ) ) ) {
-                        add_msg_if_player( _( "It's too bright to sleep." ) );
-                        // Set ourselves up for removal
-                        it.set_duration( 0_turns );
-                        woke_up = true;
-                    }
-                } else if( tirednessVal < here.ambient_light_at( pos() ) && ( get_fatigue() < 10 ||
-                           one_in( get_fatigue() / 2 ) ) ) {
-                    add_msg_if_player( _( "It's too bright to sleep." ) );
-                    // Set ourselves up for removal
-                    it.set_duration( 0_turns );
-                    woke_up = true;
-                }
-            } else if( has_active_mutation( trait_SEESLEEP ) ) {
-                Creature *hostile_critter = g->is_hostile_very_close();
-                if( hostile_critter != nullptr ) {
-                    add_msg_if_player( _( "You see %s approaching!" ),
-                                       hostile_critter->disp_name() );
-                    it.set_duration( 0_turns );
-                    woke_up = true;
-                }
-            }
-        }
-
-        // Have we already woken up?
-        if( !woke_up && !has_effect( effect_narcosis ) ) {
-            // Cold or heat may wake you up.
-            // Player will sleep through cold or heat if fatigued enough
-            for( const bodypart_id &bp : get_all_body_parts() ) {
-                const int curr_temp = get_part_temp_cur( bp );
-                if( curr_temp < BODYTEMP_VERY_COLD - get_fatigue() / 2 ) {
-                    if( one_in( 30000 ) ) {
-                        add_msg_if_player( _( "You toss and turn trying to keep warm." ) );
-                    }
-                    if( curr_temp < BODYTEMP_FREEZING - get_fatigue() / 2 ||
-                        one_in( curr_temp * 6 + 30000 ) ) {
-                        add_msg_if_player( m_bad, _( "It's too cold to sleep." ) );
-                        // Set ourselves up for removal
-                        it.set_duration( 0_turns );
-                        woke_up = true;
-                        break;
-                    }
-                } else if( curr_temp > BODYTEMP_VERY_HOT + get_fatigue() / 2 ) {
-                    if( one_in( 30000 ) ) {
-                        add_msg_if_player( _( "You toss and turn in the heat." ) );
-                    }
-                    if( curr_temp > BODYTEMP_SCORCHING + get_fatigue() / 2 ||
-                        one_in( 90000 - curr_temp ) ) {
-                        add_msg_if_player( m_bad, _( "It's too hot to sleep." ) );
-                        // Set ourselves up for removal
-                        it.set_duration( 0_turns );
-                        woke_up = true;
-                        break;
-                    }
-                }
-            }
-            if( has_trait( trait_SCHIZOPHRENIC ) && one_in( 43200 ) && is_player() ) {
-                if( one_in( 2 ) ) {
-                    sound_hallu();
-                } else {
-                    int max_count = rng( 1, 3 );
-                    int count = 0;
-                    for( const tripoint &mp : here.points_in_radius( pos(), 1 ) ) {
-                        if( mp == pos() ) {
-                            continue;
-                        }
-                        if( here.has_flag( "FLAT", mp ) &&
-                            here.pl_sees( mp, 2 ) ) {
-                            g->spawn_hallucination( mp );
-                            if( ++count > max_count ) {
-                                break;
-                            }
-                        }
-                    }
-                }
-                it.set_duration( 0_turns );
-                woke_up = true;
-            }
-        }
-
-        // A bit of a hack: check if we are about to wake up for any reason, including regular
-        // timing out of sleep
-        if( dur == 1_turns || woke_up ) {
-            wake_up();
         }
     } else if( id == effect_alarm_clock ) {
         if( in_sleep_state() ) {

@@ -24,7 +24,8 @@
       "sound": "smash!",
       "sound_fail": "whump.",
       "items": [ { "item": "2x4", "count": [ 2, 6 ] }, { "item": "nail", "charges": [ 4, 12 ] }, { "item": "splinter", "count": 1 } ]
-    }
+    },
+    "shoot": { "reduce_damage": [ 5, 20 ], "reduce_damage_laser": [ 5, 20 ], "destroy_damage": [ 15, 45 ] }
   },
   {
     "type": "furniture",
@@ -284,9 +285,61 @@
   },
   {
     "type": "furniture",
+    "id": "f_gunsafe_o",
+    "name": "open gun safe",
+    "description": "A large and heavy container with thick metal walls and a rotary combination lock, this is designed to securely store firearms, weapon mods, and ammunition.",
+    "symbol": "X",
+    "color": "light_gray",
+    "looks_like": "f_gunsafe_ml",
+    "move_cost_mod": -1,
+    "coverage": 30,
+    "required_str": 14,
+    "max_volume": "250 L",
+    "close": "f_gunsafe_c",
+    "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "MOUNTABLE", "MINEABLE" ],
+    "bash": {
+      "str_min": 40,
+      "str_max": 200,
+      "sound": "screeching metal!",
+      "sound_fail": "whump!",
+      "items": [
+        { "item": "steel_chunk", "count": [ 1, 5 ] },
+        { "item": "scrap", "count": [ 1, 5 ] },
+        { "item": "rock", "count": [ 1, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_gunsafe_c",
+    "name": "closed gun safe",
+    "description": "A large and heavy container with thick metal walls and a rotary combination lock, this is designed to securely store firearms, weapon mods, and ammunition.",
+    "symbol": "X",
+    "color": "light_gray",
+    "looks_like": "f_gunsafe_ml",
+    "move_cost_mod": -1,
+    "coverage": 30,
+    "required_str": 14,
+    "max_volume": "250 L",
+    "open": "f_gunsafe_o",
+    "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE", "MINEABLE" ],
+    "bash": {
+      "str_min": 40,
+      "str_max": 200,
+      "sound": "screeching metal!",
+      "sound_fail": "whump!",
+      "items": [
+        { "item": "steel_chunk", "count": [ 1, 5 ] },
+        { "item": "scrap", "count": [ 1, 5 ] },
+        { "item": "rock", "count": [ 1, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_gunsafe_ml",
-    "name": "gun safe",
-    "description": "A large and heavy container with thick metal walls and a rotary combination lock, this is designed to securely store firearms, weapon mods, and ammunition.  If you had something to listen close with and a hell of a lot of time, you could probably crack it.",
+    "name": "locked gun safe",
+    "description": "A large and heavy container with thick metal walls and a rotary combination lock, this is designed to securely store firearms, weapon mods, and ammunition.  If you had something to pick its lock with, you could probably open it.",
     "symbol": "X",
     "color": "light_gray",
     "move_cost_mod": -1,
@@ -294,6 +347,8 @@
     "required_str": 14,
     "max_volume": "250 L",
     "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE", "MINEABLE", "PICKABLE" ],
+    "lockpick_result": "f_gunsafe_o",
+    "lockpick_message": "With a satisfying click, the lock on the gun safe door opens.",
     "examine_action": "locked_object_pickable",
     "bash": {
       "str_min": 40,
@@ -780,7 +835,7 @@
     "id": "f_wood_keg",
     "name": "wooden keg",
     "looks_like": "f_standing_tank",
-    "description": "A large standing wooden barrel, completely watertight.  Good for storing liquids of all kinds or fermenting alcohol.",
+    "description": "A large standing wooden barrel, completely watertight.  Good for storing liquids of all kinds.",
     "symbol": "H",
     "color": "brown",
     "move_cost_mod": -1,
@@ -1128,7 +1183,7 @@
     "type": "furniture",
     "id": "f_foot_locker",
     "name": "metal foot locker",
-    "description": "An metal stoarge box, capable of holding any number of things.  The lid has has a small lock.",
+    "description": "A metal storage box, capable of holding any number of things.  The lid has a small lock.",
     "symbol": "O",
     "color": "white",
     "move_cost_mod": -1,

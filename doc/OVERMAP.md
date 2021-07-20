@@ -216,6 +216,8 @@ rotation for the referenced overmap terrains (e.g. the `_north` version for all)
 | `name`            | Name for the location shown in game.                                                             |
 | `sym`             | Symbol used when drawing the location, like `"F"` (or you may use an ASCII value like `70`).     |
 | `color`           | Color to draw the symbol in. See [COLOR.md](COLOR.md).                                           |
+| `looks_like`      | Id of another overmap terrain to be used for the graphical tile, if this doesn't have one.       |
+| `connect_group`   | Specify that this overmap terrain might be graphically connected to its neighbours, should a tileset wish to.  It will connect to any other `overmap_terrain` with the same `connect_group`. |
 | `see_cost`        | Affects player vision on overmap. Higher values obstruct vision more.                            |
 | `travel_cost`     | Affects pathfinding cost. Higher values are harder to travel through (reference: Forest = 10 )   |
 | `extras`          | Reference to a named `map_extras` in region_settings, defines which map extras can be applied.   |
@@ -241,6 +243,7 @@ an exhaustive example...
     "name": "field",
     "sym": ".",
     "color": "brown",
+    "looks_like": "forest",
     "see_cost": 2,
     "extras": "field",
     "mondensity": 2,
@@ -332,8 +335,7 @@ level value and then only specify it for individual entries that differ.
 During generation of a new overmap, cities and their connecting roads will be generated before 
 specials are placed. Each city gets assigned a size at generation and will begin its life as a single 
 intersection. The city distance field specifies the minimum and maximum distance the special can be 
-placed from _this_ intersection, *not* from the edge of the city, meaning a special with a low minimum
-distance and a high or unbounded maximum city size may be placed on the outer border of a larger city.
+placed from the edge of the urban radius of a city, and not from the center of the city.
 Both city size and city distance requirements are only checked for the "nearest" city, measured from the 
 original intersection.
 
@@ -347,7 +349,7 @@ original intersection.
 | `overmaps`      | List of overmap terrains and their relative `[ x, y, z ]` location within the special.                |
 | `connections`   | List of overmap connections and their relative `[ x, y, z ]` location within the special.             |
 | `locations`     | List of `overmap_location` ids that the special may be placed on.                                     |
-| `city_distance` | Min/max distance from a city that the special may be placed. Use -1 for unbounded.                    |
+| `city_distance` | Min/max distance from a city edge that the special may be placed. Use -1 for unbounded.                    |
 | `city_sizes`    | Min/max city size for a city that the special may be placed near. Use -1 for unbounded.               |
 | `occurrences`   | Min/max number of occurrences when placing the special. If UNIQUE flag is set, becomes X of Y chance. |
 | `flags`         | See `Overmap specials` in [JSON_FLAGS.md](JSON_FLAGS.md).                                             |
@@ -393,7 +395,7 @@ original intersection.
 | `terrain`    | Will go away in favor of `connection` eventually. Use `road`, `subway`, `sewer`, etc.              |
 | `connection` | Id of the `overmap_connection` to build. Optional for now, but you should specify it explicitly.   |
 | `from`       | Optional point `[ x, y, z]` within the special to treat as the origin of the connection.           |
-| `existing`   | Boolean, default false. If the special requires a preexisting terrain to spawn.						|
+| `existing`   | Boolean, default false. If the special requires a preexisting terrain to spawn.					|
 
 ## City Building
 

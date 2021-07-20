@@ -15,7 +15,7 @@
     "material": [ "junk" ],
     "symbol": "%",
     "color": "magenta",
-    "death_function": [ "BROKEN" ],
+    "death_function": { "corpse_type": "BROKEN" },
     "placate_triggers": [ "HURT" ],
     "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN" ]
   },
@@ -42,7 +42,6 @@
     "vision_day": 30,
     "vision_night": 3,
     "harvest": "marshmallow_boy",
-    "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 14, "into": "mon_marshmallow_guy" },
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "NO_BREATHE" ]
   },
@@ -67,7 +66,6 @@
     "melee_dice_sides": 3,
     "vision_night": 3,
     "harvest": "marshmallow_boy",
-    "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 14, "into": "mon_marshmallow_buff" },
     "reproduction": { "baby_egg": "marshmallow", "baby_count": 5, "baby_timer": 14 },
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "NO_BREATHE", "PUSH_MON" ]
@@ -98,7 +96,6 @@
     "vision_night": 4,
     "harvest": "marshmallow_boy",
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 21, "into": "mon_marshmallow_goliath" },
     "reproduction": { "baby_egg": "marshmallow", "baby_count": 7, "baby_timer": 12 },
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "NO_BREATHE", "PUSH_MON", "PUSH_VEH" ]
@@ -130,7 +127,6 @@
     "vision_night": 4,
     "harvest": "marshmallow_boy",
     "special_attacks": [ [ "SMASH", 20 ] ],
-    "death_function": [ "NORMAL" ],
     "reproduction": { "baby_egg": "marshmallow", "baby_count": 10, "baby_timer": 10 },
     "flags": [
       "SEES",
@@ -249,7 +245,6 @@
     "vision_night": 10,
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "HURT" ],
-    "death_function": [ "NORMAL" ],
     "harvest": "gummy_bear",
     "reproduction": { "baby_egg": "candy3", "baby_count": 1, "baby_timer": 10 },
     "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "WARM", "BASHES", "ATTACKMON", "NO_BREATHE" ]
@@ -298,7 +293,6 @@
     "harvest": "cracker_boy",
     "special_attacks": [ [ "scratch", 10 ] ],
     "upgrades": { "half_life": 15, "into": "mon_cracker" },
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "NO_BREATHE" ]
   },
   {
@@ -330,7 +324,6 @@
     "harvest": "cracker_boy",
     "special_attacks": [ [ "scratch", 10 ] ],
     "reproduction": { "baby_egg": "grahmcrackers", "baby_count": 3, "baby_timer": 20 },
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "NO_BREATHE" ]
   },
   {
@@ -373,7 +366,6 @@
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "PLAYER_WEAK" ],
     "fear_triggers": [ "PLAYER_CLOSE" ],
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "PATH_AVOID_DANGER_1" ],
     "reproduction": { "baby_egg": "cookies", "baby_count": 10, "baby_timer": 5 }
   },
@@ -448,7 +440,6 @@
     "vision_night": 5,
     "harvest": "gum_spider",
     "emit_fields": [ { "emit_id": "emit_gum_web", "delay": "30 m" } ],
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ],
     "reproduction": { "baby_egg": "gum", "baby_count": 10, "baby_timer": 5 }
   },
@@ -481,7 +472,6 @@
     "vision_night": 5,
     "harvest": "caff_gum_spider",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE" ],
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
   },
   {
@@ -491,6 +481,7 @@
     "description": "The domestic cow, a baleful, ruminating farm animal.  It is quite muscular, and the males can have a violent streak to accompany their nasty-looking horns.  This one looks to be made entirely of chocolate.",
     "copy-from": "mon_cow_calf",
     "harvest": "choc_cows",
+    "biosignature": { "biosig_item": "feces_candy", "biosig_timer": "1 d" },
     "upgrades": { "age_grow": 180, "into": "mon_cow_choc" }
   },
   {
@@ -501,6 +492,7 @@
     "copy-from": "mon_cow",
     "harvest": "choc_cows",
     "starting_ammo": { "milk_raw_choc": 40 },
+    "biosignature": { "biosig_item": "feces_candy", "biosig_timer": "1 d" },
     "reproduction": { "baby_monster": "mon_cow_calf_choc", "baby_count": 1, "baby_timer": 343 }
   },
   {
@@ -527,7 +519,6 @@
     "vision_day": 23,
     "vision_night": 50,
     "harvest": "licorice_snake",
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES" ]
   },
   {

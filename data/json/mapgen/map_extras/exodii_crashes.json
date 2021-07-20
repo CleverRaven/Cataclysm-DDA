@@ -6,8 +6,8 @@
       " ": "t_null",
       ".": [ [ "t_glassed_sand", 10 ], "t_sandmound" ],
       ",": [ [ "t_glassed_sand", 3 ], [ "t_grass_dead", 3 ], "t_sandmound", "t_sand" ],
-      ";": [ "t_rockfloor_no_roof", [ "t_sand", 5 ], "t_sandmound" ],
-      "|": "t_rockfloor_no_roof"
+      ";": [ "t_rock_floor_no_roof", [ "t_sand", 5 ], "t_sandmound" ],
+      "|": [ [ "t_rock_floor_no_roof", 10 ], "t_sand" ]
     },
     "furniture": {
       ".": [ [ "f_null", 2000 ], [ "f_rubble_rock", 100 ] ],
@@ -87,7 +87,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "update_mapgen_id": "mx_exodii_crash_big_1",
+    "update_mapgen_id": "mx_exodii_crash_big_2",
     "object": {
       "rows": [
         "          .   .         ",

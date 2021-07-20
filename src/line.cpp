@@ -548,16 +548,16 @@ std::vector<point> squares_in_direction( const point &p1, const point &p2 )
     adjacent_squares.push_back( center_square );
     if( p1.x == center_square.x ) {
         // Horizontally adjacent.
-        adjacent_squares.push_back( point( p1.x + 1, center_square.y ) );
-        adjacent_squares.push_back( point( p1.x - 1, center_square.y ) );
+        adjacent_squares.emplace_back( p1.x + 1, center_square.y );
+        adjacent_squares.emplace_back( p1.x - 1, center_square.y );
     } else if( p1.y == center_square.y ) {
         // Vertically adjacent.
-        adjacent_squares.push_back( point( center_square.x, p1.y + 1 ) );
-        adjacent_squares.push_back( point( center_square.x, p1.y - 1 ) );
+        adjacent_squares.emplace_back( center_square.x, p1.y + 1 );
+        adjacent_squares.emplace_back( center_square.x, p1.y - 1 );
     } else {
         // Diagonally adjacent.
-        adjacent_squares.push_back( point( p1.x, center_square.y ) );
-        adjacent_squares.push_back( point( center_square.x, p1.y ) );
+        adjacent_squares.emplace_back( p1.x, center_square.y );
+        adjacent_squares.emplace_back( center_square.x, p1.y );
     }
     return adjacent_squares;
 }

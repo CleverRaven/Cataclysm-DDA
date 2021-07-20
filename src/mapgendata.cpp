@@ -25,6 +25,7 @@ mapgendata::mapgendata( oter_id north, oter_id east, oter_id south, oter_id west
 
 mapgendata::mapgendata( const tripoint_abs_omt &over, map &m, const float density,
                         const time_point &when, ::mission *const miss )
+// NOLINTNEXTLINE( cata-unsequenced-calls )
     : mapgendata( overmap_buffer.ter( over + tripoint_north ),
                   overmap_buffer.ter( over + tripoint_east ),
                   overmap_buffer.ter( over + tripoint_south ),
@@ -43,6 +44,13 @@ mapgendata::mapgendata( const tripoint_abs_omt &over, map &m, const float densit
 mapgendata::mapgendata( const mapgendata &other, const oter_id &other_id ) : mapgendata( other )
 {
     terrain_type_ = other_id;
+}
+
+mapgendata::mapgendata( const mapgendata &other,
+                        const std::unordered_map<std::string, cata_variant> &mapgen_params ) :
+    mapgendata( other )
+{
+    mapgen_params_ = mapgen_params;
 }
 
 void mapgendata::set_dir( int dir_in, int val )

@@ -33,8 +33,10 @@ static bool is_whitespace( char ch )
     return ( ch == ' ' || ch == '\n' || ch == '\t' || ch == '\r' );
 }
 
-// for parsing \uxxxx escapes
-static std::string utf16_to_utf8( uint32_t ch )
+// Thw following function would fit more logically in catacharset.cpp, but it's
+// needed for the json formatter and we can't easily include that file in that
+// binary.
+std::string utf32_to_utf8( uint32_t ch )
 {
     char out[5];
     char *buf = out;
@@ -49,14 +51,13 @@ static std::string utf16_to_utf8( uint32_t ch )
     } else if( ch <= 0x10FFFF ) {
         utf8Bytes = 4;
     } else {
-        std::stringstream err;
-        err << "unknown unicode: " << ch;
-        throw std::runtime_error( err.str() );
+        utf8Bytes = 3;
+        ch = UNKNOWN_UNICODE;
     }
 
     buf += utf8Bytes;
     switch( utf8Bytes ) {
-        case 4:
+        case 4: // NOLINT(bugprone-branch-clone)
             *--buf = ( ch | 0x80 ) & 0xBF;
             ch >>= 6;
         /* fallthrough */
@@ -539,6 +540,12 @@ void JsonArray::verify_index( const size_t i ) const
 
 /* iterative access */
 
+JsonValue JsonArray::next()
+{
+    verify_index( index );
+    return JsonValue( *jsin, positions[index++] );
+}
+
 bool JsonArray::next_bool()
 {
     verify_index( index );
@@ -744,6 +751,33 @@ void add_array_to_set( std::set<std::string> &s, const JsonObject &json, const s
 {
     for( const std::string line : json.get_array( name ) ) {
         s.insert( line );
+    }
+}
+
+JsonIn::JsonIn( std::istream &s ) : stream( &s )
+{
+    sanity_check_stream();
+}
+
+JsonIn::JsonIn( std::istream &s, const std::string &path )
+    : stream( &s )
+    , path( make_shared_fast<std::string>( path ) )
+{
+    sanity_check_stream();
+}
+
+JsonIn::JsonIn( std::istream &s, const json_source_location &loc )
+    : stream( &s ), path( loc.path )
+{
+    seek( loc.offset );
+    sanity_check_stream();
+}
+
+void JsonIn::sanity_check_stream()
+{
+    char c = stream->peek();
+    if( c == '\xef' ) {
+        error( _( "This JSON file looks like it starts with a Byte Order Mark (BOM) or is otherwise corrupted.  This can happen if you edit files in Windows Notepad.  See doc/CONTRIBUTING.md for more advice." ) );
     }
 }
 
@@ -1044,12 +1078,7 @@ static bool get_escaped_or_unicode( std::istream &stream, std::string &s, std::s
                             return false;
                         }
                     }
-                    try {
-                        s += utf16_to_utf8( u );
-                    } catch( const std::exception &e ) {
-                        err = e.what();
-                        return false;
-                    }
+                    s += utf32_to_utf8( u );
                 }
                 break;
             default:
@@ -1329,9 +1358,7 @@ number_sci_notation JsonIn::get_any_number()
     if( ch == 'e' || ch == 'E' ) {
         stream->get( ch );
         bool neg;
-        if( ( neg = ch == '-' ) ) {
-            stream->get( ch );
-        } else if( ch == '+' ) {
+        if( ( neg = ch == '-' ) || ch == '+' ) {
             stream->get( ch );
         }
         while( ch >= '0' && ch <= '9' ) {

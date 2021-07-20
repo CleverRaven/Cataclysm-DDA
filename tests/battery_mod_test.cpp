@@ -7,7 +7,7 @@
 #include <vector>
 
 #include "avatar.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "debug.h"
 #include "item.h"
 #include "item_contents.h"
@@ -89,7 +89,7 @@ TEST_CASE( "battery tool mod test", "[battery][mod]" )
         REQUIRE_FALSE( flashlight.magazine_current() );
         REQUIRE( flashlight.toolmods().empty() );
         // Needs a MOD pocket to allow modding
-        REQUIRE( flashlight.contents.has_pocket_type( item_pocket::pocket_type::MOD ) );
+        REQUIRE( flashlight.has_pocket_type( item_pocket::pocket_type::MOD ) );
 
         WHEN( "medium battery mod is installed" ) {
             med_mod.set_flag( STATIC( flag_id( "IRREMOVABLE" ) ) );
@@ -110,7 +110,7 @@ TEST_CASE( "battery tool mod test", "[battery][mod]" )
                 CHECK( mag_compats.count( itype_id( "medium_plus_battery_cell" ) ) == 1 );
                 CHECK( mag_compats.count( itype_id( "medium_atomic_battery_cell" ) ) == 1 );
                 CHECK( mag_compats.count( itype_id( "medium_disposable_cell" ) ) == 1 );
-                CHECK( flashlight.contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE_WELL ) );
+                CHECK( flashlight.has_pocket_type( item_pocket::pocket_type::MAGAZINE_WELL ) );
             }
 
             THEN( "medium battery is now the default" ) {
@@ -311,7 +311,7 @@ TEST_CASE( "installing battery in tool", "[battery][tool][install]" )
         REQUIRE( bat_cell.ammo_remaining() == 0 );
 
         // Put battery in flashlight
-        REQUIRE( flashlight.contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE_WELL ) );
+        REQUIRE( flashlight.has_pocket_type( item_pocket::pocket_type::MAGAZINE_WELL ) );
         ret_val<bool> result = flashlight.put_in( bat_cell, item_pocket::pocket_type::MAGAZINE_WELL );
         CHECK( result.success() );
         CHECK( flashlight.magazine_current() );
@@ -326,7 +326,7 @@ TEST_CASE( "installing battery in tool", "[battery][tool][install]" )
         REQUIRE( bat_cell.ammo_remaining() == bat_charges );
 
         // Put battery in flashlight
-        REQUIRE( flashlight.contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE_WELL ) );
+        REQUIRE( flashlight.has_pocket_type( item_pocket::pocket_type::MAGAZINE_WELL ) );
         ret_val<bool> result = flashlight.put_in( bat_cell, item_pocket::pocket_type::MAGAZINE_WELL );
         CHECK( result.success() );
         CHECK( flashlight.magazine_current() );
@@ -339,7 +339,7 @@ TEST_CASE( "installing battery in tool", "[battery][tool][install]" )
         item med_bat_cell( "medium_battery_cell" );
 
         // Should fail to install the magazine
-        REQUIRE( flashlight.contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE_WELL ) );
+        REQUIRE( flashlight.has_pocket_type( item_pocket::pocket_type::MAGAZINE_WELL ) );
         std::string dmsg = capture_debugmsg_during( [&flashlight, &med_bat_cell]() {
             ret_val<bool> result = flashlight.put_in( med_bat_cell, item_pocket::pocket_type::MAGAZINE_WELL );
             CHECK_FALSE( result.success() );

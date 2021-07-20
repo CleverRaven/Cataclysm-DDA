@@ -145,7 +145,7 @@
     "followup": "MISSION_SCIENCE_REP_5",
     "dialogue": {
       "describe": "We need help…",
-      "offer": "So there looks to be months, maybe years of experiments, and that data set must be huge.  Database servers massive enough to house it would overheat running on emergency power.  But I did found communications from a lab that had some kind of freezing portal open during the Cataclysm, sending everything to subzero temperatures.  I bet the archives inside that lab are still working.",
+      "offer": "So there looks to be months, maybe years of experiments, and that data set must be huge.  Database servers massive enough to house it would overheat running on emergency power.  But I did find communications from a lab that had some kind of freezing portal open during the Cataclysm, sending everything to subzero temperatures.  I bet the archives inside that lab are still working.",
       "accepted": "Great!  I've mapped out a route.  Bundle up, it gets colder the deeper you go and it looks like the archives were on the fourth basement level.",
       "rejected": "Can't blame you, but come back if you change your mind.",
       "advice": "That lab is going to start freezing and just get colder the deeper you go.  You'll really need special equipment to survive that far down.  Bring back anything you find on a USB drive.",

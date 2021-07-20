@@ -470,7 +470,7 @@
     "id": "f_arc_furnace",
     "name": "electric arc furnace",
     "looks_like": "f_machinery_heavy",
-    "description": "Not the kind of furnace you'd heat your house with, this is a device for heating things to extreme temperatures as part of industrial fabrication processes.",
+    "description": "Not the kind of furnace you'd heat your house with, this is a device for heating things to extreme temperatures as part of industrial fabrication processes.  Can be used in recipes instead of forge, when supplied with power from UPS.",
     "symbol": "0",
     "color": "white_red",
     "move_cost_mod": -1,
@@ -497,14 +497,15 @@
         { "item": "element", "count": [ 10, 25 ] },
         { "item": "scrap", "count": [ 12, 16 ] }
       ]
-    }
+    },
+    "crafting_pseudo_item": "fake_arc_furnace"
   },
   {
     "type": "furniture",
     "id": "f_drill_press",
     "name": "drill press",
     "looks_like": "f_machinery_light",
-    "description": "A powerful drill mounted on a slide that lets it drop precisely down.  Useful in all kinds of projects from industrial fabrication to home woodworking.",
+    "description": "A powerful drill mounted on a slide that lets it drop precisely down.  Useful in all kinds of projects from industrial fabrication to home woodworking, if supplied with power from UPS.",
     "symbol": "7",
     "color": "yellow_red",
     "move_cost_mod": -1,
@@ -534,14 +535,15 @@
         { "item": "plastic_chunk", "count": [ 4, 14 ] },
         { "item": "motor_small", "count": 1 }
       ]
-    }
+    },
+    "crafting_pseudo_item": "fake_drill_press"
   },
   {
     "type": "furniture",
     "id": "f_tablesaw",
     "name": "tablesaw",
     "looks_like": "f_machinery_light",
-    "description": "A rotating saw blade set into a large flat table, for making straight measured cuts.  One of the key tools in a carpenter's arsenal.",
+    "description": "A rotating saw blade set into a large flat table, for making straight measured cuts, if supplied with power from UPS.  One of the key tools in a carpenter's arsenal.",
     "symbol": "7",
     "color": "yellow_red",
     "move_cost_mod": 8,
@@ -572,14 +574,15 @@
         { "item": "plastic_chunk", "count": [ 4, 14 ] },
         { "item": "motor_small", "count": 1 }
       ]
-    }
+    },
+    "crafting_pseudo_item": "fake_tablesaw"
   },
   {
     "type": "furniture",
     "id": "f_mitresaw",
     "name": "mitre saw",
     "looks_like": "f_machinery_light",
-    "description": "A circular saw blade on an arm that can slide and rotate in several directions, this is a staple tool for nearly any carpentry.",
+    "description": "A circular saw blade on an arm that can slide and rotate in several directions, this is a staple tool for nearly any carpentry, if supplied with power from UPS.",
     "symbol": "7",
     "color": "yellow_cyan",
     "move_cost_mod": -1,
@@ -610,14 +613,15 @@
         { "item": "plastic_chunk", "count": [ 4, 14 ] },
         { "item": "motor_small", "count": 1 }
       ]
-    }
+    },
+    "crafting_pseudo_item": "fake_mitresaw"
   },
   {
     "type": "furniture",
     "id": "f_bandsaw",
     "name": "bandsaw",
     "looks_like": "f_machinery_light",
-    "description": "A ribbonlike sawblade runs in a single direction in this tool, allowing precise cuts at almost any angle.",
+    "description": "A ribbonlike sawblade runs in a single direction in this tool, allowing precise cuts at almost any angle, if supplied with power from UPS.",
     "symbol": "7",
     "color": "yellow_cyan",
     "move_cost_mod": -1,
@@ -647,14 +651,15 @@
         { "item": "plastic_chunk", "count": [ 4, 14 ] },
         { "item": "motor_small", "count": 1 }
       ]
-    }
+    },
+    "crafting_pseudo_item": "fake_bandsaw"
   },
   {
     "type": "furniture",
     "id": "f_router",
     "name": "router table",
     "looks_like": "f_machinery_light",
-    "description": "This table has an inset router, a rotating motor with an exchangeable blade head for cutting specific profiles and grooves and stuff.",
+    "description": "This table has an inset router, a rotating motor with an exchangeable blade head for cutting specific profiles and grooves and stuff, if supplied with power from UPS.",
     "symbol": "7",
     "color": "yellow_green",
     "move_cost_mod": 8,
@@ -684,14 +689,15 @@
         { "item": "plastic_chunk", "count": [ 4, 14 ] },
         { "item": "motor_small", "count": 1 }
       ]
-    }
+    },
+    "crafting_pseudo_item": "fake_router_table"
   },
   {
     "type": "furniture",
     "id": "f_planer",
     "name": "planer",
     "looks_like": "f_machinery_light",
-    "description": "A hefty tool that will take in a board and cut it smooth and flat to a specific width.  Particularly great if working with raw lumber stock, but also good just for shaving wood down to size.",
+    "description": "A hefty tool that will take in a board and cut it smooth and flat to a specific width, if supplied with power from UPS.  Particularly great if working with raw lumber stock, but also good just for shaving wood down to size.",
     "symbol": "7",
     "color": "yellow_white",
     "move_cost_mod": -1,
@@ -721,14 +727,15 @@
         { "item": "plastic_chunk", "count": [ 4, 14 ] },
         { "item": "motor_small", "count": 1 }
       ]
-    }
+    },
+    "crafting_pseudo_item": "fake_planer"
   },
   {
     "type": "furniture",
     "id": "f_jointer",
     "name": "jointer",
     "looks_like": "f_machinery_light",
-    "description": "A table-shaped tool with a rotating blade that will cut down, smooth out, and square off a board to make it very smooth and nice indeed.",
+    "description": "A table-shaped tool with a rotating blade that will cut down, smooth out, and square off a board to make it very smooth and nice indeed, if supplied with power from UPS.",
     "symbol": "7",
     "color": "yellow_magenta",
     "move_cost_mod": 8,
@@ -758,14 +765,15 @@
         { "item": "plastic_chunk", "count": [ 4, 14 ] },
         { "item": "motor_small", "count": 1 }
       ]
-    }
+    },
+    "crafting_pseudo_item": "fake_jointer"
   },
   {
     "type": "furniture",
     "id": "f_hydraulic_press",
     "name": "hydraulic press",
     "looks_like": "f_machinery_light",
-    "description": "If you really want to squash something a lot, this would be exactly the right industrial tool for you.  If, you know, it had power.",
+    "description": "If you really want to squash something a lot, this would be exactly the right industrial tool for you, if supplied with power from UPS.",
     "symbol": "9",
     "color": "black_red",
     "move_cost_mod": -1,
@@ -795,14 +803,15 @@
         { "item": "chain", "count": [ 0, 1 ] },
         { "item": "motor_small", "count": 1 }
       ]
-    }
+    },
+    "crafting_pseudo_item": "fake_hydraulic_press"
   },
   {
     "type": "furniture",
     "id": "f_heavy_lathe",
     "name": "power lathe",
     "looks_like": "f_machinery_light",
-    "description": "An industrial-grade lathe, for turning chunks of metal and other hard things into round chunks of metal and other hard things.",
+    "description": "An industrial-grade lathe, for turning chunks of metal and other hard things into round chunks of metal and other hard things, if supplied with power from UPS.",
     "symbol": "4",
     "color": "cyan_red",
     "move_cost_mod": -1,
@@ -829,14 +838,15 @@
         { "item": "pipe", "count": [ 0, 4 ] },
         { "item": "motor_small", "count": 1 }
       ]
-    }
+    },
+    "crafting_pseudo_item": "fake_power_lathe"
   },
   {
     "type": "furniture",
     "id": "f_air_compressor",
     "name": "air compressor",
     "looks_like": "f_standing_tank",
-    "description": "This durable tank is topped with a motor that will cram as much air into the tank as possible.",
+    "description": "This durable tank is topped with a motor that will cram as much air into the tank as possible, if supplied with power from UPS.",
     "symbol": "8",
     "color": "black_yellow",
     "move_cost_mod": -1,
@@ -872,7 +882,8 @@
         { "item": "e_scrap", "count": [ 5, 10 ] },
         { "item": "plastic_chunk", "count": [ 0, 2 ] }
       ]
-    }
+    },
+    "crafting_pseudo_item": "fake_air_compressor"
   },
   {
     "type": "furniture",

@@ -4,9 +4,15 @@
     "id": "military_standard_assault_rifles",
     "subtype": "distribution",
     "entries": [
-      { "item": "m4a1", "prob": 88, "charges": [ 0, 30 ] },
-      { "item": "m27iar", "prob": 10, "charges": [ 0, 30 ] },
-      { "item": "m38dmr", "prob": 1, "charges": [ 0, 30 ] },
+      { "item": "nato_assault_rifle", "variant": "m4a1", "prob": 88, "charges": [ 0, 30 ] },
+      { "item": "nato_assault_rifle", "variant": "m27iar", "prob": 10, "charges": [ 0, 30 ] },
+      {
+        "item": "nato_assault_rifle",
+        "variant": "m38dmr",
+        "contents-group": "m38dmr_mods",
+        "prob": 1,
+        "charges": [ 0, 30 ]
+      },
       { "item": "m16a4", "prob": 2, "charges": [ 0, 30 ] }
     ]
   },
@@ -14,7 +20,10 @@
     "type": "item_group",
     "id": "military_standard_shotguns",
     "subtype": "distribution",
-    "entries": [ { "item": "m1014", "prob": 60, "charges": [ 0, 8 ] }, { "item": "mossberg_590", "prob": 40, "charges": [ 0, 9 ] } ]
+    "entries": [
+      { "item": "mossberg_930", "variant": "m1014", "prob": 60, "charges": [ 0, 8 ] },
+      { "item": "mossberg_590", "prob": 40, "charges": [ 0, 9 ] }
+    ]
   },
   {
     "type": "item_group",
@@ -38,7 +47,7 @@
       { "item": "m17", "prob": 65, "charges": [ 0, 17 ] },
       { "item": "m18", "prob": 30, "charges": [ 0, 17 ] },
       { "item": "glock_19", "prob": 3, "charges": [ 0, 15 ] },
-      { "item": "m1911_MEU", "prob": 2, "charges": [ 0, 7 ] }
+      { "item": "m1911", "variant": "m1911_MEU", "prob": 2, "charges": [ 0, 7 ] }
     ]
   },
   {
@@ -52,7 +61,7 @@
     "id": "military_patrol_food",
     "subtype": "collection",
     "entries": [
-      { "group": "MRE", "count": [ 1, 3 ], "prob": 70 },
+      { "group": "any_MRE", "count": [ 1, 3 ], "prob": 70 },
       { "item": "chocolate", "prob": 20, "charges": [ 1, 3 ] },
       { "item": "neccowafers", "prob": 20 },
       { "item": "water_clean", "container-item": "canteen", "prob": 80, "charges": [ 0, 6 ] }
@@ -120,7 +129,8 @@
       { "item": "small_repairkit", "prob": 10 },
       { "item": "50_incendiary", "prob": 2 },
       { "item": "water_clean", "prob": 90 },
-      { "item": "knuckle_brass", "prob": 15 },
+      { "item": "knuckle_brass", "prob": 10 },
+      { "item": "knuckle_steel_forged", "prob": 5 },
       { "item": "battery_ups", "prob": 10 },
       { "item": "bandages", "prob": 30 },
       { "item": "adhesive_bandages", "prob": 20 },
@@ -174,23 +184,23 @@
       { "item": "20x66_flechette", "prob": 3 },
       { "item": "m9", "prob": 6 },
       { "item": "usp_45", "prob": 6 },
-      { "item": "m4a1", "prob": 7 },
-      { "item": "m4_cqbr", "prob": 1 },
+      { "item": "nato_assault_rifle", "variant": "m4a1", "prob": 7 },
+      { "item": "nato_assault_rifle", "variant": "m4_cqbr", "prob": 1 },
       { "item": "m231pfw", "prob": 1 },
       { "item": "m16a4", "prob": 5 },
-      { "item": "m16a3", "prob": 1 },
+      { "item": "nato_assault_rifle", "variant": "m16a3", "prob": 1 },
       { "item": "colt_ro635", "prob": 1 },
       { "item": "p226_9mm", "prob": 1 },
       { "item": "sp2022", "prob": 1 },
-      { "item": "h&k416a5", "prob": 7 },
-      { "item": "m1014", "prob": 2 },
-      { "item": "scar_l", "prob": 6 },
+      { "item": "nato_assault_rifle", "variant": "h&k416a5", "prob": 7 },
+      { "item": "mossberg_930", "variant": "m1014", "prob": 2 },
+      { "item": "nato_assault_rifle", "variant": "scar_l", "prob": 6 },
       { "item": "scar_h", "prob": 5 },
       { "item": "sig_mcx_rattler_sbr", "prob": 1 },
       { "item": "m249", "prob": 1 },
       { "item": "m240", "prob": 1 },
-      { "item": "m27iar", "prob": 1 },
-      { "item": "m38dmr", "prob": 1 },
+      { "item": "nato_assault_rifle", "variant": "m27iar", "prob": 1 },
+      { "item": "nato_assault_rifle", "variant": "m38dmr", "contents-group": "m38dmr_mods", "prob": 1 },
       { "item": "plasma_gun", "prob": 1 },
       { "item": "m320", "prob": 5 },
       { "item": "m320_mod", "prob": 10 },
@@ -376,8 +386,8 @@
       { "item": "rm451_flamethrower", "prob": 10, "charges": [ 0, 2000 ] },
       { "item": "m249", "prob": 30, "charges": [ 0, 30 ] },
       { "item": "m240", "prob": 20, "charges": [ 0, 200 ] },
-      { "item": "m27iar", "prob": 30, "charges": [ 0, 30 ] },
-      { "item": "m38dmr", "prob": 3, "charges": [ 0, 30 ] },
+      { "item": "nato_assault_rifle", "variant": "m27iar", "prob": 30, "charges": [ 0, 30 ] },
+      { "item": "nato_assault_rifle", "variant": "m38dmr", "contents-group": "m38dmr_mods", "charges": [ 0, 30 ] },
       { "item": "m2browning", "prob": 15, "charges": [ 0, 100 ] },
       { "item": "mark19", "prob": 15, "charges": [ 0, 50 ] },
       { "item": "556", "prob": 30, "charges": [ 1, 30 ] },
@@ -471,7 +481,7 @@
     "subtype": "distribution",
     "entries": [
       { "group": "MRE", "prob": 1035 },
-      { "item": "chocolate", "prob": 50 },
+      { "item": "chocolate", "prob": 20 },
       { "item": "neccowafers", "prob": 30 },
       { "item": "can_beans", "prob": 40 },
       { "item": "pork_beans", "prob": 40 },
