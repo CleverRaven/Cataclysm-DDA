@@ -656,8 +656,8 @@ class TileEntry:
                 return True
 
             print(f'Error: {sprite_name}.png file for {sprite_name} value '
-                  f'from {self.filepath} was not found. It will not be added to '
-                  f'{self.tilesheet.tileset.output_conf_file}')
+                  f'from {self.filepath} was not found. It will not be added '
+                  f'to {self.tilesheet.tileset.output_conf_file}')
             self.tilesheet.tileset.error_logged = True
         return False
 
