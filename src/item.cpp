@@ -1190,6 +1190,11 @@ ret_val<bool> item::put_in( const item &payload, item_pocket::pocket_type pk_typ
     }
 }
 
+void item::force_insert_item( const item &it, item_pocket::pocket_type pk_type )
+{
+    contents.force_insert_item( it, pk_type );
+}
+
 void item::set_var( const std::string &name, const int value )
 {
     std::ostringstream tmpstream;
@@ -11219,4 +11224,9 @@ const item &item::legacy_front() const
 void item::favorite_settings_menu( const std::string &item_name )
 {
     contents.favorite_settings_menu( item_name );
+}
+
+void item::combine( const item_contents &read_input, bool convert )
+{
+    contents.combine( read_input, convert );
 }

@@ -1707,8 +1707,8 @@ static void cycle_action( item &weap, const itype_id &ammo, const tripoint &pos 
     if( !!ammo->ammo->casing ) {
         const itype_id casing = *ammo->ammo->casing;
         if( weap.has_flag( flag_RELOAD_EJECT ) ) {
-            weap.contents.force_insert_item( item( casing ).set_flag( flag_CASING ),
-                                             item_pocket::pocket_type::MAGAZINE );
+            weap.force_insert_item( item( casing ).set_flag( flag_CASING ),
+                                    item_pocket::pocket_type::MAGAZINE );
             weap.on_contents_changed();
         } else {
             if( brass_catcher && brass_catcher->can_contain( casing.obj() ) ) {

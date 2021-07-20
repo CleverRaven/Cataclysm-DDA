@@ -819,6 +819,7 @@ class item : public visitable
          */
         ret_val<bool> put_in( const item &payload, item_pocket::pocket_type pk_type,
                               bool unseal_pockets = false );
+        void force_insert_item( const item &it, item_pocket::pocket_type pk_type );
 
         /**
          * Returns this item into its default container. If it does not have a default container,
@@ -2346,6 +2347,8 @@ class item : public visitable
          * Open a menu for the player to set pocket favorite settings for the pockets in this item_contents
          */
         void favorite_settings_menu( const std::string &item_name );
+
+        void combine( const item_contents &read_input, bool convert = false );
 
     private:
         /** migrates an item into this item. */
