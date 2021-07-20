@@ -366,8 +366,8 @@ static const trait_id trait_WEB_WALKER( "WEB_WALKER" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 
 static const std::string flag_PLOWABLE( "PLOWABLE" );
-static const std::string flag_BIO_CANT_COMPRESS( "BIONIC_CANT_COMPRESS" );
 
+static const json_character_flag json_flag_BIO_CANT_COMPRESS( "BIONIC_CANT_COMPRESS" );
 static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
 static const json_character_flag json_flag_ACID_IMMUNE( "ACID_IMMUNE" );
 static const json_character_flag json_flag_BASH_IMMUNE( "BASH_IMMUNE" );
@@ -1563,7 +1563,7 @@ bool Character::is_bp_armored( const bodypart_id &bp ) const
 {
     for( const bionic_id &bid : get_bionics() ) {
         if( find( bid->covered_bodyparts.begin(), bid->covered_bodyparts.end(),
-                  bp.id() ) != bid->covered_bodyparts.end() && bid->has_flag( flag_BIO_CANT_COMPRESS ) ) {
+                  bp.id() ) != bid->covered_bodyparts.end() && bid->has_flag( json_flag_BIO_CANT_COMPRESS ) ) {
             return true;
         }
     }

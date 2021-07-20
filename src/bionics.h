@@ -163,7 +163,7 @@ struct bionic_data {
 
     /**Covered bodyparts, which resist bites and bleeding but are unable to be compressed*/
     std::vector<bodypart_str_id> covered_bodyparts;
-  
+
     cata::flat_set<json_character_flag> flags;
     cata::flat_set<json_character_flag> active_flags;
     cata::flat_set<json_character_flag> inactive_flags;
