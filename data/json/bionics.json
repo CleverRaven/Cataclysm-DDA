@@ -768,8 +768,7 @@
       "LIZ_EYE",
       "EYEBULGE",
       "SEESLEEP"
-    ],
-    "flags": [ "BIONIC_CANT_UNINSTAL" ]
+    ]
   },
   {
     "id": "bio_face_mask",
