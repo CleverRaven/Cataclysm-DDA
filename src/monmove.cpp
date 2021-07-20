@@ -1755,6 +1755,12 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
         }
     }
 
+    if( has_flag ( MF_SMALLSLUDGETRAIL ) ) {
+        if( one_in( 2 ) ) {
+            here.add_field( pos(), fd_sludge, 1 );
+        }
+    }
+
     if( has_flag( MF_DRIPS_NAPALM ) ) {
         if( one_in( 10 ) ) {
             // if it has more napalm, drop some and reduce ammo in tank
