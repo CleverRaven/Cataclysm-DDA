@@ -72,7 +72,7 @@ static void assert_tile_light_level( map_test_case::tile t )
 }
 
 static const time_point midnight = calendar::turn_zero + 0_hours;
-static const time_point day_time = calendar::turn_zero + 9_hours + 30_minutes;;
+static const time_point day_time = calendar::turn_zero + 9_hours + 30_minutes;
 
 static const move_mode_id move_mode_walk( "walk" );
 static const move_mode_id move_mode_crouch( "crouch" );
