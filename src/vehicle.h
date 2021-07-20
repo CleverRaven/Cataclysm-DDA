@@ -1497,7 +1497,7 @@ class vehicle
         /**
          * vehicle is driving itself
          */
-        void autodrive( const point & );
+        void selfdrive( const point & );
         /**
          * can the helicopter descend/ascend here?
          */

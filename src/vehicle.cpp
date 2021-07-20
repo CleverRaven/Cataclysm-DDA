@@ -875,7 +875,7 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
         }
     }
     follow_protocol ||
-    is_patrolling ? autodrive( point( turn_x, accel_y ) ) : pldrive( player_character, point( turn_x,
+    is_patrolling ? selfdrive( point( turn_x, accel_y ) ) : pldrive( player_character, point( turn_x,
             accel_y ) );
 }
 
@@ -6015,10 +6015,10 @@ void vehicle::do_towing_move()
         towed_veh->velocity = reverse ? -velocity : velocity;
     }
     if( towed_veh->tow_data.tow_direction == TOW_FRONT ) {
-        towed_veh->autodrive( point( turn_x, accel_y ) );
+        towed_veh->selfdrive( point( turn_x, accel_y ) );
     } else if( towed_veh->tow_data.tow_direction == TOW_BACK ) {
         accel_y = 10;
-        towed_veh->autodrive( point( turn_x, accel_y ) );
+        towed_veh->selfdrive( point( turn_x, accel_y ) );
     } else {
         towed_veh->skidding = true;
         std::vector<tripoint> lineto = line_to( here.getlocal( towed_tow_point ),
