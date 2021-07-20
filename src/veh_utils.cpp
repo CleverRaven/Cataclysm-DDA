@@ -74,7 +74,8 @@ vehicle_part &most_repairable_part( vehicle &veh, Character &who, bool only_repa
         }
 
         if( vpr.part().is_broken() ) {
-            if( info.install_requirements().can_make_with_inventory( inv, is_crafting_component ) ) {
+            if( who.meets_skill_requirements( info.install_skills ) &&
+                info.install_requirements().can_make_with_inventory( inv, is_crafting_component ) ) {
                 repairable_cache[ &vpr.part()] = repairable_status::need_replacement;
             }
 
@@ -82,6 +83,7 @@ vehicle_part &most_repairable_part( vehicle &veh, Character &who, bool only_repa
         }
 
         if( info.is_repairable() &&
+            ( who.meets_skill_requirements( info.repair_skills ) ) &&
             ( info.repair_requirements() * vpr.part().damage_level() ).can_make_with_inventory( inv,
                     is_crafting_component ) ) {
             repairable_cache[ &vpr.part()] = repairable_status::repairable;
