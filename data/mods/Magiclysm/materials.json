@@ -243,7 +243,7 @@
     "id": "concentrated_mana",
     "name": "Concentrated Mana",
     "density": 38,
-    "reinforces": true,
+    "reinforces": false,
     "bash_resist": 8,
     "cut_resist": 13,
     "bullet_resist": 7,
