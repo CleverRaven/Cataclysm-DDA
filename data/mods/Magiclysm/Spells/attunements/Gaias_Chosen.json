@@ -19,15 +19,5 @@
     "max_level": 40,
     "extra_effects": [ { "id": "gaiaschosen_samsara_cureall", "hit_self": true } ],
     "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE", "LOUD" ]
-  },
-  {
-    "id": "gaiaschosen_samsara_cureall",
-    "type": "SPELL",
-    "name": "Samsara Cureall effect",
-    "description": "Gives you a cure effect.  Subspell; you aren't allowed to see it except in debug mode.",
-    "valid_targets": [ "self" ],
-    "effect": "attack",
-    "effect_str": "cureall",
-    "shape": "blast"
   }
 ]
