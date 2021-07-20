@@ -7,6 +7,7 @@
 #include <map>
 
 class Character;
+class item_location;
 
 class cardreader_examine_actor : public iexamine_actor
 {
@@ -23,6 +24,8 @@ class cardreader_examine_actor : public iexamine_actor
         // Option 2: Regenerate entire current overmap tile
         std::string mapgen_id;
 
+        cata::optional<int> omt_allowed_radius;
+
         bool map_regen = false;
 
         bool query = true;
@@ -31,7 +34,8 @@ class cardreader_examine_actor : public iexamine_actor
         std::string success_msg;
         std::string redundant_msg;
 
-        void consume_card( player &guy ) const;
+        void consume_card( const std::vector<item_location> &cards ) const;
+        std::vector<item_location> get_cards( player &guy, const tripoint &examp ) const;
         bool apply( const tripoint &examp ) const;
 
     public:
