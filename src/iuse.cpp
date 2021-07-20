@@ -9247,9 +9247,9 @@ cata::optional<int> iuse::sextant( player *p, item *, bool, const tripoint &pos 
     } else if( g->is_sheltered( pos ) ) {
         p->add_msg_if_player( m_neutral, _( "You can't see the Sun from here." ) );
     } else if( altitude > 0 ) {
-        p->add_msg_if_player( m_neutral, _( "The Sun is at altitude of %.1f°." ), altitude );
+        p->add_msg_if_player( m_neutral, _( "The Sun is at an altitude of %.1f°." ), altitude );
     } else {
-        p->add_msg_if_player( m_neutral, _( "The Sun is below horizon." ) );
+        p->add_msg_if_player( m_neutral, _( "The Sun is below the horizon." ) );
     }
 
     return 0;
