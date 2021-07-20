@@ -1299,7 +1299,7 @@
   {
     "id": "kimono",
     "type": "ARMOR",
-    "name": { "str": "kimono" },
+    "name": { "str_sp": "kimono" },
     "description": "A traditional, ankle-length Japanese robe, wrapped around the body with a sash.",
     "weight": "1200 g",
     "volume": "5 L",

@@ -267,7 +267,7 @@ class string_formatter
                 consume_next_input_if( 'l' );
             } else if( consume_next_input_if( 'h' ) ) {
                 consume_next_input_if( 'h' );
-            } else if( consume_next_input_if( 'z' ) ) {
+            } else if( consume_next_input_if( 'z' ) ) { // NOLINT(bugprone-branch-clone)
                 // done with it
             } else if( consume_next_input_if( 't' ) ) {
                 // done with it

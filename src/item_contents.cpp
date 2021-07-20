@@ -553,7 +553,8 @@ std::pair<item_location, item_pocket *> item_contents::best_pocket( const item &
             // check all pockets within to see if they are better
             for( item *contained : all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
                 std::pair<item_location, item_pocket *> internal_pocket =
-                    contained->contents.best_pocket( it, parent, true );
+                    contained->best_pocket( it, parent, /*allow_sealed=*/false, /*ignore_settings=*/false,
+                                            /*nested=*/true );
                 if( internal_pocket.second != nullptr && ret.second->better_pocket( pocket, it ) ) {
                     ret = internal_pocket;
                 }
@@ -1383,7 +1384,7 @@ units::volume item_contents::get_contents_volume_with_tweaks( const std::map<con
                     ret += i->volume() - i->get_selected_stack_volume( without );
                 } else if( !without.count( i ) ) {
                     ret += i->volume();
-                    ret -= i->contents.get_nested_content_volume_recursive( without );
+                    ret -= i->get_nested_content_volume_recursive( without );
                 }
             }
         }
@@ -1411,7 +1412,7 @@ units::volume item_contents::get_nested_content_volume_recursive( const
                 } else if( without.count( i ) ) {
                     ret += i->volume();
                 } else {
-                    ret += i->contents.get_nested_content_volume_recursive( without );
+                    ret += i->get_nested_content_volume_recursive( without );
                 }
             }
 

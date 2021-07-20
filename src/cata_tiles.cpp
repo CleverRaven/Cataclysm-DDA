@@ -327,15 +327,10 @@ static void get_tile_information( const std::string &config_path, std::string &j
             std::string sOption;
             fin >> sOption;
 
-            if( sOption.empty() ) {
-                getline( fin, sOption );
-            } else if( sOption[0] == '#' ) {
-                // Skip comment
-                getline( fin, sOption );
-            } else if( sOption.find( "JSON" ) != std::string::npos ) {
+            if( string_starts_with( sOption, "JSON" ) ) {
                 fin >> json_path;
                 dbg( D_INFO ) << "JSON path set to [" << json_path << "].";
-            } else if( sOption.find( "TILESET" ) != std::string::npos ) {
+            } else if( string_starts_with( sOption, "TILESET" ) ) {
                 fin >> tileset_path;
                 dbg( D_INFO ) << "TILESET path set to [" << tileset_path << "].";
             } else {
@@ -1898,14 +1893,10 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
             sym = tmp.symbol().empty() ? ' ' : tmp.symbol().front();
             col = tmp.color();
         } else if( category == C_OVERMAP_TERRAIN ) {
-            const oter_str_id tmp( id );
-            const oter_type_str_id type_tmp( id );
+            const oter_type_str_id tmp( id );
             if( tmp.is_valid() ) {
-                sym = tmp->get_uint32_symbol();
-                col = tmp->get_color();
-            } else if( type_tmp.is_valid() ) {
-                sym = type_tmp->symbol;
-                col = type_tmp->color;
+                sym = tmp->symbol;
+                col = tmp->color;
             }
         } else if( category == C_OVERMAP_NOTE ) {
             sym = id[5];
@@ -2032,6 +2023,10 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
     // translate from player-relative to screen relative tile position
     const point screen_pos = player_to_screen( pos.xy() );
 
+    auto simple_point_hash = []( const auto & p ) {
+        return p.x + p.y * 65536;
+    };
+
     // seed the PRNG to get a reproducible random int
     // TODO: faster solution here
     unsigned int seed = 0;
@@ -2042,7 +2037,7 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
         case C_FIELD:
         case C_LIGHTING:
             // stationary map tiles, seed based on map coordinates
-            seed = here.getabs( pos ).x + here.getabs( pos ).y * 65536;
+            seed = simple_point_hash( here.getabs( pos ) );
             break;
         case C_VEHICLE_PART:
             // vehicle parts, seed based on coordinates within the vehicle
@@ -2055,12 +2050,12 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
                 const vpart_id &vp_id = std::get<0>( vp_override->second );
                 if( vp_id ) {
                     const point &mount = std::get<4>( vp_override->second );
-                    seed = mount.x + mount.y * 65536;
+                    seed = simple_point_hash( mount );
                 }
             } else {
                 const optional_vpart_position vp = here.veh_at( pos );
                 if( vp ) {
-                    seed = vp->mount().x + vp->mount().y * 65536;
+                    seed = simple_point_hash( vp->mount() );
                 }
             }
 
@@ -2080,18 +2075,19 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
             if( fid.is_valid() ) {
                 const furn_t &f = fid.obj();
                 if( !f.is_movable() ) {
-                    seed = here.getabs( pos ).x + here.getabs( pos ).y * 65536;
+                    seed = simple_point_hash( here.getabs( pos ) );
                 }
             }
         }
         break;
+        case C_OVERMAP_TERRAIN:
+            seed = simple_point_hash( pos );
         case C_ITEM:
         case C_TRAP:
         case C_NONE:
         case C_BULLET:
         case C_HIT_ENTITY:
         case C_WEATHER:
-        case C_OVERMAP_TERRAIN:
             // TODO: come up with ways to make random sprites consistent for these types
             break;
         case C_MONSTER:
@@ -2395,25 +2391,20 @@ bool cata_tiles::draw_terrain_below( const tripoint &p, const lit_level, int &,
     const furn_t &curr_furn = here.furn( pbelow ).obj();
     int part_below;
     int sizefactor = 2;
-    const vehicle *veh;
-    //        const vehicle *veh;
-    if( curr_furn.has_flag( TFLAG_SEEN_FROM_ABOVE ) ) {
+    if( curr_furn.has_flag( TFLAG_SEEN_FROM_ABOVE ) || curr_furn.movecost < 0 ) {
         tercol = curses_color_to_SDL( curr_furn.color() );
-    } else if( curr_furn.movecost < 0 ) {
-        tercol = curses_color_to_SDL( curr_furn.color() );
-    } else if( ( veh = here.veh_at_internal( pbelow, part_below ) ) != nullptr ) {
+    } else if( const vehicle *veh = here.veh_at_internal( pbelow, part_below ) ) {
         const int roof = veh->roof_at_part( part_below );
         const auto vpobst = vpart_position( const_cast<vehicle &>( *veh ),
                                             part_below ).obstacle_at_part();
         tercol = curses_color_to_SDL( ( roof >= 0 ||
                                         vpobst ) ? c_light_gray : c_magenta );
         sizefactor = ( roof >= 0 || vpobst ) ? 4 : 2;
-    } else if( curr_ter.has_flag( TFLAG_SEEN_FROM_ABOVE ) || curr_ter.movecost == 0 ) {
-        tercol = curses_color_to_SDL( curr_ter.color() );
-    } else if( !curr_ter.has_flag( TFLAG_NO_FLOOR ) ) {
-        sizefactor = 4;
+    } else if( curr_ter.has_flag( TFLAG_SEEN_FROM_ABOVE ) || curr_ter.has_flag( TFLAG_NO_FLOOR ) ||
+               curr_ter.movecost == 0 ) {
         tercol = curses_color_to_SDL( curr_ter.color() );
     } else {
+        sizefactor = 4;
         tercol = curses_color_to_SDL( curr_ter.color() );
     }
 
@@ -3096,7 +3087,7 @@ bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3
         if( pl != nullptr ) {
             draw_entity_with_overlays( *pl, p, ll, height_3d );
             result = true;
-            if( pl->is_player() ) {
+            if( pl->is_avatar() ) {
                 is_player = true;
             } else {
                 sees_player = pl->sees( you );
@@ -3546,8 +3537,6 @@ void cata_tiles::draw_custom_explosion_frame()
                 rotation = 3;
                 break;
             case N_NO_NEIGHBORS:
-                subtile = edge;
-                break;
             case N_WEST | N_EAST | N_NORTH | N_SOUTH:
                 // Needs some special tile
                 subtile = edge;

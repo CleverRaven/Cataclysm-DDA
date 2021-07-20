@@ -2685,7 +2685,7 @@ class Character : public Creature, public visitable
         nc_color bodytemp_color( const bodypart_id &bp ) const;
 
         // see Creature::sees
-        bool sees( const tripoint &t, bool is_player = false, int range_mod = 0 ) const override;
+        bool sees( const tripoint &t, bool is_avatar = false, int range_mod = 0 ) const override;
         // see Creature::sees
         bool sees( const Creature &critter ) const override;
         Attitude attitude_to( const Creature &other ) const override;
@@ -2739,9 +2739,17 @@ class Character : public Creature, public visitable
         /** Handles the still hard-coded effects. */
         void hardcoded_effects( effect &it );
 
+        /** Estimate effect duration based on player relevant skill.
+        @param error_magnitude Maximum error, with zero in the relavant skill.
+        @param minimum_error Maximum error when skill is >= threshold */
+        time_duration estimate_effect_dur( const skill_id &relevant_skill, const efftype_id &effect,
+                                           const time_duration &error_magnitude,
+                                           const time_duration &mimimum_error, int threshold, const Creature &target ) const;
+
         // inherited from visitable
         bool has_quality( const quality_id &qual, int level = 1, int qty = 1 ) const override;
         int max_quality( const quality_id &qual ) const override;
+        int max_quality( const quality_id &qual, int radius );
         VisitResponse visit_items( const std::function<VisitResponse( item *, item * )> &func ) const
         override;
         std::list<item> remove_items_with( const std::function<bool( const item & )> &filter,

@@ -1874,7 +1874,8 @@ void basecamp::job_assignment_ui()
                     smenu.query();
                     if( smenu.ret == UILIST_CANCEL ) {
                         break;
-                    } else if( smenu.ret == 0 ) {
+                    }
+                    if( smenu.ret == 0 ) {
                         cur_npc->job.clear_all_priorities();
                     } else if( smenu.ret > 0 && smenu.ret <= static_cast<int>( job_vec.size() ) ) {
                         activity_id sel_job = job_vec[smenu.ret - 1];
@@ -3392,13 +3393,11 @@ time_duration companion_travel_time_calc( const std::vector<tripoint_abs_omt> &j
     for( const tripoint_abs_omt &om : journey ) {
         const oter_id &omt_ref = overmap_buffer.ter( om );
         std::string om_id = omt_ref.id().c_str();
-        //Player walks 1 om is roughly 30 seconds
+        // Player walks 1 om in roughly 30 seconds
         if( om_id == "field" ) {
             one_way += 30 + 30 * haulage;
         } else if( is_ot_match( "forest_trail", omt_ref, ot_match_type::type ) ) {
             one_way += 35 + 30 * haulage;
-        } else if( om_id == "forest" ) {
-            one_way += 40 + 30 * haulage;
         } else if( om_id == "forest_thick" ) {
             one_way += 50 + 30 * haulage;
         } else if( om_id == "forest_water" ) {
@@ -3432,7 +3431,7 @@ int om_carry_weight_to_trips( const std::vector<item *> &itms, const npc_ptr &co
     }
     units::mass max_m = comp ? comp->weight_capacity() - comp->weight_carried() : 30_kilogram;
     //Assume an additional pack will be carried in addition to normal gear
-    units::volume sack_v = item( itype_id( "makeshift_sling" ) ).contents.total_container_capacity();
+    units::volume sack_v = item( itype_id( "makeshift_sling" ) ).get_total_capacity();
     units::volume max_v = comp ? comp->free_space() : sack_v;
     max_v += sack_v;
     return om_carry_weight_to_trips( total_m, total_v, max_m, max_v );

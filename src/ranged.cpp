@@ -2564,12 +2564,13 @@ bool target_ui::try_reacquire_target( bool critter, tripoint &new_dst )
 void target_ui::update_status()
 {
     std::vector<std::string> msgbuf;
-    if( mode == TargetMode::Turrets && turrets_in_range.empty() ) {
+    if( mode == TargetMode::Turrets && turrets_in_range.empty() ) { // NOLINT(bugprone-branch-clone)
         // None of the turrets are in range
         status = Status::OutOfRange;
     } else if( mode == TargetMode::Fire &&
                ( !gunmode_checks_common( *you, get_map(), msgbuf, relevant->gun_current_mode() ) ||
-                 !gunmode_checks_weapon( *you, get_map(), msgbuf, relevant->gun_current_mode() ) ) ) {
+                 !gunmode_checks_weapon( *you, get_map(), msgbuf, relevant->gun_current_mode() ) )
+             ) { // NOLINT(bugprone-branch-clone)
         // Selected gun mode is empty
         // TODO: it might be some other error, but that's highly unlikely to happen, so a catch-all 'Out of ammo' is fine
         status = Status::OutOfAmmo;

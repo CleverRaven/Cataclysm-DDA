@@ -60,14 +60,14 @@ TEST_CASE( "item_contents" )
     // check that individual (not including contained items) weight is correct
     CHECK( tool_belt.weight( false ) == tool_belt.type->weight );
     // check that the tool belt is "full"
-    CHECK( !tool_belt.contents.can_contain( crowbar ).success() );
+    CHECK( !tool_belt.can_contain( crowbar ).success() );
 
     tool_belt.contents.force_insert_item( crowbar, item_pocket::pocket_type::CONTAINER );
     CHECK( tool_belt.num_item_stacks() == 5 );
     tool_belt.contents.force_insert_item( crowbar, item_pocket::pocket_type::CONTAINER );
-    tool_belt.contents.overflow( tripoint_zero );
+    tool_belt.overflow( tripoint_zero );
     CHECK( tool_belt.num_item_stacks() == 4 );
-    tool_belt.contents.overflow( tripoint_zero );
+    tool_belt.overflow( tripoint_zero );
     // overflow should only spill items if they can't fit
     CHECK( tool_belt.num_item_stacks() == 4 );
 
@@ -92,7 +92,7 @@ TEST_CASE( "overflow on combine", "[item]" )
     } );
     map &here = get_map();
     here.i_clear( origin );
-    purse.contents.overflow( origin );
+    purse.overflow( origin );
     CHECK( here.i_at( origin ).size() == 1 );
 }
 
@@ -104,6 +104,6 @@ TEST_CASE( "overflow test", "[item]" )
     purse.contents.force_insert_item( log, item_pocket::pocket_type::MIGRATION );
     map &here = get_map();
     here.i_clear( origin );
-    purse.contents.overflow( origin );
+    purse.overflow( origin );
     CHECK( here.i_at( origin ).size() == 1 );
 }

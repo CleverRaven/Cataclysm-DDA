@@ -990,9 +990,8 @@ input_event draw_item_info( const std::function<catacurses::window()> &init_wind
         width = getmaxx( win ) - ( data.use_full_win ? 1 : b * 2 );
         height = getmaxy( win ) - ( data.use_full_win ? 0 : 2 );
         folded = foldstring( buffer, width - 1 );
-        if( *data.ptr_selected < 0 ) {
-            *data.ptr_selected = 0;
-        } else if( height < 0 || folded.size() < static_cast<size_t>( height ) ) {
+        if( *data.ptr_selected < 0 || height < 0 ||
+            folded.size() < static_cast<size_t>( height ) ) {
             *data.ptr_selected = 0;
         } else if( static_cast<size_t>( *data.ptr_selected + height ) >= folded.size() ) {
             *data.ptr_selected = static_cast<int>( folded.size() ) - height;
@@ -1051,8 +1050,7 @@ input_event draw_item_info( const std::function<catacurses::window()> &init_wind
     }
 
     std::string action;
-    bool exit = false;
-    while( !exit ) {
+    while( true ) {
         ui_manager::redraw();
         action = ctxt.handle_input();
         if( data.handle_scrolling && action == "PAGE_UP" ) {
@@ -1064,10 +1062,10 @@ input_event draw_item_info( const std::function<catacurses::window()> &init_wind
                 ( height > 0 && static_cast<size_t>( *data.ptr_selected + height ) < folded.size() ) ) {
                 ++*data.ptr_selected;
             }
-        } else if( action == "CONFIRM" || action == "QUIT" ) {
-            exit = true;
-        } else if( data.any_input && action == "ANY_INPUT" && !ctxt.get_raw_input().sequence.empty() ) {
-            exit = true;
+        } else if( action == "CONFIRM" || action == "QUIT" ||
+                   ( data.any_input && action == "ANY_INPUT" &&
+                     !ctxt.get_raw_input().sequence.empty() ) ) {
+            break;
         }
     }
 

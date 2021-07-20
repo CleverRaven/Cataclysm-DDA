@@ -3026,7 +3026,7 @@
     "id": "disassembly",
     "symbol": "%",
     "color": "white",
-    "name": { "str": "in progress disassembly" },
+    "name": { "str": "in progress disassembly", "str_pl": "in progress disassemblies" },
     "description": "This is an in progress disassembly.",
     "price": 0,
     "price_postapoc": 0,

@@ -1159,6 +1159,16 @@ bool item::merge_charges( const item &rhs )
     return true;
 }
 
+int item::obtain_cost( const item &it ) const
+{
+    return contents.obtain_cost( it );
+}
+
+int item::insert_cost( const item &it ) const
+{
+    return contents.insert_cost( it );
+}
+
 ret_val<bool> item::put_in( const item &payload, item_pocket::pocket_type pk_type,
                             const bool unseal_pockets )
 {
@@ -4441,7 +4451,7 @@ nc_color item::color_in_inventory() const
         }
     } else if( has_flag( flag_WET ) ) {
         ret = c_cyan;
-    } else if( has_flag( flag_LITCIG ) ) {
+    } else if( has_flag( flag_LITCIG ) ) { // NOLINT(bugprone-branch-clone)
         ret = c_red;
     } else if( is_armor() && player_character.has_trait( trait_WOOLALLERGY ) &&
                ( made_of( material_id( "wool" ) ) || has_own_flag( flag_wooled ) ) ) {
@@ -4456,11 +4466,8 @@ nc_color item::color_in_inventory() const
         }
     } else if( has_flag( flag_LEAK_DAM ) && has_flag( flag_RADIOACTIVE ) && damage() > 0 ) {
         ret = c_light_green;
-    } else if( active && !has_temperature() &&  !is_corpse() ) {
-        // Active items show up as yellow
-        ret = c_yellow;
-    } else if( is_corpse() && can_revive() ) {
-        // Only reviving corpses are yellow
+    } else if( ( active && !has_temperature() &&  !is_corpse() ) || ( is_corpse() && can_revive() ) ) {
+        // Active items show up as yellow (corpses only if reviving)
         ret = c_yellow;
     } else if( const item *food = get_food() ) {
         // Give color priority to allergy (allergy > inedible by freeze or other conditions)
@@ -4563,7 +4570,8 @@ nc_color item::color_in_inventory() const
             if( tmp.skill && // Book can improve skill: blue
                 player_character.get_skill_level_object( tmp.skill ).can_train() &&
                 player_character.get_skill_level( tmp.skill ) >= tmp.req &&
-                player_character.get_skill_level( tmp.skill ) < tmp.level ) {
+                player_character.get_skill_level( tmp.skill ) < tmp.level
+              ) { //NOLINT(bugprone-branch-clone)
                 ret = c_light_blue;
             } else if( type->can_use( "MA_MANUAL" ) &&
                        !player_character.martial_arts_data->has_martialart( martial_art_learned_from( *type ) ) ) {
@@ -4954,6 +4962,9 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
 
     if( is_filthy() ) {
         tagtext += _( " (filthy)" );
+    }
+    if( is_broken() ) {
+        tagtext += _( " (broken)" );
     }
     if( is_bionic() && !has_flag( flag_NO_PACKED ) ) {
         if( !has_flag( flag_NO_STERILE ) ) {
@@ -6364,13 +6375,7 @@ int item::count() const
 
 bool item::craft_has_charges()
 {
-    if( count_by_charges() ) {
-        return true;
-    } else if( ammo_types().empty() ) {
-        return true;
-    }
-
-    return false;
+    return count_by_charges() || ammo_types().empty();
 }
 
 #if defined(_MSC_VER)
@@ -6888,6 +6893,37 @@ void item::select_gun_variant()
     set_gun_variant( *selected );
 }
 
+bool item::can_have_gun_variant() const
+{
+    if( is_gun() ) {
+        return !type->gun->variants.empty();
+    } else if( !!type->magazine ) {
+        return !type->magazine->variants.empty();
+    }
+    return false;
+}
+
+bool item::possible_gun_variant( const std::string &test ) const
+{
+    if( !can_have_gun_variant() ) {
+        return false;
+    }
+
+    const auto variant_looking_for = [&test]( const gun_variant_data & variant ) {
+        return variant.id == test;
+    };
+
+    if( is_gun() ) {
+        return std::find_if( type->gun->variants.begin(), type->gun->variants.end(),
+                             variant_looking_for ) != type->gun->variants.end();
+    } else if( !!type->magazine ) {
+        return std::find_if( type->magazine->variants.begin(), type->magazine->variants.end(),
+                             variant_looking_for ) != type->magazine->variants.end();
+    }
+
+    return false;
+}
+
 bool item::has_gun_variant( bool check_option ) const
 {
     return  _gun_variant != nullptr &&
@@ -7281,6 +7317,11 @@ bool item::is_irremovable() const
     return has_flag( flag_IRREMOVABLE );
 }
 
+bool item::is_broken() const
+{
+    return has_flag( flag_ITEM_BROKEN );
+}
+
 std::set<fault_id> item::faults_potential() const
 {
     std::set<fault_id> res;
@@ -7513,29 +7554,29 @@ units::volume item::max_containable_volume() const
     return contents.max_containable_volume();
 }
 
-bool item::can_contain( const item &it ) const
+ret_val<bool> item::can_contain( const item &it ) const
 {
     if( this == &it ) {
         // does the set of all sets contain itself?
-        return false;
+        return ret_val<bool>::make_failure();
     }
     // disallow putting portable holes into bags of holding
     if( contents.bigger_on_the_inside( volume() ) &&
         it.contents.bigger_on_the_inside( it.volume() ) ) {
-        return false;
+        return ret_val<bool>::make_failure();
     }
     for( const item *internal_it : contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
         if( internal_it->contents.can_contain_rigid( it ).success() ) {
-            return true;
+            return ret_val<bool>::make_success();
         }
     }
 
-    return contents.can_contain( it ).success();
+    return contents.can_contain( it );
 }
 
 bool item::can_contain( const itype &tp ) const
 {
-    return can_contain( item( &tp ) );
+    return can_contain( item( &tp ) ).success();
 }
 
 bool item::can_contain_partial( const item &it ) const
@@ -7544,14 +7585,14 @@ bool item::can_contain_partial( const item &it ) const
     if( i_copy.count_by_charges() ) {
         i_copy.charges = 1;
     }
-    return can_contain( i_copy );
+    return can_contain( i_copy ).success();
 }
 
 std::pair<item_location, item_pocket *> item::best_pocket( const item &it, item_location &parent,
-        const bool allow_sealed, const bool ignore_settings )
+        const bool allow_sealed, const bool ignore_settings, bool nested )
 {
     item_location nested_location( parent, this );
-    return contents.best_pocket( it, nested_location, false, allow_sealed, ignore_settings );
+    return contents.best_pocket( it, nested_location, nested, allow_sealed, ignore_settings );
 }
 
 bool item::spill_contents( Character &c )
@@ -7582,6 +7623,11 @@ bool item::spill_contents( const tripoint &pos )
 bool item::spill_open_pockets( Character &guy, const item *avoid )
 {
     return contents.spill_open_pockets( guy, avoid );
+}
+
+void item::overflow( const tripoint &pos )
+{
+    contents.overflow( pos );
 }
 
 book_proficiency_bonuses item::get_book_proficiency_bonuses() const
@@ -9466,7 +9512,7 @@ bool item_ptr_compare_by_charges( const item *left, const item *right )
     } else if( right->empty() ) {
         return true;
     } else {
-        return right->contents.only_item().charges < left->contents.only_item().charges;
+        return right->only_item().charges < left->only_item().charges;
     }
 }
 
@@ -11001,6 +11047,19 @@ units::volume item::get_selected_stack_volume( const std::map<const item *, int>
     return 0_ml;
 }
 
+units::volume item::get_contents_volume_with_tweaks( const std::map<const item *, int> &without )
+const
+{
+    return contents.get_contents_volume_with_tweaks( without );
+}
+
+units::volume item::get_nested_content_volume_recursive( const std::map<const item *, int>
+        &without )
+const
+{
+    return contents.get_nested_content_volume_recursive( without );
+}
+
 int item::get_recursive_disassemble_moves( const Character &guy ) const
 {
     int moves = recipe_dictionary::get_uncraft( type->get_id() ).time_to_craft_moves( guy,
@@ -11100,6 +11159,21 @@ bool item::empty() const
     return contents.empty();
 }
 
+bool item::empty_container() const
+{
+    return contents.empty_container();
+}
+
+item &item::only_item()
+{
+    return contents.only_item();
+}
+
+const item &item::only_item() const
+{
+    return contents.only_item();
+}
+
 size_t item::num_item_stacks() const
 {
     return contents.num_item_stacks();
@@ -11113,4 +11187,9 @@ item &item::legacy_front()
 const item &item::legacy_front() const
 {
     return contents.legacy_front();
+}
+
+void item::favorite_settings_menu( const std::string &item_name )
+{
+    contents.favorite_settings_menu( item_name );
 }

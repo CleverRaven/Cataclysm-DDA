@@ -932,7 +932,8 @@ bool character_martial_arts::can_leg_block( const Character &owner ) const
     if( owner.get_working_leg_count() >= 1 ) {
         if( unarmed_skill >= ma.leg_block ) {
             return true;
-        } else if( ma.leg_block_with_bio_armor_legs && owner.has_bionic( bio_armor_legs ) ) {
+        }
+        if( ma.leg_block_with_bio_armor_legs && owner.has_bionic( bio_armor_legs ) ) {
             return true;
         }
     }
@@ -952,7 +953,8 @@ bool character_martial_arts::can_arm_block( const Character &owner ) const
         !owner.is_limb_broken( bodypart_id( "arm_r" ) ) ) {
         if( unarmed_skill >= ma.arm_block ) {
             return true;
-        } else if( ma.arm_block_with_bio_armor_arms && owner.has_bionic( bio_armor_arms ) ) {
+        }
+        if( ma.arm_block_with_bio_armor_arms && owner.has_bionic( bio_armor_arms ) ) {
             return true;
         }
     }
@@ -1532,9 +1534,7 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
         } );
 
         do {
-            if( selected < 0 ) {
-                selected = 0;
-            } else if( iLines < height ) {
+            if( selected < 0 || iLines < height ) {
                 selected = 0;
             } else if( selected >= iLines - height ) {
                 selected = iLines - height;
