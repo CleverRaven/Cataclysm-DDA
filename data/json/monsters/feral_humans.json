@@ -45,6 +45,7 @@
     ],
     "death_drops": "feral_humans_death_drops_pipe",
     "zombify_into": "mon_zombie",
+    "fungalize_into": "mon_feral_human_pipe_fungal",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
     "flags": [
       "SEES",
@@ -66,7 +67,8 @@
     "copy-from": "mon_feral_human_pipe",
     "melee_dice": 2,
     "melee_dice_sides": 6,
-    "death_drops": "feral_humans_death_drops_crowbar"
+    "death_drops": "feral_humans_death_drops_crowbar",
+    "fungalize_into": "mon_feral_human_crowbar_fungal"
   },
   {
     "id": "mon_feral_human_axe",
@@ -76,7 +78,41 @@
     "melee_dice": 2,
     "melee_dice_sides": 7,
     "melee_cut": 9,
-    "death_drops": "feral_humans_death_drops_axe"
+    "death_drops": "feral_humans_death_drops_axe",
+    "fungalize_into": "mon_feral_human_axe_fungal"
+  },
+  {
+    "id": "mon_feral_human_pipe_fungal",
+    "type": "MONSTER",
+    "description": "Delicate fungal stalks sprout in rows from sores in the arms, and the facial expression is pure joy.  Coos softly.",
+    "copy-from": "mon_feral_human_pipe",
+    "default_faction": "fungus",
+    "speed": 0,
+    "upgrades": { "half_life": 14, "into": "mon_fungaloid" },
+    "burn_into": "mon_starer_pipe",
+    "extend": { "flags": [ "NO_FUNG_DMG" ] }
+  },
+  {
+    "id": "mon_feral_human_crowbar_fungal",
+    "type": "MONSTER",
+    "description": "Delicate fungal stalks sprout in rows from sores in the arms, and the facial expression is pure joy.  Coos softly.",
+    "copy-from": "mon_feral_human_crowbar",
+    "default_faction": "fungus",
+    "speed": 0,
+    "upgrades": { "half_life": 14, "into": "mon_fungaloid" },
+    "burn_into": "mon_starer_crowbar",
+    "extend": { "flags": [ "NO_FUNG_DMG" ] }
+  },
+  {
+    "id": "mon_feral_human_axe_fungal",
+    "type": "MONSTER",
+    "description": "Delicate fungal stalks sprout in rows from sores in the arms, and the facial expression is pure joy.  Coos softly.",
+    "copy-from": "mon_feral_human_axe",
+    "default_faction": "fungus",
+    "speed": 0,
+    "upgrades": { "half_life": 14, "into": "mon_fungaloid" },
+    "burn_into": "mon_starer_axe",
+    "extend": { "flags": [ "NO_FUNG_DMG" ] }
   },
   {
     "id": "mon_feral_scientist_scalpel",
