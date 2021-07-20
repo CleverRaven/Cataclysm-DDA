@@ -7,6 +7,7 @@
     "description": "You tie your leylines to the world, renewing your flesh as if reborn.",
     "valid_targets": [ "self" ],
     "effect": "attack",
+    "effect_str": "cureall",
     "shape": "blast",
     "base_casting_time": 60000,
     "base_energy_cost": 800,
