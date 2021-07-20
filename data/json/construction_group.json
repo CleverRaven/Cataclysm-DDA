@@ -251,6 +251,11 @@
   },
   {
     "type": "construction_group",
+    "id": "build_metal_trashcan",
+    "name": "Build Metal Trash Can"
+  },
+  {
+    "type": "construction_group",
     "id": "build_gravelbag_wall",
     "name": "Build Gravelbag Wall"
   },
