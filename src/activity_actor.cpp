@@ -3237,14 +3237,35 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
     item_location loc = reload_targets[0];
     // Reload may have caused the item to increase in size more than the pocket/location can contain.
     // We want to avoid this because items will be deleted on a save/load.
-    if( loc.volume_capacity() < units::volume() ||
-        loc.weight_capacity() < units::mass() ) {
-        // In player inventory and player is wielding nothing.
-        if( !who.is_armed() && loc.held_by( who ) ) {
-            add_msg( m_neutral, _( "The %s no longer fits in your inventory so you wield it instead." ),
-                     reloadable_name );
-            who.wield( reloadable );
-        } else {
+    if( loc.volume_capacity() >= units::volume() &&
+        loc.weight_capacity() >= units::mass() ) {
+        return;
+    }
+     
+    // Attempt to put item in another pocket before prompting
+    item* newit = who.try_add( reloadable, nullptr, false );
+    if ( newit != nullptr ) {
+        // try_add copied the old item, so remove it now.
+        loc.remove_item();
+        return;
+    }
+
+    // Build prompt
+    uilist reload_query;
+    reload_query.text = string_format( _( "The %s no longer fits in your inventory" ), reloadable_name );
+    if (who.has_wield_conflicts ( reloadable ) ) {
+        reload_query.addentry( 1, who.can_unwield( who.weapon ).success(), 'w',
+                        _( "Dispose of %s and wield %s" ), who.weapon.display_name(),
+                        reloadable_name );
+    } else {
+        reload_query.addentry( 1, true, 'w', _( "Wield %s" ), reloadable_name );
+    }
+    reload_query.addentry( 2, true, 'd', _( "Drop %s" ), reloadable_name );
+    reload_query.query();
+
+    switch( reload_query.ret ) {
+        default:
+        case 2:
             // In player inventory and player is wielding something.
             if( loc.held_by( who ) ) {
                 add_msg( m_neutral, _( "The %s no longer fits in your inventory so you drop it instead." ),
@@ -3256,7 +3277,15 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
             }
             get_map().add_item_or_charges( loc.position(), reloadable );
             loc.remove_item();
-        }
+            break;
+        case 1:
+            const auto wield_check = who.can_wield( reloadable );
+            if ( wield_check.success() ) {
+                who.wield( reloadable );
+                add_msg( m_neutral, _( "The %s no longer fits in your inventory so you wield it instead." ),
+                         reloadable_name );
+            }
+            break;
     }
 }
 
