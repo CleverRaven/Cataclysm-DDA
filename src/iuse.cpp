@@ -5215,7 +5215,6 @@ cata::optional<int> iuse::boltcutters( player *p, item *it, bool, const tripoint
         return cata::nullopt;
     }
     const tripoint &pnt = *pnt_;
-    const ter_id type = here.ter( pnt );
     if( !f( pnt ) ) {
         if( pnt == p->pos() ) {
             p->add_msg_if_player( m_info,
@@ -5226,29 +5225,8 @@ cata::optional<int> iuse::boltcutters( player *p, item *it, bool, const tripoint
         return cata::nullopt;
     }
 
-    if( type == t_chaingate_l ) {
-        p->moves -= to_moves<int>( 1_seconds );
-        here.ter_set( pnt, t_chaingate_c );
-        sounds::sound( pnt, 5, sounds::sound_t::combat, _( "Gachunk!" ), true, "tool", "boltcutters" );
-        here.spawn_item( point( p->posx(), p->posy() ), "scrap", 3 );
-    } else if( type == t_chainfence ) {
-        p->moves -= to_moves<int>( 5_seconds );
-        here.ter_set( pnt, t_chainfence_posts );
-        sounds::sound( pnt, 5, sounds::sound_t::combat, _( "Snick, snick, gachunk!" ), true, "tool",
-                       "boltcutters" );
-        here.spawn_item( pnt, "wire", 20 );
-    } else if( type == t_fence_barbed ) {
-        p->moves -= to_moves<int>( 10_seconds );
-        here.ter_set( pnt, t_fence_post );
-        sounds::sound( pnt, 5, sounds::sound_t::combat, _( "Snick, snick, gachunk!" ), true, "tool",
-                       "boltcutters" );
-        here.spawn_item( pnt, "wire_barbed", 2 );
-
-    } else {
-        return cata::nullopt;
-    }
-
-    return it->type->charges_to_use();
+    p->assign_activity( player_activity( boltcutting_activity_actor( pnt, item_location{*p, it} ) ) );
+    return cata::nullopt;
 }
 
 cata::optional<int> iuse::mop( player *p, item *it, bool, const tripoint & )

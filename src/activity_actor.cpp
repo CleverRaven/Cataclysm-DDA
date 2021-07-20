@@ -1633,6 +1633,94 @@ std::unique_ptr<activity_actor> pickup_activity_actor::deserialize( JsonIn &jsin
     return actor.clone();
 }
 
+void boltcutting_activity_actor::start( player_activity &act, Character &/*who*/ )
+{
+    const map &here = get_map();
+    const ter_id target_ter = here.ter( target );
+
+    if( target_ter == t_null ) {
+        debugmsg( "ACT_BOLTCUTTING called on t_null" );
+        act.set_to_null();
+        return;
+    }
+
+    if( target_ter == t_chaingate_l ) {
+        act.moves_total = to_moves<int>( 1_seconds );
+    } else if( target_ter == t_chainfence ) {
+        act.moves_total = to_moves<int>( 5_seconds );
+    } else if( target_ter == t_fence_barbed ) {
+        act.moves_total = to_moves<int>( 10_seconds );
+    } else {
+        debugmsg( "ACT_BOLTCUTTING called on unhandled terrain %s", target_ter.id().str() );
+        act.set_to_null();
+        return;
+    }
+
+    act.moves_left = act.moves_total;
+}
+
+void boltcutting_activity_actor::do_turn( player_activity &act, Character &who )
+{
+    if( tool->ammo_sufficient() ) {
+        tool->ammo_consume( tool->ammo_required(), tool.position() );
+    } else {
+        add_msg_if_player_sees( who.pos(), _( "%1$s %2$s ran out of charges." ),
+                                who.disp_name( true, true ), tool->display_name() );
+        act.set_to_null();
+    }
+}
+
+void boltcutting_activity_actor::finish( player_activity &act, Character &who )
+{
+    map &here = get_map();
+    const ter_id target_ter = here.ter( target );
+
+    if( target_ter == t_null ) {
+        debugmsg( "ACT_BOLTCUTTING finished but terrain is t_null" );
+        act.set_to_null();
+        return;
+    }
+
+    if( target_ter == t_chaingate_l ) {
+        here.ter_set( target, t_chaingate_c );
+        here.spawn_item( who.pos(), "scrap", 3 );
+        sounds::sound( target, 5, sounds::sound_t::combat, _( "Gachunk!" ),
+                       true, "tool", "boltcutters" );
+    } else if( target_ter == t_chainfence ) {
+        here.ter_set( target, t_chainfence_posts );
+        here.spawn_item( who.pos(), "wire", 20 );
+        sounds::sound( target, 5, sounds::sound_t::combat, _( "Snick, snick, gachunk!" ),
+                       true, "tool", "boltcutters" );
+    } else if( target_ter == t_fence_barbed ) {
+        here.ter_set( target, t_fence_post );
+        here.spawn_item( who.pos(), "wire_barbed", 2 );
+        sounds::sound( target, 5, sounds::sound_t::combat, _( "Snick, snick, gachunk!" ),
+                       true, "tool", "boltcutters" );
+    } else {
+        debugmsg( "ACT_BOLTCUTTING finished on unhandled terrain %s", target_ter.id().str() );
+    }
+
+    act.set_to_null();
+}
+
+void boltcutting_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "target", target );
+    jsout.member( "tool", tool );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> boltcutting_activity_actor::deserialize( JsonIn &jsin )
+{
+    boltcutting_activity_actor actor( {}, {} );
+    JsonObject data = jsin.get_object();
+    data.read( "target", actor.target );
+    data.read( "tool", actor.tool );
+    return actor.clone();
+}
+
+
 lockpick_activity_actor lockpick_activity_actor::use_item(
     int moves_total,
     const item_location &lockpick,
@@ -3820,6 +3908,7 @@ deserialize_functions = {
     { activity_id( "ACT_AUTODRIVE" ), &autodrive_activity_actor::deserialize },
     { activity_id( "ACT_BIKERACK_RACKING" ), &bikerack_racking_activity_actor::deserialize },
     { activity_id( "ACT_BIKERACK_UNRACKING" ), &bikerack_unracking_activity_actor::deserialize },
+    { activity_id( "ACT_BOLTCUTTING" ), &boltcutting_activity_actor::deserialize },
     { activity_id( "ACT_CONSUME" ), &consume_activity_actor::deserialize },
     { activity_id( "ACT_CRAFT" ), &craft_activity_actor::deserialize },
     { activity_id( "ACT_DIG" ), &dig_activity_actor::deserialize },
