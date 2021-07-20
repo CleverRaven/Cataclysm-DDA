@@ -657,7 +657,7 @@ class Creature : public location, public viewer
             return false;
         }
 
-    private:
+    protected:
         /**anatomy is the plan of the creature's body*/
         anatomy_id creature_anatomy = anatomy_id( "default_anatomy" );
         /**this is the actual body of the creature*/
@@ -673,6 +673,10 @@ class Creature : public location, public viewer
          */
         std::vector<bodypart_id> get_all_body_parts(
             get_body_part_flags = get_body_part_flags::none ) const;
+        std::vector<bodypart_id> get_all_body_parts_of_type(
+            body_part_type::type part_type,
+            get_body_part_flags flags = get_body_part_flags::none ) const;
+        bodypart_id get_root_body_part() const;
 
         const std::map<bodypart_str_id, bodypart> &get_body() const;
         void set_body();

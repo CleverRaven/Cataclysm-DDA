@@ -55,8 +55,6 @@
 
 struct mutation_branch;
 
-static const anatomy_id anatomy_human_anatomy( "human_anatomy" );
-
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_bounced( "bounced" );
 static const efftype_id effect_downed( "downed" );
@@ -2138,6 +2136,39 @@ std::vector<bodypart_id> Creature::get_all_body_parts( get_body_part_flags flags
     return  all_bps;
 }
 
+bodypart_id Creature::get_root_body_part() const
+{
+    for( const bodypart_id &part : get_all_body_parts() ) {
+        if( part->connected_to == part->main_part ) {
+            return part;
+        }
+    }
+    debugmsg( "ERROR: character has no root part" );
+    return body_part_head;
+}
+
+std::vector<bodypart_id> Creature::get_all_body_parts_of_type(
+    body_part_type::type part_type, get_body_part_flags flags ) const
+{
+    const bool only_main( flags & get_body_part_flags::only_main );
+
+    std::vector<bodypart_id> bodyparts;
+    for( const std::pair<const bodypart_str_id, bodypart> &elem : body ) {
+        if( only_main && elem.first->main_part != elem.first ) {
+            continue;
+        }
+        if( elem.first->limb_type == part_type ) {
+            bodyparts.emplace_back( elem.first );
+        }
+    }
+
+    if( flags & get_body_part_flags::sorted ) {
+        sort_body_parts( bodyparts );
+    }
+
+    return bodyparts;
+}
+
 int Creature::get_hp( const bodypart_id &bp ) const
 {
     if( bp != bodypart_str_id::NULL_ID() ) {
@@ -2403,7 +2434,7 @@ bodypart_id Creature::select_body_part( Creature *source, int hit_roll ) const
     add_msg_debug( debugmode::DF_CREATURE, "target size = %d", get_size() );
     add_msg_debug( debugmode::DF_CREATURE, "difference = %d", szdif );
 
-    return anatomy_human_anatomy->select_body_part( szdif, hit_roll );
+    return anatomy( get_all_body_parts() ).select_body_part( szdif, hit_roll );
 }
 
 bodypart_id Creature::random_body_part( bool main_parts_only ) const

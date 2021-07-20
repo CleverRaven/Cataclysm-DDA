@@ -137,6 +137,14 @@ std::vector<bodypart_id> anatomy::get_bodyparts() const
     return cached_bps;
 }
 
+anatomy::anatomy( const std::vector<bodypart_id> &parts )
+{
+    for( const bodypart_id &part : parts ) {
+        add_body_part( part.id() );
+        unloaded_bps.push_back( part.id() );
+    }
+}
+
 void anatomy::add_body_part( const bodypart_str_id &new_bp )
 {
     cached_bps.emplace_back( new_bp.id() );
