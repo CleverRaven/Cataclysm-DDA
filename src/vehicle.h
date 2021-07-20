@@ -2061,6 +2061,10 @@ class vehicle
 
         // destination for exhaust emissions
         tripoint exhaust_dest( int part ) const;
+
+        // Returns debug data to overlay on the screen, a vector of {map tile position
+        // relative to vehicle pos, color and text}.
+        std::vector<std::tuple<point, int, std::string>> get_debug_overlay_data() const;
 };
 
 #endif // CATA_SRC_VEHICLE_H

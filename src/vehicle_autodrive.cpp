@@ -7,6 +7,22 @@
 #include "point.h"
 
 
+std::vector<std::tuple<point, int, std::string>> vehicle::get_debug_overlay_data() const
+{
+    static const std::vector<std::string> debug_what = { "valid_position", "omt" };
+    std::vector<std::tuple<point, int, std::string>> ret;
+
+    const tripoint veh_pos = get_map().getabs( global_pos3() );
+    if( autodrive_local_target != tripoint_zero ) {
+        ret.emplace_back( ( autodrive_local_target - veh_pos ).xy(), catacurses::red, "T" );
+    }
+    for( const point &pt_elem : collision_check_points ) {
+        ret.emplace_back( pt_elem - veh_pos.xy(), catacurses::yellow, "C" );
+    }
+
+    return ret;
+}
+
 autodrive_result vehicle::do_autodrive( Character &driver )
 {
     if( !is_autodriving ) {
