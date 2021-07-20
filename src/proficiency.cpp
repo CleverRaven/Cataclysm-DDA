@@ -396,7 +396,7 @@ float proficiency_set::get_proficiency_bonus( std::string category,
 
         std::map<std::string, std::vector<proficiency_bonus>> bonuses = prof.get_bonuses();
 
-        for( int index = 0; index < bonuses[category].size(); index++ ) {
+        for( size_t index = 0; index < bonuses[category].size(); index++ ) {
             if( bonuses[category][index].type == prof_bonus ) {
                 stat_bonus += bonuses[category][index].value;
             }
