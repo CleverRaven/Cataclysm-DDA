@@ -100,7 +100,8 @@ static int height_with_base_and_size( player &dummy, int base_height,
     dummy.mod_base_height( base_height - dummy.base_height() );
 
     // MEDIUM is not an actual trait; just ignore it
-    if( size_trait == "SMALL" || size_trait == "LARGE" || size_trait == "HUGE" ) {
+    if( size_trait == "SMALL2" || size_trait == "SMALL" || size_trait == "LARGE" ||
+        size_trait == "HUGE" ) {
         dummy.toggle_trait( trait_id( size_trait ) );
     }
 
@@ -253,12 +254,21 @@ TEST_CASE( "character height and body size mutations", "[biometrics][height][mut
             }
         }
 
+        WHEN( "they become TINY" ) {
+            set_single_trait( dummy, "SMALL2" );
+            REQUIRE( dummy.get_size() == creature_size::tiny );
+
+            THEN( "they become 50% of their original height" ) {
+                CHECK( dummy.height() == init_height / 2 );
+            }
+        }
+
         WHEN( "they become SMALL" ) {
             set_single_trait( dummy, "SMALL" );
             REQUIRE( dummy.get_size() == creature_size::small );
 
-            THEN( "they are 50cm shorter" ) {
-                CHECK( dummy.height() == init_height - 50 );
+            THEN( "they become 75% of their original height" ) {
+                CHECK( dummy.height() == ( init_height * 3 ) / 4 );
             }
         }
 
@@ -266,8 +276,8 @@ TEST_CASE( "character height and body size mutations", "[biometrics][height][mut
             set_single_trait( dummy, "LARGE" );
             REQUIRE( dummy.get_size() == creature_size::large );
 
-            THEN( "they are 50cm taller" ) {
-                CHECK( dummy.height() == init_height + 50 );
+            THEN( "they become 125% of their original height" ) {
+                CHECK( dummy.height() == ( init_height * 5 ) / 4 );
             }
         }
 
@@ -275,8 +285,8 @@ TEST_CASE( "character height and body size mutations", "[biometrics][height][mut
             set_single_trait( dummy, "HUGE" );
             REQUIRE( dummy.get_size() == creature_size::huge );
 
-            THEN( "they are 100cm taler" ) {
-                CHECK( dummy.height() == init_height + 100 );
+            THEN( "they become 150% of their original height" ) {
+                CHECK( dummy.height() == ( init_height * 3 ) / 2 );
             }
         }
     }

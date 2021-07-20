@@ -8416,15 +8416,15 @@ int Character::height() const
 {
     switch( get_size() ) {
         case creature_size::tiny:
-            return init_height - 100;
+            return init_height / 2; // 50% original
         case creature_size::small:
-            return init_height - 50;
+            return ( init_height * 3 ) / 4; // 75% original
         case creature_size::medium:
             return init_height;
         case creature_size::large:
-            return init_height + 50;
+            return ( init_height * 5 ) / 4; // 125% original
         case creature_size::huge:
-            return init_height + 100;
+            return ( init_height * 3 ) / 2; // // 150% original
         case creature_size::num_sizes:
             debugmsg( "ERROR: Character has invalid size class." );
             return 0;
