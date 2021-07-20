@@ -1241,7 +1241,7 @@ ret_val<bool> firestarter_actor::can_use( const Character &p, const item &it, bo
         return ret_val<bool>::make_failure( _( "You can't do that while underwater." ) );
     }
 
-    if( it.ammo_remaining() < it.ammo_required() ) {
+    if( !it.ammo_sufficient( &p ) ) {
         return ret_val<bool>::make_failure( _( "This tool doesn't have enough charges." ) );
     }
 
@@ -4367,7 +4367,7 @@ cata::optional<int> sew_advanced_actor::use( player &p, item &it, bool, const tr
                 return t;
             };
             // Mod not already present, check if modification is possible
-            if( !it.ammo_sufficient( thread_needed ) ) {
+            if( !it.ammo_sufficient( &p, thread_needed ) ) {
                 //~ %1$s: modification desc, %2$d: number of thread needed
                 prompt = string_format( _( "Can't %1$s (need %2$d thread loaded)" ),
                                         tolower( obj.implement_prompt.translated() ), thread_needed );
