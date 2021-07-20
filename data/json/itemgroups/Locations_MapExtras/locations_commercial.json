@@ -1928,11 +1928,5 @@
     "type": "item_group",
     "id": "gunshop_accessories",
     "items": [ { "item": "powered_earmuffs", "prob": 50, "charges": [ 0, 50 ] }, [ "ear_plugs", 80 ] ]
-  },
-  {
-    "id": "aquarium_salt",
-    "type": "item_group",
-    "subtype": "distribution",
-    "items": [ { "item": "salt_water", "prob": 100, "container-item": "aquarium_medium" } ]
   }
 ]
