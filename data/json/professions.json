@@ -1283,6 +1283,7 @@
       "prof_leatherworking_basic",
       "prof_metalworking",
       "prof_lockpicking",
+      "prof_bow_basic",
       "prof_bow_expert"
     ],
     "skills": [
