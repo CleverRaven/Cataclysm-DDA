@@ -13,8 +13,7 @@
   "default_time_multiplier": 1.5,
   "default_fail_multiplier": 1.2,
   "required_proficiencies": [ "prof_bow_expert" ],
-  "category": "Archery",
-  "str_bonus": 1
+  "bonuses": [ { "category": "archery", "type": "strength", "value": 1 } ]
 }
 ```
 ### `id`
@@ -53,10 +52,7 @@ The (optimal) time required to learn this proficiency.
 Optional. Array of strings  
 The proficiencies that must be obtained before this one can.  You cannot gain experience in a proficiency without the necessary prerequisites.
 
-### `category`
-Optional. String
-The category is used to apply bonuses to certain activities given the player has a particular proficiency. The bonuses applied must be hardcoded to the activity in question.
-
-### `str_bonus` and `dex_bonus` and `int_bonus` and `per_bonus`
-Optional. Int
-These values define how much of a stat increase is given to a certain activity when paired with a category.
+### `bonuses`
+Optional. Array of objects
+This member is used to apply bonuses to certain activities given the player has a particular proficiency. The bonuses applied must be hardcoded to the activity in question.
+A category, type, and value must be specified. Current valid types are strength, dexterity, intelligence, and perception.

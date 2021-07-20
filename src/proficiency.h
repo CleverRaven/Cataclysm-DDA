@@ -20,14 +20,29 @@ class JsonObject;
 class JsonOut;
 struct display_proficiency;
 struct learning_proficiency;
+template<typename E> struct enum_traits;
 template<typename T>
 class generic_factory;
 
-enum class proficiency_bonus_list : int {
-    str_bonus,
-    dex_bonus,
-    int_bonus,
-    per_bonus
+enum class proficiency_bonus_type : int {
+    strength,
+    dexterity,
+    intelligence,
+    perception,
+    last
+};
+
+template<>
+struct enum_traits<proficiency_bonus_type> {
+    static constexpr proficiency_bonus_type last = proficiency_bonus_type::last;
+};
+
+struct proficiency_bonus {
+    proficiency_bonus_type type = proficiency_bonus_type::last;
+    float value = 0;
+
+    proficiency_bonus() {}
+    proficiency_bonus( proficiency_bonus_type type, float value ) : type( type ), value( value ) {}
 };
 
 class proficiency
@@ -48,17 +63,13 @@ class proficiency
         time_duration _time_to_learn = 9999_hours;
         std::set<proficiency_id> _required;
 
-        std::string _category;
-
-        int _str_bonus = 0;
-        int _dex_bonus = 0;
-        int _int_bonus = 0;
-        int _per_bonus = 0;
+        std::map<std::string, std::vector<proficiency_bonus>> _bonuses;
 
     public:
         static void load_proficiencies( const JsonObject &jo, const std::string &src );
         static void reset();
         void load( const JsonObject &jo, const std::string &src );
+
         static const std::vector<proficiency> &get_all();
 
         bool can_learn() const;
@@ -72,12 +83,8 @@ class proficiency
         time_duration time_to_learn() const;
         std::set<proficiency_id> required_proficiencies() const;
 
-        std::string category() const;
-
-        int str_bonus() const;
-        int dex_bonus() const;
-        int int_bonus() const;
-        int per_bonus() const;
+        void load_proficiency_bonus( const JsonObject &jo );
+        std::map<std::string, std::vector<proficiency_bonus>> get_bonuses() const;
 };
 
 // The proficiencies you know, and the ones you're learning.
@@ -113,7 +120,7 @@ class proficiency_set
         std::vector<proficiency_id> known_profs() const;
         std::vector<proficiency_id> learning_profs() const;
 
-        float get_proficiency_bonus( std::string category, int proficiency_bonus ) const;
+        float get_proficiency_bonus( std::string category, proficiency_bonus_type proficiency_bonus ) const;
 
         void serialize( JsonOut &jsout ) const;
         void deserialize( JsonIn &jsin );

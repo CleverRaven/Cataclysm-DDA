@@ -3356,6 +3356,8 @@ void Creature::store( JsonOut &jsout ) const
 
     jsout.member( "throw_resist", throw_resist );
 
+    jsout.member( "archery_aim_counter", archery_aim_counter );
+
     jsout.member( "last_updated", last_updated );
 
     jsout.member( "body", body );
@@ -3439,6 +3441,8 @@ void Creature::load( const JsonObject &jsin )
     jsin.read( "melee_quiet", melee_quiet );
 
     jsin.read( "throw_resist", throw_resist );
+
+    jsin.read( "archery_aim_counter", archery_aim_counter );
 
     if( !jsin.read( "last_updated", last_updated ) ) {
         last_updated = calendar::turn;

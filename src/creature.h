@@ -1162,6 +1162,10 @@ class Creature : public location, public viewer
         virtual void on_damage_of_type( int, damage_type, const bodypart_id & ) {}
 
     public:
+        // Keep a count of moves passed in which resets every 100 turns as a result of practicing archery proficiency
+        // This is done this way in order to not destroy focus since `do_aim` is on a per-move basis.
+        int archery_aim_counter = 0;
+
         bodypart_id select_body_part( Creature *source, int hit_roll ) const;
         bodypart_id random_body_part( bool main_parts_only = false ) const;
 

@@ -32,9 +32,56 @@ bool proficiency_id::is_valid() const
     return proficiency_factory.is_valid( *this );
 }
 
+namespace io
+{
+template<>
+std::string enum_to_string<proficiency_bonus_type>( const proficiency_bonus_type data )
+{
+    // *INDENT-OFF*
+    switch( data ) {
+        case proficiency_bonus_type::strength:
+            return "strength";
+        case proficiency_bonus_type::dexterity:
+            return "dexterity";
+        case proficiency_bonus_type::intelligence:
+            return "intelligence";
+        case proficiency_bonus_type::perception:
+            return "perception";
+        case proficiency_bonus_type::last:
+            break;
+    }
+    // *INDENT-ON*
+
+    debugmsg( "Invalid proficiency bonus type" );
+    return "";
+}
+} // namespace io
+
 void proficiency::load_proficiencies( const JsonObject &jo, const std::string &src )
 {
     proficiency_factory.load( jo, src );
+}
+
+void proficiency::load_proficiency_bonus( const JsonObject &jo )
+{
+    std::string member = "bonuses";
+    if( jo.has_member( member ) ) {
+        if( jo.has_array( member ) ) {
+            for( const JsonValue entry : jo.get_array( member ) ) {
+                if( entry.test_object() ) {
+                    JsonObject obj = entry.get_object();
+
+                    const std::string category = obj.get_string( "category", "" );
+                    if( category != "" ) {
+                        std::string type_str = obj.get_string( "type", "last" );
+                        proficiency_bonus_type prof_bonus_type = io::string_to_enum<proficiency_bonus_type>( type_str );
+                        int value = obj.get_int( "value", 0 );
+                        _bonuses[category].push_back( proficiency_bonus( prof_bonus_type, value ) );
+                    }
+                }
+            }
+        }
+    }
 }
 
 void proficiency::reset()
@@ -53,12 +100,7 @@ void proficiency::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "time_to_learn", _time_to_learn );
     optional( jo, was_loaded, "required_proficiencies", _required );
 
-    optional( jo, was_loaded, "category", _category );
-
-    optional( jo, was_loaded, "str_bonus", _str_bonus );
-    optional( jo, was_loaded, "dex_bonus", _dex_bonus );
-    optional( jo, was_loaded, "int_bonus", _int_bonus );
-    optional( jo, was_loaded, "per_bonus", _per_bonus );
+    load_proficiency_bonus( jo );
 }
 
 const std::vector<proficiency> &proficiency::get_all()
@@ -106,59 +148,9 @@ std::set<proficiency_id> proficiency::required_proficiencies() const
     return _required;
 }
 
-std::string proficiency::category() const
+std::map<std::string, std::vector<proficiency_bonus>> proficiency::get_bonuses() const
 {
-    return _category;
-}
-
-int proficiency::str_bonus() const
-{
-    return _str_bonus;
-}
-
-int proficiency::dex_bonus() const
-{
-    return _dex_bonus;
-}
-
-int proficiency::int_bonus() const
-{
-    return _int_bonus;
-}
-
-int proficiency::per_bonus() const
-{
-    return _per_bonus;
-}
-
-// For new bonuses, add property name along with getter function in this method along with adding an entry to proficiency_bonus_list.
-float proficiency_bonus_from_json_property_name( proficiency prof, int prof_bonus )
-{
-    proficiency_bonus_list prof_bonus_enum = proficiency_bonus_list( prof_bonus );
-    switch( prof_bonus_enum ) {
-        case proficiency_bonus_list::str_bonus:
-            return prof.str_bonus();
-        case proficiency_bonus_list::dex_bonus:
-            return prof.dex_bonus();
-        case proficiency_bonus_list::int_bonus:
-            return prof.int_bonus();
-        case proficiency_bonus_list::per_bonus:
-            return prof.per_bonus();
-        default:
-            return 0;
-    }
-}
-
-float proficiency_set::get_proficiency_bonus( std::string category, int prof_bonus ) const
-{
-    int stat_bonus = 0;
-    for( const proficiency_id &knows : known ) {
-        proficiency prof = knows.obj();
-        if( prof.category() == category ) {
-            stat_bonus += proficiency_bonus_from_json_property_name( prof, prof_bonus );
-        }
-    }
-    return stat_bonus;
+    return _bonuses;
 }
 
 learning_proficiency &proficiency_set::fetch_learning( const proficiency_id &target )
@@ -393,6 +385,24 @@ std::vector<proficiency_id> proficiency_set::learning_profs() const
         ret.push_back( subject.id );
     }
     return ret;
+}
+
+float proficiency_set::get_proficiency_bonus( std::string category,
+        proficiency_bonus_type prof_bonus ) const
+{
+    int stat_bonus = 0;
+    for( const proficiency_id &knows : known ) {
+        proficiency prof = knows.obj();
+
+        std::map<std::string, std::vector<proficiency_bonus>> bonuses = prof.get_bonuses();
+
+        for( int index = 0; index < bonuses[category].size(); index++ ) {
+            if( bonuses[category][index].type == prof_bonus ) {
+                stat_bonus += bonuses[category][index].value;
+            }
+        }
+    }
+    return stat_bonus;
 }
 
 void proficiency_set::serialize( JsonOut &jsout ) const
