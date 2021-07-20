@@ -2,10 +2,11 @@
 
 #include <algorithm>
 #include <climits>
-#include <cmath>
 #include <cstdlib>
+#include <functional>
 #include <limits>
 #include <list>
+#include <string>
 
 #include "character.h"
 #include "crafting.h"
@@ -21,6 +22,7 @@
 #include "translations.h"
 #include "type_id.h"
 #include "uistate.h"
+#include "visitable.h"
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 

@@ -1,9 +1,12 @@
 #include "item_location.h"
 
+#include <algorithm>
 #include <cstddef>
+#include <functional>
 #include <iosfwd>
 #include <iterator>
 #include <list>
+#include <string>
 #include <vector>
 
 #include "character.h"
@@ -25,6 +28,7 @@
 #include "safe_reference.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "units.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
 #include "visitable.h"
@@ -74,6 +78,9 @@ class item_location::impl
         virtual ~impl() = default;
 
         virtual type where() const = 0;
+        virtual type where_recursive() const {
+            return where();
+        }
         virtual item_location parent_item() const {
             return item_location();
         }
@@ -215,12 +222,19 @@ class item_location::impl::item_on_map : public item_location::impl
 
             on_contents_changed();
             item obj = target()->split( qty );
+            const auto get_local_location = []( Character & ch, item * it ) {
+                if( ch.has_item( *it ) ) {
+                    return item_location( ch, it );
+                } else {
+                    return item_location{};
+                }
+            };
             if( !obj.is_null() ) {
-                return item_location( ch, &ch.i_add( obj, should_stack ) );
+                return get_local_location( ch, &ch.i_add( obj, should_stack ) );
             } else {
                 item *inv = &ch.i_add( *target(), should_stack );
                 remove_item();
-                return item_location( ch, inv );
+                return get_local_location( ch, inv );
             }
         }
 
@@ -532,13 +546,13 @@ class item_location::impl::item_in_container : public item_location::impl
         // note: could be a better way of handling this?
         int calc_index() const {
             int idx = 0;
-            for( const item *it : container->contents.all_items_top() ) {
+            for( const item *it : container->all_items_top() ) {
                 if( target() == it ) {
                     return idx;
                 }
                 idx++;
             }
-            if( container->contents.empty() ) {
+            if( container->empty() ) {
                 return -1;
             }
             return idx;
@@ -560,10 +574,10 @@ class item_location::impl::item_in_container : public item_location::impl
         }
 
         item *unpack( int idx ) const override {
-            if( idx < 0 || static_cast<size_t>( idx ) >= target()->contents.num_item_stacks() ) {
+            if( idx < 0 || static_cast<size_t>( idx ) >= target()->num_item_stacks() ) {
                 return nullptr;
             }
-            std::list<const item *> all_items = container->contents.all_items_ptr();
+            std::list<const item *> all_items = container->all_items_ptr();
             auto iter = all_items.begin();
             std::advance( iter, idx );
             if( iter != all_items.end() ) {
@@ -582,6 +596,10 @@ class item_location::impl::item_in_container : public item_location::impl
 
         type where() const override {
             return type::container;
+        }
+
+        type where_recursive() const override {
+            return container.where_recursive();
         }
 
         tripoint position() const override {
@@ -636,7 +654,7 @@ class item_location::impl::item_in_container : public item_location::impl
                 obj = *target();
             }
 
-            const int container_mv = container->contents.obtain_cost( *target() );
+            const int container_mv = container->obtain_cost( *target() );
             if( container_mv == 0 ) {
                 debugmsg( "ERROR: %s does not contain %s", container->tname(), target()->tname() );
                 return 0;
@@ -765,7 +783,7 @@ void item_location::deserialize( JsonIn &js )
             ptr.reset( new impl::item_on_map( map_cursor( pos ), idx ) ); // drop on ground
             return;
         }
-        const std::list<item *> parent_contents = parent->contents.all_items_top();
+        const std::list<item *> parent_contents = parent->all_items_top();
         if( idx > -1 && idx < static_cast<int>( parent_contents.size() ) ) {
             auto iter = parent_contents.begin();
             std::advance( iter, idx );
@@ -838,6 +856,11 @@ bool item_location::eventually_contains( item_location loc ) const
 item_location::type item_location::where() const
 {
     return ptr->where();
+}
+
+item_location::type item_location::where_recursive() const
+{
+    return ptr->where_recursive();
 }
 
 tripoint item_location::position() const
@@ -916,4 +939,24 @@ units::volume item_location::volume_capacity() const
 units::mass item_location::weight_capacity() const
 {
     return ptr->weight_capacity();
+}
+
+bool item_location::protected_from_liquids() const
+{
+    // check if inside a watertight which is not an open_container
+    if( has_parent() ) {
+        item_location parent = parent_item();
+
+        // parent can protect the item against water
+        if( parent->is_watertight_container() && !parent->will_spill() ) {
+            return true;
+        }
+
+        // check the parent's parent
+        return parent.protected_from_liquids();
+    }
+
+    // we recursively checked all containers
+    // none are closed watertight containers
+    return false;
 }

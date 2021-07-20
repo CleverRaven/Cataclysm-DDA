@@ -2,9 +2,8 @@
 #ifndef CATA_SRC_INPUT_H
 #define CATA_SRC_INPUT_H
 
-#include <algorithm>
-#include <cstddef>
 #include <functional>
+#include <iosfwd>
 #include <map>
 #include <set>
 #include <string>
@@ -664,7 +663,16 @@ class input_context
          * @param text The base text for action description
          *
          * @param evt_filter Only keys satisfying this function will be considered
+         * @param inline_fmt Action description format when a key is found in the
+         *                   text (for example "(a)ctive")
+         * @param separate_fmt Action description format when a key is not found
+         *                     in the text (for example "[X] active" or "[N/A] active")
          */
+        std::string get_desc( const std::string &action_descriptor,
+                              const std::string &text,
+                              const input_event_filter &evt_filter,
+                              const translation &inline_fmt,
+                              const translation &separate_fmt ) const;
         std::string get_desc( const std::string &action_descriptor,
                               const std::string &text,
                               const input_event_filter &evt_filter = allow_all_keys ) const;

@@ -2,12 +2,13 @@
 #ifndef CATA_SRC_OMDATA_H
 #define CATA_SRC_OMDATA_H
 
-#include <algorithm>
 #include <array>
 #include <climits>
 #include <cstddef>
 #include <cstdint>
+#include <iosfwd>
 #include <list>
+#include <new>
 #include <set>
 #include <string>
 #include <vector>
@@ -17,12 +18,9 @@
 #include "color.h"
 #include "common_types.h"
 #include "coordinates.h"
-#include "cuboid_rectangle.h"
 #include "enum_bitset.h"
-#include "int_id.h"
 #include "optional.h"
 #include "point.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 
@@ -213,6 +211,7 @@ struct oter_type_t {
         uint32_t symbol = 0;
         nc_color color = c_black;
         overmap_land_use_code_id land_use_code = overmap_land_use_code_id::NULL_ID();
+        std::vector<std::string> looks_like;
         unsigned char see_cost = 0;     // Affects how far the player can see in the overmap
         unsigned char travel_cost = 5;  // Affects the pathfinding and travel times
         std::string extras = "none";
@@ -249,9 +248,18 @@ struct oter_type_t {
             return has_flag( oter_flags::line_drawing );
         }
 
+        bool has_connections() const {
+            return !connect_group.empty();
+        }
+
+        bool connects_to( const oter_type_id &other ) const {
+            return has_connections() && connect_group == other->connect_group;
+        }
+
     private:
         enum_bitset<oter_flags> flags;
         std::vector<oter_id> directional_peers;
+        std::string connect_group; // Group for connection when rendering overmap tiles
 
         void register_terrain( const oter_t &peer, size_t n, size_t max_n );
 };
@@ -283,6 +291,10 @@ struct oter_t {
             return utf32_to_utf8( from_land_use_code ? symbol_alt : symbol );
         }
 
+        uint32_t get_uint32_symbol() const {
+            return symbol;
+        }
+
         nc_color get_color( const bool from_land_use_code = false ) const {
             return from_land_use_code ? type->land_use_code->color : type->color;
         }
@@ -294,6 +306,7 @@ struct oter_t {
         size_t get_line() const {
             return line;
         }
+        void get_rotation_and_subtile( int &rotation, int &subtile ) const;
 
         unsigned char get_see_cost() const {
             return type->see_cost;

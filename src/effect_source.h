@@ -2,15 +2,18 @@
 #ifndef CATA_SRC_EFFECT_SOURCE_H
 #define CATA_SRC_EFFECT_SOURCE_H
 
-#include "optional.h"
-#include "cata_utility.h"
+#include <new>
+
 #include "character_id.h"
+#include "optional.h"
 #include "type_id.h"
 
-class faction;
-class monster;
 class Character;
 class Creature;
+class JsonIn;
+class JsonOut;
+class faction;
+class monster;
 
 // This class stores the source of an effect; e.g. if something
 // has bleed effect on it then this can try and tell you who/what caused it

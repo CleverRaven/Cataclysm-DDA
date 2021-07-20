@@ -68,7 +68,7 @@
     "base_casting_time": 350,
     "base_energy_cost": 400,
     "energy_source": "MANA",
-    "flags": [ "VERBAL", "SOMATIC", "LOUD" ],
+    "flags": [ "VERBAL", "SOMATIC", "LOUD", "MUST_HAVE_CLASS_TO_LEARN" ],
     "extra_effects": [ { "id": "lava_bomb_shrapnel" }, { "id": "lava_bomb_heat" }, { "id": "lava_bomb_ter" } ],
     "spell_class": "VULCANIST"
   }

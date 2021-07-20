@@ -18,7 +18,6 @@
 namespace
 {
 generic_factory<scenario> all_scenarios( "scenario" );
-const string_id<scenario> generic_scenario_id( "evacuee" );
 } // namespace
 
 /** @relates string_id */
@@ -121,10 +120,16 @@ void scenario::load( const JsonObject &jo, const std::string & )
     if( jo.has_string( "vehicle" ) ) {
         _starting_vehicle = vproto_id( jo.get_string( "vehicle" ) );
     }
+
+    for( JsonArray ja : jo.get_array( "surround_groups" ) ) {
+        _surround_groups.emplace_back( mongroup_id( ja.get_string( 0 ) ), ja.get_float( 1 ) );
+    }
 }
 
 const scenario *scenario::generic()
 {
+    static const string_id<scenario> generic_scenario_id(
+        get_option<std::string>( "GENERIC_SCENARIO_ID" ) );
     return &generic_scenario_id.obj();
 }
 
@@ -182,10 +187,14 @@ void scenario::check_definition() const
             debugmsg( "profession %s for scenario %s does not exist", p.c_str(), id.c_str() );
         }
     }
-    if( std::any_of( professions.begin(), professions.end(), [&]( const string_id<profession> &p ) {
-    return std::count( professions.begin(), professions.end(), p ) > 1;
-    } ) ) {
-        debugmsg( "Duplicate entries in the professions array." );
+
+    std::unordered_set<string_id<profession>> professions_set;
+    for( const auto &p : professions ) {
+        if( professions_set.count( p ) == 1 ) {
+            debugmsg( "Duplicate profession %s in scenario %s.", p.c_str(), this->id.c_str() );
+        } else {
+            professions_set.insert( p );
+        }
     }
 
     for( const start_location_id &l : _allowed_locs ) {
@@ -535,5 +544,9 @@ const std::string &scenario::get_map_extra() const
 const std::vector<mission_type_id> &scenario::missions() const
 {
     return _missions;
+}
+const std::vector<std::pair<mongroup_id, float>> &scenario::surround_groups() const
+{
+    return _surround_groups;
 }
 // vim:ts=4:sw=4:et:tw=0:fdm=marker:

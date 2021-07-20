@@ -4,9 +4,10 @@
 
 #include <array>
 #include <functional>
+#include <iosfwd>
 #include <memory>
+#include <new>
 #include <set>
-#include <string>
 #include <unordered_map>
 #include <utility>
 #include <vector>
@@ -16,10 +17,7 @@
 #include "memory_fast.h"
 #include "omdata.h"
 #include "optional.h"
-#include "overmap.h"
 #include "overmap_types.h"
-#include "point.h"
-#include "string_id.h"
 #include "type_id.h"
 
 class basecamp;

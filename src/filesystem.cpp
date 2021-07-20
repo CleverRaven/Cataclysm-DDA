@@ -1,21 +1,24 @@
 #include "filesystem.h"
 
+#include <cstddef>
+// IWYU pragma: no_include <sys/dirent.h>
+// IWYU pragma: no_include <sys/errno.h>
 // FILE I/O
 #include <sys/stat.h>
-#include <cstdlib>
 #include <algorithm>
-#include <cerrno>
 #include <cstdio>
+#include <cstdlib>
 #include <cstring>
 #include <deque>
 #include <fstream>
-#include <string>
-#include <vector>
+#include <functional>
 #include <iterator>
-#include <utility>
+#include <string>
+#include <type_traits>
+#include <vector>
 
-#include "debug.h"
 #include "cata_utility.h"
+#include "debug.h"
 
 #if defined(_MSC_VER)
 #   include <direct.h>

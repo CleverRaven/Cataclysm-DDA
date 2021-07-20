@@ -5,12 +5,13 @@
 #include <functional>
 #include <cstddef>
 #include <iterator>
-#include <utility>
+#include <new>
+#include <type_traits>
 
 #include "cata_assert.h"
 #include "optional.h"
-#include "vpart_position.h"
 #include "vehicle.h"
+#include "vpart_position.h"
 
 enum class part_status_flag : int;
 

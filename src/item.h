@@ -6,19 +6,20 @@
 #include <climits>
 #include <cstdint>
 #include <functional>
+#include <iosfwd>
 #include <list>
 #include <map>
+#include <new>
 #include <set>
-#include <string>
 #include <type_traits>
 #include <utility>
 #include <vector>
 
 #include "calendar.h"
 #include "cata_utility.h"
+#include "compatibility.h"
 #include "craft_command.h"
 #include "enums.h"
-#include "flat_set.h"
 #include "gun_mode.h"
 #include "io_tags.h"
 #include "item_contents.h"
@@ -28,31 +29,30 @@
 #include "optional.h"
 #include "requirements.h"
 #include "safe_reference.h"
-#include "string_id.h"
 #include "type_id.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "value_ptr.h"
 #include "visitable.h"
 
-class book_proficiency_bonuses;
 class Character;
+class Creature;
 class JsonIn;
 class JsonObject;
 class JsonOut;
+class book_proficiency_bonuses;
 class enchantment;
 class faction;
 class gun_type_type;
 class gunmod_location;
 class item;
 class iteminfo_query;
-class material_type;
 class monster;
 class nc_color;
 class player;
 class recipe;
 class relic;
 struct armor_portion_data;
+struct gun_variant_data;
 struct islot_comestible;
 struct itype;
 struct mtype;
@@ -168,9 +168,9 @@ struct enum_traits<iteminfo::flags> {
 };
 
 iteminfo vol_to_info( const std::string &type, const std::string &left,
-                      const units::volume &vol, int decimal_places = 2 );
+                      const units::volume &vol, int decimal_places = 2, bool lower_is_better = true );
 iteminfo weight_to_info( const std::string &type, const std::string &left,
-                         const units::mass &weight, int decimal_places = 2 );
+                         const units::mass &weight, int decimal_places = 2, bool lower_is_better = true );
 
 inline bool is_crafting_component( const item &component );
 
@@ -181,9 +181,9 @@ class item : public visitable
 
         item();
 
-        item( item && );
+        item( item && ) noexcept( map_is_noexcept );
         item( const item & );
-        item &operator=( item && );
+        item &operator=( item && ) noexcept( list_is_noexcept );
         item &operator=( const item & );
 
         explicit item( const itype_id &id, time_point turn = calendar::turn, int qty = -1 );
@@ -336,6 +336,11 @@ class item : public visitable
         bool is_money() const;
         bool is_software() const;
         bool is_software_storage() const;
+
+        /**
+         * Returns a symbol for indicating the current dirt or fouling level for a gun.
+         */
+        std::string dirt_symbol() const;
 
         /**
          * Returns the default color of the item (e.g. @ref itype::color).
@@ -564,6 +569,11 @@ class item : public visitable
          */
         bool merge_charges( const item &rhs );
 
+        /**
+        * Total weight of an item accounting for all contained/integrated items
+        * @param include_contents if true include weight of contained items
+        * @param integral if true return effective weight if this item was integrated into another
+        */
         units::mass weight( bool include_contents = true, bool integral = false ) const;
 
         /**
@@ -571,8 +581,9 @@ class item : public visitable
          * NOTE: Result is rounded up to next nearest milliliter when working with stackable (@ref count_by_charges) items that have fractional volume per charge.
          * If trying to determine how many of an item can fit in a given space, @ref charges_per_volume should be used instead.
          * @param integral if true return effective volume if this item was integrated into another
+         * @param ignore_contents if true return effective volume for the item alone, ignoring its contents
          */
-        units::volume volume( bool integral = false ) const;
+        units::volume volume( bool integral = false, bool ignore_contents = false ) const;
 
         units::length length() const;
 
@@ -621,7 +632,7 @@ class item : public visitable
         * Calculate the item's effective damage per second past armor when wielded by a
          * character against a monster.
          */
-        double effective_dps( const Character &guy, monster &mon ) const;
+        double effective_dps( const Character &guy, Creature &mon ) const;
         /**
          * calculate effective dps against a stock set of monsters.  by default, assume g->u
          * is wielding
@@ -724,6 +735,17 @@ class item : public visitable
         /** Whether this is container. Note that container does not necessarily means it's
          * suitable for liquids. */
         bool is_container() const;
+        // whether the contents has a pocket with the associated type
+        bool has_pocket_type( item_pocket::pocket_type pk_type ) const;
+        bool has_any_with( const std::function<bool( const item & )> &filter,
+                           item_pocket::pocket_type pk_type ) const;
+
+        /** True if every pocket is rigid or we have no pockets */
+        bool all_pockets_rigid() const;
+
+        // gets all pockets contained in this item
+        ret_val<std::vector<const item_pocket *>> get_all_contained_pockets() const;
+        ret_val<std::vector<item_pocket *>> get_all_contained_pockets();
 
         /**
          * Updates the pockets of this item to be correct based on the mods that are installed.
@@ -752,7 +774,8 @@ class item : public visitable
          */
         int fill_with( const item &contained, int amount = INFINITE_CHARGES,
                        bool unseal_pockets = false,
-                       bool allow_sealed = false );
+                       bool allow_sealed = false,
+                       bool ignore_settings = false );
 
         /**
          * How much more of this liquid (in charges) can be put in this container.
@@ -777,11 +800,17 @@ class item : public visitable
         // recursive function that checks pockets for remaining free space
         units::volume check_for_free_space() const;
         units::volume get_selected_stack_volume( const std::map<const item *, int> &without ) const;
-        // checks if the item can have things placed in it
-        bool has_pockets() const {
-            // what has it gots in them, precious
-            return contents.has_pocket_type( item_pocket::pocket_type::CONTAINER );
-        }
+        units::volume get_contents_volume_with_tweaks( const std::map<const item *, int> &without ) const;
+        units::volume get_nested_content_volume_recursive( const std::map<const item *, int> &without )
+        const;
+
+        // what will the move cost be of taking @it out of this container?
+        // should only be used from item_location if possible, to account for
+        // player inventory handling penalties from traits
+        int obtain_cost( const item &it ) const;
+        // what will the move cost be of storing @it into this container? (CONTAINER pocket type)
+        int insert_cost( const item &it ) const;
+
         /**
          * Puts the given item into this one.
          */
@@ -898,7 +927,7 @@ class item : public visitable
          * 1 for other comestibles,
          * 0 otherwise.
          */
-        int spoilage_sort_order();
+        int spoilage_sort_order() const;
 
         /** an item is fresh if it is capable of rotting but still has a long shelf life remaining */
         bool is_fresh() const {
@@ -1192,7 +1221,6 @@ class item : public visitable
 
         void overwrite_relic( const relic &nrelic );
 
-        bool destroyed_at_zero_charges() const;
         // Most of the is_whatever() functions call the same function in our itype
         bool is_null() const; // True if type is NULL, or points to the null item (id == 0)
         bool is_comestible() const;
@@ -1231,6 +1259,9 @@ class item : public visitable
         bool is_faulty() const;
         bool is_irremovable() const;
 
+        /** Returns true if the item is broken and can't be activated or used in crafting */
+        bool is_broken() const;
+
         bool is_unarmed_weapon() const; //Returns true if the item should be considered unarmed
 
         bool has_temperature() const;
@@ -1238,10 +1269,12 @@ class item : public visitable
         /** Returns true if the item is A: is SOLID and if it B: is of type LIQUID */
         bool is_frozen_liquid() const;
 
+        /** Returns empty string if the book teach no skill */
+        std::string get_book_skill() const;
         float get_specific_heat_liquid() const;
         float get_specific_heat_solid() const;
         float get_latent_heat() const;
-        float get_freeze_point() const; // Fahrenheit
+        float get_freeze_point() const; // Celsius
 
         // If this is food, returns itself.  If it contains food, return that
         // contents.  Otherwise, returns nullptr.
@@ -1269,12 +1302,12 @@ class item : public visitable
          * For example, airtight for gas, acidproof for acid etc.
          */
         /*@{*/
-        bool can_contain( const item &it ) const;
+        ret_val<bool> can_contain( const item &it ) const;
         bool can_contain( const itype &tp ) const;
         bool can_contain_partial( const item &it ) const;
         /*@}*/
         std::pair<item_location, item_pocket *> best_pocket( const item &it, item_location &parent,
-                bool allow_sealed = false );
+                bool allow_sealed = false, bool ignore_settings = false, bool nested = false );
 
         units::length max_containable_length() const;
         units::volume max_containable_volume() const;
@@ -1339,6 +1372,9 @@ class item : public visitable
          * @return If the item is now empty.
          */
         bool spill_contents( const tripoint &pos );
+        bool spill_open_pockets( Character &guy, const item *avoid = nullptr );
+        // spill items that don't fit in the container
+        void overflow( const tripoint &pos );
 
         /** Checks if item is a holster and currently capable of storing obj
          *  @param obj object that we want to holster
@@ -1581,6 +1617,8 @@ class item : public visitable
          * Whether this item (when worn) covers the given body part.
          */
         bool covers( const bodypart_id &bp ) const;
+        // do both items overlap a bodypart at all? returns the side that conflicts via rhs
+        cata::optional<side> covers_overlaps( const item &rhs ) const;
         /**
          * Bitset of all covered body parts.
          *
@@ -1798,6 +1836,27 @@ class item : public visitable
          *  @note an item can be both a gun and melee weapon concurrently
          */
         bool is_gun() const;
+
+        /**
+         * Does this item have a gun variant associated with it
+         * If check_option, the return of this is dependent on the SHOW_GUN_VARIANTS option
+         */
+        bool has_gun_variant( bool check_option = true ) const;
+
+        /**
+         * The gun variant associated with this item
+         */
+        const gun_variant_data &gun_variant() const;
+
+        /**
+         * Set the gun variant of this item
+         */
+        void set_gun_variant( const std::string &variant );
+
+        /**
+         * For debug use only
+         */
+        void clear_gun_variant();
 
         /** Quantity of energy currently loaded in tool or battery */
         units::energy energy_remaining() const;
@@ -2058,7 +2117,7 @@ class item : public visitable
         /**
          * Returns name of deceased being if it had any or empty string if not
          **/
-        std::string get_corpse_name();
+        std::string get_corpse_name() const;
         /**
          * Returns the translated item name for the item with given id.
          * The name is in the proper plural form as specified by the
@@ -2216,6 +2275,53 @@ class item : public visitable
         std::list<item> remove_items_with( const std::function<bool( const item & )> &filter,
                                            int count = INT_MAX ) override;
 
+        /** returns a list of pointers to all top-level items that are not mods */
+        std::list<const item *> all_items_top() const;
+        /** returns a list of pointers to all top-level items that are not mods */
+        std::list<item *> all_items_top();
+        /** returns a list of pointers to all top-level items */
+        std::list<const item *> all_items_top( item_pocket::pocket_type pk_type ) const;
+        /** returns a list of pointers to all top-level items */
+        std::list<item *> all_items_top( item_pocket::pocket_type pk_type );
+
+        /**
+         * returns a list of pointers to all items inside recursively
+         * includes mods.  used for item_location::unpack()
+         */
+        std::list<const item *> all_items_ptr() const;
+        /** returns a list of pointers to all items inside recursively */
+        std::list<const item *> all_items_ptr( item_pocket::pocket_type pk_type ) const;
+        /** returns a list of pointers to all items inside recursively */
+        std::list<item *> all_items_ptr( item_pocket::pocket_type pk_type );
+
+        void clear_items();
+        bool empty() const;
+        // ignores all pockets except CONTAINER pockets to check if this contents is empty.
+        bool empty_container() const;
+
+        // gets the item contained IFF one item is contained (CONTAINER pocket), otherwise a null item reference
+        item &only_item();
+        const item &only_item() const;
+
+        /**
+         * returns the number of items stacks in contents
+         * each item that is not count_by_charges,
+         * plus whole stacks of items that are
+         */
+        size_t num_item_stacks() const;
+        /**
+         * This function is to aid migration to using nested containers.
+         * The call sites of this function need to be updated to search the
+         * pockets of the item, or not assume there is only one pocket or item.
+         */
+        item &legacy_front();
+        const item &legacy_front() const;
+
+        /**
+         * Open a menu for the player to set pocket favorite settings for the pockets in this item_contents
+         */
+        void favorite_settings_menu( const std::string &item_name );
+
     private:
         /** migrates an item into this item. */
         void migrate_content_item( const item &contained );
@@ -2245,6 +2351,11 @@ class item : public visitable
 
         /** Helper for checking reloadability. **/
         bool is_reloadable_helper( const itype_id &ammo, bool now ) const;
+
+        std::list<item *> all_items_top_recursive( item_pocket::pocket_type pk_type );
+        std::list<const item *> all_items_top_recursive( item_pocket::pocket_type pk_type ) const;
+
+        void armor_encumbrance_info( std::vector<iteminfo> &info, int reduce_encumbrance_by = 0 ) const;
 
     public:
         enum class sizing : int {
@@ -2299,6 +2410,18 @@ class item : public visitable
         const mtype *corpse = nullptr;
         std::string corpse_name;       // Name of the late lamented
         std::set<matec_id> techniques; // item specific techniques
+
+        // Select a random variant from the possibilities
+        // Intended to be called when no explicit variant is set
+        void select_gun_variant();
+
+        bool can_have_gun_variant() const;
+
+        // Does this have a variant with this id?
+        bool possible_gun_variant( const std::string &test ) const;
+
+        // If the item has a gun variant, this points to it
+        const gun_variant_data *_gun_variant = nullptr;
 
         /**
          * Data for items that represent in-progress crafts.

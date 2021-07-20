@@ -3,6 +3,7 @@
 #define CATA_SRC_MOD_MANAGER_H
 
 #include <cstddef>
+#include <iosfwd>
 #include <map>
 #include <set>
 #include <string>
@@ -10,7 +11,6 @@
 #include <vector>
 
 #include "pimpl.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 
@@ -37,9 +37,6 @@ struct MOD_INFORMATION {
 
         /** Directory to load JSON from relative to directory containing modinfo.json */
         std::string path;
-
-        /** If set load legacy migrations from this location dependent upon save version */
-        std::string legacy;
 
         /** All authors who have added content to the mod (excluding maintenance changes) */
         std::set<std::string> authors;

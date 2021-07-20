@@ -2,24 +2,17 @@
 #ifndef CATA_SRC_PLAYER_H
 #define CATA_SRC_PLAYER_H
 
-#include <climits>
-#include <functional>
+#include <iosfwd>
 #include <list>
 #include <map>
-#include <memory>
 #include <set>
-#include <string>
 #include <type_traits>
 #include <utility>
 #include <vector>
 
-#include "bodypart.h"
-#include "cata_utility.h"
 #include "character.h"
 #include "character_id.h"
 #include "creature.h"
-#include "cursesdef.h"
-#include "damage.h"
 #include "enums.h"
 #include "game_constants.h"
 #include "item.h"
@@ -27,43 +20,26 @@
 #include "item_pocket.h"
 #include "memory_fast.h"
 #include "optional.h"
-#include "pimpl.h"
-#include "player_activity.h"
-#include "pldata.h"
 #include "point.h"
 #include "ret_val.h"
-#include "string_id.h"
 #include "type_id.h"
-#include "weighted_list.h"
 
 class JsonIn;
 class JsonObject;
 class JsonOut;
-class basecamp;
-class dispersion_sources;
-class effect;
-class faction;
-class inventory;
-class ma_technique;
-class map;
-class monster;
 class nc_color;
-class npc;
 class profession;
-class recipe;
-class recipe_subset;
 class time_duration;
+class time_point;
 class vehicle;
-struct bionic;
+
+namespace catacurses
+{
+class window;
+}  // namespace catacurses
 struct damage_unit;
 struct dealt_projectile_attack;
-struct item_comp;
-struct itype;
-struct pathfinding_settings;
-struct requirement_data;
-struct tool_comp;
 struct trap;
-struct w_point;
 
 enum action_id : int;
 enum game_message_type : int;
@@ -103,10 +79,10 @@ class player : public Character
     public:
         player();
         player( const player & ) = delete;
-        player( player && );
+        player( player && ) noexcept( map_is_noexcept );
         ~player() override;
         player &operator=( const player & ) = delete;
-        player &operator=( player && );
+        player &operator=( player && ) noexcept( list_is_noexcept );
 
         /** Calls Character::normalize()
          *  normalizes HP and body temperature
@@ -114,9 +90,6 @@ class player : public Character
 
         void normalize() override;
 
-        bool is_player() const override {
-            return true;
-        }
         player *as_player() override {
             return this;
         }
@@ -136,11 +109,6 @@ class player : public Character
 
         /** Handles and displays detailed character info for the '@' screen */
         void disp_info();
-
-        /**Estimate effect duration based on player relevant skill*/
-        time_duration estimate_effect_dur( const skill_id &relevant_skill, const efftype_id &effect,
-                                           const time_duration &error_magnitude,
-                                           int threshold, const Creature &target ) const;
 
         /** Resets movement points and applies other non-idempotent changes */
         void process_turn() override;
@@ -237,12 +205,12 @@ class player : public Character
         /** Used for eating object at a location. Removes item if all of it was consumed.
         *   @returns trinary enum NONE, SOME or ALL amount consumed.
         */
-        trinary consume( item_location loc, bool force = false );
+        trinary consume( item_location loc, bool force = false, bool refuel = false );
 
         /** Used for eating a particular item that doesn't need to be in inventory.
          *  @returns trinary enum NONE, SOME or ALL (doesn't remove).
          */
-        trinary consume( item &target, bool force = false );
+        trinary consume( item &target, bool force = false, bool refuel = false );
 
         int get_lift_assist() const;
 
@@ -290,8 +258,9 @@ class player : public Character
         wear( item_location item_wear, bool interactive = true );
 
         /** Takes off an item, returning false on fail. The taken off item is processed in the interact */
-        bool takeoff( item &it, std::list<item> *res = nullptr );
+        bool takeoff( item_location loc, std::list<item> *res = nullptr );
         bool takeoff( int pos );
+
 
         /**
          * Try to wield a contained item consuming moves proportional to weapon skill and volume.
@@ -317,7 +286,7 @@ class player : public Character
         /** Uses a tool */
         void use( int inventory_position );
         /** Uses a tool at location */
-        void use( item_location loc );
+        void use( item_location loc, int pre_obtain_moves = -1 );
         /** Uses the current wielded weapon */
         void use_wielded();
 
@@ -389,11 +358,17 @@ class player : public Character
         using Character::add_msg_if_player;
         void add_msg_if_player( const std::string &msg ) const override;
         void add_msg_if_player( const game_message_params &params, const std::string &msg ) const override;
+        using Character::add_msg_debug_if_player;
+        void add_msg_debug_if_player( debugmode::debug_filter type,
+                                      const std::string &msg ) const override;
         using Character::add_msg_player_or_npc;
         void add_msg_player_or_npc( const std::string &player_msg,
                                     const std::string &npc_str ) const override;
         void add_msg_player_or_npc( const game_message_params &params, const std::string &player_msg,
                                     const std::string &npc_msg ) const override;
+        using Character::add_msg_debug_player_or_npc;
+        void add_msg_debug_player_or_npc( debugmode::debug_filter type, const std::string &player_msg,
+                                          const std::string &npc_msg ) const override;
         using Character::add_msg_player_or_say;
         void add_msg_player_or_say( const std::string &player_msg,
                                     const std::string &npc_speech ) const override;
@@ -408,6 +383,27 @@ class player : public Character
 
         using Character::query_yn;
         bool query_yn( const std::string &mes ) const override;
+
+        /**
+         * Helper function for player::read.
+         *
+         * @param book Book to read
+         * @param reasons Starting with g->u, for each player/NPC who cannot read, a message will be pushed back here.
+         * @returns nullptr, if neither the player nor his followers can read to the player, otherwise the player/NPC
+         * who can read and can read the fastest
+         */
+        const player *get_book_reader( const item &book, std::vector<std::string> &reasons ) const;
+
+
+        /**
+         * Helper function for get_book_reader
+         * @warning This function assumes that the everyone is able to read
+         *
+         * @param book The book being read
+         * @param reader the player/NPC who's reading to the caller
+         * @param learner if not nullptr, assume that the caller and reader read at a pace that isn't too fast for him
+         */
+        int time_to_read( const item &book, const player &reader, const player *learner = nullptr ) const;
 
     protected:
 

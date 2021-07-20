@@ -1,18 +1,23 @@
-#include "catch/catch.hpp"
-
+#include <iosfwd>
 #include <list>
 #include <memory>
 #include <string>
 #include <vector>
 
 #include "avatar.h"
+#include "activity_actor_definitions.h"
 #include "calendar.h"
+#include "cata_catch.h"
+#include "character.h"
 #include "item.h"
 #include "itype.h"
 #include "morale_types.h"
 #include "player_helpers.h"
+#include "skill.h"
 #include "type_id.h"
 #include "value_ptr.h"
+
+class player;
 
 static const trait_id trait_HATES_BOOKS( "HATES_BOOKS" );
 static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
@@ -41,7 +46,7 @@ TEST_CASE( "identifying unread books", "[reading][book][identify]" )
 {
     clear_avatar();
     Character &dummy = get_avatar();
-    dummy.worn.push_back( item( "backpack" ) );
+    dummy.worn.emplace_back( "backpack" );
 
     GIVEN( "character has some unidentified books" ) {
         item &book1 = dummy.i_add( item( "novel_western" ) );
@@ -67,7 +72,7 @@ TEST_CASE( "reading a book for fun", "[reading][book][fun]" )
     clear_avatar();
     Character &dummy = get_avatar();
     dummy.set_body();
-    dummy.worn.push_back( item( "backpack" ) );
+    dummy.worn.emplace_back( "backpack" );
 
     GIVEN( "a fun book" ) {
         item &book = dummy.i_add( item( "novel_western" ) );
@@ -138,7 +143,7 @@ TEST_CASE( "character reading speed", "[reading][character][speed]" )
 {
     clear_avatar();
     Character &dummy = get_avatar();
-    dummy.worn.push_back( item( "backpack" ) );
+    dummy.worn.emplace_back( "backpack" );
 
     // Note: read_speed() returns number of moves;
     // 6000 == 60 seconds
@@ -183,7 +188,7 @@ TEST_CASE( "character reading speed", "[reading][character][speed]" )
 TEST_CASE( "estimated reading time for a book", "[reading][book][time]" )
 {
     avatar dummy;
-    dummy.worn.push_back( item( "backpack" ) );
+    dummy.worn.emplace_back( "backpack" );
 
     // Easy, medium, and hard books
     item &child = dummy.i_add( item( "child_book" ) );
@@ -271,7 +276,7 @@ TEST_CASE( "reasons for not being able to read", "[reading][reasons]" )
 {
     avatar dummy;
     dummy.set_body();
-    dummy.worn.push_back( item( "backpack" ) );
+    dummy.worn.emplace_back( "backpack" );
     std::vector<std::string> reasons;
     std::vector<std::string> expect_reasons;
 
@@ -366,7 +371,7 @@ TEST_CASE( "determining book mastery", "[reading][book][mastery]" )
 
     avatar dummy;
     dummy.set_body();
-    dummy.worn.push_back( item( "backpack" ) );
+    dummy.worn.emplace_back( "backpack" );
 
     item &child = dummy.i_add( item( "child_book" ) );
     item &alpha = dummy.i_add( item( "recipe_alpha" ) );
@@ -382,8 +387,8 @@ TEST_CASE( "determining book mastery", "[reading][book][mastery]" )
         CHECK( dummy.get_book_mastery( child ) == book_mastery::CANT_DETERMINE );
     }
     GIVEN( "some identified books" ) {
-        dummy.do_read( child );
-        dummy.do_read( alpha );
+        dummy.identify( child );
+        dummy.identify( alpha );
         REQUIRE( dummy.has_identified( child.typeId() ) );
         REQUIRE( dummy.has_identified( alpha.typeId() ) );
 
@@ -406,6 +411,44 @@ TEST_CASE( "determining book mastery", "[reading][book][mastery]" )
             }
             THEN( "you already mastered it if you have too much skill" ) {
                 dummy.set_skill_level( skill_id( "chemistry" ), 7 );
+                CHECK( dummy.get_book_mastery( alpha ) == book_mastery::MASTERED );
+            }
+        }
+    }
+}
+
+TEST_CASE( "reading a book for skill", "[reading][book][skill]" )
+{
+    clear_avatar();
+    Character &dummy = get_avatar();
+    dummy.set_body();
+    dummy.worn.emplace_back( "backpack" );
+
+    item &alpha = dummy.i_add( item( "recipe_alpha" ) );
+    REQUIRE( alpha.is_book() );
+
+    dummy.identify( alpha );
+    REQUIRE( dummy.has_identified( alpha.typeId() ) );
+
+    GIVEN( "a book you can learn from" ) {
+        dummy.set_skill_level( skill_id( "chemistry" ), 6 );
+        REQUIRE( dummy.get_book_mastery( alpha ) == book_mastery::LEARNING );
+
+        dummy.set_focus( 100 );
+        WHEN( "reading the book 100 times" ) {
+            const cata::value_ptr<islot_book> bkalpha_islot = alpha.type->book;
+            SkillLevel &avatarskill = dummy.get_skill_level_object( bkalpha_islot->skill );
+
+            for( int i = 0; i < 100; ++i ) {
+                read_activity_actor::read_book(
+                    *dummy.as_character(),
+                    bkalpha_islot,
+                    avatarskill,
+                    1.0 );
+            }
+
+            THEN( "gained a skill level" ) {
+                CHECK( dummy.get_skill_level( skill_id( "chemistry" ) ) > 6 );
                 CHECK( dummy.get_book_mastery( alpha ) == book_mastery::MASTERED );
             }
         }

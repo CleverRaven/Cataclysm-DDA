@@ -2,23 +2,19 @@
 #ifndef CATA_SRC_TALKER_NPC_H
 #define CATA_SRC_TALKER_NPC_H
 
-#include <string>
+#include <iosfwd>
 #include <vector>
 
+#include "faction.h"
+#include "npc.h"
 #include "talker_character.h"
 #include "type_id.h"
 
 class Character;
-class character_id;
-class faction;
 class item;
 class mission;
-class npc;
 class player;
-class recipe;
 class talker;
-class vehicle;
-struct tripoint;
 
 /*
  */

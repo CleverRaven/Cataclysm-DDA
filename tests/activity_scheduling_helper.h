@@ -1,9 +1,17 @@
 #ifndef CATA_TESTS_ACTIVITY_SCHEDULING_HELPER_H
 #define CATA_TESTS_ACTIVITY_SCHEDULING_HELPER_H
 
+#include <cstddef>
+#include <iosfwd>
+#include <utility>
+#include <vector>
+
 #include "activity_actor.h"
-#include "avatar.h"
+#include "calendar.h"
 #include "clone_ptr.h"
+#include "type_id.h"
+
+class avatar;
 
 struct schedule {
     virtual void setup( avatar & ) const = 0;
@@ -106,6 +114,8 @@ struct weariness_events {
         // Return the first time a transition between `from` and `to` occurs, in minutes
         // if around = 0_seconds or equivalent, otherwise return the time closest to around
         int transition_minutes( int from, int to, const time_duration &around ) const;
+
+        bool have_weary_decrease() const;
 
         std::string summarize() const;
 

@@ -3,7 +3,10 @@
 #include <algorithm>
 #include <map>
 #include <memory>
+#include <new>
 #include <set>
+#include <string>
+#include <type_traits>
 #include <unordered_map>
 #include <utility>
 
@@ -16,6 +19,7 @@
 #include "generic_factory.h"
 #include "json.h"
 #include "optional.h"
+#include "output.h"
 #include "stats_tracker.h"
 #include "string_formatter.h"
 

@@ -2,10 +2,12 @@
 
 #include <algorithm>
 #include <cmath>
+#include <functional>
 #include <list>
 #include <map>
-#include <string>
+#include <type_traits>
 #include <utility>
+#include <vector>
 
 #include "calendar.h"
 #include "character.h"
@@ -18,8 +20,8 @@
 #include "player.h"
 #include "point.h"
 #include "requirements.h"
-#include "string_id.h"
 #include "translations.h"
+#include "units_fwd.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"

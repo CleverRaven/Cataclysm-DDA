@@ -2,9 +2,9 @@
 #ifndef CATA_SRC_SUBMAP_H
 #define CATA_SRC_SUBMAP_H
 
-#include <algorithm>
 #include <cstddef>
 #include <cstdint>
+#include <iosfwd>
 #include <iterator>
 #include <map>
 #include <memory>
@@ -14,6 +14,7 @@
 #include "active_item_cache.h"
 #include "calendar.h"
 #include "colony.h"
+#include "compatibility.h"
 #include "computer.h"
 #include "construction.h"
 #include "field.h"
@@ -65,10 +66,10 @@ class submap : maptile_soa<SEEX, SEEY>
 {
     public:
         submap();
-        submap( submap && );
+        submap( submap && ) noexcept( map_is_noexcept );
         ~submap();
 
-        submap &operator=( submap && );
+        submap &operator=( submap && ) noexcept;
 
         trap_id get_trap( const point &p ) const {
             return trp[p.x][p.y];
@@ -269,13 +270,14 @@ struct maptile {
         friend submap;
         submap *const sm;
         point pos_;
-        point pos() const {
-            return pos_;
-        }
 
         maptile( submap *sub, const point &p ) :
             sm( sub ), pos_( p ) { }
     public:
+        inline point pos() const {
+            return pos_;
+        }
+
         trap_id get_trap() const {
             return sm->get_trap( pos() );
         }

@@ -3,11 +3,9 @@
 #include <algorithm>
 #include <memory>
 #include <ostream>
-#include <string>
 
 #include "calendar.h"
 #include "character.h"
-#include "colony.h"
 #include "creature.h"
 #include "debug.h"
 #include "enums.h"
@@ -44,7 +42,6 @@ static const std::string flag_DIGGABLE( "DIGGABLE" );
 static const std::string flag_FLAMMABLE( "FLAMMABLE" );
 static const std::string flag_FLAT( "FLAT" );
 static const std::string flag_FLOWER( "FLOWER" );
-static const std::string flag_FUNGUS( "FUNGUS" );
 static const std::string flag_ORGANIC( "ORGANIC" );
 static const std::string flag_PLANT( "PLANT" );
 static const std::string flag_SHRUB( "SHRUB" );
@@ -108,7 +105,7 @@ void fungal_effects::fungalize( const tripoint &p, Creature *origin, double spor
             monster *origin_mon = dynamic_cast<monster *>( origin );
             if( origin_mon != nullptr ) {
                 spore->make_ally( *origin_mon );
-            } else if( origin != nullptr && origin->is_player() &&
+            } else if( origin != nullptr && origin->is_avatar() &&
                        player_character.has_trait( trait_THRESH_MYCUS ) ) {
                 spore->friendly = 1000;
             }
@@ -128,13 +125,14 @@ void fungal_effects::create_spores( const tripoint &p, Creature *origin )
 void fungal_effects::marlossify( const tripoint &p )
 {
     const ter_t &terrain = m.ter( p ).obj();
-    if( one_in( 25 ) && ( terrain.movecost != 0 && !m.has_furn( p ) )
-        && !terrain.has_flag( TFLAG_DEEP_WATER ) ) {
+    if( one_in( 25 ) && terrain.movecost != 0 && !m.has_furn( p )
+        && !terrain.has_flag( TFLAG_DEEP_WATER )
+        && !terrain.has_flag( TFLAG_NO_FLOOR ) ) {
         m.ter_set( p, t_marloss );
         return;
     }
     for( int i = 0; i < 25; i++ ) {
-        bool is_fungi = m.has_flag_ter( flag_FUNGUS, p );
+        bool is_fungi = m.has_flag_ter( TFLAG_FUNGUS, p );
         spread_fungus( p );
         if( is_fungi ) {
             return;
@@ -254,12 +252,12 @@ void fungal_effects::spread_fungus( const tripoint &p )
         if( tmp == p ) {
             continue;
         }
-        if( m.has_flag( flag_FUNGUS, tmp ) ) {
+        if( m.has_flag( TFLAG_FUNGUS, tmp ) ) {
             growth += 1;
         }
     }
 
-    if( !m.has_flag_ter( flag_FUNGUS, p ) ) {
+    if( !m.has_flag_ter( TFLAG_FUNGUS, p ) ) {
         spread_fungus_one_tile( p, growth );
     } else {
         // Everything is already fungus
@@ -268,7 +266,7 @@ void fungal_effects::spread_fungus( const tripoint &p )
         }
         for( const tripoint &dest : here.points_in_radius( p, 1 ) ) {
             // One spread on average
-            if( !m.has_flag( flag_FUNGUS, dest ) && one_in( 9 - growth ) ) {
+            if( !m.has_flag( TFLAG_FUNGUS, dest ) && one_in( 9 - growth ) ) {
                 //growth chance is 100 in X simplified
                 spread_fungus_one_tile( dest, 10 );
             }

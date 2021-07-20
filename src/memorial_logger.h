@@ -3,7 +3,7 @@
 #define CATA_SRC_MEMORIAL_LOGGER_H
 
 #include <iosfwd>
-#include <string>
+#include <new>
 #include <vector>
 
 #include "calendar.h"
@@ -63,7 +63,7 @@ class memorial_logger : public event_subscriber
         }
 
         // Loads the memorial log from a file
-        void load( std::istream & );
+        void load( std::istream &, const std::string &path );
         void save( std::ostream & ) const;
         // Dumps all memorial events into a single newline-delimited string
         // (this is the content of the temporary file used to preserve the log

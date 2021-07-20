@@ -2,8 +2,8 @@
 #ifndef CATA_SRC_GAMEMODE_H
 #define CATA_SRC_GAMEMODE_H
 
+#include <iosfwd>
 #include <memory>
-#include <string>
 
 #include "enums.h"
 

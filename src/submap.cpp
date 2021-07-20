@@ -7,10 +7,10 @@
 #include <utility>
 
 #include "basecamp.h"
-#include "int_id.h"
 #include "mapdata.h"
 #include "tileray.h"
 #include "trap.h"
+#include "units.h"
 #include "vehicle.h"
 
 template<int sx, int sy>
@@ -36,10 +36,10 @@ submap::submap()
     is_uniform = false;
 }
 
-submap::submap( submap && ) = default;
+submap::submap( submap && ) noexcept( map_is_noexcept ) = default;
 submap::~submap() = default;
 
-submap &submap::operator=( submap && ) = default;
+submap &submap::operator=( submap && ) noexcept = default;
 
 static const std::string COSMETICS_GRAFFITI( "GRAFFITI" );
 static const std::string COSMETICS_SIGNAGE( "SIGNAGE" );

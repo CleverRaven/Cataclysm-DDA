@@ -1,6 +1,7 @@
 #ifndef CATA_SRC_RANGED_H
 #define CATA_SRC_RANGED_H
 
+#include <iosfwd>
 #include <vector>
 
 #include "point.h"
@@ -14,8 +15,6 @@ class player;
 class spell;
 class turret_data;
 class vehicle;
-struct itype;
-struct tripoint;
 struct vehicle_part;
 
 namespace target_handler
@@ -63,6 +62,5 @@ bool gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::string> 
                             const gun_mode &gmode );
 
 int throw_cost( const player &c, const item &to_throw );
-
 
 #endif // CATA_SRC_RANGED_H

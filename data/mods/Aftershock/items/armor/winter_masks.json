@@ -1,0 +1,127 @@
+[
+  {
+    "id": "afs_magellan_suit_helmet",
+    "repairs_like": "afs_magellan_suit",
+    "type": "TOOL_ARMOR",
+    "category": "armor",
+    "looks_like": "helmet_motor",
+    "name": { "str": "Magellan helmet CA.", "str_pl": "Magellan helmets CA." },
+    "description": "The high quality helmet of a Magellan exosuit, adapted to handle the freezing but breathable air of Salus IV.  In addition to its life support functionality, it features a minor augmented reality UI overlay and a retractable gold-plated visor to protect against glare and UV light.  Although not armored as such, it's strong enough to handle minor blunt impacts.",
+    "weight": "2500 g",
+    "volume": "2250 ml",
+    "price": "750 USD",
+    "to_hit": -1,
+    "bashing": 7,
+    "material": [ "plastic", "nomex" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "ammo": "battery",
+    "charges_per_use": 1,
+    "use_action": {
+      "type": "transform",
+      "msg": "You activate your %s.",
+      "target": "afs_magellan_suit_helmet_on",
+      "active": true,
+      "need_charges": 1,
+      "need_charges_msg": "The %s's batteries are dead."
+    },
+    "armor": [
+      { "covers": [ "head" ], "coverage": 100, "encumbrance": 25 },
+      { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 5 },
+      { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 15 }
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1000 } } ],
+    "warmth": 10,
+    "material_thickness": 6,
+    "environmental_protection": 1,
+    "flags": [
+      "VARSIZE",
+      "WATERPROOF",
+      "RAINPROOF",
+      "STURDY",
+      "SUN_GLASSES",
+      "RAD_RESIST",
+      "OUTER",
+      "SWIM_GOGGLES",
+      "RECHARGE",
+      "NO_RELOAD",
+      "NO_UNLOAD"
+    ]
+  },
+  {
+    "id": "afs_magellan_suit_helmet_on",
+    "copy-from": "afs_magellan_suit_helmet",
+    "repairs_like": "afs_magellan_suit",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "Magellan helmet CA. (on)", "str_pl": "Magellan helmets CA. (on)" },
+    "looks_like": "helmet_motor",
+    "description": "The temperature control units and augmented reality overlays of this high-tech garment are currently active, and continuously draining battery power.  Use it to turn them off.",
+    "power_draw": 8170,
+    "warmth": 150,
+    "revert_to": "afs_magellan_suit_helmet",
+    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "afs_magellan_suit_helmet" },
+    "extend": {
+      "flags": [ "CLIMATE_CONTROL", "GAS_PROOF", "WATCH", "ALARMCLOCK", "THERMOMETER", "HYGROMETER", "PARTIAL_DEAF", "TRADER_AVOID" ]
+    },
+    "environmental_protection": 15
+  },
+  {
+    "id": "afs_frontier_cryomask",
+    "repairs_like": "nomex_hood",
+    "type": "TOOL_ARMOR",
+    "category": "armor",
+    "looks_like": "helmet_motor",
+    "name": { "str": "frontier cryomask" },
+    "description": "A common, industrially printed respirator cleverly retrofitted into a wearable air heater.  While it adequately protects against the cold, most of its original functions have been discarded and it offers no noticeable protection against noxious fumes or other environmental hazards.",
+    "weight": "2500 g",
+    "volume": "2250 ml",
+    "price": "750 USD",
+    "to_hit": -1,
+    "bashing": 7,
+    "material": [ "plastic", "nomex" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "charges_per_use": 1,
+    "ammo": "battery",
+    "use_action": {
+      "type": "transform",
+      "msg": "You activate your %s.",
+      "target": "afs_frontier_cryomask_on",
+      "active": true,
+      "need_charges": 1,
+      "need_charges_msg": "The %s's batteries are dead."
+    },
+    "armor": [
+      { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 15 },
+      { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 20 }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "rigid": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      }
+    ],
+    "warmth": 5,
+    "material_thickness": 2,
+    "environmental_protection": 2,
+    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY", "SUN_GLASSES", "OUTER" ]
+  },
+  {
+    "id": "afs_frontier_cryomask_on",
+    "copy-from": "afs_frontier_cryomask",
+    "repairs_like": "afs_frontier_cryomask",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "frontier cryomask (on)", "str_pl": "frontier cryomasks (on)" },
+    "looks_like": "helmet_motor",
+    "description": "The heater of this high-tech garment is currently active, and continuously draining battery power.  Use it to turn the heat off.",
+    "power_draw": 6944,
+    "warmth": 150,
+    "revert_to": "afs_frontier_cryomask",
+    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "afs_frontier_cryomask" },
+    "extend": { "flags": [ "CLIMATE_CONTROL" ] }
+  }
+]

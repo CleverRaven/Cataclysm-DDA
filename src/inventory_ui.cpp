@@ -1,5 +1,7 @@
 #include "inventory_ui.h"
 
+#include <cstdint>
+
 #include "cata_assert.h"
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -11,6 +13,7 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_category.h"
+#include "item_contents.h"
 #include "item_pocket.h"
 #include "item_search.h"
 #include "item_stack.h"
@@ -23,9 +26,9 @@
 #include "options.h"
 #include "output.h"
 #include "point.h"
+#include "ret_val.h"
 #include "sdltiles.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "string_input_popup.h"
 #include "translations.h"
 #include "type_id.h"
@@ -49,6 +52,7 @@
 #include <set>
 #include <string>
 #include <type_traits>
+#include <unordered_map>
 #include <vector>
 
 /** The maximum distance from the screen edge, to snap a window to it */
@@ -345,16 +349,21 @@ bool inventory_holster_preset::is_shown( const item_location &contained ) const
     }
     item item_copy( *contained );
     item_copy.charges = 1;
-    if( !holster->contents.can_contain( item_copy ).success() ) {
+    if( !holster->can_contain( item_copy ).success() ) {
         return false;
     }
-    if( holster->has_item( *contained ) ) {
-        return false;
+
+    //only hide if it is in the toplevel of holster (to allow shuffling of items inside a bag)
+    for( const item *it : holster->all_items_top() ) {
+        if( it == contained.get_item() ) {
+            return false;
+        }
     }
+
     if( contained->is_bucket_nonempty() ) {
         return false;
     }
-    if( !holster->contents.all_pockets_rigid() &&
+    if( !holster->all_pockets_rigid() &&
         !holster.parents_can_contain_recursive( &item_copy ) ) {
         return false;
     }
@@ -1035,8 +1044,8 @@ void inventory_column::draw( const catacurses::window &win, const point &p,
         const int hx_max = p.x + get_width() + contained_offset;
         inclusive_rectangle<point> rect = inclusive_rectangle<point>( point( x1, yy ),
                                           point( hx_max - 1, yy ) );
-        rect_entry_map.push_back( std::pair<inclusive_rectangle<point>, inventory_entry *>( rect,
-                                  &entry ) );
+        rect_entry_map.emplace_back( rect,
+                                     &entry );
 
         if( selected && visible_cells() > 1 ) {
             for( int hx = x1; hx < hx_max; ++hx ) {
@@ -1340,7 +1349,7 @@ void inventory_selector::add_item( inventory_column &target_column,
     add_entry( target_column,
                std::vector<item_location>( 1, location ),
                custom_category );
-    for( item *it : location->contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+    for( item *it : location->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
         add_item( target_column, item_location( location, it ), custom_category );
     }
 }
@@ -1379,7 +1388,7 @@ void inventory_selector::add_contained_items( item_location &container, inventor
         return;
     }
 
-    for( item *it : container->contents.all_items_top() ) {
+    for( item *it : container->all_items_top() ) {
         item_location child( container, it );
         add_contained_items( child, column, custom_category );
         const item_category *nat_category = nullptr;
@@ -1653,7 +1662,7 @@ size_t inventory_selector::get_layout_height() const
 
 size_t inventory_selector::get_header_height() const
 {
-    return display_stats || !hint.empty() ? 2 : 1;
+    return display_stats || !hint.empty() ? 3 : 1;
 }
 
 size_t inventory_selector::get_header_min_width() const
@@ -1689,7 +1698,7 @@ size_t inventory_selector::get_footer_min_width() const
 void inventory_selector::draw_header( const catacurses::window &w ) const
 {
     trim_and_print( w, point( border + 1, border ), getmaxx( w ) - 2 * ( border + 1 ), c_white, title );
-    trim_and_print( w, point( border + 1, border + 1 ), getmaxx( w ) - 2 * ( border + 1 ), c_dark_gray,
+    fold_and_print( w, point( border + 1, border + 1 ), getmaxx( w ) - 2 * ( border + 1 ), c_dark_gray,
                     hint );
 
     mvwhline( w, point( border, border + get_header_height() ), LINE_OXOX, getmaxx( w ) - 2 * border );
@@ -1721,7 +1730,7 @@ inventory_selector::stats inventory_selector::get_weight_and_volume_stats(
     // This is a bit of a hack, we're prepending two entries to the weight and length stat blocks.
     std::string length_weight_caption = string_format( _( "Longest Length (%s): %s Weight (%s):" ),
                                         length_units( longest_length ),
-                                        colorize( to_string( convert_length( longest_length ) ), c_light_gray ), weight_units() );
+                                        colorize( std::to_string( convert_length( longest_length ) ), c_light_gray ), weight_units() );
     std::string volume_caption = string_format( _( "Free Volume (%s): %s Volume (%s):" ),
                                  volume_units_abbr(),
                                  colorize( format_volume( largest_free_volume ), c_light_gray ),
@@ -2438,6 +2447,18 @@ drop_locations inventory_iuse_selector::execute()
 {
     shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
 
+    auto is_entry = []( const inventory_entry & elem ) {
+        return elem.is_selectable();
+    };
+    for( inventory_column *col : get_all_columns() ) {
+        if( col->allows_selecting() ) {
+            for( inventory_entry *ie : col->get_entries( is_entry ) ) {
+                for( item_location const &x : ie->locations ) {
+                    usable_locs.push_back( x );
+                }
+            }
+        }
+    }
     int count = 0;
     while( true ) {
         ui_manager::redraw();
@@ -2501,23 +2522,36 @@ drop_locations inventory_iuse_selector::execute()
 void inventory_iuse_selector::set_chosen_count( inventory_entry &entry, size_t count )
 {
     const item_location &it = entry.any_item();
+    std::map<const item_location *, int> temp_use;
 
     if( count == 0 ) {
         entry.chosen_count = 0;
         for( const item_location &loc : entry.locations ) {
-            to_use.erase( &loc );
+            temp_use[&loc] = 0;
         }
     } else {
         entry.chosen_count = std::min( std::min( count, max_chosen_count ), entry.get_available_count() );
         if( it->count_by_charges() ) {
-            to_use[&it] = entry.chosen_count;
+            temp_use[&it] = entry.chosen_count;
         } else {
             for( const item_location &loc : entry.locations ) {
                 if( count == 0 ) {
                     break;
                 }
-                to_use[&loc] = 1;
+                temp_use[&loc] = 1;
                 count--;
+            }
+        }
+    }
+    // Optimisation to reduce the scale of looping if otherwise done in the preceeding code.
+    for( auto iter : temp_use ) {
+        for( const item_location &x : usable_locs ) {
+            if( x == *iter.first ) {
+                if( iter.second > 0 ) {
+                    to_use[&x] = iter.second;
+                } else {
+                    to_use.erase( &x );
+                }
             }
         }
     }
@@ -2574,22 +2608,19 @@ void inventory_drop_selector::deselect_contained_items()
         item_location loc_front = drop.first;
         inventory_items.push_back( loc_front );
     }
-    for( item_location loc_contained : inventory_items ) {
-        for( item_location loc_container : inventory_items ) {
-            if( loc_container == loc_contained ) {
-                continue;
-            }
-            if( loc_container->has_item( *loc_contained ) ) {
-                for( inventory_column *col : get_all_columns() ) {
-                    for( inventory_entry *selected : col->get_entries( []( const inventory_entry &
-                    entry ) {
-                    return entry.chosen_count > 0;
-                } ) ) {
-                        if( !selected->is_item() ) {
-                            continue;
-                        }
+    for( item_location loc_container : inventory_items ) {
+        if( !loc_container->empty() ) {
+            for( inventory_column *col : get_all_columns() ) {
+                for( inventory_entry *selected : col->get_entries( []( const inventory_entry &
+                entry ) {
+                return entry.chosen_count > 0;
+            } ) ) {
+                    if( !selected->is_item() ) {
+                        continue;
+                    }
+                    for( item *item_contained : loc_container->all_items_top() ) {
                         for( const item_location &selected_loc : selected->locations ) {
-                            if( selected_loc == loc_contained ) {
+                            if( selected_loc.get_item() == item_contained ) {
                                 set_chosen_count( *selected, 0 );
                             }
                         }
@@ -2673,6 +2704,7 @@ drop_locations inventory_drop_selector::execute()
                 for( const auto &elem : selected ) {
                     set_chosen_count( *elem, count );
                 }
+                deselect_contained_items();
             }
 
             count = 0;

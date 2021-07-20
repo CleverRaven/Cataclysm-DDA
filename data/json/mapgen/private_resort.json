@@ -467,7 +467,7 @@
         "......................F.",
         "WWWWWWWWWWWWWWWWWWWW..F.",
         "                   W..F.",
-        "W+WWW8WWWWWWW8WWW8WW..F.",
+        "W+WWW8WWW8WWW8WWW8WW..F.",
         "L jW  KW  KW  KW  KW..F.",
         "L jW i^W i^W i^W i^W..F.",
         "L  WaaaWaaaWaaaWaaaW..F.",
@@ -1613,7 +1613,7 @@
             [ "roof_6x6_survivor", 5 ]
           ],
           "x": [ 2, 10 ],
-          "y": [ 2, 6 ]
+          "y": 1
         }
       ],
       "place_items": [ { "chance": 10, "item": "roof_trash", "x": [ 0, 18 ], "y": [ 0, 7 ], "repeat": [ 3, 10 ] } ]

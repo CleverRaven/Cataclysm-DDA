@@ -3,10 +3,15 @@
 #define CATA_SRC_ITEM_STACK_H
 
 #include <cstddef>
+#include <functional>
+#include <list>
 
 #include "colony.h"
 #include "item.h" // IWYU pragma: keep
+#include "type_id.h"
 #include "units_fwd.h"
+
+struct tripoint;
 
 // A wrapper class to bundle up the references needed for a caller to safely manipulate
 // items and obtain information about items at a particular map x/y location.

@@ -2,15 +2,15 @@
 #ifndef CATA_SRC_BONUSES_H
 #define CATA_SRC_BONUSES_H
 
+#include <iosfwd>
 #include <map>
 #include <vector>
-#include <string>
 
 #include "damage.h"
 
 class Character;
-class JsonObject;
 class JsonArray;
+class JsonObject;
 
 enum scaling_stat : int {
     STAT_NULL = 0,

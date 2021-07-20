@@ -1,13 +1,14 @@
 #include "dialogue_win.h"
 
 #include <algorithm>
-#include <memory>
 #include <string>
 #include <vector>
 
+#include "catacharset.h"
 #include "input.h"
 #include "output.h"
 #include "point.h"
+#include "string_formatter.h"
 #include "translations.h"
 #include "ui_manager.h"
 
@@ -70,7 +71,7 @@ size_t dialogue_window::add_to_history( const std::string &text )
 // Empty line between lines of dialogue
 void dialogue_window::add_history_separator()
 {
-    history.push_back( "" );
+    history.emplace_back( "" );
 }
 
 void dialogue_window::print_history( const size_t hilight_lines )

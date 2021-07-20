@@ -4,14 +4,12 @@
 
 #include <algorithm>
 #include <functional>
+#include <iosfwd>
 #include <map>
-#include <string>
 #include <vector>
 
-#include "bodypart.h"
 #include "calendar.h"
 #include "morale_types.h"
-#include "string_id.h"
 #include "type_id.h"
 
 class JsonIn;
@@ -148,7 +146,7 @@ class player_morale
         void set_worn( const item &it, bool worn );
         void set_mutation( const trait_id &mid, bool active );
         bool has_mutation( const trait_id &mid );
-        bool has_mutation_flag( const std::string &flag );
+        bool has_flag( const json_character_flag &flag );
 
         void remove_if( const std::function<bool( const morale_point & )> &func );
         void remove_expired();

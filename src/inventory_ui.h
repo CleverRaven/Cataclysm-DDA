@@ -2,34 +2,31 @@
 #ifndef CATA_SRC_INVENTORY_UI_H
 #define CATA_SRC_INVENTORY_UI_H
 
-#include <algorithm>
 #include <array>
 #include <climits>
 #include <cstddef>
 #include <functional>
+#include <iosfwd>
 #include <limits>
 #include <list>
 #include <map>
 #include <memory>
+#include <new>
 #include <string>
 #include <utility>
 #include <vector>
 
-#include "cata_assert.h"
 #include "color.h"
 #include "cuboid_rectangle.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "input.h"
-#include "item.h"
 #include "item_category.h"
 #include "item_location.h"
 #include "memory_fast.h"
 #include "optional.h"
 #include "pimpl.h"
-#include "ret_val.h"
 #include "translations.h"
-#include "ui.h"
 #include "units_fwd.h"
 
 class Character;
@@ -773,6 +770,7 @@ class inventory_iuse_selector : public inventory_multiselector
     private:
         GetStats get_stats;
         std::map<const item_location *, int> to_use;
+        std::vector<item_location> usable_locs;
         size_t max_chosen_count;
 };
 

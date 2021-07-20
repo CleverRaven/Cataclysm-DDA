@@ -465,7 +465,7 @@ void sfx::play_variant_sound( const std::string &id, const std::string &variant,
         return;
     }
 
-    add_msg_debug( "sound id: %s, variant: %s, volume: %d ", id, variant, volume );
+    add_msg_debug( debugmode::DF_SOUND, "sound id: %s, variant: %s, volume: %d ", id, variant, volume );
 
     if( !check_sound( volume ) ) {
         return;
@@ -495,7 +495,7 @@ void sfx::play_variant_sound( const std::string &id, const std::string &variant,
         return;
     }
 
-    add_msg_debug( "sound id: %s, variant: %s, volume: %d ", id, variant, volume );
+    add_msg_debug( debugmode::DF_SOUND, "sound id: %s, variant: %s, volume: %d ", id, variant, volume );
 
     if( !check_sound( volume ) ) {
         return;
@@ -517,11 +517,19 @@ void sfx::play_variant_sound( const std::string &id, const std::string &variant,
     int channel = Mix_PlayChannel( static_cast<int>( sfx::channel::any ), effect_to_play, 0 );
     bool failed = ( channel == -1 );
     if( !failed && is_pitched ) {
-        failed = ( Mix_RegisterEffect( channel, empty_effect, cleanup_when_channel_finished,
-                                       effect_to_play ) == 0 );
+        if( Mix_RegisterEffect( channel, empty_effect, cleanup_when_channel_finished,
+                                effect_to_play ) == 0 ) {
+            // To prevent use after free, stop the playback right now.
+            failed = true;
+            dbg( D_WARNING ) << "Mix_RegisterEffect failed: " << Mix_GetError();
+            Mix_HaltChannel( channel );
+        }
     }
     if( !failed ) {
-        failed = Mix_SetPosition( channel, static_cast<Sint16>( to_degrees( angle ) ), 1 ) == 0;
+        if( Mix_SetPosition( channel, static_cast<Sint16>( to_degrees( angle ) ), 1 ) == 0 ) {
+            // Not critical
+            dbg( D_INFO ) << "Mix_SetPosition failed: " << Mix_GetError();
+        }
     }
     if( failed ) {
         dbg( D_ERROR ) << "Failed to play sound effect: " << Mix_GetError();
@@ -564,8 +572,12 @@ void sfx::play_ambient_variant_sound( const std::string &id, const std::string &
         failed = ( Mix_PlayChannel( ch, effect_to_play, loops ) == -1 );
     }
     if( !failed && is_pitched ) {
-        failed = ( Mix_RegisterEffect( ch, empty_effect, cleanup_when_channel_finished,
-                                       effect_to_play ) == 0 );
+        if( Mix_RegisterEffect( ch, empty_effect, cleanup_when_channel_finished, effect_to_play ) == 0 ) {
+            // To prevent use after free, stop the playback right now.
+            failed = true;
+            dbg( D_WARNING ) << "Mix_RegisterEffect failed: " << Mix_GetError();
+            Mix_HaltChannel( ch );
+        }
     }
     if( failed ) {
         dbg( D_ERROR ) << "Failed to play sound effect: " << Mix_GetError();

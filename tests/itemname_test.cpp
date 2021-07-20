@@ -1,11 +1,11 @@
-#include "catch/catch.hpp"
-
+#include <iosfwd>
 #include <set>
 #include <string>
 
+#include "calendar.h"
+#include "cata_catch.h"
 #include "character.h"
 #include "flag.h"
-#include "flat_set.h"
 #include "item.h"
 #include "item_pocket.h"
 #include "player_helpers.h"
@@ -137,7 +137,7 @@ TEST_CASE( "display name includes item contents", "[item][display_name][contents
     REQUIRE_FALSE( quiver.magazine_current() );
     // But they do have ammo types and can contain ammo
     REQUIRE_FALSE( quiver.ammo_types().empty() );
-    REQUIRE( quiver.can_contain( arrow ) );
+    REQUIRE( quiver.can_contain( arrow ).success() );
 
     // Check empty quiver display
     CHECK( quiver.display_name() ==

@@ -4,11 +4,11 @@
 #include <array>
 #include <ostream>
 #include <set>
+#include <string>
 #include <utility>
 
 #include "debug.h"
 #include "output.h"
-#include "string_id.h"
 
 static std::array<std::string, 3> error_keyvals = {{ "Missing Dependency(ies): ", "", "" }};
 

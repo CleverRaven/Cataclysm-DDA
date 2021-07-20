@@ -4,28 +4,27 @@
 
 #include <cstddef>
 #include <functional>
+#include <iosfwd>
 #include <list>
 #include <map>
-#include <memory>
+#include <new>
 #include <set>
-#include <string>
 #include <type_traits>
 #include <vector>
 
-#include "enum_traits.h"
 #include "enums.h"
 #include "flat_set.h"
-#include "json.h"
 #include "optional.h"
 #include "ret_val.h"
-#include "translations.h"
 #include "type_id.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "value_ptr.h"
 #include "visitable.h"
 
 class Character;
+class JsonIn;
+class JsonObject;
+class JsonOut;
 class item;
 class item_location;
 class player;
@@ -88,6 +87,11 @@ class item_pocket
                 void whitelist_item( const itype_id &id );
                 void blacklist_item( const itype_id &id );
                 void clear_item( const itype_id &id );
+
+                const cata::flat_set<itype_id> &get_item_whitelist() const;
+                const cata::flat_set<itype_id> &get_item_blacklist() const;
+                const cata::flat_set<item_category_id> &get_category_whitelist() const;
+                const cata::flat_set<item_category_id> &get_category_blacklist() const;
 
                 void whitelist_category( const item_category_id &id );
                 void blacklist_category( const item_category_id &id );

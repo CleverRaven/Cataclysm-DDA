@@ -111,7 +111,7 @@
         "X": "f_crate_c",
         "l": "f_locker"
       },
-      "place_vendingmachines": [ { "x": 17, "y": 21 }, { "x": 17, "y": 23 } ],
+      "place_vendingmachines": [ { "x": 17, "y": 21, "lootable": true }, { "x": 17, "y": 23, "lootable": true } ],
       "toilets": { ";": {  } },
       "place_items": [
         { "item": "office_mess", "x": [ 8, 23 ], "y": [ 4, 10 ], "chance": 100, "repeat": [ 20, 70 ] },
@@ -219,7 +219,7 @@
         "X": "f_crate_c",
         "l": "f_locker"
       },
-      "place_vendingmachines": [ { "x": 17, "y": 21 }, { "x": 17, "y": 23 } ],
+      "place_vendingmachines": [ { "x": 17, "y": 21, "lootable": true }, { "x": 17, "y": 23, "lootable": true } ],
       "toilets": { ";": {  } },
       "place_items": [
         { "item": "office_mess", "x": [ 8, 23 ], "y": [ 4, 10 ], "chance": 100, "repeat": [ 20, 70 ] },

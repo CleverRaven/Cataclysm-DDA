@@ -2,7 +2,7 @@
 #ifndef CATA_SRC_TALKER_AVATAR_H
 #define CATA_SRC_TALKER_AVATAR_H
 
-#include <string>
+#include <iosfwd>
 #include <vector>
 
 #include "talker_character.h"

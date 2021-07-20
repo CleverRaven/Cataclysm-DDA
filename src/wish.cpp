@@ -1,8 +1,11 @@
+#include "debug_menu.h" // IWYU pragma: associated
+
 #include <algorithm>
 #include <cstddef>
 #include <iterator>
 #include <map>
 #include <memory>
+#include <new>
 #include <set>
 #include <string>
 #include <utility>
@@ -13,15 +16,14 @@
 #include "color.h"
 #include "cursesdef.h"
 #include "debug.h"
-#include "debug_menu.h" // IWYU pragma: associated
 #include "enums.h"
-#include "flat_set.h"
 #include "game.h"
 #include "input.h"
 #include "item.h"
 #include "item_factory.h"
 #include "itype.h"
 #include "map.h"
+#include "memory_fast.h"
 #include "monster.h"
 #include "monstergenerator.h"
 #include "mtype.h"
@@ -40,7 +42,6 @@
 #include "uistate.h"
 
 class ui_adaptor;
-template <typename T> class string_id;
 
 class wish_mutate_callback: public uilist_callback
 {
@@ -600,7 +601,10 @@ void debug_menu::wishitem( player *p, const tripoint &pos )
     }
     std::vector<std::pair<std::string, const itype *>> opts;
     for( const itype *i : item_controller->all() ) {
-        opts.emplace_back( item( i, calendar::turn_zero ).tname( 1, false ), i );
+        item option( i, calendar::turn_zero );
+        // Only display the generic name if it has variants
+        option.clear_gun_variant();
+        opts.emplace_back( option.tname( 1, false ), i );
     }
     std::sort( opts.begin(), opts.end(), localized_compare );
     std::vector<const itype *> itypes;
@@ -841,7 +845,7 @@ void debug_menu::wishproficiency( player *p )
             know_all = player_know;
         }
 
-        sorted_profs.push_back( { cur.prof_id(), player_know } );
+        sorted_profs.emplace_back( cur.prof_id(), player_know );
     }
 
     std::sort( sorted_profs.begin(), sorted_profs.end(), localized_compare );

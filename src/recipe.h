@@ -3,8 +3,11 @@
 #define CATA_SRC_RECIPE_H
 
 #include <cstddef>
+#include <cstdint>
 #include <functional>
+#include <iosfwd>
 #include <map>
+#include <new>
 #include <set>
 #include <string>
 #include <utility>
@@ -22,7 +25,6 @@ class Character;
 class JsonIn;
 class JsonObject;
 class item;
-class time_duration;
 template <typename E> struct enum_traits;
 
 enum class recipe_filter_flags : int {
@@ -172,7 +174,7 @@ class recipe
         // Format the proficiencies string.
         std::string required_proficiencies_string( const Character *c ) const;
         std::string used_proficiencies_string( const Character *c ) const;
-        std::string missing_proficiencies_string( Character *c ) const;
+        std::string missing_proficiencies_string( const Character *c ) const;
         // Proficiencies for search
         std::string recipe_proficiencies_string() const;
         // Required proficiencies
@@ -182,9 +184,9 @@ class recipe
         // Helpful proficiencies
         std::set<proficiency_id> assist_proficiencies() const;
         // The time malus due to proficiencies lacking
-        float proficiency_time_maluses( Character &guy ) const;
+        float proficiency_time_maluses( const Character &crafter ) const;
         // The failure malus due to proficiencies lacking
-        float proficiency_failure_maluses( Character &guy ) const;
+        float proficiency_failure_maluses( const Character &crafter ) const;
 
         // How active of exercise this recipe is
         float exertion_level() const;
@@ -243,6 +245,8 @@ class recipe
         void check_blueprint_requirements();
 
         bool hot_result() const;
+
+        bool removes_raw() const;
 
         // Returns the amount or charges recipe will produce.
         int makes_amount() const;

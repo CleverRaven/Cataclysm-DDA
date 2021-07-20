@@ -13,7 +13,7 @@
     "using": [ [ "welding_standard", 4 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_welding_basic", "fail_multiplier": 5 },
+      { "proficiency": "prof_welding_basic", "fail_multiplier": 1.5 },
       { "proficiency": "prof_welding" }
     ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
@@ -33,7 +33,7 @@
     "using": [ [ "welding_standard", 5 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_welding_basic", "fail_multiplier": 5 },
+      { "proficiency": "prof_welding_basic", "fail_multiplier": 1.5 },
       { "proficiency": "prof_welding" }
     ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
@@ -54,7 +54,7 @@
     "tools": [ [ [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ], [ "oxy_torch", 10 ] ], [ [ "soldering_iron", 10 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_welding_basic", "fail_multiplier": 5 },
+      { "proficiency": "prof_welding_basic", "fail_multiplier": 1.5 },
       { "proficiency": "prof_welding" }
     ],
     "components": [ [ [ "sheet_metal", 1 ] ], [ [ "scrap", 2 ] ], [ [ "circuit", 1 ] ] ]
@@ -184,6 +184,11 @@
     "autolearn": true,
     "book_learn": [ [ "manual_electronics", 7 ], [ "textbook_electronics", 6 ], [ "advanced_electronics", 6 ] ],
     "using": [ [ "soldering_standard", 35 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_carpentry_basic" },
+      { "proficiency": "prof_elec_soldering" }
+    ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
     "components": [
       [ [ "motor_small", 1 ], [ "alternator_bicycle", 1 ], [ "alternator_motorbike", 1 ] ],
@@ -208,6 +213,11 @@
     "autolearn": true,
     "book_learn": [ [ "manual_electronics", 7 ], [ "textbook_electronics", 6 ], [ "advanced_electronics", 6 ] ],
     "using": [ [ "welding_standard", 10 ], [ "soldering_standard", 35 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_carpentry_basic" },
+      { "proficiency": "prof_elec_soldering" }
+    ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
     "components": [
       [ [ "2x4", 30 ], [ "frame_wood", 4 ] ],
@@ -240,12 +250,33 @@
     "autolearn": true,
     "book_learn": [ [ "manual_electronics", 7 ], [ "textbook_electronics", 6 ], [ "advanced_electronics", 6 ] ],
     "using": [ [ "soldering_standard", 35 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_carpentry_basic" },
+      { "proficiency": "prof_elec_soldering" }
+    ],
     "qualities": [
       { "id": "SCREW", "level": 1 },
       { "id": "HAMMER", "level": 2 },
       { "id": "SAW_M", "level": 2 },
       { "id": "SAW_W", "level": 2 }
     ],
+    "components": [
+      [ [ "motor_small", 1 ], [ "alternator_bicycle", 1 ], [ "alternator_motorbike", 1 ] ],
+      [ [ "2x4", 20 ], [ "frame_wood", 3 ] ],
+      [ [ "sheet_metal_small", 6 ] ],
+      [ [ "nail", 80 ] ],
+      [ [ "pipe", 8 ] ],
+      [ [ "wheel_wood_b", 2 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "copy-from": "water_wheel",
+    "id_suffix": "with_power_saw",
+    "time": "30 m",
+    "using": [ [ "soldering_standard", 35 ], [ "power_saw_short", 20 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
     "components": [
       [ [ "motor_small", 1 ], [ "alternator_bicycle", 1 ], [ "alternator_motorbike", 1 ] ],
       [ [ "2x4", 20 ], [ "frame_wood", 3 ] ],
@@ -270,12 +301,41 @@
     "autolearn": true,
     "book_learn": [ [ "manual_electronics", 7 ], [ "textbook_electronics", 6 ], [ "advanced_electronics", 6 ] ],
     "using": [ [ "soldering_standard", 85 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_carpentry_basic" },
+      { "proficiency": "prof_elec_soldering" }
+    ],
     "qualities": [
       { "id": "SCREW", "level": 1 },
       { "id": "HAMMER", "level": 2 },
       { "id": "SAW_M", "level": 2 },
       { "id": "SAW_W", "level": 2 }
     ],
+    "components": [
+      [ [ "2x4", 50 ], [ "frame_wood", 9 ] ],
+      [ [ "sheet_metal_small", 18 ] ],
+      [
+        [ "motor_small", 3 ],
+        [ "alternator_bicycle", 3 ],
+        [ "alternator_motorbike", 3 ],
+        [ "alternator_car", 2 ],
+        [ "alternator_truck", 1 ],
+        [ "motor", 2 ],
+        [ "motor_large", 1 ]
+      ],
+      [ [ "nail", 240 ] ],
+      [ [ "pipe", 24 ] ],
+      [ [ "wheel_wood_b", 6 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "copy-from": "xl_water_wheel",
+    "id_suffix": "with_power_saw",
+    "time": "2 h",
+    "using": [ [ "soldering_standard", 85 ], [ "power_saw_short", 50 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
     "components": [
       [ [ "2x4", 50 ], [ "frame_wood", 9 ] ],
       [ [ "sheet_metal_small", 18 ] ],

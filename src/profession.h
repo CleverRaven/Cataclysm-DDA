@@ -2,7 +2,7 @@
 #ifndef CATA_SRC_PROFESSION_H
 #define CATA_SRC_PROFESSION_H
 
-#include <algorithm>
+#include <iosfwd>
 #include <list>
 #include <map>
 #include <set>
@@ -11,17 +11,15 @@
 #include <vector>
 
 #include "pldata.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 
-template<typename T>
-class generic_factory;
-
-class item;
 class JsonObject;
 class avatar;
+class item;
 class player;
+template<typename T>
+class generic_factory;
 
 class profession
 {

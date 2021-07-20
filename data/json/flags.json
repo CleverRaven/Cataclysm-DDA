@@ -11,9 +11,9 @@
     "context": [  ]
   },
   {
-    "id": "EFFECT_INVISIBLE",
-    "context": [  ],
-    "type": "json_flag"
+    "id": "ALLOWS_TALONS",
+    "type": "json_flag",
+    "context": [  ]
   },
   {
     "id": "ALARMCLOCK",
@@ -63,6 +63,12 @@
     "conflicts": [ "OUTER", "SKINTIGHT", "WAIST", "PERSONAL", "AURA" ]
   },
   {
+    "id": "BIONIC_INSTALLATION_DATA",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "This item <info>provides</info> instructions and other required data for several bionics, allowing installation of them with <good>minimal failure chance</good>."
+  },
+  {
     "id": "BIONIC_NPC_USABLE",
     "type": "json_flag",
     "context": [ "BIONIC_ITEM" ],
@@ -74,11 +80,6 @@
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "//": "Blinds the wearer while worn, and provides nominal protection vs flashbang flashes.",
     "info": "This gear <bad>prevents</bad> you from <info>seeing</info> anything."
-  },
-  {
-    "id": "EFFECT_NIGHT_VISION",
-    "context": [  ],
-    "type": "json_flag"
   },
   {
     "id": "BLOCK_WHILE_WORN",
@@ -145,6 +146,24 @@
     "id": "QUARTERED",
     "type": "json_flag",
     "context": [ "GENERIC" ]
+  },
+  {
+    "id": "SCIENCE_CARD",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "You could probably use this to get into a secure science facility."
+  },
+  {
+    "id": "MILITARY_CARD",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "You could probably use this to get into a secure military facility."
+  },
+  {
+    "id": "INDUSTRIAL_CARD",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "You could probably use this to get into a secure industrial facility."
   },
   {
     "id": "SKINNED",
@@ -243,6 +262,12 @@
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "info": "You can wear <info>only one</info>."
+  },
+  {
+    "id": "ONE_PER_LAYER",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "<info>Only one</info> item can be worn on this clothing layer."
   },
   {
     "id": "FANCY",
@@ -454,7 +479,7 @@
     "id": "PREDATOR_FUN",
     "type": "json_flag",
     "context": [ "COMESTIBLE" ],
-    "info": "Designates a food that is usually undesirable but gives a morale bonus to characters with predator mutations."
+    "//": "Designates a food that is usually undesirable but gives a morale bonus to characters with predator mutations."
   },
   {
     "id": "STAB",
@@ -574,14 +599,12 @@
   {
     "id": "MUSHY",
     "type": "json_flag",
-    "context": [ "COMESTIBLE" ],
-    "info": "This food was frozen and is now <bad>mushy</bad> and tasteless and <bad>will go bad</bad> after freezing again."
+    "context": [ "COMESTIBLE" ]
   },
   {
     "id": "FREEZERBURN",
     "type": "json_flag",
-    "context": [ "COMESTIBLE" ],
-    "info": "This food was frozen and is now <bad>mushy</bad> and tasteless and <bad>will go bad</bad> after freezing again."
+    "context": [ "COMESTIBLE" ]
   },
   {
     "id": "PSYSHIELD_PARTIAL",
@@ -805,6 +828,24 @@
     "info": "This clothing <good>performs well</good> even when <info>soaking wet</info>.  This can feel good."
   },
   {
+    "id": "ITEM_BROKEN",
+    "type": "json_flag",
+    "context": [  ],
+    "info": "This item was broken and <bad>won't activate anymore</bad>."
+  },
+  {
+    "id": "WATER_BREAK",
+    "type": "json_flag",
+    "context": [  ],
+    "info": "This item <bad>will get broken</bad> by water."
+  },
+  {
+    "id": "WATER_DISSOLVE",
+    "type": "json_flag",
+    "context": [  ],
+    "info": "This item <bad>will get dissolved</bad> in water."
+  },
+  {
     "id": "WET",
     "type": "json_flag",
     "context": [ "GENERIC", "ARMOR", "TOOL_ARMOR" ]
@@ -1007,56 +1048,6 @@
     "type": "json_flag",
     "context": [ "mutation" ],
     "//": "This mutation does not count toward thresholds at all."
-  },
-  {
-    "id": "EFFECT_FEATHER_FALL",
-    "context": [  ],
-    "type": "json_flag"
-  },
-  {
-    "id": "EFFECT_BIO_IMMUNE",
-    "context": [  ],
-    "type": "json_flag"
-  },
-  {
-    "id": "EFFECT_BASH_IMMUNE",
-    "context": [  ],
-    "type": "json_flag"
-  },
-  {
-    "id": "EFFECT_CUT_IMMUNE",
-    "context": [  ],
-    "type": "json_flag"
-  },
-  {
-    "id": "EFFECT_BULLET_IMMUNE",
-    "context": [  ],
-    "type": "json_flag"
-  },
-  {
-    "id": "EFFECT_ACID_IMMUNE",
-    "context": [  ],
-    "type": "json_flag"
-  },
-  {
-    "id": "EFFECT_STAB_IMMUNE",
-    "context": [  ],
-    "type": "json_flag"
-  },
-  {
-    "id": "EFFECT_HEAT_IMMUNE",
-    "context": [  ],
-    "type": "json_flag"
-  },
-  {
-    "id": "EFFECT_COLD_IMMUNE",
-    "context": [  ],
-    "type": "json_flag"
-  },
-  {
-    "id": "EFFECT_ELECTRIC_IMMUNE",
-    "context": [  ],
-    "type": "json_flag"
   },
   {
     "id": "HIDDEN_HALLU",
@@ -1875,6 +1866,12 @@
     "id": "IRREPLACEABLE_CONSUMABLE",
     "type": "json_flag",
     "context": [ "AMMO", "CONSUMABLE" ]
+  },
+  {
+    "id": "ACTIVATE_ON_PLACE",
+    "type": "json_flag",
+    "context": [  ],
+    "info": "This item will be activated when it is placed in mapgen."
   },
   {
     "id": "ACT_IN_FIRE",

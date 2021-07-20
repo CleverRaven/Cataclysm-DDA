@@ -1,13 +1,19 @@
-#include "catch/catch.hpp"
+#include <iosfwd>
+#include <vector>
 
+#include "avatar.h"
+#include "calendar.h"
+#include "cata_catch.h"
 #include "field.h"
+#include "field_type.h"
+#include "item.h"
 #include "map.h"
-#include "map_iterator.h"
-#include "type_id.h"
-
 #include "map_helpers.h"
-
-#include <algorithm>
+#include "map_iterator.h"
+#include "mapdata.h"
+#include "player_helpers.h"
+#include "point.h"
+#include "type_id.h"
 
 static int count_fields( const field_type_str_id &field_type )
 {
@@ -132,9 +138,9 @@ static time_point &fields_test_time_before()
     return time_before;
 }
 
-static time_duration fields_test_duration()
+static int fields_test_turns()
 {
-    return calendar::turn - fields_test_time_before();
+    return to_turns<int>( calendar::turn - fields_test_time_before() );
 }
 
 static void fields_test_setup()
@@ -178,7 +184,8 @@ TEST_CASE( "fd_acid falls down", "[field]" )
 
     {
         INFO( "acid field is dropped by exactly one point" );
-        CHECK_FALSE( m.get_field( p, fd_acid ) );
+        field_entry *acid_here = m.get_field( p, fd_acid );
+        CHECK( ( !acid_here || !acid_here->is_field_alive() ) );
         CHECK( m.get_field( p + tripoint_below, fd_acid ) );
     }
 
@@ -197,13 +204,15 @@ TEST_CASE( "fire spreading", "[field]" )
     m.add_field( p, fd_fire, 3 );
 
     const auto check_spreading = [&]( const time_duration time_limit ) {
-        while( !m.get_field( far_p, fd_fire ) && fields_test_duration() < time_limit ) {
+        const int time_limit_turns = to_turns<int>( time_limit );
+        while( !m.get_field( far_p, fd_fire ) && fields_test_turns() < time_limit_turns ) {
             calendar::turn += 1_turns;
             m.process_fields();
         }
         {
-            INFO( "Fire should've spread to the far point in " << to_string( time_limit ) );
-            CHECK( fields_test_duration() < time_limit );
+            INFO( string_format( "Fire should've spread to the far point in under %d turns",
+                                 time_limit_turns ) );
+            CHECK( fields_test_turns() < time_limit_turns );
         }
     };
 
@@ -211,23 +220,22 @@ TEST_CASE( "fire spreading", "[field]" )
         for( tripoint p0 = p; p0 != far_p + tripoint_east; p0 += tripoint_east ) {
             m.add_field( p0, fd_web, 1 );
         }
-        // note: time limit here was chosen arbitrary. It could be too low or too high.
+        // note: time limit here was chosen arbitrarily. It could be too low or too high.
         check_spreading( 5_minutes );
     }
     SECTION( "fire spreads on flammable items" ) {
         for( tripoint p0 = p; p0 != far_p + tripoint_east; p0 += tripoint_east ) {
             m.add_item( p0, item( "test_2x4" ) );
         }
-        // note: time limit here was chosen arbitrary. It could be too low or too high.
-        check_spreading( 5_minutes );
+        // note: time limit here was chosen arbitrarily. It could be too low or too high.
+        check_spreading( 30_minutes );
     }
     SECTION( "fire spreads on flammable terrain" ) {
         for( tripoint p0 = p; p0 != far_p + tripoint_east; p0 += tripoint_east ) {
             REQUIRE( ter_str_id( "t_tree_walnut" )->has_flag( TFLAG_FLAMMABLE_ASH ) );
             m.ter_set( p0, ter_str_id( "t_tree_walnut" ) );
         }
-        // note: time limit here was chosen arbitrary. It could be too low or too high.
-        // 5 minutes apparently is too low for terrain
+        // note: time limit here was chosen arbitrarily. It could be too low or too high.
         check_spreading( 30_minutes );
     }
 
@@ -246,16 +254,16 @@ TEST_CASE( "fd_fire and fd_fire_vent test", "[field]" )
     CHECK( m.get_field( p, fd_fire_vent ) );
     CHECK_FALSE( m.get_field( p, fd_flame_burst ) );
 
-    const time_duration time_limit = 2_minutes;
+    const int time_limit_turns = to_turns<int>( 2_minutes );
 
-    while( !m.get_field( p, fd_flame_burst ) && fields_test_duration() < time_limit ) {
+    while( !m.get_field( p, fd_flame_burst ) && fields_test_turns() < time_limit_turns ) {
         calendar::turn += 1_turns;
         m.process_fields();
     }
 
     {
-        INFO( "Should've converted to flame burst faster than " << to_string( time_limit ) );
-        CHECK( fields_test_duration() < time_limit );
+        INFO( string_format( "Should've converted to flame burst in under %d turns", time_limit_turns ) );
+        CHECK( fields_test_turns() < time_limit_turns );
     }
 
     {
@@ -280,7 +288,8 @@ TEST_CASE( "fd_fire and fd_fire_vent test", "[field]" )
         field_entry *flame_burst = m.get_field( p, fd_flame_burst );
         INFO( "Flame burst intensity should drop" );
         CAPTURE( i );
-        CHECK( ( flame_burst ? flame_burst->get_field_intensity() : 0 ) == i );
+        CHECK( ( flame_burst &&
+                 flame_burst->is_field_alive() ? flame_burst->get_field_intensity() : 0 ) == i );
     }
 
     {
@@ -334,19 +343,20 @@ TEST_CASE( "radioactive field", "[field]" )
     const tripoint p{ 33, 33, 0 };
     map &m = get_map();
 
-    REQUIRE( fd_nuke_gas->get_extra_radiation_max() > 0 );
+    REQUIRE( fd_nuke_gas->get_intensity_level().extra_radiation_max > 0 );
     REQUIRE( m.get_radiation( p ) == 0 );
 
     m.add_field( p, fd_nuke_gas, 1 );
 
-    const time_duration time_limit = 5_minutes;
-    while( m.get_radiation( p ) == 0 && fields_test_duration() < time_limit ) {
+    const int time_limit_turns = to_turns<int>( 5_minutes );
+
+    while( m.get_radiation( p ) == 0 && fields_test_turns() < time_limit_turns ) {
         calendar::turn += 1_turns;
         m.process_fields();
     }
     {
-        INFO( "Terrain should be irradiated under " << to_string( time_limit ) );
-        CHECK( fields_test_duration() < time_limit );
+        INFO( string_format( "Terrain should be irradiated in no more than %d turns", time_limit_turns ) );
+        CHECK( fields_test_turns() <= time_limit_turns );
     }
 
     // cleanup
@@ -364,8 +374,9 @@ TEST_CASE( "fungal haze test", "[field]" )
     m.add_field( p, fd_fungal_haze, 3 );
 
     // note: time limit was chosen arbitrary. It could be too low.
-    const time_duration time_limit = 1_hours;
-    while( !m.has_flag( "FUNGUS", p ) && fields_test_duration() < time_limit ) {
+    const int time_limit_turns = to_turns<int>( 1_hours );
+
+    while( !m.has_flag( "FUNGUS", p ) && fields_test_turns() < time_limit_turns ) {
         calendar::turn += 1_turns;
         m.process_fields();
 
@@ -375,9 +386,80 @@ TEST_CASE( "fungal haze test", "[field]" )
         }
     }
     {
-        INFO( "Terrain should be fungalized under " << to_string( time_limit ) );
-        CHECK( fields_test_duration() < time_limit );
+        INFO( string_format( "Terrain should be fungalized in below %d turns", time_limit_turns ) );
+        CHECK( fields_test_turns() < time_limit_turns );
     }
+
+    fields_test_cleanup();
+}
+
+TEST_CASE( "player_in_field test", "[field][player]" )
+{
+    fields_test_setup();
+    clear_avatar();
+    const tripoint p{ 33, 33, 0 };
+
+    Character &dummy = get_avatar();
+    const tripoint prev_char_pos = dummy.pos();
+    dummy.setpos( p );
+
+    map &m = get_map();
+
+    m.add_field( p, fd_sap, 3 );
+
+    // Also add bunch of unrelated fields
+    m.add_field( p, fd_blood, 3 );
+    m.add_field( p, fd_blood_insect, 3 );
+    m.add_field( p, fd_blood_veggy, 3 );
+    m.add_field( p, fd_blood_invertebrate, 3 );
+
+    const int time_limit_turns = to_turns<int>( 5_minutes );
+
+    bool is_field_alive = true;
+    while( is_field_alive && fields_test_turns() < time_limit_turns ) {
+        calendar::turn += 1_turns;
+        m.creature_in_field( dummy );
+        const field_entry *sap_field = m.get_field( p, fd_sap );
+        is_field_alive = sap_field && sap_field->is_field_alive();
+    }
+    {
+        INFO( string_format( "Sap should disappear in under %d turns", time_limit_turns ) );
+        CHECK( fields_test_turns() < time_limit_turns );
+    }
+
+    clear_avatar();
+    dummy.setpos( prev_char_pos );
+    fields_test_cleanup();
+}
+
+TEST_CASE( "field API test", "[field]" )
+{
+    fields_test_setup();
+    const tripoint p{ 33, 33, 0 };
+    map &m = get_map();
+    field &f = m.field_at( p );
+
+    REQUIRE_FALSE( f.find_field( fd_fire ) );
+
+    CHECK( m.add_field( p, fd_fire, 1 ) );
+
+    CHECK( f.find_field( fd_fire ) );
+    CHECK( f.find_field( fd_fire, /*alive_only*/ false ) );
+    CHECK( m.get_field( p, fd_fire ) );
+    CHECK( m.get_field_intensity( p, fd_fire ) == 1 );
+
+    m.remove_field( p, fd_fire );
+
+    CHECK_FALSE( f.find_field( fd_fire ) );
+    {
+        INFO( "Field is still there, actually removed only by process_fields" );
+        CHECK( f.find_field( fd_fire, /*alive_only*/ false ) );
+    }
+    CHECK_FALSE( m.get_field( p, fd_fire ) );
+    CHECK( m.get_field_intensity( p, fd_fire ) == 0 );
+
+    CHECK( m.set_field_intensity( p, fd_fire, 1 ) == 1 );
+    CHECK( f.find_field( fd_fire ) );
 
     fields_test_cleanup();
 }

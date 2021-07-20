@@ -362,6 +362,34 @@ struct game_message_params {
     game_message_flags flags;
 };
 
+struct social_modifiers {
+    int lie = 0;
+    int persuade = 0;
+    int intimidate = 0;
+
+    social_modifiers &operator+=( const social_modifiers &other ) {
+        this->lie += other.lie;
+        this->persuade += other.persuade;
+        this->intimidate += other.intimidate;
+        return *this;
+    }
+    bool empty() const {
+        return this->lie != 0 || this->persuade != 0 || this->intimidate != 0;
+    }
+};
+
+enum MULTITILE_TYPE {
+    center,
+    corner,
+    edge,
+    t_connection,
+    end_piece,
+    unconnected,
+    open_,
+    broken,
+    num_multitile_types
+};
+
 enum class reachability_cache_quadrant : int {
     NE, SE, NW, SW
 };

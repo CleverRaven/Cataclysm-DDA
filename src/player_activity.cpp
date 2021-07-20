@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <memory>
+#include <new>
 
 #include "activity_handlers.h"
 #include "activity_type.h"
@@ -18,10 +19,9 @@
 #include "sounds.h"
 #include "stomach.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "translations.h"
+#include "ui.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "value_ptr.h"
 
 static const activity_id ACT_ATM( "ACT_ATM" );
@@ -64,11 +64,11 @@ void player_activity::migrate_item_position( Character &guy )
         type == ACT_ATM;
 
     if( simple_action_replace ) {
-        targets.push_back( item_location( guy, &guy.i_at( position ) ) );
+        targets.emplace_back( guy, &guy.i_at( position ) );
     } else if( type == ACT_GUNMOD_ADD ) {
         // this activity has two indices; "position" = gun and "values[0]" = mod
-        targets.push_back( item_location( guy, &guy.i_at( position ) ) );
-        targets.push_back( item_location( guy, &guy.i_at( values[0] ) ) );
+        targets.emplace_back( guy, &guy.i_at( position ) );
+        targets.emplace_back( guy, &guy.i_at( values[0] ) );
     }
 }
 
@@ -155,8 +155,7 @@ cata::optional<std::string> player_activity::get_progress_message( const avatar 
             }
         }
     } else if( moves_total > 0 ) {
-        if( type == activity_id( "ACT_BURROW" ) ||
-            type == activity_id( "ACT_HACKSAW" ) ||
+        if( type == activity_id( "ACT_HACKSAW" ) ||
             type == activity_id( "ACT_JACKHAMMER" ) ||
             type == activity_id( "ACT_PICKAXE" ) ||
             type == activity_id( "ACT_VEHICLE" ) ||
@@ -223,9 +222,9 @@ void player_activity::do_turn( player &p )
     // Only do once every two minutes to loosely simulate consume times,
     // the exact amount of time is added correctly below, here we just want to prevent eating something every second
     if( calendar::once_every( 2_minutes ) && *this && !p.is_npc() && type->valid_auto_needs() &&
-        !no_food_nearby_for_auto_consume &&
         !p.has_effect( effect_nausea ) ) {
-        if( p.stomach.contains() <= p.stomach.capacity( p ) / 4 && p.get_kcal_percent() < 0.95f ) {
+        if( p.stomach.contains() <= p.stomach.capacity( p ) / 4 && p.get_kcal_percent() < 0.95f &&
+            !no_food_nearby_for_auto_consume ) {
             int consume_moves = get_auto_consume_moves( p, true );
             moves_left += consume_moves;
             if( consume_moves == 0 ) {
@@ -240,7 +239,7 @@ void player_activity::do_turn( player &p )
             }
         }
     }
-    const float activity_mult = p.exertion_adjusted_move_multiplier();
+    const float activity_mult = p.exertion_adjusted_move_multiplier( exertion_level() );
     if( type->based_on() == based_on_type::TIME ) {
         if( moves_left >= 100 ) {
             moves_left -= 100 * activity_mult;
@@ -268,7 +267,7 @@ void player_activity::do_turn( player &p )
         return;
     }
     const bool travel_activity = id() == ACT_TRAVELLING;
-    p.increase_activity_level( exertion_level() );
+    p.set_activity_level( exertion_level() );
     // This might finish the activity (set it to null)
     if( actor ) {
         actor->do_turn( *this, p );
@@ -394,20 +393,6 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
 
     if( id() == activity_id( "ACT_CLEAR_RUBBLE" ) ) {
         if( other.coords.empty() || other.coords[0] != coords[0] ) {
-            return false;
-        }
-    } else if( id() == activity_id( "ACT_READ" ) ) {
-        // Return false if any NPCs joined or left the study session
-        // the vector {1, 2} != {2, 1}, so we'll have to check manually
-        if( values.size() != other.values.size() ) {
-            return false;
-        }
-        for( int foo : other.values ) {
-            if( std::find( values.begin(), values.end(), foo ) == values.end() ) {
-                return false;
-            }
-        }
-        if( targets.empty() || other.targets.empty() || targets[0] != other.targets[0] ) {
             return false;
         }
     } else if( id() == activity_id( "ACT_VEHICLE" ) ) {

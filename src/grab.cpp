@@ -1,10 +1,10 @@
+#include "game.h" // IWYU pragma: associated
+
 #include <algorithm>
-#include <cmath>
 #include <cstdlib>
 
 #include "avatar.h"
 #include "debug.h"
-#include "game.h" // IWYU pragma: associated
 #include "map.h"
 #include "messages.h"
 #include "rng.h"
@@ -12,7 +12,6 @@
 #include "tileray.h"
 #include "translations.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 
@@ -189,6 +188,12 @@ bool game::grabbed_veh_move( const tripoint &dp )
     if( grabbed_vehicle ) {
         m.level_vehicle( *grabbed_vehicle );
         grabbed_vehicle->check_falling_or_floating();
+        if( grabbed_vehicle->is_falling ) {
+            add_msg( _( "You let go of the %1$s as it starts to fall." ), grabbed_vehicle->disp_name() );
+            u.grab( object_type::NONE );
+            m.drop_vehicle( final_dp_veh );
+            return true;
+        }
     } else {
         debugmsg( "Grabbed vehicle disappeared" );
         return false;

@@ -2,9 +2,7 @@
 #ifndef CATA_SRC_VEHICLE_GROUP_H
 #define CATA_SRC_VEHICLE_GROUP_H
 
-#include <algorithm>
-#include <memory>
-#include <string>
+#include <iosfwd>
 #include <unordered_map>
 #include <vector>
 
@@ -12,8 +10,8 @@
 #include "memory_fast.h"
 #include "optional.h"
 #include "rng.h"
-#include "string_id.h"
 #include "type_id.h"
+#include "units_fwd.h"
 #include "weighted_list.h"
 
 class JsonObject;

@@ -2,9 +2,9 @@
 #ifndef CATA_SRC_MATTACK_COMMON_H
 #define CATA_SRC_MATTACK_COMMON_H
 
+#include <string> // IWYU pragma: keep
 #include <memory>
-#include <string>
-#include <utility>
+#include <type_traits>
 
 #include "clone_ptr.h"
 

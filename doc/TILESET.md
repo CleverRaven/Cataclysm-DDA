@@ -1,5 +1,14 @@
 # TILESETS
 
+## Including tilesets with the distribution
+
+In order to be included in the distribution of the game, a tileset must meet the following criteria:
+
+- Licensing: ALL ART must be distributed under a CC-BY-SA 3.0 license or compatible.  Any exceptions cannot be tolerated.  If an art item's license is unclear it cannot be included.
+- Crediting: Appropriate crediting as requested by artists must be met.  You probably don't need to be told this, adding a credits.txt costs you nothing.
+- Maintenance: A tileset must have had at least one PR updating its art since the previous stable release to be included in subsequent stable releases.  While a formal maintainer isn't required for a tileset, it's much more likely that sets will not be marked obsolete if they have someone to speak up for them.
+- Imagery: in general we do not have rules about imagery and content in tilesets, but we may request changes or refuse admission if a set includes overt hate imagery (swastikas for example).
+
 ## Terminology
 
 ##### Tileset
@@ -73,6 +82,8 @@ Special prefixes that are used include:
 `overlay_` for movement modes.
 
 `vp_` for vehicle parts (see also [`symbols` and `standard_symbols` JSON keys](JSON_INFO.md#symbols-and-variants) that are used as suffixes).
+
+`explosion_` for spell explosion effects.  Multitile is required; only supports "center", "edge" and "corner".
 
 #### Optional gendered variants
 
@@ -160,7 +171,7 @@ A tilesheet can be an expansion from a mod.  Each expansion tilesheet is a singl
 
 ### Usage
 
-`compose.py [-h] [--use-all] [--obsolete-fillers] source_dir [output_dir]`
+`compose.py [-h] [--use-all] [--obsolete-fillers] [--palette] [--palette-copies] source_dir [output_dir]`
 
 `source_dir` - the compositing tileset directory.
 
@@ -176,17 +187,43 @@ A tilesheet can be an expansion from a mod.  Each expansion tilesheet is a singl
 
 `--obsolete-fillers`: print which fillers were skipped and are thus ready to be removed.
 
-Requires `pyvips` module.
+`--palette`: Quantize all tilesheets to 8bpp colormaps. May severely reduce quality as there is only 256 possible colors but reduces file size.
 
-### Installing pyvips on Windows
+`--palette-copies`: Output copies of tilesheet files quantized to 8bpp palette with `.png8` extension. Intended for external detection if conversion was lossless.
 
-- Download Python https://www.python.org/downloads/
-- Download `libvips` https://libvips.github.io/libvips/install.html
-- Make sure  directories with `python`, `pip`, and `libvips` are in your `PATH` [environment variable](https://en.wikipedia.org/wiki/Environment_variable#Windows)
-- Press `Windows key + r` to open the "Run" dialog box
-- run `cmd`; it should open the console
-- run `py -m pip install --upgrade pip` to get the latest version of `pip`
-- run `pip install --user pyvips` to install `pyvips`
+Requires `pyvips` module, see below.
+
+## pyvips
+
+### Windows
+
+#### Python and pyvips
+ * Install Python with the latest installer https://www.python.org/downloads/windows/
+ * Open Console (Window key + `R` key, type `cmd` and hit `Enter`)
+ * Install pyvips with these commands:
+```
+py -m pip install -U pip
+py -m pip install --user pyvips
+```
+
+#### libvips
+ * Extract the latest libvips distribution to a folder (get the `vips-dev-w64-web-#.#.#.zip` NOT the `vips-dev-w64-all-#.#.#.zip`) https://libvips.github.io/libvips/install.html
+ * Press start menu and search for "`environment variables`".
+ * Alternatively go to `Control Panel > System > Advanced System Settings > Environment Variables`
+ * In the `User variables` section, select `Path` and click `Edit`.
+ * Select an empty line and press `New`
+ * Copy and paste the path to `vips\bin` folder, it should look something like `C:\Users\username\AppData\Roaming\Python\Python39\site-packages\pyvips\vips-dev-8.10\bin`
+ * If you have the Console open, close it so the changes take effect.
+
+#### Launching scripts
+Navigate on Console to a directory with the script you want to launch.
+Prefix the script filename with `py `, like this: `py compose.py --use-all --obsolete-fillers pathToYourTileset pathToYourOutputFolder`
+
+### Linux
+_TODO, please ask if you need it or send suggestions if you want to help_
+
+### MacOS
+_TODO, please ask if you need it or send suggestions if you want to help_
 
 ## Legacy tilesets
 

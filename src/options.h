@@ -2,8 +2,9 @@
 #ifndef CATA_SRC_OPTIONS_H
 #define CATA_SRC_OPTIONS_H
 
-#include <algorithm>
 #include <functional>
+#include <functional>
+#include <iosfwd>
 #include <map>
 #include <string>
 #include <unordered_map>

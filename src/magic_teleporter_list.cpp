@@ -4,6 +4,8 @@
 #include <cstddef>
 #include <map>
 #include <memory>
+#include <new>
+#include <string>
 #include <utility>
 
 #include "avatar.h"
