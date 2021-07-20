@@ -862,7 +862,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str_sp": "auroral shell" },
-    "description": "A sturdy shell that wraps your body, gaining a much better defense.",
+    "description": "A sturdy shell that wraps your body, gaining a sturdy defense.",
     "weight": "400 g",
     "volume": "25 L",
     "material": [ "concentrated_mana" ],
