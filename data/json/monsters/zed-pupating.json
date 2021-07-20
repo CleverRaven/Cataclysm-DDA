@@ -12,7 +12,7 @@
     "bleed_rate": 50,
     "special_attacks": [ { "type": "bite", "cooldown": 3 } ],
     "regenerates": 10,
-    "extend": { "flags": [ "SLUDGETRAIL", "SLUDGEPROOF" ] }
+    "extend": { "flags": [ "SMALLSLUDGETRAIL", "SLUDGEPROOF" ] }
   },
   {
     "id": "mon_zombie_crawler_pupa",
@@ -44,7 +44,7 @@
     "bleed_rate": 50,
     "special_attacks": [ { "type": "bite", "cooldown": 3 } ],
     "regenerates": 10,
-    "extend": { "flags": [ "SLUDGETRAIL", "SLUDGEPROOF" ] }
+    "extend": { "flags": [ "SMALLSLUDGETRAIL", "SLUDGEPROOF" ] }
   },
   {
     "id": "mon_zombie_pupa",
@@ -73,7 +73,7 @@
     "speed": 95,
     "regenerates": 10,
     "upgrades": { "half_life": 21, "into_group": "GROUP_BRUTE_PUPA" },
-    "extend": { "flags": [ "SLUDGETRAIL", "SLUDGEPROOF" ] }
+    "extend": { "flags": [ "SMALLSLUDGETRAIL", "SLUDGEPROOF" ] }
   },
   {
     "id": "mon_brute_pupa",
@@ -137,7 +137,7 @@
       "REVIVES",
       "PUSH_MON",
       "PUSH_VEH",
-      "SLUDGETRAIL",
+      "SMALLSLUDGETRAIL",
       "SLUDGEPROOF",
       "FILTHY"
     ]
@@ -195,7 +195,7 @@
       "REVIVES",
       "PUSH_MON",
       "PUSH_VEH",
-      "SLUDGETRAIL",
+      "SMALLSLUDGETRAIL",
       "SLUDGEPROOF",
       "FILTHY"
     ]
@@ -215,7 +215,7 @@
     "bleed_rate": 0,
     "vision_day": 8,
     "vision_night": 15,
-    "extend": { "flags": [ "SLUDGETRAIL", "SLUDGEPROOF", "NIGHT_INVISIBILITY" ] }
+    "extend": { "flags": [ "SMALLSLUDGETRAIL", "SLUDGEPROOF", "NIGHT_INVISIBILITY" ] }
   },
   {
     "id": "mon_zombie_pupa_shady",
