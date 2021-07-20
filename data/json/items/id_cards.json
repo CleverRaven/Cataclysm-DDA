@@ -1,0 +1,162 @@
+[
+  {
+    "type": "GENERIC",
+    "id": "id_science",
+    "symbol": ",",
+    "color": "blue",
+    "name": { "str": "science ID card" },
+    "description": "This ID card once belonged to a scientist.  The reverse side describes protocol for using it; this could grant access at one control panel, if you can find one.",
+    "price": 60000,
+    "flags": [ "SCIENCE_CARD" ],
+    "price_postapoc": 250,
+    "material": [ "plastic" ],
+    "weight": "6 g",
+    "volume": "15 ml",
+    "to_hit": -3
+  },
+  {
+    "type": "GENERIC",
+    "id": "id_military",
+    "symbol": ",",
+    "color": "green",
+    "name": { "str": "military ID card" },
+    "description": "This ID card once belonged to a military officer.  The reverse side describes protocol for using it; this could grant access at one control panel, if you can find one.",
+    "price": 120000,
+    "flags": [ "MILITARY_CARD" ],
+    "price_postapoc": 500,
+    "material": [ "plastic" ],
+    "weight": "6 g",
+    "volume": "5 ml",
+    "to_hit": -3
+  },
+  {
+    "type": "GENERIC",
+    "id": "id_industrial",
+    "looks_like": "id_science",
+    "symbol": ",",
+    "color": "green",
+    "name": { "str": "industrial ID card" },
+    "description": "This ID card once belonged to a high level technician.  The reverse side describes protocol for using it; this could grant access at one control panel, if you can find one.",
+    "price": 120000,
+    "flags": [ "INDUSTRIAL_CARD" ],
+    "price_postapoc": 100,
+    "material": [ "plastic" ],
+    "weight": "6 g",
+    "volume": "5 ml",
+    "to_hit": -3
+  },
+  {
+    "type": "GENERIC",
+    "id": "id_science_visitor_1",
+    "symbol": ",",
+    "color": "blue",
+    "name": { "str": "visitor's pass" },
+    "description": "This is a visitor's pass.  The reverse side describes protocol for using it; this could grant one-time access to a card reader, if you can find one.",
+    "price": 60000,
+    "flags": [ "SCIENCE_CARD_VISITOR" ],
+    "price_postapoc": 250,
+    "material": [ "plastic" ],
+    "weight": "6 g",
+    "volume": "15 ml",
+    "to_hit": -3
+  },
+  {
+    "type": "GENERIC",
+    "id": "id_science_maintenance_green",
+    "symbol": ",",
+    "copy-from": "id_science",
+    "name": { "str": "Maintenance: green zone badge" },
+    "description": "This is an employee badge for a maintence worker.  The reverse side describes protocol for using it; this could grant access to green zone card readers.",
+    "flags": [ "SCIENCE_CARD_MAINTENANCE_GREEN" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "id_science_maintenance_yellow",
+    "symbol": ",",
+    "copy-from": "id_science",
+    "name": { "str": "Maintenance: yellow zone badge" },
+    "description": "This is an employee badge for a maintence worker.  The reverse side describes protocol for using it; this could grant access to yellow zone card readers.",
+    "flags": [ "SCIENCE_CARD_MAINTENANCE_YELLOW" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "id_science_maintenance_blue",
+    "symbol": ",",
+    "copy-from": "id_science",
+    "name": { "str": "Maintenance: blue zone badge" },
+    "description": "This is an employee badge for a maintence worker.  The reverse side describes protocol for using it; this could grant access to blue zone card readers.",
+    "flags": [ "SCIENCE_CARD_MAINTENANCE_BLUE" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "id_science_transport_1",
+    "symbol": ",",
+    "copy-from": "id_science",
+    "name": { "str": "transport freight employee badge" },
+    "description": "This is an employee badge for a freight hauler.  The reverse side describes protocol for using it; this could grant one-time access to a transport freight card reader.",
+    "flags": [ "SCIENCE_CARD_TRANSPORT_1" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "id_science_security_yellow",
+    "symbol": ",",
+    "copy-from": "id_science",
+    "name": { "str": "Security: yellow zone badge" },
+    "description": "This is an employee badge for a security professional.  The reverse side describes protocol for using it; this could grant access to yellow zone card readers.",
+    "flags": [ "SCIENCE_CARD_SECURITY_YELLOW" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "id_science_security_magenta",
+    "symbol": ",",
+    "copy-from": "id_science",
+    "name": { "str": "Security: magenta zone badge" },
+    "description": "This is an employee badge for a security professional.  The reverse side describes protocol for using it; this could grant access to magenta zone card readers.",
+    "flags": [ "SCIENCE_CARD_SECURITY_MAGENTA" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "id_science_security_black",
+    "symbol": ",",
+    "copy-from": "id_science",
+    "name": { "str": "Security: black zone badge" },
+    "description": "This is an employee badge for a security professional.  The reverse side describes protocol for using it; this could grant access to black zone card readers.",
+    "flags": [ "SCIENCE_CARD_SECURITY_BLACK" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "id_science_mutagen_green",
+    "symbol": ",",
+    "copy-from": "id_science",
+    "name": { "str": "Researcher: green zone badge" },
+    "description": "This is an employee badge for a research scientist.  The reverse side describes protocol for using it; this could grant access to green zone card readers.",
+    "flags": [ "SCIENCE_CARD_MUTAGEN_GREEN" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "id_science_mutagen_pink",
+    "symbol": ",",
+    "copy-from": "id_science",
+    "name": { "str": "Researcher: pink zone badge" },
+    "description": "This is an employee badge for a research scientist.  The reverse side describes protocol for using it; this could grant access to pink zone card readers.",
+    "flags": [ "SCIENCE_CARD_MUTAGEN_PINK" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "id_science_mutagen_cyan",
+    "symbol": ",",
+    "copy-from": "id_science",
+    "name": { "str": "Researcher: cyan zone badge" },
+    "description": "This is an employee badge for a research scientist.  The reverse side describes protocol for using it; this could grant access to cyan zone card readers.",
+    "flags": [ "SCIENCE_CARD_MUTAGEN_CYAN" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "id_science_medical_red",
+    "symbol": ",",
+    "copy-from": "id_science",
+    "name": { "str": "Doctor: red zone badge" },
+    "description": "This is an employee badge for a medical doctor.  The reverse side describes protocol for using it; this could grant access to red zone card readers.",
+    "flags": [ "SCIENCE_CARD_MEDICAL_RED" ]
+  }
+]

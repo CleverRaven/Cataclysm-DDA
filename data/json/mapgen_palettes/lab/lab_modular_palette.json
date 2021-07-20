@@ -45,10 +45,16 @@
       "¶": "t_carpet_concrete_yellow",
       "ꞝ": "t_carpet_concrete_green",
       "£": "t_thconc_y",
+      "ß": "t_thconc_r",
       "<": "t_stairs_up",
       ">": "t_stairs_down",
       "ի": "t_chaingate_c",
       "ն": "t_chainfence",
+      "è": "t_thconc_floor_olight",
+      "é": "t_strconc_floor_olight",
+      "ê": "t_linoleum_gray_floor_olight",
+      "ë": "t_linoleum_whitefloor_olight",
+      "î": "t_metal_floor_olight",
       "♥": "t_ramp_down_high",
       "♠": "t_ramp_down_low",
       "♦": "t_ramp_up_high",
@@ -252,7 +258,7 @@
     "id": "lab_maintenance_palette",
     "//": "for maintenance areas of labs.",
     "liquids": { "ɜ": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
-    "terrain": { ";": "t_thconc_floor", "1": "t_elevator_control", "2": "t_elevator", "7": "t_sewage_pump", "0": "t_sewage_pipe" },
+    "terrain": { ";": "t_thconc_floor", "1": "t_elevator_control_off", "2": "t_elevator", "7": "t_sewage_pump", "0": "t_sewage_pipe" },
     "furniture": {
       "ƃ": "f_warehouse_shelf",
       "W": "f_generator_broken",
@@ -264,7 +270,7 @@
       "Æ": "f_55gal_firebarrel",
       "ʉ": "f_arcfurnace_empty",
       "ʋ": "f_drill_press",
-      "ʌ": "f_hydraulic_press",
+      "ã": "f_hydraulic_press",
       "ʍ": "f_air_compressor",
       "ʭ": "f_ladder",
       "5": "f_water_purifier",
@@ -290,7 +296,7 @@
       "⁴": "t_strconc_floor",
       "_": "t_pavement",
       "7": "t_reinforced_glass_shutter",
-      "1": "t_elevator_control",
+      "1": "t_elevator_control_off",
       "2": "t_elevator"
     },
     "furniture": {
@@ -313,7 +319,15 @@
       "ɜ": { "monster": "mon_turret_rifle" },
       "ɛ": { "monster": "mon_turret_rifle" }
     },
-    "items": { "3": { "item": "vending_food", "chance": 90 }, "4": { "item": "vending_drink", "chance": 90 } }
+    "items": {
+      "3": { "item": "vending_food", "chance": 90 },
+      "4": { "item": "vending_drink", "chance": 90 },
+      "∞": [
+        { "item": "clothing_soldier_set", "chance": 100 },
+        { "item": "gear_soldier_sidearm", "chance": 33 },
+        { "item": "book_military", "chance": 33 }
+      ]
+    }
   },
   {
     "type": "palette",
@@ -437,7 +451,7 @@
     "type": "palette",
     "id": "lab_medical_palette",
     "//": "for normal medical clinic areas of labs.",
-    "terrain": { "1": "t_elevator_control", "2": "t_elevator" },
+    "terrain": { "1": "t_elevator_control_off", "2": "t_elevator" },
     "furniture": {
       "W": "f_generator_broken",
       "ɔ": "f_autodoc",

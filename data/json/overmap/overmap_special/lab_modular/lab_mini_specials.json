@@ -21,5 +21,48 @@
     "city_distance": [ 3, -1 ],
     "city_sizes": [ 1, 16 ],
     "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Lab_SECURITY_1x1x6",
+    "//": "6 z-level security tower. This includes the main lab entrance and security themed floors.",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "lab_security_z0_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "lab_security_z-1_north" },
+      { "point": [ 0, 0, -2 ], "overmap": "lab_security_z-2_north" },
+      { "point": [ 0, 0, -3 ], "overmap": "lab_security_z-3_north" },
+      { "point": [ 0, 0, -4 ], "overmap": "lab_security_z-4_north" },
+      { "point": [ 0, 0, -5 ], "overmap": "lab_security_z-5_north" },
+      { "point": [ 0, 0, -6 ], "overmap": "lab_security_z-6_final_flr_north" }
+    ],
+    "locations": [ "land" ],
+    "city_distance": [ 3, -1 ],
+    "city_sizes": [ 1, 16 ],
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Lab_CARGO_Surface",
+    "//": "Ground level for the freight/cargo company lab top and -1 connecting ramp/maintenance access.",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "lab_CORE_2x1_WC_ground_north" },
+      { "point": [ 0, -1, 0 ], "overmap": "lab_CORE_2x1_NED_ground_north" },
+      { "point": [ -1, -1, 0 ], "overmap": "lab_security_z0N_north" },
+      { "point": [ -1, 1, 0 ], "overmap": "lab_security_z0S_north" },
+      { "point": [ 0, -2, 0 ], "overmap": "lab_res_8_SEU_ground_south", "locations": [ "land" ] },
+      { "point": [ 0, 2, 0 ], "overmap": "lab_res_8_SWD_ground_north", "locations": [ "land" ] },
+      { "point": [ 0, 1, 0 ], "overmap": "lab_CORE_2x1_SED_ground_north" },
+      { "point": [ 1, -2, 0 ], "overmap": "lab_res_8_SWU_ground_south", "locations": [ "land" ] },
+      { "point": [ 1, 2, 0 ], "overmap": "lab_res_8_SED_ground_north", "locations": [ "land" ] },
+      { "point": [ 1, -1, 0 ], "overmap": "lab_CORE_2x1_NWD_ground_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "lab_CORE_2x1_EC_ground_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "lab_CORE_2x1_SWD_ground_north" },
+      { "point": [ 0, 2, -1 ], "overmap": "lab_2x1_CORE_-1W_north" },
+      { "point": [ 1, 2, -1 ], "overmap": "lab_2x1_CORE_-1E_north" }
+    ],
+    "locations": [ "land" ],
+    "city_distance": [ 3, -1 ],
+    "city_sizes": [ 1, 16 ],
+    "occurrences": [ 0, 0 ]
   }
 ]
