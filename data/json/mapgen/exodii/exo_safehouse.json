@@ -29,13 +29,13 @@
   {
     "type": "overmap_special",
     "id": "Out-of-place Stone Barn",
-	"//": "Exodii safehouse built in a medieval stone barn",
+    "//": "Exodii safehouse built in a medieval stone barn",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "exo_safehouse_stone_0_north" },
       { "point": [ 0, 0, 1 ], "overmap": "exo_safehouse_stone_1_north" },
       { "point": [ 0, 0, 2 ], "overmap": "exo_safehouse_stone_2_north" }
     ],
-    "locations": [ "forest_without_trail", "land",  "wilderness" ],
+    "locations": [ "forest_without_trail", "land", "wilderness" ],
     "city_distance": [ 0, -1 ],
     "city_sizes": [ 0, 16 ],
     "occurrences": [ 0, 2 ],
@@ -44,7 +44,7 @@
   {
     "type": "palette",
     "id": "exodii_stone_palette",
-	"//": "For medieval buildings the exodii have repurposed.",
+    "//": "For medieval buildings the exodii have repurposed.",
     "terrain": {
       " ": [ [ "t_region_groundcover", 500 ], "t_region_tree" ],
       ".": "t_glassed_sand",
@@ -62,7 +62,7 @@
       "x": "t_drystone_wall_half",
       "4": "t_sand"
     },
-    "monsters": { "1": "mon_exodii_turret", "2": "mon_exodii_quad", "3": "mon_exodii_worker", "4": "mon_exodii_quad" },
+    "monsters": { "1": "mon_exodii_turret", "3": "mon_exodii_worker" },
     "furniture": {
       "c": [ "f_metal_crate_r", "f_metal_crate_c" ],
       "C": [ "f_metal_crate_r", "f_metal_crate_c" ],
@@ -97,20 +97,62 @@
         ".,,;;;#_|__|{{||#;;;,,..",
         ".,,;;;#<___I____#;;;,,..",
         ".,,;;;#|______1|#;;;,,..",
-        ".,,;;;#C__2_____#;;;,,..",
+        ".,,;;;#C________#;;;,,..",
         ".,,;;;#C_____3__#;;;,,..",
         ".,,;;;#C________#;;;,,..",
         "..,,;;#||_____||#;;;,,..",
         "..,,;;#1_______1#;;,,,..",
         " .,,;x####MMM####x;,,.. ",
-        " .,,;;x;;;;;;;;4x;,,,.. ",
-        " ..,,;x;4;;;;;;;x;,,,.. ",
+        " .,,;;x;;;;;;;;;x;,,,.. ",
+        " ..,,;x;;;;;;;;;x;,,,.. ",
         "  ..,,xxxxx;;xxxx;,,..  ",
         "  ...,,,,,,,,,,,,,,...  ",
         "    ....,,,,,,,,....    ",
         "       ..........       "
       ],
       "palettes": [ "exodii_stone_palette" ],
+      "place_monster": [
+	    {
+          "monster": "mon_exodii_quad",
+          "x": [ 10, 11 ],
+          "y": [ 19, 22 ],
+          "pack_size": [ 1, 3 ],
+          "spawn_data": {
+            "patrol": [
+              { "x": 1, "y": 22 },
+              { "x": 1, "y": 1 },
+              { "x": 22, "y": 1 },
+              { "x": 22, "y": 22 },
+              { "x": 11, "y": 22 },
+              { "x": 12, "y": 20 }
+            ]
+          }
+        },
+        {
+          "monster": "mon_exodii_quad",
+          "x": 11,
+          "y": 12,
+          "spawn_data": {
+            "patrol": [
+              { "x": 12, "y": 16 },
+              { "x": 7, "y": 10 },
+              { "x": 12, "y": 13 },
+              { "x": 8, "y": 12 }
+            ]
+          }
+        },
+        {
+          "monster": "mon_exodii_worker",
+          "x": 7,
+          "y": 8,
+          "spawn_data": {
+            "patrol": [
+              { "x": 14, "y": 8 },
+              { "x": 7, "y": 8 }
+            ]
+          }
+        }
+      ],
       "furniture": { "Y": "f_scrap_antenna", "I": "f_exodii_lamp" }
     }
   },
