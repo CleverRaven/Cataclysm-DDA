@@ -1695,7 +1695,7 @@
     "name": "Bow Hunter",
     "description": "Ever since you were a child you loved hunting, and quickly developed a talent for archery.  Why, if the world ended, there's nothing you'd want at your side more than your trusty bow.  So, when it did, you made sure to bring it along.",
     "points": 2,
-    "proficiencies": [ "prof_bow_expert", "prof_bowyery" ],
+    "proficiencies": [ "prof_bow_basic", "prof_bow_expert", "prof_bowyery" ],
     "skills": [ { "level": 2, "name": "archery" } ],
     "items": {
       "both": {
