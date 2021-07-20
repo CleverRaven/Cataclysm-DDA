@@ -907,7 +907,7 @@
     "type": "TOOL",
     "category": "weapons",
     "name": { "str": "Covered Pocket Sun" },
-    "description": "A small, capsule-shaped field containing a stable portal to the sun. It is currently covered.",
+    "description": "A small, capsule-shaped field containing a stable portal to the sun.  It is currently covered.",
     "weight": "1 g",
     "volume": "1 ml",
     "material": [ "sunlight" ],
