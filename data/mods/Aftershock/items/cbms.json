@@ -95,6 +95,66 @@
     "description": "A system designed to prevent instantaneous frostbite in workers exposed to things like hard vacuum and liquid nitrogen.",
     "price": 100000,
     "price_postapoc": 1500,
+    "difficulty": 6
+  },
+  {
+    "id": "bio_forcefield_bash_cut_weak",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Weak Gravity Manipulation CBM" },
+    "description": "Imagine a computer inside your body playing pong against the universe.  The paddles are made of gravity fields and how it causes this to happen are trade secrets.  -From the owners manual of HawkingCorps GravyField Mark I.",
+    "price": 100000,
+    "price_postapoc": 2500,
+    "difficulty": 6
+  },
+  {
+    "id": "bio_forcefield_bash_cut_medium",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Combat Rated Gravity Manipulation CBM" },
+    "description": "The HawkingCorps GravyField Mark 2 was designed for police actions during food riots and other civilian uprisings.  It has proven cabaple of protecting against most improvised weapons.",
+    "price": 100000,
+    "price_postapoc": 3500,
+    "difficulty": 8
+  },
+  {
+    "id": "bio_forcefield_bash_cut_heavy",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Debt Collection Agent Personal GravyField CBM" },
+    "description": "This class of personal gravity manipulator often sees action on both sides of the vicious ship-to-ship boarding fights that are common with both repossession and piracy.  It remains practically impenetrable to melee weapons that lack sharp piercing points.",
+    "price": 100000,
+    "price_postapoc": 6500,
+    "difficulty": 10
+  },
+  {
+    "id": "bio_forcefield_ballistic_weak",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Point Energy Conversion CBM" },
+    "description": "The PEC, as it is commonly known, works by converting kinetic energy into forms that are less damaging to the wearer, such as light.  Since this can be problematic, various types of shielding have been developed that do different emissions.  However, the ability to stop ballistic and piercing damage in its tracks often makes up for any inconvenience these emissions can cause.",
+    "price": 100000,
+    "price_postapoc": 2500,
+    "difficulty": 6
+  },
+  {
+    "id": "bio_forcefield_ballistic_medium",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Debt Collection Agent Personal GravyField CBM" },
+    "description": "Personal shielding against bullets and sharp-pointed weapons comes in a variety of types.  This version is known for drastically increasing an individual soldier's lifespan while often decreasing that of anyone - friend or foe - in close proximity.",
+    "price": 100000,
+    "price_postapoc": 6500,
+    "difficulty": 10
+  },
+  {
+    "id": "bio_forcefield_ballistic_heavy",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Point Energy Conversion CBM" },
+    "description": "Attention!  This compact bionic module has been altered beyond safe baselines and the warranty has been violated.  Gibson Gear takes no liability for any injuries or death that may occur from these modifications.  Attention!…",
+    "price": 100000,
+    "price_postapoc": 12500,
     "difficulty": 16
   }
 ]
