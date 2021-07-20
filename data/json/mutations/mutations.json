@@ -791,6 +791,7 @@
     "description": "You have practiced fighting with weapons.  You start with your choice of Eskrima, Fencing, Fior Di Battaglia, Medieval Swordsmanship, Niten Ichi-Ryu, Pentjak Silat, or Sōjutsu.",
     "starting_trait": true,
     "initial_ma_styles": [
+      "style_bōjutsu",
       "style_eskrima",
       "style_fencing",
       "style_silat",

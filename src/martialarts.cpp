@@ -217,6 +217,7 @@ void ma_buff::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "quiet", quiet, false );
     optional( jo, was_loaded, "throw_immune", throw_immune, false );
     optional( jo, was_loaded, "stealthy", stealthy, false );
+    optional( jo, was_loaded, "melee_bash_damage_cap_bonus", melee_bash_damage_cap_bonus, false);
 
     reqs.load( jo, src );
     bonuses.load( jo );
@@ -689,6 +690,10 @@ bool ma_buff::is_throw_immune() const
 {
     return throw_immune;
 }
+bool ma_buff::is_melee_bash_damage_cap_bonus() const
+{
+    return melee_bash_damage_cap_bonus;
+}
 bool ma_buff::is_quiet() const
 {
     return quiet;
@@ -1144,6 +1149,12 @@ bool Character::is_throw_immune() const
 {
     return search_ma_buff_effect( *effects, []( const ma_buff & b, const effect & ) {
         return b.is_throw_immune();
+    } );
+}
+bool Character::is_melee_bash_damage_cap_bonus() const
+{
+    return search_ma_buff_effect( *effects, []( const ma_buff & b, const effect & ) {
+        return b.is_melee_bash_damage_cap_bonus();
     } );
 }
 bool Character::is_quiet() const
