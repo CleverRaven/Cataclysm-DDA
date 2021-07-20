@@ -12843,6 +12843,11 @@ std::vector<proficiency_id> Character::learning_proficiencies() const
     return _proficiencies->learning_profs();
 }
 
+int Character::get_proficiency_bonus( std::string category, int prof_bonus ) const
+{
+    return _proficiencies->get_proficiency_bonus( category, prof_bonus );
+}
+
 void Character::set_proficiency_practice( const proficiency_id &id, const time_duration &amount )
 {
     if( !test_mode ) {
