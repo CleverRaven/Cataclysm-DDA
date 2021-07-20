@@ -3,6 +3,22 @@
     "type": "palette",
     "id": "standard_domestic_palette",
     "//": "Intended as a palette for non-nested houses.  Symbols still open for use: 0 ! $ % & _ = ~ ? / , ` and some symbols that conflict with json (like brackets).",
+    "parameters": {
+      "interior_wall_type": {
+        "type": "ter_str_id",
+        "default": {
+          "distribution": [
+            [ "t_wall_b", 1 ],
+            [ "t_wall_g", 1 ],
+            [ "t_wall_p", 1 ],
+            [ "t_wall_P", 1 ],
+            [ "t_wall_r", 1 ],
+            [ "t_wall_w", 6 ],
+            [ "t_wall_y", 1 ]
+          ]
+        }
+      }
+    },
     "toilets": { "t": {  } },
     "furniture": {
       "a": "f_fireplace",
@@ -82,7 +98,7 @@
       "+": [ [ "t_door_c", 5 ], [ "t_door_o", 5 ], [ "t_door_locked_interior", 1 ] ],
       "*": [ [ "t_door_locked_peep", 2 ], "t_door_locked_alarm", [ "t_door_locked", 10 ], "t_door_c" ],
       "^": "t_gutter_downspout",
-      "|": "t_wall_w",
+      "|": { "param": "interior_wall_type", "fallback": "t_wall_w" },
       "#": "t_brick_wall",
       ":": "t_wall_glass",
       "-": "t_sidewalk",

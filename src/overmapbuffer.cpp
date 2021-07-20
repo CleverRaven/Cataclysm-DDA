@@ -664,6 +664,12 @@ void overmapbuffer::ter_set( const tripoint_abs_omt &p, const oter_id &id )
     return om_loc.om->ter_set( om_loc.local, id );
 }
 
+cata::optional<mapgen_arguments> *overmapbuffer::mapgen_args( const tripoint_abs_omt &p )
+{
+    const overmap_with_local_coords om_loc = get_om_global( p );
+    return om_loc.om->mapgen_args( om_loc.local );
+}
+
 bool overmapbuffer::reveal( const point_abs_omt &center, int radius, int z )
 {
     return reveal( tripoint_abs_omt( center, z ), radius );
@@ -867,6 +873,13 @@ bool overmapbuffer::check_overmap_special_type_existing(
         return false;
     }
     return om_loc.om->check_overmap_special_type( id, om_loc.local );
+}
+
+cata::optional<overmap_special_id> overmapbuffer::overmap_special_at(
+    const tripoint_abs_omt &loc )
+{
+    const overmap_with_local_coords om_loc = get_om_global( loc );
+    return om_loc.om->overmap_special_at( om_loc.local );
 }
 
 bool overmapbuffer::check_ot( const std::string &type, ot_match_type match_type,

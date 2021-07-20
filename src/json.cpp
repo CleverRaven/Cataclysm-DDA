@@ -1325,9 +1325,13 @@ number_sci_notation JsonIn::get_any_number()
     number_sci_notation ret;
     int mod_e = 0;
     eat_whitespace();
-    stream->get( ch );
+    if( !stream->get( ch ) ) {
+        error( "unexpected end of input", 0 );
+    }
     if( ( ret.negative = ch == '-' ) ) {
-        stream->get( ch );
+        if( !stream->get( ch ) ) {
+            error( "unexpected end of input", 0 );
+        }
     } else if( ch != '.' && ( ch < '0' || ch > '9' ) ) {
         // not a valid float
         std::stringstream err;
@@ -1344,34 +1348,42 @@ number_sci_notation JsonIn::get_any_number()
     while( ch >= '0' && ch <= '9' ) {
         ret.number *= 10;
         ret.number += ( ch - '0' );
-        stream->get( ch );
+        if( !stream->get( ch ) ) {
+            break;
+        }
     }
     if( ch == '.' ) {
-        stream->get( ch );
-        while( ch >= '0' && ch <= '9' ) {
+        while( stream->get( ch ) && ch >= '0' && ch <= '9' ) {
             ret.number *= 10;
             ret.number += ( ch - '0' );
             mod_e -= 1;
-            stream->get( ch );
         }
     }
-    if( ch == 'e' || ch == 'E' ) {
-        stream->get( ch );
+    if( stream && ( ch == 'e' || ch == 'E' ) ) {
+        if( !stream->get( ch ) ) {
+            error( "unexpected end of input", 0 );
+        }
         bool neg;
         if( ( neg = ch == '-' ) || ch == '+' ) {
-            stream->get( ch );
+            if( !stream->get( ch ) ) {
+                error( "unexpected end of input", 0 );
+            }
         }
         while( ch >= '0' && ch <= '9' ) {
             ret.exp *= 10;
             ret.exp += ( ch - '0' );
-            stream->get( ch );
+            if( !stream->get( ch ) ) {
+                break;
+            }
         }
         if( neg ) {
             ret.exp *= -1;
         }
     }
     // unget the final non-number character (probably a separator)
-    stream->unget();
+    if( stream ) {
+        stream->unget();
+    }
     end_value();
     ret.exp += mod_e;
     return ret;
@@ -1529,6 +1541,22 @@ bool JsonIn::test_object()
 }
 
 /* non-fatal value setting by reference */
+
+bool JsonIn::read_null( bool throw_on_error )
+{
+    if( !test_null() ) {
+        return error_or_false( throw_on_error, "Expected null" );
+    }
+    char text[5];
+    if( !stream->get( text, 5 ) ) {
+        error( "Unexpected end of stream reading null", 0 );
+    }
+    if( 0 != strcmp( text, "null" ) ) {
+        error( std::string( "Expected 'null', got '" ) + text + "'", -4 );
+    }
+    end_value();
+    return true;
+}
 
 bool JsonIn::read( bool &b, bool throw_on_error )
 {
