@@ -1904,7 +1904,7 @@ void item::med_info( const item *med_item, std::vector<iteminfo> &info, const it
                            player_character.fun_for( *med_item ).first );
     }
 
-    if( med_com->healthy != 0 ) {
+    if( parts->test( iteminfo_parts::FOOD_HEALTH ) && med_com->healthy != 0 ) {
         info.emplace_back( "MED", _( "Health: " ), healthy_bar( med_com->healthy ) );
     }
 
@@ -1991,7 +1991,7 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
         info.emplace_back( "FOOD", _( "Enjoyability: " ), fun_for_food_item.first );
     }
 
-    if( food_item->get_comestible()->healthy != 0 ) {
+    if( parts->test( iteminfo_parts::FOOD_HEALTH ) && food_item->get_comestible()->healthy != 0 ) {
         info.emplace_back( "MED", _( "Health: " ),
                            healthy_bar( food_item->get_comestible()->healthy ) );
     }

@@ -48,6 +48,7 @@ enum class iteminfo_parts : size_t {
     FOOD_HALLUCINOGENIC,
     FOOD_ROT,
     FOOD_CONSUME_TIME,
+    FOOD_HEALTH,
 
     MAGAZINE_CAPACITY,
     MAGAZINE_RELOAD,
