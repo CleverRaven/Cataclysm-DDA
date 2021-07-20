@@ -478,7 +478,7 @@ item &item::convert( const itype_id &new_type )
     item temp( *this );
     temp.contents = item_contents( type->pockets );
     for( const item *it : contents.mods() ) {
-        if( !temp.contents.insert_item( *it, item_pocket::pocket_type::MOD ).success() ) {
+        if( !temp.put_in( *it, item_pocket::pocket_type::MOD ).success() ) {
             debugmsg( "failed to insert mod" );
         }
     }

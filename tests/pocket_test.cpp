@@ -1336,7 +1336,7 @@ TEST_CASE( "guns and gunmods", "[pocket][gunmod]" )
     item strap( "shoulder_strap" );
     // Guns cannot "contain" gunmods, but gunmods can be inserted into guns
     CHECK_FALSE( m4a1.can_contain( strap ).success() );
-    CHECK( m4a1.contents.insert_item( strap, item_pocket::pocket_type::MOD ).success() );
+    CHECK( m4a1.put_in( strap, item_pocket::pocket_type::MOD ).success() );
 }
 
 TEST_CASE( "usb drives and software", "[pocket][software]" )
@@ -1345,6 +1345,6 @@ TEST_CASE( "usb drives and software", "[pocket][software]" )
     item software( "software_math" );
     // USB drives aren't containers, and cannot "contain" software, but software can be inserted
     CHECK_FALSE( usb.can_contain( software ).success() );
-    CHECK( usb.contents.insert_item( software, item_pocket::pocket_type::SOFTWARE ).success() );
+    CHECK( usb.put_in( software, item_pocket::pocket_type::SOFTWARE ).success() );
 }
 

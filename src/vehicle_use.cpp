@@ -2172,7 +2172,8 @@ void vehicle::interact_with( const vpart_position &vp )
         item mag( tool.magazine_default() );
         mag.clear_items();
 
-        return tool.contents.insert_item( mag, item_pocket::pocket_type::MAGAZINE_WELL ).success() &&
+        return tool.can_contain( mag ).success() &&
+               tool.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL ).success() &&
                tool.ammo_capacity( ammotype( "battery" ) ) > 0;
     };
 
