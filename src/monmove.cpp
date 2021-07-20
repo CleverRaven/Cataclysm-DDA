@@ -1755,7 +1755,7 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
         }
     }
 
-    if( has_flag ( MF_SMALLSLUDGETRAIL ) ) {
+    if( has_flag( MF_SMALLSLUDGETRAIL ) ) {
         if( one_in( 2 ) ) {
             here.add_field( pos(), fd_sludge, 1 );
         }
