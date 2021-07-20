@@ -463,7 +463,7 @@ static std::vector<tripoint> shrapnel( const tripoint &src, int power,
                 std::string damage_description = ( damage_taken > 0 ) ?
                                                  string_format( _( "dealing %d damage" ), damage_taken ) :
                                                  _( "but they deal no damage" );
-                if( critter->is_player() ) {
+                if( critter->is_avatar() ) {
                     add_msg( ngettext( "You are hit by %s bomb fragment, %s.",
                                        "You are hit by %s bomb fragments, %s.", total_hits ),
                              impact_count, damage_description );

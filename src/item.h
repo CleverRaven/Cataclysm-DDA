@@ -800,6 +800,17 @@ class item : public visitable
         // recursive function that checks pockets for remaining free space
         units::volume check_for_free_space() const;
         units::volume get_selected_stack_volume( const std::map<const item *, int> &without ) const;
+        units::volume get_contents_volume_with_tweaks( const std::map<const item *, int> &without ) const;
+        units::volume get_nested_content_volume_recursive( const std::map<const item *, int> &without )
+        const;
+
+        // what will the move cost be of taking @it out of this container?
+        // should only be used from item_location if possible, to account for
+        // player inventory handling penalties from traits
+        int obtain_cost( const item &it ) const;
+        // what will the move cost be of storing @it into this container? (CONTAINER pocket type)
+        int insert_cost( const item &it ) const;
+
         /**
          * Puts the given item into this one.
          */
@@ -1291,12 +1302,12 @@ class item : public visitable
          * For example, airtight for gas, acidproof for acid etc.
          */
         /*@{*/
-        bool can_contain( const item &it ) const;
+        ret_val<bool> can_contain( const item &it ) const;
         bool can_contain( const itype &tp ) const;
         bool can_contain_partial( const item &it ) const;
         /*@}*/
         std::pair<item_location, item_pocket *> best_pocket( const item &it, item_location &parent,
-                bool allow_sealed = false, bool ignore_settings = false );
+                bool allow_sealed = false, bool ignore_settings = false, bool nested = false );
 
         units::length max_containable_length() const;
         units::volume max_containable_volume() const;
@@ -1362,6 +1373,8 @@ class item : public visitable
          */
         bool spill_contents( const tripoint &pos );
         bool spill_open_pockets( Character &guy, const item *avoid = nullptr );
+        // spill items that don't fit in the container
+        void overflow( const tripoint &pos );
 
         /** Checks if item is a holster and currently capable of storing obj
          *  @param obj object that we want to holster
@@ -2283,6 +2296,12 @@ class item : public visitable
 
         void clear_items();
         bool empty() const;
+        // ignores all pockets except CONTAINER pockets to check if this contents is empty.
+        bool empty_container() const;
+
+        // gets the item contained IFF one item is contained (CONTAINER pocket), otherwise a null item reference
+        item &only_item();
+        const item &only_item() const;
 
         /**
          * returns the number of items stacks in contents
@@ -2297,6 +2316,11 @@ class item : public visitable
          */
         item &legacy_front();
         const item &legacy_front() const;
+
+        /**
+         * Open a menu for the player to set pocket favorite settings for the pockets in this item_contents
+         */
+        void favorite_settings_menu( const std::string &item_name );
 
     private:
         /** migrates an item into this item. */

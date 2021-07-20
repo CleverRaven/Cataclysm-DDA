@@ -349,7 +349,7 @@ bool inventory_holster_preset::is_shown( const item_location &contained ) const
     }
     item item_copy( *contained );
     item_copy.charges = 1;
-    if( !holster->contents.can_contain( item_copy ).success() ) {
+    if( !holster->can_contain( item_copy ).success() ) {
         return false;
     }
 

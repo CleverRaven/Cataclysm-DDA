@@ -332,7 +332,7 @@ double vehicle_part::consume_energy( const itype_id &ftype, double energy_j )
         if( !charges_to_use ) {
             return 0.0;
         }
-        if( charges_to_use > fuel.charges ) {
+        if( charges_to_use >= fuel.charges ) {
             charges_to_use = fuel.charges;
             base.clear_items();
         } else {
@@ -541,7 +541,7 @@ bool vehicle_part::is_tank() const
 bool vehicle_part::contains_liquid() const
 {
     return is_tank() && !base.empty() &&
-           base.contents.only_item().made_of( phase_id::LIQUID );
+           base.only_item().made_of( phase_id::LIQUID );
 }
 
 bool vehicle_part::is_battery() const

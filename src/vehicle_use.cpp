@@ -1550,7 +1550,7 @@ bool vehicle::can_close( int part_index, Character &who )
         for( auto const &partID : vec ) {
             const Creature *const mon = g->critter_at( global_part_pos3( parts[partID] ) );
             if( mon ) {
-                if( mon->is_player() ) {
+                if( mon->is_avatar() ) {
                     who.add_msg_if_player( m_info, _( "There's some buffoon in the way!" ) );
                 } else if( mon->is_monster() ) {
                     // TODO: Houseflies, mosquitoes, etc shouldn't count

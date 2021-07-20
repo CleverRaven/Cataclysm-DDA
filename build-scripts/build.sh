@@ -10,6 +10,8 @@ num_jobs=3
 # We might need binaries installed via pip, so ensure that our personal bin dir is on the PATH
 export PATH=$HOME/.local/bin:$PATH
 
+$COMPILER --version
+
 if [ -n "$TEST_STAGE" ]
 then
     build-scripts/lint-json.sh

@@ -1056,7 +1056,7 @@ bool trapfunc::portal( const tripoint &p, Creature *c, item *i )
 // Don't ask NPCs - they always want to do the first thing that comes to their minds
 static bool query_for_item( const player *pl, const itype_id &itemname, const char *que )
 {
-    return pl->has_amount( itemname, 1 ) && ( !pl->is_player() || query_yn( que ) );
+    return pl->has_amount( itemname, 1 ) && ( !pl->is_avatar() || query_yn( que ) );
 }
 
 static tripoint random_neighbor( tripoint center )
@@ -1204,7 +1204,7 @@ bool trapfunc::ledge( const tripoint &p, Creature *c, item * )
         height++;
     }
 
-    if( height == 0 && c->is_player() ) {
+    if( height == 0 && c->is_avatar() ) {
         // For now just special case player, NPCs don't "zedwalk"
         Creature *critter = g->critter_at( below, true );
         if( critter == nullptr || !critter->is_monster() ) {
@@ -1239,7 +1239,7 @@ bool trapfunc::ledge( const tripoint &p, Creature *c, item * )
         return true;
     }
 
-    if( pl->is_player() ) {
+    if( pl->is_avatar() ) {
         add_msg( m_bad, ngettext( "You fall down %d story!", "You fall down %d stories!", height ),
                  height );
         g->vertical_move( -height, true );
