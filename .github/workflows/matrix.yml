@@ -131,7 +131,7 @@ jobs:
         SKIP: ${{ needs.skip-duplicates.outputs.should_skip == 'true' || ( matrix.mods != 0 && needs.skip-duplicates-mods.outputs.should_skip_mods == 'true' ) }}
     steps:
     - name: checkout repository
-      if: ${{ env.SKIP == false }}
+      if: ${{ env.SKIP == 'false' }}
       uses: actions/checkout@v1
       with:
         fetch-depth: 1
