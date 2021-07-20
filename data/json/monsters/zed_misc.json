@@ -915,7 +915,7 @@
     "species": [ "ZOMBIE", "HUMAN" ],
     "volume": "62500 ml",
     "weight": "81500 g",
-    "hp": 80,
+    "hp": 60,
     "speed": 90,
     "material": [ "flesh" ],
     "symbol": "Z",
@@ -947,7 +947,6 @@
       "REVIVES",
       "REVIVES_HEALTHY",
       "NO_NECRO",
-      "PUSH_MON",
       "FILTHY"
     ]
   },
