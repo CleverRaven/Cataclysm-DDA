@@ -502,6 +502,7 @@
     "name": { "str": "vacuum cast cuirass" },
     "description": "This piece of armor harkens back to renaissance designs.  It differs in that it is cast as a single piece in deep space installations where conditions can be controlled absolutely.",
     "material": "vacuum_carbide",
+    "armor": [ { "encumbrance": 23, "coverage": 95, "covers": [ "torso" ] } ],
     "price": 300000,
     "price_postapoc": 300000,
     "color": "brown"
