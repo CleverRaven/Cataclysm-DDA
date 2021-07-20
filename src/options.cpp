@@ -1493,6 +1493,12 @@ void options_manager::add_options_interface()
     "symbol"
        );
 
+    add( "HIGHLIGHT_UNREAD_RECIPES", "interface",
+         to_translation( "Highlight unread recipes" ),
+         to_translation( "Highlight unread recipes to allow tracking of newly learned recipes." ),
+         true
+       );
+
     add_empty_line();
 
     add( "DIAG_MOVE_WITH_MODIFIERS_MODE", "interface",

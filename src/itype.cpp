@@ -24,7 +24,7 @@ std::string islot_book::recipe_with_description_t::name() const
     if( optional_name ) {
         return optional_name->translated();
     } else {
-        return recipe->result_name();
+        return recipe->result_name( /*decorated=*/true );
     }
 }
 

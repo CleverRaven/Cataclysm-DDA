@@ -154,10 +154,10 @@ std::vector<const recipe *> recipe_subset::search(
         }
         switch( key ) {
             case search_type::name:
-                return lcmatch( r->result_name(), txt );
+                return lcmatch( r->result_name( /*decorated=*/true ), txt );
 
             case search_type::exclude_name:
-                return !lcmatch( r->result_name(), txt );
+                return !lcmatch( r->result_name( /*decorated=*/true ), txt );
 
             case search_type::skill:
                 return lcmatch( r->required_skills_string( nullptr, true, false ), txt );
