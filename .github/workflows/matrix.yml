@@ -128,7 +128,7 @@ jobs:
         GOLD: ${{ matrix.gold }}
         LTO: ${{ matrix.lto }}
         RELEASE: ${{ matrix.release }}
-        SKIP: ${{ needs.skip-duplicates.outputs.should_skip == 'true' || ( matrix.mods != 0 && needs.skip-duplicates.outputs.should_skip_mods == 'true' ) }}
+        SKIP: ${{ needs.skip-duplicates.outputs.should_skip == 'true' || ( matrix.mods != 0 && needs.skip-duplicates-mods.outputs.should_skip_mods == 'true' ) }}
     steps:
     - name: checkout repository
       if: ${{ env.SKIP == false }}
