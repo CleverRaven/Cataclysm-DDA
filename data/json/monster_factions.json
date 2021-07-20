@@ -375,7 +375,7 @@
     "name": "aphid",
     "base_faction": "insect",
     "neutral": [ "ant", "acid_ant" ]
-  }
+  },
   {
     "type": "MONSTER_FACTION",
     "name": "crayfish",
