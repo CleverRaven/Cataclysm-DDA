@@ -196,11 +196,8 @@
       { "item": "helmet_full_carbide", "prob": 2 },
       { "item": "tac_fullhelmet_uicas", "prob": 2 },
       { "item": "tac_helmet_uicas", "prob": 5 },
-      { "item": "helmet_full_carbide", "prob": 1 },
-      { "item": "helmet_full_carbide", "prob": 1 },
-      { "item": "helmet_full_carbide", "prob": 1 },
-      { "item": "helmet_full_carbide", "prob": 1 },
-      { "item": "helmet_full_carbide", "prob": 1 }
+      { "item": "nanomesh_vest", "prob": 1 },
+      { "item": "carbide_cuirass", "prob": 1 }
     ]
   }
 ]
