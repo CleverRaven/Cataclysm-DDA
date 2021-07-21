@@ -37,20 +37,15 @@ namespace io
 template<>
 std::string enum_to_string<proficiency_bonus_type>( const proficiency_bonus_type data )
 {
-    // *INDENT-OFF*
     switch( data ) {
-        case proficiency_bonus_type::strength:
-            return "strength";
-        case proficiency_bonus_type::dexterity:
-            return "dexterity";
-        case proficiency_bonus_type::intelligence:
-            return "intelligence";
-        case proficiency_bonus_type::perception:
-            return "perception";
-        case proficiency_bonus_type::last:
-            break;
-    }
-    // *INDENT-ON*
+        // *INDENT-OFF*
+        case proficiency_bonus_type::strength: return "strength";
+        case proficiency_bonus_type::dexterity: return "dexterity";
+        case proficiency_bonus_type::intelligence: return "intelligence";
+        case proficiency_bonus_type::perception: return "perception";
+        case proficiency_bonus_type::last: break;
+        // *INDENT-ON*
+        }
 
     debugmsg( "Invalid proficiency bonus type" );
     return "";
@@ -62,26 +57,12 @@ void proficiency::load_proficiencies( const JsonObject &jo, const std::string &s
     proficiency_factory.load( jo, src );
 }
 
-void proficiency::load_proficiency_bonus( const JsonObject &jo )
+void proficiency_bonus::deserialize( JsonIn &jsin )
 {
-    std::string member = "bonuses";
-    if( jo.has_member( member ) ) {
-        if( jo.has_array( member ) ) {
-            for( const JsonValue entry : jo.get_array( member ) ) {
-                if( entry.test_object() ) {
-                    JsonObject obj = entry.get_object();
-
-                    const std::string category = obj.get_string( "category", "" );
-                    if( category != "" ) {
-                        std::string type_str = obj.get_string( "type", "last" );
-                        proficiency_bonus_type prof_bonus_type = io::string_to_enum<proficiency_bonus_type>( type_str );
-                        int value = obj.get_int( "value", 0 );
-                        _bonuses[category].push_back( proficiency_bonus( prof_bonus_type, value ) );
-                    }
-                }
-            }
-        }
-    }
+    const JsonObject &jo = jsin.get_object()
+    
+    mandatory( jo, false, "type", type );
+    mandatory( jo, false, "value", value );
 }
 
 void proficiency::reset()
@@ -148,9 +129,13 @@ std::set<proficiency_id> proficiency::required_proficiencies() const
     return _required;
 }
 
-std::map<std::string, std::vector<proficiency_bonus>> proficiency::get_bonuses() const
+std::vector<proficiency_bonus> proficiency::get_bonuses( const std::string &category ) const
 {
-    return _bonuses;
+    auto bonus_it = _bonuses.find( category );
+    if( bonus_it == _bonuses.end() ) {
+        return std::vector<proficiency_bonus>();
+    }
+    return it->second;
 }
 
 learning_proficiency &proficiency_set::fetch_learning( const proficiency_id &target )
@@ -387,20 +372,17 @@ std::vector<proficiency_id> proficiency_set::learning_profs() const
     return ret;
 }
 
-float proficiency_set::get_proficiency_bonus( std::string category,
+float proficiency_set::get_proficiency_bonus( const std::string &category,
         proficiency_bonus_type prof_bonus ) const
 {
-    int stat_bonus = 0;
+    float stat_bonus = 0;
     for( const proficiency_id &knows : known ) {
-        proficiency prof = knows.obj();
-
-        std::map<std::string, std::vector<proficiency_bonus>> bonuses = prof.get_bonuses();
-
-        for( size_t index = 0; index < bonuses[category].size(); index++ ) {
-            if( bonuses[category][index].type == prof_bonus ) {
-                stat_bonus += bonuses[category][index].value;
+        for( const proficiency_bonus &bonus : knows->get_bonuses( category ) ) {
+            if( bonus.type == prof_bonus ) {
+                stat_bonus += bonus.value;
             }
         }
+    }
     }
     return stat_bonus;
 }

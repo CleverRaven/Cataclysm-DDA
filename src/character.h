@@ -1842,7 +1842,7 @@ class Character : public Creature, public visitable
         std::vector<display_proficiency> display_proficiencies() const;
         std::vector<proficiency_id> known_proficiencies() const;
         std::vector<proficiency_id> learning_proficiencies() const;
-        int get_proficiency_bonus( std::string category, proficiency_bonus_type prof_bonus ) const;
+        int get_proficiency_bonus( const std::string &category, proficiency_bonus_type prof_bonus ) const;
 
         // tests only!
         void set_proficiency_practice( const proficiency_id &id, const time_duration &amount );

@@ -5,8 +5,8 @@
 #include <iosfwd>
 #include <set>
 #include <vector>
-
 #include <string>
+
 #include "calendar.h"
 #include "color.h"
 #include "flat_set.h"
@@ -41,8 +41,7 @@ struct proficiency_bonus {
     proficiency_bonus_type type = proficiency_bonus_type::last;
     float value = 0;
 
-    proficiency_bonus() {}
-    proficiency_bonus( proficiency_bonus_type type, float value ) : type( type ), value( value ) {}
+    void deserialize( JsonIn &jsin );
 };
 
 class proficiency
@@ -84,7 +83,7 @@ class proficiency
         std::set<proficiency_id> required_proficiencies() const;
 
         void load_proficiency_bonus( const JsonObject &jo );
-        std::map<std::string, std::vector<proficiency_bonus>> get_bonuses() const;
+        std::vector<proficiency_bonus> get_bonuses( const std::string &category ) const;
 };
 
 // The proficiencies you know, and the ones you're learning.
@@ -120,7 +119,7 @@ class proficiency_set
         std::vector<proficiency_id> known_profs() const;
         std::vector<proficiency_id> learning_profs() const;
 
-        float get_proficiency_bonus( std::string category, proficiency_bonus_type proficiency_bonus ) const;
+        float get_proficiency_bonus( const std::string &category, proficiency_bonus_type proficiency_bonus ) const;
 
         void serialize( JsonOut &jsout ) const;
         void deserialize( JsonIn &jsin );

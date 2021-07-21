@@ -1195,7 +1195,8 @@ void practice_archery_proficiency( player &p, const item &relevant )
     }
 
     // Only train archery in multiples of 100 moves (or 1 turn) for performance, focus, and simplifying calculations
-    if( p.archery_aim_counter++ > 100 ) {
+    p.archery_aim_counter++;
+    if( p.archery_aim_counter > 100 ) {
         // Reset our counter
         p.archery_aim_counter = 0;
 

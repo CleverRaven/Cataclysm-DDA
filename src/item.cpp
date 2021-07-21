@@ -10884,7 +10884,7 @@ bool item::is_upgrade() const
 
 int item::get_min_str() const
 {
-    Character &p = get_player_character();
+    const Character &p = get_player_character();
     if( type->gun ) {
         int min_str = type->min_str;
         min_str -= p.get_proficiency_bonus( "archery", proficiency_bonus_type::strength );

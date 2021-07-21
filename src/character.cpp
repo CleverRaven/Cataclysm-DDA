@@ -12843,7 +12843,7 @@ std::vector<proficiency_id> Character::learning_proficiencies() const
     return _proficiencies->learning_profs();
 }
 
-int Character::get_proficiency_bonus( std::string category,
+int Character::get_proficiency_bonus( const std::string &category,
                                       proficiency_bonus_type prof_bonus ) const
 {
     return _proficiencies->get_proficiency_bonus( category, prof_bonus );
