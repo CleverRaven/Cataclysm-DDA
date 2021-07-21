@@ -162,7 +162,6 @@ static const itype_id itype_string_36( "string_36" );
 static const itype_id itype_tree_spile( "tree_spile" );
 static const itype_id itype_unfinished_cac2( "unfinished_cac2" );
 static const itype_id itype_unfinished_charcoal( "unfinished_charcoal" );
-static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_water( "water" );
 
 static const skill_id skill_cooking( "cooking" );
@@ -2693,7 +2692,7 @@ void iexamine::arcfurnace_empty( player &p, const tripoint &examp )
         return;
     }
     //arc furnaces require a huge amount of current, so 1 full storage battery would work as a stand in
-    if( !p.has_charges( itype_UPS, 1250 ) ) {
+    if( p.available_ups() < 1250 ) {
         add_msg( _( "This furnace is ready to be turned on, but you lack a UPS with sufficient power." ) );
         return;
     } else {
@@ -2704,7 +2703,7 @@ void iexamine::arcfurnace_empty( player &p, const tripoint &examp )
         }
     }
 
-    p.use_charges( itype_UPS, 1250 );
+    p.consume_ups( 1250 );
     here.i_clear( examp );
     here.furn_set( examp, next_arcfurnace_type );
     item result( "unfinished_cac2", calendar::turn );

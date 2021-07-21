@@ -258,6 +258,11 @@
     "type": "json_flag"
   },
   {
+    "id": "CORROSIVE",
+    "context": [ "COMESTIBLE" ],
+    "type": "json_flag"
+  },
+  {
     "id": "ONLY_ONE",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
@@ -1419,7 +1424,8 @@
   {
     "id": "IS_UPS",
     "type": "json_flag",
-    "context": [  ]
+    "context": [  ],
+    "info": "This item provides power to <info>UPS compatible items</info>."
   },
   {
     "id": "LEAK_DAM",

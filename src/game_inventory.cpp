@@ -562,18 +562,8 @@ class comestible_inventory_preset : public inventory_selector_preset
             }, _( "JOY" ) );
 
             append_cell( []( const item_location & loc ) {
-                const int health = loc->is_comestible() ? loc->get_comestible()->healthy : 0;
-                if( health > 3 ) {
-                    return "<good>+++</good>";
-                } else if( health > 0 ) {
-                    return "<good>+</good>";
-                } else if( health < -3 ) {
-                    return "<bad>!!!</bad>";
-                } else if( health < 0 ) {
-                    return "<bad>-</bad>";
-                } else {
-                    return "";
-                }
+                const int healthy = loc->is_comestible() ? loc->get_comestible()->healthy : 0;
+                return healthy_bar( healthy );
             }, _( "HEALTH" ) );
 
             append_cell( []( const item_location & loc ) {
@@ -1143,7 +1133,7 @@ class activatable_inventory_preset : public pickup_inventory_preset
                 return string_format( _( "Your %s was broken and won't turn on." ), it.tname() );
             }
 
-            if( !p.has_enough_charges( it, false ) ) {
+            if( !it.ammo_sufficient( &p ) ) {
                 return string_format(
                            ngettext( "Needs at least %d charge",
                                      "Needs at least %d charges", loc->ammo_required() ),

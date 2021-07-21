@@ -93,12 +93,9 @@ static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_stunned( "stunned" );
 
-static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_large_repairkit( "large_repairkit" );
 static const itype_id itype_small_repairkit( "small_repairkit" );
-static const itype_id itype_UPS( "UPS" );
-static const itype_id itype_UPS_off( "UPS_off" );
 
 static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
@@ -1152,18 +1149,7 @@ void player::process_items()
     }
 
     // Active item processing done, now we're recharging.
-    int ch_UPS = 0;
-    const auto inv_is_ups = items_with( []( const item & itm ) {
-        return itm.has_flag( flag_IS_UPS );
-    } );
-    for( const auto &it : inv_is_ups ) {
-        itype_id identifier = it->type->get_id();
-        if( identifier == itype_UPS_off ) {
-            ch_UPS += it->ammo_remaining();
-        } else if( identifier == itype_adv_UPS_off ) {
-            ch_UPS += it->ammo_remaining() / 0.6;
-        }
-    }
+
     bool update_required = get_check_encumbrance();
     for( item &w : worn ) {
         if( !update_required && w.encumbrance_update_ ) {
@@ -1175,34 +1161,32 @@ void player::process_items()
         calc_encumbrance();
         set_check_encumbrance( false );
     }
-    if( has_active_bionic( bionic_id( "bio_ups" ) ) ) {
-        ch_UPS += units::to_kilojoule( get_power_level() );
-    }
-    int ch_UPS_used = 0;
 
     // Load all items that use the UPS to their minimal functional charge,
     // The tool is not really useful if its charges are below charges_to_use
     const auto inv_use_ups = items_with( []( const item & itm ) {
         return itm.has_flag( flag_USE_UPS );
     } );
-    for( const auto &it : inv_use_ups ) {
-        // For powered armor, an armor-powering bionic should always be preferred over UPS usage.
-        if( it->is_power_armor() && can_interface_armor() && has_power() ) {
-            // Bionic power costs are handled elsewhere
-            continue;
-            //this is for UPS-modded items with no battery well
-        } else if( it->active && !it->ammo_sufficient() &&
-                   ( ch_UPS_used >= ch_UPS ||
-                     it->ammo_required() > ch_UPS - ch_UPS_used ) ) {
-            it->deactivate();
-        } else if( ch_UPS_used < ch_UPS &&
-                   it->ammo_remaining() < it->ammo_capacity( ammotype( "battery" ) ) ) {
-            ch_UPS_used++;
-            it->ammo_set( itype_battery, it->ammo_remaining() + 1 );
+    if( !inv_use_ups.empty() ) {
+        const int available_charges = available_ups();
+        int ups_used = 0;
+        for( const auto &it : inv_use_ups ) {
+            // For powered armor, an armor-powering bionic should always be preferred over UPS usage.
+            if( it->is_power_armor() && can_interface_armor() && has_power() ) {
+                // Bionic power costs are handled elsewhere
+                continue;
+            } else if( it->active && !it->ammo_sufficient( this ) ) {
+                it->deactivate();
+            } else if( ups_used < available_charges &&
+                       it->ammo_remaining() < it->ammo_capacity( ammotype( "battery" ) ) ) {
+                // Charge the battery in the UPS modded tool
+                ups_used++;
+                it->ammo_set( itype_battery, it->ammo_remaining() + 1 );
+            }
         }
-    }
-    if( ch_UPS_used > 0 ) {
-        use_charges( itype_UPS, ch_UPS_used );
+        if( ups_used > 0 ) {
+            consume_ups( ups_used );
+        }
     }
 }
 

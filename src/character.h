@@ -1415,12 +1415,6 @@ class Character : public Creature, public visitable
          */
         virtual bool dispose_item( item_location &&obj, const std::string &prompt = std::string() );
 
-        /**
-         * Has the item enough charges to invoke its use function?
-         * Also checks if UPS from this player is used instead of item charges.
-         */
-        bool has_enough_charges( const item &it, bool show_msg ) const;
-
         /** Consume charges of a tool or comestible item, potentially destroying it in the process
          *  @param used item consuming the charges
          *  @param qty number of charges to consume which must be non-zero
@@ -2053,6 +2047,21 @@ class Character : public Creature, public visitable
                                     const std::function<bool( const item & )> &filter = return_true<item> );
         // Uses up charges
         bool use_charges_if_avail( const itype_id &it, int quantity );
+
+        /**
+        * Available ups from all sources
+        * Sum of mech, bionic UPS and UPS
+        * @return amount of UPS available
+        */
+        int available_ups() const;
+
+        /**
+        * Consume UPS charges.
+        * Consume order: mech, Bionic UPS, UPS.
+        * @param qty Number of charges (kJ)
+        * @return amount of UPS consumed which will be between 0 and qty
+        */
+        int consume_ups( int qty, int radius = -1 );
 
         /**
         * Use charges in character inventory.
@@ -2744,7 +2753,7 @@ class Character : public Creature, public visitable
         @param minimum_error Maximum error when skill is >= threshold */
         time_duration estimate_effect_dur( const skill_id &relevant_skill, const efftype_id &effect,
                                            const time_duration &error_magnitude,
-                                           const time_duration &mimimum_error, int threshold, const Creature &target ) const;
+                                           const time_duration &minimum_error, int threshold, const Creature &target ) const;
 
         // inherited from visitable
         bool has_quality( const quality_id &qual, int level = 1, int qty = 1 ) const override;

@@ -1134,9 +1134,9 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
         if( !here.has_flag( "MINEABLE", src_loc ) ) {
             return activity_reason_info::fail( do_activity_reason::NO_ZONE );
         }
-        std::vector<item *> mining_inv = p.items_with( []( const item & itm ) {
+        std::vector<item *> mining_inv = p.items_with( [&p]( const item & itm ) {
             return ( itm.has_flag( flag_DIG_TOOL ) && !itm.type->can_use( "JACKHAMMER" ) ) ||
-                   ( itm.type->can_use( "JACKHAMMER" ) && itm.ammo_sufficient() );
+                   ( itm.type->can_use( "JACKHAMMER" ) && itm.ammo_sufficient( &p ) );
         } );
         if( mining_inv.empty() ) {
             return activity_reason_info::fail( do_activity_reason::NEEDS_MINING );
@@ -1433,8 +1433,8 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
                         if( comp_elem.by_charges() ) {
                             // we don't care if there are 10 welders with 5 charges each
                             // we only want the one welder that has the required charge.
-                            if( stack_elem.ammo_remaining() >= comp_elem.count ) {
-                                temp_map[stack_elem.typeId()] += stack_elem.ammo_remaining();
+                            if( stack_elem.ammo_remaining( &p ) >= comp_elem.count ) {
+                                temp_map[stack_elem.typeId()] += stack_elem.ammo_remaining( &p );
                             }
                         } else {
                             temp_map[stack_elem.typeId()] += stack_elem.count();
@@ -2119,9 +2119,9 @@ static int chop_moves( player &p, item *it )
 
 static bool mine_activity( player &p, const tripoint &src_loc )
 {
-    std::vector<item *> mining_inv = p.items_with( []( const item & itm ) {
+    std::vector<item *> mining_inv = p.items_with( [&p]( const item & itm ) {
         return ( itm.has_flag( flag_DIG_TOOL ) && !itm.type->can_use( "JACKHAMMER" ) ) ||
-               ( itm.type->can_use( "JACKHAMMER" ) && itm.ammo_sufficient() );
+               ( itm.type->can_use( "JACKHAMMER" ) && itm.ammo_sufficient( &p ) );
     } );
     map &here = get_map();
     if( mining_inv.empty() || p.is_mounted() || p.is_underwater() || here.veh_at( src_loc ) ||
