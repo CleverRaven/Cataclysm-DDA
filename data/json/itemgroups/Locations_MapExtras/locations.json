@@ -1780,6 +1780,7 @@
       [ "thermometer", 3 ],
       [ "hygrometer", 3 ],
       [ "barometer", 3 ],
+      [ "sextant", 2 ],
       [ "badge_doctor", 5 ],
       [ "dnd_handbook", 2 ],
       [ "bodypillow", 1 ],

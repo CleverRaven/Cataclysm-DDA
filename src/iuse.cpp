@@ -9203,6 +9203,25 @@ cata::optional<int> iuse::weather_tool( player *p, item *it, bool, const tripoin
     return 0;
 }
 
+cata::optional<int> iuse::sextant( player *p, item *, bool, const tripoint &pos )
+{
+    const std::pair<units::angle, units::angle> sun_position = sun_azimuth_altitude( calendar::turn );
+    const float altitude = to_degrees( sun_position.second );
+    if( debug_mode ) {
+        // Debug mode always shows all sun angles
+        const float azimuth = to_degrees( sun_position.first );
+        p->add_msg_if_player( m_neutral, "Sun altitude %.1f°, azimuth %.1f°", altitude, azimuth );
+    } else if( g->is_sheltered( pos ) ) {
+        p->add_msg_if_player( m_neutral, _( "You can't see the Sun from here." ) );
+    } else if( altitude > 0 ) {
+        p->add_msg_if_player( m_neutral, _( "The Sun is at an altitude of %.1f°." ), altitude );
+    } else {
+        p->add_msg_if_player( m_neutral, _( "The Sun is below the horizon." ) );
+    }
+
+    return 0;
+}
+
 cata::optional<int> iuse::directional_hologram( player *p, item *it, bool, const tripoint &pos )
 {
     if( it->is_armor() &&  !( p->is_worn( *it ) ) ) {

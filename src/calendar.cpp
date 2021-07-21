@@ -179,9 +179,11 @@ static units::angle sidereal_time_at( solar_effective_time t, units::angle longi
     return L0 + L1 * days_since_epoch + longitude;
 }
 
-static std::pair<units::angle, units::angle> sun_azimuth_altitude(
-    solar_effective_time t, lat_long location )
+std::pair<units::angle, units::angle> sun_azimuth_altitude(
+    time_point ti )
 {
+    const solar_effective_time t = solar_effective_time( ti );
+    const lat_long location = location_boston;
     units::angle right_ascension;
     units::angle declination;
     time_duration timezone = angle_to_time( location.longitude );
@@ -222,26 +224,16 @@ static std::pair<units::angle, units::angle> sun_azimuth_altitude(
     return std::make_pair( azimuth, altitude );
 }
 
-std::pair<units::angle, units::angle> sun_azimuth_altitude( time_point t, lat_long location )
-{
-    return sun_azimuth_altitude( solar_effective_time( t ), location );
-}
-
-static units::angle sun_altitude( time_point t, lat_long location )
-{
-    return sun_azimuth_altitude( t, location ).second;
-}
-
 static units::angle sun_altitude( time_point t )
 {
-    return sun_altitude( t, location_boston );
+    return sun_azimuth_altitude( t ).second;
 }
 
-cata::optional<rl_vec2d> sunlight_angle( const time_point &t, lat_long location )
+cata::optional<rl_vec2d> sunlight_angle( const time_point &t )
 {
     units::angle azimuth;
     units::angle altitude;
-    std::tie( azimuth, altitude ) = sun_azimuth_altitude( t, location );
+    std::tie( azimuth, altitude ) = sun_azimuth_altitude( t );
     if( altitude <= 0_degrees ) {
         // Sun below horizon
         return cata::nullopt;
@@ -250,11 +242,6 @@ cata::optional<rl_vec2d> sunlight_angle( const time_point &t, lat_long location 
     rl_vec3d direction( horizontal_direction * cos( altitude ), sin( altitude ) );
     direction /= -direction.z;
     return direction.xy();
-}
-
-cata::optional<rl_vec2d> sunlight_angle( const time_point &t )
-{
-    return sunlight_angle( t, location_boston );
 }
 
 static time_point solar_noon_near( const time_point &t )
