@@ -56,7 +56,7 @@
     "type": "proficiency",
     "id": "prof_bow_expert",
     "name": { "str": "Expert Archer's Form" },
-    "description": "After significant practice, you have become an expert in archery.",
+    "description": "After significant practice, you have become an expert in the movements used in drawing and firing a bow, and have strengthened those muscles considerably.",
     "can_learn": true,
     "time_to_learn": "10 h",
     "default_time_multiplier": 1.5,
