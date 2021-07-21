@@ -378,7 +378,7 @@ float proficiency_set::get_proficiency_bonus( const std::string &category,
     float stat_bonus = 0;
 
     for( const proficiency_id &knows : known ) {
-        std::vector<proficiency_bonus> prof_bonuses = knows->get_bonuses( category );
+        const std::vector<proficiency_bonus> &prof_bonuses = knows->get_bonuses( category );
         for( const proficiency_bonus &bonus : prof_bonuses ) {
             if( bonus.type == prof_bonus ) {
                 stat_bonus += bonus.value;
