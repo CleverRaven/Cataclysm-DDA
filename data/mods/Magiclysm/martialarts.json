@@ -4,20 +4,7 @@
     "copy-from": "style_aikido",
     "type": "martial_art",
     "name": { "str": "Aikido" },
-    "extend": {
-      "weapons": [
-        "cestus_plus_one",
-        "cestus_plus_two",
-        "flaming_fist",
-        "flaming_fist_plus_one",
-        "flaming_fist_plus_one",
-        "gauntlet_pounding",
-        "stonefist",
-        "stormglove",
-        "rune_earthshaper_weapon",
-        "shotcestus"
-      ]
-    }
+    "extend": { "weapons": [ "shotcestus" ] }
   },
   {
     "id": "style_eskrima",
@@ -100,20 +87,7 @@
     "copy-from": "style_judo",
     "type": "martial_art",
     "name": "Judo",
-    "extend": {
-      "weapons": [
-        "cestus_plus_one",
-        "cestus_plus_two",
-        "flaming_fist",
-        "flaming_fist_plus_one",
-        "flaming_fist_plus_one",
-        "gauntlet_pounding",
-        "stonefist",
-        "stormglove",
-        "rune_earthshaper_weapon",
-        "shotcestus"
-      ]
-    }
+    "extend": { "weapons": [ "shotcestus" ] }
   },
   {
     "id": "style_krav_maga",

@@ -1,29 +1,45 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ARMOR",
     "id": "cestus_plus_one",
     "copy-from": "cestus",
     "looks_like": "cestus",
     "name": { "str": "cestus +1", "str_pl": "cestuses +1" },
-    "proportional": { "price": 3.0, "price_postapoc": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "proportional": {
+      "price": 3.0,
+      "price_postapoc": 3.0,
+      "bashing": 1.1,
+      "cutting": 1.1,
+      "material_thickness": 1.1,
+      "encumberace": 0.9,
+      "weight": 0.9
+    },
     "relative": { "to_hit": 1 }
   },
   {
-    "type": "GENERIC",
+    "type": "ARMOR",
     "id": "cestus_plus_two",
     "copy-from": "cestus",
     "looks_like": "cestus",
     "name": { "str": "cestus +2", "str_pl": "cestuses +2" },
-    "proportional": { "price": 6.0, "price_postapoc": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "proportional": {
+      "price": 6.0,
+      "price_postapoc": 6.0,
+      "bashing": 1.2,
+      "cutting": 1.2,
+      "material_thickness": 1.2,
+      "encumberance": 0.8,
+      "weight": 0.8
+    },
     "relative": { "to_hit": 2 }
   },
   {
-    "type": "GENERIC",
+    "type": "ARMOR",
     "id": "flaming_fist",
     "symbol": "3",
     "color": "red",
     "name": { "str": "flaming fist" },
-    "description": "A heavy metal guard that covers the fist and increases striking power, with stout padding underneath to protect the wearers hand.  It has been enchanted to emit dark magical flames that only harm enemies.",
+    "description": "A heavy metal guard that covers the fist and increases striking power, with stout padding underneath to protect the wearer's hand.  It has been enchanted to emit dark magical flames that only harm enemies.",
     "looks_like": "cestus",
     "material": [ "steel", "leather" ],
     "volume": "500 ml",
@@ -31,28 +47,46 @@
     "to_hit": 2,
     "bashing": 12,
     "qualities": [ [ "HAMMER", 1 ] ],
-    "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE", "NONCONDUCTIVE", "FLAMING" ]
+    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "FLAMING" ],
+    "material_thickness": 3,
+    "armor": [ { "encumbrance": 15, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
-    "type": "GENERIC",
+    "type": "ARMOR",
     "id": "flaming_fist_plus_one",
     "copy-from": "flaming_fist",
     "looks_like": "flaming_fist",
     "name": { "str": "flaming fist +1", "str_pl": "flaming fists +1" },
-    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "proportional": {
+      "price": 3.0,
+      "price_postapoc": 3.0,
+      "bashing": 1.1,
+      "cutting": 1.1,
+      "material_thickness": 1.1,
+      "encumberace": 0.9,
+      "weight": 0.9
+    },
     "relative": { "to_hit": 1 }
   },
   {
-    "type": "GENERIC",
+    "type": "ARMOR",
     "id": "flaming_fist_plus_two",
     "copy-from": "flaming_fist",
     "looks_like": "flaming_fist",
     "name": { "str": "flaming fist +2", "str_pl": "flaming fists +2" },
-    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "proportional": {
+      "price": 6.0,
+      "price_postapoc": 6.0,
+      "bashing": 1.2,
+      "cutting": 1.2,
+      "material_thickness": 1.2,
+      "encumberance": 0.8,
+      "weight": 0.8
+    },
     "relative": { "to_hit": 2 }
   },
   {
-    "type": "GENERIC",
+    "type": "ARMOR",
     "id": "gauntlet_pounding",
     "symbol": "3",
     "color": "light_gray",
@@ -65,7 +99,9 @@
     "to_hit": 3,
     "qualities": [ [ "HAMMER", 2 ] ],
     "techniques": [ "WBLOCK_1", "BRUTAL" ],
-    "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE", "NONCONDUCTIVE", "OVERSIZE", "MESSY" ]
+    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "OVERSIZE", "MESSY" ],
+    "material_thickness": 2,
+    "armor": [ { "encumbrance": 15, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "shotcestus",
@@ -95,7 +131,7 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 2 } } ]
   },
   {
-    "type": "GENERIC",
+    "type": "ARMOR",
     "id": "rune_earthshaper_weapon",
     "symbol": "3",
     "color": "light_gray",
@@ -104,10 +140,12 @@
     "material": [ "stone", "leather", "steel" ],
     "volume": "500 ml",
     "weight": "873 g",
-    "bashing": 13,
+    "bashing": 10,
     "to_hit": 1,
     "qualities": [ [ "HAMMER", 1 ] ],
     "techniques": [ "WBLOCK_1", "BRUTAL" ],
-    "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE", "TRADER_AVOID", "MAGIC_FOCUS" ]
+    "flags": [ "DURABLE_MELEE", "TRADER_AVOID", "MAGIC_FOCUS" ],
+    "material_thickness": 3,
+    "armor": [ { "encumbrance": 10, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
   }
 ]

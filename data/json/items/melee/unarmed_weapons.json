@@ -28,7 +28,7 @@
     "weight": "300 g",
     "bashing": 2,
     "price_postapoc": 250,
-    "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE", "NONCONDUCTIVE" ],
+    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ],
     "material_thickness": 1,
     "armor": [ { "encumbrance": 5, "coverage": 50, "covers": [ "hand_l", "hand_r" ] } ]
   },
