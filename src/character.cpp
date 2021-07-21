@@ -3317,7 +3317,7 @@ invlets_bitset Character::allocated_invlets() const
 {
     invlets_bitset invlets = inv->allocated_invlets();
 
-    visit_items( [&invlets] ( item * i, item * ) -> VisitResponse {
+    visit_items( [&invlets]( item * i, item * ) -> VisitResponse {
         invlets.set( i->invlet );
         return VisitResponse::NEXT;
     } );
