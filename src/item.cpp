@@ -1903,6 +1903,10 @@ void item::med_info( const item *med_item, std::vector<iteminfo> &info, const it
                            player_character.fun_for( *med_item ).first );
     }
 
+    if( parts->test( iteminfo_parts::FOOD_HEALTH ) && med_com->healthy != 0 ) {
+        info.emplace_back( "MED", _( "Health: " ), healthy_bar( med_com->healthy ) );
+    }
+
     if( med_com->stim != 0 && parts->test( iteminfo_parts::MED_STIMULATION ) ) {
         std::string name = string_format( "%s <stat>%s</stat>", _( "Stimulation:" ),
                                           med_com->stim > 0 ? _( "Upper" ) : _( "Downer" ) );
@@ -1984,6 +1988,11 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
     const std::pair<int, int> fun_for_food_item = player_character.fun_for( *food_item );
     if( fun_for_food_item.first != 0 && parts->test( iteminfo_parts::FOOD_JOY ) ) {
         info.emplace_back( "FOOD", _( "Enjoyability: " ), fun_for_food_item.first );
+    }
+
+    if( parts->test( iteminfo_parts::FOOD_HEALTH ) && food_item->get_comestible()->healthy != 0 ) {
+        info.emplace_back( "MED", _( "Health: " ),
+                           healthy_bar( food_item->get_comestible()->healthy ) );
     }
 
     if( parts->test( iteminfo_parts::FOOD_PORTIONS ) ) {
