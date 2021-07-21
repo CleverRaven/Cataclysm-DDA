@@ -687,10 +687,12 @@ void overmap::unserialize( std::istream &fin )
             while( !jsin.end_array() ) {
                 jsin.start_object();
                 overmap_special_id s;
+                bool is_safe_zone = false;
                 while( !jsin.end_object() ) {
                     std::string name = jsin.get_member_name();
                     if( name == "special" ) {
                         jsin.read( s );
+                        is_safe_zone = s.obj().flags.count( "SAFE_AT_WORLDGEN" ) > 0;
                     } else if( name == "placements" ) {
                         jsin.start_array();
                         while( !jsin.end_array() ) {
@@ -707,6 +709,9 @@ void overmap::unserialize( std::istream &fin )
                                             if( name == "p" ) {
                                                 jsin.read( p );
                                                 overmap_special_placements[p] = s;
+                                                if( is_safe_zone ) {
+                                                    safe_at_worldgen.emplace( p );
+                                                }
                                             }
                                         }
                                     }
