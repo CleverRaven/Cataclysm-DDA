@@ -1661,8 +1661,8 @@ void boltcutting_activity_actor::start( player_activity &act, Character &/*who*/
 
 void boltcutting_activity_actor::do_turn( player_activity &act, Character &who )
 {
-    if( tool->ammo_sufficient() ) {
-        tool->ammo_consume( tool->ammo_required(), tool.position() );
+    if( tool->ammo_sufficient( &who ) ) {
+        tool->ammo_consume( tool->ammo_required(), tool.position(), &who );
     } else {
         add_msg_if_player_sees( who.pos(), _( "%1$s %2$s ran out of charges." ),
                                 who.disp_name( true, true ), tool->display_name() );
