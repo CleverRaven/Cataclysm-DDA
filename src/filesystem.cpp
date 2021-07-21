@@ -17,6 +17,8 @@
 #include <type_traits>
 #include <vector>
 
+#include <ghc/fs_std_fwd.hpp>
+
 #include "cata_utility.h"
 #include "debug.h"
 
@@ -33,87 +35,41 @@
 #   include "platform_win.h"
 #endif
 
-namespace
-{
-
-#if defined(_WIN32)
-bool do_mkdir( const std::string &path, const int /*mode*/ )
-{
-#if defined(_MSC_VER)
-    return _mkdir( path.c_str() ) == 0;
-#else
-    return mkdir( path.c_str() ) == 0;
-#endif
-}
-#else
-bool do_mkdir( const std::string &path, const int mode )
-{
-    return mkdir( path.c_str(), mode ) == 0;
-}
-#endif
-
-} //anonymous namespace
-
 bool assure_dir_exist( const std::string &path )
 {
-    return do_mkdir( path, 0777 ) || ( errno == EEXIST && dir_exist( path ) );
+    std::error_code ec;
+    fs::path p( path );
+    bool ret = fs::is_directory( p, ec ) || ( !fs::exists( p, ec ) && fs::create_directories( p, ec ) );
+    return !ec && ret;
 }
 
 bool dir_exist( const std::string &path )
 {
-    DIR *dir = opendir( path.c_str() );
-    if( dir != nullptr ) {
-        closedir( dir );
-        return true;
-    }
-    return false;
+    return fs::is_directory( path );
 }
 
 bool file_exist( const std::string &path )
 {
-    struct stat buffer;
-    return ( stat( path.c_str(), &buffer ) == 0 );
+    return fs::exists( path ) && !fs::is_directory( path );
 }
 
-#if defined(_WIN32)
 bool remove_file( const std::string &path )
 {
-    return DeleteFile( path.c_str() ) != 0;
+    std::error_code ec;
+    return fs::remove( path, ec );
 }
-#else
-bool remove_file( const std::string &path )
-{
-    return unlink( path.c_str() ) == 0;
-}
-#endif
 
-#if defined(_WIN32)
 bool rename_file( const std::string &old_path, const std::string &new_path )
 {
-    // Windows rename function does not override existing targets, so we
-    // have to remove the target to make it compatible with the Linux rename
-    if( file_exist( new_path ) ) {
-        if( !remove_file( new_path ) ) {
-            return false;
-        }
-    }
-
-    return rename( old_path.c_str(), new_path.c_str() ) == 0;
+    std::error_code ec;
+    fs::rename( old_path, new_path, ec );
+    return !ec;
 }
-#else
-bool rename_file( const std::string &old_path, const std::string &new_path )
-{
-    return rename( old_path.c_str(), new_path.c_str() ) == 0;
-}
-#endif
 
 bool remove_directory( const std::string &path )
 {
-#if defined(_WIN32)
-    return RemoveDirectory( path.c_str() );
-#else
-    return remove( path.c_str() ) == 0;
-#endif
+    std::error_code ec;
+    return fs::remove( path, ec );
 }
 
 const char *cata_files::eol()
@@ -162,71 +118,32 @@ void for_each_dir_entry( const std::string &path, Function function )
 }
 
 //--------------------------------------------------------------------------------------------------
-#if !defined(_WIN32)
-std::string resolve_path( const std::string &full_path )
-{
-    char *const result_str = realpath( full_path.c_str(), nullptr );
-    if( !result_str ) {
-        char *const e_str = strerror( errno );
-        DebugLog( D_WARNING, D_MAIN ) << "realpath [" << full_path << "] failed with \"" << e_str << "\".";
-        return {};
-    }
-
-    std::string result( result_str );
-    free( result_str );
-    return result;
-}
-#endif
-
-//--------------------------------------------------------------------------------------------------
 bool is_directory_stat( const std::string &full_path )
 {
     if( full_path.empty() ) {
         return false;
     }
 
-    struct stat result;
-    if( stat( full_path.c_str(), &result ) != 0 ) {
-        const char *e_str = strerror( errno );
+    std::error_code ec;
+    bool result = fs::is_directory( full_path, ec );
+
+    if( ec ) {
+        std::string e_str = ec.message();
         DebugLog( D_WARNING, D_MAIN ) << "stat [" << full_path << "] failed with \"" << e_str << "\".";
         return false;
     }
 
-    if( S_ISDIR( result.st_mode ) ) {
-        // NOLINTNEXTLINE(readability-simplify-boolean-expr)
-        return true;
-    }
-
-#if !defined(_WIN32)
-    if( S_ISLNK( result.st_mode ) ) {
-        return is_directory_stat( resolve_path( full_path ) );
-    }
-#endif
-
-    return false;
+    return result;
 }
 
 //--------------------------------------------------------------------------------------------------
 // Returns true if entry is a directory, false otherwise.
 //--------------------------------------------------------------------------------------------------
-#if defined(__MINGW32__)
-bool is_directory( const dirent &/*entry*/, const std::string &full_path )
-{
-    // no dirent::d_type
-    return is_directory_stat( full_path );
-}
-#else
 bool is_directory( const dirent &entry, const std::string &full_path )
 {
     if( entry.d_type == DT_DIR ) {
         return true;
     }
-
-#if !defined(_WIN32)
-    if( entry.d_type == DT_LNK ) {
-        return is_directory_stat( resolve_path( full_path ) );
-    }
-#endif
 
     if( entry.d_type == DT_UNKNOWN ) {
         return is_directory_stat( full_path );
@@ -234,7 +151,6 @@ bool is_directory( const dirent &entry, const std::string &full_path )
 
     return false;
 }
-#endif
 
 //--------------------------------------------------------------------------------------------------
 // Returns true if the name of entry matches "." or "..".
