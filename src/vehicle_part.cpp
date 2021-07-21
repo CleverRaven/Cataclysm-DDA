@@ -312,7 +312,7 @@ int vehicle_part::ammo_consume( int qty, const tripoint &pos )
         }
         return res;
     }
-    return base.ammo_consume( qty, pos );
+    return base.ammo_consume( qty, pos, nullptr );
 }
 
 double vehicle_part::consume_energy( const itype_id &ftype, double energy_j )
@@ -541,7 +541,7 @@ bool vehicle_part::is_tank() const
 bool vehicle_part::contains_liquid() const
 {
     return is_tank() && !base.empty() &&
-           base.contents.only_item().made_of( phase_id::LIQUID );
+           base.only_item().made_of( phase_id::LIQUID );
 }
 
 bool vehicle_part::is_battery() const

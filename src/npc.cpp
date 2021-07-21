@@ -97,8 +97,6 @@ static const efftype_id effect_pkill3( "pkill3" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_riding( "riding" );
 
-static const itype_id itype_UPS_off( "UPS_off" );
-
 static const skill_id skill_archery( "archery" );
 static const skill_id skill_bashing( "bashing" );
 static const skill_id skill_cutting( "cutting" );
@@ -1363,7 +1361,7 @@ void npc::on_attacked( const Creature &attacker )
     if( is_hallucination() ) {
         die( nullptr );
     }
-    if( attacker.is_player() && !is_enemy() ) {
+    if( attacker.is_avatar() && !is_enemy() ) {
         make_angry();
         hit_by_player = true;
     }
@@ -1434,8 +1432,7 @@ void npc::decide_needs()
     if( weapon.is_gun() ) {
         int ups_drain = weapon.get_gun_ups_drain();
         if( ups_drain > 0 ) {
-            int ups_charges = charges_of( itype_UPS_off, ups_drain ) +
-                              charges_of( itype_UPS_off, ups_drain );
+            int ups_charges = available_ups();
             needrank[need_ammo] = static_cast<double>( ups_charges ) / ups_drain;
         } else {
             const ammotype ammo_type = weapon.ammo_type();
@@ -1917,7 +1914,7 @@ bool npc::is_ally( const Character &p ) const
     if( p.getID() == getID() ) {
         return true;
     }
-    if( p.is_player() ) {
+    if( p.is_avatar() ) {
         if( my_fac && my_fac->id == faction_id( "your_followers" ) ) {
             return true;
         }
@@ -1956,7 +1953,7 @@ bool npc::is_player_ally() const
 
 bool npc::is_friendly( const Character &p ) const
 {
-    return is_ally( p ) || ( p.is_player() && ( is_walking_with() || is_player_ally() ) );
+    return is_ally( p ) || ( p.is_avatar() && ( is_walking_with() || is_player_ally() ) );
 }
 
 bool npc::is_minion() const
@@ -1976,7 +1973,7 @@ bool npc::is_walking_with() const
 
 bool npc::is_obeying( const Character &p ) const
 {
-    return ( p.is_player() && is_walking_with() && is_player_ally() ) ||
+    return ( p.is_avatar() && is_walking_with() && is_player_ally() ) ||
            ( is_ally( p ) && is_stationary( true ) );
 }
 
@@ -2061,7 +2058,7 @@ Creature::Attitude npc::attitude_to( const Creature &other ) const
         }
     }
 
-    if( other.is_npc() || other.is_player() ) {
+    if( other.is_npc() || other.is_avatar() ) {
         const player &guy = dynamic_cast<const player &>( other );
         // check faction relationships first
         if( has_faction_relationship( guy, npc_factions::kill_on_sight ) ) {
@@ -2084,7 +2081,7 @@ Creature::Attitude npc::attitude_to( const Creature &other ) const
         }
 
         return Attitude::NEUTRAL;
-    } else if( other.is_player() ) {
+    } else if( other.is_avatar() ) {
         // For now, make it symmetric.
         return other.attitude_to( *this );
     }
@@ -2559,7 +2556,7 @@ std::string npc_attitude_id( npc_attitude att )
     return iter->second;
 }
 
-int npc::closest_enemy_to_friendly_distance() const
+cata::optional<int> npc::closest_enemy_to_friendly_distance() const
 {
     return ai_cache.closest_enemy_to_friendly_distance();
 }

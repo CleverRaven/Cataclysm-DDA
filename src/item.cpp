@@ -141,7 +141,6 @@ static const itype_id itype_hand_crossbow( "hand_crossbow" );
 static const itype_id itype_joint_roach( "joint_roach" );
 static const itype_id itype_rad_badge( "rad_badge" );
 static const itype_id itype_tuned_mechanism( "tuned_mechanism" );
-static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_waterproof_gunmod( "waterproof_gunmod" );
 
 static const skill_id skill_cooking( "cooking" );
@@ -1159,6 +1158,16 @@ bool item::merge_charges( const item &rhs )
     return true;
 }
 
+int item::obtain_cost( const item &it ) const
+{
+    return contents.obtain_cost( it );
+}
+
+int item::insert_cost( const item &it ) const
+{
+    return contents.insert_cost( it );
+}
+
 ret_val<bool> item::put_in( const item &payload, item_pocket::pocket_type pk_type,
                             const bool unseal_pockets )
 {
@@ -1894,6 +1903,10 @@ void item::med_info( const item *med_item, std::vector<iteminfo> &info, const it
                            player_character.fun_for( *med_item ).first );
     }
 
+    if( parts->test( iteminfo_parts::FOOD_HEALTH ) && med_com->healthy != 0 ) {
+        info.emplace_back( "MED", _( "Health: " ), healthy_bar( med_com->healthy ) );
+    }
+
     if( med_com->stim != 0 && parts->test( iteminfo_parts::MED_STIMULATION ) ) {
         std::string name = string_format( "%s <stat>%s</stat>", _( "Stimulation:" ),
                                           med_com->stim > 0 ? _( "Upper" ) : _( "Downer" ) );
@@ -1975,6 +1988,11 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
     const std::pair<int, int> fun_for_food_item = player_character.fun_for( *food_item );
     if( fun_for_food_item.first != 0 && parts->test( iteminfo_parts::FOOD_JOY ) ) {
         info.emplace_back( "FOOD", _( "Enjoyability: " ), fun_for_food_item.first );
+    }
+
+    if( parts->test( iteminfo_parts::FOOD_HEALTH ) && food_item->get_comestible()->healthy != 0 ) {
+        info.emplace_back( "MED", _( "Health: " ),
+                           healthy_bar( food_item->get_comestible()->healthy ) );
     }
 
     if( parts->test( iteminfo_parts::FOOD_PORTIONS ) ) {
@@ -3353,7 +3371,7 @@ void item::book_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                 if( knows_it ) {
                     // In case the recipe is known, but has a different name in the book, use the
                     // real name to avoid confusing the player.
-                    const std::string name = elem.recipe->result_name();
+                    const std::string name = elem.recipe->result_name( /*decorated=*/true );
                     recipe_list.push_back( "<bold>" + name + "</bold>" );
                 } else if( !can_learn ) {
                     recipe_list.push_back( "<color_brown>" + elem.name() + "</color>" );
@@ -4248,7 +4266,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 [&crafting_inv]( const recipe * r ) {
                     bool can_make = r->deduped_requirements().can_make_with_inventory(
                                         crafting_inv, r->get_component_filter() );
-                    return std::make_pair( r->result_name(), can_make );
+                    return std::make_pair( r->result_name( /*decorated=*/true ), can_make );
                 } );
                 std::sort( result_names.begin(), result_names.end(), localized_compare );
                 const std::string recipes =
@@ -7544,29 +7562,29 @@ units::volume item::max_containable_volume() const
     return contents.max_containable_volume();
 }
 
-bool item::can_contain( const item &it ) const
+ret_val<bool> item::can_contain( const item &it ) const
 {
     if( this == &it ) {
         // does the set of all sets contain itself?
-        return false;
+        return ret_val<bool>::make_failure();
     }
     // disallow putting portable holes into bags of holding
     if( contents.bigger_on_the_inside( volume() ) &&
         it.contents.bigger_on_the_inside( it.volume() ) ) {
-        return false;
+        return ret_val<bool>::make_failure();
     }
     for( const item *internal_it : contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
         if( internal_it->contents.can_contain_rigid( it ).success() ) {
-            return true;
+            return ret_val<bool>::make_success();
         }
     }
 
-    return contents.can_contain( it ).success();
+    return contents.can_contain( it );
 }
 
 bool item::can_contain( const itype &tp ) const
 {
-    return can_contain( item( &tp ) );
+    return can_contain( item( &tp ) ).success();
 }
 
 bool item::can_contain_partial( const item &it ) const
@@ -7575,14 +7593,14 @@ bool item::can_contain_partial( const item &it ) const
     if( i_copy.count_by_charges() ) {
         i_copy.charges = 1;
     }
-    return can_contain( i_copy );
+    return can_contain( i_copy ).success();
 }
 
 std::pair<item_location, item_pocket *> item::best_pocket( const item &it, item_location &parent,
-        const bool allow_sealed, const bool ignore_settings )
+        const bool allow_sealed, const bool ignore_settings, bool nested )
 {
     item_location nested_location( parent, this );
-    return contents.best_pocket( it, nested_location, false, allow_sealed, ignore_settings );
+    return contents.best_pocket( it, nested_location, nested, allow_sealed, ignore_settings );
 }
 
 bool item::spill_contents( Character &c )
@@ -7613,6 +7631,11 @@ bool item::spill_contents( const tripoint &pos )
 bool item::spill_open_pockets( Character &guy, const item *avoid )
 {
     return contents.spill_open_pockets( guy, avoid );
+}
+
+void item::overflow( const tripoint &pos )
+{
+    contents.overflow( pos );
 }
 
 book_proficiency_bonuses item::get_book_proficiency_bonuses() const
@@ -7935,52 +7958,45 @@ units::energy item::energy_remaining() const
     return 0_J;
 }
 
-int item::ammo_remaining() const
+int item::ammo_remaining( const Character *carrier ) const
 {
+    int ret = 0;
+
+    // Magagzine in the item
     const item *mag = magazine_current();
     if( mag ) {
-        return mag->ammo_remaining();
+        ret += mag->ammo_remaining();
     }
 
-    if( is_tool() ) {
-
-        if( ammo_types().empty() ||
-            !contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE ) ) {
-            // includes auxiliary gunmods
-            if( has_flag( flag_USES_BIONIC_POWER ) ) {
-                int power = units::to_kilojoule( get_player_character().get_power_level() );
-                return power;
-            }
-            return charges;
-        } else {
-            int res = 0;
-            for( const item *e : contents.all_items_top( item_pocket::pocket_type::MAGAZINE ) ) {
-                res += e->charges;
-            }
-            return res;
-        }
-    } else if( is_gun() && magazine_integral() && !contents.empty() ) {
-        return contents.first_ammo().charges;
+    // Power from bionic
+    if( carrier != nullptr && has_flag( flag_USES_BIONIC_POWER ) ) {
+        ret += units::to_kilojoule( carrier->get_power_level() );
     }
 
+    // Weird non-item charges. Not sure if used by anything in this context
+    if( is_tool() && ammo_types().empty() ) {
+        ret += charges;
+    }
+
+    // Extra power from UPS
+    if( carrier != nullptr && ( has_flag( flag_USE_UPS ) || get_gun_ups_drain() ) ) {
+        ret += carrier->available_ups();
+    }
+
+    // Magazines and integral magazines on their own
     if( is_magazine() ) {
-        int res = 0;
         for( const item *e : contents.all_items_top( item_pocket::pocket_type::MAGAZINE ) ) {
-            res += e->charges;
+            ret += e->charges;
         }
-        return res;
     }
 
     // Handle non-magazines with ammo_restriction in a CONTAINER type pocket (like quivers)
     if( !ammo_types().empty() ) {
-        int res = 0;
         for( const item *e : contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
-            res += e->charges;
+            ret += e->charges;
         }
-        return res;
     }
-
-    return 0;
+    return ret;
 }
 
 int item::remaining_ammo_capacity() const
@@ -8038,39 +8054,49 @@ int item::ammo_required() const
     return 0;
 }
 
-bool item::ammo_sufficient( int qty ) const
+bool item::ammo_sufficient( const Character *carrier, int qty ) const
 {
-    return ammo_remaining() >= ammo_required() * qty;
+    if( ammo_required() ) {
+        return ammo_remaining( carrier ) >= ammo_required() * qty;
+    } else if( get_gun_ups_drain() ) {
+        return ammo_remaining( carrier ) >= get_gun_ups_drain() * qty;
+    }
+    return true;
 }
 
-int item::ammo_consume( int qty, const tripoint &pos )
+int item::ammo_consume( int qty, const tripoint &pos, Character *carrier )
 {
     if( qty < 0 ) {
         debugmsg( "Cannot consume negative quantity of ammo for %s", tname() );
         return 0;
     }
+    const int wanted_qty = qty;
 
+    // Consume charges loaded in the item or its magazines
     if( is_magazine() || contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
-        return contents.ammo_consume( qty, pos );
-
-    } else if( is_tool() || is_gun() ) {
-        if( !contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE ) ||
-            ( is_tool() && type->tool->ammo_id.empty() ) ) {
-            qty = std::min( qty, charges );
-            Character &player_character = get_player_character();
-            if( has_flag( flag_USES_BIONIC_POWER ) ) {
-                charges = units::to_kilojoule( player_character.get_power_level() );
-                player_character.mod_power_level( units::from_kilojoule( -qty ) );
-            }
-            charges -= qty;
-            if( charges == 0 ) {
-                curammo = nullptr;
-            }
-            return qty;
-        }
+        qty -= contents.ammo_consume( qty, pos );
     }
 
-    return 0;
+    // Some weird internal non-item charges (used by grenades)
+    if( is_tool() && type->tool->ammo_id.empty() ) {
+        int charg_used = std::min( charges, qty );
+        charges -= charg_used;
+        qty -= charg_used;
+    }
+
+    // Consume UPS power from various sources
+    if( carrier != nullptr && has_flag( flag_USE_UPS ) ) {
+        qty -= carrier->consume_ups( qty );
+    }
+
+    // Consume bio pwr directly
+    if( carrier != nullptr && has_flag( flag_USES_BIONIC_POWER ) ) {
+        int bio_used = std::min( units::to_kilojoule( carrier->get_power_level() ), qty );
+        carrier->mod_power_level( -units::from_kilojoule( bio_used ) );
+        qty -= bio_used;
+    }
+
+    return wanted_qty - qty;
 }
 
 const itype *item::ammo_data() const
@@ -8518,12 +8544,7 @@ int item::units_remaining( const Character &ch, int limit ) const
         return std::min( static_cast<int>( charges ), limit );
     }
 
-    int res = ammo_remaining();
-    if( res < limit && has_flag( flag_USE_UPS ) ) {
-        res += ch.charges_of( itype_UPS, limit - res );
-    }
-
-    return std::min( static_cast<int>( res ), limit );
+    return std::min( ammo_remaining( &ch ), limit );
 }
 
 bool item::units_sufficient( const Character &ch, int qty ) const
@@ -8685,7 +8706,7 @@ bool item::reload( Character &u, item_location ammo, int qty )
             item ammo_copy( ammo->contents.first_ammo() );
             ammo_copy.charges = qty;
             put_in( ammo_copy, item_pocket::pocket_type::MAGAZINE );
-            ammo->ammo_consume( qty, tripoint_zero );
+            ammo->ammo_consume( qty, tripoint_zero, &u );
         } else if( ammo->ammo_type() == ammo_plutonium ) {
             curammo = ammo->type;
             ammo->charges -= qty;
@@ -9301,7 +9322,7 @@ bool item::use_charges( const itype_id &what, int &qty, std::list<item> &used,
                     item temp( *e );
                     temp.ammo_set( e->ammo_current(), n );
                     used.push_back( temp );
-                    e->ammo_consume( n, pos );
+                    e->ammo_consume( n, pos, nullptr );
                 }
             }
             return VisitResponse::SKIP;
@@ -9497,7 +9518,7 @@ bool item_ptr_compare_by_charges( const item *left, const item *right )
     } else if( right->empty() ) {
         return true;
     } else {
-        return right->contents.only_item().charges < left->contents.only_item().charges;
+        return right->only_item().charges < left->only_item().charges;
     }
 }
 
@@ -10402,21 +10423,14 @@ bool item::process_tool( player *carrier, const tripoint &pos )
     if( type->tool->turns_per_charge > 0 &&
         to_turn<int>( calendar::turn ) % type->tool->turns_per_charge == 0 ) {
         energy = std::max( ammo_required(), 1 );
-
     } else if( type->tool->power_draw > 0 ) {
         // power_draw in mW / 1000000 to give kJ (battery unit) per second
         energy = type->tool->power_draw / 1000000;
         // energy_bat remainder results in chance at additional charge/discharge
         energy += x_in_y( type->tool->power_draw % 1000000, 1000000 ) ? 1 : 0;
     }
-    energy -= ammo_consume( energy, pos );
 
-    // for items in player possession if insufficient charges within tool try UPS
-    if( carrier && has_flag( flag_USE_UPS ) ) {
-        if( carrier->use_charges_if_avail( itype_UPS, energy ) ) {
-            energy = 0;
-        }
-    }
+    energy -= ammo_consume( energy, pos, carrier );
 
     avatar &player_character = get_avatar();
     // if insufficient available charges shutdown the tool
@@ -11032,6 +11046,19 @@ units::volume item::get_selected_stack_volume( const std::map<const item *, int>
     return 0_ml;
 }
 
+units::volume item::get_contents_volume_with_tweaks( const std::map<const item *, int> &without )
+const
+{
+    return contents.get_contents_volume_with_tweaks( without );
+}
+
+units::volume item::get_nested_content_volume_recursive( const std::map<const item *, int>
+        &without )
+const
+{
+    return contents.get_nested_content_volume_recursive( without );
+}
+
 int item::get_recursive_disassemble_moves( const Character &guy ) const
 {
     int moves = recipe_dictionary::get_uncraft( type->get_id() ).time_to_craft_moves( guy,
@@ -11131,6 +11158,21 @@ bool item::empty() const
     return contents.empty();
 }
 
+bool item::empty_container() const
+{
+    return contents.empty_container();
+}
+
+item &item::only_item()
+{
+    return contents.only_item();
+}
+
+const item &item::only_item() const
+{
+    return contents.only_item();
+}
+
 size_t item::num_item_stacks() const
 {
     return contents.num_item_stacks();
@@ -11144,4 +11186,9 @@ item &item::legacy_front()
 const item &item::legacy_front() const
 {
     return contents.legacy_front();
+}
+
+void item::favorite_settings_menu( const std::string &item_name )
+{
+    contents.favorite_settings_menu( item_name );
 }

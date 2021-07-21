@@ -162,7 +162,6 @@ static const itype_id itype_string_36( "string_36" );
 static const itype_id itype_tree_spile( "tree_spile" );
 static const itype_id itype_unfinished_cac2( "unfinished_cac2" );
 static const itype_id itype_unfinished_charcoal( "unfinished_charcoal" );
-static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_water( "water" );
 
 static const skill_id skill_cooking( "cooking" );
@@ -993,7 +992,7 @@ void iexamine::elevator( player &p, const tripoint &examp )
 
     // first find critters in the destination elevator and move them out of the way
     for( Creature &critter : g->all_creatures() ) {
-        if( critter.is_player() ) {
+        if( critter.is_avatar() ) {
             continue;
         } else if( here.ter( critter.pos() ) == ter_id( "t_elevator" ) ) {
             tripoint critter_omt = ms_to_omt_copy( here.getabs( critter.pos() ) );
@@ -1015,7 +1014,7 @@ void iexamine::elevator( player &p, const tripoint &examp )
 
     // finally, bring along everyone who was in the elevator with the player
     for( Creature &critter : g->all_creatures() ) {
-        if( critter.is_player() ) {
+        if( critter.is_avatar() ) {
             continue;
         } else if( here.ter( critter.pos() ) == ter_id( "t_elevator" ) ) {
             tripoint critter_omt = ms_to_omt_copy( here.getabs( critter.pos() ) );
@@ -1213,7 +1212,7 @@ void iexamine::chainfence( player &p, const tripoint &examp )
     p.setpos( examp );
     if( examp.x < HALF_MAPSIZE_X || examp.y < HALF_MAPSIZE_Y ||
         examp.x >= HALF_MAPSIZE_X + SEEX || examp.y >= HALF_MAPSIZE_Y + SEEY ) {
-        if( p.is_player() ) {
+        if( p.is_avatar() ) {
             g->update_map( p );
         }
     }
@@ -1979,7 +1978,7 @@ static bool harvest_common( player &p, const tripoint &examp, bool furn, bool ne
         return false;
     }
 
-    if( p.is_player() && !auto_forage &&
+    if( p.is_avatar() && !auto_forage &&
         !query_yn( _( "Pick %s?" ), furn ? here.furnname( examp ) : here.tername(
                        examp ) ) ) {
         iexamine::none( p, examp );
@@ -2693,7 +2692,7 @@ void iexamine::arcfurnace_empty( player &p, const tripoint &examp )
         return;
     }
     //arc furnaces require a huge amount of current, so 1 full storage battery would work as a stand in
-    if( !p.has_charges( itype_UPS, 1250 ) ) {
+    if( p.available_ups() < 1250 ) {
         add_msg( _( "This furnace is ready to be turned on, but you lack a UPS with sufficient power." ) );
         return;
     } else {
@@ -2704,7 +2703,7 @@ void iexamine::arcfurnace_empty( player &p, const tripoint &examp )
         }
     }
 
-    p.use_charges( itype_UPS, 1250 );
+    p.consume_ups( 1250 );
     here.i_clear( examp );
     here.furn_set( examp, next_arcfurnace_type );
     item result( "unfinished_cac2", calendar::turn );
@@ -3436,7 +3435,7 @@ static void pick_plant( player &p, const tripoint &examp,
     map &here = get_map();
     bool auto_forage = get_option<bool>( "AUTO_FEATURES" ) &&
                        get_option<std::string>( "AUTO_FORAGING" ) != "off";
-    if( p.is_player() && !auto_forage &&
+    if( p.is_avatar() && !auto_forage &&
         !query_yn( _( "Harvest the %s?" ), here.tername( examp ) ) ) {
         iexamine::none( p, examp );
         return;
@@ -3471,7 +3470,7 @@ void iexamine::tree_hickory( player &p, const tripoint &examp )
         p.add_msg_if_player( m_info, _( "You have no tool to dig with…" ) );
         return;
     }
-    if( p.is_player() &&
+    if( p.is_avatar() &&
         !query_yn( _( "Dig up %s?  This kills the tree!" ), here.tername( examp ) ) ) {
         return;
     }
@@ -4651,7 +4650,7 @@ template<typename ...Args>
 inline void popup_player_or_npc( player &p, const char *player_mes, const char *npc_mes,
                                  Args &&... args )
 {
-    if( p.is_player() ) {
+    if( p.is_avatar() ) {
         popup( player_mes, std::forward<Args>( args )... );
     } else {
         popup( p.replace_with_npc_name( string_format( npc_mes, std::forward<Args>( args )... ) ) );

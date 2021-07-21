@@ -1415,12 +1415,6 @@ class Character : public Creature, public visitable
          */
         virtual bool dispose_item( item_location &&obj, const std::string &prompt = std::string() );
 
-        /**
-         * Has the item enough charges to invoke its use function?
-         * Also checks if UPS from this player is used instead of item charges.
-         */
-        bool has_enough_charges( const item &it, bool show_msg ) const;
-
         /** Consume charges of a tool or comestible item, potentially destroying it in the process
          *  @param used item consuming the charges
          *  @param qty number of charges to consume which must be non-zero
@@ -2055,6 +2049,21 @@ class Character : public Creature, public visitable
         bool use_charges_if_avail( const itype_id &it, int quantity );
 
         /**
+        * Available ups from all sources
+        * Sum of mech, bionic UPS and UPS
+        * @return amount of UPS available
+        */
+        int available_ups() const;
+
+        /**
+        * Consume UPS charges.
+        * Consume order: mech, Bionic UPS, UPS.
+        * @param qty Number of charges (kJ)
+        * @return amount of UPS consumed which will be between 0 and qty
+        */
+        int consume_ups( int qty, int radius = -1 );
+
+        /**
         * Use charges in character inventory.
         * @param what itype_id of item using charges
         * @param qty Number of charges
@@ -2685,7 +2694,7 @@ class Character : public Creature, public visitable
         nc_color bodytemp_color( const bodypart_id &bp ) const;
 
         // see Creature::sees
-        bool sees( const tripoint &t, bool is_player = false, int range_mod = 0 ) const override;
+        bool sees( const tripoint &t, bool is_avatar = false, int range_mod = 0 ) const override;
         // see Creature::sees
         bool sees( const Creature &critter ) const override;
         Attitude attitude_to( const Creature &other ) const override;
@@ -2738,6 +2747,13 @@ class Character : public Creature, public visitable
         void process_effects() override;
         /** Handles the still hard-coded effects. */
         void hardcoded_effects( effect &it );
+
+        /** Estimate effect duration based on player relevant skill.
+        @param error_magnitude Maximum error, with zero in the relavant skill.
+        @param minimum_error Maximum error when skill is >= threshold */
+        time_duration estimate_effect_dur( const skill_id &relevant_skill, const efftype_id &effect,
+                                           const time_duration &error_magnitude,
+                                           const time_duration &mimimum_error, int threshold, const Creature &target ) const;
 
         // inherited from visitable
         bool has_quality( const quality_id &qual, int level = 1, int qty = 1 ) const override;

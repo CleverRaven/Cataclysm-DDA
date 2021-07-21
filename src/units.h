@@ -855,6 +855,11 @@ inline double tan( angle a )
     return std::tan( to_radians( a ) );
 }
 
+inline double cot( angle a )
+{
+    return std::tan( M_PI_2 - to_radians( a ) );
+}
+
 inline units::angle atan2( double y, double x )
 {
     return from_radians( std::atan2( y, x ) );

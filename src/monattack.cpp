@@ -2305,7 +2305,7 @@ bool mattack::formblob( monster *z )
             continue;
         }
 
-        if( critter->is_player() || critter->is_npc() ) {
+        if( critter->is_avatar() || critter->is_npc() ) {
             // If we hit the player or some NPC, cover them with slime
             didit = true;
             // TODO: Add some sort of a resistance/dodge roll
@@ -2613,7 +2613,7 @@ bool mattack::ranged_pull( monster *z )
                 here.unboard_vehicle( foe->pos() );
             }
 
-            if( target->is_player() && ( pt.x < HALF_MAPSIZE_X || pt.y < HALF_MAPSIZE_Y ||
+            if( target->is_avatar() && ( pt.x < HALF_MAPSIZE_X || pt.y < HALF_MAPSIZE_Y ||
                                          pt.x >= HALF_MAPSIZE_X + SEEX || pt.y >= HALF_MAPSIZE_Y + SEEY ) ) {
                 g->update_map( pt.x, pt.y );
             }
@@ -2621,7 +2621,7 @@ bool mattack::ranged_pull( monster *z )
 
         target->setpos( pt );
         range--;
-        if( target->is_player() && seen ) {
+        if( target->is_avatar() && seen ) {
             g->invalidate_main_ui_adaptor();
             ui_manager::redraw_invalidated();
             refresh_display();
@@ -2743,7 +2743,7 @@ bool mattack::grab_drag( monster *z )
         if( !g->is_empty( zpt ) ) { //Cancel the grab if the space is occupied by something
             return false;
         }
-        if( target->is_player() && ( zpt.x < HALF_MAPSIZE_X ||
+        if( target->is_avatar() && ( zpt.x < HALF_MAPSIZE_X ||
                                      zpt.y < HALF_MAPSIZE_Y ||
                                      zpt.x >= HALF_MAPSIZE_X + SEEX || zpt.y >= HALF_MAPSIZE_Y + SEEY ) ) {
             g->update_map( zpt.x, zpt.y );
@@ -2774,7 +2774,7 @@ bool mattack::gene_sting( monster *z )
 {
     const float range = 7.0f;
     Creature *target = sting_get_target( z, range );
-    if( target == nullptr || !( target->is_player() || target->is_npc() ) ) {
+    if( target == nullptr || !( target->is_avatar() || target->is_npc() ) ) {
         return false;
     }
 
@@ -2846,7 +2846,7 @@ bool mattack::stare( monster *z )
         if( player_character.get_effect_int( effect_taint ) > 2 ) {
             player_character.add_effect( effect_hallu, 30_minutes );
             //Check if target is a player before spawning hallucinations
-            if( player_character.is_player() && one_in( 2 ) ) {
+            if( player_character.is_avatar() && one_in( 2 ) ) {
                 g->spawn_hallucination( player_character.pos() + tripoint( rng( -10, 10 ), rng( -10, 10 ), 0 ) );
             }
             if( one_in( 12 ) ) {

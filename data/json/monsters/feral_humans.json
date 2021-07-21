@@ -101,7 +101,7 @@
     "melee_dice_sides": 3,
     "melee_cut": 2,
     "dodge": 1,
-    "harvest": "CBM_SCI_FERAL",
+    "harvest": "human",
     "path_settings": { "max_dist": 10 },
     "vision_day": 50,
     "vision_night": 3,

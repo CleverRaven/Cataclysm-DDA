@@ -486,7 +486,7 @@ TEST_CASE( "food allergies and intolerances", "[food][modify_morale][allergy]" )
 
         THEN( "they get a morale penalty for drinking milk" ) {
             item &milk_container = dummy.i_add( item( "milk" ).in_its_container() );
-            item &milk = milk_container.contents.only_item();
+            item &milk = milk_container.only_item();
             REQUIRE( milk.has_flag( flag_ALLERGEN_MILK ) );
             dummy.clear_morale();
             dummy.modify_morale( milk );

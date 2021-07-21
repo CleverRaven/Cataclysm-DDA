@@ -4335,8 +4335,8 @@ item &map::add_item( const tripoint &p, item new_item )
     }
 
     // Process foods and temperature tracked items when they are added to the map, here instead of add_item_at()
-    // to avoid double processing food and corpses during active item processing.
-    if( new_item.has_temperature() ) {
+    // to avoid double processing food during active item processing.
+    if( new_item.has_temperature() && !new_item.is_corpse() ) {
         new_item.process( nullptr, p );
     }
 
@@ -5006,6 +5006,30 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
     }
 
     return ret;
+}
+
+int map::consume_ups( const tripoint &origin, const int range, int qty )
+{
+    // populate a grid of spots that can be reached
+    std::vector<tripoint> reachable_pts;
+    reachable_flood_steps( reachable_pts, origin, range, 1, 100 );
+
+    for( const tripoint &p : reachable_pts ) {
+        if( accessible_items( p ) ) {
+
+            map_stack items = i_at( p );
+            for( auto &elem : items ) {
+                if( elem.has_flag( flag_IS_UPS ) ) {
+                    qty -= elem.ammo_consume( qty, p, nullptr );
+                    if( qty == 0 ) {
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    return qty;
 }
 
 std::list<std::pair<tripoint, item *> > map::get_rc_items( const tripoint &p )

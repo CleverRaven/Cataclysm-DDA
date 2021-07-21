@@ -235,9 +235,6 @@ class Creature : public location, public viewer
 
         virtual std::vector<std::string> get_grammatical_genders() const;
 
-        virtual bool is_player() const {
-            return false;
-        }
         virtual bool is_avatar() const {
             return false;
         }

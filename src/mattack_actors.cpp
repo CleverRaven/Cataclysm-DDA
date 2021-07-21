@@ -225,6 +225,9 @@ void melee_actor::load_internal( const JsonObject &obj, const std::string & )
     optional( obj, was_loaded, "dodgeable", dodgeable, true );
     optional( obj, was_loaded, "blockable", blockable, true );
 
+    optional( obj, was_loaded, "range", range, 1 );
+    optional( obj, was_loaded, "throw_strength", throw_strength, 0 );
+
     optional( obj, was_loaded, "miss_msg_u", miss_msg_u,
               to_translation( "The %s lunges at you, but you dodge!" ) );
     optional( obj, was_loaded, "no_dmg_msg_u", no_dmg_msg_u,
@@ -237,6 +240,10 @@ void melee_actor::load_internal( const JsonObject &obj, const std::string & )
               to_translation( "The %1$s bites <npcname>'s %2$s, but fails to penetrate armor!" ) );
     optional( obj, was_loaded, "hit_dmg_npc", hit_dmg_npc,
               to_translation( "The %1$s bites <npcname>'s %2$s!" ) );
+    optional( obj, was_loaded, "throw_msg_u", throw_msg_u,
+              to_translation( "The force of the %s's attack sends you flying!" ) );
+    optional( obj, was_loaded, "throw_msg_npc", throw_msg_npc,
+              to_translation( "The force of the %s's attack sends <npcname> flying!" ) );
 
     if( obj.has_array( "body_parts" ) ) {
         for( JsonArray sub : obj.get_array( "body_parts" ) ) {
@@ -347,13 +354,18 @@ bool melee_actor::call( monster &z ) const
         target->add_msg_player_or_npc( m_neutral, no_dmg_msg_u, no_dmg_msg_npc, z.name(),
                                        body_part_name_accusative( bp_id ) );
     }
+    if( throw_strength > 0 ) {
+        g->fling_creature( target, coord_to_angle( z.pos(), target->pos() ),
+                           throw_strength );
+        target->add_msg_player_or_npc( m_bad, throw_msg_u, throw_msg_npc, z.name() );
+    }
 
     return true;
 }
 
 void melee_actor::on_damage( monster &z, Creature &target, dealt_damage_instance &dealt ) const
 {
-    if( target.is_player() ) {
+    if( target.is_avatar() ) {
         sfx::play_variant_sound( "mon_bite", "bite_hit", sfx::get_heard_volume( z.pos() ),
                                  sfx::get_heard_angle( z.pos() ) );
         sfx::do_player_death_hurt( dynamic_cast<player &>( target ), false );
@@ -527,7 +539,7 @@ void gun_actor::shoot( monster &z, Creature &target, const gun_mode_id &mode ) c
         return;
     }
 
-    const bool require_targeting = ( require_targeting_player && target.is_player() ) ||
+    const bool require_targeting = ( require_targeting_player && target.is_avatar() ) ||
                                    ( require_targeting_npc && target.is_npc() ) ||
                                    ( require_targeting_monster && target.is_monster() );
     const bool not_targeted = require_targeting && !z.has_effect( effect_targeted );
@@ -581,7 +593,7 @@ void gun_actor::shoot( monster &z, Creature &target, const gun_mode_id &mode ) c
         return;
     }
 
-    if( !gun.ammo_sufficient() ) {
+    if( !gun.ammo_sufficient( nullptr ) ) {
         if( !no_ammo_sound.empty() ) {
             sounds::sound( z.pos(), 10, sounds::sound_t::combat, no_ammo_sound );
         }

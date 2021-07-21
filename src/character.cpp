@@ -216,7 +216,6 @@ static const efftype_id effect_winded( "winded" );
 
 static const field_type_str_id field_fd_clairvoyant( "fd_clairvoyant" );
 
-static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
 static const itype_id itype_apparatus( "apparatus" );
 static const itype_id itype_beartrap( "beartrap" );
 static const itype_id itype_e_handcuffs( "e_handcuffs" );
@@ -226,7 +225,6 @@ static const itype_id itype_rope_6( "rope_6" );
 static const itype_id itype_snare_trigger( "snare_trigger" );
 static const itype_id itype_string_36( "string_36" );
 static const itype_id itype_UPS( "UPS" );
-static const itype_id itype_UPS_off( "UPS_off" );
 
 static const skill_id skill_archery( "archery" );
 static const skill_id skill_dodge( "dodge" );
@@ -617,12 +615,12 @@ creature_size Character::get_size() const
 std::string Character::disp_name( bool possessive, bool capitalize_first ) const
 {
     if( !possessive ) {
-        if( is_player() ) {
+        if( is_avatar() ) {
             return capitalize_first ? _( "You" ) : _( "you" );
         }
         return name;
     } else {
-        if( is_player() ) {
+        if( is_avatar() ) {
             return capitalize_first ? _( "Your" ) : _( "your" );
         }
         return string_format( _( "%s's" ), name );
@@ -930,7 +928,7 @@ void Character::react_to_felt_pain( int intensity )
     if( intensity <= 0 ) {
         return;
     }
-    if( is_player() && intensity >= 2 ) {
+    if( is_avatar() && intensity >= 2 ) {
         g->cancel_activity_or_ignore_query( distraction_type::pain, _( "Ouch, something hurts!" ) );
     }
     // Only a large pain burst will actually wake people while sleeping.
@@ -1488,7 +1486,7 @@ bool Character::uncanny_dodge()
 void Character::handle_skill_warning( const skill_id &id, bool force_warning )
 {
     //remind the player intermittently that no skill gain takes place
-    if( is_player() && ( force_warning || one_in( 5 ) ) ) {
+    if( is_avatar() && ( force_warning || one_in( 5 ) ) ) {
         SkillLevel &level = get_skill_level_object( id );
 
         const Skill &skill = id.obj();
@@ -1583,7 +1581,7 @@ void Character::try_remove_bear_trap()
     /** @EFFECT_STR increases chance to escape bear trap */
     // If is riding, then despite the character having the effect, it is the mounted creature that escapes.
     map &here = get_map();
-    if( is_player() && is_mounted() ) {
+    if( is_avatar() && is_mounted() ) {
         auto *mon = mounted_creature.get();
         if( mon->type->melee_dice * mon->type->melee_sides >= 18 ) {
             if( x_in_y( mon->type->melee_dice * mon->type->melee_sides, 200 ) ) {
@@ -2070,7 +2068,7 @@ void Character::recalc_sight_limits()
     const bool in_light = get_map().ambient_light_at( pos() ) > LIGHT_AMBIENT_LIT;
 
     // Set sight_max.
-    if( is_blind() || ( in_sleep_state() && !has_trait( trait_SEESLEEP ) && is_player() ) ||
+    if( is_blind() || ( in_sleep_state() && !has_trait( trait_SEESLEEP ) && is_avatar() ) ||
         has_effect( effect_narcosis ) ) {
         sight_max = 0;
     } else if( has_effect( effect_boomered ) && ( !( has_trait( trait_PER_SLIME_OK ) ) ) ) {
@@ -2424,10 +2422,10 @@ void Character::practice( const skill_id &id, int amount, int cap, bool suppress
         if( newLevel > oldLevel ) {
             get_event_bus().send<event_type::gains_skill_level>( getID(), id, newLevel );
         }
-        if( is_player() && newLevel > oldLevel ) {
+        if( is_avatar() && newLevel > oldLevel ) {
             add_msg( m_good, _( "Your skill in %s has increased to %d!" ), skill_name, newLevel );
         }
-        if( is_player() && newLevel > cap ) {
+        if( is_avatar() && newLevel > cap ) {
             //inform player immediately that the current recipe can't be used to train further
             add_msg( m_info, _( "You feel that %s tasks of this level are becoming trivial." ),
                      skill_name );
@@ -3681,13 +3679,13 @@ units::volume Character::volume_carried_with_tweaks( const item_tweaks &tweaks )
     units::volume ret = 0_ml;
     for( const item &i : worn ) {
         if( !without.count( &i ) ) {
-            ret += i.contents.get_contents_volume_with_tweaks( without );
+            ret += i.get_contents_volume_with_tweaks( without );
         }
     }
 
     // Wielded item
     if( !without.count( &weapon ) ) {
-        ret += weapon.contents.get_contents_volume_with_tweaks( without );
+        ret += weapon.get_contents_volume_with_tweaks( without );
     }
 
     return ret;
@@ -3733,11 +3731,11 @@ units::mass Character::weight_capacity() const
 
 bool Character::can_pickVolume( const item &it, bool, const item *avoid ) const
 {
-    if( weapon.can_contain( it ) && ( avoid == nullptr || &weapon != avoid ) ) {
+    if( weapon.can_contain( it ).success() && ( avoid == nullptr || &weapon != avoid ) ) {
         return true;
     }
     for( const item &w : worn ) {
-        if( w.can_contain( it ) ) {
+        if( w.can_contain( it ).success() ) {
             return true;
         }
     }
@@ -3816,7 +3814,7 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
         for( const trait_id &mut : get_mutations() ) {
             const auto &branch = mut.obj();
             if( branch.conflicts_with_item( it ) ) {
-                return ret_val<bool>::make_failure( is_player() ?
+                return ret_val<bool>::make_failure( is_avatar() ?
                                                     _( "Your %s mutation prevents you from wearing your %s." ) :
                                                     _( "My %s mutation prevents me from wearing this %s." ), branch.name(),
                                                     it.type_name() );
@@ -3845,7 +3843,7 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
             }
         }
         if( !need_splint ) {
-            return ret_val<bool>::make_failure( is_player() ?
+            return ret_val<bool>::make_failure( is_avatar() ?
                                                 _( "You don't have any broken limbs this could help." )
                                                 : _( "%s doesn't have any broken limbs this could help." ), name );
         }
@@ -3866,7 +3864,7 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
         }
         if( !need_tourniquet ) {
             std::string msg;
-            if( is_player() ) {
+            if( is_avatar() ) {
                 msg = _( "You don't need a tourniquet to stop the bleeding." );
             } else {
                 msg = string_format( _( "%s doesn't need a tourniquet to stop the bleeding." ), name );
@@ -3876,7 +3874,7 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
     }
 
     if( it.has_flag( flag_RESTRICT_HANDS ) && !has_two_arms() ) {
-        return ret_val<bool>::make_failure( ( is_player() ? _( "You don't have enough arms to wear that." )
+        return ret_val<bool>::make_failure( ( is_avatar() ? _( "You don't have enough arms to wear that." )
                                               : string_format( _( "%s doesn't have enough arms to wear that." ), name ) ) );
     }
 
@@ -3927,7 +3925,7 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
     // Check if we don't have both hands available before wearing a briefcase, shield, etc. Also occurs if we're already wearing one.
     if( it.has_flag( flag_RESTRICT_HANDS ) && ( worn_with_flag( flag_RESTRICT_HANDS ) ||
             weapon.is_two_handed( *this ) ) ) {
-        return ret_val<bool>::make_failure( ( is_player() ? _( "You don't have a hand free to wear that." )
+        return ret_val<bool>::make_failure( ( is_avatar() ? _( "You don't have a hand free to wear that." )
                                               : string_format( _( "%s doesn't have a hand free to wear that." ), name ) ) );
     }
 
@@ -3970,7 +3968,7 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
         !it.has_flag( flag_BELTED ) && !it.has_flag( flag_PERSONAL ) && !it.has_flag( flag_AURA ) &&
         !it.has_flag( flag_SEMITANGIBLE ) ) {
         // Checks to see if the player is wearing shoes
-        return ret_val<bool>::make_failure( ( is_player() ? _( "You're already wearing footwear!" )
+        return ret_val<bool>::make_failure( ( is_avatar() ? _( "You're already wearing footwear!" )
                                               : string_format( _( "%s is already wearing footwear!" ), name ) ) );
     }
 
@@ -3980,14 +3978,14 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
         !it.has_flag( flag_AURA ) && !it.has_flag( flag_SEMITANGIBLE ) && !it.has_flag( flag_OVERSIZE ) &&
         is_wearing_helmet() ) {
         return ret_val<bool>::make_failure( wearing_something_on( body_part_head ),
-                                            ( is_player() ? _( "You can't wear that with other headgear!" )
+                                            ( is_avatar() ? _( "You can't wear that with other headgear!" )
                                               : string_format( _( "%s can't wear that with other headgear!" ), name ) ) );
     }
 
     if( it.covers( body_part_head ) && !it.has_flag( flag_SEMITANGIBLE ) &&
         ( it.has_flag( flag_SKINTIGHT ) || it.has_flag( flag_HELMET_COMPAT ) ) &&
         ( head_cloth_encumbrance() + it.get_encumber( *this, body_part_head ) > 40 ) ) {
-        return ret_val<bool>::make_failure( ( is_player() ? _( "You can't wear that much on your head!" )
+        return ret_val<bool>::make_failure( ( is_avatar() ? _( "You can't wear that much on your head!" )
                                               : string_format( _( "%s can't wear that much on their head!" ), name ) ) );
     }
 
@@ -4040,9 +4038,9 @@ void Character::drop_invalid_inventory()
         add_msg_if_player( m_bad, _( "Liquid from your inventory has leaked onto the ground." ) );
     }
 
-    weapon.contents.overflow( pos() );
+    weapon.overflow( pos() );
     for( item &w : worn ) {
-        w.contents.overflow( pos() );
+        w.overflow( pos() );
     }
 
     cache_inventory_is_valid = true;
@@ -5042,7 +5040,7 @@ void Character::mod_int_bonus( int nint )
 
 void Character::print_health() const
 {
-    if( !is_player() ) {
+    if( !is_avatar() ) {
         return;
     }
     int current_health = get_healthy();
@@ -6038,7 +6036,7 @@ void Character::update_needs( int rate_multiplier )
             }
         }
     }
-    if( is_player() && wasnt_fatigued && get_fatigue() > fatigue_levels::DEAD_TIRED && !lying ) {
+    if( is_avatar() && wasnt_fatigued && get_fatigue() > fatigue_levels::DEAD_TIRED && !lying ) {
         if( !activity ) {
             add_msg_if_player( m_warning, _( "You're feeling tired.  %s to lie down for sleep." ),
                                press_x( ACTION_SLEEP ) );
@@ -6240,7 +6238,7 @@ void Character::check_needs_extremes()
     }
 
     // check if we've starved
-    if( is_player() ) {
+    if( is_avatar() ) {
         if( get_stored_kcal() <= 0 ) {
             add_msg_if_player( m_bad, _( "You have starved to death." ) );
             get_event_bus().send<event_type::dies_of_starvation>( getID() );
@@ -6279,7 +6277,7 @@ void Character::check_needs_extremes()
     }
 
     // Check if we're dying of thirst
-    if( is_player() && get_thirst() >= 600 && ( stomach.get_water() == 0_ml ||
+    if( is_avatar() && get_thirst() >= 600 && ( stomach.get_water() == 0_ml ||
             guts.get_water() == 0_ml ) ) {
         if( get_thirst() >= 1200 ) {
             add_msg_if_player( m_bad, _( "You have died of dehydration." ) );
@@ -7234,7 +7232,7 @@ bodypart_id Character::body_window( const std::string &menu_header,
 
     // If this is an NPC, the player is the one examining them and so the fact
     // that they can't self-diagnose effectively doesn't matter
-    bool no_feeling = is_player() && has_trait( trait_NOPAIN );
+    bool no_feeling = is_avatar() && has_trait( trait_NOPAIN );
 
     for( size_t i = 0; i < parts.size(); i++ ) {
         const healable_bp &e = parts[i];
@@ -7898,7 +7896,7 @@ int Character::ammo_count_for( const item &gun )
 
     int ups_drain = gun.get_gun_ups_drain();
     if( ups_drain > 0 ) {
-        ret = std::min( ret, charges_of( itype_UPS ) / ups_drain );
+        ret = std::min( ret, available_ups() / ups_drain );
     }
 
     return ret;
@@ -7989,7 +7987,7 @@ float Character::rest_quality() const
 std::string Character::extended_description() const
 {
     std::string ss;
-    if( is_player() ) {
+    if( is_avatar() ) {
         // <bad>This is me, <player_name>.</bad>
         ss += string_format( _( "This is you - %s." ), name );
     } else {
@@ -8789,7 +8787,23 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
         add_msg_if_player( m_bad, _( "Your %s was broken and won't turn on." ), used->tname() );
         return false;
     }
-    if( !has_enough_charges( *used, true ) ) {
+    if( !used->ammo_sufficient( this ) ) {
+        int ammo_req = used->ammo_required();
+        std::string it_name = used->tname();
+        if( used->has_flag( flag_USE_UPS ) ) {
+            add_msg_if_player( m_info,
+                               ngettext( "Your %s needs %d charge from some UPS.",
+                                         "Your %s needs %d charges from some UPS.",
+                                         ammo_req ),
+                               it_name, ammo_req );
+        } else {
+            int ammo_rem = used->ammo_remaining();
+            add_msg_if_player( m_info,
+                               ngettext( "Your %s has %d charge, but needs %d.",
+                                         "Your %s has %d charges, but needs %d.",
+                                         ammo_rem ),
+                               it_name, ammo_rem, ammo_req );
+        }
         moves = pre_obtain_moves;
         return false;
     }
@@ -8889,7 +8903,7 @@ bool Character::dispose_item( item_location &&obj, const std::string &prompt )
                                        ( e.type->get_use( "holster" )->get_actor_ptr() );
             opts.emplace_back( dispose_option{
                 string_format( _( "Store in %s" ), e.tname() ), true, e.invlet,
-                item_store_cost( *obj, e, false, e.contents.insert_cost( *obj ) ),
+                item_store_cost( *obj, e, false, e.insert_cost( *obj ) ),
                 [this, ptr, &e, &obj] {
                     return ptr->store( *this->as_player(), e, *obj );
                 }
@@ -8919,36 +8933,6 @@ bool Character::dispose_item( item_location &&obj, const std::string &prompt )
         return opts[menu.ret].action();
     }
     return false;
-}
-
-bool Character::has_enough_charges( const item &it, bool show_msg ) const
-{
-    if( !it.is_tool() || !it.ammo_required() ) {
-        return true;
-    }
-    if( it.has_flag( flag_USE_UPS ) ) {
-        if( has_charges( itype_UPS, it.ammo_required() ) || it.ammo_sufficient() ) {
-            return true;
-        }
-        if( show_msg ) {
-            add_msg_if_player( m_info,
-                               ngettext( "Your %s needs %d charge from some UPS.",
-                                         "Your %s needs %d charges from some UPS.",
-                                         it.ammo_required() ),
-                               it.tname(), it.ammo_required() );
-        }
-        return false;
-    } else if( !it.ammo_sufficient() ) {
-        if( show_msg ) {
-            add_msg_if_player( m_info,
-                               ngettext( "Your %s has %d charge, but needs %d.",
-                                         "Your %s has %d charges, but needs %d.",
-                                         it.ammo_remaining() ),
-                               it.tname(), it.ammo_remaining(), it.ammo_required() );
-        }
-        return false;
-    }
-    return true;
 }
 
 bool Character::consume_charges( item &used, int qty )
@@ -8993,19 +8977,7 @@ bool Character::consume_charges( item &used, int qty )
         return true;
     }
 
-    // USE_UPS never occurs on base items but is instead added by the UPS tool mod
-    if( used.has_flag( flag_USE_UPS ) ) {
-        // With the new UPS system, we'll want to use any charges built up in the tool before pulling from the UPS
-        // The usage of the item was already approved, so drain item if possible, otherwise use UPS
-        if( used.charges >= qty || ( used.magazine_integral() &&
-                                     !used.has_flag( flag_id( "USES_BIONIC_POWER" ) ) && used.ammo_remaining() >= qty ) ) {
-            used.ammo_consume( qty, pos() );
-        } else {
-            use_charges( itype_UPS, qty );
-        }
-    } else {
-        used.ammo_consume( std::min( qty, used.ammo_remaining() ), pos() );
-    }
+    used.ammo_consume( qty, pos(), this );
     return false;
 }
 
@@ -9214,19 +9186,19 @@ void Character::shout( std::string msg, bool order )
     if( has_trait( trait_SHOUT3 ) ) {
         base = 20;
         if( msg.empty() ) {
-            msg = is_player() ? _( "yourself let out a piercing howl!" ) : _( "a piercing howl!" );
+            msg = is_avatar() ? _( "yourself let out a piercing howl!" ) : _( "a piercing howl!" );
             shout = "howl";
         }
     } else if( has_trait( trait_SHOUT2 ) ) {
         base = 15;
         if( msg.empty() ) {
-            msg = is_player() ? _( "yourself scream loudly!" ) : _( "a loud scream!" );
+            msg = is_avatar() ? _( "yourself scream loudly!" ) : _( "a loud scream!" );
             shout = "scream";
         }
     }
 
     if( msg.empty() ) {
-        msg = is_player() ? _( "yourself shout loudly!" ) : _( "a loud shout!" );
+        msg = is_avatar() ? _( "yourself shout loudly!" ) : _( "a loud shout!" );
         shout = "default";
     }
     int noise = get_shout_volume();
@@ -9253,7 +9225,7 @@ void Character::shout( std::string msg, bool order )
     if( noise <= minimum_noise ) {
         add_msg_if_player( m_warning,
                            _( "The sound of your voice is almost completely muffled!" ) );
-        msg = is_player() ? _( "your muffled shout" ) : _( "an indistinct voice" );
+        msg = is_avatar() ? _( "your muffled shout" ) : _( "an indistinct voice" );
     } else if( noise * 2 <= noise + penalty ) {
         // The shout's volume is 1/2 or lower of what it would be without the penalty
         add_msg_if_player( m_warning, _( "The sound of your voice is significantly muffled!" ) );
@@ -9762,7 +9734,7 @@ bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &b
                                 _( "Your %1$s is %2$s further!" ) : _( "Your %1$s is %2$s!" );
     add_msg_if_player( m_bad, format_string, pre_damage_name, damage_verb );
     //item is damaged
-    if( is_player() ) {
+    if( is_avatar() ) {
         SCT.add( point( posx(), posy() ), direction::NORTH, remove_color_tags( pre_damage_name ), m_neutral,
                  damage_verb,
                  m_info );
@@ -9924,7 +9896,7 @@ void Character::on_hit( Creature *source, bodypart_id bp_hit,
     bool u_see = get_player_view().sees( *this );
     const units::energy trigger_cost_base = bionic_id( "bio_ods" )->power_trigger;
     if( has_active_bionic( bionic_id( "bio_ods" ) ) && get_power_level() > ( 5 * trigger_cost_base ) ) {
-        if( is_player() ) {
+        if( is_avatar() ) {
             add_msg( m_good, _( "Your offensive defense system shocks %s in mid-attack!" ),
                      source->disp_name() );
         } else if( u_see ) {
@@ -9942,7 +9914,7 @@ void Character::on_hit( Creature *source, bodypart_id bp_hit,
     if( !wearing_something_on( bp_hit ) &&
         ( has_trait( trait_SPINES ) || has_trait( trait_QUILLS ) ) ) {
         int spine = rng( 1, has_trait( trait_QUILLS ) ? 20 : 8 );
-        if( !is_player() ) {
+        if( !is_avatar() ) {
             if( u_see ) {
                 add_msg( _( "%1$s's %2$s puncture %3$s in mid-attack!" ), name,
                          ( has_trait( trait_QUILLS ) ? _( "quills" ) : _( "spines" ) ),
@@ -9959,7 +9931,7 @@ void Character::on_hit( Creature *source, bodypart_id bp_hit,
     }
     if( ( !( wearing_something_on( bp_hit ) ) ) && ( has_trait( trait_THORNS ) ) &&
         ( !( source->has_weapon() ) ) ) {
-        if( !is_player() ) {
+        if( !is_avatar() ) {
             if( u_see ) {
                 add_msg( _( "%1$s's %2$s scrape %3$s in mid-attack!" ), name,
                          _( "thorns" ), source->disp_name() );
@@ -9975,7 +9947,7 @@ void Character::on_hit( Creature *source, bodypart_id bp_hit,
         source->deal_damage( this, body_part_torso, thorn_damage );
     }
     if( ( !( wearing_something_on( bp_hit ) ) ) && ( has_trait( trait_CF_HAIR ) ) ) {
-        if( !is_player() ) {
+        if( !is_avatar() ) {
             if( u_see ) {
                 add_msg( _( "%1$s gets a load of %2$s's %3$s stuck in!" ), source->disp_name(),
                          name, ( _( "hair" ) ) );
@@ -10004,7 +9976,7 @@ void Character::on_hit( Creature *source, bodypart_id bp_hit,
         }
 
         if( stability_roll() < dice( rolls, 10 ) ) {
-            if( !is_player() ) {
+            if( !is_avatar() ) {
                 if( u_see ) {
                     add_msg( _( "%1$s loses their balance while being hit!" ), name );
                 }
@@ -10092,7 +10064,7 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
     if( dam > 0 && get_player_view().sees( pos() ) ) {
         g->draw_hit_player( *this, dam );
 
-        if( is_player() && source ) {
+        if( is_avatar() && source ) {
             //monster hits player melee
             SCT.add( point( posx(), posy() ),
                      direction_from( point_zero, point( posx() - source->posx(), posy() - source->posy() ) ),
@@ -10114,7 +10086,7 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
     int cut_dam = dealt_dams.type_damage( damage_type::CUT );
     if( source && has_trait( trait_ACIDBLOOD ) && !one_in( 3 ) &&
         ( dam >= 4 || cut_dam > 0 ) && ( rl_dist( player_character.pos(), source->pos() ) <= 1 ) ) {
-        if( is_player() ) {
+        if( is_avatar() ) {
             add_msg( m_good, _( "Your acidic blood splashes %s in mid-attack!" ),
                      source->disp_name() );
         } else if( u_see ) {
@@ -10656,9 +10628,9 @@ units::volume Character::free_space() const
 units::volume Character::volume_capacity() const
 {
     units::volume volume_capacity = 0_ml;
-    volume_capacity += weapon.contents.total_container_capacity();
+    volume_capacity += weapon.get_total_capacity();
     for( const item &w : worn ) {
-        volume_capacity += w.contents.total_container_capacity();
+        volume_capacity += w.get_total_capacity();
     }
     return volume_capacity;
 }
@@ -11301,11 +11273,6 @@ bool Character::has_charges( const itype_id &it, int quantity,
     if( it == itype_fire || it == itype_apparatus ) {
         return has_fire( quantity );
     }
-    if( it == itype_UPS && is_mounted() &&
-        mounted_creature.get()->has_flag( MF_RIDEABLE_MECH ) ) {
-        auto *mons = mounted_creature.get();
-        return quantity <= mons->battery_item->ammo_remaining();
-    }
     return charges_of( it, quantity, filter ) == quantity;
 }
 
@@ -11341,6 +11308,65 @@ bool Character::use_charges_if_avail( const itype_id &it, int quantity )
     return false;
 }
 
+int Character::available_ups() const
+{
+    int available_charges = 0;
+    if( is_mounted() && mounted_creature.get()->has_flag( MF_RIDEABLE_MECH ) ) {
+        auto *mons = mounted_creature.get();
+        available_charges += mons->battery_item->ammo_remaining();
+    }
+    if( has_active_bionic( bio_ups ) ) {
+        available_charges += units::to_kilojoule( get_power_level() );
+    }
+
+    for( const item *i : all_items_with_flag( flag_IS_UPS ) ) {
+        available_charges += i->ammo_remaining();
+    }
+
+    return available_charges;
+}
+
+int Character::consume_ups( int qty, const int radius )
+{
+    const int wanted_qty = qty;
+
+    // UPS from mounted mech
+    if( qty != 0 && is_mounted() && mounted_creature.get()->has_flag( MF_RIDEABLE_MECH ) &&
+        mounted_creature.get()->battery_item ) {
+        auto *mons = mounted_creature.get();
+        int power_drain = std::min( mons->battery_item->ammo_remaining(), qty );
+        mons->use_mech_power( -power_drain );
+        qty -= std::min( qty, power_drain );
+    }
+
+    // UPS from bionic
+    if( qty != 0 && has_power() && has_active_bionic( bio_ups ) ) {
+        int bio = std::min( units::to_kilojoule( get_power_level() ), qty );
+        mod_power_level( units::from_kilojoule( -bio ) );
+        qty -= std::min( qty, bio );
+    }
+
+    // UPS from inventory
+    if( qty != 0 ) {
+        std::vector<const item *> ups_items = all_items_with_flag( flag_IS_UPS );
+        for( const item *i : ups_items ) {
+            qty -= const_cast<item *>( i )->ammo_consume( qty, tripoint_zero, nullptr );
+        }
+    }
+
+    // UPS from nearby map
+    if( qty != 0 && radius > 0 ) {
+        inventory inv = crafting_inventory( pos(), radius, true );
+
+        int ups = inv.charges_of( itype_UPS, qty );
+        if( qty != 0 && ups > 0 ) {
+            qty -= get_map().consume_ups( pos(), radius, ups );
+        }
+    }
+
+    return wanted_qty - qty;
+}
+
 std::list<item> Character::use_charges( const itype_id &what, int qty, const int radius,
                                         const std::function<bool( const item & )> &filter )
 {
@@ -11363,33 +11389,9 @@ std::list<item> Character::use_charges( const itype_id &what, int qty, const int
         return res;
 
     } else if( what == itype_UPS ) {
-        if( is_mounted() && mounted_creature.get()->has_flag( MF_RIDEABLE_MECH ) &&
-            mounted_creature.get()->battery_item ) {
-            auto *mons = mounted_creature.get();
-            int power_drain = std::min( mons->battery_item->ammo_remaining(), qty );
-            mons->use_mech_power( -power_drain );
-            qty -= std::min( qty, power_drain );
-            return res;
-        }
-        if( has_power() && has_active_bionic( bio_ups ) ) {
-            int bio = std::min( units::to_kilojoule( get_power_level() ), qty );
-            mod_power_level( units::from_kilojoule( -bio ) );
-            qty -= std::min( qty, bio );
-        }
-
-        int adv = inv.charges_of( itype_adv_UPS_off, static_cast<int>( std::ceil( qty * 0.6 ) ) );
-        if( adv > 0 ) {
-            std::list<item> found = use_charges( itype_adv_UPS_off, adv, radius );
-            res.splice( res.end(), found );
-            qty -= std::min( qty, static_cast<int>( adv / 0.6 ) );
-        }
-
-        int ups = inv.charges_of( itype_UPS_off, qty );
-        if( ups > 0 ) {
-            std::list<item> found = use_charges( itype_UPS_off, ups, radius );
-            res.splice( res.end(), found );
-            qty -= std::min( qty, ups );
-        }
+        // Fairly sure that nothing comes here. But handle it anyways.
+        debugmsg( _( "This UPS use needs updating.  Create issue on github." ) );
+        consume_ups( qty, radius );
         return res;
     }
 
@@ -11422,7 +11424,7 @@ std::list<item> Character::use_charges( const itype_id &what, int qty, const int
     }
 
     if( has_tool_with_UPS ) {
-        use_charges( itype_UPS, qty, radius );
+        consume_ups( qty, radius );
     }
 
     return res;
@@ -12017,7 +12019,7 @@ bool Character::sees_with_infrared( const Creature &critter ) const
     // we're seeing in infra red not via light.
     int range = sight_range( default_daylight_level() );
 
-    if( is_player() || critter.is_player() ) {
+    if( is_avatar() || critter.is_avatar() ) {
         // Players should not use map::sees
         // Likewise, players should not be "looked at" with map::sees, not to break symmetry
         return here.pl_line_of_sight( critter.pos(), range );
@@ -12601,7 +12603,7 @@ npc_attitude Character::get_attitude() const
 bool Character::sees( const tripoint &t, bool, int ) const
 {
     const int wanted_range = rl_dist( pos(), t );
-    bool can_see = is_player() ? get_map().pl_sees( t, wanted_range ) :
+    bool can_see = is_avatar() ? get_map().pl_sees( t, wanted_range ) :
                    Creature::sees( t );
     // Clairvoyance is now pretty cheap, so we can check it early
     if( wanted_range < MAX_CLAIRVOYANCE && wanted_range < clairvoyance() ) {
@@ -13114,7 +13116,7 @@ int Character::item_reload_cost( const item &it, const item &ammo, int qty ) con
     } else if( it.type->magazine ) {
         cost = it.type->magazine->reload_time * qty;
     } else {
-        cost = it.contents.obtain_cost( ammo );
+        cost = it.obtain_cost( ammo );
     }
 
     skill_id sk = it.is_gun() ? it.type->gun->skill_used : skill_gun;
@@ -13230,4 +13232,18 @@ bool Character::is_driving() const
 {
     const optional_vpart_position vp = get_map().veh_at( pos() );
     return vp && vp->vehicle().is_moving() && vp->vehicle().player_in_control( *this );
+}
+
+time_duration Character::estimate_effect_dur( const skill_id &relevant_skill,
+        const efftype_id &effect, const time_duration &error_magnitude,
+        const time_duration &minimum_error, int threshold, const Creature &target ) const
+{
+    const time_duration zero_duration = 0_turns;
+
+    int skill_lvl = get_skill_level( relevant_skill );
+
+    time_duration estimate = std::max( zero_duration, target.get_effect_dur( effect ) +
+                                       rng_float( -1, 1 ) * ( minimum_error + ( error_magnitude - minimum_error ) *
+                                               std::max( 0.0, static_cast<double>( threshold - skill_lvl ) / threshold ) ) );
+    return estimate;
 }

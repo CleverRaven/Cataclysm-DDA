@@ -257,7 +257,7 @@
     "armor_bullet": 40,
     "vision_night": 5,
     "path_settings": { "max_dist": 5, "avoid_traps": true, "avoid_sharp": true },
-    "special_attacks": [ [ "SMASH", 20 ], [ "BIO_OP_TAKEDOWN", 20 ] ],
+    "special_attacks": [ { "id": "smash", "throw_strength": 72 }, [ "BIO_OP_TAKEDOWN", 20 ] ],
     "death_drops": "mon_robofac_prototype_drops",
     "death_function": { "corpse_type": "BROKEN" },
     "flags": [
