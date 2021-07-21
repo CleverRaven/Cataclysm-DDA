@@ -760,38 +760,29 @@
       {
         "id": "buff_swordsmanship_static",
         "name": "Swordsman's Stance",
-        "description": "Through chivalry and vigilance, your defense with a blade has increased.\n\n+1 Dodge attempts, blocked damage decreased by 50% of Strength.",
+        "description": "Through chivalry and vigilance, your defense with a blade has increased.\n\n+1 block attempts, blocked damage decreased by 50% of Strength.",
         "melee_allowed": true,
-        "bonus_dodges": 1,
+        "bonus_blocks": 1,
         "flat_bonuses": [ { "stat": "block", "scaling-stat": "str", "scale": 0.5 } ]
       }
     ],
-    "onblock_buffs": [
-      {
-        "id": "buff_swordsmanship_onblock",
-        "name": "Deflection",
-        "description": "You deflected your enemy's attack and now they are open to a counterattack!\nEnables \"Throw\" and \"Mordhau\" techniques.\nLasts 1 turn.",
-        "skill_requirements": [ { "name": "melee", "level": 1 } ],
-        "melee_allowed": true,
-        "buff_duration": 1
-      }
-    ],
-    "oncrit_buffs": [
-      {
-        "id": "buff_swordsmanship_oncrit",
-        "name": "Half Swording",
-        "description": "Your powerful attack has given you an opening. You use one hand to grip the blade for greater control. \nEnables \"Vicious Strike\" techniques.\nLasts 1 turn.",
-        "skill_requirements": [ { "name": "melee", "level": 5 } ],
-        "melee_allowed": true,
-        "buff_duration": 1
-      }
-    ],
+    "onpause_buffs": [
+		{
+			"id":"buff_swordsmanship_halfsword",
+			"name": "Half Swording",
+			"description": "You grip the blade part way down for greater control. \n\n Blocked damage decreased an additional 50% of Strength, -1 Accuracy",
+			"skill_requirements": [ { "name": "melee", "level": 2 } ],
+			"melee_allowed": true,
+			"buff_duration": 3,
+			"flat_bonuses": [ { "stat": "block", "scaling-stat": "str", "scale": 0.5 }, { "stat": "hit", "scale": -1.0 } ]
+		}
+	],
     "techniques": [
-      "tec_swordsmanship_grab",
-      "tec_swordsmanship_break",
-      "tec_swordsmanship_vicious",
-      "tec_swordsmanship_ringen",
+	  "tec_swordsmanship_mastercut"
       "tec_swordsmanship_mordhau"
+	  "tec_swordsmanship_feint"
+	  "tec_swordsmanship_precise"
+	  "tec_swordsmanship_ringen"
     ],
     "weapons": [
       "arming_sword",
@@ -812,7 +803,12 @@
       "sword_wood",
       "zweihander",
       "zweihander_inferior",
-      "zweihander_fake"
+      "zweihander_fake",
+	  "cutlass",
+	  "cutlass_fake",
+	  "cutlass_inferior",
+	  "cavalry_sabre",
+	  "cavalry_sabre_fake"
     ]
   },
   {
