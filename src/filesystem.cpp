@@ -98,34 +98,30 @@ namespace
 template <typename Function>
 void for_each_dir_entry( const std::string &path, Function function )
 {
-    using dir_ptr = DIR*;
-
     if( path.empty() ) {
         return;
     }
 
-    const dir_ptr root = opendir( path.c_str() );
-    if( !root ) {
-        const char *e_str = strerror( errno );
+    std::error_code ec;
+    auto dir_iter = fs::directory_iterator( path, ec );
+    if( ec ) {
+        std::string e_str = ec.message();
         DebugLog( D_WARNING, D_MAIN ) << "opendir [" << path << "] failed with \"" << e_str << "\".";
         return;
     }
-
-    while( const dirent *entry = readdir( root ) ) {
-        function( *entry );
+    for( auto &dir_entry : dir_iter ) {
+        function( dir_entry );
     }
-    closedir( root );
 }
 
 //--------------------------------------------------------------------------------------------------
-bool is_directory_stat( const std::string &full_path )
+// Returns true if entry is a directory, false otherwise.
+//--------------------------------------------------------------------------------------------------
+bool is_directory( const fs::directory_entry &entry, const std::string &full_path )
 {
-    if( full_path.empty() ) {
-        return false;
-    }
-
+    // We do an extra dance here because directory_entry might not have a cached valid stat result.
     std::error_code ec;
-    bool result = fs::is_directory( full_path, ec );
+    bool result = entry.is_directory( ec );
 
     if( ec ) {
         std::string e_str = ec.message();
@@ -137,37 +133,13 @@ bool is_directory_stat( const std::string &full_path )
 }
 
 //--------------------------------------------------------------------------------------------------
-// Returns true if entry is a directory, false otherwise.
-//--------------------------------------------------------------------------------------------------
-bool is_directory( const dirent &entry, const std::string &full_path )
-{
-    if( entry.d_type == DT_DIR ) {
-        return true;
-    }
-
-    if( entry.d_type == DT_UNKNOWN ) {
-        return is_directory_stat( full_path );
-    }
-
-    return false;
-}
-
-//--------------------------------------------------------------------------------------------------
-// Returns true if the name of entry matches "." or "..".
-//--------------------------------------------------------------------------------------------------
-bool is_special_dir( const dirent &entry )
-{
-    return !strncmp( entry.d_name, ".",  sizeof( entry.d_name ) - 1 ) ||
-           !strncmp( entry.d_name, "..", sizeof( entry.d_name ) - 1 );
-}
-
-//--------------------------------------------------------------------------------------------------
 // If at_end is true, returns whether entry's name ends in match.
 // Otherwise, returns whether entry's name contains match.
 //--------------------------------------------------------------------------------------------------
-bool name_contains( const dirent &entry, const std::string &match, const bool at_end )
+bool name_contains( const fs::directory_entry &entry, const std::string &match, const bool at_end )
 {
-    const size_t len_fname = strlen( entry.d_name );
+    std::string entry_name = entry.path().filename().u8string();
+    const size_t len_fname = entry_name.length();
     const size_t len_match = match.length();
 
     if( len_match > len_fname ) {
@@ -175,7 +147,7 @@ bool name_contains( const dirent &entry, const std::string &match, const bool at
     }
 
     const size_t offset = at_end ? ( len_fname - len_match ) : 0;
-    return strstr( entry.d_name + offset, match.c_str() ) != nullptr;
+    return strstr( entry_name.c_str() + offset, match.c_str() ) != nullptr;
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -204,13 +176,9 @@ std::vector<std::string> find_file_if_bfs( const std::string &root_path,
         const std::ptrdiff_t n_dirs    = static_cast<std::ptrdiff_t>( directories.size() );
         const std::ptrdiff_t n_results = static_cast<std::ptrdiff_t>( results.size() );
 
-        for_each_dir_entry( path, [&]( const dirent & entry ) {
-            // exclude special directories.
-            if( is_special_dir( entry ) ) {
-                return;
-            }
-
-            const auto full_path = path + "/" + entry.d_name;
+        // We could use fs::recursive_directory_iterator maybe
+        for_each_dir_entry( path, [&]( const fs::directory_entry & entry ) {
+            const auto full_path = entry.path().generic_u8string();
 
             // don't add files ending in '~'.
             if( full_path.back() == '~' ) {
@@ -248,7 +216,8 @@ std::vector<std::string> find_file_if_bfs( const std::string &root_path,
 std::vector<std::string> get_files_from_path( const std::string &pattern,
         const std::string &root_path, const bool recursive_search, const bool match_extension )
 {
-    return find_file_if_bfs( root_path, recursive_search, [&]( const dirent & entry, bool ) {
+    return find_file_if_bfs( root_path, recursive_search, [&]( const fs::directory_entry & entry,
+    bool ) {
         return name_contains( entry, pattern, match_extension );
     } );
 }
@@ -267,7 +236,8 @@ std::vector<std::string> get_directories_with( const std::string &pattern,
         return std::vector<std::string>();
     }
 
-    auto files = find_file_if_bfs( root_path, recursive_search, [&]( const dirent & entry, bool ) {
+    auto files = find_file_if_bfs( root_path, recursive_search, [&]( const fs::directory_entry & entry,
+    bool ) {
         return name_contains( entry, pattern, true );
     } );
 
@@ -298,7 +268,8 @@ std::vector<std::string> get_directories_with( const std::vector<std::string> &p
     const auto ext_beg = std::begin( patterns );
     const auto ext_end = std::end( patterns );
 
-    auto files = find_file_if_bfs( root_path, recursive_search, [&]( const dirent & entry, bool ) {
+    auto files = find_file_if_bfs( root_path, recursive_search, [&]( const fs::directory_entry & entry,
+    bool ) {
         return std::any_of( ext_beg, ext_end, [&]( const std::string & ext ) {
             return name_contains( entry, ext, true );
         } );
