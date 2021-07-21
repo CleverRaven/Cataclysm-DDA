@@ -9227,7 +9227,7 @@ cata::optional<int> iuse::lux_meter( player *p, item *, bool, const tripoint &po
     if( debug_mode ) {
         // In debug mode show extra info:
         // Sun illumination is sun with no clouds
-        const units::angle altitude = sun_azimuth_altitude( calendar::turn, location_boston ).second;
+        const units::angle altitude = sun_azimuth_altitude( calendar::turn ).second;
         p->add_msg_if_player( m_neutral,
                               "The illumination is %.1f, Sun illumination %.1f, Sun altitude %.1f.",
                               g->natural_light_level( pos.z ), sun_light_at( calendar::turn ), to_degrees( altitude ) );

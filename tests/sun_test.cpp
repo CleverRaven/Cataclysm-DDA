@@ -124,8 +124,7 @@ TEST_CASE( "sunlight and moonlight", "[sun][sunlight][moonlight]" )
         // Dawn
         CHECK( sun_moon_light_at( today_sunrise - 2_hours ) == 1.0f );
         CHECK( sun_moon_light_at( today_sunrise - 1_hours ) == Approx( 5 ).margin( 2 ) );
-        CHECK( sun_moon_light_at( today_sunrise ) == Approx( 60 ).margin( 2 ) );
-        CHECK( sun_moon_light_at( today_sunrise + 1_hours ) == Approx( 73 ).margin( 2 ) );
+        CHECK( sun_moon_light_at( today_sunrise ) == Approx( 60 ).margin( 1 ) );
         // Light gets brighter towards noon
         CHECK( sun_moon_light_at( today_sunrise + 2_hours ) >
                sun_moon_light_at( today_sunrise + 1_hours ) );
@@ -236,26 +235,26 @@ TEST_CASE( "sunrise and sunset", "[sun][sunrise][sunset][equinox][solstice]" )
 
     SECTION( "spring equinox is day 1 of spring" ) {
         // Actual sunrise and sunset on March 21st 2001 are 0545 and 1757
-        CHECK( "Year 1, Spring, day 1 6:03:22 AM" == to_string( sunrise( spring ) ) );
-        CHECK( "Year 1, Spring, day 1 6:10:41 PM" == to_string( sunset( spring ) ) );
+        CHECK( "Year 1, Spring, day 1 5:57:58 AM" == to_string( sunrise( spring ) ) );
+        CHECK( "Year 1, Spring, day 1 6:16:07 PM" == to_string( sunset( spring ) ) );
     }
 
     SECTION( "summer solstice is day 1 of summer" ) {
         // Actual sunrise and sunset on June 21st 2001 are 0407 and 1924
-        CHECK( "Year 1, Summer, day 1 4:28:48 AM" == to_string( sunrise( summer ) ) );
-        CHECK( "Year 1, Summer, day 1 7:35:10 PM" == to_string( sunset( summer ) ) );
+        CHECK( "Year 1, Summer, day 1 4:22:20 AM" == to_string( sunrise( summer ) ) );
+        CHECK( "Year 1, Summer, day 1 7:41:38 PM" == to_string( sunset( summer ) ) );
     }
 
     SECTION( "autumn equinox is day 1 of autumn" ) {
         // Actual sunrise and sunset on September 22nd 2001 are 0531 and 1741
-        CHECK( "Year 1, Autumn, day 1 5:50:59 AM" == to_string( sunrise( autumn ) ) );
-        CHECK( "Year 1, Autumn, day 1 5:54:13 PM" == to_string( sunset( autumn ) ) );
+        CHECK( "Year 1, Autumn, day 1 5:45:33 AM" == to_string( sunrise( autumn ) ) );
+        CHECK( "Year 1, Autumn, day 1 5:59:37 PM" == to_string( sunset( autumn ) ) );
     }
 
     SECTION( "winter solstice is day 1 of winter" ) {
         // Actual sunrise and sunset on December 21st 2001 are 0710 and 1614
-        CHECK( "Year 1, Winter, day 1 7:31:30 AM" == to_string( sunrise( winter ) ) );
-        CHECK( "Year 1, Winter, day 1 4:25:23 PM" == to_string( sunset( winter ) ) );
+        CHECK( "Year 1, Winter, day 1 7:25:07 AM" == to_string( sunrise( winter ) ) );
+        CHECK( "Year 1, Winter, day 1 4:31:46 PM" == to_string( sunset( winter ) ) );
     }
 
     SECTION( "spring sunrise gets earlier" ) {
@@ -408,7 +407,7 @@ TEST_CASE( "sunrise_sunset_consistency", "[sun]" )
             units::angle altitude;
             std::tie( azimuth, altitude ) =
                 sun_azimuth_altitude( this_sunrise );
-            CHECK( to_degrees( altitude ) == Approx( 0 ).margin( 0.01 ) );
+            CHECK( to_degrees( altitude ) == Approx( -1 ).margin( 0.01 ) );
         }
         {
             const time_point this_sunset = sunset( this_noon );
@@ -417,7 +416,7 @@ TEST_CASE( "sunrise_sunset_consistency", "[sun]" )
             units::angle altitude;
             std::tie( azimuth, altitude ) =
                 sun_azimuth_altitude( this_sunset );
-            CHECK( to_degrees( altitude ) == Approx( 0 ).margin( 0.01 ) );
+            CHECK( to_degrees( altitude ) == Approx( -1 ).margin( 0.01 ) );
         }
         {
             const time_point this_daylight = daylight_time( this_noon );
@@ -425,7 +424,7 @@ TEST_CASE( "sunrise_sunset_consistency", "[sun]" )
             units::angle azimuth;
             units::angle altitude;
             std::tie( azimuth, altitude ) =
-                sun_azimuth_altitude( this_daylight, location_boston );
+                sun_azimuth_altitude( this_daylight );
             CHECK( to_degrees( altitude ) == Approx( -6 ).margin( 0.01 ) );
         }
     }
