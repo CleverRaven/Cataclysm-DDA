@@ -236,11 +236,11 @@ TEST_CASE( "ursine vision", "[character][ursine][vision]" )
             light_here = here.ambient_light_at( dummy.pos() );
             REQUIRE( light_here == Approx( LIGHT_AMBIENT_DIM ).margin( 1.0f ) );
 
-            THEN( "unimpaired sight, with 10 tiles of range" ) {
+            THEN( "unimpaired sight, with 8 tiles of range" ) {
                 dummy.recalc_sight_limits();
                 CHECK_FALSE( dummy.sight_impaired() );
                 CHECK( dummy.unimpaired_range() == 60 );
-                CHECK( dummy.sight_range( light_here ) == 10 );
+                CHECK( dummy.sight_range( light_here ) == 8 );
             }
         }
 
@@ -248,13 +248,13 @@ TEST_CASE( "ursine vision", "[character][ursine][vision]" )
             calendar::turn = calendar::turn_zero + 14_days;
             here.build_map_cache( 0, false );
             light_here = here.ambient_light_at( dummy.pos() );
-            REQUIRE( light_here == Approx( LIGHT_AMBIENT_LIT ) );
+            REQUIRE( light_here == Approx( 7 ) );
 
             THEN( "unimpaired sight, with 27 tiles of range" ) {
                 dummy.recalc_sight_limits();
                 CHECK_FALSE( dummy.sight_impaired() );
                 CHECK( dummy.unimpaired_range() == 60 );
-                CHECK( dummy.sight_range( light_here ) == 27 );
+                CHECK( dummy.sight_range( light_here ) == 18 );
             }
         }
 

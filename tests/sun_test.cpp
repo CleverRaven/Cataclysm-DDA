@@ -164,8 +164,8 @@ TEST_CASE( "sunlight and moonlight", "[sun][sunlight][moonlight]" )
 
         WHEN( "the moon is full" ) {
             REQUIRE( get_moon_phase( full_moon_midnight ) == MOON_FULL );
-            THEN( "moonlight is 10.0" ) {
-                CHECK( 10.0f == sun_moon_light_at( full_moon_midnight ) );
+            THEN( "moonlight is 7.0" ) {
+                CHECK( 7.0f == sun_moon_light_at( full_moon_midnight ) );
             }
         }
     }
