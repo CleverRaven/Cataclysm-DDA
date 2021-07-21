@@ -53,6 +53,18 @@ Optional. Array of strings
 The proficiencies that must be obtained before this one can.  You cannot gain experience in a proficiency without the necessary prerequisites.
 
 ### `bonuses`
-Optional. Array of objects
+Optional. Object, with an array of object as values
 This member is used to apply bonuses to certain activities given the player has a particular proficiency. The bonuses applied must be hardcoded to the activity in question.
-A type, and value must be specified preceded by a key. Current valid types are strength, dexterity, intelligence, and perception.
+The keys of the object correspond to what bonuses are - e.g. the `archery` key marks bonuses used for `archery`.
+The general format is: `"key": [ { "type": "string", "value": float } ]`.
+
+The values of the keys are an array of objects constructed as so:
+
+#### `type`
+Mandatory. String
+Where this bonus applies. Valid values are `"strength"`, `"dexterity"`, `"intelligence"`, `"perception"`.
+
+#### `value`
+Mandatory. Float
+What the bonus is. This can be any numeric value representable as a floating point number.
+Values of the same type from all available proficiencies are summed together to produce the final bonus for a proficiency.
