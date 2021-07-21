@@ -241,7 +241,7 @@ void npc_attack_gun::use( npc &source, const tripoint &location ) const
         return;
     }
 
-    if( !gun.ammo_sufficient() ) {
+    if( !gun.ammo_sufficient( &source ) ) {
         source.do_reload( gun );
         add_msg_debug( debugmode::debug_filter::DF_NPC, "%s is reloading %s", source.disp_name(),
                        gun.display_name() );
