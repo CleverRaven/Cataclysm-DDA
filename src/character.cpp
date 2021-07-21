@@ -12443,7 +12443,7 @@ double Character::vomit_mod()
     // If you're already nauseous, any food in your stomach greatly
     // increases chance of vomiting. Liquids don't provoke vomiting, though.
     if( stomach.contains() != 0_ml && has_effect( effect_nausea ) ) {
-        mod *= 5 * get_effect_int( effect_nausea );
+        mod *= get_effect_int( effect_nausea );
     }
     return mod;
 }
