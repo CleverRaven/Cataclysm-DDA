@@ -19,6 +19,14 @@
     "color": "blue"
   },
   {
+    "id": "mon_zombie_medical_regenerating",
+    "type": "MONSTER",
+    "name": { "str": "regenerating zombie medic" },
+    "description": "This hairless corpse is dressed like a medical professional.  Its pale pinkish flesh appears to be squirming and moving across its body, quickly covering and fixing any wounds received.",
+    "copy-from": "mon_zombie_regenerating",
+    "death_drops": "mon_zombie_medical_death_drops"
+  },
+  {
     "id": "mon_skeleton_medical",
     "type": "MONSTER",
     "name": { "str_sp": "sawbones" },
