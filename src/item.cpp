@@ -5939,14 +5939,14 @@ static float calc_hourly_rotpoints_at_temp( const int temp )
         return 0.f;
     } else if( temp < dropoff ) {
         // Linear progress from 32 F (0 C) to 38 F (3 C)
-        return 600.f * std::pow( 2.f, -27.f / 16.f ) * ( temp - temperatures::freezing );
+        return 600.f * std::exp2( -27.f / 16.f ) * ( temp - temperatures::freezing );
     } else if( temp < max_rot_temp ) {
         // Exponential progress from 38 F (3 C) to 105 F (41 C)
-        return 3600.f * std::pow( 2.f, ( temp - 65.f ) / 16.f );
+        return 3600.f * std::exp2( ( temp - 65.f ) / 16.f );
     } else {
         // Constant rot from 105 F (41 C) to 145 F (63 C)
         // This is approximately 20364.67 rot/hour
-        return 3600.f * std::pow( 2.f, ( max_rot_temp - 65.f ) / 16.f );
+        return 3600.f * std::exp2( ( max_rot_temp - 65.f ) / 16.f );
     }
 }
 
