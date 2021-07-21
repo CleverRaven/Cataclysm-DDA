@@ -1045,6 +1045,7 @@
     "skill_requirements": [ { "name": "melee", "level": 4 } ],
     "melee_allowed": true,
     "req_buffs": [ "buff_swordsmanship_halfsword" ],
+	"weapon_damage_requirements": [ { "type": "bash", "min": 8 } ],
     "crit_tec": true,
     "stun_dur": 2,
     "mult_bonuses": [
@@ -1062,7 +1063,7 @@
 	"melee_allowed": true,
     "defensive": true,
     "miss_recovery": true
-  {
+  },
  {
     "type": "technique",
     "id": "tec_swordsmanship_mastercut",
