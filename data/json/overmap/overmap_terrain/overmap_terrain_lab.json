@@ -535,6 +535,15 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "lab_2x1_CORE_-1W", "lab_2x1_CORE_-1E" ],
+    "name": "Lab Cargo Zone",
+    "sym": "C",
+    "color": "white",
+    "see_cost": 5,
+    "flags": [ "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": [
       "lab_res_8_SWD_ground",
       "lab_res_8_SED_ground",
