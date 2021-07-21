@@ -2183,13 +2183,13 @@ void learn_spell_actor::info( const item &, std::vector<iteminfo> &dump ) const
                 const spell sp = pc.magic->get_spell( sp_id );
                 spell_text += ": " + string_format( _( "Level %u" ), sp.get_level() );
                 if( sp.is_max_level() ) {
-                    spell_text = "<color_light_green>" + spell_text + _( " (Max)" ) + "</color>";
+                    spell_text = string_format( _( "<color_light_green>%1$s (Max)</color>" ), spell_text );
                 } else {
-                    spell_text = "<color_yellow>" + spell_text + "</color>";
+                    spell_text = string_format( "<color_yellow>%s</color>", spell_text );
                 }
             } else {
                 if( pc.magic->can_learn_spell( pc, sp_id ) ) {
-                    spell_text = "<color_light_blue>" + spell_text + "</color>";
+                    spell_text = string_format( "<color_light_blue>%s</color>", spell_text );
                 }
             }
             dump.emplace_back( "SPELL", spell_text );
