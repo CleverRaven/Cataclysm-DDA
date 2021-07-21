@@ -13,7 +13,7 @@
   "default_time_multiplier": 1.5,
   "default_fail_multiplier": 1.2,
   "required_proficiencies": [ "prof_bow_expert" ],
-  "bonuses": [ { "category": "archery", "type": "strength", "value": 1 } ]
+  "bonuses": { "archery": [ { "type": "strength", "value": 1 } ] }
 }
 ```
 ### `id`
@@ -55,4 +55,4 @@ The proficiencies that must be obtained before this one can.  You cannot gain ex
 ### `bonuses`
 Optional. Array of objects
 This member is used to apply bonuses to certain activities given the player has a particular proficiency. The bonuses applied must be hardcoded to the activity in question.
-A category, type, and value must be specified. Current valid types are strength, dexterity, intelligence, and perception.
+A type, and value must be specified preceded by a key. Current valid types are strength, dexterity, intelligence, and perception.

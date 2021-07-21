@@ -45,7 +45,6 @@
 #include "player_activity.h"
 #include "pldata.h"
 #include "point.h"
-#include "proficiency.h"
 #include "recipe.h"
 #include "ret_val.h"
 #include "stomach.h"
@@ -102,6 +101,7 @@ template <typename E> struct enum_traits;
 enum npc_attitude : int;
 enum action_id : int;
 enum class steed_type : int;
+enum class proficiency_bonus_type : int;
 
 using drop_location = std::pair<item_location, int>;
 using drop_locations = std::list<drop_location>;

@@ -50,7 +50,7 @@
     "time_to_learn": "5 h",
     "default_time_multiplier": 1.5,
     "default_fail_multiplier": 1.2,
-    "bonuses": [ { "category": "archery", "type": "strength", "value": 1 } ]
+    "bonuses": { "archery": [ { "type": "strength", "value": 1 } ] }
   },
   {
     "type": "proficiency",
@@ -62,7 +62,7 @@
     "default_time_multiplier": 1.5,
     "default_fail_multiplier": 1.2,
     "required_proficiencies": [ "prof_bow_basic" ],
-    "bonuses": [ { "category": "archery", "type": "strength", "value": 1 } ]
+    "bonuses": { "archery": [ { "type": "strength", "value": 1 } ] }
   },
   {
     "type": "proficiency",
@@ -74,6 +74,6 @@
     "default_time_multiplier": 1.5,
     "default_fail_multiplier": 1.2,
     "required_proficiencies": [ "prof_bow_expert" ],
-    "bonuses": [ { "category": "archery", "type": "strength", "value": 1 } ]
+    "bonuses": { "archery": [ { "type": "strength", "value": 1 } ] }
   }
 ]
