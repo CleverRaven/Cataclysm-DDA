@@ -1029,9 +1029,9 @@
     "req_buffs": [ "buff_swordsmanship_halfsword" ],
     "crit_ok": true,
     "flat_bonuses": [
-          { "stat": "arpen", "type": "cut", "scaling-stat": "dex", "scale": 0.5 },
-		  { "stat": "arpen", "type": "stab", "scaling-stat": "dex", "scale": 0.5 },
-          { "stat": "arpen", "type": "bash", "scaling-stat": "dex", "scale": 0.5 }
+      { "stat": "arpen", "type": "cut", "scaling-stat": "dex", "scale": 0.5 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "dex", "scale": 0.5 },
+      { "stat": "arpen", "type": "bash", "scaling-stat": "dex", "scale": 0.5 }
     ]
   },
   {
@@ -1045,7 +1045,7 @@
     "skill_requirements": [ { "name": "melee", "level": 4 } ],
     "melee_allowed": true,
     "req_buffs": [ "buff_swordsmanship_halfsword" ],
-	"weapon_damage_requirements": [ { "type": "bash", "min": 8 } ],
+    "weapon_damage_requirements": [ { "type": "bash", "min": 8 } ],
     "crit_tec": true,
     "stun_dur": 2,
     "mult_bonuses": [
@@ -1055,16 +1055,19 @@
     ]
   },
   {
-	"type": "technique",
-	"id": "tec_swordsmanship_feint",
-	"name": "Flow Drills",
-	"messages": [ "With practiced motion you move from a failed strike into another","With practiced motion <npcname> moves from a failed strike into another" ],
-	"skill_requirements": [ { "name": "melee", "level": 1 } ],
-	"melee_allowed": true,
+    "type": "technique",
+    "id": "tec_swordsmanship_feint",
+    "name": "Flow Drills",
+    "messages": [
+      "With practiced motion you move from a failed strike into another",
+      "With practiced motion <npcname> moves from a failed strike into another"
+    ],
+    "skill_requirements": [ { "name": "melee", "level": 1 } ],
+    "melee_allowed": true,
     "defensive": true,
     "miss_recovery": true
   },
- {
+  {
     "type": "technique",
     "id": "tec_swordsmanship_mastercut",
     "name": "Master Cut",
@@ -1073,9 +1076,8 @@
     "melee_allowed": true,
     "crit_ok": true,
     "block_counter": true,
-	"mult_bonuses": [
-      { "stat": "movecost", "scale": 0.75 }
-    ]
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.75 } ]
+  }
   },
   {
     "type": "technique",
