@@ -259,7 +259,7 @@ TEST_CASE( "character height and body size mutations", "[biometrics][height][mut
             REQUIRE( dummy.get_size() == creature_size::tiny );
 
             THEN( "they become 50% of their original height" ) {
-                CHECK( dummy.height() == init_height / 2 );
+                CHECK( dummy.height() == init_height * 0.5 );
             }
         }
 
@@ -268,7 +268,7 @@ TEST_CASE( "character height and body size mutations", "[biometrics][height][mut
             REQUIRE( dummy.get_size() == creature_size::small );
 
             THEN( "they become 75% of their original height" ) {
-                CHECK( dummy.height() == ( init_height * 3 ) / 4 );
+                CHECK( dummy.height() == init_height * 0.75 );
             }
         }
 
@@ -277,7 +277,7 @@ TEST_CASE( "character height and body size mutations", "[biometrics][height][mut
             REQUIRE( dummy.get_size() == creature_size::large );
 
             THEN( "they become 125% of their original height" ) {
-                CHECK( dummy.height() == ( init_height * 5 ) / 4 );
+                CHECK( dummy.height() == init_height * 1.25 );
             }
         }
 
@@ -286,7 +286,7 @@ TEST_CASE( "character height and body size mutations", "[biometrics][height][mut
             REQUIRE( dummy.get_size() == creature_size::huge );
 
             THEN( "they become 150% of their original height" ) {
-                CHECK( dummy.height() == ( init_height * 3 ) / 2 );
+                CHECK( dummy.height() == init_height * 1.5 );
             }
         }
     }
@@ -294,20 +294,20 @@ TEST_CASE( "character height and body size mutations", "[biometrics][height][mut
     // More generally
     // Characters of any height should be affected to the same degree
 
-    GIVEN( "character height strarted at 145cm" ) {
-        CHECK( height_with_base_and_size( dummy, 145, "SMALL2" ) == 145 / 2 );
-        CHECK( height_with_base_and_size( dummy, 145, "SMALL" ) == ( 145 * 3 ) / 4 );
+    GIVEN( "character height started at 145cm" ) {
+        CHECK( height_with_base_and_size( dummy, 145, "SMALL2" ) == 145 * 0.5 );
+        CHECK( height_with_base_and_size( dummy, 145, "SMALL" ) == 145 * 0.75 );
         CHECK( height_with_base_and_size( dummy, 145, "MEDIUM" ) == 145 );
-        CHECK( height_with_base_and_size( dummy, 145, "LARGE" ) == ( 145 * 5 ) / 4 );
-        CHECK( height_with_base_and_size( dummy, 145, "HUGE" ) == ( 145 * 3 ) / 2 );
+        CHECK( height_with_base_and_size( dummy, 145, "LARGE" ) == 145 * 1.25 );
+        CHECK( height_with_base_and_size( dummy, 145, "HUGE" ) == 145 * 1.5 );
     }
 
     SECTION( "character height started at 200cm" ) {
-        CHECK( height_with_base_and_size( dummy, 200, "SMALL2" ) == 200 / 2 );
-        CHECK( height_with_base_and_size( dummy, 200, "SMALL" ) == ( 200 * 3 ) / 4 );
+        CHECK( height_with_base_and_size( dummy, 200, "SMALL2" ) == 200 * 0.5 );
+        CHECK( height_with_base_and_size( dummy, 200, "SMALL" ) == 200 * 0.75 );
         CHECK( height_with_base_and_size( dummy, 200, "MEDIUM" ) == 200 );
-        CHECK( height_with_base_and_size( dummy, 200, "LARGE" ) == ( 200 * 5 ) / 4 );
-        CHECK( height_with_base_and_size( dummy, 200, "HUGE" ) == ( 200 * 3 ) / 2 );
+        CHECK( height_with_base_and_size( dummy, 200, "LARGE" ) == 200 * 1.25 );
+        CHECK( height_with_base_and_size( dummy, 200, "HUGE" ) == 200 * 1.5 );
     }
 }
 
@@ -667,4 +667,3 @@ TEST_CASE( "body mass effect on speed", "[bmi][speed]" )
     CHECK( kcal_speed_penalty_at_bmi( dummy, 41.0f ) == 0 );
     CHECK( kcal_speed_penalty_at_bmi( dummy, 42.0f ) == 0 );
 }
-

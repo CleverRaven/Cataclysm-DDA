@@ -2818,7 +2818,8 @@ class Character : public Creature, public visitable
 
         /**
         * Min and max height available to player at character creation
-        * in centimeters. 2 std. deviations below average female height
+        * in centimeters.
+        * minimum is 2 std. deviations below average female height
         */
         /**@{*/
         static constexpr int min_init_height = 145;
