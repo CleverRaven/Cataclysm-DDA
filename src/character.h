@@ -2753,7 +2753,7 @@ class Character : public Creature, public visitable
         @param minimum_error Maximum error when skill is >= threshold */
         time_duration estimate_effect_dur( const skill_id &relevant_skill, const efftype_id &effect,
                                            const time_duration &error_magnitude,
-                                           const time_duration &mimimum_error, int threshold, const Creature &target ) const;
+                                           const time_duration &minimum_error, int threshold, const Creature &target ) const;
 
         // inherited from visitable
         bool has_quality( const quality_id &qual, int level = 1, int qty = 1 ) const override;
