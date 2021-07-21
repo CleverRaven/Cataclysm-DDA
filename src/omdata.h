@@ -442,7 +442,7 @@ struct overmap_special_terrain {
 struct overmap_special_connection {
     tripoint p;
     cata::optional<tripoint> from;
-    om_direction::type initial_dir = om_direction::type::invalid;
+    om_direction::type initial_dir = om_direction::type::invalid; // NOLINT(cata-serialize)
     // TODO: Remove it.
     string_id<oter_type_t> terrain;
     string_id<overmap_connection> connection;

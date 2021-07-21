@@ -34,9 +34,9 @@ class player_activity
         activity_id type;
         cata::clone_ptr<activity_actor> actor;
 
-        std::set<distraction_type> ignored_distractions;
+        std::set<distraction_type> ignored_distractions; // NOLINT(cata-serialize)
 
-        bool ignoreQuery = false;
+        bool ignoreQuery = false; // NOLINT(cata-serialize)
 
     public:
         /** Total number of moves required to complete the activity */
@@ -65,8 +65,8 @@ class player_activity
         std::vector<weak_ptr_fast<monster>> monsters;
         tripoint placement;
 
-        bool no_drink_nearby_for_auto_consume = false;
-        bool no_food_nearby_for_auto_consume = false;
+        bool no_drink_nearby_for_auto_consume = false; // NOLINT(cata-serialize)
+        bool no_food_nearby_for_auto_consume = false; // NOLINT(cata-serialize)
         /** If true, the activity will be auto-resumed next time the player attempts
          *  an identical activity. This value is set dynamically.
          */
@@ -74,7 +74,7 @@ class player_activity
         /** Flag that will suppress the relatively expensive fire refueling search process.
          *  Initially assume there is a fire unless the activity proves not to have one.
          */
-        bool have_fire = true;
+        bool have_fire = true; // NOLINT(cata-serialize)
 
         player_activity();
         // This constructor does not work with activities using the new activity_actor system

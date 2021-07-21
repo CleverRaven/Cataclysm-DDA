@@ -528,6 +528,7 @@ void translation::deserialize( JsonIn &jsin )
 {
     // reset the cache
     cached_language_version = INVALID_LANGUAGE_VERSION;
+    cached_num = 0;
     cached_translation = nullptr;
 
     if( jsin.test_string() ) {

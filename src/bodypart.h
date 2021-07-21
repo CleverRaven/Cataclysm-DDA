@@ -282,9 +282,9 @@ class bodypart
         int damage_bandaged = 0;
         int damage_disinfected = 0;
 
-        encumbrance_data encumb_data;
+        encumbrance_data encumb_data; // NOLINT(cata-serialize)
 
-        std::array<int, NUM_WATER_TOLERANCE> mut_drench;
+        std::array<int, NUM_WATER_TOLERANCE> mut_drench; // NOLINT(cata-serialize)
 
     public:
         bodypart(): id( bodypart_str_id::NULL_ID() ), mut_drench() {}

@@ -37,12 +37,12 @@ namespace
 struct game_message : public JsonDeserializer, public JsonSerializer {
     std::string       message;
     time_point timestamp_in_turns  = calendar::turn_zero;
-    int               timestamp_in_user_actions = 0;
+    int               timestamp_in_user_actions = 0; // NOLINT(cata-serialize)
     int               count = 1;
     // number of times this message has been seen while it was in cooldown.
-    unsigned cooldown_seen = 1;
+    unsigned cooldown_seen = 1; // NOLINT(cata-serialize)
     // hide the message, because at some point it was in cooldown period.
-    bool cooldown_hidden = false;
+    bool cooldown_hidden = false; // NOLINT(cata-serialize)
     game_message_type type  = m_neutral;
 
     game_message() = default;

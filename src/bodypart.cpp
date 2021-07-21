@@ -606,6 +606,7 @@ void bodypart::serialize( JsonOut &json ) const
     json.member( "id", id );
     json.member( "hp_cur", hp_cur );
     json.member( "hp_max", hp_max );
+    json.member( "healed_total", healed_total );
     json.member( "damage_bandaged", damage_bandaged );
     json.member( "damage_disinfected", damage_disinfected );
 
@@ -623,6 +624,7 @@ void bodypart::deserialize( JsonIn &jsin )
     jo.read( "id", id, true );
     jo.read( "hp_cur", hp_cur, true );
     jo.read( "hp_max", hp_max, true );
+    jo.read( "healed_total", healed_total );
     jo.read( "damage_bandaged", damage_bandaged, true );
     jo.read( "damage_disinfected", damage_disinfected, true );
 
