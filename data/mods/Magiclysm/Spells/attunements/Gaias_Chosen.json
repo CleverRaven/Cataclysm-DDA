@@ -18,7 +18,6 @@
     "max_damage": -200,
     "damage_increment": -4.5,
     "max_level": 40,
-    "extra_effects": [ { "id": "gaiaschosen_samsara_cureall", "hit_self": true } ],
     "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE", "LOUD" ]
   }
 ]
