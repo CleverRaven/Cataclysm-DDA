@@ -1021,17 +1021,17 @@
   },
   {
     "type": "technique",
-    "id": "tec_swordsmanship_precise",
-    "name": "Precise Strike",
+    "id": "tec_swordsmanship_lethal",
+    "name": "Lethal Strike",
     "messages": [ "You drive the point of your blade into %s", "<npcname> drives their blade into %s" ],
     "skill_requirements": [ { "name": "melee", "level": 3 } ],
     "melee_allowed": true,
     "req_buffs": [ "buff_swordsmanship_halfsword" ],
     "crit_ok": true,
     "flat_bonuses": [
-      { "stat": "arpen", "type": "cut", "scaling-stat": "dex", "scale": 0.5 },
-      { "stat": "arpen", "type": "stab", "scaling-stat": "dex", "scale": 0.5 },
-      { "stat": "arpen", "type": "bash", "scaling-stat": "dex", "scale": 0.5 }
+      { "stat": "arpen", "type": "cut", "scaling-stat": "dex", "scale": 1 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "dex", "scale": 1 },
+      { "stat": "arpen", "type": "bash", "scaling-stat": "dex", "scale": 1 }
     ]
   },
   {
@@ -1076,7 +1076,7 @@
     "melee_allowed": true,
     "crit_ok": true,
     "block_counter": true,
-    "mult_bonuses": [ { "stat": "movecost", "scale": 0.75 } ]
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.5 } ]
   }
   },
   {
