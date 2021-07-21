@@ -778,10 +778,10 @@
 		}
 	],
     "techniques": [
-	  "tec_swordsmanship_mastercut"
-      "tec_swordsmanship_mordhau"
-	  "tec_swordsmanship_feint"
-	  "tec_swordsmanship_precise"
+	  "tec_swordsmanship_mastercut",
+      "tec_swordsmanship_mordhau",
+	  "tec_swordsmanship_feint",
+	  "tec_swordsmanship_precise",
 	  "tec_swordsmanship_ringen"
     ],
     "weapons": [
