@@ -1077,7 +1077,6 @@
     "crit_ok": true,
     "block_counter": true,
     "mult_bonuses": [ { "stat": "movecost", "scale": 0.5 } ]
-  }
   },
   {
     "type": "technique",
