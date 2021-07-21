@@ -100,7 +100,7 @@
       {
         "id": "buff_bojutsu_onpause",
         "name": "Rolling Staff",
-        "description": "As you move you begin to rapidly and fluidly roll your staff between your hands.\n\n-20% Move cost, +10% Bash damage.\nLasts for 1 turn.",
+        "description": "You take a second to rapidly and fluidly roll your staff between your hands.\n\n-20% Move cost, +10% Bash damage.\nLasts for 1 turn.",
         "skill_requirements": [ { "name": "melee", "level": 3 } ],
         "melee_allowed": true,
         "buff_duration": 1,
