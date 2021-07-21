@@ -102,8 +102,13 @@ static const skill_id skill_driving( "driving" );
 static const skill_id skill_gun( "gun" );
 static const skill_id skill_launcher( "launcher" );
 static const skill_id skill_throw( "throw" );
+static const skill_id skill_archery( "archery" );
 
 static const bionic_id bio_railgun( "bio_railgun" );
+
+static const proficiency_id proficiency_prof_bow_basic( "prof_bow_basic" );
+static const proficiency_id proficiency_prof_bow_expert( "prof_bow_expert" );
+static const proficiency_id proficiency_prof_bow_master( "prof_bow_master" );
 
 static const std::string flag_MOUNTABLE( "MOUNTABLE" );
 
@@ -1173,6 +1178,47 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     return dealt_attack;
 }
 
+void practice_archery_proficiency( player &p, const item &relevant )
+{
+    // Do nothing, we are not doing archery
+    if( relevant.gun_skill() != skill_archery ) {
+        return;
+    }
+
+    // We are already a master, practice has no effect
+    if( p.has_proficiency( proficiency_prof_bow_master ) ) {
+        return;
+    }
+
+    // Only train archery in multiples of 100 moves (or 1 turn) for performance, focus, and simplifying calculations
+    p.archery_aim_counter++;
+    if( p.archery_aim_counter > 100 ) {
+        // Reset our counter
+        p.archery_aim_counter = 0;
+
+        // Intended to train prof_bow_basic from 0 to 100% in ~200 arrows in 5 hours from max aim, or 90s/arrow.
+        // Additionally, a shortbow is used as the basis for number of moves per max aim shot at ~250 moves.
+        // 90s/arrow / 2.5turns/arrow = 36s/turn. It is important to note, this is 200 arrows pre-focus.
+        time_duration prof_exp = 36_seconds;
+
+        // We don't know how to handle a bow yet
+        if( !p.has_proficiency( proficiency_prof_bow_basic ) ) {
+            p.practice_proficiency( proficiency_prof_bow_basic, prof_exp );
+            return;
+        }
+        // We know how to handle a bow, but we are not an expert yet
+        else if( !p.has_proficiency( proficiency_prof_bow_expert ) ) {
+            p.practice_proficiency( proficiency_prof_bow_expert, prof_exp );
+            return;
+        }
+        // We are an expert, lets practice to become a master
+        else {
+            p.practice_proficiency( proficiency_prof_bow_master, prof_exp );
+            return;
+        }
+    }
+}
+
 static void do_aim( player &p, const item &relevant, const double min_recoil )
 {
     const double aim_amount = p.aim_per_move( relevant, p.recoil );
@@ -1180,6 +1226,11 @@ static void do_aim( player &p, const item &relevant, const double min_recoil )
         // Increase aim at the cost of moves
         p.mod_moves( -1 );
         p.recoil = std::max( min_recoil, p.recoil - aim_amount );
+
+        // Train archery proficiencies if we are doing archery
+        if( relevant.gun_skill() == skill_archery ) {
+            practice_archery_proficiency( p, relevant );
+        }
     } else {
         // If aim is already maxed, we're just waiting, so pass the turn.
         p.set_moves( 0 );
