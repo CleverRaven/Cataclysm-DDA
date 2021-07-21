@@ -1030,8 +1030,8 @@
     "crit_ok": true,
     "flat_bonuses": [
           { "stat": "arpen", "type": "cut", "scaling-stat": "dex", "scale": 0.5 },
-		  { "stat": "arpen", "type": "stab", "scaling-stat": "dex", "scale": 0.5 }
-          { "stat": "arpen", "type": "bash", "scaling-stat": "dex", "scale": 0.5 },
+		  { "stat": "arpen", "type": "stab", "scaling-stat": "dex", "scale": 0.5 },
+          { "stat": "arpen", "type": "bash", "scaling-stat": "dex", "scale": 0.5 }
     ]
   },
   {
@@ -1057,7 +1057,7 @@
 	"type": "technique",
 	"id": "tec_swordsmanship_feint",
 	"name": "Flow Drills",
-	"messages": [ "With practiced motion you move from a failed strike into another"],
+	"messages": [ "With practiced motion you move from a failed strike into another","With practiced motion <npcname> moves from a failed strike into another" ],
 	"skill_requirements": [ { "name": "melee", "level": 1 } ],
 	"melee_allowed": true,
     "defensive": true,
@@ -1073,7 +1073,7 @@
     "crit_ok": true,
     "block_counter": true,
 	"mult_bonuses": [
-      { "stat": "movecost", "scale": 0.75 },
+      { "stat": "movecost", "scale": 0.75 }
     ]
   },
   {
