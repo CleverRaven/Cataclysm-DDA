@@ -105,6 +105,7 @@ struct point {
     }
 
     std::string to_string() const;
+    std::string to_string_writable() const;
 
     void serialize( JsonOut &jsout ) const;
     void deserialize( JsonIn &jsin );
@@ -229,6 +230,7 @@ struct tripoint {
     }
 
     std::string to_string() const;
+    std::string to_string_writable() const;
 
     void serialize( JsonOut &jsout ) const;
     void deserialize( JsonIn &jsin );

@@ -743,9 +743,9 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
     const std::string u_see_msg = player_character.sees( target ) ? _( "yes" ) : _( "no" );
     mvwprintw( w_info, point( 1, off++ ), _( "dist: %d u_see: %s veh: %s scent: %d" ),
                rl_dist( player_character.pos(), target ), u_see_msg, veh_msg, get_scent().get( target ) );
-    mvwprintw( w_info, point( 1, off++ ), _( "sight_range: %d, daylight_sight_range: %d," ),
+    mvwprintw( w_info, point( 1, off++ ), _( "sight_range: %d, noon_sight_range: %d," ),
                player_character.sight_range( g->light_level( player_character.posz() ) ),
-               player_character.sight_range( current_daylight_level( calendar::turn ) ) );
+               player_character.sight_range( sun_moon_light_at_noon_near( calendar::turn ) ) );
     mvwprintw( w_info, point( 1, off++ ), _( "cache{transp:%.4f seen:%.4f cam:%.4f}" ),
                map_cache.transparency_cache[target.x][target.y],
                map_cache.seen_cache[target.x][target.y],

@@ -140,6 +140,9 @@ class coord_point
         std::string to_string() const {
             return raw_.to_string();
         }
+        std::string to_string_writable() const {
+            return raw_.to_string_writable();
+        }
 
         void serialize( JsonOut &jsout ) const {
             raw().serialize( jsout );

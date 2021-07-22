@@ -4335,8 +4335,8 @@ item &map::add_item( const tripoint &p, item new_item )
     }
 
     // Process foods and temperature tracked items when they are added to the map, here instead of add_item_at()
-    // to avoid double processing food and corpses during active item processing.
-    if( new_item.has_temperature() ) {
+    // to avoid double processing food during active item processing.
+    if( new_item.has_temperature() && !new_item.is_corpse() ) {
         new_item.process( nullptr, p );
     }
 
@@ -4516,7 +4516,7 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                 washing_machine_finished = true;
                 cur_veh.part( part ).enabled = false;
             } else if( calendar::once_every( 15_minutes ) ) {
-                add_msg( _( "It should take %d minutes to finish washing items in the %s." ),
+                add_msg( _( "It should take %1$d minutes to finish washing items in the %2$s." ),
                          to_minutes<int>( time_left ) + 1, cur_veh.name );
                 break;
             }
@@ -5006,6 +5006,30 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
     }
 
     return ret;
+}
+
+int map::consume_ups( const tripoint &origin, const int range, int qty )
+{
+    // populate a grid of spots that can be reached
+    std::vector<tripoint> reachable_pts;
+    reachable_flood_steps( reachable_pts, origin, range, 1, 100 );
+
+    for( const tripoint &p : reachable_pts ) {
+        if( accessible_items( p ) ) {
+
+            map_stack items = i_at( p );
+            for( auto &elem : items ) {
+                if( elem.has_flag( flag_IS_UPS ) ) {
+                    qty -= elem.ammo_consume( qty, p, nullptr );
+                    if( qty == 0 ) {
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    return qty;
 }
 
 std::list<std::pair<tripoint, item *> > map::get_rc_items( const tripoint &p )
@@ -5691,7 +5715,7 @@ void map::draw( const catacurses::window &w, const tripoint &center )
             if( draw_maptile( w, p, curr_maptile, params ) ) {
                 continue;
             }
-            const maptile tile_below = maptile_at_internal( p - tripoint_above );
+            const maptile tile_below = maptile_at_internal( p + tripoint_below );
             draw_from_above( w, tripoint( p.xy(), p.z - 1 ), tile_below, params );
         }
     }

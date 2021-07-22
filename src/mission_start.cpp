@@ -690,8 +690,7 @@ void mission_start::create_hidden_lab_console( mission *miss )
     // Pick a hidden lab entrance.
     tripoint_abs_omt loc = player_character.global_omt_location();
     loc.z() = -1;
-    tripoint_abs_omt place =
-        mission_util::target_om_ter_random( "basement_hidden_lab_stairs", -1, miss, false, 0, loc );
+    tripoint_abs_omt place = overmap_buffer.find_closest( loc, "basement_hidden_lab_stairs", 0, false );
     place.z() = -2;  // then go down 1 z-level to place consoles.
 
     create_lab_consoles( miss, place, "lab", 3, _( "Workstation" ),

@@ -120,13 +120,37 @@
       [ "textbook_armeast", 5 ],
       [ "textbook_armwest", 5 ]
     ],
-    "using": [ [ "blacksmithing_standard", 8 ], [ "steel_standard", 2 ] ],
+    "using": [ [ "blacksmithing_standard", 7 ], [ "steel_standard", 2 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" }
     ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ]
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 2 } ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "result": "drift",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "2 h",
+    "autolearn": true,
+    "book_learn": [
+      [ "textbook_fabrication", 4 ],
+      [ "textbook_weapeast", 5 ],
+      [ "textbook_weapwest", 5 ],
+      [ "textbook_armeast", 5 ],
+      [ "textbook_armwest", 5 ]
+    ],
+    "using": [ [ "blacksmithing_standard", 8 ], [ "steel_standard", 2 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_toolsmithing" }
+    ]
   },
   {
     "type": "recipe",
@@ -145,7 +169,7 @@
       { "proficiency": "prof_toolsmithing" }
     ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ] ] ],
+    "tools": [ [ [ "tongs", -1 ], [ "drift", -1 ] ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ] ]
   },
   {
@@ -672,7 +696,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 24 ], [ "steel_standard", 6 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "hotcut", -1 ] ] ],
+    "tools": [ [ [ "drift", -1 ] ] ],
     "components": [ [ [ "2x4", 2 ], [ "stick", 4 ] ] ]
   },
   {
@@ -749,8 +773,8 @@
     "components": [ [ [ "fur", 1 ], [ "leather", 1 ] ] ]
   },
   {
-    "result": "knife_paring",
     "type": "recipe",
+    "result": "knife_paring",
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -769,8 +793,8 @@
     "components": [ [ [ "scrap", 2 ] ] ]
   },
   {
-    "result": "sickle",
     "type": "recipe",
+    "result": "sickle",
     "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -787,12 +811,12 @@
       { "proficiency": "prof_carving" }
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "hotcut", -1 ] ] ],
+    "tools": [ [ [ "drift", -1 ] ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ] ]
   },
   {
+    "type": "recipe",
     "result": "knife_chef",
-    "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -811,8 +835,8 @@
     "tools": [ [ [ "hotcut", -1 ] ] ]
   },
   {
+    "type": "recipe",
     "result": "knife_carving",
-    "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -831,8 +855,8 @@
     "tools": [ [ [ "hotcut", -1 ] ] ]
   },
   {
-    "result": "knife_bread",
     "type": "recipe",
+    "result": "knife_bread",
     "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -851,8 +875,8 @@
     "tools": [ [ [ "hotcut", -1 ] ] ]
   },
   {
-    "result": "knife_vegetable_cleaver",
     "type": "recipe",
+    "result": "knife_vegetable_cleaver",
     "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -871,8 +895,8 @@
     "tools": [ [ [ "hotcut", -1 ] ] ]
   },
   {
-    "result": "knife_meat_cleaver",
     "type": "recipe",
+    "result": "knife_meat_cleaver",
     "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -937,7 +961,7 @@
       { "proficiency": "prof_toolsmithing" }
     ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "tools": [ [ [ "tongs", -1 ], [ "drift", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "2x4", 2 ], [ "stick", 4 ] ] ]
   },
   {
