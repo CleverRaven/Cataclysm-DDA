@@ -760,7 +760,7 @@
       {
         "id": "buff_swordsmanship_static",
         "name": "Swordsman's Stance",
-        "description": "Through chivalry and vigilance, your defense with a blade has increased.\n\n+1 block attempts, blocked damage decreased by 50% of Strength.",
+        "description": "Through chivalry and vigilance, your defense with a blade has increased.\n\n+1 Block attempts; blocked damage decreased by 50% of Strength.",
         "melee_allowed": true,
         "bonus_blocks": 1,
         "flat_bonuses": [ { "stat": "block", "scaling-stat": "str", "scale": 0.5 } ]
