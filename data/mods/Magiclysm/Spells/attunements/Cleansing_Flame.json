@@ -94,7 +94,7 @@
     "damage_increment": -2.5,
     "max_level": 40,
     "extra_effects": [ { "id": "cleansingflame_hermes_burn" }, { "id": "cleansingflame_hermes_split" } ],
-    "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE", "LOUD", "MUST_HAVE_CLASS_TO_LEARN" ]
+    "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE", "LOUD" ]
   },
   {
     "id": "cleansingflame_hermes_burn",

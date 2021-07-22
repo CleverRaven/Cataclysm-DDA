@@ -224,7 +224,7 @@
     "name": "Electrolaser",
     "description": "Creates a conductive channel from the caster's hand to the target by ionizing air molecules using a high-powered laser beam, then sends a powerful half million volt charge down the channel.",
     "valid_targets": [ "hostile" ],
-    "flags": [ "SOMATIC", "NO_LEGS", "LOUD", "MUST_HAVE_CLASS_TO_LEARN" ],
+    "flags": [ "SOMATIC", "NO_LEGS", "LOUD" ],
     "effect": "attack",
     "shape": "blast",
     "damage_type": "electric",
