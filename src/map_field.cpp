@@ -36,7 +36,6 @@
 #include "game.h"
 #include "game_constants.h"
 #include "item.h"
-#include "item_contents.h"
 #include "itype.h"
 #include "level_cache.h"
 #include "line.h"

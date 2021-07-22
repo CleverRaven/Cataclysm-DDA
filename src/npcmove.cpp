@@ -38,7 +38,6 @@
 #include "gates.h"
 #include "gun_mode.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_factory.h"
 #include "itype.h"
 #include "iuse.h"

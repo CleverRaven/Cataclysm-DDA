@@ -5,7 +5,6 @@
 #include "clzones.h"
 #include "item.h"
 #include "item_category.h"
-#include "item_contents.h"
 #include "item_pocket.h"
 #include "map_helpers.h"
 #include "point.h"

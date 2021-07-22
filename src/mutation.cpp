@@ -19,7 +19,6 @@
 #include "field_type.h"
 #include "game.h"
 #include "item.h"
-#include "item_contents.h"
 #include "itype.h"
 #include "magic_enchantment.h"
 #include "make_static.h"
