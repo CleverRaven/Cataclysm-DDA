@@ -33,7 +33,8 @@
     "name": { "str_sp": "sawbones" },
     "description": "An overgrowth of ossified tissue has replaced this former medical professional's rotting skin with an organic armor of dense bone.  Large clumps of black goo seep from its joints as it shambles aimlessly, with sickening crackling sounds filling the surrounding air.",
     "copy-from": "mon_skeleton",
-    "death_drops": "zombie_medical_clothes"
+    "death_drops": "zombie_medical_clothes",
+    "color": "blue"
   },
   {
     "id": "mon_zombie_medical_acidic",
