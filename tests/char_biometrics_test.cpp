@@ -1,6 +1,7 @@
 #include <iosfwd>
 #include <regex>
 #include <string>
+#include <memory>
 
 #include "avatar.h"
 #include "calendar.h"
@@ -106,6 +107,40 @@ static int height_with_base_and_size( player &dummy, int base_height,
     }
 
     return dummy.height();
+}
+
+using avatar_ptr = std::shared_ptr<avatar>;
+
+// Create a map of dummies of all available size categories
+std::map<creature_size, avatar_ptr> create_dummies_of_all_sizes( int init_height )
+{
+    const std::map<creature_size, std::string> size_mutations{
+        { creature_size::tiny, "SMALL2" },
+        { creature_size::small, "SMALL" },
+        { creature_size::medium, "" },
+        { creature_size::large, "LARGE" },
+        { creature_size::huge, "HUGE" },
+    };
+
+    std::map<creature_size, avatar_ptr> dummies;
+    for( const auto &pair : size_mutations ) {
+        const creature_size &size = pair.first;
+        const std::string &trait_name = pair.second;
+
+        avatar_ptr dummy = std::make_shared<avatar>();
+        clear_character( *dummy );
+
+        if( !trait_name.empty() ) {
+            set_single_trait( *dummy, trait_name );
+        }
+        REQUIRE( dummy->get_size() == size );
+
+        dummy->mod_base_height( init_height - dummy->base_height() );
+        REQUIRE( dummy->base_height() == init_height );
+
+        dummies[size] = dummy;
+    }
+    return dummies;
 }
 
 TEST_CASE( "body mass index determines weight description", "[biometrics][bmi][weight]" )
@@ -229,98 +264,89 @@ TEST_CASE( "body mass index determines maximum healthiness", "[biometrics][bmi][
     CHECK( max_healthy_at_bmi( dummy, 42.0f ) == -200 );
 }
 
-TEST_CASE( "character height and body size mutations", "[biometrics][height][mutation]" )
+TEST_CASE( "character height should increase with their body size",
+           "[biometrics][height][mutation]" )
 {
-    // If character is 175cm starting height, they are 15cm shorter than the upper threshold for
-    // MEDIUM size (which is 190cm). If they mutate to LARGE size, their height will be at the same
-    // relationship to the upper threshold, 240cm - 15cm = 225cm.
-    //
-    // In general, mutating to another size simply adjusts the return value of `Character::height()`
-    // in relationship to the original starting height.
+    using DummyMap = std::map<creature_size, avatar_ptr>;
+    DummyMap dummies_default_height = create_dummies_of_all_sizes( 175 );
+    DummyMap dummies_min_height = create_dummies_of_all_sizes( Character::min_init_height );
+    DummyMap dummies_max_height = create_dummies_of_all_sizes( Character::max_init_height );
 
-    avatar dummy;
-    clear_character( dummy );
+    auto test_absoulte_heights = []( DummyMap & dummies ) {
+        CHECK( dummies[creature_size::tiny]->height() < dummies[creature_size::small]->height() );
+        CHECK( dummies[creature_size::small]->height() < dummies[creature_size::medium]->height() );
+        CHECK( dummies[creature_size::medium]->height() < dummies[creature_size::large]->height() );
+        CHECK( dummies[creature_size::large]->height() < dummies[creature_size::huge]->height() );
+    };
 
-    GIVEN( "character height started at 175cm" ) {
-        int init_height = 175;
-        dummy.mod_base_height( init_height - dummy.base_height() );
-        REQUIRE( dummy.base_height() == init_height );
-
-        WHEN( "they are normal-sized (MEDIUM)" ) {
-            REQUIRE( dummy.get_size() == creature_size::medium );
-
-            THEN( "height is initial height" ) {
-                CHECK( dummy.height() == init_height );
-            }
-        }
-
-        WHEN( "they become TINY" ) {
-            set_single_trait( dummy, "SMALL2" );
-            REQUIRE( dummy.get_size() == creature_size::tiny );
-
-            THEN( "they become 50% of their original height" ) {
-                CHECK( dummy.height() == init_height * 0.5 );
-            }
-        }
-
-        WHEN( "they become SMALL" ) {
-            set_single_trait( dummy, "SMALL" );
-            REQUIRE( dummy.get_size() == creature_size::small );
-
-            THEN( "they become 75% of their original height" ) {
-                CHECK( dummy.height() == init_height * 0.75 );
-            }
-        }
-
-        WHEN( "they become LARGE" ) {
-            set_single_trait( dummy, "LARGE" );
-            REQUIRE( dummy.get_size() == creature_size::large );
-
-            THEN( "they become 125% of their original height" ) {
-                CHECK( dummy.height() == init_height * 1.25 );
-            }
-        }
-
-        WHEN( "they become HUGE" ) {
-            set_single_trait( dummy, "HUGE" );
-            REQUIRE( dummy.get_size() == creature_size::huge );
-
-            THEN( "they become 150% of their original height" ) {
-                CHECK( dummy.height() == init_height * 1.5 );
-            }
-        }
+    GIVEN( "default height character" ) {
+        test_absoulte_heights( dummies_default_height );
     }
-
-    // More generally
-    // Characters of any height should be affected to the same degree
-
-    GIVEN( "character height started at 145cm" ) {
-        CHECK( height_with_base_and_size( dummy, 145, "SMALL2" ) == 145 * 0.5 );
-        CHECK( height_with_base_and_size( dummy, 145, "SMALL" ) == 145 * 0.75 );
-        CHECK( height_with_base_and_size( dummy, 145, "MEDIUM" ) == 145 );
-        CHECK( height_with_base_and_size( dummy, 145, "LARGE" ) == 145 * 1.25 );
-        CHECK( height_with_base_and_size( dummy, 145, "HUGE" ) == 145 * 1.5 );
+    GIVEN( "min height character" ) {
+        test_absoulte_heights( dummies_min_height );
     }
-
-    SECTION( "character height started at 200cm" ) {
-        CHECK( height_with_base_and_size( dummy, 200, "SMALL2" ) == 200 * 0.5 );
-        CHECK( height_with_base_and_size( dummy, 200, "SMALL" ) == 200 * 0.75 );
-        CHECK( height_with_base_and_size( dummy, 200, "MEDIUM" ) == 200 );
-        CHECK( height_with_base_and_size( dummy, 200, "LARGE" ) == 200 * 1.25 );
-        CHECK( height_with_base_and_size( dummy, 200, "HUGE" ) == 200 * 1.5 );
+    GIVEN( "max height character" ) {
+        test_absoulte_heights( dummies_max_height );
     }
 }
 
-TEST_CASE( "size and height determine body weight", "[biometrics][bodyweight]" )
+TEST_CASE( "height increase/reduction from mutations should be the same regardless of character's initial height",
+           "[biometrics][height][mutation]" )
+{
+    using DummyMap = std::map<creature_size, avatar_ptr>;
+    DummyMap dummies_default_height = create_dummies_of_all_sizes( 175 );
+    DummyMap dummies_min_height = create_dummies_of_all_sizes( Character::min_init_height );
+    DummyMap dummies_max_height = create_dummies_of_all_sizes( Character::max_init_height );
+
+    auto get_relative_height = []( DummyMap & dummies, creature_size old_size,
+    creature_size new_size ) -> double {
+        return dummies[new_size]->height() / static_cast< double >( dummies[old_size]->height() );
+    };
+
+    auto test_relative_heights = [&]( DummyMap & lhd, DummyMap & rhd, creature_size old_size,
+    creature_size new_size ) {
+        CHECK( get_relative_height( lhd, old_size, new_size ) ==
+               Approx( get_relative_height( rhd, old_size, new_size ) ).margin( 0.1 ) );
+    };
+
+    GIVEN( "default height character vs min height character" ) {
+        test_relative_heights( dummies_default_height, dummies_min_height,
+                               creature_size::medium, creature_size::tiny );
+        test_relative_heights( dummies_default_height, dummies_min_height,
+                               creature_size::medium, creature_size::small );
+        test_relative_heights( dummies_default_height, dummies_min_height,
+                               creature_size::medium, creature_size::large );
+        test_relative_heights( dummies_default_height, dummies_min_height,
+                               creature_size::medium, creature_size::huge );
+    }
+
+    GIVEN( "default height character vs max height character" ) {
+        test_relative_heights( dummies_default_height, dummies_max_height,
+                               creature_size::medium, creature_size::tiny );
+        test_relative_heights( dummies_default_height, dummies_max_height,
+                               creature_size::medium, creature_size::small );
+        test_relative_heights( dummies_default_height, dummies_max_height,
+                               creature_size::medium, creature_size::large );
+        test_relative_heights( dummies_default_height, dummies_max_height,
+                               creature_size::medium, creature_size::huge );
+    }
+
+    GIVEN( "min height character vs max height character" ) {
+        test_relative_heights( dummies_min_height, dummies_max_height,
+                               creature_size::medium, creature_size::tiny );
+        test_relative_heights( dummies_min_height, dummies_max_height,
+                               creature_size::medium, creature_size::small );
+        test_relative_heights( dummies_min_height, dummies_max_height,
+                               creature_size::medium, creature_size::large );
+        test_relative_heights( dummies_min_height, dummies_max_height,
+                               creature_size::medium, creature_size::huge );
+    }
+}
+
+TEST_CASE( "default character (175 cm) bodyweights at various BMIs", "[biometrics][bodyweight]" )
 {
     avatar dummy;
     clear_character( dummy );
-
-    // Body weight is calculated as ( BMI * (height/100)^2 ). At any given height, body weight
-    // varies based on body mass index (which in turn depends on the amount of stored calories).
-
-    // Check bodyweights at each size for two different heights:
-    // 175cm (original default) and 200cm (maximum available at character creation)
 
     GIVEN( "character height started at 175cm" ) {
         dummy.mod_base_height( 175 - dummy.base_height() );
@@ -340,115 +366,92 @@ TEST_CASE( "size and height determine body weight", "[biometrics][bodyweight]" )
                 CHECK( bodyweight_kg_at_bmi( dummy, 35.0 ) == Approx( 107.2 ).margin( 0.1f ) );
             }
         }
+    }
+}
 
-        WHEN( "character is tiny" ) {
-            set_single_trait( dummy, "SMALL2" );
-            REQUIRE( dummy.get_size() == creature_size::tiny );
+TEST_CASE( "character's weight should increase with their body size and BMI",
+           "[biometrics][bodyweight][mutation]" )
+{
+    using DummyMap = std::map<creature_size, avatar_ptr>;
+    DummyMap dummies_default_height = create_dummies_of_all_sizes( 175 );
+    DummyMap dummies_min_height = create_dummies_of_all_sizes( Character::min_init_height );
+    DummyMap dummies_max_height = create_dummies_of_all_sizes( Character::max_init_height );
 
-            THEN( "bodyweight varies from ~12-26kg" ) {
-                CHECK( bodyweight_kg_at_bmi( dummy, 16.0f ) == Approx( 12.1f ).margin( 0.1f ) );
-                CHECK( bodyweight_kg_at_bmi( dummy, 25.0f ) == Approx( 18.9f ).margin( 0.1f ) );
-                CHECK( bodyweight_kg_at_bmi( dummy, 35.0f ) == Approx( 26.5f ).margin( 0.1f ) );
-            }
+    auto test_weights = []( DummyMap & dummies ) {
+        CHECK( dummies[creature_size::tiny]->bodyweight() < dummies[creature_size::small]->bodyweight() );
+        CHECK( dummies[creature_size::small]->bodyweight() < dummies[creature_size::medium]->bodyweight() );
+        CHECK( dummies[creature_size::medium]->bodyweight() < dummies[creature_size::large]->bodyweight() );
+        CHECK( dummies[creature_size::large]->bodyweight() < dummies[creature_size::huge]->bodyweight() );
+
+        for( auto &pair : dummies ) {
+            avatar_ptr &dummy = pair.second;
+            CHECK( bodyweight_kg_at_bmi( *dummy, 16.0f ) < bodyweight_kg_at_bmi( *dummy, 25.0f ) );
+            CHECK( bodyweight_kg_at_bmi( *dummy, 25.0f ) < bodyweight_kg_at_bmi( *dummy, 35.0f ) );
         }
+    };
 
-        WHEN( "character is small" ) {
-            set_single_trait( dummy, "SMALL" );
-            REQUIRE( dummy.get_size() == creature_size::small );
+    GIVEN( "default height character" ) {
+        test_weights( dummies_default_height );
+    }
+    GIVEN( "min height character" ) {
+        test_weights( dummies_min_height );
+    }
+    GIVEN( "max height character" ) {
+        test_weights( dummies_max_height );
+    }
+}
 
-            THEN( "bodyweight varies from ~27-60kg" ) {
-                CHECK( bodyweight_kg_at_bmi( dummy, 16.0f ) == Approx( 27.4f ).margin( 0.1f ) );
-                CHECK( bodyweight_kg_at_bmi( dummy, 25.0f ) == Approx( 42.9f ).margin( 0.1f ) );
-                CHECK( bodyweight_kg_at_bmi( dummy, 35.0f ) == Approx( 60.0f ).margin( 0.1f ) );
-            }
-        }
+TEST_CASE( "weight increase/reduction from mutations should be the same regardless of character's initial height",
+           "[biometrics][bodyweight][mutation]" )
+{
+    using DummyMap = std::map<creature_size, avatar_ptr>;
+    DummyMap dummies_default_height = create_dummies_of_all_sizes( 175 );
+    DummyMap dummies_min_height = create_dummies_of_all_sizes( Character::min_init_height );
+    DummyMap dummies_max_height = create_dummies_of_all_sizes( Character::max_init_height );
 
-        WHEN( "character is large" ) {
-            set_single_trait( dummy, "LARGE" );
-            REQUIRE( dummy.get_size() == creature_size::large );
+    auto get_relative_weight = []( DummyMap & dummies, creature_size old_size,
+    creature_size new_size ) -> double {
+        return dummies[new_size]->bodyweight().value() / static_cast< double >( dummies[old_size]->bodyweight().value() );
+    };
 
-            THEN( "bodyweight varies from ~76-166kg" ) {
-                CHECK( bodyweight_kg_at_bmi( dummy, 16.0f ) == Approx( 76.0f ).margin( 0.1f ) );
-                CHECK( bodyweight_kg_at_bmi( dummy, 25.0f ) == Approx( 118.8f ).margin( 0.1f ) );
-                CHECK( bodyweight_kg_at_bmi( dummy, 35.0f ) == Approx( 166.3f ).margin( 0.1f ) );
-            }
-        }
+    auto test_relative_weights = [&]( DummyMap & lhd, DummyMap & rhd, creature_size old_size,
+    creature_size new_size ) {
+        CHECK( get_relative_weight( lhd, old_size, new_size ) ==
+               Approx( get_relative_weight( rhd, old_size, new_size ) ).margin( 0.1 ) );
+    };
 
-        WHEN( "character is huge" ) {
-            set_single_trait( dummy, "HUGE" );
-            REQUIRE( dummy.get_size() == creature_size::huge );
-
-            THEN( "bodyweight varies from ~110-240kg" ) {
-                CHECK( bodyweight_kg_at_bmi( dummy, 16.0f ) == Approx( 109.8f ).margin( 0.1f ) );
-                CHECK( bodyweight_kg_at_bmi( dummy, 25.0f ) == Approx( 171.6f ).margin( 0.1f ) );
-                CHECK( bodyweight_kg_at_bmi( dummy, 35.0f ) == Approx( 240.2f ).margin( 0.1f ) );
-            }
-        }
+    GIVEN( "default height character vs min height character" ) {
+        test_relative_weights( dummies_default_height, dummies_min_height,
+                               creature_size::medium, creature_size::tiny );
+        test_relative_weights( dummies_default_height, dummies_min_height,
+                               creature_size::medium, creature_size::small );
+        test_relative_weights( dummies_default_height, dummies_min_height,
+                               creature_size::medium, creature_size::large );
+        test_relative_weights( dummies_default_height, dummies_min_height,
+                               creature_size::medium, creature_size::huge );
     }
 
-    GIVEN( "character height started at 200cm" ) {
-        dummy.mod_base_height( 200 - dummy.base_height() );
-        REQUIRE( dummy.base_height() == 200 );
-
-        WHEN( "character is normal-sized (medium)" ) {
-            REQUIRE_FALSE( dummy.has_trait( trait_id( "SMALL2" ) ) );
-            REQUIRE_FALSE( dummy.has_trait( trait_id( "SMALL" ) ) );
-            REQUIRE_FALSE( dummy.has_trait( trait_id( "LARGE" ) ) );
-            REQUIRE_FALSE( dummy.has_trait( trait_id( "HUGE" ) ) );
-            REQUIRE( dummy.get_size() == creature_size::medium );
-
-            THEN( "bodyweight varies from ~64-140kg" ) {
-                CHECK( bodyweight_kg_at_bmi( dummy, 16.0 ) == Approx( 64.0 ).margin( 0.1f ) );
-                CHECK( bodyweight_kg_at_bmi( dummy, 25.0 ) == Approx( 100.0 ).margin( 0.1f ) );
-                CHECK( bodyweight_kg_at_bmi( dummy, 35.0 ) == Approx( 140.0 ).margin( 0.1f ) );
-            }
-        }
-
-        WHEN( "character is tiny" ) {
-            set_single_trait( dummy, "SMALL2" );
-            REQUIRE( dummy.get_size() == creature_size::tiny );
-
-            THEN( "bodyweight varies from ~16-35kg" ) {
-                CHECK( bodyweight_kg_at_bmi( dummy, 16.0f ) == Approx( 16.0f ).margin( 0.1f ) );
-                CHECK( bodyweight_kg_at_bmi( dummy, 25.0f ) == Approx( 25.0f ).margin( 0.1f ) );
-                CHECK( bodyweight_kg_at_bmi( dummy, 35.0f ) == Approx( 35.0f ).margin( 0.1f ) );
-            }
-        }
-
-        WHEN( "character is small" ) {
-            set_single_trait( dummy, "SMALL" );
-            REQUIRE( dummy.get_size() == creature_size::small );
-
-            THEN( "bodyweight varies from ~36-79kg" ) {
-                CHECK( bodyweight_kg_at_bmi( dummy, 16.0f ) == Approx( 36.0f ).margin( 0.1f ) );
-                CHECK( bodyweight_kg_at_bmi( dummy, 25.0f ) == Approx( 56.2f ).margin( 0.1f ) );
-                CHECK( bodyweight_kg_at_bmi( dummy, 35.0f ) == Approx( 78.7f ).margin( 0.1f ) );
-            }
-        }
-
-        WHEN( "character is large" ) {
-            set_single_trait( dummy, "LARGE" );
-            REQUIRE( dummy.get_size() == creature_size::large );
-
-            THEN( "bodyweight varies from ~100-219kg" ) {
-                CHECK( bodyweight_kg_at_bmi( dummy, 16.0f ) == Approx( 100.0f ).margin( 0.1f ) );
-                CHECK( bodyweight_kg_at_bmi( dummy, 25.0f ) == Approx( 156.2f ).margin( 0.1f ) );
-                CHECK( bodyweight_kg_at_bmi( dummy, 35.0f ) == Approx( 218.7f ).margin( 0.1f ) );
-            }
-        }
-
-        WHEN( "character is huge" ) {
-            set_single_trait( dummy, "HUGE" );
-            REQUIRE( dummy.get_size() == creature_size::huge );
-
-            THEN( "bodyweight varies from ~144-315kg" ) {
-                CHECK( bodyweight_kg_at_bmi( dummy, 16.0f ) == Approx( 144.0f ).margin( 0.1f ) );
-                CHECK( bodyweight_kg_at_bmi( dummy, 25.0f ) == Approx( 225.0f ).margin( 0.1f ) );
-                CHECK( bodyweight_kg_at_bmi( dummy, 35.0f ) == Approx( 315.0f ).margin( 0.1f ) );
-            }
-        }
+    GIVEN( "default height character vs max height character" ) {
+        test_relative_weights( dummies_default_height, dummies_max_height,
+                               creature_size::medium, creature_size::tiny );
+        test_relative_weights( dummies_default_height, dummies_max_height,
+                               creature_size::medium, creature_size::small );
+        test_relative_weights( dummies_default_height, dummies_max_height,
+                               creature_size::medium, creature_size::large );
+        test_relative_weights( dummies_default_height, dummies_max_height,
+                               creature_size::medium, creature_size::huge );
     }
 
+    GIVEN( "min height character vs max height character" ) {
+        test_relative_weights( dummies_min_height, dummies_max_height,
+                               creature_size::medium, creature_size::tiny );
+        test_relative_weights( dummies_min_height, dummies_max_height,
+                               creature_size::medium, creature_size::small );
+        test_relative_weights( dummies_min_height, dummies_max_height,
+                               creature_size::medium, creature_size::large );
+        test_relative_weights( dummies_min_height, dummies_max_height,
+                               creature_size::medium, creature_size::huge );
+    }
 }
 
 // Return a string with multiple consecutive spaces replaced with a single space
@@ -592,22 +595,33 @@ TEST_CASE( "basal metabolic rate with various size and metabolism", "[biometrics
         }
     }
 
-    SECTION( "small body size" ) {
-        set_single_trait( dummy, "SMALL" );
-        REQUIRE( dummy.get_size() == creature_size::small );
-
-        CHECK( 1127 == bmr_at_act_level( dummy, NO_EXERCISE ) );
-        CHECK( 4508 == bmr_at_act_level( dummy, MODERATE_EXERCISE ) );
-        CHECK( 11270 == bmr_at_act_level( dummy, EXTRA_EXERCISE ) );
+    // Character's BMR should increase with body size for the same activity level
+    std::map<creature_size, avatar_ptr> dummies = create_dummies_of_all_sizes( 175 );
+    const std::vector<float> excercise_levels{ NO_EXERCISE, MODERATE_EXERCISE, EXTRA_EXERCISE };
+    for( float level : excercise_levels ) {
+        CHECK( bmr_at_act_level( *dummies[creature_size::tiny], level ) <
+                bmr_at_act_level( *dummies[creature_size::small], level ) );
+        CHECK( bmr_at_act_level( *dummies[creature_size::small], level ) <
+                bmr_at_act_level( *dummies[creature_size::medium], level ) );
+        CHECK( bmr_at_act_level( *dummies[creature_size::medium], level ) <
+                bmr_at_act_level( *dummies[creature_size::large], level ) );
+        CHECK( bmr_at_act_level( *dummies[creature_size::large ], level ) <
+                bmr_at_act_level( *dummies[creature_size::huge], level ) );
     }
 
-    SECTION( "large body size" ) {
-        set_single_trait( dummy, "LARGE" );
-        REQUIRE( dummy.get_size() == creature_size::large );
-
-        CHECK( 2430 == bmr_at_act_level( dummy, NO_EXERCISE ) );
-        CHECK( 9720 == bmr_at_act_level( dummy, MODERATE_EXERCISE ) );
-        CHECK( 24300 == bmr_at_act_level( dummy, EXTRA_EXERCISE ) );
+    // Character's BMR should increase with activity level for the same body size
+    const std::vector<creature_size> sizes{ creature_size::tiny, creature_size::small, creature_size::medium, creature_size::large, creature_size::huge };
+    for( creature_size size : sizes ) {
+        CHECK( bmr_at_act_level( *dummies[size], NO_EXERCISE ) <
+                bmr_at_act_level( *dummies[size], LIGHT_EXERCISE ) );
+        CHECK( bmr_at_act_level( *dummies[size], LIGHT_EXERCISE ) <
+                bmr_at_act_level( *dummies[size], MODERATE_EXERCISE ) );
+        CHECK( bmr_at_act_level( *dummies[size], MODERATE_EXERCISE ) <
+                bmr_at_act_level( *dummies[size], BRISK_EXERCISE ) );
+        CHECK( bmr_at_act_level( *dummies[size], BRISK_EXERCISE ) <
+                bmr_at_act_level( *dummies[size], ACTIVE_EXERCISE ) );
+        CHECK( bmr_at_act_level( *dummies[size], ACTIVE_EXERCISE ) <
+                bmr_at_act_level( *dummies[size], EXTRA_EXERCISE ) );
     }
 }
 
