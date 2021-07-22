@@ -93,7 +93,7 @@
     "max_damage": -120,
     "damage_increment": -2.5,
     "max_level": 40,
-    "extra_effects": [ { "id": "cleansingflame_hermes_burn" }, { "id": "cleansingflame_hermes_split" } ],
+    "extra_effects": [ { "id": "cleansingflame_hermes_burn" }, { "id": "pain_split" } ],
     "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE", "LOUD" ]
   },
   {
@@ -113,16 +113,6 @@
     "min_aoe": 3,
     "max_aoe": 5,
     "aoe_increment": 0.05,
-    "spell_class": "CLEANSING_FLAME"
-  },
-  {
-    "id": "cleansingflame_hermes_split",
-    "type": "SPELL",
-    "name": "Hermes Reborn Pain Split",
-    "description": "Same as Biomancer's Pain Split.  Subspell; you aren't allowed to see it except in debug mode.",
-    "valid_targets": [ "self" ],
-    "effect": "pain_split",
-    "shape": "blast",
     "spell_class": "CLEANSING_FLAME"
   }
 ]
