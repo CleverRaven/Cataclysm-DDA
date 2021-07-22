@@ -15,7 +15,7 @@ jobs:
         with:
           cancel_others: 'true'
           concurrent_skipping: 'outdated_runs'
-          paths: '["**.cpp", "**.h", "**.c"]'
+          paths: '[".github/workflows/astyle.yml", "Makefile", ".astylerc", "**.cpp", "**.h", "**.c"]'
   astyle-code:
     name: astyle check
     needs: skip-duplicates
