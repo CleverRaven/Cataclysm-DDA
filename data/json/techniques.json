@@ -1016,7 +1016,7 @@
     "skill_requirements": [ { "name": "melee", "level": 2 } ],
     "melee_allowed": true,
     "req_buffs": [ "buff_swordsmanship_halfsword" ],
-    "crit_ok": true,
+    "crit_tec": true,
     "down_dur": 2
   },
   {
