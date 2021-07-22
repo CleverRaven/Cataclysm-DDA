@@ -666,12 +666,12 @@
     "skill_used": "fabrication",
     "difficulty": 4,
     "time": "1 h 30 m",
-    "charges": 50,
+    "charges": 25,
     "autolearn": true,
-    "qualities": [ [ { "id": "PUNCH", "level": 1 }, { "id": "DRILL", "level": 1 } ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, [ { "id": "PUNCH", "level": 1 }, { "id": "DRILL", "level": 1 } ] ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
-    "components": [ [ [ "plastic_chunk", 2 ] ] ]
+    "components": [ [ [ "plastic_chunk", 1 ] ] ]
   },
   {
     "type": "recipe",
