@@ -8642,15 +8642,6 @@ item *item::get_usable_item( const std::string &use_name )
     return ret;
 }
 
-int item::units_remaining( const Character &ch, int limit ) const
-{
-    if( count_by_charges() ) {
-        return std::min( static_cast<int>( charges ), limit );
-    }
-
-    return std::min( ammo_remaining( &ch ), limit );
-}
-
 item::reload_option::reload_option( const reload_option & ) = default;
 
 item::reload_option &item::reload_option::operator=( const reload_option & ) = default;

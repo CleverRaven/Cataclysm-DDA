@@ -217,7 +217,7 @@ cata::optional<int> iuse_transform::use( player &p, item &it, bool t, const trip
         p.add_msg_if_player( m_info, _( "You need to wield the %1$s before activating it." ), it.tname() );
         return cata::nullopt;
     }
-    if( need_charges && it.units_remaining( p ) < need_charges ) {
+    if( need_charges && it.ammo_remaining( &p ) < need_charges ) {
         if( possess ) {
             p.add_msg_if_player( m_info, need_charges_msg, it.tname() );
         }

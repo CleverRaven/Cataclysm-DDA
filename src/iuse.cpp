@@ -4446,7 +4446,7 @@ cata::optional<int> iuse::portable_game( player *p, item *it, bool active, const
     if( p->has_trait( trait_ILLITERATE ) ) {
         p->add_msg_if_player( m_info, _( "You're illiterate!" ) );
         return cata::nullopt;
-    } else if( it->units_remaining( *p ) < it->ammo_required() ) {
+    } else if( !it->ammo_sufficient( p ) ) {
         p->add_msg_if_player( m_info, _( "The %s's batteries are dead." ), it->tname() );
         return cata::nullopt;
     } else {

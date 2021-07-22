@@ -1021,7 +1021,7 @@ static void sleep()
     std::vector<std::string> active;
     for( auto &it : player_character.inv_dump() ) {
         if( it->has_flag( flag_LITCIG ) ||
-            ( it->active && ( it->charges > 0 || it->units_remaining( player_character ) > 0 ) &&
+            ( it->active && it->ammo_remaining( &player_character ) > 0 &&
               it->is_tool() &&
               !it->has_flag( flag_SLEEP_IGNORE ) ) ) {
             active.push_back( it->tname() );

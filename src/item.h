@@ -2146,14 +2146,6 @@ class item : public visitable
         item *get_usable_item( const std::string &use_name );
 
         /**
-         * How many units (ammo or charges) are remaining?
-         * @param ch character responsible for invoking the item
-         * @param limit stop searching after this many units found
-         * @note also checks availability of UPS charges if applicable
-         */
-        int units_remaining( const Character &ch, int limit = INT_MAX ) const;
-
-        /**
          * Returns name of deceased being if it had any or empty string if not
          **/
         std::string get_corpse_name() const;
