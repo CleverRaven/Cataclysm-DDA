@@ -203,8 +203,4 @@ Xcode/
 /tests/pch/tests-pch.hpp.gch
 /tests/pch/tests-pch.hpp.pch
 /tests/catch/catch.hpp.gch
-<<<<<<< HEAD
 /tests/catch/catch.hpp.pch
-=======
-/tests/catch/catch.hpp.pch
->>>>>>> parent of 2aae20a687... delete MUST_HAVE_CLASS_TO_LEARN
