@@ -5025,15 +5025,11 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         // in their name, also food is active while it rots.
         tagtext += _( " (active)" );
     }
-    switch( contents.get_sealed_summary() ) {
-        case item_contents::sealed_summary::unsealed:
-            break;
-        case item_contents::sealed_summary::part_sealed:
-            tagtext += _( " (part sealed)" );
-            break;
-        case item_contents::sealed_summary::all_sealed:
-            tagtext += _( " (sealed)" );
-            break;
+
+    if( all_pockets_sealed() ) {
+        tagtext += _( " (sealed)" );
+    } else if( any_pockets_sealed() ) {
+        tagtext += _( " (part sealed)" );
     }
 
     if( is_favorite ) {
@@ -7237,6 +7233,16 @@ bool item::seal()
     } else {
         return false;
     }
+}
+
+bool item::all_pockets_sealed() const
+{
+    return contents.all_pockets_sealed();
+}
+
+bool item::any_pockets_sealed() const
+{
+    return contents.any_pockets_sealed();
 }
 
 bool item::is_container() const

@@ -918,28 +918,34 @@ bool item_contents::seal_all_pockets()
     return any_sealed;
 }
 
-item_contents::sealed_summary item_contents::get_sealed_summary() const
+bool item_contents::all_pockets_sealed() const
 {
-    bool any_sealed = false;
-    bool any_unsealed = false;
+
+    bool all_sealed = false;
     for( const item_pocket &pocket : contents ) {
         if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
-            if( pocket.sealed() ) {
-                any_sealed = true;
+            if( !pocket.sealed() ) {
+                return false;
             } else {
-                any_unsealed = true;
+                all_sealed = true;
             }
         }
     }
-    if( any_sealed ) {
-        if( any_unsealed ) {
-            return sealed_summary::part_sealed;
-        } else {
-            return sealed_summary::all_sealed;
+
+    return all_sealed;
+}
+
+bool item_contents::any_pockets_sealed() const
+{
+    for( const item_pocket &pocket : contents ) {
+        if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
+            if( pocket.sealed() ) {
+                return true;
+            }
         }
-    } else {
-        return sealed_summary::unsealed;
     }
+
+    return false;
 }
 
 bool item_contents::has_pocket_type( const item_pocket::pocket_type pk_type ) const

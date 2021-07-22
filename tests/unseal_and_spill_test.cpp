@@ -265,8 +265,7 @@ void match( item_location loc, const final_result &result )
 {
     INFO( "match: id = " << result.id.str() );
     REQUIRE( loc->typeId() == result.id );
-    CHECK( result.sealed == ( loc->contents.get_sealed_summary() !=
-                              item_contents::sealed_summary::unsealed ) );
+    CHECK( result.sealed == loc->any_pockets_sealed() );
     match( loc, loc->all_items_top( item_pocket::pocket_type::CONTAINER ), result.contents );
 }
 

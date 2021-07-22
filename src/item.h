@@ -732,6 +732,9 @@ class item : public visitable
 
         // seal the item's pockets. used for crafting and spawning items.
         bool seal();
+
+        bool all_pockets_sealed() const;
+        bool any_pockets_sealed() const;
         /** Whether this is container. Note that container does not necessarily means it's
          * suitable for liquids. */
         bool is_container() const;
