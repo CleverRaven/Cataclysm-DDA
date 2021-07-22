@@ -1039,8 +1039,8 @@
     "id": "tec_swordsmanship_feint",
     "name": "Flow Drills",
     "messages": [
-      "With practiced motion you move from a failed strike into another",
-      "With practiced motion <npcname> moves from a failed strike into another"
+      "With practiced motion, you move from a failed strike into another strike",
+      "With practiced motion, <npcname> moves from a failed strike into another strike"
     ],
     "skill_requirements": [ { "name": "melee", "level": 1 } ],
     "melee_allowed": true,
