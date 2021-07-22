@@ -769,13 +769,13 @@
 	"onhit_buffs": [
 	  {
 		"id": "buff_swordsmanship_onhit",
-		"name": "Conserve Momentum"
+		"name": "Conserve Momentum",
 		"description": "You maintain the momentum from your last strike to move more quickly",
 		"skill_requirements": [ { "name": "melee", "level": 2 } ],
 		"buff_duration": 1,
-		"flat_bonuses": [ { "stat": "movecost", "scale": 0.8 } ]
+		"mult_bonuses": [ { "stat": "movecost", "scale": 0.8 } ]
 	  }
-	]	
+	],	
     "onpause_buffs": [
       {
         "id": "buff_swordsmanship_onpause",
